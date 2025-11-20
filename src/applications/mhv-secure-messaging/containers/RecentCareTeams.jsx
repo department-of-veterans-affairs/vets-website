@@ -28,12 +28,25 @@ const RecentCareTeams = () => {
   const [error, setError] = useState(null);
   const { recipients, threadDetails } = useSelector(state => state.sm);
   const { acceptInterstitial } = threadDetails;
-  const { recentRecipients, allRecipients } = recipients;
+  const {
+    recentRecipients,
+    allRecipients,
+    error: recipientsError,
+  } = recipients;
   const h1Ref = useRef(null);
   const {
     mhvSecureMessagingRecentRecipients,
     featureTogglesLoading,
   } = useFeatureToggles();
+
+  useEffect(
+    () => {
+      if (recipientsError) {
+        history.push(Paths.INBOX);
+      }
+    },
+    [recipientsError, history],
+  );
 
   useEffect(
     () => {

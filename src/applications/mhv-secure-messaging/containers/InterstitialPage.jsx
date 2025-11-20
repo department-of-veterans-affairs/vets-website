@@ -23,8 +23,19 @@ const InterstitialPage = props => {
   const dispatch = useDispatch();
 
   const h1Ref = useRef(null);
-  const { allRecipients, recentRecipients } = useSelector(
-    state => state.sm.recipients,
+  const {
+    allRecipients,
+    recentRecipients,
+    error: recipientsError,
+  } = useSelector(state => state.sm.recipients);
+
+  useEffect(
+    () => {
+      if (recipientsError) {
+        history.push(Paths.INBOX);
+      }
+    },
+    [recipientsError, history],
   );
 
   useEffect(
