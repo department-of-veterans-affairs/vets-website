@@ -234,4 +234,139 @@ describe('VAOS Component: AppointmentTasks', () => {
 
     expect(screen.queryByText(/Appointment tasks/i)).to.not.exist;
   });
+  it('should display "Complete and file your claim" link when claim status is Saved', async () => {
+    const appointment = {
+      id: appointmentId,
+      start: new Date('2021-09-01T10:00:00Z'),
+      kind: 'clinic',
+      type: 'VA',
+      modality: 'vaInPerson',
+      vaos: {
+        apiData: {
+          travelPayClaim: {
+            metadata: {
+              status: 200,
+              message: 'Data retrieved successfully.',
+              success: true,
+            },
+            claim: {
+              id: '1234',
+              claimNumber: 'string',
+              claimStatus: 'Saved',
+              appointmentDateTime: '2024-01-01T16:45:34.465Z',
+              facilityName: 'Cheyenne VA Medical Center',
+              createdOn: '2024-03-22T21:22:34.465Z',
+              modifiedOn: '2024-01-01T16:44:34.465Z',
+            },
+          },
+        },
+        isPastAppointment: true,
+        isCommunityCare: false,
+        isPhoneAppointment: false,
+        isVideo: false,
+        isInPersonVisit: true,
+      },
+    };
+    const screen = render(
+      <AppointmentTasksSection appointment={appointment} />,
+    );
+
+    expect(screen.getByText(/Appointment tasks/i)).to.exist;
+    expect(screen.getByTestId('file-claim-link')).to.have.attribute(
+      'href',
+      `/my-health/travel-pay/file-new-claim/${appointmentId}`,
+    );
+    expect(screen.getByTestId('file-claim-link')).to.have.attribute(
+      'text',
+      'Complete and file your claim',
+    );
+    expect(screen.getByText(/Days left to file: 1/i)).to.exist;
+  });
+  it('should display "Complete and file your claim" link when claim status is Incomplete', async () => {
+    const appointment = {
+      id: appointmentId,
+      start: new Date('2021-09-01T10:00:00Z'),
+      kind: 'clinic',
+      type: 'VA',
+      modality: 'vaInPerson',
+      vaos: {
+        apiData: {
+          travelPayClaim: {
+            metadata: {
+              status: 200,
+              message: 'Data retrieved successfully.',
+              success: true,
+            },
+            claim: {
+              id: '1234',
+              claimNumber: 'string',
+              claimStatus: 'Incomplete',
+              appointmentDateTime: '2024-01-01T16:45:34.465Z',
+              facilityName: 'Cheyenne VA Medical Center',
+              createdOn: '2024-03-22T21:22:34.465Z',
+              modifiedOn: '2024-01-01T16:44:34.465Z',
+            },
+          },
+        },
+        isPastAppointment: true,
+        isCommunityCare: false,
+        isPhoneAppointment: false,
+        isVideo: false,
+        isInPersonVisit: true,
+      },
+    };
+    const screen = render(
+      <AppointmentTasksSection appointment={appointment} />,
+    );
+
+    expect(screen.getByText(/Appointment tasks/i)).to.exist;
+    expect(screen.getByTestId('file-claim-link')).to.have.attribute(
+      'href',
+      `/my-health/travel-pay/file-new-claim/${appointmentId}`,
+    );
+    expect(screen.getByTestId('file-claim-link')).to.have.attribute(
+      'text',
+      'Complete and file your claim',
+    );
+    expect(screen.getByText(/Days left to file: 1/i)).to.exist;
+  });
+  it('should not display Appointment tasks section when claim has been filed (not Saved or Incomplete)', async () => {
+    const appointment = {
+      id: appointmentId,
+      start: new Date('2021-09-01T10:00:00Z'),
+      kind: 'clinic',
+      type: 'VA',
+      modality: 'vaInPerson',
+      vaos: {
+        apiData: {
+          travelPayClaim: {
+            metadata: {
+              status: 200,
+              message: 'Data retrieved successfully.',
+              success: true,
+            },
+            claim: {
+              id: '1234',
+              claimNumber: 'string',
+              claimStatus: 'InProgress',
+              appointmentDateTime: '2024-01-01T16:45:34.465Z',
+              facilityName: 'Cheyenne VA Medical Center',
+              createdOn: '2024-03-22T21:22:34.465Z',
+              modifiedOn: '2024-01-01T16:44:34.465Z',
+            },
+          },
+        },
+        isPastAppointment: true,
+        isCommunityCare: false,
+        isPhoneAppointment: false,
+        isVideo: false,
+        isInPersonVisit: true,
+      },
+    };
+    const screen = render(
+      <AppointmentTasksSection appointment={appointment} />,
+    );
+
+    expect(screen.queryByText(/Appointment tasks/i)).to.not.exist;
+  });
 });

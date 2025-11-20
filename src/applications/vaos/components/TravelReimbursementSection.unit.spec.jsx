@@ -140,6 +140,104 @@ describe('VAOS Component: TravelReimbursement', () => {
       ),
     ).to.exist;
   });
+  it('should display travel reimbursement section with link to complete claim when status is Saved', async () => {
+    const appointment = {
+      id: '1234567890',
+      start: new Date('2021-09-01T10:00:00Z'),
+      kind: 'clinic',
+      type: 'VA',
+      modality: 'vaInPerson',
+      vaos: {
+        apiData: {
+          travelPayClaim: {
+            metadata: {
+              status: 200,
+              message: 'Data retrieved successfully.',
+              success: true,
+            },
+            claim: {
+              id: '1234',
+              claimNumber: 'string',
+              claimStatus: 'Saved',
+              appointmentDateTime: '2024-01-01T16:45:34.465Z',
+              facilityName: 'Cheyenne VA Medical Center',
+              createdOn: '2024-03-22T21:22:34.465Z',
+              modifiedOn: '2024-01-01T16:44:34.465Z',
+            },
+          },
+        },
+        isPastAppointment: true,
+        isInPersonVisit: true,
+      },
+    };
+    const screen = render(
+      <TravelReimbursementSection appointment={appointment} />,
+    );
+
+    expect(
+      screen.getByText(
+        /You already started a claim for this appointment. Add your expenses and file within 30 days days of your appointment date./i,
+      ),
+    );
+    expect(screen.getByTestId('view-claim-link')).to.exist;
+    expect(screen.getByTestId('view-claim-link')).to.have.attribute(
+      'href',
+      `/my-health/travel-pay/file-new-claim/${appointment.id}`,
+    );
+    expect(screen.getByTestId('view-claim-link')).to.have.attribute(
+      'text',
+      'Complete and file your claim',
+    );
+  });
+  it('should display travel reimbursement section with link to complete claim when status is Incomplete', async () => {
+    const appointment = {
+      id: '1234567890',
+      start: new Date('2021-09-01T10:00:00Z'),
+      kind: 'clinic',
+      type: 'VA',
+      modality: 'vaInPerson',
+      vaos: {
+        apiData: {
+          travelPayClaim: {
+            metadata: {
+              status: 200,
+              message: 'Data retrieved successfully.',
+              success: true,
+            },
+            claim: {
+              id: '1234',
+              claimNumber: 'string',
+              claimStatus: 'Incomplete',
+              appointmentDateTime: '2024-01-01T16:45:34.465Z',
+              facilityName: 'Cheyenne VA Medical Center',
+              createdOn: '2024-03-22T21:22:34.465Z',
+              modifiedOn: '2024-01-01T16:44:34.465Z',
+            },
+          },
+        },
+        isPastAppointment: true,
+        isInPersonVisit: true,
+      },
+    };
+    const screen = render(
+      <TravelReimbursementSection appointment={appointment} />,
+    );
+
+    expect(
+      screen.getByText(
+        /You already started a claim for this appointment. Add your expenses and file within 30 days days of your appointment date./i,
+      ),
+    );
+    expect(screen.getByTestId('view-claim-link')).to.exist;
+    expect(screen.getByTestId('view-claim-link')).to.have.attribute(
+      'href',
+      `/my-health/travel-pay/file-new-claim/${appointment.id}`,
+    );
+    expect(screen.getByTestId('view-claim-link')).to.have.attribute(
+      'text',
+      'Complete and file your claim',
+    );
+  });
   it('should display travel reimbursement section with link to view claim status', async () => {
     const appointment = {
       start: new Date('2021-09-01T10:00:00Z'),
