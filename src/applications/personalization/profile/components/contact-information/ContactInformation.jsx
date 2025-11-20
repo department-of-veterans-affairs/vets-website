@@ -24,6 +24,35 @@ const getScrollTarget = hash => {
   return document.querySelector(hashWithoutLeadingEdit);
 };
 
+// Normalize a string to a slug: lowercase, alphanumerics separated by single hyphen
+const toSlug = str =>
+  str
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .replace(/--+/g, '-');
+
+// Attempt to derive a matching va-button for any #edit-* hash by comparing normalized labels
+// This avoids brittle hard-coded label maps and automatically supports new edit buttons.
+const getEditButtonFromHash = hash => {
+  if (!/^#edit-/.test(hash)) return null;
+  const slug = hash.replace(/^#edit-/, '');
+
+  // 1. Direct element with id equal to hash (future-proof if markup adds ids)
+  const direct = document.querySelector(hash);
+  if (direct) return direct;
+
+  // 2. Look for va-button whose label when normalized (minus leading 'edit ') matches slug
+  const buttons = Array.from(document.querySelectorAll('va-button[label]'));
+  for (const btn of buttons) {
+    const rawLabel = btn.getAttribute('label') || '';
+    const labelWithoutEditPrefix = rawLabel.replace(/^edit\s+/i, '');
+    const normalized = toSlug(labelWithoutEditPrefix);
+    if (normalized === slug) return btn;
+  }
+  return null;
+};
+
 const ContactInformation = () => {
   const lastLocation = useLastLocation();
 
@@ -78,9 +107,9 @@ const ContactInformation = () => {
       // and dynamic content loading.
 
       // Skip complex focus logic in test environments to avoid noisy warnings
-      if (process.env.NODE_ENV === 'test') {
-        return undefined;
-      }
+      // if (process.env.NODE_ENV === 'test') {
+      //   return undefined;
+      // }
 
       const cameFromProfileRoot = Boolean(
         lastLocation?.pathname?.match(
@@ -118,8 +147,11 @@ const ContactInformation = () => {
       }
 
       const selector = hash; // hash already includes leading '#'
+
+      // For edit hashes, prefer the associated edit button; else fall back to transformed target
+      const editButton = getEditButtonFromHash(hash);
       const scrollTarget =
-        getScrollTarget(hash) || document.querySelector(selector);
+        editButton || getScrollTarget(hash) || document.querySelector(selector);
 
       const focusAndScroll = el => {
         if (!el || cancelled) return;
@@ -155,9 +187,10 @@ const ContactInformation = () => {
       };
 
       // if hash already present, focus and scroll right away
+      // If original hash selector exists use it; otherwise if we have an editButton use that directly
       const existing = document.querySelector(selector);
-      if (existing) {
-        focusAndScroll(scrollTarget || existing);
+      if (existing || editButton) {
+        focusAndScroll(scrollTarget || existing || editButton);
         return cleanup;
       }
 
@@ -168,7 +201,9 @@ const ContactInformation = () => {
 
       const retry = () => {
         if (cancelled) return;
-        const el = document.querySelector(selector);
+        // Re-query for either the hash target or (for edit hashes) the button
+        const el =
+          document.querySelector(selector) || getEditButtonFromHash(hash);
         if (el) {
           focusAndScroll(scrollTarget || el);
           return;
@@ -176,6 +211,9 @@ const ContactInformation = () => {
         attempts += 1;
         if (attempts < maxAttempts) {
           retryTimeoutId = setTimeout(retry, intervalMs);
+        } else {
+          // Fallback for unsupported or missing hash targets: focus default target
+          focusElement('[data-focus-target]');
         }
       };
       retry();

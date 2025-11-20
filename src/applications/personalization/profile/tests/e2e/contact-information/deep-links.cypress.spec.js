@@ -70,9 +70,14 @@ function checkAllDeepLinks(mobile = false) {
 
   deepLinks.forEach(({ url, expectedTarget }) => {
     cy.visit(url);
+    // Wait for the element to exist and be visible
     // focus should be managed correctly
-    // console.log('expectedTarget', expectedTarget);
-    getTargetElement(expectedTarget).should('have.focus');
+    cy.log('profile path: ', PROFILE_PATHS.CONTACT_INFORMATION);
+    // console.log('expectedTarget: ', expectedTarget);
+    getTargetElement(expectedTarget)
+      .should('exist')
+      .and('be.visible')
+      .and('have.focus');
   });
 }
 
