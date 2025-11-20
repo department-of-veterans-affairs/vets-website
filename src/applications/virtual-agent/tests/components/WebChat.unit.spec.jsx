@@ -260,5 +260,33 @@ describe('WebChat', () => {
       expect(composerArgs.onTelemetry).to.equal(handleTelemetryStub);
       expect(composerArgs.activityStatusMiddleware).to.be.undefined;
     });
+
+    it('should invoke cleanup listeners on unmount when cleanup functions are provided', () => {
+      const webChatFramework = getWebChatFramework();
+      const setParamLoadingStatus = sandbox.spy();
+
+      stubValues();
+      const functionStubs = stubFunctions();
+      const cleanupBeforeUnload = sandbox.stub();
+      const cleanupSignOut = sandbox.stub();
+      functionStubs.clearBotSessionStorageEventListenerStub.returns(
+        cleanupBeforeUnload,
+      );
+      functionStubs.signOutEventListenerStub.returns(cleanupSignOut);
+
+      const { unmount } = render(
+        <Provider store={mockStore({})}>
+          <WebChat
+            token={token}
+            webChatFramework={webChatFramework}
+            setParamLoadingStatus={setParamLoadingStatus}
+          />
+        </Provider>,
+      );
+
+      unmount();
+      expect(cleanupBeforeUnload.calledOnce).to.be.true;
+      expect(cleanupSignOut.calledOnce).to.be.true;
+    });
   });
 });
