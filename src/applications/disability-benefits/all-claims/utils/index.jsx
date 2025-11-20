@@ -954,7 +954,7 @@ export const redirectWhenNoEvidence = props => {
 };
 
 export const isNewConditionsOn = formData =>
-  !!formData?.disabilityCompNewConditionsWorkflow;
+  !formData?.disabilityCompNewConditionsWorkflow;
 
 export const isNewConditionsOff = formData => !isNewConditionsOn(formData);
 
