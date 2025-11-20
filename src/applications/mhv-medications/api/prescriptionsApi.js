@@ -24,6 +24,11 @@ const getApiBasePath = state => {
     : `${environment.API_URL}/my_health/v1`;
 };
 
+const getRefillMethod = state => {
+  const isCernerPilot = selectCernerPilotFlag(state);
+  return isCernerPilot ? 'POST' : 'PATCH';
+};
+
 // Create the prescriptions API slice
 export const prescriptionsApi = createApi({
   reducerPath: 'prescriptionsApi',
@@ -248,14 +253,14 @@ export const prescriptionsApi = createApi({
     refillPrescription: builder.mutation({
       queryFn: async (id, { getState }) => {
         const apiBasePath = getApiBasePath(getState());
-        const isCernerPilotEnabled = selectCernerPilotFlag(getState());
+        const method = getRefillMethod(getState());
         const path = `${apiBasePath}/prescriptions/${id}/refill`;
 
         const defaultOptions = {
           headers: {
             'Content-Type': 'application/json',
           },
-          method: isCernerPilotEnabled ? 'POST' : 'PATCH',
+          method,
         };
 
         try {
@@ -274,7 +279,7 @@ export const prescriptionsApi = createApi({
     bulkRefillPrescriptions: builder.mutation({
       queryFn: async (ids, { getState }) => {
         const apiBasePath = getApiBasePath(getState());
-        const isCernerPilotEnabled = selectCernerPilotFlag(getState());
+        const method = getRefillMethod(getState());
         const idParams = ids.map(id => `ids[]=${id}`).join('&');
         const path = `${apiBasePath}/prescriptions/refill_prescriptions?${idParams}`;
 
@@ -282,7 +287,7 @@ export const prescriptionsApi = createApi({
           headers: {
             'Content-Type': 'application/json',
           },
-          method: isCernerPilotEnabled ? 'POST' : 'PATCH',
+          method,
         };
 
         try {
