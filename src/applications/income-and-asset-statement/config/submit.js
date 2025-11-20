@@ -2,7 +2,6 @@ import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
 import { format } from 'date-fns-tz';
 import { cloneDeep } from 'lodash';
-import { remapOtherVeteranFields } from './submit-helpers';
 import { ensureValidCSRFToken } from '../ensureValidCSRFToken';
 
 import {
@@ -144,15 +143,15 @@ export function transform(form) {
  * Step 9 of the 0969 submission pipeline
  *   9: Send to vets-api
  * @param {Object} form - The full form object containing `data` and metadata
+ * @param {Object} formConfig - The form configuration object containing metadata and tracking info
  * @returns {Promise<Object>} A promise resolving to the API response object from the submission request
  */
 export async function submit(form, formConfig) {
   const headers = { 'Content-Type': 'application/json' };
-  const body = transform(formConfig, form);
+  const body = transform(form);
   const apiRequestOptions = {
     body,
     headers,
-    body,
     method: 'POST',
     mode: 'cors',
   };
