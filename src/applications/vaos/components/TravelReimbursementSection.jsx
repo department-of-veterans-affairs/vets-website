@@ -97,6 +97,27 @@ export default function TravelReimbursementSection({ appointment }) {
     );
   }
   if (claimData.metadata.status === 200 && claimData.claim?.id) {
+    if (
+      claimData.claim.claimStatus === 'Saved' ||
+      claimData.claim.claimStatus === 'Incomplete'
+    ) {
+      return (
+        <Section heading={heading}>
+          <p className="vads-u-margin-y--0p5">
+            You already started a claim for this appointment. Add your expenses
+            and file within 30 days days of your appointment date.
+          </p>
+          <p className="vads-u-margin-y--0p5">
+            <va-link
+              data-testid="view-claim-link"
+              href={`/my-health/travel-pay/file-new-claim/${appointment.id}`}
+              text="Complete and file your claim"
+            />
+          </p>
+        </Section>
+      );
+    }
+
     return (
       <Section heading={heading}>
         <p className="vads-u-margin-y--0p5">
