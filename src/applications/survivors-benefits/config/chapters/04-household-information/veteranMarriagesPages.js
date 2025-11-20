@@ -43,9 +43,9 @@ function introDescription() {
 }
 /** @type {ArrayBuilderOptions} */
 const options = {
-  arrayPath: 'previousMarriages',
-  nounSingular: 'previous marriage',
-  nounPlural: 'previous marriages',
+  arrayPath: 'veteranMarriages',
+  nounSingular: 'veteran marriage',
+  nounPlural: 'veteran marriages',
   required: false,
   maxItems: 2,
   isItemIncomplete: item =>
@@ -139,13 +139,13 @@ const marriageDatePlacePage = {
       state: {
         ...selectUI('State', STATE_VALUES, STATE_NAMES),
         'ui:required': (formData, index) => {
-          const item = formData?.previousMarriages?.[index];
+          const item = formData?.veteranMarriages?.[index];
           const currentPageData = formData;
           return !(item?.marriedOutsideUS || currentPageData?.marriedOutsideUS);
         },
         'ui:options': {
           hideIf: (formData, index) => {
-            const item = formData?.previousMarriages?.[index];
+            const item = formData?.veteranMarriages?.[index];
             const currentPageData = formData;
             return item?.marriedOutsideUS || currentPageData?.marriedOutsideUS;
           },
@@ -154,13 +154,13 @@ const marriageDatePlacePage = {
       country: {
         ...selectUI('Country', COUNTRY_VALUES, COUNTRY_NAMES),
         'ui:required': (formData, index) => {
-          const item = formData?.previousMarriages?.[index];
+          const item = formData?.veteranMarriages?.[index];
           const currentPageData = formData;
           return item?.marriedOutsideUS || currentPageData?.marriedOutsideUS;
         },
         'ui:options': {
           hideIf: (formData, index) => {
-            const item = formData?.previousMarriages?.[index];
+            const item = formData?.veteranMarriages?.[index];
             const currentPageData = formData;
             return !(
               item?.marriedOutsideUS || currentPageData?.marriedOutsideUS
@@ -249,7 +249,7 @@ const marriageEndDateLocationPage = {
       state: {
         ...selectUI('State', STATE_VALUES, STATE_NAMES),
         'ui:required': (formData, index) => {
-          const item = formData?.previousMarriages?.[index];
+          const item = formData?.veteranMarriages?.[index];
           const currentPageData = formData;
           return !(
             item?.marriageEndedOutsideUS ||
@@ -258,7 +258,7 @@ const marriageEndDateLocationPage = {
         },
         'ui:options': {
           hideIf: (formData, index) => {
-            const item = formData?.previousMarriages?.[index];
+            const item = formData?.veteranMarriages?.[index];
             const currentPageData = formData;
             return (
               item?.marriageEndedOutsideUS ||
@@ -270,7 +270,7 @@ const marriageEndDateLocationPage = {
       country: {
         ...selectUI('Country', COUNTRY_VALUES, COUNTRY_NAMES),
         'ui:required': (formData, index) => {
-          const item = formData?.previousMarriages?.[index];
+          const item = formData?.veteranMarriages?.[index];
           const currentPageData = formData;
           return (
             item?.marriageEndedOutsideUS ||
@@ -279,7 +279,7 @@ const marriageEndDateLocationPage = {
         },
         'ui:options': {
           hideIf: (formData, index) => {
-            const item = formData?.previousMarriages?.[index];
+            const item = formData?.veteranMarriages?.[index];
             const currentPageData = formData;
             return !(
               item?.marriageEndedOutsideUS ||
