@@ -155,5 +155,65 @@ describe('VAOS Component: DateAndTimeContent', () => {
       },
     );
     expect(screen.getByTestId('no-slots-alert')).to.exist;
+    expect(screen.getByTestId('referral-community-care-office')).to.exist;
+  });
+  describe('when not in pilot station', () => {
+    it('should show an alert and a link to find a community care office', () => {
+      const referralNotInPilot = createReferralById(
+        '2024-12-05',
+        'add2f0f4-a1ea-4dea-a504-a54ab57c68',
+        undefined,
+        undefined,
+        true,
+        '12345',
+      ).attributes;
+      const screen = renderWithStoreAndRouter(
+        <DateAndTimeContent
+          currentReferral={referralNotInPilot}
+          draftAppointmentInfo={draftAppointmentInfo}
+          appointmentsByMonth={appointmentsByMonth}
+        />,
+        {
+          initialState,
+        },
+      );
+      const alert = screen.getByTestId('station-id-not-valid-alert');
+      expect(screen.getByTestId('station-id-not-valid-alert')).to.exist;
+      expect(alert).to.contain.text(
+        'Call this provider or your facility’s community care office to schedule an appointment.',
+      );
+      expect(screen.getByTestId('referral-community-care-office')).to.exist;
+    });
+  });
+
+  it('should display provider timezone when it differs from referral timezone', async () => {
+    // Create draft appointment info with Pacific timezone provider
+    const pacificTimezoneDraftAppointmentInfo = createDraftAppointmentInfo();
+    pacificTimezoneDraftAppointmentInfo.attributes.provider.location.timezone =
+      'America/Los_Angeles';
+    pacificTimezoneDraftAppointmentInfo.attributes.slots = transformSlotsForCommunityCare(
+      slots,
+    );
+
+    // Appointments are in Eastern time (from appointmentsByMonth)
+    // but provider is in Pacific time
+    const screen = renderWithStoreAndRouter(
+      <DateAndTimeContent
+        currentReferral={referral}
+        draftAppointmentInfo={pacificTimezoneDraftAppointmentInfo}
+        appointmentsByMonth={appointmentsByMonth}
+      />,
+      {
+        initialState,
+      },
+    );
+
+    // Should display Pacific time zone information for the provider
+    expect(
+      screen.getByText(
+        /Appointment times are displayed in Pacific time \(PT\)/,
+      ),
+    ).to.exist;
+    expect(screen.getByTestId('cal-widget')).to.exist;
   });
 });

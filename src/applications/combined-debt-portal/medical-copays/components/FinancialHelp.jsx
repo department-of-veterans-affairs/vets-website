@@ -12,12 +12,8 @@ export const FinancialHelp = ({ showOneThingPerPage = false }) => (
       </p>
     )}
     <h3>Request help for your current bills</h3>
-    <p>You can request these debt relief options:</p>
+    <p>You can request these relief options:</p>
     <ul>
-      <li>
-        <strong>Repayment plan.</strong> This would allow you to repay the debt
-        in smaller monthly amounts over time.
-      </li>
       <li>
         <strong>Compromise offer.</strong> This means you offer a lesser
         one-time lump sum amount as full payment of the debt. If we approve your
@@ -30,12 +26,11 @@ export const FinancialHelp = ({ showOneThingPerPage = false }) => (
       </li>
     </ul>
     <p>
-      <a
-        className="vads-c-action-link--blue"
+      <va-link-action
         href="/manage-va-debt/request-debt-help-form-5655/"
-      >
-        Request help with your debt
-      </a>
+        text="Request help with your debt"
+        type="secondary"
+      />
     </p>
     <h3>Request help for your future health care</h3>
     <p>
@@ -45,12 +40,11 @@ export const FinancialHelp = ({ showOneThingPerPage = false }) => (
       calendar year.
     </p>
     <p>
-      <a
-        href="https://www.va.gov/health-care/pay-copay-bill/financial-hardship/"
-        className="vads-c-action-link--blue"
-      >
-        Learn more about requesting a hardship determination
-      </a>
+      <va-link-action
+        href="https://www.va.gov/health-care/pay-copay-bill/financial-hardship"
+        text="Learn more about requesting a hardship determination"
+        type="secondary"
+      />
     </p>
   </article>
 );

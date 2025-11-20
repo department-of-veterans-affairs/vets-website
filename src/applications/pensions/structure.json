@@ -118,16 +118,16 @@
       {
         "title": "Marriage history",
         "path": "household/marriage-info",
-        "depends": "isMarried"
+        "depends": "hasMarriageHistory"
       },
       {
         "path": "household/marriages/:index",
-        "depends": "isMarried"
+        "depends": "hasMarriageHistory"
       },
       {
         "title": "Spouse information",
         "path": "household/spouse-info",
-        "depends": "isMarried"
+        "depends": "hasMarriageHistory"
       },
       {
         "title": "Reason for separation",
@@ -147,7 +147,7 @@
       {
         "title": "Current spouse marital history",
         "path": "household/marital-status/spouse-marital-history",
-        "depends": "isMarried"
+        "depends": "hasMarriageHistory"
       },
       {
         "title": "Spouse’s former marriages",

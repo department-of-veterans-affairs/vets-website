@@ -26,6 +26,7 @@ export default {
   form107959c: 'form107959c',
   form107959a: 'form107959a',
   form1010d: 'form1010d',
+  form1010dExt: 'form1010dExt',
   // global downtime, for scheduled downtime on apps that don't have specific dependencies documented
   global: 'global',
   // Intake, conversion, and mail handling services (central mail)

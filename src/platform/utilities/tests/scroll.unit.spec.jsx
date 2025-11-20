@@ -618,6 +618,7 @@ describe('scrollAndFocus', () => {
       behavior: 'smooth',
     });
     expect(focusSpy.args[0][0].id).to.eq('second');
+    expect(focusSpy.args[0][1]).to.deep.equal({ preventScroll: true });
     focusSpy.restore();
   });
 

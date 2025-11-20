@@ -265,61 +265,36 @@ describe('generateParticipantName', () => {
         medicareParticipant: '274d8b67cb72', // result derived from `toHash(123123123)`
         'view:applicantObjects': [
           {
-            applicantSSN: '123123123',
+            applicantSsn: '123123123',
             applicantName: { first: 'App1', last: 'Jones' },
           },
           {
-            applicantSSN: '234234234',
+            applicantSsn: '234234234',
             applicantName: { first: 'App2', last: 'Jones' },
           },
         ],
       }),
-    ).to.eq("App1 Jones's");
+    ).to.eq('App1 Jones’s');
   });
-  it('should return "applicant" if no participant SSN hash matches', () => {
+  it('should return `Applicant` if no participant SSN hash matches', () => {
     expect(
       generateParticipantName({
         medicareParticipant: '000000000000',
         'view:applicantObjects': [
           {
-            applicantSSN: '123123123',
+            applicantSsn: '123123123',
             applicantName: { first: 'App1', last: 'Jones' },
           },
         ],
       }),
-    ).to.eq('applicant');
+    ).to.eq('Applicant');
   });
-  it('should return "No participant" if no participant selected', () => {
+  it('should return `No participant` if no participant selected', () => {
     expect(generateParticipantName(undefined)).to.eq('No participant');
   });
 });
 
 describe('applicantOptions', () => {
-  describe('isItemIncomplete', () => {
-    it('should mark item incomplete if date of birth is missing', () => {
-      const res = applicantOptions.isItemIncomplete({
-        applicantName: { first: 'Jim' },
-        applicantSSN: '123123123',
-        applicantGender: 'male',
-        applicantPhone: '1231231234',
-        applicantAddress: { street: '123 St' },
-        applicantRelationshipToSponsor: 'child',
-      });
-      expect(res).to.be.true;
-    });
-    it('should mark item complete if all required fields are present', () => {
-      const res = applicantOptions.isItemIncomplete({
-        applicantName: { first: 'Jim' },
-        applicantDob: '2001-01-01',
-        applicantSSN: '123123123',
-        applicantGender: 'male',
-        applicantPhone: '1231231234',
-        applicantAddress: { street: '123 St' },
-        applicantRelationshipToSponsor: 'child',
-      });
-      expect(res).to.be.false;
-    });
-  });
   describe('text.getItemName', () => {
     it('should compute title from applicant name', () => {
       const res = applicantOptions.text.getItemName({

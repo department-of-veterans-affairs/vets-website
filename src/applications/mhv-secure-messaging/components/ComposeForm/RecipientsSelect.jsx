@@ -2,9 +2,9 @@
  * Renders a select dropdown for selecting recipients in the compose form.
  *  - Recipients are grouped by VAMC system name.
  *  - Recipients are sorted alphabetically by VAMC system name and then by name.
- *  - If a recipient requires a signature or switching from a recipient that does not 
+ *  - If a recipient requires a signature or switching from a recipient that does not
  *    require a signature to one that does, an alert is displayed notifying that signature is required.
- *  - If switching from a recipient that requires a signature to one that does not, 
+ *  - If switching from a recipient that requires a signature to one that does not,
  *    the alert is displayed notifying that signature is no longer required.
  *  - If switching from a recipient that does not require a signature to another that does not,
  *    the alert is not displayed.
@@ -70,13 +70,30 @@ const RecipientsSelect = ({
 
   const [alertDisplayed, setAlertDisplayed] = useState(false);
   const [recipientsListSorted, setRecipientsListSorted] = useState([]);
+  const [selectedRecipient, setSelectedRecipient] = useState(null);
   const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
+
+  // Determine current signature requirement preference:
+  //  - If a recipient is selected use its signatureRequired flag
+  //  - Otherwise fall back to the prop (initial state coming from parent)
+  const effectiveSignatureRequired = useMemo(
+    () => {
+      if (selectedRecipient) {
+        return !!selectedRecipient.signatureRequired;
+      }
+      return !!isSignatureRequired;
+    },
+    [selectedRecipient, isSignatureRequired],
+  );
 
   const optGroupEnabled = useSelector(
     state =>
       state.featureToggles[
         FEATURE_FLAG_NAMES.mhvSecureMessagingRecipientOptGroups
       ],
+  );
+  const recentRecipients = useSelector(
+    state => state.sm.recipients.recentRecipients,
   );
 
   const handleSetCheckboxMarked = useCallback(
@@ -163,10 +180,16 @@ const RecipientsSelect = ({
     e => {
       const { value } = e.detail;
       if (!+value) {
+        onValueChange(null);
         return;
       }
 
       const recipient = recipientsList.find(r => +r.id === +value) || {};
+      const prevRecipient = selectedRecipient;
+      const prevRequired = !!prevRecipient?.signatureRequired;
+      const nextRequired = !!recipient.signatureRequired;
+
+      setSelectedRecipient(recipient);
       onValueChange(recipient);
       handleSetCheckboxMarked(false);
       handleSetElectronicSignature('');
@@ -174,19 +197,39 @@ const RecipientsSelect = ({
         updateDraftInProgress({
           recipientName: recipient.name,
           recipientId: recipient.id,
+          ohTriageGroup: recipient.ohTriageGroup,
         }),
       );
 
-      if (recipient.signatureRequired || isSignatureRequired) {
+      // Alert display rules (aligned with component doc comment):
+      // 1. First selection: show alert only if next requires signature
+      // 2. Switching from non-required -> required: show alert (required)
+      // 3. Switching from required -> non-required: show alert (not required)
+      // 4. Switching required -> required: keep alert (still required)
+      // 5. Switching non-required -> non-required: hide alert
+      if (!prevRecipient) {
+        setAlertDisplayed(nextRequired);
+      } else if (prevRequired !== nextRequired) {
         setAlertDisplayed(true);
+      } else if (nextRequired) {
+        setAlertDisplayed(true);
+      } else {
+        setAlertDisplayed(false);
       }
     },
-    [recipientsList, dispatch, isSignatureRequired],
+    [
+      recipientsList,
+      dispatch,
+      selectedRecipient,
+      handleSetCheckboxMarked,
+      handleSetElectronicSignature,
+      onValueChange,
+    ],
   );
 
   const optionsValues = useMemo(
     () => {
-      if (!optGroupEnabled || mhvSecureMessagingCuratedListFlow) {
+      if (!optGroupEnabled || !mhvSecureMessagingCuratedListFlow) {
         return sortRecipients(recipientsList)?.map(item => (
           <option key={item.id} value={item.id}>
             {item.suggestedNameDisplay || item.name}
@@ -197,6 +240,19 @@ const RecipientsSelect = ({
       let currentVamcSystemName = null;
       const options = [];
       let groupedOptions = [];
+
+      // Insert Recent care teams group first (if available)
+      if (Array.isArray(recentRecipients) && recentRecipients.length > 0) {
+        options.push(
+          <optgroup key="recent-care-teams" label="Recent care teams">
+            {recentRecipients.map(r => (
+              <option key={r.triageTeamId} value={r.triageTeamId}>
+                {r.name}
+              </option>
+            ))}
+          </optgroup>,
+        );
+      }
 
       recipientsListSorted.forEach(item => {
         if (item.vamcSystemName === undefined) {
@@ -237,9 +293,14 @@ const RecipientsSelect = ({
 
       return options;
     },
-    [recipientsListSorted, optGroupEnabled, recipientsList],
+    [
+      recipientsListSorted,
+      optGroupEnabled,
+      recipientsList,
+      recentRecipients,
+      mhvSecureMessagingCuratedListFlow,
+    ],
   );
-
   return (
     <>
       {mhvSecureMessagingCuratedListFlow ? (
@@ -293,7 +354,7 @@ const RecipientsSelect = ({
             data-testid="signature-alert"
           >
             <p className="vads-u-margin-y--0" role="alert" aria-live="polite">
-              {isSignatureRequired === true
+              {effectiveSignatureRequired
                 ? Prompts.Compose.SIGNATURE_REQUIRED
                 : Prompts.Compose.SIGNATURE_NOT_REQUIRED}
             </p>

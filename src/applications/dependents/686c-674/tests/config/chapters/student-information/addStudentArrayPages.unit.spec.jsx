@@ -250,7 +250,7 @@ describe('674 Add students: Student info page ', () => {
   });
 });
 
-describe('674 Add students: Student ID info page ', () => {
+describe('674 Add students: Student SSN ', () => {
   const {
     schema,
     uiSchema,
@@ -271,12 +271,10 @@ describe('674 Add students: Student ID info page ', () => {
     );
 
     expect($$('va-text-input', container).length).to.equal(1);
-    expect($$('va-radio', container).length).to.equal(1);
-    expect($$('va-radio-option', container).length).to.equal(2);
   });
 });
 
-describe('674 Add students: Student income the past year ', () => {
+describe('674 Add students: Student relationship ', () => {
   const {
     schema,
     uiSchema,
@@ -301,11 +299,36 @@ describe('674 Add students: Student income the past year ', () => {
   });
 });
 
-describe('674 Add students: Student address ', () => {
+describe('674 Add students: Student income', () => {
   const {
     schema,
     uiSchema,
   } = formConfig.chapters.report674.pages.addStudentsPartFour;
+
+  it('should render', () => {
+    const { container } = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={formData()}
+          arrayPath={arrayPath}
+          pagePerItemIndex={0}
+        />
+      </Provider>,
+    );
+
+    expect($$('va-radio', container).length).to.equal(1);
+    expect($$('va-radio-option', container).length).to.equal(3);
+  });
+});
+
+describe('674 Add students: Student address ', () => {
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.report674.pages.addStudentsPartFive;
 
   it('should render', () => {
     const { container } = render(
@@ -366,7 +389,7 @@ describe('674 Add students: Student was married ', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.report674.pages.addStudentsPartFive;
+  } = formConfig.chapters.report674.pages.addStudentsPartSix;
 
   it('should render', () => {
     const { container } = render(
@@ -387,11 +410,35 @@ describe('674 Add students: Student was married ', () => {
   });
 });
 
-describe('674 Add students: Student education benefits ', () => {
+describe('674 Add students: Student marriage date ', () => {
   const {
     schema,
     uiSchema,
   } = formConfig.chapters.report674.pages.addStudentsPartSeven;
+
+  it('should render', () => {
+    const { container } = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={formData()}
+          arrayPath={arrayPath}
+          pagePerItemIndex={0}
+        />
+      </Provider>,
+    );
+
+    expect($$('va-memorable-date', container).length).to.equal(1);
+  });
+});
+
+describe('674 Add students: Student education benefits ', () => {
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.report674.pages.addStudentsPartEight;
 
   it('should render', () => {
     const { container } = render(
@@ -417,7 +464,7 @@ describe('674 Add students: Student education benefits payment start date ', () 
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.report674.pages.addStudentsPartEight;
+  } = formConfig.chapters.report674.pages.addStudentsPartNine;
 
   it('should render', () => {
     const { container } = render(
@@ -441,7 +488,7 @@ describe('674 Add students: Program name ', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.report674.pages.addStudentsPartNine;
+  } = formConfig.chapters.report674.pages.addStudentsPartTen;
 
   it('should render', () => {
     const { container } = render(
@@ -465,7 +512,7 @@ describe('674 Add students: Student attended continuously ', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.report674.pages.addStudentsPartTen;
+  } = formConfig.chapters.report674.pages.addStudentsPartEleven;
 
   it('should render', () => {
     const { container } = render(
@@ -490,7 +537,7 @@ describe('674 Add students: Date student stopped attending ', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.report674.pages.addStudentsPartEleven;
+  } = formConfig.chapters.report674.pages.addStudentsPartTwelve;
 
   it('should render', () => {
     const { container } = render(
@@ -514,7 +561,7 @@ describe('674 Add students: School is accredited', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.report674.pages.addStudentsPartTwelve;
+  } = formConfig.chapters.report674.pages.addStudentsPartThirteen;
 
   it('should render', () => {
     const { container } = render(
@@ -540,7 +587,7 @@ describe('674 Add students: Term dates', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.report674.pages.addStudentsPartThirteen;
+  } = formConfig.chapters.report674.pages.addStudentsPartFourteen;
 
   it('should render', () => {
     const { container } = render(
@@ -564,7 +611,7 @@ describe('674 Add students: Did student attend last term?', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.report674.pages.addStudentsPartFourteen;
+  } = formConfig.chapters.report674.pages.addStudentsPartFifteen;
 
   it('should render', () => {
     const { container } = render(
@@ -589,7 +636,7 @@ describe('674 Add students: Previous term dates', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.report674.pages.addStudentsPartFifteen;
+  } = formConfig.chapters.report674.pages.addStudentsPartSixteen;
 
   it('should render', () => {
     const { container } = render(
@@ -613,7 +660,7 @@ describe('674 Add students: Veteran claims pension', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.report674.pages.addStudentsPartSixteen;
+  } = formConfig.chapters.report674.pages.addStudentsPartSeventeen;
 
   it('should render', () => {
     const { container } = render(
@@ -638,7 +685,7 @@ describe('674 Add students: Current term student income', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.report674.pages.addStudentsPartSeventeen;
+  } = formConfig.chapters.report674.pages.addStudentsPartEighteen;
 
   it('should render', () => {
     const { container } = render(
@@ -662,7 +709,7 @@ describe('674 Add students: Student income next year', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.report674.pages.addStudentsPartEighteen;
+  } = formConfig.chapters.report674.pages.addStudentsPartNineteen;
 
   it('should render', () => {
     const { container } = render(
@@ -686,7 +733,7 @@ describe('674 Add students: Student assets', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.report674.pages.addStudentsPartNineteen;
+  } = formConfig.chapters.report674.pages.addStudentsPartTwenty;
 
   it('should render', () => {
     const { container } = render(
@@ -711,8 +758,7 @@ describe('674 Add students: Student remarks', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.report674.pages.addStudentsPartTwenty;
-
+  } = formConfig.chapters.report674.pages.addStudentsPartTwentyOne;
   it('should render', () => {
     const { container } = render(
       <Provider store={defaultStore}>

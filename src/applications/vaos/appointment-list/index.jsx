@@ -5,7 +5,7 @@ import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
 import { useIsInPilotUserStations } from '../referral-appointments/hooks/useIsInPilotUserStations';
 import ReferralsAndRequests from '../referral-appointments/ReferralsAndRequests';
 import UpcomingAppointmentsDetailsPage from './pages/UpcomingAppointmentsDetailsPage';
-import EpsAppointmentDetailsPage from '../referral-appointments/EpsAppointmentDetailsPage';
+import EpsAppointmentDetailsPage from './pages/EpsAppointmentDetailsPage/EpsAppointmentDetailsPage';
 import AppointmentsPage from './pages/AppointmentsPage/index';
 import RequestedAppointmentDetailsPage from './pages/RequestedAppointmentDetailsPage/RequestedAppointmentDetailsPage';
 

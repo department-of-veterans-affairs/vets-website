@@ -2,7 +2,7 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import * as BUCKETS from 'site/constants/buckets';
 import fs from 'fs';
 
-const knownFonts = {
+export const knownFonts = {
   'Bitter-Bold': 'bitter-bold.ttf',
   'Bitter-Regular': 'bitter-regular.ttf',
   'SourceSansPro-Bold': 'sourcesanspro-bold-webfont.ttf',
@@ -35,7 +35,7 @@ const downloadAndRegisterFont = async (doc, font) => {
   doc.registerFont(font, knownFonts[font]);
 };
 
-export default async function registerFonts(doc, fonts) {
+export const registerFonts = async function(doc, fonts) {
   const fontPromises = fonts.map(async font => {
     if (!knownFonts[font]) return;
 
@@ -51,4 +51,4 @@ export default async function registerFonts(doc, fonts) {
   });
 
   await Promise.all(fontPromises);
-}
+};

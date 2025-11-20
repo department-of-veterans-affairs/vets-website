@@ -2,15 +2,20 @@ import moment from 'moment-timezone';
 import { datadogRum } from '@datadog/browser-rum';
 import { snakeCase } from 'lodash';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
+import { formatBirthDate } from '@department-of-veterans-affairs/mhv/exports';
+
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import {
   format as dateFnsFormat,
   formatISO,
+  subMonths,
   subYears,
   addMonths,
   startOfDay,
   endOfDay,
+  startOfYear,
+  endOfYear,
   parseISO,
   isValid,
 } from 'date-fns';
@@ -22,6 +27,8 @@ import {
   VALID_REFRESH_DURATION,
   Paths,
   Breadcrumbs,
+  DEFAULT_DATE_RANGE,
+  MONTH_BASED_OPTIONS,
 } from './constants';
 
 /**
@@ -118,6 +125,20 @@ export const formatDateTime = datetimeString => {
 
   return { formattedDate, formattedTime };
 };
+
+/**
+ * Returns the wrapper element tag to use around a rendered list (<ul>) of
+ * notes / comments / items. If there are multiple entries we return 'div'
+ * so the list is placed in this tag.
+ * For zero or one entry we return undefined so the parent component (e.g.
+ * LabelValue) can keep its default tag.
+ *
+ * Generic utility: can be used for any list.
+ * @param {Array|string|undefined} items
+ * @returns {'div'|undefined}
+ */
+export const itemListWrapper = items =>
+  Array.isArray(items) && items.length > 1 ? 'div' : undefined;
 
 /**
  * @param {Object} record
@@ -712,8 +733,80 @@ export const getMonthFromSelectedDate = ({ date, mask = 'MMMM yyyy' }) => {
   return `${formatted}`;
 };
 
+export const getTimeFrame = dateRange => {
+  // For predefined date ranges like 3 or 6 months, return the fromDate
+  if (MONTH_BASED_OPTIONS.includes(dateRange.option)) {
+    return dateRange.fromDate;
+  }
+
+  // For year selections, return the option value (e.g., '2022')
+  return dateRange.option;
+};
+
+export const getDisplayTimeFrame = dateRange => {
+  return `${formatDate(dateRange.fromDate)} to ${formatDate(dateRange.toDate)}`;
+};
+
+export const calculateDateRange = value => {
+  const today = new Date();
+
+  if (MONTH_BASED_OPTIONS.includes(value)) {
+    return {
+      fromDate: dateFnsFormat(
+        subMonths(today, parseInt(value, 10)),
+        'yyyy-MM-dd',
+      ),
+      toDate: dateFnsFormat(today, 'yyyy-MM-dd'),
+    };
+  }
+
+  // Year-based
+  const yearDate = new Date(parseInt(value, 10), 0, 1);
+  return {
+    fromDate: dateFnsFormat(startOfYear(yearDate), 'yyyy-MM-dd'),
+    toDate: dateFnsFormat(endOfYear(yearDate), 'yyyy-MM-dd'),
+  };
+};
+
+export const buildInitialDateRange = (option = DEFAULT_DATE_RANGE) => {
+  const { fromDate, toDate } = calculateDateRange(option);
+  return {
+    option,
+    fromDate,
+    toDate,
+  };
+};
+
+/**
+ * Resolve the effective accelerated date range ensuring both start & end are present.
+ * If either supplied date is missing, fall back to the default range.
+ *
+ * @param {string|undefined} startDate ISO date (yyyy-MM-dd) or undefined
+ * @param {string|undefined} endDate   ISO date (yyyy-MM-dd) or undefined
+ * @param {string} defaultRange        Month-based option used when falling back (defaults to DEFAULT_DATE_RANGE)
+ * @returns {{ startDate: string, endDate: string, fallbackApplied: boolean }}
+ */
+export const resolveAcceleratedDateRange = (
+  startDate,
+  endDate,
+  defaultRange = DEFAULT_DATE_RANGE,
+) => {
+  if (startDate && endDate) {
+    return { startDate, endDate, fallbackApplied: false };
+  }
+  const { fromDate, toDate } = buildInitialDateRange(defaultRange);
+  return { startDate: fromDate, endDate: toDate, fallbackApplied: true };
+};
+
 export const sendDataDogAction = actionName => {
   datadogRum.addAction(actionName);
+};
+
+export const sendDatadogError = (error, feature) => {
+  datadogRum.addError(error, {
+    app: 'Medical Records',
+    feature,
+  });
 };
 
 export const handleDataDogAction = ({
@@ -858,4 +951,33 @@ export const getFailedDomainList = (failed, displayMap) => {
     modFailed.push('medications');
   }
   return modFailed.map(domain => displayMap[domain]);
+};
+
+/**
+ * Compares the dob formatted by two different methods and, if they are unequal, throws an error
+ * indicating which date is earlier.
+ * @param {string} userDob - The user's date of birth from the redux store
+ */
+export const errorForUnequalBirthDates = (
+  userDob,
+  deps = { formatDateLong, formatBirthDate },
+) => {
+  const d1 = new Date(deps.formatDateLong(userDob));
+  const d2 = new Date(deps.formatBirthDate(userDob));
+
+  if (Number.isNaN(d1.getTime()))
+    throw new Error('Invalid birth date via formatDateLong');
+  if (Number.isNaN(d2.getTime()))
+    throw new Error('Invalid birth date via formatBirthDate');
+
+  if (d1.getTime() < d2.getTime()) {
+    throw new Error(`formatDateLong is earlier than formatBirthDate`);
+  }
+  if (d1.getTime() > d2.getTime()) {
+    throw new Error(`formatBirthDate is earlier than formatDateLong`);
+  }
+};
+
+export const asyncErrorForUnequalBirthDates = async userDob => {
+  errorForUnequalBirthDates(userDob);
 };

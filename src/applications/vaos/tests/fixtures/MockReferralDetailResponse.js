@@ -1,4 +1,4 @@
-import { format, addMonths } from 'date-fns';
+const { format, addMonths } = require('date-fns');
 
 /**
  * Class to create mock referral detail responses for Cypress tests
@@ -9,10 +9,23 @@ class MockReferralDetailResponse {
       id: `referral-${Math.random()
         .toString(36)
         .substring(2, 10)}`,
-      categoryOfCare: 'Physical Therapy',
+      categoryOfCare: 'OPTOMETRY',
       hasAppointments: false,
       notFound: false,
       serverError: false,
+      referralNumber: 'VA0000005681',
+      provider: {
+        name: 'Dr. Moreen S. Rafa',
+        npi: '1346206547',
+        phone: '(937) 236-6750',
+        facilityName: 'fake facility name',
+        address: {
+          street1: '76 Veterans Avenue',
+          city: 'BATH',
+          state: null,
+          zip: '14810',
+        },
+      },
       ...options,
     };
   }
@@ -27,12 +40,26 @@ class MockReferralDetailResponse {
     id = `referral-${Math.random()
       .toString(36)
       .substring(2, 10)}`,
-    categoryOfCare = 'Physical Therapy',
+    categoryOfCare = 'OPTOMETRY',
     hasAppointments = false,
     referralNumber = 'VA0000005681',
-    expirationDate = format(addMonths(new Date(), 3), 'yyyy-MM-dd'),
+    expirationDate = this.expirationDate
+      ? format(this.expirationDate, 'yyyy-MM-dd')
+      : format(addMonths(new Date(), 6), 'yyyy-MM-dd'),
     referralDate = format(new Date(), 'yyyy-MM-dd'),
     stationId = '659',
+    provider = {
+      name: 'Dr. Moreen S. Rafa',
+      npi: '1346206547',
+      phone: '(937) 236-6750',
+      facilityName: 'fake facility name',
+      address: {
+        street1: '76 Veterans Avenue',
+        city: 'BATH',
+        state: null,
+        zip: '14810',
+      },
+    },
   } = {}) {
     return {
       data: {
@@ -52,21 +79,16 @@ class MockReferralDetailResponse {
           facilityPhone: '555-555-5555',
           preferredTimesForPhoneCall: [],
           timezone: 'America/New_York',
-          provider: {
-            name: 'A & D HEALTH CARE PROFS',
-            npi: '1346206547',
-            phone: '(937) 236-6750',
-            location: 'A & D HEALTH CARE PROFS',
-          },
+          provider,
           referringFacility: {
-            name: 'Dayton VA Medical Center',
-            phone: '(937) 262-3800',
-            code: stationId,
+            name: 'Batavia VA Medical Center',
+            phone: '(585) 297-1000',
+            code: '528A4',
             address: {
-              street1: '4100 West Third Street',
-              city: 'DAYTON',
+              street1: '222 Richmond Avenue',
+              city: 'BATAVIA',
               state: null,
-              zip: '45428',
+              zip: '14020',
             },
           },
           providerId: null,
@@ -130,6 +152,9 @@ class MockReferralDetailResponse {
       hasAppointments,
       notFound,
       serverError,
+      provider,
+      referralNumber,
+      stationId,
     } = this.options;
 
     // Return 404 error if notFound is true
@@ -147,8 +172,11 @@ class MockReferralDetailResponse {
       id,
       categoryOfCare,
       hasAppointments,
+      provider,
+      referralNumber,
+      stationId,
     });
   }
 }
 
-export default MockReferralDetailResponse;
+module.exports = MockReferralDetailResponse;

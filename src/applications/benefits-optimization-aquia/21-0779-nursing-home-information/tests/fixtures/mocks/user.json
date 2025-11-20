@@ -1,0 +1,57 @@
+{
+  "data": {
+    "attributes": {
+      "profile": {
+        "sign_in": {
+          "service_name": "idme"
+        },
+        "email": "bail.organa@nursinghome.org",
+        "loa": { "current": 3 },
+        "first_name": "Bail",
+        "middle_name": "",
+        "last_name": "Organa",
+        "user_full_name": {
+          "first": "Bail",
+          "middle": "",
+          "last": "Organa",
+          "suffix": ""
+        },
+        "gender": "M",
+        "birth_date": "1975-06-15",
+        "dob": "19750615",
+        "ssn": "796121200",
+        "verified": true,
+        "mailing_address": {
+          "address_line1": "1060 W Addison St",
+          "address_line2": "Suite 12",
+          "city": "Chicago",
+          "state_code": "IL",
+          "zip_code": "60613",
+          "country_code_iso3": "USA"
+        }
+      },
+      "veteran_status": {
+        "status": "OK",
+        "is_veteran": false,
+        "served_in_military": false
+      },
+      "in_progress_forms": [],
+      "prefills_available": [],
+      "services": [
+        "facilities",
+        "hca",
+        "edu-benefits",
+        "user-profile"
+      ],
+      "va_profile": {
+        "status": "OK",
+        "birth_date": "19750615",
+        "family_name": "Organa",
+        "gender": "M",
+        "given_names": ["Bail", ""],
+        "active_status": "active"
+      }
+    }
+  },
+  "meta": { "errors": null }
+}

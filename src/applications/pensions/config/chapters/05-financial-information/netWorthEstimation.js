@@ -37,16 +37,10 @@ export default {
       'ui:description': (
         <va-alert status="warning">
           <p className="vads-u-margin-y--0">
-            You answered that you have more than ${threshold.toLocaleString()}{' '}
-            in assets. You’ll need to submit an Income and Asset Statement in
-            Support of Claim for Pension or Parents' Dependency and Indemnity
-            Compensation (
-            <va-link
-              external
-              href="https://www.va.gov/find-forms/about-form-21-2680/"
-              text="VA Form 21P-0969"
-            />
-            ).
+            Because you have more than ${threshold.toLocaleString()} in assets,
+            you’ll need to submit an Income and Asset Statement in Support of
+            Claim for Pension or Parents' Dependency and Indemnity Compensation
+            (VA Form 21P-0969).
           </p>
           <p>
             We’ll ask you to upload this form at the end of this application. Or

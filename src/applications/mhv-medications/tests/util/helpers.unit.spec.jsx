@@ -6,7 +6,6 @@ import {
   dispStatusObj,
 } from '../../util/constants';
 import {
-  dateFormat,
   extractContainedResource,
   generateMedicationsPDF,
   getImageUri,
@@ -17,7 +16,6 @@ import {
   createNoDescriptionText,
   createVAPharmacyText,
   fromToNumbs,
-  pharmacyPhoneNumber,
   sanitizeKramesHtmlStr,
   hasCmopNdcNumber,
   getRefillHistory,
@@ -25,17 +23,6 @@ import {
   displayProviderName,
   isRefillTakingLongerThanExpected,
 } from '../../util/helpers';
-
-describe('Date Format function', () => {
-  it("should return 'None noted' when no values are passed", () => {
-    expect(dateFormat()).to.equal(FIELD_NONE_NOTED);
-  });
-  it('should return a formatted date', () => {
-    expect(dateFormat('2023-10-26T20:18:00.000Z', 'MMMM D, YYYY')).to.equal(
-      'October 26, 2023',
-    );
-  });
-});
 
 describe('Generate PDF function', () => {
   it('should throw an error', () => {
@@ -339,74 +326,6 @@ describe('fromToNumbs', () => {
   });
 });
 
-describe('pharmacyPhoneNumber function', () => {
-  const rx = {
-    cmopDivisionPhone: '4436366919',
-    dialCmopDivisionPhone: '1786366871',
-    rxRfRecords: [
-      {
-        cmopDivisionPhone: null,
-        dialCmopDivisionPhone: '',
-      },
-      {
-        cmopDivisionPhone: '(465)895-6578',
-        dialCmopDivisionPhone: '5436386958',
-      },
-    ],
-  };
-  it('should return a phone number when object passed has a phone for the cmopDivisionPhone field', () => {
-    expect(pharmacyPhoneNumber(rx)).to.equal('4436366919');
-  });
-  it('should return a phone number when object passed has a phone for the dialCmopDivisionPhone field', () => {
-    const newRxNoCmop = { ...rx, cmopDivisionPhone: null };
-    expect(pharmacyPhoneNumber(newRxNoCmop)).to.equal('1786366871');
-  });
-  it('should return a phone number when object passed only has a phone for the cmopDivisionPhone field inside of the rxRfRecords array', () => {
-    const newRxNoDialCmop = {
-      ...rx,
-      cmopDivisionPhone: null,
-      dialCmopDivisionPhone: null,
-    };
-    expect(pharmacyPhoneNumber(newRxNoDialCmop)).to.equal('(465)895-6578');
-  });
-  it('should return a phone number when object passed only has a phone for the dialCmopDivisionPhone field inside of the rxRfRecords array', () => {
-    const newRxNoCmopInRxRfRecord = {
-      ...rx,
-      cmopDivisionPhone: null,
-      dialCmopDivisionPhone: null,
-      rxRfRecords: [
-        {
-          cmopDivisionPhone: null,
-          dialCmopDivisionPhone: '',
-        },
-        {
-          cmopDivisionPhone: null,
-          dialCmopDivisionPhone: '5436386958',
-        },
-      ],
-    };
-    expect(pharmacyPhoneNumber(newRxNoCmopInRxRfRecord)).to.equal('5436386958');
-  });
-  it('should return null when object passed has no phone numbers for all the cmopDivisionPhone, dialCmopDivisionPhone fields', () => {
-    const newRxNoCmopInRxRfRecord = {
-      ...rx,
-      cmopDivisionPhone: null,
-      dialCmopDivisionPhone: null,
-      rxRfRecords: [
-        {
-          cmopDivisionPhone: null,
-          dialCmopDivisionPhone: '',
-        },
-        {
-          cmopDivisionPhone: null,
-          dialCmopDivisionPhone: null,
-        },
-      ],
-    };
-    expect(pharmacyPhoneNumber(newRxNoCmopInRxRfRecord)).to.equal(null);
-  });
-});
-
 describe('sanitizeKramesHtmlStr function', () => {
   it('should remove <Page> tags', () => {
     const inputHtml = '<Page>Page 1</Page>';
@@ -485,6 +404,25 @@ describe('sanitizeKramesHtmlStr function', () => {
       '<ul><li>Item 1</li></ul><p>Paragraph inside list</p><ul><li>Item 2</li><li>Item 1.1</li><p>Paragraph inside nested list</p></ul>',
     );
   });
+
+  it('should remove all pilcrows (¶) from the HTML string', () => {
+    const inputHtml = `<div>
+                      <strong>
+                      <p>¶This branded product is no longer on the market.</p>
+                      </strong>
+                      <ul>
+                      <li>¶BrandName1</li>
+                      <li>¶BrandName2</li>
+                      </ul>
+                      </div>`;
+    const outputHtml = sanitizeKramesHtmlStr(inputHtml);
+    expect(outputHtml).to.not.include('¶');
+    expect(outputHtml).to.include(
+      'This branded product is no longer on the market.',
+    );
+    expect(outputHtml).to.include('BrandName1');
+    expect(outputHtml).to.include('BrandName2');
+  });
 });
 
 describe('hasCmopNdcNumber function', () => {
@@ -551,6 +489,7 @@ describe('getRefillHistory function', () => {
       frontImprint: 'front123',
       prescriptionId: '123456',
       prescriptionName: 'Test Medication',
+      prescriptionSource: 'RX',
       shape: 'round',
     };
 
@@ -629,74 +568,6 @@ describe('getRefillHistory function', () => {
 
     const result = getRefillHistory(prescription);
     expect(result.length).to.equal(0);
-  });
-});
-
-describe('pharmacyPhoneNumber function', () => {
-  const rx = {
-    cmopDivisionPhone: '4436366919',
-    dialCmopDivisionPhone: '1786366871',
-    rxRfRecords: [
-      {
-        cmopDivisionPhone: null,
-        dialCmopDivisionPhone: '',
-      },
-      {
-        cmopDivisionPhone: '(465)895-6578',
-        dialCmopDivisionPhone: '5436386958',
-      },
-    ],
-  };
-  it('should return a phone number when object passed has a phone for the cmopDivisionPhone field', () => {
-    expect(pharmacyPhoneNumber(rx)).to.equal('4436366919');
-  });
-  it('should return a phone number when object passed has a phone for the dialCmopDivisionPhone field', () => {
-    const newRxNoCmop = { ...rx, cmopDivisionPhone: null };
-    expect(pharmacyPhoneNumber(newRxNoCmop)).to.equal('1786366871');
-  });
-  it('should return a phone number when object passed only has a phone for the cmopDivisionPhone field inside of the rxRfRecords array', () => {
-    const newRxNoDialCmop = {
-      ...rx,
-      cmopDivisionPhone: null,
-      dialCmopDivisionPhone: null,
-    };
-    expect(pharmacyPhoneNumber(newRxNoDialCmop)).to.equal('(465)895-6578');
-  });
-  it('should return a phone number when object passed only has a phone for the dialCmopDivisionPhone field inside of the rxRfRecords array', () => {
-    const newRxNoCmopInRxRfRecord = {
-      ...rx,
-      cmopDivisionPhone: null,
-      dialCmopDivisionPhone: null,
-      rxRfRecords: [
-        {
-          cmopDivisionPhone: null,
-          dialCmopDivisionPhone: '',
-        },
-        {
-          cmopDivisionPhone: null,
-          dialCmopDivisionPhone: '5436386958',
-        },
-      ],
-    };
-    expect(pharmacyPhoneNumber(newRxNoCmopInRxRfRecord)).to.equal('5436386958');
-  });
-  it('should return null when object passed has no phone numbers for all the cmopDivisionPhone, dialCmopDivisionPhone fields', () => {
-    const newRxNoCmopInRxRfRecord = {
-      ...rx,
-      cmopDivisionPhone: null,
-      dialCmopDivisionPhone: null,
-      rxRfRecords: [
-        {
-          cmopDivisionPhone: null,
-          dialCmopDivisionPhone: '',
-        },
-        {
-          cmopDivisionPhone: null,
-          dialCmopDivisionPhone: null,
-        },
-      ],
-    };
-    expect(pharmacyPhoneNumber(newRxNoCmopInRxRfRecord)).to.equal(null);
   });
 });
 

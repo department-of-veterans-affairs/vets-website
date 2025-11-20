@@ -25,7 +25,11 @@ describe('submit transformer', () => {
         },
         ssn: '963879632',
         va_claim_number: '5236978',
-        phone_number: '2056321459',
+        veteranPhoneNumber: {
+          callingCode: 1,
+          countryCode: 'US',
+          contact: '2056321459',
+        },
         email_address: 'john@gmail.com0',
       },
     };
@@ -33,5 +37,6 @@ describe('submit transformer', () => {
       transformForSubmit(formConfig, formData),
     );
     expect(newTransformData.veteran.date_of_birth).to.equal('02/19/2004');
+    expect(newTransformData.veteran.phone_number).to.equal('12056321459');
   });
 });

@@ -2,6 +2,7 @@
   "vaDependentsNetWorthAndPension": false,
   "view:checkVeteranPension": true,
   "view:additionalEvidenceDescription": {},
+  "view:householdIncome": true,
   "householdIncome": false,
   "view:studentInformationMissingInformation": {},
   "view:completedStudent": false,
@@ -138,7 +139,7 @@
       },
       "studentIncome": "N",
       "ssn": "333446666",
-      "isParent": true,
+      "relationshipToStudent": "biological",
       "fullName": {
         "first": "Jane",
         "middle": "C",

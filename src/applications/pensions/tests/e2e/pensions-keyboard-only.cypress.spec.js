@@ -7,7 +7,6 @@ import cypressSetup, { cypressBeforeAllSetup } from './cypress.setup';
 import {
   keyboardTestArrayPages,
   keyboardTestPage,
-  startForm,
   fillReviewPage,
   fillSchema,
   fillField,
@@ -23,7 +22,7 @@ const skipInCI = (testKey, callback) =>
 const testForm = (data, pageHooks = {}) => {
   const { chapters } = formConfig;
 
-  startForm();
+  cy.clickStartForm();
 
   let pathsVisited = [];
   Object.values(chapters).forEach(chapter => {

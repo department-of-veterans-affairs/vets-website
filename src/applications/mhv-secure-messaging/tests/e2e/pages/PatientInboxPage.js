@@ -76,6 +76,11 @@ class PatientInboxPage {
     ).as('inboxMessages');
     cy.intercept(
       'GET',
+      `${Paths.SM_API_BASE + Paths.FOLDERS}/-1/threads*`,
+      mockSentThreads,
+    ).as('sentThreads');
+    cy.intercept(
+      'GET',
       `${Paths.SM_API_BASE + Paths.FOLDERS}/0*`,
       mockInboxFolder,
     ).as('inboxFolderMetaData');
@@ -328,7 +333,23 @@ class PatientInboxPage {
     cy.get(Locators.BUTTONS.REPLY).click({
       waitForAnimations: true,
     });
-    cy.findByTestId(Locators.BUTTONS.CONTINUE).click();
+    PatientInterstitialPage.getContinueButton().click();
+  };
+
+  replyToMessageCuratedFlow = () => {
+    cy.intercept(
+      'GET',
+      'my_health/v1/messaging/messages/7192838/thread?full_body=true',
+      mockThread,
+    ).as('threadAgain');
+    cy.intercept('GET', 'my_health/v1/messaging/messages/7192838', {
+      data: mockThread.data[0],
+    }).as('messageAgain');
+
+    cy.get(Locators.BUTTONS.REPLY).click({
+      waitForAnimations: true,
+    });
+    PatientInterstitialPage.getStartMessageLink().click();
   };
 
   clickCreateNewMessage = () => {
@@ -354,6 +375,61 @@ class PatientInboxPage {
       PatientInterstitialPage.CheckFocusOnVcl();
     }
     PatientInterstitialPage.getContinueButton().click({ force: true });
+  };
+
+  navigateToComposePageCuratedFlow = (hasRecentRecipients = false) => {
+    cy.intercept(
+      'GET',
+      Paths.SM_API_EXTENDED + Paths.CATEGORIES,
+      mockCategories,
+    ).as('categories');
+
+    cy.intercept(`GET`, Paths.INTERCEPT.SENT_THREADS, mockSentThreads).as(
+      `sentThreadsResponse`,
+    );
+
+    if (hasRecentRecipients) {
+      // Mock WITH recent recipients - navigates to /recent page
+      cy.intercept(
+        'POST',
+        '/my_health/v1/messaging/folders/-1/search*',
+        mockSentThreads,
+      ).as('recentRecipients');
+    } else {
+      // Mock empty recent recipients to force navigation to select care team
+      cy.intercept('POST', '/my_health/v1/messaging/folders/-1/search*', {
+        data: [],
+      }).as('recentRecipients');
+    }
+
+    this.clickCreateNewMessage();
+    // Continue through interstitial
+    PatientInterstitialPage.getStartMessageLink().click({ force: true });
+
+    // Wait for recent recipients check
+    cy.wait('@recentRecipients');
+
+    // Verify navigation based on recent recipients availability
+    if (hasRecentRecipients) {
+      cy.url().should('include', '/recent');
+    } else {
+      cy.url().should('include', '/select-care-team');
+    }
+  };
+
+  navigateDirectlyToSelectCareTeam = () => {
+    cy.intercept(
+      'GET',
+      Paths.SM_API_EXTENDED + Paths.CATEGORIES,
+      mockCategories,
+    ).as('categories');
+
+    cy.intercept(`GET`, Paths.INTERCEPT.SENT_THREADS, mockSentThreads).as(
+      `sentThreadsResponse`,
+    );
+
+    // Navigate directly to select care team page
+    cy.visit('/my-health/secure-messages/new-message/select-care-team/');
   };
 
   navigateToInterstitialPage = () => {

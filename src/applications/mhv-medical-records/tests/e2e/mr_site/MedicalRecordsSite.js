@@ -2,7 +2,6 @@ import mockUser from '../fixtures/user.json';
 import vamc from '../fixtures/facilities/vamc-ehr.json';
 import sessionStatus from '../fixtures/session-status.json';
 import createAal from '../fixtures/create-aal.json';
-import MedicalRecordsLandingPage from '../pages/MedicalRecordsLandingPage';
 
 class MedicalRecordsSite {
   login = (userFixture = mockUser, useDefaultFeatureToggles = true) => {
@@ -24,7 +23,6 @@ class MedicalRecordsSite {
       body: createAal,
     }).as('aal');
     cy.intercept('POST', '/v0/datadog_action', {}).as('datadogAction');
-    MedicalRecordsLandingPage.uumIntercept();
     cy.login(userFixture);
   };
 
@@ -36,6 +34,7 @@ class MedicalRecordsSite {
     isAcceleratingVaccines = false,
     isAcceleratingCareNotes = false,
     isAcceleratingConditions = false,
+    isCcdExtendedFileTypesEnabled = false,
   } = {}) => {
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
@@ -70,32 +69,20 @@ class MedicalRecordsSite {
             value: isAcceleratingConditions,
           },
           {
+            name: 'mhv_medical_records_ccd_extended_file_types',
+            value: isCcdExtendedFileTypesEnabled,
+          },
+          {
+            name: 'mhvMedicalRecordsCcdExtendedFileTypes',
+            value: isCcdExtendedFileTypesEnabled,
+          },
+          {
             name: 'mhvMedicalRecordsPhrRefreshOnLogin',
             value: false,
           },
           {
             name: 'mhv_medical_records_phr_refresh_on_login',
             value: false,
-          },
-          {
-            name: 'mhvMedicalRecordsDisplayDomains',
-            value: true,
-          },
-          {
-            name: 'mhv_medical_records_display_domains',
-            value: true,
-          },
-          {
-            name: 'mhv_medical_records_allow_txt_downloads',
-            value: true,
-          },
-          {
-            name: 'mhvMedicalRecordsDisplaySidenav',
-            value: true,
-          },
-          {
-            name: 'mhv_medical_records_display_sidenav',
-            value: true,
           },
           {
             name: 'mhv_medical_records_support_backend_pagination_allergy',
@@ -122,10 +109,6 @@ class MedicalRecordsSite {
           {
             name: 'mhv_medical_records_support_backend_pagination_vital',
             value: false,
-          },
-          {
-            name: 'mhv_medical_records_use_unified_sei_api',
-            value: true,
           },
         ],
       },

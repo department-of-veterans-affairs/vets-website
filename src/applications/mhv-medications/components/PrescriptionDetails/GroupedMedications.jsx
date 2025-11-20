@@ -12,6 +12,7 @@ import {
 } from '../../util/helpers';
 import LastFilledInfo from '../shared/LastFilledInfo';
 import { dataDogActionNames } from '../../util/dataDogConstants';
+import { DATETIME_FORMATS } from '../../util/constants';
 
 const MAX_PAGE_LIST_LENGTH = environment.isStaging() ? 2 : 10;
 const MAX_GROUPED_LIST_LENGTH = 26;
@@ -94,15 +95,15 @@ const GroupedMedications = props => {
                     ? `Quantity: ${rx.quantity}`
                     : validateIfAvailable('Quantity')}
                 </dd>
-                <dd data-testid="order-date">
+                <dd data-testid="ordered-date">
                   Prescribed on{' '}
                   {dateFormat(
                     rx.orderedDate,
-                    'MMMM D, YYYY',
+                    DATETIME_FORMATS.longMonthDate,
                     'date not available',
                   )}
                 </dd>
-                <dd data-testid="provider-name">
+                <dd data-testid="prescribed-by">
                   {`Prescribed by ${displayProviderName(
                     rx?.providerFirstName,
                     rx?.providerLastName,

@@ -4,11 +4,17 @@ import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import sessionStatus from './fixtures/session-status.json';
 
 describe('Medical Records View Allergies', () => {
-  it('Visits Medical Records View Allergies List Network Errors', () => {
-    const site = new MedicalRecordsSite();
-    site.login();
+  const site = new MedicalRecordsSite();
 
-    cy.intercept('GET', '/my_health/v1/medical_records/allergies', {
+  beforeEach(() => {
+    site.login();
+  });
+
+  it('Visits Medical Records View Allergies List Network Errors', () => {
+    // const site = new MedicalRecordsSite();
+    // site.login();
+
+    cy.intercept('GET', '/my_health/v1/medical_records/allergies*', {
       statusCode: 400,
       body: {
         alertType: 'error',

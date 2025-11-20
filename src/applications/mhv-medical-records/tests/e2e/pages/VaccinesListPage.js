@@ -4,15 +4,20 @@ import defaultVaccines from '../fixtures/vaccines/vaccines.json';
 import BaseListPage from './BaseListPage';
 
 class VaccinesListPage extends BaseListPage {
-  goToVaccines = (vaccines = defaultVaccines) => {
-    // cy.intercept('POST', '/my_health/v1/medical_records/session').as('session');
-    // cy.wait('@session');
+  goToVaccinesPage = (page, vaccines = defaultVaccines) => {
     cy.intercept('GET', '/my_health/v1/medical_records/vaccines', vaccines).as(
       'VaccinesList',
     );
-    // cy.get('[data-testid="vaccines-landing-page-link"]').click();
-    cy.visit('my-health/medical-records/vaccines');
+    const url =
+      page != null
+        ? `my-health/medical-records/vaccines?page=${page}`
+        : 'my-health/medical-records/vaccines';
+    cy.visit(url);
     cy.wait('@VaccinesList');
+  };
+
+  goToVaccines = (vaccines = defaultVaccines) => {
+    this.goToVaccinesPage(null, vaccines);
   };
 
   clickVaccinesDetailsLink = (vaccinesIndex = 0) => {

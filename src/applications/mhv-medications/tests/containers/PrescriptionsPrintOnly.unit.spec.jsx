@@ -28,6 +28,22 @@ describe('Medications List Print Page', () => {
     sandbox.restore();
   });
 
+  it('renders Correctly even when error is an object', async () => {
+    const setupWithError = (params = {}) => {
+      return renderWithStoreAndRouterV6(<PrescriptionsPrintOnly hasError />, {
+        initialState: {},
+        reducers,
+        initialEntries: ['/?page=1'],
+        ...params,
+      });
+    };
+    const screen = setupWithError();
+    const errorMessage = screen.findByText(
+      'We’re sorry. There’s a problem with our system.',
+    );
+    expect(errorMessage).to.exist;
+  });
+
   it('renders without errors', async () => {
     const screen = setup();
     expect(screen);

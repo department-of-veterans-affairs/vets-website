@@ -12,7 +12,7 @@
           "suffix": "Jr."
         },
         "applicantDob": "2003-01-04",
-        "applicantSSN": "345345345",
+        "applicantSsn": "345345345",
         "applicantAddress": {
           "street": "456 Circle St",
           "street2": "Apt 2",
@@ -90,7 +90,7 @@
     "certifierEmail": "certifier@email.gov",
     "sponsorName": {
       "first": "Joe",
-      "middle": "James",
+      "middle": "J",
       "last": "Johnson",
       "suffix": "Jr."
     },
@@ -108,6 +108,6 @@
     "sponsorIsDeceased": true,
     "sponsorDOD": "2001-01-01",
     "sponsorDeathConditions": false,
-    "statementOfTruthSignature": "Certifier Jones"
+    "statementOfTruthSignature": "Certifier T Jones"
   }
 }

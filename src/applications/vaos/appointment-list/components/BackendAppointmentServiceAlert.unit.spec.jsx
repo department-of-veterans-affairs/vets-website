@@ -46,7 +46,7 @@ describe('VAOS Backend Service Alert', () => {
       start,
       end,
       response: [appointment],
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled', 'checked-in'],
       backendServiceFailures: true,
     });
 
@@ -79,7 +79,7 @@ describe('VAOS Backend Service Alert', () => {
       start,
       end,
       response: [appointment],
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled', 'checked-in'],
     });
     mockAppointmentsApi({
       start: subDays(now, 120),
@@ -116,7 +116,7 @@ describe('VAOS Backend Service Alert', () => {
       includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
       response: [appointment],
       start,
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled', 'checked-in'],
     });
 
     // Act
@@ -149,7 +149,7 @@ describe('VAOS Backend Service Alert', () => {
       includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
       response: [appointment],
       start,
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled', 'checked-in'],
     });
 
     // Act

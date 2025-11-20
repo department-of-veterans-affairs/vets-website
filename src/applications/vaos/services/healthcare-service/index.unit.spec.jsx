@@ -7,7 +7,7 @@ import {
 
 import { TYPE_OF_CARE_IDS } from '../../utils/constants';
 import { getAvailableHealthcareServices } from '.';
-import mockClinics from '../mocks/v2/clinics.json';
+import mockClinics from '../mocks/v2/clinics_983.json';
 
 describe('VAOS Services: Healthcare ', () => {
   beforeEach(() => {

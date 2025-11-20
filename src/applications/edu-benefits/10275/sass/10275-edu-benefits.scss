@@ -1,3 +1,71 @@
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
 @import "../../../../platform/forms/sass/m-schemaform";
 @import "../../../../platform/forms/sass/m-form-confirmation";
+
+.need-help-container {
+  width: 642px;
+  @media (max-width: $small-screen) {
+    width: 100%;
+  }
+}
+
+.box-highlight {
+  min-width: 648px;
+  background-color: var(--vads-color-primary-alt-lightest);
+  padding-left: 1.5rem !important;
+
+  .checkbox-text {
+    text-indent: -20px;
+  }
+
+  @media (max-width: $small-screen) {
+    min-width: 100%;
+  }
+}
+
+va-checkbox[error]::part(checkbox) {
+  font-weight: bold !important;
+  min-width: 648px;
+
+  @media (max-width: $small-screen) {
+    min-width: 100%;
+  }
+}
+
+@media (max-width: $small-screen) {
+  .form-22-10275-container {
+    padding-inline: 0.5rem;
+  }
+
+  .form-22-10275-container .schemaform-buttons,
+  .form-22-10275-container .form-progress-buttons {
+    display: flex;
+    flex-direction: column !important;
+
+    div {
+      width: 100%;
+    }
+
+    div:first-of-type {
+      order: 2;
+    }
+  }
+}
+
+va-radio[name="pointOfContact"] {
+  margin-top: 0 !important;
+}
+
+va-radio-option[label="None of the above, I will enter a new point of contact"] {
+  margin-top: 0;
+}
+
+.radio-container va-radio-option {
+  border: 1px solid hsl(0, 0%, 79%);
+  padding: 10px 20px;
+}
+
+.card-address {
+  display: block;
+  font-weight: normal;
+}

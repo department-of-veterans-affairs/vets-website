@@ -414,10 +414,11 @@ const getMockSlots = (options = {}) => {
     conflictRate = 0.3, // 30% of days with appointments should have conflicts
     forceConflictWithAppointments = [],
     communityCareSlots = false,
+    currentDate = null,
   } = options;
 
   // Calculate date range
-  const now = new Date();
+  const now = currentDate || new Date();
   const startDate = new Date(now.getFullYear(), now.getMonth() - pastMonths, 1);
   const endDate = new Date(now.getFullYear(), now.getMonth() + futureMonths, 0);
 

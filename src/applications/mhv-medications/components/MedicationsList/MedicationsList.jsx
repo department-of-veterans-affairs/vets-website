@@ -44,7 +44,7 @@ const MedicationsList = props => {
     navigate(`/?page=${page}`, {
       replace: true,
     });
-    updateLoadingStatus(null, 'Loading your medications...');
+    updateLoadingStatus('Loading your medications...');
     waitForRenderThenFocus(displaynumberOfPrescriptionsSelector, document, 500);
   };
 
@@ -74,12 +74,25 @@ const MedicationsList = props => {
     );
   };
 
+  // used to create aria-label for filter and sort info (for Firefox)
+  const filterAndSortAriaLabel = () => {
+    const allMedsSelected = selectedFilterOption === ALL_MEDICATIONS_FILTER_KEY;
+    const filterText =
+      !isFullList && !allMedsSelected
+        ? `${selectedFilterDisplay} medications`
+        : 'medications';
+    return `${filterText}, ${sortOptionLowercase}`;
+  };
+
   return (
     <>
       <p
         className="rx-page-total-info vads-u-font-family--sans"
         data-testid="page-total-info"
         id="showingRx"
+        aria-label={`Showing ${displayNums[0]} - ${
+          displayNums[1]
+        } of ${totalMedications} ${filterAndSortAriaLabel()}`}
       >
         <span className="no-print">
           {`Showing ${displayNums[0]} - ${

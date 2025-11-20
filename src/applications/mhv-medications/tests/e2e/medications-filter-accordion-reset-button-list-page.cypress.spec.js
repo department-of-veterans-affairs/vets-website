@@ -27,5 +27,8 @@ describe('Medications List Page Filter Accordion Reset Button', () => {
     listPage.verifyFocusOnPaginationTextInformationOnListPage(
       Data.PAGINATION_ALL_MEDICATIONS,
     );
+    listPage.verifyFilterAriaRegionText(
+      'Filters cleared. Showing all medications.',
+    );
   });
 });

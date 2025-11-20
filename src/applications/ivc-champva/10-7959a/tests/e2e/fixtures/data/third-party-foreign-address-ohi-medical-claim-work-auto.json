@@ -1,6 +1,7 @@
 {
   "description": "Third party signer, beneficiary has foreign address, OHI, medical claim, work related, auto related",
   "data": {
+    "view:sharesAddressWith": "na",
     "claimStatus": "new",
     "view:hasPolicies": true,
     "primaryEob": [
@@ -36,14 +37,14 @@
     "applicantMemberNumber": "123123123",
     "applicantName": {
       "first": "Jim",
-      "middle": "Middle",
+      "middle": "M",
       "last": "Lastname",
       "suffix": "II"
     },
     "applicantDOB": "2022-05-14",
     "sponsorName": {
       "first": "John",
-      "middle": "Middle",
+      "middle": "M",
       "last": "Jones",
       "suffix": "Sr."
     },
@@ -61,7 +62,7 @@
     },
     "certifierName": {
       "first": "Jerry",
-      "middle": "Middle",
+      "middle": "M",
       "last": "Jones",
       "suffix": "Jr."
     },
@@ -81,8 +82,7 @@
         "providerPhone": "1231231235"
       }
     ],
-    "sharesAddressWith": "not-shared",
-    "statementOfTruthSignature": "Certifier Middle Jones",
+    "statementOfTruthSignature": "Certifier M Jones",
     "statementOfTruthCertified": true
   }
 }

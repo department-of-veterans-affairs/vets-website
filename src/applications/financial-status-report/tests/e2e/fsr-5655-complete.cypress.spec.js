@@ -85,9 +85,7 @@ const testConfig = createTestConfig(
 
     pageHooks: {
       introduction: () => {
-        cy.get('a.vads-c-action-link--green')
-          .first()
-          .click();
+        cy.clickStartForm();
       },
       // ============================================================
       // ================== veteranInformationChapter ==================
@@ -104,7 +102,7 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input[type=checkbox]')
             .check({ force: true });
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
       'spouse-information': ({ afterHook }) => {
@@ -112,7 +110,7 @@ const testConfig = createTestConfig(
           cy.get('#root_questions_isMarriedYes')
             .should('be.visible')
             .click();
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
       'spouse-name': ({ afterHook }) => {
@@ -123,7 +121,7 @@ const testConfig = createTestConfig(
           cy.get('input[name="root_personalData_spouseFullName_last"]').type(
             'Woodhouse',
           );
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
       'dependents-count': ({ afterHook }) => {
@@ -160,7 +158,7 @@ const testConfig = createTestConfig(
       'employment-question': ({ afterHook }) => {
         afterHook(() => {
           cy.get('va-radio-option[value="true"]').click();
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
       'enhanced-employment-records': ({ afterHook }) => {
@@ -188,14 +186,17 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .as('BenefitAmount');
-          cy.get('@BenefitAmount').clear({ force: true });
+          cy.get('@BenefitAmount').type('{selectall}{backspace}', {
+            timeout: 1000,
+            force: true,
+          });
           cy.get('@BenefitAmount').type('1015.23', { force: true });
           customButtonGroupContinue('Update');
           cy.get('[data-testid="mini-summary-card"]')
             .eq(0)
             .find('p')
             .should('contain', '$1,015.23');
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
       'additional-income-checklist': ({ afterHook }) => {
@@ -203,14 +204,14 @@ const testConfig = createTestConfig(
           // get veteran additional income array
           const { addlIncRecords } = additionalIncome;
           fillChecklist(addlIncRecords);
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
       'additional-income-values': ({ afterHook }) => {
         afterHook(() => {
           const { addlIncRecords } = additionalIncome;
           fillInputList(addlIncRecords);
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
       'other-income-summary': ({ afterHook }) => {
@@ -230,7 +231,7 @@ const testConfig = createTestConfig(
       'enhanced-spouse-employment-question': ({ afterHook }) => {
         afterHook(() => {
           cy.get('va-radio-option[value="true"]').click();
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
       'enhanced-spouse-employment-records': ({ afterHook }) => {
@@ -251,7 +252,7 @@ const testConfig = createTestConfig(
           cy.get('#root_questions_spouseHasBenefitsYes')
             .should('be.visible')
             .click();
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
       'spouse-benefit-records': ({ afterHook }) => {
@@ -263,7 +264,7 @@ const testConfig = createTestConfig(
             '0',
             { force: true },
           );
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
       'spouse-additional-income-checklist': ({ afterHook }) => {
@@ -271,14 +272,14 @@ const testConfig = createTestConfig(
           // get spouse additional income array
           const { spouse } = additionalIncome;
           fillChecklist(spouse.spAddlIncome);
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
       'spouse-additional-income-values': ({ afterHook }) => {
         afterHook(() => {
           const { spouse } = additionalIncome;
           fillInputList(spouse.spAddlIncome);
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
       'spouse-other-income-summary': ({ afterHook }) => {
@@ -302,7 +303,7 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('125');
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
       'cash-in-bank': ({ afterHook }) => {
@@ -312,7 +313,7 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('329.12');
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
       'monetary-asset-checklist': ({ afterHook }) => {
@@ -337,7 +338,7 @@ const testConfig = createTestConfig(
             .check({ force: true });
 
           // Proceed with form submission
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
       'monetary-asset-values': ({ afterHook }) => {
@@ -356,19 +357,19 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('1500');
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
       'enhanced-real-estate-assets': ({ afterHook }) => {
         afterHook(() => {
           cy.get('#root_questions_hasRealEstateYes').click();
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
       'enhanced-real-estate-asset-records': ({ afterHook }) => {
         afterHook(() => {
           cy.get('input[name="root_assets_realEstateValue"]').type('180000');
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
       // linting doesn't like paths that don't have a - in them
@@ -378,7 +379,7 @@ const testConfig = createTestConfig(
           cy.get('#root_questions_hasVehicleYes')
             .should('be.visible')
             .click();
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
       'your-vehicle-records': ({ afterHook }) => {
@@ -420,7 +421,7 @@ const testConfig = createTestConfig(
             .and('contain', 'Ranger')
             .and('contain', '2003')
             .and('contain', '$1,500.00');
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
       'recreational-vehicles': ({ afterHook }) => {
@@ -428,13 +429,13 @@ const testConfig = createTestConfig(
           cy.get('#root_questions_hasRecreationalVehicleYes')
             .should('be.visible')
             .click();
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
       'recreational-vehicle-records': ({ afterHook }) => {
         afterHook(() => {
           cy.get('input[name="root_assets_recVehicleAmount"]').type('2500');
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
       'other-assets-checklist': ({ afterHook }) => {
@@ -442,7 +443,7 @@ const testConfig = createTestConfig(
           // get other assets array
           const { otherAssets } = assets;
           fillChecklist(otherAssets);
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
       'other-assets-values': ({ afterHook }) => {
@@ -450,7 +451,7 @@ const testConfig = createTestConfig(
           // get other assets array
           const { otherAssets } = assets;
           fillInputList(otherAssets);
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
       'other-assets-summary': ({ afterHook }) => {
@@ -474,7 +475,7 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input[type="checkbox"]')
             .should('exist');
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
       'household-expenses-values': ({ afterHook }) => {
@@ -484,7 +485,7 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('123');
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
       // only shows if showUpdatedExpensePages is active
@@ -495,19 +496,19 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('1200');
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
       'utility-bill-checklist': ({ afterHook }) => {
         afterHook(() => {
           fillChecklist(utilityRecords);
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
       'utility-bill-values': ({ afterHook }) => {
         afterHook(() => {
           fillInputList(utilityRecords);
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
       'utility-bill-summary': ({ afterHook }) => {
@@ -517,7 +518,7 @@ const testConfig = createTestConfig(
           // add-utility-bill
           verifyEditPage(utilityRecords, 'Update utility bill');
           verifyAddPage(utilityRecords, 'Add utility bill');
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
       'credit-card-bills': ({ afterHook }) => {
@@ -525,7 +526,7 @@ const testConfig = createTestConfig(
           cy.get('#root_questions_hasCreditCardBillsYes')
             .should('be.visible')
             .click();
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
       'your-credit-card-bills': ({ afterHook }) => {
@@ -561,7 +562,7 @@ const testConfig = createTestConfig(
             .should('contain', 'Unpaid balance: $100.00')
             .and('contain', 'Minimum monthly payment amount: $25.00')
             .and('contain', 'Amount overdue: $10.00');
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
       'installment-contracts': ({ afterHook }) => {
@@ -569,7 +570,7 @@ const testConfig = createTestConfig(
           cy.get('#root_questions_hasRepaymentsYes')
             .should('be.visible')
             .click();
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
       'your-installment-contracts': ({ afterHook }) => {
@@ -635,7 +636,7 @@ const testConfig = createTestConfig(
             .and('contain', 'Minimum monthly payment amount: $100.00')
             .and('contain', 'Date received: 01/2010')
             .and('contain', 'Amount overdue: $10.00');
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
       'other-expenses-checklist': ({ afterHook }) => {
@@ -664,13 +665,13 @@ const testConfig = createTestConfig(
           });
 
           // Click the primary button to proceed
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
       'other-expenses-values': ({ afterHook }) => {
         afterHook(() => {
           fillInputList(otherExpenses);
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
       'other-expenses-summary': ({ afterHook }) => {
@@ -689,7 +690,7 @@ const testConfig = createTestConfig(
       'resolution-option/0': ({ afterHook }) => {
         afterHook(() => {
           cy.get('va-radio-option[value="monthly"]').click();
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
       'resolution-comment/0': ({ afterHook }) => {
@@ -699,13 +700,13 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('10.00');
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
       'resolution-option/1': ({ afterHook }) => {
         afterHook(() => {
           cy.get('va-radio-option[value="waiver"]').click();
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
       'resolution-waiver-agreement/1': ({ afterHook }) => {
@@ -715,7 +716,7 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input[type=checkbox]')
             .check({ force: true });
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
       'resolution-comments': ({ afterHook }) => {
@@ -736,7 +737,7 @@ const testConfig = createTestConfig(
       'bankruptcy-history': ({ afterHook }) => {
         afterHook(() => {
           cy.get('#has-declared-bankruptcy').click();
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
       'enhanced-bankruptcy-history-records': ({ afterHook }) => {
@@ -789,9 +790,7 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .check({ force: true });
-          cy.findAllByText(/Submit your request/i, {
-            selector: 'button',
-          }).click({ force: true });
+          cy.clickFormContinue();
         });
       },
     },

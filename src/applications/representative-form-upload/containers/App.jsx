@@ -33,13 +33,18 @@ const App = ({ children }) => {
   const formNumber = getFormNumber();
 
   useEffect(() => {
-    document.title = `Submit VA Form ${formNumber}  | Veterans Affairs`;
+    document.title = `Submit VA Form ${formNumber} | Accredited Representative Portal | Veterans Affairs`;
     // Insert CSS to hide 'For example: January 19 2000' hint on memorable dates
     // (can't be overridden by passing 'hint' to uiOptions):
     addStyleToShadowDomOnPages(
       [''],
-      ['va-memorable-date', 'va-accordion-item', 'va-file-input'],
-      '#dateHint {display: none} .usa-form-group--month-select {width: 159px} .usa-accordion, .usa-accordion-bordered, .usa-accordion--bordered {margin: 24px 0 !important;} .usa-accordion__content.usa-prose {border:1px solid #f0f0f0;} .usa-hint {white-space: pre-line; margin-bottom: 16px} .usa-label {margin: 8px 0}}',
+      [
+        'va-memorable-date',
+        'va-accordion-item',
+        'va-file-input',
+        'va-file-input-multiple',
+      ],
+      '#dateHint {display: none} .usa-form-group--month-select {width: 159px} .usa-accordion, .usa-accordion-bordered, .usa-accordion--bordered {margin: 24px 0 !important;} .usa-accordion__content.usa-prose {border:1px solid #f0f0f0;} .usa-hint {white-space: pre-line; margin-bottom: 16px} .usa-label {margin: 8px 0} .label-header {display:none}',
     );
   });
 

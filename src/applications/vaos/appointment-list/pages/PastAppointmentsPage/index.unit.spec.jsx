@@ -49,7 +49,7 @@ describe('VAOS Page: PastAppointmentsList api', () => {
       end,
       includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
       response: [],
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled', 'checked-in'],
     });
 
     const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
@@ -69,7 +69,7 @@ describe('VAOS Page: PastAppointmentsList api', () => {
       end,
       includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
       response: [],
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled', 'checked-in'],
     });
 
     const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
@@ -99,7 +99,7 @@ describe('VAOS Page: PastAppointmentsList api', () => {
       end,
       includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
       response: [],
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled', 'checked-in'],
     });
 
     mockAppointmentsApi({
@@ -107,7 +107,7 @@ describe('VAOS Page: PastAppointmentsList api', () => {
       end: now,
       includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
       response: [response],
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled', 'checked-in'],
     });
 
     // Act
@@ -142,7 +142,7 @@ describe('VAOS Page: PastAppointmentsList api', () => {
       end,
       includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
       response: [response],
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled', 'checked-in'],
     });
 
     // Act
@@ -194,7 +194,7 @@ describe('VAOS Page: PastAppointmentsList api', () => {
       end,
       includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
       response: [response],
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled', 'checked-in'],
     });
 
     // Act
@@ -246,7 +246,7 @@ describe('VAOS Page: PastAppointmentsList api', () => {
       end,
       includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
       response: [new MockAppointmentResponse({ localStartTime: pastDate })],
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled', 'checked-in'],
     });
 
     // Act
@@ -272,7 +272,7 @@ describe('VAOS Page: PastAppointmentsList api', () => {
       end,
       includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
       response: responses,
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled', 'checked-in'],
     });
 
     // Act
@@ -339,7 +339,7 @@ describe('VAOS Page: PastAppointmentsList api', () => {
       start,
       end,
       includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled', 'checked-in'],
       response: [response],
     });
 
@@ -381,7 +381,7 @@ describe('VAOS Page: PastAppointmentsList api', () => {
       start,
       end,
       includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled', 'checked-in'],
       response: [response],
     });
 

@@ -1,14 +1,17 @@
-import moment from 'moment-timezone';
+import { addSeconds, format } from 'date-fns';
 import prescriptions from '../fixtures/listOfPrescriptions.json';
 import allergies from '../fixtures/allergies.json';
 import allergiesList from '../fixtures/allergies-list.json';
 import tooltip from '../fixtures/tooltip-for-filtering-list-page.json';
-import mockUumResponse from '../fixtures/unique-user-metrics-response.json';
 import { Paths } from '../utils/constants';
 import nonVARx from '../fixtures/non-VA-prescription-on-list-page.json';
 import prescription from '../fixtures/prescription-details.json';
 import prescriptionFillDate from '../fixtures/prescription-dispensed-datails.json';
-import { medicationsUrls } from '../../../util/constants';
+import {
+  DATETIME_FORMATS,
+  medicationsUrls,
+  RX_SOURCE,
+} from '../../../util/constants';
 import tooltipVisible from '../fixtures/tooltip-visible-list-page.json';
 import noToolTip from '../fixtures/tooltip-not-visible-list-page.json';
 import hidden from '../fixtures/tooltip-hidden.json';
@@ -35,8 +38,6 @@ class MedicationsListPage {
       '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
       prescriptions,
     );
-    // Note that we don't need specific event names in the response
-    cy.intercept('POST', Paths.UUM_API_BASE, mockUumResponse).as('uum');
     cy.get('[data-testid ="prescriptions-nav-link"]').click({ force: true });
     if (waitForMeds) {
       cy.wait('@medicationsList');
@@ -248,7 +249,7 @@ class MedicationsListPage {
       prescriptions,
     ).as('medicationsList');
     cy.get('[data-testid="download-pdf-button"]')
-      .should('contain', 'Download a PDF of all medications')
+      .should('contain', 'Download a PDF')
       .should('be.visible');
     cy.get('[data-testid="download-pdf-button"]').click({
       waitForAnimations: true,
@@ -301,15 +302,22 @@ class MedicationsListPage {
     userLastName = 'Mhvtp',
     searchText = 'Date',
   ) => {
-    this.downloadTime1sec = moment()
-      .add(1, 'seconds')
-      .format('M-D-YYYY_hhmmssa');
-    this.downloadTime2sec = moment()
-      .add(2, 'seconds')
-      .format('M-D-YYYY_hhmmssa');
-    this.downloadTime3sec = moment()
-      .add(3, 'seconds')
-      .format('M-D-YYYY_hhmmssa');
+    const now = Date.now();
+
+    this.downloadTime1sec = format(
+      addSeconds(now, 1),
+      DATETIME_FORMATS.filename,
+    );
+
+    this.downloadTime2sec = format(
+      addSeconds(now, 2),
+      DATETIME_FORMATS.filename,
+    );
+
+    this.downloadTime3sec = format(
+      addSeconds(now, 3),
+      DATETIME_FORMATS.filename,
+    );
 
     if (Cypress.browser.isHeadless) {
       cy.log('browser is headless');
@@ -349,7 +357,7 @@ class MedicationsListPage {
         'contain',
         'You have no refills left. If you need more, request a renewal.',
       );
-    cy.get('[data-testid="learn-to-renew-prescriptions-link"]')
+    cy.get('[data-testid="send-renewal-request-message-link"]')
       .should('exist')
       .and('be.visible');
   };
@@ -642,7 +650,7 @@ class MedicationsListPage {
 
     data.data.forEach(item => {
       const { dispensedDate, prescriptionSource } = item.attributes;
-      if (prescriptionSource === 'NV') {
+      if (prescriptionSource === RX_SOURCE.NON_VA) {
         nonVA.push(item);
       } else if (dispensedDate) {
         filled.push(item);
@@ -778,10 +786,6 @@ class MedicationsListPage {
     cy.get('[data-testid="download-print-button"]').should('be.enabled');
   };
 
-  verifyPrintAllMedicationsFromDropDownOnListPage = () => {
-    cy.get('[data-testid="download-print-all-button"]').should('be.enabled');
-  };
-
   verifyPharmacyPhoneNumberOnListPage = phoneNumber => {
     cy.get(
       '[data-testid="active-onHold"] > [data-testid="pharmacy-phone-number"]',
@@ -799,7 +803,7 @@ class MedicationsListPage {
 
   verifyRFRecordPhoneNumberOnListPage = rfPhoneNumber => {
     cy.get(
-      '[data-testid="refill-in-process"] > [data-testid="rx-process"] > [data-testid="pharmacy-phone-info"] > [data-testid="pharmacy-phone-number"]',
+      '[data-testid="refill-in-process"] > [data-testid="rx-process"] > [data-testid="rx-refillinprocess-info"] > [data-testid="pharmacy-phone-number"]',
     )
       .shadow()
       .find('[href="tel:+14106366899"]')
@@ -1122,6 +1126,89 @@ class MedicationsListPage {
       expect(fileContent).to.contain('not available');
       expect(fileContent).to.not.contain('None noted');
     });
+  };
+
+  verifyFilterAriaRegionText = text => {
+    cy.findByTestId('filter-aria-live-region').should('have.text', text);
+  };
+
+  verifySortScreenReaderActionText = text => {
+    cy.findByTestId('sort-action-sr-text').should('have.text', text);
+  };
+
+  // SendRxRenewalMessage component test helpers
+  verifyRenewalRequestLinkExists = () => {
+    cy.get('[data-testid="send-renewal-request-message-link"]')
+      .should('exist')
+      .and('be.visible');
+  };
+
+  verifyRenewalRequestActionLinkExists = () => {
+    cy.get('[data-testid="send-renewal-request-message-action-link"]')
+      .should('exist')
+      .and('be.visible');
+  };
+
+  clickRenewalRequestLink = () => {
+    cy.get('[data-testid="send-renewal-request-message-link"]')
+      .first()
+      .shadow()
+      .find('a')
+      .click();
+  };
+
+  clickRenewalRequestActionLink = () => {
+    cy.get('[data-testid="send-renewal-request-message-action-link"]')
+      .first()
+      .click();
+  };
+
+  verifyRenewalModalIsOpen = () => {
+    cy.get('va-modal')
+      .should('exist')
+      .and('have.attr', 'visible', 'true');
+
+    cy.get('va-modal')
+      .shadow()
+      .find('h2')
+      .should('contain', "You're leaving medications to send a message");
+  };
+
+  verifyRenewalModalIsClosed = () => {
+    cy.get('va-modal').should('have.attr', 'visible', 'false');
+  };
+
+  closeRenewalModalWithBackButton = () => {
+    cy.get('va-modal')
+      .shadow()
+      .find('button')
+      .contains('Back')
+      .click();
+  };
+
+  closeRenewalModalWithCloseButton = () => {
+    cy.get('va-modal')
+      .shadow()
+      .find('button[aria-label="Close"]')
+      .click();
+  };
+
+  verifyRenewalModalContent = () => {
+    cy.get('va-modal')
+      .find('p')
+      .first()
+      .should(
+        'contain',
+        "You'll need to select your provider and send them a message requesting a prescription renewal.",
+      );
+
+    cy.get('va-modal')
+      .find('p')
+      .eq(1)
+      .should(
+        'contain',
+        "If you need a medication immediately, you should call your VA pharmacy's automated refill line",
+      );
   };
 }
 

@@ -30,7 +30,6 @@ const DebtDetailsCard = ({ debt, showOTPP }) => {
       class="vads-u-margin-bottom--1"
       disable-analytics="false"
       full-width="false"
-      show-icon={debtCardContent.showIcon}
       status={debtCardContent.status}
       visible="true"
     >
@@ -41,15 +40,13 @@ const DebtDetailsCard = ({ debt, showOTPP }) => {
       {debtCardContent.showLinks && (
         <va-link-action
           data-testid="link-resolve"
-          href={`/debt-balances/details/${debt.compositeDebtId}/resolve`}
+          href={`/debt-balances/${debt.compositeDebtId}/resolve`}
           onClick={event => {
             event.preventDefault();
             recordEvent({ event: 'cta-link-click-debt-details-card' });
-            history.push(
-              `/debt-balances/details/${debt.compositeDebtId}/resolve`,
-            );
+            history.push(`/debt-balances/${debt.compositeDebtId}/resolve`);
           }}
-          text="Pay your balance, request financial help, or dispute this overpayment"
+          text="Resolve this overpayment"
           type="primary"
         />
       )}
@@ -59,7 +56,6 @@ const DebtDetailsCard = ({ debt, showOTPP }) => {
       class="vads-u-margin-bottom--1"
       disable-analytics="false"
       full-width="false"
-      show-icon={debtCardContent.showIcon}
       status={debtCardContent.status}
       visible="true"
     >
@@ -70,7 +66,7 @@ const DebtDetailsCard = ({ debt, showOTPP }) => {
       {debtCardContent.showLinks && (
         <>
           {debtCardContent.showMakePayment && (
-            <p>
+            <p className="vads-u-margin-y--0">
               <va-link-action
                 aria-label="Make a payment"
                 data-testid="link-make-payment"
@@ -84,7 +80,7 @@ const DebtDetailsCard = ({ debt, showOTPP }) => {
             </p>
           )}
           {debtCardContent.showRequestHelp && (
-            <p>
+            <p className="vads-u-margin-y--0">
               <va-link-action
                 aria-label="Request help with your debt"
                 data-testid="link-request-help"

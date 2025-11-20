@@ -1,10 +1,12 @@
-import React, { useCallback, useEffect, useMemo, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { setBreadcrumbs } from '../../actions/breadcrumbs';
 import * as Constants from '../../util/constants';
 import { navigateToFolderByFolderId } from '../../util/helpers';
+import manifest from '../../manifest.json';
+import useFeatureToggles from '../../hooks/useFeatureToggles';
 
 const SmBreadcrumbs = () => {
   const dispatch = useDispatch();
@@ -18,8 +20,26 @@ const SmBreadcrumbs = () => {
   const activeDraftId = useSelector(
     state => state.sm.threadDetails?.drafts?.[0]?.messageId,
   );
+  const recentRecipients = useSelector(
+    state => state.sm.recipients?.recentRecipients,
+  );
 
-  const previousPath = useRef(null);
+  const urlRedirectPath = useSelector(
+    state => state.sm.prescription?.redirectPath,
+  );
+  const { mhvSecureMessagingRecentRecipients } = useFeatureToggles();
+
+  // Use state + sessionStorage to persist entry URL and trigger re-renders
+  const [composeEntryUrl, setComposeEntryUrlState] = useState(() =>
+    sessionStorage.getItem('sm_composeEntryUrl'),
+  );
+
+  const setComposeEntryUrl = url => {
+    if (url) {
+      sessionStorage.setItem('sm_composeEntryUrl', url);
+      setComposeEntryUrlState(url); // Trigger re-render
+    }
+  };
 
   const [locationBasePath, locationChildPath] = useMemo(
     () => {
@@ -44,48 +64,198 @@ const SmBreadcrumbs = () => {
     [crumbsList],
   );
 
-  const pathsWithShortBreadcrumb = [
-    Constants.Paths.MESSAGE_THREAD,
-    Constants.Paths.REPLY,
-    Constants.Paths.COMPOSE,
-    `${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_HEALTH_CARE_SYSTEM}/`,
-    `${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_CARE_TEAM}/`,
-    `${Constants.Paths.COMPOSE}${Constants.Paths.START_MESSAGE}/`,
-    Constants.Paths.CONTACT_LIST,
-    `${Constants.Paths.CARE_TEAM_HELP}/`,
-    Constants.Paths.DRAFTS,
-    Constants.Paths.DELETED,
-    `${Constants.Paths.FOLDERS}${locationChildPath}/`,
-    `${Constants.Paths.MESSAGE_THREAD}${locationChildPath}/`,
-    `${Constants.Paths.REPLY}${locationChildPath}/`,
-  ];
-
-  const pathsWithBackBreadcrumb = [
-    Constants.Paths.COMPOSE,
-    `${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_HEALTH_CARE_SYSTEM}/`,
-    `${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_CARE_TEAM}/`,
-    `${Constants.Paths.COMPOSE}${Constants.Paths.START_MESSAGE}/`,
-    Constants.Paths.CONTACT_LIST,
-    `${Constants.Paths.CARE_TEAM_HELP}/`,
-    Constants.Paths.DRAFTS,
-    Constants.Paths.DELETED,
-    `${Constants.Paths.FOLDERS}${locationChildPath}/`,
-    `${Constants.Paths.MESSAGE_THREAD}${locationChildPath}/`,
-    `${Constants.Paths.REPLY}${locationChildPath}/`,
-  ];
+  const pathsUsingBackLink = useMemo(
+    () => [
+      Constants.Paths.MESSAGE_THREAD,
+      Constants.Paths.REPLY,
+      Constants.Paths.COMPOSE,
+      `${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_HEALTH_CARE_SYSTEM}`,
+      `${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_CARE_TEAM}`,
+      `${Constants.Paths.COMPOSE}${Constants.Paths.START_MESSAGE}`,
+      Constants.Paths.RECENT_CARE_TEAMS,
+      Constants.Paths.CONTACT_LIST,
+      Constants.Paths.CARE_TEAM_HELP,
+      Constants.Paths.DRAFTS,
+      Constants.Paths.DELETED,
+      `${Constants.Paths.FOLDERS}${locationChildPath}/`,
+      `${Constants.Paths.MESSAGE_THREAD}${locationChildPath}/`,
+      `${Constants.Paths.REPLY}${locationChildPath}/`,
+    ],
+    [locationChildPath],
+  );
 
   const crumbPath = `/${locationBasePath}/${
     locationChildPath ? `${locationChildPath}/` : ''
   }`;
-  const shortenBreadcrumb = pathsWithShortBreadcrumb.includes(crumbPath);
-  const backBreadcrumb = pathsWithBackBreadcrumb.includes(crumbPath);
+
+  const shortenBreadcrumb = useMemo(
+    () => pathsUsingBackLink.includes(crumbPath),
+    [pathsUsingBackLink, crumbPath],
+  );
+
+  // Determine whether the Recent Care Teams step should be part of the compose flow
+  const showRecentCareTeams = useMemo(
+    () =>
+      mhvSecureMessagingRecentRecipients &&
+      recentRecipients !== undefined &&
+      recentRecipients?.length > 0 &&
+      recentRecipients?.error !== 'error' &&
+      recentRecipients !== null,
+    [recentRecipients, mhvSecureMessagingRecentRecipients],
+  );
+
+  // Build the current path with proper formatting (used for navigation and href)
+  const currentPath = useMemo(
+    () => {
+      const basePath = locationBasePath?.startsWith('/')
+        ? locationBasePath
+        : `/${locationBasePath}`;
+      return locationChildPath
+        ? `${basePath}/${locationChildPath}/`
+        : `${basePath}/`;
+    },
+    [locationBasePath, locationChildPath],
+  );
+
+  const fallbackUrl = useMemo(
+    () => {
+      const path = locationBasePath ? `/${locationBasePath}/` : '/';
+
+      if (crumb?.href) {
+        return crumb.href;
+      }
+
+      // Priority 2: For message/reply pages, derive from activeFolder (survives refresh)
+      if (
+        activeFolder?.folderId !== undefined &&
+        (path === Constants.Paths.MESSAGE_THREAD ||
+          path === Constants.Paths.REPLY)
+      ) {
+        const { folderId } = activeFolder;
+
+        if (folderId === Constants.DefaultFolders.INBOX.id) {
+          return Constants.Paths.INBOX;
+        }
+        if (folderId === Constants.DefaultFolders.SENT.id) {
+          return Constants.Paths.SENT;
+        }
+        if (folderId === Constants.DefaultFolders.DRAFTS.id) {
+          return Constants.Paths.DRAFTS;
+        }
+        if (folderId === Constants.DefaultFolders.DELETED.id) {
+          return Constants.Paths.DELETED;
+        }
+        // Custom folders use the numeric ID
+        return `${Constants.Paths.FOLDERS}${folderId}`;
+      }
+
+      // Priority 3: For compose flow pages without a map entry,
+      // use composeEntryUrl if available (persists across refresh)
+      // NOTE: Contact list is NOT included here because it should go back to
+      // the previous step in the compose flow, not jump back to the entry folder
+      if (path.startsWith(Constants.Paths.COMPOSE) && composeEntryUrl) {
+        return composeEntryUrl;
+      }
+
+      // Priority 4: Use previousUrl from Redux (works during normal navigation) OR Default to inbox
+      return previousUrl || Constants.Paths.INBOX;
+    },
+    [crumb?.href, activeFolder, previousUrl, locationBasePath, composeEntryUrl],
+  );
+
+  // Validate if a path is a valid folder route - add future folder routes here
+  const isValidFolderRoute = path => {
+    if (!path) return false;
+    return (
+      path === Constants.Paths.INBOX ||
+      path === Constants.Paths.SENT ||
+      path.startsWith(Constants.Paths.FOLDERS)
+    );
+  };
+
+  const getComposeFlowMap = useCallback(
+    () => {
+      // Determine where the interstitial page should go back to
+      const interstitialBackDestination = isValidFolderRoute(composeEntryUrl)
+        ? composeEntryUrl
+        : Constants.Paths.INBOX;
+
+      const map = {
+        [Constants.Paths.COMPOSE]: interstitialBackDestination,
+        // Care team help always goes back to select care team
+        [Constants.Paths.CARE_TEAM_HELP]: `${Constants.Paths.COMPOSE}${
+          Constants.Paths.SELECT_CARE_TEAM
+        }`,
+        // Start message goes back to select care team
+        [`${Constants.Paths.COMPOSE}${Constants.Paths.START_MESSAGE}`]: `${
+          Constants.Paths.COMPOSE
+        }${Constants.Paths.SELECT_CARE_TEAM}`,
+      };
+
+      if (showRecentCareTeams) {
+        // Select care team goes back to recent care teams
+        map[`${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_CARE_TEAM}`] =
+          Constants.Paths.RECENT_CARE_TEAMS;
+        // Recent care teams goes back to interstitial
+        map[Constants.Paths.RECENT_CARE_TEAMS] = Constants.Paths.COMPOSE;
+      } else {
+        // Without recent care teams step, select care team goes back to interstitial
+        map[`${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_CARE_TEAM}`] =
+          Constants.Paths.COMPOSE;
+      }
+
+      return map;
+    },
+    [showRecentCareTeams, composeEntryUrl],
+  );
+
+  // Check if we should use urlRedirectPath for Rx renewal flow
+  const shouldUseRxRedirectPath = useMemo(
+    () => {
+      const isSelectCareTeamPath =
+        currentPath ===
+        `${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_CARE_TEAM}`;
+      if (
+        urlRedirectPath &&
+        isSelectCareTeamPath &&
+        recentRecipients?.length > 0
+      ) {
+        // Don't use urlRedirectPath if recentRecipients are available (user is in compose flow)
+        // and the user is on the select care team page. This prevents navigating back to redirectPath
+        // when a user navigated from the /recent page to the select care team page,
+        // which would cause them to lose their place in the compose flow.
+        return false;
+      }
+      return (
+        urlRedirectPath &&
+        composeEntryUrl === Constants.Paths.INBOX &&
+        (currentPath === Constants.Paths.COMPOSE ||
+          currentPath === Constants.Paths.RECENT_CARE_TEAMS ||
+          isSelectCareTeamPath)
+      );
+    },
+    [urlRedirectPath, composeEntryUrl, currentPath, recentRecipients],
+  );
 
   const navigateBack = useCallback(
     () => {
-      const { pathname } = location;
+      if (shouldUseRxRedirectPath) {
+        window.location.replace(urlRedirectPath);
+        return;
+      }
+
+      // Check if current page is in the compose flow
+      const composeFlowMap = getComposeFlowMap();
+      const composeFlowDestination = composeFlowMap[currentPath];
+
+      if (composeFlowDestination) {
+        history.push(composeFlowDestination);
+        return;
+      }
+
+      // Handle non-compose-flow pages
       const isContactList =
         `/${locationBasePath}/` === Constants.Paths.CONTACT_LIST;
-
       const isCompose = previousUrl === Constants.Paths.COMPOSE;
       const isSentFolder =
         crumb?.href ===
@@ -94,52 +264,40 @@ const SmBreadcrumbs = () => {
         crumb?.href ===
         `${Constants.Paths.FOLDERS}${Constants.DefaultFolders.INBOX.id}`;
       const isReplyPath = `/${locationBasePath}/` === Constants.Paths.REPLY;
-      const isSelectCareTeam = pathname.includes(
-        Constants.Paths.SELECT_CARE_TEAM,
-      );
-      const wasSelectCareTeam = previousUrl.includes(
-        Constants.Paths.SELECT_CARE_TEAM,
-      );
-      const isDraft = previousUrl.includes(Constants.Paths.DRAFTS);
-      const wasCareTeamHelp = pathname === Constants.Paths.CARE_TEAM_HELP;
-      const wasStartMessage =
-        pathname ===
-        `${Constants.Paths.COMPOSE}${Constants.Paths.START_MESSAGE}`;
 
       if (isContactList && isCompose && activeDraftId) {
         history.push(`${Constants.Paths.MESSAGE_THREAD}${activeDraftId}/`);
-      } else if (crumb.href === Constants.Paths.FOLDERS) {
+      } else if (isContactList && previousUrl) {
+        // Contact list should always go back to previousUrl (the previous page in the flow)
+        // Use previousUrl directly instead of fallbackUrl to avoid timing issues
+        history.push(previousUrl);
+      } else if (crumb?.href === Constants.Paths.FOLDERS) {
         history.push(Constants.Paths.FOLDERS);
       } else if (isSentFolder && !isReplyPath) {
         history.push(Constants.Paths.SENT);
       } else if (isInboxFolder && !isReplyPath) {
         history.push(Constants.Paths.INBOX);
-      } else if (wasCareTeamHelp) {
-        history.push(Constants.Paths.SELECT_CARE_TEAM);
-      } else if (!isDraft && wasStartMessage) {
-        history.push(Constants.Paths.SELECT_CARE_TEAM);
-      } else if (wasSelectCareTeam) {
-        history.push(Constants.Paths.INBOX);
-      } else if (isSelectCareTeam) {
-        history.push(Constants.Paths.COMPOSE);
       } else {
         history.push(
-          previousUrl !== Constants.Paths.CONTACT_LIST
-            ? previousUrl
+          fallbackUrl !== Constants.Paths.CONTACT_LIST
+            ? fallbackUrl
             : Constants.Paths.INBOX,
         );
       }
     },
     [
       activeDraftId,
+      getComposeFlowMap,
+      currentPath,
       crumb?.href,
       history,
       locationBasePath,
       previousUrl,
-      location,
+      fallbackUrl,
+      urlRedirectPath,
+      shouldUseRxRedirectPath,
     ],
   );
-
   useEffect(
     () => {
       if (
@@ -234,10 +392,31 @@ const SmBreadcrumbs = () => {
       } else {
         dispatch(setBreadcrumbs([]));
       }
-
-      previousPath.current = path;
     },
     [activeFolder, dispatch, locationBasePath, locationChildPath, folderList],
+  );
+
+  // Track compose flow entry point
+  // When in compose flow and coming from a valid folder, capture that as entry point
+  useEffect(
+    () => {
+      // All compose flow routes start with /new-message/
+      const isInComposeFlow = location.pathname.startsWith(
+        Constants.Paths.COMPOSE,
+      );
+
+      // If in compose flow and previousUrl is a valid folder, set as entry point
+      // The folder validation prevents overwriting when navigating within compose flow
+      if (
+        isInComposeFlow &&
+        (previousUrl === Constants.Paths.INBOX ||
+          previousUrl === Constants.Paths.SENT ||
+          previousUrl?.startsWith(Constants.Paths.FOLDERS))
+      ) {
+        setComposeEntryUrl(previousUrl);
+      }
+    },
+    [location.pathname, previousUrl],
   );
 
   const handleRouteChange = ({ detail }) => {
@@ -245,49 +424,57 @@ const SmBreadcrumbs = () => {
     history.push(href);
   };
 
-  return (
-    <div>
-      {shortenBreadcrumb ? (
-        <nav
-          aria-label="Breadcrumb"
-          className="breadcrumbs vads-u-padding-y--4"
-        >
-          <span className="sm-breadcrumb-list-item">
-            {backBreadcrumb ? (
-              <va-link
-                back
-                text="Back"
-                href={previousUrl}
-                onClick={e => {
-                  e.preventDefault();
-                  navigateBack();
-                }}
-                data-testid="sm-breadcrumbs-back"
-                data-dd-action-name="Breadcrumb - Back"
-              />
-            ) : (
-              <va-link
-                text={`Back to ${crumb.label}`}
-                href={crumb.href}
-                data-dd-privacy="mask"
-                data-dd-action-name="Breadcrumb - Back to"
-              />
-            )}
-          </span>
-        </nav>
-      ) : (
-        <VaBreadcrumbs
-          breadcrumbList={newCrumbsList}
-          label="Breadcrumb"
-          home-veterans-affairs
-          onRouteChange={handleRouteChange}
-          className="mobile-lg:vads-u-margin-y--2"
-          dataTestid="sm-breadcrumbs"
-          data-dd-action-name="Breadcrumb"
-          uswds
-        />
-      )}
+  // Determine the correct back link href based on compose flow logic
+  // Special case for contact list: use previousUrl directly to avoid timing issues
+  const backLinkHref = useMemo(
+    () => {
+      if (shouldUseRxRedirectPath) {
+        return urlRedirectPath;
+      }
+      const composeFlowMap = getComposeFlowMap();
+      return (
+        manifest.rootUrl +
+        (composeFlowMap[currentPath] ||
+          (currentPath === Constants.Paths.CONTACT_LIST && previousUrl
+            ? previousUrl
+            : fallbackUrl))
+      );
+    },
+    [
+      currentPath,
+      fallbackUrl,
+      getComposeFlowMap,
+      previousUrl,
+      shouldUseRxRedirectPath,
+      urlRedirectPath,
+    ],
+  );
+
+  return shortenBreadcrumb ? (
+    <div className="vads-u-padding-y--4 vads-u-display--inline-block">
+      <va-link
+        back
+        text="Back"
+        href={backLinkHref}
+        onClick={e => {
+          e.preventDefault();
+          navigateBack();
+        }}
+        data-testid="sm-breadcrumbs-back"
+        data-dd-action-name="Breadcrumb - Back"
+      />
     </div>
+  ) : (
+    <VaBreadcrumbs
+      breadcrumbList={newCrumbsList}
+      label="Breadcrumb"
+      home-veterans-affairs
+      onRouteChange={handleRouteChange}
+      className="mobile-lg:vads-u-margin-y--2"
+      dataTestid="sm-breadcrumbs"
+      data-dd-action-name="Breadcrumb"
+      uswds
+    />
   );
 };
 

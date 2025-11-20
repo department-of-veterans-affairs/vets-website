@@ -27,9 +27,9 @@ export const Documents = () => {
       {hasDocuments && (
         <fieldset>
           <legend>
-            <h3 className="vads-u-font-size--h5 vads-u-color--black vads-u-margin-top--0 vads-u-margin-bottom--0">
-              Select the document you no longer want to get by mail. You can
-              change this at any time.
+            <h3 className="vads-u-font-size--h5 vads-u-color--black vads-u-font-weight--normal vads-u-margin-top--0 vads-u-margin-bottom--0">
+              Select a document for paperless delivery. You can change this at
+              any time.
             </h3>
           </legend>
           {documents.map(id => (

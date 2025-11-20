@@ -2,6 +2,10 @@ import { expect } from 'chai';
 import formConfig from '../../../config/form';
 import transformForSubmit from '../../../config/submitTransformer';
 import { toHash } from '../../../../shared/utilities';
+import {
+  NOT_SHARED,
+  FIELD_NAME as SHARED_ADDRESS_FIELD_NAME,
+} from '../../../components/FormPages/AddressSelectionPage';
 
 const APPLICANT_SSN = '345345345';
 const SSN_HASH = toHash(APPLICANT_SSN);
@@ -87,12 +91,7 @@ describe('10-10d-extended transform for submit', () => {
   });
 
   it('should set `hasApplicantOver65` to false if all applicants are under 65', () => {
-    const testData = {
-      data: {
-        applicants: [{ applicantDob: '2003-01-01' }],
-      },
-    };
-
+    const testData = { data: { applicants: [{ applicantDob: '2003-01-01' }] } };
     const transformed = JSON.parse(transformForSubmit(formConfig, testData));
     expect(transformed.hasApplicantOver65).to.be.false;
   });
@@ -124,7 +123,7 @@ describe('10-10d-extended transform for submit', () => {
               first: 'Johnny',
               last: 'Alvin',
             },
-            applicantSSN: APPLICANT_SSN,
+            applicantSsn: APPLICANT_SSN,
           },
         ],
         medicare: [
@@ -153,7 +152,7 @@ describe('10-10d-extended transform for submit', () => {
               first: 'Johnny',
               last: 'Alvin',
             },
-            applicantSSN: APPLICANT_SSN,
+            applicantSsn: APPLICANT_SSN,
           },
         ],
         healthInsurance: [
@@ -193,7 +192,7 @@ describe('10-10d-extended transform for submit', () => {
               first: 'Johnny',
               last: 'Alvin',
             },
-            applicantSSN: APPLICANT_SSN,
+            applicantSsn: APPLICANT_SSN,
           },
         ],
       },
@@ -212,7 +211,7 @@ describe('10-10d-extended transform for submit', () => {
               first: 'Johnny',
               last: 'Alvin',
             },
-            applicantSSN: APPLICANT_SSN,
+            applicantSsn: APPLICANT_SSN,
           },
         ],
         healthInsurance: [
@@ -346,9 +345,10 @@ describe('10-10d-extended transform for submit', () => {
   });
 
   describe('address formatting', () => {
-    it('should properly format sponsor address fields', () => {
+    it('should properly format sponsor address fields when address is not shared', () => {
       const testData = {
         data: {
+          [SHARED_ADDRESS_FIELD_NAME]: NOT_SHARED,
           sponsorAddress: {
             street: '123 Main Street',
             street2: 'Apartment 4B',
@@ -357,6 +357,40 @@ describe('10-10d-extended transform for submit', () => {
             postalCode: '12345',
             country: 'USA',
           },
+        },
+      };
+
+      const transformed = JSON.parse(transformForSubmit(formConfig, testData));
+
+      // Verify that the street fields were combined
+      expect(transformed.veteran.address.streetCombined).to.contain(
+        '123 Main Street',
+      );
+      expect(transformed.veteran.address.streetCombined).to.contain(
+        'Apartment 4B',
+      );
+
+      // Original fields should be preserved
+      expect(transformed.veteran.address.street).to.equal('123 Main Street');
+      expect(transformed.veteran.address.street2).to.equal('Apartment 4B');
+      expect(transformed.veteran.address.city).to.equal('Anytown');
+      expect(transformed.veteran.address.state).to.equal('CA');
+      expect(transformed.veteran.address.postalCode).to.equal('12345');
+    });
+
+    it('should properly format sponsor address fields when address is shared', () => {
+      const testAddress = {
+        street: '123 Main Street',
+        street2: 'Apartment 4B',
+        city: 'Anytown',
+        state: 'CA',
+        postalCode: '12345',
+        country: 'USA',
+      };
+      const testData = {
+        data: {
+          [SHARED_ADDRESS_FIELD_NAME]: JSON.stringify(testAddress),
+          sponsorAddress: testAddress,
         },
       };
 

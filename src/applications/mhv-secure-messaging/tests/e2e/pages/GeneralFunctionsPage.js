@@ -101,6 +101,7 @@ class GeneralFunctionsPage {
   verifyMaintenanceBanner = (startDate, endDate, text) => {
     cy.get(Locators.ALERTS.VA_ALERT)
       .find(`h2`)
+      .eq(0)
       .should(`be.visible`)
       .and(`have.text`, text);
 

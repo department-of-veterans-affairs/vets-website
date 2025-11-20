@@ -22,6 +22,7 @@ function mockPrescription(n = 0, attrs = {}) {
     cmopNdcNumber,
     cmopDivisionPhone = '(555) 555-5555',
     dialCmopDivisionPhone = '5555555555',
+    pharmacyPhoneNumber = '(555) 555-5555',
   } = attrs;
   const prescriptionName = `Fake ${n}`;
   const newCmopNdcNumber =
@@ -58,6 +59,7 @@ function mockPrescription(n = 0, attrs = {}) {
       modifiedDate: null,
       institutionId: null,
       dialCmopDivisionPhone,
+      pharmacyPhoneNumber,
       dispStatus: isRefillable ? 'Active' : 'Expired',
       ndc: null,
       reason: 'A good reason',
@@ -143,6 +145,8 @@ function mockPrescriptionArray(n = 20) {
       cmopDivisionPhone: realPrescription.cmopDivisionPhone || '(555) 555-5555',
       dialCmopDivisionPhone:
         realPrescription.dialCmopDivisionPhone || '5555555555',
+      pharmacyPhoneNumber:
+        realPrescription.pharmacyPhoneNumber || '(555) 555-5555',
       notRefillableDisplayMessage: realPrescription.notRefillableDisplayMessage,
       providerFirstName: realPrescription.providerFirstName,
       providerLastName: realPrescription.providerLastName,
@@ -158,7 +162,7 @@ function mockPrescriptionArray(n = 20) {
   });
 }
 
-function generateMockPrescriptions(n = 20) {
+function generateMockPrescriptions(req, n = 20) {
   function edgeCasePrescription({
     prescriptionId,
     prescriptionName,
@@ -284,30 +288,83 @@ function generateMockPrescriptions(n = 20) {
       rxRfRecords: [{ refillDate: 'not-a-date' }, { refillDate: eightDaysAgo }],
     }),
   ];
+
+  const generatedPrescriptions = [
+    ...mockPrescriptionArray(n),
+    mockPrescription(99, {
+      dispStatus: dispStatusObj.NON_VA,
+      dispensedDate: null,
+      facilityName: null,
+      indicationForUse: null,
+      prescriptionName: 'TACROLIMUS 1MG CAP',
+      prescriptionSource: 'NV',
+      providerFirstName: null,
+      providerLastName: null,
+      sig: null,
+      trackingList: [],
+    }),
+  ];
+
+  const filterKey = req.query['filter[']?.disp_status?.eq || ''; // e.g., "filter[[disp_status][eq]]=Active,Expired"
+  const selectedStatuses = filterKey
+    ? String(filterKey)
+        .split(',')
+        .map(s => s.trim())
+        .filter(Boolean)
+    : null;
+
+  let filteredPrescriptions = !selectedStatuses
+    ? generatedPrescriptions
+    : generatedPrescriptions.filter(data => {
+        const status = data?.attributes?.dispStatus ?? '';
+        return selectedStatuses.includes(status);
+      });
+
+  const sortKey = String(req.query.sort || ''); // e.g., "sort=alphabetical-status"
+  if (sortKey === 'alphabetical-status') {
+    filteredPrescriptions = filteredPrescriptions.slice().sort((a, b) => {
+      const aStatus = (a?.attributes?.dispStatus ?? '').toString();
+      const bStatus = (b?.attributes?.dispStatus ?? '').toString();
+      const byStatus = aStatus.localeCompare(bStatus);
+      if (byStatus) return byStatus;
+      const aName = (a?.attributes?.prescriptionName ?? '').toString();
+      const bName = (b?.attributes?.prescriptionName ?? '').toString();
+      return aName.localeCompare(bName);
+    });
+  } // In order to support other sorts, add more if-blocks here
+
+  // Determine whether this request is for the on-screen medications list (paged)
+  // or for an export (Print/PDF/TXT) where we want the full filtered list.
+  // Exports do not have page or perPage sent in the request
+  const isExport = !req.query.page && !req.query.per_page;
+
+  if (isExport) {
+    return {
+      data: filteredPrescriptions,
+      meta: {
+        updatedAt: formatISO(new Date()),
+        failedStationList: null,
+      },
+      links: {},
+    };
+  }
+
+  const currentPage = Number(req.query.page || 1);
+  const perPage = Number(req.query.per_page || 10);
+  const totalEntries = filteredPrescriptions.length;
+  const totalPages = Math.max(1, Math.ceil(totalEntries / perPage));
+  const start = (currentPage - 1) * perPage;
+  const slice = filteredPrescriptions.slice(start, start + perPage);
   return {
-    data: [
-      ...mockPrescriptionArray(n),
-      mockPrescription(99, {
-        dispStatus: dispStatusObj.NON_VA,
-        dispensedDate: null,
-        facilityName: null,
-        indicationForUse: null,
-        prescriptionName: 'TACROLIMUS 1MG CAP',
-        prescriptionSource: 'NV',
-        providerFirstName: null,
-        providerLastName: null,
-        sig: null,
-        trackingList: [],
-      }),
-    ],
+    data: slice,
     meta: {
       updatedAt: formatISO(new Date()),
       failedStationList: null,
       pagination: {
-        currentPage: 1,
-        perPage: n,
-        totalPages: 1,
-        totalEntries: n,
+        currentPage,
+        perPage,
+        totalPages,
+        totalEntries,
       },
       recentlyRequested,
     },

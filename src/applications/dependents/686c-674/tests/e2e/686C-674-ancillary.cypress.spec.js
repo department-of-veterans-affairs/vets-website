@@ -6,11 +6,18 @@ import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import mockVaFileNumber from './fixtures/va-file-number.json';
 import user from './user.json';
+import {
+  fillDateWebComponentPattern,
+  fillSelectWebComponent,
+  fillStandardTextInput,
+  signAndSubmit,
+} from './cypress.helpers';
 
 Cypress.config('waitForAnimations', true);
 
 const testConfig = createTestConfig(
   {
+    useWebComponentFields: true,
     dataPrefix: 'data',
     dataSets: [
       'ancillary-flows',
@@ -65,150 +72,225 @@ const testConfig = createTestConfig(
       introduction: ({ afterHook }) => {
         afterHook(() => {
           cy.wait('@mockVaFileNumber');
+          cy.injectAxeThenAxeCheck();
           cy.clickStartForm();
-        });
-      },
-
-      'veteran-address': ({ afterHook }) => {
-        afterHook(() => {
-          cy.fillPage();
-          cy.get(
-            'select#options[name="root_veteranContactInformation_veteranAddress_state"]',
-            { timeout: 1000 },
-          )
-            .should('be.visible')
-            .should('not.be.disabled');
-          cy.get(
-            'select#options[name="root_veteranContactInformation_veteranAddress_state"]',
-          ).select('AL');
-          cy.clickFormContinue();
         });
       },
 
       'current-marriage-information/location-of-marriage': ({ afterHook }) => {
         afterHook(() => {
-          cy.fillPage();
-          cy.get(
-            'select#options[name="root_currentMarriageInformation_location_country"]',
-            { timeout: 1000 },
-          )
-            .should('be.visible')
-            .should('not.be.disabled');
-          cy.get(
-            'select#options[name="root_currentMarriageInformation_location_country"]',
-          ).select('AUS');
-          cy.clickFormContinue();
+          cy.get('@testData').then(data => {
+            if (data.currentMarriageInformation?.outsideUsa) {
+              cy.get(
+                'va-checkbox[name="root_currentMarriageInformation_outsideUsa"]',
+              )
+                .shadow()
+                .find('input[type="checkbox"]')
+                .check({ force: true });
+            }
+
+            const location = data.currentMarriageInformation?.location;
+
+            if (location?.city) {
+              fillStandardTextInput(
+                'currentMarriageInformation_location_city',
+                location.city,
+              );
+            }
+
+            if (location?.state) {
+              cy.get(
+                'select[name="root_currentMarriageInformation_location_state"]',
+              ).select(location.state);
+            }
+
+            if (location?.country) {
+              cy.get(
+                'va-select[name="root_currentMarriageInformation_location_country"]',
+              ).should('be.visible');
+              fillSelectWebComponent(
+                'currentMarriageInformation_location_country',
+                location.country,
+              );
+            }
+
+            cy.injectAxeThenAxeCheck();
+            cy.clickFormContinue();
+          });
         });
       },
 
       'current-marriage-information/spouse-address': ({ afterHook }) => {
         afterHook(() => {
-          cy.fillPage();
-          cy.get(
-            'select#options[name="root_doesLiveWithSpouse_address_state"]',
-            { timeout: 1000 },
-          )
-            .should('be.visible')
-            .should('not.be.disabled');
-          cy.get(
-            'select#options[name="root_doesLiveWithSpouse_address_state"]',
-          ).select('AL');
-          cy.clickFormContinue();
+          cy.get('@testData').then(data => {
+            const address = data.doesLiveWithSpouse?.address;
+
+            if (address?.street) {
+              fillStandardTextInput(
+                'doesLiveWithSpouse_address_street',
+                address.street,
+              );
+            }
+            if (address?.city) {
+              fillStandardTextInput(
+                'doesLiveWithSpouse_address_city',
+                address.city,
+              );
+            }
+            if (address?.state) {
+              cy.get(
+                'select#options[name="root_doesLiveWithSpouse_address_state"]',
+              ).select(address.state);
+            }
+            if (address?.postalCode) {
+              fillStandardTextInput(
+                'doesLiveWithSpouse_address_postalCode',
+                address.postalCode,
+              );
+            }
+
+            cy.injectAxeThenAxeCheck();
+            cy.clickFormContinue();
+          });
         });
       },
 
-      '686-report-marriage-of-child/0/date-child-married': ({ afterHook }) => {
-        afterHook(() => {
-          cy.fillPage();
-          cy.clickFormContinue();
-        });
-      },
-
-      'report-child-stopped-attending-school/0/date-child-left-school': ({
+      'veteran-marriage-history/:index/date-marriage-started': ({
         afterHook,
       }) => {
         afterHook(() => {
-          cy.fillPage();
-          cy.clickFormContinue();
+          cy.get('@testData').then(data => {
+            const marriage = data.veteranMarriageHistory?.[0];
+            if (marriage?.startDate) {
+              fillDateWebComponentPattern('startDate', marriage.startDate);
+            }
+            cy.injectAxeThenAxeCheck();
+            cy.clickFormContinue();
+          });
         });
       },
 
-      '686-stepchild-no-longer-part-of-household/0/child-address': ({
+      'veteran-marriage-history/:index/date-marriage-ended': ({
         afterHook,
       }) => {
         afterHook(() => {
-          cy.fillPage();
-          cy.get('select#options[name="root_address_state"]', { timeout: 1000 })
-            .should('be.visible')
-            .should('not.be.disabled');
-          cy.get('select#options[name="root_address_state"]').select('AL');
-          cy.clickFormContinue();
+          cy.get('@testData').then(data => {
+            const marriage = data.veteranMarriageHistory?.[0];
+            if (marriage?.endDate) {
+              fillDateWebComponentPattern('endDate', marriage.endDate);
+            }
+            cy.injectAxeThenAxeCheck();
+            cy.clickFormContinue();
+          });
         });
       },
 
-      '686-report-dependent-death/0/date-of-death': ({ afterHook }) => {
-        afterHook(() => {
-          cy.fillPage();
-          cy.clickFormContinue();
-        });
-      },
-
-      '686-report-add-child/introduction': ({ afterHook }) => {
-        afterHook(() => {
-          cy.clickFormContinue();
-        });
-      },
-
-      '686-report-add-child/summary': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('va-radio-option[value="N"]').click();
-
-          cy.clickFormContinue();
-        });
-      },
-
-      'add-child/0/additional-information': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('#root_doesChildLiveWithYouYes').click();
-          cy.clickFormContinue();
-        });
-      },
-
-      '686-stepchild-no-longer-part-of-household/0/date-child-left-household': ({
+      '686-report-marriage-of-child/:index/date-child-married': ({
         afterHook,
       }) => {
         afterHook(() => {
-          cy.fillPage();
-          cy.get(
-            'select#options[name="root_dateStepchildLeftHouseholdMonth"]',
-            { timeout: 1000 },
-          )
-            .should('be.visible')
-            .should('not.be.disabled');
-          cy.get(
-            'select#options[name="root_dateStepchildLeftHouseholdMonth"]',
-          ).select('2');
-          cy.clickFormContinue();
+          cy.get('@testData').then(data => {
+            const child = data.childMarriage?.[0];
+            if (child?.dateMarried) {
+              fillDateWebComponentPattern('dateMarried', child.dateMarried);
+            }
+            cy.injectAxeThenAxeCheck();
+            cy.clickFormContinue();
+          });
+        });
+      },
+
+      'report-child-stopped-attending-school/:index/date-child-left-school': ({
+        afterHook,
+      }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const child = data.childStoppedAttendingSchool?.[0];
+            if (child?.dateChildLeftSchool) {
+              fillDateWebComponentPattern(
+                'dateChildLeftSchool',
+                child.dateChildLeftSchool,
+              );
+            }
+            cy.injectAxeThenAxeCheck();
+            cy.clickFormContinue();
+          });
+        });
+      },
+
+      '686-stepchild-no-longer-part-of-household/:index/child-address': ({
+        afterHook,
+      }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const stepchild = data.stepChildren?.[0];
+            const address = stepchild?.address;
+
+            if (address?.country) {
+              fillSelectWebComponent('address_country', address.country);
+            }
+            if (address?.street) {
+              fillStandardTextInput('address_street', address.street);
+            }
+            if (address?.city) {
+              fillStandardTextInput('address_city', address.city);
+            }
+            if (address?.state) {
+              cy.get('select#options[name="root_address_state"]').select(
+                address.state,
+              );
+            }
+            if (address?.postalCode) {
+              fillStandardTextInput('address_postalCode', address.postalCode);
+            }
+
+            cy.injectAxeThenAxeCheck();
+            cy.clickFormContinue();
+          });
+        });
+      },
+
+      '686-report-dependent-death/:index/date-of-death': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const death = data.deaths?.[0];
+            if (death?.dependentDeathDate) {
+              fillDateWebComponentPattern(
+                'dependentDeathDate',
+                death.dependentDeathDate,
+              );
+            }
+            cy.injectAxeThenAxeCheck();
+            cy.clickFormContinue();
+          });
+        });
+      },
+
+      '686-stepchild-no-longer-part-of-household/:index/date-child-left-household': ({
+        afterHook,
+      }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const stepchild = data.stepChildren?.[0];
+            if (stepchild.dateStepchildLeftHousehold) {
+              fillDateWebComponentPattern(
+                'dateStepchildLeftHousehold',
+                stepchild.dateStepchildLeftHousehold,
+              );
+            }
+            cy.injectAxeThenAxeCheck();
+            cy.clickFormContinue();
+          });
         });
       },
 
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('va-text-input')
-            .shadow()
-            .find('input')
-            .type('John Doe');
-
-          cy.get('va-checkbox')
-            .shadow()
-            .find('input[type="checkbox"]')
-            .check({ force: true });
-
-          cy.clickFormContinue();
+          signAndSubmit();
         });
       },
     },
-    skip: Cypress.env('CI'),
+    // skip: Cypress.env('CI'),
   },
 
   manifest,

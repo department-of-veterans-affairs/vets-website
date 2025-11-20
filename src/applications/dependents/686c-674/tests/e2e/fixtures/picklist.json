@@ -1,0 +1,475 @@
+{
+  "vaDependentsNetWorthAndPension": false,
+  "view:additionalEvidenceDescription": {},
+  "spouseSupportingDocuments": [
+    {
+      "name": "Screenshot from 2025-04-23 13-28-43.png",
+      "confirmationCode": "0a6fc362-f125-4796-84c9-c13435363329",
+      "attachmentId": "",
+      "isEncrypted": false
+    },
+    {
+      "name": "Screenshot from 2025-04-23 13-28-59.png",
+      "confirmationCode": "9a267bd7-f459-47e5-903e-baab21953ffd",
+      "attachmentId": "",
+      "isEncrypted": false
+    }
+  ],
+  "view:completedChildStoppedAttendingSchool": false,
+  "view:completedMarriedChild": false,
+  "view:completedDependent": false,
+  "view:completedHouseholdChild": false,
+  "view:completedStudent": false,
+  "view:completedVeteranFormerMarriage": false,
+  "view:removeDependentOptions": {},
+  "view:addDependentOptions": {
+    "addSpouse": true,
+    "addChild": true,
+    "report674": true,
+    "addDisabledChild": true
+  },
+  "view:addOrRemoveDependents": {
+    "add": false,
+    "remove": true
+  },
+  "childSupportingDocuments": [
+    {
+      "name": "Screenshot from 2025-04-21 12-47-33.png",
+      "confirmationCode": "e13a641a-23e0-4e08-aa0f-bfc1b3e61519",
+      "attachmentId": "",
+      "isEncrypted": false
+    }
+  ],
+  "householdIncome": false,
+  "view:completedAddChild": false,
+  "view:completedSpouseFormerMarriage": false,
+  "currentMarriageInformation": {
+    "typeOfMarriage": "CIVIL",
+    "view:marriageTypeInformation": {},
+    "location": {
+      "city": "Fakesville",
+      "state": "CA"
+    },
+    "date": "1991-03-19"
+  },
+  "doesLiveWithSpouse": {
+    "spouseIncome": "N",
+    "spouseDoesLiveWithVeteran": true,
+    "address": {
+      "view:militaryBaseDescription": {}
+    }
+  },
+  "spouseInformation": {
+    "ssn": "333445555",
+    "vaFileNumber": "987654321",
+    "serviceNumber": "W123456",
+    "birthDate": "1970-07-07",
+    "isVeteran": true,
+    "fullName": {
+      "first": "Mary",
+      "last": "Foster"
+    }
+  },
+  "view:cancelAddSpouse": {},
+  "dependents": {
+    "hasDependents": true,
+    "awarded": [
+      {
+        "fullName": {
+          "first": "PENNY",
+          "last": "FOSTER"
+        },
+        "dateOfBirth": "2014-08-08",
+        "ssn": "793473479",
+        "relationshipToVeteran": "Child",
+        "awardIndicator": "Y"
+      },
+      {
+        "fullName": {
+          "first": "STACY",
+          "last": "FOSTER"
+        },
+        "dateOfBirth": "2025-06-10",
+        "ssn": "798703232",
+        "relationshipToVeteran": "Child",
+        "awardIndicator": "Y"
+      },
+      {
+        "fullName": {
+          "first": "SPOUSY",
+          "last": "FOSTER"
+        },
+        "dateOfBirth": "1980-07-07",
+        "ssn": "702023332",
+        "relationshipToVeteran": "Spouse",
+        "awardIndicator": "Y"
+      },
+      {
+        "fullName": {
+          "first": "PREVIOUS",
+          "last": "FOSTER"
+        },
+        "dateOfBirth": "1981-05-03",
+        "ssn": "702023331",
+        "relationshipToVeteran": "Spouse",
+        "awardIndicator": "Y"
+      },
+      {
+        "fullName": {
+          "first": "PETER",
+          "last": "FOSTER"
+        },
+        "dateOfBirth": "1943-03-01",
+        "ssn": "997010104",
+        "relationshipToVeteran": "Parent",
+        "awardIndicator": "Y"
+      }
+    ],
+    "notAwarded": [
+      {
+        "fullName": {
+          "first": "NOMY",
+          "last": "FOSTER"
+        },
+        "dateOfBirth": "2000-09-09",
+        "ssn": "793473470",
+        "relationshipToVeteran": "Child",
+        "awardIndicator": "N"
+      }
+    ]
+  },
+  "veteranContactInformation": {
+    "veteranAddress": {
+      "isMilitary": false,
+      "view:militaryBaseDescription": {},
+      "country": "USA",
+      "street": "123 Fake st",
+      "city": "Fakesville",
+      "state": "NV",
+      "postalCode": "89131"
+    },
+    "phoneNumber": "8008885555",
+    "emailAddress": "nope@nope.com"
+  },
+  "spouseMarriageHistory": [
+    {
+      "startLocation": {
+        "outsideUsa": true,
+        "location": {
+          "city": "Fakesville",
+          "country": "DZA"
+        }
+      },
+      "endLocation": {
+        "location": {
+          "city": "Fakesville",
+          "state": "CO"
+        }
+      },
+      "endDate": "2020-03-25",
+      "startDate": "2020-03-19",
+      "reasonMarriageEnded": "Other",
+      "otherReasonMarriageEnded": "other way",
+      "fullName": {
+        "first": "John",
+        "last": "Doe"
+      }
+    }
+  ],
+  "childrenToAdd": [
+    {
+      "incomeInLastYear": "N",
+      "marriageEndDescription": "Other",
+      "marriageEndDate": "2021-08-18",
+      "marriageEndReason": "Other",
+      "doesChildLiveWithYou": true,
+      "hasChildEverBeenMarried": true,
+      "doesChildHaveDisability": false,
+      "isBiologicalChildOfSpouse": true,
+      "dateEnteredHousehold": "2021-05-19",
+      "view:biologicalParentInfo": {},
+      "biologicalParentName": {
+        "first": "John",
+        "last": "Doe"
+      },
+      "biologicalParentSsn": "333444554",
+      "biologicalParentDob": "2014-09-19",
+      "relationshipToChild": {
+        "adopted": true,
+        "stepchild": true
+      },
+      "view:commonEvidenceInfo": {},
+      "view:stepchildAdditionalEvidenceDescription": {},
+      "view:adoptedAdditionalEvidenceDescription": {},
+      "isBiologicalChild": false,
+      "birthLocation": {
+        "location": {
+          "city": "Fakesville",
+          "state": "CA",
+          "postalCode": "12345"
+        }
+      },
+      "view:note": {},
+      "ssn": "333445555",
+      "fullName": {
+        "first": "John",
+        "last": "Doe"
+      },
+      "birthDate": "2010-04-19"
+    }
+  ],
+  "view:selectable686Options": {
+    "addSpouse": true,
+    "addChild": true,
+    "report674": true,
+    "addDisabledChild": true,
+    "reportDivorce": false,
+    "reportDeath": false,
+    "reportStepchildNotInHousehold": false,
+    "reportMarriageOfChildUnder18": false,
+    "reportChild18OrOlderIsNotAttendingSchool": false
+  },
+  "veteranInformation": {
+    "fullName": {
+      "first": "Pauline",
+      "middle": "E",
+      "last": "Foster"
+    },
+    "ssn": "796330625",
+    "birthDate": "1976-06-09",
+    "ssnLastFour": "0625",
+    "vaFileLastFour": "0625",
+    "isInReceiptOfPension": -1
+  },
+  "useV2": true,
+  "daysTillExpires": 365,
+  "studentInformation": [
+    {
+      "studentNetworthInformation": {
+        "savings": "6000",
+        "securities": "3455",
+        "realEstate": "43332",
+        "otherAssets": "3433",
+        "totalValue": "23455"
+      },
+      "studentExpectedEarningsNextYear": {
+        "earningsFromAllEmployment": "1",
+        "annualSocialSecurityPayments": "1",
+        "otherAnnuitiesIncome": "1",
+        "allOtherIncome": "1"
+      },
+      "studentEarningsFromSchoolYear": {
+        "earningsFromAllEmployment": "2000.00",
+        "annualSocialSecurityPayments": "40000",
+        "otherAnnuitiesIncome": "2000.86",
+        "allOtherIncome": "100"
+      },
+      "claimsOrReceivesPension": true,
+      "schoolInformation": {
+        "studentDidAttendSchoolLastTerm": false,
+        "dateFullTimeEnded": "2000-02-12",
+        "studentIsEnrolledFullTime": false,
+        "currentTermDates": {
+          "officialSchoolStartDate": "1991-02-19",
+          "expectedStudentStartDate": "2000-01-19",
+          "expectedGraduationDate": "2025-12-19"
+        },
+        "isSchoolAccredited": true,
+        "view:accredited": {},
+        "name": "Test"
+      },
+      "typeOfProgramOrBenefit": {
+        "ch35": true,
+        "fry": true,
+        "feca": true,
+        "other": true
+      },
+      "otherProgramOrBenefit": "Test",
+      "tuitionIsPaidByGovAgency": false,
+      "view:programExamples": {},
+      "ssn": "333445555",
+      "relationshipToStudent": "biological",
+      "wasMarried": false,
+      "address": {
+        "view:militaryBaseDescription": {},
+        "country": "USA",
+        "street": "123 Fake St.",
+        "city": "Fakesville",
+        "state": "AL",
+        "postalCode": "12345"
+      },
+      "remarks": "asdf",
+      "benefitPaymentDate": "2021-01-19",
+      "marriageDate": "1991-01-19",
+      "studentIncome": "N",
+      "fullName": {
+        "first": "John",
+        "last": "Doe"
+      },
+      "birthDate": "1991-04-19"
+    }
+  ],
+  "veteranMarriageHistory": [
+    {
+      "endLocation": {
+        "location": {
+          "city": "Fakesville",
+          "state": "AZ"
+        }
+      },
+      "startLocation": {
+        "location": {
+          "city": "Fakesville",
+          "state": "AZ"
+        }
+      },
+      "endDate": "1991-01-19",
+      "startDate": "1991-01-19",
+      "reasonMarriageEnded": "Other",
+      "otherReasonMarriageEnded": "other",
+      "fullName": {
+        "first": "John",
+        "last": "Doe"
+      }
+    }
+  ],
+  "statementOfTruthSignature": "John Doe",
+  "statementOfTruthCertified": true,
+  "view:removeDependentPickList": [
+    {
+      "fullName": {
+        "first": "JOE",
+        "last": "FOSTER"
+      },
+      "dateOfBirth": "2006-08-08",
+      "ssn": "793473468",
+      "relationshipToVeteran": "Child",
+      "awardIndicator": "Y",
+      "key": "joe-3468",
+      "selected": true,
+      "isStepchild": "N",
+      "removalReason": "childNotInSchool",
+      "childHasPermanentDisability": "N",
+      "endDate": "2025-06-05"
+    },
+    {
+      "fullName": {
+        "first": "PENNY",
+        "last": "FOSTER"
+      },
+      "dateOfBirth": "2014-08-08",
+      "ssn": "793473479",
+      "relationshipToVeteran": "Child",
+      "awardIndicator": "Y",
+      "key": "penny-3479",
+      "selected": true,
+      "isStepchild": "N",
+      "removalReason": "childMarried",
+      "endDate": "2025-06-05",
+      "endOutsideUS": false,
+      "endCity": "Test",
+      "endProvince": "Prov",
+      "endCountry": "AGO",
+      "endState": "AK"
+    },
+    {
+      "fullName": {
+        "first": "STACY",
+        "last": "FOSTER"
+      },
+      "dateOfBirth": "2025-06-10",
+      "ssn": "798703232",
+      "relationshipToVeteran": "Child",
+      "awardIndicator": "Y",
+      "key": "stacy-3232",
+      "selected": true,
+      "isStepchild": "N",
+      "removalReason": "childDied",
+      "endDate": "2025-06-05",
+      "endOutsideUS": false,
+      "endCity": "Test",
+      "endProvince": "Prov",
+      "endCountry": "AGO",
+      "endState": "AK"
+    },
+    {
+      "fullName": {
+        "first": "SPOUSY",
+        "last": "FOSTER"
+      },
+      "dateOfBirth": "1980-07-07",
+      "ssn": "702023332",
+      "relationshipToVeteran": "Spouse",
+      "awardIndicator": "Y",
+      "key": "spousy-3332",
+      "selected": true,
+      "removalReason": "marriageEnded",
+      "endType": "annulmentOrVoid",
+      "endAnnulmentOrVoidDescription": "Test description",
+      "endDate": "2020-01-01",
+      "endOutsideUS": true,
+      "endCity": "Test",
+      "endProvince": "Prov",
+      "endCountry": "AGO",
+      "endState": "AK"
+    },
+    {
+      "fullName": {
+        "first": "SUMMER",
+        "last": "FOSTER"
+      },
+      "dateOfBirth": "1981-05-03",
+      "ssn": "702023331",
+      "relationshipToVeteran": "Spouse",
+      "awardIndicator": "Y",
+      "key": "summer-3331",
+      "selected": true,
+      "removalReason": "spouseDied",
+      "endType": "divorce",
+      "endDate": "2020-01-01",
+      "endOutsideUS": false,
+      "endCity": "Test",
+      "endProvince": "Prov",
+      "endCountry": "AGO",
+      "endState": "AK"
+    },
+    {
+      "fullName": {
+        "first": "PETER",
+        "last": "FOSTER"
+      },
+      "dateOfBirth": "1943-03-01",
+      "ssn": "997010104",
+      "relationshipToVeteran": "Parent",
+      "awardIndicator": "Y",
+      "key": "peter-0104",
+      "selected": true,
+      "removalReason": "parentOther",
+      "endDate": "2020-01-01",
+      "endOutsideUS": false,
+      "endCity": "Test",
+      "endProvince": "Prov",
+      "endCountry": "AGO",
+      "endState": "AK"
+    },
+    {
+      "fullName": {
+        "first": "MARY",
+        "last": "FOSTER"
+      },
+      "dateOfBirth": "1940-03-01",
+      "ssn": "997010155",
+      "relationshipToVeteran": "Parent",
+      "awardIndicator": "Y",
+      "key": "mary-0155",
+      "selected": true,
+      "removalReason": "parentDied",
+      "endDate": "2020-01-01",
+      "endOutsideUS": false,
+      "endCity": "Test",
+      "endProvince": "Prov",
+      "endCountry": "AGO",
+      "endState": "AK"
+    }
+  ]
+}

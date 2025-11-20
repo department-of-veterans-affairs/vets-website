@@ -26,5 +26,6 @@ describe('Medications List Page Recently Requested Filter Option', () => {
     listPage.verifyFocusOnPaginationTextInformationOnListPage(
       Data.PAGINATION_RECENTLY_REQUESTED,
     );
+    listPage.verifyFilterAriaRegionText('Filter applied: Recently requested.');
   });
 });

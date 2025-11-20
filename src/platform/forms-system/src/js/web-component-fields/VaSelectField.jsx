@@ -1,15 +1,8 @@
-// @ts-check
 import React from 'react';
 import PropTypes from 'prop-types';
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import vaSelectFieldMapping from './vaSelectFieldMapping';
-
-function optionsList(schema) {
-  return schema.enum.map((value, i) => {
-    const label = (schema.enumNames && schema.enumNames[i]) || String(value);
-    return { label, value };
-  });
-}
+import vaSelectFieldMapping from './vaSelectAndComboBoxFieldMapping';
+import { renderOptions } from './helpers';
 
 /**
  * Usage uiSchema:
@@ -38,10 +31,6 @@ function optionsList(schema) {
 export default function VaSelectField(props) {
   let addDefaultEntry = false;
   const mappedProps = vaSelectFieldMapping(props);
-  const enumOptions =
-    (Array.isArray(props.childrenProps.schema.enum) &&
-      optionsList(props.childrenProps.schema)) ||
-    [];
   const labels = props.uiOptions?.labels || {};
 
   if (!mappedProps?.uswds) {
@@ -61,13 +50,7 @@ export default function VaSelectField(props) {
     >
       {addDefaultEntry &&
         !props.childrenProps.schema.default && <option value="" />}
-      {enumOptions.map((option, index) => {
-        return (
-          <option key={index} value={option.value}>
-            {labels[option.value] || option.label}
-          </option>
-        );
-      })}
+      {renderOptions(props.childrenProps.schema, labels)}
     </VaSelect>
   );
 }

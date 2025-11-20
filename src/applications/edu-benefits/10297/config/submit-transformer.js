@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
-import { dateSigned } from '../helpers';
+import { dateSigned, getTransformIntlPhoneNumber } from '../helpers';
 
 export function transform(formConfig, form) {
   const contactInfoTransform = formData => {
@@ -10,10 +10,12 @@ export function transform(formConfig, form) {
       ...clonedData,
       contactInfo: {
         ...clonedData.contactInfo,
-        mobilePhone: clonedData.contactInfo.mobilePhone
-          ? clonedData.contactInfo.mobilePhone
-          : '1231231234',
-        // homePhone,
+        mobilePhone: getTransformIntlPhoneNumber(
+          clonedData.contactInfo.mobilePhone,
+        ),
+        homePhone: getTransformIntlPhoneNumber(
+          clonedData.contactInfo.homePhone,
+        ),
       },
     };
   };

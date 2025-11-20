@@ -1,4 +1,9 @@
 /**
+ **** BENEFIT TYPES ****
+ */
+export const DEFAULT_BENEFIT_TYPE = 'compensation';
+
+/**
  **** KEYS ****
  */
 // key for contestableIssues to indicate that the user selected the issue
@@ -40,11 +45,6 @@ export const NOD_INFO_URL = `${DR_URL}/board-appeal`;
 export const NOD_BASE_URL = `${NOD_INFO_URL}/request-board-appeal-form-10182`;
 export const NOD_OPTIONS_URL = `${NOD_INFO_URL}/#what-are-my-board-appeal-optio`;
 export const NOD_FORM_URL = 'https://www.va.gov/vaforms/va/pdf/VA10182.pdf';
-
-export const CLAIM_STATUS_TOOL_URL = '/claim-or-appeal-status';
-
-export const COVID_FAQ_URL =
-  'https://www.va.gov/coronavirus-veteran-frequently-asked-questions/#more-benefit-and-claim-questio';
 
 export const FACILITY_LOCATOR_URL = '/find-locations';
 export const PROFILE_URL = '/profile';
@@ -157,3 +157,5 @@ export const NONE_SELECTED_ERROR =
 
 export const MAX_SELECTED_ERROR =
   'You’ve reached the maximum number of allowed selected issues';
+
+export const NOT_ANSWERED = 'Not answered';

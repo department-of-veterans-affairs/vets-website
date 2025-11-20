@@ -57,6 +57,8 @@ describe('Cerner Facility Alert', () => {
     });
 
     expect(screen.queryByTestId('cerner-facilities-alert')).to.exist;
+    const link = screen.getByText('Go to My VA Health');
+    expect(link).to.exist;
     expect(
       screen.getByText(
         'Some of your medical records may be in a different portal. To get your medical records from these facilities, go to My VA Health:',

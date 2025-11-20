@@ -3,7 +3,6 @@ import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/plat
 import sinon from 'sinon';
 import { expect } from 'chai';
 import { waitFor } from '@testing-library/react';
-import * as uniqueUserMetrics from '~/platform/mhv/unique_user_metrics';
 import * as allergiesApiModule from '../../api/allergiesApi';
 import * as prescriptionsApiModule from '../../api/prescriptionsApi';
 import { stubAllergiesApi } from '../testing-utils';
@@ -14,7 +13,6 @@ import { dateFormat } from '../../util/helpers';
 const refillablePrescriptions = require('../fixtures/refillablePrescriptionsList.json');
 
 let sandbox;
-let logUniqueUserMetricsEventsStub;
 
 const initMockApis = ({
   sinonSandbox,
@@ -44,10 +42,6 @@ describe('Refill Prescriptions Component', () => {
   beforeEach(() => {
     sandbox = sinon.createSandbox();
     initMockApis({ sinonSandbox: sandbox });
-    logUniqueUserMetricsEventsStub = sandbox.stub(
-      uniqueUserMetrics,
-      'logUniqueUserMetricsEvents',
-    );
   });
 
   afterEach(() => {
@@ -173,9 +167,11 @@ describe('Refill Prescriptions Component', () => {
     expect(lastFilledEl)
       .to.have.property('checkbox-description')
       .that.includes(
-        `Last filled on ${dateFormat(
-          refillablePrescriptions[0].dispensedDate,
-        )}`,
+        refillablePrescriptions[0].dispensedDate
+          ? `Last filled on ${dateFormat(
+              refillablePrescriptions[0].dispensedDate,
+            )}`
+          : 'Not filled yet',
       );
   });
 
@@ -288,30 +284,5 @@ describe('Refill Prescriptions Component', () => {
     expect(title).to.exist;
     expect(title).to.have.text('Refill prescriptions');
     expect(screen.getByTestId('no-refills-message')).to.exist;
-  });
-
-  it('logs PRESCRIPTIONS_REFILL_REQUESTED when user requests a refill', async () => {
-    const screen = setup();
-    const checkbox = await screen.findByTestId(
-      'refill-prescription-checkbox-0',
-    );
-    const button = await screen.findByTestId('request-refill-button');
-
-    // Select a prescription
-    checkbox.__events.vaChange({
-      detail: { checked: true },
-    });
-
-    // Click the refill button
-    button.click();
-
-    // Wait for async operations to complete
-    await waitFor(() => {
-      expect(
-        logUniqueUserMetricsEventsStub.calledWith(
-          uniqueUserMetrics.EVENT_REGISTRY.PRESCRIPTIONS_REFILL_REQUESTED,
-        ),
-      ).to.be.true;
-    });
   });
 });

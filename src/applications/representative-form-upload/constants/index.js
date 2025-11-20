@@ -31,25 +31,23 @@ export const NAV_MOBILE_DROPDOWN = [
 export const NAV_MENU_DROPDOWN = [
   {
     LABEL: 'Find Claimant',
-    URL: '/claimant-search',
+    URL: '/find-claimant',
     ICON: 'search',
-    FEATURE_FLAG_NAME: 'accredited_representative_portal_search',
     TEST_ID: 'user-nav-claimant-search-link',
   },
   {
     LABEL: 'Representation Requests',
-    URL: '/poa-requests',
-    TEST_ID: 'user-nav-poa-requests-link',
+    URL: '/representation-requests',
+    TEST_ID: 'user-nav-representation-requests-link',
   },
   {
     LABEL: 'Submissions',
     URL: '/submissions',
-    FEATURE_FLAG_NAME: 'accredited_representative_portal_submissions',
     TEST_ID: 'submissions-link',
   },
   {
     LABEL: 'Help',
-    URL: '/get-help',
-    TEST_ID: 'user-nav-profile-link',
+    URL: '/help',
+    TEST_ID: 'user-nav-help-link',
   },
 ];

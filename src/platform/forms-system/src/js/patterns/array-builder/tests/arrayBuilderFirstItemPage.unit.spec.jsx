@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import { SET_DATA } from 'platform/forms-system/src/js/actions';
-import { render } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import { arrayBuilderItemFirstPageTitleUI } from 'platform/forms-system/src/js/web-component-patterns/arrayBuilderPatterns';
 import ArrayBuilderItemPage from '../ArrayBuilderItemPage';
@@ -84,6 +84,8 @@ describe('ArrayBuilderFirstItemPage', () => {
     lowerCase = true,
     hasMultipleItemPages = true,
     required = () => false,
+    fullData = {},
+    duplicateChecks = {},
     useWebComponent = false,
   }) {
     const setFormData = sinon.spy();
@@ -126,11 +128,14 @@ describe('ArrayBuilderFirstItemPage', () => {
 
     const CustomPage = ArrayBuilderItemPage({
       arrayPath: 'employers',
-      summaryRoute: '/summary',
-      introRoute: '/intro',
+      getSummaryPath: () => '/summary',
+      getIntroPath: () => '/intro',
       reviewRoute: '/review',
       getText,
       required,
+      fullData,
+      duplicateChecks,
+      currentPath: '/employers/:index/information',
     });
 
     const { container, queryByText } = render(
@@ -139,6 +144,7 @@ describe('ArrayBuilderFirstItemPage', () => {
           schema={itemPage.schema}
           uiSchema={itemPage.uiSchema}
           data={data.employers[index]}
+          fullData={fullData}
           onChange={() => {}}
           onSubmit={() => {}}
           onReviewPage={false}
@@ -149,6 +155,7 @@ describe('ArrayBuilderFirstItemPage', () => {
           pagePerItemIndex={index}
           formContext={{}}
           formOptions={{ useWebComponentForNavigation: useWebComponent }}
+          setFormData={setFormData}
         />
       </Provider>,
     );
@@ -272,5 +279,170 @@ describe('ArrayBuilderFirstItemPage', () => {
     });
 
     expect(goToPath.calledWith('/summary')).to.be.true;
+  });
+
+  it('should show possible duplicate modal warning while attempting to navigate away, then choosing "yes, cancel"', async () => {
+    const arrayData = [{ name: 'FullName' }, { name: 'FullName' }];
+    const {
+      goToPath,
+      container,
+      setFormData,
+      getText,
+    } = setupArrayBuilderItemPage({
+      title: 'Name and address of employer',
+      index: 0,
+      urlParams: '?add=true',
+      arrayData,
+      required: () => false,
+      duplicateChecks: {
+        comparisons: ['name'],
+        itemPathModalChecks: {
+          information: {
+            comparisons: ['name'],
+          },
+        },
+      },
+      fullData: {
+        employers: arrayData,
+      },
+      useWebComponent: true,
+    });
+
+    await fireEvent.submit(container.querySelector('form'));
+
+    await waitFor(() => {
+      expect(goToPath.notCalled).to.be.true;
+      expect(container.querySelector('va-modal[visible="true"]')).to.exist;
+    }).then(() => {
+      expect(getText.calledWith('duplicateModalTitle')).to.be.true;
+      expect(getText.calledWith('duplicateModalDescription')).to.be.true;
+      expect(getText.calledWith('duplicateModalPrimaryButtonText')).to.be.true;
+      expect(getText.calledWith('duplicateModalSecondaryButtonText')).to.be
+        .true;
+      // click No, Cancel
+      container.querySelector('va-modal').__events.primaryButtonClick();
+      expect(goToPath.calledWith('/summary')).to.be.true;
+      expect(setFormData.args[0][0]).to.deep.equal({
+        employers: arrayData.slice(1),
+        metadata: {},
+      });
+    });
+  });
+
+  it('should not show possible duplicate modal warning while attempting to navigate away, then choosing "no, continue"', async () => {
+    const arrayData = [{ name: 'FullName' }, { name: 'FullName' }];
+    const { goToPath, container, setFormData } = setupArrayBuilderItemPage({
+      title: 'Name and address of employer',
+      index: 0,
+      urlParams: '?add=true',
+      arrayData,
+      required: () => false,
+      duplicateChecks: {
+        comparisons: ['name'],
+        itemPathModalChecks: {
+          information: {
+            comparisons: ['name'],
+          },
+        },
+      },
+      fullData: {
+        employers: arrayData,
+      },
+      useWebComponent: true,
+    });
+
+    await fireEvent.submit(container.querySelector('form'));
+
+    await waitFor(() => {
+      expect(goToPath.notCalled).to.be.true;
+      expect(container.querySelector('va-modal[visible="true"]')).to.exist;
+    }).then(() => {
+      // click Yes, Continue
+      container.querySelector('va-modal').__events.secondaryButtonClick();
+      expect(goToPath.notCalled).to.be.true;
+      expect(setFormData.args[0][0]).to.deep.equal({
+        employers: arrayData,
+        [helpers.META_DATA_KEY]: {
+          'employers;fullname;allowDuplicate': true,
+        },
+      });
+    });
+  });
+
+  it('should show possible duplicate modal warning while attempting to navigate away, then closing the modal', async () => {
+    const arrayData = [{ name: 'FullName' }, { name: 'FullName' }];
+    const { goToPath, container, setFormData } = setupArrayBuilderItemPage({
+      title: 'Name and address of employer',
+      index: 0,
+      urlParams: '?add=true',
+      arrayData,
+      required: () => false,
+      duplicateChecks: {
+        comparisons: ['name'],
+        itemPathModalChecks: {
+          information: {
+            comparisons: ['name'],
+          },
+        },
+      },
+      fullData: {
+        employers: arrayData,
+      },
+      useWebComponent: true,
+    });
+
+    await fireEvent.submit(container.querySelector('form'));
+
+    await waitFor(() => {
+      expect(goToPath.notCalled).to.be.true;
+      expect(container.querySelector('va-modal[visible="true"]')).to.exist;
+    }).then(() => {
+      // click Yes, Cancel
+      container.querySelector('va-modal').__events.closeEvent();
+      expect(goToPath.notCalled).to.be.true;
+      expect(setFormData.notCalled).to.be.true;
+      expect(container.querySelector('va-modal[visible="false"]')).to.exist;
+    });
+  });
+
+  it('should show possible duplicate modal warning for external comparisons only while attempting to navigate away', async () => {
+    const arrayData = [{ name: 'FullName' }, { name: 'FullName' }];
+    const {
+      goToPath,
+      container,
+      setFormData,
+      getText,
+    } = setupArrayBuilderItemPage({
+      title: 'Name and address of employer',
+      index: 0,
+      urlParams: '?add=true',
+      arrayData,
+      required: () => false,
+      duplicateChecks: {
+        comparisons: ['name'],
+        itemPathModalChecks: {
+          information: {
+            comparisonType: 'external',
+            externalComparisonData: () => [['FullName']],
+          },
+        },
+      },
+      fullData: {
+        employers: arrayData,
+      },
+      useWebComponent: true,
+    });
+
+    await fireEvent.submit(container.querySelector('form'));
+
+    await waitFor(() => {
+      expect(goToPath.notCalled).to.be.true;
+      expect(container.querySelector('va-modal[visible="true"]')).to.exist;
+      expect(getText.calledWith('duplicateModalTitle')).to.be.true;
+      expect(getText.calledWith('duplicateModalDescription')).to.be.true;
+      expect(getText.calledWith('duplicateModalPrimaryButtonText')).to.be.true;
+      expect(getText.calledWith('duplicateModalSecondaryButtonText')).to.be
+        .true;
+    });
   });
 });

@@ -74,10 +74,7 @@ export const fillDateWebComponentPattern = (fieldName, value) => {
   }
 };
 
-export const reviewAndSubmitPageFlow = (
-  signerName,
-  submitButtonText = 'Submit application',
-) => {
+export const reviewAndSubmitPageFlow = signerName => {
   let veteranSignature = signerName;
 
   if (typeof veteranSignature === 'object') {
@@ -94,9 +91,7 @@ export const reviewAndSubmitPageFlow = (
     .shadow()
     .find('input')
     .click({ force: true });
-  cy.findByText(submitButtonText, {
-    selector: 'button',
-  }).click();
+  cy.findByText(/submit/i, { selector: 'button' }).click();
 };
 
 /**

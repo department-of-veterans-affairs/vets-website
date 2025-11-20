@@ -1,13 +1,8 @@
-import { cloneDeep } from 'lodash';
-import merge from 'lodash/merge';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import {
   addressUI,
   addressSchema,
-  fullNameUI,
-  fullNameSchema,
   titleUI,
-  titleSchema,
   radioUI,
   radioSchema,
   phoneUI,
@@ -17,15 +12,18 @@ import {
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 import {
   validAddressCharsOnly,
   validFieldCharsOnly,
   validObjectCharsOnly,
 } from '../../shared/validations';
-
-const fullNameMiddleInitialUI = cloneDeep(fullNameUI());
-fullNameMiddleInitialUI.middle['ui:title'] = 'Middle initial';
+import {
+  blankSchema,
+  fullNameMiddleInitialSchema,
+  fullNameMiddleInitialUI,
+} from '../definitions';
+import { personalizeTitleByRole } from '../utils/helpers';
+import content from '../locales/en/content.json';
 
 export const certifierRoleSchema = {
   uiSchema: {
@@ -35,42 +33,43 @@ export const certifierRoleSchema = {
       title: 'Which of these best describes you?',
       required: () => true,
       labels: {
-        applicant: 'I’m the beneficiary submitting a claim for myself',
-        sponsor: 'I’m a Veteran submitting a claim for my spouse or dependent',
-        other:
-          'I’m a representative submitting a claim on behalf of the beneficiary',
+        applicant:
+          'I’m the spouse, dependent, or survivor of a Veteran submitting a claim for myself',
+        sponsor:
+          'I’m a Veteran submitting a claim for my spouse, dependents, or both',
+        other: ' I’m submitting a claim on behalf of someone else',
       },
     }),
   },
   schema: {
     type: 'object',
     properties: {
-      titleSchema,
       certifierRole: radioSchema(['applicant', 'sponsor', 'other']),
     },
   },
 };
 
-export const certifierReceivedPacketSchema = {
+export const certifierBenefitStatusSchema = {
   uiSchema: {
-    ...titleUI(({ formData }) => {
-      return `${
-        formData?.certifierRole === 'applicant' ? 'Your' : 'Beneficiary’s'
-      } CHAMPVA benefit status`;
-    }),
-
+    ...titleUI(({ formData }) =>
+      personalizeTitleByRole(
+        formData,
+        content['certifier--benefit-status-title'],
+      ),
+    ),
     certifierReceivedPacket: {
       ...yesNoUI({
         type: 'radio',
-        updateUiSchema: formData => {
-          return {
-            'ui:title': `${
-              formData?.certifierRole === 'applicant'
-                ? 'Do you'
-                : 'Does the beneficiary'
-            } receive CHAMPVA benefits now?`,
-          };
-        },
+        updateUiSchema: formData => ({
+          'ui:title': personalizeTitleByRole(
+            formData,
+            content['certifier--benefit-status-label'],
+            {
+              self: content['form-label--your'],
+              other: content['form-label--beneficiary'],
+            },
+          ),
+        }),
       }),
     },
   },
@@ -78,7 +77,6 @@ export const certifierReceivedPacketSchema = {
     type: 'object',
     required: ['certifierReceivedPacket'],
     properties: {
-      titleSchema,
       certifierReceivedPacket: yesNoSchema,
     },
   },
@@ -101,8 +99,7 @@ export const certifierNameSchema = {
   schema: {
     type: 'object',
     properties: {
-      titleSchema,
-      certifierName: fullNameSchema,
+      certifierName: fullNameMiddleInitialSchema,
     },
   },
 };
@@ -111,13 +108,12 @@ export const certifierAddressSchema = {
   uiSchema: {
     ...titleUI(
       'Your mailing address',
-      'We’ll send any important information about this form to this address',
+      'We’ll send any important information about this claim to this address',
     ),
-    certifierAddress: merge({}, addressUI(), {
-      state: {
-        'ui:errorMessages': {
-          required: 'Enter a valid State, Province, or Region',
-        },
+    certifierAddress: addressUI({
+      labels: {
+        militaryCheckbox:
+          'Address is on military base outside of the United States.',
       },
     }),
     'ui:validations': [
@@ -129,7 +125,6 @@ export const certifierAddressSchema = {
     type: 'object',
     required: ['certifierAddress'],
     properties: {
-      titleSchema,
       certifierAddress: addressSchema({
         omit: ['street3'],
       }),
@@ -141,7 +136,7 @@ export const certifierContactSchema = {
   uiSchema: {
     ...titleUI(
       'Your contact information',
-      'We’ll use this information to contact you if we have more questions.',
+      'We may contact you if we have more questions about this claim.',
     ),
     certifierPhone: phoneUI(),
     certifierEmail: emailUI(),
@@ -150,7 +145,6 @@ export const certifierContactSchema = {
     type: 'object',
     required: ['certifierPhone', 'certifierEmail'],
     properties: {
-      titleSchema,
       certifierPhone: phoneSchema,
       certifierEmail: emailSchema,
     },
@@ -208,7 +202,6 @@ export const certifierRelationshipSchema = {
     type: 'object',
     required: ['certifierRelationship'],
     properties: {
-      titleSchema,
       certifierRelationship: radioSchema(['spouse', 'parent', 'other']),
       certifierOtherRelationship: {
         type: 'string',
@@ -219,18 +212,18 @@ export const certifierRelationshipSchema = {
 
 export const certifierClaimStatusSchema = {
   uiSchema: {
-    ...titleUI(({ formData }) => {
-      return `${
-        formData?.certifierRole === 'applicant' ? 'Your' : 'Beneficiary’s'
-      } CHAMPVA claim status`;
-    }),
+    ...titleUI(({ formData }) =>
+      personalizeTitleByRole(
+        formData,
+        content['certifier--claim-status-title'],
+      ),
+    ),
     claimStatus: radioUI({
       type: 'radio',
-      title: 'Is this a new claim or a resubmission for an existing claim?',
-      required: () => true,
+      title: content['certifier--claim-status-label'],
       labels: {
-        new: 'A new claim',
-        resubmission: 'A resubmission for an existing claim',
+        new: content['certifier--claim-status-option--new'],
+        resubmission: content['certifier--claim-status-option--resubmission'],
       },
     }),
   },
@@ -238,7 +231,6 @@ export const certifierClaimStatusSchema = {
     type: 'object',
     required: ['claimStatus'],
     properties: {
-      titleSchema,
       claimStatus: radioSchema(['new', 'resubmission']),
     },
   },

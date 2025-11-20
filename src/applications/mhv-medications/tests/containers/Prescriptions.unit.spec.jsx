@@ -3,24 +3,30 @@ import sinon from 'sinon';
 import React from 'react';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { fireEvent, waitFor } from '@testing-library/dom';
-import * as uniqueUserMetrics from '~/platform/mhv/unique_user_metrics';
 import reducer from '../../reducers';
 import * as allergiesApiModule from '../../api/allergiesApi';
 import * as prescriptionsApiModule from '../../api/prescriptionsApi';
 import { stubAllergiesApi, stubPrescriptionsListApi } from '../testing-utils';
 import Prescriptions from '../../containers/Prescriptions';
 import emptyPrescriptionsList from '../e2e/fixtures/empty-prescriptions-list.json';
+import { MEDS_BY_MAIL_FACILITY_ID } from '../../util/constants';
 
 let sandbox;
-let logUniqueUserMetricsEventsStub;
+
+const refillAlertList = [
+  {
+    prescriptionId: 123456,
+    prescriptionName: 'Test name 1',
+  },
+  {
+    prescriptionId: 234567,
+    prescriptionName: 'Test name 2',
+  },
+];
 
 describe('Medications Prescriptions container', () => {
   beforeEach(() => {
     sandbox = sinon.createSandbox();
-    logUniqueUserMetricsEventsStub = sandbox.stub(
-      uniqueUserMetrics,
-      'logUniqueUserMetricsEvents',
-    );
     stubAllergiesApi({ sandbox });
     stubPrescriptionsListApi({ sandbox });
   });
@@ -30,13 +36,17 @@ describe('Medications Prescriptions container', () => {
   });
 
   const initialState = {
-    rx: {},
+    rx: {
+      prescriptionsList: [],
+      refillAlertList: [],
+    },
   };
 
-  const setup = (state = initialState) => {
+  const setup = (state = initialState, url = '/') => {
     return renderWithStoreAndRouterV6(<Prescriptions />, {
       initialState: state,
       reducers: reducer,
+      initialEntries: [url],
       additionalMiddlewares: [
         allergiesApiModule.allergiesApi.middleware,
         prescriptionsApiModule.prescriptionsApi.middleware,
@@ -47,23 +57,6 @@ describe('Medications Prescriptions container', () => {
   it('renders without errors', async () => {
     const screen = setup();
     expect(screen);
-  });
-
-  it('should log prescriptions accessed event when prescriptions are successfully loaded', async () => {
-    const screen = setup();
-
-    // Wait for the medications list to be displayed
-    await waitFor(() => {
-      expect(screen.getByTestId('med-list')).to.exist;
-    });
-
-    await waitFor(() => {
-      expect(
-        logUniqueUserMetricsEventsStub.calledWith(
-          uniqueUserMetrics.EVENT_REGISTRY.PRESCRIPTIONS_ACCESSED,
-        ),
-      ).to.be.true;
-    });
   });
 
   it('should display loading message when loading prescriptions', async () => {
@@ -82,6 +75,56 @@ describe('Medications Prescriptions container', () => {
   it('shows title ', async () => {
     const screen = setup();
     expect(await screen.findByTestId('list-page-title')).to.exist;
+  });
+
+  it('should display delayed refill alert when showRefillProgressContent flag is true and refillAlertList has items', async () => {
+    sandbox.restore();
+    stubAllergiesApi({ sandbox });
+    stubPrescriptionsListApi({
+      sandbox,
+      data: {
+        prescriptions: emptyPrescriptionsList.data,
+        meta: emptyPrescriptionsList.meta,
+        pagination: emptyPrescriptionsList.meta.pagination,
+        refillAlertList,
+      },
+    });
+
+    const screen = setup({
+      ...initialState,
+      rx: {
+        ...initialState.rx,
+      },
+    });
+
+    expect(await screen.findByTestId('mhv-rx--delayed-refill-alert')).to.exist;
+    expect(await screen.findByTestId('rxDelay-alert-message')).to.exist;
+  });
+
+  it('should not display delayed refill alert when refillAlertList is empty', async () => {
+    sandbox.restore();
+    stubAllergiesApi({ sandbox });
+    stubPrescriptionsListApi({
+      sandbox,
+      data: {
+        prescriptions: emptyPrescriptionsList.data,
+        meta: emptyPrescriptionsList.meta,
+        pagination: emptyPrescriptionsList.meta.pagination,
+        refillAlertList: [],
+      },
+    });
+
+    const screen = setup({
+      ...initialState,
+      rx: {
+        ...initialState.rx,
+      },
+    });
+
+    await waitFor(() => {
+      expect(screen.queryByTestId('alert-banner')).not.to.exist;
+      expect(screen.queryByTestId('rxDelay-alert-message')).not.to.exist;
+    });
   });
 
   it('displays empty list alert', async () => {
@@ -145,22 +188,6 @@ describe('Medications Prescriptions container', () => {
     });
   });
 
-  it('should show the allergy error alert when printing all meds', async () => {
-    sandbox.restore();
-    stubAllergiesApi({ sandbox, error: true });
-    stubPrescriptionsListApi({ sandbox });
-    const screen = setup();
-    const pdfButton = screen.getByTestId('download-print-all-button');
-    await waitFor(() => {
-      fireEvent.click(pdfButton);
-    });
-    expect(screen);
-    waitFor(() => {
-      expect(screen.getByText('We can’t print your records right now')).to
-        .exist;
-    });
-  });
-
   it('should show the allergy error alert when downloading txt', async () => {
     sandbox.restore();
     stubAllergiesApi({ sandbox, error: true });
@@ -184,16 +211,6 @@ describe('Medications Prescriptions container', () => {
     );
   });
 
-  it('Simulates print all button click', async () => {
-    const screen = setup();
-    const button = await screen.findByTestId('download-print-all-button');
-    expect(button).to.exist;
-    expect(button).to.have.text('Print all medications');
-    await waitFor(() => {
-      button.click();
-    });
-  });
-
   it('Simulates print button click', async () => {
     if (!window.print) {
       window.print = () => {};
@@ -202,7 +219,7 @@ describe('Medications Prescriptions container', () => {
     const screen = setup();
     const button = await screen.findByTestId('download-print-button');
     expect(button).to.exist;
-    expect(button).to.have.text('Print this page of the list');
+    expect(button).to.have.text('Print');
     fireEvent.click(button);
     await waitFor(() => {
       fireEvent.click(button);
@@ -220,5 +237,68 @@ describe('Medications Prescriptions container', () => {
   it('displays filter accordion', async () => {
     const screen = setup();
     expect(await screen.getByTestId('filter-accordion')).to.exist;
+  });
+
+  it('displays Meds by Mail content for Meds by Mail users', async () => {
+    const screen = setup({
+      ...initialState,
+      user: {
+        profile: {
+          userFullName: { first: 'test', last: 'last', suffix: 'jr' },
+          dob: '2000-01-01',
+          facilities: [{ facilityId: MEDS_BY_MAIL_FACILITY_ID }],
+        },
+      },
+    });
+
+    expect(
+      screen.queryByText(
+        /If you use Meds by Mail, you can also call your servicing center and ask them to update your records\./,
+        {
+          selector: 'p',
+        },
+      ),
+    ).not.to.exist;
+
+    expect(screen.getByTestId('meds-by-mail-header')).to.exist;
+    expect(screen.getByTestId('meds-by-mail-top-level-text')).to.exist;
+    expect(screen.getByTestId('meds-by-mail-additional-info')).to.exist;
+  });
+
+  it('does not display Meds by Mail content for non-Meds by Mail users', async () => {
+    const screen = setup();
+
+    expect(
+      screen.getByText(
+        /If you use Meds by Mail, you can also call your servicing center and ask them to update your records\./,
+        {
+          selector: 'p',
+        },
+      ),
+    ).to.exist;
+
+    expect(screen.queryByTestId('meds-by-mail-header')).not.to.exist;
+    expect(screen.queryByTestId('meds-by-mail-top-level-text')).not.to.exist;
+    expect(screen.queryByTestId('meds-by-mail-additional-info')).not.to.exist;
+  });
+
+  describe('renderRxRenewalMessageSuccess', () => {
+    it('should render component with deleteDraftSuccess query param', async () => {
+      const screen = setup(initialState, '?page=1&draftDeleteSuccess=true');
+      await waitFor(() => {
+        expect(screen.getByTestId('rx-renewal-delete-draft-success-alert')).to
+          .exist;
+      });
+    });
+
+    it('should render component with rxRenewalMessageSuccess query param', async () => {
+      const screen = setup(
+        initialState,
+        '?page=1&rxRenewalMessageSuccess=true',
+      );
+      await waitFor(() => {
+        expect(screen.getByTestId('rx-renewal-message-success-alert')).to.exist;
+      });
+    });
   });
 });

@@ -13,12 +13,12 @@ class DateTimeSelectPageObject extends PageObject {
     return this;
   }
 
-  assertRequestLink({ exist = true } = {}) {
-    cy.get('va-alert[status=warning]')
+  assertRequestLink({ status = 'warning', exist = true } = {}) {
+    cy.get(`va-alert[status=${status}]`)
       .as('alert')
       .shadow();
     cy.get('@alert')
-      .contains('Request an earlier appointment')
+      .contains('Request an appointment')
       .should(exist ? 'exist' : 'not.exist');
     return this;
   }

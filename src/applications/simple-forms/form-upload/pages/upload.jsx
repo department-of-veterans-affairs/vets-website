@@ -1,41 +1,60 @@
 import React from 'react';
 import {
-  titleUI,
+  descriptionUI,
   fileInputUI,
   fileInputSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+
 import PropTypes from 'prop-types';
-import { UPLOAD_TITLE, UPLOAD_DESCRIPTION } from '../config/constants';
-import { getFormContent } from '../helpers';
+import {
+  UPLOAD_FORM_DESCRIPTION,
+  MAX_FILE_SIZE,
+  UPLOAD_TITLE,
+} from '../config/constants';
+import { getAlert, getFormContent } from '../helpers';
 import { CustomAlertPage } from './helpers';
 
 const { formNumber, title } = getFormContent();
-const fileUploadUrl = `${
-  environment.API_URL
-}/simple_forms_api/v1/scanned_form_upload`;
+
 const warningsPresent = formData => formData.uploadedFile?.warnings?.length > 0;
 
 export const uploadPage = {
   uiSchema: {
-    ...titleUI(UPLOAD_TITLE, UPLOAD_DESCRIPTION),
+    ...titleUI(
+      UPLOAD_TITLE,
+      <div className="vads-u-magin-top--3">
+        {getAlert({ name: 'uploadPage' }, false)}
+      </div>,
+    ),
+    ...descriptionUI(UPLOAD_FORM_DESCRIPTION),
     uploadedFile: {
       ...fileInputUI({
         errorMessages: { required: `Upload a completed VA Form ${formNumber}` },
         name: 'form-upload-file-input',
-        fileUploadUrl,
+        fileUploadUrl: `${
+          environment.API_URL
+        }/simple_forms_api/v1/scanned_form_upload`,
         title,
         hint:
           'You can upload a .pdf, .jpeg, or .png file. Your file should be no larger than 25MB',
         formNumber,
         required: () => true,
         // Disallow uploads greater than 25 MB
-        maxFileSize: 25000000,
+        maxFileSize: MAX_FILE_SIZE,
+        disallowEncryptedPdfs: true,
         updateUiSchema: formData => {
           return {
             'ui:title': warningsPresent(formData)
               ? title.replace('Upload ', '')
               : title,
+          };
+        },
+        confirmationField: ({ formData }) => {
+          return {
+            data: formData?.name,
+            label: 'File you uploaded',
           };
         },
       }),

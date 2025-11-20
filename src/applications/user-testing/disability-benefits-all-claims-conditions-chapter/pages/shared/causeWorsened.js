@@ -26,7 +26,7 @@ const causeWorsenedPage = {
     }),
     worsenedEffects: textareaUI({
       title:
-        'Tell us how your condition affected you before your service, and how it affects you now after your service.',
+        'Tell us how your condition affected you before your service and how it affects you now after your service.',
       updateUiSchema: (_formData, fullData, index) => ({
         'ui:title': `Tell us how ${createNewConditionName(
           fullData?.[arrayBuilderOptions.arrayPath]?.[index],

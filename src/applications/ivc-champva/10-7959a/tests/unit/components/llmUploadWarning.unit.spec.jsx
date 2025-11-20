@@ -13,7 +13,7 @@ describe('llmUploadWarning', () => {
 
   describe('when champvaClaimsLlmValidation feature flag is true', () => {
     const ctx = {
-      formContext: { data: { champvaClaimsLlmValidation: true } },
+      formContext: { data: { 'view:champvaClaimsLlmValidation': true } },
     };
 
     it('should render a va-alert', () => {
@@ -30,7 +30,7 @@ describe('llmUploadWarning', () => {
 
   describe('when champvaClaimsLlmValidation feature flag is false', () => {
     const ctx = {
-      formContext: { data: { champvaClaimsLlmValidation: false } },
+      formContext: { data: { 'view:champvaClaimsLlmValidation': false } },
     };
 
     it('should NOT render a va-alert', () => {

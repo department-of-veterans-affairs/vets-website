@@ -76,7 +76,6 @@ export const Document = ({ document }) => {
       <VaCheckbox
         checked={checked}
         className={checkboxClassName}
-        disabled={loading}
         id={`paperless-checkbox-${item.name}`}
         label={item.name}
         onVaChange={handleChange}

@@ -1129,7 +1129,7 @@ const formConfig = {
                       href="https://www.va.gov/education/verify-school-enrollment"
                       rel="noreferrer"
                     >
-                      Learn more about the Enrollment Verifications
+                      Learn more about Enrollment Verifications
                     </a>
                   </>
                 </va-alert>
@@ -1167,7 +1167,7 @@ const formConfig = {
                       href="https://www.va.gov/education/verify-school-enrollment"
                       rel="noreferrer"
                     >
-                      Learn more about the Enrollment Verifications
+                      Learn more about Enrollment Verifications
                     </a>
                   </>
                 </va-alert>

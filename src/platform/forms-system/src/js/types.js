@@ -34,6 +34,7 @@
  * @property {(props: any) => JSX.Element} [errorText]
  * @property {(props: any) => JSX.Element} [footerContent]
  * @property {string} [formId]
+ * @property {FormOptions} [formOptions]
  * @property {(props: any) => JSX.Element} [formSavedPage]
  * @property {() => JSX.Element} [getHelp]
  * @property {boolean} [hideFormTitle] Hide form titles on all pages. Pairs well with minimal header. Use hideFormTitle on individual pages to override setting on certain pages.
@@ -85,6 +86,7 @@
  * @typedef {Object} Dev
  * @property {boolean} [showNavLinks] - Show navigation links on every page to every route in your form (dev only)
  * @property {boolean} [collapsibleNavLinks] - Must be used with `showNavLinks: true`. If true, the nav links will be wrapped in a `va-additional-info` component
+ * @property {boolean} [disableWindowUnloadInCI] - Disables the window unload listener in CI environments to prevent tests from failing due to the "Are you sure you want to leave?" prompt.
  */
 
 /**
@@ -144,6 +146,7 @@
  * @typedef {Object} FormConfigChapter
  * @property {FormConfigPages} [pages]
  * @property {string | ({ formData, formConfig }) => string} [title]
+ * @property {string | ({ formData, formConfig }) => string} [reviewTitle]
  * @property {boolean} [hideFormNavProgress]
  * @property {boolean} [hideFormTitle]
  * @property {boolean} [hideOnReviewPage]
@@ -161,7 +164,7 @@
  * @property {({formData, formContext, router, setFormData}) => JSX.Element} [ContentBeforeButtons] React element that appears after the form but before save in progress and the navigation buttons
  * @property {(props: any) => JSX.Element} [CustomPage]
  * @property {(props: any) => JSX.Element} [CustomPageReview]
- * @property {((formData: Object) => boolean, index: number, context: any) | {}} [depends] optional condition when page should be shown or not. Index provided for arrays.
+ * @property {((formData: Object) => (boolean, index: number, context: any)) | {}} [depends] optional condition when page should be shown or not. Index provided for arrays.
  * @property {Object} [initialData]
  * @property {boolean} [customPageUsesPagePerItemData] Used with `CustomPage` and arrays. If true, will treat `data` (`formData`) and `setFormData` at the array level instead of the entire `formData` level, which matches how default pages work.
  * @property {boolean} [hideNavButtons] Used to hide the 'Continue' and 'Back' buttons
@@ -242,6 +245,7 @@
  * @typedef {{
  *    items?: UISchemaOptions,
  *   'ui:autocomplete'?: AutocompleteValue,
+ *   'ui:confirmationField'?: React.ReactNode | (({formData}) => {data: any, label: string}),
  *   'ui:description'?: string | JSX.Element | React.ReactNode,
  *   'ui:disabled'?: boolean,
  *   'ui:errorMessages'?: UIErrorMessages,
@@ -275,6 +279,11 @@
  * } | {
  *   [key: string]: string
  * }} UIErrorMessages
+ */
+
+/**
+ * @typedef {string | { label?: string, group?: string }} LabelOption
+ * Label can be a string (for simple label) or an object with optional label and group properties if supported by the component.
  */
 
 /**
@@ -314,7 +323,7 @@
  * @property {string} [itemName] The name of the item - for arrays. For example a value of 'Child' will result in 'Add another child', 'New child', and if 'using confirmRemove', 'Are you sure you want to remove this child item?', 'Yes, remove this child item'.
  * @property {boolean} [invalid] For web components. Whether or not aria-invalid will be set on the inner input. Useful when composing the component into something larger, like a date component.
  * @property {boolean} [keepInPageOnReview] Used to keep a field on the review page. Often used with arrays or expandUnder fields. When used with arrays, removes the default editor box on the review page and shows view-only data with an edit button instead.
- * @property {Record<string, string>} [labels] Used to specify radio button or yes/no labels
+ * @property {Record<string, LabelOption>} [labels] Used to specify radio button, yes/no, or grouped labels. Label can be a string or an object with label/group.
  * @property {'' | '1' | '2' | '3' | '4' | '5'} [labelHeaderLevel] The header level for the label. For web components such as radio buttons or checkboxes.
  * @property {'' | '1' | '2' | '3' | '4' | '5'} [labelHeaderLevelStyle] The header style level for the label. For web components such as radio buttons or checkboxes.
  * @property {string} [messageAriaDescribedby] For web components. An optional message that will be read by screen readers when the input is focused.
@@ -383,7 +392,7 @@
  * @typedef {Object} WebComponentFieldProps
  * @property {string | JSX.Element | Function} description
  * @property {string} textDescription
- * @property {string | JSX.Element} label
+ * @property {string} label
  * @property {boolean} required
  * @property {string} error
  * @property {UIOptions} uiOptions
@@ -425,7 +434,7 @@
  *   cancelEditYes?: (props: ArrayBuilderTextProps) => string,
  *   cancelEditNo?: (props: ArrayBuilderTextProps) => string,
  *   cancelEditTitle?: (props: ArrayBuilderTextProps) => string,
- *   cardDescription?: (props: ArrayBuilderTextProps) => string,
+ *   cardDescription?: (itemData: any, index: number, fullData: any) => string | React.ReactNode,
  *   cardItemMissingInformation?: (itemData: any) => string,
  *   editSaveButtonText?: (props: ArrayBuilderTextProps) => string,
  *   getItemName?: (itemData: any, index: number, fullData: any) => string,
@@ -434,11 +443,18 @@
  *   deleteNo?: (props: ArrayBuilderTextProps) => string,
  *   deleteTitle?: (props: ArrayBuilderTextProps) => string,
  *   deleteYes?: (props: ArrayBuilderTextProps) => string,
+ *   duplicateModalDescription?: (props: ArrayBuilderTextProps) => string,
+ *   duplicateModalPrimaryButtonText?: (props: ArrayBuilderTextProps) => string,
+ *   duplicateModalSecondaryButtonText?: (props: ArrayBuilderTextProps) => string,
+ *   duplicateModalTitle?: (props: ArrayBuilderTextProps) => string,
+ *   duplicateSummaryCardInfoAlert?: (props: ArrayBuilderTextProps) => string,
+ *   duplicateSummaryCardLabel?: (props: ArrayBuilderTextProps) => string,
+ *   duplicateSummaryCardWarningOrErrorAlert?: (props: ArrayBuilderTextProps) => string,
  *   reviewAddButtonText?: (props: ArrayBuilderTextProps) => string,
- *   summaryTitle?: (props: ArrayBuilderTextProps) => string,
- *   summaryTitleWithoutItems?: (props: ArrayBuilderTextProps) => string,
- *   summaryDescription?: (props: ArrayBuilderTextProps) => string,
- *   summaryDescriptionWithoutItems?: (props: ArrayBuilderTextProps) => string,
+ *   summaryTitle?: (props: ArrayBuilderTextProps) => string | React.ReactNode,
+ *   summaryTitleWithoutItems?: (props: ArrayBuilderTextProps) => string | React.ReactNode,
+ *   summaryDescription?: (props: ArrayBuilderTextProps) => string | React.ReactNode,
+ *   summaryDescriptionWithoutItems?: (props: ArrayBuilderTextProps) => string | React.ReactNode,
  *   summaryAddLinkText?: (props: ArrayBuilderTextProps) => string,
  *   summaryAddButtonText?: (props: ArrayBuilderTextProps) => string,
  *   yesNoBlankReviewQuestion?: (props: ArrayBuilderTextProps) => string,
@@ -461,18 +477,119 @@
  * nounPlural: "employers"
  * ```
  * @property {boolean} [hideMaxItemsAlert] This will not display the alert when the [maxItems] number is reached.
- * @property {(item) => boolean} [isItemIncomplete] Will display error on the cards if item is incomplete. You should include all of your required fields here. e.g. `item => !item?.name`
- * @property {number} [maxItems] The maximum number of items allowed in the array. Omit to allow unlimited items.
- * @property {boolean} required This determines the flow type of the array builder. Required starts with an intro page, optional starts with the yes/no question (summary page).
+ * @property {(item, fullData) => boolean} [isItemIncomplete] Will display error on the cards if item is incomplete. You should include all of your required fields here. e.g. `item => !item?.name`
+ * @property {number | ((formData: object) => number)} [maxItems] The maximum number of items allowed in the array. Can be a number or a function that returns a number based on formData. Omit to allow unlimited items.
+ * @property {boolean | ((formData) => boolean)} required This determines the flow type of the array builder. Can be a boolean or a function that returns a boolean. If `true`/returns `true`, the flow starts with an intro page and expects at least 1 item. If `false`/returns `false`, the user can skip the array with a yes/no question on the summary page.
  * @property {string} [reviewPath] Defaults to `'review-and-submit'` if not provided.
  * @property {string} [reviewPanelHeadingLevel] The heading level for the summary title on the review page.
  * @property {ArrayBuilderText} [text] Override any default text used in the array builder pattern
  * @property {boolean} [useLinkInsteadOfYesNo]
  * @property {boolean} [useButtonInsteadOfYesNo]
+ * @property {DuplicateChecks} [duplicateChecks]
+ * ```
+ * // Example simple:
+ * duplicateChecks: {
+ *   comparisons: ['name', 'dateRange.from', 'dateRange.to'],
+ * }
+ *
+ * // Example complex:
+ * duplicateChecks: {
+ *   comparisonType: 'all', // default, can be 'all', 'internal', or 'external'
+ *   comparisons: ['fullName.first', 'fullName.last', 'birthDate', 'ssn'],
+ *   externalComparisonData: ({ formData, arrayData }) => {
+ *     // return array of array strings to be used for duplicate comparisons
+ *     return [];
+ *   },
+ *   itemPathModalChecks: {
+ *     // path in config would be 'this-array/:index/birth-date'
+ *     'birth-date': {
+ *       comparisons: ['birthDate'],
+ *       externalComparisonData: ({ formData, arrayData }) => {
+ *         // return array of array strings to be used for duplicate comparisons
+ *         return [];
+ *       }
+ *    },
+ * ```
+ */
+
+/**
+ * Duplicate checks object
+ * @typedef {Object} DuplicateChecks
+ * @property {Array<String>} comparisons - The array paths to compare for
+ * duplicates
+ * @property {String} [comparisonType] - set as 'all', 'internal', or 'external'.
+ *   - 'all' compares both internal and external data (default)
+ *   - 'internal' compares only within the array data
+ *   - 'external' compares unique internal data with external data (internal
+ *     duplicates are ignored)
+ * @property {ExternalComparisonFunction} [externalComparisonData] - A function to
+ * collect and return external data for comparison
+ * @property {Object} [itemPathModalChecks]
+ *  - Optional object to override the comparisons for specific item pages
+ *  - The key is the last part of the path after the index in the form config,
+ *    e.g. 'dependent-children/:index/birth-date' would be 'birth-date'
+ *  - The value is an object with the same structure as duplicateChecks. Changes
+ *    within this object will only affect the specific item page.
+ *  - If comparisons are made that are not part of the page, it may cause
+ *    confusion for the Veteran.
+ *  - A duplicate modal will appear after attempting to continue past this
+ *    internal page if a duplicate is found.
+ * @example
+ * {
+ *   comparisonType: 'all', // default
+ *   comparisons: ['fullName.first', 'fullName.last', 'birthDate', 'ssn'],
+ *   externalComparisonData: ({ formData, arrayData }) => {
+ *     // Use arrayData to troubleshoot data obtained via comparisons
+ *     // return array of array strings to be used for duplicate comparisons
+ *     return [];
+ *   },
+ *   itemPathModalChecks: {
+ *     // path in form config would be 'dependent-children/:index/birth-date'
+ *     'birth-date': {
+ *       comparisons: ['fullName.first', 'birthDate'],
+ *       externalComparisonData: ({ formData, arrayData }) => {
+ *         const dependents = formData?.dependentsFromApi || [];
+ *         if (!dependents?.length) {
+ *           return [];
+ *         }
+ *        // return array of array strings to be used for duplicate comparisons
+ *         return dependents
+ *           .filter(
+ *             dependent =>
+ *               dependent.relationshipToVeteran.toLowerCase() === 'child',
+ *           )
+ *           .map(child => [
+ *             child.fullName?.first || '',
+ *             child.dateOfBirth || '',
+ *           ]);
+ *       }
+ *     },
+ *   },
+ * }
  */
 
 /**
  * @typedef {Object} ReplacerOptions
  * @property {boolean} [allowPartialAddress] Allows addresses with missing fields
  * @property {boolean} [replaceEscapedCharacters] Replaces escaped characters
+ */
+
+/**
+ * @typedef {Object} FormOptions
+ * @property {boolean} filterInactiveNestedPageData - utilize filter method for removing inactive page data that filters ArrayBuilder page data
+ * @property {boolean} useWebComponentForNavigation - utilize VADS button web components for page nav
+ * @property {boolean} focusOnAlertRole - apply focus to va-alert on submission error
+ */
+
+/**
+ * @typedef ExternalComparisonFunction
+ * @type {Function}
+ * @property {Object} fullData - The full form data
+ * @property {Array<String>} arrayData - The array data being checked
+ * @returns {Array} - An array of arrrays with external comparison data
+ * @example (first name, last name, birth date, ssn)
+ * [
+ *   ['John', 'Doe', '1990-01-01', '123-45-6789'],
+ *   ['Jane', 'Smith', '1992-02-02', '987-65-4321']
+ * ]
  */

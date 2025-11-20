@@ -6,6 +6,7 @@ import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array
 import { focusElement } from 'platform/utilities/ui';
 import { scrollToTop } from 'platform/utilities/scroll';
 
+import environment from 'platform/utilities/environment';
 import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
@@ -18,6 +19,11 @@ import {
   additionalOfficialArrayOptions,
   readOnlyCertifyingOfficialArrayOptions,
 } from '../helpers';
+
+import testData from '../tests/fixtures/data/maximal-test.json';
+import submitForm from './submitForm';
+import { transform } from './submit-transformer';
+import { SUBMIT_URL } from '../constants';
 
 // pages
 import {
@@ -48,12 +54,22 @@ export const confirmFormLogic = ({ router, route }) => (
   <ConfirmationPage router={router} route={route} />
 );
 
+export const submitFormLogic = (form, formConfig) => {
+  if (environment.isDev() || environment.isLocalhost()) {
+    return Promise.resolve(testData);
+  }
+  return submitForm(form, formConfig);
+};
+
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   // submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  // submit: () =>
+  //   Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: SUBMIT_URL,
+  submit: submitFormLogic,
+  transformForSubmit: transform,
   trackingPrefix: 'Edu-8794-',
   introduction: IntroductionPage,
   confirmation: confirmFormLogic,

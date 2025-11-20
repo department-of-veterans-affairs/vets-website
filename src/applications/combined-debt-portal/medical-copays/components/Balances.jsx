@@ -3,16 +3,26 @@ import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/med
 import PropTypes from 'prop-types';
 import BalanceCard from './BalanceCard';
 
-export const Balances = ({ statements, showVHAPaymentHistory = false }) => {
+export const Balances = ({
+  statements,
+  paginationText,
+  showVHAPaymentHistory = false,
+}) => {
   const single = (
-    <h2 id="balance-list" className="vads-u-margin-top--2">
-      What you owe to your facility
-    </h2>
+    <div>
+      <h2 id="balance-list" className="vads-u-margin-top--2">
+        What you owe to your facility
+      </h2>
+      <p>{paginationText}</p>
+    </div>
   );
   const multiple = (
-    <h2 id="balance-list" className="vads-u-margin-top--2">
-      Your most recent statement balances for the last six months
-    </h2>
+    <div>
+      <h2 id="balance-list" className="vads-u-margin-top--2">
+        Your most recent statement balances for the last six months
+      </h2>
+      <p>{paginationText}</p>
+    </div>
   );
 
   return (
@@ -31,7 +41,7 @@ export const Balances = ({ statements, showVHAPaymentHistory = false }) => {
             getMedicalCenterNameByID(balance.station.facilitYNum);
 
           return (
-            <li key={idx}>
+            <li key={idx} className="vads-u-max-width--none">
               <BalanceCard
                 id={balance.id}
                 amount={balance.pHAmtDue}
@@ -49,6 +59,7 @@ export const Balances = ({ statements, showVHAPaymentHistory = false }) => {
 };
 
 Balances.propTypes = {
+  paginationText: PropTypes.string,
   showVHAPaymentHistory: PropTypes.bool,
   statements: PropTypes.array,
 };

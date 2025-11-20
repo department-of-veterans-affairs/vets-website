@@ -1,0 +1,78 @@
+import React, { useEffect } from 'react';
+import { useParams } from 'react-router-dom-v5-compat';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { HelpTextManage } from './HelpText';
+import ClaimDetailsContent from './ClaimDetailsContent';
+import { getClaimDetails } from '../redux/actions';
+import { TRAVEL_PAY_INFO_LINK, REIMBURSEMENT_URL } from '../constants';
+
+export default function TravelClaimDetailsContent() {
+  const { id } = useParams();
+  const dispatch = useDispatch();
+
+  const { data, error } = useSelector(state => state.travelPay.claimDetails);
+
+  useEffect(
+    () => {
+      if (id && !data[id] && !error) {
+        dispatch(getClaimDetails(id));
+      }
+    },
+    [dispatch, data, error, id],
+  );
+
+  return (
+    <>
+      {error && (
+        <>
+          <h1>Your travel reimbursement claim</h1>
+          <va-alert
+            close-btn-aria-label="Close notification"
+            status="error"
+            visible
+          >
+            <h2 slot="headline">Something went wrong on our end</h2>
+            <p className="vads-u-margin-y--0">
+              We’re sorry. We couldn’t get your travel reimbursement claim
+              status in this tool right now. Please try again later.
+            </p>
+            <p>
+              You can call the BTSSS call center at{' '}
+              <va-telephone contact="8555747292" /> (
+              <va-telephone tty contact="711" />) Monday through Friday, 8:00
+              a.m. to 8:00 p.m. ET.
+            </p>
+            <va-link
+              href={TRAVEL_PAY_INFO_LINK}
+              text="Find out how to file for travel reimbursement"
+            />
+          </va-alert>
+        </>
+      )}
+      {data[id] && <ClaimDetailsContent {...data[id]} />}
+      <hr />
+
+      <div className="vads-u-margin-bottom--4">
+        <p>
+          If you’re eligible for reimbursement, we’ll deposit your reimbursement
+          in your bank account.
+        </p>
+        <va-link
+          href={REIMBURSEMENT_URL}
+          text="Learn how to set up direct deposit for travel pay reimbursement"
+        />
+        <p>
+          <strong>Note:</strong> Even if you already set up direct deposit for
+          your VA benefits, you’ll need to set up another direct deposit for VA
+          travel pay reimbursements.
+        </p>
+      </div>
+      <va-need-help>
+        <div slot="content">
+          <HelpTextManage />
+        </div>
+      </va-need-help>
+    </>
+  );
+}

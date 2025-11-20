@@ -4,13 +4,20 @@ import { Link } from 'react-router-dom-v5-compat';
 import ExtraDetails from '../shared/ExtraDetails';
 import LastFilledInfo from '../shared/LastFilledInfo';
 import { dateFormat, getRxStatus, rxSourceIsNonVA } from '../../util/helpers';
-import { dataDogActionNames } from '../../util/dataDogConstants';
+import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
+import {
+  DATETIME_FORMATS,
+  RX_SOURCE,
+  DISPENSE_STATUS,
+} from '../../util/constants';
 
 const MedicationsListCard = ({ rx }) => {
   const pendingMed =
-    rx.prescriptionSource === 'PD' && rx?.dispStatus === 'NewOrder';
+    rx.prescriptionSource === RX_SOURCE.PENDING_DISPENSE &&
+    rx?.dispStatus === DISPENSE_STATUS.NEW_ORDER;
   const pendingRenewal =
-    rx.prescriptionSource === 'PD' && rx?.dispStatus === 'Renew';
+    rx.prescriptionSource === RX_SOURCE.PENDING_DISPENSE &&
+    rx?.dispStatus === DISPENSE_STATUS.RENEW;
   const latestTrackingStatus = rx?.trackingList?.[0];
   const isNonVaPrescription = rxSourceIsNonVA(rx);
   const rxStatus = getRxStatus(rx);
@@ -49,7 +56,7 @@ const MedicationsListCard = ({ rx }) => {
         {rx && <LastFilledInfo {...rx} />}
         {latestTrackingStatus && (
           <p
-            className="vads-u-margin-top--1p5 vads-u-padding-bottom--1p5 vads-u-border-bottom--1px vads-u-border-color--gray-lighter"
+            className="vads-u-margin-top--1p5 vads-u-padding-bottom--1p5 vads-u-border-bottom--1px vads-u-border-color--gray"
             data-testid="rx-card-details--shipped-on"
             data-dd-privacy="mask"
           >
@@ -62,7 +69,7 @@ const MedicationsListCard = ({ rx }) => {
               Shipped on{' '}
               {dateFormat(
                 latestTrackingStatus.completeDateTime,
-                'MMMM D, YYYY',
+                DATETIME_FORMATS.longMonthDate,
               )}
             </span>
           </p>
@@ -77,7 +84,7 @@ const MedicationsListCard = ({ rx }) => {
             {rxStatus}
           </p>
         )}
-        {rx && <ExtraDetails {...rx} />}
+        {rx && <ExtraDetails {...rx} page={pageType.LIST} />}
       </>
     );
   };

@@ -1,6 +1,6 @@
 import { CONTESTABLE_ISSUES_API } from '../constants/apis';
 
-import mockData from './fixtures/data/minimal-test.json';
+import mockData from './fixtures/data/pre-api-minimal-test.json';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
 
 import { SC_BASE_URL } from '../../shared/constants';

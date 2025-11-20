@@ -21,7 +21,7 @@ export const PROCESSING_BANNER = {
 export const ERROR_BANNER = {
   HEADER: 'We couldn’t process the accepted request',
   COPY:
-    'We’re sorry, there was a problem with our system. We weren’t able to process the accepted request. Power of attorney has not been established with this claimant. To try again, ask the claimant to resubmit online VA Form 21-22.',
+    'We’re sorry, there was a problem with our system. We weren’t able to process the accepted request. Representation has not been established with this claimant. To try again, ask the claimant to resubmit online VA Form 21-22.',
 };
 
 export const expiresSoon = expDate => {
@@ -76,7 +76,7 @@ export const formSubmissionStatus = x => {
     return (
       <span className="poa-request__card-field--submission-status">
         <va-icon icon="autorenew" size={3} tab-index="-1" aria-hidden="true" />
-        We’re processing the accepted POA request
+        We’re processing the accepted request
       </span>
     );
   }
@@ -84,7 +84,7 @@ export const formSubmissionStatus = x => {
     return (
       <span className="poa-request__card-field--submission-status">
         <va-icon icon="error" size={3} tab-index="-1" aria-hidden="true" />
-        We couldn’t process the accepted POA request
+        We couldn’t process the accepted request
       </span>
     );
   }
@@ -111,7 +111,7 @@ export const resolutionDate = (date, requestId) => {
 
 export const DETAILS_BC_LABEL = 'details breadcrumb';
 export const SEARCH_BC_LABEL = 'search breadcrumb';
-export const HELP_BC_LABEL = 'search breadcrumb';
+export const HELP_BC_LABEL = 'help breadcrumb';
 export const DASHBOARD_BC_LABEL = 'dashboard breadcrumb';
 
 export const HelpBC = [
@@ -120,7 +120,7 @@ export const HelpBC = [
     label: 'VA.gov/representative home',
   },
   {
-    href: '/representative/get-help',
+    href: '/representative/help',
     label: 'Get help with the Accredited Representative Portal',
   },
 ];
@@ -151,7 +151,7 @@ export const poaDetailsBreadcrumbs = [
     label: 'VA.gov/representative home',
   },
   {
-    href: '/representative/poa-requests',
+    href: '/representative/representation-requests',
     label: 'Representation requests',
   },
   {

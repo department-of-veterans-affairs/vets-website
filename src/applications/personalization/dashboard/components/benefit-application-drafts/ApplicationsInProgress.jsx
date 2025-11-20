@@ -10,6 +10,7 @@ import {
   presentableFormIDs,
   sipFormSorter,
   normalizeSubmissionStatus,
+  formatFormTitle,
 } from '~/applications/personalization/dashboard/helpers';
 
 import { MY_VA_SIP_FORMS } from '~/platform/forms/constants';
@@ -112,6 +113,8 @@ const ApplicationsInProgress = ({
         {hasForms && (
           <div>
             {allForms.map(form => {
+              const formArrays = ['22-10275', '22-10297'];
+
               const formId = form.form;
               const formStatus = form.status;
               const { pdfSupport } = form;
@@ -119,11 +122,18 @@ const ApplicationsInProgress = ({
               // otherwise use "VA Form {formId}" for non-SiP forms
               const formMeta = MY_VA_SIP_FORMS.find(e => e.id === formId);
               const hasBenefit = !!formMeta?.benefit;
+              const isForm = formArrays.includes(formId);
               // Temporary custom label for 21-4142 via 526 claim
               // and for 686C-674-v2 so they can be user-friendly
               let formIdLabel;
               if (formId === 'form526_form4142') {
                 formIdLabel = '21-4142 submitted with VA Form 21-526EZ';
+              } else if (isForm) {
+                formIdLabel = formMeta?.title
+                  ? `${formId} (${formMeta.title})`
+                  : formId;
+              } else if (formId === 'form0995_form4142') {
+                formIdLabel = '21-4142 submitted with VA Form 20-0995';
               } else {
                 formIdLabel = form.form.replace(/-V2$/i, '');
               }
@@ -152,9 +162,10 @@ const ApplicationsInProgress = ({
                     continueUrl={continueUrl}
                     expirationDate={expirationDate}
                     formId={formId}
-                    formTitle={formTitle}
+                    formTitle={isForm ? formTitle : formatFormTitle(formTitle)}
                     lastSavedDate={lastSavedDate}
                     presentableFormId={hasBenefit ? presentableFormId : false}
+                    isForm={isForm}
                   />
                 );
               }
@@ -166,7 +177,6 @@ const ApplicationsInProgress = ({
                   fromUnixTime(createdAt),
                   'MMMM d, yyyy',
                 );
-
                 return (
                   <SubmissionCard
                     key={formId}

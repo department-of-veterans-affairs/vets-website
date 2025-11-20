@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import {
   generatePdfScaffold,
   updatePageTitle,
@@ -33,12 +32,6 @@ import LabelValue from '../shared/LabelValue';
 const PathologyDetails = props => {
   const { record, fullState, runningUnitTest } = props;
   const user = useSelector(state => state.user.profile);
-  const allowTxtDownloads = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
-      ],
-  );
   const [downloadStarted, setDownloadStarted] = useState(false);
 
   useEffect(
@@ -119,16 +112,6 @@ ${record.results} \n`;
         />
 
         {downloadStarted && <DownloadSuccessAlert />}
-        <PrintDownload
-          description="L&TR Detail"
-          downloadPdf={generatePathologyPdf}
-          allowTxtDownloads={allowTxtDownloads}
-          downloadTxt={generatePathologyTxt}
-        />
-        <DownloadingRecordsInfo
-          description="L&TR Detail"
-          allowTxtDownloads={allowTxtDownloads}
-        />
 
         <div className="test-details-container max-80">
           <HeaderSection header="Details about this test">
@@ -165,6 +148,14 @@ ${record.results} \n`;
             </p>
           </HeaderSection>
         </div>
+        <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
+        <DownloadingRecordsInfo description="L&TR Detail" />
+        <PrintDownload
+          description="L&TR Detail"
+          downloadPdf={generatePathologyPdf}
+          downloadTxt={generatePathologyTxt}
+        />
+        <div className="vads-u-margin-y--5 vads-u-border-top--1px vads-u-border-color--white" />
       </HeaderSection>
     </div>
   );

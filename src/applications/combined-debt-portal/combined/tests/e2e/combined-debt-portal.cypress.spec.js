@@ -14,7 +14,7 @@ import {
   vbmsResponses,
 } from './helpers/cdp-helpers';
 
-describe('CDP - Your VA debt and bills (overview)', () => {
+describe('CDP - Overpayments and copay bills (overview)', () => {
   beforeEach(() => {
     cy.login(mockUser81);
     cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles).as(
@@ -34,7 +34,10 @@ describe('CDP - Your VA debt and bills (overview)', () => {
     });
 
     it('should display No-copays-or-debts alert - C17928', () => {
-      cy.findByTestId('balance-card-combo-alert-zero').should('exist');
+      cy.get('h2').should(
+        'contain',
+        'You don’t have any current VA debt or copay bills',
+      );
 
       cy.findByTestId('balance-card-copay').should('not.exist');
       cy.findByTestId('balance-card-debt').should('not.exist');

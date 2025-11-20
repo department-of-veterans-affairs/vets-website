@@ -1,7 +1,9 @@
-import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { format } from 'date-fns';
+
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { Actions } from '../util/actionTypes';
 import {
+  DEFAULT_DATE_RANGE,
   EMPTY_FIELD,
   loincCodes,
   noteTypes,
@@ -13,6 +15,7 @@ import {
   isArrayAndHasItems,
   decodeBase64Report,
   formatNameFirstToLast,
+  buildInitialDateRange,
 } from '../util/helpers';
 
 const initialState = {
@@ -40,6 +43,10 @@ const initialState = {
    * The care summaries and notes currently being displayed to the user
    */
   careSummariesAndNotesDetails: undefined,
+  /**
+   * The date range currently being displayed to the user
+   */
+  dateRange: buildInitialDateRange(DEFAULT_DATE_RANGE),
 };
 
 export const getTitle = record => {
@@ -335,6 +342,14 @@ export const careSummariesAndNotesReducer = (state = initialState, action) => {
         ),
       };
     }
+    case Actions.CareSummariesAndNotes.GET_UNIFIED_ITEM_FROM_LIST: {
+      return {
+        ...state,
+        careSummariesAndNotesDetails: action.response.data.id
+          ? convertUnifiedCareSummariesAndNotesRecord(action.response.data)
+          : { ...action.response.data },
+      };
+    }
     case Actions.CareSummariesAndNotes.GET_FROM_LIST: {
       return {
         ...state,
@@ -343,7 +358,6 @@ export const careSummariesAndNotesReducer = (state = initialState, action) => {
     }
     case Actions.CareSummariesAndNotes.GET_UNIFIED_LIST: {
       const data = action.response.data || [];
-      const oldList = state.careSummariesAndNotesList;
       const newList =
         data
           ?.map(note => {
@@ -358,9 +372,7 @@ export const careSummariesAndNotesReducer = (state = initialState, action) => {
         ...state,
         listCurrentAsOf: action.isCurrent ? new Date() : null,
         listState: loadStates.FETCHED,
-        careSummariesAndNotesList:
-          typeof oldList === 'undefined' ? newList : oldList,
-        updatedList: typeof oldList !== 'undefined' ? newList : undefined,
+        careSummariesAndNotesList: newList,
       };
     }
     case Actions.CareSummariesAndNotes.GET_LIST: {
@@ -413,6 +425,12 @@ export const careSummariesAndNotesReducer = (state = initialState, action) => {
       return {
         ...state,
         listState: action.payload,
+      };
+    }
+    case Actions.CareSummariesAndNotes.SET_DATE_RANGE: {
+      return {
+        ...state,
+        dateRange: action.payload,
       };
     }
     default:

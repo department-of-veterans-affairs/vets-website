@@ -4,11 +4,9 @@ import PropTypes from 'prop-types';
 import {
   parse,
   isValid,
-  differenceInYears,
   format,
-  isWithinInterval,
-  startOfToday,
-  addDays,
+  differenceInCalendarDays,
+  add,
 } from 'date-fns';
 
 import { scrollTo } from 'platform/utilities/scroll';
@@ -16,8 +14,27 @@ import { focusElement } from 'platform/utilities/ui';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import ManageDependents from '../../manage-dependents/containers/ManageDependentsApp';
-import { maskID } from '../../../shared/utils';
+import { maskID, calculateAge } from '../../../shared/utils';
 
+/**
+ * @typedef ViewDependentsListItemProps
+ * @property {boolean} manageDependentsToggle
+ * @property {string} firstName
+ * @property {string} lastName
+ * @property {string} relationship
+ * @property {string} ssn
+ * @property {string} dateOfBirth
+ * @property {string} upcomingRemoval
+ * @property {number} stateKey
+ * @property {boolean} openFormlett
+ * @property {Array} submittedDependents
+ */
+/**
+ * View Dependents list item
+ * Show a single dependent card
+ * @param {ViewDependentsListItemProps} props - Component props
+ * @returns {JSX.Element} Dependent card
+ */
 function ViewDependentsListItem(props) {
   const [open, setOpen] = useState(false);
   const openRef = useRef(null);
@@ -63,18 +80,15 @@ function ViewDependentsListItem(props) {
   const removalDate = upcomingRemoval
     ? parse(upcomingRemoval, 'MM/dd/yyyy', new Date())
     : '';
-  const ageInYears = isValid(dobObj)
-    ? differenceInYears(new Date(), dobObj)
-    : '';
-  const upcomingBirthday = isValid(dobObj)
-    ? new Date(new Date().getFullYear(), dobObj.getMonth(), dobObj.getDate())
-    : null;
+  const ageInYears = calculateAge(dateOfBirth);
+  const upcomingBirthday = isValid(dobObj) ? add(dobObj, { years: 18 }) : null;
 
+  const differenceInDays = differenceInCalendarDays(
+    add(new Date(), { days: 90 }),
+    upcomingBirthday,
+  );
   const isUpcomingWithin90Days = upcomingBirthday
-    ? isWithinInterval(upcomingBirthday, {
-        start: startOfToday(),
-        end: addDays(startOfToday(), 90),
-      })
+    ? differenceInDays >= 0 && differenceInDays <= 90
     : false;
 
   return (
@@ -115,7 +129,7 @@ function ViewDependentsListItem(props) {
                 className="dd-privacy-mask"
                 data-dd-action-name="Dependent's age"
               >
-                {ageInYears} years old
+                {ageInYears.labeledAge}
               </dd>
             </div>
           )}

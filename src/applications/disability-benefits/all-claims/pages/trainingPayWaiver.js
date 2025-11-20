@@ -1,5 +1,6 @@
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import { waiveTrainingPayDescription } from '../content/trainingPayWaiver';
+import ConfirmationTrainingPayWaiver from '../components/confirmationFields/ConfirmationTrainingPayWaiver';
 
 const { waiveTrainingPay } = fullSchema.properties;
 
@@ -18,6 +19,7 @@ export const uiSchema = {
       },
     },
   },
+  'ui:confirmationField': ConfirmationTrainingPayWaiver,
 };
 
 export const schema = {

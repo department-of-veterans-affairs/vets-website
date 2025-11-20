@@ -1,48 +1,44 @@
 import { expect } from 'chai';
-
 import {
   getVAEvidence,
   getPrivateEvidence,
   getOtherEvidence,
-  hasVAEvidence,
-  hasPrivateEvidence,
-  hasPrivateLimitation,
-  hasNewPrivateLimitation,
-  hasOriginalPrivateLimitation,
-  hasOtherEvidence,
   getIndex,
+  getProviderDetailsTitle,
+  getProviderModalDeleteTitle,
   evidenceNeedsUpdating,
   removeNonSelectedIssuesFromEvidence,
-  onFormLoaded,
 } from '../../utils/evidence';
 import {
-  EVIDENCE_VA,
-  EVIDENCE_PRIVATE,
-  EVIDENCE_LIMIT,
-  EVIDENCE_OTHER,
-  SC_NEW_FORM_DATA,
-  HAS_REDIRECTED,
+  HAS_VA_EVIDENCE,
+  HAS_PRIVATE_EVIDENCE,
+  HAS_OTHER_EVIDENCE,
 } from '../../constants';
-
 import { SELECTED } from '../../../shared/constants';
 
 describe('getIndex', () => {
   const testData = ['', '', ''];
+
   it('should return search param index', () => {
     expect(getIndex(testData, null, '?index=1')).to.eq(1);
   });
+
   it('should return data length for larger indexes', () => {
     expect(getIndex(testData, null, '?index=9')).to.eq(testData.length);
   });
+
   it('should return zero for no index', () => {
     expect(getIndex(testData, null, '?test=a')).to.eq(0);
   });
+
   it('should return zero for non-number indexes', () => {
     expect(getIndex(testData, null, '?index=a')).to.eq(0);
   });
+
   it('should return testIndex when missing an index', () => {
     expect(getIndex(testData, '2', '?test=a')).to.eq(2);
   });
+
   it('should return zero when missing an index & testIndex', () => {
     expect(getIndex(testData, null, '?test=a')).to.eq(0);
   });
@@ -51,17 +47,24 @@ describe('getIndex', () => {
 describe('getVAEvidence', () => {
   it('should return expected value', () => {
     expect(
-      getVAEvidence({ [EVIDENCE_VA]: undefined, locations: [{}] }),
+      getVAEvidence({ [HAS_VA_EVIDENCE]: undefined, locations: [{}] }),
     ).to.deep.equal([]);
+
     expect(
-      getVAEvidence({ [EVIDENCE_VA]: true, locations: [{}] }),
+      getVAEvidence({ [HAS_VA_EVIDENCE]: true, locations: [{}] }),
     ).to.deep.equal([{}]);
-    expect(getVAEvidence({ [EVIDENCE_VA]: true, locations: [] })).to.deep.equal(
-      [],
-    );
+
     expect(
-      getVAEvidence({ [EVIDENCE_VA]: false, locations: [{}] }),
+      getVAEvidence({ [HAS_VA_EVIDENCE]: true, locations: [] }),
     ).to.deep.equal([]);
+
+    expect(
+      getVAEvidence({ [HAS_VA_EVIDENCE]: false, locations: [{}] }),
+    ).to.deep.equal([]);
+
+    expect(
+      getVAEvidence({ [HAS_VA_EVIDENCE]: true, locations: [{ test: 'test' }] }),
+    ).to.deep.equal([{ test: 'test' }]);
   });
 });
 
@@ -69,18 +72,27 @@ describe('getPrivateEvidence', () => {
   it('should return expected value', () => {
     expect(
       getPrivateEvidence({
-        [EVIDENCE_PRIVATE]: undefined,
+        [HAS_PRIVATE_EVIDENCE]: undefined,
         providerFacility: [{}],
       }),
     ).to.deep.equal([]);
     expect(
-      getPrivateEvidence({ [EVIDENCE_PRIVATE]: true, providerFacility: [{}] }),
+      getPrivateEvidence({
+        [HAS_PRIVATE_EVIDENCE]: true,
+        providerFacility: [{}],
+      }),
     ).to.deep.equal([{}]);
     expect(
-      getPrivateEvidence({ [EVIDENCE_PRIVATE]: true, providerFacility: [] }),
+      getPrivateEvidence({
+        [HAS_PRIVATE_EVIDENCE]: true,
+        providerFacility: [],
+      }),
     ).to.deep.equal([]);
     expect(
-      getPrivateEvidence({ [EVIDENCE_PRIVATE]: false, providerFacility: [{}] }),
+      getPrivateEvidence({
+        [HAS_PRIVATE_EVIDENCE]: false,
+        providerFacility: [{}],
+      }),
     ).to.deep.equal([]);
   });
 });
@@ -89,121 +101,25 @@ describe('getOtherEvidence', () => {
   it('should return expected value', () => {
     expect(
       getOtherEvidence({
-        [EVIDENCE_OTHER]: undefined,
+        [HAS_OTHER_EVIDENCE]: undefined,
         additionalDocuments: [{}],
       }),
     ).to.deep.equal([]);
     expect(
-      getOtherEvidence({ [EVIDENCE_OTHER]: true, additionalDocuments: [{}] }),
+      getOtherEvidence({
+        [HAS_OTHER_EVIDENCE]: true,
+        additionalDocuments: [{}],
+      }),
     ).to.deep.equal([{}]);
     expect(
-      getOtherEvidence({ [EVIDENCE_OTHER]: true, additionalDocuments: [] }),
+      getOtherEvidence({ [HAS_OTHER_EVIDENCE]: true, additionalDocuments: [] }),
     ).to.deep.equal([]);
     expect(
-      getOtherEvidence({ [EVIDENCE_OTHER]: false, additionalDocuments: [{}] }),
+      getOtherEvidence({
+        [HAS_OTHER_EVIDENCE]: false,
+        additionalDocuments: [{}],
+      }),
     ).to.deep.equal([]);
-  });
-});
-
-describe('hasVAEvidence', () => {
-  it('should return expected value', () => {
-    expect(hasVAEvidence({ [EVIDENCE_VA]: undefined })).to.be.undefined;
-    expect(hasVAEvidence({ [EVIDENCE_VA]: true })).to.be.true;
-    expect(hasVAEvidence({ [EVIDENCE_VA]: false })).to.be.false;
-  });
-});
-
-describe('hasPrivateEvidence', () => {
-  it('should return expected value', () => {
-    expect(hasPrivateEvidence({ [EVIDENCE_PRIVATE]: undefined })).to.be
-      .undefined;
-    expect(hasPrivateEvidence({ [EVIDENCE_PRIVATE]: true })).to.be.true;
-    expect(hasPrivateEvidence({ [EVIDENCE_PRIVATE]: false })).to.be.false;
-  });
-});
-
-describe('hasPrivateLimitation', () => {
-  it('should always return false when toggle is disabled', () => {
-    const getData = (hasPrivate, limit = false) => ({
-      [SC_NEW_FORM_DATA]: false,
-      [EVIDENCE_PRIVATE]: hasPrivate,
-      [EVIDENCE_LIMIT]: limit,
-    });
-    expect(hasPrivateLimitation(getData())).to.be.false;
-    expect(hasPrivateLimitation(getData(true))).to.be.false;
-    expect(hasPrivateLimitation(getData(false))).to.be.false;
-    expect(hasPrivateLimitation(getData(false, false))).to.be.false;
-    expect(hasPrivateLimitation(getData(false, true))).to.be.false;
-    expect(hasPrivateLimitation(getData(true, true))).to.be.false;
-    expect(hasPrivateLimitation(getData(true, false))).to.be.false;
-  });
-  it('should return expected value', () => {
-    const getData = limit => ({
-      [SC_NEW_FORM_DATA]: true,
-      [EVIDENCE_PRIVATE]: true,
-      [EVIDENCE_LIMIT]: limit,
-    });
-    // returns false when limitation is falsy, and true when truthy
-    expect(hasPrivateLimitation(getData(false))).to.be.false;
-    expect(hasPrivateLimitation(getData())).to.be.false;
-    expect(hasPrivateLimitation(getData(''))).to.be.false;
-    expect(hasPrivateLimitation(getData('test'))).to.be.true;
-    expect(hasPrivateLimitation(getData(true))).to.be.true;
-  });
-});
-
-describe('hasNewPrivateLimitation', () => {
-  it('should always return false when toggle is disabled', () => {
-    const getData = hasPrivate => ({
-      [SC_NEW_FORM_DATA]: false,
-      [EVIDENCE_PRIVATE]: hasPrivate,
-    });
-    expect(hasNewPrivateLimitation(getData())).to.be.false;
-    expect(hasNewPrivateLimitation(getData(true))).to.be.false;
-    expect(hasNewPrivateLimitation(getData(false))).to.be.false;
-  });
-  it('should return expected value', () => {
-    const getData = hasPrivate => ({
-      [SC_NEW_FORM_DATA]: true,
-      [EVIDENCE_PRIVATE]: hasPrivate,
-    });
-    expect(hasNewPrivateLimitation(getData())).to.be.undefined; // falsy
-    expect(hasNewPrivateLimitation(getData(''))).to.eq(''); // falsy
-    expect(hasNewPrivateLimitation(getData('test'))).to.eq('test'); // truthy
-    expect(hasNewPrivateLimitation(getData(true))).to.be.true;
-  });
-});
-
-// hasOriginalPrivateLimitation,
-describe('hasOriginalPrivateLimitation', () => {
-  it('should always return false when toggle is disabled', () => {
-    const getData = hasPrivate => ({
-      [SC_NEW_FORM_DATA]: true,
-      [EVIDENCE_PRIVATE]: hasPrivate,
-    });
-    expect(hasOriginalPrivateLimitation(getData())).to.be.false;
-    expect(hasOriginalPrivateLimitation(getData(true))).to.be.false;
-    expect(hasOriginalPrivateLimitation(getData(false))).to.be.false;
-  });
-  it('should return expected value', () => {
-    const getData = hasPrivate => ({
-      [SC_NEW_FORM_DATA]: false,
-      [EVIDENCE_PRIVATE]: hasPrivate,
-    });
-    // only returns false when explicitly set to false
-    expect(hasOriginalPrivateLimitation(getData(false))).to.be.false;
-    expect(hasOriginalPrivateLimitation(getData())).to.be.undefined; // falsy
-    expect(hasOriginalPrivateLimitation(getData(''))).to.eq(''); // falsy
-    expect(hasOriginalPrivateLimitation(getData('test'))).to.eq('test'); // truthy
-    expect(hasOriginalPrivateLimitation(getData(true))).to.be.true;
-  });
-});
-
-describe('hasOtherEvidence', () => {
-  it('should return expected value', () => {
-    expect(hasOtherEvidence({ [EVIDENCE_OTHER]: undefined })).to.be.undefined;
-    expect(hasOtherEvidence({ [EVIDENCE_OTHER]: true })).to.be.true;
-    expect(hasOtherEvidence({ [EVIDENCE_OTHER]: false })).to.be.false;
   });
 });
 
@@ -216,8 +132,8 @@ describe('evidenceNeedsUpdating', () => {
     providerFacility = [{ issues: ['abc', 'def'] }],
   } = {}) => {
     return {
-      [EVIDENCE_VA]: hasVa,
-      [EVIDENCE_PRIVATE]: hasPrivate,
+      [HAS_VA_EVIDENCE]: hasVa,
+      [HAS_PRIVATE_EVIDENCE]: hasPrivate,
       contestedIssues: [
         {
           attributes: { ratingIssueSubjectText: 'def' },
@@ -234,27 +150,33 @@ describe('evidenceNeedsUpdating', () => {
     const evidence = getEvidence({ hasVa: false, hasPrivate: false });
     expect(evidenceNeedsUpdating(evidence)).to.be.false;
   });
+
   it('should return false if VA evidence undefined', () => {
     const evidence = getEvidence({ hasVa: false, hasPrivate: false });
     expect(evidenceNeedsUpdating({ ...evidence, locations: null })).to.be.false;
   });
+
   it('should return false if provider facility evidence undefined', () => {
     const evidence = getEvidence({ hasVa: false, hasPrivate: false });
     expect(evidenceNeedsUpdating({ ...evidence, providerFacility: null })).to.be
       .false;
   });
+
   it('should return false if provider facility evidence undefined', () => {
-    expect(evidenceNeedsUpdating({ [EVIDENCE_VA]: true, locations: [{}] })).to
-      .be.false;
+    expect(evidenceNeedsUpdating({ [HAS_VA_EVIDENCE]: true, locations: [{}] }))
+      .to.be.false;
   });
+
   it('should return false if no updates needed', () => {
     const evidence = getEvidence();
     expect(evidenceNeedsUpdating(evidence)).to.be.false;
   });
+
   it('should return true if issue no longer exists', () => {
     const evidence = getEvidence({ addIssue: '' });
     expect(evidenceNeedsUpdating(evidence)).to.be.true;
   });
+
   it('should return true if issue is renamed', () => {
     const evidence = getEvidence({ addIssue: 'acb' });
     expect(evidenceNeedsUpdating(evidence)).to.be.true;
@@ -271,7 +193,7 @@ describe('removeNonSelectedIssuesFromEvidence', () => {
       { issue: 'test 2', [SELECTED]: true },
       { issue: 'test 4', [SELECTED]: false },
     ],
-    [EVIDENCE_VA]: true,
+    [HAS_VA_EVIDENCE]: true,
     locations: [
       {
         foo: true,
@@ -284,7 +206,7 @@ describe('removeNonSelectedIssuesFromEvidence', () => {
         issues: ['test 1', 'test 2', addLocation].filter(Boolean),
       },
     ],
-    [EVIDENCE_PRIVATE]: true,
+    [HAS_PRIVATE_EVIDENCE]: true,
     providerFacility: [
       {
         foo: false,
@@ -300,25 +222,30 @@ describe('removeNonSelectedIssuesFromEvidence', () => {
   });
 
   const expected = getData();
+
   it('should return empty template with empty form data', () => {
     const result = removeNonSelectedIssuesFromEvidence();
     expect(result).to.deep.eq({ locations: [], providerFacility: [] });
   });
+
   it('should return un-modified evidence issues', () => {
     const data = getData('', '');
     const result = removeNonSelectedIssuesFromEvidence(data);
     expect(result).to.deep.eq(expected);
   });
+
   it('should return remove non-selected location issues', () => {
     const data = getData('test 3', '');
     const result = removeNonSelectedIssuesFromEvidence(data);
     expect(result).to.deep.eq(expected);
   });
+
   it('should return remove non-selected facility issues', () => {
     const data = getData('', 'test 4');
     const result = removeNonSelectedIssuesFromEvidence(data);
     expect(result).to.deep.eq(expected);
   });
+
   it('should return remove non-selected issues', () => {
     const data = getData('test 3', 'test 4');
     const result = removeNonSelectedIssuesFromEvidence(data);
@@ -326,100 +253,136 @@ describe('removeNonSelectedIssuesFromEvidence', () => {
   });
 });
 
-describe('onFormLoaded', () => {
-  const getLocation = ({ from, treatmentDate }) => ({
-    evidenceDates: { from },
-    treatmentDate,
-    noDate: !treatmentDate,
-  });
-  const getData = ({
-    toggle = false,
-    locations = [],
-    redirected = true,
-  } = {}) => ({
-    [SC_NEW_FORM_DATA]: toggle,
-    [HAS_REDIRECTED]: redirected,
-    locations,
-  });
-  const returnUrl = '/test';
+describe('getProviderDetailsTitle', () => {
+  describe('va content', () => {
+    describe('add mode', () => {
+      it('should show correct title with spelled out index', () => {
+        expect(getProviderDetailsTitle('add', 1, 'va')).to.contain(
+          'What VA or military treatment location should we request records from?',
+        );
 
-  it('should do nothing when locations is an empty array', () => {
-    const router = [];
-    const formData = getData();
-    onFormLoaded({ formData, returnUrl, router });
-    expect(formData).to.deep.equal(getData());
-    expect(router[0]).to.eq(returnUrl);
-  });
+        expect(getProviderDetailsTitle('add', 3, 'va')).to.contain(
+          'What third VA or military treatment location should we request records from?',
+        );
 
-  it('should do nothing when locations is an empty array when feature toggle is set', () => {
-    const router = [];
-    const formData = getData({ toggle: true });
-    onFormLoaded({ formData, returnUrl, router });
-    expect(formData).to.deep.equal(getData({ toggle: true }));
-    expect(router[0]).to.eq(returnUrl);
-  });
+        expect(getProviderDetailsTitle('add', 20, 'va')).to.contain(
+          'What 20th VA or military treatment location should we request records from?',
+        );
 
-  it('should do nothing when feature toggle is not set', () => {
-    const router = [];
-    const locations = [getLocation({ from: '2010-03-04' })];
-    const props = { locations };
-    const formData = getData(props);
-    onFormLoaded({ formData, returnUrl, router });
-    expect(formData).to.deep.equal(getData(props));
-    expect(router[0]).to.eq(returnUrl);
-  });
+        expect(getProviderDetailsTitle('add', 31, 'va')).to.contain(
+          'What 31st VA or military treatment location should we request records from?',
+        );
 
-  it('should update treatment date when feature toggle is set', () => {
-    const router = [];
-    const from = '2010-03-04';
-    const locations = [getLocation({ from })];
-    const props = { toggle: true, locations };
-    const formData = getData(props);
-    onFormLoaded({ formData, returnUrl, router });
-    expect(formData).to.deep.equal({
-      ...getData(props),
-      locations: [getLocation({ from, treatmentDate: '2010-03' })],
+        expect(getProviderDetailsTitle('add', 63, 'va')).to.contain(
+          'What 63rd VA or military treatment location should we request records from?',
+        );
+      });
     });
-    expect(router[0]).to.eq(returnUrl);
+
+    describe('edit mode', () => {
+      it('should the correct title with spelled out index', () => {
+        expect(getProviderDetailsTitle('edit', 1, 'va')).to.contain(
+          'Edit the first VA or military treatment location',
+        );
+
+        expect(getProviderDetailsTitle('edit', 3, 'va')).to.contain(
+          'Edit the third VA or military treatment location',
+        );
+
+        expect(getProviderDetailsTitle('edit', 20, 'va')).to.contain(
+          'Edit the 20th VA or military treatment location',
+        );
+
+        expect(getProviderDetailsTitle('edit', 31, 'va')).to.contain(
+          'Edit the 31st VA or military treatment location',
+        );
+
+        expect(getProviderDetailsTitle('edit', 63, 'va')).to.contain(
+          'Edit the 63rd VA or military treatment location',
+        );
+      });
+    });
   });
 
-  it('should not update treatment date when it is already defined & feature toggle is set', () => {
-    const router = [];
-    const from = '2010-03-04';
-    const locations = [getLocation({ from, treatmentDate: '2020-04' })];
-    const props = { toggle: true, locations };
-    const formData = getData(props);
-    onFormLoaded({ formData, returnUrl, router });
-    expect(formData).to.deep.equal({
-      ...getData(props),
-      locations: [getLocation({ from, treatmentDate: '2020-04' })],
-    });
-    expect(router[0]).to.eq(returnUrl);
-  });
+  describe('non-va content', () => {
+    describe('add mode', () => {
+      it('should show correct title with spelled out index', () => {
+        expect(getProviderDetailsTitle('add', 1, 'nonVa')).to.contain(
+          'What location should we request your private provider or VA Vet Center records from?',
+        );
 
-  it('should set no date when evidence date and treatment date are undefined & feature toggle is set', () => {
-    const router = [];
-    const props = { toggle: true, locations: [{}] };
-    const formData = getData(props);
-    onFormLoaded({ formData, returnUrl, router });
-    expect(formData).to.deep.equal({
-      ...getData(props),
-      locations: [{ noDate: true, treatmentDate: '' }],
-    });
-    expect(router[0]).to.eq(returnUrl);
-  });
+        expect(getProviderDetailsTitle('add', 3, 'nonVa')).to.contain(
+          'What third location should we request your private provider or VA Vet Center records from?',
+        );
 
-  it('should redirect when redirect flag is not set & feature toggle is set', () => {
-    sessionStorage.setItem(HAS_REDIRECTED, 'true');
-    const router = [];
-    const props = { toggle: true, locations: [{}], redirected: false };
-    const formData = getData(props);
-    onFormLoaded({ formData, returnUrl, router });
-    expect(formData).to.deep.equal({
-      ...getData(props),
-      locations: [{ noDate: true, treatmentDate: '' }],
+        expect(getProviderDetailsTitle('add', 20, 'nonVa')).to.contain(
+          'What 20th location should we request your private provider or VA Vet Center records from?',
+        );
+
+        expect(getProviderDetailsTitle('add', 31, 'nonVa')).to.contain(
+          'What 31st location should we request your private provider or VA Vet Center records from?',
+        );
+
+        expect(getProviderDetailsTitle('add', 63, 'nonVa')).to.contain(
+          'What 63rd location should we request your private provider or VA Vet Center records from?',
+        );
+      });
     });
-    expect(router[0]).to.eq('/housing-risk');
-    expect(sessionStorage.getItem(HAS_REDIRECTED)).to.eq('true');
+
+    describe('edit mode', () => {
+      it('should the correct title with spelled out index', () => {
+        expect(getProviderDetailsTitle('edit', 1, 'nonVa')).to.contain(
+          'Edit the first provider where you received treatment',
+        );
+
+        expect(getProviderDetailsTitle('edit', 3, 'nonVa')).to.contain(
+          'Edit the third provider where you received treatment',
+        );
+
+        expect(getProviderDetailsTitle('edit', 20, 'nonVa')).to.contain(
+          'Edit the 20th provider where you received treatment',
+        );
+
+        expect(getProviderDetailsTitle('edit', 31, 'nonVa')).to.contain(
+          'Edit the 31st provider where you received treatment',
+        );
+
+        expect(getProviderDetailsTitle('edit', 63, 'nonVa')).to.contain(
+          'Edit the 63rd provider where you received treatment',
+        );
+      });
+    });
+  });
+});
+
+describe('getProviderModalDeleteTitle', () => {
+  it('should show the modal title with the correct provider or facility name', () => {
+    expect(getProviderModalDeleteTitle('South Texas VA Facility')).to.contain(
+      'Do you want to keep South Texas VA Facility?',
+    );
+
+    expect(getProviderModalDeleteTitle(`General Burns' Hospital`)).to.contain(
+      `Do you want to keep General Burns' Hospital?`,
+    );
+
+    expect(getProviderModalDeleteTitle('N.E. Baptist Hospital')).to.contain(
+      'Do you want to keep N.E. Baptist Hospital?',
+    );
+
+    expect(getProviderModalDeleteTitle('')).to.contain(
+      'Do you want to keep this location?',
+    );
+
+    expect(getProviderModalDeleteTitle(null)).to.contain(
+      'Do you want to keep this location?',
+    );
+
+    expect(getProviderModalDeleteTitle(undefined)).to.contain(
+      'Do you want to keep this location?',
+    );
+
+    expect(getProviderModalDeleteTitle({})).to.contain(
+      'Do you want to keep this location?',
+    );
   });
 });

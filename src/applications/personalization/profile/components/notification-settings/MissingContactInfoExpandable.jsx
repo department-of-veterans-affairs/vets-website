@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FIELD_NAMES } from '@@vap-svc/constants';
-import { Link } from 'react-router-dom';
 import { VaAlertExpandable } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { NOTIFICATION_CHANNEL_IDS, PROFILE_PATHS } from '../../constants';
 import { useContactInfoDeepLink } from '../../hooks';
@@ -62,14 +61,13 @@ const AddYourInfoLink = ({ channel }) => {
   };
 
   return (
-    <Link
-      to={generateContactInfoLink({
+    <va-link
+      href={generateContactInfoLink({
         fieldName: fieldNames[channel.id],
         returnPath: encodeURIComponent(PROFILE_PATHS.NOTIFICATION_SETTINGS),
       })}
-    >
-      {`Add your ${channelDescriptions[channel.id]} to your profile`}
-    </Link>
+      text={`Add your ${channelDescriptions[channel.id]} to your profile`}
+    />
   );
 };
 

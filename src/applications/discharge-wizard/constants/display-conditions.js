@@ -29,6 +29,7 @@ const {
   AIR_FORCE,
   COAST_GUARD,
   MARINE_CORPS,
+  SPACE_FORCE,
   REASON_PTSD,
   REASON_TBI,
   REASON_SEXUAL_ORIENTATION,
@@ -63,25 +64,60 @@ const {
 export const DISPLAY_CONDITIONS = Object.freeze({
   SERVICE_BRANCH: {},
   DISCHARGE_YEAR: {
-    SERVICE_BRANCH: [ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS],
+    SERVICE_BRANCH: [
+      ARMY,
+      NAVY,
+      AIR_FORCE,
+      COAST_GUARD,
+      MARINE_CORPS,
+      SPACE_FORCE,
+    ],
   },
   DISCHARGE_MONTH: {
-    SERVICE_BRANCH: [ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS],
+    SERVICE_BRANCH: [
+      ARMY,
+      NAVY,
+      AIR_FORCE,
+      COAST_GUARD,
+      MARINE_CORPS,
+      SPACE_FORCE,
+    ],
     DISCHARGE_YEAR: [get15YearsPast()],
   },
   REASON: {
-    SERVICE_BRANCH: [ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS],
+    SERVICE_BRANCH: [
+      ARMY,
+      NAVY,
+      AIR_FORCE,
+      COAST_GUARD,
+      MARINE_CORPS,
+      SPACE_FORCE,
+    ],
     DISCHARGE_YEAR: yearResponses,
     DISCHARGE_MONTH: [],
   },
   DISCHARGE_TYPE: {
-    SERVICE_BRANCH: [ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS],
+    SERVICE_BRANCH: [
+      ARMY,
+      NAVY,
+      AIR_FORCE,
+      COAST_GUARD,
+      MARINE_CORPS,
+      SPACE_FORCE,
+    ],
     DISCHARGE_YEAR: yearResponses,
     DISCHARGE_MONTH: [],
     REASON: [REASON_SEXUAL_ORIENTATION],
   },
   INTENTION: {
-    SERVICE_BRANCH: [ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS],
+    SERVICE_BRANCH: [
+      ARMY,
+      NAVY,
+      AIR_FORCE,
+      COAST_GUARD,
+      MARINE_CORPS,
+      SPACE_FORCE,
+    ],
     DISCHARGE_YEAR: yearResponses,
     DISCHARGE_MONTH: [],
     REASON: [
@@ -94,7 +130,14 @@ export const DISPLAY_CONDITIONS = Object.freeze({
     ],
   },
   COURT_MARTIAL: {
-    SERVICE_BRANCH: [ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS],
+    SERVICE_BRANCH: [
+      ARMY,
+      NAVY,
+      AIR_FORCE,
+      COAST_GUARD,
+      MARINE_CORPS,
+      SPACE_FORCE,
+    ],
     DISCHARGE_YEAR: yearResponses,
     DISCHARGE_MONTH: [],
     REASON: [
@@ -108,7 +151,14 @@ export const DISPLAY_CONDITIONS = Object.freeze({
     ],
   },
   PREV_APPLICATION: {
-    SERVICE_BRANCH: [ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS],
+    SERVICE_BRANCH: [
+      ARMY,
+      NAVY,
+      AIR_FORCE,
+      COAST_GUARD,
+      MARINE_CORPS,
+      SPACE_FORCE,
+    ],
     DISCHARGE_YEAR: yearResponses,
     DISCHARGE_MONTH: [],
     REASON: [
@@ -123,7 +173,14 @@ export const DISPLAY_CONDITIONS = Object.freeze({
     COURT_MARTIAL: [COURT_MARTIAL_YES, COURT_MARTIAL_NO, NOT_SURE],
   },
   PREV_APPLICATION_YEAR: {
-    SERVICE_BRANCH: [ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS],
+    SERVICE_BRANCH: [
+      ARMY,
+      NAVY,
+      AIR_FORCE,
+      COAST_GUARD,
+      MARINE_CORPS,
+      SPACE_FORCE,
+    ],
     DISCHARGE_YEAR: yearResponses,
     DISCHARGE_MONTH: [],
     REASON: [
@@ -138,20 +195,41 @@ export const DISPLAY_CONDITIONS = Object.freeze({
   PREV_APPLICATION_TYPE: {
     FORK: {
       0: {
-        SERVICE_BRANCH: [ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS],
+        SERVICE_BRANCH: [
+          ARMY,
+          NAVY,
+          AIR_FORCE,
+          COAST_GUARD,
+          MARINE_CORPS,
+          SPACE_FORCE,
+        ],
         DISCHARGE_YEAR: yearResponses,
         DISCHARGE_MONTH: [],
         REASON: [REASON_DD215_UPDATE_TO_DD214],
       },
       1: {
-        SERVICE_BRANCH: [ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS],
+        SERVICE_BRANCH: [
+          ARMY,
+          NAVY,
+          AIR_FORCE,
+          COAST_GUARD,
+          MARINE_CORPS,
+          SPACE_FORCE,
+        ],
         DISCHARGE_YEAR: yearResponses,
         DISCHARGE_MONTH: [],
         REASON: [REASON_TRANSGENDER, REASON_ERROR, REASON_UNJUST],
         PREV_APPLICATION: [YES],
       },
       2: {
-        SERVICE_BRANCH: [ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS],
+        SERVICE_BRANCH: [
+          ARMY,
+          NAVY,
+          AIR_FORCE,
+          COAST_GUARD,
+          MARINE_CORPS,
+          SPACE_FORCE,
+        ],
         DISCHARGE_YEAR: yearResponses,
         DISCHARGE_MONTH: [],
         REASON: [
@@ -198,7 +276,14 @@ export const DISPLAY_CONDITIONS = Object.freeze({
   PRIOR_SERVICE: {
     FORK: {
       0: {
-        SERVICE_BRANCH: [ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS],
+        SERVICE_BRANCH: [
+          ARMY,
+          NAVY,
+          AIR_FORCE,
+          COAST_GUARD,
+          MARINE_CORPS,
+          SPACE_FORCE,
+        ],
         DISCHARGE_YEAR: yearResponses,
         DISCHARGE_MONTH: [],
         REASON: [REASON_SEXUAL_ORIENTATION],
@@ -206,7 +291,14 @@ export const DISPLAY_CONDITIONS = Object.freeze({
         PREV_APPLICATION: [NO],
       },
       1: {
-        SERVICE_BRANCH: [ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS],
+        SERVICE_BRANCH: [
+          ARMY,
+          NAVY,
+          AIR_FORCE,
+          COAST_GUARD,
+          MARINE_CORPS,
+          SPACE_FORCE,
+        ],
         DISCHARGE_YEAR: yearResponses,
         DISCHARGE_MONTH: [],
         REASON: [
@@ -220,7 +312,14 @@ export const DISPLAY_CONDITIONS = Object.freeze({
         PREV_APPLICATION: [NO],
       },
       2: {
-        SERVICE_BRANCH: [ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS],
+        SERVICE_BRANCH: [
+          ARMY,
+          NAVY,
+          AIR_FORCE,
+          COAST_GUARD,
+          MARINE_CORPS,
+          SPACE_FORCE,
+        ],
         DISCHARGE_YEAR: yearResponses,
         DISCHARGE_MONTH: [],
         REASON: [REASON_SEXUAL_ORIENTATION],
@@ -233,7 +332,14 @@ export const DISPLAY_CONDITIONS = Object.freeze({
         ],
       },
       3: {
-        SERVICE_BRANCH: [ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS],
+        SERVICE_BRANCH: [
+          ARMY,
+          NAVY,
+          AIR_FORCE,
+          COAST_GUARD,
+          MARINE_CORPS,
+          SPACE_FORCE,
+        ],
         DISCHARGE_YEAR: yearResponses,
         DISCHARGE_MONTH: [],
         REASON: [
@@ -252,7 +358,14 @@ export const DISPLAY_CONDITIONS = Object.freeze({
         ],
       },
       4: {
-        SERVICE_BRANCH: [ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS],
+        SERVICE_BRANCH: [
+          ARMY,
+          NAVY,
+          AIR_FORCE,
+          COAST_GUARD,
+          MARINE_CORPS,
+          SPACE_FORCE,
+        ],
         DISCHARGE_YEAR: yearResponses,
         DISCHARGE_MONTH: [],
         REASON: [
@@ -275,7 +388,14 @@ export const DISPLAY_CONDITIONS = Object.freeze({
         ],
       },
       5: {
-        SERVICE_BRANCH: [ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS],
+        SERVICE_BRANCH: [
+          ARMY,
+          NAVY,
+          AIR_FORCE,
+          COAST_GUARD,
+          MARINE_CORPS,
+          SPACE_FORCE,
+        ],
         DISCHARGE_YEAR: yearResponses,
         DISCHARGE_MONTH: [],
         REASON: [REASON_SEXUAL_ORIENTATION],
@@ -293,7 +413,14 @@ export const DISPLAY_CONDITIONS = Object.freeze({
         ],
       },
       6: {
-        SERVICE_BRANCH: [ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS],
+        SERVICE_BRANCH: [
+          ARMY,
+          NAVY,
+          AIR_FORCE,
+          COAST_GUARD,
+          MARINE_CORPS,
+          SPACE_FORCE,
+        ],
         DISCHARGE_YEAR: yearResponses,
         DISCHARGE_MONTH: [],
         REASON: [REASON_SEXUAL_ORIENTATION],
@@ -309,7 +436,14 @@ export const DISPLAY_CONDITIONS = Object.freeze({
         PREV_APPLICATION_TYPE: [PREV_APPLICATION_BCMR, PREV_APPLICATION_BCNR],
       },
       7: {
-        SERVICE_BRANCH: [ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS],
+        SERVICE_BRANCH: [
+          ARMY,
+          NAVY,
+          AIR_FORCE,
+          COAST_GUARD,
+          MARINE_CORPS,
+          SPACE_FORCE,
+        ],
         DISCHARGE_YEAR: yearResponses,
         DISCHARGE_MONTH: [],
         REASON: [REASON_SEXUAL_ORIENTATION],
@@ -331,7 +465,14 @@ export const DISPLAY_CONDITIONS = Object.freeze({
         ],
       },
       8: {
-        SERVICE_BRANCH: [ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS],
+        SERVICE_BRANCH: [
+          ARMY,
+          NAVY,
+          AIR_FORCE,
+          COAST_GUARD,
+          MARINE_CORPS,
+          SPACE_FORCE,
+        ],
         DISCHARGE_YEAR: yearResponses,
         DISCHARGE_MONTH: [],
         REASON: [
@@ -357,7 +498,14 @@ export const DISPLAY_CONDITIONS = Object.freeze({
         ],
       },
       9: {
-        SERVICE_BRANCH: [ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS],
+        SERVICE_BRANCH: [
+          ARMY,
+          NAVY,
+          AIR_FORCE,
+          COAST_GUARD,
+          MARINE_CORPS,
+          SPACE_FORCE,
+        ],
         DISCHARGE_YEAR: yearResponses,
         DISCHARGE_MONTH: [],
         REASON: [
@@ -381,7 +529,14 @@ export const DISPLAY_CONDITIONS = Object.freeze({
         ],
       },
       10: {
-        SERVICE_BRANCH: [ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS],
+        SERVICE_BRANCH: [
+          ARMY,
+          NAVY,
+          AIR_FORCE,
+          COAST_GUARD,
+          MARINE_CORPS,
+          SPACE_FORCE,
+        ],
         DISCHARGE_YEAR: yearResponses,
         DISCHARGE_MONTH: [],
         REASON: [
@@ -405,7 +560,14 @@ export const DISPLAY_CONDITIONS = Object.freeze({
   },
   REVIEW: {
     DISCHARGE_YEAR: yearResponses,
-    SERVICE_BRANCH: [ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS],
+    SERVICE_BRANCH: [
+      ARMY,
+      NAVY,
+      AIR_FORCE,
+      COAST_GUARD,
+      MARINE_CORPS,
+      SPACE_FORCE,
+    ],
     REASON: [
       REASON_PTSD,
       REASON_TBI,

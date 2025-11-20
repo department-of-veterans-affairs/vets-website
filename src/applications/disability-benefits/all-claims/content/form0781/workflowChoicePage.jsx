@@ -21,13 +21,25 @@ export const workflowChoicePageTitle =
 
 // Lists new conditions the veteran has claimed
 // The user should not get to this page if these conditions are not present
+const isPlaceholderRated = v => v === 'Rated Disability';
+
 const conditionSelections = formData => {
   const conditions = Array.isArray(formData?.newDisabilities)
-    ? formData.newDisabilities.map(
-        disability =>
-          disability.condition.charAt(0).toUpperCase() +
-          disability.condition.slice(1),
-      )
+    ? formData.newDisabilities
+        .filter(
+          d => typeof d?.condition === 'string' && d.condition.trim() !== '',
+        )
+        .filter(d => !isPlaceholderRated(d.condition)) // remove "Rated Disability"
+        .map(d => {
+          const s = d.condition.trim();
+          return s[0].toUpperCase() + s.slice(1);
+        })
+        .filter(
+          (() => {
+            const seen = new Set();
+            return label => (seen.has(label) ? false : (seen.add(label), true));
+          })(),
+        )
     : [];
 
   if (conditions.length === 0) return null;

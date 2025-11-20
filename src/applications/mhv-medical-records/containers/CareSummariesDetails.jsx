@@ -1,7 +1,11 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
+import { useParams, useHistory } from 'react-router-dom';
+import {
+  updatePageTitle,
+  useAcceleratedData,
+} from '@department-of-veterans-affairs/mhv/exports';
+
 import {
   getCareSummaryAndNotesDetails,
   clearCareSummariesDetails,
@@ -19,10 +23,10 @@ import {
 import useAlerts from '../hooks/use-alerts';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import { useTrackAction } from '../hooks/useTrackAction';
-import useAcceleratedData from '../hooks/useAcceleratedData';
 
 const CareSummariesDetails = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const careSummary = useSelector(
     state => state.mr.careSummariesAndNotes.careSummariesAndNotesDetails,
   );
@@ -47,7 +51,7 @@ const CareSummariesDetails = () => {
 
   useEffect(
     () => {
-      if (summaryId) {
+      if (summaryId && !careSummary?.notFound) {
         dispatch(
           getCareSummaryAndNotesDetails(
             summaryId,
@@ -56,9 +60,19 @@ const CareSummariesDetails = () => {
           ),
         );
       }
+      if (careSummary?.notFound || !careSummariesList) {
+        history.push('/summaries-and-notes/');
+      }
       updatePageTitle(pageTitles.CARE_SUMMARIES_AND_NOTES_DETAILS_PAGE_TITLE);
     },
-    [summaryId, careSummariesList, dispatch, isAcceleratingCareNotes],
+    [
+      summaryId,
+      careSummariesList,
+      dispatch,
+      isAcceleratingCareNotes,
+      history,
+      careSummary,
+    ],
   );
 
   const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;

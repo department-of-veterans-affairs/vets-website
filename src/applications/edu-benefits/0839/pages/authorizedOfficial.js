@@ -12,15 +12,15 @@ import {
 
 // fullNameNoSuffixUI without the middle property
 const getFullNameUI = () => {
-  const { first, last } = fullNameNoSuffixUI();
-  return { first, last };
+  const fullNameUI = cloneDeep(fullNameNoSuffixUI());
+  delete fullNameUI.middle;
+  return fullNameUI;
 };
 
 // fullNameNoSuffixSchema without the middle property
 const getFullNameSchema = () => {
   const fullNameSchema = cloneDeep(fullNameNoSuffixSchema);
   delete fullNameSchema.properties.middle;
-
   return fullNameSchema;
 };
 

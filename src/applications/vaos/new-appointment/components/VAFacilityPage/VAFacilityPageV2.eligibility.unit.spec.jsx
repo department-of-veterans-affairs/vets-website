@@ -189,7 +189,10 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
 
       const store = createTestStore(defaultState);
       await setTypeOfCare(store, /mental health/i);
-      await setTypeOfMentalHealth(store, /Mental health services/);
+      await setTypeOfMentalHealth(
+        store,
+        /Mental health care with a specialist/,
+      );
 
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
@@ -1010,7 +1013,10 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
 
         const store = createTestStore(defaultState);
         await setTypeOfCare(store, /mental health/i);
-        await setTypeOfMentalHealth(store, /Mental health services/);
+        await setTypeOfMentalHealth(
+          store,
+          /Mental health care with a specialist/,
+        );
 
         // Act
         const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
@@ -1075,7 +1081,10 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
 
         const store = createTestStore(defaultState);
         await setTypeOfCare(store, /mental health/i);
-        await setTypeOfMentalHealth(store, /Mental health services/);
+        await setTypeOfMentalHealth(
+          store,
+          /Mental health care with a specialist/,
+        );
 
         // Act
         const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
@@ -1145,7 +1154,10 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
           featureToggles: {},
         });
         await setTypeOfCare(store, /mental health/i);
-        await setTypeOfMentalHealth(store, /Mental health services/);
+        await setTypeOfMentalHealth(
+          store,
+          /Mental health care with a specialist/,
+        );
 
         // Act
         const screen = renderWithStoreAndRouter(<VAFacilityPage />, {

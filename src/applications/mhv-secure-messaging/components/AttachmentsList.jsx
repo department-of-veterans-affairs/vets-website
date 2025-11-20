@@ -1,4 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
@@ -10,26 +16,29 @@ import { closeAlert } from '../actions/alerts';
 import RemoveAttachmentModal from './Modals/RemoveAttachmentModal';
 import HowToAttachFiles from './HowToAttachFiles';
 import { Alerts } from '../util/constants';
+import { getSize } from '../util/helpers';
 
 const AttachmentsList = props => {
   const {
+    attachFileSuccess,
     attachments,
+    attachmentScanError,
     compose,
     draftSequence,
+    editingEnabled,
+    forPrint,
+    isOhTriageGroup,
     reply,
+    setAttachFileError,
+    setAttachFileSuccess,
     setAttachments,
     setNavigationError,
-    editingEnabled,
-    attachFileSuccess,
-    setAttachFileSuccess,
-    forPrint,
-    attachmentScanError,
-    setAttachFileError,
   } = props;
   const dispatch = useDispatch();
   const {
     mhvSecureMessagingCuratedListFlow,
     cernerPilotSmFeatureFlag,
+    largeAttachmentsEnabled,
   } = featureToggles();
   const attachmentReference = useRef(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -39,6 +48,23 @@ const AttachmentsList = props => {
   const [recentlyRemovedFile, setRecentlyRemovedFile] = useState(false);
   const attachFileAlertRef = useRef();
   const [focusedElement, setFocusedElement] = useState(null);
+
+  const useLargeAttachments = useMemo(
+    () => {
+      return (
+        largeAttachmentsEnabled || (cernerPilotSmFeatureFlag && isOhTriageGroup)
+      );
+    },
+    [largeAttachmentsEnabled, cernerPilotSmFeatureFlag, isOhTriageGroup],
+  );
+
+  const focusAttachFileButton = useCallback(() => {
+    const attachButton = document.querySelector('.attach-file-button');
+    const button = attachButton
+      ? attachButton.shadowRoot?.querySelector('button')
+      : null;
+    if (button !== null) setFocusedElement(button);
+  }, []);
 
   useEffect(
     () => {
@@ -56,16 +82,6 @@ const AttachmentsList = props => {
     },
     [attachmentScanError, attachments.length],
   );
-
-  const getSize = num => {
-    if (num > 999999) {
-      return `${(num / 1000000).toFixed(1)} MB`;
-    }
-    if (num > 999) {
-      return `${Math.floor(num / 1000)} KB`;
-    }
-    return `${num} B`;
-  };
 
   const attachmentNameId = id =>
     forPrint ? `has-attachment-for-print-${id}` : `has-attachment-${id}`;
@@ -117,29 +133,14 @@ const AttachmentsList = props => {
       setRecentlyRemovedFile(true);
     }
 
-    setTimeout(
-      () =>
-        setFocusedElement(
-          document
-            .querySelector('.attach-file-button')
-            .shadowRoot.querySelector('button'),
-        ),
-      400,
-    );
+    setTimeout(() => focusAttachFileButton(), 400);
   };
 
   const handleRemoveAllAttachments = () => {
     setAttachments([]);
     dispatch(closeAlert()).then(() => {
-      setTimeout(
-        () =>
-          setFocusedElement(
-            document
-              .querySelector('.attach-file-button')
-              .shadowRoot.querySelector('button'),
-          ),
-        400,
-      );
+      setTimeout(() => focusAttachFileButton(), 400);
+
       setAttachFileError(null);
     });
   };
@@ -152,11 +153,7 @@ const AttachmentsList = props => {
           .lastChild,
       );
     } else {
-      setFocusedElement(
-        document
-          .querySelector('.attach-file-button')
-          .shadowRoot.querySelector('button'),
-      );
+      focusAttachFileButton();
     }
   };
 
@@ -177,7 +174,7 @@ const AttachmentsList = props => {
         )}
       </div>
       {editingEnabled && (
-        <HowToAttachFiles isPilot={cernerPilotSmFeatureFlag} />
+        <HowToAttachFiles useLargeAttachments={useLargeAttachments} />
       )}
 
       {attachFileSuccess &&
@@ -270,7 +267,10 @@ const AttachmentsList = props => {
       <ul className="attachments-list">
         {!!attachments.length &&
           attachments.map(file => (
-            <li key={file.name + file.size}>
+            <li
+              key={file.name + file.size}
+              data-dd-action-name="Attachment Item"
+            >
               {editingEnabled && (
                 <div className="editable-attachment vads-u-display--flex vads-u-flex-direction--row">
                   <span
@@ -409,6 +409,7 @@ AttachmentsList.propTypes = {
   draftSequence: PropTypes.number,
   editingEnabled: PropTypes.bool,
   forPrint: PropTypes.bool,
+  isOhTriageGroup: PropTypes.bool,
   reply: PropTypes.bool,
   setAttachFileError: PropTypes.func,
   setAttachFileSuccess: PropTypes.func,

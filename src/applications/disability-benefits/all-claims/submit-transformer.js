@@ -19,6 +19,7 @@ import {
   setActionTypes,
   transformRelatedDisabilities,
   removeExtraData,
+  removeRatedDisabilityFromNew,
   filterServicePeriods,
   stringifyRelatedDisabilities,
   cleanUpMailingAddress,
@@ -28,6 +29,8 @@ import {
   addForm0781V2,
   addForm8940,
   addFileAttachments,
+  normalizeIncreases,
+  sanitizeNewDisabilities,
 } from './utils/submit';
 import { purgeToxicExposureData } from './utils/on-submit';
 
@@ -144,25 +147,29 @@ export function transform(formConfig, form) {
     );
   };
 
-  // newDisabilities -> newPrimaryDisabilities & newSecondaryDisabilities
+  const isSchemaNewRow = d => d?.condition && d?.cause;
+
   const splitNewDisabilities = formData => {
-    if (!formData.newDisabilities) {
-      return formData;
-    }
+    if (!formData.newDisabilities) return formData;
     const clonedData = _.cloneDeep(formData);
-    // Split newDisabilities into primary and secondary arrays for backend
-    const newPrimaryDisabilities = clonedData.newDisabilities
-      .filter(disability => disability.cause !== causeTypes.SECONDARY)
+
+    const valid = clonedData.newDisabilities.filter(isSchemaNewRow);
+
+    const newPrimaryDisabilities = valid
+      .filter(d => d.cause !== causeTypes.SECONDARY)
       .map(entry => truncateDescriptions(entry));
-    const newSecondaryDisabilities = clonedData.newDisabilities
-      .filter(disability => disability.cause === causeTypes.SECONDARY)
+
+    const newSecondaryDisabilities = valid
+      .filter(d => d.cause === causeTypes.SECONDARY)
       .map(entry => truncateDescriptions(entry));
+
     if (newPrimaryDisabilities.length) {
       clonedData.newPrimaryDisabilities = newPrimaryDisabilities;
     }
     if (newSecondaryDisabilities.length) {
       clonedData.newSecondaryDisabilities = newSecondaryDisabilities;
     }
+
     delete clonedData.newDisabilities;
     return clonedData;
   };
@@ -256,6 +263,7 @@ export function transform(formConfig, form) {
     }
     return formData;
   };
+
   // End transformation definitions
 
   // Apply the transformations
@@ -263,6 +271,8 @@ export function transform(formConfig, form) {
     filterEmptyObjects,
     addBackRatedDisabilities, // Must run after filterEmptyObjects
     addBackAndTransformSeparationLocation, // Must run after filterEmptyObjects
+    normalizeIncreases,
+    sanitizeNewDisabilities,
     setActionTypes, // Must run after addBackRatedDisabilities
     filterRatedViewFields, // Must be run after setActionTypes
     filterServicePeriods,
@@ -273,6 +283,7 @@ export function transform(formConfig, form) {
     addPTSDCause,
     addRequiredDescriptionsToDisabilitiesBDD,
     splitNewDisabilities,
+    removeRatedDisabilityFromNew,
     transformSecondaryDisabilities,
     stringifyRelatedDisabilities,
     transformSeparationPayDate,

@@ -1,5 +1,5 @@
 import React from 'react';
-import { formatDate } from '../utils';
+import { formatDate } from '../utils/dates/formatting';
 
 const MONTH_YEAR = 'MMMM YYYY';
 

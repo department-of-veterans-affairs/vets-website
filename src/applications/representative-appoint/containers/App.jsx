@@ -6,6 +6,7 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { isLoggedIn } from 'platform/user/selectors';
 import { scrollTo } from 'platform/utilities/scroll';
 import { setData } from 'platform/forms-system/src/js/actions';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 
 import formConfig from '../config/form';
 
@@ -18,6 +19,7 @@ import configService from '../utilities/configService';
 import { getFormSubtitle } from '../utilities/helpers';
 import { selectAuthStatus } from '../utilities/selectors/authStatus';
 import { selectFeatureToggles } from '../utilities/selectors/featureToggles';
+import { setRepresentativesApiFromFlag } from '../constants/api';
 
 function App({ location, children, formData }) {
   const subTitle = getFormSubtitle(formData);
@@ -30,6 +32,26 @@ function App({ location, children, formData }) {
 
   // Set default view fields within the form data
   useDefaultFormData();
+
+  const {
+    useToggleValue,
+    useToggleLoadingValue,
+    TOGGLE_NAMES,
+  } = useFeatureToggle();
+
+  const togglesLoading = useToggleLoadingValue();
+  const useAccreditedModels = useToggleValue(
+    TOGGLE_NAMES.findARepresentativeUseAccreditedModels,
+  );
+
+  useEffect(
+    () => {
+      if (!togglesLoading) {
+        setRepresentativesApiFromFlag(Boolean(useAccreditedModels));
+      }
+    },
+    [togglesLoading, useAccreditedModels],
+  );
 
   const { pathname } = location || {};
   const [updatedFormConfig, setUpdatedFormConfig] = useState({ ...formConfig });

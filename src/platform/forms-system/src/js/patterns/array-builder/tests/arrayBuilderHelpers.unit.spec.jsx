@@ -1,21 +1,24 @@
-import sinon from 'sinon';
+import sinon from 'sinon-v20';
 import { expect } from 'chai';
 import navigationState from 'platform/forms-system/src/js/utilities/navigation/navigationState';
 import {
   subscribeToArrayBuilderEvent,
   ARRAY_BUILDER_EVENTS,
 } from 'platform/forms-system/src/js/patterns/array-builder/ArrayBuilderEvents';
+import * as routing from 'platform/forms-system/src/js/routing';
 import { DEFAULT_ARRAY_BUILDER_TEXT } from '../arrayBuilderText';
 import * as helpers from '../helpers';
 
 describe('arrayBuilder helpers', () => {
+  afterEach(() => sinon.restore());
+
   it('onNavBackRemoveAddingItem returned to intro if items are 0', () => {
     const goPath = sinon.spy();
     const setFormData = sinon.spy();
     helpers.onNavBackRemoveAddingItem({
       arrayPath: 'employers',
-      summaryRoute: '/summary',
-      introRoute: '/intro',
+      getSummaryPath: () => '/summary',
+      getIntroPath: () => '/intro',
     })({
       setFormData,
       goPath,
@@ -36,8 +39,8 @@ describe('arrayBuilder helpers', () => {
     const setFormData = sinon.spy();
     helpers.onNavBackRemoveAddingItem({
       arrayPath: 'employers',
-      summaryRoute: '/summary',
-      introRoute: '/intro',
+      getSummaryPath: () => '/summary',
+      getIntroPath: () => '/intro',
     })({
       setFormData,
       goPath,
@@ -59,7 +62,7 @@ describe('arrayBuilder helpers', () => {
     const setFormData = sinon.spy();
     helpers.onNavBackRemoveAddingItem({
       arrayPath: 'employers',
-      summaryRoute: '/summary',
+      getSummaryPath: () => '/summary',
     })({
       setFormData,
       goPath,
@@ -80,7 +83,7 @@ describe('arrayBuilder helpers', () => {
     const setFormData = sinon.spy();
     helpers.onNavBackRemoveAddingItem({
       arrayPath: 'employers',
-      summaryRoute: '/summary',
+      getSummaryPath: () => '/summary',
     })({
       setFormData,
       goPath,
@@ -101,7 +104,7 @@ describe('arrayBuilder helpers', () => {
     const setFormData = sinon.spy();
     helpers.onNavBackRemoveAddingItem({
       arrayPath: 'employers',
-      summaryRoute: '/summary',
+      getSummaryPath: () => '/summary',
     })({
       setFormData,
       goPath,
@@ -145,9 +148,7 @@ describe('arrayBuilder helpers', () => {
     const goPreviousPath = sinon.spy();
     helpers.onNavBackKeepUrlParams({
       goPreviousPath,
-      urlParams: {
-        edit: true,
-      },
+      urlParams: { edit: true },
     });
 
     expect(goPreviousPath.calledWith({ edit: true })).to.be.true;
@@ -157,12 +158,114 @@ describe('arrayBuilder helpers', () => {
     const goPreviousPath = sinon.spy();
     helpers.onNavBackKeepUrlParams({
       goPreviousPath,
-      urlParams: {
-        add: true,
-      },
+      urlParams: { add: true },
     });
 
     expect(goPreviousPath.calledWith({ add: true })).to.be.true;
+  });
+
+  it('onNavBackKeepUrlParams - skips back into the nearest prior summary when prev is a per-item page and current is non-item', () => {
+    const goPreviousPath = sinon.spy();
+    const goPath = sinon.spy();
+
+    // pages: [summary, itemA, itemB, currentNonItem]
+    const pages = [
+      { path: '/loop-a/summary', isArrayBuilderSummary: true },
+      { path: '/loop-a/:index/info', showPagePerItem: true },
+      { path: '/loop-a/:index/address', showPagePerItem: true },
+      { path: '/next-after-summary' }, // <-- current page
+    ];
+
+    // Stub routing.getEligiblePages to shape the active flow
+    const getEligiblePagesStub = sinon
+      .stub(routing, 'getEligiblePages')
+      .returns({ pages, pageIndex: 3 }); // current = pages[3], prev = pages[2] (per-item)
+
+    helpers.onNavBackKeepUrlParams({
+      goPreviousPath,
+      goPath,
+      pageList: [], // not used by our stub
+      formData: {}, // not used by our stub
+      pathname: '/next-after-summary',
+      urlParams: { foo: 'bar' },
+    });
+
+    expect(getEligiblePagesStub.calledOnce).to.be.true;
+    expect(goPreviousPath.called).to.be.false;
+    expect(goPath.calledOnce).to.be.true;
+
+    const arg = goPath.firstCall.args[0];
+    expect(arg).to.match(/^\/loop-a\/summary(\?|$)/); // landed on summary (params preserved)
+  });
+
+  it('onNavBackKeepUrlParams - falls back to normal previous when CURRENT page is per-item (inside the loop)', () => {
+    const goPreviousPath = sinon.spy();
+    const goPath = sinon.spy();
+
+    const pages = [
+      { path: '/loop-a/summary', isArrayBuilderSummary: true },
+      { path: '/loop-a/:index/info', showPagePerItem: true }, // prev
+      { path: '/loop-a/:index/confirm', showPagePerItem: true }, // current
+    ];
+
+    sinon.stub(routing, 'getEligiblePages').returns({ pages, pageIndex: 2 });
+
+    helpers.onNavBackKeepUrlParams({
+      goPreviousPath,
+      goPath,
+      pageList: [],
+      formData: {},
+      pathname: '/loop-a/0/confirm',
+      urlParams: { baz: 'qux' },
+    });
+
+    expect(goPreviousPath.calledOnceWith({ baz: 'qux' })).to.be.true;
+    expect(goPath.called).to.be.false;
+  });
+
+  it('onNavBackKeepUrlParams - falls back to normal previous when prev is per-item but no prior summary exists', () => {
+    const goPreviousPath = sinon.spy();
+    const goPath = sinon.spy();
+
+    const pages = [
+      { path: '/loop-a/:index/info', showPagePerItem: true }, // prev
+      { path: '/after' }, // current (non-item)
+    ];
+
+    sinon.stub(routing, 'getEligiblePages').returns({ pages, pageIndex: 1 });
+
+    helpers.onNavBackKeepUrlParams({
+      goPreviousPath,
+      goPath,
+      pageList: [],
+      formData: {},
+      pathname: '/after',
+      urlParams: { x: '1' },
+    });
+
+    expect(goPreviousPath.calledOnceWith({ x: '1' })).to.be.true;
+    expect(goPath.called).to.be.false;
+  });
+
+  it('onNavBackKeepUrlParams - defaults to normal previous when pageIndex <= 0', () => {
+    const goPreviousPath = sinon.spy();
+    const goPath = sinon.spy();
+
+    sinon
+      .stub(routing, 'getEligiblePages')
+      .returns({ pages: [{ path: '/only' }], pageIndex: 0 });
+
+    helpers.onNavBackKeepUrlParams({
+      goPreviousPath,
+      goPath,
+      pageList: [],
+      formData: {},
+      pathname: '/only',
+      urlParams: { y: '2' },
+    });
+
+    expect(goPreviousPath.calledOnceWith({ y: '2' })).to.be.true;
+    expect(goPath.called).to.be.false;
   });
 
   it('createArrayBuilderItemAddPath with review and warning', () => {
@@ -444,6 +547,82 @@ describe('slugifyText', () => {
     text = 'traumatic event';
     slugified = helpers.slugifyText(text);
     expect(slugified).to.equal('traumatic-event');
+  });
+});
+
+describe('getDependsPath', () => {
+  it('should return null if pages is null or undefined', () => {
+    const result = helpers.getDependsPath(null, {});
+    expect(result).to.be.null;
+
+    const result2 = helpers.getDependsPath(undefined, {});
+    expect(result2).to.be.null;
+  });
+
+  it('should return null if pages is an empty array', () => {
+    const result = helpers.getDependsPath([], {});
+    expect(result).to.be.null;
+  });
+
+  it('should return the path if there is only one page', () => {
+    const pages = [{ path: '/single-page' }];
+    const result = helpers.getDependsPath(pages, {});
+    expect(result).to.eq('/single-page');
+  });
+
+  it('should return the first page that matches depends condition', () => {
+    const formData = { hasCondition: true };
+    const pages = [
+      { path: '/page-1', depends: data => data.hasCondition === false },
+      { path: '/page-2', depends: data => data.hasCondition === true },
+      { path: '/page-3', depends: data => data.something === true },
+    ];
+
+    const result = helpers.getDependsPath(pages, formData);
+    expect(result).to.eq('/page-2');
+  });
+
+  it('should return the first page path if no depends conditions match', () => {
+    const formData = { hasCondition: false };
+    const pages = [
+      { path: '/page-1', depends: data => data.hasCondition === true },
+      { path: '/page-2', depends: data => data.something === true },
+    ];
+
+    const result = helpers.getDependsPath(pages, formData);
+    expect(result).to.eq('/page-1');
+  });
+
+  it('should return first matching page when multiple depends conditions are true', () => {
+    const formData = { condition1: true, condition2: true };
+    const pages = [
+      { path: '/page-1', depends: data => data.condition1 === true },
+      { path: '/page-2', depends: data => data.condition2 === true },
+    ];
+
+    const result = helpers.getDependsPath(pages, formData);
+    expect(result).to.eq('/page-1');
+  });
+
+  it('should handle complex depends logic', () => {
+    const formData = { type: 'veteran', enrolled: true };
+    const pages = [
+      {
+        path: '/civilian-path',
+        depends: data => data.type === 'civilian',
+      },
+      {
+        path: '/veteran-enrolled-path',
+        depends: data => data.type === 'veteran' && data.enrolled === true,
+      },
+      {
+        path: '/veteran-not-enrolled-path',
+        depends: data => data.type === 'veteran' && data.enrolled === false,
+      },
+    ];
+
+    const result = helpers.getDependsPath(pages, formData);
+    expect(result).to.eq('/veteran-enrolled-path');
   });
 });
 

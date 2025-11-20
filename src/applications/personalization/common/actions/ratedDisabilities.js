@@ -1,6 +1,5 @@
-import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
-import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
-
+import recordEvent from 'platform/monitoring/record-event';
+import { apiRequest } from 'platform/utilities/api';
 import { isClientError, isServerError } from '../helpers';
 
 async function getData(apiRoute, options) {

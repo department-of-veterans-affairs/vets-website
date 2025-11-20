@@ -5,6 +5,10 @@ const RECENT_UTTERANCES = `${BOT_SESSION_PREFIX}recentUtterances`;
 const CONVERSATION_ID_KEY = `${BOT_SESSION_PREFIX}conversationId`;
 const IS_TRACKING_UTTERANCES = `${BOT_SESSION_PREFIX}isTrackingUtterances`;
 const TOKEN_KEY = `${BOT_SESSION_PREFIX}token`;
+const CODE_KEY = `${BOT_SESSION_PREFIX}code`;
+const TOKEN_EXPIRES_AT = `${BOT_SESSION_PREFIX}tokenExpiresAt`;
+const CONVERSATION_TOKEN_KEY = `${BOT_SESSION_PREFIX}conversationToken`;
+const FIRST_CONNECTION = `${BOT_SESSION_PREFIX}firstConnection`;
 const SKILL_EVENT_VALUE = `${BOT_SESSION_PREFIX}skillEventValue`;
 
 function setStorageItem(key, value, json = false) {
@@ -17,7 +21,13 @@ function setStorageItem(key, value, json = false) {
 
 function getStorageItem(key, json = false) {
   if (json) {
-    return JSON.parse(sessionStorage.getItem(key));
+    const raw = sessionStorage.getItem(key);
+    if (raw === null) return null;
+    try {
+      return JSON.parse(raw);
+    } catch (e) {
+      return null;
+    }
   }
   return sessionStorage.getItem(key);
 }
@@ -78,12 +88,53 @@ export function setTokenKey(value) {
   setStorageItem(TOKEN_KEY, value);
 }
 
+export function getCodeKey() {
+  return getStorageItem(CODE_KEY);
+}
+
+export function setCodeKey(value) {
+  setStorageItem(CODE_KEY, value);
+}
+
+export function getTokenExpiresAt() {
+  const val = getStorageItem(TOKEN_EXPIRES_AT);
+  return val ? Number(val) : null;
+}
+
+export function setTokenExpiresAt(value) {
+  setStorageItem(TOKEN_EXPIRES_AT, String(value));
+}
+
+export function getConversationTokenKey() {
+  return getStorageItem(CONVERSATION_TOKEN_KEY);
+}
+
+export function setConversationTokenKey(value) {
+  setStorageItem(CONVERSATION_TOKEN_KEY, value);
+}
+
+// First-connection helpers removed; key is still used to preserve the flag during session clears for backward compatibility
+
 export function clearBotSessionStorage(forceClear) {
   const botSessionKeys = Object.keys(sessionStorage);
   const loggedInFlow = getLoggedInFlow();
   const inAuthExp = getInAuthExp();
   const expectToClear = loggedInFlow !== 'true' && inAuthExp !== 'true';
-  const excludeClear = [];
+  // When user is in the auth experience but not logged in, do nothing.
+  // This preserves any temporary session state during the auth flow.
+  if (!forceClear && inAuthExp === 'true' && loggedInFlow !== 'true') {
+    return;
+  }
+  // Ensure critical keys persist across page lifecycle clears.
+  // Keep first-connection flag, conversationId, and token.
+  const excludeClear = [
+    FIRST_CONNECTION,
+    CONVERSATION_ID_KEY,
+    TOKEN_KEY,
+    CODE_KEY,
+    TOKEN_EXPIRES_AT,
+    CONVERSATION_TOKEN_KEY,
+  ];
 
   // capture the canceled login scenarios [issue #479]
   if (!forceClear && loggedInFlow === 'true' && inAuthExp !== 'true') {
@@ -95,7 +146,11 @@ export function clearBotSessionStorage(forceClear) {
     excludeClear.push(TOKEN_KEY);
   }
 
-  if (forceClear || expectToClear || !!excludeClear.length) {
+  // Do not trigger a clear solely because of the default base excludes
+  // [FIRST_CONNECTION, CONVERSATION_ID_KEY, TOKEN_KEY] (length 3).
+  // Only clear when forced, expected, or additional excludes were added
+  // (e.g., canceled login scenario).
+  if (forceClear || expectToClear || excludeClear.length > 3) {
     botSessionKeys.forEach(sessionKey => {
       if (
         sessionKey.includes(BOT_SESSION_PREFIX) &&

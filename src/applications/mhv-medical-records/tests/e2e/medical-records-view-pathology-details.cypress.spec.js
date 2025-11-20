@@ -6,9 +6,15 @@ import labsAndTests from './fixtures/labs-and-tests/labsAndTests.json';
 // import pathology from './fixtures/labs-and-tests/pathology.json';
 
 describe('Medical Records View Labs And Tests', () => {
-  it('Visits Medical Records View Labs And Tests Details', () => {
-    const site = new MedicalRecordsSite();
+  const site = new MedicalRecordsSite();
+
+  beforeEach(() => {
     site.login();
+  });
+
+  it('Visits Medical Records View Labs And Tests Details', () => {
+    // const site = new MedicalRecordsSite();
+    // site.login();
     LabsAndTestsListPage.goToLabsAndTests();
     const record = labsAndTests.entry[8].resource;
     LabsAndTestsListPage.clickLabsAndTestsDetailsLink(5, labsAndTests.entry[8]);

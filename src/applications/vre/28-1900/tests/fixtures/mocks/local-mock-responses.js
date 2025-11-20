@@ -6,6 +6,7 @@ const mockFeatureToggles = require('./featureToggles.json');
 const mockSipPut = require('./sip-put.json');
 const mockSipGet = require('./sip-get.json');
 const submissionStatues = require('./submission-statuses.json');
+const mockSubmit = require('./submit.json');
 
 const responses = {
   'GET /v0/user': mockUser,
@@ -32,7 +33,7 @@ const responses = {
   'GET /v0/health_care_applications/enrollment_status': {},
   'GET /v0/medical_copays': { data: [] },
   'GET /v0/my_va/submission_statuses': submissionStatues,
-  'POST /v0/veteran_readiness_employment_claims': { data: [] },
+  'POST /v0/veteran_readiness_employment_claims': mockSubmit,
 };
 
 module.exports = responses;

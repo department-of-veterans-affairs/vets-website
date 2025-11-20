@@ -3,6 +3,8 @@ import set from 'platform/utilities/data/set';
 import unset from 'platform/utilities/data/unset';
 import { createSelector } from 'reselect';
 
+import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
+
 import {
   countries,
   states,
@@ -358,6 +360,7 @@ export function uiSchema(
     },
     street: {
       'ui:title': 'Street',
+      'ui:webComponentField': VaTextInputField,
       'ui:autocomplete': 'address-line1',
       'ui:errorMessages': {
         required: 'Enter a street address',
@@ -365,14 +368,17 @@ export function uiSchema(
     },
     street2: {
       'ui:title': 'Line 2',
+      'ui:webComponentField': VaTextInputField,
       'ui:autocomplete': 'address-line2',
     },
     street3: {
       'ui:title': 'Line 3',
+      'ui:webComponentField': VaTextInputField,
       'ui:autocomplete': 'address-line3',
     },
     city: {
       'ui:title': 'City',
+      'ui:webComponentField': VaTextInputField,
       'ui:autocomplete': 'address-level2',
       'ui:errorMessages': {
         required: 'Enter a city',
@@ -386,6 +392,7 @@ export function uiSchema(
     },
     postalCode: {
       'ui:title': 'Postal code',
+      'ui:webComponentField': VaTextInputField,
       'ui:autocomplete': 'postal-code',
       'ui:options': {
         widgetClassNames: 'usa-input-medium',

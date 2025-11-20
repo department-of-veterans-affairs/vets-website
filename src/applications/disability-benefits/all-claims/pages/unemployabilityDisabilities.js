@@ -10,7 +10,18 @@ import {
 import { oneDisabilityRequired } from '../validations';
 
 const { ratedDisabilities: disabilitiesSchema } = fullSchema.definitions;
-const { condition } = fullSchema.definitions.newDisabilities.items.properties;
+
+const getNewDisabilitiesProps = schema => {
+  const nd = schema?.definitions?.newDisabilities?.items;
+  // New (refactored)526 schema shape: items.anyOf[0] = “full NEW/SECONDARY/WORSENED/VA” branch
+  if (nd?.anyOf?.[0]?.properties) return nd.anyOf[0].properties;
+  // Original 526EZ shape (pre-refactor)
+  if (nd?.properties) return nd.properties;
+  return {};
+};
+
+const NEW_PROPS = getNewDisabilitiesProps(fullSchema);
+const { condition } = NEW_PROPS;
 
 export const uiSchema = {
   'ui:title': unemployabilityTitle,

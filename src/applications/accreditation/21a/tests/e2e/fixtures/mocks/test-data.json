@@ -14,7 +14,12 @@
       "city": "City",
       "state": "CA"
     },
-    "phone": "34-51-3451-3455",
+    "phone": {
+      "callingCode": 1,
+      "countryCode": "US",
+      "contact": "2345689094",
+      "_isValid": true
+    },
     "typeOfPhone": "HOME",
     "canReceiveTexts": true,
     "email": "person.name@testmail.com",
@@ -65,7 +70,12 @@
           "postalCode": "12345"
         },
         "primaryWorkAddress": { "selected": true },
-        "phone": "345-345-3455",
+        "phone": {
+          "callingCode": 1,
+          "countryCode": "US",
+          "contact": "2345689095",
+          "_isValid": true
+        },
         "extension": "1234",
         "dateRange": {
           "from": "2000-01",
@@ -130,7 +140,7 @@
     "convictionDetailsCertification": {
       "certified": true
     },
-    "convictionDetailsDocuments": {},
+    "convictionDetailsDocuments": [],
     "courtMartialed": false,
     "underCharges": false,
     "resignedFromEducation": false,
@@ -161,9 +171,14 @@
           "state": "CA",
           "postalCode": "12345"
         },
-        "phone": "3453453455",
+        "phone": {
+          "callingCode": 1,
+          "countryCode": "US",
+          "contact": "2345689096",
+          "_isValid": true
+        },
         "email": "person.name@testmail.com",
-        "relationship": "Best friend"
+        "relationship": "Colleague"
       },
       {
         "fullName": {
@@ -181,9 +196,14 @@
           "state": "NY",
           "postalCode": "67890"
         },
-        "phone": "1234567890",
+        "phone": {
+          "callingCode": 1,
+          "countryCode": "US",
+          "contact": "2345689090",
+          "_isValid": true
+        },
         "email": "john.doe@example.com",
-        "relationship": "Current manager"
+        "relationship": "Friend"
       },
       {
         "fullName": {
@@ -199,9 +219,14 @@
           "state": "TX",
           "postalCode": "11223"
         },
-        "phone": "0987654321",
+        "phone": {
+          "callingCode": 1,
+          "countryCode": "US",
+          "contact": "2345689091",
+          "_isValid": true
+        },
         "email": "jane.smith@example.com",
-        "relationship": "Long time colleague"
+        "relationship": "Supervisor"
       }
     ],
     "view:hasCharacterReferences": false,

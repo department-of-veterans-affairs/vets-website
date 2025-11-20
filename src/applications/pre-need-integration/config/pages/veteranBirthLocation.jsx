@@ -2,6 +2,8 @@ import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-INTEGRATION-schema
 
 import { merge, pick } from 'lodash';
 
+import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
+
 import {
   applicantDetailsCityTitle,
   applicantDetailsStateTitle,
@@ -20,9 +22,11 @@ export function uiSchema(
       veteran: {
         cityOfBirth: {
           'ui:title': cityTitle,
+          'ui:webComponentField': VaTextInputField,
         },
         stateOfBirth: {
           'ui:title': stateTitle,
+          'ui:webComponentField': VaTextInputField,
         },
       },
     },

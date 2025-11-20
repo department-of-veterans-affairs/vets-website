@@ -163,7 +163,9 @@ describe('card utilities', () => {
 
   describe('getDecisionTimeline', () => {
     it('returns timeline string for SC', () => {
-      expect(getDecisionTimeline('CARD_SC')).to.equal('79.3 days');
+      expect(getDecisionTimeline('CARD_SC')).to.equal(
+        '79.3 days (roughly 3 months)',
+      );
     });
 
     it('returns empty string for unknown', () => {

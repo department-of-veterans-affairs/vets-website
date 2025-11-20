@@ -2,15 +2,14 @@ import defaultAllergies from '../fixtures/allergies.json';
 import BaseListPage from './BaseListPage';
 
 class AllergiesListPage extends BaseListPage {
-  clickGotoAllergiesLink = (allergies = defaultAllergies) => {
+  goToAllergies = (allergies = defaultAllergies) => {
     cy.intercept(
       'GET',
-      '/my_health/v1/medical_records/allergies',
+      '/my_health/v1/medical_records/allergies*',
       allergies,
     ).as('allergiesList');
-    cy.findByRole('link', {
-      name: 'Go to your allergies and reactions',
-    }).click();
+    cy.visit('my-health/medical-records/allergies');
+    // cy.findByTestId('allergies-landing-page-link').click();
     cy.wait('@allergiesList');
   };
 
@@ -46,7 +45,7 @@ class AllergiesListPage extends BaseListPage {
     cy.get('[data-testid="mhv-sec-nav-item"]')
       .eq(4)
       .find('a')
-      .should('have.attr', 'href', '/my-health/medical-records');
+      .should('have.attr', 'href', '/my-health/medical-records/');
   };
 }
 export default new AllergiesListPage();

@@ -48,6 +48,10 @@ const RadioQuestion = ({
   const radioRef = useRef(null);
   const formResponse = formResponses?.[shortName];
 
+  if (formResponse && formError) {
+    setFormError(false);
+  }
+
   const onContinueClick = () => {
     if (!formResponse) {
       setFormError(true);

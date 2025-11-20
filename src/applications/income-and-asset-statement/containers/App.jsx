@@ -27,6 +27,12 @@ function App({ location, children, isLoggedIn, openReviewChapter }) {
   );
   const assets = useSelector(state => state?.form?.data?.ownedAssets || []);
 
+  const content = (
+    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+      {children}
+    </RoutedSavableApp>
+  );
+
   // Add Datadog UX monitoring to the application
   useBrowserMonitoring({
     loggedIn: isLoggedIn,
@@ -77,11 +83,7 @@ function App({ location, children, isLoggedIn, openReviewChapter }) {
     return <NoFormPage />;
   }
 
-  return (
-    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-      {children}
-    </RoutedSavableApp>
-  );
+  return content;
 }
 
 const mapStateToProps = state => {
@@ -99,6 +101,7 @@ App.propTypes = {
   children: PropTypes.node.isRequired,
   location: PropTypes.object.isRequired,
   isLoggedIn: PropTypes.bool,
+  openReviewChapter: PropTypes.func,
 };
 
 export default connect(

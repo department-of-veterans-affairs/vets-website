@@ -11,7 +11,7 @@ import POARequestDetailsPage from './containers/POARequestDetailsPage';
 import SubmissionsPage from './containers/SubmissionsPage';
 import SignedInLayout from './containers/SignedInLayout';
 import ErrorBoundary from './components/Error/ErrorBoundary';
-import GetHelpPage from './containers/GetHelpPage';
+import HelpPage from './containers/HelpPage';
 import LoginContainer from './containers/LoginContainer';
 import AuthCallbackHandler from './containers/AuthCallbackHandler';
 import DashboardPage from './containers/DashboardPage';
@@ -82,7 +82,7 @@ const routes = [
           {
             index: true,
             element: (
-              <LandingPage title="Accredited Representative Portal | Veterans Affairs" />
+              <LandingPage title="Welcome to the Accredited Representative Portal | Veterans Affairs" />
             ),
           },
           forEachRoute(addSignInRedirection, {
@@ -90,36 +90,36 @@ const routes = [
             children: [
               {
                 path: 'dashboard',
-                element: <DashboardPage />,
+                element: (
+                  <DashboardPage title="Dashboard | Accredited Representative Portal | Veterans Affairs" />
+                ),
                 loader: DashboardPage.loader,
               },
               {
-                path: 'poa-requests',
+                path: 'representation-requests',
                 element: (
-                  <POARequestSearchPage title="Representation requests | Veterans Affairs" />
+                  <POARequestSearchPage title="Representation requests | Accredited Representative Portal | Veterans Affairs" />
                 ),
                 loader: POARequestSearchPage.loader,
               },
               {
-                path: 'poa-search',
-                element: <POARequestSearchPage />,
-              },
-              {
                 path: 'submissions',
                 element: (
-                  <SubmissionsPage title="Form Submissions | Veterans Affairs" />
+                  <SubmissionsPage title="Submissions | Accredited Representative Portal | Veterans Affairs" />
                 ),
                 loader: SubmissionsPage.loader,
               },
               {
-                path: 'claimant-search',
-                element: <ClaimantSearchPage />,
+                path: 'find-claimant',
+                element: (
+                  <ClaimantSearchPage title="Find claimant | Accredited Representative Portal | Veterans Affairs" />
+                ),
                 loader: ClaimantSearchPage.loader,
               },
               {
-                path: 'poa-requests/:id',
+                path: 'representation-requests/:id',
                 element: (
-                  <POARequestDetailsPage title="Representation request | Veterans Affairs" />
+                  <POARequestDetailsPage title="Representation request | Accredited Representative Portal | Veterans Affairs" />
                 ),
                 loader: POARequestDetailsPage.loader,
                 children: [
@@ -130,9 +130,9 @@ const routes = [
                 ],
               },
               {
-                path: 'get-help',
+                path: 'help',
                 element: (
-                  <GetHelpPage title="Get help using the portal | Veterans Affairs" />
+                  <HelpPage title="Get help with the Accredited Representative Portal | Accredited Representative Portal | Veterans Affairs" />
                 ),
               },
             ],

@@ -47,10 +47,19 @@ const ProcessList = () => {
           terms of participation.
         </p>
       </va-process-list-item>
-      <va-process-list-item header="Submit the form">
+      <va-process-list-item header="Download the completed form as a PDF">
         <p>
-          After you complete the form, it will be automatically sent to VA for
-          processing.
+          When you finish the form, download and save the completed PDF to your
+          device. <br />
+          <strong>Note:</strong> This form will not be submitted automatically.
+          You must download the PDF and upload it yourself.
+        </p>
+      </va-process-list-item>
+      <va-process-list-item header="Upload your PDF to the Education File Upload Portal">
+        <p>
+          You will upload your completed PDF to the Education File Upload Portal
+          after saving it. Make sure the version you upload includes all
+          required information and the authorized official’s signature.
         </p>
       </va-process-list-item>
     </va-process-list>

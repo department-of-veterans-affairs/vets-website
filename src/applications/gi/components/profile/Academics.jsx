@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { ariaLabels } from '../../constants';
-import { upperCaseFirstLetterOnly } from '../../utils/helpers';
 import LearnMoreLabel from '../LearnMoreLabel';
 
 export default function Academics({ institution, onShowModal }) {
@@ -24,7 +23,7 @@ export default function Academics({ institution, onShowModal }) {
                 buttonId="accreditation-button"
                 buttonClassName="small-screen-font"
               />
-              :
+              : Yes
             </strong>
           ) : (
             <>
@@ -34,22 +33,24 @@ export default function Academics({ institution, onShowModal }) {
           )}
         </>
       )}
-      {accredited && (
-        <>
-          {accreditationType && upperCaseFirstLetterOnly(accreditationType)} (
-          <a
-            href={`http://nces.ed.gov/collegenavigator/?id=${
-              institution.cross
-            }#accred`}
-            target="_blank"
-            rel="noopener noreferrer"
-            id="see-accreditors"
-          >
-            See accreditors
-          </a>
-          )
-        </>
-      )}
+      {accredited &&
+        institution.cross && (
+          <>
+            {' '}
+            (
+            <a
+              href={`http://nces.ed.gov/collegenavigator/?id=${
+                institution.cross
+              }#accred`}
+              target="_blank"
+              rel="noopener noreferrer"
+              id="see-accreditors"
+            >
+              See accreditors
+            </a>
+            )
+          </>
+        )}
       {!accredited &&
         !accreditationType && (
           <>

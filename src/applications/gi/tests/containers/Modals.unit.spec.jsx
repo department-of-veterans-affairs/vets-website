@@ -445,7 +445,7 @@ describe('<Modals>', () => {
     it('should render', () => {
       const wrapper = shallow(<Modals {...props} />);
       expect(wrapper.html()).to.contain(
-        'The goal of accreditation is to ensure the education provided',
+        'The goal of accreditation is to ensure that the education',
       );
       wrapper.unmount();
     });

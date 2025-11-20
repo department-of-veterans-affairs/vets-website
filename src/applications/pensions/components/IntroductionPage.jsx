@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-
-import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { FormReactivationAlert } from './FormAlerts';
 
@@ -10,12 +9,8 @@ const IntroductionPage = props => {
   const { route } = props;
   const { formConfig, pageList } = route;
 
-  useEffect(
-    () => {
-      focusElement('va-breadcrumbs');
-    },
-    [props],
-  );
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const pbbFormsRequireLoa3 = useToggleValue(TOGGLE_NAMES.pbbFormsRequireLoa3);
 
   return (
     <article className="schemaform-intro">
@@ -171,6 +166,7 @@ const IntroductionPage = props => {
         </va-process-list-item>
       </va-process-list>
       <SaveInProgressIntro
+        hideUnauthedStartLink={pbbFormsRequireLoa3}
         formConfig={formConfig}
         prefillEnabled={formConfig.prefillEnabled}
         pageList={pageList}

@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { formatInTimeZone } from 'date-fns-tz';
-import { stripDST, getFormattedTimezoneAbbr } from '../utils/timezone';
+import {
+  getFormattedTimezoneAbbr,
+  getTimezoneDescByTimeZoneString,
+} from '../utils/timezone';
 
 /**
  * Component for displaying appointment time in a consistent format with timezone
@@ -9,9 +12,7 @@ import { stripDST, getFormattedTimezoneAbbr } from '../utils/timezone';
 export default function AppointmentTime({ date, timezone }) {
   const formattedTime = formatInTimeZone(new Date(date), timezone, 'h:mm aaaa');
   const timezoneAbbreviation = getFormattedTimezoneAbbr(date, timezone);
-  const timezoneDescription = stripDST(
-    formatInTimeZone(new Date(date), timezone, 'zzzz'),
-  );
+  const timezoneDescription = getTimezoneDescByTimeZoneString(timezone);
   return (
     <div data-dd-privacy="mask" data-testid="appointment-time">
       {`${formattedTime} `}

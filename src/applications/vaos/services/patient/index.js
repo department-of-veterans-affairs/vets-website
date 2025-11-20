@@ -5,12 +5,41 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { recordEligibilityFailure, recordVaosError } from '../../utils/events';
 import { captureError } from '../../utils/error';
-import { ELIGIBILITY_REASONS, TYPE_OF_CARE_IDS } from '../../utils/constants';
+import {
+  ELIGIBILITY_REASONS,
+  TYPE_OF_CARE_IDS,
+  INELIGIBILITY_CODES_VAOS,
+} from '../../utils/constants';
 import { promiseAllFromObject } from '../../utils/data';
 import { getAvailableHealthcareServices } from '../healthcare-service';
 import { getPatientEligibility, getPatientRelationships } from '../vaos';
 import { getLongTermAppointmentHistoryV2 } from '../appointment';
 import { transformPatientRelationships } from './transformers';
+
+/**
+ * Checks if a type of care is exempted from requiring past appointment history
+ * for scheduling
+ * @param {string} typeOfCareId The type of care ID to check
+ * @param {boolean} [featurePastVisitMHFilter=false] whether to use past visits as a filter for scheduling MH appointments
+ * @returns {boolean} true if the type of care is exempted from past appointment history requirement
+ */
+export function typeOfCareRequiresPastHistory(
+  typeOfCareId,
+  featurePastVisitMHFilter = false,
+) {
+  const {
+    MENTAL_HEALTH_SERVICES_ID,
+    PRIMARY_CARE,
+    MENTAL_HEALTH_SUBSTANCE_USE_ID,
+  } = TYPE_OF_CARE_IDS;
+  const exempted = new Set([PRIMARY_CARE, MENTAL_HEALTH_SUBSTANCE_USE_ID]);
+
+  if (!featurePastVisitMHFilter) {
+    exempted.add(MENTAL_HEALTH_SERVICES_ID);
+  }
+
+  return !exempted.has(typeOfCareId);
+}
 
 function createErrorHandler(errorKey) {
   return data => {
@@ -20,17 +49,29 @@ function createErrorHandler(errorKey) {
   };
 }
 
-function checkEligibilityReason(ineligibilityReasons, ineligibilityType) {
-  return !Array.isArray(ineligibilityReasons)
-    ? true
-    : !ineligibilityReasons.some(reason => {
+/**
+ * Checks if returned values from patient eligibility contain a specific error code
+ * @param {{coding:{code:string}[]}[]} ineligibilityReasons
+ * @param {string} vaosErrorCode, a keyof INELIGIBILITY_CODES_VAOS in src/applications/vaos/utils/constants.js
+ * @returns {boolean} true if ineligibilityReasons contains the vaosErrorCode
+ */
+export function hasEligibilityError(ineligibilityReasons, vaosErrorCode) {
+  return Array.isArray(ineligibilityReasons)
+    ? ineligibilityReasons.some(reason => {
         const { code } = reason.coding[0];
-        return code === ineligibilityType;
-      });
+        return code === vaosErrorCode;
+      })
+    : false;
 }
 
-const VAOS_SERVICE_PATIENT_HISTORY = 'patient-history-insufficient';
-const VAOS_SERVICE_REQUEST_LIMIT = 'facility-request-limit-exceeded';
+/** Negation of hasEligibilityError, for readability
+ * @param {{coding:{code:string}[]}[]} ineligibilityReasons
+ * @param {string} ineligibilityType, a keyof INELIGIBILITY_CODES_VAOS in src/applications/vaos/utils/constants.js
+ * @returns {boolean} true if ineligibilityReasons does not contain the ineligibilityType or ineligibilityReasons is not an array (e.g. undefined)
+ */
+function doesNotHaveEligibilityError(ineligibilityReasons, ineligibilityType) {
+  return !hasEligibilityError(ineligibilityReasons, ineligibilityType);
+}
 
 /**
  * Returns patient based eligibility checks for specified request or direct types
@@ -69,9 +110,13 @@ async function fetchPatientEligibility({ typeOfCare, location, type = null }) {
   } else if (results.direct) {
     output.direct = {
       eligible: results.direct.eligible,
-      hasRequiredAppointmentHistory: checkEligibilityReason(
+      hasRequiredAppointmentHistory: doesNotHaveEligibilityError(
         results.direct.ineligibilityReasons,
-        VAOS_SERVICE_PATIENT_HISTORY,
+        INELIGIBILITY_CODES_VAOS.PATIENT_HISTORY_INSUFFICIENT,
+      ),
+      disabled: hasEligibilityError(
+        results.direct.ineligibilityReasons,
+        INELIGIBILITY_CODES_VAOS.DIRECT_SCHEDULING_DISABLED,
       ),
     };
   }
@@ -79,16 +124,25 @@ async function fetchPatientEligibility({ typeOfCare, location, type = null }) {
   if (results.request instanceof Error) {
     output.request = new Error('Request eligibility check error');
   } else if (results.request) {
+    const disabled = hasEligibilityError(
+      results.request.ineligibilityReasons,
+      INELIGIBILITY_CODES_VAOS.REQUEST_SCHEDULING_DISABLED,
+    );
     output.request = {
+      disabled,
       eligible: results.request.eligible,
-      hasRequiredAppointmentHistory: checkEligibilityReason(
-        results.request.ineligibilityReasons,
-        VAOS_SERVICE_PATIENT_HISTORY,
-      ),
-      isEligibleForNewAppointmentRequest: checkEligibilityReason(
-        results.request.ineligibilityReasons,
-        VAOS_SERVICE_REQUEST_LIMIT,
-      ),
+      hasRequiredAppointmentHistory:
+        !disabled &&
+        doesNotHaveEligibilityError(
+          results.request.ineligibilityReasons,
+          INELIGIBILITY_CODES_VAOS.PATIENT_HISTORY_INSUFFICIENT,
+        ),
+      isEligibleForNewAppointmentRequest:
+        !disabled &&
+        doesNotHaveEligibilityError(
+          results.request.ineligibilityReasons,
+          INELIGIBILITY_CODES_VAOS.REQUEST_LIMIT_EXCEEDED,
+        ),
     };
   }
 
@@ -128,7 +182,7 @@ function locationSupportsDirectScheduling(location, typeOfCare) {
   return (
     // this check is included due to old two step facilities page
     location.legacyVAR.directSchedulingSupported ||
-    location.legacyVAR.settings?.[typeOfCare.id]?.direct.enabled
+    location.legacyVAR.settings?.[typeOfCare.id]?.direct?.enabled
   );
 }
 
@@ -136,27 +190,43 @@ function locationSupportsRequests(location, typeOfCare) {
   return (
     // this check is included due to old two step facilities page
     location.legacyVAR.requestSupported ||
-    location.legacyVAR.settings?.[typeOfCare.id]?.request.enabled
+    location.legacyVAR.settings?.[typeOfCare.id]?.request?.enabled
   );
 }
 
-function hasMatchingClinics(clinics, pastAppointments) {
-  return clinics?.some(
-    clinic =>
-      !!pastAppointments.find(appt => {
-        const clinicIds = clinic.id.split('_');
-        if (appt.version === 2) {
-          return (
-            clinic.stationId === appt.location.stationId &&
-            clinicIds[1] === appt.location.clinicId &&
-            clinic.patientDirectScheduling === true
-          );
+/**
+ * Has maching clinics that support direct scheduling and match past appointments if required
+ * @param {HealthCareService[]} clinics
+ * @param {Object[]} pastAppointments -- from getLongTermAppointmentHistoryV2 - no return type
+ * @param {boolean} [requiresPastHistory=true]
+ * @returns {boolean}
+ */
+function hasMatchingClinics(
+  clinics,
+  pastAppointments,
+  requiresPastHistory = true,
+) {
+  return clinics?.some(clinic => {
+    const [facilityId, clinicId] = clinic.id.split('_');
+    const acceptsDirect = clinic.patientDirectScheduling === true;
+
+    return !!pastAppointments.find(appt => {
+      const matchesClinic =
+        appt.version === 2
+          ? clinic.stationId === appt.location?.stationId &&
+            clinicId === appt.location?.clinicId
+          : clinicId === appt.clinicId && facilityId === appt.facilityId;
+      if (appt.version === 2) {
+        if (requiresPastHistory) {
+          return matchesClinic && acceptsDirect;
         }
-        return (
-          clinicIds[0] === appt.facilityId && clinicIds[1] === appt.clinicId
-        );
-      }),
-  );
+        return acceptsDirect;
+      }
+      // v1 appointments fallback, despite the fact that clinics response now should be updated
+      // and have the possibility to match acceptsDirect for whichever type of appt is returned
+      return matchesClinic;
+    });
+  });
 }
 
 /*
@@ -233,6 +303,8 @@ function logEligibilityExplanation(
  * @param {Location} params.location The current location to check eligibility against
  * @param {boolean} params.directSchedulingEnabled If direct scheduling is currently enabled
  * @param {boolean} [params.featurePastVisitMHFilter=false] whether to use past visits as a filter for scheduling MH appointments
+ * @param {boolean} [params.isCerner=false] whether the current site is a Cerner site
+ * @param {boolean} [params.removeFacilityConfigCheck=false] whether to skip the facility configurations endpoint check and use eligibility from the patient eligibility API SOT only
  * @returns {FlowEligibilityReturnData} Eligibility results, plus clinics and past appointments
  *   so that they can be cache and reused later
  */
@@ -242,10 +314,21 @@ export async function fetchFlowEligibilityAndClinics({
   directSchedulingEnabled,
   featurePastVisitMHFilter = false,
   isCerner = false,
+  removeFacilityConfigCheck = false,
+  featureUseBrowserTimezone,
 }) {
+  // Helper to avoid confusion
+  const keepFacilityConfigCheck = !removeFacilityConfigCheck;
+  // When the removeFacilityConfigCheck flipper is removed, all directSchedulingAvailable should be changed to directSchedulingEnabled
   const directSchedulingAvailable =
-    locationSupportsDirectScheduling(location, typeOfCare) &&
+    (locationSupportsDirectScheduling(location, typeOfCare) ||
+      removeFacilityConfigCheck) &&
     directSchedulingEnabled;
+
+  const typeOfCareRequiresCheck = typeOfCareRequiresPastHistory(
+    typeOfCare.id,
+    featurePastVisitMHFilter,
+  );
 
   const apiCalls = {
     patientEligibility: fetchPatientEligibility({
@@ -255,28 +338,21 @@ export async function fetchFlowEligibilityAndClinics({
     }),
   };
 
+  // When removeFacilityConfigCheck is removed, directTypeOfCareSettings should be removed and not used
   // location contains legacyVAR that contains patientHistoryRequired
   const directTypeOfCareSettings =
     location.legacyVAR.settings?.[typeOfCare.id]?.direct;
 
-  // We don't want to make unnecessary api calls if DS is turned off
+  // We don't want to make unnecessary api calls if DS is turned off and we are using the configuration call
   if (directSchedulingAvailable && !isCerner) {
     apiCalls.clinics = getAvailableHealthcareServices({
       facilityId: location.id,
       typeOfCare,
     }).catch(createErrorHandler('direct-available-clinics-error'));
-    // Primary care and mental health is exempt from past appt history requirement
-    const isDirectAppointmentHistoryRequired =
-      typeOfCare.id !== TYPE_OF_CARE_IDS.PRIMARY_CARE &&
-      (typeOfCare.id !== TYPE_OF_CARE_IDS.MENTAL_HEALTH_SERVICES_ID ||
-        featurePastVisitMHFilter) &&
-      directTypeOfCareSettings.patientHistoryRequired === true;
 
-    if (isDirectAppointmentHistoryRequired) {
-      apiCalls.pastAppointments = getLongTermAppointmentHistoryV2().catch(
-        createErrorHandler('direct-no-matching-past-clinics-error'),
-      );
-    }
+    apiCalls.pastAppointments = getLongTermAppointmentHistoryV2(
+      featureUseBrowserTimezone,
+    ).catch(createErrorHandler('direct-no-matching-past-clinics-error'));
   }
 
   // This waits for all the api calls we're running in parallel to finish
@@ -294,10 +370,16 @@ export async function fetchFlowEligibilityAndClinics({
     requestReasons: [],
   };
 
+  // When removeFacilityConfigCheck is removed, remove first condition in first if and remove
+  // removeFacilityConfigCheck from 2nd condition in first if condition
   // This is going through all of our request related checks and setting
   // to false if we fail any of them. Order is important here, because the UI
   // will only be able to show one reason, the first one
-  if (!locationSupportsRequests(location, typeOfCare)) {
+  if (
+    (keepFacilityConfigCheck &&
+      !locationSupportsRequests(location, typeOfCare)) ||
+    (removeFacilityConfigCheck && results.patientEligibility.request?.disabled)
+  ) {
     eligibility.request = false;
     eligibility.requestReasons.push(ELIGIBILITY_REASONS.notSupported);
   } else if (results.patientEligibility.request instanceof Error) {
@@ -326,8 +408,14 @@ export async function fetchFlowEligibilityAndClinics({
     );
   }
 
+  // When removeFacilityConfigCheck removed, first if condition should just be:
+  // if (results.patientEligibility.direct?.disabled)
   // Location does not support direct scheduling
-  if (!locationSupportsDirectScheduling(location, typeOfCare)) {
+  if (
+    (keepFacilityConfigCheck &&
+      !locationSupportsDirectScheduling(location, typeOfCare)) ||
+    (removeFacilityConfigCheck && results.patientEligibility.direct?.disabled)
+  ) {
     eligibility.direct = false;
     eligibility.directReasons.push(ELIGIBILITY_REASONS.notSupported);
   } else if (
@@ -357,14 +445,17 @@ export async function fetchFlowEligibilityAndClinics({
         location?.id,
       );
     }
-
+    // When removeFacilityConfigCheck is removed, remove the entire condition inside the parens with
+    // keepFacilityConfigCheck because we no longer will no longer be doing determination on the client side.
     if (
       !isCerner &&
-      typeOfCare.id !== TYPE_OF_CARE_IDS.PRIMARY_CARE &&
-      (typeOfCare.id !== TYPE_OF_CARE_IDS.MENTAL_HEALTH_SERVICES_ID ||
-        featurePastVisitMHFilter) &&
-      directTypeOfCareSettings.patientHistoryRequired &&
-      !hasMatchingClinics(results.clinics, results.pastAppointments)
+      (keepFacilityConfigCheck &&
+        directTypeOfCareSettings.patientHistoryRequired) &&
+      !hasMatchingClinics(
+        results.clinics,
+        results.pastAppointments,
+        typeOfCareRequiresCheck,
+      )
     ) {
       eligibility.direct = false;
       eligibility.directReasons.push(ELIGIBILITY_REASONS.noMatchingClinics);
@@ -376,9 +467,7 @@ export async function fetchFlowEligibilityAndClinics({
 
   return {
     eligibility,
-    // it feels sort of hackish to return these along with our main
-    // eligibility calcs, but we want to cache them for future use
     clinics: results.clinics,
     pastAppointments: results.pastAppointments,
-  };
+  }; // clinics and past appointments are returned in addition to eligibilty to be cached for later user
 }

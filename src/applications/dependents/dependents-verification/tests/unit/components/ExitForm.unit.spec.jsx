@@ -5,12 +5,20 @@ import sinon from 'sinon-v20';
 
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import * as utils from '../../../util';
+import * as utils from '../../../../shared/utils/api';
 import { form686Url, ExitForm } from '../../../components/ExitForm';
 
 describe('ExitForm', () => {
+  let sandbox;
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+  });
+
   afterEach(() => {
-    sinon.restore();
+    if (sandbox) {
+      sandbox.restore();
+    }
   });
 
   it('should render the exit form with correct title and subtitle', () => {
@@ -29,23 +37,23 @@ describe('ExitForm', () => {
   });
 
   it('should push url to router when back button is clicked', async () => {
-    const goBackSpy = sinon.spy();
+    const goBackSpy = sandbox.spy();
     const { container } = render(<ExitForm goBack={goBackSpy} />);
 
     fireEvent.click($('va-button[back]', container));
-    await expect(goBackSpy.called).to.be.true;
+    await waitFor(() => {
+      expect(goBackSpy.called).to.be.true;
+    });
   });
 
   it('should call redirect to 686c-674 when Go to button is clicked', async () => {
-    const deleteInProgressFormStub = sinon
+    const deleteInProgressFormStub = sandbox
       .stub(utils, 'deleteInProgressForm')
       .resolves();
-    const { container } = render(<ExitForm />);
     const assignSpy = sinon.spy();
-    global.window = window;
-    global.window.location = { assign: assignSpy };
+    const { container } = render(<ExitForm location={{ assign: assignSpy }} />);
 
-    fireEvent.click($('va-button[continue]', container));
+    fireEvent.click($('.exit-form', container));
 
     await waitFor(() => {
       expect(deleteInProgressFormStub.calledWith(VA_FORM_IDS.FORM_21_0538)).to

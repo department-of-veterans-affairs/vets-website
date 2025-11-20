@@ -5,6 +5,7 @@ import {
   TYPE_OF_CARE_IDS,
 } from '../../../../utils/constants';
 import MockAppointmentResponse from '../../../fixtures/MockAppointmentResponse';
+import MockClinicResponse from '../../../fixtures/MockClinicResponse';
 import MockEligibilityResponse from '../../../fixtures/MockEligibilityResponse';
 import MockFacilityResponse from '../../../fixtures/MockFacilityResponse';
 import MockUser from '../../../fixtures/MockUser';
@@ -22,8 +23,10 @@ import {
   mockAppointmentCreateApi,
   mockAppointmentGetApi,
   mockAppointmentsGetApi,
-  mockEligibilityApi,
+  mockClinicsApi,
   mockEligibilityCCApi,
+  mockEligibilityDirectApi,
+  mockEligibilityRequestApi,
   mockFacilitiesApi,
   mockFeatureToggles,
   mockSchedulingConfigurationApi,
@@ -57,10 +60,26 @@ describe('VAOS request schedule flow - Primary care', () => {
   describe('When veteran is not CC eligible', () => {
     describe('And one facility supports online scheduling', () => {
       beforeEach(() => {
-        const mockEligibilityResponse = new MockEligibilityResponse({
+        const mockEligibilityResponseDirect = new MockEligibilityResponse({
+          facilityId: '983',
+          typeOfCareId,
+          isEligible: false,
+          type: 'direct',
+          ineligibilityReason:
+            MockEligibilityResponse.PATIENT_HISTORY_INSUFFICIENT,
+        });
+        const mockEligibilityResponseRequest = new MockEligibilityResponse({
           facilityId: '983',
           typeOfCareId,
           isEligible: true,
+          type: 'request',
+        });
+
+        mockEligibilityDirectApi({
+          response: mockEligibilityResponseDirect,
+        });
+        mockEligibilityRequestApi({
+          response: mockEligibilityResponseRequest,
         });
 
         mockFacilitiesApi({
@@ -68,7 +87,10 @@ describe('VAOS request schedule flow - Primary care', () => {
             facilityIds: ['983'],
           }),
         });
-        mockEligibilityApi({ response: mockEligibilityResponse });
+        mockClinicsApi({
+          locationId: '983',
+          response: MockClinicResponse.createResponses({ count: 1 }),
+        });
         mockEligibilityCCApi({ cceType, isEligible: false });
         mockSchedulingConfigurationApi({
           facilityIds: ['983'],
@@ -198,10 +220,26 @@ describe('VAOS request schedule flow - Primary care', () => {
 
     describe('And more than one facility supports online scheduling', () => {
       beforeEach(() => {
-        const mockEligibilityResponse = new MockEligibilityResponse({
+        const mockEligibilityResponseDirect = new MockEligibilityResponse({
+          facilityId: '983',
+          typeOfCareId,
+          isEligible: false,
+          type: 'direct',
+          ineligibilityReason:
+            MockEligibilityResponse.PATIENT_HISTORY_INSUFFICIENT,
+        });
+        const mockEligibilityResponseRequest = new MockEligibilityResponse({
           facilityId: '983',
           typeOfCareId,
           isEligible: true,
+          type: 'request',
+        });
+
+        mockEligibilityDirectApi({
+          response: mockEligibilityResponseDirect,
+        });
+        mockEligibilityRequestApi({
+          response: mockEligibilityResponseRequest,
         });
 
         mockFacilitiesApi({
@@ -209,7 +247,10 @@ describe('VAOS request schedule flow - Primary care', () => {
             facilityIds: ['983', '984'],
           }),
         });
-        mockEligibilityApi({ response: mockEligibilityResponse });
+        mockClinicsApi({
+          locationId: '983',
+          response: MockClinicResponse.createResponses({ count: 1 }),
+        });
         mockEligibilityCCApi({ cceType, isEligible: false });
         mockSchedulingConfigurationApi({
           facilityIds: ['983', '984'],
@@ -339,18 +380,36 @@ describe('VAOS request schedule flow - Primary care', () => {
 
   describe('When veteran is CC eligible', () => {
     beforeEach(() => {
-      const mockEligibilityResponse = new MockEligibilityResponse({
+      const mockEligibilityResponseDirect = new MockEligibilityResponse({
+        facilityId: '983',
+        typeOfCareId,
+        isEligible: false,
+        type: 'direct',
+        ineligibilityReason:
+          MockEligibilityResponse.PATIENT_HISTORY_INSUFFICIENT,
+      });
+      const mockEligibilityResponseRequest = new MockEligibilityResponse({
         facilityId: '983',
         typeOfCareId,
         isEligible: true,
+        type: 'request',
       });
 
+      mockEligibilityDirectApi({
+        response: mockEligibilityResponseDirect,
+      });
+      mockEligibilityRequestApi({
+        response: mockEligibilityResponseRequest,
+      });
       mockFacilitiesApi({
         response: MockFacilityResponse.createResponses({
           facilityIds: ['983', '984'],
         }),
       });
-      mockEligibilityApi({ response: mockEligibilityResponse });
+      mockClinicsApi({
+        locationId: '983',
+        response: MockClinicResponse.createResponses({ count: 1 }),
+      });
       mockEligibilityCCApi({ cceType });
       mockSchedulingConfigurationApi({
         facilityIds: ['983', '984'],

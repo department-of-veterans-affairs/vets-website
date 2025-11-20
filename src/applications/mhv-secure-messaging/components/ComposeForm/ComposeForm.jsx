@@ -27,6 +27,7 @@ import {
   setCaretToPos,
   navigateToFolderByFolderId,
   dateFormat,
+  buildRxRenewalMessageBody,
   scrollToTop,
 } from '../../util/helpers';
 import { sendMessage } from '../../actions/messages';
@@ -59,6 +60,8 @@ import {
   updateDraftInProgress,
 } from '../../actions/threadDetails';
 import SelectedRecipientTitle from './SelectedRecipientTitle';
+import { clearPrescription } from '../../actions/prescription';
+import AddYourMedicationInfoWarning from './AddYourMedicationInfoWarning';
 
 const ComposeForm = props => {
   const { pageTitle, draft, recipients, signature } = props;
@@ -72,6 +75,15 @@ const ComposeForm = props => {
   const headerRef = useRef();
 
   const { draftInProgress } = useSelector(state => state.sm.threadDetails);
+  const { prescription } = useSelector(state => state.sm);
+  const {
+    renewalPrescription,
+    rxError = prescription.error,
+    redirectPath,
+  } = prescription;
+  const renewalPrescriptionIsLoading = useSelector(
+    state => state.sm.prescription.isLoading,
+  );
   const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
   const {
     largeAttachmentsEnabled,
@@ -88,12 +100,76 @@ const ComposeForm = props => {
   const [attachFileError, setAttachFileError] = useState(null);
   const [formPopulated, setFormPopulated] = useState(false);
   const [sendMessageFlag, setSendMessageFlag] = useState(false);
+  const [isAutoSave, setIsAutoSave] = useState(true);
 
   const recipientExists = useCallback(
     recipientId => {
       return recipientsList.findIndex(item => +item.id === +recipientId) > -1;
     },
     [recipientsList],
+  );
+
+  const ohTriageGroup = useCallback(
+    recipientId => {
+      return (
+        recipients?.allowedRecipients.find(r => +r.id === +recipientId)
+          ?.ohTriageGroup || false
+      );
+    },
+    [recipients?.allowedRecipients],
+  );
+
+  const useLargeAttachments = useMemo(
+    () => {
+      return (
+        largeAttachmentsEnabled || (cernerPilotSmFeatureFlag && ohTriageGroup)
+      );
+    },
+    [largeAttachmentsEnabled, cernerPilotSmFeatureFlag, ohTriageGroup],
+  );
+
+  const isRxRenewalDraft = useMemo(
+    () => renewalPrescription?.prescriptionId || rxError,
+    [renewalPrescription, rxError],
+  );
+
+  const navigateToRxCallback = useCallback(
+    () => {
+      if (redirectPath) {
+        window.location.replace(redirectPath);
+      }
+    },
+    [redirectPath],
+  );
+
+  useEffect(
+    () => {
+      return () => {
+        dispatch(clearPrescription());
+      };
+    },
+    [dispatch],
+  );
+
+  useEffect(
+    () => {
+      if (isRxRenewalDraft) {
+        const messageSubject = 'Renewal Needed';
+        const messageBody = buildRxRenewalMessageBody(
+          renewalPrescription,
+          rxError,
+        );
+
+        dispatch(
+          updateDraftInProgress({
+            body: messageBody,
+            subject: messageSubject,
+            category: Categories.MEDICATIONS.value,
+          }),
+        );
+      }
+    },
+    [renewalPrescription, isRxRenewalDraft, dispatch],
   );
 
   useEffect(
@@ -126,6 +202,7 @@ const ComposeForm = props => {
                 draftInProgress?.recipientName ||
                 draft.suggestedNameDisplay ||
                 draft.recipientName,
+              ohTriageGroup: ohTriageGroup(draft.recipientId),
               category: draftInProgress?.category || draft.category,
               subject: draftInProgress?.subject || draft.subject,
               body: draftInProgress?.body || draft.body,
@@ -154,6 +231,9 @@ const ComposeForm = props => {
       ehrDataByVhaId,
       recipients?.allowedRecipients,
       recipientExists,
+      ohTriageGroup,
+      draftInProgress,
+      sendMessageFlag,
     ],
   );
 
@@ -351,18 +431,31 @@ const ComposeForm = props => {
           }
 
           try {
-            await dispatch(sendMessage(sendData, attachments.length > 0));
+            setIsAutoSave(false);
+            await dispatch(
+              sendMessage(
+                sendData,
+                attachments.length > 0,
+                draftInProgress.ohTriageGroup,
+                !!redirectPath, // suppress alert when redirectPath exists
+              ),
+            );
             dispatch(clearDraftInProgress());
             setTimeout(() => {
-              navigateToFolderByFolderId(
-                currentFolder?.folderId || DefaultFolders.INBOX.id,
-                history,
-              );
+              if (redirectPath) {
+                navigateToRxCallback();
+              } else {
+                navigateToFolderByFolderId(
+                  currentFolder?.folderId || DefaultFolders.INBOX.id,
+                  history,
+                );
+              }
             }, 1000);
-            // Timeout neccessary for UCD requested 1 second delay
+            // Timeout necessary for UCD requested 1 second delay
           } catch (err) {
             setSendMessageFlag(false);
             scrollToTop();
+            setIsAutoSave(true);
           }
         }
       };
@@ -382,6 +475,8 @@ const ComposeForm = props => {
       dispatch,
       currentFolder?.folderId,
       history,
+      redirectPath,
+      navigateToRxCallback,
     ],
   );
 
@@ -769,6 +864,7 @@ const ComposeForm = props => {
   useEffect(
     () => {
       if (
+        isAutoSave === true &&
         debouncedRecipient &&
         debouncedCategory &&
         debouncedSubject &&
@@ -787,6 +883,7 @@ const ComposeForm = props => {
       saveDraftHandler,
       navigationErrorModalVisible,
       setUnsavedNavigationError,
+      isAutoSave,
     ],
   );
 
@@ -794,8 +891,8 @@ const ComposeForm = props => {
     recipient => {
       setSelectedRecipientId(recipient?.id ? recipient.id.toString() : '0');
 
-      if (recipient.id !== '0') {
-        if (recipient.id) setRecipientError('');
+      if (recipient?.id !== '0') {
+        if (recipient?.id) setRecipientError('');
         setUnsavedNavigationError();
       }
     },
@@ -844,11 +941,21 @@ const ComposeForm = props => {
     setCheckboxMarked(e.detail.checked);
   };
 
+  if (renewalPrescriptionIsLoading) {
+    return (
+      <va-loading-indicator
+        message="Loading..."
+        setFocus
+        data-testid="loading-indicator"
+      />
+    );
+  }
+
   if (sendMessageFlag === true) {
     return (
       <va-loading-indicator
         message={
-          largeAttachmentsEnabled
+          useLargeAttachments
             ? 'Do not refresh the page. Sending message...'
             : 'Sending message...'
         }
@@ -900,6 +1007,7 @@ const ComposeForm = props => {
                 />
               </div>
             )}
+          <AddYourMedicationInfoWarning isVisible={rxError != null} />
           {!mhvSecureMessagingCuratedListFlow &&
             recipientsList &&
             !noAssociations &&
@@ -1008,6 +1116,7 @@ const ComposeForm = props => {
                     attachmentScanError={attachmentScanError}
                     attachFileError={attachFileError}
                     setAttachFileError={setAttachFileError}
+                    isOhTriageGroup={draftInProgress?.ohTriageGroup}
                   />
 
                   <FileInput
@@ -1017,7 +1126,7 @@ const ComposeForm = props => {
                     attachmentScanError={attachmentScanError}
                     attachFileError={attachFileError}
                     setAttachFileError={setAttachFileError}
-                    isPilot={cernerPilotSmFeatureFlag}
+                    isOhTriageGroup={draftInProgress?.ohTriageGroup}
                   />
                 </section>
               ))}
@@ -1044,6 +1153,7 @@ const ComposeForm = props => {
             setNavigationError={setNavigationError}
             setUnsavedNavigationError={setUnsavedNavigationError}
             savedComposeDraft={!!draft}
+            redirectPath={redirectPath}
           />
         </div>
       </form>

@@ -10,12 +10,8 @@ import LetterPage from '../../containers/LetterPage';
 
 const mockReducer = (state = {}) => state;
 
-const getStore = (lettersPageNewDesign = true) => {
+const getStore = () => {
   const initialState = {
-    featureToggles: {
-      // eslint-disable-next-line camelcase
-      letters_page_new_design: lettersPageNewDesign,
-    },
     vapService: {
       hasUnsavedEdits: false,
       initialFormFields: {},
@@ -62,6 +58,10 @@ const getStore = (lettersPageNewDesign = true) => {
         letterType: 'benefit_verification',
       },
     ],
+    featureToggles: {
+      // eslint-disable-next-line camelcase
+      tsa_safe_travel_letter: true,
+    },
   };
   return createStore(mockReducer, initialState, applyMiddleware(thunk));
 };

@@ -18,8 +18,10 @@ describe('addDependentOptions', () => {
       addChild: 'An unmarried child under 18',
       report674:
         'An unmarried child between ages 18 and 23, and who attends school',
-      addDisabledChild:
-        'An unmarried child of any age who has a permanent mental or physical disability ',
+      addDisabledChild: {
+        title:
+          'An unmarried child of any age who has a permanent mental or physical disability',
+      },
     });
   });
 });

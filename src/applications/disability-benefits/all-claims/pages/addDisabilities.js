@@ -6,6 +6,7 @@ import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import Autocomplete from '../components/Autocomplete';
 import disabilityLabelsRevised from '../content/disabilityLabelsRevised';
 import NewDisability from '../components/NewDisability';
+import ConfirmationNewDisabilities from '../components/confirmationFields/ConfirmationNewDisabilities';
 import {
   validateDisabilityName,
   requireDisability,
@@ -25,7 +26,17 @@ import {
   newOnlyAlertRevised,
 } from '../content/addDisabilities';
 
-const { condition } = fullSchema.definitions.newDisabilities.items.properties;
+const getNewDisabilitiesProps = schema => {
+  const nd = schema?.definitions?.newDisabilities?.items;
+  // New shape (refactor): first 526 schema anyOf branch is the full NEW/SECONDARY/etc. object
+  if (nd?.anyOf?.[0]?.properties) return nd.anyOf[0].properties;
+  // Old shape (pre-refactor)
+  if (nd?.properties) return nd.properties;
+  return {};
+};
+
+const NEW_PROPS = getNewDisabilitiesProps(fullSchema);
+const { condition } = NEW_PROPS;
 
 const autocompleteUiSchema = {
   'ui:field': data => (
@@ -89,6 +100,7 @@ export const uiSchema = {
       },
     },
   },
+  'ui:confirmationField': ConfirmationNewDisabilities,
 };
 
 export const schema = {

@@ -59,13 +59,18 @@ class LabsAndTestsListPage extends BaseListPage {
 
   // "Radiology has no details call so we always use the list call for everything"
   // - Mike Moyer 08/01/2024
-  clickRadiologyDetailsLink = labsAndTestsItemHeading => {
-    cy.contains(labsAndTestsItemHeading, { includeShadowDom: true }).then(
-      element => {
-        cy.wrap(element).should('have.prop', 'tagName', 'A');
-        cy.wrap(element).click();
-      },
-    );
+  clickRadiologyDetailsLink = (heading, index = 0) => {
+    // Ensure the text exists in a link somewhere (retries)
+    cy.contains('a', heading, { includeShadowDom: true, timeout: 10000 });
+
+    // If duplicates are possible, pick the indexed one
+    cy.contains('a', heading, { includeShadowDom: true })
+      .eq(index)
+      .as('radLink');
+
+    cy.get('@radLink').scrollIntoView();
+    cy.get('@radLink').should('be.visible');
+    cy.get('@radLink').click();
   };
 
   loadVAPaginationNext = () => {

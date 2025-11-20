@@ -29,7 +29,7 @@ import {
   handlePreparerNonVeteranDepends,
 } from '../../config/pages/servicePeriodsPages';
 
-describe('pension add federal medical centers page', () => {
+describe('pre need integration service periods', () => {
   it('should render', () => {
     const form = mount(
       <DefinitionTester
@@ -41,7 +41,7 @@ describe('pension add federal medical centers page', () => {
 
     expect(form.find('va-select').length).to.equal(1);
     expect(form.find('VaMemorableDate').length).to.equal(2);
-    expect(form.find('input').length).to.equal(2);
+    expect(form.find('va-text-input').length).to.equal(2);
     form.unmount();
   });
 

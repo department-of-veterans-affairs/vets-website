@@ -49,6 +49,7 @@
       "isEncrypted": false
     }
   ],
+  "view:householdIncome": true,
   "view:completedChildStoppedAttendingSchool": false,
   "view:completedMarriedChild": false,
   "view:completedDependent": false,
@@ -200,9 +201,6 @@
   },
   "useV2": true,
   "daysTillExpires": 365,
-  "metadata": {
-    "former marriagesForceRenderTimestamp": 1745275642611
-  },
   "privacyAgreementAccepted": true,
   "studentInformation": [
     {
@@ -249,7 +247,7 @@
       "tuitionIsPaidByGovAgency": false,
       "view:programExamples": {},
       "ssn": "800662233",
-      "isParent": false,
+      "relationshipToStudent": "biological",
       "wasMarried": false,
       "address": {
         "view:militaryBaseDescription": {},

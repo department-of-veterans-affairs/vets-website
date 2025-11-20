@@ -18,8 +18,8 @@ export const defaultFocusSelector =
  * Focus on element
  * @param {String|Element} selectorOrElement - CSS selector or attached DOM
  *  element
- * @param {FocusOptions} options
- * @param {Element} root - root element for querySelector; would allow focusing
+ * @param {FocusOptions} [options]
+ * @param {Element} [root] - root element for querySelector; would allow focusing
  *  on elements inside of shadow dom
  */
 export function focusElement(selectorOrElement, options = {}, root) {

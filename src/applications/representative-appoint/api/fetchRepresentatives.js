@@ -1,6 +1,6 @@
 import environment from 'platform/utilities/environment';
 import { fetchAndUpdateSessionExpiration as fetch } from '@department-of-veterans-affairs/platform-utilities/api';
-import { REPRESENTATIVES_API } from '../constants/api';
+import { getRepresentativesApi } from '../constants/api';
 import manifest from '../manifest.json';
 
 export const fetchRepresentatives = async ({ query }) => {
@@ -19,27 +19,22 @@ export const fetchRepresentatives = async ({ query }) => {
 
   const apiUrl =
     environment.BASE_URL === 'http://localhost:3001'
-      ? `https://staging-api.va.gov`
-      : `${environment.API_URL}`;
+      ? 'https://staging-api.va.gov'
+      : environment.API_URL;
+
+  const path = getRepresentativesApi();
 
   return new Promise((resolve, reject) => {
-    fetch(`${apiUrl}${REPRESENTATIVES_API}?query=${query}`, apiSettings)
+    fetch(`${apiUrl}${path}?query=${query}`, apiSettings)
       .then(res => {
-        if (!res.ok) {
-          throw Error(res.statusText);
-        }
-
+        if (!res.ok) throw Error(res.statusText);
         return res.json();
       })
       .then(res => {
         const endTime = new Date().getTime();
-        const resultTime = endTime - startTime;
-        res.meta = {
-          ...res.meta,
-          resultTime,
-        };
+        res.meta = { ...res.meta, resultTime: endTime - startTime };
         return res;
       })
-      .then(data => resolve(data), error => reject(error));
+      .then(resolve, reject);
   });
 };

@@ -112,6 +112,7 @@ const formConfig = {
 
   formOptions: {
     focusOnAlertRole: true,
+    useWebComponentForNavigation: true,
   },
 
   chapters: {
@@ -135,7 +136,7 @@ const formConfig = {
         ...contactInfo,
       },
     },
-    conditions: {
+    issues: {
       title: 'Issues for review',
       pages: {
         filingDeadlines: {

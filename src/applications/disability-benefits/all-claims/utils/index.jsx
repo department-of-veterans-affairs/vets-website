@@ -4,7 +4,6 @@ import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import * as Sentry from '@sentry/browser';
 import fastLevenshtein from 'fast-levenshtein';
-import moment from 'moment';
 import { isValidYear } from 'platform/forms-system/src/js/utilities/validations';
 import {
   checkboxGroupSchema,
@@ -18,7 +17,6 @@ import { createSelector } from 'reselect';
 import {
   CHAR_LIMITS,
   DATA_PATHS,
-  DATE_FORMAT,
   DISABILITY_526_V2_ROOT_URL,
   FORM_STATUS_BDD,
   HOMELESSNESS_TYPES,
@@ -34,6 +32,8 @@ import {
 } from '../constants';
 import { getBranches } from './serviceBranches';
 import { setSharedVariable } from './sharedState';
+import { formatDateRange, formatDate, parseDate } from './dates/formatting';
+import { getToday } from '../tests/utils/dates/dateHelper';
 
 /**
  * Returns an object where all the fields are prefixed with `view:` if they aren't already
@@ -67,26 +67,17 @@ export const srSubstitute = (srIgnored, substitutionText) => (
 
 export const isUndefined = value => (value || '') === '';
 
-export const formatDate = (date, format = DATE_FORMAT) => {
-  const m = moment(date);
-  return date && m.isValid() ? m.format(format) : 'Unknown';
+// parseDate().isSameOrBefore() => true; so expirationDate can't be undefined
+export const isNotExpired = (expirationDate = '') => {
+  const today = getToday();
+  const expiration = parseDate(expirationDate);
+  if (!today || !expiration) return false;
+  return today.isSameOrBefore(expiration);
 };
-
-export const formatDateRange = (dateRange = {}, format = DATE_FORMAT) =>
-  dateRange?.from || dateRange?.to
-    ? `${formatDate(dateRange.from, format)} to ${formatDate(
-        dateRange.to,
-        format,
-      )}`
-    : 'Unknown';
-
-// moment().isSameOrBefore() => true; so expirationDate can't be undefined
-export const isNotExpired = (expirationDate = '') =>
-  moment().isSameOrBefore(expirationDate);
 
 export const isValidFullDate = dateString => {
   // expecting dateString = 'YYYY-MM-DD'
-  const date = moment(dateString);
+  const date = parseDate(dateString);
   return (
     (date?.isValid() &&
       // moment('2021') => '2021-01-01'
@@ -107,7 +98,7 @@ export const isValidServicePeriod = data => {
       !isUndefined(to) &&
       isValidFullDate(from) &&
       isValidFullDate(to) &&
-      moment(from).isBefore(moment(to))) ||
+      parseDate(from).isBefore(parseDate(to))) ||
     false
   );
 };
@@ -365,10 +356,10 @@ export const isBDD = formData => {
   }
 
   const mostRecentDate = separationDate
-    ? moment(separationDate)
+    ? parseDate(separationDate)
     : servicePeriods
         .filter(({ dateRange }) => dateRange?.to)
-        .map(({ dateRange }) => moment(dateRange?.to))
+        .map(({ dateRange }) => parseDate(dateRange?.to))
         .sort((dateA, dateB) => (dateB.isBefore(dateA) ? -1 : 1))[0];
 
   if (!mostRecentDate) {
@@ -378,8 +369,8 @@ export const isBDD = formData => {
 
   const result =
     isActiveDuty &&
-    mostRecentDate.isAfter(moment().add(89, 'days')) &&
-    !mostRecentDate.isAfter(moment().add(180, 'days'));
+    mostRecentDate.isAfter(getToday().add(89, 'days')) &&
+    !mostRecentDate.isAfter(getToday().add(180, 'days'));
 
   // this flag helps maintain the correct form title within a session
   window.sessionStorage.setItem(FORM_STATUS_BDD, result ? 'true' : 'false');
@@ -506,8 +497,6 @@ export const wantsHelpRequestingStatementsSecondary = index => formData =>
 
 const isDateRange = ({ from, to }) => !!(from && to);
 
-const parseDate = dateString => moment(dateString, 'YYYY-MM-DD');
-
 // NOTE: Could move this to outside all-claims
 /**
  * Checks to see if the first parameter is inside the date range (second parameter).
@@ -534,6 +523,9 @@ export const isWithinRange = (inside, outside, inclusivity = '[]') => {
   const insideDate = parseDate(inside);
   const from = parseDate(outside.from);
   const to = parseDate(outside.to);
+
+  if (!insideDate || !from || !to) return false;
+  if (!insideDate.isValid() || !from.isValid() || !to.isValid()) return false;
 
   return insideDate.isBetween(from, to, 'days', inclusivity);
 };
@@ -581,6 +573,17 @@ export const urls = {
 export const claimingRated = formData =>
   formData?.ratedDisabilities?.some(d => d['view:selected']);
 
+export const isPlaceholderRated = v => v === 'Rated Disability';
+
+// TE/POW should only show when there’s at least one *real* condition
+export const hasRealNewOrSecondaryConditions = formData =>
+  Array.isArray(formData?.newDisabilities) &&
+  formData.newDisabilities.some(
+    d =>
+      typeof d?.condition === 'string' &&
+      !isPlaceholderRated(d.condition) &&
+      (d?.cause === 'NEW' || d?.cause === 'SECONDARY'),
+  );
 // TODO: Rename this to avoid collision with `isClaimingNew` above
 export const claimingNew = formData =>
   formData?.newDisabilities?.some(d => d.condition);
@@ -595,7 +598,7 @@ export const hasClaimedConditions = formData =>
  */
 export const activeServicePeriods = formData =>
   _.get('serviceInformation.servicePeriods', formData, []).filter(
-    sp => !sp.dateRange.to || moment(sp.dateRange.to).isAfter(moment()),
+    sp => !sp.dateRange.to || parseDate(sp.dateRange.to).isAfter(getToday()),
   );
 
 export const isUploadingSTR = formData =>
@@ -645,25 +648,25 @@ export const showSeparationLocation = formData => {
 
   // moment(undefined) => today
   // moment(null) => Invalid date
-  const title10SeparationDate = moment(
+  const title10SeparationDate = parseDate(
     reservesNationalGuardService?.title10Activation
       ?.anticipatedSeparationDate || null,
   );
 
   if (
-    !title10SeparationDate.isValid() &&
+    (!title10SeparationDate || !title10SeparationDate.isValid()) &&
     (!servicePeriods || !Array.isArray(servicePeriods))
   ) {
     return false;
   }
 
-  const today = moment();
-  const todayPlus180 = moment().add(180, 'days');
+  const todayPlus180 = getToday().add(180, 'days');
 
   // Show separation location field if activated on federal orders & < 180 days
   if (
+    title10SeparationDate &&
     title10SeparationDate.isValid() &&
-    title10SeparationDate.isAfter(today) &&
+    title10SeparationDate.isAfter(getToday()) &&
     !title10SeparationDate.isAfter(todayPlus180)
   ) {
     return true;
@@ -671,11 +674,13 @@ export const showSeparationLocation = formData => {
 
   const mostRecentDate = servicePeriods
     ?.filter(({ dateRange }) => dateRange?.to)
-    .map(({ dateRange }) => moment(dateRange.to || null))
+    .map(({ dateRange }) => parseDate(dateRange.to))
+    .filter(date => date && date.isValid())
     .sort((dateA, dateB) => dateB - dateA)[0];
 
-  return mostRecentDate?.isValid()
-    ? mostRecentDate.isAfter(today) && !mostRecentDate.isAfter(todayPlus180)
+  return mostRecentDate
+    ? mostRecentDate.isAfter(getToday()) &&
+        !mostRecentDate.isAfter(todayPlus180)
     : false;
 };
 
@@ -719,14 +724,37 @@ export const wrapWithBreadcrumb = (title, component) => (
   </>
 );
 
-const today = moment().endOf('day');
+const today = getToday().endOf('day');
+/**
+ * Determines if a given date object is expired.
+ *
+ * Usability:
+ * - Use this utility to check if a date (with an `expiresAt` property in seconds since epoch)
+ *   has already passed or is still valid. We want to use epoch here as that's what the backend
+ *   ruby services are expecting for this value.
+ * - Returns `true` if the date is missing, invalid, or has expired; otherwise, returns `false`.
+ *
+ * @param {Object} date - An object containing an `expiresAt` property (seconds since epoch).
+ * @returns {boolean} `true` if expired or invalid, `false` if still valid.
+ */
 export const isExpired = date => {
   if (!date) {
     return true;
   }
   // expiresAt: Ruby saves as time from Epoch date in seconds (not milliseconds)
-  const expires = moment.unix(date?.expiresAt);
-  return !(expires.isValid() && expires.endOf('day').isSameOrAfter(today));
+  // Convert the expiresAt (seconds since epoch) to a date string (YYYY-MM-DD)
+  const expiresAt = date?.expiresAt;
+  let expires = null;
+  if (expiresAt) {
+    const expiresDate = new Date(expiresAt * 1000);
+    const expiresDateString = expiresDate.toISOString().split('T')[0];
+    expires = parseDate(expiresDateString);
+  }
+  return !(
+    expires &&
+    expires.isValid() &&
+    expires.endOf('day').isSameOrAfter(today)
+  );
 };
 
 /**
@@ -780,24 +808,6 @@ export const formSubtitle = subtitle => (
 );
 
 /**
- * Formats a raw date using month and year only. For example: 'January 2000'
- *
- * @param {string} rawDate - Assuming a date in the format 'YYYY-MM-DD'
- * @returns {string} A friendly date string if a valid date. Empty string otherwise.
- */
-export const formatMonthYearDate = (rawDate = '') => {
-  const date = new Date(rawDate.split('-').join('/')).toLocaleDateString(
-    'en-US',
-    {
-      year: 'numeric',
-      month: 'long',
-    },
-  );
-
-  return date === 'Invalid Date' ? '' : date;
-};
-
-/**
  * Creates a consistent checkbox group UI configuration for conditions
  */
 export function makeConditionsUI({
@@ -840,13 +850,19 @@ export function validateConditions(conditions, errors, errorKey, errorMessage) {
  * @returns {object} - Object with ids for each condition
  */
 export function makeConditionsSchema(formData) {
-  const options = (formData?.newDisabilities || []).map(disability =>
-    sippableId(disability.condition),
-  );
+  // Map only valid conditions and filter out 'blank' and other invalid values (null, empty strings, etc.)
+  const options = (formData?.newDisabilities || [])
+    .map(disability => disability.condition)
+    .filter(
+      condition =>
+        condition && condition.trim() !== '' && condition !== 'blank',
+    ); // Remove 'blank' and invalid conditions
 
-  options.push('none');
+  // Map conditions to sippable IDs
+  const sippableOptions = options.map(condition => sippableId(condition));
+  sippableOptions.push('none');
 
-  return checkboxGroupSchema(options);
+  return checkboxGroupSchema(sippableOptions);
 }
 
 /**
@@ -936,6 +952,11 @@ export const redirectWhenNoEvidence = props => {
     (returnUrl === modern4142AuthURL || returnUrl === legacy4142AuthURL)
   );
 };
+
+export const isNewConditionsOn = formData =>
+  !!formData?.disabilityCompNewConditionsWorkflow;
+
+export const isNewConditionsOff = formData => !isNewConditionsOn(formData);
 
 export const onFormLoaded = props => {
   const { returnUrl, formData, router } = props;

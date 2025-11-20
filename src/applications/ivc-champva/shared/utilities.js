@@ -1,7 +1,14 @@
 import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
+import { fromUnixTime, endOfDay, isPast, isValid } from 'date-fns';
 import { waitForShadowRoot } from 'platform/utilities/ui/webComponents';
+
+// util to check if an in-progress form is expired
+export const isExpired = expiresAt => {
+  const ex = fromUnixTime(Number(expiresAt));
+  return !isValid(ex) || isPast(endOfDay(ex));
+};
 
 /**
  * Returns either a form of 'you', or the applicant's full name based

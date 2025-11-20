@@ -26,9 +26,9 @@ import { ConfirmationAlert } from '../../shared/components/ConfirmationAlert';
 import { ConfirmationTitle } from '../../shared/components/ConfirmationTitle';
 import ConfirmationPersonalInfo from '../../shared/components/ConfirmationPersonalInfo';
 import ConfirmationIssues from '../../shared/components/ConfirmationIssues';
-import { showValueOrNotSelected } from '../../shared/utils/confirmation';
 
 import { getReadableDate } from '../../shared/utils/dates';
+import { convertBoolResponseToYesNo } from '../../shared/utils/form-data-display';
 // import { NOD_PDF_DOWNLOAD_URL } from '../../shared/constants';
 
 export const ConfirmationPageV2 = () => {
@@ -201,7 +201,7 @@ export const ConfirmationPageV2 = () => {
               className="vads-u-margin-bottom--2 dd-privacy-hidden"
               data-dd-action-name="requesting an extension"
             >
-              {showValueOrNotSelected(data.requestingExtension)}
+              {convertBoolResponseToYesNo(data?.requestingExtension)}
             </div>
           </li>
           {data.requestingExtension && (
@@ -225,7 +225,7 @@ export const ConfirmationPageV2 = () => {
               className="vads-u-margin-bottom--2 dd-privacy-hidden"
               data-dd-action-name="is appealing VHA benefits"
             >
-              {showValueOrNotSelected(data.appealingVHADenial)}
+              {convertBoolResponseToYesNo(data?.appealingVHADenial)}
             </div>
           </li>
         </>

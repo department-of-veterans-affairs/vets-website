@@ -1,4 +1,4 @@
-import { EVIDENCE_OTHER, SUPPORTED_BENEFIT_TYPES_LIST } from '../constants';
+import { HAS_OTHER_EVIDENCE, SUPPORTED_BENEFIT_TYPES_LIST } from '../constants';
 import {
   getHomeless,
   getAddress,
@@ -14,7 +14,7 @@ import {
   getTimeZone,
 } from '../../shared/utils/submit';
 
-export function transform(formConfig, form) {
+export function transform(form) {
   // https://developer.va.gov/explore/appeals/docs/decision_reviews?version=current
   // match supplemental claims schema here
   const mainTransform = formData => {
@@ -47,7 +47,7 @@ export function transform(formConfig, form) {
       },
       included: addIncludedIssues(formData),
       form4142: getForm4142(formData),
-      additionalDocuments: formData[EVIDENCE_OTHER]
+      additionalDocuments: formData[HAS_OTHER_EVIDENCE]
         ? additionalDocuments
         : null,
     };

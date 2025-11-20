@@ -6,6 +6,10 @@ import FormButtons from '../../components/FormButtons';
 import { TYPES_OF_MENTAL_HEALTH } from '../../utils/constants';
 import { focusFormHeader } from '../../utils/scrollAndFocus';
 import { getFormPageInfo } from '../redux/selectors';
+import {
+  selectFeaturePCMHI,
+  selectFeatureSubstanceUseDisorder,
+} from '../../redux/selectors';
 
 import {
   openFormPage,
@@ -18,43 +22,53 @@ import AppointmentsRadioWidget from './AppointmentsRadioWidget';
 const pageKey = 'typeOfMentalHealth';
 const pageTitle = 'Which type of mental health care do you need?';
 
-const initialSchema = {
-  type: 'object',
-  required: ['typeOfMentalHealthId'],
-  properties: {
-    typeOfMentalHealthId: {
-      type: 'string',
-      enum: TYPES_OF_MENTAL_HEALTH.map(type => type.id),
-    },
-  },
-};
-
-const uiSchema = {
-  typeOfMentalHealthId: {
-    'ui:title': pageTitle,
-    'ui:widget': AppointmentsRadioWidget,
-    'ui:options': {
-      classNames: 'vads-u-margin-top--neg2',
-      hideLabelText: true,
-      labels: {
-        [TYPES_OF_MENTAL_HEALTH[0].id]: TYPES_OF_MENTAL_HEALTH[0].name,
-        [TYPES_OF_MENTAL_HEALTH[1].id]: TYPES_OF_MENTAL_HEALTH[1].name,
-      },
-      descriptions: {
-        [TYPES_OF_MENTAL_HEALTH[0].id]:
-          'Therapy, medication, and other services to help with posttraumatic ' +
-          'stress disorder (PTSD), psychological effects of military sexual ' +
-          'trauma (MST), depression, grief, anxiety, and other needs.',
-        [TYPES_OF_MENTAL_HEALTH[1].id]:
-          'Counseling, recovery support, and treatment options for Veterans ' +
-          'seeking help with alcohol or other substance use.',
-      },
-    },
-  },
-};
-
 export default function TypeOfMentalHealthPage() {
   const dispatch = useDispatch();
+  const featurePCMHI = useSelector(selectFeaturePCMHI);
+  const featureSUD = useSelector(selectFeatureSubstanceUseDisorder);
+
+  let supportedTypesOfMentalHealth = [...TYPES_OF_MENTAL_HEALTH];
+  if (!featurePCMHI) {
+    supportedTypesOfMentalHealth = supportedTypesOfMentalHealth.filter(
+      type => type.id !== '534',
+    );
+  }
+  if (!featureSUD) {
+    supportedTypesOfMentalHealth = supportedTypesOfMentalHealth.filter(
+      type => type.id !== '513',
+    );
+  }
+
+  const initialSchema = {
+    type: 'object',
+    required: ['typeOfMentalHealthId'],
+    properties: {
+      typeOfMentalHealthId: {
+        type: 'string',
+        enum: supportedTypesOfMentalHealth.map(type => type.id),
+      },
+    },
+  };
+
+  const uiSchema = {
+    typeOfMentalHealthId: {
+      'ui:title': pageTitle,
+      'ui:widget': AppointmentsRadioWidget,
+      'ui:options': {
+        classNames: 'vads-u-margin-top--neg2',
+        hideLabelText: true,
+        labels: supportedTypesOfMentalHealth.reduce((acc, care) => {
+          acc[care.id] = care.name;
+          return acc;
+        }, {}),
+        descriptions: supportedTypesOfMentalHealth.reduce((acc, care) => {
+          acc[care.id] = care.description;
+          return acc;
+        }, {}),
+      },
+    },
+  };
+
   const { schema, data, pageChangeInProgress } = useSelector(
     state => getFormPageInfo(state, pageKey),
     shallowEqual,

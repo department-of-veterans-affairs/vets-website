@@ -254,7 +254,8 @@ describe('page navigation utilities', () => {
             updateResultsPageSpy,
           );
 
-          expect(router.push.firstCall.calledWith(ROUTES.RESULTS)).to.be.true;
+          expect(router.push.firstCall.calledWith(ROUTES.RESULTS_DR)).to.be
+            .true;
           expect(updateResultsPageSpy.firstCall.args[0]).to.equal(
             RESULTS_2_H_2B_1,
           );

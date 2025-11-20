@@ -29,7 +29,7 @@ const formatStatus = submission => {
             />
             {' Processing error'}
           </span>
-          <span>Contact 800-827-1000 for assistance</span>
+          <span>Contact 855-225-0709 for assistance</span>
         </>
       );
     case 'awaiting_receipt':

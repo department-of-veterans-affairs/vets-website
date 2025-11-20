@@ -3,6 +3,7 @@ import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring
 import {
   selectFeatureOHDirectSchedule,
   selectFeatureOHRequest,
+  selectFeaturePCMHI,
   selectFeatureSubstanceUseDisorder,
   selectRegisteredCernerFacilityIds,
 } from '../redux/selectors';
@@ -265,12 +266,19 @@ export default function getNewAppointmentFlow(state) {
       url: 'date-time',
       label: 'What date and time do you want for this appointment?',
       next: 'reasonForAppointment',
+      requestAppointment(state, dispatch) {
+        dispatch(startRequestAppointmentFlow());
+        return 'requestDateTime';
+      },
     },
     selectProvider: {
       url: 'provider',
       label: 'Which provider do you want to schedule with?',
       next: 'preferredDate',
-      requestAppointment: 'requestDateTime',
+      requestAppointment(state, dispatch) {
+        dispatch(startRequestAppointmentFlow());
+        return 'requestDateTime';
+      },
     },
     typeOfCare: {
       url: '/schedule/type-of-care',
@@ -292,7 +300,10 @@ export default function getNewAppointmentFlow(state) {
         }
         if (isMentalHealth(state)) {
           dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
-          if (selectFeatureSubstanceUseDisorder(state)) {
+          if (
+            selectFeatureSubstanceUseDisorder(state) ||
+            selectFeaturePCMHI(state)
+          ) {
             return 'typeOfMentalHealth';
           }
           return VA_FACILITY_V2_KEY;
@@ -371,6 +382,11 @@ export default function getNewAppointmentFlow(state) {
         ? 'Your appointment location'
         : 'Which VA facility would you like to go to?',
       next: vaFacilityNext,
+    },
+    urgentCareInformation: {
+      url: '/schedule',
+      label: 'Only schedule appointments for non-urgent needs',
+      next: 'typeOfCare',
     },
     vaccineFlow: {
       url:

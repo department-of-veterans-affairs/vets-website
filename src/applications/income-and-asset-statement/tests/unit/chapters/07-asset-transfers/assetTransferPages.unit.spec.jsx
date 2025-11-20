@@ -37,10 +37,10 @@ describe('asset transfer list and loop pages', () => {
   });
 
   describe('text getItemName function', () => {
-    it('should return "Asset transferred to `newOwnerName`', () => {
+    it('should return "Asset sold to `newOwnerName`', () => {
       const item = testData.data.assetTransfers[0];
       expect(options.text.getItemName(item)).to.equal(
-        'Asset transferred to Alice Johnson',
+        'Asset sold to Alice Johnson',
       );
     });
   });
@@ -49,6 +49,7 @@ describe('asset transfer list and loop pages', () => {
     /* eslint-disable no-unused-vars */
     const {
       originalOwnerRelationship,
+      transferMethod,
       newOwnerName,
       newOwnerRelationship,
       saleReportedToIrs,
@@ -64,6 +65,7 @@ describe('asset transfer list and loop pages', () => {
     /* eslint-disable no-unused-vars */
     const {
       originalOwnerRelationship,
+      transferMethod,
       newOwnerName,
       newOwnerRelationship,
       saleReportedToIrs,
@@ -105,11 +107,11 @@ describe('asset transfer list and loop pages', () => {
 
   describe('relationship page', () => {
     const schema =
-      assetTransferPages.assetTransferRelationshipPage.schema.properties
+      assetTransferPages.assetTransferNonVeteranRecipientPage.schema.properties
         .assetTransfers.items;
     const uiSchema =
-      assetTransferPages.assetTransferRelationshipPage.uiSchema.assetTransfers
-        .items;
+      assetTransferPages.assetTransferNonVeteranRecipientPage.uiSchema
+        .assetTransfers.items;
 
     testNumberOfFieldsByType(
       formConfig,
@@ -144,28 +146,27 @@ describe('asset transfer list and loop pages', () => {
     );
   });
 
-  describe('type page', () => {
+  describe('information page', () => {
     const schema =
-      assetTransferPages.assetTransferTypePage.schema.properties.assetTransfers
-        .items;
+      assetTransferPages.assetTransferInformationPage.schema.properties
+        .assetTransfers.items;
     const uiSchema =
-      assetTransferPages.assetTransferTypePage.uiSchema.assetTransfers.items;
+      assetTransferPages.assetTransferInformationPage.uiSchema.assetTransfers
+        .items;
 
     testNumberOfFieldsByType(
       formConfig,
       schema,
       uiSchema,
-      { 'va-radio': 1, 'va-text-input': 1 },
+      { 'va-text-input': 1, 'va-memorable-date': 1 },
       'type',
     );
     testComponentFieldsMarkedAsRequired(
       formConfig,
       schema,
       uiSchema,
-      [
-        'va-radio[label="How was the asset transferred?"]',
-        'va-text-input[label="What asset was transferred?"]',
-      ],
+      ['va-text-input[label="What asset was transferred?"]'],
+      ['va-memorable-date[label="When was the asset transferred?"]'],
       'type',
     );
     testSubmitsWithoutErrors(
@@ -190,7 +191,6 @@ describe('asset transfer list and loop pages', () => {
       schema,
       uiSchema,
       {
-        'va-radio': 1,
         'va-text-input': 4,
       },
       'new owner information',
@@ -200,10 +200,9 @@ describe('asset transfer list and loop pages', () => {
       schema,
       uiSchema,
       [
-        'va-text-input[label="First name"]',
-        'va-text-input[label="Last name"]',
-        'va-text-input[label="What is the relationship to the new owner?"]',
-        'va-radio[label="Was the sale of the asset reported to the IRS?"]',
+        'va-text-input[label="First or given name"]',
+        'va-text-input[label="Last or family name"]',
+        'va-text-input[label="What’s their relationship to the original asset owner?"]',
       ],
       'new owner information',
     );
@@ -217,45 +216,12 @@ describe('asset transfer list and loop pages', () => {
     );
   });
 
-  describe('transfer date page', () => {
+  describe('transfer method page', () => {
     const schema =
-      assetTransferPages.assetTransferDatePage.schema.properties.assetTransfers
-        .items;
-    const uiSchema =
-      assetTransferPages.assetTransferDatePage.uiSchema.assetTransfers.items;
-    testNumberOfFieldsByType(
-      formConfig,
-      schema,
-      uiSchema,
-      {
-        'va-memorable-date': 1,
-      },
-      'date',
-    );
-    testComponentFieldsMarkedAsRequired(
-      formConfig,
-      schema,
-      uiSchema,
-      ['va-memorable-date[label="When was the asset transferred?"]'],
-      'date',
-    );
-    testSubmitsWithoutErrors(
-      formConfig,
-      schema,
-      uiSchema,
-      'date',
-      testData.data.assetTransfers[0],
-      { loggedIn: true },
-    );
-  });
-
-  describe('under fair value page', () => {
-    const schema =
-      assetTransferPages.assetTransferUnderFairMarketValuePage.schema.properties
+      assetTransferPages.assetTransferMethodPage.schema.properties
         .assetTransfers.items;
     const uiSchema =
-      assetTransferPages.assetTransferUnderFairMarketValuePage.uiSchema
-        .assetTransfers.items;
+      assetTransferPages.assetTransferMethodPage.uiSchema.assetTransfers.items;
     testNumberOfFieldsByType(
       formConfig,
       schema,
@@ -269,9 +235,7 @@ describe('asset transfer list and loop pages', () => {
       formConfig,
       schema,
       uiSchema,
-      [
-        'va-radio[label="Was the asset transferred for less than fair market value?"]',
-      ],
+      ['va-radio[label="How was this asset transferred?"]'],
       'value',
     );
     testSubmitsWithoutErrors(
@@ -296,6 +260,7 @@ describe('asset transfer list and loop pages', () => {
       schema,
       uiSchema,
       {
+        'va-radio': 2,
         'va-text-input': 3,
       },
       'value',

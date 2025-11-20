@@ -11,6 +11,7 @@ const {
 } = require('./payment-history');
 const { createAppealsSuccess, createAppealsFailure } = require('./appeals');
 const {
+  createDebtsCountOnlySuccess,
   createDebtsSuccess,
   createNoDebtsSuccess,
   createDebtsFailure,
@@ -18,7 +19,7 @@ const {
 const { createClaimsSuccess, createClaimsFailure } = require('./claims');
 const { createHealthCareStatusSuccess } = require('./health-care');
 const { createApplications } = require('./benefit-applications');
-const { allFoldersWithUnreadMessages } = require('./messaging');
+const { allFoldersWithUnreadMessages, allFolders } = require('./messaging');
 const {
   user81Copays,
   user81ErrorCopays,
@@ -46,13 +47,29 @@ const responses = {
       myVaFormPdfLink: true,
       veteranOnboardingShowWelcomeMessageToNewUsers: true,
       myVaAuthExpRedesignAvailableToOptIn: true,
+      mhvEmailConfirmation: false,
     },
     true,
   ),
-  'GET /v0/user': user.simpleUser, // This is an LOA3 user
-  // 'GET /v0/user': user.loa3UserWithNoEmail, // This is simpleUser with no email
-  // 'GET /v0/user': user.loa1SimpleUser,
-  // 'GET /v0/user': user.loa1UserWithNoEmail,
+  'GET /v0/user': (req, res) => {
+    const userType = 'loa3'; // 'loa3', 'loa3NoHealth', 'loa3NoEmail', 'loa1', or 'loa1NoEmail'
+    switch (userType) {
+      case 'loa3':
+        return res.status(200).json(user.simpleUser); // This is an LOA3 user
+      case 'loa3NoHealth':
+        return res.status(200).json(user.loa3NoHealthUser); // This is an LOA3 user
+      case 'loa3With1010ez':
+        return res.status(200).json(user.loa3With1010ez); // This is an LOA3 user with in-progress/saved 10-10EZ
+      case 'loa3NoEmail':
+        return res.status(200).json(user.loa3UserWithNoEmail); // This is an LOA3 user with no email
+      case 'loa1':
+        return res.status(200).json(user.loa1SimpleUser); // This is an LOA1 user
+      case 'loa1NoEmail':
+        return res.status(200).json(user.loa1UserWithNoEmail); // This is an LOA1 user with no email
+      default:
+        return res.status(200).json('');
+    }
+  },
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': { data: [] },
   'GET /v0/medical_copays': (req, res) => {
@@ -127,8 +144,23 @@ const responses = {
     }
   },
   'GET /v0/health_care_applications/enrollment_status': createHealthCareStatusSuccess(),
-  'GET /my_health/v1/messaging/folders': allFoldersWithUnreadMessages,
+  'GET /my_health/v1/messaging/folders': (_req, res) => {
+    const messagesStatus = 'hasUnread'; // 'hasUnread', 'allRead', or 'failure'
+    switch (messagesStatus) {
+      case 'hasUnread':
+        return res.status(200).json(allFoldersWithUnreadMessages);
+      case 'allRead':
+        return res.status(200).json(allFolders);
+      case 'failure':
+        return res
+          .status(500)
+          .json({ error: 'Failed to fetch message folders' });
+      default:
+        return res.status(200).json('');
+    }
+  },
   'GET /v0/my_va/submission_statuses': createApplications(),
+  // 'GET /v0/my_va/submission_statuses': { data: [] },
   'POST /v0/my_va/submission_pdf_urls': (_req, res) => {
     // return res.status(500).json({
     //   error: 'bad request',
@@ -153,6 +185,9 @@ const responses = {
     },
   },
   'GET /v0/debts': (req, res) => {
+    if (req.query?.countOnly) {
+      return res.status(200).json(createDebtsCountOnlySuccess());
+    }
     const debtStatus = 'success';
     switch (debtStatus) {
       case 'success':
@@ -198,8 +233,17 @@ const responses = {
     }
   },
   'GET /vaos/v2/appointments': (_req, res) => {
-    const rv = v2.createAppointmentSuccess({ startsInDays: [31] });
-    return res.status(200).json(rv);
+    const appointmentStatus = 'empty'; // 'success', 'failure', or 'empty'
+    switch (appointmentStatus) {
+      case 'success':
+        return res.status(200).json(v2.createAppointmentSuccess());
+      case 'failure':
+        return res.status(400).json(v2.createVaosError());
+      case 'empty':
+        return res.status(200).json({ data: [] });
+      default:
+        return '';
+    }
   },
 };
 

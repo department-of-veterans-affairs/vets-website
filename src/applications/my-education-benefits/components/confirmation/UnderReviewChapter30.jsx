@@ -18,20 +18,53 @@ const UnderReviewChapter30 = ({
       </va-alert>
 
       <va-summary-box class="vads-u-margin-y--3">
-        <h3 slot="headline">
+        <h3
+          slot="headline"
+          className="vads-u-margin-top--0 vads-u-margin-bottom--0"
+        >
           Application for VA education benefits (VA Form 22-1990)
         </h3>
-        <h3 slot="headline">MGIB-AD, Chapter 30</h3>
-        {claimantName.trim() ? <p>For {claimantName}</p> : <></>}
-        <dl>
-          <dt>Date received</dt>
-          <dd>{confirmationDate}</dd>
-        </dl>
-        <va-button
-          class="meb-print"
-          text="Print this page"
-          onClick={printPage}
-        />
+        <h3
+          slot="headline"
+          className="vads-u-margin-top--0 vads-u-margin-bottom--0"
+        >
+          MGIB-AD, Chapter 30
+        </h3>
+
+        <div className="vads-u-margin-bottom--2">
+          <h4 className="vads-u-margin-bottom--0p5 vads-u-font-weight--bold">
+            Who submitted this form
+          </h4>
+          {claimantName.trim() ? (
+            <p className="vads-u-margin--0">{claimantName}</p>
+          ) : (
+            <p className="vads-u-margin--0">Not provided</p>
+          )}
+        </div>
+
+        <div className="vads-u-margin-bottom--2">
+          <h4 className="vads-u-margin-bottom--0p5 vads-u-font-weight--bold">
+            Date received
+          </h4>
+          <p className="vads-u-margin--0">{confirmationDate}</p>
+        </div>
+
+        <div className="vads-u-margin-bottom--3">
+          <h4 className="vads-u-margin-bottom--0p5 vads-u-font-weight--bold">
+            Confirmation for your records
+          </h4>
+          <p className="vads-u-margin--0">
+            You can print this confirmation page for your records.
+          </p>
+        </div>
+
+        <div className="vads-u-margin-bottom--2">
+          <va-button
+            class="meb-print"
+            text="Print this page"
+            onClick={printPage}
+          />
+        </div>
       </va-summary-box>
 
       <h2>When will I hear back about my application?</h2>
@@ -40,8 +73,8 @@ const UnderReviewChapter30 = ({
         <hr className="meb-hr" />
         <p>
           If more than a month has passed since you gave us your application and
-          you haven’t heard back, please don’t apply again. Call our toll-free
-          Education Call Center at <va-telephone contact="8884424551" /> or{' '}
+          you haven’t heard back, please don’t apply again. Call our Education
+          Call Center toll-free at <va-telephone contact="8884424551" /> or{' '}
           <va-telephone contact="9187815678" international /> if you are outside
           the U.S.
         </p>
@@ -62,7 +95,7 @@ const UnderReviewChapter30 = ({
       <ul>
         <li>
           If you need to submit documentation to VA, such as service records,
-          please send this through <a href="/contact-us">Ask VA</a>.
+          please send this through <a href="https://ask.va.gov/">Ask VA</a>.
         </li>
         <li>
           Review and/or update your direct deposit information on{' '}

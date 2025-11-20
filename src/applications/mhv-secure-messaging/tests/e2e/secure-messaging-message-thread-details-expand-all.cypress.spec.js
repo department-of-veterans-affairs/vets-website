@@ -4,8 +4,7 @@ import threadResponse from './fixtures/thread-response-new-api.json';
 import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
 import { AXE_CONTEXT } from './utils/constants';
 
-// Skipping until flaky test fixed
-describe.skip('SM EXPAND ALL ACCORDIONS', () => {
+describe('SM EXPAND ALL ACCORDIONS', () => {
   const date = new Date();
   threadResponse.data[0].attributes.sentDate = date.toISOString();
 
@@ -19,7 +18,7 @@ describe.skip('SM EXPAND ALL ACCORDIONS', () => {
 
     PatientMessageDetailsPage.verifyExpandedThreadBody(threadResponse);
 
-    PatientMessageDetailsPage.expandAllThreadMessages();
+    PatientMessageDetailsPage.collapseAllThreadMessages();
 
     PatientMessageDetailsPage.verifyAccordionStatus(false);
 
@@ -27,7 +26,6 @@ describe.skip('SM EXPAND ALL ACCORDIONS', () => {
 
     PatientMessageDetailsPage.verifyAccordionStatus(true);
 
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 });

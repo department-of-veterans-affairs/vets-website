@@ -7,6 +7,7 @@ import VaPrescription from '../../../components/PrescriptionDetails/VaPrescripti
 import rxDetailsResponse from '../../fixtures/prescriptionDetails.json';
 import { dateFormat } from '../../../util/helpers';
 import * as rxApiExports from '../../../api/rxApi';
+import { RX_SOURCE } from '../../../util/constants';
 
 describe('vaPrescription details container', () => {
   const prescription = rxDetailsResponse.data.attributes;
@@ -123,7 +124,7 @@ describe('vaPrescription details container', () => {
       ndc: null,
       reason: null,
       prescriptionNumberIndex: 'RF1',
-      prescriptionSource: 'RF',
+      prescriptionSource: RX_SOURCE.REFILL,
       disclaimer: null,
       indicationForUse: null,
       indicationForUseFlag: null,
@@ -243,7 +244,7 @@ describe('vaPrescription details container', () => {
   it('displays pending med content if prescription source is PD and dispStatus is NewOrder', () => {
     const screen = setup({
       ...prescription,
-      prescriptionSource: 'PD',
+      prescriptionSource: RX_SOURCE.PENDING_DISPENSE,
       dispStatus: 'NewOrder',
     });
     const status = screen.getByText(
@@ -264,7 +265,7 @@ describe('vaPrescription details container', () => {
   it('displays pending renewal med content if prescription source is PD and dispStatus is Renew', () => {
     const screen = setup({
       ...prescription,
-      prescriptionSource: 'PD',
+      prescriptionSource: RX_SOURCE.PENDING_DISPENSE,
       dispStatus: 'Renew',
     });
     const status = screen.getByText(
@@ -291,7 +292,7 @@ describe('vaPrescription details container', () => {
     };
     const screen = setupWithPartialFill({
       ...prescription,
-      rxRfRecords: [{ prescriptionSource: 'PF' }],
+      rxRfRecords: [{ prescriptionSource: RX_SOURCE.PARTIAL_FILL }],
     });
     const accordionHeading = screen.getByText('Partial fill');
 

@@ -1,3 +1,9 @@
+const createDebtsCountOnlySuccess = () => {
+  return {
+    debtsCount: 8,
+  };
+};
+
 const createDebtsSuccess = () => {
   return {
     hasDependentDebts: false,
@@ -266,6 +272,7 @@ const createDebtsFailure = () => {
 };
 
 module.exports = {
+  createDebtsCountOnlySuccess,
   createDebtsFailure,
   createDebtsSuccess,
   createNoDebtsSuccess,

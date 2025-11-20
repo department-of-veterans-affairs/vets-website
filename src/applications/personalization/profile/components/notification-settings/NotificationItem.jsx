@@ -16,8 +16,9 @@ import {
 } from '~/platform/user/selectors';
 
 import { LOADING_STATES } from '~/applications/personalization/common/constants';
+import { VaCheckboxGroup } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import NotificationChannel from './NotificationChannel';
-import { NotificationChannelCheckboxesFieldset } from './NotificationChannelCheckboxesFieldset';
+// import { NotificationChannelCheckboxesFieldset } from './NotificationChannelCheckboxesFieldset';
 import { useNotificationSettingsUtils } from '../../hooks';
 
 const getChannelsByItemId = (itemId, channelEntities) => {
@@ -127,14 +128,11 @@ const NotificationItem = ({ channelIds, itemName, description, itemId }) => {
   return (
     <>
       {userHasAtLeastOneChannelContactInfo ? (
-        <NotificationChannelCheckboxesFieldset
-          itemName={itemName}
+        <VaCheckboxGroup
+          label={itemName}
+          label-header-level="3"
           description={description}
-          channels={filteredChannels}
-          itemId={itemId}
-          hasSomeErrorUpdates={itemStatusIndicators.hasSomeErrorUpdates}
-          hasSomePendingUpdates={itemStatusIndicators.hasSomePendingUpdates}
-          hasSomeSuccessUpdates={itemStatusIndicators.hasSomeSuccessUpdates}
+          data-testid={`checkbox-group-${itemId}`}
         >
           {filteredChannels.map((channelId, index) => (
             <NotificationChannel
@@ -145,7 +143,7 @@ const NotificationItem = ({ channelIds, itemName, description, itemId }) => {
               itemName={itemName}
             />
           ))}
-        </NotificationChannelCheckboxesFieldset>
+        </VaCheckboxGroup>
       ) : null}
     </>
   );

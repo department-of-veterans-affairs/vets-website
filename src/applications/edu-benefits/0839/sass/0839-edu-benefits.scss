@@ -3,20 +3,36 @@
 @import "../../../../platform/forms/sass/m-form-confirmation";
 
 .layout-wrapper {
-  padding-inline: 8px;
-
   @media (min-width: $medium-screen) {
     padding-inline: 0;
-    padding-left: 16px;
+    padding-left: calc(var(--vads-spacing-1) * 2);
   }
   @media (min-width: $large-screen) {
     padding-inline: 0;
   }
 }
 
+.acknowledgements-page {
+  va-text-input::part(label) {
+    margin-top: 0;
+  }
+}
+
+.ypr-no-expander-border .form-expanding-group-open {
+  border-left: 0 !important;
+  margin-left: -1.25rem;
+  padding-left: 1.25rem;
+}
+
 @media (max-width: $small-screen) {
   .form-22-0839-container {
-    padding-inline: 0.5rem;
+    padding-inline: var(--vads-spacing-1);
+    fieldset {
+      min-width: 100%;
+    }
+    .yellow-ribbon-program-description {
+      padding-inline: var(--vads-spacing-1);
+    }
   }
 
   .form-22-0839-container .schemaform-buttons,
@@ -31,5 +47,96 @@
     div:first-of-type {
       order: 2;
     }
+  }
+}
+.yellow-ribbon-title {
+  color: lab(0% 0 0) !important;
+  width: fit-content;
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+}
+legend.yellow-ribbon-title {
+  width: 43.6rem !important;
+  @media (max-width: $small-screen) {
+    width: 100%;
+    padding-inline: var(--vads-spacing-1);
+  }
+}
+.yellow-program-list {
+  ul {
+    width: 100%;
+    padding-left: 0;
+    margin: 0;
+    list-style: none;
+    display: block;
+
+    li {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+      position: relative;
+      &::before {
+        content: "•";
+        position: absolute;
+        left: 0;
+        top: 0;
+        color: rgb(0, 0, 0);
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+.eligible-individuals-note p {
+  color: hsl(0, 0%, 46%) !important;
+  @media (max-width: $small-screen) {
+    width: 100%;
+    padding-inline: 0.5rem;
+  }
+}
+.academic-year-title {
+  color: lab(0% 0 0) !important;
+  width: fit-content;
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+}
+legend:has(.academic-year-title) {
+  width: 389px;
+  @media (max-width: $small-screen) {
+    width: 100%;
+    padding-inline: var(--vads-spacing-1);
+  }
+}
+label[id="root_unlimitedIndividuals-label"] {
+  display: none !important;
+}
+.contribution-degree-school {
+  p {
+    color: hsl(0, 0%, 46%);
+  }
+}
+.eligible-individuals-note input,
+.unlimited-students-display input {
+  border: 0;
+  font-weight: bold;
+  pointer-events: none;
+  margin-left: -10px;
+}
+
+.container {
+  width: 20.75rem;
+}
+[id="root_specificContributionAmount-label"],
+[id="root_view:descriptionText"],
+[id="root_view:descriptionText-label"] {
+  display: none !important;
+}
+.eligible-students-container{
+  width: 24.4375rem;
+   @media (max-width: $small-screen) {
+    width: 20.125rem;
   }
 }

@@ -1,17 +1,18 @@
 import {
   addDays,
   addMonths,
+  isSameDay,
+  isValid,
   lastDayOfMonth,
   parseISO,
   startOfMonth,
 } from 'date-fns';
+import { formatInTimeZone } from 'date-fns-tz';
 import { scrollToFirstError } from 'platform/utilities/scroll';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-
-import InfoAlert from '../../../components/InfoAlert';
 
 import { fetchFutureAppointments } from '../../../appointment-list/redux/actions';
 import {
@@ -20,67 +21,119 @@ import {
 } from '../../../appointment-list/redux/selectors';
 import CalendarWidget from '../../../components/calendar/CalendarWidget';
 import FormButtons from '../../../components/FormButtons';
+import InfoAlert from '../../../components/InfoAlert';
 import NewTabAnchor from '../../../components/NewTabAnchor';
 import useIsInitialLoad from '../../../hooks/useIsInitialLoad';
-import { getRealFacilityId } from '../../../utils/appointment';
-import { FETCH_STATUS } from '../../../utils/constants';
+import { DATE_FORMATS, FETCH_STATUS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
+import { getFormattedTimezoneAbbr } from '../../../utils/timezone';
 import { getPageTitle } from '../../newAppointmentFlow';
 import {
   getAppointmentSlots,
   onCalendarChange,
-  requestAppointmentDateChoice,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
+  routeToRequestAppointmentPage,
 } from '../../redux/actions';
-import {
-  getChosenClinicInfo,
-  getDateTimeSelect,
-  selectEligibility,
-} from '../../redux/selectors';
-import WaitTimeAlert from './WaitTimeAlert';
+import { getChosenClinicInfo, getDateTimeSelect } from '../../redux/selectors';
+import UrgentCareLinks from '../UrgentCareLinks';
 
 const pageKey = 'selectDateTime';
 
-function renderContent({ dispatch, isRequest, facilityId, history }) {
-  // Display this content when the facility is configured to accept appointment
-  // request
-  if (isRequest) {
+function handleClick(history, dispatch) {
+  return e => {
+    // Stop default behavior for anchor tag since we are using React routing.
+    e.preventDefault();
+    dispatch(routeToRequestAppointmentPage(history, pageKey));
+  };
+}
+
+function getAlertMessage({
+  earliestDate,
+  fetchFailed,
+  slotAvailable,
+  preferredDate,
+  timezone,
+}) {
+  if (fetchFailed) {
     return (
       <>
-        To schedule this appointment, you can{' '}
-        <va-link
-          className="va-button-link"
-          text="submit a request for a VA appointment"
-          onClick={() => dispatch(requestAppointmentDateChoice(history))}
-        />{' '}
-        or{' '}
-        <NewTabAnchor
-          href={`/find-locations/facility/vha_${getRealFacilityId(facilityId)}`}
-        >
-          call your local VA medical center
-        </NewTabAnchor>
-        .
+        <div className="vads-u-margin-bottom--2">
+          We’re sorry. There’s a problem with appointments. Refresh this page or
+          try again later.
+        </div>
+        <div className="vads-u-margin-bottom--2">
+          If that doesn’t work, you can call your local VA health care facility
+          to schedule this appointment.
+        </div>
       </>
     );
   }
 
-  return (
-    <>
-      To schedule this appointment, you can{' '}
-      <NewTabAnchor
-        href={`/find-locations/facility/vha_${getRealFacilityId(facilityId)}`}
-      >
-        call your local VA medical center
-      </NewTabAnchor>
-      .
-    </>
-  );
+  if (!slotAvailable) {
+    return (
+      <div className="vads-u-margin-bottom--2">
+        To find an available date to schedule this appointment, you can call
+        your local VA health care facility.
+      </div>
+    );
+  }
+
+  if (isValid(preferredDate) && isSameDay(preferredDate, new Date())) {
+    return (
+      <>
+        <div className="vads-u-margin-bottom--2">
+          The earliest we can schedule your appointment is{' '}
+          <span className="vads-u-font-weight--bold">
+            {formatInTimeZone(
+              earliestDate,
+              timezone,
+              DATE_FORMATS.friendlyDate,
+            )}{' '}
+            at {formatInTimeZone(earliestDate, timezone, 'h:mm aaaa')}{' '}
+            {getFormattedTimezoneAbbr(earliestDate, timezone)}
+          </span>
+          . If this date doesn’t work, you can pick a new one from the calendar.
+        </div>
+        <div className="vads-u-margin-bottom--2">
+          If the date you want isn’t available, you can call your local VA
+          health care facility.
+        </div>
+      </>
+    );
+  }
+
+  return null;
 }
 
-function ErrorMessage({ eligibility, facilityId, history }) {
-  const { request: isRequest } = eligibility;
+function AlertSection({
+  earliestDate,
+  fetchStatus,
+  history,
+  preferredDate,
+  requestEligible,
+  slotAvailable,
+  timezone,
+}) {
+  const fetchFailed = fetchStatus === FETCH_STATUS.failed;
   const dispatch = useDispatch();
+
+  const alertMessage = getAlertMessage({
+    earliestDate,
+    fetchFailed,
+    slotAvailable,
+    preferredDate,
+    timezone,
+  });
+
+  if (!alertMessage) {
+    return null;
+  }
+
+  const alertTitle = fetchFailed
+    ? 'This tool isn’t working right now'
+    : 'We couldn’t find an appointment for your selected date';
+  const alertStatus = fetchFailed ? 'error' : 'warning';
 
   return (
     <div
@@ -88,20 +141,43 @@ function ErrorMessage({ eligibility, facilityId, history }) {
       aria-live="assertive"
       className="vads-u-margin-bottom--2"
     >
-      <InfoAlert
-        status="error"
-        level="2"
-        headline="We’ve run into a problem trying to find an appointment time"
-      >
-        {renderContent({ dispatch, isRequest, facilityId, history })}
+      <InfoAlert status={alertStatus} level="2" headline={alertTitle}>
+        {alertMessage}
+        <div className="vads-u-margin-bottom--2">
+          <NewTabAnchor href="/find-locations" renderAriaLabel={false}>
+            Find your local VA health care facility (opens in a new tab)
+          </NewTabAnchor>
+        </div>
+        {requestEligible && (
+          <>
+            <div>
+              <div className="vads-u-margin-bottom--2">
+                Or you can submit an appointment request online.
+              </div>
+              <a
+                className="vads-c-action-link--blue vads-u-margin-bottom--2p5"
+                href="my-health/appointments/schedule/va-request/"
+                data-testid="appointment-request-link"
+                onClick={handleClick(history, dispatch)}
+              >
+                Request an appointment
+              </a>
+            </div>
+          </>
+        )}
+        <UrgentCareLinks boldText />
       </InfoAlert>
     </div>
   );
 }
-ErrorMessage.propTypes = {
-  eligibility: PropTypes.object,
-  facilityId: PropTypes.string,
+AlertSection.propTypes = {
+  earliestDate: PropTypes.object,
+  fetchStatus: PropTypes.string,
   history: PropTypes.object,
+  preferredDate: PropTypes.object,
+  requestEligible: PropTypes.bool,
+  slotAvailable: PropTypes.bool,
+  timezone: PropTypes.string,
 };
 
 function goForward({
@@ -126,7 +202,6 @@ export default function DateTimeSelectPage() {
     availableSlots,
     data,
     eligibleForRequests,
-    facilityId,
     pageChangeInProgress,
     preferredDate,
     timezone,
@@ -152,7 +227,6 @@ export default function DateTimeSelectPage() {
     futureStatus === FETCH_STATUS.notStarted;
 
   const isInitialLoad = useIsInitialLoad(loadingSlots);
-  const eligibility = useSelector(selectEligibility);
   const clinic = useSelector(state => getChosenClinicInfo(state));
   const upcomingAppointments = useSelector(selectUpcomingAppointments);
 
@@ -182,7 +256,7 @@ export default function DateTimeSelectPage() {
         !loadingSlots &&
         appointmentSlotsStatus !== FETCH_STATUS.failed
       ) {
-        scrollAndFocus('h2');
+        scrollAndFocus('h1');
       } else if (
         (!loadingSlots && isInitialLoad) ||
         appointmentSlotsStatus === FETCH_STATUS.failed
@@ -207,6 +281,16 @@ export default function DateTimeSelectPage() {
 
   const { selectedDates } = data;
   const startMonth = preferredDate ? parseISO(preferredDate) : null;
+  const earliestDate = new Date(availableSlots?.[0]?.start);
+  const slotAvailable = isValid(earliestDate);
+  const disabledMessage = (
+    <va-loading-indicator
+      data-testid="loadingIndicator"
+      set-focus
+      message="Finding appointment availability..."
+      label="Finding appointment availability"
+    />
+  );
 
   return (
     <div>
@@ -217,69 +301,54 @@ export default function DateTimeSelectPage() {
         </span>
       </h1>
       {!loadingSlots && (
-        <WaitTimeAlert
-          eligibleForRequests={eligibleForRequests}
-          facilityId={facilityId}
-          nextAvailableDate={new Date(availableSlots?.[0]?.start)}
-          preferredDate={parseISO(preferredDate)}
+        <AlertSection
+          fetchStatus={appointmentSlotsStatus}
+          history={history}
+          requestEligible={eligibleForRequests}
+          slotAvailable={slotAvailable}
+          earliestDate={earliestDate}
+          preferredDate={startMonth}
           timezone={timezone}
         />
       )}
-      {fetchFailed && (
-        <ErrorMessage
-          history={history}
-          facilityId={facilityId}
-          requestAppointmentDateChoice={(...args) =>
-            dispatch(requestAppointmentDateChoice(...args))
-          }
-          eligibility={eligibility}
-        />
-      )}
-      {!fetchFailed && (
-        <>
-          <p>
-            {clinic && `Scheduling at ${clinic.serviceName}`}
-            {clinic && timezone && <br />}
-            {timezone && `Times are displayed in ${timezoneDescription}.`}
-          </p>
-          <CalendarWidget
-            maxSelections={1}
-            availableSlots={availableSlots}
-            value={selectedDates}
-            id="dateTime"
-            timezone={timezone}
-            additionalOptions={{
-              required: true,
-            }}
-            disabled={loadingSlots}
-            hideWhileDisabled
-            disabledMessage={
-              // eslint-disable-next-line react/jsx-wrap-multilines
-              <va-loading-indicator
-                data-testid="loadingIndicator"
-                set-focus
-                message="Finding appointment availability..."
-                label="Finding appointment availability"
-              />
-            }
-            onChange={(...args) => dispatch(onCalendarChange(...args))}
-            onNextMonth={(...args) => dispatch(getAppointmentSlots(...args))}
-            onPreviousMonth={(...args) =>
-              dispatch(getAppointmentSlots(...args))
-            }
-            minDate={addDays(new Date(), 1)}
-            maxDate={addDays(new Date(), 395)}
-            renderIndicator={_ => undefined}
-            required
-            requiredMessage="Please choose your preferred date and time for your appointment"
-            startMonth={startMonth}
-            showValidation={submitted && !selectedDates?.length}
-            showWeekends
-            upcomingAppointments={upcomingAppointments}
-            isAppointmentSelectionError={isAppointmentSelectionError}
-          />
-        </>
-      )}
+      {!fetchFailed &&
+        (loadingSlots || slotAvailable) && (
+          <>
+            <p>
+              {clinic && `Scheduling at ${clinic.serviceName}`}
+              {clinic && timezone && <br />}
+              {timezone && `Times are displayed in ${timezoneDescription}.`}
+            </p>
+            <CalendarWidget
+              maxSelections={1}
+              availableSlots={availableSlots}
+              value={selectedDates}
+              id="dateTime"
+              timezone={timezone}
+              additionalOptions={{
+                required: true,
+              }}
+              disabled={loadingSlots}
+              hideWhileDisabled
+              disabledMessage={disabledMessage}
+              onChange={(...args) => dispatch(onCalendarChange(...args))}
+              onNextMonth={(...args) => dispatch(getAppointmentSlots(...args))}
+              onPreviousMonth={(...args) =>
+                dispatch(getAppointmentSlots(...args))
+              }
+              minDate={addDays(new Date(), 1)}
+              maxDate={addDays(new Date(), 395)}
+              renderIndicator={_ => undefined}
+              required
+              requiredMessage="Please choose your preferred date and time for your appointment"
+              startMonth={startMonth}
+              showValidation={submitted && !selectedDates?.length}
+              showWeekends
+              upcomingAppointments={upcomingAppointments}
+              isAppointmentSelectionError={isAppointmentSelectionError}
+            />
+          </>
+        )}
       <FormButtons
         onBack={() =>
           dispatch(routeToPreviousAppointmentPage(history, pageKey))
@@ -298,12 +367,8 @@ export default function DateTimeSelectPage() {
         disabled={loadingSlots || fetchFailed}
         pageChangeInProgress={pageChangeInProgress}
         loadingText="Page change in progress"
+        displayNextButton={slotAvailable}
       />
     </div>
   );
 }
-
-ErrorMessage.propTypes = {
-  facilityId: PropTypes.string.isRequired,
-  history: PropTypes.object.isRequired,
-};

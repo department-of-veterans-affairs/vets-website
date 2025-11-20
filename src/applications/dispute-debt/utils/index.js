@@ -102,3 +102,7 @@ export const getDebtPageTitle = (formData, { pagePerItemIndex } = {}) => {
 
   return `Debt ${debtNumber} of ${total}: ${currency(amount)} for ${debtTitle}`;
 };
+
+export const setDocumentTitle = title => {
+  document.title = `${title} | Veterans Affairs`;
+};

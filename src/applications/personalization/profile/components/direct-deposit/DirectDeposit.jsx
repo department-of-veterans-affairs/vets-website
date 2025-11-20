@@ -7,6 +7,7 @@ import { useDirectDeposit, useDirectDepositEffects } from '@@profile/hooks';
 import Headline from '@@profile/components/ProfileSectionHeadline';
 import { ProfileInfoSection } from '@@profile/components/ProfileInfoSection';
 import LoadFail from '@@profile/components/alerts/LoadFail';
+import InitializeVAPServiceID from '@@vap-svc/containers/InitializeVAPServiceID';
 
 import VerifyIdentity from '@@profile/components/direct-deposit/alerts/VerifyIdentity';
 import { TemporaryOutage } from '@@profile/components/direct-deposit/alerts/TemporaryOutage';
@@ -184,43 +185,45 @@ export const DirectDeposit = () => {
   );
 
   return (
-    <div>
-      <Prompt
-        message="Are you sure you want to leave? If you leave, your in-progress work won’t be saved."
-        when={hasUnsavedFormEdits}
-      />
-
-      <Wrapper>
-        <DowntimeNotification
-          appTitle="direct deposit information page"
-          dependencies={[externalServices.LIGHTHOUSE_DIRECT_DEPOSIT]}
-        >
-          <ProfileInfoSection
-            title="Bank account information"
-            data={[{ value: cardDataValue }]}
-            namedAnchor={cardHeadingId}
-            level={2}
-          />
-        </DowntimeNotification>
-        <DirectDepositDevWidget
-          debugData={{
-            controlInformation,
-            paymentAccount,
-            ui,
-            isIdentityVerified,
-            isBlocked,
-            useOAuth,
-            showUpdateSuccess,
-            formData,
-            saveError,
-            loadError,
-            hasUnsavedFormEdits,
-            setFormData,
-          }}
+    <InitializeVAPServiceID>
+      <div>
+        <Prompt
+          message="Are you sure you want to leave? If you leave, your in-progress work won’t be saved."
+          when={hasUnsavedFormEdits}
         />
-        <MontgomeryGiBillDescription />
-        <FraudVictimSummary />
-      </Wrapper>
-    </div>
+
+        <Wrapper>
+          <DowntimeNotification
+            appTitle="direct deposit information page"
+            dependencies={[externalServices.LIGHTHOUSE_DIRECT_DEPOSIT]}
+          >
+            <ProfileInfoSection
+              title="Bank account information"
+              data={[{ value: cardDataValue }]}
+              namedAnchor={cardHeadingId}
+              level={2}
+            />
+          </DowntimeNotification>
+          <DirectDepositDevWidget
+            debugData={{
+              controlInformation,
+              paymentAccount,
+              ui,
+              isIdentityVerified,
+              isBlocked,
+              useOAuth,
+              showUpdateSuccess,
+              formData,
+              saveError,
+              loadError,
+              hasUnsavedFormEdits,
+              setFormData,
+            }}
+          />
+          <MontgomeryGiBillDescription />
+          <FraudVictimSummary />
+        </Wrapper>
+      </div>
+    </InitializeVAPServiceID>
   );
 };

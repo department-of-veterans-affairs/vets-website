@@ -4,7 +4,9 @@ import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import { SET_DATA } from 'platform/forms-system/src/js/actions';
 import { fireEvent, render } from '@testing-library/react';
-import ArrayBuilderCancelButton from '../ArrayBuilderCancelButton';
+import ArrayBuilderCancelButton, {
+  formatPath,
+} from '../ArrayBuilderCancelButton';
 import * as helpers from '../helpers';
 
 const mockRedux = ({
@@ -209,5 +211,16 @@ describe('ArrayBuilderCancelButton', () => {
     expect(setFormData.calledWith({ employers: [{ name: 'Test' }] })).to.be
       .true;
     expect(goToPath.calledWith('/summary')).to.be.true;
+  });
+});
+
+describe('formatPath', () => {
+  it('should return a path without changing it', () => {
+    const result = formatPath('/test/path');
+    expect(result).to.equal('/test/path');
+  });
+  it('should return a path with a leading slash', () => {
+    const result = formatPath('test/path');
+    expect(result).to.equal('/test/path');
   });
 });

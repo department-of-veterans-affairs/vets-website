@@ -10,6 +10,7 @@ import { setPageFocus } from '../../combined/utils/helpers';
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
 import { getCurrentDebt } from '../utils/page';
 import { deductionCodes } from '../const/deduction-codes';
+import HowDoIGetHelp from '../components/HowDoIGetHelp';
 
 const ResolveDebtPage = ({ match }) => {
   const { selectedDebt, debts } = useSelector(
@@ -32,7 +33,7 @@ const ResolveDebtPage = ({ match }) => {
     receivableId: currentDebt.rcvblId,
   };
 
-  const title = `Resolve your ${deductionCodes[currentDebt.deductionCode]}`;
+  const title = `Resolve overpayment`;
 
   useHeaderPageTitle(title);
 
@@ -41,22 +42,25 @@ const ResolveDebtPage = ({ match }) => {
   }, []);
 
   return (
-    <>
+    <article>
       <VaBreadcrumbs
         breadcrumbList={[
           { href: '/', label: 'VA.gov Home' },
-          { href: '/manage-va-debt/summary', label: 'Your VA debt and bills' },
+          {
+            href: '/manage-va-debt/summary',
+            label: 'Overpayments and copay bills',
+          },
           {
             href: '/manage-va-debt/summary/debt-balances',
-            label: 'Current debts',
+            label: 'Overpayment balances',
           },
           {
-            href: `/manage-va-debt/summary/debt-balances/details/${selectedId}`,
-            label: `Debt details`,
+            href: `/manage-va-debt/summary/debt-balances/${selectedId}`,
+            label: `${deductionCodes[currentDebt.deductionCode]}`,
           },
           {
-            href: `/manage-va-debt/summary/balances/details/${selectedId}/resolve`,
-            label: `${title}`,
+            href: `/manage-va-debt/summary/balances/${selectedId}/resolve`,
+            label: `Resolve overpayment`,
           },
         ]}
         label="Breadcrumb"
@@ -64,17 +68,18 @@ const ResolveDebtPage = ({ match }) => {
       />
       <div className="medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8">
         <h1 data-testid="detail-page-title" className="vads-u-margin-bottom--2">
-          {title}
+          Resolve overpayment
         </h1>
         <p className="va-introtext">
-          You can pay your balance, request financial help, or dispute this
-          overpayment
+          You can pay your balance, request financial help, or dispute this{' '}
+          {deductionCodes[currentDebt.deductionCode]}.
         </p>
         <va-on-this-page class="medium-screen:vads-u-margin-top--0" />
         <HowDoIPay userData={howToUserData} />
-        <NeedHelp showVHAPaymentHistory={showVHAPaymentHistory} />
+        <HowDoIGetHelp showVHAPaymentHistory={showVHAPaymentHistory} />
+        <NeedHelp />
       </div>
-    </>
+    </article>
   );
 };
 

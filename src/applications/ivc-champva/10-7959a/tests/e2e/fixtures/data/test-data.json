@@ -1,6 +1,7 @@
 {
   "description": "Applicant is certifier, two policies, medical claim, has EOB",
   "data": {
+    "view:sharesAddressWith": "na",
     "view:hasPolicies": true,
     "certifierRelationship": "parent",
     "certifierPhone": "5554443333",
@@ -15,7 +16,7 @@
     },
     "certifierName": {
       "first": "Jerry",
-      "middle": "Middle",
+      "middle": "M",
       "last": "Jones",
       "suffix": "Jr."
     },
@@ -24,7 +25,7 @@
     "claimStatus": "new",
     "sponsorName": {
       "first": "Sponsor",
-      "middle": "Quincy",
+      "middle": "Q",
       "last": "Jones",
       "suffix": "Jr."
     },

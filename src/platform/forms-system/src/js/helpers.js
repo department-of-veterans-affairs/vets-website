@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { add, getYear } from 'date-fns';
-import { intersection, matches, merge, uniq } from 'lodash';
+import { cloneDeep, intersection, matches, merge, uniq } from 'lodash';
 import * as Sentry from '@sentry/browser';
 import shouldUpdate from 'recompose/shouldUpdate';
 import { deepEquals } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
@@ -68,6 +68,110 @@ export function getActivePages(pages, data) {
   return pages.filter(page => isActivePage(page, data));
 }
 
+/**
+ * Returns property keys for a page based on its schema and array context.
+ *
+ * - If no schema properties exist, returns an empty array.
+ * - For array pages, returns keys prefixed with `"arrayPath.index."`.
+ * - Otherwise, returns the top-level schema property keys.
+ *
+ * @param {FormConfigPage} page - Page definition with schema and optional array context.
+ * @returns {string[]} Property keys (e.g., ["name"] or ["addresses.0.city"]).
+ */
+export function getPageProperties(page) {
+  if (!page?.schema?.properties) return [];
+
+  const isArrayPage =
+    typeof page.arrayPath === 'string' &&
+    page.arrayPath.length &&
+    page.schema.properties[page.arrayPath]?.items?.properties;
+
+  if (isArrayPage) {
+    const { properties } = page.schema.properties[page.arrayPath].items;
+    return Object.keys(properties).map(
+      key => `${page.arrayPath}.${page.index}.${key}`,
+    );
+  }
+
+  return Object.keys(page.schema.properties);
+}
+
+/**
+ * Deletes a deeply nested property from an object using a dot-separated path,
+ * while guarding against prototype pollution by disallowing "__proto__", "constructor",
+ * and "prototype" at any segment of the path.
+ *
+ * Traverses `obj` along `pathString` and removes the final property if reachable.
+ * If any segment does not resolve to an object, the function exits without changes.
+ *
+ * @param {Object} obj - The object to modify (mutated in place).
+ * @param {string} pathString - Dot-separated path to the property (e.g., "user.address.street").
+ * @returns {void}
+ */
+export function deleteNestedProperty(obj, pathString) {
+  const parts = pathString.split('.');
+  let current = obj;
+
+  // guard against prototype pollution: bail if any segment is dangerous
+  for (let i = 0; i < parts.length; i++) {
+    const k = parts[i];
+    if (k === '__proto__' || k === 'constructor' || k === 'prototype') return;
+  }
+
+  for (let i = 0; i < parts.length - 1; i++) {
+    const segment = parts[i];
+    const next = current?.[segment];
+    if (next === null || typeof next !== 'object') return;
+    current = next;
+  }
+
+  const last = parts[parts.length - 1];
+
+  if (Array.isArray(current) && /^\d+$/.test(last)) {
+    const idx = Number(last);
+    if (idx >= 0 && idx < current.length) {
+      // remove the element without creating a sparse array
+      current.splice(idx, 1);
+    }
+    return;
+  }
+
+  if (current && typeof current === 'object') {
+    delete current[last];
+  }
+}
+
+/**
+ * Aggregates active property keys across pages, de-duplicated.
+ *
+ * Uses {@link getPageProperties} for each page. Handles cases where array items
+ * are defined via `$ref` with no inline `properties`—in that case the array
+ * path itself (e.g., "dependents") is treated as active.
+ *
+ * @param {FormConfigPage[]} activePages - Pages considered active.
+ * @returns {string[]} Unique list of active property keys.
+ */
+export function getActivePageProperties(activePages) {
+  const props = activePages.flatMap(page => {
+    const pageProps = getPageProperties(page);
+    if (pageProps.length) return pageProps;
+
+    const hasArrayPath =
+      typeof page.arrayPath === 'string' && page.arrayPath.length;
+    const hasItemsSchema = !!page?.schema?.properties?.[page.arrayPath]?.items;
+
+    // items may be $ref’d with no inline properties; mark parent as active
+    if (hasArrayPath && hasItemsSchema) return [page.arrayPath];
+
+    if (page?.schema?.properties) return Object.keys(page.schema.properties);
+
+    return [];
+  });
+
+  return [...new Set(props)];
+}
+
+// TODO: remove when functionality from `filterInactiveNestedPages` is validated
 export function getActiveProperties(activePages) {
   const allProperties = [];
   activePages.forEach(page => {
@@ -251,6 +355,91 @@ export function filterViewFields(data) {
   }, {});
 }
 
+// Check 'events' for 'events.0.agency', 'veteran' for 'veteran.fullName.first', etc.
+function hasActiveAncestor(prop, activeSet) {
+  const parts = prop.split('.');
+  for (let i = 1; i < parts.length; i++) {
+    const ancestor = parts.slice(0, i).join('.');
+    if (activeSet.has(ancestor)) return true;
+  }
+  return false;
+}
+
+// guard to ensure parent array isn’t deleted if any parent.* key is active.
+function hasActiveDescendant(prop, activeSet) {
+  if (!prop || typeof prop !== 'string') return false;
+  const prefix = `${prop}.`;
+  for (const key of activeSet) {
+    if (typeof key === 'string' && key.startsWith(prefix)) return true;
+  }
+  return false;
+}
+
+/**
+ * Removes inactive page data from a form while preserving active fields and ancestors.
+ *
+ * Rules:
+ * - Active properties come from {@link getActiveProperties}.
+ * - A property is protected from deletion if it is active *or* has an active ancestor
+ *   (e.g., "dependents" protects "dependents.0.name").
+ * - Array items:
+ *   - If multiple fields within the same item are active, all siblings are preserved.
+ *   - If only one field is active, inactive siblings are removed.
+ *
+ * @param {FormConfigPage[]} inactivePages - Pages considered inactive; their properties may be removed.
+ * @param {FormConfigPage[]} activePages - Pages considered active; determine what to keep.
+ * @param {object} form - Object containing the `data` to be filtered.
+ * @returns {Object} A deep-cloned `data` object with inactive properties removed.
+ */
+export function filterInactiveNestedPageData(inactivePages, activePages, form) {
+  const activeProps = getActivePageProperties(activePages);
+  const activePropsSet = new Set(activeProps);
+  const formData = cloneDeep(form.data); // don't mutate inputs
+
+  // count how many active nested fields exist per array item: "<root>.<index>"
+  const activeItemCounts = activeProps.reduce((map, p) => {
+    const parts = p.split('.');
+    const isArrayChild = parts.length > 2 && /^\d+$/.test(parts[1]);
+    if (isArrayChild) {
+      const key = `${parts[0]}.${parts[1]}`;
+      map.set(key, (map.get(key) || 0) + 1);
+    }
+    return map;
+  }, new Map());
+
+  inactivePages.forEach(page => {
+    getPageProperties(page).forEach(prop => {
+      // protected if exact active match, has an active ancestor, OR has active descendants
+      if (
+        activePropsSet.has(prop) ||
+        hasActiveAncestor(prop, activePropsSet) ||
+        hasActiveDescendant(prop, activePropsSet)
+      ) {
+        return;
+      }
+
+      const parts = prop.split('.');
+      const isArrayChild =
+        parts.length > 2 &&
+        /^\d+$/.test(parts[1]) &&
+        Array.isArray(formData?.[parts[0]]);
+      const itemPrefix = isArrayChild ? `${parts[0]}.${parts[1]}` : null;
+
+      // Keep siblings ONLY if that array item has MULTIPLE active fields
+      // (e.g., events.0 has details + location active). If there's just one
+      // active field (e.g., dependents.0.ssn), allow deletion of inactive siblings.
+      if (isArrayChild && (activeItemCounts.get(itemPrefix) || 0) >= 2) {
+        return;
+      }
+
+      deleteNestedProperty(formData, prop);
+    });
+  });
+
+  return formData;
+}
+
+// TODO: remove when functionality from `filterInactiveNestedPages` is validated
 export function filterInactivePageData(inactivePages, activePages, form) {
   const activeProperties = getActiveProperties(activePages);
   let newData;
@@ -729,11 +918,10 @@ export function transformForSubmit(formConfig, form, options) {
     );
     const activePages = getActivePages(expandedPages, form.data);
     const inactivePages = getInactivePages(expandedPages, form.data);
-    const withoutInactivePages = filterInactivePageData(
-      inactivePages,
-      activePages,
-      form,
-    );
+    const withoutInactivePages = formConfig?.formOptions
+      ?.filterInactiveNestedPageData
+      ? filterInactiveNestedPageData(inactivePages, activePages, form)
+      : filterInactivePageData(inactivePages, activePages, form);
     const withoutViewFields = filterViewFields(withoutInactivePages);
 
     return JSON.stringify(withoutViewFields, replacer) || '{}';

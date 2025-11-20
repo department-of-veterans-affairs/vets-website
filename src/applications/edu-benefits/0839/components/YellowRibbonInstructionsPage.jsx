@@ -10,9 +10,11 @@ const YellowRibbonInstructionsPage = () => {
   }, []);
 
   return (
-    <div className="vads-l-grid-container ">
-      <div className="usa-width-two-thirds vads-u-margin-bottom--4">
+    <div className="form-22-0839-container row">
+      <div className="vads-u-padding-x--1">
         <Breadcrumbs />
+      </div>
+      <div className="usa-width-two-thirds vads-u-margin-bottom--4">
         <h1>Instructions for completing the Yellow Ribbon Program agreement</h1>
 
         <p className="vads-u-margin-top--2">
@@ -210,14 +212,17 @@ const YellowRibbonInstructionsPage = () => {
         </p>
 
         <h2 className="vads-u-margin-top--3">Submitting your completed form</h2>
-        <p className="vads-u-margin-bottom--4">
-          Once you complete all required steps, your form will submit
-          automatically to the Yellow Ribbon team for review. Processing
-          typically takes up to 30 days. The Yellow Ribbon team will contact the
-          authorized official by email or phone with any updates. Please make
-          sure the contact information you enter is accurate.
+        <p className="vads-u-margin-y--0">
+          Download your completed PDF and save it to your device. Then upload it
+          to the{' '}
+          <va-link
+            external
+            text="Education File Upload Portal"
+            href="https://www.my.va.gov/EducationFileUpload/s/"
+          />
+          . Make sure the version you upload includes all required information
+          and the authorized official’s signature.
         </p>
-        <div className="vads-u-padding-top--3" />
       </div>
       <NeedHelp />
     </div>

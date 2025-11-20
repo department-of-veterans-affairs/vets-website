@@ -226,7 +226,7 @@ describe('DebtSummaryCard', () => {
     );
     if (detailsLink.length) {
       expect(detailsLink.attr('href')).to.include(
-        `/manage-va-debt/summary/debt-balances/details/${debt.compositeDebtId}`,
+        `/manage-va-debt/summary/debt-balances/${debt.compositeDebtId}`,
       );
     }
   });

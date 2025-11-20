@@ -22,12 +22,14 @@ const Unauthorized = () => {
               If you have current accreditation with the VA, check out our help
               resources to troubleshoot access issues.
             </p>
-            <Link to="/get-help#creating-your-account">
+            <Link to="/help#creating-your-account">
               Get help with access issues
             </Link>
           </va-banner>
         </div>
-        <h2 className="dashboard__header">Would you like to get accredited?</h2>
+        <h2 className="dashboard__header">
+          Would you like to become accredited?
+        </h2>
         <p>
           To apply for accreditation as a VSO representative, claims agent, or
           attorney, you need to submit an application to the Office of General

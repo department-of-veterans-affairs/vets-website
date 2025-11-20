@@ -71,7 +71,7 @@ describe('CDP - One Thing Per Page', () => {
         cy.get('@detailLink').should('contain', 'Review details');
         cy.get('@detailLink').click();
 
-        cy.url().should('match', /\/copay-balances\/[^/]+\/detail$/);
+        cy.url().should('match', /\/copay-balances\/[a-f0-9-]+$/);
         cy.go('back');
 
         // Resolve this bill link should be present and work
@@ -81,7 +81,10 @@ describe('CDP - One Thing Per Page', () => {
           .as('resolveLink');
         cy.get('@resolveLink').should('contain', 'Resolve this bill');
         cy.get('@resolveLink').click();
-        cy.url().should('match', /\/copay-balances\/[^/]+\/resolve$/);
+        cy.url().should(
+          'match',
+          /\/copay-balances\/[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}\/resolve$/i,
+        );
 
         cy.injectAxeThenAxeCheck();
       });
@@ -95,9 +98,7 @@ describe('CDP - One Thing Per Page', () => {
           .findByTestId(`resolve-link-${id}`)
           .click();
 
-        cy.findByTestId('resolve-page-title').contains(
-          'Ralph H. Johnson Department of Veterans Affairs Medical Center',
-        );
+        cy.findByTestId('resolve-page-title').contains('Resolve your copay');
 
         // how to pay also has on this page that is hidden, let's make sure it only shows up once
         cy.get('va-on-this-page').should('have.length', 1);
@@ -178,18 +179,19 @@ describe('CDP - One Thing Per Page', () => {
           .as('detailLink');
         cy.get('@detailLink').should('contain', 'Review details');
         cy.get('@detailLink').click();
-        cy.url().should('match', /\/debt-balances\/details\/[^/]+$/);
+        cy.url().should('match', /\/debt-balances\/[a-f0-9-]+$/);
+
         cy.go('back');
 
-        // Resolve this debt link should be present and work
+        // Resolve this overpayment link should be present and work
         cy.get('[data-testid="debt-summary-item"]')
           .findByTestId('debt-resolve-link')
           .shadow()
           .find('a')
           .as('resolveLink');
-        cy.get('@resolveLink').should('contain', 'Resolve this debt');
+        cy.get('@resolveLink').should('contain', 'Resolve this overpayment');
         cy.get('@resolveLink').click();
-        cy.url().should('match', /\/debt-balances\/details\/[^/]+\/resolve$/);
+        cy.url().should('match', /\/debt-balances\/\d+\/resolve$/);
 
         cy.injectAxeThenAxeCheck();
       });
@@ -205,9 +207,7 @@ describe('CDP - One Thing Per Page', () => {
           .find('a')
           .click();
 
-        cy.findByTestId('detail-page-title').contains(
-          'Resolve your Post-9/11 GI Bill debt for books and supplies',
-        );
+        cy.findByTestId('detail-page-title').contains('Resolve overpayment');
 
         cy.get('va-on-this-page').should('exist');
         cy.get('#howDoIPay').should('exist');

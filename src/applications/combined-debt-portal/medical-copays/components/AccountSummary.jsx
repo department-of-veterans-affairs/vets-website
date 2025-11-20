@@ -12,7 +12,7 @@ export const AccountSummary = ({
   statementDate,
 }) => {
   return (
-    <article className="vads-u-padding-x--0">
+    <section>
       <h2
         data-testid="account-summary-head"
         id="account-summary"
@@ -67,7 +67,7 @@ export const AccountSummary = ({
       </ul>
       <h3 className="vads-u-margin-top--2">Account number</h3>
       <p>{acctNum}</p>
-    </article>
+    </section>
   );
 };
 

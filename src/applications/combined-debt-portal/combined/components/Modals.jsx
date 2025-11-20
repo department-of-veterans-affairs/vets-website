@@ -89,7 +89,7 @@ Modals.Rights = () => (
         Contact us online through Ask VA at{' '}
         <va-link
           href="https://www.va.gov/contact-us/ask-va/"
-          text="https://www.va.gov/contact-us/ask-va/"
+          text="va.gov/contact-us/ask-va/"
         />
       </li>
       <li>
@@ -134,7 +134,7 @@ Modals.Rights = () => (
       Learn more about waivers for VA benefit debt online at{' '}
       <va-link
         href="https://www.va.gov/resources/waivers-for-va-benefit-debt/"
-        text="https://www.va.gov/resources/waivers-for-va-benefit-debt/"
+        text="va.gov/resources/waivers-for-va-benefit-debt/"
       />
     </p>
 
@@ -188,7 +188,7 @@ Modals.Rights = () => (
       online at{' '}
       <va-link
         href="https://www.va.gov/health-care/pay-copay-bill/financial-hardship/"
-        text="https://www.va.gov/health-care/pay-copay-bill/financial-hardship/"
+        text="va.gov/health-care/pay-copay-bill/financial-hardship/"
       />
     </p>
     <p>You can get help with these forms in either of these ways:</p>
@@ -197,7 +197,7 @@ Modals.Rights = () => (
         Contact us online through Ask VA at{' '}
         <va-link
           href="https://www.va.gov/contact-us/ask-va/"
-          text="https://www.va.gov/contact-us/ask-va/"
+          text="va.gov/contact-us/ask-va/"
         />
       </li>
       <li>
@@ -217,7 +217,7 @@ Modals.Rights = () => (
     <p>
       To request a hardship determination, submit a completed Financial Status
       Report (VA Form VA5655). If you need help, call us at{' '}
-      <va-telephone contact="8008270648" />. If you’re outside the U.S., call
+      <va-telephone contact="8008270648" />. If you’re outside the U.S., call{' '}
       <va-telephone contact="6127136415" international />. We’re here Monday
       through Friday, 7:30 a.m. to 7:00 p.m. ET.
     </p>
@@ -225,7 +225,7 @@ Modals.Rights = () => (
       You can fill out VA Form VA5655 online at{' '}
       <va-link
         href="https://www.va.gov/manage-va-debt/request-debt-help-form-5655/introduction"
-        text="https://www.va.gov/manage-va-debt/request-debt-help-form-5655/introduction"
+        text="va.gov/manage-va-debt/request-debt-help-form-5655/introduction"
       />
     </p>
 
@@ -249,7 +249,7 @@ Modals.Rights = () => (
       You can get help from a VA accredited representative or VSO online at{' '}
       <va-link
         href="https://www.va.gov/get-help-from-accredited-representative/"
-        text="https://www.va.gov/get-help-from-accredited-representative/"
+        text="va.gov/get-help-from-accredited-representative/"
       />
     </p>
     <p>
@@ -286,10 +286,10 @@ Modals.Rights = () => (
       rights, is available online.
     </p>
     <p>
-      Review VA privacy policies at
+      Review VA privacy policies at{' '}
       <va-link
         href="https://department.va.gov/privacy/va-privacy-policies/"
-        text="https://department.va.gov/privacy/va-privacy-policies/"
+        text="department.va.gov/privacy/va-privacy-policies/"
       />
     </p>
     <p>
@@ -304,10 +304,10 @@ Modals.Rights = () => (
       essential. Everyone handles stress differently. We’re here to help.
     </p>
     <p>
-      You can learn more about VA mental health services at
+      You can learn more about VA mental health services at{' '}
       <va-link
         href="https://www.va.gov/health-care/health-needs-conditions/mental-health/"
-        text="https://www.va.gov/health-care/health-needs-conditions/mental-health/"
+        text="va.gov/health-care/health-needs-conditions/mental-health/"
       />
     </p>
     <p>
@@ -316,9 +316,18 @@ Modals.Rights = () => (
       encourage you to visit these resources for helpful financial information:
     </p>
     <ul>
-      <li>VeteransBenefitsBanking.org</li>
-      <li>MyMoney.gov</li>
-      <li>Consumer.gov</li>
+      <li>
+        <va-link
+          href="https://VeteransBenefitsBanking.org/"
+          text="VeteransBenefitsBanking.org"
+        />
+      </li>
+      <li>
+        <va-link text="MyMoney.gov" href="https://www.mymoney.gov/" />
+      </li>
+      <li>
+        <va-link text="Consumer.gov" href="https://consumer.gov/" />
+      </li>
     </ul>
     <p>
       If you or someone you know is having thoughts of suicide, contact the
@@ -327,9 +336,17 @@ Modals.Rights = () => (
       You can contact us in any of these ways:
     </p>
     <ul>
-      <li>Call 988 and select 1</li>
+      <li>
+        Call <va-link text="988" href="tel:988" /> and select 1
+      </li>
       <li>Text 838255</li>
-      <li>Chat online at veteranscrisisline.net</li>
+      <li>
+        Chat online at{' '}
+        <va-link
+          text="veteranscrisisline.net"
+          href="https://www.veteranscrisisline.net/"
+        />
+      </li>
     </ul>
   </>
 );

@@ -3,13 +3,13 @@ import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
-import { render } from '@testing-library/react';
+import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { uploadStore } from '~/platform/forms-system/test/config/helpers';
 
 import { AdditionalEvidencePage } from '../../../components/claim-files-tab/AdditionalEvidencePage';
-import { renderWithRouter } from '../../utils';
+import { renderWithReduxAndRouter } from '../../utils';
 
 const getRouter = () => ({ push: sinon.spy() });
 
@@ -22,6 +22,14 @@ const fileFormProps = {
   clearAdditionalEvidenceNotification: () => {},
   location: {
     hash: '',
+  },
+};
+
+// Needed for the rendering of the AddFilesForm child component
+const initialState = {
+  featureToggles: {
+    // eslint-disable-next-line camelcase
+    cst_show_document_upload_status: false,
   },
 };
 
@@ -59,8 +67,9 @@ describe('<AdditionalEvidencePage>', () => {
     };
 
     it('should render loading div', () => {
-      const { container } = render(
+      const { container } = renderInReduxProvider(
         <AdditionalEvidencePage {...fileFormProps} claim={claim} loading />,
+        { initialState },
       );
 
       expect($('va-loading-indicator', container)).to.exist;
@@ -73,23 +82,27 @@ describe('<AdditionalEvidencePage>', () => {
         body: 'test',
         type: 'error',
       };
-      const { container } = render(
+      const { container } = renderInReduxProvider(
         <AdditionalEvidencePage
           {...fileFormProps}
           claim={claim}
           message={message}
         />,
+        { initialState },
       );
 
-      expect($('va-alert', container)).to.exist;
-      expect($('va-alert h2', container).textContent).to.equal(message.title);
+      expect($('.claims-alert', container)).to.exist;
+      expect($('.claims-alert h2', container).textContent).to.equal(
+        message.title,
+      );
     });
 
     it('should render upload error alert when rerendered', () => {
-      const { container, rerender } = render(
+      const { container, rerender } = renderInReduxProvider(
         <AdditionalEvidencePage {...fileFormProps} claim={claim} />,
+        { initialState },
       );
-      expect($('va-alert', container)).not.to.exist;
+      expect($('.claims-alert', container)).not.to.exist;
 
       const message = {
         title: 'Error uploading',
@@ -104,8 +117,10 @@ describe('<AdditionalEvidencePage>', () => {
           message={message}
         />,
       );
-      expect($('va-alert', container)).to.exist;
-      expect($('va-alert h2', container).textContent).to.equal(message.title);
+      expect($('.claims-alert', container)).to.exist;
+      expect($('.claims-alert h2', container).textContent).to.equal(
+        message.title,
+      );
     });
 
     it('should clear upload error when leaving', () => {
@@ -116,7 +131,7 @@ describe('<AdditionalEvidencePage>', () => {
       };
       const clearAdditionalEvidenceNotification = sinon.spy();
 
-      const { container, unmount } = render(
+      const { container, unmount } = renderInReduxProvider(
         <AdditionalEvidencePage
           {...fileFormProps}
           claim={claim}
@@ -125,10 +140,13 @@ describe('<AdditionalEvidencePage>', () => {
           }
           message={message}
         />,
+        { initialState },
       );
 
-      expect($('va-alert', container)).to.exist;
-      expect($('va-alert h2', container).textContent).to.equal(message.title);
+      expect($('.claims-alert', container)).to.exist;
+      expect($('.claims-alert h2', container).textContent).to.equal(
+        message.title,
+      );
       unmount();
       expect(clearAdditionalEvidenceNotification.called).to.be.true;
     });
@@ -141,7 +159,7 @@ describe('<AdditionalEvidencePage>', () => {
       };
       const clearAdditionalEvidenceNotification = sinon.spy();
 
-      const { container, unmount } = render(
+      const { container, unmount } = renderInReduxProvider(
         <AdditionalEvidencePage
           {...fileFormProps}
           claim={claim}
@@ -151,10 +169,13 @@ describe('<AdditionalEvidencePage>', () => {
           }
           message={message}
         />,
+        { initialState },
       );
 
-      expect($('va-alert', container)).to.exist;
-      expect($('va-alert h2', container).textContent).to.equal(message.title);
+      expect($('.claims-alert', container)).to.exist;
+      expect($('.claims-alert h2', container).textContent).to.equal(
+        message.title,
+      );
       unmount();
       expect(clearAdditionalEvidenceNotification.called).to.be.false;
     });
@@ -162,12 +183,13 @@ describe('<AdditionalEvidencePage>', () => {
     it('should focus on header when location has equals #add-files', () => {
       const location = { hash: '#add-files' };
 
-      render(
+      renderInReduxProvider(
         <AdditionalEvidencePage
           {...fileFormProps}
           claim={claim}
           location={location}
         />,
+        { initialState },
       );
       expect(document.activeElement.id).to.equal('add-files');
     });
@@ -200,7 +222,7 @@ describe('<AdditionalEvidencePage>', () => {
       const getClaim = sinon.spy();
       const resetUploads = sinon.spy();
       const navigate = sinon.spy();
-      const { rerender } = render(
+      const { rerender } = renderInReduxProvider(
         <AdditionalEvidencePage
           {...fileFormProps}
           claim={claim}
@@ -208,6 +230,7 @@ describe('<AdditionalEvidencePage>', () => {
           getClaim={getClaim}
           resetUploads={resetUploads}
         />,
+        { initialState },
       );
 
       rerender(
@@ -244,7 +267,7 @@ describe('<AdditionalEvidencePage>', () => {
         },
       ];
 
-      const { container } = renderWithRouter(
+      const { container } = renderWithReduxAndRouter(
         <AdditionalEvidencePage
           {...fileFormProps}
           claim={claim}
@@ -252,23 +275,88 @@ describe('<AdditionalEvidencePage>', () => {
           filesNeeded={filesNeeded}
           filesOptional={filesOptional}
         />,
+        { initialState },
       );
 
       expect($('.primary-alert', container)).to.exist;
       expect($('.optional-alert', container)).to.exist;
     });
 
-    it('doesn’t show va-alerts when no files are needed', () => {
-      const { container } = render(
+    it('doesnt show va-alerts when no files are needed', () => {
+      const { container } = renderWithReduxAndRouter(
         <AdditionalEvidencePage
           {...fileFormProps}
           claim={claim}
           router={getRouter()}
         />,
+        { initialState },
       );
 
       expect($('.primary-alert', container)).not.to.exist;
       expect($('.optional-alert', container)).not.to.exist;
+    });
+
+    it('should render default title when additionalEvidenceTitle prop is not provided', () => {
+      const { container } = renderInReduxProvider(
+        <AdditionalEvidencePage {...fileFormProps} claim={claim} />,
+        { initialState },
+      );
+
+      const titleElement = $('#add-files', container);
+      expect(titleElement).to.exist;
+      expect(titleElement.textContent).to.equal('Additional evidence');
+    });
+
+    it('should render custom title when additionalEvidenceTitle prop is provided', () => {
+      const customTitle = 'Upload additional evidence';
+      const { container } = renderInReduxProvider(
+        <AdditionalEvidencePage
+          {...fileFormProps}
+          claim={claim}
+          additionalEvidenceTitle={customTitle}
+        />,
+        { initialState },
+      );
+
+      const titleElement = $('#add-files', container);
+      expect(titleElement).to.exist;
+      expect(titleElement.textContent).to.equal(customTitle);
+    });
+
+    it('should pass showDocumentUploadStatus toggle to submitFiles when toggle is enabled', () => {
+      const submitFiles = sinon.spy();
+
+      const page = new AdditionalEvidencePage({
+        ...fileFormProps,
+        claim,
+        submitFiles,
+        showDocumentUploadStatus: true,
+      });
+
+      const files = [
+        { file: {}, docType: { value: 'test' }, password: { value: '' } },
+      ];
+      page.onSubmitFiles(claim.id, files);
+
+      expect(submitFiles.calledWith(claim.id, null, files, true)).to.be.true;
+    });
+
+    it('should pass showDocumentUploadStatus as false to submitFiles when toggle is disabled', () => {
+      const submitFiles = sinon.spy();
+
+      const page = new AdditionalEvidencePage({
+        ...fileFormProps,
+        claim,
+        submitFiles,
+        showDocumentUploadStatus: false,
+      });
+
+      const files = [
+        { file: {}, docType: { value: 'test' }, password: { value: '' } },
+      ];
+      page.onSubmitFiles(claim.id, files);
+
+      expect(submitFiles.calledWith(claim.id, null, files, false)).to.be.true;
     });
   });
 
@@ -315,13 +403,14 @@ describe('<AdditionalEvidencePage>', () => {
         },
       ];
 
-      const { container, getByText, getByTestId } = renderWithRouter(
+      const { container, getByText, getByTestId } = renderWithReduxAndRouter(
         <AdditionalEvidencePage
           {...fileFormProps}
           claim={claim}
           router={getRouter()}
           filesNeeded={filesNeeded}
         />,
+        { initialState },
       );
 
       expect($('.primary-alert', container)).to.exist;
@@ -348,12 +437,13 @@ describe('<AdditionalEvidencePage>', () => {
     };
 
     it('doesnt show va-alert for standard 5103 notice', () => {
-      const { queryByText, queryByTestId } = renderWithRouter(
+      const { queryByText, queryByTestId } = renderWithReduxAndRouter(
         <AdditionalEvidencePage
           {...fileFormProps}
           claim={claim}
           router={getRouter()}
         />,
+        { initialState },
       );
 
       expect(queryByTestId('standard-5103-notice-alert')).to.not.exist;
@@ -377,7 +467,7 @@ describe('<AdditionalEvidencePage>', () => {
     const resetUploads = sinon.spy();
 
     it('should render loading div', () => {
-      const { container } = render(
+      const { container } = renderInReduxProvider(
         <AdditionalEvidencePage
           {...fileFormProps}
           claim={claim}
@@ -385,6 +475,7 @@ describe('<AdditionalEvidencePage>', () => {
           uploadComplete
           loading
         />,
+        { initialState },
       );
       const additionalEvidenceSection = $(
         '.additional-evidence-container',
@@ -395,13 +486,14 @@ describe('<AdditionalEvidencePage>', () => {
     });
 
     it('should render closed message', () => {
-      const { container, getByText } = render(
+      const { container, getByText } = renderInReduxProvider(
         <AdditionalEvidencePage
           {...fileFormProps}
           claim={claim}
           resetUploads={resetUploads}
           uploadComplete
         />,
+        { initialState },
       );
       const additionalEvidenceSection = $(
         '.additional-evidence-container',

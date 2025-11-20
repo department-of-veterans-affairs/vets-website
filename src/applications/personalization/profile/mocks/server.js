@@ -49,6 +49,13 @@ const {
   generateStatusResponse,
 } = require('./endpoints/status');
 const handleUserUpdate = require('./endpoints/user/handleUserUpdate');
+const mhvSignature = require('./endpoints/my-health');
+
+// VA Profile initialization simulation setup
+// The loa3UserNeedsVapInit user has 'vet360' service available and will trigger initialization
+// console.log(
+//   '✓ VA Profile initialization simulation enabled - user will need to initialize VA Profile ID when visiting notification settings',
+// );
 
 // use one of these to provide a generic error for any endpoint
 const genericErrors = {
@@ -109,10 +116,13 @@ const responses = {
             profileUseExperimental: false,
             profileShowPrivacyPolicy: false,
             profileShowPaperlessDelivery: false,
+            profile2Enabled: true,
+            profileHealthCareSettingsPage: true,
             vetStatusPdfLogging: true,
             veteranStatusCardUseLighthouse: true,
             veteranStatusCardUseLighthouseFrontend: true,
             vreCutoverNotice: true,
+            mhvEmailConfirmation: false,
           }),
         ),
       secondsOfDelay,
@@ -127,9 +137,11 @@ const responses = {
     }
     // return res.status(403).json(genericErrors.error500);
     // example user data cases
-    return res.json(user.loa3User72); // default user LOA3 w/id.me (success)
+    // return res.json(user.loa3User72); // default user LOA3 w/id.me (success)
+    // return res.json(user.loa3UserNeedsVapInit);
+    // return res.json(user.loa3UserNoVaProfile); // LOA3 user without VA Profile service
     // return res.json(user.dsLogonUser); // user with dslogon signIn.serviceName
-    // return res.json(user.mvhUser); // user with mhv signIn.serviceName
+    return res.json(user.mvhUser); // user with mhv signIn.serviceName
     // return res.json(user.loa1User); // LOA1 user w/id.me
     // return res.json(user.loa1UserDSLogon); // LOA1 user w/dslogon
     // return res.json(user.loa1UserMHV); // LOA1 user w/mhv
@@ -148,6 +160,20 @@ const responses = {
     // data claim users
     // return res.json(user.loa3UserWithNoRatingInfoClaim);
     // return res.json(user.loa3UserWithNoMilitaryHistoryClaim);
+  },
+  'GET /my_health/v1/messaging/preferences/signature': (_req, res) => {
+    return res.json(mhvSignature.filledSignature);
+    // return res.json(mhvSignature.emptySignature);
+  },
+  'POST /my_health/v1/messaging/preferences/signature': (_req, res) => {
+    const secondsOfDelay = 2;
+    const responseBody = mhvSignature.filledSignature; // Simulate successful save
+    // const responseBody = mhvSignature.emptySignature; // Simulate successful deletion
+    delaySingleResponse(
+      () => res.status(200).json(responseBody),
+      secondsOfDelay,
+    );
+    // return res.status(500).json(genericErrors.error500);
   },
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': (_req, res) => {
@@ -297,15 +323,33 @@ const responses = {
       return res.json(phoneNumber.transactions.receivedNoChangesDetected);
     }
     return res.status(200).json(phoneNumber.transactions.received);
+    // return res.status(500).json(genericErrors.error500);
   },
   'POST /v0/profile/telephones': (_req, res) => {
     return res.status(200).json(phoneNumber.transactions.received);
+  },
+  'DELETE /v0/profile/telephones': (_req, res) => {
+    const secondsOfDelay = 1;
+    delaySingleResponse(
+      () => res.status(200).json(phoneNumber.transactions.received),
+      // () => res.status(500).json(genericErrors.error500),
+      secondsOfDelay,
+    );
   },
   'POST /v0/profile/email_addresses': (_req, res) => {
     return res.status(200).json(emailAddress.transactions.received);
   },
   'PUT /v0/profile/email_addresses': (_req, res) => {
     return res.status(200).json(emailAddress.transactions.received);
+    // return res.status(500).json(genericErrors.error500);
+  },
+  'DELETE /v0/profile/email_addresses': (_req, res) => {
+    const secondsOfDelay = 1;
+    delaySingleResponse(
+      () => res.status(200).json(emailAddress.transactions.received),
+      // () => res.status(500).json(genericErrors.error500),
+      secondsOfDelay,
+    );
   },
   'PUT /v0/profile/addresses': (req, res) => {
     // uncomment to test 401 error
@@ -343,6 +387,7 @@ const responses = {
 
     // default response
     return res.json(address.homeAddressUpdateReceived);
+    // return res.status(500).json(genericErrors.error500);
   },
   'POST /v0/profile/addresses': (req, res) => {
     return res.json(address.homeAddressUpdateReceived);
@@ -351,6 +396,7 @@ const responses = {
     const secondsOfDelay = 1;
     delaySingleResponse(
       () => res.status(200).json(address.homeAddressDeleteReceived),
+      // () => res.status(500).json(genericErrors.error500),
       secondsOfDelay,
     );
   },
@@ -359,6 +405,24 @@ const responses = {
     // this function allows some conditional logic to be added to the status endpoint
     // to simulate different responses based on the transactionId param
     return generateStatusResponse(req, res);
+  },
+  'POST /v0/profile/initialize_vet360_id': (req, res) => {
+    // Simulate VA Profile initialization transaction
+    const transactionId = `init-vap-${new Date().getTime()}`;
+    const initializationTransaction = {
+      data: {
+        type: 'AsyncTransaction::VAProfile::InitializePersonTransaction',
+        attributes: {
+          transactionId,
+          transactionStatus: 'RECEIVED',
+          type: 'AsyncTransaction::VAProfile::InitializePersonTransaction',
+          metadata: [],
+        },
+      },
+    };
+
+    // Return the transaction immediately - status will be checked via status endpoint
+    return res.json(initializationTransaction);
   },
   'GET /v0/profile/communication_preferences': (req, res) => {
     if (req?.query?.error === 'true') {

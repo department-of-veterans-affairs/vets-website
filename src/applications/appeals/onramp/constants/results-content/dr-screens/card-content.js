@@ -56,6 +56,7 @@ export const CARD_CONTENT_GF_BOARD_DIRECT = Object.freeze([
   CARD_GF_NO_EVIDENCE,
   CARD_GF_BOARD_ONLY_OPTION,
   CARD_GF_NO_HEARING,
+  CARD_GF_NO_LAW_POLICY,
 ]);
 
 export const CARD_CONTENT_GF_BOARD_EVIDENCE = Object.freeze([
@@ -65,6 +66,7 @@ export const CARD_CONTENT_GF_BOARD_EVIDENCE = Object.freeze([
   CARD_GF_YES_EVIDENCE,
   CARD_GF_BOARD_ONLY_OPTION,
   CARD_GF_NO_HEARING,
+  CARD_GF_NO_LAW_POLICY,
 ]);
 
 export const CARD_CONTENT_GF_BOARD_HEARING = Object.freeze([
@@ -75,6 +77,7 @@ export const CARD_CONTENT_GF_BOARD_HEARING = Object.freeze([
   CARD_GF_NO_EVIDENCE,
   CARD_GF_BOARD_ONLY_OPTION,
   CARD_GF_YES_HEARING,
+  CARD_GF_NO_LAW_POLICY,
 ]);
 
 export const LEARN_MORE_SC = {
@@ -110,7 +113,7 @@ export const START_BOARD = {
 };
 
 export const DECISION_TIMELINES = {
-  SC: '79.3 days',
+  SC: '79.3 days (roughly 3 months)',
   HLR: '125 days (4 to 5 months)',
   BOARD_DIRECT: '365 days (1 year)',
   BOARD_EVIDENCE: '550 days (1.5 years)',
@@ -123,7 +126,7 @@ export const CARD_NGF_CLAIM_CONTESTED = `Your claim is contested, and this optio
 export const CARD_NGF_HEARING_NOT_INCLUDED = `You said you want a hearing with a Veterans Law Judge, but this type of review doesn’t include one`;
 export const CARD_NGF_HEARING_NOT_DESIRED = `You said you don’t want a hearing with a Veterans Law Judge, but this type of review requires one`;
 export const CARD_NGF_HLR_NOT_AVAILABLE = `You're requesting a review of a Higher-Level Review decision, but this option isn't available for that type of review`;
-export const CARD_NGF_BOARD_NOT_AVAILABLE = `You’re requesting a review of a Board decision, so your next option is a Supplemental Claim since you can’t request the other types of reviews on a Board decision`;
+export const CARD_NGF_BOARD_NOT_AVAILABLE = `You're requesting a review of a Board Appeal, but this option isn't available for that type of review`;
 export const CARD_NGF_CANNOT_SUBMIT_EVIDENCE = `You can’t submit new and relevant evidence for this type of review`;
 export const CARD_NGF_RECEIVED_BOARD_DECISION = `You’ve already received a Board decision for this issue, and you can’t request another for the same claim`;
 export const CARD_NGF_YES_LAW_POLICY = `You’re requesting a review based on a change in law or policy, but this review option isn’t for law or policy changes`;

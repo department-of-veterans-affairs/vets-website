@@ -3,12 +3,18 @@ import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import allergies from './fixtures/allergies.json';
 
 describe('Medical Records View Allergies', () => {
-  it('Visits Medical Records View Allergies List', () => {
-    const site = new MedicalRecordsSite();
-    site.login();
-    site.loadPage();
+  const site = new MedicalRecordsSite();
 
-    AllergiesListPage.clickGotoAllergiesLink(allergies);
+  beforeEach(() => {
+    site.login();
+  });
+
+  it('Visits Medical Records View Allergies List', () => {
+    // const site = new MedicalRecordsSite();
+    // site.login();
+    // site.loadPage();
+
+    AllergiesListPage.goToAllergies(allergies);
 
     cy.title().should(
       'contain',

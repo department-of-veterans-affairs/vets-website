@@ -36,7 +36,7 @@ describe('Decision Reviews Onramp', () => {
       h.navigateToResults(path);
 
       // RESULTS
-      h.verifyUrl(ROUTES.RESULTS);
+      h.verifyUrl(ROUTES.RESULTS_DR);
       h.verifyDrResultsHeader(RESULTS_2_IS_1D);
       h.checkOverviewPanel(
         [c.TITLE_HLR, c.TITLE_BOARD_DIRECT, c.TITLE_BOARD_HEARING],

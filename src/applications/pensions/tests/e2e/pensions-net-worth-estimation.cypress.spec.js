@@ -41,7 +41,7 @@ describe('Pensions net worth asset alert', () => {
       // check warning exists
       cy.get('va-alert[status="warning"]').should(
         'contain.text',
-        'You answered that you have more than $25,000 in assets.',
+        'Because you have more than $25,000 in assets',
       );
       cy.injectAxe();
       cy.axeCheck();

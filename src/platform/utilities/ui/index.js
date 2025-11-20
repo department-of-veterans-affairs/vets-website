@@ -102,3 +102,34 @@ export function formatARN(arnString = '') {
   val = val.replace(/^(.{3})-(.{2})(.{1,4})$/, '$1-$2-$3');
   return val;
 }
+
+/**
+ * Returns the appropriate singular or plural form of a word based on count.
+ *
+ * @param {number} count - The count to check
+ * @param {string} singular - The singular form of the word
+ * @param {string} [plural] - The plural form (defaults to singular + 's')
+ * @returns {string} The appropriate form based on count
+ *
+ * @example
+ * pluralize(1, 'issue') // 'issue'
+ * pluralize(2, 'issue') // 'issues'
+ * pluralize(1, 'child', 'children') // 'child'
+ * pluralize(2, 'child', 'children') // 'children'
+ */
+export function pluralize(count, singular, plural = `${singular}s`) {
+  // Type validation
+  if (typeof singular !== 'string') {
+    throw new Error('pluralize: singular parameter must be a string');
+  }
+
+  if (typeof plural !== 'string') {
+    throw new Error('pluralize: plural parameter must be a string');
+  }
+
+  if (typeof count !== 'number') {
+    throw new Error('pluralize: count parameter must be a number');
+  }
+
+  return count === 1 ? singular : plural;
+}

@@ -126,16 +126,22 @@ function setupFormData(data, schema, uiSchema) {
   );
 }
 
-function resetFormDataOnTypeOfCareChange(pages, oldData, data) {
-  let newPages = pages;
+function resetFormDataOnChange(state, data) {
+  const oldData = state.data;
+
+  let newPages = state.pages;
+  let newPatientProviderRelationshipsStatus =
+    state.patientProviderRelationshipsStatus;
+  let newPatientProviderRelationships = state.patientProviderRelationships;
   let newData = data;
 
+  // Reset form data if typeOfCare has changed
   if (getTypeOfCare(newData)?.id !== getTypeOfCare(oldData)?.id) {
-    if (pages.vaFacility) {
+    if (newPages.vaFacility) {
       newPages = unset('vaFacility', newPages);
     }
 
-    if (pages.vaFacility2) {
+    if (newPages.vaFacility2) {
       newPages = unset('vaFacility2', newPages);
     }
 
@@ -148,13 +154,26 @@ function resetFormDataOnTypeOfCareChange(pages, oldData, data) {
     }
 
     // reset community care provider if type of care changes
-    if (pages.ccPreferences || !!newData.communityCareProvider?.id) {
+    if (newPages.ccPreferences || !!newData.communityCareProvider?.id) {
       newPages = unset('ccPreferences', newPages);
       newData = set('communityCareProvider', {}, newData);
     }
   }
 
-  return { newPages, newData };
+  // Reset provider relationships and form data if chosen VA facility
+  // has changed
+  if (newData.vaFacility !== oldData.vaFacility) {
+    newData = unset('selectedProvider', newData);
+    newPatientProviderRelationships = [];
+    newPatientProviderRelationshipsStatus = FETCH_STATUS.notStarted;
+  }
+
+  return {
+    newPages,
+    newData,
+    newPatientProviderRelationshipsStatus,
+    newPatientProviderRelationships,
+  };
 }
 
 export default function formReducer(state = initialState, action) {
@@ -182,15 +201,18 @@ export default function formReducer(state = initialState, action) {
         action.data,
       );
 
-      const { newPages, newData } = resetFormDataOnTypeOfCareChange(
-        state.pages,
-        state.data,
-        data,
-      );
+      const {
+        newPages,
+        newData,
+        newPatientProviderRelationshipsStatus,
+        newPatientProviderRelationships,
+      } = resetFormDataOnChange(state, data);
 
       return {
         ...state,
         data: newData,
+        patientProviderRelationshipsStatus: newPatientProviderRelationshipsStatus,
+        patientProviderRelationships: newPatientProviderRelationships,
         pages: {
           ...newPages,
           [action.page]: schema,
@@ -217,9 +239,8 @@ export default function formReducer(state = initialState, action) {
         };
       }
 
-      const { newPages, newData } = resetFormDataOnTypeOfCareChange(
-        state.pages,
-        state.data,
+      const { newPages, newData } = resetFormDataOnChange(
+        state,
         action.data || state.data,
       );
 
@@ -305,6 +326,7 @@ export default function formReducer(state = initialState, action) {
     }
     case FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED: {
       let newSchema = action.schema;
+      const { removeFacilityConfigCheck } = action;
       let newData = state.data;
       let { facilities } = action;
       const {
@@ -347,7 +369,12 @@ export default function formReducer(state = initialState, action) {
       }
 
       const supportedFacilities = facilities.filter(facility =>
-        isTypeOfCareSupported(facility, typeOfCareId, cernerSiteIds),
+        isTypeOfCareSupported(
+          facility,
+          typeOfCareId,
+          cernerSiteIds,
+          removeFacilityConfigCheck,
+        ),
       );
 
       if (supportedFacilities.length === 1) {

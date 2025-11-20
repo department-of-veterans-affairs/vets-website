@@ -45,7 +45,7 @@ export const getDynamicPageContent = formResponses => {
 const RESULTS_2_S_3_CONTENT = Object.freeze([
   `You don’t have new and relevant evidence, which is required to submit a Supplemental Claim`,
   `You can’t request a Higher-Level review of a Board decision`,
-  `You can’t request a Board review of a Board decision`,
+  `You can’t request a Board Appeal for a Board decision`,
 ]);
 
 const RESULTS_2_S_3_1_CONTENT = RESULTS_2_S_3_CONTENT;
@@ -77,6 +77,7 @@ export const NON_DR_RESULTS_CONTENT = formResponses =>
           {DISABILITY_COMP_CARD(
             `This may be a good fit because you haven’t filed a claim yet.`,
           )}
+          {HORIZ_RULE}
           {PRINT_OR_RESTART}
         </>
       ),
@@ -104,6 +105,7 @@ export const NON_DR_RESULTS_CONTENT = formResponses =>
             text="Check status in Claim Status Tool"
           />
           {DIVIDED_BENES}
+          {HORIZ_RULE}
           {PRINT_OR_RESTART}
         </>
       ),
@@ -139,6 +141,7 @@ export const NON_DR_RESULTS_CONTENT = formResponses =>
             href="/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation"
             text="Learn how to apply for survivor and dependent compensation"
           />
+          {HORIZ_RULE}
           {PRINT_OR_RESTART}
         </>
       ),
@@ -165,6 +168,7 @@ export const NON_DR_RESULTS_CONTENT = formResponses =>
             disability compensation.
           </p>
           {CLAIM_FOR_INCREASE_CARD()}
+          {HORIZ_RULE}
           {PRINT_OR_RESTART}
         </>
       ),

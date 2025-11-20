@@ -26,11 +26,14 @@ export function DynamicStateSelectFieldApplicant(props) {
   return <VaSelectField {...modifiedProps} />;
 }
 
-export function uiSchema(addressTitle = applicantContactInfoAddressTitle) {
+export function uiSchema(
+  addressTitle = applicantContactInfoAddressTitle,
+  addressDescription = null,
+) {
   return {
     application: {
       claimant: {
-        address: merge({}, address.uiSchema(addressTitle), {
+        address: merge({}, address.uiSchema(addressTitle, addressDescription), {
           country: {
             'ui:webComponentField': VaSelectField,
             'ui:options': {

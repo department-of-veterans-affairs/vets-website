@@ -57,6 +57,11 @@ export const getCardDescription = item => {
   ) : null;
 };
 
+export const capitalizeFirstLetter = str => {
+  if (!str || typeof str !== 'string') return '';
+  return `${str.charAt(0).toUpperCase()}${str.slice(1)}`;
+};
+
 export const getCardTitle = item => {
   let cardTitle = null;
 
@@ -280,3 +285,12 @@ export const childContent = (pdfUrl, trackingPrefix, goBack) => (
     </p>
   </div>
 );
+
+export const dateSigned = () => {
+  const date = new Date();
+  return date.toISOString().split('T')[0];
+};
+
+export const transformPhoneNumber = phoneNumber => {
+  return phoneNumber.replaceAll('-', '');
+};

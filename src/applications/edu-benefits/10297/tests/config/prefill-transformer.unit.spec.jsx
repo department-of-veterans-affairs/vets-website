@@ -22,6 +22,18 @@ describe('prefillTransformer', () => {
           dob: '1989-12-31',
           email: 'jane.profile@example.com',
           userFullName: { first: 'Profile', last: 'Name' },
+          vapContactInfo: {
+            homePhone: {
+              areaCode: '555',
+              countryCode: '1',
+              phoneNumber: '1112222',
+            },
+            mobilePhone: {
+              areaCode: '555',
+              countryCode: '1',
+              phoneNumber: '3334444',
+            },
+          },
         },
       },
       data: {},
@@ -31,8 +43,16 @@ describe('prefillTransformer', () => {
     const data = result.formData;
 
     expect(data.contactInfo).to.deep.equal({
-      homePhone: '5551112222',
-      mobilePhone: '5553334444',
+      homePhone: {
+        callingCode: 1,
+        countryCode: 'US',
+        contact: '5551112222',
+      },
+      mobilePhone: {
+        callingCode: 1,
+        countryCode: 'US',
+        contact: '5553334444',
+      },
       emailAddress: 'jane.data@example.com',
     });
     expect(data.dateOfBirth).to.equal('1990-01-01');
@@ -61,6 +81,13 @@ describe('prefillTransformer', () => {
           dob: '1977-07-07',
           email: 'profile.fallback@example.com',
           userFullName: { first: 'Fallback', last: 'User' },
+          vapContactInfo: {
+            homePhone: {
+              areaCode: '777',
+              countryCode: '1',
+              phoneNumber: '1112222',
+            },
+          },
         },
       },
       data: {},
@@ -74,8 +101,16 @@ describe('prefillTransformer', () => {
     );
 
     expect(data.contactInfo).to.deep.equal({
-      homePhone: '7771112222',
-      mobilePhone: undefined,
+      homePhone: {
+        callingCode: 1,
+        countryCode: 'US',
+        contact: '7771112222',
+      },
+      mobilePhone: {
+        callingCode: 1,
+        countryCode: 'US',
+        contact: '',
+      },
       emailAddress: 'profile.fallback@example.com',
     });
     expect(data.dateOfBirth).to.equal('1977-07-07');

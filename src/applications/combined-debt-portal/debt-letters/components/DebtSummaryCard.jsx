@@ -8,7 +8,10 @@ import { VaLink } from '@department-of-veterans-affairs/component-library/dist/r
 import { deductionCodes } from '../const/deduction-codes';
 import { setActiveDebt } from '../../combined/actions/debts';
 import { currency } from '../utils/page';
-import { debtSummaryText } from '../const/diary-codes/debtSummaryCardContent';
+import {
+  debtSummaryText,
+  resolveLinkDiaryCodes,
+} from '../const/diary-codes/debtSummaryCardContent';
 
 const DebtSummaryCard = ({ debt }) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
@@ -41,37 +44,41 @@ const DebtSummaryCard = ({ debt }) => {
 
       {showResolveLinks ? (
         <>
-          <VaLink
-            active
-            data-testid="debt-details-link"
-            onClick={() => {
-              recordEvent({ event: 'cta-link-click-debt-summary-card' });
-              dispatch(setActiveDebt(debt));
-            }}
-            href={`/manage-va-debt/summary/debt-balances/details/${
-              debt.compositeDebtId
-            }`}
-            text="Review details"
-            aria-label={`Check details for ${debtCardHeading}`}
-          />
-          <div className="vads-u-margin-top--1">
+          <p className="vads-u-margin-bottom--0">
             <VaLink
               active
-              data-testid="debt-resolve-link"
+              data-testid="debt-details-link"
               onClick={() => {
                 recordEvent({ event: 'cta-link-click-debt-summary-card' });
                 dispatch(setActiveDebt(debt));
               }}
-              href={`/manage-va-debt/summary/debt-balances/details/${
+              href={`/manage-va-debt/summary/debt-balances/${
                 debt.compositeDebtId
-              }/resolve`}
-              text="Resolve this debt"
-              aria-label={`Resolve ${debtCardHeading}`}
+              }`}
+              text="Review details"
+              label={`Check details for ${debtCardHeading}`}
             />
-          </div>
+          </p>
+          {resolveLinkDiaryCodes.includes(debt.diaryCode) ? (
+            <p className="vads-u-margin-top--1 vads-u-margin-bottom--0">
+              <VaLink
+                active
+                data-testid="debt-resolve-link"
+                onClick={() => {
+                  recordEvent({ event: 'cta-link-click-debt-summary-card' });
+                  dispatch(setActiveDebt(debt));
+                }}
+                href={`/manage-va-debt/summary/debt-balances/${
+                  debt.compositeDebtId
+                }/resolve`}
+                text="Resolve this overpayment"
+                label={`Resolve ${debtCardHeading}`}
+              />
+            </p>
+          ) : null}
         </>
       ) : (
-        <>
+        <p className="vads-u-margin-bottom--0">
           <VaLink
             active
             data-testid="debt-details-button"
@@ -79,13 +86,13 @@ const DebtSummaryCard = ({ debt }) => {
               recordEvent({ event: 'cta-link-click-debt-summary-card' });
               dispatch(setActiveDebt(debt));
             }}
-            href={`/manage-va-debt/summary/debt-balances/details/${
+            href={`/manage-va-debt/summary/debt-balances/${
               debt.compositeDebtId
             }`}
-            text="Check details and resolve this debt"
+            text="Check details and Resolve this overpayment"
             label={`Check details and resolve this ${debtCardHeading}`}
           />
-        </>
+        </p>
       )}
     </va-card>
   );

@@ -12,6 +12,17 @@ import { dateFormat } from '../../../util/helpers';
 import * as messagesActions from '../../../actions/messages';
 
 describe('ReplyDraftItem component', () => {
+  let sandbox;
+  let sendReplySpy;
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+    sendReplySpy = sandbox.spy(messagesActions, 'sendReply');
+  });
+
+  afterEach(() => {
+    sendReplySpy.restore();
+    sandbox.restore();
+  });
   const draft = thread.threadDetails.drafts[0];
   const replyMessage = thread.threadDetails.messages[0];
   const { replyToName } = thread.threadDetails;
@@ -54,6 +65,7 @@ describe('ReplyDraftItem component', () => {
         {...props}
         draftId={draft.messageId}
         categories={categories}
+        setIsSending={() => {}}
       />,
       {
         initialState,
@@ -164,7 +176,7 @@ describe('ReplyDraftItem component', () => {
   });
 
   it('triggers refreshThreadCallback on draft delete', async () => {
-    const refreshThreadCallbackSpy = sinon.spy(
+    const refreshThreadCallbackSpy = sandbox.spy(
       messagesActions,
       'retrieveMessageThread',
     );
@@ -185,7 +197,58 @@ describe('ReplyDraftItem component', () => {
     });
     await waitFor(() => {
       expect(refreshThreadCallbackSpy.calledOnce).to.be.true;
-      refreshThreadCallbackSpy.restore();
+    });
+  });
+
+  it('calls sendReply callback on send button click', async () => {
+    const customProps = {
+      ...defaultProps,
+      cannotReply: false,
+      editMode: true,
+    };
+    const { getByTestId } = setup({ props: customProps });
+    const sendButton = getByTestId('send-button');
+    mockApiRequest({ status: 200, body: {} }, true);
+    fireEvent.click(sendButton);
+    waitFor(() => {
+      expect(sendReplySpy.calledOnce).to.be.true;
+      expect(sendReplySpy.lastCall.args[0]).to.include({
+        replyToId: 3190971,
+        message:
+          '{"category":"APPOINTMENTS","body":"draft test postman #1","subject":"Test","draft_id":3190971,"recipient_id":1013155}',
+        attachments: false,
+        ohTriageGroup: undefined,
+      });
+    });
+  });
+
+  it('calls sendReply callback with ohTriageGroup on send button click', async () => {
+    const replyMessageWithOhTriage = {
+      ...replyMessage,
+      isOhMessage: true,
+    };
+    const customProps = {
+      ...defaultProps,
+      replyMessage: replyMessageWithOhTriage,
+      cannotReply: false,
+      editMode: true,
+    };
+    const { getByTestId } = setup({ props: customProps });
+
+    const sendButton = getByTestId('send-button');
+
+    mockApiRequest({ status: 200, body: {} }, true);
+    fireEvent.click(sendButton);
+
+    waitFor(() => {
+      expect(sendReplySpy.calledOnce).to.be.true;
+      expect(sendReplySpy.lastCall.args[0]).to.include({
+        replyToId: 3190971,
+        message:
+          '{"category":"APPOINTMENTS","body":"draft test postman #1","subject":"Test","draft_id":3190971,"recipient_id":1013155}',
+        attachments: false,
+        ohTriageGroup: true,
+      });
     });
   });
 });

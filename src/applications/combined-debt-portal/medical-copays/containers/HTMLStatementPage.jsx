@@ -10,16 +10,21 @@ import Modals from '../../combined/components/Modals';
 import StatementAddresses from '../components/StatementAddresses';
 import AccountSummary from '../components/AccountSummary';
 import StatementCharges from '../components/StatementCharges';
+import StatementTable from '../components/StatementTable';
 import DownloadStatement from '../components/DownloadStatement';
 import DisputeCharges from '../components/DisputeCharges';
 import HowToPay from '../components/HowToPay';
 import BalanceQuestions from '../components/BalanceQuestions';
 import FinancialHelp from '../components/FinancialHelp';
+import NeedHelpCopay from '../components/NeedHelpCopay';
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
 
 const HTMLStatementPage = ({ match }) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const showOneThingPerPage = useToggleValue(
+  const showVHAPaymentHistory = useToggleValue(
+    TOGGLE_NAMES.showVHAPaymentHistory,
+  );
+  const showCDPOneThingPerPage = useToggleValue(
     TOGGLE_NAMES.showCDPOneThingPerPage,
   );
 
@@ -34,7 +39,17 @@ const HTMLStatementPage = ({ match }) => {
   const statementDate = isValid(parsedStatementDate)
     ? format(parsedStatementDate, 'MMMM d')
     : '';
+  const charges = selectedCopay?.details?.filter(
+    charge => !charge.pDTransDescOutput.startsWith('&nbsp;'),
+  );
 
+  const formatCurrency = amount => {
+    if (!amount) return '$0.00';
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+    }).format(amount);
+  };
   const title = `${statementDate} statement`;
   const prevPage = `Copay bill for ${selectedCopay.station.facilityName}`;
   const fullName = userFullName.middle
@@ -59,18 +74,18 @@ const HTMLStatementPage = ({ match }) => {
           },
           {
             href: '/manage-va-debt/summary',
-            label: 'Your VA debt and bills',
+            label: 'Overpayments and copay bills',
           },
           {
             href: '/manage-va-debt/summary/copay-balances',
-            label: 'Current copay balances',
+            label: 'Copay balances',
           },
           {
-            href: `/manage-va-debt/summary/copay-balances/${selectedId}/detail`,
+            href: `/manage-va-debt/summary/copay-balances/${selectedId}`,
             label: `${prevPage}`,
           },
           {
-            href: `/manage-va-debt/summary/copay-balances/${selectedId}/detail/statement`,
+            href: `/manage-va-debt/summary/copay-balances/${selectedId}/statement`,
             label: `${title}`,
           },
         ]}
@@ -82,7 +97,7 @@ const HTMLStatementPage = ({ match }) => {
         <p className="va-introtext" data-testid="facility-name">
           {`${selectedCopay?.station.facilityName}`}
         </p>
-        {showOneThingPerPage ? (
+        {showCDPOneThingPerPage ? (
           <>
             <AccountSummary
               acctNum={acctNum}
@@ -90,14 +105,16 @@ const HTMLStatementPage = ({ match }) => {
               newCharges={selectedCopay.pHTotCharges}
               paymentsReceived={selectedCopay.pHTotCredits}
               previousBalance={selectedCopay.pHPrevBal}
-              showOneThingPerPage={showOneThingPerPage}
+              showOneThingPerPage={showCDPOneThingPerPage}
               statementDate={statementDate}
             />
-            <StatementCharges
-              data-testid="statement-charges"
-              copay={selectedCopay}
-              showOneThingPerPage={showOneThingPerPage}
-            />
+            {showVHAPaymentHistory ? (
+              <StatementTable
+                charges={charges}
+                formatCurrency={formatCurrency}
+                selectedCopay={selectedCopay}
+              />
+            ) : null}
             <DownloadStatement
               key={selectedId}
               statementId={selectedId}
@@ -108,10 +125,6 @@ const HTMLStatementPage = ({ match }) => {
               data-testid="statement-addresses"
               copay={selectedCopay}
             />
-            <p>
-              <strong>Note:</strong> If your address has changed, call{' '}
-              <va-telephone contact="8662602614" />.
-            </p>
           </>
         ) : (
           <>
@@ -127,7 +140,7 @@ const HTMLStatementPage = ({ match }) => {
             <StatementCharges
               data-testid="statement-charges"
               copay={selectedCopay}
-              showOneThingPerPage={showOneThingPerPage}
+              showOneThingPerPage={showCDPOneThingPerPage}
             />
             <div className="vads-u-margin-top--3">
               <DownloadStatement
@@ -150,6 +163,7 @@ const HTMLStatementPage = ({ match }) => {
         <Modals title="Notice of rights and responsibilities">
           <Modals.Rights />
         </Modals>
+        <NeedHelpCopay />
       </article>
     </>
   );

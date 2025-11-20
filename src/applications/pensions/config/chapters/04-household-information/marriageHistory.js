@@ -14,7 +14,7 @@ import {
   getMarriageTitleWithCurrent,
   MarriageTitle,
   isCurrentMarriage,
-  isMarried,
+  hasMarriageHistory,
 } from './helpers';
 
 const dateSchema = {
@@ -27,7 +27,7 @@ export default {
   title: (form, { pagePerItemIndex } = { pagePerItemIndex: 0 }) =>
     getMarriageTitleWithCurrent(form, pagePerItemIndex),
   path: 'household/marriages/:index',
-  depends: isMarried,
+  depends: hasMarriageHistory,
   showPagePerItem: true,
   arrayPath: 'marriages',
   uiSchema: {

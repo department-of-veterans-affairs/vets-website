@@ -10,7 +10,7 @@ import {
   jsonResponse,
   setupServer,
 } from 'platform/testing/unit/msw-adapter';
-import { handleTokenRequest } from '../helpers';
+import { handleTokenRequest, emailNeedsConfirmation } from '../helpers';
 
 import AuthApp from '../containers/AuthApp';
 
@@ -375,8 +375,71 @@ describe('AuthApp', () => {
     );
 
     await waitFor(() => expect(window.location.replace.calledOnce).to.be.true);
-    expect(window.location.replace.calledWith('/sign-in-changes-reminder'));
+    expect(window.location.replace.calledWith('/sign-in-changes-reminder')).to
+      .be.true;
 
+    window.location = originalLocation;
+    sessionStorage.clear();
+  });
+
+  it('should redirect to /sign-in-confirm-contact-email interstitial page', async () => {
+    const originalLocation = window.location;
+    if (!Location.prototype.replace) {
+      window.location = { replace: sinon.spy() };
+    } else {
+      window.location.replace = sinon.spy();
+    }
+
+    const store = {
+      dispatch: sinon.spy(),
+      subscribe: sinon.spy(),
+      getState: () => ({
+        featureToggles: {
+          confirmContactEmailInterstitialEnabled: true,
+        },
+      }),
+    };
+    sessionStorage.setItem('authReturnUrl', 'https://dev.va.gov/my-va');
+    server.use(
+      createGetHandler('https://dev-api.va.gov/v0/user', () => {
+        return jsonResponse(
+          {
+            data: {
+              attributes: {
+                profile: {
+                  signIn: { serviceName: 'idme', ssoe: true },
+                  verified: true,
+                },
+                vaProfile: {
+                  vaPatient: true,
+                  facilities: [
+                    {
+                      facilityId: 'facility',
+                      isCerner: true,
+                    },
+                  ],
+                },
+                vet360ContactInformation: {
+                  email: {
+                    confirmationDate: '2018-04-21T20:09:50Z',
+                  },
+                },
+              },
+            },
+          },
+          { status: 200 },
+        );
+      }),
+    );
+
+    render(
+      <Provider store={store}>
+        <AuthApp location={{ query: { auth: 'success', type: 'idme' } }} />
+      </Provider>,
+    );
+    await waitFor(() => expect(window.location.replace.calledOnce).to.be.true);
+    expect(window.location.replace.calledWith('/sign-in-confirm-contact-email'))
+      .to.be.true;
     window.location = originalLocation;
     sessionStorage.clear();
   });
@@ -454,5 +517,31 @@ describe('handleTokenRequest', () => {
       csp: 'logingov',
     });
     expect(handleTokenSpy.called).to.be.true;
+  });
+});
+
+describe('emailNeedsConfirmation', () => {
+  it('should return false when conditions are met', () => {
+    expect(
+      emailNeedsConfirmation({
+        isEmailInterstitialEnabled: false,
+        userAttributes: {
+          profile: { verified: true },
+          vaProfile: { vaPatient: true },
+        },
+      }),
+    ).to.be.false;
+    expect(
+      emailNeedsConfirmation({
+        isEmailInterstitialEnabled: true,
+        userAttributes: { profile: {} },
+      }),
+    ).to.be.false;
+    expect(
+      emailNeedsConfirmation({
+        isEmailInterstitialEnabled: true,
+        userAttributes: { profile: {} },
+      }),
+    ).to.be.false;
   });
 });

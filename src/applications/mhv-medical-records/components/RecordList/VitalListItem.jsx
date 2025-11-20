@@ -12,7 +12,7 @@ import {
 
 const VitalListItem = props => {
   const { record, options = {} } = props;
-  const { isAccelerating, timeFrame } = options;
+  const { isAccelerating } = options;
   const displayName = vitalTypeDisplayNames[record.type];
 
   const ddLabelName = useMemo(
@@ -39,15 +39,15 @@ const VitalListItem = props => {
   const dataTestIds = useMemo(
     () => {
       if (isAccelerating) {
+        // Use canonical kebab-case slugs for accelerated Cypress (legacySlugMap removed)
+        const baseSlug = kebabCase(updatedRecordType);
         return {
-          displayName: `vital-${kebabCase(updatedRecordType)}-display-name`,
-          noRecordMessage: `vital-${kebabCase(
-            updatedRecordType,
-          )}-no-record-message`,
-          measurement: `vital-${kebabCase(updatedRecordType)}-measurement`,
-          date: `vital-${kebabCase(updatedRecordType)}-date`,
-          dateTimestamp: `vital-${kebabCase(updatedRecordType)}-date-timestamp`,
-          reviewLink: `vital-${kebabCase(updatedRecordType)}-review-over-time`,
+          displayName: `vital-${baseSlug}-display-name`,
+          noRecordMessage: `vital-${baseSlug}-no-record-message`,
+          measurement: `vital-${baseSlug}-measurement`,
+          date: `vital-${baseSlug}-date`,
+          dateTimestamp: `vital-${baseSlug}-date-timestamp`,
+          reviewLink: `vital-${baseSlug}-review-over-time`,
         };
       }
       return {
@@ -62,9 +62,7 @@ const VitalListItem = props => {
     [updatedRecordType, isAccelerating],
   );
 
-  const url = `/vitals/${kebabCase(updatedRecordType)}-history${
-    isAccelerating ? `?timeFrame=${timeFrame}` : ''
-  }`;
+  const url = `/vitals/${kebabCase(updatedRecordType)}-history`;
 
   return (
     <va-card
@@ -83,11 +81,7 @@ const VitalListItem = props => {
           className="vads-u-margin--0"
           data-testid={dataTestIds.noRecordMessage}
         >
-          {`There are no ${displayName.toLowerCase()} results ${
-            isAccelerating
-              ? `from the current time frame.`
-              : 'in your VA medical records.'
-          }`}
+          {`There are no ${displayName.toLowerCase()} results in your VA medical records.`}
         </p>
       )}
 
@@ -114,6 +108,7 @@ const VitalListItem = props => {
           >
             <span className="vads-u-font-weight--bold">Date: </span>
             <span data-testid={dataTestIds.dateTimestamp}>
+              {/* TODO: This seems wonky, since both effectiveDateTime and date are mapped to the same value */}
               {isAccelerating
                 ? formatDate(record.effectiveDateTime)
                 : dateFormatWithoutTime(record.date)}

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLoaderData } from 'react-router-dom';
-import { Toggler } from 'platform/utilities/feature-toggles';
 import { recordDatalayerEvent } from '../../utilities/analytics';
 import { getSignInUrl } from '../../utilities/constants';
 import DropdownContainer from './DropdownContainer';
@@ -57,7 +56,7 @@ export const Nav = () => {
 
         <div className="heading-right">
           <Link
-            to="/get-help"
+            to="/help"
             className={`usa-button-secondary heading-help-link  ${
               profile ? 'logged-in' : ''
             }`}
@@ -80,52 +79,32 @@ export const Nav = () => {
           data-testid="desktop-nav-row"
         >
           <div className="nav__container vads-u-display--flex">
-            <Toggler
-              toggleName={
-                Toggler.TOGGLE_NAMES.accreditedRepresentativePortalSearch
-              }
-            >
-              <Toggler.Enabled>
-                <Link
-                  className="nav__btn desktop"
-                  to="/claimant-search"
-                  data-testid="desktop-search-link"
-                  onClick={recordDatalayerEvent}
-                  data-eventname="nav-link-click"
-                >
-                  <va-icon
-                    icon="search"
-                    size={2}
-                    className="people-search-icon"
-                  />
-                  Find Claimant
-                </Link>
-              </Toggler.Enabled>
-            </Toggler>
             <Link
               className="nav__btn desktop"
-              to="/poa-requests"
+              to="/find-claimant"
+              data-testid="desktop-search-link"
+              onClick={recordDatalayerEvent}
+              data-eventname="nav-link-click"
+            >
+              <va-icon icon="search" size={2} className="people-search-icon" />
+              Find Claimant
+            </Link>
+            <Link
+              className="nav__btn desktop"
+              to="/representation-requests"
               data-testid="desktop-poa-link"
               onClick={recordDatalayerEvent}
               data-eventname="nav-link-click"
             >
               Representation Requests
             </Link>
-            <Toggler
-              toggleName={
-                Toggler.TOGGLE_NAMES.accreditedRepresentativePortalSubmissions
-              }
+            <Link
+              className="nav__btn desktop"
+              to="/submissions"
+              data-testid="desktop-search-link"
             >
-              <Toggler.Enabled>
-                <Link
-                  className="nav__btn desktop"
-                  to="/submissions"
-                  data-testid="desktop-search-link"
-                >
-                  Submissions
-                </Link>
-              </Toggler.Enabled>
-            </Toggler>
+              Submissions
+            </Link>
           </div>
         </div>
       )}

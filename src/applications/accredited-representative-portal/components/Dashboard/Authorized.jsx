@@ -12,48 +12,45 @@ const Authorized = () => {
       <ul className="dashboard__list">
         <li>
           <va-card icon-name="search">
-            <div>
+            <h2>
               <va-link
                 class="dashboard__card-link vads-u-font-family--serif"
-                href="/representative/claimant-search"
+                href="/representative/find-claimant"
                 text="Find claimants you represent"
               />
-            </div>
+            </h2>
           </va-card>
         </li>
         <li>
           <va-card icon-name="how_to_reg">
-            <div>
+            <h2>
               <va-link
                 class="dashboard__card-link vads-u-font-family--serif"
-                href="/representative/poa-requests"
+                href="/representative/representation-requests"
                 text="Review representation requests"
               />
-            </div>
+            </h2>
           </va-card>
         </li>
         <li>
           <va-card icon-name="assignment_turned_in">
-            <div>
+            <h2>
               <va-link
                 class="dashboard__card-link vads-u-font-family--serif"
                 href="/representative/submissions"
                 text="Submit forms"
               />
-            </div>
+            </h2>
           </va-card>
         </li>
       </ul>
 
       <h2 className="dashboard__header">Are you new to the portal?</h2>
       <p>
-        Visit our help resources to learn more about the portal and contact us
-        with questions.
+        Learn more about using the portal features, resolving common issues, and
+        contacting us if you need additional support.
       </p>
-      <va-link
-        href="/representative/get-help"
-        text="Review our help resources"
-      />
+      <va-link href="/representative/help" text="Learn more about the portal" />
     </>
   );
 };

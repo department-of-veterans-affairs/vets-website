@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { formatDate } from '../utils';
+import { formatDate } from '../utils/dates/formatting';
 
 export default function RecentJobApplicationField({ formData }) {
   const { name, date } = formData;

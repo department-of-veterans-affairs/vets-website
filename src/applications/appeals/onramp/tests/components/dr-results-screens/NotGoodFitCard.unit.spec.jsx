@@ -32,7 +32,7 @@ describe('NotGoodFitCard', () => {
       <NotGoodFitCard card={card} formResponses={formResponses} />,
     );
 
-    expect(screen.getByRole('heading', { level: 3 })).to.have.text(
+    expect(screen.getByRole('heading', { level: 4 })).to.have.text(
       'Higher-Level Review',
     );
   });

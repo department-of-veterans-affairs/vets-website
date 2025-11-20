@@ -252,8 +252,8 @@ const generateResultsContent = async (doc, parent, data) => {
         doc,
         ...Object.values({
           spaceFromEdge: 16,
-          linesAbove: 0.5,
-          linesBelow: 1,
+          linesAbove: 2.67,
+          linesBelow: 2.67,
         }),
       );
     }

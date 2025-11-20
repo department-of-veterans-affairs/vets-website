@@ -1,6 +1,8 @@
+/* eslint-disable no-console */
 import { getScrollOptions, getElementPosition } from './utils';
 import { focusElement, focusByOrder, defaultFocusSelector } from '../ui/focus';
 import { ERROR_ELEMENTS, SCROLL_ELEMENT_SUFFIX } from '../constants';
+import environment from '../environment';
 
 // Let the form system control scroll behavior
 window.history.scrollRestoration = 'manual';
@@ -49,10 +51,10 @@ export const scrollToElement = async (el, scrollOptions) =>
 
 /**
  * Scroll to top of the page
- * @param {String|Number|Element} el='topScrollElement' - top scroll element, or
+ * @param {String|Number|Element} [position='topScrollElement'] - top scroll element, or
  *  selector, id, name, class name, number, or DOM element to position
- * @param {ScrollOptions} scrollOptions - settings & overrides
- * @returns Promise
+ * @param {ScrollOptions} [scrollOptions] - settings & overrides
+ * @returns {Promise<void>}
  */
 export const scrollToTop = async (
   position = `top${SCROLL_ELEMENT_SUFFIX}`,
@@ -74,7 +76,7 @@ export const scrollToTop = async (
  */
 export const scrollToFirstError = async (options = {}) => {
   return new Promise(resolve => {
-    const { focusOnAlertRole = false } = options;
+    const { focusOnAlertRole = false, errorContext } = options;
     const selectors = ERROR_ELEMENTS.join(',');
     const timeout = 500;
     const observerConfig = { childList: true, subtree: true };
@@ -83,8 +85,28 @@ export const scrollToFirstError = async (options = {}) => {
     let observer;
 
     const runCleanup = el => {
-      // eslint-disable-next-line no-console
-      if (!el) console.warn('scrollToFirstError: Error element not found', el);
+      if (!el) {
+        console.warn('scrollToFirstError: Error element not found', el);
+        if (
+          !environment.isProduction() &&
+          Array.isArray(errorContext) &&
+          errorContext.length &&
+          errorContext.some(err =>
+            err?.stack?.includes('You must provide a response'),
+          )
+        ) {
+          const fieldKeys = errorContext
+            .filter(err => err?.stack?.includes('You must provide a response'))
+            .map(err => err.stack.split(':')[0]);
+          console.warn(
+            `Schema validation error: The following fields are marked as required in your schema but do not exist in the page:\n${fieldKeys
+              .map(key => `- "${key}"`)
+              .join(
+                '\n',
+              )}\nCheck your required fields in the schema match the fields in your UI.`,
+          );
+        }
+      }
       clearTimeout(fallbackTimer);
       observer?.disconnect();
       resolve();
@@ -156,7 +178,7 @@ export const scrollAndFocus = (target, options) =>
   new Promise(resolve => {
     if (target) {
       scrollTo(target, options);
-      focusElement(target);
+      focusElement(target, { preventScroll: true });
     }
     resolve();
   });

@@ -3,6 +3,7 @@ import { addMonths } from 'date-fns';
 import { getTypeOfCareById } from '../../../../utils/appointment';
 import {
   APPOINTMENT_STATUS,
+  INELIGIBILITY_CODES_VAOS,
   TYPE_OF_CARE_IDS,
 } from '../../../../utils/constants';
 import MockAppointmentResponse from '../../../fixtures/MockAppointmentResponse';
@@ -25,7 +26,8 @@ import {
   mockAppointmentGetApi,
   mockAppointmentsGetApi,
   mockClinicsApi,
-  mockEligibilityApi,
+  mockEligibilityDirectApi,
+  mockEligibilityRequestApi,
   mockFacilitiesApi,
   mockFeatureToggles,
   mockSchedulingConfigurationApi,
@@ -38,7 +40,7 @@ import TypeOfVisitPageObject from '../../page-objects/TypeOfVisitPageObject';
 const typeOfCareRegex = /Mental health/i;
 
 describe('VAOS request schedule flow - Mental health', () => {
-  describe('When patient chooses mental health services', () => {
+  describe('When patient chooses mental health care with a specialist', () => {
     const { idV2: typeOfCareId } = getTypeOfCareById(
       TYPE_OF_CARE_IDS.MENTAL_HEALTH_SERVICES_ID,
     );
@@ -62,7 +64,14 @@ describe('VAOS request schedule flow - Mental health', () => {
 
       describe('And one facility supports requesting with no history required', () => {
         const setup = () => {
-          const mockEligibilityResponse = new MockEligibilityResponse({
+          const mockEligibilityDirect = new MockEligibilityResponse({
+            facilityId: '983',
+            typeOfCareId,
+            isEligible: false,
+            ineligibilityReason:
+              INELIGIBILITY_CODES_VAOS.DIRECT_SCHEDULING_DISABLED,
+          });
+          const mockEligibilityRequest = new MockEligibilityResponse({
             facilityId: '983',
             typeOfCareId,
             isEligible: true,
@@ -73,7 +82,9 @@ describe('VAOS request schedule flow - Mental health', () => {
               facilityIds: ['983'],
             }),
           });
-          mockEligibilityApi({ response: mockEligibilityResponse });
+          mockEligibilityDirectApi({ response: mockEligibilityDirect });
+          mockEligibilityRequestApi({ response: mockEligibilityRequest });
+
           mockSchedulingConfigurationApi({
             facilityIds: ['983'],
             typeOfCareId,
@@ -112,7 +123,7 @@ describe('VAOS request schedule flow - Mental health', () => {
             .clickNextButton();
 
           TypeOfMentalHealthPageObject.assertUrl()
-            .selectTypeOfMentalHealth(/Mental health services/i)
+            .selectTypeOfMentalHealth(/Mental health care with a specialist/i)
             .clickNextButton();
 
           VAFacilityPageObject.assertUrl()
@@ -195,7 +206,14 @@ describe('VAOS request schedule flow - Mental health', () => {
 
       describe('And one facility supports requesting with no history required', () => {
         const setup = () => {
-          const mockEligibilityResponse = new MockEligibilityResponse({
+          const mockEligibilityDirect = new MockEligibilityResponse({
+            facilityId: '983',
+            typeOfCareId,
+            isEligible: false,
+            ineligibilityReason:
+              INELIGIBILITY_CODES_VAOS.DIRECT_SCHEDULING_DISABLED,
+          });
+          const mockEligibilityRequest = new MockEligibilityResponse({
             facilityId: '983',
             typeOfCareId,
             isEligible: true,
@@ -206,7 +224,13 @@ describe('VAOS request schedule flow - Mental health', () => {
               facilityIds: ['983'],
             }),
           });
-          mockEligibilityApi({ response: mockEligibilityResponse });
+          mockEligibilityDirectApi({
+            response: mockEligibilityDirect,
+          });
+          mockEligibilityRequestApi({
+            response: mockEligibilityRequest,
+          });
+
           mockSchedulingConfigurationApi({
             facilityIds: ['983'],
             typeOfCareId,

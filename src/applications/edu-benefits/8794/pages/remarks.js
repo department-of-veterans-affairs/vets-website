@@ -6,10 +6,10 @@ import {
 
 export const uiSchema = {
   ...titleUI({
-    title: 'Please enter any remarks you would like to share',
+    title: 'Enter any remarks you would like to share',
   }),
   remarks: textareaUI({
-    title: ' ',
+    title: "Use this space to enter any information you'd like to include",
     errorMessages: {
       maxLength:
         'You are over the character limit. Please adjust your remarks.',

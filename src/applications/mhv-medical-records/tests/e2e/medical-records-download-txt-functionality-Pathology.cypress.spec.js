@@ -6,7 +6,7 @@ import labsAndTests from './fixtures/labs-and-tests/labsAndTests.json';
 describe('Medical Records Health PathologyListPage', () => {
   const site = new MedicalRecordsSite();
 
-  before(() => {
+  beforeEach(() => {
     site.login();
     // cy.visit('my-health/medical-records/labs-and-tests');
     LabsAndTestsListPage.goToLabsAndTests();

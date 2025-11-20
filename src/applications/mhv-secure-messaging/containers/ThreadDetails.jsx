@@ -156,6 +156,7 @@ const ThreadDetails = props => {
 
             {customFoldersRedesignEnabled && (
               <MessageActionButtons
+                threadId={threadId}
                 message={messages[0]}
                 cannotReply={cannotReply}
                 isCreateNewModalVisible={isCreateNewModalVisible}
@@ -195,6 +196,7 @@ const ThreadDetails = props => {
 
           {customFoldersRedesignEnabled && (
             <MessageActionButtons
+              threadId={threadId}
               message={messages[0]}
               cannotReply={cannotReply}
               isCreateNewModalVisible={isCreateNewModalVisible}

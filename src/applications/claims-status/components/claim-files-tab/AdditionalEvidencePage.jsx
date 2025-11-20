@@ -53,12 +53,22 @@ class AdditionalEvidencePage extends React.Component {
   }
 
   onSubmitFiles(claimId, files) {
-    this.props.submitFiles(claimId, null, files);
+    this.props.submitFiles(
+      claimId,
+      null,
+      files,
+      this.props.showDocumentUploadStatus,
+      this.props.timezoneMitigationEnabled,
+    );
   }
 
   scrollToSection = () => {
     if (this.props.location.hash === '#add-files') {
       setPageFocus('h3#add-files');
+    } else if (this.props.location.hash === '#documents-filed') {
+      setPageFocus('h3#documents-filed');
+    } else if (this.props.location.hash === '#files-received') {
+      setPageFocus('h3#files-received');
     }
   };
 
@@ -99,7 +109,7 @@ class AdditionalEvidencePage extends React.Component {
             </>
           )}
           <h3 id="add-files" className="vads-u-margin-bottom--3">
-            Additional evidence
+            {this.props.additionalEvidenceTitle || 'Additional evidence'}
           </h3>
           {isOpen ? (
             <>
@@ -159,6 +169,10 @@ function mapStateToProps(state) {
     message: claimsState.notifications.additionalEvidenceMessage,
     filesNeeded: getFilesNeeded(trackedItems),
     filesOptional: getFilesOptional(trackedItems),
+    showDocumentUploadStatus:
+      state.featureToggles?.cst_show_document_upload_status || false,
+    timezoneMitigationEnabled:
+      state.featureToggles?.cst_timezone_discrepancy_mitigation || false,
   };
 }
 
@@ -171,6 +185,7 @@ const mapDispatchToProps = {
 };
 
 AdditionalEvidencePage.propTypes = {
+  additionalEvidenceTitle: PropTypes.string,
   cancelUpload: PropTypes.func,
   claim: PropTypes.object,
   clearAdditionalEvidenceNotification: PropTypes.func,
@@ -184,7 +199,9 @@ AdditionalEvidencePage.propTypes = {
   params: PropTypes.object,
   progress: PropTypes.number,
   resetUploads: PropTypes.func,
+  showDocumentUploadStatus: PropTypes.bool,
   submitFiles: PropTypes.func,
+  timezoneMitigationEnabled: PropTypes.bool,
   uploadComplete: PropTypes.bool,
   uploadError: PropTypes.bool,
   uploading: PropTypes.bool,

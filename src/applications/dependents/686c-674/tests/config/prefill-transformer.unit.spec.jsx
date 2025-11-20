@@ -1,6 +1,9 @@
 import { expect } from 'chai';
+
 import prefillTransformer from '../../config/prefill-transformer';
 import { NETWORTH_VALUE } from '../../config/constants';
+
+import { createDoB } from '../test-helpers';
 
 const defaultDependents = [
   {
@@ -8,7 +11,7 @@ const defaultDependents = [
       first: 'Jane',
       last: 'Doe',
     },
-    dateOfBirth: '1990-07-07',
+    dateOfBirth: createDoB(35),
     ssn: '702023332',
     relationshipToVeteran: 'Spouse',
     awardIndicator: 'Y',
@@ -18,12 +21,25 @@ const defaultDependents = [
       first: 'Mike',
       last: 'Doe',
     },
-    dateOfBirth: '2005-08-08',
+    dateOfBirth: createDoB(18),
     ssn: '793473479',
     relationshipToVeteran: 'Child',
     awardIndicator: 'N',
   },
 ];
+
+const processedDependents = {
+  '702023332': {
+    key: 'jane-3332',
+    age: 35,
+    labeledAge: '35 years old',
+  },
+  '793473479': {
+    key: 'mike-3479',
+    age: 18,
+    labeledAge: '18 years old',
+  },
+};
 
 const buildData = ({
   ssnLastFour = '',
@@ -42,7 +58,10 @@ const buildData = ({
       veteranVaFileNumberLastFour: vaFileLastFour,
       isInReceiptOfPension,
       netWorthLimit,
-      dependents,
+      dependents: {
+        success: 'true',
+        dependents,
+      },
     },
     veteranContactInformation: {
       veteranAddress: {
@@ -82,10 +101,17 @@ const buildData = ({
       emailAddress: 'vets.gov.user80@gmail.com',
     },
     dependents: {
+      hasError: false,
       hasDependents:
         dependents.filter(d => d.awardIndicator === 'Y').length > 0,
-      awarded: dependents.filter(d => d.awardIndicator === 'Y'),
-      notAwarded: dependents.filter(d => d.awardIndicator !== 'Y'),
+      awarded: dependents.filter(d => d.awardIndicator === 'Y').map(d => ({
+        ...d,
+        ...processedDependents[d.ssn],
+      })),
+      notAwarded: dependents.filter(d => d.awardIndicator !== 'Y').map(d => ({
+        ...d,
+        ...processedDependents[d.ssn],
+      })),
     },
   },
 });
@@ -119,17 +145,18 @@ describe('686c-674 v2 prefill transformer', () => {
           veteranAddress: {
             isMilitary: false,
             country: 'USA',
-            street: null,
-            street2: null,
-            street3: null,
-            city: null,
-            state: null,
-            postalCode: null,
+            street: '',
+            street2: '',
+            street3: '',
+            city: '',
+            state: '',
+            postalCode: '',
           },
           phoneNumber: null,
           emailAddress: null,
         },
         dependents: {
+          hasError: false,
           hasDependents: false,
           awarded: [],
           notAwarded: [],

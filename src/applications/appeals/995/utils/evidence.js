@@ -1,29 +1,15 @@
-import {
-  EVIDENCE_VA,
-  EVIDENCE_PRIVATE,
-  EVIDENCE_LIMIT,
-  EVIDENCE_OTHER,
-} from '../constants';
-
 import { getIssueName, getSelected } from '../../shared/utils/issues';
-import { showScNewForm, checkRedirect } from './toggle';
 import {
   FORMAT_COMPACT_DATE_FNS,
   FORMAT_YMD_DATE_FNS,
 } from '../../shared/constants';
 import { parseDate } from '../../shared/utils/dates';
-
-export const hasVAEvidence = formData => formData?.[EVIDENCE_VA];
-export const hasPrivateEvidence = formData => formData?.[EVIDENCE_PRIVATE];
-export const hasPrivateLimitation = formData =>
-  showScNewForm(formData) &&
-  hasPrivateEvidence(formData) &&
-  !!formData?.[EVIDENCE_LIMIT];
-export const hasNewPrivateLimitation = formData =>
-  showScNewForm(formData) && hasPrivateEvidence(formData);
-export const hasOriginalPrivateLimitation = formData =>
-  !showScNewForm(formData) && hasPrivateEvidence(formData);
-export const hasOtherEvidence = formData => formData?.[EVIDENCE_OTHER];
+import {
+  hasOtherEvidence,
+  hasPrivateEvidence,
+  hasVAEvidence,
+} from './form-data-retrieval';
+import numberToWords from './number-to-words';
 
 export const getVAEvidence = formData =>
   (hasVAEvidence(formData) && formData?.locations) || [];
@@ -87,52 +73,66 @@ export const removeNonSelectedIssuesFromEvidence = data => {
   };
 };
 
-/**
- * Update the evidence location, if:
- * - New SC form toggle is enabled
- * - location evidenceDates "from" (YYYY-MM-DD) has a value
- * - location treatmentDate (YYYY-MM) is not defined
- * If all the above are true, then get the "from" evidenceDate, strip off the
- * day value and set the "treatmentDate" to that new value. The `noDate` value
- * is set to true if "from" date is undefined
- * @param {Object} formData - Form data from save-in-progress
- * @param {String} returnUrl - URL of last saved page
- * @param {Object} router - React router
- */
-export const onFormLoaded = props => {
-  let { returnUrl } = props;
-  const { formData, router } = props;
-  const { locations = [] } = formData;
-
-  // New SC form data flow
-  if (showScNewForm(formData)) {
-    // Redirect Veteran to housing-risk page (second page in the flow), if
-    // needed
-    returnUrl = checkRedirect(formData, returnUrl);
-
-    // Convert in progress VA location evidenceDates (YYYY-MM-DD) to
-    // treatmentDate (YYYY-MM), or set the no date checkbox if the evidence
-    // "from" date is undefined
-    if (locations.length) {
-      formData.locations = locations.map(location => {
-        if (!location.treatmentDate) {
-          const from = location.evidenceDates?.from || '';
-          const treatmentDate = from.substring(0, from.lastIndexOf('-')).trim();
-          const noDate = treatmentDate === '';
-          return {
-            ...location,
-            treatmentDate,
-            noDate,
-          };
-        }
-        return location;
-      });
-    }
-  }
-  router?.push(returnUrl);
-};
-
 export const formatDate = (date = '', format = FORMAT_COMPACT_DATE_FNS) =>
   // Use `parse` from date-fns because it is a non-ISO8061 formatted date string
   // const parsedDate = parse(date, FORMAT_YMD_DATE_FNS, new Date());
   parseDate(date, format, FORMAT_YMD_DATE_FNS) || '';
+
+const getContent = (type, numberToWord, addOrEdit) => {
+  const content = {
+    va: {
+      add: `What${numberToWord} VA or military treatment location should we request records from?`,
+      edit: `Edit the${numberToWord} VA or military treatment location`,
+    },
+    nonVa: {
+      add: `What${numberToWord} location should we request your private provider or VA Vet Center records from?`,
+      edit: `Edit the${numberToWord} provider where you received treatment`,
+    },
+  };
+
+  return content?.[type]?.[addOrEdit] || '';
+};
+
+/**
+ * Used to create the titles for the VA and non-VA evidence
+ * entry (details) pages. When adding details, the initial provider
+ * is not numbered, but subsequent providers are (e.g. "What second location...?")
+ * When editing details, all providers are numbered.
+ * Full examples:
+ *
+ * VA provider - add first provider details: "What VA or military treatment location should we request records from?"
+ * VA provider - add second provider details: "What second VA or military... (cont'd from above)?"
+ * VA provider - edit first provider details: "Edit the first VA or military treatment location"
+ * VA provider - edit second provider details: "Edit the second VA or military... (cont'd from above)"
+ * @param {string} addOrEdit - "add" or "edit" depending on mode
+ * @param {number} index - index of provider being added or edited
+ * @param {string} providerType - either "va" or "nonVa" to indicate which type of content we need
+ * @returns
+ */
+export const getProviderDetailsTitle = (addOrEdit, index, providerType) => {
+  // Add a space before the "first," "20th" etc.
+  // to account for when it is blank (below) so we don't
+  // have extra spaces in the sentence
+  let numberToWord = ` ${numberToWords(index)}`;
+
+  if (addOrEdit === 'add' && index === 1) {
+    numberToWord = '';
+  }
+
+  return getContent(providerType, numberToWord, addOrEdit);
+};
+
+/**
+ * Used to create the modal title when deleting a provider entry
+ * If locationAndName is provided, it is included in the title.
+ * Otherwise, a generic title is returned.
+ * @param {string} locationAndName - name of provider location
+ * @returns {string} - modal title
+ */
+export const getProviderModalDeleteTitle = locationAndName => {
+  if (typeof locationAndName === 'string' && locationAndName) {
+    return `Do you want to keep ${locationAndName}?`;
+  }
+
+  return `Do you want to keep this location?`;
+};

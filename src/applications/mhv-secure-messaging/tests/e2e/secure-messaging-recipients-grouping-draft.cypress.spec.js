@@ -2,8 +2,8 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
 import PatientComposePage from './pages/PatientComposePage';
-import { AXE_CONTEXT, Locators, Data } from './utils/constants';
-import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
+import PatientInterstitialPage from './pages/PatientInterstitialPage';
+import { AXE_CONTEXT } from './utils/constants';
 
 describe('SM RECIPIENTS GROUPING ON DRAFT', () => {
   const updatedFeatureToggles = GeneralFunctionsPage.updateFeatureToggles([
@@ -11,21 +11,26 @@ describe('SM RECIPIENTS GROUPING ON DRAFT', () => {
       name: `mhv_secure_messaging_recipient_opt_groups`,
       value: true,
     },
+    {
+      name: `mhv_secure_messaging_curated_list_flow`,
+      value: true,
+    },
   ]);
   beforeEach(() => {
     SecureMessagingSite.login(updatedFeatureToggles);
     PatientInboxPage.loadInboxMessages();
-    PatientMessageDraftsPage.loadDrafts();
-    PatientMessageDraftsPage.loadSingleDraft();
-    PatientComposePage.verifyHeader(Data.EDIT_DRAFT);
+    // Navigate through curated list flow: create message -> interstitial -> select care team
+    PatientInboxPage.clickCreateNewMessage();
+    PatientInterstitialPage.getStartMessageLink().click({ force: true });
+    PatientComposePage.verifyHeader('Select care team');
   });
 
   it('verify verify groups quantity', () => {
-    cy.get(Locators.DROPDOWN.RECIPIENTS)
+    cy.findByTestId('compose-recipient-combobox')
       .find(`optgroup`)
-      .should(`have.length`, 4);
+      .should(`have.length`, 5);
 
-    cy.get(Locators.DROPDOWN.RECIPIENTS)
+    cy.findByTestId('compose-recipient-combobox')
       .find(`optgroup`)
       .each(el => {
         cy.wrap(el)
@@ -39,10 +44,10 @@ describe('SM RECIPIENTS GROUPING ON DRAFT', () => {
   });
 
   it('verify particular group', () => {
-    PatientComposePage.verifyRecipientsQuantityInGroup(0, 3);
+    PatientComposePage.verifyRecipientsQuantityInGroup(0, 4);
     PatientComposePage.verifyRecipientsQuantityInGroup(1, 3);
     PatientComposePage.verifyRecipientsQuantityInGroup(2, 1);
-    PatientComposePage.verifyRecipientsQuantityInGroup(3, 2);
+    PatientComposePage.verifyRecipientsQuantityInGroup(3, 1);
 
     PatientComposePage.verifyRecipientsGroupName(
       0,
@@ -51,7 +56,7 @@ describe('SM RECIPIENTS GROUPING ON DRAFT', () => {
     PatientComposePage.verifyRecipientsGroupName(1, 'VA Madison health care');
     PatientComposePage.verifyRecipientsGroupName(
       2,
-      'VA Martinsburg health care',
+      'VA Northern Arizona health care',
     );
     PatientComposePage.verifyRecipientsGroupName(
       3,

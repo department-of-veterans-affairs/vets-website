@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import { fireEvent, render } from '@testing-library/react';
 import ArrayBuilderCards from '../ArrayBuilderCards';
-import { initGetText } from '../helpers';
+import { initGetText, META_DATA_KEY } from '../helpers';
 
 const mockRedux = ({
   review = false,
@@ -43,6 +43,10 @@ describe('ArrayBuilderCards', () => {
     arrayData = [],
     cardDescription = 'cardDescription',
     getItemName = (item, index) => `getItemName ${index + 1}`,
+    isIncomplete = () => false,
+    fullData = {},
+    duplicateChecks = {},
+    duplicateCheckResult = {},
   }) {
     const goToPath = sinon.spy();
     const onRemoveAll = sinon.spy();
@@ -73,6 +77,10 @@ describe('ArrayBuilderCards', () => {
           getText={getText}
           required={() => false}
           isReview={false}
+          isIncomplete={isIncomplete}
+          fullData={fullData}
+          duplicateChecks={duplicateChecks}
+          duplicateCheckResult={duplicateCheckResult}
         />
       </Provider>,
     );
@@ -146,5 +154,77 @@ describe('ArrayBuilderCards', () => {
     ];
     expect(cardDescriptionSpy.args[0]).to.be.deep.equal(functionArgs);
     expect(getItemNameSpy.args[0]).to.be.deep.equal(functionArgs);
+  });
+
+  it('should render incomplete label & alert', () => {
+    const { container, getText } = setupArrayBuilderCards({
+      arrayData: [{ name: 'Test' }],
+      isIncomplete: () => true,
+    });
+
+    expect(getText.calledWith('cardItemMissingInformation')).to.be.true;
+    expect(container.querySelector('va-alert[status="error"]')).to.exist;
+    expect(container.querySelector('.usa-label').textContent).to.eq(
+      'INCOMPLETE',
+    );
+  });
+
+  it('should render duplicate label & warning alert for possible duplicate entries', () => {
+    const { container, getText } = setupArrayBuilderCards({
+      arrayPath: 'path',
+      arrayData: [{ name: 'Test' }],
+      duplicateCheckResult: {
+        duplicates: ['test'],
+        arrayData: ['test'],
+      },
+    });
+
+    expect(getText.calledWith('duplicateSummaryCardWarningOrErrorAlert')).to.be
+      .true;
+    expect(container.querySelector('va-alert[status="warning"]')).to.exist;
+    expect(container.querySelector('.usa-label').textContent).to.eq(
+      'POSSIBLE DUPLICATE',
+    );
+  });
+
+  it('should render duplicate info alert with no label for possible duplicate entries', () => {
+    const arrayData = [{ name: 'Test' }, { name: 'Test2' }, { name: 'Test' }];
+    const { container, getText } = setupArrayBuilderCards({
+      arrayPath: 'employers',
+      arrayData,
+      duplicateCheckResult: {
+        duplicates: ['test'],
+        arrayData: ['test'],
+      },
+      fullData: {
+        employers: arrayData,
+        [META_DATA_KEY]: {
+          // Duplicate modal was dismissed
+          'employers;test;allowDuplicate': true,
+        },
+      },
+    });
+
+    expect(getText.calledWith('duplicateSummaryCardInfoAlert')).to.be.true;
+    expect(container.querySelector('va-alert[status="info"]')).to.exist;
+    expect(container.querySelector('.usa-label')).to.not.exist;
+  });
+
+  it('should render incomplete label & alert over duplicate label & alert', () => {
+    const { container, getText } = setupArrayBuilderCards({
+      arrayData: [{ name: 'Test' }],
+      isIncomplete: () => true,
+      arrayPath: 'path',
+      duplicateCheckResult: {
+        duplicates: ['test'],
+        arrayData: ['test'],
+      },
+    });
+
+    expect(getText.calledWith('cardItemMissingInformation')).to.be.true;
+    expect(container.querySelectorAll('va-alert').length).to.eq(1);
+    expect(container.querySelector('.usa-label').textContent).to.eq(
+      'INCOMPLETE',
+    );
   });
 });

@@ -40,16 +40,18 @@ const ProfileInformationView = props => {
     // and . symbols so very long email addresses will wrap at those symbols if
     // needed
     const regex = /(@|\.)/;
-    const wrappableEmailAddress = data.emailAddress.split(regex).map(
-      (part, i) =>
-        regex.test(part) ? (
-          <span className="email-address-symbol" key={i}>
-            {part}
-          </span>
-        ) : (
-          part
-        ),
-    );
+    const wrappableEmailAddress =
+      data?.emailAddress &&
+      data.emailAddress.split(regex).map(
+        (part, i) =>
+          regex.test(part) ? (
+            <span className="email-address-symbol" key={i}>
+              {part}
+            </span>
+          ) : (
+            part
+          ),
+      );
     return (
       <span style={{ wordBreak: 'break-word' }}>{wrappableEmailAddress}</span>
     );

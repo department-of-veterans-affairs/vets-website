@@ -78,6 +78,7 @@ class IntroductionPage extends React.Component {
       ctaState = (
         <SaveInProgressIntro
           {...this.props}
+          resumeOnly
           hideUnauthedStartLink
           verifiedPrefillAlert={VerifiedAlert}
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
@@ -95,6 +96,7 @@ class IntroductionPage extends React.Component {
           <IntroductionPageFormProcess />
           <SaveInProgressIntro
             {...this.props}
+            resumeOnly
             hideUnauthedStartLink
             buttonOnly
             verifiedPrefillAlert={VerifiedAlert}

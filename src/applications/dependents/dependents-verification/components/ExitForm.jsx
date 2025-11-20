@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { getAppUrl } from 'platform/utilities/registry-helpers';
 import { scrollAndFocus } from 'platform/utilities/scroll';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import { deleteInProgressForm } from '../util';
+import { deleteInProgressForm } from '../../shared/utils/api';
 
 export const form686Url = getAppUrl('686C-674');
 
@@ -12,6 +12,7 @@ export const ExitForm = ({
   goBack,
   contentBeforeButtons,
   contentAfterButtons,
+  location = window.location,
 }) => {
   useEffect(() => {
     scrollAndFocus('h1.page-title');
@@ -23,7 +24,7 @@ export const ExitForm = ({
     },
     goTo686: async () => {
       await deleteInProgressForm(VA_FORM_IDS.FORM_21_0538);
-      window.location.assign(form686Url);
+      location.assign(form686Url);
     },
   };
 
@@ -77,4 +78,7 @@ ExitForm.propTypes = {
   router: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
+  location: PropTypes.shape({
+    assign: PropTypes.func,
+  }),
 };

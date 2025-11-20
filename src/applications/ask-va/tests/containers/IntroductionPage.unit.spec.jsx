@@ -1,5 +1,5 @@
 import * as apiUtils from '@department-of-veterans-affairs/platform-utilities/api';
-import { act, render, waitFor, within } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import React from 'react';
 import { Provider } from 'react-redux';
@@ -441,7 +441,7 @@ describe('IntroductionPage', () => {
 
   it('should focus on status message after search', async () => {
     const { props, mockStore } = getData({ loggedIn: false });
-    const { container } = render(
+    const { container, findByTestId } = render(
       <Provider store={mockStore}>
         <IntroductionPage {...props} />
       </Provider>,
@@ -451,30 +451,26 @@ describe('IntroductionPage', () => {
     expect(searchInput).to.exist;
 
     // First simulate input change
-    await act(async () => {
-      searchInput.value = 'A-20250106-308944';
-      searchInput.dispatchEvent(
-        new CustomEvent('input', {
-          detail: { value: 'A-20250106-308944' },
-          bubbles: true,
-        }),
-      );
-    });
+    searchInput.value = 'A-20250106-308944';
+    searchInput.dispatchEvent(
+      new window.Event('input', {
+        detail: { value: 'A-20250106-308944' },
+        bubbles: true,
+        cancelable: true,
+      }),
+    );
 
     // Then simulate search submission
-    await act(async () => {
-      searchInput.dispatchEvent(
-        new CustomEvent('submit', {
-          detail: { value: 'A-20250106-308944' },
-          bubbles: true,
-        }),
-      );
-    });
-
-    // Wait for the API call to complete and UI to update
-    const statusContainer = await within(container).findByTestId(
-      'status-message',
+    searchInput.dispatchEvent(
+      new window.Event('submit', {
+        detail: { value: 'A-20250106-308944' },
+        bubbles: true,
+        cancelable: true,
+      }),
     );
+
+    // Wait for the UI to update
+    const statusContainer = await findByTestId('status-message');
     const statusHeading = statusContainer.querySelector('h3');
     expect(statusHeading).to.exist;
     expect(document.activeElement).to.equal(statusHeading);
@@ -488,7 +484,7 @@ describe('IntroductionPage', () => {
     const { props, mockStore } = getData({ loggedIn: false });
     apiRequestStub.rejects(new Error('Not found'));
 
-    const { container } = render(
+    const { container, findByTestId } = render(
       <Provider store={mockStore}>
         <IntroductionPage {...props} />
       </Provider>,
@@ -498,41 +494,30 @@ describe('IntroductionPage', () => {
     expect(searchInput).to.exist;
 
     // First simulate input change
-    await act(async () => {
-      searchInput.value = 'INVALID-REF';
-      searchInput.dispatchEvent(
-        new CustomEvent('input', {
-          detail: { value: 'INVALID-REF' },
-          bubbles: true,
-        }),
-      );
-    });
+    searchInput.value = 'INVALID-REF';
+    searchInput.dispatchEvent(
+      new window.Event('input', {
+        detail: { value: 'INVALID-REF' },
+        bubbles: true,
+        cancelable: true,
+      }),
+    );
 
     // Then simulate search submission
-    await act(async () => {
-      searchInput.dispatchEvent(
-        new CustomEvent('submit', {
-          detail: { value: 'INVALID-REF' },
-          bubbles: true,
-        }),
-      );
-    });
-
-    // Wait for the API call to complete and UI to update
-    await waitFor(
-      async () => {
-        const errorContainer = await within(container).findByTestId(
-          'error-message',
-        );
-        const errorMessage = errorContainer.querySelector('p[tabindex="-1"]');
-        expect(errorMessage).to.exist;
-        expect(document.activeElement).to.equal(errorMessage);
-        expect(errorMessage.textContent).to.include('INVALID-REF');
-        expect(errorMessage.textContent).to.include(
-          'Check your reference number',
-        );
-      },
-      { timeout: 3000 },
+    searchInput.dispatchEvent(
+      new window.Event('submit', {
+        detail: { value: 'INVALID-REF' },
+        bubbles: true,
+        cancelable: true,
+      }),
     );
+
+    // Wait for the UI to update
+    const errorContainer = await findByTestId('error-message');
+    const errorMessage = errorContainer.querySelector('p[tabindex="-1"]');
+    expect(errorMessage).to.exist;
+    expect(document.activeElement).to.equal(errorMessage);
+    expect(errorMessage.textContent).to.include('INVALID-REF');
+    expect(errorMessage.textContent).to.include('Check your reference number');
   });
 });

@@ -10,7 +10,6 @@ import { addDays, format, subDays, subMonths } from 'date-fns';
 import MockDate from 'mockdate';
 import React from 'react';
 import sinon from 'sinon';
-import * as uniqueUserMetrics from '~/platform/mhv/unique_user_metrics';
 import AppointmentsPage from '.';
 import { createReferralById } from '../../../referral-appointments/utils/referrals';
 import MockAppointmentResponse from '../../../tests/fixtures/MockAppointmentResponse';
@@ -32,36 +31,31 @@ const initialState = {
 };
 
 describe('VAOS Page: AppointmentsPage', () => {
-  let logUniqueUserMetricsEventsStub;
   let sandbox;
 
   beforeEach(() => {
     mockFetch();
     MockDate.set(getTestDate());
     sandbox = sinon.createSandbox();
-    logUniqueUserMetricsEventsStub = sandbox.stub(
-      uniqueUserMetrics,
-      'logUniqueUserMetricsEvents',
-    );
 
     mockAppointmentsApi({
       start: subDays(new Date(), 30),
       end: addDays(new Date(), 395),
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled', 'checked-in'],
       response: [new MockAppointmentResponse()],
     });
     mockAppointmentsApi({
       start: subDays(new Date(), 30),
       end: addDays(new Date(), 395),
       includes: ['facilities', 'clinics', 'eps'],
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled', 'checked-in'],
       response: [new MockAppointmentResponse()],
     });
     mockAppointmentsApi({
       start: subMonths(new Date(), 3),
       end: new Date(),
       includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled', 'checked-in'],
       response: [new MockAppointmentResponse()],
     });
     mockAppointmentsApi({
@@ -94,21 +88,6 @@ describe('VAOS Page: AppointmentsPage', () => {
       facilities: [{ facilityId: '983', isCerner: false }],
     },
   };
-
-  it('should log appointments accessed event when component mounts', async () => {
-    const store = createTestStore(initialState);
-    renderWithStoreAndRouter(<AppointmentsPage />, {
-      store,
-    });
-
-    await waitFor(() => {
-      expect(
-        logUniqueUserMetricsEventsStub.calledWith(
-          uniqueUserMetrics.EVENT_REGISTRY.APPOINTMENTS_ACCESSED,
-        ),
-      ).to.be.true;
-    });
-  });
 
   it('should render warning message', async () => {
     setFetchJSONResponse(

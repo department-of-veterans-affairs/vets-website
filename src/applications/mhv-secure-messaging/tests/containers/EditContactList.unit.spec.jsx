@@ -16,6 +16,9 @@ import { ErrorMessages, Paths } from '../../util/constants';
 import { checkVaCheckbox, getProps } from '../../util/testUtils';
 
 describe('Edit Contact List container', async () => {
+  const initialVistaRecipients = noBlockedRecipients.mockAllRecipients.filter(
+    r => r.ohTriageGroup === false,
+  );
   const initialState = {
     drupalStaticData,
     sm: {
@@ -28,9 +31,10 @@ describe('Edit Contact List container', async () => {
           noBlockedRecipients.associatedBlockedTriageGroupsQty,
         noAssociations: noBlockedRecipients.noAssociations,
         allTriageGroupsBlocked: noBlockedRecipients.allTriageGroupsBlocked,
-        allFacilities: [...noBlockedRecipients.mockAllFacilities],
+        vistaFacilities: [...noBlockedRecipients.mockVistaFacilities],
         blockedFacilities: [...noBlockedRecipients.mockBlockedFacilities],
         allRecipients: [...noBlockedRecipients.mockAllRecipients],
+        vistaRecipients: initialVistaRecipients,
       },
     },
   };
@@ -67,9 +71,14 @@ describe('Edit Contact List container', async () => {
             oneAssociatedFacility.associatedBlockedTriageGroupsQty,
           noAssociations: oneAssociatedFacility.noAssociations,
           allTriageGroupsBlocked: oneAssociatedFacility.allTriageGroupsBlocked,
-          allFacilities: [...oneAssociatedFacility.mockAllFacilities],
+          vistaFacilities: [...oneAssociatedFacility.mockVistaFacilities],
           blockedFacilities: [...oneAssociatedFacility.mockBlockedFacilities],
           allRecipients: [...oneAssociatedFacility.mockAllRecipients],
+          vistaRecipients: [
+            ...oneAssociatedFacility.mockAllRecipients.filter(
+              r => !r.ohTriageGroup,
+            ),
+          ],
         },
       },
     };
@@ -81,7 +90,7 @@ describe('Edit Contact List container', async () => {
     await waitFor(() => {
       expect(
         screen.getByText(
-          'Select the teams you want to show in your contact list. You must select at least one team.',
+          'Select and save the care teams you want to send messages to. You must select at least one care team.',
         ),
       ).to.exist;
 
@@ -100,13 +109,11 @@ describe('Edit Contact List container', async () => {
 
     const facilityGroups = await screen.findAllByTestId(/-facility-group$/);
     expect(facilityGroups.length).to.equal(2);
-    expect(facilityGroups[0]).to.have.attribute('label', 'Test Facility 2');
-    expect(facilityGroups[1]).to.have.attribute('label', 'Test Facility 1');
 
     await waitFor(() => {
       expect(
         screen.getByText(
-          'Select the teams you want to show in your contact list. You must select at least one team from one of your facilities.',
+          'Select and save the care teams you want to send messages to. You must select at least one care team from one of your facilities.',
         ),
       ).to.exist;
       const selectAllTeams = screen.getAllByTestId(/select-all-/);
@@ -120,9 +127,9 @@ describe('Edit Contact List container', async () => {
       );
 
       const allTriageTeams = screen.getAllByTestId(/contact-list-select-team-/);
-      expect(allTriageTeams.length).to.equal(
-        noBlockedRecipients.associatedTriageGroupsQty,
-      );
+      const vistaRecipientsCount =
+        initialState.sm.recipients.vistaRecipients.length;
+      expect(allTriageTeams.length).to.equal(vistaRecipientsCount);
       allTriageTeams.forEach(team =>
         expect(team).to.have.attribute('checked', 'true'),
       );
@@ -144,7 +151,7 @@ describe('Edit Contact List container', async () => {
             oneBlockedRecipient.associatedBlockedTriageGroupsQty,
           noAssociations: oneBlockedRecipient.noAssociations,
           allTriageGroupsBlocked: oneBlockedRecipient.allTriageGroupsBlocked,
-          allFacilities: [...oneBlockedRecipient.mockAllFacilities],
+          vistaFacilities: [...oneBlockedRecipient.mockVistaFacilities],
           blockedFacilities: [...oneBlockedRecipient.mockBlockedFacilities],
           allRecipients: [...oneBlockedRecipient.mockAllRecipients],
         },
@@ -177,9 +184,14 @@ describe('Edit Contact List container', async () => {
             oneBlockedFacility.associatedBlockedTriageGroupsQty,
           noAssociations: oneBlockedFacility.noAssociations,
           allTriageGroupsBlocked: oneBlockedFacility.allTriageGroupsBlocked,
-          allFacilities: [...oneBlockedFacility.mockAllFacilities],
+          vistaFacilities: [...oneBlockedFacility.mockVistaFacilities],
           blockedFacilities: [...oneBlockedFacility.mockBlockedFacilities],
           allRecipients: [...oneBlockedFacility.mockAllRecipients],
+          vistaRecipients: [
+            ...oneBlockedFacility.mockAllRecipients.filter(
+              r => !r.ohTriageGroup,
+            ),
+          ],
         },
       },
     };
@@ -197,6 +209,56 @@ describe('Edit Contact List container', async () => {
       );
     });
     screen.unmount();
+  });
+
+  it('oracle health teams do not appear in list of contacts', async () => {
+    const oracleHealthTeams = noBlockedRecipients.mockAllRecipients.filter(
+      r => r.ohTriageGroup,
+    );
+
+    const customState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        recipients: {
+          allowedRecipients: [...noBlockedRecipients.mockAllowedRecipients],
+          blockedRecipients: [...noBlockedRecipients.mockBlockedRecipients],
+          associatedTriageGroupsQty:
+            noBlockedRecipients.associatedTriageGroupsQty,
+          associatedBlockedTriageGroupsQty:
+            noBlockedRecipients.associatedBlockedTriageGroupsQty,
+          noAssociations: noBlockedRecipients.noAssociations,
+          allTriageGroupsBlocked: noBlockedRecipients.allTriageGroupsBlocked,
+          vistaFacilities: [...noBlockedRecipients.mockVistaFacilities],
+          blockedFacilities: [...noBlockedRecipients.mockBlockedFacilities],
+          allRecipients: [...noBlockedRecipients.mockAllRecipients],
+          vistaRecipients: [...initialVistaRecipients],
+        },
+      },
+    };
+    const { getAllByTestId, queryByTestId, container, unmount } = setup(
+      customState,
+    );
+    const vistaRecipientsCount =
+      customState.sm.recipients.vistaRecipients.length;
+    await waitFor(() => {
+      const allTriageTeams = getAllByTestId(/contact-list-select-team-/);
+      expect(allTriageTeams.length).to.equal(vistaRecipientsCount);
+      allTriageTeams.forEach(team =>
+        expect(team).to.have.attribute('checked', 'true'),
+      );
+    });
+    const oracleHealthTeam = oracleHealthTeams[0];
+    const oracleHealthTeamCheckbox = queryByTestId(
+      `contact-list-select-team-${oracleHealthTeam.id}`,
+    );
+    expect(oracleHealthTeamCheckbox).to.be.null;
+    expect(
+      container.querySelectorAll(
+        `va-checkbox[label="${oracleHealthTeam.name}"]`,
+      ),
+    ).to.not.exist;
+    unmount();
   });
 
   it('modifies all teams in one facility when "select all" is checked', async () => {
@@ -418,7 +480,7 @@ describe('Edit Contact List container', async () => {
             noAssociationsAtAll.associatedBlockedTriageGroupsQty,
           noAssociations: noAssociationsAtAll.noAssociations,
           allTriageGroupsBlocked: noAssociationsAtAll.allTriageGroupsBlocked,
-          allFacilities: [...noAssociationsAtAll.mockAllFacilities],
+          vistaFacilities: [...noAssociationsAtAll.mockVistaFacilities],
           blockedFacilities: [...noAssociationsAtAll.mockBlockedFacilities],
           allRecipients: [...noAssociationsAtAll.mockAllRecipients],
           error: true,
