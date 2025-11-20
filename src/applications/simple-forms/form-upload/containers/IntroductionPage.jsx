@@ -30,7 +30,7 @@ const IntroductionPage = ({ route }) => {
     <article className="schemaform-intro">
       <FormTitle title={title} subTitle={subTitle} />
       <h2>How to submit VA Form {formNumber}</h2>
-      <p>This upload tool allows Veterans to submit a completed VA form.</p>
+      <p>You can upload and submit your completed form here on VA.gov.</p>
       <VaProcessList>
         <VaProcessListItem header="Download the form">
           <p>Download the official VA Form {formNumber} from VA.gov.</p>

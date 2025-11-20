@@ -3,11 +3,19 @@ import { useParams } from 'react-router-dom-v5-compat';
 import { useSelector } from 'react-redux';
 
 import { formatDateTime } from '../../../util/dates';
-import { selectAppointment } from '../../../redux/selectors';
+import {
+  selectAppointment,
+  selectAllExpenses,
+  selectAllDocuments,
+} from '../../../redux/selectors';
+import { ComplexClaimsHelpSection } from '../../HelpText';
+import ExpensesAccordion from './ExpensesAccordion';
 
 const ConfirmationPage = () => {
   const { claimId } = useParams();
-  const { data: appointmentData } = useSelector(selectAppointment);
+  const expenses = useSelector(selectAllExpenses) ?? [];
+  const documents = useSelector(selectAllDocuments) ?? [];
+  const appointmentData = useSelector(selectAppointment)?.data ?? null;
 
   const [formattedDate, formattedTime] = appointmentData?.localStartTime
     ? formatDateTime(appointmentData.localStartTime)
@@ -35,6 +43,7 @@ const ConfirmationPage = () => {
           </p>
         )}
       </va-alert>
+      <ExpensesAccordion expenses={expenses} documents={documents} />
 
       <h2 className="vads-u-margin-top--4">Print this confirmation page</h2>
       <p>
@@ -59,41 +68,24 @@ const ConfirmationPage = () => {
             text="Check your travel reimbursement claim status"
           />
         </va-process-list-item>
-        <va-process-list-item header="If your claim is approved, you’ll receive reimbursement via direct deposit">
+        <va-process-list-item header="If we approve your claim, we’ll send your pay through direct deposit">
           <p>
             You must have direct deposit set up in order to receive your funds.
             Direct deposit for travel pay is different than the direct deposit
             used for other VA claims. If you’ve already set up direct deposit
-            for travel reimbursement, no additional steps are needed.
+            for travel pay, no additional other are needed.
           </p>
           <va-link
             href="/resources/how-to-set-up-direct-deposit-for-va-travel-pay-reimbursement/"
-            text="Set up direct deposit"
+            text="Set up direct deposit for travel pay"
           />
         </va-process-list-item>
       </va-process-list>
-
       <va-link-action
-        text="Submit another travel reimbursement claim"
+        text="Review your appointments to submit another travel reimbursement claim"
         href="/my-health/appointments/past"
       />
-
-      <h2 className="vads-u-margin-top--4">
-        How to contact us if you have questions
-      </h2>
-      <p>
-        Call us at <va-telephone contact="8555747292" /> (
-        <va-telephone tty contact="711" />
-        ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
-      </p>
-      <p>
-        Or you can ask us a question online through Ask VA. Select the category
-        and topic for the VA benefit this form is related to.
-      </p>
-      <va-link
-        href="https://ask.va.gov/"
-        text="Contact us online through Ask VA"
-      />
+      <ComplexClaimsHelpSection />
     </>
   );
 };

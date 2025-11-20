@@ -1,7 +1,9 @@
-import { goToNextPage } from './helpers';
-
-export const fillAddressAndGoToNext = (fieldName, fieldData) => {
-  cy.fillAddressWebComponentPattern(fieldName, fieldData);
-  cy.injectAxeThenAxeCheck();
-  goToNextPage();
+export const fillStatementOfTruthAndSubmit = () => {
+  cy.get('@testData').then(data => {
+    cy.fillVaStatementOfTruth({
+      fullName: data.statementOfTruthSignature,
+      checked: true,
+    });
+    cy.get('va-button[text*="submit" i]').click();
+  });
 };

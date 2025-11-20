@@ -227,6 +227,10 @@ export const setup = (cy, testOptions = {}) => {
         data.serviceInformation.reservesNationalGuardService,
     };
 
+    if (data.toxicExposure) {
+      formData.toxicExposure = data.toxicExposure;
+    }
+
     if (testOptions?.prefillData?.startedFormVersion) {
       formData.startedFormVersion = testOptions.prefillData.startedFormVersion;
     }
@@ -270,6 +274,340 @@ export const reviewAndSubmitPageFlow = (
     selector: 'button',
   }).click();
 };
+
+Cypress.Commands.add('verifyVeteranDetails', data => {
+  // Data comes from mockPrefill, not test data
+  cy.get('.confirmation-chapter-section-collection').within(() => {
+    cy.get('h3')
+      .contains(/veteran details/i)
+      .should('exist');
+
+    if (mockPrefill.formData.veteran.primaryPhone) {
+      const phone = mockPrefill.formData.veteran.primaryPhone.replace(
+        /\D/g,
+        '',
+      );
+      const formattedPhone = `${phone.slice(0, 3)}-${phone.slice(
+        3,
+        6,
+      )}-${phone.slice(6)}`;
+      cy.contains(formattedPhone).should('exist');
+    }
+
+    if (mockPrefill.formData.veteran.emailAddress) {
+      cy.contains(mockPrefill.formData.veteran.emailAddress).should('exist');
+    }
+
+    if (mockPrefill.formData.veteran.mailingAddress) {
+      const address = mockPrefill.formData.veteran.mailingAddress;
+
+      if (address.country) {
+        cy.contains(address.country).should('exist');
+      }
+      if (address.addressLine1) {
+        cy.contains(address.addressLine1.toUpperCase()).should('exist');
+      }
+      if (address.state) {
+        cy.contains(address.state.toUpperCase()).should('exist');
+      }
+      if (address.zipCode) {
+        cy.contains(address.zipCode).should('exist');
+      }
+    }
+
+    if (data.homelessOrAtRisk) {
+      cy.contains(/are you homeless or at risk of becoming homeless/i).should(
+        'exist',
+      );
+
+      if (data.homelessOrAtRisk === 'no') {
+        cy.contains(/^No$/i).should('exist');
+      } else if (data.homelessOrAtRisk === 'homeless') {
+        cy.contains(/homeless/i).should('exist');
+      } else if (data.homelessOrAtRisk === 'atRisk') {
+        cy.contains(/at risk/i).should('exist');
+      }
+    }
+
+    if (data.serviceInformation?.servicePeriods?.length > 0) {
+      data.serviceInformation.servicePeriods.forEach(period => {
+        cy.contains(period.serviceBranch).should('exist');
+      });
+    }
+  });
+});
+
+Cypress.Commands.add('verifyConditions', data => {
+  const hasDisabilities =
+    data.ratedDisabilities?.length > 0 || data.newDisabilities?.length > 0;
+
+  if (hasDisabilities) {
+    cy.get('.confirmation-chapter-section-collection').within(() => {
+      cy.get('h3')
+        .contains(/conditions/i)
+        .should('exist');
+      cy.get('ul').should('exist');
+      cy.get('li').should('exist');
+    });
+
+    const hasSelectedRated = data.ratedDisabilities?.some(
+      disability => disability['view:selected'],
+    );
+    if (hasSelectedRated) {
+      data.ratedDisabilities
+        .filter(disability => disability['view:selected'])
+        .forEach(disability => {
+          const name = disability.name || disability.diagnosticText;
+          const capitalizedName = capitalizeEachWord(name);
+          cy.contains(capitalizedName).should('exist');
+        });
+    }
+
+    if (data.newDisabilities?.length > 0) {
+      data.newDisabilities.forEach(disability => {
+        const capitalizedCondition = capitalizeEachWord(disability.condition);
+        cy.contains(capitalizedCondition).should('exist');
+      });
+    }
+  }
+});
+
+Cypress.Commands.add('verifyToxicExposure', data => {
+  if (data.toxicExposure?.conditions) {
+    const { conditions } = data.toxicExposure;
+
+    cy.get('.confirmation-chapter-section-collection').within(() => {
+      cy.get('h4')
+        .contains(/toxic exposure/i)
+        .should('exist');
+
+      const claimedConditions = data.newDisabilities?.filter(disability => {
+        const sippableCondition = disability.condition
+          .toLowerCase()
+          .replace(/\s+/g, '');
+        return (
+          conditions[sippableCondition] === true ||
+          Object.keys(conditions).some(
+            key =>
+              key !== 'none' &&
+              conditions[key] === true &&
+              key === sippableCondition,
+          )
+        );
+      });
+
+      if (claimedConditions && claimedConditions.length > 0) {
+        claimedConditions.forEach(disability => {
+          const capitalizedCondition = capitalizeEachWord(disability.condition);
+          cy.contains(capitalizedCondition).should('exist');
+          cy.contains(/claimed/i).should('exist');
+        });
+      }
+
+      if (data.toxicExposure.gulfWar1990) {
+        const gulfWar = data.toxicExposure.gulfWar1990;
+
+        cy.contains(/service after august 2, 1990/i).should('exist');
+        cy.contains(/did you serve in any of these gulf war locations/i).should(
+          'exist',
+        );
+
+        Object.keys(gulfWar).forEach(location => {
+          if (gulfWar[location] === true) {
+            cy.contains(new RegExp(location, 'i')).should('exist');
+          }
+        });
+      }
+
+      if (data.toxicExposure.herbicide) {
+        const { herbicide } = data.toxicExposure;
+
+        cy.contains(/agent orange locations/i).should('exist');
+        cy.contains(
+          /did you serve in any of these locations where the military used the herbicide agent orange/i,
+        ).should('exist');
+
+        Object.keys(herbicide).forEach(location => {
+          if (herbicide[location] === true) {
+            cy.get('h4')
+              .contains(new RegExp(location, 'i'))
+              .should('exist');
+          }
+        });
+      }
+
+      if (data.toxicExposure.otherExposures) {
+        const { otherExposures } = data.toxicExposure;
+
+        cy.contains(/other toxic exposures/i).should('exist');
+        cy.contains(/have you been exposed to any of these hazards/i).should(
+          'exist',
+        );
+
+        Object.keys(otherExposures).forEach(exposure => {
+          if (otherExposures[exposure] === true) {
+            cy.get('h4')
+              .contains(new RegExp(exposure, 'i'))
+              .should('exist');
+          }
+        });
+      }
+    });
+  }
+});
+
+Cypress.Commands.add('verifyVaTreatmentFacility', facility => {
+  cy.contains(facility.treatmentCenterName).should('exist');
+
+  if (facility.treatmentCenterAddress) {
+    const addr = facility.treatmentCenterAddress;
+    if (addr.city) {
+      cy.contains(addr.city).should('exist');
+    }
+    if (addr.state) {
+      cy.contains(/state/i).should('exist');
+    }
+  }
+});
+
+Cypress.Commands.add('verifyPrivateProviderFacility', facility => {
+  cy.contains(/name of private provider or hospital/i).should('exist');
+  cy.contains(facility.providerFacilityName).should('exist');
+
+  if (facility.treatmentDateRange) {
+    cy.contains(/when did your treatment start/i).should('exist');
+    cy.contains(/when did your treatment end/i).should('exist');
+  }
+
+  if (facility.providerFacilityAddress) {
+    const addr = facility.providerFacilityAddress;
+    if (addr.country) {
+      cy.contains(/country/i).should('exist');
+      cy.contains(addr.country).should('exist');
+    }
+    if (addr.street) {
+      cy.contains(/street/i).should('exist');
+      cy.contains(addr.street).should('exist');
+    }
+    if (addr.city) {
+      cy.contains(/city/i).should('exist');
+      cy.contains(addr.city).should('exist');
+    }
+    if (addr.state) {
+      cy.contains(/state/i).should('exist');
+    }
+    if (addr.postalCode) {
+      cy.contains(/postal code/i).should('exist');
+      cy.contains(addr.postalCode).should('exist');
+    }
+  }
+});
+
+Cypress.Commands.add('verifySupportingEvidence', data => {
+  if (data['view:hasEvidence'] === true) {
+    cy.get('.confirmation-chapter-section-collection').within(() => {
+      cy.get('h3')
+        .contains(/supporting evidence/i)
+        .should('exist');
+    });
+
+    if (
+      data['view:selectableEvidenceTypes']?.['view:hasVaMedicalRecords'] &&
+      data.vaTreatmentFacilities?.length > 0
+    ) {
+      cy.get('.confirmation-chapter-section-collection').then($section => {
+        if ($section.text().match(/va medical records/i)) {
+          cy.get('.confirmation-chapter-section-collection').within(() => {
+            cy.contains(/va medical records/i).should('exist');
+            data.vaTreatmentFacilities.forEach(facility => {
+              cy.verifyVaTreatmentFacility(facility);
+            });
+          });
+        }
+      });
+    }
+
+    if (
+      data['view:selectableEvidenceTypes']?.['view:hasPrivateMedicalRecords'] &&
+      data.providerFacility?.length > 0
+    ) {
+      cy.get('.confirmation-chapter-section-collection').then($section => {
+        if ($section.text().match(/non-va treatment records/i)) {
+          cy.get('.confirmation-chapter-section-collection').within(() => {
+            cy.contains(/non-va treatment records/i).should('exist');
+            data.providerFacility.forEach(facility => {
+              cy.verifyPrivateProviderFacility(facility);
+            });
+          });
+        }
+      });
+    }
+
+    if (data['view:selectableEvidenceTypes']?.['view:hasOtherEvidence']) {
+      cy.get('.confirmation-chapter-section-collection').within(() => {
+        // Check for the actual auto-uploaded file (platform/testing/example-upload.png) from cy.fillPage()
+        cy.contains('example-upload.png').should('exist');
+      });
+    }
+  }
+});
+
+Cypress.Commands.add('verifyAdditionalInformation', data => {
+  cy.get('.confirmation-chapter-section-collection').within(() => {
+    cy.get('h3')
+      .contains(/additional information/i)
+      .should('exist');
+  });
+
+  if (data['view:bankAccount']) {
+    cy.get('.confirmation-chapter-section-collection').within(() => {
+      cy.get('h4')
+        .contains(/payment information/i)
+        .should('exist');
+
+      const bankAccount = data['view:bankAccount'];
+
+      if (bankAccount.bankAccountType) {
+        cy.contains(bankAccount.bankAccountType).should('exist');
+      }
+
+      if (bankAccount.bankName) {
+        cy.contains(bankAccount.bankName).should('exist');
+      }
+
+      if (bankAccount.bankAccountNumber) {
+        const lastFour = bankAccount.bankAccountNumber.slice(-4);
+        cy.contains(lastFour).should('exist');
+      }
+
+      if (bankAccount.bankRoutingNumber) {
+        const lastFour = bankAccount.bankRoutingNumber.slice(-4);
+        cy.contains(lastFour).should('exist');
+      }
+    });
+  }
+
+  if (data.isVaEmployee !== undefined) {
+    cy.get('h4')
+      .contains(/va employee/i)
+      .should('exist');
+    cy.contains(/are you currently a va employee/i).should('exist');
+    if (data.isVaEmployee === true) {
+      cy.contains(/^Yes$/i).should('exist');
+    } else {
+      cy.contains(/^No$/i).should('exist');
+    }
+  }
+
+  if (data.standardClaim === true) {
+    cy.get('h4')
+      .contains(/fully developed claim program/i)
+      .should('exist');
+    cy.contains(
+      /do you want to apply using the fully developed claim program/i,
+    ).should('exist');
+  }
+});
 
 export const pageHooks = (cy, testOptions) => ({
   start: () => {
@@ -422,10 +760,11 @@ export const pageHooks = (cy, testOptions) => ({
         } else {
           // Standard Claim
           cy.log(`Processing disability ${index + 1}: ${disability.condition}`);
+          // Wait for the correct follow-up page to load
+          cy.url().should('match', /new-disabilities\/follow-up\/\d+/);
           cy.get(
             'legend[class="schemaform-block-title schemaform-title-underline"]',
           ).should('contain', capitalizeEachWord(disability.condition));
-          cy.url().should('match', /new-disabilities\/follow-up\/\d+/);
           // Check that we're on the correct follow-up page
           if (disability.cause === 'NEW') {
             // NEW conditions (asthma, PTSD) should show primary description page
@@ -729,6 +1068,7 @@ export const pageHooks = (cy, testOptions) => ({
       }
     });
   },
+
   'review-and-submit': ({ afterHook }) => {
     cy.get('@testData').then(data => {
       if (
@@ -880,6 +1220,54 @@ export const pageHooks = (cy, testOptions) => ({
     });
     afterHook(() => {
       reviewAndSubmitPageFlow(cy);
+    });
+  },
+
+  confirmation: ({ afterHook }) => {
+    cy.url().should('include', '/confirmation');
+    cy.get('va-button[text="Print this page for your records"]', {
+      timeout: 30000,
+    }).should('exist');
+
+    // Only verify detailed confirmation content if the confirmation review toggle is enabled
+    if (testOptions?.showConfirmationReview) {
+      cy.log('Confirmation review toggle enabled, verifying submitted info');
+
+      cy.get(
+        'va-accordion-item[header*="Information you submitted on this form"]',
+      )
+        .should('exist')
+        .then($accordion => {
+          if (!$accordion.attr('open')) {
+            cy.wrap($accordion).click();
+          }
+        });
+
+      // Wait for accordion content to be visible
+      cy.get('.confirmation-chapter-section-collection').should('be.visible');
+
+      cy.get('@testData').then(data => {
+        cy.verifyVeteranDetails(data);
+        cy.verifyConditions(data);
+        cy.verifyToxicExposure(data);
+        cy.verifySupportingEvidence(data);
+        cy.verifyAdditionalInformation(data);
+      });
+    } else {
+      cy.log(
+        'Confirmation review toggle not enabled, skipping detailed verification',
+      );
+    }
+
+    afterHook(() => {
+      cy.expandAccordions();
+      cy.injectAxe();
+      cy.axeCheck('main', {
+        rules: {
+          'definition-list': { enabled: false },
+          list: { enabled: false },
+        },
+      });
     });
   },
 });
