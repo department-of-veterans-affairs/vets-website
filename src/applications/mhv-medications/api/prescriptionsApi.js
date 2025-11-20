@@ -252,7 +252,7 @@ export const prescriptionsApi = createApi({
               data: {
                 ...result,
                 successfulIds: result.data.attributes.prescriptionList || [],
-                failedIds: result.data.attributes.failedPrescriptionIds || [],
+                failedIds: result.data.attributes.failedPrescriptionList || [],
               },
             };
           } catch ({ errors }) {

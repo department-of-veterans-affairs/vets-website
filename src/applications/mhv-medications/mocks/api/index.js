@@ -87,7 +87,7 @@ const responses = {
     return res.status(200).json({
       data: {
         prescriptionList: successfulIds,
-        failedPrescriptionIds: failedIds,
+        failedPrescriptionList: failedIds,
       },
     });
   },
