@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useLocation, useHistory, Redirect } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { format } from 'date-fns';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
@@ -51,10 +51,6 @@ export default function ScheduleReferral() {
     return <ReferralLayout loadingMessage="Loading your data..." />;
   }
 
-  if (referral?.attributes?.hasAppointments) {
-    return <Redirect to="/referrals-requests" />;
-  }
-
   const categoryOfCare = currentReferral
     ? titleCase(currentReferral.categoryOfCare)
     : '';
@@ -88,10 +84,10 @@ export default function ScheduleReferral() {
               data-testid="referral-alert"
               class="vads-u-margin-bottom--2"
             >
-              <p>
-                Upcoming appointments with community care providers may not
-                appear in this tool. If you want us to add your community care
-                appointment to your appointments list, call your VA facility.
+              <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
+                Online scheduling isn’t available for this referral right now.
+                Call your community care provider or your facility’s community
+                care office to schedule an appointment.
               </p>
               <FindCommunityCareOfficeLink />
             </va-alert>
