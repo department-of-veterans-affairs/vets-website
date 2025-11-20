@@ -139,18 +139,6 @@ div.ac-container[style*="rgb(255, 226, 178)"] {
   background-color: rgb(250, 243, 209) !important;
 }
 
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
-}
-
 .va-chatbot-status-wrapper {
   display: flex;
   flex-direction: column;
