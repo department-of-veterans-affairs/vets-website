@@ -55,13 +55,16 @@ export const issuesContent = {
 };
 
 export const datePromptContent = {
-  question:
-    'Did treatment for your headaches at Edith Nourse Rogers Memorial Veterans Hospital start before 2005?',
   label:
     'If your treatment started before 2005, we’ll ask for approximate dates to help us find the paper records.',
   options: {
-    before: 'Treatment started before 2005',
-    after: 'Treatment started in 2005 or later',
+    Y: 'Treatment started before 2005',
+    N: 'Treatment started in 2005 or later',
   },
   requiredError: 'Select when your treatment started',
+};
+
+export const dateDetailsContent = {
+  label: `We’ll use this date to help us find your paper records from 2005 or earlier (you can estimate).`,
+  requiredError: 'Provide the month and year your treatment started',
 };
