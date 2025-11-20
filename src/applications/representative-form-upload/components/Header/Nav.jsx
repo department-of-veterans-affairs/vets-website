@@ -45,7 +45,7 @@ export const Nav = () => {
         </a>
         <div className="heading-right">
           <a
-            href="/representative/get-help"
+            href="/representative/help"
             className={`usa-button-secondary heading-help-link ${
               profile ? 'logged-in' : ''
             }`}

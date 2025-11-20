@@ -13,11 +13,11 @@ describe('deduction-codes', () => {
 
     it('should have the correct descriptions for each code', () => {
       expect(deductionCodes['30']).to.eq(
-        'Disability compensation and pension debt',
+        'Disability compensation and pension overpayment',
       );
-      expect(deductionCodes['41']).to.eq('Chapter 34 education debt');
+      expect(deductionCodes['41']).to.eq('Chapter 34 education overpayment');
       expect(deductionCodes['75']).to.eq(
-        'Post-9/11 GI Bill debt for tuition (school liable)',
+        'Post-9/11 GI Bill overpayment for tuition (school liable)',
       );
     });
   });

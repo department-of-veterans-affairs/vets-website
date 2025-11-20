@@ -1,10 +1,10 @@
 import React from 'react';
 import { expect } from 'chai';
-import { fireEvent, render, waitFor } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
-import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
+import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import formConfig from '../../config/form';
 
@@ -59,32 +59,10 @@ describe('New Commitment Chapter = Principles of Excellence Point of Contact Pag
     expect($$('va-text-input[label="Title"]', container).length).to.equal(1);
   });
 
-  it('renders phone type select radio buttons', async () => {
+  it('renders international phone number input field', async () => {
     const { container } = renderPage();
-
     expect(
-      $$('va-radio[label^="Select a type of phone number"]', container).length,
-    ).to.equal(1);
-  });
-
-  it('renders us and international phone number input fields', async () => {
-    const { container } = renderPage();
-
-    expect(
-      $$('va-text-input[label="US phone number"]', container).length,
-    ).to.equal(1);
-    // Check for hint on US phone number input field
-    expect(
-      $$('va-text-input[hint^="Enter a 10-digit phone number"]', container)
-        .length,
-    ).to.equal(1);
-
-    expect(
-      $$('va-text-input[label="International phone number"]', container).length,
-    ).to.equal(1);
-    // Check for hint on International phone number input field
-    expect(
-      $$('va-text-input[hint^="For non-US phone numbers"]', container).length,
+      $$('va-telephone-input[label="Phone number"]', container).length,
     ).to.equal(1);
   });
 
@@ -139,30 +117,8 @@ describe('New Commitment Chapter = Principles of Excellence Point of Contact Pag
       // at least 4 input form errors (first name, last name, title, emai)
       expect($$('va-text-input[error]', container).length).to.equal(4);
 
-      // at least 2 radio form errors (phone type and SCO)
-      expect($$('va-radio[error]', container).length).to.equal(2);
+      // at least 1 radio form errors (SCO)
+      expect($$('va-radio[error]', container).length).to.equal(1);
     });
-  });
-
-  it('updates the required input/number after selecting a phone type', async () => {
-    const { container, getByRole } = renderPage();
-
-    fireEvent.click(getByRole('button', { name: /submit/i }));
-
-    await waitFor(() => {
-      expect($$('va-text-input[error]', container).length).to.equal(4);
-    });
-
-    $('va-radio', container).__events.vaValueChange({
-      detail: { value: 'us' },
-    });
-
-    expect($$('va-text-input[error]', container).length).to.equal(5);
-
-    $('va-radio', container).__events.vaValueChange({
-      detail: { value: 'intl' },
-    });
-
-    expect($$('va-text-input[error]', container).length).to.equal(5);
   });
 });

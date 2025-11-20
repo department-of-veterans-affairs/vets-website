@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import ConfirmationSeparationPay from '../../components/ConfirmationSeparationPay';
+import ConfirmationSeparationPay from '../../components/confirmationFields/ConfirmationSeparationPay';
 import {
   NO,
   SEPARATION_PAY_BRANCH_TITLE,
