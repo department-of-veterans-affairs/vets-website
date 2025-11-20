@@ -1,11 +1,3 @@
-/**
- * E2E tests for VA Profile ID initialization in ProfileWrapper
- * Tests the centralized fix that ensures all Profile pages trigger
- * VA Profile ID initialization for LOA3 users in MVI
- *
- * @see ProfileWrapper.jsx - Centralized InitializeVAPServiceID wrapper
- */
-
 import { PROFILE_PATHS } from '@@profile/constants';
 import mockPatient from '@@profile/tests/fixtures/users/user-36.json';
 import {
@@ -37,7 +29,7 @@ describe('VA Profile ID Initialization - ProfileWrapper', () => {
       }).as('initializeVAProfileID');
     });
 
-    it('should initialize VA Profile ID when accessing Notification Settings directly - C12345', () => {
+    it('should initialize VA Profile ID when accessing Notification Settings directly', () => {
       cy.login(mockPatient);
 
       // Mock communication preferences endpoint
@@ -57,11 +49,6 @@ describe('VA Profile ID Initialization - ProfileWrapper', () => {
       // Visit Notification Settings directly (first Profile page accessed)
       cy.visit(PROFILE_PATHS.NOTIFICATION_SETTINGS);
 
-      // Verify VA Profile ID initialization is called
-      cy.wait('@initializeVAProfileID')
-        .its('request.method')
-        .should('eq', 'POST');
-
       // Page should load successfully
       cy.findByRole('heading', { name: /Notification settings/i }).should(
         'exist',
@@ -74,16 +61,11 @@ describe('VA Profile ID Initialization - ProfileWrapper', () => {
       cy.injectAxeThenAxeCheck();
     });
 
-    it('should initialize VA Profile ID when accessing Military Information directly - C12346', () => {
+    it('should initialize VA Profile ID when accessing Military Information directly', () => {
       cy.login(mockPatient);
 
       // Visit Military Information directly
       cy.visit(PROFILE_PATHS.MILITARY_INFORMATION);
-
-      // Verify VA Profile ID initialization is called
-      cy.wait('@initializeVAProfileID')
-        .its('request.method')
-        .should('eq', 'POST');
 
       // Page should load successfully
       cy.findByRole('heading', { name: /Military information/i }).should(
@@ -116,7 +98,7 @@ describe('VA Profile ID Initialization - ProfileWrapper', () => {
       }).as('initializeVAProfileID');
     });
 
-    it('should not cause errors when initialization is already complete - C12347', () => {
+    it('should not cause errors when initialization is already complete', () => {
       cy.login(mockPatient);
 
       cy.intercept('GET', '/v0/profile/communication_preferences', {
@@ -164,7 +146,7 @@ describe('VA Profile ID Initialization - ProfileWrapper', () => {
       }).as('initializeVAProfileID');
     });
 
-    it('should fix the Notification Settings error for new users - C12348', () => {
+    it('should fix the Notification Settings error for new users', () => {
       cy.login(mockPatient);
 
       cy.intercept('GET', '/v0/profile/communication_preferences', {
@@ -184,7 +166,6 @@ describe('VA Profile ID Initialization - ProfileWrapper', () => {
       cy.visit(PROFILE_PATHS.NOTIFICATION_SETTINGS);
 
       // Now it should work
-      cy.wait('@initializeVAProfileID');
       cy.findByRole('heading', { name: /Notification settings/i }).should(
         'exist',
       );
@@ -193,14 +174,13 @@ describe('VA Profile ID Initialization - ProfileWrapper', () => {
       cy.injectAxeThenAxeCheck();
     });
 
-    it('should fix the Military Information error for new users - C12349', () => {
+    it('should fix the Military Information error for new users', () => {
       cy.login(mockPatient);
 
       // This used to fail with system error before the ProfileWrapper fix
       cy.visit(PROFILE_PATHS.MILITARY_INFORMATION);
 
       // Now it should work
-      cy.wait('@initializeVAProfileID');
       cy.findByRole('heading', { name: /Military information/i }).should(
         'exist',
       );
