@@ -85,8 +85,10 @@ const responses = {
     const successfulIds = ids[0] ? [ids[0]] : [];
     const failedIds = ids[1] ? ids.slice(1) : [];
     return res.status(200).json({
-      prescriptionList: successfulIds,
-      failedPrescriptionIds: failedIds,
+      data: {
+        prescriptionList: successfulIds,
+        failedPrescriptionIds: failedIds,
+      },
     });
   },
   /**

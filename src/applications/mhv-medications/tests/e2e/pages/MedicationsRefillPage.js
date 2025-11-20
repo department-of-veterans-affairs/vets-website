@@ -8,8 +8,12 @@ class MedicationsRefillPage {
   basePath = 'my_health/v1';
 
   // Helper to determine HTTP method based on basePath
+  isV2 = () => {
+    return this.basePath.includes('v2');
+  };
+
   getRefillMethod = () => {
-    return this.basePath.includes('v2') ? 'POST' : 'PATCH';
+    return this.isV2() ? 'POST' : 'PATCH';
   };
 
   loadRefillPage = (prescriptions, basePath = this.basePath) => {
@@ -309,6 +313,35 @@ class MedicationsRefillPage {
   };
 
   clickRefillRequestButton = () => {
+    cy.get('[data-testid="request-refill-button"]').should('exist');
+    cy.get('[data-testid="request-refill-button"]').click({
+      waitForAnimations: true,
+    });
+  };
+
+  clickPrescriptionRefillCheckboxForSuccessfulRequestV2 = ({
+    index = 0,
+  } = {}) => {
+    cy.get(`[data-testid="refill-prescription-checkbox-${index}"]`).click({
+      waitForAnimations: true,
+    });
+  };
+
+  clickRequestRefillButtonForSuccessfulRequestsV2 = success => {
+    cy.intercept(
+      this.getRefillMethod(),
+      `${this.basePath}/prescriptions/refill_prescriptions`,
+      req => {
+        // assert that the req.body is an array of objects with the id and stationNumber keys
+        expect(req.body).to.deep.equal([
+          {
+            id: 22545165,
+            stationNumber: '989',
+          },
+        ]);
+        req.reply(success);
+      },
+    ).as('refillSuccess');
     cy.get('[data-testid="request-refill-button"]').should('exist');
     cy.get('[data-testid="request-refill-button"]').click({
       waitForAnimations: true,

@@ -251,8 +251,8 @@ export const prescriptionsApi = createApi({
             return {
               data: {
                 ...result,
-                successfulIds: result.prescriptionList || [],
-                failedIds: result.failedPrescriptionIds || [],
+                successfulIds: result.data.attributes.prescriptionList || [],
+                failedIds: result.data.attributes.failedPrescriptionIds || [],
               },
             };
           } catch ({ errors }) {
