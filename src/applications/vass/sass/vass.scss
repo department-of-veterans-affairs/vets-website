@@ -5,3 +5,13 @@
 .vass-flex-direction--column {
   flex-direction: column;
 }
+
+.vass-card-container {
+  padding: 36px 20px 20px 20px;
+}
+
+@media print {
+  .vass-hide-for-print {
+    display: none !important;
+  }
+}
