@@ -196,7 +196,7 @@ const formConfig = {
         },
         applicantMailingAddress2: {
           path: 'applicant-mailing-address-2',
-          title: `Your organization's mailing address `,
+          title: 'Your organization’s mailing address',
           uiSchema: applicantMailingAddress2.uiSchema,
           schema: applicantMailingAddress2.schema,
           depends: formData =>
