@@ -14,7 +14,7 @@ const API_VERSION = 'accredited_representative_portal/v0';
 const doNotRedirectUrl = [
   manifest.rootUrl,
   `${manifest.rootUrl}/`,
-  `${manifest.rootUrl}/get-help`,
+  `${manifest.rootUrl}/help`,
   `${manifest.rootUrl}/sign-in`,
   `${manifest.rootUrl}/auth/login/callback`,
 ];
