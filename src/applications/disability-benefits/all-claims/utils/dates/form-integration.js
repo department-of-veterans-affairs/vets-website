@@ -16,38 +16,62 @@ import { DATE_FORMAT } from './formatting';
 /**
  * Convert form date field object to ISO date string
  * @param {Object} dateField - Form date field with month, day, year properties
+ * @param {Object} options - Options object with allowPartialDates flag
  * @returns {string|null} ISO date string (YYYY-MM-DD) or null if invalid
  */
-export const dateFieldToISO = dateField => {
+export const dateFieldToISO = (dateField, options = {}) => {
   if (!dateField) return null;
 
+  const { allowPartialDates = false } = options;
   const { month, day, year } = dateField;
 
-  // Handle partial dates
-  const monthStr = String(month?.value || month || 'XX');
-  const dayStr = String(day?.value || day || 'XX');
-  const yearStr = String(year?.value || year || 'XXXX');
+  const monthValue = month?.value || month || '';
+  const dayValue = day?.value || day || '';
+  const yearValue = year?.value || year || '';
 
-  // Return partial date format if any component is missing
-  if (monthStr === 'XX' || dayStr === 'XX' || yearStr === 'XXXX') {
-    return `${yearStr}-${monthStr.padStart(2, '0')}-${dayStr.padStart(2, '0')}`;
+  // If partial dates are not allowed, require all fields
+  if (!allowPartialDates) {
+    if (!monthValue || !dayValue || !yearValue) {
+      return null;
+    }
+    // Validate and format complete date
+    // eslint-disable-next-line prettier/prettier
+    const date = moment(`${yearValue}-${monthValue.padStart(2, '0')}-${dayValue.padStart(2, '0')}`, 'YYYY-MM-DD', true);
+    return date.isValid() ? date.format('YYYY-MM-DD') : null;
   }
 
-  // Validate and format complete date
-  const date = moment(
-    `${yearStr}-${monthStr.padStart(2, '0')}-${dayStr.padStart(2, '0')}`,
-    'YYYY-MM-DD',
-    true,
-  );
-  return date.isValid() ? date.format('YYYY-MM-DD') : null;
+  // If partial dates are allowed, enforce valid partial date patterns:
+  // 1. Complete date (year + month + day)
+  // 2. Month + Year only (no day)
+  // 3. Year only (no month or day)
+  if (yearValue && monthValue && dayValue) {
+    // Complete date
+    // eslint-disable-next-line prettier/prettier
+    const date = moment(`${yearValue}-${monthValue.padStart(2, '0')}-${dayValue.padStart(2, '0')}`, 'YYYY-MM-DD', true);
+    return date.isValid() ? date.format('YYYY-MM-DD') : null;
+  }
+
+  if (yearValue && monthValue && !dayValue) {
+    // Month + Year only
+    return `${yearValue}-${monthValue.padStart(2, '0')}-XX`;
+  }
+
+  if (yearValue && !monthValue && !dayValue) {
+    // Year only
+    return `${yearValue}-XX-XX`;
+  }
+
+  // Invalid partial date pattern (e.g., day without month)
+  return null;
 };
 
 /**
  * Convert ISO date string to form date field object
  * @param {string} isoDate - ISO date string (YYYY-MM-DD)
+ * @param {Object} options - Options object with allowPartialDates flag
  * @returns {Object} Form date field object with month, day, year
  */
-export const isoToDateField = isoDate => {
+export const isoToDateField = (isoDate, options = {}) => {
   if (!isoDate || typeof isoDate !== 'string') {
     return { month: '', day: '', year: '' };
   }
@@ -58,7 +82,49 @@ export const isoToDateField = isoDate => {
   }
 
   const [year, month, day] = parts;
+  const { allowPartialDates = false } = options;
 
+  // If partial dates are not allowed and we detect XX patterns, return empty
+  if (
+    !allowPartialDates &&
+    (year === 'XXXX' || month === 'XX' || day === 'XX')
+  ) {
+    return { month: '', day: '', year: '' };
+  }
+
+  // If partial dates are allowed, validate the pattern
+  if (
+    allowPartialDates &&
+    (year === 'XXXX' || month === 'XX' || day === 'XX')
+  ) {
+    // Only allow valid partial date patterns:
+    // 1. Month + Year (day is XX): YYYY-MM-XX
+    // 2. Year only (month and day are XX): YYYY-XX-XX
+    // Invalid: day without month (YYYY-XX-DD) or month without year (XXXX-MM-DD)
+
+    if (year !== 'XXXX' && month !== 'XX' && day === 'XX') {
+      // Valid: Month + Year pattern
+      return {
+        month: month.replace(/^0/, ''),
+        day: '',
+        year,
+      };
+    }
+
+    if (year !== 'XXXX' && month === 'XX' && day === 'XX') {
+      // Valid: Year only pattern
+      return {
+        month: '',
+        day: '',
+        year,
+      };
+    }
+
+    // Invalid partial pattern - return empty
+    return { month: '', day: '', year: '' };
+  }
+
+  // Complete date or no XX patterns
   return {
     month: month === 'XX' ? '' : month.replace(/^0/, ''),
     day: day === 'XX' ? '' : day.replace(/^0/, ''),
@@ -70,26 +136,48 @@ export const isoToDateField = isoDate => {
  * Format date for review display in forms
  * @param {string} dateString - ISO date string
  * @param {boolean} monthYear - If true, only show month and year
+ * @param {Object} options - Options object with allowPartialDates flag
  * @returns {string} Formatted date for display
  */
-export const formatReviewDate = (dateString, monthYear = false) => {
+export const formatReviewDate = (
+  dateString,
+  monthYear = false,
+  options = {},
+) => {
   if (!dateString) return '';
 
-  // Handle partial dates
-  if (dateString.includes('XX')) {
-    const parts = dateString.split('-');
-    const [year, month] = parts;
+  const { allowPartialDates = false } = options;
 
-    if (year !== 'XXXX' && month !== 'XX') {
-      const date = moment(`${year}-${month}-01`);
-      return date.isValid() ? date.format('MMMM YYYY') : dateString;
+  // Handle partial dates only if allowed
+  if (dateString.includes('XX')) {
+    if (!allowPartialDates) {
+      return '';
     }
 
-    if (year !== 'XXXX') {
+    const parts = dateString.split('-');
+    const [year, month, day] = parts;
+
+    // Reject invalid partial date patterns:
+    // 1. Month without year (XXXX-MM-XX or XXXX-MM-DD)
+    // 2. Day without month (YYYY-XX-DD or XXXX-XX-DD)
+    if (year === 'XXXX' || (month === 'XX' && day !== 'XX')) {
+      return '';
+    }
+
+    // Valid patterns:
+    // 1. Year + Month (YYYY-MM-XX)
+    if (year !== 'XXXX' && month !== 'XX' && day === 'XX') {
+      const date = moment(`${year}-${month}-01`);
+      return date.isValid() ? date.format('MMMM YYYY') : '';
+    }
+
+    // 2. Year only (YYYY-XX-XX)
+    if (year !== 'XXXX' && month === 'XX' && day === 'XX') {
       return year;
     }
 
-    return dateString;
+    // Any other pattern is invalid
+    return '';
   }
 
   const date = moment(dateString);
@@ -132,10 +220,15 @@ const isEmptyDateField = dateField => {
  * Validate ISO date format
  * @private
  */
-const validateISOFormat = isoDate => {
-  if (!isoDate || isoDate.includes('XXXX')) {
+const validateISOFormat = (isoDate, allowPartialDates = false) => {
+  if (!isoDate) {
     return { isValid: false, error: 'Please provide a valid date' };
   }
+
+  if (isoDate.includes('XX') && !allowPartialDates) {
+    return { isValid: false, error: 'Please provide a valid date' };
+  }
+
   return { isValid: true, error: null };
 };
 
@@ -176,6 +269,7 @@ export const validateFormDateField = (dateField, options = {}) => {
     futureOnly = false,
     pastOnly = false,
     monthYearOnly = false,
+    allowPartialDates = false,
   } = options;
 
   // Check required fields
@@ -190,10 +284,10 @@ export const validateFormDateField = (dateField, options = {}) => {
   }
 
   // Convert to ISO format
-  const isoDate = dateFieldToISO(dateField);
+  const isoDate = dateFieldToISO(dateField, { allowPartialDates });
 
   // Validate ISO format
-  const formatError = validateISOFormat(isoDate);
+  const formatError = validateISOFormat(isoDate, allowPartialDates);
   if (!formatError.isValid) {
     return formatError;
   }
@@ -216,12 +310,13 @@ export const validateFormDateField = (dateField, options = {}) => {
  * Create date range from form date fields
  * @param {Object} fromField - From date field
  * @param {Object} toField - To date field
+ * @param {Object} options - Options object with allowPartialDates flag
  * @returns {Object} Date range object with from and to ISO strings
  */
-export const createDateRange = (fromField, toField) => {
+export const createDateRange = (fromField, toField, options = {}) => {
   return {
-    from: dateFieldToISO(fromField),
-    to: dateFieldToISO(toField),
+    from: dateFieldToISO(fromField, options),
+    to: dateFieldToISO(toField, options),
   };
 };
 
@@ -234,6 +329,7 @@ export const createDateRange = (fromField, toField) => {
  */
 export const validateFormDateRange = (fromField, toField, options = {}) => {
   const result = { isValid: true, error: null };
+  const { allowPartialDates = false } = options;
 
   const fromResult = validateFormDateField(fromField, options);
   if (!fromResult.isValid) {
@@ -245,17 +341,22 @@ export const validateFormDateRange = (fromField, toField, options = {}) => {
     return { isValid: false, error: `End date: ${toResult.error}` };
   }
 
-  // Check range validity if both dates are complete
-  const fromISO = dateFieldToISO(fromField);
-  const toISO = dateFieldToISO(toField);
+  // Check range validity if both dates are present
+  const fromISO = dateFieldToISO(fromField, { allowPartialDates });
+  const toISO = dateFieldToISO(toField, { allowPartialDates });
 
-  if (fromISO && toISO && !fromISO.includes('XX') && !toISO.includes('XX')) {
-    const fromDate = moment(fromISO);
-    const toDate = moment(toISO);
+  if (fromISO && toISO) {
+    // Only validate range if both dates are complete (no XX patterns)
+    const bothComplete = !fromISO.includes('XX') && !toISO.includes('XX');
 
-    if (fromDate.isAfter(toDate)) {
-      result.isValid = false;
-      result.error = 'End date must be after start date';
+    if (bothComplete) {
+      const fromDate = moment(fromISO);
+      const toDate = moment(toISO);
+
+      if (fromDate.isAfter(toDate)) {
+        result.isValid = false;
+        result.error = 'End date must be after start date';
+      }
     }
   }
 
@@ -303,7 +404,7 @@ export const adjustFormDate = (dateField, amount, unit) => {
   }
 
   const isoDate = dateFieldToISO(dateField);
-  if (!isoDate || isoDate.includes('XX')) {
+  if (!isoDate) {
     return dateField;
   }
 

@@ -17,7 +17,6 @@ export {
   // Validation functions
   isValidFullDate,
   isValidYear,
-  isValidPartialDate,
   validateAge,
   validateSeparationDate,
   validateServicePeriod,
@@ -74,3 +73,11 @@ export {
   getCurrentFormDate,
   adjustFormDate,
 } from './form-integration';
+
+// Partial date validations for exempt areas
+export {
+  validatePartialDate,
+  validateRequiredPartialDate,
+  validatePartialDateRange,
+  validateYearOnlyPartialDate,
+} from './partial-date-validations';

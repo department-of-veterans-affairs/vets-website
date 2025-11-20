@@ -59,7 +59,6 @@ import {
 
 - `isValidFullDate(dateString)` - Validate YYYY-MM-DD format
 - `isValidYear(err, fieldData)` - Validate year value (uses platform utility)
-- `isValidPartialDate(dateString)` - Validate partial dates
 - `validateAge(err, fieldData, formData)` - Validate age requirements (13th birthday)
 - `validateSeparationDate(err, fieldData, formData)` - Validate separation dates
 - `validateServicePeriod(errors, fieldData)` - Validate service periods
@@ -171,7 +170,6 @@ This module uses platform utilities where possible to avoid duplication:
 - `formatDateShort()` - Delegates to `platform/utilities/date/formatDateShort`
 - `formatDateLong()` - Delegates to `platform/utilities/date/formatDateLong`
 - `isValidYear()` - Uses `platform/forms-system/src/js/utilities/validations/isValidYear`
-- `isValidPartialDate()` - Enhanced version of platform utility
 
 #### Disability-Benefits Specific Functions
 

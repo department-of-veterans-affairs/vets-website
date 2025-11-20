@@ -7,7 +7,7 @@ import { hasVAEvidence } from '../utils';
 import { makeSchemaForAllDisabilities } from '../utils/schemas';
 import { isCompletingForm0781 } from '../utils/form0781';
 import { standardTitle } from '../content/form0781';
-import { formatDate } from '../utils/dates';
+import { formatDate, validatePartialDate } from '../utils/dates';
 
 import {
   validateMilitaryTreatmentCity,
@@ -89,6 +89,7 @@ export const uiSchema = {
           ...dateUI('When did you first visit this facility?'),
           'ui:validations': dateUI()['ui:validations'].concat([
             startedAfterServicePeriod,
+            validatePartialDate,
           ]),
           'ui:confirmationField': value => {
             if (

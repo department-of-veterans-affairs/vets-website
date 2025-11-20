@@ -11,6 +11,7 @@ import {
   ForceFieldBlur,
   validateApproximateDate,
 } from './utils';
+import { validateRequiredPartialDate } from '../../../utils/dates';
 
 // Hides the built-in “For example: January 19 2000”
 const HideDefaultDateHint = () => {
@@ -45,7 +46,7 @@ const newConditionDatePage = {
       ...baseDateUI,
       // run the effect here
       'ui:description': HideDefaultDateHint,
-      'ui:validations': [validateApproximateDate],
+      'ui:validations': [validateApproximateDate, validateRequiredPartialDate],
     },
 
     _forceFieldBlur: {
