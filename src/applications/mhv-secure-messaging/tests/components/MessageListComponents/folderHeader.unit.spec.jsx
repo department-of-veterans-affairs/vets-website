@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { fireEvent } from '@testing-library/dom';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { cleanup } from '@testing-library/react';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import FolderHeader from '../../../components/MessageList/FolderHeader';
 import { folderList } from '../../fixtures/folder-response.json';
 import messageResponse from '../../fixtures/message-response.json';
@@ -516,6 +517,103 @@ describe('Folder Header component', () => {
     it('does not render FilterBox w/o `threadCount` on TRASH FOLDER', () => {
       const screen = setup(initialTrashState, Paths.DELETED, null, trash);
       expect(screen.queryByTestId('search-form')).to.not.exist;
+    });
+  });
+
+  describe('OracleHealthMessagingAlert', () => {
+    it('renders OracleHealthMessagingIssuesAlert when cernerPilotSmFeatureFlag is true', () => {
+      const stateWithFeatureFlag = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          folders: {
+            folder: inbox,
+            folderList,
+          },
+        },
+        featureToggles: {
+          loading: false,
+          [FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot]: true,
+        },
+      };
+
+      const screen = setup(stateWithFeatureFlag, Paths.INBOX, 1, inbox);
+
+      const alert = screen.container.querySelector(
+        'va-alert[status="warning"]',
+      );
+      expect(alert).to.exist;
+      const headline = alert.querySelector('[slot="headline"]');
+      expect(headline.textContent).to.contain(
+        `We${String.fromCharCode(8217)}re working on messages right now`,
+      );
+    });
+
+    it('renders CernerFacilityAlert when user has Cerner facilities and feature flag is false', () => {
+      const stateWithCernerFacilities = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          folders: {
+            folder: inbox,
+            folderList,
+          },
+        },
+        featureToggles: {
+          loading: false,
+          [FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot]: false,
+        },
+        user: {
+          profile: {
+            facilities: [
+              {
+                facilityId: '668',
+                isCerner: true,
+              },
+            ],
+          },
+        },
+      };
+
+      const screen = setup(stateWithCernerFacilities, Paths.INBOX, 1, inbox);
+
+      expect(
+        screen.getByText(
+          'To send a secure message to a provider at this facility, go to My VA Health',
+        ),
+      ).to.exist;
+    });
+
+    it('does not render any alert when feature flag is false and no Cerner facilities', () => {
+      const stateWithoutCerner = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          folders: {
+            folder: inbox,
+            folderList,
+          },
+        },
+        featureToggles: {
+          loading: false,
+          [FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot]: false,
+        },
+        user: {
+          profile: {
+            facilities: [],
+          },
+        },
+      };
+
+      const screen = setup(stateWithoutCerner, Paths.INBOX, 1, inbox);
+
+      expect(screen.queryByText("We're working on messages right now")).to.not
+        .exist;
+      expect(
+        screen.queryByText(
+          'To send a secure message to a provider at this facility, go to My VA Health',
+        ),
+      ).to.not.exist;
     });
   });
 });

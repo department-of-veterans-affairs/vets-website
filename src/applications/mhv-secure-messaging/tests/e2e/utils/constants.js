@@ -264,7 +264,7 @@ export const Locators = {
     EL_SIGN: `[message-aria-describedby="Electronic signature"]`,
     MESSAGE_SUBJECT: '[data-testid="message-subject-field"]',
     MESSAGE_SUBJECT_DATA_TEST_ID: 'message-subject-field',
-    MESSAGE_BODY: `[data-testid="message-body-field"]`,
+    MESSAGE_BODY: 'message-body-field',
     RECIPIENTS_COMBO: `#options`,
   },
   INFO: {
