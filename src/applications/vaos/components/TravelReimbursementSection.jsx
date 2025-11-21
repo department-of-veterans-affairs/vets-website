@@ -9,6 +9,10 @@ import {
 import { TRAVEL_CLAIM_MESSAGES } from '../utils/constants';
 import Section from './Section';
 
+const setClaimEntry = () => {
+  sessionStorage.setItem('fileNewClaimEntry', 'appointment');
+};
+
 function LateFilingModal({ showModal, setShowModal, appointmentId }) {
   return (
     <VaModal
@@ -16,6 +20,7 @@ function LateFilingModal({ showModal, setShowModal, appointmentId }) {
       onCloseEvent={() => setShowModal(false)}
       onPrimaryButtonClick={() => {
         setShowModal(false);
+        setClaimEntry();
         window.location.href = `/my-health/travel-pay/file-new-claim/${appointmentId}`;
       }}
       onSecondaryButtonClick={() => setShowModal(false)}
@@ -70,6 +75,7 @@ export default function TravelReimbursementSection({ appointment }) {
             data-testid="file-claim-link"
             className="vads-u-margin-y--0p5"
             href={`/my-health/travel-pay/file-new-claim/${appointment.id}`}
+            onClick={setClaimEntry}
             text="File a travel reimbursement claim"
           />
         </p>
@@ -156,6 +162,7 @@ export default function TravelReimbursementSection({ appointment }) {
             <va-link
               data-testid="view-claim-link"
               href={`/my-health/travel-pay/file-new-claim/${appointment.id}`}
+              onClick={setClaimEntry}
               text="Complete and file your claim"
             />
           </p>
