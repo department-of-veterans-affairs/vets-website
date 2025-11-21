@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom-v5-compat';
 import ExtraDetails from '../shared/ExtraDetails';
 import LastFilledInfo from '../shared/LastFilledInfo';
 import { dateFormat, getRxStatus, rxSourceIsNonVA } from '../../util/helpers';
@@ -95,7 +94,7 @@ const MedicationsListCard = ({ rx }) => {
         'pending-med-or-renewal'} vads-u-margin-y--2 no-break`}
     >
       <div className="rx-card-details" data-testid="rx-card-info">
-        <Link
+        <va-link
           id={`card-header-${rx.prescriptionId}`}
           aria-describedby={
             pendingMed || pendingRenewal
@@ -111,13 +110,10 @@ const MedicationsListCard = ({ rx }) => {
             dataDogActionNames.medicationsListPage.MEDICATION_NAME_LINK_IN_CARD
           }
           data-testid="medications-history-details-link"
-          className="vads-u-font-weight--bold"
-          to={`prescription/${rx.prescriptionId}`}
-        >
-          <span data-dd-privacy="mask">
-            {rx?.prescriptionName || rx?.orderableItem}
-          </span>
-        </Link>
+          class="vads-u-font-weight--bold"
+          href={`prescription/${rx.prescriptionId}`}
+          text={rx?.prescriptionName || rx?.orderableItem}
+        />
         {!pendingMed &&
           !pendingRenewal &&
           rxStatus !== 'Unknown' &&
