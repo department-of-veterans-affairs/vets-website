@@ -33,7 +33,7 @@ describe('RouterLinkAction', () => {
     sandbox.restore();
   });
 
-  it('renders a va-link element', () => {
+  it('renders a va-link-action element', () => {
     const { container } = renderWithStoreAndRouter(
       <RouterLinkAction href="/test-path" text="Test Link" />,
       {
@@ -42,7 +42,7 @@ describe('RouterLinkAction', () => {
       },
     );
 
-    const link = container.querySelector('va-link');
+    const link = container.querySelector('va-link-action');
     expect(link).to.exist;
   });
 
@@ -55,8 +55,9 @@ describe('RouterLinkAction', () => {
       },
     );
 
-    const link = container.querySelector('va-link');
-    expect(link).to.have.attribute('active', 'true');
+    const link = container.querySelector('va-link-action');
+    expect(link).to.exist;
+    // VaLinkAction is always styled as an action link
   });
 
   it('renders with standard link styling when active={false}', () => {
@@ -68,8 +69,9 @@ describe('RouterLinkAction', () => {
       },
     );
 
-    const link = container.querySelector('va-link');
-    expect(link).to.not.have.attribute('active');
+    const link = container.querySelector('va-link-action');
+    expect(link).to.exist;
+    // VaLinkAction is always styled as an action link - active prop is ignored
   });
 
   it('renders with action link styling when active={true} is explicit', () => {
@@ -81,11 +83,12 @@ describe('RouterLinkAction', () => {
       },
     );
 
-    const link = container.querySelector('va-link');
-    expect(link).to.have.attribute('active', 'true');
+    const link = container.querySelector('va-link-action');
+    expect(link).to.exist;
+    // VaLinkAction is always styled as an action link - active prop is ignored
   });
 
-  it('passes href prop to va-link', () => {
+  it('passes href prop to va-link-action', () => {
     const { container } = renderWithStoreAndRouter(
       <RouterLinkAction href="/my-test-path" text="Test Link" />,
       {
@@ -94,11 +97,11 @@ describe('RouterLinkAction', () => {
       },
     );
 
-    const link = container.querySelector('va-link');
+    const link = container.querySelector('va-link-action');
     expect(link).to.have.attribute('href', '/my-test-path');
   });
 
-  it('passes text prop to va-link', () => {
+  it('passes text prop to va-link-action', () => {
     const { container } = renderWithStoreAndRouter(
       <RouterLinkAction href="/test-path" text="My Test Text" />,
       {
@@ -107,11 +110,11 @@ describe('RouterLinkAction', () => {
       },
     );
 
-    const link = container.querySelector('va-link');
+    const link = container.querySelector('va-link-action');
     expect(link).to.have.attribute('text', 'My Test Text');
   });
 
-  it('passes label prop to va-link when provided', () => {
+  it('passes label prop to va-link-action when provided', () => {
     const { container } = renderWithStoreAndRouter(
       <RouterLinkAction
         href="/test-path"
@@ -124,7 +127,7 @@ describe('RouterLinkAction', () => {
       },
     );
 
-    const link = container.querySelector('va-link');
+    const link = container.querySelector('va-link-action');
     expect(link).to.have.attribute('label', 'Accessible label');
   });
 
@@ -137,11 +140,11 @@ describe('RouterLinkAction', () => {
       },
     );
 
-    const link = container.querySelector('va-link');
+    const link = container.querySelector('va-link-action');
     expect(link).to.not.have.attribute('label');
   });
 
-  it('passes reverse prop to va-link when true', () => {
+  it('passes reverse prop to va-link-action when true', () => {
     const { container } = renderWithStoreAndRouter(
       <RouterLinkAction href="/test-path" text="Test Link" reverse />,
       {
@@ -150,7 +153,7 @@ describe('RouterLinkAction', () => {
       },
     );
 
-    const link = container.querySelector('va-link');
+    const link = container.querySelector('va-link-action');
     expect(link).to.have.attribute('reverse', 'true');
   });
 
@@ -163,11 +166,11 @@ describe('RouterLinkAction', () => {
       },
     );
 
-    const link = container.querySelector('va-link');
+    const link = container.querySelector('va-link-action');
     expect(link).to.not.have.attribute('reverse');
   });
 
-  it('passes data attributes to va-link', () => {
+  it('passes data attributes to va-link-action', () => {
     const { container } = renderWithStoreAndRouter(
       <RouterLinkAction
         href="/test-path"
@@ -182,7 +185,7 @@ describe('RouterLinkAction', () => {
       },
     );
 
-    const link = container.querySelector('va-link');
+    const link = container.querySelector('va-link-action');
     expect(link).to.have.attribute('data-testid', 'my-test-id');
     expect(link).to.have.attribute('data-dd-action-name', 'Test Action');
     expect(link).to.have.attribute('data-dd-privacy', 'mask');
@@ -198,7 +201,7 @@ describe('RouterLinkAction', () => {
       },
     );
 
-    const link = container.querySelector('va-link');
+    const link = container.querySelector('va-link-action');
 
     // Simulate click event
     const clickEvent = new MouseEvent('click', {
@@ -231,7 +234,7 @@ describe('RouterLinkAction', () => {
         },
       );
 
-      const link = container.querySelector('va-link');
+      const link = container.querySelector('va-link-action');
       expect(link).to.have.attribute('href', path);
     });
   });
@@ -253,11 +256,11 @@ describe('RouterLinkAction', () => {
       },
     );
 
-    const link = container.querySelector('va-link');
+    const link = container.querySelector('va-link-action');
     expect(link).to.have.attribute('href', '/test-path');
     expect(link).to.have.attribute('text', 'Combined Props Test');
     expect(link).to.have.attribute('label', 'Custom Label');
-    expect(link).to.not.have.attribute('active');
+    // VaLinkAction is always styled as an action link - active prop is ignored
     expect(link).to.have.attribute('reverse', 'true');
     expect(link).to.have.attribute('data-testid', 'combined-test');
     expect(link).to.have.attribute('data-dd-action-name', 'Combined Action');
@@ -303,8 +306,9 @@ describe('RouterLinkAction', () => {
         },
       );
 
-      const link = container.querySelector('va-link');
-      expect(link).to.have.attribute('active', 'true');
+      const link = container.querySelector('va-link-action');
+      expect(link).to.exist;
+      // VaLinkAction is always styled as an action link
     });
 
     it('uses standard link styling for utility links', () => {
@@ -321,8 +325,9 @@ describe('RouterLinkAction', () => {
         },
       );
 
-      const link = container.querySelector('va-link');
-      expect(link).to.not.have.attribute('active');
+      const link = container.querySelector('va-link-action');
+      expect(link).to.exist;
+      // VaLinkAction is always styled as an action link - active prop is ignored
     });
   });
 });

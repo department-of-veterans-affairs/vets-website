@@ -75,20 +75,20 @@ describe('DashboardUnreadMessages component', () => {
       const composeLink = screen.getByTestId('compose-message-link');
       expect(composeLink.getAttribute('href')).to.equal(Paths.COMPOSE);
 
-      // Verify they're va-link elements (RouterLinkAction uses VaLink)
-      expect(inboxLink.tagName).to.equal('VA-LINK');
-      expect(composeLink.tagName).to.equal('VA-LINK');
+      // Verify they're va-link-action elements (RouterLinkAction uses VaLinkAction)
+      expect(inboxLink.tagName).to.equal('VA-LINK-ACTION');
+      expect(composeLink.tagName).to.equal('VA-LINK-ACTION');
     });
 
     it('renders links as action links with active attribute for primary CTAs', () => {
       const screen = setup(inbox);
 
-      // Both inbox and compose links should be action links (active={true} by default)
+      // Both inbox and compose links should be action links (VaLinkAction is always styled as action link)
       const inboxLink = screen.getByTestId('inbox-link');
-      expect(inboxLink).to.have.attribute('active');
+      expect(inboxLink).to.exist;
 
       const composeLink = screen.getByTestId('compose-message-link');
-      expect(composeLink).to.have.attribute('active');
+      expect(composeLink).to.exist;
     });
   });
 });

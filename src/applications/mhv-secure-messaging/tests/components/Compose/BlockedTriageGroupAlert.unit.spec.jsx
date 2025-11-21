@@ -85,7 +85,7 @@ describe('BlockedTriageGroupAlert component', () => {
       );
     });
     const findFacilityLink = screen.container.querySelector(
-      'va-link[href*="/find-locations"]',
+      'va-link-action[href*="/find-locations"]',
     );
     expect(findFacilityLink).to.exist;
   });
