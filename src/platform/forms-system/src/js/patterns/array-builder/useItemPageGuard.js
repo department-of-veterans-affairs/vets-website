@@ -2,20 +2,17 @@ import navigationState from 'platform/forms-system/src/js/utilities/navigation/n
 import { getArrayUrlSearchParams } from './helpers';
 
 /**
- * Hook to guard/validate rendering of array builder item pages.
- * Handles navigation redirects and conditional rendering based on page state.
+ * Handles navigation redirects and conditional rendering based on page state
+ * For ArrayBuilderItemPage or ArrayBuilderItemPage CustomPage
  *
  * @param {Object} params
- * @param {Object} params.arrayBuilderProps - Array builder configuration props
- * @param {Object} params.customPageProps - Component props from CustomPage
- * @param {Object|null} [params.schema] - Schema from useEditOrAddForm
- * @param {boolean} [params.checkForAddEdit=true] - Whether to enforce ?add=true or ?edit=true query params.
- *   When true, redirects to intro/summary if neither param is present.
- * @param {boolean} [params.checkForReview=true] - Whether to prevent rendering on review page.
- *   When true, returns false if on review page.
- * @param {boolean} [params.checkForEditSchema=true] - Whether to wait for schema to load in edit mode.
- *   When true, returns false if editing and schema is null.
- * @returns {boolean} Whether the page should render
+ * @param {Object} params.arrayBuilderProps from `props.arrayBuilder` for CustomPages, or directly passed in for ArrayBuilderItemPage
+ * @param {CustomPageProps} params.customPageProps
+ * @param {Object|null} [params.schema]
+ * @param {boolean} [params.checkForAddEdit=true]
+ * @param {boolean} [params.checkForReview=true]
+ * @param {boolean} [params.checkForEditSchema=true]
+ * @returns {boolean} shouldRender
  */
 export function useItemPageGuard({
   arrayBuilderProps,

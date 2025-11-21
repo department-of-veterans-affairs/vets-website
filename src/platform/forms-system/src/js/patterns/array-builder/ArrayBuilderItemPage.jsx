@@ -1,5 +1,4 @@
 /* eslint-disable no-unused-vars */
-/* eslint-disable react/sort-prop-types */
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
@@ -212,13 +211,13 @@ export default function ArrayBuilderItemPage(itemPageProps) {
 
 ArrayBuilderItemPage.propTypes = {
   arrayPath: PropTypes.string.isRequired,
+  getText: PropTypes.func.isRequired,
   modalDescription: PropTypes.string.isRequired,
   modalTitle: PropTypes.string.isRequired,
   nounPlural: PropTypes.string.isRequired,
   nounSingular: PropTypes.string.isRequired,
-  summaryRoute: PropTypes.string.isRequired,
   required: PropTypes.func.isRequired,
-  introRoute: PropTypes.string,
   reviewRoute: PropTypes.string.isRequired,
-  getText: PropTypes.func.isRequired,
+  getIntroPath: PropTypes.func,
+  getSummaryPath: PropTypes.func,
 };

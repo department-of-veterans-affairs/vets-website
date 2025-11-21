@@ -13,17 +13,18 @@ import {
 } from './helpers';
 
 /**
- * Custom hook for handling duplicate checks in array builder forms.
- * Provides duplicate checking logic and UI that wraps your submit handler.
+ * Handles duplicate checks in array builder forms.
+ * Provides submit handler wrapper and duplicate modal rendering.
  *
- * @param {Object} config
- * @param {Object} config.arrayBuilderProps - Array builder configuration props
- * @param {Object} config.customPageProps - Component props from CustomPage
+ * @param {{
+ *   arrayBuilderProps: Object,
+ *   customPageProps: Object,
+ * }} options
  *
  * @returns {{
  *   checkForDuplicates: (onSubmit: (props: Object) => void) => ((props: Object) => void),
  *   renderDuplicateModal: () => (React.ReactElement|null)
- * }} Duplicate check utilities
+ * }}
  *
  * @example
  * ```js
@@ -32,9 +33,18 @@ import {
  *   customPageProps: props,
  * });
  *
- * const handleSubmit = checkForDuplicates(newProps => {
- *   onSubmit(newProps);
- * });
+ * const handleSubmit = checkForDuplicates(
+ *   useCallback(
+ *     newProps => {
+ *       onSubmit(newProps);
+ *     },
+ *     [onSubmit],
+ *   ),
+ * );
+ * <SchemaForm
+ *   ...
+ *   onSubmit={handleSubmit}
+ * />
  * ```
  */
 export function useDuplicateChecks({
@@ -110,18 +120,22 @@ export function useDuplicateChecks({
   );
 
   /**
-   * Higher-order function that wraps a submit handler with duplicate checking logic
    * @param {(props: Object) => void} onSubmit - The original submit handler
    * @returns {(props: Object) => void} - Wrapped submit handler with duplicate checking
    *
    * Usage:
-   * ```js
    * const handleSubmit = checkForDuplicates(
-   *   useCallback(newProps => {
-   *     onSubmit(newProps);
-   *   }, [onSubmit]),
+   *   useCallback(
+   *     newProps => {
+   *       onSubmit(newProps);
+   *     },
+   *     [onSubmit],
+   *   ),
    * );
-   * ```
+   * <SchemaForm
+   *   ...
+   *   onSubmit={handleSubmit}
+   * />
    */
   const checkForDuplicates = onSubmit => {
     // If no duplicate checks configured, just pass through
