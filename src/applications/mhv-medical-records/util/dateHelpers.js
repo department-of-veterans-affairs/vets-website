@@ -3,6 +3,33 @@ import { formatInTimeZone, format } from 'date-fns-tz';
 
 /**
  *
+ *  @param dateTime
+ * @returns {String}
+ */
+export const formatDateYear = dateTime => {
+  return format(new Date(dateTime), 'yyyy');
+};
+
+/**
+ *
+ *  @param dateTime
+ * @returns {String}
+ */
+export const formatDateMonthDayCommaYear = dateTime => {
+  return format(new Date(dateTime), 'MMMM d, yyyy');
+};
+
+/**
+ *
+ *  @param dateTime
+ * @returns {String}
+ */
+export const formatDateMonthDayCommaYearHoursMinutes = dateTime => {
+  return format(new Date(dateTime), 'MMMM d, yyyy HH:mm');
+};
+
+/**
+ *
  * @returns {String}
  */
 export const currentLocalTime = () => {
