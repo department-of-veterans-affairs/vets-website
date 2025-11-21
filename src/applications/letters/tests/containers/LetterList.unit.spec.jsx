@@ -7,8 +7,6 @@ import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom-v5-compat';
 import * as focusUtils from '~/platform/utilities/ui/focus';
-import * as apiModule from '~/platform/utilities/api';
-import * as recordEventModule from 'platform/monitoring/record-event';
 import { LetterList } from '../../containers/LetterList';
 import {
   AVAILABILITY_STATUSES,
@@ -66,18 +64,10 @@ const getStore = () =>
 describe('<LetterList>', () => {
   let sandbox;
   // eslint-disable-next-line no-unused-vars
-  let apiRequestStub;
-  // eslint-disable-next-line no-unused-vars
-  let recordEventStub;
-  // eslint-disable-next-line no-unused-vars
   let getTsaLetterEligibilityStub;
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
-    apiRequestStub = sandbox
-      .stub(apiModule, 'apiRequest')
-      .resolves({ data: [] });
-    recordEventStub = sandbox.stub(recordEventModule, 'default');
     getTsaLetterEligibilityStub = sandbox.stub();
   });
 
@@ -354,7 +344,7 @@ describe('<LetterList>', () => {
           </MemoryRouter>
         </Provider>,
       );
-      expect(apiRequestStub.calledOnce).to.be.false;
+      expect(getTsaLetterEligibilityStub.calledOnce).to.be.false;
     });
 
     it('fetches TSA letter if feature flag is enabled', () => {

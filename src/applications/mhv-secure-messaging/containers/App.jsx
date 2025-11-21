@@ -17,6 +17,7 @@ import {
   MhvSecondaryNav,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { getScheduledDowntime } from 'platform/monitoring/DowntimeNotification/actions';
+import { initializeBrowserLogging } from 'platform/monitoring/Datadog';
 import MhvServiceRequiredGuard from 'platform/mhv/components/MhvServiceRequiredGuard';
 import AuthorizedRoutes from './AuthorizedRoutes';
 import ScrollToTop from '../components/shared/ScrollToTop';
@@ -94,6 +95,19 @@ const App = () => {
   };
 
   useDatadogRum(datadogRumConfig);
+
+  // Initialize Datadog Logs for dataDogLogger
+  useEffect(() => {
+    initializeBrowserLogging({
+      clientToken: 'pub1325dfe255119729611410e2f47f4f99',
+      site: 'ddog-gov.com',
+      service: 'va.gov-mhv-secure-messaging',
+      forwardErrorsToLogs: true,
+      forwardConsoleLogs: ['error'],
+      sessionSampleRate: 100,
+    });
+  }, []);
+
   useEffect(
     () => {
       setDatadogRumUser({ id: user?.profile?.accountUuid });
