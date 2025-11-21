@@ -35,25 +35,6 @@ export const formatDateMonthDayCommaYearHoursMinutes = dateTime => {
 };
 
 /**
- *
- * @param newDate
- * @returns {String}
- */
-const formatTimeForCCD = newDate => {
-  return formatInTimeZone(newDate, 'UTC', "MM-dd-yyyy'_'hhmmssa");
-};
-
-/**
- *
- * @param {number} seconds
- * @returns {String}
- */
-export const currentDateAddSecondsCCD = seconds => {
-  const newDate = addSeconds(new Date(), seconds);
-  return formatTimeForCCD(newDate);
-};
-
-/**
  * Returns the current date formated "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" Example: 2025-11-20T19:14:57.282Z
  *
  * @param newDate
@@ -115,4 +96,25 @@ export const currentDateFnsAddOneHourMinusOneMinute = () => {
 export const currentDateFnsMinusHours = hours => {
   const newDate = subHours(new Date(), hours);
   return formatUtcTime(newDate);
+};
+
+/**
+ * Returns the current date formated "MM-dd-yyyy'_'hhmmssa" Example: 11-21-2025_010829p.m.
+ *
+ * @param newDate
+ * @returns {String}
+ */
+const formatDateTimeForFileDownload = newDate => {
+  return formatInTimeZone(newDate, 'UTC', "MM-dd-yyyy'_'hhmmssa");
+};
+
+/**
+ * Returns the current date minus seconds formated "MM-dd-yyyy'_'hhmmssa" Example: 11-21-2025_010829p.m.
+ *
+ * @param {number} seconds
+ * @returns {String}
+ */
+export const currentDateAddSecondsCCD = seconds => {
+  const newDate = addSeconds(new Date(), seconds);
+  return formatDateTimeForFileDownload(newDate);
 };
