@@ -21,7 +21,7 @@ export default {
           <h3>Edit your mailing address</h3>
         </>
       ),
-      `We'll mail information about this application to the address you provide here.`,
+      `We may mail information about this application to the address you provide here.`,
     ),
     applicantMailingAddress: merge(
       {},
