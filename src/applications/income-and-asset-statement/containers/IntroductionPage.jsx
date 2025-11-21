@@ -17,7 +17,9 @@ export const IntroductionPage = ({ route }) => {
     state => selectProfile(state)?.verified || false,
   );
   const hasInProgressForm = useSelector(state =>
-    selectProfile(state)?.savedForms?.includes(formConfig.formId),
+    selectProfile(state)?.savedForms?.some(
+      form => form.form === route.formConfig.formId,
+    ),
   );
 
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();

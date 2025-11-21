@@ -107,7 +107,7 @@ describe('<IntroductionPage />', () => {
     expect($('[data-testid="continue-your-application"]', container)).to.exist;
   });
 
-  it('renders the IntroductionPage component (logged in, toggle on & not verified)', () => {
+  it('renders the verify alert (logged in, toggle on, not verified, no in progress)', () => {
     // logged in true, toggle true, verified false, saved form false
     const { props, mockStore } = getData({ toggle: true });
     const { container } = render(
@@ -116,6 +116,17 @@ describe('<IntroductionPage />', () => {
       </Provider>,
     );
     expect($('va-alert-sign-in[variant="verifyIdMe"]', container)).to.exist;
+  });
+
+  it('renders the continue app button (logged in, toggle on, not verified & has in progress)', () => {
+    // logged in true, toggle true, verified false, saved form true
+    const { props, mockStore } = getData({ toggle: true, savedForm: true });
+    const { container } = render(
+      <Provider store={mockStore}>
+        <IntroductionPage {...props} />
+      </Provider>,
+    );
+    expect($('[data-testid="continue-your-application"]', container)).to.exist;
   });
 
   it('renders continue app button when logged in, with saved form, verified & toggle on', () => {
