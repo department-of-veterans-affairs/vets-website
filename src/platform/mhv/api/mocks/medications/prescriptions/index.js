@@ -5,11 +5,10 @@ function mockPrescription(n = 0, attrs = {}) {
   // Generate some refillable, some not
   const isRefillable = n % 3 === 0;
   const refillRemaining = isRefillable ? Math.ceil(Math.log(n + 1)) : 0;
-  const {
-    cmopNdcNumber,
-    cmopDivisionPhone = '(555) 555-5555',
-    dialCmopDivisionPhone = '5555555555',
-  } = attrs;
+  // Don't use destructuring with defaults - respect null values from attrs
+  const { cmopNdcNumber } = attrs;
+  const cmopDivisionPhone = attrs.cmopDivisionPhone ?? '(555) 555-5555';
+  const dialCmopDivisionPhone = attrs.dialCmopDivisionPhone ?? '5555555555';
   const prescriptionName = `Fake ${n}`;
 
   return {
@@ -20,19 +19,19 @@ function mockPrescription(n = 0, attrs = {}) {
       prescriptionNumber: `${n}`,
       prescriptionName,
       refillStatus: 'active',
-      refillSubmitDate: '2024-02-21T10:30:00-05:00',
+      refillSubmitDate: attrs.refillSubmitDate ?? '2024-02-21T10:30:00-05:00',
       refillDate: '2024-02-28T10:30:00-05:00',
       refillRemaining,
       facilityName: 'The Facility',
       orderedDate: '2024-02-23T10:30:00-05:00',
       quantity: '1',
       expirationDate: '2099-01-02T10:30:00-05:00',
-      dispensedDate: '2024-02-25T10:30:00-05:00',
+      dispensedDate: attrs.dispensedDate ?? '2024-02-25T10:30:00-05:00',
       stationNumber: '001',
       isRefillable,
       isTrackable: null,
       sig: null,
-      cmopDivisionPhone,
+      cmopDivisionPhone: '(555) 555-5555',
       inCernerTransition: null,
       notRefillableDisplayMessage: 'You cannot refill this!',
       cmopNdcNumber: null,
@@ -43,7 +42,7 @@ function mockPrescription(n = 0, attrs = {}) {
       divisionName: null,
       modifiedDate: null,
       institutionId: null,
-      dialCmopDivisionPhone,
+      dialCmopDivisionPhone: '5555555555',
       dispStatus: isRefillable ? 'Active' : 'Expired',
       ndc: null,
       reason: 'A good reason',
@@ -83,9 +82,13 @@ function mockPrescription(n = 0, attrs = {}) {
       ],
       tracking: null,
       orderableItem: null,
-      sortedDispensedDate: '2024-02-25T10:30:00-05:00',
       prescriptionImage: null,
       ...attrs,
+      // sortedDispensedDate should match dispensedDate
+      sortedDispensedDate:
+        attrs.sortedDispensedDate ||
+        attrs.dispensedDate ||
+        '2024-02-25T10:30:00-05:00',
     },
     links: {
       self: 'self',
@@ -110,36 +113,63 @@ function mockPrescriptionArray(n = 20) {
     const realPrescription =
       realPrescriptions[i % realPrescriptions.length].attributes;
 
+    // Only use fallback dates if the property is undefined (not present)
+    // If it's explicitly null in the fixture, keep it as null
+    const refillSubmitDate =
+      'refillSubmitDate' in realPrescription
+        ? realPrescription.refillSubmitDate
+        : formatISO(oneWeekAgo);
+    const refillDate =
+      'refillDate' in realPrescription
+        ? realPrescription.refillDate
+        : recentlyISOString;
+    const orderedDate =
+      'orderedDate' in realPrescription
+        ? realPrescription.orderedDate
+        : formatISO(monthsAgo);
+    const dispensedDate =
+      'dispensedDate' in realPrescription
+        ? realPrescription.dispensedDate
+        : recentlyISOString;
+
     return mockPrescription(i, {
       prescriptionName: realPrescription.prescriptionName,
       refillStatus: realPrescription.refillStatus,
-      refillSubmitDate:
-        realPrescription.refillSubmitDate || formatISO(oneWeekAgo),
-      refillDate: realPrescription.refillDate || recentlyISOString,
+      refillSubmitDate,
+      refillDate,
       refillRemaining: realPrescription.refillRemaining,
       facilityName: realPrescription.facilityName,
-      orderedDate: realPrescription.orderedDate || formatISO(monthsAgo),
+      orderedDate,
       quantity: realPrescription.quantity,
       expirationDate: realPrescription.expirationDate,
-      dispensedDate: realPrescription.dispensedDate || recentlyISOString,
+      dispensedDate,
+      sortedDispensedDate: dispensedDate,
       stationNumber: realPrescription.stationNumber,
       isRefillable: realPrescription.isRefillable,
       isTrackable: realPrescription.isTrackable,
       sig: realPrescription.sig,
-      cmopDivisionPhone: realPrescription.cmopDivisionPhone || '(555) 555-5555',
+      cmopDivisionPhone:
+        'cmopDivisionPhone' in realPrescription
+          ? realPrescription.cmopDivisionPhone
+          : '(555) 555-5555',
       dialCmopDivisionPhone:
-        realPrescription.dialCmopDivisionPhone || '5555555555',
+        'dialCmopDivisionPhone' in realPrescription
+          ? realPrescription.dialCmopDivisionPhone
+          : '5555555555',
       notRefillableDisplayMessage: realPrescription.notRefillableDisplayMessage,
       providerFirstName: realPrescription.providerFirstName,
       providerLastName: realPrescription.providerLastName,
       remarks: realPrescription.remarks,
       divisionName: realPrescription.divisionName,
-      dispStatus: realPrescription.dispStatus || statusString,
+      dispStatus: realPrescription.dispStatus ?? statusString,
       ndc: realPrescription.ndc,
       reason: realPrescription.reason,
       prescriptionSource: realPrescription.prescriptionSource,
       indicationForUse: realPrescription.indicationForUse,
       category: realPrescription.category,
+      trackingList: realPrescription.trackingList,
+      rxRfRecords: realPrescription.rxRfRecords,
+      tracking: realPrescription.tracking,
     });
   });
 }

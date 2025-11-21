@@ -1,6 +1,56 @@
 {
     "data": [
         {
+            "id": "22377957",
+            "type": "prescription_details",
+            "attributes": {
+                "prescriptionId": 22377957,
+                "prescriptionNumber": null,
+                "prescriptionName": "ATORVASTATIN 40MG TAB",
+                "refillStatus": "active",
+                "refillSubmitDate": null,
+                "refillDate": "2023-07-20T04:00:00.000Z",
+                "refillRemaining": 5,
+                "facilityName": "Mann-Grandstaff Department of Veterans Affairs Medical Center",
+                "orderedDate": "2025-07-19T04:00:00.000Z",
+                "quantity": "30",
+                "expirationDate": "2026-07-19T04:00:00.000Z",
+                "dispensedDate": null,
+                "stationNumber": "686",
+                "isRefillable": true,
+                "isTrackable": false,
+                "cmopNdcNumber": null,
+                "inCernerTransition": false,
+                "notRefillableDisplayMessage": null,
+                "sig": "TAKE ONE TABLET BY MOUTH DAILY FOR 30 DAYS",
+                "cmopDivisionPhone": null,
+                "userId": null,
+                "providerFirstName": null,
+                "providerLastName": "Sauer, Mark , PharmD",
+                "remarks": null,
+                "divisionName": null,
+                "modifiedDate": null,
+                "institutionId": null,
+                "dialCmopDivisionPhone": null,
+                "pharmacyPhoneNumber": null,
+                "dispStatus": "Active",
+                "ndc": null,
+                "reason": null,
+                "prescriptionNumberIndex": null,
+                "prescriptionSource": "VA",
+                "disclaimer": null,
+                "indicationForUse": null,
+                "indicationForUseFlag": null,
+                "category": "community",
+                "trackingList": [],
+                "rxRfRecords": [],
+                "tracking": false
+            },
+            "links": {
+                "self": "http://127.0.0.1:3000/my_health/v1/prescriptions/22377957"
+            }
+        },
+        {
             "id": "22377956",
             "type": "prescription_details",
             "attributes": {
