@@ -73,6 +73,8 @@ const formConfig = {
     continueAppButtonText: 'Continue your form',
     finishAppLaterMessage: 'Finish this form later',
     startNewAppButtonText: 'Start a new form',
+    reviewPageTitle: 'Review form',
+    submitButtonText: 'Continue',
   },
   transformForSubmit: transform,
   chapters: {
