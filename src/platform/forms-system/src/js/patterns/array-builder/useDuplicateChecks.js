@@ -16,10 +16,9 @@ import {
  * Handles duplicate checks in array builder forms.
  * Provides submit handler wrapper and duplicate modal rendering.
  *
- * @param {{
- *   arrayBuilderProps: Object,
- *   customPageProps: Object,
- * }} options
+ * @param {Object} options
+ * @param {ArrayBuilderItemPageProps} options.arrayBuilderProps from `props.arrayBuilder` for CustomPages, or directly passed in for ArrayBuilderItemPage
+ * @param {CustomPageProps} options.customPageProps
  *
  * @returns {{
  *   checkForDuplicates: (onSubmit: (props: Object) => void) => ((props: Object) => void),

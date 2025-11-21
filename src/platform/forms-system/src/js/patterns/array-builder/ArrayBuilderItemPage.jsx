@@ -12,18 +12,7 @@ import ArrayBuilderCancelButton from './ArrayBuilderCancelButton';
 import { getArrayUrlSearchParams } from './helpers';
 
 /**
- * @param {{
- *   arrayPath: string,
- *   nounPlural: string,
- *   nounSingular: string,
- *   getSummaryPath: (formData) => string,
- *   getIntroPath: (formData) => string,
- *   required: (formData) => boolean,
- *   reviewRoute: string,
- *   getText: import('./arrayBuilderText').ArrayBuilderGetText,
- *   duplicateChecks?: object,
- *   currentPath: string,
- * }} itemPageProps
+ * @param {ArrayBuilderItemPageProps} itemPageProps
  */
 export default function ArrayBuilderItemPage(itemPageProps) {
   /** @type {CustomPageType} */

@@ -5,13 +5,13 @@ import { getArrayUrlSearchParams } from './helpers';
  * Handles navigation redirects and conditional rendering based on page state
  * For ArrayBuilderItemPage or ArrayBuilderItemPage CustomPage
  *
- * @param {Object} params
- * @param {Object} params.arrayBuilderProps from `props.arrayBuilder` for CustomPages, or directly passed in for ArrayBuilderItemPage
- * @param {CustomPageProps} params.customPageProps
- * @param {Object|null} [params.schema]
- * @param {boolean} [params.checkForAddEdit=true]
- * @param {boolean} [params.checkForReview=true]
- * @param {boolean} [params.checkForEditSchema=true]
+ * @param {Object} options
+ * @param {ArrayBuilderItemPageProps} options.arrayBuilderProps from `props.arrayBuilder` for CustomPages, or directly passed in for ArrayBuilderItemPage
+ * @param {CustomPageProps} options.customPageProps
+ * @param {Object|null} [options.schema]
+ * @param {boolean} [options.checkForAddEdit=true]
+ * @param {boolean} [options.checkForReview=true]
+ * @param {boolean} [options.checkForEditSchema=true]
  * @returns {boolean} shouldRender
  */
 export function useItemPageGuard({
