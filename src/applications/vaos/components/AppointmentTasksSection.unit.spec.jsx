@@ -1,7 +1,8 @@
 import React from 'react';
-import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import MockDate from 'mockdate';
+import { renderWithStoreAndRouter } from '../tests/mocks/setup';
+import reducers from '../redux/reducer';
 import AppointmentTasksSection from './AppointmentTasksSection';
 import { VIDEO_TYPES } from '../utils/constants';
 
@@ -12,6 +13,22 @@ describe('VAOS Component: AppointmentTasks', () => {
   afterEach(() => {
     MockDate.reset();
   });
+
+  const renderWithFeatureToggles = (
+    ui,
+    { travelPayEnableComplexClaims = false } = {},
+  ) => {
+    return renderWithStoreAndRouter(ui, {
+      initialState: {
+        featureToggles: {
+          loading: false,
+          // eslint-disable-next-line camelcase
+          travel_pay_enable_complex_claims: travelPayEnableComplexClaims,
+        },
+      },
+      reducers,
+    });
+  };
 
   const appointmentId = '1234567890';
   const inPersonVideoKinds = [VIDEO_TYPES.clinic, VIDEO_TYPES.storeForward];
@@ -40,7 +57,7 @@ describe('VAOS Component: AppointmentTasks', () => {
           kind,
         },
       };
-      const screen = render(
+      const screen = renderWithFeatureToggles(
         <AppointmentTasksSection appointment={appointment} />,
       );
 
@@ -76,7 +93,7 @@ describe('VAOS Component: AppointmentTasks', () => {
         isInPersonVisit: true,
       },
     };
-    const screen = render(
+    const screen = renderWithFeatureToggles(
       <AppointmentTasksSection appointment={appointment} />,
     );
 
@@ -107,7 +124,7 @@ describe('VAOS Component: AppointmentTasks', () => {
         isVideo: false,
       },
     };
-    const screen = render(
+    const screen = renderWithFeatureToggles(
       <AppointmentTasksSection appointment={appointment} />,
     );
 
@@ -133,7 +150,7 @@ describe('VAOS Component: AppointmentTasks', () => {
         isVideo: false,
       },
     };
-    const screen = render(
+    const screen = renderWithFeatureToggles(
       <AppointmentTasksSection appointment={appointment} />,
     );
 
@@ -159,7 +176,7 @@ describe('VAOS Component: AppointmentTasks', () => {
         isVideo: true,
       },
     };
-    const screen = render(
+    const screen = renderWithFeatureToggles(
       <AppointmentTasksSection appointment={appointment} />,
     );
 
@@ -185,7 +202,7 @@ describe('VAOS Component: AppointmentTasks', () => {
         isVideo: false,
       },
     };
-    const screen = render(
+    const screen = renderWithFeatureToggles(
       <AppointmentTasksSection appointment={appointment} />,
     );
 
@@ -203,7 +220,7 @@ describe('VAOS Component: AppointmentTasks', () => {
         isVideo: false,
       },
     };
-    const screen = render(
+    const screen = renderWithFeatureToggles(
       <AppointmentTasksSection appointment={appointment} />,
     );
 
@@ -228,7 +245,7 @@ describe('VAOS Component: AppointmentTasks', () => {
         isVideo: false,
       },
     };
-    const screen = render(
+    const screen = renderWithFeatureToggles(
       <AppointmentTasksSection appointment={appointment} />,
     );
 
@@ -267,8 +284,9 @@ describe('VAOS Component: AppointmentTasks', () => {
         isInPersonVisit: true,
       },
     };
-    const screen = render(
+    const screen = renderWithFeatureToggles(
       <AppointmentTasksSection appointment={appointment} />,
+      { travelPayEnableComplexClaims: true },
     );
 
     expect(screen.getByText(/Appointment tasks/i)).to.exist;
@@ -315,8 +333,9 @@ describe('VAOS Component: AppointmentTasks', () => {
         isInPersonVisit: true,
       },
     };
-    const screen = render(
+    const screen = renderWithFeatureToggles(
       <AppointmentTasksSection appointment={appointment} />,
+      { travelPayEnableComplexClaims: true },
     );
 
     expect(screen.getByText(/Appointment tasks/i)).to.exist;
@@ -363,7 +382,7 @@ describe('VAOS Component: AppointmentTasks', () => {
         isInPersonVisit: true,
       },
     };
-    const screen = render(
+    const screen = renderWithFeatureToggles(
       <AppointmentTasksSection appointment={appointment} />,
     );
 

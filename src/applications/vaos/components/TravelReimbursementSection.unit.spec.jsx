@@ -1,7 +1,9 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
 import MockDate from 'mockdate';
+import { renderWithStoreAndRouter } from '../tests/mocks/setup';
+import reducers from '../redux/reducer';
 import TravelReimbursementSection from './TravelReimbursementSection';
 import { VIDEO_TYPES } from '../utils/constants';
 
@@ -12,6 +14,22 @@ describe('VAOS Component: TravelReimbursement', () => {
   afterEach(() => {
     MockDate.reset();
   });
+
+  const renderWithFeatureToggles = (
+    ui,
+    { travelPayEnableComplexClaims = false } = {},
+  ) => {
+    return renderWithStoreAndRouter(ui, {
+      initialState: {
+        featureToggles: {
+          loading: false,
+          // eslint-disable-next-line camelcase
+          travel_pay_enable_complex_claims: travelPayEnableComplexClaims,
+        },
+      },
+      reducers,
+    });
+  };
 
   const startTime = new Date('2021-09-01T10:00:00Z');
   const inPersonVideoKinds = [VIDEO_TYPES.clinic, VIDEO_TYPES.storeForward];
@@ -39,7 +57,7 @@ describe('VAOS Component: TravelReimbursement', () => {
           kind,
         },
       };
-      const screen = render(
+      const screen = renderWithFeatureToggles(
         <TravelReimbursementSection appointment={appointment} />,
       );
 
@@ -68,7 +86,7 @@ describe('VAOS Component: TravelReimbursement', () => {
         isInPersonVisit: true,
       },
     };
-    const screen = render(
+    const screen = renderWithFeatureToggles(
       <TravelReimbursementSection appointment={appointment} />,
     );
 
@@ -101,7 +119,7 @@ describe('VAOS Component: TravelReimbursement', () => {
         isInPersonVisit: true,
       },
     };
-    const screen = render(
+    const screen = renderWithFeatureToggles(
       <TravelReimbursementSection appointment={appointment} />,
     );
 
@@ -170,8 +188,9 @@ describe('VAOS Component: TravelReimbursement', () => {
         isInPersonVisit: true,
       },
     };
-    const screen = render(
+    const screen = renderWithFeatureToggles(
       <TravelReimbursementSection appointment={appointment} />,
+      { travelPayEnableComplexClaims: true },
     );
 
     expect(
@@ -219,8 +238,9 @@ describe('VAOS Component: TravelReimbursement', () => {
         isInPersonVisit: true,
       },
     };
-    const screen = render(
+    const screen = renderWithFeatureToggles(
       <TravelReimbursementSection appointment={appointment} />,
+      { travelPayEnableComplexClaims: true },
     );
 
     expect(
@@ -269,13 +289,14 @@ describe('VAOS Component: TravelReimbursement', () => {
         isInPersonVisit: true,
       },
     };
-    const screen = render(
+    const screen = renderWithFeatureToggles(
       <TravelReimbursementSection appointment={appointment} />,
+      { travelPayEnableComplexClaims: true },
     );
 
     expect(
       screen.getByText(
-        /You didn't file a claim for this appointment within the 30-day limit/i,
+        /You didn’t file a claim for this appointment within the 30-day limit/i,
       ),
     );
 
@@ -347,13 +368,14 @@ describe('VAOS Component: TravelReimbursement', () => {
         isInPersonVisit: true,
       },
     };
-    const screen = render(
+    const screen = renderWithFeatureToggles(
       <TravelReimbursementSection appointment={appointment} />,
+      { travelPayEnableComplexClaims: true },
     );
 
     expect(
       screen.getByText(
-        /You didn't file a claim for this appointment within the 30-day limit/i,
+        /You didn’t file a claim for this appointment within the 30-day limit/i,
       ),
     );
 
@@ -423,12 +445,12 @@ describe('VAOS Component: TravelReimbursement', () => {
         isInPersonVisit: true,
       },
     };
-    const screen = render(
+    const screen = renderWithFeatureToggles(
       <TravelReimbursementSection appointment={appointment} />,
     );
 
     expect(
-      screen.getByText(/You've already filed a claim for this appointment./i),
+      screen.getByText(/You’ve already filed a claim for this appointment./i),
     );
     expect(screen.getByTestId('view-claim-link')).to.exist;
     expect(screen.getByTestId('view-claim-link')).to.have.attribute(
@@ -452,7 +474,7 @@ describe('VAOS Component: TravelReimbursement', () => {
         isPastAppointment: false,
       },
     };
-    const screen = render(
+    const screen = renderWithFeatureToggles(
       <TravelReimbursementSection appointment={appointment} />,
     );
     expect(screen.queryByText(/Travel reimbursement/i)).to.not.exist;
@@ -474,7 +496,7 @@ describe('VAOS Component: TravelReimbursement', () => {
         isVideo: true,
       },
     };
-    const screen = render(
+    const screen = renderWithFeatureToggles(
       <TravelReimbursementSection appointment={appointment} />,
     );
     expect(screen.queryByText(/Travel reimbursement/i)).to.not.exist;
@@ -496,7 +518,7 @@ describe('VAOS Component: TravelReimbursement', () => {
         isCommunityCare: true,
       },
     };
-    const screen = render(
+    const screen = renderWithFeatureToggles(
       <TravelReimbursementSection appointment={appointment} />,
     );
     expect(screen.queryByText(/Travel reimbursement/i)).to.not.exist;
@@ -518,7 +540,7 @@ describe('VAOS Component: TravelReimbursement', () => {
         isPhoneAppointment: true,
       },
     };
-    const screen = render(
+    const screen = renderWithFeatureToggles(
       <TravelReimbursementSection appointment={appointment} />,
     );
     expect(screen.queryByText(/Travel reimbursement/i)).to.not.exist;
@@ -530,7 +552,7 @@ describe('VAOS Component: TravelReimbursement', () => {
         apiData: {},
       },
     };
-    const screen = render(
+    const screen = renderWithFeatureToggles(
       <TravelReimbursementSection appointment={appointment} />,
     );
     expect(screen.queryByText(/Travel reimbursement/i)).to.not.exist;
