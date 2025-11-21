@@ -15,6 +15,9 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-16-cores-latest
+    permissions:
+      id-token: write
+      contents: read
     outputs:
       entry_names: ${{ steps.get-changed-apps.outputs.entry_names }}
       continuous_deployment: ${{ steps.get-changed-apps.outputs.continuous_deployment }}
@@ -34,9 +37,8 @@ jobs:
         if: ${{ matrix.buildtype == 'vagovprod' }}
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -127,6 +129,9 @@ jobs:
   fetch-allow-lists:
     name: Fetch Test Stability Allow Lists
     runs-on: ubuntu-22.04
+    permissions:
+      id-token: write
+      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
@@ -134,9 +139,8 @@ jobs:
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Get va-vsp-bot token
         uses: ./.github/workflows/inject-secrets
@@ -326,6 +330,9 @@ jobs:
     needs: [fetch-allow-lists, tests-prep]
     timeout-minutes: 30
     runs-on: ubuntu-16-cores-22.04
+    permissions:
+      id-token: write
+      contents: read
     outputs:
       tests_ran: ${{ steps.run-tests.outputs.tests_ran }}
 
@@ -351,9 +358,8 @@ jobs:
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Get va-vsp-bot token
         uses: ./.github/workflows/inject-secrets
@@ -635,6 +641,9 @@ jobs:
   testing-reports-prep:
     name: Testing Reports Prep
     runs-on: ubuntu-22.04
+    permissions:
+      id-token: write
+      contents: read
     continue-on-error: true
     outputs:
       app_list: ${{ env.APPLICATION_LIST }}
@@ -659,9 +668,8 @@ jobs:
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Get va-vsp-bot token
         uses: ./.github/workflows/inject-secrets
@@ -684,6 +692,9 @@ jobs:
     runs-on: ubuntu-22.04
     timeout-minutes: 10
     needs: [build]
+    permissions:
+      id-token: write
+      contents: read
 
     steps:
       - name: Checkout
@@ -692,9 +703,8 @@ jobs:
       - name: Configure AWS Credentials
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Login to Amazon ECR
         id: login-ecr
@@ -711,6 +721,9 @@ jobs:
     runs-on: ubuntu-16-cores-latest
     timeout-minutes: 120
     needs: [build, tests-prep, fetch-ecr-credentials]
+    permissions:
+      id-token: write
+      contents: read
     if: |
       needs.build.result == 'success' &&
       needs.tests-prep.result == 'success' &&
@@ -751,9 +764,8 @@ jobs:
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Get va-vsp-bot token
         if: needs.tests-prep.outputs.cypress-tests != '[]'
@@ -856,6 +868,9 @@ jobs:
     runs-on: ubuntu-22.04
     timeout-minutes: 120
     needs: [build, tests-prep]
+    permissions:
+      id-token: write
+      contents: read
     if: |
       needs.build.result == 'success' &&
       needs.tests-prep.result == 'success' &&
@@ -880,9 +895,8 @@ jobs:
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Download production build artifact
         uses: ./.github/workflows/download-artifact
@@ -1747,6 +1761,9 @@ jobs:
   test-stability-review-merge-status:
     name: QA Merge Status
     runs-on: ubuntu-22.04
+    permissions:
+      id-token: write
+      contents: read
     needs:
       [
         cypress-tests,
@@ -1769,9 +1786,8 @@ jobs:
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Get va-vsp-bot token
         uses: ./.github/workflows/inject-secrets
