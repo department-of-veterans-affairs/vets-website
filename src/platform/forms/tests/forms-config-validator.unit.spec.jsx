@@ -65,7 +65,6 @@ const missingFromVetsJsonSchema = [
   VA_FORM_IDS.FORM_21P_0537,
   VA_FORM_IDS.FORM_21P_601,
   VA_FORM_IDS.FORM_22_10278,
-  // VA_FORM_IDS.FORM_22_0976, // <~ this is in vets-json-schema so should not be here
   VA_FORM_IDS.FORM_MOCK_PREFILL,
 ];
 
