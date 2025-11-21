@@ -63,7 +63,7 @@ const toHashMemoized = memoize(str => toHash(str));
 const getIsUnder65 = (applicants, medicare, index) => {
   const curAppHash = medicare?.[index]?.medicareParticipant;
   const curApp = applicants?.find(
-    a => toHashMemoized(a.applicantSSN) === curAppHash,
+    a => toHashMemoized(a.applicantSsn) === curAppHash,
   );
   return getAgeInYears(curApp?.applicantDob) < 65;
 };
@@ -90,13 +90,13 @@ const hasPartD = (formData, index) =>
  * Generate a possessive display name for the current Medicare participant.
  *
  * Finds the matching applicant in `item['view:applicantObjects']` by comparing
- * `item.medicareParticipant` (a hashed SSN) to `toHashMemoized(applicant.applicantSSN)`,
+ * `item.medicareParticipant` (a hashed SSN) to `toHashMemoized(applicant.applicantSsn)`,
  * then formats the name via `applicantWording`. Returns a possessive form like
  * `"Jane Doe's"` when possible; falls back to `"applicant"` when no name can be
  * produced, and `"No participant"` when `item` is falsy.
  *
  * @param {Object} [item] - Container holding participant context.
- * @param {Array<Object>} [item['view:applicantObjects']=[]] - Applicant records that include `applicantSSN`.
+ * @param {Array<Object>} [item['view:applicantObjects']=[]] - Applicant records that include `applicantSsn`.
  * @param {string} [item.medicareParticipant] - Hashed SSN used to identify the participant.
  * @returns {string} Possessive participant name (e.g., `"Jane Doe's"`), `"applicant"`, or `"No participant"`.
  */
@@ -104,7 +104,7 @@ export const generateParticipantName = item => {
   if (item) {
     const applicantObjects = item['view:applicantObjects'] || [];
     const match = applicantObjects.find(
-      app => item?.medicareParticipant === toHashMemoized(app.applicantSSN),
+      app => item?.medicareParticipant === toHashMemoized(app.applicantSsn),
     );
     const name = applicantWording(match, false, false, false);
     return name.length > 0 ? `${name}’s` : 'Applicant';
@@ -115,14 +115,14 @@ export const generateParticipantName = item => {
 /**
  * Return applicants who do not have a Medicare plan recorded.
  *
- * Compares each `formData.applicants[*].applicantSSN` (hashed via `toHashMemoized`)
+ * Compares each `formData.applicants[*].applicantSsn` (hashed via `toHashMemoized`)
  * against every `formData.medicare[*].medicareParticipant` value. Any applicant
  * whose hashed SSN does **not** appear in the Medicare list is included.
  *
  * If `formData.applicants` is missing/undefined, the function returns `undefined`.
  *
  * @param {Object} formData - Form data containing applicants and Medicare records.
- * @param {Object[]} [formData.applicants] - Applicant records; each should include `applicantSSN`.
+ * @param {Object[]} [formData.applicants] - Applicant records; each should include `applicantSsn`.
  * @param {Object[]} [formData.medicare] - Medicare records; each may include `medicareParticipant` (hashed SSN).
  * @returns {Object[]|undefined} Array of applicants without Medicare, or `undefined` if no applicants list is present.
  */
@@ -130,7 +130,7 @@ export const getEligibleApplicantsWithoutMedicare = formData =>
   formData?.applicants?.filter(
     a =>
       !formData?.medicare?.some(
-        plan => toHashMemoized(a.applicantSSN) === plan?.medicareParticipant,
+        plan => toHashMemoized(a.applicantSsn) === plan?.medicareParticipant,
       ),
   );
 
@@ -236,7 +236,14 @@ const medicarePlanTypes = {
       ...radioUI({
         title: 'Which Medicare plan does this applicant have?',
         labels: MEDICARE_TYPE_LABELS,
-        updateSchema: ({ applicants, medicare }, schema, _uiSchema, index) => {
+        updateSchema: (
+          _formData,
+          schema,
+          _uiSchema,
+          index,
+          _fields,
+          { applicants, medicare } = {},
+        ) => {
           const isUnder65 = getIsUnder65(applicants, medicare, index);
           const keys = getPlanKeys(isUnder65);
           return set('enum', keys, schema);

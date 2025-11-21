@@ -94,6 +94,7 @@ const formConfig = {
     appSavedSuccessfullyMessage: 'We’ve saved your form.',
     submitButtonText: 'Continue',
   },
+  useCustomScrollAndFocus: true,
   defaultDefinitions: {},
   transformForSubmit: transform,
   chapters: {
@@ -120,6 +121,7 @@ const formConfig = {
               });
             }
           },
+          updateFormData: agreementType.updateFormData,
         },
       },
     },
@@ -193,8 +195,8 @@ const formConfig = {
             }),
             additionalLocation: pageBuilder.itemPage({
               title: 'Additional location',
-              path: 'additional-locations/:index',
-              showPagePerItem: true,
+              path: 'additional-locations/:index/institution-details',
+              // showPagePerItem: true,
               uiSchema: additionalInstitutionDetailsItem.uiSchema,
               schema: additionalInstitutionDetailsItem.schema,
               depends: data => data?.agreementType === 'newCommitment',

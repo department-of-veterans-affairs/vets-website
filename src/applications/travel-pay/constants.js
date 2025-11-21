@@ -23,6 +23,8 @@ export const STATUSES = {
       'You saved changes to your claim, but you did not submit it to BTSSS for review. Submit the claim so BTSSS can begin processing your claim.',
     definition:
       'We saved your claim. Make sure to submit it within 30 days of your appointment.',
+    alternativeDefinition:
+      'We saved the expenses you’ve added so far. But you haven’t filed your travel reimbursement claim yet. Make sure to complete and file your claim within 30 days of your appointment.',
     reasons: null,
   },
   InProcess: {
@@ -172,8 +174,19 @@ export const STATUS_GROUPINGS = [
   },
 ];
 
+export const EXPENSE_TYPE_KEYS = Object.freeze({
+  AIRTRAVEL: 'Airtravel',
+  MEAL: 'Meal',
+  COMMONCARRIER: 'Commoncarrier',
+  LODGING: 'Lodging',
+  MILEAGE: 'Mileage',
+  PARKING: 'Parking',
+  TOLL: 'Toll',
+  OTHER: 'Other',
+});
+
 export const EXPENSE_TYPES = Object.freeze({
-  Mileage: {
+  [EXPENSE_TYPE_KEYS.MILEAGE]: {
     addButtonText: 'mileage',
     expensePageText: 'mileage',
     name: 'mileage',
@@ -181,7 +194,7 @@ export const EXPENSE_TYPES = Object.freeze({
     route: 'mileage',
     apiRoute: 'mileage',
   },
-  Parking: {
+  [EXPENSE_TYPE_KEYS.PARKING]: {
     addButtonText: 'parking',
     expensePageText: 'parking',
     name: 'parking',
@@ -189,7 +202,7 @@ export const EXPENSE_TYPES = Object.freeze({
     route: 'parking',
     apiRoute: 'parking',
   },
-  Toll: {
+  [EXPENSE_TYPE_KEYS.TOLL]: {
     addButtonText: 'toll',
     expensePageText: 'toll',
     name: 'toll',
@@ -197,7 +210,7 @@ export const EXPENSE_TYPES = Object.freeze({
     route: 'toll',
     apiRoute: 'toll',
   },
-  Commoncarrier: {
+  [EXPENSE_TYPE_KEYS.COMMONCARRIER]: {
     addButtonText: 'public transportation, taxi, or rideshare',
     expensePageText: 'public transportation, taxi, or rideshare',
     name: 'common carrier',
@@ -205,7 +218,7 @@ export const EXPENSE_TYPES = Object.freeze({
     route: 'common-carrier',
     apiRoute: 'commoncarrier',
   },
-  Airtravel: {
+  [EXPENSE_TYPE_KEYS.AIRTRAVEL]: {
     addButtonText: 'air travel',
     expensePageText: 'airfare',
     name: 'air travel',
@@ -213,7 +226,7 @@ export const EXPENSE_TYPES = Object.freeze({
     route: 'air-travel',
     apiRoute: 'airtravel',
   },
-  Lodging: {
+  [EXPENSE_TYPE_KEYS.LODGING]: {
     addButtonText: 'lodging',
     expensePageText: 'lodging',
     name: 'lodging',
@@ -221,7 +234,7 @@ export const EXPENSE_TYPES = Object.freeze({
     route: 'lodging',
     apiRoute: 'lodging',
   },
-  Meal: {
+  [EXPENSE_TYPE_KEYS.MEAL]: {
     addButtonText: 'meal',
     expensePageText: 'meal',
     name: 'meal',
@@ -229,7 +242,7 @@ export const EXPENSE_TYPES = Object.freeze({
     route: 'meal',
     apiRoute: 'meal',
   },
-  Other: {
+  [EXPENSE_TYPE_KEYS.OTHER]: {
     addButtonText: 'travel',
     expensePageText: 'other travel',
     name: 'other',
@@ -248,8 +261,7 @@ export const TRANSPORTATION_OPTIONS = Object.freeze([
 
 export const TRANSPORTATION_REASONS = Object.freeze({
   PrivatelyOwnedVehicleNotAvailable: {
-    label:
-      "I don't own a private vehicle, or it wasn't available when I needed it",
+    label: "I don't own a private vehicle or it wasn't available",
   },
   MedicallyIndicated: {
     label: 'Medical reasons',
@@ -260,14 +272,27 @@ export const TRANSPORTATION_REASONS = Object.freeze({
 });
 
 export const TRIP_TYPES = Object.freeze({
-  ONE_WAY: {
-    value: 'one-way',
-    label: 'One way',
-    key: 'OneWay',
-  },
   ROUND_TRIP: {
     value: 'round-trip',
     label: 'Round trip',
     key: 'RoundTrip',
   },
+  ONE_WAY: {
+    value: 'one-way',
+    label: 'One way',
+    key: 'OneWay',
+  },
 });
+
+export const ACCEPTED_FILE_TYPES = Object.freeze([
+  '.jpg',
+  '.jpeg',
+  '.png',
+  '.pdf',
+  '.doc',
+  '.docx',
+  '.gif',
+  '.bmp',
+  '.tif',
+  '.tiff',
+]);

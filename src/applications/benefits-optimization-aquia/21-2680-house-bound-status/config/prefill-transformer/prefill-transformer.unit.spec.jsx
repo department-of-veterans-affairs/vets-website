@@ -130,8 +130,8 @@ describe('Prefill Transformer', () => {
         user: {
           profile: {
             userFullName: {
-              first: 'John',
-              last: 'Doe',
+              first: 'Obi-Wan',
+              last: 'Kenobi',
             },
           },
         },

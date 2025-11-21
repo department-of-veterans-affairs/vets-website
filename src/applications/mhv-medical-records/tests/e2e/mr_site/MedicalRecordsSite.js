@@ -34,6 +34,7 @@ class MedicalRecordsSite {
     isAcceleratingVaccines = false,
     isAcceleratingCareNotes = false,
     isAcceleratingConditions = false,
+    isCcdExtendedFileTypesEnabled = false,
   } = {}) => {
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
@@ -66,6 +67,14 @@ class MedicalRecordsSite {
           {
             name: 'mhv_accelerated_delivery_conditions_enabled',
             value: isAcceleratingConditions,
+          },
+          {
+            name: 'mhv_medical_records_ccd_extended_file_types',
+            value: isCcdExtendedFileTypesEnabled,
+          },
+          {
+            name: 'mhvMedicalRecordsCcdExtendedFileTypes',
+            value: isCcdExtendedFileTypesEnabled,
           },
           {
             name: 'mhvMedicalRecordsPhrRefreshOnLogin',

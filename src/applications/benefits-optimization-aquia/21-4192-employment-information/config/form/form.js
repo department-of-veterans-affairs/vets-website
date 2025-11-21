@@ -15,7 +15,6 @@ import ConfirmationPage from '@bio-aquia/21-4192-employment-information/containe
 import IntroductionPage from '@bio-aquia/21-4192-employment-information/containers/introduction-page';
 import manifest from '@bio-aquia/21-4192-employment-information/manifest.json';
 import GetHelpFooter from '@bio-aquia/21-4192-employment-information/components/get-help';
-import PreSubmitInfo from '@bio-aquia/21-4192-employment-information/components/pre-submit-info';
 import transformForSubmit from '@bio-aquia/21-4192-employment-information/config/submit-transformer';
 
 // Import page configurations (uiSchema and schema)
@@ -83,8 +82,13 @@ const formConfig = {
   subTitle: SUBTITLE,
   defaultDefinitions: {},
   preSubmitInfo: {
-    required: true,
-    CustomComponent: PreSubmitInfo,
+    statementOfTruth: {
+      body:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      messageAriaDescribedby:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      fullNamePath: 'veteranInformation.veteranFullName',
+    },
   },
   chapters: {
     veteranInformationChapter: {
@@ -141,12 +145,18 @@ const formConfig = {
           title: 'Employment Termination',
           uiSchema: employmentTerminationUiSchema,
           schema: employmentTerminationSchema,
+          depends: formData =>
+            !!formData?.employmentDates?.endingDate &&
+            !formData?.employmentDates?.currentlyEmployed,
         },
         employmentLastPayment: {
           path: 'employment-last-payment',
           title: 'Employment Last Payment',
           uiSchema: employmentLastPaymentUiSchema,
           schema: employmentLastPaymentSchema,
+          depends: formData =>
+            !!formData?.employmentDates?.endingDate &&
+            !formData?.employmentDates?.currentlyEmployed,
         },
       },
     },

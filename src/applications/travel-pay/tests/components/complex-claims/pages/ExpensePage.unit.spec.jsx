@@ -8,6 +8,8 @@ import {
   Route,
   useLocation,
 } from 'react-router-dom-v5-compat';
+import * as api from '@department-of-veterans-affairs/platform-utilities/api';
+import sinon from 'sinon';
 
 import ExpensePage from '../../../../components/complex-claims/pages/ExpensePage';
 import ChooseExpenseType from '../../../../components/complex-claims/pages/ChooseExpenseType';
@@ -19,15 +21,15 @@ import {
   TRIP_TYPES,
 } from '../../../../constants';
 
-describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
-  //
-  // Helper for capturing current route
-  //
-  const LocationDisplay = () => {
-    const location = useLocation();
-    return <div data-testid="location-display">{location.pathname}</div>;
-  };
+//
+// Helper for capturing current route
+//
+const LocationDisplay = () => {
+  const location = useLocation();
+  return <div data-testid="location-display">{location.pathname}</div>;
+};
 
+describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
   //
   // Base store
   //
@@ -53,20 +55,9 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
           data: null,
         },
         expenses: {
-          creation: {
-            isLoading: false,
-            error: null,
-          },
-          update: {
-            id: '',
-            isLoading: false,
-            error: null,
-          },
-          delete: {
-            id: '',
-            isLoading: false,
-            error: null,
-          },
+          creation: { isLoading: false, error: null },
+          update: { id: '', isLoading: false, error: null },
+          delete: { id: '', isLoading: false, error: null },
           data: [],
         },
       },
@@ -110,11 +101,13 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
     if (!root) return; // just in case
 
     // ---- COMMON FIELDS ----
-    const date = root.querySelector('va-date[name="date"]');
-    const amount = root.querySelector('va-text-input[name="amount"]');
+    const purchaseDate = root.querySelector('va-date[name="purchaseDate"]');
+    const costRequested = root.querySelector(
+      'va-text-input[name="costRequested"]',
+    );
 
-    if (date) {
-      date.dispatchEvent(
+    if (purchaseDate) {
+      purchaseDate.dispatchEvent(
         new CustomEvent('dateChange', {
           detail: { value: '2025-10-31' },
           bubbles: true,
@@ -123,10 +116,25 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
       );
     }
 
-    if (amount) {
-      amount.dispatchEvent(
+    if (costRequested) {
+      costRequested.dispatchEvent(
         new CustomEvent('input', {
           detail: { value: '50.00' },
+          bubbles: true,
+          composed: true,
+        }),
+      );
+    }
+
+    const upload = root.querySelector('document-upload');
+    if (upload) {
+      upload.dispatchEvent(
+        new CustomEvent('fileChange', {
+          detail: {
+            files: [
+              new File(['dummy'], 'receipt.pdf', { type: 'application/pdf' }),
+            ],
+          },
           bubbles: true,
           composed: true,
         }),
@@ -136,7 +144,7 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
     // ---- EXPENSE-SPECIFIC FIELDS ----
     switch (expenseKey) {
       case 'Meal': {
-        const vendor = root.querySelector('va-text-input[name="vendor"]');
+        const vendor = root.querySelector('va-text-input[name="vendorName"]');
         vendor?.dispatchEvent(
           new CustomEvent('input', {
             detail: { value: 'Test Vendor' },
@@ -179,7 +187,7 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
 
       case 'Commoncarrier': {
         const typeOption = root.querySelector(
-          `va-radio[name="transportationType"] va-radio-option[value="${
+          `va-radio[name="carrierType"] va-radio-option[value="${
             TRANSPORTATION_OPTIONS[0]
           }"]`,
         );
@@ -192,7 +200,7 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
         );
 
         const reasonOption = root.querySelector(
-          `va-radio[name="transportationReason"] va-radio-option[value="${
+          `va-radio[name="reasonNotUsingPOV"] va-radio-option[value="${
             Object.keys(TRANSPORTATION_REASONS)[0]
           }"]`,
         );
@@ -242,10 +250,10 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
           }),
         );
 
-        const departureAirport = root.querySelector(
-          'va-text-input[name="departureAirport"]',
+        const departedFrom = root.querySelector(
+          'va-text-input[name="departedFrom"]',
         );
-        departureAirport?.dispatchEvent(
+        departedFrom?.dispatchEvent(
           new CustomEvent('input', {
             detail: { value: 'SFO' },
             bubbles: true,
@@ -253,8 +261,8 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
           }),
         );
 
-        const arrivalDate = root.querySelector('va-date[name="arrivalDate"]');
-        arrivalDate?.dispatchEvent(
+        const returnDate = root.querySelector('va-date[name="returnDate"]');
+        returnDate?.dispatchEvent(
           new CustomEvent('dateChange', {
             detail: { value: '2025-11-01' },
             bubbles: true,
@@ -262,10 +270,8 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
           }),
         );
 
-        const arrivalAirport = root.querySelector(
-          'va-text-input[name="arrivalAirport"]',
-        );
-        arrivalAirport?.dispatchEvent(
+        const arrivedTo = root.querySelector('va-text-input[name="arrivedTo"]');
+        arrivedTo?.dispatchEvent(
           new CustomEvent('input', {
             detail: { value: 'LAX' },
             bubbles: true,
@@ -300,6 +306,26 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
           ).to.exist;
         });
 
+        it('renders correct description', () => {
+          const { getByText } = renderPage(config);
+
+          if (key === 'Airtravel') {
+            expect(
+              getByText(
+                `Upload a receipt or proof of the expense here. If youre adding a round-trip flight, you only need to add 1 expense. If you have receipts for 2 one-way flights, you’ll need to add 2 separate expenses.`,
+              ),
+            ).to.exist;
+          } else {
+            expect(
+              getByText(
+                `Upload a receipt or proof of the expense here. If you have multiple ${
+                  config.expensePageText
+                } expenses, add just 1 on this page. You’ll be able to add more expenses after this.`,
+              ),
+            ).to.exist;
+          }
+        });
+
         it('renders correct buttons', () => {
           const { container } = renderPage(config);
 
@@ -328,6 +354,49 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
             btn => btn.getAttribute('text') === 'Cancel adding this expense',
           );
           expect(cancelButton).to.exist;
+        });
+
+        it('renders date hint text for Lodging expense', () => {
+          const lodgingConfig = EXPENSE_TYPES.Lodging;
+          const { container } = renderWithStoreAndRouter(
+            <MemoryRouter
+              initialEntries={[
+                `/file-new-claim/12345/43555/${lodgingConfig.route}`,
+              ]}
+            >
+              <Routes>
+                <Route
+                  path="/file-new-claim/:apptId/:claimId/:expenseTypeRoute"
+                  element={<ExpensePage />}
+                />
+              </Routes>
+            </MemoryRouter>,
+            {
+              initialState: getData(),
+              reducers: reducer,
+            },
+          );
+
+          const dateInput = container.querySelector(
+            'va-date[name="purchaseDate"]',
+          );
+          expect(dateInput).to.exist;
+
+          // The hint text is rendered in the 'hint' attribute of the va-date component
+          const hintAttr = dateInput.getAttribute('hint');
+          expect(hintAttr).to.equal(
+            'Enter the date on your receipt, even if it’s the same as your check in or check out dates.',
+          );
+        });
+
+        it('does not render date hint text for non-Lodging expenses', () => {
+          const mealConfig = EXPENSE_TYPES.Meal;
+          const { container } = renderPage(mealConfig);
+          const dateInput = container.querySelector(
+            'va-date[name="purchaseDate"]',
+          );
+          expect(dateInput).to.exist;
+          expect(dateInput.getAttribute('hint')).to.equal('');
         });
 
         it('displays validation error when required fields are missing', () => {
@@ -411,5 +480,200 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
           });
         });
       });
+      describe('DocumentUpload behavior', () => {
+        const expenseTypesWithDocumentUpload = [
+          'Meal',
+          'Lodging',
+          'Airtravel',
+          'Commoncarrier',
+          'Parking',
+          'Toll',
+          'Lodging',
+          'Other',
+        ];
+        it('renders DocumentUpload for expense types that support documents', () => {
+          const { container } = renderPage(config);
+
+          // If the type should have document upload
+          if (expenseTypesWithDocumentUpload.includes(key)) {
+            expect(container.querySelector('va-file-input')).to.exist;
+          } else {
+            expect(container.querySelector('va-file-input')).to.not.exist;
+          }
+        });
+
+        it('updates formState when a file is uploaded', async () => {
+          if (!expenseTypesWithDocumentUpload.includes(key)) return;
+
+          const { container } = renderPage(config);
+          const input = container.querySelector('va-file-input');
+
+          const testFile = new File(['dummy'], 'receipt.pdf', {
+            type: 'application/pdf',
+          });
+
+          fireEvent.change(input, {
+            target: { files: [testFile] },
+          });
+
+          await waitFor(() => {
+            // Verify the uploaded file exists in input
+            expect(input.files[0]).to.eq(testFile);
+          });
+        });
+        it('does not appear for expense types that do not accept documents', () => {
+          if (['Mileage'].includes(key)) {
+            const { container } = renderPage(config);
+            expect(container.querySelector('va-file-input')).to.not.exist;
+          }
+        });
+      });
     });
+});
+
+// ---------------------------------------------------------------
+// EDIT MODE TESTS
+// ---------------------------------------------------------------
+describe('Travel Pay – ExpensePage (Editing existing expense)', () => {
+  const TEST_EXPENSE_ID = 'abc123';
+  const TEST_DOCUMENT_ID = 'doc789';
+
+  //
+  // Store containing an existing expense
+  //
+  const getEditState = () => ({
+    travelPay: {
+      claimSubmission: { isSubmitting: false, error: null, data: null },
+      complexClaim: {
+        claim: {
+          creation: { isLoading: false, error: null },
+          submission: { id: '', isSubmitting: false, error: null, data: null },
+          fetch: { isLoading: false, error: null },
+          data: {
+            documents: [
+              {
+                filename: 'saved.pdf',
+                mimetype: 'application/pdf',
+                fileData: 'data:application/pdf;base64,AA==',
+                documentId: TEST_DOCUMENT_ID,
+                createdon: '2025-11-17',
+              },
+            ],
+          },
+        },
+        expenses: {
+          creation: { isLoading: false, error: null },
+          update: { id: '', isLoading: false, error: null },
+          delete: { id: '', isLoading: false, error: null },
+          data: [
+            {
+              id: TEST_EXPENSE_ID,
+              expenseType: 'Meal',
+              vendorName: 'Saved Vendor',
+              dateIncurred: '2025-11-17',
+              costRequested: '10.50',
+              documentId: TEST_DOCUMENT_ID,
+            },
+          ],
+        },
+      },
+    },
+  });
+
+  const renderEditPage = () =>
+    renderWithStoreAndRouter(
+      <MemoryRouter
+        initialEntries={[`/file-new-claim/12345/43555/meal/${TEST_EXPENSE_ID}`]}
+      >
+        <Routes>
+          <Route
+            path="/file-new-claim/:apptId/:claimId/:expenseTypeRoute/:expenseId"
+            element={<ExpensePage />}
+          />
+          <Route
+            path="/file-new-claim/:apptId/:claimId/review"
+            element={<div data-testid="review-page" />}
+          />
+        </Routes>
+        <LocationDisplay />
+      </MemoryRouter>,
+      { initialState: getEditState(), reducers: reducer },
+    );
+
+  let apiStub;
+  beforeEach(() => {
+    apiStub = sinon.stub(api, 'apiRequest').resolves({
+      headers: {
+        get: key => (key === 'Content-Type' ? 'application/pdf' : '1024'),
+      },
+      arrayBuffer: async () => new TextEncoder().encode('dummy').buffer,
+    });
+  });
+  afterEach(() => {
+    apiStub.restore();
+  });
+
+  it('pre-fills formState with the stored expense', () => {
+    const { container } = renderEditPage();
+
+    const vendorField = container.querySelector(
+      'va-text-input[name="vendorName"]',
+    );
+    expect(vendorField.getAttribute('value')).to.equal('Saved Vendor');
+    const costField = container.querySelector(
+      'va-text-input[name="costRequested"]',
+    );
+    expect(costField.getAttribute('value')).to.equal('10.50');
+  });
+
+  it('uses "Save and continue" text for continue button', () => {
+    const { container } = renderEditPage();
+
+    const button = Array.from(container.querySelectorAll('va-button')).find(
+      btn => btn.getAttribute('text') === 'Save and continue',
+    );
+
+    expect(button).to.exist;
+  });
+
+  it('uses "Cancel" text for back button', () => {
+    const { container } = renderEditPage();
+
+    const button = Array.from(container.querySelectorAll('va-button')).find(
+      btn => btn.getAttribute('text') === 'Cancel',
+    );
+
+    expect(button).to.exist;
+  });
+
+  it('does NOT show the cancel modal in edit mode', () => {
+    const { container } = renderEditPage();
+
+    const modal = container.querySelector('va-modal');
+    expect(modal).to.not.exist;
+  });
+
+  it('navigates back to the review page when clicking Cancel', () => {
+    const { container, getByTestId } = renderEditPage();
+
+    const backButton = Array.from(container.querySelectorAll('va-button')).find(
+      btn => btn.getAttribute('text') === 'Cancel',
+    );
+
+    fireEvent.click(backButton);
+
+    expect(getByTestId('review-page')).to.exist;
+  });
+
+  it('loads existing document when documentId is present', async () => {
+    const { container } = renderEditPage();
+
+    // Component renders space for existing file
+    const uploadLoading = container.querySelector('va-loading-indicator');
+    expect(uploadLoading).to.exist;
+
+    await waitFor(() => {
+      expect(container.querySelector('va-file-input')).to.exist;
+    });
+  });
 });

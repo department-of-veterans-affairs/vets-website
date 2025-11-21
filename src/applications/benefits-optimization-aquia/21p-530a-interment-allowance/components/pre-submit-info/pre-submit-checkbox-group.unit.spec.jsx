@@ -10,32 +10,29 @@ import { Provider } from 'react-redux';
 import sinon from 'sinon';
 import PreSubmitInfo from './pre-submit-checkbox-group';
 
-const createMockStore = (submissionStatus = null) => {
+const createMockStore = (submissionStatus = null, formData = {}) => {
   const dispatch = sinon.spy();
   return {
     getState: () => ({
       form: {
+        data: formData,
         submission: {
           status: submissionStatus,
         },
       },
     }),
-    subscribe: () => {},
+    subscribe: () => () => {}, // Return unsubscribe function
     dispatch,
   };
 };
 
 describe('PreSubmitCheckboxGroup', () => {
   const mockFormData = {
-    veteranIdentification: {
-      fullName: {
-        first: 'Anakin',
-        middle: '',
-        last: 'Skywalker',
+    burialInformation: {
+      nameOfStateCemeteryOrTribalOrganization: 'Endor Forest Sanctuary',
+      recipientOrganization: {
+        name: 'Rebel Alliance Veterans Foundation',
       },
-    },
-    cemeteryInformation: {
-      cemeteryName: 'Endor Forest Sanctuary',
     },
   };
 
@@ -43,11 +40,10 @@ describe('PreSubmitCheckboxGroup', () => {
 
   describe('Initial Rendering', () => {
     it('should render without errors', () => {
-      const store = createMockStore();
+      const store = createMockStore(null, mockFormData);
       const { container } = render(
         <Provider store={store}>
           <PreSubmitInfo.CustomComponent
-            formData={mockFormData}
             showError={false}
             onSectionComplete={mockOnSectionComplete}
           />
@@ -58,11 +54,10 @@ describe('PreSubmitCheckboxGroup', () => {
     });
 
     it('should display legal note', () => {
-      const store = createMockStore();
+      const store = createMockStore(null, mockFormData);
       const { container } = render(
         <Provider store={store}>
           <PreSubmitInfo.CustomComponent
-            formData={mockFormData}
             showError={false}
             onSectionComplete={mockOnSectionComplete}
           />
@@ -75,11 +70,10 @@ describe('PreSubmitCheckboxGroup', () => {
     });
 
     it('should render statement of truth checkbox', () => {
-      const store = createMockStore();
+      const store = createMockStore(null, mockFormData);
       const { container } = render(
         <Provider store={store}>
           <PreSubmitInfo.CustomComponent
-            formData={mockFormData}
             showError={false}
             onSectionComplete={mockOnSectionComplete}
           />
@@ -94,11 +88,10 @@ describe('PreSubmitCheckboxGroup', () => {
 
   describe('Signature Fields', () => {
     it('should render signature input field', () => {
-      const store = createMockStore();
+      const store = createMockStore(null, mockFormData);
       const { container } = render(
         <Provider store={store}>
           <PreSubmitInfo.CustomComponent
-            formData={mockFormData}
             showError={false}
             onSectionComplete={mockOnSectionComplete}
           />
@@ -109,11 +102,10 @@ describe('PreSubmitCheckboxGroup', () => {
     });
 
     it('should render title input field', () => {
-      const store = createMockStore();
+      const store = createMockStore(null, mockFormData);
       const { container } = render(
         <Provider store={store}>
           <PreSubmitInfo.CustomComponent
-            formData={mockFormData}
             showError={false}
             onSectionComplete={mockOnSectionComplete}
           />
@@ -129,11 +121,10 @@ describe('PreSubmitCheckboxGroup', () => {
     });
 
     it('should render statement of truth with checkbox', () => {
-      const store = createMockStore();
+      const store = createMockStore(null, mockFormData);
       const { container } = render(
         <Provider store={store}>
           <PreSubmitInfo.CustomComponent
-            formData={mockFormData}
             showError={false}
             onSectionComplete={mockOnSectionComplete}
           />
@@ -146,13 +137,12 @@ describe('PreSubmitCheckboxGroup', () => {
 
   describe('Empty Data Handling', () => {
     it('should render with empty form data', () => {
-      const store = createMockStore();
       const emptyFormData = {};
+      const store = createMockStore(null, emptyFormData);
 
       const { container } = render(
         <Provider store={store}>
           <PreSubmitInfo.CustomComponent
-            formData={emptyFormData}
             showError={false}
             onSectionComplete={mockOnSectionComplete}
           />
@@ -164,13 +154,12 @@ describe('PreSubmitCheckboxGroup', () => {
     });
 
     it('should render legal note with empty data', () => {
-      const store = createMockStore();
       const emptyFormData = {};
+      const store = createMockStore(null, emptyFormData);
 
       const { container } = render(
         <Provider store={store}>
           <PreSubmitInfo.CustomComponent
-            formData={emptyFormData}
             showError={false}
             onSectionComplete={mockOnSectionComplete}
           />
@@ -193,13 +182,12 @@ describe('PreSubmitCheckboxGroup', () => {
 
   describe('Validation', () => {
     it('should call onSectionComplete with false when fields are empty', () => {
-      const store = createMockStore();
+      const store = createMockStore(null, mockFormData);
       const onSectionComplete = sinon.spy();
 
       render(
         <Provider store={store}>
           <PreSubmitInfo.CustomComponent
-            formData={mockFormData}
             showError={false}
             onSectionComplete={onSectionComplete}
           />
@@ -210,11 +198,10 @@ describe('PreSubmitCheckboxGroup', () => {
     });
 
     it('should not show errors before fields are touched when showError is false', () => {
-      const store = createMockStore();
+      const store = createMockStore(null, mockFormData);
       const { container } = render(
         <Provider store={store}>
           <PreSubmitInfo.CustomComponent
-            formData={mockFormData}
             showError={false}
             onSectionComplete={mockOnSectionComplete}
           />
@@ -227,11 +214,10 @@ describe('PreSubmitCheckboxGroup', () => {
     });
 
     it('should show errors when showError is true and fields are invalid', () => {
-      const store = createMockStore();
+      const store = createMockStore(null, mockFormData);
       const { container } = render(
         <Provider store={store}>
           <PreSubmitInfo.CustomComponent
-            formData={mockFormData}
             showError
             onSectionComplete={mockOnSectionComplete}
           />
@@ -239,8 +225,11 @@ describe('PreSubmitCheckboxGroup', () => {
       );
 
       const statementOfTruth = container.querySelector('va-statement-of-truth');
-      expect(statementOfTruth.getAttribute('input-error')).to.equal(
-        'Please enter your full name',
+      expect(statementOfTruth.getAttribute('input-error')).to.include(
+        'Enter your full name',
+      );
+      expect(statementOfTruth.getAttribute('input-error')).to.include(
+        'Rebel Alliance Veterans Foundation',
       );
       expect(statementOfTruth.getAttribute('checkbox-error')).to.equal(
         'You must certify this statement is correct',
@@ -250,11 +239,10 @@ describe('PreSubmitCheckboxGroup', () => {
 
   describe('User Interactions', () => {
     it('should update full name on input change', async () => {
-      const store = createMockStore();
+      const store = createMockStore(null, mockFormData);
       const { container } = render(
         <Provider store={store}>
           <PreSubmitInfo.CustomComponent
-            formData={mockFormData}
             showError={false}
             onSectionComplete={mockOnSectionComplete}
           />
@@ -276,11 +264,10 @@ describe('PreSubmitCheckboxGroup', () => {
     });
 
     it('should update checkbox state on change', async () => {
-      const store = createMockStore();
+      const store = createMockStore(null, mockFormData);
       const { container } = render(
         <Provider store={store}>
           <PreSubmitInfo.CustomComponent
-            formData={mockFormData}
             showError={false}
             onSectionComplete={mockOnSectionComplete}
           />
@@ -300,11 +287,10 @@ describe('PreSubmitCheckboxGroup', () => {
     });
 
     it('should show full name error after blur when empty', async () => {
-      const store = createMockStore();
+      const store = createMockStore(null, mockFormData);
       const { container } = render(
         <Provider store={store}>
           <PreSubmitInfo.CustomComponent
-            formData={mockFormData}
             showError={false}
             onSectionComplete={mockOnSectionComplete}
           />
@@ -317,8 +303,11 @@ describe('PreSubmitCheckboxGroup', () => {
       fireEvent(statementOfTruth, blurEvent);
 
       await waitFor(() => {
-        expect(statementOfTruth.getAttribute('input-error')).to.equal(
-          'Please enter your full name',
+        expect(statementOfTruth.getAttribute('input-error')).to.include(
+          'Enter your full name',
+        );
+        expect(statementOfTruth.getAttribute('input-error')).to.include(
+          'Rebel Alliance Veterans Foundation',
         );
       });
     });
@@ -326,11 +315,10 @@ describe('PreSubmitCheckboxGroup', () => {
 
   describe('Form Data Synchronization', () => {
     it('should dispatch setData with certification values', async () => {
-      const store = createMockStore();
+      const store = createMockStore(null, mockFormData);
       const { container } = render(
         <Provider store={store}>
           <PreSubmitInfo.CustomComponent
-            formData={mockFormData}
             showError={false}
             onSectionComplete={mockOnSectionComplete}
           />
@@ -356,7 +344,6 @@ describe('PreSubmitCheckboxGroup', () => {
       render(
         <Provider store={store}>
           <PreSubmitInfo.CustomComponent
-            formData={mockFormData}
             showError={false}
             onSectionComplete={mockOnSectionComplete}
           />
@@ -370,11 +357,10 @@ describe('PreSubmitCheckboxGroup', () => {
 
   describe('Title Validation', () => {
     it('should show title error when less than 2 characters', async () => {
-      const store = createMockStore();
+      const store = createMockStore(null, mockFormData);
       const { container } = render(
         <Provider store={store}>
           <PreSubmitInfo.CustomComponent
-            formData={mockFormData}
             showError
             onSectionComplete={mockOnSectionComplete}
           />
@@ -388,12 +374,11 @@ describe('PreSubmitCheckboxGroup', () => {
     });
 
     it('should accept valid form data and mark section as complete', async () => {
-      const store = createMockStore();
+      const store = createMockStore(null, mockFormData);
       const onSectionComplete = sinon.spy();
       const { container } = render(
         <Provider store={store}>
           <PreSubmitInfo.CustomComponent
-            formData={mockFormData}
             showError={false}
             onSectionComplete={onSectionComplete}
           />
@@ -410,14 +395,8 @@ describe('PreSubmitCheckboxGroup', () => {
         }),
       );
 
-      // Fill in title (need to find the actual input inside TextInputField)
-      const titleInput = container.querySelector(
-        'input[name="organizationTitle"]',
-      );
-      if (titleInput) {
-        fireEvent.input(titleInput, { target: { value: 'Director' } });
-        fireEvent.blur(titleInput);
-      }
+      // Note: Cannot easily test TextInputField completion in unit tests
+      // due to web component shadow DOM limitations
 
       // Check the checkbox
       fireEvent(
@@ -446,7 +425,6 @@ describe('PreSubmitCheckboxGroup', () => {
       const { container } = render(
         <Provider store={store}>
           <PreSubmitInfo.CustomComponent
-            formData={mockFormData}
             showError
             onSectionComplete={mockOnSectionComplete}
           />
@@ -456,6 +434,256 @@ describe('PreSubmitCheckboxGroup', () => {
       const statementOfTruth = container.querySelector('va-statement-of-truth');
       expect(statementOfTruth.getAttribute('input-error')).to.be.null;
       expect(statementOfTruth.getAttribute('checkbox-error')).to.be.null;
+    });
+  });
+
+  describe('Organization-Specific Error Messages', () => {
+    it('should show recipient organization name in full name error when present', () => {
+      const store = createMockStore(null, mockFormData);
+      const { container } = render(
+        <Provider store={store}>
+          <PreSubmitInfo.CustomComponent
+            showError
+            onSectionComplete={mockOnSectionComplete}
+          />
+        </Provider>,
+      );
+
+      const statementOfTruth = container.querySelector('va-statement-of-truth');
+      expect(statementOfTruth.getAttribute('input-error')).to.include(
+        'Rebel Alliance Veterans Foundation',
+      );
+    });
+
+    it('should show organization name in title error when organization is present', () => {
+      const store = createMockStore(null, mockFormData);
+      const { container } = render(
+        <Provider store={store}>
+          <PreSubmitInfo.CustomComponent
+            showError
+            onSectionComplete={mockOnSectionComplete}
+          />
+        </Provider>,
+      );
+
+      const titleInput = container.querySelector(
+        'va-text-input[label="Your organization title"]',
+      );
+      expect(titleInput.getAttribute('error')).to.include(
+        'Endor Forest Sanctuary',
+      );
+    });
+
+    it('should show generic error when organization name and user name are not present', () => {
+      const emptyFormData = {};
+      const store = createMockStore(null, emptyFormData);
+      const { container } = render(
+        <Provider store={store}>
+          <PreSubmitInfo.CustomComponent
+            showError
+            onSectionComplete={mockOnSectionComplete}
+          />
+        </Provider>,
+      );
+
+      const statementOfTruth = container.querySelector('va-statement-of-truth');
+      expect(statementOfTruth.getAttribute('input-error')).to.include(
+        'the organization',
+      );
+      expect(statementOfTruth.getAttribute('input-error')).to.not.include('(');
+
+      const titleInput = container.querySelector(
+        'va-text-input[label="Your organization title"]',
+      );
+      expect(titleInput.getAttribute('error')).to.include('the organization');
+    });
+
+    it('should show generic message when organization is not present', () => {
+      const dataWithoutOrg = {};
+      const store = createMockStore(null, dataWithoutOrg);
+      const { container } = render(
+        <Provider store={store}>
+          <PreSubmitInfo.CustomComponent
+            showError
+            onSectionComplete={mockOnSectionComplete}
+          />
+        </Provider>,
+      );
+
+      const statementOfTruth = container.querySelector('va-statement-of-truth');
+      expect(statementOfTruth.getAttribute('input-error')).to.include(
+        'the organization',
+      );
+    });
+
+    it('should show specific error for title when empty', () => {
+      const store = createMockStore(null, mockFormData);
+      const { container } = render(
+        <Provider store={store}>
+          <PreSubmitInfo.CustomComponent
+            showError
+            onSectionComplete={mockOnSectionComplete}
+          />
+        </Provider>,
+      );
+
+      const titleInput = container.querySelector(
+        'va-text-input[label="Your organization title"]',
+      );
+      // With empty title, should show "Enter your title at..." message
+      expect(titleInput.getAttribute('error')).to.include('Enter your title');
+    });
+
+    it('should use generic statement text without organization name', () => {
+      const store = createMockStore(null, mockFormData);
+      const { container } = render(
+        <Provider store={store}>
+          <PreSubmitInfo.CustomComponent
+            showError={false}
+            onSectionComplete={mockOnSectionComplete}
+          />
+        </Provider>,
+      );
+
+      expect(container.textContent).to.include(
+        'I confirm that the identifying information in this form is accurate and has been represented correctly',
+      );
+      expect(container.textContent).to.not.include('on behalf of');
+    });
+  });
+
+  describe('Organization Name Validation', () => {
+    it('should show mismatch error when full name does not match recipient organization', async () => {
+      const store = createMockStore(null, mockFormData);
+      const { container } = render(
+        <Provider store={store}>
+          <PreSubmitInfo.CustomComponent
+            showError={false}
+            onSectionComplete={mockOnSectionComplete}
+          />
+        </Provider>,
+      );
+
+      const statementOfTruth = container.querySelector('va-statement-of-truth');
+
+      // Enter wrong name
+      const inputEvent = new CustomEvent('vaInputChange', {
+        detail: { value: 'Wrong Name' },
+      });
+      fireEvent(statementOfTruth, inputEvent);
+
+      // Blur to trigger validation
+      const blurEvent = new CustomEvent('vaInputBlur');
+      fireEvent(statementOfTruth, blurEvent);
+
+      await waitFor(() => {
+        expect(statementOfTruth.getAttribute('input-error')).to.include(
+          'Your signature must match',
+        );
+        expect(statementOfTruth.getAttribute('input-error')).to.include(
+          'Rebel Alliance Veterans Foundation',
+        );
+      });
+    });
+
+    it('should validate organization name with case-insensitive matching', async () => {
+      const store = createMockStore(null, mockFormData);
+      const { container } = render(
+        <Provider store={store}>
+          <PreSubmitInfo.CustomComponent
+            showError={false}
+            onSectionComplete={mockOnSectionComplete}
+          />
+        </Provider>,
+      );
+
+      const statementOfTruth = container.querySelector('va-statement-of-truth');
+
+      // Enter org name with different case (uppercase)
+      const nameEvent = new CustomEvent('vaInputChange', {
+        detail: { value: 'REBEL ALLIANCE VETERANS FOUNDATION' },
+      });
+      fireEvent(statementOfTruth, nameEvent);
+
+      // Blur to trigger validation
+      const blurEvent = new CustomEvent('vaInputBlur');
+      fireEvent(statementOfTruth, blurEvent);
+
+      await waitFor(() => {
+        // Should not show error since name matches (case-insensitive)
+        const inputError = statementOfTruth.getAttribute('input-error');
+        // Error should either be null or not include "must match"
+        if (inputError) {
+          expect(inputError).to.not.include('must match');
+        }
+      });
+    });
+
+    it('should validate organization name with spaces ignored', async () => {
+      const store = createMockStore(null, mockFormData);
+      const { container } = render(
+        <Provider store={store}>
+          <PreSubmitInfo.CustomComponent
+            showError={false}
+            onSectionComplete={mockOnSectionComplete}
+          />
+        </Provider>,
+      );
+
+      const statementOfTruth = container.querySelector('va-statement-of-truth');
+
+      // Enter org name without spaces
+      const nameEvent = new CustomEvent('vaInputChange', {
+        detail: { value: 'RebelAllianceVeteransFoundation' },
+      });
+      fireEvent(statementOfTruth, nameEvent);
+
+      // Blur to trigger validation
+      const blurEvent = new CustomEvent('vaInputBlur');
+      fireEvent(statementOfTruth, blurEvent);
+
+      await waitFor(() => {
+        // Should not show error since name matches (spaces removed)
+        const inputError = statementOfTruth.getAttribute('input-error');
+        // Error should either be null or not include "must match"
+        if (inputError) {
+          expect(inputError).to.not.include('must match');
+        }
+      });
+    });
+
+    it('should validate lenient when no organization names are available', async () => {
+      const dataWithoutOrgNames = {};
+      const store = createMockStore(null, dataWithoutOrgNames);
+      const { container } = render(
+        <Provider store={store}>
+          <PreSubmitInfo.CustomComponent
+            showError={false}
+            onSectionComplete={mockOnSectionComplete}
+          />
+        </Provider>,
+      );
+
+      const statementOfTruth = container.querySelector('va-statement-of-truth');
+
+      // Enter any name
+      const nameEvent = new CustomEvent('vaInputChange', {
+        detail: { value: 'Any Name Here' },
+      });
+      fireEvent(statementOfTruth, nameEvent);
+
+      // Blur to trigger validation
+      const blurEvent = new CustomEvent('vaInputBlur');
+      fireEvent(statementOfTruth, blurEvent);
+
+      await waitFor(() => {
+        // Should not show "must match" error when no specific org name is expected
+        const inputError = statementOfTruth.getAttribute('input-error');
+        // Error should either be null or not include "must match"
+        if (inputError) {
+          expect(inputError).to.not.include('must match');
+        }
+      });
     });
   });
 });

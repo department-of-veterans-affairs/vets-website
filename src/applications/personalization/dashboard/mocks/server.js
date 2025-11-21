@@ -58,6 +58,8 @@ const responses = {
         return res.status(200).json(user.simpleUser); // This is an LOA3 user
       case 'loa3NoHealth':
         return res.status(200).json(user.loa3NoHealthUser); // This is an LOA3 user
+      case 'loa3With1010ez':
+        return res.status(200).json(user.loa3With1010ez); // This is an LOA3 user with in-progress/saved 10-10EZ
       case 'loa3NoEmail':
         return res.status(200).json(user.loa3UserWithNoEmail); // This is an LOA3 user with no email
       case 'loa1':

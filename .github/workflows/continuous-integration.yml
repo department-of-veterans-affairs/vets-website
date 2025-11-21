@@ -124,9 +124,6 @@ jobs:
         if: ${{ always() }}
         id: deploy-to-prod
         run: echo "can_deploy=$CAN_DEPLOY_TO_PROD" >> $GITHUB_OUTPUT
-
-      - name: Log output
-        run: echo ${{ steps.deploy-to-prod.outputs.can_deploy }}
   fetch-allow-lists:
     name: Fetch Test Stability Allow Lists
     runs-on: ubuntu-22.04
@@ -964,7 +961,7 @@ jobs:
         with:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
-      - name: Manual dependencies install
+      - name: Manual dependencies install (pre-merge)
         run: |
           yarn install \
           --network-timeout 1000000000 \
@@ -981,8 +978,16 @@ jobs:
 
       - name: Fetch target branch
         run: git fetch origin ${{ github.head_ref }}
+
       - name: Merge in feature branch
-        run: git merge origin/${{ github.ref_name }} --no-edit
+        run: git merge -X ours origin/${{ github.ref_name }} --no-edit
+
+      - name: Manual dependencies install (post-merge)
+        run: |
+          yarn install \
+          --network-timeout 1000000000 \
+          --prefer-offline \
+          --production=false
 
       - name: Create test results folder
         run: mkdir -p test-results
@@ -1974,12 +1979,6 @@ jobs:
         id: set-environments
         run: echo environments={\"include\":[${{env.DEV}},${{env.STAGING}}]} >> $GITHUB_OUTPUT
 
-      - name: Log CD eligibility
-        run: |
-          echo ${{ needs.determine-cd-eligibility.outputs.deploy_to_prod }}
-          echo ${{ startsWith(needs.determine-cd-eligibility.outputs.deploy_to_prod, 'yes') }}
-          echo ${{ needs.determine-cd-eligibility.outputs.deploy_to_prod == 'yes' }}
-
   deploy:
     name: Deploy
     needs: [build, set-deploy-environments]
@@ -2051,71 +2050,64 @@ jobs:
           DEST: s3://${{ matrix.bucket }}
           ASSET_DEST: s3://${{ matrix.asset_bucket }}
 
-  # cd-prod-deploy:
-  #   name: CD Production Deploy
-  #   runs-on: ubuntu-22.04
-  #   needs: [build, set-deploy-environments, determine-cd-eligibility]
-  #   if: always() && ${{ startsWith(needs.determine-cd-eligibility.outputs.deploy_to_prod, 'yes') && github.ref == 'refs/heads/main' && needs.set-deploy-environments.result == 'success' }}
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
-  #       with:
-  #         fetch-depth: 0
+  cd-prod-deploy:
+    name: CD Production Deploy
+    runs-on: ubuntu-22.04
+    needs: [build, set-deploy-environments, determine-cd-eligibility]
+    if: always() && ${{ startsWith(needs.determine-cd-eligibility.outputs.deploy_to_prod, 'yes') && github.ref == 'refs/heads/main' && needs.set-deploy-environments.result == 'success' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+        with:
+          fetch-depth: 0
 
-  #     - name: Install dependencies
-  #       uses: ./.github/workflows/install
-  #       timeout-minutes: 30
-  #       with:
-  #         key: ${{ hashFiles('yarn.lock') }}
-  #         yarn_cache_folder: .cache/yarn
-  #         path: |
-  #           .cache/yarn
-  #           node_modules
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
 
-  #     - name: Get Slack channel
-  #       id: get-slack-channel
-  #       uses: ./.github/workflows/get-changed-apps
-  #       with:
-  #         output-type: 'slack_channel'
+      - name: Get Slack channel
+        id: get-slack-channel
+        uses: ./.github/workflows/get-changed-apps
+        with:
+          output-type: "slack_channel"
 
-  #     - name: Determine Slack channel
-  #       id: determine-channel
-  #       shell: bash
-  #       run: |
-  #         entries="${{ needs.build.outputs.entry_names }}"
-  #         channel="${{ steps.get-slack-channel.outputs.slack_channels }}"
-  #         if [[ "$entries" == *","* ]]; then
-  #           echo "channel=" >> $GITHUB_OUTPUT
-  #         else
-  #           echo "channel=$channel" >> $GITHUB_OUTPUT
-  #         fi
+      - name: Determine Slack channel
+        id: determine-channel
+        shell: bash
+        run: |
+          entries="${{ needs.build.outputs.entry_names }}"
+          channel="${{ steps.get-slack-channel.outputs.slack_channels }}"
+          if [[ "$entries" == *","* ]]; then
+            echo "channel=" >> $GITHUB_OUTPUT
+          else
+            echo "channel=$channel" >> $GITHUB_OUTPUT
+          fi
+      - name: Check if today is a holiday
+        id: holiday-check
+        uses: department-of-veterans-affairs/vsp-github-actions/holiday-checker@main
 
-  #     - name: Debug CD gating values
-  #       run: |
-  #         echo "entry_names=${{ needs.build.outputs.entry_names }}"
-  #         echo "continuous_deployment=${{ needs.build.outputs.continuous_deployment }}"
-  #         echo "slack_channel=${{ steps.determine-channel.outputs.channel }}"
+      - name: Dispatch Event to Next Workflow
+        if: steps.holiday-check.outputs.is_holiday == 'false'
+        run: |
+          curl -X POST \
+          -H "Accept: application/vnd.github.v3+json" \
+          -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          https://api.github.com/repos/${{ github.repository }}/dispatches \
+          -d "$(jq -n --arg sha "${{ github.sha }}" \
+          --arg ref "${{ github.ref }}" \
+          --arg entry "${{ needs.build.outputs.entry_names }}" \
+          --arg slack_channel "${{ steps.determine-channel.outputs.channel }}" \
+          '{event_type: "cd-production-deploy", client_payload: {github_sha: $sha, github_ref: $ref, entry_app: $entry, slack_channel: $slack_channel}}')"
 
-  #     - name: Check if today is a holiday
-  #       id: holiday-check
-  #       uses: department-of-veterans-affairs/vsp-github-actions/holiday-checker@main
-
-  #     - name: Dispatch Event to Next Workflow
-  #       if: steps.holiday-check.outputs.is_holiday == 'false'
-  #       run: |
-  #         curl -X POST \
-  #         -H "Accept: application/vnd.github.v3+json" \
-  #         -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-  #         https://api.github.com/repos/${{ github.repository }}/dispatches \
-  #         -d "$(jq -n --arg sha "${{ github.sha }}" \
-  #         --arg ref "${{ github.ref }}" \
-  #         --arg entry "${{ needs.build.outputs.entry_names }}" \
-  #         --arg slack_channel "${{ steps.determine-channel.outputs.channel }}" \
-  #         '{event_type: "cd-production-deploy", client_payload: {github_sha: $sha, github_ref: $ref, entry_app: $entry, slack_channel: $slack_channel}}')"
-
-  #     - name: Cancel CD dispatch due to holiday
-  #       if: steps.holiday-check.outputs.is_holiday == 'true'
-  #       run: echo "Skipping CD dispatch; holiday freeze is active."
+      - name: Cancel CD dispatch due to holiday
+        if: steps.holiday-check.outputs.is_holiday == 'true'
+        run: echo "Skipping CD dispatch; holiday freeze is active."
 
   notify-failure:
     name: Notify Failure
@@ -2170,93 +2162,3 @@ jobs:
           channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
           aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
-  stress-tests:
-    name: Stress Tests
-    needs: [fetch-allow-lists, tests-prep]
-    timeout-minutes: 30
-    runs-on: ubuntu-16-cores-22.04
-    outputs:
-      tests_ran: ${{ steps.run-tests.outputs.tests_ran }}
-
-    env:
-      TESTS_TO_STRESS_TEST: ${{ needs.tests-prep.outputs.tests-to-stress-test }}
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
-        with:
-          fetch-depth: 0
-
-      - name: Install dependencies
-        uses: ./.github/workflows/install
-        timeout-minutes: 30
-        with:
-          key: ${{ hashFiles('yarn.lock') }}
-          yarn_cache_folder: .cache/yarn
-          path: |
-            .cache/yarn
-            node_modules
-
-      - name: Configure AWS credentials
-        uses: ./.github/workflows/configure-aws-credentials
-        with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: us-gov-west-1
-
-      - name: Get va-vsp-bot token
-        uses: ./.github/workflows/inject-secrets
-        with:
-          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
-          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
-
-      - name: Init Dashboard Data Repo
-        uses: ./.github/workflows/init-data-repo
-
-      - name: Set Up BigQuery Creds
-        uses: ./.github/workflows/configure-bigquery
-
-      - name: Fetch Unit Test Stability Allow List
-        run: yarn get-allow-list
-        working-directory: qa-standards-dashboard-data
-        env:
-          TEST_TYPE: unit_test
-
-      - name: Check for newly added disallowed tests
-        run: node script/github-actions/double-check-allow-list.js
-        env:
-          TEST_TYPE: unit_test
-          TESTS: ${{ env.TESTS_TO_STRESS_TEST }}
-          TESTS_PROPERTY: "TESTS_TO_STRESS_TEST"
-
-      - name: Create test results folder
-        run: mkdir -p test-results
-
-      - name: Run stress tests
-        id: run-tests
-        run: |
-          if [[ -n "${{ env.TESTS_TO_STRESS_TEST }}" ]]; then
-            yarn test:unit:gha ${{ env.TESTS_TO_STRESS_TEST }} --coverage --log-level verbose
-            echo "tests_ran=true" >> $GITHUB_OUTPUT
-          else
-            echo "No tests to run"
-            echo "tests_ran=false" >> $GITHUB_OUTPUT
-          fi
-        env:
-          MOCHA_FILE: test-results/stress-tests.xml
-          IS_STRESS_TEST: true
-
-      - name: Archive stress test results
-        if: ${{ always() && steps.run-tests.outputs.tests_ran == 'true' }}
-        uses: ./.github/workflows/upload-artifact
-        with:
-          name: unit-test-stress-test-results-${{ matrix.ci_node_index }}
-          path: mocha/results
-
-      - name: Upload Coverage Report Artifact
-        if: ${{ always() && steps.run-tests.outputs.tests_ran == 'true' }}
-        uses: ./.github/workflows/upload-artifact
-        with:
-          name: stress-test-coverage
-          path: coverage

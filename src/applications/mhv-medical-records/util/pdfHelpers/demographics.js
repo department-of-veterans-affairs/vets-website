@@ -373,7 +373,7 @@ export const generateDemographicsContent = record => {
     },
   };
 
-  results.results.items = results.results.items.map(item => {
+  results.results.items = results.results.items?.map(item => {
     if (item.items.every(i => i.value === NONE_RECORDED)) {
       return {
         ...item,

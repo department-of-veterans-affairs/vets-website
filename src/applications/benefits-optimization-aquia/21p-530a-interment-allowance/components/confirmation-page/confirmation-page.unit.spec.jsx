@@ -41,7 +41,26 @@ describe('ConfirmationPage', () => {
   });
 
   it('should show success alert and confirmation message', () => {
-    const { container } = initConfirmationPage();
+    // Provide minimal form data required by the transform function
+    const mockFormData = {
+      veteranInformation: {
+        fullName: { first: 'John', last: 'Doe' },
+      },
+      burialInformation: {
+        placeOfBurial: {
+          cemeteryLocation: {},
+        },
+        recipientOrganization: {
+          address: {},
+        },
+      },
+      periods: [],
+      previousNames: [],
+      certification: {},
+      remarks: '',
+    };
+
+    const { container } = initConfirmationPage({ formData: mockFormData });
     const alert = container.querySelector('va-alert');
     expect(alert).to.have.attribute('status', 'success');
     const heading = alert.querySelector('h2');

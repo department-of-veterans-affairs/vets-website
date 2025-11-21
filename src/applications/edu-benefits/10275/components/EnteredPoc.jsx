@@ -40,6 +40,7 @@ const EnteredPoc = ({ value, onChange, options = [] }) => {
       >
         {options.map(o => (
           <VaRadioOption
+            name="pointOfContact"
             key={o.key}
             value={o.key}
             checked={!!o.key && selectedKey === o.key}

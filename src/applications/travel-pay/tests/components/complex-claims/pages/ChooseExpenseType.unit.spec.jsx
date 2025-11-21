@@ -1,13 +1,19 @@
 import React from 'react';
 import { expect } from 'chai';
-import { fireEvent } from '@testing-library/react';
-import { MemoryRouter, Route, Routes } from 'react-router-dom-v5-compat';
+import { fireEvent, waitFor } from '@testing-library/react';
+import {
+  MemoryRouter,
+  Route,
+  Routes,
+  useLocation,
+} from 'react-router-dom-v5-compat';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
-import { EXPENSE_TYPES } from '../../../../constants';
 
+import { EXPENSE_TYPES } from '../../../../constants';
 import ChooseExpenseType from '../../../../components/complex-claims/pages/ChooseExpenseType';
 import ExpensePage from '../../../../components/complex-claims/pages/ExpensePage';
+import IntroductionPage from '../../../../components/complex-claims/pages/IntroductionPage';
 import reducer from '../../../../redux/reducer';
 
 describe('ChooseExpenseType', () => {
@@ -45,8 +51,12 @@ describe('ChooseExpenseType', () => {
       'What type of expense do you want to add?',
     );
 
-    expect(screen.getByText(/Start with one expense/)).to.exist;
-    expect(screen.getByText(/To request reimbursement for air fare/)).to.exist;
+    expect(screen.getByText(/Select 1 expense/)).to.exist;
+    expect(
+      screen.getByText(
+        /We’ll need to pre-approve any airfare, lodging, or meals before you request reimbursement/,
+      ),
+    ).to.exist;
 
     expect($('va-radio[label="Choose an expense type"]')).to.exist;
     expect($('va-button-pair')).to.exist;
@@ -77,6 +87,25 @@ describe('ChooseExpenseType', () => {
     // Check that all radio options have the tile attribute
     radioOptions.forEach(option => {
       expect(option.hasAttribute('tile')).to.be.true;
+    });
+
+    // Find the mileage option specifically
+    const mileageOption = Array.from(radioOptions).find(
+      option =>
+        option.getAttribute('value')?.toLowerCase() ===
+        EXPENSE_TYPES.Mileage.name,
+    );
+
+    expect(mileageOption).to.exist;
+
+    // Mileage option should have a description
+    expect(mileageOption.hasAttribute('description')).to.be.true;
+
+    // All other options should NOT have description
+    radioOptions.forEach(option => {
+      if (option.getAttribute('value') !== EXPENSE_TYPES.Mileage.name) {
+        expect(option.getAttribute('description')).to.eq('');
+      }
     });
   });
 
@@ -124,13 +153,17 @@ describe('ChooseExpenseType', () => {
   it('displays helpful instruction text', () => {
     const screen = renderComponent();
 
-    expect(screen.getByText(/Start with one expense/)).to.exist;
+    expect(screen.getByText(/Select 1 expense/)).to.exist;
   });
 
   it('displays pre-approval requirement notice', () => {
     const screen = renderComponent();
 
-    expect(screen.getByText(/To request reimbursement for air fare/)).to.exist;
+    expect(
+      screen.getByText(
+        /We’ll need to pre-approve any airfare, lodging, or meals before you request reimbursement/,
+      ),
+    ).to.exist;
   });
 
   describe('Error handling', () => {
@@ -219,18 +252,6 @@ describe('ChooseExpenseType', () => {
 
       const buttonPair = $('va-button-pair');
 
-      // Mock the navigate function to check if it was called
-      const originalLocation = window.location;
-
-      // Override window.location to detect navigation attempts
-      Object.defineProperty(window, 'location', {
-        value: {
-          ...originalLocation,
-          pathname: '/file-new-claim/12345/claim123/choose-expense',
-        },
-        writable: true,
-      });
-
       // Click continue without selection
       fireEvent(
         buttonPair,
@@ -239,15 +260,76 @@ describe('ChooseExpenseType', () => {
         }),
       );
 
-      // Should still be on the same page (no navigation occurred)
-      expect(window.location.pathname).to.equal(
-        '/file-new-claim/12345/claim123/choose-expense',
+      // Error should be shown, preventing navigation
+      const radioGroup = $('va-radio[label="Choose an expense type"]');
+      expect(radioGroup.getAttribute('error')).to.equal(
+        'Please select an expense type',
+      );
+    });
+  });
+
+  describe('Navigation', () => {
+    it('navigates back to intro page with skipRedirect state', async () => {
+      // Mock component to capture location state
+      const LocationStateCapture = () => {
+        const location = useLocation();
+        return (
+          <div data-testid="location-state">
+            {JSON.stringify(location.state)}
+          </div>
+        );
+      };
+
+      const { getByTestId } = renderWithStoreAndRouter(
+        <MemoryRouter
+          initialEntries={['/file-new-claim/12345/claim123/choose-expense']}
+        >
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId/:claimId/choose-expense"
+              element={<ChooseExpenseType />}
+            />
+            <Route
+              path="/file-new-claim/:apptId"
+              element={
+                <>
+                  <IntroductionPage />
+                  <LocationStateCapture />
+                </>
+              }
+            />
+          </Routes>
+        </MemoryRouter>,
+        {
+          initialState: {
+            travelPay: {
+              appointment: {
+                data: { id: '12345' },
+              },
+              complexClaim: {
+                claim: { data: null },
+              },
+            },
+          },
+          reducers: reducer,
+        },
       );
 
-      // Restore original location
-      Object.defineProperty(window, 'location', {
-        value: originalLocation,
-        writable: true,
+      const buttonPair = $('va-button-pair');
+
+      // Click the back button
+      fireEvent(
+        buttonPair,
+        new CustomEvent('secondaryClick', {
+          detail: {},
+        }),
+      );
+
+      // Wait for navigation and verify skipRedirect state is passed
+      await waitFor(() => {
+        const locationState = getByTestId('location-state');
+        expect(locationState.textContent).to.include('skipRedirect');
+        expect(locationState.textContent).to.include('true');
       });
     });
   });

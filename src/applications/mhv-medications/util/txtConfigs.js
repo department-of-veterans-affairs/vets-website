@@ -17,6 +17,7 @@ import {
   FIELD_NOT_AVAILABLE,
   medStatusDisplayTypes,
   RX_SOURCE,
+  DISPENSE_STATUS,
 } from './constants';
 
 const newLine = (n = 1) => '\n'.repeat(n);
@@ -33,10 +34,10 @@ const SEPARATOR =
 const getLastFilledAndRxNumberBlock = rx => {
   const pendingMed =
     rx?.prescriptionSource === RX_SOURCE.PENDING_DISPENSE &&
-    rx?.dispStatus === 'NewOrder';
+    rx?.dispStatus === DISPENSE_STATUS.NEW_ORDER;
   const pendingRenewal =
     rx?.prescriptionSource === RX_SOURCE.PENDING_DISPENSE &&
-    rx?.dispStatus === 'Renew';
+    rx?.dispStatus === DISPENSE_STATUS.RENEW;
   const isRxPending = pendingMed || pendingRenewal;
 
   return isRxPending
@@ -63,7 +64,6 @@ const getAttributes = rx =>
     fieldLine('Pharmacy phone number', rx.phoneNumber),
     fieldLine('Instructions', rx.sig),
     fieldLine('Reason for use', rx.indicationForUse),
-    fieldLine('Quantity', rx.quantity),
     `Prescribed on: ${dateFormat(
       rx.orderedDate,
       DATETIME_FORMATS.longMonthDate,

@@ -25,11 +25,11 @@ import {
   fullNameUIHelper,
   generateDeleteDescription,
   isDefined,
-  isRecipientInfoIncomplete,
+  updatedIsRecipientInfoIncomplete,
   otherRecipientRelationshipTypeUI,
-  recipientNameRequired,
+  updatedRecipientNameRequired,
   requireExpandedArrayField,
-  resolveRecipientFullName,
+  updatedResolveRecipientFullName,
   sharedRecipientRelationshipBase,
   showUpdatedContent,
   sharedYesNoOptionsBase,
@@ -54,7 +54,7 @@ export const options = {
   nounPlural: 'discontinued income',
   required: false,
   isItemIncomplete: item =>
-    isRecipientInfoIncomplete(item) ||
+    updatedIsRecipientInfoIncomplete(item) ||
     !isDefined(item.payer) ||
     !isDefined(item?.incomeType) ||
     (!isDefined(item?.['view:otherIncomeType']) &&
@@ -74,7 +74,7 @@ export const options = {
       if (!isDefined(item?.recipientRelationship) || !isDefined(item?.payer)) {
         return undefined;
       }
-      const fullName = resolveRecipientFullName(item, formData);
+      const fullName = updatedResolveRecipientFullName(item, formData);
       const possessiveName = formatPossessiveString(fullName);
       return `${possessiveName} income from ${item.payer}`;
     },
@@ -263,6 +263,11 @@ const parentSummaryPage = {
   },
 };
 
+const updatedSharedRecipientRelationshipBase = {
+  ...sharedRecipientRelationshipBase,
+  title: 'Who received this income?',
+};
+
 /** @returns {PageSchema} */
 const veteranIncomeRecipientPage = {
   uiSchema: {
@@ -271,7 +276,7 @@ const veteranIncomeRecipientPage = {
       nounSingular: options.nounSingular,
     }),
     recipientRelationship: radioUI({
-      ...sharedRecipientRelationshipBase,
+      ...updatedSharedRecipientRelationshipBase,
       labels: Object.fromEntries(
         Object.entries(relationshipLabels).filter(
           ([key]) => key !== 'PARENT' && key !== 'CUSTODIAN',
@@ -308,7 +313,7 @@ const spouseIncomeRecipientPage = {
       nounSingular: options.nounSingular,
     }),
     recipientRelationship: radioUI({
-      ...sharedRecipientRelationshipBase,
+      ...updatedSharedRecipientRelationshipBase,
       labels: spouseRelationshipLabels,
       descriptions: Object.fromEntries(
         Object.entries(relationshipLabelDescriptions).filter(
@@ -341,7 +346,7 @@ const custodianIncomeRecipientPage = {
       nounSingular: options.nounSingular,
     }),
     recipientRelationship: radioUI({
-      ...sharedRecipientRelationshipBase,
+      ...updatedSharedRecipientRelationshipBase,
       labels: custodianRelationshipLabels,
       descriptions: Object.fromEntries(
         Object.entries(relationshipLabelDescriptions).filter(
@@ -376,7 +381,7 @@ const parentIncomeRecipientPage = {
       nounSingular: options.nounSingular,
     }),
     recipientRelationship: radioUI({
-      ...sharedRecipientRelationshipBase,
+      ...updatedSharedRecipientRelationshipBase,
       labels: parentRelationshipLabels,
       descriptions: {
         SPOUSE: 'The Veteran’s other parent should file a separate claim',
@@ -701,11 +706,36 @@ export const discontinuedIncomePages = arrayBuilderPages(
       uiSchema: nonVeteranIncomeRecipientPage.uiSchema,
       schema: nonVeteranIncomeRecipientPage.schema,
     }),
+    // When claimantType is 'CHILD' we skip showing the recipient page entirely
+    // To preserve required data, we auto-set recipientRelationship to 'CHILD'
+    discontinuedIncomeChildRecipientNamePage: pageBuilder.itemPage({
+      title: 'Discontinued income recipient name',
+      path: 'discontinued-income/:index/recipient-name-updated',
+      depends: formData =>
+        showUpdatedContent() && formData.claimantType === 'CHILD',
+      uiSchema: {
+        ...recipientNamePage.uiSchema,
+        'ui:options': {
+          updateSchema: (formData, formSchema, _uiSchema, index) => {
+            const arrayData = formData?.discontinuedIncomes || [];
+            const item = arrayData[index];
+            if (formData.claimantType === 'CHILD' && item) {
+              item.recipientRelationship = 'CHILD';
+            }
+            return {
+              ...formSchema,
+            };
+          },
+        },
+      },
+      schema: recipientNamePage.schema,
+    }),
     discontinuedIncomeRecipientNamePage: pageBuilder.itemPage({
       title: 'Discontinued income recipient name',
       path: 'discontinued-income/:index/recipient-name',
       depends: (formData, index) =>
-        recipientNameRequired(formData, index, 'discontinuedIncomes'),
+        (!showUpdatedContent() || formData.claimantType !== 'CHILD') &&
+        updatedRecipientNameRequired(formData, index, 'discontinuedIncomes'),
       uiSchema: recipientNamePage.uiSchema,
       schema: recipientNamePage.schema,
     }),

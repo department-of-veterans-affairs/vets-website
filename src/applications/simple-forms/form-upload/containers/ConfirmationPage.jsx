@@ -22,16 +22,7 @@ const ConfirmationPage = props => {
     <ConfirmationView
       submitDate={submitDate}
       confirmationNumber={confirmationNumber}
-      formConfig={{
-        ...formConfig,
-        chapters: {
-          ...formConfig.chapters,
-          uploadChapter: {
-            ...formConfig.chapters.uploadChapter,
-            title: 'Upload form',
-          },
-        },
-      }}
+      formConfig={formConfig}
       devOnly={{
         showButtons: true,
         mockData,

@@ -443,6 +443,17 @@ describe('confirmation page view helpers', () => {
     expect(title).to.equal('Review function title');
   });
 
+  it('should not add "Review " prefix when onReviewPage is false', () => {
+    const chapterFormConfig = {
+      title: ({ onReviewPage }) =>
+        `${onReviewPage ? 'Review ' : ''}Veteran Details`,
+    };
+
+    const title = getChapterTitle(chapterFormConfig, {}, {});
+    expect(title).to.equal('Veteran Details');
+    expect(title).to.not.include('Review ');
+  });
+
   it('should return the correct title for the page', () => {
     const {
       getPageTitle,
@@ -500,6 +511,23 @@ describe('confirmation page view helpers', () => {
     };
     title = getPageTitle(pageConfigThrows, {}, {});
     expect(title).to.equal('');
+  });
+
+  it('should not add "Review " prefix to page titles when onReviewPage is false', () => {
+    const {
+      getPageTitle,
+    } = require('platform/forms-system/src/js/components/ConfirmationView/ChapterSectionCollection');
+    const pageConfig = {
+      title: ({ onReviewPage }) =>
+        `${onReviewPage ? 'Review ' : ''}Veteran Information`,
+      pageKey: 'veteranInfo',
+      uiSchema: {},
+      schema: { properties: {} },
+    };
+
+    const title = getPageTitle(pageConfig, {}, {});
+    expect(title).to.equal('Veteran Information');
+    expect(title).to.not.include('Review ');
   });
 
   it('should show radio fields correctly', () => {

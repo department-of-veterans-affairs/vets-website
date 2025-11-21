@@ -29,6 +29,18 @@ export const veteranInformationUiSchema = {
  * JSON Schema for Veteran Information page
  * Validates veteran name and date of birth
  */
+// Customize the name schema to add maxLength constraint for middle name
+const customVeteranNameSchema = {
+  ...fullNameNoSuffixSchema,
+  properties: {
+    ...fullNameNoSuffixSchema.properties,
+    middle: {
+      type: 'string',
+      maxLength: 1,
+    },
+  },
+};
+
 export const veteranInformationSchema = {
   type: 'object',
   required: ['veteranInformation'],
@@ -37,7 +49,7 @@ export const veteranInformationSchema = {
       type: 'object',
       required: ['veteranFullName', 'veteranDob'],
       properties: {
-        veteranFullName: fullNameNoSuffixSchema,
+        veteranFullName: customVeteranNameSchema,
         veteranDob: dateOfBirthSchema,
       },
     },

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { Link } from 'react-router-dom-v5-compat';
 import { useSelector } from 'react-redux';
 import {
@@ -17,7 +17,6 @@ import {
 } from '../api/prescriptionsApi';
 
 import { dateFormat } from '../util/helpers';
-import { selectRefillProgressFlag } from '../util/selectors';
 import {
   DATETIME_FORMATS,
   SESSION_SELECTED_PAGE_NUMBER,
@@ -35,6 +34,8 @@ import ProcessList from '../components/shared/ProcessList';
 import { refillProcessStepGuide } from '../util/processListData';
 import { useGetAllergiesQuery } from '../api/allergiesApi';
 import { selectUserDob, selectUserFullName } from '../selectors/selectUser';
+import { selectCernerPilotFlag } from '../util/selectors';
+
 import { selectSortOption } from '../selectors/selectPreferences';
 
 const RefillPrescriptions = () => {
@@ -44,6 +45,8 @@ const RefillPrescriptions = () => {
     error: refillableError,
   } = useGetRefillablePrescriptionsQuery();
 
+  const isOracleHealthPilot = useSelector(selectCernerPilotFlag);
+
   const [
     bulkRefillPrescriptions,
     result,
@@ -52,14 +55,24 @@ const RefillPrescriptions = () => {
 
   const refillAlertList = refillableData?.refillAlertList || [];
 
-  const getMedicationsByIds = (ids, prescriptions) => {
-    if (!ids || !prescriptions) return [];
-    return ids.map(id =>
-      prescriptions.find(
-        prescription => prescription.prescriptionId === Number(id),
-      ),
-    );
-  };
+  const getMedicationsByIds = useCallback(
+    (ids, prescriptions) => {
+      if (!ids || !prescriptions) return [];
+
+      return ids.map(id =>
+        prescriptions.find(prescription => {
+          if (isOracleHealthPilot) {
+            return (
+              prescription.prescriptionId === Number(id.id) &&
+              prescription.stationNumber === id.stationNumber
+            );
+          }
+          return prescription.prescriptionId === Number(id);
+        }),
+      );
+    },
+    [isOracleHealthPilot],
+  );
 
   const successfulMeds = useMemo(
     () =>
@@ -67,7 +80,11 @@ const RefillPrescriptions = () => {
         result?.data?.successfulIds,
         refillableData?.prescriptions,
       ),
-    [result?.data?.successfulIds],
+    [
+      getMedicationsByIds,
+      result?.data?.successfulIds,
+      refillableData?.prescriptions,
+    ],
   );
 
   const failedMeds = useMemo(
@@ -76,7 +93,11 @@ const RefillPrescriptions = () => {
         result?.data?.failedIds,
         refillableData?.prescriptions,
       ),
-    [result?.data?.failedIds],
+    [
+      getMedicationsByIds,
+      result?.data?.failedIds,
+      refillableData?.prescriptions,
+    ],
   );
 
   const [hasNoOptionSelectedError, setHasNoOptionSelectedError] = useState(
@@ -93,11 +114,9 @@ const RefillPrescriptions = () => {
 
   // Get refillable list from RTK Query result
   const fullRefillList = refillableData?.prescriptions || [];
-  const showRefillProgressContent = useSelector(selectRefillProgressFlag);
   const { data: allergies, error: allergiesError } = useGetAllergiesQuery();
   const userName = useSelector(selectUserFullName);
   const dob = useSelector(selectUserDob);
-
   // Memoized Values
   const selectedRefillListLength = useMemo(() => selectedRefillList.length, [
     selectedRefillList,
@@ -110,11 +129,17 @@ const RefillPrescriptions = () => {
       window.scrollTo(0, 0);
 
       // Get just the prescription IDs for the bulk refill
-      const prescriptionIds = selectedRefillList.map(rx => rx.prescriptionId);
+      const prescriptionIds = selectedRefillList.map(rx => {
+        if (isOracleHealthPilot) {
+          return { id: rx.prescriptionId, stationNumber: rx.stationNumber };
+        }
+        return rx.prescriptionId;
+      });
 
       try {
-        await bulkRefillPrescriptions(prescriptionIds);
+        await bulkRefillPrescriptions(prescriptionIds).unwrap();
         setRefillStatus(REFILL_STATUS.FINISHED);
+        setSelectedRefillList([]);
       } catch (error) {
         setRefillStatus(REFILL_STATUS.ERROR);
       }
@@ -130,7 +155,6 @@ const RefillPrescriptions = () => {
         ),
       );
     }
-    setSelectedRefillList([]);
   };
 
   const onSelectPrescription = rx => {
@@ -211,15 +235,12 @@ const RefillPrescriptions = () => {
         >
           Refill prescriptions
         </h1>
-        {showRefillProgressContent &&
-          refillAlertList.length > 0 && (
-            <DelayedRefillAlert
-              dataDogActionName={
-                dataDogActionNames.refillPage.REFILL_ALERT_LINK
-              }
-              refillAlertList={refillAlertList}
-            />
-          )}
+        {refillAlertList.length > 0 && (
+          <DelayedRefillAlert
+            dataDogActionName={dataDogActionNames.refillPage.REFILL_ALERT_LINK}
+            refillAlertList={refillAlertList}
+          />
+        )}
         {prescriptionsApiError ? (
           <>
             <ApiErrorNotification errorType="access" content="medications" />
@@ -356,9 +377,7 @@ const RefillPrescriptions = () => {
                 Go to your medications list
               </Link>
             </p>
-            {showRefillProgressContent && (
-              <ProcessList stepGuideProps={stepGuideProps} />
-            )}
+            <ProcessList stepGuideProps={stepGuideProps} />
             <NeedHelp page={pageType.REFILL} />
           </>
         )}

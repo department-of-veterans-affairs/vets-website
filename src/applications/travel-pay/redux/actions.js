@@ -1,6 +1,9 @@
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { transformVAOSAppointment } from '../util/appointment-helpers';
+import {
+  transformVAOSAppointment,
+  calculateIsOutOfBounds,
+} from '../util/appointment-helpers';
 
 export const FETCH_TRAVEL_CLAIMS_STARTED = 'FETCH_TRAVEL_CLAIMS_STARTED';
 export const FETCH_TRAVEL_CLAIMS_SUCCESS = 'FETCH_TRAVEL_CLAIMS_SUCCESS';
@@ -29,12 +32,27 @@ export const DELETE_EXPENSE_FAILURE = 'DELETE_EXPENSE_FAILURE';
 export const CREATE_EXPENSE_STARTED = 'CREATE_EXPENSE_STARTED';
 export const CREATE_EXPENSE_SUCCESS = 'CREATE_EXPENSE_SUCCESS';
 export const CREATE_EXPENSE_FAILURE = 'CREATE_EXPENSE_FAILURE';
+export const DELETE_DOCUMENT_STARTED = 'DELETE_DOCUMENT_STARTED';
+export const DELETE_DOCUMENT_SUCCESS = 'DELETE_DOCUMENT_SUCCESS';
+export const DELETE_DOCUMENT_FAILURE = 'DELETE_DOCUMENT_FAILURE';
 export const FETCH_COMPLEX_CLAIM_DETAILS_STARTED =
   'FETCH_COMPLEX_CLAIM_DETAILS_STARTED';
 export const FETCH_COMPLEX_CLAIM_DETAILS_SUCCESS =
   'FETCH_COMPLEX_CLAIM_DETAILS_SUCCESS';
 export const FETCH_COMPLEX_CLAIM_DETAILS_FAILURE =
   'FETCH_COMPLEX_CLAIM_DETAILS_FAILURE';
+
+// Helper function to add isOutOfBounds to claim details
+function addOutOfBoundsFlag(claimData) {
+  if (!claimData || !claimData.appointmentDate) {
+    return claimData;
+  }
+
+  return {
+    ...claimData,
+    isOutOfBounds: calculateIsOutOfBounds(claimData.appointmentDate),
+  };
+}
 
 // Get all travel claims
 const fetchTravelClaimsStart = () => ({
@@ -89,7 +107,10 @@ export function getClaimDetails(id) {
       const claimsUrl = `${environment.API_URL}/travel_pay/v0/claims/${id}`;
       const response = await apiRequest(claimsUrl);
 
-      dispatch(fetchClaimDetailsSuccess(id, response));
+      // Add isOutOfBounds flag to the claim data
+      const claimDataWithFlags = addOutOfBoundsFlag(response);
+
+      dispatch(fetchClaimDetailsSuccess(id, claimDataWithFlags));
     } catch (error) {
       dispatch(fetchClaimDetailsFailure(error));
     }
@@ -403,7 +424,7 @@ export function createExpense(claimId, expenseType, expenseData) {
 
       const expenseUrl = `${
         environment.API_URL
-      }/travel_pay/v0/expenses/${expenseType}`;
+      }/travel_pay/v0/claims/${claimId}/expenses/${expenseType}`;
       const response = await apiRequest(expenseUrl, options);
       const result = {
         ...expenseData,
@@ -423,6 +444,59 @@ export function createExpense(claimId, expenseType, expenseData) {
       return result;
     } catch (error) {
       dispatch(createExpenseFailure(error));
+      throw error;
+    }
+  };
+}
+
+// Deleting an document
+const deleteDocumentStart = documentId => ({
+  type: DELETE_DOCUMENT_STARTED,
+  documentId,
+});
+const deleteDocumentSuccess = documentId => ({
+  type: DELETE_DOCUMENT_SUCCESS,
+  documentId,
+});
+const deleteDocumentFailure = (error, documentId) => ({
+  type: DELETE_DOCUMENT_FAILURE,
+  error,
+  documentId,
+});
+
+export function deleteDocument(claimId, documentId) {
+  return async dispatch => {
+    dispatch(deleteDocumentStart(documentId));
+
+    try {
+      if (!documentId) {
+        throw new Error('Missing document id');
+      }
+
+      const options = {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      };
+
+      const documentUrl = `${
+        environment.API_URL
+      }/travel_pay/v0/claims/${claimId}/documents/${documentId}`;
+      await apiRequest(documentUrl, options);
+
+      // Fetch the complete complex claim details and load expenses into store
+      try {
+        await dispatch(getComplexClaimDetails(claimId));
+      } catch (fetchError) {
+        // Silently continue if fetching details fails
+      }
+
+      // Dispatch success only after claim details are fetched
+      dispatch(deleteDocumentSuccess(documentId));
+      return { id: documentId };
+    } catch (error) {
+      dispatch(deleteDocumentFailure(error, documentId));
       throw error;
     }
   };

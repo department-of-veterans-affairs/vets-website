@@ -83,9 +83,14 @@ export const DownloadTsaLetter = ({ letter }) => {
 
   const loading = !hasFetched;
   const letterTitle = 'TSA PreCheck Application Fee Waiver Letter';
+  const handleClick = () =>
+    recordEvent({
+      event: 'letter-download',
+      'letter-type': letterTitle,
+    });
 
   return (
-    <va-accordion-item key="tsa-letter" ref={ref}>
+    <va-accordion-item data-testid="tsa-letter-accordion" ref={ref}>
       <h3 slot="headline">{letterTitle}</h3>
       <p>
         The {letterTitle} shows you’re eligible for free enrollment in
@@ -112,6 +117,7 @@ export const DownloadTsaLetter = ({ letter }) => {
             filename={`${letterTitle}.pdf`}
             text={`Download ${letterTitle}`}
             download
+            onClick={handleClick}
           />
         </div>
       )}

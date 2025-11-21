@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom-v5-compat';
 import * as focusUtils from '~/platform/utilities/ui/focus';
 import * as apiModule from '~/platform/utilities/api';
@@ -71,9 +71,9 @@ describe('<LetterList>', () => {
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
-    apiRequestStub = sandbox
-      .stub(apiModule, 'apiRequest')
-      .resolves({ data: [] });
+    apiRequestStub = sandbox.stub(apiModule, 'apiRequest').resolves({
+      data: [{ attributes: { documentId: '' } }],
+    });
     recordEventStub = sandbox.stub(recordEventModule, 'default');
   });
 
@@ -196,6 +196,25 @@ describe('<LetterList>', () => {
       'One of our systems appears to be down.',
     );
   });
+
+  it('renders eligibility error when TSA letter is not available', async () => {
+    apiRequestStub.resetBehavior();
+    apiRequestStub.rejects(new Error('API Error'));
+    const tsaLetterEnabledProps = {
+      ...defaultProps,
+      tsaSafeTravelLetter: true,
+    };
+    const { findByText } = render(
+      <Provider store={getStore()}>
+        <MemoryRouter>
+          <LetterList {...tsaLetterEnabledProps} />
+        </MemoryRouter>
+      </Provider>,
+    );
+    const errorHeading = await findByText('Some letters may not be available');
+    expect(errorHeading).to.exist;
+  });
+
   it('renders VeteranBenefitSummaryOptions', () => {
     const { getByText } = render(
       <Provider store={getStore()}>
@@ -337,18 +356,94 @@ describe('<LetterList>', () => {
     ).to.exist;
   });
 
-  it('does not fetch TSA letter if feature flag is disabled', () => {
-    render(
-      <Provider store={getStore()}>
-        <MemoryRouter>
-          <LetterList {...defaultProps} />
-        </MemoryRouter>
-      </Provider>,
-    );
-    expect(apiRequestStub.calledOnce).to.be.false;
+  describe('TSA letter', () => {
+    it('does not fetch TSA letter if feature flag is disabled', () => {
+      render(
+        <Provider store={getStore()}>
+          <MemoryRouter>
+            <LetterList {...defaultProps} />
+          </MemoryRouter>
+        </Provider>,
+      );
+      expect(apiRequestStub.calledOnce).to.be.false;
+    });
+
+    it('fetches TSA letter if feature flag is enabled', () => {
+      const tsaLetterEnabledProps = {
+        ...defaultProps,
+        tsaSafeTravelLetter: true,
+      };
+      render(
+        <Provider store={getStore()}>
+          <MemoryRouter>
+            <LetterList {...tsaLetterEnabledProps} />
+          </MemoryRouter>
+        </Provider>,
+      );
+      expect(apiRequestStub.calledOnce).to.be.true;
+    });
+
+    it('retrieves latest TSA letter if there is more than 1 letter', async () => {
+      const mockResponse = {
+        data: [
+          // missing receivedAt defaults receivedAt to 0
+          {
+            attributes: {
+              documentId: '999',
+            },
+          },
+          {
+            attributes: {
+              documentId: '123',
+              receivedAt: '2022-01-01',
+            },
+          },
+          // missing receivedAt defaults receivedAt to 0
+          {
+            attributes: {
+              documentId: '111',
+            },
+          },
+          {
+            attributes: {
+              documentId: '456',
+              receivedAt: '2023-01-01',
+            },
+          },
+          {
+            attributes: {
+              documentId: '789',
+              receivedAt: '2024-01-01',
+            },
+          },
+        ],
+      };
+      apiRequestStub.resolves(mockResponse);
+      const componentRef = React.createRef();
+      const tsaLetterEnabledProps = {
+        ...defaultProps,
+        ref: componentRef,
+        tsaSafeTravelLetter: true,
+      };
+      render(
+        <Provider store={getStore()}>
+          <MemoryRouter>
+            <LetterList {...tsaLetterEnabledProps} />
+          </MemoryRouter>
+        </Provider>,
+      );
+      await waitFor(() => {
+        const instance = componentRef.current;
+        expect(instance.state.tsaLetter).to.exist;
+        expect(instance.state.tsaLetter.attributes.documentId).to.equal('789');
+        expect(instance.state.tsaLetter.attributes.receivedAt).to.equal(
+          '2024-01-01',
+        );
+      });
+    });
   });
 
-  it('fetches TSA letter if feature flag is enabled', () => {
+  it('records user is eligible for TSA letter', async () => {
     const tsaLetterEnabledProps = {
       ...defaultProps,
       tsaSafeTravelLetter: true,
@@ -360,6 +455,45 @@ describe('<LetterList>', () => {
         </MemoryRouter>
       </Provider>,
     );
-    expect(apiRequestStub.calledOnce).to.be.true;
+
+    await waitFor(() => {
+      const actualEvent = recordEventStub.getCall(0)?.args[0];
+      const expectedEvent = {
+        event: 'api_call',
+        'api-name': 'GET /v0/tsa_letter',
+        'api-status': 'successful',
+        'has-letter': true,
+      };
+      expect(actualEvent).to.deep.equal(expectedEvent);
+    });
+  });
+
+  it('records user is not eligible for TSA letter', async () => {
+    apiRequestStub.resetBehavior();
+    apiRequestStub.resolves({
+      data: [],
+    });
+    const tsaLetterEnabledProps = {
+      ...defaultProps,
+      tsaSafeTravelLetter: true,
+    };
+    render(
+      <Provider store={getStore()}>
+        <MemoryRouter>
+          <LetterList {...tsaLetterEnabledProps} />
+        </MemoryRouter>
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      const actualEvent = recordEventStub.getCall(0)?.args[0];
+      const expectedEvent = {
+        event: 'api_call',
+        'api-name': 'GET /v0/tsa_letter',
+        'api-status': 'successful',
+        'has-letter': false,
+      };
+      expect(actualEvent).to.deep.equal(expectedEvent);
+    });
   });
 });

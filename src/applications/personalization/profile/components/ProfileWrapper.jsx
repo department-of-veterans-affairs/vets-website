@@ -5,6 +5,7 @@ import { isEmpty } from 'lodash';
 import { useLocation } from 'react-router-dom';
 import NameTag from '~/applications/personalization/components/NameTag';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+import InitializeVAPServiceID from '@@vap-svc/containers/InitializeVAPServiceID';
 import { hasTotalDisabilityError } from '../../common/selectors/ratedDisabilities';
 import ProfileSubNav from './ProfileSubNav';
 import { PROFILE_PATHS } from '../constants';
@@ -68,7 +69,7 @@ const ProfileWrapper = ({
     [location.pathname],
   );
 
-  return (
+  const content = (
     <>
       {showNameTag && (
         <NameTag
@@ -82,7 +83,7 @@ const ProfileWrapper = ({
           <div className="vads-u-padding-x--1 medium-screen:vads-u-display--none">
             {profile2Enabled ? (
               <>
-                <ProfileBreadcrumbs />
+                <ProfileBreadcrumbs routes={routesForNav} />
                 <ProfileSubNav
                   className="vads-u-margin-top--neg1 vads-u-margin-bottom--4"
                   routes={routesForNav}
@@ -101,9 +102,12 @@ const ProfileWrapper = ({
 
           <div className="vads-l-grid-container vads-u-padding-x--0">
             <ProfileBreadcrumbs
+              routes={routesForNav}
               className={`medium-screen:vads-u-padding-left--2 vads-u-padding-left--1 ${isLOA3 &&
                 !profile2Enabled &&
-                'vads-u-margin-top--neg2'}`}
+                'vads-u-margin-top--neg2'} ${isLOA3 &&
+                profile2Enabled &&
+                'vads-u-display--none medium-screen:vads-u-display--block'}`}
             />
             <div className="vads-l-row">
               <div className="vads-u-display--none medium-screen:vads-u-display--block vads-l-col--3 vads-u-padding-left--2">
@@ -151,6 +155,16 @@ const ProfileWrapper = ({
       )}
     </>
   );
+
+  // Wrap all Profile content with InitializeVAPServiceID for LOA3 users in MVI.
+  // This ensures VA Profile ID is created before any Profile pages are accessed.
+  // NOTE: Child components (e.g., NotificationSettings, DirectDeposit, PaperlessDelivery)
+  // should NOT wrap themselves in InitializeVAPServiceID, as initialization is now handled here.
+  if (isLOA3 && isInMVI) {
+    return <InitializeVAPServiceID>{content}</InitializeVAPServiceID>;
+  }
+
+  return content;
 };
 
 const mapStateToProps = (state, ownProps) => {

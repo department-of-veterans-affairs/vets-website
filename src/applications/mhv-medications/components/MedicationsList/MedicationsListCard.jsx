@@ -5,15 +5,19 @@ import ExtraDetails from '../shared/ExtraDetails';
 import LastFilledInfo from '../shared/LastFilledInfo';
 import { dateFormat, getRxStatus, rxSourceIsNonVA } from '../../util/helpers';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
-import { DATETIME_FORMATS, RX_SOURCE } from '../../util/constants';
+import {
+  DATETIME_FORMATS,
+  RX_SOURCE,
+  DISPENSE_STATUS,
+} from '../../util/constants';
 
 const MedicationsListCard = ({ rx }) => {
   const pendingMed =
     rx.prescriptionSource === RX_SOURCE.PENDING_DISPENSE &&
-    rx?.dispStatus === 'NewOrder';
+    rx?.dispStatus === DISPENSE_STATUS.NEW_ORDER;
   const pendingRenewal =
     rx.prescriptionSource === RX_SOURCE.PENDING_DISPENSE &&
-    rx?.dispStatus === 'Renew';
+    rx?.dispStatus === DISPENSE_STATUS.RENEW;
   const latestTrackingStatus = rx?.trackingList?.[0];
   const isNonVaPrescription = rxSourceIsNonVA(rx);
   const rxStatus = getRxStatus(rx);

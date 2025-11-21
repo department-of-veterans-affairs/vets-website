@@ -106,7 +106,6 @@ class FilesPage extends React.Component {
             <FilesWeCouldntReceiveEntryPoint
               evidenceSubmissions={evidenceSubmissions}
             />
-            <div className="vads-u-margin-y--6 vads-u-border--1px vads-u-border-color--gray-light" />
             <OtherWaysToSendYourDocuments />
           </Toggler.Enabled>
           <Toggler.Disabled>

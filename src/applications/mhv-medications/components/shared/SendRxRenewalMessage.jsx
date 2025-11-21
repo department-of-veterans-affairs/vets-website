@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { Link } from 'react-router-dom-v5-compat';
+import { useSelector } from 'react-redux';
+import { selectSecureMessagingMedicationsRenewalRequestFlag } from '../../util/selectors';
 
 const SendRxRenewalMessage = ({
   rx,
@@ -9,6 +11,9 @@ const SendRxRenewalMessage = ({
   alwaysShowFallBackContent = false,
   isActionLink = false,
 }) => {
+  const showSecureMessagingRenewalRequest = useSelector(
+    selectSecureMessagingMedicationsRenewalRequestFlag,
+  );
   const redirectPath = encodeURIComponent(
     '/my-health/medications?page=1&rxRenewalMessageSuccess=true',
   );
@@ -36,7 +41,11 @@ const SendRxRenewalMessage = ({
     isActiveNoRefillsSubmitted ||
     isExpiredLessThan120Days;
 
-  if (!canSendRenewalRequest || alwaysShowFallBackContent) {
+  if (
+    !canSendRenewalRequest ||
+    !showSecureMessagingRenewalRequest ||
+    alwaysShowFallBackContent
+  ) {
     return fallbackContent || null;
   }
 

@@ -179,8 +179,77 @@ describe('Bot', () => {
       );
 
       getByTestId('va-modal-close').click();
-      expect(setLoggedInFlowStub.calledTwice).to.be.true;
+      // Wait for the auth-event-driven call ("true") and the onClose call ("false")
+      await waitFor(
+        () => {
+          expect(setLoggedInFlowStub.callCount).to.equal(2);
+        },
+        { timeout: 3000 },
+      );
       expect(setLoggedInFlowStub.calledWithExactly('false')).to.be.true;
+    });
+
+    it('should reopen the SignInModal after closing when auth event fires again', async () => {
+      // User is not logged in, and has accepted disclaimer
+      sandbox
+        .stub(ReactReduxModule, 'useSelector')
+        .onCall(0)
+        .returns(false)
+        .onCall(1)
+        .returns(true);
+
+      // In auth experience gate is satisfied
+      sandbox.stub(SessionStorageModule, 'getInAuthExp').returns(true);
+
+      // Stub SignInModal to expose a close button that triggers onClose
+      sandbox.stub(SignInModalModule, 'default').callsFake(({ onClose }) => (
+        <div data-testid="sign-in-modal">
+          <va-button data-testid="va-modal-close" onClick={onClose}>
+            Close
+          </va-button>
+        </div>
+      ));
+
+      const { getByTestId, queryByTestId } = render(
+        <Provider store={mockStore}>
+          <Bot />
+        </Provider>,
+      );
+
+      // First auth event opens the modal
+      await act(async () => {
+        window.dispatchEvent(new Event('webchat-auth-activity'));
+      });
+
+      await waitFor(
+        () => {
+          expect(getByTestId('sign-in-modal')).to.exist;
+        },
+        { timeout: 3000 },
+      );
+
+      // Close the modal via onClose
+      getByTestId('va-modal-close').click();
+
+      // Ensure it disappears after state update
+      await waitFor(
+        () => {
+          expect(queryByTestId('sign-in-modal')).to.not.exist;
+        },
+        { timeout: 3000 },
+      );
+
+      // Fire auth event again; modal should reopen
+      await act(async () => {
+        window.dispatchEvent(new Event('webchat-auth-activity'));
+      });
+
+      await waitFor(
+        () => {
+          expect(getByTestId('sign-in-modal')).to.exist;
+        },
+        { timeout: 3000 },
+      );
     });
   });
 });
