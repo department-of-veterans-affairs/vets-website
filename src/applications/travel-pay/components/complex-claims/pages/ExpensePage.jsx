@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import {
   useNavigate,
   useParams,
@@ -13,7 +13,11 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import DocumentUpload from './DocumentUpload';
 import { EXPENSE_TYPES, EXPENSE_TYPE_KEYS } from '../../../constants';
-import { createExpense, updateExpense } from '../../../redux/actions';
+import {
+  createExpense,
+  updateExpenseDeleteDocument,
+  updateExpense,
+} from '../../../redux/actions';
 import {
   selectExpenseUpdateLoadingState,
   selectExpenseCreationLoadingState,
@@ -30,15 +34,23 @@ import CancelExpenseModal from './CancelExpenseModal';
 const ExpensePage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const hasLoadedExpenseRef = useRef(false);
+  const hasLoadedDocumentRef = useRef(false);
+
   const { apptId, claimId, expenseId } = useParams();
+
   const location = useLocation();
+  const skipHydration = location.state?.skipHydration;
+  console.log({ skipHydration });
+  console.log({ location });
 
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [formState, setFormState] = useState({});
   const [showError, setShowError] = useState(false);
   const [document, setDocument] = useState(null);
   const [documentLoading, setDocumentLoading] = useState(false);
+  const [previousDocumentId, setPreviousDocumentId] = useState(null);
+
   const errorRef = useRef(null); // ref for the error message
 
   const isLoadingExpense = useSelector(
@@ -60,66 +72,148 @@ const ExpensePage = () => {
     state => (expenseId ? selectExpenseWithDocument(state, expenseId) : null),
   );
 
-  const { filename } = expense?.receipt ?? {};
-
-  useEffect(
+  const initialFormState = useMemo(
     () => {
-      if (!expenseId || !expense?.documentId) return;
-
-      const documentUrl = `${
-        environment.API_URL
-      }/travel_pay/v0/claims/${claimId}/documents/${expense.documentId}`;
-
-      setDocumentLoading(true);
-
-      apiRequest(documentUrl)
-        .then(response => {
-          const contentType = response.headers.get('Content-Type');
-          const contentLength = response.headers.get('Content-Length');
-
-          response.arrayBuffer().then(arrayBuffer => {
-            const blob = new Blob([arrayBuffer], {
-              type: response.headers.get('Content-Type'),
-            });
-            toBase64(blob).then(base64File => {
-              setFormState(prev => ({
-                ...prev,
-                receipt: {
-                  contentType,
-                  length: contentLength,
-                  fileName: filename,
-                  fileData: base64File,
-                },
-              }));
-              const file = new File([blob], filename, {
-                type: contentType,
-              });
-              setDocument(file);
-            });
-          });
-
-          setDocumentLoading(false);
-        })
-        .catch(err => {
-          // eslint-disable-next-line no-console
-          console.error('Failed to fetch document:', err);
-          setDocumentLoading(false);
-        });
-    },
-    [expenseId, claimId, expense?.documentId, filename],
-  );
-
-  useEffect(
-    () => {
-      if (expenseId && expense && !hasLoadedExpenseRef.current) {
-        setFormState({
-          ...expense,
-          purchaseDate: expense.dateIncurred || '',
-        });
-        hasLoadedExpenseRef.current = true;
-      }
+      if (!expenseId || !expense) return {};
+      return {
+        ...expense,
+        purchaseDate: expense.dateIncurred || '',
+      };
     },
     [expenseId, expense],
+  );
+
+  const [formState, setFormState] = useState(initialFormState);
+  const [previousFormState, setPreviousFormState] = useState(initialFormState);
+
+  const filename = expense?.receipt?.filename;
+
+  // useEffect(
+  //   () => {
+  //     // --- 1. Bail out early if required data isn't ready
+  //     console.log('test', hasLoadedDocumentRef.current);
+  //     if (!expenseId || !expense) return;
+  //     console.log('test2', hasLoadedExpenseRef.current);
+
+  //     if (skipHydration) {
+  //       navigate(location.pathname, { replace: true, state: {} });
+  //       return;
+  //     }
+  //     // --- 2. Hydrate form state ONCE per expense (initial load)
+  //     if (!hasLoadedExpenseRef.current) {
+  //       console.log('test3');
+
+  //       const hydratedForm = {
+  //         ...expense,
+  //         purchaseDate: expense.dateIncurred || '',
+  //       };
+
+  //       setFormState(hydratedForm);
+  //       setPreviousFormState(hydratedForm);
+  //       hasLoadedExpenseRef.current = true;
+  //     }
+
+  //     // --- 3. Load existing document if present
+  //     if (expense.documentId && !hasLoadedDocumentRef.current) {
+  //       hasLoadedDocumentRef.current = true; // avoid double-fetch
+  //       setPreviousDocumentId(expense.documentId);
+  //       setDocumentLoading(true);
+
+  //       const documentUrl = `${
+  //         environment.API_URL
+  //       }/travel_pay/v0/claims/${claimId}/documents/${expense.documentId}`;
+
+  //       apiRequest(documentUrl)
+  //         .then(response => {
+  //           const contentType = response.headers.get('Content-Type');
+  //           const contentLength = response.headers.get('Content-Length');
+
+  //           return response.arrayBuffer().then(arrayBuffer => {
+  //             const blob = new Blob([arrayBuffer], { type: contentType });
+
+  //             return toBase64(blob).then(base64File => {
+  //               const updatedForm = prev => ({
+  //                 ...prev,
+  //                 receipt: {
+  //                   contentType,
+  //                   length: contentLength,
+  //                   fileName: filename,
+  //                   fileData: base64File,
+  //                 },
+  //               });
+
+  //               setFormState(updatedForm);
+  //               setPreviousFormState(updatedForm);
+
+  //               const file = new File([blob], filename, { type: contentType });
+  //               setDocument(file);
+
+  //               setDocumentLoading(false);
+  //             });
+  //           });
+  //         })
+  //         .catch(err => {
+  //           console.error('Failed to fetch document:', err);
+  //           setDocumentLoading(false);
+  //         });
+  //     }
+  //   },
+  //   [
+  //     expenseId,
+  //     expense,
+  //     claimId,
+  //     filename,
+  //     skipHydration,
+  //     location.pathname,
+  //     navigate,
+  //   ],
+  // );
+
+  useEffect(
+    () => {
+      if (!expenseId || !expense?.documentId || skipHydration) return;
+      console.log('test');
+      console.log({ skipHydration });
+
+      if (!filename) return;
+
+      const loadDocument = async () => {
+        setDocumentLoading(true);
+        try {
+          const documentUrl = `${
+            environment.API_URL
+          }/travel_pay/v0/claims/${claimId}/documents/${expense.documentId}`;
+          const response = await apiRequest(documentUrl);
+          const contentType = response.headers.get('Content-Type');
+          const contentLength = response.headers.get('Content-Length');
+          const arrayBuffer = await response.arrayBuffer();
+          const blob = new Blob([arrayBuffer], { type: contentType });
+          const base64File = await toBase64(blob);
+
+          const updatedForm = prev => ({
+            ...prev,
+            receipt: {
+              contentType,
+              length: contentLength,
+              fileName: filename,
+              fileData: base64File,
+            },
+          });
+
+          setFormState(updatedForm);
+          setPreviousFormState(updatedForm);
+          setDocument(new File([blob], filename, { type: contentType }));
+          setPreviousDocumentId(expense.documentId);
+        } catch (err) {
+          console.error('Failed to fetch document:', err);
+        } finally {
+          setDocumentLoading(false);
+        }
+      };
+
+      loadDocument();
+    },
+    [expenseId, expense?.documentId, claimId, filename, skipHydration],
   );
 
   const expenseTypeMatcher = new RegExp(
@@ -146,10 +240,7 @@ const ExpensePage = () => {
   const expenseTypeFields = expenseType ? EXPENSE_TYPES[expenseType] : null;
 
   const handleFormChange = (event, explicitName) => {
-    // Figure out the field name
     const name = explicitName ?? event.target?.name ?? event.detail?.name; // rarely used, but safe to include
-
-    // Figure out the value (covers VA components + normal inputs)
     const value =
       event?.value ?? event?.detail?.value ?? event.target?.value ?? '';
 
@@ -160,9 +251,7 @@ const ExpensePage = () => {
   };
 
   const handleOpenModal = () => setIsModalVisible(true);
-  const handleCloseModal = () => {
-    setIsModalVisible(false);
-  };
+  const handleCloseModal = () => setIsModalVisible(false);
 
   const handleCancelModal = () => {
     handleCloseModal();
@@ -192,28 +281,68 @@ const ExpensePage = () => {
     const requiredFields = [...base, ...extra];
 
     const emptyFields = requiredFields.filter(field => !formState[field]);
-
     setShowError(emptyFields.length > 0);
     return emptyFields.length === 0;
   };
 
+  const isFormChanged =
+    JSON.stringify(previousFormState) !== JSON.stringify(formState);
+
   const handleContinue = async () => {
-    const isValid = validatePage();
-    if (!isValid) return;
+    if (!validatePage()) return;
 
     const expenseConfig = EXPENSE_TYPES[expenseType];
 
+    console.log({ formState });
+    console.log({ previousFormState });
+    console.log({ previousDocumentId });
+    console.log({ isFormChanged });
+    console.log(
+      `in continue hasLoadedExpenseRef.current`,
+      hasLoadedExpenseRef.current,
+    );
+
     try {
       if (expenseId) {
-        await dispatch(
-          updateExpense(claimId, expenseConfig.apiRoute, expenseId, formState),
-        );
+        // Check if form fields changed
+        if (isFormChanged) {
+          // Check if document has changed
+          if (previousFormState.receipt !== formState.receipt) {
+            // Update expense and document and remove previous document
+            await dispatch(
+              updateExpenseDeleteDocument(
+                claimId,
+                previousDocumentId,
+                expenseConfig.apiRoute,
+                expenseId,
+                formState,
+              ),
+            );
+            console.log('updateExpense');
+            console.log('deleteDocument');
+          } else {
+            // Remove document from the formState so we dont re-add it
+            delete formState.receipt;
+            // UpdateExpense
+            await dispatch(
+              updateExpense(
+                claimId,
+                expenseConfig.apiRoute,
+                expenseId,
+                formState,
+              ),
+            );
+          }
+        }
       } else {
         await dispatch(
           createExpense(claimId, expenseConfig.apiRoute, formState),
         );
       }
-      navigate(`/file-new-claim/${apptId}/${claimId}/review`);
+      // navigate(`/file-new-claim/${apptId}/${claimId}/review`);
+      navigate(`/file-new-claim/${apptId}/${claimId}/review`, {
+        state: { skipHydration: true },
+      });
     } catch (error) {
       // TODO: Handle error
     }
@@ -227,15 +356,26 @@ const ExpensePage = () => {
     }
   };
 
-  const handleDocumentUpload = async e => {
+  const handleDocumentChange = async e => {
     const files = e.detail?.files;
     // Check if we have files for upload
     if (!files || files.length === 0) {
+      // If document exists but no files then user deleted the previous document
+      if (document) {
+        setDocument(null);
+        // delete formState.receipt;
+        setFormState(prev => {
+          const copy = { ...prev };
+          delete copy.receipt;
+          return copy;
+        });
+      }
       return;
     }
 
     const file = files[0]; // Get the first (and only) file
     setDocument(file);
+
     const base64File = await toBase64(file);
     // Sync into formState so validation works
     setFormState(prev => ({
@@ -289,7 +429,7 @@ const ExpensePage = () => {
       <DocumentUpload
         loading={documentLoading}
         currentDocument={document}
-        handleDocumentUpload={handleDocumentUpload}
+        handleDocumentChange={handleDocumentChange}
       />
       {isMeal && (
         <ExpenseMealFields formState={formState} onChange={handleFormChange} />
