@@ -92,6 +92,7 @@ const SelectCareTeam = () => {
           setCareTeamError('');
           dispatch(
             updateDraftInProgress({
+              careSystemVhaId: recipient.stationNumber,
               recipientId: recipient.id,
               recipientName: recipient.suggestedNameDisplay || recipient.name,
               ohTriageGroup: recipient.ohTriageGroup,
@@ -134,6 +135,7 @@ const SelectCareTeam = () => {
       draftInProgress?.body,
       draftInProgress?.subject,
       draftInProgress?.category,
+      draftInProgress?.careSystemVhaId,
     ],
   );
 
@@ -376,6 +378,7 @@ const SelectCareTeam = () => {
                 name="va-health-care-system"
                 tile
                 value={facility}
+                checked={draftInProgress?.careSystemVhaId === facility}
                 radioOptionSelected={draftInProgress?.careSystemVhaId || ''}
               />
             </>
