@@ -28,7 +28,7 @@ export const SHORT_NAME_MAP = Object.freeze({
 });
 
 export const RESPONSES = Object.freeze({
-  BOARD: 'Board Appeal decision',
+  BOARD: 'Board decision',
   CFI: 'Claim for increase',
   HLR: 'Higher-Level Review',
   INIT: 'Initial claim',
@@ -363,7 +363,7 @@ export const QUESTION_CONTENT = Object.freeze({
         [CFI]: `I filed an initial claim for a condition that got worse and I disagree with the decision.`,
       },
       {
-        [SC]: `I filed a supplemental claim (with new evidence or due to a change in law or policy) and I disagree with the decision.`,
+        [SC]: `I filed a Supplemental Claim (with new evidence or due to a change in law or policy) and I disagree with the decision.`,
       },
       {
         [HLR]: `I requested a Higher-Level Review (a senior reviewer reviewed my previous claim) and I disagree with the decision.`,
