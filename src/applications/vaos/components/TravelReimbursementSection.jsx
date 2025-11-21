@@ -130,6 +130,9 @@ export default function TravelReimbursementSection({ appointment }) {
           <>
             <Section heading={heading}>
               <p className="vads-u-margin-y--0p5">
+                Days left to file: {daysRemainingToFileClaim}
+              </p>
+              <p className="vads-u-margin-y--0p5">
                 You didn't file a claim for this appointment within the 30-day
                 limit. You can still review and file your claim. But claims
                 filed after 30 days are usually denied.
@@ -154,6 +157,9 @@ export default function TravelReimbursementSection({ appointment }) {
       // Unfinished claim for appointment within 30 days
       return (
         <Section heading={heading}>
+          <p className="vads-u-margin-y--0p5">
+            Days left to file: {daysRemainingToFileClaim}
+          </p>
           <p className="vads-u-margin-y--0p5">
             You already started a claim for this appointment. Add your expenses
             and file within 30 days days of your appointment date.
