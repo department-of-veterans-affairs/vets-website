@@ -175,7 +175,7 @@ describe('Type 1 Error Alert', () => {
       // Verify old alert is present
       cy.get('.claims-alert').should('contain.text', 'Error uploading');
 
-      cy.axeCheck();
+      cy.injectAxeThenAxeCheck();
     });
 
     it('should display duplicate error alert with documents-filed anchor link', () => {
@@ -206,7 +206,7 @@ describe('Type 1 Error Alert', () => {
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(100); // Allow animations/transitions to complete
 
-      cy.axeCheck();
+      cy.injectAxeThenAxeCheck();
     });
   });
 
@@ -225,7 +225,7 @@ describe('Type 1 Error Alert', () => {
           'We need you to submit files by mail or in person',
         );
 
-      cy.axeCheck();
+      cy.injectAxeThenAxeCheck();
     });
 
     it('should display both the message alert and the type 1 unknown error alert when both error types exist', () => {
@@ -284,7 +284,7 @@ describe('Type 1 Error Alert', () => {
         'We need you to submit files by mail or in person',
       );
 
-      cy.axeCheck();
+      cy.injectAxeThenAxeCheck();
     });
 
     it('should display duplicate error alert with files-received anchor link', () => {
@@ -310,7 +310,7 @@ describe('Type 1 Error Alert', () => {
           }`,
         );
 
-      cy.axeCheck();
+      cy.injectAxeThenAxeCheck();
     });
   });
 });
