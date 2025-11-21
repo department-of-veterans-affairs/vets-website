@@ -12,6 +12,7 @@ import {
   notSureHazardDetails,
   teSubtitle,
 } from '../../content/toxicExposure';
+import { validateToxicExposureHerbicideDates } from '../../utils/validations';
 
 export const uiSchema = {
   'ui:title': ({ formData }) => {
@@ -40,6 +41,7 @@ export const uiSchema = {
       endDate: currentOrPastDateUI({
         title: exposureEndDateApproximate,
       }),
+      'ui:validations': [validateToxicExposureHerbicideDates],
       'view:notSure': {
         'ui:title': notSureHazardDetails,
         'ui:webComponentField': VaCheckboxField,
