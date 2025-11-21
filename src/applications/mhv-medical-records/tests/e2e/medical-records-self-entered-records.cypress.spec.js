@@ -27,7 +27,7 @@ describe('Medical Records download page', () => {
 
     site.verifyDownloadedPdfFile(
       'VA-Blue-Button-report-Safari-Mhvtp',
-      currentDateAddSecondsCCD(),
+      currentDateAddSecondsCCD(1),
       '',
     );
 
