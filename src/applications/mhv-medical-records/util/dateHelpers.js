@@ -1,4 +1,10 @@
-import { addHours, addMinutes, subHours, subMinutes } from 'date-fns';
+import {
+  addHours,
+  addMinutes,
+  subHours,
+  subMinutes,
+  addSeconds,
+} from 'date-fns';
 import { formatInTimeZone, format } from 'date-fns-tz';
 
 /**
@@ -41,8 +47,27 @@ export const currentLocalTime = () => {
  * @param newDate
  * @returns {String}
  */
+const formatTimeForCCD = newDate => {
+  return formatInTimeZone(newDate, 'UTC', "MM-dd-yyyy'_'hhmmssa");
+};
+
+/**
+ *
+ * @param newDate
+ * @returns {String}
+ */
 const formatUtcTime = newDate => {
   return formatInTimeZone(newDate, 'UTC', "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+};
+
+/**
+ *
+ * @param seconds
+ * @returns {String}
+ */
+export const currentDateAddSecondsCCD = seconds => {
+  const newDate = addSeconds(new Date(), seconds);
+  return formatTimeForCCD(newDate);
 };
 
 /**
