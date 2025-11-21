@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  descriptionUI,
   ssnOrVaFileNumberNoHintSchema,
   ssnOrVaFileNumberNoHintUI,
   titleUI,
@@ -14,10 +13,10 @@ export const veteranIdentificationInformationPage = {
   uiSchema: {
     ...titleUI(
       'Veteran identification information',
-      'You must enter either a Social Security number or a VA file number.',
-    ),
-    ...descriptionUI(
       <>
+        <div>
+          You must enter either a Social Security number or a VA file number.
+        </div>
         <div className="vads-u-margin-top--3">
           {getAlert({ name: 'veteranIdentificationInformationPage' }, false)}
         </div>
