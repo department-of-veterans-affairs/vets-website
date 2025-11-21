@@ -418,7 +418,7 @@ describe('<LetterList>', () => {
       expect(selector).to.exist;
       expect(selector).to.contain.attr(
         'message',
-        'Determining TSA letter eligibility...',
+        'Determining TSA PreCheck Application Fee Waiver Letter eligibility...',
       );
     });
   });

@@ -132,7 +132,7 @@ export class LetterList extends React.Component {
           </va-accordion>
         )}
         {isDeterminingTsaEligibility && (
-          <va-loading-indicator message="Determining TSA letter eligibility..." />
+          <va-loading-indicator message="Determining TSA PreCheck Application Fee Waiver Letter eligibility..." />
         )}
         <Toggler toggleName={Toggler.TOGGLE_NAMES.emptyStateBenefitLetters}>
           <Toggler.Enabled>
