@@ -425,6 +425,7 @@ describe('Folder Header component', () => {
         featureToggles: {
           loading: false,
           [FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot]: true,
+          [FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilotSystemMaintenanceBanner]: true,
         },
       };
 
@@ -436,8 +437,35 @@ describe('Folder Header component', () => {
       expect(alert).to.exist;
       const headline = alert.querySelector('[slot="headline"]');
       expect(headline.textContent).to.contain(
-        `We${String.fromCharCode(8217)}re working on messages right now`,
+        `We’re working on messages right now`,
       );
+    });
+
+    it('does not render OracleHealthMessagingIssuesAlert when mhvSecureMessagingCernerPilotSystemMaintenanceBannerFlag is false', () => {
+      const stateWithFeatureFlag = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          folders: {
+            folder: inbox,
+            folderList,
+          },
+        },
+        featureToggles: {
+          loading: false,
+          [FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot]: true,
+          [FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilotSystemMaintenanceBanner]: false,
+        },
+      };
+
+      const { queryByText } = setup(
+        stateWithFeatureFlag,
+        Paths.INBOX,
+        1,
+        inbox,
+      );
+
+      expect(queryByText('We’re working on messages right now')).to.be.null;
     });
 
     it('renders CernerFacilityAlert when user has Cerner facilities and feature flag is false', () => {
