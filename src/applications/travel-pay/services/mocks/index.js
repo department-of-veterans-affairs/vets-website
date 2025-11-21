@@ -51,22 +51,25 @@ function generateAppointmentDates(daysOffset) {
 }
 
 function overrideAppointment(appt, id, { localStartTime, start, end }) {
+  const attributes = {
+    ...appt.data.attributes,
+    id,
+    localStartTime,
+    start,
+    end,
+  };
+
+  // Preserve travelPayClaim if it exists
+  if (appt.data.attributes.travelPayClaim) {
+    attributes.travelPayClaim = appt.data.attributes.travelPayClaim;
+  }
+
   return {
     ...appt,
     data: {
       ...appt.data,
       id,
-      attributes: {
-        ...appt.data.attributes,
-        id,
-        localStartTime,
-        start,
-        end,
-        // Preserve travelPayClaim if it exists
-        ...(appt.data.attributes.travelPayClaim && {
-          travelPayClaim: appt.data.attributes.travelPayClaim,
-        }),
-      },
+      attributes,
     },
   };
 }
@@ -408,9 +411,46 @@ const responses = {
     });
   },
 
-  // Get travel-pay appointment
+  // Get travel-pay appointment - handle specific IDs first
   'GET /vaos/v2/appointments/:id': (req, res) => {
-    return res.json(appointment.original);
+    const { id } = req.params;
+
+    // Handle specific appointment IDs
+    switch (id) {
+      case '167325': {
+        const dates = generateAppointmentDates(-1); // 1 day ago
+        return res.json(
+          overrideAppointment(appointment.noClaim, '167325', dates),
+        );
+      }
+      case '167326': {
+        const dates = generateAppointmentDates(-3); // 3 days ago
+        return res.json(
+          overrideAppointment(appointment.claim, '167326', dates),
+        );
+      }
+      case '167327': {
+        const dates = generateAppointmentDates(-32); // 32 days ago
+        return res.json(
+          overrideAppointment(appointment.noClaim, '167327', dates),
+        );
+      }
+      case '167328': {
+        const dates = generateAppointmentDates(-5); // 5 days ago
+        return res.json(
+          overrideAppointment(appointment.savedClaim, '167328', dates),
+        );
+      }
+      case '167329': {
+        const dates = generateAppointmentDates(-33); // 32 days ago
+        return res.json(
+          overrideAppointment(appointment.savedClaim, '167329', dates),
+        );
+      }
+      default:
+        // For any other ID, return the original mock
+        return res.json(appointment.original);
+    }
   },
   // 'GET /vaos/v2/appointments/:id': (req, res) => {
   //   return res.status(503).json({
@@ -424,34 +464,6 @@ const responses = {
   //     ],
   //   });
   // },
-
-  // Individual appointment endpoints that match our appointments list
-  'GET /vaos/v2/appointments/167325': (req, res) => {
-    const dates = generateAppointmentDates(-1); // 1 day ago
-    const appointmentData = overrideAppointment(
-      appointment.noClaim,
-      '167325',
-      dates,
-    );
-    return res.json(appointmentData);
-  },
-
-  'GET /vaos/v2/appointments/167326': (req, res) => {
-    const dates = generateAppointmentDates(-3); // 3 days ago
-    return res.json(overrideAppointment(appointment.claim, '167326', dates));
-  },
-
-  'GET /vaos/v2/appointments/167327': (req, res) => {
-    const dates = generateAppointmentDates(-32); // 32 days ago
-    return res.json(overrideAppointment(appointment.noClaim, '167327', dates));
-  },
-
-  'GET /vaos/v2/appointments/167328': (req, res) => {
-    const dates = generateAppointmentDates(-5); // 5 days ago
-    return res.json(
-      overrideAppointment(appointment.savedClaim, '167328', dates),
-    );
-  },
   // Get appointments
   'GET /vaos/v2/appointments': (req, res) => {
     const appointments = [
@@ -459,17 +471,21 @@ const responses = {
       appointment.claim,
       appointment.savedClaim,
 
-      // >30 days appointment
+      // >30 days appointments
       appointment.noClaim,
+      appointment.savedClaim,
     ].map((a, index, array) => {
       // Generate dates within 30 days of current date
       let daysOffset;
       let appointmentId;
 
-      // Make the last appointment be 32 days old
-      if (index === array.length - 1) {
+      // Make the last two appointments be >30 days old
+      if (index === array.length - 2) {
         daysOffset = -32; // 32 days in the past
         appointmentId = '167327';
+      } else if (index === array.length - 1) {
+        daysOffset = -33; // 33 days in the past
+        appointmentId = '167329';
       } else {
         daysOffset = -(index * 2 + 1); // Space other appointments 2 days apart in the past, starting at 1 day ago
         if (index === 0) {
