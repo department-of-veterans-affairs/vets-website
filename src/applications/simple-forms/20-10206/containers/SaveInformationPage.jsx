@@ -40,10 +40,7 @@ const SaveInformationPage = props => {
               </p>
 
               <div>
-                <va-link
-                  href={`${environment.BASE_URL}/my-va`}
-                  text="Find out how to change your address in your VA.gov profile"
-                />
+                <va-link href={`${environment.BASE_URL}/my-va`} text="My VA" />
               </div>
               <div className="vads-u-margin-top--1">
                 <va-link
