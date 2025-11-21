@@ -1,5 +1,13 @@
 import { addHours, addMinutes, subHours, subMinutes } from 'date-fns';
-import { formatInTimeZone } from 'date-fns-tz';
+import { formatInTimeZone, format } from 'date-fns-tz';
+
+/**
+ *
+ * @returns {String}
+ */
+export const currentLocalTime = () => {
+  return format(new Date(), "EEE MMM. dd yyyy HH:mm:ss 'GMT'xx");
+};
 
 /**
  *
