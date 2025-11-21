@@ -132,6 +132,13 @@ const IntroductionPage = ({ route }) => {
         </va-process-list-item>
       </va-process-list>
 
+      {/* Only show the verify alert if all of the following are true:
+        - the user is logged in
+        - the feature toggle is enabled
+        - the user is NOT LOA3 verified
+        - the user does not have an in-progress form (we want LOA1 users to be
+          able to continue their form)
+      */}
       {loggedIn && pbbFormsRequireLoa3 && !isVerified && !hasInProgressForm ? (
         <>
           <VerifyAlert />
