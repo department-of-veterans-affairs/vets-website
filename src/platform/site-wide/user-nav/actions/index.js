@@ -28,12 +28,12 @@ export function toggleLoginModal(
     const authBrokerCookieSelector = determineAuthBroker(
       cernerNonEligibleSisEnabled,
     );
+    const sisEligible = signInServiceEnabled && authBrokerCookieSelector;
 
     const nextQuery = {
       next: nextParam ?? 'loginModal',
-      ...(signInServiceEnabled && { oauth: true }),
+      ...(sisEligible && { oauth: true }),
       ...(forceVerification && { verification: 'required' }),
-      ...(authBrokerCookieSelector && { oauth: true }),
     };
 
     const url = isOpen
