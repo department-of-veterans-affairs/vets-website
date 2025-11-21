@@ -160,14 +160,6 @@ export const prescriptionsApi = createApi({
           : null;
       },
     }),
-    refillPrescription: builder.mutation({
-      query: id => {
-        return {
-          path: `${apiBasePath}/prescriptions/${id}/refill`,
-          options: { method: 'PATCH' },
-        };
-      },
-    }),
     bulkRefillPrescriptions: builder.mutation({
       query: ids => {
         const idParams = ids.map(id => `ids[]=${id}`).join('&');
@@ -193,7 +185,6 @@ export const {
   useGetPrescriptionByIdQuery,
   useGetRefillablePrescriptionsQuery,
   useGetPrescriptionDocumentationQuery,
-  useRefillPrescriptionMutation,
   useBulkRefillPrescriptionsMutation,
   useGetPrescriptionsExportListQuery,
   endpoints: {
@@ -202,7 +193,6 @@ export const {
     getPrescriptionById,
     getRefillablePrescriptions,
     getPrescriptionDocumentation,
-    refillPrescription,
     bulkRefillPrescriptions,
     getPrescriptionsExportList,
   },
