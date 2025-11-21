@@ -179,13 +179,13 @@ class SaveInProgressIntro extends React.Component {
       } else {
         alert = (
           <div>
-            <va-alert status="info" uswds visible slim>
+            {/* <va-alert status="info" uswds visible slim>
               <div className="usa-alert-body">
                 We'll save your request on every change. You can stop anytime,
                 and come back later to finish.
               </div>
             </va-alert>
-            <br />
+            <br /> */}
           </div>
         );
       }
