@@ -36,14 +36,6 @@ export const formatDateMonthDayCommaYearHoursMinutes = dateTime => {
 
 /**
  *
- * @returns {String}
- */
-export const currentLocalTime = () => {
-  return format(new Date(), "EEE MMM. dd yyyy HH:mm:ss 'GMT'xx");
-};
-
-/**
- *
  * @param newDate
  * @returns {String}
  */
@@ -53,16 +45,7 @@ const formatTimeForCCD = newDate => {
 
 /**
  *
- * @param newDate
- * @returns {String}
- */
-const formatUtcTime = newDate => {
-  return formatInTimeZone(newDate, 'UTC', "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-};
-
-/**
- *
- * @param seconds
+ * @param {number} seconds
  * @returns {String}
  */
 export const currentDateAddSecondsCCD = seconds => {
@@ -71,8 +54,19 @@ export const currentDateAddSecondsCCD = seconds => {
 };
 
 /**
+ * Returns the current date formated "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" Example: 2025-11-20T19:14:57.282Z
  *
- * @param minutes
+ * @param newDate
+ * @returns {String}
+ */
+const formatUtcTime = newDate => {
+  return formatInTimeZone(newDate, 'UTC', "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+};
+
+/**
+ * Returns the current date plus minutes formated "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" Example: 2025-11-20T19:14:57.282Z
+ *
+ * @param {number} minutes
  * @returns {String}
  */
 export const currentDateFnsAddMinutes = minutes => {
@@ -81,8 +75,9 @@ export const currentDateFnsAddMinutes = minutes => {
 };
 
 /**
+ * Returns the current date minus minutes formated "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" Example: 2025-11-20T19:14:57.282Z
  *
- * @param minutes
+ * @param {number} minutes
  * @returns {String}
  */
 export const currentDateFnsMinusMinutes = minutes => {
@@ -91,8 +86,9 @@ export const currentDateFnsMinusMinutes = minutes => {
 };
 
 /**
+ * Returns the current date plus hours formated "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" Example: 2025-11-20T19:14:57.282Z
  *
- * @param hours
+ * @param {number} hours
  * @returns {String}
  */
 export const currentDateFnsAddHours = hours => {
@@ -101,6 +97,7 @@ export const currentDateFnsAddHours = hours => {
 };
 
 /**
+ * Returns the current date minus 1 minute and plus 1 hour formated "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" Example: 2025-11-20T19:14:57.282Z
  *
  * @returns {String}
  */
@@ -110,8 +107,9 @@ export const currentDateFnsAddOneHourMinusOneMinute = () => {
 };
 
 /**
+ * Returns the current date minus hours formated "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" Example: 2025-11-20T19:14:57.282Z
  *
- * @param hours
+ * @param {number} hours
  * @returns {String}
  */
 export const currentDateFnsMinusHours = hours => {
