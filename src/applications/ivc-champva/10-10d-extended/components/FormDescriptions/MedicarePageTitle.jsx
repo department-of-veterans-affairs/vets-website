@@ -14,9 +14,9 @@ const APPLICANT_TEXT = content['noun--applicant'];
 const NO_PARTICIPANT_TEXT = content['medicare--participant-none'];
 
 const isPlaceholderName = value => {
-  const normalized = (value || '').toLocaleLowerCase().trim();
+  const normalized = (value || '').toLowerCase().trim();
   return [APPLICANT_TEXT, NO_PARTICIPANT_TEXT].some(
-    text => normalized === (text || '').toLocaleLowerCase().trim(),
+    text => normalized === (text || '').toLowerCase().trim(),
   );
 };
 
