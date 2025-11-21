@@ -58,8 +58,7 @@ const options = {
       const name = [first, middle, last, suffix].filter(Boolean).join(' ');
       return name || 'Previous marriage';
     },
-    cardDescription: () => '',
-    summaryTitle: () => "Review the Veteran's previous marriages",
+    summaryTitle: "Review the Veteran's previous marriages",
   },
 };
 
@@ -387,3 +386,5 @@ export const veteranMarriagesPages = arrayBuilderPages(
 );
 
 export default veteranMarriagesPages;
+
+export { options };
