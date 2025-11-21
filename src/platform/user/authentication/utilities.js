@@ -485,7 +485,5 @@ export const determineAuthBroker = featureFlagEnabled => {
 
     return parsedCookie === 'F';
   }
-  const isNonassociatedCerner = 'how do we determine this?';
-  if (isNonassociatedCerner) return true;
   return false;
 };
