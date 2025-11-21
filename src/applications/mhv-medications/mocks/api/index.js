@@ -48,7 +48,7 @@ const responses = {
   },
   'GET /my_health/v2/prescriptions': (_req, res) => {
     delaySingleResponse(
-      () => res.json(prescriptions.generateMockPrescriptions(_req)),
+      () => res.json(prescriptions.generateMockPrescriptions(_req, 20, true)),
       2250,
     );
   },
@@ -162,9 +162,13 @@ const responses = {
   'GET /my_health/v2/prescriptions/:id': (req, res) => {
     const { id } = req.params;
     const data = {
-      data: prescriptions.mockPrescription(id, {
-        cmopNdcNumber: '00093721410',
-      }),
+      data: prescriptions.mockPrescription(
+        id,
+        {
+          cmopNdcNumber: '00093721410',
+        },
+        true,
+      ),
       meta: {
         sort: {
           dispStatus: 'DESC',
