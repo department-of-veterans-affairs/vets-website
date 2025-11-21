@@ -469,6 +469,28 @@ export function transformPicklistToV2(data) {
     return data;
   }
 
+  // Filter out items that should not be transformed
+  const itemsToTransform = selected.filter(item => {
+    // Skip stepchild left household with financial support > 50%
+    if (
+      item.isStepchild === 'Y' &&
+      item.removalReason === 'stepchildNotMember' &&
+      item.stepchildFinancialSupport === 'Y'
+    ) {
+      return false;
+    }
+
+    // Skip child not in school with permanent disability
+    if (
+      item.removalReason === 'childNotInSchool' &&
+      item.childHasPermanentDisability === 'Y'
+    ) {
+      return false;
+    }
+
+    return true;
+  });
+
   // Initialize V2 arrays
   const v2Data = {
     deaths: [],
@@ -478,64 +500,82 @@ export function transformPicklistToV2(data) {
     reportDivorce: null,
   };
 
-  selected.forEach(item => {
-    if (item.isStepchild === 'Y') {
-      const shouldSkipStepchildNotMember =
-        item.removalReason === 'stepchildNotMember' &&
-        item.stepchildFinancialSupport === 'Y';
+  // Routing table: removalReason -> [arrayName, transformFn] or [[default], [stepchild]]
+  const routes = {
+    // Deaths - all dependent types go to deaths array
+    childDied: ['deaths', transformChildDeath],
+    spouseDied: ['deaths', transformSpouseDeath],
+    parentDied: ['deaths', transformParentDeath],
 
-      if (!shouldSkipStepchildNotMember) {
-        v2Data.stepChildren.push(transformStepchildByFlag(item));
-      }
+    // Child married - stepchildren go to stepChildren, others to childMarriage
+    childMarried: [
+      ['childMarriage', transformChildMarriage], // default
+      ['stepChildren', transformStepchildByFlag], // stepchild
+    ],
+
+    // Child not in school - stepchildren go to stepChildren, others to childStoppedAttendingSchool
+    childNotInSchool: [
+      ['childStoppedAttendingSchool', transformChildNotInSchool], // default
+      ['stepChildren', transformStepchildByFlag], // stepchild
+    ],
+
+    // Spouse divorce/annulment
+    marriageEnded: ['reportDivorce', transformSpouseDivorce],
+
+    // Stepchild left household
+    stepchildNotMember: ['stepChildren', transformStepchildByFlag],
+
+    // Child adopted (TODO: implement backend support for non-stepchild adoption)
+    childAdopted: ['stepChildren', transformStepchildByFlag],
+
+    // Parent other - not supported
+    parentOther: null,
+  };
+
+  itemsToTransform.forEach(item => {
+    const route = routes[item.removalReason];
+
+    // Handle unknown removal reasons
+    if (route === undefined) {
+      dataDogLogger({
+        message: 'Unknown removal reason in v3 to V2 transform',
+        attributes: { removalReason: item.removalReason },
+        status: 'error',
+      });
+      return;
     }
 
-    switch (item.removalReason) {
-      case 'childMarried':
-        v2Data.childMarriage.push(transformChildMarriage(item));
-        break;
-      case 'childNotInSchool':
-        // Don't add data if child has permanent disability
-        if (item.childHasPermanentDisability !== 'Y') {
-          v2Data.childStoppedAttendingSchool.push(
-            transformChildNotInSchool(item),
-          );
-        }
-        break;
-      case 'childDied':
-        v2Data.deaths.push(transformChildDeath(item));
-        break;
-      case 'marriageEnded':
-        // reportDivorce is single object, not array
-        if (v2Data.reportDivorce) {
-          // TODO: Handle multiple spouses with marriageEnded
-          dataDogLogger({
-            message:
-              'Multiple spouses with marriageEnded in v3 to V2 transform',
-            attributes: {},
-          });
-        } else {
-          v2Data.reportDivorce = transformSpouseDivorce(item);
-        }
-        break;
-      case 'spouseDied': // spouse death
-        v2Data.deaths.push(transformSpouseDeath(item));
-        break;
-      case 'parentDied':
-        v2Data.deaths.push(transformParentDeath(item));
-        break;
-      case 'childAdopted':
-        // TO DO: implement once backend support is confirmed
-        break;
-      case 'parentOther':
-        // This form does not support 'other' removal reason for parents
-        break;
-      default:
+    // Skip unsupported removal reasons
+    if (route === null) {
+      return;
+    }
+
+    // Determine which route to use based on stepchild status
+    let arrayName;
+    let transformFn;
+    if (Array.isArray(route[0])) {
+      // Has stepchild override: [[default], [stepchild]]
+      const routeIndex = item.isStepchild === 'Y' ? 1 : 0;
+      [arrayName, transformFn] = route[routeIndex];
+    } else {
+      // Simple route: [arrayName, transformFn]
+      [arrayName, transformFn] = route;
+    }
+
+    // Apply transformation and add to destination
+    if (arrayName === 'reportDivorce') {
+      // reportDivorce is single object, not array
+      if (v2Data.reportDivorce) {
         dataDogLogger({
-          message: 'Unknown removal reason in v3 to V2 transform',
-          attributes: { removalReason: item.removalReason },
-          status: 'error',
+          message: 'Multiple spouses with marriageEnded in v3 to V2 transform',
+          attributes: {},
         });
-        break;
+      } else {
+        v2Data.reportDivorce = transformFn(item);
+      }
+    } else {
+      // Add to array
+      v2Data[arrayName].push(transformFn(item));
     }
   });
 

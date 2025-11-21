@@ -1044,7 +1044,7 @@ describe('transformPicklistToV2', () => {
     expect(result[dataOptions].reportStepchildNotInHousehold).to.be.false;
   });
 
-  it('should add stepchild to stepChildren array when isStepchild is Y and removalReason is childMarried', () => {
+  it('should add stepchild to stepChildren array only when isStepchild is Y and removalReason is childMarried', () => {
     const data = {
       [PICKLIST_DATA]: [
         {
@@ -1060,6 +1060,7 @@ describe('transformPicklistToV2', () => {
     };
     const result = transformPicklistToV2(data);
 
+    // Stepchild with childMarried goes to stepChildren array (not childMarriage)
     expect(result.stepChildren).to.be.an('array');
     expect(result.stepChildren).to.have.lengthOf(1);
     expect(result.stepChildren[0]).to.deep.equal({
@@ -1067,12 +1068,13 @@ describe('transformPicklistToV2', () => {
       ssn: '123456789',
       birthDate: '2010-03-15',
     });
-    expect(result.childMarriage).to.have.lengthOf(1);
+    // Should NOT be in childMarriage array
+    expect(result.childMarriage).to.be.undefined;
     expect(result[dataOptions].reportStepchildNotInHousehold).to.be.true;
-    expect(result[dataOptions].reportMarriageOfChildUnder18).to.be.true;
+    expect(result[dataOptions].reportMarriageOfChildUnder18).to.be.false;
   });
 
-  it('should add stepchild to stepChildren array when isStepchild is Y and removalReason is childDied', () => {
+  it('should add stepchild to deaths array only when isStepchild is Y and removalReason is childDied', () => {
     const data = {
       [PICKLIST_DATA]: [
         {
@@ -1091,20 +1093,30 @@ describe('transformPicklistToV2', () => {
     };
     const result = transformPicklistToV2(data);
 
-    expect(result.stepChildren).to.be.an('array');
-    expect(result.stepChildren).to.have.lengthOf(1);
-    expect(result.stepChildren[0]).to.deep.equal({
+    // Stepchild should NOT be in stepChildren array for childDied
+    expect(result.stepChildren).to.be.undefined;
+    // Stepchild should be in deaths array
+    expect(result.deaths).to.have.lengthOf(1);
+    expect(result.deaths[0]).to.deep.equal({
       fullName: { first: 'STEP', last: 'CHILD' },
       ssn: '987654321',
       birthDate: '2005-08-20',
+      dependentType: 'CHILD',
+      dependentDeathDate: '2024-01-15',
+      dependentDeathLocation: {
+        outsideUsa: false,
+        location: {
+          city: 'Seattle',
+          state: 'WA',
+        },
+      },
+      deceasedDependentIncome: 'N',
     });
-    expect(result.deaths).to.have.lengthOf(1);
-    expect(result.deaths[0].dependentType).to.equal('CHILD');
-    expect(result[dataOptions].reportStepchildNotInHousehold).to.be.true;
+    expect(result[dataOptions].reportStepchildNotInHousehold).to.be.false;
     expect(result[dataOptions].reportDeath).to.be.true;
   });
 
-  it('should add stepchild to stepChildren array when isStepchild is Y and removalReason is childNotInSchool', () => {
+  it('should add stepchild to stepChildren array only when isStepchild is Y and removalReason is childNotInSchool', () => {
     const data = {
       [PICKLIST_DATA]: [
         {
@@ -1120,6 +1132,7 @@ describe('transformPicklistToV2', () => {
     };
     const result = transformPicklistToV2(data);
 
+    // Stepchild with childNotInSchool goes to stepChildren array (not childStoppedAttendingSchool)
     expect(result.stepChildren).to.be.an('array');
     expect(result.stepChildren).to.have.lengthOf(1);
     expect(result.stepChildren[0]).to.deep.equal({
@@ -1127,10 +1140,11 @@ describe('transformPicklistToV2', () => {
       ssn: '555666777',
       birthDate: '2003-11-10',
     });
-    expect(result.childStoppedAttendingSchool).to.have.lengthOf(1);
+    // Should NOT be in childStoppedAttendingSchool array
+    expect(result.childStoppedAttendingSchool).to.be.undefined;
     expect(result[dataOptions].reportStepchildNotInHousehold).to.be.true;
     expect(result[dataOptions].reportChild18OrOlderIsNotAttendingSchool).to.be
-      .true;
+      .false;
   });
 
   it('should NOT add stepchild to stepChildren array when isStepchild is N', () => {
