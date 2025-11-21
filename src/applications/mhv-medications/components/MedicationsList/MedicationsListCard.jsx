@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom-v5-compat';
 import ExtraDetails from '../shared/ExtraDetails';
 import LastFilledInfo from '../shared/LastFilledInfo';
 import { dateFormat, getRxStatus, rxSourceIsNonVA } from '../../util/helpers';
@@ -11,6 +12,7 @@ import {
 } from '../../util/constants';
 
 const MedicationsListCard = ({ rx }) => {
+  const navigate = useNavigate();
   const pendingMed =
     rx.prescriptionSource === RX_SOURCE.PENDING_DISPENSE &&
     rx?.dispStatus === DISPENSE_STATUS.NEW_ORDER;
@@ -114,6 +116,10 @@ const MedicationsListCard = ({ rx }) => {
           class="vads-u-font-weight--bold"
           href={`prescription/${rx.prescriptionId}`}
           text={rx?.prescriptionName || rx?.orderableItem}
+          onClick={event => {
+            event.preventDefault();
+            navigate(`prescription/${rx.prescriptionId}`);
+          }}
         />
         {!pendingMed &&
           !pendingRenewal &&
