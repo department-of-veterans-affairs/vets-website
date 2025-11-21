@@ -338,7 +338,7 @@ export const getSingleLetterPDFLinkAction = (
   };
 };
 
-export const getTsaLetterEligibility = dispatch => {
+export const getTsaLetterEligibility = () => dispatch => {
   dispatch({
     type: GET_TSA_LETTER_ELIGIBILITY_LOADING,
   });
