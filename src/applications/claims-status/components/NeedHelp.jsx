@@ -28,7 +28,7 @@ export function NeedHelp({ item }) {
       : null;
 
   return (
-    <va-need-help class="vads-u-margin-top--9">
+    <va-need-help class="vads-u-margin-top--4">
       <div slot="content">
         <p>
           Call the VA benefits hotline at <va-telephone contact="8008271000" />.
