@@ -35,8 +35,8 @@ export const formatDateMonthDayCommaYearHoursMinutes = dateTime => {
 };
 
 /**
- *
- * @returns {String}
+ * Returns the current local time formatted as 'EEE MMM. dd yyyy HH:mm:ss 'GMT'xx'.
+ * @returns {String} The formatted current local time
  */
 export const currentLocalTime = () => {
   return format(new Date(), "EEE MMM. dd yyyy HH:mm:ss 'GMT'xx");
