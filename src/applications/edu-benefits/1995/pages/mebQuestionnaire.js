@@ -7,12 +7,29 @@ const ResultDescription = ({ body, linkHref, linkText, answers }) => (
     <h2 className="vads-u-white-space--nowrap">
       Change your education benefits
     </h2>
-    <p>{body}</p>
-    {linkHref && linkText && <va-link href={linkHref} text={linkText} />}
-    <va-summary-box headline="Your answers">
-      <ul>
+    <div className="usa-alert background-color-only">
+      <p className="vads-u-margin-top--0 vads-u-margin-bottom--2">{body}</p>
+      {linkHref &&
+        linkText && (
+          <a href={linkHref} className="vads-u-display--block">
+            {linkText}
+          </a>
+        )}
+    </div>
+    <va-summary-box headline="Your answers:">
+      <ul className="vads-u-list-style--none vads-u-padding-left--0">
         {answers.map((answer, index) => (
-          <li key={index}>{answer}</li>
+          <li
+            key={index}
+            className="vads-u-display--flex vads-u-align-items--start vads-u-margin-bottom--2"
+          >
+            <va-icon
+              icon="check"
+              size={3}
+              className="vads-u-margin-right--2 vads-u-color--green"
+            />
+            <span>{answer}</span>
+          </li>
         ))}
       </ul>
     </va-summary-box>
@@ -21,10 +38,9 @@ const ResultDescription = ({ body, linkHref, linkText, answers }) => (
 
 export const yourInformationPage = () => ({
   uiSchema: {
-    'ui:title': 'Your information',
     'ui:description': YourInformationDescription,
     mebWhatDoYouWantToDo: {
-      'ui:title': 'What do you want to do? (Required)',
+      'ui:title': 'What do you want to do?',
       'ui:widget': 'radio',
     },
   },
@@ -38,7 +54,7 @@ export const yourInformationPage = () => ({
         enumNames: [
           'Apply to the same benefit again to get an updated Certificate of Eligibility (COE)',
           'Update my Certificate of Eligibility (COE) for a foreign school',
-          'Apply to switch my existing education benefit and get a new Certificate of Eligibility',
+          'Apply to switch my existing education benefit and get a new Certificate of Eligibility (COE)',
         ],
       },
     },
@@ -47,7 +63,7 @@ export const yourInformationPage = () => ({
 
 export const benefitSwitchPage = () => ({
   uiSchema: {
-    'ui:title': 'Benefit you want to change to (Required)',
+    'ui:title': 'Benefit you want to change to',
     'ui:description': () => (
       <details className="vads-u-margin-bottom--3">
         <summary className="vads-u-font-weight--bold">
@@ -146,7 +162,7 @@ const buildResultPage = ({ body, linkHref, linkText, answers }) => ({
 export const sameBenefitResultPage = () =>
   buildResultPage({
     body:
-      'Based on your answers, use VA Form 22-1990 to apply to the same benefit again to get an updated COE.',
+      'Based on your answers, use VA Form 22-5490 to apply to the same benefit again to get an updated COE.',
     linkHref:
       'https://www.va.gov/education/apply-for-education-benefits/application/1990/introduction',
     linkText: 'Apply for education benefits (VA Form 22-1990)',
@@ -232,8 +248,8 @@ export const fryResultPage = () =>
   });
 
 ResultDescription.propTypes = {
-  body: PropTypes.string.isRequired,
   answers: PropTypes.arrayOf(PropTypes.string).isRequired,
+  body: PropTypes.string.isRequired,
   linkHref: PropTypes.string,
   linkText: PropTypes.string,
 };

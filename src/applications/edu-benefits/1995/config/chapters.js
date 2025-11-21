@@ -276,6 +276,7 @@ if (isProductionOfTestProdEnv()) {
 export const mebChapters = {
   questionnaire: {
     title: 'Determine your path',
+    hideFormNavProgress: true,
     pages: {
       mebYourInformation: {
         path: 'questionnaire/your-information',
@@ -293,7 +294,8 @@ export const mebChapters = {
       },
       sameBenefitResult: {
         path: 'results/same-benefit',
-        title: 'Application for VA Education Benefits (VA Form 22-1990)',
+        title:
+          "Dependent's Application for VA Education Benefits (VA Form 22-5490)",
         depends: formData =>
           isRerouteEnabledOnForm(formData) &&
           formData.mebWhatDoYouWantToDo === 'same-benefit',
