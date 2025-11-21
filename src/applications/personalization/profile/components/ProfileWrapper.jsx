@@ -157,7 +157,9 @@ const ProfileWrapper = ({
   );
 
   // Wrap all Profile content with InitializeVAPServiceID for LOA3 users in MVI.
-  // This ensures VA Profile ID is created before any Profile pages are accessed,
+  // This ensures VA Profile ID is created before any Profile pages are accessed.
+  // NOTE: Child components (e.g., NotificationSettings, DirectDeposit, PaperlessDelivery)
+  // should NOT wrap themselves in InitializeVAPServiceID, as initialization is now handled here.
   if (isLOA3 && isInMVI) {
     return <InitializeVAPServiceID>{content}</InitializeVAPServiceID>;
   }
