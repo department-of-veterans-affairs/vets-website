@@ -135,19 +135,24 @@ const formConfig = {
         applicantContactInfoSignedIn: {
           path: 'applicant-contact-info-signed-in',
           title: 'Your contact information',
-          uiSchema: applicantContactInfo.uiSchema,
-          schema: applicantContactInfo.schema,
           depends: formData =>
             ['familyMember', 'personalRep', 'other'].includes(
               formData.relationToVetRadio,
             ) && isUserSignedIn(formData),
           CustomPage: ApplicantMailingAddressLoggedIn,
           CustomPageReview: ApplicantMailingAddressLoggedIn,
-          // uiSchema: {},
-          // schema: {
-          //   type: 'object',
-          //   properties: {},
-          // },
+          uiSchema: {},
+          schema: {
+            type: 'object',
+            properties: {},
+          },
+        },
+        editMailingAddress: {
+          title: 'Edit your mailing address',
+          path: 'applicant-contact-info-signed-in/edit-address',
+          depends: formData => formData?.['view:loggedInEditAddress'] === true,
+          uiSchema: applicantContactInfo.uiSchema,
+          schema: applicantContactInfo.schema,
         },
         applicantContactInfo2: {
           path: 'applicant-contact-info-2',

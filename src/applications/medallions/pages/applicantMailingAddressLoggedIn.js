@@ -112,7 +112,7 @@ const ApplicantMailingAddressLoggedIn = ({
       // Use goToPath to navigate to edit page
       // The force: true option ensures navigation even from review page
       if (goToPath) {
-        goToPath('/applicant-mailing-address-logged-in/edit-address', {
+        goToPath('/applicant-contact-info-signed-in/edit-address', {
           force: true,
         });
       } else if (goForward) {
@@ -159,8 +159,8 @@ const ApplicantMailingAddressLoggedIn = ({
       <h3>Confirm the mailing address we have on file for you</h3>
       <div className="vads-u-margin-bottom--2">
         <p className="vads-u-margin--0">
-          We may mail information about your application to the address you
-          provide here.
+          We may contact you at the email address or phone number you provide
+          here.
         </p>
       </div>
       {showSuccessAlert('address', 'mailing address')}
