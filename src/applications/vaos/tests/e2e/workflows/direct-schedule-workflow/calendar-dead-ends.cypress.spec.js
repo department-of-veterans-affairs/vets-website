@@ -41,7 +41,7 @@ describe('VAOS direct schedule flow - calendar dead ends', () => {
     mockVamcEhrApi();
   });
 
-  describe('When direct and request appointment schedule is enabledd', () => {
+  describe('When direct and request appointment schedule is enabled', () => {
     beforeEach(() => {
       const mockEligibilityResponse = new MockEligibilityResponse({
         facilityId: '983',
