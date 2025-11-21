@@ -78,7 +78,7 @@ const responses = {
     });
   },
   // Includes both v1 and v2 endpoints for refill prescriptions
-  'POST /my_health/v2/prescriptions/refill_prescriptions': (req, res) => {
+  'POST /my_health/v2/prescriptions/refill': (req, res) => {
     // Get requested IDs from query params.
     const ids = req.body;
     // Emulate a successful refill for the first ID and failed refill for subsequent IDs
@@ -86,8 +86,10 @@ const responses = {
     const failedIds = ids[1] ? ids.slice(1) : [];
     return res.status(200).json({
       data: {
-        prescriptionList: successfulIds,
-        failedPrescriptionList: failedIds,
+        attributes: {
+          prescriptionList: successfulIds,
+          failedPrescriptionList: failedIds,
+        },
       },
     });
   },
