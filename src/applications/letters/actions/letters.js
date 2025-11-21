@@ -349,7 +349,7 @@ export const getTsaLetterEligibility = dispatch => {
         const currentDate = current?.attributes?.receivedAt || '0';
         return currentDate > latestDate ? current : latest;
       }, null);
-      const hasTSALetter = (response.data ?? []).length > 0;
+      const hasTSALetter = response.data?.length > 0;
       recordEvent({
         event: 'api_call',
         'api-name': 'GET /v0/tsa_letter',
