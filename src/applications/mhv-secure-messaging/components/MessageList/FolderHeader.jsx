@@ -41,7 +41,10 @@ const FolderHeader = props => {
     state => state.sm.recipients,
   );
 
-  const { cernerPilotSmFeatureFlag } = useFeatureToggles();
+  const {
+    cernerPilotSmFeatureFlag,
+    mhvSecureMessagingCernerPilotSystemMaintenanceBannerFlag,
+  } = useFeatureToggles();
 
   const cernerFacilities = useMemo(
     () => {
@@ -103,7 +106,11 @@ const FolderHeader = props => {
 
   const OracleHealthMessagingAlert = useCallback(
     () => {
-      if (cernerPilotSmFeatureFlag) return <OracleHealthMessagingIssuesAlert />;
+      if (
+        cernerPilotSmFeatureFlag &&
+        mhvSecureMessagingCernerPilotSystemMaintenanceBannerFlag
+      )
+        return <OracleHealthMessagingIssuesAlert />;
       if (
         folder.folderId === Folders.INBOX.id &&
         cernerFacilities?.length > 0
@@ -112,7 +119,12 @@ const FolderHeader = props => {
       }
       return null;
     },
-    [cernerPilotSmFeatureFlag, folder.folderId, cernerFacilities],
+    [
+      cernerPilotSmFeatureFlag,
+      mhvSecureMessagingCernerPilotSystemMaintenanceBannerFlag,
+      folder.folderId,
+      cernerFacilities,
+    ],
   );
 
   return (
