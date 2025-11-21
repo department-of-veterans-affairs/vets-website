@@ -64,11 +64,12 @@ const options = {
   isItemIncomplete: item => !itemIsComplete(item),
   maxItems: 100,
   text: {
-    getItemName: item => item.name,
+    alertItemUpdated: ({ itemData }) =>
+      `${itemData[VA_TREATMENT_LOCATION_KEY]} information has been updated.`,
     cardDescription: item => {
       return (
         <>
-          {item[VA_TREATMENT_LOCATION_KEY] && (
+          {item?.[VA_TREATMENT_LOCATION_KEY] && (
             <h3 className="vads-u-margin-top--0">
               {item[VA_TREATMENT_LOCATION_KEY]}
             </h3>
@@ -83,7 +84,7 @@ const options = {
               <strong>Conditions:</strong> {formatIssueList(item.issues)}
             </p>
           )}
-          {item[VA_TREATMENT_MONTH_YEAR_KEY] && (
+          {item?.[VA_TREATMENT_MONTH_YEAR_KEY] && (
             <p>
               <strong>Treatment start date:</strong>
               &nbsp;
@@ -128,18 +129,19 @@ const summaryPage = {
     [VA_EVIDENCE_PROMPT_KEY]: arrayBuilderYesNoUI(
       options,
       {
-        title: '',
+        title: null,
         labels: promptContent.options,
         labelHeaderLevel: '3',
-        hint: () => null,
+        hint: null,
         errorMessages: {
           required: promptContent.requiredError,
         },
       },
       {
-        title: summaryContent.title,
+        title: summaryContent.question,
         labels: summaryContent.options,
-        labelHeaderLevel: '3',
+        labelHeaderLevel: '4',
+        hint: null,
       },
     ),
   },
@@ -185,12 +187,14 @@ const datePromptPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        formData?.name
-          ? `Did treatment for your TODO at ${formData.name} start before 2005?`
-          : 'Did treatment for your TODO start before 2005?',
+        formData?.[VA_TREATMENT_LOCATION_KEY]
+          ? `Did treatment at ${
+              formData[VA_TREATMENT_LOCATION_KEY]
+            } start before 2005?`
+          : 'Did treatment start before 2005?',
     ),
     [VA_TREATMENT_BEFORE_2005_KEY]: radioUI({
-      title: datePromptContent.label,
+      title: `If treatment for your service-connected condition(s) started before 2005, we’ll ask for approximate dates to help us find the paper records.`,
       labels: datePromptContent.options,
       errorMessages: {
         required: datePromptContent.requiredError,
@@ -214,9 +218,11 @@ const dateDetailsPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        formData?.name
-          ? `When did treatment for your TODO at ${formData.name} start?`
-          : 'When did treatment for your TODO start?',
+        formData?.[VA_TREATMENT_LOCATION_KEY]
+          ? `When did treatment at ${
+              formData[VA_TREATMENT_LOCATION_KEY]
+            } start?`
+          : 'When did treatment start?',
     ),
     [VA_TREATMENT_MONTH_YEAR_KEY]: currentOrPastMonthYearDateUI({
       title: dateDetailsContent.label,
