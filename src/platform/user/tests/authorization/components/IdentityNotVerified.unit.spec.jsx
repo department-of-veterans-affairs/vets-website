@@ -9,19 +9,6 @@ import IdentityNotVerified from '../../../authorization/components/IdentityNotVe
 describe('IdentityNotVerified component', () => {
   afterEach(cleanup);
 
-  it('renders the correct content for MHV based accounts', () => {
-    const { container } = renderInReduxProvider(<IdentityNotVerified />, {
-      initialState: {
-        user: { profile: { signIn: { serviceName: CSP_IDS.MHV } } },
-      },
-    });
-
-    const signInAlert = container.querySelector('va-alert-sign-in');
-    expect(signInAlert).to.exist;
-    expect(signInAlert.getAttribute('variant')).to.eql('signInEither');
-    expect(container.querySelectorAll('button').length).to.eql(2);
-  });
-
   it('renders the correct content for ID.me based accounts', () => {
     const { container } = renderInReduxProvider(<IdentityNotVerified />, {
       initialState: {

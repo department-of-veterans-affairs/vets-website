@@ -12,32 +12,6 @@ import {
 export default function VerifyAlert({ headingLevel = 2, dataTestId }) {
   const csp = useSelector(signInServiceName);
 
-  if (csp === CSP_IDS.DS_LOGON) {
-    return null;
-  }
-
-  if (csp === CSP_IDS.MHV) {
-    return (
-      <VaAlertSignIn
-        variant="signInEither"
-        visible
-        headingLevel={headingLevel}
-        data-testid={dataTestId}
-      >
-        <span slot="IdMeSignInButton">
-          <VerifyIdmeButton
-            queryParams={{ operation: 'verify_cta_authenticated' }}
-          />
-        </span>
-        <span slot="LoginGovSignInButton">
-          <VerifyLogingovButton
-            queryParams={{ operation: 'verify_cta_authenticated' }}
-          />
-        </span>
-      </VaAlertSignIn>
-    );
-  }
-
   const variant = csp === CSP_IDS.LOGIN_GOV ? 'verifyLoginGov' : 'verifyIdMe';
   const spanSlot =
     csp === CSP_IDS.LOGIN_GOV ? (
