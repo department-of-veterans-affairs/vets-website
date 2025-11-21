@@ -22,19 +22,15 @@ describe('CancelExpenseModal', () => {
     expect($('va-modal[visible="true"]', container)).to.exist;
     expect($('va-modal[modal-title="Cancel adding this expense"]', container))
       .to.exist;
-    expect($('va-modal[primary-button-text="Yes, cancel"]', container)).to
+    expect($('va-modal[primary-button-text="Cancel adding"]', container)).to
       .exist;
-    expect(
-      $(
-        'va-modal[secondary-button-text="No, continue adding this expense"]',
-        container,
-      ),
-    ).to.exist;
+    expect($('va-modal[secondary-button-text="Keep adding"]', container)).to
+      .exist;
     expect($('va-modal[status="warning"]', container)).to.exist;
 
     expect(
       getByText(
-        'If you cancel, you’ll lose the information you entered about this expense and will be returned to the review page.',
+        'If you cancel, you’ll lose the information you entered about this expense and will be returned to your unsubmitted expenses.',
       ),
     ).to.exist;
   });
@@ -62,14 +58,14 @@ describe('CancelExpenseModal', () => {
     });
   });
 
-  it('calls onPrimaryButtonClick when "Yes, cancel" button is clicked', async () => {
+  it('calls onPrimaryButtonClick when "Cancel adding" button is clicked', async () => {
     const onPrimary = sinon.spy();
 
     const { container } = render(
       <CancelExpenseModal {...defaultProps} onPrimaryButtonClick={onPrimary} />,
     );
 
-    expect($('va-modal[primary-button-text="Yes, cancel"]', container)).to
+    expect($('va-modal[primary-button-text="Cancel adding"]', container)).to
       .exist;
     $('va-modal', container).__events.primaryButtonClick();
 
@@ -78,7 +74,7 @@ describe('CancelExpenseModal', () => {
     });
   });
 
-  it('calls onSecondaryButtonClick when "No, continue adding this expense" button is clicked', async () => {
+  it('calls onSecondaryButtonClick when "Keep adding" button is clicked', async () => {
     const onSecondary = sinon.spy();
 
     const { container } = render(
@@ -88,12 +84,8 @@ describe('CancelExpenseModal', () => {
       />,
     );
 
-    expect(
-      $(
-        'va-modal[secondary-button-text="No, continue adding this expense"]',
-        container,
-      ),
-    ).to.exist;
+    expect($('va-modal[secondary-button-text="Keep adding"]', container)).to
+      .exist;
     $('va-modal', container).__events.secondaryButtonClick();
 
     await waitFor(() => {

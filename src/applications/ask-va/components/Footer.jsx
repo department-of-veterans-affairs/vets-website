@@ -44,9 +44,7 @@ const Footer = ({ currentLocation, categoryID, topicID }) => {
           </div>
         </div>
         <div className="row">
-          <div className="usa-width-two-thirds vads-u-display--flex vads-u-justify-content--flex-end">
-            <va-back-to-top />
-          </div>
+          <va-back-to-top />
         </div>
       </div>
     </>

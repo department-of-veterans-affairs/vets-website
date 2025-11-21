@@ -55,10 +55,6 @@ class LabsAndTests {
     });
   };
 
-  checkUrl = ({ timeFrame }) => {
-    cy.url().should('include', `?timeFrame=${timeFrame}`);
-  };
-
   checkTimeFrameDisplay = ({ fromDate, toDate }) => {
     const expectedText = `${fromDate} to ${toDate}`;
 

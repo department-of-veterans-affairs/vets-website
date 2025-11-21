@@ -5,12 +5,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import {
-  Link,
-  useNavigate,
-  useLocation,
-  useSearchParams,
-} from 'react-router-dom-v5-compat';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom-v5-compat';
 import { useSelector, useDispatch } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
@@ -78,15 +73,15 @@ import { selectPrescriptionId } from '../selectors/selectPrescription';
 import {
   selectSortOption,
   selectFilterOption,
-  selectPageNumber,
 } from '../selectors/selectPreferences';
 import { buildPdfData } from '../util/buildPdfData';
 import { generateMedicationsPdfFile } from '../util/generateMedicationsPdfFile';
 import FilterAriaRegion from '../components/MedicationsList/FilterAriaRegion';
 import RxRenewalDeleteDraftSuccessAlert from '../components/shared/RxRenewalDeleteDraftSuccessAlert';
+import { useURLPagination } from '../hooks/useURLPagination';
+import { usePageTitle } from '../hooks/usePageTitle';
 
 const Prescriptions = () => {
-  const { search } = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const ssoe = useSelector(isAuthenticatedWithSSOe);
@@ -100,10 +95,8 @@ const Prescriptions = () => {
   // Get sort/filter selections from store.
   const selectedSortOption = useSelector(selectSortOption);
   const selectedFilterOption = useSelector(selectFilterOption);
-  const currentPage = useSelector(selectPageNumber);
 
-  // Track if we've initialized from session storage
-  const initializedFromSession = useRef(false);
+  const { currentPage, handlePageChange } = useURLPagination();
 
   // Consolidate query parameters into a single state object to avoid multiple re-renders
   const [queryParams, setQueryParams] = useState({
@@ -115,6 +108,16 @@ const Prescriptions = () => {
     filterOption: filterOptions[selectedFilterOption]?.url || '',
   });
 
+  useEffect(
+    () => {
+      setQueryParams(prev => ({
+        ...prev,
+        page: currentPage,
+      }));
+    },
+    [currentPage],
+  );
+
   // Use the consolidated query parameters for RTK Query
   const {
     data: prescriptionsData,
@@ -123,21 +126,7 @@ const Prescriptions = () => {
     isFetching: isPrescriptionsFetching,
   } = useGetPrescriptionsListQuery(queryParams);
 
-  // Extract page from URL query params
-  const page = useMemo(
-    () => {
-      const query = new URLSearchParams(search);
-      return Number(query.get('page'));
-    },
-    [search],
-  );
-
-  // Mark as initialized after the first render
-  useEffect(() => {
-    if (!initializedFromSession.current) {
-      initializedFromSession.current = true;
-    }
-  }, []);
+  const isLoading = isPrescriptionsLoading || isPrescriptionsFetching;
 
   const { pagination, meta } = prescriptionsData || {};
   const paginatedPrescriptionsList = useMemo(
@@ -151,7 +140,6 @@ const Prescriptions = () => {
   );
   const { prescriptions: filteredList } = prescriptionsData || [];
   const { filterCount } = meta || {};
-
   const prescriptionId = useSelector(selectPrescriptionId);
   const [prescriptionsExportList, setPrescriptionsExportList] = useState([]);
   const [shouldPrint, setShouldPrint] = useState(false);
@@ -160,7 +148,6 @@ const Prescriptions = () => {
     false,
   );
   const isAlertVisible = useMemo(() => false, []);
-  const [isLoading, setLoading] = useState();
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [loadingMessage, setLoadingMessage] = useState('');
   const [pdfTxtGenerateStatus, setPdfTxtGenerateStatus] = useState({
@@ -172,19 +159,13 @@ const Prescriptions = () => {
 
   const refillAlertList = prescriptionsData?.refillAlertList || [];
 
-  const updateLoadingStatus = (newIsLoading, newLoadingMessage) => {
-    if (newIsLoading !== null) setLoading(newIsLoading);
-    if (newLoadingMessage) setLoadingMessage(newLoadingMessage);
-  };
-
   // Update filter and sort in a single function
   const updateFilterAndSort = (newFilterOption, newSortOption) => {
     // Prepare updates for a single state change
     const updates = {};
 
     const isFiltering = newFilterOption !== null;
-    updateLoadingStatus(
-      null,
+    setLoadingMessage(
       `${isFiltering ? 'Filtering' : 'Sorting'} your medications...`,
     );
 
@@ -219,19 +200,10 @@ const Prescriptions = () => {
         ...prev,
         ...updates,
       }));
+      setPrescriptionsExportList([]);
     }
 
     navigate('/?page=1', { replace: true });
-  };
-
-  // Handle pagination changes
-  const handlePageChange = newPage => {
-    dispatch(setPageNumber(newPage));
-    setQueryParams(prev => ({
-      ...prev,
-      page: newPage,
-    }));
-    navigate(`/?page=${newPage}`, { replace: true });
   };
 
   const printRxList = useCallback(() => {
@@ -242,28 +214,18 @@ const Prescriptions = () => {
     scrollLocation?.current?.scrollIntoView();
   };
 
-  // Load from URL params if needed
   useEffect(
     () => {
-      if (page && page !== queryParams.page) {
-        setQueryParams(prev => ({
-          ...prev,
-          page,
-        }));
+      if (!isLoading) {
+        if (prescriptionId) {
+          goToPrevious();
+        } else {
+          focusElement(document.querySelector('h1'));
+        }
       }
     },
-    [page, queryParams.page],
+    [isLoading, prescriptionId],
   );
-
-  useEffect(() => {
-    if (!isLoading) {
-      if (prescriptionId) {
-        goToPrevious();
-      } else {
-        focusElement(document.querySelector('h1'));
-      }
-    }
-  }, []);
 
   useEffect(
     () => {
@@ -301,55 +263,15 @@ const Prescriptions = () => {
     [
       isLoading,
       filteredList,
-      // isFirstLoad TODO: This breaks the code. Need to refactor to add this.
+      // TODO: This breaks the code because it causes the "Showing X - Y of Z medications" to be focused on initial page load.
+      // Need to refactor these hooks to better handle the initial loading state to add this.
+      // isFirstLoad
     ],
   );
 
-  // Update page title
-  useEffect(
-    () => {
-      updatePageTitle('Medications | Veterans Affairs');
-    },
-    [currentPage],
-  );
-
-  // Update loading state based on RTK Query states
-  useEffect(
-    () => {
-      updateLoadingStatus(isPrescriptionsLoading || isPrescriptionsFetching);
-
-      // Reset the loading message after finishing loading.
-      if (!isPrescriptionsFetching && !isPrescriptionsLoading) {
-        setLoadingMessage('');
-      }
-    },
-    [isPrescriptionsLoading, isPrescriptionsFetching],
-  );
-
-  // Handle URL validation
-  useEffect(
-    () => {
-      if (Number.isNaN(page) || page < 1) {
-        navigate(`/?page=${currentPage || 1}`, { replace: true });
-      } else if (page !== currentPage) {
-        // If the URL page parameter differs from our Redux state, update Redux
-        dispatch(setPageNumber(page));
-      }
-    },
-    [page, navigate, currentPage, dispatch],
-  );
-
-  const baseTitle = 'Medications | Veterans Affairs';
-  usePrintTitle(baseTitle, userName, dob, updatePageTitle);
-
-  useEffect(
-    () => {
-      if (!selectedFilterOption) {
-        dispatch(setFilterOption(ALL_MEDICATIONS_FILTER_KEY));
-      }
-    },
-    [dispatch, selectedFilterOption],
-  );
+  const basePageTitle = 'Medications | Veterans Affairs';
+  usePageTitle(basePageTitle);
+  usePrintTitle(basePageTitle, userName, dob, updatePageTitle);
 
   const txtData = useCallback(
     (rxList, allergiesList) => {
@@ -449,7 +371,6 @@ const Prescriptions = () => {
         });
         // Set the print trigger instead of using setTimeout
         setShouldPrint(true);
-        updateLoadingStatus(false, '');
       }
     },
     [
@@ -470,13 +391,6 @@ const Prescriptions = () => {
       }
     },
     [shouldPrint, printRxList],
-  );
-
-  useEffect(
-    () => {
-      setPrescriptionsExportList([]);
-    },
-    [selectedFilterOption, selectedSortOption],
   );
 
   const handleExportListDownload = async format => {
@@ -624,7 +538,7 @@ const Prescriptions = () => {
         rxList={filteredList}
         scrollLocation={scrollLocation}
         selectedSortOption={selectedSortOption}
-        updateLoadingStatus={updateLoadingStatus}
+        updateLoadingStatus={setLoadingMessage}
         onPageChange={handlePageChange}
       />
     );
