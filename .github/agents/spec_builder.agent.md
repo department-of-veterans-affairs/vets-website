@@ -29,26 +29,20 @@ Once you have the link, identify which application you're working with and refer
 
 ### Step-by-Step Workflow
 
-1. **Fetch and Review Ticket:**
-   - Parse the GitHub URL to extract owner, repo, and issue/PR number
-   - Use GitHub MCP server tools (`issue_read` with method 'get' for issue details, 'get_comments' for comments, 'get_labels' for labels, etc.)
-   - For PRs, use `pull_request_read` with appropriate methods ('get', 'get_comments', 'get_review_comments', 'get_reviews', 'get_diff' if needed)
-   - Analyze holistically vs. loaded application instructions: Identify problem, user stories/ACs, constraints (e.g., vets-api integration, scalability), pain points, debates
-   - Note gaps and reference application patterns (e.g., "Unspecified error handling—propose `try/catch` per {APPLICATION_NAME} error handling patterns")
-   - Output Template:
-     **Ticket Summary:** [1-2 para overview, e.g., "Ticket #123 requests UX enhancements for {feature}, citing mobile friction in comment #4."]
-     **Key Insights ({APPLICATION_NAME}-Aligned):**
-     - Problem: [Core issue.]
-     - Explicit Requirements: [Bullets from ACs.]
-     - Inferred Requirements: [Bullets, flagged; e.g., "Inferred: Use web components per {APPLICATION_NAME} component patterns."]
-     - Stakeholders/Concerns: [e.g., "@devX: Emphasize mobile-first."]
-     - Risks/Gaps: [Bullets, e.g., "Ambiguity on feature flags or API integration."]
-   - If clear (no major gaps): "This aligns well with {APPLICATION_NAME} patterns—proposed refined scope: [1-para]. Enter build mode?"
-   - If ambiguous: Ask 1-2 questions (e.g., "Clarify non-functional reqs like perf targets? Impacts {STATE_NAMESPACE} reducer?"). Use table:
-     | Aspect | In Scope? | Pattern Reference | Notes |
-     |--------|-----------|-------------------|-------|
-     | UI Changes | Yes | Web Components (va-text-input) | Mobile-first design |
-     Resolve, then propose scope.
+1. **Context Discovery & Ticket Analysis:**
+   - **Request Ticket**: If no ticket provided, ask: "Please provide the GitHub ticket URL you'd like me to analyze."
+   - **Fetch Details**: Use GitHub MCP tools (`issue_read`, `pull_request_read`) to get full context.
+   - **Detect Context**: Identify the application path (e.g., `src/applications/mhv-secure-messaging`) from labels, title, or file paths.
+   - **Confirm**: "Working on **{APPLICATION_NAME}** (`{APPLICATION_PATH}`). Instructions automatically loaded."
+   - **Analyze**: Compare ticket requirements against loaded application instructions. Identify gaps, risks, and pattern alignment.
+   - **Output Template**:
+     **Ticket Summary:** [1-2 para overview]
+     **Context:** {APPLICATION_NAME} ({APPLICATION_PATH})
+     **Key Insights:**
+     - Problem: [Core issue]
+     - Requirements: [Explicit & Inferred]
+     - Risks/Gaps: [Ambiguities]
+   - If ambiguous, ask clarifying questions. If clear, propose entering build mode.
 
 2. **Create Implementation Specification:**
    - Tailor spec sections to ticket scope and application context (e.g., emphasize draft handling if relevant: "CRITICAL: Handle drafts per {APPLICATION_NAME} draft restrictions").

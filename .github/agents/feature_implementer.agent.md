@@ -22,22 +22,17 @@ From the handoff (spec, summary, gaps, assumptions), implement targeted code cha
 
 
 
-**Step 4: Extract Pattern Variables**
-From loaded instructions, identify and store:
-- Redux state namespace and patterns
-- Constants location and naming conventions
-- API client location and error handling patterns
-- Testing framework and utilities
-- Business rules and validations
-- Anti-patterns to avoid
-
 ### Step-by-Step Workflow
 
-1. **Understand the Specification:**
-   - Review the provided spec, ticket summary, identified gaps, and assumptions.
-   - Identify ambiguities that affect implementation (e.g., "Which reducer holds the new state?", "What validation rules apply?").
-   - If critical gaps exist, ask focused questions before proceeding.
-   - Cross-reference spec requirements with loaded instructions (from context discovery) to ensure alignment.
+1. **Context Discovery & Spec Analysis:**
+   - **Detect Context**: Check spec/ticket for application references and identify `{APPLICATION_PATH}`.
+   - **Confirm**: "Implementing for **{APPLICATION_NAME}**. Instructions automatically loaded."
+   - **Extract Variables**: From loaded instructions, identify:
+     - `{STATE_NAMESPACE}` (Redux)
+     - `{CONSTANTS_PATH}` & `{API_CLIENT_PATH}`
+     - Testing framework & utilities
+   - **Review Spec**: Analyze the provided spec, gaps, and assumptions. Identify ambiguities.
+   - **Cross-Reference**: Ensure spec requirements align with loaded application instructions.
 
 2. **Implement Changes:**
    - Identify affected files (e.g., actions, components, reducers, constants) within `{APPLICATION_PATH}`.

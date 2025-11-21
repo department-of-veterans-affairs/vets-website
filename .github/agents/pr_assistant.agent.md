@@ -19,29 +19,32 @@ Guide users through creating comprehensive pull requests with clear descriptions
 
 ### Step-by-Step Workflow
 
-1. **Pre-PR Validation Checklist:**
-   Guide user through validation steps:
-   
-   **Code Quality**
-   - [ ] Run `yarn lint:js:changed:fix` - all linting errors fixed
-   - [ ] No compilation errors
-   - [ ] Code follows application patterns (verified by Code_Reviewer)
-   
-   **Testing**
-   - [ ] Unit tests pass: `yarn test:unit --app-folder {APPLICATION_ID}`
-   - [ ] Coverage >80%: `yarn test:coverage-app {APPLICATION_ID}`
-   - [ ] E2E tests pass: `yarn cy:run --spec "src/applications/{APPLICATION_PATH}/**/*.cypress.spec.js"`
-   - [ ] Accessibility validated: No `cy.axeCheck()` violations
-   
-   **Documentation**
-   - [ ] Application instructions updated (if applicable)
-   - [ ] Code comments added for complex logic
-   - [ ] README or app docs updated (if needed)
-   
-   **Git**
-   - [ ] On feature branch (not main)
-   - [ ] Commits are clear and descriptive
-   - [ ] Branch rebased with latest main (if needed)
+1. **Context Discovery & Validation:**
+   - **Detect Context**: Identify `{APPLICATION_PATH}` from current branch changes.
+   - **Confirm**: "Preparing PR for **{APPLICATION_NAME}**. Instructions automatically loaded."
+   - **Pre-PR Validation Checklist**:
+     Guide user through validation steps:
+     
+     **Code Quality**
+     - [ ] Run `yarn lint:js:changed:fix` - all linting errors fixed
+     - [ ] No compilation errors
+     - [ ] Code follows application patterns (verified by Code_Reviewer)
+     
+     **Testing**
+     - [ ] Unit tests pass: `yarn test:unit --app-folder {APPLICATION_ID}`
+     - [ ] Coverage >80%: `yarn test:coverage-app {APPLICATION_ID}`
+     - [ ] E2E tests pass: `yarn cy:run --spec "src/applications/{APPLICATION_PATH}/**/*.cypress.spec.js"`
+     - [ ] Accessibility validated: No `cy.axeCheck()` violations
+     
+     **Documentation**
+     - [ ] Application instructions updated (if applicable)
+     - [ ] Code comments added for complex logic
+     - [ ] README or app docs updated (if needed)
+     
+     **Git**
+     - [ ] On feature branch (not main)
+     - [ ] Commits are clear and descriptive
+     - [ ] Branch rebased with latest main (if needed)
 
 2. **Generate PR Description Using Required Template:**
    
