@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
 import * as authUtilities from 'platform/user/authentication/utilities';
-import { SERVICE_PROVIDERS, TEST_APPS } from '../constants';
+import { ACTIVE_SERVICE_PROVIDERS, TEST_APPS } from '../constants';
 import { createOktaOAuthRequest } from '../../../utilities/oauth/utilities';
 
 export function loginHandler(loginType, isOAuth, oktaParams = {}) {
@@ -48,16 +48,16 @@ export default function LoginButton({
       onClick={() => onClick(csp, useOAuth, queryParams)}
       aria-describedby={ariaDescribedBy}
     >
-      {SERVICE_PROVIDERS[csp].image}
+      {ACTIVE_SERVICE_PROVIDERS[csp].image}
     </button>
   );
 }
 
 LoginButton.propTypes = {
-  csp: PropTypes.string,
-  onClick: PropTypes.func,
-  useOAuth: PropTypes.bool,
-  ariaDescribedBy: PropTypes.string,
   actionLocation: PropTypes.string,
+  ariaDescribedBy: PropTypes.string,
+  csp: PropTypes.string,
   queryParams: PropTypes.object,
+  useOAuth: PropTypes.bool,
+  onClick: PropTypes.func,
 };
