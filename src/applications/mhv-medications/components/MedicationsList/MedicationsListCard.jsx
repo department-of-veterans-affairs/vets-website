@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom-v5-compat';
 import ExtraDetails from '../shared/ExtraDetails';
 import LastFilledInfo from '../shared/LastFilledInfo';
@@ -10,8 +11,10 @@ import {
   RX_SOURCE,
   DISPENSE_STATUS,
 } from '../../util/constants';
+import { selectCernerPilotFlag } from '../../util/selectors';
 
 const MedicationsListCard = ({ rx }) => {
+  const isCernerPilot = useSelector(selectCernerPilotFlag);
   const pendingMed =
     rx.prescriptionSource === RX_SOURCE.PENDING_DISPENSE &&
     rx?.dispStatus === DISPENSE_STATUS.NEW_ORDER;
@@ -118,7 +121,9 @@ const MedicationsListCard = ({ rx }) => {
           }
           data-testid="medications-history-details-link"
           className="vads-u-font-weight--bold"
-          to={`prescription/${rx.prescriptionId}`}
+          to={`prescription/${rx.prescriptionId}${
+            isCernerPilot && rx?.stationNumber ? `/${rx.stationNumber}` : ''
+          }`}
         >
           <span data-dd-privacy="mask">
             {rx?.prescriptionName || rx?.orderableItem}

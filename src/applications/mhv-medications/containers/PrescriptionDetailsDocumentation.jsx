@@ -35,7 +35,7 @@ import {
 } from '../selectors/selectPreferences';
 
 const PrescriptionDetailsDocumentation = () => {
-  const { prescriptionId } = useParams();
+  const { prescriptionId, stationNumber } = useParams();
   const contentRef = useRef();
 
   const { dob, userName } = useSelector(state => ({
@@ -70,7 +70,7 @@ const PrescriptionDetailsDocumentation = () => {
     prescription,
     prescriptionApiError,
     isLoading: isLoadingRx,
-  } = usePrescriptionData(prescriptionId, queryParams);
+  } = usePrescriptionData(prescriptionId, queryParams, stationNumber);
   const pharmacyPhone = prescription ? pharmacyPhoneNumber(prescription) : null;
 
   const buildMedicationInformationTxt = useCallback(

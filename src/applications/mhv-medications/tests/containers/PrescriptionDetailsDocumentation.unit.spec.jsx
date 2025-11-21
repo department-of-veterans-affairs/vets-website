@@ -39,7 +39,7 @@ describe('Prescription details documentation container', () => {
     return renderWithStoreAndRouterV6(
       <Routes>
         <Route
-          path="/prescriptions/:prescriptionId/documentation"
+          path="/prescriptions/:prescriptionId/documentation/:stationNumber?"
           element={<PrescriptionDetailsDocumentation />}
         />
       </Routes>,

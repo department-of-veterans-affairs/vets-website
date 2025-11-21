@@ -9,7 +9,7 @@ import reducers from '../../../reducers';
 describe('Medication card component', () => {
   const setup = (rx = prescriptionsListItem, initialState = {}) => {
     return renderWithStoreAndRouterV6(<MedicationsListCard rx={rx} />, {
-      state: initialState,
+      initialState,
       reducers,
     });
   };
@@ -97,7 +97,7 @@ describe('Medication card component', () => {
       ...prescriptionsListItem,
       prescriptionSource: 'NV',
       dispStatus: 'Active: Non-VA',
-      orderedDate: '2024-06-16T04:39:11Z',
+      orderedDate: '2024-06-16T12:00:00Z',
     };
     const { getByTestId } = setup(rx);
     /* eslint-disable prettier/prettier */
@@ -135,5 +135,24 @@ describe('Medication card component', () => {
     expect(getByTestId('rxStatus')).to.have.text('Active: Non-VA');
     expect(getByTestId('non-VA-prescription')).to.have.text('You can’t manage this medication in this online tool.');
     /* eslint-enable prettier/prettier */
+  });
+
+  it('includes station number in link when cerner pilot is enabled', () => {
+    const rx = {
+      ...prescriptionsListItem,
+      stationNumber: '989',
+    };
+    const initialState = {
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        mhv_medications_cerner_pilot: true,
+      },
+    };
+    const screen = setup(rx, initialState);
+    const link = screen.getByTestId('medications-history-details-link');
+    expect(link).to.have.attribute(
+      'href',
+      `/prescription/${rx.prescriptionId}/${rx.stationNumber}`,
+    );
   });
 });

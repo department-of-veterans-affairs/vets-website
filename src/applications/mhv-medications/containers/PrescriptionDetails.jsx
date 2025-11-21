@@ -59,7 +59,7 @@ import {
 } from '../selectors/selectPreferences';
 
 const PrescriptionDetails = () => {
-  const { prescriptionId } = useParams();
+  const { prescriptionId, stationNumber } = useParams();
 
   // Get sort/filter selections from store.
   const selectedSortOption = useSelector(selectSortOption);
@@ -79,6 +79,7 @@ const PrescriptionDetails = () => {
   const { prescription, prescriptionApiError, isLoading } = usePrescriptionData(
     prescriptionId,
     queryParams,
+    stationNumber,
   );
 
   const nonVaPrescription =
