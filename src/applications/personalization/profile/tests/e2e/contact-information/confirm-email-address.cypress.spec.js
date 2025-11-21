@@ -4,6 +4,7 @@ import {
   mockFeatureToggles,
   mockGETEndpoints,
 } from '@@profile/tests/e2e/helpers';
+import ContactInformationPage from './pages/ContactInformationPage';
 
 const MHV_EMAIL_CONFIRMATION_DISMISSED_COOKIE =
   'MHV_EMAIL_CONFIRMATION_DISMISSED';
@@ -39,33 +40,6 @@ const setup = () => {
 
   cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);
   cy.wait('@mockUser');
-};
-
-const clickConfirmEmail = () => {
-  cy.get(
-    'va-alert[data-testid="profile-alert--confirm-contact-email"], va-alert[data-testid="mhv-alert--confirm-error',
-  )
-    .find('va-button-pair')
-    .shadow()
-    .find('va-button')
-    .first()
-    .shadow()
-    .find('button')
-    .click();
-};
-
-const clickEditEmail = () => {
-  cy.get(
-    'va-alert[data-testid="profile-alert--confirm-contact-email"], va-alert[data-testid="mhv-alert--confirm-error',
-  )
-    .find('va-button-pair')
-    .shadow()
-    .within(() => {
-      cy.get('va-button[secondary]')
-        .shadow()
-        .find('button')
-        .click();
-    });
 };
 
 const buildUpdateEmailResponse = (isSuccess = true) => ({
@@ -119,27 +93,23 @@ describe('MHV Email Confirmation Alert - Confirm Email', () => {
       }
     }).as('updateEmail');
 
-    clickConfirmEmail();
+    ContactInformationPage.clickConfirmEmail();
     cy.wait('@updateEmail');
 
     // Confirm error alert appears in edit view
-    cy.get('[data-testid="mhv-alert--confirm-contact-email"]').should(
-      'not.exist',
-    );
+    cy.findByTestId('mhv-alert--confirm-contact-email').should('not.exist');
     cy.findByTestId('mhv-alert--confirm-error').should('be.visible');
     cy.findByTestId('mhv-alert--confirm-error').should('be.focused');
 
     // Verify the MHV email confirmation alert cookie was NOT set
     cy.getCookie(MHV_EMAIL_CONFIRMATION_DISMISSED_COOKIE).should('be.null');
 
-    clickConfirmEmail();
+    ContactInformationPage.clickErrorConfirmEmail();
     cy.wait('@updateEmail');
 
     // Confirm success alert shows after successful retry
-    cy.get('[data-testid="mhv-alert--confirm-contact-email"]').should(
-      'not.exist',
-    );
-    cy.get('[data-testid="mhv-alert--confirm-error"]').should('not.exist');
+    cy.findByTestId('mhv-alert--confirm-contact-email').should('not.exist');
+    cy.findByTestId('mhv-alert--confirm-error').should('not.exist');
     cy.findByTestId('mhv-alert--confirm-success').should('be.visible');
     cy.findByTestId('mhv-alert--confirm-success').should('be.focused');
     cy.getCookie(MHV_EMAIL_CONFIRMATION_DISMISSED_COOKIE).should('not.be.null');
@@ -158,13 +128,11 @@ describe('MHV Email Confirmation Alert - Confirm Email', () => {
       }
     }).as('updateEmail');
 
-    clickConfirmEmail();
+    ContactInformationPage.clickConfirmEmail();
     cy.wait('@updateEmail');
 
     // Confirm error alert appears in edit view
-    cy.get('[data-testid="mhv-alert--confirm-contact-email"]').should(
-      'not.exist',
-    );
+    cy.findByTestId('mhv-alert--confirm-contact-email').should('not.exist');
     cy.findByTestId('mhv-alert--confirm-error').should('be.visible');
     cy.findByTestId('mhv-alert--confirm-error').should('be.focused');
 
@@ -172,36 +140,7 @@ describe('MHV Email Confirmation Alert - Confirm Email', () => {
     cy.getCookie(MHV_EMAIL_CONFIRMATION_DISMISSED_COOKIE).should('be.null');
 
     // Click the edit button and verify the email address field is focused
-    clickEditEmail();
-    cy.get('va-text-input[name="root_emailAddress"]')
-      .shadow()
-      .find('input#inputField')
-      .should('have.focus');
-
-    cy.injectAxeThenAxeCheck();
-  });
-
-  it('should focus the email address field when the edit button is clicked in the error alert', () => {
-    cy.intercept(
-      'PUT',
-      '/v0/profile/email_addresses',
-      buildUpdateEmailResponse(false),
-    ).as('updateEmail');
-
-    clickConfirmEmail();
-    cy.wait('@updateEmail');
-
-    // Confirm error alert appears in edit view
-    cy.get('[data-testid="mhv-alert--confirm-contact-email"]').should(
-      'not.exist',
-    );
-    cy.findByTestId('mhv-alert--confirm-error').should('be.visible');
-    cy.findByTestId('mhv-alert--confirm-error').should('be.focused');
-
-    cy.getCookie(MHV_EMAIL_CONFIRMATION_DISMISSED_COOKIE).should('be.null');
-
-    // Click the edit button and verify the email address field is focused
-    clickEditEmail();
+    ContactInformationPage.clickErrorEditEmail();
     cy.get('va-text-input[name="root_emailAddress"]')
       .shadow()
       .find('input#inputField')
@@ -217,12 +156,10 @@ describe('MHV Email Confirmation Alert - Confirm Email', () => {
       buildUpdateEmailResponse(),
     ).as('updateEmail');
 
-    clickConfirmEmail();
+    ContactInformationPage.clickConfirmEmail();
     cy.wait('@updateEmail');
 
-    cy.get('[data-testid="mhv-alert--confirm-contact-email"]').should(
-      'not.exist',
-    );
+    cy.findByTestId('mhv-alert--confirm-contact-email').should('not.exist');
     cy.findByTestId('mhv-alert--confirm-success').should('be.visible');
     cy.findByTestId('mhv-alert--confirm-success').should('be.focused');
     cy.getCookie(MHV_EMAIL_CONFIRMATION_DISMISSED_COOKIE).should('not.be.null');
@@ -231,7 +168,7 @@ describe('MHV Email Confirmation Alert - Confirm Email', () => {
   });
 
   it('should focus the email address field when edit button is clicked', () => {
-    clickEditEmail();
+    ContactInformationPage.clickEditEmail();
 
     cy.get('va-text-input[name="root_emailAddress"]')
       .shadow()

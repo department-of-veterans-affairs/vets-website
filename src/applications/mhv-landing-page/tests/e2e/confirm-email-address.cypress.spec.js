@@ -1,29 +1,10 @@
 import { rootUrl } from '../../manifest.json';
 import user from '../fixtures/user.json';
 import ApiInitializer from './utilities/ApiInitializer';
+import LandingPage from './pages/LandingPage';
 
 const MHV_EMAIL_CONFIRMATION_DISMISSED_COOKIE =
   'MHV_EMAIL_CONFIRMATION_DISMISSED';
-
-const clickConfirmEmail = () => {
-  cy.get(
-    'va-alert[data-testid="mhv-alert--confirm-contact-email"], va-alert[data-testid="mhv-alert--confirm-error"]',
-  )
-    .find('va-button[text="Confirm"]')
-    .shadow()
-    .find('button')
-    .click();
-};
-
-const clickEditEmailLink = () => {
-  cy.get(
-    'va-alert[data-testid="mhv-alert--confirm-contact-email"], va-alert[data-testid="mhv-alert--confirm-error"]',
-  )
-    .find('va-link[href="/profile/contact-information#contact-email-address"]')
-    .shadow()
-    .find('a')
-    .click();
-};
 
 const buildUpdateEmailResponse = (isSuccess = true) => ({
   statusCode: isSuccess ? 200 : 400,
@@ -66,24 +47,20 @@ describe('MHV Email Confirmation Alert - Confirm Email', () => {
       }
     }).as('updateEmail');
 
-    clickConfirmEmail();
+    LandingPage.clickConfirmEmail();
     cy.wait('@updateEmail');
 
-    cy.get('[data-testid="mhv-alert--confirm-contact-email"]').should(
-      'not.exist',
-    );
+    cy.findByTestId('mhv-alert--confirm-contact-email').should('not.exist');
     cy.findByTestId('mhv-alert--confirm-error').should('be.visible');
     cy.findByTestId('mhv-alert--confirm-error').should('be.focused');
 
     cy.getCookie(MHV_EMAIL_CONFIRMATION_DISMISSED_COOKIE).should('be.null');
 
-    clickConfirmEmail();
+    LandingPage.clickErrorConfirmEmail();
     cy.wait('@updateEmail');
 
-    cy.get('[data-testid="mhv-alert--confirm-contact-email"]').should(
-      'not.exist',
-    );
-    cy.get('[data-testid="mhv-alert--confirm-error"]').should('not.exist');
+    cy.findByTestId('mhv-alert--confirm-contact-email').should('not.exist');
+    cy.findByTestId('mhv-alert--confirm-error').should('not.exist');
     cy.findByTestId('mhv-alert--confirm-success').should('be.visible');
     cy.findByTestId('mhv-alert--confirm-success').should('be.focused');
     cy.getCookie(MHV_EMAIL_CONFIRMATION_DISMISSED_COOKIE).should('not.be.null');
@@ -98,19 +75,17 @@ describe('MHV Email Confirmation Alert - Confirm Email', () => {
       buildUpdateEmailResponse(false),
     ).as('updateEmail');
 
-    clickConfirmEmail();
+    LandingPage.clickConfirmEmail();
     cy.wait('@updateEmail');
 
     // Verify error alert is shown and cookie isn't set.
-    cy.get('[data-testid="mhv-alert--confirm-contact-email"]').should(
-      'not.exist',
-    );
+    cy.findByTestId('mhv-alert--confirm-contact-email').should('not.exist');
     cy.findByTestId('mhv-alert--confirm-error').should('be.visible');
     cy.findByTestId('mhv-alert--confirm-error').should('be.focused');
     cy.getCookie(MHV_EMAIL_CONFIRMATION_DISMISSED_COOKIE).should('be.null');
 
     // Click the edit link and verify redirection to contact info page.
-    clickEditEmailLink();
+    LandingPage.clickErrorEditEmailLink();
     cy.url().should('include', '/profile/contact-information');
     cy.hash().should('equal', '#contact-email-address');
 
@@ -124,13 +99,11 @@ describe('MHV Email Confirmation Alert - Confirm Email', () => {
       buildUpdateEmailResponse(),
     ).as('updateEmail');
 
-    clickConfirmEmail();
+    LandingPage.clickConfirmEmail();
     cy.wait('@updateEmail');
 
     // Verify success alert is shown and cookie is set.
-    cy.get('[data-testid="mhv-alert--confirm-contact-email"]').should(
-      'not.exist',
-    );
+    cy.findByTestId('mhv-alert--confirm-contact-email').should('not.exist');
     cy.findByTestId('mhv-alert--confirm-success').should('be.visible');
     cy.findByTestId('mhv-alert--confirm-success').should('be.focused');
     cy.getCookie(MHV_EMAIL_CONFIRMATION_DISMISSED_COOKIE).should('not.be.null');
@@ -139,7 +112,7 @@ describe('MHV Email Confirmation Alert - Confirm Email', () => {
   });
 
   it('should redirect to the contact information page with email address hash when edit is clicked', () => {
-    clickEditEmailLink();
+    LandingPage.clickEditEmailLink();
 
     cy.url().should('include', '/profile/contact-information');
     cy.hash().should('equal', '#contact-email-address');

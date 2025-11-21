@@ -4,6 +4,7 @@ import {
   mockFeatureToggles,
   mockGETEndpoints,
 } from '@@profile/tests/e2e/helpers';
+import ContactInformationPage from './pages/ContactInformationPage';
 
 const MHV_EMAIL_CONFIRMATION_DISMISSED_COOKIE =
   'MHV_EMAIL_CONFIRMATION_DISMISSED';
@@ -43,29 +44,6 @@ const setup = () => {
   cy.wait('@mockUser');
 };
 
-const clickAddEmailAddress = () => {
-  cy.get('va-alert[data-testid="profile-alert--add-contact-email"]')
-    .find('va-button-pair')
-    .shadow()
-    .find('va-button')
-    .first()
-    .shadow()
-    .find('button')
-    .click();
-};
-
-const clickSkipAddingEmailAddress = () => {
-  cy.get('va-alert[data-testid="profile-alert--add-contact-email"]')
-    .find('va-button-pair')
-    .shadow()
-    .within(() => {
-      cy.get('va-button[secondary]')
-        .shadow()
-        .find('button')
-        .click();
-    });
-};
-
 describe('MHV Email Confirmation Alert - Add Email', () => {
   beforeEach(() => {
     setup();
@@ -92,7 +70,7 @@ describe('MHV Email Confirmation Alert - Add Email', () => {
   });
 
   it('should focus the email address field when "Add a contact email" is clicked', () => {
-    clickAddEmailAddress();
+    ContactInformationPage.clickAddEmailAddress();
 
     cy.get('va-text-input[name="root_emailAddress"]')
       .shadow()
@@ -105,7 +83,7 @@ describe('MHV Email Confirmation Alert - Add Email', () => {
   });
 
   it('should show the skip success alert and clear the cookie when clicking "Skip adding an email"', () => {
-    clickSkipAddingEmailAddress();
+    ContactInformationPage.clickSkipAddingEmailAddress();
 
     cy.findByTestId('mhv-alert--skip-success').should('be.visible');
     cy.findByTestId('mhv-alert--skip-success').should('be.focused');
