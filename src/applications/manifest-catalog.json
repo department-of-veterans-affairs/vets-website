@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 149,
+  "totalApplications": 150,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -746,6 +746,12 @@
       "appName": "Request to be a substitute claimant for a deceased claimant",
       "entryName": "21P-0847-substitute-claimant",
       "rootUrl": "/supporting-forms-for-claims/substitute-claimant-form-21P-0847"
+    },
+    {
+      "directoryPath": "src/applications/simple-forms/21p-4171",
+      "appName": "VA Form 21P-4171",
+      "entryName": "21p-4171",
+      "rootUrl": "/forms/21p-4171"
     },
     {
       "directoryPath": "src/applications/simple-forms/21P-601",

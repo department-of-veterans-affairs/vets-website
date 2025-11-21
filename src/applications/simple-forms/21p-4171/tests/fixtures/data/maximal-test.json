@@ -1,0 +1,114 @@
+{
+  "data": {
+    "signatureByMark": false,
+    "remarks": "I have known Michael and Barbara since they moved to Portland in 2015. They have always presented themselves as a married couple in our community. They attend church services together, host neighborhood gatherings as a couple, and Barbara has always used the name Johnson socially and professionally. I have witnessed them referring to each other as husband and wife on numerous occasions, including at family gatherings and community events.",
+    "spouse": {
+      "hadOtherMarriages": true,
+      "otherMarriages": [
+        {
+          "toWhomMarried": {
+            "first": "Robert",
+            "last": "Williams"
+          },
+          "marriageType": "Ceremonial",
+          "marriageDate": "1998-06-15",
+          "marriagePlace": "Seattle, WA",
+          "endDate": "2012-03-22",
+          "endPlace": "King County, WA",
+          "howEnded": "divorce"
+        }
+      ],
+      "fullName": {
+        "first": "Barbara",
+        "middle": "Lynn",
+        "last": "Johnson"
+      }
+    },
+    "veteran": {
+      "hadOtherMarriages": true,
+      "otherMarriages": [
+        {
+          "toWhomMarried": {
+            "first": "Jennifer",
+            "middle": "Marie",
+            "last": "Thompson"
+          },
+          "marriageType": "Ceremonial",
+          "marriageDate": "1995-08-12",
+          "marriagePlace": "San Diego, CA",
+          "endDate": "2010-11-30",
+          "endPlace": "San Diego County, CA",
+          "howEnded": "divorce"
+        }
+      ]
+    },
+    "living": {
+      "continuous": false,
+      "continuousExplanation": "Michael was deployed overseas with the Army from January 2016 to July 2016, and Barbara remained at their home in Portland during this time. They resumed living together upon his return.",
+      "maintainedHome": true,
+      "periods": [
+        {
+          "dates": {
+            "from": "2015-03-15",
+            "to": "2016-01-10"
+          },
+          "cityOrTown": "Portland",
+          "state": "OR"
+        },
+        {
+          "dates": {
+            "from": "2016-07-20",
+            "to": "2025-11-20"
+          },
+          "cityOrTown": "Portland",
+          "state": "OR"
+        }
+      ]
+    },
+    "referencePlace": "Johnson family home, 2847 NW Westover Road, Portland, OR",
+    "referenceDate": "2018-07-04",
+    "heardReferToEachOther": true,
+    "usedLastName": "Johnson",
+    "usedFirstName": "Barbara",
+    "witnessConsidersMarried": true,
+    "reasonsForBelief": "They have lived together as husband and wife since 2015. Barbara uses the last name Johnson and introduces Michael as her husband. They file joint tax returns, share bank accounts, and Barbara is listed as Michael's spouse on his military benefits paperwork. They wear wedding rings and celebrate their anniversary each year in June. Their neighbors, church congregation, and friends all recognize them as a married couple.",
+    "everDenied": false,
+    "generallyKnownAsMarried": true,
+    "visitOccasionsSpouse": "Family dinners, holiday celebrations, church events, neighborhood barbecues, and social gatherings. I also see her regularly at our weekly book club meetings.",
+    "visitFrequencySpouse": "2-3 times per month",
+    "visitOccasionsVeteran": "Family dinners, holiday celebrations (Thanksgiving, Christmas, Fourth of July), Veterans Day events at the local VFW, and occasional social gatherings at their home or in the neighborhood.",
+    "visitFrequencyVeteran": "2-3 times per month",
+    "howLongKnownSpouse": "9 years, 8 months",
+    "howLongKnownVeteran": "10 years, 2 months",
+    "relationshipToSpouse": "Friend and neighbor",
+    "relationshipToVeteran": "Friend and neighbor",
+    "witnessDaytimePhone": "503-555-0142",
+    "witnessEveningPhone": "503-555-0143",
+    "witnessAddress": {
+      "country": "USA",
+      "street": "2901 NW Westover Road",
+      "city": "Portland",
+      "state": "OR",
+      "postalCode": "97210"
+    },
+    "witnessFullName": {
+      "first": "Sarah",
+      "middle": "Elizabeth",
+      "last": "Martinez"
+    },
+    "spouseFullName": {
+      "first": "Barbara",
+      "middle": "Lynn",
+      "last": "Johnson"
+    },
+    "veteranVaFileNumber": "C-12345678",
+    "veteranSsn": "542-68-9123",
+    "veteranFullName": {
+      "first": "Michael",
+      "middle": "James",
+      "last": "Johnson"
+    },
+    "signatureDate": "2025-11-20",
+    "certificationStatement": true
+  }
+}
