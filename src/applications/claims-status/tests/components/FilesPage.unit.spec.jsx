@@ -207,7 +207,7 @@ describe('<FilesPage>', () => {
 
     beforeEach(() => {
       // Restore the AdditionalEvidencePage stub from the outer describe block
-      // We need the REAL component to render so the #add-files element exists in the DOM
+      // We need the REAL component to render so the focusable elements exist in the DOM
       // (The outer beforeEach stubs it out with an empty div for other tests)
       if (stub && stub.restore) {
         stub.restore();
