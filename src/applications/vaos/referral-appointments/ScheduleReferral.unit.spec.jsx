@@ -125,15 +125,27 @@ describe('VAOS Component: ScheduleReferral', () => {
   });
 
   it('should display warning alert when station id is not valid', async () => {
-    const referral = createReferralById(referralDate, '444');
-    referral.attributes.stationId = '12345';
+    const referral = createReferralById(
+      referralDate,
+      '444',
+      undefined,
+      undefined,
+      true,
+      '12345',
+    );
+
+    sandbox.stub(vaosApi, 'useGetReferralByIdQuery').returns({
+      data: referral,
+      error: null,
+      isLoading: false,
+    });
 
     const store = createTestStore();
 
-    const screen = renderWithStoreAndRouter(
-      <ScheduleReferral currentReferral={referral} />,
-      { store },
-    );
+    const screen = renderWithStoreAndRouter(<ScheduleReferral />, {
+      store,
+      path: '/?id=444',
+    });
 
     const alert = await screen.findByTestId('referral-alert');
     expect(alert).to.exist;
