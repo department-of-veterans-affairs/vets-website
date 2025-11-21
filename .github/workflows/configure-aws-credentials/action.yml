@@ -1,13 +1,17 @@
 name: Configure AWS Credentials
-description: Configure AWS Credentials
+description: Configure AWS Credentials via OIDC or Access Keys
 
+# TODO: Remove aws_id and aws_key inputs once all workflows are migrated to OIDC
+# Track migration progress and remove these deprecated inputs when complete
 inputs:
   aws_id:
-    description: AWS Access ID
-    required: true
+    description: AWS Access ID (DEPRECATED - use OIDC with role instead)
+    required: false
+    default: ''
   aws_key:
-    description: AWS Secret Key
-    required: true
+    description: AWS Secret Key (DEPRECATED - use OIDC with role instead)
+    required: false
+    default: ''
   aws_region:
     description: AWS region
     required: true
