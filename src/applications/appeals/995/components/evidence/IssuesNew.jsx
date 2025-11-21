@@ -10,6 +10,7 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 import ArrayBuilderCancelButton from 'platform/forms-system/src/js/patterns/array-builder/ArrayBuilderCancelButton';
 import { getSelected } from '../../../shared/utils/issues';
 import { issuesContent } from '../../content/evidence/va';
+import { VA_TREATMENT_LOCATION_KEY } from '../../constants';
 
 // This is the original schema that will be dynamically overruled as soon
 // as the user lands on this page. We need this since we won't have the
@@ -19,8 +20,10 @@ export const issuesPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        formData?.name
-          ? `What conditions were you treated for at ${formData.name}?`
+        formData?.[VA_TREATMENT_LOCATION_KEY]
+          ? `What conditions were you treated for at ${
+              formData[VA_TREATMENT_LOCATION_KEY]
+            }?`
           : 'What conditions were you treated for?',
     ),
     issues: checkboxGroupUI({
@@ -59,8 +62,10 @@ const dynamicSchema = selectedIssues => {
     uiSchema: {
       ...arrayBuilderItemSubsequentPageTitleUI(
         ({ formData }) =>
-          formData?.name
-            ? `What conditions were you treated for at ${formData.name}?`
+          formData?.[VA_TREATMENT_LOCATION_KEY]
+            ? `What conditions were you treated for at ${
+                formData[VA_TREATMENT_LOCATION_KEY]
+              }?`
             : 'What conditions were you treated for?',
       ),
       issues: checkboxGroupUI({
@@ -109,6 +114,8 @@ const Issues = props => {
   } = arrayBuilder;
 
   const [requiredError, setRequiredError] = useState(false);
+
+  console.log('data: ', data);
 
   const selectedIssues = Object.freeze(
     getSelected(fullData).map(issue => {
