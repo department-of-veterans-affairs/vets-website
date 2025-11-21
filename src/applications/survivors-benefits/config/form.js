@@ -286,9 +286,9 @@ const formConfig = {
         marriageToVeteranEnd: {
           path: 'household/marriage-to-veteran-end',
           title: 'Marriage to Veteran Details',
-          // depends: formData =>
-          //   formData.claimantRelationship === 'SPOUSE' &&
-          //   !formData.marriedAtDeath,
+          depends: formData =>
+            formData.claimantRelationship === 'SPOUSE' &&
+            !formData.marriedAtDeath,
           uiSchema: marriageToVeteranEnd.uiSchema,
           schema: marriageToVeteranEnd.schema,
         },

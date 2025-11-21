@@ -1,30 +1,88 @@
 import {
   textUI,
-  textSchema,
   titleUI,
   currentOrPastDateUI,
   currentOrPastDateSchema,
+  selectUI,
+  checkboxUI,
+  checkboxSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+
+import {
+  STATE_VALUES,
+  STATE_NAMES,
+  COUNTRY_VALUES,
+  COUNTRY_NAMES,
+} from './helpers';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
     ...titleUI('When and where did you get married?'),
-    marriageDate: currentOrPastDateUI({
+    marriageToVeteranStartDate: currentOrPastDateUI({
       title: 'Date of marriage',
       monthSelect: false,
     }),
-    placeOfMarriage: textUI({
-      title: 'Place of marriage',
-      hint: 'City, state or foreign country',
+    marriageToVeteranStartOutsideUS: checkboxUI({
+      title: 'My marriage ended outside the U.S.',
     }),
+    marriageToVeteranStartLocation: {
+      city: textUI('City'),
+      state: {
+        ...selectUI('State'),
+        'ui:required': formData => !formData?.marriageToVeteranStartOutsideUS,
+        'ui:options': {
+          hideIf: formData => formData?.marriageToVeteranStartOutsideUS,
+          labels: STATE_VALUES.reduce((acc, value, idx) => {
+            acc[value] = STATE_NAMES[idx];
+            return acc;
+          }, {}),
+        },
+        'ui:errorMessages': {
+          required: 'Please select a state',
+        },
+      },
+      country: {
+        ...selectUI('Country'),
+        'ui:required': formData => formData?.marriageToVeteranStartOutsideUS,
+        'ui:options': {
+          hideIf: formData => !formData?.marriageToVeteranStartOutsideUS,
+          labels: COUNTRY_VALUES.reduce((acc, value, idx) => {
+            acc[value] = COUNTRY_NAMES[idx];
+            return acc;
+          }, {}),
+        },
+        'ui:errorMessages': {
+          required: 'Please select a country',
+        },
+      },
+    },
   },
   schema: {
     type: 'object',
-    required: ['marriedAtDeath', 'marriageDate', 'placeOfMarriage'],
+    required: ['marriageToVeteranStartDate', 'marriageToVeteranStartLocation'],
     properties: {
-      marriageDate: currentOrPastDateSchema,
-      placeOfMarriage: textSchema,
+      marriageToVeteranStartDate: currentOrPastDateSchema,
+      marriageToVeteranStartOutsideUS: checkboxSchema,
+      marriageToVeteranStartLocation: {
+        type: 'object',
+        required: ['city'],
+        properties: {
+          city: {
+            type: 'string',
+          },
+          state: {
+            type: 'string',
+            enum: STATE_VALUES,
+            enumNames: STATE_NAMES,
+          },
+          country: {
+            type: 'string',
+            enum: COUNTRY_VALUES,
+            enumNames: COUNTRY_NAMES,
+          },
+        },
+      },
     },
   },
 };
