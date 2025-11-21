@@ -38,12 +38,11 @@ class SearchHelpSignIn extends Component {
     this.showHomepageCreateAccountBlock();
   }
 
-  handleSignInSignUp = e => {
-    e.preventDefault();
-    this.props.onSignInSignUp();
+  handleSignInSignUp = () => {
     recordEvent({
       event: 'nav-jumplink-click',
     });
+    window.location.href = '/my-va';
   };
 
   handleMenuClick = menu => () => {
@@ -71,6 +70,10 @@ class SearchHelpSignIn extends Component {
   };
 
   shouldRenderSignedInContent = () => {
+    // Always show sign-in button at root URL "/"
+    if (window.location.pathname === '/') {
+      return false;
+    }
     return (
       (!this.props.isProfileLoading && this.props.isLoggedIn) ||
       (this.props.isProfileLoading && hasSession())
@@ -93,7 +96,11 @@ class SearchHelpSignIn extends Component {
     }
     return (
       <div className="sign-in-links">
-        <button className="sign-in-link" onClick={this.handleSignInSignUp}>
+        <button
+          type="button"
+          className="sign-in-link"
+          onClick={this.handleSignInSignUp}
+        >
           Sign in
         </button>
       </div>

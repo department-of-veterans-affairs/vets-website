@@ -38,6 +38,7 @@ const responses = {
     },
   },
 
+  'GET /data/cms/vamc-ehr.json': {},
   'POST /simple_forms_api/v1/simple_forms': mockSubmit,
 };
 
