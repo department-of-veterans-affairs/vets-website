@@ -46,6 +46,7 @@ const COUNTRY_NAMES = constants.countries
   .map(country => country.label);
 
 /** @type {ArrayBuilderOptions} */
+// arrayPath is spouseMarriages because it's the spouse's previous marriages
 const options = {
   arrayPath: 'spouseMarriages',
   nounSingular: 'previous marriage',
@@ -187,13 +188,13 @@ const marriageDateAndLocationPage = {
       state: {
         ...selectUI('State'),
         'ui:required': (formData, index) => {
-          const item = formData?.previousMarriages?.[index];
+          const item = formData?.spouseMarriages?.[index];
           const currentPageData = formData;
           return !(item?.marriedOutsideUS || currentPageData?.marriedOutsideUS);
         },
         'ui:options': {
           hideIf: (formData, index) => {
-            const item = formData?.previousMarriages?.[index];
+            const item = formData?.spouseMarriages?.[index];
             const currentPageData = formData;
             return item?.marriedOutsideUS || currentPageData?.marriedOutsideUS;
           },
@@ -209,13 +210,13 @@ const marriageDateAndLocationPage = {
       country: {
         ...selectUI('Country'),
         'ui:required': (formData, index) => {
-          const item = formData?.previousMarriages?.[index];
+          const item = formData?.spouseMarriages?.[index];
           const currentPageData = formData;
           return item?.marriedOutsideUS || currentPageData?.marriedOutsideUS;
         },
         'ui:options': {
           hideIf: (formData, index) => {
-            const item = formData?.previousMarriages?.[index];
+            const item = formData?.spouseMarriages?.[index];
             const currentPageData = formData;
             return !(
               item?.marriedOutsideUS || currentPageData?.marriedOutsideUS
@@ -279,7 +280,7 @@ const marriageEndDateAndLocationPage = {
       state: {
         ...selectUI('State'),
         'ui:required': (formData, index) => {
-          const item = formData?.previousMarriages?.[index];
+          const item = formData?.spouseMarriages?.[index];
           const currentPageData = formData;
           return !(
             item?.marriageEndedOutsideUS ||
@@ -288,7 +289,7 @@ const marriageEndDateAndLocationPage = {
         },
         'ui:options': {
           hideIf: (formData, index) => {
-            const item = formData?.previousMarriages?.[index];
+            const item = formData?.spouseMarriages?.[index];
             const currentPageData = formData;
             return (
               item?.marriageEndedOutsideUS ||
@@ -307,7 +308,7 @@ const marriageEndDateAndLocationPage = {
       country: {
         ...selectUI('Country'),
         'ui:required': (formData, index) => {
-          const item = formData?.previousMarriages?.[index];
+          const item = formData?.spouseMarriages?.[index];
           const currentPageData = formData;
           return (
             item?.marriageEndedOutsideUS ||
@@ -316,7 +317,7 @@ const marriageEndDateAndLocationPage = {
         },
         'ui:options': {
           hideIf: (formData, index) => {
-            const item = formData?.previousMarriages?.[index];
+            const item = formData?.spouseMarriages?.[index];
             const currentPageData = formData;
             return !(
               item?.marriageEndedOutsideUS ||
@@ -375,7 +376,7 @@ const marriageEndPage = {
       ...textUI({
         title: 'Tell us how the marriage ended',
         required: (formData, index) => {
-          const item = formData?.previousMarriages?.[index];
+          const item = formData?.spouseMarriages?.[index];
           const currentPageData = formData;
           return (
             item?.marriageEndReason === 'OTHER' ||
@@ -384,7 +385,7 @@ const marriageEndPage = {
         },
       }),
       'ui:required': (formData, index) => {
-        const item = formData?.previousMarriages?.[index];
+        const item = formData?.spouseMarriages?.[index];
         const currentPageData = formData;
         return (
           item?.marriageEndReason === 'OTHER' ||
