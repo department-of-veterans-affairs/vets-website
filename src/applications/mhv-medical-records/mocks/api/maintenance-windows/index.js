@@ -10,7 +10,7 @@ const SERVICES = {
 };
 
 const beforeNow = currentDateFnsMinusMinutes(1);
-const withinHour = currentDateFnsAddOneHourMinusOneMinute(1);
+const withinHour = currentDateFnsAddOneHourMinusOneMinute();
 const endTime = currentDateFnsAddHours(6);
 
 const createDowntimeNotificationBase = (services, startTime) => {
