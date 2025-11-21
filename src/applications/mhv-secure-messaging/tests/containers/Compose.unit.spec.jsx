@@ -238,7 +238,7 @@ describe('Compose container', () => {
     expect(alert.textContent).to.contain(alertTitle.ALL_TEAMS_BLOCKED);
     expect(alert.textContent).to.contain(alertMessage.ALL_TEAMS_BLOCKED);
     const findLocationsLink = screen.container.querySelector(
-      'va-link-action[href*="/find-locations"]',
+      'va-link[href*="/find-locations"]',
     );
     expect(findLocationsLink).to.exist;
   });
@@ -276,7 +276,7 @@ describe('Compose container', () => {
     expect(alert.textContent).to.contain(alertTitle.NO_ASSOCIATIONS);
     expect(alert.textContent).to.contain(alertMessage.NO_ASSOCIATIONS);
     const findLocationsLink = screen.container.querySelector(
-      'va-link-action[href*="/find-locations"]',
+      'va-link[href*="/find-locations"]',
     );
     expect(findLocationsLink).to.exist;
   });

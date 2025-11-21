@@ -1,9 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  VaAlert,
-  VaLinkAction,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { Alerts, Paths } from '../../util/constants';
 import RouterLinkAction from './RouterLinkAction';
 
@@ -27,11 +24,10 @@ const CannotReplyAlert = props => {
               <p>{Alerts.Message.CANNOT_REPLY_BODY.MAIN}</p>
               <p>{Alerts.Message.CANNOT_REPLY_BODY.OH}</p>
               <p>
-                <VaLinkAction
+                <RouterLinkAction
                   data-dd-action-name="cannot-reply-find-facility"
                   href="/find-locations"
                   text="Find your VA health facility"
-                  external
                 />
               </p>
               <p>{Alerts.Message.CANNOT_REPLY_BODY.OH_CONTACT}</p>

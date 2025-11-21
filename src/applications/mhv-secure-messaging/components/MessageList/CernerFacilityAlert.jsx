@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
 import { getCernerURL } from 'platform/utilities/cerner';
-import { VaLinkAction } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import useFeatureToggles from '../../hooks/useFeatureToggles';
 import { submitLaunchMyVaHealthAal } from '../../api/SmApi';
 
@@ -85,12 +85,13 @@ const CernerFacilityAlert = ({ cernerFacilities }) => {
           {isMultipleFacilities && renderMultipleFacilities()}
           {isOneFacility && renderSingleFacility()}
 
-          <VaLinkAction
+          <VaLink
             data-testid="cerner-facility-action-link"
             href={getCernerURL('/pages/messaging/inbox', true)}
             onClick={handleUrlClick}
             text="Go to My VA Health"
             external
+            active
           />
 
           <p>

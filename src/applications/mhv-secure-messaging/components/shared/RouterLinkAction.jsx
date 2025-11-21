@@ -5,16 +5,32 @@ import { VaLink } from '@department-of-veterans-affairs/component-library/dist/r
 
 /**
  * A wrapper component for VaLink that integrates with React Router
- * for client-side navigation without full page reloads.
+ * for client-side navigation with high-prominence styling for primary CTAs.
  *
- * Uses VaLink with active={true} instead of VaLinkAction because VaLink supports the onClick prop
- * for React Router integration. This provides similar action-link styling.
+ * IMPORTANT TECHNICAL NOTE:
+ * This component uses VaLink with active={true}, NOT VaLinkAction.
  *
- * This implements the documented workaround pattern from the VA Design System
- * for using va-link with React Router.
+ * Why? VaLinkAction doesn't expose an onClick prop needed for React Router
+ * integration. VaLink with active={true} provides the closest visual styling:
+ * - Bold text
+ * - Right arrow icon (chevron)
+ * - Blue color scheme
  *
+ * While not pixel-perfect to VaLinkAction (which uses circular icon), the
+ * "active link" styling provides sufficient visual prominence for CTAs.
+ *
+ * Per VA Design System guidance, use this component for:
+ * - Primary calls to action in alerts ("Start a new message")
+ * - Links that initiate a digital service ("Go to your inbox")
+ * - Application entry points
+ * - Internal links that need to "stand out from surrounding design elements"
+ *
+ * For external links that don't need routing, use VaLinkAction directly.
+ * For standard internal navigation, use RouterLink instead.
+ *
+ * @see https://design.va.gov/components/link/action - Action Link guidance
+ * @see https://design.va.gov/components/link/ - Active Link vs Action Link
  * @see https://design.va.gov/storybook/?path=/docs/components-va-link--with-router-link-support
- * @see src/applications/simple-forms/form-upload/components/EditLink.jsx
  */
 const RouterLinkAction = ({
   href,

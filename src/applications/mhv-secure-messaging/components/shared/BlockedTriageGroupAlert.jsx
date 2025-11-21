@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
 import { datadogRum } from '@datadog/browser-rum';
 import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
-import { VaLinkAction } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import RouterLinkAction from './RouterLinkAction';
 import {
   BlockedTriageAlertStyles,
   BlockedTriageAlertText,
@@ -291,7 +291,7 @@ const BlockedTriageGroupAlert = props => {
               ))}
             </ul>
           )}
-        <VaLinkAction
+        <RouterLinkAction
           data-dd-action-name={`${DATADOG_FIND_VA_FACILITY_LINK} - expandable`}
           href="/find-locations/"
           text="Find your VA health facility"
@@ -310,7 +310,7 @@ const BlockedTriageGroupAlert = props => {
       </h2>
       <div>
         <p className="vads-u-margin-bottom--1p5">{alertInfoText}</p>
-        <VaLinkAction
+        <RouterLinkAction
           data-dd-action-name={`${DATADOG_FIND_VA_FACILITY_LINK}`}
           href="/find-locations/"
           text="Find your VA health facility"

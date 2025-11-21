@@ -40,6 +40,9 @@ describe('EditSignatureLink component', () => {
     );
     expect(link.getAttribute('data-dd-action-name')).to.equal('Edit Signature');
     expect(link.getAttribute('data-testid')).to.equal('edit-signature-link');
+
+    // Verify it uses STANDARD link styling (not active)
+    expect(link).to.not.have.attribute('active');
   });
 
   it('should not render when includeSignature is false', () => {
@@ -57,7 +60,7 @@ describe('EditSignatureLink component', () => {
   });
 
   describe('React Router integration', () => {
-    it('renders RouterLinkAction with correct profile URL', () => {
+    it('renders RouterLink with correct profile URL', () => {
       const testState = {
         sm: {
           preferences: {
@@ -76,11 +79,11 @@ describe('EditSignatureLink component', () => {
         '/profile/personal-information#messaging-signature',
       );
 
-      // Verify it's a va-link element (RouterLinkAction uses VaLink)
+      // Verify it's a va-link element (RouterLink uses VaLink)
       expect(link.tagName).to.equal('VA-LINK');
     });
 
-    it('renders as standard link with active={false} for utility link styling', () => {
+    it('renders as standard link (no active attribute) for utility link styling', () => {
       const testState = {
         sm: {
           preferences: {
