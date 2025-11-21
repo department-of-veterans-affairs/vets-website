@@ -135,7 +135,7 @@ describe('Refill Prescriptions Component', () => {
       'refill-prescription-checkbox-0',
     );
     expect(checkbox).to.exist;
-    expect(checkbox).to.have.property('label', `MELOXICAM 15MG TAB`);
+    expect(checkbox).to.have.property('label', `ATORVASTATIN 40MG TAB`);
     // click checkbox
     checkbox.__events.vaChange({
       detail: { checked: true },
@@ -150,12 +150,12 @@ describe('Refill Prescriptions Component', () => {
     expect(button).to.exist;
     const checkbox = await screen.findByTestId('select-all-checkbox');
     expect(checkbox).to.exist;
-    expect(checkbox).to.have.property('label', `Select all 8 refills`);
+    expect(checkbox).to.have.property('label', `Select all 9 refills`);
     // click checkbox
     checkbox.__events.vaChange({
       detail: { checked: true },
     });
-    expect(button).to.have.property('text', 'Request 8 refills');
+    expect(button).to.have.property('text', 'Request 9 refills');
   });
 
   it('Shows the correct "last filled on" date for refill', async () => {
@@ -178,7 +178,7 @@ describe('Refill Prescriptions Component', () => {
   it('Shows the correct "last filled on" date (w/rxRfRecords) for refill', async () => {
     const screen = setup();
     const lastFilledEl = await screen.findByTestId(
-      `refill-prescription-checkbox-6`,
+      `refill-prescription-checkbox-7`,
     );
     expect(lastFilledEl).to.exist;
     const rx = refillablePrescriptions.find(
