@@ -9,6 +9,7 @@ import { STATUSES, FORM_100998_LINK } from '../constants';
 import { toPascalCase, currency } from '../util/string-helpers';
 import DocumentDownload from './DocumentDownload';
 import DecisionReason from './DecisionReason';
+import OutOfBoundsAppointmentAlert from './alerts/OutOfBoundsAppointmentAlert';
 
 const title = 'Your travel reimbursement claim';
 
@@ -24,6 +25,7 @@ export default function ClaimDetailsContent({
   reimbursementAmount,
   documents,
   decisionLetterReason,
+  isOutOfBounds,
 }) {
   useSetPageTitle('Travel Reimbursement Claim Details');
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
@@ -32,6 +34,9 @@ export default function ClaimDetailsContent({
   );
   const claimsMgmtDecisionReasonToggle = useToggleValue(
     TOGGLE_NAMES.travelPayClaimsManagementDecisionReason,
+  );
+  const complexClaimsToggle = useToggleValue(
+    TOGGLE_NAMES.travelPayEnableComplexClaims,
   );
 
   const [appointmentDate, appointmentTime] = formatDateTime(
@@ -89,6 +94,12 @@ export default function ClaimDetailsContent({
       <h1>
         {title} for {appointmentDate}
       </h1>
+      {complexClaimsToggle &&
+        isOutOfBounds && (
+          <div className="vads-u-margin-y--4">
+            <OutOfBoundsAppointmentAlert />
+          </div>
+        )}
       <span
         className="vads-u-font-size--h2 vads-u-font-weight--bold"
         data-testid="claim-details-claim-number"
@@ -104,7 +115,10 @@ export default function ClaimDetailsContent({
               className="vads-u-margin-top--2"
               data-testid="status-definition-text"
             >
-              {STATUSES[toPascalCase(claimStatus)].definition}
+              {complexClaimsToggle
+                ? STATUSES[toPascalCase(claimStatus)].alternativeDefinition ||
+                  STATUSES[toPascalCase(claimStatus)].definition
+                : STATUSES[toPascalCase(claimStatus)].definition}
             </p>
           ) : (
             <p className="vads-u-margin-top--2">
@@ -125,6 +139,16 @@ export default function ClaimDetailsContent({
             getDocLinkList(documentCategories.clerk)}
         </>
       )}
+      {complexClaimsToggle &&
+        (claimStatus === STATUSES.Incomplete.name ||
+          claimStatus === STATUSES.Saved.name) && (
+          <va-link-action
+            text="Complete and file your claim"
+            // Specifically NOT a client-side route to ensure
+            // redirect logic is evaluated upon entry into complex claims
+            href={`/my-health/travel-pay/file-new-claim/${claimId}`}
+          />
+        )}
       <h2 className="vads-u-font-size--h3">Claim information</h2>
       {claimsMgmtToggle && (
         <>
@@ -173,7 +197,8 @@ export default function ClaimDetailsContent({
         Claim submission timeline
       </p>
       <p className="vads-u-margin-y--0">
-        Submitted on {createDate} at {createTime}
+        {complexClaimsToggle ? 'Created' : 'Submitted'} on {createDate} at{' '}
+        {createTime}
       </p>
       <p className="vads-u-margin-y--0">
         Updated on {updateDate} at {updateTime}
@@ -262,6 +287,7 @@ ClaimDetailsContent.propTypes = {
   modifiedOn: PropTypes.string.isRequired,
   decisionLetterReason: PropTypes.string,
   documents: PropTypes.array,
+  isOutOfBounds: PropTypes.bool,
   reimbursementAmount: PropTypes.number,
   totalCostRequested: PropTypes.number,
 };

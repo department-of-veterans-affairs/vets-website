@@ -74,9 +74,9 @@ describe('<LetterList>', () => {
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
-    apiRequestStub = sandbox
-      .stub(apiModule, 'apiRequest')
-      .resolves({ data: [] });
+    apiRequestStub = sandbox.stub(apiModule, 'apiRequest').resolves({
+      data: [{ attributes: { documentId: '' } }],
+    });
     recordEventStub = sandbox.stub(recordEventModule, 'default');
     getTsaLetterEligibilityStub = sandbox.stub();
   });
@@ -420,6 +420,60 @@ describe('<LetterList>', () => {
         'message',
         'Determining TSA letter eligibility...',
       );
+    });
+  });
+
+  it('records user is eligible for TSA letter', async () => {
+    const tsaLetterEnabledProps = {
+      ...defaultProps,
+      tsaSafeTravelLetter: true,
+    };
+    render(
+      <Provider store={getStore()}>
+        <MemoryRouter>
+          <LetterList {...tsaLetterEnabledProps} />
+        </MemoryRouter>
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      const actualEvent = recordEventStub.getCall(0)?.args[0];
+      const expectedEvent = {
+        event: 'api_call',
+        'api-name': 'GET /v0/tsa_letter',
+        'api-status': 'successful',
+        'has-letter': true,
+      };
+      expect(actualEvent).to.deep.equal(expectedEvent);
+    });
+  });
+
+  it('records user is not eligible for TSA letter', async () => {
+    apiRequestStub.resetBehavior();
+    apiRequestStub.resolves({
+      data: [],
+    });
+    const tsaLetterEnabledProps = {
+      ...defaultProps,
+      tsaSafeTravelLetter: true,
+    };
+    render(
+      <Provider store={getStore()}>
+        <MemoryRouter>
+          <LetterList {...tsaLetterEnabledProps} />
+        </MemoryRouter>
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      const actualEvent = recordEventStub.getCall(0)?.args[0];
+      const expectedEvent = {
+        event: 'api_call',
+        'api-name': 'GET /v0/tsa_letter',
+        'api-status': 'successful',
+        'has-letter': false,
+      };
+      expect(actualEvent).to.deep.equal(expectedEvent);
     });
   });
 });
