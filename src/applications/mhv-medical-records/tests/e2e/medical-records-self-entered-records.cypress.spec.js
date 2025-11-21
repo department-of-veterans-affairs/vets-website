@@ -1,7 +1,7 @@
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import DownloadReportsPage from './pages/DownloadReportsPage';
 import selfEnteredResponse from './fixtures/selfEnteredResponse.json';
-import { currentLocalTime } from '../../util/dateHelpers';
+import { currentDateAddSecondsCCD } from '../../util/dateHelpers';
 
 describe('Medical Records download page', () => {
   const site = new MedicalRecordsSite();
@@ -27,7 +27,7 @@ describe('Medical Records download page', () => {
 
     site.verifyDownloadedPdfFile(
       'VA-Blue-Button-report-Safari-Mhvtp',
-      currentLocalTime(),
+      currentDateAddSecondsCCD(),
       '',
     );
 
