@@ -23,6 +23,7 @@ function AddressConfirmation({ subHeader, userAddress }) {
 
   return (
     <>
+      <h3>{subHeader}</h3>
       <va-alert
         close-btn-aria-label="Close notification"
         status="warning"
@@ -36,7 +37,6 @@ function AddressConfirmation({ subHeader, userAddress }) {
           </p>
         </React.Fragment>
       </va-alert>
-      <h3>{subHeader}</h3>
       <p style={{ marginTop: '1em' }}>You entered:</p>
       <div className="blue-bar-block">
         <p>
