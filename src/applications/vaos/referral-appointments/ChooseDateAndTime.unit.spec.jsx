@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { waitFor } from '@testing-library/react';
 import {
   renderWithStoreAndRouter,
   createTestStore,
@@ -214,7 +215,7 @@ describe('VAOS ChooseDateAndTime component', () => {
     expect(screen.getByTestId('loading-container')).to.exist;
   });
 
-  it('should dispatch fetchFutureAppointments when conditions are met', () => {
+  it('should dispatch fetchFutureAppointments when conditions are met', async () => {
     const stateWithDraftSuccess = {
       ...initialState,
       appointments: {
@@ -227,10 +228,12 @@ describe('VAOS ChooseDateAndTime component', () => {
       path: '/?id=UUID',
     });
 
-    sandbox.assert.calledOnce(fetchAppointmentsModule.fetchAppointments);
+    await waitFor(() => {
+      sandbox.assert.calledOnce(fetchAppointmentsModule.fetchAppointments);
+    });
   });
 
-  it('should dispatch fetchFutureAppointments in parallel while draft is loading', () => {
+  it('should dispatch fetchFutureAppointments in parallel while draft is loading', async () => {
     // Override the draft query mock to return loading state
     vaosApi.useGetDraftReferralAppointmentQuery.restore();
     sandbox.stub(vaosApi, 'useGetDraftReferralAppointmentQuery').returns({
@@ -254,7 +257,9 @@ describe('VAOS ChooseDateAndTime component', () => {
     });
 
     // Should dispatch future appointments even while draft is still pending
-    sandbox.assert.calledOnce(fetchAppointmentsModule.fetchAppointments);
+    await waitFor(() => {
+      sandbox.assert.calledOnce(fetchAppointmentsModule.fetchAppointments);
+    });
   });
 
   it('should skip draft query when referral has appointments', () => {
