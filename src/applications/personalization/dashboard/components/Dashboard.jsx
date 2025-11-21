@@ -151,10 +151,9 @@ const LOA1Content = ({
       </div>
 
       <ClaimsAndAppeals isLOA1={isLOA1} />
-
+      <BenefitApplications />
       <HealthCare isVAPatient={isVAPatient} isLOA1={isLOA1} />
       <EducationAndTraining isLOA1={isLOA1} />
-      <BenefitApplications />
 
       {showWelcomeToMyVaMessage &&
         userIsNew && (
@@ -355,6 +354,7 @@ const Dashboard = ({
               )}
               {isLOA3 && (
                 <>
+                  <BenefitApplications />
                   <HealthCare isVAPatient={isVAPatient} />
                   <Debts />
                   <BenefitPayments
@@ -362,7 +362,6 @@ const Dashboard = ({
                     showNotifications={showNotifications}
                   />
                   <EducationAndTraining />
-                  <BenefitApplications />
                 </>
               )}
             </div>

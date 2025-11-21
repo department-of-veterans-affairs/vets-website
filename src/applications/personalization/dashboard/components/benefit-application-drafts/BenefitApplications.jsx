@@ -58,7 +58,7 @@ const BenefitApplications = ({
       ref={sectionRef}
       tabIndex={-1}
     >
-      <h2>Benefit applications and forms</h2>
+      <h2>Forms and applications</h2>
       <ApplicationsInProgress hideH3 />
     </div>
   );
