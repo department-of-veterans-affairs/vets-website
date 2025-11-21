@@ -10,7 +10,7 @@ const { RESULTS_2_IS_1C } = RESULTS_NAME_MAP;
 // 1.2 - Yes
 // 1.3 - No
 // 2.IS.1 - No
-// 2.0 - Initial
+// 2.0 - Claim for Increase
 // 2.IS.1A - No
 // 2.IS.1B - No
 const path = {
@@ -18,13 +18,13 @@ const path = {
   Q_1_2_CLAIM_DECISION: 0,
   Q_1_3_CLAIM_CONTESTED: 1,
   Q_2_IS_1_SERVICE_CONNECTED: 1,
-  Q_2_0_CLAIM_TYPE: 0,
+  Q_2_0_CLAIM_TYPE: 1,
   Q_2_IS_1A_LAW_POLICY_CHANGE: 1,
   Q_2_IS_1B_NEW_EVIDENCE: 1,
 };
 
 describe('Decision Reviews Onramp', () => {
-  describe('Results HLR (path 1)', () => {
+  describe('Results HLR (path 4)', () => {
     it('navigates through the flow forward and backward successfully', () => {
       cy.visit(h.ROOT);
       cy.injectAxeThenAxeCheck();
