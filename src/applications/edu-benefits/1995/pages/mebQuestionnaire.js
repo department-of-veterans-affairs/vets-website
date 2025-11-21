@@ -7,16 +7,18 @@ const ResultDescription = ({ body, linkHref, linkText, answers }) => (
     <h2 className="vads-u-white-space--nowrap">
       Change your education benefits
     </h2>
+    <p>{body}</p>
+    {linkHref &&
+      linkText && (
+        <a
+          href={linkHref}
+          className="vads-u-display--block vads-u-margin-bottom--3"
+        >
+          {linkText}
+        </a>
+      )}
     <div className="usa-alert background-color-only">
-      <p className="vads-u-margin-top--0 vads-u-margin-bottom--2">{body}</p>
-      {linkHref &&
-        linkText && (
-          <a href={linkHref} className="vads-u-display--block">
-            {linkText}
-          </a>
-        )}
-    </div>
-    <va-summary-box headline="Your answers:">
+      <h3 className="vads-u-margin-top--0">Your answers:</h3>
       <ul className="vads-u-list-style--none vads-u-padding-left--0">
         {answers.map((answer, index) => (
           <li
@@ -32,7 +34,7 @@ const ResultDescription = ({ body, linkHref, linkText, answers }) => (
           </li>
         ))}
       </ul>
-    </va-summary-box>
+    </div>
   </div>
 );
 
