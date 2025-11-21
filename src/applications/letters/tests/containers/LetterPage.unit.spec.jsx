@@ -60,7 +60,7 @@ const getStore = () => {
     ],
     featureToggles: {
       // eslint-disable-next-line camelcase
-      tsa_safe_travel_letter: true,
+      tsa_safe_travel_letter: false,
     },
   };
   return createStore(mockReducer, initialState, applyMiddleware(thunk));
