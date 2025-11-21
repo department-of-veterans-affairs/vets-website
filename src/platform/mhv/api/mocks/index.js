@@ -78,7 +78,7 @@ const responses = {
   // Note: Not using commonResponses to avoid conflicts with user/feature toggle mocks
   'OPTIONS /v0/maintenance_windows': 'OK',
 
-  'GET /v0/user': user.acceleratedCernerUser,
+  'GET /v0/user': user.defaultUser,
   'GET /v0/feature_toggles': featureToggles.generateFeatureToggles({
     mhvAcceleratedDeliveryEnabled: true,
     mhvAcceleratedDeliveryAllergiesEnabled: true,
@@ -122,6 +122,43 @@ const responses = {
   // 'GET /my_health/v1/prescriptions': prescriptionsFixture,
   // 'GET /my_health/v1/prescriptions/list_refillable_prescriptions': refillablePrescriptionsFixture,
   'GET /my_health/v1/prescriptions/list_refillable_prescriptions': prescriptions.generateMockPrescriptions(),
+
+  // Oracle Health (v2) prescriptions endpoints
+  'GET /my_health/v2/prescriptions': (req, res) => {
+    return res.json(prescriptions.generateMockPrescriptions());
+  },
+  'GET /my_health/v2/prescriptions/:id': (req, res) => {
+    const { id } = req.params;
+    // Generate full list to find matching prescription from fixture
+    const allPrescriptions = prescriptions.generateMockPrescriptions();
+    const prescription = allPrescriptions.data.find(
+      p => p.attributes.prescriptionId === parseInt(id, 10),
+    );
+
+    const data = {
+      data:
+        prescription ||
+        prescriptions.mockPrescription(id, {
+          cmopNdcNumber: '00093721410',
+        }),
+      meta: {
+        sort: {
+          dispStatus: 'DESC',
+          dispensedDate: 'DESC',
+          prescriptionName: 'DESC',
+        },
+        pagination: {
+          currentPage: 1,
+          perPage: 10,
+          totalPages: 1,
+          totalEntries: 1,
+        },
+        updatedAt: 'Wed, 28 Feb 2024 09:58:42 EST',
+        failedStationList: 'string',
+      },
+    };
+    return res.json(data);
+  },
 
   // Secure Messaging
 

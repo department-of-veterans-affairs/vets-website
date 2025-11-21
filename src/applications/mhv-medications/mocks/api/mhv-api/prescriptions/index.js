@@ -99,9 +99,13 @@ function mockPrescription(n = 0, attrs = {}) {
       ],
       tracking: null,
       orderableItem: null,
-      sortedDispensedDate: '2024-02-25T10:30:00-05:00',
       prescriptionImage: null,
       ...attrs,
+      // sortedDispensedDate should be passed in attrs to match dispensedDate
+      sortedDispensedDate:
+        attrs.sortedDispensedDate ||
+        attrs.dispensedDate ||
+        '2024-02-25T10:30:00-05:00',
     },
     links: {
       self: 'self',
@@ -126,18 +130,25 @@ function mockPrescriptionArray(n = 20) {
     const realPrescription =
       realPrescriptions[i % realPrescriptions.length].attributes;
 
+    // Use nullish coalescing to respect explicit null values from fixture
+    const refillSubmitDate =
+      realPrescription.refillSubmitDate ?? formatISO(oneWeekAgo);
+    const refillDate = realPrescription.refillDate ?? recentlyISOString;
+    const orderedDate = realPrescription.orderedDate ?? formatISO(monthsAgo);
+    const dispensedDate = realPrescription.dispensedDate ?? recentlyISOString;
+
     return mockPrescription(i, {
       prescriptionName: realPrescription.prescriptionName,
       refillStatus: realPrescription.refillStatus,
-      refillSubmitDate:
-        realPrescription.refillSubmitDate || formatISO(oneWeekAgo),
-      refillDate: realPrescription.refillDate || recentlyISOString,
+      refillSubmitDate,
+      refillDate,
       refillRemaining: realPrescription.refillRemaining,
       facilityName: realPrescription.facilityName,
-      orderedDate: realPrescription.orderedDate || formatISO(monthsAgo),
+      orderedDate,
       quantity: realPrescription.quantity,
       expirationDate: realPrescription.expirationDate,
-      dispensedDate: realPrescription.dispensedDate || recentlyISOString,
+      dispensedDate,
+      sortedDispensedDate: dispensedDate,
       stationNumber: realPrescription.stationNumber,
       isRefillable: realPrescription.isRefillable,
       isTrackable: realPrescription.isTrackable,
