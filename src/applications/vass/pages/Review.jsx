@@ -22,6 +22,7 @@ const Review = () => {
     <Wrapper
       pageTitle="Review your VA Solid Start call details"
       testID="review-page"
+      showBackLink
     >
       <hr
         aria-hidden="true"
