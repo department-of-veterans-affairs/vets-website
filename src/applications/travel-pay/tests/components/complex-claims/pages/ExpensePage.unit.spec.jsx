@@ -656,7 +656,7 @@ describe('Travel Pay – ExpensePage (Editing existing expense)', () => {
     expect(button).to.exist;
   });
 
-  it('does NOT render add-mode cancel button', () => {
+  it('does NOT render "Cancel adding this expense" button when in add mode', () => {
     const { container } = renderEditPage();
     const addCancelButton = Array.from(
       container.querySelectorAll('va-button'),
@@ -664,7 +664,7 @@ describe('Travel Pay – ExpensePage (Editing existing expense)', () => {
     expect(addCancelButton).to.not.exist;
   });
 
-  it('back button opens cancel modal in edit mode', () => {
+  it('"Back" button opens modal in edit mode', () => {
     const { container } = renderEditPage();
     const backButton = Array.from(container.querySelectorAll('va-button')).find(
       btn => btn.getAttribute('text') === 'Cancel',

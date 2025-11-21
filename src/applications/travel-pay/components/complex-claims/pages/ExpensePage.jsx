@@ -160,17 +160,19 @@ const ExpensePage = () => {
     }));
   };
 
-  const openCancelModal = () => setIsCancelModalVisible(true);
-  const closeCancelModal = () => setIsCancelModalVisible(false);
-
+  const handleOpenCancelModal = () => setIsCancelModalVisible(true);
+  const handleCloseCancelModal = () => setIsCancelModalVisible(false);
   const handleConfirmCancel = () => {
+    handleCloseCancelModal();
     if (isEditMode) {
-      setIsCancelModalVisible(false);
+      // TODO: Add logic to determine where the user came from and direct them back to the correct location
+      // navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
+      navigate(`/file-new-claim/${apptId}/${claimId}/review`);
     } else {
-      setIsCancelModalVisible(true);
+      // TODO: Add logic to determine where the user came from and direct them back to the correct location
+      navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
+      // navigate(`/file-new-claim/${apptId}/${claimId}/review`);
     }
-
-    navigate(`/file-new-claim/${apptId}/${claimId}/review`);
   };
 
   // Field names must match those expected by the expenses_controller in vets-api.
@@ -346,7 +348,7 @@ const ExpensePage = () => {
         <VaButton
           secondary
           text="Cancel adding this expense"
-          onClick={openCancelModal}
+          onClick={handleOpenCancelModal}
           className="vads-u-display--flex vads-u-margin-y--2 travel-pay-complex-expense-cancel-btn"
         />
       )}
@@ -360,9 +362,9 @@ const ExpensePage = () => {
       />
       <CancelExpenseModal
         visible={isCancelModalVisible}
-        onCloseEvent={closeCancelModal}
+        onCloseEvent={handleCloseCancelModal}
         onPrimaryButtonClick={handleConfirmCancel}
-        onSecondaryButtonClick={closeCancelModal}
+        onSecondaryButtonClick={handleCloseCancelModal}
         isEditMode={isEditMode}
       />
     </>
