@@ -99,9 +99,18 @@ export const reviewEntry = (description, key, uiSchema, label, data) => {
   );
 };
 
-const fieldEntries = (key, uiSchema, data, schema, schemaFromState, index) => {
+const fieldEntries = (
+  key,
+  uiSchema,
+  data,
+  schema,
+  schemaFromState,
+  showViewFields,
+  index,
+) => {
   if (data === undefined || data === null) return null;
-  if (key.startsWith('view:') || key.startsWith('ui:')) return null;
+  if (key.startsWith('ui:')) return null;
+  if (key.startsWith('view:') && !showViewFields) return null;
 
   let schemaPropertiesKey = schema.properties?.[key];
   if (schemaPropertiesKey?.$ref) {
@@ -199,6 +208,7 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState, index) => {
         data[objKey],
         schemaPropertiesKey,
         schemaFromState?.properties?.[key],
+        showViewFields,
       ),
     );
   }
@@ -207,7 +217,15 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState, index) => {
     if (index == null) {
       // single page array data
       return data.flatMap((_, i) => {
-        return fieldEntries(key, uiSchema, data, schema, schemaFromState, i);
+        return fieldEntries(
+          key,
+          uiSchema,
+          data,
+          schema,
+          schemaFromState,
+          showViewFields,
+          i,
+        );
       });
     }
 
@@ -220,6 +238,7 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState, index) => {
         data[index][arrKey],
         schemaPropertiesKey.items,
         schemaFromState?.properties?.[key].items?.[index],
+        showViewFields,
       );
     });
   }
@@ -248,6 +267,52 @@ export const getPageTitle = (pageFormConfig, formData, formConfig) => {
   return pageTitle || '';
 };
 
+export const buildPageFields = ({
+  page,
+  formData,
+  pagesFromState,
+  showPageTitles,
+  chapterFormConfig,
+  showViewFields = false,
+}) => {
+  const fields = Object.entries(page.uiSchema).flatMap(
+    ([uiSchemaKey, uiSchemaValue]) => {
+      if (['ratedDisabilities', 'newDisabilities'].includes(uiSchemaKey)) {
+        return []; // Skip rendering these fields
+      }
+      const data = formData?.[uiSchemaKey];
+      return fieldEntries(
+        uiSchemaKey,
+        uiSchemaValue,
+        data,
+        page.schema,
+        pagesFromState?.[page.pageKey]?.schema,
+        showViewFields,
+        page.index,
+      );
+    },
+  );
+
+  if (showPageTitles) {
+    const pageTitle = getPageTitle(page, formData, chapterFormConfig);
+    const presentFields = fields.filter(item => item != null);
+
+    if (presentFields.length > 0) {
+      return [
+        <li key={`page-li-${page.pageKey}`}>
+          <h4 key={`page-title-${page.pageKey}`}>{pageTitle}</h4>
+          <ul className="vads-u-padding--0" style={{ listStyle: 'none' }}>
+            {presentFields}
+          </ul>
+        </li>,
+      ];
+    }
+    return [];
+  }
+
+  return fields;
+};
+
 export const buildFields = (
   chapter,
   formData,
@@ -256,53 +321,26 @@ export const buildFields = (
 ) => {
   return chapter.expandedPages.flatMap(page => {
     // page level ui:confirmationField
-    const ConfirmationField = page.uiSchema['ui:confirmationField'];
-
-    if (ConfirmationField) {
-      if (isReactComponent(ConfirmationField)) {
-        return <ConfirmationField formData={formData} />;
-      }
-
-      throw new Error(
-        'Page level ui:confirmationField must be a React component',
-      );
-    }
-
-    const fields = Object.entries(page.uiSchema).flatMap(
-      ([uiSchemaKey, uiSchemaValue]) => {
-        if (['ratedDisabilities', 'newDisabilities'].includes(uiSchemaKey)) {
-          return []; // Skip rendering these fields
-        }
-        const data = formData?.[uiSchemaKey];
-        return fieldEntries(
-          uiSchemaKey,
-          uiSchemaValue,
-          data,
-          page.schema,
-          pagesFromState?.[page.pageKey]?.schema,
-          page.index,
+    let PageFields = page.uiSchema['ui:confirmationField'];
+    if (PageFields) {
+      if (!isReactComponent(PageFields)) {
+        throw new Error(
+          'Page level ui:confirmationField must be a React component',
         );
-      },
-    );
-
-    if (showPageTitles) {
-      const pageTitle = getPageTitle(page, formData, chapter.formConfig);
-      const presentFields = fields.filter(item => item != null);
-
-      if (presentFields.length > 0) {
-        return [
-          <li key={`page-li-${page.pageKey}`}>
-            <h4 key={`page-title-${page.pageKey}`}>{pageTitle}</h4>
-            <ul className="vads-u-padding--0" style={{ listStyle: 'none' }}>
-              {presentFields}
-            </ul>
-          </li>,
-        ];
       }
-      return [];
+    } else {
+      PageFields = buildPageFields;
     }
 
-    return fields;
+    return (
+      <PageFields
+        page={page}
+        formData={formData}
+        pagesFromState={pagesFromState}
+        showPageTitles={showPageTitles}
+        chapterFormConfig={chapter.formConfig}
+      />
+    );
   });
 };
 
