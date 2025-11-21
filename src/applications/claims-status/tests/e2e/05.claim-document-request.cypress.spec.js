@@ -201,11 +201,6 @@ describe('Type 1 Error Alert', () => {
           }`,
         );
 
-      // Wait for page to be fully stable before accessibility check
-      cy.get('va-loading-indicator').should('not.exist');
-      // eslint-disable-next-line cypress/no-unnecessary-waiting
-      cy.wait(100); // Allow animations/transitions to complete
-
       cy.injectAxeThenAxeCheck();
     });
   });
