@@ -42,7 +42,27 @@ class SearchHelpSignIn extends Component {
     recordEvent({
       event: 'nav-jumplink-click',
     });
-    window.location.href = '/my-va';
+
+    // Check if we're on a GitHub Codespace (github.dev URL)
+    const isGitHubCodespace = window.location.hostname.includes(
+      'app.github.dev',
+    );
+
+    if (isGitHubCodespace) {
+      // In Codespaces, port is part of hostname (e.g., -3002.app.github.dev)
+      // Replace the port number in hostname with 3001
+      const newHostname = window.location.hostname.replace(
+        /-\d+\.app\.github\.dev$/,
+        '-3001.app.github.dev',
+      );
+      // Construct full URL with /my-va path
+      window.location.href = `${
+        window.location.protocol
+      }//${newHostname}/my-va`;
+    } else {
+      // Regular localhost or other environments
+      window.location.href = '/my-va';
+    }
   };
 
   handleMenuClick = menu => () => {
