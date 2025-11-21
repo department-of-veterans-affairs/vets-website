@@ -157,13 +157,13 @@ const ApplicantMailingAddressLoggedIn = ({
   return (
     <div>
       <h3>Confirm the mailing address we have on file for you</h3>
+      {showSuccessAlert('address', 'mailing address')}
       <div className="vads-u-margin-bottom--2">
         <p className="vads-u-margin--0">
-          We’ll mail information about your application to the address you
+          We may mail information about your application to the address you
           provide here.
         </p>
       </div>
-      {showSuccessAlert('address', 'mailing address')}
       <ApplicantMailingAddressCard formData={data} onEdit={handleEdit} />
       {contentBeforeButtons}
       {NavButtons && <NavButtons goBack={goBack} goForward={goForward} />}
