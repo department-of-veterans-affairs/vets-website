@@ -38,7 +38,10 @@ const AlertConfirmContactEmail = ({
       role="status"
       dataTestid="profile-alert--confirm-contact-email"
     >
-      <h2 slot="headline">{headline}</h2>
+      <h2 slot="headline">
+        <span className="usa-sr-only">warning</span>
+        {headline}
+      </h2>
       <React.Fragment key=".1">
         <p>
           We’ll send notifications about your VA health care and benefits to
