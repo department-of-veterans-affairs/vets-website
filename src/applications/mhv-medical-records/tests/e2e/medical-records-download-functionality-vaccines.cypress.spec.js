@@ -2,7 +2,7 @@ import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import VaccinesListPage from './pages/VaccinesListPage';
 import VaccineDetailsPage from './pages/VaccineDetailsPage';
 import defaultVaccines from './fixtures/vaccines/vaccines.json';
-import { currentLocalTime } from '../../util/dateHelpers';
+import { currentDateAddSecondsCCD } from '../../util/dateHelpers';
 
 describe('Medical Records Labs and Tests List Page', () => {
   const site = new MedicalRecordsSite();
@@ -32,7 +32,7 @@ describe('Medical Records Labs and Tests List Page', () => {
     // cy.readFile(`${Cypress.config('downloadsFolder')}/Pathology_report.pdf`);
     site.verifyDownloadedPdfFile(
       'VA-labs-and-tests-Details-Mhvtp',
-      currentLocalTime(),
+      currentDateAddSecondsCCD(1),
       '',
     );
 
@@ -40,7 +40,7 @@ describe('Medical Records Labs and Tests List Page', () => {
     VaccineDetailsPage.clickDownloadTxtFile();
     site.verifyDownloadedTxtFile(
       'VA-labs-and-tests-details-Safari-Mhvtp',
-      currentLocalTime(),
+      currentDateAddSecondsCCD(1),
       '',
     );
     cy.injectAxe();
