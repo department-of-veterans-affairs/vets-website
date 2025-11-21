@@ -9,6 +9,37 @@ import {
 import { TRAVEL_CLAIM_MESSAGES } from '../utils/constants';
 import Section from './Section';
 
+function LateFilingModal({ showModal, setShowModal, appointmentId }) {
+  return (
+    <VaModal
+      visible={showModal}
+      onCloseEvent={() => setShowModal(false)}
+      onPrimaryButtonClick={() => {
+        setShowModal(false);
+        window.location.href = `/my-health/travel-pay/file-new-claim/${appointmentId}`;
+      }}
+      onSecondaryButtonClick={() => setShowModal(false)}
+      modalTitle="Your appointment happened more than 30 days ago"
+      primaryButtonText="Yes, I want to file"
+      secondaryButtonText="Don’t file"
+      status="warning"
+      uswds
+    >
+      <p>
+        You can still review and file your claim. But claims filed after 30 days
+        are usually denied.
+      </p>
+      <p>Do you still want to file a travel reimbursement claim?</p>
+    </VaModal>
+  );
+}
+
+LateFilingModal.propTypes = {
+  appointmentId: PropTypes.string,
+  setShowModal: PropTypes.func,
+  showModal: PropTypes.bool,
+};
+
 export default function TravelReimbursementSection({ appointment }) {
   const [showModal, setShowModal] = useState(false);
 
@@ -71,36 +102,50 @@ export default function TravelReimbursementSection({ appointment }) {
             />
           </p>
         </Section>
-        <VaModal
-          visible={showModal}
-          onCloseEvent={() => setShowModal(false)}
-          onPrimaryButtonClick={() => {
-            setShowModal(false);
-            window.location.href = `/my-health/travel-pay/file-new-claim/${
-              appointment.id
-            }`;
-          }}
-          onSecondaryButtonClick={() => setShowModal(false)}
-          modalTitle="Your appointment happened more than 30 days ago"
-          primaryButtonText="Yes, I want to file"
-          secondaryButtonText="Don’t file"
-          status="warning"
-          uswds
-        >
-          <p>
-            You can still review and file your claim. But claims filed after 30
-            days are usually denied.
-          </p>
-          <p>Do you still want to file a travel reimbursement claim?</p>
-        </VaModal>
+        <LateFilingModal
+          showModal={showModal}
+          setShowModal={setShowModal}
+          appointmentId={appointment.id}
+        />
       </>
     );
   }
+
+  // Has claim
   if (claimData.metadata.status === 200 && claimData.claim?.id) {
+    // Has unfinished claim
     if (
       claimData.claim.claimStatus === 'Saved' ||
       claimData.claim.claimStatus === 'Incomplete'
     ) {
+      // Unfinished claim for appointment >30 days old
+      if (daysRemainingToFileClaim < 1) {
+        return (
+          <>
+            <Section heading={heading}>
+              <p className="vads-u-margin-y--0p5">
+                You didn't file a claim for this appointment within the 30-day
+                limit. You can still review and file your claim. But claims
+                filed after 30 days are usually denied.
+              </p>
+              <p className="vads-u-margin-y--0p5">
+                <va-link
+                  data-testid="view-claim-link"
+                  onClick={() => setShowModal(true)}
+                  text="Complete and file your claim"
+                />
+              </p>
+            </Section>
+            <LateFilingModal
+              showModal={showModal}
+              setShowModal={setShowModal}
+              appointmentId={appointment.id}
+            />
+          </>
+        );
+      }
+
+      // Unfinished claim for appointment within 30 days
       return (
         <Section heading={heading}>
           <p className="vads-u-margin-y--0p5">
@@ -118,6 +163,7 @@ export default function TravelReimbursementSection({ appointment }) {
       );
     }
 
+    // Finished claim
     return (
       <Section heading={heading}>
         <p className="vads-u-margin-y--0p5">
