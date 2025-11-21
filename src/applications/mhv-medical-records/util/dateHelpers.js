@@ -118,25 +118,3 @@ export const currentDateFnsMinusHours = hours => {
   const newDate = subHours(new Date(), hours);
   return formatUtcTime(newDate);
 };
-
-/**
- *
- * @param minutes
- * @returns {String}
- */
-export const currentDateMinusMinutes = minutes => {
-  const now = new Date();
-  const newDate = new Date(now.getTime() - 60000 * minutes); // 60000 milliseconds = 1 minute
-  return newDate.toISOString();
-};
-
-/**
- *
- * @param minutes
- * @returns {String}
- */
-export const currentDateAddMinutes = minutes => {
-  const now = new Date();
-  const newDate = new Date(now.getTime() + 60000 * minutes); // 60000 milliseconds = 1 minute
-  return newDate.toISOString();
-};
