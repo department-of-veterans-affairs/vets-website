@@ -2,11 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import YourInformationDescription from '../components/YourInformationDescription';
 
-const ResultDescription = ({ body, linkHref, linkText, answers }) => (
+const ResultDescription = ({
+  body,
+  linkHref,
+  linkText,
+  answers,
+  resultHeader,
+}) => (
   <div>
-    <h2 className="vads-u-white-space--nowrap">
-      Change your education benefits
-    </h2>
+    {resultHeader && (
+      <h2 className="vads-u-font-size--h2 vads-u-margin-bottom--2">
+        {resultHeader}
+      </h2>
+    )}
     <p>{body}</p>
     {linkHref &&
       linkText && (
@@ -147,7 +155,13 @@ const emptySchema = {
   properties: {},
 };
 
-const buildResultPage = ({ body, linkHref, linkText, answers }) => ({
+const buildResultPage = ({
+  body,
+  linkHref,
+  linkText,
+  answers,
+  resultHeader,
+}) => ({
   uiSchema: {
     'ui:description': () => (
       <ResultDescription
@@ -155,6 +169,7 @@ const buildResultPage = ({ body, linkHref, linkText, answers }) => ({
         linkHref={linkHref}
         linkText={linkText}
         answers={answers}
+        resultHeader={resultHeader}
       />
     ),
   },
@@ -163,10 +178,12 @@ const buildResultPage = ({ body, linkHref, linkText, answers }) => ({
 
 export const sameBenefitResultPage = () =>
   buildResultPage({
+    resultHeader:
+      "Dependent's Application for VA Education Benefits (VA Form 22-5490)",
     body:
       'Based on your answers, use VA Form 22-5490 to apply to the same benefit again to get an updated COE.',
     linkHref:
-      'https://www.va.gov/education/apply-for-education-benefits/application/1990/introduction',
+      'https://www.va.gov/family-and-caregiver-benefits/education-and-careers/apply-for-dea-fry-form-22-5490',
     linkText: 'Apply for education benefits (VA Form 22-1990)',
     answers: [
       'You are looking to apply to the same benefit again to get an updated Certificate of Eligibility (COE)',
@@ -254,4 +271,5 @@ ResultDescription.propTypes = {
   body: PropTypes.string.isRequired,
   linkHref: PropTypes.string,
   linkText: PropTypes.string,
+  resultHeader: PropTypes.string,
 };
