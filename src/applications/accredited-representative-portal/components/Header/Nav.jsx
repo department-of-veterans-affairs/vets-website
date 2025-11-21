@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLoaderData } from 'react-router-dom';
 import { recordDatalayerEvent } from '../../utilities/analytics';
-import { getSignInUrl } from '../../utilities/constants';
 import DropdownContainer from './DropdownContainer';
 
 function SignInButton() {
   return (
-    <a
+    <Link
       data-testid="user-nav-sign-in-link"
       className="nav__btn is--sign-in"
-      href={getSignInUrl()}
+      to="/sign-in?application=arp&oauth=true"
     >
       Sign in
-    </a>
+    </Link>
   );
 }
 
