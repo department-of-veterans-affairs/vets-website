@@ -25,6 +25,47 @@ const maintenanceWindows = {
   enabled: require('./maintenance-windows/enabled.json'),
 };
 
+// Helper function to generate appointment dates and times
+function generateAppointmentDates(daysOffset) {
+  const baseDate = new Date();
+  const appointmentDate = new Date(baseDate);
+  appointmentDate.setDate(baseDate.getDate() + daysOffset);
+
+  // Set appointment time to 8:00 AM local time
+  appointmentDate.setHours(8, 0, 0, 0);
+
+  // Format as ISO string with timezone offset for localStartTime
+  const localStartTime = appointmentDate.toISOString().replace('Z', '-08:00');
+
+  // Create UTC times for start and end (8:00 AM PST = 4:00 PM UTC)
+  const startDate = new Date(appointmentDate);
+  startDate.setHours(startDate.getHours() + 8); // Convert to UTC
+  const start = startDate.toISOString();
+
+  const endDate = new Date(startDate);
+  endDate.setMinutes(endDate.getMinutes() + 30); // 30 minutes later
+  const end = endDate.toISOString();
+
+  return { localStartTime, start, end };
+}
+
+function overrideAppointment(appt, id, { localStartTime, start, end }) {
+  return {
+    ...appt,
+    data: {
+      ...appt.data,
+      id,
+      attributes: {
+        ...appt.data.attributes,
+        id,
+        localStartTime,
+        start,
+        end,
+      },
+    },
+  };
+}
+
 const responses = {
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': maintenanceWindows.none,
@@ -33,6 +74,7 @@ const responses = {
     data: {
       type: 'feature_toggles',
       features: [
+        // Travel Pay feature flags
         { name: `${TOGGLE_NAMES.travelPayPowerSwitch}`, value: true },
         { name: `${TOGGLE_NAMES.travelPayViewClaimDetails}`, value: true },
         { name: `${TOGGLE_NAMES.travelPaySubmitMileageExpense}`, value: true },
@@ -42,6 +84,11 @@ const responses = {
           value: true,
         },
         { name: `${TOGGLE_NAMES.travelPayEnableComplexClaims}`, value: true },
+
+        // camelCase flags for VAOS appointments mocks
+        { name: 'vaOnlineScheduling', value: true },
+        { name: 'travelPayViewClaimDetails', value: true },
+        { name: 'travelPaySubmitMileageExpense', value: true },
       ],
     },
   },
@@ -373,8 +420,71 @@ const responses = {
   //   });
   // },
 
+  // Individual appointment endpoints that match our appointments list
+  'GET /vaos/v2/appointments/167325': (req, res) => {
+    const dates = generateAppointmentDates(-1); // 1 day ago
+    const appointmentData = overrideAppointment(
+      appointment.noClaim,
+      '167325',
+      dates,
+    );
+    return res.json(appointmentData);
+  },
+
+  'GET /vaos/v2/appointments/167326': (req, res) => {
+    const dates = generateAppointmentDates(-3); // 3 days ago
+    return res.json(overrideAppointment(appointment.claim, '167326', dates));
+  },
+
+  'GET /vaos/v2/appointments/167327': (req, res) => {
+    const dates = generateAppointmentDates(-32); // 32 days ago
+    return res.json(overrideAppointment(appointment.noClaim, '167327', dates));
+  },
+  // Get appointments
+  'GET /vaos/v2/appointments': (req, res) => {
+    const appointments = [
+      appointment.noClaim,
+      appointment.claim,
+
+      // >30 days appointment
+      appointment.noClaim,
+    ].map((a, index, array) => {
+      // Generate dates within 30 days of current date
+      let daysOffset;
+      let appointmentId;
+
+      // Make the last appointment be 32 days old
+      if (index === array.length - 1) {
+        daysOffset = -32; // 32 days in the past
+        appointmentId = '167327';
+      } else {
+        daysOffset = -(index * 2 + 1); // Space other appointments 2 days apart in the past, starting at 1 day ago
+        appointmentId = index === 0 ? '167325' : '167326';
+      }
+
+      const { localStartTime, start, end } = generateAppointmentDates(
+        daysOffset,
+      );
+
+      return {
+        ...a.data,
+        id: appointmentId,
+        type: 'appointments',
+        attributes: {
+          ...a.data.attributes,
+          id: appointmentId,
+          localStartTime,
+          start,
+          end,
+        },
+      };
+    });
+    return res.json({ data: appointments });
+  },
+
   // Document download
   'GET /travel_pay/v0/claims/:claimId/documents/:docId': (req, res) => {
+    // Document download
     // Error condition for screenshot-2 from the mock data
     if (req.params.docId === '12fcfecc-5132-4c16-8a9a-7af07b714cd4') {
       return res.status(503).json({

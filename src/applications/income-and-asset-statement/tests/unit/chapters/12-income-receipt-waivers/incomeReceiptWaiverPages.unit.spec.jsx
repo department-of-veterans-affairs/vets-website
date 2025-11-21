@@ -42,6 +42,11 @@ describe('income receipt waiver list and loop pages', () => {
     incomeReceiptWaiverPagesChildSummary,
     incomeReceiptWaiverPagesCustodianSummary,
     incomeReceiptWaiverPagesParentSummary,
+    incomeReceiptWaiverVeteranRecipientPage,
+    incomeReceiptWaiverSpouseRecipientPage,
+    incomeReceiptWaiverCustodianRecipientPage,
+    incomeReceiptWaiverParentRecipientPage,
+    incomeReceiptWaiverNonVeteranRecipientPage,
   } = incomeReceiptWaiverPages;
 
   describe('isItemIncomplete function', () => {
@@ -74,34 +79,37 @@ describe('income receipt waiver list and loop pages', () => {
       veteranFullName: { first: 'John', last: 'Doe' },
       otherVeteranFullName: { first: 'Alex', last: 'Smith' },
     };
-    it('should return "John Doe’s income receipt waiver" if recipient is Veteran', () => {
+    it('should return "John Doe’s waived income from `payer`" if recipient is Veteran', () => {
       const item = {
         recipientRelationship: 'VETERAN',
         recipientName: { first: 'Jane', last: 'Smith' },
+        payer: 'social security',
       };
       expect(options.text.getItemName(item, 0, mockFormData)).to.equal(
-        'John Doe’s waived income',
+        'John Doe’s waived income from social security',
       );
     });
-    it('should return "Alex Smith’s income receipt waiver" if recipient is Veteran and not logged in', () => {
+    it('should return "Alex Smith’s waived income from `payer`" if recipient is Veteran and not logged in', () => {
       const item = {
         recipientRelationship: 'VETERAN',
         recipientName: { first: 'Jane', last: 'Smith' },
+        payer: 'social security',
       };
       expect(
         options.text.getItemName(item, 0, {
           ...mockFormData,
           isLoggedIn: false,
         }),
-      ).to.equal('Alex Smith’s waived income');
+      ).to.equal('Alex Smith’s waived income from social security');
     });
-    it('should return "Jane Smith’s income receipt waiver" if recipient is not Veteran', () => {
+    it('should return "Jane Smith’s waived income from `payer`" if recipient is not Veteran', () => {
       const item = {
         recipientRelationship: 'SPOUSE',
         recipientName: { first: 'Jane', last: 'Smith' },
+        payer: 'social security',
       };
       expect(options.text.getItemName(item, 0, mockFormData)).to.equal(
-        'Jane Smith’s waived income',
+        'Jane Smith’s waived income from social security',
       );
     });
   });
@@ -113,6 +121,7 @@ describe('income receipt waiver list and loop pages', () => {
       'view:paymentsWillResume': _,
       recipientRelationship,
       recipientName,
+      payer,
       paymentResumeDate,
       ...baseItem
     } = testData.data.incomeReceiptWaivers[0];
@@ -127,6 +136,7 @@ describe('income receipt waiver list and loop pages', () => {
       'view:paymentsWillResume': _,
       recipientRelationship,
       recipientName,
+      payer,
       paymentResumeDate,
       ...baseItem
     } = testDataZeroes.data.incomeReceiptWaivers[0];
@@ -334,13 +344,13 @@ describe('income receipt waiver list and loop pages', () => {
     });
   });
 
-  describe('relationship page', () => {
+  describe('MVP income recipient page', () => {
     const schema =
-      incomeReceiptWaiverPages.incomeReceiptWaiverRelationshipPage.schema
-        .properties.incomeReceiptWaivers.items;
-    const uiSchema =
-      incomeReceiptWaiverPages.incomeReceiptWaiverRelationshipPage.uiSchema
+      incomeReceiptWaiverNonVeteranRecipientPage.schema.properties
         .incomeReceiptWaivers.items;
+    const uiSchema =
+      incomeReceiptWaiverNonVeteranRecipientPage.uiSchema.incomeReceiptWaivers
+        .items;
 
     testNumberOfFieldsByType(
       formConfig,
@@ -371,6 +381,73 @@ describe('income receipt waiver list and loop pages', () => {
       'relationship',
       'root_otherRecipientRelationshipType',
     );
+
+    describe('Non-Veteran recipient page', () => {
+      it('should display when showUpdatedContent is false', () => {
+        const formData = { ...testData.data, claimantType: 'SPOUSE' };
+        const { depends } = incomeReceiptWaiverNonVeteranRecipientPage;
+        expect(depends(formData)).to.be.true;
+      });
+    });
+  });
+
+  describe('Updated recipient pages', () => {
+    beforeEach(() => {
+      showUpdatedContentStub.returns(true);
+    });
+
+    describe('Veteran recipient page', () => {
+      const formData = { ...testData.data, claimantType: 'VETERAN' };
+
+      it('should display when showUpdatedContent is true and claimantType is VETERAN', () => {
+        const { depends } = incomeReceiptWaiverVeteranRecipientPage;
+        expect(depends(formData)).to.be.true;
+      });
+    });
+
+    describe('Spouse recipient page', () => {
+      const formData = { ...testData.data, claimantType: 'SPOUSE' };
+
+      it('should display when showUpdatedContent is true and claimantType is SPOUSE', () => {
+        const { depends } = incomeReceiptWaiverSpouseRecipientPage;
+        expect(depends(formData)).to.be.true;
+      });
+    });
+
+    describe('Custodian recipient page', () => {
+      const formData = { ...testData.data, claimantType: 'CUSTODIAN' };
+
+      it('should display when showUpdatedContent is true and claimantType is CUSTODIAN', () => {
+        const { depends } = incomeReceiptWaiverCustodianRecipientPage;
+        expect(depends(formData)).to.be.true;
+      });
+    });
+
+    describe('Parent recipient page', () => {
+      const formData = { ...testData.data, claimantType: 'PARENT' };
+
+      it('should display when showUpdatedContent is true and claimantType is PARENT', () => {
+        const { depends } = incomeReceiptWaiverParentRecipientPage;
+        expect(depends(formData)).to.be.true;
+      });
+    });
+
+    describe('Income recipient pages', () => {
+      const formData = { ...testData.data, claimantType: 'CHILD' };
+
+      it('should NOT display any recipient pages when claimantType is CHILD', () => {
+        expect(incomeReceiptWaiverNonVeteranRecipientPage.depends(formData)).to
+          .be.false;
+        expect(incomeReceiptWaiverVeteranRecipientPage.depends(formData)).to.be
+          .false;
+        expect(incomeReceiptWaiverSpouseRecipientPage.depends(formData)).to.be
+          .false;
+        expect(incomeReceiptWaiverCustodianRecipientPage.depends(formData)).to
+          .be.false;
+        expect(incomeReceiptWaiverParentRecipientPage.depends(formData)).to.be
+          .false;
+      });
+    });
   });
 
   describe('recipient name page', () => {
@@ -427,7 +504,7 @@ describe('income receipt waiver list and loop pages', () => {
       formConfig,
       schema,
       uiSchema,
-      ['va-text-input[label="Income payer name"]'],
+      ['va-text-input[label="Who pays this waived income?"]'],
       'payer',
     );
     testSubmitsWithoutErrors(
@@ -484,7 +561,7 @@ describe('income receipt waiver list and loop pages', () => {
       formConfig,
       schema,
       uiSchema,
-      ['va-radio[label="Do you expect the payments to resume?"]'],
+      ['va-radio[label="Will payments from this waived income start again?"]'],
       'payments',
     );
     testSubmitsWithoutErrors(
@@ -516,7 +593,7 @@ describe('income receipt waiver list and loop pages', () => {
       formConfig,
       schema,
       uiSchema,
-      ['va-memorable-date[label="When will the payments resume?"]'],
+      ['va-memorable-date[label="When will the payments start again?"]'],
       'date',
     );
     testSubmitsWithoutErrors(

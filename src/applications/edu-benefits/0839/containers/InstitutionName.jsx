@@ -1,29 +1,24 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
-import { getArrayIndexFromPathName } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
 import { useValidateFacilityCode } from '../hooks/useValidateFacilityCode';
-import { useValidateAdditionalFacilityCode } from '../hooks/useValidateAdditionalFacilityCode';
 
-const InstitutionName = ({ uiSchema }) => {
+const InstitutionName = () => {
   const formData = useSelector(state => state.form?.data);
-  const options = uiSchema?.['ui:options'] || {};
-  const { dataPath = 'institutionDetails', isArrayItem = false } = options;
 
-  const index = isArrayItem ? getArrayIndexFromPathName() : null;
+  const { loader } = useValidateFacilityCode(formData);
 
-  // Use different hooks based on context
-  const mainFacilityHook = useValidateFacilityCode(formData);
-  const additionalFacilityHook = useValidateAdditionalFacilityCode(
-    formData,
-    index,
-  );
-  const { loader } = isArrayItem ? additionalFacilityHook : mainFacilityHook;
+  const details = formData?.institutionDetails;
 
-  // Get data from appropriate path
-  const institutionName = isArrayItem
-    ? formData?.[dataPath]?.[index]?.institutionName
-    : formData?.[dataPath]?.institutionName;
+  const institutionName = details?.institutionName;
+  const facilityCode = (details?.facilityCode || '').trim();
+
+  const badFormat =
+    facilityCode.length > 0 && !/^[a-zA-Z0-9]{8}$/.test(facilityCode);
+  const notFound = institutionName === 'not found';
+  const notIHL = details.ihlEligible === false;
+  const notYR = details.yrEligible === false;
+  const hasError = badFormat || notFound || notYR || notIHL;
 
   useEffect(
     () => {
@@ -36,6 +31,8 @@ const InstitutionName = ({ uiSchema }) => {
     [institutionName, loader],
   );
 
+  const shouldShowName = institutionName && !hasError;
+
   return (
     <div aria-live="polite">
       {loader ? (
@@ -45,14 +42,10 @@ const InstitutionName = ({ uiSchema }) => {
           <h3
             id="institutionHeading"
             aria-label={
-              institutionName === 'not found'
-                ? 'Institution name not found'
-                : institutionName
+              shouldShowName ? institutionName : 'Institution name not found'
             }
           >
-            {institutionName === 'not found' || !institutionName
-              ? '--'
-              : institutionName}
+            {shouldShowName ? institutionName : '--'}
           </h3>
         </>
       )}

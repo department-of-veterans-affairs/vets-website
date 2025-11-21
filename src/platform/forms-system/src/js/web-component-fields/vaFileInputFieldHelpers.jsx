@@ -154,9 +154,10 @@ export async function getFileError(
  */
 export function makePlaceholderFile(file = {}) {
   const buffer = new ArrayBuffer(file?.size || 1024);
-  const blob = new Blob([buffer], { type: 'image/png' });
+  const type = file?.type || 'image/png';
+  const blob = new Blob([buffer], { type });
   return new File([blob], file?.name || 'placeholder', {
-    type: 'image/png',
+    type,
   });
 }
 

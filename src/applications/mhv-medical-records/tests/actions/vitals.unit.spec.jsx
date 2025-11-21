@@ -39,6 +39,21 @@ describe('Get vitals action', () => {
     });
   });
 
+  it('should dispatch a get unified list action when accelerating', () => {
+    const mockData = vitals;
+    mockApiRequest(mockData);
+    const dispatch = sinon.spy();
+    return getVitals(false, true, true)(dispatch).then(() => {
+      expect(dispatch.firstCall.args[0].type).to.equal(
+        Actions.Vitals.UPDATE_LIST_STATE,
+      );
+      // For the Unified list we don't clear the FHIR load so this is the second call
+      expect(dispatch.secondCall.args[0].type).to.equal(
+        Actions.Vitals.GET_UNIFIED_LIST,
+      );
+    });
+  });
+
   it('should dispatch an add alert action', () => {
     const mockData = vitals;
     mockApiRequest(mockData, false);

@@ -80,15 +80,17 @@ const AddressValidationRadio = props => {
 
   useEffect(() => {
     getApiData(`${envUrl}${URL.ADDRESS_VALIDATION}`);
-    focusElement('#address-validation-alert-heading');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(
     () => {
       if (apiData.length > 0) {
         handleValueChange(apiData[0].address, '0');
+        focusElement('h2');
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [apiData],
   );
 

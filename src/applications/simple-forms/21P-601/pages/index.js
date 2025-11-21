@@ -13,7 +13,6 @@ import claimantSSN from './claimantSSN';
 import claimantContact from './claimantContact';
 import claimantMailingAddress from './claimantMailingAddress';
 import claimantPhoneAndEmail from './claimantPhoneAndEmail';
-import claimantRelationship from './claimantRelationship';
 import claimantRelationshipToDeceased from './claimantRelationshipToDeceased';
 import waiverOfSubstitution from './waiverOfSubstitution';
 import relativesOverview from './relativesOverview';
@@ -41,7 +40,6 @@ export {
   claimantContact,
   claimantMailingAddress,
   claimantPhoneAndEmail,
-  claimantRelationship,
   claimantRelationshipToDeceased,
   waiverOfSubstitution,
   relativesOverview,

@@ -1,5 +1,9 @@
 import { Actions } from '../util/actionTypes';
-import { getVitalsList, getVitalsWithOHData } from '../api/MrApi';
+import {
+  getVitalsList,
+  getVitalsWithOHData,
+  getVitalsWithUnifiedData,
+} from '../api/MrApi';
 import * as Constants from '../util/constants';
 import { addAlert } from './alerts';
 import { isArrayAndHasItems, sendDatadogError } from '../util/helpers';
@@ -8,7 +12,7 @@ import { getListWithRetry } from './common';
 export const getVitals = (
   isCurrent = false,
   isCerner = false,
-  vitalsDate = '',
+  isAccelerating = false,
 ) => async dispatch => {
   dispatch({
     type: Actions.Vitals.UPDATE_LIST_STATE,
@@ -16,13 +20,18 @@ export const getVitals = (
   });
   try {
     let response;
-    if (isCerner) {
-      response = await getVitalsWithOHData(vitalsDate);
+    const actionType = isAccelerating
+      ? Actions.Vitals.GET_UNIFIED_LIST
+      : Actions.Vitals.GET_LIST;
+    if (isAccelerating) {
+      response = await getVitalsWithUnifiedData();
+    } else if (isCerner) {
+      response = await getVitalsWithOHData();
     } else {
       response = await getListWithRetry(dispatch, getVitalsList);
     }
     dispatch({
-      type: Actions.Vitals.GET_LIST,
+      type: actionType,
       response,
       isCurrent,
     });

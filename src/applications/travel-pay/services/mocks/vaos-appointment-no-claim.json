@@ -86,11 +86,15 @@
           ]
         }
       },
+      "modality": "vaInPerson",
+      "pending": false,
+      "past": true,
+      "future": false,
       "travelPayClaim": {
         "metadata": {
           "status": 200,
           "success": true,
-          "message": "Data retrieved successfully"
+          "message": "No claims found."
         }
       }
     }

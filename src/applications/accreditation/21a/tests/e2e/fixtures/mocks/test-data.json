@@ -140,7 +140,7 @@
     "convictionDetailsCertification": {
       "certified": true
     },
-    "convictionDetailsDocuments": {},
+    "convictionDetailsDocuments": [],
     "courtMartialed": false,
     "underCharges": false,
     "resignedFromEducation": false,
