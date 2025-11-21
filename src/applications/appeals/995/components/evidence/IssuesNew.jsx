@@ -6,6 +6,7 @@ import {
   checkboxGroupSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
+import { VaCheckboxGroup } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import ArrayBuilderCancelButton from 'platform/forms-system/src/js/patterns/array-builder/ArrayBuilderCancelButton';
 import { getSelected } from '../../../shared/utils/issues';
@@ -112,10 +113,13 @@ const Issues = props => {
     required,
     reviewRoute,
   } = arrayBuilder;
+  const [error, setError] = useState(false);
 
-  const [requiredError, setRequiredError] = useState(false);
-
-  console.log('data: ', data);
+  const formLabel = data?.[VA_TREATMENT_LOCATION_KEY]
+    ? `What conditions were you treated for at ${
+        data[VA_TREATMENT_LOCATION_KEY]
+      }?`
+    : 'What conditions were you treated for?';
 
   const selectedIssues = Object.freeze(
     getSelected(fullData).map(issue => {
@@ -127,7 +131,7 @@ const Issues = props => {
     }),
   );
 
-  const sch = dynamicSchema(selectedIssues);
+  // const sch = dynamicSchema(selectedIssues);
 
   const getCheckedIssues = issues => {
     if (!issues) {
@@ -154,7 +158,7 @@ const Issues = props => {
     const issuesToStore = getCheckedIssues(previouslySelectedIssues);
 
     if (!issuesToStore?.length) {
-      setRequiredError(true);
+      setError(true);
       return;
     }
 
@@ -166,43 +170,97 @@ const Issues = props => {
     onSubmit({ formData: transformedData });
   };
 
-  // const handleChange = e => {
-  //   const selectedIssues = getCheckedIssues(e?.issues);
-  //   console.log('selectedIssues: ', selectedIssues);
-  // };
+  const handleChange = e => {
+    console.log('e: ', e);
+    console.log('index: ', e.target.dataset.index);
+    const checkedIssues = getCheckedIssues(e?.issues);
+
+    if (!checkedIssues?.length) {
+      setError(true);
+    }
+
+    if (error && checkedIssues?.length) {
+      setError(false);
+    }
+
+    onChange(e);
+  };
 
   return (
-    <SchemaForm
-      data={data}
-      error="This is an error"
-      name={name}
-      onChange={onChange}
-      pagePerItemIndex={pagePerItemIndex}
-      schema={sch.schema}
-      title={title}
-      trackingPrefix={trackingPrefix}
-      uiSchema={sch.uiSchema}
-    >
-      <>
-        <ArrayBuilderCancelButton
-          goToPath={goToPath}
-          arrayPath={arrayPath}
-          summaryRoute={getSummaryPath()}
-          introRoute={getIntroPath()}
-          reviewRoute={reviewRoute}
-          getText={getText}
-          required={required}
-        />
-        {contentBeforeButtons}
-        <FormNavButtons
-          goBack={goBack}
-          goForward={handleSubmit}
-          useWebComponents
-        />
-        {contentAfterButtons}
-      </>
-    </SchemaForm>
+    <form onSubmit={handleSubmit}>
+      <VaCheckboxGroup
+        form-heading={formLabel}
+        form-heading-level={3}
+        name={name}
+        onVaChange={handleChange}
+        error={error ? issuesContent.requiredError : null}
+        required
+        use-forms-pattern="single"
+      >
+        {selectedIssues.map((issue, index) => (
+          <va-checkbox
+            key={index}
+            label={issue}
+            checked={data?.issues?.includes(issue)}
+          />
+        ))}
+        <div slot="form-description">
+          <p className="vads-u-margin-bottom--0">
+            Select all the service-connected conditions you were treated for
+          </p>
+        </div>
+      </VaCheckboxGroup>
+      <ArrayBuilderCancelButton
+        goToPath={goToPath}
+        arrayPath={arrayPath}
+        summaryRoute={getSummaryPath()}
+        introRoute={getIntroPath()}
+        reviewRoute={reviewRoute}
+        getText={getText}
+        required={required}
+      />
+      {contentBeforeButtons}
+      <FormNavButtons
+        goBack={goBack}
+        goForward={handleSubmit}
+        useWebComponents
+      />
+      {contentAfterButtons}
+    </form>
   );
+
+  // return (
+  //   <SchemaForm
+  //     data={data}
+  //     error="This is an error"
+  //     name={name}
+  //     onChange={onChange}
+  //     pagePerItemIndex={pagePerItemIndex}
+  //     schema={sch.schema}
+  //     title={title}
+  //     trackingPrefix={trackingPrefix}
+  //     uiSchema={sch.uiSchema}
+  //   >
+  //     <>
+  //       <ArrayBuilderCancelButton
+  //         goToPath={goToPath}
+  //         arrayPath={arrayPath}
+  //         summaryRoute={getSummaryPath()}
+  //         introRoute={getIntroPath()}
+  //         reviewRoute={reviewRoute}
+  //         getText={getText}
+  //         required={required}
+  //       />
+  //       {contentBeforeButtons}
+  //       <FormNavButtons
+  //         goBack={goBack}
+  //         goForward={handleSubmit}
+  //         useWebComponents
+  //       />
+  //       {contentAfterButtons}
+  //     </>
+  //   </SchemaForm>
+  // );
 };
 
 Issues.propTypes = {
