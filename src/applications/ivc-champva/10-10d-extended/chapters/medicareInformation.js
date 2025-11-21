@@ -24,16 +24,15 @@ import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUpload
 import { fileUploadBlurb } from '../../shared/components/fileUploads/attachments';
 import { toHash, getAgeInYears } from '../../shared/utilities';
 import { ADDITIONAL_FILES_HINT } from '../../shared/constants';
-import { replaceStrValues } from '../helpers/formatting';
 import {
   generateParticipantName,
   getEligibleApplicantsWithoutMedicare,
   medicarePageTitleUI,
-} from '../helpers/medicare';
-import {
+  replaceStrValues,
   validateMedicarePartDDates,
   validateMedicarePlan,
-} from '../helpers/validations';
+} from '../helpers';
+
 import medicareParticipant from './medicareInformation/participants';
 import {
   MedicarePartADescription,

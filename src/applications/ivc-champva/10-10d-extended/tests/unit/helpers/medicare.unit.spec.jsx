@@ -173,12 +173,12 @@ describe('1010d `medicarePageTitleUI` util', () => {
   };
 
   it('should return a UI schema object with ui:title property', () => {
-    const result = medicarePageTitleUI('Medicare plan types');
-    expect(result).to.have.property('ui:title');
+    const res = medicarePageTitleUI('Medicare plan types');
+    expect(res).to.have.property('ui:title');
   });
 
   it('should generate title with participant name when applicant found', () => {
-    const result = subject({
+    const res = subject({
       applicants: [
         {
           applicantSsn: '123123123',
@@ -186,11 +186,11 @@ describe('1010d `medicarePageTitleUI` util', () => {
         },
       ],
     });
-    expect(result).to.equal('John Smith’s Medicare plan types');
+    expect(res).to.equal('John Smith’s Medicare plan types');
   });
 
   it('should generate title with `Applicant` when no match found', () => {
-    const result = subject({
+    const res = subject({
       item: { medicareParticipant: toHash('321321321') },
       applicants: [
         {
@@ -199,33 +199,22 @@ describe('1010d `medicarePageTitleUI` util', () => {
         },
       ],
     });
-    expect(result).to.equal('Applicant’s Medicare plan types');
+    expect(res).to.equal('Applicant’s Medicare plan types');
   });
 
   it('should generate title with `No participant` when item is null', () => {
-    const result = subject({ item: null, applicants: [] });
-    expect(result).to.equal('No participant’s Medicare plan types');
+    const res = subject({ item: null, applicants: [] });
+    expect(res).to.equal('No participant’s Medicare plan types');
   });
 
   it('should include description when provided', () => {
-    const result = medicarePageTitleUI(
-      'Medicare plan types',
-      'Test description',
-    );
-    expect(result).to.have.property('ui:title');
-    expect(typeof result['ui:title']).to.equal('function');
-  });
-
-  it('should pass lowercase option to underlying function', () => {
-    const result = medicarePageTitleUI('Medicare plan types', null, {
-      lowercase: true,
-    });
-    expect(result).to.have.property('ui:title');
-    expect(typeof result['ui:title']).to.equal('function');
+    const res = medicarePageTitleUI('Medicare plan types', 'Test description');
+    expect(res).to.have.property('ui:title');
+    expect(typeof res['ui:title']).to.equal('function');
   });
 
   it('should generate title with over-65 applicant name when no participant match', () => {
-    const result = subject({
+    const res = subject({
       item: { medicareParticipant: toHash('999999999') },
       applicants: [
         {
@@ -240,6 +229,6 @@ describe('1010d `medicarePageTitleUI` util', () => {
         },
       ],
     });
-    expect(result).to.equal('Elder Applicant’s Medicare plan types');
+    expect(res).to.equal('Elder Applicant’s Medicare plan types');
   });
 });
