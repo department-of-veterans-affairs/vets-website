@@ -1,5 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
+import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
+
 import { getDaysRemainingToFileClaim } from '../utils/appointment';
 import {
   selectAppointmentTravelClaim,
@@ -8,13 +11,18 @@ import {
 import Section from './Section';
 
 export default function AppointmentTasksSection({ appointment }) {
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const complexClaimsEnabled = useToggleValue(
+    TOGGLE_NAMES.travelPayEnableComplexClaims,
+  );
   const isEligibleForTravelClaim = selectIsEligibleForTravelClaim(appointment);
   if (!isEligibleForTravelClaim) return null;
 
   const claimData = selectAppointmentTravelClaim(appointment);
   const isClaimInProgress =
-    claimData?.claim?.claimStatus === 'Incomplete' ||
-    claimData?.claim?.claimStatus === 'Saved';
+    complexClaimsEnabled &&
+    (claimData?.claim?.claimStatus === 'Incomplete' ||
+      claimData?.claim?.claimStatus === 'Saved');
 
   // if the claim data is not successful or the claim has already been filed, don't show the link to file a claim
   if (

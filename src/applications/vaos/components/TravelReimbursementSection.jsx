@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 import { getDaysRemainingToFileClaim } from '../utils/appointment';
 import {
   selectAppointmentTravelClaim,
@@ -47,6 +48,10 @@ LateFilingModal.propTypes = {
 
 export default function TravelReimbursementSection({ appointment }) {
   const [showModal, setShowModal] = useState(false);
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const complexClaimsEnabled = useToggleValue(
+    TOGGLE_NAMES.travelPayEnableComplexClaims,
+  );
 
   const isEligibleForTravelClaim = selectIsEligibleForTravelClaim(appointment);
   if (!isEligibleForTravelClaim) return null;
@@ -121,8 +126,9 @@ export default function TravelReimbursementSection({ appointment }) {
   if (claimData.metadata.status === 200 && claimData.claim?.id) {
     // Has unfinished claim
     if (
-      claimData.claim.claimStatus === 'Saved' ||
-      claimData.claim.claimStatus === 'Incomplete'
+      complexClaimsEnabled &&
+      (claimData.claim.claimStatus === 'Saved' ||
+        claimData.claim.claimStatus === 'Incomplete')
     ) {
       // Unfinished claim for appointment >30 days old
       if (daysRemainingToFileClaim < 1) {
@@ -133,7 +139,7 @@ export default function TravelReimbursementSection({ appointment }) {
                 Days left to file: {daysRemainingToFileClaim}
               </p>
               <p className="vads-u-margin-y--0p5">
-                You didn't file a claim for this appointment within the 30-day
+                You didn’t file a claim for this appointment within the 30-day
                 limit. You can still review and file your claim. But claims
                 filed after 30 days are usually denied.
               </p>
@@ -180,7 +186,7 @@ export default function TravelReimbursementSection({ appointment }) {
     return (
       <Section heading={heading}>
         <p className="vads-u-margin-y--0p5">
-          You've already filed a claim for this appointment.
+          You’ve already filed a claim for this appointment.
         </p>
         <p className="vads-u-margin-y--0p5">
           <va-link
