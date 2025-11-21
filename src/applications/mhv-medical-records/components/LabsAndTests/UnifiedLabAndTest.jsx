@@ -20,7 +20,7 @@ import {
   itemListWrapper,
   sendDataDogAction,
 } from '../../util/helpers';
-import { RADIOLOGY_DETAILS_MYHEALTH_VA_GOV_LINK } from '../../util/rumConstants';
+import { RADIOLOGY_DETAILS_MY_VA_HEALTH_LINK } from '../../util/rumConstants';
 import {
   pageTitles,
   LABS_AND_TESTS_DISPLAY_LABELS,
@@ -149,13 +149,14 @@ const UnifiedLabsAndTests = props => {
                     any images that are available.
                   </p>
                   <va-link-action
+                    class="no-print"
                     type="secondary"
                     href="https://patientportal.myhealth.va.gov/pages/health_record/imaging?authenticated=true"
                     data-testid="radiology-oracle-health-link"
                     text="Go to My VA Health"
-                    data-dd-action-name={RADIOLOGY_DETAILS_MYHEALTH_VA_GOV_LINK}
+                    data-dd-action-name={RADIOLOGY_DETAILS_MY_VA_HEALTH_LINK}
                     onClick={() => {
-                      sendDataDogAction(RADIOLOGY_DETAILS_MYHEALTH_VA_GOV_LINK);
+                      sendDataDogAction(RADIOLOGY_DETAILS_MY_VA_HEALTH_LINK);
                     }}
                   />
                 </HeaderSection>
