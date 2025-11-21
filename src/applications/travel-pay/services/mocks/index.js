@@ -59,11 +59,6 @@ function overrideAppointment(appt, id, { localStartTime, start, end }) {
     end,
   };
 
-  // Preserve travelPayClaim if it exists
-  if (appt.data.attributes.travelPayClaim) {
-    attributes.travelPayClaim = appt.data.attributes.travelPayClaim;
-  }
-
   return {
     ...appt,
     data: {
