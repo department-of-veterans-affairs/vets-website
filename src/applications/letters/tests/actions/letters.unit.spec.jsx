@@ -522,7 +522,8 @@ describe('getTsaLetterEligibility', () => {
   it('dispatches LOADING action first', async () => {
     setFetchJSONResponse(global.fetch.onCall(0), { data: [] });
     const dispatch = sinon.spy();
-    await getTsaLetterEligibility(dispatch);
+    const thunk = getTsaLetterEligibility();
+    await thunk(dispatch);
     const action = dispatch.firstCall.args[0];
     expect(action.type).to.equal(GET_TSA_LETTER_ELIGIBILITY_LOADING);
   });
@@ -539,7 +540,8 @@ describe('getTsaLetterEligibility', () => {
       ],
     });
     const dispatch = sinon.spy();
-    await getTsaLetterEligibility(dispatch);
+    const thunk = getTsaLetterEligibility();
+    await thunk(dispatch);
     const successAction = dispatch.secondCall.args[0];
     expect(successAction.type).to.equal(GET_TSA_LETTER_ELIGIBILITY_SUCCESS);
     expect(successAction.data.attributes.documentId).to.equal('123');
@@ -548,6 +550,7 @@ describe('getTsaLetterEligibility', () => {
       event: 'api_call',
       'api-name': 'GET /v0/tsa_letter',
       'api-status': 'successful',
+      'has-letter': true,
     });
   });
 
@@ -557,7 +560,8 @@ describe('getTsaLetterEligibility', () => {
       Promise.reject(new Error('error')),
     );
     const dispatch = sinon.spy();
-    await getTsaLetterEligibility(dispatch);
+    const thunk = getTsaLetterEligibility();
+    await thunk(dispatch);
     const errorAction = dispatch.secondCall.args[0];
     expect(errorAction.type).to.equal(GET_TSA_LETTER_ELIGIBILITY_ERROR);
     expect(recordEventStub.called).to.be.true;
@@ -565,6 +569,24 @@ describe('getTsaLetterEligibility', () => {
       event: 'api_call',
       'api-name': 'GET /v0/tsa_letter',
       'api-status': 'error',
+    });
+  });
+
+  it('dispatches SUCCESS action when fetch succeeds for determining eligibility (no letter)', async () => {
+    setFetchJSONResponse(global.fetch.onFirstCall(), {
+      data: [],
+    });
+    const dispatch = sinon.spy();
+    const thunk = getTsaLetterEligibility();
+    await thunk(dispatch);
+    const successAction = dispatch.secondCall.args[0];
+    expect(successAction.type).to.equal(GET_TSA_LETTER_ELIGIBILITY_SUCCESS);
+    expect(recordEventStub.called).to.be.true;
+    expect(recordEventStub.getCall(0).args[0]).to.deep.equal({
+      event: 'api_call',
+      'api-name': 'GET /v0/tsa_letter',
+      'api-status': 'successful',
+      'has-letter': false,
     });
   });
 });
