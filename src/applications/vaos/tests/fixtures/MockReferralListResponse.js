@@ -121,12 +121,6 @@ class MockReferralListResponse {
         referralNumber: 'details-not-found-error',
         expirationDate: format(new Date(2024, 12, 2), formatStr),
       }),
-      MockReferralListResponse.createReferral({
-        id: 'details-error',
-        categoryOfCare: 'OPTOMETRY',
-        referralNumber: 'details-error',
-        expirationDate: format(new Date(2024, 12, 2), formatStr),
-      }),
     ];
   }
 
