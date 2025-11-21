@@ -25,6 +25,8 @@ import CernerFacilityAlert from './CernerFacilityAlert';
 import BlockedTriageGroupAlert from '../shared/BlockedTriageGroupAlert';
 import CernerTransitioningFacilityAlert from '../Alerts/CernerTransitioningFacilityAlert';
 import InnerNavigation from '../InnerNavigation';
+import useFeatureToggles from '../../hooks/useFeatureToggles';
+import OracleHealthMessagingIssuesAlert from '../shared/OracleHealthMessagingIssuesAlert';
 
 const FolderHeader = props => {
   const { folder, searchProps, threadCount } = props;
@@ -38,6 +40,8 @@ const FolderHeader = props => {
   const { noAssociations, allTriageGroupsBlocked } = useSelector(
     state => state.sm.recipients,
   );
+
+  const { cernerPilotSmFeatureFlag } = useFeatureToggles();
 
   const cernerFacilities = useMemo(
     () => {
@@ -97,6 +101,20 @@ const FolderHeader = props => {
 
   const { folderName, ddTitle, ddPrivacy } = handleHeader(folder);
 
+  const OracleHealthMessagingAlert = useCallback(
+    () => {
+      if (cernerPilotSmFeatureFlag) return <OracleHealthMessagingIssuesAlert />;
+      if (
+        folder.folderId === Folders.INBOX.id &&
+        cernerFacilities?.length > 0
+      ) {
+        return <CernerFacilityAlert cernerFacilities={cernerFacilities} />;
+      }
+      return null;
+    },
+    [cernerPilotSmFeatureFlag, folder.folderId, cernerFacilities],
+  );
+
   return (
     <>
       <h1
@@ -119,11 +137,7 @@ const FolderHeader = props => {
       {folder.folderId === Folders.INBOX.id && (
         <CernerTransitioningFacilityAlert />
       )}
-
-      {folder.folderId === Folders.INBOX.id &&
-        cernerFacilities?.length > 0 && (
-          <CernerFacilityAlert cernerFacilities={cernerFacilities} />
-        )}
+      <OracleHealthMessagingAlert />
 
       <>
         {folder.folderId === Folders.INBOX.id &&

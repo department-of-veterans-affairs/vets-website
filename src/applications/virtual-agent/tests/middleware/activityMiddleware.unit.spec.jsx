@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { activityMiddleware } from '../../middleware/activityMiddleware';
 
 describe('activityMiddleware', () => {
-  it('should call recordEvent and next when card is a decision letter', () => {
+  it('should not call next if activity type is trace', () => {
     const next = sinon.stub();
     const card = { activity: { type: 'trace' } };
     const result = activityMiddleware()(next)(card);
