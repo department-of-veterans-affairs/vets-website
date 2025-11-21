@@ -23,6 +23,10 @@
         "value": true
       },
       {
+        "name": "mhv_medications_cerner_pilot",
+        "value": false
+      },
+      {
         "name": "mhv_accelerated_delivery_enabled",
         "value": false
       },

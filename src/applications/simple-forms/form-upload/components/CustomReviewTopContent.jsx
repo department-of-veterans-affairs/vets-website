@@ -115,12 +115,14 @@ const CustomReviewTopContent = () => {
               read-only
             />
           ) : (
-            <div>
-              <div className="vads-u-color--gray">
-                Do you want to upload supporting documents now?
-              </div>
-              <div>No</div>
-            </div>
+            <ul className="vads-u-padding--0 schemaform-file-list">
+              <li>
+                <div className="usa-hint">
+                  Do you want to upload supporting documents now?
+                </div>
+                <div>No</div>
+              </li>
+            </ul>
           )}
         </>
       )}
