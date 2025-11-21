@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import ErrorMessage from '../../../components/ErrorMessage';
+// import InfoAlert from '~/applications/vaos/components/InfoAlert';
+// import ErrorMessage from '../../../components/ErrorMessage';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import { getPageTitle } from '../../newAppointmentFlow';
 import ProviderCard from './ProviderCard';
@@ -11,6 +12,7 @@ import {
   selectTypeOfCare,
   selectChosenFacilityInfo,
 } from '../../redux/selectors';
+import ErrorPage from './ErrorPage';
 
 const pageKey = 'selectProvider';
 
@@ -29,7 +31,9 @@ export default function SelectProviderPage() {
 
   const singleProviderTitle = 'Your nutrition and food provider';
   const pageHeader =
-    patientProviderRelationships.length > 1 ? pageTitle : singleProviderTitle;
+    patientProviderRelationships && patientProviderRelationships.length > 1
+      ? pageTitle
+      : singleProviderTitle;
 
   useEffect(
     () => {
@@ -39,8 +43,10 @@ export default function SelectProviderPage() {
     [pageTitle],
   );
 
+  // TODO: Not sure about this.
   if (patientRelationshipsError) {
-    return <ErrorMessage level={1} />;
+    // return <ErrorMessage level={1} />;
+    return <ErrorPage />;
   }
 
   if (loading) {

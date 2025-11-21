@@ -165,17 +165,13 @@ export async function fetchPatientRelationships(
   typeOfCare,
   hasAvailabilityBefore,
 ) {
-  try {
-    const data = await getPatientRelationships({
-      locationId: facilityId,
-      typeOfCareId: typeOfCare.idV2,
-      hasAvailabilityBefore,
-    });
+  const data = await getPatientRelationships({
+    locationId: facilityId,
+    typeOfCareId: typeOfCare.idV2,
+    hasAvailabilityBefore,
+  });
 
-    return transformPatientRelationships(data || []);
-  } catch (e) {
-    return null;
-  }
+  return transformPatientRelationships(data || []);
 }
 
 function locationSupportsDirectScheduling(location, typeOfCare) {

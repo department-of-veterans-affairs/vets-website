@@ -453,7 +453,7 @@ export function mockEligibilityDirectApi({
 export function mockEligibilityRequestApi({
   response: data,
   responseCode = 200,
-}) {
+} = {}) {
   cy.intercept(
     {
       method: 'GET',
@@ -663,4 +663,30 @@ export function mockVamcEhrApi({ isCerner = false } = {}) {
       });
     },
   ).as('drupal-source-of-truth');
+}
+
+export function mockRelationshipsApi({ response: data, responseCode = 200 }) {
+  cy.intercept(
+    {
+      method: 'GET',
+      pathname: `/vaos/v2/relationships`,
+      query: {
+        facility_id: '*',
+        clinical_service_id: '*',
+        has_availability_before: '*',
+      },
+    },
+    req => {
+      if (responseCode !== 200) {
+        req.reply({
+          body: `${responseCode} Not Found`,
+          statusCode: responseCode,
+        });
+
+        return;
+      }
+
+      req.reply({ data });
+    },
+  ).as('v2:get:relationships');
 }

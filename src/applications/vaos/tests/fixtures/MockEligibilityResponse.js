@@ -139,5 +139,11 @@ export default class MockEligibilityResponse {
 
   setEligibility(boolean) {
     this.attributes.eligible = boolean;
+    return this;
+  }
+
+  setType(value) {
+    this.attributes.type = value;
+    return this;
   }
 }

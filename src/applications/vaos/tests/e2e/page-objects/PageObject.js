@@ -239,6 +239,11 @@ export default class PageObject {
     return this.clickButton({ label });
   }
 
+  scheduleAppointment(text = 'Start scheduling') {
+    cy.findByText(text).click({ waitForAnimations: true });
+    return this;
+  }
+
   selectRadioButton(label) {
     cy.findByLabelText(label).as('radio');
     cy.get('@radio').check();
