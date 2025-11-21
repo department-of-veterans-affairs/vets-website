@@ -708,6 +708,97 @@ Update this file when you:
   - Props: `alertStyle`, `parentComponent`, `currentRecipient`, `setShowBlockedTriageGroupAlert`, `isOhMessage`
   - Handles different scenarios: no associations, all blocked, multiple blocked, facility blocked
   - Uses `updateTriageGroupRecipientStatus()` helper to determine recipient status
+- **RouterLink**: Wrapper for VaLink with React Router integration for standard internal navigation
+  - **Purpose**: Enables internal navigation without full page reloads using standard link styling
+  - **When to Use**: 
+    - Utility links (profile, settings, help pages)
+    - Navigation links in forms or secondary UI areas
+    - Any internal link that is NOT a primary call-to-action
+  - **When NOT to Use**: 
+    - Primary CTAs in alerts or prominent UI areas (use `RouterLinkAction` instead)
+    - External links (use `VaLink` or `VaLinkAction` with `external` prop)
+  - **Props**:
+    - `href` (required): Destination path for React Router navigation
+    - `text` (required): Link text to display
+    - `label` (optional): Aria-label for screen readers when text needs additional context
+    - `reverse` (optional): If true, renders with white text for dark backgrounds
+    - `active` (optional, default: `false`): If true, renders with bold text + chevron for higher prominence
+    - Supports all standard `data-*` attributes: `data-testid`, `data-dd-action-name`, `data-dd-privacy`
+  - **Usage Examples**:
+    ```jsx
+    // Standard utility link (most common)
+    <RouterLink
+      href="/profile/personal-information#messaging-signature"
+      text="Edit signature for all messages"
+      data-testid="edit-signature-link"
+    />
+    
+    // Link with higher prominence (active styling)
+    <RouterLink
+      href={Paths.COMPOSE}
+      text="Compose message"
+      active
+      data-dd-action-name="Compose from dashboard"
+    />
+    ```
+  - **Implementation Notes**:
+    - Uses `VaLink` with default styling (active={false})
+    - Wraps React Router v3 context access via `withRouter` HOC
+    - Prevents default link behavior and uses `context.router.push()` for client-side navigation
+    - For standard navigation links where CTA prominence is not needed
+- **RouterLinkAction**: Wrapper for VaLink with React Router integration for high-prominence CTAs
+  - **Purpose**: Enables internal navigation with action link styling (bold + chevron) for primary CTAs
+  - **When to Use**: 
+    - Primary call-to-action links in alerts (e.g., "Start a new message", "Go to inbox")
+    - High-prominence navigation in dashboard or key UI areas
+    - Links that drive core user actions
+  - **When NOT to Use**: 
+    - Standard utility links (use `RouterLink` instead)
+    - External links (use `VaLinkAction` with `external` prop)
+  - **IMPORTANT TECHNICAL NOTE**:
+    - This component uses `VaLink` with `active={true}`, NOT `VaLinkAction`
+    - Why? `VaLinkAction` doesn't expose an `onClick` prop needed for React Router integration
+    - `VaLink` with `active={true}` provides the closest visual styling:
+      - Bold text + right arrow (chevron)
+      - Blue color scheme
+    - While not pixel-perfect to `VaLinkAction` (which uses a circular icon), the "active link" styling provides sufficient visual prominence for CTAs
+    - See design.va.gov/components/link/ and design.va.gov/components/link/action for VADS guidance
+  - **Props**:
+    - `href` (required): Destination path for React Router navigation
+    - `text` (required): Link text to display
+    - `label` (optional): Aria-label for screen readers when text needs additional context
+    - `reverse` (optional): If true, renders with white text for dark backgrounds
+    - `active` (optional, default: `true`): Always true for action link styling
+    - Supports all standard `data-*` attributes: `data-testid`, `data-dd-action-name`, `data-dd-privacy`
+  - **Usage Examples**:
+    ```jsx
+    // Primary CTA in alert (default styling)
+    <RouterLinkAction
+      href={Paths.COMPOSE}
+      text="Start a new message"
+      data-dd-action-name="Start message from alert"
+    />
+    
+    // Action link in dashboard
+    <RouterLinkAction
+      href={Paths.INBOX}
+      text="View all messages"
+      data-testid="view-messages-cta"
+    />
+    ```
+  - **Implementation Notes**:
+    - Uses `VaLink` with `active={true}` prop (NOT VaLinkAction due to onClick limitation)
+    - Wraps React Router v3 context access via `withRouter` HOC
+    - Prevents default link behavior and uses `context.router.push()` for client-side navigation
+  - **Decision Tree**: When choosing between RouterLink and RouterLinkAction:
+    ```
+    Is this an internal navigation link?
+    ├─ YES → Is it a primary CTA?
+    │   ├─ YES → Use RouterLinkAction (bold + chevron)
+    │   └─ NO  → Use RouterLink (standard styling)
+    └─ NO → External link
+        └─ Use VaLink or VaLinkAction with external prop
+    ```
 - **RouteLeavingGuard**: General navigation guard for unsaved changes
   - Props: `when`, `navigate`, `shouldBlockNavigation`, `modalVisible`, `modalProps`
 - **SmRouteNavigationGuard**: Secure messaging-specific navigation guard
