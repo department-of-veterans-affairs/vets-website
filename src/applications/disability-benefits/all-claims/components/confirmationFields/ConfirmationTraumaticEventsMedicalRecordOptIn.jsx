@@ -13,7 +13,6 @@ const ConfirmationTraumaticEventsMedicalRecordOptIn = ({ formData }) => {
     return null;
   }
 
-  // Map the option indicator values to user-friendly display text
   const getDisplayText = indicator => {
     return CONSENT_OPTION_INDICATOR_CHOICES[indicator] || indicator;
   };
