@@ -239,7 +239,7 @@ export const prescriptionsApi = createApi({
         if (isOracleHealthPilot) {
           try {
             const result = await apiRequest(
-              `${apiBasePath}/prescriptions/refill_prescriptions`,
+              `${apiBasePath}/prescriptions/refill`,
               {
                 method,
                 headers: {
