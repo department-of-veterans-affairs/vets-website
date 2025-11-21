@@ -90,8 +90,9 @@ const MedicationsListCard = ({ rx }) => {
 
   return (
     <va-card
-      class={`no-print rx-card-container ${(pendingMed || pendingRenewal) &&
-        'pending-med-or-renewal'} vads-u-margin-y--2 no-break`}
+      class={`no-print rx-card-container ${
+        pendingMed || pendingRenewal ? 'pending-med-or-renewal' : ''
+      } vads-u-margin-y--2 no-break`}
     >
       <div className="rx-card-details" data-testid="rx-card-info">
         <va-link

@@ -46,8 +46,8 @@ describe('Medication card component', () => {
       ...prescriptionsListItem,
       dispStatus: 'Active: Non-VA',
     });
-    const medicationName = screen.getByText(
-      prescriptionsListItem.prescriptionName,
+    const medicationName = screen.getByTestId(
+      'medications-history-details-link',
     );
     fireEvent.click(medicationName);
     expect(screen);
@@ -97,12 +97,13 @@ describe('Medication card component', () => {
       ...prescriptionsListItem,
       prescriptionSource: 'NV',
       dispStatus: 'Active: Non-VA',
-      orderedDate: '2024-06-16T04:39:11Z',
+      orderedDate: '2024-06-16T12:00:00Z',
     };
     const { getByTestId } = setup(rx);
     /* eslint-disable prettier/prettier */
     expect(getByTestId('rx-last-filled-info')).to.have.text('Documented on June 16, 2024');
     expect(getByTestId('rxStatus')).to.have.text('Active: Non-VA');
+    // expect(getByTestId('non-VA-prescription')).to.have.text('You can\u2019t manage this medication in this online tool.');
     expect(getByTestId('non-VA-prescription')).to.have.text('You can’t manage this medication in this online tool.');
     /* eslint-enable prettier/prettier */
   });
