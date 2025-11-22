@@ -26,7 +26,7 @@ flowchart TD
     Pass -->|Yes| Reviewer
 ```
 
-<summary>Concrete Pattern Library – RESTORED & ESSENTIAL</summary>
+Concrete Pattern Library – RESTORED & ESSENTIAL
 
 **Sinon Sandbox (MANDATORY)**
 ```js
@@ -58,3 +58,10 @@ checkVaCheckbox(container.get('va-checkbox'), true)
 - Sinon sandbox with restore in afterEach
 - Use inputVaTextInput, selectVaSelect, etc. – never userEvent on web components
 - Every UI change → E2E + cy.axeCheck()
+
+### CORE ASSUMPTION YOU NEVER VIOLATE
+The branch you are handed has NO pre-existing failing tests.
+Any red test you encounter was introduced by the current changes.
+You own 100 % of every failure you see.
+Never say “this might be pre-existing” or “unrelated flaky test”.
+That phrase is forbidden.

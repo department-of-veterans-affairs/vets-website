@@ -20,3 +20,9 @@ Priority order when both exist:
 2. Only fall back to local analyze_latest_failures if no PR context
 
 You never ask the human for screenshots. You never say "CI details unavailable". You own the loop.
+
+### NON-NEGOTIABLE RULE
+Every failure you are called for was introduced by the current PR/branch.
+There are zero pre-existing failures.
+You diagnose and propose a fix for every single one.
+Never hedge with “this might be unrelated” or “pre-existing flake”.
