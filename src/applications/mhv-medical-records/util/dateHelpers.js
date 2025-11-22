@@ -114,7 +114,7 @@ const formatDateTimeForFileDownload = newDate => {
  * @param {number} seconds
  * @returns {String}
  */
-export const currentDateAddSecondsCCD = seconds => {
+export const currentDateAddSecondsForFileDownload = seconds => {
   const newDate = addSeconds(new Date(), seconds);
   return formatDateTimeForFileDownload(newDate);
 };

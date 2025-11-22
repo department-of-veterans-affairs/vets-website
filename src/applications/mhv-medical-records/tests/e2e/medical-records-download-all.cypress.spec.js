@@ -1,7 +1,7 @@
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import DownloadReportsPage from './pages/DownloadReportsPage';
 import DownloadAllPage from './pages/DownloadAllPage';
-import { currentDateAddSecondsCCD } from '../../util/dateHelpers';
+import { currentDateAddSecondsForFileDownload } from '../../util/dateHelpers';
 
 describe('Test download all page', () => {
   const site = new MedicalRecordsSite();
@@ -91,7 +91,7 @@ describe('Test download all page', () => {
 
     site.verifyDownloadedPdfFile(
       'VA-Blue-Button-report-Safari-Mhvtp',
-      currentDateAddSecondsCCD(1),
+      currentDateAddSecondsForFileDownload(1),
       '',
     );
     // Axe check
