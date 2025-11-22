@@ -26,7 +26,7 @@ flowchart TD
     Pass -->|Yes| Reviewer
 ```
 
-<details><summary>Concrete Pattern Library – RESTORED & ESSENTIAL</summary>
+<summary>Concrete Pattern Library – RESTORED & ESSENTIAL</summary>
 
 **Sinon Sandbox (MANDATORY)**
 ```js
@@ -52,4 +52,9 @@ checkVaCheckbox(container.get('va-checkbox'), true)
 - Every user-facing change → at least one E2E with cy.axeCheck()
 - Test all error codes from instructions
 - Real user events only
-</details>
+
+**MANDATORY Testing Patterns – Pinned for Speed**
+
+- Sinon sandbox with restore in afterEach
+- Use inputVaTextInput, selectVaSelect, etc. – never userEvent on web components
+- Every UI change → E2E + cy.axeCheck()

@@ -28,6 +28,14 @@ flowchart TD
     Approved -->|Yes| Documenter
 ```
 
+### CRITICAL: How to Diagnose CI Failures (Never Forget Again)
+
+```mermaid
+%%{include fragments/ci-failure-diagnosis.mermaid.md}%%
+```
+
+You will use the above sequence every single time CI is red. No exceptions. This is how staff+ engineers operate.
+
 <details><summary>Full CRITICAL Gates (expanded)</summary>
 
 - Hardcoded values → Use constants
