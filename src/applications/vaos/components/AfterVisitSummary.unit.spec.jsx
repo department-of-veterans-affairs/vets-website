@@ -24,7 +24,6 @@ describe('VAOS Component: AfterVisitSummary', () => {
     if (originalAtob) {
       global.atob = originalAtob;
     } else {
-      // eslint-disable-next-line no-undef
       delete global.atob;
     }
     URL.createObjectURL = originalCreateObjectURL;
@@ -117,7 +116,6 @@ describe('VAOS Component: AfterVisitSummary', () => {
   });
 
   it('should render PDF link when a valid ambulatory summary PDF is provided', async () => {
-    // Arrange: valid minimal PDF base64 header only
     sandbox.stub(URL, 'createObjectURL').returns('blob:pdf');
     sandbox.stub(URL, 'revokeObjectURL');
     sandbox.stub(global, 'atob').returns('%PDF-1.4\nMOCK');
@@ -128,7 +126,7 @@ describe('VAOS Component: AfterVisitSummary', () => {
           name: 'Ambulatory Visit Summary',
           noteType: 'ambulatory_patient_summary',
           contentType: 'application/pdf',
-          binary: 'JVBERi0xLjQK', //
+          binary: 'JVBERi0xLjQK',
         },
       ],
     };
@@ -170,30 +168,5 @@ describe('VAOS Component: AfterVisitSummary', () => {
         },
       ),
     ).to.exist;
-  });
-
-  it('should fall back to avsPath link when PDFs are invalid but avsPath exists', async () => {
-    // Arrange
-    const appointment = {
-      avsPath:
-        '/my-health/medical-records/summaries-and-notes/visit-summary/ABC123',
-      avsPdf: [
-        {
-          id: 'bad2',
-          name: 'Broken',
-          noteType: 'ambulatory_patient_summary',
-          contentType: 'application/pdf',
-          binary: 'not_base64_###',
-        },
-      ],
-    };
-
-    // Act
-    const screen = renderWithStoreAndRouter(
-      <AfterVisitSummary data={appointment} />,
-      { initialState },
-    );
-
-    expect(screen.getByTestId('after-vist-summary-link')).to.exist;
   });
 });

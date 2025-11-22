@@ -27,8 +27,7 @@ describe('VAOS Utils: AVS', () => {
     if (originalAtob) {
       global.atob = originalAtob;
     } else {
-      // eslint-disable-next-line no-undef
-      delete global.atob; // clean if we created it
+      delete global.atob;
     }
     sandbox.restore();
   });
@@ -36,7 +35,7 @@ describe('VAOS Utils: AVS', () => {
   it('base64ToPdfObjectUrl returns object URL for valid base64 decode', () => {
     // Arrange
     const createStub = sandbox.stub(URL, 'createObjectURL').returns('blob:ok');
-    // Minimal decode output; function does not validate header in current impl
+
     global.atob = sandbox.stub().returns('%PDF-1.4\nMOCK');
 
     // Act
