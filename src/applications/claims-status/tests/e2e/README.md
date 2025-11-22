@@ -32,7 +32,7 @@ Source: [Cypress Best Practices](https://docs.cypress.io/app/core-concepts/best-
       })
       ```
 5. Use Aliases to store what Commands yield you ([source](https://docs.cypress.io/app/core-concepts/variables-and-aliases))
-   1. To alias something you'd like to share use the .as() command.
+   1. To alias something you'd like to share use the .as() command:
       ```
       beforeEach(() => {
          // alias the users fixtures
@@ -47,13 +47,13 @@ Source: [Cypress Best Practices](https://docs.cypress.io/app/core-concepts/best-
         })
       })
       ```
-   2. Can use an alias where you would use const or let
+   2. Can use an alias where you would use const or let:
       ```
       cy.get('table').find('tr').as('rows')
       // Every time we reference @rows, Cypress re-runs the queries leading up to the alias definition preventing stale elements
       cy.get('@rows').first().click()
       ```
-   3. Aliases can also be used with cy.intercept() ensuring your application makes the intended requests and waiting for your server to send the response
+   3. Aliases can also be used with cy.intercept() ensuring your application makes the intended requests and waiting for your server to send the response:
       ```
       cy.intercept('POST', '/users', { id: 123 }).as('postUser')
       cy.get('form').submit()
@@ -71,10 +71,10 @@ Source: [Cypress Best Practices](https://docs.cypress.io/app/core-concepts/best-
    1. Cypress automatically enforces test isolation by clearing state before each test
    2. Stubs, spies, and intercepts are not removed at the end of a test but the beginning of the next one. Adding an afterEach would clear it making debugging harder.
    3. Code put in a before or beforeEach hook will always run prior to the test - even if you refreshed Cypress in the middle of an existing one
-9.  Use route aliases or assertions to guard Cypress from proceeding until an explicit condition is met ([source](https://docs.cypress.io/app/core-concepts/best-practices#Using-after-Or-afterEach-Hooks))
+9. Use route aliases or assertions to guard Cypress from proceeding until an explicit condition is met ([source](https://docs.cypress.io/app/core-concepts/best-practices#Using-after-Or-afterEach-Hooks))
    1. Almost never need to use cy.wait() for an arbitrary amount of time
    2. `cy.request('http://localhost:8080/db/seed'); cy.wait(5000)`: wait is unnecessary since `cy.request()` command will not resolve until it receives a response from your server
-   3. Can wait explicitly for an aliased route
+   3. Can wait explicitly for an aliased route:
       ```
       cy.intercept('GET', '/users', [{ name: 'Maggy' }, { name: 'Joan' }]).as('getUsers')
       cy.get('[data-testid="fetch-users"]').click()
