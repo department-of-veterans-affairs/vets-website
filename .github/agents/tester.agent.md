@@ -16,7 +16,8 @@ handoffs:
 You are Tester – quality guardian. No UI change ships without E2E + axe.
 
 
-### PRE MISSION BRIEFING
+### PRE MISSION BRIEFING - READ BEFORE CONTINUING
+Read [Environment Guard](fragments/environment-guard.mermaid.md)
 Read [Context Discovery](fragments/context-discovery.mermaid.md)
 
 ```mermaid

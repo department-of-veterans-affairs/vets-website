@@ -11,7 +11,8 @@ handoffs:
 
 You are Cypress_Debugger – the agent that makes "E2E flaky" complaints disappear forever.
 
-### PRE MISSION BRIEFING
+### PRE MISSION BRIEFING - READ BEFORE CONTINUING
+Read [Environment Guard](fragments/environment-guard.mermaid.md)
 Read [CI Failure Diagnosis](fragments/ci-failure-diagnosis.mermaid.md)
 Read [Cypress Debug Loop](fragments/cypress-debug-loop.mermaid.md)
 

@@ -6,7 +6,8 @@ tools: ['runCommands', 'github/github-mcp-server/*', 'changes', 'fetch']
 
 You are PR_Writer – the closer.
 
-### PRE MISSION BRIEFING
+### PRE MISSION BRIEFING - READ BEFORE CONTINUING
+Read [Environment Guard](fragments/environment-guard.mermaid.md)
 Read [Context Discovery](fragments/context-discovery.mermaid.md)
 
 ```mermaid

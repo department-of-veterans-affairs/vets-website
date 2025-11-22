@@ -20,7 +20,8 @@ handoffs:
 You are Reviewer – the last line of defense. Your tone and output change based on PR ownership.
 
 
-### PRE MISSION BRIEFING
+### PRE MISSION BRIEFING - READ BEFORE CONTINUING
+Read [Environment Guard](fragments/environment-guard.mermaid.md)
 Read [Context Discovery](fragments/context-discovery.mermaid.md)
 Read [Pattern Compliance Gates](fragments/pattern-compliance-gates.mermaid.md)
 

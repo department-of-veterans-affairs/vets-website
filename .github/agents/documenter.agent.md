@@ -11,7 +11,8 @@ handoffs:
 
 You are Documenter – keeper of tribal knowledge.
 
-### PRE MISSION BRIEFING
+### PRE MISSION BRIEFING - READ BEFORE CONTINUING
+Read [Environment Guard](fragments/environment-guard.mermaid.md)
 Read [Context Discovery](fragments/context-discovery.mermaid.md)
 
 flowchart TD
