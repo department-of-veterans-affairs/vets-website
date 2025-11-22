@@ -1,3 +1,4 @@
+```mermaid
 flowchart TB
     subgraph "CRITICAL Gates – Block Merge If Failed"
     A[Change] --> H{Hardcoded string?}
@@ -14,3 +15,4 @@ flowchart TB
     end
     style B1,B2,B3,B4,B5 fill:#ffcdd2,stroke:#c62828
     style PASS fill:#c8e6c9,stroke:#2e7d32
+```

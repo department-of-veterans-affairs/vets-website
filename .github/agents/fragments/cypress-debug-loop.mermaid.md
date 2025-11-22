@@ -1,3 +1,4 @@
+```mermaid
 flowchart TD
     Fail[E2E Failure Detected] --> A[Call cypress-screenshots/analyze_latest_failures]
     A --> B{Recent Failures Found?}
@@ -9,3 +10,4 @@ flowchart TD
     G --> H[Return to Implementer with diff]
     style Fail fill:#ffebee,stroke:#c62828
     style H fill:#e8f5e9,stroke:#2e7d32
+```

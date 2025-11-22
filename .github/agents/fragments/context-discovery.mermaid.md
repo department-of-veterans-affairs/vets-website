@@ -1,3 +1,4 @@
+```mermaid
 flowchart TD
     A[Start Session] --> B{Context Signals?}
     B -->|Ticket URL| C[Use GitHub MCP → issue_read / pull_request_read]
@@ -10,3 +11,4 @@ flowchart TD
     H & I --> J[Confirm with User]
     J --> K[Set variables: APPLICATION_ID, STATE_NAMESPACE, etc.]
     style J fill:#e3f2fd,stroke:#1565c0
+```
