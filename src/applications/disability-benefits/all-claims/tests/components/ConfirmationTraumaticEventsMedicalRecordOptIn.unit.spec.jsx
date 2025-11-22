@@ -6,6 +6,7 @@ import {
   TRAUMATIC_EVENTS_MEDICAL_RECORD_OPT_IN_TITLE,
   TRAUMATIC_EVENTS_MEDICAL_RECORD_OPT_IN_SECTION_TITLE,
 } from '../../constants';
+import { CONSENT_OPTION_INDICATOR_CHOICES } from '../../content/form0781/consentPage';
 
 describe('ConfirmationTraumaticEventsMedicalRecordOptIn', () => {
   it('should render correctly when optionIndicator is "yes"', () => {
@@ -20,7 +21,7 @@ describe('ConfirmationTraumaticEventsMedicalRecordOptIn', () => {
     expect(getByText(TRAUMATIC_EVENTS_MEDICAL_RECORD_OPT_IN_SECTION_TITLE)).to
       .exist;
     expect(getByText(TRAUMATIC_EVENTS_MEDICAL_RECORD_OPT_IN_TITLE)).to.exist;
-    expect(getByText('Yes')).to.exist;
+    expect(getByText(CONSENT_OPTION_INDICATOR_CHOICES.yes)).to.exist;
   });
 
   it('should render correctly when optionIndicator is "no"', () => {
@@ -35,7 +36,7 @@ describe('ConfirmationTraumaticEventsMedicalRecordOptIn', () => {
     expect(getByText(TRAUMATIC_EVENTS_MEDICAL_RECORD_OPT_IN_SECTION_TITLE)).to
       .exist;
     expect(getByText(TRAUMATIC_EVENTS_MEDICAL_RECORD_OPT_IN_TITLE)).to.exist;
-    expect(getByText('No')).to.exist;
+    expect(getByText(CONSENT_OPTION_INDICATOR_CHOICES.no)).to.exist;
   });
 
   it('should render correctly when optionIndicator is "revoke"', () => {
@@ -50,8 +51,7 @@ describe('ConfirmationTraumaticEventsMedicalRecordOptIn', () => {
     expect(getByText(TRAUMATIC_EVENTS_MEDICAL_RECORD_OPT_IN_SECTION_TITLE)).to
       .exist;
     expect(getByText(TRAUMATIC_EVENTS_MEDICAL_RECORD_OPT_IN_TITLE)).to.exist;
-    expect(container.textContent).to.include('revoke');
-    expect(container.textContent).to.include('cancel');
+    expect(getByText(CONSENT_OPTION_INDICATOR_CHOICES.revoke)).to.exist;
   });
 
   it('should render correctly when optionIndicator is "notEnrolled"', () => {
@@ -66,8 +66,7 @@ describe('ConfirmationTraumaticEventsMedicalRecordOptIn', () => {
     expect(getByText(TRAUMATIC_EVENTS_MEDICAL_RECORD_OPT_IN_SECTION_TITLE)).to
       .exist;
     expect(getByText(TRAUMATIC_EVENTS_MEDICAL_RECORD_OPT_IN_TITLE)).to.exist;
-    expect(container.textContent).to.include('not enrolled');
-    expect(container.textContent).to.include('VA health care');
+    expect(getByText(CONSENT_OPTION_INDICATOR_CHOICES.notEnrolled)).to.exist;
   });
 
   it('should not render when optionIndicator is not provided', () => {
