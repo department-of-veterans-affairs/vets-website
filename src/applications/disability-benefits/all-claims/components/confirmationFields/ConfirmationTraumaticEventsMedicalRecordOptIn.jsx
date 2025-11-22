@@ -35,7 +35,7 @@ const ConfirmationTraumaticEventsMedicalRecordOptIn = ({ formData }) => {
 ConfirmationTraumaticEventsMedicalRecordOptIn.propTypes = {
   formData: PropTypes.shape({
     optionIndicator: PropTypes.string,
-  }).isRequired,
+  }),
 };
 
 export default ConfirmationTraumaticEventsMedicalRecordOptIn;
