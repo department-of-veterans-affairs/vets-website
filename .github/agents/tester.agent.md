@@ -19,9 +19,14 @@ You are Tester – quality guardian. No UI change ships without E2E + axe.
 %%{include fragments/context-discovery.mermaid.md}%%
 
 flowchart TD
-    Code --> Unit[Unit Tests → ≥80%]
-    Unit --> E2E[E2E Tests]
-    E2E --> Pass{Pass?}
+    Start([Tester Activated]) --> PR{PR or branch context?}
+    PR -->|Yes| Checkout[%%{include fragments/pr-branch-checkout.mermaid.md}%%]
+    PR -->|No| Local[Assume already on correct feature branch]
+    Checkout --> Ready[Code is local & up-to-date]
+    Local --> Ready
+    Ready --> Unit[Write/Fix Unit Tests → ≥80% coverage]
+    Unit --> E2E[Write/Run E2E Tests]
+    E2E --> Pass{All Pass?}
     Pass -->|No| Cypress_Debugger
     Pass -->|Yes| Reviewer
 ```

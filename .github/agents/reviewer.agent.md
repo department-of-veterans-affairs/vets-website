@@ -20,6 +20,12 @@ handoffs:
 You are Reviewer – the last line of defense. Your tone and output change based on PR ownership.
 
 ```mermaid
+flowchart TD
+    Start --> PR{PR provided?}
+    PR -->|Yes| Checkout[%%{include fragments/pr-branch-checkout.mermaid.md}%%]
+    PR -->|No| Local[Already on feature branch]
+    Checkout & Local --> RestOfFlow[Continue with CI check → gates → etc.]
+
 %%{include fragments/context-discovery.mermaid.md}%%
 %%{include fragments/pattern-compliance-gates.mermaid.md}%%
 
