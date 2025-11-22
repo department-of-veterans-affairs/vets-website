@@ -50,7 +50,7 @@ const formatUtcTime = newDate => {
  * @param {number} minutes
  * @returns {String}
  */
-export const currentDateFnsAddMinutes = minutes => {
+export const currentDateAddMinutes = minutes => {
   const newDate = addMinutes(new Date(), minutes);
   return formatUtcTime(newDate);
 };
@@ -61,7 +61,7 @@ export const currentDateFnsAddMinutes = minutes => {
  * @param {number} minutes
  * @returns {String}
  */
-export const currentDateFnsMinusMinutes = minutes => {
+export const currentDateMinusMinutes = minutes => {
   const newDate = subMinutes(new Date(), minutes);
   return formatUtcTime(newDate);
 };
@@ -72,7 +72,7 @@ export const currentDateFnsMinusMinutes = minutes => {
  * @param {number} hours
  * @returns {String}
  */
-export const currentDateFnsAddHours = hours => {
+export const currentDateAddHours = hours => {
   const newDate = addHours(new Date(), hours);
   return formatUtcTime(newDate);
 };
@@ -82,7 +82,7 @@ export const currentDateFnsAddHours = hours => {
  *
  * @returns {String}
  */
-export const currentDateFnsAddOneHourMinusOneMinute = () => {
+export const currentDateAddOneHourMinusOneMinute = () => {
   const newDate = subMinutes(addHours(new Date(), 1), 1);
   return formatUtcTime(newDate);
 };
@@ -93,7 +93,7 @@ export const currentDateFnsAddOneHourMinusOneMinute = () => {
  * @param {number} hours
  * @returns {String}
  */
-export const currentDateFnsMinusHours = hours => {
+export const currentDateMinusHours = hours => {
   const newDate = subHours(new Date(), hours);
   return formatUtcTime(newDate);
 };

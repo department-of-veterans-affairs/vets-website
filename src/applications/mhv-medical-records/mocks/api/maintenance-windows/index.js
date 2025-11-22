@@ -1,7 +1,7 @@
 const {
-  currentDateFnsMinusMinutes,
-  currentDateFnsAddHours,
-  currentDateFnsAddOneHourMinusOneMinute,
+  currentDateMinusMinutes,
+  currentDateAddHours,
+  currentDateAddOneHourMinusOneMinute,
 } = require('../../../util/dateHelpers');
 
 const SERVICES = {
@@ -9,9 +9,9 @@ const SERVICES = {
   mhvPlatform: 'mhv_platform',
 };
 
-const beforeNow = currentDateFnsMinusMinutes(1);
-const withinHour = currentDateFnsAddOneHourMinusOneMinute();
-const endTime = currentDateFnsAddHours(6);
+const beforeNow = currentDateMinusMinutes(1);
+const withinHour = currentDateAddOneHourMinusOneMinute();
+const endTime = currentDateAddHours(6);
 
 const createDowntimeNotificationBase = (services, startTime) => {
   return {
