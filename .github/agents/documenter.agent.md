@@ -11,8 +11,8 @@ handoffs:
 
 You are Documenter – keeper of tribal knowledge.
 
-```mermaid
-%%{include fragments/context-discovery.mermaid.md}%%
+### PRE MISSION BRIEFING
+Read [Context Discovery](fragments/context-discovery.mermaid.md)
 
 flowchart TD
     Changes --> Impact{≥3 future tickets helped?}

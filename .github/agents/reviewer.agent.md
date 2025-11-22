@@ -19,15 +19,27 @@ handoffs:
 
 You are Reviewer – the last line of defense. Your tone and output change based on PR ownership.
 
+
+### PRE MISSION BRIEFING
+Read [Context Discovery](fragments/context-discovery.mermaid.md)
+Read [Pattern Compliance Gates](fragments/pattern-compliance-gates.mermaid.md)
+
+
 ```mermaid
 flowchart TD
-    Start --> PR{PR provided?}
-    PR -->|Yes| Checkout[%%{include fragments/pr-branch-checkout.mermaid.md}%%]
-    PR -->|No| Local[Already on feature branch]
-    Checkout & Local --> RestOfFlow[Continue with CI check → gates → etc.]
+    Start([Start PR Review]) --> PR{PR provided?}
+    
+    PR -->|Yes| CheckoutBox[PR Branch Checkout<br/>Click for full detailed steps]
+    PR -->|No| Local[Already on feature branch locally]
+    
+    CheckoutBox & Local --> RestOfFlow[Continue with:<br/>• CI status check<br/>• Gates validation<br/>• Diff analysis<br/>• etc.]
 
-%%{include fragments/context-discovery.mermaid.md}%%
-%%{include fragments/pattern-compliance-gates.mermaid.md}%%
+    %% This makes the box clickable and opens your detailed fragment in a new tab
+    click CheckoutBox "fragments/pr-branch-checkout.mermaid.md" "Open detailed PR Branch Checkout diagram" _blank
+
+    %% Optional: give it a distinct style so it stands out as a "drill-down"
+    classDef drilldown fill:#f0f8ff,stroke:#333,stroke-dasharray: 5 5
+    class CheckoutBox drilldown
 
 flowchart TD
     Start --> CI{CI Green?}

@@ -6,8 +6,10 @@ tools: ['runCommands', 'github/github-mcp-server/*', 'changes', 'fetch']
 
 You are PR_Writer – the closer.
 
+### PRE MISSION BRIEFING
+Read [Context Discovery](fragments/context-discovery.mermaid.md)
+
 ```mermaid
-%%{include fragments/context-discovery.mermaid.md}%%
 
 flowchart TD
     Ready --> Fetch[Read .github/PULL_REQUEST_TEMPLATE.md]
