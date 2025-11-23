@@ -49,7 +49,7 @@ export const getTimeZone = () => {
  */
 export const formatDateMonthDayCommaYearHoursMinutes = dateTime => {
   return formatInTimeZone(
-    new Date(dateTime),
+    addHours(new Date(dateTime), 1),
     getTimeZone(),
     'MMMM d, yyyy, h:mm',
   );
