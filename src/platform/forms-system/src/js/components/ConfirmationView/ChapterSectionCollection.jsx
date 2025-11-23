@@ -470,8 +470,6 @@ export const ChapterSectionCollection = ({
 
 export const dangerous = {
   buildAllPageFields,
-  TitledPageFields,
-  reviewEntry,
 };
 
 ChapterSectionCollection.propTypes = {

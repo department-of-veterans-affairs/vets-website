@@ -2,9 +2,9 @@ import set from 'platform/utilities/data/set';
 import { yesNoUI } from 'platform/forms-system/src/js/web-component-patterns';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
+import { dangerous } from 'platform/forms-system/src/js/components/ConfirmationView/ChapterSectionCollection';
 import { hasMilitaryRetiredPay } from '../validations';
 import { getBranches } from '../utils/serviceBranches';
-import ConfirmationRetirementPay from '../components/confirmationFields/ConfirmationRetirementPay';
 
 const {
   militaryRetiredPayBranch: militaryRetiredPayBranchSchema,
@@ -29,7 +29,7 @@ export const uiSchema = {
     },
     'ui:required': hasMilitaryRetiredPay,
   },
-  'ui:confirmationField': ConfirmationRetirementPay,
+  'ui:confirmationField': dangerous.buildAllPageFields,
 };
 
 export const schema = {
