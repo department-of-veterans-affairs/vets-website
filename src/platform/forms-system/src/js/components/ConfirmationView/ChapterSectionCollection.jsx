@@ -248,6 +248,19 @@ export const getPageTitle = (pageFormConfig, formData, formConfig) => {
   return pageTitle || '';
 };
 
+const TitledPageFields = ({ page, formData, chapterFormConfig, children }) => {
+  const pageTitle = getPageTitle(page, formData, chapterFormConfig);
+
+  return (
+    <li key={`page-li-${page.pageKey}`}>
+      <h4 key={`page-title-${page.pageKey}`}>{pageTitle}</h4>
+      <ul className="vads-u-padding--0" style={{ listStyle: 'none' }}>
+        {children}
+      </ul>
+    </li>
+  );
+};
+
 const buildPageFields = ({
   page,
   formData,
@@ -275,15 +288,14 @@ const buildPageFields = ({
   if (fields.length === 0) return [];
   if (!showPageTitles) return fields;
 
-  const pageTitle = getPageTitle(page, formData, chapterFormConfig);
-
   return (
-    <li key={`page-li-${page.pageKey}`}>
-      <h4 key={`page-title-${page.pageKey}`}>{pageTitle}</h4>
-      <ul className="vads-u-padding--0" style={{ listStyle: 'none' }}>
-        {fields}
-      </ul>
-    </li>
+    <TitledPageFields
+      page={page}
+      formData={formData}
+      chapterFormConfig={chapterFormConfig}
+    >
+      {fields}
+    </TitledPageFields>
   );
 };
 
@@ -427,6 +439,11 @@ export const ChapterSectionCollection = ({
   }
 
   return content;
+};
+
+export const dangerous = {
+  TitledPageFields,
+  reviewEntry,
 };
 
 ChapterSectionCollection.propTypes = {
