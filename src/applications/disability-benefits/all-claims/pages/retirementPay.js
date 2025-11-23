@@ -10,24 +10,13 @@ const {
   militaryRetiredPayBranch: militaryRetiredPayBranchSchema,
 } = fullSchema.properties;
 
-// Duplicated from top-level form config;
-const TITLE = 'Retirement pay';
-const YES_NO_TITLE = 'Have you ever received military retirement pay?';
-const BRANCH_TITLE =
-  'Please choose the branch of service that gave you military retired pay';
-
-const ConfirmationField = ConfirmationRetirementPay(
-  TITLE,
-  YES_NO_TITLE,
-  BRANCH_TITLE,
-);
-
 export const uiSchema = {
   'view:hasMilitaryRetiredPay': yesNoUI({
-    title: YES_NO_TITLE,
+    title: 'Have you ever received military retirement pay?',
   }),
   militaryRetiredPayBranch: {
-    'ui:title': BRANCH_TITLE,
+    'ui:title':
+      'Please choose the branch of service that gave you military retired pay',
     'ui:options': {
       expandUnder: 'view:hasMilitaryRetiredPay',
       updateSchema: (_formData, schema) => {
@@ -40,7 +29,7 @@ export const uiSchema = {
     },
     'ui:required': hasMilitaryRetiredPay,
   },
-  'ui:confirmationField': ConfirmationField,
+  'ui:confirmationField': ConfirmationRetirementPay,
 };
 
 export const schema = {
