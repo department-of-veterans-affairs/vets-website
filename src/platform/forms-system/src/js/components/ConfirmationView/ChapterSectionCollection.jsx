@@ -99,9 +99,18 @@ export const reviewEntry = (description, key, uiSchema, label, data) => {
   );
 };
 
-const fieldEntries = (key, uiSchema, data, schema, schemaFromState, index) => {
+const fieldEntries = (
+  key,
+  uiSchema,
+  data,
+  schema,
+  schemaFromState,
+  showViewFields,
+  index,
+) => {
   if (data === undefined || data === null) return null;
-  if (key.startsWith('view:') || key.startsWith('ui:')) return null;
+  if (key.startsWith('ui:')) return null;
+  if (key.startsWith('view:') && !showViewFields) return null;
 
   let schemaPropertiesKey = schema.properties?.[key];
   if (schemaPropertiesKey?.$ref) {
@@ -199,6 +208,7 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState, index) => {
         data[objKey],
         schemaPropertiesKey,
         schemaFromState?.properties?.[key],
+        showViewFields,
       ),
     );
   }
@@ -207,7 +217,15 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState, index) => {
     if (index == null) {
       // single page array data
       return data.flatMap((_, i) => {
-        return fieldEntries(key, uiSchema, data, schema, schemaFromState, i);
+        return fieldEntries(
+          key,
+          uiSchema,
+          data,
+          schema,
+          schemaFromState,
+          showViewFields,
+          i,
+        );
       });
     }
 
@@ -220,6 +238,7 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState, index) => {
         data[index][arrKey],
         schemaPropertiesKey.items,
         schemaFromState?.properties?.[key].items?.[index],
+        showViewFields,
       );
     });
   }
@@ -267,6 +286,7 @@ const buildPageFields = ({
   pageFromState,
   showPageTitles,
   chapterFormConfig,
+  showViewFields = false,
 }) => {
   const fields = Object.entries(page.uiSchema)
     .flatMap(([uiSchemaKey, uiSchemaValue]) => {
@@ -280,6 +300,7 @@ const buildPageFields = ({
         data,
         page.schema,
         pageFromState?.schema,
+        showViewFields,
         page.index,
       );
     })
@@ -298,6 +319,12 @@ const buildPageFields = ({
     </TitledPageFields>
   );
 };
+
+const buildAllPageFields = props =>
+  buildPageFields({
+    ...props,
+    showViewFields: true,
+  });
 
 export const buildFields = (
   chapter,
@@ -442,6 +469,7 @@ export const ChapterSectionCollection = ({
 };
 
 export const dangerous = {
+  buildAllPageFields,
   TitledPageFields,
   reviewEntry,
 };
