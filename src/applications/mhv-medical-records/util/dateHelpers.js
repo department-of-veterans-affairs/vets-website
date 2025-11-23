@@ -49,8 +49,8 @@ export const getTimeZone = () => {
  */
 export const formatDateMonthDayCommaYearHoursMinutes = dateTime => {
   return formatInTimeZone(
-    addHours(new Date(dateTime), 1),
-    getTimeZone(),
+    subHours(new Date(dateTime), 4),
+    'UTC',
     'MMMM d, yyyy, h:mm',
   );
 };
