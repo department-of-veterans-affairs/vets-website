@@ -32,7 +32,7 @@ export const formatDateMonthDayCommaYear = dateTime => {
  * @returns {String}
  */
 export const formatDateMonthDayCommaYearHoursMinutes = dateTime => {
-  return format(addHours(new Date(dateTime), 1), 'MMMM d, yyyy, h:mm');
+  return format(new Date(dateTime), 'MMMM d, yyyy, h:mm');
 };
 
 /**
