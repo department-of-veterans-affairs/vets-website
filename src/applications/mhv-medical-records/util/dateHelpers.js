@@ -26,12 +26,13 @@ export const formatDateMonthDayCommaYear = dateTime => {
 };
 
 /**
+ * Returns the current date formated "MMMM d, yyyy, h:mm" Example: August 18, 2022, 4:29
  *
  *  @param dateTime
  * @returns {String}
  */
 export const formatDateMonthDayCommaYearHoursMinutes = dateTime => {
-  return format(new Date(dateTime), 'MMMM d, yyyy HH:mm');
+  return format(addHours(new Date(dateTime), 1), 'MMMM d, yyyy, h:mm');
 };
 
 /**
