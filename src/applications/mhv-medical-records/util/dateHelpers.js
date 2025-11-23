@@ -26,13 +26,33 @@ export const formatDateMonthDayCommaYear = dateTime => {
 };
 
 /**
+ * Get timezone of user's computer
+ * @example 'America/Los_Angeles'
+ * @returns {String} Valid Lighthouse timezone string
+ */
+export const getTimeZone = () => {
+  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/resolvedOptions
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  // See https://dsva.slack.com/archives/C05UPRR0HK3/p1715559455045739; DataDog
+  // event where a Veteran submitted an HLR with 'Etc/Unknown` as the timezone,
+  // but it was rejected by Lighthouse
+  return timezone.toLowerCase().includes('unknown')
+    ? 'America/New_York'
+    : timezone;
+};
+
+/**
  * Returns the current date formated "MMMM d, yyyy, h:mm" Example: August 18, 2022, 4:29
  *
  *  @param dateTime
  * @returns {String}
  */
 export const formatDateMonthDayCommaYearHoursMinutes = dateTime => {
-  return format(new Date(dateTime), 'MMMM d, yyyy, h:mm');
+  return formatInTimeZone(
+    new Date(dateTime),
+    getTimeZone(),
+    'MMMM d, yyyy, h:mm',
+  );
 };
 
 /**
