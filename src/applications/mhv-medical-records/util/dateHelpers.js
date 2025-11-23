@@ -1,15 +1,12 @@
-import {
-  addHours,
-  addMinutes,
-  subHours,
-  subMinutes,
-  addSeconds,
-} from 'date-fns';
+import { addHours, subHours, subMinutes, addSeconds } from 'date-fns';
 import { formatInTimeZone, format } from 'date-fns-tz';
 
 /**
  *
  *  @param dateTime
+ *
+ *  Current year formatted 'yyyy'
+ *  @example 2024
  * @returns {String}
  */
 export const formatDateYear = dateTime => {
@@ -19,6 +16,7 @@ export const formatDateYear = dateTime => {
 /**
  *
  *  @param dateTime
+ *  @example
  * @returns {String}
  */
 export const formatDateMonthDayCommaYear = dateTime => {
@@ -26,25 +24,10 @@ export const formatDateMonthDayCommaYear = dateTime => {
 };
 
 /**
- * Get timezone of user's computer
- * @example 'America/Los_Angeles'
- * @returns {String} Valid Lighthouse timezone string
- */
-export const getTimeZone = () => {
-  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/resolvedOptions
-  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  // See https://dsva.slack.com/archives/C05UPRR0HK3/p1715559455045739; DataDog
-  // event where a Veteran submitted an HLR with 'Etc/Unknown` as the timezone,
-  // but it was rejected by Lighthouse
-  return timezone.toLowerCase().includes('unknown')
-    ? 'America/New_York'
-    : timezone;
-};
-
-/**
- * Returns the current date formated "MMMM d, yyyy, h:mm" Example: August 18, 2022, 4:29
+ * Returns the Current date formated "MMMM d, yyyy, h:mm" Example: August 18, 2022, 4:29
  *
  *  @param dateTime
+ *  @example
  * @returns {String}
  */
 export const formatDateMonthDayCommaYearHoursMinutes = dateTime => {
@@ -56,9 +39,11 @@ export const formatDateMonthDayCommaYearHoursMinutes = dateTime => {
 };
 
 /**
- * Returns the current date formated "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" Example: 2025-11-20T19:14:57.282Z
  *
  * @param newDate
+ *
+ * Date formated "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+ * @example 2025-11-20T19:14:57.282Z
  * @returns {String}
  */
 const formatUtcTime = newDate => {
@@ -66,20 +51,11 @@ const formatUtcTime = newDate => {
 };
 
 /**
- * Returns the current date plus minutes formated "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" Example: 2025-11-20T19:14:57.282Z
  *
  * @param {number} minutes
- * @returns {String}
- */
-export const currentDateAddMinutes = minutes => {
-  const newDate = addMinutes(new Date(), minutes);
-  return formatUtcTime(newDate);
-};
-
-/**
- * Returns the current date minus minutes formated "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" Example: 2025-11-20T19:14:57.282Z
  *
- * @param {number} minutes
+ * Current date minus minutes formated "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+ * @example 2025-11-20T19:14:57.282Z
  * @returns {String}
  */
 export const currentDateMinusMinutes = minutes => {
@@ -88,9 +64,12 @@ export const currentDateMinusMinutes = minutes => {
 };
 
 /**
- * Returns the current date plus hours formated "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" Example: 2025-11-20T19:14:57.282Z
+ *
  *
  * @param {number} hours
+ *
+ * Current date plus hours formated "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+ * @example 2025-11-20T19:14:57.282Z
  * @returns {String}
  */
 export const currentDateAddHours = hours => {
@@ -99,8 +78,9 @@ export const currentDateAddHours = hours => {
 };
 
 /**
- * Returns the current date minus 1 minute and plus 1 hour formated "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" Example: 2025-11-20T19:14:57.282Z
  *
+ * Current date minus 1 minute and plus 1 hour formated "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+ * @example 2025-11-20T19:14:57.282Z
  * @returns {String}
  */
 export const currentDateAddOneHourMinusOneMinute = () => {
@@ -109,20 +89,12 @@ export const currentDateAddOneHourMinusOneMinute = () => {
 };
 
 /**
- * Returns the current date minus hours formated "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" Example: 2025-11-20T19:14:57.282Z
  *
- * @param {number} hours
- * @returns {String}
- */
-export const currentDateMinusHours = hours => {
-  const newDate = subHours(new Date(), hours);
-  return formatUtcTime(newDate);
-};
-
-/**
- * Returns the current date formated "MM-dd-yyyy'_'hhmmssa" Example: 11-21-2025_010829p.m.
  *
  * @param newDate
+ *
+ * Current date formated "MM-dd-yyyy'_'hhmmssa"
+ * @example 11-21-2025_010829p.m.
  * @returns {String}
  */
 const formatDateTimeForFileDownload = newDate => {
@@ -130,9 +102,12 @@ const formatDateTimeForFileDownload = newDate => {
 };
 
 /**
- * Returns the current date minus seconds formated "MM-dd-yyyy'_'hhmmssa" Example: 11-21-2025_010829p.m.
+ *
  *
  * @param {number} seconds
+ *
+ * Current date minus seconds formated "MM-dd-yyyy'_'hhmmssa"
+ * @example 11-21-2025_010829p.m.
  * @returns {String}
  */
 export const currentDateAddSecondsForFileDownload = seconds => {
