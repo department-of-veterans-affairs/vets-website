@@ -499,13 +499,13 @@ class PatientInboxPage {
     cy.findByTestId(Locators.FIELDS.MESSAGE_SUBJECT_DATA_TEST_ID)
       .find(`#inputField`)
       .type('testSubject', { force: true });
-    cy.get(Locators.FIELDS.MESSAGE_BODY)
+    cy.findByTestId(Locators.FIELDS.MESSAGE_BODY)
       .find(`#input-type-textarea`)
       .type('\ntestMessage', { force: true });
   };
 
   verifySignature = () => {
-    cy.get(Locators.FIELDS.MESSAGE_BODY)
+    cy.findByTestId(Locators.FIELDS.MESSAGE_BODY)
       .should('have.attr', 'value')
       .and('not.be.empty');
   };
