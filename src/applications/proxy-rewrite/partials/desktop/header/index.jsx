@@ -138,12 +138,12 @@ const DesktopHeader = ({ isDesktop, megaMenuData }) => {
         id="va-header-logo-menu"
       >
         <div className="va-header-logo-wrapper">
-          <a href="https://www.va.gov" className="va-header-logo desktop">
+          <div className="va-header-logo desktop">
             <img
               src="https://www.va.gov/img/header-logo.png"
               alt="VA logo and Seal, U.S. Department of Veterans Affairs"
             />
-          </a>
+          </div>
         </div>
         <div id="login-root">
           <div className="profile-nav-container">
