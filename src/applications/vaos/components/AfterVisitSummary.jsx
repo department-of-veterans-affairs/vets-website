@@ -1,13 +1,17 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 
 import InfoAlert from './InfoAlert';
-import { GA_PREFIX, AMBULATORY_PATIENT_SUMMARY } from '../utils/constants';
-import { selectFeatureTravelPayViewClaimDetails } from '../redux/selectors';
+import { GA_PREFIX } from '../utils/constants';
+import {
+  selectFeatureTravelPayViewClaimDetails,
+  selectFeatureAddOhAvs,
+} from '../redux/selectors';
 import Section from './Section';
-import { buildPdfObjectUrls, revokeObjectUrls } from '../utils/avs';
+import { revokeObjectUrls } from '../utils/avs';
+import useAmbAvs from './hooks/useAmbAvs';
 
 function handleClick() {
   recordEvent({
@@ -20,34 +24,15 @@ export default function AfterVisitSummary({ data: appointment }) {
   const featureTravelPayViewClaimDetails = useSelector(state =>
     selectFeatureTravelPayViewClaimDetails(state),
   );
+  const featureAddOHAvs = useSelector(state => selectFeatureAddOhAvs(state));
 
   const hasError = Boolean(appointment.avsError);
 
-  // Collect ambulatory patient summary PDFs with binary present
-  const ambAvs = useMemo(
-    () =>
-      appointment?.avsPdf?.filter(
-        f => f?.noteType === AMBULATORY_PATIENT_SUMMARY && f?.binary,
-      ) || [],
-    [appointment?.avsPdf],
+  // Use hook to derive ambulatory AVS PDFs behind feature flag
+  const { avsPairs, hasValidPdfAvs, objectUrls } = useAmbAvs(
+    appointment,
+    featureAddOHAvs,
   );
-
-  // Build object URLs once per ambAvs change
-  const objectUrls = useMemo(
-    () => (ambAvs.length ? buildPdfObjectUrls(ambAvs) : []),
-    [ambAvs],
-  );
-
-  // Pair each AVS descriptor with its object URL and filter out failed decodes
-  const avsPairs = useMemo(
-    () =>
-      ambAvs
-        .map((f, i) => ({ file: f, url: objectUrls[i] }))
-        .filter(p => p.url),
-    [ambAvs, objectUrls],
-  );
-
-  const hasValidPdfAvs = avsPairs.length > 0;
   const hasAvs = Boolean(appointment.avsPath) || hasValidPdfAvs;
   useEffect(
     () => () => {
@@ -81,7 +66,7 @@ export default function AfterVisitSummary({ data: appointment }) {
       </Section>
     );
   }
-  if (hasValidPdfAvs) {
+  if (featureAddOHAvs && hasValidPdfAvs) {
     return (
       <Section heading={heading}>
         <ul

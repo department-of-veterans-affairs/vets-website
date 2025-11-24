@@ -7,6 +7,11 @@ import AfterVisitSummary from './AfterVisitSummary';
 
 describe('VAOS Component: AfterVisitSummary', () => {
   const initialState = {};
+  const initialAvsState = {
+    featureToggles: {
+      vaOnlineSchedulingAddOhAvs: true,
+    },
+  };
   let sandbox;
   let originalAtob;
   let originalCreateObjectURL;
@@ -119,6 +124,7 @@ describe('VAOS Component: AfterVisitSummary', () => {
     sandbox.stub(URL, 'createObjectURL').returns('blob:pdf');
     sandbox.stub(URL, 'revokeObjectURL');
     sandbox.stub(global, 'atob').returns('%PDF-1.4\nMOCK');
+
     const appointment = {
       avsPdf: [
         {
@@ -134,7 +140,7 @@ describe('VAOS Component: AfterVisitSummary', () => {
     // Act
     const screen = renderWithStoreAndRouter(
       <AfterVisitSummary data={appointment} />,
-      { initialState },
+      { initialState: initialAvsState },
     );
 
     expect(screen.getByTestId('after-visit-summary-pdf-1')).to.exist;
@@ -156,7 +162,7 @@ describe('VAOS Component: AfterVisitSummary', () => {
     // Act
     const screen = renderWithStoreAndRouter(
       <AfterVisitSummary data={appointment} />,
-      { initialState },
+      { initialState: initialAvsState },
     );
 
     expect(
