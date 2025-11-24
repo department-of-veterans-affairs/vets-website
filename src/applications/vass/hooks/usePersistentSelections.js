@@ -1,12 +1,26 @@
+/**
+ * Default structure for user selections
+ * @type {{selectedTopics: Array, selectedSlotTime: null}}
+ */
 const initialSelections = {
   selectedTopics: [],
   selectedSlotTime: null,
 };
 
+/**
+ * Generates a unique localStorage key for a given ID
+ * @param {string} id - The unique identifier for the selections
+ * @returns {string} The formatted localStorage key
+ */
 const getSelectionsStorageKey = id => {
   return `vass-selections-${id}`;
 };
 
+/**
+ * Retrieves selections from localStorage for a given ID
+ * @param {string} id - The unique identifier for the selections
+ * @returns {Object} The selections object containing selectedTopics and selectedSlotTime
+ */
 const getSelections = id => {
   const savedSelections = localStorage.getItem(getSelectionsStorageKey(id));
   if (savedSelections) {
@@ -24,7 +38,20 @@ const getSelections = id => {
   return initialSelections;
 };
 
+/**
+ * Custom hook for persisting user selections to localStorage
+ * @param {string} id - A unique identifier for storing selections (e.g., UUID)
+ * @returns {Object} An object containing methods to manage persistent selections
+ * @returns {Function} returns.saveDateSelection - Saves the selected date/time slot
+ * @returns {Function} returns.saveTopicsSelection - Saves the selected topics array
+ * @returns {Function} returns.clearSelections - Clears all saved selections for the given ID
+ * @returns {Function} returns.getSaved - Retrieves all saved selections for the given ID
+ */
 export const usePersistentSelections = id => {
+  /**
+   * Saves the selected date/time slot to localStorage
+   * @param {string|Date} dateTime - The selected date/time value
+   */
   const saveDateSelection = dateTime => {
     const selections = getSelections(id);
     const newSelections = { ...selections, selectedSlotTime: dateTime };
@@ -34,6 +61,10 @@ export const usePersistentSelections = id => {
     );
   };
 
+  /**
+   * Saves the selected topics array to localStorage
+   * @param {Array} topics - Array of selected topic identifiers
+   */
   const saveTopicsSelection = topics => {
     const selections = getSelections(id);
     const newSelections = { ...selections, selectedTopics: topics };
@@ -43,10 +74,17 @@ export const usePersistentSelections = id => {
     );
   };
 
+  /**
+   * Removes all saved selections from localStorage for the given ID
+   */
   const clearSelections = () => {
     localStorage.removeItem(getSelectionsStorageKey(id));
   };
 
+  /**
+   * Retrieves all saved selections from localStorage
+   * @returns {Object} Object containing selectedTopics and selectedSlotTime
+   */
   const getSaved = () => {
     return getSelections(id);
   };
