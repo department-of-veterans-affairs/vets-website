@@ -7,6 +7,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicationsDontIncrementIpeCount = true,
     mhvMedicationsDisplayNewCernerFacilityAlert = true,
     mhvSecureMessagingMedicationsRenewalRequest = false,
+    mhvMedicationsCernerPilot = true,
   } = toggles;
 
   return {
@@ -40,6 +41,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_secure_messaging_medications_renewal_request',
           value: mhvSecureMessagingMedicationsRenewalRequest,
+        },
+        {
+          name: 'mhv_medications_cerner_pilot',
+          value: mhvMedicationsCernerPilot,
         },
       ],
     },

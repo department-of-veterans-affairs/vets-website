@@ -1,6 +1,7 @@
 import PatientInboxPage from '../pages/PatientInboxPage';
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import mockNoRecipients from '../fixtures/recipientsResponse/no-recipients-response.json';
+import allRecipientsBlocked from '../fixtures/recipientsResponse/all-TG-blocked-recipients-response.json';
 import { AXE_CONTEXT, Locators, Paths, Alerts } from '../utils/constants';
 
 describe('SM TRIAGE GROUPS ALERTS', () => {
@@ -33,12 +34,7 @@ describe('SM TRIAGE GROUPS ALERTS', () => {
 
   it('user blocked from all groups', () => {
     const allBlockedResponse = {
-      ...mockNoRecipients,
-      meta: {
-        ...mockNoRecipients.meta,
-        associatedTriageGroups: 7,
-        associatedBlockedTriageGroups: 7,
-      },
+      ...allRecipientsBlocked,
     };
 
     SecureMessagingSite.login();
