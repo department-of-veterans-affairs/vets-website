@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import { isValidSSN } from 'platform/forms-system/src/js/utilities/validations';
-import { $$ } from 'platform/forms-system/src/js/utilities/ui';
+import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import { focusElement } from 'platform/utilities/ui';
 import { radioUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
@@ -315,4 +315,43 @@ export const requestRecordsLink = () => {
       Learn how to request military service records (open in new tab)
     </a>
   );
+};
+
+// FileField helper functions
+export const createOpenRemoveModal = (
+  setRemoveIndex,
+  setShowRemoveModal,
+) => index => {
+  setRemoveIndex(index);
+  setShowRemoveModal(true);
+};
+
+export const createCloseRemoveModal = (
+  removeIndex,
+  setRemoveIndex,
+  setShowRemoveModal,
+  removeFile,
+  getFileListId,
+) => ({ remove = false } = {}) => {
+  const idx = removeIndex;
+  setRemoveIndex(null);
+  setShowRemoveModal(false);
+  if (remove) {
+    removeFile(idx);
+  } else {
+    setTimeout(() => {
+      focusElement(
+        'button, .delete-upload',
+        {},
+        $(`#${getFileListId(idx)} .delete-upload`)?.shadowRoot,
+      );
+    });
+  }
+};
+
+export const createCancelUpload = (uploadRequest, removeFile) => index => {
+  if (uploadRequest) {
+    uploadRequest.abort();
+  }
+  removeFile(index);
 };
