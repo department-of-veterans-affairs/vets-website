@@ -1,15 +1,14 @@
 /* vets-api/config/form_profile_mappings/DISPUTE-DEBT.yml */
-import { selectProfile } from 'platform/user/selectors';
 
-export default function prefillTransformer(pages, formData, metadata, state) {
-  const { icn } = selectProfile(state);
+export default function prefillTransformer(pages, formData, metadata) {
+  const { fileNumber = '', ssn = '' } = formData?.veteranInformation || {};
 
   return {
     pages,
     formData: {
-      veteran: {
-        ...formData?.veteran,
-        icn,
+      veteranInformation: {
+        ssnLastFour: ssn,
+        vaFileLastFour: fileNumber,
       },
     },
     metadata,

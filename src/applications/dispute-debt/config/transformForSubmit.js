@@ -27,7 +27,6 @@ const transformForSubmit = (formConfig, form) => {
         last: fullName?.last,
         suffix: fullName?.suffix,
       },
-      icn: veteran?.icn,
       mailingAddress: {
         ...veteran?.mailingAddress,
       },
