@@ -904,7 +904,7 @@ describe('transformPicklistToV2', () => {
       fullName: { first: 'SAM', last: 'PETER' },
       ssn: '6767',
       birthDate: '1936-05-16',
-      dependentType: 'PARENT',
+      dependentType: 'DEPENDENT_PARENT',
       dependentDeathDate: '2000-02-02',
       dependentDeathLocation: {
         outsideUsa: false,
@@ -958,7 +958,7 @@ describe('transformPicklistToV2', () => {
     expect(result.childMarriage).to.have.lengthOf(1);
     expect(result.deaths).to.have.lengthOf(2);
     expect(result.deaths[0].dependentType).to.equal('CHILD');
-    expect(result.deaths[1].dependentType).to.equal('PARENT');
+    expect(result.deaths[1].dependentType).to.equal('DEPENDENT_PARENT');
 
     expect(result[dataOptions]).to.deep.equal({
       reportDivorce: false,
@@ -1294,5 +1294,8 @@ describe('transformPicklistToV2', () => {
     expect(result.reportDivorce).to.deep.equal(v3Result.reportDivorce);
     expect(result.stepChildren).to.deep.equal(v3Result.stepChildren);
     expect(result[dataOptions]).to.deep.equal(v3Result[dataOptions]);
+    expect(result['view:selectable686Options']).to.deep.equal(
+      v3Result['view:selectable686Options'],
+    );
   });
 });

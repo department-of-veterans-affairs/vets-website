@@ -614,7 +614,11 @@ export function transformPicklistToV2(data) {
 
   // eslint-disable-next-line no-param-reassign
   data['view:selectable686Options'] = {
-    ...v2Data['view:selectable686Options'],
+    addSpouse: v2Data['view:selectable686Options']?.addSpouse || false,
+    addChild: v2Data['view:selectable686Options']?.addChild || false,
+    report674: v2Data['view:selectable686Options']?.report674 || false,
+    addDisabledChild:
+      v2Data['view:selectable686Options']?.addDisabledChild || false,
     ...data['view:removeDependentOptions'],
   };
 
