@@ -4,6 +4,8 @@ import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 function swapNames(formData) {
   const parsedFormData = JSON.parse(formData);
   const transformedValue = parsedFormData;
+
+  // Swap claimant and veteran names if claimant is veteran
   if (
     parsedFormData?.claimantNotVeteran === false &&
     parsedFormData.claimantFullName?.first &&
@@ -22,6 +24,40 @@ function swapNames(formData) {
       parsedFormData.claimantFullName?.suffix;
     transformedValue.claimantFullName = {};
   }
+
+  // Convert fullNameRecipient to recipientName in careExpenses array
+  if (Array.isArray(transformedValue.careExpenses)) {
+    transformedValue.careExpenses = transformedValue.careExpenses.map(
+      expense => {
+        if (!expense.fullNameRecipient) return expense;
+        const { fullNameRecipient, ...rest } = expense;
+        return { ...rest, recipientName: fullNameRecipient };
+      },
+    );
+  }
+
+  // Convert fullNameRecipient to recipientName in medicalExpenses array
+  if (Array.isArray(transformedValue.medicalExpenses)) {
+    transformedValue.medicalExpenses = transformedValue.medicalExpenses.map(
+      expense => {
+        if (!expense.fullNameRecipient) return expense;
+        const { fullNameRecipient, ...rest } = expense;
+        return { ...rest, recipientName: fullNameRecipient };
+      },
+    );
+  }
+
+  // Convert fullNameTraveler to travelerName in mileage array
+  if (Array.isArray(transformedValue.mileageExpenses)) {
+    transformedValue.mileageExpenses = transformedValue.mileageExpenses.map(
+      expense => {
+        if (!expense.fullNameTraveler) return expense;
+        const { fullNameTraveler, ...rest } = expense;
+        return { ...rest, travelerName: fullNameTraveler };
+      },
+    );
+  }
+
   return JSON.stringify(transformedValue);
 }
 
