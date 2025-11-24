@@ -55,7 +55,7 @@ describe('HCA Routing Bug - Logged-in user incorrectly visits id-form', () => {
     cy.location('pathname').should('include', '/introduction');
 
     // Click `Start application`; utils asserts final path includes /check-your-personal-information
-    startAsAuthUser({ waitForPrefill: false });
+    startAsAuthUser();
 
     cy.location('href').then(hrefNow => {
       cy.get('@push').then(push => {
