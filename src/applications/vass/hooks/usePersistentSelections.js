@@ -3,10 +3,8 @@ const initialSelections = {
   selectedSlotTime: null,
 };
 
-const STORAGE_KEY = `vass-selections`;
-
 const getSelectionsStorageKey = id => {
-  return `${STORAGE_KEY}-${id}`;
+  return `vass-selections-${id}`;
 };
 
 const getSelections = id => {
