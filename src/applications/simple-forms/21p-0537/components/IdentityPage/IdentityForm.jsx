@@ -34,7 +34,6 @@ const IdentityForm = ({ data, onChange, onSubmit }) => {
 IdentityForm.propTypes = {
   data: PropTypes.object,
   onChange: PropTypes.func,
-  onLogin: PropTypes.func,
   onSubmit: PropTypes.func,
 };
 

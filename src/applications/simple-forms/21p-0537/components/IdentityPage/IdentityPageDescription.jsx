@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 
 const IdentityPageDescription = () => (
@@ -16,9 +15,5 @@ const IdentityPageDescription = () => (
     </p>
   </>
 );
-
-IdentityPageDescription.propTypes = {
-  onLogin: PropTypes.func,
-};
 
 export default IdentityPageDescription;
