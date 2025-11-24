@@ -39,6 +39,7 @@ const options = commandLineArgs(COMMAND_LINE_OPTIONS);
 /**
  * Returns an explicit list of test file paths when CLI paths are provided.
  * If the default pattern is unchanged, returns null to signal fallback logic.
+ * IMPORTANT: Do not expand provided CLI globs here to avoid shell ARG_MAX limits.
  */
 function getCliTestPathsOrNull() {
   const isDefaultPathSelection =
@@ -50,12 +51,9 @@ function getCliTestPathsOrNull() {
     return null;
   }
 
-  // Expand any provided CLI globs into concrete file paths to avoid shell globbing differences
-  const expanded = options.path
-    .flatMap(pattern => glob.sync(pattern))
-    .filter(Boolean);
-
-  return Array.from(new Set(expanded));
+  // Use provided patterns as-is; quoting will be handled when building the command.
+  // Deduplicate to avoid redundant work.
+  return Array.from(new Set(options.path.filter(Boolean)));
 }
 
 /**
@@ -110,6 +108,15 @@ function getTestPaths() {
 
 // Helper function to build test command
 function buildTestCommand(testPaths) {
+  // Quote paths that include spaces or glob special chars to prevent shell expansion;
+  // mocha will handle the globs itself.
+  const quoteIfNeeded = p => {
+    const needsQuote =
+      /\s|[?*{}()]/.test(p) || p.includes('[') || p.includes(']');
+    return needsQuote ? `'${p}'` : p;
+  };
+  const quotedPaths = testPaths.map(quoteIfNeeded).join(' ');
+
   const coverageInclude = options['app-folder']
     ? `--include 'src/applications/${options['app-folder']}/**'`
     : '';
@@ -129,7 +136,7 @@ function buildTestCommand(testPaths) {
     'log-level'
   ].toLowerCase()} ${testRunner} --max-old-space-size=${MAX_MEMORY} --config ${
     options.config
-  } ${testPaths.join(' ')}`;
+  } ${quotedPaths}`;
 }
 
 // Main execution
