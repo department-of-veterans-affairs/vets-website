@@ -395,6 +395,14 @@ function transformChildDeath(item) {
     dependentDeathLocation: buildLocation(item),
     // TODO: Confirm income field source - currently defaulting to 'N'
     deceasedDependentIncome: 'N',
+    childStatus: {
+      childUnder18: item.age < 18,
+      // assume disabled if over 23, we'll add a specific question later
+      // childOver18InSchool: true, // Can't assume this
+      disabled: item.age > 23,
+      stepChild: item.isStepchild === 'Y',
+      // adopted: null, // Optional field
+    },
   };
 }
 
