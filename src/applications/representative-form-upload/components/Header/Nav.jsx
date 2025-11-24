@@ -25,7 +25,7 @@ export const Nav = () => {
           data-testid="nav-home-link"
           aria-label="VA Accredited Representative Portal"
           className="nav__link vads-u-display--flex"
-          to="/"
+          href="/representative"
         >
           <img
             data-testid="mobile-logo"
