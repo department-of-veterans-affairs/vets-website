@@ -147,15 +147,12 @@ const ConfirmationPage = props => {
 };
 
 ConfirmationPage.propTypes = {
-  route: PropTypes.shape({
-    formConfig: PropTypes.object,
-  }),
   form: PropTypes.shape({
     data: PropTypes.shape({
       fullName: PropTypes.shape({
         first: PropTypes.string,
-        middle: PropTypes.string,
         last: PropTypes.string,
+        middle: PropTypes.string,
         suffix: PropTypes.string,
       }),
     }),
@@ -168,16 +165,19 @@ ConfirmationPage.propTypes = {
         PropTypes.string,
         PropTypes.number,
       ]),
+      response: PropTypes.shape({
+        pdfUrl: PropTypes.string,
+      }),
       status: PropTypes.string,
       timestamp: PropTypes.oneOfType([
         PropTypes.instanceOf(Date),
         PropTypes.string,
         PropTypes.number,
       ]),
-      response: PropTypes.shape({
-        pdfUrl: PropTypes.string,
-      }),
     }),
+  }),
+  route: PropTypes.shape({
+    formConfig: PropTypes.object,
   }),
 };
 
