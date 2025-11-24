@@ -160,7 +160,6 @@ describe('Secure Messaging Reply', () => {
     );
     cy.contains('End of search results');
 
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 });
