@@ -5,6 +5,7 @@ import allergiesList from '../fixtures/allergies-list.json';
 import tooltip from '../fixtures/tooltip-for-filtering-list-page.json';
 import { Paths } from '../utils/constants';
 import nonVARx from '../fixtures/non-VA-prescription-on-list-page.json';
+import prescription from '../fixtures/prescription-details.json';
 import prescriptionFillDate from '../fixtures/prescription-dispensed-datails.json';
 import {
   DATETIME_FORMATS,
@@ -441,6 +442,51 @@ class MedicationsListPage {
     cy.get(
       '[data-testid="medication-list"] > :nth-child(5) > [data-testid="rx-card-info"] > [data-testid="medications-history-details-link"]',
     ).should('contain', `${nonVARx.data.attributes.prescriptionName}`);
+  };
+
+  clickRefillButton = () => {
+    cy.intercept(
+      'PATCH',
+      `/my_health/v1/prescriptions/${
+        prescription.data.attributes.prescriptionId
+      }/refill`,
+      prescription,
+    );
+    cy.get(
+      '[data-testid="medication-list"] > :nth-child(1) > [data-testid="rx-card-info"] > [data-testid="fill-refill"] > [data-testid="refill-request-button"]',
+    ).should('be.enabled');
+
+    cy.get(
+      '[data-testid="medication-list"] > :nth-child(1) > [data-testid="rx-card-info"] > [data-testid="fill-refill"] > [data-testid="refill-request-button"]',
+    )
+      .first()
+      .click({ waitForAnimations: true });
+  };
+
+  verifySuccessMessageAfterRefillRequest = () => {
+    cy.get('[data-testid="success-message"]').should(
+      'contain',
+      'We got your request to fill this prescription.',
+    );
+    // .and('have.focus');
+  };
+
+  clickRefillButtonForVerifyingError = () => {
+    cy.get(
+      '[data-testid="medication-list"] > :nth-child(1) > [data-testid="rx-card-info"] > [data-testid="fill-refill"] > [data-testid="refill-request-button"]',
+    );
+    cy.get(
+      '[data-testid="medication-list"] > :nth-child(1) > [data-testid="rx-card-info"] > [data-testid="fill-refill"] > [data-testid="refill-request-button"]',
+    )
+      .first()
+      .click({ waitForAnimations: true });
+  };
+
+  verifyInlineErrorMessageForRefillRequest = () => {
+    cy.get('[data-testid="error-alert"]').should(
+      'contain',
+      'We didn’t get your request. Try again',
+    );
   };
 
   selectSortDropDownOption = text => {
