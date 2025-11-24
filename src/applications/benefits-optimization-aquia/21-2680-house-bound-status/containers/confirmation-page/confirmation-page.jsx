@@ -7,8 +7,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
-import { DownloadFormPDF } from '../../components/confirmation-page/download-form-pdf';
-
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import { API_ENDPOINTS } from '@bio-aquia/21-2680-house-bound-status/constants';
 /**
  * Custom submission alert component that shows warning for additional steps needed
  * @returns {React.ReactElement} Warning alert component
@@ -51,22 +51,48 @@ const PrintPageSection = () => {
   );
 };
 
+const DownloadFormPDF = ({ guid }) => {
+  // Render download link
+  return (
+    guid && (
+      <div className="vads-u-margin-y--4">
+        <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--2">
+          Download your form
+        </h2>
+        <p className="vads-u-margin-bottom--3">
+          Download a PDF copy of your completed VA Form 21-2680 for your
+          records.
+        </p>
+        <p>
+          <va-link
+            text="Download a copy of your VA Form 21-2680 (PDF)"
+            download
+            filetype="PDF"
+            href={`${API_ENDPOINTS.downloadPdf}${guid}`}
+          />
+        </p>
+      </div>
+    )
+  );
+};
+
 /**
  * Custom what's next section with step-by-step instructions
  * @returns {React.ReactElement} What's next section
  */
 const WhatsNextSection = () => {
+  const form = useSelector(state => state.form || {});
+  // Extract GUID/confirmation number (same string) from submission response
+  const confirmationNumber =
+    form?.submission?.response?.attributes?.confirmationNumber || '';
+  // Extract veteran name for PDF filename
   return (
     <div className="confirmation-whats-next-section">
       <h2>What you need to do next</h2>
       <p>Follow these 3 steps to complete your application:</p>
       <va-process-list uswds>
-        <va-process-list-item header="Check your downloads folder for your completed form.">
-          <p>
-            Your completed VA Form 21-2680 PDF has been downloaded
-            automatically. If you need to download it again, use the download
-            link above.
-          </p>
+        <va-process-list-item header="Download a PDF version of the Form you filled out.">
+          <DownloadFormPDF guid={confirmationNumber} />
         </va-process-list-item>
 
         <va-process-list-item header="Send it to an examiner.">
@@ -102,7 +128,7 @@ const ContactSection = () => {
     <div className="confirmation-contact-section">
       <h2>How to contact us if you have questions</h2>
       <p>
-        Call us at <va-telephone contact="8008271000" /> (
+        Call us at <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
         <va-telephone contact="711" tty />
         ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
       </p>
@@ -141,14 +167,9 @@ export const ConfirmationPage = ({ route }) => {
   const submission = form?.submission || {};
   const submitDate = submission?.timestamp || '';
 
-  // Extract GUID from submission response
-  const guid = submission?.response?.attributes?.guid || '';
+  // Extract GUID/confirmation number (same string) from submission response
   const confirmationNumber =
-    submission?.response?.attributes?.confirmationNumber || guid;
-
-  // Extract veteran name for PDF filename
-  const veteranName = form?.data?.veteranInformation?.veteranFullName || {};
-
+    submission?.response?.attributes?.confirmationNumber || '';
   return (
     <ConfirmationView
       formConfig={route?.formConfig}
@@ -159,7 +180,8 @@ export const ConfirmationPage = ({ route }) => {
       }}
     >
       <CustomSubmissionAlert />
-      {guid && <DownloadFormPDF guid={guid} veteranName={veteranName} />}
+      <DownloadFormPDF guid={confirmationNumber} />
+
       <ConfirmationView.ChapterSectionCollection />
       <PrintPageSection />
       <WhatsNextSection />

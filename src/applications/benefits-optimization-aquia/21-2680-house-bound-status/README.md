@@ -26,7 +26,7 @@ Benefits Intake Optimization - Aquia Team
 - **Form Number**: VA Form 21-2680
 - **Entry Name**: `21-2680-house-bound-status`
 - **Root URL**: `/pension/aid-attendance-housebound/apply-form-21-2680`
-- **API Endpoint**: `POST /v0/form212680/download_pdf` (returns PDF blob)
+- **Submit Endpoint**: `POST /v0/form212680` 
 - **Product ID**: `803cc23f-a627-4ea7-a3ea-0f5595d0dfd3`
 
 ## Form Flow and Sections
@@ -117,13 +117,14 @@ This application uses the **VA.gov Form System (RJSF)** with traditional page-ba
 
 ### API Integration
 
-This form uses a **print-and-upload workflow** where the backend immediately returns a PDF blob instead of a standard JSON response.
+This form uses a **print-and-upload workflow** 
 
 **API Endpoints**:
 
-- **Form Submission**: `POST /v0/form212680/download_pdf` - Returns PDF blob
-- **Save in Progress**: `GET/PUT /v0/in_progress_forms/21-2680` - Stores partial form data
-- **User Profile**: `GET /v0/user` - Used for prefill
+- **Form Submission**: - [POST /v0/form212680](http://dev-api.va.gov/v0/swagger/index.html?urls.primaryName=VA.gov%20Swagger%20Docs#/benefits_forms/downloadForm212680Pdf) returns JSON
+- - **Form Download**: - [GET /v0/form212680/download_pdf/{guid}](http://dev-api.va.gov/v0/swagger/index.html?urls.primaryName=VA.gov%20Swagger%20Docs#/benefits_forms/downloadForm212680Pdf) Returns PDF (success) or JSON (error)
+- **Save in Progress**: [GET/PUT /v0/in_progress_forms/21-2680](https://dev-api.va.gov/v0/swagger/index.html?urls.primaryName=VA.gov%20Swagger%20Docs%20(v2)#/in_progress_forms/updateInProgressForm) - Stores partial form data
+- **User Profile**: `GET /v0/user` - Used for prefill # TODO: we should use prefill endpoint, not user.
 
 **Data Transformers**:
 
@@ -135,10 +136,8 @@ This form uses a **print-and-upload workflow** where the backend immediately ret
 
 1. User completes and submits form
 2. Submit handler sends transformed data to backend
-3. Backend immediately returns a PDF blob (not JSON)
-4. Submit handler converts blob to data URL and stores in sessionStorage
-5. User redirected to confirmation page with download link
-6. Confirmation page retrieves PDF from sessionStorage for download
+3. Backend returns JSON response
+4. User redirected to confirmation page with download link, using the guid/confirmation from the submit response
 
 ## Testing
 

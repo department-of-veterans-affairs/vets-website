@@ -251,5 +251,5 @@ export function submitTransformer(_formConfig, form) {
     veteranSignature,
   };
 
-  return JSON.stringify({ form: backendData });
+  return JSON.stringify({ form: JSON.stringify(backendData) });
 }
