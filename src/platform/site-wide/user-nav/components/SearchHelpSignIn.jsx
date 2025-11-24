@@ -55,13 +55,14 @@ class SearchHelpSignIn extends Component {
         /-\d+\.app\.github\.dev$/,
         '-3001.app.github.dev',
       );
-      // Construct full URL with /my-va path
+      // Construct full URL with /my-va?loggedIn=true to trigger mock API login
       window.location.href = `${
         window.location.protocol
-      }//${newHostname}/my-va`;
+      }//${newHostname}/my-va?loggedIn=true`;
     } else {
       // Regular localhost or other environments
-      window.location.href = '/my-va';
+      // Add ?loggedIn=true to trigger mock API login
+      window.location.href = '/my-va?loggedIn=true';
     }
   };
 

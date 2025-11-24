@@ -27,7 +27,10 @@ const SaveInformationPage = props => {
               </p>
 
               <div>
-                <va-link href={`${environment.BASE_URL}/my-va`} text="My VA" />
+                <va-link
+                  href={`${environment.BASE_URL}/my-va/?loggedIn=true`}
+                  text="My VA"
+                />
               </div>
               <div className="vads-u-margin-top--1">
                 <va-link
