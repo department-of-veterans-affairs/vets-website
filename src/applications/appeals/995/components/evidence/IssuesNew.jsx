@@ -5,7 +5,6 @@ import {
   checkboxGroupUI,
   checkboxGroupSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import { VaCheckboxGroup } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import ArrayBuilderCancelButton from 'platform/forms-system/src/js/patterns/array-builder/ArrayBuilderCancelButton';
@@ -45,49 +44,6 @@ export const issuesPage = {
   },
 };
 
-/**
- * This function creates a checkbox schema/uiSchema that includes
- * dynamic checkbox labels/values based on the contestedIssues and
- * additional issues array available in the form data.
- * @param {Object} data Full form data
- * @returns Object containing a checkboxgroup uiSchema and schema
- */
-const dynamicSchema = selectedIssues => {
-  const labels = {};
-
-  for (const issue of selectedIssues) {
-    labels[issue] = issue;
-  }
-
-  return {
-    uiSchema: {
-      ...arrayBuilderItemSubsequentPageTitleUI(
-        ({ formData }) =>
-          formData?.[VA_TREATMENT_LOCATION_KEY]
-            ? `What conditions were you treated for at ${
-                formData[VA_TREATMENT_LOCATION_KEY]
-              }?`
-            : 'What conditions were you treated for?',
-      ),
-      issues: checkboxGroupUI({
-        title: issuesContent.label,
-        required: true,
-        labels,
-        errorMessages: {
-          required: issuesContent.requiredError,
-        },
-      }),
-    },
-    schema: {
-      type: 'object',
-      required: ['issues'],
-      properties: {
-        issues: checkboxGroupSchema(Object.values(selectedIssues)),
-      },
-    },
-  };
-};
-
 /** @type {CustomPageType} */
 const Issues = props => {
   const {
@@ -102,8 +58,6 @@ const Issues = props => {
     onChange,
     onSubmit,
     pagePerItemIndex,
-    title,
-    trackingPrefix,
   } = props;
   const {
     arrayPath,
@@ -114,6 +68,7 @@ const Issues = props => {
     reviewRoute,
   } = arrayBuilder;
   const [error, setError] = useState(false);
+  const currentEvidenceData = fullData?.vaEvidence?.[pagePerItemIndex] || {};
 
   const formLabel = data?.[VA_TREATMENT_LOCATION_KEY]
     ? `What conditions were you treated for at ${
@@ -131,59 +86,42 @@ const Issues = props => {
     }),
   );
 
-  // const sch = dynamicSchema(selectedIssues);
-
-  const getCheckedIssues = issues => {
-    if (!issues) {
-      return null;
-    }
-
-    return Object?.keys(issues)?.filter(key => issues[key] === true);
-  };
-
-  /**
-   * Convert the issues object (like the below) into an issues array:
-   *
-   * {
-   *   Hypertension: true,
-   *   Sleep apnea: true
-   * }
-   *
-   * becomes
-   *
-   * [ 'Hypertension', 'Sleep apnea' ]
-   */
   const handleSubmit = () => {
-    const previouslySelectedIssues = data?.issues || null;
-    const issuesToStore = getCheckedIssues(previouslySelectedIssues);
-
-    if (!issuesToStore?.length) {
+    if (!currentEvidenceData?.issues?.length) {
       setError(true);
       return;
     }
 
-    const transformedData = {
-      ...data,
-      issues: issuesToStore,
-    };
-
-    onSubmit({ formData: transformedData });
+    setError(false);
+    onSubmit({ formData: currentEvidenceData });
   };
 
-  const handleChange = e => {
-    console.log('e: ', e);
-    console.log('index: ', e.target.dataset.index);
-    const checkedIssues = getCheckedIssues(e?.issues);
+  const handleChange = event => {
+    const checkedIssue = event?.target?.label || '';
 
-    if (!checkedIssues?.length) {
-      setError(true);
+    if (!checkedIssue) {
+      return;
     }
 
-    if (error && checkedIssues?.length) {
+    const issueWasAlreadyChecked = currentEvidenceData?.issues?.includes(
+      checkedIssue,
+    );
+
+    const newData = { ...currentEvidenceData };
+
+    if (issueWasAlreadyChecked) {
+      newData.issues = newData.issues.filter(issue => issue !== checkedIssue);
+    } else {
+      newData.issues = [...(newData?.issues || []), checkedIssue];
+    }
+
+    if (!newData?.issues || !newData?.issues.length) {
+      setError(true);
+    } else {
       setError(false);
     }
 
-    onChange(e);
+    onChange(newData);
   };
 
   return (
@@ -197,13 +135,11 @@ const Issues = props => {
         required
         use-forms-pattern="single"
       >
-        {selectedIssues.map((issue, index) => (
-          <va-checkbox
-            key={index}
-            label={issue}
-            checked={data?.issues?.includes(issue)}
-          />
-        ))}
+        {selectedIssues.map((issue, index) => {
+          const isChecked = currentEvidenceData.issues?.includes(issue);
+
+          return <va-checkbox key={index} label={issue} checked={isChecked} />;
+        })}
         <div slot="form-description">
           <p className="vads-u-margin-bottom--0">
             Select all the service-connected conditions you were treated for
@@ -228,39 +164,6 @@ const Issues = props => {
       {contentAfterButtons}
     </form>
   );
-
-  // return (
-  //   <SchemaForm
-  //     data={data}
-  //     error="This is an error"
-  //     name={name}
-  //     onChange={onChange}
-  //     pagePerItemIndex={pagePerItemIndex}
-  //     schema={sch.schema}
-  //     title={title}
-  //     trackingPrefix={trackingPrefix}
-  //     uiSchema={sch.uiSchema}
-  //   >
-  //     <>
-  //       <ArrayBuilderCancelButton
-  //         goToPath={goToPath}
-  //         arrayPath={arrayPath}
-  //         summaryRoute={getSummaryPath()}
-  //         introRoute={getIntroPath()}
-  //         reviewRoute={reviewRoute}
-  //         getText={getText}
-  //         required={required}
-  //       />
-  //       {contentBeforeButtons}
-  //       <FormNavButtons
-  //         goBack={goBack}
-  //         goForward={handleSubmit}
-  //         useWebComponents
-  //       />
-  //       {contentAfterButtons}
-  //     </>
-  //   </SchemaForm>
-  // );
 };
 
 Issues.propTypes = {
@@ -282,8 +185,6 @@ Issues.propTypes = {
   name: PropTypes.string,
   pagePerItemIndex: PropTypes.string,
   setFormData: PropTypes.func,
-  title: PropTypes.string,
-  trackingPrefix: PropTypes.string,
   onChange: PropTypes.func,
   onSubmit: PropTypes.func,
 };
