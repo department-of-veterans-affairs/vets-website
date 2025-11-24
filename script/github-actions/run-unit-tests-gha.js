@@ -1,4 +1,3 @@
-/* eslint-disable no-nested-ternary */
 /* eslint-disable no-console */
 const commandLineArgs = require('command-line-args');
 const glob = require('glob');
@@ -37,6 +36,31 @@ const options = commandLineArgs(COMMAND_LINE_OPTIONS);
 // log this out to determing if we still need this
 
 // Helper function to get test paths
+/**
+ * Returns an explicit list of test file paths when CLI paths are provided.
+ * If the default pattern is unchanged, returns null to signal fallback logic.
+ */
+function getCliTestPathsOrNull() {
+  const isDefaultPathSelection =
+    Array.isArray(options.path) &&
+    options.path.length === 1 &&
+    options.path[0] === DEFAULT_SPEC_PATTERN;
+
+  if (isDefaultPathSelection) {
+    return null;
+  }
+
+  // Expand any provided CLI globs into concrete file paths to avoid shell globbing differences
+  const expanded = options.path
+    .flatMap(pattern => glob.sync(pattern))
+    .filter(Boolean);
+
+  return Array.from(new Set(expanded));
+}
+
+/**
+ * Selects test paths based on repo changes and defaults when CLI paths are not provided.
+ */
 function getTestPaths() {
   if (options['full-suite']) {
     return glob.sync(DEFAULT_SPEC_PATTERN);
@@ -81,55 +105,46 @@ function getTestPaths() {
   // Always include static pages tests
   const staticPagesTests = glob.sync(STATIC_PAGES_PATTERN);
 
-  const testPaths = [
-    ...new Set([...appTests, ...platformTests, ...staticPagesTests]),
-  ];
-
-  // Guard against E2BIG: if the command would be too long, fall back to a compact glob
-  if (testPaths.join(' ').length > 20000) {
-    return [DEFAULT_SPEC_PATTERN];
-  }
-
-  return testPaths;
+  return [...new Set([...appTests, ...platformTests, ...staticPagesTests])];
 }
 
 // Helper function to build test command
 function buildTestCommand(testPaths) {
-  const baseEnv = `NODE_OPTIONS='--require ${path.join(
-    __dirname,
-    '../../babel-register.cjs',
-  )}' STEP=unit-tests LOG_LEVEL=${options['log-level'].toLowerCase()}`;
-
   const coverageInclude = options['app-folder']
     ? `--include 'src/applications/${options['app-folder']}/**'`
     : '';
 
-  // Always produce JSON outputs via mocha-multi-reporters
-  const defaultMochaReporters =
-    '--reporter mocha-multi-reporters --reporter-options configFile=config/mocha-multi-reporter.js --no-color --retries 5';
+  const reporterOption = options.reporter
+    ? `--reporter ${options.reporter}`
+    : '';
   const coverageReporter = options['coverage-html']
-    ? '--reporter=html -- mocha --retries 5'
-    : '--reporter=json-summary -- mocha --reporter mocha-multi-reporters --reporter-options configFile=config/mocha-multi-reporter.js --no-color --retries 5';
-
-  const mochaExtra = '';
-  const escapedTestPaths = testPaths.map(pattern => `'${pattern}'`);
+    ? '--reporter=html mocha --retries 5'
+    : '--reporter=json-summary mocha --reporter mocha-multi-reporters --reporter-options configFile=config/mocha-multi-reporter.js --no-color --retries 5';
 
   const testRunner = options.coverage
-    ? `NODE_ENV=test BABEL_ENV=test c8 --all ${coverageInclude} ${coverageReporter}`
-    : `BABEL_ENV=test NODE_ENV=test mocha ${defaultMochaReporters}`;
+    ? `NODE_ENV=test nyc --all ${coverageInclude} ${coverageReporter}`
+    : `BABEL_ENV=test NODE_ENV=test mocha ${reporterOption}`;
 
-  return `${baseEnv} ${testRunner} --max-old-space-size=${MAX_MEMORY} --config ${
+  return `STEP=unit-tests LOG_LEVEL=${options[
+    'log-level'
+  ].toLowerCase()} ${testRunner} --max-old-space-size=${MAX_MEMORY} --config ${
     options.config
-  } ${mochaExtra} ${escapedTestPaths.join(' ')}`;
+  } ${testPaths.join(' ')}`;
 }
 
 // Main execution
 async function main() {
   try {
-    const testPaths = getTestPaths();
+    // Prefer explicit CLI selections when provided
+    const cliTestPaths = getCliTestPathsOrNull();
+    const testPaths = cliTestPaths ?? getTestPaths();
 
     if (testPaths.length === 0) {
-      console.log('No tests to run');
+      console.log(
+        cliTestPaths
+          ? 'No tests matched the provided CLI path patterns'
+          : 'No tests to run',
+      );
       core.exportVariable('tests_ran', 'false');
       return;
     }

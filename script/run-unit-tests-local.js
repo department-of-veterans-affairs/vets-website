@@ -66,10 +66,16 @@ const coveragePath = `NODE_ENV=test nyc --all ${coverageInclude} ${coverageRepor
 const testRunner = options.coverage ? coveragePath : mochaPath;
 const configFile = options.config ? options.config : 'config/mocha.json';
 
+/**
+ * @param {string} p - user-provided path or glob
+ * @param {string|boolean} qt - quote character to use, or false for no quotes
+ */
 const addWildcardAndQuote = (p, qt = "'") => {
   /* qt = false, ads no quote to string; user can choose between  single or double quote with single being default */
   const q = !qt ? '' : (/["']/.test(qt) && qt) || "'";
-  return options.tame || options['app-folder'] || p.indexOf('.unit.spec.js') > 0
+  const hasGlobChars = /[*?]/.test(p);
+  const isSpecFile = /\.unit\.spec\.jsx?$/.test(p);
+  return options.tame || options['app-folder'] || hasGlobChars || isSpecFile
     ? `${q}${p}${q}`
     : `${q}${p}/**/*.unit.spec.@(jsx|js)${q}`.replace(/\/{2,}/, '/');
 };
