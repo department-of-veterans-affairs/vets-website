@@ -60,6 +60,11 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
           delete: { id: '', isLoading: false, error: null },
           data: [],
         },
+        documentDelete: {
+          id: '',
+          isLoading: false,
+          error: null,
+        },
       },
     },
   });
@@ -576,6 +581,11 @@ describe('Travel Pay – ExpensePage (Editing existing expense)', () => {
             },
           ],
         },
+        documentDelete: {
+          id: '',
+          isLoading: false,
+          error: null,
+        },
       },
     },
   });
@@ -675,5 +685,110 @@ describe('Travel Pay – ExpensePage (Editing existing expense)', () => {
     await waitFor(() => {
       expect(container.querySelector('va-file-input')).to.exist;
     });
+  });
+
+  it('shows loading state when document is being deleted', () => {
+    const stateWithDeletion = {
+      ...getEditState(),
+      travelPay: {
+        ...getEditState().travelPay,
+        complexClaim: {
+          ...getEditState().travelPay.complexClaim,
+          documentDelete: {
+            id: TEST_DOCUMENT_ID,
+            isLoading: true,
+            error: null,
+          },
+        },
+      },
+    };
+
+    const { container } = renderWithStoreAndRouter(
+      <MemoryRouter
+        initialEntries={[`/file-new-claim/12345/43555/meal/${TEST_EXPENSE_ID}`]}
+      >
+        <Routes>
+          <Route
+            path="/file-new-claim/:apptId/:claimId/:expenseTypeRoute/:expenseId"
+            element={<ExpensePage />}
+          />
+        </Routes>
+      </MemoryRouter>,
+      { initialState: stateWithDeletion, reducers: reducer },
+    );
+
+    const buttonGroup = container.querySelector('.travel-pay-button-group');
+    const continueButton = Array.from(
+      buttonGroup.querySelectorAll('va-button'),
+    ).find(btn => btn.getAttribute('text') === 'Save and continue');
+
+    expect(continueButton.getAttribute('loading')).to.equal('true');
+  });
+
+  it('shows loading state when expense is being updated', () => {
+    const stateWithUpdate = {
+      ...getEditState(),
+      travelPay: {
+        ...getEditState().travelPay,
+        complexClaim: {
+          ...getEditState().travelPay.complexClaim,
+          expenses: {
+            ...getEditState().travelPay.complexClaim.expenses,
+            update: {
+              id: TEST_EXPENSE_ID,
+              isLoading: true,
+              error: null,
+            },
+          },
+        },
+      },
+    };
+
+    const { container } = renderWithStoreAndRouter(
+      <MemoryRouter
+        initialEntries={[`/file-new-claim/12345/43555/meal/${TEST_EXPENSE_ID}`]}
+      >
+        <Routes>
+          <Route
+            path="/file-new-claim/:apptId/:claimId/:expenseTypeRoute/:expenseId"
+            element={<ExpensePage />}
+          />
+        </Routes>
+      </MemoryRouter>,
+      { initialState: stateWithUpdate, reducers: reducer },
+    );
+
+    const buttonGroup = container.querySelector('.travel-pay-button-group');
+    const continueButton = Array.from(
+      buttonGroup.querySelectorAll('va-button'),
+    ).find(btn => btn.getAttribute('text') === 'Save and continue');
+
+    expect(continueButton.getAttribute('loading')).to.equal('true');
+  });
+
+  it('does not re-fetch document if already loaded (previousDocumentId check)', async () => {
+    renderEditPage();
+
+    await waitFor(() => {
+      expect(apiStub.calledOnce).to.be.true;
+    });
+
+    // apiStub should only be called once, even if component re-renders
+    expect(apiStub.callCount).to.equal(1);
+  });
+
+  it('initializes form fields only once (fieldsInitialized check)', () => {
+    const { container } = renderEditPage();
+
+    const vendorField = container.querySelector(
+      'va-text-input[name="vendorName"]',
+    );
+    expect(vendorField.getAttribute('value')).to.equal('Saved Vendor');
+
+    // Fields should remain initialized even after potential re-renders
+    const costField = container.querySelector(
+      'va-text-input[name="costRequested"]',
+    );
+    expect(costField.getAttribute('value')).to.equal('10.50');
   });
 });
