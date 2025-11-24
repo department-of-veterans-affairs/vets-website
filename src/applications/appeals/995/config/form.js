@@ -271,7 +271,7 @@ const formConfig = {
         vaPrompt: {
           title: 'VA medical records prompt',
           path: EVIDENCE_VA_PROMPT_URL,
-          depends: !redesignActive,
+          depends: formData => !redesignActive(formData),
           CustomPage: VaPrompt,
           CustomPageReview: null,
           uiSchema: vaPrompt.uiSchema,
@@ -281,7 +281,8 @@ const formConfig = {
         vaDetails: {
           title: 'VA medical records details',
           path: EVIDENCE_VA_DETAILS_URL,
-          depends: !redesignActive && hasVAEvidence,
+          depends: formData =>
+            !redesignActive(formData) && hasVAEvidence(formData),
           CustomPage: VaDetailsEntry,
           CustomPageReview: null,
           uiSchema: vaDetails.uiSchema,
@@ -302,7 +303,8 @@ const formConfig = {
         privateAuthorization: {
           title: 'Non-VA medical record authorization',
           path: 'supporting-evidence/private-medical-records-authorization',
-          depends: !redesignActive && hasPrivateEvidence,
+          depends: formData =>
+            !redesignActive(formData) && hasPrivateEvidence(formData),
           CustomPage: PrivateRecordsAuthorization,
           CustomPageReview: null,
           uiSchema: privateAuthorization.uiSchema,
@@ -311,7 +313,8 @@ const formConfig = {
         limitedConsentPrompt: {
           title: 'Non-VA medical record: limited consent prompt',
           path: LIMITED_CONSENT_PROMPT_URL,
-          depends: !redesignActive && hasPrivateEvidence,
+          depends: formData =>
+            !redesignActive(formData) && hasPrivateEvidence(formData),
           uiSchema: limitedConsentPromptPage.uiSchema,
           schema: limitedConsentPromptPage.schema,
           scrollAndFocusTarget: focusRadioH3,
@@ -319,7 +322,8 @@ const formConfig = {
         limitedConsentDetails: {
           title: 'Non-VA medical record: limited consent details',
           path: LIMITED_CONSENT_DETAILS_URL,
-          depends: !redesignActive && hasPrivateLimitation,
+          depends: formData =>
+            !redesignActive(formData) && hasPrivateLimitation(formData),
           uiSchema: limitedConsentDetailsPage.uiSchema,
           schema: limitedConsentDetailsPage.schema,
           scrollAndFocusTarget: focusRadioH3,
@@ -327,7 +331,8 @@ const formConfig = {
         privateDetails: {
           title: 'Non-VA medical records',
           path: EVIDENCE_PRIVATE_DETAILS_URL,
-          depends: !redesignActive && hasPrivateEvidence,
+          depends: formData =>
+            !redesignActive(formData) && hasPrivateEvidence(formData),
           CustomPage: PrivateDetailsEntry,
           CustomPageReview: null,
           uiSchema: privateDetails.uiSchema,
