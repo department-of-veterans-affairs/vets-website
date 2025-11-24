@@ -105,7 +105,6 @@ export const resultsDCs = Object.freeze({
       Q_1_2B_LAW_POLICY_CHANGE: YES,
       Q_1_2C_NEW_EVIDENCE: YES,
       Q_2_IS_1A_LAW_POLICY_CHANGE: YES,
-      Q_2_IS_1B_NEW_EVIDENCE: YES,
       Q_2_IS_1B_3_JUDGE_HEARING: NO,
       Q_2_S_1_NEW_EVIDENCE: YES,
     },
