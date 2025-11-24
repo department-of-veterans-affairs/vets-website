@@ -51,8 +51,6 @@ function getCliTestPathsOrNull() {
     return null;
   }
 
-  // Use provided patterns as-is; quoting will be handled when building the command.
-  // Deduplicate to avoid redundant work.
   return Array.from(new Set(options.path.filter(Boolean)));
 }
 
@@ -108,8 +106,6 @@ function getTestPaths() {
 
 // Helper function to build test command
 function buildTestCommand(testPaths) {
-  // Quote paths that include spaces or glob special chars to prevent shell expansion;
-  // mocha will handle the globs itself.
   const quoteIfNeeded = p => {
     const needsQuote =
       /\s|[?*{}()]/.test(p) || p.includes('[') || p.includes(']');
@@ -144,6 +140,15 @@ async function main() {
   try {
     // Prefer explicit CLI selections when provided
     const cliTestPaths = getCliTestPathsOrNull();
+    // If CLI paths were provided, ensure they actually match some files to avoid Mocha exiting with code 1
+    if (cliTestPaths) {
+      const matched = cliTestPaths.flatMap(p => glob.sync(p)).filter(Boolean);
+      if (matched.length === 0) {
+        console.log('No tests matched the provided CLI path patterns');
+        core.exportVariable('tests_ran', 'false');
+        return;
+      }
+    }
     const testPaths = cliTestPaths ?? getTestPaths();
 
     if (testPaths.length === 0) {
