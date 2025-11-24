@@ -115,6 +115,11 @@ function transformForSubmit(formConfig, form) {
     return '';
   })();
 
+  // Get relationship to deceased, or the string provided if value was "other"
+  const relationshipToDeceased =
+    transformedData.relationshipToDeceasedOther ??
+    transformedData.relationshipToDeceased;
+
   // Build result object following 21P-0537 pattern
   const result = {
     formNumber: formConfig.formId,
@@ -138,7 +143,7 @@ function transformForSubmit(formConfig, form) {
       ssn: splitSSN(transformedData.claimantIdentification?.ssn),
       vaFileNumber: transformedData.claimantIdentification?.vaFileNumber || '',
       dateOfBirth: splitDate(transformedData.claimantDateOfBirth),
-      relationshipToDeceased: transformedData.relationshipToDeceased || '',
+      relationshipToDeceased,
       address: formatAddress(transformedData.claimantAddress),
       phone: splitPhone(transformedData.claimantPhone),
       email: transformedData.claimantEmail || '',
