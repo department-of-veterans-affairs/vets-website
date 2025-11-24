@@ -25,7 +25,11 @@ export const validateName = (errors, pageData) => {
 const PHONE_KEYS = ['phoneNumber', 'internationalPhone'];
 
 /**
- * Mostly copied from the platform provided stringifyFormReplacer, with the removal of the address check. We don't need it here for our location use.
+ * Cleans up form data for submission; m* Mostly copied from the platform provided stringifyFormReplacer, with the
+ * removal of the address check. We don't need it here for our location use.
+ * @param {string} key - form data field key
+ * @param {any} value - form data field value
+ * @returns {any} - cleaned form data field value
  */
 export const customFormReplacer = (key, value) => {
   // Remove all non-digit characters from phone-related fields
@@ -62,7 +66,14 @@ export const customFormReplacer = (key, value) => {
   return value;
 };
 
-function copyDataFields(sourceData, cleanData, fields) {
+/**
+ * Clean data fields - remove fields with empty values & arrays
+ * @param {any} sourceData - source data object
+ * @param {string[]} fields - fields to copy
+ * @returns {any} clean data object
+ */
+function copyDataFields(sourceData, fields) {
+  const cleanData = {};
   fields.forEach(field => {
     const value = sourceData[field];
     if (Array.isArray(value) ? value.length > 0 : value) {
@@ -70,15 +81,21 @@ function copyDataFields(sourceData, cleanData, fields) {
       cleanData[field] = value;
     }
   });
+  return cleanData;
 }
 
+/**
+ * Transform form data into submission data format
+ * @param {object} payload - form object from Redux store
+ * @returns {object} - submission data object
+ */
 export function buildSubmissionData(payload) {
   if (!payload?.data) {
     return payload;
   }
 
   const sourceData = payload.data;
-  const cleanData = {};
+  let cleanData = {};
 
   const addEnabled = sourceData['view:addOrRemoveDependents']?.add === true;
   const removeEnabled =
@@ -141,7 +158,10 @@ export function buildSubmissionData(payload) {
     Object.entries(addDataMappings).forEach(([option, fields]) => {
       if (addOptions[option] === true) {
         enabledAddOptions[option] = true;
-        copyDataFields(sourceData, cleanData, fields);
+        cleanData = {
+          ...cleanData,
+          ...copyDataFields(sourceData, fields),
+        };
       }
     });
   }
@@ -152,7 +172,10 @@ export function buildSubmissionData(payload) {
     Object.entries(removeDataMappings).forEach(([option, fields]) => {
       if (removeOptions[option] === true) {
         enabledRemoveOptions[option] = true;
-        copyDataFields(sourceData, cleanData, fields);
+        cleanData = {
+          ...cleanData,
+          ...copyDataFields(sourceData, fields),
+        };
       }
     });
   }
@@ -187,7 +210,8 @@ export function buildSubmissionData(payload) {
 
 /**
  * parseDateToDateObj from ISO8601 or JS number date (not unix time)
- * @param {string, number, Date} date - date to format
+ * @param {string|number|Date} date - date to format
+ * @param {string} template - date template for parsing non-ISO strings
  * @returns {dateObj|null} date object
  */
 export const parseDateToDateObj = (date, template) => {
@@ -206,6 +230,11 @@ export const parseDateToDateObj = (date, template) => {
   return isValid(newDate) ? newDate : null;
 };
 
+/**
+ * Get spouse evidence requirements from form data
+ * @param {object} formData - form data object
+ * @returns {object} - spouse evidence requirements
+ */
 export const spouseEvidence = (formData = {}) => {
   const { veteranAddress } = formData.veteranContactInformation || {};
   const isOutsideUSA =
@@ -228,6 +257,11 @@ export const spouseEvidence = (formData = {}) => {
   };
 };
 
+/**
+ * Get child evidence requirements from form data
+ * @param {object} formData - form data object
+ * @returns {object} - child evidence requirements
+ */
 export const childEvidence = (formData = {}) => {
   const veteranAddress =
     formData?.veteranContactInformation?.veteranAddress || {};
@@ -361,6 +395,14 @@ function transformChildDeath(item) {
     dependentDeathLocation: buildLocation(item),
     // TODO: Confirm income field source - currently defaulting to 'N'
     deceasedDependentIncome: 'N',
+    childStatus: {
+      childUnder18: item.age < 18,
+      // assume disabled if over 23, we'll add a specific question later
+      // childOver18InSchool: true, // Can't assume this
+      disabled: item.age > 23,
+      stepChild: item.isStepchild === 'Y',
+      // adopted: null, // Optional field
+    },
   };
 }
 
@@ -564,6 +606,12 @@ export function transformPicklistToV2(data) {
   return data;
 }
 
+/**
+ * Get form data for submission
+ * @param {object} formConfig - form configuration object
+ * @param {object} form - form object from Redux store
+ * @returns {object} - transformed form data
+ */
 export function customTransformForSubmit(formConfig, form) {
   const payload = cloneDeep(form);
   if (!payload.data) {
