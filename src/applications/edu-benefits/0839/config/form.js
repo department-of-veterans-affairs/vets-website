@@ -10,6 +10,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import PrivacyPolicy from '../components/PrivacyPolicy';
 import SubmissionInstructions from '../components/SubmissionInstructions';
+import CustomReviewTopContent from '../components/CustomReviewTopContent';
 
 import {
   authorizedOfficial,
@@ -66,6 +67,7 @@ const formConfig = {
   },
   title: TITLE,
   subTitle: SUBTITLE,
+  CustomReviewTopContent,
   defaultDefinitions: {},
   customText: {
     appSavedSuccessfullyMessage: 'We’ve saved your form.',
