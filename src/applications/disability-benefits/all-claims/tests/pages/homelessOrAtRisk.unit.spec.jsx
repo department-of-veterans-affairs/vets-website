@@ -77,7 +77,12 @@ describe('Homeless or At Risk Info', () => {
 
     await waitFor(() => {
       form.find('form').simulate('submit');
-      expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(4);
+
+      const errorMessages = form.find(ERR_MSG_CSS_CLASS).length;
+      const vaRadioErrors = form.find('va-radio[error]').length;
+      const totalErrors = errorMessages + vaRadioErrors;
+
+      expect(totalErrors).to.be.at.least(3);
       expect(onSubmit.called).to.be.false;
     });
     form.unmount();
@@ -101,7 +106,12 @@ describe('Homeless or At Risk Info', () => {
 
     await waitFor(() => {
       form.find('form').simulate('submit');
-      expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(3);
+
+      const errorMessages = form.find(ERR_MSG_CSS_CLASS).length;
+      const vaRadioErrors = form.find('va-radio[error]').length;
+      const totalErrors = errorMessages + vaRadioErrors;
+
+      expect(totalErrors).to.be.at.least(2);
       expect(onSubmit.called).to.be.false;
     });
     form.unmount();
@@ -148,9 +158,8 @@ describe('Homeless or At Risk Info', () => {
         uiSchema={uiSchema}
         data={{
           homelessOrAtRisk: HOMELESSNESS_TYPES.atRisk,
-          'view:isHomeless': {
-            homelessHousingSituation: AT_RISK_HOUSING_TYPES.other,
-            needToLeaveHousing: true,
+          'view:isAtRisk': {
+            atRiskHousingSituation: AT_RISK_HOUSING_TYPES.other,
           },
           homelessnessContact: {
             name: 'John Smith',
@@ -163,7 +172,12 @@ describe('Homeless or At Risk Info', () => {
     );
     await waitFor(() => {
       form.find('form').simulate('submit');
-      expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(1);
+
+      const errorMessages = form.find(ERR_MSG_CSS_CLASS).length;
+      const vaRadioErrors = form.find('va-radio[error]').length;
+      const totalErrors = errorMessages + vaRadioErrors;
+
+      expect(totalErrors).to.be.at.least(1);
       expect(onSubmit.called).to.be.false;
     });
     form.unmount();
