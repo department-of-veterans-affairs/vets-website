@@ -260,6 +260,115 @@ describe('Folder Header component', () => {
         ),
       ).to.exist;
     });
+
+    it('renders RecipientListErrorAlert when recipientsError is true', () => {
+      const customState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          recipients: {
+            allowedRecipients: [],
+            blockedRecipients: [],
+            noAssociations: false,
+            allTriageGroupsBlocked: false,
+            error: true,
+          },
+        },
+      };
+
+      const screen = setup(customState, Paths.INBOX, initialThreadCount, inbox);
+      const alert = screen.container.querySelector(
+        'va-alert[status="warning"]',
+      );
+      expect(alert).to.exist;
+
+      // Check content within the alert component
+      const headline = alert.querySelector('h2[slot="headline"]');
+      expect(headline).to.exist;
+      expect(headline.textContent).to.contain('load your care team list');
+
+      const paragraph = alert.querySelector('p');
+      expect(paragraph).to.exist;
+      expect(paragraph.textContent).to.contain(
+        'Something went wrong on our end',
+      );
+    });
+
+    it('does not render ComposeMessageButton when recipientsError is true', () => {
+      const customState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          recipients: {
+            allowedRecipients: [],
+            blockedRecipients: [],
+            noAssociations: false,
+            allTriageGroupsBlocked: false,
+            error: true,
+          },
+        },
+      };
+
+      const screen = setup(customState, Paths.INBOX, initialThreadCount, inbox);
+      expect(screen.queryByTestId('compose-message-link')).to.not.exist;
+    });
+
+    it('does not render ComposeMessageButton when noAssociations is true', () => {
+      const customState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          recipients: {
+            allowedRecipients: noAssociationsAtAll.mockAllowedRecipients,
+            blockedRecipients: noAssociationsAtAll.mockBlockedRecipients,
+            noAssociations: true,
+            allTriageGroupsBlocked: false,
+            error: false,
+          },
+        },
+      };
+
+      const screen = setup(customState, Paths.INBOX, initialThreadCount, inbox);
+      expect(screen.queryByTestId('compose-message-link')).to.not.exist;
+    });
+
+    it('does not render ComposeMessageButton when allTriageGroupsBlocked is true', () => {
+      const customState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          recipients: {
+            allowedRecipients: allAssociationsBlocked.mockAllowedRecipients,
+            blockedRecipients: allAssociationsBlocked.mockBlockedRecipients,
+            noAssociations: false,
+            allTriageGroupsBlocked: true,
+            error: false,
+          },
+        },
+      };
+
+      const screen = setup(customState, Paths.INBOX, initialThreadCount, inbox);
+      expect(screen.queryByTestId('compose-message-link')).to.not.exist;
+    });
+
+    it('renders ComposeMessageButton when no recipient errors exist', () => {
+      const customState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          recipients: {
+            allowedRecipients: [],
+            blockedRecipients: [],
+            noAssociations: false,
+            allTriageGroupsBlocked: false,
+            error: false,
+          },
+        },
+      };
+
+      const screen = setup(customState, Paths.INBOX, initialThreadCount, inbox);
+      expect(screen.queryByTestId('compose-message-link')).to.exist;
+    });
   });
 
   describe('Folder Header component displays DRAFTS folder and children components', () => {
