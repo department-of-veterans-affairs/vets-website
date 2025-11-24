@@ -4,9 +4,12 @@ import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import { renderHook } from '@testing-library/react-hooks';
 import { act } from 'react-dom/test-utils';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
+import { TOGGLE_NAMES } from 'platform/utilities/feature-toggles';
 import { COMPLETE, ERROR, LOADING } from '../../utils/loadingStatus';
 import * as UseWebChatModule from '../../hooks/useWebChat';
 import * as ChatbotErrorModule from '../../components/ChatbotError';
@@ -18,6 +21,16 @@ import App from '../../components/App';
 describe('App', () => {
   let sandbox;
   let clock;
+
+  const createStoreWithPersistence = (persist = true) => {
+    const initialState = {
+      featureToggles: {
+        loading: false,
+        [TOGGLE_NAMES.virtualAgentChatbotSessionPersistenceEnabled]: persist,
+      },
+    };
+    return createStore((state = initialState) => state);
+  };
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
@@ -40,7 +53,12 @@ describe('App', () => {
         .stub(ChatbotErrorModule, 'default')
         .returns(<div data-testid="chatbot-error" />);
 
-      const { getByTestId } = render(<App />);
+      const store = createStoreWithPersistence(true);
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <App />
+        </Provider>,
+      );
 
       expect(getByTestId('chatbot-error')).to.exist;
     });
@@ -49,7 +67,12 @@ describe('App', () => {
         .stub(UseWebChatModule, 'default')
         .returns({ loadingStatus: LOADING });
 
-      const { container } = render(<App />);
+      const store = createStoreWithPersistence(true);
+      const { container } = render(
+        <Provider store={store}>
+          <App />
+        </Provider>,
+      );
 
       expect($('va-loading-indicator', container)).to.exist;
     });
@@ -61,7 +84,12 @@ describe('App', () => {
         .stub(WebChatModule, 'default')
         .returns(<div data-testid="webchat-module" />);
 
-      const { getByTestId } = render(<App />);
+      const store = createStoreWithPersistence(true);
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <App />
+        </Provider>,
+      );
 
       expect(getByTestId('webchat-module')).to.exist;
     });
@@ -70,7 +98,12 @@ describe('App', () => {
         .stub(UseWebChatModule, 'default')
         .returns({ loadingStatus: 'OTHER' });
 
-      const { result } = renderHook(() => App({}));
+      const store = createStoreWithPersistence(true);
+      // Wrap App in Provider so hooks using react-redux have context
+      const wrapper = ({ children }) => (
+        <Provider store={store}>{children}</Provider>
+      );
+      const { result } = renderHook(() => App({}), { wrapper });
 
       expect(result.error?.message).to.equal('Invalid loading status: OTHER');
     });
@@ -91,7 +124,12 @@ describe('App', () => {
         .stub(WebChatModule, 'default')
         .returns(<div data-testid="webchat-module" />);
 
-      const { queryByText, getByText } = render(<App />);
+      const store = createStoreWithPersistence(true);
+      const { queryByText, getByText } = render(
+        <Provider store={store}>
+          <App />
+        </Provider>,
+      );
 
       expect(queryByText('Chat ended')).to.be.null;
 
@@ -101,6 +139,38 @@ describe('App', () => {
       });
 
       expect(getByText('Chat ended')).to.exist;
+    });
+    it('should not show the chat-ended alert when persistence toggle is disabled', () => {
+      const expiresAt = ExpiryModule.EXPIRY_ALERT_BUFFER_MS + 1000;
+
+      sandbox
+        .stub(SessionStorageModule, 'getTokenExpiresAt')
+        .returns(expiresAt);
+      sandbox.stub(UseWebChatModule, 'default').returns({
+        token: 'fake-token',
+        code: undefined,
+        expired: true,
+        webChatFramework: {},
+        loadingStatus: COMPLETE,
+      });
+      sandbox
+        .stub(WebChatModule, 'default')
+        .returns(<div data-testid="webchat-module" />);
+
+      const store = createStoreWithPersistence(false);
+      const { queryByText } = render(
+        <Provider store={store}>
+          <App />
+        </Provider>,
+      );
+
+      expect(queryByText('Chat ended')).to.be.null;
+
+      act(() => {
+        clock.tick(5000);
+      });
+
+      expect(queryByText('Chat ended')).to.be.null;
     });
     it('should hide the chat-ended alert when starting a new chat', () => {
       sandbox
@@ -115,7 +185,12 @@ describe('App', () => {
         loadingStatus: COMPLETE,
       });
 
-      const { container, getByText, queryByText } = render(<App />);
+      const store = createStoreWithPersistence(true);
+      const { container, getByText, queryByText } = render(
+        <Provider store={store}>
+          <App />
+        </Provider>,
+      );
 
       expect(getByText('Chat ended')).to.exist;
 

@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 149,
+  "totalApplications": 150,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -674,6 +674,12 @@
       "appName": "Sign In Confirm Contact Email",
       "entryName": "confirm-contact-email",
       "rootUrl": "/sign-in-confirm-contact-email"
+    },
+    {
+      "directoryPath": "src/applications/sign-in-health-portal",
+      "appName": "Sign-in Health Portal",
+      "entryName": "sign-in-health-portal",
+      "rootUrl": "/sign-in-health-portal"
     },
     {
       "directoryPath": "src/applications/simple-forms-form-engine/12-3456",

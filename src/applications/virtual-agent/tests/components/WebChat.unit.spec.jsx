@@ -6,7 +6,12 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
-import WebChat, { renderMarkdown } from '../../components/WebChat';
+import * as FeatureToggleModule from 'platform/utilities/feature-toggles';
+import * as FeatureToggleHooks from 'platform/utilities/feature-toggles/useFeatureToggle';
+import * as WebChatModule from '../../components/WebChat';
+
+const WebChat = WebChatModule.default;
+const { renderMarkdown } = WebChatModule;
 
 // Event Listeners
 import * as SignOutEventListenerModule from '../../event-listeners/signOutEventListener';
@@ -51,7 +56,6 @@ describe('WebChat', () => {
 
       const markdown = 'This is a test';
       renderMarkdown(markdown);
-
       expect(renderSpy.calledOnce).to.be.true;
       expect(renderSpy.calledWith(markdown)).to.be.true;
     });
@@ -125,7 +129,22 @@ describe('WebChat', () => {
       expect(functionStubs.signOutEventListenerStub.calledOnce).to.be.true;
       expect(functionStubs.useDirectlineStub.calledOnce).to.be.true;
     });
-    it('should render Composer with args and BasicWebChat', () => {
+
+    it('should render Composer with args and BasicWebChat and set activityStatusMiddleware if isAIDisclaimerEnabled is true', () => {
+      sandbox.stub(FeatureToggleHooks, 'useFeatureToggle').returns({
+        TOGGLE_NAMES: {
+          virtualAgentShowAiDisclaimer: 'virtualAgentShowAiDisclaimer',
+          virtualAgentComponentTesting: 'virtualAgentComponentTesting',
+          virtualAgentUseStsAuthentication: 'virtualAgentUseStsAuthentication',
+          virtualAgentChatbotSessionPersistenceEnabled:
+            'virtualAgentChatbotSessionPersistenceEnabled',
+        },
+        useToggleValue: name => name === 'virtualAgentShowAiDisclaimer',
+      });
+
+      const WebChatComponent = WebChatModule.default;
+      const renderMarkdownLocal = WebChatModule.renderMarkdown;
+
       const webChatFramework = {
         createDirectLine: sinon.spy(),
         createStore: sandbox.spy(),
@@ -151,8 +170,71 @@ describe('WebChat', () => {
         'activityMiddleware',
       );
       const handleTelemetryStub = sandbox.stub(TelemetryModule, 'default');
-      // const renderMarkdownStub = sandbox.stub(WebChat, 'renderMarkdown');
       const store = mockStore({});
+
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <WebChatComponent
+            token={token}
+            webChatFramework={webChatFramework}
+            setParamLoadingStatus={setParamLoadingStatus}
+          />
+        </Provider>,
+      );
+      expect(getByTestId('Composer')).to.exist;
+      expect(getByTestId('BasicWebChat')).to.exist;
+      const composerArgs = webChatFramework.Components.Composer.getCall(0)
+        .args[0];
+      expect(composerArgs.cardActionMiddleware).to.equal(
+        cardActionMiddlewareStub,
+      );
+      expect(composerArgs.activityMiddleware).to.equal(activityMiddlewareStub);
+      expect(composerArgs.styleOptions).to.not.be.undefined;
+      expect(composerArgs.directLine).to.equal('fake-directline');
+      expect(composerArgs.store).to.equal('fake-webchat-store');
+      expect(composerArgs.renderMarkdown).to.equal(renderMarkdownLocal);
+      expect(composerArgs.onTelemetry).to.equal(handleTelemetryStub);
+      expect(composerArgs.activityStatusMiddleware).to.exist;
+    });
+
+    it('should render Composer with args and BasicWebChat and NOT set activityStatusMiddleware if isAIDisclaimerEnabled is false', () => {
+      const webChatFramework = {
+        createDirectLine: sinon.spy(),
+        createStore: sandbox.spy(),
+        Components: {
+          BasicWebChat: sinon
+            .stub()
+            .callsFake(props => <div data-testid="BasicWebChat" {...props} />),
+          Composer: sinon
+            .stub()
+            .callsFake(props => <div data-testid="Composer" {...props} />),
+        },
+      };
+      const setParamLoadingStatus = sandbox.spy();
+
+      stubValues();
+      stubFunctions();
+      const cardActionMiddlewareStub = sandbox.stub(
+        CardActionMiddlewareModule,
+        'cardActionMiddleware',
+      );
+      const activityMiddlewareStub = sandbox.stub(
+        ActivityMiddlewareModule,
+        'activityMiddleware',
+      );
+      const handleTelemetryStub = sandbox.stub(TelemetryModule, 'default');
+      const store = mockStore({});
+
+      sandbox.stub(FeatureToggleModule, 'useFeatureToggle').returns({
+        TOGGLE_NAMES: {
+          virtualAgentShowAiDisclaimer: 'virtualAgentShowAiDisclaimer',
+          virtualAgentComponentTesting: 'virtualAgentComponentTesting',
+          virtualAgentUseStsAuthentication: 'virtualAgentUseStsAuthentication',
+          virtualAgentChatbotSessionPersistenceEnabled:
+            'virtualAgentChatbotSessionPersistenceEnabled',
+        },
+        useToggleValue: () => false,
+      });
 
       const { getByTestId } = render(
         <Provider store={store}>
@@ -163,32 +245,20 @@ describe('WebChat', () => {
           />
         </Provider>,
       );
-
       expect(getByTestId('Composer')).to.exist;
       expect(getByTestId('BasicWebChat')).to.exist;
-      expect(
-        webChatFramework.Components.Composer.getCall(0).args[0]
-          .cardActionMiddleware,
-      ).to.equal(cardActionMiddlewareStub);
-      expect(
-        webChatFramework.Components.Composer.getCall(0).args[0]
-          .activityMiddleware,
-      ).to.equal(activityMiddlewareStub);
-      expect(
-        webChatFramework.Components.Composer.getCall(0).args[0].styleOptions,
-      ).to.not.be.undefined;
-      expect(
-        webChatFramework.Components.Composer.getCall(0).args[0].directLine,
-      ).to.equal('fake-directline');
-      expect(
-        webChatFramework.Components.Composer.getCall(0).args[0].store,
-      ).to.equal('fake-webchat-store');
-      expect(
-        webChatFramework.Components.Composer.getCall(0).args[0].renderMarkdown,
-      ).to.equal(renderMarkdown);
-      expect(
-        webChatFramework.Components.Composer.getCall(0).args[0].onTelemetry,
-      ).to.equal(handleTelemetryStub);
+      const composerArgs = webChatFramework.Components.Composer.getCall(0)
+        .args[0];
+      expect(composerArgs.cardActionMiddleware).to.equal(
+        cardActionMiddlewareStub,
+      );
+      expect(composerArgs.activityMiddleware).to.equal(activityMiddlewareStub);
+      expect(composerArgs.styleOptions).to.not.be.undefined;
+      expect(composerArgs.directLine).to.equal('fake-directline');
+      expect(composerArgs.store).to.equal('fake-webchat-store');
+      expect(composerArgs.renderMarkdown).to.equal(renderMarkdown);
+      expect(composerArgs.onTelemetry).to.equal(handleTelemetryStub);
+      expect(composerArgs.activityStatusMiddleware).to.be.undefined;
     });
 
     it('should invoke cleanup listeners on unmount when cleanup functions are provided', () => {

@@ -12,24 +12,30 @@ import {
   formatMultiSelectAndText,
   formatGenderIdentity,
 } from 'platform/user/profile/vap-svc/util/personal-information/personalInformationUtils';
-
+import { isSchedulingPreference } from 'platform/user/profile/vap-svc/util/health-care-settings/schedulingPreferencesUtils';
 import { formatAddress } from 'platform/forms/address/helpers';
 
 const ProfileInformationView = props => {
   const { data, fieldName, title, id } = props;
 
-  // Remove the word "phone" from the title for phone number fields only
-  // for display in profile info cards
-  const displayTitle = (phoneNumbers.includes(fieldName)
-    ? title.replace(/ phone/i, '')
-    : title
-  ).toLowerCase();
+  let displayTitle;
+  let titleFormatted;
+  let unsetFieldTitleSpan;
 
-  // decide whether to use 'a', or nothing in title string
-  const titleFormatted =
-    fieldName !== FIELD_NAMES.PRONOUNS ? `a ${displayTitle}` : displayTitle;
+  // Choose title for display in profile info cards when field is unset
+  if (isSchedulingPreference(fieldName)) {
+    unsetFieldTitleSpan = <span>Choose edit to add a preference.</span>;
+  } else {
+    displayTitle = (phoneNumbers.includes(fieldName)
+      ? title.replace(/ phone/i, '')
+      : title
+    ).toLowerCase();
 
-  const unsetFieldTitleSpan = <span>Choose edit to add {titleFormatted}.</span>;
+    titleFormatted =
+      fieldName !== FIELD_NAMES.PRONOUNS ? `a ${displayTitle}` : displayTitle;
+
+    unsetFieldTitleSpan = <span>Choose edit to add {titleFormatted}.</span>;
+  }
 
   if (isFieldEmpty(data, fieldName)) {
     return unsetFieldTitleSpan;

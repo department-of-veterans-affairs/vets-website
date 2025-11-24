@@ -737,9 +737,11 @@ describe('transformPicklistToV2', () => {
       [PICKLIST_DATA]: [
         {
           fullName: { first: 'CHILD', last: 'DOE' },
-          dateOfBirth: '2010-01-01',
+          dateOfBirth: '2000-01-01',
           ssn: '5678',
           selected: true,
+          age: 25,
+          isStepchild: 'Y',
           removalReason: 'childDied',
           endDate: '2023-12-01',
           endOutsideUs: false,
@@ -755,7 +757,7 @@ describe('transformPicklistToV2', () => {
     expect(result.deaths[0]).to.deep.equal({
       fullName: { first: 'CHILD', last: 'DOE' },
       ssn: '5678',
-      birthDate: '2010-01-01',
+      birthDate: '2000-01-01',
       dependentType: 'CHILD',
       dependentDeathDate: '2023-12-01',
       dependentDeathLocation: {
@@ -766,6 +768,11 @@ describe('transformPicklistToV2', () => {
         },
       },
       deceasedDependentIncome: 'N',
+      childStatus: {
+        childUnder18: false,
+        disabled: true,
+        stepChild: true,
+      },
     });
     expect(result[dataOptions].reportDeath).to.be.true;
   });

@@ -71,6 +71,7 @@ function findSoonestWindow(windows, services) {
  */
 const ArpMaintenanceWindowBanner = ({
   services = [
+    externalServices.accreditedRepresentativePortal,
     externalServices.global,
     externalServices.idme,
     externalServices.logingov,

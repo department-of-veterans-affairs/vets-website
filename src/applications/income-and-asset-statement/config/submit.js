@@ -2,6 +2,8 @@ import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
 import { format } from 'date-fns-tz';
 import { cloneDeep } from 'lodash';
+import { ensureValidCSRFToken } from '../ensureValidCSRFToken';
+
 import {
   pruneConfiguredArrays,
   remapOtherVeteranFields,
@@ -141,16 +143,84 @@ export function transform(form) {
  * Step 9 of the 0969 submission pipeline
  *   9: Send to vets-api
  * @param {Object} form - The full form object containing `data` and metadata
+ * @param {Object} formConfig - The form configuration object containing metadata and tracking info
  * @returns {Promise<Object>} A promise resolving to the API response object from the submission request
  */
-export function submit(form) {
+export async function submit(form, formConfig) {
   const headers = { 'Content-Type': 'application/json' };
   const body = transform(form);
-
-  return apiRequest(`${environment.API_URL}/income_and_assets/v0/form0969`, {
+  const apiRequestOptions = {
     body,
     headers,
     method: 'POST',
     mode: 'cors',
+  };
+
+  const onSuccess = resp => {
+    window.dataLayer.push({
+      event: `${formConfig.trackingPrefix}-submission-successful`,
+    });
+    return resp.data;
+  };
+
+  const onFailure = respOrError => {
+    if (respOrError instanceof Response && respOrError.status === 429) {
+      const error = new Error('vets_throttled_error_income_and_assets');
+      error.extra = parseInt(respOrError.headers.get('x-ratelimit-reset'), 10);
+
+      return Promise.reject(error);
+    }
+    return Promise.reject(respOrError);
+  };
+
+  const sendRequest = async () => {
+    await ensureValidCSRFToken();
+    return apiRequest(
+      `${environment.API_URL}/income_and_assets/v0/form0969`,
+      apiRequestOptions,
+    ).then(onSuccess);
+  };
+
+  return sendRequest().catch(async respOrError => {
+    // if it's a CSRF error, clear CSRF and retry once
+    const errorResponse = respOrError?.errors?.[0];
+    if (
+      errorResponse?.status === '403' &&
+      errorResponse?.detail === 'Invalid Authenticity Token'
+    ) {
+      // Log the CSRF error before retrying
+      if (window.DD_LOGS) {
+        window.DD_LOGS.logger.error(
+          '21P-0969 CSRF token invalid, retrying request',
+          {
+            formId: formConfig.formId,
+            trackingPrefix: formConfig.trackingPrefix,
+            inProgressFormId: form?.loadedData?.metadata?.inProgressFormId,
+            errorCode: errorResponse?.code,
+            errorStatus: errorResponse?.status,
+            timestamp: new Date().toISOString(),
+          },
+        );
+      }
+
+      localStorage.setItem('csrfToken', '');
+      return sendRequest().catch(retryError => {
+        // Log the failed retry
+        if (window.DD_LOGS) {
+          window.DD_LOGS.logger.error('21P-0969 CSRF retry failed', {
+            formId: formConfig.formId,
+            trackingPrefix: formConfig.trackingPrefix,
+            inProgressFormId: form?.loadedData?.metadata?.inProgressFormId,
+            originalError: errorResponse,
+            retryError: retryError?.errors?.[0],
+            timestamp: new Date().toISOString(),
+          });
+        }
+        return onFailure(retryError);
+      });
+    }
+
+    // in other cases, handle error regularly
+    return onFailure(respOrError);
   });
 }

@@ -45,7 +45,7 @@ describe('SM MESSAGE BODY SPECIAL CHARACTERS', () => {
     PatientComposePage.saveNewDraft('OTHER', 'test subject');
     cy.get(Locators.ALERTS.SAVE_DRAFT).should('contain', 'message was saved');
 
-    cy.get(Locators.FIELDS.MESSAGE_BODY)
+    cy.findByTestId(Locators.FIELDS.MESSAGE_BODY)
       .shadow()
       .find('textarea')
       .should(`have.value`, expectedBody);

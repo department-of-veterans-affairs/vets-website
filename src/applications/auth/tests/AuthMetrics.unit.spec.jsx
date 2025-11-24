@@ -100,7 +100,7 @@ describe('AuthMetrics', () => {
     spy.restore();
   });
 
-  ['custom', 'mhv_verified', 'dslogon'].forEach(type => {
+  ['custom', 'mhv_verified'].forEach(type => {
     it(`should record the different recardGAAuthEvents for ${type}`, () => {
       const payload = createPayload(type);
       const authMetrics = new AuthMetrics(type, payload);
@@ -126,22 +126,22 @@ describe('AuthMetrics', () => {
   });
 
   it(`should record the loa.current if exists`, () => {
-    const payload = createPayload('dslogon', true);
-    const authMetrics = new AuthMetrics('dslogon', payload);
+    const payload = createPayload('idme', true);
+    const authMetrics = new AuthMetrics('idme', payload);
     authMetrics.recordGAAuthEvents();
     const [
       { event: firstEvent },
       { event: secondEvent },
     ] = global.window.dataLayer;
 
-    expect(firstEvent).to.eql(`login-success-dslogon`);
+    expect(firstEvent).to.eql(`login-success-idme`);
     expect(secondEvent).to.eql(`login-loa-current-3`);
   });
 
   it('should run if no session active', () => {
     localStorage.clear();
-    const payload = createPayload('dslogon', true);
-    const authMetrics = new AuthMetrics('dslogon', payload);
+    const payload = createPayload('idme', true);
+    const authMetrics = new AuthMetrics('idme', payload);
     const sessionSpy = sinon.spy(authMetrics, 'recordGAAuthEvents');
     authMetrics.run();
     expect(sessionSpy.called).to.be.true;

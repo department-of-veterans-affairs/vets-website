@@ -23,7 +23,7 @@ const Confirmation = () => {
       <va-card
         data-testid="appointment-card"
         icon-name="phone"
-        class="vass-card-container"
+        className="vads-u-padding-x--2p5 vads-u-padding-bottom--2p5"
       >
         <h2
           data-testid="appointment-type"

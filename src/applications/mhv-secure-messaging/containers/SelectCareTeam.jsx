@@ -36,6 +36,7 @@ const SelectCareTeam = () => {
     allTriageGroupsBlocked,
     allowedRecipients,
     vistaFacilities,
+    error: recipientsError,
   } = useSelector(state => state.sm.recipients);
   const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
   const { draftInProgress, acceptInterstitial } = useSelector(
@@ -57,6 +58,15 @@ const SelectCareTeam = () => {
   const MAX_RADIO_OPTIONS = 6;
 
   const h1Ref = useRef(null);
+
+  useEffect(
+    () => {
+      if (recipientsError || noAssociations) {
+        history.push(Paths.INBOX);
+      }
+    },
+    [recipientsError, noAssociations, history],
+  );
 
   useEffect(
     () => {

@@ -339,6 +339,11 @@ export const Categories = {
   EDUCATION: 'Education',
 };
 
+export const MessageHintText = {
+  RX_RENEWAL_ERROR: 'Include as many of these medication details as possible.',
+  RX_RENEWAL_SUCCESS: 'Review the medication details we added to your message.',
+};
+
 export const acceptedFileTypes = {
   doc: 'application/msword',
   docx:

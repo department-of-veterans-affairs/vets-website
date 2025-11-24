@@ -219,6 +219,7 @@ export const Locators = {
     BACK_TOP: 'va-back-to-top',
     CERNER_ALERT: '[data-testid="cerner-facilities-alert"]',
     BLOCKED_GROUP: '[data-testid="blocked-triage-group-alert"]',
+    RECIPIENTS_ERROR: 'recipients-error-alert',
     RECIP_SELECT: '[data-testid="compose-recipient-select"]',
     MESS_CATAGO: '[data-testid="compose-message-categories"]',
     LIST_HEADER: '.sidebar-navigation-messages-list-header > a',
@@ -263,7 +264,7 @@ export const Locators = {
     EL_SIGN: `[message-aria-describedby="Electronic signature"]`,
     MESSAGE_SUBJECT: '[data-testid="message-subject-field"]',
     MESSAGE_SUBJECT_DATA_TEST_ID: 'message-subject-field',
-    MESSAGE_BODY: `[data-testid="message-body-field"]`,
+    MESSAGE_BODY: 'message-body-field',
     RECIPIENTS_COMBO: `#options`,
   },
   INFO: {
@@ -368,6 +369,8 @@ export const Alerts = {
   SAVE_DRAFT: `Do you want to save your draft message?`,
   SAVE_CHANGES: `Do you want to save your changes to this draft?`,
   SEARCH_TERM_REQUIRED: 'Please enter a search term.',
+  ERROR_LOADING_RECIPIENTS_HEADER:
+    'We can’t load your care team list right now',
 };
 
 export const Data = {

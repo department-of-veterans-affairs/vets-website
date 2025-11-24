@@ -44,6 +44,7 @@ import {
   FormLabels,
   downtimeNotificationParams,
   Alerts,
+  MessageHintText,
 } from '../../util/constants';
 import EmergencyNote from '../EmergencyNote';
 import ComposeFormActionButtons from './ComposeFormActionButtons';
@@ -1083,6 +1084,15 @@ const ComposeForm = props => {
                 id="compose-message-body"
                 name="compose-message-body"
                 class="message-body"
+                hint={(() => {
+                  if (rxError) {
+                    return MessageHintText.RX_RENEWAL_ERROR;
+                  }
+                  if (renewalPrescription?.prescriptionId) {
+                    return MessageHintText.RX_RENEWAL_SUCCESS;
+                  }
+                  return null;
+                })()}
                 data-testid="message-body-field"
                 onInput={messageBodyHandler}
                 value={messageBody || formattedSignature} // populate with the signature, unless there is a saved draft

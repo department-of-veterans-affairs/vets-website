@@ -87,7 +87,6 @@ export const options = {
       }
       return 'Dependent';
     },
-    cardDescription: () => '',
   },
 };
 
@@ -118,7 +117,6 @@ const introPage = {
 /** @returns {PageSchema} */
 const summaryPage = {
   uiSchema: {
-    'ui:description': () => null,
     'view:isAddingDependent': arrayBuilderYesNoUI(
       options,
       {

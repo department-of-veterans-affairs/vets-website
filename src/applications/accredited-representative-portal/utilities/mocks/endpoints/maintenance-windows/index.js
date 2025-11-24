@@ -1,5 +1,4 @@
-import { addDays, addHours, addMinutes, subMinutes } from 'date-fns';
-
+const { addDays, addHours, addMinutes, subMinutes } = require('date-fns');
 /**
  * Service names that can be used for maintenance window testing.
  * These should match the services configured in vets-api config/settings.yml
