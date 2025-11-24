@@ -48,7 +48,7 @@ const FormStartControls = props => {
 
   const handleLoadPrefill = () => {
     captureAnalytics();
-    if (prefillAvailable && formSaved) {
+    if (prefillAvailable) {
       props.fetchInProgressForm(
         // TODO: where does this come from?
         formId,
