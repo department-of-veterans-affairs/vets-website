@@ -237,27 +237,15 @@ const formConfig = {
         },
         relativesSummary: {
           ...relativesPages.relativesSummary,
-          depends: formData =>
-            formData?.survivors?.hasNone !== true &&
-            (!!formData?.survivors?.hasSpouse ||
-              !!formData?.survivors?.hasChildren ||
-              !!formData?.survivors?.hasParents),
+          depends: formData => formData?.survivors === true,
         },
         relativeNamePage: {
           ...relativesPages.relativeNamePage,
-          depends: formData =>
-            formData?.survivors?.hasNone !== true &&
-            (!!formData?.survivors?.hasSpouse ||
-              !!formData?.survivors?.hasChildren ||
-              !!formData?.survivors?.hasParents),
+          depends: formData => formData?.survivors === true,
         },
         relativeAddressPage: {
           ...relativesPages.relativeAddressPage,
-          depends: formData =>
-            formData?.survivors?.hasNone !== true &&
-            (!!formData?.survivors?.hasSpouse ||
-              !!formData?.survivors?.hasChildren ||
-              !!formData?.survivors?.hasParents),
+          depends: formData => formData?.survivors === true,
         },
       },
     },
