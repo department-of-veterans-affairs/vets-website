@@ -24,12 +24,10 @@ import {
 import {
   dateDetailsContent,
   datePromptContent,
-  issuesContent,
   locationContent,
   promptContent,
   summaryContent,
 } from '../../content/evidence/va';
-import { focusRadioH3 } from '../../../shared/utils/focus';
 import { redesignActive } from '../../utils';
 import { hasTreatmentBefore2005 } from '../../utils/form-data-retrieval';
 import { formatIssueList } from '../../../shared/utils/contestableIssueMessages';
@@ -249,14 +247,18 @@ export default arrayBuilderPages(options, pageBuilder => ({
     path: EVIDENCE_URLS.vaSummary,
     uiSchema: summaryPage.uiSchema,
     schema: summaryPage.schema,
+    // ------- REMOVE when new design toggle is removed
     depends: redesignActive,
+    // ------- END REMOVE
   }),
   vaLocation: pageBuilder.itemPage({
     title: '',
     path: EVIDENCE_URLS.vaLocation,
     uiSchema: locationPage.uiSchema,
     schema: locationPage.schema,
+    // ------- REMOVE when new design toggle is removed
     depends: redesignActive,
+    // ------- END REMOVE
   }),
   issues: pageBuilder.itemPage({
     title: '',
@@ -272,14 +274,18 @@ export default arrayBuilderPages(options, pageBuilder => ({
         // resolve prop warning that the index is a string rather than a number
         pagePerItemIndex: +props.pagePerItemIndex,
       }),
+    // ------- REMOVE when new design toggle is removed
     depends: redesignActive,
+    // ------- END REMOVE
   }),
   treatmentDatePrompt: pageBuilder.itemPage({
     title: 'Treatment date prompt',
     path: EVIDENCE_URLS.vaTreatmentDatePrompt,
     uiSchema: datePromptPage.uiSchema,
     schema: datePromptPage.schema,
+    // ------- REMOVE when new design toggle is removed
     depends: redesignActive,
+    // ------- END REMOVE
   }),
   treatmentDate: pageBuilder.itemPage({
     title: 'Treatment date',
@@ -290,7 +296,9 @@ export default arrayBuilderPages(options, pageBuilder => ({
       const evidenceEntriesCount = formData?.vaEvidence?.length || 1;
       const currentIndex = evidenceEntriesCount - 1;
       return (
+        // ------- REMOVE when new design toggle is removed
         redesignActive(formData) &&
+        // ------- END REMOVE
         hasTreatmentBefore2005(formData, currentIndex)
       );
     },
