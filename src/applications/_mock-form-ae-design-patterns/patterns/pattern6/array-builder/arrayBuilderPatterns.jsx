@@ -204,6 +204,7 @@ export const arrayBuilderYesNoUI = (
     maxItems,
     required,
   } = arrayBuilderOptions;
+
   const defaultTitle =
     yesNoOptions?.title || `Do you have a ${nounSingular} to add?`;
 
