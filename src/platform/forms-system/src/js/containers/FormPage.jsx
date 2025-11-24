@@ -244,7 +244,6 @@ class FormPage extends React.Component {
     if (typeof route.pageConfig.onContinue === 'function') {
       // pass in data & set form data function to allow modifying data or
       // flags upon leaving a page
-      console.log('formData here: ', this.formData());
       route.pageConfig.onContinue(this.formData(), this.props.setData);
     }
   };
