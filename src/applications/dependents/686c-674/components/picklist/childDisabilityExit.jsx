@@ -43,7 +43,7 @@ const childDisabilityExit = {
         will remain on your benefits.
       </p>
       {isShowingExitLink && (
-        <p>If you exit now, we’ll cancel the application you started.</p>
+        <p>If you exit now, we’ll cancel the form you started.</p>
       )}
     </>
   ),

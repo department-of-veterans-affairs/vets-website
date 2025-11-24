@@ -92,8 +92,8 @@ describe('ReviewDependents', () => {
       dependents: { awarded: mockDependents },
     });
 
-    // Should have 2 headings, check if dependents quality & missing benefits
-    expect(getAllByRole('heading', { level: 4 }).length).to.equal(2);
+    // Should have 1 h4 heading: "Check if someone is missing on your VA benefits"
+    expect(getAllByRole('heading', { level: 4 }).length).to.equal(1);
 
     // Count h5 headings that represent dependent names
     expect(getAllByRole('heading', { level: 5 }).length).to.equal(2);
