@@ -3,6 +3,7 @@
 import { add, format } from 'date-fns';
 
 import { expect } from 'chai';
+import { formatDate } from '../utils/dates/formatting';
 import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
 import mockPrefill from './fixtures/mocks/prefill.json';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
@@ -276,12 +277,26 @@ export const reviewAndSubmitPageFlow = (
 };
 
 Cypress.Commands.add('verifyVeteranDetails', data => {
-  // Data comes from mockPrefill, not test data
   cy.get('.confirmation-chapter-section-collection').within(() => {
     cy.get('h3')
       .contains(/veteran details/i)
       .should('exist');
+    // Veteran name, DOB, and gender come from mockUser, not mockPrefill
+    const {
+      firstName,
+      middleName,
+      lastName,
+    } = mockUser.data.attributes.profile;
+    cy.contains(`${firstName} ${middleName} ${lastName}`.trim()).should(
+      'exist',
+    );
 
+    const formattedDob = formatDate(mockUser.data.attributes.profile.birthDate);
+    cy.contains('Date of birth:').should('exist');
+    cy.contains(`${formattedDob}`).should('exist');
+
+    cy.contains(mockUser.data.attributes.profile.gender).should('exist');
+    // Contact data comes from mockPrefill, not test data
     if (mockPrefill.formData.veteran.primaryPhone) {
       const phone = mockPrefill.formData.veteran.primaryPhone.replace(
         /\D/g,
