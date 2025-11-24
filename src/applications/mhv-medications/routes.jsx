@@ -74,12 +74,12 @@ const routes = [
     // loader: prescriptionsLoader,
   },
   {
-    path: 'prescription/:prescriptionId/documentation/:stationNumber?',
+    path: 'prescription/:prescriptionId/documentation',
     element: <RouteWrapper Component={PrescriptionDetailsDocumentation} />,
     // loader: prescriptionsLoader,
   },
   {
-    path: 'prescription/:prescriptionId/:stationNumber?',
+    path: 'prescription/:prescriptionId',
     element: <RouteWrapper Component={PrescriptionDetails} />,
     loader: allergiesLoader,
   },

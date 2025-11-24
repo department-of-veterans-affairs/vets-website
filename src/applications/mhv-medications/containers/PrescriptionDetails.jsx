@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom-v5-compat';
+import { useParams, useLocation } from 'react-router-dom-v5-compat';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import {
@@ -59,7 +59,10 @@ import {
 } from '../selectors/selectPreferences';
 
 const PrescriptionDetails = () => {
-  const { prescriptionId, stationNumber } = useParams();
+  const { prescriptionId } = useParams();
+  const { search } = useLocation();
+  const query = new URLSearchParams(search);
+  const stationNumber = query.get('station_number');
 
   // Get sort/filter selections from store.
   const selectedSortOption = useSelector(selectSortOption);

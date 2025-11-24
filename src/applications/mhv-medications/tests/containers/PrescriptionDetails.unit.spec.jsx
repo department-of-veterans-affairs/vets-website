@@ -28,7 +28,7 @@ describe('Prescription details container', () => {
     return renderWithStoreAndRouterV6(
       <Routes>
         <Route
-          path="/prescriptions/:prescriptionId/:stationNumber?"
+          path="/prescriptions/:prescriptionId"
           element={<PrescriptionDetails />}
         />
       </Routes>,
@@ -277,6 +277,38 @@ describe('Prescription details container', () => {
         singlePrescription.prescriptionName,
       );
       expect(prefetchStub.called).to.be.false;
+    });
+  });
+
+  it('should pass station number to the API when present in the URL', async () => {
+    sandbox.restore();
+    stubAllergiesApi({ sandbox });
+    stubPrescriptionsApiCache({ sandbox, data: false });
+    const apiStub = stubPrescriptionIdApi({ sandbox });
+
+    renderWithStoreAndRouterV6(
+      <Routes>
+        <Route
+          path="/prescriptions/:prescriptionId"
+          element={<PrescriptionDetails />}
+        />
+      </Routes>,
+      {
+        initialState: {},
+        reducers: reducer,
+        initialEntries: ['/prescriptions/1234567891?station_number=989'],
+        additionalMiddlewares: [
+          allergiesApi.middleware,
+          prescriptionsApi.middleware,
+        ],
+      },
+    );
+
+    await waitFor(() => {
+      expect(apiStub.called).to.be.true;
+      expect(apiStub.firstCall.args[0]).to.deep.include({
+        stationNumber: '989',
+      });
     });
   });
 });

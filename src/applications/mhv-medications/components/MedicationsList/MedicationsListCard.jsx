@@ -122,7 +122,9 @@ const MedicationsListCard = ({ rx }) => {
           data-testid="medications-history-details-link"
           className="vads-u-font-weight--bold"
           to={`prescription/${rx.prescriptionId}${
-            isCernerPilot && rx?.stationNumber ? `/${rx.stationNumber}` : ''
+            isCernerPilot && rx?.stationNumber
+              ? `?station_number=${rx.stationNumber}`
+              : ''
           }`}
         >
           <span data-dd-privacy="mask">

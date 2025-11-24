@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState, useRef } from 'react';
-import { useParams } from 'react-router-dom-v5-compat';
+import { useParams, useLocation } from 'react-router-dom-v5-compat';
 import { useSelector } from 'react-redux';
 import {
   updatePageTitle,
@@ -35,7 +35,10 @@ import {
 } from '../selectors/selectPreferences';
 
 const PrescriptionDetailsDocumentation = () => {
-  const { prescriptionId, stationNumber } = useParams();
+  const { prescriptionId } = useParams();
+  const { search } = useLocation();
+  const query = new URLSearchParams(search);
+  const stationNumber = query.get('station_number');
   const contentRef = useRef();
 
   const { dob, userName } = useSelector(state => ({

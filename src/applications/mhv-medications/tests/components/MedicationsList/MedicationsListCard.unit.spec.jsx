@@ -152,7 +152,7 @@ describe('Medication card component', () => {
     const link = screen.getByTestId('medications-history-details-link');
     expect(link).to.have.attribute(
       'href',
-      `/prescription/${rx.prescriptionId}/${rx.stationNumber}`,
+      `/prescription/${rx.prescriptionId}?station_number=${rx.stationNumber}`,
     );
   });
 });
