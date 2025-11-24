@@ -80,6 +80,7 @@ function ClaimsStatusApp({
     clientToken: 'pub21bfd23fdfb656231f24906ea91ccb01',
     service: 'benefits-claim-status-tool',
     version: '1.0.0',
+    sessionReplaySampleRate: 50,
   });
 
   return (
