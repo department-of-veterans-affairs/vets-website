@@ -47,7 +47,7 @@ import { buildPrescriptionsTXT, buildAllergiesTXT } from '../util/txtConfigs';
 import Alert from '../components/shared/Alert';
 import PrescriptionsPrintOnly from './PrescriptionsPrintOnly';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
-import DisplayCernerFacilityAlert from '../components/shared/DisplayCernerFacilityAlert';
+import OracleHealthPilotCernerFacilityAlert from '../components/shared/OracleHealthPilotCernerFacilityAlert';
 import RxRenewalMessageSuccessAlert from '../components/shared/RxRenewalMessageSuccessAlert';
 import { dataDogActionNames, pageType } from '../util/dataDogConstants';
 import MedicationsListFilter from '../components/MedicationsList/MedicationsListFilter';
@@ -676,11 +676,11 @@ const Prescriptions = () => {
         {prescriptionsApiError ? (
           <>
             <ApiErrorNotification errorType="access" content="medications" />
-            <DisplayCernerFacilityAlert />
+            <OracleHealthPilotCernerFacilityAlert />
           </>
         ) : (
           <>
-            <DisplayCernerFacilityAlert />
+            <OracleHealthPilotCernerFacilityAlert />
             {renderDelayedRefillAlert()}
             {renderMedicationsContent()}
           </>
