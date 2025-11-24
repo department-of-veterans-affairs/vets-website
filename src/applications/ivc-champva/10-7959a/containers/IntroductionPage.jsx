@@ -10,7 +10,7 @@ const OMB_RES_BURDEN = 10;
 const OMB_NUM = '2900-0219';
 const OMB_EXP_DATE = '12/31/2027';
 
-const supporingDocsLink = (
+const supportingDocsLink = (
   <p className="vads-u-margin-bottom--4">
     <VaLink
       href="/COMMUNITYCARE/programs/dependents/champva/champva-claim.asp"
@@ -41,7 +41,7 @@ const processDescription = (
         another insurance provider, or a pharmacy receipt.
       </li>
     </ul>
-    {supporingDocsLink}
+    {supportingDocsLink}
   </>
 );
 
@@ -68,12 +68,12 @@ const processDescriptionResubmit = (
     <ul>
       <li>
         You’ll need to submit supporting documents with your claim. This could
-        included an <strong>itemized billing statement</strong>, an{' '}
+        include an <strong>itemized billing statement</strong>, an{' '}
         <strong>explanation of benefits</strong> (EOB) from another insurance
         provider, or a <strong>pharmacy receipt.</strong>
       </li>
     </ul>
-    {supporingDocsLink}
+    {supportingDocsLink}
 
     <h3>If you received a letter asking for additional documentation</h3>
     <ul>
