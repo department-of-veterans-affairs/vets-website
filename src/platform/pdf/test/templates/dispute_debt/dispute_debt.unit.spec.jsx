@@ -271,7 +271,7 @@ describe('Dispute Debt PDF template', () => {
 
       const textItems = content.items.map(item => item.str).join(' ');
       // Since fixture has deductionCode "30", should show C&P Dispute
-      expect(textItems).to.include('DMC Routing: C&P Dispute');
+      expect(textItems).to.include('DMC routing: C&P Dispute');
     });
 
     it('should show Education Dispute when no C&P debts are present', async () => {
@@ -292,7 +292,7 @@ describe('Dispute Debt PDF template', () => {
       const content = await page.getTextContent();
 
       const textItems = content.items.map(item => item.str).join(' ');
-      expect(textItems).to.include('DMC Routing: Education Dispute');
+      expect(textItems).to.include('DMC routing: Education Dispute');
     });
 
     it('should include veteran personal information', async () => {
@@ -306,6 +306,8 @@ describe('Dispute Debt PDF template', () => {
       expect(textItems).to.include('John');
       expect(textItems).to.include('Doe');
       expect(textItems).to.include('March 15, 1985');
+      expect(textItems).to.include('1234');
+      expect(textItems).to.include('6789');
     });
 
     it('should include submission details with formatted date and time', async () => {
