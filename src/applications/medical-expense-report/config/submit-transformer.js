@@ -25,35 +25,35 @@ function swapNames(formData) {
     transformedValue.claimantFullName = {};
   }
 
-  // Convert fullNameRecipient to recipientName in careExpenses array
+  // Alter fullNameRecipient to recipientName in careExpenses
   if (Array.isArray(transformedValue.careExpenses)) {
     transformedValue.careExpenses = transformedValue.careExpenses.map(
       expense => {
         if (!expense.fullNameRecipient) return expense;
-        const { fullNameRecipient, ...rest } = expense;
-        return { ...rest, recipientName: fullNameRecipient };
+        const { recipient, fullNameRecipient, ...rest } = expense;
+        return { recipient, recipientName: fullNameRecipient, ...rest };
       },
     );
   }
 
-  // Convert fullNameRecipient to recipientName in medicalExpenses array
+  // Alter fullNameRecipient to recipientName in medicalExpenses
   if (Array.isArray(transformedValue.medicalExpenses)) {
     transformedValue.medicalExpenses = transformedValue.medicalExpenses.map(
       expense => {
         if (!expense.fullNameRecipient) return expense;
-        const { fullNameRecipient, ...rest } = expense;
-        return { ...rest, recipientName: fullNameRecipient };
+        const { recipient, fullNameRecipient, ...rest } = expense;
+        return { recipient, recipientName: fullNameRecipient, ...rest };
       },
     );
   }
 
-  // Convert fullNameTraveler to travelerName in mileage array
+  // Alter fullNameTraveler to travelerName in mileageExpense
   if (Array.isArray(transformedValue.mileageExpenses)) {
     transformedValue.mileageExpenses = transformedValue.mileageExpenses.map(
       expense => {
         if (!expense.fullNameTraveler) return expense;
-        const { fullNameTraveler, ...rest } = expense;
-        return { ...rest, travelerName: fullNameTraveler };
+        const { traveler, fullNameTraveler, ...rest } = expense;
+        return { traveler, travelerName: fullNameTraveler, ...rest };
       },
     );
   }
