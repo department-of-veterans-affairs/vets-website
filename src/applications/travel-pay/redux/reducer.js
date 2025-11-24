@@ -5,6 +5,9 @@ import {
   CREATE_EXPENSE_FAILURE,
   CREATE_EXPENSE_STARTED,
   CREATE_EXPENSE_SUCCESS,
+  DELETE_DOCUMENT_FAILURE,
+  DELETE_DOCUMENT_STARTED,
+  DELETE_DOCUMENT_SUCCESS,
   DELETE_EXPENSE_FAILURE,
   DELETE_EXPENSE_STARTED,
   DELETE_EXPENSE_SUCCESS,
@@ -117,6 +120,11 @@ const initialState = {
         error: null,
       },
       data: [],
+    },
+    documentDelete: {
+      id: '',
+      isLoading: false,
+      error: null,
     },
   },
 };
@@ -535,6 +543,45 @@ function travelPayReducer(state = initialState, action) {
               isLoading: false,
               error: action.error,
             },
+          },
+        },
+      };
+
+    case DELETE_DOCUMENT_STARTED:
+      return {
+        ...state,
+        complexClaim: {
+          ...state.complexClaim,
+          documentDelete: {
+            id: action.documentId,
+            isLoading: true,
+            error: null,
+          },
+        },
+      };
+
+    case DELETE_DOCUMENT_SUCCESS:
+      return {
+        ...state,
+        complexClaim: {
+          ...state.complexClaim,
+          documentDelete: {
+            id: '',
+            isLoading: false,
+            error: null,
+          },
+        },
+      };
+
+    case DELETE_DOCUMENT_FAILURE:
+      return {
+        ...state,
+        complexClaim: {
+          ...state.complexClaim,
+          documentDelete: {
+            id: action.documentId,
+            isLoading: false,
+            error: action.error,
           },
         },
       };
