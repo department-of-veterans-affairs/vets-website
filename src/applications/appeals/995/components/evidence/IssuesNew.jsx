@@ -12,19 +12,21 @@ import { getSelected } from '../../../shared/utils/issues';
 import { issuesContent } from '../../content/evidence/va';
 import { VA_TREATMENT_LOCATION_KEY } from '../../constants';
 
+const getConditionQuestion = data =>
+  data?.[VA_TREATMENT_LOCATION_KEY]
+    ? `What conditions were you treated for at ${
+        data[VA_TREATMENT_LOCATION_KEY]
+      }?`
+    : 'What conditions were you treated for?';
+
 // This is the original schema that will be dynamically overruled as soon
 // as the user lands on this page. We need this since we won't have the
 // issues array at initial form load.
 /** @returns {PageSchema} */
 export const issuesPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) =>
-        formData?.[VA_TREATMENT_LOCATION_KEY]
-          ? `What conditions were you treated for at ${
-              formData[VA_TREATMENT_LOCATION_KEY]
-            }?`
-          : 'What conditions were you treated for?',
+    ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) =>
+      getConditionQuestion(formData),
     ),
     issues: checkboxGroupUI({
       title: issuesContent.label,
@@ -69,12 +71,7 @@ const Issues = props => {
   } = arrayBuilder;
   const [error, setError] = useState(false);
   const currentEvidenceData = fullData?.vaEvidence?.[pagePerItemIndex] || {};
-
-  const formLabel = data?.[VA_TREATMENT_LOCATION_KEY]
-    ? `What conditions were you treated for at ${
-        data[VA_TREATMENT_LOCATION_KEY]
-      }?`
-    : 'What conditions were you treated for?';
+  const formLabel = getConditionQuestion(data);
 
   const selectedIssues = Object.freeze(
     getSelected(fullData).map(issue => {
@@ -109,6 +106,7 @@ const Issues = props => {
 
     const newData = { ...currentEvidenceData };
 
+    // Create new issues array based on the user interaction
     if (issueWasAlreadyChecked) {
       newData.issues = newData.issues.filter(issue => issue !== checkedIssue);
     } else {
@@ -121,6 +119,8 @@ const Issues = props => {
       setError(false);
     }
 
+    // Pass the new evidence data (location name and issues)
+    // back to array builder to update
     onChange(newData);
   };
 

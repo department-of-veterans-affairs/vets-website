@@ -32,6 +32,13 @@ import { redesignActive } from '../../utils';
 import { hasTreatmentBefore2005 } from '../../utils/form-data-retrieval';
 import { formatIssueList } from '../../../shared/utils/contestableIssueMessages';
 
+/**
+ * This is how we determine whether all of the info for one
+ * evidence record is complete. This is what the summary page
+ * uses to display an error or not
+ * @param {object} item
+ * @returns bool
+ */
 const itemIsComplete = item => {
   let treatmentDateRequirement = item[VA_TREATMENT_BEFORE_2005_KEY];
   const issuesRequirement = item.issues?.length;
@@ -48,11 +55,22 @@ const itemIsComplete = item => {
   );
 };
 
+/**
+ * This is used to format the date on the summary page
+ * from '2000-01' to 'January 2000'
+ * @param {string} date
+ * @returns
+ */
 const formatMonthYear = date => {
   const parsedDate = parseStringOrDate(date);
   return format(parsedDate, 'MMMM yyyy');
 };
 
+/**
+ * This is the config object for the VA evidence list & loop
+ * Here, we can also configure the content on the summary page
+ * including the layout of the evidence cards for review
+ */
 /** @type {ArrayBuilderOptions} */
 const options = {
   arrayPath: 'vaEvidence',
@@ -121,6 +139,11 @@ const options = {
   },
 };
 
+/**
+ * In the optional list & loop flow, the summary page can be configured
+ * with both intro page and summary page options (the 2nd and 3rd param
+ * passed to arrayBuilderYesNoUI).
+ */
 /** @returns {PageSchema} */
 const summaryPage = {
   uiSchema: {
@@ -238,9 +261,12 @@ const dateDetailsPage = {
   },
 };
 
-// Some items have blank titles because a title is required for the
-// pageBuilder config but the uiSchemas they use also require titles
-// which override the ones here
+/**
+ * This is where the array builder gets page configuration.
+ * Some items have blank titles because a title is required for the
+ * pageBuilder config but the uiSchemas they use also require titles
+ * which override the ones here
+ */
 export default arrayBuilderPages(options, pageBuilder => ({
   vaSummary: pageBuilder.summaryPage({
     title: '',
@@ -266,8 +292,7 @@ export default arrayBuilderPages(options, pageBuilder => ({
     uiSchema: issuesPage.uiSchema,
     schema: issuesPage.schema,
     // Issues requires a custom page because array builder does not
-    // natively support checkboxes with labels from formData
-    // rather than hardcoded checkboxes
+    // natively support checkboxes with dynamic labels
     CustomPage: props =>
       Issues({
         ...props,
