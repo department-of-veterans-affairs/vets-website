@@ -71,19 +71,19 @@ const ExpensePage = () => {
   const [showError, setShowError] = useState(false);
 
   // Derived state and memoized values
-  const isLoadingExpense = expenseId
+  const isLoadingExpense = isEditMode
     ? isUpdatingExpense || isDeletingDocument
     : isCreatingExpense;
   const filename = expense?.receipt?.filename;
   const initialFormState = useMemo(
     () => {
-      if (!expenseId || !expense) return {};
+      if (!isEditMode || !expense) return {};
       return {
         ...expense,
         purchaseDate: expense.dateIncurred || '',
       };
     },
-    [expenseId, expense],
+    [isEditMode, expense],
   );
 
   // Effects
@@ -102,7 +102,7 @@ const ExpensePage = () => {
   // Effect 2: Load document once when documentId is available
   useEffect(
     () => {
-      if (!expenseId || !expense?.documentId || !filename) return undefined;
+      if (!isEditMode || !expense?.documentId || !filename) return undefined;
       if (previousDocumentId === expense.documentId) return undefined; // Already loaded
 
       let isMounted = true;
@@ -153,7 +153,7 @@ const ExpensePage = () => {
         isMounted = false;
       };
     },
-    [expenseId, expense?.documentId, claimId, filename, previousDocumentId],
+    [isEditMode, expense?.documentId, claimId, filename, previousDocumentId],
   );
 
   // Effect 3: Focus error message when it becomes visible
