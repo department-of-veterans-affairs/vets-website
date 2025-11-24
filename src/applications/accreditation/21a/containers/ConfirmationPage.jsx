@@ -147,6 +147,9 @@ const ConfirmationPage = props => {
 };
 
 ConfirmationPage.propTypes = {
+  route: PropTypes.shape({
+    formConfig: PropTypes.object,
+  }),
   form: PropTypes.shape({
     data: PropTypes.shape({
       fullName: PropTypes.shape({
@@ -158,7 +161,22 @@ ConfirmationPage.propTypes = {
     }),
     formId: PropTypes.string,
     submission: PropTypes.shape({
-      timestamp: PropTypes.instanceOf(Date),
+      errorMessage: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+      hasAttemptedSubmit: PropTypes.bool,
+      id: PropTypes.oneOfType([
+        PropTypes.bool,
+        PropTypes.string,
+        PropTypes.number,
+      ]),
+      status: PropTypes.string,
+      timestamp: PropTypes.oneOfType([
+        PropTypes.instanceOf(Date),
+        PropTypes.string,
+        PropTypes.number,
+      ]),
+      response: PropTypes.shape({
+        pdfUrl: PropTypes.string,
+      }),
     }),
   }),
 };
