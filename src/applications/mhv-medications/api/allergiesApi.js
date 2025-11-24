@@ -121,10 +121,10 @@ export const allergiesApi = createApi({
         let path = '';
         if (isAcceleratingAllergies) {
           path = `${API_BASE_PATH_V2}/medical_records/allergies`;
-        } else if (isCerner) {
-          path = `${apiBasePath}/medical_records/allergies?use_oh_data_path=1`;
         } else {
-          path = `${apiBasePath}/medical_records/allergies`;
+          path = isCerner
+            ? `${apiBasePath}/medical_records/allergies?use_oh_data_path=1`
+            : `${apiBasePath}/medical_records/allergies`;
         }
         return {
           path,
@@ -157,12 +157,14 @@ export const allergiesApi = createApi({
         let path = '';
         if (isAcceleratingAllergies) {
           path = `${API_BASE_PATH_V2}/medical_records/allergies/${id}`;
-        } else if (isCerner) {
-          path = `${apiBasePath}/medical_records/allergies/${id}?use_oh_data_path=1`;
         } else {
-          path = `${apiBasePath}/medical_records/allergies/${id}`;
+          path = isCerner
+            ? `${apiBasePath}/medical_records/allergies?use_oh_data_path=1`
+            : `${apiBasePath}/medical_records/allergies`;
         }
-        return path;
+        return {
+          path,
+        };
       },
       // Transform the single allergy response
       transformResponse: response => {
