@@ -94,7 +94,7 @@ const ConfirmationPage = props => {
         <li>
           We will provide you with notice of our decision on your application.
           If your application is denied, we will notify you of your options
-          should you disagree with our decisions.
+          should you disagree with our decision.
         </li>
       </ul>
       <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
