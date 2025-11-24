@@ -7,7 +7,15 @@ const getActiveTabClass = (activeTab, tab) => {
   return `${isActive ? 'vads-u-font-weight--bold' : ''}`;
 };
 
-const recordsConfig = {};
+const mittensConfig = {
+  bgColor: '--vads-color-primary',
+  textColor: '--vads-color-white',
+};
+
+const recordsConfig = {
+  bgColor: '--vads-color-secondary-dark',
+  textColor: '--vads-color-white',
+};
 
 export const TaskTabs = ({ location, formConfig }) => {
   const tabs = [
@@ -36,6 +44,55 @@ export const TaskTabs = ({ location, formConfig }) => {
     tab => location.pathname.includes(tab.path) && tab.path !== '/',
   );
 
+  const handleTabClick = (e, tabPath) => {
+    e.preventDefault();
+
+    // Check if we're on a GitHub Codespace (github.dev URL)
+    const isGitHubCodespace = window.location.hostname.includes(
+      'app.github.dev',
+    );
+
+    if (isGitHubCodespace) {
+      // In Codespaces, port is part of hostname (e.g., -3001.app.github.dev or -3002.app.github.dev)
+      // Replace the port number in hostname with 3001
+      const newHostname = window.location.hostname.replace(
+        /-\d+\.app\.github\.dev$/,
+        '-3001.app.github.dev',
+      );
+      // Construct full URL with the tab path
+      const fullPath = `${formConfig.rootUrl}${tabPath}`;
+      window.location.href = `${
+        window.location.protocol
+      }//${newHostname}${fullPath}`;
+    } else {
+      // Regular localhost or other environments
+      window.location.href = `${formConfig.rootUrl}${tabPath}`;
+    }
+  };
+
+  const handleHatClick = e => {
+    e.preventDefault();
+
+    // Check if we're on a GitHub Codespace (github.dev URL)
+    const isGitHubCodespace = window.location.hostname.includes(
+      'app.github.dev',
+    );
+
+    if (isGitHubCodespace) {
+      // In Codespaces, port is part of hostname (e.g., -3001.app.github.dev or -3002.app.github.dev)
+      // Replace the port number in hostname with 3002
+      const newHostname = window.location.hostname.replace(
+        /-\d+\.app\.github\.dev$/,
+        '-3002.app.github.dev',
+      );
+      // Construct full URL with / path
+      window.location.href = `${window.location.protocol}//${newHostname}/`;
+    } else {
+      // Regular localhost or other environments
+      window.location.href = '/';
+    }
+  };
+
   return (
     <nav aria-label="Research study task navigation">
       <ul
@@ -53,6 +110,7 @@ export const TaskTabs = ({ location, formConfig }) => {
           >
             <a
               href={`${formConfig.rootUrl}${tab.path}`}
+              onClick={e => handleTabClick(e, tab.path)}
               className="vads-u-text-decoration--none vads-u-display--flex vads-u-align-items--center vads-u-justify-content--center vads-u-padding-y--1 vads-u-height--full vads-u-padding-x--5"
               style={getStylesForTab(tab)}
             >
@@ -63,13 +121,30 @@ export const TaskTabs = ({ location, formConfig }) => {
         <li
           className={`vads-u-text-align--center vads-u-margin-bottom--0 ${getActiveTabClass(
             activeTab,
+            mittensConfig,
+          )}`}
+          style={getStylesForTab(mittensConfig)}
+        >
+          <a
+            href="/my-va"
+            className="vads-u-text-decoration--none vads-u-display--flex vads-u-align-items--center vads-u-justify-content--center vads-u-padding-y--1 vads-u-height--full vads-u-padding-x--5"
+            style={getStylesForTab(mittensConfig)}
+          >
+            Mittens
+          </a>
+        </li>
+        <li
+          className={`vads-u-text-align--center vads-u-margin-bottom--0 ${getActiveTabClass(
+            activeTab,
             recordsConfig,
           )}`}
           style={getStylesForTab(recordsConfig)}
         >
           <a
             href="/"
-            className="vads-u-color--white vads-u-text-decoration--none vads-u-display--flex vads-u-align-items--center vads-u-justify-content--center vads-u-padding-y--1 vads-u-height--full vads-u-padding-x--5"
+            onClick={handleHatClick}
+            className="vads-u-text-decoration--none vads-u-display--flex vads-u-align-items--center vads-u-justify-content--center vads-u-padding-y--1 vads-u-height--full vads-u-padding-x--5"
+            style={getStylesForTab(recordsConfig)}
           >
             Hat
           </a>
