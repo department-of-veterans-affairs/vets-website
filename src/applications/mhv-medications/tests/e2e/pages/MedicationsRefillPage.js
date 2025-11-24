@@ -285,11 +285,10 @@ class MedicationsRefillPage {
   };
 
   clickPrescriptionRefillCheckbox = prescription => {
-    cy.intercept(
-      this.getRefillMethod(),
-      `${this.basePath}/prescriptions/refill_prescriptions?ids[]=22377949`,
-      prescription,
-    );
+    const url = this.isV2()
+      ? `${this.basePath}/prescriptions/refill`
+      : `${this.basePath}/prescriptions/refill_prescriptions?ids[]=22377949`;
+    cy.intercept(this.getRefillMethod(), url, prescription);
     cy.get('[data-testid="refill-prescription-checkbox-2"]').click({
       waitForAnimations: true,
     });
@@ -299,13 +298,14 @@ class MedicationsRefillPage {
     prescriptionId,
     failedRequest,
   ) => {
-    cy.intercept(
-      this.getRefillMethod(),
-      `${
-        this.basePath
-      }/prescriptions/refill_prescriptions?ids[]=${prescriptionId}`,
-      failedRequest,
-    ).as('failedRefillRequest');
+    const url = this.isV2()
+      ? `${this.basePath}/prescriptions/refill`
+      : `${
+          this.basePath
+        }/prescriptions/refill_prescriptions?ids[]=${prescriptionId}`;
+    cy.intercept(this.getRefillMethod(), url, failedRequest).as(
+      'failedRefillRequest',
+    );
     cy.get('[data-testid="request-refill-button"]').should('exist');
     cy.get('[data-testid="request-refill-button"]').click({
       waitForAnimations: true,
@@ -330,7 +330,7 @@ class MedicationsRefillPage {
   clickRequestRefillButtonForSuccessfulRequestsV2 = success => {
     cy.intercept(
       this.getRefillMethod(),
-      `${this.basePath}/prescriptions/refill_prescriptions`,
+      `${this.basePath}/prescriptions/refill`,
       req => {
         // assert that the req.body is an array of objects with the id and stationNumber keys
         expect(req.body).to.deep.equal([
@@ -349,24 +349,22 @@ class MedicationsRefillPage {
   };
 
   clickPrescriptionRefillCheckboxForSuccessfulRequest = prescription => {
-    cy.intercept(
-      this.getRefillMethod(),
-      `${this.basePath}/prescriptions/refill_prescriptions?ids[]=22545165`,
-      prescription,
-    );
+    const url = this.isV2()
+      ? `${this.basePath}/prescriptions/refill`
+      : `${this.basePath}/prescriptions/refill_prescriptions?ids[]=22545165`;
+    cy.intercept(this.getRefillMethod(), url, prescription);
     cy.get('[data-testid="refill-prescription-checkbox-0"]').click({
       waitForAnimations: true,
     });
   };
 
   clickRequestRefillButtonforSuccessfulRequests = (prescriptionId, success) => {
-    cy.intercept(
-      this.getRefillMethod(),
-      `${
-        this.basePath
-      }/prescriptions/refill_prescriptions?ids[]=${prescriptionId}`,
-      success,
-    ).as('refillSuccess');
+    const url = this.isV2()
+      ? `${this.basePath}/prescriptions/refill`
+      : `${
+          this.basePath
+        }/prescriptions/refill_prescriptions?ids[]=${prescriptionId}`;
+    cy.intercept(this.getRefillMethod(), url, success).as('refillSuccess');
     cy.get('[data-testid="request-refill-button"]').should('exist');
     cy.get('[data-testid="request-refill-button"]').click({
       waitForAnimations: true,
@@ -378,13 +376,12 @@ class MedicationsRefillPage {
     prescriptionId2,
     partialsuccess,
   ) => {
-    cy.intercept(
-      this.getRefillMethod(),
-      `${
-        this.basePath
-      }/prescriptions/refill_prescriptions?ids[]=${prescriptionId1}&ids[]=${prescriptionId2}`,
-      partialsuccess,
-    );
+    const url = this.isV2()
+      ? `${this.basePath}/prescriptions/refill`
+      : `${
+          this.basePath
+        }/prescriptions/refill_prescriptions?ids[]=${prescriptionId1}&ids[]=${prescriptionId2}`;
+    cy.intercept(this.getRefillMethod(), url, partialsuccess);
     cy.get('[data-testid="request-refill-button"]').should('exist');
     cy.get('[data-testid="request-refill-button"]').click({
       waitForAnimations: true,

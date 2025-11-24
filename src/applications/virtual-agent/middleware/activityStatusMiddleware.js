@@ -1,4 +1,5 @@
 import React from 'react';
+import { AI_DISCLAIMER_TEXT } from '../utils/aiDisclaimerConstants';
 
 export const activityStatusMiddleware = () => next => args => {
   const { activity } = args || {};
@@ -10,10 +11,7 @@ export const activityStatusMiddleware = () => next => args => {
     const originalStatus = next(args);
     return (
       <div className="va-chatbot-status-wrapper">
-        <div className="va-chatbot-ai-disclaimer">
-          This answer is AI-generated and may contain inaccuracies. Verify
-          important information.
-        </div>
+        <div className="va-chatbot-ai-disclaimer">{AI_DISCLAIMER_TEXT}</div>
         {originalStatus}
       </div>
     );
