@@ -9,13 +9,16 @@ export const ConfirmationVeteranInfo = () => {
   const { first, middle, last, suffix } = profile.userFullName;
 
   return (
-    <div>
+    <li>
       <div className="vads-u-color--gray">Veteran name</div>
-      {`${first || ''} ${middle || ''} ${last || ''}`}
-      {suffix && `, ${suffix}`}
+      <div>
+        {`${first || ''} ${middle || ''} ${last || ''}`}
+        {suffix && `, ${suffix}`}
+      </div>
       <div className="vads-u-color--gray">Date of birth:</div>
-      {dob ? formatDate(dob) : ''}
-      <div className="vads-u-color--gray">Gender:</div> {genderLabels[gender]}
-    </div>
+      <div>{dob ? formatDate(dob) : ''}</div>
+      <div className="vads-u-color--gray">Gender:</div>{' '}
+      <div>{genderLabels[gender]}</div>
+    </li>
   );
 };
