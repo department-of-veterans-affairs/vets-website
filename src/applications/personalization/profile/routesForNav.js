@@ -142,15 +142,6 @@ const routesForProfile2Nav = [
     featureFlag: 'profileHealthCareSettingsPage',
   },
   {
-    component: SchedulingPreferences,
-    name: PROFILE_PATH_NAMES.SCHEDULING_PREFERENCES,
-    path: PROFILE_PATHS.SCHEDULING_PREFERENCES,
-    requiresLOA3: true,
-    requiresMVI: true,
-    subnavParent: PROFILE_PATH_NAMES.HEALTH_CARE_SETTINGS,
-    featureFlag: 'profileHealthCareSettingsPage',
-  },
-  {
     component: PersonalHealthCareContacts,
     name: PROFILE_PATH_NAMES.HEALTH_CARE_CONTACTS,
     path: PROFILE_PATHS.HEALTH_CARE_CONTACTS,
@@ -161,8 +152,17 @@ const routesForProfile2Nav = [
   },
   {
     component: BlankPageTemplate, // TODO implement before Profile 2.0 launch
-    name: PROFILE_PATH_NAMES.SECURE_MESSAGES_SIGNATURE,
-    path: PROFILE_PATHS.SECURE_MESSAGES_SIGNATURE,
+    name: PROFILE_PATH_NAMES.MESSAGES_SIGNATURE,
+    path: PROFILE_PATHS.MESSAGES_SIGNATURE,
+    requiresLOA3: true,
+    requiresMVI: true,
+    subnavParent: PROFILE_PATH_NAMES.HEALTH_CARE_SETTINGS,
+    featureFlag: 'profileHealthCareSettingsPage',
+  },
+  {
+    component: SchedulingPreferences,
+    name: PROFILE_PATH_NAMES.SCHEDULING_PREFERENCES,
+    path: PROFILE_PATHS.SCHEDULING_PREFERENCES,
     requiresLOA3: true,
     requiresMVI: true,
     subnavParent: PROFILE_PATH_NAMES.HEALTH_CARE_SETTINGS,
