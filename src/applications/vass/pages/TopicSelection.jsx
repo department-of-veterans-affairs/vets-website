@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom-v5-compat';
 import {
   VaCheckbox,
@@ -6,19 +6,37 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import Wrapper from '../layout/Wrapper';
 import { topics } from '../services/Topic/topic';
+import { usePersistentSelections } from '../hooks/usePersistentSelections';
+
+// TODO: remove this once we have a real UUID
+const UUID = 'af40d0e7-df29-4df3-8b5e-03eac2e760fa';
 
 const TopicSelection = () => {
   const navigate = useNavigate();
-  const [selectedTopics, setSelectedTopics] = useState([]);
+  const { saveTopicsSelection, getSaved } = usePersistentSelections(UUID);
+  const [selectedTopics, setSelectedTopics] = useState(
+    getSaved()?.selectedTopics || [],
+  );
+
+  useEffect(
+    () => {
+      saveTopicsSelection(selectedTopics);
+    },
+    [saveTopicsSelection, selectedTopics],
+  );
 
   const handleTopicChange = event => {
     const { checked } = event.detail;
     if (checked) {
-      setSelectedTopics([...selectedTopics, event.target.value]);
+      const newTopics = [...selectedTopics, event.target.value];
+      setSelectedTopics(newTopics);
+      saveTopicsSelection(newTopics);
     } else {
-      setSelectedTopics(
-        selectedTopics.filter(topic => topic !== event.target.value),
+      const newTopics = selectedTopics.filter(
+        topic => topic !== event.target.value,
       );
+      setSelectedTopics(newTopics);
+      saveTopicsSelection(newTopics);
     }
   };
 
