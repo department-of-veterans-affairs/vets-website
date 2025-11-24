@@ -45,12 +45,14 @@ export default function VeteranProgramsAndSupport({
     vetSuccessName: {
       modal: 'vsoc',
       text: 'VetSuccess on Campus',
-      link: {
-        href:
-          institution.vetSuccessEmail &&
-          `mailto:${institution.vetSuccessEmail}`,
-        text: `Email ${institution.vetSuccessName}`,
-      },
+      link: institution.vetSuccessName
+        ? {
+            href:
+              institution.vetSuccessEmail &&
+              `mailto:${institution.vetSuccessEmail}`,
+            text: `Email ${institution.vetSuccessName}`,
+          }
+        : false,
       ariaLabel: ariaLabels.learnMore.vetSuccess,
     },
   };

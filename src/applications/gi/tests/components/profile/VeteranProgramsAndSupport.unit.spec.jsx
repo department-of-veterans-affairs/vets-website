@@ -61,12 +61,14 @@ describe('<VeteranProgramsAndSupport>', () => {
       vetSuccessName: {
         modal: 'vsoc',
         text: 'VetSuccess on Campus',
-        link: {
-          href:
-            props.institution.vetSuccessEmail &&
-            `mailto:${props.institution.vetSuccessEmail}`,
-          text: `Email ${props.institution.vetSuccessName}`,
-        },
+        link: props.institution.vetSuccessName
+          ? {
+              href:
+                props.institution.vetSuccessEmail &&
+                `mailto:${props.institution.vetSuccessEmail}`,
+              text: `Email ${props.institution.vetSuccessName}`,
+            }
+          : false,
         ariaLabel: ariaLabels.learnMore.vetSuccess,
       },
     };
@@ -118,6 +120,19 @@ describe('<VeteranProgramsAndSupport>', () => {
       />,
     );
     expect(tree.find('va-table-row').at(2)).to.have.lengthOf(1);
+    tree.unmount();
+  });
+  it('should not show vetsuccess email link when vetsucessname is not provided', () => {
+    const tree = shallow(
+      <VeteranProgramsAndSupport
+        institution={{
+          vetSuccessEmail: null,
+          vetSuccessName: null,
+        }}
+        constants={{}}
+      />,
+    );
+    expect(tree.find('a[id*="email"]')).to.have.lengthOf(0);
     tree.unmount();
   });
 });
