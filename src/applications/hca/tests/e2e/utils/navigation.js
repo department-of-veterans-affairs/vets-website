@@ -58,14 +58,12 @@ export const advanceFromHouseholdToSubmit = (testData, props = {}) => {
   cy.location('pathname').should('include', '/confirmation');
 };
 
-export const advanceToAuthShortForm = testData => {
+export const advanceToAuthShortForm = () => {
   goToNextPage('/veteran-information/birth-information');
   goToNextPage('/veteran-information/maiden-name-information');
   goToNextPage('/veteran-information/birth-sex');
-  cy.selectRadio('root_gender', testData?.gender);
   goToNextPage('/veteran-information/demographic-information');
   goToNextPage('/veteran-information/veteran-address');
-  cy.fillAddress('root_veteranAddress', testData?.veteranAddress);
   cy.selectRadio('root_view:doesMailingMatchHomeAddress', 'Y');
 
   goToNextPage('/veteran-information/contact-information');

@@ -30,7 +30,7 @@ describe('HCA-User-Authenticated: Invalid DOB value', () => {
   });
 
   it('works with profile data that has an invalid date of birth ', () => {
-    goToNextPage('veteran-information/profile-information-dob');
+    goToNextPage('/veteran-information/profile-information-dob');
     cy.injectAxeThenAxeCheck();
   });
 });

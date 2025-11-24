@@ -11,7 +11,13 @@
       "lastServiceBranch": "air force",
       "lastEntryDate": "1977-06-03",
       "lastDischargeDate": "1998-06-30",
-      "dischargeType": "honorable"
+      "dischargeType": "honorable",
+      "veteranAddress": {
+        "street": "1234 E 23rd St",
+        "city": "Los Angeles",
+        "state": "CA",
+        "postalCode": "90001"
+      }
     },
     "metadata": {
       "version": 0,
