@@ -1,12 +1,14 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { renderWithStoreAndRouterV6 as renderWithStoreAndRouter } from 'platform/testing/unit/react-testing-library-helpers';
 
 import Confirmation from './Confirmation';
 
 describe('VASS Component: Confirmation', () => {
   it('should render all content', () => {
-    const { getByTestId } = render(<Confirmation />);
+    const { getByTestId } = renderWithStoreAndRouter(<Confirmation />, {
+      initialState: {},
+    });
 
     expect(getByTestId('header')).to.exist;
     expect(getByTestId('confirmation-message')).to.exist;

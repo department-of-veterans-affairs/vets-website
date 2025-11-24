@@ -131,7 +131,7 @@ options.logger = winston.createLogger({
 
 const app = express();
 app.use(cors(corsOptions));
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '50mb' }));
 app.use(cookieParser());
 
 if (options.responses) {
