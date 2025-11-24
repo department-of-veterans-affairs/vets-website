@@ -21,15 +21,71 @@ const TaskTabsRenderer = () => {
   });
 
   // Create location object that TaskTabs expects
-  const location = React.useMemo(
+  // Also watch window.location directly since routeState might not update for component-based apps
+  const [windowLocation, setWindowLocation] = React.useState(() => ({
+    pathname: window.location.pathname,
+    search: window.location.search,
+  }));
+
+  React.useEffect(
     () => {
-      const pathname = routeState?.path || window.location.pathname;
-      const search = routeState?.search || window.location.search;
-      return {
-        pathname: pathname + (search || ''),
+      const updateLocation = () => {
+        setWindowLocation({
+          pathname: window.location.pathname,
+          search: window.location.search,
+        });
+      };
+
+      // Update on route state changes
+      if (routeState?.path || routeState?.search) {
+        updateLocation();
+      }
+
+      // Also listen to popstate for browser navigation
+      window.addEventListener('popstate', updateLocation);
+
+      // Check periodically for URL changes (for apps that don't update route state)
+      const interval = setInterval(() => {
+        const currentPath = window.location.pathname;
+        const currentSearch = window.location.search;
+        if (
+          currentPath !== windowLocation.pathname ||
+          currentSearch !== windowLocation.search
+        ) {
+          updateLocation();
+        }
+      }, 200);
+
+      return () => {
+        window.removeEventListener('popstate', updateLocation);
+        clearInterval(interval);
       };
     },
-    [routeState],
+    [routeState, windowLocation.pathname, windowLocation.search],
+  );
+
+  const location = React.useMemo(
+    () => {
+      const pathname =
+        routeState?.path || windowLocation.pathname || window.location.pathname;
+      const search =
+        routeState?.search || windowLocation.search || window.location.search;
+
+      // Parse query string into query object for useLoggedInQuery
+      const query = {};
+      if (search) {
+        const searchParams = new URLSearchParams(search);
+        searchParams.forEach((value, key) => {
+          query[key] = value;
+        });
+      }
+
+      return {
+        pathname: pathname + (search || ''),
+        query,
+      };
+    },
+    [routeState, windowLocation],
   );
 
   useLoggedInQuery(location);

@@ -70,6 +70,31 @@ export const TaskTabs = ({ location, formConfig }) => {
     }
   };
 
+  const handleMittensClick = e => {
+    e.preventDefault();
+
+    // Check if we're on a GitHub Codespace (github.dev URL)
+    const isGitHubCodespace = window.location.hostname.includes(
+      'app.github.dev',
+    );
+
+    if (isGitHubCodespace) {
+      // In Codespaces, port is part of hostname (e.g., -3001.app.github.dev or -3002.app.github.dev)
+      // Replace the port number in hostname with 3001
+      const newHostname = window.location.hostname.replace(
+        /-\d+\.app\.github\.dev$/,
+        '-3001.app.github.dev',
+      );
+      // Construct full URL with /my-va?loggedIn=true
+      window.location.href = `${
+        window.location.protocol
+      }//${newHostname}/my-va?loggedIn=true`;
+    } else {
+      // Regular localhost or other environments
+      window.location.href = '/my-va?loggedIn=true';
+    }
+  };
+
   const handleHatClick = e => {
     e.preventDefault();
 
@@ -126,7 +151,8 @@ export const TaskTabs = ({ location, formConfig }) => {
           style={getStylesForTab(mittensConfig)}
         >
           <a
-            href="/my-va"
+            href="/my-va?loggedIn=true"
+            onClick={handleMittensClick}
             className="vads-u-text-decoration--none vads-u-display--flex vads-u-align-items--center vads-u-justify-content--center vads-u-padding-y--1 vads-u-height--full vads-u-padding-x--5"
             style={getStylesForTab(mittensConfig)}
           >
