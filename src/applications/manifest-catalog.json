@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 148,
+  "totalApplications": 150,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -299,7 +299,7 @@
     },
     {
       "directoryPath": "src/applications/edu-benefits/10278",
-      "appName": "Authorization to Disclose Personal Information",
+      "appName": "Authorize VA to disclose personal information to a third party",
       "entryName": "10278-edu-benefits",
       "rootUrl": "/education/10278"
     },
@@ -538,12 +538,6 @@
       "rootUrl": "/temporary/apply-vre-form-28-1900"
     },
     {
-      "directoryPath": "src/applications/new-chapter-36-form",
-      "appName": "Personalized Career Planning and Guidance/Chapter 36 (VA Form 27-8832)",
-      "entryName": "new-chapter-36-form",
-      "rootUrl": "/temporary/apply-career-guidance-form-27-8832"
-    },
-    {
       "directoryPath": "src/applications/office-directory",
       "appName": "All VA offices",
       "entryName": "office-directory",
@@ -680,6 +674,12 @@
       "appName": "Sign In Confirm Contact Email",
       "entryName": "confirm-contact-email",
       "rootUrl": "/sign-in-confirm-contact-email"
+    },
+    {
+      "directoryPath": "src/applications/sign-in-health-portal",
+      "appName": "Sign-in Health Portal",
+      "entryName": "sign-in-health-portal",
+      "rootUrl": "/sign-in-health-portal"
     },
     {
       "directoryPath": "src/applications/simple-forms-form-engine/12-3456",

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import {
   updatePageTitle,
   useAcceleratedData,
@@ -26,6 +26,7 @@ import { useTrackAction } from '../hooks/useTrackAction';
 
 const CareSummariesDetails = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const careSummary = useSelector(
     state => state.mr.careSummariesAndNotes.careSummariesAndNotesDetails,
   );
@@ -50,7 +51,7 @@ const CareSummariesDetails = () => {
 
   useEffect(
     () => {
-      if (summaryId) {
+      if (summaryId && !careSummary?.notFound) {
         dispatch(
           getCareSummaryAndNotesDetails(
             summaryId,
@@ -59,9 +60,19 @@ const CareSummariesDetails = () => {
           ),
         );
       }
+      if (careSummary?.notFound || !careSummariesList) {
+        history.push('/summaries-and-notes/');
+      }
       updatePageTitle(pageTitles.CARE_SUMMARIES_AND_NOTES_DETAILS_PAGE_TITLE);
     },
-    [summaryId, careSummariesList, dispatch, isAcceleratingCareNotes],
+    [
+      summaryId,
+      careSummariesList,
+      dispatch,
+      isAcceleratingCareNotes,
+      history,
+      careSummary,
+    ],
   );
 
   const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;

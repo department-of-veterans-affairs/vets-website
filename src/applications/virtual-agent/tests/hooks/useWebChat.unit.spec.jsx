@@ -1,16 +1,16 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
 
+import * as WebChatFrameworkModule from '../../utils/webChatFrameworkBase';
 import * as useChatbotTokenModule from '../../hooks/useChatbotToken';
-import * as UseWebChatFrameworkModule from '../../hooks/useWebChatFramework';
-import * as CombingLoadingStatusModule from '../../utils/loadingStatus';
+import * as LoadingStatusModule from '../../utils/loadingStatus';
 import useWebChat from '../../hooks/useWebChat';
 
 describe('useWebChat', () => {
   let sandbox;
 
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
   });
 
   afterEach(() => {
@@ -18,78 +18,74 @@ describe('useWebChat', () => {
   });
 
   describe('useWebChat', () => {
-    it('should return the correct token, webChatFramework and loadingStatus', () => {
-      const webChatFramework = {
-        webChatFramework: 'framework',
-        loadingStatus: 'frameworkStatus',
+    it('returns token, framework, and combined loadingStatus when feature flag is true', () => {
+      const webChatFramework = { some: 'framework' };
+      sandbox.stub(WebChatFrameworkModule, 'default').value(webChatFramework);
+
+      const chatbotToken = {
+        token: 'token',
+        code: 'code',
+        expired: undefined,
+        loadingStatus: 'tokenStatus',
       };
-      sandbox
-        .stub(UseWebChatFrameworkModule, 'default')
-        .returns(webChatFramework);
+      sandbox.stub(useChatbotTokenModule, 'default').returns(chatbotToken);
 
-      const token = { token: 'token', code: 'code' };
-      sandbox.stub(useChatbotTokenModule, 'default').returns(token);
-
-      sandbox
-        .stub(CombingLoadingStatusModule, 'combineLoadingStatus')
+      const combineStub = sandbox
+        .stub(LoadingStatusModule, 'combineLoadingStatus')
         .returns('combinedStatus');
 
-      const result = useWebChat(
-        { virtualAgentEnableParamErrorDetection: false },
-        'paramStatus',
-      );
+      const result = useWebChat(true, 'paramStatus');
+
+      expect(combineStub.calledOnce).to.be.true;
+      expect(combineStub.calledWithExactly('tokenStatus', 'paramStatus')).to.be
+        .true;
 
       expect(result).to.deep.equal({
-        ...token,
-        webChatFramework: 'framework',
+        token: 'token',
+        code: 'code',
+        expired: undefined,
+        webChatFramework,
         loadingStatus: 'combinedStatus',
       });
     });
-    it('should call combineLoadingStatus once when virtualAgentEnableParamErrorDetection is false', () => {
-      const webChatFramework = {
-        webChatFramework: 'framework',
-        loadingStatus: 'frameworkStatus',
+
+    it('uses token loadingStatus directly when feature flag is false', () => {
+      const chatbotToken = {
+        token: 'token',
+        code: 'code',
+        expired: false,
+        loadingStatus: 'tokenStatus',
       };
-      sandbox
-        .stub(UseWebChatFrameworkModule, 'default')
-        .returns(webChatFramework);
+      sandbox.stub(useChatbotTokenModule, 'default').returns(chatbotToken);
 
-      const token = { token: 'token' };
-      sandbox.stub(useChatbotTokenModule, 'default').returns(token);
-
-      const combineLoadingStatusStub = sandbox
-        .stub(CombingLoadingStatusModule, 'combineLoadingStatus')
-        .returns('combinedStatus');
-
-      useWebChat(
-        { virtualAgentEnableParamErrorDetection: false },
-        'paramStatus',
+      const combineStub = sandbox.stub(
+        LoadingStatusModule,
+        'combineLoadingStatus',
       );
 
-      expect(combineLoadingStatusStub.calledOnce).to.be.true;
+      const result = useWebChat(false, 'paramStatus');
+
+      expect(combineStub.called).to.be.false;
+      expect(result.loadingStatus).to.equal('tokenStatus');
     });
-    it('should call combineLoadingStatus when virtualAgentEnableParamErrorDetection is true', () => {
-      const webChatFramework = {
-        webChatFramework: 'framework',
-        loadingStatus: 'frameworkStatus',
+
+    it('calls combineLoadingStatus when feature flag is true', () => {
+      const chatbotToken = {
+        token: 'token',
+        code: undefined,
+        expired: false,
+        loadingStatus: 'tokenStatus',
       };
-      sandbox
-        .stub(UseWebChatFrameworkModule, 'default')
-        .returns(webChatFramework);
+      sandbox.stub(useChatbotTokenModule, 'default').returns(chatbotToken);
 
-      const token = { token: 'token' };
-      sandbox.stub(useChatbotTokenModule, 'default').returns(token);
-
-      const combineLoadingStatusStub = sandbox
-        .stub(CombingLoadingStatusModule, 'combineLoadingStatus')
+      const combineStub = sandbox
+        .stub(LoadingStatusModule, 'combineLoadingStatus')
         .returns('combinedStatus');
 
-      useWebChat(
-        { virtualAgentEnableParamErrorDetection: true },
-        'paramStatus',
-      );
+      const result = useWebChat(true, 'paramStatus');
 
-      expect(combineLoadingStatusStub.calledTwice).to.be.true;
+      expect(combineStub.calledOnce).to.be.true;
+      expect(result.loadingStatus).to.equal('combinedStatus');
     });
   });
 });
