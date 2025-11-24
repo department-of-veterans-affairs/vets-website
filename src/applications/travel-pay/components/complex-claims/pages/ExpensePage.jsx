@@ -22,6 +22,7 @@ import {
   selectExpenseUpdateLoadingState,
   selectExpenseCreationLoadingState,
   selectExpenseWithDocument,
+  selectDocumentDeleteLoadingState,
 } from '../../../redux/selectors';
 
 import TravelPayButtonPair from '../../shared/TravelPayButtonPair';
@@ -31,40 +32,47 @@ import ExpenseLodgingFields from './ExpenseLodgingFields';
 import ExpenseCommonCarrierFields from './ExpenseCommonCarrierFields';
 import CancelExpenseModal from './CancelExpenseModal';
 
-const ExpensePage = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+const toBase64 = file =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+  });
 
+const ExpensePage = () => {
+  // Router hooks
+  const navigate = useNavigate();
+  const location = useLocation();
   const { apptId, claimId, expenseId } = useParams();
 
-  const location = useLocation();
+  // Redux hooks
+  const dispatch = useDispatch();
+  const expense = useSelector(
+    state => (expenseId ? selectExpenseWithDocument(state, expenseId) : null),
+  );
+  const isUpdatingExpense = useSelector(selectExpenseUpdateLoadingState);
+  const isCreatingExpense = useSelector(selectExpenseCreationLoadingState);
+  const isDeletingDocument = useSelector(selectDocumentDeleteLoadingState);
 
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [showError, setShowError] = useState(false);
+  // Refs
+  const errorRef = useRef(null);
+
+  // State
+  const [formState, setFormState] = useState({});
+  const [previousFormState, setPreviousFormState] = useState({});
   const [expenseDocument, setExpenseDocument] = useState(null);
   const [isFetchingDocument, setIsDocumentLoading] = useState(false);
   const [previousDocumentId, setPreviousDocumentId] = useState(null);
   const [fieldsInitialized, setFieldsInitialized] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [showError, setShowError] = useState(false);
 
-  const errorRef = useRef(null); // ref for the error message
-
-  const isUpdatingExpense = useSelector(selectExpenseUpdateLoadingState);
-  const isCreatingExpense = useSelector(selectExpenseCreationLoadingState);
-
-  const isLoadingExpense = expenseId ? isUpdatingExpense : isCreatingExpense;
-
-  const toBase64 = file =>
-    new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = reject;
-    });
-
-  const expense = useSelector(
-    state => (expenseId ? selectExpenseWithDocument(state, expenseId) : null),
-  );
-
+  // Derived state and memoized values
+  const isLoadingExpense = expenseId
+    ? isUpdatingExpense || isDeletingDocument
+    : isCreatingExpense;
+  const filename = expense?.receipt?.filename;
   const initialFormState = useMemo(
     () => {
       if (!expenseId || !expense) return {};
@@ -76,11 +84,7 @@ const ExpensePage = () => {
     [expenseId, expense],
   );
 
-  const [formState, setFormState] = useState({});
-  const [previousFormState, setPreviousFormState] = useState({});
-
-  const filename = expense?.receipt?.filename;
-
+  // Effects
   // Effect 1: Hydrate form fields once when initialFormState is ready
   useEffect(
     () => {
@@ -150,14 +154,7 @@ const ExpensePage = () => {
     [expenseId, expense?.documentId, claimId, filename, previousDocumentId],
   );
 
-  const expenseTypeMatcher = new RegExp(
-    `.*(${Object.values(EXPENSE_TYPE_KEYS)
-      .map(key => EXPENSE_TYPES[key].route)
-      .join('|')}).*`,
-  );
-  const expenseTypeRoute = location.pathname.match(expenseTypeMatcher)[1];
-
-  // Focus the error message when it becomes visible
+  // Effect 3: Focus error message when it becomes visible
   useEffect(
     () => {
       if (showError && errorRef.current) {
@@ -166,6 +163,14 @@ const ExpensePage = () => {
     },
     [showError],
   );
+
+  // Derived values for expense type
+  const expenseTypeMatcher = new RegExp(
+    `.*(${Object.values(EXPENSE_TYPE_KEYS)
+      .map(key => EXPENSE_TYPES[key].route)
+      .join('|')}).*`,
+  );
+  const expenseTypeRoute = location.pathname.match(expenseTypeMatcher)[1];
 
   const expenseType = Object.values(EXPENSE_TYPE_KEYS).find(
     key => EXPENSE_TYPES[key].route === expenseTypeRoute,
