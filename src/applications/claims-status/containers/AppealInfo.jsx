@@ -70,7 +70,7 @@ export class AppealInfo extends React.Component {
     if (!appealsLoading) {
       setUpPage();
     } else {
-      scrollToTop();
+      scrollToTop({ behavior: 'instant' });
     }
   }
 
