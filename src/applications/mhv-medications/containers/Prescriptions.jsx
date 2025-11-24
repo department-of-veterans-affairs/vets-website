@@ -89,7 +89,11 @@ const Prescriptions = () => {
   const userName = useSelector(selectUserFullName);
   const dob = useSelector(selectUserDob);
   const hasMedsByMailFacility = useSelector(selectHasMedsByMailFacility);
-  const { isAcceleratingAllergies, isCerner } = useAcceleratedData();
+  const {
+    isAcceleratingAllergies,
+    isCerner,
+    isLoading: isAcceleratedDataLoading,
+  } = useAcceleratedData();
   const [searchParams] = useSearchParams();
   const rxRenewalMessageSuccess = searchParams.get('rxRenewalMessageSuccess');
   const deleteDraftSuccess = searchParams.get('draftDeleteSuccess');
@@ -157,10 +161,15 @@ const Prescriptions = () => {
     format: undefined,
   });
   const scrollLocation = useRef();
-  const { data: allergies, error: allergiesError } = useGetAllergiesQuery({
-    isAcceleratingAllergies,
-    isCerner,
-  });
+  const { data: allergies, error: allergiesError } = useGetAllergiesQuery(
+    {
+      isAcceleratingAllergies,
+      isCerner,
+    },
+    {
+      skip: isAcceleratedDataLoading, // Wait for Cerner data and toggles to load before calling API
+    },
+  );
 
   const refillAlertList = prescriptionsData?.refillAlertList || [];
 

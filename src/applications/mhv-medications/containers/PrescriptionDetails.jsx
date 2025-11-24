@@ -90,12 +90,21 @@ const PrescriptionDetails = () => {
 
   const userName = useSelector(selectUserFullName);
   const dob = useSelector(selectUserDob);
-  const { isAcceleratingAllergies, isCerner } = useAcceleratedData();
-
-  const { data: allergies, error: allergiesError } = useGetAllergiesQuery({
+  const {
     isAcceleratingAllergies,
     isCerner,
-  });
+    isLoading: isAcceleratedDataLoading,
+  } = useAcceleratedData();
+
+  const { data: allergies, error: allergiesError } = useGetAllergiesQuery(
+    {
+      isAcceleratingAllergies,
+      isCerner,
+    },
+    {
+      skip: isAcceleratedDataLoading, // Wait for Cerner data and toggles to load before calling API
+    },
+  );
 
   const [prescriptionPdfList, setPrescriptionPdfList] = useState([]);
   const [pdfTxtGenerateStatus, setPdfTxtGenerateStatus] = useState({

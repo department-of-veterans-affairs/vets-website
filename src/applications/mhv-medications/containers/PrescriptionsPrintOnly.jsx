@@ -11,11 +11,20 @@ import { selectSortOption } from '../selectors/selectPreferences';
 
 const PrescriptionsPrintOnly = ({ list, isFullList, hasError = false }) => {
   const { search } = useLocation();
-  const { isAcceleratingAllergies, isCerner } = useAcceleratedData();
-  const { data: allergies } = useGetAllergiesQuery({
+  const {
     isAcceleratingAllergies,
     isCerner,
-  });
+    isLoading: isAcceleratedDataLoading,
+  } = useAcceleratedData();
+  const { data: allergies } = useGetAllergiesQuery(
+    {
+      isAcceleratingAllergies,
+      isCerner,
+    },
+    {
+      skip: isAcceleratedDataLoading, // Wait for Cerner data and toggles to load before calling API
+    },
+  );
   const selectedSortOption = useSelector(selectSortOption);
   const page = useMemo(
     () => {

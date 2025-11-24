@@ -112,14 +112,23 @@ const RefillPrescriptions = () => {
 
   // Selectors
   const selectedSortOption = useSelector(selectSortOption);
-  const { isAcceleratingAllergies, isCerner } = useAcceleratedData();
+  const {
+    isAcceleratingAllergies,
+    isCerner,
+    isLoading: isAcceleratedDataLoading,
+  } = useAcceleratedData();
 
   // Get refillable list from RTK Query result
   const fullRefillList = refillableData?.prescriptions || [];
-  const { data: allergies, error: allergiesError } = useGetAllergiesQuery({
-    isAcceleratingAllergies,
-    isCerner,
-  });
+  const { data: allergies, error: allergiesError } = useGetAllergiesQuery(
+    {
+      isAcceleratingAllergies,
+      isCerner,
+    },
+    {
+      skip: isAcceleratedDataLoading, // Wait for Cerner data and toggles to load before calling API
+    },
+  );
   const userName = useSelector(selectUserFullName);
   const dob = useSelector(selectUserDob);
   // Memoized Values
