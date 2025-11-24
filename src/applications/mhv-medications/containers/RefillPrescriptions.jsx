@@ -63,11 +63,11 @@ const RefillPrescriptions = () => {
         prescriptions.find(prescription => {
           if (isOracleHealthPilot) {
             return (
-              prescription.prescriptionId === Number(id.id) &&
+              String(prescription.prescriptionId) === String(id.id) &&
               prescription.stationNumber === id.stationNumber
             );
           }
-          return prescription.prescriptionId === Number(id);
+          return String(prescription.prescriptionId) === String(id);
         }),
       );
     },
