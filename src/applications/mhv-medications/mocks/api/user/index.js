@@ -108,6 +108,9 @@ const cernerUser = {
         family_name: 'Hunter',
         gender: 'M',
         given_names: ['Julio', 'E'],
+        isCernerPatient: true,
+        cernerId: '1234567890',
+        cernerFacilityIds: ['757'],
         active_status: 'active',
         facilities: [
           {
