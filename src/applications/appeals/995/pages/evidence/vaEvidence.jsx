@@ -29,7 +29,10 @@ import {
   summaryContent,
 } from '../../content/evidence/va';
 import { redesignActive } from '../../utils';
-import { hasTreatmentBefore2005 } from '../../utils/form-data-retrieval';
+import {
+  hasTreatmentBefore2005,
+  hasVAEvidenceRecords,
+} from '../../utils/form-data-retrieval';
 import { formatIssueList } from '../../../shared/utils/contestableIssueMessages';
 
 /**
@@ -283,7 +286,7 @@ export default arrayBuilderPages(options, pageBuilder => ({
     uiSchema: locationPage.uiSchema,
     schema: locationPage.schema,
     // ------- REMOVE when new design toggle is removed
-    depends: redesignActive,
+    depends: redesignActive && hasVAEvidenceRecords,
     // ------- END REMOVE
   }),
   issues: pageBuilder.itemPage({
@@ -300,7 +303,7 @@ export default arrayBuilderPages(options, pageBuilder => ({
         pagePerItemIndex: +props.pagePerItemIndex,
       }),
     // ------- REMOVE when new design toggle is removed
-    depends: redesignActive,
+    depends: redesignActive && hasVAEvidenceRecords,
     // ------- END REMOVE
   }),
   treatmentDatePrompt: pageBuilder.itemPage({
@@ -309,7 +312,7 @@ export default arrayBuilderPages(options, pageBuilder => ({
     uiSchema: datePromptPage.uiSchema,
     schema: datePromptPage.schema,
     // ------- REMOVE when new design toggle is removed
-    depends: redesignActive,
+    depends: redesignActive && hasVAEvidenceRecords,
     // ------- END REMOVE
   }),
   treatmentDate: pageBuilder.itemPage({
@@ -324,7 +327,8 @@ export default arrayBuilderPages(options, pageBuilder => ({
         // ------- REMOVE when new design toggle is removed
         redesignActive(formData) &&
         // ------- END REMOVE
-        hasTreatmentBefore2005(formData, currentIndex)
+        hasTreatmentBefore2005(formData, currentIndex) &&
+        hasVAEvidenceRecords(formData)
       );
     },
   }),
