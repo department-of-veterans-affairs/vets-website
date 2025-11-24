@@ -68,10 +68,10 @@ export const TaskTabs = ({ location, formConfig }) => {
           style={getStylesForTab(recordsConfig)}
         >
           <a
-            href="/my-va"
+            href="/"
             className="vads-u-color--white vads-u-text-decoration--none vads-u-display--flex vads-u-align-items--center vads-u-justify-content--center vads-u-padding-y--1 vads-u-height--full vads-u-padding-x--5"
           >
-            Mittens
+            Hat
           </a>
         </li>
       </ul>

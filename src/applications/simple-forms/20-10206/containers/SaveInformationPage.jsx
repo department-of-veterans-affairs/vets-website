@@ -1,24 +1,11 @@
 import React from 'react';
 import { environment } from '@department-of-veterans-affairs/platform-utilities/exports';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { getNextPagePath } from 'platform/forms-system/src/js/routing';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import GetFormHelp from '../components/GetFormHelp';
 
 const SaveInformationPage = props => {
-  const { formData, router, route, location } = props;
-
-  const handleGoBack = () => {
-    router.push('/introduction');
-  };
-
-  const handleGoForward = () => {
-    const { pathname } = location;
-    const { pageList } = route;
-    const nextPagePath = getNextPagePath(pageList, formData, pathname);
-    router.push(nextPagePath);
-  };
+  const { goBack, goForward, NavButtons = FormNavButtons } = props;
 
   return (
     <>
@@ -50,10 +37,7 @@ const SaveInformationPage = props => {
                   text="VA Form 20-10206 Introduction (opens in a new window)"
                 />
               </div>
-              <FormNavButtons
-                goBack={handleGoBack}
-                goForward={handleGoForward}
-              />
+              <NavButtons goBack={goBack} goForward={goForward} />
             </div>
           </div>
         </div>
@@ -69,18 +53,9 @@ const SaveInformationPage = props => {
 };
 
 SaveInformationPage.propTypes = {
-  formData: PropTypes.object,
-  location: PropTypes.shape({
-    pathname: PropTypes.string,
-  }),
-  route: PropTypes.shape({
-    pageList: PropTypes.array,
-  }),
-  router: PropTypes.object,
+  goBack: PropTypes.func,
+  goForward: PropTypes.func,
+  NavButtons: PropTypes.elementType,
 };
 
-const mapStateToProps = state => ({
-  formData: state.form?.data,
-});
-
-export default connect(mapStateToProps)(SaveInformationPage);
+export default SaveInformationPage;

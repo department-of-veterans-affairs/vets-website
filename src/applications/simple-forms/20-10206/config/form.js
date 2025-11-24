@@ -28,16 +28,6 @@ import { PREPARER_TYPES, RECORD_TYPES, SUBTITLE, TITLE } from './constants';
 import prefillTransformer from './prefill-transformer';
 import transformForSubmit from './submit-transformer';
 
-// mock-data import for local development
-import testData from '../tests/e2e/fixtures/data/test-data.json';
-import { getMockData } from '../helpers';
-
-const mockData = testData.data;
-
-export function isLocalhostOrDev() {
-  return false;
-}
-
 /** @type {FormConfig} */
 const formConfig = {
   dev: {
@@ -92,14 +82,6 @@ const formConfig = {
     notFound: 'Start over to request personal records.',
     noAuth: 'Sign in again to continue your Personal records request.',
   },
-  additionalRoutes: [
-    {
-      path: 'save-information',
-      component: SaveInformationPage,
-      pageKey: 'save-information',
-      depends: () => true,
-    },
-  ],
   title: TITLE,
   subTitle: SUBTITLE,
   defaultDefinitions: {
@@ -115,12 +97,20 @@ const formConfig = {
         preparerTypePage: {
           path: 'preparer-type',
           title: 'Preparer type',
-          // we want req'd fields prefilled for LOCAL testing/previewing
-          // one single initialData prop here will suffice for entire form
-          initialData: getMockData(mockData, isLocalhostOrDev),
           uiSchema: preparerTypePg.uiSchema,
           schema: preparerTypePg.schema,
           pageClass: 'preparer-type-page',
+        },
+        saveInformationPage: {
+          path: 'save-information',
+          title: 'Save information',
+          CustomPage: SaveInformationPage,
+          CustomPageReview: null,
+          schema: {
+            type: 'object',
+            properties: {},
+          },
+          uiSchema: {},
         },
         personalInfoPage: {
           path: 'personal-information',

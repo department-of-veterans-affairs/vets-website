@@ -27,13 +27,13 @@ const appendLoggedInQueryParam = (windowLocation = window.location) => {
  * @param {Function} params.appendLoggedInQueryParam - Function to append logged in query param
  * @returns {React.Component} A sign-in button component
  */
-const createSignInButton = ({ userLoggedIn, routes, router }) => {
+const createSignInButton = ({ userLoggedIn, router }) => {
   const text = userLoggedIn
     ? 'Start your request'
     : 'Sign in to start your request';
 
   const nextRoute = userLoggedIn
-    ? routes[0].childRoutes[1].path
+    ? '/preparer-type'
     : appendLoggedInQueryParam();
 
   const onSignInButtonClick = event => {
@@ -65,7 +65,6 @@ export const IntroductionPage = ({
   userIdVerified,
   userLoggedIn,
   router,
-  routes,
 }) => {
   const content = {
     formTitle: TITLE,
@@ -166,7 +165,6 @@ export const IntroductionPage = ({
   const signInButton = () =>
     createSignInButton({
       userLoggedIn,
-      routes,
       router,
       appendLoggedInQueryParam,
     });
