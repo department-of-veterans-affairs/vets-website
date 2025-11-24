@@ -95,6 +95,14 @@ export const ROUTES = Object.freeze({
     'b',
   ),
   Q_2_IS_1B_NEW_EVIDENCE: getQuestionRouteName(S.Q_2_IS_1B_NEW_EVIDENCE, 'b'),
+  Q_2_IS_1B_2_JUDGE_HEARING: getQuestionRouteName(
+    S.Q_2_IS_1B_2_JUDGE_HEARING,
+    'b',
+  ),
+  Q_2_IS_1B_3_JUDGE_HEARING: getQuestionRouteName(
+    S.Q_2_IS_1B_3_JUDGE_HEARING,
+    'c',
+  ),
   Q_2_S_1_NEW_EVIDENCE: getQuestionRouteName(S.Q_2_S_1_NEW_EVIDENCE, 'c'),
   Q_2_S_2_WITHIN_120_DAYS: getQuestionRouteName(S.Q_2_S_2_WITHIN_120_DAYS),
   Q_2_H_2_NEW_EVIDENCE: getQuestionRouteName(S.Q_2_H_2_NEW_EVIDENCE, 'd'),

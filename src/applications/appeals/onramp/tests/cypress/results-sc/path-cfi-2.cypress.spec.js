@@ -25,6 +25,7 @@ const path = {
   Q_2_0_CLAIM_TYPE: 0,
   Q_2_IS_1A_LAW_POLICY_CHANGE: 1,
   Q_2_IS_1B_NEW_EVIDENCE: 0,
+  Q_2_IS_1B_3_JUDGE_HEARING: 1,
 };
 
 describe('Decision Reviews Onramp', () => {
