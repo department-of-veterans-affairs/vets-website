@@ -19,12 +19,16 @@ import LocatorApi from '../api';
 const returnAllCare = async params => {
   const { address, bounds, locationType, page, center, radius } = params;
   const isUrgentCare = locationType === LocationType.URGENT_CARE;
+  const perPage = 10;
+
+  // Always fetch page 1 from both APIs to get all available results
+  // (up to 50 from each = max 100 combined) for proper sorting by distance
   const vaData = await LocatorApi.searchWithBounds(
     address,
     bounds,
     locationType,
     isUrgentCare ? 'UrgentCare' : 'EmergencyCare',
-    page,
+    1,
     center,
     radius,
     true,
@@ -35,13 +39,14 @@ const returnAllCare = async params => {
     bounds,
     locationType,
     isUrgentCare ? 'NonVAUrgentCare' : 'NonVAEmergencyCare',
-    page,
+    1,
     center,
     radius,
     true,
   );
 
-  const combinedData = [...nonVaData.data, ...vaData.data]
+  // Combine and sort all results by distance
+  const allSortedData = [...nonVaData.data, ...vaData.data]
     .map(location => {
       const distance =
         center &&
@@ -53,21 +58,30 @@ const returnAllCare = async params => {
         );
       return { ...location, distance };
     })
-    .sort((resultA, resultB) => resultA.distance - resultB.distance)
-    .slice(0, 20);
+    .sort((resultA, resultB) => resultA.distance - resultB.distance);
+
+  // Calculate pagination
+  const totalEntries = allSortedData.length;
+  const totalPages = Math.ceil(totalEntries / perPage);
+  const currentPage = Math.min(page, totalPages) || 1;
+  const startIndex = (currentPage - 1) * perPage;
+  const endIndex = startIndex + perPage;
+
+  // Slice data for current page
+  const paginatedData = allSortedData.slice(startIndex, endIndex);
 
   return {
     meta: {
       pagination: {
-        currentPage: 1,
-        nextPage: null,
-        prevPage: null,
-        totalPages: 1,
-        totalEntries: combinedData.length,
+        currentPage,
+        nextPage: currentPage < totalPages ? currentPage + 1 : null,
+        prevPage: currentPage > 1 ? currentPage - 1 : null,
+        totalPages,
+        totalEntries,
       },
     },
     links: {},
-    data: combinedData,
+    data: paginatedData,
   };
 };
 
