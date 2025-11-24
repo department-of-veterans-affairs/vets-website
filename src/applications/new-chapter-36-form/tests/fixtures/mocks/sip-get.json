@@ -1,0 +1,14 @@
+{
+  "formData": {
+    "fullName": {
+      "first": "Abe",
+      "last": "Lincoln"
+    },
+    "dateOfBirth": "2000-01-01"
+  },
+  "metadata": {
+    "version": 0,
+    "prefill": true,
+    "returnUrl": "/veteran-information"
+  }
+}

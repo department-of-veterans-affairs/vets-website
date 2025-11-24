@@ -85,7 +85,7 @@ describe('checkAutoSession', () => {
     it('should redirect user to cerner if logged in via SSOe and on the "/sign-in/?application=myvahealth" subroute', async () => {
       sandbox.stub(keepAliveMod, 'keepAlive').returns({
         ttl: 900,
-        authn: CSP_IDS.DS_LOGON,
+        authn: CSP_IDS.ID_ME,
         transactionid: 'X',
       });
       const startingLocation = new URL(
@@ -109,7 +109,7 @@ describe('checkAutoSession', () => {
   it('should do nothing if on "/sign-in/?application=myvahealth" and not verified', async () => {
     sandbox.stub(keepAliveMod, 'keepAlive').returns({
       ttl: 900,
-      authn: CSP_IDS.DS_LOGON,
+      authn: CSP_IDS.ID_ME,
       transactionid: 'X',
     });
     const startingLocation = new URL(
@@ -131,8 +131,8 @@ describe('checkAutoSession', () => {
   it('should redirect user to home page if logged in via SSOe, verified, and on the standalone sign in page', async () => {
     sandbox.stub(keepAliveMod, 'keepAlive').returns({
       ttl: 900,
-      authn: CSP_IDS.DS_LOGON,
-      [AUTHN_KEYS.CSP_TYPE]: CSP_IDS.DSLOGON,
+      authn: CSP_IDS.ID_ME,
+      [AUTHN_KEYS.CSP_TYPE]: CSP_KEYS.IDME,
       transactionid: 'X',
     });
     const startingLocation = new URL('http://localhost/sign-in/');
@@ -152,8 +152,8 @@ describe('checkAutoSession', () => {
   it('should re login user before redirect to myvahealth because transactions are different', async () => {
     sandbox.stub(keepAliveMod, 'keepAlive').returns({
       ttl: 900,
-      [AUTHN_KEYS.CSP_TYPE]: CSP_KEYS.DSLOGON,
-      authn: CSP_IDS.DS_LOGON,
+      [AUTHN_KEYS.CSP_TYPE]: CSP_KEYS.IDME,
+      authn: CSP_IDS.ID_ME,
       transactionid: 'X',
     });
     const startingLocation = new URL(
@@ -173,8 +173,8 @@ describe('checkAutoSession', () => {
     sinon.assert.calledWith(auto, {
       policy: 'custom',
       queryParams: {
-        authn: CSP_IDS.DS_LOGON,
-        [AUTHN_KEYS.CSP_TYPE]: CSP_KEYS.DSLOGON,
+        authn: CSP_IDS.ID_ME,
+        [AUTHN_KEYS.CSP_TYPE]: CSP_KEYS.IDME,
       },
       clickedEvent: AUTH_EVENTS.SSO_LOGIN,
     });
@@ -229,8 +229,8 @@ describe('checkAutoSession', () => {
   it('should not auto logout if user is logged in and they have a matched SSOe session', async () => {
     sandbox.stub(keepAliveMod, 'keepAlive').returns({
       ttl: 900,
-      [AUTHN_KEYS.CSP_TYPE]: CSP_KEYS.DS_LOGON,
-      authn: CSP_IDS.DS_LOGON,
+      [AUTHN_KEYS.CSP_TYPE]: CSP_KEYS.IDME,
+      authn: CSP_IDS.ID_ME,
       transactionid: 'Y',
     });
     const auto = sandbox.stub(authUtils, 'logout');
@@ -260,7 +260,7 @@ describe('checkAutoSession', () => {
   it('should auto login if user is logged out, they have an ID.me SSOe session, have not previously tried to login', async () => {
     sandbox.stub(keepAliveMod, 'keepAlive').returns({
       ttl: 900,
-      authn: CSP_IDS.IDME,
+      authn: CSP_IDS.ID_ME,
       [AUTHN_KEYS.CSP_TYPE]: CSP_KEYS.IDME,
     });
     sandbox.stub(loginAttempted, 'getLoginAttempted').returns(undefined);
@@ -271,7 +271,7 @@ describe('checkAutoSession', () => {
     sinon.assert.calledWith(auto, {
       policy: 'custom',
       queryParams: {
-        authn: CSP_IDS.IDME,
+        authn: CSP_IDS.ID_ME,
         [AUTHN_KEYS.CSP_TYPE]: CSP_KEYS.IDME,
       },
       clickedEvent: AUTH_EVENTS.SSO_LOGIN,
@@ -352,7 +352,7 @@ describe('checkAutoSession', () => {
   it('should not auto login if user is logged out, they have a SSOe session and need to force auth', async () => {
     sandbox.stub(keepAliveMod, 'keepAlive').returns({
       ttl: 900,
-      authn: CSP_IDS.DS_LOGON,
+      authn: CSP_IDS.ID_ME,
       transactionid: 'X',
     });
     sandbox.stub(loginAttempted, 'getLoginAttempted').returns(true);
@@ -505,30 +505,6 @@ describe('keepAlive', () => {
     expect(KA_RESPONSE[AUTHN_KEYS.CSP_METHOD]).to.equal('IDME_DSL');
   });
 
-  it('should return active dslogon session', async () => {
-    const { ALIVE, CSP, TRANSACTION_ID, CSP_METHOD } = AUTHN_HEADERS;
-    stubFetch.resolves(
-      generateMockKeepAliveResponse({
-        headers: {
-          [ALIVE]: 'true',
-          [TRANSACTION_ID]: 'x',
-          [CSP]: 'DSLogon',
-          [CSP_METHOD]: 'IDME_DSL',
-        },
-        status: 200,
-      }),
-    );
-    const KA_RESPONSE = await keepAliveMod.keepAlive();
-
-    expect(KA_RESPONSE).to.eql({
-      ttl: 900,
-      transactionid: 'x',
-      authn: CSP_AUTHN.DS_LOGON,
-      [AUTHN_KEYS.CSP_TYPE]: CSP_KEYS.DSLOGON.toLowerCase(),
-      [AUTHN_KEYS.CSP_METHOD]: 'IDME_DSL',
-    });
-  });
-
   it('should return active mhv session', async () => {
     const { ALIVE, CSP, TRANSACTION_ID, CSP_METHOD } = AUTHN_HEADERS;
     stubFetch.resolves(
@@ -657,57 +633,54 @@ describe('generateAuthnContext', () => {
   });
 
   it('should return a string for each csp', () => {
-    [CSP_KEYS.MHV, CSP_KEYS.DSLOGON, CSP_KEYS.IDME, CSP_KEYS.LOGINGOV].forEach(
-      csp => {
-        const {
-          ALIVE,
-          CSP,
-          CSP_METHOD,
-          TRANSACTION_ID,
-          TIMEOUT,
-          AUTHN_CONTEXT,
-          IAL,
-        } = AUTHN_HEADERS;
+    [CSP_KEYS.MHV, CSP_KEYS.IDME, CSP_KEYS.LOGINGOV].forEach(csp => {
+      const {
+        ALIVE,
+        CSP,
+        CSP_METHOD,
+        TRANSACTION_ID,
+        TIMEOUT,
+        AUTHN_CONTEXT,
+        IAL,
+      } = AUTHN_HEADERS;
 
-        // mocked
-        const ial = '2';
+      // mocked
+      const ial = '2';
 
-        const { headers } = generateMockKeepAliveResponse({
-          headers: {
-            [ALIVE]: 'true',
-            [TIMEOUT]: 500,
-            [TRANSACTION_ID]: `tx-${csp}`,
-            [CSP]: csp,
-            [CSP_METHOD]: `${csp}_auth_method`,
-            [IAL]: ial,
-            ...(csp === 'idme' && {
-              [AUTHN_CONTEXT]: 'idme-test?skip_dupe=true',
-            }),
-          },
-          status: 200,
-        });
-
-        expect(
-          keepAliveMod.generateAuthnContext({
-            headers,
+      const { headers } = generateMockKeepAliveResponse({
+        headers: {
+          [ALIVE]: 'true',
+          [TIMEOUT]: 500,
+          [TRANSACTION_ID]: `tx-${csp}`,
+          [CSP]: csp,
+          [CSP_METHOD]: `${csp}_auth_method`,
+          [IAL]: ial,
+          ...(csp === 'idme' && {
+            [AUTHN_CONTEXT]: 'idme-test?skip_dupe=true',
           }),
-        ).to.eql({
-          [AUTHN_KEYS.CSP_TYPE]: csp.toLowerCase(),
-          [AUTHN_KEYS.CSP_METHOD]: `${csp}_auth_method`,
-          ...(csp !== CSP_KEYS.LOGINGOV
-            ? {
-                authn: {
-                  [CSP_KEYS.DSLOGON]: CSP_AUTHN.DS_LOGON,
-                  [CSP_KEYS.MHV]: CSP_AUTHN.MHV,
-                  [CSP_KEYS.IDME]: 'idme-test',
-                }[csp],
-              }
-            : {
-                [AUTHN_KEYS.IAL]: ial,
-              }),
-        });
-      },
-    );
+        },
+        status: 200,
+      });
+
+      expect(
+        keepAliveMod.generateAuthnContext({
+          headers,
+        }),
+      ).to.eql({
+        [AUTHN_KEYS.CSP_TYPE]: csp.toLowerCase(),
+        [AUTHN_KEYS.CSP_METHOD]: `${csp}_auth_method`,
+        ...(csp !== CSP_KEYS.LOGINGOV
+          ? {
+              authn: {
+                [CSP_KEYS.MHV]: CSP_AUTHN.MHV,
+                [CSP_KEYS.IDME]: 'idme-test',
+              }[csp],
+            }
+          : {
+              [AUTHN_KEYS.IAL]: ial,
+            }),
+      });
+    });
   });
 });
 
