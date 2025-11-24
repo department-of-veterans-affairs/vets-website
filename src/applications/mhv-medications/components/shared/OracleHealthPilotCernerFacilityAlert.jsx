@@ -13,10 +13,17 @@ const OracleHealthPilotCernerFacilityAlert = ({ className = '' }) => {
 
   const hasCernerFacilities = useMemo(
     () => {
-      return userFacilities?.some(facility =>
-        drupalCernerFacilities?.some(
-          f => f.vhaId === facility.facilityId && f.ehr === 'cerner',
-        ),
+      if (!userFacilities || !drupalCernerFacilities) {
+        return false;
+      }
+      // Create a Set of Cerner facility IDs for O(1) lookup
+      const cernerFacilityIds = new Set(
+        drupalCernerFacilities
+          .filter(f => f.ehr === 'cerner')
+          .map(f => f.vhaId),
+      );
+      return userFacilities.some(facility =>
+        cernerFacilityIds.has(facility.facilityId),
       );
     },
     [userFacilities, drupalCernerFacilities],
