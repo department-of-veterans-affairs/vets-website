@@ -4,14 +4,20 @@ import { Link } from 'react-router-dom-v5-compat';
 import ExtraDetails from '../shared/ExtraDetails';
 import LastFilledInfo from '../shared/LastFilledInfo';
 import { dateFormat, getRxStatus, rxSourceIsNonVA } from '../../util/helpers';
-import { dataDogActionNames } from '../../util/dataDogConstants';
-import { DATETIME_FORMATS } from '../../util/constants';
+import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
+import {
+  DATETIME_FORMATS,
+  RX_SOURCE,
+  DISPENSE_STATUS,
+} from '../../util/constants';
 
 const MedicationsListCard = ({ rx }) => {
   const pendingMed =
-    rx.prescriptionSource === 'PD' && rx?.dispStatus === 'NewOrder';
+    rx.prescriptionSource === RX_SOURCE.PENDING_DISPENSE &&
+    rx?.dispStatus === DISPENSE_STATUS.NEW_ORDER;
   const pendingRenewal =
-    rx.prescriptionSource === 'PD' && rx?.dispStatus === 'Renew';
+    rx.prescriptionSource === RX_SOURCE.PENDING_DISPENSE &&
+    rx?.dispStatus === DISPENSE_STATUS.RENEW;
   const latestTrackingStatus = rx?.trackingList?.[0];
   const isNonVaPrescription = rxSourceIsNonVA(rx);
   const rxStatus = getRxStatus(rx);
@@ -78,23 +84,18 @@ const MedicationsListCard = ({ rx }) => {
             {rxStatus}
           </p>
         )}
-        {rx && <ExtraDetails {...rx} />}
+        {rx && <ExtraDetails {...rx} page={pageType.LIST} />}
       </>
     );
   };
 
   return (
-    <div
-      className={`no-print rx-card-container ${
-        pendingMed || pendingRenewal
-          ? 'vads-u-background-color--gray-lightest'
-          : 'vads-u-background-color--white'
-      } vads-u-margin-y--2 vads-u-border--1px vads-u-border-color--base-dark no-break`}
+    <va-card
+      class={`no-print rx-card-container ${
+        pendingMed || pendingRenewal ? 'pending-med-or-renewal' : ''
+      } vads-u-margin-y--2 no-break`}
     >
-      <div
-        className="rx-card-details vads-u-padding--2"
-        data-testid="rx-card-info"
-      >
+      <div className="rx-card-details" data-testid="rx-card-info">
         <Link
           id={`card-header-${rx.prescriptionId}`}
           aria-describedby={
@@ -133,7 +134,7 @@ const MedicationsListCard = ({ rx }) => {
           )}
         {cardBodyContent()}
       </div>
-    </div>
+    </va-card>
   );
 };
 

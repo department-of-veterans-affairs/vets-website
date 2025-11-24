@@ -1,9 +1,9 @@
 import { expect } from 'chai';
 import {
-  EVIDENCE_OTHER,
-  EVIDENCE_PRIVATE,
-  EVIDENCE_VA,
-  LIMITED_CONSENT_RESPONSE,
+  HAS_OTHER_EVIDENCE,
+  HAS_PRIVATE_EVIDENCE,
+  HAS_VA_EVIDENCE,
+  HAS_PRIVATE_LIMITATION,
 } from '../../constants';
 import {
   hasPrivateEvidence,
@@ -17,8 +17,8 @@ describe('utils: form data retrieval', () => {
   describe('hasPrivateLimitation', () => {
     it('should return expected value', () => {
       const getData = limit => ({
-        [EVIDENCE_PRIVATE]: true,
-        [LIMITED_CONSENT_RESPONSE]: limit,
+        [HAS_PRIVATE_EVIDENCE]: true,
+        [HAS_PRIVATE_LIMITATION]: limit,
       });
 
       expect(hasPrivateLimitation(getData(false))).to.be.false;
@@ -31,25 +31,27 @@ describe('utils: form data retrieval', () => {
 
   describe('hasPrivateEvidence', () => {
     it('should return expected value', () => {
-      expect(hasPrivateEvidence({ [EVIDENCE_PRIVATE]: undefined })).to.be.false;
-      expect(hasPrivateEvidence({ [EVIDENCE_PRIVATE]: true })).to.be.true;
-      expect(hasPrivateEvidence({ [EVIDENCE_PRIVATE]: false })).to.be.false;
+      expect(hasPrivateEvidence({ [HAS_PRIVATE_EVIDENCE]: undefined })).to.be
+        .false;
+      expect(hasPrivateEvidence({ [HAS_PRIVATE_EVIDENCE]: true })).to.be.true;
+      expect(hasPrivateEvidence({ [HAS_PRIVATE_EVIDENCE]: false })).to.be.false;
     });
   });
 
   describe('hasVAEvidence', () => {
     it('should return expected value', () => {
-      expect(hasVAEvidence({ [EVIDENCE_VA]: undefined })).to.be.undefined;
-      expect(hasVAEvidence({ [EVIDENCE_VA]: true })).to.be.true;
-      expect(hasVAEvidence({ [EVIDENCE_VA]: false })).to.be.false;
+      expect(hasVAEvidence({ [HAS_VA_EVIDENCE]: undefined })).to.be.undefined;
+      expect(hasVAEvidence({ [HAS_VA_EVIDENCE]: true })).to.be.true;
+      expect(hasVAEvidence({ [HAS_VA_EVIDENCE]: false })).to.be.false;
     });
   });
 
   describe('hasOtherEvidence', () => {
     it('should return expected value', () => {
-      expect(hasOtherEvidence({ [EVIDENCE_OTHER]: undefined })).to.be.undefined;
-      expect(hasOtherEvidence({ [EVIDENCE_OTHER]: true })).to.be.true;
-      expect(hasOtherEvidence({ [EVIDENCE_OTHER]: false })).to.be.false;
+      expect(hasOtherEvidence({ [HAS_OTHER_EVIDENCE]: undefined })).to.be
+        .undefined;
+      expect(hasOtherEvidence({ [HAS_OTHER_EVIDENCE]: true })).to.be.true;
+      expect(hasOtherEvidence({ [HAS_OTHER_EVIDENCE]: false })).to.be.false;
     });
   });
 

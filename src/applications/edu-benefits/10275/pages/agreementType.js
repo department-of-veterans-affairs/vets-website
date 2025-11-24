@@ -4,7 +4,7 @@ import {
   radioUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-export const uiSchema = {
+const uiSchema = {
   ...titleUI('Choose your agreement type'),
   agreementType: radioUI({
     title: 'Please select an option below',
@@ -32,7 +32,7 @@ export const uiSchema = {
   ),
 };
 
-export const schema = {
+const schema = {
   type: 'object',
   properties: {
     agreementType: {
@@ -42,3 +42,25 @@ export const schema = {
   },
   required: ['agreementType'],
 };
+
+const updateFormData = (oldData, formData) => {
+  const prev = oldData?.agreementType;
+  const curr = formData?.agreementType;
+
+  if (prev !== curr) {
+    return {
+      agreementType: curr,
+      authorizedOfficial: {},
+      institutionDetails: {},
+      newCommitment: {
+        principlesOfExcellencePointOfContact: {},
+        schoolCertifyingOfficial: {},
+      },
+      additionalLocations: [],
+    };
+  }
+
+  return formData;
+};
+
+export { uiSchema, schema, updateFormData };

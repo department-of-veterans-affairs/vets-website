@@ -19,7 +19,7 @@ const stepchildFinancialSupportExit = {
   hasExitLink: true,
 
   /** @type {PicklistComponentProps} */
-  Component: ({ firstName }) => (
+  Component: ({ firstName, isShowingExitLink }) => (
     <>
       <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
         <span className="dd-privacy-mask" data-dd-action-name="first name">
@@ -28,22 +28,24 @@ const stepchildFinancialSupportExit = {
         still qualifies as your dependent
       </h3>
 
-      <p
-        className="dd-privacy-mask"
-        data-dd-action-name="child is still an eligible dependent"
-      >
-        Because you provide at least half of {makeNamePossessive(firstName)}{' '}
+      <p>
+        Because you provide at least half of
+        <span className="dd-privacy-mask" data-dd-action-name="first name">
+          {makeNamePossessive(firstName)}
+        </span>{' '}
         financial support, {firstName} is an eligible dependent.
       </p>
 
-      <p
-        className="dd-privacy-mask"
-        data-dd-action-name="child will remain on your benefits"
-      >
-        {firstName} will remain on your benefits.
+      <p>
+        <span className="dd-privacy-mask" data-dd-action-name="first name">
+          {firstName}
+        </span>{' '}
+        will remain on your benefits.
       </p>
 
-      <p>If you exit now, we’ll cancel the application you started.</p>
+      {isShowingExitLink && (
+        <p>If you exit now, we’ll cancel the application you started.</p>
+      )}
     </>
   ),
 };

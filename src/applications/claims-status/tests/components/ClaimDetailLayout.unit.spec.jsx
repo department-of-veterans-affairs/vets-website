@@ -42,8 +42,12 @@ describe('<ClaimDetailLayout>', () => {
         <ClaimDetailLayout claim={claim} />
       </Provider>,
     );
-    expect(container.getByRole('heading', { level: 2 })).to.contain.text(
-      'Claim status is unavailable',
+    expect(container.getByRole('heading', { level: 1 })).to.contain.text(
+      'We encountered a problem',
+    );
+    expect($('va-alert', container.container)).to.exist;
+    expect(container.container.textContent).to.include(
+      'VA.gov is having trouble loading claims information',
     );
   });
 

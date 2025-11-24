@@ -19,7 +19,7 @@ export const getSignInUrl = ({ __returnUrl } = {}) => {
   url.searchParams.set(USIP_QUERY_PARAMS.application, USIP_APPLICATIONS.ARP);
   url.searchParams.set(USIP_QUERY_PARAMS.OAuth, true);
 
-  url.searchParams.set(USIP_QUERY_PARAMS.to, '/poa-requests');
+  url.searchParams.set(USIP_QUERY_PARAMS.to, '/representation-requests');
 
   return url;
 };

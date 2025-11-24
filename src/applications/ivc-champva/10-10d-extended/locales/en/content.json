@@ -23,7 +23,6 @@
   "arraybuilder--button-delete-yes": "Yes, delete",
   "button--edit": "Edit",
   "button--update-page": "Update page",
-  "error--required": "You must provide a response",
   "form-label--middle-initial": "Middle initial",
   "form-title": "Apply for CHAMPVA benefits",
   "form-subtitle": "Application for CHAMPVA benefits (VA Form 10-10d)",
@@ -35,8 +34,8 @@
   "health-insurance--cancel-edit-description": "If you cancel editing this health insurance plan, we won\u2019t save its information. You\u2019ll return to a screen where you can add or remove other health insurance policies.",
   "health-insurance--delete-item-description": "This will delete %s and all the information from your list of other health insurance plans.",
   "health-insurance--delete-noun-description": "This will delete this %s and all the information from your list of other health insurance plans.",
-  "health-insurance--intro-title": "Report other health insurance",
   "health-insurance--summary-title": "Review other health insurance",
+  "health-insurance--summary-title-no-items": "Report health insurance plans",
   "health-insurance--yes-no-title": "Do you have any other health insurance to report for one or more applicants?",
   "health-insurance--yes-no-more-title": "Do you have any other health insurance to report?",
   "health-insurance--yes-no-hint": "If so, you must report this information for us to process your application.",
@@ -47,7 +46,6 @@
   "medicare--cancel-edit-description": "If you cancel editing this Medicare plan, we won\u2019t save its information. You\u2019ll return to a screen where you can add or remove other health insurance policies.",
   "medicare--delete-item-description": "This will delete %s\u2019s Medicare plan and all the information from your list of plans.",
   "medicare--delete-noun-description": "This will delete this Medicare plan and all the information from your list of plans.",
-  "medicare--intro-title": "Report Medicare plans",
   "medicare--summary-title": "Review Medicare",
   "medicare--summary-title-no-items": "Report Medicare plans",
   "medicare--yes-no-title": "Do any applicants have Medicare plans?",
@@ -57,5 +55,8 @@
   "noun--veteran-singular": "Veteran",
   "noun--veteran-possessive": "Veteran\u2019s",
   "ohi--section-title": "Submit your Other Health Insurance Certification (VA Form 10-7959c)",
-  "review--no-option": "No"
+  "review--no-option": "No",
+  "validation--required": "You must provide a response",
+  "validation--ssn-invalid": "Enter a valid 9-digit SSN (dashes allowed)",
+  "validation--ssn-unique": "This SSN has already been used. Enter a different number."
 }

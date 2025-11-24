@@ -450,38 +450,31 @@ const SmBreadcrumbs = () => {
     ],
   );
 
-  return (
-    <div>
-      {shortenBreadcrumb ? (
-        <nav
-          aria-label="Breadcrumb"
-          className="breadcrumbs vads-u-padding-y--4"
-        >
-          <va-link
-            back
-            text="Back"
-            href={backLinkHref}
-            onClick={e => {
-              e.preventDefault();
-              navigateBack();
-            }}
-            data-testid="sm-breadcrumbs-back"
-            data-dd-action-name="Breadcrumb - Back"
-          />
-        </nav>
-      ) : (
-        <VaBreadcrumbs
-          breadcrumbList={newCrumbsList}
-          label="Breadcrumb"
-          home-veterans-affairs
-          onRouteChange={handleRouteChange}
-          className="mobile-lg:vads-u-margin-y--2"
-          dataTestid="sm-breadcrumbs"
-          data-dd-action-name="Breadcrumb"
-          uswds
-        />
-      )}
+  return shortenBreadcrumb ? (
+    <div className="vads-u-padding-y--4 vads-u-display--inline-block">
+      <va-link
+        back
+        text="Back"
+        href={backLinkHref}
+        onClick={e => {
+          e.preventDefault();
+          navigateBack();
+        }}
+        data-testid="sm-breadcrumbs-back"
+        data-dd-action-name="Breadcrumb - Back"
+      />
     </div>
+  ) : (
+    <VaBreadcrumbs
+      breadcrumbList={newCrumbsList}
+      label="Breadcrumb"
+      home-veterans-affairs
+      onRouteChange={handleRouteChange}
+      className="mobile-lg:vads-u-margin-y--2"
+      dataTestid="sm-breadcrumbs"
+      data-dd-action-name="Breadcrumb"
+      uswds
+    />
   );
 };
 

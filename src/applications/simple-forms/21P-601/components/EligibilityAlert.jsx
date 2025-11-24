@@ -5,7 +5,7 @@ const EligibilityAlert = ({ formData }) => {
   // Check for disqualifying conditions
   if (formData.hasAlreadyFiled === true) {
     return (
-      <va-alert status="error" uswds>
+      <va-alert status="error" role="alert" uswds>
         <h3 slot="headline">You don’t need to complete this form</h3>
         <div>
           <p>
@@ -24,7 +24,7 @@ const EligibilityAlert = ({ formData }) => {
 
   if (formData.needsWitnessSignature === true) {
     return (
-      <va-alert status="error" uswds>
+      <va-alert status="error" role="alert" uswds>
         <h3 slot="headline">Unable to submit online</h3>
         <div>
           <p>
@@ -57,7 +57,7 @@ const EligibilityAlert = ({ formData }) => {
 
   if (formData.hasUnpaidCreditors === true) {
     return (
-      <va-alert status="error" uswds>
+      <va-alert status="error" role="alert" uswds>
         <h3 slot="headline">Third-party signatures required</h3>
         <div>
           <p>
@@ -76,8 +76,8 @@ const EligibilityAlert = ({ formData }) => {
           </ol>
           <p>
             <va-link
+              external
               href="https://www.va.gov/find-forms/about-form-21p-601/"
-              target="_blank"
               rel="noopener noreferrer"
               text="Download VA Form 21P-601 (PDF)"
             />

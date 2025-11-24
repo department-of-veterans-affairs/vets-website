@@ -32,6 +32,7 @@ import {
   ElectronicSignatureBox,
   ErrorMessages,
   DefaultFolders,
+  MessageHintText,
 } from '../../../util/constants';
 import { messageSignatureFormatter } from '../../../util/helpers';
 import * as messageActions from '../../../actions/messages';
@@ -1995,6 +1996,117 @@ describe('Compose form component', () => {
       );
     });
 
+    describe('message body textarea hint text', () => {
+      it('should display medication details hint when rxError exists', async () => {
+        const errorState = {
+          ...initialState,
+          sm: {
+            ...initialState.sm,
+            prescription: {
+              error: 'SM_GET_PRESCRIPTION_BY_ID_ERROR',
+              renewalPrescription: null,
+              isLoading: false,
+            },
+          },
+        };
+
+        const { container } = setup(errorState, Paths.COMPOSE);
+
+        await waitFor(() => {
+          const textarea = container.querySelector(
+            'va-textarea[name="compose-message-body"]',
+          );
+          expect(textarea).to.exist;
+          expect(textarea.getAttribute('hint')).to.equal(
+            MessageHintText.RX_RENEWAL_ERROR,
+          );
+        });
+      });
+
+      it('should display review details hint when renewalPrescription exists', async () => {
+        const successState = {
+          ...initialState,
+          sm: {
+            ...initialState.sm,
+            prescription: {
+              error: null,
+              renewalPrescription: {
+                prescriptionId: '123',
+                prescriptionName: 'Test Medication',
+              },
+              isLoading: false,
+            },
+          },
+        };
+
+        const { container } = setup(successState, Paths.COMPOSE);
+
+        await waitFor(() => {
+          const textarea = container.querySelector(
+            'va-textarea[name="compose-message-body"]',
+          );
+          expect(textarea).to.exist;
+          expect(textarea.getAttribute('hint')).to.equal(
+            MessageHintText.RX_RENEWAL_SUCCESS,
+          );
+        });
+      });
+
+      it('should not display hint when neither rxError nor renewalPrescription exist', async () => {
+        const noHintState = {
+          ...initialState,
+          sm: {
+            ...initialState.sm,
+            prescription: {
+              error: null,
+              renewalPrescription: null,
+              isLoading: false,
+            },
+          },
+        };
+
+        const { container } = setup(noHintState, Paths.COMPOSE);
+
+        await waitFor(() => {
+          const textarea = container.querySelector(
+            'va-textarea[name="compose-message-body"]',
+          );
+          expect(textarea).to.exist;
+          expect(textarea.getAttribute('hint')).to.be.null;
+        });
+      });
+
+      it('should prioritize rxError hint over renewalPrescription hint when both exist', async () => {
+        const bothExistState = {
+          ...initialState,
+          sm: {
+            ...initialState.sm,
+            prescription: {
+              error: 'Prescription not found',
+              renewalPrescription: {
+                prescriptionId: '123',
+                prescriptionName: 'Test Medication',
+              },
+              isLoading: false,
+            },
+          },
+        };
+
+        const { container } = setup(bothExistState, Paths.COMPOSE);
+
+        await waitFor(() => {
+          const textarea = container.querySelector(
+            'va-textarea[name="compose-message-body"]',
+          );
+          expect(textarea).to.exist;
+          // Should show error hint, not success hint
+          expect(textarea.getAttribute('hint')).to.equal(
+            MessageHintText.RX_RENEWAL_ERROR,
+          );
+        });
+      });
+    });
+
     it('calls sendMessage and verifies redirect path is available for prescription renewal flow', async () => {
       // Mock the sendMessage action to return a resolved promise
       const sendMessageStub = sandbox.stub(messageActions, 'sendMessage');
@@ -2122,6 +2234,206 @@ describe('Compose form component', () => {
           navigateToFolderByFolderIdSpy.calledWith(DefaultFolders.INBOX.id),
         ).to.be.true;
       });
+    });
+
+    it('calls sendMessage with suppressAlert=true when redirectPath exists', async () => {
+      // Mock the sendMessage action to return a resolved promise
+      const sendMessageStub = sandbox.stub(messageActions, 'sendMessage');
+      sendMessageStub.returns(() => Promise.resolve());
+
+      // Store original replace method and create spy
+      const originalLocation = global.window.location;
+      global.window.location = {};
+      global.window.location.replace = sinon.spy();
+
+      const customDraftMessage = {
+        ...draftMessage,
+        recipientId: 1013155,
+        recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+        triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+      };
+
+      const customState = {
+        ...draftState,
+        sm: {
+          ...draftState.sm,
+          prescription: {
+            renewalPrescription: { prescriptionId: '123' },
+            redirectPath: '/medications/refill',
+            error: undefined,
+            isLoading: false,
+          },
+          threadDetails: {
+            ...draftState.sm.threadDetails,
+            drafts: [customDraftMessage],
+          },
+        },
+      };
+
+      const screen = setup(customState, `/thread/${customDraftMessage.id}`, {
+        draft: customDraftMessage,
+        recipients: customState.sm.recipients,
+        categories,
+        pageTitle: 'Start your message',
+      });
+
+      fireEvent.click(screen.getByTestId('send-button'));
+
+      // Wait for the component's sendMessage to complete
+      await new Promise(resolve => setTimeout(resolve, 1200));
+
+      // Verify that sendMessage was called with suppressAlert=true (4th argument)
+      expect(sendMessageStub.called).to.be.true;
+      const sendMessageCall = sendMessageStub.getCall(0);
+      expect(sendMessageCall.args).to.have.lengthOf(4);
+      // Args: [sendData, hasAttachments, ohTriageGroup, suppressAlert]
+      expect(sendMessageCall.args[3]).to.equal(true); // suppressAlert should be true
+
+      // Restore original location
+      global.window.location = originalLocation;
+    });
+
+    it('calls sendMessage with suppressAlert=false when redirectPath does not exist', async () => {
+      // Mock the sendMessage action to return a resolved promise
+      const sendMessageStub = sandbox.stub(messageActions, 'sendMessage');
+      sendMessageStub.returns(() => Promise.resolve());
+
+      const navigateToFolderByFolderIdSpy = sandbox.stub(
+        helperUtils,
+        'navigateToFolderByFolderId',
+      );
+
+      const customDraftMessage = {
+        ...draftMessage,
+        recipientId: 1013155,
+        recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+        triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+      };
+
+      const customState = {
+        ...draftState,
+        sm: {
+          ...draftState.sm,
+          prescription: {
+            renewalPrescription: undefined,
+            redirectPath: undefined,
+            error: undefined,
+            isLoading: false,
+          },
+          threadDetails: {
+            ...draftState.sm.threadDetails,
+            drafts: [customDraftMessage],
+          },
+        },
+      };
+
+      const { getByTestId } = setup(
+        customState,
+        `/thread/${customDraftMessage.id}`,
+        {
+          draft: customDraftMessage,
+          recipients: customState.sm.recipients,
+          categories,
+          pageTitle: 'Start your message',
+        },
+      );
+
+      fireEvent.click(getByTestId('send-button'));
+
+      // Wait for the component's sendMessage to complete
+      await new Promise(resolve => setTimeout(resolve, 1200));
+
+      // Verify that sendMessage was called with suppressAlert=false (4th argument)
+      expect(sendMessageStub.called).to.be.true;
+      const sendMessageCall = sendMessageStub.getCall(0);
+      expect(sendMessageCall.args).to.have.lengthOf(4);
+      // Args: [sendData, hasAttachments, ohTriageGroup, suppressAlert]
+      expect(sendMessageCall.args[3]).to.equal(false); // suppressAlert should be false
+
+      // Verify normal navigation occurred
+      await waitFor(() => {
+        expect(
+          navigateToFolderByFolderIdSpy.calledWith(DefaultFolders.INBOX.id),
+        ).to.be.true;
+      });
+    });
+  });
+
+  describe('redirectPath prop', () => {
+    it('should pass redirectPath to ComposeFormActionButtons when prescription.redirectPath exists', () => {
+      const redirectPath = '/my-health/medications';
+
+      // Create a spy on React.createElement to intercept ComposeFormActionButtons props
+      const ComposeFormActionButtons = require('../../../components/ComposeForm/ComposeFormActionButtons')
+        .default;
+      const createElementSpy = sandbox.spy(React, 'createElement');
+
+      const customState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          prescription: {
+            renewalPrescription: undefined,
+            redirectPath,
+            error: undefined,
+            isLoading: false,
+          },
+        },
+      };
+
+      setup(customState, Paths.COMPOSE, {
+        recipients: customState.sm.recipients,
+        signature: {},
+        pageTitle: 'Start your message',
+      });
+
+      // Find the call to createElement with ComposeFormActionButtons
+      const actionButtonsCall = createElementSpy
+        .getCalls()
+        .find(call => call.args[0] === ComposeFormActionButtons);
+
+      expect(actionButtonsCall).to.exist;
+      expect(actionButtonsCall.args[1]).to.have.property(
+        'redirectPath',
+        redirectPath,
+      );
+    });
+
+    it('should pass undefined redirectPath to ComposeFormActionButtons when prescription.redirectPath does not exist', () => {
+      // Create a spy on React.createElement to intercept ComposeFormActionButtons props
+      const ComposeFormActionButtons = require('../../../components/ComposeForm/ComposeFormActionButtons')
+        .default;
+      const createElementSpy = sandbox.spy(React, 'createElement');
+
+      const customState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          prescription: {
+            renewalPrescription: undefined,
+            redirectPath: undefined,
+            error: undefined,
+            isLoading: false,
+          },
+        },
+      };
+
+      setup(customState, Paths.COMPOSE, {
+        recipients: customState.sm.recipients,
+        signature: {},
+        pageTitle: 'Start your message',
+      });
+
+      // Find the call to createElement with ComposeFormActionButtons
+      const actionButtonsCall = createElementSpy
+        .getCalls()
+        .find(call => call.args[0] === ComposeFormActionButtons);
+
+      expect(actionButtonsCall).to.exist;
+      expect(actionButtonsCall.args[1]).to.have.property(
+        'redirectPath',
+        undefined,
+      );
     });
   });
 });

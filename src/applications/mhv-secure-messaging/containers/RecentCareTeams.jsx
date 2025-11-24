@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { datadogRum } from '@datadog/browser-rum';
 import {
   VaRadio,
   VaRadioOption,
@@ -27,12 +28,26 @@ const RecentCareTeams = () => {
   const [error, setError] = useState(null);
   const { recipients, threadDetails } = useSelector(state => state.sm);
   const { acceptInterstitial } = threadDetails;
-  const { recentRecipients, allRecipients } = recipients;
+  const {
+    recentRecipients,
+    allRecipients,
+    noAssociations,
+    error: recipientsError,
+  } = recipients;
   const h1Ref = useRef(null);
   const {
     mhvSecureMessagingRecentRecipients,
     featureTogglesLoading,
   } = useFeatureToggles();
+
+  useEffect(
+    () => {
+      if (recipientsError || noAssociations) {
+        history.push(Paths.INBOX);
+      }
+    },
+    [recipientsError, noAssociations, history],
+  );
 
   useEffect(
     () => {
@@ -61,6 +76,17 @@ const RecentCareTeams = () => {
 
   useEffect(
     () => {
+      if (recentRecipients?.length > 0) {
+        datadogRum.addAction('Recent Care Teams loaded', {
+          recentCareTeamsCount: recentRecipients.length,
+        });
+      }
+    },
+    [recentRecipients],
+  );
+
+  useEffect(
+    () => {
       // If recentRecipients is null (fetched but none present), redirect
       if (
         recentRecipients?.length === 0 ||
@@ -78,6 +104,15 @@ const RecentCareTeams = () => {
       if (h1Ref.current && recentRecipients !== undefined) {
         h1Ref.current.focus();
       }
+    },
+    [recentRecipients],
+  );
+
+  useEffect(
+    () => {
+      document.title = `Recently Messaged Care Teams - Start Message${
+        Constants.PageTitles.DEFAULT_PAGE_TITLE_TAG
+      }`;
     },
     [recentRecipients],
   );
@@ -134,7 +169,12 @@ const RecentCareTeams = () => {
 
   return (
     <>
-      <h1 className="vads-u-margin-bottom--3" tabIndex="-1" ref={h1Ref}>
+      <h1
+        id="test01"
+        className="vads-u-margin-bottom--3"
+        tabIndex="-1"
+        ref={h1Ref}
+      >
         Care teams you recently sent messages to
       </h1>
       <EmergencyNote dropDownFlag />
@@ -163,6 +203,7 @@ const RecentCareTeams = () => {
                 value={recipient.triageTeamId}
                 description={healthCareSystemName}
                 data-dd-privacy="mask"
+                data-dd-action-name="Recent Care Teams radio option"
               />
             );
           })}

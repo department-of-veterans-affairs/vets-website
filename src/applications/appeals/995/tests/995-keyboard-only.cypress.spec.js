@@ -162,8 +162,8 @@ describe('Supplemental Claim keyboard only navigation', () => {
       verifyUrl(EVIDENCE_VA_PROMPT_URL);
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(100);
-      cy.tabToElement('[name="root_view:hasVaEvidence"]'); // Yes radio
-      cy.chooseRadio('Y');
+      cy.tabToElement('[name="va-prompt"]'); // Yes radio
+      cy.chooseRadio('y');
       tabToContinue();
 
       // *** VA evidence location details page

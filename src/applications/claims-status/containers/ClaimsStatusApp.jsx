@@ -6,14 +6,14 @@ import PropTypes from 'prop-types';
 import DowntimeNotification, {
   externalServices,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
+import { useBrowserMonitoring } from 'platform/monitoring/Datadog';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 
 import { setLastPage } from '../actions';
-import ClaimsAppealsUnavailable from '../components/ClaimsAppealsUnavailable';
+import ServiceUnavailableAlert from '../components/ServiceUnavailableAlert';
 import { isLoadingFeatures } from '../selectors';
-import { useBrowserMonitoring } from '../utils/datadog-rum/useBrowserMonitoring';
 
 const AppLoadingIndicator = ({ id }) => (
   <div className="loading-indicator-full-page-container">
@@ -42,7 +42,12 @@ function AppContent({ featureFlagsLoading, isDataAvailable }) {
 
   return (
     <div className="claims-status-content">
-      {!canUseApp && <ClaimsAppealsUnavailable />}
+      {!canUseApp && (
+        <ServiceUnavailableAlert
+          services={['claims', 'appeals']}
+          headerLevel={1}
+        />
+      )}
       {isAppReady && <Outlet />}
     </div>
   );
@@ -70,10 +75,11 @@ function ClaimsStatusApp({
   // Add Datadog UX monitoring to the application
   useBrowserMonitoring({
     loggedIn,
-    version: '1.0.0',
+    toggleName: 'cstUseDataDogRUM',
     applicationId: '75bb17aa-34f0-4366-b196-eb11eda75425',
     clientToken: 'pub21bfd23fdfb656231f24906ea91ccb01',
     service: 'benefits-claim-status-tool',
+    version: '1.0.0',
   });
 
   return (

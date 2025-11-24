@@ -1,114 +1,255 @@
 /**
  * @fileoverview Submit transformer for VA Form 21-2680 Examination for House-bound Status
  * @module config/submit-transformer
- *
- * This module transforms form data before submission to the backend API.
- *
- * Key transformations:
- * 1. When the claimant is the veteran, copies veteran information to claimant fields
- *    to ensure the backend receives complete data
- * 2. When not currently hospitalized, removes any stale hospitalization details
- *    (handles case where user entered details then changed answer to 'no')
  */
+
+import { filterViewFields } from 'platform/forms-system/src/js/helpers';
 
 /**
- * Transforms form data before submission
- *
- * This transformer performs two key transformations:
- * 1. When the veteran is filing for themselves (claimantRelationship === 'veteran'),
- *    copies veteran information to claimant fields
- * 2. When hospitalization status is 'no', removes any stale hospitalization details
- *    (handles case where user entered details then changed answer to 'no')
- *
- * @param {Object} formConfig - The form configuration object
- * @param {Object} formData - The form data collected from the user
- * @returns {Object} The transformed form data ready for submission
- *
- * @example
- * const transformed = submitTransformer(formConfig, {
- *   claimantRelationship: 'veteran',
- *   veteranIdentification: {
- *     veteranFullName: { first: 'John', last: 'Doe' },
- *     veteranDOB: '1980-01-01',
- *     veteranSSN: '123-45-6789'
- *   },
- *   veteranAddress: {
- *     veteranAddress: { street: '123 Main St', city: 'Springfield', ... }
- *   },
- *   hospitalizationStatus: {
- *     isCurrentlyHospitalized: 'no'
- *   },
- *   hospitalizationDate: { date: '2024-01-01' } // Will be removed
- * });
- * // transformed.claimantInformation will be populated with veteran's data
- * // transformed.hospitalizationDate and hospitalizationFacility will be removed
+ * Removes dashes and spaces from a string (used for SSN and phone formatting)
+ * @param {string} value - The value to clean
+ * @returns {string} Cleaned value with only digits
  */
-export function submitTransformer(_formConfig, formData) {
-  const transformedData = { ...formData };
+function cleanNumericString(value) {
+  if (!value) return '';
+  return value.replace(/[^0-9]/g, '');
+}
 
-  // Clean up duplicate/unnecessary data before submission
-  // Remove the 'veteran' object added by platform (duplicates veteranIdentification)
-  delete transformedData.veteran;
+/**
+ * Maps frontend relationship value to backend enum
+ * Frontend: veteran, spouse, parent, child
+ * Backend: self, spouse, parent, child
+ * @param {string} relationship - Frontend relationship value
+ * @returns {string} Backend relationship value
+ */
+function mapRelationship(relationship) {
+  if (relationship === 'veteran') return 'self';
+  return relationship || 'self';
+}
 
-  // If the veteran is the claimant, copy veteran information to claimant fields
-  // This ensures the backend receives complete claimant data even though
-  // the user didn't fill out separate claimant pages
-  // Note: claimantRelationship is nested due to sectionName in PageTemplate
+/**
+ * Maps frontend benefit type to backend benefitSelection enum
+ * Frontend: SMC, SMP (uppercase)
+ * Backend: smc, smp (lowercase)
+ * @param {string} benefitType - Frontend benefit type value
+ * @returns {string} Backend benefitSelection value (lowercase)
+ */
+function mapBenefitType(benefitType) {
+  if (!benefitType) return 'smc';
+  return benefitType.toLowerCase();
+}
+
+/**
+ * Builds veteranInformation section for backend submission
+ * @param {Object} cleanedData - Cleaned form data
+ * @returns {Object} Veteran information object
+ */
+function buildVeteranInformation(cleanedData) {
+  const veteranInfo = cleanedData.veteranInformation || {};
+  const veteranSsn = cleanNumericString(veteranInfo.veteranSsn);
+  const veteranVaFileNumber = cleanNumericString(
+    veteranInfo.veteranVaFileNumber,
+  );
+
+  const veteranInformation = {
+    fullName: {
+      first: veteranInfo.veteranFullName?.first || '',
+      middle: veteranInfo.veteranFullName?.middle || '',
+      last: veteranInfo.veteranFullName?.last || '',
+    },
+    ssn: veteranSsn,
+    dateOfBirth: veteranInfo.veteranDob || '',
+  };
+
+  // Only include vaFileNumber if it's not empty
+  if (veteranVaFileNumber) {
+    veteranInformation.vaFileNumber = veteranVaFileNumber;
+  }
+
+  return veteranInformation;
+}
+
+/**
+ * Builds address object from form data
+ * @param {Object} addressData - Address data from form
+ * @returns {Object} Formatted address object
+ */
+function buildAddress(addressData) {
+  return {
+    street: addressData?.street || '',
+    street2: addressData?.street2 || '',
+    city: addressData?.city || '',
+    state: addressData?.state || '',
+    postalCode: addressData?.postalCode || '',
+    country: addressData?.country || 'US',
+  };
+}
+
+/**
+ * Builds claimantInformation section for backend submission
+ * @param {Object} cleanedData - Cleaned form data
+ * @param {Object} veteranInformation - Built veteran information
+ * @returns {Object} Claimant information object
+ */
+function buildClaimantInformation(cleanedData, veteranInformation) {
   const isVeteranClaimant =
-    transformedData.claimantRelationship?.claimantRelationship === 'veteran';
+    cleanedData.claimantRelationship?.relationship === 'veteran';
 
-  if (isVeteranClaimant) {
-    const veteranName =
-      transformedData.veteranIdentification?.veteranFullName || {};
-    const veteranDOB = transformedData.veteranIdentification?.veteranDOB || '';
-    const veteranSSN = transformedData.veteranIdentification?.veteranSSN || '';
-    const veteranAddr = transformedData.veteranAddress?.veteranAddress || {};
+  const claimantInfo = cleanedData.claimantInformation || {};
+  const claimantSsnData = cleanedData.claimantSsn || {};
+  const claimantAddr = cleanedData.claimantAddress || {};
+  const claimantContactData = cleanedData.claimantContact || {};
+  const veteranAddr = cleanedData.veteranAddress || {};
 
-    // Copy veteran information to claimant fields
-    transformedData.claimantInformation = {
-      claimantFullName: {
-        first: veteranName.first || '',
-        middle: veteranName.middle || '',
-        last: veteranName.last || '',
-        suffix: veteranName.suffix || '',
-      },
-      claimantDOB: veteranDOB,
-    };
+  // Clean and validate SSN and phone
+  const claimantSsn = isVeteranClaimant
+    ? veteranInformation.ssn
+    : cleanNumericString(claimantSsnData.claimantSsn);
+  const claimantPhone = cleanNumericString(
+    claimantContactData.claimantPhoneNumber,
+  );
 
-    transformedData.claimantSSN = {
-      claimantSSN: veteranSSN,
-    };
+  // Build base claimant information
+  const claimantInformation = {
+    fullName: isVeteranClaimant
+      ? veteranInformation.fullName
+      : {
+          first: claimantInfo.claimantFullName?.first || '',
+          middle: claimantInfo.claimantFullName?.middle || '',
+          last: claimantInfo.claimantFullName?.last || '',
+        },
+    relationship: mapRelationship(
+      cleanedData.claimantRelationship?.relationship,
+    ),
+    address: isVeteranClaimant
+      ? buildAddress(veteranAddr.veteranAddress)
+      : buildAddress(claimantAddr.claimantAddress),
+  };
 
-    transformedData.claimantAddress = {
-      claimantAddress: {
-        street: veteranAddr.street || '',
-        street2: veteranAddr.street2 || '',
-        street3: veteranAddr.street3 || '',
-        city: veteranAddr.city || '',
-        state: veteranAddr.state || '',
-        postalCode: veteranAddr.postalCode || '',
-        country: veteranAddr.country || 'USA',
-        isMilitary: veteranAddr.isMilitary || false,
-      },
-    };
-
-    // Note: claimantContact (phone/email) intentionally left as-is
-    // The veteran pages don't collect contact information, so if the veteran
-    // is the claimant, contact info should come from claimantContact if present
+  // Add optional fields if they meet validation requirements
+  if (claimantSsn && claimantSsn.length === 9) {
+    claimantInformation.ssn = claimantSsn;
   }
 
-  // If not currently hospitalized, remove any stale hospitalization details
-  // This handles the case where the user entered hospital information,
-  // then went back and changed their answer to 'no'
+  const claimantDob = isVeteranClaimant
+    ? veteranInformation.dateOfBirth
+    : claimantInfo.claimantDob || '';
+  if (claimantDob) {
+    claimantInformation.dateOfBirth = claimantDob;
+  }
+
+  if (claimantPhone && claimantPhone.length === 10) {
+    claimantInformation.phoneNumber = claimantPhone;
+  }
+
+  const email = claimantContactData.claimantEmail || '';
+  if (email) {
+    claimantInformation.email = email;
+  }
+
+  return claimantInformation;
+}
+
+/**
+ * Builds benefitInformation section for backend submission
+ * @param {Object} cleanedData - Cleaned form data
+ * @returns {Object} Benefit information object
+ */
+function buildBenefitInformation(cleanedData) {
+  return {
+    benefitSelection: mapBenefitType(cleanedData.benefitType?.benefitType),
+  };
+}
+
+/**
+ * Builds additionalInformation section for backend submission
+ * @param {Object} cleanedData - Cleaned form data
+ * @returns {Object} Additional information object
+ */
+function buildAdditionalInformation(cleanedData) {
+  const hospitalizationStatusData = cleanedData.hospitalizationStatus || {};
+  const hospitalizationDateData = cleanedData.hospitalizationDate || {};
+  const hospitalizationFacilityData = cleanedData.hospitalizationFacility || {};
+
   const isCurrentlyHospitalized =
-    transformedData.hospitalizationStatus?.isCurrentlyHospitalized === 'yes';
+    hospitalizationStatusData.isCurrentlyHospitalized === true;
 
-  if (!isCurrentlyHospitalized) {
-    // Keep hospitalizationStatus (contains the 'no' answer)
-    // Remove hospitalizationDate and hospitalizationFacility
-    delete transformedData.hospitalizationDate;
-    delete transformedData.hospitalizationFacility;
+  const additionalInformation = {
+    currentlyHospitalized: isCurrentlyHospitalized,
+  };
+
+  // Only include hospitalization details if currently hospitalized
+  if (isCurrentlyHospitalized) {
+    additionalInformation.admissionDate =
+      hospitalizationDateData.admissionDate || '';
+    additionalInformation.hospitalName =
+      hospitalizationFacilityData.facilityName || '';
+    additionalInformation.hospitalAddress = buildAddress(
+      hospitalizationFacilityData.facilityAddress,
+    );
   }
 
-  return transformedData;
+  return additionalInformation;
+}
+
+/**
+ * Builds veteranSignature section for backend submission
+ * @param {Object} cleanedData - Cleaned form data
+ * @returns {Object} Veteran signature object
+ */
+function buildVeteranSignature(cleanedData) {
+  const signatureData = cleanedData.statementOfTruthSignature || '';
+  return {
+    signature: signatureData,
+    date: new Date().toISOString().split('T')[0], // YYYY-MM-DD format
+  };
+}
+
+/**
+ * Transforms form data from frontend structure to backend schema
+ *
+ * Frontend uses flat structure with separate page objects:
+ * - veteranInformation, veteranSsn, veteranAddress
+ * - claimantRelationship, claimantInformation, claimantSsn, claimantAddress, claimantContact
+ * - benefitType
+ * - hospitalizationStatus, hospitalizationDate, hospitalizationFacility
+ *
+ * Backend expects nested structure:
+ * - veteranInformation: { fullName, ssn, vaFileNumber, dateOfBirth }
+ * - claimantInformation: { fullName, dateOfBirth, ssn, relationship, address, phoneNumber, email }
+ * - benefitInformation: { benefitSelection }
+ * - additionalInformation: { currentlyHospitalized, admissionDate, hospitalName, hospitalAddress }
+ * - veteranSignature: { signature, date }
+ *
+ * @param {Object} _formConfig - The form configuration object (unused)
+ * @param {Object} form - The form state object from Redux
+ * @returns {string} JSON string of the transformed form data wrapped in { form: {...} }
+ */
+export function submitTransformer(_formConfig, form) {
+  // Extract the actual form data from the form state object
+  // The platform passes { data: {...}, formId: ..., submission: ... }
+  // We need just the data portion
+  const formData = form?.data || form;
+  const cleanedData = filterViewFields(formData);
+
+  // Build each section using helper functions
+  const veteranInformation = buildVeteranInformation(cleanedData);
+  const claimantInformation = buildClaimantInformation(
+    cleanedData,
+    veteranInformation,
+  );
+  const benefitInformation = buildBenefitInformation(cleanedData);
+  const additionalInformation = buildAdditionalInformation(cleanedData);
+  const veteranSignature = buildVeteranSignature(cleanedData);
+
+  // Assemble final backend-compliant structure
+  const backendData = {
+    veteranInformation,
+    claimantInformation,
+    benefitInformation,
+    additionalInformation,
+    veteranSignature,
+  };
+
+  return JSON.stringify({ form: backendData });
 }

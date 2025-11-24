@@ -6,8 +6,7 @@ import constants from 'vets-json-schema/dist/constants.json';
 export const dicOptions = {
   DIC: 'DIC',
   DIC_1151: 'DIC under U.S.C. 1151',
-  DIC_REEVALUATION:
-    'DIC due to claimant election of a re-evaluation of a previously denied claim based on expanded eligibility under PL 117-168 (PACT Act)',
+  DIC_REEVALUATION: 'DIC re-evaluation based on the PACT Act',
 };
 
 export const servicesOptions = {
@@ -27,6 +26,7 @@ export const claimantRelationshipOptions = {
   ADULT_CHILD_STILL_IN_SCHOOL:
     'Adult child who is 18-23 years old and still in school',
   ADULT_CHILD_SERIOUSLY_DISABLED: 'Adult child who is seriously disabled',
+  OTHER: 'Other',
 };
 
 export const marriageEndOptions = {
@@ -74,6 +74,12 @@ export const recipientTypeLabels = {
   CUSTODIAN_SPOUSE: 'Custodian’s spouse',
 };
 
+export const medicalExpenseRecipientLabels = {
+  VETERAN: 'Veteran (only select if a last or burial expense)',
+  SURVIVING_SPOUSE: 'Surviving spouse',
+  VETERANS_CHILD: 'Veteran’s child',
+};
+
 export const careTypeLabels = {
   RESIDENTIAL_CARE_FACILITY: 'Residential care facility',
   IN_HOME_CARE_ATTENDANT: 'In-home care attendant',
@@ -87,12 +93,22 @@ export const frequencyLabels = {
   ONE_TIME: 'One-time',
 };
 
+export const careFrequencyLabels = {
+  MONTHLY: 'Once a month',
+  YEARLY: 'Once a year',
+};
+
 export const typeOfIncomeLabels = {
   SOCIAL_SECURITY: 'Social Security',
   INTEREST_DIVIDEND: 'Interest or dividend income',
   CIVIL_SERVICE: 'Civil Service',
   PENSION_RETIREMENT: 'Pension or retirement income',
   OTHER: 'Other income',
+};
+
+export const careRecipientLabels = {
+  SURVIVING_SPOUSE: 'Surviving spouse',
+  OTHER: 'Other',
 };
 
 // Get military states to filter them out

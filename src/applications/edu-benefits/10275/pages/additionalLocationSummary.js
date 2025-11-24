@@ -10,7 +10,7 @@ const additionalLocationSummary = {
       additionalLocationArrayBuilderOptions,
       {
         title:
-          'Do you have any additional locations  you’d like to add to this agreement?  ',
+          'Do you have any additional locations you’d like to add to this agreement?',
         labels: {
           Y: 'Yes, I have additional locations to add',
           N: "No, I don't have additional locations to add",
@@ -22,7 +22,7 @@ const additionalLocationSummary = {
       },
       {
         title:
-          'Do you have another location you’d like to add to this agreement?  (',
+          'Do you have another location you’d like to add to this agreement?',
         labels: {
           Y: 'Yes, I have another location to add',
           N: "No, I don't have another location to add",

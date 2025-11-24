@@ -46,7 +46,7 @@ export const uploadPage = {
         formNumber,
         required: () => true,
         // Disallow uploads greater than 25 MB
-        maxFileSize: 25000000,
+        maxFileSize: 26214400, // 25MB in bytes
         updateUiSchema: formData => {
           return {
             'ui:title': warningsPresent(formData)
@@ -55,22 +55,6 @@ export const uploadPage = {
           };
         },
       }),
-      'ui:validations': [
-        (errors, data) => {
-          if (!(data?.confirmationCode && data?.name && data?.size)) {
-            errors.addError(`Upload a completed VA Form ${formNumber}`);
-          }
-          if (data?.name) {
-            const ext = data.name
-              .split('.')
-              .pop()
-              .toLowerCase();
-            if (ext !== 'pdf' && !window.Cypress) {
-              errors.addError('Your file must be .pdf format');
-            }
-          }
-        },
-      ],
     },
     'ui:objectViewField': SupportingEvidenceViewField,
     ...supportingEvidenceTitleAndDescription,
@@ -80,7 +64,7 @@ export const uploadPage = {
         required: false,
         skipUpload: false,
         fileUploadUrl: `${baseURL}/upload_supporting_documents`,
-        // Disallow uploads greater than 25 MB
+        // Disallow uploads greater than 100 MB
         maxFileSize: 104857600, // 100MB in bytes
         accept: '.pdf,jpg,.jpeg,.png',
         errorMessages: { required: `Upload a completed VA Form ${formNumber}` },

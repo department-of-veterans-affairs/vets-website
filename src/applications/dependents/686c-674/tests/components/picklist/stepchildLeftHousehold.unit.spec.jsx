@@ -82,7 +82,7 @@ describe('stepchildLeftHousehold', () => {
 
     $('va-memorable-date', container).__events.dateBlur({
       target: {
-        name: 'dateStepchildLeftHousehold',
+        name: 'endDate',
         tagName: 'VA-MEMORABLE-DATE',
         value: '2023-05-15',
       },
@@ -92,7 +92,7 @@ describe('stepchildLeftHousehold', () => {
     expect(
       onChange.calledWith({
         ...defaultData,
-        dateStepchildLeftHousehold: '2023-05-15',
+        endDate: '2023-05-15',
       }),
     ).to.be.true;
   });
@@ -100,7 +100,7 @@ describe('stepchildLeftHousehold', () => {
   it('should go forward when date is entered and form is submitted', async () => {
     const onSubmit = sinon.spy();
     const { container } = renderComponent({
-      data: { ...defaultData, dateStepchildLeftHousehold: '2023-05-15' },
+      data: { ...defaultData, endDate: '2023-05-15' },
       onSubmit,
     });
 
@@ -113,7 +113,7 @@ describe('stepchildLeftHousehold', () => {
 
   it('should show date value when already filled', () => {
     const { container } = renderComponent({
-      data: { ...defaultData, dateStepchildLeftHousehold: '2023-05-15' },
+      data: { ...defaultData, endDate: '2023-05-15' },
     });
 
     const dateField = $('va-memorable-date', container);
@@ -160,7 +160,7 @@ describe('stepchildLeftHousehold', () => {
     it('should call goForward when date is set on submit', () => {
       const goForward = sinon.spy();
       handlers.onSubmit({
-        itemData: { dateStepchildLeftHousehold: '2023-05-15' },
+        itemData: { endDate: '2023-05-15' },
         goForward,
       });
       expect(goForward.calledOnce).to.be.true;
@@ -169,7 +169,7 @@ describe('stepchildLeftHousehold', () => {
     it('should not call goForward when date is not set on submit', () => {
       const goForward = sinon.spy();
       handlers.onSubmit({
-        itemData: { dateStepchildLeftHousehold: undefined },
+        itemData: { endDate: undefined },
         goForward,
       });
       expect(goForward.calledOnce).to.be.false;

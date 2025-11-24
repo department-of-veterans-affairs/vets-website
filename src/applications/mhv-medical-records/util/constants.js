@@ -87,6 +87,7 @@ export const loincCodes = {
   HEART_RATE: '8867-4',
   PULSE_OXIMETRY_1: '59408-5',
   PULSE_OXIMETRY_2: '2708-6',
+  UHD_RADIOLOGY: 'LP29684-5',
 };
 
 export const fhirResourceTypes = {
@@ -158,6 +159,7 @@ export const interpretationMap = {
 export const EMPTY_FIELD = 'None recorded';
 export const NONE_RECORDED = 'None recorded';
 export const NO_INFO_REPORTED = 'No information reported';
+export const NO_INFO_PROVIDED = 'No information provided';
 export const NA = 'N/A';
 export const UNKNOWN = 'Unknown';
 
@@ -450,21 +452,8 @@ export const Breadcrumbs = {
   WEIGHT: { href: Paths.WEIGHT, label: 'Weight', isRouterLink: true },
 };
 
-export const DateRangeValues = {
-  ANY: 'any',
-  LAST3: 3,
-  LAST6: 6,
-  LAST12: 12,
-  CUSTOM: 'custom',
-};
-
-export const DateRangeOptions = [
-  { value: DateRangeValues.ANY, label: 'Any' },
-  { value: DateRangeValues.LAST3, label: 'Last 3 months' },
-  { value: DateRangeValues.LAST6, label: 'Last 6 months' },
-  { value: DateRangeValues.LAST12, label: 'Last 12 months' },
-  { value: DateRangeValues.CUSTOM, label: 'Custom' },
-];
+export const DEFAULT_DATE_RANGE = '3'; // last 3 months
+export const MONTH_BASED_OPTIONS = ['3', '6'];
 
 export const CernerAlertContent = {
   MR_LANDING_PAGE: {
@@ -590,4 +579,9 @@ export const statsdFrontEndActions = {
   DOWNLOAD_BLUE_BUTTON: 'download_blue_button',
   DOWNLOAD_CCD: 'download_ccd',
   DOWNLOAD_SEI: 'download_sei',
+};
+
+export const uhdRecordSource = {
+  VISTA: 'vista',
+  ORACLE_HEALTH: 'oracle-health',
 };

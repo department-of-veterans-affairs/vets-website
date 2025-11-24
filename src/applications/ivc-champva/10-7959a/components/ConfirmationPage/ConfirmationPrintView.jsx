@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const ConfirmationPrintView = ({ applicantName, signerName, submitDate }) => (
+const ConfirmationPrintView = ({ beneficiary, signee, submitDate }) => (
   <>
     <img
       src="/img/design/logo/logo-black-and-white.png"
@@ -21,41 +21,35 @@ const ConfirmationPrintView = ({ applicantName, signerName, submitDate }) => (
     <hr className="vads-u-margin-y--4" />
 
     <h3 className="vads-u-margin-top--0">Your submission information</h3>
-    <h4>Applicant’s name</h4>
-    <p
-      className="applicant-fullname dd-privacy-mask"
-      data-dd-action-name="Applicant name"
-    >
-      {applicantName}
+    <h4>Beneficiary’s name</h4>
+    <p className="dd-privacy-mask" data-dd-action-name="Beneficiary">
+      {beneficiary}
     </p>
 
     <h4>Who submitted this form</h4>
-    <p
-      className="signer-fullname dd-privacy-mask"
-      data-dd-action-name="Signer name"
-    >
-      {signerName}
+    <p className="dd-privacy-mask" data-dd-action-name="Signee">
+      {signee}
     </p>
 
-    {submitDate ? (
+    {submitDate && (
       <>
         <h4>Date submitted</h4>
         <p
-          className="submission-date dd-privacy-mask vads-u-margin-bottom--0"
+          className="dd-privacy-mask vads-u-margin-bottom--0"
           data-dd-action-name="Submission date"
         >
           {submitDate}
         </p>
       </>
-    ) : null}
+    )}
 
     <hr className="vads-u-margin-top--4 vads-u-margin-bottom--0" />
   </>
 );
 
 ConfirmationPrintView.propTypes = {
-  applicantName: PropTypes.string,
-  signerName: PropTypes.string,
+  beneficiary: PropTypes.string,
+  signee: PropTypes.string,
   submitDate: PropTypes.string,
 };
 

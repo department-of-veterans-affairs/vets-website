@@ -8,27 +8,89 @@ import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import Mileage from '../../../../components/complex-claims/pages/Mileage';
 import reducer from '../../../../redux/reducer';
 
-describe('Complex Claims Mileage', () => {
-  const defaultApptId = '12345';
+describe('Complex Claims Mileage - Add', () => {
+  const TEST_CLAIM_ID = 'abc123';
+  const TEST_APPT_ID = 'abc123';
 
-  const renderComponent = (apptId = defaultApptId) => {
-    return renderWithStoreAndRouter(
+  const getAddState = () => ({
+    travelPay: {
+      appointment: {
+        data: {
+          id: TEST_APPT_ID,
+          facilityName: 'Test VA Medical Center',
+          facilityAddress: {
+            addressLine1: '123 Medical Center Drive',
+            city: 'Test City',
+            stateCode: 'TX',
+            zipCode: '12345',
+          },
+          appointmentDate: '2024-01-15',
+          appointmentTime: '10:00 AM',
+        },
+        error: null,
+        isLoading: false,
+      },
+      claimDetails: {
+        data: {
+          [TEST_CLAIM_ID]: {
+            id: TEST_CLAIM_ID,
+            status: 'InProgress',
+            expenses: [],
+            appointmentId: TEST_APPT_ID,
+          },
+        },
+      },
+      claimSubmission: { isSubmitting: false, error: null, data: null },
+      complexClaim: {
+        claim: {
+          creation: { isLoading: false, error: null },
+          submission: { id: '', isSubmitting: false, error: null, data: null },
+          fetch: { isLoading: false, error: null },
+          data: {
+            documents: [],
+          },
+        },
+        expenses: {
+          creation: { isLoading: false, error: null },
+          update: { id: '', isLoading: false, error: null },
+          delete: { id: '', isLoading: false, error: null },
+          data: [],
+        },
+      },
+    },
+    user: {
+      profile: {
+        vapContactInfo: {
+          residentialAddress: {
+            addressLine1: '123 Main St',
+            addressLine2: 'Apt 1',
+            addressLine3: '',
+            city: 'Test City',
+            stateCode: 'TX',
+            zipCode: '12345',
+            countryName: 'United States',
+          },
+        },
+      },
+    },
+  });
+
+  const renderComponent = () =>
+    renderWithStoreAndRouter(
       <MemoryRouter
-        initialEntries={[`/file-new-claim/complex/${apptId}/mileage`]}
+        initialEntries={[
+          `/file-new-claim/${TEST_APPT_ID}/${TEST_CLAIM_ID}/mileage/`,
+        ]}
       >
         <Routes>
           <Route
-            path="/file-new-claim/complex/:apptId/mileage"
+            path="/file-new-claim/:apptId/:claimId/mileage"
             element={<Mileage />}
           />
         </Routes>
       </MemoryRouter>,
-      {
-        initialState: {},
-        reducers: reducer,
-      },
+      { initialState: getAddState(), reducers: reducer },
     );
-  };
 
   it('renders the component with all elements', () => {
     const screen = renderComponent();
@@ -41,7 +103,8 @@ describe('Complex Claims Mileage', () => {
       .exist;
     expect($('va-radio[id="departure-address"]')).to.exist;
     expect($('va-radio[id="trip-type"]')).to.exist;
-    expect($('va-button-pair')).to.exist;
+    expect($('.travel-pay-button-group')).to.exist;
+    expect($('va-modal')).to.exist;
   });
 
   it('renders mileage information in additional info component', () => {
@@ -124,7 +187,7 @@ describe('Complex Claims Mileage', () => {
       const tripTypeRadio = $('va-radio[id="trip-type"]');
       expect(tripTypeRadio).to.exist;
       expect(tripTypeRadio.getAttribute('label')).to.equal(
-        'Which address did you depart from?',
+        'Was your trip round trip or one way?',
       );
       expect(tripTypeRadio.hasAttribute('required')).to.be.true;
     });
@@ -157,43 +220,56 @@ describe('Complex Claims Mileage', () => {
     });
   });
 
-  describe('Button Pair', () => {
+  describe('Buttons', () => {
     it('renders button pair with correct properties', () => {
       renderComponent();
 
-      const buttonPair = $('va-button-pair');
-      expect(buttonPair).to.exist;
-      expect(buttonPair.hasAttribute('continue')).to.be.true;
-      expect(buttonPair.hasAttribute('disable-analytics')).to.be.true;
-      expect(buttonPair.getAttribute('class')).to.include('vads-u-margin-y--2');
+      const buttonGroup = $('.travel-pay-button-group');
+      expect(buttonGroup).to.exist;
+
+      const buttons = buttonGroup.querySelectorAll('va-button');
+      expect(buttons).to.have.lengthOf(2);
+
+      expect(buttons[0].hasAttribute('back')).to.be.true;
+      expect(buttons[1].hasAttribute('continue')).to.be.true;
     });
 
-    it('handles primary button click', () => {
+    it('handles primary "Continue" button click', () => {
       renderComponent();
 
-      const buttonPair = $('va-button-pair');
-      expect(buttonPair).to.exist;
+      const buttonGroup = $('.travel-pay-button-group');
+      expect(buttonGroup).to.exist;
 
-      // Simulate primary button click
-      fireEvent(buttonPair, new CustomEvent('primaryClick'));
+      const continueButton = buttonGroup.querySelectorAll('va-button')[1];
+      expect(continueButton).to.exist;
+      expect(continueButton.getAttribute('text')).to.eq('Continue');
 
-      // Since the handler is empty, we just verify the event can be fired
-      // In a real implementation, this would test navigation or form submission
-      expect(buttonPair).to.exist;
+      fireEvent.click(continueButton);
+      expect(continueButton).to.exist;
     });
 
-    it('handles secondary button click', () => {
+    it('handles secondary "Back" button click', () => {
       renderComponent();
 
-      const buttonPair = $('va-button-pair');
-      expect(buttonPair).to.exist;
+      const buttonGroup = $('.travel-pay-button-group');
+      expect(buttonGroup).to.exist;
 
-      // Simulate secondary button click
-      fireEvent(buttonPair, new CustomEvent('secondaryClick'));
+      const backButton = buttonGroup.querySelectorAll('va-button')[0];
+      expect(backButton).to.exist;
+      expect(backButton.getAttribute('text')).to.eq('Back');
 
-      // Since the handler is empty, we just verify the event can be fired
-      // In a real implementation, this would test back navigation
-      expect(buttonPair).to.exist;
+      fireEvent.click(backButton);
+
+      expect(backButton).to.exist;
+    });
+
+    it('renders "Cancel adding this expense" button', () => {
+      const { container } = renderComponent();
+
+      const addCancelButton = Array.from(
+        container.querySelectorAll('va-button'),
+      ).find(btn => btn.getAttribute('text') === 'Cancel adding this expense');
+      expect(addCancelButton).to.exist;
     });
   });
 
@@ -217,5 +293,202 @@ describe('Complex Claims Mileage', () => {
       expect(departureRadio.value).to.equal('');
       expect(tripTypeRadio.value).to.equal('');
     });
+  });
+
+  describe('CancelExpenseModal', () => {
+    it('"Cancel adding this expense" button opens cancel modal', () => {
+      const { container } = renderComponent();
+
+      const button = container.querySelector('va-button');
+      // Click Cancel button
+      fireEvent.click(button);
+
+      const modal = container.querySelector('va-modal');
+      expect(modal).to.exist;
+      expect(modal.visible).to.be.true;
+    });
+  });
+});
+
+describe('Complex Claims Mileage - Edit', () => {
+  const TEST_CLAIM_ID = 'abc123';
+  const TEST_EXPENSE_ID = 'abc123';
+  const TEST_APPT_ID = 'abc123';
+
+  const getEditState = () => ({
+    travelPay: {
+      appointment: {
+        data: {
+          id: TEST_APPT_ID,
+          facilityName: 'Test VA Medical Center',
+          facilityAddress: {
+            addressLine1: '123 Medical Center Drive',
+            city: 'Test City',
+            stateCode: 'TX',
+            zipCode: '12345',
+          },
+          appointmentDate: '2024-01-15',
+          appointmentTime: '10:00 AM',
+        },
+        error: null,
+        isLoading: false,
+      },
+      claimDetails: {
+        data: {
+          [TEST_CLAIM_ID]: {
+            id: TEST_CLAIM_ID,
+            status: 'InProgress',
+            expenses: [],
+            appointmentId: TEST_APPT_ID,
+          },
+        },
+      },
+      claimSubmission: { isSubmitting: false, error: null, data: null },
+      complexClaim: {
+        claim: {
+          creation: { isLoading: false, error: null },
+          submission: { id: '', isSubmitting: false, error: null, data: null },
+          fetch: { isLoading: false, error: null },
+          data: {
+            documents: [],
+          },
+        },
+        expenses: {
+          creation: { isLoading: false, error: null },
+          update: { id: '', isLoading: false, error: null },
+          delete: { id: '', isLoading: false, error: null },
+          data: [
+            {
+              id: TEST_EXPENSE_ID,
+              expenseType: 'Meal',
+              vendorName: 'Saved Vendor',
+              dateIncurred: '2025-11-17',
+              costRequested: '10.50',
+            },
+          ],
+        },
+      },
+    },
+    user: {
+      profile: {
+        vapContactInfo: {
+          residentialAddress: {
+            addressLine1: '123 Main St',
+            addressLine2: 'Apt 1',
+            addressLine3: '',
+            city: 'Test City',
+            stateCode: 'TX',
+            zipCode: '12345',
+            countryName: 'United States',
+          },
+        },
+      },
+    },
+  });
+
+  const renderEditPage = () =>
+    renderWithStoreAndRouter(
+      <MemoryRouter
+        initialEntries={[
+          `/file-new-claim/${TEST_APPT_ID}/${TEST_CLAIM_ID}/mileage/${TEST_EXPENSE_ID}`,
+        ]}
+      >
+        <Routes>
+          <Route
+            path="/file-new-claim/:apptId/:claimId/mileage/:expenseId"
+            element={<Mileage />}
+          />
+        </Routes>
+      </MemoryRouter>,
+      { initialState: getEditState(), reducers: reducer },
+    );
+
+  it('renders the component with all elements', () => {
+    const { getByRole } = renderEditPage();
+
+    expect(getByRole('heading', { level: 1 })).to.have.property(
+      'textContent',
+      'Mileage',
+    );
+    expect($('va-additional-info[trigger="How we calculate mileage"]')).to
+      .exist;
+    expect($('va-radio[id="departure-address"]')).to.exist;
+    expect($('va-radio[id="trip-type"]')).to.exist;
+    expect($('.travel-pay-button-group')).to.exist;
+    expect($('va-modal')).to.exist;
+  });
+
+  it('does NOT render "Cancel adding this expense" button', () => {
+    const { container } = renderEditPage();
+
+    const addCancelButton = Array.from(
+      container.querySelectorAll('va-button'),
+    ).find(btn => btn.getAttribute('text') === 'Cancel adding this expense');
+    expect(addCancelButton).to.not.exist;
+  });
+
+  it('the "Cancel" button opens modal in edit mode', () => {
+    renderEditPage();
+
+    const backButton = $('.travel-pay-button-group').querySelectorAll(
+      'va-button',
+    )[0];
+    fireEvent.click(backButton);
+
+    const modal = $('va-modal');
+    expect(modal.hasAttribute('visible')).to.be.true;
+  });
+
+  it('Cancel" button opens modal in edit mode', () => {
+    const { container } = renderEditPage();
+
+    const backButton = Array.from(container.querySelectorAll('va-button')).find(
+      btn => btn.getAttribute('text') === 'Cancel',
+    );
+    fireEvent.click(backButton);
+    const modal = container.querySelector('va-modal');
+    expect(modal.getAttribute('visible')).to.equal('true');
+  });
+
+  it('renders button pair with correct properties', () => {
+    renderEditPage();
+
+    const buttonGroup = $('.travel-pay-button-group');
+    expect(buttonGroup).to.exist;
+
+    const buttons = buttonGroup.querySelectorAll('va-button');
+    expect(buttons).to.have.lengthOf(2);
+
+    expect(buttons[0].hasAttribute('back')).to.be.true;
+    expect(buttons[1].hasAttribute('continue')).to.be.true;
+  });
+
+  it('handles primary "Save and continue" button click', () => {
+    renderEditPage();
+
+    const buttonGroup = $('.travel-pay-button-group');
+    expect(buttonGroup).to.exist;
+
+    const continueButton = buttonGroup.querySelectorAll('va-button')[1];
+    expect(continueButton).to.exist;
+    expect(continueButton.getAttribute('text')).to.eq('Save and continue');
+
+    fireEvent.click(continueButton);
+    expect(continueButton).to.exist;
+  });
+
+  it('handles secondary "Cancel" button click', () => {
+    renderEditPage();
+
+    const buttonGroup = $('.travel-pay-button-group');
+    expect(buttonGroup).to.exist;
+
+    const backButton = buttonGroup.querySelectorAll('va-button')[0];
+    expect(backButton).to.exist;
+    expect(backButton.getAttribute('text')).to.eq('Cancel');
+
+    fireEvent.click(backButton);
+
+    expect(backButton).to.exist;
   });
 });

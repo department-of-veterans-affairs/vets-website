@@ -34,12 +34,13 @@ const EnteredPoc = ({ value, onChange, options = [] }) => {
   return (
     <div className="radio-container">
       <VaRadio
-        name="previouslyEnteredPointOfContact"
+        name="pointOfContact"
         value={selectedKey}
         onVaValueChange={handleChange}
       >
         {options.map(o => (
           <VaRadioOption
+            name="pointOfContact"
             key={o.key}
             value={o.key}
             checked={!!o.key && selectedKey === o.key}

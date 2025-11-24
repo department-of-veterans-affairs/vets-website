@@ -4,26 +4,16 @@ import {
   VaRadio,
   VaButtonPair,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { EXPENSE_TYPES } from '../../../constants';
 
 const ChooseExpenseType = () => {
   const navigate = useNavigate();
-  const { apptId } = useParams();
+  const { apptId, claimId } = useParams();
   const [selectedExpenseType, setSelectedExpenseType] = useState('');
   const [showError, setShowError] = useState(false);
 
-  const expenseOptions = [
-    { value: 'mileage', label: 'Mileage' },
-    { value: 'parking', label: 'Parking' },
-    { value: 'tolls', label: 'Tolls' },
-    {
-      value: 'public-transportation',
-      label: 'Public transportation, taxi, or rideshare',
-    },
-    { value: 'air-fare', label: 'Air fare' },
-    { value: 'lodging', label: 'Lodging' },
-    { value: 'meals', label: 'Meals' },
-    { value: 'other', label: 'Other travel expenses' },
-  ];
+  // Convert EXPENSE_TYPES object into an array for mapping
+  const expenseOptions = Object.values(EXPENSE_TYPES);
 
   const handleContinue = () => {
     // TODO: Handle error case for existing mileage expense
@@ -38,32 +28,36 @@ const ChooseExpenseType = () => {
     }
 
     setShowError(false);
-    if (selectedExpenseType === 'mileage') {
-      navigate(`/file-new-claim/complex/${apptId}/mileage`);
-    } else {
-      // For other expense types, navigate to appropriate pages when they're created
-      // TODO: Add navigation for other expense types
+    // Navigate to the route defined in the constant
+    const selectedExpense = expenseOptions.find(
+      e => e.route === selectedExpenseType,
+    );
+
+    if (selectedExpense) {
+      navigate(`/file-new-claim/${apptId}/${claimId}/${selectedExpense.route}`);
     }
   };
 
   const handleBack = () => {
-    navigate(`/file-new-claim/complex/${apptId}`);
+    navigate(`/file-new-claim/${apptId}`, { state: { skipRedirect: true } });
   };
+
+  const hintText = 'You can submit 1 mileage expense for this claim.';
 
   return (
     <>
       <h1 className="vads-u-margin-bottom--2">
         What type of expense do you want to add?
       </h1>
-      <p>Start with one expense. You’ll be able to add other expenses later.</p>
+      <p>Select 1 expense. You’ll be able to add other expenses later.</p>
       <p className="vads-u-margin-bottom--0">
-        To request reimbursement for air fare, lodging, and meals, you’ll need a
-        pre-approval letter.
+        We’ll need to pre-approve any airfare, lodging, or meals before you
+        request reimbursement.
       </p>
       <VaRadio
         label="Choose an expense type"
         required
-        class="vads-u-margin-top--0"
+        class="vads-u-margin-top--2"
         error={showError ? 'Please select an expense type' : null}
         onVaValueChange={event => {
           setSelectedExpenseType(event.detail.value);
@@ -73,10 +67,13 @@ const ChooseExpenseType = () => {
         {expenseOptions.map(option => (
           <va-radio-option
             tile
-            key={option.value}
-            label={option.label}
-            value={option.value}
-            checked={selectedExpenseType === option.value}
+            key={option.route}
+            label={option.title}
+            value={option.route}
+            description={
+              option.name === EXPENSE_TYPES.Mileage.name ? hintText : ''
+            }
+            checked={selectedExpenseType === option.route}
           />
         ))}
       </VaRadio>

@@ -7,7 +7,11 @@ import { Paths } from '../utils/constants';
 import nonVARx from '../fixtures/non-VA-prescription-on-list-page.json';
 import prescription from '../fixtures/prescription-details.json';
 import prescriptionFillDate from '../fixtures/prescription-dispensed-datails.json';
-import { DATETIME_FORMATS, medicationsUrls } from '../../../util/constants';
+import {
+  DATETIME_FORMATS,
+  medicationsUrls,
+  RX_SOURCE,
+} from '../../../util/constants';
 import tooltipVisible from '../fixtures/tooltip-visible-list-page.json';
 import noToolTip from '../fixtures/tooltip-not-visible-list-page.json';
 import hidden from '../fixtures/tooltip-hidden.json';
@@ -353,7 +357,7 @@ class MedicationsListPage {
         'contain',
         'You have no refills left. If you need more, request a renewal.',
       );
-    cy.get('[data-testid="learn-to-renew-prescriptions-link"]')
+    cy.get('[data-testid="send-renewal-request-message-link"]')
       .should('exist')
       .and('be.visible');
   };
@@ -646,7 +650,7 @@ class MedicationsListPage {
 
     data.data.forEach(item => {
       const { dispensedDate, prescriptionSource } = item.attributes;
-      if (prescriptionSource === 'NV') {
+      if (prescriptionSource === RX_SOURCE.NON_VA) {
         nonVA.push(item);
       } else if (dispensedDate) {
         filled.push(item);
@@ -1130,6 +1134,81 @@ class MedicationsListPage {
 
   verifySortScreenReaderActionText = text => {
     cy.findByTestId('sort-action-sr-text').should('have.text', text);
+  };
+
+  // SendRxRenewalMessage component test helpers
+  verifyRenewalRequestLinkExists = () => {
+    cy.get('[data-testid="send-renewal-request-message-link"]')
+      .should('exist')
+      .and('be.visible');
+  };
+
+  verifyRenewalRequestActionLinkExists = () => {
+    cy.get('[data-testid="send-renewal-request-message-action-link"]')
+      .should('exist')
+      .and('be.visible');
+  };
+
+  clickRenewalRequestLink = () => {
+    cy.get('[data-testid="send-renewal-request-message-link"]')
+      .first()
+      .shadow()
+      .find('a')
+      .click();
+  };
+
+  clickRenewalRequestActionLink = () => {
+    cy.get('[data-testid="send-renewal-request-message-action-link"]')
+      .first()
+      .click();
+  };
+
+  verifyRenewalModalIsOpen = () => {
+    cy.get('va-modal')
+      .should('exist')
+      .and('have.attr', 'visible', 'true');
+
+    cy.get('va-modal')
+      .shadow()
+      .find('h2')
+      .should('contain', "You're leaving medications to send a message");
+  };
+
+  verifyRenewalModalIsClosed = () => {
+    cy.get('va-modal').should('have.attr', 'visible', 'false');
+  };
+
+  closeRenewalModalWithBackButton = () => {
+    cy.get('va-modal')
+      .shadow()
+      .find('button')
+      .contains('Back')
+      .click();
+  };
+
+  closeRenewalModalWithCloseButton = () => {
+    cy.get('va-modal')
+      .shadow()
+      .find('button[aria-label="Close"]')
+      .click();
+  };
+
+  verifyRenewalModalContent = () => {
+    cy.get('va-modal')
+      .find('p')
+      .first()
+      .should(
+        'contain',
+        "You'll need to select your provider and send them a message requesting a prescription renewal.",
+      );
+
+    cy.get('va-modal')
+      .find('p')
+      .eq(1)
+      .should(
+        'contain',
+        "If you need a medication immediately, you should call your VA pharmacy's automated refill line",
+      );
   };
 }
 

@@ -1,29 +1,44 @@
 import React, { useState } from 'react';
 
 import { useNavigate, useParams } from 'react-router-dom-v5-compat';
-import {
-  VaCheckbox,
-  VaButtonPair,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { useSelector, useDispatch } from 'react-redux';
+import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import TravelAgreementContent from '../../TravelAgreementContent';
+import TravelPayButtonPair from '../../shared/TravelPayButtonPair';
+import { submitComplexClaim } from '../../../redux/actions';
+import {
+  selectComplexClaim,
+  selectComplexClaimSubmissionState,
+} from '../../../redux/selectors';
 
 const AgreementPage = () => {
   const navigate = useNavigate();
-  const { apptId } = useParams();
+  const dispatch = useDispatch();
+  const { apptId, claimId } = useParams();
+  const { data: claimData } = useSelector(selectComplexClaim);
+  const { isSubmitting } = useSelector(selectComplexClaimSubmissionState);
   const [isAgreementChecked, setIsAgreementChecked] = useState(false);
   const [isAgreementError, setIsAgreementError] = useState(false);
-  const onSubmit = () => {
-    if (!isAgreementChecked) {
-      setIsAgreementError(true);
-    } else {
-      setIsAgreementError(false);
-      // TODO Add logic for Submitting the claim
-      navigate(`/file-new-claim/complex/${apptId}/confirmation`);
+
+  const onSubmit = async () => {
+    setIsAgreementError(!isAgreementChecked);
+
+    if (isAgreementChecked) {
+      try {
+        // Submit the complex claim
+        await dispatch(submitComplexClaim(claimId, claimData));
+        navigate(`/file-new-claim/${apptId}/${claimId}/confirmation`);
+      } catch (error) {
+        // Handle error - could show an error message or stay on the page
+        // eslint-disable-next-line no-console
+        console.error('Failed to submit complex claim:', error);
+        // TODO: Add proper error handling UI
+      }
     }
   };
 
   const onBack = () => {
-    navigate(`/file-new-claim/complex/${apptId}/review`);
+    navigate(`/file-new-claim/${apptId}/${claimId}/review`);
   };
 
   return (
@@ -57,15 +72,15 @@ const AgreementPage = () => {
         onVaChange={() => setIsAgreementChecked(!isAgreementChecked)}
         required
       />
-      <VaButtonPair
+      <TravelPayButtonPair
         data-testid="agreement-button-pair"
         className="vads-u-margin-top--2"
-        continue
-        disable-analytics
-        rightButtonText="Submit claim"
-        leftButtonText="Back"
-        onPrimaryClick={onSubmit}
-        onSecondaryClick={onBack}
+        continueText="Submit claim"
+        backText="Back"
+        onContinue={onSubmit}
+        onBack={onBack}
+        loading={isSubmitting}
+        hideContinueButtonArrows
       />
     </>
   );

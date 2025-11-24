@@ -105,7 +105,7 @@ export const IntroductionPage = ({ route }) => {
     <article className="schemaform-intro">
       <FormTitle title={TITLE} subTitle={SUBTITLE} />
 
-      <p className="va-introtext vads-u-font-family--serif">
+      <p className="vads-u-font-size--lg vads-u-font-family--serif vads-u-font-weight--normal vads-u-line-height--4">
         Use this form to begin your application for Aid and Attendance or
         Housebound allowance benefits. If you’re eligible, we’ll add these
         benefits to your monthly compensation or pension benefits.

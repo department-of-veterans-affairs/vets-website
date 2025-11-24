@@ -57,11 +57,11 @@ const ApplicantContactDetailsLoggedIn = ({
 
   const handleEdit = field => {
     if (field === 'phone') {
-      goToPath('applicant-contact-details-logged-in/edit-phone', {
+      goToPath('/applicant-contact-details-logged-in/edit-phone', {
         force: true,
       });
     } else if (field === 'email') {
-      goToPath('applicant-contact-details-logged-in/edit-email', {
+      goToPath('/applicant-contact-details-logged-in/edit-email', {
         force: true,
       });
     }
@@ -88,15 +88,22 @@ const ApplicantContactDetailsLoggedIn = ({
     };
 
     return (
-      <div>
-        <div className="review-row">
-          <dt>Phone number</dt>
-          <dd>{formatPhone(phoneNumber)}</dd>
+      <div className="form-review-panel-page">
+        <div className="form-review-panel-page-header-row">
+          <h4 className="form-review-panel-page-header vads-u-font-size--h5">
+            Contact details
+          </h4>
         </div>
-        <div className="review-row">
-          <dt>Email address</dt>
-          <dd>{email || 'Not provided'}</dd>
-        </div>
+        <dl className="review">
+          <div className="review-row">
+            <dt>Phone number</dt>
+            <dd>{formatPhone(phoneNumber)}</dd>
+          </div>
+          <div className="review-row">
+            <dt>Email address</dt>
+            <dd>{email || 'Not provided'}</dd>
+          </div>
+        </dl>
       </div>
     );
   }
@@ -111,7 +118,7 @@ const ApplicantContactDetailsLoggedIn = ({
         content="We may contact you at the email address or phone number you provide here."
       />
       {contentBeforeButtons}
-      <NavButtons goBack={goBack} goForward={goForward} />
+      {NavButtons && <NavButtons goBack={goBack} goForward={goForward} />}
       {contentAfterButtons}
     </div>
   );

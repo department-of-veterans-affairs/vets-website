@@ -267,7 +267,10 @@ const AttachmentsList = props => {
       <ul className="attachments-list">
         {!!attachments.length &&
           attachments.map(file => (
-            <li key={file.name + file.size}>
+            <li
+              key={file.name + file.size}
+              data-dd-action-name="Attachment Item"
+            >
               {editingEnabled && (
                 <div className="editable-attachment vads-u-display--flex vads-u-flex-direction--row">
                   <span

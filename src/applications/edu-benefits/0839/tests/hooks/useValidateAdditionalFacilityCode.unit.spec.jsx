@@ -557,7 +557,7 @@ describe('useValidateAdditionalFacilityCode', () => {
         );
       expect(successCall).to.exist;
       expect(successCall.args[0].additionalInstitutionDetails[0].ihlEligible).to
-        .be.null;
+        .be.false;
     });
   });
 

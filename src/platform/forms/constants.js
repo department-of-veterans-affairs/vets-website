@@ -115,6 +115,8 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_21P_8416: '21P-8416',
   FORM_21P_534EZ: '21P-534EZ',
   FORM_21P_601: '21P-601',
+  FORM_22_10278: '22-10278',
+  FORM_22_0976: '22-0976',
 });
 
 export const VA_FORM_IDS_SKIP_INFLECTION = Object.freeze([
@@ -301,6 +303,8 @@ export const getAllFormLinks = getAppUrlImpl => {
     )}/21P-4185/introduction/`,
     [VA_FORM_IDS.FORM_21P_534EZ]: `${tryGetAppUrl('survivors-benefits')}/`,
     [VA_FORM_IDS.FORM_21P_601]: `${tryGetAppUrl('21P-601')}/`,
+    [VA_FORM_IDS.FORM_22_10278]: `${tryGetAppUrl('22-10278')}/`,
+    [VA_FORM_IDS.FORM_22_0976]: `${tryGetAppUrl('22-0976')}/`,
   };
 };
 
@@ -834,7 +838,7 @@ export const MY_VA_SIP_FORMS = [
   },
   {
     id: VA_FORM_IDS.FORM_22_10297,
-    title: 'Apply for VET TEC 2.0 (high-tech program) (22-10297)',
+    title: 'Apply for VET TEC 2.0 (high-tech program)',
     description:
       'Application for High Technology Veterans Education, Training, and Skills (VA Form 22-10297)',
     trackingPrefix: 'edu-10297-',
@@ -851,10 +855,8 @@ export const MY_VA_SIP_FORMS = [
   },
   {
     id: VA_FORM_IDS.FORM_22_10275,
-    benefit:
-      'Commit to the Principles of Excellence for educational institutions',
     title:
-      'Commit to the Principles of Excellence for educational institutions (22-10275)',
+      'Commit to the Principles of Excellence for educational institutions',
     description:
       'Principles of Excellence for educational institutions (VA Form 22-10275)',
     trackingPrefix: 'edu-10275-',
@@ -941,6 +943,21 @@ export const MY_VA_SIP_FORMS = [
     description:
       'Application for Accrued Amounts Due a Deceased Beneficiary (21P-601)',
     trackingPrefix: '21p-601-accrued-benefits-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_22_10278,
+    benefit: 'Authorize VA to disclose personal information to a third party',
+    title: 'Authorize VA to disclose personal information to a third party',
+    description:
+      'Authorize VA to disclose personal information to a third party (22-10278)',
+    trackingPrefix: 'edu-10278-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_22_0976,
+    benefit: 'Approval of a Program in a Foreign Country',
+    title: 'Program Apporval in a Foreign Country (VA Form 22-0976)',
+    description: 'Approval of a Program in a Foreign Country (VA Form 22-0976)',
+    trackingPrefix: 'edu-0976-',
   },
 ];
 

@@ -66,7 +66,7 @@ const schema = {
         institutionAddress: {
           type: 'object',
           properties: {
-            country: addressSchema().properties.country,
+            country: { type: 'string' },
             street: addressSchema().properties.street,
             street2: {
               ...addressSchema().properties.street2,

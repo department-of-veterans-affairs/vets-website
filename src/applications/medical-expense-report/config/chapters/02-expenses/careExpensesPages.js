@@ -18,8 +18,14 @@ import {
   arrayBuilderYesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
+import { getArrayUrlSearchParams } from '~/platform/forms-system/src/js/patterns/array-builder/helpers';
 import { recipientTypeLabels, careTypeLabels } from '../../../utils/labels';
-import { transformDate } from './helpers';
+import {
+  transformDate,
+  hideIfInHomeCare,
+  requiredIfInHomeCare,
+  getCostPageTitle,
+} from './helpers';
 
 function introDescription() {
   return (
@@ -93,27 +99,40 @@ function introDescription() {
   );
 }
 
+function checkIsItemIncomplete(item) {
+  return (
+    !item?.typeOfCare ||
+    !item?.recipient ||
+    ((item.recipient === 'DEPENDENT' || item.recipient === 'OTHER') &&
+      !item?.recipientName) ||
+    !item?.provider ||
+    !item?.careDateRange?.from ||
+    !item?.monthlyAmount ||
+    (item?.typeOfCare === 'IN_HOME_CARE_ATTENDANT' &&
+      (!item?.hourlyRate || !item?.weeklyHours))
+  );
+}
+
 /** @type {ArrayBuilderOptions} */
 export const options = {
   arrayPath: 'careExpenses',
   nounSingular: 'care expense',
   nounPlural: 'care expenses',
   required: false,
-  isItemIncomplete: item =>
-    !item?.typeOfCare ||
-    !item?.recipient ||
-    ((item.recipient === 'DEPENDENT' || item.recipient === 'OTHER') &&
-      !item?.recipientName) ||
-    !item?.provider ||
-    !item?.careDate?.from ||
-    !item?.monthlyAmount ||
-    (item?.typeOfCare === 'IN_HOME_CARE_ATTENDANT' &&
-      (!item?.hourlyRate || !item?.weeklyHours)),
-  maxItems: 5,
+  isItemIncomplete: item => checkIsItemIncomplete(item),
+  maxItems: 8,
   text: {
     getItemName: item =>
       careTypeLabels[(item?.typeOfCare)] || 'New care expense',
-    cardDescription: item => transformDate(item?.careDate?.from) || '',
+    cardDescription: item => transformDate(item?.careDateRange?.from) || '',
+    cancelAddTitle: 'Cancel adding this care expense?',
+    cancelEditTitle: 'Cancel editing this care expense?',
+    cancelAddDescription:
+      'If you cancel, we won’t add this expense to your list of care expenses. You’ll return to a page where you can add a new care expense.',
+    cancelAddYes: 'Yes, cancel adding',
+    cancelAddNo: 'No, continue adding',
+    cancelEditYes: 'Yes, cancel editing',
+    cancelEditNo: 'No, continue editing',
   },
 };
 
@@ -159,7 +178,14 @@ const summaryPage = {
 /** @returns {PageSchema} */
 const typeOfCarePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Type of care'),
+    ...arrayBuilderItemSubsequentPageTitleUI('Type of care', () => {
+      const search = getArrayUrlSearchParams();
+      const isEdit = search.get('edit');
+      if (isEdit) {
+        return 'We’ll take you through each of the sections of this care expense for you to review and edit.';
+      }
+      return null;
+    }),
     typeOfCare: radioUI({
       title: 'Select the type of care.',
       labels: careTypeLabels,
@@ -211,7 +237,7 @@ const datePage = {
       'Care provider’s name and dates of care',
     ),
     provider: textUI('What’s the name of the care provider?'),
-    careDate: currentOrPastDateRangeUI(
+    careDateRange: currentOrPastDateRangeUI(
       {
         title: 'Care start date',
         monthSelect: false,
@@ -227,7 +253,7 @@ const datePage = {
     type: 'object',
     properties: {
       provider: textSchema,
-      careDate: {
+      careDateRange: {
         ...currentOrPastDateRangeSchema,
         required: ['from'],
       },
@@ -248,32 +274,20 @@ const costPage = {
     hourlyRate: {
       ...currencyUI({
         title: 'What is the care provider’s hourly rate?',
-        hideIf: (formData, index, fullData) => {
-          const careExpenses = formData?.careExpenses ?? fullData?.careExpenses;
-          const careExpense = careExpenses?.[index];
-          return careExpense?.typeOfCare !== 'IN_HOME_CARE_ATTENDANT';
-        },
+        hideIf: (formData, index, fullData) =>
+          hideIfInHomeCare(formData, index, fullData),
       }),
-      'ui:required': (formData, index, fullData) => {
-        const careExpenses = formData?.careExpenses ?? fullData?.careExpenses;
-        const careExpense = careExpenses?.[index];
-        return careExpense?.typeOfCare === 'IN_HOME_CARE_ATTENDANT';
-      },
+      'ui:required': (formData, index, fullData) =>
+        requiredIfInHomeCare(formData, index, fullData),
     },
     weeklyHours: {
       ...numberUI({
         title: 'How many hours per week does the care provider work?',
-        hideIf: (formData, index, fullData) => {
-          const careExpenses = formData?.careExpenses ?? fullData?.careExpenses;
-          const careExpense = careExpenses?.[index];
-          return careExpense?.typeOfCare !== 'IN_HOME_CARE_ATTENDANT';
-        },
+        hideIf: (formData, index, fullData) =>
+          hideIfInHomeCare(formData, index, fullData),
       }),
-      'ui:required': (formData, index, fullData) => {
-        const careExpenses = formData?.careExpenses ?? fullData?.careExpenses;
-        const careExpense = careExpenses?.[index];
-        return careExpense?.typeOfCare === 'IN_HOME_CARE_ATTENDANT';
-      },
+      'ui:required': (formData, index, fullData) =>
+        requiredIfInHomeCare(formData, index, fullData),
     },
   },
   schema: {
@@ -319,10 +333,7 @@ export const careExpensesPages = arrayBuilderPages(options, pageBuilder => ({
     schema: datePage.schema,
   }),
   careExpensesCostPage: pageBuilder.itemPage({
-    title: ({ formData }) => {
-      const provider = formData?.provider ?? '';
-      return provider ? `Cost of care for ${provider}` : 'Cost of care';
-    },
+    title: ({ formData }) => getCostPageTitle(formData),
     path: 'expenses/care/:index/cost',
     uiSchema: costPage.uiSchema,
     schema: costPage.schema,

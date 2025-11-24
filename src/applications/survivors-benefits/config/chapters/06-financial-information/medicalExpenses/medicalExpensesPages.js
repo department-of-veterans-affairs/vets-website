@@ -14,14 +14,18 @@ import {
   arrayBuilderYesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
-import { recipientTypeLabels, frequencyLabels } from '../../../../utils/labels';
+import {
+  medicalExpenseRecipientLabels,
+  frequencyLabels,
+} from '../../../../utils/labels';
+import { transformDate } from '../../05-claim-information/helpers';
 
 function introDescription() {
   return (
     <div>
       <p className="vads-u-margin-top--0">
         We’ll now ask about medical or certain other expenses that aren’t
-        reimbursed.
+        reimbursed. You may add up to 6 medical or other expenses.
       </p>
       <p>These types of expenses can include:</p>
       <ul>
@@ -57,12 +61,12 @@ function introDescription() {
 }
 
 /** @type {ArrayBuilderOptions} */
-const options = {
+export const options = {
   arrayPath: 'medicalExpenses',
   nounSingular: 'medical expense',
   nounPlural: 'medical expenses',
   required: false,
-  maxItems: 5,
+  maxItems: 6,
   isItemIncomplete: item =>
     !item?.recipient ||
     (['VETERANS_CHILD', 'OTHER'].includes(item?.recipient) &&
@@ -72,11 +76,49 @@ const options = {
     !item?.frequency ||
     !item?.amount,
   text: {
-    getItemName: item => item?.purpose || 'Medical expense',
-    cardDescription: () => 'Date',
-    summaryTitle: () => 'Review your medical and other expenses',
-    yesNoBlankReviewQuestion: () =>
-      'Do you have another medical or other expense to add?',
+    cancelAddTitle: 'Cancel adding this medical expense?',
+    cancelEditTitle: 'Cancel editing this medical expense?',
+    cancelAddDescription:
+      'If you cancel, we won’t add this medical expense to your list of expenses. You’ll return to a page where you can add a new medical expense.',
+    cancelEditDescription:
+      'If you cancel, you’ll lose any changes you made to this expense and you will be returned to the medical expenses review page.',
+    cancelAddYes: 'Yes, cancel adding',
+    cancelAddNo: 'No, continue adding',
+    cancelEditYes: 'Yes, cancel editing',
+    cancelEditNo: 'No, continue editing',
+    deleteDescription:
+      'This will delete the information from your list of medical expenses. You’ll return to a page where you can add a new medical expense.',
+    deleteNeedAtLeastOneDescription: '',
+    deleteNo: 'No, keep',
+    deleteTitle: 'Delete this medical expense?',
+    deleteYes: 'Yes, delete',
+    alertMaxItems: (
+      <div>
+        <p className="vads-u-margin-top--0">
+          You have added the maximum number of allowed medical and other
+          expenses for this application. Additional medical expenses can be
+          added using VA Form 21P-8416 and uploaded at the end of this
+          application.
+        </p>
+        <va-link
+          href="https://www.va.gov/find-forms/about-form-21p-8416"
+          external
+          text="Get VA Form 21P-8416 to download"
+        />
+      </div>
+    ),
+    getItemName: item => item?.paymentRecipient || 'Medical expense',
+    cardDescription: item => (
+      <div>
+        <span className="vads-u-display--block">
+          {transformDate(item.paymentDate) || 'Date not provided'}
+        </span>
+        <span className="vads-u-display--block">
+          {frequencyLabels[item.frequency] || 'Frequency not provided'}
+        </span>
+      </div>
+    ),
+    summaryTitle: 'Review your medical and other expenses',
   },
 };
 
@@ -99,8 +141,14 @@ const summaryPage = {
   uiSchema: {
     'view:medicalExpensesList': arrayBuilderYesNoUI(
       options,
-      { hint: '' },
-      { hint: '' },
+      {
+        title: 'Do you have a medical or other expense to add?',
+        hint: '',
+      },
+      {
+        title: 'Do you have another medical or other expense to add?',
+        hint: '',
+      },
     ),
   },
   schema: {
@@ -119,7 +167,7 @@ const recipientPage = {
     ),
     recipient: radioUI({
       title: 'Who is the expense for?',
-      labels: recipientTypeLabels,
+      labels: medicalExpenseRecipientLabels,
     }),
     recipientName: textUI({
       title: 'Full name of the person who the expense is for',
@@ -129,7 +177,7 @@ const recipientPage = {
       required: (formData, index, fullData) => {
         const items = formData?.medicalExpenses ?? fullData?.medicalExpenses;
         const item = items?.[index];
-        return ['VETERANS_CHILD', 'OTHER'].includes(item?.recipient);
+        return ['VETERANS_CHILD'].includes(item?.recipient);
       },
     }),
     paymentRecipient: textUI({
@@ -140,7 +188,7 @@ const recipientPage = {
   schema: {
     type: 'object',
     properties: {
-      recipient: radioSchema(Object.keys(recipientTypeLabels)),
+      recipient: radioSchema(Object.keys(medicalExpenseRecipientLabels)),
       recipientName: textSchema,
       paymentRecipient: textSchema,
     },

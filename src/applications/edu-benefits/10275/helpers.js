@@ -11,13 +11,10 @@ export const getFullName = fullName => {
   return [first, middle, last].filter(Boolean).join(' ');
 };
 export const getCardDescription = item => {
-  const poc = item?.previouslyEnteredPointOfContact;
-  const fullName = poc?.fullName || item?.fullName;
-
+  const poc = item?.pointOfContact;
+  const fullName = item?.fullName || poc?.fullName;
   let contactName = '';
-  if (typeof fullName === 'string') {
-    contactName = fullName;
-  } else if (fullName && typeof fullName === 'object') {
+  if (fullName && typeof fullName === 'object') {
     contactName = getFullName(fullName);
   } else if (item?.fullName && typeof item.fullName === 'object') {
     contactName = getFullName(item.fullName);
@@ -32,6 +29,7 @@ export const getCardDescription = item => {
     city,
     state,
     postalCode,
+    country,
   } = institutionAddress;
   const addressParts = [street, street2, street3].filter(Boolean).map(addr => (
     <span key={addr} className="card-address">
@@ -40,7 +38,8 @@ export const getCardDescription = item => {
   ));
   const cityStateZip =
     city || state || postalCode
-      ? `${city || ''}, ${state || ''} ${postalCode || ''}`.trim()
+      ? `${city || ''}${city && (state || postalCode) ? ',' : ''} ${state ||
+          ''} ${postalCode || ''}`.trim()
       : null;
 
   return item ? (
@@ -52,6 +51,10 @@ export const getCardDescription = item => {
             {cityStateZip && (
               <span className="card-address">{cityStateZip}</span>
             )}
+            {country &&
+              country !== 'USA' && (
+                <span className="card-address">{country}</span>
+              )}
           </p>
         )}
       </>
@@ -100,4 +103,64 @@ export const additionalLocationArrayBuilderOptions = {
     getItemName,
     cardDescription: item => getCardDescription(item),
   },
+};
+
+export const dateSigned = () => {
+  const date = new Date();
+  return date.toISOString().split('T')[0];
+};
+
+export const getTransformIntlPhoneNumber = (phone = {}) => {
+  let _contact = '';
+  const { callingCode, contact, countryCode } = phone;
+
+  if (contact) {
+    const _callingCode = callingCode ? `+${callingCode} ` : '';
+    const _countryCode = countryCode ? ` (${countryCode})` : '';
+    _contact = `${_callingCode}${contact}${_countryCode}`;
+  }
+
+  return _contact;
+};
+
+export const facilityCodeUIValidation = (errors, fieldData, formData) => {
+  const code = (fieldData || '').trim();
+
+  const currentItem = formData?.additionalLocations?.find(
+    item => item?.facilityCode?.trim() === code,
+  );
+
+  const additionalFacilityCodes = formData?.additionalLocations?.map(item =>
+    item?.facilityCode?.trim(),
+  );
+
+  const facilityCodes = [
+    ...additionalFacilityCodes,
+    formData?.institutionDetails?.facilityCode,
+  ];
+
+  const isDuplicate = facilityCodes?.filter(item => item === code).length > 1;
+
+  const badFormat = fieldData && !/^[a-zA-Z0-9]{8}$/.test(fieldData);
+  const notFound = currentItem?.institutionName === 'not found';
+  const ineligible = currentItem?.poeEligible === false;
+
+  if (!currentItem?.isLoading) {
+    if (isDuplicate) {
+      errors.addError(
+        "You've already added this location. Please enter a different code.",
+      );
+      return;
+    }
+    if (badFormat || notFound) {
+      errors.addError(
+        'Please enter a valid 8-character facility code. To determine your facility code, refer to your WEAMS 22-1998 Report or contact your ELR.',
+      );
+    }
+    if (ineligible) {
+      errors.addError(
+        'This institution is unable to participate in the Principles of Excellence.',
+      );
+    }
+  }
 };

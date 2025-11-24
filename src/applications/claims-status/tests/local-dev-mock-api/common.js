@@ -87,7 +87,6 @@ const createClaim = (
     developmentLetterSent = false,
     decisionLetterSent = false,
     evidenceWaiverSubmitted5103 = false,
-    hasFailedUploads = false,
     issues = [],
     evidence = [],
     supportingDocuments = [],
@@ -119,7 +118,6 @@ const createClaim = (
       evidenceWaiverSubmitted5103,
       lighthouseId: null,
       status,
-      hasFailedUploads,
       supportingDocuments,
       evidenceSubmissions,
       contentions,
@@ -139,14 +137,14 @@ const createClaim = (
                 id: 1,
                 displayName: '21-4142/21-4142a',
                 status: 'NEEDED_FROM_YOU',
-                suspenseDate: '2024-12-01',
+                suspenseDate: '2026-12-01',
                 type: 'other',
               },
               {
                 id: 2,
                 displayName: 'Private medical records',
                 status: 'NEEDED_FROM_OTHERS',
-                suspenseDate: '2024-12-10',
+                suspenseDate: '2026-12-10',
                 type: 'other',
               },
             ]
@@ -767,6 +765,57 @@ const baseClaims = [
       contentions: [
         {
           name: 'Service connection for tinnitus',
+        },
+      ],
+      trackedItems: [
+        {
+          closedDate: null,
+          description: '21-4142 text',
+          displayName: '21-4142/21-4142a',
+          friendlyName: 'Authorization to Disclose Information',
+          friendlyDescription: 'good description',
+          canUploadFile: true,
+          supportAliases: ['VA Form 21-4142'],
+          id: 14268,
+          overdue: true,
+          receivedDate: null,
+          requestedDate: '2024-03-07',
+          status: 'NEEDED_FROM_YOU',
+          suspenseDate: '2024-04-07',
+          uploadsAllowed: true,
+          documents: '[]',
+          date: '2024-03-07',
+        },
+        {
+          closedDate: null,
+          description: 'Automated 5103 Notice Response',
+          displayName: 'Automated 5103 Notice Response',
+          overdue: false,
+          receivedDate: '2024-06-13',
+          requestedDate: '2024-06-13',
+          suspenseDate: '2024-07-14',
+          id: 13,
+          status: 'NEEDED_FROM_YOU',
+          uploaded: false,
+          uploadsAllowed: true,
+        },
+        {
+          closedDate: null,
+          description: '21-4142 text',
+          displayName: '21-4142/21-4142a',
+          friendlyName: 'Authorization to Disclose Information',
+          friendlyDescription: 'good description',
+          canUploadFile: true,
+          supportAliases: ['VA Form 21-4142'],
+          id: 14268,
+          overdue: true,
+          receivedDate: null,
+          requestedDate: '2024-03-07',
+          status: 'NEEDED_FROM_YOU',
+          suspenseDate: '2024-04-07',
+          uploadsAllowed: true,
+          documents: '[]',
+          date: '2024-03-07',
         },
       ],
     },
@@ -1589,6 +1638,21 @@ const responses = {
         uploadStatus: 'FAILED',
         vaNotifyStatus: 'SENT',
       },
+      {
+        id: 12,
+        acknowledgementDate: '2025-01-03T10:30:00.000Z',
+        claimId: '123456789',
+        createdAt: '2025-01-03T10:15:00.000Z',
+        deleteDate: null,
+        documentType: 'Other Correspondence',
+        failedDate: '2025-01-03T10:35:00.000Z',
+        fileName: 'other-correspondence.pdf',
+        lighthouseUpload: true,
+        trackedItemId: null,
+        trackedItemDisplayName: null,
+        uploadStatus: 'FAILED',
+        vaNotifyStatus: 'SENT',
+      },
     ],
   },
 
@@ -1624,6 +1688,25 @@ const responses = {
       url: '/mock-letters/VA_Decision_Letter_12345.pdf',
     },
   ],
+
+  'POST /v0/benefits_claims/:id/submit5103': (_req, res) => {
+    const hasError = true;
+
+    if (hasError) {
+      return res.status(500).json({
+        errors: [
+          {
+            title: 'Internal Server Error',
+            detail: 'An error occurred while processing your request',
+            code: '500',
+            status: '500',
+          },
+        ],
+      });
+    }
+
+    return res.status(200).json({ jobId: `job-${Date.now()}` });
+  },
 
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': { data: [] },
@@ -1686,7 +1769,7 @@ const responses = {
     };
 
     // Configuration for testing different scenarios
-    const errorPattern = ['duplicate', 'unknown', 'invalidClaimant']; // Change this to test different scenarios
+    const errorPattern = ['duplicate']; // Change this to test different scenarios
     // const errorPattern = [null]; // for success only
 
     return (_req, res) => {

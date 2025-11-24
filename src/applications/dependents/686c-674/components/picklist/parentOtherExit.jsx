@@ -17,7 +17,7 @@ const parentOtherExit = {
   hasExitLink: true,
 
   /** @type {PicklistComponentProps} */
-  Component: ({ firstName }) => (
+  Component: ({ firstName, isShowingExitLink }) => (
     <>
       <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
         <span className="dd-privacy-mask" data-dd-action-name="first name">
@@ -27,12 +27,16 @@ const parentOtherExit = {
       </h3>
 
       <p>
-        Since you can only remove a parent who has died,{' '}
+        Because you can only remove a parent who has died,{' '}
         <span className="dd-privacy-mask" data-dd-action-name="first name">
           {firstName}
         </span>{' '}
         will remain on your benefits.
       </p>
+
+      {isShowingExitLink && (
+        <p>If you exit now, we’ll cancel the application you started.</p>
+      )}
 
       <va-additional-info trigger="Why can I only remove a parent dependent if they have died?">
         <p>

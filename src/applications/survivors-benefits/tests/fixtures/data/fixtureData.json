@@ -1,0 +1,52 @@
+{
+  "data": {
+    "attributes": {
+      "profile": {
+        "sign_in": {
+          "service_name": "idme"
+        },
+        "email": "john.doe@example.com",
+        "loa": { "current": 3 },
+        "first_name": "John",
+        "middle_name": "Q",
+        "last_name": "Doe",
+        "gender": "M",
+        "birth_date": "1985-01-01",
+        "verified": true,
+        "ssn" : "123-44-6789",
+        "vaFileNumber" : "123456789",
+        "serviceNumber" : "87654321",
+        "dateOfDeath" : "2002-04-09",
+        "serviceBranch" : "NAVY",
+        "activeDutyFrom" : "2001-02-02",
+        "activeDutyTo" : "2010-10-10",
+        "activeDutySeparation" : "Hoboken, NJ"
+      },
+      "spouseData" : {
+        "first_name": "Sally",
+        "middle_name": "M",
+        "last_name": "Doe",
+        "gender": "F",
+        "birth_date": "1990-02-02",
+        "verified": true,
+        "ssn" : "123-44-6789",
+        "country" : "USA",
+        "street" : "101 Main St",
+        "street2" : "Apartment 2B",
+        "city" : "Anytown",
+        "state" : "OH",
+        "zip" : "01234",
+        "nonUsZip" : "09309",
+        "phone" : "123 555 1212",
+        "email" : "spouseEmail@email.com",
+        "marriageStartDate" : "2000-01-01",
+        "marriageEndDate" : "2025-10-10",
+        "marriagePlace" : "Dowton Abbey",
+        "marriageEndPlace" : "NowheresVille",
+        "marriageType" : "OTHER_WAY",
+        "marriageTypeOther" : "None of your Business"
+      }
+    }
+  },
+  "meta": { "errors": null }
+}

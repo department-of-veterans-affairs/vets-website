@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 
-import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import parentOtherExit from '../../../components/picklist/parentOtherExit';
 
@@ -26,6 +26,7 @@ describe('parentOtherExit', () => {
     goForward = () => {},
     goBack = () => {},
     isEditing = false,
+    isShowingExitLink = false,
   } = {}) =>
     render(
       <form onSubmit={onSubmit}>
@@ -36,6 +37,7 @@ describe('parentOtherExit', () => {
           formSubmitted={formSubmitted}
           handlers={{ goForward, goBack, onChange, onSubmit }}
           isEditing={isEditing}
+          isShowingExitLink={isShowingExitLink}
         />
       </form>,
     );
@@ -47,6 +49,8 @@ describe('parentOtherExit', () => {
       'PETER can’t be removed using this application',
     );
 
+    expect($$('p', container).length).to.equal(2);
+
     const info = $('va-additional-info', container);
     expect(info).to.exist;
     expect(info.getAttribute('trigger')).to.equal(
@@ -54,6 +58,12 @@ describe('parentOtherExit', () => {
     );
 
     expect(parentOtherExit.hasExitLink).to.be.true;
+  });
+
+  it('should render exit message paragraph', () => {
+    const { container } = renderComponent({ isShowingExitLink: true });
+
+    expect($$('p', container).length).to.equal(3);
   });
 
   it('should go forward when form is submitted', async () => {

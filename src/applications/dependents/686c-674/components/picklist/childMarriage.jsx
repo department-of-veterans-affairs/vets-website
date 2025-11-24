@@ -1,9 +1,9 @@
 import React from 'react';
-import { VaMemorableDate } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { scrollToFirstError } from 'platform/utilities/ui';
 
-import { getValue } from './helpers';
+import { getValue, PastDate } from './helpers';
+import { getPastDateError } from './utils';
 import propTypes from './types';
 
 const childMarried = {
@@ -12,9 +12,10 @@ const childMarried = {
     goForward: (/* { _itemData, _index, _fullData } */) => 'DONE',
 
     onSubmit: ({ /* event, */ itemData, goForward }) => {
+      const hasError = getPastDateError(itemData.endDate);
       // event.preventDefault(); // executed before this function is called
-      if (!itemData.endDate) {
-        setTimeout(scrollToFirstError);
+      if (hasError) {
+        setTimeout(() => scrollToFirstError({ focusOnAlertRole: true }));
       } else {
         goForward();
       }
@@ -38,15 +39,12 @@ const childMarried = {
           get married?
         </h3>
 
-        <VaMemorableDate
-          name="marriageDate"
+        <PastDate
           label="Date of marriage"
-          error={formSubmitted && !itemData.endDate ? 'Enter a date' : null}
-          monthSelect
-          value={itemData.endDate || ''}
-          // use onDateBlur to ensure month & day are zero-padded
-          onDateBlur={onChange}
-          required
+          date={itemData.endDate}
+          formSubmitted={formSubmitted}
+          missingErrorMessage="Enter a date"
+          onChange={onChange}
         />
       </>
     );

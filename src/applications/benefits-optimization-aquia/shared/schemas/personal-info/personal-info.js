@@ -6,7 +6,11 @@
 
 import { z } from 'zod';
 
-import { DATE_PATTERNS, ID_PATTERNS } from '../regex-patterns';
+import {
+  isValidSSN,
+  isValidVAFileNumber,
+  VALIDATION_MESSAGES,
+} from '../../utils/validators';
 
 /**
  * Date of birth validation schema with age checks.
@@ -22,7 +26,8 @@ export const dateOfBirthSchema = z
   .string()
   .min(1, 'Date of birth is required')
   .refine(val => {
-    if (!DATE_PATTERNS.ISO.test(val)) return false;
+    // Validate ISO date format (YYYY-MM-DD)
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(val)) return false;
     const date = new Date(val);
     return date instanceof Date && !Number.isNaN(date.getTime());
   }, 'Please enter a valid date')
@@ -54,17 +59,7 @@ export const dateOfBirthSchema = z
 export const ssnSchema = z
   .string()
   .transform(val => val.replace(/\D/g, ''))
-  .refine(val => {
-    if (!val) return false;
-    if (val.length !== 9) return false;
-    if (val === '000000000') return false;
-    if (val === '123456789') return false;
-    if (val === '999999999') return false;
-    if (val.substring(0, 3) === '000') return false;
-    if (val.substring(0, 3) === '666') return false;
-    if (val.substring(0, 3) === '900') return false;
-    return ID_PATTERNS.SSN.test(val);
-  }, 'SSN must be 9 digits');
+  .refine(val => isValidSSN(val), VALIDATION_MESSAGES.SSN_FORMAT);
 
 /**
  * VA file number validation schema (optional).
@@ -82,10 +77,7 @@ export const vaFileNumberSchema = z
   .trim()
   .transform(val => (val === '' ? undefined : val))
   .optional()
-  .refine(val => {
-    if (!val) return true;
-    return ID_PATTERNS.VA_FILE_NUMBER.test(val);
-  }, 'VA file number must be 8 or 9 digits');
+  .refine(val => isValidVAFileNumber(val), VALIDATION_MESSAGES.VA_FILE_FORMAT);
 
 /**
  * Personal information composite schema.

@@ -54,14 +54,14 @@ describe('SelectField', () => {
     it('displays all dropdown options', () => {
       const { container } = render(<SelectField {...defaultProps} />);
       const options = container.querySelectorAll('option');
-      expect(options).to.have.lengthOf(4); // 3 options plus placeholder
+      expect(options).to.have.lengthOf(3); // 3 options (va-select adds its own placeholder)
     });
 
-    it('includes placeholder option', () => {
+    it('does not include manual placeholder option', () => {
       const { container } = render(<SelectField {...defaultProps} />);
       const placeholder = container.querySelector('option[value=""]');
-      expect(placeholder).to.exist;
-      expect(placeholder.textContent).to.include('Select');
+      // VaSelect web component adds its own placeholder automatically
+      expect(placeholder).to.not.exist;
     });
   });
 
@@ -219,7 +219,7 @@ describe('SelectField', () => {
       const props = { ...defaultProps, options: [] };
       const { container } = render(<SelectField {...props} />);
       const options = container.querySelectorAll('option');
-      expect(options).to.have.lengthOf(1); // Only placeholder
+      expect(options).to.have.lengthOf(0); // VaSelect adds placeholder, not manual options
     });
 
     it('escapes special characters', () => {
@@ -316,7 +316,7 @@ describe('SelectField', () => {
       const props = { ...defaultProps, options: manyOptions };
       const { container } = render(<SelectField {...props} />);
       const options = container.querySelectorAll('option');
-      expect(options).to.have.lengthOf(101); // 100 options plus placeholder
+      expect(options).to.have.lengthOf(100); // 100 options (va-select adds its own placeholder)
     });
   });
 });

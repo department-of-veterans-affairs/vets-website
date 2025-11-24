@@ -108,12 +108,14 @@ const Compose = () => {
     [isDraftPage],
   );
 
+  const headerText = document.querySelector('h1')?.textContent;
   useEffect(
     () => {
-      document.title = `${pageTitle} ${PageTitles.DEFAULT_PAGE_TITLE_TAG}`;
+      document.title = `${headerText} ${PageTitles.DEFAULT_PAGE_TITLE_TAG}`;
     },
-    [pageTitle],
+    [headerText],
   );
+
   // make sure the thread list is fetched when navigating to the compose page
   useEffect(
     () => {
@@ -218,7 +220,6 @@ const Compose = () => {
             />
           </div>
         )}
-
       {draftType &&
       !acceptInterstitial &&
       (noAssociations === (undefined || false) && !allTriageGroupsBlocked) ? (

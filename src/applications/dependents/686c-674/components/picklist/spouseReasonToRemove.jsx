@@ -4,11 +4,10 @@ import {
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { scrollToFirstError } from 'platform/utilities/ui';
-
 import { CancelButton } from '../../config/helpers';
 
 import { labels } from './utils';
+import { scrollToError } from './helpers';
 import propTypes from './types';
 
 const spouseReasonToRemove = {
@@ -21,7 +20,7 @@ const spouseReasonToRemove = {
     onSubmit: ({ /* event, */ itemData, goForward }) => {
       // event.preventDefault(); // executed before this function is called
       if (!itemData.removalReason) {
-        setTimeout(scrollToFirstError);
+        scrollToError();
       } else {
         goForward();
       }
@@ -63,6 +62,7 @@ const spouseReasonToRemove = {
           label={labels.Spouse.removalReason}
           hint={labels.Spouse.removalReasonHint}
           onVaValueChange={onChange}
+          enable-analytics
           required
         >
           <VaRadioOption
@@ -73,9 +73,9 @@ const spouseReasonToRemove = {
           />
           <VaRadioOption
             name="removalReason"
-            label={labels.Spouse.death}
-            checked={itemData.removalReason === 'death'}
-            value="death"
+            label={labels.Spouse.spouseDied}
+            checked={itemData.removalReason === 'spouseDied'}
+            value="spouseDied"
           />
         </VaRadio>
 

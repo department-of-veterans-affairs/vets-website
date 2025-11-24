@@ -67,6 +67,7 @@ import PropTypes from 'prop-types';
  * page
  * @property {boolean} isEditing Is the form is being edited from review page?
  * @returns React component
+ * @property {boolean} isShowingExitLink Is the exit form link is showing?
  */
 
 export default {
@@ -84,6 +85,7 @@ export default {
       onSubmit: PropTypes.func,
     }),
     isEditing: PropTypes.bool,
+    isShowingExitLink: PropTypes.bool,
     itemData: PropTypes.shape({
       age: PropTypes.number,
       awardIndicator: PropTypes.string,

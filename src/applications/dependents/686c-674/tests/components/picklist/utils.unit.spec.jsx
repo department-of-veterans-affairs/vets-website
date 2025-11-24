@@ -6,8 +6,11 @@ import {
   location,
   pageDetails,
   showExitLink,
+  getPastDateError,
 } from '../../../components/picklist/utils';
 import { PICKLIST_DATA, PICKLIST_PATHS } from '../../../config/constants';
+
+import { createDoB } from '../../test-helpers';
 
 describe('labels', () => {
   it('should render Spouse title with and without "Edit"', () => {
@@ -163,7 +166,7 @@ describe('pageDetails', () => {
     it('should return spouse death details', () => {
       const details = pageDetails.Spouse({
         fullName: { first: 'SPOUSY' },
-        removalReason: 'death',
+        removalReason: 'spouseDied',
         endDate: '2025-01-01',
         endOutsideUS: false,
         endCity: 'Test City',
@@ -259,21 +262,124 @@ describe('pageDetails', () => {
       });
       expect(details).to.deep.equal([
         {
-          label: 'PENNY is your stepchild?',
+          label: 'Is PENNY your stepchild?',
           value: 'Yes',
-          action: 'is stepchild?',
+          action: 'is this dependent a stepchild?',
           hideLabel: true,
           hideValue: false,
         },
         {
-          label: 'Reason for removing PENNY',
+          label: 'Reason for removing this child',
           value: 'They got married',
-          action: 'reason for removing child',
-          hideLabel: true,
           hideValue: false,
         },
         { label: 'Date of marriage', value: 'January 1, 2025' },
       ]);
+    });
+
+    it('should return child left school details', () => {
+      const details = pageDetails.Child({
+        fullName: { first: 'PENNY' },
+        isStepchild: 'N',
+        removalReason: 'childNotInSchool',
+        childHasPermanentDisability: 'N',
+        endDate: '2025-01-01',
+      });
+      expect(details).to.deep.equal([
+        {
+          label: 'Is PENNY your stepchild?',
+          value: 'No',
+          action: 'is this dependent a stepchild?',
+          hideLabel: true,
+          hideValue: false,
+        },
+        {
+          label: 'Reason for removing this child',
+          value: 'They’re no longer enrolled in school',
+          hideValue: false,
+        },
+        {
+          label: 'Does this child have a permanent disability?',
+          value: 'No',
+        },
+        {
+          label: 'Date child stopped attending school',
+          value: 'January 1, 2025',
+        },
+      ]);
+    });
+
+    it('should return child left school details and has a permanent disability', () => {
+      const details = pageDetails.Child({
+        fullName: { first: 'PENNY' },
+        isStepchild: 'N',
+        removalReason: 'childNotInSchool',
+        childHasPermanentDisability: 'Y',
+      });
+      expect(details[2].label).to.equal(
+        'Does this child have a permanent disability?',
+      );
+      expect(details[2].value).to.equal('Yes');
+
+      expect(details[3].label).to.exist; // JSX
+      expect(details[3].value).to.equal('PENNY will remain on your benefits');
+      expect(details[3].action).to.equal(
+        'This child is still an eligible dependent',
+      );
+    });
+
+    it('should return child not a member of the household details', () => {
+      const details = pageDetails.Child({
+        fullName: { first: 'PENNY' },
+        isStepchild: 'Y',
+        removalReason: 'stepchildNotMember',
+        stepchildFinancialSupport: 'N',
+        endDate: '2025-01-01',
+      });
+      expect(details).to.deep.equal([
+        {
+          label: 'Is PENNY your stepchild?',
+          value: 'Yes',
+          action: 'is this dependent a stepchild?',
+          hideLabel: true,
+          hideValue: false,
+        },
+        {
+          label: 'Reason for removing this child',
+          value: 'They no longer live with you',
+          hideValue: false,
+        },
+        {
+          label:
+            'Do you provide at least half of this child’s financial support?',
+          value: 'No',
+          hideValue: false,
+        },
+        {
+          label: 'When did this child stop living with you?',
+          value: 'January 1, 2025',
+        },
+      ]);
+    });
+
+    it('should return child not a member of the household details but still getting 50% financial support', () => {
+      const details = pageDetails.Child({
+        fullName: { first: 'PENNY' },
+        isStepchild: 'Y',
+        removalReason: 'stepchildNotMember',
+        stepchildFinancialSupport: 'Y',
+      });
+
+      expect(details[2].label).to.equal(
+        'Do you provide at least half of this child’s financial support?',
+      );
+      expect(details[2].value).to.equal('Yes');
+
+      expect(details[3].label).to.exist; // JSX
+      expect(details[3].value).to.equal('PENNY will remain on your benefits');
+      expect(details[3].action).to.equal(
+        'This child still qualifies as your dependent',
+      );
     });
 
     it('should return child death details', () => {
@@ -288,22 +394,36 @@ describe('pageDetails', () => {
       });
       expect(details).to.deep.equal([
         {
-          label: 'PENNY is your stepchild?',
+          label: 'Is PENNY your stepchild?',
           value: 'No',
-          action: 'is stepchild?',
+          action: 'is this dependent a stepchild?',
           hideLabel: true,
           hideValue: false,
         },
         {
-          label: 'Reason for removing PENNY',
+          label: 'Reason for removing this child',
           value: 'They died',
-          action: 'reason for removing child',
-          hideLabel: true,
           hideValue: false,
         },
         { label: 'When was the death?', value: 'January 1, 2020' },
         { label: 'Where was the death?', value: 'Test City, TX' },
       ]);
+    });
+
+    it('should return child adopted out of the family details', () => {
+      const details = pageDetails.Child({
+        fullName: { first: 'PENNY' },
+        isStepchild: 'N',
+        removalReason: 'childAdopted',
+      });
+      expect(details[1].label).to.equal('Reason for removing this child');
+      expect(details[1].value).to.equal('They were adopted by another family');
+
+      expect(details[2].label).to.exist; // JSX
+      expect(details[2].value).to.equal('PENNY will remain on your benefits');
+      expect(details[2].action).to.equal(
+        'This child can’t be removed using this application',
+      );
     });
 
     it('should return default error for child', () => {
@@ -322,6 +442,7 @@ describe('showExitLink', () => {
   it('should return false if there is no data', () => {
     const data = { [PICKLIST_DATA]: [], [PICKLIST_PATHS]: [] };
     expect(showExitLink({ data, index: 0 })).to.be.false;
+    expect(showExitLink()).to.be.false;
   });
 
   it('should return false for no exit pages', () => {
@@ -397,5 +518,27 @@ describe('showExitLink', () => {
     expect(showExitLink({ data, index: 1 })).to.be.false;
     expect(showExitLink({ data, index: 2 })).to.be.false;
     expect(showExitLink({ data, index: 3 })).to.be.true;
+  });
+});
+
+describe('getPastDateError', () => {
+  it('should return missing error message if date is not provided', () => {
+    const error = getPastDateError('', 'Missing date');
+    expect(error).to.equal('Missing date');
+  });
+
+  it('should return past date error message if date is in the future', () => {
+    const error = getPastDateError(createDoB(0, -2), 'Missing date');
+    expect(error).to.equal('Enter a past date');
+  });
+
+  it('should return invalid date error message if a partial date is provided', () => {
+    const error = getPastDateError('2000-01', 'Missing date');
+    expect(error).to.equal('Enter a valid date');
+  });
+
+  it('should return null if date is valid and in the past', () => {
+    const error = getPastDateError('2020-01-01', 'Missing date');
+    expect(error).to.be.null;
   });
 });

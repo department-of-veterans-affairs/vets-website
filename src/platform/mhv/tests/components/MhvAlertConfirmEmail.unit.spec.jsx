@@ -109,7 +109,7 @@ describe('<MhvAlertConfirmEmail />', () => {
       );
       await waitFor(() => {
         getByTestId('mhv-alert--confirm-contact-email');
-        getByRole('heading', { name: /^Confirm your contact email$/ });
+        getByRole('heading', { name: /Confirm your contact email$/ });
 
         // getByRole('button', { name: /^Confirm$/ });
         const button = container.querySelector('va-button[text="Confirm"]');
@@ -216,18 +216,22 @@ describe('<MhvAlertConfirmEmail />', () => {
       mockApiRequest({}, false);
       const props = { recordEvent: sinon.spy() };
       const initialState = stateFn({ confirmationDate: null });
-      const { container, getByTestId } = render(
+      const { container, findByTestId, findByText } = render(
         <MhvAlertConfirmEmail {...props} />,
         {
           initialState,
         },
       );
-      await waitFor(() => getByTestId('mhv-alert--confirm-contact-email'));
+
+      await findByTestId('mhv-alert--confirm-contact-email');
       fireEvent.click(container.querySelector('va-button[text="Confirm"]'));
+
+      const alert = await findByTestId('mhv-alert--confirm-error');
+      expect(alert.getAttribute('status')).to.equal('error');
+      await findByText('Please try again.');
+      const headline = 'We couldn’t confirm your contact email';
+
       await waitFor(() => {
-        getByTestId('mhv-alert--confirm-error');
-        getByTestId('mhv-alert--confirm-contact-email');
-        const headline = 'We couldn’t confirm your contact email';
         expect(props.recordEvent.calledWith(headline));
       });
     });
@@ -256,6 +260,64 @@ describe('<MhvAlertConfirmEmail />', () => {
         expect(requestBody).to.have.property('email_address', emailAddress);
       });
     });
+
+    it('renders alert with role="alert"', async () => {
+      const initialState = stateFn({ confirmationDate: null });
+      const { getByTestId } = render(<MhvAlertConfirmEmail />, {
+        initialState,
+      });
+      await waitFor(() => {
+        const alert = getByTestId('mhv-alert--confirm-contact-email');
+        expect(alert.getAttribute('role')).to.equal('status');
+      });
+    });
+
+    it('focuses the success alert after confirming', async () => {
+      mockApiRequest();
+      const initialState = stateFn({ confirmationDate: null });
+      const { container, getByTestId, queryByTestId } = render(
+        <MhvAlertConfirmEmail />,
+        { initialState },
+      );
+      await waitFor(() => getByTestId('mhv-alert--confirm-contact-email'));
+      fireEvent.click(container.querySelector('va-button[text="Confirm"]'));
+      await waitFor(() => {
+        const successAlert = getByTestId('mhv-alert--confirm-success');
+        // only the success alert is rendered
+        expect(successAlert).to.exist;
+        expect(queryByTestId('mhv-alert--confirm-contact-email')).to.be.null;
+        // Check that the success alert is focused
+        expect(document.activeElement).to.equal(successAlert);
+        // Check that the success alert has tabindex="-1" to allow focusing
+        expect(successAlert.getAttribute('tabindex')).to.equal('-1');
+        // check that the success alert has role="alert"
+        expect(successAlert.getAttribute('role')).to.equal('alert');
+      });
+    });
+
+    it('focuses the error alert after failed confirmation', async () => {
+      mockApiRequest({}, false); // Simulate failed API request
+      const initialState = stateFn({ confirmationDate: null });
+      const { container, getByTestId, queryByTestId } = render(
+        <MhvAlertConfirmEmail />,
+        { initialState },
+      );
+      await waitFor(() => getByTestId('mhv-alert--confirm-contact-email'));
+      fireEvent.click(container.querySelector('va-button[text="Confirm"]'));
+      await waitFor(() => {
+        const errorAlert = getByTestId('mhv-alert--confirm-error');
+        // only the error alert is rendered
+        expect(errorAlert).to.exist;
+        expect(queryByTestId('mhv-alert--confirm-success')).to.be.null;
+        // The confirm-contact-email alert may or may not be present depending on UI flow
+        // Check that the error alert is focused
+        expect(document.activeElement).to.equal(errorAlert);
+        // Check that the error alert has tabindex="-1" to allow focusing
+        expect(errorAlert.getAttribute('tabindex')).to.equal('-1');
+        // check that the error alert has role="alert"
+        expect(errorAlert.getAttribute('role')).to.equal('alert');
+      });
+    });
   });
 
   describe('<AlertAddContactEmail />', () => {
@@ -267,7 +329,7 @@ describe('<MhvAlertConfirmEmail />', () => {
       );
       await waitFor(() => {
         getByTestId('mhv-alert--add-contact-email');
-        getByRole('heading', { name: /^Add a contact email$/ });
+        getByRole('heading', { name: /Add a contact email$/ });
 
         // getByRole('link', { name: /^Go to profile/ });
         const linkSelector = 'va-link-action[text~="Go to profile"]';

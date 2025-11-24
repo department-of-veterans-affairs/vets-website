@@ -1,6 +1,7 @@
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
-import get from '@department-of-veterans-affairs/platform-forms-system/get';
+import get from 'platform/forms-system/src/js/utilities/data/get';
+import environment from 'platform/utilities/environment';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import SubmissionError from '../../shared/components/SubmissionError';
@@ -10,6 +11,7 @@ import transformForSubmit from './submitTransformer';
 import { FileFieldCustomSimple } from '../../shared/components/fileUploads/FileUpload';
 import NotEnrolledPage from '../components/FormPages/NotEnrolledPage';
 import AddressSelectionPage from '../components/FormPages/AddressSelectionPage';
+import { blankSchema } from '../definitions';
 import {
   certifierRoleSchema,
   certifierBenefitStatusSchema,
@@ -39,18 +41,17 @@ import {
   applicantContactSchema,
 } from '../chapters/beneficiaryInformation';
 import {
-  blankSchema,
   sponsorAddressSchema,
   sponsorNameSchema,
   sponsorContactSchema,
 } from '../chapters/sponsorInformation';
-
 import {
   claimIdentificationNumber,
   resubmissionLetterUpload,
   resubmissionDocsUpload,
 } from '../chapters/resubmission';
 
+import content from '../locales/en/content.json';
 // import mockData from '../tests/e2e/fixtures/data/test-data.json';
 
 const formConfig = {
@@ -66,46 +67,59 @@ const formConfig = {
   formId: '10-7959A',
   saveInProgress: {
     messages: {
-      inProgress: 'Your CHAMPVA claim (10-7959A) is in progress.',
-      expired:
-        'Your saved CHAMPVA claim (10-7959A) has expired. If you want to file a CHAMPVA claim, please start a new form.',
-      saved: 'Your CHAMPVA claim has been saved.',
+      inProgress: content['sip-messages--in-progress'],
+      expired: content['sip-messages--expired'],
+      saved: content['sip-messages--saved'],
     },
   },
   customText: {
-    appType: 'claim',
-    continueAppButtonText: 'Continue your claim',
-    startNewAppButtonText: 'Start a new claim',
+    appType: content['form-text--app-type'],
+    continueAppButtonText: content['form-text--btn-continue'],
+    reviewPageTitle: content['form-text--review-title'],
+    startNewAppButtonText: content['form-text--btn-start'],
   },
   downtime: {
     dependencies: [externalServices.pega, externalServices.form107959a],
   },
   preSubmitInfo: {
     statementOfTruth: {
-      body:
-        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
-      messageAriaDescribedby:
-        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
-      fullNamePath: formData => {
-        let val = 'applicantName';
-        if (formData?.certifierRole === 'other') {
-          val = 'certifierName';
-        } else if (formData?.certifierRole === 'sponsor') {
-          val = 'sponsorName';
-        }
-        return val;
-      },
+      body: content['statement-of-truth--body-text'],
+      fullNamePath: ({ certifierRole } = {}) =>
+        ({ other: 'certifierName', sponsor: 'sponsorName' }[certifierRole] ??
+        'applicantName'),
     },
   },
   version: 0,
   prefillEnabled: true,
   savedFormMessages: {
-    notFound: 'Please start over to file a CHAMPVA claim.',
-    noAuth: 'Please sign in again to continue your CHAMPVA claim.',
+    notFound: content['form-messages--not-found'],
+    noAuth: content['form-messages--no-auth'],
   },
-  title: 'File a CHAMPVA claim',
-  subTitle: 'CHAMPVA Claim Form (VA Form 10-7959a)',
+  title: content['form--title'],
+  subTitle: content['form--subtitle'],
   dev: { disableWindowUnloadInCI: true },
+  ...minimalHeaderFormConfigOptions({
+    breadcrumbList: [
+      {
+        href: '/family-and-caregiver-benefits/',
+        label: content['breadcrumb--caregiver-benefits'],
+      },
+      {
+        href: '/family-and-caregiver-benefits/health-and-disability/',
+        label: content['breadcrumb--health-benefits'],
+      },
+      {
+        href: '/family-and-caregiver-benefits/health-and-disability/champva/',
+        label: content['breadcrumb--champva-benefits'],
+      },
+      {
+        href: '#content',
+        label: content['form--title'],
+      },
+    ],
+    homeVeteransAffairs: true,
+    wrapping: true,
+  }),
   defaultDefinitions: {},
   chapters: {
     signerInformation: {

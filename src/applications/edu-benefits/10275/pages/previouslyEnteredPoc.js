@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import EnteredPoc from '../components/EnteredPoc';
+import { getTransformIntlPhoneNumber } from '../helpers';
 
 const nameFrom = person =>
   [person?.fullName?.first, person?.fullName?.middle, person?.fullName?.last]
@@ -22,11 +23,9 @@ const PreviouslyEnteredPOCWidget = props => {
     const nm = contact && nameFrom(contact);
     if (!nm) return;
     const phone =
-      contact?.usPhone ||
-      contact?.internationalPhone ||
-      contact?.phoneNumber ||
-      contact?.internationalPhoneNumber ||
-      '';
+      typeof contact?.phoneNumber === 'object'
+        ? getTransformIntlPhoneNumber(contact.phoneNumber)
+        : '';
     const title = contact?.title || '';
     options.push({
       key,
@@ -34,7 +33,11 @@ const PreviouslyEnteredPOCWidget = props => {
       email: contact?.email || '',
       data: {
         key,
-        fullName: nm,
+        fullName: {
+          first: contact?.fullName.first,
+          middle: contact?.fullName?.middle,
+          last: contact?.fullName?.last,
+        },
         title,
         email: contact?.email || '',
         phone,
@@ -46,11 +49,9 @@ const PreviouslyEnteredPOCWidget = props => {
     authorizedOfficial && nameFrom(authorizedOfficial);
   if (authorizedOfficialName) {
     const phone =
-      authorizedOfficial?.usPhone ||
-      authorizedOfficial?.internationalPhone ||
-      authorizedOfficial?.phoneNumber ||
-      authorizedOfficial?.internationalPhoneNumber ||
-      '';
+      typeof authorizedOfficial?.phoneNumber === 'object'
+        ? getTransformIntlPhoneNumber(authorizedOfficial.phoneNumber)
+        : '';
     const title = authorizedOfficial?.title || '';
     options.push({
       key: 'authorizedOfficial',
@@ -58,7 +59,11 @@ const PreviouslyEnteredPOCWidget = props => {
       email: authorizedOfficial?.email || '',
       data: {
         key: 'authorizedOfficial',
-        fullName: authorizedOfficialName,
+        fullName: {
+          first: authorizedOfficial?.fullName?.first,
+          middle: authorizedOfficial?.fullName?.middle,
+          last: authorizedOfficial?.fullName?.last,
+        },
         title,
         email: authorizedOfficial?.email || '',
         phone,
@@ -74,16 +79,23 @@ const PreviouslyEnteredPOCWidget = props => {
     const email = loc?.email || '';
     if (!name && !email) return;
     const phone =
-      loc?.usPhone ||
-      loc?.internationalPhone ||
-      loc?.phoneNumber ||
-      loc?.internationalPhoneNumber ||
-      '';
+      typeof loc?.phoneNumber === 'object'
+        ? getTransformIntlPhoneNumber(loc.phoneNumber)
+        : '';
     options.push({
       key: `new-${idx}`,
       label: name,
       email,
-      data: { key: `new-${idx}`, fullName: name, email, phone },
+      data: {
+        key: `new-${idx}`,
+        fullName: {
+          first: fn.first,
+          middle: fn.middle,
+          last: fn.last,
+        },
+        email,
+        phone,
+      },
     });
   });
   options.push({
@@ -116,7 +128,7 @@ export const uiSchema = {
       </p>
     ),
   }),
-  previouslyEnteredPointOfContact: {
+  pointOfContact: {
     'ui:title':
       'Select a name below to use them as the point of contact for this additional location.',
     'ui:field': PreviouslyEnteredPOCWidget,
@@ -142,16 +154,23 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    previouslyEnteredPointOfContact: {
+    pointOfContact: {
       type: 'object',
       properties: {
         key: { type: 'string' },
-        fullName: { type: 'string' },
+        fullName: {
+          type: 'object',
+          properties: {
+            first: { type: 'string' },
+            middle: { type: 'string' },
+            last: { type: 'string' },
+          },
+        },
         title: { type: 'string' },
         email: { type: 'string', format: 'email' },
         phone: { type: 'string' },
       },
     },
   },
-  required: ['previouslyEnteredPointOfContact'],
+  required: ['pointOfContact'],
 };

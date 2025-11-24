@@ -100,3 +100,6 @@ export const REQUEST_OPTIONS = Object.freeze({
 import ADDRESS_DATA from 'platform/forms/address/data';
 
 export const STATE_CODE_TO_NAME = ADDRESS_DATA.states;
+
+export const GET_TSA_LETTER_ELIGIBILITY_ENDPOINT = '/v0/tsa_letter';
+export const DOWNLOAD_TSA_LETTER_ENDPOINT = id => `/v0/tsa_letter/${id}`;

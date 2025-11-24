@@ -28,7 +28,6 @@ export { isArrayAndHasItems } from './isArrayAndHasItems';
 export {
   isRefillTakingLongerThanExpected,
 } from './isRefillTakingLongerThanExpected';
-export { pharmacyPhoneNumber } from './pharmacyPhoneNumber';
 export {
   prescriptionMedAndRenewalStatus,
 } from './prescriptionMedAndRenewalStatus';

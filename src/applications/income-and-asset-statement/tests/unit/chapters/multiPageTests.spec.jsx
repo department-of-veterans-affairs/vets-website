@@ -170,6 +170,7 @@ export const testOptionsTextCardDescription = (
         addedFundsAmount: formatCurrency,
         transferDate: formatDateLong,
         establishedDate: formatDateLong,
+        incomeLastReceivedDate: formatDateLong,
       };
 
       Object.entries(baseItem).forEach(([key, value]) => {

@@ -15,8 +15,7 @@ const Description = () => (
 
 const WhatWeConsiderAsset = () => (
   <va-accordion>
-    <va-accordion-item>
-      <span slot="headline">What we consider an asset</span>
+    <va-accordion-item level={4} header="What we consider an asset">
       <div>
         <p>
           Assets include the fair market value of all the real and personal
@@ -46,8 +45,7 @@ const WhatWeConsiderAsset = () => (
       </div>
     </va-accordion-item>
 
-    <va-accordion-item>
-      <span slot="headline">Who we consider a dependent</span>
+    <va-accordion-item level={4} header="Who we consider a dependent">
       <div>
         <p className="vads-u-font-weight--bold">A dependent is:</p>
         <ul>
@@ -61,7 +59,7 @@ const WhatWeConsiderAsset = () => (
           </li>
           <li>
             An unmarried child (including an adopted child or stepchild) who
-            meets one of the eligibility requirements listed here
+            meets 1 of the eligibility requirements listed here
           </li>
         </ul>
         <p className="vads-u-font-weight--bold">
@@ -76,29 +74,26 @@ const WhatWeConsiderAsset = () => (
             They’re between the ages of 18 and 23 years old and enrolled in
             school full time, <strong>or</strong>
           </li>
-          <li>They became permanently disabled</li>
+          <li>They became permanently disabled before they turned 18</li>
         </ul>
       </div>
     </va-accordion-item>
 
-    <va-accordion-item>
-      <span slot="headline">Whose assets you need to report</span>
+    <va-accordion-item level={4} header="Whose assets you need to report">
       <div>
         <p className="vads-u-font-weight--bold">
           If you’re a surviving spouse claimant:
         </p>
         <p>
           You must report income and assets for yourself and for any child of
-          the veteran who lives with you or for whom you are responsible.
+          the veteran who lives with you or for whom you are responsible, unless
+          a court has decided you do not have custody of the child.
         </p>
-        <p>A court may have decided you do not have custody of the child.</p>
         <p className="vads-u-font-weight--bold">
           If you’re a surviving child claimant:
         </p>
         <p>
           This means that the child isn’t in the custody of a surviving spouse.
-        </p>
-        <p>
           You must report income and assets for yourself, your custodian, and
           your custodian’s spouse.
         </p>

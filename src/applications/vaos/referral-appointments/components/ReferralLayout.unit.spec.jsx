@@ -66,6 +66,7 @@ describe('VAOS Component: ReferralLayout', () => {
 
     expect(screen.getByTestId('error')).to.exist;
     expect(screen.getByTestId('error-body')).to.exist;
+    expect(screen.getByTestId('referral-community-care-office')).to.exist;
     expect(screen.queryByTestId('child')).to.not.exist;
     expect(screen.getByText('A tribute to the best heading in the world')).to
       .exist;
@@ -96,5 +97,20 @@ describe('VAOS Component: ReferralLayout', () => {
       'Loading...',
     );
     expect(screen.getByText('New Appointment')).to.exist;
+  });
+  it('should set the form current page to error when apiFailure is true', () => {
+    const store = createTestStore(initialFullState);
+    renderWithStoreAndRouter(
+      <ReferralLayout
+        hasEyebrow
+        apiFailure
+        heading="A tribute to the best heading in the world"
+      />,
+      {
+        store,
+      },
+    );
+
+    expect(store.getState().referral.currentPage).to.equal('error');
   });
 });

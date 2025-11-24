@@ -27,6 +27,7 @@ import {
   setCaretToPos,
   navigateToFolderByFolderId,
   dateFormat,
+  buildRxRenewalMessageBody,
   scrollToTop,
 } from '../../util/helpers';
 import { sendMessage } from '../../actions/messages';
@@ -43,6 +44,7 @@ import {
   FormLabels,
   downtimeNotificationParams,
   Alerts,
+  MessageHintText,
 } from '../../util/constants';
 import EmergencyNote from '../EmergencyNote';
 import ComposeFormActionButtons from './ComposeFormActionButtons';
@@ -153,26 +155,11 @@ const ComposeForm = props => {
   useEffect(
     () => {
       if (isRxRenewalDraft) {
-        const rx = renewalPrescription;
         const messageSubject = 'Renewal Needed';
-        const messageBody = [
-          `Medication name, strength, and form: ${rx?.prescriptionName || ''}`,
-          `Prescription number: ${rx?.prescriptionNumber || ''}`,
-          `Provider who prescribed it: ${[
-            rx?.providerFirstName,
-            rx?.providerLastName,
-          ]
-            .filter(Boolean)
-            .join(' ') || ''}`,
-          `Number of refills left: ${rx?.refillRemaining || ''}`,
-          `Prescription expiration date: ${
-            rx?.expirationDate
-              ? dateFormat(rx.expirationDate, 'MMMM D, YYYY')
-              : ''
-          }`,
-          `Reason for use: ${rx?.reason || ''}`,
-          `Quantity: ${rx?.quantity || ''}`,
-        ].join('\n');
+        const messageBody = buildRxRenewalMessageBody(
+          renewalPrescription,
+          rxError,
+        );
 
         dispatch(
           updateDraftInProgress({
@@ -451,6 +438,7 @@ const ComposeForm = props => {
                 sendData,
                 attachments.length > 0,
                 draftInProgress.ohTriageGroup,
+                !!redirectPath, // suppress alert when redirectPath exists
               ),
             );
             dispatch(clearDraftInProgress());
@@ -1096,6 +1084,15 @@ const ComposeForm = props => {
                 id="compose-message-body"
                 name="compose-message-body"
                 class="message-body"
+                hint={(() => {
+                  if (rxError) {
+                    return MessageHintText.RX_RENEWAL_ERROR;
+                  }
+                  if (renewalPrescription?.prescriptionId) {
+                    return MessageHintText.RX_RENEWAL_SUCCESS;
+                  }
+                  return null;
+                })()}
                 data-testid="message-body-field"
                 onInput={messageBodyHandler}
                 value={messageBody || formattedSignature} // populate with the signature, unless there is a saved draft
@@ -1166,6 +1163,7 @@ const ComposeForm = props => {
             setNavigationError={setNavigationError}
             setUnsavedNavigationError={setUnsavedNavigationError}
             savedComposeDraft={!!draft}
+            redirectPath={redirectPath}
           />
         </div>
       </form>

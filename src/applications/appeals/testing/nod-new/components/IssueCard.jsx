@@ -234,5 +234,4 @@ IssueCard.propTypes = {
   onChange: PropTypes.func,
   onEdit: PropTypes.func,
   onRemove: PropTypes.func,
-  onReviewPage: PropTypes.bool,
 };

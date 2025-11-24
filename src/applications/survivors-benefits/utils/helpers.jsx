@@ -1,5 +1,11 @@
 import React from 'react';
-import { isBefore, isAfter, isEqual, parseISO } from 'date-fns';
+import {
+  isBefore,
+  isAfter,
+  isEqual,
+  parseISO,
+  differenceInDays,
+} from 'date-fns';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { waitForShadowRoot } from 'platform/utilities/ui/webComponents';
 
@@ -54,6 +60,33 @@ export const DependentSeriouslyDisabledDescription = (
         mental disability before they turned 18 years old. A seriously disabled
         child can’t support or care for themselves.
       </span>
+    </va-additional-info>
+  </div>
+);
+
+export const DependentChildDescription = (
+  <div className="vads-u-padding-y--1">
+    <va-additional-info trigger="Who we consider a dependent child">
+      <span>
+        In most circumstances, children over the age of 23 aren’t considered
+        dependent for VA purposes, unless the child is determined to be
+        seriously disabled based on a condition that started before turning 18.
+      </span>
+    </va-additional-info>
+  </div>
+);
+
+export const seriouslyDisabledDescription = (
+  <div className="vads-u-padding-y--1">
+    <va-additional-info
+      trigger="What we consider a seriously disabled adult child"
+      class="vads-u-margin-bottom--4"
+    >
+      <p>
+        A child is seriously disabled if they developed a permanent physical or
+        mental disability before they turned 18 years old. A seriously disabled
+        child can’t support or care for themselves.
+      </p>
     </va-additional-info>
   </div>
 );
@@ -178,3 +211,15 @@ export async function addStyleToShadowDomOnPages(
 export const isYes = val =>
   val === true ||
   (typeof val === 'string' && val.toLowerCase().startsWith('y'));
+
+/**
+ * Calculates the duration in days between two dates
+ *
+ * @export
+ * @param {string} startDate - The start date in ISO format (YYYY-MM-DD)
+ * @param {string} endDate - The end date in ISO format (YYYY-MM-DD)
+ * @return {number} The duration in days between the two dates
+ */
+export const durationInDays = (startDate, endDate) => {
+  return differenceInDays(new Date(endDate), new Date(startDate));
+};

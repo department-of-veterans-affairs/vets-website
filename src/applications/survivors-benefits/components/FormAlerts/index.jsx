@@ -36,7 +36,7 @@ const RequestFormAlert = ({
 }) => (
   <va-alert-expandable
     status="warning"
-    trigger={`You’ll need to submit a ${formName}`}
+    trigger={`You’ll need to submit ${formName}`}
   >
     <p className="vads-u-margin-y--0">
       You’ll need to submit an {title} ({formName}
@@ -141,13 +141,44 @@ UnauthenticatedWarningAlert.propTypes = {
 
 export const handleAlertMaxItems = () => (
   <div>
-    You have added the maximum number of allowed previous marriages for this
-    application. Additional marriages can be added using VA Form 21-4138 and
-    uploaded at the end of this application.
+    <p className="vads-u-margin-top--0">
+      You have added the maximum number of allowed previous marriages for this
+      application. Additional marriages can be added using VA Form 21-4138 and
+      uploaded at the end of this application.
+    </p>
     <va-link
-      href="/find-forms/about-form-21-4138/"
+      href="https://www.va.gov/find-forms/about-form-21-4138/"
       external
       text="Get VA Form 21-4138 to download"
     />
   </div>
+);
+
+export const VaForm214138Alert = () => (
+  <va-alert-expandable
+    status="warning"
+    trigger="You’ll need to submit a VA Form 21-4138"
+    disable-border="true"
+  >
+    <p>
+      You’ll need to submit a Statement in Support of Claim (VA Form 21-4138)
+      with the name of the person the child is currently living with and the
+      full address of where the child resides.
+    </p>
+    <p>
+      We’ll ask you to upload these documents at the end of this application. Or
+      you can send them to us by mail.
+    </p>
+    <p>
+      <span className="vads-u-display--block">
+        <va-link
+          href="https://www.va.gov/find-forms/about-form-21-4138/"
+          external
+          text="Get VA Form 21-4138 to download"
+        >
+          Get VA Form 21-4138 to download (opens in new tab)
+        </va-link>
+      </span>
+    </p>
+  </va-alert-expandable>
 );

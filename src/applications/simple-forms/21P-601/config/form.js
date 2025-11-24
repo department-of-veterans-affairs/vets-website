@@ -1,6 +1,8 @@
+import React from 'react';
 import footerContent from 'platform/forms/components/FormFooter';
 import environment from 'platform/utilities/environment';
 import { defaultItemPageScrollAndFocusTarget as scrollAndFocusTarget } from 'platform/forms-system/src/js/patterns/array-builder';
+import { PersonalInformation } from 'platform/forms-system/src/js/components/PersonalInformation/PersonalInformation';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -30,6 +32,7 @@ import {
   otherDebtsPages,
   remarks,
 } from '../pages';
+import { personalInfoConfig } from '../helpers/personalInformationConfig';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -65,7 +68,7 @@ const formConfig = {
   },
   title: 'Apply for accrued benefits online',
   subTitle:
-    'For people other than the spouse, child or parent of deceased Veterans (VA Form 21P-601)',
+    'Primarily for executors or administrators of VA beneficiaries’ estates (VA Form 21P-601)',
   customText: {
     appType: 'form',
   },
@@ -75,6 +78,21 @@ const formConfig = {
     eligibilityChapter: {
       title: 'Check your eligibility',
       pages: {
+        personalInformation: {
+          path: 'personal-information',
+          title: 'Personal info',
+          CustomPage: props => (
+            <PersonalInformation {...props} config={personalInfoConfig()} />
+          ),
+          CustomPageReview: null,
+          hideOnReview: true,
+          scrollAndFocusTarget,
+          schema: {
+            type: 'object',
+            properties: {}, // Must be present even if empty
+          },
+          uiSchema: {},
+        },
         hasAlreadyFiled: {
           path: 'already-filed',
           title: 'Previous applications',

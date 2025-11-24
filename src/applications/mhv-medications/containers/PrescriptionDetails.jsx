@@ -8,6 +8,7 @@ import {
   reportGeneratedBy,
   usePrintTitle,
   MhvPageNotFoundContent,
+  pharmacyPhoneNumber,
 } from '@department-of-veterans-affairs/mhv/exports';
 import PrintOnlyPage from './PrintOnlyPage';
 import {
@@ -18,7 +19,6 @@ import {
   getErrorTypeFromFormat,
   getRefillHistory,
   hasCmopNdcNumber,
-  pharmacyPhoneNumber,
 } from '../util/helpers';
 import PrintDownload from '../components/shared/PrintDownload';
 import NonVaPrescription from '../components/PrescriptionDetails/NonVaPrescription';
@@ -42,6 +42,7 @@ import {
   DOWNLOAD_FORMAT,
   recordNotFoundMessage,
   DATETIME_FORMATS,
+  RX_SOURCE,
 } from '../util/constants';
 import PrescriptionPrintOnly from '../components/PrescriptionDetails/PrescriptionPrintOnly';
 import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
@@ -80,7 +81,8 @@ const PrescriptionDetails = () => {
     queryParams,
   );
 
-  const nonVaPrescription = prescription?.prescriptionSource === 'NV';
+  const nonVaPrescription =
+    prescription?.prescriptionSource === RX_SOURCE.NON_VA;
 
   const userName = useSelector(selectUserFullName);
   const dob = useSelector(selectUserDob);
@@ -451,7 +453,8 @@ const PrescriptionDetails = () => {
                 >
                   {filledEnteredDate()}
                 </p>
-                {prescription.prescriptionSource === 'PD' && pendingMedAlert()}
+                {prescription.prescriptionSource ===
+                  RX_SOURCE.PENDING_DISPENSE && pendingMedAlert()}
                 {isErrorNotificationVisible && (
                   <ApiErrorNotification
                     errorType={getErrorTypeFromFormat(

@@ -94,6 +94,7 @@ const formConfig = {
     appSavedSuccessfullyMessage: 'We’ve saved your form.',
     submitButtonText: 'Continue',
   },
+  useCustomScrollAndFocus: true,
   defaultDefinitions: {},
   transformForSubmit: transform,
   chapters: {
@@ -120,6 +121,7 @@ const formConfig = {
               });
             }
           },
+          updateFormData: agreementType.updateFormData,
         },
       },
     },
@@ -193,13 +195,13 @@ const formConfig = {
             }),
             additionalLocation: pageBuilder.itemPage({
               title: 'Additional location',
-              path: 'additional-locations/:index',
-              showPagePerItem: true,
+              path: 'additional-locations/:index/institution-details',
+              // showPagePerItem: true,
               uiSchema: additionalInstitutionDetailsItem.uiSchema,
               schema: additionalInstitutionDetailsItem.schema,
               depends: data => data?.agreementType === 'newCommitment',
             }),
-            previouslyEnteredPointOfContact: pageBuilder.itemPage({
+            pointOfContact: pageBuilder.itemPage({
               title: 'Point of contact for this location',
               path: 'additional-locations/:index/point-of-contact',
               uiSchema: previouslyEnteredPoc.uiSchema,
@@ -211,10 +213,9 @@ const formConfig = {
               path: 'additional-locations/:index/point-of-contact-2',
               uiSchema: poeLocation.uiSchema,
               schema: poeLocation.schema,
-              depends: (fromData, index) => {
+              depends: (formData, index) => {
                 const sel =
-                  fromData?.additionalLocations?.[index]
-                    ?.previouslyEnteredPointOfContact;
+                  formData?.additionalLocations?.[index]?.pointOfContact;
                 return sel === 'none' || sel?.key === 'none';
               },
             }),

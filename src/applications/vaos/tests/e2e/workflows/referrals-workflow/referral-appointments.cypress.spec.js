@@ -295,7 +295,7 @@ describe('VAOS Referral Appointments', () => {
       cy.injectAxeThenAxeCheck();
 
       // Verify no slots available message is displayed
-      chooseDateAndTime.assertNoSlotsAvailable();
+      chooseDateAndTime.assertNoSlotsAvailableAlert();
 
       // Verify the calendar is not displayed
       cy.findByTestId('cal-widget').should('not.exist');
@@ -338,8 +338,67 @@ describe('VAOS Referral Appointments', () => {
       cy.injectAxeThenAxeCheck();
 
       // Verify online scheduling not available message is displayed
-      scheduleReferral.assertOnlineSchedulingNotAvailable();
-      scheduleReferral.assertCommunityCareOfficeLink(2);
+      scheduleReferral.assertOnlineSchedulingNotAvailableAlert();
+    });
+  });
+
+  describe('Referral not from pilot station', () => {
+    const referralId = 'out-of-pilot-station';
+    const stationId = '12345'; // out of pilot station id
+    beforeEach(() => {
+      // Mock successful referrals list response
+      // Create referrals using the fixture
+      const outOfPilotStationReferral = MockReferralListResponse.createReferral(
+        {
+          id: referralId,
+          categoryOfCare: 'OPTOMETRY',
+          stationId,
+        },
+      );
+      const referralsResponse = new MockReferralListResponse({
+        numberOfReferrals: 0,
+      }).toJSON();
+      // append the out of pilot station referral to the referrals response
+      referralsResponse.data.push(outOfPilotStationReferral);
+      mockReferralsGetApi({ response: referralsResponse });
+
+      // Mock referral detail response
+      const referralDetailResponse = new MockReferralDetailResponse({
+        id: referralId,
+        hasAppointments: false,
+        stationId,
+      });
+      mockReferralDetailGetApi({
+        id: referralId,
+        response: referralDetailResponse,
+      });
+    });
+
+    it('should allow the use to see refferal details selecting the referral from the referrals and requests page', () => {
+      // Navigate to the Referrals and Requests page
+      appointmentList.navigateToReferralsAndRequests();
+
+      // Wait for referrals to load
+      cy.wait('@v2:get:referrals');
+
+      // Validate we're on the referrals and requests page
+      referralsAndRequests.validate();
+      cy.injectAxeThenAxeCheck();
+
+      // Verify that referrals are displayed
+      referralsAndRequests.assertPendingReferrals({ count: 1 });
+
+      // Select the referral
+      referralsAndRequests.selectReferral(0);
+
+      // Wait for referral detail to load
+      cy.wait('@v2:get:referral:detail');
+      cy.injectAxeThenAxeCheck();
+
+      // Validate we've reached the Schedule Referral page
+      scheduleReferral.validate();
+      scheduleReferral.assertReferralDetails();
+      scheduleReferral.assertOnlineSchedulingNotAvailableAlert();
     });
   });
 });

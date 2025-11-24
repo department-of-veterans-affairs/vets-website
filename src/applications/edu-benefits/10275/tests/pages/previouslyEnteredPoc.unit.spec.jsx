@@ -33,38 +33,28 @@ describe('Previously Entered POC page', () => {
   describe('Schema and UI Schema', () => {
     it('should have correct schema structure', () => {
       expect(schema).to.have.property('type', 'object');
-      expect(schema.properties).to.have.property(
-        'previouslyEnteredPointOfContact',
+      expect(schema.properties).to.have.property('pointOfContact');
+      expect(schema.properties.pointOfContact.type).to.equal('object');
+      expect(schema.properties.pointOfContact.properties).to.have.property(
+        'key',
       );
-      expect(schema.properties.previouslyEnteredPointOfContact.type).to.equal(
-        'object',
+      expect(schema.properties.pointOfContact.properties).to.have.property(
+        'fullName',
       );
-      expect(
-        schema.properties.previouslyEnteredPointOfContact.properties,
-      ).to.have.property('key');
-      expect(
-        schema.properties.previouslyEnteredPointOfContact.properties,
-      ).to.have.property('fullName');
-      expect(
-        schema.properties.previouslyEnteredPointOfContact.properties,
-      ).to.have.property('email');
-      expect(
-        schema.properties.previouslyEnteredPointOfContact.properties,
-      ).to.have.property('phone');
-      expect(schema.required).to.include('previouslyEnteredPointOfContact');
+      expect(schema.properties.pointOfContact.properties).to.have.property(
+        'email',
+      );
+      expect(schema.properties.pointOfContact.properties).to.have.property(
+        'phone',
+      );
+      expect(schema.required).to.include('pointOfContact');
     });
 
     it('should have correct UI schema structure', () => {
-      expect(uiSchema).to.have.property('previouslyEnteredPointOfContact');
-      expect(uiSchema.previouslyEnteredPointOfContact).to.have.property(
-        'ui:field',
-      );
-      expect(uiSchema.previouslyEnteredPointOfContact).to.have.property(
-        'ui:required',
-      );
-      expect(
-        uiSchema.previouslyEnteredPointOfContact['ui:required'](),
-      ).to.equal(true);
+      expect(uiSchema).to.have.property('pointOfContact');
+      expect(uiSchema.pointOfContact).to.have.property('ui:field');
+      expect(uiSchema.pointOfContact).to.have.property('ui:required');
+      expect(uiSchema.pointOfContact['ui:required']()).to.equal(true);
     });
   });
 
@@ -217,7 +207,6 @@ describe('Previously Entered POC page', () => {
       );
     });
   });
-
   describe('Widget rendering with Authorized Official', () => {
     it('should include authorized official in options when present', () => {
       const formData = {
