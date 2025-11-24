@@ -66,22 +66,17 @@ export const customFormReplacer = (key, value) => {
   return value;
 };
 
-/**
- * Clean data fields - remove fields with empty values & arrays
- * @param {any} sourceData - source data object
- * @param {string[]} fields - fields to copy
- * @returns {any} clean data object
- */
-function copyDataFields(sourceData, fields) {
-  const cleanData = {};
+function copyDataFields(sourceData, cleanData, fields) {
+  let hasData = false;
   fields.forEach(field => {
     const value = sourceData[field];
     if (Array.isArray(value) ? value.length > 0 : value) {
       // eslint-disable-next-line no-param-reassign
       cleanData[field] = value;
+      hasData = true;
     }
   });
-  return cleanData;
+  return hasData;
 }
 
 /**
@@ -95,7 +90,7 @@ export function buildSubmissionData(payload) {
   }
 
   const sourceData = payload.data;
-  let cleanData = {};
+  const cleanData = {};
 
   const addEnabled = sourceData['view:addOrRemoveDependents']?.add === true;
   const removeEnabled =
@@ -157,11 +152,10 @@ export function buildSubmissionData(payload) {
   if (addEnabled) {
     Object.entries(addDataMappings).forEach(([option, fields]) => {
       if (addOptions[option] === true) {
-        enabledAddOptions[option] = true;
-        cleanData = {
-          ...cleanData,
-          ...copyDataFields(sourceData, fields),
-        };
+        const hasData = copyDataFields(sourceData, cleanData, fields);
+        if (hasData) {
+          enabledAddOptions[option] = true;
+        }
       }
     });
   }
@@ -171,11 +165,10 @@ export function buildSubmissionData(payload) {
   if (removeEnabled) {
     Object.entries(removeDataMappings).forEach(([option, fields]) => {
       if (removeOptions[option] === true) {
-        enabledRemoveOptions[option] = true;
-        cleanData = {
-          ...cleanData,
-          ...copyDataFields(sourceData, fields),
-        };
+        const hasData = copyDataFields(sourceData, cleanData, fields);
+        if (hasData) {
+          enabledRemoveOptions[option] = true;
+        }
       }
     });
   }
