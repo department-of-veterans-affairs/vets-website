@@ -176,7 +176,7 @@ describe('Document upload', () => {
         // Verify old alert is present
         cy.get('.claims-alert').should('contain.text', 'Error uploading');
 
-        cy.axeCheck();
+        cy.injectAxeThenAxeCheck();
       });
 
       it('should display duplicate error alert with documents-filed anchor link', () => {
@@ -202,7 +202,7 @@ describe('Document upload', () => {
             }`,
           );
 
-        cy.axeCheck();
+        cy.injectAxeThenAxeCheck();
       });
     });
 
@@ -221,7 +221,7 @@ describe('Document upload', () => {
             'We need you to submit files by mail or in person',
           );
 
-        cy.axeCheck();
+        cy.injectAxeThenAxeCheck();
       });
 
       it('should display both the message alert and the type 1 unknown error alert when both error types exist', () => {
@@ -284,7 +284,7 @@ describe('Document upload', () => {
           'We need you to submit files by mail or in person',
         );
 
-        cy.axeCheck();
+        cy.injectAxeThenAxeCheck();
       });
 
       it('should display duplicate error alert with files-received anchor link', () => {
@@ -310,7 +310,7 @@ describe('Document upload', () => {
             }`,
           );
 
-        cy.axeCheck();
+        cy.injectAxeThenAxeCheck();
       });
     });
   });
