@@ -49,7 +49,7 @@
     "migrate-component": "node script/component-migration/index.js",
     "mock-api": "node src/platform/testing/e2e/mockapi.js",
     "modules-folder:del": "./script/delete-modules-folder.sh",
-    "new:app": "yo @department-of-veterans-affairs/vets-website && npm run lint:js:untracked:fix > /dev/null 2>&1",
+    "new:app": "./script/new-app.sh",
     "postinstall": "husky install && npm rebuild node-sass && node ./script/check-node-version.js",
     "postmigrate-component": "yarn lint:js:changed:fix",
     "pr-check": "node script/pr-check.js",
