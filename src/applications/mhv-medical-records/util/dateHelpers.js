@@ -16,7 +16,9 @@ export const formatDateYear = dateTime => {
 /**
  *
  *  @param dateTime
- *  @example
+ *
+ *  Passed in dateTime formated 'MMMM d, yyyy'
+ *  @example November 27, 2023
  * @returns {String}
  */
 export const formatDateMonthDayCommaYear = dateTime => {
