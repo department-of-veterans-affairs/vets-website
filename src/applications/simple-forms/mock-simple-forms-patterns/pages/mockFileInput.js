@@ -16,11 +16,11 @@ export default {
         environment.API_URL
       }/simple_forms_api/v1/scanned_form_upload`,
       accept: '.png,.pdf,.txt,.jpg,.jpeg',
-      hint: 'Upload a file that is less than 100MB',
+      hint: 'Upload a file that is between 1KB and 100MB',
       headerSize: '3',
       formNumber: '31-4159',
       skipUpload: false,
-      maxFileSize: 1024 * 1024 * 100, // 100MB (was 5MB)
+      maxFileSize: 1024 * 1024 * 100, // 100MB
       minFileSize: 1024, // 1KB
       errorMessages: {
         additionalInput: 'Choose a document status',

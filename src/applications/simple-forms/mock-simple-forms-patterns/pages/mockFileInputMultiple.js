@@ -12,8 +12,8 @@ export default {
     wcv3FileInputMultiple: fileInputMultipleUI({
       title: 'Web component v3 file input',
       required: true,
-      accept: '.png,.pdf,.txt,.jpg,.jpeg,.heic',
-      hint: 'Upload a file that is less than 100MB',
+      accept: '.png,.pdf,.txt,.jpg,.jpeg',
+      hint: 'Upload a file that is between 1KB and 100MB',
       headerSize: '3',
       formNumber: '31-4159',
       // disallowEncryptedPdfs: true,
