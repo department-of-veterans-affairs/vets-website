@@ -13,7 +13,8 @@ export default {
         <p>You can choose one of these options:</p>
         <ul>
           <li>
-            Upload a copy of the Veteran’s DD214 or other separation documents,{' '}
+            Upload a copy of the Veteran’s Certificate of Release or Discharge
+            from Active Duty (DD214) or other separation documents,{' '}
             <strong>or</strong>
           </li>
           <li>Answer questions about the Veteran’s military history</li>
