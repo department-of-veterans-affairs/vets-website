@@ -155,7 +155,7 @@ export default function AuthApp({ location }) {
   const handleAuthSuccess = async ({
     response = {},
     skipToRedirect = false,
-    myVAHealth = false,
+    isMyVAHealth = false,
   } = {}) => {
     sessionStorage.setItem('shouldRedirectExpiredSession', true);
     const authMetrics = new AuthMetrics(
@@ -164,7 +164,7 @@ export default function AuthApp({ location }) {
       requestId,
       errorCode,
     );
-    if (myVAHealth) {
+    if (isMyVAHealth) {
       await handleProvisioning();
     }
     const { userAttributes, userProfile } = authMetrics;
@@ -172,12 +172,11 @@ export default function AuthApp({ location }) {
     const { needsPortalNotice, needsMyHealth } = checkPortalRequirements({
       isPortalNoticeInterstitialEnabled,
       userAttributes,
-      myVAHealth,
+      isMyVAHealth,
     });
     if (
-      (!skipToRedirect && !myVAHealth) ||
-      needsPortalNotice ||
-      needsMyHealth
+      !skipToRedirect &&
+      (!isMyVAHealth || needsPortalNotice || needsMyHealth)
     ) {
       setupProfileSession(userProfile);
     }
@@ -213,11 +212,13 @@ export default function AuthApp({ location }) {
       });
     }
 
-    const myVAHealth = returnUrl.includes(
+    const isMyVAHealth = returnUrl.includes(
       EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH],
     );
     const skipToRedirect =
-      !hasError && !myVAHealth && checkReturnUrl(returnUrl);
+      !hasError &&
+      checkReturnUrl(returnUrl) &&
+      (!isPortalNoticeInterstitialEnabled || !isMyVAHealth);
 
     if (auth === FORCE_NEEDED) {
       handleAuthForceNeeded();
@@ -229,7 +230,7 @@ export default function AuthApp({ location }) {
         await handleAuthSuccess({
           response,
           skipToRedirect: false,
-          myVAHealth,
+          isMyVAHealth,
         });
       } catch (error) {
         handleAuthError(error);

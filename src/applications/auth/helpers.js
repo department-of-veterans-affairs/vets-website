@@ -117,13 +117,13 @@ export const handleTokenRequest = async ({
 export const checkPortalRequirements = ({
   isPortalNoticeInterstitialEnabled,
   userAttributes,
-  myVAHealth,
+  isMyVAHealth,
 }) => {
   const {
     vaProfile: { vaPatient = false, facilities = [] } = {},
   } = userAttributes;
   const redirectElligible =
-    isPortalNoticeInterstitialEnabled && myVAHealth && vaPatient;
+    isPortalNoticeInterstitialEnabled && isMyVAHealth && vaPatient;
 
   const activeFacilities = ['757'];
   const approvedFacilities = [
