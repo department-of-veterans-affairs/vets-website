@@ -30,7 +30,8 @@ describe('Homeless or At Risk Info', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(3);
+    expect(form.find('va-radio').length).to.equal(1);
+    expect(form.find('va-radio-option').length).to.equal(3);
     form.unmount();
   });
 
