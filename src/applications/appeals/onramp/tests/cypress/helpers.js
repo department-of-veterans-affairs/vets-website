@@ -177,6 +177,10 @@ export const checkGoodFitCards = expectedCards => {
             .should('be.visible')
             .should('contain.text', item);
         });
+        cy.get(`[data-testid*="${GOOD_FIT_CONTENT}"]`).should(
+          'have.length',
+          content.length,
+        );
       });
   });
 };
@@ -201,6 +205,10 @@ export const checkNotGoodFitCards = expectedCards => {
             .should('be.visible')
             .should('contain.text', item);
         });
+        cy.get(`[data-testid*="${NOT_GOOD_FIT_CONTENT}"]`).should(
+          'have.length',
+          content.length,
+        );
       });
   });
 };
