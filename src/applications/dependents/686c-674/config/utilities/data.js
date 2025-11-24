@@ -420,7 +420,7 @@ function transformParentDeath(item) {
     fullName: item.fullName,
     ssn: item.ssn,
     birthDate: item.dateOfBirth,
-    dependentType: 'PARENT',
+    dependentType: 'DEPENDENT_PARENT',
     dependentDeathDate: item.endDate,
     dependentDeathLocation: buildLocation(item),
     // TODO: Confirm income field source - currently defaulting to 'N'
@@ -611,6 +611,13 @@ export function transformPicklistToV2(data) {
     reportChild18OrOlderIsNotAttendingSchool:
       v2Data.childStoppedAttendingSchool.length > 0,
   };
+
+  // eslint-disable-next-line no-param-reassign
+  data['view:selectable686Options'] = {
+    ...v2Data['view:selectable686Options'],
+    ...data['view:removeDependentOptions'],
+  };
+
   return data;
 }
 
