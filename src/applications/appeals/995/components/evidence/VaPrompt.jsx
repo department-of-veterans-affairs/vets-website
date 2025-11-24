@@ -24,7 +24,6 @@ const VaPrompt = ({
         setFormData({
           ...data,
           [HAS_VA_EVIDENCE]: boolResponse,
-          vaEvidence: boolResponse ? [] : undefined,
         });
 
         if (error) {
