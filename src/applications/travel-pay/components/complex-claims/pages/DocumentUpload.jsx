@@ -42,7 +42,7 @@ const DocumentUpload = ({ currentDocument, handleDocumentChange, loading }) => {
 
 DocumentUpload.propTypes = {
   currentDocument: PropTypes.object,
-  handleDocumentUpload: PropTypes.func,
+  handleDocumentChange: PropTypes.func,
   loading: PropTypes.bool,
 };
 
