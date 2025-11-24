@@ -286,7 +286,6 @@ export const mebChapters = {
       },
       mebBenefitSelection: {
         path: 'questionnaire/benefit-selection',
-        title: 'Benefit you want to change to',
         depends: formData =>
           isRerouteEnabledOnForm(formData) &&
           formData.mebWhatDoYouWantToDo === 'switch-benefit',
@@ -299,14 +298,15 @@ export const mebChapters = {
         depends: formData =>
           isRerouteEnabledOnForm(formData) &&
           formData.mebWhatDoYouWantToDo === 'same-benefit',
+        hideNavButtons: true,
         ...sameBenefitResultPage(),
       },
       foreignSchoolResult: {
         path: 'results/foreign-school',
-        title: 'Ask VA',
         depends: formData =>
           isRerouteEnabledOnForm(formData) &&
           formData.mebWhatDoYouWantToDo === 'foreign-school',
+        hideNavButtons: true,
         ...foreignSchoolResultPage(),
       },
       mgibAdResult: {
@@ -316,6 +316,7 @@ export const mebChapters = {
           isRerouteEnabledOnForm(formData) &&
           formData.mebWhatDoYouWantToDo === 'switch-benefit' &&
           formData.mebBenefitSelection === 'mgib-ad',
+        hideNavButtons: true,
         ...mgibAdResultPage(),
       },
       mgibSrResult: {
@@ -325,6 +326,7 @@ export const mebChapters = {
           isRerouteEnabledOnForm(formData) &&
           formData.mebWhatDoYouWantToDo === 'switch-benefit' &&
           formData.mebBenefitSelection === 'mgib-sr',
+        hideNavButtons: true,
         ...mgibSrResultPage(),
       },
       toeResult: {
@@ -334,6 +336,7 @@ export const mebChapters = {
           isRerouteEnabledOnForm(formData) &&
           formData.mebWhatDoYouWantToDo === 'switch-benefit' &&
           formData.mebBenefitSelection === 'toe',
+        hideNavButtons: true,
         ...toeResultPage(),
       },
       deaResult: {
@@ -343,6 +346,7 @@ export const mebChapters = {
           isRerouteEnabledOnForm(formData) &&
           formData.mebWhatDoYouWantToDo === 'switch-benefit' &&
           formData.mebBenefitSelection === 'dea',
+        hideNavButtons: true,
         ...deaResultPage(),
       },
       fryResult: {
@@ -352,6 +356,7 @@ export const mebChapters = {
           isRerouteEnabledOnForm(formData) &&
           formData.mebWhatDoYouWantToDo === 'switch-benefit' &&
           formData.mebBenefitSelection === 'fry',
+        hideNavButtons: true,
         ...fryResultPage(),
       },
     },

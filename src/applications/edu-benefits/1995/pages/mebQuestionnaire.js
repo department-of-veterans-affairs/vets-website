@@ -20,7 +20,7 @@ const ResultDescription = ({
       linkText && (
         <a
           href={linkHref}
-          className="vads-u-display--block vads-u-margin-bottom--3"
+          className="vads-u-display--block vads-u-margin-bottom--3 vads-c-action-link--green"
         >
           {linkText}
         </a>
@@ -73,61 +73,69 @@ export const yourInformationPage = () => ({
 
 export const benefitSwitchPage = () => ({
   uiSchema: {
-    'ui:title': 'Benefit you want to change to',
-    'ui:description': () => (
-      <details className="vads-u-margin-bottom--3">
-        <summary className="vads-u-font-weight--bold">
-          Learn more about these benefits
-        </summary>
-        <ul className="vads-u-margin-top--1">
-          <li>
-            Learn about GI Bill benefits: Post-9/11 GI Bill, Montgomery GI Bill
-            Active Duty (MGIB-AD), and Montgomery GI Bill Selected Reserve
-            (MGIB-SR) (opens in a new tab)
-            <ul className="vads-u-margin-top--1">
-              <li>
-                <a href="https://www.va.gov/education/about-gi-bill-benefits/post-9-11">
-                  Post-9/11 GI Bill
-                </a>
-              </li>
-              <li>
-                <a href="https://www.va.gov/education/about-gi-bill-benefits/montgomery-active-duty">
-                  Montgomery GI Bill Active Duty (MGIB-AD)
-                </a>
-              </li>
-              <li>
-                <a href="https://www.va.gov/education/about-gi-bill-benefits/montgomery-selected-reserve">
-                  Montgomery GI Bill Selected Reserve (MGIB-SR)
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li>
-            <a href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/transferred-gi-bill-benefits/">
-              Learn about survivors’ and dependents’ assistance: transferred
-              Post-9/11 GI Bill benefits (opens in a new tab)
-            </a>
-          </li>
-          <li>
-            Survivors’ and Dependents’ Education Assistance (DEA), Fry
-            Scholarship
-            <ul className="vads-u-margin-top--1">
-              <li>
-                <a href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/dependents-education-assistance/">
-                  Survivors’ and Dependents’ Education Assistance (DEA)
-                </a>
-              </li>
-              <li>
-                <a href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/fry-scholarship/">
-                  Fry Scholarship
-                </a>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </details>
-    ),
     mebBenefitSelection: {
+      "ui:title": (
+        <span 
+          className="vads-u-font-size--h3 vads-u-margin-bottom--3"
+        >
+          Benefit you want to change to
+        </span>
+      ),
+      'ui:description': () => (
+        <va-additional-info 
+          className="vads-u-margin-bottom--3"
+          onClick={function noRefCheck() {}}
+          trigger="Learn more about these benefits"
+        >
+          <h2>Benefit you want to change to</h2>
+          <ul className="vads-u-margin-top--1">
+            <li>
+              Learn about GI Bill benefits: Post-9/11 GI Bill, Montgomery GI Bill
+              Active Duty (MGIB-AD), and Montgomery GI Bill Selected Reserve
+              (MGIB-SR) (opens in a new tab)
+              <ul className="vads-u-margin-top--1">
+                <li>
+                  <a href="https://www.va.gov/education/about-gi-bill-benefits/post-9-11">
+                    Post-9/11 GI Bill
+                  </a>
+                </li>
+                <li>
+                  <a href="https://www.va.gov/education/about-gi-bill-benefits/montgomery-active-duty">
+                    Montgomery GI Bill Active Duty (MGIB-AD)
+                  </a>
+                </li>
+                <li>
+                  <a href="https://www.va.gov/education/about-gi-bill-benefits/montgomery-selected-reserve">
+                    Montgomery GI Bill Selected Reserve (MGIB-SR)
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/transferred-gi-bill-benefits/">
+                Learn about survivors’ and dependents’ assistance: transferred
+                Post-9/11 GI Bill benefits (opens in a new tab)
+              </a>
+            </li>
+            <li>
+              Survivors’ and Dependents’ Education Assistance (DEA), Fry
+              Scholarship
+              <ul className="vads-u-margin-top--1">
+                <li>
+                  <a href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/dependents-education-assistance/">
+                    Survivors’ and Dependents’ Education Assistance (DEA)
+                  </a>
+                </li>
+                <li>
+                  <a href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/fry-scholarship/">
+                    Fry Scholarship
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </va-additional-info>
+      ),
       'ui:widget': 'radio',
     },
   },
@@ -184,18 +192,21 @@ export const sameBenefitResultPage = () =>
       'Based on your answers, use VA Form 22-5490 to apply to the same benefit again to get an updated COE.',
     linkHref:
       'https://www.va.gov/family-and-caregiver-benefits/education-and-careers/apply-for-dea-fry-form-22-5490',
-    linkText: 'Apply for education benefits (VA Form 22-1990)',
+    linkText: 'Apply for education benefits (VA Form 22-5490)',
     answers: [
       'You are looking to apply to the same benefit again to get an updated Certificate of Eligibility (COE)',
+      "Your most recently used benefit is Dependents’ Educational Assistance (DEA, Chapter 35)"
     ],
   });
 
 export const foreignSchoolResultPage = () =>
   buildResultPage({
+    resultHeader:
+      "Ask VA",
     body:
       'Get answers to your questions about using eligibility at a foreign school. You should receive a reply within 7 business days.',
     linkHref: 'https://ask.va.gov/',
-    linkText: 'Ask VA',
+    linkText: 'Contact us online through Ask Va',
     answers: [
       'You want to update your Certificate of Eligibility (COE) for a foreign school',
     ],
