@@ -427,6 +427,247 @@ describe('actions: locations', () => {
       expect(dispatchedPayload.meta.pagination.totalEntries).to.equal(50);
       expect(dispatchedPayload.data.length).to.equal(10);
     });
+
+    it('should paginate combined urgent care results with more than 10 facilities', async () => {
+      // Create 15 mock VA facilities
+      const mockVaData = {
+        data: Array.from({ length: 8 }, (_, i) => ({
+          attributes: { lat: 0.5 + i * 0.01, long: 0.5 + i * 0.01 },
+          id: `va-${i}`,
+        })),
+      };
+
+      // Create 7 mock NonVA facilities
+      const mockNonVaData = {
+        data: Array.from({ length: 7 }, (_, i) => ({
+          attributes: { lat: 0.6 + i * 0.01, long: 0.6 + i * 0.01 },
+          id: `nonva-${i}`,
+        })),
+      };
+
+      LocatorApi.searchWithBounds
+        .withArgs(
+          null,
+          mockBounds,
+          LocationType.URGENT_CARE,
+          'UrgentCare',
+          1,
+          mockCenter,
+          mockRadius,
+          true,
+        )
+        .resolves(mockVaData)
+        .withArgs(
+          null,
+          mockBounds,
+          LocationType.URGENT_CARE,
+          'NonVAUrgentCare',
+          1,
+          mockCenter,
+          mockRadius,
+          true,
+        )
+        .resolves(mockNonVaData);
+
+      await fetchLocations(
+        null,
+        mockBounds,
+        LocationType.URGENT_CARE,
+        'AllUrgentCare',
+        1,
+        dispatch,
+        mockCenter,
+        mockRadius,
+      );
+
+      const dispatchedPayload = dispatch.getCall(0).args[0].payload;
+
+      // Should have pagination for 15 total results (2 pages at 10 per page)
+      expect(dispatchedPayload.meta.pagination.currentPage).to.equal(1);
+      expect(dispatchedPayload.meta.pagination.nextPage).to.equal(2);
+      expect(dispatchedPayload.meta.pagination.prevPage).to.equal(null);
+      expect(dispatchedPayload.meta.pagination.totalPages).to.equal(2);
+      expect(dispatchedPayload.meta.pagination.totalEntries).to.equal(15);
+      // First page should have 10 results
+      expect(dispatchedPayload.data.length).to.equal(10);
+    });
+
+    it('should return page 2 of combined urgent care results', async () => {
+      // Create 15 mock VA facilities
+      const mockVaData = {
+        data: Array.from({ length: 8 }, (_, i) => ({
+          attributes: { lat: 0.5 + i * 0.01, long: 0.5 + i * 0.01 },
+          id: `va-${i}`,
+        })),
+      };
+
+      // Create 7 mock NonVA facilities
+      const mockNonVaData = {
+        data: Array.from({ length: 7 }, (_, i) => ({
+          attributes: { lat: 0.6 + i * 0.01, long: 0.6 + i * 0.01 },
+          id: `nonva-${i}`,
+        })),
+      };
+
+      LocatorApi.searchWithBounds
+        .withArgs(
+          null,
+          mockBounds,
+          LocationType.URGENT_CARE,
+          'UrgentCare',
+          1,
+          mockCenter,
+          mockRadius,
+          true,
+        )
+        .resolves(mockVaData)
+        .withArgs(
+          null,
+          mockBounds,
+          LocationType.URGENT_CARE,
+          'NonVAUrgentCare',
+          1,
+          mockCenter,
+          mockRadius,
+          true,
+        )
+        .resolves(mockNonVaData);
+
+      await fetchLocations(
+        null,
+        mockBounds,
+        LocationType.URGENT_CARE,
+        'AllUrgentCare',
+        2, // Request page 2
+        dispatch,
+        mockCenter,
+        mockRadius,
+      );
+
+      const dispatchedPayload = dispatch.getCall(0).args[0].payload;
+
+      // Should be on page 2
+      expect(dispatchedPayload.meta.pagination.currentPage).to.equal(2);
+      expect(dispatchedPayload.meta.pagination.nextPage).to.equal(null);
+      expect(dispatchedPayload.meta.pagination.prevPage).to.equal(1);
+      expect(dispatchedPayload.meta.pagination.totalPages).to.equal(2);
+      expect(dispatchedPayload.meta.pagination.totalEntries).to.equal(15);
+      // Second page should have remaining 5 results
+      expect(dispatchedPayload.data.length).to.equal(5);
+    });
+
+    it('should handle requesting page beyond total pages for combined results', async () => {
+      const mockVaData = {
+        data: [
+          { attributes: { lat: 0.5, long: 0.5 }, id: 'va-1' },
+          { attributes: { lat: 0.51, long: 0.51 }, id: 'va-2' },
+        ],
+      };
+
+      const mockNonVaData = {
+        data: [{ attributes: { lat: 0.6, long: 0.6 }, id: 'nonva-1' }],
+      };
+
+      LocatorApi.searchWithBounds
+        .withArgs(
+          null,
+          mockBounds,
+          LocationType.URGENT_CARE,
+          'UrgentCare',
+          1,
+          mockCenter,
+          mockRadius,
+          true,
+        )
+        .resolves(mockVaData)
+        .withArgs(
+          null,
+          mockBounds,
+          LocationType.URGENT_CARE,
+          'NonVAUrgentCare',
+          1,
+          mockCenter,
+          mockRadius,
+          true,
+        )
+        .resolves(mockNonVaData);
+
+      // Request page 5 when only page 1 exists
+      await fetchLocations(
+        null,
+        mockBounds,
+        LocationType.URGENT_CARE,
+        'AllUrgentCare',
+        5,
+        dispatch,
+        mockCenter,
+        mockRadius,
+      );
+
+      const dispatchedPayload = dispatch.getCall(0).args[0].payload;
+
+      // Should cap at page 1 (last available page)
+      expect(dispatchedPayload.meta.pagination.currentPage).to.equal(1);
+      expect(dispatchedPayload.meta.pagination.totalPages).to.equal(1);
+      expect(dispatchedPayload.data.length).to.equal(3);
+    });
+
+    it('should sort combined results by distance before paginating', async () => {
+      // VA facility farther away
+      const mockVaData = {
+        data: [{ attributes: { lat: 1.0, long: 1.0 }, id: 'va-far' }],
+      };
+
+      // NonVA facilities closer
+      const mockNonVaData = {
+        data: [
+          { attributes: { lat: 0.5, long: 0.5 }, id: 'nonva-close' },
+          { attributes: { lat: 0.51, long: 0.51 }, id: 'nonva-medium' },
+        ],
+      };
+
+      LocatorApi.searchWithBounds
+        .withArgs(
+          null,
+          mockBounds,
+          LocationType.URGENT_CARE,
+          'UrgentCare',
+          1,
+          mockCenter,
+          mockRadius,
+          true,
+        )
+        .resolves(mockVaData)
+        .withArgs(
+          null,
+          mockBounds,
+          LocationType.URGENT_CARE,
+          'NonVAUrgentCare',
+          1,
+          mockCenter,
+          mockRadius,
+          true,
+        )
+        .resolves(mockNonVaData);
+
+      await fetchLocations(
+        null,
+        mockBounds,
+        LocationType.URGENT_CARE,
+        'AllUrgentCare',
+        1,
+        dispatch,
+        mockCenter,
+        mockRadius,
+      );
+
+      const dispatchedPayload = dispatch.getCall(0).args[0].payload;
+
+      // Results should be sorted by distance (closest first)
+      expect(dispatchedPayload.data[0].id).to.equal('nonva-close');
+      expect(dispatchedPayload.data[1].id).to.equal('nonva-medium');
+      expect(dispatchedPayload.data[2].id).to.equal('va-far');
+    });
   });
 
   describe('fetchVAFacility', () => {
