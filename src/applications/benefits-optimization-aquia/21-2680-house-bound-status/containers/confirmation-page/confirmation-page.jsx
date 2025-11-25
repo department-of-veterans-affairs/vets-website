@@ -64,7 +64,7 @@ const WhatsNextSection = ({ confirmationNumber }) => {
         <va-process-list-item header="Download a PDF version of the Form you filled out.">
           <DownloadFormPDF confirmationNumber={confirmationNumber} />
         </va-process-list-item>
-        <va-process-list-item header="Send it to an examiner.">
+        <va-process-list-item header="Have an examiner complete the remaining sections.">
           <p>
             The examiner must be a Medical Doctor (MD) or Doctor of Osteopathic
             (DO) medicine, physician assistant or advanced practice registered
