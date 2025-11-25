@@ -155,10 +155,12 @@ describe('Secure Messaging Reply', () => {
     cy.get('va-pagination').should('not.exist');
     PatientFilterPage.verifyFilterResponseLength(filterResultResponse);
 
-    cy.contains(
-      `Showing 1 to ${filteredThreadLength} of ${filteredThreadLength}`,
-    );
-    cy.contains('End of search results');
+    cy.findByText(content => {
+      return content.includes(
+        `Showing 1 to ${filteredThreadLength} of ${filteredThreadLength}`,
+      );
+    });
+    cy.findByText('End of search results');
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });

@@ -349,4 +349,80 @@ describe('Message List component', () => {
     const threadListSort = screen.queryByTestId('thread-list-sort');
     expect(threadListSort).to.not.exist;
   });
+
+  it('resets to page 1 when current page exceeds max page after filtering', async () => {
+    const fifteenMessages = Array.from({ length: 15 }, (_, i) => ({
+      ...mockMessages[0],
+      messageId: 2817226 + i,
+      subject: `test ${i}`,
+      sentDate: `2023-05-${17 - i}T16:11:26.000Z`,
+    }));
+
+    const fiveMessages = Array.from({ length: 5 }, (_, i) => ({
+      ...mockMessages[0],
+      messageId: 9000000 + i,
+      subject: `filtered test ${i}`,
+      sentDate: `2023-06-${10 + i}T16:11:26.000Z`,
+    }));
+
+    const screen = setup(
+      inbox,
+      threadSortingOptions.SENT_DATE_DESCENDING.value,
+      Paths.INBOX,
+      fifteenMessages,
+    );
+
+    await waitFor(() => {
+      const messagesRendered = screen.getAllByTestId('message-list-item');
+      expect(messagesRendered).to.have.length(10);
+    });
+
+    const pagination = await $('va-pagination', screen.container);
+    const event = new CustomEvent('pageSelect', {
+      bubbles: true,
+      detail: { page: 2 },
+    });
+    pagination.dispatchEvent(event);
+
+    await waitFor(() => {
+      const messagesRendered = screen.getAllByTestId('message-list-item');
+      expect(messagesRendered).to.have.length(5);
+    });
+
+    cleanup();
+
+    const {
+      container,
+      getAllByTestId: getFilteredMessages,
+    } = renderWithStoreAndRouter(
+      <MessageList
+        messages={fiveMessages}
+        folder={inbox}
+        keyword="test"
+        sortOrder={threadSortingOptions.SENT_DATE_DESCENDING.value}
+        page={2}
+      />,
+      {
+        path: Paths.INBOX,
+        initialState: {
+          sm: {
+            folders: { folder: inbox },
+            messages: [],
+            search: {
+              page: 2,
+            },
+          },
+        },
+        reducers,
+      },
+    );
+
+    await waitFor(() => {
+      const messagesRendered = getFilteredMessages('message-list-item');
+      expect(messagesRendered).to.have.length(5);
+    });
+
+    const paginationAfterFilter = container.querySelector('va-pagination');
+    expect(paginationAfterFilter).to.not.exist;
+  });
 });
