@@ -13,7 +13,7 @@ const OMB_EXP_DATE = '12/31/2027';
 const supportingDocsLink = (
   <p className="vads-u-margin-bottom--4">
     <VaLink
-      href="/resources/how-to-file-a-champva-claim"
+      href="/resources/how-to-file-a-champva-claim/#supporting-documents-to-send-w"
       text="Find out which supporting documents to submit with your claim"
     />
   </p>
