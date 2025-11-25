@@ -57,12 +57,28 @@ describe('usePrescriptionData', () => {
       refillStatus: 'active',
     };
 
+    const mockNumericStringPrescription = {
+      prescriptionId: '456',
+      prescriptionName: 'Numeric String Medication',
+      refillStatus: 'active',
+    };
+
+    const mockData = {
+      prescriptions: [mockPrescription, mockNumericStringPrescription],
+    };
+
     // Create stubs for the RTK Query hooks
     useQueryStateStub = sinon.stub();
     useQueryStub = sinon.stub();
 
-    // Default stub behavior
-    useQueryStateStub.returns(mockPrescription);
+    // Default stub behavior for useQueryState to simulate selectFromResult
+    useQueryStateStub.callsFake((_arg, options) => {
+      if (options && options.selectFromResult) {
+        return options.selectFromResult({ data: mockData });
+      }
+      return undefined;
+    });
+
     useQueryStub.returns({
       data: mockPrescription,
       error: null,
@@ -106,6 +122,28 @@ describe('usePrescriptionData', () => {
     // Verify the hook returns the expected data
     await waitFor(() => {
       expect(result.current.prescription).to.deep.equal(mockPrescription);
+      expect(result.current.isLoading).to.be.false;
+      expect(result.current.prescriptionApiError).to.be.false;
+    });
+
+    // Verify that the cached prescription was used
+    expect(useQueryStateStub.called).to.be.true;
+    expect(useQueryStub.firstCall.args[1].skip).to.be.true;
+  });
+
+  it('should return cached prescription when ID is a numeric string', async () => {
+    // Render hook with parameters using the numeric string ID
+    const { result } = renderHook(() => usePrescriptionData('456', {}), {
+      wrapper,
+    });
+
+    // Verify the hook returns the expected data
+    await waitFor(() => {
+      expect(result.current.prescription).to.deep.equal({
+        prescriptionId: '456',
+        prescriptionName: 'Numeric String Medication',
+        refillStatus: 'active',
+      });
       expect(result.current.isLoading).to.be.false;
       expect(result.current.prescriptionApiError).to.be.false;
     });
