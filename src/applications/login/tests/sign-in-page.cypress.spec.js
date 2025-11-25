@@ -1,29 +1,15 @@
 describe('Unified Sign-in Page', () => {
-  [false, true].forEach(value => {
-    beforeEach(() => {
-      cy.intercept('GET', '/v0/feature_toggles*', {
-        data: {
-          type: 'feature_toggles',
-          features: [
-            {
-              name: 'dslogon_button_disabled',
-              value,
-            },
-          ],
-        },
-      }).as('featureToggles');
-      cy.intercept('GET', '/data/cms/vamc-ehr.json', { statusCode: 200 });
-    });
+  beforeEach(() => {
+    cy.intercept('GET', '/data/cms/vamc-ehr.json', { statusCode: 200 });
+  });
 
-    it(`display correct sign-in content when feature toggle 'dslogon_button_disabled' is ${value}`, () => {
-      cy.visit('/sign-in/?oauth=false');
-      cy.wait('@featureToggles');
-      cy.get('body').should('be.visible');
-      cy.get('H1').contains('Sign in or create an account');
-      cy.get('H2').contains('Help and support');
-      cy.get('a').contains('Learn about creating a Login.gov or ID.me account');
-      cy.injectAxeThenAxeCheck();
-    });
+  it(`display correct sign-in content`, () => {
+    cy.visit('/sign-in/?oauth=false');
+    cy.get('body').should('be.visible');
+    cy.get('H1').contains('Sign in or create an account');
+    cy.get('H2').contains('Help and support');
+    cy.get('a').contains('Learn about creating a Login.gov or ID.me account');
+    cy.injectAxeThenAxeCheck();
   });
 });
 
