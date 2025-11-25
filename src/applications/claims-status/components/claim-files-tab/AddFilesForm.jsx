@@ -230,7 +230,6 @@ const createSubmissionPayload = (files, docTypes, encrypted) => {
 const AddFilesForm = ({ fileTab, onSubmit, uploading, progress, onCancel }) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const toggleValue = useToggleValue(TOGGLE_NAMES.cstShowDocumentUploadStatus);
-
   const [files, setFiles] = useState([]);
   const [errors, setErrors] = useState([]);
   const [encrypted, setEncrypted] = useState([]);

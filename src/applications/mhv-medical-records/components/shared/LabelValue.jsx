@@ -22,8 +22,7 @@ const LabelValue = ({
   return (
     <HeaderSection header={label} className={headerClass}>
       <Element
-        style={{ whiteSpace: 'pre-line' }}
-        className={`vads-u-margin-y--0 ${
+        className={`breakable-text-wrap vads-u-margin-y--0 ${
           monospace ? 'monospace vads-u-line-height--6' : null
         }`}
         data-dd-privacy="mask"

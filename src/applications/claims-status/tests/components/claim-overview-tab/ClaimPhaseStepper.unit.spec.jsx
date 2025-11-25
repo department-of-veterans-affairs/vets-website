@@ -109,9 +109,9 @@ describe('<ClaimPhaseStepper>', () => {
     expect(getByTestId('upload-evidence-link').textContent).to.equal(
       'Upload your evidence here',
     );
-    expect(within($('#phase3 ul', container)).getByRole('link')).to.have.text(
-      'Learn more about VA claim exams',
-    );
+    expect(
+      getByTestId('learn-more-about-va-claim-exams-link').getAttribute('text'),
+    ).to.equal('Learn more about VA claim exams');
   });
 
   it('should render a ClaimPhaseStepper section where step 4 is the current step', () => {

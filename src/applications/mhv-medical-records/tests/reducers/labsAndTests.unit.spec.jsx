@@ -968,6 +968,7 @@ describe('convertUnifiedLabsAndTestRecord', () => {
         bodySite: 'Arm',
         testCode: '12345',
         comments: 'No issues',
+        source: 'oracle-health',
         encodedData: 'VGhpcyBpcyBhIHRlc3Q=',
       },
     };
@@ -983,6 +984,7 @@ describe('convertUnifiedLabsAndTestRecord', () => {
     expect(result.testCode).to.equal('12345');
     expect(result.type).to.equal('12345');
     expect(result.comments).to.equal('No issues');
+    expect(result.source).to.equal('oracle-health');
     expect(result.result).to.equal('This is a test');
   });
 
@@ -1006,6 +1008,7 @@ describe('convertUnifiedLabsAndTestRecord', () => {
       testCode: undefined,
       type: undefined,
       comments: undefined,
+      source: undefined,
       result: null,
       base: {
         ...record,
@@ -1035,6 +1038,7 @@ describe('convertUnifiedLabsAndTestRecord', () => {
       testCode: undefined,
       type: undefined,
       comments: undefined,
+      source: undefined,
       result: null,
       base: {
         ...record,

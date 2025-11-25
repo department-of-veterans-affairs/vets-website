@@ -1,0 +1,24 @@
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+
+.hub-card-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+
+.hub-card {
+  flex: 0 0 33.333%;
+  max-width: 33.333%;
+}
+
+@media screen and (max-width: $medium-screen) {
+  .hub-card-list {
+    flex-direction: column;
+  }
+
+  .hub-card {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+

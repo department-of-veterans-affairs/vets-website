@@ -67,19 +67,6 @@ describe('User Nav Actions', () => {
         .true;
     });
 
-    it('should append `oauth=true` query parameter when opened and `signInServiceEnabled` flag is true', async () => {
-      expect(global.window.location.href.includes('localhost')).to.be.true;
-      await toggleLoginModal(true)(store.dispatch, () => ({
-        featureToggles: {
-          signInServiceEnabled: true,
-        },
-      }));
-
-      expect(
-        global.window.location.href.includes('?next=loginModal&oauth=true'),
-      ).to.be.true;
-    });
-
     it('should append the correct `next` query if it exists', async () => {
       const expectedNextParam = '?next=disabilityBenefits';
       global.window.location = new URL(`http://localhost/${expectedNextParam}`);

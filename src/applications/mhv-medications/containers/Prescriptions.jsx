@@ -214,15 +214,18 @@ const Prescriptions = () => {
     scrollLocation?.current?.scrollIntoView();
   };
 
-  useEffect(() => {
-    if (!isLoading) {
-      if (prescriptionId) {
-        goToPrevious();
-      } else {
-        focusElement(document.querySelector('h1'));
+  useEffect(
+    () => {
+      if (!isLoading) {
+        if (prescriptionId) {
+          goToPrevious();
+        } else {
+          focusElement(document.querySelector('h1'));
+        }
       }
-    }
-  }, []);
+    },
+    [isLoading, prescriptionId],
+  );
 
   useEffect(
     () => {

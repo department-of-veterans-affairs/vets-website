@@ -32,6 +32,7 @@ import {
   ElectronicSignatureBox,
   ErrorMessages,
   DefaultFolders,
+  MessageHintText,
 } from '../../../util/constants';
 import { messageSignatureFormatter } from '../../../util/helpers';
 import * as messageActions from '../../../actions/messages';
@@ -1993,6 +1994,117 @@ describe('Compose form component', () => {
       expect(h2.textContent).to.equal(
         'Add your medication information to this message',
       );
+    });
+
+    describe('message body textarea hint text', () => {
+      it('should display medication details hint when rxError exists', async () => {
+        const errorState = {
+          ...initialState,
+          sm: {
+            ...initialState.sm,
+            prescription: {
+              error: 'SM_GET_PRESCRIPTION_BY_ID_ERROR',
+              renewalPrescription: null,
+              isLoading: false,
+            },
+          },
+        };
+
+        const { container } = setup(errorState, Paths.COMPOSE);
+
+        await waitFor(() => {
+          const textarea = container.querySelector(
+            'va-textarea[name="compose-message-body"]',
+          );
+          expect(textarea).to.exist;
+          expect(textarea.getAttribute('hint')).to.equal(
+            MessageHintText.RX_RENEWAL_ERROR,
+          );
+        });
+      });
+
+      it('should display review details hint when renewalPrescription exists', async () => {
+        const successState = {
+          ...initialState,
+          sm: {
+            ...initialState.sm,
+            prescription: {
+              error: null,
+              renewalPrescription: {
+                prescriptionId: '123',
+                prescriptionName: 'Test Medication',
+              },
+              isLoading: false,
+            },
+          },
+        };
+
+        const { container } = setup(successState, Paths.COMPOSE);
+
+        await waitFor(() => {
+          const textarea = container.querySelector(
+            'va-textarea[name="compose-message-body"]',
+          );
+          expect(textarea).to.exist;
+          expect(textarea.getAttribute('hint')).to.equal(
+            MessageHintText.RX_RENEWAL_SUCCESS,
+          );
+        });
+      });
+
+      it('should not display hint when neither rxError nor renewalPrescription exist', async () => {
+        const noHintState = {
+          ...initialState,
+          sm: {
+            ...initialState.sm,
+            prescription: {
+              error: null,
+              renewalPrescription: null,
+              isLoading: false,
+            },
+          },
+        };
+
+        const { container } = setup(noHintState, Paths.COMPOSE);
+
+        await waitFor(() => {
+          const textarea = container.querySelector(
+            'va-textarea[name="compose-message-body"]',
+          );
+          expect(textarea).to.exist;
+          expect(textarea.getAttribute('hint')).to.be.null;
+        });
+      });
+
+      it('should prioritize rxError hint over renewalPrescription hint when both exist', async () => {
+        const bothExistState = {
+          ...initialState,
+          sm: {
+            ...initialState.sm,
+            prescription: {
+              error: 'Prescription not found',
+              renewalPrescription: {
+                prescriptionId: '123',
+                prescriptionName: 'Test Medication',
+              },
+              isLoading: false,
+            },
+          },
+        };
+
+        const { container } = setup(bothExistState, Paths.COMPOSE);
+
+        await waitFor(() => {
+          const textarea = container.querySelector(
+            'va-textarea[name="compose-message-body"]',
+          );
+          expect(textarea).to.exist;
+          // Should show error hint, not success hint
+          expect(textarea.getAttribute('hint')).to.equal(
+            MessageHintText.RX_RENEWAL_ERROR,
+          );
+        });
+      });
     });
 
     it('calls sendMessage and verifies redirect path is available for prescription renewal flow', async () => {

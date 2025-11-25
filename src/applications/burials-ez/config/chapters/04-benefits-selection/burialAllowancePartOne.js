@@ -8,12 +8,17 @@ import { generateTitle } from '../../../utils/helpers';
 export default {
   uiSchema: {
     'ui:title': generateTitle('Type of burial allowance'),
-    burialAllowanceRequested: checkboxGroupUI({
-      title: 'What type of burial allowance are you claiming?',
-      hint: 'Check any that apply to you',
-      required: true,
-      labels: allowanceLabels,
-    }),
+    burialAllowanceRequested: {
+      ...checkboxGroupUI({
+        title:
+          'Which burial allowances are you applying for? Select all that apply.',
+        required: true,
+        labels: allowanceLabels,
+      }),
+      'ui:options': {
+        tile: true,
+      },
+    },
   },
   schema: {
     type: 'object',

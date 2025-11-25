@@ -3,6 +3,7 @@ import moment from 'moment';
 import { find, get, startCase } from 'lodash';
 import * as Sentry from '@sentry/browser';
 import { Link } from 'react-router-dom-v5-compat';
+import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { Toggler } from '~/platform/utilities/feature-toggles';
 
@@ -323,9 +324,10 @@ export function getStatusContents(appeal, name = {}) {
               Appeals, <strong>or</strong>
             </li>
             <li>
-              <a href={DECISION_REVIEW_URL}>
-                Opt in to the new decision review process
-              </a>
+              <VaLink
+                href={DECISION_REVIEW_URL}
+                text="Opt in to the new decision review process"
+              />
             </li>
           </ul>
         </div>
@@ -630,9 +632,10 @@ export function getStatusContents(appeal, name = {}) {
             Check <Link to="/your-claims">Your claims and appeals</Link> for the
             decision review that contains the issues from this appeal, or learn
             more about{' '}
-            <a href={DECISION_REVIEW_URL}>
-              decision reviews under the Appeals Modernization Act
-            </a>
+            <VaLink
+              href={DECISION_REVIEW_URL}
+              text="decision reviews under the Appeals Modernization Act"
+            />
             .
           </p>
         </div>
@@ -1185,9 +1188,10 @@ export function getNextEvents(appeal) {
                 they’ll send you their findings in a document called a Statement
                 of the Case. You can then decide whether to continue your appeal
                 to the Board of Veterans’ Appeals, or{' '}
-                <a href={DECISION_REVIEW_URL}>
-                  opt in to one of the new decision review options
-                </a>
+                <VaLink
+                  href={DECISION_REVIEW_URL}
+                  text="opt in to one of the new decision review options"
+                />
                 .
               </p>
             ),
@@ -1369,15 +1373,14 @@ export function getNextEvents(appeal) {
                   Your hearing will be transcribed and added to your appeal
                   file. The judge won’t make a decision about your appeal at the
                   hearing.{' '}
-                  <a
+                  <VaLink
                     href={
                       appealType === APPEAL_TYPES.appeal
                         ? '/decision-reviews/board-appeal/veterans-law-judge-hearing/'
                         : '/disability/file-an-appeal/board-of-veterans-appeals/'
                     }
-                  >
-                    Learn more about hearings.
-                  </a>
+                    text="Learn more about hearings."
+                  />
                 </p>
                 {appeal.type === APPEAL_TYPES.appeal && (
                   <p>
@@ -1408,15 +1411,14 @@ export function getNextEvents(appeal) {
                 Your hearing will be transcribed and added to your appeal file.
                 The judge won’t make a decision about your appeal at the
                 hearing.{' '}
-                <a
+                <VaLink
                   href={
                     appealType === APPEAL_TYPES.appeal
                       ? '/decision-reviews/board-appeal/veterans-law-judge-hearing/'
                       : '/disability/file-an-appeal/board-of-veterans-appeals/'
                   }
-                >
-                  Learn more about hearings
-                </a>
+                  text="Learn more about hearings"
+                />
                 , including how to prepare for, reschedule, or cancel your
                 hearing.
               </p>
@@ -1628,9 +1630,10 @@ export function getAlertContent(alert, appealIsActive) {
             <p>
               You may also opt in to the new decision review process. You have
               60 days from the date on the Statement of the Case to{' '}
-              <a href={DECISION_REVIEW_URL}>
-                opt in to one of the new decision review options
-              </a>
+              <VaLink
+                href={DECISION_REVIEW_URL}
+                text="opt in to one of the new decision review options"
+              />
               .
             </p>
           </div>
@@ -1824,9 +1827,10 @@ export function getAlertContent(alert, appealIsActive) {
               </li>
               <li>
                 Visit the{' '}
-                <a href="https://www.uscourts.cavc.gov/appeal.php">
-                  Court’s website
-                </a>
+                <VaLink
+                  href="https://www.uscourts.cavc.gov/appeal.php"
+                  text="Court’s website"
+                />
               </li>
               <li>
                 Contact your Veterans Service Organization or representative.
@@ -1861,9 +1865,10 @@ export function getAlertContent(alert, appealIsActive) {
                   <p>
                     A reviewer will determine whether the new evidence changes
                     the decision. This option is called a{' '}
-                    <a href="/decision-reviews/supplemental-claim">
-                      Supplemental Claim
-                    </a>
+                    <VaLink
+                      href="/decision-reviews/supplemental-claim"
+                      text="Supplemental Claim"
+                    />
                     . <strong>Available until {formattedDueDate}.</strong>
                   </p>
                 </li>
@@ -1877,9 +1882,10 @@ export function getAlertContent(alert, appealIsActive) {
                     A higher-level reviewer will look at your case and determine
                     whether the decision can be changed based on a difference of
                     opinion or because VA made an error. This option is called a
-                    <a href="/decision-reviews/higher-level-review">
-                      Higher-Level Review
-                    </a>
+                    <VaLink
+                      href="/decision-reviews/higher-level-review"
+                      text="Higher-Level Review"
+                    />
                     . <strong>Available until {formattedDueDate}.</strong>
                   </p>
                 </li>
@@ -1893,7 +1899,10 @@ export function getAlertContent(alert, appealIsActive) {
                     Appeal to a Veterans Law Judge. A judge at the Board of
                     Veterans’ Appeals in Washington, D.C. will review your case.
                     This option is called a{' '}
-                    <a href="/decision-reviews/board-appeal">Board Appeal</a>{' '}
+                    <VaLink
+                      href="/decision-reviews/board-appeal"
+                      text="Board Appeal"
+                    />{' '}
                     <strong>Available until {formattedDueDate}.</strong>
                   </p>
                 </li>
@@ -1939,9 +1948,10 @@ export function getAlertContent(alert, appealIsActive) {
               </p>
             )}
             <p>
-              <a href={DECISION_REVIEW_URL}>
-                Learn more about your decision review options.
-              </a>
+              <VaLink
+                href={DECISION_REVIEW_URL}
+                text="Learn more about your decision review options."
+              />
             </p>
           </div>
         ),

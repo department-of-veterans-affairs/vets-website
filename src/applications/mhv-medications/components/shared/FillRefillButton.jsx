@@ -84,7 +84,7 @@ FillRefillButton.propTypes = {
   rx: PropTypes.shape({
     dispensedDate: PropTypes.string,
     error: PropTypes.object,
-    prescriptionId: PropTypes.number,
+    prescriptionId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     refillRemaining: PropTypes.number,
     success: PropTypes.bool,
     dispStatus: PropTypes.string,

@@ -11,7 +11,6 @@ import {
   fillDateWebComponentPattern,
   fillTextAreaWebComponent,
   selectRadioWebComponent,
-  selectCheckboxGroupWebComponent,
   reviewAndSubmitPageFlow,
 } from '../../shared/tests/e2e/helpers';
 
@@ -235,28 +234,6 @@ const testConfig = createTestConfig(
                 data.wantsToWaiveSubstitution,
               );
             }
-            cy.axeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-
-      'surviving-relatives': ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            const relativesData = {
-              hasSpouse: data.survivors.hasSpouse || false,
-              hasChildren: data.survivors.hasChildren || false,
-              hasParents: data.survivors.hasParents || false,
-              hasNone: data.survivors.hasNone || false,
-            };
-            cy.selectVaCheckbox(
-              `consent-checkbox`,
-              data.consentToMailMissingRequiredFiles,
-            );
-            selectCheckboxGroupWebComponent(relativesData);
-
             cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });

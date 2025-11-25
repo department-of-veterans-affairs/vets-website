@@ -67,7 +67,7 @@ const mockStore = (loggedIn = true, dispatchSpy = sinon.spy()) => ({
       loadedData: {
         metadata: {},
       },
-      data: {},
+      data: { isLoggedIn: false },
     },
     scheduledDowntime: {
       globalDowntime: null,

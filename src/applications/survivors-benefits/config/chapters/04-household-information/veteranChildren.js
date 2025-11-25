@@ -30,6 +30,10 @@ const schema = {
 const veteranChildren = {
   path: 'household/children-of-veteran',
   title: 'Children of Veteran',
+  // Skip this page when spouse answers NO to hadPreviousMarriages so flow jumps to dependents
+  depends: formData =>
+    formData.claimantRelationship !== 'SPOUSE' ||
+    formData.hadPreviousMarriages === true,
   uiSchema,
   schema,
 };

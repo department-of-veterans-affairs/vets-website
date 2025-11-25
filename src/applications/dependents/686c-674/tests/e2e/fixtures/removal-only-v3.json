@@ -136,7 +136,7 @@
         "awardIndicator": "Y",
         "dateOfBirth": "2007-11-15",
         "emailAddress": null,
-        "firstName": "CLUMSY",
+        "firstName": "FRANK",
         "gender": "M",
         "lastName": "FOSTER",
         "relatedToVet": "Y",
@@ -146,7 +146,7 @@
         "dependentBenefitType": null,
         "dob": "November 15, 2007",
         "fullName": {
-          "first": "CLUMSY",
+          "first": "FRANK",
           "last": "FOSTER"
         },
         "age": 33,
@@ -364,7 +364,7 @@
         "first": "PENNY",
         "last": "FOSTER"
       },
-      "dateOfBirth": "2014-08-08",
+      "dateOfBirth": "2008-08-08",
       "ssn": "3479",
       "relationshipToVeteran": "Child",
       "awardIndicator": "Y",
@@ -383,14 +383,14 @@
     },
     {
       "fullName": {
-        "first": "CLUMSY",
+        "first": "FRANK",
         "last": "FOSTER"
       },
       "dateOfBirth": "2006-08-08",
       "ssn": "3236",
       "relationshipToVeteran": "Child",
       "awardIndicator": "Y",
-      "key": "clumsy-3236",
+      "key": "frank-3236",
       "age": 33,
       "labeledAge": "33 years old",
       "selected": true,

@@ -133,8 +133,19 @@ describe('Treatment Pages', () => {
       dicTreatmentDates,
     } = treatmentPages;
 
-    const formDataTrue = { dicType: 'DIC' };
-    const formDataFalse = { dicType: 'NOT_DIC' };
+    // Test data with dependencyIndemnityComp set to true
+    const formDataTrue = {
+      claims: {
+        dependencyIndemnityComp: true,
+      },
+    };
+
+    // Test data with dependencyIndemnityComp set to false
+    const formDataFalse = {
+      claims: {
+        dependencyIndemnityComp: false,
+      },
+    };
 
     expect(dicBenefitsIntro.depends(formDataTrue)).to.be.true;
     expect(dicBenefitsIntro.depends(formDataFalse)).to.be.false;

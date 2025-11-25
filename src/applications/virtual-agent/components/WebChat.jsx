@@ -18,6 +18,7 @@ import signOutEventListener from '../event-listeners/signOutEventListener';
 
 // Middleware
 import { activityMiddleware } from '../middleware/activityMiddleware';
+import { activityStatusMiddleware } from '../middleware/activityStatusMiddleware';
 import { cardActionMiddleware } from '../middleware/cardActionMiddleware';
 
 // Selectors
@@ -142,6 +143,7 @@ const WebChat = ({ token, code, webChatFramework, freeze = false }) => {
       <Composer
         cardActionMiddleware={cardActionMiddleware}
         activityMiddleware={activityMiddleware}
+        {...(isAIDisclaimerEnabled ? { activityStatusMiddleware } : {})}
         styleOptions={styleOptions}
         directLine={directLine}
         store={store}

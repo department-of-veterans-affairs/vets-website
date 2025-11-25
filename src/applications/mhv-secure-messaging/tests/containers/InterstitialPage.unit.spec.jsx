@@ -488,4 +488,50 @@ describe('Interstitial page', () => {
 
     redirectPathSpy.restore();
   });
+
+  it('redirects to inbox when recipientsError is true', async () => {
+    const stateWithRecipientsError = {
+      ...initialState(true),
+      sm: {
+        recipients: {
+          allRecipients: [],
+          recentRecipients: undefined,
+          error: true,
+        },
+      },
+    };
+
+    const { history } = renderWithStoreAndRouter(<InterstitialPage />, {
+      initialState: stateWithRecipientsError,
+      reducers: reducer,
+      path: '/new-message/',
+    });
+
+    await waitFor(() => {
+      expect(history.location.pathname).to.equal(Paths.INBOX);
+    });
+  });
+
+  it('does not redirect to inbox when recipientsError is false', async () => {
+    const stateWithoutRecipientsError = {
+      ...initialState(true),
+      sm: {
+        recipients: {
+          allRecipients: [{ id: 1, name: 'Team 1' }],
+          recentRecipients: undefined,
+          error: false,
+        },
+      },
+    };
+
+    const { history } = renderWithStoreAndRouter(<InterstitialPage />, {
+      initialState: stateWithoutRecipientsError,
+      reducers: reducer,
+      path: '/new-message/',
+    });
+
+    // Wait a bit to ensure no redirect happens
+    await new Promise(resolve => setTimeout(resolve, 100));
+    expect(history.location.pathname).to.equal('/new-message/');
+  });
 });

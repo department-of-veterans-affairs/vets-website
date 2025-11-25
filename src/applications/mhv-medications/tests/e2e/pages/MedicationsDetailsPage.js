@@ -94,7 +94,7 @@ class MedicationsDetailsPage {
       }`,
       prescriptionDetails,
     ).as('prescription_details');
-    cy.get('a[data-testid ="medications-history-details-link"]')
+    cy.get('a[data-testid="medications-history-details-link"]')
       .first()
       .click({ force: true });
   };

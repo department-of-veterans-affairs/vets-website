@@ -36,7 +36,7 @@ class DocumentRequestPage extends React.Component {
     if (!this.props.loading) {
       setUpPage(true, 'h1');
     } else {
-      scrollToTop();
+      scrollToTop({ behavior: 'instant' });
     }
   }
 

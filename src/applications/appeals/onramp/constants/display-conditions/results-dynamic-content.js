@@ -2,7 +2,7 @@ import { RESPONSES } from '../question-data-map';
 import * as c from '../results-content/dr-screens/card-content';
 import * as p from '../results-content/non-dr-screens/dynamic-page-content';
 
-const { BOARD, HLR, INIT, NO, SC, YES } = RESPONSES;
+const { BOARD, CFI, HLR, INIT, NO, SC, YES } = RESPONSES;
 
 const GOOD_FIT_SC = {
   FORK: {
@@ -30,7 +30,7 @@ const GOOD_FIT_HLR = {
 const GOOD_FIT_BOARD_DIRECT = {
   FORK: {
     A: {
-      Q_2_0_CLAIM_TYPE: [INIT, SC],
+      Q_2_0_CLAIM_TYPE: [INIT, CFI, SC],
       Q_2_IS_1B_NEW_EVIDENCE: NO,
     },
     B: {
@@ -47,7 +47,7 @@ const GOOD_FIT_BOARD_DIRECT = {
 const GOOD_FIT_BOARD_EVIDENCE = {
   FORK: {
     A: {
-      Q_2_0_CLAIM_TYPE: [INIT, SC],
+      Q_2_0_CLAIM_TYPE: [INIT, CFI, SC],
       Q_2_IS_1B_NEW_EVIDENCE: YES,
     },
     B: {
@@ -64,7 +64,7 @@ const GOOD_FIT_BOARD_EVIDENCE = {
 const GOOD_FIT_BOARD_HEARING = {
   FORK: {
     A: {
-      Q_2_0_CLAIM_TYPE: [INIT, SC],
+      Q_2_0_CLAIM_TYPE: [INIT, CFI, SC],
       Q_2_IS_1A_LAW_POLICY_CHANGE: NO,
     },
     B: {
@@ -168,7 +168,7 @@ export const resultsDRDynamicContentDCs = Object.freeze({
     Q_2_0_CLAIM_TYPE: BOARD,
   },
   [c.CARD_GF_REVIEW_INIT]: {
-    Q_2_0_CLAIM_TYPE: INIT,
+    Q_2_0_CLAIM_TYPE: [INIT, CFI],
   },
   [c.CARD_GF_YES_EVIDENCE]: {
     ONE_OF: {

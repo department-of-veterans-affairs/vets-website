@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   VaDate,
   VaTextInput,
+  VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
@@ -34,20 +35,20 @@ const ExpensePage = () => {
   const { apptId, claimId, expenseId } = useParams();
   const location = useLocation();
 
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isCancelModalVisible, setIsCancelModalVisible] = useState(false);
   const [formState, setFormState] = useState({});
   const [showError, setShowError] = useState(false);
   const [document, setDocument] = useState(null);
   const [documentLoading, setDocumentLoading] = useState(false);
   const errorRef = useRef(null); // ref for the error message
 
+  const isEditMode = !!expenseId;
   const isLoadingExpense = useSelector(
     state =>
-      expenseId
+      isEditMode
         ? selectExpenseUpdateLoadingState(state)
         : selectExpenseCreationLoadingState(state),
   );
-
   const toBase64 = file =>
     new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -57,7 +58,7 @@ const ExpensePage = () => {
     });
 
   const expense = useSelector(
-    state => (expenseId ? selectExpenseWithDocument(state, expenseId) : null),
+    state => (isEditMode ? selectExpenseWithDocument(state, expenseId) : null),
   );
 
   const { filename } = expense?.receipt ?? {};
@@ -159,14 +160,19 @@ const ExpensePage = () => {
     }));
   };
 
-  const handleOpenModal = () => setIsModalVisible(true);
-  const handleCloseModal = () => {
-    setIsModalVisible(false);
-  };
-
-  const handleCancelModal = () => {
-    handleCloseModal();
-    navigate(`/file-new-claim/${apptId}/${claimId}/review`);
+  const handleOpenCancelModal = () => setIsCancelModalVisible(true);
+  const handleCloseCancelModal = () => setIsCancelModalVisible(false);
+  const handleConfirmCancel = () => {
+    handleCloseCancelModal();
+    if (isEditMode) {
+      // TODO: Add logic to determine where the user came from and direct them back to the correct location
+      // navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
+      navigate(`/file-new-claim/${apptId}/${claimId}/review`);
+    } else {
+      // TODO: Add logic to determine where the user came from and direct them back to the correct location
+      navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
+      // navigate(`/file-new-claim/${apptId}/${claimId}/review`);
+    }
   };
 
   // Field names must match those expected by the expenses_controller in vets-api.
@@ -204,7 +210,7 @@ const ExpensePage = () => {
     const expenseConfig = EXPENSE_TYPES[expenseType];
 
     try {
-      if (expenseId) {
+      if (isEditMode) {
         await dispatch(
           updateExpense(claimId, expenseConfig.apiRoute, expenseId, formState),
         );
@@ -220,9 +226,11 @@ const ExpensePage = () => {
   };
 
   const handleBack = () => {
-    if (expenseId) {
-      navigate(`/file-new-claim/${apptId}/${claimId}/review`);
+    if (isEditMode) {
+      setIsCancelModalVisible(true);
     } else {
+      // TODO: Add logic to determine where the user came from and direct them back to the correct location
+      // navigate(`/file-new-claim/${apptId}/${claimId}/review`);
       navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
     }
   };
@@ -336,22 +344,28 @@ const ExpensePage = () => {
         value={formState.description || ''}
         onInput={handleFormChange}
       />
-      {!expenseId && (
-        <CancelExpenseModal
-          visible={isModalVisible}
-          onCloseEvent={handleCloseModal}
-          onOpenModal={handleOpenModal}
-          onPrimaryButtonClick={handleCancelModal}
-          onSecondaryButtonClick={handleCloseModal}
+      {!isEditMode && (
+        <VaButton
+          secondary
+          text="Cancel adding this expense"
+          onClick={handleOpenCancelModal}
+          className="vads-u-display--flex vads-u-margin-y--2 travel-pay-complex-expense-cancel-btn"
         />
       )}
       <TravelPayButtonPair
-        continueText={expenseId ? 'Save and continue' : 'Continue'}
-        backText={expenseId ? 'Cancel' : 'Back'}
-        className={expenseId && 'vads-u-margin-top--2'}
+        continueText={isEditMode ? 'Save and continue' : 'Continue'}
+        backText={isEditMode ? 'Cancel' : 'Back'}
+        className={isEditMode && 'vads-u-margin-top--2'}
         onBack={handleBack}
         onContinue={handleContinue}
         loading={isLoadingExpense}
+      />
+      <CancelExpenseModal
+        visible={isCancelModalVisible}
+        onCloseEvent={handleCloseCancelModal}
+        onPrimaryButtonClick={handleConfirmCancel}
+        onSecondaryButtonClick={handleCloseCancelModal}
+        isEditMode={isEditMode}
       />
     </>
   );
