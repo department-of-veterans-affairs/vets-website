@@ -119,9 +119,8 @@ export const checkPortalRequirements = ({
   userAttributes,
   isMyVAHealth,
 }) => {
-  const {
-    vaProfile: { vaPatient = false, facilities = [] } = {},
-  } = userAttributes;
+  const { vaPatient = false, facilities = [] } =
+    userAttributes?.vaProfile || {};
   const redirectElligible =
     isPortalNoticeInterstitialEnabled && isMyVAHealth && vaPatient;
 

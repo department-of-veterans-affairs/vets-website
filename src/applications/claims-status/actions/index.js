@@ -427,6 +427,16 @@ export function submitFiles(
 
                 const timezoneOffset = now.getTimezoneOffset();
 
+                // Determine if we're currently on the files page
+                const isOnFilesPage = window.location.pathname.endsWith(
+                  '/files',
+                );
+                const statusLinkHref = isOnFilesPage
+                  ? `#${ANCHOR_LINKS.fileSubmissionsInProgress}` // Just scroll to section
+                  : `/track-claims/your-claims/${claimId}/files#${
+                      ANCHOR_LINKS.fileSubmissionsInProgress
+                    }`; // Navigate to files page with hash
+
                 // Show different notification based on showDocumentUploadStatus
                 const notificationMessage = showDocumentUploadStatus
                   ? {
@@ -449,11 +459,13 @@ export function submitFiles(
                             )}
                           <va-link
                             class="vads-u-display--block vads-u-margin-top--2"
-                            href={`#${ANCHOR_LINKS.fileSubmissionsInProgress}`}
+                            href={statusLinkHref}
                             text="Check the status of your submission"
                             onClick={e => {
-                              e.preventDefault();
-                              setPageFocus(e.target.href);
+                              if (isOnFilesPage) {
+                                e.preventDefault();
+                                setPageFocus(e.target.href);
+                              }
                             }}
                           />
                         </>

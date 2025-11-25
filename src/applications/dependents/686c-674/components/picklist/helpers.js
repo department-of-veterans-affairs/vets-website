@@ -11,6 +11,17 @@ import { scrollToFirstError } from 'platform/utilities/ui';
 
 import { getPastDateError } from './utils';
 
+/**
+ * typeDef GetValueResult
+ * @type {object}
+ * @property {string} field - The name of the field
+ * @property {any} value - The value of the field
+ */
+/**
+ * Get value from web component event
+ * @param {CustomEvent} event - web component event
+ * @returns {GetValueResult} - Object with field name and value
+ */
 export const getValue = event => {
   const field = event.target.name;
   switch (event.target.tagName) {
@@ -51,6 +62,10 @@ SelectState.propTypes = {
   value: PropTypes.string,
 };
 
+const countriesMinusUSA = constants.countries.filter(
+  country => country.value !== 'USA',
+);
+
 export const SelectCountry = ({ name, label, onChange, error, value }) => (
   <VaSelect
     class="vads-u-margin-top--4"
@@ -61,7 +76,7 @@ export const SelectCountry = ({ name, label, onChange, error, value }) => (
     error={error}
     required
   >
-    {constants.countries.map(country => (
+    {countriesMinusUSA.map(country => (
       <option key={country.value} value={country.value}>
         {country.label}
       </option>
@@ -110,6 +125,12 @@ PastDate.propTypes = {
   onChange: PropTypes.func.isRequired,
 };
 
+/**
+ * Scroll to the first error on the page after a short delay
+ * @returns {void}
+ */
 export const scrollToError = () => {
+  // focusOnAlertRole settings will set focus on the span with role="alert"
+  // inside the web component shadow DOM
   setTimeout(() => scrollToFirstError({ focusOnAlertRole: true }));
 };

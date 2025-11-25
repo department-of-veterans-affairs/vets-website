@@ -8,6 +8,9 @@ import DowntimeNotification, {
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
 import App from './containers/App';
 import MyEligibilityAndBenefits from './containers/MyEligibilityAndBenefits';
+import MyCaseManagementHub from './containers/MyCaseManagementHub';
+import CareerExplorationAndPlanning from './containers/CareerExplorationAndPlanning';
+import OrientationToolsAndResources from './containers/OrientationToolsAndResources';
 
 const withRequiredLogin = Component => props => {
   const user = useSelector(selectUser);
@@ -30,8 +33,23 @@ const routes = (
     <Switch>
       <Route
         exact
+        path="/my-case-management-hub"
+        component={withRequiredLogin(MyCaseManagementHub)}
+      />
+      <Route
+        exact
         path="/"
         component={withRequiredLogin(MyEligibilityAndBenefits)}
+      />
+      <Route
+        exact
+        path="/career-exploration-and-planning"
+        component={withRequiredLogin(CareerExplorationAndPlanning)}
+      />
+      <Route
+        exact
+        path="/orientation-tools-and-resources"
+        component={withRequiredLogin(OrientationToolsAndResources)}
       />
     </Switch>
   </App>

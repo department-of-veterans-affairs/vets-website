@@ -93,6 +93,16 @@ describe('MHV Email Confirmation Alert - Confirm Email', () => {
       }
     }).as('updateEmail');
 
+    cy.findByTestId('profile-alert--confirm-contact-email').should(
+      'be.visible',
+    );
+    cy.findByTestId('profile-alert--confirm-contact-email').findByRole(
+      'heading',
+      {
+        level: 3,
+        name: /Confirm your contact email/,
+      },
+    );
     ContactInformationPage.clickConfirmEmail();
     cy.wait('@updateEmail');
 
@@ -135,6 +145,10 @@ describe('MHV Email Confirmation Alert - Confirm Email', () => {
     cy.findByTestId('mhv-alert--confirm-contact-email').should('not.exist');
     cy.findByTestId('mhv-alert--confirm-error').should('be.visible');
     cy.findByTestId('mhv-alert--confirm-error').should('be.focused');
+    cy.findByTestId('mhv-alert--confirm-error').findByRole('heading', {
+      level: 3,
+      name: /We couldn’t confirm your contact email/,
+    });
 
     // Verify the MHV email confirmation alert cookie was NOT set
     cy.getCookie(MHV_EMAIL_CONFIRMATION_DISMISSED_COOKIE).should('be.null');
@@ -162,6 +176,10 @@ describe('MHV Email Confirmation Alert - Confirm Email', () => {
     cy.findByTestId('mhv-alert--confirm-contact-email').should('not.exist');
     cy.findByTestId('mhv-alert--confirm-success').should('be.visible');
     cy.findByTestId('mhv-alert--confirm-success').should('be.focused');
+    cy.findByTestId('mhv-alert--confirm-success').findByRole('heading', {
+      level: 3,
+      name: /Thank you for confirming your contact email address/,
+    });
     cy.getCookie(MHV_EMAIL_CONFIRMATION_DISMISSED_COOKIE).should('not.be.null');
 
     cy.injectAxeThenAxeCheck();

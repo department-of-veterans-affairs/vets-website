@@ -123,19 +123,13 @@ class MedicalRecordsSite {
     cy.intercept('GET', '/v0/maintenance_windows', {}).as('maintenanceWindow');
   };
 
-  verifyDownloadedPdfFile = (_prefixString, _clickMoment, _searchText) => {
+  verifyDownloadedPdfFile = (_prefixString, _currentDateTime, _searchText) => {
     if (Cypress.browser.isHeadless) {
       cy.log('browser is headless');
       const downloadsFolder = Cypress.config('downloadsFolder');
-      const txtPath1 = `${downloadsFolder}/${_prefixString}-${_clickMoment
-        .add(1, 'seconds')
-        .format('M-D-YYYY_hhmmssa')}.pdf`;
-      const txtPath2 = `${downloadsFolder}/${_prefixString}-${_clickMoment
-        .add(1, 'seconds')
-        .format('M-D-YYYY_hhmmssa')}.pdf`;
-      const txtPath3 = `${downloadsFolder}/${_prefixString}-${_clickMoment
-        .add(1, 'seconds')
-        .format('M-D-YYYY_hhmmssa')}.pdf`;
+      const txtPath1 = `${downloadsFolder}/${_prefixString}-${_currentDateTime}.pdf`;
+      const txtPath2 = `${downloadsFolder}/${_prefixString}-${_currentDateTime}.pdf`;
+      const txtPath3 = `${downloadsFolder}/${_prefixString}-${_currentDateTime}.pdf`;
       this.internalReadFileMaybe(txtPath1, _searchText);
       this.internalReadFileMaybe(txtPath2, _searchText);
       this.internalReadFileMaybe(txtPath3, _searchText);
@@ -144,19 +138,13 @@ class MedicalRecordsSite {
     }
   };
 
-  verifyDownloadedTxtFile = (_prefixString, _clickMoment, _searchText) => {
+  verifyDownloadedTxtFile = (_prefixString, _currentDateTime, _searchText) => {
     if (Cypress.browser.isHeadless) {
       cy.log('browser is headless');
       const downloadsFolder = Cypress.config('downloadsFolder');
-      const txtPath1 = `${downloadsFolder}/${_prefixString}-${_clickMoment
-        .add(1, 'seconds')
-        .format('M-D-YYYY_hhmmssa')}.txt`;
-      const txtPath2 = `${downloadsFolder}/${_prefixString}-${_clickMoment
-        .add(1, 'seconds')
-        .format('M-D-YYYY_hhmmssa')}.txt`;
-      const txtPath3 = `${downloadsFolder}/${_prefixString}-${_clickMoment
-        .add(1, 'seconds')
-        .format('M-D-YYYY_hhmmssa')}.txt`;
+      const txtPath1 = `${downloadsFolder}/${_prefixString}-${_currentDateTime}.txt`;
+      const txtPath2 = `${downloadsFolder}/${_prefixString}-${_currentDateTime}.txt`;
+      const txtPath3 = `${downloadsFolder}/${_prefixString}-${_currentDateTime}.txt`;
       this.internalReadFileMaybe(txtPath1, _searchText);
       this.internalReadFileMaybe(txtPath2, _searchText);
       this.internalReadFileMaybe(txtPath3, _searchText);

@@ -38,10 +38,10 @@ const AlertConfirmContactEmail = ({
       role="status"
       dataTestid="profile-alert--confirm-contact-email"
     >
-      <h2 slot="headline">
+      <h3 slot="headline">
         <span className="usa-sr-only">warning</span>
         {headline}
-      </h2>
+      </h3>
       <ProfileAlertConfirmEmailContent
         emailAddress={emailAddress}
         onConfirmClick={() => {
@@ -77,10 +77,10 @@ const AlertConfirmContactEmailError = ({
 
   return (
     <VaAlert status="error" role="alert" dataTestid="mhv-alert--confirm-error">
-      <h2 slot="headline">
+      <h3 slot="headline">
         <span className="usa-sr-only">error</span>
         {headline}
-      </h2>
+      </h3>
       <p>Please try again.</p>
       <ProfileAlertConfirmEmailContent
         emailAddress={emailAddress}
@@ -113,7 +113,7 @@ const AlertAddContactEmail = ({ recordEvent, onAddClick, onSkipClick }) => {
       role="status"
       dataTestid="profile-alert--add-contact-email"
     >
-      <h2 slot="headline">{headline}</h2>
+      <h3 slot="headline">{headline}</h3>
       <React.Fragment key=".1">
         <p>
           We’ll send notifications about your VA health care and benefits to
@@ -204,7 +204,11 @@ const ProfileAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent }) => {
 
   if (skipSuccess)
     return (
-      <AlertSystemResponseSkipSuccess recordEvent={recordEvent} tabIndex={-1} />
+      <AlertSystemResponseSkipSuccess
+        recordEvent={recordEvent}
+        tabIndex={-1}
+        headingLevel="h3"
+      />
     );
 
   if (!renderAlert) return null;
@@ -217,6 +221,7 @@ const ProfileAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent }) => {
             <AlertSystemResponseConfirmSuccess
               recordEvent={recordEvent}
               tabIndex={-1}
+              headingLevel="h3"
             />
           )}
           {confirmError && (

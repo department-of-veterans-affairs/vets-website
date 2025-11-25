@@ -31,12 +31,7 @@
   "claimantEmail": "robert.johnson@email.com",
   "relationshipToDeceased": "executor",
   "wantsToWaiveSubstitution": false,
-  "survivors": {
-    "hasSpouse": false,
-    "hasChildren": true,
-    "hasParents": false,
-    "hasNone": false
-  },
+  "survivors": true,
   "survivingRelatives": [
     {
       "fullName": {

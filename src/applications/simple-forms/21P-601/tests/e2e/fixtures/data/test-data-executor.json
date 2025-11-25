@@ -26,12 +26,7 @@
   "claimantEmail": "patricia.davis@lawfirm.com",
   "relationshipToDeceased": "executor",
   "wantsToWaiveSubstitution": true,
-  "survivors": {
-    "hasSpouse": false,
-    "hasChildren": false,
-    "hasParents": false,
-    "hasNone": true
-  },
+  "survivors": false,
   "claimingReimbursement": true,
   "lastIllnessExpenses": 23500,
   "expenses": [

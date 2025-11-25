@@ -1,20 +1,17 @@
-const moment = require('moment');
+const {
+  currentDateMinusMinutes,
+  currentDateAddHours,
+  currentDateAddOneHourMinusOneMinute,
+} = require('../../../util/dateHelpers');
 
 const SERVICES = {
   mhvMr: 'mhv_mr',
   mhvPlatform: 'mhv_platform',
 };
 
-const beforeNow = moment()
-  .subtract(1, 'minute')
-  .toISOString();
-const withinHour = moment()
-  .add(1, 'hour')
-  .subtract(1, 'minute')
-  .toISOString();
-const endTime = moment()
-  .add(6, 'hour')
-  .toISOString();
+const beforeNow = currentDateMinusMinutes(1);
+const withinHour = currentDateAddOneHourMinusOneMinute();
+const endTime = currentDateAddHours(6);
 
 const createDowntimeNotificationBase = (services, startTime) => {
   return {
