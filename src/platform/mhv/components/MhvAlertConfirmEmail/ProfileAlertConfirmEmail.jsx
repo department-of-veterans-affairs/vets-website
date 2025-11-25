@@ -204,7 +204,11 @@ const ProfileAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent }) => {
 
   if (skipSuccess)
     return (
-      <AlertSystemResponseSkipSuccess recordEvent={recordEvent} tabIndex={-1} />
+      <AlertSystemResponseSkipSuccess
+        recordEvent={recordEvent}
+        tabIndex={-1}
+        headingLevel="h3"
+      />
     );
 
   if (!renderAlert) return null;
@@ -217,6 +221,7 @@ const ProfileAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent }) => {
             <AlertSystemResponseConfirmSuccess
               recordEvent={recordEvent}
               tabIndex={-1}
+              headingLevel="h3"
             />
           )}
           {confirmError && (
