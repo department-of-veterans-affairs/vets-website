@@ -8,6 +8,7 @@ const AutosuggestField = props => {
     uiSchema = {},
     idSchema,
     errorSchema,
+    // eslint-disable-next-line react/prop-types
     required, // RJSF may pass this boolean
   } = props;
   // Determine requiredness: prefer RJSF required prop, fall back to uiSchema ui:required
@@ -590,12 +591,14 @@ const AutosuggestField = props => {
 };
 
 AutosuggestField.propTypes = {
+  // eslint-disable-next-line react/sort-prop-types
   onChange: PropTypes.func.isRequired,
   idSchema: PropTypes.shape({
     $id: PropTypes.string.isRequired,
   }).isRequired,
   formData: PropTypes.any,
   uiSchema: PropTypes.object,
+  // eslint-disable-next-line react/sort-prop-types
   errorSchema: PropTypes.shape({
     __errors: PropTypes.array,
   }),

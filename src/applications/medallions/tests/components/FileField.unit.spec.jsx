@@ -642,6 +642,7 @@ describe('Pre-need FileField', () => {
     const props = {
       registry: {
         fields: {
+          // eslint-disable-next-line react/prop-types
           SchemaField: ({ onChange: fieldOnChange }) =>
             React.createElement('input', {
               onChange: e => fieldOnChange(e.target.value),
@@ -710,6 +711,7 @@ describe('Pre-need FileField', () => {
     const props = {
       registry: {
         fields: {
+          // eslint-disable-next-line react/prop-types
           SchemaField: ({ onChange: fieldOnChange }) =>
             React.createElement('input', {
               onChange: e => fieldOnChange(e.target.value),

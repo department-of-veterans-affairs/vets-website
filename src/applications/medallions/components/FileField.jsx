@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/cognitive-complexity */
 /* eslint-disable jsx-a11y/no-noninteractive-element-to-interactive-role */
 import PropTypes from 'prop-types';
 import React, { useEffect, useState, useRef } from 'react';
@@ -88,6 +89,7 @@ const FileField = props => {
     uiSchema,
   } = props;
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const files = formData || [];
   const [progress, setProgress] = useState(0);
   const [uploadRequest, setUploadRequest] = useState(null);

@@ -15,7 +15,6 @@ import veteranInfo2 from '../pages/veteranInfo2';
 import applicantName from '../pages/applicantName';
 import veteranDemographics1 from '../pages/veteranDemographics1';
 import veteranDemographics2 from '../pages/veteranDemographics2';
-import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
 import applicantRelationToVet from '../pages/applicantRelationToVet';
 import applicantRelationToVetOrg from '../pages/applicantRelationToVetOrg';
 import applicantRelationToVetOrg2 from '../pages/applicantRelationToVetOrg2';
@@ -31,7 +30,7 @@ import supportingDocuments from '../pages/supportingDocuments';
 import supportingDocumentsUpload from '../pages/supportingDocumentsUpload';
 import typeOfRequest from '../pages/typeOfRequest';
 import replacementMedallionReason from '../pages/replacementMedallionReason';
-import typeOfMedallion from '../pages/typeOfMedallion.jsx';
+import typeOfMedallion from '../pages/typeOfMedallion';
 import medallionSize from '../pages/medallionSize';
 import {
   ApplicantNameHeader,

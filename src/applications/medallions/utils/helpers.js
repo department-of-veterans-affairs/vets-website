@@ -1,4 +1,5 @@
 import React from 'react';
+// eslint-disable-next-line you-dont-need-momentjs/no-import-moment
 import moment from 'moment';
 import { isValidSSN } from 'platform/forms-system/src/js/utilities/validations';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
@@ -211,7 +212,9 @@ export const ApplicantNameNote = () => {
 export function dateOfDeathValidation(errors, fields) {
   const { veteranDateOfBirth, veteranDateOfDeath } = fields;
   // dob = date of birth | dod = date of death
+  // eslint-disable-next-line you-dont-need-momentjs/no-moment-constructor
   const dob = moment(veteranDateOfBirth);
+  // eslint-disable-next-line you-dont-need-momentjs/no-moment-constructor
   const dod = moment(veteranDateOfDeath);
 
   // Check if the dates entered are after the date of birth
