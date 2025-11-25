@@ -69,6 +69,7 @@ export default function WatchVideoView({ setScheduleMeetingView }) {
             setScheduleMeetingView();
           }
         }}
+        data-testid="submit-counselor-preference"
         text="Submit"
       />
     </>

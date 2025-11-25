@@ -37,7 +37,7 @@ const routes = (
       <Route
         exact
         path="/orientation-tools-and-resources"
-        component={OrientationToolsAndResources}
+        component={withRequiredLogin(OrientationToolsAndResources)}
       />
     </Switch>
   </App>

@@ -122,6 +122,7 @@ export default function ScheduleMeetingView({ setWatchVideoView }) {
           }
         }}
         text="Submit"
+        data-testid="submit-meeting-preference"
       />
       {meetingTypeRadioValue && (
         <>
@@ -150,6 +151,7 @@ export default function ScheduleMeetingView({ setWatchVideoView }) {
                 setWatchVideoView();
               }
             }}
+            data-testid="submit-orientation-preference"
             text="Submit"
           />
         </>
