@@ -1,5 +1,8 @@
 import set from 'platform/utilities/data/set';
+import { yesNoUI } from 'platform/forms-system/src/js/web-component-patterns';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
+
+import { dangerous } from 'platform/forms-system/src/js/components/ConfirmationView/ChapterSectionCollection';
 import { hasMilitaryRetiredPay } from '../validations';
 import { getBranches } from '../utils/serviceBranches';
 
@@ -8,14 +11,12 @@ const {
 } = fullSchema.properties;
 
 export const uiSchema = {
-  'view:hasMilitaryRetiredPay': {
-    'ui:title': 'Have you ever received military retirement pay?',
-    'ui:widget': 'yesNo',
-    'ui:options': {},
-  },
+  'view:hasMilitaryRetiredPay': yesNoUI({
+    title: 'Have you ever received military retirement pay?',
+  }),
   militaryRetiredPayBranch: {
     'ui:title':
-      'Please choose the branch of service that gave you military retired pay ',
+      'Please choose the branch of service that gave you military retired pay',
     'ui:options': {
       expandUnder: 'view:hasMilitaryRetiredPay',
       updateSchema: (_formData, schema) => {
@@ -28,6 +29,7 @@ export const uiSchema = {
     },
     'ui:required': hasMilitaryRetiredPay,
   },
+  'ui:confirmationField': dangerous.buildAllPageFields,
 };
 
 export const schema = {
