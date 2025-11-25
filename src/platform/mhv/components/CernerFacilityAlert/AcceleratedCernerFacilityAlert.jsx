@@ -29,7 +29,8 @@ import { CernerAlertContent } from './constants';
  * - Cerner user, accelerating Vitals, Labs page → SHOW alert (Labs not yet integrated)
  * - Non-Cerner user → Never shows alert (no Cerner facilities)
  */
-const AcceleratedCernerFacilityAlert = ({ linkPath, pageName }) => {
+const AcceleratedCernerFacilityAlert = props => {
+  const { pageName } = props;
   const {
     isLoading,
     isCerner,
@@ -83,18 +84,19 @@ const AcceleratedCernerFacilityAlert = ({ linkPath, pageName }) => {
 
   // STEP 2: If user is accelerating AND on a page/domain that's been integrated, hide alert
   // When a page's data is integrated to VA.gov, users don't need to go to My VA Health for it
-  if (hideOnPage.includes(pageName) && isAccelerating) {
+  if (hideOnPage.includes(pageName) && (isCerner || isAccelerating)) {
     return null;
   }
 
   // STEP 3: Show alert for Cerner users when:
   // - Not accelerating yet (all data still in My VA Health), OR
   // - Accelerating but on a page that hasn't been integrated yet
-  return <CernerFacilityAlert {...{ linkPath, pageName }} />;
+
+  // Be sure to pass through all props required for the CernerFacilityAlert
+  return <CernerFacilityAlert {...props} />;
 };
 
 AcceleratedCernerFacilityAlert.propTypes = {
-  linkPath: PropTypes.string,
   pageName: PropTypes.string,
 };
 

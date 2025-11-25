@@ -106,8 +106,7 @@ const CernerFacilityAlert = ({
   }, go to My VA Health`;
 
   // Generate default body intro
-  const defaultBodyIntro = `Some of your ${domain ||
-    pageName} may be in a different portal.`;
+  const defaultBodyIntro = `Some of your ${domain} may be in a different portal.`;
 
   // Generate default action text
   const defaultBodyActionSingle =
@@ -118,6 +117,7 @@ const CernerFacilityAlert = ({
 
   return (
     <va-alert
+      // TODO: look into the custom classname thing - do we need it?
       className={`vads-u-margin-bottom--2 ${className} ${
         apiError ? 'vads-u-margin-top--2' : ''
       }`}
@@ -127,7 +127,9 @@ const CernerFacilityAlert = ({
       visible
       data-testid="cerner-facilities-alert"
     >
-      <h2 className="vads-u-font-size--md">{defaultHeadline}</h2>
+      <h2 className="vads-u-font-size--md" slot="headline">
+        {defaultHeadline}
+      </h2>
       <div>
         {isMultipleFacilities && (
           <>
