@@ -6,8 +6,11 @@ import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import prefillTransformer from './prefill-transformer';
 
-import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
+import personalInfo from './personalInfo';
+import { contactInfo } from './contactInfo';
+// import nameAndDateOfBirth from '../pages/nameAndDateOfBirth'; // <~ can probably delete this file
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -35,14 +38,17 @@ const formConfig = {
   }),
   formId: VA_FORM_IDS.FORM_MOCK_PREFILL,
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your mock prefill testing application (FORM_MOCK_PREFILL) is in progress.',
-    //   expired: 'Your saved mock prefill testing application (FORM_MOCK_PREFILL) has expired. If you want to apply for mock prefill testing, please start a new application.',
-    //   saved: 'Your mock prefill testing application has been saved.',
-    // },
+    messages: {
+      inProgress:
+        'Your mock prefill testing application (FORM_MOCK_PREFILL) is in progress.',
+      expired:
+        'Your saved mock prefill testing application (FORM_MOCK_PREFILL) has expired. If you want to apply for mock prefill testing, please start a new application.',
+      saved: 'Your mock prefill testing application has been saved.',
+    },
   },
   version: 0,
-  prefillEnabled: true,
+  prefillEnabled: false,
+  prefillTransformer,
   savedFormMessages: {
     notFound: 'Please start over to apply for mock prefill testing.',
     noAuth:
@@ -52,15 +58,11 @@ const formConfig = {
   subTitle: SUBTITLE,
   defaultDefinitions: {},
   chapters: {
-    personalInformationChapter: {
+    contactInfo: {
       title: 'Your personal information',
       pages: {
-        nameAndDateOfBirth: {
-          path: 'name-and-date-of-birth',
-          title: 'Name and date of birth',
-          uiSchema: nameAndDateOfBirth.uiSchema,
-          schema: nameAndDateOfBirth.schema,
-        },
+        ...personalInfo,
+        ...contactInfo,
       },
     },
   },

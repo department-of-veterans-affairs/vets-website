@@ -37,7 +37,7 @@ export const BuildPageBase = ({
   const headerRef = useRef(null);
   const contactInfoFormAppConfig = useContactInfoFormAppConfig();
 
-  const modalState = useSelector(state => state?.vapService.modal);
+  const modalState = useSelector(state => state?.vapService?.modal || '');
   const prevModalState = usePrevious(modalState);
 
   const routeMetadata = useRouteMetadata(router);
