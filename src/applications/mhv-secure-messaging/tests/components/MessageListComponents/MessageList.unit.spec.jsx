@@ -1,9 +1,10 @@
 import React from 'react';
 import { expect } from 'chai';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import { fireEvent, waitFor } from '@testing-library/dom';
+import { waitFor } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+import userEvent from '@testing-library/user-event';
 import reducers from '../../../reducers';
 import {
   inbox,
@@ -159,7 +160,7 @@ describe('Message List component', () => {
       threadSortingOptions.SENT_DATE_DESCENDING.value,
       Paths.INBOX,
     );
-    fireEvent.click(screen.getByText('Newest to oldest'));
+    userEvent.click(screen.getByText('Newest to oldest'));
     expect(screen.queryByText('A to Z - Recipient’s name')).not.to.exist;
     expect(screen.getByText('A to Z - Sender’s name')).to.exist;
   });
@@ -170,7 +171,7 @@ describe('Message List component', () => {
       threadSortingOptions.DRAFT_DATE_DESCENDING.value,
       Paths.DRAFTS,
     );
-    fireEvent.click(screen.getByText('Newest to oldest'));
+    userEvent.click(screen.getByText('Newest to oldest'));
     expect(screen.queryByText('A to Z - Sender’s name')).not.to.exist;
     expect(screen.getByText('A to Z - Recipient’s name')).to.exist;
   });
@@ -181,7 +182,7 @@ describe('Message List component', () => {
       threadSortingOptions.SENT_DATE_DESCENDING.value,
       Paths.SENT,
     );
-    fireEvent.click(screen.getByText('Newest to oldest'));
+    userEvent.click(screen.getByText('Newest to oldest'));
     expect(screen.queryByText('A to Z - Sender’s name')).not.to.exist;
     expect(screen.getByText('A to Z - Recipient’s name')).to.exist;
   });
@@ -192,7 +193,7 @@ describe('Message List component', () => {
       threadSortingOptions.SENT_DATE_DESCENDING.value,
       `${Paths.FOLDERS}12345`,
     );
-    fireEvent.click(screen.getByText('Newest to oldest'));
+    userEvent.click(screen.getByText('Newest to oldest'));
     expect(screen.queryByText('A to Z - Sender’s name')).to.exist;
     expect(screen.queryByText('A to Z - Recipient’s name')).not.to.exist;
   });
@@ -298,7 +299,7 @@ describe('Message List component', () => {
       screen.container,
       threadSortingOptions.RECEPIENT_ALPHA_ASCENDING.value,
     );
-    fireEvent.click(document.querySelector('va-button[text="Sort"]'));
+    userEvent.click(document.querySelector('va-button[text="Sort"]'));
     await waitFor(() => {
       screen.getAllByTestId('message-list-item');
     });
