@@ -1118,6 +1118,11 @@ describe('transformPicklistToV2', () => {
         },
       },
       deceasedDependentIncome: 'N',
+      childStatus: {
+        childUnder18: false,
+        disabled: false,
+        stepChild: true,
+      },
     });
     expect(result[dataOptions].reportStepchildNotInHousehold).to.be.false;
     expect(result[dataOptions].reportDeath).to.be.true;
