@@ -14,11 +14,9 @@ const {
   homelessnessContact,
 } = fullSchema.properties;
 
-const homelessLabelText = "I'm currently homeless.";
-const atRiskLabelText = "I'm at risk of becoming homeless.";
-
 import {
   HOMELESSNESS_TYPES,
+  HOMELESSNESS_LABELS,
   AT_RISK_HOUSING_TYPES,
   HOMELESS_HOUSING_TYPES,
   AT_RISK_HOUSING_LABELS,
@@ -34,11 +32,7 @@ export const uiSchema = {
     'ui:webComponentField': VaRadioField,
     'ui:widget': 'radio',
     'ui:options': {
-      labels: {
-        no: 'No',
-        homeless: homelessLabelText,
-        atRisk: atRiskLabelText,
-      },
+      labels: HOMELESSNESS_LABELS,
     },
   },
   'view:isHomeless': {
