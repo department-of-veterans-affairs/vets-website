@@ -8,6 +8,8 @@ import {
 } from '@department-of-veterans-affairs/mhv/exports';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
+import AcceleratedCernerFacilityAlert from 'platform/mhv/components/CernerFacilityAlert/AcceleratedCernerFacilityAlert';
+import { CernerAlertContent } from 'platform/mhv/components/CernerFacilityAlert/constants';
 import { Actions } from '../util/actionTypes';
 import RecordList from '../components/RecordList/RecordList';
 import {
@@ -18,7 +20,6 @@ import {
 import {
   ALERT_TYPE_ERROR,
   DEFAULT_DATE_RANGE,
-  CernerAlertContent,
   accessAlertTypes,
   labTypes,
   pageTitles,
@@ -40,7 +41,6 @@ import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
 import useReloadResetListOnUnmount from '../hooks/useReloadResetListOnUnmount';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
-import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import DateRangeSelector, {
   getDateRangeList,
 } from '../components/shared/DateRangeSelector';

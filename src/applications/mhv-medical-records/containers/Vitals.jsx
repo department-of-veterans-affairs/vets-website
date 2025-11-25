@@ -6,6 +6,8 @@ import {
   usePrintTitle,
   useAcceleratedData,
 } from '@department-of-veterans-affairs/mhv/exports';
+import AcceleratedCernerFacilityAlert from 'platform/mhv/components/CernerFacilityAlert/AcceleratedCernerFacilityAlert';
+import { CernerAlertContent } from 'platform/mhv/components/CernerFacilityAlert/constants';
 import RecordList from '../components/RecordList/RecordList';
 import { getVitals, reloadRecords } from '../actions/vitals';
 import {
@@ -17,7 +19,6 @@ import {
   refreshExtractTypes,
   loadStates,
   statsdFrontEndActions,
-  CernerAlertContent,
 } from '../util/constants';
 import { Actions } from '../util/actionTypes';
 import useAlerts from '../hooks/use-alerts';
@@ -25,7 +26,6 @@ import PrintHeader from '../components/shared/PrintHeader';
 import useListRefresh from '../hooks/useListRefresh';
 import useReloadResetListOnUnmount from '../hooks/useReloadResetListOnUnmount';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
-import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import RecordListSection from '../components/shared/RecordListSection';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import TrackedSpinner from '../components/shared/TrackedSpinner';
