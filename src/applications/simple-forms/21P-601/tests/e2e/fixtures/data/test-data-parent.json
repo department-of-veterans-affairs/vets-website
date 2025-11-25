@@ -26,12 +26,7 @@
   "claimantEmail": "mwilson@email.com",
   "relationshipToDeceased": "executor",
   "wantsToWaiveSubstitution": false,
-  "survivors": {
-    "hasSpouse": false,
-    "hasChildren": false,
-    "hasParents": true,
-    "hasNone": false
-  },
+  "survivors": true,
   "survivingRelatives": [
     {
       "fullName": {

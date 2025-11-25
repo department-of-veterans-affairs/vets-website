@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { Link } from 'react-router-dom-v5-compat';
 import { useSelector } from 'react-redux';
 import {
@@ -34,6 +34,8 @@ import ProcessList from '../components/shared/ProcessList';
 import { refillProcessStepGuide } from '../util/processListData';
 import { useGetAllergiesQuery } from '../api/allergiesApi';
 import { selectUserDob, selectUserFullName } from '../selectors/selectUser';
+import { selectCernerPilotFlag } from '../util/selectors';
+
 import { selectSortOption } from '../selectors/selectPreferences';
 
 const RefillPrescriptions = () => {
@@ -43,6 +45,8 @@ const RefillPrescriptions = () => {
     error: refillableError,
   } = useGetRefillablePrescriptionsQuery();
 
+  const isOracleHealthPilot = useSelector(selectCernerPilotFlag);
+
   const [
     bulkRefillPrescriptions,
     result,
@@ -51,14 +55,24 @@ const RefillPrescriptions = () => {
 
   const refillAlertList = refillableData?.refillAlertList || [];
 
-  const getMedicationsByIds = (ids, prescriptions) => {
-    if (!ids || !prescriptions) return [];
-    return ids.map(id =>
-      prescriptions.find(
-        prescription => prescription.prescriptionId === Number(id),
-      ),
-    );
-  };
+  const getMedicationsByIds = useCallback(
+    (ids, prescriptions) => {
+      if (!ids || !prescriptions) return [];
+
+      return ids.map(id =>
+        prescriptions.find(prescription => {
+          if (isOracleHealthPilot) {
+            return (
+              String(prescription.prescriptionId) === String(id.id) &&
+              prescription.stationNumber === id.stationNumber
+            );
+          }
+          return String(prescription.prescriptionId) === String(id);
+        }),
+      );
+    },
+    [isOracleHealthPilot],
+  );
 
   const successfulMeds = useMemo(
     () =>
@@ -66,7 +80,11 @@ const RefillPrescriptions = () => {
         result?.data?.successfulIds,
         refillableData?.prescriptions,
       ),
-    [result?.data?.successfulIds, refillableData?.prescriptions],
+    [
+      getMedicationsByIds,
+      result?.data?.successfulIds,
+      refillableData?.prescriptions,
+    ],
   );
 
   const failedMeds = useMemo(
@@ -75,7 +93,11 @@ const RefillPrescriptions = () => {
         result?.data?.failedIds,
         refillableData?.prescriptions,
       ),
-    [result?.data?.failedIds, refillableData?.prescriptions],
+    [
+      getMedicationsByIds,
+      result?.data?.failedIds,
+      refillableData?.prescriptions,
+    ],
   );
 
   const [hasNoOptionSelectedError, setHasNoOptionSelectedError] = useState(
@@ -95,7 +117,6 @@ const RefillPrescriptions = () => {
   const { data: allergies, error: allergiesError } = useGetAllergiesQuery();
   const userName = useSelector(selectUserFullName);
   const dob = useSelector(selectUserDob);
-
   // Memoized Values
   const selectedRefillListLength = useMemo(() => selectedRefillList.length, [
     selectedRefillList,
@@ -108,7 +129,12 @@ const RefillPrescriptions = () => {
       window.scrollTo(0, 0);
 
       // Get just the prescription IDs for the bulk refill
-      const prescriptionIds = selectedRefillList.map(rx => rx.prescriptionId);
+      const prescriptionIds = selectedRefillList.map(rx => {
+        if (isOracleHealthPilot) {
+          return { id: rx.prescriptionId, stationNumber: rx.stationNumber };
+        }
+        return rx.prescriptionId;
+      });
 
       try {
         await bulkRefillPrescriptions(prescriptionIds).unwrap();
