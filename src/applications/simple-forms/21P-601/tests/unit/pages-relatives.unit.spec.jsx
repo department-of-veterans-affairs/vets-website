@@ -46,24 +46,12 @@ describe('21P-601 relatives page configurations', () => {
       expect(relativesOverview.schema.properties).to.have.property('survivors');
     });
 
-    it('has checkbox group schema for survivors', () => {
+    it('has yesNo schema for survivors', () => {
       expect(relativesOverview.schema.properties.survivors).to.exist;
       expect(relativesOverview.schema.properties.survivors).to.have.property(
         'type',
-        'object',
+        'boolean',
       );
-      expect(
-        relativesOverview.schema.properties.survivors.properties,
-      ).to.have.property('hasSpouse');
-      expect(
-        relativesOverview.schema.properties.survivors.properties,
-      ).to.have.property('hasChildren');
-      expect(
-        relativesOverview.schema.properties.survivors.properties,
-      ).to.have.property('hasParents');
-      expect(
-        relativesOverview.schema.properties.survivors.properties,
-      ).to.have.property('hasNone');
     });
 
     it('has correct schema structure', () => {
@@ -84,23 +72,15 @@ describe('21P-601 relatives page configurations', () => {
       expect(titleConfig).to.not.be.a('string');
     });
 
-    it('has survivors checkbox group UI configuration', () => {
+    it('has survivors yesNoUI configuration', () => {
       const survivorsUI = relativesOverview.uiSchema.survivors;
       expect(survivorsUI).to.exist;
-      expect(survivorsUI['ui:title']).to.equal('Check all that apply');
       expect(survivorsUI['ui:required']).to.be.a('function');
       expect(survivorsUI['ui:required']()).to.be.true;
-      // checkboxGroupUI uses ui:webComponentField, not ui:widget
+      expect(survivorsUI['ui:title']).to.equal(
+        'Are there any survivors of the beneficiary?',
+      );
       expect(survivorsUI['ui:webComponentField']).to.exist;
-    });
-
-    it('has correct checkbox labels', () => {
-      const survivorsUI = relativesOverview.uiSchema.survivors;
-      // The labels are spread directly into the survivorsUI object, not nested in ui:options
-      expect(survivorsUI.hasSpouse).to.exist;
-      expect(survivorsUI.hasChildren).to.exist;
-      expect(survivorsUI.hasParents).to.exist;
-      expect(survivorsUI.hasNone).to.exist;
     });
 
     it('has conditional message', () => {
@@ -108,58 +88,16 @@ describe('21P-601 relatives page configurations', () => {
         'ui:options'
       ];
       expect(hideIf).to.be.a('function');
-      expect(hideIf({ survivors: { hasNone: true } })).to.be.false;
-      expect(hideIf({ survivors: { hasNone: false } })).to.be.true;
-    });
-
-    it('shows message when hasNone is selected', () => {
-      const messageUI = relativesOverview.uiSchema['view:noSurvivorsMessage'];
-      expect(messageUI['ui:description']).to.include('no surviving relatives');
-      expect(messageUI['ui:description']).to.include(
-        'eligible for reimbursement',
-      );
-      expect(messageUI['ui:description']).to.include(
-        'last illness and burial expenses',
-      );
+      expect(hideIf({ survivors: false })).to.be.false;
+      expect(hideIf({ survivors: true })).to.be.true;
     });
 
     it('hides message when other options are selected', () => {
       const { hideIf } = relativesOverview.uiSchema['view:noSurvivorsMessage'][
         'ui:options'
       ];
-      expect(hideIf({ survivors: { hasSpouse: true } })).to.be.true;
-      expect(hideIf({ survivors: { hasChildren: true } })).to.be.true;
-      expect(hideIf({ survivors: { hasParents: true } })).to.be.true;
-      expect(hideIf({ survivors: {} })).to.be.true;
-    });
-
-    it('validates required field function', () => {
-      const requiredFn = relativesOverview.uiSchema.survivors['ui:required'];
-      expect(requiredFn).to.be.a('function');
-      // Test with different contexts
-      expect(requiredFn({})).to.be.true;
-      expect(requiredFn({ formData: {} })).to.be.true;
-      expect(requiredFn({ formData: { survivors: {} } })).to.be.true;
-    });
-
-    it('has proper survivors schema properties', () => {
-      const survivorsSchema = relativesOverview.schema.properties.survivors;
-      expect(survivorsSchema.properties.hasSpouse).to.have.property(
-        'type',
-        'boolean',
-      );
-      expect(survivorsSchema.properties.hasChildren).to.have.property(
-        'type',
-        'boolean',
-      );
-      expect(survivorsSchema.properties.hasParents).to.have.property(
-        'type',
-        'boolean',
-      );
-      expect(survivorsSchema.properties.hasNone).to.have.property(
-        'type',
-        'boolean',
-      );
+      expect(hideIf({ survivors: true })).to.be.true;
+      expect(hideIf({ survivors: undefined })).to.be.true;
     });
 
     it('has view:noSurvivorsMessage with empty properties', () => {
@@ -168,23 +106,6 @@ describe('21P-601 relatives page configurations', () => {
       expect(messageSchema).to.have.property('properties');
       expect(messageSchema.properties).to.be.an('object');
       expect(Object.keys(messageSchema.properties)).to.have.lengthOf(0);
-    });
-
-    it('handles multiple hasNone scenarios correctly', () => {
-      const { hideIf } = relativesOverview.uiSchema['view:noSurvivorsMessage'][
-        'ui:options'
-      ];
-      // When hasNone is true and others are false
-      expect(hideIf({ survivors: { hasNone: true, hasSpouse: false } })).to.be
-        .false;
-      // When hasNone is false explicitly
-      expect(hideIf({ survivors: { hasNone: false } })).to.be.true;
-      // When hasNone is undefined
-      expect(hideIf({ survivors: { hasSpouse: true } })).to.be.true;
-      // When survivors object is empty
-      expect(hideIf({ survivors: {} })).to.be.true;
-      // When survivors is undefined
-      expect(hideIf({})).to.be.true;
     });
   });
 
