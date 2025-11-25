@@ -5,7 +5,10 @@ import {
   VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { buildDateFormatter } from '../../utils/helpers';
+import {
+  buildDateFormatter,
+  getDocumentRequestTypeDisplayName,
+} from '../../utils/helpers';
 import { useIncrementalReveal } from '../../hooks/useIncrementalReveal';
 import { ANCHOR_LINKS } from '../../constants';
 
@@ -34,7 +37,7 @@ const generateDocsFiled = docsFiled => {
           ? `We received this file for a closed evidence request (${
               document.displayName
             }).`
-          : `Request type: ${document.displayName}`;
+          : `Request type: ${getDocumentRequestTypeDisplayName(document)}`;
 
       // If tracked item has no documents, return single item
       if (document.documents.length === 0) {

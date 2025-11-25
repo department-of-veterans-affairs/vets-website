@@ -1586,3 +1586,15 @@ export const getUploadErrorMessage = (
     type: 'error',
   };
 };
+
+export const getDocumentRequestTypeDisplayName = document => {
+  if (document.status) {
+    return document.friendlyName || document.displayName;
+  }
+
+  if (document.trackedItemId) {
+    return document.trackedItemFriendlyName || document.trackedItemDisplayName;
+  }
+
+  return null;
+};

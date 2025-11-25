@@ -6,7 +6,10 @@ import {
   VaLink,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { buildDateFormatter } from '../../utils/helpers';
+import {
+  buildDateFormatter,
+  getDocumentRequestTypeDisplayName,
+} from '../../utils/helpers';
 import { useIncrementalReveal } from '../../hooks/useIncrementalReveal';
 import TimezoneDiscrepancyMessage from '../TimezoneDiscrepancyMessage';
 import { ANCHOR_LINKS } from '../../constants';
@@ -104,9 +107,9 @@ const FileSubmissionsInProgress = ({ claim }) => {
             >
               {currentPageItems.map((item, itemIndex) => {
                 const statusBadgeText = item.uploadStatusDisplayValue;
-                const requestTypeText = item.trackedItemDisplayName
-                  ? `Request type: ${item.trackedItemDisplayName}`
-                  : 'You submitted this file as additional evidence.';
+                const requestTypeText =
+                  getDocumentRequestTypeDisplayName(item) ||
+                  'You submitted this file as additional evidence.';
 
                 return (
                   <li key={item.id || itemIndex}>
