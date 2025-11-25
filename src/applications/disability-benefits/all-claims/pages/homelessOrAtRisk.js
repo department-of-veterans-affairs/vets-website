@@ -14,7 +14,8 @@ const {
   homelessnessContact,
 } = fullSchema.properties;
 
-import { homelessLabel, atRiskLabel } from '../content/homelessOrAtRisk';
+const homelessLabelText = "I'm currently homeless.";
+const atRiskLabelText = "I'm at risk of becoming homeless.";
 
 import {
   HOMELESSNESS_TYPES,
@@ -35,8 +36,8 @@ export const uiSchema = {
     'ui:options': {
       labels: {
         no: 'No',
-        homeless: homelessLabel,
-        atRisk: atRiskLabel,
+        homeless: homelessLabelText,
+        atRisk: atRiskLabelText,
       },
     },
   },
