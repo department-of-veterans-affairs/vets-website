@@ -49,6 +49,11 @@ const useAcceleratedData = () => {
         FEATURE_FLAG_NAMES.mhvAcceleratedDeliveryLabsAndTestsEnabled
       ],
   );
+
+  const isAcceleratingMedicationsEnabled = useSelector(
+    state => state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicationsCernerPilot],
+  );
+
   useEffect(
     () => {
       // TECH DEBT: Do not trigger the connection when running unit tests because
@@ -111,6 +116,14 @@ const useAcceleratedData = () => {
     },
     [isAcceleratedDeliveryEnabled, isAcceleratingLabsAndTestsEnabled],
   );
+
+  const isAcceleratingMedications = useMemo(
+    () => {
+      return isAcceleratedDeliveryEnabled && isAcceleratingMedicationsEnabled;
+    },
+    [isAcceleratedDeliveryEnabled, isAcceleratingMedicationsEnabled],
+  );
+
   const isAccelerating = useMemo(
     () =>
       isAcceleratedDeliveryEnabled ||
@@ -119,7 +132,8 @@ const useAcceleratedData = () => {
       isAcceleratingConditions ||
       isAcceleratingVitals ||
       isAcceleratingVaccines ||
-      isAcceleratingLabsAndTests,
+      isAcceleratingLabsAndTests ||
+      isAcceleratingMedications,
     [
       isAcceleratedDeliveryEnabled,
       isAcceleratingAllergies,
@@ -128,6 +142,7 @@ const useAcceleratedData = () => {
       isAcceleratingVitals,
       isAcceleratingVaccines,
       isAcceleratingLabsAndTests,
+      isAcceleratingMedications,
     ],
   );
 
@@ -141,6 +156,7 @@ const useAcceleratedData = () => {
     isAcceleratingVitals,
     isAcceleratingVaccines,
     isAcceleratingLabsAndTests,
+    isAcceleratingMedications,
   };
 };
 
