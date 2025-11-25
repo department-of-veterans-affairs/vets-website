@@ -1,5 +1,8 @@
 import React from 'react';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+import AssessYourInterestsSection from '../components/AssessYourInterestsSection';
+import FindAPathSection from '../components/FindAPathSection';
+import FindAJobSection from '../components/FindAJobSection';
 
 export default function CareerExplorationAndPlanning() {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
@@ -31,69 +34,41 @@ export default function CareerExplorationAndPlanning() {
         </p>
 
         <va-card background class="vads-u-padding-top--0">
-          <h2 className="va-nav-linkslist-heading vads-u-margin-top--0 vads-u-margin-bottom--0">
-            Career Exploration
-          </h2>
-          <ul className="va-nav-linkslist-list">
-            <li>
-              <h3 className="va-nav-linkslist-title vads-u-font-size--h4">
-                <va-link href="https://www.va.gov" text="Interest Assessment" />
-              </h3>
-              <p className="va-nav-linkslist-description">
-                Learn about your interests and how they apply to different
-                career paths.
-              </p>
-            </li>
-            <li>
-              <h3 className="va-nav-linkslist-title vads-u-font-size--h4">
-                <va-link href="https://www.va.gov" text="Explore Careers" />
-              </h3>
-              <p className="va-nav-linkslist-description">
-                Research career options that match your interests.
-              </p>
-            </li>
-          </ul>
+          <AssessYourInterestsSection />
+          <FindAPathSection />
+          <FindAJobSection />
         </va-card>
 
-        <va-card background class="vads-u-margin-top--4 vads-u-padding-top--0">
-          <h2 className="va-nav-linkslist-heading vads-u-margin-top--0 vads-u-margin-bottom--0">
-            Career Planning
-          </h2>
-          <ul className="va-nav-linkslist-list">
-            <li>
-              <h3 className="va-nav-linkslist-title vads-u-font-size--h4">
-                <va-link href="https://www.va.gov" text="Career Planning" />
-              </h3>
-              <p className="va-nav-linkslist-description">
-                Set career goals and create a personalized action plan.
-              </p>
-            </li>
-            <li>
-              <h3 className="va-nav-linkslist-title vads-u-font-size--h4">
-                <va-link
-                  href="https://www.va.gov"
-                  text="Educational Resources"
-                />
-              </h3>
-              <p className="va-nav-linkslist-description">
-                Find information about education and training programs.
-              </p>
-            </li>
-            <li>
-              <h3 className="va-nav-linkslist-title vads-u-font-size--h4">
-                <va-link href="https://www.va.gov" text="Job Search" />
-              </h3>
-              <p className="va-nav-linkslist-description">
-                Use this link to find available positions that are best suited
-                to your interests.
-              </p>
-            </li>
-          </ul>
-        </va-card>
+        <va-need-help class="vads-u-margin-top--4">
+          <div slot="content">
+            <p>
+              Do you have more questions or need more information? Reach out to
+              your VR&E RO Counselor or Officer:
+            </p>
+            <p className="va-address-block vads-u-margin-left--0">
+              U.S. Department of Veterans Affairs
+              <br />
+              Medical Office
+              <br />
+              PO Box 11930
+              <br />
+              St. Paul, MN 55111
+              <br />
+              United States of America
+              <br />
+            </p>
+            <p>
+              Phone number title:&nbsp;
+              <va-telephone contact="8773459876" />
+            </p>
+            <p>
+              Monday through Friday, 8:00 a.m to 9:00 p.m ET. If you have
+              hearing loss, call <va-telephone contact="711" tty />.
+            </p>
+          </div>
+        </va-need-help>
 
-        <div className="vads-u-margin-top--4 medium-screen:vads-u-display--inline-block vads-u-display--none">
-          <va-button back onClick={() => {}} text="Back to Case Tracker" />
-        </div>
+        <va-back-to-top />
       </article>
     </div>
   );
