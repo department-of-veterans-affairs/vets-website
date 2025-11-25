@@ -10,8 +10,7 @@ import { setSelectedDate, selectSelectedDate } from '../redux/slices/formSlice';
 const UUID = 'af40d0e7-df29-4df3-8b5e-03eac2e760fa';
 
 // TODO: make this component a shared component
-// eslint-disable-next-line @department-of-veterans-affairs/no-cross-app-imports
-import CalendarWidget from '../../vaos/components/calendar/CalendarWidget';
+import CalendarWidget from '../components/calendar/CalendarWidget';
 
 const DateTimeSelection = () => {
   const dispatch = useDispatch();

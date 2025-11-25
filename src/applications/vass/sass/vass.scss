@@ -1,6 +1,6 @@
 @import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
-@import "../../vaos/new-appointment/sass/calendar";
+@import "calendar";
 
 .vass-form__button-container {
   row-gap: var(--vads-spacing-2);
@@ -8,10 +8,6 @@
 
 .vass-flex-direction--column {
   flex-direction: column;
-}
-
-.vass-card-container {
-  padding: 36px 20px 20px 20px;
 }
 
 span.vass-usa-label--required {
