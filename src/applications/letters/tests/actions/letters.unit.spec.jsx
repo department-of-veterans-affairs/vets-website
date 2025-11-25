@@ -555,10 +555,7 @@ describe('getTsaLetterEligibility', () => {
   });
 
   it('dispatches ERROR action when fetch fails for determining eligibility', async () => {
-    setFetchJSONResponse(
-      global.fetch.onCall(0),
-      Promise.reject(new Error('error')),
-    );
+    setFetchJSONFailure(global.fetch.onCall(0), new Error('error'));
     const dispatch = sinon.spy();
     const thunk = getTsaLetterEligibility();
     await thunk(dispatch);
