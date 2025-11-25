@@ -1,10 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import useBotOutgoingActivityEventListener from '../hooks/useBotOutgoingActivityEventListener';
 import useWebMessageActivityEventListener from '../hooks/useWebMessageActivityEventListener';
 import Bot from './Bot';
 
 export default function Chatbox() {
-  const [chatBotLoadTime] = useState(Date.now());
+  const [chatBotLoadTime, setChatBotLoadTime] = useState(Date.now());
+
+  // Reset chatBotLoadTime when user starts a new chat after session expiry
+  // This prevents the 60-minute reload guard from triggering on the first message
+  useEffect(() => {
+    const onReset = () => setChatBotLoadTime(Date.now());
+    window.addEventListener('va-chatbot-reset', onReset);
+    return () => window.removeEventListener('va-chatbot-reset', onReset);
+  }, []);
 
   useBotOutgoingActivityEventListener(chatBotLoadTime);
   useWebMessageActivityEventListener();

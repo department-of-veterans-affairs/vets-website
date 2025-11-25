@@ -2,7 +2,7 @@ import React from 'react';
 import sinon from 'sinon';
 import { Provider } from 'react-redux';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { render, act } from '@testing-library/react';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
@@ -73,6 +73,36 @@ describe('Chatbox', () => {
       );
 
       expect($('h2', container).textContent).to.equal('VA chatbot (beta)');
+    });
+
+    it('should reset chatBotLoadTime when va-chatbot-reset event fires', async () => {
+      const capturedLoadTimes = [];
+      const useBotOutgoingActivityEventListenerStub = sandbox
+        .stub(UseBotOutgoingActivityEventListenerModule, 'default')
+        .callsFake(loadTime => capturedLoadTimes.push(loadTime));
+      sandbox.stub(UseWebMessageActivityEventListenerModule, 'default');
+
+      render(
+        <Provider store={mockStore}>
+          <Chatbox />
+        </Provider>,
+      );
+
+      const initialLoadTime = capturedLoadTimes[0];
+      expect(initialLoadTime).to.be.a('number');
+
+      // Wait a bit then dispatch reset event
+      await new Promise(resolve => setTimeout(resolve, 10));
+      await act(async () => {
+        window.dispatchEvent(new Event('va-chatbot-reset'));
+      });
+
+      // The hook should have been called again with a new (later) timestamp
+      const resetLoadTime = capturedLoadTimes[capturedLoadTimes.length - 1];
+      expect(resetLoadTime).to.be.greaterThan(initialLoadTime);
+      expect(
+        useBotOutgoingActivityEventListenerStub.callCount,
+      ).to.be.greaterThan(1);
     });
   });
 });
