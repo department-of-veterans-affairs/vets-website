@@ -751,6 +751,7 @@ const baseClaims = [
           fileName: 'authorization-form-signed.pdf',
           trackedItemId: 3,
           trackedItemDisplayName: '21-4142',
+          trackedItemFriendlyName: 'Authorization to Disclose Information',
         }),
         createEvidenceSubmission(111, 8, {
           acknowledgementDate: new Date(
