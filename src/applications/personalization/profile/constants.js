@@ -52,7 +52,7 @@ export const PROFILE_PATHS = Object.freeze({
   SCHEDULING_PREFERENCES:
     '/profile/health-care-settings/scheduling-preferences',
   HEALTH_CARE_CONTACTS: '/profile/contacts',
-  MESSAGES_SIGNATURE: '/profile/mhv-signature',
+  MESSAGES_SIGNATURE: '/profile/message-signature',
   DEPENDENTS_AND_CONTACTS: '/profile/dependents-and-contacts',
   CONTACTS: '/profile/contacts',
   ACCREDITED_REPRESENTATIVE: '/profile/accredited-representative',

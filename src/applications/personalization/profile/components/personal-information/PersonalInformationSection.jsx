@@ -10,6 +10,7 @@ import { renderDOB } from '@@vap-svc/util/personal-information/personalInformati
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { getMessagingSignature } from 'platform/user/profile/actions';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { ProfileInfoSection } from '../ProfileInfoSection';
 import LegalName from './LegalName';
 import DisabilityRating from './DisabilityRating';
@@ -38,6 +39,11 @@ const PersonalInformationSection = ({ dob }) => {
   const userServices = useSelector(state => state.user.profile.services);
   const isMessagingServiceEnabled = userServices.includes(
     backendServices.MESSAGING,
+  );
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const isProfile2Enabled = useToggleValue(TOGGLE_NAMES.profile2Enabled);
+  const isHealthCareSettingsEnabled = useToggleValue(
+    TOGGLE_NAMES.profileHealthCareSettingsPage,
   );
 
   const messagingSignature = useSelector(
@@ -95,7 +101,11 @@ const PersonalInformationSection = ({ dob }) => {
         },
       ];
 
-      if (isMessagingServiceEnabled) {
+      if (
+        isMessagingServiceEnabled &&
+        !isProfile2Enabled &&
+        !isHealthCareSettingsEnabled
+      ) {
         const signaturePresent =
           messagingSignature?.signatureName?.trim() &&
           messagingSignature?.signatureTitle?.trim();

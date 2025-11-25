@@ -10,12 +10,12 @@ import ConnectedApplications from './components/connected-apps/ConnectedApps';
 import NotificationSettings from './components/notification-settings/NotificationSettings';
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from './constants';
 import PersonalHealthCareContacts from './components/personal-health-care-contacts';
-import BlankPageTemplate from './components/BlankPageTemplate';
 import FinancialInformation from './components/FinancialInformation';
 import HealthCareSettings from './components/HealthCareSettings';
 import LettersAndDocuments from './components/LettersAndDocuments';
 import AccountSecurityPage from './components/AccountSecurity';
 import SchedulingPreferences from './components/health-care-settings/SchedulingPreferences';
+import MessageSignature from './components/health-care-settings/MessageSignature';
 
 // the routesForNav array is used in the routes file to build the routes
 // the edit and hub routes are not present in the routesForNav array because
@@ -151,7 +151,7 @@ const routesForProfile2Nav = [
     featureFlag: 'profileHealthCareSettingsPage',
   },
   {
-    component: BlankPageTemplate, // TODO implement before Profile 2.0 launch
+    component: MessageSignature,
     name: PROFILE_PATH_NAMES.MESSAGES_SIGNATURE,
     path: PROFILE_PATHS.MESSAGES_SIGNATURE,
     requiresLOA3: true,
