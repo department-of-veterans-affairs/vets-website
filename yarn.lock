@@ -3667,10 +3667,10 @@
     has-proto "^1.2.0"
     jsx-ast-utils "^3.3.3"
 
-"@department-of-veterans-affairs/generator-vets-website@^3.17.1":
-  version "3.17.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/generator-vets-website/-/generator-vets-website-3.17.1.tgz#23d142192b7f91ac68df570888727f42553f0e0a"
-  integrity sha512-B8Ywh7N3BwMaDv4PCp1ZGsY0wSk2F0jvoThEckukAf9Mls5RAlqRCFTFBYFqNnSluqCMzPPlQD7hs+Xyl6XUtA==
+"@department-of-veterans-affairs/generator-vets-website@^3.18.0":
+  version "3.18.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/generator-vets-website/-/generator-vets-website-3.18.0.tgz#6b5f6ab319deb2cb0cc94f0edd324e5955f4f7d6"
+  integrity sha512-Cr6ub8uU02Yi+YI07oK6MpkhXd35WneooV2mPKRGi8L3VhqFpnIaQZ+Q4rP+62Bhz8RTl0rbApMZQWd5QJdg3Q==
   dependencies:
     chalk "^4.1.2"
     yeoman-generator "^5.6.1"

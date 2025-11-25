@@ -1,4 +1,5 @@
 import React from 'react';
+import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 function NextSteps() {
   return (
@@ -18,9 +19,10 @@ function NextSteps() {
         service connected, you can file a Supplemental Claim. We’ll review your
         claim decision using the new evidence.
         <br />
-        <a href="/decision-reviews/supplemental-claim/">
-          Learn more about Supplemental Claims
-        </a>
+        <VaLink
+          href="/decision-reviews/supplemental-claim/"
+          text="Learn more about Supplemental Claims"
+        />
       </p>
       <p>
         <strong>
@@ -28,25 +30,28 @@ function NextSteps() {
         </strong>
         , you can file a new claim for an increase in disability compensation.
         <br />
-        <a href="/disability/how-to-file-claim/">
-          Learn how to file a VA disability claim
-        </a>
+        <VaLink
+          href="/disability/how-to-file-claim/"
+          text="Learn how to file a VA disability claim"
+        />
       </p>
       <p>
         <strong>If you disagree with your claim decision</strong>, you can
         request a decision review.
         <br />
-        <a href="/resources/choosing-a-decision-review-option/">
-          Find out how to choose a decision review option
-        </a>
+        <VaLink
+          href="/resources/choosing-a-decision-review-option/"
+          text="Find out how to choose a decision review option"
+        />
       </p>
       <p>
         <strong>If you’re not enrolled in VA health care</strong>, you can apply
         now.
         <br />
-        <a href="/health-care/apply-for-health-care-form-10-10ez/">
-          Apply for VA health care benefits
-        </a>
+        <VaLink
+          href="/health-care/apply-for-health-care-form-10-10ez/"
+          text="Apply for VA health care benefits"
+        />
       </p>
     </div>
   );

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 
 import useWebChat from '../hooks/useWebChat';
 import { COMPLETE, ERROR, LOADING } from '../utils/loadingStatus';
@@ -11,6 +12,10 @@ import { getAlertTargetTs } from '../utils/expiry';
 export default function App({ virtualAgentEnableParamErrorDetection }) {
   // Default to complete because when feature toggles are loaded we assume paramLoadingStatus is complete and will error out otherwise
   const [paramLoadingStatus, setParamLoadingStatus] = useState(COMPLETE);
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const isSessionPersistenceEnabled = useToggleValue(
+    TOGGLE_NAMES.virtualAgentChatbotSessionPersistenceEnabled,
+  );
   const { token, code, expired, webChatFramework, loadingStatus } = useWebChat(
     virtualAgentEnableParamErrorDetection,
     paramLoadingStatus,
@@ -24,22 +29,26 @@ export default function App({ virtualAgentEnableParamErrorDetection }) {
 
   useEffect(
     () => {
-      if (expired) setAlertOpen(true);
+      if (isSessionPersistenceEnabled && expired) setAlertOpen(true);
     },
-    [expired],
+    [expired, isSessionPersistenceEnabled],
   );
 
   // Polling interval for token expiry check (default: 5 seconds)
   const POLLING_INTERVAL_MS = 5000;
-  useEffect(() => {
-    const id = setInterval(() => {
-      const target = getAlertTargetTs(getTokenExpiresAt());
-      if (target && Date.now() >= target) {
-        setAlertOpen(true);
-      }
-    }, POLLING_INTERVAL_MS);
-    return () => clearInterval(id);
-  }, []);
+  useEffect(
+    () => {
+      if (!isSessionPersistenceEnabled) return undefined;
+      const id = setInterval(() => {
+        const target = getAlertTargetTs(getTokenExpiresAt());
+        if (target && Date.now() >= target) {
+          setAlertOpen(true);
+        }
+      }, POLLING_INTERVAL_MS);
+      return () => clearInterval(id);
+    },
+    [isSessionPersistenceEnabled],
+  );
 
   useEffect(
     () => {
