@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   addressNoMilitarySchema,
   addressNoMilitaryUI,
@@ -10,10 +11,19 @@ import { merge } from 'lodash';
 export default {
   uiSchema: {
     ...titleUI(
-      'Your organization’s mailing address',
-      'We’ll mail information about this application to the organization’s address you provide here.',
+      () => (
+        <>
+          <va-alert status="info" slim uswds>
+            <p className="vads-u-margin-y--0 vads-u-font-weight--normal">
+              Any changes you make will also be reflected in your VA.gov profile
+            </p>
+          </va-alert>
+          <h3>Edit your mailing address</h3>
+        </>
+      ),
+      `We'll mail information about this application to the address you provide here.`,
     ),
-    address: merge(
+    applicantMailingAddress: merge(
       {},
       addressNoMilitaryUI({
         omit: ['street3'],
@@ -40,7 +50,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      address: merge(
+      applicantMailingAddress: merge(
         {},
         addressNoMilitarySchema({
           omit: ['street3'],
