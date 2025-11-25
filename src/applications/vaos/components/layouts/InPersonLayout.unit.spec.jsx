@@ -571,7 +571,7 @@ describe('VAOS Component: InPersonLayout', () => {
         }),
       );
       expect(
-        screen.getByRole('heading', { level: 2, name: /After visit summary/i }),
+        screen.getByRole('heading', { level: 2, name: /After-visit summary/i }),
       );
 
       expect(screen.getByRole('heading', { level: 2, name: /When/i }));
@@ -663,7 +663,7 @@ describe('VAOS Component: InPersonLayout', () => {
       expect(
         screen.queryByRole('heading', {
           level: 2,
-          name: /After visit summary/i,
+          name: /After-visit summary/i,
         }),
       ).not.to.exist;
 
@@ -770,7 +770,7 @@ describe('VAOS Component: InPersonLayout', () => {
       expect(
         screen.queryByRole('heading', {
           level: 2,
-          name: /After visit summary/i,
+          name: /After-visit summary/i,
         }),
       ).not.to.exist;
 
