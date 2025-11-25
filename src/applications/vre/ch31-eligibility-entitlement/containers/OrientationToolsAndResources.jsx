@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import WatchVideoView from '../components/WatchVideoView';
 import SelectPreferenceView from '../components/SelectPreferenceView';
+import ScheduleMeetingView from '../components/ScheduleMeetingView';
 
-const PREFERENCE_OPTION = {
+const ORIENTATION_TYPE = {
   SCHEDULE_MEETING: 'Schedule a meeting with my local RO',
   WATCH_VIDEO: 'Watch the VA Orientation Video online',
 };
@@ -101,14 +102,24 @@ export default function OrientationToolsAndResources() {
           </h2>
           {!selectedPreference && (
             <SelectPreferenceView
-              PREFERENCE_OPTION={PREFERENCE_OPTION}
+              ORIENTATION_TYPE={ORIENTATION_TYPE}
               setSelectedPreference={setSelectedPreference}
             />
           )}
-          {selectedPreference === PREFERENCE_OPTION.WATCH_VIDEO && (
-            <WatchVideoView />
+          {selectedPreference === ORIENTATION_TYPE.WATCH_VIDEO && (
+            <WatchVideoView
+              setScheduleMeetingView={() =>
+                setSelectedPreference(ORIENTATION_TYPE.SCHEDULE_MEETING)
+              }
+            />
           )}
-          {selectedPreference === PREFERENCE_OPTION.SCHEDULE_MEETING && <></>}
+          {selectedPreference === ORIENTATION_TYPE.SCHEDULE_MEETING && (
+            <ScheduleMeetingView
+              setWatchVideoView={() =>
+                setSelectedPreference(ORIENTATION_TYPE.WATCH_VIDEO)
+              }
+            />
+          )}
         </va-card>
 
         <div className="vads-u-margin-top--4 medium-screen:vads-u-display--inline-block vads-u-display--none">

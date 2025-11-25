@@ -1,12 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   VaRadio,
   VaRadioOption,
   VaButton,
   VaAlert,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import PropTypes from 'prop-types';
 
-export default function WatchVideoView() {
+const MEET_WITH_COUNSELOR_OPTIONS = {
+  YES: 'Yes, I prefer meeting with my Counselor',
+  NO: 'No',
+};
+
+const meetWithCounselorRadioGroupName = 'meet_with_counselor';
+
+export default function WatchVideoView({ setScheduleMeetingView }) {
+  const [
+    meetWithCounselorRadioValue,
+    setMeetWithCounselorRadioValue,
+  ] = useState();
+
   return (
     <>
       <VaAlert className="vads-u-margin-top--2" status="success">
@@ -35,15 +48,33 @@ export default function WatchVideoView() {
           text="Download Certificate of Completion"
         />
       </p>
-      <VaRadio label="Still want to meet with your counselor?">
-        <VaRadioOption label="No" name="second_preference" value="1" />
+      <VaRadio
+        label="Still want to meet with your counselor?"
+        onVaValueChange={e => setMeetWithCounselorRadioValue(e.detail.value)}
+      >
         <VaRadioOption
-          label="Yes, I prefer meeting with my Counselor"
-          name="second_preference"
-          value="2"
+          label={MEET_WITH_COUNSELOR_OPTIONS.NO}
+          name={meetWithCounselorRadioGroupName}
+          value={MEET_WITH_COUNSELOR_OPTIONS.NO}
+        />
+        <VaRadioOption
+          label={MEET_WITH_COUNSELOR_OPTIONS.YES}
+          name={meetWithCounselorRadioGroupName}
+          value={MEET_WITH_COUNSELOR_OPTIONS.YES}
         />
       </VaRadio>
-      <VaButton text="Submit" />
+      <VaButton
+        onClick={() => {
+          if (meetWithCounselorRadioValue === MEET_WITH_COUNSELOR_OPTIONS.YES) {
+            setScheduleMeetingView();
+          }
+        }}
+        text="Submit"
+      />
     </>
   );
 }
+
+WatchVideoView.propTypes = {
+  setScheduleMeetingView: PropTypes.func.isRequired,
+};

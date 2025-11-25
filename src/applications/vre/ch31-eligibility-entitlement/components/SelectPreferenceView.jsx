@@ -6,11 +6,15 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 
+const preferenceRadioGroupName = 'orientation_type_preference';
+
 export default function SelectPreferenceView({
   setSelectedPreference,
-  PREFERENCE_OPTION,
+  ORIENTATION_TYPE,
 }) {
-  const [preferenceRadioValue, setPreferenceRadioValue] = useState();
+  const [orientationTypeRadioValue, setOrientationTypeRadioValue] = useState(
+    ORIENTATION_TYPE.SCHEDULE_MEETING,
+  );
   return (
     <>
       <p>
@@ -23,22 +27,22 @@ export default function SelectPreferenceView({
       </p>
       <VaRadio
         label="My preference is to:"
-        onVaValueChange={e => setPreferenceRadioValue(e.detail.value)}
+        onVaValueChange={e => setOrientationTypeRadioValue(e.detail.value)}
       >
         <VaRadioOption
-          label={PREFERENCE_OPTION.SCHEDULE_MEETING}
-          name="preference"
-          value={PREFERENCE_OPTION.SCHEDULE_MEETING}
+          checked
+          label={ORIENTATION_TYPE.SCHEDULE_MEETING}
+          name={preferenceRadioGroupName}
+          value={ORIENTATION_TYPE.SCHEDULE_MEETING}
         />
         <VaRadioOption
-          label={PREFERENCE_OPTION.WATCH_VIDEO}
-          name="preference"
-          value={PREFERENCE_OPTION.WATCH_VIDEO}
+          label={ORIENTATION_TYPE.WATCH_VIDEO}
+          name={preferenceRadioGroupName}
+          value={ORIENTATION_TYPE.WATCH_VIDEO}
         />
       </VaRadio>
       <VaButton
-        onClick={() => setSelectedPreference(preferenceRadioValue)}
-        disabled={!preferenceRadioValue}
+        onClick={() => setSelectedPreference(orientationTypeRadioValue)}
         text="Submit"
       />
     </>
@@ -47,5 +51,5 @@ export default function SelectPreferenceView({
 
 SelectPreferenceView.propTypes = {
   setSelectedPreference: PropTypes.func.isRequired,
-  PREFERENCE_OPTION: PropTypes.object.isRequired,
+  ORIENTATION_TYPE: PropTypes.object.isRequired,
 };
