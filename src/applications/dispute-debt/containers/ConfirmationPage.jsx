@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+import i18nDebtApp from 'applications/dispute-debt/i18n';
 import {
   ConfirmationView,
   ChapterSectionCollection,
@@ -48,8 +49,10 @@ export const ConfirmationPage = ({ route }) => {
       filename="VA-Dispute-Debt-Submission.pdf"
     >
       <ConfirmationView.SubmissionAlert
-        title="Your dispute submission is in progress"
-        content="You will receive a letter in the email confirming receipt within 60 days."
+        title={i18nDebtApp.t('dispute-submission-alert.title')}
+        content={i18nDebtApp.t('dispute-submission-alert.description', {
+          email: 'userEmail',
+        })}
         actions={null}
       />
       <ConfirmationView.SavePdfDownload />
