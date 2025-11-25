@@ -7,7 +7,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { API_ENDPOINTS } from '@bio-aquia/21-2680-house-bound-status/constants';
 /**
  * Custom submission alert component that shows warning for additional steps needed
@@ -31,60 +30,31 @@ const CustomSubmissionAlert = () => {
   );
 };
 
-/**
- * Custom print page section
- * @returns {React.ReactElement} Print page section
- */
-const PrintPageSection = () => {
+const DownloadFormPDF = ({ confirmationNumber }) => {
+  // Render download link
   return (
-    <div className="confirmation-print-this-page-section screen-only">
-      <h2 className="vads-u-font-size--h4">Print this confirmation page</h2>
+    confirmationNumber && (
       <p>
-        If you’d like to keep a copy of the information on this page, you can
-        print it now.
+        <va-link
+          text="Download a copy of your VA Form 21-2680"
+          download
+          filetype="PDF"
+          href={`${API_ENDPOINTS.downloadPdf}${confirmationNumber}`}
+        />
       </p>
-      <va-button
-        text="Print this page for your records"
-        onClick={() => window.print()}
-      />
-    </div>
+    )
   );
 };
 
-const DownloadFormPDF = ({ guid }) => {
-  // Render download link
-  return (
-    guid && (
-      <div className="vads-u-margin-y--4">
-        <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--2">
-          Download your form
-        </h2>
-        <p className="vads-u-margin-bottom--3">
-          Download a PDF copy of your completed VA Form 21-2680 for your
-          records.
-        </p>
-        <p>
-          <va-link
-            text="Download a copy of your VA Form 21-2680 (PDF)"
-            download
-            filetype="PDF"
-            href={`${API_ENDPOINTS.downloadPdf}${guid}`}
-          />
-        </p>
-      </div>
-    )
-  );
+DownloadFormPDF.propTypes = {
+  confirmationNumber: PropTypes.string,
 };
 
 /**
  * Custom what's next section with step-by-step instructions
  * @returns {React.ReactElement} What's next section
  */
-const WhatsNextSection = () => {
-  const form = useSelector(state => state.form || {});
-  // Extract GUID/confirmation number (same string) from submission response
-  const confirmationNumber =
-    form?.submission?.response?.attributes?.confirmationNumber || '';
+const WhatsNextSection = ({ confirmationNumber }) => {
   // Extract veteran name for PDF filename
   return (
     <div className="confirmation-whats-next-section">
@@ -92,11 +62,9 @@ const WhatsNextSection = () => {
       <p>Follow these 3 steps to complete your application:</p>
       <va-process-list uswds>
         <va-process-list-item header="Download a PDF version of the Form you filled out.">
-          <DownloadFormPDF guid={confirmationNumber} />
+          <DownloadFormPDF confirmationNumber={confirmationNumber} />
         </va-process-list-item>
-
         <va-process-list-item header="Send it to an examiner.">
-          <p>We recommend sending it via email.</p>
           <p>
             The examiner must be a Medical Doctor (MD) or Doctor of Osteopathic
             (DO) medicine, physician assistant or advanced practice registered
@@ -109,7 +77,7 @@ const WhatsNextSection = () => {
         <va-process-list-item header="Upload your fully completed form.">
           <p>
             <va-link-action
-              href="/supporting-forms-for-claims"
+              href="/find-forms/upload/21-2680/introduction"
               text="Upload your completed VA form 21-2680"
             />
           </p>
@@ -119,31 +87,8 @@ const WhatsNextSection = () => {
   );
 };
 
-/**
- * Custom contact section
- * @returns {React.ReactElement} Contact section
- */
-const ContactSection = () => {
-  return (
-    <div className="confirmation-contact-section">
-      <h2>How to contact us if you have questions</h2>
-      <p>
-        Call us at <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
-        <va-telephone contact="711" tty />
-        ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
-      </p>
-      <p>
-        Or you can ask us a question online through Ask VA. Select the category
-        and topic for the VA benefit this form is related to.
-      </p>
-      <p>
-        <va-link
-          href="https://ask.va.gov"
-          text="Contact us online through Ask VA"
-        />
-      </p>
-    </div>
-  );
+WhatsNextSection.propTypes = {
+  confirmationNumber: PropTypes.string,
 };
 
 /**
@@ -180,12 +125,10 @@ export const ConfirmationPage = ({ route }) => {
       }}
     >
       <CustomSubmissionAlert />
-      <DownloadFormPDF guid={confirmationNumber} />
-
       <ConfirmationView.ChapterSectionCollection />
-      <PrintPageSection />
-      <WhatsNextSection />
-      <ContactSection />
+      <ConfirmationView.PrintThisPage />
+      <WhatsNextSection confirmationNumber={confirmationNumber} />
+      <ConfirmationView.HowToContact />
       <ConfirmationView.GoBackLink />
       <ConfirmationView.NeedHelp />
     </ConfirmationView>
