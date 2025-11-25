@@ -44,12 +44,12 @@ const ReviewDependents = ({
 
     return (
       <va-card key={index} class="vads-u-padding--2 vads-u-margin-bottom--2">
-        <h5
+        <h4
           className="vads-u-margin-top--0 dd-privacy-mask"
           data-dd-action-name="dependent name"
         >
           {name}
-        </h5>
+        </h4>
         <span>
           {relationship},{' '}
           <span className="dd-privacy-mask" data-dd-action-name="dependent age">
