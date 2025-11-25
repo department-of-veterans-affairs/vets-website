@@ -294,9 +294,13 @@ const generate = async (data = {}, config = defaultConfig) => {
   const submissionDetailsSection = doc.struct('Sect', {
     title: 'Submission Type',
   });
+
+  // Start at the config left margin, increase number to adjust indent as needed
+  const submissionDetailsLeftMargin = config.margins.left + 20;
+
   submissionDetailsSection.add(
     createHeading(doc, 'H3', config, 'Submission Details', {
-      x: config.margins.left + 20, // indent enough for vertical line
+      x: submissionDetailsLeftMargin,
       y: doc.y,
     }),
   );
@@ -323,9 +327,13 @@ const generate = async (data = {}, config = defaultConfig) => {
 
   submissionDetailsSection.end();
   wrapper.add(submissionDetailsSection);
+
+  // Start at the config left margin, increase number to adjust indent as needed
+  const verticalLineLeftMargin = config.margins.left + 5;
+
   doc
-    .moveTo(config.margins.left + 5, submissionStartY) // Start at the config left margin, adjust as needed
-    .lineTo(config.margins.left + 5, doc.y) // Same x position, current y position
+    .moveTo(verticalLineLeftMargin, submissionStartY)
+    .lineTo(verticalLineLeftMargin, doc.y)
     .lineWidth(6)
     .strokeColor('#000000')
     .stroke();
