@@ -12,7 +12,7 @@ export default function FindAJobSection() {
             <va-link href="https://www.va.gov" text="Compare Costs of Living" />
           </h3>
           <p className="va-nav-linkslist-description">
-            \ Evaluate how your income and expenses might vary across different
+            Evaluate how your income and expenses might vary across different
             cities or regions to better inform your job search and relocation
             decisions.
           </p>
