@@ -3638,13 +3638,13 @@
   resolved "https://registry.yarnpkg.com/@datadog/sketches-js/-/sketches-js-2.1.0.tgz#8c7e8028a5fc22ad102fa542b0a446c956830455"
   integrity sha512-smLocSfrt3s53H/XSVP3/1kP42oqvrkjUPtyaFd1F79ux24oE31BKt+q0c6lsa6hOYrFzsIwyc5GXAI5JmfOew==
 
-"@department-of-veterans-affairs/component-library@54.1.1":
-  version "54.1.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-54.1.1.tgz#1f868d4a938e7c553f828913fda76e099dcb6ecc"
-  integrity sha512-mETfWIUoURvhYO97SLja3kIlx/vPI2GiSXdlvA0ahmH2jPhZrjz/Rkg/OPHr/ghv4aBrub8Jht5Fx5cBb7r4Wg==
+"@department-of-veterans-affairs/component-library@54.2.0":
+  version "54.2.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-54.2.0.tgz#7fdc71d8bc5d41ac9bca24b6a2dce1a8899cd9c6"
+  integrity sha512-vDxysRKeb9C8bVXGKfKRNvJZJF1D9vmid5oLsapq596d0IwuFTX2q1X16EB3wxc+tOWNOFAS0Be8UGZAtducNw==
   dependencies:
     "@department-of-veterans-affairs/react-components" "28.1.0"
-    "@department-of-veterans-affairs/web-components" "22.1.1"
+    "@department-of-veterans-affairs/web-components" "22.2.0"
     i18next "^21.6.14"
     i18next-browser-languagedetector "^6.1.4"
     react-focus-on "^3.5.1"
@@ -3717,10 +3717,10 @@
   dependencies:
     minimist "^1.2.6"
 
-"@department-of-veterans-affairs/web-components@22.1.1":
-  version "22.1.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-22.1.1.tgz#a2a96fe24ae418fce775609671149b5f1c807563"
-  integrity sha512-+GGrKH5e0veKTvZFyxJ9YnQQmMTGhNYHiH7+otkjL3/p9IYLWhgeSjgreo3mFEbm1aBeGhA7g5lH6NhWDkJZKw==
+"@department-of-veterans-affairs/web-components@22.2.0":
+  version "22.2.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-22.2.0.tgz#b1abc2e1af4fa77297997e14305425222d4f8895"
+  integrity sha512-EQXbqFPEip45Ipet4vkcRgUvzVrNagT/d+dCwolyCk9//RNCBeJTe2r03ZT4+LetcY8Fswk2Ren7dG4EUq3lRQ==
   dependencies:
     "@stencil/core" "4.20.0"
     aria-hidden "^1.1.3"
