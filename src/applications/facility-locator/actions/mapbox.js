@@ -233,6 +233,14 @@ export const sendUpdatedSearchQuery = (
   // Cap at MAX_SEARCH_AREA (500 miles) per PPMS API limits
   const radius = Math.min(fullDiagonal, MAX_SEARCH_AREA);
 
+  // eslint-disable-next-line no-console
+  console.log('[PPMS Debug] Radius calculation:', {
+    bounds: currentBounds,
+    fullDiagonal: `${fullDiagonal.toFixed(2)} miles`,
+    radiusUsed: `${radius.toFixed(2)} miles`,
+    center: { lat, lng },
+  });
+
   dispatch({
     type: SEARCH_QUERY_UPDATED,
     payload: {

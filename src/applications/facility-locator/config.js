@@ -4,6 +4,7 @@ import {
   LocationType,
   FacilityType,
   EMERGENCY_CARE_SERVICES,
+  MAX_SEARCH_AREA,
 } from './constants';
 import manifest from './manifest.json';
 
@@ -88,6 +89,24 @@ export const resolveParamsWithUrl = ({
   }
 
   if (radius) roundRadius = Math.max(1, radius.toFixed());
+
+  // OPTION A: For PPMS/community care searches, always use 500 miles
+  // to ensure we get all providers within the maximum allowed radius
+  if (communityServiceType) {
+    roundRadius = MAX_SEARCH_AREA;
+  }
+
+  // eslint-disable-next-line no-console
+  console.log('[PPMS Debug] API params:', {
+    locationType,
+    serviceType,
+    communityServiceType,
+    radiusInput: radius,
+    radiusRounded: roundRadius,
+    radiusOverridden: communityServiceType ? 'YES - forced to 500 miles' : 'no',
+    center,
+    bounds,
+  });
 
   if (facility && communityServiceType) {
     url = `${url}/${facility}`;
