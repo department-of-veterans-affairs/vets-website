@@ -35,8 +35,14 @@ export const dateFieldToISO = (dateField, options = {}) => {
       return null;
     }
     // Validate and format complete date
-    // eslint-disable-next-line prettier/prettier
-    const date = moment(`${yearValue}-${monthValue.padStart(2, '0')}-${dayValue.padStart(2, '0')}`, 'YYYY-MM-DD', true);
+    const date = moment(
+      `${yearValue}-${monthValue.padStart(2, '0')}-${dayValue.padStart(
+        2,
+        '0',
+      )}`,
+      'YYYY-MM-DD',
+      true,
+    );
     return date.isValid() ? date.format('YYYY-MM-DD') : null;
   }
 
@@ -46,8 +52,14 @@ export const dateFieldToISO = (dateField, options = {}) => {
   // 3. Year only (no month or day)
   if (yearValue && monthValue && dayValue) {
     // Complete date
-    // eslint-disable-next-line prettier/prettier
-    const date = moment(`${yearValue}-${monthValue.padStart(2, '0')}-${dayValue.padStart(2, '0')}`, 'YYYY-MM-DD', true);
+    const date = moment(
+      `${yearValue}-${monthValue.padStart(2, '0')}-${dayValue.padStart(
+        2,
+        '0',
+      )}`,
+      'YYYY-MM-DD',
+      true,
+    );
     return date.isValid() ? date.format('YYYY-MM-DD') : null;
   }
 
