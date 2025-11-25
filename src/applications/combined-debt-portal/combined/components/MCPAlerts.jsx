@@ -23,22 +23,14 @@ Alert.Error = () => (
       <strong className="vads-u-margin-right--0p5">
         For questions about your payment or relief options,
       </strong>
-      contact us at{' '}
+      call the VA Health Resource Center. We’re here Monday through Friday, 8:00
+      a.m. to 8:00 p.m. ET.
+    </p>
+    <p>
       <span className="no-wrap">
         <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} />
       </span>{' '}
-      (TTY: <va-telephone contact={CONTACTS[711]} />
-      ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
     </p>
-    <p>
-      <strong className="vads-u-margin-right--0p5">
-        For questions about your treatment or your charges,
-      </strong>
-      contact the VA health care facility where you received care.
-    </p>
-    <a href="https://www.va.gov/find-locations">
-      Find the contact information for your facility
-    </a>
   </va-alert>
 );
 
@@ -49,7 +41,7 @@ Alert.PastDueOTPP = ({ copay, history }) => {
     <va-alert status="warning" data-testid="otpp-past-due-balance-alert">
       <h2 slot="headline">Your balance may be overdue</h2>
       <p>
-        Your balance due on
+        Your balance on
         <time
           dateTime={statementDate}
           className="vads-u-margin-x--0p5 vads-u-font-weight--bold"
@@ -67,9 +59,23 @@ Alert.PastDueOTPP = ({ copay, history }) => {
           recordEvent({ event: 'cta-link-click-copay-past-due-alert' });
           history.push(`/copay-balances/${copay.id}/resolve`);
         }}
-        text="Resolve this bill"
+        text="Pay your balance, request financial help, or dispute this bill"
         type="primary"
       />
+      <p>
+        If you haven’t either paid your full balance or requested financial
+        help, call the VA Health Resource Center. We're here Monday through
+        Friday, 8:00 a.m. to 8:00 p.m. ET.
+      </p>
+      <p>
+        <span className="no-wrap">
+          <va-icon icon="phone" size={3} />{' '}
+          <strong>
+            <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} /> (TTY:{' '}
+            <va-telephone contact={CONTACTS[711]} />)
+          </strong>
+        </span>
+      </p>
     </va-alert>
   );
 };
@@ -132,15 +138,14 @@ Alert.ZeroBalance = ({ copay }) => {
           {statementDate}
         </time>
         . You can
-        <a href="#download-statements" className="vads-u-margin--0p5">
+        <a href="#statement-list" className="vads-u-margin--0p5">
           download your previous statements
         </a>
-        below.
       </p>
       <p>
         If you receive new charges, we’ll send you a statement in the mail and
         update your balance. Learn more about
-        <a href="#balance-questions" className="vads-u-margin--0p5">
+        <a href="#need-help" className="vads-u-margin--0p5">
           what to do if you have questions about your balance
         </a>
         .
@@ -161,20 +166,23 @@ Alert.NoHealthcare = () => (
     <p>
       You can’t check copay balances at this time because our records show that
       you’re not enrolled in VA health care.
+    </p>
+    <p>
       <a
         href="https://va.gov/health-care/how-to-apply/"
         className="vads-u-margin-left--0p5"
       >
         Find out how to apply for VA health care benefits
       </a>
-      .
     </p>
     <p>
-      If you think this is incorrect, call our toll-free hotline at{' '}
+      If you think this is incorrect, call our toll-free hotline Monday through
+      Friday, 8:00 a.m. to 8:00 p.m. ET.
+    </p>
+    <p>
       <span className="no-wrap">
         <va-telephone contact={CONTACTS['222_VETS']} />
       </span>
-      , Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
     </p>
   </va-alert>
 );
@@ -189,12 +197,14 @@ Alert.NoHistory = () => (
       you haven’t received a copay bill in the past 6 months.
     </p>
     <p>
-      If you think this is incorrect, contact the VA Health Resource Center at{' '}
+      If you think this is incorrect, contact the VA Health Resource Center.
+      We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+    </p>
+    <p>
       <span className="no-wrap">
         <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} />
       </span>
       . (TTY: <va-telephone contact={CONTACTS[711]} />
-      ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
     </p>
   </va-alert>
 );
