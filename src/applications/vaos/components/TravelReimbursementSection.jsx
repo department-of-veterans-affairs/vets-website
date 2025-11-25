@@ -64,6 +64,10 @@ export default function TravelReimbursementSection({ appointment }) {
   );
   const heading = 'Travel reimbursement';
 
+  const isClaimInProgress =
+    claimData.claim?.claimStatus === 'Incomplete' ||
+    claimData.claim?.claimStatus === 'Saved';
+
   if (
     (claimData.metadata.message === TRAVEL_CLAIM_MESSAGES.noClaim ||
       (claimData.metadata.message === TRAVEL_CLAIM_MESSAGES.success &&
@@ -125,11 +129,7 @@ export default function TravelReimbursementSection({ appointment }) {
   // Has claim
   if (claimData.metadata.status === 200 && claimData.claim?.id) {
     // Has unfinished claim
-    if (
-      complexClaimsEnabled &&
-      (claimData.claim.claimStatus === 'Saved' ||
-        claimData.claim.claimStatus === 'Incomplete')
-    ) {
+    if (complexClaimsEnabled && isClaimInProgress) {
       // Unfinished claim for appointment >30 days old
       if (daysRemainingToFileClaim < 1) {
         return (

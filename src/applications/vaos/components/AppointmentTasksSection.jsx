@@ -20,14 +20,15 @@ export default function AppointmentTasksSection({ appointment }) {
 
   const claimData = selectAppointmentTravelClaim(appointment);
   const isClaimInProgress =
-    complexClaimsEnabled &&
-    (claimData?.claim?.claimStatus === 'Incomplete' ||
-      claimData?.claim?.claimStatus === 'Saved');
+    claimData?.claim?.claimStatus === 'Incomplete' ||
+    claimData?.claim?.claimStatus === 'Saved';
 
   // if the claim data is not successful or the claim has already been filed, don't show the link to file a claim
   if (
     !claimData.metadata.success ||
-    (claimData.metadata.success && claimData.claim && !isClaimInProgress)
+    (claimData.metadata.success &&
+      claimData.claim &&
+      (!complexClaimsEnabled || !isClaimInProgress))
   )
     return null;
 
