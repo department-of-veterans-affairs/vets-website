@@ -1,6 +1,9 @@
 import React from 'react';
+import { AUTHN_SETTINGS } from '@department-of-veterans-affairs/platform-user/exports';
 
 export default function PortalRemovalNotice() {
+  const returnUrl =
+    sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL) || '/my-va';
   return (
     <section className="container row login vads-u-padding--3">
       <div className="columns small-12 vads-u-margin-y--2">
@@ -36,7 +39,7 @@ export default function PortalRemovalNotice() {
           text="Go to My VA Health"
           label="Go to My VA Health"
           type="secondary"
-          href="patientportal.myhealth.va.gov"
+          href={returnUrl}
         />
       </div>
     </section>
