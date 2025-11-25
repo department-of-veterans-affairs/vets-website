@@ -6,13 +6,14 @@ This module centralizes all date-related functionality for the disability-benefi
 
 ```zsh
 dates/
-├── index.js              # Public API exports
-├── formatting.js         # Date formatting and core utilities
-├── comparisons.js        # Date comparison functions
-├── validations.js        # Date validation functions
-├── product-specific.js   # Product-specific date operations
-├── form-integration.js   # VA forms system integration
-└── README.md            # This file
+├── index.js                      # Public API exports
+├── formatting.js                 # Date formatting and core utilities
+├── comparisons.js                # Date comparison functions
+├── validations.js                # Date validation functions
+├── partial-date-validations.js   # Partial date validation helpers
+├── product-specific.js           # Product-specific date operations
+├── form-integration.js           # VA forms system integration
+└── README.md                    # This file
 ```
 
 ## When to Use This Module vs Platform Utilities
@@ -29,7 +30,8 @@ dates/
 - You're working within the disability-benefits/all-claims application
 - You need BDD-specific validation (90-180 days)
 - You need to validate separation dates or service periods
-- You need to handle partial dates (YYYY-XX-XX, XXXX-MM-XX formats)
+- You need to handle partial dates (YYYY-XX-XX, XXXX-MM-XX, or YYYY-MM formats)
+- You need partial date validation for specific fields (vaMedicalRecords, newConditions, severancePayDate)
 - You need disability-benefits specific age validation (13th birthday)
 - You need to validate treatment dates against service dates
 
@@ -42,7 +44,20 @@ import {
   formatDate,
   isValidFullDate,
   validateSeparationDate,
+  validatePartialDate,
+  validateYearOnlyPartialDate,
 } from 'applications/disability-benefits/all-claims/utils/dates';
+```
+
+For partial date validations specifically:
+
+```javascript
+import {
+  validatePartialDate,
+  validateRequiredPartialDate,
+  validatePartialDateRange,
+  validateYearOnlyPartialDate,
+} from 'applications/disability-benefits/all-claims/utils/dates/partial-date-validations';
 ```
 
 ## API Reference
@@ -100,6 +115,15 @@ import {
 - `isMonthOnly(fieldData)` - Check if date is month-only format (XXXX-MM-XX)
 - `isYearOnly(fieldData)` - Check if date is year-only format (YYYY-XX-XX)
 - `isYearMonth(fieldData)` - Check if date is year-month format (YYYY-MM-XX)
+
+### Partial Date Validation Functions
+
+These validators support partial date formats (year-only, month+year, or full dates) for specific form fields:
+
+- `validatePartialDate(errors, dateField, formData, schema, errorMessages)` - Validate date fields that allow partial dates (month+year or year-only). Used for vaMedicalRecords and newConditions. Accepts date field objects or ISO-like strings.
+- `validateRequiredPartialDate(errors, dateField, formData, schema, errorMessages)` - Validate partial date fields that must have a value when present. Similar to validatePartialDate but enforces presence validation.
+- `validatePartialDateRange(errors, fromField, toField, errorMessages)` - Validate date ranges that allow partial dates. Ensures proper ordering when both dates are complete.
+- `validateYearOnlyPartialDate(errors, fieldData)` - Validate year-only fields (e.g., severance pay date). Only accepts year format (YYYY) and validates it's a valid year in the past.
 
 ### Form Integration
 

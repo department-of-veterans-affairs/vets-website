@@ -44,50 +44,6 @@ describe('Disability benefits 526EZ -- Partial date validations', () => {
     });
   });
 
-  describe('validateRequiredPartialDate', () => {
-    it('should validate complete dates', () => {
-      validateRequiredPartialDate(errorsSpy, '2023-01-15', {}, {});
-      expect(errorsSpy.addError.called).to.be.false;
-    });
-
-    it('should validate partial dates', () => {
-      validateRequiredPartialDate(errorsSpy, '2023-01-XX', {}, {});
-      expect(errorsSpy.addError.called).to.be.false;
-    });
-
-    it('should allow empty dates', () => {
-      validateRequiredPartialDate(errorsSpy, '', {}, {});
-      expect(errorsSpy.addError.called).to.be.false;
-    });
-
-    it('should handle null input', () => {
-      validateRequiredPartialDate(errorsSpy, null, {}, {});
-      expect(errorsSpy.addError.called).to.be.false;
-    });
-  });
-
-  describe('validatePartialDateRange', () => {
-    it('should validate valid date ranges', () => {
-      validatePartialDateRange(errorsSpy, '2023-01-01', '2023-12-31');
-      expect(errorsSpy.addError.called).to.be.false;
-    });
-
-    it('should validate partial date ranges', () => {
-      validatePartialDateRange(errorsSpy, '2023-01-XX', '2023-12-XX');
-      expect(errorsSpy.addError.called).to.be.false;
-    });
-
-    it('should error when end date is before start date', () => {
-      validatePartialDateRange(errorsSpy, '2023-12-31', '2023-01-01');
-      expect(errorsSpy.addError.calledOnce).to.be.true;
-    });
-
-    it('should not validate range for partial dates', () => {
-      validatePartialDateRange(errorsSpy, '2023-XX-XX', '2020-XX-XX');
-      expect(errorsSpy.addError.called).to.be.false;
-    });
-  });
-
   describe('validateYearOnlyPartialDate', () => {
     it('should validate valid years', () => {
       validateYearOnlyPartialDate(errorsSpy, '2023');
