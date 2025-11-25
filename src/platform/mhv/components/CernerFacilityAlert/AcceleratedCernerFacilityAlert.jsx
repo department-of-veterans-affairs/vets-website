@@ -41,6 +41,7 @@ const AcceleratedCernerFacilityAlert = props => {
     isAcceleratingVaccines,
     isAcceleratingLabsAndTests,
     isAcceleratingConditions,
+    isAcceleratingMedications,
   } = useAcceleratedData();
 
   // Build list of pages to hide alert on when their data is accelerated
@@ -68,6 +69,7 @@ const AcceleratedCernerFacilityAlert = props => {
     isAcceleratingLabsAndTests
       ? CernerAlertContent.LABS_AND_TESTS.pageName
       : null,
+    isAcceleratingMedications ? CernerAlertContent.MEDICATIONS.pageName : null,
   ].filter(Boolean);
 
   // STEP 0: Wait for acceleration data to load before making decisions
