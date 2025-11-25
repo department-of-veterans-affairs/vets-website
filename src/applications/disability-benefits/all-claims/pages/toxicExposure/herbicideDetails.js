@@ -14,7 +14,7 @@ import {
   teSubtitle,
 } from '../../content/toxicExposure';
 import { HERBICIDE_LOCATIONS, TE_URL_PREFIX } from '../../constants';
-import { validateToxicExposureHerbicideDates } from '../../utils/validations';
+import { validateToxicExposureDates } from '../../utils/validations';
 
 /**
  * Make the uiSchema for each herbicide details page
@@ -45,7 +45,7 @@ function makeUiSchema(locationId) {
               title: endDateApproximate,
             }),
           },
-          'ui:validations': [validateToxicExposureHerbicideDates],
+          'ui:validations': [validateToxicExposureDates],
           'view:notSure': {
             'ui:title': notSureDatesDetails,
             'ui:webComponentField': VaCheckboxField,
