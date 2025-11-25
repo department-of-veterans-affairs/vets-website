@@ -592,3 +592,9 @@ export const statsdFrontEndActions = {
   DOWNLOAD_CCD: 'download_ccd',
   DOWNLOAD_SEI: 'download_sei',
 };
+
+/**
+ * Facility ID for Meds by Mail users (primarily CHAMPVA beneficiaries)
+ * Used to conditionally display content specific to Meds by Mail servicing
+ */
+export const MEDS_BY_MAIL_FACILITY_ID = '741MM';

@@ -67,13 +67,18 @@ describe('Allergies list container', () => {
     ).to.exist;
   });
 
-  it('displays the second part of the subheading', () => {
+  it('does not display the old missing allergies text for non-Meds by Mail users', () => {
     expect(
-      screen.getByText(
+      screen.queryByText(
         'If you have allergies that are missing from this list, tell your care team at your next appointment.',
         { exact: false },
       ),
-    ).to.exist;
+    ).to.not.exist;
+  });
+
+  it('does not display Meds by Mail section for regular users', () => {
+    expect(screen.queryByText('If you use Meds by Mail', { exact: false })).to
+      .not.exist;
   });
 
   it('displays a count of the records', () => {
@@ -185,10 +190,89 @@ describe('Allergies list container with errors', () => {
 
     await waitFor(() => {
       expect(
-        screen.getByText('We can’t access your allergy records right now', {
+        screen.getByText("We can't access your allergy records right now", {
           exact: false,
         }),
       ).to.exist;
     });
+  });
+});
+
+describe('Allergies list container for Meds by Mail users', () => {
+  const medsByMailState = {
+    featureToggles: {
+      /* eslint-disable camelcase */
+      mhv_accelerated_delivery_enabled: false,
+      mhv_accelerated_delivery_allergies_enabled: false,
+      /* eslint-enable camelcase */
+      loading: false,
+    },
+    drupalStaticData: {
+      vamcEhrData: {
+        loading: false,
+      },
+    },
+    user: {
+      ...user,
+      profile: {
+        ...user.profile,
+        facilities: [
+          {
+            facilityId: '983',
+            isCerner: false,
+          },
+          {
+            facilityId: '741MM',
+            isCerner: false,
+          },
+        ],
+      },
+    },
+    mr: {
+      allergies: {
+        allergiesList: allergies.entry.map(item =>
+          convertAllergy(item.resource),
+        ),
+      },
+    },
+  };
+
+  let screen;
+  beforeEach(() => {
+    screen = renderWithStoreAndRouter(<Allergies runningUnitTest />, {
+      initialState: medsByMailState,
+      reducers: reducer,
+      path: '/allergies',
+    });
+  });
+
+  it('displays the Meds by Mail section heading', () => {
+    expect(screen.getByText('If you use Meds by Mail')).to.exist;
+  });
+
+  it('displays the Meds by Mail content about allergy records', () => {
+    expect(
+      screen.getByText(
+        'We may not have your allergy records in our My HealtheVet tools',
+        { exact: false },
+      ),
+    ).to.exist;
+  });
+
+  it('displays contact information for Meds by Mail users', () => {
+    expect(
+      screen.getByText('If you have a new allergy or reaction', {
+        exact: false,
+      }),
+    ).to.exist;
+  });
+
+  it('does not display the old missing allergies text', () => {
+    expect(
+      screen.queryByText(
+        'If you have allergies that are missing from this list, tell your care team',
+        { exact: false },
+      ),
+    ).to.not.exist;
   });
 });
