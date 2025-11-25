@@ -70,13 +70,13 @@ describe('Allergies list container', () => {
     ).to.exist;
   });
 
-  it('displays the second part of the subheading', () => {
+  it('does not display the old missing allergies text for non-Meds by Mail users', () => {
     expect(
-      screen.getByText(
+      screen.queryByText(
         'If you have allergies that are missing from this list, tell your care team at your next appointment.',
         { exact: false },
       ),
-    ).to.exist;
+    ).to.not.exist;
   });
 
   it('displays a count of the records', () => {
