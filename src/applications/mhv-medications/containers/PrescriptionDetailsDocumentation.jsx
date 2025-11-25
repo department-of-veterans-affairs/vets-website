@@ -173,8 +173,8 @@ const PrescriptionDetailsDocumentation = () => {
         contentRef.current
       ) {
         contentRef.current.innerHTML = htmlContent || '';
+        focusElement(document.querySelector('h1'));
       }
-      focusElement(document.querySelector('h1'));
     },
     [isLoadingDoc, isLoadingRx, hasDocApiError, htmlContent],
   );
