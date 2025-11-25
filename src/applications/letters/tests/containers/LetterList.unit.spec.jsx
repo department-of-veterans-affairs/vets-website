@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom-v5-compat';
 import * as focusUtils from '~/platform/utilities/ui/focus';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { LetterList } from '../../containers/LetterList';
 import {
   AVAILABILITY_STATUSES,
@@ -59,6 +60,9 @@ const getStore = () =>
       },
     },
     shouldUseLighthouse: true,
+    featureToggles: {
+      [FEATURE_FLAG_NAMES.emptyStateBenefitLetters]: true,
+    },
   }));
 
 describe('<LetterList>', () => {
@@ -219,7 +223,6 @@ describe('<LetterList>', () => {
       lettersAvailability: AVAILABILITY_STATUSES.available,
       letterDownloadStatus: {},
       optionsAvailable: true,
-      tsaLetterEligibility: {},
     };
     const { getByText } = render(
       <Provider store={getStore()}>
@@ -246,7 +249,6 @@ describe('<LetterList>', () => {
       lettersAvailability: AVAILABILITY_STATUSES.available,
       letterDownloadStatus: {},
       optionsAvailable: true,
-      tsaLetterEligibility: {},
     };
     const { getByText } = render(
       <Provider store={getStore()}>
@@ -293,7 +295,6 @@ describe('<LetterList>', () => {
       lettersAvailability: AVAILABILITY_STATUSES.available,
       letterDownloadStatus: {},
       optionsAvailable: true,
-      tsaLetterEligibility: {},
     };
     const { getByText } = render(
       <Provider store={getStore()}>
@@ -335,6 +336,24 @@ describe('<LetterList>', () => {
     ).to.exist;
   });
 
+  it('renders unavailable content when there are no letters or documents', async () => {
+    const noLettersProps = {
+      ...defaultProps,
+      letters: [],
+    };
+    const { findByText } = render(
+      <Provider store={getStore()}>
+        <MemoryRouter>
+          <LetterList {...noLettersProps} />
+        </MemoryRouter>
+      </Provider>,
+    );
+    const unavailableHeading = await findByText(
+      `You don't have any benefit letters or documents available.`,
+    );
+    expect(unavailableHeading).to.exist;
+  });
+
   describe('TSA letter', () => {
     it('does not fetch TSA letter if feature flag is disabled', () => {
       render(
@@ -351,7 +370,6 @@ describe('<LetterList>', () => {
       const tsaLetterEnabledProps = {
         ...defaultProps,
         getTsaLetterEligibility: getTsaLetterEligibilityStub,
-        tsaLetterEligibility: {},
         tsaSafeTravelLetter: true,
       };
       render(
@@ -410,6 +428,55 @@ describe('<LetterList>', () => {
         'message',
         'Determining TSA PreCheck Application Fee Waiver Letter eligibility...',
       );
+    });
+
+    it('renders unavailable content when there are no letters or documents including TSA', async () => {
+      const unavailableProps = {
+        ...defaultProps,
+        letters: [],
+        getTsaLetterEligibility: getTsaLetterEligibilityStub,
+        tsaLetterEligibility: {
+          error: false,
+          loading: false,
+        },
+        tsaSafeTravelLetter: true,
+      };
+      const { findByText } = render(
+        <Provider store={getStore()}>
+          <MemoryRouter>
+            <LetterList {...unavailableProps} />
+          </MemoryRouter>
+        </Provider>,
+      );
+      const unavailableHeading = await findByText(
+        `You don't have any benefit letters or documents available.`,
+      );
+      expect(unavailableHeading).to.exist;
+    });
+
+    it('does not render unavailable content when TSA letter is available', () => {
+      const tsaLetterProps = {
+        ...defaultProps,
+        letters: [],
+        getTsaLetterEligibility: getTsaLetterEligibilityStub,
+        tsaLetterEligibility: {
+          documentId: '123',
+          error: false,
+          loading: false,
+        },
+        tsaSafeTravelLetter: true,
+      };
+      const { queryByText } = render(
+        <Provider store={getStore()}>
+          <MemoryRouter>
+            <LetterList {...tsaLetterProps} />
+          </MemoryRouter>
+        </Provider>,
+      );
+      const unavailableHeading = queryByText(
+        `You don't have any benefit letters or documents available.`,
+      );
+      expect(unavailableHeading).to.not.exist;
     });
   });
 });
