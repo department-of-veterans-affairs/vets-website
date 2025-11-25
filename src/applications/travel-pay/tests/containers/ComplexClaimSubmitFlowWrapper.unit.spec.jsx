@@ -487,6 +487,239 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
     });
   });
 
+  describe('Back link behavior based on page location', () => {
+    beforeEach(() => {
+      sessionStorage.clear();
+    });
+
+    it('shows "Back to appointment" text and appointment link on introduction page', () => {
+      const initialState = getData({
+        complexClaimsEnabled: true,
+      });
+
+      const { container } = renderWithStoreAndRouter(
+        <MemoryRouter initialEntries={['/file-new-claim/12345']}>
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId"
+              element={<ComplexClaimSubmitFlowWrapper />}
+            >
+              <Route index element={<IntroPage />} />
+            </Route>
+          </Routes>
+        </MemoryRouter>,
+        {
+          initialState,
+          reducers: reducer,
+        },
+      );
+
+      const backLink = container.querySelector(
+        'va-link[data-testid="complex-claim-back-link"]',
+      );
+      expect(backLink.getAttribute('href')).to.equal(
+        '/my-health/appointments/past/12345',
+      );
+      expect(backLink.getAttribute('text')).to.equal('Back to appointment');
+    });
+
+    it('shows "Back" text and uses entryPoint from sessionStorage when not on introduction page', () => {
+      sessionStorage.setItem('fileNewClaimEntry', 'appointment');
+      const initialState = getData({
+        complexClaimsEnabled: true,
+        claimData: { claimId: '45678' },
+      });
+
+      const { container } = renderWithStoreAndRouter(
+        <MemoryRouter initialEntries={['/file-new-claim/12345/45678/review']}>
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId/:claimId"
+              element={<ComplexClaimSubmitFlowWrapper />}
+            >
+              <Route path="review" element={<ReviewPage />} />
+            </Route>
+          </Routes>
+        </MemoryRouter>,
+        {
+          initialState,
+          reducers: reducer,
+        },
+      );
+
+      const backLink = container.querySelector(
+        'va-link[data-testid="complex-claim-back-link"]',
+      );
+      expect(backLink.getAttribute('href')).to.equal(
+        '/my-health/appointments/past/12345',
+      );
+      expect(backLink.getAttribute('text')).to.equal('Back');
+    });
+
+    it('uses claim entry point when entryPoint is "claim" and not on introduction page', () => {
+      sessionStorage.setItem('fileNewClaimEntry', 'claim');
+      const initialState = getData({
+        complexClaimsEnabled: true,
+        claimData: { claimId: '45678' },
+      });
+
+      const { container } = renderWithStoreAndRouter(
+        <MemoryRouter initialEntries={['/file-new-claim/12345/45678/review']}>
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId/:claimId"
+              element={<ComplexClaimSubmitFlowWrapper />}
+            >
+              <Route path="review" element={<ReviewPage />} />
+            </Route>
+          </Routes>
+        </MemoryRouter>,
+        {
+          initialState,
+          reducers: reducer,
+        },
+      );
+
+      const backLink = container.querySelector(
+        'va-link[data-testid="complex-claim-back-link"]',
+      );
+      expect(backLink.getAttribute('href')).to.equal(
+        '/my-health/travel-pay/claims/45678',
+      );
+      expect(backLink.getAttribute('text')).to.equal('Back');
+    });
+
+    it('defaults to claims list when no entryPoint is set and not on introduction page', () => {
+      const initialState = getData({
+        complexClaimsEnabled: true,
+        claimData: { claimId: '45678' },
+      });
+
+      const { container } = renderWithStoreAndRouter(
+        <MemoryRouter initialEntries={['/file-new-claim/12345/45678/review']}>
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId/:claimId"
+              element={<ComplexClaimSubmitFlowWrapper />}
+            >
+              <Route path="review" element={<ReviewPage />} />
+            </Route>
+          </Routes>
+        </MemoryRouter>,
+        {
+          initialState,
+          reducers: reducer,
+        },
+      );
+
+      const backLink = container.querySelector(
+        'va-link[data-testid="complex-claim-back-link"]',
+      );
+      expect(backLink.getAttribute('href')).to.equal(
+        '/my-health/travel-pay/claims',
+      );
+      expect(backLink.getAttribute('text')).to.equal('Back');
+    });
+
+    it('correctly identifies introduction page with different appointment IDs', () => {
+      const testAppointmentIds = ['abc123', '12345-67890', 'uuid-format-id'];
+
+      testAppointmentIds.forEach(apptId => {
+        const initialState = getData({
+          complexClaimsEnabled: true,
+          appointmentId: apptId,
+        });
+
+        const { container } = renderWithStoreAndRouter(
+          <MemoryRouter initialEntries={[`/file-new-claim/${apptId}`]}>
+            <Routes>
+              <Route
+                path="/file-new-claim/:apptId"
+                element={<ComplexClaimSubmitFlowWrapper />}
+              >
+                <Route index element={<IntroPage />} />
+              </Route>
+            </Routes>
+          </MemoryRouter>,
+          {
+            initialState,
+            reducers: reducer,
+          },
+        );
+
+        const backLink = container.querySelector(
+          'va-link[data-testid="complex-claim-back-link"]',
+        );
+        expect(backLink.getAttribute('href')).to.equal(
+          `/my-health/appointments/past/${apptId}`,
+        );
+        expect(backLink.getAttribute('text')).to.equal('Back to appointment');
+      });
+    });
+
+    it('correctly identifies non-introduction page (review page)', () => {
+      const initialState = getData({
+        complexClaimsEnabled: true,
+        claimData: { claimId: '45678' },
+      });
+
+      const { container } = renderWithStoreAndRouter(
+        <MemoryRouter initialEntries={['/file-new-claim/12345/45678/review']}>
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId/:claimId"
+              element={<ComplexClaimSubmitFlowWrapper />}
+            >
+              <Route path="review" element={<ReviewPage />} />
+            </Route>
+          </Routes>
+        </MemoryRouter>,
+        {
+          initialState,
+          reducers: reducer,
+        },
+      );
+
+      const backLink = container.querySelector(
+        'va-link[data-testid="complex-claim-back-link"]',
+      );
+      // Should not show "Back to appointment" text
+      expect(backLink.getAttribute('text')).to.equal('Back');
+    });
+
+    it('correctly identifies non-introduction page (agreement page)', () => {
+      const initialState = getData({
+        complexClaimsEnabled: true,
+        claimData: { claimId: '45678' },
+      });
+
+      const { container } = renderWithStoreAndRouter(
+        <MemoryRouter
+          initialEntries={['/file-new-claim/12345/45678/travel-agreement']}
+        >
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId/:claimId"
+              element={<ComplexClaimSubmitFlowWrapper />}
+            >
+              <Route path="travel-agreement" element={<AgreementPage />} />
+            </Route>
+          </Routes>
+        </MemoryRouter>,
+        {
+          initialState,
+          reducers: reducer,
+        },
+      );
+
+      const backLink = container.querySelector(
+        'va-link[data-testid="complex-claim-back-link"]',
+      );
+      // Should not show "Back to appointment" text
+      expect(backLink.getAttribute('text')).to.equal('Back');
+    });
+  });
+
   describe('Redirect for non-editable claims', () => {
     it('redirects to claim details when claim status is "Claim submitted"', () => {
       const initialState = getData({
