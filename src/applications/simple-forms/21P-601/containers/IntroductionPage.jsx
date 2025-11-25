@@ -1,4 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { isLoggedIn } from 'platform/user/selectors';
+import { setData } from 'platform/forms-system/src/js/actions';
 import PropTypes from 'prop-types';
 
 import { IntroductionPageView } from '../../shared/components/IntroductionPageView';
@@ -70,23 +73,23 @@ const childContent = (
         <br />
         <va-link
           href="https://www.vba.va.gov/pubs/forms/VBA-21P-601-ARE.pdf"
-          text="Get VA Form 21P-601 to download"
+          text="Download VA Form 21P-601"
         />
       </li>
       <li>
         <strong>If multiple people are applying,</strong> each person has to
-        submit their own form
+        submit their own form.
       </li>
     </ul>
     <h3>Time limits to apply</h3>
     <ul className="vads-u-margin-bottom--4">
       <li>
         You must apply for accrued benefits within <strong>1 year</strong> of
-        the beneficiary’s death.
+        the beneficiary’s death
       </li>
       <li>
         If you’re filing a lump sum accrued benefits claim, you must do so
-        within <strong>5 years</strong> of the beneficiary’s death.
+        within <strong>5 years</strong> of the beneficiary’s death
       </li>
     </ul>
     <h3>What you’ll need to apply</h3>
@@ -110,6 +113,27 @@ const childContent = (
 );
 
 export const IntroductionPage = ({ route }) => {
+  // Using implementation from src/applications/medallions/containers/IntroductionPage.jsx
+  // to add user logged in status to formData so we can check it in `depends` funcs.
+  const dispatch = useDispatch();
+  const storeData = useSelector(reduxState => reduxState);
+  const userLoggedIn = isLoggedIn(storeData);
+  const formData = storeData.form.data;
+
+  useEffect(
+    () => {
+      if (userLoggedIn !== formData?.isLoggedIn) {
+        dispatch(
+          setData({
+            ...formData,
+            isLoggedIn: userLoggedIn,
+          }),
+        );
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [dispatch, userLoggedIn],
+  );
   return (
     <IntroductionPageView
       route={route}

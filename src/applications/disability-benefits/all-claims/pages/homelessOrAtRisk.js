@@ -24,7 +24,7 @@ import {
 } from '../constants';
 
 import { getHomelessOrAtRisk } from '../utils';
-import ConfirmationHousingSituation from '../components/ConfirmationFields/ConfirmationHousingSituation';
+import ConfirmationHousingSituation from '../components/confirmationFields/ConfirmationHousingSituation';
 
 export const uiSchema = {
   homelessOrAtRisk: {

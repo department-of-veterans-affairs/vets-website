@@ -21,6 +21,10 @@ featureToggles.data.features.push({
   name: 'ezrProvidersAndDependentsPrefillEnabled',
   value: true,
 });
+featureToggles.data.features.push({
+  name: 'ezrSpouseConfirmationFlowEnabled',
+  value: false,
+});
 
 const { data } = maxTestData;
 

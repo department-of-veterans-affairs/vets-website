@@ -2,6 +2,7 @@
 import { rootUrl } from '../../manifest.json';
 import user from '../fixtures/user.json';
 import ApiInitializer from './utilities/ApiInitializer';
+import { FIND_FACILITY_TP_CONTACT_LINK } from '../../constants';
 
 describe('Complex Claims Confirmation Page', () => {
   const appointmentId = '12345';
@@ -96,10 +97,10 @@ describe('Complex Claims Confirmation Page', () => {
 
     // Check second process item
     cy.get(
-      'va-process-list-item[header*="receive reimbursement via direct deposit"]',
+      'va-process-list-item[header*="If we approve your claim, we’ll send your pay through direct deposit"]',
     ).should('be.visible');
     cy.get(
-      'va-process-list-item[header*="receive reimbursement via direct deposit"]',
+      'va-process-list-item[header*="If we approve your claim, we’ll send your pay through direct deposit"]',
     ).should('contain.text', 'You must have direct deposit set up');
 
     // Check travel pay claims status link
@@ -109,7 +110,7 @@ describe('Complex Claims Confirmation Page', () => {
 
     // Check direct deposit setup link
     cy.get(
-      'va-link[href="/resources/how-to-set-up-direct-deposit-for-va-travel-pay-reimbursement/"][text="Set up direct deposit"]',
+      'va-link[href="/resources/how-to-set-up-direct-deposit-for-va-travel-pay-reimbursement/"][text="Set up direct deposit for travel pay"]',
     ).should('be.visible');
   });
 
@@ -120,20 +121,17 @@ describe('Complex Claims Confirmation Page', () => {
 
     // Check link action for submitting another claim
     cy.get(
-      'va-link-action[text="Submit another travel reimbursement claim"][href="/my-health/appointments/past"]',
+      'va-link-action[text="Review your appointments to submit another travel reimbursement claim"][href="/my-health/appointments/past"]',
     ).should('be.visible');
   });
 
-  it('displays contact information section', () => {
+  it('displays help section', () => {
     cy.visit(
       `${rootUrl}/file-new-claim/${appointmentId}/${claimId}/confirmation`,
     );
 
     // Check contact section heading
-    cy.get('h2').should(
-      'contain.text',
-      'How to contact us if you have questions',
-    );
+    cy.get('h2').should('contain.text', 'Need help?');
 
     // Check phone numbers
     cy.get('va-telephone[contact="8555747292"]').should('be.visible');
@@ -145,9 +143,9 @@ describe('Complex Claims Confirmation Page', () => {
       `We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET`,
     );
 
-    // Check Ask VA link
+    // Check Find the travel contact for your facility link
     cy.get(
-      'va-link[href="https://ask.va.gov/"][text="Contact us online through Ask VA"]',
+      `va-link[href="${FIND_FACILITY_TP_CONTACT_LINK}"][text="Find the travel contact for your facility"]`,
     ).should('be.visible');
   });
 

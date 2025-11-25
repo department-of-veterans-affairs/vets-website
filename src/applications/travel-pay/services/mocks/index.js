@@ -7,6 +7,7 @@ const travelClaims = require('./travel-claims-31.json');
 const appointment = {
   original: require('./vaos-appointment-original.json'),
   claim: require('./vaos-appointment-with-claim.json'),
+  savedClaim: require('./vaos-appointment-with-saved-claim.json'),
   noClaim: require('./vaos-appointment-no-claim.json'),
 };
 
@@ -25,6 +26,49 @@ const maintenanceWindows = {
   enabled: require('./maintenance-windows/enabled.json'),
 };
 
+// Helper function to generate appointment dates and times
+function generateAppointmentDates(daysOffset) {
+  const baseDate = new Date();
+  const appointmentDate = new Date(baseDate);
+  appointmentDate.setDate(baseDate.getDate() + daysOffset);
+
+  // Set appointment time to 8:00 AM local time
+  appointmentDate.setHours(8, 0, 0, 0);
+
+  // Format as ISO string with timezone offset for localStartTime
+  const localStartTime = appointmentDate.toISOString().replace('Z', '-08:00');
+
+  // Create UTC times for start and end (8:00 AM PST = 4:00 PM UTC)
+  const startDate = new Date(appointmentDate);
+  startDate.setHours(startDate.getHours() + 8); // Convert to UTC
+  const start = startDate.toISOString();
+
+  const endDate = new Date(startDate);
+  endDate.setMinutes(endDate.getMinutes() + 30); // 30 minutes later
+  const end = endDate.toISOString();
+
+  return { localStartTime, start, end };
+}
+
+function overrideAppointment(appt, id, { localStartTime, start, end }) {
+  const attributes = {
+    ...appt.data.attributes,
+    id,
+    localStartTime,
+    start,
+    end,
+  };
+
+  return {
+    ...appt,
+    data: {
+      ...appt.data,
+      id,
+      attributes,
+    },
+  };
+}
+
 const responses = {
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': maintenanceWindows.none,
@@ -33,6 +77,7 @@ const responses = {
     data: {
       type: 'feature_toggles',
       features: [
+        // Travel Pay feature flags
         { name: `${TOGGLE_NAMES.travelPayPowerSwitch}`, value: true },
         { name: `${TOGGLE_NAMES.travelPayViewClaimDetails}`, value: true },
         { name: `${TOGGLE_NAMES.travelPaySubmitMileageExpense}`, value: true },
@@ -42,6 +87,11 @@ const responses = {
           value: true,
         },
         { name: `${TOGGLE_NAMES.travelPayEnableComplexClaims}`, value: true },
+
+        // camelCase flags for VAOS appointments mocks
+        { name: 'vaOnlineScheduling', value: true },
+        { name: 'travelPayViewClaimDetails', value: true },
+        { name: 'travelPaySubmitMileageExpense', value: true },
       ],
     },
   },
@@ -356,9 +406,46 @@ const responses = {
     });
   },
 
-  // Get travel-pay appointment
+  // Get travel-pay appointment - handle specific IDs first
   'GET /vaos/v2/appointments/:id': (req, res) => {
-    return res.json(appointment.original);
+    const { id } = req.params;
+
+    // Handle specific appointment IDs
+    switch (id) {
+      case '167325': {
+        const dates = generateAppointmentDates(-1); // 1 day ago
+        return res.json(
+          overrideAppointment(appointment.noClaim, '167325', dates),
+        );
+      }
+      case '167326': {
+        const dates = generateAppointmentDates(-3); // 3 days ago
+        return res.json(
+          overrideAppointment(appointment.claim, '167326', dates),
+        );
+      }
+      case '167327': {
+        const dates = generateAppointmentDates(-32); // 32 days ago
+        return res.json(
+          overrideAppointment(appointment.noClaim, '167327', dates),
+        );
+      }
+      case '167328': {
+        const dates = generateAppointmentDates(-5); // 5 days ago
+        return res.json(
+          overrideAppointment(appointment.savedClaim, '167328', dates),
+        );
+      }
+      case '167329': {
+        const dates = generateAppointmentDates(-33); // 32 days ago
+        return res.json(
+          overrideAppointment(appointment.savedClaim, '167329', dates),
+        );
+      }
+      default:
+        // For any other ID, return the original mock
+        return res.json(appointment.original);
+    }
   },
   // 'GET /vaos/v2/appointments/:id': (req, res) => {
   //   return res.status(503).json({
@@ -372,9 +459,66 @@ const responses = {
   //     ],
   //   });
   // },
+  // Get appointments
+  'GET /vaos/v2/appointments': (req, res) => {
+    const appointments = [
+      appointment.noClaim,
+      appointment.claim,
+      appointment.savedClaim,
+
+      // >30 days appointments
+      appointment.noClaim,
+      appointment.savedClaim,
+    ].map((a, index, array) => {
+      // Generate dates within 30 days of current date
+      let daysOffset;
+      let appointmentId;
+
+      // Make the last two appointments be >30 days old
+      if (index === array.length - 2) {
+        daysOffset = -32; // 32 days in the past
+        appointmentId = '167327';
+      } else if (index === array.length - 1) {
+        daysOffset = -33; // 33 days in the past
+        appointmentId = '167329';
+      } else {
+        daysOffset = -(index * 2 + 1); // Space other appointments 2 days apart in the past, starting at 1 day ago
+        if (index === 0) {
+          appointmentId = '167325';
+        } else if (index === 1) {
+          appointmentId = '167326';
+        } else if (index === 2) {
+          appointmentId = '167328';
+        }
+      }
+
+      const { localStartTime, start, end } = generateAppointmentDates(
+        daysOffset,
+      );
+
+      return {
+        ...a.data,
+        id: appointmentId,
+        type: 'appointments',
+        attributes: {
+          ...a.data.attributes,
+          id: appointmentId,
+          localStartTime,
+          start,
+          end,
+          // Preserve travelPayClaim if it exists
+          ...(a.data.attributes.travelPayClaim && {
+            travelPayClaim: a.data.attributes.travelPayClaim,
+          }),
+        },
+      };
+    });
+    return res.json({ data: appointments });
+  },
 
   // Document download
   'GET /travel_pay/v0/claims/:claimId/documents/:docId': (req, res) => {
+    // Document download
     // Error condition for screenshot-2 from the mock data
     if (req.params.docId === '12fcfecc-5132-4c16-8a9a-7af07b714cd4') {
       return res.status(503).json({

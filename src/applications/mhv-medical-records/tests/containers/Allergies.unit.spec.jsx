@@ -7,7 +7,10 @@ import Allergies from '../../containers/Allergies';
 import reducer from '../../reducers';
 import allergies from '../fixtures/allergies.json';
 import user from '../fixtures/user.json';
-import { convertAllergy } from '../../reducers/allergies';
+import {
+  convertAllergy,
+  convertUnifiedAllergy,
+} from '../../reducers/allergies';
 
 describe('Allergies list container', () => {
   const initialState = {
@@ -67,18 +70,13 @@ describe('Allergies list container', () => {
     ).to.exist;
   });
 
-  it('does not display the old missing allergies text for non-Meds by Mail users', () => {
+  it('displays the second part of the subheading', () => {
     expect(
-      screen.queryByText(
+      screen.getByText(
         'If you have allergies that are missing from this list, tell your care team at your next appointment.',
         { exact: false },
       ),
-    ).to.not.exist;
-  });
-
-  it('does not display Meds by Mail section for regular users', () => {
-    expect(screen.queryByText('If you use Meds by Mail', { exact: false })).to
-      .not.exist;
+    ).to.exist;
   });
 
   it('displays a count of the records', () => {
@@ -190,11 +188,107 @@ describe('Allergies list container with errors', () => {
 
     await waitFor(() => {
       expect(
-        screen.getByText("We can't access your allergy records right now", {
+        screen.getByText('We can’t access your allergy records right now', {
           exact: false,
         }),
       ).to.exist;
     });
+  });
+});
+
+describe('Allergies list container with unified data', () => {
+  const unifiedAllergyData = {
+    id: '132892323',
+    type: 'allergy',
+    attributes: {
+      id: '132892323',
+      name: 'penicillins',
+      categories: ['medication'],
+      date: '2025-02-25T17:50:49Z',
+      reactions: ['Urticaria (Hives)', 'Sneezing'], // Backend sends 'reactions'
+      location: 'VA Medical Center',
+      // observedHistoric: null, // Not available in Oracle Health FHIR
+      notes: [
+        'Patient reports adverse reaction to previously prescribed pencicillins',
+      ],
+      provider: 'Borland, Victoria A',
+    },
+  };
+
+  const initialState = {
+    user,
+    mr: {
+      allergies: {
+        allergiesList: [convertUnifiedAllergy(unifiedAllergyData)],
+      },
+    },
+    featureToggles: {
+      // eslint-disable-next-line camelcase
+      mhv_medical_records_allow_txt_downloads: true,
+      // eslint-disable-next-line camelcase
+      mhv_accelerated_delivery_enabled: true,
+      // eslint-disable-next-line camelcase
+      mhv_accelerated_delivery_allergies_enabled: true,
+    },
+  };
+
+  let screen;
+  beforeEach(() => {
+    screen = renderWithStoreAndRouter(<Allergies runningUnitTest />, {
+      initialState,
+      reducers: reducer,
+      path: '/allergies',
+    });
+  });
+
+  it('renders unified allergy data without errors', () => {
+    expect(screen.getByText('Allergies and reactions', { exact: true })).to
+      .exist;
+  });
+
+  it('displays unified allergy with correct format', async () => {
+    await waitFor(() => {
+      const recordItems = screen.getAllByTestId('record-list-item');
+      expect(recordItems.length).to.be.greaterThan(0);
+      expect(screen.getAllByText('penicillins').length).to.be.greaterThan(0);
+      expect(
+        screen.getAllByText('Medication', { exact: false }).length,
+      ).to.be.greaterThan(0);
+      expect(
+        screen.getAllByText('February 25, 2025', { exact: false }).length,
+      ).to.be.greaterThan(0);
+    });
+  });
+
+  it('shows accelerated loading indicator when fetching', () => {
+    const loadingState = {
+      user,
+      mr: {
+        allergies: {
+          listState: 'fetching',
+        },
+        alerts: {
+          alertList: [],
+        },
+      },
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        mhv_accelerated_delivery_enabled: true,
+        // eslint-disable-next-line camelcase
+        mhv_accelerated_delivery_allergies_enabled: true,
+      },
+    };
+
+    const loadingScreen = renderWithStoreAndRouter(
+      <Allergies runningUnitTest />,
+      {
+        initialState: loadingState,
+        reducers: reducer,
+        path: '/allergies',
+      },
+    );
+
+    expect(loadingScreen.getByTestId('loading-indicator')).to.exist;
   });
 });
 

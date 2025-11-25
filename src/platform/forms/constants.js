@@ -82,6 +82,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_MOCK_MINIMAL_HEADER: 'FORM-MOCK-MINIMAL-HEADER',
   FORM_MOCK_PATTERNS_V3: 'FORM_MOCK_PATTERNS_V3',
   FORM_MOCK_SF_PATTERNS: 'FORM_MOCK_SF_PATTERNS',
+  FORM_MOCK_PREFILL: 'FORM_MOCK_PREFILL',
   FORM_MOCK: '00-1234',
   FORM_T_QSTNR: 'T-QSTNR',
   FORM_VA_2346A: 'MDOT',
@@ -115,6 +116,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_21P_8416: '21P-8416',
   FORM_21P_534EZ: '21P-534EZ',
   FORM_21P_601: '21P-601',
+  FORM_22_10278: '22-10278',
   FORM_22_0976: '22-0976',
 });
 
@@ -302,7 +304,9 @@ export const getAllFormLinks = getAppUrlImpl => {
     )}/21P-4185/introduction/`,
     [VA_FORM_IDS.FORM_21P_534EZ]: `${tryGetAppUrl('survivors-benefits')}/`,
     [VA_FORM_IDS.FORM_21P_601]: `${tryGetAppUrl('21P-601')}/`,
-    [VA_FORM_IDS.FORM_22_0976]: `${tryGetAppUrl('22-0976')}/`,
+    [VA_FORM_IDS.FORM_22_10278]: `${tryGetAppUrl('10278-edu-benefits')}/`,
+    [VA_FORM_IDS.FORM_22_0976]: `${tryGetAppUrl('0976-edu-benefits')}/`,
+    [VA_FORM_IDS.FORM_MOCK_PREFILL]: `${tryGetAppUrl('mock-form-prefill')}/`,
   };
 };
 
@@ -943,11 +947,26 @@ export const MY_VA_SIP_FORMS = [
     trackingPrefix: '21p-601-accrued-benefits-',
   },
   {
+    id: VA_FORM_IDS.FORM_22_10278,
+    benefit: 'Authorize VA to disclose personal information to a third party',
+    title: 'Authorize VA to disclose personal information to a third party',
+    description:
+      'Authorize VA to disclose personal information to a third party (22-10278)',
+    trackingPrefix: 'edu-10278-',
+  },
+  {
     id: VA_FORM_IDS.FORM_22_0976,
     benefit: 'Approval of a Program in a Foreign Country',
     title: 'Program Apporval in a Foreign Country (VA Form 22-0976)',
     description: 'Approval of a Program in a Foreign Country (VA Form 22-0976)',
     trackingPrefix: 'edu-0976-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_MOCK_PREFILL,
+    benefit: 'Mock prefill testing',
+    title: 'Mock Form with Prefill',
+    description: 'Mock prefill testing',
+    trackingPrefix: 'mock-prefill-',
   },
 ];
 
