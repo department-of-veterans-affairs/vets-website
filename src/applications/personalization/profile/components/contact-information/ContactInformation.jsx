@@ -61,7 +61,6 @@ const ContactInformation = () => {
 
   useEffect(
     () => {
-      // Origininal:
       // Set the focus on the page's focus target _unless_ one of the following is true:
       // - there is a hash in the URL and there is a named-anchor that matches
       //   the hash
@@ -69,13 +68,6 @@ const ContactInformation = () => {
       //   user got to the Profile via a link to /profile or /profile/ we want
       //   to focus on the "Profile" sub-nav H1, not the H2 on this page, for
       //   a11y reasonse
-      // New: refactored to improve reliability of focus and scroll behavior for hash-based navigation
-      // and dynamic content loading.
-
-      // Skip complex focus logic in test environments to avoid noisy warnings
-      // if (process.env.NODE_ENV === 'test') {
-      //   return undefined;
-      // }
 
       const cameFromProfileRoot = Boolean(
         lastLocation?.pathname?.match(

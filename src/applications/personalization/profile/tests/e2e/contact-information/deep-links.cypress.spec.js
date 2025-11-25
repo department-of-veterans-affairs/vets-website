@@ -72,8 +72,6 @@ function checkAllDeepLinks(mobile = false) {
     cy.visit(url);
     // Wait for the element to exist and be visible
     // focus should be managed correctly
-    cy.log('profile path: ', PROFILE_PATHS.CONTACT_INFORMATION);
-    // console.log('expectedTarget: ', expectedTarget);
     getTargetElement(expectedTarget)
       .should('exist')
       .and('be.visible')
