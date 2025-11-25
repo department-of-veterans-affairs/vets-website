@@ -191,7 +191,7 @@ describe('Mileage Expense Pages', () => {
   it('should check if the item is incomplete', () => {
     const completeItem = {
       traveler: 'DEPENDENT',
-      travelerName: 'John Doe',
+      fullNameTraveler: 'John Doe',
       travelLocation: 'OTHER',
       travelLocationOther: 'Some other place',
       travelDate: '2004-04-04',
@@ -201,7 +201,7 @@ describe('Mileage Expense Pages', () => {
     };
     const completeItem2 = {
       traveler: 'OTHER',
-      travelerName: 'John Doe',
+      fullNameTraveler: 'John Doe',
       travelLocation: 'OTHER',
       travelLocationOther: 'Some other place',
       travelDate: '2004-04-04',
@@ -210,13 +210,13 @@ describe('Mileage Expense Pages', () => {
     };
     const incompleteNoTravelLocation = {
       traveler: 'DEPENDENT',
-      travelerName: 'John Doe',
+      fullNameTraveler: 'John Doe',
       travelLocation: 'OTHER',
       travelDate: '2004-04-04',
       travelMilesTraveled: 100,
       travelReimbursed: true,
     };
-    const incompleteNoTravelerName = {
+    const incompleteNofullNameTraveler = {
       traveler: 'DEPENDENT',
       travelLocation: 'PHARMACY',
       travelDate: '2004-04-04',
@@ -226,6 +226,6 @@ describe('Mileage Expense Pages', () => {
     expect(options.isItemIncomplete(completeItem)).to.be.false;
     expect(options.isItemIncomplete(completeItem2)).to.be.false;
     expect(options.isItemIncomplete(incompleteNoTravelLocation)).to.be.true;
-    expect(options.isItemIncomplete(incompleteNoTravelerName)).to.be.true;
+    expect(options.isItemIncomplete(incompleteNofullNameTraveler)).to.be.true;
   });
 });
