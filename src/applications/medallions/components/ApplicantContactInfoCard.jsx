@@ -47,10 +47,13 @@ const ApplicantContactInfoCard = ({ formData, onEdit, content = '' }) => {
 
       <VaCard canEdit>
         <h4 className="vads-u-font-size--h3 vads-u-width--auto vads-u-margin-top--0 vads-u-margin-bottom--2">
-          Your phone number
+          Your contact information
         </h4>
         <div className="dd-privacy-hidden vads-u-margin-y--2">
-          {formatPhone(phoneNumber)}
+          Email address: {email || 'Not provided'}
+        </div>
+        <div className="dd-privacy-hidden vads-u-margin-y--2">
+          Phone number: {formatPhone(phoneNumber)}
         </div>
         <div className="vads-u-margin-y--1">
           <va-link
@@ -59,24 +62,6 @@ const ApplicantContactInfoCard = ({ formData, onEdit, content = '' }) => {
             label="Edit phone number"
             text="Edit"
             data-testid="edit-phone-button"
-          />
-        </div>
-      </VaCard>
-
-      <VaCard canEdit className="vads-u-margin-top--2">
-        <h4 className="vads-u-font-size--h3 vads-u-width--auto vads-u-margin-top--0 vads-u-margin-bottom--2">
-          Your email address
-        </h4>
-        <div className="dd-privacy-hidden vads-u-margin-y--2">
-          {email || 'Not provided'}
-        </div>
-        <div className="vads-u-margin-y--1">
-          <va-link
-            active
-            onClick={() => onEdit('email')}
-            label="Edit email address"
-            text="Edit"
-            data-testid="edit-email-button"
           />
         </div>
       </VaCard>
