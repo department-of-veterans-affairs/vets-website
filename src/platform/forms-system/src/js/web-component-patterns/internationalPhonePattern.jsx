@@ -43,7 +43,7 @@ const internationalPhoneUI = options => {
       };
     },
     'ui:options': {
-      hint: 'For international numbers select or enter your country code',
+      hint: 'For international numbers, select or enter your country code.',
       ...uiOptions,
     },
     'ui:validations': [validateTelephoneInput],

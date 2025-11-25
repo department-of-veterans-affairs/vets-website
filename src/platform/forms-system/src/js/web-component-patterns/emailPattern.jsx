@@ -21,7 +21,7 @@ export const symbolsValidation = (
     const staticText =
       messages?.symbols ||
       'You entered a character we can’t accept. Try removing';
-    errors.addError(`${staticText} ${uniqueInvalidChars}`);
+    errors.addError(`${staticText} ${uniqueInvalidChars}.`);
   }
 };
 
