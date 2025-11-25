@@ -279,7 +279,7 @@ describe('<FileSubmissionsInProgress>', () => {
         </Provider>,
       );
 
-      expect(getByText("We've received all the files you've uploaded.")).to
+      expect(getByText('We’ve received all the files you’ve uploaded.')).to
         .exist;
     });
   });
