@@ -33,6 +33,9 @@ import typeOfRequest from '../pages/typeOfRequest';
 import replacementMedallionReason from '../pages/replacementMedallionReason';
 import typeOfMedallion from '../pages/typeOfMedallion.jsx';
 import medallionSize from '../pages/medallionSize';
+import EditPhone from '../pages/editPhone';
+import EditEmail from '../pages/editEmail';
+import ApplicantContactDetailsLoggedIn from '../pages/applicantContactDetailsLoggedIn';
 import {
   ApplicantNameHeader,
   ApplicantNameNote,
@@ -129,7 +132,46 @@ const formConfig = {
           depends: formData =>
             ['familyMember', 'personalRep', 'other'].includes(
               formData.relationToVetRadio,
-            ),
+            ) && !isUserSignedIn(formData),
+        },
+        applicantContactDetailsLoggedIn: {
+          title: 'Your contact information',
+          path: 'applicant-contact-details-logged-in',
+          depends: formData =>
+            ['familyMember', 'personalRep', 'other'].includes(
+              formData.relationToVetRadio,
+            ) && isUserSignedIn(formData),
+          CustomPage: ApplicantContactDetailsLoggedIn,
+          CustomPageReview: ApplicantContactDetailsLoggedIn,
+          uiSchema: {},
+          schema: {
+            type: 'object',
+            properties: {},
+          },
+        },
+        editPhone: {
+          title: 'Edit phone number',
+          path: 'applicant-contact-details-logged-in/edit-phone',
+          depends: () => false, // accessed directly from contact details page
+          CustomPage: EditPhone,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: {
+            type: 'object',
+            properties: {},
+          },
+        },
+        editEmail: {
+          title: 'Edit email address',
+          path: 'applicant-contact-details-logged-in/edit-email',
+          depends: () => false, // accessed directly from contact details page
+          CustomPage: EditEmail,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: {
+            type: 'object',
+            properties: {},
+          },
         },
         applicantContactInfo2: {
           path: 'applicant-contact-info-2',
