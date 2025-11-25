@@ -8,6 +8,12 @@ import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/cons
 
 import { externalServices as services } from 'platform/monitoring/DowntimeNotification';
 
+import {
+  focusByOrder,
+  defaultFocusSelector,
+  scrollToTop,
+} from '~/platform/utilities/ui';
+
 import submitFormFor from './submitForm';
 
 import IntroductionPage from '../components/IntroductionPage';
@@ -141,6 +147,14 @@ import ConfirmationAncillaryFormsWizard from '../components/confirmationFields/C
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
+  // simple header and custom scroll and focus to target the
+  // h2 element when disability526SidenavEnabled is enabled
+  showSimpleHeader: true,
+  useCustomScrollAndFocus: true,
+  scrollAndFocusTarget: () => {
+    scrollToTop();
+    focusByOrder(['#main h2', defaultFocusSelector]);
+  },
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,
