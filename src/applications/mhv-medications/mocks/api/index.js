@@ -163,6 +163,21 @@ const responses = {
   // Includes both v1 and v2 endpoints for prescriptions
   'GET /my_health/v2/prescriptions/:id': (req, res) => {
     const { id } = req.params;
+    const { station_number } = req.query;
+
+    if (!station_number) {
+      return res.status(400).json({
+        errors: [
+          {
+            title: 'Bad Request',
+            detail: 'Station number is required',
+            code: '400',
+            status: '400',
+          },
+        ],
+      });
+    }
+
     const data = {
       data: prescriptions.mockPrescription(
         id,
@@ -187,7 +202,7 @@ const responses = {
         failedStationList: 'string',
       },
     };
-    delaySingleResponse(() => res.json(data), 2250);
+    return delaySingleResponse(() => res.json(data), 2250);
   },
 };
 
