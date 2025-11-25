@@ -61,7 +61,7 @@ export const STATEMENT_TYPE_LABELS = Object.freeze({
   [STATEMENT_TYPES.DECISION_REVIEW]:
     "I disagree with VA's decision on my benefit or claim, and I'd like to request a decision review.",
   [STATEMENT_TYPES.BUDDY_STATEMENT]:
-    'I want to provide context or details about a claim.',
+    'I want to submit a lay or witness statement to support a claim.',
   [STATEMENT_TYPES.PRIORITY_PROCESSING]:
     'I want to request faster claim processing because of my situation.',
   [STATEMENT_TYPES.PERSONAL_RECORDS]: 'I want to request my personal records.',
