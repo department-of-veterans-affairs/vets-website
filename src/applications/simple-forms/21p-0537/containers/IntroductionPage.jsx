@@ -26,12 +26,12 @@ const childContent = (
     <ul>
       <li>
         It’s important to report any changes to your marital status if you
-        receive DIC benefits
+        receive DIC benefits.
       </li>
       <li>
         If we sent you a letter asking you to verify your marital status, you
         must complete and submit this form within 60 days from the date on the
-        letter
+        letter.
       </li>
       <li>
         Your state must recognize your marriage. This could be the state where
