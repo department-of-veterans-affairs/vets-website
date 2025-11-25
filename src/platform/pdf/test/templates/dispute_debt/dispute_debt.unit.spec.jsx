@@ -4,20 +4,20 @@ import { MissingFieldsException } from '../../../utils/exceptions/MissingFieldsE
 
 const getStream = require('get-stream');
 
-// Workaround for pdf.js incompatibility.
-// cf. https://github.com/mozilla/pdf.js/issues/15728
-const originalPlatform = navigator.platform;
-navigator.platform = '';
-
 const pdfjs = require('pdfjs-dist/legacy/build/pdf');
 
 describe('Dispute Debt PDF template', () => {
   let template;
   let fetchStub;
+  let platformStub;
 
   before(() => {
     // Mock fetch for the logo with a proper absolute URL
     fetchStub = sinon.stub(global, 'fetch');
+
+    // Mock navigator.platform with sinon for pdf.js incompatibility.
+    platformStub = sinon.stub(navigator, 'platform').value('');
+
     const mockArrayBuffer = new ArrayBuffer(8);
     // Mock any URL that contains the logo path
     fetchStub.callsFake(url => {
@@ -31,7 +31,7 @@ describe('Dispute Debt PDF template', () => {
   });
 
   after(() => {
-    navigator.platform = originalPlatform;
+    platformStub.restore();
     fetchStub.restore();
   });
 
