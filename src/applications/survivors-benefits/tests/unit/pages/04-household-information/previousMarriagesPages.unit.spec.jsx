@@ -204,7 +204,7 @@ describe('Previous marriages pages', () => {
     expect(Boolean(otherRequired(itemOther, 0))).to.be.true;
 
     const itemNotOther = {
-      spouseßMarriages: [{ marriageEndReason: 'DIVORCE' }],
+      spouseMarriages: [{ marriageEndReason: 'DIVORCE' }],
     };
     expect(Boolean(otherRequired(itemNotOther, 0))).to.be.false;
   });
@@ -321,8 +321,16 @@ describe('Previous marriages pages', () => {
       marriageEndReason: 'DIVORCE',
     };
 
-    const missingName = {
+    const missingFirstName = {
       previousSpouseName: { first: '', last: 'Doe' },
+      marriageToVeteranDate: '2000-01-01',
+      marriageLocation: { city: 'Somewhere', state: 'VA' },
+      marriedOutsideUS: false,
+      marriageEndReason: 'DIVORCE',
+    };
+
+    const missingLastName = {
+      previousSpouseName: { first: 'John', last: '' },
       marriageToVeteranDate: '2000-01-01',
       marriageLocation: { city: 'Somewhere', state: 'VA' },
       marriedOutsideUS: false,
@@ -355,7 +363,8 @@ describe('Previous marriages pages', () => {
     };
 
     expect(options.isItemIncomplete(completeItem)).to.be.false;
-    expect(options.isItemIncomplete(missingName)).to.be.true;
+    expect(options.isItemIncomplete(missingFirstName)).to.be.true;
+    expect(options.isItemIncomplete(missingLastName)).to.be.true;
     expect(options.isItemIncomplete(missingState)).to.be.true;
     expect(options.isItemIncomplete(missingCountry)).to.be.true;
     expect(options.isItemIncomplete(otherMissingExplanation)).to.be.true;
@@ -443,5 +452,77 @@ describe('Previous marriages pages', () => {
       },
     };
     expect(text.getItemName(middleAndLast)).to.equal('A. Johnson');
+  });
+
+  it('getItemName returns empty when both first & last missing; builds ordered parts otherwise', () => {
+    const { text } = options;
+
+    // Full set of parts -> should join all in order
+    const full = {
+      previousSpouseName: {
+        first: 'Jane',
+        middle: 'B.',
+        last: 'Doe',
+        suffix: 'Sr.',
+      },
+    };
+    expect(text.getItemName(full)).to.equal('Jane B. Doe Sr.');
+
+    // Only first provided -> should return first
+    const firstOnly = {
+      previousSpouseName: {
+        first: 'OnlyFirst',
+        middle: '',
+        last: '',
+        suffix: '',
+      },
+    };
+    expect(text.getItemName(firstOnly)).to.equal('OnlyFirst');
+
+    // Only last provided -> should return last
+    const lastOnly = {
+      previousSpouseName: {
+        first: '',
+        middle: '',
+        last: 'OnlyLast',
+        suffix: '',
+      },
+    };
+    expect(text.getItemName(lastOnly)).to.equal('OnlyLast');
+
+    // First missing AND last missing (even with middle & suffix) -> returns empty string
+    const noFirstLast = {
+      previousSpouseName: { first: '', middle: 'X.', last: '', suffix: 'III' },
+    };
+    expect(text.getItemName(noFirstLast)).to.equal('');
+
+    // previousSpouseName completely missing -> returns ''
+    const missingObject = {};
+    expect(text.getItemName(missingObject)).to.equal('');
+
+    // previousSpouseName present but null -> returns ''
+    const nullObject = { previousSpouseName: null };
+    expect(text.getItemName(nullObject)).to.equal('');
+
+    // Parts order (first -> middle -> last -> suffix) maintained
+    const partsOrder = {
+      previousSpouseName: {
+        first: 'Al',
+        middle: 'Q.',
+        last: 'Smith',
+        suffix: 'Jr.',
+      },
+    };
+    const result = text.getItemName(partsOrder);
+    expect(result).to.equal('Al Q. Smith Jr.');
+    // Indirect parts assertion: splitting should yield expected tokens
+    expect(result.split(' ')).to.deep.equal(['Al', 'Q.', 'Smith', 'Jr.']);
+
+    // Mixed presence: first + suffix only
+    const firstSuffix = {
+      previousSpouseName: { first: 'Eva', middle: '', last: '', suffix: 'III' },
+    };
+    // Because last missing but first present, early return not triggered; suffix appended.
+    expect(text.getItemName(firstSuffix)).to.equal('Eva III');
   });
 });

@@ -184,6 +184,7 @@
   "mhvMilestone2ChangesEnabled": "mhv_milestone_2_changes_enabled",
   "mhvModernCtaLinks": "mhv_modern_cta_links",
   "mhvSecureMessagingCernerPilot": "mhv_secure_messaging_cerner_pilot",
+  "mhvSecureMessagingCernerPilotSystemMaintenanceBanner": "mhv_secure_messaging_cerner_pilot_system_maintenance_banner",
   "mhvSecureMessagingFilterAccordion": "mhv_secure_messaging_filter_accordion",
   "mhvSecureMessagingTriageGroupPlainLanguage": "mhv_secure_messaging_triage_group_plain_language",
   "mhvSecureMessagingRecipientOptGroups": "mhv_secure_messaging_recipient_opt_groups",
