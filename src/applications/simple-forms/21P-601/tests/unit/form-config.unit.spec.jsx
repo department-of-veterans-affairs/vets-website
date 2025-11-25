@@ -206,47 +206,17 @@ describe('21P-601 form config', () => {
     });
 
     it('should show summary when has survivors is true', () => {
-      const formData = { survivors: { hasNone: false, hasSpouse: true } };
-      expect(summaryDependsFn(formData)).to.be.true;
-    });
-
-    it('should show summary when has survivors is true and hasChildren is true', () => {
-      const formData = { survivors: { hasNone: false, hasChildren: true } };
-      expect(summaryDependsFn(formData)).to.be.true;
-    });
-
-    it('should show summary when has survivors is true and hasParents is true', () => {
-      const formData = { survivors: { hasNone: false, hasParents: true } };
+      const formData = { survivors: true };
       expect(summaryDependsFn(formData)).to.be.true;
     });
 
     it('should show relative name page when has survivors is true', () => {
-      const formData = { survivors: { hasNone: false, hasSpouse: true } };
-      expect(relNameDependsFn(formData)).to.be.true;
-    });
-
-    it('should show relative name page when has survivors is true and hasChildren is true', () => {
-      const formData = { survivors: { hasNone: false, hasChildren: true } };
-      expect(relNameDependsFn(formData)).to.be.true;
-    });
-
-    it('should show relative name page when has survivors is true and hasParents is true', () => {
-      const formData = { survivors: { hasNone: false, hasParents: true } };
+      const formData = { survivors: true };
       expect(relNameDependsFn(formData)).to.be.true;
     });
 
     it('should show relative address page when has survivors is true', () => {
-      const formData = { survivors: { hasNone: false, hasSpouse: true } };
-      expect(relAddressDependsFn(formData)).to.be.true;
-    });
-
-    it('should show relative address page when has survivors is true and hasChildren is true', () => {
-      const formData = { survivors: { hasNone: false, hasChildren: true } };
-      expect(relAddressDependsFn(formData)).to.be.true;
-    });
-
-    it('should show relative address page when has survivors is true and hasParents is true', () => {
-      const formData = { survivors: { hasNone: false, hasParents: true } };
+      const formData = { survivors: true };
       expect(relAddressDependsFn(formData)).to.be.true;
     });
   });

@@ -16,13 +16,21 @@ describe('21P-0537 prefillTransformer', () => {
               middle: 'Marie',
               last: 'Smith',
             },
-            email: 'jennifer.smith@example.com',
-            phoneNumber: '5551234567',
           },
         },
       };
 
-      const result = prefillTransformer(pages, formData, metadata, state);
+      const prefilledformData = {
+        claimantEmail: 'jennifer.smith@example.com',
+        claimantPhone: '5551234567',
+      };
+
+      const result = prefillTransformer(
+        pages,
+        prefilledformData,
+        metadata,
+        state,
+      );
 
       expect(result.formData.recipientName.first).to.include('Jennifer');
       expect(result.formData.recipientName.middle).to.include('Marie');
@@ -91,12 +99,17 @@ describe('21P-0537 prefillTransformer', () => {
               first: 'John',
               last: 'Doe',
             },
-            phoneNumber: '5551234567',
           },
         },
       };
 
-      const result = prefillTransformer(pages, formData, metadata, state);
+      const prefilledFormData = { claimantPhone: '5551234567' };
+      const result = prefillTransformer(
+        pages,
+        prefilledFormData,
+        metadata,
+        state,
+      );
 
       expect(result.formData.recipientName.first).to.include('John');
       expect(result.formData.recipientName.last).to.include('Doe');
@@ -112,12 +125,19 @@ describe('21P-0537 prefillTransformer', () => {
               first: 'John',
               last: 'Doe',
             },
-            email: 'john.doe@example.com',
           },
         },
       };
+      const prefilledFormData = {
+        claimantEmail: 'john.doe@example.com',
+      };
 
-      const result = prefillTransformer(pages, formData, metadata, state);
+      const result = prefillTransformer(
+        pages,
+        prefilledFormData,
+        metadata,
+        state,
+      );
 
       expect(result.formData.recipientName.first).to.include('John');
       expect(result.formData.recipientName.last).to.include('Doe');

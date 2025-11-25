@@ -11,8 +11,11 @@ export const focusOnErrorField = () => {
     const firstErrorElement = errors[0];
     let firstError = null;
 
-    // Check for input or textarea inside shadowRoot
-    if (firstErrorElement.shadowRoot) {
+    if (firstErrorElement.tagName === 'VA-RADIO') {
+      firstError = firstErrorElement
+        .querySelector('va-radio-option')
+        ?.querySelector('input');
+    } else if (firstErrorElement.shadowRoot) {
       firstError = firstErrorElement.shadowRoot.querySelector(
         'input, textarea',
       );
