@@ -373,9 +373,10 @@ describe('actions: mapbox', () => {
 
       expect(dispatchSpy.firstCall.args[0].type).to.eq(SEARCH_QUERY_UPDATED);
       expect(dispatchSpy.firstCall.args[0].payload).to.deep.equal({
-        // Radius is now calculated as diagonal distance to SW corner (issue #21812 fix)
-        // This ensures circular search area encompasses entire rectangular map bounds
-        radius: 34.818705884707484,
+        // Radius is now calculated as full diagonal distance (SW to NE corner)
+        // This ensures circular search area fully encompasses entire rectangular map bounds
+        // Full diagonal is ~2x the center-to-corner distance (issue #21812 fix)
+        radius: 69.58070354658854,
         searchString: 'San Antonio',
         context: 'San Antonio',
         searchArea: {
@@ -426,8 +427,9 @@ describe('actions: mapbox', () => {
 
       expect(dispatchSpy.firstCall.args[0].type).to.eq(SEARCH_QUERY_UPDATED);
       expect(dispatchSpy.firstCall.args[0].payload).to.deep.equal({
-        // Radius is now calculated as diagonal distance to SW corner (issue #21812 fix)
-        radius: 34.818705884707484,
+        // Radius is now calculated as full diagonal distance (SW to NE corner)
+        // Full diagonal is ~2x the center-to-corner distance (issue #21812 fix)
+        radius: 69.58070354658854,
         searchString: undefined,
         context: undefined,
         searchArea: {
