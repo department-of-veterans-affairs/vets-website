@@ -64,6 +64,7 @@ const formConfig = {
   title: TITLE,
   subTitle: SUBTITLE,
   defaultDefinitions: {},
+  useCustomScrollAndFocus: true,
   chapters: {
     personalInformationChapter: {
       title: 'Your personal information',
