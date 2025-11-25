@@ -6,6 +6,7 @@ import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import mockVaFileNumber from './fixtures/va-file-number.json';
 import user from './user.json';
+import { setupCypress } from './cypress.helpers';
 import {
   fillDateWebComponentPattern,
   fillStandardTextInput,
@@ -14,6 +15,7 @@ import {
   selectRadioWebComponent,
   signAndSubmit,
   selectRadioWebComponentAlt,
+  selectRadioWebComponentShadow,
 } from './cypress.helpers';
 
 Cypress.config('waitForAnimations', true);
@@ -25,50 +27,72 @@ const testConfig = createTestConfig(
     dataSets: ['maximal'],
     fixtures: { data: path.join(__dirname, 'fixtures') },
     setupPerTest: () => {
-      cy.login(user);
-      cy.intercept('GET', '/v0/feature_toggles?*', {
-        data: {
-          type: 'feature_toggles',
-          features: [
-            { name: 'vaDependentsV2', value: true },
-            { name: 'vaDependentsNetWorthAndPension', value: false },
-          ],
-        },
-      });
-      cy.intercept('POST', '/v0/claim_attachments', {
-        data: {
-          attributes: { confirmationCode: '5' },
-        },
-      });
-      cy.intercept(
-        'GET',
-        '/v0/profile/valid_va_file_number',
-        mockVaFileNumber,
-      ).as('mockVaFileNumber');
-      cy.get('@testData').then(testData => {
-        cy.intercept('GET', '/v0/in_progress_forms/686C-674-V2', testData);
-        cy.intercept('PUT', 'v0/in_progress_forms/686C-674-V2', testData);
-      });
-      cy.intercept('POST', '/v0/dependents_applications', {
-        formSubmissionId: '123fake-submission-id-max',
-        timestamp: '2025-01-01',
-        attributes: { guid: '123fake-submission-id-max' },
-      }).as('submitApplication');
+      // Pass form start page path
+      setupCypress('/add-remove-form-21-686c-674/veteran-information');
     },
+    // setupPerTest: () => {
+    //   cy.login(user);
+    //   cy.intercept('GET', '/v0/feature_toggles?*', {
+    //     data: {
+    //       type: 'feature_toggles',
+    //       features: [
+    //         { name: 'vaDependentsV2', value: true },
+    //         { name: 'vaDependentsNetWorthAndPension', value: true },
+    //         { name: 'va_dependents_net_worth_and_pension', value: true },
+    //       ],
+    //     },
+    //   });
+    //   cy.intercept('POST', '/v0/claim_attachments', {
+    //     data: {
+    //       attributes: { confirmationCode: '5' },
+    //     },
+    //   });
+    //   cy.intercept(
+    //     'GET',
+    //     '/v0/profile/valid_va_file_number',
+    //     mockVaFileNumber,
+    //   ).as('mockVaFileNumber');
+    //   cy.get('@testData').then(testData => {
+    //     cy.intercept('GET', '/v0/in_progress_forms/686C-674-V2', { data: { form: { testData } } });
+    //     cy.intercept('PUT', 'v0/in_progress_forms/686C-674-V2', testData);
+    //   });
+    //   cy.intercept('POST', '/v0/dependents_applications', {
+    //     formSubmissionId: '123fake-submission-id-max',
+    //     timestamp: '2025-01-01',
+    //     attributes: { guid: '123fake-submission-id-max' },
+    //   }).as('submitApplication');
+    // },
 
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
           cy.wait('@mockVaFileNumber');
-          cy.clickStartForm();
+          // cy.get('va-link-action').click();
+          // cy.clickStartForm();
+          cy.get('va-button[data-testid="continue-your-application"]').click();
         });
       },
+
+      // 'check-veteran-pension': ({ afterHook }) => {
+      //   afterHook(() => {
+      //     cy.get('@testData').then(data => {
+      //       // const student = data.studentInformation?.[0];
+
+      //       selectRadioWebComponentShadow(
+      //         'root_view:checkVeteranPension',
+      //         'Y',
+      //       );
+      //       cy.clickFormContinue();
+      //     });
+      //   });
+      // },
 
       'current-spouse-marriage-history/:index/location-where-marriage-started': ({
         afterHook,
       }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
+            // console.log('data:', data);
             if (data.currentMarriageInformation?.outsideUsa) {
               cy.get('va-checkbox[name="root_startLocation_outsideUsa"]')
                 .shadow()

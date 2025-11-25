@@ -48,6 +48,12 @@ export const checkAdding674ForPension = (formData = {}) => {
  */
 export const showPensionBackupPath = (formData = {}) => {
   // -1 in prefill indicates pension awards API failed
+  console.log({
+    veteranInformation: formData?.veteranInformation,
+    vaDependentsNetWorthAndPension: formData?.vaDependentsNetWorthAndPension,
+    checkAddingDependentsNot674ForPension: checkAddingDependentsNot674ForPension(formData),
+    checkAdding674ForPension: checkAdding674ForPension(formData),
+  })
   const { veteranInformation: vi, vaDependentsNetWorthAndPension } = formData;
   return (
     vaDependentsNetWorthAndPension &&
