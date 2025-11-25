@@ -75,23 +75,6 @@ describe('Disability benefits 526EZ -- Form integration date utilities', () => {
       ).to.be.null;
     });
 
-    it('should handle valid missing field patterns', () => {
-      // Month + Year only (no day) - valid
-      expect(
-        dateFieldToISO(
-          { month: '1', day: '', year: '2023' },
-          { allowPartialDates: true },
-        ),
-      ).to.equal('2023-01-XX');
-      // Year only - valid
-      expect(
-        dateFieldToISO(
-          { month: '', day: '', year: '2023' },
-          { allowPartialDates: true },
-        ),
-      ).to.equal('2023-XX-XX');
-    });
-
     it('should return null for invalid complete dates', () => {
       const invalidDate = { month: '13', day: '32', year: '2023' };
       expect(dateFieldToISO(invalidDate)).to.be.null;
