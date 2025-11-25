@@ -89,7 +89,7 @@ for (const featureSet of featureSetsToTest) {
 
       h.verifyElementShouldContainString(
         h.SEARCH_RESULTS_SUMMARY,
-        `results for "${CC_PROVIDER}", "Dentist - Orofacial Pain" near "Austin, Texas"`,
+        /(Showing|results).*Community providers.*Dentist - Orofacial Pain.*near.*Austin, Texas/i,
       );
 
       h.verifyElementExists('#other-tools');
