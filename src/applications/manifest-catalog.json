@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 149,
+  "totalApplications": 150,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -682,6 +682,12 @@
       "rootUrl": "/sign-in-confirm-contact-email"
     },
     {
+      "directoryPath": "src/applications/sign-in-health-portal",
+      "appName": "Sign-in Health Portal",
+      "entryName": "sign-in-health-portal",
+      "rootUrl": "/sign-in-health-portal"
+    },
+    {
       "directoryPath": "src/applications/simple-forms-form-engine/12-3456",
       "appName": "Form Builder Sandbox",
       "entryName": "12-3456",
@@ -782,6 +788,12 @@
       "appName": "Mock form minimal header",
       "entryName": "mock-form-minimal-header",
       "rootUrl": "/mock-form-minimal-header"
+    },
+    {
+      "directoryPath": "src/applications/simple-forms/mock-form-prefill",
+      "appName": "Mock Form with Prefill",
+      "entryName": "mock-form-prefill",
+      "rootUrl": "/mock-form-prefill"
     },
     {
       "directoryPath": "src/applications/simple-forms/mock-simple-forms-patterns",

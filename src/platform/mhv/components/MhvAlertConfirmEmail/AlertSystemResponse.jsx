@@ -12,13 +12,6 @@ const CONFIRM_SUCCESS_PROPS = {
   content: defaultContent,
 };
 
-const CONFIRM_ERROR_PROPS = {
-  status: 'error',
-  dataTestid: 'mhv-alert--confirm-error',
-  headline: 'We couldn’t confirm your contact email',
-  content: `Please try again.`,
-};
-
 const SKIP_SUCCESS_PROPS = {
   status: 'success',
   dataTestid: 'mhv-alert--skip-success',
@@ -42,7 +35,10 @@ const AlertSystemResponse = ({
       className="vads-u-margin-y--2"
       tabIndex={-1}
     >
-      <h2 slot="headline">{headline}</h2>
+      <h2 slot="headline">
+        <span className="usa-sr-only">{status}</span>
+        {headline}
+      </h2>
       <p className="vads-u-margin-y--0">{content}</p>
     </VaAlert>
   );
@@ -58,10 +54,6 @@ AlertSystemResponse.propTypes = {
 
 export const AlertSystemResponseConfirmSuccess = props => (
   <AlertSystemResponse {...CONFIRM_SUCCESS_PROPS} {...props} />
-);
-
-export const AlertSystemResponseConfirmError = props => (
-  <AlertSystemResponse {...CONFIRM_ERROR_PROPS} {...props} />
 );
 
 export const AlertSystemResponseSkipSuccess = props => (

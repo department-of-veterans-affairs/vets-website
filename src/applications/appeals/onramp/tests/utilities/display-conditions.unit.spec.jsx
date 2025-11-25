@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { displayConditionsMet } from '../../utilities/display-conditions';
 import { RESPONSES } from '../../constants/question-data-map';
 
-const { BOARD, HLR, INIT, NO, SC, YES } = RESPONSES;
+const { BOARD, CFI, HLR, INIT, NO, SC, YES } = RESPONSES;
 
 describe('display conditions utilities', () => {
   describe('displayConditionsMet', () => {
@@ -46,7 +46,7 @@ describe('display conditions utilities', () => {
           Q_1_1_CLAIM_DECISION: YES,
           Q_1_2_CLAIM_DECISION: YES,
           Q_1_3_CLAIM_CONTESTED: NO,
-          Q_2_0_CLAIM_TYPE: [INIT, SC],
+          Q_2_0_CLAIM_TYPE: [INIT, CFI, SC],
           ONE_OF: {
             Q_2_IS_1_SERVICE_CONNECTED: NO,
             Q_2_IS_2_CONDITION_WORSENED: NO,
@@ -112,7 +112,7 @@ describe('display conditions utilities', () => {
         const displayConditions = {
           FORK: {
             A: {
-              Q_2_0_CLAIM_TYPE: [INIT, SC, HLR],
+              Q_2_0_CLAIM_TYPE: [INIT, CFI, SC, HLR],
               ONE_OF: {
                 Q_2_IS_1B_NEW_EVIDENCE: NO,
                 Q_2_S_1_NEW_EVIDENCE: NO,
@@ -139,7 +139,7 @@ describe('display conditions utilities', () => {
         const displayConditions = {
           FORK: {
             A: {
-              Q_2_0_CLAIM_TYPE: [INIT, SC, HLR],
+              Q_2_0_CLAIM_TYPE: [INIT, CFI, SC, HLR],
               ONE_OF: {
                 Q_2_IS_1B_NEW_EVIDENCE: NO,
                 Q_2_S_1_NEW_EVIDENCE: NO,
@@ -167,7 +167,7 @@ describe('display conditions utilities', () => {
         const displayConditions = {
           FORK: {
             A: {
-              Q_2_0_CLAIM_TYPE: [INIT, SC, HLR],
+              Q_2_0_CLAIM_TYPE: [INIT, CFI, SC, HLR],
               ONE_OF: {
                 Q_2_IS_1B_NEW_EVIDENCE: NO,
                 Q_2_S_1_NEW_EVIDENCE: NO,
@@ -220,7 +220,7 @@ describe('display conditions utilities', () => {
           Q_1_1_CLAIM_DECISION: YES,
           Q_1_2_CLAIM_DECISION: YES,
           Q_1_3_CLAIM_CONTESTED: NO,
-          Q_2_0_CLAIM_TYPE: [INIT, SC],
+          Q_2_0_CLAIM_TYPE: [INIT, CFI, SC],
           Q_2_IS_1A_LAW_POLICY_CHANGE: NO,
           ONE_OF: {
             Q_2_IS_1_SERVICE_CONNECTED: NO,
@@ -265,7 +265,7 @@ describe('display conditions utilities', () => {
 
         const displayConditions = {
           NONE_OF: {
-            Q_2_0_CLAIM_TYPE: [SC, INIT],
+            Q_2_0_CLAIM_TYPE: [SC, INIT, CFI],
           },
         };
 
@@ -287,7 +287,7 @@ describe('display conditions utilities', () => {
         const displayConditions = {
           FORK: {
             A: {
-              Q_2_0_CLAIM_TYPE: [INIT, SC, HLR],
+              Q_2_0_CLAIM_TYPE: [INIT, CFI, SC, HLR],
               ONE_OF: {
                 Q_2_IS_1B_NEW_EVIDENCE: NO,
                 Q_2_S_1_NEW_EVIDENCE: NO,
@@ -315,7 +315,7 @@ describe('display conditions utilities', () => {
         const displayConditions = {
           FORK: {
             A: {
-              Q_2_0_CLAIM_TYPE: [INIT, SC, HLR],
+              Q_2_0_CLAIM_TYPE: [INIT, CFI, SC, HLR],
               ONE_OF: {
                 Q_2_IS_1B_NEW_EVIDENCE: NO,
                 Q_2_S_1_NEW_EVIDENCE: NO,
@@ -345,7 +345,7 @@ describe('display conditions utilities', () => {
         const displayConditions = {
           FORK: {
             A: {
-              Q_2_0_CLAIM_TYPE: [INIT, SC, HLR],
+              Q_2_0_CLAIM_TYPE: [INIT, CFI, SC, HLR],
               ONE_OF: {
                 Q_2_IS_1B_NEW_EVIDENCE: NO,
                 Q_2_S_1_NEW_EVIDENCE: NO,
