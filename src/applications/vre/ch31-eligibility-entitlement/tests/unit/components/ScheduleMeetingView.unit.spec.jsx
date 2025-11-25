@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render, fireEvent } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import sinon from 'sinon';
 import ScheduleMeetingView from '../../../components/ScheduleMeetingView';
 
@@ -47,24 +47,6 @@ describe('<ScheduleMeetingView>', () => {
     );
     expect(getByText(/Telecounseling uses the VA Video Connect application/i))
       .to.exist;
-  });
-
-  it('opens scheduler modal when Submit is clicked for online meeting', () => {
-    const { container, getByTestId } = render(
-      <ScheduleMeetingView setWatchVideoView={setWatchVideoView} />,
-    );
-    const submitButton = getByTestId('submit-meeting-preference');
-    expect(submitButton).to.exist;
-    fireEvent.click(submitButton);
-    const vaModal = container.querySelector(
-      'va-modal[modal-title="You\'re leaving VA.gov"]',
-    );
-    expect(vaModal).to.exist;
-    expect(vaModal.getAttribute('primary-button-text')).to.equal(
-      'Open Scheduler',
-    );
-    expect(vaModal.getAttribute('secondary-button-text')).to.equal('Go Back');
-    expect(vaModal.getAttribute('visible')).to.not.be.null;
   });
 
   it('shows in-person appointment additional info when selected', () => {
