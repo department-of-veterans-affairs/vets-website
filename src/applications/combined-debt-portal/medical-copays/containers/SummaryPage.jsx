@@ -118,7 +118,7 @@ const OverviewPage = () => {
   const ITEM_TYPE = 'copays';
 
   function paginate(array, pageSize, pageNumber) {
-    return array.slice((pageNumber - 1) * pageSize, pageNumber * pageSize);
+    return array?.slice((pageNumber - 1) * pageSize, pageNumber * pageSize);
   }
 
   function getPaginationText(
