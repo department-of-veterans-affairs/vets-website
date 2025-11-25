@@ -110,8 +110,27 @@ export default function StatusAlert({ appointment, facility }) {
     let message;
     let linkText;
     if (appointment.type === 'COMMUNITY_CARE_APPOINTMENT') {
-      message = `${who} canceled this appointment. If you still want this appointment, call your community care provider to schedule.`;
-    } else if (appointment.vaos.isCompAndPenAppointment) {
+      const referralId =
+        appointment.vaos?.apiData?.referralId || appointment.referralId;
+      const referralLink = referralId
+        ? `/my-health/appointments/schedule-referral?id=${referralId}&referrer=referrals-requests`
+        : '/my-health/appointments/referrals-requests';
+
+      return (
+        <InfoAlert status="error" backgroundOnly>
+          <p className="vads-u-margin-top--0">
+            <strong>{who} canceled this appointment.</strong> If you want to
+            reschedule, call us or schedule a new appointment online.
+          </p>
+          <va-link
+            text="Go to your referral to schedule an appointment"
+            data-testid="referral-link"
+            href={referralLink}
+          />
+        </InfoAlert>
+      );
+    }
+    if (appointment.vaos.isCompAndPenAppointment) {
       message = `${who} canceled this appointment. If you still want this appointment, call your VA health facility’s compensation and pension office to schedule.`;
     } else if (appointment.vaos.isPendingAppointment) {
       message = `${who} canceled this request. If you still want this appointment, call your VA health facility or submit another request online.`;

@@ -362,7 +362,10 @@ const appointmentTemplates = {
   cc: {
     getTemplate: (_, startDate) => {
       const appointmentId = generateRandomId();
-      return {
+      const isPastAppointment = startDate < new Date();
+
+      // Create temporary appointment for status determination
+      const temporaryAppointment = {
         id: appointmentId,
         type: 'appointments',
         attributes: {
@@ -384,9 +387,25 @@ const appointmentTemplates = {
           kind: 'cc',
           type: 'COMMUNITY_CARE_APPOINTMENT',
           pending: false,
-          past: startDate < new Date(),
+          past: isPastAppointment,
           future: startDate > new Date(),
-          cancellable: false, // CC appointments that are booked are not cancellable
+        },
+      };
+
+      // Get status info (will determine if cancelled)
+      const statusInfo = getAppointmentStatus(
+        temporaryAppointment.attributes,
+        isPastAppointment,
+      );
+
+      return {
+        id: appointmentId,
+        type: 'appointments',
+        attributes: {
+          ...temporaryAppointment.attributes,
+          status: statusInfo.status,
+          cancellable: false, // CC appointments are not cancellable
+          cancelationReason: statusInfo.cancelationReason,
         },
       };
     },

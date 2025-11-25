@@ -553,6 +553,35 @@ const responses = {
       status: 'booked',
     });
 
+    // Mock cancelled appointments with different cancellation reasons
+    const mockCancelledByPatient = new MockReferralAppointmentDetailsResponse({
+      appointmentId,
+      status: 'cancelled',
+      cancelationReason: {
+        coding: [
+          {
+            system: 'http://www.va.gov/Terminology/VistADefinedTerms/409.2',
+            code: 'pat',
+            display: 'The appointment was cancelled by the patient',
+          },
+        ],
+      },
+    });
+
+    const mockCancelledByClinic = new MockReferralAppointmentDetailsResponse({
+      appointmentId,
+      status: 'cancelled',
+      cancelationReason: {
+        coding: [
+          {
+            system: 'http://www.va.gov/Terminology/VistADefinedTerms/409.2',
+            code: 'clinic',
+            display: 'The appointment was cancelled by the clinic',
+          },
+        ],
+      },
+    });
+
     const serverError = new MockReferralAppointmentDetailsResponse({
       appointmentId,
       serverError: true,
@@ -570,6 +599,15 @@ const responses = {
 
     if (appointmentId === 'appointment-for-poll-error') {
       return res.status(500).json(serverError);
+    }
+
+    // Mock cancelled appointment scenarios
+    if (appointmentId === 'cancelled-by-patient') {
+      return res.json(mockCancelledByPatient);
+    }
+
+    if (appointmentId === 'cancelled-by-clinic') {
+      return res.json(mockCancelledByClinic);
     }
 
     // Check if the request is coming from the details page

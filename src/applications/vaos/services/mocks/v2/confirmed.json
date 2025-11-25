@@ -1,6 +1,42 @@
 {
   "data": [
     {
+      "id": "cancelled-cc-test",
+      "type": "appointments",
+      "attributes": {
+        "id": "cancelled-cc-test",
+        "status": "cancelled",
+        "patientIcn": null,
+        "created": "2025-11-01T15:01:55Z",
+        "locationId": "sandbox-network-5vuTac8v",
+        "clinic": "9L5WE4aN",
+        "start": "2025-12-15T15:30:00Z",
+        "referralId": "VA0000009999",
+        "referral": {
+          "referralNumber": "VA0000009999"
+        },
+        "providerServiceId": "9L5WE4aN",
+        "providerName": "TEST CANCELLED COMMUNITY CARE PROVIDER",
+        "location": "Error fetching facility details",
+        "kind": "cc",
+        "type": "COMMUNITY_CARE_APPOINTMENT",
+        "modality": "communityCare",
+        "cancelationReason": {
+          "coding": [
+            {
+              "system": "http://www.va.gov/Terminology/VistADefinedTerms/409.2",
+              "code": "pat",
+              "display": "The appointment was cancelled by the patient"
+            }
+          ]
+        },
+        "cancellable": false,
+        "pending": false,
+        "past": false,
+        "future": true
+      }
+    },
+    {
       "id": "kw8_DRne",
       "type": "appointments",
       "attributes": {

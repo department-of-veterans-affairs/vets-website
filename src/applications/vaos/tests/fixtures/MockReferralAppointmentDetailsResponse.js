@@ -21,12 +21,15 @@ class MockReferralAppointmentDetailsResponse {
    * @param {string} options.typeOfCare - Type of care for the appointment
    * @param {string} options.providerName - Name of the provider
    * @param {string} options.organizationName - Name of the provider organization
+   * @param {string} options.status - Appointment status ('booked', 'cancelled', 'draft')
+   * @param {Object} options.cancelationReason - Cancellation reason when status is cancelled
    * @returns {Object} A successful response object
    */
   static createSuccessResponse({
     appointmentId = 'EEKoGzEf',
     organizationName = 'Meridian Health',
     status = 'booked',
+    cancelationReason = null,
   } = {}) {
     const baseAttributes = {
       id: appointmentId,
@@ -38,9 +41,9 @@ class MockReferralAppointmentDetailsResponse {
       lastRetrieved: new Date().toISOString(),
     };
 
-    // Only include modality and provider when status is 'booked'
+    // Only include modality and provider when status is 'booked' or 'cancelled'
     const bookedAttributes =
-      status === 'booked'
+      status === 'booked' || status === 'cancelled'
         ? {
             modality: 'In Person',
             provider: {
@@ -56,6 +59,10 @@ class MockReferralAppointmentDetailsResponse {
           }
         : {};
 
+    // Add cancellation reason if status is cancelled
+    const cancelledAttributes =
+      status === 'cancelled' && cancelationReason ? { cancelationReason } : {};
+
     return {
       data: {
         id: appointmentId,
@@ -63,6 +70,7 @@ class MockReferralAppointmentDetailsResponse {
         attributes: {
           ...baseAttributes,
           ...bookedAttributes,
+          ...cancelledAttributes,
         },
       },
     };
@@ -120,6 +128,7 @@ class MockReferralAppointmentDetailsResponse {
       notFound,
       serverError,
       status = 'booked',
+      cancelationReason = null,
     } = this.options;
 
     // Return 404 error if notFound is true
@@ -146,6 +155,7 @@ class MockReferralAppointmentDetailsResponse {
       providerName,
       organizationName,
       status,
+      cancelationReason,
     });
   }
 }
