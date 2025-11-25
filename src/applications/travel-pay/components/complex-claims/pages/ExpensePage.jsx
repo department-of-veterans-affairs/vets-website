@@ -69,6 +69,7 @@ const ExpensePage = () => {
   const [fieldsInitialized, setFieldsInitialized] = useState(false);
   const [isCancelModalVisible, setIsCancelModalVisible] = useState(false);
   const [showError, setShowError] = useState(false);
+  const [uploadError, setUploadError] = useState('');
 
   // Derived state and memoized values
   const isLoadingExpense = isEditMode
@@ -296,6 +297,8 @@ const ExpensePage = () => {
   };
 
   const handleDocumentChange = async e => {
+    setUploadError(''); // Clear any previous errors
+
     const files = e.detail?.files;
     // Delete document
     if (!files || files.length === 0) {
@@ -310,21 +313,29 @@ const ExpensePage = () => {
         });
       }
     } else {
-      // Change or add document
-      const file = files[0]; // Get the first (and only) file
-      setExpenseDocument(file);
+      try {
+        const file = files[0]; // Get the first (and only) file
 
-      const base64File = await toBase64(file);
-      // Sync into formState so validation works
-      setFormState(prev => ({
-        ...prev,
-        receipt: {
-          contentType: file.type,
-          length: file.size,
-          fileName: file.name,
-          fileData: base64File,
-        },
-      }));
+        const base64File = await toBase64(file);
+
+        // Change or add document
+        setExpenseDocument(file);
+
+        // Sync into formState so validation works
+        setFormState(prev => ({
+          ...prev,
+          receipt: {
+            contentType: file.type,
+            length: file.size,
+            fileName: file.name,
+            fileData: base64File,
+          },
+        }));
+      } catch (err) {
+        setUploadError(
+          'There was a problem processing your document. Please try again later.',
+        );
+      }
     }
   };
 
@@ -369,6 +380,7 @@ const ExpensePage = () => {
         loading={isFetchingDocument}
         currentDocument={expenseDocument}
         handleDocumentChange={handleDocumentChange}
+        uploadError={uploadError}
       />
       {isMeal && (
         <ExpenseMealFields formState={formState} onChange={handleFormChange} />

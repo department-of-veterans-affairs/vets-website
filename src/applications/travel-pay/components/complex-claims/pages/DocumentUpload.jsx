@@ -4,7 +4,12 @@ import PropTypes from 'prop-types';
 import { VaFileInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { ACCEPTED_FILE_TYPES } from '../../../constants';
 
-const DocumentUpload = ({ currentDocument, handleDocumentChange, loading }) => {
+const DocumentUpload = ({
+  currentDocument,
+  handleDocumentChange,
+  loading,
+  uploadError,
+}) => {
   return (
     <>
       {loading ? (
@@ -26,6 +31,7 @@ const DocumentUpload = ({ currentDocument, handleDocumentChange, loading }) => {
           name="travel-pay-claim-document-upload"
           onVaChange={handleDocumentChange}
           required
+          error={uploadError}
           value={currentDocument}
         />
       )}
@@ -44,6 +50,7 @@ DocumentUpload.propTypes = {
   currentDocument: PropTypes.object,
   handleDocumentChange: PropTypes.func,
   loading: PropTypes.bool,
+  uploadError: PropTypes.string,
 };
 
 export default DocumentUpload;
