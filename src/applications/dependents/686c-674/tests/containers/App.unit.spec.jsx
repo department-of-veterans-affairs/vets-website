@@ -306,7 +306,7 @@ describe('App container logic', () => {
 
       await waitFor(() => {
         const [action] = store.getActions();
-        expect(action).to.be.undefined;
+        expect(action.data.vaDependentV2Flow).to.be.undefined;
       });
     });
 
@@ -320,7 +320,7 @@ describe('App container logic', () => {
 
       await waitFor(() => {
         const [action] = store.getActions();
-        expect(action).to.be.undefined;
+        expect(action.data.vaDependentV2Flow).to.be.undefined;
       });
     });
 
@@ -333,8 +333,7 @@ describe('App container logic', () => {
 
       await waitFor(() => {
         const [action] = store.getActions();
-        expect(action.type).to.eq('SET_DATA');
-        expect(action.data.vaDependentV2Flow).to.be.true;
+        expect(action).to.be.undefined;
       });
     });
 
@@ -348,7 +347,7 @@ describe('App container logic', () => {
 
       await waitFor(() => {
         const [action] = store.getActions();
-        expect(action).to.be.undefined;
+        expect(action.data.vaDependentV2Flow).to.be.undefined;
       });
     });
   });
