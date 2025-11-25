@@ -204,6 +204,19 @@ const responses = {
     };
     return delaySingleResponse(() => res.json(data), 2250);
   },
+  'POST /my_health/v1/aal': (_req, res) => {
+    return res.json({
+      aal: {
+        activityType: 'Medications Activity',
+        action: 'View',
+        performerType: 'Self',
+        detailValue: null,
+        status: 1,
+      },
+      product: 'mhv-medications',
+      oncePerSession: true,
+    });
+  },
 };
 
 module.exports = delay(responses, 0);
