@@ -232,6 +232,7 @@ export const getAlert = (props, continueClicked) => {
       getPdfDownloadUrl(formNumber),
       onCloseAlert,
       warnings,
+      props?.data?.uploadedFile?.name || '',
     );
   }
 
@@ -244,25 +245,4 @@ export const getAlert = (props, continueClicked) => {
   }
 
   return FORM_UPLOAD_INSTRUCTION_ALERT(onCloseAlert);
-};
-
-/**
- * Recursively get all text content from an alert to feed to a screen reader
- * @param {JSX.Element} alert an alert element
- * @returns {string} the concatenated text for a screen reader
- */
-export const extractAlertText = alert => {
-  if (!alert) return '';
-  if (typeof alert === 'string') return alert;
-  if (typeof alert === 'number') return String(alert);
-
-  if (Array.isArray(alert)) {
-    return alert.map(extractAlertText).join(' ');
-  }
-
-  if (alert.props?.children) {
-    return extractAlertText(alert.props.children);
-  }
-
-  return '';
 };

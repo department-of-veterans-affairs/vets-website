@@ -1,13 +1,8 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { FormNavButtons, SchemaForm } from 'platform/forms-system/exportsFile';
 import { scrollAndFocus } from 'platform/utilities/scroll';
-import {
-  extractAlertText,
-  getAlert,
-  getFormNumber,
-  onClickContinue,
-} from '../helpers';
+import { getFormNumber, onClickContinue } from '../helpers';
 
 export const CustomTopContent = () => {
   const formNumber = getFormNumber();
@@ -38,11 +33,7 @@ export const CustomTopContent = () => {
 /** @type {CustomPageType} */
 export const CustomAlertPage = props => {
   const [continueClicked, setContinueClicked] = useState(false);
-  const isFirstRender = useRef(true);
-
-  useEffect(() => {
-    isFirstRender.current = false;
-  }, []);
+  const [srText, setSrText] = useState(null);
 
   useEffect(
     () => {
@@ -54,10 +45,18 @@ export const CustomAlertPage = props => {
     [continueClicked],
   );
 
-  const alert =
-    props.name === 'uploadPage' ? getAlert(props, continueClicked) : null;
-  const alertText =
-    alert && !isFirstRender.current ? extractAlertText(alert) : '';
+  useEffect(
+    () => {
+      // after re-render, get the text of the new alert
+      const id = setTimeout(() => {
+        const alertText =
+          document.querySelector('div.form-panel va-alert')?.innerText || '';
+        setSrText(alertText);
+      }, 100);
+      return () => clearTimeout(id);
+    },
+    [props?.data?.uploadedFile?.name],
+  );
 
   return (
     <div className="form-panel">
@@ -67,9 +66,8 @@ export const CustomAlertPage = props => {
         aria-live="polite"
         className="sr-only"
       >
-        {alertText}
+        {srText}
       </span>
-      {alert}
       <SchemaForm {...props}>
         <>
           {props.contentBeforeButtons}
