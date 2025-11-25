@@ -5,42 +5,49 @@
  * Run this in browser console
  * > localStorage.setItem('hasSession', true)
  */
-const path = require('path');
-const fs = require('fs');
 const delay = require('mocker-api/lib/delay');
+const mockEnrollmentStatus = require('./e2e/fixtures/mocks/enrollment-status.auth.json');
+const mockFacilities = require('./e2e/fixtures/mocks/facilities.json');
+const mockFeatureToggles = require('./e2e/fixtures/mocks/feature-toggles.json');
+const mockMaintenanceWindows = require('./e2e/fixtures/mocks/maintenance-windows.json');
+const mockPrefill = require('./e2e/fixtures/mocks/prefill.json');
+const mockSaveInProgress = require('./e2e/fixtures/mocks/save-in-progress.json');
+const mockSubmission = require('./e2e/fixtures/mocks/submission.json');
 const mockUser = require('./e2e/fixtures/mocks/user.json');
-const mockEnrollmentStatus = require('./e2e/fixtures/mocks/enrollment-status.json');
+const mockVamc = require('./e2e/fixtures/mocks/vamc-ehr.json');
+
+const mockPdfDownload = (_req, res) => {
+  res.status(200);
+  res.setHeader('Content-Type', 'application/pdf');
+  res.setHeader('Content-Disposition', 'attachment; filename="mock.pdf"');
+  res.send('Fake 10-10EZ Form for Micky Mouse');
+};
+
+const mockRating = (rating = 0) => ({
+  data: {
+    id: '',
+    type: 'hash',
+    attributes: { userPercentOfDisability: rating },
+  },
+});
 
 const responses = {
   'GET /v0/user': mockUser,
-  'GET /v0/feature_toggles': {
-    data: {
-      features: [{ name: 'loading', value: false }],
-    },
-  },
+  'GET /v0/feature_toggles': mockFeatureToggles,
+
   'OPTIONS /v0/maintenance_windows': 'OK',
-  'GET /v0/maintenance_windows': { data: [] },
-  'GET /data/cms/vamc-ehr.json': { mockEnrollmentStatus },
+  'GET /v0/maintenance_windows': mockMaintenanceWindows,
+  'GET /data/cms/vamc-ehr.json': mockVamc,
 
-  'POST /v0/health_care_applications/enrollment_status': (req, res) => {
-    res.status(404);
-    res.setHeader('Content-Type', 'application/json');
-    res.send(mockEnrollmentStatus.body);
-  },
-  'POST `/v0/health_care_applications/download_pdf': (req, res) => {
-    const pdfPath = path.join(__dirname, './e2e/fixtures/mocks/mock.pdf');
-    const pdfBuffer = fs.readFileSync(pdfPath);
+  'GET /v0/in_progress_forms/1010ez': mockPrefill.body,
+  'PUT /v0/in_progress_forms/1010ez': mockSaveInProgress.body,
 
-    res.status(200);
-    res.setHeader('Content-Type', 'application/pdf');
-    res.setHeader('Content-Disposition', 'attachment; filename="mock.pdf"');
-    res.send(pdfBuffer);
-  },
-  'POST /v0/form1010': {
-    success: true,
-    formSubmissionId: null,
-    timestamp: null,
-  },
+  'GET /v0/health_care_applications/rating_info': mockRating(),
+  'GET /v0/health_care_applications/facilities': mockFacilities,
+  'POST /v0/health_care_applications/enrollment_status':
+    mockEnrollmentStatus.body,
+  'POST /v0/health_care_applications/download_pdf': mockPdfDownload,
+  'POST /v0/health_care_applications': mockSubmission.body,
 };
 
 module.exports = delay(responses, 200);

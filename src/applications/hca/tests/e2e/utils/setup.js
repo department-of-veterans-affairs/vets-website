@@ -1,5 +1,6 @@
 import manifest from '../../../manifest.json';
-import mockEnrollmentStatus from '../fixtures/mocks/enrollment-status.json';
+import mockAuthEnrollmentStatus from '../fixtures/mocks/enrollment-status.auth.json';
+import mockGuestEnrollmentStatus from '../fixtures/mocks/enrollment-status.guest.json';
 import mockPdfDownload from '../fixtures/mocks/pdf-download.json';
 import mockFacilities from '../fixtures/mocks/facilities.json';
 import mockFeatures from '../fixtures/mocks/feature-toggles.json';
@@ -25,17 +26,11 @@ const APIs = {
 export const setupBasicTest = (props = {}) => {
   Cypress.config({ scrollBehavior: 'nearest' });
 
-  const {
-    enrollmentStatus = mockEnrollmentStatus,
-    features = mockFeatures,
-  } = props;
+  const { features = mockFeatures } = props;
 
   cy.intercept('GET', APIs.features, features).as('mockFeatures');
   cy.intercept('GET', APIs.maintenance, mockMaintenanceWindows);
   cy.intercept('GET', APIs.vamc, mockVamc);
-  cy.intercept('POST', APIs.enrollment, enrollmentStatus).as(
-    'mockEnrollmentStatus',
-  );
   cy.intercept('POST', APIs.downloadPdf, mockPdfDownload).as('downloadPdf');
   cy.intercept('GET', APIs.facilities, mockFacilities).as('getFacilities');
   cy.intercept('POST', APIs.submit, mockSubmission).as('mockSubmit');
@@ -44,7 +39,7 @@ export const setupBasicTest = (props = {}) => {
 export const setupForAuth = (props = {}) => {
   const {
     disabilityRating = 0,
-    enrollmentStatus = mockEnrollmentStatus,
+    enrollmentStatus = mockAuthEnrollmentStatus,
     features = mockFeatures,
     prefill = mockPrefill,
     user = mockUser,
@@ -61,10 +56,13 @@ export const setupForAuth = (props = {}) => {
     },
   };
 
-  setupBasicTest({ enrollmentStatus, features });
+  setupBasicTest({ features });
   cy.intercept('GET', APIs.saveInProgress, prefill).as('mockPrefill');
   cy.intercept('PUT', APIs.saveInProgress, mockSaveInProgress);
   cy.intercept(APIs.disabilityRating, mockRating).as('mockDisabilityRating');
+  cy.intercept('POST', APIs.enrollment, enrollmentStatus).as(
+    'mockEnrollmentStatus',
+  );
 
   cy.login(user);
   cy.visit(manifest.rootUrl);
@@ -78,11 +76,14 @@ export const setupForAuth = (props = {}) => {
 
 export const setupForGuest = (props = {}) => {
   const {
-    enrollmentStatus = mockEnrollmentStatus,
+    enrollmentStatus = mockGuestEnrollmentStatus,
     features = mockFeatures,
   } = props;
 
-  setupBasicTest({ enrollmentStatus, features });
+  setupBasicTest({ features });
+  cy.intercept('POST', APIs.enrollment, enrollmentStatus).as(
+    'mockEnrollmentStatus',
+  );
 
   cy.visit(manifest.rootUrl);
   cy.wait(['@mockFeatures']);
