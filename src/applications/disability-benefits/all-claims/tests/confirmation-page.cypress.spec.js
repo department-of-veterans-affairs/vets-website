@@ -14,7 +14,7 @@ const testConfig = createTestConfig(
     dataPrefix: 'data',
     useWebComponentFields: true,
 
-    dataSets: ['confirmation-test'],
+    dataSets: ['confirmation-pay-test', 'confirmation-test'],
 
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),

@@ -6,6 +6,11 @@ import * as SubmitHelpers from '../../config/submit-helpers';
 
 describe('Income and asset submit', () => {
   describe('submit', () => {
+    const mockFormConfig = {
+      formId: '21P-0969',
+      trackingPrefix: '21p-0969',
+    };
+
     beforeEach(() => {
       window.VetsGov = { pollTimeout: 1 };
       window.URL = {
@@ -19,7 +24,7 @@ describe('Income and asset submit', () => {
         data: {},
       };
 
-      return SubmitModule.submit(form).then(
+      return SubmitModule.submit(form, mockFormConfig).then(
         () => {
           expect.fail();
         },

@@ -89,7 +89,7 @@ describe('ArpMaintenanceWindowBanner', () => {
     });
   });
 
-  describe.skip('Authenticated', () => {
+  describe('Authenticated', () => {
     beforeEach(() => {
       cy.loginArpUser();
     });

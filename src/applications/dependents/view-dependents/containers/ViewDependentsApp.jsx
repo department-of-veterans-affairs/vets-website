@@ -24,7 +24,6 @@ const ViewDependentsApp = ({
   notOnAwardDependents,
   manageDependentsToggle,
   dependentsVerificationFormToggle,
-  dependencyVerificationToggle,
   updateDiariesStatus,
   fetchAllDependents,
 }) => {
@@ -43,7 +42,6 @@ const ViewDependentsApp = ({
       onAwardDependents={onAwardDependents}
       notOnAwardDependents={notOnAwardDependents}
       manageDependentsToggle={manageDependentsToggle}
-      dependencyVerificationToggle={dependencyVerificationToggle}
       updateDiariesStatus={updateDiariesStatus}
     />
   ) : (
@@ -53,7 +51,6 @@ const ViewDependentsApp = ({
       onAwardDependents={onAwardDependents}
       notOnAwardDependents={notOnAwardDependents}
       manageDependentsToggle={manageDependentsToggle}
-      dependencyVerificationToggle={dependencyVerificationToggle}
       updateDiariesStatus={updateDiariesStatus}
     />
   );
@@ -92,9 +89,6 @@ const mapStateToProps = state => ({
   dependentsVerificationFormToggle: toggleValues(state)[
     FEATURE_FLAG_NAMES.vaDependentsVerification
   ],
-  dependencyVerificationToggle: toggleValues(state)[
-    FEATURE_FLAG_NAMES.dependencyVerification
-  ],
   onAwardDependents: state.allDependents.onAwardDependents,
   notOnAwardDependents: state.allDependents.notOnAwardDependents,
   updateDiariesStatus: state.verifyDependents.updateDiariesStatus,
@@ -113,7 +107,6 @@ ViewDependentsApp.propTypes = {
   fetchAllDependents: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired,
-  dependencyVerificationToggle: PropTypes.bool,
   dependentsVerificationFormToggle: PropTypes.bool,
   error: PropTypes.object,
   manageDependentsToggle: PropTypes.bool,

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { flow, sortBy, toPairs } from 'lodash';
 import omit from 'platform/utilities/data/omit';
+import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import DocketCard from './DocketCard';
 import {
@@ -152,12 +153,11 @@ function Docket({
           line.
         </p>
         <p>
-          <a
+          <VaLink
             target="_blank"
             href="/disability/file-an-appeal/request-priority-review/"
-          >
-            Learn more about requesting Advanced on the Docket status.
-          </a>
+            text="Learn more about requesting Advanced on the Docket status."
+          />
         </p>
       </div>
     );
@@ -196,9 +196,10 @@ function Docket({
                 Provided you haven’t already added new evidence, you can switch
                 to a different appeal option. You have until{' '}
                 {switchDueDateFormatted} to submit a new{' '}
-                <a href="/decision-reviews/forms/board-appeal-10182.pdf">
-                  VA Form 10182 (Board Appeal)
-                </a>{' '}
+                <VaLink
+                  href="/decision-reviews/forms/board-appeal-10182.pdf"
+                  text="VA Form 10182 (Board Appeal)"
+                />{' '}
                 with a different appeal option selected.
               </p>
             </div>
@@ -210,9 +211,10 @@ function Docket({
                 Provided you haven’t already had a hearing, you can switch to a
                 different appeal option. You have until {switchDueDateFormatted}{' '}
                 to submit a new{' '}
-                <a href="/decision-reviews/forms/board-appeal-10182.pdf">
-                  VA Form 10182 (Board Appeal)
-                </a>{' '}
+                <VaLink
+                  href="/decision-reviews/forms/board-appeal-10182.pdf"
+                  text="VA Form 10182 (Board Appeal)"
+                />{' '}
                 with a different appeal option selected.
               </p>
             </div>

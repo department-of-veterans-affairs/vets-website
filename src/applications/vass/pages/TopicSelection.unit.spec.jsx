@@ -12,6 +12,7 @@ describe('VASS Component: TopicSelection', () => {
     });
 
     expect(getByTestId('header')).to.exist;
+    expect(getByTestId('back-link')).to.exist;
     expect(getByTestId('topic-checkbox-group')).to.exist;
     expect(getByTestId('button-pair')).to.exist;
 

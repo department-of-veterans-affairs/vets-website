@@ -10,12 +10,12 @@ import {
   showAlert,
 } from './selectors';
 import {
-  AlertSystemResponseConfirmError,
   AlertSystemResponseConfirmSuccess,
   AlertSystemResponseSkipSuccess,
 } from './AlertSystemResponse';
 import AlertAddContactEmail from './AlertAddContactEmail';
 import AlertConfirmContactEmail from './AlertConfirmContactEmail';
+import AlertConfirmAddContactEmailError from './AlertConfirmAddContactEmailError';
 import { recordAlertLoadEvent } from './recordAlertLoadEvent';
 
 /**
@@ -87,18 +87,20 @@ const MhvAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent }) => {
         />
       )}
       {confirmError && (
-        <AlertSystemResponseConfirmError
-          recordEvent={recordEvent}
-          tabIndex={-1}
-        />
-      )}
-      {!confirmSuccess && (
-        <AlertConfirmContactEmail
+        <AlertConfirmAddContactEmailError
           emailAddress={emailAddress}
           onConfirmClick={putConfirmationDate}
           recordEvent={recordEvent}
         />
       )}
+      {!confirmSuccess &&
+        !confirmError && (
+          <AlertConfirmContactEmail
+            emailAddress={emailAddress}
+            onConfirmClick={putConfirmationDate}
+            recordEvent={recordEvent}
+          />
+        )}
     </>
   ) : (
     <>

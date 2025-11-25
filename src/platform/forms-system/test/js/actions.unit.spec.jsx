@@ -1028,4 +1028,110 @@ describe('Schemaform actions:', () => {
       });
     });
   });
+  describe('uploadFile token refresh retry', () => {
+    let xhr;
+    let requests = [];
+    let refreshStub;
+    let infoTokenExistsStub;
+
+    beforeEach(() => {
+      global.FormData = sinon.stub().returns({
+        append: sinon.spy(),
+        set: sinon.spy(),
+      });
+      xhr = sinon.useFakeXMLHttpRequest();
+      xhr.onCreate = req => {
+        requests.push(req);
+      };
+
+      const oauthUtilities = require('platform/utilities/oauth/utilities');
+      refreshStub = sinon.stub(oauthUtilities, 'refresh').resolves();
+      infoTokenExistsStub = sinon
+        .stub(oauthUtilities, 'infoTokenExists')
+        .returns(true);
+    });
+
+    afterEach(() => {
+      delete global.FormData;
+      global.XMLHttpRequest = window.XMLHttpRequest;
+      xhr.restore();
+      requests = [];
+
+      if (refreshStub) refreshStub.restore();
+      if (infoTokenExistsStub) infoTokenExistsStub.restore();
+    });
+
+    it('should call refresh on 403 token expired error', async () => {
+      const onChange = sinon.spy();
+      const thunk = uploadFile(
+        { name: '1.jpg', size: 1234 },
+        {
+          fileUploadUrl: '/v0/upload',
+          fileTypes: ['jpg'],
+          maxSize: 5000,
+          createPayload: f => f,
+          parseResponse: f => f.data.attributes,
+        },
+        f => f,
+        onChange,
+        () => {},
+        'test-prefix',
+      );
+      const dispatch = sinon.spy();
+      const getState = sinon.stub().returns({
+        form: { formId: 'test-form', data: {} },
+      });
+
+      thunk(dispatch, getState);
+
+      requests[0].respond(
+        403,
+        null,
+        JSON.stringify({
+          errors: 'Access token has expired',
+        }),
+      );
+
+      expect(refreshStub.called).to.be.true;
+
+      await refreshStub.returnValues[0];
+
+      expect(requests.length).to.equal(2);
+      expect(requests[1].url).to.equal('/v0/upload');
+    });
+
+    it('should not call refresh on 403 with different error', () => {
+      const onChange = sinon.spy();
+      const thunk = uploadFile(
+        { name: '1.jpg', size: 1234 },
+        {
+          fileUploadUrl: '/v0/upload',
+          fileTypes: ['jpg'],
+          maxSize: 5000,
+          createPayload: f => f,
+          parseResponse: f => f.data.attributes,
+        },
+        f => f,
+        onChange,
+        () => {},
+        'test-prefix',
+      );
+      const dispatch = sinon.spy();
+      const getState = sinon.stub().returns({
+        form: { formId: 'test-form', data: {} },
+      });
+
+      thunk(dispatch, getState);
+
+      requests[0].respond(
+        403,
+        null,
+        JSON.stringify({
+          errors: 'Forbidden - insufficient permissions',
+        }),
+      );
+
+      expect(refreshStub.called).to.be.false;
+    });
+  });
 });

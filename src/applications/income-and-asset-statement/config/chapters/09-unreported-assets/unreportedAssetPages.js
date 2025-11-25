@@ -94,7 +94,7 @@ export const options = {
 
 // Shared summary page text
 const updatedTitleNoItems =
-  'Did you or your dependents have any assets you haven’t already reported?';
+  'Do you or your dependents have any assets you haven’t already reported?';
 const updatedTitleWithItems = 'Do you have more assets to report?';
 const summaryPageTitle = 'Other Assets';
 const incomeRecipientPageTitle = 'Unreported asset relationship information';

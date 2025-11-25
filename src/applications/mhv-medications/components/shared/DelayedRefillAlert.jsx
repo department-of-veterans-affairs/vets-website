@@ -54,7 +54,8 @@ DelayedRefillAlert.propTypes = {
   dataDogActionName: PropTypes.string,
   refillAlertList: PropTypes.arrayOf(
     PropTypes.shape({
-      prescriptionId: PropTypes.number.isRequired,
+      prescriptionId: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+        .isRequired,
       prescriptionName: PropTypes.string.isRequired,
     }),
   ),

@@ -3,8 +3,9 @@
  * API - see services under maintenance_windows - https://github.com/department-of-veterans-affairs/devops/blob/master/ansible/deployment/config/vets-api/prod-settings.local.yml.j2#L284
  */
 export default {
-  arcgis: 'arcgis',
+  accreditedRepresentativePortal: 'accredited_representative_portal',
   appeals: 'appeals',
+  arcgis: 'arcgis',
   askva: 'askva',
   // Benefits Gateway Services
   bgs: 'bgs',

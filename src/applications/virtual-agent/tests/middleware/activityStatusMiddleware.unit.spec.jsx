@@ -4,6 +4,7 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 
 import { activityStatusMiddleware } from '../../middleware/activityStatusMiddleware';
+import { AI_DISCLAIMER_TEXT } from '../../utils/aiDisclaimerConstants';
 
 describe('activityStatusMiddleware', () => {
   let sandbox;
@@ -42,11 +43,7 @@ describe('activityStatusMiddleware', () => {
       // Check that the disclaimer exists with correct class and text
       const disclaimer = container.querySelector('.va-chatbot-ai-disclaimer');
       expect(disclaimer).to.exist;
-      expect(
-        getByText(
-          'This answer is AI-generated and may contain inaccuracies. Verify important information.',
-        ),
-      ).to.exist;
+      expect(getByText(AI_DISCLAIMER_TEXT)).to.exist;
 
       // Check that the original status is rendered inside the wrapper
       expect(getByTestId('original-status')).to.exist;

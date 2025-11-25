@@ -73,14 +73,12 @@ const UnderReviewConfirmation = ({ user, printPage, dateReceived }) => {
         <hr className="meb-hr" />
         <p>
           If more than a month has passed since you gave us your application and
-          you haven’t heard back, please don’t apply again. Contact us through{' '}
-          <a
+          you haven’t heard back, please don’t apply again.{' '}
+          <va-link
             href="https://ask.va.gov"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Ask VA
-          </a>
+            external
+            text="Contact us through Ask VA"
+          />
           .
         </p>
       </va-card>
@@ -101,26 +99,34 @@ const UnderReviewConfirmation = ({ user, printPage, dateReceived }) => {
         <h2>What can I do while I wait?</h2>
         <ul>
           <li>
-            If you need to submit documentation to VA, such as service records,
-            please send this through <a href="https://ask.va.gov/">Ask VA</a>.
+            <va-link
+              href="https://ask.va.gov/"
+              external
+              text="If you need to submit documentation to VA, such as service records, please send this through Ask VA"
+            />
+            .
           </li>
           <li>
-            Review and/or update your direct deposit information on{' '}
-            <a href="/change-direct-deposit/">your VA.gov profile</a>.
+            <va-link
+              href="/change-direct-deposit/"
+              text="Review and/or update your direct deposit information on your VA.gov profile"
+            />
+            .
           </li>
           <li>
-            Use our{' '}
-            <a href="/education/gi-bill-comparison-tool/">
-              GI Bill Comparison Tool
-            </a>{' '}
-            to help you decide which education program and school is best for
-            you.
+            <va-link
+              href="/education/gi-bill-comparison-tool/"
+              text="Use our GI Bill Comparison Tool on VA.gov to help you decide which education program and school is best for you"
+            />
+            .
           </li>
           <li>
-            Learn more about VA benefits and programs through the{' '}
-            <a href="https://blogs.va.gov/VAntage/78073/new-guide-series-provides-gi-bill-benefits-information/">
-              Building Your Future with the GI Bill Series
-            </a>
+            <va-link
+              href="https://benefits.va.gov/gibill/docs/gibguideseries/chooseyoureducationbenefits.pdf"
+              external
+              filetype="PDF"
+              text="Learn more about VA benefits and programs through the Building Your Future with the GI Bill Series"
+            />
             .
           </li>
         </ul>

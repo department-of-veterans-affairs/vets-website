@@ -137,7 +137,6 @@ function ViewDependentsLists(props) {
 }
 
 ViewDependentsLists.propTypes = {
-  dependencyVerificationToggle: PropTypes.bool,
   loading: PropTypes.bool,
   manageDependentsToggle: PropTypes.bool,
   notOnAwardDependents: PropTypes.array,

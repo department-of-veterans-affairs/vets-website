@@ -39,7 +39,6 @@ const AlertAddContactEmail = ({ recordEvent, onSkipClick }) => {
         </p>
         <p>
           <VaButton
-            fullWidth
             secondary
             onClick={() => onSkipClick()}
             text="Skip adding email"

@@ -32,12 +32,7 @@
   "claimantEmail": "chris.anderson@university.edu",
   "relationshipToDeceased": "executor",
   "wantsToWaiveSubstitution": false,
-  "survivors": {
-    "hasSpouse": false,
-    "hasChildren": true,
-    "hasParents": false,
-    "hasNone": false
-  },
+  "survivors": true,
   "survivingRelatives": [
     {
       "fullName": {

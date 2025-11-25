@@ -14,7 +14,7 @@ import {
   teSubtitle,
 } from '../../content/toxicExposure';
 import { ADDITIONAL_EXPOSURES, TE_URL_PREFIX } from '../../constants';
-import { validateToxicExposureAdditionalExposuresDates } from '../../utils/validations';
+import { validateToxicExposureDates } from '../../utils/validations';
 
 /**
  * Make the uiSchema for each additional exposures details page
@@ -47,7 +47,7 @@ function makeUiSchema(itemId) {
               title: exposureEndDateApproximate,
             }),
           },
-          'ui:validations': [validateToxicExposureAdditionalExposuresDates],
+          'ui:validations': [validateToxicExposureDates],
           'view:notSure': {
             'ui:title': notSureHazardDetails,
             'ui:webComponentField': VaCheckboxField,

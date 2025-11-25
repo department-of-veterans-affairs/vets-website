@@ -8,7 +8,7 @@ import mockSpecialCharsMessage from '../fixtures/message-response-specialchars.j
 import mockMessageDetails from '../fixtures/message-response.json';
 import mockThread from '../fixtures/thread-response.json';
 import PatientInterstitialPage from './PatientInterstitialPage';
-import { AXE_CONTEXT, Locators, Paths } from '../utils/constants';
+import { Alerts, AXE_CONTEXT, Locators, Paths } from '../utils/constants';
 import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
 import mockSentThreads from '../fixtures/sentResponse/sent-messages-response.json';
 
@@ -610,6 +610,18 @@ class PatientInboxPage {
         },
       ],
     };
+  };
+
+  validateNoRecipientsAlert = () => {
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
+      .find('h2')
+      .should('have.text', Alerts.NO_ASSOCIATION.AT_ALL_HEADER);
+  };
+
+  validateRecipientsErrorAlert = () => {
+    cy.findByTestId(Locators.ALERTS.RECIPIENTS_ERROR)
+      .find('h2')
+      .should('have.text', Alerts.ERROR_LOADING_RECIPIENTS_HEADER);
   };
 }
 
