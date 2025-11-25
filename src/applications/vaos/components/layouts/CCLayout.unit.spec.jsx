@@ -285,14 +285,10 @@ describe('VAOS Component: CCLayout', () => {
       expect(
         screen.getByRole('heading', {
           level: 1,
-          name: /Canceled community care appointment/i,
+          name: /Community care appointment/i,
         }),
       );
-      expect(
-        screen.getByText(
-          /If you still want this appointment, call your community care provider to schedule/i,
-        ),
-      );
+      expect(screen.getByText(/canceled this appointment/i));
       expect(
         screen.queryByRole('heading', {
           level: 2,
@@ -393,14 +389,10 @@ describe('VAOS Component: CCLayout', () => {
       expect(
         screen.getByRole('heading', {
           level: 1,
-          name: /Canceled community care appointment/i,
+          name: /Community care appointment/i,
         }),
       );
-      expect(
-        screen.getByText(
-          /If you still want this appointment, call your community care provider to schedule/i,
-        ),
-      );
+      expect(screen.getByText(/canceled this appointment/i));
       expect(
         screen.queryByRole('heading', {
           level: 2,

@@ -969,6 +969,11 @@ export default class MockAppointmentResponse {
     return this;
   }
 
+  setReferralId(value) {
+    this.attributes.referralId = value;
+    return this;
+  }
+
   setClinicId(id) {
     this.attributes.clinic = id;
     return this;

@@ -159,4 +159,13 @@ export class MockAppointment {
     this.videoData = value;
     return this;
   }
+
+  setReferralId(value) {
+    if (!this.vaos.apiData) {
+      this.vaos.apiData = {};
+    }
+    this.vaos.apiData.referralId = value;
+    this.referralId = value;
+    return this;
+  }
 }

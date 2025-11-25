@@ -158,11 +158,12 @@ describe('VAOS Component: StatusAlert', () => {
       expect(screen.queryByTestId('schedule-appointment-link')).to.exist;
     });
 
-    it('Should display for canceled CC appointments', () => {
+    it('Should display for canceled CC appointments with referral link', () => {
       const mockAppointment = new MockAppointment();
       mockAppointment.setType('COMMUNITY_CARE_APPOINTMENT');
       mockAppointment.setStatus('cancelled');
       mockAppointment.setCancelationReason('pat');
+      mockAppointment.setReferralId('VA0000009999');
 
       const screen = renderWithStoreAndRouter(
         <StatusAlert appointment={mockAppointment} facility={facilityData} />,
@@ -173,11 +174,77 @@ describe('VAOS Component: StatusAlert', () => {
       );
       expect(screen.baseElement).to.contain('.usa-alert-error');
       expect(screen.baseElement).to.contain.text(
-        'You canceled this appointment',
+        'You canceled this appointment.',
       );
       expect(screen.baseElement).to.contain.text(
-        'If you still want this appointment, call your community care provider to schedule.',
+        'If you want to reschedule, call us or schedule a new appointment online.',
       );
+
+      // Should have referral link
+      const referralLink = screen.container.querySelector(
+        'va-link[text="Go to your referral to schedule an appointment"]',
+      );
+      expect(referralLink).to.exist;
+      expect(referralLink.getAttribute('href')).to.equal(
+        '/my-health/appointments/schedule-referral?id=VA0000009999&referrer=referrals-requests',
+      );
+      expect(screen.queryByTestId('referral-link')).to.exist;
+
+      expect(screen.queryByTestId('review-appointments-link')).to.not.exist;
+      expect(screen.queryByTestId('schedule-appointment-link')).to.not.exist;
+    });
+
+    it('Should display for canceled CC appointments without referral link fallback', () => {
+      const mockAppointment = new MockAppointment();
+      mockAppointment.setType('COMMUNITY_CARE_APPOINTMENT');
+      mockAppointment.setStatus('cancelled');
+      mockAppointment.setCancelationReason('pat');
+      // No referralId set
+
+      const screen = renderWithStoreAndRouter(
+        <StatusAlert appointment={mockAppointment} facility={facilityData} />,
+        {
+          initialState,
+          path: `/${mockAppointment.id}`,
+        },
+      );
+      expect(screen.baseElement).to.contain('.usa-alert-error');
+      expect(screen.baseElement).to.contain.text(
+        'You canceled this appointment.',
+      );
+
+      // Should fall back to general referrals list
+      const referralLink = screen.container.querySelector(
+        'va-link[text="Go to your referral to schedule an appointment"]',
+      );
+      expect(referralLink).to.exist;
+      expect(referralLink.getAttribute('href')).to.equal(
+        '/my-health/appointments/referrals-requests',
+      );
+
+      expect(screen.queryByTestId('review-appointments-link')).to.not.exist;
+      expect(screen.queryByTestId('schedule-appointment-link')).to.not.exist;
+    });
+
+    it('Should display facility cancellation for CC appointments', () => {
+      const mockAppointment = new MockAppointment();
+      mockAppointment.setType('COMMUNITY_CARE_APPOINTMENT');
+      mockAppointment.setStatus('cancelled');
+      mockAppointment.setCancelationReason('clinic');
+      mockAppointment.setReferralId('VA0000009999');
+
+      const screen = renderWithStoreAndRouter(
+        <StatusAlert appointment={mockAppointment} facility={facilityData} />,
+        {
+          initialState,
+          path: `/${mockAppointment.id}`,
+        },
+      );
+      expect(screen.baseElement).to.contain('.usa-alert-error');
+      expect(screen.baseElement).to.contain.text(
+        `${facilityData.name} canceled this appointment.`,
+      );
+      expect(screen.queryByTestId('referral-link')).to.exist;
 
       expect(screen.queryByTestId('review-appointments-link')).to.not.exist;
       expect(screen.queryByTestId('schedule-appointment-link')).to.not.exist;
