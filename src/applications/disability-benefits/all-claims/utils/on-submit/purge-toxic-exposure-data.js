@@ -48,116 +48,103 @@ const hasSelectedConditions = conditions => {
 };
 
 /**
- * Helper function that processes a single exposure type, removing orphaned and
- * non-applicable data. Called by purgeToxicExposureData for each exposure type
- * (gulfWar1990, gulfWar2001, herbicide, otherExposures).
+ * Processes a single exposure type, removing data that will cause 422 errors or that user explicitly opted out of.
  *
- * Handles five main cleanup scenarios for each exposure type:
- * 1. Removes null exposure fields as orphaned data
- * 2. Removes orphaned details when main selection is missing
- * 3. Removes entire section when all values are false/none or section is empty
- * 4. Removes details for items where selection is not true (keeps false selections, removes their details)
- * 5. Removes "other" fields (otherHerbicideLocations, specifyOtherExposures) when null, empty/whitespace (string or object.description), 'none' selected, or no selections
+ * Removes:
+ * - Orphaned details when parent missing/null/invalid (prevents 422)
+ * - Orphaned otherKey when parent missing/null/invalid (prevents 422)
+ * - Section when user has explicit false values
+ * - Section when user selected 'none: true'
+ * - Details for items user unchecked
+ * - otherKey when user selected 'none' or has no valid selections
+ *
+ * Preserves (backend validates):
+ * - Empty objects {} when parent exists
+ * - Undefined values
+ * - Null/empty values in otherKey when parent exists
  *
  * @param {Object} toxicExposure - Toxic exposure data object
- * @param {Object.<string, boolean>} [toxicExposure[exposureType]] - Location/exposure selections as boolean values
- * @param {Object} [toxicExposure[detailsKey]] - Detail objects (dates, descriptions) for selected locations
  * @param {string} exposureType - Exposure type key (e.g., 'gulfWar1990')
  * @param {Object} mapping - Mapping configuration for exposure type
  * @param {string} mapping.detailsKey - Key for details object
- * @param {string} [mapping.otherKey] - Key for other/specify fields (e.g., 'otherHerbicideLocations', 'specifyOtherExposures')
- * @returns {Object} Toxic exposure object with orphaned/non-applicable data removed
+ * @param {string} [mapping.otherKey] - Key for other/specify fields
+ * @returns {Object} Toxic exposure object with orphaned and opted-out data removed
  */
 const purgeExposureDetails = (toxicExposure, exposureType, mapping) => {
   const { detailsKey, otherKey } = mapping;
   const result = { ...toxicExposure };
 
-  // Check conditions for various cleanup scenarios
-  const isExposureNull = result[exposureType] === null;
+  const exposureSelections = result[exposureType];
   const hasDetails = !!result[detailsKey];
-  const hasExposure = !!result[exposureType];
+  const exposureKeyExists = exposureType in result;
   const hasValidSelections =
-    hasExposure && hasSelectedConditions(result[exposureType]);
+    exposureKeyExists &&
+    exposureSelections &&
+    hasSelectedConditions(exposureSelections);
 
-  // Remove null exposure fields (orphaned data)
-  if (isExposureNull) {
-    delete result[exposureType];
-    delete result[detailsKey];
-    delete result[otherKey];
+  // Remove orphaned data when parent doesn't exist, is null, or malformed
+  // This prevents 422 validation errors. Note: undefined is preserved (doesn't cause 422)
+  const isExposureValueMalformed =
+    exposureKeyExists &&
+    exposureSelections !== undefined &&
+    (exposureSelections === null ||
+      typeof exposureSelections !== 'object' ||
+      Array.isArray(exposureSelections));
+
+  if (!exposureKeyExists || isExposureValueMalformed) {
+    if (hasDetails) delete result[detailsKey];
+    if (otherKey && otherKey in result) delete result[otherKey];
+    if (isExposureValueMalformed) delete result[exposureType];
     return result;
   }
 
-  // Remove orphaned details (details without corresponding exposure selections)
-  const hasOrphanedDetails = hasDetails && !hasExposure;
-  if (hasOrphanedDetails) {
-    delete result[detailsKey];
+  // Remove entire section when user explicitly deselected options
+  // Matches inverse of showSummaryPage form predicate
+  if (!hasValidSelections) {
+    const hasNoneSelected = exposureSelections?.none === true;
+    const hasUncheckedItems = Object.values(exposureSelections || {}).some(
+      val => val === false,
+    );
+
+    // Only remove if user selected 'none' or has unchecked items
+    if (hasNoneSelected || hasUncheckedItems) {
+      delete result[exposureType];
+      delete result[detailsKey];
+      if (otherKey) delete result[otherKey];
+      return result;
+    }
   }
 
-  // Remove orphaned otherKey when sibling exposure object doesn't exist
-  const hasOrphanedOtherKey = otherKey && result[otherKey] && !hasExposure;
-  if (hasOrphanedOtherKey) {
-    delete result[otherKey];
-  }
-
-  // Remove entire exposure section when user deselected all options
-  const shouldRemoveSection = hasExposure && !hasValidSelections;
-  if (shouldRemoveSection) {
-    delete result[exposureType];
-    delete result[detailsKey];
-    delete result[otherKey];
-  }
-
-  // Remove details for deselected items
-  const shouldFilterDetails = hasDetails && hasExposure;
-  if (shouldFilterDetails) {
-    const retainedDetails = pickBy(
+  // Remove details for specific items user unchecked
+  // Matches inverse of showCheckboxLoopDetailsPage form predicate
+  if (hasDetails && exposureKeyExists) {
+    const detailsToKeep = pickBy(
       result[detailsKey],
       (_value, key) => result[exposureType][key] === true,
     );
 
-    const hasNoRetainedDetails = isEmpty(retainedDetails);
-    if (hasNoRetainedDetails) {
-      delete result[detailsKey];
-    } else {
-      result[detailsKey] = retainedDetails;
+    if (
+      Object.keys(result[detailsKey]).length !==
+      Object.keys(detailsToKeep).length
+    ) {
+      if (isEmpty(detailsToKeep)) {
+        delete result[detailsKey];
+      } else {
+        result[detailsKey] = detailsToKeep;
+      }
     }
   }
 
-  // Remove other/specify fields when:
-  // - Field is null (orphaned data)
-  // - Field is empty/whitespace (string format) or has no/empty description (object format)
-  // - User selected 'none' or has no selections
-  const hasOtherField = otherKey && otherKey in result;
-  if (hasOtherField) {
-    const isOtherFieldNull = result[otherKey] === null;
-
-    // Handle both string and object formats
-    let hasEmptyDescription;
-    if (typeof result[otherKey] === 'string') {
-      // String format: check if empty or whitespace-only
-      hasEmptyDescription = result[otherKey].trim() === '';
-    } else if (
-      typeof result[otherKey] === 'object' &&
-      result[otherKey] !== null
-    ) {
-      // Object format: check if description property is missing or empty
-      hasEmptyDescription =
-        !result[otherKey].description ||
-        result[otherKey].description.trim() === '';
-    } else {
-      // Unknown format, treat as empty
-      hasEmptyDescription = true;
-    }
-
-    const hasNoneSelected = result[exposureType]?.none;
-    const hasNoSelections = !hasSelectedConditions(result[exposureType]);
-
-    const shouldRemoveOtherField =
-      isOtherFieldNull ||
-      hasEmptyDescription ||
-      hasNoneSelected ||
-      hasNoSelections;
-    if (shouldRemoveOtherField) {
+  // Remove otherKey when user opted out of parent section
+  // Note: orphaned otherKey (parent missing/null) already handled above
+  if (
+    otherKey &&
+    otherKey in result &&
+    exposureKeyExists &&
+    exposureSelections
+  ) {
+    const hasNoneSelected = exposureSelections.none === true;
+    if (hasNoneSelected || !hasValidSelections) {
       delete result[otherKey];
     }
   }
@@ -166,39 +153,26 @@ const purgeExposureDetails = (toxicExposure, exposureType, mapping) => {
 };
 
 /**
- * Removes orphaned and non-applicable toxic exposure data from form payload
- * to prevent backend validation errors when users opt out of sections.
+ * Removes toxic exposure data to prevent 422 validation errors and honor user opt-outs.
  *
- * This function handles scenarios where users:
- * - Start filling sections then deselect them (leaving orphaned details)
- * - Select "none" for conditions (complete opt-out - removes all exposure data, keeps only { conditions: { none: true } })
- * - Have no conditions selected (empty/missing/all false - removes entire toxicExposure object)
- * - Remove all selections but leave partial data behind
- * - Have null exposure fields that need cleanup
- * - Have orphaned "other" fields (otherHerbicideLocations, specifyOtherExposures) with null or empty descriptions
+ * Removes:
+ * - Orphaned data without valid parent (prevents 422 errors)
+ * - Data user explicitly opted out of (false values, 'none' selected)
  *
- * Key behaviors:
- * - Preserves unknown/unrecognized fields (forward compatibility)
- * - Keeps false values in selection objects (conditions, exposures) for backend visibility, except when 'none' is selected or no conditions are selected
- * - Removes orphaned detail objects for false/missing selections
- * - Only removes data matching known orphaned patterns
- * - Uses lodash's cloneDeep to prevent mutation
- * - Processes only exposure types defined in EXPOSURE_TYPE_MAPPING
- *
- * NOT a validation function - this is purely for cleaning up data that
- * shouldn't be submitted based on user's opt-out choices.
+ * Preserves:
+ * - Empty objects, undefined values, and unknown fields (backend validates)
  *
  * @param {Object} formData - Form data to transform
- * @param {boolean} [formData.disability526ToxicExposureOptOutDataPurge] - Feature flag for opt-out data purging
+ * @param {boolean} [formData.disability526ToxicExposureOptOutDataPurge] - Feature flag
  * @param {Object} [formData.toxicExposure] - Toxic exposure data
- * @param {Object.<string, boolean>} [formData.toxicExposure.conditions] - Health condition selections (keeps all values including false)
- * @param {Object.<string, boolean>} [formData.toxicExposure.gulfWar1990] - Gulf War 1990 location selections (keeps all values including false)
- * @param {Object.<string, boolean>} [formData.toxicExposure.gulfWar2001] - Gulf War 2001 location selections (keeps all values including false)
- * @param {Object.<string, boolean>} [formData.toxicExposure.herbicide] - Herbicide exposure location selections (keeps all values including false)
- * @param {Object.<string, boolean>} [formData.toxicExposure.otherExposures] - Other exposure type selections (keeps all values including false)
- * @param {Object|string} [formData.toxicExposure.otherHerbicideLocations] - Other herbicide locations details (string or object with description; removed if null/empty/whitespace)
- * @param {Object|string} [formData.toxicExposure.specifyOtherExposures] - Other exposures details (string or object with description; removed if null/empty/whitespace)
- * @returns {Object} Form data with orphaned/non-applicable toxic exposure data removed
+ * @param {Object.<string, boolean>} [formData.toxicExposure.conditions] - Condition selections
+ * @param {Object.<string, boolean>} [formData.toxicExposure.gulfWar1990] - Gulf War 1990 selections
+ * @param {Object.<string, boolean>} [formData.toxicExposure.gulfWar2001] - Gulf War 2001 selections
+ * @param {Object.<string, boolean>} [formData.toxicExposure.herbicide] - Herbicide selections
+ * @param {Object.<string, boolean>} [formData.toxicExposure.otherExposures] - Other exposure selections
+ * @param {Object|string} [formData.toxicExposure.otherHerbicideLocations] - Other herbicide details
+ * @param {Object|string} [formData.toxicExposure.specifyOtherExposures] - Other exposure details
+ * @returns {Object} Form data with orphaned and opted-out data removed
  */
 export const purgeToxicExposureData = formData => {
   const featureEnabled =
@@ -215,7 +189,6 @@ export const purgeToxicExposureData = formData => {
   const clonedData = cloneDeep(formData);
   let { toxicExposure } = clonedData;
 
-  // Handle invalid toxicExposure types (string, array, etc.)
   if (
     !toxicExposure ||
     typeof toxicExposure !== 'object' ||
@@ -224,9 +197,7 @@ export const purgeToxicExposureData = formData => {
     return clonedData;
   }
 
-  // Remove toxicExposure from clonedData
   delete clonedData.toxicExposure;
-
   const conditions = toxicExposure.conditions || {};
 
   // User selected "none" for conditions - complete opt-out scenario
@@ -242,7 +213,7 @@ export const purgeToxicExposureData = formData => {
     return clonedData;
   }
 
-  // Remove orphaned data from all exposure types
+  // Process all exposure types to remove orphaned data and explicit user opt-outs
   let processedExposure = toxicExposure;
   Object.entries(EXPOSURE_TYPE_MAPPING).forEach(([exposureType, mapping]) => {
     processedExposure = purgeExposureDetails(
@@ -252,16 +223,6 @@ export const purgeToxicExposureData = formData => {
     );
   });
   toxicExposure = processedExposure;
-
-  // Remove entire toxicExposure if user opted out of everything
-  const hasNoMeaningfulData = Object.keys(toxicExposure).every(key => {
-    const value = toxicExposure[key];
-    return !value || (typeof value === 'object' && isEmpty(value));
-  });
-
-  if (hasNoMeaningfulData) {
-    return clonedData;
-  }
 
   return { ...clonedData, toxicExposure };
 };

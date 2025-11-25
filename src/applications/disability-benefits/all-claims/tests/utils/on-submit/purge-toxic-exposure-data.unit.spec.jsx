@@ -7,17 +7,16 @@ import {
 /**
  * Unit tests for purgeToxicExposureData function
  *
- * Verifies proper removal of orphaned toxic exposure data when users
- * opt out of sections in the disability compensation form.
+ * Verifies CONSERVATIVE removal with minimal data structure changes.
  *
  * Key behaviors tested:
  * 1. Feature flag control - processes when disability526ToxicExposureOptOutDataPurge is true
  * 2. "None" condition handling - keeps only conditions.none when selected alone
- * 3. Orphaned data removal - removes details without corresponding selections
- * 4. Detail retention - preserves details only for locations marked as true
- * 5. "Other" field cleanup - removes otherHerbicideLocations/specifyOtherExposures when null/empty/whitespace (supports both string and object formats)
- * 6. False value preservation - maintains false selections while removing their details (except when 'none' selected or no conditions)
- * 7. Null field cleanup - removes null fields
+ * 3. Orphaned data removal - removes details without parent (prevents 422 errors)
+ * 4. Explicit opt-out removal - removes sections/details when user has false values or 'none' selected
+ * 5. Detail retention - preserves details only for locations marked as true
+ * 6. MINIMAL CHANGES - keeps empty objects {}, null/undefined in otherKey (backend validates)
+ * 7. Rationale - keep data structure as original as possible, only remove orphaned data (422) or explicit opt-outs
  */
 describe('purgeToxicExposureData', () => {
   describe('when feature flag is disabled', () => {
@@ -284,11 +283,12 @@ describe('purgeToxicExposureData', () => {
         });
       });
 
-      it('should remove orphaned details when parent exposure object is missing (hasOrphanedDetails check)', () => {
+      it('should remove orphaned details when parent exposure object is missing (prevents 422)', () => {
         const formData = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
             conditions: { asthma: true },
+            // Parent objects missing - details are orphaned, would cause 422
             [EXPOSURE_TYPE_MAPPING.gulfWar1990.detailsKey]: {
               bahrain: { startDate: '1990-01-01', endDate: '1990-12-31' },
             },
@@ -300,6 +300,7 @@ describe('purgeToxicExposureData', () => {
 
         const result = purgeToxicExposureData(formData);
 
+        // REMOVED - orphaned data causes 422 validation errors
         expect(result.toxicExposure).to.not.have.property(
           EXPOSURE_TYPE_MAPPING.gulfWar1990.detailsKey,
         );
@@ -447,12 +448,12 @@ describe('purgeToxicExposureData', () => {
       });
 
       it('should handle invalid and falsy values correctly', () => {
-        // Invalid data types
+        // Invalid data types (non-objects) - keep them, let backend validate
         const invalidData = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
             conditions: { asthma: true },
-            gulfWar1990: 'not-an-object',
+            gulfWar1990: 'not-an-object', // Invalid type, but kept
             [EXPOSURE_TYPE_MAPPING.gulfWar1990.detailsKey]: {
               bahrain: { startDate: '1990-01-01' },
             },
@@ -461,18 +462,19 @@ describe('purgeToxicExposureData', () => {
         };
         let result = purgeToxicExposureData(invalidData);
         expect(result.toxicExposure.conditions).to.deep.equal({ asthma: true });
+        // Invalid type kept, but details removed as orphaned (parent invalid)
         expect(result.toxicExposure).to.not.have.property(
           EXPOSURE_TYPE_MAPPING.gulfWar1990.detailsKey,
         );
         expect(result.toxicExposure.herbicide).to.deep.equal({ vietnam: true });
 
-        // Null and undefined values
+        // Null and undefined values - removed as orphaned
         const falsyData = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
             conditions: { asthma: true },
-            gulfWar1990: null,
-            herbicide: undefined,
+            gulfWar1990: null, // Null parent = orphaned, removed
+            herbicide: undefined, // Undefined parent = not present or undefined
             otherExposures: {
               asbestos: false,
               radiation: true,
@@ -546,14 +548,14 @@ describe('purgeToxicExposureData', () => {
         });
       });
 
-      it('should remove null other fields and preserve fields with valid descriptions', () => {
+      it('should preserve null/empty other fields when parent exists (backend validates)', () => {
         const formData = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
             conditions: { asthma: true },
-            herbicide: { laos: true },
-            otherExposures: { asbestos: true },
-            otherHerbicideLocations: null,
+            herbicide: { laos: true }, // Parent exists
+            otherExposures: { asbestos: true }, // Parent exists
+            otherHerbicideLocations: null, // Null but parent exists - KEEP for backend validation
             specifyOtherExposures: {
               description: 'Asbestos exposure',
               startDate: '1980-01-01',
@@ -564,12 +566,14 @@ describe('purgeToxicExposureData', () => {
 
         const result = purgeToxicExposureData(formData);
 
-        // Null field should be removed as orphaned data
-        expect(result.toxicExposure).to.not.have.property(
+        // Null field KEPT because parent herbicide exists (minimal changes approach)
+        expect(result.toxicExposure).to.have.property(
           EXPOSURE_TYPE_MAPPING.herbicide.otherKey,
         );
+        expect(result.toxicExposure[EXPOSURE_TYPE_MAPPING.herbicide.otherKey])
+          .to.be.null;
 
-        // Field with valid description should be preserved
+        // Field with description is preserved
         expect(
           result.toxicExposure[EXPOSURE_TYPE_MAPPING.otherExposures.otherKey],
         ).to.deep.equal({
@@ -579,20 +583,20 @@ describe('purgeToxicExposureData', () => {
         });
       });
 
-      it('should remove other fields when description is empty or whitespace only', () => {
+      it('should preserve other fields with empty/whitespace descriptions (backend validates)', () => {
         const formData = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
             conditions: { asthma: true },
-            herbicide: { vietnam: true },
-            otherExposures: { asbestos: true },
+            herbicide: { vietnam: true }, // Parent exists
+            otherExposures: { asbestos: true }, // Parent exists
             otherHerbicideLocations: {
-              description: '', // Empty string
+              description: '', // Empty string - KEEP, backend validates
               startDate: '1973-06-01',
               endDate: '1974-12-31',
             },
             specifyOtherExposures: {
-              description: '   ', // Whitespace only
+              description: '   ', // Whitespace only - KEEP, backend validates
               startDate: '1980-01-01',
               endDate: '1985-01-01',
             },
@@ -601,36 +605,44 @@ describe('purgeToxicExposureData', () => {
 
         const result = purgeToxicExposureData(formData);
 
-        // Both should be removed due to empty/whitespace descriptions
-        expect(result.toxicExposure).to.not.have.property(
+        // Both KEPT - minimal changes approach, no whitespace checking
+        expect(result.toxicExposure).to.have.property(
           'otherHerbicideLocations',
         );
-        expect(result.toxicExposure).to.not.have.property(
-          'specifyOtherExposures',
-        );
+        expect(result.toxicExposure.otherHerbicideLocations).to.deep.equal({
+          description: '',
+          startDate: '1973-06-01',
+          endDate: '1974-12-31',
+        });
+        expect(result.toxicExposure).to.have.property('specifyOtherExposures');
+        expect(result.toxicExposure.specifyOtherExposures).to.deep.equal({
+          description: '   ',
+          startDate: '1980-01-01',
+          endDate: '1985-01-01',
+        });
       });
 
-      it('should remove other fields when set to undefined', () => {
+      it('should preserve other fields when set to undefined (backend validates)', () => {
         const formData = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
             conditions: { asthma: true },
-            herbicide: { vietnam: true },
-            otherExposures: { asbestos: true },
-            otherHerbicideLocations: undefined, // Undefined value
-            specifyOtherExposures: undefined, // Undefined value
+            herbicide: { vietnam: true }, // Parent exists
+            otherExposures: { asbestos: true }, // Parent exists
+            otherHerbicideLocations: undefined, // Undefined - KEEP, backend validates
+            specifyOtherExposures: undefined, // Undefined - KEEP, backend validates
           },
         };
 
         const result = purgeToxicExposureData(formData);
 
-        // Both should be removed - undefined is treated as unknown format (empty)
-        expect(result.toxicExposure).to.not.have.property(
+        // Both KEPT - minimal changes approach, undefined values preserved
+        expect(result.toxicExposure).to.have.property(
           'otherHerbicideLocations',
         );
-        expect(result.toxicExposure).to.not.have.property(
-          'specifyOtherExposures',
-        );
+        expect(result.toxicExposure.otherHerbicideLocations).to.be.undefined;
+        expect(result.toxicExposure).to.have.property('specifyOtherExposures');
+        expect(result.toxicExposure.specifyOtherExposures).to.be.undefined;
       });
     });
 
@@ -880,44 +892,44 @@ describe('purgeToxicExposureData', () => {
         );
       });
 
-      it('should follow cleanup priority order correctly (all condition checks in sequence)', () => {
-        // Test priority: 1. Feature flag, 2. conditions.none, 3. null fields, 4. all false, 5. orphaned details
+      it('should follow removal logic correctly (orphaned vs explicit opt-out)', () => {
+        // Test: 1. Orphaned removal (parent null), 2. Explicit opt-out (all false), 3. Detail filtering
         const formData = {
-          disability526ToxicExposureOptOutDataPurge: true, // Priority 1: Flag enabled
+          disability526ToxicExposureOptOutDataPurge: true, // Flag enabled
           toxicExposure: {
-            conditions: { asthma: true, cancer: false }, // Priority 2: Not only none
-            gulfWar1990: null, // Priority 3a: Null field
+            conditions: { asthma: true, cancer: false }, // Has valid conditions
+            gulfWar1990: null, // Null parent = orphaned, removed
             gulfWar2001: {
-              // Priority 3b: All false
+              // All false = explicit opt-out, removed
               afghanistan: false,
               yemen: false,
             },
             herbicide: {
-              // Priority 3c: Has true values
+              // Has true values - kept
               vietnam: true,
               cambodia: false,
             },
             herbicideDetails: {
-              // Priority 3d: Mixed orphaned details
-              vietnam: { startDate: '1968-01-01' }, // Valid
+              // Mixed details
+              vietnam: { startDate: '1968-01-01' }, // Valid (parent true)
               cambodia: { startDate: '1969-01-01' }, // Orphaned (parent false)
               laos: { startDate: '1970-01-01' }, // Orphaned (no parent)
             },
             otherExposures: { asbestos: true },
-            otherHerbicideLocations: null, // Priority 3e: Null other field
-            specifyOtherExposures: { description: 'Valid' }, // Valid - has description
+            otherHerbicideLocations: null, // Null but parent herbicide exists - KEPT
+            specifyOtherExposures: { description: 'Valid' }, // Valid - kept
           },
         };
 
         const result = purgeToxicExposureData(formData);
 
-        // Verify priority order was followed
+        // Verify removal logic
         expect(result.toxicExposure).to.exist; // Flag was true
         expect(result.toxicExposure.conditions).to.deep.equal({
           asthma: true,
           cancer: false,
-        }); // False values kept
-        expect(result.toxicExposure).to.not.have.property('gulfWar1990'); // Null removed
+        }); // False values kept in conditions
+        expect(result.toxicExposure).to.not.have.property('gulfWar1990'); // Null parent removed
         expect(result.toxicExposure).to.not.have.property('gulfWar2001'); // All false removed
         expect(result.toxicExposure.herbicide).to.deep.equal({
           vietnam: true,
@@ -926,9 +938,11 @@ describe('purgeToxicExposureData', () => {
         expect(result.toxicExposure.herbicideDetails).to.deep.equal({
           vietnam: { startDate: '1968-01-01' }, // Only valid detail kept
         });
-        expect(result.toxicExposure).to.not.have.property(
+        // Null otherKey KEPT because parent herbicide exists (minimal changes)
+        expect(result.toxicExposure).to.have.property(
           'otherHerbicideLocations',
-        ); // Null removed
+        );
+        expect(result.toxicExposure.otherHerbicideLocations).to.be.null;
         expect(result.toxicExposure.specifyOtherExposures).to.deep.equal({
           description: 'Valid',
         });
@@ -1099,14 +1113,22 @@ describe('purgeToxicExposureData', () => {
           asbestos: { startDate: '1980-01-01', endDate: '1985-01-01' },
         });
 
-        // otherHerbicideLocations and specifyOtherExposures should be removed
-        // because their descriptions are empty or whitespace-only
-        expect(result.toxicExposure).to.not.have.property(
+        // otherHerbicideLocations and specifyOtherExposures KEPT even with empty/whitespace
+        // Minimal changes approach - backend validates content
+        expect(result.toxicExposure).to.have.property(
           EXPOSURE_TYPE_MAPPING.herbicide.otherKey,
         );
-        expect(result.toxicExposure).to.not.have.property(
+        expect(
+          result.toxicExposure[EXPOSURE_TYPE_MAPPING.herbicide.otherKey],
+        ).to.deep.equal({
+          description: '',
+        });
+        expect(result.toxicExposure).to.have.property(
           EXPOSURE_TYPE_MAPPING.otherExposures.otherKey,
         );
+        expect(
+          result.toxicExposure[EXPOSURE_TYPE_MAPPING.otherExposures.otherKey],
+        ).to.equal('   ');
       });
     });
   });
