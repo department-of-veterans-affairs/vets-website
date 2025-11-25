@@ -2,10 +2,11 @@ import React from 'react';
 import sinon from 'sinon';
 import { Provider } from 'react-redux';
 import { expect } from 'chai';
-import { render, act } from '@testing-library/react';
+import { render } from '@testing-library/react';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import * as FeatureToggleHooks from 'platform/utilities/feature-toggles/useFeatureToggle';
 
 import * as UseBotOutgoingActivityEventListenerModule from '../../hooks/useBotOutgoingActivityEventListener';
 import * as UseWebMessageActivityEventListenerModule from '../../hooks/useWebMessageActivityEventListener';
@@ -31,6 +32,17 @@ const mockStore = {
   dispatch: () => ({}),
 };
 
+const mockFeatureToggle = (isSessionPersistenceEnabled = false) => ({
+  useToggleValue: name =>
+    name === 'virtualAgentChatbotSessionPersistenceEnabled'
+      ? isSessionPersistenceEnabled
+      : false,
+  TOGGLE_NAMES: {
+    virtualAgentChatbotSessionPersistenceEnabled:
+      'virtualAgentChatbotSessionPersistenceEnabled',
+  },
+});
+
 describe('Chatbox', () => {
   let sandbox;
 
@@ -44,6 +56,9 @@ describe('Chatbox', () => {
 
   describe('Chatbox', () => {
     it('should setup the useBotOutgoingActivityEventListener and useWebMessageActivityEventListener', () => {
+      sandbox
+        .stub(FeatureToggleHooks, 'useFeatureToggle')
+        .returns(mockFeatureToggle(false));
       const useBotOutgoingActivityEventListenerStub = sandbox.stub(
         UseBotOutgoingActivityEventListenerModule,
         'default',
@@ -62,7 +77,11 @@ describe('Chatbox', () => {
       expect(useBotOutgoingActivityEventListenerStub.calledOnce).to.be.true;
       expect(useWebMessageActivityEventListenerStub.calledOnce).to.be.true;
     });
+
     it('should render the Bot component', () => {
+      sandbox
+        .stub(FeatureToggleHooks, 'useFeatureToggle')
+        .returns(mockFeatureToggle(false));
       sandbox.stub(UseBotOutgoingActivityEventListenerModule, 'default');
       sandbox.stub(UseWebMessageActivityEventListenerModule, 'default');
 
@@ -75,11 +94,14 @@ describe('Chatbox', () => {
       expect($('h2', container).textContent).to.equal('VA chatbot (beta)');
     });
 
-    it('should reset chatBotLoadTime when va-chatbot-reset event fires', async () => {
-      const capturedLoadTimes = [];
-      const useBotOutgoingActivityEventListenerStub = sandbox
-        .stub(UseBotOutgoingActivityEventListenerModule, 'default')
-        .callsFake(loadTime => capturedLoadTimes.push(loadTime));
+    it('should enable reload guard when session persistence is OFF', () => {
+      sandbox
+        .stub(FeatureToggleHooks, 'useFeatureToggle')
+        .returns(mockFeatureToggle(false));
+      const useBotOutgoingActivityEventListenerStub = sandbox.stub(
+        UseBotOutgoingActivityEventListenerModule,
+        'default',
+      );
       sandbox.stub(UseWebMessageActivityEventListenerModule, 'default');
 
       render(
@@ -88,21 +110,38 @@ describe('Chatbox', () => {
         </Provider>,
       );
 
-      const initialLoadTime = capturedLoadTimes[0];
-      expect(initialLoadTime).to.be.a('number');
+      // Second argument should be true (enabled) when persistence is OFF
+      expect(useBotOutgoingActivityEventListenerStub.calledOnce).to.be.true;
+      const [
+        ,
+        enabled,
+      ] = useBotOutgoingActivityEventListenerStub.firstCall.args;
+      expect(enabled).to.be.true;
+    });
 
-      // Wait a bit then dispatch reset event
-      await new Promise(resolve => setTimeout(resolve, 10));
-      await act(async () => {
-        window.dispatchEvent(new Event('va-chatbot-reset'));
-      });
+    it('should disable reload guard when session persistence is ON', () => {
+      sandbox
+        .stub(FeatureToggleHooks, 'useFeatureToggle')
+        .returns(mockFeatureToggle(true));
+      const useBotOutgoingActivityEventListenerStub = sandbox.stub(
+        UseBotOutgoingActivityEventListenerModule,
+        'default',
+      );
+      sandbox.stub(UseWebMessageActivityEventListenerModule, 'default');
 
-      // The hook should have been called again with a new (later) timestamp
-      const resetLoadTime = capturedLoadTimes[capturedLoadTimes.length - 1];
-      expect(resetLoadTime).to.be.greaterThan(initialLoadTime);
-      expect(
-        useBotOutgoingActivityEventListenerStub.callCount,
-      ).to.be.greaterThan(1);
+      render(
+        <Provider store={mockStore}>
+          <Chatbox />
+        </Provider>,
+      );
+
+      // Second argument should be false (disabled) when persistence is ON
+      expect(useBotOutgoingActivityEventListenerStub.calledOnce).to.be.true;
+      const [
+        ,
+        enabled,
+      ] = useBotOutgoingActivityEventListenerStub.firstCall.args;
+      expect(enabled).to.be.false;
     });
   });
 });

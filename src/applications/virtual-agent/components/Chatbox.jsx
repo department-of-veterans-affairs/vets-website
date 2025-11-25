@@ -1,20 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import useBotOutgoingActivityEventListener from '../hooks/useBotOutgoingActivityEventListener';
 import useWebMessageActivityEventListener from '../hooks/useWebMessageActivityEventListener';
 import Bot from './Bot';
 
 export default function Chatbox() {
-  const [chatBotLoadTime, setChatBotLoadTime] = useState(Date.now());
+  const [chatBotLoadTime] = useState(Date.now());
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const isSessionPersistenceEnabled = useToggleValue(
+    TOGGLE_NAMES.virtualAgentChatbotSessionPersistenceEnabled,
+  );
 
-  // Reset chatBotLoadTime when user starts a new chat after session expiry
-  // This prevents the 60-minute reload guard from triggering on the first message
-  useEffect(() => {
-    const onReset = () => setChatBotLoadTime(Date.now());
-    window.addEventListener('va-chatbot-reset', onReset);
-    return () => window.removeEventListener('va-chatbot-reset', onReset);
-  }, []);
-
-  useBotOutgoingActivityEventListener(chatBotLoadTime);
+  // Disable the 60-minute reload guard when session persistence is enabled,
+  // as the new session reset flow handles token expiry gracefully
+  useBotOutgoingActivityEventListener(
+    chatBotLoadTime,
+    !isSessionPersistenceEnabled,
+  );
   useWebMessageActivityEventListener();
 
   return (
