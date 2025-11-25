@@ -7,11 +7,14 @@ import {
 import manifest from '../manifest.json';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
+import IntroductionPageITF from '../containers/IntroductionPageITF';
 import { uploadPage } from '../pages/upload';
 import { claimantInformationPage } from '../pages/claimantInformation';
+import { itfClaimantInformationPage } from '../pages/itfClaimantInformation';
 import { veteranInformationPage } from '../pages/veteranInformation';
 import { IsVeteranPage, isVeteranPage } from '../pages/isVeteranPage';
-import transformForSubmit, {
+import {
+  transformForSubmit,
   itfTransformForSubmit,
 } from './submit-transformer';
 import {
@@ -23,6 +26,8 @@ import {
 import { CustomTopContent } from '../pages/helpers';
 import submissionError from './submissionError';
 import ITFStatusLoadingIndicatorPage from '../components/ITFStatusLoadingIndicatorPage';
+import PermissionError from '../components/PermissionError';
+import ExistingItf from '../components/ExistingItf';
 
 // mock-data import for local development
 import testData from '../tests/e2e/fixtures/data/veteran.json';
@@ -134,7 +139,7 @@ const formConfig = (pathname = null) => {
       }/accredited_representative_portal/v0/intent_to_file`,
       dev: { collapsibleNavLinks: true, showNavLinks: !window.Cypress },
       trackingPrefix,
-      introduction: IntroductionPage,
+      introduction: IntroductionPageITF,
       confirmation: ConfirmationPage,
       CustomTopContent,
       customText: {
@@ -144,8 +149,8 @@ const formConfig = (pathname = null) => {
       },
       hideReviewChapters: true,
       version: 1,
-      prefillEnabled: true,
-      itfTransformForSubmit,
+      // prefillEnabled: true,
+      transformForSubmit: itfTransformForSubmit,
       submissionError,
       defaultDefinitions: {},
       additionalRoutes: [
@@ -153,6 +158,18 @@ const formConfig = (pathname = null) => {
           path: 'get-itf-status',
           pageKey: 'get-itf-status',
           component: ITFStatusLoadingIndicatorPage,
+          depends: () => false,
+        },
+        {
+          path: 'permission-error',
+          pageKey: 'permission-error',
+          component: PermissionError,
+          depends: () => false,
+        },
+        {
+          path: 'existing-itf',
+          pageKey: 'existing-itf',
+          component: ExistingItf,
           depends: () => false,
         },
       ],
@@ -187,36 +204,19 @@ const formConfig = (pathname = null) => {
                 return formData.isVeteran === 'yes';
               },
               onNavForward: ({ formData, goPath, goNextPath, setFormData }) =>
-                getIntentsToFile({ formData, goPath, goNextPath, setFormData }),
+                getIntentsToFile({
+                  formData,
+                  goPath,
+                  goNextPath,
+                  setFormData,
+                  urlPrefix: 'submit-va-form-21-0966/',
+                }),
               schema: itfVeteranInformationPageSchema,
               scrollAndFocusTarget,
               // we want req'd fields prefilled for LOCAL testing/previewing
               // one single initialData prop here will suffice for entire form
               initialData: getMockData(mockData, isLocalhost),
             },
-            // getItfStatus: {
-            //   path: 'get-itf-status',
-            //   title: 'Claimant information',
-            //   uiSchema: {
-            //     'view:claimantDescription': {
-            //       'ui:description': Object.freeze(
-            //         <>
-            //           <span className="vads-u-font-weight--bold">TEST</span>
-            //         </>,
-            //       ),
-            //     },
-            //     'ui:widget': ITFStatusLoadingIndicatorPage,
-            //   },
-            //   schema: {
-            //     type: 'object',
-            //     properties: {
-            //     },
-            //   },
-            //   depends: formData => {
-            //     return formData.isVeteran === 'yes';
-            //   },
-            //   scrollAndFocusTarget,
-            // },
           },
         },
         claimantInformationChapter: {
@@ -225,16 +225,27 @@ const formConfig = (pathname = null) => {
             claimantInformation: {
               path: 'claimant-information',
               title: 'Claimant and Veteran information',
-              uiSchema: claimantInformationPage.uiSchema,
+              uiSchema: itfClaimantInformationPage.uiSchema,
               depends: formData => {
                 return (
                   formData.isVeteran === undefined ||
                   formData.isVeteran === 'no'
                 );
               },
-              // onNavForward: ({ formData, goPath, goNextPath, setFormData }) =>
-              //   getIntentsToFile({ formData, goPath, goNextPath, setFormData }),
-              schema: claimantInformationPage.schema,
+              onNavForward: ({ formData, goPath, goNextPath, setFormData }) => {
+                const survivorFormData = setFormData({
+                  ...formData,
+                  benefitType: 'survivor',
+                });
+                getIntentsToFile({
+                  formData: survivorFormData.data,
+                  goPath,
+                  goNextPath,
+                  setFormData,
+                  urlPrefix: 'submit-va-form-21-0966/',
+                });
+              },
+              schema: itfClaimantInformationPage.schema,
               scrollAndFocusTarget,
               // we want req'd fields prefilled for LOCAL testing/previewing
               // one single initialData prop here will suffice for entire form
