@@ -342,7 +342,11 @@ export const removeExtraData = formData => {
         return acc;
       }, {}),
     );
+  } else {
+    // NEW: if there are no rated disabilities, don't send the field at all
+    delete clonedData.ratedDisabilities;
   }
+
   return clonedData;
 };
 
