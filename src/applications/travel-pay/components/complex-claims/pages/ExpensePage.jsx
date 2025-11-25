@@ -14,7 +14,11 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import DocumentUpload from './DocumentUpload';
 import { EXPENSE_TYPES, EXPENSE_TYPE_KEYS } from '../../../constants';
-import { createExpense, updateExpense } from '../../../redux/actions';
+import {
+  createExpense,
+  updateExpense,
+  setUnsavedExpenseChanges,
+} from '../../../redux/actions';
 import {
   selectExpenseUpdateLoadingState,
   selectExpenseCreationLoadingState,
@@ -41,6 +45,8 @@ const ExpensePage = () => {
   const [document, setDocument] = useState(null);
   const [documentLoading, setDocumentLoading] = useState(false);
   const errorRef = useRef(null); // ref for the error message
+  const initialFormStateRef = useRef({});
+  const previousHasChangesRef = useRef(false);
 
   const isEditMode = !!expenseId;
   const isLoadingExpense = useSelector(
@@ -113,10 +119,12 @@ const ExpensePage = () => {
   useEffect(
     () => {
       if (expenseId && expense && !hasLoadedExpenseRef.current) {
-        setFormState({
+        const initialState = {
           ...expense,
           purchaseDate: expense.dateIncurred || '',
-        });
+        };
+        setFormState(initialState);
+        initialFormStateRef.current = initialState;
         hasLoadedExpenseRef.current = true;
       }
     },
@@ -138,6 +146,21 @@ const ExpensePage = () => {
       }
     },
     [showError],
+  );
+
+  // Track unsaved changes by comparing current state to initial state
+  useEffect(
+    () => {
+      const hasChanges =
+        JSON.stringify(formState) !==
+        JSON.stringify(initialFormStateRef.current);
+      // Only dispatch if the hasChanges value actually changed
+      if (hasChanges !== previousHasChangesRef.current) {
+        dispatch(setUnsavedExpenseChanges(hasChanges));
+        previousHasChangesRef.current = hasChanges;
+      }
+    },
+    [formState, dispatch],
   );
 
   const expenseType = Object.values(EXPENSE_TYPE_KEYS).find(
@@ -164,6 +187,8 @@ const ExpensePage = () => {
   const handleCloseCancelModal = () => setIsCancelModalVisible(false);
   const handleConfirmCancel = () => {
     handleCloseCancelModal();
+    // Clear unsaved changes when canceling
+    dispatch(setUnsavedExpenseChanges(false));
     if (isEditMode) {
       // TODO: Add logic to determine where the user came from and direct them back to the correct location
       // navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
@@ -219,6 +244,9 @@ const ExpensePage = () => {
           createExpense(claimId, expenseConfig.apiRoute, formState),
         );
       }
+      // Reset initial state reference to current state after successful save
+      initialFormStateRef.current = formState;
+      dispatch(setUnsavedExpenseChanges(false));
       navigate(`/file-new-claim/${apptId}/${claimId}/review`);
     } catch (error) {
       // TODO: Handle error

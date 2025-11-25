@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom-v5-compat';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -6,7 +6,11 @@ import {
   VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
-import { createExpense, updateExpense } from '../../../redux/actions';
+import {
+  createExpense,
+  updateExpense,
+  setUnsavedExpenseChanges,
+} from '../../../redux/actions';
 import {
   selectExpenseUpdateLoadingState,
   selectExpenseCreationLoadingState,
@@ -40,6 +44,8 @@ const Mileage = () => {
   const [departureAddress, setDepartureAddress] = useState('');
   const [tripType, setTripType] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const initialStateRef = useRef({ departureAddress: '', tripType: '' });
+  const previousHasChangesRef = useRef(false);
 
   const handleDepartureAddressChange = event => {
     setDepartureAddress(event.detail.value);
@@ -48,6 +54,22 @@ const Mileage = () => {
   const handleTripTypeChange = event => {
     setTripType(event.detail.value);
   };
+
+  // Track unsaved changes by comparing current state to initial state
+  useEffect(
+    () => {
+      const currentState = { departureAddress, tripType };
+      const hasChanges =
+        JSON.stringify(currentState) !==
+        JSON.stringify(initialStateRef.current);
+      // Only dispatch if the hasChanges value actually changed
+      if (hasChanges !== previousHasChangesRef.current) {
+        dispatch(setUnsavedExpenseChanges(hasChanges));
+        previousHasChangesRef.current = hasChanges;
+      }
+    },
+    [departureAddress, tripType, dispatch],
+  );
 
   const handleOpenModal = () => {
     setIsModalVisible(true);
@@ -59,6 +81,8 @@ const Mileage = () => {
 
   const handleConfirmCancel = () => {
     handleCloseModal();
+    // Clear unsaved changes when canceling
+    dispatch(setUnsavedExpenseChanges(false));
     if (isEditMode) {
       // TODO: Add logic to determine where the user came from and direct them back to the correct location
       // navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
@@ -98,6 +122,9 @@ const Mileage = () => {
             createExpense(claimId, EXPENSE_TYPES.Mileage.apiRoute, expenseData),
           );
         }
+        // Reset initial state reference to current state after successful save
+        initialStateRef.current = { departureAddress, tripType };
+        dispatch(setUnsavedExpenseChanges(false));
       } catch (error) {
         // Handle error
         // eslint-disable-next-line no-console
@@ -124,8 +151,13 @@ const Mileage = () => {
         e => e.expenseType === EXPENSE_TYPE_KEYS.MILEAGE,
       );
       if (expenseId ?? hasMileageExpense) {
-        setDepartureAddress('home-address');
-        setTripType(TRIP_TYPES.ROUND_TRIP.value);
+        const initialState = {
+          departureAddress: 'home-address',
+          tripType: TRIP_TYPES.ROUND_TRIP.value,
+        };
+        setDepartureAddress(initialState.departureAddress);
+        setTripType(initialState.tripType);
+        initialStateRef.current = initialState;
       }
     },
     [claimId, allExpenses, expenseId],
