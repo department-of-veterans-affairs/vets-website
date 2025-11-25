@@ -1,14 +1,15 @@
+import { isEmpty } from 'lodash';
 import { srSubstitute } from '~/platform/forms-system/src/js/utilities/ui/mask-string';
 import { focusElement } from 'platform/utilities/ui';
 import { waitForShadowRoot } from 'platform/utilities/ui/webComponents';
 import { scrollTo } from 'platform/utilities/scroll';
+import { apiRequest } from 'platform/utilities/api';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import {
   FORM_UPLOAD_FILE_UPLOADING_ALERT,
   FORM_UPLOAD_INSTRUCTION_ALERT,
   FORM_UPLOAD_OCR_ALERT,
 } from '../config/constants';
-import { apiRequest } from 'platform/utilities/api';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 const formMappings = {
   '21-686c': {
@@ -180,58 +181,84 @@ export const hasActivePensionITF = ({ formData } = {}) => {
   return !isEmpty(formData?.['view:activePensionITF']);
 };
 
+export const goPathAfterGettingITF = (
+  intent,
+  formData,
+  goPath,
+  goNextPath,
+  setFormData,
+  urlPrefix,
+) => {
+  const formDataToSet = { ...formData, 'view:activeITF': intent };
+
+  setFormData(formDataToSet);
+
+  if (!isEmpty(formDataToSet?.['view:activeITF'])) {
+    goPath(`${urlPrefix}existing-itf`);
+  } else {
+    goNextPath();
+  }
+};
+
+const fetchIntentToFile = async (
+  formData,
+  benefitType,
+  urlPrefix,
+  goPath,
+  goNextPath,
+) => {
+  let params = `?veteranFirstName=${formData.veteranFullName.first}`;
+  params = `${params}&veteranLastName=${formData.veteranFullName.last}`;
+  params = `${params}&veteranDateOfBirth=${formData.veteranDateOfBirth}`;
+  params = `${params}&veteranSsn=${formData.veteranSsn}`;
+  params = `${params}&benefitType=${benefitType}`;
+  try {
+    return await apiRequest(
+      `${
+        environment.API_URL
+      }/accredited_representative_portal/v0/intent_to_file${params}`,
+    );
+  } catch (error) {
+    if (
+      error.errors &&
+      (error.errors[0].code === '404' || error.errors[0].match(/^not allowed/))
+    ) {
+      goPath(`${urlPrefix}permission-error`);
+    } else {
+      goNextPath();
+    }
+    return null;
+  }
+};
+
 export const getIntentsToFile = ({
   formData,
   goPath,
   goNextPath,
   setFormData,
+  urlPrefix,
 }) => {
-  goPath('get-itf-status');
+  goPath(`${urlPrefix}get-itf-status`);
 
-  apiRequest(
-    `${
-      environment.API_URL
-    }/simple_forms_api/v1/simple_forms/get_intents_to_file`,
-  )
-    .then(({ compensationIntent, pensionIntent }) => {
+  try {
+    fetchIntentToFile(
+      formData,
+      formData.benefitType,
+      urlPrefix,
+      goPath,
+      goNextPath,
+    ).then(val => {
+      // let formDataWithItf = setFormData({ ...formData, existingItf: val.data });
       goPathAfterGettingITF(
-        { compensationIntent, pensionIntent },
+        val.data,
         formData,
         goPath,
         goNextPath,
         setFormData,
+        urlPrefix,
       );
-    })
-    .catch(() => goNextPath());
-};
-
-export const goPathAfterGettingITF = (
-  { compensationIntent, pensionIntent },
-  formData,
-  goPath,
-  goNextPath,
-  setFormData,
-) => {
-  const formDataToSet = {
-    ...formData,
-    'view:activeCompensationITF':
-      compensationIntent?.status === 'active' ? compensationIntent : {},
-    'view:activePensionITF':
-      pensionIntent?.status === 'active' ? pensionIntent : {},
-  };
-
-  setFormData(formDataToSet);
-
-  if (
-    hasActiveCompensationITF({ formData: formDataToSet }) &&
-    hasActivePensionITF({ formData: formDataToSet })
-  ) {
-    goPath('confirmation');
-  } else if (hasActiveCompensationITF({ formData: formDataToSet })) {
-    goPath('veteran-benefit-selection-pension');
-  } else if (hasActivePensionITF({ formData: formDataToSet })) {
-    goPath('veteran-benefit-selection-compensation');
-  } else {
+    });
+  } catch (error) {
     goNextPath();
   }
 };
