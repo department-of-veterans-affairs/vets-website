@@ -13,7 +13,7 @@ describe('usePersistentSelections', () => {
       'vass-selections-123',
       JSON.stringify({
         selectedSlotTime: '2021-01-01T00:00:00.000Z',
-        selectedTopics: ['topic1', 'topic2'],
+        selectedTopicsIds: ['id-1', 'id-2'],
       }),
     );
   });
@@ -23,7 +23,7 @@ describe('usePersistentSelections', () => {
       const { getSaved } = usePersistentSelections(uuid);
       expect(getSaved()).to.deep.equal({
         selectedSlotTime: '2021-01-01T00:00:00.000Z',
-        selectedTopics: ['topic1', 'topic2'],
+        selectedTopicsIds: ['id-1', 'id-2'],
       });
     });
     it('should save date selection and update only the date selection', () => {
@@ -31,15 +31,15 @@ describe('usePersistentSelections', () => {
       saveDateSelection('2021-01-02T00:00:00.000Z');
       expect(getSaved()).to.deep.equal({
         selectedSlotTime: '2021-01-02T00:00:00.000Z',
-        selectedTopics: ['topic1', 'topic2'],
+        selectedTopicsIds: ['id-1', 'id-2'],
       });
     });
     it('should save topics selection and update only the topics selection', () => {
       const { saveTopicsSelection, getSaved } = usePersistentSelections(uuid);
-      saveTopicsSelection(['topic3', 'topic4']);
+      saveTopicsSelection(['id-3', 'id-4']);
       expect(getSaved()).to.deep.equal({
         selectedSlotTime: '2021-01-01T00:00:00.000Z',
-        selectedTopics: ['topic3', 'topic4'],
+        selectedTopicsIds: ['id-3', 'id-4'],
       });
     });
   });
@@ -49,7 +49,7 @@ describe('usePersistentSelections', () => {
       const { getSaved } = usePersistentSelections(uuid);
       expect(getSaved()).to.deep.equal({
         selectedSlotTime: null,
-        selectedTopics: [],
+        selectedTopicsIds: [],
       });
     });
 
@@ -58,15 +58,15 @@ describe('usePersistentSelections', () => {
       saveDateSelection('2021-01-02T00:00:00.000Z');
       expect(getSaved()).to.deep.equal({
         selectedSlotTime: '2021-01-02T00:00:00.000Z',
-        selectedTopics: [],
+        selectedTopicsIds: [],
       });
     });
     it('should save topics selection and update only the topics selection', () => {
       const { saveTopicsSelection, getSaved } = usePersistentSelections(uuid);
-      saveTopicsSelection(['topic3', 'topic4']);
+      saveTopicsSelection(['id-3', 'id-4']);
       expect(getSaved()).to.deep.equal({
         selectedSlotTime: null,
-        selectedTopics: ['topic3', 'topic4'],
+        selectedTopicsIds: ['id-3', 'id-4'],
       });
     });
   });
@@ -76,7 +76,7 @@ describe('usePersistentSelections', () => {
       const { getSaved } = usePersistentSelections('123');
       expect(getSaved()).to.deep.equal({
         selectedSlotTime: null,
-        selectedTopics: [],
+        selectedTopicsIds: [],
       });
       expect(localStorage.getItem('vass-selections-123')).to.be.null;
     });

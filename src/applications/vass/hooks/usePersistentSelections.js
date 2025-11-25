@@ -1,34 +1,34 @@
 /**
  * Default structure for user selections
- * @type {{selectedTopics: Array, selectedSlotTime: null}}
+ * @type {{selectedTopicsIds: Array, selectedSlotTime: null}}
  */
 const initialSelections = {
-  selectedTopics: [],
-  selectedSlotTime: null,
+  selectedTopicsIds: [], // array of topic IDs
+  selectedSlotTime: null, // ISO string
 };
 
 /**
- * Generates a unique localStorage key for a given ID
- * @param {string} id - The unique identifier for the selections
+ * Generates a unique localStorage key for a given UUID
+ * @param {string} uuid - The unique identifier
  * @returns {string} The formatted localStorage key
  */
-const getSelectionsStorageKey = id => {
-  return `vass-selections-${id}`;
+const getSelectionsStorageKey = uuid => {
+  return `vass-selections-${uuid}`;
 };
 
 /**
- * Retrieves selections from localStorage for a given ID
- * @param {string} id - The unique identifier for the selections
+ * Retrieves selections from localStorage for a given UUID
+ * @param {string} uuid - The unique identifier
  * @returns {Object} The selections object containing selectedTopics and selectedSlotTime
  */
-const getSelections = id => {
-  const savedSelections = localStorage.getItem(getSelectionsStorageKey(id));
+const getSelections = uuid => {
+  const savedSelections = localStorage.getItem(getSelectionsStorageKey(uuid));
   if (savedSelections) {
     try {
       return JSON.parse(savedSelections);
     } catch (error) {
       // clear the unparsable entry from localStorage
-      localStorage.removeItem(getSelectionsStorageKey(id));
+      localStorage.removeItem(getSelectionsStorageKey(uuid));
       // TODO log this in DD and remove the console.error
       // eslint-disable-next-line no-console
       console.error('Error parsing selections', error);
@@ -40,23 +40,23 @@ const getSelections = id => {
 
 /**
  * Custom hook for persisting user selections to localStorage
- * @param {string} id - A unique identifier for storing selections (e.g., UUID)
+ * @param {string} uuid - A unique identifier for storing selections (e.g., UUID)
  * @returns {Object} An object containing methods to manage persistent selections
  * @returns {Function} returns.saveDateSelection - Saves the selected date/time slot
  * @returns {Function} returns.saveTopicsSelection - Saves the selected topics array
- * @returns {Function} returns.clearSelections - Clears all saved selections for the given ID
- * @returns {Function} returns.getSaved - Retrieves all saved selections for the given ID
+ * @returns {Function} returns.clearSelections - Clears all saved selections for the given UUID
+ * @returns {Function} returns.getSaved - Retrieves all saved selections for the given UUID
  */
-export const usePersistentSelections = id => {
+export const usePersistentSelections = uuid => {
   /**
    * Saves the selected date/time slot to localStorage
    * @param {string|Date} dateTime - The selected date/time value
    */
   const saveDateSelection = dateTime => {
-    const selections = getSelections(id);
+    const selections = getSelections(uuid);
     const newSelections = { ...selections, selectedSlotTime: dateTime };
     localStorage.setItem(
-      getSelectionsStorageKey(id),
+      getSelectionsStorageKey(uuid),
       JSON.stringify(newSelections),
     );
   };
@@ -66,10 +66,10 @@ export const usePersistentSelections = id => {
    * @param {Array} topics - Array of selected topic identifiers
    */
   const saveTopicsSelection = topics => {
-    const selections = getSelections(id);
-    const newSelections = { ...selections, selectedTopics: topics };
+    const selections = getSelections(uuid);
+    const newSelections = { ...selections, selectedTopicsIds: topics };
     localStorage.setItem(
-      getSelectionsStorageKey(id),
+      getSelectionsStorageKey(uuid),
       JSON.stringify(newSelections),
     );
   };
@@ -78,7 +78,7 @@ export const usePersistentSelections = id => {
    * Removes all saved selections from localStorage for the given ID
    */
   const clearSelections = () => {
-    localStorage.removeItem(getSelectionsStorageKey(id));
+    localStorage.removeItem(getSelectionsStorageKey(uuid));
   };
 
   /**
@@ -86,7 +86,7 @@ export const usePersistentSelections = id => {
    * @returns {Object} Object containing selectedTopics and selectedSlotTime
    */
   const getSaved = () => {
-    return getSelections(id);
+    return getSelections(uuid);
   };
 
   return {
