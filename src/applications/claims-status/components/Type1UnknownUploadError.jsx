@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom-v5-compat';
-import { scrollAndFocus } from 'platform/utilities/scroll/scroll';
+import { setPageFocus } from '../utils/page';
 
 /**
  * Type1UnknownUploadError component displays an alert for unknown Type 1 upload errors
@@ -20,10 +20,7 @@ export default function Type1UnknownUploadError({ errorFiles }) {
     const isOnFilesPage = location.pathname.endsWith('/files');
 
     if (!isOnFilesPage) navigate('../files#other-ways-to-send');
-    // setTimeout needed for cross-tab navigation to allow target page content to render
-    setTimeout(() => {
-      scrollAndFocus('#other-ways-to-send');
-    }, 100);
+    setPageFocus('#other-ways-to-send');
   };
 
   if (!errorFiles || errorFiles.length === 0) {
