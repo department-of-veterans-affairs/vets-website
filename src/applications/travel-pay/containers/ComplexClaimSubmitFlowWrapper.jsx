@@ -1,6 +1,11 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams, Outlet, Navigate } from 'react-router-dom-v5-compat';
+import {
+  useParams,
+  useLocation,
+  Outlet,
+  Navigate,
+} from 'react-router-dom-v5-compat';
 
 import { Element } from 'platform/utilities/scroll';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
@@ -17,6 +22,7 @@ import { STATUSES } from '../constants';
 const ComplexClaimSubmitFlowWrapper = () => {
   const dispatch = useDispatch();
   const { apptId, claimId } = useParams();
+  const location = useLocation();
   const {
     useToggleValue,
     TOGGLE_NAMES,
@@ -46,8 +52,12 @@ const ComplexClaimSubmitFlowWrapper = () => {
     selectComplexClaimFetchLoadingState,
   );
 
+  const entryPoint = sessionStorage.getItem('fileNewClaimEntry');
+
   const claimFromAppointment = apptData?.travelPayClaim?.claim;
   const effectiveClaimId = claimId || claimFromAppointment?.id;
+
+  const isIntroductionPage = location.pathname === `/file-new-claim/${apptId}`;
 
   const needsClaimData = effectiveClaimId && !claimData && !claimError;
   const needsApptData = apptId && !apptData && !apptError;
@@ -111,8 +121,15 @@ const ComplexClaimSubmitFlowWrapper = () => {
             back
             data-testid="complex-claim-back-link"
             disable-analytics
-            href={`/my-health/appointments/past/${apptId}`}
-            text="Back to your appointment"
+            href={
+              isIntroductionPage
+                ? `/my-health/appointments/past/${apptId}`
+                : {
+                    appointment: `/my-health/appointments/past/${apptId}`,
+                    claim: `/my-health/travel-pay/claims/${effectiveClaimId}`,
+                  }[entryPoint] ?? '/my-health/travel-pay/claims'
+            }
+            text={isIntroductionPage ? 'Back to appointment' : 'Back'}
           />
         </div>
         <div className="vads-l-col--12 medium-screen:vads-l-col--8">
