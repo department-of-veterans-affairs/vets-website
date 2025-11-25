@@ -17,41 +17,7 @@ import Headline from '../ProfileSectionHeadline';
 import ContactInformationContent from './ContactInformationContent';
 
 import { PROFILE_PATHS } from '../../constants';
-
-// drops the leading `edit` from the hash and looks for that element
-const getScrollTarget = hash => {
-  const hashWithoutLeadingEdit = hash.replace(/^#edit-/, '#');
-  return document.querySelector(hashWithoutLeadingEdit);
-};
-
-// Normalize a string to a slug: lowercase, alphanumerics separated by single hyphen
-const toSlug = str =>
-  str
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '')
-    .replace(/--+/g, '-');
-
-// Attempt to derive a matching va-button for any #edit-* hash by comparing normalized labels
-// This avoids brittle hard-coded label maps and automatically supports new edit buttons.
-const getEditButtonFromHash = hash => {
-  if (!/^#edit-/.test(hash)) return null;
-  const slug = hash.replace(/^#edit-/, '');
-
-  // 1. Direct element with id equal to hash (future-proof if markup adds ids)
-  const direct = document.querySelector(hash);
-  if (direct) return direct;
-
-  // 2. Look for va-button whose label when normalized (minus leading 'edit ') matches slug
-  const buttons = Array.from(document.querySelectorAll('va-button[label]'));
-  for (const btn of buttons) {
-    const rawLabel = btn.getAttribute('label') || '';
-    const labelWithoutEditPrefix = rawLabel.replace(/^edit\s+/i, '');
-    const normalized = toSlug(labelWithoutEditPrefix);
-    if (normalized === slug) return btn;
-  }
-  return null;
-};
+import { getEditButtonFromHash, getScrollTarget } from '../../util/hashUtils';
 
 const ContactInformation = () => {
   const lastLocation = useLastLocation();
