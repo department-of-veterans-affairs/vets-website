@@ -93,19 +93,7 @@ export function validateToxicExposureGulfWar2001Dates(
   validateMissingValues(errors, startDate, endDate);
 }
 
-export function validateToxicExposureHerbicideDates(
-  errors,
-  { startDate, endDate },
-) {
-  validateRange(errors, startDate, endDate);
-
-  validateMissingValues(errors, startDate, endDate);
-}
-
-export function validateToxicExposureAdditionalExposuresDates(
-  errors,
-  { startDate, endDate },
-) {
+export function validateToxicExposureDates(errors, { startDate, endDate }) {
   validateRange(errors, startDate, endDate);
 
   validateMissingValues(errors, startDate, endDate);
