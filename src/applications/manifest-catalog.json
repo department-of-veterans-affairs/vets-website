@@ -508,6 +508,12 @@
       "rootUrl": "/my-health/medications"
     },
     {
+      "directoryPath": "src/applications/mhv-medications-refills",
+      "appName": "MHV Medications Refills",
+      "entryName": "medications-refills",
+      "rootUrl": "/medication-refills"
+    },
+    {
       "directoryPath": "src/applications/mhv-secure-messaging",
       "appName": "MHV Secure Messaging",
       "entryName": "mhv-secure-messaging",

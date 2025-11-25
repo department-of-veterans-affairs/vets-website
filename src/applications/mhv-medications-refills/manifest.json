@@ -1,0 +1,8 @@
+{
+  "appName": "MHV Medications Refills",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "medications-refills",
+  "rootUrl": "/medication-refills",
+  "productId": "mhv-medications-refills-prototype",
+  "skeletonHTML": "./components/MedicationsRefillPage.Skeleton.html"
+}
