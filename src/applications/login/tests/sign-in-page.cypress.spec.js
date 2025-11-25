@@ -15,15 +15,13 @@ describe('Unified Sign-in Page', () => {
       cy.intercept('GET', '/data/cms/vamc-ehr.json', { statusCode: 200 });
     });
 
-    const expectedText = !value
-      ? `We’ll remove this option after September 30, 2025`
-      : `This option is no longer available`;
-
     it(`display correct sign-in content when feature toggle 'dslogon_button_disabled' is ${value}`, () => {
       cy.visit('/sign-in/?oauth=false');
       cy.wait('@featureToggles');
       cy.get('body').should('be.visible');
-      cy.get('#dslogonH3').contains(expectedText);
+      cy.get('H1').contains('Sign in or create an account');
+      cy.get('H2').contains('Help and support');
+      cy.get('a').contains('Learn about creating a Login.gov or ID.me account');
       cy.injectAxeThenAxeCheck();
     });
   });
