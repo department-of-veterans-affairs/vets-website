@@ -911,7 +911,7 @@ describe('transformPicklistToV2', () => {
       fullName: { first: 'SAM', last: 'PETER' },
       ssn: '6767',
       birthDate: '1936-05-16',
-      dependentType: 'PARENT',
+      dependentType: 'DEPENDENT_PARENT',
       dependentDeathDate: '2000-02-02',
       dependentDeathLocation: {
         outsideUsa: false,
@@ -965,7 +965,7 @@ describe('transformPicklistToV2', () => {
     expect(result.childMarriage).to.have.lengthOf(1);
     expect(result.deaths).to.have.lengthOf(2);
     expect(result.deaths[0].dependentType).to.equal('CHILD');
-    expect(result.deaths[1].dependentType).to.equal('PARENT');
+    expect(result.deaths[1].dependentType).to.equal('DEPENDENT_PARENT');
 
     expect(result[dataOptions]).to.deep.equal({
       reportDivorce: false,
@@ -984,6 +984,7 @@ describe('transformPicklistToV2', () => {
           dateOfBirth: '2012-02-19',
           ssn: '333445555',
           selected: true,
+          isStepchild: 'Y',
           removalReason: 'stepchildNotMember',
           endDate: '2000-02-02',
           whoDoesTheStepchildLiveWith: { first: 'John', last: 'Doe' },
@@ -1040,6 +1041,7 @@ describe('transformPicklistToV2', () => {
             postalCode: '12345',
           },
           stepchildFinancialSupport: 'Y',
+          isStepchild: 'Y',
         },
       ],
     };
@@ -1047,6 +1049,136 @@ describe('transformPicklistToV2', () => {
 
     expect(result.stepChildren).to.be.undefined;
     expect(result[dataOptions].reportStepchildNotInHousehold).to.be.false;
+  });
+
+  it('should add stepchild to stepChildren array only when isStepchild is Y and removalReason is childMarried', () => {
+    const data = {
+      [PICKLIST_DATA]: [
+        {
+          fullName: { first: 'STEP', last: 'CHILD' },
+          dateOfBirth: '2010-03-15',
+          ssn: '123456789',
+          selected: true,
+          isStepchild: 'Y',
+          removalReason: 'childMarried',
+          endDate: '2024-06-01',
+        },
+      ],
+    };
+    const result = transformPicklistToV2(data);
+
+    // Stepchild with childMarried goes to stepChildren array (not childMarriage)
+    expect(result.stepChildren).to.be.an('array');
+    expect(result.stepChildren).to.have.lengthOf(1);
+    expect(result.stepChildren[0]).to.deep.equal({
+      fullName: { first: 'STEP', last: 'CHILD' },
+      ssn: '123456789',
+      birthDate: '2010-03-15',
+    });
+    // Should NOT be in childMarriage array
+    expect(result.childMarriage).to.be.undefined;
+    expect(result[dataOptions].reportStepchildNotInHousehold).to.be.true;
+    expect(result[dataOptions].reportMarriageOfChildUnder18).to.be.false;
+  });
+
+  it('should add stepchild to deaths array only when isStepchild is Y and removalReason is childDied', () => {
+    const data = {
+      [PICKLIST_DATA]: [
+        {
+          fullName: { first: 'STEP', last: 'CHILD' },
+          dateOfBirth: '2005-08-20',
+          ssn: '987654321',
+          selected: true,
+          isStepchild: 'Y',
+          removalReason: 'childDied',
+          endDate: '2024-01-15',
+          endOutsideUs: false,
+          endCity: 'Seattle',
+          endState: 'WA',
+        },
+      ],
+    };
+    const result = transformPicklistToV2(data);
+
+    // Stepchild should NOT be in stepChildren array for childDied
+    expect(result.stepChildren).to.be.undefined;
+    // Stepchild should be in deaths array
+    expect(result.deaths).to.have.lengthOf(1);
+    expect(result.deaths[0]).to.deep.equal({
+      fullName: { first: 'STEP', last: 'CHILD' },
+      ssn: '987654321',
+      birthDate: '2005-08-20',
+      dependentType: 'CHILD',
+      dependentDeathDate: '2024-01-15',
+      dependentDeathLocation: {
+        outsideUsa: false,
+        location: {
+          city: 'Seattle',
+          state: 'WA',
+        },
+      },
+      deceasedDependentIncome: 'N',
+      childStatus: {
+        childUnder18: false,
+        disabled: false,
+        stepChild: true,
+      },
+    });
+    expect(result[dataOptions].reportStepchildNotInHousehold).to.be.false;
+    expect(result[dataOptions].reportDeath).to.be.true;
+  });
+
+  it('should add stepchild to stepChildren array only when isStepchild is Y and removalReason is childNotInSchool', () => {
+    const data = {
+      [PICKLIST_DATA]: [
+        {
+          fullName: { first: 'STEP', last: 'CHILD' },
+          dateOfBirth: '2003-11-10',
+          ssn: '555666777',
+          selected: true,
+          isStepchild: 'Y',
+          removalReason: 'childNotInSchool',
+          endDate: '2024-05-20',
+        },
+      ],
+    };
+    const result = transformPicklistToV2(data);
+
+    // Stepchild with childNotInSchool goes to stepChildren array (not childStoppedAttendingSchool)
+    expect(result.stepChildren).to.be.an('array');
+    expect(result.stepChildren).to.have.lengthOf(1);
+    expect(result.stepChildren[0]).to.deep.equal({
+      fullName: { first: 'STEP', last: 'CHILD' },
+      ssn: '555666777',
+      birthDate: '2003-11-10',
+    });
+    // Should NOT be in childStoppedAttendingSchool array
+    expect(result.childStoppedAttendingSchool).to.be.undefined;
+    expect(result[dataOptions].reportStepchildNotInHousehold).to.be.true;
+    expect(result[dataOptions].reportChild18OrOlderIsNotAttendingSchool).to.be
+      .false;
+  });
+
+  it('should NOT add stepchild to stepChildren array when isStepchild is N', () => {
+    const data = {
+      [PICKLIST_DATA]: [
+        {
+          fullName: { first: 'BIOLOGICAL', last: 'CHILD' },
+          dateOfBirth: '2010-03-15',
+          ssn: '123456789',
+          selected: true,
+          isStepchild: 'N',
+          removalReason: 'childMarried',
+          endDate: '2024-06-01',
+        },
+      ],
+    };
+    const result = transformPicklistToV2(data);
+
+    expect(result.stepChildren).to.be.undefined;
+    expect(result.childMarriage).to.have.lengthOf(1);
+    expect(result[dataOptions].reportStepchildNotInHousehold).to.be.false;
+    expect(result[dataOptions].reportMarriageOfChildUnder18).to.be.true;
   });
 
   it('should handle missing optional location fields', () => {
@@ -1174,5 +1306,8 @@ describe('transformPicklistToV2', () => {
     expect(result.reportDivorce).to.deep.equal(v3Result.reportDivorce);
     expect(result.stepChildren).to.deep.equal(v3Result.stepChildren);
     expect(result[dataOptions]).to.deep.equal(v3Result[dataOptions]);
+    expect(result['view:selectable686Options']).to.deep.equal(
+      v3Result['view:selectable686Options'],
+    );
   });
 });

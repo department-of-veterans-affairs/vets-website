@@ -9,6 +9,8 @@ import RequiredLoginView from 'platform/user/authorization/components/RequiredLo
 import App from './containers/App';
 import MyEligibilityAndBenefits from './containers/MyEligibilityAndBenefits';
 import MyCaseManagementHub from './containers/MyCaseManagementHub';
+import CareerExplorationAndPlanning from './containers/CareerExplorationAndPlanning';
+import OrientationToolsAndResources from './containers/OrientationToolsAndResources';
 
 const withRequiredLogin = Component => props => {
   const user = useSelector(selectUser);
@@ -38,6 +40,16 @@ const routes = (
         exact
         path="/"
         component={withRequiredLogin(MyEligibilityAndBenefits)}
+      />
+      <Route
+        exact
+        path="/career-exploration-and-planning"
+        component={withRequiredLogin(CareerExplorationAndPlanning)}
+      />
+      <Route
+        exact
+        path="/orientation-tools-and-resources"
+        component={withRequiredLogin(OrientationToolsAndResources)}
       />
     </Switch>
   </App>
