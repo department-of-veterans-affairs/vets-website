@@ -73,11 +73,12 @@ const MessageSignature = () => {
         You can add a signature to the messages you send to your health care
         providers.
       </p>
-      <VaLink href="/my-health/secure-messages/inbox">
-        Review your messages in your inbox
-      </VaLink>
-      {/* {dummyLoader && <va-loading-indicator message="Loading..." />}
-      {!dummyLoader && <p>This is just a blank page for easy prototyping.</p>} */}
+      <p>
+        <VaLink
+          href="/my-health/secure-messages/inbox"
+          text="Review your messages in your inbox"
+        />
+      </p>
 
       <ProfileInfoSection data={cardFields} level={1} />
     </>
