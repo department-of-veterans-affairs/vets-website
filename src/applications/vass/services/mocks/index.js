@@ -3,7 +3,7 @@
 const delay = require('mocker-api/lib/delay');
 
 const responses = {
-  'vass/v0/authenticate': {
+  'POST /vass/v0/authenticate': {
     data: {
       id: '123',
       type: 'authenticate',
@@ -13,7 +13,7 @@ const responses = {
       },
     },
   },
-  'vass/v0/TODO_GET_OTC_ENDPOINT': {
+  'POST /vass/v0/TODO_GET_OTC_ENDPOINT': {
     data: {
       id: '123',
       type: 'otc',
