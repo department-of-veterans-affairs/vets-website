@@ -1116,7 +1116,11 @@ const ReviewPage = props => {
                           key: 'yourContactInformation',
                         },
                         {
-                          name: 'Email address',
+                          name:
+                            props.formData.relationshipToVeteran ===
+                            relationshipOptionsSomeoneElse.WORK
+                              ? 'Business email'
+                              : 'Email address',
                           data:
                             props.formData.relationshipToVeteran ===
                             relationshipOptionsSomeoneElse.WORK
