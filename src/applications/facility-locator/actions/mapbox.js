@@ -21,6 +21,7 @@ import {
   BOUNDING_RADIUS,
   EXPANDED_BOUNDING_RADIUS,
   LocationType,
+  MAX_SEARCH_AREA,
   MIN_RADIUS_EXP,
   MIN_RADIUS_NCA,
 } from '../constants';
@@ -217,9 +218,28 @@ export const sendUpdatedSearchQuery = (
   const zip = features[0].context.find(v => v.id.includes('postcode')) || {};
   const location = zip.text || features[0].place_name;
 
-  // Radius is computed as the distance from the center point
-  // to the western edge of the bounding box
-  const radius = distBetween(lat, lng, lat, currentBounds[0]);
+  // Radius is computed as the full diagonal distance from the southwestern
+  // corner to the northeastern corner of the bounding box to ensure the
+  // circular search area fully encompasses the entire rectangular map bounds.
+  // This is especially important for PPMS (Community Care) searches which
+  // only support radius-based queries, not true bounding box searches.
+  // currentBounds format: [minLng, minLat, maxLng, maxLat]
+  const fullDiagonal = distBetween(
+    currentBounds[1], // SW lat (minLat)
+    currentBounds[0], // SW lng (minLng)
+    currentBounds[3], // NE lat (maxLat)
+    currentBounds[2], // NE lng (maxLng)
+  );
+  // Cap at MAX_SEARCH_AREA (500 miles) per PPMS API limits
+  const radius = Math.min(fullDiagonal, MAX_SEARCH_AREA);
+
+  // eslint-disable-next-line no-console
+  console.log('[PPMS Debug] Radius calculation:', {
+    bounds: currentBounds,
+    fullDiagonal: `${fullDiagonal.toFixed(2)} miles`,
+    radiusUsed: `${radius.toFixed(2)} miles`,
+    center: { lat, lng },
+  });
 
   dispatch({
     type: SEARCH_QUERY_UPDATED,
