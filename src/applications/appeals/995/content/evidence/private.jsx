@@ -6,11 +6,23 @@ import { formatIssueList } from '../../../shared/utils/contestableIssueMessages'
 export const promptContent = {
   question:
     'Do you want us to get your private (non-VA) provider or VA Vet Center medical records?',
+  // options: [
+  //   {
+  //     value: 'Y',
+  //     description: `We'll ask you to provide details for your private providers to authorize the release of your medical records to VA.`,
+  //     label: 'Yes',
+  //   },
+  //   {
+  //     value: 'N',
+  //     description:
+  //       'You can upload your private provider records later in this form, or you can authorize us to get them after you submit this application.',
+  //     label: 'No',
+  //   },
+  // ],
   options: {
-    Y:
-      'We’ll ask you questions from VA Forms 21-4142 and 21-4142a Authorize the release of non-VA medical records to VA',
+    Y: `We'll ask you to provide details for your private providers to authorize the release of your medical records to VA.`,
     N:
-      'You can upload non-VA medical records later in the form or fill out the 21-4142 and 21-4142a separately at a later time',
+      'You can upload your private provider records later in this form, or you can authorize us to get them after you submit this application.',
   },
   description: (
     <>
@@ -29,6 +41,8 @@ export const promptContent = {
       </p>
     </>
   ),
+  requiredError:
+    'Select if we should get your private (non-VA) medical records',
 };
 
 export const summaryContent = {
@@ -75,9 +89,13 @@ export const summaryContent = {
 };
 
 export const detailsContent = {
-  question: (addOrEdit, index) =>
-    getProviderDetailsTitle(addOrEdit, index, 'nonVa'),
+  question: (formContext, addOrEdit) => {
+    const index = formContext?.pagePerItemIndex || 0;
+
+    return getProviderDetailsTitle(addOrEdit, +index + 1, 'nonVa');
+  },
   label:
     'Enter the name and address of the private provider, facility, medical center, clinic, or VA Vet Center you want us to request your records from.',
   locationLabel: 'Location name',
+  locationRequiredError: 'Enter a location name',
 };
