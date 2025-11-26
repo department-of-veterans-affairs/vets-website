@@ -1,11 +1,13 @@
 import React from 'react';
 import {
+  titleUI,
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 export default {
   uiSchema: {
+    ...titleUI('Previous applications'),
     hasAlreadyFiled: yesNoUI({
       title: 'Survivors benefits application',
       description: (
