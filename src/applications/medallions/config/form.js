@@ -76,7 +76,6 @@ const formConfig = {
     applicantInformation: {
       title: 'Applicant information',
       pages: {
-        // THIS IS WHERE THE FIX SHOULD BE FOR 90530
         ...personalInformationPage({
           key: 'applicantNameView',
           title: 'Personal information',
@@ -91,6 +90,7 @@ const formConfig = {
           header: <ApplicantNameHeader />,
           note: <ApplicantNameNote />,
           depends: formData => isUserSignedIn(formData),
+          hideOnReview: false,
         }),
         applicantName: {
           path: 'applicant-name',
