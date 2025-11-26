@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 149,
+  "totalApplications": 151,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -122,12 +122,6 @@
       "appName": "21P-530a Interment Allowance",
       "entryName": "21p-530a-interment-allowance",
       "rootUrl": "/submit-state-interment-allowance-form-21p-530a"
-    },
-    {
-      "directoryPath": "src/applications/benefits-optimization-pingwind/21-4140",
-      "appName": "Employment Questionnaire",
-      "entryName": "21-4140",
-      "rootUrl": "/disability/verify-individual-unemployability-status/submit-employment-questionnaire-form-21-4140"
     },
     {
       "directoryPath": "src/applications/benefits-optimization-pingwind/21-8940",
@@ -532,10 +526,10 @@
       "rootUrl": "/education/apply-for-gi-bill-form-22-1990"
     },
     {
-      "directoryPath": "src/applications/new-28-1900",
-      "appName": "New 28-1900 Veteran Readiness",
-      "entryName": "new-28-1900-chapter-31",
-      "rootUrl": "/temporary/apply-vre-form-28-1900"
+      "directoryPath": "src/applications/new-chapter-36-form",
+      "appName": "Personalized Career Planning and Guidance/Chapter 36 (VA Form 27-8832)",
+      "entryName": "new-chapter-36-form",
+      "rootUrl": "/temporary/apply-career-guidance-form-27-8832"
     },
     {
       "directoryPath": "src/applications/office-directory",
@@ -676,6 +670,12 @@
       "rootUrl": "/sign-in-confirm-contact-email"
     },
     {
+      "directoryPath": "src/applications/sign-in-health-portal",
+      "appName": "sign-in-health-portal",
+      "entryName": "sign-in-health-portal",
+      "rootUrl": "/sign-in-health-portal"
+    },
+    {
       "directoryPath": "src/applications/simple-forms-form-engine/12-3456",
       "appName": "Form Builder Sandbox",
       "entryName": "12-3456",
@@ -730,6 +730,12 @@
       "rootUrl": "/supporting-forms-for-claims/submit-statement-form-21-4138"
     },
     {
+      "directoryPath": "src/applications/simple-forms/21-4140",
+      "appName": "Submit Employment Questionnaire",
+      "entryName": "21-4140",
+      "rootUrl": "/disability/verify-individual-unemployability-status/submit-employment-questionnaire-form-21-4140"
+    },
+    {
       "directoryPath": "src/applications/simple-forms/21-4142",
       "appName": "Authorize the release of non-VA medical information to VA",
       "entryName": "21-4142-medical-release",
@@ -776,6 +782,12 @@
       "appName": "Mock form minimal header",
       "entryName": "mock-form-minimal-header",
       "rootUrl": "/mock-form-minimal-header"
+    },
+    {
+      "directoryPath": "src/applications/simple-forms/mock-form-prefill",
+      "appName": "Mock Form with Prefill",
+      "entryName": "mock-form-prefill",
+      "rootUrl": "/mock-form-prefill"
     },
     {
       "directoryPath": "src/applications/simple-forms/mock-simple-forms-patterns",
