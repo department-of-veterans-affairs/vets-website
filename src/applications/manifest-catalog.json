@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 150,
+  "totalApplications": 152,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -292,6 +292,12 @@
       "rootUrl": "/school-administrators/35-percent-exemption"
     },
     {
+      "directoryPath": "src/applications/edu-benefits/10272",
+      "appName": "22-10272 Application for reimbursement of preparatory (prep) course for licensing or certification test",
+      "entryName": "10272-edu-benefits",
+      "rootUrl": "/education/other-va-education-benefits/reimbursements/test-reimbursement-22-10272"
+    },
+    {
       "directoryPath": "src/applications/edu-benefits/10275",
       "appName": "10275",
       "entryName": "10275-edu-benefits",
@@ -532,10 +538,10 @@
       "rootUrl": "/education/apply-for-gi-bill-form-22-1990"
     },
     {
-      "directoryPath": "src/applications/new-28-1900",
-      "appName": "New 28-1900 Veteran Readiness",
-      "entryName": "new-28-1900-chapter-31",
-      "rootUrl": "/temporary/apply-vre-form-28-1900"
+      "directoryPath": "src/applications/new-chapter-36-form",
+      "appName": "Personalized Career Planning and Guidance/Chapter 36 (VA Form 27-8832)",
+      "entryName": "new-chapter-36-form",
+      "rootUrl": "/temporary/apply-career-guidance-form-27-8832"
     },
     {
       "directoryPath": "src/applications/office-directory",
@@ -677,7 +683,7 @@
     },
     {
       "directoryPath": "src/applications/sign-in-health-portal",
-      "appName": "Sign-in Health Portal",
+      "appName": "sign-in-health-portal",
       "entryName": "sign-in-health-portal",
       "rootUrl": "/sign-in-health-portal"
     },

@@ -118,6 +118,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_21P_601: '21P-601',
   FORM_22_10278: '22-10278',
   FORM_22_0976: '22-0976',
+  FORM_22_10272: '22-10272',
 });
 
 export const VA_FORM_IDS_SKIP_INFLECTION = Object.freeze([
@@ -307,6 +308,7 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_22_10278]: `${tryGetAppUrl('10278-edu-benefits')}/`,
     [VA_FORM_IDS.FORM_22_0976]: `${tryGetAppUrl('0976-edu-benefits')}/`,
     [VA_FORM_IDS.FORM_MOCK_PREFILL]: `${tryGetAppUrl('mock-form-prefill')}/`,
+    [VA_FORM_IDS.FORM_22_10272]: `${tryGetAppUrl('22-10272')}/`,
   };
 };
 
@@ -967,6 +969,16 @@ export const MY_VA_SIP_FORMS = [
     title: 'Mock Form with Prefill',
     description: 'Mock prefill testing',
     trackingPrefix: 'mock-prefill-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_22_10272,
+    benefit:
+      '22-10272 Application for Reimbursement of Licensing or Certification Test and Preparation Course Fees',
+    title:
+      '22-10272 Application for reimbursement of preparatory (prep) course for licensing or certification test',
+    description:
+      '22-10272 Application for Reimbursement of Licensing or Certification Test and Preparation Course Fees',
+    trackingPrefix: '10272-edu-benefits',
   },
 ];
 
