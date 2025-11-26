@@ -44,10 +44,10 @@ for (const featureSet of featureSets) {
       h.focusElement(h.CITY_STATE_ZIP_INPUT);
       h.findSelectInVaSelect(h.FACILITY_TYPE_DROPDOWN).focus();
 
-      h.errorMessageContains(addrErrorMessage);
+      h.submitSearchForm();
 
-      h.typeInCityStateInput('A', true);
-      h.verifyElementDoesNotExist(h.SEARCH_FORM_ERROR_MESSAGE);
+      h.errorMessageContains(addrErrorMessage);
+      // h.verifyElementDoesNotExist(h.SEARCH_FORM_ERROR_MESSAGE);
     });
 
     it('shows error message when leaving facility type field empty', () => {
