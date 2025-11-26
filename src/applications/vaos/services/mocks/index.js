@@ -514,6 +514,15 @@ const responses = {
       );
     }
 
+    if (req.params.referralId === 'out-of-pilot-station') {
+      return res.json(
+        new MockReferralDetailResponse({
+          id: req.params.referralId,
+          stationId: '123',
+        }),
+      );
+    }
+
     return res.json(
       new MockReferralDetailResponse({
         id: req.params.referralId,

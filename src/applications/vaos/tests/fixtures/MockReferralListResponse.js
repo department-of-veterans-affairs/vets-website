@@ -32,6 +32,9 @@ class MockReferralListResponse {
     referralNumber = `VA${Math.floor(1000 + Math.random() * 9000)}`,
     expirationDate = format(addMonths(new Date(), 6), 'yyyy-MM-dd'),
     stationId = '659',
+    referralConsultId = `${stationId}_${Math.floor(
+      100000 + Math.random() * 900000,
+    )}`,
   } = {}) {
     return {
       id,
@@ -40,6 +43,7 @@ class MockReferralListResponse {
         stationId,
         categoryOfCare,
         referralNumber,
+        referralConsultId,
         uuid: id,
         expirationDate,
       },
@@ -115,12 +119,6 @@ class MockReferralListResponse {
         id: 'details-not-found-error',
         categoryOfCare: 'OPTOMETRY',
         referralNumber: 'details-not-found-error',
-        expirationDate: format(new Date(2024, 12, 2), formatStr),
-      }),
-      MockReferralListResponse.createReferral({
-        id: 'details-error',
-        categoryOfCare: 'OPTOMETRY',
-        referralNumber: 'details-error',
         expirationDate: format(new Date(2024, 12, 2), formatStr),
       }),
     ];

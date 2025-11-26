@@ -43,11 +43,10 @@ The following referral UUIDs are configured to test specific error conditions:
 | Referral UUID | Error Scenario | Test Link |
 | ------------- | -------------- | --------- |
 | `appointment-submit-error` | Tests error handling when submitting an appointment | [Test locally](http://localhost:3001/my-health/appointments/schedule-referral?id=appointment-submit-error) |
-| `details-retry-error` | Tests retry logic for referral details | [Test locally](http://localhost:3001/my-health/appointments/schedule-referral?id=details-retry-error) |
-| `details-error` | Tests general error handling for referral details | [Test locally](http://localhost:3001/my-health/appointments/schedule-referral?id=details-error) |
+| `poll-retry-error` | Tests retry logic for appointment details | [Test locally](http://localhost:3001/my-health/appointments/schedule-referral?id=poll-retry-error) |
+| `poll-error` | Tests general error handling for appointment details | [Test locally](http://localhost:3001/my-health/appointments/schedule-referral?id=poll-error) |
 | `draft-no-slots-error` | Tests error when no appointment slots are available | [Test locally](http://localhost:3001/my-health/appointments/schedule-referral?id=draft-no-slots-error) |
 | `referral-without-provider-error` | Tests referrals that don't have an assigned provider | [Test locally](http://localhost:3001/my-health/appointments/schedule-referral?id=referral-without-provider-error) |
-| `eps-error-appointment-id` | Tests EPS (appointment system) error handling | [Test locally](http://localhost:3001/my-health/appointments/schedule-referral?id=eps-error-appointment-id) |
 | `out-of-pilot-station` | Tests referrals from stations not in the pilot program (Station ID: 123) | [Test locally](http://localhost:3001/my-health/appointments/schedule-referral?id=out-of-pilot-station) |
 
 Error responses can be found in the mock responses file: [`src/applications/vaos/services/mocks/index.js`](../services/mocks/index.js)
