@@ -132,7 +132,7 @@ $text-color: rgba(27, 27, 27, 1);
   }
 
   @media screen and (max-width: $small-screen) {
-    .facility-result + .facility-result {
+    .facility-result+.facility-result {
       border-top: solid 1px var(--vads-color-base-light);
     }
   }
@@ -188,7 +188,7 @@ $text-color: rgba(27, 27, 27, 1);
     padding: 0;
   }
 
-  .react-tabs__tab + .react-tabs__tab {
+  .react-tabs__tab+.react-tabs__tab {
     border-left: none;
   }
 
@@ -347,6 +347,14 @@ $text-color: rgba(27, 27, 27, 1);
       flex-basis: 100%;
       width: 100%;
     }
+
+    .service-type-dropdown-mobile>select,
+    .service-type-dropdown-tablet>select,
+    .service-type-dropdown-desktop>select {
+      font-size: 1rem;
+      height: auto;
+    }
+
 
     .usa-input-error {
       right: 0;
