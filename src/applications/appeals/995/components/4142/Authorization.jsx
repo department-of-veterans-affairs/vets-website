@@ -18,12 +18,15 @@ import { customPageProps995 } from '../../../shared/props';
 import { PrivacyActStatementContent } from './PrivacyActStatementContent';
 
 const Authorization = ({
+  contentAfterButtons,
+  contentBeforeButtons,
   data = {},
+  fullData, // used for array builder
   goBack,
   goForward,
+  onChange = () => {}, // used for array builder
+  pagePerItemIndex = null, // used for array builder
   setFormData,
-  contentBeforeButtons,
-  contentAfterButtons,
 }) => {
   const [hasError, setHasError] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -99,6 +102,9 @@ const Authorization = ({
     waitForRenderThenFocus('va-alert h3');
   };
 
+  const abCheckboxIsChecked =
+    fullData?.privateEvidence?.[pagePerItemIndex]?.authorization;
+
   const handlers = {
     onSubmit: event => {
       // This prevents this nested form submit event from passing to the
@@ -110,17 +116,33 @@ const Authorization = ({
       scrollTo(checkbox);
       waitForRenderThenFocus('input', checkbox.shadowRoot);
     },
-    onChange: event => {
+    onCheckboxChange: event => {
       const { checked } = event.target;
-      setFormData({ ...data, privacyAgreementAccepted: checked });
 
       if (checked && hasError) {
         setHasError(false);
       }
+
+      // ------- REMOVE onChange check when design toggle is removed
+      // and fall back to the contents as the default. Remove the
+      // setFormData call below
+      if (onChange) {
+        const currentEvidenceData =
+          { ...fullData?.privateEvidence?.[pagePerItemIndex] } || {};
+
+        const newData = {
+          ...currentEvidenceData,
+          authorization: checked,
+        };
+
+        onChange(newData);
+      } else {
+        setFormData({ ...data, privacyAgreementAccepted: checked });
+      }
+      // ------- END REMOVE
     },
     onGoForward: () => {
-      // Validation ONLY happens on form submission attempt
-      if (data.privacyAgreementAccepted) {
+      if (data?.privacyAgreementAccepted || abCheckboxIsChecked) {
         setHasError(false);
         goForward(data);
       } else {
@@ -157,6 +179,10 @@ const Authorization = ({
   const privacyModalButton2 = createPrivacyModalButton(
     'privacy-modal-button-2',
   );
+
+  const checkboxIsChecked = onChange
+    ? fullData?.privateEvidence?.[pagePerItemIndex]?.authorization
+    : data.privacyAgreementAccepted;
 
   return (
     <>
@@ -477,20 +503,12 @@ const Authorization = ({
             id="privacy-agreement"
             name="privacy-agreement"
             label={AUTHORIZATION_LABEL}
-            checked={data.privacyAgreementAccepted}
-            onVaChange={handlers.onChange}
+            checked={checkboxIsChecked}
+            onVaChange={handlers.onCheckboxChange}
             required
             enable-analytics
-          >
-            {/* https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/4219
-          This empty slot is required for now due to a DST defect where a
-          "description" slot is required in order for the analytics to work */}
-            <div slot="description" className="vads-u-display--none">
-              <p />
-            </div>
-          </VaCheckbox>
+          />
         </div>
-
         <div className="vads-u-margin-top--5">
           {contentBeforeButtons}
           <FormNavButtons
