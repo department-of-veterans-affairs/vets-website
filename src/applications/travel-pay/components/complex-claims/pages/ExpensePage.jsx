@@ -229,9 +229,9 @@ const ExpensePage = () => {
       dispatch(
         setReviewPageAlert({
           title: '',
-          description: `Your ${expenseTypeName} expense was successfully ${
-            isEditMode ? 'updated' : 'added'
-          }.`,
+          description: `You successfully ${
+            isEditMode ? 'updated your' : 'added a'
+          } ${expenseTypeName} expense.`,
           type: 'success',
         }),
       );

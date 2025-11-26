@@ -107,9 +107,9 @@ const Mileage = () => {
         dispatch(
           setReviewPageAlert({
             title: '',
-            description: `Your ${
-              EXPENSE_TYPES.Mileage.expensePageText
-            } expense was successfully ${isEditMode ? 'updated' : 'added'}.`,
+            description: `You successfully ${
+              isEditMode ? 'updated your' : 'added a'
+            } ${EXPENSE_TYPES.Mileage.expensePageText} expense.`,
             type: 'success',
           }),
         );
