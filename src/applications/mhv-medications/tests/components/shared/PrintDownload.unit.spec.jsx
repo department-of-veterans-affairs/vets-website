@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import { fireEvent } from '@testing-library/dom';
+import { fireEvent, waitFor } from '@testing-library/dom';
 import sinon from 'sinon';
 import PrintDownload from '../../../components/shared/PrintDownload';
 import { DOWNLOAD_FORMAT } from '../../../util/constants';
@@ -65,6 +65,30 @@ describe('Medications Print/Download button component', () => {
   //   const errorMessage = screen.getByText('error');
   //   expect(errorMessage).to.exist;
   // });
+  it('displays error alert when download fails', async () => {
+    setGlobalNavigator(false); // Simulate offline
+    const screen = setup(handleExportListDownload, false, true);
+
+    const downloadButton = screen.getByText('Download a PDF');
+    fireEvent.click(downloadButton);
+
+    // Wait for error alert to appear
+    await waitFor(() => {
+      const errorAlert = screen.container.querySelector(
+        'va-alert[status="error"]',
+      );
+      expect(errorAlert).to.exist;
+
+      // Check for the actual error headline
+      expect(errorAlert.innerHTML).to.match(
+        /We can[’']t download your records right now/,
+      );
+      // Check for the actual error body message
+      expect(errorAlert.innerHTML).to.match(
+        /We[’']re sorry. There[’']s a problem with our system. Try again later./,
+      );
+    });
+  });
 
   it('displays success message ', () => {
     const screen = setup(handleExportListDownload, true);
