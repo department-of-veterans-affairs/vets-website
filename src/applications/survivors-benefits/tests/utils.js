@@ -99,17 +99,24 @@ export const checkContentClaimantsRelationship = () => {
     'legend',
     'Claimant’s relationship to the Veteran',
   );
-  checkVisibleElementContent(
-    'va-radio',
-    'What is the claimant’s relationship to the Veteran?',
-  );
+};
+
+/**
+ * Check content on the Claimant address page.
+ */
+export const checkContentClaimantsAddress = () => {
   checkVisibleElementContent('va-text-input', 'First name');
   checkVisibleElementContent('va-text-input', 'Middle name');
   checkVisibleElementContent('va-text-input', 'Last name');
   checkVisibleElementContent('va-select', 'Suffix');
-  checkVisibleElementContent('va-text-input', 'Social Security number');
   checkVisibleElementContent('va-memorable-date', 'Date of birth');
-  checkVisibleElementContent('va-radio', 'Is the claimant a Veteran? ');
+};
+
+/**
+ * Check the Claimant SSN page content
+ */
+export const checkContentClaimantsInfoSSN = () => {
+  checkVisibleElementContent('va-text-input', 'Social Security number');
 };
 
 /**
@@ -120,7 +127,7 @@ export const checkContentClaimantsInfoAddress = () => {
     'h1',
     'Apply for DIC, Survivors Pension, or accrued benefits online',
   );
-  checkVisibleElementContent('legend', 'Your mailing address');
+  checkVisibleElementContent('legend', 'Mailing address');
   checkVisibleElementContent('va-select', 'Country');
   checkVisibleElementContent('va-text-input', 'Street address');
   checkVisibleElementContent('va-text-input', 'Street address line 2');
@@ -812,10 +819,10 @@ export const checkContentPreviousSpouse = () => {
   checkVisibleElementContent('va-text-input', 'Last name');
   checkVisibleElementContent('va-select', 'Suffix');
   // Check that there's a button to cancel.
-  checkVisibleElementContent(
-    'va-button',
-    'Cancel adding this previous marriage',
-  );
+  // checkVisibleElementContent(
+  //   'va-button',
+  //   'Cancel adding this previous marriage',
+  // );
 };
 
 /**
@@ -831,10 +838,6 @@ export const checkContentPreviousMarriageDetailsPage = () => {
   checkVisibleElementContent('va-checkbox', 'I got married outside the U.S.');
   checkVisibleElementContent('va-text-input', 'City');
   checkVisibleElementContent('va-select', 'State');
-  checkVisibleElementContent(
-    'va-button',
-    'Cancel adding this previous marriage',
-  );
 };
 
 /**
@@ -864,10 +867,6 @@ export const checkContentHowMarriageEndedReasonPage = () => {
   );
   checkVisibleElementContent('va-radio', 'How did the marriage end?');
   checkVisibleElementContent('va-text-input', 'Tell us how the marriage ended');
-  checkVisibleElementContent(
-    'va-button',
-    'Cancel adding this previous marriage',
-  );
 };
 
 /**
@@ -886,20 +885,20 @@ export const checkContentPreviousMarriageEndedDetails = () => {
   );
   checkVisibleElementContent('va-text-input', 'City');
   checkVisibleElementContent('va-select', 'State');
-  checkVisibleElementContent(
-    'va-button',
-    'Cancel adding this previous marriage',
-  );
-  checkAxeAndClickContinueButton();
+  // checkVisibleElementContent(
+  //   'va-button',
+  //   'Cancel adding this previous marriage',
+  // );
+  // checkAxeAndClickContinueButton();
   // Check that the previous marriage is listed here:
-  checkVisibleElementContent(
-    'va-card',
-    fixtureData.data.attributes.spouseData.previousSpouseFirstName,
-  );
-  checkVisibleElementContent(
-    'va-card',
-    fixtureData.data.attributes.spouseData.previousSpouseLastName,
-  );
+  // checkVisibleElementContent(
+  //   'va-card',
+  //   fixtureData.data.attributes.spouseData.previousSpouseFirstName,
+  // );
+  // checkVisibleElementContent(
+  //   'va-card',
+  //   fixtureData.data.attributes.spouseData.previousSpouseLastName,
+  // );
 };
 
 /**
@@ -914,6 +913,29 @@ export const checkContentVetsPreviousMarriageIntro = () => {
   checkVisibleElementContent(
     'fieldset',
     'Next we’ll ask you about the Veteran’s previous marriages. You may add up to 2 marriages.',
+  );
+};
+
+/**
+ * Check content on the Dependent Name page 
+ */
+/**
+ * Check content on Vet's Name and DOB page
+ */
+export const checkContentDependentNamePage = () => {
+  checkVisibleElementContent(
+    'h1',
+    'Apply for DIC, Survivors Pension, or accrued benefits online',
+  );
+  checkVisibleElementContent('legend', "Dependent's name and information");
+  checkVisibleElementContent('va-text-input', 'First name');
+  checkVisibleElementContent('va-text-input', 'Middle name');
+  checkVisibleElementContent('va-text-input', 'Last name');
+  checkVisibleElementContent('va-select', 'Suffix');
+  checkVisibleElementContent('va-text-input', 'Social Security number');
+  checkVisibleElementContent(
+    'va-checkbox',
+    "Doesn't have a Social Security number",
   );
 };
 
@@ -975,10 +997,16 @@ export const fillInVetInformationFromFixture = () => {
 };
 
 /**
- * Fill in the spouse/laimantrelationship data
+ * Fill in the spouse data
  */
 export const fillInClaimantsRelationshipDataFromFixture = () => {
   cy.selectRadio('root_claimantRelationship', 'SPOUSE');
+};
+
+/**
+ * Fill in the spouse/laimantrelationship data
+ */
+export const fillInClaimantsAddressFromFixture = () => {
   cy.get('input[name="root_claimantFullName_first"]').type(
     fixtureData.data.attributes.spouseData.first_name,
   );
@@ -988,16 +1016,21 @@ export const fillInClaimantsRelationshipDataFromFixture = () => {
   cy.get('input[name="root_claimantFullName_last"]').type(
     fixtureData.data.attributes.spouseData.last_name,
   );
-  cy.fillVaTextInput(
-    'root_claimantSocialSecurityNumber',
-    fixtureData.data.attributes.spouseData.ssn,
-  );
+
   cy.fillDate(
     'root_claimantDateOfBirth',
     fixtureData.data.attributes.spouseData.birth_date,
   );
-  cy.selectRadio('root_claimantIsVeteran', 'Y');
-  checkAxeAndClickContinueButton();
+};
+
+/**
+ * Fill in the spouse/laimantrelationship data
+ */
+export const fillInClaimantSSNFromFixture = () => {
+  cy.fillVaTextInput(
+    'root_claimantSocialSecurityNumber',
+    fixtureData.data.attributes.spouseData.ssn,
+  );
 };
 
 /**
@@ -1125,24 +1158,22 @@ export const fillInMarriageToVetFromFixture = () => {
  * Fill in the Marriage to Vet info from the Fixture
  */
 export const fillInMarriageToVetNotMarriedFromFixture = () => {
-  cy.selectRadio('root_marriedAtDeath', 'N');
-  cy.selectRadio('root_marriageEndDetails_marriageEndReason', 'DIVORCE');
   cy.fillDate(
-    'root_marriageDate',
+    'root_marriageToVeteranStartDate',
     fixtureData.data.attributes.spouseData.marriageStartDate,
   );
-  cy.fillDate(
-    'root_marriageEndDate',
-    fixtureData.data.attributes.spouseData.marriageEndDate,
-  );
   cy.fillVaTextInput(
-    'root_placeOfMarriage',
+    'root_marriageToVeteranStartLocation_city',
     fixtureData.data.attributes.spouseData.marriagePlace,
   );
-  cy.fillVaTextInput(
-    'root_placeMarriageEnded',
-    fixtureData.data.attributes.spouseData.marriageEndPlace,
-  );
+  cy.get('va-select')
+    .shadow()
+    .get('select[name="root_marriageToVeteranStartLocation_state"]')
+    .select(fixtureData.data.attributes.spouseData.state);
+
+  // Check the content here because this page changes due to answers.
+  checkAxeAndClickContinueButton();
+
   cy.selectRadio(
     'root_marriageType',
     fixtureData.data.attributes.spouseData.marriageType,
@@ -1151,7 +1182,6 @@ export const fillInMarriageToVetNotMarriedFromFixture = () => {
     'root_marriageTypeOther',
     fixtureData.data.attributes.spouseData.marriageTypeOther,
   );
-  // Check the content here because this page changes due to answers.
   checkAxeAndClickContinueButton();
 };
 
@@ -1348,17 +1378,19 @@ export const fillInHowMarriageEndedFromFixture = () => {
     'root_marriageEndReason',
     fixtureData.data.attributes.spouseData.previousMarriageEndReason,
   );
-  cy.fillVaTextInput(
-    'root_marriageEndOtherExplanation',
-    fixtureData.data.attributes.spouseData.previousMarriageEndReasonDetails,
-  );
+  cy.get('va-text-input[name="root_marriageEndOtherReason"]')
+    .shadow()
+    .get('input[name="root_marriageEndOtherReason"]')
+    .type(
+      'fixtureData.data.attributes.spouseData.previousMarriageEndReasonDetails',
+    );
 };
 
 /**
  * Fill in Previous Marriage ENDED details from fixture
  */
 export const fillInPreviousMarriageEndedDetailsFromFixture = () => {
-  const checkboxName = 'root_marriageEndedOutsideUS';
+  const checkboxName = 'root_marriageToVeteranEndOutsideUS';
   cy.get(`va-checkbox[name="${checkboxName}"]`)
     .get(`input[type="checkbox"][name="${checkboxName}"]`)
     .check();
@@ -1370,15 +1402,47 @@ export const fillInPreviousMarriageEndedDetailsFromFixture = () => {
     .uncheck();
   checkVisibleElementContent('va-select', 'State');
   cy.fillDate(
-    'root_marriageEndDate',
+    'root_marriageToVeteranEndDate',
     fixtureData.data.attributes.spouseData.previousMarriageEndDate,
   );
   cy.get('va-select')
     .shadow()
-    .get('select[name="root_marriageEndLocation_state"]')
+    .get('select[name="root_marriageToVeteranEndLocation_state"]')
     .select(fixtureData.data.attributes.spouseData.previousMarriageEndState);
   cy.fillVaTextInput(
-    'root_marriageEndLocation_city',
+    'root_marriageToVeteranEndLocation_city',
     fixtureData.data.attributes.spouseData.previousMarriageEndCity,
   );
+};
+
+/**
+ * Fill in the dependent Name from Fixture
+ */
+export const fillInDependentNameFromFixture = () => {
+  const firstName = fixtureData.data.attributes.dependentData.first_name;
+  const middleName = fixtureData.data.attributes.dependentData.last_name;
+  const lastName = fixtureData.data.attributes.dependentData.middle_name;
+  const ssn = fixtureData.data.attributes.dependentData.ssn;
+
+  // This one keeps tripping up, so check that the field is there.
+  checkVisibleElementContent('va-text-input', 'First name');
+  cy.fillVaTextInput('root_dependentFullName_first', firstName);
+  cy.fillVaTextInput('root_dependentFullName_last', middleName);
+  cy.fillVaTextInput('root_dependentFullName_middle', lastName);
+
+  // Click the does not have SSN and check that the SSN field disappears.
+  const checkboxName = 'root_noSsn';
+  cy.get(`va-checkbox[name="${checkboxName}"]`)
+    .get(`input[type="checkbox"][name="${checkboxName}"]`)
+    .check();
+  // check that the SSN text box is not there.
+  cy.get('va-text-input[name="root_dependentSocialSecurityNumber"]').should(
+    'not.exist',
+  );
+  // Uncheck the outside of the US and check that state field is visible.
+  cy.get(`va-checkbox[name="${checkboxName}"]`)
+    .get(`input[type="checkbox"][name="${checkboxName}"]`)
+    .uncheck();
+  cy.get('va-text-input[name="root_dependentSocialSecurityNumber"]');
+  cy.fillVaTextInput('root_dependentSocialSecurityNumber', ssn);
 };

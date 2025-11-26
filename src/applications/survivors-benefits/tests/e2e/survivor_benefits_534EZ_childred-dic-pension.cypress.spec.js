@@ -1,7 +1,7 @@
 import * as utils from '../utils';
 
 describe('Survivor Pension Benefits 534EZ ', () => {
-  describe('Surviving Spouse with DIC no comp', () => {
+  describe('Surviving Spoust with children no pension', () => {
     Cypress.config({
       defaultCommandTimeout: 20000,
       requestTimeout: 20000,
@@ -26,9 +26,8 @@ describe('Survivor Pension Benefits 534EZ ', () => {
       utils.fillInClaimantsRelationshipDataFromFixture();
       utils.checkAxeAndClickContinueButton();
 
-      // Claimant's Name
-      utils.fillInClaimantsAddressFromFixture();
       utils.checkContentClaimantsAddress();
+      utils.fillInClaimantsAddressFromFixture();
       utils.checkAxeAndClickContinueButton();
 
       utils.checkContentClaimantsInfoSSN();
@@ -42,13 +41,17 @@ describe('Survivor Pension Benefits 534EZ ', () => {
 
       utils.checkContentClaimantsInfoAddress();
       utils.fillInSpouseMailingAddressFromFixture();
+      utils.checkAxeAndClickContinueButton();
 
       utils.checkContentClaimantsEmailPhone();
       utils.fillInSpouseEmailAndPhoneFromFixture();
 
       // Claimant benifit type
       utils.checkContentClaimaintInfoBenefitType();
-      const claimsBenefits = ['root_claims_dependencyIndemnityComp'];
+      const claimsBenefits = [
+        'root_claims_dependencyIndemnityComp',
+        'root_claims_survivorPension',
+      ];
       utils.checkVaCheckbox('root_claims', claimsBenefits);
       utils.checkAxeAndClickContinueButton();
 
@@ -57,19 +60,12 @@ describe('Survivor Pension Benefits 534EZ ', () => {
       cy.selectRadio('root_receivedBenefits', 'N');
       utils.checkAxeAndClickContinueButton();
 
-      // Militarty History
-      utils.checkContentVetsMilitaryHistoryData();
+      // Vet Military History Not yet implemented for this test.
       utils.fillInVetsMilitaryHistoryFromFixture();
+      cy.injectAxeThenAxeCheck();
 
       // National Guard
-      cy.selectRadio('root_nationalGuardActivated', 'Y');
-      utils.checkAxeAndClickContinueButton();
-      utils.fillInVetsNationalGuardServiceFromFixture();
-      utils.checkAxeAndClickContinueButton();
-
-      // National Guard Unit Address
-      utils.fillInNationalGuardUntilAddressFromFixture();
-      utils.checkContentNationalGuardAddress();
+      cy.selectRadio('root_nationalGuardActivated', 'N');
       utils.checkAxeAndClickContinueButton();
 
       // Service Name
@@ -77,164 +73,55 @@ describe('Survivor Pension Benefits 534EZ ', () => {
       utils.checkAxeAndClickContinueButton();
 
       // Any other Name question.
-      cy.selectRadio('root_view:hasOtherServiceNames', 'Y');
+      cy.selectRadio('root_view:hasOtherServiceNames', 'N');
       utils.checkVisibleElementContent(
         'legend',
         'Did the Veteran serve under any other names? ',
       );
       utils.checkAxeAndClickContinueButton();
 
-      // Other name data entry.
-      utils.checkContentOtherName();
-      utils.fillInOtherNameFromFixture(' one');
-      utils.checkAxeAndClickContinueButton();
-      cy.selectRadio('root_view:hasOtherServiceNames', 'Y');
-      utils.checkAxeAndClickContinueButton();
-      utils.fillInOtherNameFromFixture(' two');
-      utils.checkAxeAndClickContinueButton();
-
-      // Edit and delete an Other Name
-      cy.get('va-card[name="name_1"]')
-        .shadow()
-        .get('a[href="veteran/other-service-names/1?edit=true"]')
-        .click();
-
-      cy.fillVaTextInput('root_otherServiceName_first', 'New First Name');
-      cy.get('va-button[text="Save and continue"]').click();
-      // validate the change
-      utils.checkVisibleElementContent(
-        'va-alert',
-        'You have added the maximum number of allowed service names for this application. You may edit or delete a name or choose to continue on in the application.',
-      );
-      utils.checkVisibleElementContent('va-card', 'New First Name');
-      cy.get('va-card[name="name_1"]')
-        .find('va-button-icon[button-type="delete"]')
-        .click();
-      cy.get('va-modal')
-        .get('button')
-        .contains('Yes')
-        .click();
-      utils.checkVisibleElementContent(
-        'va-alert',
-        'information has been deleted',
-      );
-
-      // Add yet another name.
-      cy.selectRadio('root_view:hasOtherServiceNames', 'Y');
-      utils.checkAxeAndClickContinueButton();
-      utils.fillInOtherNameFromFixture(' three');
-      utils.checkAxeAndClickContinueButton();
-      utils.checkAxeAndClickContinueButton();
-
       // POW
-      cy.selectRadio('root_prisonerOfWar', 'Y');
-      utils.checkAxeAndClickContinueButton();
-      utils.fillInPOWDatesFromFixture();
+      cy.selectRadio('root_prisonerOfWar', 'N');
       utils.checkAxeAndClickContinueButton();
 
       // Marriage to Veteran
-      cy.selectRadio('root_marriedAtDeath', 'N');
-      utils.checkAxeAndClickContinueButton();
-
-      // Fill in Not married data from fixture.
+      // Check the content within the fillIn function
       utils.fillInMarriageToVetNotMarriedFromFixture();
-
-      // Marriage end.
-      utils.fillInHowMarriageEndedFromFixture();
-      utils.checkContentHowMarriageEndedReasonPage();
-      utils.checkAxeAndClickContinueButton();
-      utils.fillInPreviousMarriageEndedDetailsFromFixture();
-      utils.checkContentPreviousMarriageEndedDetails();
-      utils.checkAxeAndClickContinueButton();
 
       // Legal Isues Marriage
       utils.checkContentMarriageLegalStatus();
-      cy.selectRadio('root_awareOfLegalIssues', 'Y');
-      cy.fillVaTextInput('root_legalIssueExplanation', 'It just ended');
+      cy.selectRadio('root_awareOfLegalIssues', 'N');
       utils.checkAxeAndClickContinueButton();
 
       // Continuous Living with Vet
       utils.checkContentMarriageContinous();
-      cy.selectRadio('root_livedContinuouslyWithVeteran', 'N');
-      utils.checkAxeAndClickContinueButton();
-      cy.selectRadio('root_separationDueToAssignedReasons', 'OTHER');
-      utils.checkAxeAndClickContinueButton();
-
-      // Separation
-      utils.fillInMarriageSeparationFromFixture();
-      utils.checkContentMarriageSeparation();
+      cy.selectRadio('root_livedContinuouslyWithVeteran', 'Y');
       utils.checkAxeAndClickContinueButton();
 
       // Remarriage
       utils.checkContentMarriageRemarriage();
-      cy.selectRadio('root_remarried', 'Y');
-      utils.checkAxeAndClickContinueButton();
-
-      // Remarriage Details
-      utils.checkContentRemarriageDetails();
-      utils.fillInRemarriageDetailsFromFixture();
-      utils.checkAxeAndClickContinueButton();
-      cy.selectRadio('root_additionalMarriages', 'Y');
-      utils.checkVisibleElementContent(
-        'va-alert-expandable',
-        "You'll need to submit VA Form 21-4138",
-      );
-      cy.selectRadio('root_additionalMarriages', 'N');
+      cy.selectRadio('root_remarried', 'N');
       utils.checkAxeAndClickContinueButton();
 
       // Previous Marriage
       utils.checkContentPreviousMarriages();
-      cy.selectRadio('root_recognizedAsSpouse', 'N');
-      cy.selectRadio('root_hadPreviousMarriages', 'Y');
-      utils.checkAxeAndClickContinueButton();
-
-      // Previous Marriage continued.
-      utils.checkContentVetsPreviousMarriages();
+      cy.selectRadio('root_recognizedAsSpouse', 'Y');
+      cy.selectRadio('root_hadPreviousMarriages', 'N');
       utils.checkAxeAndClickContinueButton();
 
       // Vet Married to someone else.
-      utils.checkContentVetMarriedToSomeoneElse();
-      cy.selectRadio('root_view:hasPreviousMarriages', 'Y');
       utils.checkAxeAndClickContinueButton();
-
-      // Previous Spouse
-      utils.checkContentPreviousSpouse();
-      utils.fillInPreviousSpouseNameFromFixture('');
-      utils.checkAxeAndClickContinueButton();
-
-      // Previous Marriage Details
-      utils.fillInPreviousMarriageDetailsFromFixture();
-      utils.checkContentPreviousMarriageDetailsPage();
-      utils.checkAxeAndClickContinueButton();
-
-      // Marriage Ended Reason
-      utils.fillInHowMarriageEndedFromFixture();
-      utils.checkContentHowMarriageEndedReasonPage();
-      utils.checkAxeAndClickContinueButton();
-
-      // Marriage Ended Details
-      utils.fillInPreviousMarriageEndedDetailsFromFixture();
-      utils.checkContentPreviousMarriageEndedDetails();
-      utils.checkAxeAndClickContinueButton();
-
-      cy.selectRadio('root_view:hasPreviousMarriages', 'N');
-      utils.checkAxeAndClickContinueButton();
-
-      // The Veteran's Previous Marriages.
-      utils.checkContentVetsPreviousMarriageIntro();
-      utils.checkAxeAndClickContinueButton();
-
-      cy.selectRadio('root_view:wasMarriedBefore', 'Y');
+      cy.selectRadio('root_view:wasMarriedBefore', 'N');
       utils.checkVisibleElementContent(
         'va-radio',
         'Was the Veteran married to someone else before being married to you?',
       );
       utils.checkAxeAndClickContinueButton();
-      cy.contains('STOP HERE');
+
       // Childred of Veteran
       utils.checkContentChildrenOfVet();
       cy.selectRadio('root_expectingChild', 'N');
-      cy.selectRadio('root_hadChildWithVeteran', 'N');
+      cy.selectRadio('root_hadChildWithVeteran', 'Y');
       utils.checkAxeAndClickContinueButton();
 
       // Dependents into.
@@ -243,9 +130,14 @@ describe('Survivor Pension Benefits 534EZ ', () => {
 
       // Do you Dependents?
       utils.checkContentDependentsQuestion();
-      cy.selectRadio('root_view:isAddingDependent', 'N');
+      cy.selectRadio('root_view:isAddingDependent', 'Y');
       utils.checkAxeAndClickContinueButton();
 
+      // Fill in Dependents Info
+      utils.fillInDependentNameFromFixture();
+      utils.checkContentDependentNamePage();
+      
+      cy.contains('STOP HERE');
       // DIC
       utils.checkContentDicBenefits();
       cy.selectRadio('root_dicType', 'DIC');

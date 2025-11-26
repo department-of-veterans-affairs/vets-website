@@ -76,6 +76,14 @@
         "previousMarriageEndDate" : "2009-09-09",
         "previousMarriageEndCity" : "Someplace",
         "previousMarriageEndState" : "AK"
+      },
+      "dependentData" : {
+        "first_name": "Baby",
+        "middle_name": "M",
+        "last_name": "Doe",
+        "gender": "F",
+        "birth_date": "2-20-02-02",
+        "ssn" : "123-44-6789"
       }
     }
   },
