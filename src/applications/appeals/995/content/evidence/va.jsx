@@ -93,7 +93,6 @@ export const summaryContent = {
 };
 
 export const locationContent = {
-  // title: formContext => {},
   question: (formContext, addOrEdit) => {
     const index = formContext?.pagePerItemIndex || 0;
     // ------- Remove the .replace when the design toggle is removed
