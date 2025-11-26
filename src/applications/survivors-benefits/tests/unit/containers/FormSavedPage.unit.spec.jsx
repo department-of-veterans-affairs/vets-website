@@ -5,8 +5,7 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import { render, cleanup } from '@testing-library/react';
 import FormSavedPage from '../../../containers/FormSavedPage';
-// eslint-disable-next-line import/no-commonjs
-const mockItf = require('../../fixtures/mocks/mock-itf');
+import mockItf from '../../fixtures/mocks/mock-itf';
 
 const mockStore = state => createStore(() => state);
 
