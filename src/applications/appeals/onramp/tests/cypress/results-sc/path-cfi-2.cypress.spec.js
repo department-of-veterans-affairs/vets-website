@@ -15,6 +15,7 @@ const { RESULTS_2_S_1B } = RESULTS_NAME_MAP;
 // 2.0 - Initial
 // 2.IS.1A - No
 // 2.IS.1B - Yes
+// 2.IS.1B.3 - No
 const path = {
   Q_1_1_CLAIM_DECISION: 0,
   Q_1_2_CLAIM_DECISION: 0,
