@@ -6,7 +6,7 @@ export default function prefillTransformer(pages, formData, metadata, state) {
     pages,
     formData: {
       ...formData,
-      recipientName: userFullName || { first: '', last: '' },
+      'view:recipientName': userFullName || { first: '', last: '' },
       primaryPhone: formData.claimantPhone || '',
       emailAddress: formData.claimantEmail || '',
     },

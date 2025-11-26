@@ -342,7 +342,10 @@ export const removeExtraData = formData => {
         return acc;
       }, {}),
     );
+  } else {
+    delete clonedData.ratedDisabilities;
   }
+
   return clonedData;
 };
 
