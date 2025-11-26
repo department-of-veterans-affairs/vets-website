@@ -256,7 +256,11 @@ export const convertMicrobiologyRecord = record => {
  * @returns the appropriate frontend object for display
  */
 export const convertPathologyRecord = record => {
-  const { code } = record.code.coding?.[0];
+  // Guard against null/undefined records to prevent TypeErrors
+  if (!record) return null;
+
+  // Safely access the first coding entry's code value
+  const codeValue = record?.code?.coding?.[0]?.code;
 
   // Define mapping for new LOINC codes to names
   const loincCodeMapping = {
@@ -266,22 +270,25 @@ export const convertPathologyRecord = record => {
     [loincCodes.CYTOPATHOLOGY]: 'Cytology',
   };
 
-  // Determine pathology type based on LOINC code
+  // Determine pathology type based on LOINC code (fallback to generic Pathology)
   let pathologyType;
-
-  if (code === loincCodes.PATHOLOGY) {
-    pathologyType = record.code.text;
+  if (codeValue === loincCodes.PATHOLOGY) {
+    // Prefer record.code.text when available; fallback to mapping value
+    pathologyType =
+      record?.code?.text || loincCodeMapping[loincCodes.PATHOLOGY];
   } else if (
-    code === loincCodes.SURGICAL_PATHOLOGY ||
-    code === loincCodes.ELECTRON_MICROSCOPY ||
-    code === loincCodes.CYTOPATHOLOGY
+    codeValue === loincCodes.SURGICAL_PATHOLOGY ||
+    codeValue === loincCodes.ELECTRON_MICROSCOPY ||
+    codeValue === loincCodes.CYTOPATHOLOGY
   ) {
-    pathologyType = loincCodeMapping[code];
+    pathologyType = loincCodeMapping[codeValue];
   } else {
     pathologyType = 'Pathology'; // fallback
   }
+
   const specimen = extractSpecimen(record);
   const labLocation = extractPerformingLabLocation(record) || EMPTY_FIELD;
+
   return {
     id: record.id,
     name: pathologyType,
@@ -297,9 +304,9 @@ export const convertPathologyRecord = record => {
     sampleTested: specimen?.collection?.bodySite?.text || EMPTY_FIELD,
     labLocation,
     collectingLocation: labLocation,
-    results:
-      record.presentedForm?.map(form => decodeBase64Report(form.data)) ||
-      EMPTY_FIELD,
+    results: Array.isArray(record.presentedForm)
+      ? record.presentedForm.map(form => decodeBase64Report(form.data))
+      : EMPTY_FIELD,
     sortDate: record.effectiveDateTime,
     labComments: record.labComments || EMPTY_FIELD,
   };

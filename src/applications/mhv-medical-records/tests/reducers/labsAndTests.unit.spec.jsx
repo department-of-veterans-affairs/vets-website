@@ -163,6 +163,25 @@ describe('convertPathologyRecord', () => {
       expect(result.labComments).to.equal('Mocked comment.');
     });
   });
+
+  it('should return null for an undefined pathology record', () => {
+    const result = convertPathologyRecord(undefined);
+    expect(result).to.be.null;
+  });
+
+  it('should fallback gracefully when pathology record has no code object', () => {
+    const minimalRecord = {
+      id: 'no-code-id',
+      physician: 'Dr. Jane Doe',
+      effectiveDateTime: '2025-04-28T12:00:00Z',
+      presentedForm: [],
+      labComments: 'No code field present',
+    };
+    const result = convertPathologyRecord(minimalRecord);
+    expect(result).to.exist;
+    expect(result.name).to.equal('Pathology');
+    expect(result.type).to.equal(labTypes.PATHOLOGY);
+  });
 });
 
 describe('convertChemHemObservation', () => {
