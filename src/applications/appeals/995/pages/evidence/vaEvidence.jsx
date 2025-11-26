@@ -1,5 +1,5 @@
 import React from 'react';
-import { format } from 'date-fns';
+import { getArrayUrlSearchParams } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
 import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderItemSubsequentPageTitleUI,
@@ -10,9 +10,10 @@ import {
   radioUI,
   textUI,
   textSchema,
+  withEditTitle,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
-import { parseStringOrDate } from 'platform/utilities/date';
+import { getAddOrEditMode } from '../../utils/evidence';
 import Issues, { issuesPage } from '../../components/evidence/IssuesNew';
 import {
   EVIDENCE_URLS,
@@ -33,7 +34,6 @@ import {
   hasTreatmentBefore2005,
   hasVAEvidenceRecords,
 } from '../../utils/form-data-retrieval';
-import { formatIssueList } from '../../../shared/utils/contestableIssueMessages';
 
 /**
  * This is how we determine whether all of the info for one
@@ -59,17 +59,6 @@ const itemIsComplete = item => {
 };
 
 /**
- * This is used to format the date on the summary page
- * from '2000-01' to 'January 2000'
- * @param {string} date
- * @returns
- */
-const formatMonthYear = date => {
-  const parsedDate = parseStringOrDate(date);
-  return format(parsedDate, 'MMMM yyyy');
-};
-
-/**
  * This is the config object for the VA evidence list & loop
  * Here, we can also configure the content on the summary page
  * including the layout of the evidence cards for review
@@ -84,61 +73,12 @@ const options = {
   maxItems: 100,
   text: {
     alertItemUpdated: ({ itemData }) =>
-      `${itemData[VA_TREATMENT_LOCATION_KEY]} information has been updated.`,
-    cardDescription: item => {
-      return (
-        <>
-          {item?.[VA_TREATMENT_LOCATION_KEY] && (
-            <h3 className="vads-u-margin-top--0">
-              {item[VA_TREATMENT_LOCATION_KEY]}
-            </h3>
-          )}
-          {item?.issues?.length === 1 && (
-            <p>
-              <strong>Condition:</strong> {item.issues[0]}
-            </p>
-          )}
-          {item?.issues?.length > 1 && (
-            <p>
-              <strong>Conditions:</strong> {formatIssueList(item.issues)}
-            </p>
-          )}
-          {item?.[VA_TREATMENT_MONTH_YEAR_KEY] && (
-            <p>
-              <strong>Treatment start date:</strong>
-              &nbsp;
-              {formatMonthYear(item[VA_TREATMENT_MONTH_YEAR_KEY])}
-            </p>
-          )}
-        </>
-      );
-    },
-    summaryTitle: summaryContent.titleWithItems,
+      summaryContent.alertItemUpdatedText(itemData),
+    cardDescription: item => summaryContent.cardDescription(item),
+    summaryDescription: summaryContent.descriptionWithItems,
     summaryTitleWithoutItems: promptContent.question,
-    summaryDescription: (
-      <p className="vads-u-font-family--serif vads-u-font-weight--bold">
-        {summaryContent.descriptionWithItems}
-      </p>
-    ),
-    summaryDescriptionWithoutItems: (
-      <>
-        <p>
-          We can collect your VA medical records or military health records from
-          any of these sources to support your claim:
-        </p>
-        <ul>
-          <li>VA medical center</li>
-          <li>Community-based outpatient clinic</li>
-          <li>Department of Defense military treatment facility</li>
-          <li>Community care provider paid for by VA</li>
-        </ul>
-        <p>We’ll ask you the names of the treatment locations to include.</p>
-        <p>
-          <strong>Note:</strong> Later in this form, we’ll ask about your
-          private (non-VA) provider medical records.
-        </p>
-      </>
-    ),
+    summaryDescriptionWithoutItems: promptContent.description,
+    summaryTitle: summaryContent.titleWithItems,
   },
 };
 
@@ -182,10 +122,8 @@ const summaryPage = {
 const locationPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: ({ formContext }) => {
-        const index = formContext?.pagePerItemIndex || 0;
-        return locationContent.question('add', Number(index) + 1);
-      },
+      title: ({ formContext }) =>
+        locationContent.question(formContext, getAddOrEditMode()),
       nounSingular: options.nounSingular,
     }),
     [VA_TREATMENT_LOCATION_KEY]: textUI({
@@ -209,16 +147,11 @@ const locationPage = {
 /** @returns {PageSchema} */
 const datePromptPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) =>
-        formData?.[VA_TREATMENT_LOCATION_KEY]
-          ? `Did treatment at ${
-              formData[VA_TREATMENT_LOCATION_KEY]
-            } start before 2005?`
-          : 'Did treatment start before 2005?',
+    ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) =>
+      datePromptContent.question(formData, getAddOrEditMode()),
     ),
     [VA_TREATMENT_BEFORE_2005_KEY]: radioUI({
-      title: `If treatment for your service-connected condition(s) started before 2005, we’ll ask for approximate dates to help us find the paper records.`,
+      title: datePromptContent.label,
       labels: datePromptContent.options,
       errorMessages: {
         required: datePromptContent.requiredError,
@@ -240,13 +173,8 @@ const datePromptPage = {
 /** @returns {PageSchema} */
 const dateDetailsPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) =>
-        formData?.[VA_TREATMENT_LOCATION_KEY]
-          ? `When did treatment at ${
-              formData[VA_TREATMENT_LOCATION_KEY]
-            } start?`
-          : 'When did treatment start?',
+    ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) =>
+      dateDetailsContent.question(formData, getAddOrEditMode()),
     ),
     [VA_TREATMENT_MONTH_YEAR_KEY]: currentOrPastMonthYearDateUI({
       title: dateDetailsContent.label,
@@ -276,7 +204,7 @@ export default arrayBuilderPages(options, pageBuilder => ({
     path: EVIDENCE_URLS.vaSummary,
     uiSchema: summaryPage.uiSchema,
     schema: summaryPage.schema,
-    // ------- REMOVE when new design toggle is removed
+    // ------- REMOVE toggle check when new design toggle is removed
     depends: redesignActive,
     // ------- END REMOVE
   }),
@@ -285,8 +213,9 @@ export default arrayBuilderPages(options, pageBuilder => ({
     path: EVIDENCE_URLS.vaLocation,
     uiSchema: locationPage.uiSchema,
     schema: locationPage.schema,
-    // ------- REMOVE when new design toggle is removed
-    depends: redesignActive && hasVAEvidenceRecords,
+    // ------- REMOVE toggle check when new design toggle is removed
+    // depends: redesignActive && hasVAEvidenceRecords,
+    depends: redesignActive,
     // ------- END REMOVE
   }),
   issues: pageBuilder.itemPage({
@@ -301,9 +230,10 @@ export default arrayBuilderPages(options, pageBuilder => ({
         ...props,
         // resolve prop warning that the index is a string rather than a number
         pagePerItemIndex: +props.pagePerItemIndex,
+        addOrEdit: getAddOrEditMode(),
       }),
-    // ------- REMOVE when new design toggle is removed
-    depends: redesignActive && hasVAEvidenceRecords,
+    // ------- REMOVE toggle check when new design toggle is removed
+    depends: redesignActive,
     // ------- END REMOVE
   }),
   treatmentDatePrompt: pageBuilder.itemPage({
@@ -311,8 +241,8 @@ export default arrayBuilderPages(options, pageBuilder => ({
     path: EVIDENCE_URLS.vaTreatmentDatePrompt,
     uiSchema: datePromptPage.uiSchema,
     schema: datePromptPage.schema,
-    // ------- REMOVE when new design toggle is removed
-    depends: redesignActive && hasVAEvidenceRecords,
+    // ------- REMOVE toggle check when new design toggle is removed
+    depends: redesignActive,
     // ------- END REMOVE
   }),
   treatmentDate: pageBuilder.itemPage({
@@ -324,11 +254,10 @@ export default arrayBuilderPages(options, pageBuilder => ({
       const evidenceEntriesCount = formData?.vaEvidence?.length || 1;
       const currentIndex = evidenceEntriesCount - 1;
       return (
-        // ------- REMOVE when new design toggle is removed
+        // ------- REMOVE toggle check when new design toggle is removed
         redesignActive(formData) &&
         // ------- END REMOVE
-        hasTreatmentBefore2005(formData, currentIndex) &&
-        hasVAEvidenceRecords(formData)
+        hasTreatmentBefore2005(formData, currentIndex)
       );
     },
   }),
