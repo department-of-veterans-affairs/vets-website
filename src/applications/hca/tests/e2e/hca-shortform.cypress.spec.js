@@ -12,22 +12,10 @@ import {
 
 const { data: testData } = minTestData;
 
-const mockObject = {
-  attributes: {
-    formData: {
-      ...testData,
-      formId: '1010ez',
-    },
-  },
-};
-
 describe('HCA-ShortForm-Authenticated: High disability', () => {
   beforeEach(() => {
-    setupForAuth({
-      disabilityRating: 90,
-      prefill: mockObject,
-    });
-    startAsAuthUser({ waitForPrefill: false });
+    setupForAuth({ disabilityRating: 90 });
+    startAsAuthUser();
   });
 
   it('works with total disability rating greater than or equal to 50%', () => {
@@ -39,12 +27,13 @@ describe('HCA-ShortForm-Authenticated: High disability', () => {
 
 describe('HCA-ShortForm-Authenticated: Low disability', () => {
   beforeEach(() => {
-    setupForAuth({ disabilityRating: 90, mockPrefill: minTestData });
+    setupForAuth({ disabilityRating: 40 });
     startAsAuthUser();
   });
 
   it('works with self disclosure of VA compensation type of High Disability', () => {
     advanceToAuthShortForm();
+
     goToNextPage('/va-benefits/basic-information');
     cy.selectRadio('root_vaCompensationType', 'highDisability');
 
