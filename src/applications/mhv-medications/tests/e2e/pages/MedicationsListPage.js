@@ -379,7 +379,7 @@ class MedicationsListPage {
 
   verifyInformationBasedOnStatusActiveParked = () => {
     cy.get(
-      '[data-testid="medication-list"] > :nth-child(11) > [data-testid="rx-card-info"] > [data-testid="rxStatus"]',
+      '[data-testid="medication-list"] > :nth-child(11) [data-testid="rxStatus"]',
     )
       // cy.get(':nth-child(5) > .rx-card-detials > [data-testid="rxStatus"]')
       .should('be.visible')
@@ -419,7 +419,7 @@ class MedicationsListPage {
 
   verifyInformationBasedOnStatusUnknown = unknownPrescription => {
     cy.get(
-      `[data-testid="medication-list"] > :nth-child(7) > [data-testid="rx-card-info"] > #status-description-${unknownPrescription} > [data-testid="unknown"] > :nth-child(2) > :nth-child(1)`,
+      `[data-testid="medication-list"] > :nth-child(7) #status-description-${unknownPrescription} > [data-testid="unknown"] > :nth-child(2) > :nth-child(1)`,
     )
       .should('be.visible')
       .and('contain', 'We’re sorry. There’s a problem with our system.');
@@ -440,7 +440,7 @@ class MedicationsListPage {
 
   verifyNonVAPrescriptionNameOnListPage = () => {
     cy.get(
-      '[data-testid="medication-list"] > :nth-child(5) > [data-testid="rx-card-info"] > [data-testid="medications-history-details-link"]',
+      '[data-testid="medication-list"] > :nth-child(5) [data-testid="medications-history-details-link"]',
     ).should('contain', `${nonVARx.data.attributes.prescriptionName}`);
   };
 
@@ -453,11 +453,11 @@ class MedicationsListPage {
       prescription,
     );
     cy.get(
-      '[data-testid="medication-list"] > :nth-child(1) > [data-testid="rx-card-info"] > [data-testid="fill-refill"] > [data-testid="refill-request-button"]',
+      '[data-testid="medication-list"] > :nth-child(1) [data-testid="refill-request-button"]',
     ).should('be.enabled');
 
     cy.get(
-      '[data-testid="medication-list"] > :nth-child(1) > [data-testid="rx-card-info"] > [data-testid="fill-refill"] > [data-testid="refill-request-button"]',
+      '[data-testid="medication-list"] > :nth-child(1) [data-testid="refill-request-button"]',
     )
       .first()
       .click({ waitForAnimations: true });
@@ -473,10 +473,10 @@ class MedicationsListPage {
 
   clickRefillButtonForVerifyingError = () => {
     cy.get(
-      '[data-testid="medication-list"] > :nth-child(1) > [data-testid="rx-card-info"] > [data-testid="fill-refill"] > [data-testid="refill-request-button"]',
+      '[data-testid="medication-list"] > :nth-child(1) [data-testid="refill-request-button"]',
     );
     cy.get(
-      '[data-testid="medication-list"] > :nth-child(1) > [data-testid="rx-card-info"] > [data-testid="fill-refill"] > [data-testid="refill-request-button"]',
+      '[data-testid="medication-list"] > :nth-child(1) [data-testid="refill-request-button"]',
     )
       .first()
       .click({ waitForAnimations: true });
@@ -703,7 +703,7 @@ class MedicationsListPage {
 
   verifyLastFilledDateforPrescriptionOnListPage = () => {
     cy.get(
-      '[data-testid="medication-list"] > :nth-child(2) > [data-testid="rx-card-info"] > [data-testid="rx-last-filled-date"]',
+      '[data-testid="medication-list"] > :nth-child(2) [data-testid="rx-last-filled-date"]',
     ).should(
       'contain',
       `${prescriptionFillDate.data.attributes.sortedDispensedDate}`,
@@ -712,7 +712,7 @@ class MedicationsListPage {
 
   verifyDiscontinuedMedicationNameIsVisibleOnListPage = () => {
     cy.get(
-      '[data-testid="medication-list"] > :nth-child(6) > [data-testid="rx-card-info"] > [data-testid="medications-history-details-link"]',
+      '[data-testid="medication-list"] > :nth-child(6) [data-testid="medications-history-details-link"]',
     ).should('be.visible');
   };
 
@@ -889,7 +889,7 @@ class MedicationsListPage {
 
   verifyNameOfFirstRxOnMedicationsList = rxName => {
     cy.get(
-      '.landing-page-content > [data-testid="medication-list"] > :nth-child(1) > [data-testid="rx-card-info"] > [data-testid="medications-history-details-link"]',
+      '.landing-page-content > [data-testid="medication-list"] > :nth-child(1) [data-testid="medications-history-details-link"]',
     ).should('contain', rxName);
   };
 
@@ -972,7 +972,7 @@ class MedicationsListPage {
     cardNumber,
   ) => {
     cy.get(
-      `.landing-page-content > [data-testid="medication-list"] > :nth-child(${cardNumber}) > [data-testid="rx-card-info"]`,
+      `.landing-page-content > [data-testid="medication-list"] > :nth-child(${cardNumber})`,
     )
       .first()
       .should('not.contain', prescriptionNumber);
