@@ -140,12 +140,14 @@ const ReviewPage = ({ message }) => {
             {formatAmount(claimDetails?.totalCostRequested ?? 0)}
           </p>
           <p>
-            This estimated reimbursement doesn’t account for the $6 per trip
-            deductible.
+            Before we can pay you back for expenses, you must pay a deductible.
+            The current deductible is $3 one-way or $6 round-trip for each
+            appointment, up to $18 total each month.
           </p>
           <va-link
             href="/resources/reimbursed-va-travel-expenses-and-mileage-rate/#monthlydeductible"
-            text="Read more about deductibles for VA travel claims"
+            text="Learn more about deductibles for VA travel claims"
+            external
           />
         </va-card>
       </div>
