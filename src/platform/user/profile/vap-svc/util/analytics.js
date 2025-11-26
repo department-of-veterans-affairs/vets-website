@@ -7,6 +7,25 @@ const ERROR_SOURCES = Object.freeze({
   OTHER: 'other',
 });
 
+/**
+ * Creates a standardized Google Analytics event object for API calls.
+ *
+ * @param {Object} options - Event configuration
+ * @param {string} [options.name='unknown'] - API endpoint name
+ * @param {string} [options.status='unknown'] - API response status
+ * @param {number} [options.time] - API latency in milliseconds
+ * @param {string} [options.errorKey] - Error key if API call failed
+ * @returns {Object} GA event object
+ *
+ * @example
+ * import { createApiEvent } from '@@vap-svc/util/analytics';
+ *
+ * const event = createApiEvent({
+ *   name: 'update-email',
+ *   status: 'success',
+ *   time: 250
+ * });
+ */
 const createApiEvent = ({
   name = 'unknown',
   status = 'unknown',
@@ -27,6 +46,19 @@ const createApiEvent = ({
   return rv;
 };
 
+/**
+ * Captures and logs errors to Sentry with appropriate context and tags.
+ * Handles both API errors and general client errors differently.
+ *
+ * @param {Error|Object} error - Error object to capture
+ * @param {Object} details - Additional error context and details
+ * @param {string} details.eventName - Name of the event where error occurred
+ *
+ * @example
+ * import { captureError } from '@@vap-svc/util/analytics';
+ *
+ * captureError(error, { eventName: 'update-phone-number' });
+ */
 const captureError = (error, details) => {
   if (environment.isLocalhost()) {
     // eslint-disable-next-line no-console
@@ -65,6 +97,25 @@ const captureError = (error, details) => {
   });
 };
 
+/**
+ * Records a custom Google Analytics event for profile interactions.
+ * Used for tracking modal interactions, button clicks, and form submissions.
+ *
+ * @param {Object} options - Event configuration
+ * @param {string} [options.event='profile_modal'] - GA event name
+ * @param {string} [options.title='no title'] - Modal or action title
+ * @param {string} [options.status='none'] - Action status (success, failure, etc.)
+ * @param {string} [options.primaryButtonText='none'] - Text of primary button clicked
+ *
+ * @example
+ * import { recordCustomProfileEvent } from '@@vap-svc/util/analytics';
+ *
+ * recordCustomProfileEvent({
+ *   title: 'Edit mobile phone',
+ *   status: 'opened',
+ *   primaryButtonText: 'Update'
+ * });
+ */
 const recordCustomProfileEvent = ({
   event = 'profile_modal',
   title = 'no title',

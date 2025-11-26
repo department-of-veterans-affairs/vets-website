@@ -57,6 +57,17 @@ export const ADDRESS_VALIDATION_UPDATE = 'ADDRESS_VALIDATION_UPDATE';
 export const VAP_SERVICE_TRANSACTION_FORM_ONLY_UPDATE =
   'VAP_SERVICE_TRANSACTION_FORM_ONLY_UPDATE';
 
+/**
+ * Fetches all pending and active transactions for the current user from VA Profile Service.
+ * Called during initialization to sync transaction state with the backend.
+ *
+ * @returns {Function} Redux thunk that dispatches transaction fetch success or handles errors
+ *
+ * @example
+ * import { fetchTransactions } from '@@vap-svc/actions/transactions';
+ *
+ * dispatch(fetchTransactions());
+ */
 export function fetchTransactions() {
   return async dispatch => {
     try {
@@ -78,6 +89,17 @@ export function fetchTransactions() {
   };
 }
 
+/**
+ * Clears the "most recently saved field" indicator from state.
+ * Used to dismiss success alerts after a field has been successfully updated.
+ *
+ * @returns {Object} Redux action
+ *
+ * @example
+ * import { clearMostRecentlySavedField } from '@@vap-svc/actions/transactions';
+ *
+ * dispatch(clearMostRecentlySavedField());
+ */
 export function clearMostRecentlySavedField() {
   return {
     type: VAP_SERVICE_CLEAR_LAST_SAVED,

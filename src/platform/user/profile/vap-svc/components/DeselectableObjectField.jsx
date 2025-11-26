@@ -1,3 +1,20 @@
+/**
+ * @module DeselectableObjectField
+ * @description Custom RJSF ObjectField component that supports auto-deselect functionality
+ * for checkbox fields. Commonly used for forms with "prefer not to answer" options where
+ * selecting that option should deselect other checkboxes.
+ *
+ * Based on platform/forms-system ObjectField with added deselection behavior.
+ *
+ * @example
+ * import DeselectableObjectField from '@@vap-svc/components/DeselectableObjectField';
+ *
+ * // Used in personal information forms with schemas
+ * const uiSchema = {
+ *   'ui:field': DeselectableObjectField
+ * };
+ */
+
 import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
