@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 149,
+  "totalApplications": 151,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -124,6 +124,12 @@
       "rootUrl": "/submit-state-interment-allowance-form-21p-530a"
     },
     {
+      "directoryPath": "src/applications/benefits-optimization-pingwind/21-8940",
+      "appName": "Apply for additional compensation based on inability to work",
+      "entryName": "21-8940",
+      "rootUrl": "/disability/eligibility/special-claims/unemployability/apply-unemployability-compensation-form-21-8940"
+    },
+    {
       "directoryPath": "src/applications/burials-ez",
       "appName": "21P-530EZ Burials benefits form",
       "entryName": "burials-ez",
@@ -158,12 +164,6 @@
       "appName": "Claims Status",
       "entryName": "claims-status",
       "rootUrl": "/track-claims"
-    },
-    {
-      "directoryPath": "src/applications/claims-status/node_modules/@stencil/core/screenshot/compare",
-      "appName": "N/A",
-      "entryName": "N/A",
-      "rootUrl": "N/A"
     },
     {
       "directoryPath": "src/applications/combined-debt-portal/combined",
@@ -290,6 +290,12 @@
       "appName": "10275",
       "entryName": "10275-edu-benefits",
       "rootUrl": "/school-administrators/commit-principles-of-excellence-form-22-10275"
+    },
+    {
+      "directoryPath": "src/applications/edu-benefits/10278",
+      "appName": "Authorize VA to disclose personal information to a third party",
+      "entryName": "10278-edu-benefits",
+      "rootUrl": "/education/10278"
     },
     {
       "directoryPath": "src/applications/edu-benefits/10282",
@@ -520,12 +526,6 @@
       "rootUrl": "/education/apply-for-gi-bill-form-22-1990"
     },
     {
-      "directoryPath": "src/applications/new-28-1900",
-      "appName": "New 28-1900 Veteran Readiness",
-      "entryName": "new-28-1900-chapter-31",
-      "rootUrl": "/temporary/apply-vre-form-28-1900"
-    },
-    {
       "directoryPath": "src/applications/new-chapter-36-form",
       "appName": "Personalized Career Planning and Guidance/Chapter 36 (VA Form 27-8832)",
       "entryName": "new-chapter-36-form",
@@ -670,6 +670,12 @@
       "rootUrl": "/sign-in-confirm-contact-email"
     },
     {
+      "directoryPath": "src/applications/sign-in-health-portal",
+      "appName": "sign-in-health-portal",
+      "entryName": "sign-in-health-portal",
+      "rootUrl": "/sign-in-health-portal"
+    },
+    {
       "directoryPath": "src/applications/simple-forms-form-engine/12-3456",
       "appName": "Form Builder Sandbox",
       "entryName": "12-3456",
@@ -726,20 +732,14 @@
     {
       "directoryPath": "src/applications/simple-forms/21-4140",
       "appName": "Submit Employment Questionnaire",
-      "entryName": "21-4140-income-verification",
-      "rootUrl": "/disability/eligibility/special-claims/unemployability/employment-questionnaire-form-21-4140"
+      "entryName": "21-4140",
+      "rootUrl": "/disability/verify-individual-unemployability-status/submit-employment-questionnaire-form-21-4140"
     },
     {
       "directoryPath": "src/applications/simple-forms/21-4142",
       "appName": "Authorize the release of non-VA medical information to VA",
       "entryName": "21-4142-medical-release",
       "rootUrl": "/supporting-forms-for-claims/release-information-to-va-form-21-4142"
-    },
-    {
-      "directoryPath": "src/applications/simple-forms/21-8940",
-      "appName": "Apply for additional compensation based on inability to work",
-      "entryName": "21-8940",
-      "rootUrl": "/disability/eligibility/special-claims/unemployability/apply-form-21-8940"
     },
     {
       "directoryPath": "src/applications/simple-forms/21p-0537",
@@ -782,6 +782,12 @@
       "appName": "Mock form minimal header",
       "entryName": "mock-form-minimal-header",
       "rootUrl": "/mock-form-minimal-header"
+    },
+    {
+      "directoryPath": "src/applications/simple-forms/mock-form-prefill",
+      "appName": "Mock Form with Prefill",
+      "entryName": "mock-form-prefill",
+      "rootUrl": "/mock-form-prefill"
     },
     {
       "directoryPath": "src/applications/simple-forms/mock-simple-forms-patterns",

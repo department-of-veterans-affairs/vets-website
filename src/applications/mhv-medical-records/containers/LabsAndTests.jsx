@@ -1,7 +1,5 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useLocation } from 'react-router-dom';
-import { format } from 'date-fns';
 
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
@@ -12,9 +10,14 @@ import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/
 
 import { Actions } from '../util/actionTypes';
 import RecordList from '../components/RecordList/RecordList';
-import { getLabsAndTestsList, reloadRecords } from '../actions/labsAndTests';
+import {
+  getLabsAndTestsList,
+  reloadRecords,
+  updateLabsAndTestDateRange,
+} from '../actions/labsAndTests';
 import {
   ALERT_TYPE_ERROR,
+  DEFAULT_DATE_RANGE,
   CernerAlertContent,
   accessAlertTypes,
   labTypes,
@@ -25,7 +28,12 @@ import {
   loadStates,
   statsdFrontEndActions,
 } from '../util/constants';
-import { getMonthFromSelectedDate } from '../util/helpers';
+import {
+  calculateDateRange,
+  getTimeFrame,
+  getDisplayTimeFrame,
+  sendDataDogAction,
+} from '../util/helpers';
 
 import RecordListSection from '../components/shared/RecordListSection';
 import useAlerts from '../hooks/use-alerts';
@@ -33,17 +41,18 @@ import useListRefresh from '../hooks/useListRefresh';
 import useReloadResetListOnUnmount from '../hooks/useReloadResetListOnUnmount';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
-import DatePicker from '../components/shared/DatePicker';
+import DateRangeSelector, {
+  getDateRangeList,
+} from '../components/shared/DateRangeSelector';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import { fetchImageRequestStatus } from '../actions/images';
 import JobCompleteAlert from '../components/shared/JobsCompleteAlert';
 import { useTrackAction } from '../hooks/useTrackAction';
+import AdditionalReportsInfo from '../components/shared/AdditionalReportsInfo';
 
 const LabsAndTests = () => {
   const dispatch = useDispatch();
-  const location = useLocation();
-  const history = useHistory();
-
+  const dateRange = useSelector(state => state.mr.labsAndTests.dateRange);
   const updatedRecordList = useSelector(
     state => state.mr.labsAndTests.updatedList,
   );
@@ -79,41 +88,16 @@ const LabsAndTests = () => {
 
   const { isAcceleratingLabsAndTests } = useAcceleratedData();
 
-  const urlTimeFrame = new URLSearchParams(location.search).get('timeFrame');
-
-  // for the dropdown
-  const [acceleratedLabsAndTestDate, setAcceleratedLabsAndTestDate] = useState(
-    urlTimeFrame || format(new Date(), 'yyyy-MM'),
-  );
-  // for the display message
-  const [displayDate, setDisplayDate] = useState(acceleratedLabsAndTestDate);
-
-  // for the api call
-  const timeFrameApiParameters = useMemo(
-    () => {
-      // set end date to the last day of the month
-      const [year, month] = acceleratedLabsAndTestDate.split('-');
-      const lastDayOfMonth = new Date(year, month, 0).getDate();
-      const formattedMonth = month.padStart(2, '0');
-      return {
-        startDate: `${year}-${formattedMonth}-01`,
-        endDate: `${year}-${formattedMonth}-${lastDayOfMonth}`,
-      };
-    },
-    [acceleratedLabsAndTestDate],
-  );
-
   const dispatchAction = useMemo(
     () => {
       return isCurrent => {
-        return getLabsAndTestsList(
-          isCurrent,
-          isAcceleratingLabsAndTests,
-          timeFrameApiParameters,
-        );
+        return getLabsAndTestsList(isCurrent, isAcceleratingLabsAndTests, {
+          startDate: dateRange.fromDate,
+          endDate: dateRange.toDate,
+        });
       };
     },
-    [isAcceleratingLabsAndTests, timeFrameApiParameters],
+    [isAcceleratingLabsAndTests, dateRange],
   );
 
   useListRefresh({
@@ -144,50 +128,28 @@ const LabsAndTests = () => {
     [dispatch],
   );
 
-  useEffect(
-    () => {
-      if (isAcceleratingLabsAndTests) {
-        // Only update if there is no time frame. This is only for on initial page load.
-        const timeFrame = new URLSearchParams(location.search).get('timeFrame');
-        if (!timeFrame) {
-          const searchParams = new URLSearchParams(location.search);
-          searchParams.set('timeFrame', acceleratedLabsAndTestDate);
-          history.push({
-            pathname: location.pathname,
-            search: searchParams.toString(),
-          });
-        }
-      }
-    },
-    [
-      acceleratedLabsAndTestDate,
-      history,
-      isAcceleratingLabsAndTests,
-      location.pathname,
-      location.search,
-    ],
-  );
-  const updateDate = event => {
-    const [year, month] = event.target.value.split('-');
-    // Ignore transient date changes.
-    if (year?.length === 4 && month?.length === 2) {
-      setAcceleratedLabsAndTestDate(`${year}-${month}`);
-    }
-  };
+  const handleDateRangeSelect = useCallback(
+    event => {
+      const { value } = event.detail;
+      const { fromDate, toDate } = calculateDateRange(value);
 
-  const triggerApiUpdate = () => {
-    const searchParams = new URLSearchParams(location.search);
-    searchParams.set('timeFrame', acceleratedLabsAndTestDate);
-    history.push({
-      pathname: location.pathname,
-      search: searchParams.toString(),
-    });
-    setDisplayDate(acceleratedLabsAndTestDate);
-    dispatch({
-      type: Actions.LabsAndTests.UPDATE_LIST_STATE,
-      payload: loadStates.PRE_FETCH,
-    });
-  };
+      // Update Redux with new range
+      dispatch(updateLabsAndTestDateRange(value, fromDate, toDate));
+
+      dispatch({
+        type: Actions.LabsAndTests.UPDATE_LIST_STATE,
+        payload: loadStates.PRE_FETCH,
+      });
+
+      // DataDog tracking
+      const selectedOption = getDateRangeList().find(
+        option => option.value === value,
+      );
+      const label = selectedOption ? selectedOption.label : 'Unknown';
+      sendDataDogAction(`Date range option - ${label}`);
+    },
+    [dispatch],
+  );
 
   return (
     <div id="labs-and-tests">
@@ -231,18 +193,14 @@ const LabsAndTests = () => {
           />
         )}
         {isAcceleratingLabsAndTests && (
-          <>
-            <div className="vads-u-margin-bottom--2">
-              <DatePicker
-                {...{
-                  updateDate,
-                  triggerApiUpdate,
-                  isLoadingAcceleratedData,
-                  dateValue: acceleratedLabsAndTestDate,
-                }}
-              />
-            </div>
-          </>
+          <div>
+            <DateRangeSelector
+              onDateRangeSelect={handleDateRangeSelect}
+              selectedDate={dateRange?.option || DEFAULT_DATE_RANGE}
+              isLoading={isLoadingAcceleratedData}
+            />
+            <AdditionalReportsInfo domainName="lab and test results" />
+          </div>
         )}
         {isLoadingAcceleratedData && (
           <>
@@ -286,10 +244,8 @@ const LabsAndTests = () => {
                   }))}
                   domainOptions={{
                     isAccelerating: isAcceleratingLabsAndTests,
-                    timeFrame: acceleratedLabsAndTestDate,
-                    displayTimeFrame: getMonthFromSelectedDate({
-                      date: displayDate,
-                    }),
+                    timeFrame: getTimeFrame(dateRange),
+                    displayTimeFrame: getDisplayTimeFrame(dateRange),
                   }}
                 />
               </>
@@ -298,9 +254,7 @@ const LabsAndTests = () => {
                 type={recordType.LABS_AND_TESTS}
                 timeFrame={
                   isAcceleratingLabsAndTests
-                    ? getMonthFromSelectedDate({
-                        date: displayDate,
-                      })
+                    ? getDisplayTimeFrame(dateRange)
                     : ''
                 }
               />

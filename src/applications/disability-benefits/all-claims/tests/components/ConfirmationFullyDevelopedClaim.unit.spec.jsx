@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import ConfirmationFullyDevelopedClaim from '../../components/ConfirmationFullyDevelopedClaim';
+import ConfirmationFullyDevelopedClaim from '../../components/confirmationFields/ConfirmationFullyDevelopedClaim';
 
 describe('ConfirmationFullyDevelopedClaim', () => {
   it('should render correctly when standardClaim is false', () => {

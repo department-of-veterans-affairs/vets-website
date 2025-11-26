@@ -80,6 +80,7 @@ const AgreementPage = () => {
         onContinue={onSubmit}
         onBack={onBack}
         loading={isSubmitting}
+        hideContinueButtonArrows
       />
     </>
   );

@@ -16,17 +16,27 @@ describe('21P-0537 prefillTransformer', () => {
               middle: 'Marie',
               last: 'Smith',
             },
-            email: 'jennifer.smith@example.com',
-            phoneNumber: '5551234567',
           },
         },
       };
 
-      const result = prefillTransformer(pages, formData, metadata, state);
+      const prefilledformData = {
+        claimantEmail: 'jennifer.smith@example.com',
+        claimantPhone: '5551234567',
+      };
 
-      expect(result.formData.recipientName.first).to.include('Jennifer');
-      expect(result.formData.recipientName.middle).to.include('Marie');
-      expect(result.formData.recipientName.last).to.include('Smith');
+      const result = prefillTransformer(
+        pages,
+        prefilledformData,
+        metadata,
+        state,
+      );
+
+      expect(result.formData['view:recipientName'].first).to.include(
+        'Jennifer',
+      );
+      expect(result.formData['view:recipientName'].middle).to.include('Marie');
+      expect(result.formData['view:recipientName'].last).to.include('Smith');
       expect(result.formData.emailAddress).to.include(
         'jennifer.smith@example.com',
       );
@@ -44,8 +54,8 @@ describe('21P-0537 prefillTransformer', () => {
 
       const result = prefillTransformer(pages, formData, metadata, state);
 
-      expect(result.formData.recipientName.first).to.equal('');
-      expect(result.formData.recipientName.last).to.equal('');
+      expect(result.formData['view:recipientName'].first).to.equal('');
+      expect(result.formData['view:recipientName'].last).to.equal('');
       expect(result.formData.emailAddress).to.equal('');
       expect(result.formData.primaryPhone).to.equal('');
     });
@@ -57,15 +67,15 @@ describe('21P-0537 prefillTransformer', () => {
 
       const result = prefillTransformer(pages, formData, metadata, state);
 
-      expect(result.formData.recipientName.first).to.equal('');
-      expect(result.formData.recipientName.last).to.equal('');
+      expect(result.formData['view:recipientName'].first).to.equal('');
+      expect(result.formData['view:recipientName'].last).to.equal('');
     });
 
     it('should return empty data when state is undefined', () => {
       const result = prefillTransformer(pages, formData, metadata, undefined);
 
-      expect(result.formData.recipientName.first).to.equal('');
-      expect(result.formData.recipientName.last).to.equal('');
+      expect(result.formData['view:recipientName'].first).to.equal('');
+      expect(result.formData['view:recipientName'].last).to.equal('');
     });
 
     it('should return empty data when profile is empty object', () => {
@@ -77,8 +87,8 @@ describe('21P-0537 prefillTransformer', () => {
 
       const result = prefillTransformer(pages, formData, metadata, state);
 
-      expect(result.formData.recipientName.first).to.equal('');
-      expect(result.formData.recipientName.last).to.equal('');
+      expect(result.formData['view:recipientName'].first).to.equal('');
+      expect(result.formData['view:recipientName'].last).to.equal('');
     });
   });
 
@@ -91,15 +101,20 @@ describe('21P-0537 prefillTransformer', () => {
               first: 'John',
               last: 'Doe',
             },
-            phoneNumber: '5551234567',
           },
         },
       };
 
-      const result = prefillTransformer(pages, formData, metadata, state);
+      const prefilledFormData = { claimantPhone: '5551234567' };
+      const result = prefillTransformer(
+        pages,
+        prefilledFormData,
+        metadata,
+        state,
+      );
 
-      expect(result.formData.recipientName.first).to.include('John');
-      expect(result.formData.recipientName.last).to.include('Doe');
+      expect(result.formData['view:recipientName'].first).to.include('John');
+      expect(result.formData['view:recipientName'].last).to.include('Doe');
       expect(result.formData.emailAddress).to.equal('');
       expect(result.formData.primaryPhone).to.include('5551234567');
     });
@@ -112,15 +127,22 @@ describe('21P-0537 prefillTransformer', () => {
               first: 'John',
               last: 'Doe',
             },
-            email: 'john.doe@example.com',
           },
         },
       };
+      const prefilledFormData = {
+        claimantEmail: 'john.doe@example.com',
+      };
 
-      const result = prefillTransformer(pages, formData, metadata, state);
+      const result = prefillTransformer(
+        pages,
+        prefilledFormData,
+        metadata,
+        state,
+      );
 
-      expect(result.formData.recipientName.first).to.include('John');
-      expect(result.formData.recipientName.last).to.include('Doe');
+      expect(result.formData['view:recipientName'].first).to.include('John');
+      expect(result.formData['view:recipientName'].last).to.include('Doe');
       expect(result.formData.emailAddress).to.include('john.doe@example.com');
       expect(result.formData.primaryPhone).to.equal('');
     });
@@ -139,8 +161,8 @@ describe('21P-0537 prefillTransformer', () => {
 
       const result = prefillTransformer(pages, formData, metadata, state);
 
-      expect(result.formData.recipientName.first).to.include('John');
-      expect(result.formData.recipientName.last).to.include('Doe');
+      expect(result.formData['view:recipientName'].first).to.include('John');
+      expect(result.formData['view:recipientName'].last).to.include('Doe');
       expect(result.formData.emailAddress).to.equal('');
       expect(result.formData.primaryPhone).to.equal('');
     });
