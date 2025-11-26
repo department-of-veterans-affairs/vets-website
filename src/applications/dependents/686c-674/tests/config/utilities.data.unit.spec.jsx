@@ -1313,5 +1313,11 @@ describe('transformPicklistToV2', () => {
     expect(result['view:selectable686Options']).to.deep.equal(
       v3Result['view:selectable686Options'],
     );
+    expect(result['view:addDependentOptions']).to.deep.equal(
+      v3Result['view:addDependentOptions'],
+    );
+    expect(result['view:removeDependentOptions']).to.deep.equal(
+      v3Result['view:removeDependentOptions'],
+    );
   });
 });
