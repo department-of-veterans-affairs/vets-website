@@ -147,6 +147,9 @@ export default function ClaimDetailsContent({
             // Specifically NOT a client-side route to ensure
             // redirect logic is evaluated upon entry into complex claims
             href={`/my-health/travel-pay/file-new-claim/${claimId}`}
+            onClick={() => {
+              sessionStorage.setItem('fileNewClaimEntry', 'claim');
+            }}
           />
         )}
       <h2 className="vads-u-font-size--h3">Claim information</h2>

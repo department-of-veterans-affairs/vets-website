@@ -1,6 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams, Outlet, Navigate } from 'react-router-dom-v5-compat';
+import {
+  useParams,
+  useLocation,
+  useNavigate,
+  Outlet,
+  Navigate,
+} from 'react-router-dom-v5-compat';
 
 import { Element } from 'platform/utilities/scroll';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
@@ -10,13 +16,25 @@ import {
   selectComplexClaim,
   selectComplexClaimCreationLoadingState,
   selectComplexClaimFetchLoadingState,
+  selectHasUnsavedExpenseChanges,
 } from '../redux/selectors';
-import { getAppointmentData, getComplexClaimDetails } from '../redux/actions';
+import {
+  getAppointmentData,
+  getComplexClaimDetails,
+  clearUnsavedExpenseChanges,
+} from '../redux/actions';
 import { STATUSES } from '../constants';
+import UnsavedChangesModal from '../components/UnsavedChangesModal';
 
 const ComplexClaimSubmitFlowWrapper = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { apptId, claimId } = useParams();
+  const location = useLocation();
+  const [
+    isUnsavedChangesModalVisible,
+    setIsUnsavedChangesModalVisible,
+  ] = useState(false);
   const {
     useToggleValue,
     TOGGLE_NAMES,
@@ -38,6 +56,8 @@ const ComplexClaimSubmitFlowWrapper = () => {
   const claimData = complexClaim.data;
   const claimError = complexClaim.fetch?.error;
 
+  const hasUnsavedChanges = useSelector(selectHasUnsavedExpenseChanges);
+
   const isComplexClaimCreationLoading = useSelector(
     selectComplexClaimCreationLoadingState,
   );
@@ -46,8 +66,12 @@ const ComplexClaimSubmitFlowWrapper = () => {
     selectComplexClaimFetchLoadingState,
   );
 
+  const entryPoint = sessionStorage.getItem('fileNewClaimEntry');
+
   const claimFromAppointment = apptData?.travelPayClaim?.claim;
   const effectiveClaimId = claimId || claimFromAppointment?.id;
+
+  const isIntroductionPage = location.pathname === `/file-new-claim/${apptId}`;
 
   const needsClaimData = effectiveClaimId && !claimData && !claimError;
   const needsApptData = apptId && !apptData && !apptError;
@@ -71,6 +95,33 @@ const ComplexClaimSubmitFlowWrapper = () => {
     },
     [dispatch, needsClaimData, needsApptData, effectiveClaimId, apptId],
   );
+
+  const handleBackLinkClick = e => {
+    if (hasUnsavedChanges) {
+      e.preventDefault();
+      setIsUnsavedChangesModalVisible(true);
+    }
+    // If no unsaved changes, let the default link behavior happen
+  };
+
+  const handleLeaveWithoutSaving = () => {
+    dispatch(clearUnsavedExpenseChanges());
+    setIsUnsavedChangesModalVisible(false);
+
+    // Navigate to the appropriate back location
+    const backHref = isIntroductionPage
+      ? `/my-health/appointments/past/${apptId}`
+      : {
+          appointment: `/my-health/appointments/past/${apptId}`,
+          claim: `/claims/${effectiveClaimId}`,
+        }[entryPoint] ?? '/claims';
+
+    navigate(backHref);
+  };
+
+  const handleContinueEditing = () => {
+    setIsUnsavedChangesModalVisible(false);
+  };
 
   if (isLoading) {
     return (
@@ -111,14 +162,28 @@ const ComplexClaimSubmitFlowWrapper = () => {
             back
             data-testid="complex-claim-back-link"
             disable-analytics
-            href={`/my-health/appointments/past/${apptId}`}
-            text="Back to your appointment"
+            href={
+              isIntroductionPage
+                ? `/my-health/appointments/past/${apptId}`
+                : {
+                    appointment: `/my-health/appointments/past/${apptId}`,
+                    claim: `/my-health/travel-pay/claims/${effectiveClaimId}`,
+                  }[entryPoint] ?? '/my-health/travel-pay/claims'
+            }
+            text={isIntroductionPage ? 'Back to appointment' : 'Back'}
+            onClick={handleBackLinkClick}
           />
         </div>
         <div className="vads-l-col--12 medium-screen:vads-l-col--8">
           <Outlet />
         </div>
       </article>
+      <UnsavedChangesModal
+        visible={isUnsavedChangesModalVisible}
+        onCloseEvent={handleContinueEditing}
+        onPrimaryButtonClick={handleLeaveWithoutSaving}
+        onSecondaryButtonClick={handleContinueEditing}
+      />
     </Element>
   );
 };
