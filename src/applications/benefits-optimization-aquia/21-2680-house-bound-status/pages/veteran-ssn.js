@@ -8,6 +8,7 @@ import {
   ssnUI,
   ssnSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { getVeteranName } from '@bio-aquia/21-2680-house-bound-status/utils/name-helpers';
 
 /**
  * uiSchema for Veteran SSN page
@@ -20,15 +21,9 @@ export const veteranSsnUiSchema = {
   'ui:options': {
     updateUiSchema: (formData, fullData) => {
       const data = fullData || formData;
-      const firstName = data?.veteranInformation?.veteranFullName?.first || '';
-      const lastName = data?.veteranInformation?.veteranFullName?.last || '';
-      const fullName = `${firstName} ${lastName}`.trim();
-      const title = fullName
-        ? `${fullName}'s Social Security number`
-        : "Veteran's Social Security number";
-
+      const veteranName = getVeteranName(data, 'Veteran');
       return {
-        'ui:title': title,
+        'ui:title': `${veteranName}'s Social Security number`,
       };
     },
   },
