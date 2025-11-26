@@ -232,10 +232,11 @@ describe('<ProfileAlertConfirmEmail />', () => {
     });
 
     it(`renders success when 'Confirm...' button clicked, calls recordEvent`, async () => {
+      const headline = 'Thank you for confirming your contact email address';
       mockApiRequest();
       const props = { recordEvent: sinon.spy() };
       const initialState = stateFn({ confirmationDate: null });
-      const { container, getByTestId, queryByTestId } = render(
+      const { container, getByRole, getByTestId, queryByTestId } = render(
         <ProfileAlertConfirmEmail {...props} />,
         {
           initialState,
@@ -246,9 +247,12 @@ describe('<ProfileAlertConfirmEmail />', () => {
 
       await waitFor(() => {
         getByTestId('mhv-alert--confirm-success');
+        getByRole('heading', {
+          level: 3,
+          name: new RegExp(headline),
+        });
         expect(queryByTestId('profile-alert--confirm-contact-email')).to.be
           .null;
-        const headline = 'Thank you for confirming your contact email address';
         expect(props.recordEvent.calledWith(headline));
       });
     });
@@ -396,9 +400,10 @@ describe('<ProfileAlertConfirmEmail />', () => {
     });
 
     it(`renders success when 'Skip...' button clicked, calls recordEvent`, async () => {
+      const headline = 'Okay, we’ll skip adding a contact email for now';
       const props = { recordEvent: sinon.spy() };
       const initialState = stateFn({ emailAddress: null });
-      const { container, getByTestId, queryByTestId } = render(
+      const { container, getByRole, getByTestId, queryByTestId } = render(
         <ProfileAlertConfirmEmail {...props} />,
         {
           initialState,
@@ -409,8 +414,11 @@ describe('<ProfileAlertConfirmEmail />', () => {
 
       await waitFor(() => {
         getByTestId('mhv-alert--skip-success');
+        getByRole('heading', {
+          level: 3,
+          name: new RegExp(headline),
+        });
         expect(queryByTestId('profile-alert--add-contact-email')).to.be.null;
-        const headline = 'Okay, we’ll skip adding a contact email for now';
         expect(props.recordEvent.calledWith(headline));
       });
     });
