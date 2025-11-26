@@ -172,7 +172,7 @@ in order for the form to successfully submit.
 const isRatedDisabilityCondition = v => norm(v) === 'rated disability';
 
 export const normalizeIncreases = formData => {
-  if (!formData?.disabilityCompensationNewConditionsWorkflow) return formData;
+  if (!formData?.disabilityCompNewConditionsWorkflow) return formData;
 
   const rated = Array.isArray(formData?.ratedDisabilities)
     ? formData.ratedDisabilities.map(r => ({ ...r }))
@@ -200,8 +200,8 @@ export const normalizeIncreases = formData => {
           const target = rated[idx];
           target['view:selected'] = true;
           target.disabilityActionType = 'INCREASE';
-          if (row.conditionDate && !target.conditionDate) {
-            target.conditionDate = row.conditionDate;
+          if (row.conditionDate && !target.approximateDate) {
+            target.approximateDate = row.conditionDate;
           }
         }
         // eslint-disable-next-line no-continue
@@ -221,7 +221,7 @@ export const normalizeIncreases = formData => {
 };
 
 export const sanitizeNewDisabilities = formData => {
-  if (!formData?.disabilityCompensationNewConditionsWorkflow) return formData;
+  if (!formData?.disabilityCompNewConditionsWorkflow) return formData;
 
   const out = { ...formData };
 
@@ -342,7 +342,10 @@ export const removeExtraData = formData => {
         return acc;
       }, {}),
     );
+  } else {
+    delete clonedData.ratedDisabilities;
   }
+
   return clonedData;
 };
 

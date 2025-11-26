@@ -1,4 +1,5 @@
 import React from 'react';
+import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 export default function CopyOfExam() {
   return (
@@ -9,12 +10,11 @@ export default function CopyOfExam() {
 
       <p>
         Use{' '}
-        <a
+        <VaLink
           data-testid="va-form-20-10206-link"
           href="https://va.gov/find-forms/about-form-20-10206/"
-        >
-          VA Form 20-10206
-        </a>{' '}
+          text="VA Form 20-10206"
+        />{' '}
         to request a copy of your exam. You can submit the form using our online
         tool, or download a pdf of the form and send it by mail.
       </p>
