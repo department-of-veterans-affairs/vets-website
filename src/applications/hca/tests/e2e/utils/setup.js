@@ -26,11 +26,17 @@ const APIs = {
 export const setupBasicTest = (props = {}) => {
   Cypress.config({ scrollBehavior: 'nearest' });
 
-  const { features = mockFeatures } = props;
+  const {
+    enrollmentStatus = mockGuestEnrollmentStatus,
+    features = mockFeatures,
+  } = props;
 
   cy.intercept('GET', APIs.features, features).as('mockFeatures');
   cy.intercept('GET', APIs.maintenance, mockMaintenanceWindows);
   cy.intercept('GET', APIs.vamc, mockVamc);
+  cy.intercept('POST', APIs.enrollment, enrollmentStatus).as(
+    'mockEnrollmentStatus',
+  );
   cy.intercept('POST', APIs.downloadPdf, mockPdfDownload).as('downloadPdf');
   cy.intercept('GET', APIs.facilities, mockFacilities).as('getFacilities');
   cy.intercept('POST', APIs.submit, mockSubmission).as('mockSubmit');
@@ -56,13 +62,10 @@ export const setupForAuth = (props = {}) => {
     },
   };
 
-  setupBasicTest({ features });
+  setupBasicTest({ enrollmentStatus, features });
   cy.intercept('GET', APIs.saveInProgress, prefill).as('mockPrefill');
   cy.intercept('PUT', APIs.saveInProgress, mockSaveInProgress);
   cy.intercept(APIs.disabilityRating, mockRating).as('mockDisabilityRating');
-  cy.intercept('POST', APIs.enrollment, enrollmentStatus).as(
-    'mockEnrollmentStatus',
-  );
 
   cy.login(user);
   cy.visit(manifest.rootUrl);
@@ -80,10 +83,7 @@ export const setupForGuest = (props = {}) => {
     features = mockFeatures,
   } = props;
 
-  setupBasicTest({ features });
-  cy.intercept('POST', APIs.enrollment, enrollmentStatus).as(
-    'mockEnrollmentStatus',
-  );
+  setupBasicTest({ enrollmentStatus, features });
 
   cy.visit(manifest.rootUrl);
   cy.wait(['@mockFeatures']);
