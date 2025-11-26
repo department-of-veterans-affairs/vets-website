@@ -540,6 +540,10 @@ export const FormLabels = {
   SUBJECT: 'Subject',
 };
 
+export const RxRenewalText = {
+  LOCKED_CATEGORY_DISPLAY: 'Medication renewal request',
+};
+
 export const downtimeNotificationParams = {
   appTitle: 'this messaging tool',
 };
