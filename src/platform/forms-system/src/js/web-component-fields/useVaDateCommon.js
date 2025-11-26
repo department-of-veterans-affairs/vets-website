@@ -65,6 +65,5 @@ export function useVaDateCommon(props) {
     formattedValue,
     onDateChange,
     onDateBlur,
-    values,
   };
 }
