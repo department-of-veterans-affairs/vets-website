@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
@@ -39,90 +39,117 @@ export const SearchForm = props => {
   const locationInputFieldRef = useRef(null);
   const lastQueryRef = useRef(null);
 
-  const handleFacilityTypeChange = e => {
-    onChange({
-      facilityType: e.target.value,
+  // Add local draft state for form inputs
+  const [draftFormState, setDraftFormState] = useState({
+    facilityType: currentQuery.facilityType || null,
+    serviceType: currentQuery.serviceType || null,
+    searchString: currentQuery.searchString || '',
+    vamcServiceDisplay: currentQuery.vamcServiceDisplay || null,
+  });
+
+  // Memoize callbacks to prevent unnecessary re-renders
+  const handleVamcDraftChange = useCallback(updates => {
+    setDraftFormState(prev => ({ ...prev, ...updates }));
+  }, []);
+
+  const handleLocationSelection = useCallback(updates => {
+    setDraftFormState(prev => ({ ...prev, ...updates }));
+  }, []);
+
+  const handleFacilityTypeChange = useCallback(e => {
+    const newFacilityType = e.target.value;
+
+    setDraftFormState(prev => ({
+      ...prev,
+      facilityType: newFacilityType,
       serviceType: null,
-      // Since the facility type may cause an error (PPMS), reset it if the type is changed
-      fetchSvcsError: null,
-      error: null,
-    });
-  };
+      vamcServiceDisplay: null,
+    }));
+    // Note: Specialty fetching for CC_PROVIDER is handled by ServiceType component
+  }, []);
 
-  const handleServiceTypeChange = ({ target, selectedItem }) => {
+  const handleServiceTypeChange = useCallback(({ target, selectedItem }) => {
     setSelectedServiceType(selectedItem);
-
     const option = target.value.trim();
     const serviceType = option === 'All' ? null : option;
-    onChange({ serviceType });
-  };
+
+    setDraftFormState(prev => ({ ...prev, serviceType }));
+  }, []);
 
   const handleSubmit = e => {
     e.preventDefault();
 
+    // MODIFY duplicate check to use draftFormState
     const isSameQuery =
       lastQueryRef.current &&
-      currentQuery.facilityType === lastQueryRef.current.facilityType &&
-      currentQuery.serviceType === lastQueryRef.current.serviceType &&
-      currentQuery.searchString === lastQueryRef.current.searchString &&
+      draftFormState.facilityType === lastQueryRef.current.facilityType &&
+      draftFormState.serviceType === lastQueryRef.current.serviceType &&
+      draftFormState.searchString === lastQueryRef.current.searchString &&
       currentQuery.zoomLevel === lastQueryRef.current.zoomLevel;
 
     if (isSameQuery) {
       return;
     }
 
-    lastQueryRef.current = currentQuery;
-
-    const {
-      facilityType,
-      serviceType,
-      zoomLevel,
-      isValid,
-      searchString,
-      specialties,
-    } = currentQuery;
-
-    let analyticsServiceType = serviceType;
+    // UPDATE lastQueryRef with draft values
+    lastQueryRef.current = {
+      facilityType: draftFormState.facilityType,
+      serviceType: draftFormState.serviceType,
+      searchString: draftFormState.searchString,
+      zoomLevel: currentQuery.zoomLevel,
+    };
 
     const updateReduxState = propName => {
       onChange({ [propName]: ' ' });
       onChange({ [propName]: '' });
     };
 
-    if (facilityType === LocationType.CC_PROVIDER) {
-      if (!serviceType || !selectedServiceType) {
-        updateReduxState('serviceType');
-        focusElement('#service-type-ahead-input');
-        return;
-      }
-
-      if (specialties && Object.keys(specialties).includes(serviceType)) {
-        analyticsServiceType = specialties[serviceType];
-      }
-    }
-
-    if (!searchString) {
+    // MODIFY validation to use draftFormState
+    if (!draftFormState.searchString) {
       updateReduxState('searchString');
       focusElement('#street-city-state-zip');
       return;
     }
 
-    if (!facilityType) {
+    if (!draftFormState.facilityType) {
       updateReduxState('facilityType');
       focusElement('#facility-type-dropdown');
       return;
     }
 
-    if (!isValid) {
+    if (
+      draftFormState.facilityType === LocationType.CC_PROVIDER &&
+      (!draftFormState.serviceType || !selectedServiceType)
+    ) {
+      updateReduxState('serviceType');
+      focusElement('#service-type-ahead-input');
       return;
     }
 
-    // Report event here to only send analytics event when a user clicks on the button
+    // ADD: Commit draft to Redux (NEW - this is the fix!)
+    onChange({
+      facilityType: draftFormState.facilityType,
+      serviceType: draftFormState.serviceType,
+      searchString: draftFormState.searchString,
+      vamcServiceDisplay: draftFormState.vamcServiceDisplay,
+    });
+
+    // MODIFY analytics to use draftFormState
+    let analyticsServiceType = draftFormState.serviceType;
+    if (
+      draftFormState.facilityType === LocationType.CC_PROVIDER &&
+      currentQuery.specialties &&
+      Object.keys(currentQuery.specialties).includes(draftFormState.serviceType)
+    ) {
+      analyticsServiceType =
+        currentQuery.specialties[draftFormState.serviceType];
+    }
+
     recordEvent({
       event: 'fl-search',
-      'fl-search-fac-type': facilityType,
+      'fl-search-fac-type': draftFormState.facilityType,
       'fl-search-svc-type': analyticsServiceType,
-      'fl-current-zoom-depth': zoomLevel,
+      'fl-current-zoom-depth': currentQuery.zoomLevel,
     });
 
     if (isMobile && mobileMapUpdateEnabled) {
@@ -132,6 +159,38 @@ export const SearchForm = props => {
     setSearchInitiated(true);
     onSubmit();
   };
+
+  // Sync draft state when Redux updates from external sources
+  // (geolocation, URL params, browser back button)
+  useEffect(
+    () => {
+      // Only sync searchString (geolocation updates this)
+      if (currentQuery.searchString !== draftFormState.searchString) {
+        setDraftFormState(prev => ({
+          ...prev,
+          searchString: currentQuery.searchString || '',
+        }));
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [currentQuery.searchString],
+  );
+
+  // Sync all fields on URL parameter changes (browser back/forward)
+  useEffect(
+    () => {
+      if (props.location?.search) {
+        setDraftFormState({
+          facilityType: currentQuery.facilityType || null,
+          serviceType: currentQuery.serviceType || null,
+          searchString: currentQuery.searchString || '',
+          vamcServiceDisplay: currentQuery.vamcServiceDisplay || null,
+        });
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [props.location?.search],
+  );
 
   const handleGeolocationButtonClick = e => {
     e.preventDefault();
@@ -197,7 +256,7 @@ export const SearchForm = props => {
   const facilityAndServiceTypeInputs = (
     <>
       <FacilityType
-        currentQuery={currentQuery}
+        currentQuery={draftFormState}
         handleFacilityTypeChange={handleFacilityTypeChange}
         isMobile={isMobile}
         isSmallDesktop={isSmallDesktop}
@@ -206,13 +265,14 @@ export const SearchForm = props => {
         useProgressiveDisclosure={useProgressiveDisclosure}
       />
       <ServiceType
-        currentQuery={currentQuery}
+        currentQuery={draftFormState}
         getProviderSpecialties={props.getProviderSpecialties}
         handleServiceTypeChange={handleServiceTypeChange}
         isMobile={isMobile}
         isSmallDesktop={isSmallDesktop}
         isTablet={isTablet}
-        onChange={onChange}
+        committedVamcServiceDisplay={currentQuery.vamcServiceDisplay}
+        onVamcDraftChange={handleVamcDraftChange}
         searchInitiated={searchInitiated}
         setSearchInitiated={setSearchInitiated}
         useProgressiveDisclosure={useProgressiveDisclosure}
@@ -248,7 +308,7 @@ export const SearchForm = props => {
       </VaModal>
       <form id="facility-search-controls" onSubmit={handleSubmit}>
         <AddressAutosuggest
-          currentQuery={currentQuery}
+          currentQuery={draftFormState}
           geolocateUser={handleGeolocationButtonClick}
           inputRef={locationInputFieldRef}
           isMobile={isMobile}
@@ -256,6 +316,7 @@ export const SearchForm = props => {
           isTablet={isTablet}
           onClearClick={handleClearInput}
           onChange={onChange}
+          onLocationSelection={handleLocationSelection}
           useProgressiveDisclosure={useProgressiveDisclosure}
         />
         {useProgressiveDisclosure ? (
