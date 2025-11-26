@@ -25,7 +25,7 @@ export const witnessHasOtherRelationship = formData => {
   if (!!claimOwnership && !!witnessRelationshipToClaimant) {
     return (
       claimOwnership === CLAIM_OWNERSHIPS.THIRD_PARTY &&
-      witnessRelationshipToClaimant.includes(OTHER_RELATIONSHIP)
+      witnessRelationshipToClaimant[OTHER_RELATIONSHIP]
     );
   }
 
