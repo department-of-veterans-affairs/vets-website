@@ -1090,3 +1090,45 @@ describe('labsAndTestsReducer - unified labs and tests', () => {
     expect(testRecord.result).to.equal('This is a test');
   });
 });
+
+describe('labsAndTestsReducer - hardened array coercion', () => {
+  it('handles undefined entry and filters out null radiology items safely in GET_LIST', () => {
+    const action = {
+      type: Actions.LabsAndTests.GET_LIST,
+      labsAndTestsResponse: { resourceType: 'Bundle' }, // no entry array present
+      radiologyResponse: [null, { id: 'rad-1', radiologist: 'Jane Doe' }],
+      cvixRadiologyResponse: null,
+    };
+
+    const state = labsAndTestsReducer({}, action);
+
+    // Should create a list with only the valid radiology record and not throw
+    expect(state.labsAndTestsList).to.be.an('array');
+    expect(state.labsAndTestsList.length).to.equal(1);
+    expect(state.labsAndTestsList[0].type).to.equal(labTypes.RADIOLOGY);
+    // updatedList should be undefined because this is initial population
+    expect(state.updatedList).to.equal(undefined);
+  });
+
+  it('returns an empty array for GET_LIST when all sources are missing', () => {
+    const action = {
+      type: Actions.LabsAndTests.GET_LIST,
+      labsAndTestsResponse: {},
+      radiologyResponse: undefined,
+      cvixRadiologyResponse: undefined,
+    };
+    const state = labsAndTestsReducer({}, action);
+    expect(state.labsAndTestsList).to.be.an('array');
+    expect(state.labsAndTestsList.length).to.equal(0);
+  });
+
+  it('returns an empty list for GET_UNIFIED_LIST when response is null', () => {
+    const action = {
+      type: Actions.LabsAndTests.GET_UNIFIED_LIST,
+      labsAndTestsResponse: null,
+    };
+    const state = labsAndTestsReducer({}, action);
+    expect(state.labsAndTestsList).to.be.an('array');
+    expect(state.labsAndTestsList.length).to.equal(0);
+  });
+});

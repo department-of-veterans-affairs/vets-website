@@ -493,6 +493,8 @@ const labsAndTestsConverterMap = {
  * @returns the appropriate frontend object for display
  */
 export const convertLabsAndTestsRecord = record => {
+  // Null/undefined guard to prevent TypeErrors when upstream arrays contain nulls
+  if (!record) return null;
   const type = getRecordType(record);
   const convertRecord = labsAndTestsConverterMap[type];
   return convertRecord
@@ -588,7 +590,10 @@ export const labsAndTestsReducer = (state = initialState, action) => {
       };
     }
     case Actions.LabsAndTests.GET_UNIFIED_LIST: {
-      const data = action.labsAndTestsResponse;
+      // Coerce unified response to array before map/sort to avoid TypeErrors
+      const data = Array.isArray(action.labsAndTestsResponse)
+        ? action.labsAndTestsResponse
+        : [];
       return {
         ...state,
         listCurrentAsOf: action.isCurrent ? new Date() : null,
@@ -606,16 +611,21 @@ export const labsAndTestsReducer = (state = initialState, action) => {
     }
     case Actions.LabsAndTests.GET_LIST: {
       const oldList = state.labsAndTestsList;
-      const labsAndTestsList =
-        action.labsAndTestsResponse.entry
-          ?.map(record => convertLabsAndTestsRecord(record.resource))
-          .filter(record => record.type !== labTypes.OTHER) || [];
-      const radiologyTestsList = (action.radiologyResponse || []).map(
-        convertLabsAndTestsRecord,
-      );
-      const cvixRadiologyTestsList = (action.cvixRadiologyResponse || []).map(
-        convertLabsAndTestsRecord,
-      );
+      const toArray = v => (Array.isArray(v) ? v : []);
+      // Coerce all sources to arrays before processing
+      const entry = toArray(action.labsAndTestsResponse?.entry);
+      const labsAndTestsList = entry
+        .map(record => convertLabsAndTestsRecord(record.resource))
+        .filter(record => record && record.type !== labTypes.OTHER);
+      // Filter out nulls BEFORE mapping to avoid calling converter with null
+      const radiologyTestsList = toArray(action.radiologyResponse)
+        .filter(Boolean)
+        .map(convertLabsAndTestsRecord)
+        .filter(Boolean);
+      const cvixRadiologyTestsList = toArray(action.cvixRadiologyResponse)
+        .filter(Boolean)
+        .map(convertLabsAndTestsRecord)
+        .filter(Boolean);
       const mergedRadiologyList = mergeRadiologyLists(
         radiologyTestsList,
         cvixRadiologyTestsList,
