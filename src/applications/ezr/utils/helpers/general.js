@@ -34,16 +34,18 @@ export function normalizeFullName(name = {}, outputMiddle = false) {
 }
 
 /**
- * Helper that builds a Veteran DoB string based on provided input values
+ * Helper that builds a Veteran DoB Date object based on provided input values
  * @param {String} birthdate - the value of the user's date of birth from the profile data
- * @returns {String/NULL} - NULL if the passed-in value is not valid else the
- * formatted string value of the date (YYYY-MM-DD)
+ * @returns {Date|null} - null if the passed-in value is not valid else the
+ * parsed Date object
  */
 export function parseVeteranDob(birthdate) {
   if (!birthdate) return null;
   if (!moment(birthdate).isValid()) return null;
   if (!moment(birthdate).isBetween('1900-01-01', undefined)) return null;
-  return birthdate;
+  
+  // Return the actual Date object instead of the original string
+  return moment(birthdate).toDate();
 }
 
 /**
