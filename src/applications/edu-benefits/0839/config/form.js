@@ -10,7 +10,6 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import PrivacyPolicy from '../components/PrivacyPolicy';
 import SubmissionInstructions from '../components/SubmissionInstructions';
-import CustomReviewTopContent from '../components/CustomReviewTopContent';
 
 import {
   authorizedOfficial,
@@ -31,6 +30,7 @@ import {
   additionalInstitutionDetailsArrayOptions,
   showAdditionalPointsOfContact,
   arrayBuilderOptions,
+  CustomReviewTopContent,
 } from '../helpers';
 
 /** @type {FormConfig} */
