@@ -23,7 +23,7 @@ function App({
   getPersonalInformation,
   location,
   mebDpoAddressOptionEnabled,
-  meb1995InstructionsPageUpdateV3,
+  meb1995InstructionPageUpdateV3,
   setFormData,
   user,
 }) {
@@ -70,14 +70,15 @@ function App({
 
   useEffect(
     () => {
-      if (meb1995InstructionsPageUpdateV3 !== formData.meb1995InstructionsPageUpdateV3) {
+      console.log(meb1995InstructionPageUpdateV3, "flag")
+      if (meb1995InstructionPageUpdateV3 !== formData.meb1995InstructionPageUpdateV3) {
         setFormData({
           ...formData,
-          meb1995InstructionsPageUpdateV3,
+          meb1995InstructionPageUpdateV3,
         });
       }
     },
-    [meb1995InstructionsPageUpdateV3, formData, setFormData],
+    [meb1995InstructionPageUpdateV3, formData, setFormData],
   );
 
   useEffect(
@@ -166,7 +167,7 @@ App.propTypes = {
   getPersonalInformation: PropTypes.func,
   location: PropTypes.object,
   mebDpoAddressOptionEnabled: PropTypes.bool,
-  meb1995InstructionsPageUpdateV3: PropTypes.bool,
+  meb1995InstructionPageUpdateV3: PropTypes.bool,
   setFormData: PropTypes.func,
   user: PropTypes.object,
 };

@@ -14,7 +14,7 @@ export const IntroductionPage = ({
   isLoggedIn,
   isPersonalInfoFetchFailed,
   showMeb5490EMaintenanceAlert,
-  meb1995InstructionsPageUpdateV3,
+  meb1995InstructionPageUpdateV3,
   route,
 }) => {
   return (
@@ -23,7 +23,7 @@ export const IntroductionPage = ({
         title="Apply for education benefits as an eligible dependent"
         subTitle="Form 22-5490 (Dependents' Application for VA Education Benefits)"
       />
-      { meb1995InstructionsPageUpdateV3 ? <p>
+      { meb1995InstructionPageUpdateV3 ? <p>
         Use VA Form 22-5490 if you are the spouse or dependent of a Veteran
         and want to apply for education benefits for the first time or make changes to an existing benefit.
       </p> : <p>
@@ -36,7 +36,7 @@ export const IntroductionPage = ({
         or <strong>Chapter 33 Fry Scholarship.</strong>
       </p>
       }
-      { meb1995InstructionsPageUpdateV3 &&
+      { meb1995InstructionPageUpdateV3 &&
         <div>
           <h2>For the first time applicants, use the VA Form 22-5490 to apply for the following programs:</h2>
           <ul>
@@ -217,7 +217,7 @@ IntroductionPage.propTypes = {
   isLoggedIn: PropTypes.bool,
   isPersonalInfoFetchFailed: PropTypes.bool,
   showMeb5490EMaintenanceAlert: PropTypes.bool,
-  meb1995InstructionsPageUpdateV3: PropTypes.bool,
+  meb1995InstructionPageUpdateV3: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
@@ -226,7 +226,7 @@ const mapStateToProps = state => ({
   isPersonalInfoFetchFailed: state.data?.isPersonalInfoFetchFailed || false,
   showMeb5490EMaintenanceAlert:
     state.featureToggles?.showMeb5490EMaintenanceAlert,
-  meb1995InstructionsPageUpdateV3: state?.featureToggles?.meb1995InstructionsPageUpdateV3,
+  meb1995InstructionPageUpdateV3: state?.featureToggles?.meb1995InstructionPageUpdateV3,
 });
 
 export default connect(mapStateToProps)(IntroductionPage);
