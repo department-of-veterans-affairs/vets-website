@@ -124,12 +124,6 @@
       "rootUrl": "/submit-state-interment-allowance-form-21p-530a"
     },
     {
-      "directoryPath": "src/applications/benefits-optimization-pingwind/21-4140",
-      "appName": "Employment Questionnaire",
-      "entryName": "21-4140",
-      "rootUrl": "/disability/verify-individual-unemployability-status/submit-employment-questionnaire-form-21-4140"
-    },
-    {
       "directoryPath": "src/applications/benefits-optimization-pingwind/21-8940",
       "appName": "Apply for additional compensation based on inability to work",
       "entryName": "21-8940",
@@ -740,6 +734,12 @@
       "appName": "Submit a statement to support a claim",
       "entryName": "4138-ss",
       "rootUrl": "/supporting-forms-for-claims/submit-statement-form-21-4138"
+    },
+    {
+      "directoryPath": "src/applications/simple-forms/21-4140",
+      "appName": "Submit Employment Questionnaire",
+      "entryName": "21-4140",
+      "rootUrl": "/disability/verify-individual-unemployability-status/submit-employment-questionnaire-form-21-4140"
     },
     {
       "directoryPath": "src/applications/simple-forms/21-4142",
