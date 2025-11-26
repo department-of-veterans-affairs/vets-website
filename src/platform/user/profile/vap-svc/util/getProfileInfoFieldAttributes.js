@@ -18,6 +18,12 @@ import {
 import { addressConvertCleanDataToPayload } from './contact-information/addressUtils';
 
 import {
+  isSchedulingPreference,
+  schedulingPreferencesUiSchema,
+  schedulingPreferencesFormSchema,
+} from './health-care-settings/schedulingPreferencesUtils';
+
+import {
   personalInformationFormSchemas,
   personalInformationUiSchemas,
 } from './personal-information/personalInformationUtils';
@@ -170,6 +176,14 @@ export const getProfileInfoFieldAttributes = (fieldName, options = {}) => {
 
     uiSchema = personalInformationUiSchemas[fieldName];
     formSchema = personalInformationFormSchemas[fieldName];
+  }
+
+  if (isSchedulingPreference(fieldName)) {
+    title = FIELD_TITLES[fieldName];
+    apiRoute = API_ROUTES.SCHEDULING_PREFERENCES;
+    convertCleanDataToPayload = payload => payload; // Pass through for now
+    uiSchema = schedulingPreferencesUiSchema(fieldName);
+    formSchema = schedulingPreferencesFormSchema(fieldName);
   }
 
   return {

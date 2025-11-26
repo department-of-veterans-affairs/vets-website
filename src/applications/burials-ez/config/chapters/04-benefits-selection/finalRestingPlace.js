@@ -13,8 +13,7 @@ export default {
     'ui:title': generateTitle('Final resting place'),
     finalRestingPlace: {
       location: radioUI({
-        title:
-          'Choose the option that best describes the Veteran’s final resting place',
+        title: 'Which of these describes the Veteran’s final resting place?',
         labels: restingPlaceLabels,
       }),
       other: textUI({
