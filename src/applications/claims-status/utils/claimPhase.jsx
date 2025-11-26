@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom-v5-compat';
+import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 export const getClaimPhases = date => {
   return [
@@ -44,9 +45,11 @@ export const getClaimPhases = date => {
             <li>
               Ask you to have a claim exam
               <br />
-              <a href="/disability/va-claim-exam/">
-                Learn more about VA claim exams
-              </a>
+              <VaLink
+                href="/disability/va-claim-exam/"
+                text="Learn more about VA claim exams"
+                data-testid="learn-more-about-va-claim-exams-link"
+              />
             </li>
             <li>
               Request medical records from your private health care provider
@@ -189,9 +192,11 @@ export const getPensionClaimPhases = date => {
             <li>
               Ask you to have a claim exam
               <br />
-              <a href="/disability/va-claim-exam/">
-                Learn more about VA claim exams
-              </a>
+              <VaLink
+                href="/disability/va-claim-exam/"
+                text="Learn more about VA claim exams"
+                data-testid="learn-more-about-va-claim-exams-link"
+              />
             </li>
             <li>
               Request medical records from your private health care provider
