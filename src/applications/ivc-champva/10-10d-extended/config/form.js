@@ -20,7 +20,7 @@ import {
   certifierRelationshipSchema,
 } from '../chapters/signerInformation';
 
-// import mockData from '../tests/e2e/fixtures/data/maximal-test.json';
+import mockData from '../tests/e2e/fixtures/data/maximal-test.json';
 import transformForSubmit from './submitTransformer';
 
 import {
@@ -128,7 +128,7 @@ const formConfig = {
       title: 'Your information',
       pages: {
         page1: {
-          // initialData: mockData.data,
+          initialData: mockData.data,
           path: 'who-is-applying',
           title: 'Which of these best describes you?',
           ...certifierRoleSchema,
