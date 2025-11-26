@@ -226,7 +226,7 @@ describe('Complex Claims ConfirmationPage', () => {
     ).to.exist;
     expect(
       $(
-        'va-link[href="/resources/how-to-set-up-direct-deposit-for-va-travel-pay-reimbursement/"][text="Set up direct deposit"]',
+        'va-link[href="/resources/how-to-set-up-direct-deposit-for-va-travel-pay-reimbursement/"][text="Set up direct deposit for travel pay"]',
       ),
     ).to.exist;
   });
@@ -257,7 +257,7 @@ describe('Complex Claims ConfirmationPage', () => {
 
     expect(
       container.querySelector(
-        'va-link-action[text="View your appointments to submit another travel reimbursement claim"][href="/my-health/appointments/past"]',
+        'va-link-action[text="Review your appointments to submit another travel reimbursement claim"][href="/my-health/appointments/past"]',
       ),
     ).to.exist;
   });
