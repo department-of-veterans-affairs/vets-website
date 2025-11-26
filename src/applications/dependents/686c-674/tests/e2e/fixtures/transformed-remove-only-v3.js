@@ -446,7 +446,7 @@ export default {
       fullName: { first: 'PETER', last: 'FOSTER' },
       ssn: '0104',
       birthDate: createDoB(89),
-      dependentType: 'PARENT',
+      dependentType: 'DEPENDENT_PARENT',
       dependentDeathDate: '2025-01-01',
       dependentDeathLocation: {
         outsideUsa: false,
@@ -484,8 +484,24 @@ export default {
       supportingStepchild: false,
       whoDoesTheStepchildLiveWith: {},
     },
+    {
+      fullName: { first: 'FORMER', last: 'FOSTER' },
+      ssn: '3145',
+      birthDate: createDoB(11),
+    },
   ],
   'view:removeDependentOptions': {
+    reportDivorce: true,
+    reportDeath: true,
+    reportStepchildNotInHousehold: true,
+    reportMarriageOfChildUnder18: true,
+    reportChild18OrOlderIsNotAttendingSchool: true,
+  },
+  'view:selectable686Options': {
+    addSpouse: false,
+    addChild: false,
+    report674: false,
+    addDisabledChild: false,
     reportDivorce: true,
     reportDeath: true,
     reportStepchildNotInHousehold: true,
