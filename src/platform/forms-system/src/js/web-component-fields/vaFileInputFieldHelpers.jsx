@@ -174,8 +174,8 @@ function getMockFileData(file) {
 }
 
 const START_PERCENT = 10;
-const PERCENT_MAX_STEP = 1;
-const INTERVAL = 150;
+const PERCENT_MAX_STEP = 20;
+const INTERVAL = 50;
 
 /**
  * This function invoked for mock form on staging which lacks a back-end but where we would like to show the progress of uploads.
