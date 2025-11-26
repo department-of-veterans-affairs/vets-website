@@ -19,6 +19,13 @@ const getConditionQuestion = data =>
       }?`
     : 'What conditions were you treated for?';
 
+const getEditConditionQuestion = data =>
+  data?.[VA_TREATMENT_LOCATION_KEY]
+    ? `Edit the conditions you were treated for at ${
+        data[VA_TREATMENT_LOCATION_KEY]
+      }`
+    : 'Edit the conditions you were treated for';
+
 // This is the original schema that will be dynamically overruled as soon
 // as the user lands on this page. We need this since we won't have the
 // issues array at initial form load.
@@ -49,6 +56,7 @@ export const issuesPage = {
 /** @type {CustomPageType} */
 const Issues = props => {
   const {
+    addOrEdit,
     arrayBuilder,
     contentAfterButtons,
     contentBeforeButtons,
@@ -71,7 +79,10 @@ const Issues = props => {
   } = arrayBuilder;
   const [error, setError] = useState(false);
   const currentEvidenceData = fullData?.vaEvidence?.[pagePerItemIndex] || {};
-  const formLabel = getConditionQuestion(data);
+  const formLabel =
+    addOrEdit === 'edit'
+      ? getEditConditionQuestion(data)
+      : getConditionQuestion(data);
 
   const selectedIssues = Object.freeze(
     getSelected(fullData).map(issue => {
@@ -167,6 +178,7 @@ const Issues = props => {
 };
 
 Issues.propTypes = {
+  addOrEdit: PropTypes.string,
   arrayBuilder: PropTypes.shape({
     arrayPath: PropTypes.string,
     getIntroPath: PropTypes.func,
