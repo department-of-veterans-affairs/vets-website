@@ -7,11 +7,20 @@ import backendServices from '@department-of-veterans-affairs/platform-user/profi
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
 import { externalServices } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import { DowntimeBanner } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import { useBrowserMonitoring } from 'platform/monitoring/Datadog';
 
 import AppContent from '../components/AppContent';
 import { isLoadingFeatures } from '../selectors';
 
-export function App({ featureFlagsLoading, user }) {
+export function App({ featureFlagsLoading, user, loggedIn }) {
+  useBrowserMonitoring({
+    loggedIn,
+    version: '1.0.0',
+    applicationId: '',
+    clientToken: '',
+    service: 'benefits-letters-and-documents-tool',
+  });
+
   return (
     <RequiredLoginView
       serviceRequired={backendServices.EVSS_CLAIMS}
