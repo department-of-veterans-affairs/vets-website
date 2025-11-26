@@ -2,11 +2,13 @@ import React from 'react';
 
 import {
   addressNoMilitaryUI,
+  addressNoMilitarySchema,
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
   checkboxUI,
+  checkboxSchema,
   currentOrPastMonthYearDateSchema,
   currentOrPastMonthYearDateUI,
   radioUI,
@@ -14,6 +16,7 @@ import {
   textSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
+import { getAddOrEditMode } from '../../utils/evidence';
 import Authorization from '../../components/4142/Authorization';
 import Issues, { issuesPage } from '../../components/evidence/IssuesNew';
 import {
@@ -122,11 +125,16 @@ const summaryPage = {
 /** @returns {PageSchema} */
 const privateAuthorizationPage = {
   uiSchema: {
-    privacyAgreementAccepted: {},
+    authorization: {},
   },
   schema: {
     type: 'object',
-    properties: {},
+    required: ['authorization'],
+    properties: {
+      authorization: {
+        type: 'boolean',
+      },
+    },
   },
 };
 
@@ -134,18 +142,36 @@ const privateAuthorizationPage = {
 const detailsPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: ({ formContext }) => detailsContent.title(formContext),
+      title: ({ formContext }) =>
+        detailsContent.question(formContext, getAddOrEditMode()),
+      label: detailsContent.label,
       nounSingular: options.nounSingular,
+      'ui:description': () => (
+        <p className="vads-u-font-family--serif vads-u-font-weight--bold vads-u-font-size--base vads-u-line-height--3 vads-u-margin-top--2 vads-u-margin-bottom--1">
+          {detailsContent.label}
+        </p>
+      ),
+      // description: detailsContent.label,
     }),
-    name: textUI(detailsContent.locationLabel),
+    name: textUI({
+      title: detailsContent.locationLabel,
+      errorMessages: {
+        required: detailsContent.locationRequiredError,
+      },
+      required: () => true,
+    }),
     address: addressNoMilitaryUI({
       omit: ['street3'],
+      required: () => true,
     }),
   },
   schema: {
     type: 'object',
     properties: {
-      [PRIVATE_LOCATION_DETAILS_KEY]: textSchema,
+      name: textSchema,
+      address: addressNoMilitarySchema({
+        omit: ['street3'],
+      }),
     },
     required: [PRIVATE_LOCATION_DETAILS_KEY],
   },
@@ -215,7 +241,7 @@ export default arrayBuilderPages(options, pageBuilder => ({
     depends: redesignActive,
     // ------- END REMOVE
   }),
-  privateAuthorization: pageBuilder.itemPage({
+  authorization: pageBuilder.itemPage({
     title: '',
     path: EVIDENCE_URLS.privateAuthorization,
     uiSchema: privateAuthorizationPage.uiSchema,
@@ -227,7 +253,9 @@ export default arrayBuilderPages(options, pageBuilder => ({
         pagePerItemIndex: +props.pagePerItemIndex,
       }),
     // ------- REMOVE toggle check when new design toggle is removed
-    depends: redesignActive && hasPrivateEvidenceRecords,
+    depends: (props, index) => {
+      return redesignActive && index === 0;
+    },
     // ------- END REMOVE
   }),
   privateDetails: pageBuilder.itemPage({
@@ -236,7 +264,7 @@ export default arrayBuilderPages(options, pageBuilder => ({
     uiSchema: detailsPage.uiSchema,
     schema: detailsPage.schema,
     // ------- REMOVE toggle check when new design toggle is removed
-    depends: redesignActive && hasPrivateEvidenceRecords,
+    depends: redesignActive,
     // ------- END REMOVE
   }),
   // issues: pageBuilder.itemPage({
@@ -253,7 +281,7 @@ export default arrayBuilderPages(options, pageBuilder => ({
   //       pagePerItemIndex: +props.pagePerItemIndex,
   //     }),
   //   // ------- REMOVE toggle check when new design toggle is removed
-  //   depends: redesignActive && hasPrivateEvidenceRecords,
+  //   depends: redesignActive,
   //   // ------- END REMOVE
   // }),
   // treatmentDatePrompt: pageBuilder.itemPage({
@@ -262,7 +290,7 @@ export default arrayBuilderPages(options, pageBuilder => ({
   //   uiSchema: datePromptPage.uiSchema,
   //   schema: datePromptPage.schema,
   //   // ------- REMOVE toggle check when new design toggle is removed
-  //   depends: redesignActive && hasPrivateEvidenceRecords,
+  //   depends: redesignActive,
   //   // ------- END REMOVE
   // }),
   // treatmentDate: pageBuilder.itemPage({
@@ -277,8 +305,7 @@ export default arrayBuilderPages(options, pageBuilder => ({
   //       // ------- REMOVE toggle check when new design toggle is removed
   //       redesignActive(formData) &&
   //       // ------- END REMOVE
-  //       hasTreatmentBefore2005(formData, currentIndex) &&
-  //       hasPrivateEvidenceRecords(formData)
+  //       hasTreatmentBefore2005(formData, currentIndex)
   //     );
   //   },
   // }),
