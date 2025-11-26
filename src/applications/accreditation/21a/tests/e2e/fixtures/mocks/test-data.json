@@ -82,6 +82,33 @@
           "to": ""
         },
         "currentlyEmployed": true
+      },
+      {
+        "name": "Company",
+        "positionTitle": "Manager",
+        "supervisorName": "Supervisor",
+        "address": {
+          "view:militaryBaseDescription": {},
+          "country": "USA",
+          "street": "1234 Main St",
+          "street2": "Apt 1",
+          "city": "City",
+          "state": "CA",
+          "postalCode": "12345"
+        },
+        "primaryWorkAddress": { "selected": true },
+        "phone": {
+          "callingCode": 1,
+          "countryCode": "US",
+          "contact": "2345689095",
+          "_isValid": true
+        },
+        "extension": "1234",
+        "dateRange": {
+          "from": "2000-01",
+          "to": ""
+        },
+        "currentlyEmployed": true
       }
     ],
     "employmentActivities": {
@@ -98,6 +125,25 @@
     "educationalInstitutions": [
       {
         "name": "University of California, Berkeley",
+        "dateRange": {
+          "from": "2010-01",
+          "to": "2014-12"
+        },
+        "degreeReceived": true,
+        "major": "Computer Science",
+        "degree": "Bachelor's degree",
+        "address": {
+          "view:militaryBaseDescription": {},
+          "country": "USA",
+          "street": "1234 Main St",
+          "street2": "Apt 1",
+          "city": "City",
+          "state": "CA",
+          "postalCode": "12345"
+        }
+      },
+      {
+        "name": "University of California, Davis",
         "dateRange": {
           "from": "2010-01",
           "to": "2014-12"
@@ -140,7 +186,18 @@
     "convictionDetailsCertification": {
       "certified": true
     },
-    "convictionDetailsDocuments": [],
+    "convictionDetailsDocuments": [{
+      "name": "conviction-document.pdf",
+      "confirmationCode": "2bd23caa-7dd9-4dc6-a054-d916c7fe64ba",
+      "size": 1256,
+      "type": "application/pdf"
+    },
+    {
+      "name": "conviction-document-2.pdf",
+      "confirmationCode": "3bd23caa-7dd9-4dc6-a054-d916c7fe64bb",
+      "size": 2256,
+      "type": "application/pdf"
+    }],
     "courtMartialed": false,
     "underCharges": false,
     "resignedFromEducation": false,
