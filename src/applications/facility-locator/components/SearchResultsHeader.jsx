@@ -97,37 +97,49 @@ export const SearchResultsHeader = ({
     return 'Results';
   };
 
+  // Determine if facility type is Urgent Care or Emergency Care
+  // to adjust message format accordingly
   const isSpecialCategory = [
     LocationType.URGENT_CARE,
     LocationType.EMERGENCY_CARE,
   ].includes(facilityType);
 
+  // Set results prefix based on facility type
   const resultsPrefix = isSpecialCategory
-    ? `${messagePrefix}`
-    : `${handleNumberOfResults()}`;
+    ? `${messagePrefix} for `
+    : `${handleNumberOfResults()} for `;
 
-  // for "${facilityTypes[facilityType]}" ${formattedServiceType && `"${formattedServiceType}"`} ${location && `near "${location}"`}`
+  function FormattedServiceTypeText() {
+    if (formattedServiceType) {
+      return (
+        <>
+          {`, `}
+          <b>{`"${formattedServiceType}"`}</b>
+        </>
+      );
+    }
+  }
+  function FormattedLocationText() {
+    if (formattedServiceType) {
+      return (
+        <>
+          {` near `}
+          <b>{`"${location}"`}</b>
+        </>
+      );
+    }
+  }
 
-  const MessageResults = () => {
+  function MessageResults() {
     return (
       <>
-        {`${resultsPrefix} for `}
+        {`${resultsPrefix}`}
         <b>{`"${facilityTypes[facilityType]}" `}</b>
-        {formattedServiceType && (
-          <>
-            {`, `}
-            <b>{`"${formattedServiceType}"`}</b>
-          </>
-        )}
-        {location && (
-          <>
-            {` near `}
-            <b>{`"${location}"`}</b>
-          </>
-        )}
+        <FormattedServiceTypeText />
+        <FormattedLocationText />
       </>
     );
-  };
+  }
 
   return (
     <div>
@@ -137,28 +149,6 @@ export const SearchResultsHeader = ({
         tabIndex="-1"
       >
         <MessageResults />
-        {/* {[LocationType.URGENT_CARE, LocationType.EMERGENCY_CARE].includes(
-          facilityType,
-        )
-          ? messagePrefix
-          : handleNumberOfResults()}{' '}
-        for {""}
-        <b>{facilityTypes[facilityType]}</b>
-        {""}
-        {formattedServiceType && (
-          <>
-            ,{""};
-            <b>{formattedServiceType}</b>
-            {""}
-          </>
-        )}
-        {location && (
-          <>
-            {""}near {""}
-            <b>{location}</b>
-            {""}
-          </>
-        )} */}
       </h2>
     </div>
   );
