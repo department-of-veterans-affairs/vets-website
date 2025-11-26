@@ -19,7 +19,7 @@ const schemas = { ...makePages() };
 
 /**
  * Unit tests for the gulf war 1990 details pages. Verifies each page can render and submit with
- * and without dates. Additionally, verifies the subtitles are built appropriately whether or not
+ * valid dates. Additionally, verifies the subtitles are built appropriately whether or not
  * the location was selected.
  */
 describe('gulfWar1990Details', () => {
@@ -88,7 +88,7 @@ describe('gulfWar1990Details', () => {
       });
 
       // TODO: We currently validate against this on the frontend to prevent the 'XX' date issue,
-      // however we want Veterans to be able to submit with a completely blank date.
+      // however we want Veterans to be able to submit with a completely blank or partial date.
       // Note to revisit after we land on a solution for accommodating partial dates.
       // @see https://github.com/department-of-veterans-affairs/va.gov-team/issues/112288
       it(`should not submit without dates for ${locationId}`, () => {
@@ -118,7 +118,7 @@ describe('gulfWar1990Details', () => {
   /*
    * Date validation tests for toxic exposure dates.
    * TODO: We currently validate against partial dates on the frontend to prevent the 'XX' date issue.
-   * In the future, we may want Veterans to be able to submit with completely blank dates.
+   * In the future, we may want Veterans to be able to submit with completely blank or partial dates.
    * Note to revisit after we land on a solution for accommodating partial dates.
    * @see https://github.com/department-of-veterans-affairs/va.gov-team/issues/112288
    */
