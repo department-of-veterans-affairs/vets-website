@@ -267,8 +267,8 @@ const formConfig = {
           schema: facilityTypes.schema,
           scrollAndFocusTarget: focusRadioH3,
         },
-        ...vaEvidence,
-        // ...privateEvidence,
+        // ...vaEvidence,
+        ...privateEvidence,
         // ------- REMOVE when new design toggle is removed
         // vaPrompt: {
         //   title: 'VA medical records prompt',

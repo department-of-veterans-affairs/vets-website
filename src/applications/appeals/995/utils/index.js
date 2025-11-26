@@ -1,12 +1,7 @@
 import { EVIDENCE_URLS } from '../constants';
 
 // ------- REMOVE when new design toggle is removed
-export const redesignActive = (formData, vaPromptPage = false) => {
-  if (vaPromptPage) {
-    console.log('redesign formData: ', formData?.scRedesign);
-  }
-  return formData?.scRedesign;
-};
+export const redesignActive = formData => formData?.scRedesign;
 // ------- END REMOVE
 
 /**
