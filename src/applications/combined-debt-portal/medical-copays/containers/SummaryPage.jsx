@@ -20,8 +20,8 @@ import DisputeCharges from '../components/DisputeCharges';
 import HowToPay from '../components/HowToPay';
 import FinancialHelp from '../components/FinancialHelp';
 import NeedHelpCopay from '../components/NeedHelpCopay';
-import MCPAlerts from '../../combined/components/MCPAlerts';
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
+import CopayAlertContainer from '../components/CopayAlertContainer';
 
 const renderAlert = (alertType, debts) => {
   const alertInfo = alertMessage(alertType, APP_TYPES.COPAY);
@@ -177,13 +177,7 @@ const OverviewPage = () => {
   const isNotEnrolledInHealthCare = mcpError?.status === '403';
   const renderContent = () => {
     if (isNotEnrolledInHealthCare) {
-      return <MCPAlerts type="no-health-care" />;
-    }
-    if (mcpError) {
-      return renderAlert(
-        debtError ? ALERT_TYPES.ALL_ERROR : ALERT_TYPES.ERROR,
-        debts?.length,
-      );
+      return <CopayAlertContainer type="no-health-care" />;
     }
     if (statementsEmpty) {
       return renderAlert(ALERT_TYPES.ZERO, debts?.length);
