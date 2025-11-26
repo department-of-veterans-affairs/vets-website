@@ -2,6 +2,7 @@ import React, { useEffect, useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom-v5-compat';
 import { focusElement } from 'platform/utilities/ui/focus';
+import { generateSlots } from '../utils/mock-helpers';
 import Wrapper from '../layout/Wrapper';
 import { usePersistentSelections } from '../hooks/usePersistentSelections';
 import { setSelectedDate, selectSelectedDate } from '../redux/slices/formSlice';
@@ -45,23 +46,10 @@ const DateTimeSelection = () => {
   // Check if a date/time has been selected
   const showValidationError = hasAttemptedSubmit && !selectedDate;
 
-  // Placeholder values for the calendar widget
+  // Placeholder values for the calendar widget two weeks from now
   const draftAppointmentInfo = {
     attributes: {
-      slots: [
-        {
-          start: '2025-11-15T09:00:00.000Z',
-          end: '2025-11-15T09:30:00.000Z',
-        },
-        {
-          start: '2025-11-15T10:00:00.000Z',
-          end: '2025-11-15T10:30:00.000Z',
-        },
-        {
-          start: '2025-11-16T14:00:00.000Z',
-          end: '2025-11-16T14:30:00.000Z',
-        },
-      ],
+      slots: generateSlots(),
     },
   };
 
@@ -71,7 +59,11 @@ const DateTimeSelection = () => {
   const errorMessage = showValidationError
     ? 'Please select a preferred date and time for your appointment.'
     : '';
-  const latestAvailableSlot = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000); // 2 weeks from now
+  const latestAvailableSlot = new Date(
+    draftAppointmentInfo.attributes.slots[
+      draftAppointmentInfo.attributes.slots.length - 1
+    ].end,
+  );
 
   const onChange = selectedDateTimes => {
     // Update selected dates and clear any previous error state
