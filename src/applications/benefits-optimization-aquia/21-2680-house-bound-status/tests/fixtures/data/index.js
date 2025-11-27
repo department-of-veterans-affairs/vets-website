@@ -13,11 +13,11 @@
  * ┌───────────┬──────────┬─────────┬──────────────┐
  * │ Fixture   │ Relation │ Benefit │ Hospitalized │
  * ├───────────┼──────────┼─────────┼──────────────┤
- * │ minimal   │ Veteran  │ SMC     │ No           │
- * │ maximal   │ Spouse   │ SMP     │ Yes          │
- * │ veteran-h │ Veteran  │ SMP     │ Yes          │
- * │ child     │ Child    │ SMC     │ No           │
- * │ parent    │ Parent   │ SMP     │ Yes          │
+ * │ minimal   │ Veteran  │ smc     │ No           │
+ * │ maximal   │ Spouse   │ smp     │ Yes          │
+ * │ veteran-h │ Veteran  │ smp     │ Yes          │
+ * │ child     │ Child    │ smc     │ No           │
+ * │ parent    │ Parent   │ smp     │ Yes          │
  * └───────────┴──────────┴─────────┴──────────────┘
  *
  * Coverage validation:

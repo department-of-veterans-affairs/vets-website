@@ -21,7 +21,7 @@
       "relationship": "veteran"
     },
     "benefitType": {
-      "benefitType": "SMC"
+      "benefitType": "smp"
     },
     "hospitalizationStatus": {
       "isCurrentlyHospitalized": false

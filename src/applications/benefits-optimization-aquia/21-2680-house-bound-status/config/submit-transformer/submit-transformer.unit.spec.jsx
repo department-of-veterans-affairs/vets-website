@@ -37,7 +37,7 @@ describe('Submit Transformer', () => {
           relationship: 'veteran',
         },
         benefitType: {
-          benefitType: 'SMC',
+          benefitType: 'smc',
         },
         hospitalizationStatus: {
           isCurrentlyHospitalized: false,
@@ -231,28 +231,6 @@ describe('Submit Transformer', () => {
     });
   });
 
-  describe('Benefit Information Section', () => {
-    it('should map SMC to lowercase smc', () => {
-      const formData = {
-        benefitType: {
-          benefitType: 'SMC',
-        },
-      };
-      const result = JSON.parse(submitTransformer(mockFormConfig, formData));
-      expect(result.form.benefitInformation.benefitSelection).to.equal('smc');
-    });
-
-    it('should map SMP to lowercase smp', () => {
-      const formData = {
-        benefitType: {
-          benefitType: 'SMP',
-        },
-      };
-      const result = JSON.parse(submitTransformer(mockFormConfig, formData));
-      expect(result.form.benefitInformation.benefitSelection).to.equal('smp');
-    });
-  });
-
   describe('Additional Information - Not Hospitalized', () => {
     it('should set currentlyHospitalized to false when not hospitalized', () => {
       const formData = {
@@ -429,7 +407,7 @@ describe('Submit Transformer', () => {
           claimantEmail: 'anakin@jedi.org',
         },
         benefitType: {
-          benefitType: 'SMC',
+          benefitType: 'smc',
         },
         hospitalizationStatus: {
           isCurrentlyHospitalized: true,

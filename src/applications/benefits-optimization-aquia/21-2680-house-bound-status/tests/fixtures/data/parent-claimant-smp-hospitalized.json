@@ -51,7 +51,7 @@
       "claimantEmail": "bail.organa@alderaan.gov"
     },
     "benefitType": {
-      "benefitType": "SMP"
+      "benefitType": "smp"
     },
     "hospitalizationStatus": {
       "isCurrentlyHospitalized": true
