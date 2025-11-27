@@ -73,7 +73,7 @@ describe('10-7959C `validateDateRange` form validation', () => {
       endDateKey: 'applicantMedicarePartDTerminationDate',
     });
 
-    sinon.assert.called(endDateSpy);
+    sinon.assert.calledOnce(endDateSpy);
   });
 
   it('should add error when termination date is same as effective date', () => {

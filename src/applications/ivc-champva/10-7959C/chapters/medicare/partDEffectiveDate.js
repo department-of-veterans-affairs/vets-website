@@ -40,6 +40,7 @@ export default {
     }),
     'ui:validations': [
       (errors, formData) =>
+        !formData[TOGGLE_KEY] &&
         validFieldCharsOnly(
           errors,
           null,
