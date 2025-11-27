@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
+import { isValidDateString } from 'platform/utilities/date';
 
 export const showConflictOfInterestText = () => {
   window.dataLayer.push({
@@ -240,4 +241,29 @@ export const getTitle = role => {
   }
 
   return title;
+};
+
+export const validateConflictOfInterestStartDate = (
+  errors,
+  fieldData,
+  formData,
+) => {
+  if (!fieldData) return;
+
+  if (!isValidDateString(fieldData)) errors.addError('Enter a valid date');
+
+  const start = new Date(formData.enrollmentPeriodStart);
+  const end = new Date(formData.enrollmentPeriodEnd);
+
+  if (end < start) {
+    errors.addError(
+      'Enrollment end date must be on or after the enrollment start date',
+    );
+  }
+};
+
+export const validateConflictOfInterestEndDate = (errors, dateString) => {
+  if (!dateString) return;
+
+  if (!isValidDateString(dateString)) errors.addError('Enter a valid date');
 };
