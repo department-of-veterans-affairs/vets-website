@@ -41,7 +41,7 @@ const schema = {
     enrollmentPeriodStart: currentOrPastDateSchema,
     enrollmentPeriodEnd: currentOrPastDateSchema,
   },
-  required: ['enrollmentPeriod'],
+  required: ['enrollmentPeriodStart'],
 };
 
 export { schema, uiSchema };
