@@ -391,6 +391,7 @@ const formConfig = {
         primaryScheduleOfBenefits: {
           path: 'insurance-sob',
           depends: formData =>
+            !formData['view:champvaForm107959cRev2025'] &&
             get('applicantHasPrimary', formData) &&
             get('applicantPrimaryHasPrescription', formData) &&
             !get('applicantPrimaryEob', formData),
@@ -521,6 +522,7 @@ const formConfig = {
         secondaryScheduleOfBenefits: {
           path: 'secondary-insurance-sob',
           depends: formData =>
+            !formData['view:champvaForm107959cRev2025'] &&
             get('applicantHasPrimary', formData) &&
             get('applicantHasSecondary', formData) &&
             get('applicantSecondaryHasPrescription', formData) &&
