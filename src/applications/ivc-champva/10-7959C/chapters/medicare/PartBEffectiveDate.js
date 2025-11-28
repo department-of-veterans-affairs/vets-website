@@ -19,7 +19,7 @@ export default {
       applicantMedicarePartBEffectiveDate: currentOrPastDateUI({
         title: 'Effective date',
         hint:
-          'You may find the effective date on the front of the Medicare card near “Coverage starts.”',
+          'This will be on the front of the Medicare card near “Coverage starts.”',
         classNames: 'vads-u-margin-top--neg1p5',
       }),
     },
