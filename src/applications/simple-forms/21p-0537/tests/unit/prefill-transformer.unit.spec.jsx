@@ -32,9 +32,11 @@ describe('21P-0537 prefillTransformer', () => {
         state,
       );
 
-      expect(result.formData.recipientName.first).to.include('Jennifer');
-      expect(result.formData.recipientName.middle).to.include('Marie');
-      expect(result.formData.recipientName.last).to.include('Smith');
+      expect(result.formData['view:recipientName'].first).to.include(
+        'Jennifer',
+      );
+      expect(result.formData['view:recipientName'].middle).to.include('Marie');
+      expect(result.formData['view:recipientName'].last).to.include('Smith');
       expect(result.formData.emailAddress).to.include(
         'jennifer.smith@example.com',
       );
@@ -52,8 +54,8 @@ describe('21P-0537 prefillTransformer', () => {
 
       const result = prefillTransformer(pages, formData, metadata, state);
 
-      expect(result.formData.recipientName.first).to.equal('');
-      expect(result.formData.recipientName.last).to.equal('');
+      expect(result.formData['view:recipientName'].first).to.equal('');
+      expect(result.formData['view:recipientName'].last).to.equal('');
       expect(result.formData.emailAddress).to.equal('');
       expect(result.formData.primaryPhone).to.equal('');
     });
@@ -65,15 +67,15 @@ describe('21P-0537 prefillTransformer', () => {
 
       const result = prefillTransformer(pages, formData, metadata, state);
 
-      expect(result.formData.recipientName.first).to.equal('');
-      expect(result.formData.recipientName.last).to.equal('');
+      expect(result.formData['view:recipientName'].first).to.equal('');
+      expect(result.formData['view:recipientName'].last).to.equal('');
     });
 
     it('should return empty data when state is undefined', () => {
       const result = prefillTransformer(pages, formData, metadata, undefined);
 
-      expect(result.formData.recipientName.first).to.equal('');
-      expect(result.formData.recipientName.last).to.equal('');
+      expect(result.formData['view:recipientName'].first).to.equal('');
+      expect(result.formData['view:recipientName'].last).to.equal('');
     });
 
     it('should return empty data when profile is empty object', () => {
@@ -85,8 +87,8 @@ describe('21P-0537 prefillTransformer', () => {
 
       const result = prefillTransformer(pages, formData, metadata, state);
 
-      expect(result.formData.recipientName.first).to.equal('');
-      expect(result.formData.recipientName.last).to.equal('');
+      expect(result.formData['view:recipientName'].first).to.equal('');
+      expect(result.formData['view:recipientName'].last).to.equal('');
     });
   });
 
@@ -111,8 +113,8 @@ describe('21P-0537 prefillTransformer', () => {
         state,
       );
 
-      expect(result.formData.recipientName.first).to.include('John');
-      expect(result.formData.recipientName.last).to.include('Doe');
+      expect(result.formData['view:recipientName'].first).to.include('John');
+      expect(result.formData['view:recipientName'].last).to.include('Doe');
       expect(result.formData.emailAddress).to.equal('');
       expect(result.formData.primaryPhone).to.include('5551234567');
     });
@@ -139,8 +141,8 @@ describe('21P-0537 prefillTransformer', () => {
         state,
       );
 
-      expect(result.formData.recipientName.first).to.include('John');
-      expect(result.formData.recipientName.last).to.include('Doe');
+      expect(result.formData['view:recipientName'].first).to.include('John');
+      expect(result.formData['view:recipientName'].last).to.include('Doe');
       expect(result.formData.emailAddress).to.include('john.doe@example.com');
       expect(result.formData.primaryPhone).to.equal('');
     });
@@ -159,8 +161,8 @@ describe('21P-0537 prefillTransformer', () => {
 
       const result = prefillTransformer(pages, formData, metadata, state);
 
-      expect(result.formData.recipientName.first).to.include('John');
-      expect(result.formData.recipientName.last).to.include('Doe');
+      expect(result.formData['view:recipientName'].first).to.include('John');
+      expect(result.formData['view:recipientName'].last).to.include('Doe');
       expect(result.formData.emailAddress).to.equal('');
       expect(result.formData.primaryPhone).to.equal('');
     });

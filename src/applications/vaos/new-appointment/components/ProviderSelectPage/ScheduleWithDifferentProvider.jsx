@@ -4,38 +4,34 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { getFacilityPhone } from '../../../services/location';
 import FacilityPhone from '../../../components/FacilityPhone';
-// import { ELIGIBILITY_REASONS } from '../../../utils/constants';
+import { ELIGIBILITY_REASONS } from '../../../utils/constants';
 import { routeToRequestAppointmentPage } from '../../redux/actions';
 
 export default function ScheduleWithDifferentProvider({
-  // eligibility,
+  eligibility,
   selectedFacility,
 }) {
   const history = useHistory();
   const dispatch = useDispatch();
   const pageKey = 'selectProvider';
   const facilityPhone = getFacilityPhone(selectedFacility);
-  // const isEligibleForRequest = eligibility?.request;
-  // const overRequestLimit =
-  // eligibility.requestReasons[0] === ELIGIBILITY_REASONS.overRequestLimit;
+  const isEligibleForRequest = eligibility?.request;
+  const overRequestLimit =
+    eligibility.requestReasons[0] === ELIGIBILITY_REASONS.overRequestLimit;
 
-  // currently using both facility configurations and eligibility endpoints as source of truth for request eligibility
-  // TODO: once we switch to using only eligibility endpoint, we can remove this test
-
-  // Commenting out for now to unblock OH request test in staging
-  // if (overRequestLimit || !isEligibleForRequest) {
-  //   return (
-  //     <>
-  //       <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--0 vads-u-margin-top--2">
-  //         If you want to schedule with a different provider
-  //       </h2>
-  //       <p className="vads-u-margin-y--0">
-  //         Call and ask to schedule with that provider:{' '}
-  //         <FacilityPhone contact={facilityPhone} icon={false} />
-  //       </p>
-  //     </>
-  //   );
-  // }
+  if (overRequestLimit || !isEligibleForRequest) {
+    return (
+      <>
+        <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--0 vads-u-margin-top--2">
+          If you want to schedule with a different provider
+        </h2>
+        <p className="vads-u-margin-y--0">
+          Call and ask to schedule with that provider:{' '}
+          <FacilityPhone contact={facilityPhone} icon={false} />
+        </p>
+      </>
+    );
+  }
   return (
     <>
       <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--0 vads-u-margin-top--2">
