@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import {
   getPrescriptionsList,
   getPrescriptionById,
@@ -11,6 +12,9 @@ import {
  * @returns {object} - The prescription data, loading state, and error state
  */
 export const usePrescriptionData = (prescriptionId, queryParams) => {
+  const featureTogglesLoading = useSelector(
+    state => state.featureToggles.loading,
+  );
   const [
     cachedPrescriptionAvailable,
     setCachedPrescriptionAvailable,
@@ -30,8 +34,11 @@ export const usePrescriptionData = (prescriptionId, queryParams) => {
 
   // Fetch individual prescription when needed
   const { data, error, isLoading: queryLoading } = getPrescriptionById.useQuery(
-    prescriptionId,
-    { skip: cachedPrescriptionAvailable },
+    {
+      id: prescriptionId,
+      isOracleHealthPilot: queryParams.isOracleHealthPilot,
+    },
+    { skip: cachedPrescriptionAvailable || featureTogglesLoading },
   );
 
   // Handle prescription data from either source

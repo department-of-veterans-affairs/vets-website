@@ -3,13 +3,16 @@ import sinon from 'sinon';
 import React from 'react';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { fireEvent, waitFor } from '@testing-library/dom';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+import { commonReducer } from 'platform/startup/store';
 import reducer from '../../reducers';
-import * as allergiesApiModule from '../../api/allergiesApi';
-import * as prescriptionsApiModule from '../../api/prescriptionsApi';
-import { stubAllergiesApi, stubPrescriptionsListApi } from '../testing-utils';
+import { prescriptionsApi } from '../../api/prescriptionsApi';
+import { allergiesApi } from '../../api/allergiesApi';
 import Prescriptions from '../../containers/Prescriptions';
-import emptyPrescriptionsList from '../e2e/fixtures/empty-prescriptions-list.json';
+import { stubAllergiesApi, stubPrescriptionsListApi } from '../testing-utils';
 import { MEDS_BY_MAIL_FACILITY_ID } from '../../util/constants';
+import emptyPrescriptionsList from '../e2e/fixtures/empty-prescriptions-list.json';
 
 let sandbox;
 
@@ -40,17 +43,28 @@ describe('Medications Prescriptions container', () => {
       prescriptionsList: [],
       refillAlertList: [],
     },
+    featureToggles: {
+      loading: false,
+    },
   };
 
   const setup = (state = initialState, url = '/') => {
+    const testStore = createStore(
+      combineReducers({
+        ...commonReducer,
+        ...reducer,
+      }),
+      state,
+      applyMiddleware(
+        thunk,
+        prescriptionsApi.middleware,
+        allergiesApi.middleware,
+      ),
+    );
+
     return renderWithStoreAndRouterV6(<Prescriptions />, {
-      initialState: state,
-      reducers: reducer,
+      store: testStore,
       initialEntries: [url],
-      additionalMiddlewares: [
-        allergiesApiModule.allergiesApi.middleware,
-        prescriptionsApiModule.prescriptionsApi.middleware,
-      ],
     });
   };
 
