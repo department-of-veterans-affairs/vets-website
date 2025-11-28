@@ -17,9 +17,9 @@ const HealthCareSettings = () => {
         href={PROFILE_PATHS.SCHEDULING_PREFERENCES}
       />
       <ProfileHubItem
-        heading={PROFILE_PATH_NAMES.SECURE_MESSAGES_SIGNATURE}
+        heading={PROFILE_PATH_NAMES.MESSAGES_SIGNATURE}
         content="Manage your secure messages signature"
-        href={PROFILE_PATHS.SECURE_MESSAGES_SIGNATURE}
+        href={PROFILE_PATHS.MESSAGES_SIGNATURE}
       />
       <va-card background>
         <h3 slot="headline">Looking for your full health care information?</h3>
