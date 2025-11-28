@@ -10,6 +10,7 @@ import {
   getFileError,
   DEBOUNCE_WAIT,
   simulateUploadSingle,
+  VaProgressUploadAnnounce,
 } from './vaFileInputFieldHelpers';
 import passwordErrorState from '../utilities/file/passwordErrorState';
 
@@ -244,36 +245,39 @@ const VaFileInputField = props => {
     fileWithPassword;
 
   return (
-    <VaFileInput
-      {...mappedProps}
-      error={_error}
-      encrypted={encrypted}
-      resetVisualState={!!_error}
-      uploadedFile={mappedProps.uploadedFile}
-      onVaFileInputError={handleInternalError}
-      onVaChange={handleVaChange}
-      onVaPasswordChange={handleVaPasswordChange}
-      percentUploaded={percent || null}
-      passwordError={passwordError}
-    >
-      <div className="additional-input-container">
-        {fileHasBeenAdded &&
-          mappedProps.additionalInput &&
-          React.cloneElement(
-            // clone element so we can attach listeners
-            mappedProps.additionalInput(
-              additionalInputError,
-              childrenProps.formData.additionalData,
-            ),
-            {
-              // attach other listeners as needed
-              onVaChange: handleAdditionalInput,
-              onVaSelect: handleAdditionalInput,
-              onVaValueChange: handleAdditionalInput,
-            },
-          )}
-      </div>
-    </VaFileInput>
+    <>
+      <VaProgressUploadAnnounce uploading={!!percent} />
+      <VaFileInput
+        {...mappedProps}
+        error={_error}
+        encrypted={encrypted}
+        resetVisualState={!!_error}
+        uploadedFile={mappedProps.uploadedFile}
+        onVaFileInputError={handleInternalError}
+        onVaChange={handleVaChange}
+        onVaPasswordChange={handleVaPasswordChange}
+        percentUploaded={percent || null}
+        passwordError={passwordError}
+      >
+        <div className="additional-input-container">
+          {fileHasBeenAdded &&
+            mappedProps.additionalInput &&
+            React.cloneElement(
+              // clone element so we can attach listeners
+              mappedProps.additionalInput(
+                additionalInputError,
+                childrenProps.formData.additionalData,
+              ),
+              {
+                // attach other listeners as needed
+                onVaChange: handleAdditionalInput,
+                onVaSelect: handleAdditionalInput,
+                onVaValueChange: handleAdditionalInput,
+              },
+            )}
+        </div>
+      </VaFileInput>
+    </>
   );
 };
 
