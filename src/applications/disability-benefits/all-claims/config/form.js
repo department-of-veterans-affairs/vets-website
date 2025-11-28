@@ -227,7 +227,8 @@ const formConfig = {
         homelessOrAtRisk: {
           title: 'Housing situation',
           path: 'housing-situation',
-          depends: formData => !isBDD(formData),
+          depends: formData =>
+            formData.disability526ExtraBDDPagesEnabled || !isBDD(formData),
           uiSchema: homelessOrAtRisk.uiSchema,
           schema: homelessOrAtRisk.schema,
           onContinue: captureEvents.homelessOrAtRisk,
@@ -235,7 +236,8 @@ const formConfig = {
         terminallyIll: {
           title: 'Terminally ill',
           path: 'terminally-ill',
-          depends: formData => !isBDD(formData),
+          depends: formData =>
+            formData.disability526ExtraBDDPagesEnabled || !isBDD(formData),
           uiSchema: terminallyIll.uiSchema,
           schema: terminallyIll.schema,
         },
@@ -291,7 +293,8 @@ const formConfig = {
           title: SEPARATION_PAY_SECTION_TITLE,
           path: 'separation-pay',
           depends: formData =>
-            !hasRatedDisabilities(formData) && !isBDD(formData),
+            !hasRatedDisabilities(formData) &&
+            (formData.disability526ExtraBDDPagesEnabled || !isBDD(formData)),
           uiSchema: separationPay.uiSchema,
           schema: separationPay.schema,
         },
@@ -299,7 +302,8 @@ const formConfig = {
           title: 'Retirement pay',
           path: 'retirement-pay',
           depends: formData =>
-            !hasRatedDisabilities(formData) && !isBDD(formData),
+            !hasRatedDisabilities(formData) &&
+            (formData.disability526ExtraBDDPagesEnabled || !isBDD(formData)),
           uiSchema: retirementPay.uiSchema,
           schema: retirementPay.schema,
         },
@@ -307,7 +311,8 @@ const formConfig = {
           title: 'Training pay',
           path: 'training-pay',
           depends: formData =>
-            !hasRatedDisabilities(formData) && !isBDD(formData),
+            !hasRatedDisabilities(formData) &&
+            (formData.disability526ExtraBDDPagesEnabled || !isBDD(formData)),
           uiSchema: trainingPay.uiSchema,
           schema: trainingPay.schema,
         },
