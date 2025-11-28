@@ -65,7 +65,9 @@ describe('Refill Prescriptions Component', () => {
         ],
       },
     },
-    featureToggles: {},
+    featureToggles: {
+      loading: false,
+    },
     user: {
       login: {
         currentlyLoggedIn: true,
