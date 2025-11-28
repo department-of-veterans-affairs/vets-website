@@ -1,10 +1,10 @@
 import React from 'react';
 
-const MedicarePartPartBDescription = () => (
+const MedicarePartAPartBDescription = () => (
   <>
     <p>
       You’ll need to submit a copy of the beneficiary’s Original Medicare Health
-      card, sometimes called the “red, white, and blue” Medicare card.
+      card, sometimes referred to as the “red, white, and blue” Medicare card.
     </p>
     <p>
       <strong>Your card should include this information:</strong>
@@ -21,4 +21,4 @@ const MedicarePartPartBDescription = () => (
   </>
 );
 
-export default MedicarePartPartBDescription;
+export default MedicarePartAPartBDescription;
