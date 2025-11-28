@@ -27,7 +27,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      '': {
+      'view:partADenialNotice': {
         type: 'object',
         required: ['applicantMedicarePartADenialNotice'],
         properties: {

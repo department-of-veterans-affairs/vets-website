@@ -1,6 +1,6 @@
 import React from 'react';
 
-const MedicareIneligibilityDescription = (
+const MedicareIneligibilityDescription = () => (
   <>
     <p>
       The beneficiary is age 65 or older. You selected that they don’t have
