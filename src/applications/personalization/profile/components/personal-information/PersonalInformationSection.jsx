@@ -103,8 +103,7 @@ const PersonalInformationSection = ({ dob }) => {
 
       if (
         isMessagingServiceEnabled &&
-        !isProfile2Enabled &&
-        !isHealthCareSettingsEnabled
+        (!isProfile2Enabled || !isHealthCareSettingsEnabled)
       ) {
         const signaturePresent =
           messagingSignature?.signatureName?.trim() &&
