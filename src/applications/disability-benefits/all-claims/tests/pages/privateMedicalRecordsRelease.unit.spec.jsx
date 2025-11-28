@@ -695,7 +695,6 @@ describe('VADS component validation tests', () => {
         expect(toDate.getAttribute('error')).to.exist;
       });
     });
-
   });
 
   describe('limited consent textarea interaction', () => {
