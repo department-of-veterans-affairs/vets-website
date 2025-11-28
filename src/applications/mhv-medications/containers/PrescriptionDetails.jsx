@@ -57,7 +57,6 @@ import {
   selectFilterOption,
   selectPageNumber,
 } from '../selectors/selectPreferences';
-
 import { selectCernerPilotFlag } from '../util/selectors';
 
 const PrescriptionDetails = () => {

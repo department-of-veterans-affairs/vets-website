@@ -101,6 +101,8 @@ export const prescriptionsApi = createApi({
             .API_ENDPOINT,
           filterOption = '',
           includeImage = false,
+          // eslint-disable-next-line no-unused-vars
+          isOracleHealthPilot,
         } = params;
 
         let queryParams = `page=${page}&per_page=${perPage}`;
@@ -155,7 +157,8 @@ export const prescriptionsApi = createApi({
       },
     }),
     getRefillablePrescriptions: builder.query({
-      query: () => ({
+      // eslint-disable-next-line no-unused-vars
+      query: ({ isOracleHealthPilot } = {}) => ({
         path: `/prescriptions/list_refillable_prescriptions`,
       }),
       providesTags: ['Prescription'],
