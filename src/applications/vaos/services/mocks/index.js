@@ -736,7 +736,7 @@ const responses = {
             addressLine1: '345 Home Address St.',
             addressLine2: 'line 2',
             addressLine3: 'line 3',
-            addressPou: 'RESIDENCE/CHOICE',
+            addressPou: 'RESIDENCE',
             addressType: 'DOMESTIC',
             city: 'San Francisco',
             countryName: 'United States',
