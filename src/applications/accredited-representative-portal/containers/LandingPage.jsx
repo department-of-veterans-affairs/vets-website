@@ -1,6 +1,7 @@
 import React, { useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { addStyleToShadowDomOnPages } from '../utilities/poaRequests';
+import { getSignInUrl } from '../utilities/constants';
 import { ProfileContext } from '../context/ProfileContext';
 
 const LandingPage = title => {
@@ -51,10 +52,7 @@ const LandingPage = title => {
               <p className="hp__hero-sub-header--login">
                 Create an account if you are a VA accredited representative
               </p>
-              <Link
-                className="hp__login"
-                to="/sign-in?application=arp&oauth=true"
-              >
+              <Link className="hp__login" to={getSignInUrl().toString()}>
                 Sign in
               </Link>
             </div>

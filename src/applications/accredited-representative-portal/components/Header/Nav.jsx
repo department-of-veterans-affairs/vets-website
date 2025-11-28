@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLoaderData } from 'react-router-dom';
 import { recordDatalayerEvent } from '../../utilities/analytics';
+import { getSignInUrl } from '../../utilities/constants';
 import DropdownContainer from './DropdownContainer';
 
 function SignInButton() {
@@ -8,7 +9,7 @@ function SignInButton() {
     <Link
       data-testid="user-nav-sign-in-link"
       className="nav__btn is--sign-in"
-      to="/sign-in?application=arp&oauth=true"
+      to={getSignInUrl().toString()}
     >
       Sign in
     </Link>
