@@ -8,9 +8,14 @@ import {
  * Custom hook to fetch prescription data
  * @param {string} prescriptionId - The ID of the prescription to fetch
  * @param {object} queryParams - Query parameters for fetching the prescription list
+ * @param {string} stationNumber - The station number of the prescription
  * @returns {object} - The prescription data, loading state, and error state
  */
-export const usePrescriptionData = (prescriptionId, queryParams) => {
+export const usePrescriptionData = (
+  prescriptionId,
+  queryParams,
+  stationNumber,
+) => {
   const [
     cachedPrescriptionAvailable,
     setCachedPrescriptionAvailable,
@@ -30,7 +35,7 @@ export const usePrescriptionData = (prescriptionId, queryParams) => {
 
   // Fetch individual prescription when needed
   const { data, error, isLoading: queryLoading } = getPrescriptionById.useQuery(
-    prescriptionId,
+    { prescriptionId, stationNumber },
     { skip: cachedPrescriptionAvailable },
   );
 

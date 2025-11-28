@@ -1,9 +1,30 @@
 import { expect } from 'chai';
 import { environment } from '@department-of-veterans-affairs/platform-utilities/exports';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import { getApiBasePath, getRefillMethod } from '../../api/prescriptionsApi';
+import {
+  getApiBasePath,
+  getRefillMethod,
+  getPrescriptionByIdPath,
+} from '../../api/prescriptionsApi';
 
 describe('prescriptionsApi', () => {
+  describe('getPrescriptionByIdPath', () => {
+    it('should return path without station number when stationNumber is not provided', () => {
+      const result = getPrescriptionByIdPath({ prescriptionId: '123' });
+      expect(result).to.deep.equal({ path: '/prescriptions/123' });
+    });
+
+    it('should return path with station number when stationNumber is provided', () => {
+      const result = getPrescriptionByIdPath({
+        prescriptionId: '123',
+        stationNumber: '456',
+      });
+      expect(result).to.deep.equal({
+        path: '/prescriptions/123?station_number=456',
+      });
+    });
+  });
+
   describe('getApiBasePath', () => {
     it('should return v2 path when Cerner pilot flag is enabled', () => {
       const mockState = {

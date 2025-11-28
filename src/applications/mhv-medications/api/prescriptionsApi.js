@@ -37,6 +37,15 @@ export const getRefillMethod = state => {
   return isCernerPilot ? 'POST' : 'PATCH';
 };
 
+export const getPrescriptionByIdPath = ({ prescriptionId, stationNumber }) => {
+  if (stationNumber) {
+    return {
+      path: `/prescriptions/${prescriptionId}?station_number=${stationNumber}`,
+    };
+  }
+  return { path: `/prescriptions/${prescriptionId}` };
+};
+
 // Create the prescriptions API slice
 export const prescriptionsApi = createApi({
   reducerPath: 'prescriptionsApi',
@@ -136,12 +145,8 @@ export const prescriptionsApi = createApi({
       },
     }),
     getPrescriptionById: builder.query({
-      query: id => ({
-        path: `/prescriptions/${id}`,
-      }),
-      providesTags: ['Prescription'],
+      query: getPrescriptionByIdPath,
       transformResponse: response => {
-        // If it's a single prescription (not in an entry array)
         if (
           response &&
           (response.data || response.attributes || response.resource)
@@ -150,6 +155,7 @@ export const prescriptionsApi = createApi({
         }
         return null;
       },
+      providesTags: ['Prescription'],
     }),
     getRefillablePrescriptions: builder.query({
       query: () => ({
