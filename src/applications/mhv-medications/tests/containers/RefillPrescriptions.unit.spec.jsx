@@ -3,6 +3,9 @@ import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/plat
 import sinon from 'sinon';
 import { expect } from 'chai';
 import { waitFor } from '@testing-library/react';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+import { commonReducer } from 'platform/startup/store';
 import * as allergiesApiModule from '../../api/allergiesApi';
 import * as prescriptionsApiModule from '../../api/prescriptionsApi';
 import { stubAllergiesApi } from '../testing-utils';
@@ -62,7 +65,9 @@ describe('Refill Prescriptions Component', () => {
         ],
       },
     },
-    featureToggles: {},
+    featureToggles: {
+      loading: false,
+    },
     user: {
       login: {
         currentlyLoggedIn: true,
@@ -71,14 +76,22 @@ describe('Refill Prescriptions Component', () => {
   };
 
   const setup = (state = initialState) => {
-    return renderWithStoreAndRouterV6(<RefillPrescriptions />, {
-      initialState: state,
-      reducers: reducer,
-      initialEntries: ['/refill'],
-      additionalMiddlewares: [
+    const testStore = createStore(
+      combineReducers({
+        ...commonReducer,
+        ...reducer,
+      }),
+      state,
+      applyMiddleware(
+        thunk,
         allergiesApiModule.allergiesApi.middleware,
         prescriptionsApiModule.prescriptionsApi.middleware,
-      ],
+      ),
+    );
+
+    return renderWithStoreAndRouterV6(<RefillPrescriptions />, {
+      store: testStore,
+      initialEntries: ['/refill'],
     });
   };
 

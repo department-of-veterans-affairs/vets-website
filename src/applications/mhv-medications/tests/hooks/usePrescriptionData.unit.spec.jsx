@@ -48,6 +48,8 @@ describe('usePrescriptionData', () => {
   let wrapper;
   let useQueryStateStub;
   let useQueryStub;
+  let getPrescriptionsListStub;
+  let getPrescriptionByIdStub;
 
   beforeEach(() => {
     // Create a basic mock prescription
@@ -86,16 +88,24 @@ describe('usePrescriptionData', () => {
     });
 
     // Replace the real hooks with our stubs
-    sinon.stub(prescriptionsApi, 'getPrescriptionsList').value({
-      useQueryState: useQueryStateStub,
-    });
+    getPrescriptionsListStub = sinon
+      .stub(prescriptionsApi, 'getPrescriptionsList')
+      .value({
+        useQueryState: useQueryStateStub,
+      });
 
-    sinon.stub(prescriptionsApi, 'getPrescriptionById').value({
-      useQuery: useQueryStub,
-    });
+    getPrescriptionByIdStub = sinon
+      .stub(prescriptionsApi, 'getPrescriptionById')
+      .value({
+        useQuery: useQueryStub,
+      });
 
     // Create mock store for provider
-    mockStore = configureStore([])({});
+    mockStore = configureStore([])({
+      featureToggles: {
+        loading: false,
+      },
+    });
 
     // Create wrapper without PropTypes to avoid validation errors
     wrapper = ({ children }) => (
@@ -105,11 +115,11 @@ describe('usePrescriptionData', () => {
 
   afterEach(() => {
     // Restore individual stubs
-    if (prescriptionsApi.getPrescriptionsList.restore) {
-      prescriptionsApi.getPrescriptionsList.restore();
+    if (getPrescriptionsListStub) {
+      getPrescriptionsListStub.restore();
     }
-    if (prescriptionsApi.getPrescriptionById.restore) {
-      prescriptionsApi.getPrescriptionById.restore();
+    if (getPrescriptionByIdStub) {
+      getPrescriptionByIdStub.restore();
     }
   });
 

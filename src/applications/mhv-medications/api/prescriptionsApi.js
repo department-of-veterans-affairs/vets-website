@@ -101,6 +101,8 @@ export const prescriptionsApi = createApi({
             .API_ENDPOINT,
           filterOption = '',
           includeImage = false,
+          // eslint-disable-next-line no-unused-vars
+          isOracleHealthPilot,
         } = params;
 
         let queryParams = `page=${page}&per_page=${perPage}`;
@@ -136,9 +138,12 @@ export const prescriptionsApi = createApi({
       },
     }),
     getPrescriptionById: builder.query({
-      query: id => ({
-        path: `/prescriptions/${id}`,
-      }),
+      query: id => {
+        const prescriptionId = typeof id === 'object' ? id.id : id;
+        return {
+          path: `/prescriptions/${prescriptionId}`,
+        };
+      },
       providesTags: ['Prescription'],
       transformResponse: response => {
         // If it's a single prescription (not in an entry array)
@@ -152,7 +157,8 @@ export const prescriptionsApi = createApi({
       },
     }),
     getRefillablePrescriptions: builder.query({
-      query: () => ({
+      // eslint-disable-next-line no-unused-vars
+      query: ({ isOracleHealthPilot } = {}) => ({
         path: `/prescriptions/list_refillable_prescriptions`,
       }),
       providesTags: ['Prescription'],

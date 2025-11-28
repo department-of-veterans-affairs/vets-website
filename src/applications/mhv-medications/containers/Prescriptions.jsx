@@ -74,6 +74,7 @@ import {
   selectSortOption,
   selectFilterOption,
 } from '../selectors/selectPreferences';
+import { selectCernerPilotFlag } from '../util/selectors';
 import { buildPdfData } from '../util/buildPdfData';
 import { generateMedicationsPdfFile } from '../util/generateMedicationsPdfFile';
 import FilterAriaRegion from '../components/MedicationsList/FilterAriaRegion';
@@ -95,6 +96,10 @@ const Prescriptions = () => {
   // Get sort/filter selections from store.
   const selectedSortOption = useSelector(selectSortOption);
   const selectedFilterOption = useSelector(selectFilterOption);
+  const featureTogglesLoading = useSelector(
+    state => state.featureToggles.loading,
+  );
+  const isOracleHealthPilot = useSelector(selectCernerPilotFlag);
 
   const { currentPage, handlePageChange } = useURLPagination();
 
@@ -124,7 +129,10 @@ const Prescriptions = () => {
     error: prescriptionsApiError,
     isLoading: isPrescriptionsLoading,
     isFetching: isPrescriptionsFetching,
-  } = useGetPrescriptionsListQuery(queryParams);
+  } = useGetPrescriptionsListQuery(
+    { ...queryParams, isOracleHealthPilot },
+    { skip: featureTogglesLoading },
+  );
 
   const isLoading = isPrescriptionsLoading || isPrescriptionsFetching;
 
