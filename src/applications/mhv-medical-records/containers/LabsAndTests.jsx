@@ -213,54 +213,55 @@ const LabsAndTests = () => {
             />
           </div>
         )}
-        {!isLoadingAcceleratedData && (
-          <>
-            {labsAndTests?.length ? (
-              <>
-                {radRecordsWithImagesReady?.length > 0 &&
-                  studyJobs?.length > 0 && (
-                    <VaAlert
-                      status="success"
-                      visible
-                      class="vads-u-margin-y--3 no-print"
-                      role="alert"
-                      data-testid="alert-images-ready"
-                    >
-                      <h3 className="vads-u-font-size--lg no-print">
-                        Images ready
-                      </h3>
-                      <JobCompleteAlert
-                        records={radRecordsWithImagesReady}
-                        studyJobs={studyJobs}
-                      />
-                    </VaAlert>
-                  )}
+        {!isLoadingAcceleratedData &&
+          !isLoading && (
+            <>
+              {labsAndTests?.length ? (
+                <>
+                  {radRecordsWithImagesReady?.length > 0 &&
+                    studyJobs?.length > 0 && (
+                      <VaAlert
+                        status="success"
+                        visible
+                        class="vads-u-margin-y--3 no-print"
+                        role="alert"
+                        data-testid="alert-images-ready"
+                      >
+                        <h3 className="vads-u-font-size--lg no-print">
+                          Images ready
+                        </h3>
+                        <JobCompleteAlert
+                          records={radRecordsWithImagesReady}
+                          studyJobs={studyJobs}
+                        />
+                      </VaAlert>
+                    )}
 
-                <RecordList
+                  <RecordList
+                    type={recordType.LABS_AND_TESTS}
+                    records={labsAndTests?.map(data => ({
+                      ...data,
+                      isAccelerating: isAcceleratingLabsAndTests,
+                    }))}
+                    domainOptions={{
+                      isAccelerating: isAcceleratingLabsAndTests,
+                      timeFrame: getTimeFrame(dateRange),
+                      displayTimeFrame: getDisplayTimeFrame(dateRange),
+                    }}
+                  />
+                </>
+              ) : (
+                <NoRecordsMessage
                   type={recordType.LABS_AND_TESTS}
-                  records={labsAndTests?.map(data => ({
-                    ...data,
-                    isAccelerating: isAcceleratingLabsAndTests,
-                  }))}
-                  domainOptions={{
-                    isAccelerating: isAcceleratingLabsAndTests,
-                    timeFrame: getTimeFrame(dateRange),
-                    displayTimeFrame: getDisplayTimeFrame(dateRange),
-                  }}
+                  timeFrame={
+                    isAcceleratingLabsAndTests
+                      ? getDisplayTimeFrame(dateRange)
+                      : ''
+                  }
                 />
-              </>
-            ) : (
-              <NoRecordsMessage
-                type={recordType.LABS_AND_TESTS}
-                timeFrame={
-                  isAcceleratingLabsAndTests
-                    ? getDisplayTimeFrame(dateRange)
-                    : ''
-                }
-              />
-            )}
-          </>
-        )}
+              )}
+            </>
+          )}
       </RecordListSection>
     </div>
   );

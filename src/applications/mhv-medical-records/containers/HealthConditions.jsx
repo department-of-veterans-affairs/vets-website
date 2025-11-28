@@ -144,7 +144,7 @@ const HealthConditions = () => {
             />
           </div>
         )}
-        {!isLoadingAcceleratedData && conditions?.length ? (
+        {!isLoadingAcceleratedData && !isLoading && conditions?.length ? (
           <RecordList
             records={conditions}
             type={recordType.HEALTH_CONDITIONS}

@@ -195,7 +195,9 @@ const CareSummariesAndNotes = () => {
             />
           </div>
         )}
-        {!isLoadingAcceleratedData && careSummariesAndNotes?.length ? (
+        {!isLoadingAcceleratedData &&
+        !isLoading &&
+        careSummariesAndNotes?.length ? (
           <RecordList
             records={careSummariesAndNotes}
             domainOptions={{
