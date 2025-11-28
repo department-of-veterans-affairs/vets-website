@@ -299,8 +299,11 @@ export const isAddingDependents = formData =>
   !!formData?.['view:addOrRemoveDependents']?.add;
 export const isRemovingDependents = formData =>
   !!formData?.['view:addOrRemoveDependents']?.remove;
-export const showV3Picklist = formData => !!formData?.vaDependentsV3;
-export const noV3Picklist = formData => !formData?.vaDependentsV3;
+
+// Go through v3 picklist unless Veteran has a v2 for in progress
+export const showV3Picklist = formData =>
+  !!formData?.vaDependentsV3 && formData?.vaDependentV2Flow !== true;
+export const noV3Picklist = formData => !showV3Picklist(formData);
 export const showOptionsSelection = formData =>
   showV3Picklist(formData) ? formData.dependents?.awarded.length > 0 : true;
 
@@ -694,10 +697,9 @@ export function customTransformForSubmit(formConfig, form) {
   );
 
   // Transform V3 picklist data to V2 format if V3 is enabled
-  const updatedData =
-    withoutInactivePages?.vaDependentsV3 === true
-      ? transformPicklistToV2(withoutInactivePages)
-      : withoutInactivePages;
+  const updatedData = showV3Picklist(withoutInactivePages)
+    ? transformPicklistToV2(withoutInactivePages)
+    : withoutInactivePages;
 
   const cleanedPayload = buildSubmissionData(updatedData);
 
