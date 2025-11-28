@@ -90,7 +90,7 @@ export const generateMockUser = ({ authBroker }) => ({
           addressLine1: '345 Home Address St.',
           addressLine2: null,
           addressLine3: null,
-          addressPou: 'RESIDENCE/CHOICE',
+          addressPou: 'RESIDENCE',
           addressType: 'DOMESTIC',
           city: 'San Francisco',
           countryName: 'United States',

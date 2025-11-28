@@ -66,7 +66,7 @@ const updateConfig = {
     transactionId: 'mock-update-mailing-address-success-transaction-id',
     type: 'AsyncTransaction::VAProfile::AddressTransaction',
   },
-  'residence/choiceAddress': {
+  residenceAddress: {
     path: 'data.attributes.vet360ContactInformation.residentialAddress',
     fields: [
       'addressLine1',
@@ -145,10 +145,7 @@ const updateMemDb = (req, res = null) => {
     key === 'POST /v0/profile/addresses'
   ) {
     const addressType = body.addressPou?.toLowerCase();
-    if (
-      addressType === 'correspondence' ||
-      addressType === 'residence/choice'
-    ) {
+    if (addressType === 'correspondence' || addressType === 'residence') {
       const updateType = `${addressType}Address`;
       const { transactionId, type } = createUpdate(updateType)(body);
       return generateResponse(transactionId, type);

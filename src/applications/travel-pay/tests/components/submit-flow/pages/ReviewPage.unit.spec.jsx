@@ -12,7 +12,7 @@ import reducer from '../../../../redux/reducer';
 const home = {
   addressLine1: '345 Home Address St.',
   addressLine2: 'Apt. 3B',
-  addressPou: 'RESIDENCE/CHOICE',
+  addressPou: 'RESIDENCE',
   addressType: 'DOMESTIC',
   city: 'San Francisco',
   countryName: 'United States',
