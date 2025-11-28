@@ -12,4 +12,14 @@ describe('Medications List Page Allergies Link', () => {
     cy.axeCheck('main');
     listPage.verifyAllergiesAndReactionsLinkOnMedicationsListPage();
   });
+
+  it('visits Medications List Page Allergies And Reactions Link with Accelerated allergies', () => {
+    const site = new MedicationsSite();
+    const listPage = new MedicationsListPage();
+    site.login(true, true);
+    listPage.visitMedicationsListPageURL(prescriptionList);
+    cy.injectAxe();
+    cy.axeCheck('main');
+    listPage.verifyAllergiesAndReactionsLinkOnMedicationsListPage();
+  });
 });
