@@ -1,6 +1,6 @@
 import React from 'react';
 
-const MedicarePartADescription = (
+const MedicarePartPartBDescription = () => (
   <>
     <p>
       You’ll need to submit a copy of the beneficiary’s Original Medicare Health
@@ -21,4 +21,4 @@ const MedicarePartADescription = (
   </>
 );
 
-export default MedicarePartADescription;
+export default MedicarePartPartBDescription;
