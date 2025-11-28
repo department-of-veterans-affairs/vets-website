@@ -89,8 +89,9 @@ export default function FormNav(props) {
   }
 
   // Some chapters may have progress-bar & step-header hidden via hideFormNavProgress.
-  const hideFormNavProgress =
+  const baseHideFormNavProgress =
     formConfig?.chapters[page.chapterKey]?.hideFormNavProgress;
+
   // Ensure other chapters [that do show progress-bar & step-header] have
   // the correct number & total [with progress-hidden chapters discounted].
   // formConfig, current, & chapters.length should NOT be manipulated,
@@ -99,8 +100,26 @@ export default function FormNav(props) {
     uniqueChapters,
     formConfig,
   });
+
   // Returns NaN if the current chapter isn't found
-  const currentChapterDisplay = getCurrentChapterDisplay(formConfig, current);
+  const rawCurrentChapterDisplay = getCurrentChapterDisplay(
+    formConfig,
+    current,
+  );
+
+  // If the helper returns NaN or something < 1, fall back gracefully:
+  // 1) try the computed `current` index from uniqueChapters
+  // 2) if that also fails, default to 1
+  let currentChapterDisplay = rawCurrentChapterDisplay;
+  if (!Number.isFinite(currentChapterDisplay) || currentChapterDisplay < 1) {
+    if (Number.isFinite(current) && current >= 1) {
+      currentChapterDisplay = current;
+    } else {
+      currentChapterDisplay = 2;
+    }
+  }
+
+  const hideFormNavProgress = baseHideFormNavProgress;
 
   // The goal with this is to quickly "remove" the header from the DOM, and
   // immediately re-render the component with the header included.
