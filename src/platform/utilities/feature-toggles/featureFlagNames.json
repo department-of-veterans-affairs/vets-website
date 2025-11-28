@@ -67,6 +67,7 @@
   "dhpConnectedDevicesFitbit": "dhp_connected_devices_fitbit",
   "disability526ToxicExposure": "disability_526_toxic_exposure",
   "disability526Enable2024Form4142": "disability_526_form4142_use_2024_version",
+  "disability526ExtraBDDPagesEnabled": "disability_526_extra_bdd_pages_enabled",
   "disability526ShowConfirmationReview": "disability_526_show_confirmation_review",
   "disabilityCompensationToxicExposureDestructionModal": "disability_compensation_toxic_exposure_destruction_modal",
   "disability526ToxicExposureOptOutDataPurge": "disability_526_toxic_exposure_opt_out_data_purge",
