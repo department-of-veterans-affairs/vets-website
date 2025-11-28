@@ -20,7 +20,7 @@ function handleClick() {
 }
 
 export default function AfterVisitSummary({ data: appointment }) {
-  const heading = 'After visit summary';
+  const heading = 'After-visit summary';
   const featureTravelPayViewClaimDetails = useSelector(state =>
     selectFeatureTravelPayViewClaimDetails(state),
   );
@@ -76,8 +76,8 @@ export default function AfterVisitSummary({ data: appointment }) {
           {avsPairs.map(({ file, url }, index) => {
             const multiple = avsPairs.length > 1;
             const linkText = multiple
-              ? `After-visit summary ${index + 1}`
-              : 'After-visit summary';
+              ? `Review after-visit summary ${index + 1}`
+              : 'Review after-visit summary';
             return (
               <li
                 key={file?.id}
