@@ -232,6 +232,7 @@ export const getAlert = (props, continueClicked) => {
       getPdfDownloadUrl(formNumber),
       onCloseAlert,
       warnings,
+      props?.data?.uploadedFile?.name || '',
     );
   }
 

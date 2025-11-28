@@ -479,10 +479,14 @@ describe('showV3Picklist', () => {
   it('should return false if feature flag is off', () => {
     expect(showV3Picklist({})).to.be.false;
     expect(showV3Picklist({ vaDependentsV3: false })).to.be.false;
+    expect(showV3Picklist({ vaDependentsV3: true, vaDependentV2Flow: true })).to
+      .be.false;
   });
 
   it('should return true if feature flag is on', () => {
     expect(showV3Picklist({ vaDependentsV3: true })).to.be.true;
+    expect(showV3Picklist({ vaDependentsV3: true, vaDependentV2Flow: false }))
+      .to.be.true;
   });
 });
 
