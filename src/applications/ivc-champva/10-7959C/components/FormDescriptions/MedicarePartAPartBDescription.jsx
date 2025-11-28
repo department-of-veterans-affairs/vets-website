@@ -7,7 +7,7 @@ const MedicarePartAPartBDescription = () => (
       card, sometimes referred to as the “red, white, and blue” Medicare card.
     </p>
     <p>
-      <strong>Your card should include this information:</strong>
+      <strong>The card should include this information:</strong>
     </p>
     <ul>
       <li>
@@ -16,7 +16,7 @@ const MedicarePartAPartBDescription = () => (
       <li>
         Medicare Part B (listed as MEDICAL), <strong>and</strong>
       </li>
-      <li>The date your coverage begins</li>
+      <li>The date coverage begins</li>
     </ul>
   </>
 );
