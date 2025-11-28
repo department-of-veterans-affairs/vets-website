@@ -240,6 +240,7 @@ const formConfig = {
           title: formData =>
             privWrapper(`${fnp(formData)} Medicare pharmacy benefits`),
           depends: formData =>
+            !formData['view:champvaForm107959cRev2025'] &&
             get('applicantMedicareStatus', formData) &&
             ['advantage', 'other'].includes(
               get('applicantMedicareClass', formData),
@@ -375,6 +376,7 @@ const formConfig = {
         primaryEob: {
           path: 'insurance-eob',
           depends: formData =>
+            !formData['view:champvaForm107959cRev2025'] &&
             get('applicantHasPrimary', formData) &&
             get('applicantPrimaryHasPrescription', formData),
           title: formData =>
@@ -503,6 +505,7 @@ const formConfig = {
         secondaryEob: {
           path: 'secondary-insurance-eob',
           depends: formData =>
+            !formData['view:champvaForm107959cRev2025'] &&
             get('applicantHasPrimary', formData) &&
             get('applicantHasSecondary', formData) &&
             get('applicantSecondaryHasPrescription', formData),
