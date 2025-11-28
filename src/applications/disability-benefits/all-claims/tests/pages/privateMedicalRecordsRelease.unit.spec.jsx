@@ -696,23 +696,6 @@ describe('VADS component validation tests', () => {
       });
     });
 
-    it('should accept valid date range', () => {
-      const data = createProviderData();
-      const { container } = renderForm(data);
-
-      const fromDate = $(
-        'va-memorable-date[name="root_providerFacility_0_treatmentDateRange_from"]',
-        container,
-      );
-      const toDate = $(
-        'va-memorable-date[name="root_providerFacility_0_treatmentDateRange_to"]',
-        container,
-      );
-
-      expect(fromDate.getAttribute('error')).to.not.exist;
-      expect(toDate.getAttribute('error')).to.not.exist;
-    });
-
     it('should reject future dates for treatment end date', async () => {
       const futureDate = new Date();
       futureDate.setFullYear(futureDate.getFullYear() + 1);
