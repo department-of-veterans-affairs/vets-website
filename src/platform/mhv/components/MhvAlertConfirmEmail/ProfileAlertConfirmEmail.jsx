@@ -15,11 +15,11 @@ import {
   showAlert,
 } from './selectors';
 import {
-  AlertSystemResponseConfirmError,
   AlertSystemResponseConfirmSuccess,
   AlertSystemResponseSkipSuccess,
 } from './AlertSystemResponse';
 import { recordAlertLoadEvent } from './recordAlertLoadEvent';
+import { ProfileAlertConfirmEmailContent } from './ProfileAlertConfirmEmailContent';
 
 // implements https://www.figma.com/design/CAChU51fWYMZsgDR5RXeSc/MHV-Landing-Page?node-id=7032-45235&t=t55H62nbe7HYOvFq-4
 const AlertConfirmContactEmail = ({
@@ -38,30 +38,63 @@ const AlertConfirmContactEmail = ({
       role="status"
       dataTestid="profile-alert--confirm-contact-email"
     >
-      <h2 slot="headline">{headline}</h2>
-      <React.Fragment key=".1">
-        <p>
-          We’ll send notifications about your VA health care and benefits to
-          this email.
-        </p>
-        <p
-          className="vads-u-font-weight--bold"
-          style={{ wordBreak: 'break-word' }}
-        >
-          {emailAddress}
-        </p>
-        <VaButtonPair
-          onPrimaryClick={onConfirmClick}
-          onSecondaryClick={onEditClick}
-          leftButtonText="Confirm"
-          rightButtonText="Edit contact email"
-        />
-      </React.Fragment>
+      <h3 slot="headline">
+        <span className="usa-sr-only">warning</span>
+        {headline}
+      </h3>
+      <ProfileAlertConfirmEmailContent
+        emailAddress={emailAddress}
+        onConfirmClick={() => {
+          onConfirmClick();
+        }}
+        onEditClick={onEditClick}
+      />
     </VaAlert>
   );
 };
 
 AlertConfirmContactEmail.propTypes = {
+  confirmError: PropTypes.bool.isRequired,
+  emailAddress: PropTypes.string.isRequired,
+  recordEvent: PropTypes.func.isRequired,
+  onConfirmClick: PropTypes.func.isRequired,
+  onEditClick: PropTypes.func.isRequired,
+};
+
+/**
+ * This component is very similar to AlertConfirmContactEmail (above), but is slightly modified
+ * to indicate an error state.
+ */
+const AlertConfirmContactEmailError = ({
+  emailAddress,
+  recordEvent,
+  onConfirmClick,
+  onEditClick,
+}) => {
+  const headline = 'We couldn’t confirm your contact email';
+
+  useEffect(() => recordEvent(headline), [headline, recordEvent]);
+
+  return (
+    <VaAlert status="error" role="alert" dataTestid="mhv-alert--confirm-error">
+      <h3 slot="headline">
+        <span className="usa-sr-only">error</span>
+        {headline}
+      </h3>
+      <p>Please try again.</p>
+      <ProfileAlertConfirmEmailContent
+        emailAddress={emailAddress}
+        onConfirmClick={() => {
+          onConfirmClick();
+        }}
+        onEditClick={onEditClick}
+      />
+    </VaAlert>
+  );
+};
+
+AlertConfirmContactEmailError.propTypes = {
+  confirmError: PropTypes.bool.isRequired,
   emailAddress: PropTypes.string.isRequired,
   recordEvent: PropTypes.func.isRequired,
   onConfirmClick: PropTypes.func.isRequired,
@@ -80,7 +113,7 @@ const AlertAddContactEmail = ({ recordEvent, onAddClick, onSkipClick }) => {
       role="status"
       dataTestid="profile-alert--add-contact-email"
     >
-      <h2 slot="headline">{headline}</h2>
+      <h3 slot="headline">{headline}</h3>
       <React.Fragment key=".1">
         <p>
           We’ll send notifications about your VA health care and benefits to
@@ -171,7 +204,11 @@ const ProfileAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent }) => {
 
   if (skipSuccess)
     return (
-      <AlertSystemResponseSkipSuccess recordEvent={recordEvent} tabIndex={-1} />
+      <AlertSystemResponseSkipSuccess
+        recordEvent={recordEvent}
+        tabIndex={-1}
+        headingLevel="h3"
+      />
     );
 
   if (!renderAlert) return null;
@@ -184,22 +221,28 @@ const ProfileAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent }) => {
             <AlertSystemResponseConfirmSuccess
               recordEvent={recordEvent}
               tabIndex={-1}
+              headingLevel="h3"
             />
           )}
           {confirmError && (
-            <AlertSystemResponseConfirmError
-              recordEvent={recordEvent}
-              tabIndex={-1}
-            />
-          )}
-          {!confirmSuccess && (
-            <AlertConfirmContactEmail
+            <AlertConfirmContactEmailError
               onConfirmClick={putConfirmationDate}
               onEditClick={handleEditEmail}
               recordEvent={recordEvent}
+              confirmError={confirmError}
               emailAddress={emailAddress}
             />
           )}
+          {!confirmSuccess &&
+            !confirmError && (
+              <AlertConfirmContactEmail
+                onConfirmClick={putConfirmationDate}
+                onEditClick={handleEditEmail}
+                recordEvent={recordEvent}
+                confirmError={confirmError}
+                emailAddress={emailAddress}
+              />
+            )}
         </>
       ) : (
         <>

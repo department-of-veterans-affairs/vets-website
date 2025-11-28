@@ -17,7 +17,7 @@ const path = {
   Q_1_2_CLAIM_DECISION: 0,
   Q_1_3_CLAIM_CONTESTED: 1,
   Q_2_IS_1_SERVICE_CONNECTED: 1,
-  Q_2_0_CLAIM_TYPE: 3,
+  Q_2_0_CLAIM_TYPE: 4,
   Q_2_S_1_NEW_EVIDENCE: 0,
 };
 
@@ -47,11 +47,17 @@ describe('Decision Reviews Onramp', () => {
       h.checkNotGoodFitCards([
         {
           type: c.CARD_HLR,
-          content: [c.CARD_NGF_BOARD_NOT_AVAILABLE],
+          content: [
+            c.CARD_NGF_BOARD_NOT_AVAILABLE,
+            c.CARD_NGF_CANNOT_SUBMIT_EVIDENCE,
+          ],
         },
         {
           type: c.CARD_BOARD_DIRECT,
-          content: [c.CARD_NGF_RECEIVED_BOARD_DECISION],
+          content: [
+            c.CARD_NGF_RECEIVED_BOARD_DECISION,
+            c.CARD_NGF_CANNOT_SUBMIT_EVIDENCE,
+          ],
         },
         {
           type: c.CARD_BOARD_EVIDENCE,
