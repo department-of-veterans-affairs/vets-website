@@ -40,13 +40,20 @@ import { selectCernerPilotFlag } from '../util/selectors';
 import { selectSortOption } from '../selectors/selectPreferences';
 
 const RefillPrescriptions = () => {
+  const featureTogglesLoading = useSelector(
+    state => state.featureToggles.loading,
+  );
+  const isOracleHealthPilot = useSelector(selectCernerPilotFlag);
+  const isCernerPilot = isOracleHealthPilot;
+
   const {
     data: refillableData,
     isLoading,
     error: refillableError,
-  } = useGetRefillablePrescriptionsQuery();
-
-  const isCernerPilot = useSelector(selectCernerPilotFlag);
+  } = useGetRefillablePrescriptionsQuery(
+    { isOracleHealthPilot },
+    { skip: featureTogglesLoading },
+  );
 
   const [
     bulkRefillPrescriptions,

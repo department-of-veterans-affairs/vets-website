@@ -136,9 +136,12 @@ export const prescriptionsApi = createApi({
       },
     }),
     getPrescriptionById: builder.query({
-      query: id => ({
-        path: `/prescriptions/${id}`,
-      }),
+      query: id => {
+        const prescriptionId = typeof id === 'object' ? id.id : id;
+        return {
+          path: `/prescriptions/${prescriptionId}`,
+        };
+      },
       providesTags: ['Prescription'],
       transformResponse: response => {
         // If it's a single prescription (not in an entry array)

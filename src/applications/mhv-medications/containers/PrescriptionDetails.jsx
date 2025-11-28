@@ -74,7 +74,9 @@ const PrescriptionDetails = () => {
   const selectedFilterOption = useSelector(selectFilterOption);
   const currentPage = useSelector(selectPageNumber);
   // OH feature flag
-  const isCernerPilot = useSelector(selectCernerPilotFlag);
+  const isOracleHealthPilot = useSelector(selectCernerPilotFlag);
+  const isCernerPilot = isOracleHealthPilot;
+
   // Consolidate query parameters into a single state object to avoid multiple re-renders
   const [queryParams] = useState({
     page: currentPage || 1,
@@ -88,7 +90,7 @@ const PrescriptionDetails = () => {
   // Use the custom hook to fetch prescription data
   const { prescription, prescriptionApiError, isLoading } = usePrescriptionData(
     prescriptionId,
-    queryParams,
+    { ...queryParams, isOracleHealthPilot },
   );
 
   const nonVaPrescription =

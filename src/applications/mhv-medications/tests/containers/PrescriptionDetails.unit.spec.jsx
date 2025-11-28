@@ -4,6 +4,9 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom-v5-compat';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { fireEvent, waitFor } from '@testing-library/dom';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+import { commonReducer } from 'platform/startup/store';
 import * as prescriptionsApiModule from '../../api/prescriptionsApi';
 import {
   stubAllergiesApi,
@@ -25,6 +28,22 @@ let sandbox;
 
 describe('Prescription details container', () => {
   const setup = (state = {}) => {
+    const testStore = createStore(
+      combineReducers({
+        ...commonReducer,
+        ...reducer,
+      }),
+      {
+        featureToggles: { loading: false },
+        ...state,
+      },
+      applyMiddleware(
+        thunk,
+        allergiesApi.middleware,
+        prescriptionsApi.middleware,
+      ),
+    );
+
     return renderWithStoreAndRouterV6(
       <Routes>
         <Route
@@ -33,13 +52,8 @@ describe('Prescription details container', () => {
         />
       </Routes>,
       {
-        initialState: state,
-        reducers: reducer,
+        store: testStore,
         initialEntries: ['/prescriptions/1234567891'],
-        additionalMiddlewares: [
-          allergiesApi.middleware,
-          prescriptionsApi.middleware,
-        ],
       },
     );
   };
