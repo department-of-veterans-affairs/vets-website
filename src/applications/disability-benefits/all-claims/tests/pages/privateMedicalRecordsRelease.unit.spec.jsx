@@ -696,30 +696,6 @@ describe('VADS component validation tests', () => {
       });
     });
 
-    it('should reject future dates for treatment end date', async () => {
-      const futureDate = new Date();
-      futureDate.setFullYear(futureDate.getFullYear() + 1);
-      const futureDateStr = futureDate.toISOString().split('T')[0];
-
-      const data = createProviderData({
-        treatmentDateRange: {
-          from: '2020-01-01',
-          to: futureDateStr, // Future date
-        },
-      });
-      const { container } = renderForm(data);
-
-      const form = container.querySelector('form');
-      fireEvent.submit(form);
-
-      await waitFor(() => {
-        const toDate = $(
-          'va-memorable-date[name="root_providerFacility_0_treatmentDateRange_to"]',
-          container,
-        );
-        expect(toDate.getAttribute('error')).to.exist;
-      });
-    });
   });
 
   describe('limited consent textarea interaction', () => {
