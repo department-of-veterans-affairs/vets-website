@@ -48,6 +48,7 @@ import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import { fetchImageRequestStatus } from '../actions/images';
 import JobCompleteAlert from '../components/shared/JobsCompleteAlert';
 import { useTrackAction } from '../hooks/useTrackAction';
+import TrackedSpinner from '../components/shared/TrackedSpinner';
 import AdditionalReportsInfo from '../components/shared/AdditionalReportsInfo';
 
 const LabsAndTests = () => {
@@ -86,7 +87,7 @@ const LabsAndTests = () => {
     [dispatch],
   );
 
-  const { isAcceleratingLabsAndTests } = useAcceleratedData();
+  const { isLoading, isAcceleratingLabsAndTests } = useAcceleratedData();
 
   const dispatchAction = useMemo(
     () => {
@@ -202,16 +203,15 @@ const LabsAndTests = () => {
             <AdditionalReportsInfo domainName="lab and test results" />
           </div>
         )}
-        {isLoadingAcceleratedData && (
-          <>
-            <div className="vads-u-margin-y--8">
-              <va-loading-indicator
-                message="We’re loading your records."
-                setFocus
-                data-testid="loading-indicator"
-              />
-            </div>
-          </>
+        {(isLoadingAcceleratedData || isLoading) && (
+          <div className="vads-u-margin-y--8">
+            <TrackedSpinner
+              id="labs-and-tests-page-spinner"
+              message="We’re loading your records."
+              setFocus
+              data-testid="loading-indicator"
+            />
+          </div>
         )}
         {!isLoadingAcceleratedData && (
           <>

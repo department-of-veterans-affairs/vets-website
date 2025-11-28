@@ -25,6 +25,7 @@ import useReloadResetListOnUnmount from '../hooks/useReloadResetListOnUnmount';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
+import TrackedSpinner from '../components/shared/TrackedSpinner';
 import { useTrackAction } from '../hooks/useTrackAction';
 import { Actions } from '../util/actionTypes';
 
@@ -44,7 +45,7 @@ const HealthConditions = () => {
   );
   useTrackAction(statsdFrontEndActions.HEALTH_CONDITIONS_LIST);
 
-  const { isAcceleratingConditions } = useAcceleratedData();
+  const { isLoading, isAcceleratingConditions } = useAcceleratedData();
   const dispatchAction = useMemo(
     () => {
       return isCurrent => {
@@ -133,16 +134,15 @@ const HealthConditions = () => {
             condition, ask your provider at your next appointment.
           </p>
         </va-additional-info>
-        {isLoadingAcceleratedData && (
-          <>
-            <div className="vads-u-margin-y--8">
-              <va-loading-indicator
-                message="We’re loading your records."
-                setFocus
-                data-testid="accelerated-loading-indicator"
-              />
-            </div>
-          </>
+        {(isLoadingAcceleratedData || isLoading) && (
+          <div className="vads-u-margin-y--8">
+            <TrackedSpinner
+              id="conditions-page-spinner"
+              message="We’re loading your records."
+              setFocus
+              data-testid="accelerated-loading-indicator"
+            />
+          </div>
         )}
         {!isLoadingAcceleratedData && conditions?.length ? (
           <RecordList
