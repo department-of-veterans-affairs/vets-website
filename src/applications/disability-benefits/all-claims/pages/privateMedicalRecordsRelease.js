@@ -2,10 +2,12 @@ import _ from 'platform/utilities/data';
 import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import { validateDate } from 'platform/forms-system/src/js/validation';
 import {
+  currentOrPastDateRangeUI,
+  currentOrPastDateRangeSchema,
   selectUI,
+  textUI,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import {
@@ -57,9 +59,9 @@ export const uiSchema = {
       hideTitle: true,
     },
     items: {
-      providerFacilityName: {
-        'ui:title': 'Name of private provider or hospital',
-      },
+      providerFacilityName: textUI({
+        title: 'Name of private provider or hospital',
+      }),
       treatmentLocation0781Related: {
         ...yesNoUI({
           title:
@@ -95,9 +97,15 @@ export const uiSchema = {
         'ui:confirmationField': PrivateMedicalProvidersConditions,
       },
       'ui:validations': [validateDate],
-      treatmentDateRange: dateRangeUI(
-        'When did your treatment start? (You can provide an estimated date)',
-        'When did your treatment end? (You can provide an estimated date)',
+      treatmentDateRange: currentOrPastDateRangeUI(
+        {
+          title: 'When did your treatment start?',
+          hint: 'You can provide an estimated date',
+        },
+        {
+          title: 'When did your treatment end?',
+          hint: 'You can provide an estimated date',
+        },
         'End of treatment must be after start of treatment',
       ),
       providerFacilityAddress: {
@@ -111,31 +119,37 @@ export const uiSchema = {
           'postalCode',
         ],
         country: selectUI('Country'),
-        street: {
-          'ui:title': 'Street address (20 characters maximum)',
-          'ui:autocomplete': 'off',
-        },
-        street2: {
-          'ui:title': 'Street address 2 (20 characters maximum)',
-          'ui:autocomplete': 'off',
-        },
-        city: {
-          'ui:title': 'City (30 characters maximum)',
-          'ui:autocomplete': 'off',
-        },
+        street: textUI({
+          title: 'Street address (20 characters maximum)',
+          autocomplete: 'address-line1',
+          errorMessages: {
+            required: 'Enter a street address',
+            pattern: 'Enter a valid street address',
+          },
+        }),
+        street2: textUI({
+          title: 'Street address 2 (20 characters maximum)',
+          autocomplete: 'address-line2',
+        }),
+        city: textUI({
+          title: 'City (30 characters maximum)',
+          autocomplete: 'address-level2',
+          errorMessages: {
+            required: 'Enter a city',
+          },
+        }),
         state: selectUI('State'),
-        postalCode: {
-          'ui:title': 'Postal code',
-          'ui:autocomplete': 'off',
-          'ui:validations': [validateZIP],
-          'ui:errorMessages': {
+        postalCode: textUI({
+          title: 'Postal code',
+          autocomplete: 'postal-code',
+          validations: [validateZIP],
+          errorMessages: {
             pattern:
               'Please enter a valid 5- or 9-digit Postal code (dashes allowed)',
+            required: 'Enter a postal code',
           },
-          'ui:options': {
-            widgetClassNames: 'usa-input-medium',
-          },
-        },
+          width: 'md',
+        }),
       },
     },
   },
@@ -167,11 +181,25 @@ export const schema = {
             type: 'object',
             properties: {},
           },
-          treatmentDateRange: {
-            type: 'object',
-            $ref: '#/definitions/dateRangeAllRequired',
+          treatmentDateRange: currentOrPastDateRangeSchema,
+          providerFacilityAddress: {
+            ...providerFacilityAddress,
+            properties: {
+              ...providerFacilityAddress.properties,
+              street: {
+                type: 'string',
+                maxLength: 20,
+              },
+              street2: {
+                type: 'string',
+                maxLength: 20,
+              },
+              city: {
+                type: 'string',
+                maxLength: 30,
+              },
+            },
           },
-          providerFacilityAddress,
         },
       },
     },
