@@ -6,6 +6,8 @@
       },
       "isVaEmployee": false,
       "homelessOrAtRisk": "no",
+      "view:hasMilitaryRetiredPay": false,
+      "hasTrainingPay": false,
       "phoneAndEmail": {
         "primaryPhone": "4445551212",
         "emailAddress": "test2@test1.net"
