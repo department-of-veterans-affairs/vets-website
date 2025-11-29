@@ -280,7 +280,7 @@ describe('Care Expenses Pages', () => {
     const incompleteNoHourlyItem = {
       typeOfCare: 'IN_HOME_CARE_ATTENDANT',
       recipient: 'DEPENDENT',
-      recipientName: 'John Doe',
+      fullNameRecipient: 'John Doe',
       provider: 'Provider Name',
       careDateRange: { from: '2004-04-04' },
       monthlyAmount: 800,
@@ -289,7 +289,7 @@ describe('Care Expenses Pages', () => {
     const incompleteNoWeeklyItem = {
       typeOfCare: 'IN_HOME_CARE_ATTENDANT',
       recipient: 'DEPENDENT',
-      recipientName: 'John Doe',
+      fullNameRecipient: 'John Doe',
       provider: 'Provider Name',
       careDateRange: { from: '2004-04-04' },
       monthlyAmount: 800,
