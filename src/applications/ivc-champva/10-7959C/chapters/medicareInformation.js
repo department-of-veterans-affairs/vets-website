@@ -339,43 +339,6 @@ export const applicantHasMedicareDSchema = {
   },
 };
 
-export const applicantMedicarePartDCarrierSchema = {
-  uiSchema: {
-    ...titleUI(({ formData }) =>
-      privWrapper(`${nameWording(formData)} Medicare Part D carrier`),
-    ),
-    applicantMedicarePartDCarrier: textUI({
-      title: 'Name of insurance carrier',
-      hint: 'Your insurance carrier is your insurance company.',
-    }),
-    applicantMedicarePartDEffectiveDate: currentOrPastDateUI({
-      title: 'Medicare Part D effective date',
-      hint: effectiveDateHint,
-    }),
-    'ui:validations': [
-      (errors, formData) =>
-        validFieldCharsOnly(
-          errors,
-          null,
-          formData,
-          'applicantMedicarePartDCarrier',
-        ),
-    ],
-  },
-  schema: {
-    type: 'object',
-    required: [
-      'applicantMedicarePartDCarrier',
-      'applicantMedicarePartDEffectiveDate',
-    ],
-    properties: {
-      titleSchema,
-      applicantMedicarePartDCarrier: textSchema,
-      applicantMedicarePartDEffectiveDate: currentOrPastDateSchema,
-    },
-  },
-};
-
 export const applicantMedicareDUploadSchema = {
   uiSchema: {
     ...titleUI('Upload Medicare Part D card', ({ formData }) => {
