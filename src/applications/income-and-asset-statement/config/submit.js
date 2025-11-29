@@ -6,6 +6,7 @@ import { ensureValidCSRFToken } from '../ensureValidCSRFToken';
 
 import {
   pruneConfiguredArrays,
+  remapIncomeTypeFields,
   remapOtherVeteranFields,
   removeDisallowedFields,
   removeInvalidFields,
@@ -17,13 +18,14 @@ import {
 //
 // 1. Deep clone the incoming form object (avoid mutating redux store)
 // 2. Remap "otherVeteran*" → "veteran*" fields when submission requires it
-// 3. Remove disallowed fields that vets-api will reject
-// 4. Prune configured list-and-loop array fields (trusts, annuities, waivers)
-// 5. Remove invalid/null/empty/view-only fields
-// 6. Flatten nested fields (e.g., recipientName) via custom JSON replacer
-// 7. JSON.stringify the prepared form data (backend requires a *string*)
-// 8. Wrap into the "incomeAndAssetsClaim" submission envelope
-// 9. Send to vets-api with the user's local timestamp
+// 3. Remap discontinued income "incomeType" to human-readable values
+// 4. Remove disallowed fields that vets-api will reject
+// 5. Prune configured list-and-loop array fields (trusts, annuities, waivers)
+// 6. Remove invalid/null/empty/view-only fields
+// 7. Flatten nested fields (e.g., recipientName) via custom JSON replacer
+// 8. JSON.stringify the prepared form data (backend requires a *string*)
+// 9. Wrap into the "incomeAndAssetsClaim" submission envelope
+// 10. Send to vets-api with the user's local timestamp
 // -----------------------------------------------------------------------------
 
 // Fields vets-api does *not* allow for this submission
@@ -68,11 +70,13 @@ const arraysPruneConfig = {
 /**
  * Clone and prepare the raw form data before serialization
  *
- * Steps 1–3 of the 0969 submission pipeline:
+ * Steps 1–4 of the 0969 submission pipeline:
  *   1. Deep clone the incoming form data (avoid mutating Redux state)
  *   2. Conditionally remap "otherVeteran*" fields to "veteran*" fields
  *      when the submitter is not the authenticated Veteran
- *   3. Remove disallowed fields that vets-api will reject
+ *   3. Remap discontinued income "incomeType" radio values to
+ *      human-readable values or "otherIncomeType" string value
+ *   4. Remove disallowed fields that vets-api will reject
  * @param {Object} data - The full form object containing `data` and metadata
  * @returns {Object} - A new, cleaned data object with remapping and disallowed fields removed
  */
@@ -80,25 +84,39 @@ export function prepareFormData(data) {
   // Step 1: clone to avoid mutating original form (Redux immutability)
   const clonedData = cloneDeep(data);
 
-  const { claimantType, isLoggedIn } = clonedData;
+  const { claimantType, discontinuedIncomes, isLoggedIn } = clonedData;
   const userIsVeteran = isLoggedIn === true && claimantType === 'VETERAN';
 
   // Step 2: remap “otherVeteran*” → “veteran*” only when necessary
-  const remappedData = userIsVeteran
+  const dataWithVeteranFieldsAdjusted = userIsVeteran
     ? clonedData
     : remapOtherVeteranFields(clonedData);
 
-  // Step 3: remove fields vets-api does not accept
-  return removeDisallowedFields(remappedData, disallowedFields);
+  // Step 3: Transform discontinued incomes only if the array exists and has items
+  let maybeTransformedIncomes;
+  if (Array.isArray(discontinuedIncomes) && discontinuedIncomes.length > 0) {
+    maybeTransformedIncomes = discontinuedIncomes.map(remapIncomeTypeFields);
+  }
+
+  // Assemble final object — only include discontinuedIncomes if we transformed it
+  const assembledData = {
+    ...dataWithVeteranFieldsAdjusted,
+    ...(maybeTransformedIncomes
+      ? { discontinuedIncomes: maybeTransformedIncomes }
+      : {}),
+  };
+
+  // Step 4: remove fields vets-api does not accept
+  return removeDisallowedFields(assembledData, disallowedFields);
 }
 
 /**
  * Serializes and finalizes the cleaned form data in preparation for submission
  *
- * Steps 4–6 of the 0969 submission pipeline:
- *   4. Prune configured list-and-loop array fields via prune config
- *   5. Ensure no undefined values remain (backend rejects them)
- *   6. Return a final JSON payload string
+ * Steps 5–7 of the 0969 submission pipeline:
+ *   5. Prune configured list-and-loop array fields via prune config
+ *   6. Ensure no undefined values remain (backend rejects them)
+ *   7. Return a final JSON payload string
  * @param {Object} preparedData - The prepared and cleaned form data object
  * @param {Object} replacerFn - The prepared and cleaned form data object
  * @returns {string} A fully serialized, JSON-string payload ready for transmission
@@ -118,9 +136,9 @@ export function serializePreparedFormData(preparedData, replacerFn) {
  * Main submission transform that executes the 0969 submission pipeline
  * and returns the final payload for the API.
  *
- * Steps 7–8 of the 0969 submission pipeline:
- *   7. Invoke the full submission pipeline
- *   8. Return the final JSON payload for submission
+ * Steps 8–9 of the 0969 submission pipeline:
+ *   8. Invoke the full submission pipeline
+ *   9. Return the final JSON payload for submission
  * @param {Object} form - The full form object containing `data` and metadata
  * @returns {string} Fully transformed JSON payload for submission
  */
@@ -140,8 +158,8 @@ export function transform(form) {
 /**
  * Submit the 0969 form to the backend API
  *
- * Step 9 of the 0969 submission pipeline
- *   9: Send to vets-api
+ * Step 10 of the 0969 submission pipeline
+ *   10: Send to vets-api
  * @param {Object} form - The full form object containing `data` and metadata
  * @param {Object} formConfig - The form configuration object containing metadata and tracking info
  * @returns {Promise<Object>} A promise resolving to the API response object from the submission request

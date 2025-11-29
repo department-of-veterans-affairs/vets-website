@@ -223,6 +223,7 @@ describe('<LetterList>', () => {
       lettersAvailability: AVAILABILITY_STATUSES.available,
       letterDownloadStatus: {},
       optionsAvailable: true,
+      tsaLetterEligibility: {},
     };
     const { getByText } = render(
       <Provider store={getStore()}>
@@ -249,6 +250,7 @@ describe('<LetterList>', () => {
       lettersAvailability: AVAILABILITY_STATUSES.available,
       letterDownloadStatus: {},
       optionsAvailable: true,
+      tsaLetterEligibility: {},
     };
     const { getByText } = render(
       <Provider store={getStore()}>
@@ -295,6 +297,7 @@ describe('<LetterList>', () => {
       lettersAvailability: AVAILABILITY_STATUSES.available,
       letterDownloadStatus: {},
       optionsAvailable: true,
+      tsaLetterEligibility: {},
     };
     const { getByText } = render(
       <Provider store={getStore()}>
@@ -370,6 +373,7 @@ describe('<LetterList>', () => {
       const tsaLetterEnabledProps = {
         ...defaultProps,
         getTsaLetterEligibility: getTsaLetterEligibilityStub,
+        tsaLetterEligibility: {},
         tsaSafeTravelLetter: true,
       };
       render(

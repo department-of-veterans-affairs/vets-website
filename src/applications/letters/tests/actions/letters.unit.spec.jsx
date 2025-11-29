@@ -533,8 +533,19 @@ describe('getTsaLetterEligibility', () => {
       data: [
         {
           attributes: {
+            documentId: '456',
+          },
+        },
+        {
+          attributes: {
             documentId: '123',
-            receivedAt: '2022-01-01',
+            receivedAt: '2025-01-01',
+          },
+        },
+        {
+          attributes: {
+            documentId: '789',
+            receivedAt: '2024-01-01',
           },
         },
       ],
