@@ -21,6 +21,12 @@ import {
   isValidDate,
   isValidPartialDate,
 } from './utilities/validations';
+// TODO: Replace with import from '@department-of-veterans-affairs/component-library/validators'
+// once component-library exports these functions
+import {
+  validateMemorableDate as validateMemorableDateComponent,
+  validateDate as validateDateComponentMock,
+} from './web-component-validators/dateValidators';
 
 /*
  * This contains the code for supporting our own custom validations and messages
@@ -401,6 +407,15 @@ export function validateMonthYear(errors, dateString) {
  *
  * The message it adds can be customized in uiSchema.errorMessages.futureDate
  */
+/**
+ * Validates that a date is current or in the past.
+ *
+ * For va-date/va-memorable-date components:
+ * 1. Uses component-library validation for field-level errors
+ * 2. Only adds business logic validation (future date check) if component validation passes
+ *
+ * The message it adds can be customized in uiSchema.errorMessages.futureDate
+ */
 export function validateCurrentOrPastDate(
   errors,
   dateString,
@@ -411,23 +426,42 @@ export function validateCurrentOrPastDate(
   const {
     futureDate = 'Please provide a valid current or past date',
   } = errorMessages;
-  validateDate(
-    errors,
-    dateString,
-    formData,
-    schema,
-    errorMessages,
-    undefined,
-    undefined,
-    minYear,
-    new Date().getFullYear(),
-  );
+
+  // If empty, skip - transformErrors handles required validation
+  if (!dateString || dateString === 'undefined' || dateString === '') {
+    return;
+  }
+
   const { day, month, year } = parseISODate(dateString);
+
+  // Use mock validation - component validates on each input blur
+  const componentError = validateDateComponentMock(
+    year,
+    month,
+    day,
+    false,
+    false,
+  );
+  if (componentError) {
+    // Component-level error (NaN, ranges, etc.) - let component display it
+    return;
+  }
+
+  // All fields are valid, now check business logic (future date check)
   if (!isValidCurrentOrPastDate(day, month, year)) {
     errors.addError(futureDate);
   }
 }
 
+/**
+ * Validates that a memorable date is current or in the past.
+ *
+ * For va-memorable-date components:
+ * 1. Uses component-library validation for field-level errors
+ * 2. Only adds business logic validation (future date check) if component validation passes
+ *
+ * The message it adds can be customized in uiSchema.errorMessages.futureDate
+ */
 export function validateCurrentOrPastMemorableDate(
   errors,
   dateString,
@@ -438,27 +472,35 @@ export function validateCurrentOrPastMemorableDate(
   const {
     futureDate = 'Please provide a valid current or past date',
   } = errorMessages;
-  validateDate(
-    errors,
-    dateString,
-    formData,
-    schema,
-    errorMessages,
-    undefined,
-    undefined,
-    minYear,
-    new Date().getFullYear(),
-  );
+
+  // If empty, skip - transformErrors handles required validation
+  if (!dateString || dateString === 'undefined' || dateString === '') {
+    return;
+  }
+
   const { day, month, year } = parseISODate(dateString);
-  if (!day || !month || !year || !isValidCurrentOrPastDate(day, month, year)) {
+
+  // Use mock validation - component validates on each input blur
+  const componentError = validateMemorableDateComponent(year, month, day, true);
+  if (componentError) {
+    // Component-level error (NaN, ranges, etc.) - let component display it
+    return;
+  }
+
+  // All fields are valid, now check business logic (future date check)
+  if (!isValidCurrentOrPastDate(day, month, year)) {
     errors.addError(futureDate);
   }
 }
 
 /**
- * Adds an error message to errors if a date is an invalid date or in the future.
+ * Validates that a date is current or in the future.
  *
- * The message it adds can be customized in uiSchema.errorMessages.futureDate
+ * For va-date/va-memorable-date components:
+ * 1. Uses component-library validation for field-level errors
+ * 2. Only adds business logic validation (past date check) if component validation passes
+ *
+ * The message it adds can be customized in uiSchema.errorMessages.pastDate
  */
 export function validateCurrentOrFutureDate(
   errors,
@@ -470,8 +512,28 @@ export function validateCurrentOrFutureDate(
   const {
     pastDate = 'Please provide a valid current or future date',
   } = errorMessages;
-  validateDate(errors, dateString);
+
+  // If empty, skip - transformErrors handles required validation
+  if (!dateString || dateString === 'undefined' || dateString === '') {
+    return;
+  }
+
   const { day, month, year } = parseISODate(dateString);
+
+  // Use mock validation - component validates on each input blur
+  const componentError = validateDateComponentMock(
+    year,
+    month,
+    day,
+    false,
+    false,
+  );
+  if (componentError) {
+    // Component-level error (NaN, ranges, etc.) - let component display it
+    return;
+  }
+
+  // All fields are valid, now check business logic (past date check)
   if (!isValidCurrentOrFutureDate(day, month, year)) {
     errors.addError(pastDate);
   }

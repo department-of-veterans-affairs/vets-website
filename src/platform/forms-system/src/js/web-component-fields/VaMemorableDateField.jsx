@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import { VaMemorableDate } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useVaDateCommon } from './useVaDateCommon';
@@ -18,7 +19,6 @@ export default function VaMemorableDateField(props) {
   return (
     <VaMemorableDate
       {...mappedProps}
-      externalValidation
       monthSelect={props.uiOptions?.monthSelect ?? true}
       onDateChange={onDateChange}
       onDateBlur={onDateBlur}
