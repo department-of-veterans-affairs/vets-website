@@ -44,11 +44,11 @@ describe('spouseDeath', () => {
     const { container } = renderComponent();
 
     expect($('h3', container).textContent).to.equal(
-      'Information about the death of SPOUSY',
+      "Information about SPOUSY's death",
     );
     expect($$('h4', container).map(el => el.textContent)).to.deep.equal([
-      'When was the death?',
-      'Where did the death happen?',
+      'When did they die?',
+      'Where did they die?',
     ]);
 
     expect($('va-memorable-date', container)).to.exist;
@@ -56,7 +56,7 @@ describe('spouseDeath', () => {
     const checkbox = $('va-checkbox', container);
     expect(checkbox).to.exist;
     expect(checkbox.getAttribute('label')).to.equal(
-      'The death happened outside the United States',
+      'Death occurred outside the United States',
     );
 
     const inUSInputs = $$('va-text-input', container);
