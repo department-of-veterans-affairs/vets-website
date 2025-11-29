@@ -1,0 +1,46 @@
+{
+  "form526": {
+    "isVaEmployee": false,
+    "phoneAndEmail": {
+      "primaryPhone": "4445551212",
+      "emailAddress": "test2@test1.net"
+    },
+    "mailingAddress": {
+      "country": "USA",
+      "addressLine1": "123 Main",
+      "city": "Bigcity",
+      "state": "AK",
+      "zipCode": "12345"
+    },
+    "serviceInformation": {
+      "reservesNationalGuardService": {
+        "obligationTermOfServiceDateRange": {
+          "from": "2007-05-22",
+          "to": "2008-06-05"
+        },
+        "unitName": "Unit name here"
+      },
+      "servicePeriods": [
+        {
+          "serviceBranch": "Air Force Reserves",
+          "dateRange": {
+            "from": "2001-03-21",
+            "to": "2026-03-02"
+          }
+        }
+      ],
+      "separationLocation": {
+        "separationLocationCode": "98283",
+        "separationLocationName": "AF Academy"
+      }
+    },
+    "newPrimaryDisabilities": [
+      {
+        "cause": "NEW",
+        "condition": "asthma",
+        "primaryDescription": "This disability is related to my military service."
+      }
+    ],
+    "standardClaim": false
+  }
+}
