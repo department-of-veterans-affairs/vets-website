@@ -44,6 +44,9 @@ jobs:
     if: ${{ github.event.client_payload.github_ref == 'refs/heads/main' }}
     needs: [notify-pending-deployment]
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     environment: production-cd
     outputs:
       started: ${{ steps.start_check.outputs.started }}
@@ -73,33 +76,13 @@ jobs:
         env:
           BUILDTYPE: vagovprod
 
-      - name: Configure AWS credentials (1)
+      - name: Configure AWS credentials
         if: steps.check-deployability.outputs.is_deployable == 'true'
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
-          
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
-      - name: Get AWS IAM role
-        if: steps.check-deployability.outputs.is_deployable == 'true'
-        uses: ./.github/workflows/inject-secrets
-        with:
-          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_PROD_ROLE
-          env_variable_name: AWS_FRONTEND_PROD_ROLE
-
-      - name: Configure AWS Credentials (2)
-        if: steps.check-deployability.outputs.is_deployable == 'true'
-        uses: ./.github/workflows/configure-aws-credentials
-        with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: us-gov-west-1
-          role: ${{ env.AWS_FRONTEND_NONPROD_ROLE != '' && env.AWS_FRONTEND_NONPROD_ROLE || env.AWS_FRONTEND_PROD_ROLE }}
-          role_duration: 900
-          session_name: vsp-frontendteam-githubaction
-        
       - name: Deploy
         if: steps.check-deployability.outputs.is_deployable == 'true'
         run: ./script/github-actions/partial-deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
