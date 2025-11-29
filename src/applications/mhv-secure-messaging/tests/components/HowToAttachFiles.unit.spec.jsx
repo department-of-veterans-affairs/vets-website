@@ -13,7 +13,7 @@ describe('HowToAttachFiles component', () => {
       .exist;
     expect(
       screen.getByText(
-        /You can attach only these file types: doc, docx, gif, jpg, pdf, png, rtf, txt, xls, xlxs, jpeg, jfif, pjpeg, pjp, bmp, tiff, ppt, pptx, pps, ppsx, odt, mp4, m4v, mov, wmv, mpg/,
+        /You can attach only these file types: doc, docx, gif, jpg, pdf, png, rtf, txt, xls, xlsx, jpeg, jfif, pjpeg, pjp, bmp, tiff, ppt, pptx, pps, ppsx, odt, mp4, m4v, mov, wmv, mpg/,
       ),
     ).to.exist;
     expect(screen.getByText('The maximum size for each file is 25 MB')).to

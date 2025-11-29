@@ -137,6 +137,21 @@ describe('Compose form component', () => {
     );
   };
 
+  // Helper function to simulate VaFileInputMultiple file attachment
+  const attachFile = async (fileInput, file) => {
+    await waitFor(() => {
+      fireEvent(
+        fileInput,
+        new CustomEvent('vaMultipleChange', {
+          detail: {
+            action: 'FILE_ADDED',
+            file,
+          },
+        }),
+      );
+    });
+  };
+
   it('renders without errors', async () => {
     const screen = setup(initialState, Paths.COMPOSE);
     expect(screen);
@@ -323,10 +338,9 @@ describe('Compose form component', () => {
   });
 
   it('renders sending message spinner without errors with largeAttachmentsEnabled feature flag ', async () => {
-    const useFeatureTogglesStub = stubUseFeatureToggles({
+    stubUseFeatureToggles({
       largeAttachmentsEnabled: true,
     });
-    useFeatureTogglesStub;
 
     const customDraftMessage = {
       ...draftMessage,
@@ -483,12 +497,7 @@ describe('Compose form component', () => {
     const file = new File(['(⌐□_□)'], 'test.png', { type: 'image/png' });
     const uploader = screen.getByTestId('attach-file-input');
 
-    await waitFor(() =>
-      fireEvent.change(uploader, {
-        target: { files: [file] },
-      }),
-    );
-    expect(uploader.files[0].name).to.equal('test.png');
+    await attachFile(uploader, file);
     let modal = null;
 
     fireEvent.click(screen.getByTestId('save-draft-button'));
@@ -1223,11 +1232,7 @@ describe('Compose form component', () => {
 
     const uploader = screen.getByTestId('attach-file-input');
 
-    await waitFor(() =>
-      fireEvent.change(uploader, {
-        target: { files: [file] },
-      }),
-    );
+    await attachFile(uploader, file);
 
     const error = screen.getByTestId('file-input-error-message');
     expect(error).to.exist;
@@ -1237,18 +1242,14 @@ describe('Compose form component', () => {
   });
 
   it('should display an error message when a file is not an accepted file type', async () => {
-    const file = new File(['(⌐□_□)'], 'test.zip', {
-      type: 'application/zip',
+    const file = new File(['hello'], 'test.exe', {
+      type: 'application/x-msdownload',
     });
     const screen = setup(initialState, Paths.COMPOSE);
 
     const uploader = screen.getByTestId('attach-file-input');
 
-    await waitFor(() =>
-      fireEvent.change(uploader, {
-        target: { files: [file] },
-      }),
-    );
+    await attachFile(uploader, file);
 
     const error = screen.getByTestId('file-input-error-message');
     expect(error).to.exist;
@@ -1299,18 +1300,10 @@ describe('Compose form component', () => {
       },
     );
     const uploader = screen.getByTestId('attach-file-input');
-    // Attach the file once
-    await waitFor(() =>
-      fireEvent.change(uploader, {
-        target: { files: [file] },
-      }),
-    );
-    // Try to attach the same file again (should trigger duplicate error)
-    await waitFor(() =>
-      fireEvent.change(uploader, {
-        target: { files: [file] },
-      }),
-    );
+
+    await attachFile(uploader, file);
+    await attachFile(uploader, file);
+
     const error = screen.getByTestId('file-input-error-message');
     expect(error.textContent).to.equal('You have already attached this file.');
   });
@@ -1366,21 +1359,9 @@ describe('Compose form component', () => {
 
     const uploader = screen.getByTestId('attach-file-input');
 
-    // Attach the first file
-    await waitFor(() =>
-      fireEvent.change(uploader, {
-        target: { files: [file1] },
-      }),
-    );
-    // Attach the second file with same name but different size
-    await waitFor(() =>
-      fireEvent.change(uploader, {
-        target: { files: [file2] },
-      }),
-    );
+    await attachFile(uploader, file1);
+    await attachFile(uploader, file2);
 
-    expect(uploader.files[0].name).to.equal('test.png');
-    expect(uploader.files.length).to.equal(1);
     const error = screen.getByTestId('file-input-error-message');
     expect(error.textContent).to.equal('You have already attached this file.');
   });
@@ -1395,15 +1376,11 @@ describe('Compose form component', () => {
       lastModified: new Date().getTime(),
     });
 
-    expect(largeFile.size).to.equal(largeFileSizeInBytes);
-
     const screen = setup(initialState, Paths.COMPOSE);
     const uploader = screen.getByTestId('attach-file-input');
-    await waitFor(() =>
-      fireEvent.change(uploader, {
-        target: { files: [largeFile] },
-      }),
-    );
+
+    await attachFile(uploader, largeFile);
+
     const error = screen.getByTestId('file-input-error-message');
     expect(error.textContent).to.equal(
       ErrorMessages.ComposeForm.ATTACHMENTS.FILE_TOO_LARGE,
@@ -1458,29 +1435,12 @@ describe('Compose form component', () => {
     });
     const uploader = screen.getByTestId('attach-file-input');
 
-    // Upload first 4MB file
-    await waitFor(() =>
-      fireEvent.change(uploader, {
-        target: { files: [file1] },
-      }),
-    );
+    await attachFile(uploader, file1);
+    await attachFile(uploader, file2);
+    await attachFile(uploader, file3);
 
-    // Upload second 4MB file
-    await waitFor(() =>
-      fireEvent.change(uploader, {
-        target: { files: [file2] },
-      }),
-    );
-
-    // Upload third 3MB file - this should trigger the error (total: 11MB > 10MB)
-    await waitFor(() =>
-      fireEvent.change(uploader, {
-        target: { files: [file3] },
-      }),
-    );
-    // Check that error message appears
+    const errorMessage = screen.getByTestId('file-input-error-message');
     await waitFor(() => {
-      const errorMessage = screen.getByTestId('file-input-error-message');
       expect(errorMessage.textContent).to.equal(
         ErrorMessages.ComposeForm.ATTACHMENTS.TOTAL_MAX_FILE_SIZE_EXCEEDED,
       );
@@ -1565,43 +1525,15 @@ describe('Compose form component', () => {
     });
     const uploader = screen.getByTestId('attach-file-input');
 
-    // Upload first 5 files (25MB total)
-    await waitFor(() =>
-      fireEvent.change(uploader, {
-        target: { files: [file1] },
-      }),
-    );
-    await waitFor(() =>
-      fireEvent.change(uploader, {
-        target: { files: [file2] },
-      }),
-    );
-    await waitFor(() =>
-      fireEvent.change(uploader, {
-        target: { files: [file3] },
-      }),
-    );
-    await waitFor(() =>
-      fireEvent.change(uploader, {
-        target: { files: [file4] },
-      }),
-    );
-    await waitFor(() =>
-      fireEvent.change(uploader, {
-        target: { files: [file5] },
-      }),
-    );
+    await attachFile(uploader, file1);
+    await attachFile(uploader, file2);
+    await attachFile(uploader, file3);
+    await attachFile(uploader, file4);
+    await attachFile(uploader, file5);
+    await attachFile(uploader, file6);
 
-    // Upload sixth file - this should trigger the error (total: 27MB > 25MB)
-    await waitFor(() =>
-      fireEvent.change(uploader, {
-        target: { files: [file6] },
-      }),
-    );
-
-    // Check that error message appears
+    const errorMessage = screen.getByTestId('file-input-error-message');
     await waitFor(() => {
-      const errorMessage = screen.getByTestId('file-input-error-message');
       expect(errorMessage.textContent).to.equal(
         ErrorMessages.ComposeForm.ATTACHMENTS
           .TOTAL_MAX_FILE_SIZE_EXCEEDED_LARGE,
@@ -1657,11 +1589,8 @@ describe('Compose form component', () => {
       screen.getByTestId('compose-recipient-title').textContent,
     ).to.contain('test care system - test care team');
 
-    expect(
-      screen.getByText('Attachments', {
-        selector: 'h2',
-      }),
-    ).to.exist;
+    const fileInput = screen.getByTestId('attach-file-input');
+    expect(fileInput).to.have.attribute('label', 'Attachments');
   });
 
   it('sets isAutoSave to false when sending message', async () => {

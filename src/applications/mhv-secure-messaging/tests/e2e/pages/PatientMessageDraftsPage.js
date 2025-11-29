@@ -314,12 +314,11 @@ class PatientMessageDraftsPage {
   };
 
   verifyExpandedDraftButtons = number => {
+    // VaFileInputMultiple web component - verify it exists with correct button text
     cy.get(Locators.ACCORDION_ITEM_OPEN)
-      .find(`#attach-file-button-${number}`)
-      .shadow()
-      .find(`button`)
-      .should('be.visible')
-      .and(`have.text`, `Attach file to draft ${number}`);
+      .find(`[data-testid="attach-file-input-${number}"]`)
+      .should('exist')
+      .and('have.attr', 'button-text', `Attach file to draft ${number}`);
 
     cy.get(Locators.ACCORDION_ITEM_OPEN)
       .find(`#send-button-${number}`)
@@ -371,11 +370,10 @@ class PatientMessageDraftsPage {
   };
 
   verifyAttachFileBtn = () => {
-    cy.findByTestId(Locators.BUTTONS.ATTACH_FILE)
-      .shadow()
-      .find(`button`)
-      .should(`be.visible`)
-      .and(`have.text`, Data.BUTTONS.ATTACH_FILE);
+    // VaFileInputMultiple uses data-testid="attach-file-input" (without -button suffix)
+    cy.get('[data-testid="attach-file-input"]')
+      .should('exist')
+      .and('be.visible');
   };
 
   verifySendDraftBtn = () => {

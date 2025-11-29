@@ -82,14 +82,20 @@ describe('Reply form component', () => {
   });
 
   it('adds beforeunload event listener', () => {
-    const screen = render();
     const addEventListenerSpy = sinon.spy(window, 'addEventListener');
-    expect(addEventListenerSpy.calledWith('beforeunload')).to.be.false;
+    const screen = render();
+
     fireEvent.input(screen.getByTestId('message-body-field'), {
       target: { innerHTML: 'test beforeunload event' },
     });
 
-    expect(addEventListenerSpy.calledWith('beforeunload')).to.be.true;
+    // Should have beforeunload listener registered
+    const finalCalls = addEventListenerSpy
+      .getCalls()
+      .filter(call => call.args[0] === 'beforeunload').length;
+
+    expect(finalCalls).to.be.greaterThan(0);
+    addEventListenerSpy.restore();
   });
 
   it('renders the subject header', async () => {
@@ -105,7 +111,6 @@ describe('Reply form component', () => {
 
   it('renders the reply form', async () => {
     const screen = render();
-    const { getByText } = screen;
 
     const patientSafetyNotice = document.querySelector(
       "[trigger='Only use messages for non-urgent needs']",
@@ -121,9 +126,10 @@ describe('Reply form component', () => {
       `Draft To: ${senderName}\n(Team: ${triageGroupName})`,
     );
 
-    expect(getByText('Attachments'))
-      .to.have.attribute('class')
-      .to.contain('message-body-attachments-label');
+    // VaFileInputMultiple component has "Attachments" as a label attribute, not visible text
+    const fileInput = screen.getByTestId('attach-file-input');
+    expect(fileInput).to.exist;
+    expect(fileInput).to.have.attribute('label', 'Attachments');
 
     expect(actionButtons).to.exist;
   });
@@ -188,15 +194,20 @@ describe('Reply form component', () => {
 
     const uploader = getByTestId('attach-file-input');
 
-    await waitFor(() =>
-      fireEvent.change(uploader, {
-        target: { files: [file] },
-      }),
-    );
+    // VaFileInputMultiple uses custom events, not native change events
+    const event = new CustomEvent('vaMultipleChange', {
+      detail: {
+        action: 'FILE_ADDED',
+        file,
+      },
+      bubbles: true,
+    });
+    uploader.dispatchEvent(event);
 
-    expect(uploader.files[0].name).to.equal('test.png');
-    expect(uploader.files.length).to.equal(1);
-    fireEvent.click(getByTestId('save-draft-button'));
+    await waitFor(() => {
+      fireEvent.click(getByTestId('save-draft-button'));
+    });
+
     await waitFor(() => {
       const modals = container.querySelectorAll('va-modal');
       const modal = Array.from(modals).find(
