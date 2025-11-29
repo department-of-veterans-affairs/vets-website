@@ -17,7 +17,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      fullName: fullNameNoSuffixSchema,
+      fullName: fullNameNoSuffixSchema({ maxLength: 256 }),
       dateOfBirth: dateOfBirthSchema,
     },
     required: ['fullName', 'dateOfBirth'],

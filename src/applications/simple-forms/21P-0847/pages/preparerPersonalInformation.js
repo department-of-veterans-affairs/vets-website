@@ -16,7 +16,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      preparerName: fullNameNoSuffixSchema,
+      preparerName: fullNameNoSuffixSchema(),
     },
   },
 };

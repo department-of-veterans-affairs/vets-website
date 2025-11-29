@@ -24,7 +24,7 @@ export const information = {
     type: 'object',
     required: ['fullName', 'birthDate'],
     properties: {
-      fullName: fullNameNoSuffixSchema,
+      fullName: fullNameNoSuffixSchema(),
       birthDate: currentOrPastDateSchema,
     },
   },

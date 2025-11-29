@@ -62,7 +62,7 @@ const previousNamePage = {
   schema: {
     type: 'object',
     properties: {
-      previousName: fullNameNoSuffixSchema,
+      previousName: fullNameNoSuffixSchema(),
     },
   },
 };

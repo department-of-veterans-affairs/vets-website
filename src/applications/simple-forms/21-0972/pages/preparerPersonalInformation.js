@@ -13,7 +13,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      preparerFullName: fullNameNoSuffixSchema,
+      preparerFullName: fullNameNoSuffixSchema(),
     },
   },
 };
