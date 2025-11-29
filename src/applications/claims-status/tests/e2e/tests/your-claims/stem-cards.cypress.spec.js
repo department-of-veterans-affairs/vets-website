@@ -1,6 +1,10 @@
 import userWithAppeals from '../../fixtures/mocks/user-with-appeals.json';
+import {
+  mockBaseEndpoints,
+  setShowDocumentUploadStatus,
+} from '../../support/helpers';
 
-describe('Your STEM claims cards', () => {
+describe('STEM claim cards', () => {
   const setupStemCardsTest = (stemClaims = []) => {
     cy.intercept('GET', '/v0/education_benefits_claims/stem_claim_status', {
       data: stemClaims,
@@ -55,22 +59,18 @@ describe('Your STEM claims cards', () => {
   };
 
   beforeEach(() => {
-    cy.intercept('GET', '/v0/feature_toggles*', {
-      data: {
-        features: [
-          { name: 'stem_automated_decision', value: true },
-          { name: 'cst_show_document_upload_status', value: true },
-        ],
-      },
+    mockBaseEndpoints({
+      features: [setShowDocumentUploadStatus(true)],
     });
-    cy.login(userWithAppeals);
-    cy.intercept('GET', '/data/cms/vamc-ehr.json', {});
+
     cy.intercept('GET', '/v0/benefits_claims', {
       data: [],
     });
     cy.intercept('GET', '/v0/appeals', {
       data: [],
     });
+
+    cy.login(userWithAppeals);
   });
 
   it('should display denied STEM claim', () => {
@@ -102,7 +102,7 @@ describe('Your STEM claims cards', () => {
     cy.axeCheck();
   });
 
-  context('Upload errors', () => {
+  context('when there are upload errors', () => {
     it('should display upload error alert for failed submissions within last 30 days', () => {
       setupStemCardsTest([
         createStemClaim({

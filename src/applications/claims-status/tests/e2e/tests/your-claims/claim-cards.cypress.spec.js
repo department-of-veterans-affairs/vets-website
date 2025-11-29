@@ -1,4 +1,6 @@
-describe('Your claims cards', () => {
+import { mockBaseEndpoints } from '../../support/helpers';
+
+describe('Claim cards', () => {
   const setupClaimCardsTest = (claims = []) => {
     cy.intercept('GET', '/v0/benefits_claims', { data: claims });
     cy.visit('/track-claims');
@@ -45,19 +47,16 @@ describe('Your claims cards', () => {
   };
 
   beforeEach(() => {
-    cy.intercept('GET', '/v0/feature_toggles*', {
-      data: {
-        features: [],
-      },
-    });
-    cy.login();
-    cy.intercept('GET', '/data/cms/vamc-ehr.json', {});
+    mockBaseEndpoints();
+
     cy.intercept('GET', '/v0/appeals', {
       data: [],
     });
     cy.intercept('GET', '/v0/education_benefits_claims/stem_claim_status', {
       data: {},
     });
+
+    cy.login();
   });
 
   it('should display completed compensation claim', () => {
@@ -96,7 +95,7 @@ describe('Your claims cards', () => {
     cy.axeCheck();
   });
 
-  context('Claim type titles', () => {
+  describe('Claim type titles', () => {
     const claimTypes = [
       {
         displayTitle: 'Claim for expenses related to death or burial',
@@ -141,7 +140,7 @@ describe('Your claims cards', () => {
     });
   });
 
-  context('Communication notifications', () => {
+  describe('Communication notifications', () => {
     it('should display development letter notification', () => {
       setupClaimCardsTest([
         createClaim({
@@ -173,8 +172,8 @@ describe('Your claims cards', () => {
     });
   });
 
-  context('Phase display', () => {
-    context('5-phase system (default)', () => {
+  describe('Phase display', () => {
+    context('when using 5-phase system', () => {
       const phases = [
         {
           status: 'CLAIM_RECEIVED',
@@ -209,15 +208,7 @@ describe('Your claims cards', () => {
       });
     });
 
-    context('8-phase system (feature flag enabled)', () => {
-      beforeEach(() => {
-        cy.intercept('GET', '/v0/feature_toggles*', {
-          data: {
-            features: [{ name: 'cst_claim_phases', value: true }],
-          },
-        });
-      });
-
+    context('when using 8-phase system', () => {
       const phases = [
         {
           phaseType: 'CLAIM_RECEIVED',
@@ -273,7 +264,7 @@ describe('Your claims cards', () => {
     });
   });
 
-  context('Document alerts', () => {
+  describe('Document alerts', () => {
     it('should display documents needed alert', () => {
       setupClaimCardsTest([
         createClaim({

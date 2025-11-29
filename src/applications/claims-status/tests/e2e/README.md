@@ -83,18 +83,95 @@ Source: [Cypress Best Practices](https://docs.cypress.io/app/core-concepts/best-
       ```
 10. Accessibility Testing ([source](https://docs.cypress.io/app/guides/accessibility-testing))
 
-## Highlighted Platform Best Practices
+## Highlighted Platform Practices
 Source: [Platform Best Practices - Unit and e2e Tests](https://depo-platform-documentation.scrollhelp.site/developer-docs/platform-best-practices-unit-and-e2e-tests#PlatformBestPractices-Unitande2eTests-Cypresse2eTesting)
 
 - `cy.injectAxe()` and `cy.axeCheck()` is required in every test
 
-## Other Team Best Practices
+## Team Conventions
 - Organize tests into sub-folders (`details`, `shared`, `your-claims`, etc) rather than having them all at root
 - Use focused helper functions instead of page objects and organize them into sub-folders by purpose (`api-mocks`, `setup`, `interactions`, `assertions`)
 - **Prefer `cy.findByRole()`** for interactive and structural elements (buttons, links, headings, navigation, etc.) - checks semantics, visibility, and accessibility
 - **Use `cy.findByText()`** for static text content (paragraphs, labels, non-interactive text) - this is correct! Not everything needs a role
 - **Tip**: Check element roles via Developer Tools > Elements Tab > Accessibility Tab
 - **Remember**: If important UI elements lack roles, consider improving semantics (e.g., use `<h2>` instead of styled `<p>` for headings)
+
+### Test Organization: `describe()` vs `context()`
+
+While technically identical (both are aliases from Mocha), we use them for different semantic purposes:
+
+- **`describe()`**: Groups tests by feature or functionality
+  ```javascript
+  describe('Claim type titles', () => {
+    it('should display burial claim title', () => {})
+  })
+  ```
+
+- **`context()`**: Groups tests by preconditions or states, using "when..." or "given..." wording
+  ```javascript
+  context('when claim is open', () => {
+    it('should display In Progress badge', () => {})
+  })
+  ```
+
+This convention improves test readability and clearly communicates the test's purpose and conditions.
+
+### Feature Flag Testing
+
+Group feature flag tests in a dedicated `describe` block with a `mockFeatures` helper function:
+
+```javascript
+describe('Feature flag: cstShowDocumentUploadStatus', () => {
+  const mockFeatures = enabled => [
+    { name: 'cst_show_document_upload_status', value: enabled },
+  ];
+
+  context('when enabled', () => {
+    beforeEach(() => {
+      mockBaseEndpoints({ features: mockFeatures(true) });
+    });
+
+    it('should show the new behavior', () => {
+      // Test enabled behavior
+    });
+  });
+
+  context('when disabled', () => {
+    beforeEach(() => {
+      mockBaseEndpoints({ features: mockFeatures(false) });
+    });
+
+    it('should show the old behavior', () => {
+      // Test disabled behavior
+    });
+  });
+});
+```
+
+### Test Fixtures
+
+Fixtures in `support/fixtures.js` create mock data for tests. They follow these practices:
+
+**Only expose parameters when tests need them:**
+```javascript
+// Good: No parameters needed yet - just hardcoded defaults
+export const createTrackedItem = () => ({
+  id: 1,
+  status: 'NEEDED_FROM_YOU',
+  friendlyName: 'Medical records',
+  // ...
+});
+
+// Good: Only expose what tests actually vary
+export const createFailedSubmission = ({
+  failedDate = '2025-01-15T12:00:00.000Z',
+} = {}) => ({
+  id: 12345,           // Hardcoded - tests don't care
+  uploadStatus: 'FAILED', // Hardcoded - always the same
+  failedDate,          // Exposed - tests have changed this
+  // ...
+});
+```
 
 ## E2E Code Coverage
 Note: Code coverage requires this PR to be merged - https://github.com/department-of-veterans-affairs/vets-website/pull/39252

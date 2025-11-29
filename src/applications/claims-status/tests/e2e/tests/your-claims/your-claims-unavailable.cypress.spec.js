@@ -1,15 +1,12 @@
 import appeals from '../../fixtures/mocks/appeals.json';
 import claimsList from '../../fixtures/mocks/claims-list.json';
 import userWithAppeals from '../../fixtures/mocks/user-with-appeals.json';
+import { mockBaseEndpoints } from '../../support/helpers';
 
 describe('Your claims unavailable,', () => {
   beforeEach(() => {
-    cy.intercept('GET', '/v0/feature_toggles*', {
-      data: {
-        features: [],
-      },
-    });
-    cy.intercept('GET', '/data/cms/vamc-ehr.json', {});
+    mockBaseEndpoints();
+
     cy.intercept('GET', '/v0/education_benefits_claims/stem_claim_status', {
       data: {},
     });
@@ -30,6 +27,7 @@ describe('Your claims unavailable,', () => {
 
     cy.findByRole('heading', {
       name: 'Claim and Appeal status is unavailable',
+      level: 3,
     });
     cy.findByText(
       'VA.gov is having trouble loading claims and appeals information at this time. Check back again in an hour.',
@@ -49,6 +47,7 @@ describe('Your claims unavailable,', () => {
 
     cy.findByRole('heading', {
       name: 'Claim status is unavailable',
+      level: 3,
     });
     cy.findByText(
       'VA.gov is having trouble loading claims information at this time. Check back again in an hour. Note: You are still able to review appeals information.',
@@ -68,6 +67,7 @@ describe('Your claims unavailable,', () => {
 
     cy.findByRole('heading', {
       name: 'Appeal status is unavailable',
+      level: 3,
     });
     cy.findByText(
       'VA.gov is having trouble loading appeals information at this time. Check back again in an hour. Note: You are still able to review claims information.',

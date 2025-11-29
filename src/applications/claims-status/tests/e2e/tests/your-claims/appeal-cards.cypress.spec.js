@@ -1,6 +1,7 @@
 import userWithAppeals from '../../fixtures/mocks/user-with-appeals.json';
+import { mockBaseEndpoints } from '../../support/helpers';
 
-describe('Your appeals cards', () => {
+describe('Appeal cards', () => {
   const setupAppealCardsTest = (appeals = []) => {
     cy.intercept('GET', '/v0/appeals', { data: appeals });
     cy.visit('/track-claims');
@@ -46,22 +47,19 @@ describe('Your appeals cards', () => {
   };
 
   beforeEach(() => {
-    cy.intercept('GET', '/v0/feature_toggles*', {
-      data: {
-        features: [],
-      },
-    });
-    cy.login(userWithAppeals);
-    cy.intercept('GET', '/data/cms/vamc-ehr.json', {});
+    mockBaseEndpoints();
+
     cy.intercept('GET', '/v0/benefits_claims', {
       data: [],
     });
     cy.intercept('GET', '/v0/education_benefits_claims/stem_claim_status', {
       data: {},
     });
+
+    cy.login(userWithAppeals);
   });
 
-  context('Appeal types', () => {
+  describe('Appeal types', () => {
     it('should display legacy appeal', () => {
       setupAppealCardsTest([
         createAppeal({
@@ -157,7 +155,7 @@ describe('Your appeals cards', () => {
     });
   });
 
-  context('Program areas', () => {
+  describe('Program areas', () => {
     const programAreas = [
       {
         programArea: 'compensation',
@@ -242,7 +240,7 @@ describe('Your appeals cards', () => {
     });
   });
 
-  context('Issues display', () => {
+  describe('Issues display', () => {
     it('should display "Issue" for single issue on appeal', () => {
       setupAppealCardsTest([
         createAppeal({
@@ -304,7 +302,7 @@ describe('Your appeals cards', () => {
     });
   });
 
-  context('Without description', () => {
+  context('when appeal has no description', () => {
     it('should not display issues section when description is missing', () => {
       setupAppealCardsTest([
         createAppeal({
