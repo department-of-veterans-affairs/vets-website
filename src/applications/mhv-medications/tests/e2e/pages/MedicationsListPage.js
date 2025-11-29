@@ -404,7 +404,10 @@ class MedicationsListPage {
   verifyInformationBasedOnStatusExpired = () => {
     cy.get('[data-testid="expired"]')
       .should('be.visible')
-      .and('contain', 'This prescription is too old to refill. ');
+      .and(
+        'contain',
+        "You can't refill this prescription. Contact your VA provider if you need more of this medication.",
+      );
   };
 
   verifyInformationBasedOnStatusTransferred = () => {

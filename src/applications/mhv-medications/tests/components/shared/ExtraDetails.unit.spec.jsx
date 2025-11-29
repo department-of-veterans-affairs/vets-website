@@ -69,7 +69,7 @@ describe('Medications List Card Extra Details', () => {
       dispStatus: dispStatusObj.discontinued,
     });
     expect(await screen.findByTestId('discontinued')).to.contain.text(
-      'You can’t refill this prescription. If you need more, send a message to your care team.',
+      'You can’t refill this prescription. Contact your VA provider if you need more of this medication.',
     );
   });
 
@@ -121,7 +121,7 @@ describe('Medications List Card Extra Details', () => {
       refillRemaining: 0,
     });
     expect(await screen.findByTestId('expired')).to.contain.text(
-      'This prescription is too old to refill. If you need more, request a renewal.',
+      'You can’t refill this prescription. Contact your VA provider if you need more of this medication.',
     );
   });
 });
