@@ -59,7 +59,7 @@ describe('transform', () => {
         } catch (e) {
           // Show the contents of the transformed data so we can make a file for it
           // eslint-disable-next-line no-console
-          console.error(
+          console.log(
             `Transformed ${fileName}:`,
             transform(formConfig, rawData),
           );

@@ -8,18 +8,6 @@
     "standardClaim": false,
     "view:fdcWarning": {},
     "isVaEmployee": true,
-    "homelessOrAtRisk": "homeless",
-    "view:isHomeless": {
-      "homelessHousingSituation": "other",
-      "otherHomelessHousing": "Under a bridge",
-      "needToLeaveHousing": true
-    },
-    "homelessnessContact": {
-      "name": "Name Here, and invalid chars with email elmer@fud.com",
-      "phoneNumber": "1231231234"
-    },
-    "view:hasMilitaryRetiredPay": false,
-    "hasTrainingPay": false,
     "view:bankAccount": {
       "bankAccountType": "Checking",
       "bankAccountNumber": "1233",
