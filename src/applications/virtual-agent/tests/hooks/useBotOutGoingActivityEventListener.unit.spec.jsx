@@ -50,7 +50,7 @@ describe('useBotOutgoingActivityEventListener', () => {
     global.window = originalWindow;
   });
 
-  it('should call addEventListener', () => {
+  it('should call addEventListener when enabled (default)', () => {
     const addEventListenerStub = sandbox.stub(window, 'addEventListener');
 
     renderHook(() => useBotOutgoingActivityEventListener(now));
@@ -61,6 +61,15 @@ describe('useBotOutgoingActivityEventListener', () => {
         sinon.match.func,
       ),
     ).to.be.true;
+  });
+
+  it('should NOT call addEventListener when enabled=false', () => {
+    const addEventListenerStub = sandbox.stub(window, 'addEventListener');
+
+    renderHook(() => useBotOutgoingActivityEventListener(now, false));
+
+    expect(addEventListenerStub.calledWith('bot-outgoing-activity')).to.be
+      .false;
   });
 
   it('should reload when last message was more than 30 minutes ago', async () => {
