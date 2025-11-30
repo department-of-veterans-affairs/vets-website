@@ -17,12 +17,7 @@ import Headline from '../ProfileSectionHeadline';
 import ContactInformationContent from './ContactInformationContent';
 
 import { PROFILE_PATHS } from '../../constants';
-
-// drops the leading `edit` from the hash and looks for that element
-const getScrollTarget = hash => {
-  const hashWithoutLeadingEdit = hash.replace(/^#edit-/, '#');
-  return document.querySelector(hashWithoutLeadingEdit);
-};
+import { getEditButtonFromHash, getScrollTarget } from '../../util/hashUtils';
 
 const ContactInformation = () => {
   const lastLocation = useLastLocation();
@@ -40,8 +35,9 @@ const ContactInformation = () => {
     state => state?.vapService?.modal === 'addressValidation',
   );
 
+  // Optional chaining prevents runtime errors in tests where addressValidation may be undefined
   const addressSavedDidError = useSelector(
-    state => state.vapService.addressValidation.addressValidationError,
+    state => state.vapService.addressValidation?.addressValidationError,
   );
 
   const dispatch = useDispatch();
@@ -65,50 +61,122 @@ const ContactInformation = () => {
 
   useEffect(
     () => {
-      // Set the focus on the page's focus target _unless_ one of the following
-      // is true:
+      // Set the focus on the page's focus target _unless_ one of the following is true:
       // - there is a hash in the URL and there is a named-anchor that matches
       //   the hash
       // - the user just came to this route via the root profile route. If a
       //   user got to the Profile via a link to /profile or /profile/ we want
       //   to focus on the "Profile" sub-nav H1, not the H2 on this page, for
-      //   a11y reasons
-      const pathRegExp = new RegExp(`${PROFILE_PATHS.PROFILE_ROOT}/?$`);
-      if (lastLocation?.pathname.match(new RegExp(pathRegExp))) {
-        return;
-      }
-      if (window.location.hash) {
-        // We will always attempt to focus on the element that matches the
-        // location.hash
-        const focusTarget = document.querySelector(window.location.hash);
-        // But if the hash starts with `edit` we will scroll a different
-        // element to the top of the viewport
-        const scrollTarget = getScrollTarget(window.location.hash);
-        if (scrollTarget) {
-          scrollTarget.scrollIntoView();
-        }
-        if (focusTarget) {
-          // If the focus target is the edit button, which is a va-button,
-          // we need to wait for the native button inside the web component
-          // to render before we can focus it
-          if (
-            focusTarget.tagName.toLowerCase().startsWith('va-button') &&
-            focusTarget.shadowRoot
-          ) {
-            waitForRenderThenFocus(
-              window.location.hash,
-              document,
-              50,
-              'button',
-            );
-          } else {
-            focusElement(focusTarget);
-          }
-          return;
-        }
+      //   a11y reasonse
+
+      const cameFromProfileRoot = Boolean(
+        lastLocation?.pathname?.match(
+          new RegExp(`${PROFILE_PATHS.PROFILE_ROOT}/?$`),
+        ),
+      );
+
+      const { hash } = window.location;
+
+      // Track all pending async operations for cleanup
+      let rafId1;
+      let rafId2;
+      let scrollTimeoutId;
+      let focusTimeoutId;
+      let retryTimeoutId;
+      let cancelled = false;
+
+      // cleanup function to cancel pending operations
+      const cleanup = () => {
+        cancelled = true;
+        if (rafId1) cancelAnimationFrame(rafId1);
+        if (rafId2) cancelAnimationFrame(rafId2);
+        if (scrollTimeoutId) clearTimeout(scrollTimeoutId);
+        if (focusTimeoutId) clearTimeout(focusTimeoutId);
+        if (retryTimeoutId) clearTimeout(retryTimeoutId);
+      };
+
+      // early return if for profile referrer
+      if (cameFromProfileRoot) return cleanup;
+
+      // early return if no hash > focus on default focus target
+      if (!hash) {
+        focusElement('[data-focus-target]');
+        return cleanup;
       }
 
-      focusElement('[data-focus-target]');
+      const selector = hash; // hash already includes leading '#'
+
+      // For edit hashes, prefer the associated edit button; else fall back to transformed target
+      const editButton = getEditButtonFromHash(hash);
+      const scrollTarget =
+        editButton || getScrollTarget(hash) || document.querySelector(selector);
+
+      const focusAndScroll = el => {
+        if (!el || cancelled) return;
+
+        // Wait for layout to stabilize with multiple frames
+        rafId1 = requestAnimationFrame(() => {
+          if (cancelled) return;
+          rafId2 = requestAnimationFrame(() => {
+            if (cancelled) return;
+            scrollTimeoutId = setTimeout(() => {
+              if (cancelled) return;
+              if (typeof el.scrollIntoView === 'function') {
+                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }
+              if (
+                el.tagName.toLowerCase().startsWith('va-button') &&
+                el.shadowRoot
+              ) {
+                waitForRenderThenFocus(selector, document, 50, 'button');
+              } else {
+                focusTimeoutId = setTimeout(() => {
+                  if (!cancelled) {
+                    if (!el.hasAttribute('tabindex')) {
+                      el.setAttribute('tabindex', '-1');
+                    }
+                    focusElement(el);
+                  }
+                }, 250);
+              }
+            }, 150);
+          });
+        });
+      };
+
+      // if hash already present, focus and scroll right away
+      // If original hash selector exists use it; otherwise if we have an editButton use that directly
+      const existing = document.querySelector(selector);
+      if (existing || editButton) {
+        focusAndScroll(scrollTarget || existing || editButton);
+        return cleanup;
+      }
+
+      // retry loop with timeout to wait for element to appear
+      let attempts = 0;
+      const maxAttempts = 10;
+      const intervalMs = 150;
+
+      const retry = () => {
+        if (cancelled) return;
+        // Re-query for either the hash target or (for edit hashes) the button
+        const el =
+          document.querySelector(selector) || getEditButtonFromHash(hash);
+        if (el) {
+          focusAndScroll(scrollTarget || el);
+          return;
+        }
+        attempts += 1;
+        if (attempts < maxAttempts) {
+          retryTimeoutId = setTimeout(retry, intervalMs);
+        } else {
+          // Fallback for unsupported or missing hash targets: focus default target
+          focusElement('[data-focus-target]');
+        }
+      };
+      retry();
+
+      return cleanup;
     },
     [lastLocation],
   );
