@@ -102,6 +102,8 @@ export default function FormNav(props) {
   // Returns NaN if the current chapter isn't found
   const currentChapterDisplay = getCurrentChapterDisplay(formConfig, current);
 
+  const { showSimpleHeader = false } = formConfig;
+
   // The goal with this is to quickly "remove" the header from the DOM, and
   // immediately re-render the component with the header included.
   // `current` changes when the form chapter changes, and when this happens
@@ -161,21 +163,36 @@ export default function FormNav(props) {
 
   const v3SegmentedProgressBar = formConfig?.v3SegmentedProgressBar;
   const stepLabels = formConfig?.stepLabels;
-  // show progress-bar and stepText only if hideFormNavProgress is falsy.
+  // show progress-bar and stepText only if hideFormNavProgress and showSimpleHeader are falsy.
   return (
     <div>
-      {!hideFormNavProgress && (
+      {!hideFormNavProgress &&
+        !showSimpleHeader && (
+          <>
+            <va-segmented-progress-bar
+              id="nav-form-header"
+              total={chaptersLengthDisplay}
+              current={currentChapterDisplay}
+              heading-text={chapterName ?? ''} // functionality only available for v3
+              name="v3SegmentedProgressBar"
+              labels={v3SegmentedProgressBar && stepLabels ? stepLabels : ''}
+              header-level={PROGRESS_BAR_HEADER_LEVEL}
+              {...(v3SegmentedProgressBar?.useDiv ? { 'use-div': 'true' } : {})}
+            />
+            <div className="schemaform-chapter-progress">
+              <div className="nav-header">
+                <div data-testid="navFormDiv" className="vads-u-font-size--h4">
+                  {inProgressMessage}
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+      {showSimpleHeader && (
         <>
-          <va-segmented-progress-bar
-            id="nav-form-header"
-            total={chaptersLengthDisplay}
-            current={currentChapterDisplay}
-            heading-text={chapterName ?? ''} // functionality only available for v3
-            name="v3SegmentedProgressBar"
-            labels={v3SegmentedProgressBar && stepLabels ? stepLabels : ''}
-            header-level={PROGRESS_BAR_HEADER_LEVEL}
-            {...(v3SegmentedProgressBar?.useDiv ? { 'use-div': 'true' } : {})}
-          />
+          <h2 id="nav-form-header" data-testid="simpleNavFormHeader">
+            {chapterName}
+          </h2>
           <div className="schemaform-chapter-progress">
             <div className="nav-header">
               <div data-testid="navFormDiv" className="vads-u-font-size--h4">
