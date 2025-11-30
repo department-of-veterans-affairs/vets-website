@@ -6,7 +6,6 @@ import { connect, useSelector } from 'react-redux';
 import { debounce } from 'lodash';
 // Relative imports.
 import { langSelectedAction } from 'applications/static-pages/i18Select/actions';
-import CrisisPanel from './CrisisPanel';
 import DesktopLinks from './DesktopLinks';
 import LanguageSupport from './LanguageSupport';
 import MobileLinks from './MobileLinks';
@@ -92,7 +91,6 @@ const Footer = ({
           </div>
         )}
       </div>
-      <CrisisPanel />
     </div>
   );
 };
