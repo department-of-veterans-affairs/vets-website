@@ -4,9 +4,9 @@ import {
   phoneUI,
   addressUI,
   addressSchema,
-} from '~/platform/forms-system/src/js/web-component-patterns';
+} from 'platform/forms-system/src/js/web-component-patterns';
 import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
-import content from '../locales/en/content.json';
+import content from '../../locales/en/content.json';
 
 const {
   spouseAddress: { properties: schemaOverride },
