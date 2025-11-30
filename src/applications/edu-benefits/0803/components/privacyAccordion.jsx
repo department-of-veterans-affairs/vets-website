@@ -3,7 +3,10 @@ import React from 'react';
 export default function PrivacyAccordion() {
   return (
     <va-accordion open-single>
-      <va-accordion-item header="View Privacy Act Statement" id="first">
+      <va-accordion-item
+        header="View Privacy Act Statement"
+        data-testid="privacy-act"
+      >
         <p>
           VA will not disclose information collected on this form to any source
           other than what has been authorized under the Privacy Act of 1974 or
@@ -25,7 +28,10 @@ export default function PrivacyAccordion() {
           computer matching programs with other agencies.
         </p>
       </va-accordion-item>
-      <va-accordion-item header="View Respondent Burden" id="second">
+      <va-accordion-item
+        header="View Respondent Burden"
+        data-testid="respondent-burden"
+      >
         <p>
           An agency may not conduct or sponsor, and a person is not required to
           respond to, a collection of information unless it displays a currently
