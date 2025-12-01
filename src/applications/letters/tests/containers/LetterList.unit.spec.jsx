@@ -4,11 +4,9 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import { render, waitFor } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom-v5-compat';
 import * as focusUtils from '~/platform/utilities/ui/focus';
-import * as apiModule from '~/platform/utilities/api';
-import * as recordEventModule from 'platform/monitoring/record-event';
 import { LetterList } from '../../containers/LetterList';
 import {
   AVAILABILITY_STATUSES,
@@ -33,6 +31,7 @@ const defaultProps = {
   lettersAvailability: AVAILABILITY_STATUSES.available,
   letterDownloadStatus: {},
   optionsAvailable: true,
+  tsaLetterEligibility: {},
   tsaSafeTravelLetter: false,
 };
 
@@ -65,16 +64,11 @@ const getStore = () =>
 describe('<LetterList>', () => {
   let sandbox;
   // eslint-disable-next-line no-unused-vars
-  let apiRequestStub;
-  // eslint-disable-next-line no-unused-vars
-  let recordEventStub;
+  let getTsaLetterEligibilityStub;
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
-    apiRequestStub = sandbox.stub(apiModule, 'apiRequest').resolves({
-      data: [{ attributes: { documentId: '' } }],
-    });
-    recordEventStub = sandbox.stub(recordEventModule, 'default');
+    getTsaLetterEligibilityStub = sandbox.stub();
   });
 
   afterEach(() => {
@@ -197,24 +191,6 @@ describe('<LetterList>', () => {
     );
   });
 
-  it('renders eligibility error when TSA letter is not available', async () => {
-    apiRequestStub.resetBehavior();
-    apiRequestStub.rejects(new Error('API Error'));
-    const tsaLetterEnabledProps = {
-      ...defaultProps,
-      tsaSafeTravelLetter: true,
-    };
-    const { findByText } = render(
-      <Provider store={getStore()}>
-        <MemoryRouter>
-          <LetterList {...tsaLetterEnabledProps} />
-        </MemoryRouter>
-      </Provider>,
-    );
-    const errorHeading = await findByText('Some letters may not be available');
-    expect(errorHeading).to.exist;
-  });
-
   it('renders VeteranBenefitSummaryOptions', () => {
     const { getByText } = render(
       <Provider store={getStore()}>
@@ -243,6 +219,7 @@ describe('<LetterList>', () => {
       lettersAvailability: AVAILABILITY_STATUSES.available,
       letterDownloadStatus: {},
       optionsAvailable: true,
+      tsaLetterEligibility: {},
     };
     const { getByText } = render(
       <Provider store={getStore()}>
@@ -269,6 +246,7 @@ describe('<LetterList>', () => {
       lettersAvailability: AVAILABILITY_STATUSES.available,
       letterDownloadStatus: {},
       optionsAvailable: true,
+      tsaLetterEligibility: {},
     };
     const { getByText } = render(
       <Provider store={getStore()}>
@@ -315,6 +293,7 @@ describe('<LetterList>', () => {
       lettersAvailability: AVAILABILITY_STATUSES.available,
       letterDownloadStatus: {},
       optionsAvailable: true,
+      tsaLetterEligibility: {},
     };
     const { getByText } = render(
       <Provider store={getStore()}>
@@ -365,12 +344,14 @@ describe('<LetterList>', () => {
           </MemoryRouter>
         </Provider>,
       );
-      expect(apiRequestStub.calledOnce).to.be.false;
+      expect(getTsaLetterEligibilityStub.calledOnce).to.be.false;
     });
 
     it('fetches TSA letter if feature flag is enabled', () => {
       const tsaLetterEnabledProps = {
         ...defaultProps,
+        getTsaLetterEligibility: getTsaLetterEligibilityStub,
+        tsaLetterEligibility: {},
         tsaSafeTravelLetter: true,
       };
       render(
@@ -380,120 +361,55 @@ describe('<LetterList>', () => {
           </MemoryRouter>
         </Provider>,
       );
-      expect(apiRequestStub.calledOnce).to.be.true;
+      expect(getTsaLetterEligibilityStub.calledOnce).to.be.true;
     });
 
-    it('retrieves latest TSA letter if there is more than 1 letter', async () => {
-      const mockResponse = {
-        data: [
-          // missing receivedAt defaults receivedAt to 0
-          {
-            attributes: {
-              documentId: '999',
-            },
-          },
-          {
-            attributes: {
-              documentId: '123',
-              receivedAt: '2022-01-01',
-            },
-          },
-          // missing receivedAt defaults receivedAt to 0
-          {
-            attributes: {
-              documentId: '111',
-            },
-          },
-          {
-            attributes: {
-              documentId: '456',
-              receivedAt: '2023-01-01',
-            },
-          },
-          {
-            attributes: {
-              documentId: '789',
-              receivedAt: '2024-01-01',
-            },
-          },
-        ],
-      };
-      apiRequestStub.resolves(mockResponse);
-      const componentRef = React.createRef();
+    it('renders eligibility error when TSA letter is not available', async () => {
       const tsaLetterEnabledProps = {
         ...defaultProps,
-        ref: componentRef,
+        getTsaLetterEligibility: getTsaLetterEligibilityStub,
+        tsaLetterEligibility: {
+          error: true,
+          loading: false,
+        },
         tsaSafeTravelLetter: true,
       };
-      render(
+      const { findByText } = render(
         <Provider store={getStore()}>
           <MemoryRouter>
             <LetterList {...tsaLetterEnabledProps} />
           </MemoryRouter>
         </Provider>,
       );
-      await waitFor(() => {
-        const instance = componentRef.current;
-        expect(instance.state.tsaLetter).to.exist;
-        expect(instance.state.tsaLetter.attributes.documentId).to.equal('789');
-        expect(instance.state.tsaLetter.attributes.receivedAt).to.equal(
-          '2024-01-01',
-        );
-      });
+      const errorHeading = await findByText(
+        'Some letters may not be available',
+      );
+      expect(errorHeading).to.exist;
     });
-  });
 
-  it('records user is eligible for TSA letter', async () => {
-    const tsaLetterEnabledProps = {
-      ...defaultProps,
-      tsaSafeTravelLetter: true,
-    };
-    render(
-      <Provider store={getStore()}>
-        <MemoryRouter>
-          <LetterList {...tsaLetterEnabledProps} />
-        </MemoryRouter>
-      </Provider>,
-    );
-
-    await waitFor(() => {
-      const actualEvent = recordEventStub.getCall(0)?.args[0];
-      const expectedEvent = {
-        event: 'api_call',
-        'api-name': 'GET /v0/tsa_letter',
-        'api-status': 'successful',
-        'has-letter': true,
+    it('renders loading indicator when determining TSA letter eligibility', async () => {
+      const tsaLetterEnabledProps = {
+        ...defaultProps,
+        getTsaLetterEligibility: getTsaLetterEligibilityStub,
+        tsaLetterEligibility: {
+          error: false,
+          loading: true,
+        },
+        tsaSafeTravelLetter: true,
       };
-      expect(actualEvent).to.deep.equal(expectedEvent);
-    });
-  });
-
-  it('records user is not eligible for TSA letter', async () => {
-    apiRequestStub.resetBehavior();
-    apiRequestStub.resolves({
-      data: [],
-    });
-    const tsaLetterEnabledProps = {
-      ...defaultProps,
-      tsaSafeTravelLetter: true,
-    };
-    render(
-      <Provider store={getStore()}>
-        <MemoryRouter>
-          <LetterList {...tsaLetterEnabledProps} />
-        </MemoryRouter>
-      </Provider>,
-    );
-
-    await waitFor(() => {
-      const actualEvent = recordEventStub.getCall(0)?.args[0];
-      const expectedEvent = {
-        event: 'api_call',
-        'api-name': 'GET /v0/tsa_letter',
-        'api-status': 'successful',
-        'has-letter': false,
-      };
-      expect(actualEvent).to.deep.equal(expectedEvent);
+      const { container } = render(
+        <Provider store={getStore()}>
+          <MemoryRouter>
+            <LetterList {...tsaLetterEnabledProps} />
+          </MemoryRouter>
+        </Provider>,
+      );
+      const selector = container.querySelector('va-loading-indicator');
+      expect(selector).to.exist;
+      expect(selector).to.contain.attr(
+        'message',
+        'Determining TSA PreCheck Application Fee Waiver Letter eligibility...',
+      );
     });
   });
 });

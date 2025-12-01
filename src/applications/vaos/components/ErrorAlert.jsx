@@ -4,8 +4,7 @@ import InfoAlert from './InfoAlert';
 import { selectAppointmentTravelClaim } from '../appointment-list/redux/selectors';
 
 const ErrorAlert = ({ appointment }) => {
-  const avsLink = appointment.avsPath;
-  const avsError = avsLink?.includes('Error');
+  const hasAvsError = Boolean(appointment.avsError);
   const claimData = selectAppointmentTravelClaim(appointment);
   if (!claimData) return null;
 
@@ -25,7 +24,7 @@ const ErrorAlert = ({ appointment }) => {
     </>
   );
 
-  if (!claimData.metadata.success && avsError) {
+  if (!claimData.metadata.success && hasAvsError) {
     return (
       <InfoAlert
         status="error"
@@ -37,7 +36,7 @@ const ErrorAlert = ({ appointment }) => {
         </p>
         <ul>
           <li>File a claim for travel reimbursement</li>
-          <li>Get your after-visit summary</li>
+          <li>Get your after-visit summaries</li>
         </ul>
         <p>Try refreshing this page. Or check back later.</p>
         {btsssMessage}
@@ -61,7 +60,7 @@ const ErrorAlert = ({ appointment }) => {
     );
   }
 
-  if (avsError) {
+  if (hasAvsError) {
     return (
       <InfoAlert
         status="error"
@@ -69,7 +68,7 @@ const ErrorAlert = ({ appointment }) => {
       >
         <p data-testid="avs-error-content">
           We’re sorry. There’s a problem with our system. We can’t access
-          after-visit summary for this appointment right now.
+          after-visit summaries for this appointment right now.
         </p>
         <p>Try refreshing this page. Or check back later.</p>
       </InfoAlert>

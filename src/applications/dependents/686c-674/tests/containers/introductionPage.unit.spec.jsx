@@ -58,13 +58,13 @@ describe('IntroductionPage', () => {
     if (verifyStub?.restore) verifyStub.restore();
   });
 
-  it('focuses title on mount (no session → shows intro)', async () => {
+  it('renders introduction page', async () => {
     const store = generateStore({
       hasVaFileNumber: { VALIDVAFILENUMBER: true },
       isLoading: false,
     });
 
-    const { getByTestId, container, queryByText } = render(
+    const { container, queryByText } = render(
       <Provider store={store}>
         <IntroductionPage
           route={mockRoute}
@@ -72,11 +72,6 @@ describe('IntroductionPage', () => {
         />
       </Provider>,
     );
-
-    const title = getByTestId('form-title');
-    await waitFor(() => {
-      expect(document.activeElement === title).to.be.true;
-    });
 
     expect(verifyStub.called).to.be.false;
 

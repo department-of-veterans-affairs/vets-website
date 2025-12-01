@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { waitForRenderThenFocus } from 'platform/utilities/ui/';
 import { scrollTo } from 'platform/utilities/scroll';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
@@ -27,7 +26,6 @@ const IntroductionPage = props => {
     if (hasSession()) {
       dispatch(verifyVaFileNumber());
     }
-    waitForRenderThenFocus('.schemaform-title > h1');
     scrollTo('topContentElement');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

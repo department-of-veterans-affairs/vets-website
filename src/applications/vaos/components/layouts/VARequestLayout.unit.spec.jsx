@@ -178,7 +178,7 @@ describe('VAOS Component: VARequestLayout', () => {
       expect(
         screen.queryByRole('heading', {
           level: 2,
-          name: /After visit summary/i,
+          name: /After-visit summary/i,
         }),
       ).to.be.null;
 

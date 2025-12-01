@@ -71,6 +71,7 @@ export const fetchDebts = async dispatch => {
       currentAr: debt.currentAr,
       originalAr: debt.originalAr,
       benefitType: debt.benefitType,
+      rcvblId: debt.rcvblId,
     }));
 
     return dispatch({

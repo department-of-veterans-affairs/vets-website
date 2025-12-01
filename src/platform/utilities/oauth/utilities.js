@@ -329,6 +329,7 @@ export const logoutEvent = async (signInServiceName, wait = {}) => {
   };
   recordEvent({ event: `${AUTH_EVENTS.OAUTH_LOGOUT}-${signInServiceName}` });
 
+  sessionStorage.removeItem('shouldRedirectExpiredSession');
   updateLoggedInStatus(false);
 
   if (shouldWait) {

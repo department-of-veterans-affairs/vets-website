@@ -21,7 +21,7 @@ describe('ErrorAlert', () => {
 
   it('should display both errors when claimData is unsuccessful and avsError is true', () => {
     const appointment = {
-      avsPath: 'some/path/Error',
+      avsError: 'some/path/Error',
     };
     selectAppointmentTravelClaimStub.returns({
       metadata: {
@@ -49,7 +49,7 @@ describe('ErrorAlert', () => {
 
   it('should display avs error when claimData is successful and avsError is true', () => {
     const appointment = {
-      avsPath: 'some/path/Error',
+      avsError: 'some/path/Error',
     };
     selectAppointmentTravelClaimStub.returns({
       metadata: {

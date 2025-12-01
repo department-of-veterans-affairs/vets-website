@@ -366,7 +366,7 @@ describe('VAOS Component: VideoLayout', () => {
       expect(
         screen.getByRole('heading', {
           level: 2,
-          name: /After visit summary/i,
+          name: /After-visit summary/i,
         }),
       );
 
@@ -473,7 +473,7 @@ describe('VAOS Component: VideoLayout', () => {
         expect(
           screen.queryByRole('heading', {
             level: 2,
-            name: /After visit summary/i,
+            name: /After-visit summary/i,
           }),
         ).not.to.exist;
 
@@ -580,7 +580,7 @@ describe('VAOS Component: VideoLayout', () => {
         expect(
           screen.queryByRole('heading', {
             level: 2,
-            name: /After visit summary/i,
+            name: /After-visit summary/i,
           }),
         ).not.to.exist;
 
@@ -714,7 +714,7 @@ describe('VAOS Component: VideoLayout', () => {
         expect(
           screen.queryByRole('heading', {
             level: 2,
-            name: /After visit summary/i,
+            name: /After-visit summary/i,
           }),
         ).not.to.exist;
 

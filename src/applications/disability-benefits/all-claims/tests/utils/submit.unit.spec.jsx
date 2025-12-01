@@ -24,6 +24,7 @@ import {
   normalizeIncreases,
   sanitizeNewDisabilities,
   removeRatedDisabilityFromNew,
+  removeExtraData,
 } from '../../utils/submit';
 import {
   PTSD_INCIDENT_ITERATION,
@@ -1485,5 +1486,59 @@ describe('removeRatedDisabilityFromNew', () => {
         cause: 'SECONDARY',
       },
     ]);
+  });
+});
+
+describe('removeExtraData', () => {
+  it('strips rating metadata keys but keeps ratedDisabilities when non-empty', () => {
+    const formData = {
+      ratedDisabilities: [
+        {
+          name: 'Tinnitus',
+          ratingDecisionId: 123,
+          decisionCode: 'ABC',
+          decisionText: 'Some text',
+          ratingPercentage: 10,
+          someOtherField: 'keep-me',
+        },
+      ],
+      otherField: 'unchanged',
+    };
+    const result = removeExtraData(formData);
+
+    expect(result.ratedDisabilities).to.have.lengthOf(1);
+
+    const cleaned = result.ratedDisabilities[0];
+
+    expect(cleaned.name).to.equal('Tinnitus');
+    expect(cleaned.someOtherField).to.equal('keep-me');
+    expect(cleaned).to.not.have.property('ratingDecisionId');
+    expect(cleaned).to.not.have.property('decisionCode');
+    expect(cleaned).to.not.have.property('decisionText');
+    expect(cleaned).to.not.have.property('ratingPercentage');
+    expect(formData.ratedDisabilities[0]).to.have.property(
+      'ratingPercentage',
+      10,
+    );
+  });
+
+  it('deletes ratedDisabilities when the array is empty', () => {
+    const formData = {
+      ratedDisabilities: [],
+      otherField: 'value',
+    };
+    const result = removeExtraData(formData);
+
+    expect(result).to.not.have.property('ratedDisabilities');
+    expect(result.otherField).to.equal('value');
+  });
+
+  it('does nothing when ratedDisabilities is undefined', () => {
+    const formData = {
+      someField: true,
+    };
+    const result = removeExtraData(formData);
+
+    expect(result).to.deep.equal(formData);
   });
 });
