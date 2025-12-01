@@ -18,6 +18,7 @@ const CopayAlertContainer = ({ type, copay }) => {
       full-width="false"
       status={copayAlertContent.status}
       visible="true"
+      data-testid={copayAlertContent.testId}
     >
       <h2 slot="headline">{copayAlertContent.headerText}</h2>
       {copayAlertContent.bodyText}

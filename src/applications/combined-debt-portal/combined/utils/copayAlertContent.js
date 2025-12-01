@@ -11,6 +11,7 @@ export const getCopayAlertContent = (copay, type) => {
         headerText: 'You’re not enrolled in VA health care',
         status: 'warning',
         showLinks: false,
+        testId: 'copay-no-health-care-alert',
         bodyText: (
           <div>
             <p>
@@ -44,6 +45,7 @@ export const getCopayAlertContent = (copay, type) => {
         )} balance or request help now`,
         status: 'warning',
         showLinks: true,
+        testId: 'copay-status-alert',
         bodyText: (
           <p>
             To avoid late fees or collection action on your bill, you must pay
@@ -60,6 +62,7 @@ export const getCopayAlertContent = (copay, type) => {
         headerText: `You haven’t received a copay bill in the past 6 months`,
         status: 'warning',
         showLinks: true,
+        testId: 'no-copay-history-alert',
         bodyText: (
           <>
             <p>
@@ -85,6 +88,7 @@ export const getCopayAlertContent = (copay, type) => {
         headerText: `Your balance may be overdue`,
         status: 'warning',
         showLinks: true,
+        testId: 'copay-past-due-alert',
         showCallResourceCenter: true,
         bodyText: (
           <p>
@@ -106,6 +110,7 @@ export const getCopayAlertContent = (copay, type) => {
         status: 'info',
         showLinks: true,
         showCallResourceCenter: true,
+        testId: 'copay-zero-balance-alert',
         bodyText: (
           <>
             <p>
@@ -134,6 +139,7 @@ export const getCopayAlertContent = (copay, type) => {
         headerText: `We can’t access your current copay balances right now`,
         status: 'error',
         showLinks: false,
+        testId: 'copay-error-alert',
         bodyText: (
           <div>
             <p>
@@ -161,6 +167,7 @@ export const getCopayAlertContent = (copay, type) => {
         headerText: `We’re reviewing your account`,
         status: 'info',
         showLinks: false,
+        testId: 'copay-default-alert',
         bodyText: (
           <p className="vads-u-margin-bottom--0">
             You don’t need to do anything at this time.
