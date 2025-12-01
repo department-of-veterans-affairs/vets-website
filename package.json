@@ -422,6 +422,7 @@
       "**/applications-accredited-representative-portal/react-router-dom",
       "**/applications-check-in/i18next-resources-to-backend",
       "**/applications-check-in/react-i18next",
+      "**/applications-dispute-debt/react-i18next",
       "**/applications-claims-status/@department-of-veterans-affairs/component-library",
       "**/applications-vaos/simple-guid",
       "**/applications-vaos/mocker-api",
