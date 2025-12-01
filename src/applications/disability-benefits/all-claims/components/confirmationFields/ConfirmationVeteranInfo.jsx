@@ -4,9 +4,9 @@ import { genderLabels } from 'platform/static-data/labels';
 import { formatDate } from '../../utils/dates/formatting';
 
 export const ConfirmationVeteranInfo = () => {
-  const profile = useSelector(state => state.user?.profile);
+  const profile = useSelector(state => state.user?.profile) || {};
   const { dob, gender } = profile;
-  const { first, middle, last, suffix } = profile.userFullName;
+  const { first, middle, last, suffix } = profile.userFullName || {};
 
   return (
     <li>
