@@ -84,7 +84,6 @@ export async function submit(
       errorResponse?.detail === 'Invalid Authenticity Token'
     ) {
       // Log the CSRF error before retrying
-      // eslint-disable-next-line no-console
       console.log('[CSRF Error] DD_LOGS check:', {
         exists: !!window.DD_LOGS,
         hasLogger: !!window.DD_LOGS?.logger,
@@ -108,7 +107,6 @@ export async function submit(
       localStorage.setItem('csrfToken', '');
       return sendRequest().catch(retryError => {
         // Log the failed retry
-        // eslint-disable-next-line no-console
         console.log('[CSRF Retry Failed] DD_LOGS check:', {
           exists: !!window.DD_LOGS,
           hasLogger: !!window.DD_LOGS?.logger,
