@@ -50,7 +50,6 @@ function AddressAutosuggest({
     }
     setSelectedItem(item);
 
-    // Report to parent for draft state update
     if (onLocationSelection) {
       onLocationSelection({
         searchString: onlySpaces(item.toDisplay)
@@ -105,7 +104,6 @@ function AddressAutosuggest({
   const onBlur = () => {
     const value = inputValue?.trimStart() || '';
 
-    // Report to parent for draft state update
     if (onLocationSelection) {
       onLocationSelection({ searchString: value });
     }

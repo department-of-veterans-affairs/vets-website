@@ -93,7 +93,6 @@ describe('SearchForm', () => {
     wrapper.unmount();
   });
 
-  // Draft state tests - Issue #20370
   describe('Draft state behavior', () => {
     const getDefaultProps = () => ({
       currentQuery: {
@@ -123,13 +122,11 @@ describe('SearchForm', () => {
 
       const wrapper = mount(<SearchForm {...props} />);
 
-      // Find FacilityType and simulate change
       const facilityType = wrapper.find('FacilityType');
       facilityType.prop('handleFacilityTypeChange')({
         target: { value: LocationType.HEALTH },
       });
 
-      // onChange should NOT be called
       expect(onChange.called).to.be.false;
 
       wrapper.unmount();
@@ -150,14 +147,12 @@ describe('SearchForm', () => {
 
       const wrapper = mount(<SearchForm {...props} />);
 
-      // Find ServiceType and simulate change
       const serviceType = wrapper.find('ServiceType');
       serviceType.prop('handleServiceTypeChange')({
         target: { value: 'ApplyingForBenefits' },
         selectedItem: null,
       });
 
-      // onChange should NOT be called
       expect(onChange.called).to.be.false;
 
       wrapper.unmount();
@@ -176,7 +171,6 @@ describe('SearchForm', () => {
 
       const wrapper = mount(<SearchForm {...props} />);
 
-      // Update facility type (should not call onChange)
       const facilityType = wrapper.find('FacilityType');
       facilityType.prop('handleFacilityTypeChange')({
         target: { value: LocationType.HEALTH },
@@ -185,7 +179,6 @@ describe('SearchForm', () => {
 
       expect(onChange.called).to.be.false;
 
-      // Update service type (should not call onChange)
       const serviceType = wrapper.find('ServiceType');
       serviceType.prop('handleServiceTypeChange')({
         target: { value: 'PrimaryCare' },
@@ -195,7 +188,6 @@ describe('SearchForm', () => {
 
       expect(onChange.called).to.be.false;
 
-      // Update location (should not call onChange)
       const addressAutosuggest = wrapper.find('AddressAutosuggest');
       addressAutosuggest.prop('onLocationSelection')({
         searchString: 'Austin TX',
@@ -204,7 +196,6 @@ describe('SearchForm', () => {
 
       expect(onChange.called).to.be.false;
 
-      // Submit form (should call onChange ONCE with all values)
       wrapper.find('form').simulate('submit', { preventDefault: () => {} });
 
       expect(onChange.calledOnce).to.be.true;
@@ -237,17 +228,14 @@ describe('SearchForm', () => {
 
       const wrapper = mount(<SearchForm {...props} />);
 
-      // Submit form first time
       wrapper.find('form').simulate('submit', { preventDefault: () => {} });
 
       expect(onChange.calledOnce).to.be.true;
       expect(onSubmit.calledOnce).to.be.true;
 
-      // Reset spies
       onChange.reset();
       onSubmit.reset();
 
-      // Submit same form again (should be blocked)
       wrapper.find('form').simulate('submit', { preventDefault: () => {} });
 
       expect(onChange.called).to.be.false;
@@ -265,20 +253,17 @@ describe('SearchForm', () => {
 
       const wrapper = mount(<SearchForm {...props} />);
 
-      // Change facility type
       const facilityType = wrapper.find('FacilityType');
       facilityType.prop('handleFacilityTypeChange')({
         target: { value: LocationType.CEMETERY },
       });
       wrapper.update();
 
-      // Verify FacilityType receives updated draft state
       const updatedFacilityType = wrapper.find('FacilityType');
       expect(updatedFacilityType.prop('currentQuery').facilityType).to.equal(
         LocationType.CEMETERY,
       );
 
-      // When switching facility types, service type should be reset
       expect(updatedFacilityType.prop('currentQuery').serviceType).to.be.null;
 
       wrapper.unmount();
@@ -297,11 +282,8 @@ describe('SearchForm', () => {
 
       const wrapper = mount(<SearchForm {...props} />);
 
-      // Try to submit without filling required fields
       wrapper.find('form').simulate('submit', { preventDefault: () => {} });
 
-      // onSubmit should not be called due to validation failure
-      // Note: onChange may be called for validation error state updates
       expect(onSubmit.called).to.be.false;
 
       wrapper.unmount();

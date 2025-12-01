@@ -9,7 +9,10 @@ import { clearSearchText } from '../../actions/search';
 import { clearGeocodeError, geolocateUser } from '../../actions/mapbox';
 import { getProviderSpecialties } from '../../actions/locations';
 import { LocationType } from '../../constants';
-import { validateForm } from '../../reducers/searchQuery';
+import {
+  validateForm,
+  createFormStateFromQuery,
+} from '../../reducers/searchQuery';
 import { setFocus } from '../../utils/helpers';
 import { SearchFormTypes } from '../../types';
 
@@ -40,20 +43,16 @@ export const SearchForm = props => {
   const locationInputFieldRef = useRef(null);
   const lastQueryRef = useRef(null);
 
-  // Local draft state for form inputs with validation flags
-  // Initialize with clean validation state - errors only show after user interaction or submit
-  const [draftFormState, setDraftFormState] = useState(() => ({
-    facilityType: currentQuery.facilityType || null,
-    serviceType: currentQuery.serviceType || null,
-    searchString: currentQuery.searchString || '',
-    vamcServiceDisplay: currentQuery.vamcServiceDisplay || null,
-    isValid: true,
-    locationChanged: false,
-    facilityTypeChanged: false,
-    serviceTypeChanged: false,
-  }));
+  const draftSearchStringRef = useRef(null);
+  const currentQueryRef = useRef(currentQuery);
 
-  // Helper to update draft state with validation
+  const [draftFormState, setDraftFormState] = useState(() =>
+    createFormStateFromQuery(currentQuery),
+  );
+
+  draftSearchStringRef.current = draftFormState.searchString;
+  currentQueryRef.current = currentQuery;
+
   const updateDraftState = useCallback(updater => {
     setDraftFormState(prev => {
       const updates =
@@ -113,8 +112,6 @@ export const SearchForm = props => {
       onChange({ [propName]: '' });
     };
 
-    // Validation with error triggering
-    // Use setTimeout to defer focus - otherwise button click re-captures focus
     if (!draftFormState.searchString) {
       updateReduxState('searchString');
       setDraftFormState(prev => ({
@@ -151,8 +148,6 @@ export const SearchForm = props => {
       return;
     }
 
-    // Only set lastQueryRef after validation passes - this prevents the
-    // "same query" check from blocking repeated submit attempts on invalid forms
     lastQueryRef.current = {
       facilityType: draftFormState.facilityType,
       serviceType: draftFormState.serviceType,
@@ -160,7 +155,6 @@ export const SearchForm = props => {
       zoomLevel: currentQuery.zoomLevel,
     };
 
-    // Commit draft to Redux
     onChange({
       facilityType: draftFormState.facilityType,
       serviceType: draftFormState.serviceType,
@@ -193,33 +187,24 @@ export const SearchForm = props => {
     onSubmit();
   };
 
-  // Sync draft state when Redux updates from external sources (geolocation)
   useEffect(
     () => {
-      if (currentQuery.searchString !== draftFormState.searchString) {
+      if (currentQuery.searchString !== draftSearchStringRef.current) {
         updateDraftState({ searchString: currentQuery.searchString || '' });
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [currentQuery.searchString],
+    [currentQuery.searchString, updateDraftState],
   );
 
-  // Sync all fields on URL parameter changes (browser back/forward)
   useEffect(
     () => {
       if (props.location?.search) {
         setDraftFormState(prev => {
-          const newState = {
-            facilityType: currentQuery.facilityType || null,
-            serviceType: currentQuery.serviceType || null,
-            searchString: currentQuery.searchString || '',
-            vamcServiceDisplay: currentQuery.vamcServiceDisplay || null,
-          };
+          const newState = createFormStateFromQuery(currentQueryRef.current);
           return { ...newState, ...validateForm(prev, newState) };
         });
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [props.location?.search],
   );
 
