@@ -4,7 +4,10 @@ import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/plat
 import prescriptions from '../../fixtures/prescriptions.json';
 import MedicationsList from '../../../components/MedicationsList/MedicationsList';
 import reducer from '../../../reducers';
-import { rxListSortingOptions } from '../../../util/constants';
+import {
+  rxListSortingOptions,
+  ALL_MEDICATIONS_FILTER_KEY,
+} from '../../../util/constants';
 
 describe('Medications List component', () => {
   const initialState = {
@@ -25,7 +28,23 @@ describe('Medications List component', () => {
   const setup = (
     state = initialState,
     sortOption = 'alphabeticallyByStatus',
+    isCernerPilot = false,
   ) => {
+    const fullState = {
+      ...state,
+      featureToggles: {
+        mhvMedicationsCernerPilot: isCernerPilot,
+        ...state.featureToggles,
+      },
+      rx: {
+        ...state.rx,
+        preferences: {
+          filterOption: ALL_MEDICATIONS_FILTER_KEY,
+          ...state.rx?.preferences,
+        },
+      },
+    };
+
     return renderWithStoreAndRouterV6(
       <MedicationsList
         rxList={prescriptions}
@@ -34,7 +53,7 @@ describe('Medications List component', () => {
         selectedSortOption={sortOption}
       />,
       {
-        initialState: state,
+        initialState: fullState,
         reducers: reducer,
       },
     );
@@ -71,6 +90,15 @@ describe('Medications List component', () => {
     );
   });
 
+  it('applies correct aria-label for accessibility when cernerPilot flag is enabled', () => {
+    const screen = setup(initialState, 'alphabeticallyByStatus', true);
+    const paginationInfo = screen.getByTestId('page-total-info');
+    expect(paginationInfo).to.have.attribute(
+      'aria-label',
+      'Showing 1 - 10 of 113 medications, alphabetically by status',
+    );
+  });
+
   it('applies correct aria-label for accessibility', () => {
     const screen = setup();
     const paginationInfo = screen.getByTestId('page-total-info');
@@ -91,6 +119,29 @@ describe('Medications List component', () => {
         initialState: {
           rx: {
             prescriptions: { prescriptionDetails: { prescriptionId: 123 } },
+          },
+        },
+        reducers: reducer,
+      },
+    );
+    const numToNums = screen.getByTestId('page-total-info');
+    expect(numToNums).to.contain.text('Showing 0 - 0');
+  });
+
+  it('shows "Showing 0-0" when an empty list is passed when cernerPilot flag is enabled', () => {
+    const screen = renderWithStoreAndRouterV6(
+      <MedicationsList
+        rxList={[]}
+        pagination={pagination}
+        setCurrentPage={setCurrentPage}
+      />,
+      {
+        initialState: {
+          rx: {
+            prescriptions: { prescriptionDetails: { prescriptionId: 123 } },
+          },
+          featureToggles: {
+            mhvMedicationsCernerPilot: true,
           },
         },
         reducers: reducer,

@@ -121,7 +121,10 @@ export const buildNonVAPrescriptionPDFList = prescription => {
  *
  * @returns {Array<PdfConfigItem>}
  */
-export const buildPrescriptionsPDFList = prescriptions => {
+export const buildPrescriptionsPDFList = (
+  prescriptions,
+  isCernerPilot = false,
+) => {
   return prescriptions?.map(rx => {
     if (rx?.prescriptionSource === RX_SOURCE.NON_VA) {
       return {
@@ -181,6 +184,7 @@ export const buildPrescriptionsPDFList = prescriptions => {
                 prescriptionMedAndRenewalStatus(
                   rx,
                   medStatusDisplayTypes.PRINT,
+                  isCernerPilot,
                 ),
               ),
               inline: true,
@@ -355,7 +359,10 @@ export const buildAllergiesPDFList = allergies => {
  *
  * @returns {Array<PdfConfigItem>}
  */
-export const buildVAPrescriptionPDFList = prescription => {
+export const buildVAPrescriptionPDFList = (
+  prescription,
+  isCernerPilot = false,
+) => {
   const refillHistory = getRefillHistory(prescription);
   const showRefillHistory = getShowRefillHistory(refillHistory);
   const pendingMed =
@@ -396,6 +403,7 @@ export const buildVAPrescriptionPDFList = prescription => {
                 prescriptionMedAndRenewalStatus(
                   prescription,
                   medStatusDisplayTypes.PRINT,
+                  isCernerPilot,
                 ),
               ),
               inline: true,

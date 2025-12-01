@@ -24,7 +24,15 @@ import { DATETIME_FORMATS } from '../../util/constants';
 let sandbox;
 
 describe('Prescription details container', () => {
-  const setup = (state = {}) => {
+  const setup = (state = {}, isCernerPilot = false) => {
+    const fullState = {
+      ...state,
+      featureToggles: {
+        mhvMedicationsCernerPilot: isCernerPilot,
+        ...state.featureToggles,
+      },
+    };
+
     return renderWithStoreAndRouterV6(
       <Routes>
         <Route
@@ -33,7 +41,7 @@ describe('Prescription details container', () => {
         />
       </Routes>,
       {
-        initialState: state,
+        initialState: fullState,
         reducers: reducer,
         initialEntries: ['/prescriptions/1234567891'],
         additionalMiddlewares: [

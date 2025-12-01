@@ -31,7 +31,10 @@ import FillRefillButton from '../shared/FillRefillButton';
 import ExtraDetails from '../shared/ExtraDetails';
 import SendRxRenewalMessage from '../shared/SendRxRenewalMessage';
 import MedicationDescription from '../shared/MedicationDescription';
-import { selectPartialFillContentFlag } from '../../util/selectors';
+import {
+  selectPartialFillContentFlag,
+  selectCernerPilotFlag,
+} from '../../util/selectors';
 import VaPharmacyText from '../shared/VaPharmacyText';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
 import GroupedMedications from './GroupedMedications';
@@ -41,6 +44,7 @@ import { landMedicationDetailsAal } from '../../api/rxApi';
 
 const VaPrescription = prescription => {
   const showPartialFillContent = useSelector(selectPartialFillContentFlag);
+  const isCernerPilot = useSelector(selectCernerPilotFlag);
   const refillHistory = getRefillHistory(prescription);
   const showRefillHistory = getShowRefillHistory(refillHistory);
   const pharmacyPhone = pharmacyPhoneNumber(prescription);
@@ -244,6 +248,7 @@ const VaPrescription = prescription => {
             {prescriptionMedAndRenewalStatus(
               prescription,
               medStatusDisplayTypes.VA_PRESCRIPTION,
+              isCernerPilot,
             )}
             <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
               Refills left

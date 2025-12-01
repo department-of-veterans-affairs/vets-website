@@ -33,6 +33,11 @@ export const ACTIVE_FILTER_KEY = 'ACTIVE';
 export const RECENTLY_REQUESTED_FILTER_KEY = 'RECENTLY_REQUESTED';
 export const RENEWAL_FILTER_KEY = 'RENEWAL';
 export const NON_ACTIVE_FILTER_KEY = 'NON_ACTIVE';
+export const INACTIVE_FILTER_KEY = 'INACTIVE';
+export const IN_PROGRESS_FILTER_KEY = 'IN_PROGRESS';
+export const SHIPPED_FILTER_KEY = 'SHIPPED';
+export const TRANSFERRED_FILTER_KEY = 'TRANSFERRED';
+export const STATUS_NOT_AVAILABLE_FILTER_KEY = 'STATUS_NOT_AVAILABLE';
 
 export const filterOptions = {
   [ALL_MEDICATIONS_FILTER_KEY]: {
@@ -72,6 +77,72 @@ export const filterOptions = {
       'Prescriptions that are discontinued, expired, or have an unknown status',
     url: '&filter[[disp_status][eq]]=Discontinued,Expired,Transferred,Unknown',
     showingContentDisplayName: ' non-active',
+  },
+};
+
+// New VA.gov filter options for OH statuses
+export const filterOptionsV2 = {
+  [ALL_MEDICATIONS_FILTER_KEY]: {
+    label: 'All medications',
+    description: 'All medications in your VA medical records',
+    url: '',
+    showingContentDisplayName: '',
+  },
+  [ACTIVE_FILTER_KEY]: {
+    label: 'Active',
+    name: 'filter option',
+    description:
+      'Includes prescriptions you’re actively taking that have refills or prescriptions you can refill by contacting your provider',
+    url:
+      '&filter[[disp_status][eq]]=Active,Active: Refill in Process,Active: Non-VA,Active: On Hold,Active: Parked,Active: Submitted',
+    showingContentDisplayName: ' active',
+  },
+  [IN_PROGRESS_FILTER_KEY]: {
+    label: 'In progress',
+    name: 'filter option',
+    description:
+      'Includes refill requests you submitted and refills the VA pharmacy is processing',
+    url:
+      '&filter[[disp_status][eq]]=Active: Refill in Process,Active: Submitted',
+    showingContentDisplayName: ' in progess',
+  },
+  [SHIPPED_FILTER_KEY]: {
+    label: 'Shipped',
+    name: 'filter option',
+    description: 'Includes refills with current tracking information available',
+    url: '&filter[[disp_status][eq]]=Active',
+    showingContentDisplayName: ' shipped',
+  },
+  [RENEWAL_FILTER_KEY]: {
+    label: 'Renewal needed before refill',
+    name: 'filter option',
+    description:
+      'Includes prescriptions you’re taking that have no refills left',
+    url: '&filter[[disp_status][eq]]=Active,Expired',
+    showingContentDisplayName: ' renewal needed before refill',
+  },
+  [INACTIVE_FILTER_KEY]: {
+    label: 'Inactive',
+    name: 'filter option',
+    description:
+      'Includes prescriptions you can’t refill without contacting your provider first',
+    url:
+      '&filter[[disp_status][eq]]=Discontinued,Expired,Transferred,Unknown,Active: On Hold',
+    showingContentDisplayName: ' inactive',
+  },
+  [TRANSFERRED_FILTER_KEY]: {
+    label: 'Transferred',
+    name: 'filter option',
+    description: 'A prescription moved to VA’s  new electronic health record',
+    url: '&filter[[disp_status][eq]]=Transferred',
+    showingContentDisplayName: ' transferred',
+  },
+  [STATUS_NOT_AVAILABLE_FILTER_KEY]: {
+    label: 'Status not available',
+    name: 'filter option',
+    description: '',
+    url: '&filter[[disp_status][eq]]=Unknown',
+    showingContentDisplayName: ' status not available',
   },
 };
 
@@ -174,6 +245,44 @@ export const pdfStatusDefinitions = {
   ],
 };
 
+// New VA.gov status definitions for OH status
+export const pdfStatusDefinitionsV2 = {
+  active: [
+    {
+      value: `A prescription you can fill at a local VA pharmacy. If this prescription is refillable, you may request a refill.`,
+    },
+    {
+      value: `If you need a medication immediately, call your VA pharmacy's automated refill line. You can find the pharmacy phone number on your prescription label or in your medications details page.`,
+    },
+  ],
+  inprogress: [
+    {
+      value: `A new prescription or a prescription you’ve requested a refill or renewal for.`,
+    },
+    {
+      value: `If you need your medication sooner, call your VA pharmacy's automated refill line. You can find the pharmacy phone number on your prescription label or in your medications details page.`,
+    },
+  ],
+  inactive: [
+    {
+      value: `A prescription you can no longer fill. Contact your VA provider if you need more of this medication.`,
+    },
+  ],
+  transferred: [
+    {
+      value: `A prescription moved to VA’s new electronic health record. This prescription may also be described as “Discontinued” on medication lists from your health care team. Take your medications as prescribed by your health care team.`,
+    },
+  ],
+  unknown: [
+    {
+      value: `There’s a problem with our system. You can’t manage this prescription online right now.`,
+    },
+    {
+      value: `If you need this prescription now, call your VA pharmacy.`,
+    },
+  ],
+};
+
 export const pdfDefaultStatusDefinition = [
   {
     value: `We can’t access information about this prescription right now.`,
@@ -211,6 +320,20 @@ export const dispStatusObj = {
   onHold: 'Active: On Hold',
   activeParked: 'Active: Parked',
 };
+
+// New VA.gov statuses
+// export const dispStatusObjV2 = {
+//   statusNotAvailable: 'Unknown',
+//   active: 'Active',
+//   refillinprocess: 'In progress',
+//   submitted: 'In progress',
+//   expired: 'Inactive',
+//   discontinued: 'Inactive',
+//   transferred: 'Transferred',
+//   nonVA: ACTIVE_NON_VA,
+//   onHold: 'Inactive',
+//   activeParked: 'Active',
+// };
 
 export const SESSION_SELECTED_SORT_OPTION = 'SESSION_SELECTED_SORT_OPTION';
 export const SESSION_SELECTED_FILTER_OPTION = 'SESSION_SELECTED_FILTER_OPTION';

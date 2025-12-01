@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom-v5-compat';
+import { useSelector } from 'react-redux';
 import ExtraDetails from '../shared/ExtraDetails';
 import LastFilledInfo from '../shared/LastFilledInfo';
 import { dateFormat, getRxStatus, rxSourceIsNonVA } from '../../util/helpers';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
+import { selectCernerPilotFlag } from '../../util/selectors';
 import {
   DATETIME_FORMATS,
   RX_SOURCE,
@@ -12,6 +14,7 @@ import {
 } from '../../util/constants';
 
 const MedicationsListCard = ({ rx }) => {
+  const isCernerPilot = useSelector(selectCernerPilotFlag);
   const pendingMed =
     rx.prescriptionSource === RX_SOURCE.PENDING_DISPENSE &&
     rx?.dispStatus === DISPENSE_STATUS.NEW_ORDER;
@@ -20,7 +23,7 @@ const MedicationsListCard = ({ rx }) => {
     rx?.dispStatus === DISPENSE_STATUS.RENEW;
   const latestTrackingStatus = rx?.trackingList?.[0];
   const isNonVaPrescription = rxSourceIsNonVA(rx);
-  const rxStatus = getRxStatus(rx);
+  const rxStatus = getRxStatus(rx, isCernerPilot);
 
   const cardBodyContent = () => {
     if (pendingRenewal || pendingMed) {

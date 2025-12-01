@@ -42,9 +42,17 @@ describe('Medications Prescriptions container', () => {
     },
   };
 
-  const setup = (state = initialState, url = '/') => {
+  const setup = (state = initialState, url = '/', isCernerPilot = false) => {
+    const fullState = {
+      ...state,
+      featureToggles: {
+        mhvMedicationsCernerPilot: isCernerPilot,
+        ...state.featureToggles,
+      },
+    };
+
     return renderWithStoreAndRouterV6(<Prescriptions />, {
-      initialState: state,
+      initialState: fullState,
       reducers: reducer,
       initialEntries: [url],
       additionalMiddlewares: [

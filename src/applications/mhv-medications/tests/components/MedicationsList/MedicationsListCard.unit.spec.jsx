@@ -14,6 +14,22 @@ describe('Medication card component', () => {
     });
   };
 
+  const setupWithCernerPilot = (
+    rx = prescriptionsListItem,
+    isCernerPilot = false,
+  ) => {
+    const initialState = {
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        mhv_medications_cerner_pilot: isCernerPilot,
+      },
+    };
+    return renderWithStoreAndRouterV6(<MedicationsListCard rx={rx} />, {
+      initialState,
+      reducers,
+    });
+  };
+
   it('renders without errors, even when no prescription name is given ', () => {
     const screen = setup({
       ...prescriptionsListItem,
@@ -101,9 +117,13 @@ describe('Medication card component', () => {
     };
     const { getByTestId } = setup(rx);
     /* eslint-disable prettier/prettier */
-    expect(getByTestId('rx-last-filled-info')).to.have.text('Documented on June 16, 2024');
+    expect(getByTestId('rx-last-filled-info')).to.have.text(
+      'Documented on June 16, 2024',
+    );
     expect(getByTestId('rxStatus')).to.have.text('Active: Non-VA');
-    expect(getByTestId('non-VA-prescription')).to.have.text('You can’t manage this medication in this online tool.');
+    expect(getByTestId('non-VA-prescription')).to.have.text(
+      'You can’t manage this medication in this online tool.',
+    );
     /* eslint-enable prettier/prettier */
   });
 
@@ -116,9 +136,13 @@ describe('Medication card component', () => {
     };
     const { getByTestId } = setup(rx);
     /* eslint-disable prettier/prettier */
-    expect(getByTestId('rx-last-filled-info')).to.have.text('Documented on: Date not available');
+    expect(getByTestId('rx-last-filled-info')).to.have.text(
+      'Documented on: Date not available',
+    );
     expect(getByTestId('rxStatus')).to.have.text('Active: Non-VA');
-    expect(getByTestId('non-VA-prescription')).to.have.text('You can’t manage this medication in this online tool.');
+    expect(getByTestId('non-VA-prescription')).to.have.text(
+      'You can’t manage this medication in this online tool.',
+    );
     /* eslint-enable prettier/prettier */
   });
 
@@ -131,9 +155,58 @@ describe('Medication card component', () => {
     };
     const { getByTestId } = setup(rx);
     /* eslint-disable prettier/prettier */
-    expect(getByTestId('rx-last-filled-info')).to.have.text('Documented on: Date not available');
+    expect(getByTestId('rx-last-filled-info')).to.have.text(
+      'Documented on: Date not available',
+    );
     expect(getByTestId('rxStatus')).to.have.text('Active: Non-VA');
-    expect(getByTestId('non-VA-prescription')).to.have.text('You can’t manage this medication in this online tool.');
+    expect(getByTestId('non-VA-prescription')).to.have.text(
+      'You can’t manage this medication in this online tool.',
+    );
     /* eslint-enable prettier/prettier */
+  });
+
+  it('shows Active for Active: Parked status when Cerner pilot is enabled', () => {
+    const rxWithActiveStatus = {
+      ...prescriptionsListItem,
+      dispStatus: 'Active: Parked',
+    };
+    const screen = setupWithCernerPilot(rxWithActiveStatus, true);
+    expect(screen.getByText('Active')).to.exist;
+  });
+
+  it('shows In progress for Active: Refill in Process when Cerner pilot is enabled', () => {
+    const rxWithActiveStatus = {
+      ...prescriptionsListItem,
+      dispStatus: 'Active: Refill in Process',
+    };
+    const screen = setupWithCernerPilot(rxWithActiveStatus, true);
+    expect(screen.getByText('In progress')).to.exist;
+  });
+
+  it('shows Transferred for Transferred status when Cerner pilot is enabled', () => {
+    const rxWithActiveStatus = {
+      ...prescriptionsListItem,
+      dispStatus: 'Transferred',
+    };
+    const screen = setupWithCernerPilot(rxWithActiveStatus, true);
+    expect(screen.getByText('Transferred')).to.exist;
+  });
+
+  it('shows Inactive for Discontinued status when Cerner pilot is enabled', () => {
+    const rxWithActiveStatus = {
+      ...prescriptionsListItem,
+      dispStatus: 'Discontinued',
+    };
+    const screen = setupWithCernerPilot(rxWithActiveStatus, true);
+    expect(screen.getByText('Inactive')).to.exist;
+  });
+
+  it('shows original status when Cerner pilot is disabled', () => {
+    const rxWithActiveStatus = {
+      ...prescriptionsListItem,
+      dispStatus: 'Active: Refill in Process',
+    };
+    const screen = setupWithCernerPilot(rxWithActiveStatus, false);
+    expect(screen.getByText('Active: Refill in Process')).to.exist;
   });
 });
