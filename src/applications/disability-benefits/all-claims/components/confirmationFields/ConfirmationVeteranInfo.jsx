@@ -5,19 +5,19 @@ import { formatDate } from '../../utils/dates/formatting';
 
 export const ConfirmationVeteranInfo = () => {
   const profile = useSelector(state => state.user?.profile);
-  const { dob, gender } = profile;
-  const { first, middle, last, suffix } = profile.userFullName;
+  const { dob, gender } = profile || {};
+  const { first, middle, last, suffix } = profile.userFullName || {};
 
   return (
     <li>
       <div className="vads-u-color--gray">Veteran name</div>
       <div>
-        {`${first || ''} ${middle || ''} ${last || ''}`}
-        {suffix && `, ${suffix}`}
+        {[first, middle, last].filter(Boolean).join(' ')}
+        {suffix ? `, ${suffix}` : null}
       </div>
       <div className="vads-u-color--gray">Date of birth:</div>
       <div>{dob ? formatDate(dob) : ''}</div>
-      <div className="vads-u-color--gray">Gender:</div>{' '}
+      <div className="vads-u-color--gray">Gender:</div>
       <div>{genderLabels[gender]}</div>
     </li>
   );

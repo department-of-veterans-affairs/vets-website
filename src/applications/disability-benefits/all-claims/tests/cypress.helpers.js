@@ -175,6 +175,7 @@ export const setup = (cy, testOptions = {}) => {
     );
   }
 
+  cy.intercept('GET', '/v0/user', mockUser).as('get mockUser');
   // `mockItf` is not a fixture; it can't be loaded as a fixture
   // because fixtures don't evaluate JS.
   cy.intercept('GET', '/v0/intent_to_file', mockItf);
@@ -287,10 +288,14 @@ Cypress.Commands.add('verifyVeteranDetails', data => {
       firstName,
       middleName,
       lastName,
+      suffix,
     } = mockUser.data.attributes.profile;
-    cy.contains(`${firstName} ${middleName} ${lastName}`.trim()).should(
-      'exist',
-    );
+    cy.contains(
+      [firstName, middleName, lastName, suffix].filter(Boolean).join(' '),
+    ).should('exist');
+    // cy.contains(`${firstName} ${middleName} ${lastName}`.trim()).should(
+    //   'exist',
+    // );
 
     const formattedDob = formatDate(mockUser.data.attributes.profile.birthDate);
     cy.contains('Date of birth:').should('exist');
