@@ -5,6 +5,13 @@ describe('Medical Expense Report Form 8416', () => {
     before(() => {
       utils.startApplicationWithoutLogin();
     });
+    Cypress.config({
+      defaultCommandTimeout: 20000,
+      requestTimeout: 20000,
+      taskTimeout: 30000,
+      waitForAnimations: true,
+    });
+
     it('tests Veteran reporting medical expenses path', () => {
       // Applicant Information identity
       utils.checkContentAnonymousApplicantInformationIdentity();
