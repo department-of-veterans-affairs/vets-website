@@ -89,16 +89,6 @@ export const IntroductionPage = props => {
         What you’ll need to complete this form
       </h2>
       <ProcessList />
-      <va-additional-info
-        trigger="What happens after you submit you apply"
-        class="vads-u-margin-bottom--3"
-      >
-        <p>
-          After you successfully submit your form, we will review your
-          documents. You should hear back within 30 days about your
-          reimbursement.
-        </p>
-      </va-additional-info>
       {showVerifyIdentify ? (
         <div>{/* add verify identity alert if applicable */}</div>
       ) : (
