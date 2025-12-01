@@ -186,9 +186,9 @@ export function isUserSignedIn(formData) {
 
 export const ApplicantNameHeader = () => {
   return (
-    <h3 className="vads-u-margin-bottom--3">
+    <h2 className="vads-u-margin-bottom--3">
       Confirm the personal information we have on file for you
-    </h3>
+    </h2>
   );
 };
 
