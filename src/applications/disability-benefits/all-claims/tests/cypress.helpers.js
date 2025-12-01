@@ -293,9 +293,6 @@ Cypress.Commands.add('verifyVeteranDetails', data => {
     cy.contains(
       [firstName, middleName, lastName, suffix].filter(Boolean).join(' '),
     ).should('exist');
-    // cy.contains(`${firstName} ${middleName} ${lastName}`.trim()).should(
-    //   'exist',
-    // );
 
     const formattedDob = formatDate(mockUser.data.attributes.profile.birthDate);
     cy.contains('Date of birth:').should('exist');
