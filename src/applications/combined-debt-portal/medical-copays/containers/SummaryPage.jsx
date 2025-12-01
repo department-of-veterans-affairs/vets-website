@@ -179,6 +179,12 @@ const OverviewPage = () => {
     if (isNotEnrolledInHealthCare) {
       return <CopayAlertContainer type="no-health-care" />;
     }
+    if (mcpError) {
+      return renderAlert(
+        debtError ? ALERT_TYPES.ALL_ERROR : ALERT_TYPES.ERROR,
+        debts?.length,
+      );
+    }
     if (statementsEmpty) {
       return renderAlert(ALERT_TYPES.ZERO, debts?.length);
     }
