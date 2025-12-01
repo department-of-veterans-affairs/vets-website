@@ -42,7 +42,7 @@ const formConfig = {
   trackingPrefix: '21p-601-accrued-benefits-',
   useCustomScrollAndFocus: true,
   v3SegmentedProgressBar: true,
-  hideUnauthedStartLink: true,
+  hideUnauthedStartLink: false,
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,
@@ -78,21 +78,6 @@ const formConfig = {
     eligibilityChapter: {
       title: 'Check your eligibility',
       pages: {
-        personalInformation: {
-          path: 'personal-information',
-          title: 'Personal info',
-          CustomPage: props => (
-            <PersonalInformation {...props} config={personalInfoConfig()} />
-          ),
-          CustomPageReview: null,
-          hideOnReview: true,
-          scrollAndFocusTarget,
-          schema: {
-            type: 'object',
-            properties: {}, // Must be present even if empty
-          },
-          uiSchema: {},
-        },
         hasAlreadyFiled: {
           path: 'already-filed',
           title: 'Previous applications',
@@ -117,6 +102,22 @@ const formConfig = {
           // This page should be the end - no continue button
           hideNavButtons: true,
           customNavButtons: () => null,
+        },
+        personalInformation: {
+          path: 'personal-information',
+          title: 'Personal info',
+          depends: formData => formData.isLoggedIn,
+          CustomPage: props => (
+            <PersonalInformation {...props} config={personalInfoConfig()} />
+          ),
+          CustomPageReview: null,
+          hideOnReview: true,
+          scrollAndFocusTarget,
+          schema: {
+            type: 'object',
+            properties: {},
+          },
+          uiSchema: {},
         },
       },
     },
@@ -237,27 +238,15 @@ const formConfig = {
         },
         relativesSummary: {
           ...relativesPages.relativesSummary,
-          depends: formData =>
-            formData?.survivors?.hasNone !== true &&
-            (!!formData?.survivors?.hasSpouse ||
-              !!formData?.survivors?.hasChildren ||
-              !!formData?.survivors?.hasParents),
+          depends: formData => formData?.survivors === true,
         },
         relativeNamePage: {
           ...relativesPages.relativeNamePage,
-          depends: formData =>
-            formData?.survivors?.hasNone !== true &&
-            (!!formData?.survivors?.hasSpouse ||
-              !!formData?.survivors?.hasChildren ||
-              !!formData?.survivors?.hasParents),
+          depends: formData => formData?.survivors === true,
         },
         relativeAddressPage: {
           ...relativesPages.relativeAddressPage,
-          depends: formData =>
-            formData?.survivors?.hasNone !== true &&
-            (!!formData?.survivors?.hasSpouse ||
-              !!formData?.survivors?.hasChildren ||
-              !!formData?.survivors?.hasParents),
+          depends: formData => formData?.survivors === true,
         },
       },
     },
