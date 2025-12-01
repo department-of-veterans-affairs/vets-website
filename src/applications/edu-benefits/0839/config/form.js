@@ -106,6 +106,7 @@ const formConfig = {
               goPath('acknowledgements');
             }
           },
+          updateFormData: agreementType.updateFormData,
         },
       },
     },
@@ -118,6 +119,8 @@ const formConfig = {
           uiSchema: acknowledgements.uiSchema,
           schema: acknowledgements.schema,
           pageClass: 'acknowledgements-page',
+          depends: formData =>
+            formData?.agreementType !== 'withdrawFromYellowRibbonProgram',
         },
       },
     },
@@ -172,25 +175,33 @@ const formConfig = {
             path: 'yellow-ribbon-program-request',
             uiSchema: yellowRibbonProgramRequest.uiSchema,
             schema: yellowRibbonProgramRequest.schema,
+            depends: formData =>
+              formData?.agreementType !== 'withdrawFromYellowRibbonProgram',
           }),
           yellowRibbonProgramRequestSummary: pageBuilder.summaryPage({
             title: 'Yellow Ribbon Program contributions',
             path: 'yellow-ribbon-program-request/summary',
             uiSchema: yellowRibbonProgramRequestSummary.uiSchema,
             schema: yellowRibbonProgramRequestSummary.schema,
+            depends: formData =>
+              formData?.agreementType !== 'withdrawFromYellowRibbonProgram',
           }),
           yellowRibbonProgramContribution: pageBuilder.itemPage({
             title: 'Add a Yellow Ribbon Program contribution',
             path: 'yellow-ribbon-program-request/:index',
             uiSchema: eligibleIndividualsSupported.uiSchema,
             schema: eligibleIndividualsSupported.schema,
+            depends: formData =>
+              formData?.agreementType !== 'withdrawFromYellowRibbonProgram',
           }),
           contributionLimitsAndDegreeLevel: pageBuilder.itemPage({
             title: 'Contribution limits and degree level',
             path: 'yellow-ribbon-program-request/:index/contribution-limits',
             uiSchema: contributionLimitsAndDegreeLevel.uiSchema,
             schema: contributionLimitsAndDegreeLevel.schema,
-            depends: formData => !!formData?.institutionDetails?.isUsaSchool,
+            depends: formData =>
+              formData?.agreementType !== 'withdrawFromYellowRibbonProgram' &&
+              !!formData?.institutionDetails?.isUsaSchool,
             pageClass: 'ypr-no-expander-border',
           }),
           foreignContributionLimitsAndDegreeLevel: pageBuilder.itemPage({
@@ -200,7 +211,10 @@ const formConfig = {
             uiSchema: foreignContributionLimitsAndDegreeLevel.uiSchema,
             schema: foreignContributionLimitsAndDegreeLevel.schema,
             depends: formData => {
-              return formData?.institutionDetails?.isUsaSchool === false;
+              return (
+                formData?.agreementType !== 'withdrawFromYellowRibbonProgram' &&
+                formData?.institutionDetails?.isUsaSchool === false
+              );
             },
             pageClass: 'ypr-no-expander-border',
           }),
@@ -215,13 +229,17 @@ const formConfig = {
           title: 'Points of contact',
           uiSchema: pointsOfContanct.uiSchema,
           schema: pointsOfContanct.schema,
+          depends: formData =>
+            formData?.agreementType !== 'withdrawFromYellowRibbonProgram',
         },
         additionalPointsOfContact: {
           path: 'additional-points-of-contact',
           title: 'additional points of contact',
           uiSchema: additionalPointsOfContact.uiSchema,
           schema: additionalPointsOfContact.schema,
-          depends: formData => showAdditionalPointsOfContact(formData),
+          depends: formData =>
+            formData?.agreementType !== 'withdrawFromYellowRibbonProgram' &&
+            showAdditionalPointsOfContact(formData),
         },
       },
     },
