@@ -36,7 +36,7 @@ export default function PrivacyAccoridion() {
           An agency may not conduct or sponsor, and a person is not required to
           respond to, a collection of information unless it displays a currently
           valid OMB control number. The OMB control number for this project is
-          2900-0853, and it expires 08/31/2025. Public reporting burden for this
+          2900-0853, and it expires 8/31/2025. Public reporting burden for this
           collection of information is estimated to average 20 minutes per
           respondent, per year, including the time for reviewing instructions,
           searching existing data sources, gathering and maintaining the data
@@ -46,8 +46,8 @@ export default function PrivacyAccoridion() {
           burden, to VA Reports Clearance Officer at{' '}
           <a href="mailto:VACOPaperworkReduAct@va.gov" rel="noreferrer">
             VACOPaperworkReduAct@va.gov
-          </a>{' '}
-          Please refer to OMB Control No. 2900-0853 in any correspondence. Do
+          </a>
+          . Please refer to OMB Control No. 2900-0853 in any correspondence. Do
           not send your completed VA Form 22-0976 to this email address.
         </p>
       </va-accordion-item>
