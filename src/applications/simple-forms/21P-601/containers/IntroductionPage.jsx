@@ -99,7 +99,7 @@ const childContent = (
         The beneficiary’s death certificate (unless they died in a VA facility)
       </li>
       <li>Your personal and contact information</li>
-      <li>Information about surviving relatives</li>
+      <li>Information about dependent surviving relatives</li>
       <li>
         Any certified, signed legal documents showing the assignment of the
         executor or administrator of the beneficiary’s estate
