@@ -53,7 +53,8 @@ describe('Medications List Filter component', () => {
     const state = {
       ...initialState,
       featureToggles: {
-        mhvMedicationsCernerPilot: isCernerPilot,
+        // eslint-disable-next-line camelcase
+        mhv_medications_cerner_pilot: isCernerPilot,
         ...initialState.featureToggles,
       },
     };
@@ -169,22 +170,34 @@ describe('Medications List Filter component', () => {
     // This test specifically requires Cerner pilot to be enabled to access V2 filter options
     const screen = setup({}, () => {}, filterCountObj, true);
 
-    const inProgressOption = screen.getByText(
-      filterOptionsV2[IN_PROGRESS_FILTER_KEY].description,
-    );
-    const shippedOption = screen.getByText(
-      filterOptionsV2[SHIPPED_FILTER_KEY].description,
-    );
-    const transferredOption = screen.getByText(
-      filterOptionsV2[TRANSFERRED_FILTER_KEY].description,
-    );
-    const inactiveOption = screen.getByText(
-      filterOptionsV2[INACTIVE_FILTER_KEY].description,
-    );
+    // Check that V2 filter options exist with correct descriptions
+    const inProgressOption = screen.getByTestId('filter-option-IN_PROGRESS');
+    const shippedOption = screen.getByTestId('filter-option-SHIPPED');
+    const transferredOption = screen.getByTestId('filter-option-TRANSFERRED');
+    const inactiveOption = screen.getByTestId('filter-option-INACTIVE');
 
     expect(inProgressOption).to.exist;
+    expect(inProgressOption).to.have.attribute(
+      'description',
+      filterOptionsV2[IN_PROGRESS_FILTER_KEY].description,
+    );
+
     expect(shippedOption).to.exist;
+    expect(shippedOption).to.have.attribute(
+      'description',
+      filterOptionsV2[SHIPPED_FILTER_KEY].description,
+    );
+
     expect(transferredOption).to.exist;
+    expect(transferredOption).to.have.attribute(
+      'description',
+      filterOptionsV2[TRANSFERRED_FILTER_KEY].description,
+    );
+
     expect(inactiveOption).to.exist;
+    expect(inactiveOption).to.have.attribute(
+      'description',
+      filterOptionsV2[INACTIVE_FILTER_KEY].description,
+    );
   });
 });

@@ -40,15 +40,20 @@ const MedicationsListFilter = ({ updateFilter, filterCount }) => {
       case currentFilterOptions.ACTIVE.label: {
         return filterCount.active;
       }
-      case currentFilterOptions.RECENTLY_REQUESTED?.label ||
-        currentFilterOptions.IN_PROGRESS?.label: {
-        return filterCount.recentlyRequested || filterCount.inProgress;
+      case currentFilterOptions.RECENTLY_REQUESTED?.label: {
+        return filterCount.recentlyRequested;
       }
-      case currentFilterOptions.RENEWAL.label: {
+      case currentFilterOptions.IN_PROGRESS?.label: {
+        return filterCount.inProgress;
+      }
+      case currentFilterOptions.RENEWAL?.label: {
         return filterCount.renewal;
       }
       case currentFilterOptions.NON_ACTIVE?.label: {
         return filterCount.nonActive;
+      }
+      case currentFilterOptions.INACTIVE?.label: {
+        return filterCount.inactive;
       }
       case currentFilterOptions.SHIPPED?.label: {
         return filterCount.shipped;
@@ -147,7 +152,10 @@ const MedicationsListFilter = ({ updateFilter, filterCount }) => {
             <VaRadioOption
               key={`filter option ${currentFilterOptions[option].label}`}
               label={`${currentFilterOptions[option].label}${
-                filterCount
+                filterCount &&
+                mapFilterCountToFilterLabels(
+                  currentFilterOptions[option].label,
+                ) !== null
                   ? ` (${mapFilterCountToFilterLabels(
                       currentFilterOptions[option].label,
                     )})`

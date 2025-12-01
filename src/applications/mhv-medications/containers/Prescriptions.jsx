@@ -35,6 +35,7 @@ import {
   ALL_MEDICATIONS_FILTER_KEY,
   defaultSelectedSortOption,
   DATETIME_FORMATS,
+  SHIPPED_FILTER_KEY,
 } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
 import BeforeYouDownloadDropdown from '../components/shared/BeforeYouDownloadDropdown';
@@ -135,13 +136,22 @@ const Prescriptions = () => {
   const paginatedPrescriptionsList = useMemo(
     () => {
       if (prescriptionsData?.prescriptions) {
-        return prescriptionsData.prescriptions;
+        let { prescriptions } = prescriptionsData;
+
+        // Filter for trackable prescriptions when using SHIPPED filter with cernerPilot
+        if (isCernerPilot && selectedFilterOption === SHIPPED_FILTER_KEY) {
+          prescriptions = prescriptions.filter(
+            prescription => prescription.isTrackable === true,
+          );
+        }
+
+        return prescriptions;
       }
       return undefined;
     },
-    [prescriptionsData],
+    [prescriptionsData, selectedFilterOption, isCernerPilot],
   );
-  const { prescriptions: filteredList } = prescriptionsData || [];
+  const filteredList = prescriptionsData?.prescriptions || [];
   const { filterCount } = meta || {};
   const prescriptionId = useSelector(selectPrescriptionId);
   const [prescriptionsExportList, setPrescriptionsExportList] = useState([]);

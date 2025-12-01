@@ -322,18 +322,18 @@ export const dispStatusObj = {
 };
 
 // New VA.gov statuses
-// export const dispStatusObjV2 = {
-//   statusNotAvailable: 'Unknown',
-//   active: 'Active',
-//   refillinprocess: 'In progress',
-//   submitted: 'In progress',
-//   expired: 'Inactive',
-//   discontinued: 'Inactive',
-//   transferred: 'Transferred',
-//   nonVA: ACTIVE_NON_VA,
-//   onHold: 'Inactive',
-//   activeParked: 'Active',
-// };
+export const dispStatusObjV2 = {
+  statusNotAvailable: 'Status not available',
+  active: 'Active',
+  refillinprocess: 'In progress',
+  submitted: 'In progress',
+  expired: 'Inactive',
+  discontinued: 'Inactive',
+  transferred: 'Transferred',
+  nonVA: ACTIVE_NON_VA,
+  onHold: 'Inactive',
+  activeParked: 'Active',
+};
 
 export const SESSION_SELECTED_SORT_OPTION = 'SESSION_SELECTED_SORT_OPTION';
 export const SESSION_SELECTED_FILTER_OPTION = 'SESSION_SELECTED_FILTER_OPTION';
