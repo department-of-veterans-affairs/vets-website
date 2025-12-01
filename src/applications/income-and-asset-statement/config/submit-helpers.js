@@ -1,4 +1,5 @@
 import { cloneDeep } from 'lodash';
+import { discontinuedIncomeTypeLabels } from '../labels';
 
 /**
  * Build a full name string from an object containing first/middle/last
@@ -106,6 +107,40 @@ export function remapOtherVeteranFields(data = {}) {
   }
 
   return updated;
+}
+
+/**
+ * Remap the incomeType field of a discontinued income object
+ * to its human-readable label for submission.
+ *
+ * Special case:
+ * - If `incomeType` is "OTHER", the value will be replaced with
+ *   the value of the `view:otherIncomeType` field instead of the default label.
+ *
+ * This is intended to be used as an iterator inside transform logic, e.g.:
+ *   form.data.discontinuedIncomes.map(remapIncomeTypeFields)
+ *
+ * @param {Object} itemData - A single discontinued income object
+ * @param {string} itemData.incomeType - The raw income type key
+ * @param {string} [itemData['view:otherIncomeType'] - Required description if incomeType is OTHER
+ * @returns {Object} A new object with incomeType replaced by its label or 'view:otherIncomeType'
+ */
+export function remapIncomeTypeFields(itemData = {}) {
+  const { incomeType } = itemData;
+  const otherValue = itemData['view:otherIncomeType'];
+
+  let mappedIncomeType;
+
+  if (incomeType === 'OTHER' && otherValue) {
+    mappedIncomeType = otherValue;
+  } else {
+    mappedIncomeType = discontinuedIncomeTypeLabels[incomeType] ?? incomeType;
+  }
+
+  return {
+    ...itemData,
+    incomeType: mappedIncomeType,
+  };
 }
 
 /**

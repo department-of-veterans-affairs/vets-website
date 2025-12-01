@@ -20,14 +20,24 @@ const { formNumber, title } = getFormContent();
 
 const warningsPresent = formData => formData.uploadedFile?.warnings?.length > 0;
 
+const UploadAlert = ({ uploadedFile }) => {
+  const props = {
+    name: 'uploadPage',
+    data: { uploadedFile },
+  };
+  const alert = getAlert(props, false);
+
+  return <div className="vads-u-margin-top--3">{alert}</div>;
+};
+
 export const uploadPage = {
   uiSchema: {
-    ...titleUI(
-      UPLOAD_TITLE,
-      <div className="vads-u-magin-top--3">
-        {getAlert({ name: 'uploadPage' }, false)}
-      </div>,
-    ),
+    ...titleUI({
+      title: UPLOAD_TITLE,
+      description: ({ formData: { uploadedFile } }) => (
+        <UploadAlert uploadedFile={uploadedFile} />
+      ),
+    }),
     ...descriptionUI(UPLOAD_FORM_DESCRIPTION),
     uploadedFile: {
       ...fileInputUI({
