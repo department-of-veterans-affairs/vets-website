@@ -3,7 +3,7 @@ import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { personalInformationPage } from 'platform/forms-system/src/js/components/PersonalInformation';
 import get from 'platform/utilities/data/get';
-import { TITLE, SUBTITLE } from '../constants.js';
+import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
