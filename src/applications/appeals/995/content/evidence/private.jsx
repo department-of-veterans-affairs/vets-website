@@ -63,32 +63,35 @@ export const summaryContent = {
   },
   alertItemUpdatedText: itemData =>
     `${itemData[PRIVATE_TREATMENT_LOCATION_KEY]} information has been updated.`,
-  cardDescription: item => (
-    <>
-      {item?.[PRIVATE_TREATMENT_LOCATION_KEY] && (
-        <h3 className="vads-u-margin-top--0">
-          {item[PRIVATE_TREATMENT_LOCATION_KEY]}
-        </h3>
-      )}
-      {item?.issues?.length === 1 && (
-        <p>
-          <strong>Condition:</strong> {item.issues[0]}
-        </p>
-      )}
-      {item?.issues?.length > 1 && (
-        <p>
-          <strong>Conditions:</strong> {formatIssueList(item.issues)}
-        </p>
-      )}
-      {item?.[PRIVATE_LOCATION_TREATMENT_DATES_KEY](
-        <p>
-          <strong>Treatment start date:</strong>
-          &nbsp;
-          {/* {formatMonthYear(item[PRIVATE_LOCATION_TREATMENT_DATES_KEY])} */}
-        </p>,
-      )}
-    </>
-  ),
+  cardDescription: item => {
+    console.log('item: ', item);
+    return (
+      <>
+        {item?.[PRIVATE_TREATMENT_LOCATION_KEY] && (
+          <h3 className="vads-u-margin-top--0">
+            {item[PRIVATE_TREATMENT_LOCATION_KEY]}
+          </h3>
+        )}
+        {item?.issues?.length === 1 && (
+          <p>
+            <strong>Condition:</strong> {item.issues[0]}
+          </p>
+        )}
+        {item?.issues?.length > 1 && (
+          <p>
+            <strong>Conditions:</strong> {formatIssueList(item.issues)}
+          </p>
+        )}
+        {item?.[PRIVATE_LOCATION_TREATMENT_DATES_KEY](
+          <p>
+            <strong>Treatment start date:</strong>
+            &nbsp;
+            {/* {formatMonthYear(item[PRIVATE_LOCATION_TREATMENT_DATES_KEY])} */}
+          </p>,
+        )}
+      </>
+    );
+  },
 };
 
 export const detailsEntryContent = {
