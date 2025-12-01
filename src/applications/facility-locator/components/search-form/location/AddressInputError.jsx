@@ -10,7 +10,7 @@ function AddressInputError({ showError, errorId }) {
     return (
       <>
         <span className="usa-sr-only sr-only">Error</span>
-        <span className="usa-error-message" id={errorId}>
+        <span className="usa-error-message">
           Enter a zip code or a city and state in the search box
         </span>
       </>
@@ -18,11 +18,7 @@ function AddressInputError({ showError, errorId }) {
   }
 
   return (
-    <span
-      className="usa-input-error-message"
-      // role="alert"
-      tabIndex={showError ? -1 : 0}
-    >
+    <span className="usa-input-error-message" id={errorId}>
       <ErrorContent />
     </span>
   );
