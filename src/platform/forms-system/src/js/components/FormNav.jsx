@@ -109,7 +109,7 @@ export default function FormNav(props) {
 
   // If the helper returns NaN or something < 1, fall back gracefully:
   // 1) try the computed `current` index from uniqueChapters
-  // 2) if that also fails, default to 1
+  // 2) if that also fails, default to 2 for conditions section
   let currentChapterDisplay = rawCurrentChapterDisplay;
   if (!Number.isFinite(currentChapterDisplay) || currentChapterDisplay < 1) {
     if (Number.isFinite(current) && current >= 1) {
