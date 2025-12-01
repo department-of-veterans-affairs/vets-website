@@ -6,6 +6,7 @@ import DowntimeNotification, {
   externalServices,
 } from '~/platform/monitoring/DowntimeNotification';
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import App from './containers/App';
 import MyEligibilityAndBenefits from './containers/MyEligibilityAndBenefits';
 import MyCaseManagementHub from './containers/MyCaseManagementHub';
@@ -28,31 +29,44 @@ const withRequiredLogin = Component => props => {
   );
 };
 
-const routes = (
-  <App>
-    <Switch>
-      <Route
-        exact
-        path="/my-case-management-hub"
-        component={withRequiredLogin(MyCaseManagementHub)}
-      />
-      <Route
-        exact
-        path="/"
-        component={withRequiredLogin(MyEligibilityAndBenefits)}
-      />
-      <Route
-        exact
-        path="/career-exploration-and-planning"
-        component={withRequiredLogin(CareerExplorationAndPlanning)}
-      />
-      <Route
-        exact
-        path="/orientation-tools-and-resources"
-        component={withRequiredLogin(OrientationToolsAndResources)}
-      />
-    </Switch>
-  </App>
-);
+function RoutesWrapper() {
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
 
-export default routes;
+  const shouldRenderRoutes = useToggleValue(
+    TOGGLE_NAMES.vreEligibilityStatusUpdates,
+  );
+
+  if (!shouldRenderRoutes) {
+    window.location.assign(window.location.origin);
+    return null;
+  }
+
+  return (
+    <App>
+      <Switch>
+        <Route
+          exact
+          path="/my-case-management-hub"
+          component={withRequiredLogin(MyCaseManagementHub)}
+        />
+        <Route
+          exact
+          path="/"
+          component={withRequiredLogin(MyEligibilityAndBenefits)}
+        />
+        <Route
+          exact
+          path="/career-exploration-and-planning"
+          component={withRequiredLogin(CareerExplorationAndPlanning)}
+        />
+        <Route
+          exact
+          path="/orientation-tools-and-resources"
+          component={withRequiredLogin(OrientationToolsAndResources)}
+        />
+      </Switch>
+    </App>
+  );
+}
+
+export const buildRoutes = () => <RoutesWrapper />;
