@@ -7,6 +7,7 @@ import { useBrowserMonitoring } from 'platform/monitoring/Datadog/';
 import environment from 'platform/utilities/environment';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { setData } from 'platform/forms-system/src/js/actions';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import manifest from '../manifest.json';
 import formConfig from '../config/form';
@@ -54,12 +55,59 @@ function App({
   isPrefill,
   fetchDependents,
   setFormData,
+  loadedData,
 }) {
   // Must match the H1
   document.title = DOC_TITLE;
 
   const loadingDependents = dependents?.loading;
   const isIntroPage = location?.pathname?.endsWith('/introduction');
+
+  // Determine form flow for v3 release
+  // toggle enabled, new form => v3 flow
+  // toggle enabled, v3 in progress => v3 flow
+  // toggle enabled, v2 in progress => v2 flow
+  // toggle disabled => v2 flow
+  useEffect(
+    () => {
+      // Don't analyze flow until we're past the intro page
+      // (in-progress form load overwrites form data set ON the intro page)
+      if (isLoading || !isLoggedIn || isIntroPage) {
+        return;
+      }
+      // Check v3 feature toggle
+      const toggleV3Enabled = featureToggles?.vaDependentsV3 === true;
+      // Check for an in-progress form (v2 or v3)
+      const hasInProgressForm = savedForms?.some(form =>
+        form?.form?.includes(VA_FORM_IDS.FORM_21_686CV2),
+      );
+      // In-progress form data with saved v3 flag, means it's in v3 flow; so if
+      // it's not set, the in-progress form is in v2 flow
+      const maybeV2InProgress = loadedData?.formData?.vaDependentsV3 !== true;
+      // Flag to stay in V2 flow already set
+      const stayInV2Flow = formData.vaDependentV2Flow === true;
+
+      // Lock form into v2 flow if:
+      // - If we're not on the intro page
+      // - If not already locked into v2 flow
+      // - V3 toggle is enabled
+      // - there is an in-progress form (v2 or v3)
+      // - We detect a possible in-progress v2 form
+      if (
+        !stayInV2Flow &&
+        toggleV3Enabled &&
+        hasInProgressForm &&
+        maybeV2InProgress
+      ) {
+        setFormData({
+          ...formData,
+          vaDependentV2Flow: true,
+        });
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [isLoading, isLoggedIn, featureToggles, isIntroPage],
+  );
 
   useEffect(
     () => {
@@ -189,6 +237,7 @@ const mapStateToProps = state => {
     featureToggles,
     savedForms: user?.profile?.savedForms,
     formData: state.form?.data || {},
+    loadedData: state.form?.loadedData || {},
     dependents: state.dependents,
     isPrefill: state.form?.loadedData?.metadata?.prefill || false,
   };
@@ -202,6 +251,7 @@ App.propTypes = {
   isLoading: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
   isPrefill: PropTypes.bool,
+  loadedData: PropTypes.object,
   location: PropTypes.object,
   savedForms: PropTypes.array,
   setFormData: PropTypes.func,
