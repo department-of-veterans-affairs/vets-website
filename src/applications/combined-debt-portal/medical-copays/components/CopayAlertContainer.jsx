@@ -27,7 +27,7 @@ const CopayAlertContainer = ({ type, copay }) => {
           href={`/copay-balances/${copay.id}/resolve`}
           onClick={event => {
             event.preventDefault();
-            recordEvent({ event: 'cta-link-click-copay-past-due-alert' });
+            recordEvent({ event: 'cta-link-click-copay-resolve-link' });
             history.push(`/copay-balances/${copay.id}/resolve`);
           }}
           text="Pay your balance, request financial help, or dispute this bill"
