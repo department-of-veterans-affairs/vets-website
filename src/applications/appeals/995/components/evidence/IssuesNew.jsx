@@ -61,6 +61,7 @@ const Issues = props => {
     contentAfterButtons,
     contentBeforeButtons,
     data,
+    formKey,
     fullData,
     goBack,
     goToPath,
@@ -78,7 +79,9 @@ const Issues = props => {
     reviewRoute,
   } = arrayBuilder;
   const [error, setError] = useState(false);
-  const currentEvidenceData = fullData?.vaEvidence?.[pagePerItemIndex] || {};
+  console.log('props: ', props);
+  const currentEvidenceData = fullData?.[formKey]?.[pagePerItemIndex] || {};
+  console.log('currentEvidenceData: ', currentEvidenceData);
   const formLabel =
     addOrEdit === 'edit'
       ? getEditConditionQuestion(data)
