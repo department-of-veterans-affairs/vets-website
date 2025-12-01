@@ -70,11 +70,14 @@ export const HAS_OTHER_EVIDENCE = 'view:hasOtherEvidence';
 export const HAS_PRIVATE_LIMITATION = 'view:hasPrivateLimitation';
 export const MST_OPTION = 'mstOption';
 export const VA_EVIDENCE_PROMPT_KEY = 'hasVaEvidence';
+export const VA_EVIDENCE_KEY = 'vaEvidence';
 export const PRIVATE_EVIDENCE_PROMPT_KEY = 'hasPrivateEvidence';
+export const PRIVATE_EVIDENCE_KEY = 'privateEvidence';
 export const VA_TREATMENT_LOCATION_KEY = 'treatmentLocation';
+export const PRIVATE_TREATMENT_LOCATION_KEY = 'treatmentLocation';
 export const VA_TREATMENT_BEFORE_2005_KEY = 'treatmentBefore2005';
 export const VA_TREATMENT_MONTH_YEAR_KEY = 'treatmentMonthYear';
-export const PRIVATE_LOCATION_DETAILS_KEY = 'locationDetails';
+export const PRIVATE_LOCATION_TREATMENT_DATES_KEY = 'treatmentDateRange';
 
 export const errorMessages = {
   evidence: {

@@ -1,5 +1,4 @@
 import React from 'react';
-
 import {
   addressNoMilitaryUI,
   addressNoMilitarySchema,
@@ -7,11 +6,8 @@ import {
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
-  checkboxUI,
-  checkboxSchema,
-  currentOrPastMonthYearDateSchema,
-  currentOrPastMonthYearDateUI,
-  radioUI,
+  currentOrPastDateRangeUI,
+  currentOrPastDateRangeSchema,
   textUI,
   textSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -21,16 +17,15 @@ import Authorization from '../../components/4142/Authorization';
 import Issues, { issuesPage } from '../../components/evidence/IssuesNew';
 import {
   EVIDENCE_URLS,
+  PRIVATE_LOCATION_TREATMENT_DATES_KEY,
+  PRIVATE_EVIDENCE_KEY,
   PRIVATE_EVIDENCE_PROMPT_KEY,
-  PRIVATE_LOCATION_DETAILS_KEY,
 } from '../../constants';
 import {
-  dateDetailsContent,
-  datePromptContent,
-  detailsContent,
-  locationContent,
+  detailsEntryContent,
   promptContent,
   summaryContent,
+  treatmentDateContent,
 } from '../../content/evidence/private';
 import { redesignActive } from '../../utils';
 import {
@@ -46,17 +41,13 @@ import {
  * @returns bool
  */
 const itemIsComplete = item => {
-  // let treatmentDateRequirement = item[VA_TREATMENT_BEFORE_2005_KEY];
-  // const issuesRequirement = item.issues?.length;
-  // if (item[VA_TREATMENT_BEFORE_2005_KEY] === 'Y') {
-  //   treatmentDateRequirement =
-  //     item[VA_TREATMENT_BEFORE_2005_KEY] && item[VA_TREATMENT_MONTH_YEAR_KEY];
-  // }
-  // return (
-  //   issuesRequirement &&
-  //   item[VA_TREATMENT_LOCATION_KEY] &&
-  //   treatmentDateRequirement
-  // );
+  const { address, issues, treatmentLocation } = item;
+  const issuesComplete = issues?.length;
+  const { city, country, postalCode, state, street } = address;
+  const addressIsComplete =
+    address && city && country && postalCode && state && street;
+
+  return addressIsComplete && issuesComplete && treatmentLocation;
 };
 
 /**
@@ -66,7 +57,7 @@ const itemIsComplete = item => {
  */
 /** @type {ArrayBuilderOptions} */
 const options = {
-  arrayPath: 'privateEvidence',
+  arrayPath: PRIVATE_EVIDENCE_KEY,
   nounSingular: 'record',
   nounPlural: 'records',
   required: false,
@@ -143,20 +134,20 @@ const detailsPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
       title: ({ formContext }) =>
-        detailsContent.question(formContext, getAddOrEditMode()),
-      label: detailsContent.label,
+        detailsEntryContent.question(formContext, getAddOrEditMode()),
+      label: detailsEntryContent.label,
       nounSingular: options.nounSingular,
-      'ui:description': () => (
+      description: () => (
         <p className="vads-u-font-family--serif vads-u-font-weight--bold vads-u-font-size--base vads-u-line-height--3 vads-u-margin-top--2 vads-u-margin-bottom--1">
-          {detailsContent.label}
+          {detailsEntryContent.label}
         </p>
       ),
-      // description: detailsContent.label,
+      // description: detailsEntryContent.label,
     }),
-    name: textUI({
-      title: detailsContent.locationLabel,
+    treatmentLocation: textUI({
+      title: detailsEntryContent.locationLabel,
       errorMessages: {
-        required: detailsContent.locationRequiredError,
+        required: detailsEntryContent.locationRequiredError,
       },
       required: () => true,
     }),
@@ -168,62 +159,45 @@ const detailsPage = {
   schema: {
     type: 'object',
     properties: {
-      name: textSchema,
+      treatmentLocation: textSchema,
       address: addressNoMilitarySchema({
         omit: ['street3'],
       }),
     },
-    required: [PRIVATE_LOCATION_DETAILS_KEY],
   },
 };
 
-// /** @returns {PageSchema} */
-// const datePromptPage = {
-//   uiSchema: {
-//     ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) =>
-//       datePromptContent.title(formData),
-//     ),
-//     [VA_TREATMENT_BEFORE_2005_KEY]: radioUI({
-//       title: datePromptContent.label,
-//       labels: datePromptContent.options,
-//       errorMessages: {
-//         required: datePromptContent.requiredError,
-//       },
-//     }),
-//   },
-//   schema: {
-//     type: 'object',
-//     properties: {
-//       [VA_TREATMENT_BEFORE_2005_KEY]: {
-//         type: 'string',
-//         enum: ['Y', 'N'],
-//       },
-//     },
-//     required: [VA_TREATMENT_BEFORE_2005_KEY],
-//   },
-// };
-
-// /** @returns {PageSchema} */
-// const dateDetailsPage = {
-//   uiSchema: {
-//     ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) =>
-//       dateDetailsContent.title(formData),
-//     ),
-//     [VA_TREATMENT_MONTH_YEAR_KEY]: currentOrPastMonthYearDateUI({
-//       title: dateDetailsContent.label,
-//       errorMessages: {
-//         required: dateDetailsContent.requiredError,
-//       },
-//     }),
-//   },
-//   schema: {
-//     type: 'object',
-//     properties: {
-//       [VA_TREATMENT_MONTH_YEAR_KEY]: currentOrPastMonthYearDateSchema,
-//     },
-//     required: [VA_TREATMENT_MONTH_YEAR_KEY],
-//   },
-// };
+/** @returns {PageSchema} */
+const treatmentDatePage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) =>
+      treatmentDateContent.question(formData, getAddOrEditMode()),
+    ),
+    [PRIVATE_LOCATION_TREATMENT_DATES_KEY]: currentOrPastDateRangeUI(
+      {
+        title: treatmentDateContent.firstDateLabel,
+        hint: treatmentDateContent.dateHint,
+        errorMessages: {
+          required: treatmentDateContent.requiredError,
+        },
+      },
+      {
+        title: treatmentDateContent.lastDateLabel,
+        hint: treatmentDateContent.dateHint,
+        errorMessages: {
+          required: treatmentDateContent.requiredError,
+        },
+      },
+    ),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      [PRIVATE_LOCATION_TREATMENT_DATES_KEY]: currentOrPastDateRangeSchema,
+    },
+    required: [PRIVATE_LOCATION_TREATMENT_DATES_KEY],
+  },
+};
 
 /**
  * This is where the array builder gets page configuration.
@@ -267,46 +241,31 @@ export default arrayBuilderPages(options, pageBuilder => ({
     depends: redesignActive,
     // ------- END REMOVE
   }),
-  // issues: pageBuilder.itemPage({
-  //   title: '',
-  //   path: EVIDENCE_URLS.vaIssues,
-  //   uiSchema: issuesPage.uiSchema,
-  //   schema: issuesPage.schema,
-  //   // Issues requires a custom page because array builder does not
-  //   // natively support checkboxes with dynamic labels
-  //   CustomPage: props =>
-  //     Issues({
-  //       ...props,
-  //       // resolve prop warning that the index is a string rather than a number
-  //       pagePerItemIndex: +props.pagePerItemIndex,
-  //     }),
-  //   // ------- REMOVE toggle check when new design toggle is removed
-  //   depends: redesignActive,
-  //   // ------- END REMOVE
-  // }),
-  // treatmentDatePrompt: pageBuilder.itemPage({
-  //   title: 'Treatment date prompt',
-  //   path: EVIDENCE_URLS.vaTreatmentDatePrompt,
-  //   uiSchema: datePromptPage.uiSchema,
-  //   schema: datePromptPage.schema,
-  //   // ------- REMOVE toggle check when new design toggle is removed
-  //   depends: redesignActive,
-  //   // ------- END REMOVE
-  // }),
-  // treatmentDate: pageBuilder.itemPage({
-  //   title: 'Treatment date',
-  //   path: EVIDENCE_URLS.vaTreatmentDateDetails,
-  //   uiSchema: dateDetailsPage.uiSchema,
-  //   schema: dateDetailsPage.schema,
-  //   depends: formData => {
-  //     const evidenceEntriesCount = formData?.privateEvidence?.length || 1;
-  //     const currentIndex = evidenceEntriesCount - 1;
-  //     return (
-  //       // ------- REMOVE toggle check when new design toggle is removed
-  //       redesignActive(formData) &&
-  //       // ------- END REMOVE
-  //       hasTreatmentBefore2005(formData, currentIndex)
-  //     );
-  //   },
-  // }),
+  issues: pageBuilder.itemPage({
+    title: '',
+    path: EVIDENCE_URLS.privateIssues,
+    uiSchema: issuesPage.uiSchema,
+    schema: issuesPage.schema,
+    // Issues requires a custom page because array builder does not
+    // natively support checkboxes with dynamic labels
+    CustomPage: props =>
+      Issues({
+        ...props,
+        // resolve prop warning that the index is a string rather than a number
+        pagePerItemIndex: +props.pagePerItemIndex,
+        formKey: PRIVATE_EVIDENCE_KEY,
+      }),
+    // ------- REMOVE toggle check when new design toggle is removed
+    depends: redesignActive,
+    // ------- END REMOVE
+  }),
+  treatmentDate: pageBuilder.itemPage({
+    title: 'Treatment date',
+    path: EVIDENCE_URLS.privateTreatmentDate,
+    uiSchema: treatmentDatePage.uiSchema,
+    schema: treatmentDatePage.schema,
+    // ------- REMOVE toggle check when new design toggle is removed
+    depends: formData => redesignActive(formData),
+    // ------- END REMOVE
+  }),
 }));

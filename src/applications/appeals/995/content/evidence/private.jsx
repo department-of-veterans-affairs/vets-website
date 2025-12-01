@@ -1,6 +1,9 @@
 import React from 'react';
 import { getProviderDetailsTitle } from '../../utils/evidence';
-import { PRIVATE_LOCATION_DETAILS_KEY } from '../../constants';
+import {
+  PRIVATE_LOCATION_TREATMENT_DATES_KEY,
+  PRIVATE_TREATMENT_LOCATION_KEY,
+} from '../../constants';
 import { formatIssueList } from '../../../shared/utils/contestableIssueMessages';
 
 export const promptContent = {
@@ -59,12 +62,12 @@ export const summaryContent = {
     N: 'No',
   },
   alertItemUpdatedText: itemData =>
-    `${itemData[PRIVATE_LOCATION_DETAILS_KEY]} information has been updated.`,
+    `${itemData[PRIVATE_TREATMENT_LOCATION_KEY]} information has been updated.`,
   cardDescription: item => (
     <>
-      {item?.[PRIVATE_LOCATION_DETAILS_KEY] && (
+      {item?.[PRIVATE_TREATMENT_LOCATION_KEY] && (
         <h3 className="vads-u-margin-top--0">
-          {item[PRIVATE_LOCATION_DETAILS_KEY]}
+          {item[PRIVATE_TREATMENT_LOCATION_KEY]}
         </h3>
       )}
       {item?.issues?.length === 1 && (
@@ -77,18 +80,18 @@ export const summaryContent = {
           <strong>Conditions:</strong> {formatIssueList(item.issues)}
         </p>
       )}
-      {item?.[PRIVATE_LOCATION_DETAILS_KEY] && (
+      {item?.[PRIVATE_LOCATION_TREATMENT_DATES_KEY](
         <p>
           <strong>Treatment start date:</strong>
           &nbsp;
-          {/* {formatMonthYear(item[PRIVATE_LOCATION_DETAILS_KEY])} */}
-        </p>
+          {/* {formatMonthYear(item[PRIVATE_LOCATION_TREATMENT_DATES_KEY])} */}
+        </p>,
       )}
     </>
   ),
 };
 
-export const detailsContent = {
+export const detailsEntryContent = {
   question: (formContext, addOrEdit) => {
     const index = formContext?.pagePerItemIndex || 0;
 
@@ -98,4 +101,25 @@ export const detailsContent = {
     'Enter the name and address of the private provider, facility, medical center, clinic, or VA Vet Center you want us to request your records from.',
   locationLabel: 'Location name',
   locationRequiredError: 'Enter a location name',
+};
+
+export const treatmentDateContent = {
+  question: (formContext, addOrEdit) => {
+    const location = formContext?.treatmentLocation;
+
+    if (addOrEdit === 'add') {
+      return location
+        ? `When were you treated at ${location}?`
+        : 'When were you treated?';
+    }
+
+    return location
+      ? `Edit when you were treated at ${location}`
+      : `Edit when you were treated`;
+  },
+  firstDateLabel: 'First date of treatment',
+  dateHint:
+    'Enter 2 digits for the month and day and 4 digits for the year. You can estimate the date.',
+  lastDateLabel: 'Last date of treatment',
+  requiredError: 'Enter a month from 1 to 12, even if it’s an estimate',
 };

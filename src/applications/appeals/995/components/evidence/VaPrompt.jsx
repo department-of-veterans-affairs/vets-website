@@ -13,7 +13,6 @@ const VaPrompt = ({
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
-  console.log('hitting VaPrompt');
   const [error, setError] = useState(null);
 
   const handlers = {
