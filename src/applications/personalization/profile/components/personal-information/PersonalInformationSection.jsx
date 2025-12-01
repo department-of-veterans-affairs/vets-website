@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -11,11 +11,16 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { getMessagingSignature } from 'platform/user/profile/actions';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+import {
+  VaAlert,
+  VaLink,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { ProfileInfoSection } from '../ProfileInfoSection';
 import LegalName from './LegalName';
 import DisabilityRating from './DisabilityRating';
 import MessagingSignature from './MessagingSignature';
 import { PROFILE_PATHS } from '../../constants';
+import { handleRouteChange } from '../../helpers';
 
 const LegalNameDescription = () => (
   <va-additional-info trigger="How to update your legal name" uswds>
@@ -37,6 +42,7 @@ const LegalNameDescription = () => (
 const PersonalInformationSection = ({ dob }) => {
   const dispatch = useDispatch();
   const location = useLocation();
+  const history = useHistory();
   const userServices = useSelector(state => state.user.profile.services);
   const isMessagingServiceEnabled = userServices.includes(
     backendServices.MESSAGING,
@@ -179,17 +185,18 @@ const PersonalInformationSection = ({ dob }) => {
         isProfile2Enabled &&
         isHealthCareSettingsEnabled && (
           <div className="vads-u-margin-top--4">
-            <va-alert slim status="info" visible>
+            <VaAlert slim status="info" visible>
               <p className="vads-u-margin-y--0">
                 Your health care messages signature has moved to your health
                 care settings.{' '}
-                <va-link
+                <VaLink
                   href={PROFILE_PATHS.MESSAGES_SIGNATURE}
                   text="Manage the signature on your messages"
+                  onClick={event => handleRouteChange(event, history)}
                 />
                 .
               </p>
-            </va-alert>
+            </VaAlert>
           </div>
         )}
     </div>
