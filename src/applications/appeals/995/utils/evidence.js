@@ -108,9 +108,6 @@ export const getProviderDetailsTitle = (addOrEdit, index, providerType) => {
   // Add a space before the "first," "20th" etc.
   // to account for when it is blank (below) so we don't
   // have extra spaces in the sentence
-  console.log('addOrEdit: ', addOrEdit);
-  console.log('index: ', index);
-  console.log('providerType: ', providerType);
   let numberToWord = ` ${numberToWords(index)}`;
 
   if (addOrEdit === 'add' && index === 1) {

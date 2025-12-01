@@ -17,6 +17,7 @@ import { getAddOrEditMode } from '../../utils/evidence';
 import Issues, { issuesPage } from '../../components/evidence/IssuesNew';
 import {
   EVIDENCE_URLS,
+  VA_EVIDENCE_KEY,
   VA_EVIDENCE_PROMPT_KEY,
   VA_TREATMENT_BEFORE_2005_KEY,
   VA_TREATMENT_LOCATION_KEY,
@@ -44,7 +45,7 @@ import {
  */
 const itemIsComplete = item => {
   let treatmentDateRequirement = item[VA_TREATMENT_BEFORE_2005_KEY];
-  const issuesRequirement = item.issues?.length;
+  const issuesComplete = item.issues?.length;
 
   if (item[VA_TREATMENT_BEFORE_2005_KEY] === 'Y') {
     treatmentDateRequirement =
@@ -52,7 +53,7 @@ const itemIsComplete = item => {
   }
 
   return (
-    issuesRequirement &&
+    issuesComplete &&
     item[VA_TREATMENT_LOCATION_KEY] &&
     treatmentDateRequirement
   );
@@ -65,7 +66,7 @@ const itemIsComplete = item => {
  */
 /** @type {ArrayBuilderOptions} */
 const options = {
-  arrayPath: 'vaEvidence',
+  arrayPath: VA_EVIDENCE_KEY,
   nounSingular: 'record',
   nounPlural: 'records',
   required: false,
@@ -231,6 +232,7 @@ export default arrayBuilderPages(options, pageBuilder => ({
         // resolve prop warning that the index is a string rather than a number
         pagePerItemIndex: +props.pagePerItemIndex,
         addOrEdit: getAddOrEditMode(),
+        formKey: VA_EVIDENCE_KEY,
       }),
     // ------- REMOVE toggle check when new design toggle is removed
     depends: redesignActive,
@@ -251,7 +253,7 @@ export default arrayBuilderPages(options, pageBuilder => ({
     uiSchema: dateDetailsPage.uiSchema,
     schema: dateDetailsPage.schema,
     depends: formData => {
-      const evidenceEntriesCount = formData?.vaEvidence?.length || 1;
+      const evidenceEntriesCount = formData?.[VA_EVIDENCE_KEY]?.length || 1;
       const currentIndex = evidenceEntriesCount - 1;
       return (
         // ------- REMOVE toggle check when new design toggle is removed
