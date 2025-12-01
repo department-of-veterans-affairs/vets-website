@@ -9,6 +9,7 @@ import { clearSearchText } from '../../actions/search';
 import { clearGeocodeError, geolocateUser } from '../../actions/mapbox';
 import { getProviderSpecialties } from '../../actions/locations';
 import { LocationType } from '../../constants';
+import { validateForm } from '../../reducers/searchQuery';
 import { setFocus } from '../../utils/helpers';
 import { SearchFormTypes } from '../../types';
 
@@ -39,47 +40,63 @@ export const SearchForm = props => {
   const locationInputFieldRef = useRef(null);
   const lastQueryRef = useRef(null);
 
-  // Add local draft state for form inputs
-  const [draftFormState, setDraftFormState] = useState({
+  // Local draft state for form inputs with validation flags
+  // Initialize with clean validation state - errors only show after user interaction or submit
+  const [draftFormState, setDraftFormState] = useState(() => ({
     facilityType: currentQuery.facilityType || null,
     serviceType: currentQuery.serviceType || null,
     searchString: currentQuery.searchString || '',
     vamcServiceDisplay: currentQuery.vamcServiceDisplay || null,
-  });
+    isValid: true,
+    locationChanged: false,
+    facilityTypeChanged: false,
+    serviceTypeChanged: false,
+  }));
 
-  // Memoize callbacks to prevent unnecessary re-renders
-  const handleVamcDraftChange = useCallback(updates => {
-    setDraftFormState(prev => ({ ...prev, ...updates }));
+  // Helper to update draft state with validation
+  const updateDraftState = useCallback(updater => {
+    setDraftFormState(prev => {
+      const updates =
+        typeof updater === 'function' ? updater(prev) : { ...prev, ...updater };
+      return { ...updates, ...validateForm(prev, updates) };
+    });
   }, []);
 
-  const handleLocationSelection = useCallback(updates => {
-    setDraftFormState(prev => ({ ...prev, ...updates }));
-  }, []);
+  const handleVamcDraftChange = useCallback(
+    updates => updateDraftState(updates),
+    [updateDraftState],
+  );
 
-  const handleFacilityTypeChange = useCallback(e => {
-    const newFacilityType = e.target.value;
+  const handleLocationSelection = useCallback(
+    updates => updateDraftState(updates),
+    [updateDraftState],
+  );
 
-    setDraftFormState(prev => ({
-      ...prev,
-      facilityType: newFacilityType,
-      serviceType: null,
-      vamcServiceDisplay: null,
-    }));
-    // Note: Specialty fetching for CC_PROVIDER is handled by ServiceType component
-  }, []);
+  const handleFacilityTypeChange = useCallback(
+    e => {
+      updateDraftState(prev => ({
+        ...prev,
+        facilityType: e.target.value,
+        serviceType: null,
+        vamcServiceDisplay: null,
+      }));
+    },
+    [updateDraftState],
+  );
 
-  const handleServiceTypeChange = useCallback(({ target, selectedItem }) => {
-    setSelectedServiceType(selectedItem);
-    const option = target.value.trim();
-    const serviceType = option === 'All' ? null : option;
-
-    setDraftFormState(prev => ({ ...prev, serviceType }));
-  }, []);
+  const handleServiceTypeChange = useCallback(
+    ({ target, selectedItem }) => {
+      setSelectedServiceType(selectedItem);
+      const option = target.value.trim();
+      const serviceType = option === 'All' ? null : option;
+      updateDraftState({ serviceType });
+    },
+    [updateDraftState],
+  );
 
   const handleSubmit = e => {
     e.preventDefault();
 
-    // MODIFY duplicate check to use draftFormState
     const isSameQuery =
       lastQueryRef.current &&
       draftFormState.facilityType === lastQueryRef.current.facilityType &&
@@ -91,29 +108,32 @@ export const SearchForm = props => {
       return;
     }
 
-    // UPDATE lastQueryRef with draft values
-    lastQueryRef.current = {
-      facilityType: draftFormState.facilityType,
-      serviceType: draftFormState.serviceType,
-      searchString: draftFormState.searchString,
-      zoomLevel: currentQuery.zoomLevel,
-    };
-
     const updateReduxState = propName => {
       onChange({ [propName]: ' ' });
       onChange({ [propName]: '' });
     };
 
-    // MODIFY validation to use draftFormState
+    // Validation with error triggering
+    // Use setTimeout to defer focus - otherwise button click re-captures focus
     if (!draftFormState.searchString) {
       updateReduxState('searchString');
-      focusElement('#street-city-state-zip');
+      setDraftFormState(prev => ({
+        ...prev,
+        locationChanged: true,
+        isValid: false,
+      }));
+      setTimeout(() => focusElement('#street-city-state-zip'), 0);
       return;
     }
 
     if (!draftFormState.facilityType) {
       updateReduxState('facilityType');
-      focusElement('#facility-type-dropdown');
+      setDraftFormState(prev => ({
+        ...prev,
+        facilityTypeChanged: true,
+        isValid: false,
+      }));
+      setTimeout(() => focusElement('#facility-type-dropdown'), 0);
       return;
     }
 
@@ -122,11 +142,25 @@ export const SearchForm = props => {
       (!draftFormState.serviceType || !selectedServiceType)
     ) {
       updateReduxState('serviceType');
-      focusElement('#service-type-ahead-input');
+      setDraftFormState(prev => ({
+        ...prev,
+        serviceTypeChanged: true,
+        isValid: false,
+      }));
+      setTimeout(() => focusElement('#service-type-ahead-input'), 0);
       return;
     }
 
-    // ADD: Commit draft to Redux (NEW - this is the fix!)
+    // Only set lastQueryRef after validation passes - this prevents the
+    // "same query" check from blocking repeated submit attempts on invalid forms
+    lastQueryRef.current = {
+      facilityType: draftFormState.facilityType,
+      serviceType: draftFormState.serviceType,
+      searchString: draftFormState.searchString,
+      zoomLevel: currentQuery.zoomLevel,
+    };
+
+    // Commit draft to Redux
     onChange({
       facilityType: draftFormState.facilityType,
       serviceType: draftFormState.serviceType,
@@ -134,7 +168,6 @@ export const SearchForm = props => {
       vamcServiceDisplay: draftFormState.vamcServiceDisplay,
     });
 
-    // MODIFY analytics to use draftFormState
     let analyticsServiceType = draftFormState.serviceType;
     if (
       draftFormState.facilityType === LocationType.CC_PROVIDER &&
@@ -160,16 +193,11 @@ export const SearchForm = props => {
     onSubmit();
   };
 
-  // Sync draft state when Redux updates from external sources
-  // (geolocation, URL params, browser back button)
+  // Sync draft state when Redux updates from external sources (geolocation)
   useEffect(
     () => {
-      // Only sync searchString (geolocation updates this)
       if (currentQuery.searchString !== draftFormState.searchString) {
-        setDraftFormState(prev => ({
-          ...prev,
-          searchString: currentQuery.searchString || '',
-        }));
+        updateDraftState({ searchString: currentQuery.searchString || '' });
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -180,11 +208,14 @@ export const SearchForm = props => {
   useEffect(
     () => {
       if (props.location?.search) {
-        setDraftFormState({
-          facilityType: currentQuery.facilityType || null,
-          serviceType: currentQuery.serviceType || null,
-          searchString: currentQuery.searchString || '',
-          vamcServiceDisplay: currentQuery.vamcServiceDisplay || null,
+        setDraftFormState(prev => {
+          const newState = {
+            facilityType: currentQuery.facilityType || null,
+            serviceType: currentQuery.serviceType || null,
+            searchString: currentQuery.searchString || '',
+            vamcServiceDisplay: currentQuery.vamcServiceDisplay || null,
+          };
+          return { ...newState, ...validateForm(prev, newState) };
         });
       }
     },
@@ -194,16 +225,12 @@ export const SearchForm = props => {
 
   const handleGeolocationButtonClick = e => {
     e.preventDefault();
-    recordEvent({
-      event: 'fl-get-geolocation',
-    });
-
+    recordEvent({ event: 'fl-get-geolocation' });
     props.geolocateUser();
   };
 
   const handleClearInput = () => {
     props.clearSearchText();
-    // optional chaining not allowed
     if (locationInputFieldRef.current) {
       locationInputFieldRef.current.value = '';
     }
@@ -308,7 +335,10 @@ export const SearchForm = props => {
       </VaModal>
       <form id="facility-search-controls" onSubmit={handleSubmit}>
         <AddressAutosuggest
-          currentQuery={draftFormState}
+          currentQuery={{
+            ...draftFormState,
+            geolocationInProgress: currentQuery.geolocationInProgress,
+          }}
           geolocateUser={handleGeolocationButtonClick}
           inputRef={locationInputFieldRef}
           isMobile={isMobile}
@@ -324,7 +354,7 @@ export const SearchForm = props => {
             {facilityAndServiceTypeInputs}
             <va-button
               id="facility-search"
-              submit="prevent"
+              onClick={handleSubmit}
               text="Search"
               full-width
             />
