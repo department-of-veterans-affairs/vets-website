@@ -55,7 +55,7 @@ export const getVeteranName = (formData, fallback = 'the Veteran') => {
  */
 export const getPersonName = (
   formData,
-  { veteranFallback = 'the Veteran', claimantFallback = 'the claimant' } = {},
+  { veteranFallback, claimantFallback } = {},
 ) => {
   if (isClaimantVeteran(formData)) {
     return getVeteranName(formData, veteranFallback);

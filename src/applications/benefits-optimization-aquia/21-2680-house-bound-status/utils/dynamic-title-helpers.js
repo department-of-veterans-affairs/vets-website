@@ -12,7 +12,7 @@ import { getPersonName } from './name-helpers';
  * @returns {string} Dynamic title like "Is [Name] hospitalized?"
  */
 export const getHospitalizationStatusTitle = formData => {
-  const personName = getPersonName(formData, 'the Veteran', 'the claimant');
+  const personName = getPersonName(formData);
   return `Is ${personName} hospitalized?`;
 };
 
@@ -22,7 +22,10 @@ export const getHospitalizationStatusTitle = formData => {
  * @returns {string} Dynamic title like "When was [Name] admitted to the hospital?"
  */
 export const getHospitalizationDateTitle = formData => {
-  const personName = getPersonName(formData, null, 'the claimant');
+  const personName = getPersonName(formData, {
+    claimantFallback: 'the claimant',
+    veteranFallback: '',
+  });
   if (personName) {
     return `When was ${personName} admitted to the hospital?`;
   }
@@ -35,7 +38,10 @@ export const getHospitalizationDateTitle = formData => {
  * @returns {string} Dynamic title like "What's the name and address of the hospital where [Name] is admitted?"
  */
 export const getHospitalizationFacilityTitle = formData => {
-  const personName = getPersonName(formData, null, 'the claimant');
+  const personName = getPersonName(formData, {
+    claimantFallback: 'the claimant',
+    veteranFallback: 'the claimant',
+  });
   if (personName) {
     return `What's the name and address of the hospital where ${personName} is admitted?`;
   }

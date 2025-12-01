@@ -225,11 +225,7 @@ const formConfig = {
         hospitalizationStatus: {
           path: 'hospitalization-status',
           title: formData => {
-            const personName = getPersonName(
-              formData,
-              'the Veteran',
-              'the claimant',
-            );
+            const personName = getPersonName(formData);
             return `Is ${personName} hospitalized?`;
           },
           uiSchema: hospitalizationStatusUiSchema,
@@ -238,7 +234,10 @@ const formConfig = {
         hospitalizationDate: {
           path: 'hospitalization-date',
           title: formData => {
-            const personName = getPersonName(formData, '', 'the claimant');
+            const personName = getPersonName(formData, {
+              veteranFallback: '',
+              claimantFallback: 'the claimant',
+            });
 
             if (personName) {
               return `When was ${personName} admitted to the hospital?`;
@@ -253,11 +252,7 @@ const formConfig = {
         hospitalizationFacility: {
           path: 'hospitalization-facility',
           title: formData => {
-            const personName = getPersonName(
-              formData,
-              'the claimant',
-              'the claimant',
-            );
+            const personName = getPersonName(formData);
             return `What's the name and address of the hospital where ${personName} is admitted?`;
           },
           uiSchema: hospitalizationFacilityUiSchema,
