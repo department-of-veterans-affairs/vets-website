@@ -703,5 +703,8 @@ export function customTransformForSubmit(formConfig, form) {
 
   const cleanedPayload = buildSubmissionData(updatedData);
 
-  return JSON.stringify(cleanedPayload, customFormReplacer) || '{}';
+  return {
+    body: JSON.stringify(cleanedPayload, customFormReplacer) || '{}',
+    data: cleanedPayload || {},
+  };
 }
