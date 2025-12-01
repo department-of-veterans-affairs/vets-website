@@ -74,7 +74,7 @@ export const IntroductionPage = props => {
   return (
     <article className="schemaform-intro">
       <FormTitle title={TITLE} subTitle={SUBTITLE} />
-      <p>
+      <p className="vads-u-font-size--lg vads-u-font-family--serif vads-u-color--base vads-u-font-weight--normal">
         VA Form 22-0976 is used by foreign educational institutions that wish to
         offer degree programs eligible for VA education benefits and must be
         completed by an authorized school official representing a foreign
