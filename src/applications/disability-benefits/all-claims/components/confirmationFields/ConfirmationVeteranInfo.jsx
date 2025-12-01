@@ -11,10 +11,7 @@ export const ConfirmationVeteranInfo = () => {
   return (
     <li>
       <div className="vads-u-color--gray">Veteran name</div>
-      <div>
-        {[first, middle, last].filter(Boolean).join(' ')}
-        {suffix ? `, ${suffix}` : null}
-      </div>
+      <div>{[first, middle, last, suffix].filter(Boolean).join(' ')}</div>
       <div className="vads-u-color--gray">Date of birth:</div>
       <div>{dob ? formatDate(dob) : ''}</div>
       <div className="vads-u-color--gray">Gender:</div>
