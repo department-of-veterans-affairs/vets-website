@@ -87,7 +87,7 @@ const mockDependents = {
           awardIndicator: 'Y',
         },
         {
-          firstName: 'CLUMSY', // Death
+          firstName: 'FRANK', // Death
           lastName: 'FOSTER',
           dateOfBirth: createDate(33),
           ssn: '3236',

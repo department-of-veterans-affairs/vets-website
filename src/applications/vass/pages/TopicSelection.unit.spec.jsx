@@ -16,8 +16,8 @@ describe('VASS Component: TopicSelection', () => {
     expect(getByTestId('topic-checkbox-group')).to.exist;
     expect(getByTestId('button-pair')).to.exist;
 
-    topics.forEach(topic => {
-      const testId = `topic-checkbox-${topic
+    topics.forEach(({ topicId }) => {
+      const testId = `topic-checkbox-${topicId
         .toLowerCase()
         .replace(/\s+/g, '-')}`;
       expect(getByTestId(testId)).to.exist;
