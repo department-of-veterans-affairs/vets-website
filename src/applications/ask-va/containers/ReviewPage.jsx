@@ -1107,7 +1107,11 @@ const ReviewPage = props => {
                       keys={chapter.pageKeys}
                       items={[
                         {
-                          name: 'Phone number',
+                          name:
+                            props.formData.relationshipToVeteran ===
+                            relationshipOptionsSomeoneElse.WORK
+                              ? 'Business phone'
+                              : 'Phone number',
                           data:
                             props.formData.relationshipToVeteran ===
                             relationshipOptionsSomeoneElse.WORK
