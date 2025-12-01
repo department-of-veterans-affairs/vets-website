@@ -10,7 +10,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import { DOWNLOAD_TSA_LETTER_ENDPOINT } from '../utils/constants';
 import { apiRequest } from '../utils/helpers';
 
-export const DownloadTsaLetter = ({ letter }) => {
+export const DownloadTsaLetter = ({ documentId }) => {
   const ref = useRef(null);
   const [error, setError] = useState(false);
   const [hasFetched, setHasFetched] = useState(false);
@@ -21,9 +21,7 @@ export const DownloadTsaLetter = ({ letter }) => {
       let hasFetchedLocal = false;
 
       const getTsaLetterData = () => {
-        return apiRequest(
-          DOWNLOAD_TSA_LETTER_ENDPOINT(letter.attributes.documentId),
-        )
+        return apiRequest(DOWNLOAD_TSA_LETTER_ENDPOINT(documentId))
           .then(response => {
             response.blob().then(blob => {
               window.URL = window.URL || window.webkitURL;
@@ -67,7 +65,7 @@ export const DownloadTsaLetter = ({ letter }) => {
         observer.disconnect();
       };
     },
-    [letter],
+    [documentId],
   );
 
   useEffect(
@@ -126,5 +124,5 @@ export const DownloadTsaLetter = ({ letter }) => {
 };
 
 DownloadTsaLetter.propTypes = {
-  letter: PropTypes.object.isRequired,
+  documentId: PropTypes.string.isRequired,
 };

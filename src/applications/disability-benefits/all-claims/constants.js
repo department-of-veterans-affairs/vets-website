@@ -80,6 +80,12 @@ export const HOMELESSNESS_TYPES = {
   notHomeless: 'no',
 };
 
+export const HOMELESSNESS_LABELS = {
+  no: 'No',
+  homeless: "I'm currently homeless.",
+  atRisk: "I'm at risk of becoming homeless.",
+};
+
 export const HOMELESS_HOUSING_LABELS = {
   shelter: 'I’m living in a homeless shelter.',
   notShelter:

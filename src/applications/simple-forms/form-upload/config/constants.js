@@ -106,6 +106,7 @@ export const FORM_UPLOAD_OCR_ALERT = (
   pdfDownloadUrl,
   onCloseEvent,
   warnings = [],
+  file,
 ) => (
   <VaAlert
     close-btn-aria-label="Close notification"
@@ -116,7 +117,7 @@ export const FORM_UPLOAD_OCR_ALERT = (
     role="status"
   >
     <h2 slot="headline">
-      Are you sure the file you uploaded is VA Form {formNumber}?
+      Are you sure the file you uploaded, {file}, is VA Form {formNumber}?
     </h2>
     <React.Fragment key=".1">
       <ul>

@@ -25,6 +25,7 @@
       "suffix": "Jr"
     },
     "ssnLastFour": "1234",
+    "vaFileLastFour": "6789",
     "mailingAddress": {
       "addressLine1": "123 Main Street",
       "addressLine2": "Apt 4B",

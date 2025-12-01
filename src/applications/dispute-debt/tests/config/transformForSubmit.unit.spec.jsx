@@ -126,6 +126,7 @@ describe('transformForSubmit', () => {
         'current_ar',
         'benefit_type',
         'dispute_reason',
+        'rcvbl_id',
       );
     });
   });

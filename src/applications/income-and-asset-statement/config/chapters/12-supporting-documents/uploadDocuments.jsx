@@ -2,6 +2,7 @@ import React from 'react';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import environment from 'platform/utilities/environment';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
+import { showUpdatedContent } from '../../../helpers';
 
 const MAX_FILE_SIZE_MB = 20;
 const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1000 ** 2;
@@ -31,6 +32,7 @@ const UploadMessage = (
 export default {
   title: 'Upload documents',
   path: 'additional-information/upload-documents',
+  depends: () => !showUpdatedContent(),
   uiSchema: {
     ...titleUI('Upload supporting documents'),
     'ui:description': Description,

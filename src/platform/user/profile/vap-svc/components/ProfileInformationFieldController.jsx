@@ -191,6 +191,15 @@ class ProfileInformationFieldController extends React.Component {
         document,
         50,
       );
+
+      if (
+        forceEditView &&
+        typeof successCallback === 'function' &&
+        showUpdateSuccessAlert &&
+        !prevProps.showUpdateSuccessAlert
+      ) {
+        successCallback();
+      }
     } else if (
       forceEditView &&
       typeof successCallback === 'function' &&
