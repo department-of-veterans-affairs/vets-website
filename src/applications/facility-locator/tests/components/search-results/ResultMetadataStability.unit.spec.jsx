@@ -7,16 +7,6 @@ import LocationPhoneLink from '../../../components/search-results-items/common/L
 import { LocationType } from '../../../constants';
 import testData from '../../../constants/mock-facility-data-v1.json';
 
-/**
- * Result Metadata Stability Tests - Issue #20370
- *
- * These tests verify that result components display metadata
- * based on the committed query state (Redux), not draft state.
- *
- * Key behavior:
- * - Result metadata should NOT change when form inputs change
- * - Result metadata should ONLY change when form is submitted
- */
 describe('Result metadata stability during form edits', () => {
   describe('VaFacilityResult', () => {
     it('should show health connect number based on committed query', () => {
@@ -32,7 +22,6 @@ describe('Result metadata stability during form edits', () => {
         />,
       );
 
-      // Verify LocationPhoneLink is rendered with health connect number
       const phoneLink = wrapper.find('LocationPhoneLink');
       expect(phoneLink.prop('showHealthConnectNumber')).to.equal(
         '1-877-222-VETS',
@@ -57,7 +46,6 @@ describe('Result metadata stability during form edits', () => {
         />,
       );
 
-      // Verify burial link is rendered
       const burialLink = wrapper.find(
         'Link[children="Learn more about burial status"]',
       );
@@ -79,7 +67,6 @@ describe('Result metadata stability during form edits', () => {
         />,
       );
 
-      // Verify burial link is NOT rendered
       const burialLink = wrapper.find(
         'Link[children="Learn more about burial status"]',
       );
@@ -101,7 +88,6 @@ describe('Result metadata stability during form edits', () => {
         />,
       );
 
-      // Verify health connect number is not shown
       const phoneLink = wrapper.find('LocationPhoneLink');
       expect(phoneLink.prop('showHealthConnectNumber')).to.be.false;
 
@@ -124,7 +110,6 @@ describe('Result metadata stability during form edits', () => {
         />,
       );
 
-      // Verify health connect number is displayed
       expect(wrapper.find('va-telephone').length).to.be.greaterThan(0);
 
       wrapper.unmount();
@@ -144,7 +129,6 @@ describe('Result metadata stability during form edits', () => {
         />,
       );
 
-      // Health connect number section should not exist
       const text = wrapper.text();
       expect(text).to.not.include('877');
 
@@ -167,7 +151,6 @@ describe('Result metadata stability during form edits', () => {
         />,
       );
 
-      // Verify header contains "VA health"
       const headerText = wrapper.find('h2').text();
       expect(headerText).to.include('VA health');
 
@@ -190,7 +173,6 @@ describe('Result metadata stability during form edits', () => {
         />,
       );
 
-      // Verify header contains service type
       const headerText = wrapper.find('h2').text();
       expect(headerText).to.include('Primary care');
 
@@ -213,7 +195,6 @@ describe('Result metadata stability during form edits', () => {
         />,
       );
 
-      // Verify header contains VAMC service display
       const headerText = wrapper.find('h2').text();
       expect(headerText).to.include('Mental health care');
 
@@ -221,16 +202,10 @@ describe('Result metadata stability during form edits', () => {
     });
 
     it('should not change header when facilityType changes in draft (uncommitted)', () => {
-      // This is a conceptual test - in real app, SearchResultsHeader
-      // would receive props from Redux which only updates on submit
       const committedQuery = {
         facilityType: LocationType.HEALTH,
       };
 
-      // Note: Draft query (not committed) would be different facility type
-      // but component should only receive committed query from Redux
-
-      // Component should receive committed query from Redux, not draft
       const wrapper = shallow(
         <SearchResultsHeader
           results={[{}]}
@@ -240,7 +215,6 @@ describe('Result metadata stability during form edits', () => {
         />,
       );
 
-      // Header should show committed query (health), not draft (cemetery)
       const headerText = wrapper.find('h2').text();
       expect(headerText).to.include('VA health');
       expect(headerText).to.not.include('cemetery');
@@ -256,7 +230,6 @@ describe('Result metadata stability during form edits', () => {
         serviceType: 'PrimaryCare',
       };
 
-      // Multiple results should all use the same committed query
       const results = [testData.data[0], testData.data[1]];
 
       const wrappers = results.map((location, index) =>
@@ -270,7 +243,6 @@ describe('Result metadata stability during form edits', () => {
         ),
       );
 
-      // All results should have health connect number
       wrappers.forEach(wrapper => {
         const phoneLink = wrapper.find('LocationPhoneLink');
         expect(phoneLink.prop('showHealthConnectNumber')).to.equal(
@@ -285,7 +257,6 @@ describe('Result metadata stability during form edits', () => {
     });
 
     it('should not mix metadata from different facility types', () => {
-      // Cemetery query should not show health connect number
       const cemeteryQuery = {
         facilityType: LocationType.CEMETERY,
       };
@@ -299,7 +270,6 @@ describe('Result metadata stability during form edits', () => {
         />,
       );
 
-      // Should show burial link but not health connect
       expect(
         cemeteryWrapper.find('Link[children="Learn more about burial status"]')
           .length,
@@ -310,7 +280,6 @@ describe('Result metadata stability during form edits', () => {
           .prop('showHealthConnectNumber'),
       ).to.be.false;
 
-      // Health query should show health connect number but not burial link
       const healthQuery = {
         facilityType: LocationType.HEALTH,
       };
