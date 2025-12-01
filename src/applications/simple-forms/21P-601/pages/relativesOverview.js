@@ -11,11 +11,11 @@ export default {
       title: 'Are there any survivors of the beneficiary?',
       required: () => true,
     }),
-    'view:noSurvivorsMessage': {
+    'view:survivorsMessage': {
       'ui:description':
-        'Since there are no surviving relatives, you may be eligible for reimbursement of last illness and burial expenses if you paid them.',
+        'Since there are surviving relatives, you may not be eligible for reimbursement of last illness and burial expenses if you paid them.',
       'ui:options': {
-        hideIf: formData => [true, undefined].includes(formData?.survivors),
+        hideIf: formData => [false, undefined].includes(formData?.survivors),
       },
     },
   },
@@ -23,7 +23,7 @@ export default {
     type: 'object',
     properties: {
       survivors: yesNoSchema,
-      'view:noSurvivorsMessage': {
+      'view:survivorsMessage': {
         type: 'object',
         properties: {},
       },
