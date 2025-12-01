@@ -70,9 +70,15 @@ describe('MHV Email Confirmation Alert - Add Email', () => {
   });
 
   it('should focus the email address field when "Add a contact email" is clicked', () => {
+    cy.findByTestId('profile-alert--add-contact-email').should('be.visible');
+    cy.findByTestId('profile-alert--add-contact-email').findByRole('heading', {
+      level: 3,
+      name: /Add a contact email/,
+    });
     ContactInformationPage.clickAddEmailAddress();
 
     cy.get('va-text-input[name="root_emailAddress"]')
+      .should('be.visible')
       .shadow()
       .find('input#inputField')
       .should('have.focus');

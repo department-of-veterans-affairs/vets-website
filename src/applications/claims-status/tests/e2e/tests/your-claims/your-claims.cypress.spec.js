@@ -176,11 +176,11 @@ describe('Your claims', () => {
       name: 'Additional services',
     });
 
-    cy.findByRole('link', {
+    cy.get('va-link[data-testid="change-address-link"]', {
       name: 'Change your address and other contact information',
     }).should('have.attr', 'href', '/change-address/');
 
-    cy.findByRole('link', {
+    cy.get('va-link[data-testid="change-legal-name-link"]', {
       name: 'Change your legal name on file with VA',
     }).should(
       'have.attr',
@@ -188,7 +188,7 @@ describe('Your claims', () => {
       '/resources/how-to-change-your-legal-name-on-file-with-va/',
     );
 
-    cy.findByRole('link', {
+    cy.get('va-link[data-testid="get-help-filing-claim-link"]', {
       name: 'Get help filing your VA claim, decision review, or appeal',
     }).should('have.attr', 'href', '/disability/get-help-filing-claim/');
 

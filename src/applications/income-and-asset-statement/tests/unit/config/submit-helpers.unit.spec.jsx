@@ -5,6 +5,7 @@ import {
   pruneFields,
   pruneFieldsInArray,
   pruneConfiguredArrays,
+  remapIncomeTypeFields,
   remapOtherVeteranFields,
   removeDisallowedFields,
   removeInvalidFields,
@@ -150,6 +151,138 @@ describe('submit-helpers.js', () => {
       remapOtherVeteranFields(input);
 
       expect(input).to.deep.equal(original);
+    });
+  });
+
+  describe('remapIncomeTypeFields', () => {
+    it('should remap "WAGES" `incomeType` field to human-readable', () => {
+      const input = {
+        unrelatedField: 'keep me',
+        incomeType: 'WAGES',
+        anotherUnrelatedField: 'RECURRING',
+      };
+
+      const output = remapIncomeTypeFields(input);
+
+      expect(output).to.deep.equal({
+        unrelatedField: 'keep me',
+        incomeType: 'Wages',
+        anotherUnrelatedField: 'RECURRING',
+      });
+    });
+
+    it('should remap "INTEREST" `incomeType` field to human-readable', () => {
+      const input = {
+        unrelatedField: 'keep me',
+        incomeType: 'INTEREST',
+        anotherUnrelatedField: 'RECURRING',
+      };
+
+      const output = remapIncomeTypeFields(input);
+
+      expect(output).to.deep.equal({
+        unrelatedField: 'keep me',
+        incomeType: 'Interest',
+        anotherUnrelatedField: 'RECURRING',
+      });
+    });
+
+    it('should remap "UNEMPLOYMENT_BENEFITS" `incomeType` field to human-readable', () => {
+      const input = {
+        unrelatedField: 'keep me',
+        incomeType: 'UNEMPLOYMENT_BENEFITS',
+        anotherUnrelatedField: 'RECURRING',
+      };
+
+      const output = remapIncomeTypeFields(input);
+
+      expect(output).to.deep.equal({
+        unrelatedField: 'keep me',
+        incomeType: 'Unemployment benefits',
+        anotherUnrelatedField: 'RECURRING',
+      });
+    });
+
+    it('should remap "LOTTERY_WINNINGS" `incomeType` field to human-readable', () => {
+      const input = {
+        unrelatedField: 'keep me',
+        incomeType: 'LOTTERY_WINNINGS',
+        anotherUnrelatedField: 'RECURRING',
+      };
+
+      const output = remapIncomeTypeFields(input);
+
+      expect(output).to.deep.equal({
+        unrelatedField: 'keep me',
+        incomeType: 'Lottery winnings',
+        anotherUnrelatedField: 'RECURRING',
+      });
+    });
+
+    it('should remap "OTHER" `incomeType` field to human-readable', () => {
+      const input = {
+        unrelatedField: 'keep me',
+        incomeType: 'OTHER',
+        anotherUnrelatedField: 'RECURRING',
+      };
+
+      const output = remapIncomeTypeFields(input);
+
+      expect(output).to.deep.equal({
+        unrelatedField: 'keep me',
+        incomeType: 'Another type of income',
+        anotherUnrelatedField: 'RECURRING',
+      });
+    });
+
+    it('should remap "OTHER" `incomeType` field to `view:otherIncomeType`', () => {
+      const input = {
+        unrelatedField: 'keep me',
+        incomeType: 'OTHER',
+        anotherUnrelatedField: 'RECURRING',
+        'view:otherIncomeType': 'other income type description',
+      };
+
+      const output = remapIncomeTypeFields(input);
+
+      expect(output).to.deep.equal({
+        unrelatedField: 'keep me',
+        incomeType: 'other income type description',
+        anotherUnrelatedField: 'RECURRING',
+        'view:otherIncomeType': 'other income type description',
+      });
+    });
+
+    it('should NOT remap `incomeType` field to human-readable', () => {
+      const input = {
+        unrelatedField: 'keep me',
+        incomeType: 'Wages',
+        anotherUnrelatedField: 'RECURRING',
+      };
+
+      const output = remapIncomeTypeFields(input);
+
+      expect(output).to.deep.equal({
+        unrelatedField: 'keep me',
+        incomeType: 'Wages',
+        anotherUnrelatedField: 'RECURRING',
+      });
+    });
+
+    it('should NOT remap `incomeType` field to human-readable', () => {
+      const input = {
+        unrelatedField: 'keep me',
+        incomeType: 'Does not match any key',
+        anotherUnrelatedField: 'RECURRING',
+      };
+
+      const output = remapIncomeTypeFields(input);
+
+      expect(output).to.deep.equal({
+        unrelatedField: 'keep me',
+        incomeType: 'Does not match any key',
+        anotherUnrelatedField: 'RECURRING',
+      });
     });
   });
 
