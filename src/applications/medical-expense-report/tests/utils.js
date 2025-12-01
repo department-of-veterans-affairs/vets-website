@@ -60,10 +60,7 @@ export const checkContentAnonymousApplicantInformationIdentity = () => {
     'h1',
     'Submit medical expenses to support a pension or DIC claim',
   );
-  checkVisibleElementContent(
-    'va-segmented-progress-bar',
-    'Applicant information',
-  );
+  checkVisibleElementContent('va-segmented-progress-bar', 'Your information');
   checkVisibleElementContent('legend', 'Your identity');
 };
 
@@ -75,10 +72,7 @@ export const checkContentAnonymousApplicantInformationName = () => {
     'h1',
     'Submit medical expenses to support a pension or DIC claim',
   );
-  checkVisibleElementContent(
-    'va-segmented-progress-bar',
-    'Applicant information',
-  );
+  checkVisibleElementContent('va-segmented-progress-bar', 'Your information');
   checkVisibleElementContent('legend', 'Your name');
 };
 
@@ -90,11 +84,8 @@ export const checkContentAnonymousApplicantInformationSSN = () => {
     'h1',
     'Submit medical expenses to support a pension or DIC claim',
   );
-  checkVisibleElementContent(
-    'va-segmented-progress-bar',
-    'Applicant information',
-  );
-  checkVisibleElementContent('legend', 'Your information');
+  checkVisibleElementContent('va-segmented-progress-bar', 'Your information');
+  checkVisibleElementContent('legend', 'Your identification information');
 };
 
 /**
@@ -105,10 +96,7 @@ export const checkContentAnonymousApplicantInformationMailingAddress = () => {
     'h1',
     'Submit medical expenses to support a pension or DIC claim',
   );
-  checkVisibleElementContent(
-    'va-segmented-progress-bar',
-    'Applicant information',
-  );
+  checkVisibleElementContent('va-segmented-progress-bar', 'Your information');
   checkVisibleElementContent('legend', 'Your mailing address');
 };
 
@@ -120,10 +108,7 @@ export const checkContentAnonymousApplicantInformationEmail = () => {
     'h1',
     'Submit medical expenses to support a pension or DIC claim',
   );
-  checkVisibleElementContent(
-    'va-segmented-progress-bar',
-    'Applicant information',
-  );
+  checkVisibleElementContent('va-segmented-progress-bar', 'Your information');
   checkVisibleElementContent('legend', 'Your email address and phone number');
 };
 
@@ -333,7 +318,7 @@ export const checkContentAnonymousMilageExpensesDestination = () => {
   checkVisibleElementContent('va-segmented-progress-bar', 'Expenses');
   checkVisibleElementContent('legend', 'Expense destination and date');
   checkVisibleElementContent('va-radio', 'What was the destination?');
-  checkVisibleElementContent('va-text-input', 'How many miles were travelled?');
+  checkVisibleElementContent('va-text-input', 'How many miles were traveled?');
   checkVisibleElementContent(
     'va-memorable-date',
     'What was the date of travel?',
@@ -381,7 +366,7 @@ export const checkContentAnonymousStatementOfTruth = () => {
     'Submit medical expenses to support a pension or DIC claim',
   );
   checkVisibleElementContent('va-segmented-progress-bar', 'Review application');
-  checkVisibleElementContent('va-accordion-item', 'Applicant information');
+  checkVisibleElementContent('va-accordion-item', 'Your information');
   checkVisibleElementContent('va-accordion-item', 'Expenses');
   checkVisibleElementContent('va-accordion-item', 'Additional information');
   checkVisibleElementContent('va-statement-of-truth', 'Statement of truth');
@@ -499,12 +484,12 @@ export const fillInVetInfoWithNameSSNFromFixture = () => {
     fixtureData.data.attributes.profile.last_name,
   );
   cy.fillVaTextInput(
-    'root_veteranSocialSecurityNumber',
+    'root_veteranSocialSecurityNumber_ssn',
     fixtureData.data.attributes.va_profile.ssn,
   );
 
   cy.fillVaTextInput(
-    'root_vaFileNumber',
+    'root_veteranSocialSecurityNumber_vaFileNumber',
     fixtureData.data.attributes.va_profile.vaFileNumber,
   );
   cy.fillDate(
@@ -519,12 +504,12 @@ export const fillInVetInfoWithNameSSNFromFixture = () => {
  */
 export const fillInVetInfoWithoutNameSSNFromFixture = () => {
   cy.fillVaTextInput(
-    'root_veteranSocialSecurityNumber',
+    'root_veteranSocialSecurityNumber_ssn',
     fixtureData.data.attributes.va_profile.ssn,
   );
 
   cy.fillVaTextInput(
-    'root_vaFileNumber',
+    'root_veteranSocialSecurityNumber_vaFileNumber',
     fixtureData.data.attributes.va_profile.vaFileNumber,
   );
   cy.fillDate(
@@ -563,20 +548,14 @@ export const fillInCareExpensesFromFixture = () => {
     fixtureData.data.attributes.veteran_care_provider_1.providerName,
   );
 
-  // cypress can be a little too fast and not wait for these fields to be exposed.
-  cy.get('va-memorable-date[name="root_careDate_from"]')
-    .shadow()
-    .get('input[name="root_careDate_fromMonth"]:not([disabled]')
-    .then(() => {
-      cy.fillDate(
-        'root_careDate_from',
-        fixtureData.data.attributes.veteran_care_provider_1.fromDate,
-      );
-      cy.fillDate(
-        'root_careDate_to',
-        fixtureData.data.attributes.veteran_care_provider_1.toDate,
-      );
-    });
+  cy.fillDate(
+    'root_careDateRange_from',
+    fixtureData.data.attributes.veteran_care_provider_1.fromDate,
+  );
+  cy.fillDate(
+    'root_careDateRange_to',
+    fixtureData.data.attributes.veteran_care_provider_1.toDate,
+  );
 
   checkAxeAndClickContinueButton();
 
@@ -606,11 +585,11 @@ export const fillInCareExpensesFromFixture = () => {
   );
 
   cy.fillDate(
-    'root_careDate_from',
+    'root_careDateRange_from',
     fixtureData.data.attributes.veteran_care_provider_1.fromDate,
   );
   cy.fillDate(
-    'root_careDate_to',
+    'root_careDateRange_to',
     fixtureData.data.attributes.veteran_care_provider_1.toDate,
   );
   checkAxeAndClickContinueButton();

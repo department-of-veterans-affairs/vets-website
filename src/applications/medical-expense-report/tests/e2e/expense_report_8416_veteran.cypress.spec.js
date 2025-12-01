@@ -54,7 +54,7 @@ describe('Medical Expense Report Form 8416', () => {
       cy.contains('Supporting documents');
       utils.checkAxeAndClickContinueButton();
 
-      cy.contains('Submit your supporting documents');
+      cy.contains('Upload your supporting documents');
       // No supporting documents yet
       // utils.uploadTestFiles();  TODO: Mock the response for file uploads
       utils.checkAxeAndClickContinueButton();

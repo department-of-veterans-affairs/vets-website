@@ -46,7 +46,7 @@ describe('Veteran reporting medical expenses path on foreign base', () => {
 
     utils.checkAxeAndClickContinueButton();
 
-    cy.contains('Submit your supporting documents');
+    cy.contains('Upload your supporting documents');
     // No supporting documents yet
     // utils.uploadTestFiles();  TODO: Mock the response for file uploads
     utils.checkAxeAndClickContinueButton();
