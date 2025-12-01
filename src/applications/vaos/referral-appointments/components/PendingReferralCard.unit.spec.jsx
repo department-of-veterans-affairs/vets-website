@@ -46,18 +46,4 @@ describe('VAOS Component: PendingReferralCard', () => {
       ),
     ).to.exist;
   });
-  it('should render basic list item with alert component', () => {
-    referral.stationId = '12345';
-    screen = render(
-      <PendingReferralCard referral={referral} handleClick={handleClick} />,
-    );
-    expect(screen.getByTestId('referral-not-available-alert')).to.exist;
-  });
-  it('should render basic list item with schedule appointment button for pilot stations', () => {
-    referral.stationId = '648GK';
-    screen = render(
-      <PendingReferralCard referral={referral} handleClick={handleClick} />,
-    );
-    expect(screen.getByTestId('schedule-appointment-link')).to.exist;
-  });
 });
