@@ -43,8 +43,6 @@ const currentOrPastDateUI = options => {
     ...uiOptions
   } = typeof options === 'object' ? options : { title: options };
 
-  console.log('uiOptions: ', uiOptions);
-
   // if monthYearOnly is used, the schema pattern also needs
   // to be updated, so prefer to use currentOrPastMonthYearDateUI
   // and currentOrPastMonthYearDateSchema rather than passing

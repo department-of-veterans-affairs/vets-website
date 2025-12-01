@@ -167,6 +167,9 @@ const detailsPage = {
   },
 };
 
+// We cannot use our custom hint text here until DST fixes this defect:
+// https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/5263
+// Array Builder does not support the `removeDateHint` prop used by custom components
 /** @returns {PageSchema} */
 const treatmentDatePage = {
   uiSchema: {
@@ -176,17 +179,19 @@ const treatmentDatePage = {
     [PRIVATE_LOCATION_TREATMENT_DATES_KEY]: currentOrPastDateRangeUI(
       {
         title: treatmentDateContent.firstDateLabel,
-        hint: treatmentDateContent.dateHint,
+        // hint: treatmentDateContent.dateHint,
         errorMessages: {
           required: treatmentDateContent.requiredError,
         },
+        // removeDateHint: true,
       },
       {
         title: treatmentDateContent.lastDateLabel,
-        hint: treatmentDateContent.dateHint,
+        // hint: treatmentDateContent.dateHint,
         errorMessages: {
           required: treatmentDateContent.requiredError,
         },
+        // removeDateHint: true,
       },
     ),
   },
