@@ -79,9 +79,7 @@ const Issues = props => {
     reviewRoute,
   } = arrayBuilder;
   const [error, setError] = useState(false);
-  console.log('props: ', props);
   const currentEvidenceData = fullData?.[formKey]?.[pagePerItemIndex] || {};
-  console.log('currentEvidenceData: ', currentEvidenceData);
   const formLabel =
     addOrEdit === 'edit'
       ? getEditConditionQuestion(data)
