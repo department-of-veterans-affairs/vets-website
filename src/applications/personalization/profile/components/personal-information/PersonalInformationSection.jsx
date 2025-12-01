@@ -15,6 +15,7 @@ import { ProfileInfoSection } from '../ProfileInfoSection';
 import LegalName from './LegalName';
 import DisabilityRating from './DisabilityRating';
 import MessagingSignature from './MessagingSignature';
+import { PROFILE_PATHS } from '../../constants';
 
 const LegalNameDescription = () => (
   <va-additional-info trigger="How to update your legal name" uswds>
@@ -174,6 +175,23 @@ const PersonalInformationSection = ({ dob }) => {
         </va-additional-info>
       </div>
       <ProfileInfoSection data={updatedCardFields} level={1} />
+      {isMessagingServiceEnabled &&
+        isProfile2Enabled &&
+        isHealthCareSettingsEnabled && (
+          <div className="vads-u-margin-top--4">
+            <va-alert slim status="info" visible>
+              <p className="vads-u-margin-y--0">
+                Your health care messages signature has moved to your health
+                care settings.{' '}
+                <va-link
+                  href={PROFILE_PATHS.MESSAGES_SIGNATURE}
+                  text="Manage the signature on your messages"
+                />
+                .
+              </p>
+            </va-alert>
+          </div>
+        )}
     </div>
   );
 };
