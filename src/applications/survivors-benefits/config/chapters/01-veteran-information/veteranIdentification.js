@@ -1,6 +1,6 @@
 import {
-  ssnOrVaFileNumberSchema,
-  ssnOrVaFileNumberUI,
+  ssnOrVaFileNumberNoHintSchema,
+  ssnOrVaFileNumberNoHintUI,
   serviceNumberSchema,
   serviceNumberUI,
   titleUI,
@@ -13,24 +13,14 @@ export default {
       'Veteran’s identification information',
       'You must enter a Social Security number or VA file number',
     ),
-    veteranSocialSecurityNumber: {
-      ...ssnOrVaFileNumberUI(),
-      vaFileNumber: {
-        ...ssnOrVaFileNumberUI().vaFileNumber,
-        'ui:title': 'VA file number',
-        'ui:options': {
-          ...ssnOrVaFileNumberUI().vaFileNumber['ui:options'],
-          hint: '',
-        },
-      },
-    },
+    veteranSocialSecurityNumber: ssnOrVaFileNumberNoHintUI(),
     veteranServiceNumber: serviceNumberUI('Service number'),
   },
   schema: {
     type: 'object',
     required: ['veteranSocialSecurityNumber'],
     properties: {
-      veteranSocialSecurityNumber: ssnOrVaFileNumberSchema,
+      veteranSocialSecurityNumber: ssnOrVaFileNumberNoHintSchema,
       veteranServiceNumber: serviceNumberSchema,
     },
   },
