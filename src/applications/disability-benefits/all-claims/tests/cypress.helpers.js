@@ -3,6 +3,7 @@
 import { add, format } from 'date-fns';
 
 import { expect } from 'chai';
+import { genderLabels } from '@department-of-veterans-affairs/platform-static-data/labels';
 import { formatDate } from '../utils/dates/formatting';
 import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
 import mockPrefill from './fixtures/mocks/prefill.json';
@@ -294,8 +295,9 @@ Cypress.Commands.add('verifyVeteranDetails', data => {
     const formattedDob = formatDate(mockUser.data.attributes.profile.birthDate);
     cy.contains('Date of birth:').should('exist');
     cy.contains(`${formattedDob}`).should('exist');
-
-    cy.contains(mockUser.data.attributes.profile.gender).should('exist');
+    cy.contains(genderLabels[mockUser.data.attributes.profile.gender]).should(
+      'exist',
+    );
     // Contact data comes from mockPrefill, not test data
     if (mockPrefill.formData.veteran.primaryPhone) {
       const phone = mockPrefill.formData.veteran.primaryPhone.replace(
