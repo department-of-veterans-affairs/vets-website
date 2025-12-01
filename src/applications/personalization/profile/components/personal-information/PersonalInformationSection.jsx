@@ -11,10 +11,6 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { getMessagingSignature } from 'platform/user/profile/actions';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
-import {
-  VaAlert,
-  VaLink,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { ProfileInfoSection } from '../ProfileInfoSection';
 import LegalName from './LegalName';
 import DisabilityRating from './DisabilityRating';
@@ -185,18 +181,18 @@ const PersonalInformationSection = ({ dob }) => {
         isProfile2Enabled &&
         isHealthCareSettingsEnabled && (
           <div className="vads-u-margin-top--4">
-            <VaAlert slim status="info" visible>
+            <va-alert slim status="info" visible>
               <p className="vads-u-margin-y--0">
                 Your health care messages signature has moved to your health
                 care settings.{' '}
-                <VaLink
+                <va-link
                   href={PROFILE_PATHS.MESSAGES_SIGNATURE}
                   text="Manage the signature on your messages"
                   onClick={event => handleRouteChange(event, history)}
                 />
                 .
               </p>
-            </VaAlert>
+            </va-alert>
           </div>
         )}
     </div>
