@@ -31,7 +31,7 @@ describe('<PrivacyAccordion />', () => {
       'VACOPaperworkReduAct@va.gov',
     );
     expect(respondentBurdenNotice.textContent).to.contain(
-      'Please refer to OMB Control No. 2900-0695 in any correspondence',
+      'Please refer to OMB Control No. 2900-0853 in any correspondence',
     );
   });
 });

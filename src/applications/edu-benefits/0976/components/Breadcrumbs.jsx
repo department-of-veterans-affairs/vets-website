@@ -1,7 +1,6 @@
 import React from 'react';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import manifest from '../manifest.json';
-import { TITLE } from '../constants';
 
 const Breadcrumbs = () => {
   const crumbs = [
@@ -15,7 +14,7 @@ const Breadcrumbs = () => {
     },
     {
       href: manifest.rootUrl,
-      label: TITLE,
+      label: 'Apply for the approval of a program in a foreign country',
     },
   ];
   return (

@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import { useSelector } from 'react-redux';
-import { isLOA3, isLoggedIn } from 'platform/user/selectors';
 import { TITLE, SUBTITLE } from '../constants';
 
 import OMBInfo from '../components/OMBInfo';
@@ -27,7 +25,7 @@ const ProcessList = () => {
             program graduate information available
           </li>
           <li>
-            The contact information for your institutions financial
+            The contact information for your institution’s financial
             representative
           </li>
           <li>
@@ -65,11 +63,8 @@ const ProcessList = () => {
 };
 
 export const IntroductionPage = props => {
-  const userLoggedIn = useSelector(state => isLoggedIn(state));
-  const userIdVerified = useSelector(state => isLOA3(state));
   const { route } = props;
   const { formConfig, pageList } = route;
-  const showVerifyIdentify = userLoggedIn && !userIdVerified;
 
   useEffect(() => {
     scrollToTop();
@@ -89,20 +84,16 @@ export const IntroductionPage = props => {
         What you’ll need to complete this form
       </h2>
       <ProcessList />
-      {showVerifyIdentify ? (
-        <div>{/* add verify identity alert if applicable */}</div>
-      ) : (
-        <SaveInProgressIntro
-          headingLevel={2}
-          prefillEnabled={formConfig.prefillEnabled}
-          messages={formConfig.savedFormMessages}
-          pageList={pageList}
-          startText="Start the application"
-          devOnly={{
-            forceShowFormControls: true,
-          }}
-        />
-      )}
+      <SaveInProgressIntro
+        headingLevel={2}
+        prefillEnabled={formConfig.prefillEnabled}
+        messages={formConfig.savedFormMessages}
+        pageList={pageList}
+        startText="Start the application"
+        devOnly={{
+          forceShowFormControls: true,
+        }}
+      />
       <p />
       <OMBInfo />
       <PrivacyAccordion />
