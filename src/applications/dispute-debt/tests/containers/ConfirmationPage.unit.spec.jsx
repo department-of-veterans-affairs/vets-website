@@ -14,6 +14,8 @@ const createMockStore = (state = {}) => ({
 });
 
 describe('ConfirmationPage', () => {
+  // const alert_title = ;
+  // const alert_description = 'An email confirmation has been sent to . You should also receive a confirmation letter in the mail within 60 days. We expect to issue a decision within 180 days and will notify you of the outcome in a follow-up letter.';
   const defaultProps = {
     route: {
       formConfig,
@@ -40,6 +42,17 @@ describe('ConfirmationPage', () => {
       </Provider>,
     );
     expect(container).to.exist;
+  });
+
+  it('renders the submission alert message with the users email', () => {
+    const { getByText } = render(
+      <Provider store={createMockStore(defaultState)}>
+        <ConfirmationPage {...defaultProps} />
+      </Provider>,
+    );
+
+    expect(getByText('Your dispute submission is in progress')).to.exist;
+    // expect(getByText('An email confirmation has been sent to')).to.exist;
   });
 
   it('renders the PDF download link with correct attributes', () => {

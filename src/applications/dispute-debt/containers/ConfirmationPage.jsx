@@ -6,6 +6,7 @@ import {
   ConfirmationView,
   ChapterSectionCollection,
 } from 'platform/forms-system/src/js/components/ConfirmationView';
+import { Trans } from 'react-i18next';
 import { setDocumentTitle } from '../utils';
 
 import NeedHelp from '../components/NeedHelp';
@@ -21,6 +22,8 @@ export const ConfirmationPage = ({ route }) => {
   );
 
   const form = useSelector(state => state.form || {});
+  const userEmail = useSelector(state => state.user.profile.email || '');
+
   const { submission } = form;
   const { response, timestamp } = submission || {};
 
@@ -50,9 +53,13 @@ export const ConfirmationPage = ({ route }) => {
     >
       <ConfirmationView.SubmissionAlert
         title={i18nDebtApp.t('dispute-submission-alert.title')}
-        content={i18nDebtApp.t('dispute-submission-alert.description', {
-          email: 'userEmail',
-        })}
+        content={
+          <Trans
+            i18nKey="dispute-submission-alert.description"
+            values={{ email: userEmail }}
+            components={{ bold: <strong /> }}
+          />
+        }
         actions={null}
       />
       <ConfirmationView.SavePdfDownload />
