@@ -16,6 +16,8 @@ import { replaceStrValues } from './formatting';
  * @param {boolean} [options.lowercase=false] - Whether to lowercase the title
  * @param {'prefix'|'suffix'|'replace'} [options.position='prefix'] - Where to place the provider name
  * @returns {Object} UI schema object for arrayBuilderItemSubsequentPageTitleUI
+ *                   The title function always returns a string: either the original title
+ *                   (when no provider), or a formatted string with provider inserted.
  *
  * @example
  * // Provider prepended (default): "Cigna prescription coverage"

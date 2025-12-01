@@ -20,15 +20,15 @@ import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUpload
 import FileFieldCustom from '../../shared/components/fileUploads/FileUpload';
 import { validFieldCharsOnly } from '../../shared/validations';
 import {
+  replaceStrValues,
   validateHealthInsurancePlan,
   validateOHIDates,
-} from '../helpers/validations';
-import { replaceStrValues } from '../helpers/formatting';
+} from '../helpers';
+import { healthInsurancePageTitleUI } from '../helpers/titles';
 import HealthInsuranceSummaryCard from '../components/FormDescriptions/HealthInsuranceSummaryCard';
 import participants from './healthInsuranceInformation/participants';
 import planTypes from './healthInsuranceInformation/planTypes';
 import content from '../locales/en/content.json';
-import { healthInsurancePageTitleUI } from '../helpers';
 
 const MEDIGAP = {
   A: 'Medigap Plan A',

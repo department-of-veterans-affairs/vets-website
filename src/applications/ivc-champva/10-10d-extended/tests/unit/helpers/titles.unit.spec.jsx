@@ -6,7 +6,7 @@ import { toHash } from '../../../../shared/utilities';
 import {
   healthInsurancePageTitleUI,
   medicarePageTitleUI,
-} from '../../../helpers';
+} from '../../../helpers/titles';
 
 describe('1010d `medicarePageTitleUI` util', () => {
   const DEFAULT_ITEM = { medicareParticipant: toHash('123123123') };
@@ -91,7 +91,9 @@ describe('1010d `medicarePageTitleUI` util', () => {
 });
 
 describe('1010d `healthInsurancePageTitleUI` util', () => {
-  const subject = (uiSchema, formData) => {
+  const DEFAULT_DATA = { provider: 'Cigna' };
+
+  const subject = (uiSchema, formData = DEFAULT_DATA) => {
     const TitleComponent = uiSchema['ui:title'];
     const { container } = render(<div>{TitleComponent({ formData })}</div>);
     return container.textContent;
@@ -104,7 +106,7 @@ describe('1010d `healthInsurancePageTitleUI` util', () => {
 
   it('should prepend provider name by default', () => {
     const uiSchema = healthInsurancePageTitleUI('prescription coverage');
-    const result = subject(uiSchema, { provider: 'Cigna' });
+    const result = subject(uiSchema);
     expect(result).to.equal('Cigna prescription coverage');
   });
 
@@ -116,7 +118,7 @@ describe('1010d `healthInsurancePageTitleUI` util', () => {
 
   it('should replace %s placeholder with provider name', () => {
     const uiSchema = healthInsurancePageTitleUI('Type of insurance for %s');
-    const result = subject(uiSchema, { provider: 'Cigna' });
+    const result = subject(uiSchema);
     expect(result).to.equal('Type of insurance for Cigna');
   });
 
@@ -126,7 +128,7 @@ describe('1010d `healthInsurancePageTitleUI` util', () => {
       null,
       { position: 'suffix' },
     );
-    const result = subject(uiSchema, { provider: 'Cigna' });
+    const result = subject(uiSchema);
     expect(result).to.equal('Upload health insurance card Cigna');
   });
 
@@ -136,7 +138,7 @@ describe('1010d `healthInsurancePageTitleUI` util', () => {
       null,
       { position: 'prefix' },
     );
-    const result = subject(uiSchema, { provider: 'Cigna' });
+    const result = subject(uiSchema);
     expect(result).to.equal('Cigna health insurance information');
   });
 });

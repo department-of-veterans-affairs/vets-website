@@ -9,8 +9,14 @@ import content from '../../locales/en/content.json';
 const TEXT_PRESENT = content['health-insurance--summary-date-present'];
 const TEXT_NOT_SPECIFIED = content['health-insurance--summary-date-missing'];
 
-const formatDate = dateStr =>
-  dateStr ? format(parseISO(dateStr), 'MM/dd/yyyy') : null;
+const formatDate = dateStr => {
+  if (!dateStr) return null;
+  try {
+    return format(parseISO(dateStr), 'MM/dd/yyyy');
+  } catch (e) {
+    return null;
+  }
+};
 
 const formatDateRange = (startDate, endDate) => {
   const start = formatDate(startDate);
