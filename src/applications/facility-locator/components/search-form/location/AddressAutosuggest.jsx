@@ -28,6 +28,8 @@ function AddressAutosuggest({
   const [isTouched, setIsTouched] = useState(false);
   const [isGeocoding, setIsGeocoding] = useState(false);
 
+  const errorID = 'street-city-state-zip-error';
+
   const inputClearClick = useCallback(
     () => {
       onClearClick(); // clears searchString in redux
@@ -123,7 +125,7 @@ function AddressAutosuggest({
   // add aria-describedby if error occurs
   const handleError = () => {
     const addressInput = document.getElementById('street-city-state-zip');
-    addressInput?.setAttribute('aria-describedby', 'input-error-message');
+    addressInput?.setAttribute('aria-describedby', `${errorID}`);
   };
 
   // remove aria-describedby if error resolved
@@ -173,8 +175,6 @@ function AddressAutosuggest({
     },
     [showAddressError],
   );
-
-  const errorID = 'street-city-state-zip-error';
 
   return (
     <Autosuggest
