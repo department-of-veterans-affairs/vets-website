@@ -30,6 +30,7 @@ import {
   additionalInstitutionDetailsArrayOptions,
   showAdditionalPointsOfContact,
   arrayBuilderOptions,
+  CustomReviewTopContent,
 } from '../helpers';
 
 /** @type {FormConfig} */
@@ -66,6 +67,7 @@ const formConfig = {
   },
   title: TITLE,
   subTitle: SUBTITLE,
+  CustomReviewTopContent,
   defaultDefinitions: {},
   customText: {
     appSavedSuccessfullyMessage: 'We’ve saved your form.',
@@ -73,6 +75,8 @@ const formConfig = {
     continueAppButtonText: 'Continue your form',
     finishAppLaterMessage: 'Finish this form later',
     startNewAppButtonText: 'Start a new form',
+    reviewPageTitle: 'Review form',
+    submitButtonText: 'Continue',
   },
   transformForSubmit: transform,
   chapters: {
