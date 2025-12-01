@@ -229,6 +229,22 @@
             }
           }
         },
+        "travelPayClaim": {
+          "metadata": {
+            "status": 200,
+            "message": "Data retrieved successfully.",
+            "success": true
+          },
+          "claim": {
+            "id": "987654323",
+            "claimNumber": "internalclaimnumber",
+            "claimStatus": "InProgress",
+            "appointmentDateTime": "2024-01-01T16:45:34.465Z",
+            "facilityName": "Cheyenne VA Medical Center",
+            "createdOn": "2024-03-22T21:22:34.465Z",
+            "modifiedOn": "2024-01-01T16:44:34.465"
+          }
+        },
         "past": true,
         "pending": false
       }
