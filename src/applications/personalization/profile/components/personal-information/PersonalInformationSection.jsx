@@ -109,8 +109,8 @@ const PersonalInformationSection = ({ dob }) => {
         (!isProfile2Enabled || !isHealthCareSettingsEnabled)
       ) {
         const signaturePresent =
-          messagingSignature?.signatureName?.trim() &&
-          messagingSignature?.signatureTitle?.trim();
+          !!messagingSignature?.signatureName?.trim() &&
+          !!messagingSignature?.signatureTitle?.trim();
         return [
           ...cardFields,
           {

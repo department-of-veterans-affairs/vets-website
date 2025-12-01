@@ -48,8 +48,8 @@ const MessageSignature = () => {
   );
 
   const signaturePresent =
-    messagingSignature?.signatureName?.trim() &&
-    messagingSignature?.signatureTitle?.trim();
+    !!messagingSignature?.signatureName?.trim() &&
+    !!messagingSignature?.signatureTitle?.trim();
 
   const cardFields = [
     {
