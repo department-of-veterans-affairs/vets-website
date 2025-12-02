@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 
-import PrivacyAccordion from '../../components/privacyAccordion';
+import PrivacyAccordion from '../../components/PrivacyAccordion';
 
 describe('<PrivacyAccordion />', () => {
   it('should contain the correct privacy text', () => {

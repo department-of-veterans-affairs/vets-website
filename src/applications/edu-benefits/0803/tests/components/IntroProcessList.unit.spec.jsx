@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 
-import ProcessList from '../../components/introProcessList';
+import ProcessList from '../../components/IntroProcessList';
 
 describe('<ProcessList />', () => {
   it('should contain the correct text', () => {
