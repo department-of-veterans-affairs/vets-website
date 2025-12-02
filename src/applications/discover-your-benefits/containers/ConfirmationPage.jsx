@@ -43,11 +43,17 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
       {
         id: 0,
         label: 'Show results',
+        isRadio: true,
         category: [
           {
             id: 'recommended',
-            label: 'Show only results recommended for you',
+            label: 'Recommended for you',
             active: tempFilterValues.includes('recommended'),
+          },
+          {
+            id: 'all',
+            label: 'All results',
+            active: tempFilterValues.includes('all'),
           },
         ],
       },
@@ -152,8 +158,9 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
       const filterKeys = filterValues;
       const isRecommendedOnly = filterKeys.includes('recommended');
       const sourceData = isRecommendedOnly ? resultsData || [] : BENEFITS_LIST;
-      const nonRecommendedFilters = filterKeys.filter(f => f !== 'recommended');
-
+      const nonRecommendedFilters = filterKeys.filter(
+        f => f !== 'recommended' && f !== 'all',
+      );
       let filtered = sourceData;
       if (nonRecommendedFilters.length > 0) {
         filtered = sourceData.filter(benefit =>
@@ -221,7 +228,6 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
 
   const extractSelectedFilters = activeFilters => {
     const selected = [];
-
     activeFilters.forEach(facet => {
       facet.category.forEach(cat => {
         if (cat.active) {
@@ -245,8 +251,8 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
   }, []);
 
   const handleFilterClearAll = useCallback(() => {
-    setFilterValues([]);
-    setTempFilterValues([]);
+    setFilterValues(['recommended']);
+    setTempFilterValues(['recommended']);
     setSortValue('alphabetical');
   }, []);
 
