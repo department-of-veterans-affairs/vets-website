@@ -1002,7 +1002,8 @@ jobs:
           yarn install \
           --network-timeout 1000000000 \
           --prefer-offline \
-          --production=false
+          --production=false \
+          --ignore-scripts
 
         env:
           YARN_CACHE_FOLDER: .cache/yarn
@@ -1023,7 +1024,8 @@ jobs:
           yarn install \
           --network-timeout 1000000000 \
           --prefer-offline \
-          --production=false
+          --production=false \
+          --ignore-scripts
 
       - name: Create test results folder
         run: mkdir -p test-results
