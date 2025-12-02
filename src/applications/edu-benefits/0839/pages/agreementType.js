@@ -38,6 +38,7 @@ const updateFormData = (oldData, formData) => {
 
   if (prev !== curr) {
     return {
+      authorizedOfficial: oldData?.authorizedOfficial,
       agreementType: curr,
       acknowledgements: {},
       institutionDetails: {},
