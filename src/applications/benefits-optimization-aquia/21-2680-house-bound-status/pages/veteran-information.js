@@ -31,9 +31,9 @@ export const veteranInformationUiSchema = {
  */
 // Customize the name schema to add maxLength constraint for middle name
 const customVeteranNameSchema = {
-  ...fullNameNoSuffixSchema,
+  ...fullNameNoSuffixSchema(),
   properties: {
-    ...fullNameNoSuffixSchema.properties,
+    ...fullNameNoSuffixSchema().properties,
     middle: {
       type: 'string',
       maxLength: 1,

@@ -153,7 +153,7 @@ export const deceasedDependentPersonalInfoPage = {
     type: 'object',
     required: ['fullName', 'ssn', 'birthDate'],
     properties: {
-      fullName: fullNameNoSuffixSchema,
+      fullName: fullNameNoSuffixSchema(),
       ssn: ssnSchema,
       birthDate: currentOrPastDateSchema,
     },
