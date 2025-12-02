@@ -71,6 +71,7 @@ function splitVaSsnField(formData) {
   if (parsedFormData?.veteranSocialSecurityNumber?.vaFileNumber) {
     transformedValue.vaFileNumber =
       parsedFormData?.veteranSocialSecurityNumber?.vaFileNumber;
+    transformedValue.veteranSocialSecurityNumber = undefined;
   }
   return JSON.stringify(transformedValue);
 }
@@ -78,10 +79,13 @@ function splitVaSsnField(formData) {
 function switchToInternationalPhone(formData) {
   const parsedFormData = JSON.parse(formData);
   const transformedValue = parsedFormData;
+  if (!parsedFormData?.primaryPhone) {
+    return JSON.stringify(transformedValue);
+  }
   if (parsedFormData?.primaryPhone?.countryCode !== 'US') {
-    transformedValue.primaryPhone.contact = `+${
-      parsedFormData.primaryPhone.callingCode
-    }-${parsedFormData.primaryPhone.contact}`;
+    const callingCode = parsedFormData.primaryPhone?.callingCode || '';
+    const contact = parsedFormData.primaryPhone?.contact || '';
+    transformedValue.primaryPhone.contact = `+${callingCode}-${contact}`;
   }
   return JSON.stringify(transformedValue);
 }

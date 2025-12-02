@@ -175,4 +175,65 @@ describe('submit transformer', () => {
       'fullNameTraveler',
     );
   });
+  it('should split SSN number correctly', () => {
+    const formConfig = {}; // Mock form config if needed
+    const formData = {
+      veteranSocialSecurityNumber: {
+        ssn: '123-45-6789',
+        vaFileNumber: '987654321',
+      },
+    };
+
+    const result = transform(formConfig, formData);
+    const parsedResult = JSON.parse(result);
+    const parsedForm = JSON.parse(parsedResult.medicalExpenseReportsClaim.form);
+    expect(parsedResult).to.have.property('medicalExpenseReportsClaim');
+    expect(parsedResult.medicalExpenseReportsClaim).to.have.property('form');
+    expect(parsedForm).to.deep.equal({
+      veteranSocialSecurityNumber: '123-45-6789',
+    });
+    expect(parsedResult).to.have.property('localTime');
+  });
+  it('should split VA File number correctly', () => {
+    const formConfig = {}; // Mock form config if needed
+    const formData = {
+      veteranSocialSecurityNumber: {
+        vaFileNumber: '987654321',
+      },
+    };
+
+    const result = transform(formConfig, formData);
+    const parsedResult = JSON.parse(result);
+    const parsedForm = JSON.parse(parsedResult.medicalExpenseReportsClaim.form);
+    expect(parsedResult).to.have.property('medicalExpenseReportsClaim');
+    expect(parsedResult.medicalExpenseReportsClaim).to.have.property('form');
+    expect(parsedForm).to.deep.equal({
+      vaFileNumber: '987654321',
+    });
+    expect(parsedResult).to.have.property('localTime');
+  });
+  it('should transform international phone number correctly', () => {
+    const formConfig = {}; // Mock form config if needed
+    const formData = {
+      primaryPhone: {
+        countryCode: 'CA',
+        callingCode: '1',
+        contact: '4165551234',
+      },
+    };
+
+    const result = transform(formConfig, formData);
+    const parsedResult = JSON.parse(result);
+    const parsedForm = JSON.parse(parsedResult.medicalExpenseReportsClaim.form);
+    expect(parsedResult).to.have.property('medicalExpenseReportsClaim');
+    expect(parsedResult.medicalExpenseReportsClaim).to.have.property('form');
+    expect(parsedForm).to.deep.equal({
+      primaryPhone: {
+        countryCode: 'CA',
+        callingCode: '1',
+        contact: '+1-4165551234',
+      },
+    });
+    expect(parsedResult).to.have.property('localTime');
+  });
 });

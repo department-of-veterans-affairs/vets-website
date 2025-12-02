@@ -291,7 +291,7 @@ describe('Care Expenses Pages', () => {
       typeOfCare: 'RESIDENTIAL',
       recipient: 'SPOUSE',
       provider: 'Provider Name',
-      careDateRange: { from: '2004-04-04' },
+      careDate: { from: '2004-04-04' },
       monthlyAmount: 1200,
     };
     const incompleteNoHourlyItem = {
@@ -299,7 +299,7 @@ describe('Care Expenses Pages', () => {
       recipient: 'DEPENDENT',
       fullNameRecipient: 'John Doe',
       provider: 'Provider Name',
-      careDateRange: { from: '2004-04-04' },
+      careDate: { from: '2004-04-04' },
       monthlyAmount: 800,
       weeklyHours: 20,
     };
@@ -308,7 +308,7 @@ describe('Care Expenses Pages', () => {
       recipient: 'DEPENDENT',
       fullNameRecipient: 'John Doe',
       provider: 'Provider Name',
-      careDateRange: { from: '2004-04-04' },
+      careDate: { from: '2004-04-04' },
       monthlyAmount: 800,
       hourlyRate: 20,
     };
