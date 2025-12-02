@@ -106,7 +106,7 @@ function checkIsItemIncomplete(item) {
     ((item.recipient === 'DEPENDENT' || item.recipient === 'OTHER') &&
       !item?.fullNameRecipient) ||
     !item?.provider ||
-    !item?.careDateRange?.from ||
+    !item?.careDate?.from ||
     !item?.monthlyAmount ||
     (item?.typeOfCare === 'IN_HOME_CARE_ATTENDANT' &&
       (!item?.hourlyRate || !item?.weeklyHours))
@@ -246,7 +246,7 @@ const datePage = {
       'Care provider’s name and dates of care',
     ),
     provider: textUI('What’s the name of the care provider?'),
-    careDateRange: currentOrPastDateRangeUI(
+    careDate: currentOrPastDateRangeUI(
       {
         title: 'Care start date',
         monthSelect: false,
@@ -262,7 +262,7 @@ const datePage = {
     type: 'object',
     properties: {
       provider: textSchema,
-      careDateRange: {
+      careDate: {
         ...currentOrPastDateRangeSchema,
         required: ['from'],
       },

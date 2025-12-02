@@ -61,9 +61,36 @@ function swapNames(formData) {
   return JSON.stringify(transformedValue);
 }
 
+function splitVaSsnField(formData) {
+  const parsedFormData = JSON.parse(formData);
+  const transformedValue = parsedFormData;
+  if (parsedFormData?.veteranSocialSecurityNumber?.ssn) {
+    transformedValue.veteranSocialSecurityNumber =
+      parsedFormData?.veteranSocialSecurityNumber?.ssn;
+  }
+  if (parsedFormData?.veteranSocialSecurityNumber?.vaFileNumber) {
+    transformedValue.vaFileNumber =
+      parsedFormData?.veteranSocialSecurityNumber?.vaFileNumber;
+  }
+  return JSON.stringify(transformedValue);
+}
+
+function switchToInternationalPhone(formData) {
+  const parsedFormData = JSON.parse(formData);
+  const transformedValue = parsedFormData;
+  if (parsedFormData?.primaryPhone?.countryCode !== 'US') {
+    transformedValue.primaryPhone.contact = `+${
+      parsedFormData.primaryPhone.callingCode
+    }-${parsedFormData.primaryPhone.contact}`;
+  }
+  return JSON.stringify(transformedValue);
+}
+
 export const transform = (formConfig, form) => {
   let transformedData = transformForSubmit(formConfig, form);
   transformedData = swapNames(transformedData);
+  transformedData = splitVaSsnField(transformedData);
+  transformedData = switchToInternationalPhone(transformedData);
   return JSON.stringify({
     medicalExpenseReportsClaim: {
       form: transformedData,
