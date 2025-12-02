@@ -73,10 +73,10 @@ const CustomReviewTopContent = () => {
   return (
     <>
       <div className="vads-u-display--flex vads-l-row vads-u-justify-content--space-between vads-u-align-items--baseline vads-u-border-bottom--1px vads-u-margin-top--1 vads-u-margin-bottom--4">
-        <h3>Personal information</h3>
+        <h3>Veteran’s information</h3>
         <EditLink
           href={`/${formNumber}/name-and-zip-code`}
-          label="Edit Personal information"
+          label="Edit Veteran’s information"
         />
       </div>
       {renderPersonalInfo()}
@@ -115,12 +115,14 @@ const CustomReviewTopContent = () => {
               read-only
             />
           ) : (
-            <div>
-              <div className="vads-u-color--gray">
-                Do you want to upload supporting documents now?
-              </div>
-              <div>No</div>
-            </div>
+            <ul className="vads-u-padding--0 schemaform-file-list">
+              <li>
+                <div className="usa-hint">
+                  Do you want to upload supporting documents now?
+                </div>
+                <div>No</div>
+              </li>
+            </ul>
           )}
         </>
       )}
