@@ -56,6 +56,8 @@ import {
   showTimezoneDiscrepancyMessage,
   formatUploadDateTime,
   getDocumentRequestTypeDisplayName,
+  getSupportingDocumentDisplayName,
+  getEvidenceSubmissionDisplayName,
 } from '../../utils/helpers';
 
 import {
@@ -2387,8 +2389,64 @@ describe('Disability benefits helpers: ', () => {
     });
   });
 
+  describe('getSupportingDocumentDisplayName', () => {
+    it('should return friendlyName when present', () => {
+      const document = {
+        friendlyName: 'Medical Records',
+        displayName: 'Submit Medical Records',
+      };
+      const result = getSupportingDocumentDisplayName(document);
+
+      expect(result).to.equal('Medical Records');
+    });
+
+    it('should return displayName when friendlyName is not present', () => {
+      const document = {
+        displayName: 'Submit Medical Records',
+      };
+      const result = getSupportingDocumentDisplayName(document);
+
+      expect(result).to.equal('Submit Medical Records');
+    });
+
+    it("should return 'unknown' when neither friendlyName nor displayName is present", () => {
+      const document = {};
+      const result = getSupportingDocumentDisplayName(document);
+
+      expect(result).to.equal('unknown');
+    });
+  });
+
+  describe('getEvidenceSubmissionDisplayName', () => {
+    it('should return trackedItemFriendlyName when present', () => {
+      const document = {
+        trackedItemFriendlyName: 'Authorization to Disclose Information',
+        trackedItemDisplayName: '21-4142/21-4142a',
+      };
+      const result = getEvidenceSubmissionDisplayName(document);
+
+      expect(result).to.equal('Authorization to Disclose Information');
+    });
+
+    it('should return trackedItemDisplayName when trackedItemFriendlyName is not present', () => {
+      const document = {
+        trackedItemDisplayName: '21-4142/21-4142a',
+      };
+      const result = getEvidenceSubmissionDisplayName(document);
+
+      expect(result).to.equal('21-4142/21-4142a');
+    });
+
+    it("should return 'unknown' when neither trackedItemFriendlyName nor trackedItemDisplayName is present", () => {
+      const document = {};
+      const result = getEvidenceSubmissionDisplayName(document);
+
+      expect(result).to.equal('unknown');
+    });
+  });
+
   describe('getDocumentRequestTypeDisplayName', () => {
-    context('when document has a status', () => {
+    context('when document has a status (supporting document)', () => {
       context('when the friendlyName is present', () => {
         it('should return the friendlyName', () => {
           const document = {
@@ -2413,7 +2471,7 @@ describe('Disability benefits helpers: ', () => {
       });
     });
 
-    context('when the trackedItemId is present', () => {
+    context('when the trackedItemId is present (evidence submission)', () => {
       context('when the trackedItemFriendlyName is present', () => {
         it('should return the trackedItemFriendlyName', () => {
           const document = {
@@ -2439,7 +2497,7 @@ describe('Disability benefits helpers: ', () => {
     });
 
     context('when the document has neither status nor trackedItemId', () => {
-      it('should return null', () => {
+      it("should return 'unknown'", () => {
         const document = {
           documentId: '{A8A7A341-E3FD-44FA-99C9-C3B772AD0200}',
           documentTypeLabel: 'Test',
@@ -2449,7 +2507,7 @@ describe('Disability benefits helpers: ', () => {
         };
         const result = getDocumentRequestTypeDisplayName(document);
 
-        expect(result).to.be.null;
+        expect(result).to.equal('unknown');
       });
     });
   });
