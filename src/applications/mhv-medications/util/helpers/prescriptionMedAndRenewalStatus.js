@@ -51,6 +51,7 @@ const getStatusTextAndDefinition = (prescription, isCernerPilot) => {
     const definitionKey = getPdfStatusDefinitionKey(
       prescription.dispStatus,
       prescription.refillStatus,
+      isCernerPilot,
     );
     const statusDefinition =
       statusDefinitions[definitionKey] || pdfDefaultStatusDefinition;

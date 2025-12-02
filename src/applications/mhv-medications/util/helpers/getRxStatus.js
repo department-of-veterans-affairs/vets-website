@@ -76,10 +76,38 @@ export const getStatusDefinitions = isCernerPilot => {
  * Determines the key to use for PDF status definitions
  * @param {string} dispStatus - Dispense status
  * @param {string} refillStatus - Refill status
+ * @param {boolean} isCernerPilot - Whether using V2 definitions
  * @returns {string} The key to use for status definitions lookup
  */
-export const getPdfStatusDefinitionKey = (dispStatus, refillStatus) => {
-  return refillStatus || dispStatus;
+export const getPdfStatusDefinitionKey = (
+  dispStatus,
+  refillStatus,
+  isCernerPilot = false,
+) => {
+  const key = refillStatus || dispStatus;
+
+  // For V2 definitions, map V1 keys to V2 keys
+  if (isCernerPilot) {
+    switch (key) {
+      case 'refillinprocess':
+      case 'submitted':
+        return 'inprogress';
+      case 'expired':
+      case 'discontinued':
+      case 'hold':
+        return 'inactive';
+      case 'activeParked':
+        return 'active';
+      case 'transferred':
+        return 'transferred';
+      case 'unknown':
+        return 'unknown';
+      default:
+        return key;
+    }
+  }
+
+  return key;
 };
 
 /**

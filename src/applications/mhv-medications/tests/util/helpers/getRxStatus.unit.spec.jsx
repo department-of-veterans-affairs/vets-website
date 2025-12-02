@@ -89,19 +89,46 @@ describe('getRxStatus helper functions', () => {
   });
 
   describe('getPdfStatusDefinitionKey', () => {
-    it('should return refillStatus when provided', () => {
-      const result = getPdfStatusDefinitionKey('Active', 'refillable');
+    it('should return refillStatus when provided and CernerPilot is disabled', () => {
+      const result = getPdfStatusDefinitionKey('Active', 'refillable', false);
       expect(result).to.equal('refillable');
     });
 
-    it('should return dispStatus when refillStatus is not provided', () => {
-      const result = getPdfStatusDefinitionKey('Active', null);
+    it('should return dispStatus when refillStatus is not provided and CernerPilot is disabled', () => {
+      const result = getPdfStatusDefinitionKey('Active', null, false);
       expect(result).to.equal('Active');
     });
 
-    it('should return dispStatus when refillStatus is undefined', () => {
-      const result = getPdfStatusDefinitionKey('Active', undefined);
+    it('should return dispStatus when refillStatus is undefined and CernerPilot is disabled', () => {
+      const result = getPdfStatusDefinitionKey('Active', undefined, false);
       expect(result).to.equal('Active');
+    });
+
+    it('should map V1 keys to V2 keys when CernerPilot is enabled', () => {
+      const testCases = [
+        { v1Key: 'refillinprocess', v2Expected: 'inprogress' },
+        { v1Key: 'submitted', v2Expected: 'inprogress' },
+        { v1Key: 'expired', v2Expected: 'inactive' },
+        { v1Key: 'discontinued', v2Expected: 'inactive' },
+        { v1Key: 'hold', v2Expected: 'inactive' },
+        { v1Key: 'activeParked', v2Expected: 'active' },
+        { v1Key: 'transferred', v2Expected: 'transferred' },
+        { v1Key: 'unknown', v2Expected: 'unknown' },
+      ];
+
+      testCases.forEach(({ v1Key, v2Expected }) => {
+        const result = getPdfStatusDefinitionKey('Active', v1Key, true);
+        expect(result).to.equal(v2Expected, `Failed for key: ${v1Key}`);
+      });
+    });
+
+    it('should return original key when no mapping exists in V2 mode', () => {
+      const result = getPdfStatusDefinitionKey(
+        'Active',
+        'someUnknownKey',
+        true,
+      );
+      expect(result).to.equal('someUnknownKey');
     });
   });
 

@@ -67,22 +67,107 @@ describe('component that displays Status', () => {
       expect(unknownStatus).to.exist;
     });
 
-    it('displays Active when status is passed as activeParked with cernerPilot enabled', () => {
+    it('displays Active and Active description when status is passed as activeParked with cernerPilot enabled', async () => {
       const screen = renderStatus('Active: Parked', true);
-      const unknownStatus = screen.getAllByText('Active');
-      expect(unknownStatus).to.exist;
+      const activeStatus = screen.getAllByText('Active');
+      expect(activeStatus).to.exist;
+      const statusDescription = screen.getByTestId('active-status-definition');
+      expect(statusDescription).to.exist;
+      expect(statusDescription.textContent).to.include(
+        'A prescription you can fill at a local VA pharmacy. If this prescription is refillable, you may request a refill',
+      );
     });
 
-    it('displays In progress when refillinprocess status is passed with cernerPilot enabled', () => {
+    it('displays In progress and description when refillinprocess status is passed with cernerPilot enabled', () => {
       const screen = renderStatus(dispStatusObj.refillinprocess, true);
       const inProgressStatus = screen.getAllByText('In progress');
       expect(inProgressStatus).to.exist;
+      const statusDescription = screen.getAllByText(
+        'A new prescription or a prescription you’ve requested a refill or renewal for.',
+      );
+      expect(statusDescription).to.exist;
     });
 
     it('displays in progress when status is Active: Submitted passed with cernerPilot enabled', () => {
       const screen = renderStatus(dispStatusObj.submitted, true);
       const submittedStatus = screen.getAllByText('In progress');
       expect(submittedStatus).to.exist;
+    });
+
+    it('displays Inactive and description when expired status is passed with cernerPilot enabled', () => {
+      const screen = renderStatus(dispStatusObj.expired, true);
+      const inactiveStatus = screen.getAllByText('Inactive');
+      expect(inactiveStatus).to.exist;
+      const statusDescription = screen.getByTestId(
+        'inactive-status-definition',
+      );
+      expect(statusDescription).to.exist;
+      expect(statusDescription.textContent).to.include(
+        'A prescription you can no longer fill. Contact your VA provider if you need more of this medication.',
+      );
+    });
+
+    it('displays Inactive and description when discontinued status is passed with cernerPilot enabled', () => {
+      const screen = renderStatus(dispStatusObj.discontinued, true);
+      const inactiveStatus = screen.getAllByText('Inactive');
+      expect(inactiveStatus).to.exist;
+      const statusDescription = screen.getByTestId(
+        'inactive-status-definition',
+      );
+      expect(statusDescription).to.exist;
+      expect(statusDescription.textContent).to.include(
+        'A prescription you can no longer fill. Contact your VA provider if you need more of this medication.',
+      );
+    });
+
+    it('displays Inactive and description when onHold status is passed with cernerPilot enabled', () => {
+      const screen = renderStatus(dispStatusObj.onHold, true);
+      const inactiveStatus = screen.getAllByText('Inactive');
+      expect(inactiveStatus).to.exist;
+      const statusDescription = screen.getByTestId(
+        'inactive-status-definition',
+      );
+      expect(statusDescription).to.exist;
+      expect(statusDescription.textContent).to.include(
+        'A prescription you can no longer fill. Contact your VA provider if you need more of this medication.',
+      );
+    });
+
+    it('displays Transferred and description when transferred status is passed with cernerPilot enabled', () => {
+      const screen = renderStatus(dispStatusObj.transferred, true);
+      const transferredStatus = screen.getAllByText('Transferred');
+      expect(transferredStatus).to.exist;
+      const statusDescription = screen.getByTestId(
+        'transferred-status-definition',
+      );
+      expect(statusDescription).to.exist;
+      expect(statusDescription.textContent).to.include(
+        'A prescription moved to VA’s new electronic health record.',
+      );
+    });
+
+    it('displays Status not available and description for unknown status with cernerPilot enabled', () => {
+      const screen = renderStatus('Unknown Status', true);
+      const unknownStatus = screen.getAllByText('Status not available');
+      expect(unknownStatus).to.exist;
+      const statusDescription = screen.getByTestId('unknown-status-definition');
+      expect(statusDescription).to.exist;
+      expect(statusDescription.textContent).to.include(
+        'There’s a problem with our system. You can’t manage this prescription online right now.',
+      );
+    });
+
+    it('displays In progress and description when submitted status is passed with cernerPilot enabled', () => {
+      const screen = renderStatus(dispStatusObj.submitted, true);
+      const inProgressStatus = screen.getAllByText('In progress');
+      expect(inProgressStatus).to.exist;
+      const statusDescription = screen.getByTestId(
+        'inprogress-status-definition',
+      );
+      expect(statusDescription).to.exist;
+      expect(statusDescription.textContent).to.include(
+        'A new prescription or a prescription you’ve requested a refill or renewal for.',
+      );
     });
 
     it('displays correctly formatted status with cernerPilot enabled', () => {
@@ -97,6 +182,34 @@ describe('component that displays Status', () => {
         const screen = renderStatus(status, true);
         // The status should be displayed (though potentially transformed)
         expect(screen.container).to.exist;
+      });
+    });
+
+    it('displays Active: Non-VA and description when nonVA status is passed with cernerPilot enabled', () => {
+      const screen = renderStatus(dispStatusObj.nonVA, true);
+      const nonVAStatus = screen.getAllByText('Active: Non-VA');
+      expect(nonVAStatus).to.exist;
+      // NonVA doesn't have a specific test-id, so we check for the text content using partial match
+      const statusDescription = screen.getByText(
+        'A VA provider added this medication record in your VA medical records',
+        { exact: false },
+      );
+      expect(statusDescription).to.exist;
+    });
+
+    it('ensures default case returns Status not available with cernerPilot enabled', () => {
+      const unknownStatuses = [
+        'Some Random Status',
+        'Invalid Status',
+        '',
+        'undefined',
+        'null',
+      ];
+
+      unknownStatuses.forEach(status => {
+        const screen = renderStatus(status, true);
+        const statusNotAvailable = screen.getAllByText('Status not available');
+        expect(statusNotAvailable).to.exist;
       });
     });
   });
