@@ -1,4 +1,6 @@
 import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { setData } from 'platform/forms-system/src/js/actions';
 import {
   getReturnState,
   clearReturnState,
@@ -17,7 +19,24 @@ const ApplicantContactDetailsLoggedIn = ({
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
+  const dispatch = useDispatch();
   const editState = getReturnState();
+
+  // Clear the edit flag when returning to this page
+  useEffect(() => {
+    if (data?.['view:loggedInEditAddress'] === true) {
+      const updatedFormData = {
+        ...data,
+        'view:loggedInEditAddress': false,
+      };
+      dispatch(setData(updatedFormData));
+    }
+
+    // Clear return path if we've returned to this page
+    if (!onReviewPage) {
+      sessionStorage.removeItem('addressEditReturnPath');
+    }
+  }, []);
 
   useEffect(
     () => {
@@ -55,16 +74,18 @@ const ApplicantContactDetailsLoggedIn = ({
     );
   };
 
-  const handleEdit = field => {
-    if (field === 'phone') {
-      goToPath('/applicant-contact-details-logged-in/edit-phone', {
-        force: true,
-      });
-    } else if (field === 'email') {
-      goToPath('/applicant-contact-details-logged-in/edit-email', {
-        force: true,
-      });
-    }
+  const handleEdit = () => {
+    // Set a flag in form data to indicate that the user is editing
+    const updatedFormData = {
+      ...data,
+      'view:loggedInEditContactInfo': true,
+    };
+    dispatch(setData(updatedFormData));
+
+    // Always navigate to the organization contact info page for editing.
+    // This will open the applicantContactInfo2 page where the user can edit
+    // contact details (email and phone) in one place.
+    goToPath('/applicant-contact-info', { force: true });
   };
 
   if (onReviewPage) {

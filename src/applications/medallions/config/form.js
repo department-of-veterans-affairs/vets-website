@@ -132,7 +132,9 @@ const formConfig = {
           depends: formData =>
             ['familyMember', 'personalRep', 'other'].includes(
               formData.relationToVetRadio,
-            ) && !isUserSignedIn(formData),
+            ) &&
+            (!isUserSignedIn(formData) ||
+              formData?.['view:loggedInEditContactInfo'] === true),
         },
         applicantContactDetailsLoggedIn: {
           title: 'Your contact information',
