@@ -39,8 +39,8 @@ const IntroductionPage = ({
       content = <NotLoggedInContent route={route} />;
     } else if (!isVerified) {
       content = <NeedsToVerify pathname={pathname} />;
-    } else if (!canApply) {
-      content = <MissingEDIPI />;
+    // } else if (!canApply) {
+    //   content = <MissingEDIPI />;
     } else {
       content = (
         <div className="vads-u-margin-bottom--2">

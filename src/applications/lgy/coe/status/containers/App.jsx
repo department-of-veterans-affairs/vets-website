@@ -65,78 +65,80 @@ const App = ({
   let content;
   const pathname = location.basename;
 
-  if (!isVerified) {
-    content = (
-      <div className="row vads-u-margin-bottom--4">
-        <NeedsToVerify pathname={pathname} />
-      </div>
-    );
-  } else if (!canApply) {
-    content = (
-      <div className="row vads-u-margin-bottom--4">
-        <MissingEDIPI />
-      </div>
-    );
-  } else if (
-    generateAutoCoeStatus === CALLSTATUS.idle ||
-    profileIsUpdating ||
-    isLoading
-  ) {
-    content = <va-loading-indicator message="Loading application..." />;
-  } else if (generateAutoCoeStatus === CALLSTATUS.pending) {
-    content = (
-      <va-loading-indicator message="Checking automatic COE eligibility..." />
-    );
-  } else if (
-    generateAutoCoeStatus === CALLSTATUS.success ||
-    (generateAutoCoeStatus === CALLSTATUS.skip && coe)
-  ) {
-    switch (coe.status) {
-      case COE_ELIGIBILITY_STATUS.available:
-        content = <Available />;
-        break;
-      case COE_ELIGIBILITY_STATUS.eligible:
-        content = (
-          <Eligible
-            clickHandler={() => {}}
-            referenceNumber={coe.referenceNumber}
-          />
-        );
-        break;
-      case COE_ELIGIBILITY_STATUS.denied:
-        content = (
-          <Denied
-            referenceNumber={coe.referenceNumber}
-            requestDate={coe.applicationCreateDate}
-          />
-        );
-        break;
-      case COE_ELIGIBILITY_STATUS.pending:
-        content = (
-          <Pending
-            notOnUploadPage
-            referenceNumber={coe.referenceNumber}
-            requestDate={coe.applicationCreateDate}
-            status={coe.status}
-          />
-        );
-        break;
-      case COE_ELIGIBILITY_STATUS.pendingUpload:
-        content = (
-          <Pending
-            referenceNumber={coe.referenceNumber}
-            requestDate={coe.applicationCreateDate}
-            status={coe.status}
-            uploadsNeeded
-          />
-        );
-        break;
-      default:
-        content = <Ineligible />;
-    }
-  } else {
-    content = <Ineligible />;
-  }
+  content = <Available />;
+  // if (!isVerified) {
+  //   content = (
+  //     <div className="row vads-u-margin-bottom--4">
+  //       <NeedsToVerify pathname={pathname} />
+  //     </div>
+  //   );
+  // } else if (!canApply) {
+  //   content = (
+  //     <div className="row vads-u-margin-bottom--4">
+  //       <MissingEDIPI />
+  //     </div>
+  //   );
+  // } else if (
+  //   generateAutoCoeStatus === CALLSTATUS.idle ||
+  //   profileIsUpdating ||
+  //   isLoading
+  // ) {
+  //   content = <va-loading-indicator message="Loading application..." />;
+  // } else if (generateAutoCoeStatus === CALLSTATUS.pending) {
+  //   content = (
+  //     <va-loading-indicator message="Checking automatic COE eligibility..." />
+  //   );
+  // } else if (
+  //   generateAutoCoeStatus === CALLSTATUS.success ||
+  //   (generateAutoCoeStatus === CALLSTATUS.skip && coe)
+  // ) {
+  //   //switch (coe.status) {
+  //   switch (""AVAILABLE") {
+  //     case COE_ELIGIBILITY_STATUS.available:
+  //       content = <Available />;
+  //       break;
+  //     case COE_ELIGIBILITY_STATUS.eligible:
+  //       content = (
+  //         <Eligible
+  //           clickHandler={() => {}}
+  //           referenceNumber={coe.referenceNumber}
+  //         />
+  //       );
+  //       break;
+  //     case COE_ELIGIBILITY_STATUS.denied:
+  //       content = (
+  //         <Denied
+  //           referenceNumber={coe.referenceNumber}
+  //           requestDate={coe.applicationCreateDate}
+  //         />
+  //       );
+  //       break;
+  //     case COE_ELIGIBILITY_STATUS.pending:
+  //       content = (
+  //         <Pending
+  //           notOnUploadPage
+  //           referenceNumber={coe.referenceNumber}
+  //           requestDate={coe.applicationCreateDate}
+  //           status={coe.status}
+  //         />
+  //       );
+  //       break;
+  //     case COE_ELIGIBILITY_STATUS.pendingUpload:
+  //       content = (
+  //         <Pending
+  //           referenceNumber={coe.referenceNumber}
+  //           requestDate={coe.applicationCreateDate}
+  //           status={coe.status}
+  //           uploadsNeeded
+  //         />
+  //       );
+  //       break;
+  //     default:
+  //       content = <Ineligible />;
+  //   }
+  // } else {
+  //   content = <Ineligible />;
+  // }
 
   return (
     <>
@@ -163,7 +165,8 @@ const App = ({
 const mapStateToProps = state => ({
   certificateOfEligibility: state.certificateOfEligibility,
   user: state.user,
-  canApply: isLoggedIn(state) && selectProfile(state).claims?.coe,
+  //canApply: isLoggedIn(state) && selectProfile(state).claims?.coe,
+  canApply: true,
   isVerified: selectProfile(state)?.verified || false,
   isLoading: isLoadingFeatures(state),
   showCoe: showCoeFeature(state),

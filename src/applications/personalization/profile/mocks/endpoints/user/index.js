@@ -281,6 +281,7 @@ const baseUserResponses = {
           authnContext: 'http://idmanagement.gov/ns/assurance/loa/3',
           claims: {
             ch33BankAccounts: true,
+            coe: true,
             communicationPreferences: true,
             connectedApps: true,
             militaryHistory: true,
