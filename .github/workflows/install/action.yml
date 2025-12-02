@@ -55,3 +55,7 @@ runs:
         timeout_minutes: 7
       env:
         YARN_CACHE_FOLDER: ${{ inputs.yarn_cache_folder }}
+
+    - name: Rebuild native dependencies
+      shell: bash
+      run: yarn rebuild node-sass
