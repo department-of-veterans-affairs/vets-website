@@ -39,6 +39,18 @@ const WhoIsYourQuestionAboutCustomPage = props => {
         (selectedValue === whoIsYourQuestionAboutLabels.MYSELF ||
           selectedValue === whoIsYourQuestionAboutLabels.SOMEONE_ELSE) &&
         !isLOA3,
+      requireSignInLogic: formData.requireSignInLogic
+        ? [
+            ...formData.requireSignInLogic.slice(0, 2),
+            selectedValue === whoIsYourQuestionAboutLabels.MYSELF ||
+              selectedValue === whoIsYourQuestionAboutLabels.SOMEONE_ELSE,
+          ]
+        : [
+            false,
+            false,
+            selectedValue === whoIsYourQuestionAboutLabels.MYSELF ||
+              selectedValue === whoIsYourQuestionAboutLabels.SOMEONE_ELSE,
+          ],
     });
   };
 
@@ -79,6 +91,7 @@ const WhoIsYourQuestionAboutCustomPage = props => {
 WhoIsYourQuestionAboutCustomPage.propTypes = {
   formData: PropTypes.shape({
     whoIsYourQuestionAbout: PropTypes.string,
+    requireSignInLogic: PropTypes.arrayOf(PropTypes.bool),
   }),
   goBack: PropTypes.func,
   goForward: PropTypes.func,
