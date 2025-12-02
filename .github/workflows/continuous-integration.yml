@@ -13,6 +13,42 @@ concurrency:
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
+  # TEMPORARY: This check will be removed once Shai Hulud 2.0 is no longer a moving target
+  # Fails and cancels the workflow if package.json or yarn.lock are modified
+  check-dependency-files:
+    name: Check for Dependency File Changes
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+        with:
+          fetch-depth: 0
+
+      - name: Check for package.json or yarn.lock changes
+        run: |
+          # Fetch main branch for comparison
+          git fetch origin main
+
+          # Check if package.json or yarn.lock have been modified
+          if git diff --name-only origin/main...HEAD | grep -qE '^(package\.json|yarn\.lock)$'; then
+            echo "❌ ERROR: package.json or yarn.lock has been modified."
+            echo "This is temporarily blocked to prevent Shai Hulud 2.0 vulnerabilities."
+            echo "Once Shai Hulud 2.0 is no longer a moving target, this check will be removed."
+            exit 1
+          fi
+          echo "✓ No dependency file changes detected."
+
+      - name: Cancel workflow on failure
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.actions.cancelWorkflowRun({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              run_id: context.runId
+            });
+
   build:
     name: Build
     runs-on: ubuntu-16-cores-latest
@@ -968,7 +1004,8 @@ jobs:
           yarn install \
           --network-timeout 1000000000 \
           --prefer-offline \
-          --production=false
+          --production=false \
+          --ignore-scripts
 
         env:
           YARN_CACHE_FOLDER: .cache/yarn
@@ -989,7 +1026,8 @@ jobs:
           yarn install \
           --network-timeout 1000000000 \
           --prefer-offline \
-          --production=false
+          --production=false \
+          --ignore-scripts
 
       - name: Create test results folder
         run: mkdir -p test-results
@@ -1669,6 +1707,7 @@ jobs:
     permissions:
       id-token: write
       contents: read
+      checks: write
     needs:
       [
         cypress-tests,
