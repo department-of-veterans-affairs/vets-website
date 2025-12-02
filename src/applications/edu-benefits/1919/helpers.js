@@ -257,8 +257,15 @@ export const validateConflictOfInterestStartDate = (
 
   if (end < start) {
     errors.addError(
-      'Enrollment end date must be on or after the enrollment start date',
+      'The enrollment start date cannot be after the enrollment end date',
     );
+  }
+  if (
+    start.getFullYear() === end.getFullYear() &&
+    start.getMonth() === end.getMonth() &&
+    start.getDate() === end.getDate()
+  ) {
+    errors.addError('The start date and end date cannot be the same');
   }
 };
 
