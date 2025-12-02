@@ -2,6 +2,7 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
 import { AXE_CONTEXT, Paths } from './utils/constants';
+import { MessageHintText } from '../../util/constants';
 import PatientComposePage from './pages/PatientComposePage';
 import mockRecipients from './fixtures/recipientsResponse/recipients-response.json';
 import medicationResponse from './fixtures/medicationResponses/single-medication-response.json';
@@ -84,6 +85,9 @@ describe('SM Medications Renewal Request', () => {
       ].join('\n');
 
       PatientComposePage.validateMessageBodyField(expectedMessageBodyText);
+      PatientComposePage.validateMessageBodyHint(
+        MessageHintText.RX_RENEWAL_SUCCESS,
+      );
       cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
       cy.intercept('POST', `${Paths.INTERCEPT.MESSAGES}`, {}).as('sentMessage');
@@ -161,6 +165,9 @@ describe('SM Medications Renewal Request', () => {
       ].join('\n');
 
       PatientComposePage.validateMessageBodyField(expectedMessageBodyText);
+      PatientComposePage.validateMessageBodyHint(
+        MessageHintText.RX_RENEWAL_SUCCESS,
+      );
       cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
       cy.intercept('POST', `${Paths.INTERCEPT.MESSAGES}`, {}).as('sentMessage');
@@ -221,6 +228,9 @@ describe('SM Medications Renewal Request', () => {
       ].join('\n');
 
       PatientComposePage.validateMessageBodyField(expectedMessageBodyText);
+      PatientComposePage.validateMessageBodyHint(
+        MessageHintText.RX_RENEWAL_ERROR,
+      );
       cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
       cy.intercept('POST', `${Paths.INTERCEPT.MESSAGES}`, {}).as('sentMessage');
@@ -285,6 +295,9 @@ describe('SM Medications Renewal Request', () => {
       ].join('\n');
 
       PatientComposePage.validateMessageBodyField(expectedMessageBodyText);
+      PatientComposePage.validateMessageBodyHint(
+        MessageHintText.RX_RENEWAL_SUCCESS,
+      );
       cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
       cy.intercept('POST', `${Paths.INTERCEPT.MESSAGES}`, {}).as('sentMessage');
@@ -416,6 +429,9 @@ describe('SM Medications Renewal Request', () => {
       ].join('\n');
 
       PatientComposePage.validateMessageBodyField(expectedMessageBodyText);
+      PatientComposePage.validateMessageBodyHint(
+        MessageHintText.RX_RENEWAL_SUCCESS,
+      );
       cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
       cy.intercept('POST', `${Paths.INTERCEPT.MESSAGES}`, {}).as('sentMessage');
@@ -469,6 +485,9 @@ describe('SM Medications Renewal Request', () => {
       ].join('\n');
 
       PatientComposePage.validateMessageBodyField(expectedMessageBodyText);
+      PatientComposePage.validateMessageBodyHint(
+        MessageHintText.RX_RENEWAL_ERROR,
+      );
       cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
       cy.intercept('POST', `${Paths.INTERCEPT.MESSAGES}`, {}).as('sentMessage');
@@ -517,6 +536,9 @@ describe('SM Medications Renewal Request', () => {
       ].join('\n');
 
       PatientComposePage.validateMessageBodyField(expectedMessageBodyText);
+      PatientComposePage.validateMessageBodyHint(
+        MessageHintText.RX_RENEWAL_SUCCESS,
+      );
       cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
       cy.intercept('POST', `${Paths.INTERCEPT.MESSAGES}`, {}).as('sentMessage');

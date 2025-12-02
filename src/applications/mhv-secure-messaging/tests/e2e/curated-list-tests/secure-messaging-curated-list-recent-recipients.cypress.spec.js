@@ -38,6 +38,7 @@ describe('SM CURATED LIST MAIN FLOW WITH RECENT RECIPIENTS', () => {
     PatientInboxPage.clickCreateNewMessage();
     cy.wait('@recentRecipients');
     PatientInterstitialPage.getStartMessageLink().click();
+    cy.wait('@recentRecipients');
     GeneralFunctionsPage.verifyPageHeader(Data.RECENT_RECIPIENTS_HEADER);
     GeneralFunctionsPage.verifyPageTitle(
       'Recently Messaged Care Teams - Start Message | Veterans Affairs',
@@ -78,6 +79,7 @@ describe('SM CURATED LIST MAIN FLOW WITH RECENT RECIPIENTS', () => {
     PatientInboxPage.clickCreateNewMessage();
     cy.wait('@recentRecipients');
     PatientInterstitialPage.getStartMessageLink().click();
+    cy.wait('@recentRecipients');
     GeneralFunctionsPage.verifyPageHeader(Data.RECENT_RECIPIENTS_HEADER);
 
     cy.findByTestId(Locators.EMERGENCY_USE_EXPANDABLE_DATA_TEST_ID).should(
@@ -111,8 +113,12 @@ describe('SM CURATED LIST MAIN FLOW WITH RECENT RECIPIENTS', () => {
     PatientInboxPage.clickCreateNewMessage();
     cy.wait('@recentRecipients');
     PatientInterstitialPage.getStartMessageLink().click();
+    cy.wait('@recentRecipients');
     GeneralFunctionsPage.verifyPageHeader(Data.RECENT_RECIPIENTS_HEADER);
 
+    cy.findByLabelText(`${recentCareTeams[0]}VA Madison health care`).should(
+      'be.visible',
+    );
     cy.findByTestId(
       Locators.RECENT_CARE_TEAMS_CONTINUE_BUTTON_DATA_TEST_ID,
     ).click();
@@ -124,11 +130,10 @@ describe('SM CURATED LIST MAIN FLOW WITH RECENT RECIPIENTS', () => {
       .should('be.visible');
 
     // validate the first va-radio-option is focused
-    // Give the focus action time to complete after error shows
-    cy.findByLabelText(`${recentCareTeams[0]}VA Madison health care`)
-      .should('exist')
-      .and('be.visible')
-      .should('have.focus');
+    // Use a longer timeout to allow focus to be applied after validation
+    cy.findByLabelText(`${recentCareTeams[0]}VA Madison health care`).should(
+      'have.focus',
+    );
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
