@@ -28,24 +28,26 @@ const DelayedRefillAlert = props => {
         Some refills are taking longer than expected
       </h2>
       <p>Go to your medication details to find out what to do next:</p>
-      {sortedPrescriptions.map(rx => (
-        <p
-          className="vads-u-margin-bottom--0"
-          key={rx.prescriptionId}
-          data-dd-privacy="mask"
-        >
-          <Link
-            id={`refill-alert-link-${rx.prescriptionId}`}
+      <ul className="medications-list-style--none vads-u-padding-left--0">
+        {sortedPrescriptions.map(rx => (
+          <li
+            className="vads-u-margin-bottom--2"
+            key={rx.prescriptionId}
             data-dd-privacy="mask"
-            data-testid={`refill-alert-link-${rx.prescriptionId}`}
-            className="vads-u-font-weight--bold"
-            to={`/prescription/${rx.prescriptionId}`}
-            data-dd-action-name={dataDogActionName}
           >
-            {rx.prescriptionName}
-          </Link>
-        </p>
-      ))}
+            <Link
+              id={`refill-alert-link-${rx.prescriptionId}`}
+              data-dd-privacy="mask"
+              data-testid={`refill-alert-link-${rx.prescriptionId}`}
+              className="vads-u-font-weight--bold"
+              to={`/prescription/${rx.prescriptionId}`}
+              data-dd-action-name={dataDogActionName}
+            >
+              {rx.prescriptionName}
+            </Link>
+          </li>
+        ))}
+      </ul>
     </VaAlert>
   );
 };
