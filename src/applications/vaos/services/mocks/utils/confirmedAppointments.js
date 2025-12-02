@@ -362,22 +362,45 @@ const appointmentTemplates = {
   cc: {
     getTemplate: (_, startDate) => {
       const appointmentId = generateRandomId();
+      const isPastAppointment = startDate < new Date();
+
+      // Create temporary appointment to determine status
+      const temporaryAppointment = {
+        id: appointmentId,
+        type: 'appointments',
+        attributes: {
+          kind: 'cc',
+          modality: 'communityCareEps',
+          past: isPastAppointment,
+        },
+      };
+
+      // Get status info (15% chance of cancelled)
+      const statusInfo = getAppointmentStatus(
+        temporaryAppointment.attributes,
+        isPastAppointment,
+      );
+
       return {
         id: appointmentId,
         type: 'appointments',
         attributes: {
           id: appointmentId,
-          status: 'booked',
+          status: statusInfo.status,
+          cancelationReason: statusInfo.cancelationReason,
           patientIcn: null,
           modality: 'communityCareEps',
           kind: 'cc',
           type: 'COMMUNITY_CARE_APPOINTMENT',
           start: formatAppointmentDate(startDate),
-          past: startDate < new Date(),
+          past: isPastAppointment,
           future: startDate > new Date(),
           lastRetrieved: new Date().toISOString(),
           isLatest: true,
           cancellable: false, // CC appointments that are booked are not cancellable
+          referralId: `VA${Math.floor(Math.random() * 10000000)
+            .toString()
+            .padStart(10, '0')}`,
           provider: {
             id: appointmentId,
             name: 'Dr. Smith @ Acme Cardiology - Anywhere, USA',
@@ -859,6 +882,34 @@ const getMockConfirmedAppointments = (options = {}) => {
 
     appointments.push(requiredAppointment);
   });
+
+  // Add a guaranteed cancelled CC EPS appointment for testing
+  const cancelledCCDate = new Date();
+  cancelledCCDate.setDate(cancelledCCDate.getDate() + 7); // 1 week from now
+  cancelledCCDate.setHours(14, 30, 0, 0); // 2:30 PM
+
+  const cancelledCCAppointment = appointmentTemplates.cc.getTemplate(
+    'primaryCare',
+    cancelledCCDate,
+    locationId,
+  );
+
+  // Force this appointment to be cancelled
+  cancelledCCAppointment.attributes.status = 'cancelled';
+  cancelledCCAppointment.attributes.cancelationReason = {
+    coding: [
+      {
+        system:
+          'http://terminology.hl7.org/CodeSystem/appointment-cancellation-reason',
+        code: 'pat',
+        display: 'Patient',
+      },
+    ],
+  };
+  cancelledCCAppointment.attributes.future = true;
+  cancelledCCAppointment.attributes.past = false;
+
+  appointments.push(cancelledCCAppointment);
 
   // Sort appointments by date (past first, then future)
   appointments.sort((a, b) => {
