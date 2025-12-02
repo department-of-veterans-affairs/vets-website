@@ -4,9 +4,10 @@ import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fie
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import { validateDate } from 'platform/forms-system/src/js/validation';
 import {
+  addressNoMilitaryUI,
+  addressNoMilitarySchema,
   currentOrPastDateRangeUI,
   currentOrPastDateRangeSchema,
-  selectUI,
   textUI,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -23,14 +24,13 @@ import { isCompletingModern4142 } from '../utils';
 
 import PrivateProviderTreatmentView from '../components/PrivateProviderTreatmentView';
 
-import { validateBooleanGroup, validateZIP } from '../validations';
+import { validateBooleanGroup } from '../validations';
 import PrivateMedicalProvidersConditions from '../components/confirmationFields/PrivateMedicalProvidersConditions';
 
 const { form4142 } = fullSchema.properties;
 
 const {
   providerFacilityName,
-  providerFacilityAddress,
 } = form4142.properties.providerFacility.items.properties;
 const { limitedConsent } = form4142.properties;
 
@@ -108,49 +108,34 @@ export const uiSchema = {
         },
         'End of treatment must be after start of treatment',
       ),
-      providerFacilityAddress: {
-        'ui:title': 'Address of provider or hospital',
-        'ui:order': [
-          'country',
-          'street',
-          'street2',
-          'city',
-          'state',
-          'postalCode',
-        ],
-        country: selectUI('Country'),
-        street: textUI({
-          title: 'Street address (20 characters maximum)',
-          autocomplete: 'address-line1',
-          errorMessages: {
-            required: 'Enter a street address',
-            pattern: 'Enter a valid street address',
+      providerFacilityAddress: (() => {
+        const addressUiSchema = addressNoMilitaryUI({
+          omit: ['street3'],
+          labels: {
+            street: 'Street address (20 characters maximum)',
+            street2: 'Street address 2 (20 characters maximum)',
           },
-        }),
-        street2: textUI({
-          title: 'Street address 2 (20 characters maximum)',
-          autocomplete: 'address-line2',
-        }),
-        city: textUI({
-          title: 'City (30 characters maximum)',
-          autocomplete: 'address-level2',
-          errorMessages: {
-            required: 'Enter a city',
+        });
+        return {
+          ...addressUiSchema,
+          'ui:title': 'Address of provider or hospital',
+          city: {
+            ...addressUiSchema.city,
+            'ui:options': {
+              ...addressUiSchema.city['ui:options'],
+              replaceSchema: (formData, schema, _uiSchema, index, path) => {
+                const originalSchema = addressUiSchema.city[
+                  'ui:options'
+                ].replaceSchema(formData, schema, _uiSchema, index, path);
+                return {
+                  ...originalSchema,
+                  title: 'City (30 characters maximum)',
+                };
+              },
+            },
           },
-        }),
-        state: selectUI('State'),
-        postalCode: textUI({
-          title: 'Postal code',
-          autocomplete: 'postal-code',
-          validations: [validateZIP],
-          errorMessages: {
-            pattern:
-              'Please enter a valid 5- or 9-digit Postal code (dashes allowed)',
-            required: 'Enter a postal code',
-          },
-          width: 'md',
-        }),
-      },
+        };
+      })(),
     },
   },
 };
@@ -182,24 +167,29 @@ export const schema = {
             properties: {},
           },
           treatmentDateRange: currentOrPastDateRangeSchema,
-          providerFacilityAddress: {
-            ...providerFacilityAddress,
-            properties: {
-              ...providerFacilityAddress.properties,
-              street: {
-                type: 'string',
-                maxLength: 20,
+          providerFacilityAddress: (() => {
+            const addressSchema = addressNoMilitarySchema({
+              omit: ['street3'],
+            });
+            return {
+              ...addressSchema,
+              properties: {
+                ...addressSchema.properties,
+                street: {
+                  type: 'string',
+                  maxLength: 20,
+                },
+                street2: {
+                  type: 'string',
+                  maxLength: 20,
+                },
+                city: {
+                  type: 'string',
+                  maxLength: 30,
+                },
               },
-              street2: {
-                type: 'string',
-                maxLength: 20,
-              },
-              city: {
-                type: 'string',
-                maxLength: 30,
-              },
-            },
-          },
+            };
+          })(),
         },
       },
     },

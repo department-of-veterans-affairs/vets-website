@@ -64,10 +64,10 @@ describe('Disability benefits 4142 provider medical records facility information
       />,
     );
 
-    expect(container.querySelectorAll('va-text-input').length).to.equal(5);
+    expect(container.querySelectorAll('va-text-input').length).to.equal(6);
     expect(container.querySelectorAll('va-checkbox').length).to.equal(1);
     expect(container.querySelectorAll('va-memorable-date').length).to.equal(2);
-    expect(container.querySelectorAll('va-select').length).to.equal(2);
+    expect(container.querySelectorAll('va-select').length).to.equal(1);
   });
 
   it('should add a provider facility', () => {
@@ -197,11 +197,11 @@ describe('Disability benefits 4142 provider medical records facility information
       );
       expect(fromDate.getAttribute('error')).to.exist;
 
-      expect(container.querySelectorAll('va-text-input').length).to.equal(5);
+      expect(container.querySelectorAll('va-text-input').length).to.equal(6);
       expect(container.querySelectorAll('va-memorable-date').length).to.equal(
         2,
       );
-      expect(container.querySelectorAll('va-select').length).to.equal(2);
+      expect(container.querySelectorAll('va-select').length).to.equal(1);
       expect(container.querySelectorAll('va-checkbox').length).to.equal(1);
     });
   });
@@ -241,7 +241,7 @@ describe('Disability benefits 4142 provider medical records facility information
       }
 
       expect(container.querySelectorAll('va-text-input').length).to.be.at.least(
-        5,
+        6,
       );
       expect(container.querySelectorAll('va-checkbox').length).to.equal(1);
     });
@@ -265,7 +265,7 @@ describe('Disability benefits 4142 provider medical records facility information
     );
 
     expect(container.querySelectorAll('va-memorable-date').length).to.equal(2);
-    expect(container.querySelectorAll('va-select').length).to.equal(2);
+    expect(container.querySelectorAll('va-select').length).to.equal(1);
 
     // 1 for limited consent + 3 for treated disabilities
     expect(container.querySelectorAll('va-checkbox').length).to.equal(4);
@@ -722,11 +722,11 @@ describe('VADS component validation tests', () => {
     it('should validate all required fields are present', () => {
       const { container } = renderForm({ initialData });
 
-      expect(container.querySelectorAll('va-text-input').length).to.equal(5);
+      expect(container.querySelectorAll('va-text-input').length).to.equal(6);
       expect(container.querySelectorAll('va-memorable-date').length).to.equal(
         2,
       );
-      expect(container.querySelectorAll('va-select').length).to.equal(2);
+      expect(container.querySelectorAll('va-select').length).to.equal(1);
       expect(container.querySelectorAll('va-checkbox').length).to.equal(1);
     });
   });
