@@ -16,21 +16,15 @@ import {
 const mapToStatusV2 = dispStatus => {
   switch (dispStatus) {
     case 'Active: Refill in Process':
-      return 'In progress';
     case 'Active: Submitted':
-      return 'In progress';
     case 'NewOrder':
-      return 'In progress';
     case 'Renew':
       return 'In progress';
     case 'Active: On Hold':
-      return 'Inactive';
     case 'Expired':
-      return 'Inactive';
     case 'Discontinued':
       return 'Inactive';
     case 'Active: Parked':
-      return 'Active';
     case 'Active':
       return 'Active';
     case 'Transferred':
