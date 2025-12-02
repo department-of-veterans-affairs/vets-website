@@ -144,7 +144,7 @@ describe('21-8940 container/ConfirmationQuestion', () => {
     const confirmationRadio = container.querySelector('#confirmation-question');
     expect(confirmationRadio).to.exist;
     expect(confirmationRadio.getAttribute('label')).to.equal(
-      'Are you applying for increased unemployability compensation benefits?',
+      'Are you applying for increased compensation due to unemployability?',
     );
   });
 

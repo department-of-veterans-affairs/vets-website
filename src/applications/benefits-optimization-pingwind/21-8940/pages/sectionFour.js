@@ -24,42 +24,51 @@ export default {
       },
     }),
 
-    gradeSchool: radioUI({
-      title: 'What is the highest grade school level you completed?',
-      labels: {
-        '1': '1st Grade',
-        '2': '2nd Grade',
-        '3': '3rd Grade',
-        '4': '4th Grade',
-        '5': '5th Grade',
-        '6': '6th Grade',
-        '7': '7th Grade',
-        '8': '8th Grade',
-      },
-      hideIf: formData => formData.educationLevel !== 'gradeSchool',
-    }),
+    gradeSchool: {
+      ...radioUI({
+        title: 'What is the highest grade school level you completed?',
+        labels: {
+          '1': '1st Grade',
+          '2': '2nd Grade',
+          '3': '3rd Grade',
+          '4': '4th Grade',
+          '5': '5th Grade',
+          '6': '6th Grade',
+          '7': '7th Grade',
+          '8': '8th Grade',
+        },
+        hideIf: formData => formData.educationLevel !== 'gradeSchool',
+      }),
+      'ui:required': formData => formData.educationLevel === 'gradeSchool',
+    },
 
-    highSchool: radioUI({
-      title: 'What is the highest high school level you completed?',
-      labels: {
-        '9': '9th Grade',
-        '10': '10th Grade',
-        '11': '11th Grade',
-        '12': '12th Grade',
-      },
-      hideIf: formData => formData.educationLevel !== 'highSchool',
-    }),
+    highSchool: {
+      ...radioUI({
+        title: 'What is the highest high school level you completed?',
+        labels: {
+          '9': '9th Grade',
+          '10': '10th Grade',
+          '11': '11th Grade',
+          '12': '12th Grade',
+        },
+        hideIf: formData => formData.educationLevel !== 'highSchool',
+      }),
+      'ui:required': formData => formData.educationLevel === 'highSchool',
+    },
 
-    college: radioUI({
-      title: 'What is the highest college level you completed?',
-      labels: {
-        freshman: 'College Freshman',
-        sophomore: 'College Sophomore',
-        junior: 'College Junior',
-        senior: 'College Senior',
-      },
-      hideIf: formData => formData.educationLevel !== 'college',
-    }),
+    college: {
+      ...radioUI({
+        title: 'What is the highest college level you completed?',
+        labels: {
+          freshman: 'College Freshman',
+          sophomore: 'College Sophomore',
+          junior: 'College Junior',
+          senior: 'College Senior',
+        },
+        hideIf: formData => formData.educationLevel !== 'college',
+      }),
+      'ui:required': formData => formData.educationLevel === 'college',
+    },
   },
   schema: {
     type: 'object',

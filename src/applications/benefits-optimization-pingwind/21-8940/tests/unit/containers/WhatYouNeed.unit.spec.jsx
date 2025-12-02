@@ -87,7 +87,7 @@ describe('21-8940 container/WhatYouNeed', () => {
       expect(bodyScrollStub.called).to.be.true;
     });
 
-    const heading = container.querySelector('h2.vads-u-margin-bottom--2');
+  const heading = container.querySelector('h1.vads-u-margin-bottom--2');
     expect(heading).to.exist;
     expect(heading.textContent).to.equal('What You Need to Get Started');
 
@@ -101,9 +101,9 @@ describe('21-8940 container/WhatYouNeed', () => {
 
     const summaryBox = container.querySelector('#basic-info-summary');
     expect(summaryBox).to.exist;
-    expect(
-      summaryBox.querySelector('h3[slot="headline"]').textContent,
-    ).to.equal('Basic Information');
+    expect(summaryBox.querySelector('[slot="headline"]').textContent).to.equal(
+      'Basic Information',
+    );
   });
 
   it('displays the disability information summary box', () => {
@@ -111,9 +111,9 @@ describe('21-8940 container/WhatYouNeed', () => {
 
     const summaryBox = container.querySelector('#disability-info-summary');
     expect(summaryBox).to.exist;
-    expect(
-      summaryBox.querySelector('h3[slot="headline"]').textContent,
-    ).to.equal('Disability Information');
+    expect(summaryBox.querySelector('[slot="headline"]').textContent).to.equal(
+      'Disability Information',
+    );
   });
 
   it('displays the employment history summary box', () => {
@@ -121,9 +121,9 @@ describe('21-8940 container/WhatYouNeed', () => {
 
     const summaryBox = container.querySelector('#employment-history-summary');
     expect(summaryBox).to.exist;
-    expect(
-      summaryBox.querySelector('h3[slot="headline"]').textContent,
-    ).to.equal('Employment History');
+    expect(summaryBox.querySelector('[slot="headline"]').textContent).to.equal(
+      'Employment History',
+    );
   });
 
   it('displays the education and training summary box', () => {
@@ -131,9 +131,9 @@ describe('21-8940 container/WhatYouNeed', () => {
 
     const summaryBox = container.querySelector('#education-training-summary');
     expect(summaryBox).to.exist;
-    expect(
-      summaryBox.querySelector('h3[slot="headline"]').textContent,
-    ).to.equal('Education and Training');
+    expect(summaryBox.querySelector('[slot="headline"]').textContent).to.equal(
+      'Education and Training',
+    );
   });
 
   it('displays the job search information summary box', () => {
@@ -141,9 +141,9 @@ describe('21-8940 container/WhatYouNeed', () => {
 
     const summaryBox = container.querySelector('#job-search-summary');
     expect(summaryBox).to.exist;
-    expect(
-      summaryBox.querySelector('h3[slot="headline"]').textContent,
-    ).to.equal('Job Search Information');
+    expect(summaryBox.querySelector('[slot="headline"]').textContent).to.equal(
+      'Job Search Information',
+    );
   });
 
   it('navigates back when back button is clicked', async () => {
@@ -202,7 +202,7 @@ describe('21-8940 container/WhatYouNeed', () => {
 
     expect(
       getByRole('heading', {
-        level: 2,
+        level: 1,
         name: 'What You Need to Get Started',
       }),
     ).to.exist;

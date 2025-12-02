@@ -16,13 +16,14 @@ export default {
       [veteranFields.address]: addressUI({
         labels: {
           street2: 'Apartment or unit number',
-          postalCode: 'Zip Code',
+          postalCode: 'ZIP code/Postal code',
         },
         omit: ['street3'],
         required: true,
       }),
     },
   },
+
   schema: {
     type: 'object',
     properties: {

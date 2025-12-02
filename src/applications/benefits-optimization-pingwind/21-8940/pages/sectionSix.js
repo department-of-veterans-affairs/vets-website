@@ -13,6 +13,7 @@ export default {
     'ui:order': [
       'authorizationRelease',
       'certificationStatements',
+      'serviceConnectedStatements',
       'view:sectionSixPenaltyAlert',
       'view:sectionSixPrivacyAlert',
       'view:sectionSixBurdenAlert',
@@ -22,7 +23,7 @@ export default {
       'ui:description': (
         <VaAlert status="warning" class="vads-u-margin-top--3" uswds visible>
           <h3 slot="headline">
-            <b>Penalty</b>
+            <b>PENALTY</b>
           </h3>
           <p className="vads-u-margin--0">
             The law provides severe penalties which include fine or imprisonment
@@ -38,7 +39,7 @@ export default {
       'ui:description': (
         <VaAlert status="info" class="vads-u-margin-top--3" uswds visible>
           <h3 slot="headline">
-            <b>Privacy Act Notice</b>
+            <b>PRIVACY ACT NOTICE</b>
           </h3>
           <p className="vads-u-margin--0">
             VA will not disclose information collected on this form to any
@@ -67,7 +68,7 @@ export default {
       'ui:description': (
         <VaAlert status="info" class="vads-u-margin-top--3" uswds visible>
           <h3 slot="headline">
-            <b>Respondent Burden:</b>
+            <b>RESPONDENT BURDEN</b>
           </h3>
           <p className="vads-u-margin--0">
             An agency may not conduct or sponsor, and a person is not required
@@ -144,16 +145,49 @@ export default {
       },
       label: 'I have read and understand the Certification of Statements',
     }),
+    serviceConnectedStatements: checkboxUI({
+      title:
+        'I have read and understand the information about total disability benefits.',
+      description: (
+        <div>
+          <h3 className="vads-u-font-weight--bold vads-u-font-size--h4 vads-u-margin-bottom--1 vads-u-margin-top--0">
+            IMPORTANT INFORMATION ABOUT TOTAL DISABILITY BENEFITS
+          </h3>
+          <p className="vads-u-margin-top--0">
+            I understand that if I am granted service-connected total disability
+            benefits based on my unemployability, I must immediately inform VA if
+            I return to work. I also understand that total disability benefits paid
+            to me after I begin work may be considered an overpayment requiring
+            repayment to VA.
+          </p>
+        </div>
+      ),
+      classNames:
+        'vads-u-background-color--gray-lightest vads-u-padding--4 vads-u-margin-bottom--4',
+      marginTop: null,
+      required: () => true,
+      errorMessages: {
+        enum: 'You must acknowledge the information to continue.',
+        required: 'You must acknowledge the information to continue.',
+      },
+      label:
+        'I have read and understand the information about total disability benefits',
+    }),
   },
   schema: {
     type: 'object',
     properties: {
       authorizationRelease: checkboxRequiredSchema,
       certificationStatements: checkboxRequiredSchema,
+      serviceConnectedStatements: checkboxRequiredSchema,
       'view:sectionSixPenaltyAlert': { type: 'object', properties: {} },
       'view:sectionSixPrivacyAlert': { type: 'object', properties: {} },
       'view:sectionSixBurdenAlert': { type: 'object', properties: {} },
     },
-    required: ['authorizationRelease', 'certificationStatements'],
+    required: [
+      'authorizationRelease',
+      'certificationStatements',
+      'serviceConnectedStatements',
+    ],
   },
 };
