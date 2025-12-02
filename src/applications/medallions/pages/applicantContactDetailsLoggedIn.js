@@ -82,10 +82,15 @@ const ApplicantContactDetailsLoggedIn = ({
     };
     dispatch(setData(updatedFormData));
 
-    // Always navigate to the organization contact info page for editing.
-    // This will open the applicantContactInfo2 page where the user can edit
-    // contact details (email and phone) in one place.
-    goToPath('/applicant-contact-info', { force: true });
+    // Use goToPath to navigate to edit page
+    // The force: true option ensures navigation even from review page
+    if (goToPath) {
+      goToPath('/applicant-contact-info', {
+        force: true,
+      });
+    } else if (goForward) {
+      goForward({ formData: updatedFormData });
+    }
   };
 
   if (onReviewPage) {
