@@ -2,9 +2,8 @@ name: Shai-Hulud 2.0 Security Check
 
 on:
   push:
-    branches: [main, master]
-  pull_request:
-    branches: [main, master]
+    branches:
+      - "**"
 
 jobs:
   security-check:
