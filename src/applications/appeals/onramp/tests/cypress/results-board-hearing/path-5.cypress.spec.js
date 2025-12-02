@@ -28,7 +28,7 @@ const path = {
 };
 
 describe('Decision Reviews Onramp', () => {
-  describe('Results Board Hearing (path 4)', () => {
+  describe('Results Board Hearing (path 5)', () => {
     it('navigates through the flow forward and backward successfully', () => {
       cy.visit(h.ROOT);
       cy.injectAxeThenAxeCheck();
