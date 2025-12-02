@@ -62,8 +62,7 @@ runs:
         # Rebuild node-sass native bindings
         node node_modules/node-sass/scripts/install.js
 
-        # Run postinstall scripts for Microsoft Bot Framework packages
-        cd node_modules/botframework-webchat && npm run postinstall --if-present && cd ../..
-        cd node_modules/botframework-directlinespeech-sdk && npm run postinstall --if-present && cd ../..
-        cd node_modules/botframework-webchat-core && npm run postinstall --if-present && cd ../..
-        cd node_modules/web-speech-cognitive-services && npm run postinstall --if-present && cd ../..
+        # Run postinstall scripts for ES5 transpiled packages (required by Bot Framework)
+        cd node_modules/p-defer-es5 && yarn run postinstall && cd ../..
+        cd node_modules/abort-controller-es5 && yarn run postinstall && cd ../..
+        cd node_modules/markdown-it-attrs-es5 && yarn run postinstall && cd ../..
