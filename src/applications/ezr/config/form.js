@@ -76,6 +76,7 @@ import deductibleExpenses from './chapters/householdInformation/deductibleExpens
 import FinancialInformationPages from './chapters/householdInformation/financialInformation';
 import spousalInformationPages from './chapters/householdInformation/spouseInformation';
 import MaritalStatusPage from '../components/FormPages/MaritalStatusPage';
+import FinancialIntroductionPage from '../definitions/financialIntroduction';
 
 // chapter 3 Military Service
 import toxicExposure from './chapters/militaryService/toxicExposure';
@@ -420,9 +421,12 @@ const formConfig = {
           uiSchema: {},
           schema: VIEW_FIELD_SCHEMA,
         },
-        financialInformationIntroduction: {
-          ...FinancialInformationPages.financialInformationIntroduction,
+        financialInformationOverview: {
+          path: 'household-information/financial-information-overview',
+          title: content['household-financial-information-introduction-title'],
           depends: includeHouseholdInformationWithV2Prefill,
+          uiSchema: FinancialIntroductionPage.uiSchema,
+          schema: FinancialIntroductionPage.schema,
         },
         financialInformationSummary: {
           ...FinancialInformationPages.financialInformationSummary,
