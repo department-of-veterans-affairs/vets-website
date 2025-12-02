@@ -9,12 +9,9 @@ import { isLoggedIn, selectProfile } from 'platform/user/selectors';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { TITLE, SUBTITLE } from '../constants';
 
-import ProcessList from '../components/introProcessList';
-import PrivacyAccordion from '../components/privacyAccordion';
-
-const OMB_RES_BURDEN = 15;
-const OMB_NUMBER = '2900-0695';
-const OMB_EXP_DATE = '01/31/2028';
+import ProcessList from '../components/IntroProcessList';
+import PrivacyAccordion from '../components/PrivacyAccordion';
+import OMBInfo from '../components/OMBInfo';
 
 const customLink = ({ children, ...props }) => {
   return (
@@ -96,20 +93,7 @@ export const IntroductionPage = props => {
         />
       )}
       <p />
-      <div className="vads-u-margin-bottom--1p5">
-        <p className="vads-u-margin--0">
-          <span>Respondent burden:</span>{' '}
-          <span className="vads-u-font-weight--bold">{OMB_RES_BURDEN}</span>
-        </p>
-        <p className="vads-u-margin--0">
-          <span>OMB Control #:</span>{' '}
-          <span className="vads-u-font-weight--bold">{OMB_NUMBER}</span>
-        </p>
-        <p className="vads-u-margin--0">
-          <span>Expiration date:</span>{' '}
-          <span className="vads-u-font-weight--bold">{OMB_EXP_DATE}</span>
-        </p>
-      </div>
+      <OMBInfo />
       <PrivacyAccordion />
     </article>
   );

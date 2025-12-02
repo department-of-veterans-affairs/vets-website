@@ -43,7 +43,7 @@ export default function PrivacyAccordion() {
           needed, and completing and reviewing the collection of information.
           Send comments regarding this burden estimate and any other aspect of
           this collection of information, including suggestions for reducing the
-          burden, to VA Reports Clearance Officer at
+          burden, to VA Reports Clearance Officer at{' '}
           <a href="mailto:VACOPaperworkReduAct@va.gov" rel="noreferrer">
             VACOPaperworkReduAct@va.gov
           </a>
