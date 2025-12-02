@@ -40,6 +40,7 @@ export const markMessageAsReadInThread = messageId => async dispatch => {
       type: Actions.Thread.GET_MESSAGE_IN_THREAD,
       response,
     });
+    dispatch(setThreadRefetchRequired(true));
   }
 };
 
