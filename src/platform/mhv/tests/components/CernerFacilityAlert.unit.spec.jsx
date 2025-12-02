@@ -175,36 +175,18 @@ describe('CernerFacilityAlert', () => {
       },
     };
 
-    it('uses custom headlineAction', () => {
+    it('respects custom props', () => {
       const screen = setup(stateWithFacility, {
         linkPath: '/custom/path',
         domain: 'tests',
-        pageName: 'test page',
-        headlineAction: 'manage',
-      });
-
-      expect(screen.getAllByText(/To manage test page from/i)).to.exist;
-    });
-
-    it('uses custom bodyIntro', () => {
-      const screen = setup(stateWithFacility, {
-        linkPath: '/custom/path',
-        domain: 'tests',
-        pageName: 'test page',
+        headlineAction: 'To manage test page from',
         bodyIntro: 'Custom intro text.',
-      });
-
-      expect(screen.getByText(/Custom intro text/i)).to.exist;
-    });
-
-    it('uses custom bodyActionSingle for single facility', () => {
-      const screen = setup(stateWithFacility, {
-        linkPath: '/custom/path',
-        domain: 'tests',
-        pageName: 'test page',
         bodyActionSingle: 'Custom single action',
       });
 
+      expect(screen.getAllByText(/To manage test page from this facility/i)).to
+        .exist;
+      expect(screen.getByText(/Custom intro text/i)).to.exist;
       expect(screen.getByText(/Custom single action/i)).to.exist;
     });
   });
