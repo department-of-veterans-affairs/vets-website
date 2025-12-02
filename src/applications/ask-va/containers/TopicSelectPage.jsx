@@ -49,6 +49,11 @@ const TopicSelectPage = props => {
         selectTopic: '',
         topicId: null,
         topicRequiresSignIn: false,
+        requireSignInLogic: [
+          ...formData.requireSignInLogic.slice(0, 1),
+          false,
+          ...formData.requireSignInLogic.slice(2),
+        ],
       });
       return;
     }
@@ -68,6 +73,13 @@ const TopicSelectPage = props => {
       topicId: selected.id,
       topicRequiresSignIn:
         selected.attributes.requiresAuthentication && !isLOA3,
+      requireSignInLogic: formData.requireSignInLogic
+        ? [
+            ...formData.requireSignInLogic.slice(0, 1),
+            selected.attributes.requiresAuthentication,
+            ...formData.requireSignInLogic.slice(2),
+          ]
+        : [false, selected.attributes.requiresAuthentication, false],
     });
   };
 
