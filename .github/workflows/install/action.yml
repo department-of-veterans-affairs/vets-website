@@ -58,4 +58,4 @@ runs:
 
     - name: Rebuild native dependencies
       shell: bash
-      run: yarn rebuild node-sass
+      run: node node_modules/node-sass/scripts/install.js
