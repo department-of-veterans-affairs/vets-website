@@ -60,7 +60,10 @@ import {
  *
  * @returns {Array<PdfConfigItem>}
  */
-export const buildNonVAPrescriptionPDFList = prescription => {
+export const buildNonVAPrescriptionPDFList = (
+  prescription,
+  isCernerPilot = false,
+) => {
   return [
     {
       sections: [
@@ -71,7 +74,7 @@ export const buildNonVAPrescriptionPDFList = prescription => {
               value: prescription.sig || 'Instructions not available',
               inline: true,
             },
-            {
+            !isCernerPilot && {
               title: 'Reason for use',
               value:
                 prescription.indicationForUse || 'Reason for use not available',
@@ -121,11 +124,14 @@ export const buildNonVAPrescriptionPDFList = prescription => {
  *
  * @returns {Array<PdfConfigItem>}
  */
-export const buildPrescriptionsPDFList = prescriptions => {
+export const buildPrescriptionsPDFList = (
+  prescriptions,
+  isCernerPilot = false,
+) => {
   return prescriptions?.map(rx => {
     if (rx?.prescriptionSource === RX_SOURCE.NON_VA) {
       return {
-        ...buildNonVAPrescriptionPDFList(rx)[0],
+        ...buildNonVAPrescriptionPDFList(rx, isCernerPilot)[0],
         header: rx?.prescriptionName || rx?.orderableItem,
       };
     }
@@ -229,7 +235,7 @@ export const buildPrescriptionsPDFList = prescriptions => {
               value: validateIfAvailable('Instructions', rx.sig),
               inline: true,
             },
-            {
+            !isCernerPilot && {
               title: 'Reason for use',
               value: validateIfAvailable('Reason for use', rx.indicationForUse),
               inline: true,
@@ -355,7 +361,10 @@ export const buildAllergiesPDFList = allergies => {
  *
  * @returns {Array<PdfConfigItem>}
  */
-export const buildVAPrescriptionPDFList = prescription => {
+export const buildVAPrescriptionPDFList = (
+  prescription,
+  isCernerPilot = false,
+) => {
   const refillHistory = getRefillHistory(prescription);
   const showRefillHistory = getShowRefillHistory(refillHistory);
   const pendingMed =
@@ -444,7 +453,7 @@ export const buildVAPrescriptionPDFList = prescription => {
               value: validateIfAvailable('Instructions', prescription.sig),
               inline: true,
             },
-            {
+            !isCernerPilot && {
               title: 'Reason for use',
               value: validateIfAvailable(
                 'Reason for use',
@@ -559,7 +568,7 @@ ${backImprint ? `* Back marking: ${backImprint}` : ''}`
                             },
                           ]
                         : []),
-                      ...(!isPartialFill
+                      ...(!isPartialFill && !isCernerPilot
                         ? [
                             {
                               title: 'Medication description',
@@ -568,7 +577,7 @@ ${backImprint ? `* Back marking: ${backImprint}` : ''}`
                             },
                           ]
                         : []),
-                      ...(hasValidDesc && !isPartialFill
+                      ...(hasValidDesc && !isPartialFill && !isCernerPilot
                         ? [
                             {
                               title: 'Note',
@@ -580,7 +589,7 @@ ${backImprint ? `* Back marking: ${backImprint}` : ''}`
                             },
                           ]
                         : []),
-                      ...(!isPartialFill
+                      ...(!isPartialFill && !isCernerPilot
                         ? [
                             {
                               value: description,

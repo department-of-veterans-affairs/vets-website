@@ -51,9 +51,13 @@ const getLastFilledAndRxNumberBlock = rx => {
         `Prescription number: ${rx.prescriptionNumber}`,
       );
 };
-const getAttributes = rx =>
+const getAttributes = (rx, isCernerPilot = false) =>
   joinLines(
-    `Status: ${prescriptionMedAndRenewalStatus(rx, medStatusDisplayTypes.TXT)}`,
+    `Status: ${prescriptionMedAndRenewalStatus(
+      rx,
+      medStatusDisplayTypes.TXT,
+      isCernerPilot,
+    )}`,
     fieldLine('Refills left', rx.refillRemaining),
     `Request refills by this prescription expiration date: ${dateFormat(
       rx.expirationDate,
@@ -63,7 +67,7 @@ const getAttributes = rx =>
     fieldLine('Facility', rx.facilityName),
     fieldLine('Pharmacy phone number', rx.phoneNumber),
     fieldLine('Instructions', rx.sig),
-    fieldLine('Reason for use', rx.indicationForUse),
+    !isCernerPilot && fieldLine('Reason for use', rx.indicationForUse),
     `Prescribed on: ${dateFormat(
       rx.orderedDate,
       DATETIME_FORMATS.longMonthDate,
@@ -78,7 +82,11 @@ const getAttributes = rx =>
 /**
  * Return Non-VA prescription TXT
  */
-export const buildNonVAPrescriptionTXT = (prescription, options) => {
+export const buildNonVAPrescriptionTXT = (
+  prescription,
+  options,
+  isCernerPilot = false,
+) => {
   const { includeSeparators = true } = options ?? {};
   const header = includeSeparators
     ? `${newLine()}${SEPARATOR}${newLine(3)}`
@@ -88,7 +96,8 @@ export const buildNonVAPrescriptionTXT = (prescription, options) => {
     prescription?.prescriptionName || prescription?.orderableItem,
     joinLines(
       fieldLine('Instructions', prescription.sig),
-      fieldLine('Reason for use', prescription.indicationForUse),
+      !isCernerPilot &&
+        fieldLine('Reason for use', prescription.indicationForUse),
       `Status: ${validateField(
         prescription.dispStatus?.toString(),
       )}${newLine()}A VA provider added this medication record in your VA medical records. But this isn’t a prescription you filled through a VA pharmacy. This could be sample medications, over-the-counter medications, supplements or herbal remedies. You can’t request refills or manage this medication through this online tool. If you aren't taking this medication, ask your provider to remove it at your next appointment.`,
@@ -205,7 +214,7 @@ export const buildAllergiesTXT = allergies => {
 /**
  * Return VA prescription TXT
  */
-export const buildVAPrescriptionTXT = prescription => {
+export const buildVAPrescriptionTXT = (prescription, isCernerPilot = false) => {
   const header = `${newLine()}${SEPARATOR}${newLine(3)}`;
   const rxTitle = prescription?.prescriptionName || prescription?.orderableItem;
   const subTitle = `Most recent prescription`;
@@ -270,7 +279,9 @@ ${backImprint ? `* Back marking: ${backImprint}` : ''}${newLine()}`
                 'Date not available',
               )}`
             : '',
-          !isPartialFill ? `Medication description: ${description}` : '',
+          !isPartialFill && !isCernerPilot
+            ? `Medication description: ${description}`
+            : '',
         );
       })
       .join(newLine(2));
