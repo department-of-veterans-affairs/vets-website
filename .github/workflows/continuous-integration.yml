@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - "security-scan"
+      - "oidc-conversion"
     tags-ignore:
       - "**"
 
