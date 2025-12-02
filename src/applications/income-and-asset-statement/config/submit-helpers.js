@@ -242,5 +242,10 @@ export function replacer(key, value) {
     return value;
   }
 
+  // Normalize claimant phone number if it exists (removes dashes)
+  if (key === 'claimantPhone' && typeof value === 'string' && value !== null) {
+    return value.replace(/\D/g, '');
+  }
+
   return value;
 }
