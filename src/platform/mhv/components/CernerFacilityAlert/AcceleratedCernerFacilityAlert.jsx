@@ -10,6 +10,28 @@ import { CernerAlertContent } from './constants';
  * Displays alerts to users with Cerner facilities about accessing their data in My VA Health.
  * Uses acceleration flags to determine when data has been integrated into VA.gov.
  *
+ * This component wraps the base CernerFacilityAlert and adds acceleration logic.
+ * All props from CernerFacilityAlert are supported and passed through.
+ *
+ * Usage Examples:
+ *
+ * // Using constants (recommended):
+ * import { CernerAlertContent } from 'platform/mhv/components/CernerFacilityAlert/constants';
+ *
+ * <AcceleratedCernerFacilityAlert
+ *   pageName="inbox"
+ *   {...CernerAlertContent.SECURE_MESSAGING}
+ * />
+ *
+ * // Custom implementation:
+ * <AcceleratedCernerFacilityAlert
+ *   pageName="custom-page"
+ *   domain="my domain"
+ *   linkPath="/pages/custom/path"
+ *   headlineAction="manage"
+ *   className="custom-class"
+ * />
+ *
  * ALERT DISPLAY LOGIC TRUTH TABLE:
  * ┌───────────┬──────────┬────────────────┬───────────────────┬──────────┬─────────────────────────────────────┐
  * │ isLoading │ isCerner │ isAccelerating │ pageName in       │ Result   │ Reason                              │
@@ -42,6 +64,7 @@ const AcceleratedCernerFacilityAlert = props => {
     isAcceleratingLabsAndTests,
     isAcceleratingConditions,
     isAcceleratingMedications,
+    isAcceleratingSecureMessaging,
   } = useAcceleratedData();
 
   // Build list of pages to hide alert on when their data is accelerated
@@ -70,6 +93,9 @@ const AcceleratedCernerFacilityAlert = props => {
       ? CernerAlertContent.LABS_AND_TESTS.pageName
       : null,
     isAcceleratingMedications ? CernerAlertContent.MEDICATIONS.pageName : null,
+    isAcceleratingSecureMessaging
+      ? CernerAlertContent.SECURE_MESSAGING.pageName
+      : null,
   ].filter(Boolean);
 
   // STEP 0: Wait for acceleration data to load before making decisions
@@ -94,12 +120,23 @@ const AcceleratedCernerFacilityAlert = props => {
   // - Not accelerating yet (all data still in My VA Health), OR
   // - Accelerating but on a page that hasn't been integrated yet
 
-  // Be sure to pass through all props required for the CernerFacilityAlert
+  // Pass through all props to the underlying CernerFacilityAlert component
   return <CernerFacilityAlert {...props} />;
 };
 
 AcceleratedCernerFacilityAlert.propTypes = {
+  // Required for acceleration logic
   pageName: PropTypes.string,
+  // All props from CernerFacilityAlert are also supported and passed through:
+  domain: PropTypes.string,
+  linkPath: PropTypes.string,
+  apiError: PropTypes.bool,
+  className: PropTypes.string,
+  onLinkClick: PropTypes.func,
+  headlineAction: PropTypes.string,
+  bodyIntro: PropTypes.string,
+  bodyActionSingle: PropTypes.string,
+  bodyActionMultiple: PropTypes.string,
 };
 
 export default AcceleratedCernerFacilityAlert;
