@@ -1,4 +1,4 @@
-export const DEFAULT_BRANCH_LABELS = {
+export const DEFAULT_BRANCH_LABELS = Object.freeze({
   AAC: {
     label: 'Army Air Corps or Army Air Force',
     group: 'Army',
@@ -30,4 +30,4 @@ export const DEFAULT_BRANCH_LABELS = {
   },
   USMA: { label: 'US Military Academy', group: 'Other' },
   MM: { label: 'Merchant Marine', group: 'Other' },
-};
+});
