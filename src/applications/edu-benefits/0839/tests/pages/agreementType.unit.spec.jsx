@@ -71,6 +71,13 @@ describe('22-0839 agreementType page', () => {
     it('should clear related fields when agreementType changes', () => {
       const oldData = {
         agreementType: 'startNewOpenEndedAgreement',
+        authorizedOfficial: [
+          {
+            officialName: 'John Doe',
+            officialTitle: 'Director',
+            officialEmail: 'john@example.com',
+          },
+        ],
         acknowledgements: { someData: true },
         institutionDetails: { name: 'Test' },
         additionalInstitutionDetails: [{ id: 1 }],
@@ -88,6 +95,13 @@ describe('22-0839 agreementType page', () => {
 
       const result = updateFormData(oldData, formData);
       expect(result).to.deep.equal({
+        authorizedOfficial: [
+          {
+            officialName: 'John Doe',
+            officialTitle: 'Director',
+            officialEmail: 'john@example.com',
+          },
+        ],
         agreementType: 'modifyExistingAgreement',
         acknowledgements: {},
         institutionDetails: {},
