@@ -252,6 +252,8 @@ export const validateConflictOfInterestStartDate = (
 
   if (!isValidDateString(fieldData)) errors.addError('Enter a valid date');
 
+  if (!isValidDateString(formData.enrollmentPeriodEnd)) return;
+
   const start = new Date(formData.enrollmentPeriodStart);
   const end = new Date(formData.enrollmentPeriodEnd);
 
