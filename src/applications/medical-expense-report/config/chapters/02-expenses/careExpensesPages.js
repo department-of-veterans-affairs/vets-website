@@ -27,6 +27,9 @@ import {
   getCostPageTitle,
 } from './helpers';
 
+const nounSingular = 'care expense';
+const nounPlural = 'care expenses';
+
 function introDescription() {
   return (
     <div>
@@ -116,8 +119,8 @@ function checkIsItemIncomplete(item) {
 /** @type {ArrayBuilderOptions} */
 export const options = {
   arrayPath: 'careExpenses',
-  nounSingular: 'care expense',
-  nounPlural: 'care expenses',
+  nounSingular,
+  nounPlural,
   required: false,
   isItemIncomplete: item => checkIsItemIncomplete(item),
   maxItems: 8,
@@ -125,14 +128,16 @@ export const options = {
     getItemName: item =>
       careTypeLabels[(item?.typeOfCare)] || 'New care expense',
     cardDescription: item => transformDate(item?.careDateRange?.from) || '',
-    cancelAddTitle: 'Cancel adding this care expense?',
-    cancelEditTitle: 'Cancel editing this care expense?',
-    cancelAddDescription:
-      'If you cancel, we won’t add this expense to your list of care expenses. You’ll return to a page where you can add a new care expense.',
+    cancelAddTitle: `Cancel adding this ${nounSingular}?`,
+    cancelEditTitle: `Cancel editing this ${nounSingular}?`,
     cancelAddYes: 'Yes, cancel adding',
     cancelAddNo: 'No, continue adding',
     cancelEditYes: 'Yes, cancel editing',
     cancelEditNo: 'No, continue editing',
+    deleteDescription: `This will delete the information from your list of ${nounPlural}. You’ll return to a page where you can add a new ${nounSingular}.`,
+    deleteNo: 'No, keep',
+    deleteTitle: `Delete this ${nounSingular}?`,
+    deleteYes: 'Yes, delete',
   },
 };
 
