@@ -240,11 +240,9 @@ class MedicationsDetailsPage {
   };
 
   verifyDiscontinuedStatusDropDownDefinition = () => {
-    cy.get(
-      '[data-testid="status-dropdown"] > [data-testid="discontinued-status-definition"]',
-    ).should(
+    cy.get('[data-testid="discontinued-status-definition"]').should(
       'contain',
-      "You can't refill this prescription. Contact your VA provider if you need more of this medication.",
+      "You can't refill this prescription. We may use this status for either of these reasons:",
     );
   };
 
