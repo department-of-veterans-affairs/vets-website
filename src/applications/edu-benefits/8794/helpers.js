@@ -4,6 +4,19 @@ import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
 import { readOnlyCertifyingOfficialIntro } from './pages/readOnlyCertifyingOfficialIntro';
 import { additionalOfficialIntro } from './pages/additionalOfficialIntro';
 
+export const getTransformIntlPhoneNumber = (phone = {}) => {
+  let _contact = '';
+  const { callingCode, contact, countryCode } = phone;
+
+  if (contact) {
+    const _callingCode = callingCode ? `+${callingCode} ` : '';
+    const _countryCode = countryCode ? ` (${countryCode})` : '';
+    _contact = `${_callingCode}${contact}${_countryCode}`;
+  }
+
+  return _contact;
+};
+
 export const getCardDescription = item => {
   return item ? (
     <>
@@ -19,9 +32,9 @@ export const getCardDescription = item => {
           }}
         />
         <span data-testid="card-phone-number">
-          {item.additionalOfficialDetails?.phoneType === 'us'
-            ? item.additionalOfficialDetails?.phoneNumber
-            : item.additionalOfficialDetails?.internationalPhoneNumber}
+          {getTransformIntlPhoneNumber(
+            item.additionalOfficialDetails?.phoneNumber,
+          )}
         </span>
       </p>
       <p>
@@ -104,7 +117,6 @@ export const additionalOfficialArrayOptions = {
     },
   },
 };
-
 export const certifyingOfficialInfoAlert = (
   <va-alert status="info" visible>
     <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
