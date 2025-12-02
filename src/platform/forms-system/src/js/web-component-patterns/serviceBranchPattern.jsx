@@ -1,5 +1,5 @@
 import VaComboBoxField from '../web-component-fields/VaComboBoxField';
-import { DEFAULT_BRANCH_LABELS } from './content/serviceBranch';
+import DEFAULT_BRANCH_LABELS from './content/serviceBranch.json';
 
 /** @typedef {'army' | 'navy' | 'marine corps' | 'air force' | 'coast guard' | 'space force' | 'other'} ServiceBranchGroup */
 
