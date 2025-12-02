@@ -43,13 +43,12 @@ import { getCernerURL } from 'platform/utilities/cerner';
 const CernerFacilityAlert = ({
   domain,
   linkPath,
-  pageName,
   apiError,
   className = '',
   // Optional callback for when user clicks the link (e.g., for AAL tracking in secure messaging)
   onLinkClick,
   // Optional text customization props for different contexts
-  headlineAction = 'get your', // e.g., 'get your', 'manage', 'send a secure message to a provider at'
+  headlineAction = 'To get your medical records reports from', // e.g. 'send a secure message to a provider at'
   bodyIntro, // Optional custom intro text (overrides default "Some of your {domain} may be in a different portal.")
   bodyActionSingle, // Optional custom action text for single facility (overrides default "To get your {pageName} from")
   bodyActionMultiple, // Optional custom action text for multiple facilities (overrides default "To get your {pageName} from these facilities")
@@ -99,21 +98,17 @@ const CernerFacilityAlert = ({
   const isOneFacility = cernerFacilitiesNames.length === 1;
 
   // Generate default headline
-  const defaultHeadline = `To ${headlineAction} ${pageName} ${
-    headlineAction.includes('at') ? '' : 'from '
-  }${
-    isMultipleFacilities ? 'these facilities' : 'this facility'
+  const defaultHeadline = `${headlineAction} ${
+    isMultipleFacilities ? ' these facilities' : ' this facility'
   }, go to My VA Health`;
 
   // Generate default body intro
   const defaultBodyIntro = `Some of your ${domain} may be in a different portal.`;
 
   // Generate default action text
-  const defaultBodyActionSingle =
-    bodyActionSingle || `To ${headlineAction} ${pageName} from`;
+  const defaultBodyActionSingle = bodyActionSingle || `${headlineAction} from`;
   const defaultBodyActionMultiple =
-    bodyActionMultiple ||
-    `To ${headlineAction} ${pageName} from these facilities`;
+    bodyActionMultiple || `${headlineAction} from these facilities`;
 
   return (
     <va-alert
@@ -179,7 +174,6 @@ CernerFacilityAlert.propTypes = {
   domain: PropTypes.string,
   headlineAction: PropTypes.string,
   linkPath: PropTypes.string,
-  pageName: PropTypes.string,
   onLinkClick: PropTypes.func,
 };
 
