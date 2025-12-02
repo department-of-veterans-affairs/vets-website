@@ -61,7 +61,7 @@ const ProcessList = () => {
       <va-process-list-item header="Fill out the form">
         <p>Fill out the form and sign it digitally.</p>
       </va-process-list-item>
-      <va-process-list-item header="Send your form to an examiner">
+      <va-process-list-item header="Have an examiner complete the remaining sections">
         <p>
           Download a PDF version of the form after you finish it. Then send it
           to an examiner so they can fill out their portion with medical
