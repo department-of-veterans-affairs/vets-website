@@ -66,6 +66,12 @@ export const customFormReplacer = (key, value) => {
   return value;
 };
 
+/** Clean data fields - remove fields with empty values & arrays
+ * @param {any} sourceData - source data object
+ * @param {any} cleanData - target data object
+ * @param {string[]} fields - fields to copy
+ * @returns {boolean} boolean indicating data was successfully copied
+ */
 function copyDataFields(sourceData, cleanData, fields) {
   let hasData = false;
   fields.forEach(field => {
