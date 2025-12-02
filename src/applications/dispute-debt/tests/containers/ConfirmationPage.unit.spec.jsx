@@ -3,7 +3,9 @@ import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { expect } from 'chai';
 import { createInitialState } from '@department-of-veterans-affairs/platform-forms-system/state/helpers';
+import { I18nextProvider } from 'react-i18next';
 import formConfig from '../../config/form';
+import i18nDebtApp from '../../i18n';
 
 import { ConfirmationPage } from '../../containers/ConfirmationPage';
 
@@ -14,8 +16,6 @@ const createMockStore = (state = {}) => ({
 });
 
 describe('ConfirmationPage', () => {
-  // const alert_title = ;
-  // const alert_description = 'An email confirmation has been sent to . You should also receive a confirmation letter in the mail within 60 days. We expect to issue a decision within 180 days and will notify you of the outcome in a follow-up letter.';
   const defaultProps = {
     route: {
       formConfig,
@@ -33,32 +33,79 @@ describe('ConfirmationPage', () => {
         timestamp: '2023-11-13T12:00:00Z',
       },
     },
+    user: {
+      profile: {
+        email: 'testemail@test.com',
+      },
+    },
   };
 
   it('renders without errors', () => {
     const { container } = render(
       <Provider store={createMockStore(defaultState)}>
-        <ConfirmationPage {...defaultProps} />
+        <I18nextProvider i18n={i18nDebtApp}>
+          <ConfirmationPage {...defaultProps} />
+        </I18nextProvider>
       </Provider>,
     );
     expect(container).to.exist;
   });
 
   it('renders the submission alert message with the users email', () => {
-    const { getByText } = render(
+    const { getByText, container } = render(
       <Provider store={createMockStore(defaultState)}>
-        <ConfirmationPage {...defaultProps} />
+        <I18nextProvider i18n={i18nDebtApp}>
+          <ConfirmationPage {...defaultProps} />
+        </I18nextProvider>
       </Provider>,
     );
 
     expect(getByText('Your dispute submission is in progress')).to.exist;
-    // expect(getByText('An email confirmation has been sent to')).to.exist;
+    const alert = container.querySelector('va-alert');
+    expect(alert.textContent).to.include(
+      'An email confirmation has been sent to testemail@test.com',
+    );
+    expect(alert.textContent).to.include(
+      'You should also receive a confirmation letter in the mail within 60 days',
+    );
+  });
+
+  it('renders the correct whats next steps', () => {
+    const { container } = render(
+      <Provider store={createMockStore(defaultState)}>
+        <I18nextProvider i18n={i18nDebtApp}>
+          <ConfirmationPage {...defaultProps} />
+        </I18nextProvider>
+      </Provider>,
+    );
+
+    const whatsNextSection = container.querySelector(
+      '.confirmation-whats-next-process-list-section',
+    );
+    const [firstItem, secondItem] = whatsNextSection.querySelectorAll(
+      'va-process-list-item',
+    );
+
+    expect(firstItem.getAttribute('header')).to.equal(
+      'We’ll confirm when we processed your request',
+    );
+    expect(
+      'After we receive your submission, we’ll review your dispute. You should receive a confirmation letter by mail within 60 days.',
+    ).to.exist;
+    expect(secondItem.getAttribute('header')).to.equal(
+      'We’ll review your dispute',
+    );
+    expect(
+      'A decision is normally made within 180 days.  We will send you a letter with the outcome.',
+    ).to.exist;
   });
 
   it('renders the PDF download link with correct attributes', () => {
     const { container } = render(
       <Provider store={createMockStore(defaultState)}>
-        <ConfirmationPage {...defaultProps} />
+        <I18nextProvider i18n={i18nDebtApp}>
+          <ConfirmationPage {...defaultProps} />
+        </I18nextProvider>
       </Provider>,
     );
 
