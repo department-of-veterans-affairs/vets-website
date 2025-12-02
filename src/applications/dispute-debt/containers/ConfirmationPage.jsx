@@ -69,11 +69,19 @@ export const ConfirmationPage = ({ route }) => {
       />
       <ConfirmationView.PrintThisPage />
       <ConfirmationView.WhatsNextProcessList
-        item1Header="We’ll confirm when we receive your dispute request"
-        item1Content="After we receive your submission, we’ll review your dispute. You’ll receive a letter in the email confirming receipt within 60 days."
+        item1Header={i18nDebtApp.t(
+          'dispute-submitted-whats-next.first-action.header',
+        )}
+        item1Content={i18nDebtApp.t(
+          'dispute-submitted-whats-next.first-action.description',
+        )}
         item1Actions={null}
-        item2Header="We’ll review your dispute"
-        item2Content="A determination will be made within 180 days. We will mail you a letter with our decision."
+        item2Header={i18nDebtApp.t(
+          'dispute-submitted-whats-next.second-action.header',
+        )}
+        item2Content={i18nDebtApp.t(
+          'dispute-submitted-whats-next.second-action.description',
+        )}
       />
       <ConfirmationView.HowToContact />
       <ConfirmationView.GoBackLink />

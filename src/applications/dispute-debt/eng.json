@@ -2,5 +2,15 @@
   "dispute-submission-alert": {
     "title": "Your dispute submission is in progress",
     "description": "An email confirmation has been sent to <bold>{{ email }}</bold>. You should also receive a confirmation letter in the mail within 60 days. We expect to issue a decision within 180 days and will notify you of the outcome in a follow-up letter."
+  },
+  "dispute-submitted-whats-next": {
+    "first-action": {
+      "header": "We’ll confirm when we processed your request",
+      "description": "After we receive your submission, we’ll review your dispute. You should receive a confirmation letter by mail within 60 days."
+    },
+    "second-action": {
+      "header": "We’ll review your dispute",
+      "description": "A decision is normally made within 180 days.  We will send you a letter with the outcome."
+    }
   }
 }
