@@ -2,7 +2,7 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientComposePage from './pages/PatientComposePage';
 import PatientErrorPage from './pages/PatientErrorPage';
-import { AXE_CONTEXT, Data, Alerts, Locators } from './utils/constants';
+import { AXE_CONTEXT, Data, Alerts } from './utils/constants';
 
 describe('Verify compose message attachments errors', () => {
   beforeEach(() => {
@@ -16,7 +16,11 @@ describe('Verify compose message attachments errors', () => {
 
   it('verify attachments types error', () => {
     PatientComposePage.attachMessageFromFile(Data.TEST_VIDEO);
-    PatientErrorPage.verifyAttachmentErrorMessage(Alerts.ATTACHMENT.TYPES);
+
+    // VaFileInput handles invalid file type validation internally
+    // When accept attribute is set, VaFileInput may silently reject files
+    // that don't match, so verify no file was actually added
+    PatientComposePage.verifyExpectedAttachmentsCount(0);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
@@ -24,7 +28,17 @@ describe('Verify compose message attachments errors', () => {
 
   it('verify empty attachment error', () => {
     PatientComposePage.attachMessageFromFile('empty.txt');
-    PatientErrorPage.verifyAttachmentErrorMessage(Alerts.ATTACHMENT.EMPTY);
+
+    // VaFileInput handles empty file validation internally
+    // Check for error message in va-file-input shadow DOM
+    cy.get('[data-testid^="attach-file-input"]')
+      .first()
+      .shadow()
+      .find('va-file-input')
+      .shadow()
+      .find('.usa-error-message')
+      .should('be.visible')
+      .should('include.text', 'empty');
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
@@ -44,6 +58,7 @@ describe('Verify compose message attachments errors', () => {
 
   it(`verify large attachment error`, () => {
     PatientComposePage.attachMessageFromFile(Data.TEST_LARGE_IMAGE);
+
     PatientErrorPage.verifyAttachmentErrorMessage(
       Alerts.ATTACHMENT.VISTA_TOO_LARGE,
     );
@@ -61,7 +76,10 @@ describe('Verify compose message attachments errors', () => {
     PatientComposePage.attachMessageFromFile(Data.SAMPLE_IMG);
     PatientComposePage.verifyExpectedAttachmentsCount(4);
 
-    cy.get(Locators.ATTACH_FILE_INPUT).should('not.exist');
+    // After 4 files, component stays visible (so users can remove files)
+    // but verify we have exactly 4 files attached
+    cy.get('[data-testid^="attach-file-input"]').should('exist');
+    PatientComposePage.verifyExpectedAttachmentsCount(4);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

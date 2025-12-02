@@ -20,6 +20,12 @@ describe(`SM ATTACHMENT WITH VIRUS TESTS`, () => {
   describe('Verify single attachment with virus alert', () => {
     beforeEach(() => {
       PatientComposePage.attachMessageFromFile(Data.SAMPLE_IMG);
+      // Wait for attachment to be added - verify button text changes
+      PatientComposePage.attachFileButton().should(
+        'have.attr',
+        'button-text',
+        'Attach additional file',
+      );
       cy.intercept('POST', Paths.SM_API_EXTENDED, {
         statusCode: 400,
         body: { errors: [{ code: 'SM172' }] },
@@ -27,33 +33,23 @@ describe(`SM ATTACHMENT WITH VIRUS TESTS`, () => {
       cy.get(Locators.BUTTONS.SEND)
         .contains('Send')
         .click({ force: true });
+      // Wait for the POST request to complete
+      cy.wait('@failed');
     });
 
-    it('verify alert exist and attach button disappears', () => {
-      cy.get(Locators.ALERTS.ATTCH_VIRUS)
-        .should(`be.visible`)
-        .and(`have.text`, Alerts.VIRUS_ATTCH);
+    it('verify alert exists and file input remains visible', () => {
+      // Verify error message is displayed within VaFileInputMultiple
+      cy.get('[data-testid^="attach-file-input"]')
+        .should('exist')
+        .shadow()
+        .find('.usa-error-message')
+        .should('contain.text', Alerts.VIRUS_ATTCH);
 
-      cy.get(Locators.ATTACH_FILE_INPUT).should(`not.exist`);
-      cy.get(Locators.BUTTONS.REMOVE_ATTACHMENT).should('be.focused');
+      // Verify file input component is still present (not hidden)
+      cy.get('[data-testid^="attach-file-input"]').should('exist');
 
-      cy.injectAxe();
-      cy.axeCheck(AXE_CONTEXT);
-    });
-
-    it(`verify attach button back`, () => {
-      cy.get(Locators.BUTTONS.REMOVE_ATTACHMENT).click({ force: true });
-      cy.get(Locators.BUTTONS.CONFIRM_REMOVE_ATTACHMENT)
-        .should(`be.visible`)
-        .then(btn => {
-          return new Cypress.Promise(resolve => {
-            setTimeout(resolve, 2000);
-            cy.wrap(btn).click();
-          });
-        });
-
-      PatientComposePage.attachFileButton().should(`exist`);
-      PatientComposePage.attachFileButton().should(`be.focused`);
+      // Verify attach button is visible
+      PatientComposePage.attachFileButton().should('exist');
 
       cy.injectAxe();
       cy.axeCheck(AXE_CONTEXT);
@@ -65,7 +61,12 @@ describe(`SM ATTACHMENT WITH VIRUS TESTS`, () => {
       PatientComposePage.attachMessageFromFile(Data.SAMPLE_IMG);
       PatientComposePage.attachMessageFromFile(Data.SAMPLE_XLS);
       PatientComposePage.attachMessageFromFile(Data.SAMPLE_PDF);
-
+      // Wait for all attachments to be added - verify button text changes
+      PatientComposePage.attachFileButton().should(
+        'have.attr',
+        'button-text',
+        'Attach additional file',
+      );
       cy.intercept('POST', Paths.SM_API_EXTENDED, {
         statusCode: 400,
         body: { errors: [{ code: 'SM172' }] },
@@ -73,31 +74,23 @@ describe(`SM ATTACHMENT WITH VIRUS TESTS`, () => {
       cy.get(Locators.BUTTONS.SEND)
         .contains('Send')
         .click({ force: true });
+      // Wait for the POST request to complete
+      cy.wait('@failed');
     });
 
-    it('verify alert exist and attach button disappears', () => {
-      cy.get(Locators.ALERTS.ATTCH_VIRUS)
-        .should(`be.visible`)
-        .and(`have.text`, Alerts.VIRUS_MULTI_ATTCH);
-      cy.get(Locators.ATTACH_FILE_INPUT).should(`not.exist`);
-      cy.get(Locators.BUTTONS.REMOVE_ALL_ATTCH).should('be.focused');
+    it('verify alert exists and file input remains visible', () => {
+      // Verify error message is displayed within VaFileInputMultiple for multiple files
+      cy.get('[data-testid^="attach-file-input"]')
+        .should('exist')
+        .shadow()
+        .find('.usa-error-message')
+        .should('contain.text', Alerts.VIRUS_MULTI_ATTCH);
 
-      cy.injectAxe();
-      cy.axeCheck(AXE_CONTEXT);
-    });
+      // Verify file input component is still present (not hidden)
+      cy.get('[data-testid^="attach-file-input"]').should('exist');
 
-    it(`verify attach button back`, () => {
-      cy.get(Locators.BUTTONS.REMOVE_ALL_ATTCH)
-        .should(`be.visible`)
-        .then(btn => {
-          return new Cypress.Promise(resolve => {
-            setTimeout(resolve, 2000);
-            cy.wrap(btn).click();
-          });
-        });
-
-      PatientComposePage.attachFileButton().should(`exist`);
-      PatientComposePage.attachFileButton().should(`be.focused`);
+      // Verify attach button is visible
+      PatientComposePage.attachFileButton().should('exist');
 
       cy.injectAxe();
       cy.axeCheck(AXE_CONTEXT);

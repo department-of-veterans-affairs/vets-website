@@ -49,6 +49,21 @@ describe('Attachments List component', () => {
     cleanup();
   });
 
+  // Helper function to simulate VaFileInputMultiple file attachment
+  const attachFile = async (fileInput, file) => {
+    await waitFor(() => {
+      fireEvent(
+        fileInput,
+        new CustomEvent('vaMultipleChange', {
+          detail: {
+            action: 'FILE_ADDED',
+            file,
+          },
+        }),
+      );
+    });
+  };
+
   it('renders without errors', async () => {
     const screen = setup(initialState, Paths.COMPOSE);
     expect(screen);
@@ -98,16 +113,12 @@ describe('Attachments List component', () => {
     const file = new File(['(⌐□_□)'], 'test1.png', { type: 'image/png' });
     const uploader = screen.getByTestId('attach-file-input');
 
-    const attachFileButton = screen.getByTestId('attach-file-button');
-    expect(attachFileButton).to.have.attribute('text', 'Attach file');
+    // VaFileInputMultiple button text is set via buttonText prop
+    expect(uploader).to.have.attribute('button-text', 'Attach file');
 
     expect(screen.queryByTestId('file-attached-success-alert')).to.not.exist;
 
-    await waitFor(() =>
-      fireEvent.change(uploader, {
-        target: { files: [file] },
-      }),
-    );
+    await attachFile(uploader, file);
 
     expect(screen.findByTestId('file-attached-success-alert')).to.exist;
     expect(screen.findByTestId('close-success-alert-button')).to.exist;
@@ -169,28 +180,20 @@ describe('Attachments List component', () => {
 
     expect(screen.queryByTestId('file-attached-success-alert')).to.not.exist;
 
-    await waitFor(() =>
-      fireEvent.change(uploader, {
-        target: { files: [file] },
-      }),
-    );
+    await attachFile(uploader, file);
 
     expect(screen.findByTestId('file-attached-success-alert')).to.exist;
 
-    const attachFileButton = await screen.getByTestId('attach-file-button');
+    // After attaching a file, the button text changes
+    expect(uploader).to.have.attribute('button-text', 'Attach additional file');
 
-    expect(attachFileButton).to.have.attribute(
-      'text',
-      'Attach additional file',
-    );
+    // The VaFileInputMultiple component handles multiple files internally
+    // Clicking to attach another file clears the success alert
+    const file2 = new File(['(⌐□_□)'], 'test3.png', { type: 'image/png' });
+    await attachFile(uploader, file2);
 
-    await waitFor(() => {
-      fireEvent.click(attachFileButton);
-    });
-
-    waitFor(() => {
-      expect(screen.queryByTestId('file-attached-success-alert')).to.not.exist;
-    });
+    // Success alert should be shown again for the new file
+    expect(screen.findByTestId('file-attached-success-alert')).to.exist;
   });
 
   it('renders error message when attachment contains a virus', async () => {
