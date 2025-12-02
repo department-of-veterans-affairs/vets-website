@@ -32,7 +32,7 @@ describe('Prefill pattern - Green Task', () => {
               deliveryPointValidation: 'CONFIRMED',
               residentialDeliveryIndicator: 'RESIDENTIAL',
             },
-            validationKey: -1565212962,
+            overrideValidationKey: -1565212962,
           },
         ],
       },
