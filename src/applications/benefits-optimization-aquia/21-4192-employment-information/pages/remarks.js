@@ -15,7 +15,7 @@ export const remarksUiSchema = {
   // 'ui:description': getPageDescription,
   remarks: {
     remarks: textareaUI({
-      title: ' ',
+      title: 'Additional remarks',
       hint:
         'You can provide any additional information that may be helpful in processing this claim',
       charcount: true,
