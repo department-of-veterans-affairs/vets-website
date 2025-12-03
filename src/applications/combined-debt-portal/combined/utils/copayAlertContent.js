@@ -61,7 +61,7 @@ export const getCopayAlertContent = (copay, type) => {
       return {
         headerText: `You haven’t received a copay bill in the past 6 months`,
         status: 'warning',
-        showLinks: true,
+        showLinks: false,
         testId: 'no-copay-history-alert',
         bodyText: (
           <>
@@ -108,8 +108,8 @@ export const getCopayAlertContent = (copay, type) => {
       return {
         headerText: `You don’t need to make a payment at this time`,
         status: 'info',
-        showLinks: true,
-        showCallResourceCenter: true,
+        showLinks: false,
+        showCallResourceCenter: false,
         testId: 'copay-zero-balance-alert',
         bodyText: (
           <>
