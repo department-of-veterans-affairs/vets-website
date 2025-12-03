@@ -8,6 +8,7 @@ import {
   showConflictOfInterestText,
   getTitle,
   validateConflictOfInterestStartDate,
+  validateConflictOfInterestEndDate,
 } from '../helpers';
 
 describe('helpers ', () => {
@@ -225,6 +226,18 @@ describe('helpers ', () => {
         enrollmentPeriodStart: '2025-01-01',
         enrollmentPeriodEnd: '',
       });
+      expect(errors.addError.calledOnce).to.be.false;
+    });
+  });
+  describe('validateConflictOfInterestEndDate', () => {
+    it('invalid date string', () => {
+      const errors = { addError: sinon.spy() };
+      validateConflictOfInterestEndDate(errors, 'XXXX-02-XX');
+      expect(errors.addError.calledOnce).to.be.true;
+    });
+    it('show no error if date is empty', () => {
+      const errors = { addError: sinon.spy() };
+      validateConflictOfInterestEndDate(errors, undefined);
       expect(errors.addError.calledOnce).to.be.false;
     });
   });
