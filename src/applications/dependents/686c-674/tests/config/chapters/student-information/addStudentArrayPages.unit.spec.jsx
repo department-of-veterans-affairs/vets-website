@@ -137,6 +137,43 @@ describe('addStudentsOptions', () => {
         .to.be.true;
     });
 
+    it('should return true when school name exceeds character limit', () => {
+      const items = Array.from({ length: 8 }, (_, i) => ({
+        fullName: { first: `Student${i}`, last: 'Test' },
+        birthDate: '2000-01-01',
+        ssn: '123-45-6789',
+        address: {
+          country: 'USA',
+          street: '123 Main St',
+          city: 'Springfield',
+          state: 'IL',
+          postalCode: '62701',
+        },
+        wasMarried: false,
+        tuitionIsPaidByGovAgency: false,
+        schoolInformation: {
+          name:
+            'School name School name School name School name School name School name School name School name School name School name School name',
+          studentIsEnrolledFullTime: true,
+          isSchoolAccredited: true,
+          currentTermDates: {
+            officialSchoolStartDate: '2024-01-01',
+            expectedStudentStartDate: '2024-08-01',
+            expectedGraduationDate: '2024-05-01',
+          },
+          studentDidAttendSchoolLastTerm: true,
+          lastTermSchoolInformation: {
+            termBegin: '2023-09-01',
+            dateTermEnded: '2024-06-01',
+          },
+        },
+        benefitPaymentDate: '2024-01-01',
+      }));
+
+      expect(addStudentsOptions.isItemIncomplete({ studentInformation: items }))
+        .to.be.true;
+    });
+
     it('should return the correct summary title', () => {
       expect(addStudentsOptions.text.summaryTitle).to.equal(
         'Review your students',
