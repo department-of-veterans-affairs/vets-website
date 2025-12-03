@@ -222,7 +222,7 @@ export const buildPrescriptionsPDFList = (
               value: validateIfAvailable('Facility', rx.facilityName),
               inline: true,
             },
-            {
+            !isCernerPilot && {
               title: 'Pharmacy phone number',
               value: validateIfAvailable(
                 'Pharmacy phone number',
@@ -440,7 +440,7 @@ export const buildVAPrescriptionPDFList = (
               value: validateIfAvailable('Facility', prescription.facilityName),
               inline: true,
             },
-            {
+            !isCernerPilot && {
               title: 'Pharmacy phone number',
               value: validateIfAvailable(
                 'Pharmacy phone number',
@@ -487,7 +487,7 @@ export const buildVAPrescriptionPDFList = (
         },
       ],
     },
-    ...(showRefillHistory
+    ...(showRefillHistory && !isCernerPilot
       ? [
           {
             header: 'Refill history',

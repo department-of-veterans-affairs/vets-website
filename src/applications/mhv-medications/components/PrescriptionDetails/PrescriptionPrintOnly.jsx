@@ -190,24 +190,35 @@ const PrescriptionPrintOnly = props => {
               <strong>Facility:</strong>{' '}
               {rx.facilityName || 'VA facility name not available'}
             </p>
-            <p>
-              <strong>Pharmacy phone number:</strong>{' '}
-              {pharmacyPhone ? (
-                <>
-                  <va-telephone contact={pharmacyPhone} not-clickable /> (
-                  <va-telephone tty contact="711" not-clickable />)
-                </>
-              ) : (
-                FIELD_NONE_NOTED
-              )}
-            </p>
+            {isCernerPilot ? (
+              <>
+                Check your prescription label or contact your VA facility.{' '}
+                <a href="https://www.va.gov/find-locations">
+                  Find your VA facility
+                </a>
+              </>
+            ) : (
+              <p>
+                <strong>Pharmacy phone number:</strong>{' '}
+                {pharmacyPhone ? (
+                  <>
+                    <va-telephone contact={pharmacyPhone} not-clickable /> (
+                    <va-telephone tty contact="711" not-clickable />)
+                  </>
+                ) : (
+                  FIELD_NONE_NOTED
+                )}
+              </p>
+            )}
             <p>
               <strong>Instructions:</strong> {validateField(rx.sig)}
             </p>
-            <p>
-              <strong>Reason for use:</strong>{' '}
-              {validateField(rx.indicationForUse)}
-            </p>
+            {!isCernerPilot && (
+              <p>
+                <strong>Reason for use:</strong>{' '}
+                {validateField(rx.indicationForUse)}
+              </p>
+            )}
             <p>
               <strong>Quantity:</strong> {validateField(rx.quantity)}
             </p>

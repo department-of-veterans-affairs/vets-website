@@ -65,7 +65,7 @@ const getAttributes = (rx, isCernerPilot = false) =>
       'Date not available',
     )}`,
     fieldLine('Facility', rx.facilityName),
-    fieldLine('Pharmacy phone number', rx.phoneNumber),
+    !isCernerPilot && fieldLine('Pharmacy phone number', rx.phoneNumber),
     fieldLine('Instructions', rx.sig),
     !isCernerPilot && fieldLine('Reason for use', rx.indicationForUse),
     `Prescribed on: ${dateFormat(
