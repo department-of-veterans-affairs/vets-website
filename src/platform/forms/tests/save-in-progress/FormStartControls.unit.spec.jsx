@@ -194,7 +194,7 @@ describe('Schemaform <FormStartControls>', () => {
         />,
       );
       tree.baseElement
-        .querySelector('va-button[text="Continue your application"')
+        .querySelector('va-button[text="Continue your application"]')
         .click();
       expect(!!fetchSpy.firstCall.args[1]).to.be.true;
     });

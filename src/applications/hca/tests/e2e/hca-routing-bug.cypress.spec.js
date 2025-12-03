@@ -1,21 +1,14 @@
 /* eslint-disable @department-of-veterans-affairs/axe-check-required */
 /**
- * Simple Cypress test to reproduce and confirm the HCA routing bug.
+ * Test to verify the HCA routing bug fix.
  *
- * BUG: Logged-in users clicking "Start application" are incorrectly routed through
+ * FIXED BUG: Logged-in users clicking "Start application" were incorrectly routed through
  * the /id-form page (which is only for logged-out users), causing unnecessary redirects.
  *
  * EXPECTED: /introduction -> /check-your-personal-information
- * ACTUAL: /introduction -> /id-form -> / -> /introduction
  *
- * ROOT CAUSE: SaveInProgressIntro.getStartPage() returns pageList[1].path without
- * checking the page's depends condition. For HCA, pageList[1] is /id-form which has
- * depends: isLoggedOut, so it should be skipped for logged-in users.
- *
- * TRIGGER: Bug occurs when:
- * 1. User is logged in
- * 2. User's profile does NOT have prefillsAvailable for this form
- * 3. User clicks the start button (which calls goToBeginning() -> router.push(startPage))
+ * FIX: SaveInProgressIntro.getStartPage() now uses getNextPagePath() to respect
+ * page 'depends' conditions instead of blindly returning pageList[1].path.
  */
 
 import mockUser from './fixtures/mocks/user.noPrefill.json';

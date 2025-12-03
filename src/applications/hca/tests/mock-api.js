@@ -1,9 +1,13 @@
 /**
+ * Local development mock API for HCA
  * ENSURE VETS-API IS NOT RUNNING LOCALLY
- * Run mock hca server using
- * > yarn mock-api --responses ./src/applications/hca/tests/mock-api.js
- * Run this in browser console
- * > localStorage.setItem('hasSession', true)
+ *
+ * Setup:
+ * 1. Run mock hca server:
+ *    > yarn mock-api --responses ./src/applications/hca/tests/mock-api.js
+ * 2. In browser console, enable mock session:
+ *    > localStorage.setItem('hasSession', true)
+ * 3. Access the form at http://localhost:3001/health-care/apply/application/introduction
  */
 const delay = require('mocker-api/lib/delay');
 const mockEnrollmentStatus = require('./e2e/fixtures/mocks/enrollment-status.auth.json');
@@ -20,7 +24,7 @@ const mockPdfDownload = (_req, res) => {
   res.status(200);
   res.setHeader('Content-Type', 'application/pdf');
   res.setHeader('Content-Disposition', 'attachment; filename="mock.pdf"');
-  res.send('Fake 10-10EZ Form for Micky Mouse');
+  res.send('Fake 10-10EZ Form for Mickey Mouse');
 };
 
 const mockRating = (rating = 0) => ({
