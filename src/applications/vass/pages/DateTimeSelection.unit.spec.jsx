@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { renderWithStoreAndRouterV6 } from '~/platform/testing/unit/react-testing-library-helpers';
 
 import DateTimeSelection from './DateTimeSelection';
@@ -29,16 +30,14 @@ describe('VASS Component: DateTimeSelection', () => {
     const screen = renderComponent();
     expect(screen.getByTestId('content')).to.exist;
     expect(screen.getByTestId('vaos-calendar')).to.exist;
-    expect(screen.getByTestId('button-pair')).to.exist;
+    expect(screen.getByTestId('continue-button')).to.exist;
   });
 
   it('should prevent navigation when no date/time selected and continue button clicked', async () => {
     const screen = renderComponent();
-    const buttonPair = screen.getByTestId('button-pair');
+    const continueButton = screen.getByTestId('continue-button');
 
-    // Trigger the onPrimaryClick event (continue button)
-    const primaryClickEvent = new CustomEvent('primaryClick');
-    buttonPair.dispatchEvent(primaryClickEvent);
+    await userEvent.click(continueButton);
 
     // Validation error should be displayed
     await waitFor(() => {
@@ -47,11 +46,10 @@ describe('VASS Component: DateTimeSelection', () => {
     });
   });
 
-  it('should have button pair with correct attributes', () => {
+  it('should have continue button with correct attributes', () => {
     const screen = renderComponent();
-    const buttonPair = screen.getByTestId('button-pair');
+    const continueButton = screen.getByTestId('continue-button');
 
-    expect(buttonPair).to.exist;
-    expect(buttonPair.hasAttribute('continue')).to.be.true;
+    expect(continueButton).to.have.attribute('continue');
   });
 });
