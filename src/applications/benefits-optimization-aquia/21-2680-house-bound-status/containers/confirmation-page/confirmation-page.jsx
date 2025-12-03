@@ -59,7 +59,7 @@ const WhatsNextSection = ({ confirmationNumber }) => {
   return (
     <div className="confirmation-whats-next-section">
       <h2>What you need to do next</h2>
-      <p>Follow these 3 steps to complete your application:</p>
+      <p>Follow these steps to complete your application:</p>
       <va-process-list uswds>
         <va-process-list-item header="Download a PDF version of the Form you filled out.">
           <DownloadFormPDF confirmationNumber={confirmationNumber} />
