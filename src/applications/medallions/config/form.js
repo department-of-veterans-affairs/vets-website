@@ -91,6 +91,7 @@ const formConfig = {
           note: <ApplicantNameNote />,
           depends: formData => isUserSignedIn(formData),
           hideOnReview: false,
+          background: true,
         }),
         applicantName: {
           path: 'applicant-name',
