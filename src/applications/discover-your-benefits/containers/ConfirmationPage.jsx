@@ -228,6 +228,7 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
 
   const extractSelectedFilters = activeFilters => {
     const selected = [];
+
     activeFilters.forEach(facet => {
       facet.category.forEach(cat => {
         if (cat.active) {
