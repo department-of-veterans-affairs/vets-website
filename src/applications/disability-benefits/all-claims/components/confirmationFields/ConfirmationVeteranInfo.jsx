@@ -9,7 +9,7 @@ export const ConfirmationVeteranInfo = () => {
   const { first, middle, last, suffix } = profile.userFullName || {};
 
   return (
-    <div>
+    <>
       <li>
         <div className="vads-u-color--gray">Veteran name</div>
       </li>
@@ -28,6 +28,6 @@ export const ConfirmationVeteranInfo = () => {
       <li>
         <div>{genderLabels[gender]}</div>
       </li>
-    </div>
+    </>
   );
 };
