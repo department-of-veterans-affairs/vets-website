@@ -107,7 +107,7 @@ const SubmissionsPage = title => {
         />
       </div>
       {useToggleValue(
-        TOGGLE_NAMES.accreditedRepresentativePortalIntentToFileApi,
+        TOGGLE_NAMES.accreditedRepresentativePortalIntentToFile,
       ) ? (
         <div className="submissions__form-start">
           <h2 className="submissions__form-name vads-u-font-size--h3 vads-u-font-family--serif submissions__margin-top">
