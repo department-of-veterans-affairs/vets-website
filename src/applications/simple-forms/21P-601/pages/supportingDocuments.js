@@ -1,11 +1,13 @@
 import environment from 'platform/utilities/environment';
 import {
+  titleUI,
   fileInputMultipleUI,
   fileInputMultipleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 export default {
   uiSchema: {
+    ...titleUI('Supporting documents'),
     veteranSupportingDocuments: fileInputMultipleUI({
       title: 'Supporting documents',
       required: false,
