@@ -20,7 +20,7 @@ for (const featureSet of featureSets) {
   )}`, () => {
     const addrErrorMessage =
       'Enter a zip code or a city and state in the search box';
-
+    const faciltyErrorMessage = 'Select a facility type';
     const serviceErrorMessage = 'ErrorStart typing and select a service type';
 
     beforeEach(() => {
@@ -61,8 +61,7 @@ for (const featureSet of featureSets) {
         .shadow()
         .find('select')
         .select('VA health');
-
-      // h.errorMessageContains(addrErrorMessage);
+      h.errorMessageContains(faciltyErrorMessage);
     });
 
     it('shows error message when leaving service type field empty on submit', () => {
