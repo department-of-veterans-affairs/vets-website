@@ -10,6 +10,7 @@ import {
   showAdditionalPointsOfContact,
   getAdditionalContactTitle,
   capitalizeFirstLetter,
+  matchYearPattern,
 } from '../helpers';
 
 describe('0839 Helpers', () => {
@@ -1173,6 +1174,40 @@ describe('0839 Helpers', () => {
 
     it('handles all uppercase strings', () => {
       expect(capitalizeFirstLetter('PRESIDENT')).to.equal('PRESIDENT');
+    });
+  });
+
+  describe('matchYearPattern', () => {
+    it('returns true for valid year pattern with four-digit years', () => {
+      expect(matchYearPattern('2024-2025')).to.be.true;
+      expect(matchYearPattern('2023-2024')).to.be.true;
+      expect(matchYearPattern('1999-2000')).to.be.true;
+    });
+
+    it('returns false for patterns with wrong number of digits', () => {
+      expect(matchYearPattern('24-25')).to.be.false;
+      expect(matchYearPattern('2024-25')).to.be.false;
+      expect(matchYearPattern('24-2025')).to.be.false;
+      expect(matchYearPattern('202-2025')).to.be.false;
+    });
+
+    it('returns false for patterns with wrong separator', () => {
+      expect(matchYearPattern('2024/2025')).to.be.false;
+      expect(matchYearPattern('2024_2025')).to.be.false;
+      expect(matchYearPattern('2024.2025')).to.be.false;
+    });
+
+    it('returns false for patterns with extra characters', () => {
+      expect(matchYearPattern('2024-2025 ')).to.be.false;
+      expect(matchYearPattern(' 2024-2025')).to.be.false;
+      expect(matchYearPattern('a2024-2025')).to.be.false;
+      expect(matchYearPattern('2024-2025b')).to.be.false;
+    });
+
+    it('returns false for empty or invalid input', () => {
+      expect(matchYearPattern('')).to.be.false;
+      expect(matchYearPattern('invalid')).to.be.false;
+      expect(matchYearPattern('2024')).to.be.false;
     });
   });
 });
