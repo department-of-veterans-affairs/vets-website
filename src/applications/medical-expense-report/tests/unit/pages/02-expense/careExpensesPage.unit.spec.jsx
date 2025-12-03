@@ -248,8 +248,9 @@ describe('Care Expenses Pages', () => {
     );
     expect(vaHoursPerWeekInput).to.not.exist;
   });
-  it('should return the correct card description with paymentDate', () => {
+  it('should return the correct card description when only from date is provided', () => {
     const item = {
+      provider: 'John Doe Provider',
       careDateRange: {
         from: '2004-04-04',
       },
@@ -259,15 +260,31 @@ describe('Care Expenses Pages', () => {
     const { getByText: descriptionText } = render(
       options.text.cardDescription(item),
     );
-    expect(nameText('Residential care facility')).to.exist;
+    expect(nameText('John Doe Provider')).to.exist;
     expect(descriptionText('04/04/2004')).to.exist;
+  });
+  it('should return the correct card description when from and to date is provided', () => {
+    const item = {
+      provider: 'John Doe Provider',
+      careDateRange: {
+        from: '2004-04-04',
+        to: '2005-05-05',
+      },
+      typeOfCare: 'RESIDENTIAL',
+    };
+    const { getByText: nameText } = render(options.text.getItemName(item));
+    const { getByText: descriptionText } = render(
+      options.text.cardDescription(item),
+    );
+    expect(nameText('John Doe Provider')).to.exist;
+    expect(descriptionText('04/04/2004 - 05/05/2005')).to.exist;
   });
   it('should return default card description', () => {
     const item = {
       typeOfCare: 'BLAH',
     };
     const { getByText: nameText } = render(options.text.getItemName(item));
-    expect(nameText('New care expense')).to.exist;
+    expect(nameText('Provider')).to.exist;
   });
   it('should check if the item is incomplete', () => {
     const completeItem = {
