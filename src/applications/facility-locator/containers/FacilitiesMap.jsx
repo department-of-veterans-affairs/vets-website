@@ -822,7 +822,7 @@ const FacilitiesMap = props => {
     () => {
       searchCurrentArea();
     },
-    [props.currentQuery.searchArea],
+    [props.currentQuery.searchArea, props.currentQuery.radius],
   );
 
   useEffect(
