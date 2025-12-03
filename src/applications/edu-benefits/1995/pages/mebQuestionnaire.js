@@ -2,6 +2,90 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import YourInformationDescription from '../components/YourInformationDescription';
 
+const mapCurrentToSelection = type => {
+  if (!type) return undefined;
+  switch (type) {
+    case 'chapter30':
+    case 'CH30':
+    case '30':
+      return 'mgib-ad';
+    case 'chapter1606':
+    case 'CH1606':
+    case '1606':
+      return 'mgib-sr';
+    case 'transferOfEntitlement':
+    case 'TOE':
+    case 'CH33_TOE':
+      return 'toe';
+    case 'chapter35':
+    case 'CH35':
+    case '35':
+    case 'DEA':
+      return 'dea';
+    case 'fryScholarship':
+    case 'FRY':
+    case 'CH33_FRY':
+      return 'fry';
+    case 'chapter33':
+    case 'CH33':
+    case '33':
+      return 'pgib';
+    default:
+      return undefined;
+  }
+};
+
+const getFormInfo = benefitType => {
+  const form1990 = {
+    header: 'Application for VA Education Benefits (VA Form 22-1990)',
+    link:
+      'https://www.va.gov/education/apply-for-education-benefits/application/1990/introduction',
+    linkText: 'Apply for education benefits (VA Form 22-1990)',
+    formName: 'VA Form 22-1990',
+  };
+  const form5490 = {
+    header:
+      "Dependent's Application for VA Education Benefits (VA Form 22-5490)",
+    link:
+      'https://www.va.gov/family-and-caregiver-benefits/education-and-careers/apply-for-dea-fry-form-22-5490',
+    linkText: 'Apply for education benefits (VA Form 22-5490)',
+    formName: 'VA Form 22-5490',
+  };
+  const form1990e = {
+    header: 'Application for VA Education Benefits (VA Form 22-1990e)',
+    link:
+      'https://www.va.gov/education/apply-for-education-benefits/application/1990E/introduction',
+    linkText: 'Apply for education benefits (VA Form 22-1990e)',
+    formName: 'VA Form 22-1990e',
+  };
+  switch (benefitType) {
+    case 'chapter33':
+    case 'CH33':
+    case '33':
+    case 'chapter30':
+    case 'CH30':
+    case '30':
+    case 'chapter1606':
+    case 'CH1606':
+    case '1606':
+      return form1990;
+    case 'chapter35':
+    case 'CH35':
+    case '35':
+    case 'DEA':
+    case 'fryScholarship':
+    case 'FRY':
+    case 'CH33_FRY':
+      return form5490;
+    case 'transferOfEntitlement':
+    case 'TOE':
+    case 'CH33_TOE':
+      return form1990e;
+    default:
+      return form1990;
+  }
+};
+
 const ResultDescription = ({
   body,
   linkHref,
@@ -20,7 +104,7 @@ const ResultDescription = ({
       linkText && (
         <a
           href={linkHref}
-          className="vads-u-display--block vads-u-margin-bottom--3 vads-c-action-link--green"
+          className="vads-u-display--block vads-u-margin-bottom--3"
         >
           {linkText}
         </a>
@@ -45,6 +129,29 @@ const ResultDescription = ({
     </div>
   </div>
 );
+
+const SameBenefitResultDescription = ({ formData }) => {
+  const formInfo = getFormInfo(formData?.currentBenefitType);
+  return (
+    <ResultDescription
+      resultHeader={formInfo.header}
+      body={`Based on your answers, use ${
+        formInfo.formName
+      } to apply to the same benefit again to get an updated COE.`}
+      linkHref={formInfo.link}
+      linkText={formInfo.linkText}
+      answers={[
+        'You are looking to apply to the same benefit again to get an updated Certificate of Eligibility (COE)',
+      ]}
+    />
+  );
+};
+
+SameBenefitResultDescription.propTypes = {
+  formData: PropTypes.shape({
+    currentBenefitType: PropTypes.string,
+  }),
+};
 
 export const yourInformationPage = () => ({
   uiSchema: {
@@ -74,25 +181,24 @@ export const yourInformationPage = () => ({
 export const benefitSwitchPage = () => ({
   uiSchema: {
     mebBenefitSelection: {
-      "ui:title": (
-        <span 
-          className="vads-u-font-size--h3 vads-u-margin-bottom--3"
+      'ui:title': (
+        <span
+          className="vads-u-font-size--h3 vads-u-padding-bottom--2 vads-u-display--inline-block"
+          style={{ fontSize: '1.5rem' }}
         >
           Benefit you want to change to
         </span>
       ),
       'ui:description': () => (
-        <va-additional-info 
-          className="vads-u-margin-bottom--3"
-          onClick={function noRefCheck() {}}
-          trigger="Learn more about these benefits"
-        >
-          <h2>Benefit you want to change to</h2>
+        <details className="vads-u-margin-bottom--3">
+          <summary className="vads-u-font-weight--bold">
+            Learn more about these benefits
+          </summary>
           <ul className="vads-u-margin-top--1">
             <li>
-              Learn about GI Bill benefits: Post-9/11 GI Bill, Montgomery GI Bill
-              Active Duty (MGIB-AD), and Montgomery GI Bill Selected Reserve
-              (MGIB-SR) (opens in a new tab)
+              Learn about GI Bill benefits: Post-9/11 GI Bill, Montgomery GI
+              Bill Active Duty (MGIB-AD), and Montgomery GI Bill Selected
+              Reserve (MGIB-SR) (opens in a new tab)
               <ul className="vads-u-margin-top--1">
                 <li>
                   <a href="https://www.va.gov/education/about-gi-bill-benefits/post-9-11">
@@ -134,9 +240,29 @@ export const benefitSwitchPage = () => ({
               </ul>
             </li>
           </ul>
-        </va-additional-info>
+        </details>
       ),
       'ui:widget': 'radio',
+      'ui:options': {
+        updateSchema: (formData, schema) => {
+          const exclude = mapCurrentToSelection(formData?.currentBenefitType);
+          if (exclude) {
+            const newEnum = [];
+            const newEnumNames = [];
+            schema.enum.forEach((val, idx) => {
+              if (val !== exclude) {
+                newEnum.push(val);
+                newEnumNames.push(schema.enumNames[idx]);
+              }
+            });
+            return {
+              enum: newEnum,
+              enumNames: newEnumNames,
+            };
+          }
+          return schema;
+        },
+      },
     },
   },
   schema: {
@@ -145,8 +271,9 @@ export const benefitSwitchPage = () => ({
     properties: {
       mebBenefitSelection: {
         type: 'string',
-        enum: ['mgib-ad', 'mgib-sr', 'toe', 'dea', 'fry'],
+        enum: ['pgib', 'mgib-ad', 'mgib-sr', 'toe', 'dea', 'fry'],
         enumNames: [
+          'Post-9/11 GI Bill (PGIB, Chapter 33)',
           'Montgomery GI Bill (MGIB-AD, Chapter 30)',
           'Montgomery GI Bill Selected Reserve (MGIB-SR, Chapter 1606)',
           'Transferred Post-911 GI Bill benefits (Transfer of Entitlement Program, TOE)',
@@ -184,29 +311,19 @@ const buildResultPage = ({
   schema: emptySchema,
 });
 
-export const sameBenefitResultPage = () =>
-  buildResultPage({
-    resultHeader:
-      "Dependent's Application for VA Education Benefits (VA Form 22-5490)",
-    body:
-      'Based on your answers, use VA Form 22-5490 to apply to the same benefit again to get an updated COE.',
-    linkHref:
-      'https://www.va.gov/family-and-caregiver-benefits/education-and-careers/apply-for-dea-fry-form-22-5490',
-    linkText: 'Apply for education benefits (VA Form 22-5490)',
-    answers: [
-      'You are looking to apply to the same benefit again to get an updated Certificate of Eligibility (COE)',
-      "Your most recently used benefit is Dependents’ Educational Assistance (DEA, Chapter 35)"
-    ],
-  });
+export const sameBenefitResultPage = () => ({
+  uiSchema: {
+    'ui:description': SameBenefitResultDescription,
+  },
+  schema: emptySchema,
+});
 
 export const foreignSchoolResultPage = () =>
   buildResultPage({
-    resultHeader:
-      "Ask VA",
     body:
       'Get answers to your questions about using eligibility at a foreign school. You should receive a reply within 7 business days.',
     linkHref: 'https://ask.va.gov/',
-    linkText: 'Contact us online through Ask Va',
+    linkText: 'Ask VA',
     answers: [
       'You want to update your Certificate of Eligibility (COE) for a foreign school',
     ],
