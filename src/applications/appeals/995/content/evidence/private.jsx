@@ -65,6 +65,8 @@ export const summaryContent = {
     `${itemData[PRIVATE_TREATMENT_LOCATION_KEY]} information has been updated.`,
   cardDescription: item => {
     console.log('item: ', item);
+    console.log('item issues: ', item?.issues);
+    console.log('item treatmentLocation: ', item?.[PRIVATE_TREATMENT_LOCATION_KEY]);
     return (
       <>
         {item?.[PRIVATE_TREATMENT_LOCATION_KEY] && (

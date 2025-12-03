@@ -70,6 +70,7 @@ const Issues = props => {
     onSubmit,
     pagePerItemIndex,
   } = props;
+  console.log('props: ', props);
   const {
     arrayPath,
     getIntroPath,
@@ -79,6 +80,7 @@ const Issues = props => {
     reviewRoute,
   } = arrayBuilder;
   const [error, setError] = useState(false);
+  console.log('formKey: ', formKey);
   const currentEvidenceData = fullData?.[formKey]?.[pagePerItemIndex] || {};
   const formLabel =
     addOrEdit === 'edit'

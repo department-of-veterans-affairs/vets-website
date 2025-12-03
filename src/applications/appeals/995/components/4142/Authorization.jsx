@@ -127,15 +127,9 @@ const Authorization = ({
       // and fall back to the contents as the default. Remove the
       // setFormData call below
       if (onChange) {
-        const currentEvidenceData =
-          { ...fullData?.privateEvidence?.[pagePerItemIndex] } || {};
-
-        const newData = {
-          ...currentEvidenceData,
-          authorization: checked,
-        };
-
-        onChange(newData);
+        // Only pass the authorization field - array builder's onChange
+        // will merge it with existing data from previous pages
+        onChange({ authorization: checked });
       } else {
         setFormData({ ...data, privacyAgreementAccepted: checked });
       }
