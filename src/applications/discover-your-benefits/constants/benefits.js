@@ -245,7 +245,7 @@ export const BENEFITS_LIST = [
     applyNowURL: '',
   },
   {
-    name: 'Educational and career counseling',
+    name: 'Educational and career counseling (Chapter 36)',
     category: categories.EMPLOYMENT,
     id: 'ECC',
     description:
@@ -823,7 +823,7 @@ export const BENEFITS_LIST = [
     category: categories.BURIALS,
     id: 'BUR',
     description:
-      "Veterans, service members, and some family members may be eligible for burial in a VA national cemetery. You, or a person you're planning a burial for, may be eligible for this benefit.",
+      'Veterans, service members, and some family members may be eligible for burial in a VA national cemetery.',
     isTimeSensitive: false,
     whenToApply: [
       WHEN_TO_APPLY.BEFORE_SEPARATION,
@@ -868,7 +868,7 @@ export const BENEFITS_LIST = [
     category: categories.BURIALS,
     id: 'BRG',
     description:
-      'Reserves or National Guard members that became disabled or dies from an injury or certain cardiovascular disorders caused - or made worse - by their service during a period of inactive-duty training may qualify for burial in a VA National Cemetery.',
+      'Reserves or National Guard members that became disabled or die from an injury or certain cardiovascular disorders caused - or made worse - by their service during a period of inactive-duty training may qualify for burial in a VA National Cemetery.',
     isTimeSensitive: false,
     whenToApply: [
       WHEN_TO_APPLY.BEFORE_SEPARATION,
