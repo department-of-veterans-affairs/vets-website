@@ -458,32 +458,33 @@ export const logoutUrl = () => {
  * @returns {Boolean} Returns a boolean to determine AuthBroker
  */
 export const determineAuthBroker = featureFlagEnabled => {
-  if (featureFlagEnabled) {
-    const cookieValue = Cookies.get('CERNER_ELIGIBLE');
-    const rawCookie = cookieValue?.split('--')[0];
+  if (!featureFlagEnabled) return false;
 
-    /**
-     * @returns false if cookie doesn't exist or if cookie does exist with no value
-     */
-    if (!cookieValue || !rawCookie) return false;
+  const cookieValue = Cookies.get('CERNER_ELIGIBLE');
+  if (!cookieValue) return false;
 
-    const parsedJson = JSON.parse(atob(rawCookie));
-    const message = parsedJson?._rails?.message;
+  if (cookieValue.includes('--')) {
+    const [signedCookie] = cookieValue.split('--');
 
-    /**
-     * @returns false when no message or malformed
-     */
-    if (!message) return false;
+    if (signedCookie) {
+      try {
+        const parsedJson = JSON.parse(atob(signedCookie));
+        const message = parsedJson?._rails?.message;
 
-    const secondDecode = atob(message);
-    const parsedCookie = secondDecode?.charAt(2);
+        if (message) {
+          const secondDecode = atob(message);
+          const parsedCookie = secondDecode?.charAt(2);
 
-    /**
-     * @returns false if parsed cookie contains a value other than `T` or `F`
-     */
-    if (!['T', 'F']?.includes(parsedCookie)) return false;
-
-    return parsedCookie === 'F';
+          if (['T', 'F'].includes(parsedCookie)) {
+            return parsedCookie === 'F';
+          }
+        }
+      } catch (e) {
+        // fall through to plain-text handling
+      }
+    }
   }
-  return false;
+
+  const plainTextCookie = cookieValue.trim().toLowerCase();
+  return plainTextCookie === 'false';
 };
