@@ -4,7 +4,192 @@
 - In November 2025 the E2E tests for the `claims-status` application were rewritten to improve coverage, maintainability, and scalability while modernizing the E2E tests
 - This README for `claims-status` E2E testing is to align the team on best practices gathered from Cypress, VA Platform, and the team
 
-## Highlighted Cypress Best Practices
+## Directory Structure
+
+```
+tests/
+├── details/             # Detail page tests
+├── shared/              # Cross-cutting tests (loading states, etc.)
+└── your-claims/         # List page tests
+
+support/
+├── fixtures/            # Test data factories by endpoint
+│   ├── appeals.js       # Appeal data for /v0/appeals
+│   ├── benefitsClaims.js # Claim data for /v0/benefits_claims
+│   └── stemClaims.js    # STEM claim data for /v0/education_benefits_claims/stem_claim_status
+└── helpers/             # Reusable test utilities
+    ├── mocks.js         # API mocking (mockFeatureToggles)
+    ├── setup.js         # Test setup (setupClaimTest)
+    └── assertions.js    # Common assertions
+```
+
+## Writing Tests
+
+### Element Selection
+
+- **Prefer `cy.findByRole()`** for interactive and structural elements (buttons, links, headings, navigation, etc.) - checks semantics, visibility, and accessibility
+- **Use `cy.findByText()`** for static text content (paragraphs, labels, non-interactive text) - also has visibility check built-in
+- **Use `cy.contains()`** when text spans multiple elements (e.g., `<p>Call us at <va-telephone>...</va-telephone></p>`) - `findByText` only matches text within a single element. Always add `.should('be.visible')` since `contains` doesn't check visibility.
+- **Other `.should()` use cases**: `.should('not.exist')` for conditional UI, `.should('have.attr', 'href', '/path')` for links
+- **Tip**: Check element roles via Developer Tools > Elements Tab > Accessibility Tab
+- **Remember**: If important UI elements lack roles, consider improving semantics (e.g., use `<h2>` instead of styled `<span>` for headings)
+
+### Test Organization
+
+Organize tests into sub-folders (`details`, `shared`, `your-claims`, etc) rather than having them all at root. Use focused helper functions instead of page objects.
+
+#### `describe()` vs `context()`
+
+While technically identical (both are aliases from Mocha), we use them for different semantic purposes:
+
+- **`describe()`**: Groups tests by feature or functionality
+  ```javascript
+  describe('Claim type titles', () => {
+    it('should display burial claim title', () => {})
+  })
+  ```
+
+- **`context()`**: Groups tests by preconditions or states, using "when..." or "given..." wording
+  ```javascript
+  context('when claim is open', () => {
+    it('should display In Progress badge', () => {})
+  })
+  ```
+
+This convention improves test readability and clearly communicates the test's purpose and conditions.
+
+### Setup Helpers
+
+Use setup helpers in `support/helpers/setup.js` to encapsulate common test initialization patterns. For example, `setupClaimTest({ claim, path })` handles the API intercept, page visit, and axe injection in one call—keeping individual tests focused on assertions.
+
+### Test Fixtures
+
+**Only expose parameters when tests need them:**
+```javascript
+// Good: Only expose what tests actually vary
+export const createTrackedItem = ({
+  displayName = 'Medical Records Request',
+} = {}) => ({
+  id: 1,
+  status: 'NEEDED_FROM_YOU',
+  displayName,
+  // ...
+});
+```
+
+### Data-Driven Tests
+
+Use `forEach` to test multiple variations without duplicating test logic. Define an array of test cases with inputs and expected outputs, then iterate:
+
+```javascript
+const phases = [
+  { status: 'CLAIM_RECEIVED', expected: 'Step 1 of 5: Claim received' },
+  { status: 'INITIAL_REVIEW', expected: 'Step 2 of 5: Initial review' },
+];
+
+phases.forEach(({ status, expected }) => {
+  it(`should display ${expected}`, () => {
+    setupClaimTest({ claim: createBenefitsClaim({ status }) });
+    cy.findByText(expected);
+    cy.axeCheck();
+  });
+});
+```
+
+### Feature Flag Testing
+
+Group feature flag tests in a dedicated `describe` block using named parameters:
+
+```javascript
+describe('Feature flag: cstShowDocumentUploadStatus', () => {
+  context('when enabled', () => {
+    beforeEach(() => {
+      mockFeatureToggles({ showDocumentUploadStatus: true });
+    });
+
+    it('should show the new behavior', () => {
+      // Test enabled behavior
+    });
+  });
+
+  context('when disabled', () => {
+    beforeEach(() => {
+      mockFeatureToggles({ showDocumentUploadStatus: false });
+    });
+
+    it('should show the old behavior', () => {
+      // Test disabled behavior
+    });
+  });
+});
+```
+
+### Path Constants
+
+Define path constants at the top of test files for reusable URL segments:
+
+```javascript
+const OVERVIEW_PATH = 'overview';
+const NEEDED_FROM_OTHERS_PATH = 'needed-from-others/123456';
+
+// Usage
+setupClaimTest({ claim: createBenefitsClaim(), path: OVERVIEW_PATH });
+```
+
+## Code Coverage
+
+Use branch coverage as our primary coverage metric. It measures whether we test all decision paths (if/else, switch cases), not just whether code executes.
+
+Note: Code coverage requires this PR to be merged - https://github.com/department-of-veterans-affairs/vets-website/pull/39252
+
+### How to Run
+
+```bash
+# Clear cache and old coverage data
+rm -rf .babelcache config/.nyc_output coverage
+
+# Start dev server with coverage
+CODE_COVERAGE=true yarn watch --env entry=claims-status
+
+# Wait for: "webpack compiled successfully"
+
+# In a separate terminal, run E2E tests (takes 5-10 minutes)
+CODE_COVERAGE=true yarn cy:run --spec "src/applications/claims-status/tests/e2e/**/*.cypress.spec.js"
+
+# Generate coverage report
+npx nyc report --reporter=html --reporter=json-summary --reporter=text
+
+# View HTML report
+open coverage/index.html
+```
+
+### Progress
+
+| Stage                                                                                 | % Stmts | % Branch | % Funcs | % Lines |
+| --------------------------------------------------------------------------------------| ------- | -------- | ------- | ------- |
+| Initial                                                                               | 75.07   | 62.43    | 82.86   | 75.13   |
+| [First PR](https://github.com/department-of-veterans-affairs/vets-website/pull/40123) | 76.58   | 64.54    | 83.61   | 76.62   |
+| [Second PR](https://github.com/department-of-veterans-affairs/vets-website/pull/40467) | 78.94   | 69.34    | 85.33   | 78.88   |
+
+### Next Priority
+
+| Priority | File                       | Before % | After % | Uncovered Lines               |
+| -------- | -------------------------- | -------- | ------- | ----------------------------- |
+| 1        | appeals-v2-helpers.jsx     | 25.11    |         | 1974-1976,2012,2046,2059-2065 |
+| 2        | Docket.jsx                 | 0        |         | 44-234                        |
+| 3        | AppealsV2StatusPage.jsx    | 52.94    |         | 64-72,86-87                   |
+| 4        | Decision.jsx               | 53.84    |         | 12,15,43,57                   |
+| 5        | FilesWeCouldntReceive.jsx  | 0        |         | 20-203                        |
+| 6        | Standard5103NoticePage.jsx | 0        |         | 20-86                         |
+| 7        | StemClaimStatusPage.jsx    | 0        |         | 15-88                         |
+| 8        | StemDeniedDetails.jsx      | 0        |         | 14-225                        |
+| 9        | ClosedClaimAlert.jsx       | 40       |         | 8-26                          |
+| 10       | helpers.js                 | 68.46    |         | 1491-1493,1498,1520,1529,1560 |
+
+## Reference
+
+### Cypress Best Practices
+
 Source: [Cypress Best Practices](https://docs.cypress.io/app/core-concepts/best-practices)
 
 1. Test specs in isolation and take control of your application's state ([source](https://docs.cypress.io/app/core-concepts/best-practices#Organizing-Tests-Logging-In-Controlling-State))
@@ -83,144 +268,8 @@ Source: [Cypress Best Practices](https://docs.cypress.io/app/core-concepts/best-
       ```
 10. Accessibility Testing ([source](https://docs.cypress.io/app/guides/accessibility-testing))
 
-## Highlighted Platform Practices
+### Platform Practices
+
 Source: [Platform Best Practices - Unit and e2e Tests](https://depo-platform-documentation.scrollhelp.site/developer-docs/platform-best-practices-unit-and-e2e-tests#PlatformBestPractices-Unitande2eTests-Cypresse2eTesting)
 
 - `cy.injectAxe()` and `cy.axeCheck()` is required in every test
-
-## Team Conventions
-- Organize tests into sub-folders (`details`, `shared`, `your-claims`, etc) rather than having them all at root
-- Use focused helper functions instead of page objects and organize them into sub-folders by purpose (`api-mocks`, `setup`, `interactions`, `assertions`)
-- **Prefer `cy.findByRole()`** for interactive and structural elements (buttons, links, headings, navigation, etc.) - checks semantics, visibility, and accessibility
-- **Use `cy.findByText()`** for static text content (paragraphs, labels, non-interactive text) - this is correct! Not everything needs a role
-- **Tip**: Check element roles via Developer Tools > Elements Tab > Accessibility Tab
-- **Remember**: If important UI elements lack roles, consider improving semantics (e.g., use `<h2>` instead of styled `<p>` for headings)
-
-### Test Organization: `describe()` vs `context()`
-
-While technically identical (both are aliases from Mocha), we use them for different semantic purposes:
-
-- **`describe()`**: Groups tests by feature or functionality
-  ```javascript
-  describe('Claim type titles', () => {
-    it('should display burial claim title', () => {})
-  })
-  ```
-
-- **`context()`**: Groups tests by preconditions or states, using "when..." or "given..." wording
-  ```javascript
-  context('when claim is open', () => {
-    it('should display In Progress badge', () => {})
-  })
-  ```
-
-This convention improves test readability and clearly communicates the test's purpose and conditions.
-
-### Feature Flag Testing
-
-Group feature flag tests in a dedicated `describe` block with a `mockFeatures` helper function:
-
-```javascript
-describe('Feature flag: cstShowDocumentUploadStatus', () => {
-  const mockFeatures = enabled => [
-    { name: 'cst_show_document_upload_status', value: enabled },
-  ];
-
-  context('when enabled', () => {
-    beforeEach(() => {
-      mockBaseEndpoints({ features: mockFeatures(true) });
-    });
-
-    it('should show the new behavior', () => {
-      // Test enabled behavior
-    });
-  });
-
-  context('when disabled', () => {
-    beforeEach(() => {
-      mockBaseEndpoints({ features: mockFeatures(false) });
-    });
-
-    it('should show the old behavior', () => {
-      // Test disabled behavior
-    });
-  });
-});
-```
-
-### Test Fixtures
-
-Fixtures in `support/fixtures.js` create mock data for tests. They follow these practices:
-
-**Only expose parameters when tests need them:**
-```javascript
-// Good: No parameters needed yet - just hardcoded defaults
-export const createTrackedItem = () => ({
-  id: 1,
-  status: 'NEEDED_FROM_YOU',
-  friendlyName: 'Medical records',
-  // ...
-});
-
-// Good: Only expose what tests actually vary
-export const createFailedSubmission = ({
-  failedDate = '2025-01-15T12:00:00.000Z',
-} = {}) => ({
-  id: 12345,           // Hardcoded - tests don't care
-  uploadStatus: 'FAILED', // Hardcoded - always the same
-  failedDate,          // Exposed - tests have changed this
-  // ...
-});
-```
-
-## E2E Code Coverage
-Note: Code coverage requires this PR to be merged - https://github.com/department-of-veterans-affairs/vets-website/pull/39252
-
-### How to Run Coverage
-
-```bash
-# Clear cache and old coverage data
-rm -rf .babelcache config/.nyc_output coverage
-
-# Start dev server with coverage
-CODE_COVERAGE=true yarn watch --env entry=claims-status
-
-# Wait for: "webpack compiled successfully"
-
-# In a separate terminal, run E2E tests (takes 5-10 minutes)
-CODE_COVERAGE=true yarn cy:run --spec "src/applications/claims-status/tests/e2e/**/*.cypress.spec.js"
-
-# Generate coverage report
-npx nyc report --reporter=html --reporter=json-summary --reporter=text
-
-# View HTML report
-open coverage/index.html
-```
-
-## Coverage
-
-Use branch coverage as our primary coverage metric because it measures whether we test all decision paths (if/else, switch cases), not just whether code executes. This is a more rigorous standard than statement or line coverage.
-
-### Coverage Progress
-
-| Stage                                                                                 | % Stmts | % Branch | % Funcs | % Lines |
-| --------------------------------------------------------------------------------------| ------- | -------- | ------- | ------- |
-| Initial                                                                               | 75.07   | 62.43    | 82.86   | 75.13   |
-| [First PR](https://github.com/department-of-veterans-affairs/vets-website/pull/40123) | 76.58   | 64.54    | 83.61   | 76.62   |
-| Second PR                                                                             | 78.94   | 69.34    | 85.33   | 78.88   |
-
-
-### Next Priority
-
-| Priority | File                       | Before % | After % | Uncovered Lines               |
-| -------- | -------------------------- | -------- | ------- | ----------------------------- |
-| 1        | appeals-v2-helpers.jsx     | 25.11    |         | 1974-1976,2012,2046,2059-2065 |
-| 2        | Docket.jsx                 | 0        |         | 44-234                        |
-| 3        | AppealsV2StatusPage.jsx    | 52.94    |         | 64-72,86-87                   |
-| 4        | Decision.jsx               | 53.84    |         | 12,15,43,57                   |
-| 5        | FilesWeCouldntReceive.jsx  | 0        |         | 20-203                        |
-| 6        | Standard5103NoticePage.jsx | 0        |         | 20-86                         |
-| 7        | StemClaimStatusPage.jsx    | 0        |         | 15-88                         |
-| 8        | StemDeniedDetails.jsx      | 0        |         | 14-225                        |
-| 9        | ClosedClaimAlert.jsx       | 40       |         | 8-26                          |
-| 10       | helpers.js                 | 68.46    |         | 1491-1493,1498,1520,1529,1560 |

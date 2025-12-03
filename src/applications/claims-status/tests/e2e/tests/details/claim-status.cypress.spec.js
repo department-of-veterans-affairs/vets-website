@@ -119,9 +119,9 @@ describe('Claim status', () => {
             }),
           });
 
-          cy.get('va-alert[status="error"]').contains(
-            'We need you to submit files by mail or in person',
-          );
+          cy.get('va-alert[status="error"]')
+            .contains('We need you to submit files by mail or in person')
+            .should('be.visible');
           cy.findByText('nothing we need from you', { exact: false }).should(
             'not.exist',
           );
