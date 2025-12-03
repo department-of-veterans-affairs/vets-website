@@ -9,6 +9,7 @@ const appointmentData = {
     isLatest: true,
     lastRetrieved: '2025-10-14T15:15:07Z',
     modality: 'communityCareEps',
+    categoryOfCare: 'OPTOMETRY',
     provider: {
       id: 'KMWjsCY3',
       name: 'Dr. Smith @ Acme Cardiology - Anywhere, USA',

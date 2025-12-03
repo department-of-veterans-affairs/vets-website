@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { formatInTimeZone } from 'date-fns-tz';
-import PropTypes from 'prop-types';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   getAppointmentCreateStatus,
@@ -11,6 +10,7 @@ import { setFormCurrentPage, setSelectedSlotStartTime } from './redux/actions';
 import {
   useGetDraftReferralAppointmentQuery,
   usePostReferralAppointmentMutation,
+  useGetReferralByIdQuery,
 } from '../redux/api/vaosApi';
 
 import ReferralLayout from './components/ReferralLayout';
@@ -26,10 +26,22 @@ import { stripDST } from '../utils/timezone';
 import FindCommunityCareOfficeLink from './components/FindCCFacilityLink';
 import { titleCase } from '../utils/formatters';
 
-const ReviewAndConfirm = props => {
-  const { attributes: currentReferral } = props.currentReferral;
+const ReviewAndConfirm = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const location = useLocation();
+
+  const { search } = location;
+  const params = new URLSearchParams(search);
+  const id = params.get('id');
+
+  const {
+    data: referral,
+    error: referralError,
+    isLoading: isReferralLoading,
+  } = useGetReferralByIdQuery(id);
+
+  const currentReferral = referral?.attributes;
   const selectedSlot = useSelector(state => getSelectedSlotStartTime(state));
 
   const appointmentCreateStatus = useSelector(getAppointmentCreateStatus);
@@ -38,9 +50,7 @@ const ReviewAndConfirm = props => {
   const [skipDraft, setSkipDraft] = useState(false);
   const [createFailed, setCreateFailed] = useState(false);
   const [createLoading, setCreateLoading] = useState(false);
-  const savedSelectedSlot = sessionStorage.getItem(
-    getReferralSlotKey(currentReferral.uuid),
-  );
+  const savedSelectedSlot = sessionStorage.getItem(getReferralSlotKey(id));
   const {
     data: draftAppointmentInfo,
     isLoading: isDraftLoading,
@@ -76,10 +86,10 @@ const ReviewAndConfirm = props => {
   useEffect(
     () => {
       if (!selectedSlot && !savedSelectedSlot) {
-        routeToCCPage(history, 'scheduleReferral', currentReferral.uuid);
+        routeToCCPage(history, 'scheduleReferral', id);
       }
     },
-    [currentReferral.uuid, history, savedSelectedSlot, selectedSlot],
+    [history, id, savedSelectedSlot, selectedSlot],
   );
 
   useEffect(
@@ -94,13 +104,11 @@ const ReviewAndConfirm = props => {
     },
     [
       draftAppointmentInfo,
-      currentReferral.referralNumber,
       dispatch,
       isDraftError,
       isDraftSuccess,
       isDraftLoading,
       isDraftUninitialized,
-      currentReferral.referralConsultId,
     ],
   );
 
@@ -130,11 +138,7 @@ const ReviewAndConfirm = props => {
 
   const handleGoBack = e => {
     e.preventDefault();
-    routeToPreviousReferralPage(
-      history,
-      'reviewAndConfirm',
-      currentReferral.uuid,
-    );
+    routeToPreviousReferralPage(history, 'reviewAndConfirm', id);
   };
 
   // handle routing to the next page once the appointment is created
@@ -150,7 +154,7 @@ const ReviewAndConfirm = props => {
         routeToNextReferralPage(
           history,
           'reviewAndConfirm',
-          currentReferral.uuid,
+          id,
           draftAppointmentInfo.id,
         );
       } else if (isAppointmentError && draftAppointmentInfo?.id) {
@@ -165,13 +169,23 @@ const ReviewAndConfirm = props => {
       appointmentCreateStatus,
       appointmentInfo?.id,
       draftAppointmentInfo?.id,
-      currentReferral.uuid,
+      id,
       isDraftSuccess,
       history,
       draftAppointmentInfo,
       dispatch,
     ],
   );
+
+  if (isReferralLoading) {
+    return (
+      <ReferralLayout
+        hasEyebrow
+        heading="Review your appointment details"
+        loadingMessage="Loading your appointment details"
+      />
+    );
+  }
 
   if (isDraftLoading) {
     return (
@@ -189,7 +203,7 @@ const ReviewAndConfirm = props => {
     <ReferralLayout
       hasEyebrow
       heading="Review your appointment details"
-      apiFailure={failed}
+      apiFailure={failed || referralError || !currentReferral}
       loadingMessage={loading ? 'Loading your appointment details' : null}
     >
       <div>
@@ -240,9 +254,7 @@ const ReviewAndConfirm = props => {
                 </div>
                 <div className="vads-l-col vads-u-text-align--right">
                   <va-link
-                    href={`/my-health/appointments/schedule-referral/date-time?id=${
-                      currentReferral.uuid
-                    }`}
+                    href={`/my-health/appointments/schedule-referral/date-time?id=${id}`}
                     label="Edit date and time"
                     text="Edit"
                     data-testid="edit-when-information-link"
@@ -332,10 +344,6 @@ const ReviewAndConfirm = props => {
       </div>
     </ReferralLayout>
   );
-};
-
-ReviewAndConfirm.propTypes = {
-  currentReferral: PropTypes.object.isRequired,
 };
 
 export default ReviewAndConfirm;
