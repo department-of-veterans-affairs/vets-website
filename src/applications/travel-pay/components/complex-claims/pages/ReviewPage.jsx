@@ -88,13 +88,14 @@ const ReviewPage = ({ message }) => {
         onCloseEvent={onClose}
         visible={isAlertVisible}
       />
-      <VaButton
-        id="add-expense-button"
-        className="vads-u-display--flex vads-u-margin-y--2"
-        text={numGroupedExpenses === 0 ? 'Add expenses' : 'Add more expenses'}
-        secondary={numGroupedExpenses > 0}
-        onClick={addMoreExpenses}
-      />
+      <div className="vads-u-display--flex vads-u-justify-content--center mobile-lg:vads-u-justify-content--flex-start vads-u-margin-y--3">
+        <VaButton
+          id="add-expense-button"
+          text={numGroupedExpenses === 0 ? 'Add expenses' : 'Add more expenses'}
+          secondary={numGroupedExpenses > 0}
+          onClick={addMoreExpenses}
+        />
+      </div>
       {numGroupedExpenses === 0 ? (
         <>
           <p>
