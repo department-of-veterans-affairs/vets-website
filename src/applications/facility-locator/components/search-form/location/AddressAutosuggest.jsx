@@ -123,13 +123,13 @@ function AddressAutosuggest({
   };
 
   // add aria-describedby if error occurs
-  const handleError = () => {
+  const addAriaErrorId = () => {
     const addressInput = document.getElementById('street-city-state-zip');
     addressInput?.setAttribute('aria-describedby', `${errorID}`);
   };
 
   // remove aria-describedby if error resolved
-  const resolveError = () => {
+  const removeAriaErrorId = () => {
     const addressInput = document.getElementById('street-city-state-zip');
     if (addressInput?.hasAttribute('aria-describedby')) {
       addressInput.removeAttribute('aria-describedby');
@@ -168,9 +168,9 @@ function AddressAutosuggest({
     () => {
       // Focus the error message when it appears so screen readers announce it
       if (showAddressError) {
-        handleError();
+        addAriaErrorId();
       } else {
-        resolveError();
+        removeAriaErrorId();
       }
     },
     [showAddressError],
