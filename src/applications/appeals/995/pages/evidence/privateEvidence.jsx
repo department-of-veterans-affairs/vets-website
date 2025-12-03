@@ -137,13 +137,12 @@ const detailsPage = {
         detailsEntryContent.question(formContext, getAddOrEditMode()),
       label: detailsEntryContent.label,
       nounSingular: options.nounSingular,
-      description: () => (
-        <p className="vads-u-font-family--serif vads-u-font-weight--bold vads-u-font-size--base vads-u-line-height--3 vads-u-margin-top--2 vads-u-margin-bottom--1">
-          {detailsEntryContent.label}
-        </p>
-      ),
-      // description: detailsEntryContent.label,
     }),
+    'ui:description': () => (
+      <p className="vads-u-font-size--base vads-u-line-height--3 vads-u-margin-top--2 vads-u-margin-bottom--1">
+        {detailsEntryContent.label}
+      </p>
+    ),
     treatmentLocation: textUI({
       title: detailsEntryContent.locationLabel,
       errorMessages: {
@@ -179,7 +178,7 @@ const treatmentDatePage = {
     [PRIVATE_LOCATION_TREATMENT_DATES_KEY]: currentOrPastDateRangeUI(
       {
         title: treatmentDateContent.firstDateLabel,
-        // hint: treatmentDateContent.dateHint,
+        hint: treatmentDateContent.dateHint,
         errorMessages: {
           required: treatmentDateContent.requiredError,
         },
@@ -187,7 +186,7 @@ const treatmentDatePage = {
       },
       {
         title: treatmentDateContent.lastDateLabel,
-        // hint: treatmentDateContent.dateHint,
+        hint: treatmentDateContent.dateHint,
         errorMessages: {
           required: treatmentDateContent.requiredError,
         },
