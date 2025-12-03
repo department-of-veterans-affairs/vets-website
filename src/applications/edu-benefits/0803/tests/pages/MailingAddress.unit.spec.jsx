@@ -3,23 +3,19 @@ import { expect } from 'chai';
 import { render, cleanup, waitFor } from '@testing-library/react';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $$ } from 'platform/forms-system/src/js/utilities/ui';
-import formConfig from '../../config/form';
+import * as page from '../../pages/MailingAddress';
 
-const {
-  schema,
-  uiSchema,
-} = formConfig.chapters.identificationChapter.pages.mailingAddress;
-
-const renderPage = (data = {}) =>
+const renderPage = (formData = {}) =>
   render(
     <DefinitionTester
-      schema={schema}
-      uiSchema={uiSchema}
-      definitions={formConfig.defaultDefinitions}
-      data={data}
+      schema={page.schema}
+      uiSchema={page.uiSchema}
+      data={formData}
+      definitions={{}}
     />,
   );
-describe('22-10297 Mailing address page', () => {
+
+describe('22-0803 Mailing address page', () => {
   afterEach(cleanup);
 
   it('renders the military checkbox and address fields', () => {
