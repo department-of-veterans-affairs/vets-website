@@ -148,12 +148,6 @@ const DateTimeSelection = () => {
         showWeekends
         overrideMaxDays
       />
-      <va-button
-        data-testid="continue-button"
-        continue
-        onClick={handleContinue}
-        text={null}
-      />
       <VaButtonPair
         data-testid="button-pair"
         continue
