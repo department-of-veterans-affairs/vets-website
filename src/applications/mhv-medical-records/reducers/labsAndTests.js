@@ -597,12 +597,13 @@ export const labsAndTestsReducer = (state = initialState, action) => {
       // We will temporarily merge CVIX records w/ SCDF records while we wait for images to
       // be available in SCDF radiology records.
       const cvixData = action.cvixRadiologyResponse;
-      const cvixList = cvixData.map(convertCvixRadiologyRecord).map(record => ({
-        ...record,
-        // For unified data, we are currently NOT hashing the CVIX radiology records, so
-        // remove 'undefined' hash from CVIX records
-        id: record.id.replace('-undefined', ''),
-      }));
+      const cvixList =
+        cvixData?.map(convertCvixRadiologyRecord).map(record => ({
+          ...record,
+          // For unified data, we are currently NOT hashing the CVIX radiology records, so
+          // remove 'undefined' hash from CVIX records
+          id: record.id.replace('-undefined', ''),
+        })) || [];
 
       const mergedList = [...labsAndTestsList, ...cvixList];
 
