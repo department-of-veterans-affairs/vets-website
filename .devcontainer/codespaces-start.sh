@@ -57,8 +57,13 @@ if [ "$MAKE_APP_PUBLIC" == "YES" ]; then
     gh codespace ports visibility 3000:public -c "$CODESPACE_NAME"
 
     printf "\n\n##### Setup complete. Your servers are running and ports are public. #####\n"
+
+    # Enable content-build port
+    npx http-server build/localhost -s -c-1 -p 3002
     wait
-else
+
+    else
+
     printf "\n\n##### Codespace is not set to run on a public port. #####\n"
     printf "To make the app public and start the servers, change the Codespace 'friendly name' to start with va-public-\n"
 fi
