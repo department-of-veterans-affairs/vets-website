@@ -43,16 +43,19 @@ const ConfirmationPage = () => {
           </p>
         )}
       </va-alert>
-      <ExpensesAccordion expenses={expenses} documents={documents} />
 
       <h2 className="vads-u-margin-top--4">Print this confirmation page</h2>
       <p>
         If you’d like to keep a copy of the information on this page, you can
         print it now.
       </p>
+
+      <ExpensesAccordion expenses={expenses} documents={documents} />
+
       <va-button
         text="Print this page for your records"
         onClick={() => window.print()}
+        class="vads-u-margin-top--2"
         uswds
       />
 
