@@ -4,7 +4,16 @@
  */
 
 import { expect } from 'chai';
+import submitSchema from 'vets-json-schema/dist/21-2680-schema.json';
+import SchemaTestHelper from '../../tests/schema-test-helper';
 import { submitTransformer } from './submit-transformer';
+import {
+  maximal,
+  minimal,
+  veteranSMPHospitalized,
+  childClaimantSMC,
+  parentClaimantSMPHospitalized,
+} from '../../tests/fixtures/data';
 
 describe('Submit Transformer', () => {
   const mockFormConfig = {};
@@ -483,6 +492,21 @@ describe('Submit Transformer', () => {
       expect(result.form.veteranSignature.signature).to.equal(
         'Anakin L Skywalker',
       );
+    });
+  });
+
+  describe('Schema Validation', () => {
+    [
+      maximal,
+      minimal,
+      veteranSMPHospitalized,
+      childClaimantSMC,
+      parentClaimantSMPHospitalized,
+    ].forEach((fixture, index) => {
+      it(`should produce valid submission for fixture #${index + 1}`, () => {
+        const result = JSON.parse(submitTransformer(mockFormConfig, fixture));
+        SchemaTestHelper.expect(submitSchema, result, true);
+      });
     });
   });
 });
