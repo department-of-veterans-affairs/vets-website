@@ -1,6 +1,7 @@
 import React, { useEffect, useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom-v5-compat';
+import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from 'platform/utilities/ui/focus';
 import { generateSlots } from '../utils/mock-helpers';
 import Wrapper from '../layout/Wrapper';
@@ -90,6 +91,11 @@ const DateTimeSelection = () => {
     navigate('/topic-selection');
   };
 
+  const handleBack = () => {
+    // TODO: manage state?
+    navigate(-1);
+  };
+
   // Effect to focus on validation message whenever error state changes
   useEffect(
     () => {
@@ -147,6 +153,13 @@ const DateTimeSelection = () => {
         continue
         onClick={handleContinue}
         text={null}
+      />
+      <VaButtonPair
+        data-testid="button-pair"
+        continue
+        onPrimaryClick={handleContinue}
+        onSecondaryClick={handleBack}
+        class="vads-u-margin-top--4"
       />
     </Wrapper>
   );
