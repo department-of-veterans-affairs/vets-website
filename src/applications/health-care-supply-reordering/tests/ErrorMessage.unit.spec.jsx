@@ -8,6 +8,11 @@ describe('ErrorMessage', () => {
   it('should render va-alert', () => {
     const fakeStore = {
       getState: () => ({
+        featureToggles: {
+          loading: false,
+          // eslint-disable-next-line camelcase
+          supply_reordering_sleep_apnea_enabled: true,
+        },
         mdot: {
           errorCode: 'MDOT_SUPPLIES_INELIGIBLE',
           nextAvailabilityDate: '2019-04-01',
@@ -104,6 +109,11 @@ describe('ErrorMessage', () => {
   it('should render veteran not found content', () => {
     const fakeStore = {
       getState: () => ({
+        featureToggles: {
+          loading: false,
+          // eslint-disable-next-line camelcase
+          supply_reordering_sleep_apnea_enabled: true,
+        },
         mdot: {
           errorCode: 'MDOT_INVALID',
           nextAvailabilityDate: '2019-04-01',
@@ -142,6 +152,11 @@ describe('ErrorMessage', () => {
   it('should render supplies not found content', () => {
     const fakeStore = {
       getState: () => ({
+        featureToggles: {
+          loading: false,
+          // eslint-disable-next-line camelcase
+          supply_reordering_sleep_apnea_enabled: true,
+        },
         mdot: {
           errorCode: 'MDOT_SUPPLIES_NOT_FOUND',
 
@@ -200,6 +215,11 @@ describe('ErrorMessage', () => {
   it('should render veteran not found content', () => {
     const fakeStore = {
       getState: () => ({
+        featureToggles: {
+          loading: false,
+          // eslint-disable-next-line camelcase
+          supply_reordering_sleep_apnea_enabled: false,
+        },
         mdot: {
           errorCode: 'MDOT_INVALID',
           nextAvailabilityDate: '2019-04-01',
@@ -222,7 +242,7 @@ describe('ErrorMessage', () => {
         .at(0)
         .text(),
     ).to.equal(
-      'You can’t order hearing aid or CPAP supplies at this time because we can’t find your records in our system or we’re missing some information needed for you to order.',
+      'You can’t order hearing aid batteries and accessories at this time because we can’t find your records in our system or we’re missing some information needed for you to order.',
     );
     expect(
       errorMessage

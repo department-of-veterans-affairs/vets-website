@@ -1,10 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import DlcTelephoneLink from './DlcTelephoneLink';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
 const ErrorMessage = ({ errorCode, nextAvailabilityDate }) => {
-  const supplyDescription = 'hearing aid or CPAP supplies';
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const toggleName = TOGGLE_NAMES.supplyReorderingSleepApneaEnabled;
+  const isSupplyReorderingSleepApneaEnabled = useToggleValue(toggleName);
+  const supplyDescription = isSupplyReorderingSleepApneaEnabled
+    ? 'hearing aid or CPAP supplies'
+    : 'hearing aid batteries and accessories';
 
   let content;
   switch (errorCode) {
@@ -20,7 +25,7 @@ const ErrorMessage = ({ errorCode, nextAvailabilityDate }) => {
             </span>
             <span className="vads-u-margin-top--1">
               If you need an item sooner, call the DLC Customer Service Section
-              at <DlcTelephoneLink /> or email{' '}
+              at <va-telephone contact="3032736200" /> or email{' '}
               <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
             </span>
           </div>
@@ -65,7 +70,7 @@ const ErrorMessage = ({ errorCode, nextAvailabilityDate }) => {
 
             <span className="vads-u-margin-top--1">
               If you need to place an order, call the DLC Customer Service
-              Section at <DlcTelephoneLink /> or email{' '}
+              Section at <va-telephone contact="3032736200" /> or email{' '}
               <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
             </span>
           </div>
@@ -96,16 +101,16 @@ const ErrorMessage = ({ errorCode, nextAvailabilityDate }) => {
           <h3 slot="headline">We’re sorry. Something went wrong on our end.</h3>
           <div className="mdot-server-error-alert">
             <p>
-              You can’t place an order for {supplyDescription} because something
-              went wrong on our end.
+              You can’t place an order for {supplyDescription}
+              because something went wrong on our end.
             </p>
             <p className="vads-u-font-weight--bold vads-u-margin-y--1 vads-u-font-family--serif">
               What you can do
             </p>
             <p className="vads-u-margin-top--0">
               For help ordering {supplyDescription}, please call the DLC
-              Customer Service Section at <DlcTelephoneLink /> or email{' '}
-              <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
+              Customer Service Section at <va-telephone contact="3032736200" />{' '}
+              or email <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
             </p>
           </div>
         </va-alert>

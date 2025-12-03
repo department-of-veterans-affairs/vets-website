@@ -1,8 +1,5 @@
 const generateFeatureToggles = (toggles = {}) => {
-  const {
-    supplyReorderingSleepApneaEnabled = true,
-    mhvSupplyReorderingEnabled = false,
-  } = toggles;
+  const { supplyReorderingSleepApneaEnabled = true } = toggles;
 
   return {
     data: {
@@ -11,10 +8,6 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'supply_reordering_sleep_apnea_enabled',
           value: supplyReorderingSleepApneaEnabled,
-        },
-        {
-          name: 'mhv_supply_reordering_enabled',
-          value: mhvSupplyReorderingEnabled,
         },
       ],
     },

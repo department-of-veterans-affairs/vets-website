@@ -12,8 +12,7 @@ import { setData } from '@department-of-veterans-affairs/platform-forms-system/a
 // FIXME: figure out why cypress doesn't like this import.
 import recordEvent from 'platform/monitoring/record-event';
 
-import { APNEA } from '../constants';
-import DlcTelephoneLink from './DlcTelephoneLink';
+import { APNEA, DLC_PHONE } from '../constants';
 
 class ApneaSupplies extends Component {
   componentDidMount() {
@@ -91,7 +90,8 @@ class ApneaSupplies extends Component {
                 </p>
                 <p>
                   If you need a CPAP supply that is not listed here, call the
-                  DLC Customer Service Section at <DlcTelephoneLink /> or email{' '}
+                  DLC Customer Service Section at{' '}
+                  <va-telephone contact={DLC_PHONE} /> or email{' '}
                   <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
                 </p>
               </div>
@@ -179,7 +179,11 @@ class ApneaSupplies extends Component {
               placed an order for resupply items within the last 2 years. If you
               need a CPAP supply that hasn’t been ordered within the last 2
               years, call the DLC Customer Service Section at{' '}
-              <DlcTelephoneLink /> or email{' '}
+              <va-telephone
+                contact={DLC_PHONE}
+                className="vads-u-margin--0p5"
+              />
+              or email
               <a
                 href="mailto:dalc.css@va.gov"
                 className="vads-u-margin-left--0p5"

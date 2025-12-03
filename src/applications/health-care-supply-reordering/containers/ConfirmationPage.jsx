@@ -4,9 +4,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import environment from 'platform/utilities/environment';
 import { BATTERY } from '../constants';
-import DlcTelephoneLink from '../components/DlcTelephoneLink';
 
 const ConfirmationPage = ({
+  featureToggles,
   vetEmail,
   submittedAt,
   selectedProductArray,
@@ -20,7 +20,9 @@ const ConfirmationPage = ({
   hasCompleteOrderFailed,
 }) => {
   // TODO: move to util or custom hook.
-  const supplyDescription = 'hearing aid or CPAP supplies';
+  const supplyDescription = featureToggles.supply_reordering_sleep_apnea_enabled
+    ? 'hearing aid or CPAP supplies'
+    : 'hearing aid batteries and accessories';
   const PrintDetails = () => (
     <div className="print-details">
       <img
@@ -68,7 +70,7 @@ const ConfirmationPage = ({
         </h4>
         <p>
           If you have any questions about your order please call the Denver
-          Logistics Center at <DlcTelephoneLink />.
+          Logistics Center at <va-telephone contact="3032736200" /> .
         </p>
       </section>
     </div>
@@ -99,9 +101,9 @@ const ConfirmationPage = ({
               status="info"
             >
               <section>
-                <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
+                <h4 className="vads-u-margin-top--0">
                   Request for {supplyDescription}
-                </h3>
+                </h4>
                 <p className="vads-u-margin--0 dd-privacy-mask">
                   for {fullName?.first} {fullName?.last}
                 </p>
@@ -141,10 +143,12 @@ const ConfirmationPage = ({
                   <strong>Confirmation number</strong>
                 </p>
                 <p className="vads-u-margin-y--0">{orderId}</p>
-                <va-button
-                  text="Print this page"
+                <button
+                  className="usa-button button"
                   onClick={() => window.print()}
-                />
+                >
+                  Print this page
+                </button>
               </section>
             </va-alert>
             <section className="order-timeframe-section">
@@ -159,7 +163,8 @@ const ConfirmationPage = ({
               <h4>What if I have questions about my order?</h4>
               <p>
                 If you have any questions about your order, please call the DLC
-                Customer Service Section at <DlcTelephoneLink /> or email{' '}
+                Customer Service Section at{' '}
+                <va-telephone contact="3032736200" /> or email{' '}
                 <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
               </p>
             </section>
@@ -189,7 +194,8 @@ const ConfirmationPage = ({
                 </a>
                 , please select at least one item before submitting your order.
                 For help ordering {supplyDescription}, please call the DLC
-                Customer Service Section at <DlcTelephoneLink /> or email{' '}
+                Customer Service Section at{' '}
+                <va-telephone contact="3032736200" /> or email{' '}
                 <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
               </p>
             </div>
@@ -224,7 +230,8 @@ const ConfirmationPage = ({
               </p>
               <p className="vads-u-margin-top--0">
                 For help ordering {supplyDescription}, please call the DLC
-                Customer Service Section at <DlcTelephoneLink /> or email{' '}
+                Customer Service Section at{' '}
+                <va-telephone contact="3032736200" /> or email{' '}
                 <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
               </p>
             </div>
@@ -245,7 +252,8 @@ const ConfirmationPage = ({
                 </p>
                 <p className="vads-u-margin-top--0">
                   For help ordering {supplyDescription}, please call the DLC
-                  Customer Service Section at <DlcTelephoneLink /> or email{' '}
+                  Customer Service Section at{' '}
+                  <va-telephone contact="3032736200" /> or email{' '}
                   <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
                 </p>
               </>
@@ -305,6 +313,7 @@ ConfirmationPage.defaultProps = {
 };
 
 const mapStateToProps = state => {
+  const { featureToggles } = state;
   const selectedAddress = state.form?.data['view:currentAddress'];
   const shippingAddress = state.form?.data[selectedAddress];
   const { fullName, vetEmail, order, supplies } = state.form?.data;
@@ -349,6 +358,7 @@ const mapStateToProps = state => {
     isError = true;
   }
   return {
+    featureToggles,
     submittedAt,
     fullName,
     vetEmail,

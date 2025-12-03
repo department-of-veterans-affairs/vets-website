@@ -3,8 +3,6 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import recordEvent from 'platform/monitoring/record-event';
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
-import { externalServices } from 'platform/monitoring/DowntimeNotification';
-
 import fullSchema from 'vets-json-schema/dist/MDOT-schema.json';
 import { countryValueToName } from '../utils/addresses';
 import addressPage from '../pages/addressPage';
@@ -120,13 +118,7 @@ const submit = form => {
     .catch(onFailure);
 };
 
-const downtime = {
-  requiredForPrefill: true,
-  dependencies: [externalServices.mdot],
-};
-
 const formConfig = {
-  downtime,
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/mdot/supplies`,
@@ -143,7 +135,7 @@ const formConfig = {
     messages: {
       inProgress: 'You have a hearing aid or CPAP supplies order in progress.',
       expired:
-        'Your saved hearing aid or CPAP supplies order has expired. If you want to order hearing aid or CPAP supplies, please start a new order.',
+        'Your saved hearing aid or CPAP supplies order has expired. Please start a new order.',
       saved: 'Your hearing aid or CPAP supplies order has been saved.',
     },
   },
@@ -153,7 +145,7 @@ const formConfig = {
   subTitle: '',
   savedFormMessages: {
     notFound:
-      'You can’t reorder your items at this time because your items aren’t available for reorder or we can’t find your records in our system. For help, please call the Denver Logistics Center (DLC) at 877-677-8710 (TTY: 711) or email us at dalc.css@va.gov.',
+      'You can’t reorder your items at this time because your items aren’t available for reorder or we can’t find your records in our system. For help, please call the Denver Logistics Center (DLC) at 303-273-6200 or email us at dalc.css@va.gov.',
     noAuth: 'Please sign in again to continue your application for benefits.',
     forbidden:
       'We can’t fulfill an order for this Veteran because they are deceased in our records. If this information is incorrect, please call Veterans Benefits Assistance at 800-827-1000, Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.',

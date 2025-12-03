@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { datadogRum } from '@datadog/browser-rum';
 import { fetchFormStatus } from '../actions';
 import formConfig from '../config/form';
@@ -30,8 +28,8 @@ class App extends Component {
         site: 'ddog-gov.com',
         service: 'medical-supply-reordering',
         env: environment.vspEnvironment(),
-        sessionSampleRate: 50,
-        sessionReplaySampleRate: 50,
+        sessionSampleRate: 100,
+        sessionReplaySampleRate: 100,
         trackInteractions: true,
         trackUserInteractions: true,
         trackResources: true,
@@ -50,36 +48,42 @@ class App extends Component {
       featureToggles,
     } = this.props;
     const showMainContent = !pending && !isError && !featureToggles.loading;
-    const isMhvSupplyReorderingEnabled =
-      featureToggles[FEATURE_FLAG_NAMES.mhvSupplyReorderingEnabled];
+    const supplyDescription = featureToggles.supply_reordering_sleep_apnea_enabled
+      ? 'hearing aid or CPAP supplies'
+      : 'hearing aid batteries and accessories';
 
-    // Redirect to mhv app and render nothing if feature toggle is enabled.
-    if (isMhvSupplyReorderingEnabled && !featureToggles.loading) {
-      window.location.replace('/my-health/order-medical-supplies');
-      return null;
-    }
+    // Update form config on the fly based on feature toggle.
+    formConfig.title = `Order ${supplyDescription}`;
+    formConfig.saveInProgress.messages.inProgress = `You have a ${supplyDescription} order s in progress.`;
+    formConfig.saveInProgress.messages = {
+      inProgress: `You have a ${supplyDescription}} order in progress.`,
+      expired: `Your saved ${supplyDescription} order has expired. If you want to order ${supplyDescription}, please start a new order.`,
+      saved: `Your ${supplyDescription} order has been saved.`,
+    };
 
-    const breadcrumbLinks = [
+    const breadcrumbs = [
       { href: '/', label: 'Home' },
       { href: '/health-care', label: 'VA health care' },
       {
         href: '/health-care/order-hearing-aid-or-cpap-supplies-form',
-        label: `Order hearing aid or CPAP supplies`,
+        label: `Order ${supplyDescription}`,
       },
     ];
-    const bcString = JSON.stringify(breadcrumbLinks);
+    const bcString = JSON.stringify(breadcrumbs);
 
     return (
       <>
-        <div className="row">
-          <div className="usa-width-two-thirds medium-8 columns print-full-width">
-            <VaBreadcrumbs
-              breadcrumb-list={bcString}
-              class="va-nav-breadcrumbs vads-u-padding--0"
-            />
+        {!featureToggles.loading && (
+          <div className="row">
+            <div className="usa-width-two-thirds medium-8 columns print-full-width">
+              <VaBreadcrumbs
+                breadcrumb-list={bcString}
+                class="va-nav-breadcrumbs vads-u-padding--0"
+              />
+            </div>
           </div>
-        </div>
-        {(pending || featureToggles.loading) && (
+        )}
+        {pending && (
           <va-loading-indicator>
             Loading your information...
           </va-loading-indicator>
@@ -100,16 +104,6 @@ class App extends Component {
     );
   }
 }
-
-App.propTypes = {
-  location: PropTypes.object.isRequired,
-  children: PropTypes.node,
-  featureToggles: PropTypes.object,
-  fetchFormStatus: PropTypes.func,
-  isError: PropTypes.bool,
-  isLoggedIn: PropTypes.bool,
-  pending: PropTypes.bool,
-};
 
 const mapStateToProps = state => ({
   isLoggedIn: state.user.login.currentlyLoggedIn,

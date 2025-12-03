@@ -12,8 +12,7 @@ import { setData } from '@department-of-veterans-affairs/platform-forms-system/a
 // FIXME: figure out why cypress doesn't like this import.
 import recordEvent from 'platform/monitoring/record-event';
 
-import { BATTERY } from '../constants';
-import DlcTelephoneLink from './DlcTelephoneLink';
+import { BATTERY, DLC_PHONE } from '../constants';
 
 class Batteries extends Component {
   componentDidMount() {
@@ -99,7 +98,8 @@ class Batteries extends Component {
                 </ul>
                 <p>
                   If you need unavailable batteries sooner, call the DLC
-                  Customer Service Section at <DlcTelephoneLink /> or email{' '}
+                  Customer Service Section at{' '}
+                  <va-telephone contact={DLC_PHONE} /> or email{' '}
                   <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
                 </p>
               </div>
@@ -178,7 +178,11 @@ class Batteries extends Component {
               Your hearing aid device may not be listed here if you haven’t
               placed an order for resupply items within the last 2 years. If you
               need to order batteries, call the DLC Customer Service Section at
-              <DlcTelephoneLink /> or email{' '}
+              <va-telephone
+                contact={DLC_PHONE}
+                className="vads-u-margin--0p5"
+              />
+              or email
               <a
                 href="mailto:dalc.css@va.gov"
                 className="vads-u-margin-left--0p5"
