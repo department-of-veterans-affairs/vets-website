@@ -1,36 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom-v5-compat';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {
   VaRadio,
   VaButtonPair,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { EXPENSE_TYPES, EXPENSE_TYPE_KEYS } from '../../../constants';
-import { getClaimDetails } from '../../../redux/actions';
+import { selectComplexClaim } from '../../../redux/selectors';
 
 const ChooseExpenseType = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const { apptId, claimId } = useParams();
   const [selectedExpenseType, setSelectedExpenseType] = useState('');
   const [showError, setShowError] = useState(false);
   const [mileageError, setMileageError] = useState(false);
 
-  // Get claim data from Redux
-  const { data, isLoading } = useSelector(
-    state => state.travelPay.claimDetails,
-  );
-  const claim = data[claimId];
-
-  // Fetch claim details
-  useEffect(
-    () => {
-      if (claimId && !claim && !isLoading) {
-        dispatch(getClaimDetails(claimId));
-      }
-    },
-    [claimId, claim, isLoading, dispatch],
-  );
+  // Get claim data
+  const { data: claimDetails } = useSelector(selectComplexClaim);
+  const claim = claimDetails;
 
   // Check if claim already has a mileage expense
   const hasExistingMileageExpense = () => {

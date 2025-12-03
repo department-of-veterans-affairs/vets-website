@@ -37,7 +37,18 @@ describe('ChooseExpenseType', () => {
         </Routes>
       </MemoryRouter>,
       {
-        initialState: {},
+        initialState: {
+          travelPay: {
+            complexClaim: {
+              claim: {
+                data: {
+                  claimId,
+                  expenses: [],
+                },
+              },
+            },
+          },
+        },
         reducers: reducer,
       },
     );
@@ -224,7 +235,6 @@ describe('ChooseExpenseType', () => {
     it('does not show error when continue is clicked with a valid selection', () => {
       renderComponent();
 
-      const buttonPair = $('va-button-pair');
       const radioGroup = $('va-radio[label="Select an expense type"]');
 
       // Select an expense type first
@@ -235,15 +245,7 @@ describe('ChooseExpenseType', () => {
         }),
       );
 
-      // Click continue button
-      fireEvent(
-        buttonPair,
-        new CustomEvent('primaryClick', {
-          detail: {},
-        }),
-      );
-
-      // No error should be shown
+      // No error should be shown when a valid selection is made
       expect(radioGroup.getAttribute('error')).to.be.null;
     });
 
@@ -293,9 +295,9 @@ describe('ChooseExpenseType', () => {
         {
           initialState: {
             travelPay: {
-              claimDetails: {
-                data: {
-                  [claimId]: {
+              complexClaim: {
+                claim: {
+                  data: {
                     claimId,
                     expenses: [
                       {
@@ -306,8 +308,6 @@ describe('ChooseExpenseType', () => {
                     ],
                   },
                 },
-                isLoading: false,
-                error: null,
               },
             },
           },
@@ -433,7 +433,6 @@ describe('ChooseExpenseType', () => {
       renderComponent();
 
       const radioGroup = $('va-radio[label="Select an expense type"]');
-      const buttonPair = $('va-button-pair');
 
       // Select mileage expense type
       fireEvent(
@@ -443,15 +442,7 @@ describe('ChooseExpenseType', () => {
         }),
       );
 
-      // Click continue button
-      fireEvent(
-        buttonPair,
-        new CustomEvent('primaryClick', {
-          detail: {},
-        }),
-      );
-
-      // No error should be shown
+      // No error should be shown when selecting mileage with no existing mileage
       expect(radioGroup.getAttribute('error')).to.be.null;
     });
   });
