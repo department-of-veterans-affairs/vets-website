@@ -16,8 +16,7 @@ const ChooseExpenseType = () => {
   const [mileageError, setMileageError] = useState(false);
 
   // Get claim data
-  const { data: claimDetails } = useSelector(selectComplexClaim);
-  const claim = claimDetails;
+  const { data: claim } = useSelector(selectComplexClaim);
 
   // Check if claim already has a mileage expense
   const hasExistingMileageExpense = () => {
