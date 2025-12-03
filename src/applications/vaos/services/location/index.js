@@ -335,8 +335,8 @@ export function isTypeOfCareSupported(
 ) {
   return (
     removeFacilityConfigCheck ||
-    (location.legacyVAR.settings[typeOfCareId]?.direct.enabled ||
-      location.legacyVAR.settings[typeOfCareId]?.request.enabled) ||
+    location.legacyVAR.settings[typeOfCareId]?.direct?.enabled ||
+    location.legacyVAR.settings[typeOfCareId]?.request?.enabled ||
     isCernerLocation(location.id, cernerSiteIds)
   );
 }

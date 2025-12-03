@@ -12,13 +12,6 @@ const CONFIRM_SUCCESS_PROPS = {
   content: defaultContent,
 };
 
-const CONFIRM_ERROR_PROPS = {
-  status: 'error',
-  dataTestid: 'mhv-alert--confirm-error',
-  headline: 'We couldn’t confirm your contact email',
-  content: `Please try again.`,
-};
-
 const SKIP_SUCCESS_PROPS = {
   status: 'success',
   dataTestid: 'mhv-alert--skip-success',
@@ -30,17 +23,24 @@ const AlertSystemResponse = ({
   content,
   dataTestid,
   headline,
+  headingLevel = 'h2',
   recordEvent = _ => {},
   status,
 }) => {
   useEffect(() => recordEvent(headline), [headline, recordEvent]);
+  const HeadingTag = headingLevel;
   return (
     <VaAlert
       status={status}
+      role="alert"
       dataTestid={dataTestid}
       className="vads-u-margin-y--2"
+      tabIndex={-1}
     >
-      <h2 slot="headline">{headline}</h2>
+      <HeadingTag slot="headline">
+        <span className="usa-sr-only">{status}</span>
+        {headline}
+      </HeadingTag>
       <p className="vads-u-margin-y--0">{content}</p>
     </VaAlert>
   );
@@ -51,15 +51,12 @@ AlertSystemResponse.propTypes = {
   dataTestid: PropTypes.string.isRequired,
   headline: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
+  headingLevel: PropTypes.oneOf(['h2', 'h3', 'h4', 'h5', 'h6']),
   recordEvent: PropTypes.func,
 };
 
 export const AlertSystemResponseConfirmSuccess = props => (
   <AlertSystemResponse {...CONFIRM_SUCCESS_PROPS} {...props} />
-);
-
-export const AlertSystemResponseConfirmError = props => (
-  <AlertSystemResponse {...CONFIRM_ERROR_PROPS} {...props} />
 );
 
 export const AlertSystemResponseSkipSuccess = props => (

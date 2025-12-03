@@ -36,7 +36,7 @@ const DebtLettersDownload = () => {
           },
           {
             href: '/manage-va-debt/summary',
-            label: 'Your VA debt and bills',
+            label: 'Overpayments and copay bills',
           },
           {
             href: '/manage-va-debt/summary/debt-balances',

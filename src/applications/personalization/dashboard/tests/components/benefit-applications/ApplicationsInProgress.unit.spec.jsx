@@ -258,9 +258,29 @@ describe('ApplicationsInProgress component', () => {
     );
     expect(view.getByTestId('missing-application-help')).to.exist;
   });
+
   describe('Custom form labels', () => {
     it('renders custom label for 22-10297 (VET TEC 2.0)', () => {
       const customSavedForms = [
+        {
+          form: '22-10275',
+          metadata: {
+            version: 1,
+            returnUrl: '/10275',
+            savedAt: dayAgo,
+            submission: {
+              status: false,
+              errorMessage: false,
+              id: false,
+              timestamp: false,
+              hasAttemptedSubmit: false,
+            },
+            expiresAt: weekFromNow / 1000,
+            lastUpdated: dayAgo / 1000,
+            inProgressFormId: 5179,
+          },
+          lastUpdated: dayAgo / 1000,
+        },
         {
           form: '22-10297',
           metadata: {
@@ -304,6 +324,14 @@ describe('ApplicationsInProgress component', () => {
         </Provider>,
       );
 
+      expect(
+        view.getByText(
+          '22-10275 (Commit to the Principles of Excellence for educational institutions)',
+          {
+            exact: false,
+          },
+        ),
+      ).to.exist;
       expect(
         view.getByText('22-10297 (Apply for VET TEC 2.0 (high-tech program))', {
           exact: false,

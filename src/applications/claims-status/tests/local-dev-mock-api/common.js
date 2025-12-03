@@ -40,6 +40,38 @@ const createSupportingDocument = (
   uploadDate,
 });
 
+const createEvidenceSubmission = (
+  id,
+  claimId,
+  {
+    acknowledgementDate,
+    createdAt,
+    deleteDate = null,
+    documentType,
+    failedDate,
+    fileName,
+    lighthouseUpload = true,
+    trackedItemId = null,
+    trackedItemDisplayName = null,
+    uploadStatus = 'FAILED',
+    vaNotifyStatus = 'SENT',
+  },
+) => ({
+  acknowledgementDate,
+  id,
+  claimId,
+  createdAt,
+  deleteDate,
+  documentType,
+  failedDate,
+  fileName,
+  lighthouseUpload,
+  trackedItemId,
+  trackedItemDisplayName,
+  uploadStatus,
+  vaNotifyStatus,
+});
+
 const createClaim = (
   id,
   {
@@ -55,7 +87,6 @@ const createClaim = (
     developmentLetterSent = false,
     decisionLetterSent = false,
     evidenceWaiverSubmitted5103 = false,
-    hasFailedUploads = false,
     issues = [],
     evidence = [],
     supportingDocuments = [],
@@ -87,7 +118,6 @@ const createClaim = (
       evidenceWaiverSubmitted5103,
       lighthouseId: null,
       status,
-      hasFailedUploads,
       supportingDocuments,
       evidenceSubmissions,
       contentions,
@@ -107,14 +137,14 @@ const createClaim = (
                 id: 1,
                 displayName: '21-4142/21-4142a',
                 status: 'NEEDED_FROM_YOU',
-                suspenseDate: '2024-12-01',
+                suspenseDate: '2026-12-01',
                 type: 'other',
               },
               {
                 id: 2,
                 displayName: 'Private medical records',
                 status: 'NEEDED_FROM_OTHERS',
-                suspenseDate: '2024-12-10',
+                suspenseDate: '2026-12-10',
                 type: 'other',
               },
             ]
@@ -172,6 +202,19 @@ const appealData1 = {
       },
     ],
     evidence: [],
+    evidenceSubmissions: [
+      createEvidenceSubmission(300, 'SC10755', {
+        acknowledgementDate: new Date(
+          Date.now() + 27 * 24 * 60 * 60 * 1000,
+        ).toISOString(),
+        createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
+        documentType: 'Appeal Supporting Documents',
+        failedDate: new Date(
+          Date.now() - 3 * 24 * 60 * 60 * 1000,
+        ).toISOString(),
+        fileName: 'appeal-supporting-documents.pdf',
+      }),
+    ],
   },
 };
 
@@ -383,6 +426,19 @@ const baseClaims = [
         'VA Form 21-4142, Authorization to Disclose Information to the Department of Veterans Affairs',
       ),
     ],
+    evidenceSubmissions: [
+      createEvidenceSubmission(111, 8, {
+        acknowledgementDate: new Date(
+          Date.now() + 25 * 24 * 60 * 60 * 1000,
+        ).toISOString(),
+        createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
+        documentType: 'VA Form 21-686c - Declaration of Status of Dependents',
+        failedDate: new Date(
+          Date.now() - 5 * 24 * 60 * 60 * 1000,
+        ).toISOString(),
+        fileName: '686c-declaration-of-status-of-dependents.pdf',
+      }),
+    ],
     contentions: [
       { name: 'Service connection for PTSD' },
       { name: 'Service connection for tinnitus' },
@@ -424,6 +480,19 @@ const baseClaims = [
         '2024-10-16',
         'VA Form 21-4142, Authorization to Disclose Information to the Department of Veterans Affairs',
       ),
+    ],
+    evidenceSubmissions: [
+      createEvidenceSubmission(111, 8, {
+        acknowledgementDate: new Date(
+          Date.now() + 25 * 24 * 60 * 60 * 1000,
+        ).toISOString(),
+        createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
+        documentType: 'VA Form 21-686c - Declaration of Status of Dependents',
+        failedDate: new Date(
+          Date.now() - 5 * 24 * 60 * 60 * 1000,
+        ).toISOString(),
+        fileName: '686c-declaration-of-status-of-dependents.pdf',
+      }),
     ],
     supportingDocuments: [
       createSupportingDocument(
@@ -561,21 +630,16 @@ const baseClaims = [
       issues: [],
       evidence: [],
       evidenceSubmissions: [
-        {
+        createEvidenceSubmission(189, 6, {
           acknowledgementDate: null,
-          claimId: 6,
           createdAt: '2025-07-16T20:15:54.461Z',
           deleteDate: '2025-09-14T21:00:00.847Z',
           documentType: 'Birth Certificate',
           failedDate: null,
           fileName: 'Birth Certificate.pdf',
-          id: 189,
-          lighthouseUpload: true,
-          trackedItemId: null,
-          trackedItemDisplayName: null,
           uploadStatus: 'QUEUED',
           vaNotifyStatus: null,
-        },
+        }),
       ],
       supportingDocuments: [],
       contentions: [
@@ -637,84 +701,57 @@ const baseClaims = [
       issues: [],
       evidence: [],
       evidenceSubmissions: [
-        {
+        createEvidenceSubmission(189, 6, {
           acknowledgementDate: null,
-          claimId: 6,
           createdAt: '2025-07-16T20:15:54.461Z',
           deleteDate: '2025-09-14T21:00:00.847Z',
           documentType: 'Birth Certificate',
           failedDate: null,
           fileName: 'Birth Certificate.pdf',
-          id: 189,
-          lighthouseUpload: true,
-          trackedItemId: null,
-          trackedItemDisplayName: null,
           uploadStatus: 'QUEUED',
           vaNotifyStatus: null,
-        },
-        {
+        }),
+        createEvidenceSubmission(132, 8, {
           acknowledgementDate: new Date(
             Date.now() + 30 * 24 * 60 * 60 * 1000,
           ).toISOString(),
-          claimId: 8,
           createdAt: new Date(
             Date.now() - 3 * 24 * 60 * 60 * 1000,
           ).toISOString(),
-          deleteDate: null,
           documentType:
             'VA Form 21-4142 - Authorization To Disclose Information',
           failedDate: new Date().toISOString(),
           fileName: 'authorization-form-signed.pdf',
-          id: 132,
-          lighthouseUpload: true,
           trackedItemId: 3,
           trackedItemDisplayName: '21-4142',
-          uploadStatus: 'FAILED',
-          vaNotifyStatus: 'SENT',
-        },
-        {
+        }),
+        createEvidenceSubmission(111, 8, {
           acknowledgementDate: new Date(
             Date.now() + 25 * 24 * 60 * 60 * 1000,
           ).toISOString(),
-          claimId: 8,
           createdAt: new Date(
             Date.now() - 3 * 24 * 60 * 60 * 1000,
           ).toISOString(),
-          deleteDate: null,
           documentType: 'VA Form 21-686c - Declaration of Status of Dependents',
           failedDate: new Date(
             Date.now() - 5 * 24 * 60 * 60 * 1000,
           ).toISOString(),
           fileName: '686c-declaration-of-status-of-dependents.pdf',
-          id: 111,
-          lighthouseUpload: true,
-          trackedItemId: null,
-          trackedItemDisplayName: null,
-          uploadStatus: 'FAILED',
-          vaNotifyStatus: 'SENT',
-        },
-        {
+        }),
+        createEvidenceSubmission(115, 8, {
           acknowledgementDate: new Date(
             Date.now() + 27 * 24 * 60 * 60 * 1000,
           ).toISOString(),
-          claimId: 8,
           createdAt: new Date(
             Date.now() - 2 * 24 * 60 * 60 * 1000,
           ).toISOString(),
-          deleteDate: null,
           documentType:
             'VA Form 21-4502 - Application for Automobile or Other Conveyance and Adaptive Equipment Under 38 U.S.C. 3901-3904',
           failedDate: new Date(
             Date.now() - 3 * 24 * 60 * 60 * 1000,
           ).toISOString(),
           fileName: 'my-car-claim-form-2.pdf',
-          id: 115,
-          lighthouseUpload: true,
-          trackedItemId: null,
-          trackedItemDisplayName: null,
-          uploadStatus: 'FAILED',
-          vaNotifyStatus: 'SENT',
-        },
+        }),
       ],
       supportingDocuments: [
         createSupportingDocument(
@@ -728,6 +765,57 @@ const baseClaims = [
       contentions: [
         {
           name: 'Service connection for tinnitus',
+        },
+      ],
+      trackedItems: [
+        {
+          closedDate: null,
+          description: '21-4142 text',
+          displayName: '21-4142/21-4142a',
+          friendlyName: 'Authorization to Disclose Information',
+          friendlyDescription: 'good description',
+          canUploadFile: true,
+          supportAliases: ['VA Form 21-4142'],
+          id: 14268,
+          overdue: true,
+          receivedDate: null,
+          requestedDate: '2024-03-07',
+          status: 'NEEDED_FROM_YOU',
+          suspenseDate: '2024-04-07',
+          uploadsAllowed: true,
+          documents: '[]',
+          date: '2024-03-07',
+        },
+        {
+          closedDate: null,
+          description: 'Automated 5103 Notice Response',
+          displayName: 'Automated 5103 Notice Response',
+          overdue: false,
+          receivedDate: '2024-06-13',
+          requestedDate: '2024-06-13',
+          suspenseDate: '2024-07-14',
+          id: 13,
+          status: 'NEEDED_FROM_YOU',
+          uploaded: false,
+          uploadsAllowed: true,
+        },
+        {
+          closedDate: null,
+          description: '21-4142 text',
+          displayName: '21-4142/21-4142a',
+          friendlyName: 'Authorization to Disclose Information',
+          friendlyDescription: 'good description',
+          canUploadFile: true,
+          supportAliases: ['VA Form 21-4142'],
+          id: 14268,
+          overdue: true,
+          receivedDate: null,
+          requestedDate: '2024-03-07',
+          status: 'NEEDED_FROM_YOU',
+          suspenseDate: '2024-04-07',
+          uploadsAllowed: true,
+          documents: '[]',
+          date: '2024-03-07',
         },
       ],
     },
@@ -949,6 +1037,60 @@ const baseClaims = [
       },
     ],
   }),
+  // Claim with one supporting document and one failed evidence submission
+  createClaim(
+    '11',
+    {
+      baseEndProductCode: '020',
+      claimDate: '2024-10-07',
+      phaseType: 'GATHERING_OF_EVIDENCE',
+      claimType: 'Compensation',
+      claimTypeCode: '020CPHLP',
+      status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
+      closeDate: null,
+      documentsNeeded: false,
+      developmentLetterSent: true,
+      evidenceWaiverSubmitted5103: true,
+      issues: [],
+      evidence: [],
+      evidenceSubmissions: [
+        {
+          acknowledgementDate: new Date(
+            Date.now() + 30 * 24 * 60 * 60 * 1000,
+          ).toISOString(),
+          claimId: 11,
+          createdAt: new Date(
+            Date.now() - 2 * 24 * 60 * 60 * 1000,
+          ).toISOString(),
+          deleteDate: null,
+          documentType: 'Medical Treatment Records',
+          failedDate: new Date().toISOString(),
+          fileName: 'medical-records-hospital-b.pdf',
+          id: 301,
+          lighthouseUpload: true,
+          trackedItemId: null,
+          trackedItemDisplayName: null,
+          uploadStatus: 'FAILED',
+          vaNotifyStatus: 'SENT',
+        },
+      ],
+      supportingDocuments: [
+        createSupportingDocument(
+          '{11-SUPPORTING-DOC-1}',
+          'Photographs',
+          'evidence_photos.pdf',
+          null,
+          '2024-10-14',
+        ),
+      ],
+      contentions: [
+        {
+          name: 'Service connection for hearing loss',
+        },
+      ],
+    },
+    false,
+  ),
   // Claim with 12 evidence submissions in progress to exercise FileSubmissionsInProgress component
   createClaim(
     '10',
@@ -966,186 +1108,136 @@ const baseClaims = [
       issues: [],
       evidence: [],
       evidenceSubmissions: [
-        {
+        createEvidenceSubmission(201, 10, {
           acknowledgementDate: null,
-          claimId: 10,
           createdAt: '2025-09-30T14:30:00.000Z',
           deleteDate: '2025-11-29T23:59:59.999Z',
           documentType: 'Medical Treatment Records',
           failedDate: null,
           fileName: 'hospital_records_2024.pdf',
-          id: 201,
-          lighthouseUpload: true,
           trackedItemId: 201,
           trackedItemDisplayName: 'Medical records from Hospital A',
           uploadStatus: 'QUEUED',
           vaNotifyStatus: null,
-        },
-        {
+        }),
+        createEvidenceSubmission(202, 10, {
           acknowledgementDate: null,
-          claimId: 10,
           createdAt: '2025-09-29T10:15:00.000Z',
           deleteDate: '2025-11-28T23:59:59.999Z',
           documentType: 'X-rays',
           failedDate: null,
           fileName: 'spine_xray_march_2024.pdf',
-          id: 202,
-          lighthouseUpload: true,
-          trackedItemId: null,
-          trackedItemDisplayName: null,
           uploadStatus: 'PROCESSING',
           vaNotifyStatus: null,
-        },
-        {
+        }),
+        createEvidenceSubmission(203, 10, {
           acknowledgementDate: null,
-          claimId: 10,
           createdAt: '2025-09-28T16:45:00.000Z',
           deleteDate: '2025-11-27T23:59:59.999Z',
           documentType: 'Buddy/Lay Statement',
           failedDate: null,
           fileName: 'buddy_statement_john_smith.pdf',
-          id: 203,
-          lighthouseUpload: true,
-          trackedItemId: null,
-          trackedItemDisplayName: null,
           uploadStatus: 'QUEUED',
           vaNotifyStatus: null,
-        },
-        {
+        }),
+        createEvidenceSubmission(204, 10, {
           acknowledgementDate: null,
-          claimId: 10,
           createdAt: '2025-09-27T09:20:00.000Z',
           deleteDate: '2025-11-26T23:59:59.999Z',
           documentType: 'VA Form 21-4142',
           failedDate: '2025-09-27T09:25:00.000Z',
           fileName: 'authorization_form.pdf',
-          id: 204,
-          lighthouseUpload: true,
           trackedItemId: 202,
           trackedItemDisplayName: 'Authorization to release medical records',
           uploadStatus: 'FAILED',
           vaNotifyStatus: null,
-        },
-        {
+        }),
+        createEvidenceSubmission(205, 10, {
           acknowledgementDate: null,
-          claimId: 10,
           createdAt: '2025-09-26T13:10:00.000Z',
           deleteDate: '2025-11-25T23:59:59.999Z',
           documentType: 'Dental Records',
           failedDate: null,
           fileName: 'dental_exam_2023.pdf',
-          id: 205,
-          lighthouseUpload: true,
-          trackedItemId: null,
-          trackedItemDisplayName: null,
           uploadStatus: 'PROCESSING',
           vaNotifyStatus: null,
-        },
-        {
+        }),
+        createEvidenceSubmission(206, 10, {
           acknowledgementDate: null,
-          claimId: 10,
           createdAt: '2025-09-25T11:00:00.000Z',
           deleteDate: '2025-11-24T23:59:59.999Z',
           documentType: 'Military Personnel Record',
           failedDate: null,
           fileName: 'service_records_1990_2010.pdf',
-          id: 206,
-          lighthouseUpload: true,
           trackedItemId: 203,
           trackedItemDisplayName: 'Military service records',
           uploadStatus: 'QUEUED',
           vaNotifyStatus: null,
-        },
-        {
+        }),
+        createEvidenceSubmission(207, 10, {
           acknowledgementDate: null,
-          claimId: 10,
           createdAt: '2025-09-24T08:30:00.000Z',
           deleteDate: '2025-11-23T23:59:59.999Z',
           documentType: 'Photographs',
           failedDate: null,
           fileName: 'injury_photos_leg.jpg',
-          id: 207,
-          lighthouseUpload: true,
-          trackedItemId: null,
-          trackedItemDisplayName: null,
           uploadStatus: 'QUEUED',
           vaNotifyStatus: null,
-        },
-        {
+        }),
+        createEvidenceSubmission(208, 10, {
           acknowledgementDate: null,
-          claimId: 10,
           createdAt: '2025-09-23T15:45:00.000Z',
           deleteDate: '2025-11-22T23:59:59.999Z',
           documentType: 'Medical Treatment Records',
           failedDate: null,
           fileName: 'private_clinic_notes_2024.pdf',
-          id: 208,
-          lighthouseUpload: true,
           trackedItemId: 204,
           trackedItemDisplayName: 'Private clinic treatment records',
           uploadStatus: 'PROCESSING',
           vaNotifyStatus: null,
-        },
-        {
+        }),
+        createEvidenceSubmission(209, 10, {
           acknowledgementDate: null,
-          claimId: 10,
           createdAt: '2025-09-22T12:20:00.000Z',
           deleteDate: '2025-11-21T23:59:59.999Z',
           documentType: 'Correspondence',
           failedDate: null,
           fileName: 'doctor_letter_disability.pdf',
-          id: 209,
-          lighthouseUpload: true,
-          trackedItemId: null,
-          trackedItemDisplayName: null,
           uploadStatus: 'QUEUED',
           vaNotifyStatus: null,
-        },
-        {
+        }),
+        createEvidenceSubmission(210, 10, {
           acknowledgementDate: null,
-          claimId: 10,
           createdAt: '2025-09-21T10:05:00.000Z',
           deleteDate: '2025-11-20T23:59:59.999Z',
           documentType: 'VA Form 21-0781',
           failedDate: null,
           fileName: 'ptsd_statement_form.pdf',
-          id: 210,
-          lighthouseUpload: true,
           trackedItemId: 205,
           trackedItemDisplayName: 'PTSD personal statement',
           uploadStatus: 'QUEUED',
           vaNotifyStatus: null,
-        },
-        {
+        }),
+        createEvidenceSubmission(211, 10, {
           acknowledgementDate: null,
-          claimId: 10,
           createdAt: '2025-09-20T14:50:00.000Z',
           deleteDate: '2025-11-19T23:59:59.999Z',
           documentType: 'Lab Results',
           failedDate: null,
           fileName: 'blood_test_results_june_2024.pdf',
-          id: 211,
-          lighthouseUpload: true,
-          trackedItemId: null,
-          trackedItemDisplayName: null,
           uploadStatus: 'PROCESSING',
           vaNotifyStatus: null,
-        },
-        {
+        }),
+        createEvidenceSubmission(212, 10, {
           acknowledgementDate: null,
-          claimId: 10,
           createdAt: '2025-09-19T09:15:00.000Z',
           deleteDate: '2025-11-18T23:59:59.999Z',
           documentType: 'Prescription Records',
           failedDate: null,
           fileName: 'pharmacy_records_2024.pdf',
-          id: 212,
-          lighthouseUpload: true,
-          trackedItemId: null,
-          trackedItemDisplayName: null,
           uploadStatus: 'QUEUED',
           vaNotifyStatus: null,
-        },
+        }),
       ],
       supportingDocuments: [],
       contentions: [
@@ -1159,6 +1251,39 @@ const baseClaims = [
     },
     false,
   ),
+
+  // STEM Scholarship claim for StemClaimListItem component
+  {
+    data: {
+      id: '11',
+      type: 'education_benefits_claims',
+      attributes: {
+        confirmationNumber: 'V-EBC-11',
+        isEnrolledStem: true,
+        isPursuingTeachingCert: false,
+        benefitLeft: 'moreThanSixMonths',
+        remainingEntitlement: null,
+        automatedDenial: true,
+        deniedAt: '2024-10-15T15:08:20.489Z',
+        submittedAt: '2024-09-15T15:08:20.489Z',
+        evidenceSubmissions: [
+          createEvidenceSubmission(232, 11, {
+            acknowledgementDate: new Date(
+              Date.now() + 20 * 24 * 60 * 60 * 1000,
+            ).toISOString(),
+            createdAt: new Date(
+              Date.now() - 10 * 24 * 60 * 60 * 1000,
+            ).toISOString(),
+            documentType: 'STEM Scholarship Supporting Documents',
+            failedDate: new Date(
+              Date.now() - 10 * 24 * 60 * 60 * 1000,
+            ).toISOString(),
+            fileName: 'stem-scholarship-documents.pdf',
+          }),
+        ],
+      },
+    },
+  },
 ];
 
 function getClaimDataById(id) {
@@ -1513,6 +1638,21 @@ const responses = {
         uploadStatus: 'FAILED',
         vaNotifyStatus: 'SENT',
       },
+      {
+        id: 12,
+        acknowledgementDate: '2025-01-03T10:30:00.000Z',
+        claimId: '123456789',
+        createdAt: '2025-01-03T10:15:00.000Z',
+        deleteDate: null,
+        documentType: 'Other Correspondence',
+        failedDate: '2025-01-03T10:35:00.000Z',
+        fileName: 'other-correspondence.pdf',
+        lighthouseUpload: true,
+        trackedItemId: null,
+        trackedItemDisplayName: null,
+        uploadStatus: 'FAILED',
+        vaNotifyStatus: 'SENT',
+      },
     ],
   },
 
@@ -1526,6 +1666,7 @@ const responses = {
   'GET /v0/benefits_claims/8': getClaimDataById('8'),
   'GET /v0/benefits_claims/9': getClaimDataById('9'),
   'GET /v0/benefits_claims/10': getClaimDataById('10'),
+  'GET /v0/benefits_claims/11': getClaimDataById('11'),
 
   'GET /v0/appeals': (_req, res) => {
     return res.status(200).json(appealData);
@@ -1548,6 +1689,25 @@ const responses = {
     },
   ],
 
+  'POST /v0/benefits_claims/:id/submit5103': (_req, res) => {
+    const hasError = true;
+
+    if (hasError) {
+      return res.status(500).json({
+        errors: [
+          {
+            title: 'Internal Server Error',
+            detail: 'An error occurred while processing your request',
+            code: '500',
+            status: '500',
+          },
+        ],
+      });
+    }
+
+    return res.status(200).json({ jobId: `job-${Date.now()}` });
+  },
+
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': { data: [] },
 
@@ -1568,31 +1728,66 @@ const responses = {
   },
 
   // Mock POST handler for file upload
-  'POST /v0/benefits_claims/:claimId/benefits_documents': (req, res) => {
-    // Simulate successful file upload
-    // In a real scenario, this would process the multipart form data
-    const { claimId } = req.params;
+  'POST /v0/benefits_claims/:claimId/benefits_documents': (() => {
+    let uploadCount = 0;
 
-    // Extract form data if available (for more realistic mocking)
-    const fileName = req.body?.file?.name || 'uploaded_document.pdf';
-    const documentType = req.body?.document_type || 'Medical records';
-
-    // Simulate a slight delay like a real upload
-    setTimeout(() => {
-      res.status(200).json({
-        data: {
-          success: true,
-          jobId: `job-${Date.now()}`,
-          claimId,
-          document: {
-            fileName,
-            documentType,
-            uploadDate: new Date().toISOString(),
+    const errorResponses = {
+      duplicate: {
+        status: 422,
+        errors: [
+          {
+            title: 'Unprocessable Entity',
+            detail: 'DOC_UPLOAD_DUPLICATE',
+            code: '422',
+            status: '422',
+            source: 'BenefitsDocuments::Service',
           },
-        },
-      });
-    }, 500); // 500ms delay to simulate upload processing
-  },
+        ],
+      },
+      invalidClaimant: {
+        status: 422,
+        errors: [
+          {
+            title: 'Unprocessable Entity',
+            detail: 'DOC_UPLOAD_INVALID_CLAIMANT',
+            code: '422',
+            status: '422',
+            source: 'BenefitsDocuments::Service',
+          },
+        ],
+      },
+      unknown: {
+        status: 500,
+        errors: [
+          {
+            title: 'Internal Server Error',
+            code: '500',
+            status: '500',
+          },
+        ],
+      },
+    };
+
+    // Configuration for testing different scenarios
+    const errorPattern = ['duplicate']; // Change this to test different scenarios
+    // const errorPattern = [null]; // for success only
+
+    return (_req, res) => {
+      uploadCount += 1;
+      const mockError = errorPattern[(uploadCount - 1) % errorPattern.length];
+
+      // Simulate upload processing delay
+      setTimeout(() => {
+        if (mockError && errorResponses[mockError]) {
+          const response = errorResponses[mockError];
+          return res.status(response.status).json({ errors: response.errors });
+        }
+
+        // Success response
+        return res.status(200).json({ jobId: `job-${Date.now()}` });
+      }, 500);
+    };
+  })(),
 };
 
 module.exports = responses;

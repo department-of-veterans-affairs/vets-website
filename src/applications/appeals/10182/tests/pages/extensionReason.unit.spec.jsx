@@ -7,10 +7,7 @@ import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../config/form';
 import { ExtensionReasonReviewField } from '../../content/extensionReason';
 
-const {
-  schema,
-  uiSchema,
-} = formConfig.chapters.conditions.pages.extensionReason;
+const { schema, uiSchema } = formConfig.chapters.issues.pages.extensionReason;
 
 describe('extension request page', () => {
   const defaultData = {

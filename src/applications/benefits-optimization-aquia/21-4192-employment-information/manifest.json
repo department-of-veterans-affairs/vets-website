@@ -2,6 +2,11 @@
   "appName": "21-4192 Employment Information",
   "entryFile": "./app-entry.jsx",
   "entryName": "21-4192-employment-information",
-  "rootUrl": "/21-4192-employment-information",
-  "productId": "c61b0c39-7177-4340-9820-955c959b7f5b"
+  "rootUrl": "/disability/eligibility/special-claims/unemployability/submit-employment-information-form-21-4192",
+  "productId": "c61b0c39-7177-4340-9820-955c959b7f5b",
+  "template": {
+    "vagovprod": false,
+    "layout": "page-react.html",
+    "includeBreadcrumbs": true
+  }
 }

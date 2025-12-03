@@ -1,28 +1,60 @@
 /**
- * @module pages/index
- * @description Barrel export file for form page configurations
+ * @module pages
+ * @description Barrel file for all form page configurations
+ * VA Form 21-2680 - Examination for Housebound Status or Permanent Need for Regular Aid and Attendance
  */
 
-export { BenefitTypePage } from './benefit-type';
-export { VeteranIdentityPage } from './veteran-identity';
-export { ClaimantIdentityPage } from './claimant-identity';
-export { HospitalizationPage } from './hospitalization';
-export { ClaimantSignaturePage } from './claimant-signature';
-export { ExaminerIdentificationPage } from './examiner-identification';
-export { MedicalDiagnosisPage } from './medical-diagnosis';
-export { ADLAssessmentPage } from './adl-assessment';
-export { FunctionalLimitationsPage } from './functional-limitations';
-export { NarrativeAssessmentPage } from './narrative-assessment';
-export { ExaminerSignaturePage } from './examiner-signature';
+// Veteran Information Chapter
+export {
+  veteranInformationUiSchema,
+  veteranInformationSchema,
+} from './veteran-information';
 
-/** @exports {PageSchema} identificationInformation - SSN/VA file number page */
-export { identificationInformation } from './identification-information';
+export { veteranSsnUiSchema, veteranSsnSchema } from './veteran-ssn';
 
-/** @exports {PageSchema} mailingAddress - Mailing address page */
-export { mailingAddress } from './mailing-address';
+export {
+  veteranAddressUiSchema,
+  veteranAddressSchema,
+} from './veteran-address';
 
-/** @exports {PageSchema} nameAndDateOfBirth - Name and DOB page */
-export { nameAndDateOfBirth } from './name-and-date-of-birth';
+// Claimant Information Chapter
+export {
+  claimantRelationshipUiSchema,
+  claimantRelationshipSchema,
+} from './claimant-relationship';
 
-/** @exports {PageSchema} phoneAndEmailAddress - Contact information page */
-export { phoneAndEmailAddress } from './phone-and-email-address';
+export {
+  claimantInformationUiSchema,
+  claimantInformationSchema,
+} from './claimant-information';
+
+export { claimantSsnUiSchema, claimantSsnSchema } from './claimant-ssn';
+
+export {
+  claimantAddressUiSchema,
+  claimantAddressSchema,
+} from './claimant-address';
+
+export {
+  claimantContactUiSchema,
+  claimantContactSchema,
+} from './claimant-contact';
+
+// Claim Information Chapter
+export { benefitTypeUiSchema, benefitTypeSchema } from './benefit-type';
+
+// Hospitalization Chapter
+export {
+  hospitalizationStatusUiSchema,
+  hospitalizationStatusSchema,
+} from './hospitalization-status';
+
+export {
+  hospitalizationDateUiSchema,
+  hospitalizationDateSchema,
+} from './hospitalization-date';
+
+export {
+  hospitalizationFacilityUiSchema,
+  hospitalizationFacilitySchema,
+} from './hospitalization-facility';

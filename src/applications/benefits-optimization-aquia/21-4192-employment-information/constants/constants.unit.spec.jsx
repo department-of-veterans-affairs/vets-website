@@ -24,7 +24,9 @@ describe('Constants', () => {
 
     it('should have correct subtitle', () => {
       expect(SUBTITLE).to.exist;
-      expect(SUBTITLE).to.equal('VA Form 21-4192');
+      expect(SUBTITLE).to.equal(
+        'Request for Employment Information in Connection with Claim for Disability Benefits (VA Form 21-4192)',
+      );
     });
   });
 

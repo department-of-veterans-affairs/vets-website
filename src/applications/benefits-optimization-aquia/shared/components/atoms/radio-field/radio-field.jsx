@@ -14,7 +14,7 @@ import { useFieldValidation } from '../../../hooks/use-field-validation';
  * @see [VA Radio Button](https://design.va.gov/components/form/radio-button)
  * @param {Object} props - Component props
  * @param {string} props.name - Field name for form identification
- * @param {string} props.label - Label text displayed above the radio group
+ * @param {string} [props.label] - Label text displayed above the radio group (optional when using page-level title)
  * @param {import('zod').ZodSchema} props.schema - Zod schema for validation
  * @param {string} props.value - Currently selected option value
  * @param {Function} props.onChange - Change handler function (name, value) => void
@@ -23,6 +23,7 @@ import { useFieldValidation } from '../../../hooks/use-field-validation';
  * @param {string} [props.hint] - Additional help text displayed below the label
  * @param {string} [props.error] - External error message to display
  * @param {boolean} [props.forceShowError=false] - Force display of validation errors
+ * @param {boolean} [props.tile=false] - Use tile style for radio buttons
  * @returns {JSX.Element} VA radio button group component with validation
  */
 export const RadioField = ({
@@ -36,6 +37,7 @@ export const RadioField = ({
   hint,
   error: externalError,
   forceShowError = false,
+  tile = false,
   ...props
 }) => {
   const {
@@ -83,27 +85,30 @@ export const RadioField = ({
       label={label}
       required={required}
       hint={hint}
-      value={value || ''}
+      value={value ?? null}
       error={finalError}
       onBlur={handleBlur}
       onVaValueChange={handleValueChange}
+      {...(tile ? { tile: true } : {})}
       {...props}
     >
-      {options.map(option => (
-        <VaRadioOption
-          key={option.value}
-          label={option.label}
-          value={option.value}
-          checked={value === option.value}
-          description={option.description}
-        />
-      ))}
+      {options.map(option => {
+        const isChecked = value === option.value;
+        return (
+          <VaRadioOption
+            key={option.value}
+            label={option.label}
+            value={option.value}
+            {...(isChecked ? { checked: true } : {})}
+            description={option.description}
+          />
+        );
+      })}
     </VaRadio>
   );
 };
 
 RadioField.propTypes = {
-  label: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   options: PropTypes.arrayOf(
     PropTypes.shape({
@@ -117,6 +122,8 @@ RadioField.propTypes = {
   error: PropTypes.string,
   forceShowError: PropTypes.bool,
   hint: PropTypes.string,
+  label: PropTypes.string,
   required: PropTypes.bool,
+  tile: PropTypes.bool,
   value: PropTypes.string,
 };

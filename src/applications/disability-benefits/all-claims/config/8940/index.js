@@ -36,10 +36,12 @@ import captureEvents from '../../analytics-functions';
 import formConfig4192 from '../4192';
 
 export default function createformConfig8940() {
+  // Hide forms when flipper is off in staging or production
+  // In test environments, always show forms (process.env.NODE_ENV === 'test')
+  // In development, always show forms (not staging/production)
   if (
-    // need this environment check for unit tests to work
-    environment.isProduction() &&
-    // this will filter production users using the feature flag
+    (environment.isStaging() || environment.isProduction()) &&
+    typeof sessionStorage !== 'undefined' &&
     sessionStorage.getItem(SHOW_8940_4192) !== 'true'
   ) {
     return {};

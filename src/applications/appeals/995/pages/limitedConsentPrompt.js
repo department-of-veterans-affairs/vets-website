@@ -1,15 +1,18 @@
+import React from 'react';
 import {
   yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { content } from '../content/limitedConsent';
 import { isOnReviewPage } from '../../shared/utils/helpers';
-import { LIMITED_CONSENT_RESPONSE } from '../constants';
+import { HAS_PRIVATE_LIMITATION } from '../constants';
+
+export const promptQuestion =
+  'Do you want to limit consent for the information requested?';
 
 export default {
   uiSchema: {
-    [LIMITED_CONSENT_RESPONSE]: yesNoUI({
-      title: content.promptQuestion,
+    [HAS_PRIVATE_LIMITATION]: yesNoUI({
+      title: promptQuestion,
       enableAnalytics: true,
       labelHeaderLevel: '3',
       labels: {
@@ -24,13 +27,29 @@ export default {
       }),
     }),
     'view:evidenceLimitInfo': {
-      'ui:description': content.info,
+      'ui:description': (
+        <va-additional-info
+          class="vads-u-margin-bottom--4"
+          trigger="What does &quot;limiting consent&quot; mean?"
+        >
+          <p>
+            If you choose to limit consent, your private provider, VA Vet
+            Center, or medical facility can’t release certain types or amounts
+            of information to us. For example, you want your doctor to release
+            only information for certain treatment dates or health conditions.
+          </p>
+          <p>
+            It may take us longer to get your medical records from a private
+            provider or VA Vet Center if you limit consent.
+          </p>
+        </va-additional-info>
+      ),
     },
   },
   schema: {
     type: 'object',
     properties: {
-      [LIMITED_CONSENT_RESPONSE]: yesNoSchema,
+      [HAS_PRIVATE_LIMITATION]: yesNoSchema,
       'view:evidenceLimitInfo': {
         type: 'object',
         properties: {},

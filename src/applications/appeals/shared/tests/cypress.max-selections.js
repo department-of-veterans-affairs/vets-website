@@ -1,9 +1,6 @@
 import { setStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
-
 import Timeouts from 'platform/testing/e2e/timeouts';
-
-import { getPastItf, fetchItf } from '../../995/tests/995.cypress.helpers';
-
+import { getPastItf, fetchItf } from './cypress.helpers';
 import cypressSetup from './cypress.setup';
 import mockUser from './fixtures/mocks/user.json';
 import inProgressMock from './fixtures/mocks/get-in-progress';

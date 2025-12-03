@@ -10,6 +10,7 @@ export const PROFILE_TOGGLES = {
   profileShowEmailNotificationSettings: false,
   profileShowPaperlessDelivery: false,
   profile2Enabled: false,
+  profileHealthCareSettingsPage: false,
 };
 
 // The values of these constants map to the possible values that come back from
@@ -35,7 +36,7 @@ export const SERVICE_BADGE_IMAGE_PATHS = new Map([
 // These breadcrumbs are the base breadcrumbs for the profile app
 // They are used when the user is on the profile root page
 export const PROFILE_BREADCRUMB_BASE = [
-  { href: '/', label: 'Home' },
+  { href: '/', label: 'VA.gov home' },
   { href: '/profile', label: 'Profile', isRouterLink: true },
 ];
 
@@ -48,7 +49,8 @@ export const PROFILE_PATHS = Object.freeze({
   FINANCIAL_INFORMATION: '/profile/financial-information',
   DIRECT_DEPOSIT: '/profile/direct-deposit',
   HEALTH_CARE_SETTINGS: '/profile/health-care-settings',
-  APPOINTMENT_PREFERENCES: '/profile/appointment-preferences',
+  SCHEDULING_PREFERENCES:
+    '/profile/health-care-settings/scheduling-preferences',
   HEALTH_CARE_CONTACTS: '/profile/contacts',
   SECURE_MESSAGES_SIGNATURE: '/profile/mhv-signature',
   DEPENDENTS_AND_CONTACTS: '/profile/dependents-and-contacts',
@@ -60,7 +62,7 @@ export const PROFILE_PATHS = Object.freeze({
   EMAIL_AND_TEXT_NOTIFICATIONS: '/profile/notifications',
   ACCOUNT_SECURITY: '/profile/account-security',
   CONNECTED_APPLICATIONS: '/profile/connected-applications',
-  SIGNIN_INFORMATION: '/profile/sign-in-information',
+  SIGNIN_INFORMATION: '/profile/account-security/sign-in-information',
   EDIT: '/profile/edit',
   PAPERLESS_DELIVERY: '/profile/paperless-delivery',
 });
@@ -74,7 +76,7 @@ export const PROFILE_PATH_NAMES = Object.freeze({
   FINANCIAL_INFORMATION: 'Financial information',
   DIRECT_DEPOSIT: 'Direct deposit information',
   HEALTH_CARE_SETTINGS: 'Health care settings',
-  APPOINTMENT_PREFERENCES: 'Appointment preferences',
+  SCHEDULING_PREFERENCES: 'Scheduling preferences',
   HEALTH_CARE_CONTACTS: 'Health care contacts',
   SECURE_MESSAGES_SIGNATURE: 'Secure messages signature',
   DEPENDENTS_AND_CONTACTS: 'Dependents and contacts',
@@ -82,7 +84,6 @@ export const PROFILE_PATH_NAMES = Object.freeze({
   ACCREDITED_REPRESENTATIVE: 'Accredited representative or VSO',
   LETTERS_AND_DOCUMENTS: 'Letters and documents',
   VETERAN_STATUS_CARD: 'Veteran Status Card',
-  COMMUNICATIONS_SETTINGS: 'Communication settings',
   NOTIFICATION_SETTINGS: 'Notification settings',
   EMAIL_AND_TEXT_NOTIFICATIONS: 'Email and text notifications',
   PAPERLESS_DELIVERY: 'Paperless delivery',

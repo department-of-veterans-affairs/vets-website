@@ -1011,11 +1011,7 @@ class TrackClaimsPageV2 {
       .should('exist')
       .shadow()
       .find('a')
-      .should(
-        'have.attr',
-        'href',
-        '/track-claims/your-claims/files-we-couldnt-receive',
-      );
+      .should('have.attr', 'href', '../files-we-couldnt-receive');
   }
 
   verifyUploadType2ErrorAlertFileOrder(expectedFiles) {

@@ -725,4 +725,241 @@ describe('Breadcrumbs', () => {
       });
     });
   });
+
+  describe('Prescription Renewal Flow Breadcrumbs', () => {
+    const rxRedirectPath = 'https://example.va.gov/my-health/medications';
+
+    beforeEach(() => {
+      sessionStorage.clear();
+    });
+
+    afterEach(() => {
+      sessionStorage.clear();
+      cleanup();
+    });
+
+    it('should use urlRedirectPath for Back link on interstitial page when coming from inbox', async () => {
+      sessionStorage.setItem('sm_composeEntryUrl', Paths.INBOX);
+
+      const customState = {
+        sm: {
+          breadcrumbs: {
+            previousUrl: Paths.INBOX,
+          },
+          prescription: {
+            redirectPath: rxRedirectPath,
+          },
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
+        initialState: customState,
+        reducers: reducer,
+        path: Paths.COMPOSE,
+      });
+
+      const breadcrumb = await screen.findByTestId('sm-breadcrumbs-back');
+      expect(breadcrumb).to.have.attribute('href', rxRedirectPath);
+      expect(breadcrumb).to.have.attribute('text', 'Back');
+    });
+
+    it('should use urlRedirectPath for Back link on select care team page when coming from inbox', async () => {
+      sessionStorage.setItem('sm_composeEntryUrl', Paths.INBOX);
+
+      const customState = {
+        sm: {
+          breadcrumbs: {
+            previousUrl: Paths.COMPOSE,
+          },
+          prescription: {
+            redirectPath: rxRedirectPath,
+          },
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
+        initialState: customState,
+        reducers: reducer,
+        path: `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`,
+      });
+
+      const breadcrumb = await screen.findByTestId('sm-breadcrumbs-back');
+      expect(breadcrumb).to.have.attribute('href', rxRedirectPath);
+      expect(breadcrumb).to.have.attribute('text', 'Back');
+    });
+
+    it('should use urlRedirectPath for Back link on recent care teams page when coming from inbox', async () => {
+      sessionStorage.setItem('sm_composeEntryUrl', Paths.INBOX);
+
+      const customState = {
+        sm: {
+          breadcrumbs: {
+            previousUrl: Paths.COMPOSE,
+          },
+          prescription: {
+            redirectPath: rxRedirectPath,
+          },
+          recipients: {
+            recentRecipients: [{ id: 1, name: 'Test Team' }],
+          },
+        },
+        featureToggles: {
+          [FEATURE_FLAG_NAMES.mhvSecureMessagingRecentRecipients]: true,
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
+        initialState: customState,
+        reducers: reducer,
+        path: Paths.RECENT_CARE_TEAMS,
+      });
+
+      const breadcrumb = await screen.findByTestId('sm-breadcrumbs-back');
+      expect(breadcrumb).to.have.attribute('href', rxRedirectPath);
+      expect(breadcrumb).to.have.attribute('text', 'Back');
+    });
+
+    it('should NOT use urlRedirectPath when composeEntryUrl is not inbox', async () => {
+      sessionStorage.setItem('sm_composeEntryUrl', Paths.SENT);
+
+      const customState = {
+        sm: {
+          breadcrumbs: {
+            previousUrl: Paths.SENT,
+          },
+          prescription: {
+            redirectPath: rxRedirectPath,
+          },
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
+        initialState: customState,
+        reducers: reducer,
+        path: Paths.COMPOSE,
+      });
+
+      const breadcrumb = await screen.findByTestId('sm-breadcrumbs-back');
+      const expectedHref = `${manifest.rootUrl}${Paths.SENT}`;
+      expect(breadcrumb).to.have.attribute('href', expectedHref);
+      expect(breadcrumb).to.not.have.attribute('href', rxRedirectPath);
+    });
+
+    it('should NOT use urlRedirectPath when urlRedirectPath is not present', async () => {
+      sessionStorage.setItem('sm_composeEntryUrl', Paths.INBOX);
+
+      const customState = {
+        sm: {
+          breadcrumbs: {
+            previousUrl: Paths.INBOX,
+          },
+          prescription: {
+            redirectPath: null,
+          },
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
+        initialState: customState,
+        reducers: reducer,
+        path: Paths.COMPOSE,
+      });
+
+      const breadcrumb = await screen.findByTestId('sm-breadcrumbs-back');
+      const expectedHref = `${manifest.rootUrl}${Paths.INBOX}`;
+      expect(breadcrumb).to.have.attribute('href', expectedHref);
+    });
+
+    it('should navigate to urlRedirectPath when back button is clicked on interstitial page', async () => {
+      sessionStorage.setItem('sm_composeEntryUrl', Paths.INBOX);
+
+      const customState = {
+        sm: {
+          breadcrumbs: {
+            previousUrl: Paths.INBOX,
+          },
+          prescription: {
+            redirectPath: rxRedirectPath,
+          },
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
+        initialState: customState,
+        reducers: reducer,
+        path: Paths.COMPOSE,
+      });
+
+      const breadcrumb = await screen.findByTestId('sm-breadcrumbs-back');
+
+      // Verify that the breadcrumb has the correct href pointing to the redirect path
+      expect(breadcrumb).to.have.attribute('href', rxRedirectPath);
+      expect(breadcrumb).to.have.attribute('text', 'Back');
+    });
+
+    it('should NOT use urlRedirectPath on select care team when recent recipients exist and user navigated from recent page', async () => {
+      sessionStorage.setItem('sm_composeEntryUrl', Paths.INBOX);
+
+      const customState = {
+        sm: {
+          breadcrumbs: {
+            previousUrl: Paths.RECENT_CARE_TEAMS,
+          },
+          prescription: {
+            redirectPath: rxRedirectPath,
+          },
+          recipients: {
+            recentRecipients: [
+              { id: 1, name: 'Test Team 1' },
+              { id: 2, name: 'Test Team 2' },
+            ],
+          },
+        },
+        featureToggles: {
+          [FEATURE_FLAG_NAMES.mhvSecureMessagingRecentRecipients]: true,
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
+        initialState: customState,
+        reducers: reducer,
+        path: `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`,
+      });
+
+      const breadcrumb = await screen.findByTestId('sm-breadcrumbs-back');
+      const expectedHref = `${manifest.rootUrl}${Paths.RECENT_CARE_TEAMS}`;
+      expect(breadcrumb).to.have.attribute('href', expectedHref);
+      expect(breadcrumb).to.not.have.attribute('href', rxRedirectPath);
+    });
+
+    it('should use urlRedirectPath on select care team when no recent recipients', async () => {
+      sessionStorage.setItem('sm_composeEntryUrl', Paths.INBOX);
+
+      const customState = {
+        sm: {
+          breadcrumbs: {
+            previousUrl: Paths.COMPOSE,
+          },
+          prescription: {
+            redirectPath: rxRedirectPath,
+          },
+          recipients: {
+            recentRecipients: [],
+          },
+        },
+        featureToggles: {
+          [FEATURE_FLAG_NAMES.mhvSecureMessagingRecentRecipients]: true,
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
+        initialState: customState,
+        reducers: reducer,
+        path: `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`,
+      });
+
+      const breadcrumb = await screen.findByTestId('sm-breadcrumbs-back');
+      expect(breadcrumb).to.have.attribute('href', rxRedirectPath);
+    });
+  });
 });

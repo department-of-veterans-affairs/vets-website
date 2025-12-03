@@ -42,6 +42,10 @@ import {
 } from './helpers';
 import { CancelButton, generateHelpText } from '../../helpers';
 import { getFullName } from '../../../../shared/utils';
+import {
+  StudentCurrentIncomeContent,
+  StudentExpectedIncomeContent,
+} from '../../../components/StudentIncomeContent';
 
 /** @type {ArrayBuilderOptions} */
 export const addStudentsOptions = {
@@ -254,6 +258,10 @@ export const studentAddressPage = {
           (errors, city, formData) => {
             const address = formData?.address;
             const cityStr = city?.trim().toUpperCase();
+
+            if (city?.length > 30) {
+              errors.addError('City must be 30 characters or less');
+            }
 
             if (
               address &&
@@ -736,7 +744,7 @@ export const claimsOrReceivesPensionPage = {
 export const studentEarningsPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      () => 'Student’s income in the year their current school term began',
+      () => 'Student’s income for this school term',
     ),
     'ui:options': {
       updateSchema: (_formData, schema, _uiSchema, index, _path, fullData) => {
@@ -757,12 +765,13 @@ export const studentEarningsPage = {
       },
     },
     studentEarningsFromSchoolYear: {
-      earningsFromAllEmployment: currencyUI('Earnings from all employment'),
-      annualSocialSecurityPayments: currencyUI('Annual Social Security'),
-      otherAnnuitiesIncome: currencyUI('Other annuities'),
+      'ui:description': StudentCurrentIncomeContent,
+      earningsFromAllEmployment: currencyUI('Earnings from employment'),
+      annualSocialSecurityPayments: currencyUI('Annual Social Security income'),
+      otherAnnuitiesIncome: currencyUI('Other annuity income'),
       allOtherIncome: {
         ...currencyUI('All other income'),
-        'ui:description': generateHelpText('i.e. interest, dividends, etc.'),
+        'ui:description': generateHelpText('Examples: interest or dividends'),
       },
     },
   },
@@ -785,15 +794,16 @@ export const studentEarningsPage = {
 export const studentFutureEarningsPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      () => 'Student’s expected income next year',
+      () => 'Student’s expected income for next year',
     ),
     studentExpectedEarningsNextYear: {
-      earningsFromAllEmployment: currencyUI('Earnings from all employment'),
-      annualSocialSecurityPayments: currencyUI('Annual Social Security'),
-      otherAnnuitiesIncome: currencyUI('Other annuities'),
+      'ui:description': StudentExpectedIncomeContent,
+      earningsFromAllEmployment: currencyUI('Earnings from employment'),
+      annualSocialSecurityPayments: currencyUI('Annual Social Security income'),
+      otherAnnuitiesIncome: currencyUI('Other annuity income'),
       allOtherIncome: {
         ...currencyUI('All other income'),
-        'ui:description': generateHelpText('i.e. interest, dividends, etc.'),
+        'ui:description': generateHelpText('Examples: interest, dividends'),
       },
     },
   },
@@ -815,17 +825,22 @@ export const studentFutureEarningsPage = {
 
 export const studentAssetsPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(() => 'Value of student’s assets'),
+    ...arrayBuilderItemSubsequentPageTitleUI(() => 'Value of student assets'),
     studentNetworthInformation: {
       savings: {
         ...currencyUI('Savings'),
-        'ui:description': generateHelpText('Includes cash'),
+        'ui:description': generateHelpText('Include cash'),
       },
-      securities: currencyUI('Securities, bonds, etc.'),
+      securities: {
+        ...currencyUI('Financial accounts'),
+        'ui:description': generateHelpText(
+          'Examples: stocks, bonds, mutual funds',
+        ),
+      },
       realEstate: {
         ...currencyUI('Real estate'),
         'ui:description': generateHelpText(
-          'Don’t include the value of your primary home',
+          'Don’t include your primary residence (the home where you live most of the time)',
         ),
       },
       otherAssets: currencyUI('All other assets'),

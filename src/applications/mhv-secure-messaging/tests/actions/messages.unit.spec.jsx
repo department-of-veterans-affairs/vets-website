@@ -3,11 +3,10 @@ import {
   mockFetch,
   mockMultipleApiRequests,
 } from '@department-of-veterans-affairs/platform-testing/helpers';
-import * as mhvExports from '~/platform/mhv/unique_user_metrics';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import { expect } from 'chai';
 import sinon from 'sinon';
+import { expect } from 'chai';
 import { Actions } from '../../util/actionTypes';
 import * as Constants from '../../util/constants';
 import {
@@ -24,6 +23,23 @@ describe('messages actions', () => {
   const middlewares = [thunk];
   const mockStore = (initialState = { featureToggles: {} }) =>
     configureStore(middlewares)(initialState);
+  let loggerSpy;
+
+  beforeEach(() => {
+    // Mock the global DD_LOGS logger
+    loggerSpy = sinon.spy();
+    global.window = {
+      DD_LOGS: {
+        logger: {
+          log: loggerSpy,
+        },
+      },
+    };
+  });
+
+  afterEach(() => {
+    delete global.window;
+  });
   const errorResponse = {
     errors: [
       {
@@ -227,10 +243,6 @@ describe('messages actions', () => {
   });
 
   it('should dispatch action on sendMessage', async () => {
-    const logUniqueUserMetricsEventsStub = sinon.stub(
-      mhvExports,
-      'logUniqueUserMetricsEvents',
-    );
     const store = mockStore();
     mockApiRequest(messageResponse);
     await store
@@ -263,11 +275,6 @@ describe('messages actions', () => {
         expect(actions).to.deep.include({
           type: Actions.AllRecipients.RESET_RECENT,
         });
-        expect(logUniqueUserMetricsEventsStub.calledOnce).to.be.true;
-        expect(logUniqueUserMetricsEventsStub.firstCall.args[0]).to.equal(
-          mhvExports.EVENT_REGISTRY.SECURE_MESSAGING_MESSAGE_SENT,
-        );
-        logUniqueUserMetricsEventsStub.restore();
       });
   });
 
@@ -338,11 +345,156 @@ describe('messages actions', () => {
       });
   });
 
-  it('should dispatch action on sendReply', async () => {
-    const logUniqueUserMetricsEventsStub = sinon.stub(
-      mhvExports,
-      'logUniqueUserMetricsEvents',
+  it('should dispatch success alert on sendMessage when suppressAlert is false', async () => {
+    const store = mockStore();
+    mockApiRequest(messageResponse);
+    await store
+      .dispatch(
+        sendMessage(
+          {
+            category: 'EDUCATION',
+            body: 'Test body',
+            subject: 'Test subject',
+            recipientId: '2710520',
+          },
+          true,
+          false,
+          false, // suppressAlert = false
+        ),
+      )
+      .then(() => {
+        const actions = store.getActions();
+        // Verify success alert is dispatched
+        expect(actions).to.deep.include({
+          type: Actions.Alerts.ADD_ALERT,
+          payload: {
+            alertType: 'success',
+            header: '',
+            content: Constants.Alerts.Message.SEND_MESSAGE_SUCCESS,
+            className: undefined,
+            link: undefined,
+            title: undefined,
+            response: undefined,
+          },
+        });
+      });
+  });
+
+  it('should NOT dispatch success alert on sendMessage when isRxRenewal is true', async () => {
+    const store = mockStore();
+    mockApiRequest(messageResponse);
+    await store
+      .dispatch(
+        sendMessage(
+          {
+            category: 'EDUCATION',
+            body: 'Test body',
+            subject: 'Test subject',
+            recipientId: '2710520',
+          },
+          true,
+          false,
+          true, // isRxRenewal = true
+        ),
+      )
+      .then(() => {
+        const actions = store.getActions();
+        // Verify success alert is NOT dispatched
+        expect(actions).to.not.deep.include({
+          type: Actions.Alerts.ADD_ALERT,
+          payload: {
+            alertType: 'success',
+            header: '',
+            content: Constants.Alerts.Message.SEND_MESSAGE_SUCCESS,
+            className: undefined,
+            link: undefined,
+            title: undefined,
+            response: undefined,
+          },
+        });
+        // Verify other actions are still dispatched
+        expect(actions).to.deep.include({
+          type: Actions.AllRecipients.RESET_RECENT,
+        });
+      });
+  });
+
+  it('should log prescription renewal message when isRxRenewal is true', async () => {
+    const store = mockStore();
+    mockApiRequest(messageResponse);
+
+    const messageData = {
+      category: 'MEDICATIONS',
+      body: 'Test body',
+      subject: 'Test subject',
+    };
+    messageData[`${'recipient_id'}`] = '2710520';
+
+    await store.dispatch(
+      sendMessage(
+        JSON.stringify(messageData),
+        false,
+        false,
+        true, // isRxRenewal = true
+      ),
     );
+
+    expect(loggerSpy.calledOnce).to.be.true;
+    const call = loggerSpy.getCall(0);
+    expect(call.args[0]).to.equal('Prescription Renewal Message Sent');
+    expect(call.args[1]).to.deep.equal({
+      messageId: messageResponse.data.attributes.messageId,
+      recipientId: '2710520',
+      category: 'MEDICATIONS',
+      hasAttachments: false,
+    });
+    expect(call.args[2]).to.equal('info');
+  });
+
+  it('should log error when prescription renewal message fails', async () => {
+    const store = mockStore();
+    loggerSpy.reset(); // Reset from previous test
+    const rxErrorResponse = {
+      errors: [
+        {
+          code: 'SM999',
+          detail: 'Network error',
+          status: '500',
+        },
+      ],
+    };
+    mockApiRequest(rxErrorResponse, false);
+    const messageData = {
+      category: 'MEDICATIONS',
+      body: 'Test body',
+      subject: 'Test subject',
+    };
+    messageData[`${'recipient_id'}`] = '2710520';
+    try {
+      await store.dispatch(
+        sendMessage(
+          JSON.stringify(messageData),
+          false,
+          false,
+          true, // isRxRenewal = true
+        ),
+      );
+    } catch (e) {
+      // Expected to throw
+    }
+
+    expect(loggerSpy.calledOnce).to.be.true;
+    const call = loggerSpy.getCall(0);
+    expect(call.args[0]).to.equal('Prescription Renewal Message Send Failed');
+    expect(call.args[1].recipientId).to.equal('2710520');
+    expect(call.args[1].category).to.equal('MEDICATIONS');
+    expect(call.args[1].hasAttachments).to.equal(false);
+    // errorCode and errorDetail may vary based on error structure
+    expect(call.args[2]).to.equal('error');
+    expect(call.args[3]).to.exist;
+  });
+
+  it('should dispatch action on sendReply', async () => {
     const store = mockStore();
     mockApiRequest(messageResponse);
     await store
@@ -376,11 +528,6 @@ describe('messages actions', () => {
         expect(actions).to.deep.include({
           type: Actions.AllRecipients.RESET_RECENT,
         });
-        expect(logUniqueUserMetricsEventsStub.calledOnce).to.be.true;
-        expect(logUniqueUserMetricsEventsStub.firstCall.args[0]).to.equal(
-          mhvExports.EVENT_REGISTRY.SECURE_MESSAGING_MESSAGE_SENT,
-        );
-        logUniqueUserMetricsEventsStub.restore();
       });
   });
 

@@ -10,8 +10,12 @@ import { getErrorStatus, UNKNOWN_STATUS } from '../utils/appeals-v2-helpers';
 import {
   makeAuthRequest,
   roundToNearest,
-  buildDateFormatter,
   getUploadErrorMessage,
+  buildDateFormatter,
+  formatUploadDateTime,
+  showTimezoneDiscrepancyMessage,
+  getTimezoneDiscrepancyMessage,
+  getDocTypeDescription,
 } from '../utils/helpers';
 import { setPageFocus } from '../utils/page';
 import { mockApi } from '../tests/e2e/fixtures/mocks/mock-api';
@@ -47,6 +51,7 @@ import {
   SET_LAST_PAGE,
   SET_NOTIFICATION,
   SET_PROGRESS,
+  SET_TYPE1_UNKNOWN_ERRORS,
   SET_UNAUTHORIZED,
   SET_UPLOAD_ERROR,
   SET_UPLOADER,
@@ -72,6 +77,64 @@ export function setAdditionalEvidenceNotification(message) {
     type: SET_ADDITIONAL_EVIDENCE_NOTIFICATION,
     message,
   };
+}
+
+export function setType1UnknownErrors(errorFiles) {
+  return {
+    type: SET_TYPE1_UNKNOWN_ERRORS,
+    errorFiles,
+  };
+}
+
+// Helper function to handle Type 1 error classification and dispatching
+function handleType1Errors(
+  dispatch,
+  errorFiles,
+  hasError,
+  claimId,
+  showDocumentUploadStatus,
+) {
+  if (!showDocumentUploadStatus || errorFiles.length === 0) {
+    // Old behavior for single file or feature flag off
+    const errorMessage = getUploadErrorMessage(hasError, claimId);
+    dispatch(setAdditionalEvidenceNotification(errorMessage));
+    return;
+  }
+
+  // Separate known vs unknown errors
+  const unknownErrors = errorFiles.filter(
+    err =>
+      err?.errors?.[0]?.detail !== 'DOC_UPLOAD_DUPLICATE' &&
+      err?.errors?.[0]?.detail !== 'DOC_UPLOAD_INVALID_CLAIMANT',
+  );
+
+  const knownErrors = errorFiles.filter(
+    err =>
+      err?.errors?.[0]?.detail === 'DOC_UPLOAD_DUPLICATE' ||
+      err?.errors?.[0]?.detail === 'DOC_UPLOAD_INVALID_CLAIMANT',
+  );
+
+  // If there are unknown errors, store them separately
+  if (unknownErrors.length > 0) {
+    dispatch(
+      setType1UnknownErrors(
+        unknownErrors.map(err => ({
+          fileName: err.fileName,
+          docType: err.docType,
+        })),
+      ),
+    );
+  }
+
+  // If there are known errors, show the first one in additionalEvidenceMessage
+  if (knownErrors.length > 0) {
+    const errorMessage = getUploadErrorMessage(
+      knownErrors[0],
+      claimId,
+      showDocumentUploadStatus,
+    );
+    dispatch(setAdditionalEvidenceNotification(errorMessage));
+  }
 }
 
 function fetchAppealsSuccess(response) {
@@ -299,10 +362,12 @@ export function submitFiles(
   trackedItem,
   files,
   showDocumentUploadStatus = false,
+  timezoneMitigationEnabled = false,
 ) {
   let filesComplete = 0;
   let bytesComplete = 0;
   let hasError = false;
+  const errorFiles = []; // Collect all failed files
   const totalSize = files.reduce((sum, file) => sum + file.file.size, 0);
   const totalFiles = files.length;
   const trackedItemId = trackedItem ? trackedItem.id : null;
@@ -346,8 +411,6 @@ export function submitFiles(
           multiple: false,
           callbacks: {
             onAllComplete: () => {
-              const now = new Date(Date.now());
-              const uploadDate = buildDateFormatter()(now.toISOString());
               if (!hasError) {
                 recordEvent({
                   event: 'claims-upload-success',
@@ -356,7 +419,25 @@ export function submitFiles(
                   type: DONE_UPLOADING,
                 });
 
-                // Show different notification based on feature toggle
+                // Conditionally format date based on timezone mitigation flag
+                const now = new Date(Date.now());
+                const uploadDate = timezoneMitigationEnabled
+                  ? formatUploadDateTime(now) // Enhanced: "August 15, 2025 at 10:18 p.m. EDT"
+                  : buildDateFormatter()(now.toISOString()); // Simple: "August 15, 2025"
+
+                const timezoneOffset = now.getTimezoneOffset();
+
+                // Determine if we're currently on the files page
+                const isOnFilesPage = window.location.pathname.endsWith(
+                  '/files',
+                );
+                const statusLinkHref = isOnFilesPage
+                  ? `#${ANCHOR_LINKS.fileSubmissionsInProgress}` // Just scroll to section
+                  : `/track-claims/your-claims/${claimId}/files#${
+                      ANCHOR_LINKS.fileSubmissionsInProgress
+                    }`; // Navigate to files page with hash
+
+                // Show different notification based on showDocumentUploadStatus
                 const notificationMessage = showDocumentUploadStatus
                   ? {
                       title: `Document submission started on ${uploadDate}`,
@@ -366,13 +447,25 @@ export function submitFiles(
                             Your submission is in progress. It can take up to 2
                             days for us to receive your files.
                           </span>
+                          {timezoneMitigationEnabled &&
+                            showTimezoneDiscrepancyMessage(now) && (
+                              <div className="vads-u-margin-top--2 vads-u-margin-bottom--0">
+                                <strong>Note:</strong>{' '}
+                                {getTimezoneDiscrepancyMessage(
+                                  timezoneOffset,
+                                  now,
+                                )}
+                              </div>
+                            )}
                           <va-link
-                            class="vads-u-display--block"
-                            href={`#${ANCHOR_LINKS.fileSubmissionsInProgress}`}
+                            class="vads-u-display--block vads-u-margin-top--2"
+                            href={statusLinkHref}
                             text="Check the status of your submission"
                             onClick={e => {
-                              e.preventDefault();
-                              setPageFocus(e.target.href);
+                              if (isOnFilesPage) {
+                                e.preventDefault();
+                                setPageFocus(e.target.href);
+                              }
                             }}
                           />
                         </>
@@ -381,11 +474,22 @@ export function submitFiles(
                   : {
                       title: `We received your file upload on ${uploadDate}`,
                       body: (
-                        <span>
-                          If your uploaded file doesn’t appear in the Documents
-                          Filed section on this page, please try refreshing the
-                          page.
-                        </span>
+                        <>
+                          <span>
+                            Your file should be listed in the Documents filed
+                            section. If it’s not there, try refreshing the page.
+                          </span>
+                          {timezoneMitigationEnabled &&
+                            showTimezoneDiscrepancyMessage(now) && (
+                              <div className="vads-u-margin-top--2 vads-u-margin-bottom--0">
+                                <strong>Note:</strong>{' '}
+                                {getTimezoneDiscrepancyMessage(
+                                  timezoneOffset,
+                                  now,
+                                )}
+                              </div>
+                            )}
+                        </>
                       ),
                     };
 
@@ -397,10 +501,14 @@ export function submitFiles(
                 dispatch({
                   type: SET_UPLOAD_ERROR,
                 });
-                dispatch(
-                  setAdditionalEvidenceNotification(
-                    getUploadErrorMessage(hasError, claimId),
-                  ),
+
+                // Handle Type 1 errors (known vs unknown classification)
+                handleType1Errors(
+                  dispatch,
+                  errorFiles,
+                  hasError,
+                  claimId,
+                  showDocumentUploadStatus,
                 );
               }
             },
@@ -428,15 +536,36 @@ export function submitFiles(
                 ),
               });
             },
-            onError: (_id, fileName, _reason, { response, status }) => {
+            onError: (id, fileName, _reason, { response, status }) => {
               if (status === 401) {
                 dispatch({
                   type: SET_UNAUTHORIZED,
                 });
               }
               if (status < 200 || status > 299) {
-                hasError = JSON.parse(response || '{}');
-                hasError.fileName = fileName;
+                const error = JSON.parse(response || '{}');
+                error.fileName = fileName;
+
+                // Get docType from the matching file (only if feature flag enabled)
+                if (showDocumentUploadStatus) {
+                  const fileIndex = id;
+                  const matchingFile = files[fileIndex];
+                  if (matchingFile && matchingFile.docType) {
+                    try {
+                      error.docType = getDocTypeDescription(
+                        matchingFile.docType.value,
+                      );
+                    } catch (e) {
+                      error.docType = matchingFile.docType.value || 'Unknown';
+                    }
+                  } else {
+                    error.docType = 'Unknown';
+                  }
+
+                  errorFiles.push(error);
+                }
+
+                hasError = error;
               }
             },
           },

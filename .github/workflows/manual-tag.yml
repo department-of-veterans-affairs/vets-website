@@ -1,0 +1,53 @@
+name: Manual Tag Build
+
+on:
+  workflow_dispatch:
+    inputs:
+      commit_sha:
+        description: SHA to base the tag off of
+        required: false
+        default: "0"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  BUILD_ENV: vagovprod
+  COMMIT_SHA: ${{ github.event.inputs.commit_sha }}
+
+jobs:
+  tag-commit:
+    name: Tag Commit
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: write
+    environment: production
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+        with:
+          fetch-depth: 0
+
+      - name: Configure AWS Credentials
+        uses: ./.github/workflows/configure-aws-credentials
+        with:
+          aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
+
+      - name: Get bot token from Parameter Store
+        uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Generate Version
+        id: version
+        uses: paulhatch/semantic-version@v5.4.0
+        with:
+          tag_prefix: "v"
+
+      - name: Create tag
+        run: git tag ${{ steps.version.outputs.version_tag }} ${{ env.COMMIT_SHA }} && git push origin ${{ steps.version.outputs.version_tag }}

@@ -110,6 +110,45 @@ Cypress.Commands.add('selectVaSelect', (field, value) => {
   }
 });
 
+Cypress.Commands.add('selectVaComboBox', (field, value) => {
+  if (typeof value !== 'undefined') {
+    const strValue = value.toString();
+    const element =
+      typeof field === 'string'
+        ? cy.get(`va-combo-box[name="${field}"]`)
+        : cy.wrap(field);
+
+    element
+      .shadow()
+      .find('input')
+      .as('inputElement');
+
+    cy.get('@inputElement').click();
+
+    cy.get('@inputElement').clear(DELAY_OPTION);
+
+    const elementAgain =
+      typeof field === 'string'
+        ? cy.get(`va-combo-box[name="${field}"]`)
+        : cy.wrap(field);
+
+    elementAgain
+      .shadow()
+      .find('select')
+      .as('selectElement');
+
+    cy.get('@selectElement')
+      .find(`option[value="${strValue}"]`)
+      .invoke('text')
+      .as('optionLabel');
+
+    cy.get('@optionLabel').then(label => {
+      cy.get('@inputElement').type(label, FORCE_OPTION);
+      cy.get('@inputElement').type('{enter}');
+    });
+  }
+});
+
 Cypress.Commands.add('selectVaCheckbox', (field, isChecked) => {
   if (typeof isChecked !== 'undefined') {
     const element =
@@ -370,6 +409,11 @@ Cypress.Commands.add('enterWebComponentData', field => {
       break;
     }
 
+    case 'VA-COMBO-BOX': {
+      cy.selectVaComboBox(field.element, field.data);
+      break;
+    }
+
     case 'VA-SELECT': {
       cy.selectVaSelect(field.element, field.data);
       break;
@@ -534,19 +578,22 @@ Cypress.Commands.add(
 
 Cypress.Commands.add(
   'fillVaStatementOfTruth',
-  (field, { fullName, checked } = {}) => {
-    if (!fullName && typeof checked !== 'boolean') return;
+  ({ field = '', fullName = '', checked } = {}) => {
+    let element;
 
-    const element =
-      typeof field === 'string'
-        ? cy.get(`va-statement-of-truth[name="${field}"]`)
-        : cy.wrap(field);
+    if (!field) {
+      element = cy.get('va-statement-of-truth');
+    } else if (typeof field === 'string') {
+      element = cy.get(`va-statement-of-truth[name="${field}"]`);
+    } else {
+      element = cy.wrap(field);
+    }
 
     element.shadow().within(() => {
       if (fullName) {
         cy.get('va-text-input').then($el => cy.fillVaTextInput($el, fullName));
       }
-      if (checked) {
+      if (typeof checked === 'boolean') {
         cy.get('va-checkbox').then($el => cy.selectVaCheckbox($el, checked));
       }
     });

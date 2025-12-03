@@ -46,7 +46,7 @@ const DebtDetailsCard = ({ debt, showOTPP }) => {
             recordEvent({ event: 'cta-link-click-debt-details-card' });
             history.push(`/debt-balances/${debt.compositeDebtId}/resolve`);
           }}
-          text="Pay your balance, request financial help, or dispute this overpayment"
+          text="Resolve this overpayment"
           type="primary"
         />
       )}

@@ -13,11 +13,11 @@ const selectFormData = state => ({
 
 const ConfirmationPage = () => {
   const { formData, timestamp } = useSelector(selectFormData, shallowEqual);
-  const applicantName = useMemo(
+  const beneficiary = useMemo(
     () => applicantWording(formData, false, false, false),
     [formData],
   );
-  const signerName = useMemo(
+  const signee = useMemo(
     () => formData.statementOfTruthSignature ?? formData.signature ?? '',
     [formData],
   );
@@ -25,9 +25,9 @@ const ConfirmationPage = () => {
     () => timestamp && format(new Date(timestamp), 'MMMM d, yyyy'),
     [timestamp],
   );
-  const viewProps = useMemo(() => ({ applicantName, signerName, submitDate }), [
-    applicantName,
-    signerName,
+  const viewProps = useMemo(() => ({ beneficiary, signee, submitDate }), [
+    beneficiary,
+    signee,
     submitDate,
   ]);
 
@@ -44,7 +44,7 @@ const ConfirmationPage = () => {
       <ConfirmationFAQ />
 
       <p className="screen-only">
-        <va-link href="https://ask.va.gov/" text="Go to Ask VA" />
+        <va-link href="https://ask.va.gov" text="Go to Ask VA" />
       </p>
       <p className="screen-only">
         <va-link-action href="/" text="Go back to VA.gov" />

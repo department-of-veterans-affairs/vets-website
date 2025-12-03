@@ -8,7 +8,7 @@ import {
   addAccountAlert,
   paymentInformationTitle,
 } from '../content/paymentInformation';
-import ConfirmationPaymentInformation from '../components/ConfirmationPaymentInformation';
+import ConfirmationPaymentInformation from '../components/confirmationFields/ConfirmationPaymentInformation';
 
 const {
   bankAccountType,

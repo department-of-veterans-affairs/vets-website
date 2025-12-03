@@ -59,6 +59,7 @@ export default function CancelPageLayout() {
     practitionerName,
     startDate,
     typeOfCareName,
+    isCerner,
   } = useSelector(
     state => getConfirmedAppointmentDetailsInfo(state, id),
     shallowEqual,
@@ -185,6 +186,7 @@ export default function CancelPageLayout() {
         reason={reasonForAppointment}
         otherDetails={patientComments}
         level={3}
+        isCerner={isCerner}
       />
     </>
   );

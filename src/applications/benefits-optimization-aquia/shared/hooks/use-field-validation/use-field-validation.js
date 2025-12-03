@@ -119,6 +119,11 @@ export const useFieldValidation = schema => {
     (value, shouldTouch = false) => {
       // If shouldTouch is true, either mark as touched or run immediate validation
       if (shouldTouch) {
+        // Cancel any pending debounced validations to prevent race conditions
+        if (debouncedValidate.cancel) {
+          debouncedValidate.cancel();
+        }
+
         if (!touched) {
           setTouched(true);
         }

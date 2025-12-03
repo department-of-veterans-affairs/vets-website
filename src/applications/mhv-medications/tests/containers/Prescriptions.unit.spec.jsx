@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import React from 'react';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { fireEvent, waitFor } from '@testing-library/dom';
-import * as uniqueUserMetrics from '~/platform/mhv/unique_user_metrics';
 import reducer from '../../reducers';
 import * as allergiesApiModule from '../../api/allergiesApi';
 import * as prescriptionsApiModule from '../../api/prescriptionsApi';
@@ -13,7 +12,6 @@ import emptyPrescriptionsList from '../e2e/fixtures/empty-prescriptions-list.jso
 import { MEDS_BY_MAIL_FACILITY_ID } from '../../util/constants';
 
 let sandbox;
-let logUniqueUserMetricsEventsStub;
 
 const refillAlertList = [
   {
@@ -29,10 +27,6 @@ const refillAlertList = [
 describe('Medications Prescriptions container', () => {
   beforeEach(() => {
     sandbox = sinon.createSandbox();
-    logUniqueUserMetricsEventsStub = sandbox.stub(
-      uniqueUserMetrics,
-      'logUniqueUserMetricsEvents',
-    );
     stubAllergiesApi({ sandbox });
     stubPrescriptionsListApi({ sandbox });
   });
@@ -46,16 +40,13 @@ describe('Medications Prescriptions container', () => {
       prescriptionsList: [],
       refillAlertList: [],
     },
-    featureToggles: {
-      // eslint-disable-next-line camelcase
-      mhv_medications_display_refill_progress: false,
-    },
   };
 
-  const setup = (state = initialState) => {
+  const setup = (state = initialState, url = '/') => {
     return renderWithStoreAndRouterV6(<Prescriptions />, {
       initialState: state,
       reducers: reducer,
+      initialEntries: [url],
       additionalMiddlewares: [
         allergiesApiModule.allergiesApi.middleware,
         prescriptionsApiModule.prescriptionsApi.middleware,
@@ -66,23 +57,6 @@ describe('Medications Prescriptions container', () => {
   it('renders without errors', async () => {
     const screen = setup();
     expect(screen);
-  });
-
-  it('should log prescriptions accessed event when prescriptions are successfully loaded', async () => {
-    const screen = setup();
-
-    // Wait for the medications list to be displayed
-    await waitFor(() => {
-      expect(screen.getByTestId('med-list')).to.exist;
-    });
-
-    await waitFor(() => {
-      expect(
-        logUniqueUserMetricsEventsStub.calledWith(
-          uniqueUserMetrics.EVENT_REGISTRY.PRESCRIPTIONS_ACCESSED,
-        ),
-      ).to.be.true;
-    });
   });
 
   it('should display loading message when loading prescriptions', async () => {
@@ -121,40 +95,10 @@ describe('Medications Prescriptions container', () => {
       rx: {
         ...initialState.rx,
       },
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        mhv_medications_display_refill_progress: true,
-      },
     });
 
     expect(await screen.findByTestId('mhv-rx--delayed-refill-alert')).to.exist;
     expect(await screen.findByTestId('rxDelay-alert-message')).to.exist;
-  });
-
-  it('should not display delayed refill alert when showRefillProgressContent flag is false', async () => {
-    sandbox.restore();
-    stubAllergiesApi({ sandbox });
-    stubPrescriptionsListApi({
-      sandbox,
-      data: {
-        prescriptions: emptyPrescriptionsList.data,
-        meta: emptyPrescriptionsList.meta,
-        pagination: emptyPrescriptionsList.meta.pagination,
-        refillAlertList,
-      },
-    });
-
-    const screen = setup({
-      ...initialState,
-      rx: {
-        ...initialState.rx,
-      },
-    });
-
-    await waitFor(() => {
-      expect(screen.queryByTestId('mhv-rx--delayed-refill-alert')).not.to.exist;
-      expect(screen.queryByTestId('rxDelay-alert-message')).not.to.exist;
-    });
   });
 
   it('should not display delayed refill alert when refillAlertList is empty', async () => {
@@ -174,10 +118,6 @@ describe('Medications Prescriptions container', () => {
       ...initialState,
       rx: {
         ...initialState.rx,
-      },
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        mhv_medications_display_refill_progress: true,
       },
     });
 
@@ -340,5 +280,25 @@ describe('Medications Prescriptions container', () => {
     expect(screen.queryByTestId('meds-by-mail-header')).not.to.exist;
     expect(screen.queryByTestId('meds-by-mail-top-level-text')).not.to.exist;
     expect(screen.queryByTestId('meds-by-mail-additional-info')).not.to.exist;
+  });
+
+  describe('renderRxRenewalMessageSuccess', () => {
+    it('should render component with deleteDraftSuccess query param', async () => {
+      const screen = setup(initialState, '?page=1&draftDeleteSuccess=true');
+      await waitFor(() => {
+        expect(screen.getByTestId('rx-renewal-delete-draft-success-alert')).to
+          .exist;
+      });
+    });
+
+    it('should render component with rxRenewalMessageSuccess query param', async () => {
+      const screen = setup(
+        initialState,
+        '?page=1&rxRenewalMessageSuccess=true',
+      );
+      await waitFor(() => {
+        expect(screen.getByTestId('rx-renewal-message-success-alert')).to.exist;
+      });
+    });
   });
 });

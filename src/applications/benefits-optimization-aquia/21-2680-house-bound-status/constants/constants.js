@@ -8,13 +8,14 @@
  * @constant {string}
  */
 export const TITLE =
-  'Examination for Housebound Status or Permanent Need for Regular Aid & Attendance';
+  'Apply for Aid and Attendance benefits or Housebound allowance';
 
 /**
  * Subtitle displaying the form number
  * @constant {string}
  */
-export const SUBTITLE = 'VA Form 21-2680';
+export const SUBTITLE =
+  'Examination for Housebound Status or Permanent Need for Regular Aid and Attendance (VA Form 21-2680)';
 
 /**
  * Benefit type options (Item 13)
@@ -61,4 +62,12 @@ export const DISTANCE_OPTIONS = {
   FIVE_SIX_BLOCKS: '5_6_blocks',
   ONE_MILE: '1_mile',
   OTHER: 'other',
+};
+
+/**
+ * API Endpoints
+ * @constant {Object}
+ */
+export const API_ENDPOINTS = {
+  downloadPdf: '/form212680/download_pdf',
 };

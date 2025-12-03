@@ -5,6 +5,7 @@ import {
   getDateFilters,
   formatDateTime,
   stripTZOffset,
+  formatDate,
 } from '../../util/dates';
 
 function formatDateRange(dateRange) {
@@ -267,5 +268,23 @@ describe('stripTZOffset', () => {
     expect(stripTZOffset('2024-06-25T08:00:00.000+02:00')).to.deep.equal(
       '2024-06-25T08:00:00',
     );
+  });
+});
+
+describe('formatDate', () => {
+  it('formats UTC datetime', () => {
+    expect(formatDate('2025-10-13T13:54:26Z')).to.equal('October 13, 2025');
+  });
+
+  it('formats local datetime without Z', () => {
+    expect(formatDate('2025-09-01T00:00:00')).to.equal('September 1, 2025');
+  });
+
+  it('handles invalid dates', () => {
+    expect(formatDate('invalid-date')).to.equal('Invalid Date');
+  });
+
+  it('handles empty input', () => {
+    expect(formatDate('')).to.equal('Invalid Date');
   });
 });
