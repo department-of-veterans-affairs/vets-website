@@ -65,10 +65,9 @@ const BenefitCard = ({ benefit }) => {
             </div>
           )}
         </>
+        <span className="usa-label recommended-label">RECOMMENDED FOR YOU</span>
+        <p className="category-eyebrow">{category}</p>
         <h3 className="vads-u-margin-top--0">
-          <span className="usa-label category-label">{category}</span>
-          <br />
-          <br />
           <span>{name}</span>
         </h3>
         <p className="vads-u-margin-y--0">{description}</p>
