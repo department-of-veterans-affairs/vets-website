@@ -949,5 +949,6 @@ export const BENEFITS_LIST = [
     },
     learnMoreURL: URLS.ENPP_LEARN,
     applyNowURL: '',
+    isQualified: () => false,
   },
 ];
