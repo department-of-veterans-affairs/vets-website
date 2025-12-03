@@ -1,15 +1,13 @@
-import {
-  mockBaseEndpoints,
-  verifyTitleBreadcrumbsHeading,
-  setupClaimTest,
-} from '../../support/helpers';
+import { mockFeatureToggles } from '../../support/helpers/mocks';
+import { setupClaimTest } from '../../support/helpers/setup';
+import { verifyTitleBreadcrumbsHeading } from '../../support/helpers/assertions';
 import { createBenefitsClaim } from '../../support/fixtures/benefitsClaims';
 
 const OVERVIEW_PATH = 'overview';
 
 describe('Claim overview', () => {
   beforeEach(() => {
-    mockBaseEndpoints();
+    mockFeatureToggles();
     cy.login();
   });
 

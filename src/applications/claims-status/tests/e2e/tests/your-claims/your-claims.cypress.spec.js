@@ -1,13 +1,15 @@
 import {
-  mockBaseEndpoints,
+  mockFeatureToggles,
   mockListPageEndpoints,
+} from '../../support/helpers/mocks';
+import {
   verifyNeedHelp,
   verifyTitleBreadcrumbsHeading,
-} from '../../support/helpers';
+} from '../../support/helpers/assertions';
 
 describe('Your claims', () => {
   beforeEach(() => {
-    mockBaseEndpoints();
+    mockFeatureToggles();
     mockListPageEndpoints();
 
     cy.login();

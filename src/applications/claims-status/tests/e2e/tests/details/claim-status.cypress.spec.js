@@ -1,9 +1,6 @@
-import {
-  mockBaseEndpoints,
-  verifyTitleBreadcrumbsHeading,
-  setShowDocumentUploadStatus,
-  setupClaimTest,
-} from '../../support/helpers';
+import { mockFeatureToggles } from '../../support/helpers/mocks';
+import { setupClaimTest } from '../../support/helpers/setup';
+import { verifyTitleBreadcrumbsHeading } from '../../support/helpers/assertions';
 import {
   createBenefitsClaim,
   createEvidenceSubmission,
@@ -12,7 +9,7 @@ import {
 
 describe('Claim status', () => {
   beforeEach(() => {
-    mockBaseEndpoints();
+    mockFeatureToggles();
     cy.login();
   });
 
@@ -91,7 +88,7 @@ describe('Claim status', () => {
     describe('Feature flag: cstShowDocumentUploadStatus', () => {
       context('when disabled', () => {
         beforeEach(() => {
-          mockBaseEndpoints({ features: [setShowDocumentUploadStatus(false)] });
+          mockFeatureToggles({ showDocumentUploadStatus: false });
         });
 
         it('should hide upload error alert and show nothing needed message even when failed submissions exist', () => {
@@ -111,9 +108,7 @@ describe('Claim status', () => {
 
       context('when enabled', () => {
         beforeEach(() => {
-          mockBaseEndpoints({
-            features: [setShowDocumentUploadStatus(true)],
-          });
+          mockFeatureToggles({ showDocumentUploadStatus: true });
         });
 
         it('should show upload error alert and hide nothing needed message when failed submissions exist', () => {

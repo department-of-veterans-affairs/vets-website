@@ -1,4 +1,4 @@
-import { mockBaseEndpoints } from '../../support/helpers';
+import { mockFeatureToggles } from '../../support/helpers/mocks';
 import { createBenefitsClaimListItem } from '../../support/fixtures/benefitsClaims';
 
 describe('Claim cards', () => {
@@ -9,7 +9,7 @@ describe('Claim cards', () => {
   };
 
   beforeEach(() => {
-    mockBaseEndpoints();
+    mockFeatureToggles();
 
     cy.intercept('GET', '/v0/appeals', {
       data: [],

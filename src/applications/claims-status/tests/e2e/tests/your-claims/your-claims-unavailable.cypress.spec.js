@@ -1,11 +1,11 @@
 import appeals from '../../fixtures/mocks/appeals.json';
 import claimsList from '../../fixtures/mocks/claims-list.json';
 import userWithAppeals from '../../fixtures/mocks/user-with-appeals.json';
-import { mockBaseEndpoints } from '../../support/helpers';
+import { mockFeatureToggles } from '../../support/helpers/mocks';
 
 describe('Your claims unavailable,', () => {
   beforeEach(() => {
-    mockBaseEndpoints();
+    mockFeatureToggles();
 
     cy.intercept('GET', '/v0/education_benefits_claims/stem_claim_status', {
       data: {},

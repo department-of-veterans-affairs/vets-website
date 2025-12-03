@@ -1,9 +1,6 @@
-import {
-  mockBaseEndpoints,
-  setShowDocumentUploadStatus,
-  setupClaimTest,
-  verifyTitleBreadcrumbsHeading,
-} from '../../support/helpers';
+import { mockFeatureToggles } from '../../support/helpers/mocks';
+import { setupClaimTest } from '../../support/helpers/setup';
+import { verifyTitleBreadcrumbsHeading } from '../../support/helpers/assertions';
 import { createBenefitsClaim } from '../../support/fixtures/benefitsClaims';
 
 const FILES_PATH = 'files';
@@ -11,7 +8,7 @@ const FILES_PATH = 'files';
 describe('Claim files', () => {
   describe('Files page', () => {
     beforeEach(() => {
-      mockBaseEndpoints();
+      mockFeatureToggles();
       cy.login();
       setupClaimTest({ claim: createBenefitsClaim(), path: FILES_PATH });
     });
@@ -78,7 +75,7 @@ describe('Claim files', () => {
   describe('Feature flag: cstShowDocumentUploadStatus', () => {
     context('when disabled', () => {
       beforeEach(() => {
-        mockBaseEndpoints({ features: [setShowDocumentUploadStatus(false)] });
+        mockFeatureToggles({ showDocumentUploadStatus: false });
         cy.login();
         setupClaimTest({ claim: createBenefitsClaim(), path: FILES_PATH });
       });
@@ -99,7 +96,7 @@ describe('Claim files', () => {
 
     context('when enabled', () => {
       beforeEach(() => {
-        mockBaseEndpoints({ features: [setShowDocumentUploadStatus(true)] });
+        mockFeatureToggles({ showDocumentUploadStatus: true });
         cy.login();
         setupClaimTest({ claim: createBenefitsClaim(), path: FILES_PATH });
       });

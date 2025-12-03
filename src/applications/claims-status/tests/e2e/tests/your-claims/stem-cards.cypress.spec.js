@@ -1,9 +1,6 @@
 import { createEvidenceSubmission } from '../../support/fixtures/benefitsClaims';
 import { createStemClaim } from '../../support/fixtures/stemClaims';
-import {
-  mockBaseEndpoints,
-  setShowDocumentUploadStatus,
-} from '../../support/helpers';
+import { mockFeatureToggles } from '../../support/helpers/mocks';
 
 describe('STEM claim cards', () => {
   const setupStemCardsTest = (stemClaims = []) => {
@@ -15,9 +12,7 @@ describe('STEM claim cards', () => {
   };
 
   beforeEach(() => {
-    mockBaseEndpoints({
-      features: [setShowDocumentUploadStatus(true)],
-    });
+    mockFeatureToggles({ showDocumentUploadStatus: true });
 
     cy.intercept('GET', '/v0/benefits_claims', {
       data: [],

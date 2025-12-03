@@ -1,11 +1,11 @@
 import {
-  mockBaseEndpoints,
+  mockFeatureToggles,
   mockListPageEndpoints,
-} from '../../support/helpers';
+} from '../../support/helpers/mocks';
 
 describe('Loading', () => {
   beforeEach(() => {
-    mockBaseEndpoints();
+    mockFeatureToggles();
     mockListPageEndpoints();
   });
 

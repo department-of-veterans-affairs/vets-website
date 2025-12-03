@@ -1,6 +1,6 @@
 import userWithAppeals from '../../fixtures/mocks/user-with-appeals.json';
 import { createAppeal } from '../../support/fixtures/appeals';
-import { mockBaseEndpoints } from '../../support/helpers';
+import { mockFeatureToggles } from '../../support/helpers/mocks';
 
 describe('Appeal cards', () => {
   const setupAppealCardsTest = (appeals = []) => {
@@ -10,7 +10,7 @@ describe('Appeal cards', () => {
   };
 
   beforeEach(() => {
-    mockBaseEndpoints();
+    mockFeatureToggles();
 
     cy.intercept('GET', '/v0/benefits_claims', {
       data: [],
