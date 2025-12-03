@@ -8,6 +8,9 @@ jobs:
   deploy:
     name: Clean Up Environments
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
 
     steps:
       - name: Checkout
@@ -28,11 +31,9 @@ jobs:
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
-              
-    
+          role: ${{ vars.AWS_ASSUME_ROLE }}
+
       - name: Get va-vsp-bot token
         uses: ./.github/workflows/inject-secrets
         with:

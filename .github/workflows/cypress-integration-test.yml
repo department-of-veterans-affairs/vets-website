@@ -111,7 +111,7 @@ jobs:
         - name: Install server dependencies
           working-directory: vets-website
           run: |
-            yarn install
+            yarn install --ignore-scripts
 
         - name: Start server
           run: |

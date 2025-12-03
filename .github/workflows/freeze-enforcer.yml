@@ -27,15 +27,17 @@ jobs:
 
   enforce-freeze:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     needs: holiday-checker
     if: ${{ github.event.inputs.bypass_freeze != 'true' && needs.holiday-checker.outputs.is_holiday == 'true' }}
     steps:
       - name: Configure AWS credentials for secret injection
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Get bot token from Parameter Store
         uses: ./.github/workflows/inject-secrets

@@ -20,6 +20,9 @@ jobs:
   tag-commit:
     name: Tag Commit
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: write
     environment: production
 
     steps:
@@ -31,9 +34,8 @@ jobs:
       - name: Configure AWS Credentials
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Get bot token from Parameter Store
         uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest

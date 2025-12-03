@@ -34,7 +34,7 @@ runs:
 
     - name: Setup Yarn
       shell: bash
-      run: npm i -g yarn@1.19.1
+      run: npm i -g yarn@1.19.1 --ignore-scripts
 
     - name: Cache dependencies
       id: cache-dependencies
@@ -48,10 +48,21 @@ runs:
       uses: nick-fields/retry@v3
       with:
         command: |
-          CYPRESS_INSTALL_BINARY=https://vetsgov-website-builds-s3-upload.s3.us-gov-west-1.amazonaws.com/artifacts/cypress/13.15.0.zip yarn install --frozen-lockfile --prefer-offline --production=false --network-timeout 1000000000
+          CYPRESS_INSTALL_BINARY=https://vetsgov-website-builds-s3-upload.s3.us-gov-west-1.amazonaws.com/artifacts/cypress/13.15.0.zip yarn install --frozen-lockfile --prefer-offline --production=false --network-timeout 1000000000 --ignore-scripts
           npx cypress install
           npx cypress --version
         max_attempts: 3
         timeout_minutes: 7
       env:
         YARN_CACHE_FOLDER: ${{ inputs.yarn_cache_folder }}
+
+    - name: Rebuild native dependencies
+      shell: bash
+      run: |
+        # Rebuild node-sass native bindings
+        node node_modules/node-sass/scripts/install.js
+
+        # Run postinstall scripts for ES5 transpiled packages (required by Bot Framework)
+        cd node_modules/p-defer-es5 && yarn run postinstall && cd ../..
+        cd node_modules/abort-controller-es5 && yarn run postinstall && cd ../..
+        cd node_modules/markdown-it-attrs-es5 && yarn run postinstall && cd ../..
