@@ -1,5 +1,11 @@
 {
     "form526": {
+      "disability526ExtraBDDPagesEnabled": true,
+      "hasTrainingPay": true,
+      "homelessOrAtRisk": "no",
+      "militaryRetiredPayBranch": "Air Force",
+      "waiveRetirementPay": false,
+      "waiveTrainingPay": false,
       "isVaEmployee": false,
       "phoneAndEmail": {
         "primaryPhone": "4445551212",
@@ -41,4 +47,3 @@
       "standardClaim": false
     }
   }
-  
