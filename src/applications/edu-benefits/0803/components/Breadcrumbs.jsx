@@ -14,15 +14,16 @@ const Breadcrumbs = () => {
       label: 'Education and training',
     },
     {
-      href: '/education/other-va-education-benefits',
+      href: '/education/about-gi-bill-benefits/',
       label: 'About GI bill benefits',
     },
     {
-      href: '/education/other-va-education-benefits',
+      href: '/education/about-gi-bill-benefits/how-to-use-benefits/',
       label: 'How to use your GI bill benefits',
     },
     {
-      href: 'education/other-va-education-benefits/vet-tec-2',
+      href:
+        'https://www.va.gov/education/about-gi-bill-benefits/how-to-use-benefits/licensing-and-certification-tests/',
       label: 'Licensing and certification test prep courses',
     },
     {
