@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from 'react';
-import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useHistory } from 'react-router-dom';
 import { formatISO, differenceInMilliseconds } from 'date-fns';
@@ -10,7 +9,10 @@ import ProviderAddress from './components/ProviderAddress';
 import AppointmentDate from '../components/AppointmentDate';
 import AppointmentTime from '../components/AppointmentTime';
 import { routeToNextReferralPage } from './flow';
-import { usePollAppointmentInfoQuery } from '../redux/api/vaosApi';
+import {
+  usePollAppointmentInfoQuery,
+  useGetReferralByIdQuery,
+} from '../redux/api/vaosApi';
 import { setFormCurrentPage, startNewAppointmentFlow } from './redux/actions';
 // eslint-disable-next-line import/no-restricted-paths
 import getNewAppointmentFlow from '../new-appointment/newAppointmentFlow';
@@ -33,11 +35,24 @@ function handleScheduleClick(dispatch) {
 const timeOut = 30000; // 30 seconds
 const pollingInterval = 1000; // 1 second
 
-export const CompleteReferral = props => {
-  const { attributes: currentReferral } = props.currentReferral;
-  const { pathname } = useLocation();
+export const CompleteReferral = () => {
+  const location = useLocation();
   const dispatch = useDispatch();
   const history = useHistory();
+
+  const { pathname, search } = location;
+  const params = new URLSearchParams(search);
+  const id = params.get('id');
+
+  const {
+    data: referral,
+    error: referralError,
+    isLoading: isReferralLoading,
+  } = useGetReferralByIdQuery(id, {
+    skip: !id,
+  });
+
+  const currentReferral = referral?.attributes;
   const appointmentCreateStatus = useSelector(getAppointmentCreateStatus);
   const currentPage = useSelector(selectCurrentPage);
   const [requestTime, setRequestTime] = useState(0);
@@ -100,6 +115,34 @@ export const CompleteReferral = props => {
       requestTime,
     ],
   );
+
+  // Handle referral loading and error states
+  if (isReferralLoading) {
+    return (
+      <ReferralLayout
+        loadingMessage="Loading your appointment confirmation..."
+        hasEyebrow
+        heading="Appointment confirmed"
+      />
+    );
+  }
+
+  if (referralError || !currentReferral) {
+    return (
+      <ReferralLayout
+        hasEyebrow
+        heading="We're sorry. We've run into a problem"
+      >
+        <div>
+          <p>
+            We’re having trouble getting your appointment confirmation. Please
+            try again later or call your facility’s community care office.
+          </p>
+          <FindCommunityCareOfficeLink />
+        </div>
+      </ReferralLayout>
+    );
+  }
 
   if (appointmentInfoError || appointmentInfoTimeout) {
     return (
@@ -274,10 +317,6 @@ export const CompleteReferral = props => {
       )}
     </ReferralLayout>
   );
-};
-
-CompleteReferral.propTypes = {
-  currentReferral: PropTypes.object.isRequired,
 };
 
 export default CompleteReferral;

@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useLocation, useHistory, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { format } from 'date-fns';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
@@ -12,25 +11,53 @@ import { selectCurrentPage } from './redux/selectors';
 import { getReferralSlotKey } from './utils/referrals';
 import { titleCase } from '../utils/formatters';
 import FindCommunityCareOfficeLink from './components/FindCCFacilityLink';
+import { useGetReferralByIdQuery } from '../redux/api/vaosApi';
 import { getIsInPilotReferralStation } from './utils/pilot';
 
-export default function ScheduleReferral(props) {
-  const { attributes: currentReferral } = props.currentReferral;
+export default function ScheduleReferral() {
   const location = useLocation();
   const history = useHistory();
   const currentPage = useSelector(selectCurrentPage);
   const dispatch = useDispatch();
-  const selectedSlotKey = getReferralSlotKey(currentReferral.uuid);
 
+  const { search } = location;
+  const params = new URLSearchParams(search);
+  const id = params.get('id');
+
+  const { data: referral, error, isLoading } = useGetReferralByIdQuery(id, {
+    skip: !id,
+  });
+
+  const currentReferral = referral?.attributes;
+  const selectedSlotKey = currentReferral
+    ? getReferralSlotKey(currentReferral.uuid)
+    : null;
   const stationIdValid = getIsInPilotReferralStation(currentReferral);
+
   useEffect(
     () => {
       dispatch(setFormCurrentPage('scheduleReferral'));
       dispatch(setInitReferralFlow());
-      sessionStorage.removeItem(selectedSlotKey);
+      if (selectedSlotKey) {
+        sessionStorage.removeItem(selectedSlotKey);
+      }
     },
     [location, dispatch, selectedSlotKey],
   );
+
+  if (isLoading) {
+    return <ReferralLayout loadingMessage="Loading your data..." />;
+  }
+
+  if (referral?.attributes?.hasAppointments) {
+    return <Redirect to="/referrals-requests" />;
+  }
+
+  if (error || !currentReferral) {
+    // Referral Layout shows the error component is apiFailure is true
+    return <ReferralLayout apiFailure hasEyebrow heading="Referral Error" />;
+  }
+
   const categoryOfCare = titleCase(currentReferral.categoryOfCare);
 
   const handleClick = () => {
@@ -135,7 +162,3 @@ export default function ScheduleReferral(props) {
     </ReferralLayout>
   );
 }
-
-ScheduleReferral.propTypes = {
-  currentReferral: PropTypes.object.isRequired,
-};
