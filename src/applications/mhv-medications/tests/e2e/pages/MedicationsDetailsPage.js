@@ -253,10 +253,7 @@ class MedicationsDetailsPage {
     );
     cy.get(
       '[data-testid="status-dropdown"] > [data-testid="expired-status-definition"]',
-    ).should(
-      'contain',
-      "You can't refill this prescription. Contact your VA provider if you need more of this medication.",
-    );
+    ).should('contain', 'This prescription is too old to refill.');
   };
 
   verifyTransferredStatusDropDownDefinition = () => {
@@ -376,7 +373,7 @@ class MedicationsDetailsPage {
   verifyExpiredStatusDescriptionOnDetailsPage = () => {
     cy.get('[data-testid="expired"]').should(
       'contain',
-      "You can't refill this prescription. Contact your VA provider if you need more of this medication.",
+      'You can’t refill this prescription. Contact your VA provider if you need more of this medication.',
     );
   };
 
