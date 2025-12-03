@@ -1,4 +1,5 @@
 import userWithAppeals from '../../fixtures/mocks/user-with-appeals.json';
+import { createAppeal } from '../../support/fixtures/appeals';
 import { mockBaseEndpoints } from '../../support/helpers';
 
 describe('Appeal cards', () => {
@@ -6,44 +7,6 @@ describe('Appeal cards', () => {
     cy.intercept('GET', '/v0/appeals', { data: appeals });
     cy.visit('/track-claims');
     cy.injectAxe();
-  };
-
-  const createAppeal = ({
-    id = '123456789',
-    type,
-    eventType,
-    eventDate = '2025-01-01',
-    lastEventDate = '2025-01-15',
-    programArea = 'compensation',
-    description = 'Tinnitus',
-    issuesCount = 1,
-    statusType = 'pending_soc',
-  }) => {
-    const events = [
-      { type: eventType, date: eventDate },
-      { type: 'other_event', date: lastEventDate },
-    ];
-
-    const issues = Array.from({ length: issuesCount }, (_, i) => ({
-      description: `Issue ${i + 1}`,
-    }));
-
-    return {
-      id,
-      type,
-      attributes: {
-        status: {
-          type: statusType,
-          details: {},
-        },
-        events,
-        programArea,
-        active: true,
-        issues,
-        description,
-        evidenceSubmissions: [],
-      },
-    };
   };
 
   beforeEach(() => {
@@ -78,7 +41,7 @@ describe('Appeal cards', () => {
       cy.findByText('Last updated: January 15, 2025');
       cy.findByRole('link', {
         name: 'Details for Disability compensation appeal',
-      }).should('have.attr', 'href', '/track-claims/appeals/123456789/status');
+      }).should('have.attr', 'href', '/track-claims/appeals/987654321/status');
 
       cy.axeCheck();
     });
@@ -102,7 +65,7 @@ describe('Appeal cards', () => {
       cy.findByText('Last updated: January 15, 2025');
       cy.findByRole('link', {
         name: 'Details for Supplemental claim for disability compensation',
-      }).should('have.attr', 'href', '/track-claims/appeals/123456789/status');
+      }).should('have.attr', 'href', '/track-claims/appeals/987654321/status');
 
       cy.axeCheck();
     });
@@ -126,7 +89,7 @@ describe('Appeal cards', () => {
       cy.findByText('Last updated: January 15, 2025');
       cy.findByRole('link', {
         name: 'Details for Higher-level review for disability compensation',
-      }).should('have.attr', 'href', '/track-claims/appeals/123456789/status');
+      }).should('have.attr', 'href', '/track-claims/appeals/987654321/status');
 
       cy.axeCheck();
     });
@@ -149,7 +112,7 @@ describe('Appeal cards', () => {
       cy.findByText('Last updated: January 15, 2025');
       cy.findByRole('link', {
         name: 'Details for Disability compensation appeal',
-      }).should('have.attr', 'href', '/track-claims/appeals/123456789/status');
+      }).should('have.attr', 'href', '/track-claims/appeals/987654321/status');
 
       cy.axeCheck();
     });

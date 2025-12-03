@@ -1,15 +1,16 @@
 /**
- * Custom command to set up a claim detail page test.
+ * Sets up a claim detail page test.
  * Intercepts the claim API endpoint, visits the claim detail page, and injects Axe.
+ * @param {Object} options - Configuration options
+ * @param {Object} options.claim - Claim data
+ * @param {string} options.path - Path to visit (status, files, overview, needed-from-others, needed-from-you)
+ * @returns {void}
  */
-Cypress.Commands.add(
-  'setupClaimTest',
-  ({ claim = {}, tab = 'status' } = {}) => {
-    cy.intercept('GET', '/v0/benefits_claims/123456789', { data: claim });
-    cy.visit(`/track-claims/your-claims/123456789/${tab}`);
-    cy.injectAxe();
-  },
-);
+export const setupClaimTest = ({ claim = {}, path = 'status' } = {}) => {
+  cy.intercept('GET', '/v0/benefits_claims/123456789', { data: claim });
+  cy.visit(`/track-claims/your-claims/123456789/${path}`);
+  cy.injectAxe();
+};
 
 /**
  * Default feature flags that are ON in both staging and production.
@@ -114,5 +115,16 @@ export const verifyNeedHelp = () => {
       name: 'Need help?',
     });
 
-  cy.findByText('Call the VA benefits hotline at', { exact: false });
+  cy.get('va-need-help').within(() => {
+    cy.contains('Call the VA benefits hotline at').should('be.visible');
+    cy.get('va-telephone[contact="8008271000"]')
+      .shadow()
+      .should('have.text', '800-827-1000');
+    cy.contains(
+      "We're here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET",
+    ).should('be.visible');
+    cy.get('va-telephone[contact="711"]')
+      .shadow()
+      .should('have.text', 'TTY: 711');
+  });
 };

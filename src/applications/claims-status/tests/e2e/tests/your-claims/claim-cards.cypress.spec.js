@@ -1,49 +1,11 @@
 import { mockBaseEndpoints } from '../../support/helpers';
+import { createBenefitsClaimListItem } from '../../support/fixtures/benefitsClaims';
 
 describe('Claim cards', () => {
   const setupClaimCardsTest = (claims = []) => {
     cy.intercept('GET', '/v0/benefits_claims', { data: claims });
     cy.visit('/track-claims');
     cy.injectAxe();
-  };
-
-  const createClaim = ({
-    claimDate = '2025-01-01',
-    phaseChangeDate = '2025-01-02',
-    phaseType = 'CLAIM_RECEIVED',
-    claimTypeBase = 'compensation claim',
-    claimTypeCode,
-    decisionLetterSent,
-    developmentLetterSent,
-    displayTitle = 'Claim for compensation',
-    documentsNeeded,
-    status = 'CLAIM_RECEIVED',
-  }) => {
-    // Commented out properties are part of the claims response but not currently used by the claim cards
-    return {
-      id: '123456789', // For detail page link
-      // type,
-      attributes: {
-        // baseEndProductCode,
-        claimDate, // "Received on..." text
-        claimPhaseDates: {
-          phaseChangeDate, // "Moved to this step on..." text
-          phaseType, // For 8-phase status text
-        },
-        // claimType,
-        claimTypeBase,
-        claimTypeCode, // To determine 5 vs 8 phases
-        // closeDate,
-        decisionLetterSent, // "You have a decision letter ready" text
-        developmentLetterSent, // "We sent you a development letter" text
-        displayTitle, // "Claim for compensation" text
-        documentsNeeded, // "We requested more information from you" info alert
-        // endProductCode,
-        // evidenceWaiverSubmitted5103,
-        // lighthouseId,
-        status, // For status description
-      },
-    };
   };
 
   beforeEach(() => {
@@ -60,7 +22,7 @@ describe('Claim cards', () => {
   });
 
   it('should display completed compensation claim', () => {
-    setupClaimCardsTest([createClaim({ status: 'COMPLETE' })]);
+    setupClaimCardsTest([createBenefitsClaimListItem({ status: 'COMPLETE' })]);
 
     cy.findByRole('heading', {
       name: 'Claim for compensation Received on January 1, 2025',
@@ -80,7 +42,7 @@ describe('Claim cards', () => {
   });
 
   it('should display in progress compensation claim', () => {
-    setupClaimCardsTest([createClaim({})]);
+    setupClaimCardsTest([createBenefitsClaimListItem({})]);
 
     cy.findByRole('heading', {
       name: 'In Progress Claim for compensation Received on January 1, 2025',
@@ -129,7 +91,9 @@ describe('Claim cards', () => {
 
     claimTypes.forEach(({ claimTypeBase, displayTitle }) => {
       it(`should display ${displayTitle}`, () => {
-        setupClaimCardsTest([createClaim({ claimTypeBase, displayTitle })]);
+        setupClaimCardsTest([
+          createBenefitsClaimListItem({ claimTypeBase, displayTitle }),
+        ]);
 
         cy.findByRole('heading', {
           name: `In Progress ${displayTitle} Received on January 1, 2025`,
@@ -143,7 +107,7 @@ describe('Claim cards', () => {
   describe('Communication notifications', () => {
     it('should display development letter notification', () => {
       setupClaimCardsTest([
-        createClaim({
+        createBenefitsClaimListItem({
           developmentLetterSent: true,
           decisionLetterSent: false,
           status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
@@ -158,7 +122,7 @@ describe('Claim cards', () => {
 
     it('should display decision letter notification', () => {
       setupClaimCardsTest([
-        createClaim({
+        createBenefitsClaimListItem({
           developmentLetterSent: false,
           decisionLetterSent: true,
           status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
@@ -199,7 +163,7 @@ describe('Claim cards', () => {
 
       phases.forEach(({ status, expected }) => {
         it(`should display ${expected}`, () => {
-          setupClaimCardsTest([createClaim({ status })]);
+          setupClaimCardsTest([createBenefitsClaimListItem({ status })]);
 
           cy.findByText(expected);
 
@@ -254,7 +218,9 @@ describe('Claim cards', () => {
 
       phases.forEach(({ phaseType, claimTypeCode, expected }) => {
         it(`should display ${expected}`, () => {
-          setupClaimCardsTest([createClaim({ phaseType, claimTypeCode })]);
+          setupClaimCardsTest([
+            createBenefitsClaimListItem({ phaseType, claimTypeCode }),
+          ]);
 
           cy.findByText(expected);
 
@@ -267,7 +233,7 @@ describe('Claim cards', () => {
   describe('Document alerts', () => {
     it('should display documents needed alert', () => {
       setupClaimCardsTest([
-        createClaim({
+        createBenefitsClaimListItem({
           documentsNeeded: true,
           decisionLetterSent: false,
           status: 'EVIDENCE_GATHERING_REVIEW_DECISION',

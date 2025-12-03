@@ -2,22 +2,22 @@ import {
   mockBaseEndpoints,
   verifyTitleBreadcrumbsHeading,
   setShowDocumentUploadStatus,
+  setupClaimTest,
 } from '../../support/helpers';
 import {
-  createClaim,
-  createFailedSubmission,
+  createBenefitsClaim,
+  createEvidenceSubmission,
   createTrackedItem,
-} from '../../support/fixtures';
+} from '../../support/fixtures/benefitsClaims';
 
 describe('Claim status', () => {
   beforeEach(() => {
     mockBaseEndpoints();
-
     cy.login();
   });
 
   it('should have correct page title, breadcrumbs, and heading', () => {
-    cy.setupClaimTest({ claim: createClaim() });
+    setupClaimTest({ claim: createBenefitsClaim() });
 
     verifyTitleBreadcrumbsHeading({
       title: 'Status of January 1, 2025 Compensation Claim | Veterans Affairs',
@@ -33,7 +33,7 @@ describe('Claim status', () => {
   });
 
   it('should display as in progress with last updated date', () => {
-    cy.setupClaimTest({ claim: createClaim() });
+    setupClaimTest({ claim: createBenefitsClaim() });
 
     cy.findByText('In Progress');
     cy.findByText('Last updated: April 1, 2025');
@@ -43,8 +43,8 @@ describe('Claim status', () => {
 
   describe('What you need to do', () => {
     it('should display heading and, when no tracked items, nothing needed message', () => {
-      cy.setupClaimTest({
-        claim: createClaim({ trackedItems: [] }),
+      setupClaimTest({
+        claim: createBenefitsClaim({ trackedItems: [] }),
       });
 
       cy.findByRole('heading', { name: 'What you need to do', level: 3 });
@@ -54,8 +54,8 @@ describe('Claim status', () => {
     });
 
     it('should display alert when standard evidence is requested', () => {
-      cy.setupClaimTest({
-        claim: createClaim({
+      setupClaimTest({
+        claim: createBenefitsClaim({
           trackedItems: [createTrackedItem()],
         }),
       });
@@ -71,8 +71,8 @@ describe('Claim status', () => {
     });
 
     it('should display alert when sensitive evidence is requested', () => {
-      cy.setupClaimTest({
-        claim: createClaim({
+      setupClaimTest({
+        claim: createBenefitsClaim({
           trackedItems: [
             createTrackedItem({
               displayName: 'ASB - tell us where, when, how exposed',
@@ -95,9 +95,9 @@ describe('Claim status', () => {
         });
 
         it('should hide upload error alert and show nothing needed message even when failed submissions exist', () => {
-          cy.setupClaimTest({
-            claim: createClaim({
-              evidenceSubmissions: [createFailedSubmission()],
+          setupClaimTest({
+            claim: createBenefitsClaim({
+              evidenceSubmissions: [createEvidenceSubmission()],
               trackedItems: [],
             }),
           });
@@ -117,9 +117,9 @@ describe('Claim status', () => {
         });
 
         it('should show upload error alert and hide nothing needed message when failed submissions exist', () => {
-          cy.setupClaimTest({
-            claim: createClaim({
-              evidenceSubmissions: [createFailedSubmission()],
+          setupClaimTest({
+            claim: createBenefitsClaim({
+              evidenceSubmissions: [createEvidenceSubmission()],
               trackedItems: [],
             }),
           });
@@ -139,7 +139,7 @@ describe('Claim status', () => {
 
   describe("What we're doing", () => {
     it('should display heading and card link', () => {
-      cy.setupClaimTest({ claim: createClaim() });
+      setupClaimTest({ claim: createBenefitsClaim() });
 
       cy.findByRole('heading', { name: 'What we’re doing', level: 3 });
       cy.findByRole('link', { name: 'Learn more about this step' });
@@ -179,8 +179,11 @@ describe('Claim status', () => {
       phases.forEach(({ status, expectedStep, expectedDescription }) => {
         it(`should display "${expectedStep}"`, () => {
           // Use dependency claim type to get 5-phase display (not compensation/pension)
-          cy.setupClaimTest({
-            claim: createClaim({ status, claimTypeCode: '130DPNDCYAUT' }),
+          setupClaimTest({
+            claim: createBenefitsClaim({
+              status,
+              claimTypeCode: '130DPNDCYAUT',
+            }),
           });
 
           cy.findByText(expectedStep);
@@ -247,8 +250,8 @@ describe('Claim status', () => {
       phases.forEach(
         ({ latestPhaseType, expectedStep, expectedDescription }) => {
           it(`should display "${expectedStep}"`, () => {
-            cy.setupClaimTest({
-              claim: createClaim({ latestPhaseType }),
+            setupClaimTest({
+              claim: createBenefitsClaim({ latestPhaseType }),
             });
 
             cy.findByText(expectedStep);
@@ -271,7 +274,7 @@ describe('Claim status', () => {
 
   describe('Recent activity', () => {
     it('should display heading and activity dates in chronological order', () => {
-      cy.setupClaimTest({ claim: createClaim() });
+      setupClaimTest({ claim: createBenefitsClaim() });
 
       cy.findByRole('heading', { name: 'Recent activity', level: 3 })
         .parent()
@@ -291,7 +294,7 @@ describe('Claim status', () => {
     });
 
     it('should display request outside the VA with info alert', () => {
-      cy.setupClaimTest({ claim: createClaim() });
+      setupClaimTest({ claim: createBenefitsClaim() });
 
       cy.findByText('We made a request outside the VA: “reserve records.”')
         .closest('li')
@@ -305,7 +308,7 @@ describe('Claim status', () => {
             }).should(
               'have.attr',
               'href',
-              '/track-claims/your-claims/123456789/needed-from-others/585394-2',
+              '/track-claims/your-claims/123456789/needed-from-others/654321-2',
             );
           });
         });
@@ -314,7 +317,7 @@ describe('Claim status', () => {
     });
 
     it('should display disability exam request with info alert', () => {
-      cy.setupClaimTest({ claim: createClaim() });
+      setupClaimTest({ claim: createBenefitsClaim() });
 
       cy.findByText('We made a request: “disability exam for hearing.”')
         .closest('li')
@@ -328,7 +331,7 @@ describe('Claim status', () => {
             }).should(
               'have.attr',
               'href',
-              '/track-claims/your-claims/123456789/needed-from-others/585393-1',
+              '/track-claims/your-claims/123456789/needed-from-others/123456-1',
             );
           });
         });
@@ -337,7 +340,7 @@ describe('Claim status', () => {
     });
 
     it('should display claim phase activity', () => {
-      cy.setupClaimTest({ claim: createClaim() });
+      setupClaimTest({ claim: createBenefitsClaim() });
 
       cy.findByText('Your claim moved into Step 2: Initial review');
       cy.findByText('We received your claim in our system');

@@ -1,10 +1,13 @@
-import { mockBaseEndpoints, verifyNeedHelp } from '../../support/helpers';
-import { createClaim } from '../../support/fixtures';
+import {
+  mockBaseEndpoints,
+  setupClaimTest,
+  verifyNeedHelp,
+} from '../../support/helpers';
+import { createBenefitsClaim } from '../../support/fixtures/benefitsClaims';
 
 describe('Claim layout', () => {
   beforeEach(() => {
     mockBaseEndpoints();
-
     cy.login();
   });
 
@@ -13,7 +16,7 @@ describe('Claim layout', () => {
       delay: 1500,
       statusCode: 200,
       body: {
-        data: createClaim(),
+        data: createBenefitsClaim(),
       },
     }).as('claimRequest');
 
@@ -41,7 +44,7 @@ describe('Claim layout', () => {
   });
 
   it('should display claim unavailable alert when no claim is found', () => {
-    cy.setupClaimTest({ claim: null });
+    setupClaimTest({ claim: null });
 
     cy.findByRole('heading', {
       name: 'We encountered a problem',
@@ -59,7 +62,7 @@ describe('Claim layout', () => {
   });
 
   it('should display claim', () => {
-    cy.setupClaimTest({ claim: createClaim() });
+    setupClaimTest({ claim: createBenefitsClaim() });
 
     cy.findByRole('heading', {
       name: 'Claim for compensation Received on January 1, 2025',
@@ -70,7 +73,7 @@ describe('Claim layout', () => {
   });
 
   it("should display what you've claimed", () => {
-    cy.setupClaimTest({ claim: createClaim() });
+    setupClaimTest({ claim: createBenefitsClaim() });
 
     cy.findByRole('heading', {
       name: 'What you’ve claimed',
@@ -84,7 +87,7 @@ describe('Claim layout', () => {
   });
 
   it('should display alert when no contentions are found', () => {
-    cy.setupClaimTest({ claim: createClaim({ contentions: null }) });
+    setupClaimTest({ claim: createBenefitsClaim({ contentions: null }) });
 
     cy.findByText(
       "We can't show all of the details of your claim. Please check back later.",
@@ -94,7 +97,7 @@ describe('Claim layout', () => {
   });
 
   it('should display tabs', () => {
-    cy.setupClaimTest({ claim: createClaim() });
+    setupClaimTest({ claim: createBenefitsClaim() });
 
     cy.findByRole('link', {
       name: 'Status',
@@ -119,7 +122,7 @@ describe('Claim layout', () => {
   });
 
   it('should display the need help section', () => {
-    cy.setupClaimTest({ claim: createClaim() });
+    setupClaimTest({ claim: createBenefitsClaim() });
 
     verifyNeedHelp();
 

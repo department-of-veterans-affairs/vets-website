@@ -1,4 +1,5 @@
-import userWithAppeals from '../../fixtures/mocks/user-with-appeals.json';
+import { createEvidenceSubmission } from '../../support/fixtures/benefitsClaims';
+import { createStemClaim } from '../../support/fixtures/stemClaims';
 import {
   mockBaseEndpoints,
   setShowDocumentUploadStatus,
@@ -13,51 +14,6 @@ describe('STEM claim cards', () => {
     cy.injectAxe();
   };
 
-  const createEvidenceSubmission = ({
-    id = 123,
-    acknowledgementDate,
-    failedDate = '2022-02-01T12:00:00.000Z',
-  }) => ({
-    id,
-    claimId: '1234', // Not used by UI
-    uploadStatus: 'FAILED',
-    acknowledgementDate,
-    createdAt: failedDate,
-    deleteDate: null,
-    documentType: 'STEM Supporting Documents',
-    failedDate,
-    fileName: 'stem-document.pdf',
-    lighthouseUpload: true,
-    trackedItemId: null,
-    trackedItemDisplayName: null,
-    vaNotifyStatus: 'SENT',
-  });
-
-  const createStemClaim = ({
-    id = '1234',
-    automatedDenial = true,
-    deniedAt = '2022-01-31T15:08:20.489Z',
-    submittedAt = '2022-01-31T15:08:20.489Z',
-    evidenceSubmissions = [],
-  }) => {
-    // Commented out properties are part of the STEM claims response but not currently used by the card UI
-    return {
-      id,
-      type: 'education_benefits_claims',
-      attributes: {
-        confirmationNumber: `V-EBC-${id}`,
-        // isEnrolledStem,
-        // isPursuingTeachingCert,
-        // benefitLeft,
-        // remainingEntitlement,
-        automatedDenial, // Determines if card displays
-        deniedAt, // "Last updated on..." text
-        submittedAt, // "Received on..." text
-        evidenceSubmissions, // For upload error alerts
-      },
-    };
-  };
-
   beforeEach(() => {
     mockBaseEndpoints({
       features: [setShowDocumentUploadStatus(true)],
@@ -70,19 +26,19 @@ describe('STEM claim cards', () => {
       data: [],
     });
 
-    cy.login(userWithAppeals);
+    cy.login();
   });
 
   it('should display denied STEM claim', () => {
     setupStemCardsTest([createStemClaim({})]);
 
     cy.findByText('Edith Nourse Rogers STEM Scholarship application');
-    cy.findByText('Received on January 31, 2022');
+    cy.findByText('Received on January 1, 2025');
 
     cy.findByText('Status: Denied');
-    cy.findByText('Last updated on: January 31, 2022');
+    cy.findByText('Last updated on: January 15, 2025');
     cy.findByRole('link', {
-      name: 'Details for claim submitted on January 31, 2022',
+      name: 'Details for claim submitted on January 1, 2025',
     }).should(
       'have.attr',
       'href',
@@ -108,7 +64,7 @@ describe('STEM claim cards', () => {
         createStemClaim({
           evidenceSubmissions: [
             createEvidenceSubmission({
-              acknowledgementDate: '2030-12-31T23:59:59.999Z',
+              acknowledgementDate: '2050-01-01T12:00:00.000Z',
             }),
           ],
         }),

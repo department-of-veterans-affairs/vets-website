@@ -1,22 +1,77 @@
 /**
- * Creates a failed evidence submission
+ * Creates a claim list item for /v0/benefits_claims
  *
  * @param {Object} overrides - Properties to override defaults
- * @param {string} overrides.failedDate - Date the upload failed
- * @returns {Object} Failed evidence submission object
+ * @param {string} overrides.claimDate - Claim submission date
+ * @param {string} overrides.phaseChangeDate - Date claim moved to current phase
+ * @param {string} overrides.phaseType - Current phase type (for 8-phase status text)
+ * @param {string} overrides.claimTypeBase - Claim type base text
+ * @param {string} overrides.claimTypeCode - Claim type code (determines 5 vs 8 phases)
+ * @param {boolean} overrides.decisionLetterSent - Whether decision letter was sent
+ * @param {boolean} overrides.developmentLetterSent - Whether development letter was sent
+ * @param {string} overrides.displayTitle - Display title for the claim
+ * @param {boolean} overrides.documentsNeeded - Whether documents are needed
+ * @param {string} overrides.status - Claim status
+ * @returns {Object} Claim list item object
  */
-export const createFailedSubmission = ({
-  failedDate = '2025-01-15T12:00:00.000Z',
+export const createBenefitsClaimListItem = ({
+  claimDate = '2025-01-01',
+  phaseChangeDate = '2025-01-02',
+  phaseType = 'CLAIM_RECEIVED',
+  claimTypeBase = 'compensation claim',
+  claimTypeCode,
+  decisionLetterSent,
+  developmentLetterSent,
+  displayTitle = 'Claim for compensation',
+  documentsNeeded,
+  status = 'CLAIM_RECEIVED',
 } = {}) => ({
-  id: 12345,
+  id: '123456789',
+  attributes: {
+    claimDate,
+    claimPhaseDates: {
+      phaseChangeDate,
+      phaseType,
+    },
+    claimTypeBase,
+    claimTypeCode,
+    decisionLetterSent,
+    developmentLetterSent,
+    displayTitle,
+    documentsNeeded,
+    status,
+  },
+});
+
+/**
+ * Creates an evidence submission
+ * Used for both STEM and Benefits Claims - they share the same shape with different attribute values.
+ *
+ * @param {Object} overrides - Properties to override defaults
+ * @param {number} overrides.id - Submission ID
+ * @param {string} overrides.uploadStatus - Upload status
+ * @param {string} overrides.acknowledgementDate - Future date ensures submission is always within the 30-day alert window
+ * @param {string} overrides.failedDate - Date the upload failed
+ * @param {string} overrides.documentType - Document type
+ * @returns {Object} Evidence submission object
+ */
+export const createEvidenceSubmission = ({
+  id = 12345,
+  uploadStatus = 'FAILED', // Tests currently only use failed submissions
+  acknowledgementDate = '2050-01-01T12:00:00.000Z',
+  failedDate = '2025-01-15T12:00:00.000Z',
+  // Configurable for context-appropriate values (e.g., 'STEM Supporting Documents' for STEM claims)
+  documentType = 'Supporting Documents',
+} = {}) => ({
+  id,
   claimId: '123456789',
-  uploadStatus: 'FAILED',
-  acknowledgementDate: '2030-12-31T23:59:59.999Z', // Future date so it's within 30 days
+  uploadStatus,
+  acknowledgementDate,
   createdAt: failedDate,
   deleteDate: null,
-  documentType: 'Supporting Documents',
+  documentType,
   failedDate,
-  fileName: 'medical-records.pdf',
+  fileName: 'document.pdf',
   lighthouseUpload: true,
   trackedItemId: null,
   trackedItemDisplayName: null,
@@ -51,7 +106,7 @@ export const createTrackedItem = ({
 });
 
 /**
- * Creates a claim
+ * Creates a claim detail for /v0/benefits_claims/:id
  *
  * @param {Object} overrides - Properties to override defaults
  * @param {Array} overrides.contentions - List of claimed conditions
@@ -59,16 +114,18 @@ export const createTrackedItem = ({
  * @param {string|null} overrides.closeDate - Claim close date
  * @param {Array} overrides.evidenceSubmissions - Evidence submissions array
  * @param {Array} overrides.trackedItems - Tracked items
- * @returns {Object} Claim object
+ * @param {boolean} overrides.currentPhaseBack - Whether claim moved back to current phase
+ * @returns {Object} Claim detail object
  */
-export const createClaim = ({
-  contentions = [{ name: 'Tinnitus' }, { name: 'Hearing Loss' }],
-  status = 'EVIDENCE_GATHERING_REVIEW_DECISION',
-  closeDate = null,
-  evidenceSubmissions = [],
-  trackedItems,
+export const createBenefitsClaim = ({
   claimTypeCode = '010LCOMP',
+  currentPhaseBack = false,
   latestPhaseType = 'GATHERING_OF_EVIDENCE',
+  closeDate = null,
+  contentions = [{ name: 'Tinnitus' }, { name: 'Hearing Loss' }],
+  evidenceSubmissions = [],
+  status = 'EVIDENCE_GATHERING_REVIEW_DECISION',
+  trackedItems,
 } = {}) => {
   // Commented out properties are part of the claim response but not currently used in the detail
   return {
@@ -79,7 +136,7 @@ export const createClaim = ({
       claimDate: '2025-01-01',
       claimPhaseDates: {
         phaseChangeDate: '2025-01-02',
-        currentPhaseBack: false,
+        currentPhaseBack,
         latestPhaseType,
         previousPhases: {
           phase1CompleteDate: '2025-01-02',
@@ -114,13 +171,17 @@ export const createClaim = ({
           requestedDate: '2025-03-01',
           status: 'NEEDED_FROM_OTHERS',
           suspenseDate: '2050-01-01',
-          id: 585393,
+          id: 123456,
           uploadsAllowed: true,
           canUploadFile: false,
           friendlyName: 'Disability exam for hearing',
           activityDescription: null,
           shortDescription: null,
-          supportAliases: ['DBQ AUDIO Hearing Loss and Tinnitus'],
+          supportAliases: [
+            'DBQ AUDIO Hearing Loss and Tinnitus',
+            'Hearing Exam',
+            'Audio Exam',
+          ],
         },
         {
           closedDate: null,
@@ -131,7 +192,7 @@ export const createClaim = ({
           requestedDate: '2025-04-01',
           status: 'NEEDED_FROM_OTHERS',
           suspenseDate: '2050-01-01',
-          id: 585394,
+          id: 654321,
           uploadsAllowed: true,
           canUploadFile: true,
           friendlyName: 'Reserve records',

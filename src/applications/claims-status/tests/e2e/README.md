@@ -197,26 +197,30 @@ npx nyc report --reporter=html --reporter=json-summary --reporter=text
 open coverage/index.html
 ```
 
-### Current Coverage
+## Coverage
 
 Use branch coverage as our primary coverage metric because it measures whether we test all decision paths (if/else, switch cases), not just whether code executes. This is a more rigorous standard than statement or line coverage.
 
-| Metric | Description | Before | Current | Change |
-|--------|-------------|---------------|---------------------|--------|
-| **Branches** | Decision paths (if/else, switch cases) executed | 62.43% | 64.6% | +2.17% |
-| **Statements** | Individual executable statements run during tests | 75.07% | 76.66% | +1.59% |
-| **Functions** | Functions called during test execution | 82.86% | 83.94% | +1.08% |
-| **Lines** | Lines of code executed during tests | 75.13% | 76.62% | +1.49% |
+### Coverage Progress
 
-### First Rewrite PR Impact
-https://github.com/department-of-veterans-affairs/vets-website/pull/40123
+| Stage                                                                                 | % Stmts | % Branch | % Funcs | % Lines |
+| --------------------------------------------------------------------------------------| ------- | -------- | ------- | ------- |
+| Initial                                                                               | 75.07   | 62.43    | 82.86   | 75.13   |
+| [First PR](https://github.com/department-of-veterans-affairs/vets-website/pull/40123) | 76.58   | 64.54    | 83.61   | 76.62   |
+| Second PR                                                                             | 78.94   | 69.34    | 85.33   | 78.88   |
 
-| File | Before | After | Improvement |
-|------|--------|-------|-------------|
-| **Test cases** | 6 | 42 | +36 |
-| **Branches** | 62.43% | 64.6% | +2.17% |
-| `AppealListItem.jsx` | 31.57% | 94.73% | **+63.16%** |
-| `ClaimsListItem.jsx` | 66.66% | 95.23% | **+28.57%** |
-| `YourClaimsPageV2.jsx` | 81.96% | 90.16% | **+8.2%** |
-| `claimsV2.js` (reducer) | 53.33% | 73.33% | **+20%** |
-| `actions/index.js` | 58.75% | 66.19% | **+7.44%** |
+
+### Next Priority
+
+| Priority | File                       | Before % | After % | Uncovered Lines               |
+| -------- | -------------------------- | -------- | ------- | ----------------------------- |
+| 1        | appeals-v2-helpers.jsx     | 25.11    |         | 1974-1976,2012,2046,2059-2065 |
+| 2        | Docket.jsx                 | 0        |         | 44-234                        |
+| 3        | AppealsV2StatusPage.jsx    | 52.94    |         | 64-72,86-87                   |
+| 4        | Decision.jsx               | 53.84    |         | 12,15,43,57                   |
+| 5        | FilesWeCouldntReceive.jsx  | 0        |         | 20-203                        |
+| 6        | Standard5103NoticePage.jsx | 0        |         | 20-86                         |
+| 7        | StemClaimStatusPage.jsx    | 0        |         | 15-88                         |
+| 8        | StemDeniedDetails.jsx      | 0        |         | 14-225                        |
+| 9        | ClosedClaimAlert.jsx       | 40       |         | 8-26                          |
+| 10       | helpers.js                 | 68.46    |         | 1491-1493,1498,1520,1529,1560 |
