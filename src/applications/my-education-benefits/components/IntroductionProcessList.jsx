@@ -57,7 +57,7 @@ export const IntroductionProcessList = () => {
               You’re an officer in the Selected Reserve who agreed to serve 6
               years beyond your initial service obligation; <strong>and</strong>
             </li>
-            <li>You meet other requirements.</li>
+            <li>You meet other requirements</li>
           </ul>
         </va-additional-info>
       </va-process-list-item>
@@ -91,7 +91,7 @@ export const IntroductionProcessList = () => {
             <strong>Note:</strong> In some cases, we may need more time to make
             a decision. If you don’t get an automatic decision right after you
             apply, you’ll receive a decision letter in the mail in about 30
-            days. We’ll contact you if we need more information.
+            days. And we’ll contact you if we need more information.
           </p>
         </va-additional-info>
       </va-process-list-item>
