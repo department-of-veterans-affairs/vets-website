@@ -60,6 +60,8 @@ if [ "$MAKE_APP_PUBLIC" == "YES" ]; then
 
     # Enable content-build port
     npx http-server build/localhost -s -c-1 -p 3002
+    gh codespace ports visibility 3002:public -c "$CODESPACE_NAME"
+
     wait
 
     else
