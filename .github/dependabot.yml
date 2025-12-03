@@ -8,9 +8,11 @@ updates:
   - package-ecosystem: "npm"
     directory: "/" # Location of package manifests
     schedule:
-      interval: "daily"
+      interval: "weekly"
       time: "09:00"
       timezone: "America/New_York"
+    cooldown:
+      default-days: 7
     # Allow up to 10 open pull requests for npm dependencies
     open-pull-requests-limit: 0
     ignore:
