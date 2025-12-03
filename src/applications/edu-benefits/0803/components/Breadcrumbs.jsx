@@ -23,7 +23,7 @@ const Breadcrumbs = () => {
     },
     {
       href:
-        'https://www.va.gov/education/about-gi-bill-benefits/how-to-use-benefits/licensing-and-certification-tests/',
+        '/education/about-gi-bill-benefits/how-to-use-benefits/licensing-and-certification-tests/',
       label: 'Licensing and certification test prep courses',
     },
     {
