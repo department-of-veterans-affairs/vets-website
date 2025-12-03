@@ -27,6 +27,7 @@ import {
   setCaretToPos,
   navigateToFolderByFolderId,
   dateFormat,
+  buildRxRenewalMessageBody,
   scrollToTop,
 } from '../../util/helpers';
 import { sendMessage } from '../../actions/messages';
@@ -43,6 +44,7 @@ import {
   FormLabels,
   downtimeNotificationParams,
   Alerts,
+  MessageHintText,
 } from '../../util/constants';
 import EmergencyNote from '../EmergencyNote';
 import ComposeFormActionButtons from './ComposeFormActionButtons';
@@ -59,6 +61,8 @@ import {
   updateDraftInProgress,
 } from '../../actions/threadDetails';
 import SelectedRecipientTitle from './SelectedRecipientTitle';
+import { clearPrescription } from '../../actions/prescription';
+import AddYourMedicationInfoWarning from './AddYourMedicationInfoWarning';
 
 const ComposeForm = props => {
   const { pageTitle, draft, recipients, signature } = props;
@@ -72,6 +76,15 @@ const ComposeForm = props => {
   const headerRef = useRef();
 
   const { draftInProgress } = useSelector(state => state.sm.threadDetails);
+  const { prescription } = useSelector(state => state.sm);
+  const {
+    renewalPrescription,
+    rxError = prescription.error,
+    redirectPath,
+  } = prescription;
+  const renewalPrescriptionIsLoading = useSelector(
+    state => state.sm.prescription.isLoading,
+  );
   const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
   const {
     largeAttachmentsEnabled,
@@ -114,6 +127,50 @@ const ComposeForm = props => {
       );
     },
     [largeAttachmentsEnabled, cernerPilotSmFeatureFlag, ohTriageGroup],
+  );
+
+  const isRxRenewalDraft = useMemo(
+    () => renewalPrescription?.prescriptionId || rxError,
+    [renewalPrescription, rxError],
+  );
+
+  const navigateToRxCallback = useCallback(
+    () => {
+      if (redirectPath) {
+        window.location.replace(redirectPath);
+      }
+    },
+    [redirectPath],
+  );
+
+  useEffect(
+    () => {
+      return () => {
+        dispatch(clearPrescription());
+      };
+    },
+    [dispatch],
+  );
+
+  useEffect(
+    () => {
+      if (isRxRenewalDraft) {
+        const messageSubject = 'Renewal Needed';
+        const messageBody = buildRxRenewalMessageBody(
+          renewalPrescription,
+          rxError,
+        );
+
+        dispatch(
+          updateDraftInProgress({
+            body: messageBody,
+            subject: messageSubject,
+            category: Categories.MEDICATIONS.value,
+          }),
+        );
+      }
+    },
+    [renewalPrescription, isRxRenewalDraft, dispatch],
   );
 
   useEffect(
@@ -381,16 +438,21 @@ const ComposeForm = props => {
                 sendData,
                 attachments.length > 0,
                 draftInProgress.ohTriageGroup,
+                !!redirectPath, // suppress alert when redirectPath exists
               ),
             );
             dispatch(clearDraftInProgress());
             setTimeout(() => {
-              navigateToFolderByFolderId(
-                currentFolder?.folderId || DefaultFolders.INBOX.id,
-                history,
-              );
+              if (redirectPath) {
+                navigateToRxCallback();
+              } else {
+                navigateToFolderByFolderId(
+                  currentFolder?.folderId || DefaultFolders.INBOX.id,
+                  history,
+                );
+              }
             }, 1000);
-            // Timeout neccessary for UCD requested 1 second delay
+            // Timeout necessary for UCD requested 1 second delay
           } catch (err) {
             setSendMessageFlag(false);
             scrollToTop();
@@ -414,6 +476,8 @@ const ComposeForm = props => {
       dispatch,
       currentFolder?.folderId,
       history,
+      redirectPath,
+      navigateToRxCallback,
     ],
   );
 
@@ -828,8 +892,8 @@ const ComposeForm = props => {
     recipient => {
       setSelectedRecipientId(recipient?.id ? recipient.id.toString() : '0');
 
-      if (recipient.id !== '0') {
-        if (recipient.id) setRecipientError('');
+      if (recipient?.id !== '0') {
+        if (recipient?.id) setRecipientError('');
         setUnsavedNavigationError();
       }
     },
@@ -877,6 +941,16 @@ const ComposeForm = props => {
   const electronicCheckboxHandler = e => {
     setCheckboxMarked(e.detail.checked);
   };
+
+  if (renewalPrescriptionIsLoading) {
+    return (
+      <va-loading-indicator
+        message="Loading..."
+        setFocus
+        data-testid="loading-indicator"
+      />
+    );
+  }
 
   if (sendMessageFlag === true) {
     return (
@@ -934,6 +1008,7 @@ const ComposeForm = props => {
                 />
               </div>
             )}
+          <AddYourMedicationInfoWarning isVisible={rxError != null} />
           {!mhvSecureMessagingCuratedListFlow &&
             recipientsList &&
             !noAssociations &&
@@ -1009,6 +1084,15 @@ const ComposeForm = props => {
                 id="compose-message-body"
                 name="compose-message-body"
                 class="message-body"
+                hint={(() => {
+                  if (rxError) {
+                    return MessageHintText.RX_RENEWAL_ERROR;
+                  }
+                  if (renewalPrescription?.prescriptionId) {
+                    return MessageHintText.RX_RENEWAL_SUCCESS;
+                  }
+                  return null;
+                })()}
                 data-testid="message-body-field"
                 onInput={messageBodyHandler}
                 value={messageBody || formattedSignature} // populate with the signature, unless there is a saved draft
@@ -1079,6 +1163,7 @@ const ComposeForm = props => {
             setNavigationError={setNavigationError}
             setUnsavedNavigationError={setUnsavedNavigationError}
             savedComposeDraft={!!draft}
+            redirectPath={redirectPath}
           />
         </div>
       </form>

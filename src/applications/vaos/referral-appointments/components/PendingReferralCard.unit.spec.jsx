@@ -46,26 +46,4 @@ describe('VAOS Component: PendingReferralCard', () => {
       ),
     ).to.exist;
   });
-  it('should render basic list item with alert component', () => {
-    referral.stationId = '12345';
-    screen = render(
-      <PendingReferralCard referral={referral} handleClick={handleClick} />,
-    );
-    expect(screen.getByTestId('referral-not-available-alert')).to.exist;
-  });
-
-  describe('when not in pilot station', () => {
-    it('should show an alert and a link to find a community care office', () => {
-      referral.stationId = '12345';
-      screen = render(
-        <PendingReferralCard referral={referral} handleClick={handleClick} />,
-      );
-      const alert = screen.getByTestId('referral-not-available-alert');
-      expect(alert).to.exist;
-      expect(alert).to.contain.text(
-        'Online scheduling isn’t available for this referral right now. Call your community care provider or your facility’s community care office to schedule an appointment.',
-      );
-      expect(screen.getByTestId('referral-community-care-office')).to.exist;
-    });
-  });
 });

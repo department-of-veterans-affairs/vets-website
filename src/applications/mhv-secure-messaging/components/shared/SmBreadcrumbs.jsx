@@ -23,6 +23,10 @@ const SmBreadcrumbs = () => {
   const recentRecipients = useSelector(
     state => state.sm.recipients?.recentRecipients,
   );
+
+  const urlRedirectPath = useSelector(
+    state => state.sm.prescription?.redirectPath,
+  );
   const { mhvSecureMessagingRecentRecipients } = useFeatureToggles();
 
   // Use state + sessionStorage to persist entry URL and trigger re-renders
@@ -95,7 +99,7 @@ const SmBreadcrumbs = () => {
       mhvSecureMessagingRecentRecipients &&
       recentRecipients !== undefined &&
       recentRecipients?.length > 0 &&
-      recentRecipients !== 'error' &&
+      recentRecipients?.error !== 'error' &&
       recentRecipients !== null,
     [recentRecipients, mhvSecureMessagingRecentRecipients],
   );
@@ -205,8 +209,41 @@ const SmBreadcrumbs = () => {
     [showRecentCareTeams, composeEntryUrl],
   );
 
+  // Check if we should use urlRedirectPath for Rx renewal flow
+  const shouldUseRxRedirectPath = useMemo(
+    () => {
+      const isSelectCareTeamPath =
+        currentPath ===
+        `${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_CARE_TEAM}`;
+      if (
+        urlRedirectPath &&
+        isSelectCareTeamPath &&
+        recentRecipients?.length > 0
+      ) {
+        // Don't use urlRedirectPath if recentRecipients are available (user is in compose flow)
+        // and the user is on the select care team page. This prevents navigating back to redirectPath
+        // when a user navigated from the /recent page to the select care team page,
+        // which would cause them to lose their place in the compose flow.
+        return false;
+      }
+      return (
+        urlRedirectPath &&
+        composeEntryUrl === Constants.Paths.INBOX &&
+        (currentPath === Constants.Paths.COMPOSE ||
+          currentPath === Constants.Paths.RECENT_CARE_TEAMS ||
+          isSelectCareTeamPath)
+      );
+    },
+    [urlRedirectPath, composeEntryUrl, currentPath, recentRecipients],
+  );
+
   const navigateBack = useCallback(
     () => {
+      if (shouldUseRxRedirectPath) {
+        window.location.replace(urlRedirectPath);
+        return;
+      }
+
       // Check if current page is in the compose flow
       const composeFlowMap = getComposeFlowMap();
       const composeFlowDestination = composeFlowMap[currentPath];
@@ -257,6 +294,8 @@ const SmBreadcrumbs = () => {
       locationBasePath,
       previousUrl,
       fallbackUrl,
+      urlRedirectPath,
+      shouldUseRxRedirectPath,
     ],
   );
   useEffect(
@@ -386,46 +425,56 @@ const SmBreadcrumbs = () => {
   };
 
   // Determine the correct back link href based on compose flow logic
-  const composeFlowMap = getComposeFlowMap();
   // Special case for contact list: use previousUrl directly to avoid timing issues
-  const backLinkHref =
-    composeFlowMap[currentPath] ||
-    (currentPath === Constants.Paths.CONTACT_LIST && previousUrl
-      ? previousUrl
-      : fallbackUrl);
+  const backLinkHref = useMemo(
+    () => {
+      if (shouldUseRxRedirectPath) {
+        return urlRedirectPath;
+      }
+      const composeFlowMap = getComposeFlowMap();
+      return (
+        manifest.rootUrl +
+        (composeFlowMap[currentPath] ||
+          (currentPath === Constants.Paths.CONTACT_LIST && previousUrl
+            ? previousUrl
+            : fallbackUrl))
+      );
+    },
+    [
+      currentPath,
+      fallbackUrl,
+      getComposeFlowMap,
+      previousUrl,
+      shouldUseRxRedirectPath,
+      urlRedirectPath,
+    ],
+  );
 
-  return (
-    <div>
-      {shortenBreadcrumb ? (
-        <nav
-          aria-label="Breadcrumb"
-          className="breadcrumbs vads-u-padding-y--4"
-        >
-          <va-link
-            back
-            text="Back"
-            href={`${manifest.rootUrl}${backLinkHref}`}
-            onClick={e => {
-              e.preventDefault();
-              navigateBack();
-            }}
-            data-testid="sm-breadcrumbs-back"
-            data-dd-action-name="Breadcrumb - Back"
-          />
-        </nav>
-      ) : (
-        <VaBreadcrumbs
-          breadcrumbList={newCrumbsList}
-          label="Breadcrumb"
-          home-veterans-affairs
-          onRouteChange={handleRouteChange}
-          className="mobile-lg:vads-u-margin-y--2"
-          dataTestid="sm-breadcrumbs"
-          data-dd-action-name="Breadcrumb"
-          uswds
-        />
-      )}
+  return shortenBreadcrumb ? (
+    <div className="vads-u-padding-y--4 vads-u-display--inline-block">
+      <va-link
+        back
+        text="Back"
+        href={backLinkHref}
+        onClick={e => {
+          e.preventDefault();
+          navigateBack();
+        }}
+        data-testid="sm-breadcrumbs-back"
+        data-dd-action-name="Breadcrumb - Back"
+      />
     </div>
+  ) : (
+    <VaBreadcrumbs
+      breadcrumbList={newCrumbsList}
+      label="Breadcrumb"
+      home-veterans-affairs
+      onRouteChange={handleRouteChange}
+      className="mobile-lg:vads-u-margin-y--2"
+      dataTestid="sm-breadcrumbs"
+      data-dd-action-name="Breadcrumb"
+      uswds
+    />
   );
 };
 

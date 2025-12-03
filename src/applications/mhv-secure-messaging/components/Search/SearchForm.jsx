@@ -73,7 +73,10 @@ const SearchForm = props => {
 
   const handleSearch = () => {
     setFiltersCleared(false);
-    if (filterBoxRef.current.checkFormValidity()) return;
+    if (filterBoxRef.current.checkFormValidity()) {
+      setSearchTermError(null);
+      return;
+    }
 
     let relativeToDate;
     let relativeFromDate;
@@ -101,9 +104,11 @@ const SearchForm = props => {
     if (searchTerm === '' && customFilter === false) {
       setSearchTermError(null);
       setSearchTermError(ErrorMessages.SearchForm.SEARCH_TERM_REQUIRED);
+      focusElement(filterInputRef.current);
       return;
     }
     setSearchTermError(null);
+    filterBoxRef.current.clearDateErrors();
 
     dispatch(
       runAdvancedSearch(
@@ -124,6 +129,8 @@ const SearchForm = props => {
     dispatch(clearSearchResults());
     setFiltersCleared(true);
     setSearchTerm('');
+    setSearchTermError(null);
+    filterBoxRef.current.clearDateErrors();
     focusElement(filterFormTitleRef.current);
     setCategory('');
     setDateRange('any');
@@ -205,6 +212,7 @@ const SearchForm = props => {
         role="status"
         aria-live="polite"
         data-testid="search-message-folder-input-label"
+        data-dd-action-name="Filter Messages matches label"
         className={`vads-u-margin-top--4 ${
           resultsCount === undefined ? null : 'filter-results-in-folder'
         }`}

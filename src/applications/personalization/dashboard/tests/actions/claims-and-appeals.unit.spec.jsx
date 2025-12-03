@@ -80,6 +80,30 @@ describe('/actions/claims-and-appeals', () => {
           .then(done, done);
       });
     });
+
+    describe('default case in switch statement (error codes other than 403, 404, 422, 502)', () => {
+      // Test error status codes that should dispatch FETCH_APPEALS_ERROR
+      // These codes are not handled by specific switch cases (403, 404, 422, 502)
+      const defaultCaseErrorCodes = ['400', '401', '500', '503', '504', '505'];
+
+      defaultCaseErrorCodes.forEach(code => {
+        it(`should dispatch FETCH_APPEALS_ERROR when GET fails with status ${code}`, done => {
+          // Test with error codes that are not in the switch cases
+          // This explicitly tests the default branch
+          setFetchJSONFailure(global.fetch.onCall(0), {
+            errors: [{ status: code }],
+          });
+          const thunk = getAppeals();
+          const dispatch = sinon.spy();
+          thunk(dispatch)
+            .then(() => {
+              const action = dispatch.secondCall.args[0];
+              expect(action.type).to.equal(FETCH_APPEALS_ERROR);
+            })
+            .then(done, done);
+        });
+      });
+    });
   });
 
   describe('getClaims', () => {

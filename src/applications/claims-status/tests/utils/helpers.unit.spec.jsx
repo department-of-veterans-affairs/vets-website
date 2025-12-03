@@ -10,6 +10,7 @@ import {
 import * as scrollUtils from 'platform/utilities/scroll/scroll';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import * as page from '../../utils/page';
+import { ANCHOR_LINKS } from '../../constants';
 
 import {
   groupTimelineActivity,
@@ -51,6 +52,9 @@ import {
   generateClaimTitle,
   isStandard5103Notice,
   getShowEightPhases,
+  getTimezoneDiscrepancyMessage,
+  showTimezoneDiscrepancyMessage,
+  formatUploadDateTime,
 } from '../../utils/helpers';
 
 import {
@@ -1693,31 +1697,288 @@ describe('Disability benefits helpers: ', () => {
       });
     });
   });
+
+  describe('generateClaimTitle with server-generated titles', () => {
+    const claimDate = '2024-08-21';
+
+    context('when server provides displayTitle (feature flag ON)', () => {
+      context('for list/detail views', () => {
+        it('should use displayTitle for list view (no placement)', () => {
+          const claim = {
+            attributes: {
+              displayTitle: 'Claim for Veterans Pension',
+              claimTypeBase: 'veterans pension claim',
+              claimType: 'Pension',
+            },
+          };
+          expect(generateClaimTitle(claim)).to.equal(
+            'Claim for Veterans Pension',
+          );
+        });
+
+        it('should use displayTitle for detail placement', () => {
+          const claim = {
+            attributes: {
+              displayTitle: 'Request to add or remove a dependent',
+              claimTypeBase: 'dependency claim',
+              claimType: 'Dependency',
+            },
+          };
+          expect(generateClaimTitle(claim, 'detail')).to.equal(
+            'Request to add or remove a dependent',
+          );
+        });
+
+        it('should bypass all client-side override logic when displayTitle present', () => {
+          const claim = {
+            attributes: {
+              displayTitle: 'Claim for Survivors Pension',
+              claimTypeBase: 'survivors pension claim',
+              claimType: 'Pension',
+              claimTypeCode: '190ORGDPNPMC', // Would trigger client-side override
+            },
+          };
+          expect(generateClaimTitle(claim)).to.equal(
+            'Claim for Survivors Pension',
+          );
+        });
+      });
+
+      context('for breadcrumb/document views', () => {
+        it('should NOT use displayTitle for breadcrumb (uses composition)', () => {
+          const claim = {
+            attributes: {
+              displayTitle: 'Claim for Veterans Pension',
+              claimTypeBase: 'veterans pension claim',
+              claimType: 'Pension',
+              claimTypeCode: '180ORGPENPMC',
+              claimDate,
+            },
+          };
+          const result = generateClaimTitle(claim, 'breadcrumb', 'Status');
+          expect(result).to.equal('Status of your veterans pension claim');
+          expect(result).to.not.equal(
+            'Status of your Claim for Veterans Pension',
+          );
+        });
+
+        it('should NOT use displayTitle for document (uses composition)', () => {
+          const claim = {
+            attributes: {
+              displayTitle: 'Claim for Veterans Pension',
+              claimTypeBase: 'veterans pension claim',
+              claimType: 'Pension',
+              claimDate,
+            },
+          };
+          const result = generateClaimTitle(claim, 'document', 'Status');
+          expect(result).to.include('Veterans Pension Claim');
+          expect(result).to.include('August 21, 2024');
+        });
+      });
+    });
+
+    context('when server provides BOTH fields (feature flag ON)', () => {
+      it('should use claimTypeBase in breadcrumb composition', () => {
+        const claim = {
+          attributes: {
+            displayTitle: 'Claim for Veterans Pension',
+            claimTypeBase: 'veterans pension claim',
+            claimType: 'Pension',
+            claimTypeCode: '180ORGPENPMC',
+            claimDate,
+          },
+        };
+        const result = generateClaimTitle(claim, 'breadcrumb', 'Files');
+        expect(result).to.equal('Files for your veterans pension claim');
+      });
+
+      it('should use claimTypeBase in document composition', () => {
+        const claim = {
+          attributes: {
+            displayTitle: 'Claim for Survivors Pension',
+            claimTypeBase: 'survivors pension claim',
+            claimType: 'Pension',
+            claimDate,
+          },
+        };
+        const result = generateClaimTitle(claim, 'document', 'Overview');
+        expect(result).to.equal(
+          'Overview of August 21, 2024 Survivors Pension Claim',
+        );
+      });
+
+      it('should preserve backend claimTypeBase casing for composition', () => {
+        const claim = {
+          attributes: {
+            displayTitle: 'Claim for Compensation',
+            claimTypeBase: 'compensation claim',
+            claimDate,
+          },
+        };
+        const result = generateClaimTitle(claim, 'breadcrumb', 'Status');
+        expect(result).to.equal('Status of your compensation claim');
+      });
+
+      it('should preserve pension claim specificity in breadcrumbs', () => {
+        const claim = {
+          attributes: {
+            displayTitle: 'Claim for Veterans Pension',
+            claimTypeBase: 'veterans pension claim',
+            claimType: 'Pension',
+            claimTypeCode: '180ORGPENPMC',
+            claimDate,
+          },
+        };
+        const result = generateClaimTitle(claim, 'breadcrumb', 'Status');
+        // Should maintain "veterans pension" NOT collapse to generic "pension"
+        expect(result).to.include('veterans pension');
+        expect(result).to.not.equal('Status of your pension claim');
+      });
+    });
+
+    context('when server does NOT provide fields (feature flag OFF)', () => {
+      it('should fall back to client-side logic for list view', () => {
+        const claim = {
+          attributes: {
+            claimType: 'Compensation',
+          },
+        };
+        expect(generateClaimTitle(claim)).to.equal('Claim for compensation');
+      });
+
+      it('should fall back to getClaimType for breadcrumb composition', () => {
+        const claim = {
+          attributes: {
+            claimType: 'Compensation',
+            claimDate,
+          },
+        };
+        const result = generateClaimTitle(claim, 'breadcrumb', 'Files');
+        expect(result).to.equal('Files for your compensation claim');
+      });
+
+      it('should apply client-side claimTypeCode overrides when no server fields', () => {
+        const claim = {
+          attributes: {
+            claimType: 'Pension',
+            claimTypeCode: '190ORGDPNPMC', // Survivors Pension
+          },
+        };
+        expect(generateClaimTitle(claim)).to.equal(
+          'Claim for Survivors Pension',
+        );
+      });
+    });
+
+    context('edge cases', () => {
+      it('should handle null claimType with BOTH server fields present', () => {
+        const claim = {
+          attributes: {
+            displayTitle: 'Claim for Debt Validation',
+            claimTypeBase: 'debt validation claim',
+            claimType: null,
+            claimTypeCode: '290DV',
+            claimDate,
+          },
+        };
+        // Should use server-generated titles, not fall back to "Disability Compensation"
+        const result = generateClaimTitle(claim, 'breadcrumb', 'Status');
+        expect(result).to.equal('Status of your debt validation claim');
+        expect(result).to.not.include('disability compensation');
+      });
+
+      it('should handle Death claims with server-generated fields', () => {
+        const claim = {
+          attributes: {
+            displayTitle: 'Claim for expenses related to death or burial',
+            claimTypeBase: 'death claim',
+            claimType: 'Death',
+          },
+        };
+        expect(generateClaimTitle(claim)).to.equal(
+          'Claim for expenses related to death or burial',
+        );
+      });
+
+      it('should handle dependency claims with server-generated fields', () => {
+        const claim = {
+          attributes: {
+            displayTitle: 'Request to add or remove a dependent',
+            claimTypeBase: 'request to add or remove a dependent',
+            claimType: 'Dependency',
+            claimTypeCode: '130DPNDCY',
+            claimDate,
+          },
+        };
+        expect(generateClaimTitle(claim)).to.equal(
+          'Request to add or remove a dependent',
+        );
+        // Check breadcrumb uses claimTypeBase
+        const breadcrumb = generateClaimTitle(claim, 'breadcrumb', 'Files');
+        expect(breadcrumb).to.equal(
+          'Files for your request to add or remove a dependent',
+        );
+      });
+
+      it('should fall back to legacy logic when only one server field is present', () => {
+        const claim = {
+          attributes: {
+            claimTypeBase: 'compensation claim', // Only claimTypeBase, no displayTitle
+            claimType: 'Compensation',
+            claimDate,
+          },
+        };
+        // Should use client-side logic since both fields are not present (atomic requirement)
+        expect(generateClaimTitle(claim)).to.equal('Claim for compensation');
+        const breadcrumb = generateClaimTitle(claim, 'breadcrumb', 'Status');
+        expect(breadcrumb).to.equal('Status of your compensation claim');
+      });
+    });
+  });
+
   describe('getUploadErrorMessage', () => {
     context('when error is due to a duplicate upload', () => {
-      it('should return a specific duplicate error message with file name', () => {
-        const claimId = '14568432';
-        const error = {
-          fileName: 'my-document.pdf',
-          errors: [
-            {
-              detail: 'DOC_UPLOAD_DUPLICATE',
-            },
-          ],
-        };
+      [
+        {
+          description: 'showDocumentUploadStatus is false (default)',
+          showDocumentUploadStatus: false,
+          expectedAnchor: ANCHOR_LINKS.documentsFiled,
+        },
+        {
+          description: 'showDocumentUploadStatus is true',
+          showDocumentUploadStatus: true,
+          expectedAnchor: ANCHOR_LINKS.filesReceived,
+        },
+      ].forEach(({ description, showDocumentUploadStatus, expectedAnchor }) => {
+        it(`should return a specific duplicate error message with file name when ${description}`, () => {
+          const claimId = '14568432';
+          const error = {
+            fileName: 'my-document.pdf',
+            errors: [
+              {
+                detail: 'DOC_UPLOAD_DUPLICATE',
+              },
+            ],
+          };
 
-        const result = getUploadErrorMessage(error, claimId);
-        expect(result.title).to.equal(
-          "You've already uploaded my-document.pdf",
-        );
-        expect(result.type).to.equal('error');
-        const { getByText, container } = render(result.body);
-        getByText(/It can take up to 2 days for the file to show up in/i);
-        expect($('va-link', container)).to.exist;
-        const link = $('va-link', container);
-        expect(link.getAttribute('href')).to.equal(
-          `/track-claims/your-claims/${claimId}/files`,
-        );
+          const result = getUploadErrorMessage(
+            error,
+            claimId,
+            showDocumentUploadStatus,
+          );
+          expect(result.title).to.equal(
+            "You've already uploaded my-document.pdf",
+          );
+          expect(result.type).to.equal('error');
+          const { getByText, container } = render(result.body);
+          getByText(/It can take up to 2 days for the file to show up in/i);
+          expect($('va-link', container)).to.exist;
+          const link = $('va-link', container);
+          expect(link.getAttribute('href')).to.equal(
+            `/track-claims/your-claims/${claimId}/files#${expectedAnchor}`,
+          );
+        });
       });
 
       it('should use a generic name if fileName is missing', () => {
@@ -1786,6 +2047,342 @@ describe('Disability benefits helpers: ', () => {
         );
         expect(result.type).to.equal('error');
       });
+    });
+  });
+
+  describe('getTimezoneDiscrepancyMessage', () => {
+    it('should return empty string for UTC timezone', () => {
+      const message = getTimezoneDiscrepancyMessage(0);
+      expect(message).to.equal('');
+    });
+
+    // Tests WITHOUT uploadDate parameter (static messages)
+    it('should return "after" message with "next day\'s date" for UTC-4 (EDT) timezone without uploadDate', () => {
+      const message = getTimezoneDiscrepancyMessage(240);
+      expect(message).to.include('Files uploaded after');
+      expect(message).to.include('8:00 p.m.');
+      expect(message).to.include("next day's date");
+    });
+
+    it('should return "before" message with "previous day\'s date" for UTC+9 (JST) timezone without uploadDate', () => {
+      const message = getTimezoneDiscrepancyMessage(-540);
+      expect(message).to.include('Files uploaded before');
+      expect(message).to.include('9:00 a.m.');
+      expect(message).to.include("previous day's date");
+    });
+
+    // Tests WITH uploadDate parameter (upload success notification)
+    it('should return "after" message for UTC-4 (EDT) timezone with specific date', () => {
+      // Upload at 9:00 PM EDT on August 15 = 1:00 AM UTC on August 16
+      const uploadDate = new Date('2025-08-15T21:00:00-04:00');
+      const message = getTimezoneDiscrepancyMessage(240, uploadDate);
+      expect(message).to.include('Files uploaded after');
+      expect(message).to.include('8:00 p.m.');
+      expect(message).to.include('August 16, 2025');
+    });
+
+    it('should return "after" message for UTC-5 (EST/CDT) timezone with specific date', () => {
+      // Upload at 8:00 PM EST on January 15 = 1:00 AM UTC on January 16
+      const uploadDate = new Date('2025-01-15T20:00:00-05:00');
+      const message = getTimezoneDiscrepancyMessage(300, uploadDate);
+      expect(message).to.include('Files uploaded after');
+      expect(message).to.include('7:00 p.m.');
+      expect(message).to.include('January 16, 2025');
+    });
+
+    it('should return "after" message for UTC-8 (PST/AKDT) timezone with specific date', () => {
+      // Upload at 5:00 PM PST on December 20 = 1:00 AM UTC on December 21
+      const uploadDate = new Date('2025-12-20T17:00:00-08:00');
+      const message = getTimezoneDiscrepancyMessage(480, uploadDate);
+      expect(message).to.include('Files uploaded after');
+      expect(message).to.include('4:00 p.m.');
+      expect(message).to.include('December 21, 2025');
+    });
+
+    it('should return "after" message for UTC-10 (HST) timezone with specific date', () => {
+      // Upload at 3:00 PM HST on March 10 = 1:00 AM UTC on March 11
+      const uploadDate = new Date('2025-03-10T15:00:00-10:00');
+      const message = getTimezoneDiscrepancyMessage(600, uploadDate);
+      expect(message).to.include('Files uploaded after');
+      expect(message).to.include('2:00 p.m.');
+      expect(message).to.include('March 11, 2025');
+    });
+
+    it('should return "after" message for UTC-6 (CST/MDT) timezone with specific date', () => {
+      // Upload at 7:00 PM CST on February 28 = 1:00 AM UTC on March 1
+      const uploadDate = new Date('2025-02-28T19:00:00-06:00');
+      const message = getTimezoneDiscrepancyMessage(360, uploadDate);
+      expect(message).to.include('Files uploaded after');
+      expect(message).to.include('6:00 p.m.');
+      expect(message).to.include('March 1, 2025');
+    });
+
+    it('should return "after" message for UTC-7 (MST/PDT) timezone with specific date', () => {
+      // Upload at 6:00 PM PDT on October 15 = 1:00 AM UTC on October 16
+      const uploadDate = new Date('2025-10-15T18:00:00-07:00');
+      const message = getTimezoneDiscrepancyMessage(420, uploadDate);
+      expect(message).to.include('Files uploaded after');
+      expect(message).to.include('5:00 p.m.');
+      expect(message).to.include('October 16, 2025');
+    });
+
+    it('should return "after" message for UTC-9 (AKST) timezone with specific date', () => {
+      // Upload at 4:00 PM AKST on November 5 = 1:00 AM UTC on November 6
+      const uploadDate = new Date('2025-11-05T16:00:00-09:00');
+      const message = getTimezoneDiscrepancyMessage(540, uploadDate);
+      expect(message).to.include('Files uploaded after');
+      expect(message).to.include('3:00 p.m.');
+      expect(message).to.include('November 6, 2025');
+    });
+
+    it('should return "before" message for UTC+1 (BST) timezone with specific date', () => {
+      // Upload at 12:30 AM BST on June 10 = 11:30 PM UTC on June 9
+      const uploadDate = new Date('2025-06-10T00:30:00+01:00');
+      const message = getTimezoneDiscrepancyMessage(-60, uploadDate);
+      expect(message).to.include('Files uploaded before');
+      expect(message).to.include('1:00 a.m.');
+      expect(message).to.include('June 9, 2025');
+    });
+
+    it('should return "before" message for UTC+9 (JST) timezone with specific date', () => {
+      // Upload at 8:00 AM JST on April 20 = 11:00 PM UTC on April 19
+      const uploadDate = new Date('2025-04-20T08:00:00+09:00');
+      const message = getTimezoneDiscrepancyMessage(-540, uploadDate);
+      expect(message).to.include('Files uploaded before');
+      expect(message).to.include('9:00 a.m.');
+      expect(message).to.include('April 19, 2025');
+    });
+
+    it('should return "before" message for UTC+2 (CEST) timezone with specific date', () => {
+      // Upload at 1:30 AM CEST on July 5 = 11:30 PM UTC on July 4
+      const uploadDate = new Date('2025-07-05T01:30:00+02:00');
+      const message = getTimezoneDiscrepancyMessage(-120, uploadDate);
+      expect(message).to.include('Files uploaded before');
+      expect(message).to.include('2:00 a.m.');
+      expect(message).to.include('July 4, 2025');
+    });
+
+    it('should return "before" message for UTC+10 (AEST) timezone with specific date', () => {
+      // Upload at 9:00 AM AEST on September 15 = 11:00 PM UTC on September 14
+      const uploadDate = new Date('2025-09-15T09:00:00+10:00');
+      const message = getTimezoneDiscrepancyMessage(-600, uploadDate);
+      expect(message).to.include('Files uploaded before');
+      expect(message).to.include('10:00 a.m.');
+      expect(message).to.include('September 14, 2025');
+    });
+
+    it('should return "before" message for UTC+11 (AEDT) timezone with specific date', () => {
+      // Upload at 10:00 AM AEDT on December 25 = 11:00 PM UTC on December 24
+      const uploadDate = new Date('2025-12-25T10:00:00+11:00');
+      const message = getTimezoneDiscrepancyMessage(-660, uploadDate);
+      expect(message).to.include('Files uploaded before');
+      expect(message).to.include('11:00 a.m.');
+      expect(message).to.include('December 24, 2025');
+    });
+
+    it('should return "before" message for UTC+12 (NZST) timezone with specific date', () => {
+      // Upload at 11:00 AM NZST on May 1 = 11:00 PM UTC on April 30
+      const uploadDate = new Date('2025-05-01T11:00:00+12:00');
+      const message = getTimezoneDiscrepancyMessage(-720, uploadDate);
+      expect(message).to.include('Files uploaded before');
+      expect(message).to.include('12:00 p.m.');
+      expect(message).to.include('April 30, 2025');
+    });
+
+    it('should return "before" message for UTC+13 (NZDT) timezone with specific date', () => {
+      // Upload at 12:00 PM NZDT on January 1 = 11:00 PM UTC on December 31, 2024
+      const uploadDate = new Date('2025-01-01T12:00:00+13:00');
+      const message = getTimezoneDiscrepancyMessage(-780, uploadDate);
+      expect(message).to.include('Files uploaded before');
+      expect(message).to.include('1:00 p.m.');
+      expect(message).to.include('December 31, 2024');
+    });
+
+    it('should return "before" message for UTC+5:30 (IST) timezone with fractional hours and specific date', () => {
+      // Upload at 5:00 AM IST on August 10 = 11:30 PM UTC on August 9
+      const uploadDate = new Date('2025-08-10T05:00:00+05:30');
+      const message = getTimezoneDiscrepancyMessage(-330, uploadDate);
+      expect(message).to.include('Files uploaded before');
+      expect(message).to.include('5:30 a.m.');
+      expect(message).to.include('August 9, 2025');
+    });
+
+    it('should include timezone abbreviation in message for EDT', () => {
+      const uploadDate = new Date('2025-08-15T21:00:00-04:00');
+      const message = getTimezoneDiscrepancyMessage(240, uploadDate);
+      // Timezone abbreviation should appear after the time
+      expect(message).to.match(/\d{1,2}:\d{2}\s+[ap]\.m\.\s+[A-Z]{2,4}\s/);
+    });
+
+    it('should include timezone abbreviation in message for PST', () => {
+      const uploadDate = new Date('2025-12-20T17:00:00-08:00');
+      const message = getTimezoneDiscrepancyMessage(480, uploadDate);
+      expect(message).to.match(/\d{1,2}:\d{2}\s+[ap]\.m\.\s+[A-Z]{2,4}\s/);
+    });
+
+    it('should handle null input gracefully', () => {
+      expect(() => getTimezoneDiscrepancyMessage(null)).to.not.throw();
+      const message = getTimezoneDiscrepancyMessage(null);
+      expect(message).to.equal('');
+    });
+
+    it('should handle undefined input gracefully', () => {
+      expect(() => getTimezoneDiscrepancyMessage(undefined)).to.not.throw();
+      const message = getTimezoneDiscrepancyMessage(undefined);
+      expect(message).to.equal('');
+    });
+
+    it('should handle NaN input gracefully', () => {
+      expect(() => getTimezoneDiscrepancyMessage(NaN)).to.not.throw();
+      const message = getTimezoneDiscrepancyMessage(NaN);
+      expect(message).to.equal('');
+    });
+
+    it('should match exact VA.gov message format for "after" messages with specific date', () => {
+      // Upload at 9:00 PM EDT on August 15 = 1:00 AM UTC on August 16
+      const uploadDate = new Date('2025-08-15T21:00:00-04:00');
+      const message = getTimezoneDiscrepancyMessage(240, uploadDate);
+      // Complete format validation for negative offset (UTC-X)
+      // Format: "Files uploaded after H:MM a.m./p.m. TZ will show as Month D, YYYY."
+      expect(message).to.match(
+        /^Files uploaded after \d{1,2}:\d{2} [ap]\.m\. [A-Z]{2,4} will show as [A-Z][a-z]+ \d{1,2}, \d{4}\.$/,
+      );
+    });
+
+    it('should match exact VA.gov message format for "before" messages with specific date', () => {
+      // Upload at 8:00 AM JST on April 20 = 11:00 PM UTC on April 19
+      const uploadDate = new Date('2025-04-20T08:00:00+09:00');
+      const message = getTimezoneDiscrepancyMessage(-540, uploadDate);
+      // Complete format validation for positive offset (UTC+X)
+      // Format: "Files uploaded before H:MM a.m./p.m. TZ will show as Month D, YYYY."
+      expect(message).to.match(
+        /^Files uploaded before \d{1,2}:\d{2} [ap]\.m\. [A-Z]{2,4} will show as [A-Z][a-z]+ \d{1,2}, \d{4}\.$/,
+      );
+    });
+
+    it('should format date with correct month name format', () => {
+      // Upload at 9:00 PM EDT on August 15 = 1:00 AM UTC on August 16
+      const uploadDate = new Date('2025-08-15T21:00:00-04:00');
+      const message = getTimezoneDiscrepancyMessage(240, uploadDate);
+      // Should use full month name, not abbreviation
+      expect(message).to.include('August 16, 2025');
+      expect(message).to.not.include('Aug 16');
+      expect(message).to.not.include('08/16');
+    });
+
+    it('should use periods in a.m./p.m. format', () => {
+      const morningMessage = getTimezoneDiscrepancyMessage(-60); // 1:00 a.m.
+      const eveningMessage = getTimezoneDiscrepancyMessage(240); // 8:00 p.m.
+
+      expect(morningMessage).to.match(/\d{1,2}:\d{2} a\.m\./);
+      expect(eveningMessage).to.match(/\d{1,2}:\d{2} p\.m\./);
+
+      // Should NOT have formats without periods
+      expect(morningMessage).to.not.include(' am ');
+      expect(eveningMessage).to.not.include(' pm ');
+    });
+
+    it('should match exact format for "after" messages without uploadDate (static)', () => {
+      const message = getTimezoneDiscrepancyMessage(240); // UTC-4
+      // Format: "Files uploaded after H:MM a.m./p.m. TZ will show with the next day's date."
+      expect(message).to.match(
+        /^Files uploaded after \d{1,2}:\d{2} [ap]\.m\. [A-Z]{2,4} will show with the next day's date\.$/,
+      );
+    });
+
+    it('should match exact format for "before" messages without uploadDate (static)', () => {
+      const message = getTimezoneDiscrepancyMessage(-540); // UTC+9
+      // Format: "Files uploaded before H:MM a.m./p.m. TZ will show with the previous day's date."
+      expect(message).to.match(
+        /^Files uploaded before \d{1,2}:\d{2} [ap]\.m\. [A-Z]{2,4} will show with the previous day's date\.$/,
+      );
+    });
+  });
+
+  describe('showTimezoneDiscrepancyMessage', () => {
+    it('should handle null input gracefully', () => {
+      expect(() => showTimezoneDiscrepancyMessage(null)).to.not.throw();
+    });
+
+    it('should handle undefined input gracefully', () => {
+      expect(() => showTimezoneDiscrepancyMessage(undefined)).to.not.throw();
+    });
+
+    it('should handle invalid date input gracefully', () => {
+      expect(() =>
+        showTimezoneDiscrepancyMessage(new Date('invalid')),
+      ).to.not.throw();
+    });
+  });
+
+  describe('formatUploadDateTime', () => {
+    it('should format date with time and timezone', () => {
+      // Use UTC date to ensure consistent behavior in CI
+      const date = new Date('2025-08-15T14:30:00Z');
+      const formatted = formatUploadDateTime(date);
+
+      expect(formatted).to.include('August 15, 2025');
+      expect(formatted).to.include('at');
+      expect(formatted).to.match(/\d{1,2}:\d{2}\s+(a|p)\.m\./);
+      expect(formatted).to.match(/[A-Z]{2,4}$/); // Timezone abbreviation
+    });
+
+    it('should handle different times of day correctly', () => {
+      const morningDate = new Date('2025-08-15T09:30:00Z'); // 9:30 AM UTC
+      const eveningDate = new Date('2025-08-15T21:45:00Z'); // 9:45 PM UTC
+
+      const morningFormatted = formatUploadDateTime(morningDate);
+      const eveningFormatted = formatUploadDateTime(eveningDate);
+
+      expect(morningFormatted).to.match(/a\.m\./);
+      expect(eveningFormatted).to.match(/p\.m\./);
+    });
+
+    it('should throw error for invalid input', () => {
+      expect(() => formatUploadDateTime('invalid-date')).to.throw(
+        /formatUploadDateTime: invalid date provided/,
+      );
+    });
+
+    it('should handle noon correctly', () => {
+      // Use local time constructor to create noon in the system timezone
+      const noonDate = new Date(2025, 7, 15, 12, 0, 0); // Noon local time
+      const formatted = formatUploadDateTime(noonDate);
+      expect(formatted).to.include('12:00 p.m.');
+    });
+
+    it('should handle midnight correctly', () => {
+      // Use local time constructor to create midnight in the system timezone
+      const midnightDate = new Date(2025, 7, 15, 0, 0, 0); // Midnight local time
+      const formatted = formatUploadDateTime(midnightDate);
+      expect(formatted).to.include('12:00 a.m.');
+    });
+
+    it('should handle single-digit hours correctly', () => {
+      // Use local time constructor to create 9 AM in the system timezone
+      const singleDigitHour = new Date(2025, 7, 15, 9, 0, 0); // 9 AM local time
+      const formatted = formatUploadDateTime(singleDigitHour);
+      // Should be "9:00" not "09:00"
+      expect(formatted).to.match(/\s9:00\s/);
+    });
+
+    it('should accept ISO string input', () => {
+      const isoString = '2025-08-15T14:30:00Z';
+      const formatted = formatUploadDateTime(isoString);
+      expect(formatted).to.include('August 15, 2025');
+      expect(formatted).to.include('at');
+    });
+
+    it('should throw error for null input', () => {
+      expect(() => formatUploadDateTime(null)).to.throw(
+        /formatUploadDateTime: date parameter is required/,
+      );
+    });
+
+    it('should throw error for undefined input', () => {
+      expect(() => formatUploadDateTime(undefined)).to.throw(
+        /formatUploadDateTime: date parameter is required/,
+      );
     });
   });
 });

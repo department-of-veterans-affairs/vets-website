@@ -3,7 +3,6 @@ import LabsAndTestsListPage from './pages/LabsAndTestsListPage';
 import ChemHemDetailsPage from './pages/ChemHemDetailsPage';
 import labsAndTests from './fixtures/labs-and-tests/labsAndTests.json';
 import sessionStatus from './fixtures/session-status.json';
-import MedicalRecordsLandingPage from './pages/MedicalRecordsLandingPage';
 
 describe('Medical Records Understanding Your Results Detail Page', () => {
   const site = new MedicalRecordsSite();
@@ -19,7 +18,6 @@ describe('Medical Records Understanding Your Results Detail Page', () => {
       statusCode: 200,
       body: sessionStatus, // status response copied from staging
     }).as('status');
-    MedicalRecordsLandingPage.uumIntercept();
     LabsAndTestsListPage.goToLabsAndTests();
   });
 

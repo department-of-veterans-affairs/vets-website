@@ -1,0 +1,96 @@
+{
+  "veteranFullName": {
+    "first": "John",
+    "last": "Doe"
+  },
+  "claims" : {
+    "dependencyIndemnityComp" : true
+  },
+  "veteranDateOfBirth": "1989-02-16",
+  "hasBankAccount": false,
+  "moreThanFourSources": false,
+  "otherIncomeLastYearNoLongerReceive": false,
+  "homeOwnership": false,
+  "transferredAssets": false,
+  "view:whatTransferredAssets": {},
+  "totalAssets": 100,
+  "hasAssetsOverThreshold": false,
+  "needRegularAssistance": false,
+  "inNursingHome": false,
+  "dicType": "DIC",
+  "recognizedAsSpouse": true,
+  "hadPreviousMarriages": false,
+  "remarried": false,
+  "separationReason": "MEDICAL_FINANCIAL",
+  "separationExplanation": "Court Order",
+  "separationStartDate": "2005-02-20",
+  "separationEndDate": "2006-02-20",
+  "courtOrderedSeparation": true,
+  "courtOrderAlert": {},
+  "separationDueToAssignedReasons": "RELATIONSHIP_DIFFERENCES",
+  "livedContinuouslyWithVeteran": false,
+  "awareOfLegalIssues": false,
+  "marriedAtDeath": true,
+  "marriageDate": "1999-12-12",
+  "marriageEndDate": "1999-12-20",
+  "placeOfMarriage": "test",
+  "placeMarriageEnded": "test",
+  "marriageType": "CIVIL_RELIGIOUS",
+  "receivedBenefits": true,
+  "email": "test@gmail.com",
+  "primaryPhone": {
+    "callingCode": 1,
+    "countryCode": "US",
+    "contact": "5713319111",
+    "_isValid": true,
+    "_error": null,
+    "_touched": true,
+    "_required": true
+  },
+  "claimantAddress": {
+    "country": "USA",
+    "street": "11775 Test Drive",
+    "city": "Chantilly",
+    "state": "VA",
+    "postalCode": "22026",
+    "view:militaryBaseDescription": {}
+  },
+  "claimantRelationship": "SPOUSE",
+  "claimantFullName": {
+    "first": "John",
+    "last": "Doe"
+  },
+  "claimantSocialSecurityNumber": "230635555",
+  "claimantDateOfBirth": "1950-02-16",
+  "claimantIsVeteran": true,
+  "vaClaimsHistory": false,
+  "diedOnDuty": false,
+  "veteranDateOfDeath": "1999-02-16",
+  "veteranSocialSecurityNumber": "230635555",
+  "view:warningAlert": {},
+  "seriouslyDisabled": {},
+  "branchOfService": {},
+  "unitPhoneNumber": {},
+  "unitAddress": {
+    "view:militaryBaseDescription": {}
+  },
+  "view:hasOtherServiceNames": false,
+  "powPeriod": {},
+  "additionalMarriagesAlert": {},
+  "view:isAddingDicBenefits": false,
+  "vaMedicalCenters": [
+    {
+      "startDate": "1999-02-16",
+      "endDate": "1999-02-16",
+      "vaMedicalCenterName": "test",
+      "city": "test",
+      "state": "test"
+    }
+  ],
+  "view:marketableInfo": {},
+  "view:hasMonthlyIncomeSource": false,
+  "view:careExpensesList": false,
+  "view:medicalExpensesList": false,
+  "bankAdditionalInfo": {},
+  "files": []
+}

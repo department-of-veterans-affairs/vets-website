@@ -21,6 +21,7 @@
   "claimantDateOfBirth": "1965-11-30",
   "claimantAddress": {
     "street": "789 Elm Street",
+    "street2": "Apt 1",
     "city": "Norfolk",
     "state": "VA",
     "country": "USA",
@@ -28,13 +29,8 @@
   },
   "claimantPhone": "7575551234",
   "claimantEmail": "jennifer.wilson@email.com",
-  "relationshipToDeceased": "spouse",
+  "relationshipToDeceased": "executor",
   "wantsToWaiveSubstitution": false,
-  "survivors": {
-    "hasSpouse": false,
-    "hasChildren": false,
-    "hasParents": false,
-    "hasNone": true
-  },
+  "survivors": false,
   "claimingReimbursement": false
 }

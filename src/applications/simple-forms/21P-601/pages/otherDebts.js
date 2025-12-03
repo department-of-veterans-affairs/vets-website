@@ -8,10 +8,12 @@ import {
 
 export default {
   uiSchema: {
-    ...titleUI('Other debts of the deceased'),
-    hasOtherDebts: yesNoUI('Did the deceased have other outstanding debts?'),
+    ...titleUI('Beneficiary’s other debts'),
+    hasOtherDebts: yesNoUI(
+      'Did the beneficiary have any other outstanding debts?',
+    ),
     otherDebtsDescription: {
-      ...textareaUI('Please describe the other debts'),
+      ...textareaUI('Please describe the other debts.'),
       'ui:options': {
         expandUnder: 'hasOtherDebts',
         expandUnderCondition: true,

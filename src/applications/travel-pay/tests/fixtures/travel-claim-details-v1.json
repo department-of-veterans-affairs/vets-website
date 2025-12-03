@@ -35,15 +35,6 @@
       "description": "mileage-expense",
       "costRequested": 10.0,
       "costSubmitted": 10.0
-    },
-    {
-      "id": "4da85f64-5717-4562-b3fc-2c963f66afa6",
-      "expenseType": "Mileage",
-      "name": "",
-      "dateIncurred": "2024-01-01T16:45:34.465Z",
-      "description": "mileage-expense",
-      "costRequested": 10.0,
-      "costSubmitted": 10.0
     }
   ]
 }

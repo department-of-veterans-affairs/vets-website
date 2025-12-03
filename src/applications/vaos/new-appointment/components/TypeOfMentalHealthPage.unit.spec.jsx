@@ -18,6 +18,7 @@ const initialState = {
   featureToggles: {
     vaOnlineSchedulingCommunityCare: true,
     vaOnlineSchedulingAddSubstanceUseDisorder: true,
+    vaOnlineSchedulingAddPrimaryCareMentalHealthInitiative: true,
   },
   user: {
     profile: {
@@ -28,7 +29,7 @@ const initialState = {
 
 describe('VAOS Page: TypeOfMentalHealthPage', () => {
   beforeEach(() => mockFetch());
-  it('should show page and validation', async () => {
+  it('should show all three options and validation', async () => {
     const store = createTestStore(initialState);
     const nextPage = await setTypeOfCare(store, /mental health/i);
     expect(nextPage).to.equal('mental-health');
@@ -51,8 +52,11 @@ describe('VAOS Page: TypeOfMentalHealthPage', () => {
 
     // And the user should see radio buttons for each type of sleep care
     const radioOptions = screen.getAllByRole('radio');
-    expect(radioOptions).to.have.lengthOf(2);
-    await screen.findByLabelText(/Mental health services/i);
+    expect(radioOptions).to.have.lengthOf(3);
+    await screen.findByLabelText(
+      /Mental health care in a primary care setting/i,
+    );
+    await screen.findByLabelText(/Mental health care with a specialist/i);
     await screen.findByLabelText(/Substance use problem services/i);
 
     fireEvent.click(screen.getByText(/Continue/));
@@ -60,14 +64,86 @@ describe('VAOS Page: TypeOfMentalHealthPage', () => {
     expect(await screen.findByText('You must provide a response')).to.exist;
     expect(screen.history.push.called).to.be.false;
 
-    fireEvent.click(screen.getByText(/Mental health services/));
+    fireEvent.click(screen.getByText(/Mental health care with a specialist/));
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
       expect(screen.history.push.lastCall?.args[0]).to.equal('location'),
     );
   });
 
-  it('should save substance use problem services choice on page change', async () => {
+  it('should show substance use service when vaOnlineSchedulingAddSubstanceUseDisorder=true', async () => {
+    const store = createTestStore({
+      ...initialState,
+      featureToggles: {
+        vaOnlineSchedulingCommunityCare: true,
+        vaOnlineSchedulingAddSubstanceUseDisorder: true,
+        vaOnlineSchedulingAddPrimaryCareMentalHealthInitiative: false,
+      },
+    });
+    const nextPage = await setTypeOfCare(store, /mental health/i);
+    expect(nextPage).to.equal('mental-health');
+
+    const screen = renderWithStoreAndRouter(
+      <Route component={TypeOfMentalHealthPage} />,
+      {
+        store,
+      },
+    );
+    await screen.findByText(/Continue/i);
+
+    // Should show title
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: /Which type of mental health care do you need\?/,
+      }),
+    ).to.exist;
+
+    // And the user should see radio buttons for each type of sleep care
+    const radioOptions = screen.getAllByRole('radio');
+    expect(radioOptions).to.have.lengthOf(2);
+    await screen.findByLabelText(/Mental health care with a specialist/i);
+    await screen.findByLabelText(/Substance use problem services/i);
+  });
+
+  it('should show PCMHI when vaOnlineSchedulingAddPrimaryCareMentalHealthInitiative=true', async () => {
+    const store = createTestStore({
+      ...initialState,
+      featureToggles: {
+        vaOnlineSchedulingCommunityCare: true,
+        vaOnlineSchedulingAddSubstanceUseDisorder: false,
+        vaOnlineSchedulingAddPrimaryCareMentalHealthInitiative: true,
+      },
+    });
+    const nextPage = await setTypeOfCare(store, /mental health/i);
+    expect(nextPage).to.equal('mental-health');
+
+    const screen = renderWithStoreAndRouter(
+      <Route component={TypeOfMentalHealthPage} />,
+      {
+        store,
+      },
+    );
+    await screen.findByText(/Continue/i);
+
+    // Should show title
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: /Which type of mental health care do you need\?/,
+      }),
+    ).to.exist;
+
+    // And the user should see radio buttons for each type of sleep care
+    const radioOptions = screen.getAllByRole('radio');
+    expect(radioOptions).to.have.lengthOf(2);
+    await screen.findByLabelText(
+      /Mental health care in a primary care setting/i,
+    );
+    await screen.findByLabelText(/Mental health care with a specialist/i);
+  });
+
+  it('should save mental health care with a specialist choice on page change', async () => {
     const store = createTestStore(initialState);
     let screen = renderWithStoreAndRouter(
       <Route component={TypeOfMentalHealthPage} />,
@@ -75,7 +151,7 @@ describe('VAOS Page: TypeOfMentalHealthPage', () => {
     );
     await screen.findByText(/Continue/i);
 
-    fireEvent.click(screen.getByText(/Mental health services/));
+    fireEvent.click(screen.getByText(/Mental health care with a specialist/));
     await cleanup();
 
     screen = renderWithStoreAndRouter(
@@ -86,7 +162,7 @@ describe('VAOS Page: TypeOfMentalHealthPage', () => {
     );
 
     expect(
-      await screen.findByLabelText(/Mental health services/i),
+      await screen.findByLabelText(/Mental health care with a specialist/i),
     ).to.have.attribute('checked');
   });
 });

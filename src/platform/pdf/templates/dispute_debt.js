@@ -10,7 +10,7 @@ import {
 } from './utils';
 
 const defaultConfig = {
-  margins: { top: 40, bottom: 40, left: 30, right: 30 },
+  margins: { top: 40, bottom: 40, left: 65, right: 65 },
   text: {
     boldFont: 'SourceSansPro-Bold',
     font: 'SourceSansPro-Regular',
@@ -197,8 +197,8 @@ const generate = async (data = {}, config = defaultConfig) => {
   );
 
   const dmcRoutingTitle = useCompAndPenTitle
-    ? 'DMC Routing: C&P Dispute'
-    : 'DMC Routing: Education Dispute';
+    ? 'DMC routing: C&P Dispute'
+    : 'DMC routing: Education Dispute';
   titleSection.add(
     createHeading(doc, 'H2', config, dmcRoutingTitle, {
       x: config.margins.left,
@@ -290,14 +290,18 @@ const generate = async (data = {}, config = defaultConfig) => {
   const submissionDate = format(submissionDateTime, 'MMMM d, yyyy');
   const submissionTimeET = format(submissionDateTime, "h:mm a 'ET'");
 
+  const submissionStartY = doc.y;
   const submissionDetailsSection = doc.struct('Sect', {
     title: 'Submission Type',
   });
+
+  // Start at the config left margin, increase number to adjust indent as needed
+  const submissionDetailsLeftMargin = config.margins.left + 20;
+
   submissionDetailsSection.add(
     createHeading(doc, 'H3', config, 'Submission Details', {
-      x: config.margins.left,
+      x: submissionDetailsLeftMargin,
       y: doc.y,
-      // paragraphGap: 12,
     }),
   );
 
@@ -323,6 +327,17 @@ const generate = async (data = {}, config = defaultConfig) => {
 
   submissionDetailsSection.end();
   wrapper.add(submissionDetailsSection);
+
+  // Start at the config left margin, increase number to adjust indent as needed
+  const verticalLineLeftMargin = config.margins.left + 5;
+
+  doc
+    .moveTo(verticalLineLeftMargin, submissionStartY)
+    .lineTo(verticalLineLeftMargin, doc.y)
+    .lineWidth(6)
+    .strokeColor('#000000')
+    .stroke();
+
   doc.moveDown();
 
   // =====================================
@@ -393,7 +408,7 @@ const generate = async (data = {}, config = defaultConfig) => {
   // =====================================
   // * Veteran identification information *
   // =====================================
-  const { ssnLastFour } = veteran;
+  const { ssnLastFour, vaFileLastFour } = veteran;
 
   const veteranIdentificationInformation = doc.struct('Sect', {
     title: "Veteran's identification information",
@@ -411,7 +426,21 @@ const generate = async (data = {}, config = defaultConfig) => {
         .font(config.text.boldFont)
         .fontSize(config.text.size)
         .text('Social Security number');
-      doc.font(config.text.font).text(ssnLastFour || '');
+      doc.font(config.text.font).text(`••• •• ${ssnLastFour}` || '', {
+        lineGap: 8,
+      });
+    }),
+  );
+
+  veteranIdentificationInformation.add(
+    doc.struct('P', () => {
+      doc
+        .font(config.text.boldFont)
+        .fontSize(config.text.size)
+        .text('File number');
+      doc.font(config.text.font).text(`•••••${vaFileLastFour}` || '', {
+        lineGap: 8,
+      });
     }),
   );
 
@@ -460,17 +489,10 @@ const generate = async (data = {}, config = defaultConfig) => {
         .font(config.text.boldFont)
         .fontSize(config.text.size)
         .text('Street address', config.margins.left, doc.y);
-      doc.font(config.text.font).text(addressLine1 || '', {
-        lineGap: 8,
-      });
-      if (addressLine2)
-        doc.text(addressLine2 || '', {
-          lineGap: 8,
-        });
-      if (addressLine3)
-        doc.text(addressLine3 || '', {
-          lineGap: 8,
-        });
+      doc.font(config.text.font).text(addressLine1 || '');
+      if (addressLine2) doc.text(addressLine2 || '');
+      if (addressLine3) doc.text(addressLine3 || '');
+      doc.moveDown(1);
     }),
   );
 
@@ -565,7 +587,7 @@ const generate = async (data = {}, config = defaultConfig) => {
   // * Selected debts *
   // =====================================
   selectedDebts.forEach(debt => {
-    const { disputeReason, supportStatement } = debt;
+    const { disputeReason, supportStatement, rcvblId } = debt;
     const selectedDebtsSection = doc.struct('Sect', {
       title: debt?.label || '',
     });
@@ -596,6 +618,18 @@ const generate = async (data = {}, config = defaultConfig) => {
           .fontSize(config.text.size)
           .text('Dispute statement');
         doc.font(config.text.font).text(supportStatement || '', {
+          lineGap: 8,
+        });
+      }),
+    );
+
+    selectedDebtsSection.add(
+      doc.struct('P', () => {
+        doc
+          .font(config.text.boldFont)
+          .fontSize(config.text.size)
+          .text('Receivable ID');
+        doc.font(config.text.font).text(rcvblId || '', {
           lineGap: 8,
         });
       }),

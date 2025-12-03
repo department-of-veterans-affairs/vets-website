@@ -10,3 +10,4 @@ export const CAREERS_EMPLOYMENT_ROOT_URL =
 export const VRE_COUNSELOR_ROOT_URL =
   'https://www.benefits.va.gov/benefits/offices.asp';
 export const LOA_LEVEL_REQUIRED = 3;
+export const RELATIONSHIP_STORAGE_KEY = 'pcpg-wizard-relationship';

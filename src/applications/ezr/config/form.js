@@ -1,4 +1,3 @@
-// platform imports
 import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
@@ -9,8 +8,10 @@ import manifest from '../manifest.json';
 import content from '../locales/en/content.json';
 import { SHARED_PATHS, VIEW_FIELD_SCHEMA } from '../utils/constants';
 import {
-  includeSpousalInformation,
+  includeSpousalInformationV1,
   includeHouseholdInformation,
+  includeHouseholdInformationV1,
+  includeHouseholdInformationV2,
   isMissingVeteranDob,
   isMissingVeteranGender,
   hasDifferentHomeAddress,
@@ -23,8 +24,8 @@ import {
   includeOtherExposureDetails,
   isEmergencyContactsEnabled,
   showFinancialStatusAlert,
-  spouseDidNotCohabitateWithVeteran,
-  spouseAddressDoesNotMatchVeterans,
+  spouseDidNotCohabitateWithVeteranV1,
+  spouseAddressDoesNotMatchVeteransV1,
   includeDependentInformation,
   includeInsuranceInformation,
   collectMedicareInformation,
@@ -73,6 +74,8 @@ import veteranAnnualIncome from './chapters/householdInformation/veteranAnnualIn
 import spouseAnnualIncome from './chapters/householdInformation/spouseAnnualIncome';
 import deductibleExpenses from './chapters/householdInformation/deductibleExpenses';
 import FinancialInformationPages from './chapters/householdInformation/financialInformation';
+import spousalInformationPages from './chapters/householdInformation/spouseInformation';
+import MaritalStatusPage from '../components/FormPages/MaritalStatusPage';
 
 // chapter 3 Military Service
 import toxicExposure from './chapters/militaryService/toxicExposure';
@@ -353,15 +356,26 @@ const formConfig = {
           path: 'household-information/marital-status',
           title: 'Marital status',
           initialData: {},
-          depends: includeHouseholdInformation,
+          depends: includeHouseholdInformationV1,
           uiSchema: maritalStatus.uiSchema,
           schema: maritalStatus.schema,
         },
+        maritalStatusInformation: {
+          path: 'household-information/marital-status-information',
+          title: 'Marital status',
+          initialData: {},
+          depends: includeHouseholdInformationV2,
+          CustomPage: MaritalStatusPage,
+          CustomPageReview: null,
+          uiSchema: maritalStatus.uiSchema,
+          schema: maritalStatus.schema,
+        },
+        ...spousalInformationPages,
         spousePersonalInformation: {
           path: 'household-information/spouse-personal-information',
           title: 'Spouse\u2019s personal information',
           initialData: {},
-          depends: includeSpousalInformation,
+          depends: includeSpousalInformationV1,
           uiSchema: spousePersonalInformation.uiSchema,
           schema: spousePersonalInformation.schema,
         },
@@ -369,14 +383,14 @@ const formConfig = {
           path: 'household-information/spouse-additional-information',
           title: 'Spouse\u2019s additional information',
           initialData: {},
-          depends: includeSpousalInformation,
+          depends: includeSpousalInformationV1,
           uiSchema: spouseAdditionalInformation.uiSchema,
           schema: spouseAdditionalInformation.schema,
         },
         spouseFinancialSupport: {
           path: 'household-information/spouse-financial-support',
           title: 'Spouse\u2019s financial support',
-          depends: spouseDidNotCohabitateWithVeteran,
+          depends: spouseDidNotCohabitateWithVeteranV1,
           uiSchema: spouseFinancialSupport.uiSchema,
           schema: spouseFinancialSupport.schema,
         },
@@ -384,7 +398,7 @@ const formConfig = {
           path: 'household-information/spouse-contact-information',
           title: 'Spouse\u2019s address and phone number',
           initialData: {},
-          depends: spouseAddressDoesNotMatchVeterans,
+          depends: spouseAddressDoesNotMatchVeteransV1,
           uiSchema: spouseContactInformation.uiSchema,
           schema: spouseContactInformation.schema,
         },

@@ -3,7 +3,6 @@ import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/plat
 import sinon from 'sinon';
 import { expect } from 'chai';
 import { waitFor } from '@testing-library/react';
-import * as uniqueUserMetrics from '~/platform/mhv/unique_user_metrics';
 import * as allergiesApiModule from '../../api/allergiesApi';
 import * as prescriptionsApiModule from '../../api/prescriptionsApi';
 import { stubAllergiesApi } from '../testing-utils';
@@ -14,7 +13,6 @@ import { dateFormat } from '../../util/helpers';
 const refillablePrescriptions = require('../fixtures/refillablePrescriptionsList.json');
 
 let sandbox;
-let logUniqueUserMetricsEventsStub;
 
 const initMockApis = ({
   sinonSandbox,
@@ -44,10 +42,6 @@ describe('Refill Prescriptions Component', () => {
   beforeEach(() => {
     sandbox = sinon.createSandbox();
     initMockApis({ sinonSandbox: sandbox });
-    logUniqueUserMetricsEventsStub = sandbox.stub(
-      uniqueUserMetrics,
-      'logUniqueUserMetricsEvents',
-    );
   });
 
   afterEach(() => {
@@ -173,9 +167,11 @@ describe('Refill Prescriptions Component', () => {
     expect(lastFilledEl)
       .to.have.property('checkbox-description')
       .that.includes(
-        `Last filled on ${dateFormat(
-          refillablePrescriptions[0].dispensedDate,
-        )}`,
+        refillablePrescriptions[0].dispensedDate
+          ? `Last filled on ${dateFormat(
+              refillablePrescriptions[0].dispensedDate,
+            )}`
+          : 'Not filled yet',
       );
   });
 
@@ -290,28 +286,202 @@ describe('Refill Prescriptions Component', () => {
     expect(screen.getByTestId('no-refills-message')).to.exist;
   });
 
-  it('logs PRESCRIPTIONS_REFILL_REQUESTED when user requests a refill', async () => {
-    const screen = setup();
-    const checkbox = await screen.findByTestId(
-      'refill-prescription-checkbox-0',
-    );
-    const button = await screen.findByTestId('request-refill-button');
+  describe('Oracle Health Pilot Flag Tests', () => {
+    it('calls bulkRefillPrescriptions with simple IDs when pilot flag is disabled', async () => {
+      sandbox.restore();
+      const bulkRefillStub = sinon.stub().resolves({
+        data: { successfulIds: [22377956], failedIds: [] },
+      });
+      sandbox
+        .stub(prescriptionsApiModule, 'useGetRefillablePrescriptionsQuery')
+        .returns({
+          data: {
+            prescriptions: [refillablePrescriptions[0]],
+            meta: {},
+          },
+          error: false,
+          isLoading: false,
+          isFetching: false,
+        });
+      sandbox
+        .stub(prescriptionsApiModule, 'useBulkRefillPrescriptionsMutation')
+        .returns([bulkRefillStub, { isLoading: false, error: null }]);
+      stubAllergiesApi({ sandbox });
 
-    // Select a prescription
-    checkbox.__events.vaChange({
-      detail: { checked: true },
+      const stateWithPilotDisabled = {
+        ...initialState,
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          mhv_medications_cerner_pilot: false,
+        },
+      };
+
+      const screen = setup(stateWithPilotDisabled);
+      const checkbox = await screen.findByTestId(
+        'refill-prescription-checkbox-0',
+      );
+      checkbox.__events.vaChange({ detail: { checked: true } });
+
+      const button = await screen.findByTestId('request-refill-button');
+      button.click();
+
+      await waitFor(() => {
+        expect(bulkRefillStub.calledOnce).to.be.true;
+        // Should pass array of simple IDs when pilot flag is disabled
+        expect(bulkRefillStub.firstCall.args[0]).to.deep.equal([22377956]);
+      });
     });
 
-    // Click the refill button
-    button.click();
+    it('calls bulkRefillPrescriptions with ID objects when pilot flag is enabled', async () => {
+      sandbox.restore();
+      const bulkRefillStub = sinon.stub().resolves({
+        data: {
+          successfulIds: [{ id: 22377956, stationNumber: '989' }],
+          failedIds: [],
+        },
+      });
+      const prescriptionWithStation = {
+        ...refillablePrescriptions[0],
+        stationNumber: '989',
+      };
+      sandbox
+        .stub(prescriptionsApiModule, 'useGetRefillablePrescriptionsQuery')
+        .returns({
+          data: {
+            prescriptions: [prescriptionWithStation],
+            meta: {},
+          },
+          error: false,
+          isLoading: false,
+          isFetching: false,
+        });
+      sandbox
+        .stub(prescriptionsApiModule, 'useBulkRefillPrescriptionsMutation')
+        .returns([bulkRefillStub, { isLoading: false, error: null }]);
+      stubAllergiesApi({ sandbox });
 
-    // Wait for async operations to complete
-    await waitFor(() => {
-      expect(
-        logUniqueUserMetricsEventsStub.calledWith(
-          uniqueUserMetrics.EVENT_REGISTRY.PRESCRIPTIONS_REFILL_REQUESTED,
-        ),
-      ).to.be.true;
+      const stateWithPilotEnabled = {
+        ...initialState,
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          mhv_medications_cerner_pilot: true,
+        },
+      };
+
+      const screen = setup(stateWithPilotEnabled);
+      const checkbox = await screen.findByTestId(
+        'refill-prescription-checkbox-0',
+      );
+      checkbox.__events.vaChange({ detail: { checked: true } });
+
+      const button = await screen.findByTestId('request-refill-button');
+      button.click();
+
+      await waitFor(() => {
+        expect(bulkRefillStub.calledOnce).to.be.true;
+        // Should pass array of ID objects with stationNumber when pilot flag is enabled
+        expect(bulkRefillStub.firstCall.args[0]).to.deep.equal([
+          { id: 22377956, stationNumber: '989' },
+        ]);
+      });
+    });
+
+    it('matches medications by ID and stationNumber when pilot flag is enabled', async () => {
+      sandbox.restore();
+      const bulkRefillStub = sinon.stub().resolves({
+        data: {
+          successfulIds: [{ id: 22377956, stationNumber: '989' }],
+          failedIds: [],
+        },
+      });
+      const prescriptionWithStation = {
+        ...refillablePrescriptions[0],
+        stationNumber: '989',
+      };
+      sandbox
+        .stub(prescriptionsApiModule, 'useGetRefillablePrescriptionsQuery')
+        .returns({
+          data: {
+            prescriptions: [prescriptionWithStation],
+            meta: {},
+          },
+          error: false,
+          isLoading: false,
+          isFetching: false,
+        });
+      sandbox
+        .stub(prescriptionsApiModule, 'useBulkRefillPrescriptionsMutation')
+        .returns([bulkRefillStub, { isLoading: false, error: null }]);
+      stubAllergiesApi({ sandbox });
+
+      const stateWithPilotEnabled = {
+        ...initialState,
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          mhv_medications_cerner_pilot: true,
+        },
+      };
+
+      const screen = setup(stateWithPilotEnabled);
+      const checkbox = await screen.findByTestId(
+        'refill-prescription-checkbox-0',
+      );
+      checkbox.__events.vaChange({ detail: { checked: true } });
+
+      const button = await screen.findByTestId('request-refill-button');
+      button.click();
+
+      // Wait for success notification which uses getMedicationsByIds internally
+      await waitFor(() => {
+        expect(bulkRefillStub.calledOnce).to.be.true;
+      });
+    });
+
+    it('matches medications by ID only when pilot flag is disabled', async () => {
+      sandbox.restore();
+      const bulkRefillStub = sinon.stub().resolves({
+        data: {
+          successfulIds: [22377956],
+          failedIds: [],
+        },
+      });
+      sandbox
+        .stub(prescriptionsApiModule, 'useGetRefillablePrescriptionsQuery')
+        .returns({
+          data: {
+            prescriptions: [refillablePrescriptions[0]],
+            meta: {},
+          },
+          error: false,
+          isLoading: false,
+          isFetching: false,
+        });
+      sandbox
+        .stub(prescriptionsApiModule, 'useBulkRefillPrescriptionsMutation')
+        .returns([bulkRefillStub, { isLoading: false, error: null }]);
+      stubAllergiesApi({ sandbox });
+
+      const stateWithPilotDisabled = {
+        ...initialState,
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          mhv_medications_cerner_pilot: false,
+        },
+      };
+
+      const screen = setup(stateWithPilotDisabled);
+      const checkbox = await screen.findByTestId(
+        'refill-prescription-checkbox-0',
+      );
+      checkbox.__events.vaChange({ detail: { checked: true } });
+
+      const button = await screen.findByTestId('request-refill-button');
+      button.click();
+
+      // Wait for success notification which uses getMedicationsByIds internally
+      await waitFor(() => {
+        expect(bulkRefillStub.calledOnce).to.be.true;
+      });
     });
   });
 });

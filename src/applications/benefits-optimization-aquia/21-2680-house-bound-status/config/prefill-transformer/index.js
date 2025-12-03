@@ -1,1 +1,1 @@
-export { default } from './prefill-transformer';
+export { prefillTransformer } from './prefill-transformer';

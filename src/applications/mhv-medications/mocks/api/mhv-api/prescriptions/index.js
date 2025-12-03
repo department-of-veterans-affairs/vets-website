@@ -14,23 +14,34 @@ const dispStatusObj = {
   ON_HOLD: 'Active: On Hold',
   ACTIVE_PARKED: 'Active: Parked',
 };
-function mockPrescription(n = 0, attrs = {}) {
+function mockPrescription(n = 0, attrs = {}, isV2 = false) {
   // Generate some refillable, some not
-  const isRefillable = n % 3 === 0;
-  const refillRemaining = isRefillable ? Math.ceil(Math.log(n + 1)) : 0;
+  const isRefillable = typeof n === 'number' && n % 3 === 0;
+  const refillRemaining = isRefillable
+    ? Math.ceil(Math.log((typeof n === 'number' ? n : 0) + 1))
+    : 0;
   const {
     cmopNdcNumber,
     cmopDivisionPhone = '(555) 555-5555',
     dialCmopDivisionPhone = '5555555555',
+    pharmacyPhoneNumber = '(555) 555-5555',
   } = attrs;
   const prescriptionName = `Fake ${n}`;
   const newCmopNdcNumber =
-    n % 3 === 0 && !cmopNdcNumber ? `000${n}000000` : cmopNdcNumber;
+    typeof n === 'number' && n % 3 === 0 && !cmopNdcNumber
+      ? `000${n}000000`
+      : cmopNdcNumber;
+
+  let prescriptionId = n;
+  if (isV2 && typeof n === 'number') {
+    prescriptionId = `fake-${n}`;
+  }
+
   return {
-    id: `fake-${n}`,
+    id: isV2 ? prescriptionId : `fake-${n}`,
     type: 'prescriptions',
     attributes: {
-      prescriptionId: n,
+      prescriptionId,
       prescriptionNumber: `${n}`,
       prescriptionName,
       refillStatus: 'active',
@@ -58,6 +69,7 @@ function mockPrescription(n = 0, attrs = {}) {
       modifiedDate: null,
       institutionId: null,
       dialCmopDivisionPhone,
+      pharmacyPhoneNumber,
       dispStatus: isRefillable ? 'Active' : 'Expired',
       ndc: null,
       reason: 'A good reason',
@@ -107,7 +119,7 @@ function mockPrescription(n = 0, attrs = {}) {
   };
 }
 
-function mockPrescriptionArray(n = 20) {
+function mockPrescriptionArray(n = 20, isV2 = false) {
   const realPrescriptions = prescriptionsList.data;
 
   return [...Array(n)].map((_, i) => {
@@ -124,41 +136,49 @@ function mockPrescriptionArray(n = 20) {
     const realPrescription =
       realPrescriptions[i % realPrescriptions.length].attributes;
 
-    return mockPrescription(i, {
-      prescriptionName: realPrescription.prescriptionName,
-      refillStatus: realPrescription.refillStatus,
-      refillSubmitDate:
-        realPrescription.refillSubmitDate || formatISO(oneWeekAgo),
-      refillDate: realPrescription.refillDate || recentlyISOString,
-      refillRemaining: realPrescription.refillRemaining,
-      facilityName: realPrescription.facilityName,
-      orderedDate: realPrescription.orderedDate || formatISO(monthsAgo),
-      quantity: realPrescription.quantity,
-      expirationDate: realPrescription.expirationDate,
-      dispensedDate: realPrescription.dispensedDate || recentlyISOString,
-      stationNumber: realPrescription.stationNumber,
-      isRefillable: realPrescription.isRefillable,
-      isTrackable: realPrescription.isTrackable,
-      sig: realPrescription.sig,
-      cmopDivisionPhone: realPrescription.cmopDivisionPhone || '(555) 555-5555',
-      dialCmopDivisionPhone:
-        realPrescription.dialCmopDivisionPhone || '5555555555',
-      notRefillableDisplayMessage: realPrescription.notRefillableDisplayMessage,
-      providerFirstName: realPrescription.providerFirstName,
-      providerLastName: realPrescription.providerLastName,
-      remarks: realPrescription.remarks,
-      divisionName: realPrescription.divisionName,
-      dispStatus: realPrescription.dispStatus || statusString,
-      ndc: realPrescription.ndc,
-      reason: realPrescription.reason,
-      prescriptionSource: realPrescription.prescriptionSource,
-      indicationForUse: realPrescription.indicationForUse,
-      category: realPrescription.category,
-    });
+    return mockPrescription(
+      i,
+      {
+        prescriptionName: realPrescription.prescriptionName,
+        refillStatus: realPrescription.refillStatus,
+        refillSubmitDate:
+          realPrescription.refillSubmitDate || formatISO(oneWeekAgo),
+        refillDate: realPrescription.refillDate || recentlyISOString,
+        refillRemaining: realPrescription.refillRemaining,
+        facilityName: realPrescription.facilityName,
+        orderedDate: realPrescription.orderedDate || formatISO(monthsAgo),
+        quantity: realPrescription.quantity,
+        expirationDate: realPrescription.expirationDate,
+        dispensedDate: realPrescription.dispensedDate || recentlyISOString,
+        stationNumber: realPrescription.stationNumber,
+        isRefillable: realPrescription.isRefillable,
+        isTrackable: realPrescription.isTrackable,
+        sig: realPrescription.sig,
+        cmopDivisionPhone:
+          realPrescription.cmopDivisionPhone || '(555) 555-5555',
+        dialCmopDivisionPhone:
+          realPrescription.dialCmopDivisionPhone || '5555555555',
+        pharmacyPhoneNumber:
+          realPrescription.pharmacyPhoneNumber || '(555) 555-5555',
+        notRefillableDisplayMessage:
+          realPrescription.notRefillableDisplayMessage,
+        providerFirstName: realPrescription.providerFirstName,
+        providerLastName: realPrescription.providerLastName,
+        remarks: realPrescription.remarks,
+        divisionName: realPrescription.divisionName,
+        dispStatus: realPrescription.dispStatus || statusString,
+        ndc: realPrescription.ndc,
+        reason: realPrescription.reason,
+        prescriptionSource: realPrescription.prescriptionSource,
+        indicationForUse: realPrescription.indicationForUse,
+        category: realPrescription.category,
+      },
+      isV2,
+    );
   });
 }
 
-function generateMockPrescriptions(req, n = 20) {
+function generateMockPrescriptions(req, n = 20, isV2 = false) {
   function edgeCasePrescription({
     prescriptionId,
     prescriptionName,
@@ -167,13 +187,17 @@ function generateMockPrescriptions(req, n = 20) {
     refillSubmitDate,
     rxRfRecords,
   }) {
-    return mockPrescription(prescriptionId, {
-      prescriptionName,
-      dispStatus,
-      refillDate,
-      refillSubmitDate,
-      rxRfRecords,
-    });
+    return mockPrescription(
+      prescriptionId,
+      {
+        prescriptionName,
+        dispStatus,
+        refillDate,
+        refillSubmitDate,
+        rxRfRecords,
+      },
+      isV2,
+    );
   }
   const now = new Date();
   const sevenDaysAgo = new Date(
@@ -286,19 +310,23 @@ function generateMockPrescriptions(req, n = 20) {
   ];
 
   const generatedPrescriptions = [
-    ...mockPrescriptionArray(n),
-    mockPrescription(99, {
-      dispStatus: dispStatusObj.NON_VA,
-      dispensedDate: null,
-      facilityName: null,
-      indicationForUse: null,
-      prescriptionName: 'TACROLIMUS 1MG CAP',
-      prescriptionSource: 'NV',
-      providerFirstName: null,
-      providerLastName: null,
-      sig: null,
-      trackingList: [],
-    }),
+    ...mockPrescriptionArray(n, isV2),
+    mockPrescription(
+      99,
+      {
+        dispStatus: dispStatusObj.NON_VA,
+        dispensedDate: null,
+        facilityName: null,
+        indicationForUse: null,
+        prescriptionName: 'TACROLIMUS 1MG CAP',
+        prescriptionSource: 'NV',
+        providerFirstName: null,
+        providerLastName: null,
+        sig: null,
+        trackingList: [],
+      },
+      isV2,
+    ),
   ];
 
   const filterKey = req.query['filter[']?.disp_status?.eq || ''; // e.g., "filter[[disp_status][eq]]=Active,Expired"

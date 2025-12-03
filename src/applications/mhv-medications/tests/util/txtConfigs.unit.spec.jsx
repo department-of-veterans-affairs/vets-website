@@ -80,7 +80,6 @@ describe('VA prescription Config', () => {
   it('should create "Most recent prescription" section', () => {
     const txt = buildVAPrescriptionTXT(prescriptionDetails.data.attributes);
     expect(txt).to.include('Most recent prescription');
-    expect(txt).to.include('Quantity: 30');
     expect(txt).to.include(
       prescriptionDetails.data.attributes.prescriptionName,
     );
@@ -99,7 +98,7 @@ describe('VA prescription Config', () => {
 
   it('should not show refill history if there is 1 record with dispensedDate undefined', () => {
     const rxDetails = { ...prescriptionDetails.data.attributes };
-    rxDetails.dispensedDate = undefined; // this is to skip createOriginalFillRecord
+    rxDetails.dispensedDate = undefined;
     rxDetails.rxRfRecords[0].dispensedDate = undefined;
     const txt = buildVAPrescriptionTXT(rxDetails);
     expect(txt).to.not.include('Refill history\n');
@@ -107,7 +106,7 @@ describe('VA prescription Config', () => {
 
   it('should not show refill history if there are no records', () => {
     const rxDetails = { ...prescriptionDetails.data.attributes };
-    rxDetails.dispensedDate = undefined; // this is to skip createOriginalFillRecord
+    rxDetails.dispensedDate = undefined;
     rxDetails.rxRfRecords = [];
     const txt = buildVAPrescriptionTXT(rxDetails);
     expect(txt).to.not.include('Refill history\n');
@@ -122,7 +121,7 @@ describe('VA prescription Config', () => {
 
   it('should show refill history if there are 2 records', () => {
     const rxDetails = { ...prescriptionDetails.data.attributes };
-    rxDetails.dispensedDate = undefined; // this is to skip createOriginalFillRecord
+    rxDetails.dispensedDate = undefined;
     rxDetails.rxRfRecords = [
       { ...rxDetails.rxRfRecords[0] },
       { ...rxDetails.rxRfRecords[0] },
@@ -163,6 +162,57 @@ describe('VA prescription Config', () => {
     rxDetails.prescriptionSource = 'PD';
     const txt = buildVAPrescriptionTXT(rxDetails);
     expect(txt).to.match(/Status: This is a renewal you requested/);
+  });
+
+  it('should include previous prescriptions section when grouped medications exist', () => {
+    const rxDetails = { ...prescriptionDetails.data.attributes };
+    rxDetails.groupedMedications = [
+      {
+        prescriptionNumber: '44444',
+        sortedDispensedDate: '2023-12-01',
+        quantity: 90,
+        orderedDate: '2023-10-15',
+      },
+      {
+        prescriptionNumber: '55555',
+        sortedDispensedDate: '2023-09-01',
+        quantity: 60,
+        orderedDate: '2023-08-01',
+      },
+    ];
+
+    const txt = buildVAPrescriptionTXT(rxDetails);
+
+    expect(txt).to.include('Previous prescriptions');
+    expect(txt).to.include('Showing 2 prescriptions, from newest to oldest');
+    expect(txt).to.include('Prescription number: 44444');
+    expect(txt).to.include('Prescription number: 55555');
+  });
+
+  it('should handle single previous prescription without plural wording', () => {
+    const rxDetails = { ...prescriptionDetails.data.attributes };
+    rxDetails.groupedMedications = [
+      {
+        prescriptionNumber: '10101',
+        sortedDispensedDate: '2024-07-01',
+        quantity: 30,
+        orderedDate: '2024-06-01',
+      },
+    ];
+
+    const txt = buildVAPrescriptionTXT(rxDetails);
+
+    expect(txt).to.include('Showing 1 prescription');
+    expect(txt).to.not.include('prescriptions, from newest to oldest');
+  });
+
+  it('should handle empty groupedMedications array', () => {
+    const rxDetails = { ...prescriptionDetails.data.attributes };
+    rxDetails.groupedMedications = [];
+
+    const txt = buildVAPrescriptionTXT(rxDetails);
+
+    expect(txt).to.not.include('Previous prescriptions');
   });
 });
 

@@ -189,8 +189,7 @@ const purgeExposureDetails = (toxicExposure, exposureType, mapping) => {
  * shouldn't be submitted based on user's opt-out choices.
  *
  * @param {Object} formData - Form data to transform
- * @param {boolean} [formData.disability526ToxicExposureOptOutDataPurge] - Feature flag for opt-out data purging (percentage-based rollout)
- * @param {boolean} [formData.disability526ToxicExposureOptOutDataPurgeByUser] - Feature flag for opt-out data purging (user-specific targeting)
+ * @param {boolean} [formData.disability526ToxicExposureOptOutDataPurge] - Feature flag for opt-out data purging
  * @param {Object} [formData.toxicExposure] - Toxic exposure data
  * @param {Object.<string, boolean>} [formData.toxicExposure.conditions] - Health condition selections (keeps all values including false)
  * @param {Object.<string, boolean>} [formData.toxicExposure.gulfWar1990] - Gulf War 1990 location selections (keeps all values including false)
@@ -202,10 +201,8 @@ const purgeExposureDetails = (toxicExposure, exposureType, mapping) => {
  * @returns {Object} Form data with orphaned/non-applicable toxic exposure data removed
  */
 export const purgeToxicExposureData = formData => {
-  // Feature is enabled if either flag is true (percentage-based OR user-specific)
   const featureEnabled =
-    formData.disability526ToxicExposureOptOutDataPurge === true ||
-    formData.disability526ToxicExposureOptOutDataPurgeByUser === true;
+    formData.disability526ToxicExposureOptOutDataPurge === true;
 
   if (!featureEnabled) {
     return formData;

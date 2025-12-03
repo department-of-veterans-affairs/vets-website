@@ -1,7 +1,6 @@
 import React from 'react';
-
+import { shape } from 'prop-types';
 import { NO_ISSUES_SELECTED } from '../constants';
-
 import { getSelected, getDecisionDate } from '../../shared/utils/issues';
 import { data995 } from '../../shared/props';
 
@@ -60,7 +59,7 @@ const IssueSummary = ({ formData }) => {
 };
 
 IssueSummary.propTypes = {
-  formData: data995,
+  formData: shape(data995),
 };
 
 export default IssueSummary;

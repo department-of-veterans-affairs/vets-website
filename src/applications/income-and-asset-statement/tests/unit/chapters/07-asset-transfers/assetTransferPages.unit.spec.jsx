@@ -146,18 +146,19 @@ describe('asset transfer list and loop pages', () => {
     );
   });
 
-  describe('type page', () => {
+  describe('information page', () => {
     const schema =
-      assetTransferPages.assetTransferTypePage.schema.properties.assetTransfers
-        .items;
+      assetTransferPages.assetTransferInformationPage.schema.properties
+        .assetTransfers.items;
     const uiSchema =
-      assetTransferPages.assetTransferTypePage.uiSchema.assetTransfers.items;
+      assetTransferPages.assetTransferInformationPage.uiSchema.assetTransfers
+        .items;
 
     testNumberOfFieldsByType(
       formConfig,
       schema,
       uiSchema,
-      { 'va-text-input': 1 },
+      { 'va-text-input': 1, 'va-memorable-date': 1 },
       'type',
     );
     testComponentFieldsMarkedAsRequired(
@@ -165,6 +166,7 @@ describe('asset transfer list and loop pages', () => {
       schema,
       uiSchema,
       ['va-text-input[label="What asset was transferred?"]'],
+      ['va-memorable-date[label="When was the asset transferred?"]'],
       'type',
     );
     testSubmitsWithoutErrors(
@@ -209,38 +211,6 @@ describe('asset transfer list and loop pages', () => {
       schema,
       uiSchema,
       'new owner information',
-      testData.data.assetTransfers[0],
-      { loggedIn: true },
-    );
-  });
-
-  describe('transfer date page', () => {
-    const schema =
-      assetTransferPages.assetTransferDatePage.schema.properties.assetTransfers
-        .items;
-    const uiSchema =
-      assetTransferPages.assetTransferDatePage.uiSchema.assetTransfers.items;
-    testNumberOfFieldsByType(
-      formConfig,
-      schema,
-      uiSchema,
-      {
-        'va-memorable-date': 1,
-      },
-      'date',
-    );
-    testComponentFieldsMarkedAsRequired(
-      formConfig,
-      schema,
-      uiSchema,
-      ['va-memorable-date[label="When was the asset transferred?"]'],
-      'date',
-    );
-    testSubmitsWithoutErrors(
-      formConfig,
-      schema,
-      uiSchema,
-      'date',
       testData.data.assetTransfers[0],
       { loggedIn: true },
     );

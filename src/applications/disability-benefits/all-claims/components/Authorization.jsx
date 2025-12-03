@@ -239,7 +239,7 @@ const PrivateRecordsAuthorization = ({
           </p>
         </va-accordion-item>
       </va-accordion>
-      <div className="hipaa-privacy-agreement vads-u-padding-x--3 vads-u-padding-top--3 vads-u-padding-bottom--2 vads-u-margin-top--3">
+      <div className="hipaa-privacy-agreement">
         <form onSubmit={handlers.onGoForward}>
           <va-card background>
             <h3 className="vads-u-margin-top--0" id="acknowledgement">

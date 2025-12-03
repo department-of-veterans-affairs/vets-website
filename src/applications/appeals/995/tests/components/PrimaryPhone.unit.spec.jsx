@@ -90,7 +90,7 @@ describe('<PrimaryPhone>', () => {
       data: { veteran },
     });
     const { container } = render(data);
-    fireEvent.click($('button[type="submit"]', container));
+    fireEvent.click($('va-button[continue]', container));
 
     expect($('va-radio', container).error).to.contain(
       errorMessages.missingPrimaryPhone,
@@ -112,7 +112,7 @@ describe('<PrimaryPhone>', () => {
       },
     });
     const { container } = render(data);
-    fireEvent.click($('button[type="submit"]', container));
+    fireEvent.click($('va-button[continue]', container));
 
     expect($('va-radio', container).error).to.be.null;
     expect(goForwardSpy.called).to.be.true;

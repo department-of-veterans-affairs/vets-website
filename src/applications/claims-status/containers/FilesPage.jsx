@@ -11,6 +11,7 @@ import DocumentsFiled from '../components/claim-files-tab/DocumentsFiled';
 import OtherWaysToSendYourDocuments from '../components/claim-files-tab-v2/OtherWaysToSendYourDocuments';
 import FileSubmissionsInProgress from '../components/claim-files-tab-v2/FileSubmissionsInProgress';
 import FilesReceived from '../components/claim-files-tab-v2/FilesReceived';
+import FilesWeCouldntReceiveEntryPoint from '../components/claim-files-tab-v2/FilesWeCouldntReceiveEntryPoint';
 import UploadType2ErrorAlert from '../components/UploadType2ErrorAlert';
 import withRouter from '../utils/withRouter';
 
@@ -21,7 +22,12 @@ import {
   setPageFocus,
   setTabDocumentTitle,
 } from '../utils/helpers';
-import { setUpPage, isTab } from '../utils/page';
+import {
+  setUpPage,
+  isTab,
+  setPageFocus as scrollToElement,
+} from '../utils/page';
+import { ANCHOR_LINKS } from '../constants';
 
 // CONSTANTS
 const NEED_ITEMS_STATUS = 'NEEDED_FROM_';
@@ -37,11 +43,16 @@ class FilesPage extends React.Component {
         const { lastPage, loading } = this.props;
         setPageFocus(lastPage, loading);
       });
+    } else if (location?.hash) {
+      // Handle hash navigation on mount (for direct navigation with hash)
+      setTimeout(() => {
+        this.scrollToSection();
+      }, 100);
     }
   }
 
   componentDidUpdate(prevProps) {
-    const { claim, lastPage, loading } = this.props;
+    const { claim, lastPage, loading, location } = this.props;
 
     if (!loading && prevProps.loading && !isTab(lastPage)) {
       setUpPage(false);
@@ -51,6 +62,14 @@ class FilesPage extends React.Component {
     //   Otherwise it will display a default title of "Files for Your Claim".
     if (loading !== prevProps.loading) {
       setTabDocumentTitle(claim, 'Files');
+    }
+
+    // Scroll to hash anchor after content has loaded (from external navigation)
+    if (!loading && prevProps.loading && location?.hash) {
+      // Add small delay to ensure DOM is fully rendered
+      setTimeout(() => {
+        this.scrollToSection();
+      }, 100);
     }
   }
 
@@ -102,6 +121,9 @@ class FilesPage extends React.Component {
             <div className="vads-u-margin-y--6 vads-u-border--1px vads-u-border-color--gray-light" />
             <FilesReceived claim={claim} />
             <div className="vads-u-margin-y--6 vads-u-border--1px vads-u-border-color--gray-light" />
+            <FilesWeCouldntReceiveEntryPoint
+              evidenceSubmissions={evidenceSubmissions}
+            />
             <OtherWaysToSendYourDocuments />
           </Toggler.Enabled>
           <Toggler.Disabled>
@@ -112,6 +134,22 @@ class FilesPage extends React.Component {
       </div>
     );
   }
+
+  scrollToSection = () => {
+    const { location } = this.props;
+    const validHashes = [
+      `#${ANCHOR_LINKS.fileSubmissionsInProgress}`,
+      `#${ANCHOR_LINKS.filesWeCouldntReceive}`,
+      `#${ANCHOR_LINKS.otherWaysToSendDocuments}`,
+      `#${ANCHOR_LINKS.documentsFiled}`,
+      `#${ANCHOR_LINKS.filesReceived}`,
+      `#${ANCHOR_LINKS.addFiles}`,
+    ];
+
+    if (validHashes.includes(location.hash)) {
+      scrollToElement(location.hash);
+    }
+  };
 
   render() {
     const { claim, loading, message } = this.props;

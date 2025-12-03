@@ -65,4 +65,27 @@ describe('Form 0781 manual upload page', () => {
       });
     });
   });
+
+  describe('ui:confirmationField', () => {
+    it('should correctly display file names and label for confirmation field', () => {
+      const testData = {
+        form781Upload: [
+          {
+            confirmationCode: 'testing',
+            name: '781.pdf',
+            attachmentId: 'L228',
+          },
+        ],
+      };
+
+      const result = uiSchema.form781Upload['ui:confirmationField']({
+        formData: testData.form781Upload,
+      });
+
+      expect(result).to.deep.equal({
+        data: ['781.pdf'],
+        label: 'Uploaded file(s)',
+      });
+    });
+  });
 });

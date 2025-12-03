@@ -10,10 +10,11 @@ import {
   fillFullNameWebComponentPattern,
   fillDateWebComponentPattern,
   fillTextAreaWebComponent,
-  selectDropdownWebComponent,
-  selectCheckboxGroupWebComponent,
+  selectRadioWebComponent,
   reviewAndSubmitPageFlow,
 } from '../../shared/tests/e2e/helpers';
+
+import { fillDateDigitsWebComponentPattern } from './e2e/helpers';
 
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
@@ -40,7 +41,7 @@ const testConfig = createTestConfig(
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.findAllByText(/start/i, { selector: 'a' })
+          cy.findAllByText(/Apply for accrued benefits/i, { selector: 'a' })
             .first()
             .click();
         });
@@ -139,7 +140,7 @@ const testConfig = createTestConfig(
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillDateWebComponentPattern(
+            fillDateDigitsWebComponentPattern(
               'beneficiaryDateOfDeath',
               data.beneficiaryDateOfDeath,
             );
@@ -149,17 +150,13 @@ const testConfig = createTestConfig(
         });
       },
 
-      'your-personal-information': ({ afterHook }) => {
+      'your-name-and-date-of-birth': ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
             fillFullNameWebComponentPattern(
               'claimantFullName',
               data.claimantFullName,
-            );
-            fillTextWebComponent(
-              'claimantIdentification_ssn',
-              data.claimantIdentification.ssn,
             );
             fillDateWebComponentPattern(
               'claimantDateOfBirth',
@@ -171,7 +168,21 @@ const testConfig = createTestConfig(
         });
       },
 
-      'your-contact-information': ({ afterHook }) => {
+      'your-ssn': ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            fillTextWebComponent(
+              'claimantIdentification_ssn',
+              data.claimantIdentification.ssn,
+            );
+            cy.axeCheck();
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
+
+      'your-mailing-address': ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
@@ -179,7 +190,16 @@ const testConfig = createTestConfig(
               'claimantAddress',
               data.claimantAddress,
             );
-            // Fill contact info
+            cy.axeCheck();
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
+
+      'your-phone-and-email': ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
             fillTextWebComponent('claimantPhone', data.claimantPhone);
             if (data.claimantEmail) {
               fillTextWebComponent('claimantEmail', data.claimantEmail);
@@ -194,10 +214,20 @@ const testConfig = createTestConfig(
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            selectDropdownWebComponent(
+            selectRadioWebComponent(
               'relationshipToDeceased',
               data.relationshipToDeceased,
             );
+            cy.axeCheck();
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
+
+      'waiver-of-substitution': ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
             if (data.wantsToWaiveSubstitution !== undefined) {
               selectYesNoWebComponent(
                 'wantsToWaiveSubstitution',
@@ -210,65 +240,7 @@ const testConfig = createTestConfig(
         });
       },
 
-      'surviving-relatives': ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            const relativesData = {
-              hasSpouse: data.survivors.hasSpouse || false,
-              hasChildren: data.survivors.hasChildren || false,
-              hasParents: data.survivors.hasParents || false,
-              hasNone: data.survivors.hasNone || false,
-            };
-            cy.selectVaCheckbox(
-              `consent-checkbox`,
-              data.consentToMailMissingRequiredFiles,
-            );
-            selectCheckboxGroupWebComponent(relativesData);
-
-            cy.axeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-
-      'relatives-information': ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            if (data.survivingRelatives && data.survivingRelatives.length > 0) {
-              data.survivingRelatives.forEach((relative, index) => {
-                // Add relative
-                if (index > 0) {
-                  cy.findByText(/Add another relative/i, {
-                    selector: 'button',
-                  }).click();
-                }
-
-                // Fill relative information
-                fillFullNameWebComponentPattern(
-                  `survivingRelatives_${index}_fullName`,
-                  relative.fullName,
-                );
-                selectDropdownWebComponent(
-                  `survivingRelatives_${index}_relationship`,
-                  relative.relationship,
-                );
-                fillDateWebComponentPattern(
-                  `survivingRelatives_${index}_dateOfBirth`,
-                  relative.dateOfBirth,
-                );
-                cy.fillAddressWebComponentPattern(
-                  `survivingRelatives_${index}_address`,
-                  relative.address,
-                );
-              });
-            }
-            cy.axeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
+      // Array builder pages are handled automatically by the form tester
 
       'reimbursement-claim': ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
@@ -284,35 +256,7 @@ const testConfig = createTestConfig(
         });
       },
 
-      'expenses-list': ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            if (data.expenses && data.expenses.length > 0) {
-              data.expenses.forEach((expense, index) => {
-                if (index > 0) {
-                  cy.get('va-button[text*="Add another"]').click();
-                }
-
-                fillTextWebComponent(
-                  `expenses_${index}_provider`,
-                  expense.provider,
-                );
-                fillTextWebComponent(
-                  `expenses_${index}_expenseType`,
-                  expense.expenseType,
-                );
-                fillTextWebComponent(
-                  `expenses_${index}_amount`,
-                  expense.amount,
-                );
-              });
-            }
-            cy.axeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
+      // Expenses array builder pages handled automatically
 
       'other-debts': ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
@@ -325,32 +269,7 @@ const testConfig = createTestConfig(
         });
       },
 
-      'other-debts-list': ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            if (data.otherDebts && data.otherDebts.length > 0) {
-              data.otherDebts.forEach((debt, index) => {
-                if (index > 0) {
-                  cy.get('va-button[text*="Add another"]').click();
-                }
-
-                fillTextWebComponent(
-                  `otherDebts_${index}_debtType`,
-                  debt.debtType,
-                );
-                fillTextWebComponent(`otherDebts_${index}_amount`, debt.amount);
-                fillTextWebComponent(
-                  `otherDebts_${index}_creditorName`,
-                  debt.creditorName,
-                );
-              });
-            }
-            cy.axeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
+      // Other debts array builder pages handled automatically
 
       'additional-info/remarks': ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
@@ -368,10 +287,7 @@ const testConfig = createTestConfig(
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            reviewAndSubmitPageFlow(
-              data.claimantFullName,
-              'Submit application',
-            );
+            reviewAndSubmitPageFlow(data.claimantFullName, 'Submit form');
           });
         });
       },

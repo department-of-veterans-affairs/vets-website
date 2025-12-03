@@ -40,7 +40,7 @@ describe('SM CURATED LIST BREADCRUMBS', () => {
         'sentThreads',
       );
 
-      cy.findByTestId(Locators.BUTTONS.CONTINUE).click();
+      cy.findByTestId(Locators.INTERSTITIAL_CONTINUE_BUTTON).click();
       cy.wait('@sentThreads');
 
       GeneralFunctionsPage.verifyPageHeader('Start message');
@@ -65,15 +65,13 @@ describe('SM CURATED LIST BREADCRUMBS', () => {
       GeneralFunctionsPage.verifyPageHeader(
         'Only use messages for non-urgent needs',
       );
-      cy.findByRole('button', { name: /Continue to start message/i }).click();
-      GeneralFunctionsPage.verifyPageHeader('Select care team');
-      cy.location('pathname').should('equal', Data.LINKS.SELECT_CARE_TEAM);
-    });
 
-    it('can navigate to Care team help and back via breadcrumb', () => {
-      // Start at Select care team page
-      PilotEnvPage.navigateToSelectCareTeamPage();
+      cy.findByTestId('start-message-link').click();
       GeneralFunctionsPage.verifyPageHeader('Select care team');
+      cy.location('pathname').should(
+        'include',
+        `${Paths.COMPOSE.replace(/\/$/, '')}${Paths.SELECT_CARE_TEAM}`,
+      );
       cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
       // Navigate to Care team help page via link
@@ -81,6 +79,9 @@ describe('SM CURATED LIST BREADCRUMBS', () => {
 
       // Removed the "Can't" in verifyPageHeader for testing purposes
       GeneralFunctionsPage.verifyPageHeader('find your care team?');
+      GeneralFunctionsPage.verifyPageTitle(
+        'Care Team Help - Start Message | Veterans Affairs',
+      );
       cy.location('pathname').should('equal', Data.LINKS.CARE_TEAM_HELP);
       cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
@@ -253,17 +254,24 @@ describe('SM CURATED LIST BREADCRUMBS', () => {
       cy.wait('@sentMessages');
       GeneralFunctionsPage.verifyPageHeader('Sent');
 
+      // Set up intercept for recent recipients search
+      // (this happens when interstitial page loads)
+      cy.intercept(
+        'POST',
+        Paths.INTERCEPT.SENT_SEARCH,
+        searchSentFolderResponse,
+      ).as('recentRecipients');
+
       // Start new message from Sent folder
       cy.findByTestId(Locators.LINKS.CREATE_NEW_MESSAGE_DATA_TEST_ID).click();
       GeneralFunctionsPage.verifyPageHeader(
         'Only use messages for non-urgent needs',
       );
 
-      // Continue to recent care teams
-      PatientInterstitialPage.continueToRecentRecipients(
-        searchSentFolderResponse,
-      );
-      GeneralFunctionsPage.verifyPageHeader('Recent care teams');
+      // Wait for recent recipients to load
+      cy.wait('@recentRecipients');
+      PatientInterstitialPage.getStartMessageLink().click();
+      GeneralFunctionsPage.verifyPageHeader(Data.RECENT_RECIPIENTS_HEADER);
 
       // Navigate forward to select care team
       cy.findByLabelText('A different care team').click();
@@ -272,7 +280,7 @@ describe('SM CURATED LIST BREADCRUMBS', () => {
 
       // Navigate back through the flow
       SharedComponents.clickBackBreadcrumb();
-      GeneralFunctionsPage.verifyPageHeader('Recent care teams');
+      GeneralFunctionsPage.verifyPageHeader(Data.RECENT_RECIPIENTS_HEADER);
 
       SharedComponents.clickBackBreadcrumb();
       GeneralFunctionsPage.verifyPageHeader(
@@ -291,6 +299,13 @@ describe('SM CURATED LIST BREADCRUMBS', () => {
       // Start from Inbox
       cy.location('pathname').should('equal', `${Paths.UI_MAIN}${Paths.INBOX}`);
 
+      // Set up intercept for recent recipients search BEFORE navigating
+      cy.intercept(
+        'POST',
+        Paths.INTERCEPT.SENT_SEARCH,
+        searchSentFolderResponse,
+      ).as('recentRecipients');
+
       // Forward: Inbox → Interstitial
       cy.findByTestId(Locators.LINKS.CREATE_NEW_MESSAGE_DATA_TEST_ID).click();
       GeneralFunctionsPage.verifyPageHeader(
@@ -301,11 +316,17 @@ describe('SM CURATED LIST BREADCRUMBS', () => {
         `${Paths.UI_MAIN}${Paths.COMPOSE}`,
       );
 
+      // Wait for recent recipients to load before clicking continue
+      cy.wait('@recentRecipients');
+
+      // Ensure the link href is updated to point to recent care teams
+      cy.get('[data-testid="start-message-link"]')
+        .should('have.attr', 'href')
+        .and('include', Paths.RECENT_CARE_TEAMS);
+
       // Forward: Interstitial → Recent care teams
-      PatientInterstitialPage.continueToRecentRecipients(
-        searchSentFolderResponse,
-      );
-      GeneralFunctionsPage.verifyPageHeader('Recent care teams');
+      PatientInterstitialPage.getStartMessageLink().click();
+      GeneralFunctionsPage.verifyPageHeader(Data.RECENT_RECIPIENTS_HEADER);
       cy.location('pathname').should(
         'equal',
         `${Paths.UI_MAIN}${Paths.COMPOSE}${Paths.RECENT_CARE_TEAMS}`,
@@ -341,7 +362,7 @@ describe('SM CURATED LIST BREADCRUMBS', () => {
 
       // Backward: Select care team → Recent care teams
       SharedComponents.clickBackBreadcrumb();
-      GeneralFunctionsPage.verifyPageHeader('Recent care teams');
+      GeneralFunctionsPage.verifyPageHeader(Data.RECENT_RECIPIENTS_HEADER);
       cy.location('pathname').should(
         'equal',
         `${Paths.UI_MAIN}${Paths.COMPOSE}${Paths.RECENT_CARE_TEAMS}`,

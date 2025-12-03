@@ -1,9 +1,21 @@
 import { formatDateLong } from 'platform/utilities/date';
 
 export const formatDate = isoString => {
-  if (!isoString || isoString === 'N/A') return 'N/A';
-  const trimmed = isoString.replace('Z', '');
-  return formatDateLong(trimmed);
+  try {
+    if (
+      !isoString ||
+      isoString === 'N/A' ||
+      isoString === '-' ||
+      isoString === null
+    ) {
+      return 'N/A';
+    }
+
+    const trimmed = isoString.replace('Z', '');
+    return formatDateLong(trimmed);
+  } catch (e) {
+    return 'N/A';
+  }
 };
 
 export const extractMessages = resp => {

@@ -5,6 +5,7 @@ import expiredRx from '../fixtures/expired-prescription-details.json';
 import medicationInformation from '../fixtures/patient-medications-information.json';
 import noMedicationInformation from '../fixtures/missing-patient-medication-information.json';
 import rxDetails from '../fixtures/active-submitted-prescription-details.json';
+import { DATETIME_FORMATS } from '../../../util/constants';
 
 class MedicationsDetailsPage {
   verifyTextInsideDropDownOnDetailsPage = () => {
@@ -93,7 +94,7 @@ class MedicationsDetailsPage {
       }`,
       prescriptionDetails,
     ).as('prescription_details');
-    cy.get('a[data-testid ="medications-history-details-link"]')
+    cy.get('a[data-testid="medications-history-details-link"]')
       .first()
       .click({ force: true });
   };
@@ -107,10 +108,10 @@ class MedicationsDetailsPage {
       prescriptionDetails,
     ).as('prescriptionDetails');
     cy.get(
-      `[data-testid="medication-list"] > :nth-child(${cardNumber}) > [data-testid="rx-card-info"] > [data-testid="medications-history-details-link"]`,
+      `[data-testid="medication-list"] > :nth-child(${cardNumber}) [data-testid="medications-history-details-link"]`,
     ).should('be.visible');
     cy.get(
-      `[data-testid="medication-list"] > :nth-child(${cardNumber}) > [data-testid="rx-card-info"] > [data-testid="medications-history-details-link"]`,
+      `[data-testid="medication-list"] > :nth-child(${cardNumber}) [data-testid="medications-history-details-link"]`,
     )
       .first()
       .click({ waitForAnimations: true });
@@ -409,6 +410,7 @@ class MedicationsDetailsPage {
     cy.get('[data-testid="va-prescription-documentation-link"]').click({
       waitForAnimations: true,
     });
+    cy.wait('@medicationDescription');
   };
 
   clickLearnMoreAboutMedicationLinkOnDetailsPageWithNoInfo = prescriptionId => {
@@ -420,6 +422,7 @@ class MedicationsDetailsPage {
     cy.get('[data-testid="va-prescription-documentation-link"]').click({
       waitForAnimations: true,
     });
+    cy.wait('@medicationDescription');
   };
 
   clickLearnMoreAboutMedicationLinkOnDetailsPageError = () => {
@@ -761,7 +764,7 @@ class MedicationsDetailsPage {
     const timeZone = 'America/New_York';
     const zonedDate = utcToZonedTime(parsedDate, timeZone);
     // Format the date to match the UI format
-    const formattedDate = format(zonedDate, 'MMMM d, yyyy');
+    const formattedDate = format(zonedDate, DATETIME_FORMATS.longMonthDate);
     cy.get('[data-testid="active-step-two"] > .vads-u-color--gray-dark').should(
       'have.text',
       `Completed on ${expectedDate}`,

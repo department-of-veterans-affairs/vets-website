@@ -79,22 +79,23 @@ function getYesNoReviewErrorMessage(reviewErrors, hasItemsKey) {
 
 /**
  * @param {{
- *   arrayPath: string,
+ *   arrayPath: ArrayBuilderOptions['arrayPath'],
  *   getFirstItemPagePath: (formData, index, context) => string,
- *   getText: import('./arrayBuilderText').ArrayBuilderGetText
+ *   getText: ArrayBuilderGetText,
  *   hasItemsKey: string,
  *   hideMaxItemsAlert: boolean,
- *   introPath: string,
- *   isItemIncomplete: function,
+ *   getIntroPath: (formData) => string,
+ *   isItemIncomplete: ArrayBuilderOptions['isItemIncomplete'],
  *   isReviewPage: boolean,
- *   maxItems: number | ((formData: object) => number),
+ *   maxItems: ArrayBuilderOptions['maxItems'],
  *   missingInformationKey: string,
- *   nounPlural: string,
- *   nounSingular: string,
+ *   nounPlural: ArrayBuilderOptions['nounPlural'],
+ *   nounSingular: ArrayBuilderOptions['nounSingular'],
  *   required: (formData) => boolean,
  *   titleHeaderLevel: string,
- *   useLinkInsteadOfYesNo: boolean,
- *   useButtonInsteadOfYesNo: boolean,
+ *   useLinkInsteadOfYesNo: ArrayBuilderOptions['useLinkInsteadOfYesNo'],
+ *   useButtonInsteadOfYesNo: ArrayBuilderOptions['useButtonInsteadOfYesNo'],
+ *   duplicateChecks: ArrayBuilderOptions['duplicateChecks'],
  * }} arrayBuilderOptions
  * @returns {CustomPageType}
  */
@@ -105,7 +106,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     getText,
     hasItemsKey,
     hideMaxItemsAlert,
-    introPath,
+    getIntroPath,
     isItemIncomplete,
     isReviewPage,
     missingInformationKey,
@@ -194,7 +195,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
         if (!isReviewPage && !arrayData?.length && required(props.data)) {
           // We shouldn't be on this page if there are no items and its required
           // because the required flow goes intro -> item page with no items
-          props.goToPath(introPath);
+          props.goToPath(getIntroPath(props.fullData));
         }
       };
 
@@ -562,6 +563,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
               nounSingular,
               errors,
               arrayPath,
+              fullData: formData,
             });
           },
         ],
@@ -665,6 +667,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
         nounSingular,
         errors: { addError: () => {} },
         arrayPath,
+        fullData: props.fullData,
       });
 
       if (isValid) {

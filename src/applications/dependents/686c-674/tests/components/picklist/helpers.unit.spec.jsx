@@ -2,10 +2,14 @@ import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 
+import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
+import { createDoB } from '../../test-helpers';
+
 import {
   getValue,
   SelectState,
   SelectCountry,
+  PastDate,
 } from '../../../components/picklist/helpers';
 
 describe('picklist helpers', () => {
@@ -70,37 +74,88 @@ describe('picklist helpers', () => {
           value="NY"
         />,
       );
-      const select = container.querySelector('va-select');
+      const select = $('va-select', container);
       expect(select).to.exist;
       expect(select.getAttribute('name')).to.equal('state');
       expect(select.getAttribute('label')).to.equal('State');
       expect(select.getAttribute('value')).to.equal('NY');
       expect(select.getAttribute('required')).to.equal('true');
-      const options = select.querySelectorAll('option');
+      const options = $$('option', select);
       // There are 59 options (50 states, DC, etc.)
       expect(options.length > 50).to.be.true;
     });
   });
 
   describe('SelectCountry', () => {
-    it('should render', () => {
+    it('should render select with all countries except USA', () => {
       const { container } = render(
         <SelectCountry
           name="country"
           label="Country"
           onChange={() => {}}
-          value="US"
+          value="ATG"
         />,
       );
-      const select = container.querySelector('va-select');
+      const select = $('va-select', container);
       expect(select).to.exist;
       expect(select.getAttribute('name')).to.equal('country');
       expect(select.getAttribute('label')).to.equal('Country');
-      expect(select.getAttribute('value')).to.equal('US');
+      expect(select.getAttribute('value')).to.equal('ATG');
       expect(select.getAttribute('required')).to.equal('true');
-      const options = select.querySelectorAll('option');
+      const options = $$('option', select);
       // There are 249 options (countries + empty option)
       expect(options.length > 200).to.be.true;
+      // USA shouldn't be included
+      expect(options.some(option => option.value === 'USA')).to.be.false;
+    });
+  });
+
+  describe('PastDate', () => {
+    const renderPastDate = (date = '', formSubmitted = false) =>
+      render(
+        <PastDate
+          date={date}
+          label="Some end date"
+          formSubmitted={formSubmitted}
+          missingErrorMessage="Date is required"
+        />,
+      );
+
+    it('should render', () => {
+      const { container } = renderPastDate('2020-01-01', false);
+
+      const memorableDate = $('va-memorable-date', container);
+      expect(memorableDate).to.exist;
+      expect(memorableDate.getAttribute('name')).to.equal('endDate');
+      expect(memorableDate.getAttribute('label')).to.equal('Some end date');
+      expect(memorableDate.getAttribute('month-select')).to.equal('true');
+      expect(memorableDate.getAttribute('required')).to.equal('true');
+      expect(memorableDate.getAttribute('value')).to.equal('2020-01-01');
+    });
+
+    it('should not show error when form is not submitted and date is missing', () => {
+      const { container } = renderPastDate('', false);
+
+      const memorableDate = $('va-memorable-date', container);
+      expect(memorableDate).to.exist;
+      expect(memorableDate.getAttribute('error')).to.be.null;
+    });
+
+    it('should show error when form is submitted and date is missing', () => {
+      const { container } = renderPastDate('', true);
+
+      const memorableDate = $('va-memorable-date', container);
+      expect(memorableDate).to.exist;
+      expect(memorableDate.getAttribute('error')).to.equal('Date is required');
+    });
+
+    it('should show error when form is submitted and date is in the future', () => {
+      // createDoB(-years, -months)
+      const { container } = renderPastDate(createDoB(0, -2), true);
+
+      const memorableDate = $('va-memorable-date', container);
+      expect(memorableDate).to.exist;
+      expect(memorableDate.getAttribute('error')).to.equal('Enter a past date');
     });
   });
 });

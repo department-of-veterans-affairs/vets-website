@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import ConfirmationAncillaryFormsWizard from './ConfirmationAncillaryFormsWizard';
+import ConfirmationAncillaryFormsWizard from './confirmationFields/ConfirmationAncillaryFormsWizard';
 
 describe('ConfirmationAncillaryFormsWizard', () => {
   it('should not render when view:ancillaryFormsWizard is null', () => {

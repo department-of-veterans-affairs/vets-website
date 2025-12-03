@@ -135,8 +135,8 @@ describe('trust list and loop pages', () => {
       schema,
       uiSchema,
       [
-        'va-memorable-date[label="When was the trust established?"]',
-        'va-text-input[label="What was the market value of all assets within the trust at the time of establishment?"]',
+        'va-memorable-date[label="When was the trust created?"]',
+        'va-text-input[label="What was the total fair market value of the trust’s assets when created?"]',
       ],
       'information',
     );
@@ -165,7 +165,7 @@ describe('trust list and loop pages', () => {
       formConfig,
       schema,
       uiSchema,
-      ['va-radio[label="What is the type of trust established?"]'],
+      ['va-radio[label="What type of trust is it?"]'],
       'type',
     );
     testSubmitsWithoutErrors(
@@ -193,7 +193,7 @@ describe('trust list and loop pages', () => {
       formConfig,
       schema,
       uiSchema,
-      ['va-radio[label="Are you receiving income from the trust?"]'],
+      ['va-radio[label="Did you receive income from this trust?"]'],
       'income',
     );
     testSubmitsWithoutErrors(
@@ -232,7 +232,7 @@ describe('trust list and loop pages', () => {
       schema,
       uiSchema,
       [
-        'va-radio[label="Is the trust being used to pay for or to reimburse someone else for your medical expenses?"]',
+        'va-radio[label="Do you use this trust to pay for or reimburse someone for your medical expenses?"]',
       ],
       'expense',
     );
@@ -272,7 +272,7 @@ describe('trust list and loop pages', () => {
       schema,
       uiSchema,
       [
-        'va-radio[label="Was the trust established for a child of the Veteran who was incapable of self-support prior to reaching age 18?"]',
+        'va-radio[label="Was this trust created for a Veteran’s child who was seriously disabled before age 18?"]',
       ],
       'child',
     );
@@ -302,7 +302,7 @@ describe('trust list and loop pages', () => {
       schema,
       uiSchema,
       [
-        'va-radio[label="Do you have any additional authority or control of the trust?"]',
+        'va-radio[label="Do you have any additional authority or control over this trust?"]',
       ],
       'control',
     );
@@ -333,7 +333,7 @@ describe('trust list and loop pages', () => {
       schema,
       uiSchema,
       [
-        'va-radio[label="Have you added funds to the trust after it was established?"]',
+        'va-radio[label="Has money been added to this trust since it was created?"]',
       ],
       'funds',
     );
@@ -364,8 +364,8 @@ describe('trust list and loop pages', () => {
       schema,
       uiSchema,
       [
-        'va-memorable-date[label="When did you add funds?"]',
-        'va-text-input[label="How much did you add?"]',
+        'va-memorable-date[label="When was money added?"]',
+        'va-text-input[label="How much was added?"]',
       ],
       'added funds',
     );

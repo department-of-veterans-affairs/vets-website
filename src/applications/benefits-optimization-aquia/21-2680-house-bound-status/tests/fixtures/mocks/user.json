@@ -5,14 +5,30 @@
         "sign_in": {
           "service_name": "idme"
         },
-        "email": "john.doe@example.com",
+        "email": "luke.skywalker@rebelalliance.mil",
         "loa": { "current": 3 },
-        "first_name": "John",
+        "first_name": "Luke",
         "middle_name": "",
-        "last_name": "Doe",
+        "last_name": "Skywalker",
+        "user_full_name": {
+          "first": "Luke",
+          "middle": "",
+          "last": "Skywalker",
+          "suffix": ""
+        },
         "gender": "M",
-        "birth_date": "1985-01-01",
-        "verified": true
+        "birth_date": "1951-09-25",
+        "dob": "19510925",
+        "ssn": "796121200",
+        "verified": true,
+        "mailing_address": {
+          "address_line1": "1138 Moisture Farm Road",
+          "address_line2": "",
+          "city": "Mos Eisley",
+          "state_code": "AZ",
+          "zip_code": "85326",
+          "country_code_iso3": "USA"
+        }
       },
       "veteran_status": {
         "status": "OK",
@@ -20,7 +36,7 @@
         "served_in_military": true
       },
       "in_progress_forms": [],
-      "prefills_available": [],
+      "prefills_available": ["21-2680"],
       "services": [
         "facilities",
         "hca",
@@ -34,10 +50,10 @@
       ],
       "va_profile": {
         "status": "OK",
-        "birth_date": "19850101",
-        "family_name": "Doe",
+        "birth_date": "19510925",
+        "family_name": "Skywalker",
         "gender": "M",
-        "given_names": ["John", ""],
+        "given_names": ["Luke", ""],
         "active_status": "active",
         "facilities": [
           {

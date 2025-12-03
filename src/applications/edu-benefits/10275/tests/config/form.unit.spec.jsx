@@ -118,9 +118,9 @@ describe('22-10275 formConfig – page visibility', () => {
     });
   });
 
-  describe('authorizingOfficialChapter -> authorizingOfficial', () => {
+  describe('authorizedOfficialChapter -> authorizedOfficial', () => {
     const page =
-      formConfig.chapters.authorizingOfficialChapter.pages.authorizingOfficial;
+      formConfig.chapters.authorizedOfficialChapter.pages.authorizedOfficial;
 
     it('is wired with required fields', () => {
       expect(page.path).to.equal('authorizing-official');

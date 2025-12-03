@@ -29,6 +29,7 @@ const App = props => {
     isProdEnabled,
     isEmergencyContactsEnabled,
     isProvidersAndDependentsPrefillEnabled,
+    isSpouseConfirmationFlowEnabled,
     isDownloadPdfEnabled,
   } = features;
   const {
@@ -69,6 +70,7 @@ const App = props => {
           'view:householdEnabled': !!canSubmitFinancialInfo,
           'view:isEmergencyContactsEnabled': !!isEmergencyContactsEnabled,
           'view:isProvidersAndDependentsPrefillEnabled': !!isProvidersAndDependentsPrefillEnabled,
+          'view:isSpouseConfirmationFlowEnabled': !!isSpouseConfirmationFlowEnabled,
           'view:isDownloadPdfEnabled': !!isDownloadPdfEnabled,
         };
 
@@ -84,6 +86,7 @@ const App = props => {
       canSubmitFinancialInfo,
       veteranFullName,
       isProvidersAndDependentsPrefillEnabled,
+      isSpouseConfirmationFlowEnabled,
     ],
   );
 
@@ -124,6 +127,8 @@ const mapStateToProps = state => ({
       state.featureToggles.ezrEmergencyContactsEnabled,
     isProvidersAndDependentsPrefillEnabled:
       state.featureToggles.ezrProvidersAndDependentsPrefillEnabled,
+    isSpouseConfirmationFlowEnabled:
+      state.featureToggles.ezrSpouseConfirmationFlowEnabled,
     isDownloadPdfEnabled: state.featureToggles.ezrDownloadPdfEnabled,
   },
   formData: state.form.data,

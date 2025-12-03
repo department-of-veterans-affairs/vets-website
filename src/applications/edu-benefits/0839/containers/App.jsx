@@ -9,7 +9,7 @@ import Breadcrumbs from '../components/Breadcrumbs';
 export default function App({ location, children }) {
   return (
     <div className="form-22-0839-container row">
-      <div className="layout-wrapper">
+      <div className="vads-u-padding-x--1">
         <Breadcrumbs />
       </div>
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>

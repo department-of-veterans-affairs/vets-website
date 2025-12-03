@@ -12,8 +12,8 @@ import {
   currencySchema,
   dateOfBirthUI,
   dateOfBirthSchema,
-  fullNameUI,
-  fullNameSchema,
+  fullNameNoSuffixUI,
+  fullNameNoSuffixSchema,
   radioUI,
   radioSchema,
   ssnUI,
@@ -113,12 +113,12 @@ const fullNamePage = {
       title: 'Dependent child',
       nounSingular: options.nounSingular,
     }),
-    fullName: fullNameUI(title => `Child’s ${title}`),
+    fullName: fullNameNoSuffixUI(title => `Child’s ${title}`),
   },
   schema: {
     type: 'object',
     properties: {
-      fullName: fullNameSchema,
+      fullName: fullNameNoSuffixSchema,
     },
     required: ['fullName'],
   },
@@ -356,7 +356,7 @@ const addressPage = {
       {
         'ui:title': 'Who do they live with?',
       },
-      fullNameUI(),
+      fullNameNoSuffixUI(),
     ),
     monthlyPayment: merge(
       {},
@@ -377,7 +377,7 @@ const addressPage = {
     type: 'object',
     properties: {
       childAddress: addressSchema({ omit: ['isMilitary', 'street3'] }),
-      personWhoLivesWithChild: fullNameSchema,
+      personWhoLivesWithChild: fullNameNoSuffixSchema,
       monthlyPayment: currencySchema,
     },
   },

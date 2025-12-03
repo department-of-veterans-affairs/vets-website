@@ -11,7 +11,7 @@ import { fireEvent, waitFor } from '@testing-library/dom';
 import App from '../../containers/App';
 import * as SmApi from '../../api/SmApi';
 import reducer from '../../reducers';
-import { Paths } from '../../util/constants';
+import { PageHeaders, Paths } from '../../util/constants';
 
 describe('App', () => {
   const initialState = {
@@ -324,10 +324,8 @@ describe('App', () => {
     });
 
     // Accept interstitial (sets acceptInterstitial internally)
-    const continueButton = await screen.findByRole('button', {
-      name: /Continue to start message/i,
-    });
-    continueButton.click();
+    const startMessageLink = await screen.findByTestId('start-message-link');
+    startMessageLink.click();
 
     // Navigate to Care Team Help route
     const link = await screen.findByText(
@@ -439,8 +437,11 @@ describe('App', () => {
     });
 
     await waitFor(() => {
-      expect(screen.getByText('Recent care teams', { selector: 'h1' })).to
-        .exist;
+      expect(
+        screen.getByText(PageHeaders.RECENT_RECIPIENTS, {
+          selector: 'h1',
+        }),
+      ).to.exist;
     });
   });
 

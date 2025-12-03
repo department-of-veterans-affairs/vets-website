@@ -117,7 +117,10 @@ describe('<YourClaimsPageV2>', () => {
       </Provider>,
     );
 
-    expect($('.claims-unavailable', container)).to.exist;
+    expect($('va-alert', container)).to.exist;
+    expect(container.textContent).to.include(
+      'VA.gov is having trouble loading claims and appeals information',
+    );
   });
 
   it('should render a loading skeleton if all requests loading', () => {
@@ -196,38 +199,34 @@ describe('<YourClaimsPageV2>', () => {
   it('should not render error messages if appeals are loading', () => {
     const props = set('appealsLoading', true, defaultProps);
     const wrapper = shallow(<YourClaimsPageV2 {...props} />);
-    expect(wrapper.find('ClaimsAppealsUnavailable').length).to.equal(0);
-    expect(wrapper.find('ClaimsUnavailable').length).to.equal(0);
-    expect(wrapper.find('AppealsUnavailable').length).to.equal(0);
+    expect(wrapper.find('ServiceUnavailableAlert').length).to.equal(0);
     wrapper.unmount();
   });
 
   it('should not render error messages if claims are loading', () => {
     const props = set('claimsLoading', true, defaultProps);
     const wrapper = shallow(<YourClaimsPageV2 {...props} />);
-    expect(wrapper.find('ClaimsAppealsUnavailable').length).to.equal(0);
-    expect(wrapper.find('ClaimsUnavailable').length).to.equal(0);
-    expect(wrapper.find('AppealsUnavailable').length).to.equal(0);
+    expect(wrapper.find('ServiceUnavailableAlert').length).to.equal(0);
     wrapper.unmount();
   });
 
   it('should not render claims and appeals unavailable when neither is unavailable', () => {
     const wrapper = shallow(<YourClaimsPageV2 {...defaultProps} />);
-    expect(wrapper.find('ClaimsAppealsUnavailable').length).to.equal(0);
+    expect(wrapper.find('ServiceUnavailableAlert').length).to.equal(0);
     wrapper.unmount();
   });
 
   it('should render claims unavailable when claims are unavailable', () => {
     const props = set('claimsAvailable', false, defaultProps);
     const wrapper = shallow(<YourClaimsPageV2 {...props} />);
-    expect(wrapper.find('ClaimsUnavailable').length).to.equal(1);
+    expect(wrapper.find('ServiceUnavailableAlert').length).to.equal(1);
     wrapper.unmount();
   });
 
   it('should render appeals unavailable when appeals are unavailable', () => {
     const props = set('appealsAvailable', false, defaultProps);
     const wrapper = shallow(<YourClaimsPageV2 {...props} />);
-    expect(wrapper.find('AppealsUnavailable').length).to.equal(1);
+    expect(wrapper.find('ServiceUnavailableAlert').length).to.equal(1);
     wrapper.unmount();
   });
 

@@ -18,38 +18,65 @@ import {
   arrayBuilderYesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
+import { getArrayUrlSearchParams } from '~/platform/forms-system/src/js/patterns/array-builder/helpers';
 import {
   recipientTypeLabels,
   travelLocationLabels,
 } from '../../../utils/labels';
-import { transformDate } from './helpers';
+import {
+  transformDate,
+  requiredIfMileageReimbursed,
+  requiredIfMileageLocationOther,
+} from './helpers';
 
 function introDescription() {
   return (
     <div>
       <p className="vads-u-margin-top--0">
-        In the next few questions, we’ll ask you about mileage that wasn’t
-        reimbursed. You’ll need to add at least one mileage.
+        Next we’ll ask you about unreimbursed mileage that you, your spouse, or
+        your dependents paid for.
       </p>
       <p>
-        Report miles traveled for medical purposes in a privately owned vehicle
-        such as a car, truck or motorcycle.
+        You can report miles that you traveled for medical purposes in a
+        privately owned vehicle such as a car, truck, or motorcycle.
       </p>
     </div>
   );
 }
 
+function checkIsItemIncomplete(item) {
+  return (
+    !item?.traveler ||
+    ((item.traveler === 'DEPENDENT' || item.traveler === 'OTHER') &&
+      !item?.travelerName) ||
+    !item?.travelLocation ||
+    (item.travelLocation === 'OTHER' && !item?.travelLocationOther) ||
+    !item?.travelDate ||
+    !item?.travelMilesTraveled ||
+    (item?.travelReimbursed !== false &&
+      (item.travelReimbursed === true && !item?.travelReimbursementAmount))
+  );
+}
+
 /** @type {ArrayBuilderOptions} */
-const options = {
+export const options = {
   arrayPath: 'mileageExpenses',
   nounSingular: 'mileage expense',
   nounPlural: 'mileage expenses',
   required: false,
-  isItemIncomplete: item => !item?.travelLocation || !item?.travelDate,
-  maxItems: 5,
+  isItemIncomplete: item => checkIsItemIncomplete(item),
+  maxItems: 12,
   text: {
     getItemName: item => travelLocationLabels[(item?.travelLocation)] || '',
     cardDescription: item => transformDate(item?.travelDate) || '',
+    cancelAddTitle: 'Cancel adding this mileage expense?',
+    cancelEditTitle: 'Cancel editing this mileage expense?',
+    cancelAddDescription:
+      'If you cancel, we won’t add this expense to your list of mileage expenses. You’ll return to a page where you can add a new mileage expense.',
+    cancelAddYes: 'Yes, cancel adding',
+    cancelAddNo: 'No, continue adding',
+    cancelEditYes: 'Yes, cancel editing',
+    cancelEditNo: 'No, continue editing',
   },
 };
 
@@ -57,7 +84,7 @@ const options = {
 const introPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Add mileage expenses',
+      title: 'Mileage expenses',
       nounSingular: options.nounSingular,
       nounPlural: options.nounPlural,
     }),
@@ -95,7 +122,14 @@ const summaryPage = {
 /** @returns {PageSchema} */
 const travelerPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Traveler information'),
+    ...arrayBuilderItemSubsequentPageTitleUI('Traveler information', () => {
+      const search = getArrayUrlSearchParams();
+      const isEdit = search.get('edit');
+      if (isEdit) {
+        return 'We’ll take you through each of the sections of this mileage expense for you to review and edit.';
+      }
+      return null;
+    }),
     traveler: radioUI({
       title: 'Who needed to travel?',
       labels: recipientTypeLabels,
@@ -128,7 +162,7 @@ const destinationPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Expense destination and date'),
     travelLocation: radioUI({
-      title: 'Who is the expense for?',
+      title: 'What was the destination?',
       labels: travelLocationLabels,
       descriptions: {
         CLINIC:
@@ -136,19 +170,15 @@ const destinationPage = {
       },
     }),
     travelLocationOther: textUI({
-      title: 'Tell us where you traveled',
+      title: 'Describe the destination',
       expandUnder: 'travelLocation',
       expandUnderCondition: field => field === 'OTHER',
-      required: (formData, index, fullData) => {
-        const mileageExpenses =
-          formData?.mileageExpenses ?? fullData?.mileageExpenses;
-        const mileageExpense = mileageExpenses?.[index];
-        return mileageExpense?.travelLocation === 'OTHER';
-      },
+      required: (formData, index, fullData) =>
+        requiredIfMileageLocationOther(formData, index, fullData),
     }),
-    travelMilesTraveled: numberUI('How many miles did you travel?'),
+    travelMilesTraveled: numberUI('How many miles were traveled?'),
     travelDate: currentOrPastDateUI({
-      title: 'What’s the date of your travel?',
+      title: 'What was the date of travel?',
       monthSelect: false,
     }),
   },
@@ -168,20 +198,19 @@ const destinationPage = {
 const reimbursementPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Expense reimbursement'),
-    travelReimbursed: yesNoUI('Were you reimbursed from another source?'),
+    travelReimbursed: yesNoUI({
+      title: 'Has this mileage been reimbursed by any other source?',
+      hint: 'For example: a VA Medical Center',
+    }),
     // Required doesn't seem to work set directly on currencyUI.
     travelReimbursementAmount: {
       ...currencyUI({
-        title: 'How much were you reimbursed?',
+        title: 'How much money was reimbursed?',
         expandUnder: 'travelReimbursed',
         expandUnderCondition: field => field === true,
       }),
-      'ui:required': (formData, index, fullData) => {
-        const mileageExpenses =
-          formData?.mileageExpenses ?? fullData?.mileageExpenses;
-        const mileageExpense = mileageExpenses?.[index];
-        return mileageExpense?.travelReimbursed === true;
-      },
+      'ui:required': (formData, index, fullData) =>
+        requiredIfMileageReimbursed(formData, index, fullData),
     },
   },
   schema: {
@@ -202,7 +231,7 @@ export const mileageExpensesPages = arrayBuilderPages(options, pageBuilder => ({
     schema: introPage.schema,
   }),
   mileageExpensesSummary: pageBuilder.summaryPage({
-    title: 'Mileage expenses',
+    title: 'Do you have a mileage expense to add?',
     path: 'expenses/mileage/add',
     uiSchema: summaryPage.uiSchema,
     schema: summaryPage.schema,

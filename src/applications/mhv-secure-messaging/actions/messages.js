@@ -1,8 +1,5 @@
 import moment from 'moment-timezone';
-import {
-  logUniqueUserMetricsEvents,
-  EVENT_REGISTRY,
-} from '@department-of-veterans-affairs/mhv/exports';
+import { dataDogLogger } from 'platform/monitoring/Datadog';
 import { Actions } from '../util/actionTypes';
 import {
   getMessage,
@@ -166,24 +163,62 @@ export const sendMessage = (
   message,
   attachments,
   ohTriageGroup = false,
+  isRxRenewal = false,
 ) => async dispatch => {
+  const messageData =
+    typeof message === 'string' ? JSON.parse(message) : message;
   try {
-    await createMessage(message, attachments, ohTriageGroup);
+    const response = await createMessage(message, attachments, ohTriageGroup);
 
-    dispatch(
-      addAlert(
-        Constants.ALERT_TYPE_SUCCESS,
-        '',
-        Constants.Alerts.Message.SEND_MESSAGE_SUCCESS,
-      ),
-    );
+    // do not show success alert for prescription renewal messages
+    // due to redirect to Medications page, where that success banner is displayed
+    if (!isRxRenewal) {
+      dispatch(
+        addAlert(
+          Constants.ALERT_TYPE_SUCCESS,
+          '',
+          Constants.Alerts.Message.SEND_MESSAGE_SUCCESS,
+        ),
+      );
+    }
+
+    if (isRxRenewal) {
+      dataDogLogger({
+        message: 'Prescription Renewal Message Sent',
+        attributes: {
+          messageId: response.data?.attributes?.messageId,
+          recipientId: messageData?.recipient_id,
+          category: messageData?.category,
+          hasAttachments: attachments && attachments.length > 0,
+        },
+        status: 'info',
+      });
+    }
     dispatch(resetRecentRecipient());
     dispatch(setThreadRefetchRequired(true));
   } catch (e) {
+    const errorCode = e.errors?.[0]?.code;
+    const errorDetail = e.errors?.[0]?.detail || e.message;
+
+    if (isRxRenewal) {
+      dataDogLogger({
+        message: 'Prescription Renewal Message Send Failed',
+        attributes: {
+          recipientId: messageData?.recipient_id,
+          category: messageData?.category,
+          errorCode,
+          errorDetail,
+          hasAttachments: attachments && attachments.length > 0,
+        },
+        status: 'error',
+        error: e,
+      });
+    }
+
     if (
       e.errors &&
-      (e.errors[0].code === Constants.Errors.Code.BLOCKED_USER ||
-        e.errors[0].code === Constants.Errors.Code.BLOCKED_USER2)
+      (errorCode === Constants.Errors.Code.BLOCKED_USER ||
+        errorCode === Constants.Errors.Code.BLOCKED_USER2)
     ) {
       dispatch(
         addAlert(
@@ -194,7 +229,7 @@ export const sendMessage = (
       );
     } else if (
       e.errors &&
-      e.errors[0].code === Constants.Errors.Code.ATTACHMENT_SCAN_FAIL
+      errorCode === Constants.Errors.Code.ATTACHMENT_SCAN_FAIL
     ) {
       dispatch(
         addAlert(
@@ -212,9 +247,6 @@ export const sendMessage = (
         ),
       );
     throw e;
-  } finally {
-    // Log message sending even if failed for analytics
-    logUniqueUserMetricsEvents(EVENT_REGISTRY.SECURE_MESSAGING_MESSAGE_SENT);
   }
 };
 
@@ -280,8 +312,5 @@ export const sendReply = ({
       );
     }
     throw e;
-  } finally {
-    // Log message sending even if failed for analytics
-    logUniqueUserMetricsEvents(EVENT_REGISTRY.SECURE_MESSAGING_MESSAGE_SENT);
   }
 };
