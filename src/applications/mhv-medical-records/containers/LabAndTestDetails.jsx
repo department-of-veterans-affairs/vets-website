@@ -92,6 +92,11 @@ const LabAndTestDetails = () => {
     );
   }
   if (isAcceleratingLabsAndTests && labAndTestDetails && !isLoading) {
+    if (labId && labId.charAt(0).toLowerCase() === 'r') {
+      return (
+        <RadiologyDetails record={labAndTestDetails} fullState={fullState} />
+      );
+    }
     return <UnifiedLabsAndTests record={labAndTestDetails} user={user} />;
   }
   // TODO: Delete this with the feature toggle

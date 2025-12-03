@@ -532,6 +532,7 @@ export const convertUnifiedLabsAndTestRecord = record => {
     result: record.attributes.encodedData
       ? decodeBase64Report(record.attributes.encodedData)
       : null,
+    sortDate: record.attributes.dateCompleted,
     base: {
       ...record,
     },
@@ -589,19 +590,33 @@ export const labsAndTestsReducer = (state = initialState, action) => {
     }
     case Actions.LabsAndTests.GET_UNIFIED_LIST: {
       const data = action.labsAndTestsResponse;
+      const labsAndTestsList = data.map(record =>
+        convertUnifiedLabsAndTestRecord(record),
+      );
+
+      // We will temporarily merge CVIX records w/ SCDF records while we wait for images to
+      // be available in SCDF radiology records.
+      const cvixData = action.cvixRadiologyResponse;
+      const cvixList = cvixData.map(convertCvixRadiologyRecord).map(record => ({
+        ...record,
+        // For unified data, we are currently NOT hashing the CVIX radiology records, so
+        // remove 'undefined' hash from CVIX records
+        id: record.id.replace('-undefined', ''),
+      }));
+
+      const mergedList = [...labsAndTestsList, ...cvixList];
+
       return {
         ...state,
         listCurrentAsOf: action.isCurrent ? new Date() : null,
         listState: loadStates.FETCHED,
-        labsAndTestsList: data
-          .map(record => convertUnifiedLabsAndTestRecord(record))
-          .sort((a, b) => {
-            if (!a.base?.attributes?.dateCompleted) return 1; // Push nulls to the end
-            if (!b.base?.attributes?.dateCompleted) return -1; // Keep non-nulls at the front
-            const dateA = parseISO(a.base.attributes.dateCompleted);
-            const dateB = parseISO(b.base.attributes.dateCompleted);
-            return dateB - dateA;
-          }),
+        // Lexicographic sort by ISO-like sortDate strings, descending.
+        labsAndTestsList: mergedList.sort((a, b) => {
+          if (!a.sortDate) return 1;
+          if (!b.sortDate) return -1;
+          if (a.sortDate === b.sortDate) return 0;
+          return a.sortDate < b.sortDate ? 1 : -1;
+        }),
       };
     }
     case Actions.LabsAndTests.GET_LIST: {

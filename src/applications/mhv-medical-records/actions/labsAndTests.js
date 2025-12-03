@@ -27,10 +27,15 @@ export const getLabsAndTestsList = (
       return getAcceleratedLabsAndTests(timeFrame);
     };
     if (isAccelerating) {
-      const labsAndTestsResponse = await getListWithRetry(dispatch, getList);
+      const [labsAndTestsResponse, cvixRadiologyResponse] = await Promise.all([
+        getListWithRetry(dispatch, getList),
+        getImagingStudies(),
+      ]);
+
       dispatch({
         type: Actions.LabsAndTests.GET_UNIFIED_LIST,
         labsAndTestsResponse,
+        cvixRadiologyResponse,
         isCurrent,
       });
     } else {
@@ -85,7 +90,11 @@ export const getLabsAndTestsDetails = (
   isAccelerating,
 ) => async dispatch => {
   try {
-    let getDetailsFunc = isAccelerating
+    /** Should be a temporary var while CVIX calls and SCDF calls coexist */
+    const shouldAccelerate =
+      isAccelerating && labId.charAt(0).toLowerCase() !== 'r';
+
+    let getDetailsFunc = shouldAccelerate
       ? async () => {
           // Return a notfound response because the downstream API
           // does not support fetching a single lab or test
@@ -96,13 +105,14 @@ export const getLabsAndTestsDetails = (
     if (labId && labId.charAt(0).toLowerCase() === 'r') {
       getDetailsFunc = getMhvRadiologyDetails;
     }
+
     await dispatchDetails(
       labId,
       labList,
       dispatch,
       getDetailsFunc,
       Actions.LabsAndTests.GET_FROM_LIST,
-      isAccelerating
+      shouldAccelerate
         ? Actions.LabsAndTests.GET_UNIFIED_ITEM_FROM_LIST
         : Actions.LabsAndTests.GET,
     );
