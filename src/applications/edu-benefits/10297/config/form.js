@@ -19,7 +19,7 @@ import {
   applicantFullname,
   mailingAddress,
   phoneAndEmail,
-  identificationInformation,
+  // identificationInformation,
   employmentStatus,
   employmentDetails,
   employmentFocus,
@@ -103,12 +103,12 @@ const formConfig = {
           uiSchema: applicantFullname.uiSchema,
           schema: applicantFullname.schema,
         },
-        identificationInformation: {
-          path: 'identification-information',
-          title: 'Identification information',
-          uiSchema: identificationInformation.uiSchema,
-          schema: identificationInformation.schema,
-        },
+        // identificationInformation: {
+        //   path: 'identification-information',
+        //   title: 'Identification information',
+        //   uiSchema: identificationInformation.uiSchema,
+        //   schema: identificationInformation.schema,
+        // },
         mailingAddress: {
           path: 'mailing-address',
           title: 'Mailing address',
