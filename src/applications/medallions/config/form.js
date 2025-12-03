@@ -41,6 +41,7 @@ import {
   isUserSignedIn,
 } from '../utils/helpers';
 import { servicePeriodsPages } from '../pages/servicePeriodsPages';
+import prefillTransformer from './prefill-transformer';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -71,6 +72,7 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for Memorials benefits.',
   },
+  prefillTransformer,
   title: TITLE,
   subTitle: SUBTITLE,
   getHelp: GetFormHelp,
