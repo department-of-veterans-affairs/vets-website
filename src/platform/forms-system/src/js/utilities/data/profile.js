@@ -449,7 +449,7 @@ export const contactInfoPropTypes = {
     homePhone: PropTypes.string, // review & submit home phone entry
     invalidEmail: PropTypes.string, // review & submit invalid entry error
     invalidPhone: PropTypes.string, // review & submit invalid phone error
-    invalidZip: PropTypes.string, // review & submit invalid zipcode error
+    invalidZip: PropTypes.func, // review & submit invalid zipcode error
     mailingAddress: PropTypes.string, // review & submit address
     missingAddress: PropTypes.string, // address missing alert alert text
     missingCityError: PropTypes.string, // review & submit missing city error
@@ -462,7 +462,7 @@ export const contactInfoPropTypes = {
     missingPhoneError: PropTypes.string, // review & submit missing phone error
     missingStateError: PropTypes.string, // review & submit missing state error
     missingStreetAddressError: PropTypes.string, // review & submit missing street line 1 error
-    missingZipError: PropTypes.string, // review & submit missing zipcode error
+    missingZipError: PropTypes.func, // review & submit missing zipcode error
     mobilePhone: PropTypes.string, // review & submit mobile phone entry
     postal: PropTypes.string, // review & submit postal code entry
     province: PropTypes.string, // review & submit province entry

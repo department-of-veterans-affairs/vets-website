@@ -2,12 +2,14 @@
 import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import {
+  contactInfo,
+  personalInfo,
+} from 'platform/forms-system/src/js/patterns/prefill';
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-
-import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -42,6 +44,19 @@ const formConfig = {
     // },
   },
   version: 0,
+  // or prefill-transformer from PR
+  // https://github.com/department-of-veterans-affairs/vets-website/commit/7f49c3bdc4d1aeda2a81f74cd2735e93ff9a55fa#diff-3af1e5e44b3300d11a660f138dcdc67d2a15d1317c96c392139ba2801929fd87R1-R46
+  prefillTransformer(pages, formData, metadata) {
+    const transformedData = {
+      ssn: formData?.veteranSocialSecurityNumber || null,
+      vaFileNumber: formData?.veteranVAFileNumber || null,
+    };
+    return {
+      metadata,
+      formData: transformedData,
+      pages,
+    };
+  },
   prefillEnabled: true,
   savedFormMessages: {
     notFound: 'Please start over to apply for mock prefill testing.',
@@ -52,15 +67,11 @@ const formConfig = {
   subTitle: SUBTITLE,
   defaultDefinitions: {},
   chapters: {
-    personalInformationChapter: {
-      title: 'Your personal information',
+    contactInfo: {
+      title: 'Veteran information',
       pages: {
-        nameAndDateOfBirth: {
-          path: 'name-and-date-of-birth',
-          title: 'Name and date of birth',
-          uiSchema: nameAndDateOfBirth.uiSchema,
-          schema: nameAndDateOfBirth.schema,
-        },
+        ...personalInfo,
+        ...contactInfo,
       },
     },
   },
