@@ -5,6 +5,7 @@
   "scripts": {
     "apps": "./script/app-list.sh",
     "build": "./script/build.sh --scaffold",
+    "install-safe": "yarn install --ignore-scripts && yarn postinstall",
     "postinstall": "./script/run-postinstall.sh",
     "build-analyze-app": "node ./script/build-analyze-app.js",
     "build:codespaces": "./.devcontainer/codespaces-create.sh",
