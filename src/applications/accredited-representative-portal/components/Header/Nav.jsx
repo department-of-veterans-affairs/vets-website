@@ -56,7 +56,7 @@ export const Nav = () => {
 
         <div className="heading-right">
           <Link
-            to="/get-help"
+            to="/help"
             className={`usa-button-secondary heading-help-link  ${
               profile ? 'logged-in' : ''
             }`}
@@ -81,7 +81,7 @@ export const Nav = () => {
           <div className="nav__container vads-u-display--flex">
             <Link
               className="nav__btn desktop"
-              to="/claimant-search"
+              to="/find-claimant"
               data-testid="desktop-search-link"
               onClick={recordDatalayerEvent}
               data-eventname="nav-link-click"
@@ -91,7 +91,7 @@ export const Nav = () => {
             </Link>
             <Link
               className="nav__btn desktop"
-              to="/poa-requests"
+              to="/representation-requests"
               data-testid="desktop-poa-link"
               onClick={recordDatalayerEvent}
               data-eventname="nav-link-click"

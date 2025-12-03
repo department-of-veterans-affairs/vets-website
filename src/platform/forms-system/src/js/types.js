@@ -146,6 +146,7 @@
  * @typedef {Object} FormConfigChapter
  * @property {FormConfigPages} [pages]
  * @property {string | ({ formData, formConfig }) => string} [title]
+ * @property {string | ({ formData, formConfig }) => string} [reviewTitle]
  * @property {boolean} [hideFormNavProgress]
  * @property {boolean} [hideFormTitle]
  * @property {boolean} [hideOnReviewPage]
@@ -244,6 +245,7 @@
  * @typedef {{
  *    items?: UISchemaOptions,
  *   'ui:autocomplete'?: AutocompleteValue,
+ *   'ui:confirmationField'?: React.ReactNode | (({formData}) => {data: any, label: string}),
  *   'ui:description'?: string | JSX.Element | React.ReactNode,
  *   'ui:disabled'?: boolean,
  *   'ui:errorMessages'?: UIErrorMessages,
@@ -475,9 +477,9 @@
  * nounPlural: "employers"
  * ```
  * @property {boolean} [hideMaxItemsAlert] This will not display the alert when the [maxItems] number is reached.
- * @property {(item) => boolean} [isItemIncomplete] Will display error on the cards if item is incomplete. You should include all of your required fields here. e.g. `item => !item?.name`
- * @property {number} [maxItems] The maximum number of items allowed in the array. Omit to allow unlimited items.
- * @property {boolean} required This determines the flow type of the array builder. Required starts with an intro page, optional starts with the yes/no question (summary page).
+ * @property {(item, fullData) => boolean} [isItemIncomplete] Will display error on the cards if item is incomplete. You should include all of your required fields here. e.g. `item => !item?.name`
+ * @property {number | ((formData: object) => number)} [maxItems] The maximum number of items allowed in the array. Can be a number or a function that returns a number based on formData. Omit to allow unlimited items.
+ * @property {boolean | ((formData) => boolean)} required This determines the flow type of the array builder. Can be a boolean or a function that returns a boolean. If `true`/returns `true`, the flow starts with an intro page and expects at least 1 item. If `false`/returns `false`, the user can skip the array with a yes/no question on the summary page.
  * @property {string} [reviewPath] Defaults to `'review-and-submit'` if not provided.
  * @property {string} [reviewPanelHeadingLevel] The heading level for the summary title on the review page.
  * @property {ArrayBuilderText} [text] Override any default text used in the array builder pattern

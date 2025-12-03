@@ -20,9 +20,7 @@ const fileUploadUi = ancillaryFormUploadUi(
 export const uiSchema = {
   privateMedicalRecordAttachments: {
     ...fileUploadUi,
-    'ui:options': {
-      ...fileUploadUi['ui:options'],
-    },
+    'ui:options': { ...fileUploadUi['ui:options'] },
     'ui:description': UploadDescription,
     'ui:confirmationField': ({ formData }) => ({
       data: formData?.map(item => item.name || item.fileName),

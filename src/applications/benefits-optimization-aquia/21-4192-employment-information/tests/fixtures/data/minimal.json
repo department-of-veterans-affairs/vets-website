@@ -1,0 +1,58 @@
+{
+  "data": {
+    "veteranInformation": {
+      "veteranFullName": {
+        "first": "Rex",
+        "last": "CT-7567"
+      },
+      "dateOfBirth": "2002-09-22"
+    },
+    "veteranContactInformation": {
+      "ssn": "757675767"
+    },
+    "employerInformation": {
+      "employerName": "Grand Army of the Republic",
+      "employerAddress": {
+        "view:militaryBaseDescription": {},
+        "country": "USA",
+        "street": "501st Legion Barracks",
+        "city": "Coruscant",
+        "state": "DC",
+        "postalCode": "20001"
+      }
+    },
+    "employmentDates": {
+      "beginningDate": "2002-09-22",
+      "endingDate": "2005-05-19"
+    },
+    "employmentEarningsHours": {
+      "typeOfWork": "Clone trooper captain serving in 501st Legion under General Skywalker during galactic conflict",
+      "amountEarned": 3200,
+      "timeLost": "2 weeks due to combat injuries sustained during battle operations",
+      "dailyHours": "16",
+      "weeklyHours": "112"
+    },
+    "employmentConcessions": {},
+    "employmentTermination": {
+      "dateLastWorked": "2005-05-19"
+    },
+    "employmentLastPayment": {
+      "dateOfLastPayment": "2005-05-19",
+      "grossAmountLastPayment": 3200,
+      "lumpSumPayment": "no"
+    },
+    "dutyStatus": {
+      "reserveOrGuardStatus": false
+    },
+    "dutyStatusDetails": {},
+    "benefitsInformation": {
+      "benefitEntitlement": false
+    },
+    "benefitsDetails": {},
+    "remarks": {},
+    "certification": {
+      "signature": "Rex CT-7567",
+      "certified": true
+    }
+  }
+}

@@ -1,30 +1,62 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 
-export const ReviewDependents = () => {
-  const formData = useSelector(state => {
-    return state?.form?.data || {};
-  });
+import { scrollToTop } from 'platform/utilities/scroll';
+import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 
-  const dependents = formData?.dependents?.awarded;
+import { showV3Picklist } from '../config/utilities';
+
+const ReviewDependents = ({
+  data = {},
+  setFormData,
+  goBack,
+  goForward,
+  contentBeforeButtons,
+  contentAfterButtons,
+}) => {
+  const hasApiError = useSelector(state => state.dependents?.error || false);
+
+  const dependents = data?.dependents?.awarded;
   const isDependentsArray = Array.isArray(dependents);
   const hasDependents = isDependentsArray && dependents.length > 0;
+  // Check for API error or if dependents from prefill has an error
+  const hasDependentError = hasApiError || !isDependentsArray;
+  const showPicklist = showV3Picklist(data);
+
+  useEffect(
+    () => {
+      scrollToTop();
+      if (showPicklist && (hasApiError || !hasDependents)) {
+        // Only allow adding dependents, not removing if dependents array is
+        // empty
+        setFormData({ ...data, 'view:addOrRemoveDependents': { add: true } });
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [showPicklist, hasApiError, hasDependents],
+  );
 
   const renderDependentCard = (dependent, index) => {
-    const { fullName, relationshipToVeteran, age } = dependent;
+    const { fullName, relationshipToVeteran, labeledAge } = dependent;
     const name = `${fullName?.first || ''} ${fullName?.last || ''}`.trim();
     const relationship = relationshipToVeteran || '';
 
     return (
-      <div
-        key={index}
-        className="vads-u-border--1px vads-u-border-color-gray-light vads-u-padding--2 vads-u-margin-bottom--2"
-      >
-        <h4 className="vads-u-margin-top--0">{name}</h4>
+      <va-card key={index} class="vads-u-padding--2 vads-u-margin-bottom--2">
+        <h5
+          className="vads-u-margin-top--0 dd-privacy-mask"
+          data-dd-action-name="dependent name"
+        >
+          {name}
+        </h5>
         <span>
-          {relationship} | {age}
+          {relationship},{' '}
+          <span className="dd-privacy-mask" data-dd-action-name="dependent age">
+            {labeledAge}
+          </span>
         </span>
-      </div>
+      </va-card>
     );
   };
 
@@ -32,7 +64,7 @@ export const ReviewDependents = () => {
     <>
       <h3>Review your VA dependents</h3>
 
-      {!isDependentsArray && (
+      {hasDependentError && (
         <va-alert status="error">
           <h4 slot="headline">
             We can’t access your dependent records right now
@@ -62,7 +94,7 @@ export const ReviewDependents = () => {
 
       {hasDependents && (
         <>
-          <h5>Check if your current dependents still qualify</h5>
+          <h4>Check if your current dependents still qualify</h4>
           <p>Remove dependents if these life changes occurred:</p>
           <ul>
             <li>
@@ -98,6 +130,21 @@ export const ReviewDependents = () => {
         </li>
         <li>Your child over age 18 is enrolled in school full-time</li>
       </ul>
+
+      {contentBeforeButtons}
+      <FormNavButtons goBack={goBack} goForward={goForward} useWebComponents />
+      {contentAfterButtons}
     </>
   );
 };
+
+ReviewDependents.propTypes = {
+  data: PropTypes.object.isRequired,
+  goBack: PropTypes.func.isRequired,
+  goForward: PropTypes.func.isRequired,
+  setFormData: PropTypes.func.isRequired,
+  contentAfterButtons: PropTypes.node,
+  contentBeforeButtons: PropTypes.node,
+};
+
+export default ReviewDependents;

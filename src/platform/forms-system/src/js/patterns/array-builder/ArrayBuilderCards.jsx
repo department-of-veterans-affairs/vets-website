@@ -107,16 +107,21 @@ const DuplicateLabel = ({ text }) => (
 
 /**
  * @param {{
- *   arrayPath: string,
+ *   arrayPath: ArrayBuilderOptions['arrayPath'],
+ *   cardDescription: string | React.ReactNode | ((itemData: any, index: number, fullData: any) => string | React.ReactNode),
+ *   duplicateCheckResult: object,
+ *   duplicateChecks: ArrayBuilderOptions['duplicateChecks'],
  *   getEditItemPathUrl: (formData: any, index: number, context) => string,
  *   formData: any,
- *   isIncomplete: (itemData: any) => boolean,
- *   nounSingular: string,
- *   setFormData: (formData: any) => void,
- *   titleHeaderLevel: string,
- *   getText: import('./arrayBuilderText').ArrayBuilderGetText
- *   onRemoveAll: () => void,
+ *   fullData: any,
+ *   isIncomplete: ArrayBuilderOptions['isItemIncomplete'],
+ *   nounSingular: ArrayBuilderOptions['nounSingular'],
+ *   getText: import('./arrayBuilderText').ArrayBuilderGetText,
+ *   isReview: boolean,
+ *   onRemove: (index: number, item: any, newFormData: any) => void,
+ *   onRemoveAll: (newFormData: any) => void,
  *   required: (formData: any) => boolean,
+ *   titleHeaderLevel: string,
  * }} props
  */
 const ArrayBuilderCards = ({
@@ -140,6 +145,7 @@ const ArrayBuilderCards = ({
   const arrayData = get(arrayPath, formData);
   const currentItem = arrayData?.[currentIndex];
   const isMounted = useRef(true);
+  const incompleteTimeoutRef = useRef(null);
   const nounSingularSlug = slugifyText(nounSingular);
 
   useEffect(() => {
@@ -266,7 +272,7 @@ const ArrayBuilderCards = ({
               // Incomplete label & alert > duplicate label & alert
               let label = null;
               let alert = null;
-              if (isIncomplete(itemData)) {
+              if (isIncomplete(itemData, fullData)) {
                 label = <IncompleteLabel />;
                 alert = (
                   <MissingInformationAlert>

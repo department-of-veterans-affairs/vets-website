@@ -4,11 +4,11 @@ on:
   workflow_run:
     workflows: [Continuous Integration]
     types: [completed]
-    branches: [production-bypass]
+    branches: [main]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: false
+  cancel-in-progress: false 
 
 env:
   BUILD_ENV: vagovprod
@@ -18,7 +18,11 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-16-cores-latest
+    permissions:
+      id-token: write
+      contents: read
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
 
     steps:
       - name: Checkout
@@ -55,63 +59,47 @@ jobs:
       - name: Compress and archive build
         run: tar -C build/${{ env.BUILD_ENV }} -cjf ${{ env.BUILD_ENV }}.tar.bz2 .
 
-      - name: Configure AWS credentials (1)
+      - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
-
-      - name: Get AWS IAM role
-        uses: ./.github/workflows/inject-secrets
-
-        with:
-          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
-          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
-
-      - name: Configure AWS Credentials (2)
-        uses: ./.github/workflows/configure-aws-credentials
-        with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: us-gov-west-1
-          role: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
-          role_duration: 900
-          session_name: vsp-frontendteam-githubaction
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Upload build
         run: aws s3 cp ${{ env.BUILD_ENV }}.tar.bz2 s3://vetsgov-website-builds-s3-upload/${{ env.COMMIT_SHA }}/${{ env.BUILD_ENV }}.tar.bz2 --acl public-read --region us-gov-west-1
-
+  
   tag-commit:
-    name: Tag Commit
-    needs: [build]
-    runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+      name: Tag Commit
+      needs: [build]
+      runs-on: ubuntu-latest
+      permissions:
+        id-token: write
+        contents: write
+      if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
-        with:
-          fetch-depth: 0
+      steps:
+        - name: Checkout
+          uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+          with:
+            fetch-depth: 0
 
-      - name: Configure AWS Credentials
-        uses: ./.github/workflows/configure-aws-credentials
-        with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: us-gov-west-1
-
-      - name: Get bot token from Parameter Store
-        uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
-        with:
-          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
-          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
-
-      - name: Generate Version
-        id: version
-        uses: paulhatch/semantic-version@v5.4.0
-        with:
-          tag_prefix: "v"
-
-      - name: Create tag
-        run: git tag ${{ steps.version.outputs.version_tag }} ${{ env.COMMIT_SHA }} && git push origin ${{ steps.version.outputs.version_tag }}
+        - name: Configure AWS Credentials
+          uses: ./.github/workflows/configure-aws-credentials
+          with:
+            aws_region: us-gov-west-1
+            role: ${{ vars.AWS_ASSUME_ROLE }}
+  
+        - name: Get bot token from Parameter Store
+          uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
+          with:
+            ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+            env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+  
+        - name: Generate Version
+          id: version
+          uses: paulhatch/semantic-version@v5.4.0
+          with:
+            tag_prefix: "v"
+  
+        - name: Create tag
+          run: git tag ${{ steps.version.outputs.version_tag }} ${{ env.COMMIT_SHA }} && git push origin ${{ steps.version.outputs.version_tag }} 

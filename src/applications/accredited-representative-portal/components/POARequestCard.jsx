@@ -133,7 +133,7 @@ const POARequestCard = ({ poaRequest }) => {
         <va-link
           active
           disable-analytics
-          href={`/representative/poa-requests/${poaRequest.id}`}
+          href={`/representative/representation-requests/${poaRequest.id}`}
           onClick={recordDatalayerEvent}
           data-eventname="arp-card"
           text="View representation request"

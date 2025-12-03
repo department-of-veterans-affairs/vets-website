@@ -421,7 +421,7 @@ describe('AuthApp', () => {
                 },
                 vet360ContactInformation: {
                   email: {
-                    updatedAt: '2018-04-21T20:09:50Z',
+                    confirmationDate: '2018-04-21T20:09:50Z',
                   },
                 },
               },
@@ -440,6 +440,125 @@ describe('AuthApp', () => {
     await waitFor(() => expect(window.location.replace.calledOnce).to.be.true);
     expect(window.location.replace.calledWith('/sign-in-confirm-contact-email'))
       .to.be.true;
+    window.location = originalLocation;
+    sessionStorage.clear();
+  });
+
+  it('should redirect to /sign-in-health-portal interstitial page', async () => {
+    const originalLocation = window.location;
+    if (!Location.prototype.replace) {
+      window.location = { replace: sinon.spy() };
+    } else {
+      window.location.replace = sinon.spy();
+    }
+
+    const store = {
+      dispatch: sinon.spy(),
+      subscribe: sinon.spy(),
+      getState: () => ({
+        featureToggles: {
+          portalNoticeInterstitialEnabled: true,
+        },
+      }),
+    };
+    sessionStorage.setItem(
+      'authReturnUrl',
+      'https://staging-patientportal.myhealth.va.gov',
+    );
+    server.use(
+      createGetHandler('https://dev-api.va.gov/v0/user', () => {
+        return jsonResponse(
+          {
+            data: {
+              attributes: {
+                profile: {
+                  signIn: { serviceName: 'idme', ssoe: true },
+                  verified: true,
+                },
+                vaProfile: {
+                  vaPatient: true,
+                  facilities: [
+                    {
+                      facilityId: '757',
+                      isCerner: true,
+                    },
+                  ],
+                },
+              },
+            },
+          },
+          { status: 200 },
+        );
+      }),
+    );
+
+    render(
+      <Provider store={store}>
+        <AuthApp location={{ query: { auth: 'success', type: 'idme' } }} />
+      </Provider>,
+    );
+    await waitFor(() => expect(window.location.replace.calledOnce).to.be.true);
+    expect(window.location.replace.calledWith('/sign-in-health-portal')).to.be
+      .true;
+    window.location = originalLocation;
+    sessionStorage.clear();
+  });
+
+  it('should redirect to /my-health', async () => {
+    const originalLocation = window.location;
+    if (!Location.prototype.replace) {
+      window.location = { replace: sinon.spy() };
+    } else {
+      window.location.replace = sinon.spy();
+    }
+
+    const store = {
+      dispatch: sinon.spy(),
+      subscribe: sinon.spy(),
+      getState: () => ({
+        featureToggles: {
+          portalNoticeInterstitialEnabled: true,
+        },
+      }),
+    };
+    sessionStorage.setItem(
+      'authReturnUrl',
+      'https://staging-patientportal.myhealth.va.gov',
+    );
+    server.use(
+      createGetHandler('https://dev-api.va.gov/v0/user', () => {
+        return jsonResponse(
+          {
+            data: {
+              attributes: {
+                profile: {
+                  signIn: { serviceName: 'idme', ssoe: true },
+                  verified: true,
+                },
+                vaProfile: {
+                  vaPatient: true,
+                  facilities: [
+                    {
+                      facilityId: '100',
+                      isCerner: true,
+                    },
+                  ],
+                },
+              },
+            },
+          },
+          { status: 200 },
+        );
+      }),
+    );
+
+    render(
+      <Provider store={store}>
+        <AuthApp location={{ query: { auth: 'success', type: 'idme' } }} />
+      </Provider>,
+    );
+    await waitFor(() => expect(window.location.replace.calledOnce).to.be.true);
+    expect(window.location.replace.calledWith('/my-health')).to.be.true;
     window.location = originalLocation;
     sessionStorage.clear();
   });

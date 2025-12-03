@@ -28,14 +28,14 @@ import YesNoField from '../web-component-fields/YesNoField';
  *   title?: UISchemaOptions['ui:title'],
  *   description?: UISchemaOptions['ui:description'],
  *   descriptions?: { Y?: string, N?: string },
- *   labels?: {Y?: string, N?: string},
- *   descriptions?: {Y?: string, N?: string},
+ *   labels?: { Y?: string, N?: string },
  *   tile?: boolean,
  *   required?: UISchemaOptions['ui:required'],
  *   yesNoReverse?: boolean,
  *   hint?: string,
  *   errorMessages?: UISchemaOptions['ui:errorMessages'],
  *   labelHeaderLevel?: UISchemaOptions['ui:options']['labelHeaderLevel'],
+ *   confirmationField?: UISchemaOptions['ui:confirmationField'],
  * }} options - a string to use as the title or an object with options
  * @returns {UISchemaOptions}
  */
@@ -49,6 +49,7 @@ export const yesNoUI = options => {
     yesNoReverse,
     errorMessages,
     required,
+    confirmationField,
     ...uiOptions
   } = typeof options === 'object' ? options : { title: options };
 
@@ -77,6 +78,7 @@ export const yesNoUI = options => {
     'ui:errorMessages': errorMessages,
     'ui:required': required,
     'ui:options': uiOptionsObj,
+    'ui:confirmationField': confirmationField,
   };
 };
 

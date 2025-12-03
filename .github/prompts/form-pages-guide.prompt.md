@@ -751,7 +751,7 @@ const employerOptions = {
   nounPlural: 'employers',
   required: true,
   maxItems: 5,
-  isItemIncomplete: (item, index, arrayData) => {
+  isItemIncomplete: (item, fullData) => {
     // Complex validation logic
     if (!item?.name || !item?.address) return true;
     if (item.type === 'contract' && !item?.contractDetails) return true;
@@ -1002,6 +1002,9 @@ Need selection field?
 ├─ Dropdown selection? → selectUI + selectSchema
 ├─ Single checkbox? → checkboxUI + checkboxSchema
 ├─ Multiple checkboxes? → checkboxGroupUI + checkboxGroupSchema
+├─ Service branch selection?
+│  ├─ All service branches? → serviceBranchUI() + serviceBranchSchema()
+│  └─ Specific branches only? → serviceBranchUI({ groups: ['army', 'navy'] }) + serviceBranchSchema(['army', 'navy'])
 └─ Relationship to veteran?
    ├─ All relationships? → relationshipToVeteranUI + relationshipToVeteranSchema
    └─ Just spouse/child? → relationshipToVeteranSpouseOrChildUI + relationshipToVeteranSpouseOrChildSchema
@@ -1030,6 +1033,7 @@ import {
   selectUI, selectSchema,                     // Dropdown selections
   radioUI, radioSchema,                       // Radio button groups
   checkboxGroupUI, checkboxGroupSchema,       // Multiple checkboxes
+  serviceBranchUI, serviceBranchSchema,       // Service branch selection
   // Array builder specific patterns:
   arrayBuilderYesNoUI, arrayBuilderYesNoSchema,
   arrayBuilderItemFirstPageTitleUI,
@@ -1617,11 +1621,40 @@ export default {
 };
 ```
 
-### Example 21-35: Array Builder Variations
+### Example 21: Service Branch Selection
+**When you see:** "Select your service branch" / "Branch of service"
+**Use:** `serviceBranchUI` + `serviceBranchSchema`
+```javascript
+export default {
+  uiSchema: {
+    ...titleUI('Military service'),
+    // All service branches
+    serviceBranchDefault: serviceBranchUI(),
+
+    // Or with specific branches only
+    serviceBranchSubset: serviceBranchUI({
+      title: 'Select your service branch',
+      hint: 'Choose the branch you served in',
+      required: true,
+      groups: ['army', 'navy', 'air force'],
+    }),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      serviceBranchDefault: serviceBranchSchema(),
+      serviceBranchSubset: serviceBranchSchema(['army', 'navy', 'air force']),
+    },
+    required: ['serviceBranch'],
+  },
+};
+```
+
+### Example 22-36: Array Builder Variations
 
 **📖 For complete array builder examples, see:** `README.md` (src/platform/forms-system/src/js/patterns/array-builder/README.md)
 
-**Example 21: Optional Dependents (Link Instead of Yes/No)**
+**Example 22: Optional Dependents (Link Instead of Yes/No)**
 ```javascript
 // Array with useLinkInsteadOfYesNo: true
 const options = {
@@ -1639,7 +1672,7 @@ const options = {
 };
 ```
 
-**Example 22: Required Employment History**
+**Example 23: Required Employment History**
 ```javascript
 // Array with required: true (must add at least one)
 const options = {
@@ -1652,7 +1685,7 @@ const options = {
 };
 ```
 
-**Example 23: Button Instead of Link**
+**Example 24: Button Instead of Link**
 ```javascript
 // Array with button instead of yes/no or link
 const options = {
@@ -1670,7 +1703,7 @@ const options = {
 };
 ```
 
-**Example 24: Complex Multi-Page Items**
+**Example 25: Complex Multi-Page Items**
 ```javascript
 // When each item needs multiple pages (name, address, dates, etc.)
 const options = {
@@ -1694,7 +1727,7 @@ export const employersPages = arrayBuilderPages(options, pageBuilder => ({
 }));
 ```
 
-**Example 25-35: Form Config Integration Examples**
+**Example 26-36: Form Config Integration Examples**
 ```javascript
 // config/form.js integration patterns
 const formConfig = {
@@ -1959,6 +1992,7 @@ yarn cy:open
 | Date of birth | `dateOfBirthUI()` + `dateOfBirthSchema` | Has built-in validation |
 | Phone number | `phoneUI('Phone')` + `phoneSchema` | US phone numbers |
 | Address | `addressUI()` + `addressSchema()` | Includes military checkbox |
+| Service branch selection | `serviceBranchUI()` + `serviceBranchSchema()` | Military service branches |
 | Currency/money | `currencyUI('Amount')` + `currencySchema` | Auto-formats currency |
 | SSN or VA file | `ssnOrVaFileNumberUI()` + `ssnOrVaFileNumberSchema` | Either/or validation |
 | Text input | `textUI('Label')` + `textSchema` | Basic text field |

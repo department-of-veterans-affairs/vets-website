@@ -7,7 +7,6 @@ export const Paths = {
   UI_MAIN: '/my-health/secure-messages',
   SM_API_BASE: '/my_health/v1/messaging',
   SM_API_EXTENDED: '/my_health/v1/messaging/messages',
-  UUM_API_BASE: '/my_health/v1/unique_user_metrics',
   INBOX: '/inbox/',
   SENT: '/sent/',
   DRAFTS: '/drafts/',
@@ -55,6 +54,7 @@ export const Paths = {
     DRAFT_AUTO_SAVE: `/my_health/v1/messaging/message_drafts`,
     SENT_THREADS: '/my_health/v1/messaging/folders/-1/threads*',
     SENT_SEARCH: '/my_health/v1/messaging/folders/-1/search*',
+    PRESCRIPTIONS: '/my_health/v1/prescriptions/',
   },
 };
 
@@ -106,6 +106,9 @@ export const Locators = {
   RECENT_CARE_TEAMS_RADIO_GROUP_TEST_ID: 'recent-care-teams-radio-group',
   RECENT_CARE_TEAMS_CONTINUE_BUTTON_DATA_TEST_ID:
     'recent-care-teams-continue-button',
+  COMPOSE_RECIPIENT_TITLE: 'compose-recipient-title',
+  COMPOSE_CATEGORY_DROPDOWN: 'compose-message-categories',
+  INTERSTITIAL_CONTINUE_BUTTON: 'continue-button',
   FOLDERS: {
     FOLDER_NAME: '[label="Folder name"]',
     FOLDER_REMOVE: 'va-button[text="Yes, remove this folder"]',
@@ -144,6 +147,7 @@ export const Locators = {
     MOVE_BUTTON_TEXT: '[data-testid="move-button-text"]',
     FILTER: '[data-testid="filter-messages-button"]',
     SEND: '[data-testid="send-button"]',
+    SEND_TEST_ID: 'send-button',
     SAVE_DRAFT: '[data-testid="save-draft-button"]',
     PRINT_ONE_MESS: '[data-testid="radio-print-one-message"]',
     CREATE_NEW_FOLDER: '[data-testid="create-new-folder"]',
@@ -178,6 +182,7 @@ export const Locators = {
     OLD_VERSION: `.welcome-message > p > a`,
     EDIT_SIGNATURE: `div.vads-u-margin-top--2`,
     REPLY: `reply-to-message-link`,
+    START_NEW_MESSAGE: 'start-message-link',
   },
   ALERTS: {
     HEADER: `[data-testid="error-folder-not-empty"]`,
@@ -214,6 +219,7 @@ export const Locators = {
     BACK_TOP: 'va-back-to-top',
     CERNER_ALERT: '[data-testid="cerner-facilities-alert"]',
     BLOCKED_GROUP: '[data-testid="blocked-triage-group-alert"]',
+    RECIPIENTS_ERROR: 'recipients-error-alert',
     RECIP_SELECT: '[data-testid="compose-recipient-select"]',
     MESS_CATAGO: '[data-testid="compose-message-categories"]',
     LIST_HEADER: '.sidebar-navigation-messages-list-header > a',
@@ -240,6 +246,7 @@ export const Locators = {
     COMBO_BOX: '.usa-error-message',
     EL_SIGN_NAME: '#input-error-message .usa-error-message',
     EL_SIGN_CHECK: `#checkbox-error-message .usa-error-message`,
+    ADD_MEDICATION_INFO_WARNING: 'add-medication-info-warning',
   },
   FIELDS: {
     RECIPIENT: '#select',
@@ -257,7 +264,7 @@ export const Locators = {
     EL_SIGN: `[message-aria-describedby="Electronic signature"]`,
     MESSAGE_SUBJECT: '[data-testid="message-subject-field"]',
     MESSAGE_SUBJECT_DATA_TEST_ID: 'message-subject-field',
-    MESSAGE_BODY: `[data-testid="message-body-field"]`,
+    MESSAGE_BODY: 'message-body-field',
     RECIPIENTS_COMBO: `#options`,
   },
   INFO: {
@@ -268,6 +275,7 @@ export const Locators = {
   BLOCKS: {
     ATTACHMENTS: '.attachments-list',
     FILTER_START_DATE: `[data-testid="date-start"]`,
+    FILTER_KEYWORD_INPUT: `[data-testid="keyword-search-input"]`,
     FILTER_END_DATE: `[data-testid="date-end"]`,
   },
   CHECKBOX: {
@@ -360,6 +368,9 @@ export const Alerts = {
   VIRUS_MULTI_ATTCH: `Our file scanner found a problem with your attachments. To send your message, remove the attachments.`,
   SAVE_DRAFT: `Do you want to save your draft message?`,
   SAVE_CHANGES: `Do you want to save your changes to this draft?`,
+  SEARCH_TERM_REQUIRED: 'Please enter a search term.',
+  ERROR_LOADING_RECIPIENTS_HEADER:
+    'We can’t load your care team list right now',
 };
 
 export const Data = {
@@ -411,7 +422,8 @@ export const Data = {
   CANNOT_REMOVE_FOLDER: `You can't remove a folder with messages in it. Move all the messages to another folder. Then try removing it again.`,
   HCS_SELECT: `Select care team`,
   REPLY_HEADER: `Only use messages for non-urgent needs`,
-  RECENT_RECIPIENTS_LABEL: `Select a team from those you've sent messages to in the past 6 months. Or select "A different care team" to find another team.`,
+  RECENT_RECIPIENTS_HEADER: 'Care teams you recently sent messages to',
+  RECENT_RECIPIENTS_LABEL: `Select a team you want to message. This list only includes teams that you’ve sent messages to in the last 6 months. If you want to contact another team, select “A different care team.”`,
   ATTACH_INFO: [
     'You may attach up to 4 files to each message',
     'You can attach only these file types: doc, docx, gif, jpg, pdf, png, rtf, txt, xls, xlsx, jpeg, jfif, pjpeg, pjp',

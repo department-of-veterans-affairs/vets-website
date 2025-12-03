@@ -54,7 +54,9 @@ export const emailNeedsConfirmation = ({
   const confirmationDateIsBefore =
     hasNoConfirmationDate === false
       ? isBefore(
-          parseISO(userAttributes.vet360ContactInformation?.email?.updatedAt),
+          parseISO(
+            userAttributes.vet360ContactInformation?.email?.confirmationDate,
+          ),
           beforeDate,
         )
       : false;
@@ -110,4 +112,37 @@ export const handleTokenRequest = async ({
       generateOAuthError({ oauthErrorCode, event });
     }
   }
+};
+
+export const checkPortalRequirements = ({
+  isPortalNoticeInterstitialEnabled,
+  userAttributes,
+  isMyVAHealth,
+}) => {
+  const { vaPatient = false, facilities = [] } =
+    userAttributes?.vaProfile || {};
+  const redirectElligible =
+    isPortalNoticeInterstitialEnabled && isMyVAHealth && vaPatient;
+
+  const activeFacilities = ['757'];
+  const approvedFacilities = [
+    ...activeFacilities,
+    '653',
+    '687',
+    '692',
+    '668',
+    '556',
+  ];
+
+  const hasApprovedFacility = facilities.some(facility =>
+    approvedFacilities.includes(facility.facilityId),
+  );
+  const hasActiveFacility = facilities.some(facility =>
+    activeFacilities.includes(facility.facilityId),
+  );
+
+  return {
+    needsPortalNotice: redirectElligible && hasActiveFacility,
+    needsMyHealth: redirectElligible && !hasApprovedFacility,
+  };
 };

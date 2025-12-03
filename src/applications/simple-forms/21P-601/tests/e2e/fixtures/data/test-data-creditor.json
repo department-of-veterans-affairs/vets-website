@@ -16,6 +16,7 @@
   "claimantDateOfBirth": "1980-01-01",
   "claimantAddress": {
     "street": "789 Memorial Drive",
+    "street2": "Suite 100",
     "city": "Richmond",
     "state": "VA",
     "country": "USA",
@@ -25,12 +26,7 @@
   "claimantEmail": "billing@funeralhome.com",
   "relationshipToDeceased": "creditor",
   "wantsToWaiveSubstitution": true,
-  "survivors": {
-    "hasSpouse": false,
-    "hasChildren": false,
-    "hasParents": false,
-    "hasNone": true
-  },
+  "survivors": false,
   "claimingReimbursement": true,
   "expenses": [
     {

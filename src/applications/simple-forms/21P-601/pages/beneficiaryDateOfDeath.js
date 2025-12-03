@@ -1,11 +1,15 @@
 import {
-  currentOrPastDateUI,
+  titleUI,
+  currentOrPastDateDigitsUI,
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 export default {
   uiSchema: {
-    beneficiaryDateOfDeath: currentOrPastDateUI('Date of death'),
+    ...titleUI('Beneficiary’s date of death'),
+    beneficiaryDateOfDeath: currentOrPastDateDigitsUI(
+      'When did the beneficiary die?',
+    ),
   },
   schema: {
     type: 'object',

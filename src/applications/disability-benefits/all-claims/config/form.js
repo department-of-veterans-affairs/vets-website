@@ -27,8 +27,8 @@ import {
   hasOtherEvidence,
   hasPrivateEvidence,
   hasRatedDisabilities,
+  hasRealNewOrSecondaryConditions,
   hasVAEvidence,
-  increaseOnly,
   isAnswering781aQuestions,
   isAnswering781Questions,
   isBDD,
@@ -126,6 +126,7 @@ import createformConfig8940 from './8940';
 import {
   NULL_CONDITION_STRING,
   PTSD_INCIDENT_ITERATION,
+  SEPARATION_PAY_SECTION_TITLE,
   WIZARD_STATUS,
 } from '../constants';
 
@@ -135,11 +136,15 @@ import reviewErrors from '../reviewErrors';
 import manifest from '../manifest.json';
 import CustomReviewTopContent from '../components/CustomReviewTopContent';
 import getPreSubmitInfo from '../content/preSubmitInfo';
-import ConfirmationAncillaryFormsWizard from '../components/ConfirmationAncillaryFormsWizard';
+import ConfirmationAncillaryFormsWizard from '../components/confirmationFields/ConfirmationAncillaryFormsWizard';
 
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
+  dev: {
+    showNavLinks: true,
+    collapsibleNavLinks: true,
+  },
   urlPrefix: '/',
   intentToFileUrl: '/evss_claims/intent_to_file/compensation',
   submitUrl: `${
@@ -196,13 +201,15 @@ const formConfig = {
     ...fullSchema.definitions,
   },
   title: ({ formData }) => getPageTitle(formData),
-  subTitle: 'VA Form 21-526EZ',
+  subTitle:
+    'Disability Compensation and Related Compensation Benefits (VA Form 21-526EZ)',
   preSubmitInfo: getPreSubmitInfo(),
   CustomReviewTopContent,
   chapters: {
     veteranDetails: {
       title: ({ onReviewPage }) =>
         `${onReviewPage ? 'Review ' : ''}Veteran Details`,
+      reviewTitle: 'Review Veteran Details',
       pages: {
         veteranInformation: {
           title: 'Veteran information',
@@ -281,7 +288,7 @@ const formConfig = {
           schema: separationLocation.schema,
         },
         separationPay: {
-          title: 'Separation or severance pay',
+          title: SEPARATION_PAY_SECTION_TITLE,
           path: 'separation-pay',
           depends: formData =>
             !hasRatedDisabilities(formData) && !isBDD(formData),
@@ -485,7 +492,8 @@ const formConfig = {
         prisonerOfWar: {
           title: 'Prisoner of war (POW)',
           path: 'pow',
-          depends: formData => !increaseOnly(formData) && !isBDD(formData),
+          depends: formData =>
+            !isBDD(formData) && hasRealNewOrSecondaryConditions(formData),
           uiSchema: prisonerOfWar.uiSchema,
           schema: prisonerOfWar.schema,
           appStateSelector: state => ({

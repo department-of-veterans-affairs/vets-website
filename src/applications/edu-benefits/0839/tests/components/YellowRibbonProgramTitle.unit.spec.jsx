@@ -37,7 +37,7 @@ describe('YellowRibbonProgramDescription', () => {
     };
 
     const { container } = renderWithProvider(
-      <YellowRibbonProgramTitle />,
+      <YellowRibbonProgramTitle text="Tell us about your" />,
       initialState,
     );
     expect($('.yellow-ribbon-title', container)).to.include.text(

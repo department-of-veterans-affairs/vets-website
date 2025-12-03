@@ -6,12 +6,10 @@ import {
 
 export default {
   uiSchema: {
-    ...titleUI('Are you claiming reimbursement?'),
+    ...titleUI('Expense reimbursement'),
     claimingReimbursement: yesNoUI(
-      'Are you seeking reimbursement for last illness or burial expenses?',
+      'Did you pay for the beneficiary’s last illness or burial expenses and want to be reimbursed?',
     ),
-    'ui:description':
-      'Select yes if you paid for medical care or burial services for the deceased and want to be reimbursed.',
   },
   schema: {
     type: 'object',

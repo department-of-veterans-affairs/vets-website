@@ -84,17 +84,22 @@ function makeClaimObject({ claimDate, updateDate, status = 'Claim received' }) {
   };
 }
 
-function loadingErrorAlertExists(view) {
-  expect(
-    view.getByRole('heading', {
-      name: /^We can’t access your claims or appeals information$/i,
-    }),
-  ).to.exist;
-  expect(
-    view.getByText(
-      'We’re sorry. Something went wrong on our end. If you have any claims and appeals, you won’t be able to access your claims and appeals information right now. Please refresh or try again later.',
-    ),
-  ).to.exist;
+function appealsErrorAlertExists(view) {
+  expect(view.getByTestId('benefit-application-error-original')).to.exist;
+  expect(view.getByTestId('dashboard-section-claims-and-appeals-error')).to
+    .exist;
+}
+
+function claimsErrorAlertExists(view) {
+  expect(view.getByTestId('benefit-application-error-original')).to.exist;
+  expect(view.getByTestId('dashboard-section-claims-and-appeals-error')).to
+    .exist;
+}
+
+function claimsAndAppealsErrorAlertExists(view) {
+  expect(view.getByTestId('benefit-application-error-original')).to.exist;
+  expect(view.getByTestId('dashboard-section-claims-and-appeals-error')).to
+    .exist;
 }
 
 describe('ClaimsAndAppeals component', () => {
@@ -110,7 +115,12 @@ describe('ClaimsAndAppeals component', () => {
             appealsLoading: false,
             claimsLoading: false,
             appeals: [],
-            claims: [],
+            claims: [
+              makeClaimObject({
+                updateDate: '2021-02-01',
+                status: 'Evidence gathering, review, and decision',
+              }),
+            ],
             appealsAvailability: 'ERROR',
           },
         };
@@ -120,19 +130,32 @@ describe('ClaimsAndAppeals component', () => {
         });
       });
 
-      it('should render an error alert', () => {
+      it('should render an appeals error alert', () => {
         expect(view.queryByRole('progressbar')).to.not.exist;
         expect(view.queryByRole('heading', { name: /^claims and appeals$/i }))
           .to.exist;
-        loadingErrorAlertExists(view);
+        appealsErrorAlertExists(view);
       });
 
-      it('should not show a CTA', () => {
+      it('should show popular action links', () => {
         expect(
-          view.queryByRole('link', {
-            name: /check your claim or appeal status/i,
+          view.getByRole('link', {
+            name: /learn how to file a claim/i,
           }),
-        ).to.not.exist;
+        ).to.exist;
+        expect(
+          view.getByRole('link', {
+            name: /manage all claims and appeals/i,
+          }),
+        ).to.exist;
+      });
+
+      it('should show the highlighted claim when appeals is down but claims is working', () => {
+        expect(
+          view.getByRole('link', {
+            name: /review claim received january 21, 2021/i,
+          }),
+        ).to.exist;
       });
     });
 
@@ -143,7 +166,12 @@ describe('ClaimsAndAppeals component', () => {
           claims: {
             appealsLoading: false,
             claimsLoading: false,
-            appeals: [],
+            appeals: [
+              makeAppealObject({
+                updateDate: '2021-02-15',
+                closed: false,
+              }),
+            ],
             claims: [],
             claimsAvailability: claimsAvailability.UNAVAILABLE,
           },
@@ -154,21 +182,93 @@ describe('ClaimsAndAppeals component', () => {
         });
       });
 
-      it('should render an error alert', () => {
+      it('should render a claims error alert', () => {
         expect(view.queryByRole('progressbar')).to.not.exist;
         expect(view.queryByRole('heading', { name: /^claims and appeals$/i }))
           .to.exist;
-        loadingErrorAlertExists(view);
+        claimsErrorAlertExists(view);
       });
 
-      it('should not show a CTA', () => {
+      it('should show popular action links', () => {
         expect(
-          view.queryByRole('link', {
-            name: /check your claim or appeal status/i,
+          view.getByRole('link', {
+            name: /learn how to file a claim/i,
           }),
-        ).to.not.exist;
+        ).to.exist;
+        expect(
+          view.getByRole('link', {
+            name: /manage all claims and appeals/i,
+          }),
+        ).to.exist;
+      });
+
+      it('should show the highlighted appeal when claims is down but appeals is working', () => {
+        expect(
+          view.getByRole('link', {
+            name: /review details of disability compensation appeal updated on february 15, 2021/i,
+          }),
+        ).to.exist;
       });
     });
+
+    context(
+      'when there is an error fetching both claims and appeals data',
+      () => {
+        beforeEach(() => {
+          initialState = {
+            user: claimsAppealsUser(),
+            claims: {
+              appealsLoading: false,
+              claimsLoading: false,
+              appeals: [],
+              claims: [],
+              appealsAvailability: 'ERROR',
+              claimsAvailability: claimsAvailability.UNAVAILABLE,
+            },
+          };
+          view = renderInReduxProvider(
+            <ClaimsAndAppeals dataLoadingDisabled />,
+            {
+              initialState,
+              reducers,
+            },
+          );
+        });
+
+        it('should render a claims and appeals error alert', () => {
+          expect(view.queryByRole('progressbar')).to.not.exist;
+          expect(view.queryByRole('heading', { name: /^claims and appeals$/i }))
+            .to.exist;
+          claimsAndAppealsErrorAlertExists(view);
+        });
+
+        it('should show popular action links', () => {
+          expect(
+            view.getByRole('link', {
+              name: /learn how to file a claim/i,
+            }),
+          ).to.exist;
+          expect(
+            view.getByRole('link', {
+              name: /manage all claims and appeals/i,
+            }),
+          ).to.exist;
+        });
+
+        it('should not show any highlighted claim or appeal when both APIs are down', () => {
+          expect(
+            view.queryByRole('link', {
+              name: /review/i,
+            }),
+          ).to.not.exist;
+          expect(
+            view.queryByRole('link', {
+              name: /view details of/i,
+            }),
+          ).to.not.exist;
+        });
+      },
+    );
   });
 
   describe('happy path render logic', () => {

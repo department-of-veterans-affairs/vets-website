@@ -63,7 +63,7 @@ function transformApplicants(applicants = []) {
   return applicants.map(applicant => {
     const transformedApplicant = {
       ...applicant,
-      ssnOrTin: applicant.applicantSSN ?? '',
+      ssnOrTin: applicant.applicantSsn ?? '',
       vetRelationship: extractRelationship(
         applicant.applicantRelationshipToSponsor || 'NA',
       ),
@@ -100,7 +100,7 @@ function mapHealthInsuranceToApplicants(
     result.applicants
       .filter(
         applicant =>
-          plan.medicareParticipant === toHash(applicant.applicantSSN),
+          plan.medicareParticipant === toHash(applicant.applicantSsn),
       )
       .forEach(applicant => {
         // Initialize Medicare array if it doesn't exist
@@ -128,7 +128,7 @@ function mapHealthInsuranceToApplicants(
 
     result.applicants
       .filter(applicant =>
-        participantHashes.includes(toHash(applicant.applicantSSN)),
+        participantHashes.includes(toHash(applicant.applicantSsn)),
       )
       .forEach(applicant => {
         // Initialize health insurance array
@@ -152,7 +152,12 @@ function mapHealthInsuranceToApplicants(
   // Add current date
   // eslint-disable-next-line prefer-destructuring
   result.certificationDate = new Date().toISOString().split('T')[0];
-  return result;
+
+  // Ensure veteran object is preserved in the result
+  return {
+    ...result,
+    veteran: data.veteran,
+  };
 }
 
 /**
@@ -200,7 +205,6 @@ function collectSupportingDocuments(data) {
  * @returns {string} JSON string of transformed data
  */
 export default function transformForSubmit(formConfig, form) {
-  // First transform using the forms-system transformer
   const initialTransform = JSON.parse(
     formsSystemTransformForSubmit(formConfig, form),
   );

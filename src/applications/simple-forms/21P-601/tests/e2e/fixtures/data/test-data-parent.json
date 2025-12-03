@@ -16,6 +16,7 @@
   "claimantDateOfBirth": "1945-08-20",
   "claimantAddress": {
     "street": "456 Elder Care Lane",
+    "street2": "Room 5",
     "city": "Norfolk",
     "state": "VA",
     "country": "USA",
@@ -23,14 +24,9 @@
   },
   "claimantPhone": "7575554321",
   "claimantEmail": "mwilson@email.com",
-  "relationshipToDeceased": "parent",
+  "relationshipToDeceased": "executor",
   "wantsToWaiveSubstitution": false,
-  "survivors": {
-    "hasSpouse": false,
-    "hasChildren": false,
-    "hasParents": true,
-    "hasNone": false
-  },
+  "survivors": true,
   "survivingRelatives": [
     {
       "fullName": {

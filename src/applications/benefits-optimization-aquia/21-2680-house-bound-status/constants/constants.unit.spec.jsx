@@ -19,12 +19,12 @@ describe('Constants', () => {
       expect(TITLE).to.exist;
       expect(TITLE).to.be.a('string');
       expect(TITLE).to.include('Housebound');
-      expect(TITLE).to.include('Aid & Attendance');
+      expect(TITLE).to.include('Aid and Attendance');
     });
 
     it('should have correct subtitle', () => {
       expect(SUBTITLE).to.exist;
-      expect(SUBTITLE).to.equal('VA Form 21-2680');
+      expect(SUBTITLE).to.include('VA Form 21-2680');
     });
   });
 

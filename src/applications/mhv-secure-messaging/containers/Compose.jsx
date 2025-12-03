@@ -54,10 +54,13 @@ const Compose = () => {
 
   useEffect(
     () => {
-      if (location.pathname.startsWith(Paths.COMPOSE)) {
+      const composePathNoSlash = Paths.COMPOSE.endsWith('/')
+        ? Paths.COMPOSE.slice(0, -1)
+        : Paths.COMPOSE;
+      if (location.pathname.startsWith(composePathNoSlash)) {
         dispatch(clearThread());
         setDraftType('compose');
-      } else {
+      } else if (draftId) {
         dispatch(retrieveMessageThread(draftId));
       }
 
@@ -105,12 +108,14 @@ const Compose = () => {
     [isDraftPage],
   );
 
+  const headerText = document.querySelector('h1')?.textContent;
   useEffect(
     () => {
-      document.title = `${pageTitle} ${PageTitles.DEFAULT_PAGE_TITLE_TAG}`;
+      document.title = `${headerText} ${PageTitles.DEFAULT_PAGE_TITLE_TAG}`;
     },
-    [pageTitle],
+    [headerText],
   );
+
   // make sure the thread list is fetched when navigating to the compose page
   useEffect(
     () => {
@@ -215,7 +220,6 @@ const Compose = () => {
             />
           </div>
         )}
-
       {draftType &&
       !acceptInterstitial &&
       (noAssociations === (undefined || false) && !allTriageGroupsBlocked) ? (

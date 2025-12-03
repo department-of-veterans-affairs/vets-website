@@ -22,7 +22,7 @@ describe('SM RECIPIENTS GROUPING ON COMPOSE', () => {
     PatientInboxPage.loadInboxMessages();
     // Navigate through curated list flow: create message -> interstitial -> select care team
     PatientInboxPage.clickCreateNewMessage();
-    PatientInterstitialPage.getContinueButton().click({ force: true });
+    PatientInterstitialPage.getStartMessageLink().click({ force: true });
     PatientComposePage.verifyHeader('Select care team');
   });
 

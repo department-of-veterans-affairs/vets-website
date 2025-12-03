@@ -6,12 +6,12 @@ import { selectProfile } from 'platform/user/selectors';
 
 // Content
 import { title995 } from '../content/title';
-import { EvidencePrivateContent } from './EvidencePrivateContent';
+import { PrivateDetailsDisplay } from './evidence/PrivateDetailsDisplay';
 import { EvidenceUploadContent } from './EvidenceUploadContent';
-import { EvidenceVaContent } from './EvidenceVaContent';
+import { VaDetailsDisplay } from './evidence/VaDetailsDisplay';
 import { content as notice5103Content } from '../content/notice5103';
 import { facilityTypeTitle, facilityTypeList } from '../content/facilityTypes';
-import { content as evidenceContent } from '../content/evidenceSummary';
+import { content as evidenceContent } from '../content/evidence/summary';
 import { optionForMstTitle } from '../content/optionForMst';
 import {
   optionIndicatorLabel,
@@ -24,7 +24,7 @@ import {
   getPrivateEvidence,
   getOtherEvidence,
 } from '../utils/evidence';
-import { LIMITED_CONSENT_RESPONSE } from '../constants';
+import { HAS_PRIVATE_LIMITATION } from '../constants';
 import { getReadableDate } from '../../shared/utils/dates';
 
 // Components
@@ -190,17 +190,17 @@ export const ConfirmationPage = () => {
       )}
 
       {vaEvidence.length ? (
-        <EvidenceVaContent list={vaEvidence} reviewMode showListOnly />
+        <VaDetailsDisplay list={vaEvidence} reviewMode showListOnly />
       ) : null}
 
       {privateEvidence.length ? (
-        <EvidencePrivateContent
+        <PrivateDetailsDisplay
           list={privateEvidence}
           limitedConsent={data?.limitedConsent}
           privacyAgreementAccepted={data.privacyAgreementAccepted}
           reviewMode
           showListOnly
-          limitedConsentResponse={data?.[LIMITED_CONSENT_RESPONSE]}
+          limitedConsentResponse={data?.[HAS_PRIVATE_LIMITATION]}
         />
       ) : null}
 

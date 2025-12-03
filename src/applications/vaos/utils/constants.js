@@ -96,6 +96,7 @@ export const TYPE_OF_CARE_IDS = {
   AUDIOLOGY_HEARING_ID: 'CCAUDHEAR',
   PODIATRY_ID: 'tbd-podiatry',
   MENTAL_HEALTH_ID: 'MENTAL_HEALTH',
+  MENTAL_HEALTH_PRIMARY_CARE_ID: '534',
   MENTAL_HEALTH_SERVICES_ID: '502',
   MENTAL_HEALTH_SUBSTANCE_USE_ID: '513',
 };
@@ -221,16 +222,32 @@ export const TYPES_OF_EYE_CARE = [
 
 export const TYPES_OF_MENTAL_HEALTH = [
   {
+    id: TYPE_OF_CARE_IDS.MENTAL_HEALTH_PRIMARY_CARE_ID,
+    idV2: 'primaryCareMentalHealth',
+    name: 'Mental health care in a primary care setting',
+    group: 'mentalHealth',
+    description:
+      'Brief follow-up care with your primary care mental health provider for ' +
+      'concerns such as stress, anxiety, irritability, or trouble sleeping.',
+  },
+  {
     id: TYPE_OF_CARE_IDS.MENTAL_HEALTH_SERVICES_ID,
     idV2: 'outpatientMentalHealth',
-    name: 'Mental health services',
+    name: 'Mental health care with a specialist',
     group: 'mentalHealth',
+    description:
+      'For therapy, medication, and other services to help with posttraumatic ' +
+      'stress disorder (PTSD), psychological effects of military sexual ' +
+      'trauma (MST), depression, grief, anxiety, and other needs.',
   },
   {
     id: TYPE_OF_CARE_IDS.MENTAL_HEALTH_SUBSTANCE_USE_ID,
     idV2: 'individualSubstanceUseDisorder',
     name: 'Substance use problem services',
     group: 'mentalHealth',
+    description:
+      'For counseling, recovery support, and treatment options for Veterans ' +
+      'seeking help with alcohol or other substance use.',
   },
 ];
 
@@ -523,3 +540,5 @@ export const POST_DRAFT_REFERRAL_APPOINTMENT_CACHE =
   'postDraftReferralAppointmentCache';
 
 export const POST_REFERRAL_REQUEST_CACHE = 'postReferralAppointmentCache';
+
+export const AMBULATORY_PATIENT_SUMMARY = 'ambulatory_patient_summary';

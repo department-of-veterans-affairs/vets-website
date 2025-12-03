@@ -19,6 +19,7 @@ import PrescriptionDetails from '../../containers/PrescriptionDetails';
 import rxDetailsResponse from '../fixtures/prescriptionDetails.json';
 import nonVaRxResponse from '../fixtures/nonVaPrescription.json';
 import { dateFormat } from '../../util/helpers';
+import { DATETIME_FORMATS } from '../../util/constants';
 
 let sandbox;
 
@@ -135,7 +136,7 @@ describe('Prescription details container', () => {
       expect(screen.getByTestId('rx-last-filled-date')).to.have.text(
         `Last filled on ${dateFormat(
           rxDetailsResponse.data.attributes.dispensedDate,
-          'MMMM D, YYYY',
+          DATETIME_FORMATS.longMonthDate,
         )}`,
       );
       expect(rxName).to.exist;
@@ -182,7 +183,7 @@ describe('Prescription details container', () => {
       expect(screen.getByTestId('rx-last-filled-date')).to.have.text(
         `Documented on ${dateFormat(
           nonVaRxResponse.data.attributes.orderedDate,
-          'MMMM D, YYYY',
+          DATETIME_FORMATS.longMonthDate,
         )}`,
       );
     });

@@ -53,27 +53,26 @@ export const generateBlueButtonData = (
       `Showing ${labsAndTests?.length} records from newest to oldest`,
     ],
     selected: recordFilter.includes('labTests'),
-    records:
-      isArrayAndHasItems(labsAndTests) && labsAndTests.length > 0
-        ? labsAndTests.map(record => {
-            const title = record.name;
-            let content;
+    records: isArrayAndHasItems(labsAndTests)
+      ? labsAndTests.map(record => {
+          const title = record.name;
+          let content;
 
-            if (record.type === labTypes.CHEM_HEM) {
-              content = generateChemHemContent(record);
-            }
-            if (record.type === labTypes.MICROBIOLOGY) {
-              content = generateMicrobioContent(record);
-            }
-            if (record.type === labTypes.PATHOLOGY) {
-              content = generatePathologyContent(record);
-            }
-            if (record.type === labTypes.RADIOLOGY) {
-              content = generateRadiologyContent(record);
-            }
-            return { title, ...content };
-          })
-        : [],
+          if (record.type === labTypes.CHEM_HEM) {
+            content = generateChemHemContent(record);
+          }
+          if (record.type === labTypes.MICROBIOLOGY) {
+            content = generateMicrobioContent(record);
+          }
+          if (record.type === labTypes.PATHOLOGY) {
+            content = generatePathologyContent(record);
+          }
+          if (record.type === labTypes.RADIOLOGY) {
+            content = generateRadiologyContent(record);
+          }
+          return { title, ...content };
+        })
+      : [],
   });
 
   data.push({
@@ -85,7 +84,7 @@ export const generateBlueButtonData = (
       `Showing ${notes?.length} records from newest to oldest`,
     ],
     selected: recordFilter.includes('careSummaries'),
-    records: notes?.length
+    records: isArrayAndHasItems(notes)
       ? notes.map(record => {
           const title = record.name;
           let content;
@@ -112,7 +111,9 @@ export const generateBlueButtonData = (
       `Showing ${vaccines?.length} records from newest to oldest`,
     ],
     selected: recordFilter.includes('vaccines'),
-    records: vaccines?.length ? generateVaccinesContent(vaccines) : [],
+    records: isArrayAndHasItems(vaccines)
+      ? generateVaccinesContent(vaccines)
+      : [],
   });
 
   data.push({
@@ -125,7 +126,9 @@ export const generateBlueButtonData = (
     selected:
       recordFilter.includes('allergies') ||
       (recordFilter.includes('medications') && medications?.length > 0),
-    records: allergies?.length ? generateAllergiesContent(allergies) : [],
+    records: isArrayAndHasItems(allergies)
+      ? generateAllergiesContent(allergies)
+      : [],
   });
 
   data.push({
@@ -136,7 +139,7 @@ export const generateBlueButtonData = (
       `Showing ${conditions?.length} records from newest to oldest`,
     ],
     selected: recordFilter.includes('conditions'),
-    records: conditions?.length
+    records: isArrayAndHasItems(conditions)
       ? conditions.map(record => {
           const title = record.name;
           const content = generateConditionContent(record);
@@ -152,7 +155,9 @@ export const generateBlueButtonData = (
       'Vitals are basic health numbers your providers check at your appointments.',
     ],
     selected: recordFilter.includes('vitals'),
-    records: vitals?.length ? generateVitalsContentByType(vitals) : [],
+    records: isArrayAndHasItems(vitals)
+      ? generateVitalsContentByType(vitals)
+      : [],
   });
 
   data.push({
@@ -164,7 +169,7 @@ export const generateBlueButtonData = (
       `Showing ${medications?.length} medications, alphabetically by name`,
     ],
     selected: recordFilter.includes('medications'),
-    records: medications?.length
+    records: isArrayAndHasItems(medications)
       ? medications.map(record => {
           const title = record.prescriptionName;
           const content = generateMedicationsContent(record);
@@ -174,12 +179,12 @@ export const generateBlueButtonData = (
   });
 
   const upcoming =
-    appointments?.length && recordFilter.includes('upcomingAppts')
+    isArrayAndHasItems(appointments) && recordFilter.includes('upcomingAppts')
       ? appointments.filter(appt => appt.isUpcoming)
       : [];
 
   const past =
-    appointments?.length && recordFilter.includes('pastAppts')
+    isArrayAndHasItems(appointments) && recordFilter.includes('pastAppts')
       ? appointments.filter(appt => !appt.isUpcoming)
       : [];
 
@@ -216,7 +221,7 @@ export const generateBlueButtonData = (
       'Each of your VA facilities may have different demographic information for you. If you need update your information, contact your facility.',
     ],
     selected: recordFilter.includes('demographics'),
-    records: demographics?.length
+    records: isArrayAndHasItems(demographics)
       ? demographics.map(record => ({
           title: `VA facility: ${record.facility}`,
           titleMoveDownAmount: 0.5,

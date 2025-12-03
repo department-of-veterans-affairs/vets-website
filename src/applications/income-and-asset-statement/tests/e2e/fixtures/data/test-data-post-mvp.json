@@ -139,10 +139,20 @@
         "recipientRelationship": "CHILD",
         "recipientName": { "first": "Jane", "last": "Smith" },
         "payer": "Social Security Administration",
-        "incomeType": "Social Security",
+        "incomeType": "WAGES",
         "incomeFrequency": "RECURRING",
         "incomeLastReceivedDate": "2023-05-15",
         "grossAnnualAmount": 18000.0
+      },
+      {
+        "recipientRelationship": "CHILD",
+        "recipientName": { "first": "Jane", "last": "Smith" },
+        "payer": "Social Security Administration",
+        "incomeType": "OTHER",
+        "incomeFrequency": "RECURRING",
+        "incomeLastReceivedDate": "2023-05-15",
+        "grossAnnualAmount": 18000.0,
+        "view:otherIncomeType": "other income type"
       }
     ],
     "view:isAddingIncomeReceiptWaivers": true,

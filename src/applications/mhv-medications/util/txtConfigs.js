@@ -12,7 +12,13 @@ import {
   validateIfAvailable,
   prescriptionMedAndRenewalStatus,
 } from './helpers';
-import { FIELD_NOT_AVAILABLE, medStatusDisplayTypes } from './constants';
+import {
+  DATETIME_FORMATS,
+  FIELD_NOT_AVAILABLE,
+  medStatusDisplayTypes,
+  RX_SOURCE,
+  DISPENSE_STATUS,
+} from './constants';
 
 const newLine = (n = 1) => '\n'.repeat(n);
 const joinLines = (...lines) => lines.filter(Boolean).join(newLine(2));
@@ -25,16 +31,58 @@ const fieldLine = (label, value) =>
   `${label}: ${validateIfAvailable(label, value)}`;
 const SEPARATOR =
   '---------------------------------------------------------------------------------';
+const getLastFilledAndRxNumberBlock = rx => {
+  const pendingMed =
+    rx?.prescriptionSource === RX_SOURCE.PENDING_DISPENSE &&
+    rx?.dispStatus === DISPENSE_STATUS.NEW_ORDER;
+  const pendingRenewal =
+    rx?.prescriptionSource === RX_SOURCE.PENDING_DISPENSE &&
+    rx?.dispStatus === DISPENSE_STATUS.RENEW;
+  const isRxPending = pendingMed || pendingRenewal;
+
+  return isRxPending
+    ? ''
+    : joinLines(
+        `Last filled on: ${dateFormat(
+          rx.sortedDispensedDate,
+          DATETIME_FORMATS.longMonthDate,
+          'Date not available',
+        )}`,
+        `Prescription number: ${rx.prescriptionNumber}`,
+      );
+};
+const getAttributes = rx =>
+  joinLines(
+    `Status: ${prescriptionMedAndRenewalStatus(rx, medStatusDisplayTypes.TXT)}`,
+    fieldLine('Refills left', rx.refillRemaining),
+    `Request refills by this prescription expiration date: ${dateFormat(
+      rx.expirationDate,
+      DATETIME_FORMATS.longMonthDate,
+      'Date not available',
+    )}`,
+    fieldLine('Facility', rx.facilityName),
+    fieldLine('Pharmacy phone number', rx.phoneNumber),
+    fieldLine('Instructions', rx.sig),
+    fieldLine('Reason for use', rx.indicationForUse),
+    `Prescribed on: ${dateFormat(
+      rx.orderedDate,
+      DATETIME_FORMATS.longMonthDate,
+      'Date not available',
+    )}`,
+    `Prescribed by: ${displayProviderName(
+      rx.providerFirstName,
+      rx.providerLastName,
+    )}`,
+  );
 
 /**
  * Return Non-VA prescription TXT
  */
 export const buildNonVAPrescriptionTXT = (prescription, options) => {
   const { includeSeparators = true } = options ?? {};
-  const header = includeSeparators ? `${SEPARATOR}${newLine(2)}` : '';
-  const footer = includeSeparators
-    ? `${newLine(2)}${SEPARATOR}${newLine(2)}`
-    : newLine(2);
+  const header = includeSeparators
+    ? `${newLine()}${SEPARATOR}${newLine(3)}`
+    : '';
 
   const body = joinBlocks(
     prescription?.prescriptionName || prescription?.orderableItem,
@@ -48,7 +96,7 @@ export const buildNonVAPrescriptionTXT = (prescription, options) => {
     joinLines(
       `When you started taking this medication: ${dateFormat(
         prescription.dispensedDate,
-        'MMMM D, YYYY',
+        DATETIME_FORMATS.longMonthDate,
         'Date not available',
       )}`,
       `Documented by: ${
@@ -62,7 +110,7 @@ export const buildNonVAPrescriptionTXT = (prescription, options) => {
     ),
   );
 
-  return `${header}${body}${footer}`;
+  return `${header}${body}${newLine()}`;
 };
 
 /**
@@ -76,7 +124,7 @@ export const buildPrescriptionsTXT = prescriptions => {
 
     const filledDate = dateFormat(
       newest.sortedDispensedDate,
-      'MMMM D, YYYY',
+      DATETIME_FORMATS.longMonthDate,
       'Date not available',
     );
 
@@ -87,61 +135,21 @@ export const buildPrescriptionsTXT = prescriptions => {
   const header = `${newLine()}${SEPARATOR}${newLine(3)}`;
 
   const body = (prescriptions || []).map(rx => {
-    if (rx?.prescriptionSource === 'NV') {
+    if (rx?.prescriptionSource === RX_SOURCE.NON_VA) {
       return buildNonVAPrescriptionTXT(rx, {
         includeSeparators: false,
       }).trimEnd();
     }
 
-    const pendingMed =
-      rx?.prescriptionSource === 'PD' && rx?.dispStatus === 'NewOrder';
-    const pendingRenewal =
-      rx?.prescriptionSource === 'PD' && rx?.dispStatus === 'Renew';
-    const isPending = pendingMed || pendingRenewal;
-
     const title = rx.prescriptionName;
-
-    const fillandRxBlock = !isPending
-      ? joinLines(
-          `Last filled on: ${dateFormat(
-            rx.sortedDispensedDate,
-            'MMMM D, YYYY',
-            'Date not available',
-          )}`,
-          `Prescription number: ${rx.prescriptionNumber}`,
-        )
-      : '';
-
-    const attributes = joinLines(
-      `Status: ${prescriptionMedAndRenewalStatus(
-        rx,
-        medStatusDisplayTypes.TXT,
-      )}`,
-      fieldLine('Refills left', rx.refillRemaining),
-      `Request refills by this prescription expiration date: ${dateFormat(
-        rx.expirationDate,
-        'MMMM D, YYYY',
-        'Date not available',
-      )}`,
-      fieldLine('Facility', rx.facilityName),
-      fieldLine('Pharmacy phone number', rx.phoneNumber),
-      fieldLine('Instructions', rx.sig),
-      fieldLine('Reason for use', rx.indicationForUse),
-      fieldLine('Quantity', rx.quantity),
-      `Prescribed on: ${dateFormat(
-        rx.orderedDate,
-        'MMMM D, YYYY',
-        'Date not available',
-      )}`,
-      `Prescribed by: ${displayProviderName(
-        rx.providerFirstName,
-        rx.providerLastName,
-      )}`,
-    );
-
     const mostRecent = mostRecentRxRefillLine(rx);
 
-    return joinBlocks(title, fillandRxBlock, attributes, mostRecent).trimEnd();
+    return joinBlocks(
+      title,
+      getLastFilledAndRxNumberBlock(rx),
+      getAttributes(rx),
+      mostRecent,
+    ).trimEnd();
   });
 
   return `${header}${body.join(newLine(3))}${newLine(2)}`;
@@ -191,189 +199,126 @@ export const buildAllergiesTXT = allergies => {
     )
     .join(newLine());
 
-  return `${header}${body}${newLine()}${items}${footer}`;
+  return `${header}${body}${newLine()}${items}${newLine()}${footer}`;
 };
 
 /**
  * Return VA prescription TXT
  */
 export const buildVAPrescriptionTXT = prescription => {
+  const header = `${newLine()}${SEPARATOR}${newLine(3)}`;
+  const rxTitle = prescription?.prescriptionName || prescription?.orderableItem;
+  const subTitle = `Most recent prescription`;
+
+  const mostRecentRxSection = joinLines(
+    `${rxTitle}${newLine()}`,
+    `${subTitle}${newLine()}`,
+    getLastFilledAndRxNumberBlock(prescription),
+    getAttributes(prescription),
+  ).trimEnd();
+
+  let refillHistorySection = '';
   const refillHistory = getRefillHistory(prescription);
   const showRefillHistory = getShowRefillHistory(refillHistory);
-  const pendingMed =
-    prescription?.prescriptionSource === 'PD' &&
-    prescription?.dispStatus === 'NewOrder';
-  const pendingRenewal =
-    prescription?.prescriptionSource === 'PD' &&
-    prescription?.dispStatus === 'Renew';
-
-  let result = `
----------------------------------------------------------------------------------
-
-
-${prescription?.prescriptionName || prescription?.orderableItem}
-
-
-Most recent prescription
-
-${
-    pendingMed || pendingRenewal
-      ? ''
-      : `
-Last filled on: ${dateFormat(
-          prescription.sortedDispensedDate,
-          'MMMM D, YYYY',
-          'Date not available',
-        )}
-`
-  }
-
-${
-    !pendingMed && !pendingRenewal
-      ? `
-Prescription number: ${prescription.prescriptionNumber}
-`
-      : ''
-  }
-Status: ${prescriptionMedAndRenewalStatus(
-    prescription,
-    medStatusDisplayTypes.TXT,
-  )}
-Refills left: ${validateIfAvailable(
-    'Number of refills left',
-    prescription.refillRemaining,
-  )}
-
-Request refills by this prescription expiration date: ${dateFormat(
-    prescription.expirationDate,
-    'MMMM D, YYYY',
-    'Date not available',
-  )}
-
-Facility: ${validateIfAvailable('Facility', prescription.facilityName)}
-
-Pharmacy phone number: ${validateIfAvailable(
-    'Pharmacy phone number',
-    prescription.phoneNumber,
-  )}
-
-Instructions: ${validateIfAvailable('Instructions', prescription.sig)}
-
-Reason for use: ${validateIfAvailable(
-    'Reason for use',
-    prescription.indicationForUse,
-  )}
-
-Quantity: ${validateIfAvailable('Quantity', prescription.quantity)}
-
-Prescribed on: ${dateFormat(
-    prescription.orderedDate,
-    'MMMM D, YYYY',
-    'Date not available',
-  )}
-
-Prescribed by: ${displayProviderName(
-    prescription.providerFirstName,
-    prescription.providerLastName,
-  )}
-  `;
-
   if (showRefillHistory) {
-    result += `
-Refill history
+    const refillHistoryHeader = joinLines(
+      'Refill history',
+      `Showing ${refillHistory.length} fill${
+        refillHistory.length > 1 ? 's, from newest to oldest' : ''
+      }`,
+    ).trimEnd();
 
-Showing ${refillHistory.length} fill${
-      refillHistory.length > 1 ? 's, from newest to oldest' : ''
-    }
-
-`;
-
-    refillHistory.forEach((entry, i) => {
-      const phone = entry.cmopDivisionPhone || entry.dialCmopDivisionPhone;
-      const { shape, color, backImprint, frontImprint } = entry;
-      const hasValidDesc =
-        shape?.trim() && color?.trim() && frontImprint?.trim();
-      const isPartialFill = entry.prescriptionSource === 'PF';
-      const refillLabel = determineRefillLabel(isPartialFill, refillHistory, i);
-      const description = hasValidDesc
-        ? `
-Note: If the medication you’re taking doesn’t match this description, call ${createVAPharmacyText(
-            phone,
-          )}
-
+    const refillHistoryRecords = refillHistory
+      .map((record, i) => {
+        const phone = record.cmopDivisionPhone || record.dialCmopDivisionPhone;
+        const { shape, color, backImprint, frontImprint } = record;
+        const hasValidDesc =
+          shape?.trim() && color?.trim() && frontImprint?.trim();
+        const isPartialFill =
+          record.prescriptionSource === RX_SOURCE.PARTIAL_FILL;
+        const refillLabel = determineRefillLabel(
+          isPartialFill,
+          refillHistory,
+          i,
+        );
+        const description = hasValidDesc
+          ? `${newLine()}Note: If the medication you’re taking doesn’t match this description, call ${createVAPharmacyText(
+              phone,
+            )}
 * Shape: ${shape[0].toUpperCase()}${shape.slice(1).toLowerCase()}
 * Color: ${color[0].toUpperCase()}${color.slice(1).toLowerCase()}
 * Front marking: ${frontImprint}
-${backImprint ? `* Back marking: ${backImprint}` : ''}`
-        : createNoDescriptionText(phone);
-      result += `
-${refillLabel}: ${dateFormat(
-        entry.dispensedDate,
-        'MMMM D, YYYY',
-        'Date not available',
-      )}
-${
-        isPartialFill
-          ? `
-This fill has a smaller quantity on purpose.
+${backImprint ? `* Back marking: ${backImprint}` : ''}${newLine()}`
+          : createNoDescriptionText(phone);
 
-Quantity: ${entry.quantity}`
-          : ``
-      }
-${
-        i === 0 && !isPartialFill
-          ? `
-Shipped on: ${dateFormat(
-              prescription?.trackingList?.[0]?.completeDateTime,
-              'MMMM D, YYYY',
-              'Date not available',
-            )}
-`
-          : ``
-      }
-${!isPartialFill ? `Medication description: ${description}` : ``}
+        return joinBlocks(
+          `${refillLabel}: ${dateFormat(
+            record.dispensedDate,
+            DATETIME_FORMATS.longMonthDate,
+            'Date not available',
+          )}`,
+          isPartialFill
+            ? joinLines(
+                'This fill has a smaller quantity on purpose.',
+                `Quantity: ${record.quantity}`,
+              )
+            : '',
+          i === 0 && !isPartialFill
+            ? `Shipped on: ${dateFormat(
+                prescription?.trackingList?.[0]?.completeDateTime,
+                DATETIME_FORMATS.longMonthDate,
+                'Date not available',
+              )}`
+            : '',
+          !isPartialFill ? `Medication description: ${description}` : '',
+        );
+      })
+      .join(newLine(2));
 
-  `;
-    });
+    refillHistorySection = `${refillHistoryHeader}${newLine(
+      3,
+    )}${refillHistoryRecords}`;
   }
 
+  let previousRxSection = '';
   if (prescription?.groupedMedications?.length > 0) {
-    result += `
-Previous prescriptions
+    const previousRxHeader = joinBlocks(
+      newLine(),
+      'Previous prescriptions',
+      `Showing ${prescription.groupedMedications.length} prescription${
+        prescription.groupedMedications.length > 1
+          ? 's, from newest to oldest'
+          : ''
+      }`,
+    ).trimEnd();
 
-Showing ${prescription.groupedMedications.length} prescription${
-      prescription.groupedMedications.length > 1
-        ? 's, from newest to oldest'
-        : ''
-    }
-    `;
+    const previousRxs = prescription.groupedMedications
+      .map(previousRx => {
+        return joinBlocks(
+          `Prescription number: ${previousRx.prescriptionNumber}`,
+          `Last filled: ${dateFormat(
+            previousRx.sortedDispensedDate,
+            DATETIME_FORMATS.longMonthDate,
+            'Date not available',
+          )}`,
+          fieldLine('Quantity', previousRx.quantity),
+          `Prescribed on: ${dateFormat(
+            previousRx.orderedDate,
+            DATETIME_FORMATS.longMonthDate,
+            'Date not available',
+          )}`,
+          `Prescribed by: ${displayProviderName(
+            prescription.providerFirstName,
+            prescription.providerLastName,
+          )}`,
+        ).trimEnd();
+      })
+      .join(newLine(3));
 
-    prescription.groupedMedications.forEach(previousPrescription => {
-      result += `
-
-Prescription number: ${previousPrescription.prescriptionNumber}
-
-Last filled: ${dateFormat(
-        previousPrescription.sortedDispensedDate,
-        'MMMM D, YYYY',
-        'Date not available',
-      )}
-
-Quantity: ${validateIfAvailable('Quantity', previousPrescription.quantity)}
-
-Prescribed on: ${dateFormat(
-        previousPrescription.orderedDate,
-        'MMMM D, YYYY',
-        'Date not available',
-      )}
-
-Prescribed by: ${displayProviderName(
-        prescription.providerFirstName,
-        prescription.providerLastName,
-      )}
-      `;
-    });
+    previousRxSection = joinBlocks(previousRxHeader, previousRxs);
   }
 
-  return result;
+  return `${header}${mostRecentRxSection}${newLine(
+    3,
+  )}${refillHistorySection}${previousRxSection}${newLine()}`;
 };

@@ -1,4 +1,5 @@
 import React from 'react';
+import * as redux from 'react-redux';
 import sinon from 'sinon';
 import { expect } from 'chai';
 import { fireEvent, waitFor } from '@testing-library/react';
@@ -18,6 +19,7 @@ const DATE_STRING = new Date(DATE_THRESHOLD).toLocaleDateString('en-US');
 const stateFn = ({
   confirmationDate = '2025-09-30T12:00:00.000+00:00',
   emailAddress = 'vet@va.gov',
+  emailAddressId = 42,
   featureTogglesLoading = false,
   mhvEmailConfirmation = true,
   updatedAt = '2025-09-30T12:00:00.000+00:00',
@@ -34,6 +36,7 @@ const stateFn = ({
       vaPatient,
       vapContactInfo: {
         email: {
+          id: emailAddressId,
           confirmationDate,
           emailAddress,
           updatedAt,
@@ -44,6 +47,28 @@ const stateFn = ({
 });
 
 describe('<ProfileAlertConfirmEmail />', () => {
+  let useDispatchStub;
+  let dispatchSpy;
+
+  beforeEach(() => {
+    useDispatchStub = sinon.stub(redux, 'useDispatch');
+    dispatchSpy = sinon.spy();
+    useDispatchStub.returns(dispatchSpy);
+  });
+
+  afterEach(() => {
+    useDispatchStub.restore();
+  });
+
+  const clickButton = (container, clickSecondary = false) => {
+    fireEvent(
+      container.querySelector('va-button-pair'),
+      new CustomEvent(clickSecondary ? 'secondaryClick' : 'primaryClick', {
+        bubbles: true,
+      }),
+    );
+  };
+
   it('renders nothing when alert has been dismissed', async () => {
     dismissAlertViaCookie();
     const initialState = stateFn({ emailAddress: null });
@@ -111,18 +136,22 @@ describe('<ProfileAlertConfirmEmail />', () => {
   describe('<AlertConfirmContactEmail />', () => {
     it('renders', async () => {
       const initialState = stateFn({ confirmationDate: null });
-      const { container, getByRole, getByTestId } = render(
+      const { container, getByRole, getByTestId, getByText } = render(
         <ProfileAlertConfirmEmail />,
         { initialState },
       );
       await waitFor(() => {
         getByTestId('profile-alert--confirm-contact-email');
-        getByRole('heading', { name: /^Confirm your contact email$/ });
+        getByRole('heading', { name: /Confirm your contact email$/ });
 
-        // getByRole('button', { name: /^Confirm contact email$/ });
-        const buttonSelector = 'va-button[text="Confirm contact email"]';
-        const button = container.querySelector(buttonSelector);
-        expect(button).to.exist;
+        const buttonPair = container.querySelector('va-button-pair');
+        expect(buttonPair).to.exist;
+        expect(buttonPair.getAttribute('left-button-text')).to.equal('Confirm');
+        expect(buttonPair.getAttribute('right-button-text')).to.equal(
+          'Edit contact email',
+        );
+
+        expect(getByText('vet@va.gov')).to.exist;
       });
     });
 
@@ -203,23 +232,27 @@ describe('<ProfileAlertConfirmEmail />', () => {
     });
 
     it(`renders success when 'Confirm...' button clicked, calls recordEvent`, async () => {
+      const headline = 'Thank you for confirming your contact email address';
       mockApiRequest();
       const props = { recordEvent: sinon.spy() };
       const initialState = stateFn({ confirmationDate: null });
-      const { container, getByTestId, queryByTestId } = render(
+      const { container, getByRole, getByTestId, queryByTestId } = render(
         <ProfileAlertConfirmEmail {...props} />,
         {
           initialState,
         },
       );
       await waitFor(() => getByTestId('profile-alert--confirm-contact-email'));
-      const button = 'va-button[text="Confirm contact email"]';
-      fireEvent.click(container.querySelector(button));
+      clickButton(container);
+
       await waitFor(() => {
         getByTestId('mhv-alert--confirm-success');
+        getByRole('heading', {
+          level: 3,
+          name: new RegExp(headline),
+        });
         expect(queryByTestId('profile-alert--confirm-contact-email')).to.be
           .null;
-        const headline = 'Thank you for confirming your contact email address';
         expect(props.recordEvent.calledWith(headline));
       });
     });
@@ -228,20 +261,72 @@ describe('<ProfileAlertConfirmEmail />', () => {
       mockApiRequest({}, false);
       const props = { recordEvent: sinon.spy() };
       const initialState = stateFn({ confirmationDate: null });
-      const { container, getByTestId } = render(
+      const { container, getByTestId, getByText } = render(
         <ProfileAlertConfirmEmail {...props} />,
         {
           initialState,
         },
       );
       await waitFor(() => getByTestId('profile-alert--confirm-contact-email'));
-      const button = 'va-button[text="Confirm contact email"]';
-      fireEvent.click(container.querySelector(button));
+      clickButton(container);
+
       await waitFor(() => {
         getByTestId('mhv-alert--confirm-error');
-        getByTestId('profile-alert--confirm-contact-email');
+        getByText('Please try again.');
         const headline = 'We couldn’t confirm your contact email';
         expect(props.recordEvent.calledWith(headline));
+      });
+    });
+
+    it('calls putConfirmationDate with id and email_address in request body', async () => {
+      mockApiRequest();
+      const initialState = stateFn({
+        emailAddress: 'veteran1729@example.com',
+        emailAddressId: 1729,
+        confirmationDate: null,
+      });
+
+      const { container, getByTestId } = render(<ProfileAlertConfirmEmail />, {
+        initialState,
+      });
+      await waitFor(() => getByTestId('profile-alert--confirm-contact-email'));
+      clickButton(container);
+
+      await waitFor(() => {
+        expect(global.fetch.calledOnce).to.be.true;
+        const [, options] = global.fetch.firstCall.args;
+        const requestBody = JSON.parse(options.body);
+        expect(requestBody).to.have.property('id', 1729);
+        expect(requestBody).to.have.property(
+          'email_address',
+          'veteran1729@example.com',
+        );
+      });
+    });
+
+    it(`navigates to the email address field when 'Edit contact email' button clicked`, async () => {
+      useDispatchStub.returns(dispatchSpy);
+
+      const props = { recordEvent: sinon.spy() };
+      const initialState = stateFn({ confirmationDate: null });
+      const { container, getByTestId } = render(
+        <ProfileAlertConfirmEmail {...props} />,
+        {
+          initialState,
+        },
+      );
+
+      await waitFor(() => getByTestId('profile-alert--confirm-contact-email'));
+      clickButton(container, true);
+
+      await waitFor(() => {
+        expect(
+          dispatchSpy.calledWithMatch(
+            sinon.match({ type: 'OPEN_MODAL', modal: 'email' }),
+          ),
+        ).to.be.true;
+
+        useDispatchStub.restore();
       });
     });
   });
@@ -249,18 +334,24 @@ describe('<ProfileAlertConfirmEmail />', () => {
   describe('<AlertAddContactEmail />', () => {
     it('renders', async () => {
       const initialState = stateFn({ emailAddress: null });
-      const { container, getByRole, getByTestId } = render(
+      const { container, getByRole, getByTestId, getByText } = render(
         <ProfileAlertConfirmEmail />,
         { initialState },
       );
       await waitFor(() => {
         getByTestId('profile-alert--add-contact-email');
-        getByRole('heading', { name: /^Add a contact email$/ });
+        getByRole('heading', { name: /Add a contact email$/ });
 
-        // getByRole('button', { name: /^Skip adding an email$/ });
-        const buttonSelector = 'va-button[text="Skip adding email"]';
-        const button = container.querySelector(buttonSelector);
-        expect(button).to.exist;
+        const buttonPair = container.querySelector('va-button-pair');
+        expect(buttonPair).to.exist;
+        expect(buttonPair.getAttribute('left-button-text')).to.equal(
+          'Add a contact email',
+        );
+        expect(buttonPair.getAttribute('right-button-text')).to.equal(
+          'Skip adding an email',
+        );
+
+        expect(getByText('No contact email provided')).to.exist;
       });
     });
 
@@ -309,22 +400,47 @@ describe('<ProfileAlertConfirmEmail />', () => {
     });
 
     it(`renders success when 'Skip...' button clicked, calls recordEvent`, async () => {
+      const headline = 'Okay, we’ll skip adding a contact email for now';
       const props = { recordEvent: sinon.spy() };
       const initialState = stateFn({ emailAddress: null });
-      const { container, getByTestId, queryByTestId } = render(
+      const { container, getByRole, getByTestId, queryByTestId } = render(
         <ProfileAlertConfirmEmail {...props} />,
         {
           initialState,
         },
       );
       await waitFor(() => getByTestId('profile-alert--add-contact-email'));
-      const button = 'va-button[text="Skip adding email"]';
-      fireEvent.click(container.querySelector(button));
+      clickButton(container, true);
+
       await waitFor(() => {
         getByTestId('mhv-alert--skip-success');
+        getByRole('heading', {
+          level: 3,
+          name: new RegExp(headline),
+        });
         expect(queryByTestId('profile-alert--add-contact-email')).to.be.null;
-        const headline = 'Okay, we’ll skip adding a contact email for now';
         expect(props.recordEvent.calledWith(headline));
+      });
+    });
+
+    it(`navigates to the email address field when 'Add a contact email' button clicked`, async () => {
+      const props = { recordEvent: sinon.spy() };
+      const initialState = stateFn({ emailAddress: null });
+      const { container, getByTestId } = render(
+        <ProfileAlertConfirmEmail {...props} />,
+        {
+          initialState,
+        },
+      );
+      await waitFor(() => getByTestId('profile-alert--add-contact-email'));
+      clickButton(container);
+
+      await waitFor(() => {
+        expect(
+          dispatchSpy.calledWithMatch(
+            sinon.match({ type: 'OPEN_MODAL', modal: 'email' }),
+          ),
+        ).to.be.true;
       });
     });
   });

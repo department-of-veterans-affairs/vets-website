@@ -3,45 +3,15 @@ import {
   currentOrPastDateUI,
   fullNameSchema,
   fullNameUI,
-  ssnUI,
-  ssnSchema,
   titleUI,
-  vaFileNumberUI,
-  vaFileNumberSchema,
+  ssnOrVaFileNumberSchema,
+  ssnOrVaFileNumberUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import {
   VaTextInputField,
   VaSelectField,
 } from 'platform/forms-system/src/js/web-component-fields';
-import { parse, isValid, startOfDay, subYears } from 'date-fns';
-import { isSameOrAfter } from '../../../utils/helpers';
-
-export function isOver65(formData, currentDate) {
-  const today = currentDate || new Date();
-  const veteranDateOfBirth = parse(
-    formData.veteranDateOfBirth,
-    'yyyy-MM-dd',
-    new Date(),
-  );
-
-  if (!isValid(veteranDateOfBirth)) return undefined;
-
-  return isSameOrAfter(
-    startOfDay(subYears(today, 65)),
-    startOfDay(veteranDateOfBirth),
-  );
-}
-
-export function setDefaultIsOver65(oldData, newData, currentDate) {
-  if (oldData.veteranDateOfBirth !== newData.veteranDateOfBirth) {
-    const today = currentDate || new Date();
-    return {
-      ...newData,
-      isOver65: isOver65(newData, today),
-    };
-  }
-  return newData;
-}
+import { setDefaultIsOver65 } from './helpers';
 
 /** @type {PageSchema} */
 export default {
@@ -50,8 +20,8 @@ export default {
     ...titleUI(
       ({ formData }) =>
         formData?.claimantNotVeteran
-          ? 'Veteran information'
-          : 'Your information',
+          ? 'Veteran’s information'
+          : 'Your identification information',
     ),
     veteranFullName: {
       ...fullNameUI(),
@@ -92,13 +62,7 @@ export default {
         },
       },
     },
-    veteranSocialSecurityNumber: ssnUI(),
-    vaFileNumber: {
-      ...vaFileNumberUI('VA file number'),
-      'ui:options': {
-        hint: 'Enter your VA file number if it doesn’t match your SSN',
-      },
-    },
+    veteranSocialSecurityNumber: ssnOrVaFileNumberUI(),
     veteranDateOfBirth: currentOrPastDateUI({
       title: 'Date of birth',
       monthSelect: false,
@@ -113,8 +77,7 @@ export default {
         properties: {},
       },
       veteranFullName: { ...fullNameSchema, required: [] },
-      veteranSocialSecurityNumber: ssnSchema,
-      vaFileNumber: vaFileNumberSchema,
+      veteranSocialSecurityNumber: ssnOrVaFileNumberSchema,
       veteranDateOfBirth: dateOfBirthSchema,
     },
   },

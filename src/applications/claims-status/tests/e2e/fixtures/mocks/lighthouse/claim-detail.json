@@ -14,6 +14,9 @@
         }
       },
       "claimType": "Compensation",
+      "claimTypeCode": "020",
+      "displayTitle": "Claim for compensation",
+      "claimTypeBase": "compensation claim",
       "closeDate": null,
       "contentions": [
         {
