@@ -78,8 +78,8 @@ const PaymentsError = () => {
     <div className="vads-u-margin-bottom--2p5">
       <va-alert status={status} show-icon data-testid="payments-error">
         <div>
-          We can’t show your payment history right now. Refresh this page or try
-          again later.
+          We can’t show your benefit payments history right now. Refresh this
+          page or try again later.
         </div>
       </va-alert>
     </div>
@@ -102,7 +102,9 @@ const BenefitPayments = () => {
     <>
       <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
         <Toggler.Enabled>
-          <h3 className="vads-u-margin-top--0">Benefit payments</h3>
+          <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
+            Benefit payments
+          </h3>
         </Toggler.Enabled>
       </Toggler>
       <div className="vads-l-row">

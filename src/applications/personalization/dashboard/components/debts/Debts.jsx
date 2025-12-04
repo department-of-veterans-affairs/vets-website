@@ -130,7 +130,9 @@ const BenefitPaymentsAndDebt = ({
     <div className={wrapperClasses} data-testid="dashboard-section-debts">
       <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
         <Toggler.Enabled>
-          <h3 className="vads-u-margin-top--2e5">Debts and bills</h3>
+          <h3 className="vads-u-margin-top--3 vads-u-margin-bottom--2">
+            Overpayments and copay bills
+          </h3>
         </Toggler.Enabled>
         <Toggler.Disabled>
           <h2>Outstanding debts</h2>
