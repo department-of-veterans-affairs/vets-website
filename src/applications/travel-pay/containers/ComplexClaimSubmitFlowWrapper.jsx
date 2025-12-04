@@ -26,6 +26,24 @@ import {
 import { STATUSES, TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY } from '../constants';
 import UnsavedChangesModal from '../components/UnsavedChangesModal';
 
+const getBackHref = ({
+  isIntroductionPage,
+  apptId,
+  entryPoint,
+  effectiveClaimId,
+}) => {
+  if (isIntroductionPage) {
+    return `/my-health/appointments/past/${apptId}`;
+  }
+
+  return (
+    {
+      appointment: `/my-health/appointments/past/${apptId}`,
+      claim: `/my-health/travel-pay/claims/${effectiveClaimId}`,
+    }[entryPoint] ?? '/my-health/travel-pay/claims'
+  );
+};
+
 const ComplexClaimSubmitFlowWrapper = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -111,12 +129,12 @@ const ComplexClaimSubmitFlowWrapper = () => {
     setIsUnsavedChangesModalVisible(false);
 
     // Navigate to the appropriate back location
-    const backHref = isIntroductionPage
-      ? `/my-health/appointments/past/${apptId}`
-      : {
-          appointment: `/my-health/appointments/past/${apptId}`,
-          claim: `/claims/${effectiveClaimId}`,
-        }[entryPoint] ?? '/claims';
+    const backHref = getBackHref({
+      isIntroductionPage,
+      apptId,
+      entryPoint,
+      effectiveClaimId,
+    });
 
     navigate(backHref);
   };
@@ -164,14 +182,12 @@ const ComplexClaimSubmitFlowWrapper = () => {
             back
             data-testid="complex-claim-back-link"
             disable-analytics
-            href={
-              isIntroductionPage
-                ? `/my-health/appointments/past/${apptId}`
-                : {
-                    appointment: `/my-health/appointments/past/${apptId}`,
-                    claim: `/my-health/travel-pay/claims/${effectiveClaimId}`,
-                  }[entryPoint] ?? '/my-health/travel-pay/claims'
-            }
+            href={getBackHref({
+              isIntroductionPage,
+              apptId,
+              entryPoint,
+              effectiveClaimId,
+            })}
             text={isIntroductionPage ? 'Back to appointment' : 'Back'}
             onClick={handleBackLinkClick}
           />
