@@ -326,10 +326,20 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
           }
         });
 
+        it('renders "Cancel adding this expense" button only in add mode', () => {
+          const { container } = renderPage(config);
+          const cancelButton = Array.from(
+            container.querySelectorAll('va-button'),
+          ).find(
+            btn => btn.getAttribute('text') === 'Cancel adding this expense',
+          );
+          expect(cancelButton).to.exist;
+        });
+
         it('renders correct buttons', () => {
           const { container } = renderPage(config);
 
-          // Get all buttons
+          // Get all buttons, will either see 3 or 2
           const buttons = container.querySelectorAll('va-button');
           expect(buttons.length).to.be.at.least(3);
 
@@ -349,7 +359,7 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
           ).find(btn => btn.getAttribute('text') === 'Continue');
           expect(continueButton).to.exist;
 
-          // Find the cancel button
+          // Find "Cancel adding this expense" button - only in add mode
           const cancelButton = Array.from(buttons).find(
             btn => btn.getAttribute('text') === 'Cancel adding this expense',
           );
@@ -646,23 +656,22 @@ describe('Travel Pay – ExpensePage (Editing existing expense)', () => {
     expect(button).to.exist;
   });
 
-  it('does NOT show the cancel modal in edit mode', () => {
+  it('does NOT render "Cancel adding this expense" button when in add mode', () => {
     const { container } = renderEditPage();
-
-    const modal = container.querySelector('va-modal');
-    expect(modal).to.not.exist;
+    const addCancelButton = Array.from(
+      container.querySelectorAll('va-button'),
+    ).find(btn => btn.getAttribute('text') === 'Cancel adding this expense');
+    expect(addCancelButton).to.not.exist;
   });
 
-  it('navigates back to the review page when clicking Cancel', () => {
-    const { container, getByTestId } = renderEditPage();
-
+  it('"Back" button opens modal in edit mode', () => {
+    const { container } = renderEditPage();
     const backButton = Array.from(container.querySelectorAll('va-button')).find(
       btn => btn.getAttribute('text') === 'Cancel',
     );
-
     fireEvent.click(backButton);
-
-    expect(getByTestId('review-page')).to.exist;
+    const modal = container.querySelector('va-modal');
+    expect(modal.getAttribute('visible')).to.equal('true');
   });
 
   it('loads existing document when documentId is present', async () => {
