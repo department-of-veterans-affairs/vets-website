@@ -2,13 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom-v5-compat';
 import { VaMemorableDate } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import Wrapper from '../layout/Wrapper';
-
 // TODO: remove this and use mock data from the API
-const mockUser = {
-  lastname: 'Smith',
-  dob: '1935-04-07',
-  uuid: 'c0ffee-1234-beef-5678',
-};
+import { mockUsers } from '../services/mocks';
 
 const Verify = () => {
   const navigate = useNavigate();
@@ -30,6 +25,10 @@ const Verify = () => {
       }
       return;
     }
+    // TODO: remove this and use the fetch call to the API
+    const mockUser = mockUsers.find(
+      user => user.lastname === lastname && user.dob === dob,
+    );
     // confirm auth here and validate fields aren't empty
     if (lastname === mockUser.lastname && dob === mockUser.dob) {
       setError(false);

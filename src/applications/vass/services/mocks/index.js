@@ -2,7 +2,7 @@
 /* eslint-disable camelcase */
 const delay = require('mocker-api/lib/delay');
 
-const mockUsers = [
+export const mockUsers = [
   {
     uuid: 'c0ffee-1234-beef-5678',
     lastname: 'Smith',
