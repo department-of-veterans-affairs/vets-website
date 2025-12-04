@@ -274,6 +274,14 @@ const ArrayBuilderCards = ({
               // Incomplete label & alert > duplicate label & alert
               let label = null;
               let alert = null;
+
+              // Calculate if delete button should be hidden on review page
+              const shouldHideDeleteButton =
+                isReview &&
+                (typeof hideDeleteButtonOnReviewPage === 'function'
+                  ? hideDeleteButtonOnReviewPage(itemData, index, fullData)
+                  : hideDeleteButtonOnReviewPage);
+
               if (isIncomplete(itemData, fullData)) {
                 label = <IncompleteLabel />;
                 alert = (
@@ -357,23 +365,12 @@ const ArrayBuilderCards = ({
                         })}
                         srText={`Edit ${itemName}`}
                       />
-                      {(() => {
-                        const shouldHideDelete =
-                          isReview &&
-                          (typeof hideDeleteButtonOnReviewPage === 'function'
-                            ? hideDeleteButtonOnReviewPage(
-                                itemData,
-                                index,
-                                formData,
-                              )
-                            : hideDeleteButtonOnReviewPage);
-                        return shouldHideDelete ? null : (
-                          <RemoveButton
-                            onClick={() => showRemoveConfirmationModal(index)}
-                            srText={`Delete ${itemName}`}
-                          />
-                        );
-                      })()}
+                      {!shouldHideDeleteButton && (
+                        <RemoveButton
+                          onClick={() => showRemoveConfirmationModal(index)}
+                          srText={`Delete ${itemName}`}
+                        />
+                      )}
                     </span>
                   </Card>
                 </li>
