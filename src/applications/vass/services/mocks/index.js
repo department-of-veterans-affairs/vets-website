@@ -25,7 +25,7 @@ const mockAppointments = [
     // TODO: verify the accuracy of appointment payload data from API
     phoneNumber: '800-827-0611',
     providerName: 'Bill Brasky',
-    typeOfCare: 'VA Solid Start',
+    typeOfCare: 'Solid Start',
   },
 ];
 const responses = {
