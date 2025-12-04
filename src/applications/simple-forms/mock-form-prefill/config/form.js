@@ -2,14 +2,12 @@
 import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import {
-  contactInfo,
-  personalInfo,
-} from 'platform/forms-system/src/js/patterns/prefill';
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import personalInformation from '../pages/personalInformation';
+import contactInformation from '../pages/contactInformation';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -70,8 +68,8 @@ const formConfig = {
     contactInfo: {
       title: 'Veteran information',
       pages: {
-        ...personalInfo,
-        ...contactInfo,
+        ...personalInformation,
+        ...contactInformation,
       },
     },
   },
