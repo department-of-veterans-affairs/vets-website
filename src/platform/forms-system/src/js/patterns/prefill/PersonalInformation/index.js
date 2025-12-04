@@ -34,7 +34,7 @@ export const defaultPageConfig = {
   footer: null,
   contentBeforeButtons: null,
   contentAfterButtons: null,
-  hideOnReview: true,
+  hideOnReview: false,
   depends: () => true,
 };
 
