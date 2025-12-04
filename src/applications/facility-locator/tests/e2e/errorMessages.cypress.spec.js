@@ -45,9 +45,7 @@ for (const featureSet of featureSets) {
       h.findSelectInVaSelect(h.FACILITY_TYPE_DROPDOWN).focus();
 
       h.submitSearchForm();
-
       h.errorMessageContains(addrErrorMessage);
-      // h.verifyElementDoesNotExist(h.SEARCH_FORM_ERROR_MESSAGE);
     });
 
     it('shows error message when leaving facility type field empty', () => {
