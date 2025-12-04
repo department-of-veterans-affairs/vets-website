@@ -206,10 +206,12 @@ const FacilitiesMap = props => {
     [addMapMarker, map, props.currentQuery],
   );
 
-  const handleSearch = async () => {
+  const handleSearch = async (formValues = null) => {
     resetMapElements();
-    const { currentQuery } = props;
-    const { facilityType, serviceType, searchString } = currentQuery;
+    const queryToUse = formValues
+      ? { ...props.currentQuery, ...formValues }
+      : props.currentQuery;
+    const { facilityType, serviceType, searchString } = queryToUse;
     const expandedRadius = facilityType === 'benefits' && !serviceType;
     lastZoom = null;
 
@@ -218,7 +220,7 @@ const FacilitiesMap = props => {
     });
     props.genBBoxFromAddress(
       {
-        ...currentQuery,
+        ...queryToUse,
       },
       expandedRadius,
       props.useProgressiveDisclosure,

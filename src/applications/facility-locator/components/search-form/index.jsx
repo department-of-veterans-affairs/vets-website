@@ -184,7 +184,12 @@ export const SearchForm = props => {
     }
 
     setSearchInitiated(true);
-    onSubmit();
+    onSubmit({
+      facilityType: draftFormState.facilityType,
+      serviceType: draftFormState.serviceType,
+      searchString: draftFormState.searchString,
+      vamcServiceDisplay: draftFormState.vamcServiceDisplay,
+    });
   };
 
   useEffect(
@@ -216,6 +221,7 @@ export const SearchForm = props => {
 
   const handleClearInput = () => {
     props.clearSearchText();
+    updateDraftState({ searchString: '' });
     if (locationInputFieldRef.current) {
       locationInputFieldRef.current.value = '';
     }

@@ -223,6 +223,13 @@ export const FacilitiesMapTypes = {
   usePredictiveGeolocation: PropTypes.bool,
 };
 
+export const FormValuesTypes = PropTypes.shape({
+  facilityType: PropTypes.string,
+  serviceType: PropTypes.string,
+  searchString: PropTypes.string,
+  vamcServiceDisplay: PropTypes.string,
+});
+
 export const SearchFormTypes = {
   clearGeocodeError: PropTypes.func,
   clearSearchText: PropTypes.func,
