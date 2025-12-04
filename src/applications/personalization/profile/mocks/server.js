@@ -430,6 +430,20 @@ const responses = {
     }
     return delaySingleResponse(() => res.json(maximalSetOfPreferences), 1);
   },
+  'POST /v0/profile/scheduling_preferences': (req, res) => {
+    return res.status(200).json({
+      data: {
+        id: '',
+        type: 'async_transaction_va_profile_scheduling_transactions',
+        attributes: {
+          transactionId: '94725087-d546-47e1-a247-f57ab0ed599c',
+          transactionStatus: 'RECEIVED',
+          type: 'AsyncTransaction::VAProfile::SchedulingTransaction',
+          metadata: [],
+        },
+      },
+    });
+  },
   'PATCH /v0/profile/communication_preferences/:pref': (req, res) => {
     const {
       communicationItem: {
