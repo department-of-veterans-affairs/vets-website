@@ -17,6 +17,7 @@ export const getLabsAndTestsList = (
   isCurrent = false,
   isAccelerating = false,
   timeFrame = {},
+  mergeCvixWithScdf = false,
 ) => async dispatch => {
   dispatch({
     type: Actions.LabsAndTests.UPDATE_LIST_STATE,
@@ -29,7 +30,7 @@ export const getLabsAndTestsList = (
     if (isAccelerating) {
       const [labsAndTestsResponse, cvixRadiologyResponse] = await Promise.all([
         getListWithRetry(dispatch, getList),
-        getImagingStudies(),
+        mergeCvixWithScdf ? getImagingStudies() : Promise.resolve(undefined),
       ]);
 
       dispatch({
