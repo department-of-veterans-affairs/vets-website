@@ -135,10 +135,11 @@ describe('<ContactInfoReview>', () => {
   it('should show missing U.S. address error messages', () => {
     const data = getData({ address: false });
     const { container } = render(<ContactInfoReview {...data} />);
-    // 5 missing errors: country, street address, city, state & zip
+    // 6 missing errors: email, country, street address, city, state & zip
     const errorEls = $$('.usa-input-error-message', container);
-    expect(errorEls.length).to.eq(5);
+    expect(errorEls.length).to.eq(6);
     expect(errorEls.map(el => el.textContent)).to.deep.equal([
+      'Missing email address',
       'Missing country',
       'Missing street address',
       'Missing city',
@@ -153,32 +154,35 @@ describe('<ContactInfoReview>', () => {
       addressType: ADDRESS_TYPES.international,
     };
     const { container } = render(<ContactInfoReview {...data} />);
-    // 3 missing errors: country, street address, city
+    // 4 missing errors: email, country, street address, city
     const errorEls = $$('.usa-input-error-message', container);
-    expect(errorEls.length).to.eq(3);
+    expect(errorEls.length).to.eq(4);
     expect(errorEls.map(el => el.textContent)).to.deep.equal([
+      'Missing email address',
       'Missing country',
       'Missing street address',
       'Missing city',
     ]);
   });
 
-  // Invalid data errors
+  // // Invalid data errors
   it('should show invalid phone & zip code error messages', () => {
     const data = getData();
     data.data.veteran.mailingAddress.zipCode = '123';
     data.data.veteran.homePhone.areaCode = '3';
     data.data.veteran.mobilePhone.areaCode = '3';
     const { container } = render(<ContactInfoReview {...data} />);
-    // 3 invalid errors: phone x2 & zip
+    // 4 invalid errors: phone x2, email & zip
     const errorEls = $$('.usa-input-error-message', container);
-    expect(errorEls.length).to.eq(3);
+    expect(errorEls.length).to.eq(4);
     expect(errorEls.map(el => el.textContent)).to.deep.equal([
       'Invalid phone number',
       'Invalid phone number',
+      'Missing email address',
       'Invalid zip code',
     ]);
   });
+
   it('should show invalid phone error messages & no zip code error for non-U.S. address', () => {
     const data = getData();
     data.data.veteran.mailingAddress.zipCode = '123';
@@ -186,12 +190,13 @@ describe('<ContactInfoReview>', () => {
     data.data.veteran.homePhone.areaCode = '3';
     data.data.veteran.mobilePhone.areaCode = '3';
     const { container } = render(<ContactInfoReview {...data} />);
-    // 3 invalid errors: phone x2 & zip
+    // 3 invalid errors: phone x2 & email
     const errorEls = $$('.usa-input-error-message', container);
-    expect(errorEls.length).to.eq(2);
+    expect(errorEls.length).to.eq(3);
     expect(errorEls.map(el => el.textContent)).to.deep.equal([
       'Invalid phone number',
       'Invalid phone number',
+      'Missing email address',
     ]);
   });
 });
