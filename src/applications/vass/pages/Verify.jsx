@@ -18,10 +18,10 @@ const Verify = () => {
   const handleSubmit = () => {
     if (lastname === '' || dob === '') {
       if (lastname === '') {
-        setLastnameError(true);
+        setLastnameError('Please enter your last name');
       }
       if (dob === '') {
-        setDobError(true);
+        setDobError('Please enter your date of birth');
       }
       return;
     }
