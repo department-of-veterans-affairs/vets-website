@@ -15,7 +15,7 @@ import HealthCareSettings from './components/HealthCareSettings';
 import LettersAndDocuments from './components/LettersAndDocuments';
 import AccountSecurityPage from './components/AccountSecurity';
 import SchedulingPreferences from './components/health-care-settings/SchedulingPreferences';
-import MessageSignature from './components/health-care-settings/MessageSignature';
+import MessagesSignature from './components/health-care-settings/MessagesSignature';
 
 // the routesForNav array is used in the routes file to build the routes
 // the edit and hub routes are not present in the routesForNav array because
@@ -151,7 +151,7 @@ const routesForProfile2Nav = [
     featureFlag: 'profileHealthCareSettingsPage',
   },
   {
-    component: MessageSignature,
+    component: MessagesSignature,
     name: PROFILE_PATH_NAMES.MESSAGES_SIGNATURE,
     path: PROFILE_PATHS.MESSAGES_SIGNATURE,
     requiresLOA3: true,

@@ -67,7 +67,7 @@ const MessageSignature = () => {
   ];
   return (
     <>
-      <Headline>Message signature</Headline>
+      <Headline>Messages signature</Headline>
 
       <p>
         You can add a signature to the messages you send to your health care
