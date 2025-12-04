@@ -103,7 +103,6 @@ const GroupedMedications = props => {
                     'date not available',
                   )}
                 </dd>
-                {/* Andrea: prescribed by here test lastname only */}
                 <dd data-testid="prescribed-by">
                   {`Prescribed by ${displayProviderName(
                     rx?.providerFirstName,
