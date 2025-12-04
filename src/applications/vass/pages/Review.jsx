@@ -1,8 +1,13 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom-v5-compat';
-
+import { useSelector } from 'react-redux';
 import Wrapper from '../layout/Wrapper';
 import DateTime from '../components/DateTime';
+import { usePostAppointmentMutation } from '../redux/api/vassApi';
+import {
+  selectSelectedTopics,
+  selectSelectedDate,
+} from '../redux/slices/formSlice';
 
 // TODO: replace with actual data
 const details = {
@@ -13,9 +18,16 @@ const details = {
 
 const Review = () => {
   const navigate = useNavigate();
-
-  const handleConfirmCall = () => {
-    navigate('/confirmation');
+  const [postAppointment, { isLoading }] = usePostAppointmentMutation();
+  const selectedTopics = useSelector(selectSelectedTopics);
+  const selectedDate = useSelector(selectSelectedDate);
+  const handleConfirmCall = async () => {
+    const res = await postAppointment({
+      topics: selectedTopics,
+      dtStartUtc: selectedDate,
+      dtEndUtc: selectedDate + 30 * 60 * 1000,
+    });
+    navigate(`/confirmation/${res.data.appointmentId}`);
   };
 
   return (
@@ -90,6 +102,7 @@ const Review = () => {
       <div className="vads-u-margin-top--2">
         <va-button
           onClick={handleConfirmCall}
+          loading={isLoading}
           text="Confirm call"
           data-testid="confirm-call-button"
           uswds
