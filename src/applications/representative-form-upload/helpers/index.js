@@ -226,7 +226,8 @@ const fetchIntentToFile = async (
   } catch (error) {
     if (
       error.errors &&
-      (error.errors[0].code === '404' || error.errors[0].match(/^not allowed/))
+      typeof error.errors[0] === 'string' &&
+      error.errors[0].match(/^not allowed/)
     ) {
       goPath(`${urlPrefix}permission-error`);
     } else {
