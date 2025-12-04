@@ -116,10 +116,10 @@ describe('Eligible Individuals Supported Page', () => {
       };
     });
 
-    it('should add error when fieldData does not match current academic year display', () => {
+    it('should add error when fieldData does not match current academic year display and agreementType is startNewOpenEndedAgreement', () => {
       const validationFn = page.uiSchema.academicYear['ui:validations'][0];
       const fieldData = '2022-2023';
-      const formData = { agreementType: 'newAgreement' };
+      const formData = { agreementType: 'startNewOpenEndedAgreement' };
 
       validationFn(errors, fieldData, formData);
 
@@ -129,10 +129,10 @@ describe('Eligible Individuals Supported Page', () => {
       );
     });
 
-    it('should add error when fieldData does not match year pattern and agreementType is not startNewOpenEndedAgreement', () => {
+    it('should allow any year to be entered for when agreementType is not startNewOpenEndedAgreement', () => {
       const validationFn = page.uiSchema.academicYear['ui:validations'][0];
       const fieldData = 'invalid-year';
-      const formData = { agreementType: 'newAgreement' };
+      const formData = { agreementType: 'startNewOpenEndedAgreement' };
 
       validationFn(errors, fieldData, formData);
 

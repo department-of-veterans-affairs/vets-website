@@ -41,7 +41,11 @@ const uiSchema = {
     },
     'ui:validations': [
       (errors, fieldData, formData) => {
-        if (fieldData && fieldData !== getAcademicYearDisplay()) {
+        if (
+          fieldData &&
+          fieldData !== getAcademicYearDisplay() &&
+          formData?.agreementType === 'startNewOpenEndedAgreement'
+        ) {
           errors.addError(
             `Enter the upcoming academic year this agreement applies to`,
           );
