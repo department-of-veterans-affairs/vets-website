@@ -327,18 +327,6 @@ const ArrayBuilderCards = ({
                 );
               }
 
-              // Determine if edit/delete should be shown for this item
-              const canEditContext = { itemData, index, fullData, isReview };
-              const canDeleteContext = { itemData, index, fullData, isReview };
-              const showEditLink =
-                typeof canEditItem === 'function'
-                  ? canEditItem(canEditContext)
-                  : true;
-              const showDeleteButton =
-                typeof canDeleteItem === 'function'
-                  ? canDeleteItem(canDeleteContext)
-                  : true;
-
               return (
                 <li key={index} style={{ listStyleType: 'none' }}>
                   <Card index={index}>
@@ -354,7 +342,13 @@ const ArrayBuilderCards = ({
                       {alert}
                     </div>
                     <span className="vads-u-margin-bottom--neg1 vads-u-margin-top--1 vads-u-display--flex vads-u-align-items--center vads-u-justify-content--space-between vads-u-font-weight--bold">
-                      {showEditLink && (
+                      {(typeof canEditItem !== 'function' ||
+                        canEditItem({
+                          itemData,
+                          index,
+                          fullData,
+                          isReview,
+                        })) && (
                         <EditLink
                           to={createArrayBuilderItemEditPath({
                             path: getEditItemPathUrl(
@@ -371,7 +365,13 @@ const ArrayBuilderCards = ({
                           srText={`Edit ${itemName}`}
                         />
                       )}
-                      {showDeleteButton && (
+                      {(typeof canDeleteItem !== 'function' ||
+                        canDeleteItem({
+                          itemData,
+                          index,
+                          fullData,
+                          isReview,
+                        })) && (
                         <RemoveButton
                           onClick={() => showRemoveConfirmationModal(index)}
                           srText={`Delete ${itemName}`}
