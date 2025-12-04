@@ -489,8 +489,8 @@
  * @property {ArrayBuilderText} [text] Override any default text used in the array builder pattern
  * @property {boolean} [useLinkInsteadOfYesNo]
  * @property {boolean} [useButtonInsteadOfYesNo]
- * @property {(({ itemData, index, fullData, isReview }) => boolean)} [canEditItem] Function to determine if an item can be edited. Receives an object with itemData, index, fullData, and isReview. Returns true to allow editing (default), false to hide the edit link.
- * @property {(({ itemData, index, fullData, isReview }) => boolean)} [canDeleteItem] Function to determine if an item can be deleted. Receives an object with itemData, index, fullData, and isReview. Returns true to allow deleting (default), false to hide the delete button.
+ * @property {(({ itemData, index, fullData, isReview }) => boolean)} [canEditItem]
+ * @property {(({ itemData, index, fullData, isReview }) => boolean)} [canDeleteItem]
  * @property {DuplicateChecks} [duplicateChecks]
  * ```
  * // Example simple:

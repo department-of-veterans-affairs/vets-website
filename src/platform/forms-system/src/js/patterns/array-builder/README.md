@@ -15,7 +15,6 @@ Array builder pattern features an intro page (for required flow), a yes/no quest
     - [Example using action link (or button) instead of yes/no question](#example-using-action-link-or-button-instead-of-yesno-question)
     - [Example content at bottom of page](#example-content-at-bottom-of-page)
     - [Examples checking for duplicate content](#examples-checking-for-duplicate-content)
-    - [Controlling edit and delete visibility on cards](#controlling-edit-and-delete-visibility-on-cards)
   - [Web Component Patterns](#web-component-patterns)
     - [Example `arrayBuilderYesNoUI` Text Overrides:](#example-arraybuilderyesnoui-text-overrides)
   - [General Pattern Text Overrides](#general-pattern-text-overrides)
@@ -83,6 +82,8 @@ const options = {
   required: true,
   isItemIncomplete: item => !item?.name, // include all required fields here
   maxItems: 5,
+  // canEditItem: ({ itemData, index, fullData, isReview }) => true,
+  // canDeleteItem: ({ itemData, index, fullData, isReview }) => true,
   text: {
     getItemName: (item, index, fullData) => item.name,
     cardDescription: item => `${formatReviewDate(item?.date)}`,
@@ -526,60 +527,6 @@ const options = {
       },
     },
   },
-};
-```
-
-### Controlling edit and delete visibility on cards
-
-You can control whether edit and delete buttons/links are shown on cards using the `canEditItem` and `canDeleteItem` options. Both options accept a function that receives an object with `{ itemData, index, fullData, isReview }` and returns a boolean.
-
-#### Example: Hide delete button for specific items
-```js
-/** @type {ArrayBuilderOptions} */
-const options = {
-  arrayPath: 'employers',
-  nounSingular: 'employer',
-  nounPlural: 'employers',
-  required: true,
-  // Only allow deleting if not on review page or if index > 0
-  canDeleteItem: ({ itemData, index, fullData, isReview }) => {
-    return !isReview || index > 0;
-  },
-  // ...other options
-};
-```
-
-#### Example: Hide edit link based on item data
-```js
-/** @type {ArrayBuilderOptions} */
-const options = {
-  arrayPath: 'employers',
-  nounSingular: 'employer',
-  nounPlural: 'employers',
-  required: true,
-  // Don't allow editing if item is locked
-  canEditItem: ({ itemData, index, fullData, isReview }) => {
-    return !itemData?.isLocked;
-  },
-  // ...other options
-};
-```
-
-#### Example: Use both options together
-```js
-/** @type {ArrayBuilderOptions} */
-const options = {
-  arrayPath: 'employers',
-  nounSingular: 'employer',
-  nounPlural: 'employers',
-  required: true,
-  // Hide edit for primary employer on review page
-  canEditItem: ({ itemData, isReview }) => {
-    return !(isReview && itemData?.isPrimary);
-  },
-  // Hide delete for first item
-  canDeleteItem: ({ index }) => index !== 0,
-  // ...other options
 };
 ```
 
