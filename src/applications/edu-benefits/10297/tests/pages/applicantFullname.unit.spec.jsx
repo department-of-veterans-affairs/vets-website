@@ -36,6 +36,18 @@ describe('22-10297 Enter your full name page', () => {
     expect(getByText(/You may not qualify/i)).to.exist;
   });
 
+  it('should render alert if age is under 18', () => {
+    const { getByText } = render(
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{ dateOfBirth: '2020-01-01' }}
+        definitions={formConfig.defaultDefinitions}
+      />,
+    );
+    expect(getByText(/You do not qualify/i)).to.exist;
+  });
+
   it('renders error messages for each required field', async () => {
     const { container, getByRole } = render(
       <DefinitionTester
