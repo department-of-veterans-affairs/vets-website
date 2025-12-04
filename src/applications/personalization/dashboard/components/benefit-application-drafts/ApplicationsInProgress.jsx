@@ -113,7 +113,7 @@ const ApplicationsInProgress = ({
         {hasForms && (
           <div>
             {allForms.map(form => {
-              const formArrays = ['22-10275', '22-10297'];
+              const formArrays = ['22-10275', '22-10278', '22-10297'];
 
               const formId = form.form;
               const formStatus = form.status;
