@@ -104,3 +104,11 @@ export const seiVitalTypes = {
   PAIN: 'pain',
   PULSE_OXIMETRY: 'pulseOximetry',
 };
+
+// Allergy observed/reported types - used by Medical Records and Medications apps
+export const allergyTypes = {
+  OBSERVED:
+    'Observed (you experienced this allergy or reaction while you were getting care at this VA location)',
+  REPORTED:
+    'Historical (you experienced this allergy or reaction in the past, before you started getting care at this VA location)',
+};
