@@ -286,26 +286,28 @@ const DownloadReportPage = ({ runningUnitTest }) => {
       {!hasOHOnly && (
         <>
           {/* Explanatory message for users with both facility types */}
-          {hasBothDataSources && (
-            <va-alert
-              status="info"
-              class="vads-u-margin-y--2"
-              data-testid="dual-facilities-blue-button-message"
-            >
-              <p className="vads-u-margin--0">
-                For {vistaFacilityNames.join(', ')}, you can download your data
-                in a Blue Button report.
-              </p>
-              <p className="vads-u-margin--0 vads-u-margin-top--1">
-                Data for {ohFacilityNames.join(', ')} is not yet available in
-                Blue Button.
-              </p>
-              <p className="vads-u-margin--0 vads-u-margin-top--1">
-                You can access records for those by downloading a Continuity of
-                Care Document, which is shown above.
-              </p>
-            </va-alert>
-          )}
+          {hasBothDataSources &&
+            vistaFacilityNames.length > 0 &&
+            ohFacilityNames.length > 0 && (
+              <va-alert
+                status="info"
+                class="vads-u-margin-y--2"
+                data-testid="dual-facilities-blue-button-message"
+              >
+                <p className="vads-u-margin--0">
+                  For {vistaFacilityNames.join(', ')}, you can download your
+                  data in a Blue Button report.
+                </p>
+                <p className="vads-u-margin--0 vads-u-margin-top--1">
+                  Data for {ohFacilityNames.join(', ')} is not yet available in
+                  Blue Button.
+                </p>
+                <p className="vads-u-margin--0 vads-u-margin-top--1">
+                  You can access records for those by downloading a Continuity
+                  of Care Document, which is shown above.
+                </p>
+              </va-alert>
+            )}
           <h2>Download your VA Blue Button report</h2>
           {activeAlert?.type === ALERT_TYPE_BB_ERROR && (
             <AccessTroubleAlertBox
