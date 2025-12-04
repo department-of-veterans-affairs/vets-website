@@ -9,6 +9,7 @@ import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platfo
 import reducer from '../../redux/reducer';
 import ComplexClaimSubmitFlowWrapper from '../../containers/ComplexClaimSubmitFlowWrapper';
 import * as actions from '../../redux/actions';
+import { TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY } from '../../constants';
 
 // Mock components for navigation testing
 const ConfirmationPage = () => <div>Confirmation</div>;
@@ -175,7 +176,10 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
     });
 
     it('renders the back link with correct href and text', () => {
-      sessionStorage.setItem('fileNewClaimEntry', 'appointment');
+      sessionStorage.setItem(
+        TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY.SESSION_KEY,
+        TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY.ENTRY_TYPES.APPOINTMENT,
+      );
       const initialState = getData({
         complexClaimsEnabled: true,
         claimData: { claimId: '45678' },
@@ -255,7 +259,10 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
     });
 
     it('handles different appointment IDs in the URL', () => {
-      sessionStorage.setItem('fileNewClaimEntry', 'appointment');
+      sessionStorage.setItem(
+        TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY.SESSION_KEY,
+        TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY.ENTRY_TYPES.APPOINTMENT,
+      );
       const initialState = getData({
         complexClaimsEnabled: true,
         claimData: { claimId: '45678' },
@@ -312,7 +319,10 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
 
     describe('URL parameter extraction', () => {
       it('extracts apptId from URL params correctly', () => {
-        sessionStorage.setItem('fileNewClaimEntry', 'appointment');
+        sessionStorage.setItem(
+          TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY.SESSION_KEY,
+          TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY.ENTRY_TYPES.APPOINTMENT,
+        );
         const initialState = getData({
           complexClaimsEnabled: true,
           claimData: { claimId: '45678' },
@@ -533,7 +543,10 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
     });
 
     it('shows "Back" text and uses entryPoint from sessionStorage when not on introduction page', () => {
-      sessionStorage.setItem('fileNewClaimEntry', 'appointment');
+      sessionStorage.setItem(
+        TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY.SESSION_KEY,
+        TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY.ENTRY_TYPES.APPOINTMENT,
+      );
       const initialState = getData({
         complexClaimsEnabled: true,
         claimData: { claimId: '45678' },
@@ -566,7 +579,10 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
     });
 
     it('uses claim entry point when entryPoint is "claim" and not on introduction page', () => {
-      sessionStorage.setItem('fileNewClaimEntry', 'claim');
+      sessionStorage.setItem(
+        TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY.SESSION_KEY,
+        TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY.ENTRY_TYPES.CLAIM,
+      );
       const initialState = getData({
         complexClaimsEnabled: true,
         claimData: { claimId: '45678' },

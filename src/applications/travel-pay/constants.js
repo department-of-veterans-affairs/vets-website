@@ -296,3 +296,11 @@ export const ACCEPTED_FILE_TYPES = Object.freeze([
   '.tif',
   '.tiff',
 ]);
+
+export const TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY = Object.freeze({
+  SESSION_KEY: 'fileNewClaimEntry',
+  ENTRY_TYPES: {
+    CLAIM: 'claim',
+    APPOINTMENT: 'appointment',
+  },
+});

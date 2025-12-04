@@ -23,7 +23,7 @@ import {
   getComplexClaimDetails,
   clearUnsavedExpenseChanges,
 } from '../redux/actions';
-import { STATUSES } from '../constants';
+import { STATUSES, TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY } from '../constants';
 import UnsavedChangesModal from '../components/UnsavedChangesModal';
 
 const ComplexClaimSubmitFlowWrapper = () => {
@@ -66,7 +66,9 @@ const ComplexClaimSubmitFlowWrapper = () => {
     selectComplexClaimFetchLoadingState,
   );
 
-  const entryPoint = sessionStorage.getItem('fileNewClaimEntry');
+  const entryPoint = sessionStorage.getItem(
+    TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY.SESSION_KEY,
+  );
 
   const claimFromAppointment = apptData?.travelPayClaim?.claim;
   const effectiveClaimId = claimId || claimFromAppointment?.id;

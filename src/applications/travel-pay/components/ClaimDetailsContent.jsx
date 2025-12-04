@@ -5,7 +5,11 @@ import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureT
 
 import useSetPageTitle from '../hooks/useSetPageTitle';
 import { formatDateTime } from '../util/dates';
-import { STATUSES, FORM_100998_LINK } from '../constants';
+import {
+  STATUSES,
+  FORM_100998_LINK,
+  TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY,
+} from '../constants';
 import { toPascalCase, currency } from '../util/string-helpers';
 import DocumentDownload from './DocumentDownload';
 import DecisionReason from './DecisionReason';
@@ -148,7 +152,10 @@ export default function ClaimDetailsContent({
             // redirect logic is evaluated upon entry into complex claims
             href={`/my-health/travel-pay/file-new-claim/${claimId}`}
             onClick={() => {
-              sessionStorage.setItem('fileNewClaimEntry', 'claim');
+              sessionStorage.setItem(
+                TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY.SESSION_KEY,
+                TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY.ENTRY_TYPES.CLAIM,
+              );
             }}
           />
         )}
