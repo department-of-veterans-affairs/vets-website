@@ -222,7 +222,12 @@ export const buildPrescriptionsPDFList = (
               value: validateIfAvailable('Facility', rx.facilityName),
               inline: true,
             },
-            !isCernerPilot && {
+            (isCernerPilot && {
+              title: 'Pharmacy contact information',
+              value:
+                'Check your prescription label or contact your VA facility.',
+              inline: true,
+            }) || {
               title: 'Pharmacy phone number',
               value: validateIfAvailable(
                 'Pharmacy phone number',
@@ -440,7 +445,12 @@ export const buildVAPrescriptionPDFList = (
               value: validateIfAvailable('Facility', prescription.facilityName),
               inline: true,
             },
-            !isCernerPilot && {
+            (isCernerPilot && {
+              title: 'Pharmacy contact information',
+              value:
+                'Check your prescription label or contact your VA facility.',
+              inline: true,
+            }) || {
               title: 'Pharmacy phone number',
               value: validateIfAvailable(
                 'Pharmacy phone number',

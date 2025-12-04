@@ -191,12 +191,10 @@ const PrescriptionPrintOnly = props => {
               {rx.facilityName || 'VA facility name not available'}
             </p>
             {isCernerPilot ? (
-              <>
-                Check your prescription label or contact your VA facility.{' '}
-                <a href="https://www.va.gov/find-locations">
-                  Find your VA facility
-                </a>
-              </>
+              <p>
+                <strong>Pharmacy contact information:</strong> Check your
+                prescription label or contact your VA facility.
+              </p>
             ) : (
               <p>
                 <strong>Pharmacy phone number:</strong>{' '}

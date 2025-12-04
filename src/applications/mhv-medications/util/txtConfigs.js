@@ -51,13 +51,9 @@ const getLastFilledAndRxNumberBlock = rx => {
         `Prescription number: ${rx.prescriptionNumber}`,
       );
 };
-const getAttributes = (rx, isCernerPilot = false) =>
+const getAttributes = (rx, isCernerPilot) =>
   joinLines(
-    `Status: ${prescriptionMedAndRenewalStatus(
-      rx,
-      medStatusDisplayTypes.TXT,
-      isCernerPilot,
-    )}`,
+    `Status: ${prescriptionMedAndRenewalStatus(rx, medStatusDisplayTypes.TXT)}`,
     fieldLine('Refills left', rx.refillRemaining),
     `Request refills by this prescription expiration date: ${dateFormat(
       rx.expirationDate,
@@ -65,7 +61,12 @@ const getAttributes = (rx, isCernerPilot = false) =>
       'Date not available',
     )}`,
     fieldLine('Facility', rx.facilityName),
-    !isCernerPilot && fieldLine('Pharmacy phone number', rx.phoneNumber),
+    isCernerPilot
+      ? fieldLine(
+          'Pharmacy contact information',
+          'Check your prescription label or contact your VA facility.',
+        )
+      : fieldLine('Pharmacy phone number', rx.phoneNumber),
     fieldLine('Instructions', rx.sig),
     !isCernerPilot && fieldLine('Reason for use', rx.indicationForUse),
     `Prescribed on: ${dateFormat(
@@ -84,7 +85,7 @@ const getAttributes = (rx, isCernerPilot = false) =>
  */
 export const buildNonVAPrescriptionTXT = (
   prescription,
-  options,
+  options = {},
   isCernerPilot = false,
 ) => {
   const { includeSeparators = true } = options ?? {};
@@ -125,7 +126,7 @@ export const buildNonVAPrescriptionTXT = (
 /**
  * Return prescriptions list TXT
  */
-export const buildPrescriptionsTXT = prescriptions => {
+export const buildPrescriptionsTXT = (prescriptions, isCernerPilot = false) => {
   const mostRecentRxRefillLine = rx => {
     const newest = getMostRecentRxRefill(rx);
 
@@ -145,9 +146,13 @@ export const buildPrescriptionsTXT = prescriptions => {
 
   const body = (prescriptions || []).map(rx => {
     if (rx?.prescriptionSource === RX_SOURCE.NON_VA) {
-      return buildNonVAPrescriptionTXT(rx, {
-        includeSeparators: false,
-      }).trimEnd();
+      return buildNonVAPrescriptionTXT(
+        rx,
+        {
+          includeSeparators: false,
+        },
+        isCernerPilot,
+      ).trimEnd();
     }
 
     const title = rx.prescriptionName;
@@ -156,7 +161,7 @@ export const buildPrescriptionsTXT = prescriptions => {
     return joinBlocks(
       title,
       getLastFilledAndRxNumberBlock(rx),
-      getAttributes(rx),
+      getAttributes(rx, isCernerPilot),
       mostRecent,
     ).trimEnd();
   });
@@ -223,7 +228,7 @@ export const buildVAPrescriptionTXT = (prescription, isCernerPilot = false) => {
     `${rxTitle}${newLine()}`,
     `${subTitle}${newLine()}`,
     getLastFilledAndRxNumberBlock(prescription),
-    getAttributes(prescription),
+    getAttributes(prescription, isCernerPilot),
   ).trimEnd();
 
   let refillHistorySection = '';

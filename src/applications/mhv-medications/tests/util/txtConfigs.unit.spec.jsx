@@ -277,4 +277,40 @@ describe('Medication Information Config', () => {
     const txt = await convertHtmlForDownload(htmlContent, DOWNLOAD_FORMAT.PDF);
     expect(txt).to.be.a('array');
   });
+
+  describe('Cerner pilot feature flag', () => {
+    describe('VA Prescription config', () => {
+      const rxDetails = { ...prescriptionDetails.data.attributes };
+      const txt = buildVAPrescriptionTXT(rxDetails, true);
+
+      it('should NOT show "Reason for Use" field', () => {
+        expect(txt).to.not.include('Reason for use:');
+      });
+      it('should show "Pharmacy contact information" field', () => {
+        expect(txt).to.include(
+          'Pharmacy contact information: Check your prescription label or contact your VA facility.',
+        );
+      });
+      it('should NOT create "Refill history" section', () => {
+        rxDetails.dispensedDate = undefined;
+        rxDetails.rxRfRecords = [
+          { ...rxDetails.rxRfRecords[0] },
+          { ...rxDetails.rxRfRecords[0] },
+        ];
+        expect(txt).to.include('Refill history\n');
+      });
+    });
+
+    describe('Non-VA Prescription config', () => {
+      const txt = buildNonVAPrescriptionTXT(
+        nonVAPrescription.data.attributes,
+        { includeSeparators: true },
+        true,
+      );
+
+      it('should NOT show "Reason for Use" field', () => {
+        expect(txt).to.not.include('Reason for use:');
+      });
+    });
+  });
 });
