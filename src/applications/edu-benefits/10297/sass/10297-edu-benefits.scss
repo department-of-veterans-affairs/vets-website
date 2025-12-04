@@ -89,6 +89,9 @@
 }
 .data-card {
   width: 416px;
+   @media (max-width: $small-screen) {
+    width: 100%;
+  }
 }
 .hide-navigation-buttons {
   .form-progress-buttons,
