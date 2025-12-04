@@ -327,6 +327,13 @@ const ArrayBuilderCards = ({
                 );
               }
 
+              const canEditItemCheck =
+                typeof canEditItem !== 'function' ||
+                canEditItem({ itemData, index, fullData, isReview });
+              const canDeleteItemCheck =
+                typeof canDeleteItem !== 'function' ||
+                canDeleteItem({ itemData, index, fullData, isReview });
+
               return (
                 <li key={index} style={{ listStyleType: 'none' }}>
                   <Card index={index}>
@@ -342,13 +349,7 @@ const ArrayBuilderCards = ({
                       {alert}
                     </div>
                     <span className="vads-u-margin-bottom--neg1 vads-u-margin-top--1 vads-u-display--flex vads-u-align-items--center vads-u-justify-content--space-between vads-u-font-weight--bold">
-                      {(typeof canEditItem !== 'function' ||
-                        canEditItem({
-                          itemData,
-                          index,
-                          fullData,
-                          isReview,
-                        })) && (
+                      {canEditItemCheck && (
                         <EditLink
                           to={createArrayBuilderItemEditPath({
                             path: getEditItemPathUrl(
@@ -365,13 +366,7 @@ const ArrayBuilderCards = ({
                           srText={`Edit ${itemName}`}
                         />
                       )}
-                      {(typeof canDeleteItem !== 'function' ||
-                        canDeleteItem({
-                          itemData,
-                          index,
-                          fullData,
-                          isReview,
-                        })) && (
+                      {canDeleteItemCheck && (
                         <RemoveButton
                           onClick={() => showRemoveConfirmationModal(index)}
                           srText={`Delete ${itemName}`}
