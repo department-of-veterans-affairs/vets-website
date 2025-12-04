@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { countries } from 'platform/forms/address';
 
 import { focusElement } from '~/platform/utilities/ui';
+import { isValidYear } from 'platform/forms-system/src/js/utilities/validations';
 
 export const ConfirmationSubmissionAlert = ({ confirmationNumber }) => (
   <>
@@ -73,6 +74,16 @@ export const ConfirmationGoBackLink = () => (
 // Expects a birthDate as a string in YYYY-MM-DD format
 export const getAgeInYears = birthDate =>
   Math.floor((new Date() - new Date(birthDate).getTime()) / 3.15576e10);
+
+export const validateDateOfBirth = (errors, dateString) => {
+  if (!dateString) return;
+
+  if (
+    isValidYear(new Date(dateString).getFullYear()) &&
+    getAgeInYears(dateString) < 18
+  )
+    errors.addError('You must be 18 years of age to apply');
+};
 
 export const getCardDescription = item => {
   const countryCode = item?.providerAddress?.country;
