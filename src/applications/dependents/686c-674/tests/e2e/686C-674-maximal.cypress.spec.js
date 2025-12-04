@@ -23,7 +23,7 @@ const testConfig = createTestConfig(
     dataPrefix: 'data',
     dataSets: ['maximal'],
     fixtures: { data: path.join(__dirname, 'fixtures') },
-    ssetupPerTest: () => {
+    setupPerTest: () => {
       // Pass form start page path
       setupCypress('/add-remove-form-21-686c-674/veteran-information');
     },
