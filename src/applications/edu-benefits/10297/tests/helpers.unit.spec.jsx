@@ -17,6 +17,7 @@ import {
   maskBankInformation,
   getPrefillIntlPhoneNumber,
   getTransformIntlPhoneNumber,
+  validateDateOfBirth,
 } from '../helpers';
 
 describe('10297 Helpers', () => {
@@ -283,5 +284,25 @@ describe('#getTransformIntlPhoneNumber', () => {
 
   it('should return an empty string with no provided details', () => {
     expect(getTransformIntlPhoneNumber()).to.equal('');
+  });
+});
+
+describe('validateDateOfBirth', () => {
+  it('allows valid dates', () => {
+    const errors = { addError: sinon.spy() };
+    validateDateOfBirth(errors, '2000-01-03');
+    expect(errors.addError.called).to.be.false;
+  });
+
+  it('rejects invalid dates', () => {
+    const errors = { addError: sinon.spy() };
+    validateDateOfBirth(errors, '2025-01-01');
+    expect(errors.addError.calledOnce).to.be.true;
+  });
+
+  it('does nothing on undefined date', () => {
+    const errors = { addError: sinon.spy() };
+    validateDateOfBirth(errors, undefined);
+    expect(errors.addError.called).to.be.false;
   });
 });
