@@ -9,7 +9,6 @@ const BenefitCard = ({ benefit, isBenefitRecommended }) => {
     description,
     isTimeSensitive,
     learnMoreURL,
-    applyNowURL,
   } = benefit;
 
   const handleClick = (url, text, label) => {
@@ -84,14 +83,6 @@ const BenefitCard = ({ benefit, isBenefitRecommended }) => {
               false,
             )}
           </div>
-          <div>
-            {renderLink(
-              applyNowURL,
-              'Apply now',
-              `Apply now for ${name}`,
-              true,
-            )}
-          </div>
         </div>
       </va-card>
     </div>
@@ -100,7 +91,6 @@ const BenefitCard = ({ benefit, isBenefitRecommended }) => {
 
 BenefitCard.propTypes = {
   benefit: PropTypes.shape({
-    applyNowURL: PropTypes.string,
     category: PropTypes.string,
     description: PropTypes.string,
     isTimeSensitive: PropTypes.bool,
