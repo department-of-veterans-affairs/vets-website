@@ -11,13 +11,9 @@ import { itfClaimantInformationPage } from '../pages/itfClaimantInformation';
 import { veteranInformationPage } from '../pages/veteranInformation';
 import { IsVeteranPage, isVeteranPage } from '../pages/isVeteranPage';
 import { itfTransformForSubmit } from './submit-transformer';
-import {
-  getMockData,
-  scrollAndFocusTarget,
-  getFormContent,
-  getIntentsToFile,
-} from '../helpers';
+import { getMockData, scrollAndFocusTarget, getFormContent } from '../helpers';
 import { CustomTopContent } from '../pages/helpers';
+import { getIntentsToFile } from '../helpers/intent-to-file-helper';
 import submissionError from './submissionError';
 import ITFStatusLoadingIndicatorPage from '../components/ITFStatusLoadingIndicatorPage';
 import PermissionError from '../components/PermissionError';
