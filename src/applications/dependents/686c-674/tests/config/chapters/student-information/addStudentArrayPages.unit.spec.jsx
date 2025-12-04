@@ -157,6 +157,21 @@ describe('addStudentsOptions', () => {
       );
     });
 
+    it('should return false when school name is within limits', () => {
+      const errors = { addError: sinon.spy() };
+      const {
+        uiSchema,
+      } = formConfig.chapters.report674.pages.addStudentsPartTen;
+      const validateSchoolName =
+        uiSchema.studentInformation.items.schoolInformation.name[
+          'ui:validations'
+        ][0];
+
+      validateSchoolName(errors, 'A'.repeat(50));
+
+      expect(errors.addError.called).to.be.false;
+    });
+
     it('should return the correct summary title', () => {
       expect(addStudentsOptions.text.summaryTitle).to.equal(
         'Review your students',
