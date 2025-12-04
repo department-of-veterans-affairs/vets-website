@@ -501,9 +501,21 @@ export const OH_TRANSITION_SITES = {
   },
 };
 
-// Currently we are only allowing OH direct scheduling and requests for Food and Nutrition
-// appointments
-export const OH_ENABLED_TYPES_OF_CARE = ['foodAndNutrition'];
+// Types of care that are allowed in the OH direct scheduling flow and request flow
+export const OH_ENABLED_TYPES_OF_CARE = [
+  'amputation',
+  'audiology',
+  'audiology-hearing aid support',
+  'audiology-routine exam',
+  'clinicalPharmacyPrimaryCare',
+  'cpap',
+  'foodAndNutrition',
+  'homeSleepTesting',
+  'moveProgram',
+  'ophthalmology',
+  'optometry',
+  'socialWork',
+];
 
 export const TRAVEL_CLAIM_MESSAGES = {
   noClaim: 'No claims found.',
