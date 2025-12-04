@@ -14,7 +14,12 @@ import mockSubmit from './fixtures/mocks/application-submit.json';
 import mockUpload from './fixtures/mocks/document-upload.json';
 import mockServiceBranches from './fixtures/mocks/service-branches.json';
 import mockUser from './fixtures/mocks/user.json';
-import { capitalizeEachWord, showSeparationLocation } from '../utils';
+import {
+  capitalizeEachWord,
+  showSeparationLocation,
+  isBDD,
+  hasRatedDisabilities,
+} from '../utils';
 
 import {
   MOCK_SIPS_API,
@@ -357,6 +362,16 @@ Cypress.Commands.add('verifyVeteranDetails', data => {
     if (showSeparationLocation(data) === true) {
       cy.contains(/separation location/i).should('exist');
       cy.contains(data.serviceInformation.separationLocation.label).should(
+        'exist',
+      );
+    }
+
+    if (
+      !hasRatedDisabilities(data) &&
+      !isBDD(data) &&
+      data['view:isBddData'] !== true
+    ) {
+      cy.contains(/have you ever received military retirement pay/i).should(
         'exist',
       );
     }
