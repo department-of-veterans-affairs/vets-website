@@ -15,7 +15,7 @@ Array builder pattern features an intro page (for required flow), a yes/no quest
     - [Example using action link (or button) instead of yes/no question](#example-using-action-link-or-button-instead-of-yesno-question)
     - [Example content at bottom of page](#example-content-at-bottom-of-page)
     - [Examples checking for duplicate content](#examples-checking-for-duplicate-content)
-    - [Hiding delete button on cards](#hiding-delete-button-on-cards)
+    - [Controlling edit and delete visibility on cards](#controlling-edit-and-delete-visibility-on-cards)
   - [Web Component Patterns](#web-component-patterns)
     - [Example `arrayBuilderYesNoUI` Text Overrides:](#example-arraybuilderyesnoui-text-overrides)
   - [General Pattern Text Overrides](#general-pattern-text-overrides)
@@ -529,14 +529,11 @@ const options = {
 };
 ```
 
-### Hiding delete button on cards
-You can hide the delete button on cards using the `hideCardDeleteButton` option. This can be useful when you want to prevent users from deleting items from the summary/review page while still allowing them to edit.
+### Controlling edit and delete visibility on cards
 
-The option can be:
-- A **boolean**: `true` to hide the delete button for all cards
-- A **function**: receives `{ itemData, index, fullData }` and returns a boolean, allowing per-card control
+You can control whether edit and delete buttons/links are shown on cards using the `canEditItem` and `canDeleteItem` options. Both options accept a function that receives an object with `{ itemData, index, fullData, isReview }` and returns a boolean.
 
-#### Example: Hide delete button for all cards (boolean)
+#### Example: Hide delete button for specific items
 ```js
 /** @type {ArrayBuilderOptions} */
 const options = {
@@ -544,12 +541,15 @@ const options = {
   nounSingular: 'employer',
   nounPlural: 'employers',
   required: true,
-  hideCardDeleteButton: true, // Hides delete button for all cards
+  // Only allow deleting if not on review page or if index > 0
+  canDeleteItem: ({ itemData, index, fullData, isReview }) => {
+    return !isReview || index > 0;
+  },
   // ...other options
 };
 ```
 
-#### Example: Hide delete button conditionally (function)
+#### Example: Hide edit link based on item data
 ```js
 /** @type {ArrayBuilderOptions} */
 const options = {
@@ -557,10 +557,28 @@ const options = {
   nounSingular: 'employer',
   nounPlural: 'employers',
   required: true,
-  // Hide delete button only for the first item, or based on item data
-  hideCardDeleteButton: ({ itemData, index, fullData }) => {
-    return index === 0 || itemData?.isPrimary === true;
+  // Don't allow editing if item is locked
+  canEditItem: ({ itemData, index, fullData, isReview }) => {
+    return !itemData?.isLocked;
   },
+  // ...other options
+};
+```
+
+#### Example: Use both options together
+```js
+/** @type {ArrayBuilderOptions} */
+const options = {
+  arrayPath: 'employers',
+  nounSingular: 'employer',
+  nounPlural: 'employers',
+  required: true,
+  // Hide edit for primary employer on review page
+  canEditItem: ({ itemData, isReview }) => {
+    return !(isReview && itemData?.isPrimary);
+  },
+  // Hide delete for first item
+  canDeleteItem: ({ index }) => index !== 0,
   // ...other options
 };
 ```

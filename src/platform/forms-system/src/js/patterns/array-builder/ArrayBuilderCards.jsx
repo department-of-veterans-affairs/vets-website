@@ -137,7 +137,8 @@ const ArrayBuilderCards = ({
   onRemove,
   required,
   isReview,
-  hideCardDeleteButton,
+  canEditItem,
+  canDeleteItem,
   duplicateChecks = {},
   duplicateCheckResult = {},
 }) => {
@@ -326,11 +327,17 @@ const ArrayBuilderCards = ({
                 );
               }
 
-              // Determine if delete button should be hidden for this item
-              const shouldHideDeleteButton =
-                typeof hideCardDeleteButton === 'function'
-                  ? hideCardDeleteButton({ itemData, index, fullData })
-                  : hideCardDeleteButton;
+              // Determine if edit/delete should be shown for this item
+              const canEditContext = { itemData, index, fullData, isReview };
+              const canDeleteContext = { itemData, index, fullData, isReview };
+              const showEditLink =
+                typeof canEditItem === 'function'
+                  ? canEditItem(canEditContext)
+                  : true;
+              const showDeleteButton =
+                typeof canDeleteItem === 'function'
+                  ? canDeleteItem(canDeleteContext)
+                  : true;
 
               return (
                 <li key={index} style={{ listStyleType: 'none' }}>
@@ -347,22 +354,24 @@ const ArrayBuilderCards = ({
                       {alert}
                     </div>
                     <span className="vads-u-margin-bottom--neg1 vads-u-margin-top--1 vads-u-display--flex vads-u-align-items--center vads-u-justify-content--space-between vads-u-font-weight--bold">
-                      <EditLink
-                        to={createArrayBuilderItemEditPath({
-                          path: getEditItemPathUrl(
-                            formData,
+                      {showEditLink && (
+                        <EditLink
+                          to={createArrayBuilderItemEditPath({
+                            path: getEditItemPathUrl(
+                              formData,
+                              index,
+                              arrayBuilderContextObject({
+                                edit: true,
+                                review: isReview,
+                              }),
+                            ),
                             index,
-                            arrayBuilderContextObject({
-                              edit: true,
-                              review: isReview,
-                            }),
-                          ),
-                          index,
-                          isReview,
-                        })}
-                        srText={`Edit ${itemName}`}
-                      />
-                      {!shouldHideDeleteButton && (
+                            isReview,
+                          })}
+                          srText={`Edit ${itemName}`}
+                        />
+                      )}
+                      {showDeleteButton && (
                         <RemoveButton
                           onClick={() => showRemoveConfirmationModal(index)}
                           srText={`Delete ${itemName}`}
@@ -459,7 +468,8 @@ ArrayBuilderCards.propTypes = {
     duplicateSummaryCardWarningOrErrorAlert: PropTypes.func,
     duplicateSummaryCardLabel: PropTypes.func,
   }),
-  hideCardDeleteButton: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
+  canEditItem: PropTypes.func,
+  canDeleteItem: PropTypes.func,
   titleHeaderLevel: PropTypes.string,
 };
 
