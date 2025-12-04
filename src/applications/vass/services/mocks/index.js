@@ -11,6 +11,24 @@ const mockUsers = [
   },
 ];
 
+const mockAppointments = [
+  {
+    appointmentId: 'abcdef123456',
+    topics: [
+      {
+        topicId: '123',
+        topicName: 'General Health',
+      },
+    ],
+    dtStartUtc: '2024-07-01T14:00:00Z',
+    dtEndUtc: '2024-07-01T14:30:00Z',
+    // TODO: verify the accuracy of appointment payload data from API
+    timezone: 'America/New_York',
+    phoneNumber: '800-827-0611',
+    providerName: 'Bill Brasky',
+    typeOfCare: 'VA Solid Start',
+  },
+];
 const responses = {
   'POST /vass/v0/authenticate': (req, res) => {
     const { uuid, lastname, dob } = req.body;
@@ -56,6 +74,22 @@ const responses = {
           attemptsRemaining: 3,
         },
       ],
+    });
+  },
+  'POST /vass/v0/appointment': (req, res) => {
+    return res.json({
+      data: {
+        appointmentId: 'abcdef123456',
+      },
+    });
+  },
+  'GET /vass/v0/appointment/:appointmentId': (req, res) => {
+    const { appointmentId } = req.params;
+    const mockAppointment = mockAppointments.find(
+      appointment => appointment.appointmentId === appointmentId,
+    );
+    return res.json({
+      data: mockAppointment,
     });
   },
 };
