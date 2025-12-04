@@ -46,18 +46,16 @@ import {
   applicantInsuranceCardSchema,
 } from '../chapters/healthInsuranceInformation';
 
-import {
-  formSignatureSchema,
-  applicationEmailSchema,
-  champvaScreenSchema,
-} from '../chapters/formSignature';
+import benefitStatus from '../chapters/signerInformation/benefitStatus';
+import certifierEmail from '../chapters/signerInformation/certifierEmail';
+import certifierRole from '../chapters/signerInformation/certifierRole';
 import CustomAttestation from '../components/CustomAttestation';
 
 import GetFormHelp from '../../shared/components/GetFormHelp';
 import { hasReq } from '../../shared/components/fileUploads/MissingFileOverview';
 import SupportingDocumentsPage from '../components/SupportingDocumentsPage';
 import { MissingFileConsentPage } from '../components/MissingFileConsentPage';
-import ApplyForBenefits from '../components/ApplyForBenefits';
+import NotEnrolledPage from '../components/FormPages/NotEnrolledPage';
 
 // import mockdata from '../tests/e2e/fixtures/data/test-data.json';
 
@@ -139,21 +137,21 @@ const formConfig = {
         formSignature: {
           // initialData: mockdata.data,
           path: 'form-signature',
-          title: 'Form signature',
-          ...formSignatureSchema,
+          title: 'Your information',
+          ...certifierRole,
           scrollAndFocusTarget,
         },
         ohiScreen: {
           path: 'champva-screen',
-          ...champvaScreenSchema,
-          title: 'CHAMPVA screen',
+          title: 'Beneficiary’s CHAMPVA benefit status',
+          ...benefitStatus,
           scrollAndFocusTarget,
         },
         benefitApp: {
           path: 'benefit-application',
           title: 'Apply for Benefits',
           depends: formData => !get('champvaBenefitStatus', formData),
-          CustomPage: ApplyForBenefits,
+          CustomPage: NotEnrolledPage,
           CustomPageReview: null,
           uiSchema: {
             'ui:options': {
@@ -165,8 +163,8 @@ const formConfig = {
         },
         signerEmail: {
           path: 'signer-email',
-          title: 'Your email address',
-          ...applicationEmailSchema,
+          title: 'Beneficiary’s email address',
+          ...certifierEmail,
           scrollAndFocusTarget,
         },
       },
