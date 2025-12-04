@@ -37,11 +37,16 @@ const FolderHeader = props => {
 
   const drupalCernerFacilities = useSelector(selectCernerFacilities);
 
-  const { noAssociations, allTriageGroupsBlocked } = useSelector(
-    state => state.sm.recipients,
-  );
+  const {
+    noAssociations,
+    allTriageGroupsBlocked,
+    error: recipientsError,
+  } = useSelector(state => state.sm.recipients);
 
-  const { cernerPilotSmFeatureFlag } = useFeatureToggles();
+  const {
+    cernerPilotSmFeatureFlag,
+    mhvSecureMessagingCernerPilotSystemMaintenanceBannerFlag,
+  } = useFeatureToggles();
 
   const cernerFacilities = useMemo(
     () => {
@@ -101,9 +106,24 @@ const FolderHeader = props => {
 
   const { folderName, ddTitle, ddPrivacy } = handleHeader(folder);
 
+  const RecipientListErrorAlert = () => {
+    return (
+      <va-alert status="warning" data-testid="recipients-error-alert">
+        <h2 slot="headline">We can’t load your care team list right now</h2>
+        <p>
+          We’re sorry. Something went wrong on our end. Please refresh this page
+          or try again later.
+        </p>
+      </va-alert>
+    );
+  };
   const OracleHealthMessagingAlert = useCallback(
     () => {
-      if (cernerPilotSmFeatureFlag) return <OracleHealthMessagingIssuesAlert />;
+      if (
+        cernerPilotSmFeatureFlag &&
+        mhvSecureMessagingCernerPilotSystemMaintenanceBannerFlag
+      )
+        return <OracleHealthMessagingIssuesAlert />;
       if (
         folder.folderId === Folders.INBOX.id &&
         cernerFacilities?.length > 0
@@ -112,7 +132,12 @@ const FolderHeader = props => {
       }
       return null;
     },
-    [cernerPilotSmFeatureFlag, folder.folderId, cernerFacilities],
+    [
+      cernerPilotSmFeatureFlag,
+      mhvSecureMessagingCernerPilotSystemMaintenanceBannerFlag,
+      folder.folderId,
+      cernerFacilities,
+    ],
   );
 
   return (
@@ -153,8 +178,9 @@ const FolderHeader = props => {
           )}
 
         <>{handleFolderDescription()}</>
+        {recipientsError && <RecipientListErrorAlert />}
         {showInnerNav &&
-          (!noAssociations && !allTriageGroupsBlocked) && (
+          (!noAssociations && !allTriageGroupsBlocked && !recipientsError) && (
             <ComposeMessageButton />
           )}
 
