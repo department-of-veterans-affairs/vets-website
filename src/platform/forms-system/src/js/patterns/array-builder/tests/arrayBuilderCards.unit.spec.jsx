@@ -227,4 +227,118 @@ describe('ArrayBuilderCards', () => {
       'INCOMPLETE',
     );
   });
+
+  describe('hideDeleteButtonOnReviewPage', () => {
+    function setupArrayBuilderCardsWithReview({
+      arrayData = [],
+      isReview = false,
+      hideDeleteButtonOnReviewPage,
+      fullData = {},
+    }) {
+      const goToPath = sinon.spy();
+      const onRemoveAll = sinon.spy();
+      const onRemove = sinon.spy();
+      let getText = initGetText({
+        textOverrides: { cardDescription: 'description' },
+        nounPlural: 'employers',
+        nounSingular: 'employer',
+        getItemName: (item, index) => `getItemName ${index + 1}`,
+      });
+      getText = sinon.spy(getText);
+      const { mockStore } = mockRedux({
+        formData: {
+          employers: arrayData,
+          otherData: 'test',
+        },
+      });
+
+      const { container } = render(
+        <Provider store={mockStore}>
+          <ArrayBuilderCards
+            arrayPath="employers"
+            getEditItemPathUrl={() => 'edit'}
+            nounSingular="employer"
+            onRemoveAll={onRemoveAll}
+            onRemove={onRemove}
+            goToPath={goToPath}
+            getText={getText}
+            required={() => false}
+            isReview={isReview}
+            isIncomplete={() => false}
+            fullData={fullData}
+            hideDeleteButtonOnReviewPage={hideDeleteButtonOnReviewPage}
+          />
+        </Provider>,
+      );
+
+      return { container };
+    }
+
+    it('should show delete button when hideDeleteButtonOnReviewPage is false on review page', () => {
+      const { container } = setupArrayBuilderCardsWithReview({
+        arrayData: [{ name: 'Test' }],
+        isReview: true,
+        hideDeleteButtonOnReviewPage: false,
+      });
+
+      expect(container.querySelector('va-button-icon[data-action="remove"]')).to
+        .exist;
+    });
+
+    it('should hide delete button when hideDeleteButtonOnReviewPage is true on review page', () => {
+      const { container } = setupArrayBuilderCardsWithReview({
+        arrayData: [{ name: 'Test' }],
+        isReview: true,
+        hideDeleteButtonOnReviewPage: true,
+      });
+
+      expect(container.querySelector('va-button-icon[data-action="remove"]')).to
+        .not.exist;
+    });
+
+    it('should show delete button when hideDeleteButtonOnReviewPage is true but not on review page', () => {
+      const { container } = setupArrayBuilderCardsWithReview({
+        arrayData: [{ name: 'Test' }],
+        isReview: false,
+        hideDeleteButtonOnReviewPage: true,
+      });
+
+      expect(container.querySelector('va-button-icon[data-action="remove"]')).to
+        .exist;
+    });
+
+    it('should hide delete button when hideDeleteButtonOnReviewPage function returns true on review page', () => {
+      const { container } = setupArrayBuilderCardsWithReview({
+        arrayData: [{ name: 'ShouldHide' }],
+        isReview: true,
+        hideDeleteButtonOnReviewPage: itemData =>
+          itemData.name === 'ShouldHide',
+      });
+
+      expect(container.querySelector('va-button-icon[data-action="remove"]')).to
+        .not.exist;
+    });
+
+    it('should show delete button when hideDeleteButtonOnReviewPage function returns false on review page', () => {
+      const { container } = setupArrayBuilderCardsWithReview({
+        arrayData: [{ name: 'ShouldShow' }],
+        isReview: true,
+        hideDeleteButtonOnReviewPage: itemData =>
+          itemData.name === 'ShouldHide',
+      });
+
+      expect(container.querySelector('va-button-icon[data-action="remove"]')).to
+        .exist;
+    });
+
+    it('should show delete button when hideDeleteButtonOnReviewPage is undefined', () => {
+      const { container } = setupArrayBuilderCardsWithReview({
+        arrayData: [{ name: 'Test' }],
+        isReview: true,
+      });
+
+      expect(container.querySelector('va-button-icon[data-action="remove"]')).to
+        .exist;
+    });
+  });
 });

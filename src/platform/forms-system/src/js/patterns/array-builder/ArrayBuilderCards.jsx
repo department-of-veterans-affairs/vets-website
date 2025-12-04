@@ -114,6 +114,7 @@ const DuplicateLabel = ({ text }) => (
  *   getEditItemPathUrl: (formData: any, index: number, context) => string,
  *   formData: any,
  *   fullData: any,
+ *   hideDeleteButtonOnReviewPage: ArrayBuilderOptions['hideDeleteButtonOnReviewPage'],
  *   isIncomplete: ArrayBuilderOptions['isItemIncomplete'],
  *   nounSingular: ArrayBuilderOptions['nounSingular'],
  *   getText: ArrayBuilderGetText,
@@ -130,6 +131,7 @@ const ArrayBuilderCards = ({
   getEditItemPathUrl,
   formData,
   fullData,
+  hideDeleteButtonOnReviewPage,
   nounSingular,
   titleHeaderLevel = '3',
   getText,
@@ -355,10 +357,23 @@ const ArrayBuilderCards = ({
                         })}
                         srText={`Edit ${itemName}`}
                       />
-                      <RemoveButton
-                        onClick={() => showRemoveConfirmationModal(index)}
-                        srText={`Delete ${itemName}`}
-                      />
+                      {(() => {
+                        const shouldHideDelete =
+                          isReview &&
+                          (typeof hideDeleteButtonOnReviewPage === 'function'
+                            ? hideDeleteButtonOnReviewPage(
+                                itemData,
+                                index,
+                                formData,
+                              )
+                            : hideDeleteButtonOnReviewPage);
+                        return shouldHideDelete ? null : (
+                          <RemoveButton
+                            onClick={() => showRemoveConfirmationModal(index)}
+                            srText={`Delete ${itemName}`}
+                          />
+                        );
+                      })()}
                     </span>
                   </Card>
                 </li>
@@ -450,6 +465,10 @@ ArrayBuilderCards.propTypes = {
     duplicateSummaryCardWarningOrErrorAlert: PropTypes.func,
     duplicateSummaryCardLabel: PropTypes.func,
   }),
+  hideDeleteButtonOnReviewPage: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.func,
+  ]),
   titleHeaderLevel: PropTypes.string,
 };
 

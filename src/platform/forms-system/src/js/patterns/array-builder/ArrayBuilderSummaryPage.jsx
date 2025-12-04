@@ -105,6 +105,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     getFirstItemPagePath,
     getText,
     hasItemsKey,
+    hideDeleteButtonOnReviewPage,
     hideMaxItemsAlert,
     getIntroPath,
     isItemIncomplete,
@@ -520,6 +521,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
         fullData={props.fullData}
         duplicateChecks={duplicateChecks}
         duplicateCheckResult={duplicateCheckResult}
+        hideDeleteButtonOnReviewPage={hideDeleteButtonOnReviewPage}
       />
     );
 

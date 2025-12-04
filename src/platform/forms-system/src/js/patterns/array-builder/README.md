@@ -360,6 +360,23 @@ export const nounPluralReplaceMePages = arrayBuilderPages( options,
 );
 ```
 
+### Example hiding delete button on review page
+If you want to hide the delete button on the review page, you can use the `hideDeleteButtonOnReviewPage` option. This can be a boolean or a function that receives the item data, index, and full form data to conditionally hide the delete button.
+
+```js
+/** @type {ArrayBuilderOptions} */
+const options = {
+  arrayPath: 'nounPluralReplaceMe',
+  nounSingular: '[noun singular]',
+  nounPlural: '[noun plural]',
+  required: true,
+  // Hide delete button for all items on the review page
+  hideDeleteButtonOnReviewPage: true,
+  // Or conditionally hide based on item data
+  // hideDeleteButtonOnReviewPage: (item, index, formData) => item.isLocked,
+};
+```
+
 ### Examples checking for duplicate content
 If you need to prevent adding duplicate data within the array, include the following duplicate checks.
 

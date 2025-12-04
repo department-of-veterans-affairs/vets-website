@@ -480,6 +480,7 @@
  * nounSingular: "employer"
  * nounPlural: "employers"
  * ```
+ * @property {boolean | ((item: any, index: number, formData: any) => boolean)} [hideDeleteButtonOnReviewPage] If true (or returns true), hides the delete button on the review page. Can be a boolean or a function that receives the item, index, and full form data to conditionally hide the delete button.
  * @property {boolean} [hideMaxItemsAlert] This will not display the alert when the [maxItems] number is reached.
  * @property {(item, fullData) => boolean} [isItemIncomplete] Will display error on the cards if item is incomplete. You should include all of your required fields here. e.g. `item => !item?.name`
  * @property {number | ((formData: object) => number)} [maxItems] The maximum number of items allowed in the array. Can be a number or a function that returns a number based on formData. Omit to allow unlimited items.
