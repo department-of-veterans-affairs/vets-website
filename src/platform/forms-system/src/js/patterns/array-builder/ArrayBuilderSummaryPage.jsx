@@ -116,6 +116,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     titleHeaderLevel,
     useLinkInsteadOfYesNo,
     useButtonInsteadOfYesNo,
+    hideCardDeleteButton,
     duplicateChecks = {},
   } = arrayBuilderOptions;
 
@@ -518,6 +519,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
         isReview={isReviewPage}
         titleHeaderLevel={headingLevel}
         fullData={props.fullData}
+        hideCardDeleteButton={hideCardDeleteButton}
         duplicateChecks={duplicateChecks}
         duplicateCheckResult={duplicateCheckResult}
       />

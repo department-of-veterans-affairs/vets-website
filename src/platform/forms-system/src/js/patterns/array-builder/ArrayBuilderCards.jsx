@@ -137,6 +137,7 @@ const ArrayBuilderCards = ({
   onRemove,
   required,
   isReview,
+  hideCardDeleteButton,
   duplicateChecks = {},
   duplicateCheckResult = {},
 }) => {
@@ -325,6 +326,12 @@ const ArrayBuilderCards = ({
                 );
               }
 
+              // Determine if delete button should be hidden for this item
+              const shouldHideDeleteButton =
+                typeof hideCardDeleteButton === 'function'
+                  ? hideCardDeleteButton({ itemData, index, fullData })
+                  : hideCardDeleteButton;
+
               return (
                 <li key={index} style={{ listStyleType: 'none' }}>
                   <Card index={index}>
@@ -355,10 +362,12 @@ const ArrayBuilderCards = ({
                         })}
                         srText={`Edit ${itemName}`}
                       />
-                      <RemoveButton
-                        onClick={() => showRemoveConfirmationModal(index)}
-                        srText={`Delete ${itemName}`}
-                      />
+                      {!shouldHideDeleteButton && (
+                        <RemoveButton
+                          onClick={() => showRemoveConfirmationModal(index)}
+                          srText={`Delete ${itemName}`}
+                        />
+                      )}
                     </span>
                   </Card>
                 </li>
@@ -450,6 +459,7 @@ ArrayBuilderCards.propTypes = {
     duplicateSummaryCardWarningOrErrorAlert: PropTypes.func,
     duplicateSummaryCardLabel: PropTypes.func,
   }),
+  hideCardDeleteButton: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
   titleHeaderLevel: PropTypes.string,
 };
 

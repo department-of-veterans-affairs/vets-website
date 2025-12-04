@@ -489,6 +489,7 @@
  * @property {ArrayBuilderText} [text] Override any default text used in the array builder pattern
  * @property {boolean} [useLinkInsteadOfYesNo]
  * @property {boolean} [useButtonInsteadOfYesNo]
+ * @property {boolean | (({ itemData, index, fullData }) => boolean)} [hideCardDeleteButton] Hides the delete button for cards on the summary/review page. Can be a boolean (applies globally to all cards) or a function that receives itemData, index, and fullData and returns a boolean (applies per card).
  * @property {DuplicateChecks} [duplicateChecks]
  * ```
  * // Example simple:
