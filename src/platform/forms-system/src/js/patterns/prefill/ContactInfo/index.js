@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   getContent,
   CONTACT_INFO_PATH,
@@ -9,10 +10,8 @@ import {
   getReturnState,
   clearReturnState,
 } from 'platform/forms-system/src/js/utilities/data/profile';
-
 import { focusElement } from 'platform/utilities/ui/focus';
 import { scrollTo } from 'platform/utilities/scroll';
-
 import {
   EditAddress,
   EditEmail,
@@ -23,45 +22,12 @@ import ContactInfo from './ContactInfo';
 import ContactInfoReview from './ContactInfoReview';
 
 /**
- * Profile settings
- * @typedef ContactInfoSettings
- * @type {Object}
- * @property {import('../utilities/data/profile').ContactInfoContent} content
- * @property {String} contactPath=contact-information - Contact info path of
- *  formConfig page
- * @property {String} addressSchema=profileAddressSchema - Profile
- *  address schema object
- * @property {Object} emailSchema=standardEmailSchema - Email schema object for
- *  email string
- * @property {Object} phoneSchema=standardPhoneSchema - Phone schema object with
- *  country code, area code, phone number & extension values
- * @property {String} wrapperKey=veteran - wrapper key value set in
- *  ContactInfoKeys
- * @property {String} addressKey=mailingAddress - address key value set in
- *  ContactInfoKeys
- * @property {String} homePhoneKey=homePhone - home phone key value set in
- *  ContactInfoKeys
- * @property {String} mobilePhoneKey=mobilePhone - mobile phone key value set in
- *  ContactInfoKeys
- * @property {String} emailKey=email - email key value set in ContactInfoKeys
- * @property {String[]} contactInfoRequiredKeys - array of key values in
- *  ContactInfoKeys that are to be required before proceeding
- * @property {String} contactInfoPageKey=confirmContactInfo - set page key
- *  within the form config chapter
- * @property {String[]} included=['mobilePhone', 'homePhone', 'mailingAddress',
- *  'email'] - array of ContactInfoKeys to show on the contact info page
- * @property {Function} depends=null - depends callback function; return true to
- *  make the main confirmation page visible
- * @property {Object} contactInfoUiSchema={} - custom uiSchema for the contact
- *  info page
- */
-/**
- * Add contact information page with 3-4 edit pages to config/form - spread the
- * returned object into the app config/form
- * @param {ContactInfoSettings} - Contact info settings
+ * Add this page with 3-4 edit pages to config/form
+ * Spread the returned object into the app config/form
+ * @type {ContactInformationPageSettings}
  * @returns {Object} - form config pages for a chapter
  */
-const profileContactInfo = ({
+const profileContactInfoPage = ({
   content = getContent('application'),
   contactPath = CONTACT_INFO_PATH,
   addressSchema,
@@ -198,31 +164,39 @@ const profileContactInfo = ({
     };
   }
 
+  const CustomPage = props => (
+    <ContactInfo
+      {...props}
+      content={content}
+      contactPath={contactPath}
+      keys={keys}
+      requiredKeys={contactInfoRequiredKeys}
+      contactInfoPageKey={contactInfoPageKey}
+      disableMockContactInfo={disableMockContactInfo}
+      contactSectionHeadingLevel={contactSectionHeadingLevel}
+      editContactInfoHeadingLevel={editContactInfoHeadingLevel}
+      prefillPatternEnabled={prefillPatternEnabled}
+    />
+  );
+
+  CustomPage.propTypes = {
+    contentAfterButtons: PropTypes.node,
+    contentBeforeButtons: PropTypes.node,
+  };
+
   return {
     [contactInfoPageKey]: {
       title: content.title,
       path: contactPath,
-      CustomPage: props => (
-        <ContactInfo
+      CustomPage,
+      CustomPageReview: props => (
+        <ContactInfoReview
           {...props}
           content={content}
-          contactPath={contactPath}
           keys={keys}
-          requiredKeys={contactInfoRequiredKeys}
           contactInfoPageKey={contactInfoPageKey}
-          disableMockContactInfo={disableMockContactInfo}
-          contactSectionHeadingLevel={contactSectionHeadingLevel}
-          editContactInfoHeadingLevel={editContactInfoHeadingLevel}
-          prefillPatternEnabled={prefillPatternEnabled}
         />
       ),
-      CustomPageReview: props =>
-        ContactInfoReview({
-          ...props,
-          content,
-          keys,
-          contactInfoPageKey,
-        }),
       uiSchema: contactInfoUiSchema,
       schema: {
         type: 'object',
@@ -280,4 +254,4 @@ export const profileReviewErrorOverride = ({
   return null;
 };
 
-export default profileContactInfo;
+export { profileContactInfoPage };

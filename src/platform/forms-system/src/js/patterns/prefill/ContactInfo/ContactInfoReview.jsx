@@ -1,13 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-
 import { Element } from 'platform/utilities/scroll';
-
 // import { ADDRESS_TYPES } from '@department-of-veterans-affairs/platform-forms/exports';
 import { ADDRESS_TYPES } from 'platform/forms/address/helpers';
-
 import {
   renderTelephone,
   contactInfoPropTypes,
@@ -87,7 +83,7 @@ const ContactInfoReview = ({
       content.homePhone, // label
       () => {
         // keys.homePhone is undefined if not in `included` option within
-        // `profileContactInfo`
+        // `profileContactInfoPage`
         if (!keys.homePhone) {
           return ''; // Don't render row
         }
@@ -103,7 +99,7 @@ const ContactInfoReview = ({
       content.mobilePhone,
       () => {
         // keys.mobilePhone is undefined if not in `included` option within
-        // `profileContactInfo`
+        // `profileContactInfoPage`
         if (!keys.mobilePhone) {
           return ''; // Don't render row
         }
@@ -118,7 +114,7 @@ const ContactInfoReview = ({
       content.email,
       () => {
         // keys.email is undefined if not in `included` option within
-        // `profileContactInfo`
+        // `profileContactInfoPage`
         if (!keys.email) {
           return ''; // Don't render row
         }
@@ -133,7 +129,7 @@ const ContactInfoReview = ({
       content.country,
       () => {
         // keys.address is undefined if not in `included` option within
-        // `profileContactInfo`
+        // `profileContactInfoPage`
         if (!keys.address) {
           return ''; // Don't render row
         }
@@ -148,7 +144,7 @@ const ContactInfoReview = ({
       content.address1,
       () => {
         // keys.address is undefined if not in `included` option within
-        // `profileContactInfo`
+        // `profileContactInfoPage`
         if (!keys.address) {
           return ''; // Don't render row
         }
@@ -163,7 +159,7 @@ const ContactInfoReview = ({
       content.address2,
       () => {
         // keys.address is undefined if not in `included` option within
-        // `profileContactInfo`
+        // `profileContactInfoPage`
         if (!keys.address) {
           return ''; // Don't render row
         }
@@ -174,7 +170,7 @@ const ContactInfoReview = ({
       content.address3,
       () => {
         // keys.address is undefined if not in `included` option within
-        // `profileContactInfo`
+        // `profileContactInfoPage`
         if (!keys.address) {
           return ''; // Don't render row
         }
@@ -185,7 +181,7 @@ const ContactInfoReview = ({
       content.city,
       () => {
         // keys.address is undefined if not in `included` option within
-        // `profileContactInfo`
+        // `profileContactInfoPage`
         if (!keys.address) {
           return ''; // Don't render row
         }
@@ -200,7 +196,7 @@ const ContactInfoReview = ({
       content.state,
       () => {
         // keys.address is undefined if not in `included` option within
-        // `profileContactInfo`, or don't render this row for non-U.S. addresses
+        // `profileContactInfoPage`, or don't render this row for non-U.S. addresses
         if (!keys.address || !isUS) {
           return ''; // Don't render row
         }
@@ -215,7 +211,7 @@ const ContactInfoReview = ({
       content.province,
       () => {
         // keys.address is undefined if not in `included` option within
-        // `profileContactInfo` & don't render this row for U.S. addresses
+        // `profileContactInfoPage` & don't render this row for U.S. addresses
         if (!keys.address && isUS) {
           return ''; // Don't render row
         }
@@ -226,7 +222,7 @@ const ContactInfoReview = ({
       content.zipCode,
       () => {
         // keys.address is undefined if not in `included` option within
-        // `profileContactInfo`, or don't render this row for non-U.S. addresses
+        // `profileContactInfoPage`, or don't render this row for non-U.S. addresses
         if (!keys.address || !isUS) {
           return ''; // Don't render row
         }
@@ -242,7 +238,7 @@ const ContactInfoReview = ({
       content.postal,
       () => {
         // keys.address is undefined if not in `included` option within
-        // `profileContactInfo` & don't render this row for U.S. addresses
+        // `profileContactInfoPage` & don't render this row for U.S. addresses
         if (!keys.address && isUS) {
           return ''; // Don't render row
         }

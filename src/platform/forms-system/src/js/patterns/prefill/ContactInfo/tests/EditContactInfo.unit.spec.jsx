@@ -1,14 +1,10 @@
 import React from 'react';
 import { expect } from 'chai';
 import { fireEvent } from '@testing-library/react';
-
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
-
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
-
 import vapProfile from '@@vap-svc/tests/fixtures/mockVapProfile.json';
 import vapService from '@@vap-svc/reducers';
-
 import {
   getContent,
   getReturnState,

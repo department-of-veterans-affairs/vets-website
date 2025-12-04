@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import {
   defaultConfig,
   PersonalInformation,
@@ -9,11 +8,11 @@ import {
   PersonalInformationHeader,
   PersonalInformationNote,
 } from './PersonalInformation';
-
 import { DefaultErrorMessage } from './DefaultErrorMessage';
 import { DefaultCardHeader } from './DefaultCardHeader';
 import { DefaultHeader } from './DefaultHeader';
 import { PersonalInformationReview } from './PersonalInformationReview';
+
 /**
  * @typedef {import('./PersonalInformation').PersonalInformationConfig} PersonalInformationConfig
  */
@@ -40,14 +39,12 @@ export const defaultPageConfig = {
 };
 
 /**
- * @typedef {Object} PersonalInformationPageConfig - Configuration object for the PersonalInformationPage component
- * @property {string} title - The title of the page
- * @property {string} path - The path of the page
- * @property {PersonalInformationConfig} personalInfoConfig - Configuration object for the PersonalInformation component
- * @property {DataAdapter} dataAdapter - Data adapter configuration object for the PersonalInformation component
- * @property {string|Function} errorMessage - Custom error message or component for missing data
+ * Add this page to config/form
+ * Spread the returned object into the app config/form
+ * @type {PersonalInformationPageConfig}
+ * @returns {Object} - form config pages for a chapter
  */
-const personalInformationPage = ({
+const profilePersonalInfoPage = ({
   key = defaultPageConfig.key,
   title = defaultPageConfig.title,
   path = defaultPageConfig.path,
@@ -127,4 +124,4 @@ const personalInformationPage = ({
   };
 };
 
-export { personalInformationPage, PersonalInformation };
+export { profilePersonalInfoPage };

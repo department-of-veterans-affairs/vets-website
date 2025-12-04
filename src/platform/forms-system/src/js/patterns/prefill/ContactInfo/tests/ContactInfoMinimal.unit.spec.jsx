@@ -1,14 +1,11 @@
 import React from 'react';
 import { expect } from 'chai';
-
 import vapProfile from 'platform/user/profile/vap-svc/tests/fixtures/mockVapProfile.json';
 import vapService from '@@vap-svc/reducers';
-
 import {
   getContent,
   clearReturnState,
 } from 'platform/forms-system/src/js/utilities/data/profile';
-
 import { TOGGLE_NAMES } from 'platform/utilities/feature-toggles';
 import { renderWithStoreAndRouter } from 'platform/testing/unit/react-testing-library-helpers';
 import ContactInfo from '../ContactInfo';

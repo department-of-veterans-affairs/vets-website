@@ -3,20 +3,16 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
-
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { Element, scrollTo, scrollAndFocus } from 'platform/utilities/scroll';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-
 import {
   selectProfile,
   isLoggedIn,
 } from '@department-of-veterans-affairs/platform-user/selectors';
-
 import { generateMockUser } from 'platform/site-wide/user-nav/tests/mocks/user';
 import AddressView from 'platform/user/profile/vap-svc/components/AddressField/AddressView';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-
 import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
 import {
   setReturnState,
@@ -619,7 +615,7 @@ ContactInfoBase.propTypes = {
   contactInfoPageKey: contactInfoPropTypes.contactInfoPageKey,
   contactPath: PropTypes.string,
   contactSectionHeadingLevel: PropTypes.string,
-  content: contactInfoPropTypes.content, // content passed in from profileContactInfo
+  content: contactInfoPropTypes.content, // content passed in from profileContactInfoPage
   contentAfterButtons: PropTypes.element,
   contentBeforeButtons: PropTypes.element,
   data: contactInfoPropTypes.data,

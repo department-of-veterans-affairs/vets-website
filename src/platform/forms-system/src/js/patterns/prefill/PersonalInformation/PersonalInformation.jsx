@@ -2,18 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { format, isValid } from 'date-fns';
-
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-
 import { genderLabels } from '~/platform/static-data/labels';
 import { selectProfile } from '~/platform/user/selectors';
 import { getAppUrl } from '~/platform/utilities/registry-helpers';
 import mask, {
   formatNumberForScreenReader,
 } from '~/platform/forms-system/src/js/utilities/ui/mask-string';
-
 import { DefaultErrorMessage } from './DefaultErrorMessage';
-
 import {
   getMissingData,
   parseDateToDateObj,
@@ -21,7 +17,6 @@ import {
   getChildrenByType,
   FORMAT_YMD_DATE_FNS,
 } from './utils';
-
 import { adaptFormData } from './adapter';
 import { DefaultHeader } from './DefaultHeader';
 import { DefaultCardHeader } from './DefaultCardHeader';
@@ -52,11 +47,11 @@ export const defaultConfig = {
     required: false,
   },
   ssn: {
-    show: false,
+    show: true,
     required: false,
   },
   dateOfBirth: {
-    show: false,
+    show: true,
     required: false,
   },
   vaFileNumber: { show: false, required: false },
