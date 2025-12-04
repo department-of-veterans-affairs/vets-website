@@ -40,10 +40,10 @@ This component is part of the VA.gov forms system, so it should be available in 
 
 ```js
 // import of the forms-system factory function that will provide a pre-built page based on configuration
-import { personalInformationPage } from 'platform/forms-system/src/js/components/PersonalInformation';
+import { profilePersonalInfoPage } from 'platform/forms-system/src/js/patterns/prefill/PersonalInformation';
 
 // import of a CustomPage style component that can be further customized in rare circumstances by form teams
-import { PersonalInformation } from 'platform/forms-system/src/js/components/PersonalInformation';
+import { PersonalInformation } from 'platform/forms-system/src/js/patterns/prefill/PersonalInformation';
 ```
 
 ## Usage
@@ -52,16 +52,16 @@ import { PersonalInformation } from 'platform/forms-system/src/js/components/Per
 - defaults to display name, ssn, and dateOfBirth
 - defaults to no fields being required for form to continue
 - assumes Redux state includes form data `form.data.ssn`
-- assumes Redux state includes the profile data `user.prfoline.userFullName` and `user.profile.dob`
+- assumes Redux state includes the profile data `user.profile.userFullName` and `user.profile.dob`
 
 ```jsx
-import { personalInformationPage } from '@department-of-veterans-affairs/forms-system';
+import { profilePersonalInfoPage } from 'platform/forms-system/src/js/patterns/prefill/PersonalInformation';
 
 const formConfig = {
   chapters: {
     personalInformation: {
       pages: {
-        ...personalInformationPage()
+        ...profilePersonalInfoPage()
       }
     }
   }
@@ -76,13 +76,14 @@ const formConfig = {
 - dataAdapter: allows data adapter paths to be customized, for when the prefill endpoint does not return the data in the expected format
 
 ```jsx
+```jsx
 const customConfig = {
   key: 'customPersonalInfo',
   title: 'Veteran Information',
   path: 'veteran-info',
   personalInfoConfig: {
     name: { show: true, required: true },
-    ssn: { show: true, required: true },
+    ssn: { show: true, required: true, showFullSSN: true }, // Show full SSN with masking
     vaFileNumber: { show: true, required: false },
     dateOfBirth: { show: true, required: true },
     sex: { show: false, required: false }
@@ -90,7 +91,18 @@ const customConfig = {
   dataAdapter: {
     ssnPath: 'veteran.ssn',
     vaFileNumberPath: 'veteran.vaFileNumber'
-  }
+  },
+  background: true, // Show background on va-card
+  hideOnReview: false, // Show in review page (default: true)
+  depends: (formData) => formData.someCondition, // Conditional page display
+  // Optional custom content
+  header: <h3>Custom header content</h3>,
+  cardHeader: <h4>Custom card header</h4>,
+  note: <p>Custom note content</p>,
+  footer: <p>Custom footer content</p>,
+  contentBeforeButtons: <div>Content before nav buttons</div>,
+  contentAfterButtons: <div>Content after nav buttons</div>,
+  errorMessage: ({ missingFields }) => <CustomErrorComponent fields={missingFields} />
 };
 
 // application formConfig
@@ -98,7 +110,7 @@ const formConfig = {
   chapters: {
     personalInformation: {
       pages: {
-        ...personalInformationPage(customConfig)
+        ...profilePersonalInfoPage(customConfig)
       }
     }
   }
@@ -114,7 +126,7 @@ import {
   PersonalInformationHeader,
   PersonalInformationFooter,
   PersonalInformationCardHeader
-} from '@department-of-veterans-affairs/forms-system';
+} from 'platform/forms-system/src/js/patterns/prefill/PersonalInformation';
 
 const CustomPersonalInfo = (props) => (
   <PersonalInformation {...props}>
@@ -142,8 +154,9 @@ Controls the visibility and requirement status of each field.
 
 ```typescript
 interface FieldConfig {
-  show: boolean;    // Whether to display the field
-  required: boolean; // Whether the field is required
+  show: boolean;       // Whether to display the field
+  required: boolean;   // Whether the field is required
+  showFullSSN?: boolean; // Whether to show full SSN with masking (SSN field only)
 }
 
 interface PersonalInformationConfig {
@@ -161,8 +174,32 @@ Configures paths to data in the form state.
 
 ```typescript
 interface DataAdapter {
-  ssnPath?: string;         // Path to SSN in form data
-  vaFileNumberPath?: string; // Path to VA file number in form data
+  ssnPath?: string;         // Path to SSN in form data (default: 'ssn')
+  vaFileNumberPath?: string; // Path to VA file number in form data (default: 'vaFileNumber')
+}
+```
+
+### Page Configuration
+
+Full configuration object for `profilePersonalInfoPage()`:
+
+```typescript
+interface PersonalInformationPageConfig {
+  key?: string;                          // Unique page identifier (default: 'personalInfoPage')
+  title?: string;                        // Page title (default: 'Personal Information')
+  path?: string;                         // URL path (default: 'personal-information')
+  personalInfoConfig?: PersonalInformationConfig; // Field display configuration
+  dataAdapter?: DataAdapter;             // Data path configuration
+  errorMessage?: React.ComponentType | ReactNode; // Custom error message component
+  cardHeader?: ReactNode;                // Custom card header content
+  header?: ReactNode;                    // Custom page header content
+  note?: ReactNode;                      // Custom note content
+  footer?: ReactNode;                    // Custom footer content
+  contentBeforeButtons?: ReactNode;      // Content before navigation buttons
+  contentAfterButtons?: ReactNode;       // Content after navigation buttons
+  hideOnReview?: boolean;                // Hide page on review step (default: true)
+  depends?: (formData) => boolean;       // Conditional page display function
+  background?: boolean;                  // Show background on va-card (default: false)
 }
 ```
 
@@ -176,7 +213,7 @@ The page potentially expects data from two sources:
    - `gender` (is used to display the sex as Male or Female)
 
 2. Form data (through data adapter):
-   - SSN (last four digits)
+   - SSN (full SSN or last four digits - configurable with `showFullSSN` option)
    - VA File Number (last four digits)
 
 ## Error Handling
@@ -192,9 +229,10 @@ If possible, the form team should provide a way to prevent this from happening, 
 
 ## Security Considerations
 
-- Displays only last 4 digits of SSN or VA File Number
+- Displays only last 4 digits of SSN or VA File Number by default (full SSN can be displayed with masking if `showFullSSN: true` is configured)
 - No direct editing of personal information for security
 - Provides secure channel (phone) for information updates
+- Uses `dd-privacy-mask` and `dd-privacy-hidden` classes for Datadog RUM privacy protection
 
 ## Best Practices
 
