@@ -613,14 +613,7 @@ export const labsAndTestsReducer = (state = initialState, action) => {
         ...state,
         listCurrentAsOf: action.isCurrent ? new Date() : null,
         listState: loadStates.FETCHED,
-        // Lexicographic sort by ISO-like sortDate strings, descending.
-        labsAndTestsList: mergedList.sort((a, b) => {
-          if (!a.sortDate) return 1; // Push nulls to the end
-          if (!b.sortDate) return -1; // Keep non-nulls at the front
-          const dateA = parseISO(a.sortDate);
-          const dateB = parseISO(b.sortDate);
-          return dateB - dateA;
-        }),
+        labsAndTestsList: sortByDate(mergedList),
       };
     }
     case Actions.LabsAndTests.GET_LIST: {
