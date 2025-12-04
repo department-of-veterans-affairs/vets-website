@@ -5,6 +5,7 @@ import { waitForShadowRoot } from 'platform/utilities/ui/webComponents';
 import { scrollTo } from 'platform/utilities/scroll';
 import { apiRequest } from 'platform/utilities/api';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import testData from '../tests/e2e/fixtures/data/veteran.json';
 import {
   FORM_UPLOAD_FILE_UPLOADING_ALERT,
   FORM_UPLOAD_INSTRUCTION_ALERT,
@@ -25,6 +26,8 @@ const formMappings = {
     subTitle: 'Application Request for an Intent to File',
   },
 };
+
+export const mockData = testData.data;
 
 export const getFormNumber = (pathname = null) => {
   const path = pathname || window?.location?.pathname;
@@ -93,8 +96,10 @@ export const onCloseAlert = e => {
   e.target.visible = false;
 };
 
-export const getMockData = (mockData, isLocalhost) => {
-  return !!mockData && isLocalhost() && !window.Cypress ? mockData : undefined;
+export const getMockData = () => {
+  return !!mockData && environment.isLocalhost() && !window.Cypress
+    ? mockData
+    : undefined;
 };
 
 export const formattedPhoneNumber = phoneNumber => {
@@ -248,15 +253,16 @@ export const getIntentsToFile = ({
       goPath,
       goNextPath,
     ).then(val => {
-      // let formDataWithItf = setFormData({ ...formData, existingItf: val.data });
-      goPathAfterGettingITF(
-        val.data,
-        formData,
-        goPath,
-        goNextPath,
-        setFormData,
-        urlPrefix,
-      );
+      if (val) {
+        goPathAfterGettingITF(
+          val.data,
+          formData,
+          goPath,
+          goNextPath,
+          setFormData,
+          urlPrefix,
+        );
+      }
     });
   } catch (error) {
     goNextPath();

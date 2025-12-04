@@ -15,10 +15,12 @@ userPromise
   .catch(error => {
     console.error('Error checking user login status:', error); // eslint-disable-line no-console
   });
-const config = formConfig();
 
 const routes = formUploadForms.map(formId => {
   const lowerCaseFormId = formId.toLowerCase();
+  const config = formConfig(
+    `/representative-form-upload/submit-va-form-${formId}`,
+  );
   return {
     path: `/submit-va-form-${lowerCaseFormId}`,
     component: ({ location, children }) => (
