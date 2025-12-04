@@ -29,26 +29,35 @@ describe('getLabsAndTestsList', () => {
     });
   });
 
-  it('should dispatch a get list action when accelerating', () => {
+  const runAcceleratingTest = async (mergeCvixWithScdf, assertion) => {
     const mockData = labsAndTests;
     mockApiRequest(mockData);
     const dispatch = sinon.spy();
-    return getLabsAndTestsList(false, true)(dispatch).then(() => {
-      expect(dispatch.firstCall.args[0].type).to.equal(
-        Actions.LabsAndTests.UPDATE_LIST_STATE,
-      );
-      expect(dispatch.secondCall.args[0].type).to.equal(
-        Actions.Refresh.CLEAR_INITIAL_FHIR_LOAD,
-      );
-      expect(dispatch.thirdCall.args[0].type).to.equal(
-        Actions.LabsAndTests.GET_UNIFIED_LIST,
-      );
+    await getLabsAndTestsList(false, true, {}, mergeCvixWithScdf)(dispatch);
 
-      // Ensure cvixRadiologyResponse is present on the unified list dispatch
-      expect(dispatch.thirdCall.args[0]).to.have.property(
-        'cvixRadiologyResponse',
-      );
-      expect(dispatch.thirdCall.args[0].cvixRadiologyResponse).to.exist;
+    expect(dispatch.firstCall.args[0].type).to.equal(
+      Actions.LabsAndTests.UPDATE_LIST_STATE,
+    );
+    expect(dispatch.secondCall.args[0].type).to.equal(
+      Actions.Refresh.CLEAR_INITIAL_FHIR_LOAD,
+    );
+    expect(dispatch.thirdCall.args[0].type).to.equal(
+      Actions.LabsAndTests.GET_UNIFIED_LIST,
+    );
+
+    // Assert cvixRadiologyResponse according to merge flag
+    assertion(dispatch.thirdCall.args[0].cvixRadiologyResponse);
+  };
+
+  it('should dispatch a get list action when accelerating (CVIX merge enabled)', () => {
+    return runAcceleratingTest(true, cvixRadiologyResponse => {
+      expect(cvixRadiologyResponse).to.exist;
+    });
+  });
+
+  it('should dispatch a get list action when accelerating (CVIX merge disabled)', () => {
+    return runAcceleratingTest(false, cvixRadiologyResponse => {
+      expect(cvixRadiologyResponse).to.equal(undefined);
     });
   });
 });
