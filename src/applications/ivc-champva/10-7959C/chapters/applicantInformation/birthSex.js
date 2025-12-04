@@ -8,7 +8,7 @@ import { nameWording, privWrapper } from '../../../shared/utilities';
 const TITLE_TEXT = 'sex listed at birth';
 const INPUT_LABEL = 'What’s the beneficiary’s sex listed at birth?';
 const HINT_TEXT =
-  'Enter the sex that appears on the beneficiary’s birth certificate';
+  'Enter the sex that appears on the beneficiary’s birth certificate.';
 
 const SCHEMA_ENUM = ['female', 'male'];
 const SCHEMA_LABELS = Object.fromEntries(
@@ -33,7 +33,7 @@ export default {
     type: 'object',
     required: ['applicantGender'],
     properties: {
-      applicantGender: radioSchema(['male', 'female']),
+      applicantGender: radioSchema(SCHEMA_ENUM),
     },
   },
 };
