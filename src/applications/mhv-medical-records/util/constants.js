@@ -579,6 +579,9 @@ export const statsdFrontEndActions = {
   DOWNLOAD_BLUE_BUTTON: 'download_blue_button',
   DOWNLOAD_CCD: 'download_ccd',
   DOWNLOAD_SEI: 'download_sei',
+  // blue button filtering
+  BLUE_BUTTON_FILTERED_OH_ONLY: 'blue_button_filtered_oh_only',
+  BLUE_BUTTON_FILTERED_DUAL_FACILITIES: 'blue_button_filtered_dual_facilities',
 };
 
 export const uhdRecordSource = {

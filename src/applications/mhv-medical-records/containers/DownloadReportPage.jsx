@@ -76,6 +76,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
 
   const activeAlert = useAlerts(dispatch);
   const selfEnteredAccordionRef = useRef(null);
+  const blueButtonFilteringTrackedRef = useRef(false);
 
   // Determine user's data sources using platform selectors
   const { facilities, hasOHFacilities, hasOHOnly } = useSelector(state => ({
@@ -172,6 +173,33 @@ const DownloadReportPage = ({ runningUnitTest }) => {
       }
     },
     [expandSelfEntered],
+  );
+
+  // Track when Blue Button section is filtered based on facility types
+  useEffect(
+    () => {
+      // Only track once per page load to prevent duplicate metrics
+      if (facilities.length > 0 && !blueButtonFilteringTrackedRef.current) {
+        if (hasOHOnly) {
+          // User has only Oracle Health facilities - Blue Button hidden entirely
+          postRecordDatadogAction(
+            statsdFrontEndActions.BLUE_BUTTON_FILTERED_OH_ONLY,
+          );
+          sendDataDogAction('Blue Button section hidden - Oracle Health only');
+          blueButtonFilteringTrackedRef.current = true;
+        } else if (hasBothDataSources) {
+          // User has both facility types - showing info message
+          postRecordDatadogAction(
+            statsdFrontEndActions.BLUE_BUTTON_FILTERED_DUAL_FACILITIES,
+          );
+          sendDataDogAction(
+            'Blue Button section filtered - dual facility types',
+          );
+          blueButtonFilteringTrackedRef.current = true;
+        }
+      }
+    },
+    [facilities.length, hasOHOnly, hasBothDataSources],
   );
 
   const accessErrors = () => {
