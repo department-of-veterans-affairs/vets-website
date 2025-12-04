@@ -1,7 +1,5 @@
 import { PROFILE_PATHS } from '@@profile/constants';
-
 import { mockNotificationSettingsAPIs } from '../helpers';
-
 import mockUser from '../../fixtures/users/user-36.json';
 
 const deepLinks = [

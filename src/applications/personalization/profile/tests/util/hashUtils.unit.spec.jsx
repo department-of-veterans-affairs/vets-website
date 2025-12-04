@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { expect } from 'chai';
 import {
   toSlug,
@@ -10,7 +9,9 @@ describe('contact-information hashUtils', () => {
   describe('toSlug', () => {
     it('normalizes punctuation and case', () => {
       expect(toSlug('Home Phone #')).to.equal('home-phone');
-      expect(toSlug('Edit   Mailing   Address!')).to.equal('edit-mailing-address');
+      expect(toSlug('Edit   Mailing   Address!')).to.equal(
+        'edit-mailing-address',
+      );
     });
     it('collapses multiple separators', () => {
       expect(toSlug('A--B__C***D')).to.equal('a-b-c-d');
@@ -47,7 +48,9 @@ describe('contact-information hashUtils', () => {
       const direct = document.createElement('div');
       direct.id = 'edit-email-address';
       root.appendChild(direct);
-      expect(getEditButtonFromHash('#edit-email-address', root)).to.equal(direct);
+      expect(getEditButtonFromHash('#edit-email-address', root)).to.equal(
+        direct,
+      );
     });
 
     it('matches by normalized label (leading Edit stripped)', () => {
@@ -57,7 +60,9 @@ describe('contact-information hashUtils', () => {
 
     it('normalizes complex label spacing/punctuation', () => {
       const btn = addButton('Edit   Mailing Address (Primary)');
-      expect(getEditButtonFromHash('#edit-mailing-address-primary', root)).to.equal(btn);
+      expect(
+        getEditButtonFromHash('#edit-mailing-address-primary', root),
+      ).to.equal(btn);
     });
 
     it('does not strip internal "edit" words (only leading)', () => {
@@ -69,7 +74,9 @@ describe('contact-information hashUtils', () => {
 
     it('returns null when no matching button', () => {
       addButton('Edit Home Phone');
-      expect(getEditButtonFromHash('#edit-something-else', root)).to.equal(null);
+      expect(getEditButtonFromHash('#edit-something-else', root)).to.equal(
+        null,
+      );
     });
   });
 

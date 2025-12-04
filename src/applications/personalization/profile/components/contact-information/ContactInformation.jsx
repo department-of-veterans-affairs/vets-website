@@ -111,6 +111,21 @@ const ContactInformation = () => {
       const scrollTarget =
         editButton || getScrollTarget(hash) || document.querySelector(selector);
 
+      /**
+       * Refactored/Expanded the waitForRenderThenFocus/focusElement logic here to allow for a staged scroll+focus with delays to ensure the target is ready and layout is stable before moving focus, improving accessibility.
+       *
+       * This helper coordinates a safe, user-friendly scroll+focus sequence to a target element referenced by the URL hash. It deliberately staggers work across animation frames and short timeouts so the page layout and any web components can finish rendering before focus is moved.
+       *
+       * Key points:
+       *  - Early exit if no element or the effect is cancelled (during cleanup).
+       *  - Two requestAnimationFrame hops allow the browser to flush layout and paint, avoiding jank.
+       *  - After a brief delay, it scrolls the element into view smoothly.
+       *  - If the target is a VA web component “va-button” with a shadow DOM, it defers to waitForRenderThenFocus to focus the internal button safely.
+       *  - Otherwise, it sets a temporary tabindex="-1" if needed so the element can be programmatically focused, then calls focusElement.
+       *  - All timers/raf handles are tracked so the effect’s cleanup can cancel pending work, preventing memory leaks or focusing after navigation changes.
+       *
+       * This staged approach prevents race conditions where immediate focus would fail (element not yet in the DOM, not yet upgraded as a web component, or layout still shifting), and improves accessibility by ensuring the correct control receives focus only after it is reliably ready.
+       */
       const focusAndScroll = el => {
         if (!el || cancelled) return;
 
