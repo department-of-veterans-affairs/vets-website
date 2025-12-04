@@ -10,7 +10,7 @@ import {
 import * as Constants from '../util/constants';
 import { addAlert } from './alerts';
 import { getListWithRetry } from './common';
-import { dispatchDetails } from '../util/helpers';
+import { dispatchDetails, isRadiologyId } from '../util/helpers';
 import { radiologyRecordHash } from '../util/radiologyUtil';
 
 export const getLabsAndTestsList = (
@@ -92,8 +92,7 @@ export const getLabsAndTestsDetails = (
 ) => async dispatch => {
   try {
     /** Should be a temporary var while CVIX calls and SCDF calls coexist */
-    const shouldAccelerate =
-      isAccelerating && labId.charAt(0).toLowerCase() !== 'r';
+    const shouldAccelerate = isAccelerating && !isRadiologyId(labId);
 
     let getDetailsFunc = shouldAccelerate
       ? async () => {
@@ -103,7 +102,7 @@ export const getLabsAndTestsDetails = (
         }
       : getLabOrTest;
 
-    if (labId && labId.charAt(0).toLowerCase() === 'r') {
+    if (isRadiologyId(labId)) {
       getDetailsFunc = getMhvRadiologyDetails;
     }
 
