@@ -47,6 +47,7 @@ describe('ArrayBuilderCards', () => {
     fullData = {},
     duplicateChecks = {},
     duplicateCheckResult = {},
+    hideCardDeleteButton,
   }) {
     const goToPath = sinon.spy();
     const onRemoveAll = sinon.spy();
@@ -79,6 +80,7 @@ describe('ArrayBuilderCards', () => {
           isReview={false}
           isIncomplete={isIncomplete}
           fullData={fullData}
+          hideCardDeleteButton={hideCardDeleteButton}
           duplicateChecks={duplicateChecks}
           duplicateCheckResult={duplicateCheckResult}
         />
@@ -226,5 +228,105 @@ describe('ArrayBuilderCards', () => {
     expect(container.querySelector('.usa-label').textContent).to.eq(
       'INCOMPLETE',
     );
+  });
+
+  describe('hideCardDeleteButton', () => {
+    it('should show delete button by default when hideCardDeleteButton is not set', () => {
+      const { container } = setupArrayBuilderCards({
+        arrayData: [{ name: 'Test' }],
+      });
+
+      const deleteButton = container.querySelector(
+        'va-button-icon[data-action="remove"]',
+      );
+      expect(deleteButton).to.exist;
+    });
+
+    it('should hide delete button when hideCardDeleteButton is true', () => {
+      const { container } = setupArrayBuilderCards({
+        arrayData: [{ name: 'Test' }],
+        hideCardDeleteButton: true,
+      });
+
+      const deleteButton = container.querySelector(
+        'va-button-icon[data-action="remove"]',
+      );
+      expect(deleteButton).to.not.exist;
+    });
+
+    it('should show delete button when hideCardDeleteButton is false', () => {
+      const { container } = setupArrayBuilderCards({
+        arrayData: [{ name: 'Test' }],
+        hideCardDeleteButton: false,
+      });
+
+      const deleteButton = container.querySelector(
+        'va-button-icon[data-action="remove"]',
+      );
+      expect(deleteButton).to.exist;
+    });
+
+    it('should hide delete button for specific cards when hideCardDeleteButton is a function returning true', () => {
+      const { container } = setupArrayBuilderCards({
+        arrayData: [{ name: 'Test1' }, { name: 'Test2' }],
+        hideCardDeleteButton: ({ index }) => index === 0, // Hide for first item only
+      });
+
+      const deleteButtons = container.querySelectorAll(
+        'va-button-icon[data-action="remove"]',
+      );
+      // Only one delete button should be visible (for the second item)
+      expect(deleteButtons.length).to.eq(1);
+    });
+
+    it('should show all delete buttons when hideCardDeleteButton function returns false for all', () => {
+      const { container } = setupArrayBuilderCards({
+        arrayData: [{ name: 'Test1' }, { name: 'Test2' }],
+        hideCardDeleteButton: () => false,
+      });
+
+      const deleteButtons = container.querySelectorAll(
+        'va-button-icon[data-action="remove"]',
+      );
+      expect(deleteButtons.length).to.eq(2);
+    });
+
+    it('should hide all delete buttons when hideCardDeleteButton function returns true for all', () => {
+      const { container } = setupArrayBuilderCards({
+        arrayData: [{ name: 'Test1' }, { name: 'Test2' }],
+        hideCardDeleteButton: () => true,
+      });
+
+      const deleteButtons = container.querySelectorAll(
+        'va-button-icon[data-action="remove"]',
+      );
+      expect(deleteButtons.length).to.eq(0);
+    });
+
+    it('should pass correct arguments to hideCardDeleteButton function', () => {
+      const hideCardDeleteButtonSpy = sinon.spy(() => false);
+      const arrayData = [{ name: 'Test1' }, { name: 'Test2' }];
+      const fullData = { employers: arrayData, otherData: 'test' };
+
+      setupArrayBuilderCards({
+        arrayData,
+        fullData,
+        hideCardDeleteButton: hideCardDeleteButtonSpy,
+      });
+
+      expect(hideCardDeleteButtonSpy.calledTwice).to.be.true;
+
+      // Check first call arguments
+      const firstCallArgs = hideCardDeleteButtonSpy.args[0][0];
+      expect(firstCallArgs.itemData).to.deep.eq({ name: 'Test1' });
+      expect(firstCallArgs.index).to.eq(0);
+      expect(firstCallArgs.fullData).to.deep.eq(fullData);
+
+      // Check second call arguments
+      const secondCallArgs = hideCardDeleteButtonSpy.args[1][0];
+      expect(secondCallArgs.itemData).to.deep.eq({ name: 'Test2' });
+      expect(secondCallArgs.index).to.eq(1);
+      expect(secondCallArgs.fullData).to.deep.eq(fullData);
+    });
   });
 });
