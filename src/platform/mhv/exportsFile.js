@@ -1,9 +1,13 @@
 export { useBackToTop } from './hooks/useBackToTop';
 export { default as useAcceleratedData } from './hooks/useAcceleratedData';
 export { default as MHVDown } from './downtime/components/MHVDown';
-export { default as MHVDowntimeApproaching } from './downtime/components/MHVDowntimeApproaching';
+export {
+  default as MHVDowntimeApproaching,
+} from './downtime/components/MHVDowntimeApproaching';
 export { default as MHVDowntime } from './downtime/containers/MHVDowntime';
-export { default as MhvSecondaryNav } from './secondary-nav/containers/MhvSecondaryNav';
+export {
+  default as MhvSecondaryNav,
+} from './secondary-nav/containers/MhvSecondaryNav';
 export {
   default as MhvPageNotFound,
   MhvPageNotFoundContent,
@@ -42,7 +46,9 @@ export { convertAllergy, convertUnifiedAllergy } from './util/allergies';
 export { trapFocus } from './util/ui/index';
 export { generateMilitaryServicePdf } from './dod-history/military-service-pdf';
 export { generateSEIPdf } from './self-entered/generate-sei-pdf';
-export { default as MissingRecordsError } from './self-entered/MissingRecordsError';
+export {
+  default as MissingRecordsError,
+} from './self-entered/MissingRecordsError';
 export {
   default as MhvAlertConfirmEmail,
   ProfileAlertConfirmEmail,
