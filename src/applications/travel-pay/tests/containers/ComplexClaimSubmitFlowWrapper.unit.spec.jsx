@@ -1007,9 +1007,9 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
       const modal = container.querySelector('va-modal');
       expect(modal).to.exist;
 
-      // Trigger primary button click (Leave without saving)
-      const primaryButtonEvent = new CustomEvent('primaryButtonClick');
-      modal.dispatchEvent(primaryButtonEvent);
+      // Trigger secondary button click (Leave without saving)
+      const secondaryButtonEvent = new CustomEvent('secondaryButtonClick');
+      modal.dispatchEvent(secondaryButtonEvent);
 
       expect(clearUnsavedExpenseChangesStub.called).to.be.true;
 

@@ -14,8 +14,8 @@ const UnsavedChangesModal = ({
       onCloseEvent={onCloseEvent}
       onPrimaryButtonClick={onPrimaryButtonClick}
       onSecondaryButtonClick={onSecondaryButtonClick}
-      primaryButtonText="Leave page"
-      secondaryButtonText="Cancel"
+      primaryButtonText="Cancel"
+      secondaryButtonText="Leave page"
       status="warning"
       visible={visible}
     >

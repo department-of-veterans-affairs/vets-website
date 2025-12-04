@@ -36,8 +36,8 @@ describe('UnsavedChangesModal', () => {
     const { container } = render(<UnsavedChangesModal {...defaultProps} />);
 
     const modal = container.querySelector('va-modal');
-    expect(modal.getAttribute('primary-button-text')).to.equal('Leave page');
-    expect(modal.getAttribute('secondary-button-text')).to.equal('Cancel');
+    expect(modal.getAttribute('primary-button-text')).to.equal('Cancel');
+    expect(modal.getAttribute('secondary-button-text')).to.equal('Leave page');
   });
 
   it('calls onPrimaryButtonClick when primary button is clicked', () => {

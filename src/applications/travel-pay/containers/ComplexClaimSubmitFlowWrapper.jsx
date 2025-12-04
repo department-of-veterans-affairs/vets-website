@@ -199,8 +199,8 @@ const ComplexClaimSubmitFlowWrapper = () => {
       <UnsavedChangesModal
         visible={isUnsavedChangesModalVisible}
         onCloseEvent={handleContinueEditing}
-        onPrimaryButtonClick={handleLeaveWithoutSaving}
-        onSecondaryButtonClick={handleContinueEditing}
+        onPrimaryButtonClick={handleContinueEditing}
+        onSecondaryButtonClick={handleLeaveWithoutSaving}
       />
     </Element>
   );
