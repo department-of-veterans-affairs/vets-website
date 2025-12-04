@@ -118,6 +118,14 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
   );
 
   const resultsData = useMemo(() => results.data || [], [results.data]);
+  // Keeps track of which benefits are recommended
+  const isRecommendedMap = resultsData.reduce((acc, curr) => {
+    acc[curr.id] = true;
+    return acc;
+  }, {});
+  const isBenefitRecommended = benefitId => {
+    return isRecommendedMap[benefitId] === true;
+  };
 
   const applyInitialSort = useCallback(
     () => {
@@ -481,6 +489,7 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
               handleBackClick={handleBackClick}
               benefitIds={benefitIds}
               queryString={query}
+              isBenefitRecommended={isBenefitRecommended}
             />
             <VaPagination
               onPageSelect={handlePageChange}

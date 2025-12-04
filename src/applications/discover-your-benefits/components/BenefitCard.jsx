@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 
-const BenefitCard = ({ benefit }) => {
+const BenefitCard = ({ benefit, isBenefitRecommended }) => {
   const {
     name,
     category,
@@ -65,7 +65,11 @@ const BenefitCard = ({ benefit }) => {
             </div>
           )}
         </>
-        <span className="usa-label recommended-label">RECOMMENDED FOR YOU</span>
+        {isBenefitRecommended(benefit.id) && (
+          <span className="usa-label recommended-label">
+            RECOMMENDED FOR YOU
+          </span>
+        )}
         <p className="category-eyebrow">{category}</p>
         <h3 className="vads-u-margin-top--0">
           <span>{name}</span>
