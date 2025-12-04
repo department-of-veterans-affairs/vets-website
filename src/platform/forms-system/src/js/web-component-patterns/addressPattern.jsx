@@ -705,14 +705,17 @@ export function addressUI(options = {}) {
           }
 
           addressSchema.type = 'string';
-          // country-specific patterns
-          if (isMilitary) {
+          // country-specific patterns and maxLength
+          if (isMilitary || country === 'USA') {
             addressSchema.pattern = POSTAL_CODE_PATTERNS.USA;
-          } else if (['CAN', 'MEX', 'USA'].includes(country)) {
+            addressSchema.maxLength = 5;
+          } else if (['CAN', 'MEX'].includes(country)) {
             addressSchema.pattern = POSTAL_CODE_PATTERNS[country];
+            addressSchema.maxLength = 6;
           } else {
             // pattern validation for other countries - alphanumeric and spaces/hyphens only
             addressSchema.pattern = country ? '^[a-zA-Z0-9\\s-]+$' : undefined;
+            addressSchema.maxLength = country ? 6 : undefined;
           }
 
           return {
