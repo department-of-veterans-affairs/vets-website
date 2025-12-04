@@ -114,6 +114,7 @@ const DuplicateLabel = ({ text }) => (
  *   getEditItemPathUrl: (formData: any, index: number, context) => string,
  *   formData: any,
  *   fullData: any,
+ *   hideDeleteButton: ArrayBuilderOptions['hideDeleteButton'],
  *   isIncomplete: ArrayBuilderOptions['isItemIncomplete'],
  *   nounSingular: ArrayBuilderOptions['nounSingular'],
  *   getText: ArrayBuilderGetText,
@@ -130,6 +131,7 @@ const ArrayBuilderCards = ({
   getEditItemPathUrl,
   formData,
   fullData,
+  hideDeleteButton = false,
   nounSingular,
   titleHeaderLevel = '3',
   getText,
@@ -325,6 +327,12 @@ const ArrayBuilderCards = ({
                 );
               }
 
+              // Determine if delete button should be hidden for this item
+              const shouldHideDeleteButton =
+                typeof hideDeleteButton === 'function'
+                  ? hideDeleteButton(itemData, index, formData)
+                  : hideDeleteButton;
+
               return (
                 <li key={index} style={{ listStyleType: 'none' }}>
                   <Card index={index}>
@@ -355,10 +363,12 @@ const ArrayBuilderCards = ({
                         })}
                         srText={`Edit ${itemName}`}
                       />
-                      <RemoveButton
-                        onClick={() => showRemoveConfirmationModal(index)}
-                        srText={`Delete ${itemName}`}
-                      />
+                      {!shouldHideDeleteButton && (
+                        <RemoveButton
+                          onClick={() => showRemoveConfirmationModal(index)}
+                          srText={`Delete ${itemName}`}
+                        />
+                      )}
                     </span>
                   </Card>
                 </li>
@@ -450,6 +460,7 @@ ArrayBuilderCards.propTypes = {
     duplicateSummaryCardWarningOrErrorAlert: PropTypes.func,
     duplicateSummaryCardLabel: PropTypes.func,
   }),
+  hideDeleteButton: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
   titleHeaderLevel: PropTypes.string,
 };
 

@@ -83,6 +83,7 @@ function getYesNoReviewErrorMessage(reviewErrors, hasItemsKey) {
  *   getFirstItemPagePath: (formData, index, context) => string,
  *   getText: ArrayBuilderGetText,
  *   hasItemsKey: string,
+ *   hideDeleteButton: ArrayBuilderOptions['hideDeleteButton'],
  *   hideMaxItemsAlert: boolean,
  *   getIntroPath: (formData) => string,
  *   isItemIncomplete: ArrayBuilderOptions['isItemIncomplete'],
@@ -105,6 +106,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     getFirstItemPagePath,
     getText,
     hasItemsKey,
+    hideDeleteButton = false,
     hideMaxItemsAlert,
     getIntroPath,
     isItemIncomplete,
@@ -509,6 +511,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
         arrayPath={arrayPath}
         nounSingular={nounSingular}
         nounPlural={nounPlural}
+        hideDeleteButton={hideDeleteButton}
         isIncomplete={isItemIncomplete}
         getEditItemPathUrl={getFirstItemPagePath}
         getText={getText}

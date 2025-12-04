@@ -665,6 +665,44 @@ e.g.
 }));
 ```
 
+## Hiding the Delete Button
+
+You can hide the delete button on cards either globally or conditionally per item using the `hideDeleteButton` option.
+
+### Boolean: Hide all delete buttons
+```js
+/** @type {ArrayBuilderOptions} */
+const options = {
+  arrayPath: 'employers',
+  nounSingular: 'employer',
+  nounPlural: 'employers',
+  required: true,
+  hideDeleteButton: true, // Hides delete button on all cards
+  // ...
+};
+```
+
+### Function: Conditionally hide delete button per item
+```js
+/** @type {ArrayBuilderOptions} */
+const options = {
+  arrayPath: 'employers',
+  nounSingular: 'employer',
+  nounPlural: 'employers',
+  required: true,
+  // Hide delete button only for items that came from prefill or have a specific property
+  hideDeleteButton: (itemData, index, formData) => {
+    return itemData.isPrefilled === true;
+  },
+  // ...
+};
+```
+
+The function receives:
+- `itemData`: The data for the current item
+- `index`: The index of the current item in the array
+- `formData`: The complete form data
+
 ## Future Enhancement Ideas
 - Add `minItems`
 - Allow for customizing the review page

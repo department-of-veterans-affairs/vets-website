@@ -370,6 +370,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     isItemIncomplete = item => item?.name,
     minItems = null, // default to null to avoid enforcing a minimum length on optional arrays
     maxItems = 100,
+    hideDeleteButton = false,
     hideMaxItemsAlert = false,
     text: userText = {},
     reviewPath = 'review-and-submit',
@@ -624,6 +625,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       getText,
       getIntroPath,
       getSummaryPath,
+      hideDeleteButton,
       isItemIncomplete,
       maxItems,
       missingInformationKey,

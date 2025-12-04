@@ -43,6 +43,7 @@ describe('ArrayBuilderCards', () => {
     arrayData = [],
     cardDescription = 'cardDescription',
     getItemName = (item, index) => `getItemName ${index + 1}`,
+    hideDeleteButton = false,
     isIncomplete = () => false,
     fullData = {},
     duplicateChecks = {},
@@ -70,6 +71,7 @@ describe('ArrayBuilderCards', () => {
         <ArrayBuilderCards
           arrayPath="employers"
           getEditItemPathUrl={() => 'edit'}
+          hideDeleteButton={hideDeleteButton}
           nounSingular="employer"
           onRemoveAll={onRemoveAll}
           onRemove={onRemove}
@@ -226,5 +228,69 @@ describe('ArrayBuilderCards', () => {
     expect(container.querySelector('.usa-label').textContent).to.eq(
       'INCOMPLETE',
     );
+  });
+
+  it('should hide delete button when hideDeleteButton is true', () => {
+    const { container } = setupArrayBuilderCards({
+      arrayData: [{ name: 'Test' }],
+      hideDeleteButton: true,
+    });
+
+    expect(container.querySelector('va-link[text="Edit"]')).to.exist;
+    expect(container.querySelector('va-button-icon[data-action="remove"]')).to
+      .not.exist;
+  });
+
+  it('should show delete button when hideDeleteButton is false', () => {
+    const { container } = setupArrayBuilderCards({
+      arrayData: [{ name: 'Test' }],
+      hideDeleteButton: false,
+    });
+
+    expect(container.querySelector('va-link[text="Edit"]')).to.exist;
+    expect(container.querySelector('va-button-icon[data-action="remove"]')).to
+      .exist;
+  });
+
+  it('should hide delete button for specific items when hideDeleteButton is a function returning true', () => {
+    const { container } = setupArrayBuilderCards({
+      arrayData: [{ name: 'Protected' }, { name: 'Normal' }],
+      hideDeleteButton: itemData => itemData.name === 'Protected',
+    });
+
+    const deleteButtons = container.querySelectorAll(
+      'va-button-icon[data-action="remove"]',
+    );
+    // Only one delete button should be present (for the 'Normal' item)
+    expect(deleteButtons.length).to.eq(1);
+  });
+
+  it('should show all delete buttons when hideDeleteButton function returns false for all items', () => {
+    const { container } = setupArrayBuilderCards({
+      arrayData: [{ name: 'Test' }, { name: 'Test 2' }],
+      hideDeleteButton: () => false,
+    });
+
+    const deleteButtons = container.querySelectorAll(
+      'va-button-icon[data-action="remove"]',
+    );
+    expect(deleteButtons.length).to.eq(2);
+  });
+
+  it('should pass correct arguments to hideDeleteButton function', () => {
+    const hideDeleteButtonSpy = sinon.spy(() => false);
+    setupArrayBuilderCards({
+      arrayData: [{ name: 'Test' }],
+      hideDeleteButton: hideDeleteButtonSpy,
+    });
+
+    expect(hideDeleteButtonSpy.calledOnce).to.be.true;
+    const [itemData, index, formData] = hideDeleteButtonSpy.firstCall.args;
+    expect(itemData).to.deep.equal({ name: 'Test' });
+    expect(index).to.equal(0);
+    expect(formData).to.deep.equal({
+      employers: [{ name: 'Test' }],
+      otherData: 'test',
+    });
   });
 });
