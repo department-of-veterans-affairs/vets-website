@@ -15,7 +15,8 @@ const Confirmation = () => {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    // TODO: is there a loading screen?
+    return null;
   }
   if (isError) {
     return <div>Error</div>;
