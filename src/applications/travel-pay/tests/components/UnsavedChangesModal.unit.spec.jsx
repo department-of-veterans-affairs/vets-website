@@ -18,9 +18,7 @@ describe('UnsavedChangesModal', () => {
 
     const modal = container.querySelector('va-modal');
     expect(modal).to.exist;
-    expect(modal.getAttribute('modal-title')).to.equal(
-      'You have unsaved changes',
-    );
+    expect(modal.getAttribute('modal-title')).to.equal('Leave page?');
     expect(modal.getAttribute('status')).to.equal('warning');
   });
 
@@ -29,7 +27,7 @@ describe('UnsavedChangesModal', () => {
 
     expect(
       getByText(
-        "If you leave this page, you'll lose any changes you made. Are you sure you want to leave?",
+        'If you leave, you’ll lose any changes you made to this expense.',
       ),
     ).to.exist;
   });
@@ -38,12 +36,8 @@ describe('UnsavedChangesModal', () => {
     const { container } = render(<UnsavedChangesModal {...defaultProps} />);
 
     const modal = container.querySelector('va-modal');
-    expect(modal.getAttribute('primary-button-text')).to.equal(
-      'Leave without saving',
-    );
-    expect(modal.getAttribute('secondary-button-text')).to.equal(
-      'Continue editing',
-    );
+    expect(modal.getAttribute('primary-button-text')).to.equal('Leave page');
+    expect(modal.getAttribute('secondary-button-text')).to.equal('Cancel');
   });
 
   it('calls onPrimaryButtonClick when primary button is clicked', () => {
@@ -97,6 +91,6 @@ describe('UnsavedChangesModal', () => {
     );
 
     const modal = container.querySelector('va-modal');
-    expect(modal.hasAttribute('visible')).to.be.false;
+    expect(modal.getAttribute('visible')).to.equal('false');
   });
 });
