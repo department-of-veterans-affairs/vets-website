@@ -23,7 +23,6 @@ const mockAppointments = [
     dtStartUtc: '2024-07-01T14:00:00Z',
     dtEndUtc: '2024-07-01T14:30:00Z',
     // TODO: verify the accuracy of appointment payload data from API
-    timezone: 'America/New_York',
     phoneNumber: '800-827-0611',
     providerName: 'Bill Brasky',
     typeOfCare: 'VA Solid Start',
