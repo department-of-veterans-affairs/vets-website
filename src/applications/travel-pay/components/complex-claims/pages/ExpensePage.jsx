@@ -8,11 +8,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   VaDate,
   VaTextInput,
+  VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import DocumentUpload from './DocumentUpload';
-import { EXPENSE_TYPES } from '../../../constants';
+import { EXPENSE_TYPES, EXPENSE_TYPE_KEYS } from '../../../constants';
 import { createExpense, updateExpense } from '../../../redux/actions';
 import {
   selectExpenseUpdateLoadingState,
@@ -34,20 +35,20 @@ const ExpensePage = () => {
   const { apptId, claimId, expenseId } = useParams();
   const location = useLocation();
 
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isCancelModalVisible, setIsCancelModalVisible] = useState(false);
   const [formState, setFormState] = useState({});
   const [showError, setShowError] = useState(false);
   const [document, setDocument] = useState(null);
   const [documentLoading, setDocumentLoading] = useState(false);
   const errorRef = useRef(null); // ref for the error message
 
+  const isEditMode = !!expenseId;
   const isLoadingExpense = useSelector(
     state =>
-      expenseId
+      isEditMode
         ? selectExpenseUpdateLoadingState(state)
         : selectExpenseCreationLoadingState(state),
   );
-
   const toBase64 = file =>
     new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -57,7 +58,7 @@ const ExpensePage = () => {
     });
 
   const expense = useSelector(
-    state => (expenseId ? selectExpenseWithDocument(state, expenseId) : null),
+    state => (isEditMode ? selectExpenseWithDocument(state, expenseId) : null),
   );
 
   const { filename } = expense?.receipt ?? {};
@@ -123,7 +124,7 @@ const ExpensePage = () => {
   );
 
   const expenseTypeMatcher = new RegExp(
-    `.*(${Object.keys(EXPENSE_TYPES)
+    `.*(${Object.values(EXPENSE_TYPE_KEYS)
       .map(key => EXPENSE_TYPES[key].route)
       .join('|')}).*`,
   );
@@ -139,7 +140,7 @@ const ExpensePage = () => {
     [showError],
   );
 
-  const expenseType = Object.keys(EXPENSE_TYPES).find(
+  const expenseType = Object.values(EXPENSE_TYPE_KEYS).find(
     key => EXPENSE_TYPES[key].route === expenseTypeRoute,
   );
 
@@ -159,14 +160,19 @@ const ExpensePage = () => {
     }));
   };
 
-  const handleOpenModal = () => setIsModalVisible(true);
-  const handleCloseModal = () => {
-    setIsModalVisible(false);
-  };
-
-  const handleCancelModal = () => {
-    handleCloseModal();
-    navigate(`/file-new-claim/${apptId}/${claimId}/review`);
+  const handleOpenCancelModal = () => setIsCancelModalVisible(true);
+  const handleCloseCancelModal = () => setIsCancelModalVisible(false);
+  const handleConfirmCancel = () => {
+    handleCloseCancelModal();
+    if (isEditMode) {
+      // TODO: Add logic to determine where the user came from and direct them back to the correct location
+      // navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
+      navigate(`/file-new-claim/${apptId}/${claimId}/review`);
+    } else {
+      // TODO: Add logic to determine where the user came from and direct them back to the correct location
+      navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
+      // navigate(`/file-new-claim/${apptId}/${claimId}/review`);
+    }
   };
 
   // Field names must match those expected by the expenses_controller in vets-api.
@@ -204,7 +210,7 @@ const ExpensePage = () => {
     const expenseConfig = EXPENSE_TYPES[expenseType];
 
     try {
-      if (expenseId) {
+      if (isEditMode) {
         await dispatch(
           updateExpense(claimId, expenseConfig.apiRoute, expenseId, formState),
         );
@@ -220,9 +226,11 @@ const ExpensePage = () => {
   };
 
   const handleBack = () => {
-    if (expenseId) {
-      navigate(`/file-new-claim/${apptId}/${claimId}/review`);
+    if (isEditMode) {
+      setIsCancelModalVisible(true);
     } else {
+      // TODO: Add logic to determine where the user came from and direct them back to the correct location
+      // navigate(`/file-new-claim/${apptId}/${claimId}/review`);
       navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
     }
   };
@@ -249,29 +257,20 @@ const ExpensePage = () => {
     }));
   };
 
-  const AIR_TRAVEL_KEY = Object.keys(EXPENSE_TYPES).find(
-    key => EXPENSE_TYPES[key].route === 'air-travel',
-  );
-  const isAirTravel = expenseType === AIR_TRAVEL_KEY;
-  const MEAL_KEY = Object.keys(EXPENSE_TYPES).find(
-    key => EXPENSE_TYPES[key].route === 'meal',
-  );
-  const isMeal = expenseType === MEAL_KEY;
-  const COMMON_CARRIER_KEY = Object.keys(EXPENSE_TYPES).find(
-    key => EXPENSE_TYPES[key].route === 'common-carrier',
-  );
-  const isCommonCarrier = expenseType === COMMON_CARRIER_KEY;
+  const isAirTravel = expenseType === EXPENSE_TYPE_KEYS.AIRTRAVEL;
+  const isMeal = expenseType === EXPENSE_TYPE_KEYS.MEAL;
+  const isCommonCarrier = expenseType === EXPENSE_TYPE_KEYS.COMMONCARRIER;
+  const isLodging = expenseType === EXPENSE_TYPE_KEYS.LODGING;
 
   const pageDescription = isAirTravel
     ? `Upload a receipt or proof of the expense here. If youre adding a round-trip flight, you only need to add 1 expense. If you have receipts for 2 one-way flights, you’ll need to add 2 separate expenses.`
     : `Upload a receipt or proof of the expense here. If you have multiple ${
         expenseTypeFields.expensePageText
-      } expenses, add just 1 on this page. You’ll be able to add more expenses later.`;
+      } expenses, add just 1 on this page. You’ll be able to add more expenses after this.`;
 
-  const dateHintText =
-    expenseType === EXPENSE_TYPES.Lodging.title
-      ? `Enter the date on your receipt, even if it’s the same as your check in or check out dates.`
-      : '';
+  const dateHintText = isLodging
+    ? `Enter the date on your receipt, even if it’s the same as your check in or check out dates.`
+    : '';
 
   return (
     <>
@@ -303,7 +302,7 @@ const ExpensePage = () => {
       {isMeal && (
         <ExpenseMealFields formState={formState} onChange={handleFormChange} />
       )}
-      {expenseType === EXPENSE_TYPES.Lodging.title && (
+      {isLodging && (
         <ExpenseLodgingFields
           formState={formState}
           onChange={handleFormChange}
@@ -345,22 +344,28 @@ const ExpensePage = () => {
         value={formState.description || ''}
         onInput={handleFormChange}
       />
-      {!expenseId && (
-        <CancelExpenseModal
-          visible={isModalVisible}
-          onCloseEvent={handleCloseModal}
-          onOpenModal={handleOpenModal}
-          onPrimaryButtonClick={handleCancelModal}
-          onSecondaryButtonClick={handleCloseModal}
+      {!isEditMode && (
+        <VaButton
+          secondary
+          text="Cancel adding this expense"
+          onClick={handleOpenCancelModal}
+          className="vads-u-display--flex vads-u-margin-y--2 travel-pay-complex-expense-cancel-btn"
         />
       )}
       <TravelPayButtonPair
-        continueText={expenseId ? 'Save and continue' : 'Continue'}
-        backText={expenseId ? 'Cancel' : 'Back'}
-        className={expenseId && 'vads-u-margin-top--2'}
+        continueText={isEditMode ? 'Save and continue' : 'Continue'}
+        backText={isEditMode ? 'Cancel' : 'Back'}
+        className={isEditMode && 'vads-u-margin-top--2'}
         onBack={handleBack}
         onContinue={handleContinue}
         loading={isLoadingExpense}
+      />
+      <CancelExpenseModal
+        visible={isCancelModalVisible}
+        onCloseEvent={handleCloseCancelModal}
+        onPrimaryButtonClick={handleConfirmCancel}
+        onSecondaryButtonClick={handleCloseCancelModal}
+        isEditMode={isEditMode}
       />
     </>
   );

@@ -94,7 +94,7 @@ class MedicationsDetailsPage {
       }`,
       prescriptionDetails,
     ).as('prescription_details');
-    cy.get('a[data-testid ="medications-history-details-link"]')
+    cy.get('a[data-testid="medications-history-details-link"]')
       .first()
       .click({ force: true });
   };
@@ -108,10 +108,10 @@ class MedicationsDetailsPage {
       prescriptionDetails,
     ).as('prescriptionDetails');
     cy.get(
-      `[data-testid="medication-list"] > :nth-child(${cardNumber}) > [data-testid="rx-card-info"] > [data-testid="medications-history-details-link"]`,
+      `[data-testid="medication-list"] > :nth-child(${cardNumber}) [data-testid="medications-history-details-link"]`,
     ).should('be.visible');
     cy.get(
-      `[data-testid="medication-list"] > :nth-child(${cardNumber}) > [data-testid="rx-card-info"] > [data-testid="medications-history-details-link"]`,
+      `[data-testid="medication-list"] > :nth-child(${cardNumber}) [data-testid="medications-history-details-link"]`,
     )
       .first()
       .click({ waitForAnimations: true });
