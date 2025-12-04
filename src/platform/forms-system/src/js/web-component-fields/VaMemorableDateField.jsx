@@ -15,6 +15,8 @@ export default function VaMemorableDateField(props) {
 
   const customYearErrorMessage = props.uiOptions?.customYearErrorMessage;
 
+  const removeDateHint = props.uiOptions?.removeDateHint;
+
   return (
     <VaMemorableDate
       {...mappedProps}
@@ -25,6 +27,9 @@ export default function VaMemorableDateField(props) {
       value={formattedValue}
       {...customYearErrorMessage && {
         customYearErrorMessage,
+      }}
+      {...removeDateHint && {
+        removeDateHint,
       }}
     />
   );
