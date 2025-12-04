@@ -297,7 +297,7 @@ describe('Medication Information Config', () => {
           { ...rxDetails.rxRfRecords[0] },
           { ...rxDetails.rxRfRecords[0] },
         ];
-        expect(txt).to.include('Refill history\n');
+        expect(txt).to.not.include('Refill history\n');
       });
     });
 

@@ -234,7 +234,7 @@ export const buildVAPrescriptionTXT = (prescription, isCernerPilot = false) => {
   let refillHistorySection = '';
   const refillHistory = getRefillHistory(prescription);
   const showRefillHistory = getShowRefillHistory(refillHistory);
-  if (showRefillHistory) {
+  if (showRefillHistory && !isCernerPilot) {
     const refillHistoryHeader = joinLines(
       'Refill history',
       `Showing ${refillHistory.length} fill${
