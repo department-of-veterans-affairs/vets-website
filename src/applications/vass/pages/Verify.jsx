@@ -2,8 +2,16 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom-v5-compat';
 import { VaMemorableDate } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import Wrapper from '../layout/Wrapper';
+
 // TODO: remove this and use mock data from the API
-import { mockUsers } from '../services/mocks';
+const mockUsers = [
+  {
+    uuid: 'c0ffee-1234-beef-5678',
+    lastname: 'Smith',
+    dob: '1935-04-07',
+    otc: '123456',
+  },
+];
 
 const Verify = () => {
   const navigate = useNavigate();
