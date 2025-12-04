@@ -36,8 +36,24 @@ export const getNewConditionsNames = (disabilities = []) => {
 };
 
 export default class ConfirmationPage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      hasError: false,
+    };
+  }
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
   componentDidMount() {
     setTimeout(() => focusElement('va-alert h2'), 100);
+  }
+
+  componentDidCatch(error, info) {
+    // eslint-disable-next-line no-console
+    console.error('Error caught in ConfirmationPage', error, info);
   }
 
   ConfirmationPageContent = props => {
@@ -61,7 +77,9 @@ export default class ConfirmationPage extends React.Component {
           toggleName={Toggler.TOGGLE_NAMES.disability526ShowConfirmationReview}
         >
           <Toggler.Enabled>
-            <ConfirmationView.ChapterSectionCollection showPageTitles />
+            {!this.state.hasError ? (
+              <ConfirmationView.ChapterSectionCollection showPageTitles />
+            ) : null}
           </Toggler.Enabled>
         </Toggler>
         <ConfirmationView.PrintThisPage />
