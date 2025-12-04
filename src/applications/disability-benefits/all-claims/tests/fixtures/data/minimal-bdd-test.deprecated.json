@@ -1,0 +1,145 @@
+{
+  "data": {
+    "view:isBddData": true,
+    "view:claimType": {
+      "view:claimingIncrease": true
+    },
+    "isVaEmployee": false,
+    "phoneAndEmail": {
+      "primaryPhone": "4445551212",
+      "emailAddress": "test2@test1.net"
+    },
+    "mailingAddress": {
+      "country": "USA",
+      "addressLine1": "123 Main",
+      "city": "Bigcity",
+      "state": "AK",
+      "zipCode": "12345"
+    },
+    "view:contactInfoDescription": {},
+    "view:hasEvidence": false,
+    "view:uploadServiceTreatmentRecordsQualifier": {
+      "view:hasServiceTreatmentRecordsToUpload": false
+    },
+    "view:powStatus": false,
+    "view:disabilitiesClarification": {},
+    "serviceInformation": {
+      "reservesNationalGuardService": {
+        "view:isTitle10Activated": false,
+        "obligationTermOfServiceDateRange": {
+          "from": "2007-05-22",
+          "to": "2008-06-05"
+        },
+        "unitName": "Unit name here"
+      },
+      "servicePeriods": [
+        {
+          "serviceBranch": "Air Force",
+          "dateRange": {
+            "from": "2001-03-21",
+            "to": "2014-07-21"
+          }
+        },
+        {
+          "serviceBranch": "Air Force Reserves",
+          "dateRange": {
+            "from": "2014-07-22"
+          }
+        }
+      ],
+      "view:militaryHistoryNote": {},
+      "separationLocation": {
+        "id": "98283",
+        "label": "AF Academy"
+      }
+    },
+    "newDisabilities": [
+      {
+        "cause": "NEW",
+        "condition": "asthma",
+        "view:descriptionInfo": {}
+      }
+    ],
+    "view:selectablePtsdTypes": {},
+    "view:ptsdTypeHelp": {},
+    "view:upload781ChoiceHelp": {},
+    "incident0": {
+      "unitAssignedDates": {},
+      "incidentLocation": {
+        "country": "USA"
+      }
+    },
+    "incident1": {
+      "unitAssignedDates": {},
+      "incidentLocation": {
+        "country": "USA"
+      }
+    },
+    "incident2": {
+      "unitAssignedDates": {},
+      "incidentLocation": {
+        "country": "USA"
+      }
+    },
+    "view:upload781aChoiceHelp": {},
+    "secondaryIncident0": {
+      "unitAssignedDates": {},
+      "incidentLocation": {
+        "country": "USA"
+      },
+      "otherSourcesHelp": {}
+    },
+    "view:otherSourcesHelp": {},
+    "secondaryIncident1": {
+      "unitAssignedDates": {},
+      "incidentLocation": {
+        "country": "USA"
+      },
+      "otherSourcesHelp": {}
+    },
+    "secondaryIncident2": {
+      "unitAssignedDates": {},
+      "incidentLocation": {
+        "country": "USA"
+      },
+      "otherSourcesHelp": {}
+    },
+    "physicalChanges": {},
+    "mentalChanges": {},
+    "workBehaviorChanges": {},
+    "socialBehaviorChanges": {},
+    "view:ancillaryFormsWizardIntro": {},
+    "view:unemployabilityHelp": {},
+    "unemployability": {
+      "view:recordsInfo": {},
+      "view:unemployabilityDatesDesc": {},
+      "view:grossIncomeAdditionalInfo": {},
+      "view:supplementalBenefitsHelp": {},
+      "view:substantiallyGainfulEmploymentInfo": {},
+      "view:statementsAreTrue": {},
+      "view:informOfReturnToWork": {}
+    },
+    "view:privateMedicalFacility": {},
+    "view:upload4192Choice": {},
+    "view:downloadInfo": {},
+    "view:vaMedicalRecordsIntro": {},
+    "view:uploadPrivateRecordsQualifier": {
+      "view:aboutPrivateMedicalRecords": {},
+      "view:privateRecordsChoiceHelp": {}
+    },
+    "view:privateRecordsChoiceHelp": {},
+    "view:faqAccordion": {},
+    "view:bankAccount": {
+      "view:hasPrefilledBank": true
+    },
+    "view:waiveRetirementPayDescription": {},
+    "standardClaim": false,
+    "view:fdcWarning": {},
+    "view:originalBankAccount": {
+      "view:bankAccountType": "Checking",
+      "view:bankAccountNumber": "*********1234",
+      "view:bankRoutingNumber": "*****2115",
+      "view:bankName": "Comerica"
+    }
+  }
+}

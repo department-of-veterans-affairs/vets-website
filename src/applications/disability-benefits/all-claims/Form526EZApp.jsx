@@ -174,6 +174,7 @@ export const Form526Entry = ({
     'disability526Enable2024Form4142',
     'disability526ToxicExposureOptOutDataPurge',
     'disabilityCompNewConditionsWorkflow',
+    'disability526ExtraBDDPagesEnabled',
   ]);
 
   // including this helper to showLoading when feature toggles are loading
