@@ -33,7 +33,7 @@ const SearchForm = props => {
   const [fromDate, setFromDate] = useState('');
   const [toDate, setToDate] = useState('');
   const [customFilter, setCustomFilter] = useState(false);
-  const [filtersCleared, setFiltersCleared] = useState(false);
+  const [filterStatus, setFilterStatus] = useState('default'); // 'default' | 'applied' | 'cleared'
   const resultsCountRef = useRef();
   const filterBoxRef = useRef();
   const filterInputRef = useRef();
@@ -72,7 +72,7 @@ const SearchForm = props => {
   };
 
   const handleSearch = () => {
-    setFiltersCleared(false);
+    setFilterStatus('applied');
     if (filterBoxRef.current.checkFormValidity()) {
       setSearchTermError(null);
       return;
@@ -127,7 +127,7 @@ const SearchForm = props => {
   const handleFilterClear = e => {
     e.preventDefault();
     dispatch(clearSearchResults());
-    setFiltersCleared(true);
+    setFilterStatus('cleared');
     setSearchTerm('');
     setSearchTermError(null);
     filterBoxRef.current.clearDateErrors();
@@ -255,6 +255,16 @@ const SearchForm = props => {
     [folder.folderId],
   );
 
+  useEffect(() => {
+    setFilterStatus('default');
+  }, []);
+
+  const getAriaDescribedBy = () => {
+    if (filterStatus === 'cleared') return 'filter-clear-success';
+    if (filterStatus === 'applied') return 'filter-applied-success';
+    return 'filter-default';
+  };
+
   return (
     <>
       <form
@@ -266,10 +276,10 @@ const SearchForm = props => {
       >
         <h2
           ref={filterFormTitleRef}
-          aria-describedby="filter-clear-success"
+          aria-describedby={getAriaDescribedBy()}
           onBlur={() => {
-            if (filtersCleared) {
-              setFiltersCleared(false);
+            if (filterStatus === 'cleared' || filterStatus === 'applied') {
+              setFilterStatus('default');
             }
           }}
           data-dd-privacy={ddPrivacy}
@@ -333,6 +343,7 @@ const SearchForm = props => {
             data-testid="filter-messages-button"
             data-dd-action-name="Filter Button"
             onClick={e => {
+              setFilterStatus('applied');
               e.preventDefault();
               handleSearch();
             }}
@@ -357,7 +368,21 @@ const SearchForm = props => {
               />
             )
           )}
-          {filtersCleared && (
+          {filterStatus === 'default' && (
+            <span className="sr-only" aria-live="polite" id="filter-default">
+              No filters applied
+            </span>
+          )}
+          {filterStatus === 'applied' && (
+            <span
+              className="sr-only"
+              aria-live="polite"
+              id="filter-applied-success"
+            >
+              Filters succesfully applied
+            </span>
+          )}
+          {filterStatus === 'cleared' && (
             <span
               className="sr-only"
               aria-live="polite"
