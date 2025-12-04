@@ -11,7 +11,7 @@ export default function AddToCalendarButton({ appointment }) {
 
   const description = `Your representative will call you from ${
     appointment.phoneNumber
-  }. If you have questions or need to reschedule, contact VA Solid Start. `;
+  }.`;
   const ics = generateICS(
     'Solid Start Phone Call',
     description,

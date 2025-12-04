@@ -9,6 +9,7 @@ const Confirmation = () => {
   const { data: appointmentData, isLoading, isError } = useGetAppointmentQuery({
     appointmentId,
   });
+  const browserTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   const handleCancelAppointment = () => {
     // TODO: Implement cancel appointment logic
@@ -51,7 +52,7 @@ const Confirmation = () => {
           heading="When"
           dateContent={{
             dateTime: appointmentData?.dtStartUtc,
-            timezone: appointmentData?.timezone,
+            timezone: browserTimezone,
             phoneNumber: appointmentData?.phoneNumber,
           }}
         />
