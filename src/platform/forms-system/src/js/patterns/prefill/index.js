@@ -1,2 +1,2 @@
-export * from './config/contactInfo';
-export * from './config/personalInfo';
+export { profilePersonalInfoPage } from './PersonalInformation';
+export { profileContactInfoPage } from './ContactInfo';

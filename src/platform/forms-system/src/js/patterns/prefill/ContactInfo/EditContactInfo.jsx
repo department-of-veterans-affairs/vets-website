@@ -1,13 +1,10 @@
 import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-
 import InitializeVAPServiceID from 'platform/user/profile/vap-svc/containers/InitializeVAPServiceID';
 import ProfileInformationFieldController from 'platform/user/profile/vap-svc/components/ProfileInformationFieldController';
 import { FIELD_NAMES } from 'platform/user/profile/vap-svc/constants';
-
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-
 import {
   REVIEW_CONTACT,
   setReturnState,

@@ -2,14 +2,11 @@ import React from 'react';
 import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
-
 import vapProfile from '@@vap-svc/tests/fixtures/mockVapProfile.json';
-
 import { ADDRESS_TYPES } from 'platform/forms/address/helpers';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import { getContent } from 'platform/forms-system/src/js/utilities/data/profile';
 import clone from 'platform/forms-system/src/js/utilities/data/clone';
-
 import ContactInfoReview from '../ContactInfoReview';
 
 const getData = ({
