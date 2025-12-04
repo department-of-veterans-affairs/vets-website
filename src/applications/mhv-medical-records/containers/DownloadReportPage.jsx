@@ -321,6 +321,8 @@ const DownloadReportPage = ({ runningUnitTest }) => {
                 status="info"
                 class="vads-u-margin-y--2"
                 data-testid="dual-facilities-blue-button-message"
+                visible
+                aria-live="polite"
               >
                 <p className="vads-u-margin--0">
                   For {vistaFacilityNames.join(', ')}, you can download your
