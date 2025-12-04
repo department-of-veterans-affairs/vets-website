@@ -319,7 +319,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
             ohFacilityNames.length > 0 && (
               <va-alert
                 status="info"
-                class="vads-u-margin-y--2"
+                className="vads-u-margin-y--2"
                 data-testid="dual-facilities-blue-button-message"
                 visible
                 aria-live="polite"
