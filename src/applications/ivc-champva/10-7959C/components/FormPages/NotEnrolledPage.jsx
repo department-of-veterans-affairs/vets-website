@@ -17,7 +17,7 @@ const NotEnrolledPage = ({ goBack }) => (
       )['ui:title']
     }
     <p>
-      If you have not applied for CHAMPVA benefits you can apply online, by
+      If you have not applied for CHAMPVA benefits, you can apply online, by
       mail, or by fax. Make sure to submit the required supporting documents
       with your application.
     </p>
