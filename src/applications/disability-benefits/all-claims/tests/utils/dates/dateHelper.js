@@ -19,6 +19,6 @@ import { formatDate, parseDate } from '../../../utils/dates';
  * be updated to match the application's approach.
  */
 export const daysFromToday = days =>
-  formatDate(add(new Date(), { days }), 'YYYY-MM-DD');
+  formatDate(add(new Date(), { days }), 'yyyy-MM-dd');
 
 export const getToday = () => parseDate(daysFromToday(0));

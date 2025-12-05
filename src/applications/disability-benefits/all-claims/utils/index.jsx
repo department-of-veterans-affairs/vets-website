@@ -82,7 +82,7 @@ export const isValidFullDate = dateString => {
     (date?.isValid() &&
       // moment('2021') => '2021-01-01'
       // moment('XXXX-01-01') => '2001-01-01'
-      dateString === formatDate(date, 'YYYY-MM-DD') &&
+      dateString === formatDate(date, 'yyyy-MM-dd') &&
       // make sure we're within the min & max year range
       isValidYear(date.year())) ||
     false
