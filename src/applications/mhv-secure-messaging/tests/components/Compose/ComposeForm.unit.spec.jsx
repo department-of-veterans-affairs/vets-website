@@ -2465,6 +2465,44 @@ describe('Compose form component', () => {
       );
       expect(categoryDropdown).to.not.exist;
     });
+
+    it('shows ViewOnlyDraftSection instead of locked category when triage groups blocked', () => {
+      const blockedRecipients = {
+        ...initialState.sm.recipients,
+        allTriageGroupsBlocked: true,
+      };
+
+      const customState = {
+        ...draftState,
+        sm: {
+          ...draftState.sm,
+          recipients: blockedRecipients,
+          prescription: {
+            renewalPrescription: { prescriptionId: '123' },
+            error: null,
+            isLoading: false,
+          },
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(
+        <ComposeForm
+          draft={customState.sm.threadDetails.drafts[0]}
+          recipients={blockedRecipients}
+        />,
+        {
+          initialState: customState,
+          reducers: reducer,
+          path: `/thread/${customState.sm.threadDetails.drafts[0].id}`,
+        },
+      );
+
+      // ViewOnlyDraftSection should take priority - locked category should NOT show
+      expect(screen.queryByTestId('locked-category-display')).to.not.exist;
+
+      // Category dropdown should also not exist (ViewOnlyDraftSection shown instead)
+      expect(screen.queryByTestId('compose-message-categories')).to.not.exist;
+    });
   });
 
   describe('redirectPath prop', () => {

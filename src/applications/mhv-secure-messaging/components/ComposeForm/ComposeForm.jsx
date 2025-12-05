@@ -379,6 +379,48 @@ const ComposeForm = props => {
     [setNavigationError],
   );
 
+  const renderCategorySection = useMemo(
+    () => {
+      if (noAssociations || allTriageGroupsBlocked) {
+        return (
+          <ViewOnlyDraftSection
+            title={FormLabels.CATEGORY}
+            body={`${Categories[(draft?.category)].label}: ${
+              Categories[(draft?.category)].description
+            }`}
+          />
+        );
+      }
+      if (isRxRenewalDraft) {
+        return <LockedCategoryDisplay />;
+      }
+      return (
+        <CategoryInput
+          categories={categories}
+          category={category}
+          categoryError={categoryError}
+          setCategory={setCategory}
+          setCategoryError={setCategoryError}
+          setUnsavedNavigationError={setUnsavedNavigationError}
+          setNavigationError={setNavigationError}
+        />
+      );
+    },
+    [
+      noAssociations,
+      allTriageGroupsBlocked,
+      isRxRenewalDraft,
+      draft?.category,
+      categories,
+      category,
+      categoryError,
+      setCategory,
+      setCategoryError,
+      setUnsavedNavigationError,
+      setNavigationError,
+    ],
+  );
+
   useEffect(
     () => {
       if (allowedRecipients?.length > 0) {
@@ -1030,30 +1072,7 @@ const ComposeForm = props => {
             <SelectedRecipientTitle draftInProgress={draftInProgress} />
           )}
           <div className="compose-form-div vads-u-margin-y--3">
-            {noAssociations || allTriageGroupsBlocked ? (
-              <ViewOnlyDraftSection
-                title={FormLabels.CATEGORY}
-                body={`${Categories[(draft?.category)].label}: ${
-                  Categories[(draft?.category)].description
-                }`}
-              />
-            ) : (
-              <>
-                {isRxRenewalDraft ? (
-                  <LockedCategoryDisplay />
-                ) : (
-                  <CategoryInput
-                    categories={categories}
-                    category={category}
-                    categoryError={categoryError}
-                    setCategory={setCategory}
-                    setCategoryError={setCategoryError}
-                    setUnsavedNavigationError={setUnsavedNavigationError}
-                    setNavigationError={setNavigationError}
-                  />
-                )}
-              </>
-            )}
+            {renderCategorySection}
           </div>
           <div className="compose-form-div">
             {noAssociations || allTriageGroupsBlocked ? (

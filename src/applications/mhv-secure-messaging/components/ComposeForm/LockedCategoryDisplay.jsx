@@ -22,17 +22,17 @@ import { FormLabels, RxRenewalText } from '../../util/constants';
  */
 const LockedCategoryDisplay = () => {
   return (
-    <div className="vads-u-margin-bottom--3">
-      <div className="vads-u-margin-bottom--0p5">{FormLabels.CATEGORY}</div>
-      <div
-        className="vads-u-font-weight--bold"
+    <dl className="vads-u-margin-bottom--3 vads-u-margin-top--0">
+      <dt className="vads-u-margin-bottom--0p5">{FormLabels.CATEGORY}</dt>
+      <dd
+        className="vads-u-font-weight--bold vads-u-margin-left--0"
         data-dd-privacy="mask"
         data-dd-action-name="Locked Category Display"
         data-testid="locked-category-display"
       >
         {RxRenewalText.LOCKED_CATEGORY_DISPLAY}
-      </div>
-    </div>
+      </dd>
+    </dl>
   );
 };
 
