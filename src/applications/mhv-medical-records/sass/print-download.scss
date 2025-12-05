@@ -15,6 +15,10 @@
   button:focus {
     background-color: var(--vads-color-gray-cool-light);
     color: var(--vads-color-primary-dark);
+    /* Ensure the element is positioned and has a high z-index */
+    /* z-index only works on elements with a position value other than 'static' */
+    position: relative;
+    z-index: 9999; /* A high value to place it on top of most other content */
   }
   button:hover {
     background-color: var(--vads-color-gray-cool-light);
