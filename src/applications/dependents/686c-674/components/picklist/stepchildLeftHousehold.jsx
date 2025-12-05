@@ -6,8 +6,17 @@ import propTypes from './types';
 
 const stepchildLeftHousehold = {
   handlers: {
+    /**
+     * @type {GoForwardParams}
+     * Return "DONE" when we're done with this flow
+     * @returns {string} Next page key
+     */
     goForward: () => 'DONE',
 
+    /**
+     * @type {OnSubmitParams}
+     * @returns {void}
+     */
     onSubmit: ({ /* event, */ itemData, goForward }) => {
       // event.preventDefault(); // executed before this function is called
       const hasError = getPastDateError(itemData.endDate);
@@ -19,7 +28,10 @@ const stepchildLeftHousehold = {
     },
   },
 
-  /** @type {PicklistComponentProps} */
+  /**
+   * @type {PicklistComponentProps}
+   * @returns {React.ReactElement} Page component
+   */
   Component: ({
     itemData,
     formSubmitted,
