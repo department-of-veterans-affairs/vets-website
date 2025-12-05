@@ -28,32 +28,21 @@ export const MUST_MATCH_ALERT = (variant, onCloseEvent, formData) => {
       closeable
       onCloseEvent={onCloseEvent}
     >
-      {variant === 'name-and-zip-code' ? (
-        <h3 slot="headline">
-          Veteran’s name and postal code must match your PDF
-        </h3>
-      ) : (
-        <h3 slot="headline">
-          Veteran’s identification information must match your PDF
-        </h3>
-      )}
+      <h3 slot="headline">This information must match your form</h3>
       {isLoa3 ? (
         <p>
           Since you’re signed in to your account, we prefilled part of your
           application based on your account details.
         </p>
       ) : null}
-      {variant === 'name-and-zip-code' ? (
-        <p>
-          If the Veteran’s name and postal code here don’t match your uploaded
-          PDF, it will cause processing delays.
-        </p>
-      ) : (
-        <p>
-          If the Veteran’s identification information you enter here doesn’t
-          match your uploaded PDF, it will cause processing delays.
-        </p>
-      )}
+      <p>
+        Since you’re signed in, we prefilled this information based on your VA
+        profile.
+      </p>
+      <p>
+        If this information doesn’t match what’s on your form, it’ll cause
+        processing delays.
+      </p>
     </VaAlert>
   );
 };
@@ -65,9 +54,9 @@ export const SUPPORTING_DOCUMENTS =
 
 export const UPLOAD_FORM_DESCRIPTION = Object.freeze(
   <p>
-    <span className="vads-u-font-weight--bold">Note:</span> To save your files,
-    you must submit this form in the same session. If you leave without
-    submitting, you will need to upload your files again.
+    <span className="vads-u-font-weight--bold">Note:</span> After you upload
+    your file, you’ll need to continue to the next screen. If you leave before
+    you submit it, you’ll need to upload it again.
   </p>,
 );
 
@@ -117,6 +106,7 @@ export const FORM_UPLOAD_OCR_ALERT = (
   pdfDownloadUrl,
   onCloseEvent,
   warnings = [],
+  file,
 ) => (
   <VaAlert
     close-btn-aria-label="Close notification"
@@ -124,9 +114,10 @@ export const FORM_UPLOAD_OCR_ALERT = (
     visible
     closeable
     onCloseEvent={onCloseEvent}
+    role="status"
   >
     <h2 slot="headline">
-      Are you sure the file you uploaded is VA Form {formNumber}?
+      Are you sure the file you uploaded, {file}, is VA Form {formNumber}?
     </h2>
     <React.Fragment key=".1">
       <ul>
@@ -169,7 +160,7 @@ export const FORM_UPLOAD_INSTRUCTION_ALERT = onCloseEvent => (
     <React.Fragment key=".1">
       <p>
         If you upload a form that’s missing a signature or any other required
-        information, we won’t be able to process it.
+        information, we can’t process it.
       </p>
     </React.Fragment>
   </VaAlert>

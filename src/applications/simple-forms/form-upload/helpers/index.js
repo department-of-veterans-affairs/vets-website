@@ -5,6 +5,7 @@ import {
   FORM_UPLOAD_FILE_UPLOADING_ALERT,
   FORM_UPLOAD_INSTRUCTION_ALERT,
   FORM_UPLOAD_OCR_ALERT,
+  MUST_MATCH_ALERT,
 } from '../config/constants';
 
 export const formMappings = {
@@ -218,8 +219,11 @@ export const onClickContinue = (props, setContinueClicked) => {
 };
 
 export const getAlert = (props, continueClicked) => {
-  const warnings = props.data?.uploadedFile?.warnings;
-  const fileUploading = props.data?.uploadedFile?.name === 'uploading';
+  const warnings = props?.data?.uploadedFile?.warnings;
+  const fileUploading = props?.data?.uploadedFile?.name === 'uploading';
+  const veteranInformation =
+    props?.name === 'nameAndZipCodePage' ||
+    props?.name === 'veteranIdentificationInformationPage';
   const formNumber = getFormNumber();
 
   if (warnings?.length > 0) {
@@ -228,11 +232,16 @@ export const getAlert = (props, continueClicked) => {
       getPdfDownloadUrl(formNumber),
       onCloseAlert,
       warnings,
+      props?.data?.uploadedFile?.name || '',
     );
   }
 
   if (fileUploading && continueClicked) {
     return FORM_UPLOAD_FILE_UPLOADING_ALERT(onCloseAlert);
+  }
+
+  if (veteranInformation) {
+    return MUST_MATCH_ALERT(props?.name, onCloseAlert, props?.data);
   }
 
   return FORM_UPLOAD_INSTRUCTION_ALERT(onCloseAlert);

@@ -111,7 +111,7 @@ export const resolutionDate = (date, requestId) => {
 
 export const DETAILS_BC_LABEL = 'details breadcrumb';
 export const SEARCH_BC_LABEL = 'search breadcrumb';
-export const HELP_BC_LABEL = 'search breadcrumb';
+export const HELP_BC_LABEL = 'help breadcrumb';
 export const DASHBOARD_BC_LABEL = 'dashboard breadcrumb';
 
 export const HelpBC = [
@@ -120,7 +120,7 @@ export const HelpBC = [
     label: 'VA.gov/representative home',
   },
   {
-    href: '/representative/get-help',
+    href: '/representative/help',
     label: 'Get help with the Accredited Representative Portal',
   },
 ];
@@ -151,7 +151,7 @@ export const poaDetailsBreadcrumbs = [
     label: 'VA.gov/representative home',
   },
   {
-    href: '/representative/poa-requests',
+    href: '/representative/representation-requests',
     label: 'Representation requests',
   },
   {

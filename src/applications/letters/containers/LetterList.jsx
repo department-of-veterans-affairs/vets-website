@@ -2,25 +2,27 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Toggler } from 'platform/utilities/feature-toggles';
-
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-
 import DownloadLetterLink from '../components/DownloadLetterLink';
 import DownloadLetterBlobLink from '../components/DownloadLetterBlobLink';
+import { DownloadTsaLetter } from '../components/DownloadTsaLetter';
 import VeteranBenefitSummaryOptions from './VeteranBenefitSummaryOptions';
-
 import {
   //  eslint-disable-next-line -- LH_MIGRATION
   LH_MIGRATION__getOptions,
   newLetterContent,
 } from '../utils/helpers';
 import { AVAILABILITY_STATUSES, LETTER_TYPES } from '../utils/constants';
+import { getTsaLetterEligibility } from '../actions/letters';
 
 export class LetterList extends React.Component {
   constructor(props) {
     super(props);
-    // eslint-disable-next-line -- LH_MIGRATION
-    this.state = { LH_MIGRATION__options: LH_MIGRATION__getOptions(false) };
+    this.state = {
+      // eslint-disable-next-line -- LH_MIGRATION
+      LH_MIGRATION__options: LH_MIGRATION__getOptions(false),
+    };
     this.accordionRefs = {};
   }
 
@@ -30,10 +32,18 @@ export class LetterList extends React.Component {
       // eslint-disable-next-line -- LH_MIGRATION
       LH_MIGRATION__options: LH_MIGRATION__getOptions(),
     });
+    if (this.props.tsaSafeTravelLetter) {
+      this.props.getTsaLetterEligibility();
+    }
   }
 
   render() {
     const downloadStatus = this.props.letterDownloadStatus;
+    const hasTsaLetter = Boolean(this.props.tsaLetterEligibility?.documentId);
+    const isDeterminingTsaEligibility =
+      this.props.tsaSafeTravelLetter &&
+      this.props.tsaLetterEligibility?.loading;
+
     const letterItems = (this.props.letters || []).map((letter, index) => {
       if (!this.accordionRefs[index]) {
         this.accordionRefs[index] = React.createRef();
@@ -92,7 +102,8 @@ export class LetterList extends React.Component {
     let eligibilityMessage;
     if (
       this.props.lettersAvailability ===
-      AVAILABILITY_STATUSES.letterEligibilityError
+        AVAILABILITY_STATUSES.letterEligibilityError ||
+      this.props.tsaLetterEligibility?.error
     ) {
       eligibilityMessage = (
         <div className="vads-u-margin-top--2">
@@ -110,10 +121,18 @@ export class LetterList extends React.Component {
 
     return (
       <div className="step-content">
-        {letterItems.length !== 0 && (
+        {(letterItems.length !== 0 || hasTsaLetter) && (
           <va-accordion data-test-id="letters-accordion" bordered>
             {letterItems}
+            {hasTsaLetter && (
+              <DownloadTsaLetter
+                documentId={this.props.tsaLetterEligibility?.documentId}
+              />
+            )}
           </va-accordion>
+        )}
+        {isDeterminingTsaEligibility && (
+          <va-loading-indicator message="Determining TSA PreCheck Application Fee Waiver Letter eligibility..." />
         )}
         <Toggler toggleName={Toggler.TOGGLE_NAMES.emptyStateBenefitLetters}>
           <Toggler.Enabled>
@@ -148,6 +167,10 @@ export class LetterList extends React.Component {
   }
 }
 
+const mapDispatchToProps = {
+  getTsaLetterEligibility,
+};
+
 function mapStateToProps(state) {
   const letterState = state.letters;
 
@@ -156,10 +179,14 @@ function mapStateToProps(state) {
     lettersAvailability: letterState.lettersAvailability,
     letterDownloadStatus: letterState.letterDownloadStatus,
     optionsAvailable: letterState.optionsAvailable,
+    tsaLetterEligibility: letterState.tsaLetterEligibility,
+    tsaSafeTravelLetter:
+      state.featureToggles[FEATURE_FLAG_NAMES.tsaSafeTravelLetter],
   };
 }
 
 LetterList.propTypes = {
+  getTsaLetterEligibility: PropTypes.func,
   letterDownloadStatus: PropTypes.shape({}),
   letters: PropTypes.arrayOf(
     PropTypes.shape({
@@ -169,9 +196,15 @@ LetterList.propTypes = {
   ),
   lettersAvailability: PropTypes.string,
   optionsAvailable: PropTypes.bool,
+  tsaLetterEligibility: PropTypes.shape({
+    documentId: PropTypes.string,
+    error: PropTypes.bool,
+    loading: PropTypes.bool,
+  }),
+  tsaSafeTravelLetter: PropTypes.bool,
 };
 
 export default connect(
   mapStateToProps,
-  null,
+  mapDispatchToProps,
 )(LetterList);

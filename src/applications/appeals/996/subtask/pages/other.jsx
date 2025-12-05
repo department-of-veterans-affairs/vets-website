@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
-
 import { focusElement } from 'platform/utilities/ui';
-import recordEvent from 'platform/monitoring/record-event';
-
-import pageNames from './pageNames';
+import {
+  PAGE_NAMES,
+  recordBenefitOfficeClickEvent,
+} from '../../../shared/utils/start-page';
 import DownloadLink from '../../content/DownloadLink';
 import { PageTitle } from '../../content/title';
 import { BENEFIT_OFFICES_URL } from '../../constants';
@@ -15,22 +15,14 @@ const DecisionReviewPage = () => {
     });
   }, []);
 
-  recordEvent({
-    event: 'howToWizard-alert-displayed',
-    'reason-for-alert': 'veteran wants to submit an unsupported claim type',
-  });
-
   const handlers = {
     officeLinkClick: () => {
-      recordEvent({
-        event: 'howToWizard-alert-link-click',
-        'howToWizard-alert-link-click-label': 'benefit office',
-      });
+      recordBenefitOfficeClickEvent();
     },
   };
 
   return (
-    <div id={pageNames.other} className="vads-u-padding-bottom--2">
+    <div id={PAGE_NAMES.other} className="vads-u-padding-bottom--2">
       <PageTitle />
       <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0">
         Requesting a Higher-Level Review if it isn’t for a disability
@@ -68,8 +60,8 @@ const DecisionReviewPage = () => {
 };
 
 export default {
-  name: pageNames.other,
+  name: PAGE_NAMES.other,
   component: DecisionReviewPage,
   next: null,
-  back: pageNames.start,
+  back: PAGE_NAMES.start,
 };

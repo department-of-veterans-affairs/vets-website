@@ -7,15 +7,15 @@ import mockInProgress from './fixtures/mocks/in-progress-forms.json';
 import mockPrefill from './fixtures/mocks/prefill.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
 import mockUpload from './fixtures/mocks/mockUpload.json';
-
 import {
-  PRIMARY_PHONE,
-  BASE_URL,
+  EVIDENCE_UPLOAD_URL,
   EVIDENCE_VA_DETAILS_URL,
+  EVIDENCE_VA_PROMPT_URL,
   EVIDENCE_PRIVATE_PROMPT_URL,
   EVIDENCE_PRIVATE_DETAILS_URL,
-  EVIDENCE_PRIVATE,
-  EVIDENCE_UPLOAD_URL,
+  HAS_PRIVATE_EVIDENCE,
+  HAS_VA_EVIDENCE,
+  PRIMARY_PHONE,
 } from '../constants';
 import {
   CONTESTABLE_ISSUES_API,
@@ -23,12 +23,8 @@ import {
   ITF_API,
   SUBMIT_URL,
 } from '../constants/apis';
-
 import cypressSetup from '../../shared/tests/cypress.setup';
-import {
-  mockContestableIssues,
-  getRandomDate,
-} from '../../shared/tests/cypress.helpers';
+import * as h from '../../shared/tests/cypress.helpers';
 import { CONTESTABLE_ISSUES_PATH, SELECTED } from '../../shared/constants';
 
 const { chapters } = formConfig;
@@ -45,11 +41,10 @@ export const PRIMARY_PHONE_PATH =
 export const ISSUES_SUMMARY_PATH = chapters.issues.pages.issueSummary.path;
 export const OPT_IN_PATH = chapters.issues.pages.optIn.path;
 export const NOTICE_5103_PATH = chapters.evidence.pages.notice5103.path;
-export const EVIDENCE_SUMMARY_PATH =
-  chapters.evidence.pages.evidenceSummary.path;
+export const EVIDENCE_SUMMARY_PATH = chapters.evidence.pages.summary.path;
 export const FACILITY_TYPES_PATH = chapters.evidence.pages.facilityTypes.path;
 export const EVIDENCE_VA_RECORDS_DETAILS_PATH =
-  chapters.evidence.pages.evidenceVaDetails.path;
+  chapters.evidence.pages.vaDetails.path;
 export const MST_PATH = chapters.vhaIndicator.pages.optionForMst.path;
 export const MST_OPTION_PATH = chapters.vhaIndicator.pages.optionIndicator.path;
 export const REVIEW_PATH = '/review-and-submit';
@@ -82,76 +77,14 @@ export const LIMITED_CONSENT_RADIOS = '[name="root_view:hasPrivateLimitation"]';
 export const LIMITED_CONSENT_TEXTAREA = '[name="root_limitedConsent"]';
 
 export const clickContinue = () =>
-  cy.findByText('Continue', { selector: 'button' }).click();
+  cy.get('va-button[continue]', { selector: 'button' }).click();
 
-export const verifyUrl = link =>
-  cy.url().should('contain', `${manifest.rootUrl}/${link}`);
+const verifyUrl = link => h.verifyCorrectUrl(manifest.rootUrl, link);
 
 export const selectDropdownWithKeyboard = (fieldName, value) => {
   cy.tabToElement(`[name="${fieldName}"]`);
   cy.chooseSelectOptionUsingValue(value);
 };
-
-export const fetchItf = (
-  offset = { months: 3 },
-  status = 'active',
-  type = 'compensation',
-) => ({
-  data: {
-    id: '',
-    type: 'evss_intent_to_file_intent_to_files_responses',
-    attributes: {
-      intentToFile: [
-        {
-          id: '1',
-          creationDate: '2022-07-28T19:53:45.810+00:00',
-          // pattern null = ISO8601 format
-          expirationDate: formatISO(add(new Date(), offset)),
-          participantId: 1,
-          source: 'EBN',
-          status,
-          type,
-        },
-        {
-          id: '2',
-          creationDate: '2014-07-28T19:53:45.810+00:00',
-          expirationDate: '2015-08-28T19:47:52.788+00:00',
-          participantId: 1,
-          source: 'EBN',
-          status: 'claim_recieved',
-          type: 'compensation',
-        },
-        {
-          id: '3',
-          creationDate: '2014-07-28T19:53:45.810+00:00',
-          expirationDate: '2015-08-28T19:47:52.789+00:00',
-          participantId: 1,
-          source: 'EBN',
-          status: 'claim_recieved',
-          type: 'compensation',
-        },
-        {
-          id: '4',
-          creationDate: '2014-07-28T19:53:45.810+00:00',
-          expirationDate: '2015-08-28T19:47:52.789+00:00',
-          participantId: 1,
-          source: 'EBN',
-          status: 'expired',
-          type: 'compensation',
-        },
-        {
-          id: '5',
-          creationDate: '2014-07-28T19:53:45.810+00:00',
-          expirationDate: '2015-08-28T19:47:52.790+00:00',
-          participantId: 1,
-          source: 'EBN',
-          status: 'incomplete',
-          type: 'compensation',
-        },
-      ],
-    },
-  },
-});
 
 export const errorItf = () => ({
   errors: [
@@ -184,16 +117,6 @@ export const postItf = () => ({
   },
 });
 
-export const getPastItf = cy => {
-  cy.wait('@getIssues');
-  cy.get('va-alert')
-    .should('be.visible')
-    .then(() => {
-      // Click past the ITF message
-      cy.selectVaButtonPairPrimary();
-    });
-};
-
 // _testData from createTestConfig
 export const setupPerTest = (_testData, toggles = []) => {
   cypressSetup();
@@ -201,7 +124,7 @@ export const setupPerTest = (_testData, toggles = []) => {
   setStoredSubTask({ benefitType: 'compensation' });
 
   cy.intercept('POST', EVIDENCE_UPLOAD_API, mockUpload);
-  cy.intercept('GET', ITF_API, fetchItf());
+  cy.intercept('GET', ITF_API, h.fetchItf());
   cy.intercept('GET', '/v0/feature_toggles*', {
     data: {
       type: 'feature_toggles',
@@ -213,7 +136,7 @@ export const setupPerTest = (_testData, toggles = []) => {
   cy.intercept(
     'GET',
     `${CONTESTABLE_ISSUES_API}/compensation`,
-    mockContestableIssues,
+    h.mockContestableIssues,
   ).as('getIssues');
 
   cy.intercept('POST', SUBMIT_URL, mockSubmit);
@@ -227,14 +150,11 @@ export const setupPerTest = (_testData, toggles = []) => {
 export const pageHooks = {
   introduction: ({ afterHook }) => {
     afterHook(() => {
-      // Hit the start action link
-      cy.findAllByText(/start your claim/i, { selector: 'a' })
-        .first()
-        .click();
+      h.startApp();
     });
   },
   'veteran-information': () => {
-    getPastItf(cy);
+    h.getPastItf(cy);
     clickContinue();
   },
   'primary-phone-number': ({ afterHook }) => {
@@ -251,10 +171,7 @@ export const pageHooks = {
       cy.get('@testData').then(async testData => {
         clickContinue();
         // prevent continuing without any issues selected
-        cy.location('pathname').should(
-          'eq',
-          `${BASE_URL}/${CONTESTABLE_ISSUES_PATH}`,
-        );
+        verifyUrl(CONTESTABLE_ISSUES_PATH);
         cy.get('va-alert[status="error"] h3').should(
           'contain',
           'You’ll need to select an issue',
@@ -264,11 +181,11 @@ export const pageHooks = {
           if (additionalIssue.issue && additionalIssue[SELECTED]) {
             cy.get('.add-new-issue').click();
 
-            cy.url().should('include', '/add-issue');
-            cy.axeCheck();
+            verifyUrl('/add-issue');
+            cy.injectAxeThenAxeCheck();
 
             cy.fillVaTextInput('issue-name', additionalIssue.issue);
-            cy.fillVaMemorableDate('decision-date', getRandomDate(), false);
+            cy.fillVaMemorableDate('decision-date', h.getRandomDate(), false);
             cy.get('#submit').click();
           }
         });
@@ -282,11 +199,11 @@ export const pageHooks = {
               .click({ force: true });
           }
         });
+
         clickContinue();
       });
     });
   },
-
   'notice-of-evidence-needed': ({ afterHook }) => {
     cy.injectAxeThenAxeCheck();
     afterHook(() => {
@@ -305,26 +222,41 @@ export const pageHooks = {
       clickContinue();
     });
   },
+  [EVIDENCE_VA_PROMPT_URL]: ({ afterHook }) => {
+    cy.injectAxeThenAxeCheck();
 
+    afterHook(() => {
+      cy.get('@testData').then(data => {
+        const hasVa = data[HAS_VA_EVIDENCE];
+
+        cy.get(`va-radio-option[value="${hasVa ? 'y' : 'n'}"]`).click();
+        clickContinue();
+      });
+    });
+  },
   [EVIDENCE_VA_DETAILS_URL]: ({ afterHook }) => {
     cy.injectAxeThenAxeCheck();
+
     afterHook(() => {
       cy.get('@testData').then(({ locations = [] }) => {
         locations.forEach((location, index) => {
           if (location) {
             if (index > 0) {
-              cy.url().should('include', `index=${index}`);
+              verifyUrl(`${EVIDENCE_VA_DETAILS_URL}?index=${index}`);
             }
+
             cy.fillVaTextInput('name', location.locationAndName);
+
             location?.issues.forEach(issue => {
               cy.get(`va-checkbox[value="${issue}"]`)
                 .shadow()
                 .find('input')
                 .check({ force: true });
             });
+
             cy.fillVaDate('txdate', location.treatmentDate, true);
             cy.selectVaCheckbox('nodate', location.noDate);
-            cy.axeCheck();
+            cy.injectAxeThenAxeCheck();
 
             // Add another
             if (index + 1 < locations.length) {
@@ -337,18 +269,17 @@ export const pageHooks = {
       });
     });
   },
-
   [EVIDENCE_PRIVATE_PROMPT_URL]: ({ afterHook }) => {
     cy.injectAxeThenAxeCheck();
     afterHook(() => {
       cy.get('@testData').then(data => {
-        const hasPrivate = data[EVIDENCE_PRIVATE];
+        const hasPrivate = data[HAS_PRIVATE_EVIDENCE];
+
         cy.get(`va-radio-option[value="${hasPrivate ? 'y' : 'n'}"]`).click();
         clickContinue();
       });
     });
   },
-
   'supporting-evidence/private-medical-records-authorization': ({
     afterHook,
   }) => {
@@ -361,11 +292,11 @@ export const pageHooks = {
             .find('input')
             .click({ force: true });
         }
+
         clickContinue();
       });
     });
   },
-
   [EVIDENCE_PRIVATE_DETAILS_URL]: ({ afterHook }) => {
     cy.injectAxeThenAxeCheck();
     afterHook(() => {
@@ -373,22 +304,26 @@ export const pageHooks = {
         providerFacility.forEach((facility, index) => {
           if (facility) {
             if (index > 0) {
-              cy.url().should('include', `index=${index}`);
+              verifyUrl(`${EVIDENCE_PRIVATE_DETAILS_URL}?index=${index}`);
             }
+
             cy.fillVaTextInput('name', facility.providerFacilityName);
 
             cy.selectVaSelect(
               'country',
               facility.providerFacilityAddress.country,
             );
+
             cy.fillVaTextInput(
               'street',
               facility.providerFacilityAddress.street,
             );
+
             cy.fillVaTextInput(
               'street2',
               facility.providerFacilityAddress.street2,
             );
+
             cy.fillVaTextInput('city', facility.providerFacilityAddress.city);
 
             if (facility.providerFacilityAddress.country === 'USA') {
@@ -402,6 +337,7 @@ export const pageHooks = {
                 facility.providerFacilityAddress.state,
               );
             }
+
             cy.fillVaTextInput(
               'postal',
               facility.providerFacilityAddress.postalCode,
@@ -419,12 +355,14 @@ export const pageHooks = {
               facility.treatmentDateRange?.from,
               false,
             );
+
             cy.fillVaMemorableDate(
               'to',
               facility.treatmentDateRange?.to,
               false,
             );
-            cy.axeCheck();
+
+            cy.injectAxeThenAxeCheck();
 
             // Add another
             if (index + 1 < providerFacility.length) {
@@ -432,6 +370,7 @@ export const pageHooks = {
             }
           }
         });
+
         clickContinue();
       });
     });

@@ -5,8 +5,6 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import {
   renderMHVDowntime,
   updatePageTitle,
-  logUniqueUserMetricsEvents,
-  EVENT_REGISTRY,
   useAcceleratedData,
 } from '@department-of-veterans-affairs/mhv/exports';
 import {
@@ -86,9 +84,6 @@ const LandingPage = () => {
       createSession();
 
       updatePageTitle(pageTitles.MEDICAL_RECORDS_PAGE_TITLE);
-
-      // Log unique user metrics for medical records access
-      logUniqueUserMetricsEvents(EVENT_REGISTRY.MEDICAL_RECORDS_ACCESSED);
     },
     [dispatch],
   );
@@ -159,9 +154,6 @@ const LandingPage = () => {
                 history.push('/labs-and-tests');
                 sendAalViewList('Lab and test results');
                 sendDataDogAction(LAB_TEST_RESULTS_LABEL);
-                logUniqueUserMetricsEvents(
-                  EVENT_REGISTRY.MEDICAL_RECORDS_LABS_ACCESSED,
-                );
               }}
             />
           </section>
@@ -185,9 +177,6 @@ const LandingPage = () => {
                   history.push('/summaries-and-notes');
                   sendAalViewList('Care Summaries and Notes');
                   sendDataDogAction(CARE_SUMMARIES_AND_NOTES_LABEL);
-                  logUniqueUserMetricsEvents(
-                    EVENT_REGISTRY.MEDICAL_RECORDS_NOTES_ACCESSED,
-                  );
                 }}
               />
             </>
@@ -210,9 +199,6 @@ const LandingPage = () => {
                 history.push('/vaccines');
                 sendAalViewList('Vaccines');
                 sendDataDogAction(VACCINES_LABEL);
-                logUniqueUserMetricsEvents(
-                  EVENT_REGISTRY.MEDICAL_RECORDS_VACCINES_ACCESSED,
-                );
               }}
             />
           </section>
@@ -235,9 +221,6 @@ const LandingPage = () => {
                 history.push('/allergies');
                 sendAalViewList('Allergy and Reactions');
                 sendDataDogAction(ALLERGIES_AND_REACTIONS_LABEL);
-                logUniqueUserMetricsEvents(
-                  EVENT_REGISTRY.MEDICAL_RECORDS_ALLERGIES_ACCESSED,
-                );
               }}
             />
           </section>
@@ -259,9 +242,6 @@ const LandingPage = () => {
                 history.push('/conditions');
                 sendAalViewList('Health Conditions');
                 sendDataDogAction(HEALTH_CONDITIONS_LABEL);
-                logUniqueUserMetricsEvents(
-                  EVENT_REGISTRY.MEDICAL_RECORDS_CONDITIONS_ACCESSED,
-                );
               }}
             />
           </section>
@@ -289,9 +269,6 @@ const LandingPage = () => {
                 history.push('/vitals');
                 sendAalViewList('Vitals');
                 sendDataDogAction(VITALS_LABEL);
-                logUniqueUserMetricsEvents(
-                  EVENT_REGISTRY.MEDICAL_RECORDS_VITALS_ACCESSED,
-                );
               }}
             />
           </section>
@@ -328,8 +305,9 @@ const LandingPage = () => {
             <p className="vads-u-margin-bottom--2">
               Some of your medical records may not be available on VA.gov right
               now. If you need to access your records and can’t find them here,
-              you can submit a request by mail, by fax, or in person at your VA
-              health facility.
+              you can submit a medical records request. You can submit your
+              request by secure message, by mail, by fax, or in person at your
+              VA health facility.
             </p>
             <va-link-action
               type="secondary"

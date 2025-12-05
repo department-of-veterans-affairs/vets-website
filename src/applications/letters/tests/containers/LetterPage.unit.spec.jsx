@@ -6,6 +6,7 @@ import { render } from '@testing-library/react';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import LetterPage from '../../containers/LetterPage';
 
 const mockReducer = (state = {}) => state;
@@ -58,6 +59,9 @@ const getStore = () => {
         letterType: 'benefit_verification',
       },
     ],
+    featureToggles: {
+      [FEATURE_FLAG_NAMES.tsaSafeTravelLetter]: true,
+    },
   };
   return createStore(mockReducer, initialState, applyMiddleware(thunk));
 };

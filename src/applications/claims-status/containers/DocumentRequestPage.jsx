@@ -36,7 +36,7 @@ class DocumentRequestPage extends React.Component {
     if (!this.props.loading) {
       setUpPage(true, 'h1');
     } else {
-      scrollToTop();
+      scrollToTop({ behavior: 'instant' });
     }
   }
 
@@ -48,7 +48,7 @@ class DocumentRequestPage extends React.Component {
       });
     }
     if (props.uploadComplete) {
-      this.goToFilesPage();
+      this.handleUploadComplete();
     }
   }
 
@@ -59,29 +59,44 @@ class DocumentRequestPage extends React.Component {
     }
   }
 
+  handleUploadComplete() {
+    this.props.getClaim(this.props.claim.id);
+    const redirectPath = this.props.showDocumentUploadStatus
+      ? statusPath
+      : filesPath;
+    this.props.navigate(redirectPath);
+  }
+
   getDefaultPage() {
+    const {
+      message,
+      type1UnknownErrors,
+      timezoneMitigationEnabled,
+      showDocumentUploadStatus,
+    } = this.props;
     return (
       <>
         <DefaultPage
           item={this.props.trackedItem}
+          message={showDocumentUploadStatus ? message : null}
           onCancel={this.props.cancelUpload}
           onSubmit={files =>
             this.props.submitFiles(
               this.props.claim.id,
               this.props.trackedItem,
               files,
+              showDocumentUploadStatus,
+              timezoneMitigationEnabled,
             )
           }
           progress={this.props.progress}
+          type1UnknownErrors={
+            showDocumentUploadStatus ? type1UnknownErrors : null
+          }
           uploading={this.props.uploading}
         />
       </>
     );
-  }
-
-  goToFilesPage() {
-    this.props.getClaim(this.props.claim.id);
-    this.props.navigate(filesPath);
   }
 
   render() {
@@ -132,21 +147,21 @@ class DocumentRequestPage extends React.Component {
         </div>
       );
     } else {
-      const { message } = this.props;
-
+      const { message, showDocumentUploadStatus } = this.props;
       content = (
         <>
-          {message && (
-            <div>
-              <Notification
-                title={message.title}
-                body={message.body}
-                type={message.type}
-                onSetFocus={focusNotificationAlert}
-              />
-            </div>
-          )}
-
+          {/* Show errors here when the feature flag is OFF. When the feature flag is ON, errors are shown in DefaultPage. */}
+          {!showDocumentUploadStatus &&
+            message && (
+              <div>
+                <Notification
+                  title={message.title}
+                  body={message.body}
+                  type={message.type}
+                  onSetFocus={focusNotificationAlert}
+                />
+              </div>
+            )}
           {isAutomated5103Notice(trackedItem.displayName) ? (
             <Default5103EvidenceNotice item={trackedItem} />
           ) : (
@@ -188,10 +203,15 @@ function mapStateToProps(state, ownProps) {
     loading: claimDetail.loading,
     message: claimsState.notifications.additionalEvidenceMessage,
     progress: uploads.progress,
+    showDocumentUploadStatus:
+      state.featureToggles?.cst_show_document_upload_status || false,
     trackedItem,
+    type1UnknownErrors: claimsState.notifications.type1UnknownErrors,
     uploadComplete: uploads.uploadComplete,
     uploadError: uploads.uploadError,
     uploading: uploads.uploading,
+    timezoneMitigationEnabled:
+      state.featureToggles?.cst_timezone_discrepancy_mitigation || false,
   };
 }
 
@@ -221,8 +241,11 @@ DocumentRequestPage.propTypes = {
   params: PropTypes.object,
   progress: PropTypes.number,
   resetUploads: PropTypes.func,
+  showDocumentUploadStatus: PropTypes.bool,
   submitFiles: PropTypes.func,
+  timezoneMitigationEnabled: PropTypes.bool,
   trackedItem: PropTypes.object,
+  type1UnknownErrors: PropTypes.array,
   uploadComplete: PropTypes.bool,
   uploading: PropTypes.bool,
 };

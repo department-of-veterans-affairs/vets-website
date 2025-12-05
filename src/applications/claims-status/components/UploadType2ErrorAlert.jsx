@@ -64,7 +64,7 @@ function UploadType2ErrorAlert({ failedSubmissions }) {
         message. We’ll remove these alerts 30 days after the upload failed.
       </p>
       <VaLinkAction
-        href="/track-claims/your-claims/files-we-couldnt-receive"
+        href="../files-we-couldnt-receive"
         text="Review files we couldn't process and learn other ways to send your documents"
         type="secondary"
       />
@@ -75,7 +75,7 @@ function UploadType2ErrorAlert({ failedSubmissions }) {
     <VaAlert
       data-testid="notification"
       close-btn-aria-label="Close notification"
-      className="evidence-submission-type-2-alert"
+      className="evidence-submission-type-2-alert vads-u-margin-y--4"
       closeable={false}
       status="error"
       visible

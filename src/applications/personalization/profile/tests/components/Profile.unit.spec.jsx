@@ -217,6 +217,7 @@ describe('mapStateToProps', () => {
       'shouldFetchDirectDeposit',
       'shouldShowAccreditedRepTab',
       'shouldShowProfile2',
+      'shouldShowHealthCareSettingsPage',
       'shouldFetchTotalDisabilityRating',
       'isDowntimeWarningDismissed',
       'isBlocked',

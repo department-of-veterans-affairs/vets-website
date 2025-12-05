@@ -32,7 +32,6 @@ function ViewDependentsLayout(props) {
         hasDependents={hasDependents}
         onAwardDependents={props.onAwardDependents}
         notOnAwardDependents={props.notOnAwardDependents}
-        dependencyVerificationToggle={props.dependencyVerificationToggle}
       />
     );
   }
@@ -64,7 +63,6 @@ function ViewDependentsLayout(props) {
 }
 
 ViewDependentsLayout.propTypes = {
-  dependencyVerificationToggle: PropTypes.bool,
   dependentsToggle: PropTypes.bool,
   error: PropTypes.object,
   loading: PropTypes.bool,

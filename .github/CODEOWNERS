@@ -98,7 +98,6 @@ src/applications/static-pages/vre-chapter-31 @department-of-veterans-affairs/ben
 src/applications/static-pages/vre-chapter-36 @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/coe-access @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/sah @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/new-28-1900 @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/new-chapter-36-form @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Pensions and Burials
@@ -165,6 +164,7 @@ src/applications/ivc-champva @department-of-veterans-affairs/health-apps-fronten
 # Healthcare Experience
 
 src/applications/check-in @department-of-veterans-affairs/patient-check-in @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/vass @department-of-veterans-affairs/patient-check-in @department-of-veterans-affairs/va-platform-cop-frontend
 
 # IIR
 
@@ -178,6 +178,7 @@ src/applications/gi @department-of-veterans-affairs/govcio-vfep-codereviewers @d
 src/applications/sco @department-of-veterans-affairs/govcio-vfep-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/gi-sandbox @department-of-veterans-affairs/govcio-vfep-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/edu-benefits @department-of-veterans-affairs/govcio-vfep-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/edu-benefits/1995
 src/applications/verify-your-enrollment @department-of-veterans-affairs/govcio-vye-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/post-911-gib-status @department-of-veterans-affairs/govcio-vfep-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
 
@@ -196,6 +197,7 @@ src/applications/toe @department-of-veterans-affairs/my-education-benefits @depa
 src/applications/static-pages/view-enrollment-verification-login @department-of-veterans-affairs/my-education-benefits @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/view-education-letters-login @department-of-veterans-affairs/my-education-benefits @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/survivor-dependent-education-benefit @department-of-veterans-affairs/my-education-benefits @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/edu-benefits/1995 @department-of-veterans-affairs/my-education-benefits @department-of-veterans-affairs/va-platform-cop-frontend
 
 # My HealtheVet on VA.gov
 
@@ -278,6 +280,9 @@ src/applications/simple-forms/21p-0537 @department-of-veterans-affairs/bio-heart
 # Transition Experience
 src/applications/discover-your-benefits @department-of-veterans-affairs/transition-experience @department-of-veterans-affairs/va-platform-cop-frontend
 
+# Travel Pay
+src/applications/travel-pay @department-of-veterans-affairs/travel-pay-integration @department-of-veterans-affairs/va-platform-cop-frontend
+
 # Need more specific owners
 src/applications/ask-a-question @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/e-folders @department-of-veterans-affairs/va-platform-cop-frontend
@@ -288,7 +293,6 @@ src/applications/static-pages/analytics @department-of-veterans-affairs/va-platf
 src/applications/static-pages/download-1095b @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/benefit-eligibility-questionnaire @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/office-directory @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/travel-pay @department-of-veterans-affairs/va-platform-cop-frontend
 
 # BIO Huntridge Labs
 src/applications/medical-expense-report @department-of-veterans-affairs/bio-huntridge @department-of-veterans-affairs/va-platform-cop-frontend

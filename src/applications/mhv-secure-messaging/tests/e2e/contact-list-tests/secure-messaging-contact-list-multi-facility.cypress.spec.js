@@ -23,6 +23,7 @@ describe('SM MULTI FACILITY CONTACT LIST', () => {
   });
 
   it('verify empty contact list alerts', () => {
+    ContactListPage.accordionByHeader('VA Indiana health care').click();
     ContactListPage.selectAllCheckBox();
     ContactListPage.clickGoBackButton();
     ContactListPage.verifySaveAlert();
@@ -137,8 +138,10 @@ describe('SM MULTI FACILITY CONTACT LIST', () => {
   });
   it('excludes OH care teams from contact list', () => {
     ContactListPage.validateCheckBoxDoesNotExist('OH TG GROUP 002');
-    cy.get('[label*="White City VA Medical Center"]').should('not.exist');
-    cy.get('[label*="VA Indiana health care"]').should('exist');
+    cy.findByTestId('White-City-VA-Medical-Center-facility-group').should(
+      'not.exist',
+    );
+    cy.findByTestId('VA-Indiana-health-care-facility-group').should('exist');
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 });

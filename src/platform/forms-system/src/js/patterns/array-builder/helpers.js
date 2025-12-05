@@ -121,20 +121,21 @@ export function initGetText({
  * ```
  * onNavBack: onNavBackRemoveAddingItem({
  *  arrayPath: 'employers',
- *  summaryRoute: '/array-multiple-page-builder-summary',
- *  introRoute: '/array-multiple-page-builder',
+ *  getSummaryPath: formData => '/array-multiple-page-builder-summary',
+ *  getIntroPath: formData => '/array-multiple-page-builder',
  * }),
  * ```
  * @param {{
  *  arrayPath: string;
- *  summaryRoute: string;
- *  introRoute?: string;
+ *  getSummaryPath: (formData: any) => string;
+ *  getIntroPath: (formData: any) => string;
+ *  reviewRoute: string;
  * }} props
  */
 export function onNavBackRemoveAddingItem({
   arrayPath,
-  summaryRoute,
-  introRoute,
+  getIntroPath,
+  getSummaryPath,
   reviewRoute,
 }) {
   return function onNavBack({ goPath, formData, setFormData, urlParams }) {
@@ -147,6 +148,8 @@ export function onNavBackRemoveAddingItem({
       setFormData(newData);
     }
 
+    const summaryRoute = getSummaryPath?.(formData);
+    const introRoute = getIntroPath?.(formData);
     let path = introRoute && !newArrayData?.length ? introRoute : summaryRoute;
     if (urlParams?.review) {
       path = reviewRoute;
@@ -456,19 +459,23 @@ export const arrayBuilderDependsContextWrapper = contextObject => {
 };
 
 /**
- *
  * @param {Array} arrayData
- * @param {Function} isItemIncomplete
+ * @param {ArrayBuilderOptions['isItemIncomplete']} isItemIncomplete
+ * @param {Object} fullData
  * @returns {number|null}
  */
-const getFirstInvalidArrayDataIndex = (arrayData, isItemIncomplete) => {
+const getFirstInvalidArrayDataIndex = (
+  arrayData,
+  isItemIncomplete,
+  fullData,
+) => {
   if (!arrayData || !arrayData.length) {
     return null;
   }
 
   for (let i = 0; i < arrayData.length; i++) {
     const item = arrayData[i];
-    if (isItemIncomplete(item)) {
+    if (isItemIncomplete(item, fullData)) {
       return i;
     }
   }
@@ -480,7 +487,7 @@ const getFirstInvalidArrayDataIndex = (arrayData, isItemIncomplete) => {
  *
  * @param {Object} props
  * @param {Array} props.arrayData - The array data to validate
- * @param {Function} props.isItemIncomplete - Function to check if an item is incomplete
+ * @param {ArrayBuilderOptions['isItemIncomplete']} props.isItemIncomplete - Function to check if an item is incomplete
  * @param {string} [props.arrayPath] - The array path (e.g. 'treatmentRecords')
  * @param {Function} [props.addError] - Optional function to add an error
  * @returns {boolean} - Returns an object with the index of the incomplete item or null if all items are complete
@@ -491,10 +498,12 @@ export const validateIncompleteItems = ({
   nounSingular,
   errors,
   arrayPath,
+  fullData,
 }) => {
   const invalidIndex = getFirstInvalidArrayDataIndex(
     arrayData,
     isItemIncomplete,
+    fullData,
   );
   // invalidIndex = null, 0, 1, 2, 3...
   const isValid = invalidIndex === null;
@@ -772,4 +781,22 @@ export const checkForDuplicatesInItemPages = ({
     fullData: newData,
     index,
   });
+};
+
+export const getDependsPath = (pages, formData) => {
+  if (!pages || !pages.length) {
+    return null;
+  }
+
+  if (pages.length === 1) {
+    return pages[0].path;
+  }
+
+  for (let i = 0; i < pages.length; i++) {
+    if (pages[i]?.depends(formData)) {
+      return pages[i].path;
+    }
+  }
+
+  return pages[0].path;
 };

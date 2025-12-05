@@ -29,6 +29,7 @@ import {
   SEND_YOUR_DOCUMENTS_TEXT,
   ANCHOR_LINKS,
 } from '../../constants';
+import { setPageFocus } from '../../utils/page';
 
 // File encryption utilities
 const checkFileEncryption = async file => {
@@ -229,7 +230,6 @@ const createSubmissionPayload = (files, docTypes, encrypted) => {
 const AddFilesForm = ({ fileTab, onSubmit, uploading, progress, onCancel }) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const toggleValue = useToggleValue(TOGGLE_NAMES.cstShowDocumentUploadStatus);
-
   const [files, setFiles] = useState([]);
   const [errors, setErrors] = useState([]);
   const [encrypted, setEncrypted] = useState([]);
@@ -392,6 +392,10 @@ const AddFilesForm = ({ fileTab, onSubmit, uploading, progress, onCancel }) => {
               <va-link
                 href={`#${ANCHOR_LINKS.otherWaysToSendDocuments}`}
                 text={SEND_YOUR_DOCUMENTS_TEXT}
+                onClick={e => {
+                  e.preventDefault();
+                  setPageFocus(e.target.href);
+                }}
               />
             </div>
           </>

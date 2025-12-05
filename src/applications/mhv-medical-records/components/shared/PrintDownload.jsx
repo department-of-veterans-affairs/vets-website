@@ -26,6 +26,11 @@ const PrintDownload = props => {
       setMenuOpen(false);
     }
   };
+  const handleBlur = e => {
+    if (menu.current && !menu.current.contains(e.relatedTarget)) {
+      setMenuOpen(false);
+    }
+  };
 
   document.addEventListener('mousedown', closeMenu);
 
@@ -34,14 +39,15 @@ const PrintDownload = props => {
 
     if (printIndex > 0 && e.keyCode === 38) {
       e.preventDefault();
-      document.getElementById(`printButton-${printIndex - 2}`).focus();
+      document.getElementById(`printButton-${printIndex - 2}`)?.focus();
       setPrintIndex(printIndex - 1);
     } else if (printIndex < 3 && e.keyCode === 40) {
       e.preventDefault();
-      document.getElementById(`printButton-${printIndex}`).focus();
+      document.getElementById(`printButton-${printIndex}`)?.focus();
       setPrintIndex(printIndex + 1);
     } else if (e.keyCode === 27) {
       setMenuOpen(false);
+      focusElement(document.querySelector('#print-download-menu'));
     }
   };
   const handleFocus = () => {
@@ -71,6 +77,7 @@ const PrintDownload = props => {
       onKeyDown={handleUserKeyPress}
       ref={menu}
       onFocus={handleFocus}
+      onBlur={handleBlur}
     >
       <button
         className={`vads-u-padding-x--2 ${toggleMenuButtonClasses}`}

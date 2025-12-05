@@ -1,5 +1,5 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import SubTask from '~/platform/forms/sub-task';
 
 import GetFormHelp from '../content/GetFormHelp';
@@ -16,5 +16,17 @@ const SubTaskWrap = ({ pages }) => (
     </va-need-help>
   </>
 );
+
+SubTaskWrap.propTypes = {
+  pages: PropTypes.arrayOf(
+    PropTypes.shape({
+      back: PropTypes.string,
+      component: PropTypes.component,
+      name: PropTypes.string,
+      next: PropTypes.func,
+      validate: PropTypes.func,
+    }),
+  ),
+};
 
 export default SubTaskWrap;

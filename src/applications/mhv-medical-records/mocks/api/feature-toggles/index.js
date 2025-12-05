@@ -5,7 +5,6 @@ const APPLICATION_FEATURE_TOGGLES = Object.freeze({
   // medical records
 
   // OH integration work
-  mhvMedicationsToVaGovRelease: true,
   mhvAcceleratedDeliveryEnabled: true,
   mhvAcceleratedDeliveryAllergiesEnabled: true,
   mhvAcceleratedDeliveryConditionsEnabled: true,
@@ -13,6 +12,7 @@ const APPLICATION_FEATURE_TOGGLES = Object.freeze({
   mhvAcceleratedDeliveryVaccinesEnabled: true,
   mhvAcceleratedDeliveryLabsAndTestsEnabled: true,
   mhvAcceleratedDeliveryCareNotesEnabled: true,
+  mhvMedicalRecordsCcdExtendedFileTypes: true,
 });
 
 const generateFeatureToggles = ({

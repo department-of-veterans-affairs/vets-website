@@ -1,0 +1,13 @@
+.vass-form__button-container {
+  row-gap: var(--vads-spacing-2);
+}
+
+.vass-flex-direction--column {
+  flex-direction: column;
+}
+
+@media print {
+  .vass-hide-for-print {
+    display: none !important;
+  }
+}

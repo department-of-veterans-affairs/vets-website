@@ -135,9 +135,7 @@ describe('DebtDetailsCard', () => {
     ).to.have.lengthOf(1);
     expect(
       wrapper.find('va-link-action[data-testid="link-resolve"]').attr('text'),
-    ).to.equal(
-      'Pay your balance, request financial help, or dispute this overpayment',
-    );
+    ).to.equal('Resolve this overpayment');
   });
 
   it('should handle debt with no debtHistory', () => {

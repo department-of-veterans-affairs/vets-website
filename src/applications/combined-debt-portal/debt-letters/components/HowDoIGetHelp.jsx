@@ -54,7 +54,7 @@ const HowDoIGetHelp = ({
         <va-link-action
           href="/manage-va-debt/request-debt-help-form-5655/"
           message-aria-describedby="Opens pay.va.gov"
-          text="Request help with your debt"
+          text="Request help with this overpayment"
           type="secondary"
         />
       </section>

@@ -12,7 +12,7 @@ describe('area of disagreement page', () => {
     schema,
     uiSchema,
     arrayPath,
-  } = formConfig.chapters.conditions.pages.areaOfDisagreementFollowUp;
+  } = formConfig.chapters.issues.pages.areaOfDisagreementFollowUp;
 
   it('should render', () => {
     const { container } = render(
