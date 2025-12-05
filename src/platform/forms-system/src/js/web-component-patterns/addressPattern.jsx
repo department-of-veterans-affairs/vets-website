@@ -22,9 +22,8 @@ import VaRadioField from '../web-component-fields/VaRadioField';
 const NONBLANK_PATTERN = '^.*\\S.*';
 const STATE_PROVINCE_PATTERN = "^[a-zA-Z0-9\\s'-]+$";
 const POSTAL_CODE_PATTERNS = {
-  CAN:
-    '^(?=[^DdFfIiOoQqUu\\d\\s])[A-Za-z]\\d(?=[^DdFfIiOoQqUu\\d\\s])[A-Za-z]\\s{0,1}\\d(?=[^DdFfIiOoQqUu\\d\\s])[A-Za-z]\\d$',
-  MEX: '^\\d{5}$',
+  CAN: '^[A-Za-z0-9]{6}$',
+  MEX: '^[A-Za-z0-9]{5}$',
   USA: '^\\d{5}$',
 };
 
@@ -706,15 +705,18 @@ export function addressUI(options = {}) {
 
           addressSchema.type = 'string';
           // country-specific patterns and maxLength
-          if (isMilitary || country === 'USA') {
-            addressSchema.pattern = POSTAL_CODE_PATTERNS.USA;
+          if (isMilitary || ['USA', 'MEX'].includes(country)) {
+            addressSchema.pattern =
+              POSTAL_CODE_PATTERNS[isMilitary ? 'USA' : country];
             addressSchema.maxLength = 5;
-          } else if (['CAN', 'MEX'].includes(country)) {
+          } else if (country === 'CAN') {
             addressSchema.pattern = POSTAL_CODE_PATTERNS[country];
             addressSchema.maxLength = 6;
           } else {
             // pattern validation for other countries - alphanumeric and spaces/hyphens only
-            addressSchema.pattern = country ? '^[a-zA-Z0-9\\s-]+$' : undefined;
+            addressSchema.pattern = country
+              ? POSTAL_CODE_PATTERNS.CAN
+              : undefined;
             addressSchema.maxLength = country ? 6 : undefined;
           }
 
