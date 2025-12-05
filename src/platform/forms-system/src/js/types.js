@@ -489,6 +489,8 @@
  * @property {ArrayBuilderText} [text] Override any default text used in the array builder pattern
  * @property {boolean} [useLinkInsteadOfYesNo]
  * @property {boolean} [useButtonInsteadOfYesNo]
+ * @property {(({ itemData, index, fullData, isReview }) => boolean)} [canEditItem]
+ * @property {(({ itemData, index, fullData, isReview }) => boolean)} [canDeleteItem]
  * @property {DuplicateChecks} [duplicateChecks]
  * ```
  * // Example simple:
