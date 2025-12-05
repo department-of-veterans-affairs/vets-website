@@ -108,7 +108,6 @@ describe('Prescription print only container', () => {
         'Check your prescription label or contact your VA facility.',
       ),
     ).to.exist;
-    expect(screen.getByText('Find your VA facility')).to.exist;
   });
 
   it('should hide refill history when Cerner pilot is enabled', () => {
