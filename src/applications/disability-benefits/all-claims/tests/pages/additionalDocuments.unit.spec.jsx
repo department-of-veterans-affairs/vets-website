@@ -189,5 +189,155 @@ describe('526EZ document upload', () => {
         label: 'Uploaded file(s)',
       });
     });
+
+    it('should handle empty file array', () => {
+      const result = uiSchema.additionalDocuments['ui:confirmationField']({
+        formData: [],
+      });
+
+      expect(result).to.deep.equal({
+        data: [],
+        label: 'Uploaded file(s)',
+      });
+    });
+
+    it('should return "File name not available" when formData is null', () => {
+      const result = uiSchema.additionalDocuments['ui:confirmationField']({
+        formData: null,
+      });
+
+      expect(result).to.deep.equal({
+        data: 'File name not available',
+        label: 'Uploaded file(s)',
+      });
+    });
+
+    it('should return "File name not available" when formData is undefined', () => {
+      const result = uiSchema.additionalDocuments['ui:confirmationField']({
+        formData: undefined,
+      });
+
+      expect(result).to.deep.equal({
+        data: 'File name not available',
+        label: 'Uploaded file(s)',
+      });
+    });
+
+    it('should return "File name not available" when formData is not an array', () => {
+      const result = uiSchema.additionalDocuments['ui:confirmationField']({
+        formData: { name: 'file.pdf' },
+      });
+
+      expect(result).to.deep.equal({
+        data: 'File name not available',
+        label: 'Uploaded file(s)',
+      });
+    });
+
+    it('should fall back to fileName when name is not present', () => {
+      const testData = [
+        {
+          fileName: 'Form526.pdf',
+          confirmationCode: 'testing',
+          attachmentId: 'L015',
+        },
+      ];
+
+      const result = uiSchema.additionalDocuments['ui:confirmationField']({
+        formData: testData,
+      });
+
+      expect(result).to.deep.equal({
+        data: ['Form526.pdf'],
+        label: 'Uploaded file(s)',
+      });
+    });
+
+    it('should prioritize name over fileName', () => {
+      const testData = [
+        {
+          name: 'PreferredName.pdf',
+          fileName: 'FallbackName.pdf',
+          confirmationCode: 'testing',
+          attachmentId: 'L015',
+        },
+      ];
+
+      const result = uiSchema.additionalDocuments['ui:confirmationField']({
+        formData: testData,
+      });
+
+      expect(result).to.deep.equal({
+        data: ['PreferredName.pdf'],
+        label: 'Uploaded file(s)',
+      });
+    });
+
+    it('should return "file name not available" when file array contains items without name or fileName', () => {
+      const testData = [
+        {
+          name: 'ValidFile.pdf',
+          confirmationCode: 'testing1',
+          attachmentId: 'L015',
+        },
+        {
+          confirmationCode: 'testing2',
+          attachmentId: 'L016',
+        },
+      ];
+
+      const result = uiSchema.additionalDocuments['ui:confirmationField']({
+        formData: testData,
+      });
+
+      expect(result).to.deep.equal({
+        data: 'File name not available',
+        label: 'Uploaded file(s)',
+      });
+    });
+
+    it('should return "File name not available" when file array contains null items', () => {
+      const testData = [
+        {
+          name: 'ValidFile.pdf',
+          confirmationCode: 'testing1',
+          attachmentId: 'L015',
+        },
+        null,
+      ];
+
+      const result = uiSchema.additionalDocuments['ui:confirmationField']({
+        formData: testData,
+      });
+
+      expect(result).to.deep.equal({
+        data: 'File name not available',
+        label: 'Uploaded file(s)',
+      });
+    });
+
+    it('should handle mixed name and fileName in multiple files', () => {
+      const testData = [
+        {
+          name: 'NamedFile.pdf',
+          confirmationCode: 'testing1',
+          attachmentId: 'L015',
+        },
+        {
+          fileName: 'FileNameOnly.pdf',
+          confirmationCode: 'testing2',
+          attachmentId: 'L016',
+        },
+      ];
+
+      const result = uiSchema.additionalDocuments['ui:confirmationField']({
+        formData: testData,
+      });
+
+      expect(result).to.deep.equal({
+        data: ['NamedFile.pdf', 'FileNameOnly.pdf'],
+        label: 'Uploaded file(s)',
+      });
+    });
   });
 });

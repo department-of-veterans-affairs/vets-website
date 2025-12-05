@@ -1,5 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { render } from '@testing-library/react';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
@@ -195,6 +196,113 @@ describe('ConfirmationPage', () => {
       submissionStatuses.succeeded,
       true, // disability526ShowConfirmationReview toggle
     );
+  });
+
+  describe('Error Boundary', () => {
+    it('should initialize hasError state to false', () => {
+      const instance = new ConfirmationPage(defaultProps);
+      expect(instance.state.hasError).to.be.false;
+    });
+
+    it('getDerivedStateFromError should return hasError: true', () => {
+      // Test that getDerivedStateFromError properly updates state
+      const result = ConfirmationPage.getDerivedStateFromError(
+        new Error('Test error'),
+      );
+      expect(result).to.deep.equal({ hasError: true });
+    });
+
+    it('should have componentDidCatch method for error logging', () => {
+      const instance = new ConfirmationPage(defaultProps);
+      expect(instance.componentDidCatch).to.be.a('function');
+    });
+
+    it('should call componentDidCatch when error occurs', () => {
+      const instance = new ConfirmationPage(defaultProps);
+      const componentDidCatchSpy = sinon.spy(instance, 'componentDidCatch');
+      const testError = new Error('Test error');
+      const errorInfo = { componentStack: 'test' };
+
+      instance.componentDidCatch(testError, errorInfo);
+
+      expect(componentDidCatchSpy.calledWith(testError, errorInfo)).to.be.true;
+      componentDidCatchSpy.restore();
+    });
+
+    it('should not render ChapterSectionCollection when hasError is true', () => {
+      const store = mockStore(
+        getData({
+          featureToggles: {
+            [Toggler.TOGGLE_NAMES.disability526ShowConfirmationReview]: true,
+          },
+        }),
+      );
+
+      const props = {
+        ...defaultProps,
+        claimId: '12345678',
+      };
+
+      const instance = new ConfirmationPage(props);
+      // Manually set error state to test the conditional rendering
+      instance.state = { hasError: true };
+
+      const { container } = render(
+        <Provider store={store}>
+          {instance.ConfirmationPageContent(props)}
+        </Provider>,
+      );
+
+      // Verify accordion is not rendered when error occurs
+      const accordionItem = container.querySelector(
+        'va-accordion-item[header="Information you submitted on this form"]',
+      );
+      expect(accordionItem).to.be.null;
+
+      // The rest of the confirmation view should still be visible
+      expect(container.querySelector('va-alert')).to.exist;
+      expect(container.textContent).to.include('Form submission started on');
+      expect(container.textContent).to.include('Disability Compensation Claim');
+      expect(container.textContent).to.include('For Hector Lee Brooks Sr.');
+      expect(container.textContent).to.include('Date submitted');
+      expect(container.textContent).to.include('November 7, 2024');
+      expect(container.textContent).to.include('Conditions claimed');
+      expect(container.textContent).to.include('Something Something');
+      expect(container.textContent).to.include('Print this confirmation page');
+      expect(container.textContent).to.include('What to expect');
+      expect(container.textContent).to.include(
+        'How to contact us if you have questions',
+      );
+    });
+
+    it('should render ChapterSectionCollection when hasError is false', () => {
+      const store = mockStore(
+        getData({
+          featureToggles: {
+            [Toggler.TOGGLE_NAMES.disability526ShowConfirmationReview]: true,
+          },
+        }),
+      );
+
+      const props = {
+        ...defaultProps,
+        claimId: '12345678',
+      };
+
+      const instance = new ConfirmationPage(props);
+      // Ensure hasError is false (default state)
+      expect(instance.state.hasError).to.be.false;
+
+      const { container } = render(
+        <Provider store={store}>
+          <ConfirmationPage {...props} />
+        </Provider>,
+      );
+
+      // When hasError is false and toggle is on, content should render normally
+      expect(container.querySelector('va-alert')).to.exist;
+      expect(container.textContent).to.include('Form submission started on');
+    });
   });
 });
 
