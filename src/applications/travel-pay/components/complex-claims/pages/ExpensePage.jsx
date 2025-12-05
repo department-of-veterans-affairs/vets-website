@@ -44,6 +44,7 @@ const ExpensePage = () => {
   const [extraFieldErrors, setExtraFieldErrors] = useState({});
 
   const errorRef = useRef(null); // ref for the error message
+  const costRequestedRef = useRef(null);
 
   const isEditMode = !!expenseId;
   const isLoadingExpense = useSelector(
@@ -213,6 +214,11 @@ const ExpensePage = () => {
   };
 
   const validateRequestedAmount = () => {
+    // Check built in component errors first (like invalid number)
+    if (costRequestedRef.current?.error) {
+      return false;
+    }
+
     const errors = { costRequested: null };
 
     // Valid greater than 0.
@@ -380,6 +386,7 @@ const ExpensePage = () => {
           name="costRequested"
           value={formState.costRequested || ''}
           required
+          ref={costRequestedRef}
           show-input-error
           onBlur={validateRequestedAmount}
           onInput={handleFormChange}
