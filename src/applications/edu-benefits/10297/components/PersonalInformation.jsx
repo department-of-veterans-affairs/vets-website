@@ -1,33 +1,16 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { isValid, format, parseISO, parse } from 'date-fns';
+import { isValid, format } from 'date-fns';
 import { selectProfile } from '~/platform/user/selectors';
-import { srSubstitute } from '~/platform/forms-system/src/js/utilities/ui/mask-string';
 import environment from 'platform/utilities/environment';
-import { getAgeInYears } from '../helpers';
-
-const mask = value => {
-  const number = (value || '').toString().slice(-4);
-  return srSubstitute(number, `ending with ${number.split('').join(' ')}`);
-};
-
-const FORMAT_YMD_DATE_FNS = 'yyyy-MM-dd';
-const FORMAT_READABLE_DATE_FNS = 'MMMM d, yyyy';
-
-const parseDateToDateObj = (date, template) => {
-  let newDate = date;
-  if (typeof date === 'string') {
-    if (date.includes('T')) {
-      newDate = parseISO((date || '').split('T')[0]);
-    } else if (template) {
-      newDate = parse(date, template, new Date());
-    }
-  } else if (date instanceof Date && isValid(date)) {
-    newDate.setMinutes(newDate.getMinutes() + newDate.getTimezoneOffset());
-  }
-  return isValid(newDate) ? newDate : null;
-};
+import {
+  FORMAT_READABLE_DATE_FNS,
+  FORMAT_YMD_DATE_FNS,
+  getAgeInYears,
+  mask,
+  parseDateToDateObj,
+} from '../helpers';
 
 const PersonalInformation = ({ formData }) => {
   const profile = useSelector(selectProfile);
