@@ -123,3 +123,15 @@ export const isUTCTodayOrFuture = date => {
   const issueDateUtc = toUTCStartOfDay(date);
   return issueDateUtc.getTime() >= utcToday.getTime();
 };
+
+/**
+ * Format a date object to a user-friendly string
+ * @param {Date} date - Date object to format
+ * @returns {string} - Date in readable format (e.g., "December 4, 2025")
+ */
+export const formatDateToReadableString = date => {
+  if (!date || !isValid(date)) {
+    return '';
+  }
+  return format(date, FORMAT_READABLE_DATE_FNS);
+};

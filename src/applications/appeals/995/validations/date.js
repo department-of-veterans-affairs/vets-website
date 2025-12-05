@@ -5,18 +5,20 @@ import sharedErrorMessages from '../../shared/content/errorMessages';
 import { MAX_YEARS_PAST } from '../../shared/constants';
 import {
   createScreenReaderErrorMsg,
+  createDecisionDateErrorMsg,
   createDateObject,
 } from '../../shared/validations/date';
 
-// substract max years in the past
+// subtract max years in the past
 export const minDate = subYears(startOfToday(), MAX_YEARS_PAST);
 
 export const validateDate = (errors, rawDateString = '', fullData) => {
   const date = createDateObject(rawDateString);
-  const error =
-    (fullData?.dateType || 'decisions') === 'decisions'
-      ? sharedErrorMessages.decisions
-      : errorMessages.evidence;
+  const isDecisionDateType =
+    (fullData?.dateType || 'decisions') === 'decisions';
+  const error = isDecisionDateType
+    ? sharedErrorMessages.decisions
+    : errorMessages.evidence;
 
   if (date.isInvalid) {
     // The va-memorable-date component currently overrides the error message
@@ -28,7 +30,20 @@ export const validateDate = (errors, rawDateString = '', fullData) => {
     date.errors.other = true; // other part error
   } else if (date.isTodayOrInFuture) {
     // Lighthouse won't accept same day (as submission) decision date
-    errors.addError(error.pastDate);
+    if (isDecisionDateType) {
+      // Decision dates: Show dynamic cutoff date to help user understand
+      // exactly which date they need to exceed (e.g., "Enter a date after December 4, 2025")
+      const decisionDateErrorMessage = createDecisionDateErrorMsg(
+        sharedErrorMessages,
+        date,
+      );
+
+      errors.addError(decisionDateErrorMessage);
+    } else {
+      // Evidence dates: Use static message since any past date is acceptable
+      // for evidence - no need to show specific cutoff date
+      errors.addError(errorMessages.evidence.pastDate);
+    }
     date.errors.year = true; // only the year is invalid at this point
   } else if (isBefore(date.dateObj, minDate)) {
     errors.addError(error.newerDate);
