@@ -13,7 +13,7 @@ import { getAppData } from '../selectors';
 export const IntroductionPageV1 = () => {
   return (
     // === original content unchanged ===
-    <div className="schemaform-intro">
+    <div>
       <h1>Apply to use transferred education benefits</h1>
       <h2 className="vads-u-font-size--h3 vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-top--2p5">
         Equal to VA Form 22-1990e (Application for Family Member to Use
@@ -92,7 +92,7 @@ export const IntroductionPageV1 = () => {
 
 export const IntroductionPageV2 = () => {
   return (
-    <div className="schemaform-intro">
+    <div>
       <h1>Apply to use transferred education benefits</h1>
       <h2 className="vads-u-font-size--h3">
         Equal to VA Form 22-1990e (Application for Family Member to Use
@@ -205,7 +205,7 @@ export const IntroductionPageV2 = () => {
 
 export const IntroductionPageV3 = () => {
   return (
-    <div className="schemaform-intro">
+    <div>
       <h1 className="vads-u-margin-bottom--1">
         Apply to use transferred education benefits
       </h1>
@@ -315,7 +315,7 @@ export const IntroductionPageV3 = () => {
             <ul>
               <li>
                 <strong>Your sponsor’s transferred GI Bill benefits.</strong>{' '}
-                Make sure your sponsor has transferred GI bill benefits before
+                Make sure your sponsor has transferred GI Bill benefits before
                 starting this application. Your sponsor can{' '}
                 <a
                   href="https://milconnect.dmdc.osd.mil/milconnect/"
@@ -327,7 +327,7 @@ export const IntroductionPageV3 = () => {
                 .
               </li>
               <li>Your current address and contact information</li>
-              <li>Your bank account direct deposit information</li>
+              <li>Bank account direct deposit information</li>
             </ul>
             <p>
               <strong>Note:</strong> If you aren’t an adult (at least 18 years
@@ -382,7 +382,7 @@ export const IntroductionPage = ({
   user,
 }) => {
   return (
-    <>
+    <div className="schemaform-intro">
       <PageVersion
         meb1995Reroute={meb1995Reroute}
         showMeb54901990eTextUpdate={showMeb54901990eTextUpdate}
@@ -401,7 +401,7 @@ export const IntroductionPage = ({
           exp-date="03/31/2026"
         />
       </div>
-    </>
+    </div>
   );
 };
 

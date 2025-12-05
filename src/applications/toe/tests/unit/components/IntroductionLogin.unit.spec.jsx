@@ -103,7 +103,7 @@ describe('<IntroductionLogin />', () => {
     ).to.exist;
   });
 
-  it('should render va-alert-sign-in with signInOptional variant as default', () => {
+  it('should render va-alert-sign-in with signInOptionalNoPrefill variant as default', () => {
     const state = {
       ...defaultState,
       user: {
@@ -119,7 +119,9 @@ describe('<IntroductionLogin />', () => {
     const { container } = renderIntroductionLogin(store);
 
     expect(
-      container.querySelector('va-alert-sign-in[variant="signInOptional"]'),
+      container.querySelector(
+        'va-alert-sign-in[variant="signInOptionalNoPrefill"]',
+      ),
     ).to.exist;
   });
 
