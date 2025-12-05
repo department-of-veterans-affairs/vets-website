@@ -9,6 +9,10 @@ import GetFormHelp from '../components/GetFormHelp';
 
 import manifest from '../manifest.json';
 
+/**
+ * Confirmation page content
+ * @returns {React.ReactElement} Confirmation page content
+ */
 export default function ConfirmationPage() {
   const form = useSelector(state => state?.form);
   const alertRef = useRef(null);

@@ -1,6 +1,13 @@
 import { submitToUrl } from 'platform/forms-system/src/js/actions';
 import { customTransformForSubmit } from '../config/utilities';
 
+/**
+ * Builds event data for 686c form submission based on selected options. This is
+ * meant for the v2 flow. For v3, the post-processed data from the submit
+ * transformer
+ * @param {object} formData The form data submitted by the user
+ * @returns {object} Event data object for submission tracking
+ */
 export const buildEventData = (formData = {}) => {
   return {
     'disability-claimSpouse': formData['view:selectable686Options'].addSpouse,
@@ -22,13 +29,19 @@ export const buildEventData = (formData = {}) => {
   };
 };
 
+/**
+ * Transform and submit the 686c form data
+ * @param {object} form - form object from Redux store
+ * @param {object} formConfig - form configuration object
+ * @returns {Promise} Promise resolving when the form is submitted
+ */
 export const customSubmit686 = (form, formConfig) => {
-  const body = customTransformForSubmit(formConfig, form);
-
+  const { body, data } = customTransformForSubmit(formConfig, form);
   return submitToUrl(
     body,
     formConfig.submitUrl,
     formConfig.trackingPrefix,
-    buildEventData(form.data),
+    // use processed data so the correct v3 data is sent to events
+    buildEventData(data),
   );
 };

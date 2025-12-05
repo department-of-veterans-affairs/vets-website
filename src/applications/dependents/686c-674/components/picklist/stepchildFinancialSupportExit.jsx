@@ -6,11 +6,19 @@ import { makeNamePossessive } from '../../../shared/utils';
 
 const stepchildFinancialSupportExit = {
   handlers: {
-    // Define goForward so the routing code doesn't break
+    /**
+     * @type {GoForwardParams}
+     * Return "DONE" when we're done with this flow
+     * @returns {string} Next page key
+     */
     goForward: () => 'DONE',
 
-    // Submit shouldn't do anything; we're directing the user to exit the form
+    /**
+     * @type {OnSubmitParams}
+     * @returns {void}
+     */
     onSubmit: ({ goForward }) => {
+      // Submit shouldn't do anything; we're directing the user to exit the form
       goForward();
     },
   },
@@ -18,7 +26,10 @@ const stepchildFinancialSupportExit = {
   // Flag to hide form navigation continue button
   hasExitLink: true,
 
-  /** @type {PicklistComponentProps} */
+  /**
+   * @type {PicklistComponentProps}
+   * @returns {React.ReactElement} Page component
+   */
   Component: ({ firstName, isShowingExitLink }) => (
     <>
       <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2">

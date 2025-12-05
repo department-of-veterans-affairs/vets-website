@@ -9,6 +9,7 @@ import {
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { focusElement } from 'platform/utilities/ui/focus';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 
 /** @type {ArrayBuilderOptions} */
@@ -131,6 +132,7 @@ export const expensesPages = arrayBuilderPages(options, pageBuilder => ({
     path: 'expenses-list',
     uiSchema: summaryPage.uiSchema,
     schema: summaryPage.schema,
+    scrollAndFocusTarget: () => focusElement('h3'),
   }),
   expenseDetailsPage: pageBuilder.itemPage({
     title: 'Expense details',

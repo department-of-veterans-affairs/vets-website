@@ -16,7 +16,7 @@ import {
 export const medicaidFacilityUiSchema = {
   medicaidFacility: {
     isMedicaidApprovedFacility: yesNoUI({
-      title: 'Is the nuring home a Medicaid approved facility?',
+      title: 'Is the nursing home a Medicaid approved facility?',
     }),
   },
   'ui:options': {

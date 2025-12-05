@@ -66,8 +66,8 @@ import PropTypes from 'prop-types';
  * @property {function} returnToMainPage Function to return to main picklist
  * page
  * @property {boolean} isEditing Is the form is being edited from review page?
- * @returns React component
  * @property {boolean} isShowingExitLink Is the exit form link is showing?
+ * @returns {React.ReactElement} Page component
  */
 
 export default {

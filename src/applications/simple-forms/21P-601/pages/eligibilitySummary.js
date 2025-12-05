@@ -35,10 +35,11 @@ function EligibilitySummary({ formData }) {
   return (
     <>
       <div className="vads-u-margin-top--3">
-        <va-card background icon-name="">
+        <va-card background icon-name="" role="alert">
           <div>
             <h4 className="vads-u-margin-top--1">
-              Based on your responses, you should not submit this form online.
+              Based on your responses, you may not be eligible to submit this
+              form online.
             </h4>
             <p>
               <strong>Your response:</strong>
