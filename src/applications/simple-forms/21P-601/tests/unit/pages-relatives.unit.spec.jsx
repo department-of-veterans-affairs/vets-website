@@ -78,7 +78,7 @@ describe('21P-601 relatives page configurations', () => {
       expect(survivorsUI['ui:required']).to.be.a('function');
       expect(survivorsUI['ui:required']()).to.be.true;
       expect(survivorsUI['ui:title']).to.equal(
-        'Are there any survivors of the beneficiary?',
+        'Are there any dependent survivors of the beneficiary?',
       );
       expect(survivorsUI['ui:webComponentField']).to.exist;
     });

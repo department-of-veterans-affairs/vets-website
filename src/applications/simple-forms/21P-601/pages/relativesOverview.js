@@ -6,14 +6,14 @@ import {
 
 export default {
   uiSchema: {
-    ...titleUI('Survivors of the beneficiary'),
+    ...titleUI('Dependent survivors of the beneficiary'),
     survivors: yesNoUI({
-      title: 'Are there any survivors of the beneficiary?',
+      title: 'Are there any dependent survivors of the beneficiary?',
       required: () => true,
     }),
     'view:survivorsMessage': {
       'ui:description':
-        'Since there are surviving relatives, you may not be eligible for reimbursement of last illness and burial expenses if you paid them.',
+        'Since there are dependent surviving relatives, you may not be eligible for reimbursement of last illness and burial expenses if you paid them.',
       'ui:options': {
         hideIf: formData => [false, undefined].includes(formData?.survivors),
       },
