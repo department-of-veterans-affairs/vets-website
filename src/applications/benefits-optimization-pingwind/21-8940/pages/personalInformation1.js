@@ -7,6 +7,7 @@ import {
   inlineTitleUI,
   ssnSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
+import VaDateField from '~/platform/forms-system/src/js/web-component-fields/VaDateField';
 import { veteranFields } from '../definitions/constants';
 import { getFullNameLabels } from '../helpers';
 
@@ -20,7 +21,12 @@ export default {
       [veteranFields.fullName]: fullNameNoSuffixUI(label =>
         getFullNameLabels(label, false),
       ),
-      [veteranFields.dateOfBirth]: dateOfBirthUI(),
+      [veteranFields.dateOfBirth]: {
+        ...dateOfBirthUI({
+          hint: 'For example: January 19 2022',
+        }),
+        'ui:webComponentField': VaDateField,
+      },
       [veteranFields.ssn]: ssnUI(),
     },
   },

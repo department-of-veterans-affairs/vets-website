@@ -36,7 +36,7 @@ const WhatYouNeed = ({ formData, location, route, router }) => {
 
   return (
     <div className="schemaform-intro">
-      <h2 className="vads-u-margin-bottom--2">What You Need to Get Started</h2>
+      <h1 className="vads-u-margin-bottom--2 vads-u-margin-top--2">What You Need to Get Started</h1>
       <p className="vads-u-margin-bottom--3" style={{ fontSize: '16px' }}>
         Review this checklist for what you’ll need. Don’t have everything? You
         can start now and save your progress as you go.
@@ -46,7 +46,7 @@ const WhatYouNeed = ({ formData, location, route, router }) => {
         uswds
         class="vads-u-margin-bottom--3"
       >
-        <h3 slot="headline">Basic Information</h3>
+        <h2 slot="headline">Basic Information</h2>
         <ul className="usa-list vads-u-margin--0">
           <li>Veteran’s name</li>
           <li>Date of birth</li>
@@ -62,13 +62,13 @@ const WhatYouNeed = ({ formData, location, route, router }) => {
         uswds
         class="vads-u-margin-bottom--3"
       >
-        <h3 slot="headline">Disability Information</h3>
+        <h2 slot="headline">Disability Information</h2>
         <ul className="usa-list vads-u-margin--0">
           <li>List of your service-connected disabilities</li>
           <li>
-            Names and addresses of doctors who treated you in the past 12 months
+            Names and addresses of doctors who treated you in the past 12 months (if applicable)
           </li>
-          <li>Dates of recent medical treatment</li>
+          <li>Dates of recent medical treatment (if applicable)</li>
           <li>Hospital names and dates (if applicable)</li>
         </ul>
       </VaSummaryBox>
@@ -77,13 +77,12 @@ const WhatYouNeed = ({ formData, location, route, router }) => {
         uswds
         class="vads-u-margin-bottom--3"
       >
-        <h3 slot="headline">Employment History</h3>
+        <h2 slot="headline">Employment History</h2>
         <ul className="usa-list vads-u-margin--0">
           <li>Dates your disability began affecting your work</li>
           <li>Date you last worked full-time</li>
           <li>
-            Employment details for the past 5 years (employer names, addresses,
-            dates, job duties)
+            Employment details for the last 5 years you worked (employer names, addresses, dates, job duties, salary)
           </li>
           <li>Your highest annual earnings and what year</li>
           <li>Current income information (if working)</li>
@@ -94,11 +93,11 @@ const WhatYouNeed = ({ formData, location, route, router }) => {
         uswds
         class="vads-u-margin-bottom--3"
       >
-        <h3 slot="headline">Education and Training</h3>
+        <h2 slot="headline">Education and Training</h2>
         <ul className="usa-list vads-u-margin--0">
           <li>Highest level of education completed</li>
-          <li>Details about any education or training</li>
-          <li>Dates of education or training</li>
+          <li>Details about any education or training (if applicable)</li>
+          <li>Dates of education or training (if applicable)</li>
         </ul>
       </VaSummaryBox>
       <VaSummaryBox
@@ -106,11 +105,11 @@ const WhatYouNeed = ({ formData, location, route, router }) => {
         uswds
         class="vads-u-margin-bottom--3"
       >
-        <h3 slot="headline">Job Search Information</h3>
+        <h2 slot="headline">Job Search Information</h2>
         <ul className="usa-list vads-u-margin--0">
           <li>Names and addresses of places you applied to work</li>
-          <li>Types of jobs you applied for</li>
-          <li>Dates you applied</li>
+          <li>Types of jobs you applied for (if applicable)</li>
+          <li>Dates you applied (if applicable)</li>
         </ul>
       </VaSummaryBox>
       <FormNavButtons goBack={goBack} goForward={goForward} />
