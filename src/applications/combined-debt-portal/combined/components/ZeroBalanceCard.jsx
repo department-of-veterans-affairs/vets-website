@@ -18,12 +18,22 @@ const ZeroBalanceCard = ({ appType }) => {
         ). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
       </p>
     ) : (
-      <p className="vads-u-margin-y--0">
-        If you think this is incorrect, contact the VA Health Resource Center at{' '}
-        <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} /> (
-        <va-telephone tty contact="711" />
-        ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
-      </p>
+      <>
+        <p>
+          You can’t check copay balances at this time because our records show
+          that you haven’t received a copay bill in the past 6 months.
+        </p>
+        <p>
+          If you think this is incorrect, contact the VA Health Resource Center.
+          We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+        </p>
+        <p>
+          <span className="no-wrap">
+            <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} />
+          </span>
+          . (TTY: <va-telephone contact={CONTACTS[711]} />
+        </p>
+      </>
     );
 
   return (
