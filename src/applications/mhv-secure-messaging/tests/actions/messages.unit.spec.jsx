@@ -15,6 +15,7 @@ import {
   moveMessageThread,
   sendMessage,
   sendReply,
+  markMessageAsReadInThread,
 } from '../../actions/messages';
 import * as threadResponse from '../e2e/fixtures/thread-response-new-api.json';
 import * as messageResponse from '../e2e/fixtures/message-response.json';
@@ -598,5 +599,33 @@ describe('messages actions', () => {
           },
         });
       });
+  });
+
+  describe('markMessageAsReadInThread', () => {
+    it('should dispatch GET_MESSAGE_IN_THREAD and RE_FETCH_REQUIRED on success', async () => {
+      const store = mockStore();
+      mockApiRequest(messageResponse);
+      await store.dispatch(markMessageAsReadInThread(7179970));
+      const actions = store.getActions();
+      expect(actions).to.deep.include({
+        type: Actions.Thread.GET_MESSAGE_IN_THREAD,
+        response: messageResponse,
+      });
+      expect(actions).to.deep.include({
+        type: Actions.Thread.RE_FETCH_REQUIRED,
+        payload: true,
+      });
+    });
+
+    it('should not dispatch RE_FETCH_REQUIRED on error response', async () => {
+      const store = mockStore();
+      mockApiRequest({ errors: [{ code: '500', detail: 'Error' }] });
+      await store.dispatch(markMessageAsReadInThread(7179970));
+      const actions = store.getActions();
+      expect(actions).to.not.deep.include({
+        type: Actions.Thread.RE_FETCH_REQUIRED,
+        payload: true,
+      });
+    });
   });
 });
