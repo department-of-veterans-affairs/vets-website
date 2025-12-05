@@ -15,6 +15,21 @@ import {
 } from '../config/helpers';
 import { V2_LAUNCH_DATE } from '../config/constants';
 
+/**
+ * @typedef {object} FormConfigProps
+ * @property {boolean} prefillEnabled Prefill enabled flag
+ * @property {object} savedFormMessages Saved form messages
+ * @property {object} downtime Downtime configuration
+ *
+ * @typedef {object} RouteProps
+ * @property {FormConfigProps} formConfig Form configuration
+ *
+ * @typedef {object} IntroductionPageProps
+ * @property {RouteProps} route Route object
+ *
+ * @param {IntroductionPageProps} props Route props
+ * @returns {React.ReactElement} Introduction page content
+ */
 const IntroductionPage = props => {
   const dispatch = useDispatch();
   const { hasVaFileNumber, isLoading } = useSelector(
