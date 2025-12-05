@@ -404,82 +404,155 @@ const ComposeForm = props => {
     [draft],
   );
 
-  useEffect(
-    () => {
-      const send = async () => {
-        if (sendMessageFlag && isSaving !== true) {
-          scrollToTop();
-          const today = dateFormat(new Date(), 'YYYY-MM-DD');
-          const messageData = {
-            category: draftInProgress.category,
-            body: `${draftInProgress.body} ${
-              electronicSignature
-                ? `\n\n--------------------------------------------------\n\n${electronicSignature}\nSigned electronically on ${today}.`
-                : ''
-            }`,
-            subject: draftInProgress.subject,
-          };
-          messageData[`${'draft_id'}`] = draft?.messageId;
-          messageData[`${'recipient_id'}`] = draftInProgress.recipientId;
+  const send = useCallback(
+    async () => {
+      if (isSaving !== true) {
+        scrollToTop();
+        const today = dateFormat(new Date(), 'YYYY-MM-DD');
+        const messageData = {
+          category: draftInProgress.category,
+          body: `${draftInProgress.body} ${
+            electronicSignature
+              ? `\n\n--------------------------------------------------\n\n${electronicSignature}\nSigned electronically on ${today}.`
+              : ''
+          }`,
+          subject: draftInProgress.subject,
+        };
+        messageData[`${'draft_id'}`] = draft?.messageId;
+        messageData[`${'recipient_id'}`] = draftInProgress.recipientId;
 
-          let sendData;
-          if (attachments.length > 0) {
-            sendData = new FormData();
-            sendData.append('message', JSON.stringify(messageData));
-            attachments.map(upload => sendData.append('uploads[]', upload));
-          } else {
-            sendData = JSON.stringify(messageData);
-          }
-
-          try {
-            setIsAutoSave(false);
-            await dispatch(
-              sendMessage(
-                sendData,
-                attachments.length > 0,
-                draftInProgress.ohTriageGroup,
-                !!redirectPath, // suppress alert when redirectPath exists
-              ),
-            );
-            dispatch(clearDraftInProgress());
-            setTimeout(() => {
-              if (redirectPath) {
-                navigateToRxCallback();
-              } else {
-                navigateToFolderByFolderId(
-                  currentFolder?.folderId || DefaultFolders.INBOX.id,
-                  history,
-                );
-              }
-            }, 1000);
-            // Timeout necessary for UCD requested 1 second delay
-          } catch (err) {
-            setSendMessageFlag(false);
-            scrollToTop();
-            setIsAutoSave(true);
-          }
+        let sendData;
+        if (attachments.length > 0) {
+          sendData = new FormData();
+          sendData.append('message', JSON.stringify(messageData));
+          attachments.map(upload => sendData.append('uploads[]', upload));
+        } else {
+          sendData = JSON.stringify(messageData);
         }
-      };
 
-      send();
+        try {
+          setIsAutoSave(false);
+          await dispatch(
+            sendMessage(
+              sendData,
+              attachments.length > 0,
+              draftInProgress.ohTriageGroup,
+              !!redirectPath, // suppress alert when redirectPath exists
+            ),
+          );
+          dispatch(clearDraftInProgress());
+          setTimeout(() => {
+            if (redirectPath) {
+              navigateToRxCallback();
+            } else {
+              navigateToFolderByFolderId(
+                currentFolder?.folderId || DefaultFolders.INBOX.id,
+                history,
+              );
+            }
+          }, 1000);
+          // Timeout necessary for UCD requested 1 second delay
+        } catch (err) {
+          setSendMessageFlag(false);
+          scrollToTop();
+          setIsAutoSave(true);
+        }
+      }
     },
     [
-      sendMessageFlag,
-      isSaving,
-      category,
-      messageBody,
-      electronicSignature,
-      subject,
-      draft?.messageId,
-      selectedRecipientId,
       attachments,
-      dispatch,
       currentFolder?.folderId,
+      dispatch,
+      draft?.messageId,
+      draftInProgress.body,
+      draftInProgress.category,
+      draftInProgress.ohTriageGroup,
+      draftInProgress.recipientId,
+      draftInProgress.subject,
+      electronicSignature,
       history,
-      redirectPath,
+      isSaving,
       navigateToRxCallback,
+      redirectPath,
     ],
   );
+
+  // useEffect(
+  //   () => {
+  // const send = async () => {
+  //   if (sendMessageFlag && isSaving !== true) {
+  //     scrollToTop();
+  //     const today = dateFormat(new Date(), 'YYYY-MM-DD');
+  //     const messageData = {
+  //       category: draftInProgress.category,
+  //       body: `${draftInProgress.body} ${
+  //         electronicSignature
+  //           ? `\n\n--------------------------------------------------\n\n${electronicSignature}\nSigned electronically on ${today}.`
+  //           : ''
+  //       }`,
+  //       subject: draftInProgress.subject,
+  //     };
+  //     messageData[`${'draft_id'}`] = draft?.messageId;
+  //     messageData[`${'recipient_id'}`] = draftInProgress.recipientId;
+
+  //     let sendData;
+  //     if (attachments.length > 0) {
+  //       sendData = new FormData();
+  //       sendData.append('message', JSON.stringify(messageData));
+  //       attachments.map(upload => sendData.append('uploads[]', upload));
+  //     } else {
+  //       sendData = JSON.stringify(messageData);
+  //     }
+
+  //     try {
+  //       setIsAutoSave(false);
+  //       await dispatch(
+  //         sendMessage(
+  //           sendData,
+  //           attachments.length > 0,
+  //           draftInProgress.ohTriageGroup,
+  //           !!redirectPath, // suppress alert when redirectPath exists
+  //         ),
+  //       );
+  //       dispatch(clearDraftInProgress());
+  //       setTimeout(() => {
+  //         if (redirectPath) {
+  //           navigateToRxCallback();
+  //         } else {
+  //           navigateToFolderByFolderId(
+  //             currentFolder?.folderId || DefaultFolders.INBOX.id,
+  //             history,
+  //           );
+  //         }
+  //       }, 1000);
+  //       // Timeout necessary for UCD requested 1 second delay
+  //     } catch (err) {
+  //       setSendMessageFlag(false);
+  //       scrollToTop();
+  //       setIsAutoSave(true);
+  //     }
+  //   }
+  // };
+
+  //     send();
+  //   },
+  //   [
+  //     sendMessageFlag,
+  //     isSaving,
+  //     category,
+  //     messageBody,
+  //     electronicSignature,
+  //     subject,
+  //     draft?.messageId,
+  //     selectedRecipientId,
+  //     attachments,
+  //     dispatch,
+  //     currentFolder?.folderId,
+  //     history,
+  //     redirectPath,
+  //     navigateToRxCallback,
+  //   ],
+  // );
 
   useEffect(() => {
     if (headerRef.current) {
@@ -745,6 +818,7 @@ const ComposeForm = props => {
 
       if (validSignatureNotRequired || isSignatureValid) {
         setSendMessageFlag(true);
+        send();
         setNavigationError(null);
         setLastFocusableElement(e.target);
       } else {
@@ -752,7 +826,13 @@ const ComposeForm = props => {
         focusOnErrorField();
       }
     },
-    [checkMessageValidity, isSignatureRequired, validMessageType.SEND],
+    [
+      checkMessageValidity,
+      validMessageType.SEND,
+      isSignatureRequired,
+      send,
+      setNavigationError,
+    ],
   );
 
   // Navigation error effect
