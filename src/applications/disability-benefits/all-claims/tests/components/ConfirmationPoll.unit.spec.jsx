@@ -289,5 +289,88 @@ describe('ConfirmationPoll', () => {
         newDisabilities[1].condition,
       ]);
     });
+
+    it('uses ratedDisability when condition is "Rated Disability"', () => {
+      const state = {
+        form: {
+          data: {
+            ratedDisabilities: [
+              {
+                'view:selected': true,
+                condition: 'Rated Disability',
+                ratedDisability: 'Left Knee Sprain',
+              },
+              {
+                'view:selected': true,
+                condition: 'rated disability',
+                ratedDisability: 'Right SHOULDER pain',
+              },
+            ],
+            newDisabilities: [],
+          },
+        },
+      };
+
+      const selectedDisabilities = selectAllDisabilityNames(state);
+
+      expect(selectedDisabilities).to.deep.equal([
+        'Left Knee Sprain',
+        'Right SHOULDER pain',
+      ]);
+    });
+
+    it('falls back to ratedDisability when name and condition are missing', () => {
+      const state = {
+        form: {
+          data: {
+            ratedDisabilities: [],
+            newDisabilities: [
+              {
+                conditionDate: '2025-01-01',
+                ratedDisability: 'Sciatica',
+              },
+            ],
+          },
+        },
+      };
+
+      const selectedDisabilities = selectAllDisabilityNames(state);
+
+      expect(selectedDisabilities).to.deep.equal(['Sciatica']);
+    });
+
+    it('filters out disabilities that have no usable label', () => {
+      const state = {
+        form: {
+          data: {
+            ratedDisabilities: [
+              {
+                'view:selected': true,
+                name: '',
+              },
+              null,
+              {
+                'view:selected': true,
+                condition: '   ',
+              },
+            ],
+            newDisabilities: [
+              {
+                condition: 'asthma',
+              },
+              {
+                name: '',
+                condition: '',
+                ratedDisability: '',
+              },
+            ],
+          },
+        },
+      };
+
+      const selectedDisabilities = selectAllDisabilityNames(state);
+
+      expect(selectedDisabilities).to.deep.equal(['asthma']);
+    });
   });
 });
