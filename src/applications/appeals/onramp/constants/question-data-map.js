@@ -196,16 +196,17 @@ const DISAGREE_DECISION = {
     <>
       <p>You might disagree with 1 or more of these things from your claim:</p>
       <ul>
-        <li>The effective date (when your benefits eligibility started)</li>
         <li>
           Your disability rating (how we rated the severity of your condition)
         </li>
         <li>Whether your condition is service-connected</li>
+        <li>The effective date (when your benefits eligibility started)</li>
       </ul>
-      <p>
-        If we change our decision, you may get retroactive compensation (back
-        pay).
-      </p>
+      <va-link
+        external
+        href="/disability/effective-date"
+        text="Learn more about disability compensation effective dates"
+      />
     </>
   ),
   h1: `Disagreement with decision`,
