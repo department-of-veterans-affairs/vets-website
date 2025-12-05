@@ -75,11 +75,12 @@ describe('Claim overview', () => {
           header: 'Step 3: Evidence gathering',
           isCurrentStep: true,
           content:
-            'Your claim is in this step as of January 2, 2025.Step may repeat if we need more information.We’ll review your claim and make sure we have all the evidence and information we need. If we need more evidence to decide your claim, we may gather it in these ways:Ask you to submit evidence Ask you to have a claim examLearn more about VA claim examsRequest medical records from your private health care providerGather evidence from our VA recordsThis is usually the longest step in the process.Note: You can submit evidence at any time. But if you submit evidence after this step, your claim will go back to this step for review.Upload your evidence here',
+            'Your claim is in this step as of January 2, 2025.Step may repeat if we need more information.We’ll review your claim and make sure we have all the evidence and information we need. If we need more evidence to decide your claim, we may gather it in these ways:Ask you to submit evidence Ask you to have a claim examRequest medical records from your private health care providerGather evidence from our VA recordsThis is usually the longest step in the process.Note: You can submit evidence at any time. But if you submit evidence after this step, your claim will go back to this step for review.Upload your evidence here',
           links: [
             {
               text: 'Learn more about VA claim exams',
               href: '/disability/va-claim-exam/',
+              isVaLink: true,
             },
             {
               text: 'Upload your evidence here',
@@ -151,9 +152,16 @@ describe('Claim overview', () => {
         // Verify the links
         if (step.links) {
           step.links.forEach(link => {
-            cy.get('@accordion-item')
-              .findByText(link.text)
-              .should('have.attr', 'href', link.href);
+            if (link.isVaLink) {
+              cy.get(`va-link[href="${link.href}"]`)
+                .should('be.visible')
+                .shadow()
+                .should('have.text', link.text);
+            } else {
+              cy.get('@accordion-item')
+                .findByText(link.text)
+                .should('have.attr', 'href', link.href);
+            }
           });
         }
       });
