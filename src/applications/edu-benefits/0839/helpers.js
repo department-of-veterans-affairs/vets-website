@@ -355,6 +355,13 @@ export const facilityCodeUIValidation = (errors, fieldData, formData) => {
     item => item?.facilityCode?.trim(),
   );
 
+  const facilityCodes = [
+    ...additionalFacilityCodes,
+    formData?.institutionDetails?.facilityCode,
+  ];
+
+  const isDuplicate = facilityCodes?.filter(item => item === code).length > 1;
+
   const badFormat = fieldData && !/^[a-zA-Z0-9]{8}$/.test(fieldData);
   const notFound = currentItem?.institutionName === 'not found';
   const ihlEligible = currentItem?.ihlEligible;
@@ -365,9 +372,9 @@ export const facilityCodeUIValidation = (errors, fieldData, formData) => {
     code.length === 8 && !badFormat && thirdChar === 'X';
 
   if (!currentItem?.isLoading) {
-    if (additionalFacilityCodes.filter(item => item === code).length > 1) {
+    if (isDuplicate) {
       errors.addError(
-        "You've already added this location. Please enter a different code.",
+        'You have already added this facility code to this form. Enter a new facility code, or cancel adding this additional location.',
       );
       return;
     }
@@ -385,13 +392,6 @@ export const facilityCodeUIValidation = (errors, fieldData, formData) => {
       );
       return;
     }
-
-    // if (!branchList.includes(code)) {
-    //   errors.addError(
-    //     "This facility code isn't linked to your school's main campus",
-    //   );
-    //   return;
-    // }
 
     if (notYR) {
       errors.addError(
