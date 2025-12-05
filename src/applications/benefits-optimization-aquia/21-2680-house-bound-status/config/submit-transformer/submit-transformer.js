@@ -250,6 +250,8 @@ export function submitTransformer(_formConfig, form) {
     additionalInformation,
     veteranSignature,
   };
-
-  return JSON.stringify({ form: backendData });
+  // Return the data as a JSON string wrapped in an object with a 'form' key
+  // The backend expects the entire payload to be a stringified JSON object,
+  // we do this because we don't want the form data modified by the inflection header
+  return JSON.stringify({ form: JSON.stringify(backendData) });
 }
