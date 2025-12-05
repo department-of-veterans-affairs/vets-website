@@ -560,17 +560,18 @@ export function transformPicklistToV2(data) {
   }
 
   // Filter out items that should not be transformed
-  const itemsToTransform = selected.filter(item => {
-    // Skip stepchild left household with financial support > 50%, OR
-    // Skip child not in school with permanent disability
-    return !(
-      (item.isStepchild === 'Y' &&
-        item.removalReason === 'stepchildNotMember' &&
-        item.stepchildFinancialSupport === 'Y') ||
-      (item.removalReason === 'childNotInSchool' &&
-        item.childHasPermanentDisability === 'Y')
-    );
-  });
+  const itemsToTransform = selected.filter(
+    item =>
+      // Skip stepchild left household with financial support > 50% &
+      // Skip child not in school with permanent disability
+      !(
+        (item.isStepchild === 'Y' &&
+          item.removalReason === 'stepchildNotMember' &&
+          item.stepchildFinancialSupport === 'Y') ||
+        (item.removalReason === 'childNotInSchool' &&
+          item.childHasPermanentDisability === 'Y')
+      ),
+  );
 
   // Initialize V2 arrays
   const v2Data = {
@@ -695,11 +696,7 @@ export function transformPicklistToV2(data) {
 
   // eslint-disable-next-line no-param-reassign
   data['view:selectable686Options'] = {
-    addSpouse: v2Data['view:selectable686Options']?.addSpouse || false,
-    addChild: v2Data['view:selectable686Options']?.addChild || false,
-    report674: v2Data['view:selectable686Options']?.report674 || false,
-    addDisabledChild:
-      v2Data['view:selectable686Options']?.addDisabledChild || false,
+    ...data['view:addDependentOptions'],
     ...data['view:removeDependentOptions'],
   };
 
