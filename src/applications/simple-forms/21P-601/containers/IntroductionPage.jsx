@@ -87,10 +87,6 @@ const childContent = (
         You must apply for accrued benefits within <strong>1 year</strong> of
         the beneficiary’s death
       </li>
-      <li>
-        If you’re filing a lump sum accrued benefits claim, you must do so
-        within <strong>5 years</strong> of the beneficiary’s death
-      </li>
     </ul>
     <h3>What you’ll need to apply</h3>
     <ul className="vads-u-margin-bottom--4">
@@ -99,7 +95,7 @@ const childContent = (
         The beneficiary’s death certificate (unless they died in a VA facility)
       </li>
       <li>Your personal and contact information</li>
-      <li>Information about surviving relatives</li>
+      <li>Information about dependent surviving relatives</li>
       <li>
         Any certified, signed legal documents showing the assignment of the
         executor or administrator of the beneficiary’s estate (if someone has
