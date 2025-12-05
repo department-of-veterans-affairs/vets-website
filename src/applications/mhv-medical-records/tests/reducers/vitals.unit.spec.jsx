@@ -114,6 +114,14 @@ describe('extractLocation function', () => {
 });
 
 describe('vitalReducer', () => {
+  it('handles GET when vitalsList is undefined without throwing', () => {
+    const action = { type: Actions.Vitals.GET, vitalType: 'WEIGHT' };
+    // Previously this would throw TypeError: cannot read properties of undefined (filter)
+    const newState = vitalReducer({}, action);
+    expect(newState.vitalDetails).to.be.an('array');
+    expect(newState.vitalDetails.length).to.equal(0);
+  });
+
   it('creates a list', () => {
     const response = {
       entry: [
