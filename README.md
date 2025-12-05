@@ -31,7 +31,7 @@ Once you have the site set up locally, these are some common commands you might 
 
 | I want to...               | Then you should...                                       |
 | :------------------------- | :------------------------------------------------------- |
-| fetch all dependencies     | `yarn install`; run this any time `package.json` changes |
+| fetch all dependencies     | `yarn install-safe`; run this any time `package.json` changes |
 | build applications         | `yarn build`                                             |
 | run the webpack dev server | `yarn watch`                                             |
 | build in codespaces        | `yarn build:codespaces`. Build with codespace options    |
