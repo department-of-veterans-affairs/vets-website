@@ -103,6 +103,8 @@ const SelectCareTeam = () => {
           dispatch(
             updateDraftInProgress({
               careSystemVhaId: recipient.stationNumber,
+              careSystemName:
+                ehrDataByVhaId[recipient.stationNumber]?.vamcSystemName,
               recipientId: recipient.id,
               recipientName: recipient.suggestedNameDisplay || recipient.name,
               ohTriageGroup: recipient.ohTriageGroup,

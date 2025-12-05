@@ -183,9 +183,10 @@ const RecipientsSelect = ({
         onValueChange(null);
         return;
       }
-      const possibleRecipients = mhvSecureMessagingCuratedListFlow
-        ? [...recipientsList, ...(recentRecipients || [])]
-        : recipientsList;
+      const possibleRecipients =
+        mhvSecureMessagingCuratedListFlow && Array.isArray(recentRecipients)
+          ? [...recipientsList, ...recentRecipients]
+          : recipientsList;
       const recipient = possibleRecipients.find(r => +r.id === +value) || {};
       const prevRecipient = selectedRecipient;
       const prevRequired = !!prevRecipient?.signatureRequired;
