@@ -10,6 +10,8 @@ import {
   parseISO,
   startOfMonth,
   subMonths,
+  isWeekend,
+  startOfDay,
 } from 'date-fns';
 import { APPOINTMENT_STATUS, DATE_FORMATS } from '../../utils/constants';
 /**
@@ -190,7 +192,7 @@ export function getInitialBlankCells(date, showWeekends) {
   const firstDay = getFirstDayOfMonth(date);
   const blanks = [];
 
-  if (!showWeekends && (firstDay === 0 || firstDay === 6)) {
+  if (!showWeekends && isWeekend(date)) {
     return blanks;
   }
 
@@ -211,30 +213,20 @@ export function getInitialBlankCells(date, showWeekends) {
  */
 export function getDaysOfTheWeek(date, showWeekend) {
   const daysToShow = [];
-  let dayOfWeek;
-
-  if (!showWeekend) {
-    dayOfWeek = getFirstDayOfMonth(date);
-  }
 
   /**
-   * Create array of days of the week. If the showing the weekend, don't check
-   * for Sunday (0) or Saturday (6)
+   * Create array of days of the week.
    */
+  let d = startOfMonth(startOfDay(date));
   for (let i = 1; i <= getDaysInMonth(date); i++) {
-    if (showWeekend) {
-      daysToShow.push(
-        `${format(date, 'yyyy')}-${format(date, 'MM')}-${pad(i, 2)}`,
-      );
-    } else {
-      if (dayOfWeek !== 0 && dayOfWeek !== 6) {
-        daysToShow.push(
-          `${format(date, 'yyyy')}-${format(date, 'MM')}-${pad(i, 2)}`,
-        );
-      }
-      dayOfWeek = dayOfWeek + 1 > 6 ? 0 : dayOfWeek + 1;
+    if (showWeekend || isWeekend(d) === false) {
+      // NOTE: Must have this format.
+      daysToShow.push(format(d, DATE_FORMATS.yearMonthDay));
     }
+
+    d = addDays(d, 1);
   }
+
   return daysToShow;
 }
 
