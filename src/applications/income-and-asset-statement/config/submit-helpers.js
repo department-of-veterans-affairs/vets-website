@@ -30,17 +30,17 @@ export function collectAttachmentFiles(data) {
   const { trusts = [] } = data;
 
   trusts.forEach(trust => {
-    if (trust.supportingDocuments) {
+    if (trust.uploadedDocuments) {
       // Spread to avoid nested arrays
-      attachments.push(...trust.supportingDocuments);
+      attachments.push(...trust.uploadedDocuments);
     }
   });
 
   const assets = data.ownedAssets || [];
   assets.forEach(asset => {
-    if (asset.supportingDocuments) {
+    if (asset.uploadedDocuments) {
       // Owned assets can only have one supporting document each
-      attachments.push(asset.supportingDocuments);
+      attachments.push(asset.uploadedDocuments);
     }
   });
 

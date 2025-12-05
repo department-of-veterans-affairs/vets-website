@@ -58,10 +58,10 @@ describe('submit-helpers.js', () => {
       const formData = {
         trusts: [
           {
-            supportingDocuments: [{ name: 'file1.pdf' }, { name: 'file2.pdf' }],
+            uploadedDocuments: [{ name: 'file1.pdf' }, { name: 'file2.pdf' }],
           },
           {
-            supportingDocuments: [{ name: 'file3.pdf' }],
+            uploadedDocuments: [{ name: 'file3.pdf' }],
           },
         ],
       };
@@ -79,10 +79,10 @@ describe('submit-helpers.js', () => {
       const formData = {
         ownedAssets: [
           {
-            supportingDocuments: { name: 'assetFile1.pdf' },
+            uploadedDocuments: { name: 'assetFile1.pdf' },
           },
           {
-            supportingDocuments: { name: 'assetFile2.pdf' },
+            uploadedDocuments: { name: 'assetFile2.pdf' },
           },
         ],
       };
@@ -98,7 +98,7 @@ describe('submit-helpers.js', () => {
       const formData = {
         trusts: [
           {
-            supportingDocuments: [],
+            uploadedDocuments: [],
           },
         ],
         ownedAssets: [],
@@ -113,12 +113,12 @@ describe('submit-helpers.js', () => {
       const formData = {
         trusts: [
           {
-            supportingDocuments: [{ name: 'trustFile1.pdf' }],
+            uploadedDocuments: [{ name: 'trustFile1.pdf' }],
           },
         ],
         ownedAssets: [
           {
-            supportingDocuments: { name: 'assetFile1.pdf' },
+            uploadedDocuments: { name: 'assetFile1.pdf' },
           },
         ],
       };

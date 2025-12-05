@@ -101,7 +101,7 @@ describe('Income and asset submit', () => {
       const inputData = {
         trusts: [
           {
-            supportingDocuments: [
+            uploadedDocuments: [
               { name: 'trust1.pdf', confirmationCode: 'code1' },
               { name: 'trust2.pdf', confirmationCode: 'code2' },
             ],
@@ -109,7 +109,7 @@ describe('Income and asset submit', () => {
         ],
         ownedAssets: [
           {
-            supportingDocuments: {
+            uploadedDocuments: {
               name: 'asset1.pdf',
               confirmationCode: 'code3',
             },
