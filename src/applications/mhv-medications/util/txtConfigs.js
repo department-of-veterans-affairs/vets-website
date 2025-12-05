@@ -51,9 +51,13 @@ const getLastFilledAndRxNumberBlock = rx => {
         `Prescription number: ${rx.prescriptionNumber}`,
       );
 };
-const getAttributes = rx =>
+const getAttributes = (rx, isCernerPilot = false) =>
   joinLines(
-    `Status: ${prescriptionMedAndRenewalStatus(rx, medStatusDisplayTypes.TXT)}`,
+    `Status: ${prescriptionMedAndRenewalStatus(
+      rx,
+      medStatusDisplayTypes.TXT,
+      isCernerPilot,
+    )}`,
     fieldLine('Refills left', rx.refillRemaining),
     `Request refills by this prescription expiration date: ${dateFormat(
       rx.expirationDate,
@@ -116,7 +120,7 @@ export const buildNonVAPrescriptionTXT = (prescription, options) => {
 /**
  * Return prescriptions list TXT
  */
-export const buildPrescriptionsTXT = prescriptions => {
+export const buildPrescriptionsTXT = (prescriptions, isCernerPilot = false) => {
   const mostRecentRxRefillLine = rx => {
     const newest = getMostRecentRxRefill(rx);
 
@@ -147,7 +151,7 @@ export const buildPrescriptionsTXT = prescriptions => {
     return joinBlocks(
       title,
       getLastFilledAndRxNumberBlock(rx),
-      getAttributes(rx),
+      getAttributes(rx, isCernerPilot),
       mostRecent,
     ).trimEnd();
   });
@@ -205,7 +209,7 @@ export const buildAllergiesTXT = allergies => {
 /**
  * Return VA prescription TXT
  */
-export const buildVAPrescriptionTXT = prescription => {
+export const buildVAPrescriptionTXT = (prescription, isCernerPilot = false) => {
   const header = `${newLine()}${SEPARATOR}${newLine(3)}`;
   const rxTitle = prescription?.prescriptionName || prescription?.orderableItem;
   const subTitle = `Most recent prescription`;
@@ -214,7 +218,7 @@ export const buildVAPrescriptionTXT = prescription => {
     `${rxTitle}${newLine()}`,
     `${subTitle}${newLine()}`,
     getLastFilledAndRxNumberBlock(prescription),
-    getAttributes(prescription),
+    getAttributes(prescription, isCernerPilot),
   ).trimEnd();
 
   let refillHistorySection = '';
