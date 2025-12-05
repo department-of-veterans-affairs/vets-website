@@ -393,7 +393,7 @@ const acceleratedCernerUser = {
           addressLine1: '11516 Sethwarner Dr',
           addressLine2: null,
           addressLine3: null,
-          addressPou: 'RESIDENCE/CHOICE',
+          addressPou: 'RESIDENCE',
           addressType: 'DOMESTIC',
           city: 'Glen Allen',
           countryName: 'United States',

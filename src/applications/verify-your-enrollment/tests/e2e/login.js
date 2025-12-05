@@ -267,7 +267,7 @@ export const mockUser = {
           addressLine1: '140 Whitehaven Cir',
           addressLine2: null,
           addressLine3: null,
-          addressPou: 'RESIDENCE/CHOICE',
+          addressPou: 'RESIDENCE',
           addressType: 'DOMESTIC',
           city: 'Highlands Ranch',
           countryName: 'United States',

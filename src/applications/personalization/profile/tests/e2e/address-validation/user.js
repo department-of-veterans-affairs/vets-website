@@ -72,7 +72,7 @@ const userObject = {
           addressLine1: '36320 Coronado Dr',
           addressLine2: null,
           addressLine3: null,
-          addressPou: 'RESIDENCE/CHOICE',
+          addressPou: 'RESIDENCE',
           addressType: 'DOMESTIC',
           city: 'Fremont',
           countryName: 'United States',
