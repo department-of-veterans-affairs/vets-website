@@ -3,6 +3,7 @@ This is a monorepo for VA.gov, with shared code in `src/platform` and individual
 
 ## General Instructions
 - vets-website uses yarn, Javascript, React, RJSF, Redux, React router, platform/forms-system, platform/forms, and the va.gov design system.
+- When installing dependencies, always use `yarn install-safe` instead of `yarn install`.
 - Uses Webpack for bundling application assets.
 - Use prettier conventions with 2 spaces for indentation, single quotes, and trailing commas.
 - When using React, prefer web components such as va-button, va-text-input, or VaButton, VaTextInput, instead of HTML elements.
@@ -16,7 +17,7 @@ This is a monorepo for VA.gov, with shared code in `src/platform` and individual
 - All code should conform to WCAG 2.2 AA and Section 508 accessibility guidelines.
 
 ## Development Commands
-- Use `yarn install` to fetch dependencies (run when package.json changes)
+- Use `yarn install-safe` to fetch dependencies (run when package.json changes)
 - Use `yarn build` to build all applications
 - Use `yarn build --entry=app1,app2` to build specific applications
 - Use `yarn watch` to run the webpack dev server with hot reloading
