@@ -48,6 +48,7 @@
   "checkVAInboxEnabled": "check_va_inbox_enabled",
   "claimLettersAccess": "claim_letters_access",
   "coeAccess": "coe_access",
+  "coeFormRebuildCveteam": "coe_form_rebuild_cveteam",
   "combinedDebtPortalAccess": "combined_debt_portal_access",
   "confirmationPageNew": "confirmation_page_new",
   "confirmContactEmailInterstitialEnabled": "confirm_contact_email_interstitial_enabled",
