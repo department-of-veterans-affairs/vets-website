@@ -5,13 +5,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import BackLink from '../BackLink';
 import AppointmentCard from '../AppointmentCard';
-import { APPOINTMENT_STATUS, GA_PREFIX } from '../../utils/constants';
+import {
+  APPOINTMENT_STATUS,
+  GA_PREFIX,
+  OH_ENABLED_TYPES_OF_CARE,
+} from '../../utils/constants';
 import { startAppointmentCancel } from '../../appointment-list/redux/actions';
 import AfterVisitSummary from '../AfterVisitSummary';
 import { selectIsPast } from '../../appointment-list/redux/selectors';
 import {
   selectFeatureTravelPayViewClaimDetails,
   selectFeatureTravelPaySubmitMileageExpense,
+  selectFeatureOHRequest,
 } from '../../redux/selectors';
 import StatusAlert from '../StatusAlert';
 import FacilityPhone from '../FacilityPhone';
@@ -106,9 +111,15 @@ export function Details({
   request,
   level = 2,
   isCerner = false,
+  typeOfCare,
 }) {
+  // determine whether to show the OH reason section based on feature flag and type of care
+  const featureOHRequest = useSelector(selectFeatureOHRequest);
+  const showOHReasonSection = Boolean(
+    featureOHRequest && OH_ENABLED_TYPES_OF_CARE.includes(typeOfCare?.idV2),
+  );
   // Do not display details for Oracle (Cerner) appointments
-  if (isCerner) return null;
+  if (isCerner && !showOHReasonSection) return null;
 
   const heading = request
     ? 'Details you’d like to share with your provider'
@@ -116,13 +127,25 @@ export function Details({
 
   return (
     <Section heading={heading} level={level}>
-      <span data-dd-privacy="mask">
-        Reason: {`${reason && reason !== 'none' ? reason : 'Not available'}`}
-      </span>
-      <br />
-      <span className="vaos-u-word-break--break-word" data-dd-privacy="mask">
-        Other details: {`${otherDetails || 'Not available'}`}
-      </span>
+      {showOHReasonSection && request ? (
+        <span data-dd-privacy="mask">
+          {`${otherDetails || 'Not available'}`}
+        </span>
+      ) : (
+        <>
+          <span data-dd-privacy="mask">
+            Reason:{' '}
+            {`${reason && reason !== 'none' ? reason : 'Not available'}`}
+          </span>
+          <br />
+          <span
+            className="vaos-u-word-break--break-word"
+            data-dd-privacy="mask"
+          >
+            Other details: {`${otherDetails || 'Not available'}`}
+          </span>
+        </>
+      )}
     </Section>
   );
 }
@@ -132,6 +155,9 @@ Details.propTypes = {
   otherDetails: PropTypes.string,
   reason: PropTypes.string,
   request: PropTypes.bool,
+  typeOfCare: PropTypes.shape({
+    idV2: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  }),
 };
 
 export function ClinicOrFacilityPhone({

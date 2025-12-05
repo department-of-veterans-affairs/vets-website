@@ -33,6 +33,7 @@ export default function VARequestLayout({ data: appointment }) {
     preferredDates,
     status,
     typeOfCareName,
+    typeOfCare,
   } = useSelector(
     state => selectRequestedAppointmentData(state, appointment),
     shallowEqual,
@@ -141,6 +142,7 @@ export default function VARequestLayout({ data: appointment }) {
           reason={reasonForAppointment}
           otherDetails={patientComments}
           request
+          typeOfCare={typeOfCare}
         />
         <Section heading="Your contact details">
           <span data-dd-privacy="mask">Email: {email}</span>
