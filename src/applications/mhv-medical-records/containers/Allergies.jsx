@@ -44,6 +44,7 @@ import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
+import TrackedSpinner from '../components/shared/TrackedSpinner';
 import { useTrackAction } from '../hooks/useTrackAction';
 import { Actions } from '../util/actionTypes';
 
@@ -62,7 +63,7 @@ const Allergies = props => {
   const refresh = useSelector(state => state.mr.refresh);
 
   const user = useSelector(state => state.user.profile);
-  const { isCerner, isAcceleratingAllergies } = useAcceleratedData();
+  const { isLoading, isCerner, isAcceleratingAllergies } = useAcceleratedData();
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
 
@@ -218,10 +219,11 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
               }}
             />
           )}
-        {isLoadingAcceleratedData ? (
+        {isLoadingAcceleratedData || isLoading ? (
           <div className="vads-u-margin-y--8">
-            <va-loading-indicator
-              message="We're loading your records."
+            <TrackedSpinner
+              id="allergies-page-spinner"
+              message="We’re loading your records."
               setFocus
               data-testid="loading-indicator"
             />
