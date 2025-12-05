@@ -14,7 +14,7 @@ import {
   mockEligibilityRequestApi,
   mockFacilitiesApi,
   mockFeatureToggles,
-  mockRelationships,
+  mockRelationshipsApi,
   mockSchedulingConfigurationApi,
   mockVamcEhrApi,
   vaosSetup,
@@ -214,7 +214,7 @@ describe('VAOS direct schedule flow - Cerner', () => {
                   MockEligibilityResponse.FACILITY_REQUEST_LIMIT_EXCEEDED,
               }),
             });
-            mockRelationships({ response: [] });
+            mockRelationshipsApi({ response: [] });
             mockSchedulingConfigurationApi({
               facilityIds: ['983'],
               typeOfCareId: 'clinicalPharmacyPrimaryCare',
@@ -281,7 +281,7 @@ describe('VAOS direct schedule flow - Cerner', () => {
                   MockEligibilityResponse.FACILITY_REQUEST_LIMIT_EXCEEDED,
               }),
             });
-            mockRelationships({ response: [] });
+            mockRelationshipsApi({ response: [] });
             mockSchedulingConfigurationApi({
               facilityIds: ['983'],
               typeOfCareId: 'foodAndNutrition',
