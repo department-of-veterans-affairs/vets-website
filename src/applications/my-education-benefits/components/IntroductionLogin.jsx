@@ -10,7 +10,7 @@ import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagName
 import { getAppData } from '../selectors/selectors';
 import LoadingIndicator from './LoadingIndicator';
 
-function IntroductionLogin({
+export function IntroductionLogin({
   isClaimantCallComplete,
   isPersonalInfoFetchFailed,
   isLoggedIn,
