@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
+
 import { focusElement } from 'platform/utilities/ui';
 import { getArrayIndexFromPathName } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
 import { useValidateFacilityCode } from '../hooks/useValidateFacilityCode';
@@ -58,6 +60,10 @@ const InstitutionName = ({ uiSchema }) => {
       )}
     </div>
   );
+};
+
+InstitutionName.propTypes = {
+  uiSchema: PropTypes.object,
 };
 
 export default InstitutionName;

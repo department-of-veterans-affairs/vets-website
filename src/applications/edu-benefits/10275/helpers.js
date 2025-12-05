@@ -148,9 +148,8 @@ export const facilityCodeUIValidation = (errors, fieldData, formData) => {
   if (!currentItem?.isLoading) {
     if (isDuplicate) {
       errors.addError(
-        "You've already added this location. Please enter a different code.",
+        'You have already added this facility code to this form. Enter a new facility code, or cancel adding this additional location.',
       );
-      return;
     }
     if (badFormat || notFound) {
       errors.addError(

@@ -396,7 +396,7 @@ describe('22-8794 EDU Form', () => {
     );
     cy.focused().should(
       'contain.text',
-      'Please enter any remarks you would like to share',
+      'Enter any remarks you would like to share',
     );
     cy.realPress('Tab');
     cy.typeInFocused(maximalData.data.remarks);

@@ -6,7 +6,6 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import AdditionalInstitutionAddress from '../containers/AdditionalInstitutionAddress';
 import AdditionalInstitutionName from '../containers/AdditionalInstitutionName';
-// import WarningBanner from '../containers/WarningBanner';
 import { facilityCodeUIValidation } from '../helpers';
 
 const uiSchema = {
@@ -49,13 +48,6 @@ const uiSchema = {
       isArrayItem: true,
     },
   },
-  //   'view:warningBanner': {
-  //     'ui:field': WarningBanner,
-  //     'ui:options': {
-  //       dataPath: 'additionalInstitutionDetails',
-  //       isArrayItem: true,
-  //     },
-  //   },
 };
 
 const schema = {
@@ -88,10 +80,6 @@ const schema = {
       },
       required: ['street', 'city', 'state', 'postalCode', 'country'],
     },
-    // 'view:warningBanner': {
-    //   type: 'object',
-    //   properties: {},
-    // },
   },
   required: ['facilityCode'],
 };
