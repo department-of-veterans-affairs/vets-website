@@ -61,7 +61,7 @@ const ReviewPage = ({ message }) => {
   // If message is not provided, use default values
   const overriddenMessage = message || {
     title: '',
-    body: 'Your mileage expense was successfully added.',
+    body: 'You successfully added a travel expense',
     type: 'success',
   };
 
