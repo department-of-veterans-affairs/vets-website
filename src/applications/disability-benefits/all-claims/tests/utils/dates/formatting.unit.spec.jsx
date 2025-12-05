@@ -11,6 +11,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import moment from 'moment';
+import { format } from 'date-fns';
 
 import {
   formatDate,
@@ -48,8 +49,8 @@ describe('Disability benefits 526EZ -- Date formatting utilities', () => {
     });
 
     it('should format dates with custom format', () => {
-      expect(formatDate('2023-01-15', 'MM/DD/YYYY')).to.equal('01/15/2023');
-      expect(formatDate('2023-01-15', 'YYYY-MM-DD')).to.equal('2023-01-15');
+      expect(formatDate('2023-01-15', 'MM/dd/yyyy')).to.equal('01/15/2023');
+      expect(formatDate('2023-01-15', 'yyyy-MM-dd')).to.equal('2023-01-15');
     });
 
     it('should return Unknown for invalid dates', () => {
@@ -69,7 +70,7 @@ describe('Disability benefits 526EZ -- Date formatting utilities', () => {
 
     it('should format with custom format', () => {
       const range = { from: '2023-01-01', to: '2023-12-31' };
-      expect(formatDateRange(range, 'MM/DD/YYYY')).to.equal(
+      expect(formatDateRange(range, 'MM/dd/yyyy')).to.equal(
         '01/01/2023 to 12/31/2023',
       );
     });
@@ -398,13 +399,13 @@ describe('Disability benefits 526EZ -- Date formatting utilities', () => {
     it('should parse valid date strings', () => {
       const parsed = parseDate('2023-01-15');
       expect(parsed).to.not.be.null;
-      expect(parsed.format('YYYY-MM-DD')).to.equal('2023-01-15');
+      expect(format(parsed, 'yyyy-MM-dd')).to.equal('2023-01-15');
     });
 
     it('should parse with format', () => {
-      const parsed = parseDate('01/15/2023', 'MM/DD/YYYY');
+      const parsed = parseDate('01/15/2023', 'MM/dd/yyyy');
       expect(parsed).to.not.be.null;
-      expect(parsed.format('YYYY-MM-DD')).to.equal('2023-01-15');
+      expect(format(parsed, 'yyyy-MM-dd')).to.equal('2023-01-15');
     });
 
     it('should return null for invalid dates', () => {
@@ -417,7 +418,7 @@ describe('Disability benefits 526EZ -- Date formatting utilities', () => {
     it('should parse dates with YYYY-MM-DD template', () => {
       const parsed = parseDateWithTemplate('2023-01-15');
       expect(parsed).to.not.be.null;
-      expect(parsed.format('YYYY-MM-DD')).to.equal('2023-01-15');
+      expect(format(parsed, 'yyyy-MM-dd')).to.equal('2023-01-15');
     });
 
     it('should return null for invalid format', () => {
@@ -542,7 +543,7 @@ describe('Disability benefits 526EZ -- Date formatting utilities', () => {
         { serviceBranch: 'Marines', dateRange: { from: '2007-01-01' } },
       ];
       const earliest = findEarliestServiceDate(servicePeriods);
-      expect(earliest.format('YYYY-MM-DD')).to.equal('2003-01-01');
+      expect(format(earliest, 'yyyy-MM-dd')).to.equal('2003-01-01');
     });
 
     it('should filter out invalid periods', () => {
@@ -553,7 +554,7 @@ describe('Disability benefits 526EZ -- Date formatting utilities', () => {
         { serviceBranch: 'Navy' }, // No dateRange
       ];
       const earliest = findEarliestServiceDate(servicePeriods);
-      expect(earliest.format('YYYY-MM-DD')).to.equal('2005-01-01');
+      expect(format(earliest, 'yyyy-MM-dd')).to.equal('2005-01-01');
     });
 
     it('should handle empty or invalid input', () => {
@@ -564,8 +565,8 @@ describe('Disability benefits 526EZ -- Date formatting utilities', () => {
   });
 
   describe('isTreatmentBeforeService', () => {
-    const treatmentDate = moment('2020-01-01');
-    const serviceDate = moment('2021-01-01');
+    const treatmentDate = new Date('2020-01-01');
+    const serviceDate = new Date('2021-01-01');
 
     it('should check year-only comparisons', () => {
       expect(isTreatmentBeforeService(treatmentDate, serviceDate, '2020-XX-XX'))

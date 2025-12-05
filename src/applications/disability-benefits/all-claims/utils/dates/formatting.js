@@ -22,12 +22,12 @@ import {
 import { isValidYear as platformIsValidYear } from 'platform/forms-system/src/js/utilities/validations';
 
 // Constants
-export const DATE_FORMAT = 'LL'; // e.g., "January 1, 2021"
-export const DATE_FORMAT_SHORT = 'MM/DD/YYYY';
-export const DATE_FORMAT_LONG = 'MMMM D, YYYY';
-export const PARTIAL_DATE_FORMAT = 'YYYY-MM';
+export const DATE_FORMAT = 'MMMM d, yyyy'; // e.g., "January 1, 2021" (date-fns format)
+export const DATE_FORMAT_SHORT = 'MM/dd/yyyy';
+export const DATE_FORMAT_LONG = 'MMMM d, yyyy';
+export const PARTIAL_DATE_FORMAT = 'yyyy-MM';
 // Public template for full ISO-like date strings used across the all-claims app
-export const DATE_TEMPLATE = 'YYYY-MM-DD';
+export const DATE_TEMPLATE = 'yyyy-MM-dd';
 
 // Year validation constants
 export const MIN_VALID_YEAR = 1900;
@@ -432,7 +432,7 @@ export const findEarliestServiceDate = servicePeriods => {
       ({ serviceBranch, dateRange } = {}) =>
         (serviceBranch || '') !== '' && dateRange?.from,
     )
-    .map(period => safeFnsDate(period.dateRange.from, 'YYYY-MM-DD'))
+    .map(period => safeFnsDate(period.dateRange.from, 'yyyy-MM-dd'))
     .filter(dateObj => dateObj !== null);
 
   if (validPeriods.length === 0) {
@@ -461,8 +461,8 @@ export const isTreatmentBeforeService = (
 ) => {
   return (
     (isYearOnly(fieldData) &&
-      differenceInYears(treatmentDate, earliestServiceDate) < 0) ||
+      differenceInYears(earliestServiceDate, treatmentDate) > 0) ||
     (isYearMonth(fieldData) &&
-      differenceInMonths(treatmentDate, earliestServiceDate) < 0)
+      differenceInMonths(earliestServiceDate, treatmentDate) > 0)
   );
 };
