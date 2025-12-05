@@ -36,6 +36,15 @@ export const getValue = event => {
   }
 };
 
+/**
+ * State select component
+ * @param {string} name - name attribute
+ * @param {string} label - label text
+ * @param {function} onChange - onChange handler
+ * @param {string} error - error message
+ * @param {string} value - selected value
+ * @returns {React.ReactElement} State select component
+ */
 export const SelectState = ({ name, label, onChange, error, value }) => (
   <VaSelect
     class="vads-u-margin-top--4"
@@ -66,6 +75,15 @@ const countriesMinusUSA = constants.countries.filter(
   country => country.value !== 'USA',
 );
 
+/**
+ * Country select component (excludes USA)
+ * @param {string} name - name attribute
+ * @param {string} label - label text
+ * @param {function} onChange - onChange handler
+ * @param {string} error - error message
+ * @param {string} value - selected value
+ * @returns {React.ReactElement} Country select component
+ */
 export const SelectCountry = ({ name, label, onChange, error, value }) => (
   <VaSelect
     class="vads-u-margin-top--4"
@@ -86,13 +104,21 @@ export const SelectCountry = ({ name, label, onChange, error, value }) => (
 
 SelectCountry.propTypes = {
   label: PropTypes.string.isRequired,
-
   name: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   error: PropTypes.string,
   value: PropTypes.string,
 };
 
+/**
+ * Past memorable date component
+ * @param {string} date - date string in YYYY-MM-DD format
+ * @param {string} label - label text
+ * @param {boolean} formSubmitted - whether the form has been submitted
+ * @param {string} missingErrorMessage - error message for missing date
+ * @param {function} onChange - onChange handler
+ * @returns {React.ReactElement} Past date component
+ */
 export const PastDate = ({
   date,
   label,
