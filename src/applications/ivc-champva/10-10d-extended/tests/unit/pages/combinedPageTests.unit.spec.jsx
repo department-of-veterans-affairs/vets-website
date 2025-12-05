@@ -5,7 +5,6 @@ import {
   testNumberOfWebComponentFields,
 } from '../../../../shared/tests/pages/pageTests.spec';
 import { ApplicantRelOriginPage } from '../../../chapters/ApplicantRelOriginPage';
-import { ApplicantGenderPage } from '../../../chapters/ApplicantGenderPage';
 import { SelectHealthcareParticipantsPage } from '../../../chapters/SelectHealthcareParticipantsPage';
 import {
   SignerContactInfoPage,
@@ -114,10 +113,6 @@ testComponentRender(
   />,
 );
 
-testComponentRender(
-  'ApplicantRelOriginPage',
-  <ApplicantGenderPage data={{ ...mockData.data }} />,
-);
 testComponentRender(
   'SignerContactInfoPage',
   <SignerContactInfoPage data={{}} />,

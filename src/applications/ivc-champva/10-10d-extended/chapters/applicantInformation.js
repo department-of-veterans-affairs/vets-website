@@ -36,7 +36,6 @@ import {
 } from '../../shared/utilities';
 
 import { ApplicantRelOriginPage } from './ApplicantRelOriginPage';
-import { ApplicantGenderPage } from './ApplicantGenderPage';
 import {
   validateApplicant,
   validateApplicantSsn,
@@ -57,6 +56,7 @@ import remarriageProof from './applicantInformation/remarriageProof';
 import schoolEnrollmentProof from './applicantInformation/schoolEnrollmentProof';
 import marriageDate from './applicantInformation/marriageDate';
 import stepchildMarriageProof from './applicantInformation/stepchildMarriageProof';
+import birthSex from './applicantInformation/birthSex';
 
 /**
  * Wraps array builder function withEditTitle and calls the result
@@ -214,24 +214,6 @@ const applicantContactInfoPage = {
       applicantEmailAddress: emailSchema,
     },
     required: ['applicantPhone'],
-  },
-};
-
-const applicantGenderPage = {
-  uiSchema: {
-    applicantGender: {},
-  },
-  schema: {
-    type: 'object',
-    properties: {
-      applicantGender: {
-        type: 'object',
-        properties: {
-          gender: { type: 'string' },
-          _unused: { type: 'string' },
-        },
-      },
-    },
   },
 };
 
@@ -466,8 +448,7 @@ export const applicantPages = arrayBuilderPages(
     page17: pageBuilder.itemPage({
       path: 'applicant-birth-sex/:index',
       title: 'Applicant sex listed at birth',
-      ...applicantGenderPage,
-      CustomPage: ApplicantGenderPage,
+      ...birthSex,
     }),
     page18: pageBuilder.itemPage({
       path: 'applicant-relationship-to-veteran/:index',
