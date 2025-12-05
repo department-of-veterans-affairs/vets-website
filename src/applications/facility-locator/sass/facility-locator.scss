@@ -349,6 +349,14 @@ $text-color: rgba(27, 27, 27, 1);
       width: 100%;
     }
 
+    .service-type-dropdown-mobile>select,
+    .service-type-dropdown-tablet>select,
+    .service-type-dropdown-desktop>select {
+      font-size: 1rem;
+      height: auto;
+    }
+
+
     .usa-input-error {
       right: 0;
     }
