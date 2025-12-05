@@ -2181,5 +2181,17 @@
   "src": "/rosandiego",
   "dest": "/san-diego-va-regional-benefit-office/",
   "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/cleveland",
+  "dest": "/cleveland-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/rocleveland",
+  "dest": "/cleveland-va-regional-benefit-office/",
+  "catchAll": true
 }
 ]
