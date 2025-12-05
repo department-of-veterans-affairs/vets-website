@@ -911,6 +911,7 @@ jobs:
           STEP: ${{ matrix.ci_node_index }}
           APP_URLS: ${{ needs.tests-prep.outputs.app_urls }}
           NUM_CONTAINERS: ${{ needs.tests-prep.outputs.num_containers }}
+          RUN_FULL_SUITE: true
 
       - name: Archive test videos
         if: ${{ needs.tests-prep.outputs.cypress-tests != '[]' && failure() }}
