@@ -68,7 +68,7 @@ const formConfig = {
   },
   title: 'Apply for accrued benefits online',
   subTitle:
-    'Primarily for executors or administrators of VA beneficiaries’ estates (VA Form 21P-601)',
+    'Primarily for anyone applying for accrued benefits only, to include executors or administrators of VA beneficiaries’ estates (VA Form 21P-601)',
   customText: {
     appType: 'form',
   },

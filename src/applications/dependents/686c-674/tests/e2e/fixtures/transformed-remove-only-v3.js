@@ -490,6 +490,12 @@ export default {
       birthDate: createDoB(11),
     },
   ],
+  'view:addDependentOptions': {
+    addSpouse: false,
+    addChild: false,
+    report674: false,
+    addDisabledChild: false,
+  },
   'view:removeDependentOptions': {
     reportDivorce: true,
     reportDeath: true,
