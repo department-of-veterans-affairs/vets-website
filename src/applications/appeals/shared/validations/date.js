@@ -78,6 +78,14 @@ export const createDateObject = rawDateString => {
   };
 };
 
+/**
+ * Create dynamic error message for additional issues with decision dates that are today or in the future
+ * Formats the cutoff date (today) and calls the pastDate function to generate user-friendly error message
+ * Used specifically when users are adding additional issues and enter invalid decision dates
+ * @param {Object} errorMessages - Error messages object containing decisions.pastDate function
+ * @param {Object} date - Date object with dateObj property containing the parsed date
+ * @returns {string} Formatted error message (e.g., "Enter a date after December 5, 2025.")
+ */
 export const createDecisionDateErrorMsg = (errorMessages, date) => {
   const cutoffDate = formatDateToReadableString(date.dateObj);
   return errorMessages.decisions.pastDate(cutoffDate);

@@ -31,7 +31,7 @@ export const validateDate = (errors, rawDateString = '', fullData) => {
   } else if (date.isTodayOrInFuture) {
     // Lighthouse won't accept same day (as submission) decision date
     if (isDecisionDateType) {
-      // Decision dates: Show dynamic cutoff date to help user understand
+      // Decision dates: Show dynamic cutoff date
       // exactly which date they need to exceed (e.g., "Enter a date after December 4, 2025")
       const decisionDateErrorMessage = createDecisionDateErrorMsg(
         sharedErrorMessages,
@@ -40,8 +40,7 @@ export const validateDate = (errors, rawDateString = '', fullData) => {
 
       errors.addError(decisionDateErrorMessage);
     } else {
-      // Evidence dates: Use static message since any past date is acceptable
-      // for evidence - no need to show specific cutoff date
+      // Evidence dates: Use static message
       errors.addError(errorMessages.evidence.pastDate);
     }
     date.errors.year = true; // only the year is invalid at this point
