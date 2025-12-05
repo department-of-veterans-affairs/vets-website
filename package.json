@@ -408,6 +408,7 @@
       "src/platform/monitoring",
       "src/platform/mhv",
       "src/applications/check-in",
+      "src/applications/dispute-debt",
       "src/applications/vaos",
       "src/applications/claims-status",
       "src/applications/accredited-representative-portal",
