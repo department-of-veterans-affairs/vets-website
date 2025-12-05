@@ -151,14 +151,12 @@ function AddressAutosuggest({
       onInputValueChange={handleInputChange}
       selectedItem={selectedItem || null}
       handleOnSelect={handleOnSelect}
-      /* eslint-disable prettier/prettier */
-      label={(
+      label={
         <>
           <span id="city-state-zip-text">Zip code or city, state</span>{' '}
           <span className="form-required-span">(*Required)</span>
         </>
-      )}
-      /* eslint-enable prettier/prettier */
+      }
       options={options}
       downshiftInputProps={{
         // none are required
@@ -178,8 +176,7 @@ function AddressAutosuggest({
       showError={showAddressError}
       inputId="street-city-state-zip"
       inputRef={inputRef}
-      /* eslint-disable prettier/prettier */
-      labelSibling={(
+      labelSibling={
         <UseMyLocation
           onClick={geolocateUser}
           geolocationInProgress={currentQuery.geolocationInProgress}
@@ -188,7 +185,7 @@ function AddressAutosuggest({
           isTablet={isTablet}
           isMobile={isMobile}
         />
-      )}
+      }
       keepDataOnBlur
       showDownCaret={false}
       shouldShowNoResults

@@ -125,11 +125,22 @@ export const options = {
   isItemIncomplete: item => checkIsItemIncomplete(item),
   maxItems: 8,
   text: {
-    getItemName: item =>
-      careTypeLabels[(item?.typeOfCare)] || 'New care expense',
-    cardDescription: item => transformDate(item?.careDateRange?.from) || '',
-    cancelAddTitle: `Cancel adding this ${nounSingular}?`,
-    cancelEditTitle: `Cancel editing this ${nounSingular}?`,
+    getItemName: item => item?.provider || 'Provider',
+    cardDescription: item => {
+      const fromDate = transformDate(item?.careDateRange?.from);
+      const toDate = transformDate(item?.careDateRange?.to);
+      if (fromDate && toDate) {
+        return `${fromDate} - ${toDate}`;
+      }
+      if (fromDate) {
+        return `${fromDate}`;
+      }
+      return '';
+    },
+    cancelAddTitle: 'Cancel adding this care expense?',
+    cancelEditTitle: 'Cancel editing this care expense?',
+    cancelAddDescription:
+      'If you cancel, we won’t add this expense to your list of care expenses. You’ll return to a page where you can add a new care expense.',
     cancelAddYes: 'Yes, cancel adding',
     cancelAddNo: 'No, continue adding',
     cancelEditYes: 'Yes, cancel editing',
