@@ -104,7 +104,7 @@ function checkIsItemIncomplete(item) {
     !item?.typeOfCare ||
     !item?.recipient ||
     ((item.recipient === 'DEPENDENT' || item.recipient === 'OTHER') &&
-      !item?.recipientName) ||
+      !item?.fullNameRecipient) ||
     !item?.provider ||
     !item?.careDateRange?.from ||
     !item?.monthlyAmount ||
@@ -122,9 +122,18 @@ export const options = {
   isItemIncomplete: item => checkIsItemIncomplete(item),
   maxItems: 8,
   text: {
-    getItemName: item =>
-      careTypeLabels[(item?.typeOfCare)] || 'New care expense',
-    cardDescription: item => transformDate(item?.careDateRange?.from) || '',
+    getItemName: item => item?.provider || 'Provider',
+    cardDescription: item => {
+      const fromDate = transformDate(item?.careDateRange?.from);
+      const toDate = transformDate(item?.careDateRange?.to);
+      if (fromDate && toDate) {
+        return `${fromDate} - ${toDate}`;
+      }
+      if (fromDate) {
+        return `${fromDate}`;
+      }
+      return '';
+    },
     cancelAddTitle: 'Cancel adding this care expense?',
     cancelEditTitle: 'Cancel editing this care expense?',
     cancelAddDescription:
@@ -208,7 +217,7 @@ const recipientPage = {
       title: 'Who’s the expense for?',
       labels: recipientTypeLabels,
     }),
-    recipientName: textUI({
+    fullNameRecipient: textUI({
       title: 'Full name of the person who received care',
       expandUnder: 'recipient',
       expandUnderCondition: field => field === 'DEPENDENT' || field === 'OTHER',
@@ -225,7 +234,7 @@ const recipientPage = {
     type: 'object',
     properties: {
       recipient: radioSchema(Object.keys(recipientTypeLabels)),
-      recipientName: textSchema,
+      fullNameRecipient: textSchema,
     },
     required: ['recipient'],
   },
