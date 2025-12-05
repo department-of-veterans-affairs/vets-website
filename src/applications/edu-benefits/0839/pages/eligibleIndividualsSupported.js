@@ -18,7 +18,7 @@ const uiSchema = {
   academicYear: {
     ...textUI({
       title: 'What academic year does this agreement apply to?',
-      description: `Enter the academic year (such as ${getAcademicYearDisplay()})`,
+      description: `Enter the academic year, such as ${getAcademicYearDisplay()}`,
       errorMessages: {
         required: `Enter the academic year, such as ${getAcademicYearDisplay()}`,
       },

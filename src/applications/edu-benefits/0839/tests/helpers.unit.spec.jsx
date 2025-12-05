@@ -1184,6 +1184,11 @@ describe('0839 Helpers', () => {
       expect(matchYearPattern('1999-2000')).to.be.true;
     });
 
+    it('returns false when end year is not one year after start year', () => {
+      expect(matchYearPattern('2025-2024')).to.be.false;
+      expect(matchYearPattern('2025-2027')).to.be.false;
+    });
+
     it('returns false for patterns with wrong number of digits', () => {
       expect(matchYearPattern('24-25')).to.be.false;
       expect(matchYearPattern('2024-25')).to.be.false;

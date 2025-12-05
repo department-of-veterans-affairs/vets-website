@@ -240,6 +240,11 @@ export const getAcademicYearDisplay = () => {
 };
 
 export const matchYearPattern = fieldData => {
+  const startYear = fieldData.split('-')[0];
+  const endYear = fieldData.split('-')[1];
+  if (Number(endYear) !== Number(startYear) + 1) {
+    return false;
+  }
   const yearPattern = /^(\d{4}|XXXX)-(\d{4}|XXXX)$/;
   return yearPattern.test(fieldData);
 };
