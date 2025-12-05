@@ -225,15 +225,21 @@ export const arrayBuilderYesNoUI = (
         const arrayData = formData?.[arrayPath];
         const maxItems = maxItemsFn(arrayBuilderOptions.maxItems, formData);
         const isRequired = requiredFn(formData);
-        const getDefaultHint = () => {
-          const prefix = isRequired
-            ? `You'll need to add at least one ${nounSingular}.`
-            : `If you answer yes, you'll need to add at least one ${nounSingular}.`;
+        const getDefaultHint = ({
+          isArrayRequired,
+          data,
+          singular,
+          plural,
+          max,
+        }) => {
+          const prefix = isArrayRequired
+            ? `You'll need to add at least one ${singular}.`
+            : `If you answer yes, you'll need to add at least one ${singular}.`;
           const maxHint = maxItemsHint({
-            arrayData,
-            nounSingular,
-            nounPlural,
-            maxItems,
+            arrayData: data,
+            nounSingular: singular,
+            nounPlural: plural,
+            maxItems: max,
           });
           return maxHint ? `${prefix} ${maxHint}` : prefix;
         };
@@ -292,7 +298,13 @@ export const arrayBuilderYesNoUI = (
                       nounPlural,
                       maxItems,
                     })
-                  : getDefaultHint(),
+                  : getDefaultHint({
+                      isArrayRequired: isRequired,
+                      data: arrayData,
+                      singular: nounSingular,
+                      plural: nounPlural,
+                      max: maxItems,
+                    }),
                 labels: {
                   Y: yesNoOptionsInitial?.labels?.Y || 'Yes',
                   N: yesNoOptionsInitial?.labels?.N || 'No',
