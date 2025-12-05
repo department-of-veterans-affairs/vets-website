@@ -82,7 +82,7 @@ function extractDataFields(sourceData, fields) {
   fields.forEach(field => {
     const value = sourceData[field];
     if (Array.isArray(value) ? value.length > 0 : value) {
-      result[field] = value;
+      result[field] = cloneDeep(value);
     }
   });
   return result;
