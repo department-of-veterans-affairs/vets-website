@@ -229,14 +229,28 @@ export default class PageObject {
     return this;
   }
 
-  clickLink(name) {
-    cy.findByRole('link', { name }).click({ waitForAnimations: true });
+  clickLink({ name, useShadowDOM = false }) {
+    if (useShadowDOM) {
+      cy.get('va-link')
+        .as('link')
+        .shadow();
+      cy.get('@link')
+        .contains(name)
+        .click();
+    } else {
+      cy.findByRole('link', { name }).click({ waitForAnimations: true });
+    }
 
     return this;
   }
 
   clickNextButton(label = 'Continue') {
     return this.clickButton({ label });
+  }
+
+  scheduleAppointment(text = 'Start scheduling') {
+    cy.findByText(text).click({ waitForAnimations: true });
+    return this;
   }
 
   selectRadioButton(label) {
