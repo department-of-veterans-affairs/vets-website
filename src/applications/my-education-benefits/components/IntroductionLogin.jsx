@@ -69,7 +69,9 @@ export function IntroductionLogin({
         user?.login?.hasCheckedKeepAlive && (
           <>
             <va-alert-sign-in
-              variant={meb1995Reroute ? 'signInRequired' : 'signInOptional'}
+              variant={
+                meb1995Reroute ? 'signInOptionalNoPrefill' : 'signInOptional'
+              }
               time-limit="60 days"
               visible
               heading-level={2}

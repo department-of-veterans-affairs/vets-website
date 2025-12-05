@@ -35,14 +35,14 @@ describe('IntroductionLogin', () => {
     meb1995Reroute: false,
   };
 
-  it("renders 'signInRequired' va-alert-sign-in variant when meb1995Reroute is true", () => {
+  it("renders 'signInOptionalNoPrefill' va-alert-sign-in variant when meb1995Reroute is true", () => {
     const wrapper = shallow(
       <IntroductionLogin {...baseProps} meb1995Reroute />,
     );
     const alertSignIn = wrapper.find('va-alert-sign-in');
 
     expect(alertSignIn).to.have.lengthOf(1);
-    expect(alertSignIn.prop('variant')).to.equal('signInRequired');
+    expect(alertSignIn.prop('variant')).to.equal('signInOptionalNoPrefill');
     wrapper.unmount();
   });
 
