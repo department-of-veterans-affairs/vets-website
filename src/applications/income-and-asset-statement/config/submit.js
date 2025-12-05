@@ -127,10 +127,9 @@ export function prepareFormData(data) {
  *   6. Ensure no undefined values remain (backend rejects them)
  *   7. Return a final JSON payload string
  * @param {Object} preparedData - The prepared and cleaned form data object
- * @param {Object} replacerFn - The prepared and cleaned form data object
  * @returns {string} A fully serialized, JSON-string payload ready for transmission
  */
-export function serializePreparedFormData(preparedData, replacerFn) {
+export function serializePreparedFormData(preparedData) {
   // Step 4: apply array pruning rules
   const pruned = pruneConfiguredArrays(preparedData, arraysPruneConfig);
 
@@ -138,7 +137,7 @@ export function serializePreparedFormData(preparedData, replacerFn) {
   const cleaned = removeInvalidFields(pruned);
 
   // Step 6: Flatten nested fields (e.g., recipientName) via custom JSON replacer
-  return JSON.stringify(cleaned, replacerFn);
+  return JSON.stringify(cleaned, replacer);
 }
 
 /**
@@ -153,7 +152,7 @@ export function serializePreparedFormData(preparedData, replacerFn) {
  */
 export function transform(form) {
   const preparedData = prepareFormData(form.data);
-  const serializedData = serializePreparedFormData(preparedData, replacer);
+  const serializedData = serializePreparedFormData(preparedData);
 
   return JSON.stringify({
     incomeAndAssetsClaim: {

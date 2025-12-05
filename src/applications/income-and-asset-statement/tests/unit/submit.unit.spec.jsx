@@ -138,10 +138,7 @@ describe('Income and asset submit', () => {
       const prepared = SubmitModule.prepareFormData(inputForm.data);
 
       // Expected behavior of serializePreparedFormData
-      const serialized = SubmitModule.serializePreparedFormData(
-        prepared,
-        SubmitModule.replacer,
-      );
+      const serialized = SubmitModule.serializePreparedFormData(prepared);
 
       const wrappedOutput = SubmitModule.transform(inputForm);
       const parsed = JSON.parse(wrappedOutput);
@@ -172,7 +169,6 @@ describe('Income and asset submit', () => {
       const expectedPrepared = SubmitModule.prepareFormData(form.data);
       const expectedSerialized = SubmitModule.serializePreparedFormData(
         expectedPrepared,
-        SubmitModule.replacer,
       );
 
       expect(parsed.incomeAndAssetsClaim.form).to.equal(expectedSerialized);
