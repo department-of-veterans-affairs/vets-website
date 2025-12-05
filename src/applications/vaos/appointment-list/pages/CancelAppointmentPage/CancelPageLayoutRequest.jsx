@@ -35,7 +35,6 @@ export default function CancelPageLayoutRequest() {
     typeOfCareName,
     preferredModality,
     status,
-    typeOfCare,
   } = useSelector(
     state => selectRequestedAppointmentDetails(state, id),
     shallowEqual,
@@ -146,7 +145,6 @@ export default function CancelPageLayoutRequest() {
             otherDetails={patientComments}
             request
             level={3}
-            typeOfCare={typeOfCare}
           />
         </>
       )}
