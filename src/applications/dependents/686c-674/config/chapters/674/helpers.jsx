@@ -81,6 +81,16 @@ export const studentIncomeNote = (
   </p>
 );
 
+/**
+ * @typedef {object} StudentNetworthInformation
+ * @property {string} otherAssets - Other assets amount
+ * @property {string} realEstate - Real estate amount
+ * @property {string} savings - Savings amount
+ * @property {string} securities - Securities amount
+ *
+ * @param {StudentNetworthInformation} studentNetworthInformation - Student networth info
+ * @returns {number} Total student assets
+ */
 export const calculateStudentAssetTotal = (studentNetworthInformation = {}) => {
   const parseCurrency = value => {
     if (!value) return 0;

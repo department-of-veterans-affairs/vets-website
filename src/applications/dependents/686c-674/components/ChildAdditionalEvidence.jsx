@@ -3,6 +3,10 @@ import { useSelector } from 'react-redux';
 
 import { childEvidence } from '../config/utilities';
 
+/**
+ * Renders child additional evidence component
+ * @returns {JSX} Child additional evidence component
+ */
 export const ChildAdditionalEvidence = () => {
   const formData = useSelector(state => {
     return state?.form?.data || {};

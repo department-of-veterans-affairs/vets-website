@@ -18,6 +18,21 @@ import { scrollToError } from './helpers';
 
 import { getFullName, calculateAge } from '../../../shared/utils';
 
+/**
+ * Main remove dependents picklist component
+ * @typedef {object} RemoveDependentsPicklistProps
+ * @property {object} data - form data
+ * @property {function} goBack - function to go to previous page
+ * @property {function} goForward - function to go to next page
+ * @property {function} goToPath - function to go to specific path
+ * @property {function} setFormData - function to set form data
+ * @property {node} contentBeforeButtons - content to render before buttons
+ * @property {node} contentAfterButtons - content to render after buttons
+ * @property {function} onSubmit - function to handle form submission
+ *
+ * @param {RemoveDependentsPicklistProps} props - Component props
+ * @returns {React.Component} - Main remove dependents picklist page
+ */
 const RemoveDependentsPicklist = ({
   data = {},
   goBack,
