@@ -60,21 +60,25 @@ export const customFormReplacer = (key, value) => {
 };
 
 /**
- * Clean data fields - remove fields with empty values & arrays
- * @param {any} sourceData - source data object
- * @param {string[]} fields - fields to copy
- * @returns {any} clean data object
+ * Extract data fields with values from source data
+ *
+ * Returns only fields that have meaningful data (non-empty values/arrays).
+ * This prevents accidentally setting flags when no actual data exists, fixing
+ * a bug where options could be enabled without corresponding data.
+ *
+ * @param {object} sourceData - source data object
+ * @param {string[]} fields - fields to extract
+ * @returns {object} object containing only fields with data
  */
-function copyDataFields(sourceData, fields) {
-  const cleanData = {};
+function extractDataFields(sourceData, fields) {
+  const result = {};
   fields.forEach(field => {
     const value = sourceData[field];
     if (Array.isArray(value) ? value.length > 0 : value) {
-      // eslint-disable-next-line no-param-reassign
-      cleanData[field] = value;
+      result[field] = cloneDeep(value);
     }
   });
-  return cleanData;
+  return result;
 }
 
 /**
@@ -88,7 +92,7 @@ export function buildSubmissionData(payload) {
   }
 
   const sourceData = payload.data;
-  let cleanData = {};
+  const cleanData = {};
 
   const addEnabled = sourceData['view:addOrRemoveDependents']?.add === true;
   const removeEnabled =
@@ -150,11 +154,11 @@ export function buildSubmissionData(payload) {
   if (addEnabled) {
     Object.entries(addDataMappings).forEach(([option, fields]) => {
       if (addOptions[option] === true) {
-        enabledAddOptions[option] = true;
-        cleanData = {
-          ...cleanData,
-          ...copyDataFields(sourceData, fields),
-        };
+        const optionData = extractDataFields(sourceData, fields);
+        if (Object.keys(optionData).length > 0) {
+          Object.assign(cleanData, optionData);
+          enabledAddOptions[option] = true;
+        }
       }
     });
   }
@@ -164,11 +168,11 @@ export function buildSubmissionData(payload) {
   if (removeEnabled) {
     Object.entries(removeDataMappings).forEach(([option, fields]) => {
       if (removeOptions[option] === true) {
-        enabledRemoveOptions[option] = true;
-        cleanData = {
-          ...cleanData,
-          ...copyDataFields(sourceData, fields),
-        };
+        const optionData = extractDataFields(sourceData, fields);
+        if (Object.keys(optionData).length > 0) {
+          Object.assign(cleanData, optionData);
+          enabledRemoveOptions[option] = true;
+        }
       }
     });
   }
