@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { format, parseISO } from 'date-fns';
-import { TYPE_LABELS } from '../../chapters/healthInsuranceInformation/planTypes';
+import { SCHEMA_LABELS } from '../../chapters/healthInsuranceInformation/planTypes';
 import { generateParticipantNames } from '../../helpers';
 import content from '../../locales/en/content.json';
 
@@ -30,7 +30,7 @@ const HealthInsuranceSummaryCard = item => {
   return (
     <ul className="no-bullets">
       <li>
-        <strong>Type:</strong> {TYPE_LABELS[insuranceType]}
+        <strong>Type:</strong> {SCHEMA_LABELS[insuranceType]}
       </li>
       <li>
         <strong>Dates:</strong> {formatDateRange(effectiveDate, expirationDate)}

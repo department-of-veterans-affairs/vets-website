@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { toHash } from '../../../../../shared/utilities';
-import { TYPE_LABELS } from '../../../../chapters/healthInsuranceInformation/planTypes';
+import { SCHEMA_LABELS } from '../../../../chapters/healthInsuranceInformation/planTypes';
 import HealthInsuranceSummaryCard from '../../../../components/FormDescriptions/HealthInsuranceSummaryCard';
 
 describe('HealthInsuranceSummaryCard', () => {
@@ -25,7 +25,7 @@ describe('HealthInsuranceSummaryCard', () => {
     const item = { insuranceType: 'hmo' };
     const textContent = subject({ item });
     expect(textContent).to.include('Type:');
-    expect(textContent).to.include(TYPE_LABELS.hmo);
+    expect(textContent).to.include(SCHEMA_LABELS.hmo);
   });
 
   it('should render date range with start and end dates', () => {
