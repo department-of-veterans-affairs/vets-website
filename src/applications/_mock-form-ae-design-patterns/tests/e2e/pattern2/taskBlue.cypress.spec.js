@@ -38,7 +38,7 @@ describe.skip('Prefill pattern - Blue Task', () => {
             },
           },
         ],
-        validationKey: -1565212962,
+        overrideValidationKey: -1565212962,
       },
     });
 
@@ -232,7 +232,7 @@ describe.skip('Prefill pattern - Blue Task Failure Scenario', () => {
             },
           },
         ],
-        validationKey: -1565212962,
+        overrideValidationKey: -1565212962,
       },
     }).as('addressValidation');
 

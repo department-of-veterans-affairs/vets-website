@@ -49,7 +49,7 @@ const initialAddressValidationState = {
   },
   addressValidationError: false,
   addressValidationErrorCode: null,
-  validationKey: null,
+  overrideValidationKey: null,
   selectedAddress: {},
   selectedAddressId: null,
 };
@@ -392,7 +392,7 @@ export default function vapService(state = initialState, action) {
           addressFromUser: action.addressFromUser,
           addressValidationType: action.addressValidationType,
           suggestedAddresses: action.suggestedAddresses,
-          validationKey: action.validationKey,
+          overrideValidationKey: action.overrideValidationKey,
           selectedAddress: action.selectedAddress,
           selectedAddressId: action.selectedAddressId,
           confirmedSuggestions: action.confirmedSuggestions,
@@ -418,7 +418,7 @@ export default function vapService(state = initialState, action) {
           ...initialAddressValidationState,
           addressValidationError: action.addressValidationError,
           addressValidationType: action.fieldName,
-          validationKey: action.validationKey || null,
+          overrideValidationKey: action.overrideValidationKey || null,
           addressFromUser: action.addressFromUser,
           addressValidationErrorCode: action.addressValidationErrorCode,
         },
@@ -436,7 +436,7 @@ export default function vapService(state = initialState, action) {
         ...state,
         addressValidation: {
           ...state.addressValidation,
-          validationKey: action.validationKey,
+          overrideValidationKey: action.overrideValidationKey,
         },
       };
 
@@ -445,7 +445,7 @@ export default function vapService(state = initialState, action) {
         ...state,
         addressValidation: {
           ...state.addressValidation,
-          validationKey: null,
+          overrideValidationKey: null,
         },
       };
 
