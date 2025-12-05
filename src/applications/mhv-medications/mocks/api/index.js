@@ -14,6 +14,8 @@ const prescriptions = require('./mhv-api/prescriptions/index');
 // const prescriptionsFixture = require('../../tests/e2e/fixtures/prescriptions.json');
 const refillablePrescriptionsFixture = require('../../tests/e2e/fixtures/list-refillable-prescriptions.json');
 const allergies = require('../../../../platform/mhv/api/mocks/medical-records/allergies');
+const acceleratedAllergies = require('../../../../platform/mhv/api/mocks/medical-records/allergies/accelerated');
+const ohAllergies = require('../../../../platform/mhv/api/mocks/medical-records/allergies/full-example');
 const tooltips = require('./tooltips/index');
 
 const delaySingleResponse = (cb, delayInMs = 1000) => {
@@ -39,7 +41,14 @@ const responses = {
   // MHV Messaging - folders endpoint powers the red dot on mhv-landing-page
   'GET /my_health/v1/messaging/folders': folders.allFoldersWithUnreadMessages,
   // MHV Medications endpoints below
-  'GET /my_health/v1/medical_records/allergies': allergies.all,
+  'GET /my_health/v1/medical_records/allergies': (req, res) => {
+    const { use_oh_data_path } = req.query;
+    if (use_oh_data_path === '1') {
+      return res.json(ohAllergies.all);
+    }
+    return res.json(allergies.all);
+  },
+  'GET /my_health/v2/medical_records/allergies': acceleratedAllergies.all,
   'GET /my_health/v1/prescriptions': (_req, res) => {
     delaySingleResponse(
       () => res.json(prescriptions.generateMockPrescriptions(_req)),
