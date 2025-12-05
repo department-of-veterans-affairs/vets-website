@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  ssnOrVaFileNumberSchema,
-  ssnOrVaFileNumberUI,
+  ssnOrVaFileNumberNoHintSchema,
+  ssnOrVaFileNumberNoHintUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { CustomAlertPage } from './helpers';
@@ -14,18 +14,20 @@ export const veteranIdentificationInformationPage = {
     ...titleUI(
       'Veteran identification information',
       <>
-        You must enter either a Social Security number or a VA File number.
+        <div>
+          You must enter either a Social Security number or a VA file number.
+        </div>
         <div className="vads-u-margin-top--3">
           {getAlert({ name: 'veteranIdentificationInformationPage' }, false)}
         </div>
       </>,
     ),
-    idNumber: ssnOrVaFileNumberUI(),
+    idNumber: ssnOrVaFileNumberNoHintUI(),
   },
   schema: {
     type: 'object',
     properties: {
-      idNumber: ssnOrVaFileNumberSchema,
+      idNumber: ssnOrVaFileNumberNoHintSchema,
     },
   },
 };

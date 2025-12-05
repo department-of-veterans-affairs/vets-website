@@ -1,6 +1,8 @@
+import React from 'react';
 import footerContent from 'platform/forms/components/FormFooter';
 import environment from 'platform/utilities/environment';
 import { defaultItemPageScrollAndFocusTarget as scrollAndFocusTarget } from 'platform/forms-system/src/js/patterns/array-builder';
+import { PersonalInformation } from 'platform/forms-system/src/js/components/PersonalInformation/PersonalInformation';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -30,6 +32,7 @@ import {
   otherDebtsPages,
   remarks,
 } from '../pages';
+import { personalInfoConfig } from '../helpers/personalInformationConfig';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -39,7 +42,7 @@ const formConfig = {
   trackingPrefix: '21p-601-accrued-benefits-',
   useCustomScrollAndFocus: true,
   v3SegmentedProgressBar: true,
-  hideUnauthedStartLink: true,
+  hideUnauthedStartLink: false,
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,
@@ -96,17 +99,27 @@ const formConfig = {
             formData?.hasUnpaidCreditors === true,
           uiSchema: eligibilitySummary.uiSchema,
           schema: eligibilitySummary.schema,
-          // This page should be the end - no continue button
-          hideNavButtons: true,
-          customNavButtons: () => null,
+        },
+        personalInformation: {
+          path: 'personal-information',
+          title: 'Personal info',
+          depends: formData => formData.isLoggedIn,
+          CustomPage: props => (
+            <PersonalInformation {...props} config={personalInfoConfig()} />
+          ),
+          CustomPageReview: null,
+          hideOnReview: true,
+          scrollAndFocusTarget,
+          schema: {
+            type: 'object',
+            properties: {},
+          },
+          uiSchema: {},
         },
       },
     },
     veteranInformationChapter: {
       title: 'Veteran information',
-      depends: formData =>
-        formData?.hasAlreadyFiled === false &&
-        formData?.hasUnpaidCreditors === false,
       pages: {
         veteranFullName: {
           path: 'veteran-name',
@@ -126,9 +139,6 @@ const formConfig = {
     },
     deceasedBeneficiaryChapter: {
       title: 'Beneficiary information',
-      depends: formData =>
-        formData?.hasAlreadyFiled === false &&
-        formData?.hasUnpaidCreditors === false,
       pages: {
         beneficiaryIsVeteran: {
           path: 'beneficiary-is-veteran',
@@ -156,9 +166,6 @@ const formConfig = {
     },
     yourInformationChapter: {
       title: 'Your information',
-      depends: formData =>
-        formData?.hasAlreadyFiled === false &&
-        formData?.hasUnpaidCreditors === false,
       pages: {
         claimantNameAndDob: {
           path: 'your-name-and-date-of-birth',
@@ -206,9 +213,6 @@ const formConfig = {
     },
     survivingRelativesChapter: {
       title: 'Surviving relatives',
-      depends: formData =>
-        formData?.hasAlreadyFiled === false &&
-        formData?.hasUnpaidCreditors === false,
       pages: {
         relativesOverview: {
           path: 'surviving-relatives',
@@ -219,35 +223,20 @@ const formConfig = {
         },
         relativesSummary: {
           ...relativesPages.relativesSummary,
-          depends: formData =>
-            formData?.survivors?.hasNone !== true &&
-            (!!formData?.survivors?.hasSpouse ||
-              !!formData?.survivors?.hasChildren ||
-              !!formData?.survivors?.hasParents),
+          depends: formData => formData?.survivors === true,
         },
         relativeNamePage: {
           ...relativesPages.relativeNamePage,
-          depends: formData =>
-            formData?.survivors?.hasNone !== true &&
-            (!!formData?.survivors?.hasSpouse ||
-              !!formData?.survivors?.hasChildren ||
-              !!formData?.survivors?.hasParents),
+          depends: formData => formData?.survivors === true,
         },
         relativeAddressPage: {
           ...relativesPages.relativeAddressPage,
-          depends: formData =>
-            formData?.survivors?.hasNone !== true &&
-            (!!formData?.survivors?.hasSpouse ||
-              !!formData?.survivors?.hasChildren ||
-              !!formData?.survivors?.hasParents),
+          depends: formData => formData?.survivors === true,
         },
       },
     },
     expensesAndDebtsChapter: {
       title: 'Expenses and debts',
-      depends: formData =>
-        formData?.hasAlreadyFiled === false &&
-        formData?.hasUnpaidCreditors === false,
       pages: {
         expensesClaim: {
           path: 'reimbursement-claim',
@@ -270,9 +259,6 @@ const formConfig = {
     },
     additionalInfoChapter: {
       title: 'Additional remarks',
-      depends: formData =>
-        formData?.hasAlreadyFiled === false &&
-        formData?.hasUnpaidCreditors === false,
       pages: {
         supportingDocuments: {
           title: 'Supporting documents',

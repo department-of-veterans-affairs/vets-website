@@ -104,7 +104,7 @@ function checkIsItemIncomplete(item) {
     !item?.typeOfCare ||
     !item?.recipient ||
     ((item.recipient === 'DEPENDENT' || item.recipient === 'OTHER') &&
-      !item?.recipientName) ||
+      !item?.fullNameRecipient) ||
     !item?.provider ||
     !item?.careDateRange?.from ||
     !item?.monthlyAmount ||
@@ -208,7 +208,7 @@ const recipientPage = {
       title: 'Who’s the expense for?',
       labels: recipientTypeLabels,
     }),
-    recipientName: textUI({
+    fullNameRecipient: textUI({
       title: 'Full name of the person who received care',
       expandUnder: 'recipient',
       expandUnderCondition: field => field === 'DEPENDENT' || field === 'OTHER',
@@ -225,7 +225,7 @@ const recipientPage = {
     type: 'object',
     properties: {
       recipient: radioSchema(Object.keys(recipientTypeLabels)),
-      recipientName: textSchema,
+      fullNameRecipient: textSchema,
     },
     required: ['recipient'],
   },

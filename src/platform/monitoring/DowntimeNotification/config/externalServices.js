@@ -3,8 +3,9 @@
  * API - see services under maintenance_windows - https://github.com/department-of-veterans-affairs/devops/blob/master/ansible/deployment/config/vets-api/prod-settings.local.yml.j2#L284
  */
 export default {
-  arcgis: 'arcgis',
+  accreditedRepresentativePortal: 'accredited_representative_portal',
   appeals: 'appeals',
+  arcgis: 'arcgis',
   askva: 'askva',
   // Benefits Gateway Services
   bgs: 'bgs',
@@ -92,7 +93,8 @@ export default {
   // MDOT/ROES/DLC
   mdot: 'mdot',
   // stagingMdot: 'staging_mdot', // unnecessary
-
+  // VR&E Chapter 31 Eligibility Service
+  vreCh31Eligibility: 'vre_ch31_eligibility',
   // Sources for VA Profile services:
   VAPRO_PROFILE_PAGE: 'vapro_profile_page',
   VAPRO_CONTACT_INFO: 'vapro_contact_info',
