@@ -14,6 +14,7 @@ import _ from 'platform/utilities/data';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { createSelector } from 'reselect';
+import { endOfDay, isAfter, isSameDay } from 'date-fns';
 import {
   CHAR_LIMITS,
   DATA_PATHS,
@@ -82,7 +83,7 @@ export const isValidFullDate = dateString => {
     (date?.isValid() &&
       // moment('2021') => '2021-01-01'
       // moment('XXXX-01-01') => '2001-01-01'
-      dateString === formatDate(date, 'YYYY-MM-DD') &&
+      dateString === formatDate(date, 'yyyy-MM-dd') &&
       // make sure we're within the min & max year range
       isValidYear(date.year())) ||
     false
@@ -724,7 +725,7 @@ export const wrapWithBreadcrumb = (title, component) => (
   </>
 );
 
-const today = getToday().endOf('day');
+const today = endOfDay(new Date(getToday()));
 /**
  * Determines if a given date object is expired.
  *
@@ -752,8 +753,7 @@ export const isExpired = date => {
   }
   return !(
     expires &&
-    expires.isValid() &&
-    expires.endOf('day').isSameOrAfter(today)
+    (isAfter(endOfDay(expires), today) || isSameDay(endOfDay(expires), today))
   );
 };
 

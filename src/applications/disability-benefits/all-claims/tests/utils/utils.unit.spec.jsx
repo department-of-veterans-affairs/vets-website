@@ -973,11 +973,9 @@ describe('526 v2 depends functions', () => {
         expect(formatDate('2020-12-05')).to.equal('December 5, 2020');
       });
       it('should return valid dates with custom format', () => {
-        expect(formatDate('2020-01-31', 'YYYY-MM-DD')).to.equal('2020-01-31');
-        expect(formatDate('2020-05-05', 'MMM DD, YYYY')).to.equal(
-          'May 05, 2020',
-        );
-        expect(formatDate('2020-12-05', 'DD/MM/YYYY')).to.equal('05/12/2020');
+        expect(formatDate('2020-01-31', 'yyyy-MM-dd')).to.equal('2020-01-31');
+        expect(formatDate('2020-05-05', 'MM dd, yyyy')).to.equal('05 05, 2020');
+        expect(formatDate('2020-12-05', 'dd/MM/yyyy')).to.equal('05/12/2020');
       });
       it('should return "Unknown" for invalid dates', () => {
         expect(formatDate(true)).to.equal('Unknown');
