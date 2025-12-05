@@ -544,4 +544,205 @@ describe('DownloadRecordsPage for non-Cerner users', () => {
     expect(screen.getByText('Download your medical records reports')).to.exist;
     expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;
   });
+
+  it('displays Blue Button section for VistA-only users', () => {
+    const screen = renderWithStoreAndRouter(<DownloadReportPage />, {
+      initialState: nonCernerUserState,
+      reducers: reducer,
+      path: '/download-all',
+    });
+
+    expect(screen.getByText('Download your VA Blue Button report')).to.exist;
+    expect(screen.getByTestId('go-to-download-all')).to.exist;
+    expect(screen.queryByTestId('dual-facilities-blue-button-message')).to.not
+      .exist;
+  });
+});
+
+describe('DownloadRecordsPage Blue Button section for Oracle Health-only users', () => {
+  const oracleHealthOnlyUserState = {
+    user: {
+      profile: {
+        userFullName: {
+          first: 'Oracle',
+          middle: 'H',
+          last: 'User',
+        },
+        facilities: [
+          {
+            facilityId: '668',
+            isCerner: true,
+          },
+        ],
+      },
+    },
+    drupalStaticData: {
+      vamcEhrData: {
+        data: {
+          ehrDataByVhaId: {
+            '668': {
+              vhaId: '668',
+              vamcFacilityName:
+                'Mann-Grandstaff Department of Veterans Affairs Medical Center',
+              vamcSystemName: 'VA Spokane health care',
+              ehr: 'cerner',
+            },
+          },
+          cernerFacilities: [
+            {
+              vhaId: '668',
+              vamcFacilityName:
+                'Mann-Grandstaff Department of Veterans Affairs Medical Center',
+              vamcSystemName: 'VA Spokane health care',
+              ehr: 'cerner',
+            },
+          ],
+        },
+        loading: false,
+      },
+    },
+    mr: {
+      downloads: {
+        generatingCCD: false,
+        ccdError: false,
+        bbDownloadSuccess: false,
+      },
+      blueButton: {
+        failedDomains: [],
+      },
+    },
+    featureToggles: {
+      [FEATURE_FLAG_NAMES.mhvMedicalRecordsCcdExtendedFileTypes]: true,
+      loading: false,
+    },
+  };
+
+  it('does not display Blue Button section for Oracle Health-only users', () => {
+    const screen = renderWithStoreAndRouter(<DownloadReportPage />, {
+      initialState: oracleHealthOnlyUserState,
+      reducers: reducer,
+      path: '/download-all',
+    });
+
+    expect(screen.queryByText('Download your VA Blue Button report')).to.not
+      .exist;
+    expect(screen.queryByTestId('go-to-download-all')).to.not.exist;
+  });
+
+  it('displays Other reports section for Oracle Health-only users', () => {
+    const screen = renderWithStoreAndRouter(<DownloadReportPage />, {
+      initialState: oracleHealthOnlyUserState,
+      reducers: reducer,
+      path: '/download-all',
+    });
+
+    expect(screen.getByText('Other reports you can download')).to.exist;
+    expect(screen.getByTestId('selfEnteredAccordionItem')).to.exist;
+  });
+});
+
+describe('DownloadRecordsPage Blue Button section for users with both facility types', () => {
+  const dualFacilitiesUserState = {
+    user: {
+      profile: {
+        userFullName: {
+          first: 'Dual',
+          middle: 'F',
+          last: 'User',
+        },
+        facilities: [
+          {
+            facilityId: '668',
+            isCerner: true,
+          },
+          {
+            facilityId: '516',
+            isCerner: false,
+          },
+        ],
+      },
+    },
+    drupalStaticData: {
+      vamcEhrData: {
+        data: {
+          ehrDataByVhaId: {
+            '668': {
+              vhaId: '668',
+              vamcFacilityName:
+                'Mann-Grandstaff Department of Veterans Affairs Medical Center',
+              vamcSystemName: 'VA Spokane health care',
+              ehr: 'cerner',
+            },
+            '516': {
+              vhaId: '516',
+              vamcFacilityName:
+                'C.W. Bill Young Department of Veterans Affairs Medical Center',
+              vamcSystemName: 'VA Bay Pines health care',
+              ehr: 'vista',
+            },
+          },
+          cernerFacilities: [
+            {
+              vhaId: '668',
+              vamcFacilityName:
+                'Mann-Grandstaff Department of Veterans Affairs Medical Center',
+              vamcSystemName: 'VA Spokane health care',
+              ehr: 'cerner',
+            },
+          ],
+        },
+        loading: false,
+      },
+    },
+    mr: {
+      downloads: {
+        generatingCCD: false,
+        ccdError: false,
+        bbDownloadSuccess: false,
+      },
+      blueButton: {
+        failedDomains: [],
+      },
+    },
+    featureToggles: {
+      [FEATURE_FLAG_NAMES.mhvMedicalRecordsCcdExtendedFileTypes]: true,
+      loading: false,
+    },
+  };
+
+  it('displays Blue Button section for users with both facility types', () => {
+    const screen = renderWithStoreAndRouter(<DownloadReportPage />, {
+      initialState: dualFacilitiesUserState,
+      reducers: reducer,
+      path: '/download-all',
+    });
+
+    expect(screen.getByText('Download your VA Blue Button report')).to.exist;
+    expect(screen.getByTestId('go-to-download-all')).to.exist;
+  });
+
+  it('displays explanatory message for users with both facility types', () => {
+    const screen = renderWithStoreAndRouter(<DownloadReportPage />, {
+      initialState: dualFacilitiesUserState,
+      reducers: reducer,
+      path: '/download-all',
+    });
+
+    expect(screen.getByTestId('dual-facilities-blue-button-message')).to.exist;
+    expect(
+      screen.getByText(
+        /For VA Bay Pines health care, you can download your data in a Blue Button report./,
+      ),
+    ).to.exist;
+    expect(
+      screen.getByText(
+        /Data for VA Spokane health care is not yet available in Blue Button./,
+      ),
+    ).to.exist;
+    expect(
+      screen.getByText(
+        /You can access records for those by downloading a Continuity of Care Document, which is shown above./,
+      ),
+    ).to.exist;
+  });
 });

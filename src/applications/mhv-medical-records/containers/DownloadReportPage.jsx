@@ -76,6 +76,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
 
   const activeAlert = useAlerts(dispatch);
   const selfEnteredAccordionRef = useRef(null);
+  const blueButtonFilteringTrackedRef = useRef(false);
 
   // Determine user's data sources using platform selectors
   const { facilities, hasOHFacilities, hasOHOnly } = useSelector(state => ({
@@ -172,6 +173,33 @@ const DownloadReportPage = ({ runningUnitTest }) => {
       }
     },
     [expandSelfEntered],
+  );
+
+  // Track when Blue Button section is filtered based on facility types
+  useEffect(
+    () => {
+      // Only track once per page load to prevent duplicate metrics
+      if (facilities.length > 0 && !blueButtonFilteringTrackedRef.current) {
+        if (hasOHOnly) {
+          // User has only Oracle Health facilities - Blue Button hidden entirely
+          postRecordDatadogAction(
+            statsdFrontEndActions.BLUE_BUTTON_FILTERED_OH_ONLY,
+          );
+          sendDataDogAction('Blue Button section hidden - Oracle Health only');
+          blueButtonFilteringTrackedRef.current = true;
+        } else if (hasBothDataSources) {
+          // User has both facility types - showing info message
+          postRecordDatadogAction(
+            statsdFrontEndActions.BLUE_BUTTON_FILTERED_DUAL_FACILITIES,
+          );
+          sendDataDogAction(
+            'Blue Button section filtered - dual facility types',
+          );
+          blueButtonFilteringTrackedRef.current = true;
+        }
+      }
+    },
+    [facilities.length, hasOHOnly, hasBothDataSources],
   );
 
   const accessErrors = () => {
@@ -282,41 +310,71 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           on {lastSuccessfulUpdate.date}
         </va-card>
       )}
-      <h2>Download your VA Blue Button report</h2>
-      {activeAlert?.type === ALERT_TYPE_BB_ERROR && (
-        <AccessTroubleAlertBox
-          alertType={accessAlertTypes.DOCUMENT}
-          documentType={documentTypes.BB}
-          className="vads-u-margin-bottom--1"
-        />
-      )}
-      {successfulBBDownload === true && (
+      {/* Blue Button section - hidden for Oracle Health-only users */}
+      {!hasOHOnly && (
         <>
-          <MissingRecordsError
-            documentType="VA Blue Button report"
-            recordTypes={getFailedDomainList(
-              failedBBDomains,
-              BB_DOMAIN_DISPLAY_MAP,
+          {/* Explanatory message for users with both facility types */}
+          {hasBothDataSources &&
+            vistaFacilityNames.length > 0 &&
+            ohFacilityNames.length > 0 && (
+              <va-alert
+                status="info"
+                className="vads-u-margin-y--2"
+                data-testid="dual-facilities-blue-button-message"
+                visible
+                aria-live="polite"
+              >
+                <p className="vads-u-margin--0">
+                  For {vistaFacilityNames.join(', ')}, you can download your
+                  data in a Blue Button report.
+                </p>
+                <p className="vads-u-margin--0 vads-u-margin-top--1">
+                  Data for {ohFacilityNames.join(', ')} is not yet available in
+                  Blue Button.
+                </p>
+                <p className="vads-u-margin--0 vads-u-margin-top--1">
+                  You can access records for those by downloading a Continuity
+                  of Care Document, which is shown above.
+                </p>
+              </va-alert>
             )}
-          />
-          <DownloadSuccessAlert
-            type="Your VA Blue Button report download has"
-            className="vads-u-margin-bottom--1"
+          <h2>Download your VA Blue Button report</h2>
+          {activeAlert?.type === ALERT_TYPE_BB_ERROR && (
+            <AccessTroubleAlertBox
+              alertType={accessAlertTypes.DOCUMENT}
+              documentType={documentTypes.BB}
+              className="vads-u-margin-bottom--1"
+            />
+          )}
+          {successfulBBDownload === true && (
+            <>
+              <MissingRecordsError
+                documentType="VA Blue Button report"
+                recordTypes={getFailedDomainList(
+                  failedBBDomains,
+                  BB_DOMAIN_DISPLAY_MAP,
+                )}
+              />
+              <DownloadSuccessAlert
+                type="Your VA Blue Button report download has"
+                className="vads-u-margin-bottom--1"
+              />
+            </>
+          )}
+          <p className="vads-u-margin--0 vads-u-margin-top--3 vads-u-margin-bottom--1">
+            First, select the types of records you want in your report. Then
+            download.
+          </p>
+          <va-link-action
+            href="/my-health/medical-records/download/date-range"
+            label="Select records and download report"
+            text="Select records and download report"
+            data-dd-action-name="Select records and download"
+            onClick={() => sendDataDogAction('Select records and download')}
+            data-testid="go-to-download-all"
           />
         </>
       )}
-      <p className="vads-u-margin--0 vads-u-margin-top--3 vads-u-margin-bottom--1">
-        First, select the types of records you want in your report. Then
-        download.
-      </p>
-      <va-link-action
-        href="/my-health/medical-records/download/date-range"
-        label="Select records and download report"
-        text="Select records and download report"
-        data-dd-action-name="Select records and download"
-        onClick={() => sendDataDogAction('Select records and download')}
-        data-testid="go-to-download-all"
-      />
 
       <h2>Other reports you can download</h2>
 
