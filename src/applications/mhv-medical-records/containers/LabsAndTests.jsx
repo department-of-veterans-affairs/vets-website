@@ -7,6 +7,7 @@ import {
   useAcceleratedData,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 
 import { Actions } from '../util/actionTypes';
 import RecordList from '../components/RecordList/RecordList';
@@ -60,6 +61,12 @@ const LabsAndTests = () => {
     state => state.mr.labsAndTests.labsAndTestsList,
   );
   const { imageStatus: studyJobs } = useSelector(state => state.mr.images);
+  const mergeCvixWithScdf = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicalRecordsMergeCvixIntoScdf
+      ],
+  );
 
   const radRecordsWithImagesReady = labsAndTests?.filter(radRecord => {
     const isRadRecord =
@@ -91,13 +98,18 @@ const LabsAndTests = () => {
   const dispatchAction = useMemo(
     () => {
       return isCurrent => {
-        return getLabsAndTestsList(isCurrent, isAcceleratingLabsAndTests, {
-          startDate: dateRange.fromDate,
-          endDate: dateRange.toDate,
-        });
+        return getLabsAndTestsList(
+          isCurrent,
+          isAcceleratingLabsAndTests,
+          {
+            startDate: dateRange.fromDate,
+            endDate: dateRange.toDate,
+          },
+          mergeCvixWithScdf,
+        );
       };
     },
-    [isAcceleratingLabsAndTests, dateRange],
+    [isAcceleratingLabsAndTests, dateRange, mergeCvixWithScdf],
   );
 
   useListRefresh({

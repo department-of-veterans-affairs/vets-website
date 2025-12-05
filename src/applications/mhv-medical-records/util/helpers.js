@@ -981,3 +981,11 @@ export const errorForUnequalBirthDates = (
 export const asyncErrorForUnequalBirthDates = async userDob => {
   errorForUnequalBirthDates(userDob);
 };
+
+/**
+ * Check if this ID is a radiology ID. In the frontend, we preface these IDs with an "r" to
+ * distinguish them from IDs we get from FHIR sources (e.g. PHR, SCDF).
+ * @param {*} id the lab ID
+ * @returns {boolean} true if the ID is a radiology ID, false otherwise
+ */
+export const isRadiologyId = id => id && id.charAt(0).toLowerCase() === 'r';
