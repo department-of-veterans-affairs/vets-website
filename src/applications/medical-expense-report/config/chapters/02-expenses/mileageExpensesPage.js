@@ -51,7 +51,7 @@ function checkIsItemIncomplete(item) {
   return (
     !item?.traveler ||
     ((item.traveler === 'DEPENDENT' || item.traveler === 'OTHER') &&
-      !item?.travelerName) ||
+      !item?.fullNameTraveler) ||
     !item?.travelLocation ||
     (item.travelLocation === 'OTHER' && !item?.travelLocationOther) ||
     !item?.travelDate ||
@@ -139,7 +139,7 @@ const travelerPage = {
       title: 'Who needed to travel?',
       labels: recipientTypeLabels,
     }),
-    travelerName: textUI({
+    fullNameTraveler: textUI({
       title: 'Full name of the person who traveled',
       expandUnder: 'traveler',
       expandUnderCondition: field => field === 'DEPENDENT' || field === 'OTHER',
@@ -157,7 +157,7 @@ const travelerPage = {
     type: 'object',
     properties: {
       traveler: radioSchema(Object.keys(recipientTypeLabels)),
-      travelerName: textSchema,
+      fullNameTraveler: textSchema,
     },
     required: ['traveler'],
   },
