@@ -15,6 +15,7 @@ div[id$="-autosuggest-container"] {
 
     @media (min-width: $small-desktop-screen) {
       flex-direction: row;
+
       &.fl-sm-desktop {
         flex-direction: column;
         align-items: flex-start;
@@ -111,6 +112,8 @@ div[id$="-autosuggest-container"] {
           background-color: transparent;
           padding: 0;
           margin: 0;
+          position: relative;
+
 
           &:hover {
             background-color: unset;
@@ -120,6 +123,10 @@ div[id$="-autosuggest-container"] {
           va-icon {
             color: var(--vads-color-base-dark) !important;
             margin: 0 !important;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
           }
         }
       }
@@ -130,6 +137,7 @@ div[id$="-autosuggest-container"] {
         background-color: transparent;
         padding: 0;
         margin: 0;
+        position: relative;
 
         &:hover {
           background-color: unset;
@@ -139,6 +147,10 @@ div[id$="-autosuggest-container"] {
         va-icon {
           color: var(--vads-color-base-dark) !important;
           margin: 0 !important;
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
         }
       }
     }
