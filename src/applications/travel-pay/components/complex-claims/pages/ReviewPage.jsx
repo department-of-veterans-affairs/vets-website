@@ -107,9 +107,11 @@ const ReviewPage = ({ message }) => {
       ) : (
         <>
           <p>
-            Once you’ve added your expenses, submit your claim within 30 days of
-            your appointment.
+            When you’re done adding expenses, select <b>Sign agreement</b> to
+            accept the travel agreement and submit your claim. Make sure to file
+            your claim within 30 days of your appointment.
           </p>
+          <h2>Expense types</h2>
           <ExpensesAccordion
             expenses={expenses}
             documents={documents}
