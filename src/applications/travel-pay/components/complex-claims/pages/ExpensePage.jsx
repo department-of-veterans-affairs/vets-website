@@ -181,7 +181,7 @@ const ExpensePage = () => {
   // Field names must match those expected by the expenses_controller in vets-api.
   // The controller converts them to forwards them unchanged to the API.
   const REQUIRED_FIELDS = {
-    Meal: ['vendorName', 'description'],
+    Meal: ['vendorName'],
     Lodging: ['vendor', 'checkInDate', 'checkOutDate'],
     Commoncarrier: ['carrierType', 'reasonNotUsingPOV'],
     Airtravel: [

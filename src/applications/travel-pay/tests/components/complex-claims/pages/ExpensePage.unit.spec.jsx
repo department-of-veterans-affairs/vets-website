@@ -711,6 +711,7 @@ describe('Travel Pay – ExpensePage (Editing existing expense)', () => {
       expect(errorAttr).to.include('Enter at least 5 characters');
     });
 
+    // Greater than max length
     inputText.value = 'a'.repeat(2001);
     inputText.dispatchEvent(
       new CustomEvent('input', {
