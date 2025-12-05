@@ -23,11 +23,10 @@ import {
 import { fileUploadBlurb } from '../../shared/components/fileUploads/attachments';
 import { ADDITIONAL_FILES_HINT } from '../../shared/constants';
 import { validFieldCharsOnly } from '../../shared/validations';
+import { blankSchema } from '../definitions';
 
 const effectiveDateHint =
   'You may find your effective date on the front of your Medicare card near "Coverage starts" or "Effective date."';
-
-export const blankSchema = { type: 'object', properties: {} };
 
 export const applicantHasMedicareSchema = {
   uiSchema: {

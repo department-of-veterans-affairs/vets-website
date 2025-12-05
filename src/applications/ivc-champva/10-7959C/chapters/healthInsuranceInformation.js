@@ -24,8 +24,8 @@ import {
   singleFileSchema,
 } from '../../shared/components/fileUploads/upload';
 import { ADDITIONAL_FILES_HINT } from '../../shared/constants';
-import { blankSchema } from './applicantInformation';
 import { validFieldCharsOnly } from '../../shared/validations';
+import { blankSchema } from '../definitions';
 
 const MEDIGAP = {
   A: 'Medigap Plan A',
