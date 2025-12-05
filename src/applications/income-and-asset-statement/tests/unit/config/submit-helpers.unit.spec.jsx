@@ -2,6 +2,7 @@ import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 
 import { expect } from 'chai';
 import {
+  collectAttachmentFiles,
   pruneFields,
   pruneFieldsInArray,
   pruneConfiguredArrays,
@@ -49,6 +50,85 @@ describe('submit-helpers.js', () => {
       const recipientName = 'Jane Doe';
       const flattenedName = replacer('recipientName', recipientName);
       expect(flattenedName).to.equal('Jane Doe');
+    });
+  });
+
+  describe('collectAttachmentFiles', () => {
+    it('should flatten the array of attachment files from trusts', () => {
+      const formData = {
+        trusts: [
+          {
+            supportingDocuments: [{ name: 'file1.pdf' }, { name: 'file2.pdf' }],
+          },
+          {
+            supportingDocuments: [{ name: 'file3.pdf' }],
+          },
+        ],
+      };
+
+      const attachments = collectAttachmentFiles(formData);
+
+      expect(attachments).to.deep.equal([
+        { name: 'file1.pdf' },
+        { name: 'file2.pdf' },
+        { name: 'file3.pdf' },
+      ]);
+    });
+
+    it('should collect individual attachment files from ownedAssets', () => {
+      const formData = {
+        ownedAssets: [
+          {
+            supportingDocuments: { name: 'assetFile1.pdf' },
+          },
+          {
+            supportingDocuments: { name: 'assetFile2.pdf' },
+          },
+        ],
+      };
+
+      const attachments = collectAttachmentFiles(formData);
+      expect(attachments).to.deep.equal([
+        { name: 'assetFile1.pdf' },
+        { name: 'assetFile2.pdf' },
+      ]);
+    });
+
+    it('should return an empty array when no attachments are present', () => {
+      const formData = {
+        trusts: [
+          {
+            supportingDocuments: [],
+          },
+        ],
+        ownedAssets: [],
+      };
+
+      const attachments = collectAttachmentFiles(formData);
+
+      expect(attachments).to.deep.equal([]);
+    });
+
+    it('should return an array of all attachments from both trusts and ownedAssets', () => {
+      const formData = {
+        trusts: [
+          {
+            supportingDocuments: [{ name: 'trustFile1.pdf' }],
+          },
+        ],
+        ownedAssets: [
+          {
+            supportingDocuments: { name: 'assetFile1.pdf' },
+          },
+        ],
+      };
+
+      const attachments = collectAttachmentFiles(formData);
+
+      expect(attachments).to.deep.equal([
+        { name: 'trustFile1.pdf' },
+        { name: 'assetFile1.pdf' },
+      ]);
     });
   });
 

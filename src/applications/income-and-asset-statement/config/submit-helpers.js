@@ -19,6 +19,35 @@ export function flattenRecipientName({ first, middle, last }) {
 }
 
 /**
+ * Collect all attachment objects from the form data, specifically from the trusts
+ * and ownedAssets arrays.
+ * @param {Object} data the form data object
+ * @returns {Array} an array of all attachment objects found in the data
+ */
+export function collectAttachmentFiles(data) {
+  const attachments = [];
+
+  const { trusts = [] } = data;
+
+  trusts.forEach(trust => {
+    if (trust.supportingDocuments) {
+      // Spread to avoid nested arrays
+      attachments.push(...trust.supportingDocuments);
+    }
+  });
+
+  const assets = data.ownedAssets || [];
+  assets.forEach(asset => {
+    if (asset.supportingDocuments) {
+      // Owned assets can only have one supporting document each
+      attachments.push(asset.supportingDocuments);
+    }
+  });
+
+  return attachments;
+}
+
+/**
  * Applies conditional removal rules to an object.
  * @param {Object} obj - The object to transform (mutates clone, not original).
  * @param {Array} rules - Array of rule objects:

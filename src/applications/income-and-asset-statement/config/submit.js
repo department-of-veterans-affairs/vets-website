@@ -5,6 +5,7 @@ import { cloneDeep } from 'lodash';
 import { ensureValidCSRFToken } from '../ensureValidCSRFToken';
 
 import {
+  collectAttachmentFiles,
   pruneConfiguredArrays,
   remapIncomeTypeFields,
   remapOtherVeteranFields,
@@ -98,12 +99,20 @@ export function prepareFormData(data) {
     maybeTransformedIncomes = discontinuedIncomes.map(remapIncomeTypeFields);
   }
 
+  // Step 4: Collect attachments from 'trusts' and 'ownedAssets' into the 'files' array
+  const collectedFiles = collectAttachmentFiles(clonedData);
+  const newFiles = [
+    ...(dataWithVeteranFieldsAdjusted.files || []),
+    ...collectedFiles,
+  ];
+
   // Assemble final object — only include discontinuedIncomes if we transformed it
   const assembledData = {
     ...dataWithVeteranFieldsAdjusted,
     ...(maybeTransformedIncomes
       ? { discontinuedIncomes: maybeTransformedIncomes }
       : {}),
+    files: newFiles,
   };
 
   // Step 4: remove fields vets-api does not accept
