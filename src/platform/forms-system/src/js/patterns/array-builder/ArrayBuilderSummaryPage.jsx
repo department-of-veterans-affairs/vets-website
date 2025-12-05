@@ -81,7 +81,7 @@ function getYesNoReviewErrorMessage(reviewErrors, hasItemsKey) {
  * @param {{
  *   arrayPath: ArrayBuilderOptions['arrayPath'],
  *   getFirstItemPagePath: (formData, index, context) => string,
- *   getText: import('./arrayBuilderText').ArrayBuilderGetText,
+ *   getText: ArrayBuilderGetText,
  *   hasItemsKey: string,
  *   hideMaxItemsAlert: boolean,
  *   getIntroPath: (formData) => string,
