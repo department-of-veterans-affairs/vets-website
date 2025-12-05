@@ -7,8 +7,6 @@ import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom-v5-compat';
 import * as focusUtils from '~/platform/utilities/ui/focus';
-import * as apiModule from '~/platform/utilities/api';
-import * as recordEventModule from 'platform/monitoring/record-event';
 import { LetterList } from '../../containers/LetterList';
 import {
   AVAILABILITY_STATUSES,
@@ -33,6 +31,7 @@ const defaultProps = {
   lettersAvailability: AVAILABILITY_STATUSES.available,
   letterDownloadStatus: {},
   optionsAvailable: true,
+  tsaLetterEligibility: {},
   tsaSafeTravelLetter: false,
 };
 
@@ -65,16 +64,11 @@ const getStore = () =>
 describe('<LetterList>', () => {
   let sandbox;
   // eslint-disable-next-line no-unused-vars
-  let apiRequestStub;
-  // eslint-disable-next-line no-unused-vars
-  let recordEventStub;
+  let getTsaLetterEligibilityStub;
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
-    apiRequestStub = sandbox
-      .stub(apiModule, 'apiRequest')
-      .resolves({ data: [] });
-    recordEventStub = sandbox.stub(recordEventModule, 'default');
+    getTsaLetterEligibilityStub = sandbox.stub();
   });
 
   afterEach(() => {
@@ -196,6 +190,7 @@ describe('<LetterList>', () => {
       'One of our systems appears to be down.',
     );
   });
+
   it('renders VeteranBenefitSummaryOptions', () => {
     const { getByText } = render(
       <Provider store={getStore()}>
@@ -224,6 +219,7 @@ describe('<LetterList>', () => {
       lettersAvailability: AVAILABILITY_STATUSES.available,
       letterDownloadStatus: {},
       optionsAvailable: true,
+      tsaLetterEligibility: {},
     };
     const { getByText } = render(
       <Provider store={getStore()}>
@@ -250,6 +246,7 @@ describe('<LetterList>', () => {
       lettersAvailability: AVAILABILITY_STATUSES.available,
       letterDownloadStatus: {},
       optionsAvailable: true,
+      tsaLetterEligibility: {},
     };
     const { getByText } = render(
       <Provider store={getStore()}>
@@ -296,6 +293,7 @@ describe('<LetterList>', () => {
       lettersAvailability: AVAILABILITY_STATUSES.available,
       letterDownloadStatus: {},
       optionsAvailable: true,
+      tsaLetterEligibility: {},
     };
     const { getByText } = render(
       <Provider store={getStore()}>
@@ -337,29 +335,81 @@ describe('<LetterList>', () => {
     ).to.exist;
   });
 
-  it('does not fetch TSA letter if feature flag is disabled', () => {
-    render(
-      <Provider store={getStore()}>
-        <MemoryRouter>
-          <LetterList {...defaultProps} />
-        </MemoryRouter>
-      </Provider>,
-    );
-    expect(apiRequestStub.calledOnce).to.be.false;
-  });
+  describe('TSA letter', () => {
+    it('does not fetch TSA letter if feature flag is disabled', () => {
+      render(
+        <Provider store={getStore()}>
+          <MemoryRouter>
+            <LetterList {...defaultProps} />
+          </MemoryRouter>
+        </Provider>,
+      );
+      expect(getTsaLetterEligibilityStub.calledOnce).to.be.false;
+    });
 
-  it('fetches TSA letter if feature flag is enabled', () => {
-    const tsaLetterEnabledProps = {
-      ...defaultProps,
-      tsaSafeTravelLetter: true,
-    };
-    render(
-      <Provider store={getStore()}>
-        <MemoryRouter>
-          <LetterList {...tsaLetterEnabledProps} />
-        </MemoryRouter>
-      </Provider>,
-    );
-    expect(apiRequestStub.calledOnce).to.be.true;
+    it('fetches TSA letter if feature flag is enabled', () => {
+      const tsaLetterEnabledProps = {
+        ...defaultProps,
+        getTsaLetterEligibility: getTsaLetterEligibilityStub,
+        tsaLetterEligibility: {},
+        tsaSafeTravelLetter: true,
+      };
+      render(
+        <Provider store={getStore()}>
+          <MemoryRouter>
+            <LetterList {...tsaLetterEnabledProps} />
+          </MemoryRouter>
+        </Provider>,
+      );
+      expect(getTsaLetterEligibilityStub.calledOnce).to.be.true;
+    });
+
+    it('renders eligibility error when TSA letter is not available', async () => {
+      const tsaLetterEnabledProps = {
+        ...defaultProps,
+        getTsaLetterEligibility: getTsaLetterEligibilityStub,
+        tsaLetterEligibility: {
+          error: true,
+          loading: false,
+        },
+        tsaSafeTravelLetter: true,
+      };
+      const { findByText } = render(
+        <Provider store={getStore()}>
+          <MemoryRouter>
+            <LetterList {...tsaLetterEnabledProps} />
+          </MemoryRouter>
+        </Provider>,
+      );
+      const errorHeading = await findByText(
+        'Some letters may not be available',
+      );
+      expect(errorHeading).to.exist;
+    });
+
+    it('renders loading indicator when determining TSA letter eligibility', async () => {
+      const tsaLetterEnabledProps = {
+        ...defaultProps,
+        getTsaLetterEligibility: getTsaLetterEligibilityStub,
+        tsaLetterEligibility: {
+          error: false,
+          loading: true,
+        },
+        tsaSafeTravelLetter: true,
+      };
+      const { container } = render(
+        <Provider store={getStore()}>
+          <MemoryRouter>
+            <LetterList {...tsaLetterEnabledProps} />
+          </MemoryRouter>
+        </Provider>,
+      );
+      const selector = container.querySelector('va-loading-indicator');
+      expect(selector).to.exist;
+      expect(selector).to.contain.attr(
+        'message',
+        'Determining TSA PreCheck Application Fee Waiver Letter eligibility...',
+      );
+    });
   });
 });

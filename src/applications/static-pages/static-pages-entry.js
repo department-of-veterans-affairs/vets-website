@@ -105,6 +105,7 @@ import create1010DExtendedAccess from './ivc-champva/10-10d-extended/entry';
 import create107959CAccess from './ivc-champva/10-7959c/entry';
 import create107959AAccess from './ivc-champva/10-7959a/entry';
 import create107959F2Access from './ivc-champva/10-7959f-2/entry';
+import create21P8416Access from './medical-expense-report/entry';
 
 import './mhv-signin-cta/sass/mhv-signin-cta.scss';
 import createMhvSigninCallToAction from './mhv-signin-cta/createMhvSigninCTA';
@@ -270,6 +271,7 @@ create107959CAccess(store, widgetTypes.FORM_107959C);
 create107959AAccess(store, widgetTypes.FORM_107959A);
 create107959F2Access(store, widgetTypes.FORM_107959F2);
 createMhvSigninCallToAction(store, widgetTypes.MHV_SIGNIN_CTA);
+create21P8416Access(store, widgetTypes.MEDICAL_EXPENSE_REPORT);
 
 create21P534ezAccess(store, widgetTypes.SURVIVORS_BENEFITS);
 

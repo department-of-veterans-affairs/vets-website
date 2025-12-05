@@ -357,7 +357,7 @@ class MedicationsListPage {
         'contain',
         'You have no refills left. If you need more, request a renewal.',
       );
-    cy.get('[data-testid="learn-to-renew-prescriptions-link"]')
+    cy.get('[data-testid="send-renewal-request-message-link"]')
       .should('exist')
       .and('be.visible');
   };
@@ -379,7 +379,7 @@ class MedicationsListPage {
 
   verifyInformationBasedOnStatusActiveParked = () => {
     cy.get(
-      '[data-testid="medication-list"] > :nth-child(11) > [data-testid="rx-card-info"] > [data-testid="rxStatus"]',
+      '[data-testid="medication-list"] > :nth-child(11) [data-testid="rxStatus"]',
     )
       // cy.get(':nth-child(5) > .rx-card-detials > [data-testid="rxStatus"]')
       .should('be.visible')
@@ -419,7 +419,7 @@ class MedicationsListPage {
 
   verifyInformationBasedOnStatusUnknown = unknownPrescription => {
     cy.get(
-      `[data-testid="medication-list"] > :nth-child(7) > [data-testid="rx-card-info"] > #status-description-${unknownPrescription} > [data-testid="unknown"] > :nth-child(2) > :nth-child(1)`,
+      `[data-testid="medication-list"] > :nth-child(7) #status-description-${unknownPrescription} > [data-testid="unknown"] > :nth-child(2) > :nth-child(1)`,
     )
       .should('be.visible')
       .and('contain', 'We’re sorry. There’s a problem with our system.');
@@ -440,7 +440,7 @@ class MedicationsListPage {
 
   verifyNonVAPrescriptionNameOnListPage = () => {
     cy.get(
-      '[data-testid="medication-list"] > :nth-child(5) > [data-testid="rx-card-info"] > [data-testid="medications-history-details-link"]',
+      '[data-testid="medication-list"] > :nth-child(5) [data-testid="medications-history-details-link"]',
     ).should('contain', `${nonVARx.data.attributes.prescriptionName}`);
   };
 
@@ -453,11 +453,11 @@ class MedicationsListPage {
       prescription,
     );
     cy.get(
-      '[data-testid="medication-list"] > :nth-child(1) > [data-testid="rx-card-info"] > [data-testid="fill-refill"] > [data-testid="refill-request-button"]',
+      '[data-testid="medication-list"] > :nth-child(1) [data-testid="refill-request-button"]',
     ).should('be.enabled');
 
     cy.get(
-      '[data-testid="medication-list"] > :nth-child(1) > [data-testid="rx-card-info"] > [data-testid="fill-refill"] > [data-testid="refill-request-button"]',
+      '[data-testid="medication-list"] > :nth-child(1) [data-testid="refill-request-button"]',
     )
       .first()
       .click({ waitForAnimations: true });
@@ -473,10 +473,10 @@ class MedicationsListPage {
 
   clickRefillButtonForVerifyingError = () => {
     cy.get(
-      '[data-testid="medication-list"] > :nth-child(1) > [data-testid="rx-card-info"] > [data-testid="fill-refill"] > [data-testid="refill-request-button"]',
+      '[data-testid="medication-list"] > :nth-child(1) [data-testid="refill-request-button"]',
     );
     cy.get(
-      '[data-testid="medication-list"] > :nth-child(1) > [data-testid="rx-card-info"] > [data-testid="fill-refill"] > [data-testid="refill-request-button"]',
+      '[data-testid="medication-list"] > :nth-child(1) [data-testid="refill-request-button"]',
     )
       .first()
       .click({ waitForAnimations: true });
@@ -703,7 +703,7 @@ class MedicationsListPage {
 
   verifyLastFilledDateforPrescriptionOnListPage = () => {
     cy.get(
-      '[data-testid="medication-list"] > :nth-child(2) > [data-testid="rx-card-info"] > [data-testid="rx-last-filled-date"]',
+      '[data-testid="medication-list"] > :nth-child(2) [data-testid="rx-last-filled-date"]',
     ).should(
       'contain',
       `${prescriptionFillDate.data.attributes.sortedDispensedDate}`,
@@ -712,7 +712,7 @@ class MedicationsListPage {
 
   verifyDiscontinuedMedicationNameIsVisibleOnListPage = () => {
     cy.get(
-      '[data-testid="medication-list"] > :nth-child(6) > [data-testid="rx-card-info"] > [data-testid="medications-history-details-link"]',
+      '[data-testid="medication-list"] > :nth-child(6) [data-testid="medications-history-details-link"]',
     ).should('be.visible');
   };
 
@@ -889,7 +889,7 @@ class MedicationsListPage {
 
   verifyNameOfFirstRxOnMedicationsList = rxName => {
     cy.get(
-      '.landing-page-content > [data-testid="medication-list"] > :nth-child(1) > [data-testid="rx-card-info"] > [data-testid="medications-history-details-link"]',
+      '.landing-page-content > [data-testid="medication-list"] > :nth-child(1) [data-testid="medications-history-details-link"]',
     ).should('contain', rxName);
   };
 
@@ -972,7 +972,7 @@ class MedicationsListPage {
     cardNumber,
   ) => {
     cy.get(
-      `.landing-page-content > [data-testid="medication-list"] > :nth-child(${cardNumber}) > [data-testid="rx-card-info"]`,
+      `.landing-page-content > [data-testid="medication-list"] > :nth-child(${cardNumber})`,
     )
       .first()
       .should('not.contain', prescriptionNumber);
@@ -1134,6 +1134,81 @@ class MedicationsListPage {
 
   verifySortScreenReaderActionText = text => {
     cy.findByTestId('sort-action-sr-text').should('have.text', text);
+  };
+
+  // SendRxRenewalMessage component test helpers
+  verifyRenewalRequestLinkExists = () => {
+    cy.get('[data-testid="send-renewal-request-message-link"]')
+      .should('exist')
+      .and('be.visible');
+  };
+
+  verifyRenewalRequestActionLinkExists = () => {
+    cy.get('[data-testid="send-renewal-request-message-action-link"]')
+      .should('exist')
+      .and('be.visible');
+  };
+
+  clickRenewalRequestLink = () => {
+    cy.get('[data-testid="send-renewal-request-message-link"]')
+      .first()
+      .shadow()
+      .find('a')
+      .click();
+  };
+
+  clickRenewalRequestActionLink = () => {
+    cy.get('[data-testid="send-renewal-request-message-action-link"]')
+      .first()
+      .click();
+  };
+
+  verifyRenewalModalIsOpen = () => {
+    cy.get('va-modal')
+      .should('exist')
+      .and('have.attr', 'visible', 'true');
+
+    cy.get('va-modal')
+      .shadow()
+      .find('h2')
+      .should('contain', "You're leaving medications to send a message");
+  };
+
+  verifyRenewalModalIsClosed = () => {
+    cy.get('va-modal').should('have.attr', 'visible', 'false');
+  };
+
+  closeRenewalModalWithBackButton = () => {
+    cy.get('va-modal')
+      .shadow()
+      .find('button')
+      .contains('Back')
+      .click();
+  };
+
+  closeRenewalModalWithCloseButton = () => {
+    cy.get('va-modal')
+      .shadow()
+      .find('button[aria-label="Close"]')
+      .click();
+  };
+
+  verifyRenewalModalContent = () => {
+    cy.get('va-modal')
+      .find('p')
+      .first()
+      .should(
+        'contain',
+        "You'll need to select your provider and send them a message requesting a prescription renewal.",
+      );
+
+    cy.get('va-modal')
+      .find('p')
+      .eq(1)
+      .should(
+        'contain',
+        "If you need a medication immediately, you should call your VA pharmacy's automated refill line",
+      );
   };
 }
 

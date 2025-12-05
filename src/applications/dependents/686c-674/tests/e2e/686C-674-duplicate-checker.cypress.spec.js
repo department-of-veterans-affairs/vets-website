@@ -1,7 +1,6 @@
 import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
-
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import { setupCypress } from './cypress.helpers';
@@ -34,6 +33,7 @@ const testConfig = createTestConfig(
             .should('have.length', 2)
             .first()
             .should('contain', 'more than once');
+          cy.injectAxeThenAxeCheck();
 
           cy.get(`va-link[label="Edit Penny Foster"]`)
             .first()
@@ -46,6 +46,8 @@ const testConfig = createTestConfig(
             .shadow()
             .find('.va-modal-alert-body')
             .should('contain', 'already have a dependent with this date');
+
+          cy.injectAxeThenAxeCheck();
 
           cy.get('va-modal[status="warning"]')
             .shadow()

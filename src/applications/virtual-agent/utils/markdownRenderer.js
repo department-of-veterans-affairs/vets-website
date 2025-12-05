@@ -6,7 +6,7 @@ import { getEventSkillValue } from './sessionStorage';
 
 const markdownRenderer = MarkdownIt({
   html: true,
-  linkify: true,
+  linkify: false,
 }).use(markdownitLinkAttributes, {
   attrs: {
     target: '_blank',
@@ -88,5 +88,48 @@ markdownRenderer.renderer.rules[linkOpen] = (
   // pass token to default renderer.
   return defaultRender(tokens, idx, options, env, self);
 };
+
+/**
+ * Strips markdown formatting from text, converting it to plain text suitable for screen readers.
+ * Uses markdown-it to parse and extract text content from tokens.
+ * @param {string} markdown - The markdown text to convert
+ * @returns {string} Plain text with markdown removed
+ */
+export function stripMarkdown(markdown) {
+  if (!markdown || typeof markdown !== 'string') {
+    return markdown || '';
+  }
+
+  // Parse markdown into tokens
+  const tokens = markdownRenderer.parse(markdown, {});
+
+  // Extract text content from tokens recursively
+  const extractText = token => {
+    // Extract text from text tokens and inline code
+    if (token.type === 'text' || token.type === 'code_inline') {
+      return token.content || '';
+    }
+
+    // For links, extract the link text (children contain the text)
+    if (token.type === 'link_open' || token.type === 'link_close') {
+      return '';
+    }
+
+    // Recursively extract text from children
+    if (token.children && Array.isArray(token.children)) {
+      return token.children.map(extractText).join('');
+    }
+
+    return '';
+  };
+
+  const plainText = tokens.map(extractText).join(' ');
+
+  // Clean up extra whitespace and normalize line breaks
+  return plainText
+    .replace(/\s+/g, ' ')
+    .replace(/\n\s*\n/g, '\n')
+    .trim();
+}
 
 export default markdownRenderer;

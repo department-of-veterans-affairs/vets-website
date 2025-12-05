@@ -28,31 +28,21 @@ export const MUST_MATCH_ALERT = (variant, onCloseEvent, formData) => {
       closeable
       onCloseEvent={onCloseEvent}
     >
-      {variant === 'nameAndZipCodePage' ? (
-        <h3 slot="headline">
-          Veteran’s name and postal code must match your PDF
-        </h3>
-      ) : (
-        <h3 slot="headline">This information must match your form</h3>
-      )}
+      <h3 slot="headline">This information must match your form</h3>
       {isLoa3 ? (
         <p>
           Since you’re signed in to your account, we prefilled part of your
           application based on your account details.
         </p>
       ) : null}
-      {variant === 'nameAndZipCodePage' ? (
-        <p>
-          Since you’re signed in to your account, we prefilled this page based
-          on your account details.
-        </p>
-      ) : (
-        <p>
-          Since you’re signed in, we prefilled this information based on your VA
-          profile. <br /> If this information doesn’t match what’s on your form,
-          it’ll cause processing delays.
-        </p>
-      )}
+      <p>
+        Since you’re signed in, we prefilled this information based on your VA
+        profile.
+      </p>
+      <p>
+        If this information doesn’t match what’s on your form, it’ll cause
+        processing delays.
+      </p>
     </VaAlert>
   );
 };
@@ -116,6 +106,7 @@ export const FORM_UPLOAD_OCR_ALERT = (
   pdfDownloadUrl,
   onCloseEvent,
   warnings = [],
+  file,
 ) => (
   <VaAlert
     close-btn-aria-label="Close notification"
@@ -123,9 +114,10 @@ export const FORM_UPLOAD_OCR_ALERT = (
     visible
     closeable
     onCloseEvent={onCloseEvent}
+    role="status"
   >
     <h2 slot="headline">
-      Are you sure the file you uploaded is VA Form {formNumber}?
+      Are you sure the file you uploaded, {file}, is VA Form {formNumber}?
     </h2>
     <React.Fragment key=".1">
       <ul>

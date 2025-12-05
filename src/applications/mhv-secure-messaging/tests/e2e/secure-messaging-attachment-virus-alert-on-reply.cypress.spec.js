@@ -24,7 +24,7 @@ describe('SM ATTACHMENT WITH VIRUS ON REPLY', () => {
       .type(`Test body`);
   });
 
-  describe('Verify single attachment with virus alert', () => {
+  describe('Verify single attachment with virus alert on reply', () => {
     beforeEach(() => {
       PatientComposePage.attachMessageFromFile(Data.SAMPLE_IMG);
       cy.intercept(

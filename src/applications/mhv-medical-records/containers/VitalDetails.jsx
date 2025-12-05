@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { chunk } from 'lodash';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -62,8 +62,6 @@ import { useTrackAction } from '../hooks/useTrackAction';
 const VitalDetails = props => {
   const { runningUnitTest } = props;
 
-  const location = useLocation();
-
   const records = useSelector(state => state.mr.vitals.vitalDetails);
   const vitalsList = useSelector(state => state.mr.vitals.vitalsList);
   const user = useSelector(state => state.user.profile);
@@ -87,13 +85,12 @@ const VitalDetails = props => {
     state => state.mr.vitals.listCurrentAsOf,
   );
 
-  const { isCerner, isLoading } = useAcceleratedData();
+  const { isCerner, isAcceleratingVitals, isLoading } = useAcceleratedData();
 
   useTrackAction(statsdFrontEndActions.VITALS_DETAILS);
 
-  const urlVitalsDate = new URLSearchParams(location.search).get('timeFrame');
   const dispatchAction = isCurrent => {
-    return getVitals(isCurrent, isCerner, urlVitalsDate);
+    return getVitals(isCurrent, isCerner, isAcceleratingVitals);
   };
 
   useListRefresh({
@@ -283,20 +280,21 @@ Provider notes: ${vital.notes}\n\n`,
         >
           <h2 className="sr-only">{`List of ${vitalDisplayName} results`}</h2>
 
-          {!isCerner && (
-            <NewRecordsIndicator
-              refreshState={refresh}
-              extractType={refreshExtractTypes.VPR}
-              newRecordsFound={
-                Array.isArray(vitalsList) &&
-                Array.isArray(updatedRecordList) &&
-                vitalsList.length !== updatedRecordList.length
-              }
-              reloadFunction={() => {
-                dispatch(reloadRecords());
-              }}
-            />
-          )}
+          {!isCerner &&
+            !isAcceleratingVitals && (
+              <NewRecordsIndicator
+                refreshState={refresh}
+                extractType={refreshExtractTypes.VPR}
+                newRecordsFound={
+                  Array.isArray(vitalsList) &&
+                  Array.isArray(updatedRecordList) &&
+                  vitalsList.length !== updatedRecordList.length
+                }
+                reloadFunction={() => {
+                  dispatch(reloadRecords());
+                }}
+              />
+            )}
 
           {downloadStarted && <DownloadSuccessAlert />}
 
@@ -460,7 +458,7 @@ Provider notes: ${vital.notes}\n\n`,
         </p>
         <p>
           <a
-            href={`/my-health/medical-records/vitals?timeFrame=${urlVitalsDate}`}
+            href="/my-health/medical-records/vitals"
             className="vads-u-margin-top--2"
           >
             Go back to the vitals page

@@ -1,12 +1,14 @@
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import PropType from 'prop-types';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import CrisisLineConnectButton from '../components/CrisisLineConnectButton';
 import { Paths, PageTitles } from '../util/constants';
 import featureToggles from '../hooks/useFeatureToggles';
 import { acceptInterstitial } from '../actions/threadDetails';
+import { getRecentRecipients } from '../actions/recipients';
+import manifest from '../manifest.json';
 import {
   clearPrescription,
   getPrescriptionById,
@@ -21,6 +23,30 @@ const InterstitialPage = props => {
   const dispatch = useDispatch();
 
   const h1Ref = useRef(null);
+  const {
+    allRecipients,
+    recentRecipients,
+    noAssociations,
+    error: recipientsError,
+  } = useSelector(state => state.sm.recipients);
+
+  useEffect(
+    () => {
+      if (recipientsError || noAssociations) {
+        history.push(Paths.INBOX);
+      }
+    },
+    [recipientsError, noAssociations, history],
+  );
+
+  useEffect(
+    () => {
+      if (allRecipients?.length > 0 && recentRecipients === undefined) {
+        dispatch(getRecentRecipients(6));
+      }
+    },
+    [dispatch, recentRecipients, allRecipients],
+  );
 
   useEffect(() => {
     focusElement(document.querySelector('h1'));
@@ -30,11 +56,43 @@ const InterstitialPage = props => {
     PageTitles.DEFAULT_PAGE_TITLE_TAG
   }`;
 
+  // Determine the correct destination based on whether recent recipients exist
+  // This is used for both the href attribute AND the programmatic navigation
+  const getDestinationPath = useCallback(
+    (includeRootUrl = false) => {
+      const hasRecentRecipients = recentRecipients?.length > 0;
+
+      const path = hasRecentRecipients
+        ? Paths.RECENT_CARE_TEAMS
+        : `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`;
+
+      return includeRootUrl ? `${manifest.rootUrl}${path}` : path;
+    },
+    [recentRecipients],
+  );
+
   const handleContinueButton = useCallback(
+    event => {
+      event?.preventDefault();
+      dispatch(acceptInterstitial());
+      if (mhvSecureMessagingCuratedListFlow && type !== 'reply') {
+        history.push(getDestinationPath());
+      }
+    },
+    [
+      history,
+      mhvSecureMessagingCuratedListFlow,
+      type,
+      dispatch,
+      getDestinationPath,
+    ],
+  );
+
+  const handleRedirect = useCallback(
     () => {
       dispatch(acceptInterstitial());
       if (mhvSecureMessagingCuratedListFlow && type !== 'reply') {
-        history.push(`${Paths.RECENT_CARE_TEAMS}`);
+        history.push(Paths.RECENT_CARE_TEAMS);
       }
     },
     [history, mhvSecureMessagingCuratedListFlow, type, dispatch],
@@ -47,7 +105,7 @@ const InterstitialPage = props => {
       const redirectPath = searchParams.get('redirectPath');
       if (prescriptionId) {
         dispatch(getPrescriptionById(prescriptionId));
-        handleContinueButton();
+        handleRedirect();
       } else {
         dispatch(clearPrescription());
       }
@@ -55,7 +113,7 @@ const InterstitialPage = props => {
         dispatch(setRedirectPath(decodeURIComponent(redirectPath)));
       }
     },
-    [location.search, handleContinueButton, dispatch],
+    [location.search, handleRedirect, dispatch],
   );
 
   const continueButtonText = useMemo(
@@ -83,18 +141,24 @@ const InterstitialPage = props => {
           Your care team may take up to <strong>3 business days</strong> to
           reply.
         </p>
-
-        <button
-          className="continue-button vads-u-padding-y--1p5 vads-u-padding-x--2p5 vads-u-margin-top--0 vads-u-margin-bottom--3"
-          data-testid="continue-button"
-          onClick={handleContinueButton}
-          data-dd-action-name={`${continueButtonText} button on Interstitial Page`}
-        >
-          {continueButtonText}
-          <span className="sr-only">. Page content will change.</span>
-        </button>
-
-        <h2 className="vads-u-font-size--h3 vads-u-margin-top--0 vads-u-margin-bottom--2">
+        {mhvSecureMessagingCuratedListFlow ? (
+          <va-link-action
+            href={getDestinationPath(true)}
+            onClick={handleContinueButton}
+            text={continueButtonText}
+            type="primary"
+            data-testid="start-message-link"
+            data-dd-action-name={`${continueButtonText} button on Interstitial Page`}
+          />
+        ) : (
+          <va-button
+            text={continueButtonText}
+            data-testid="continue-button"
+            onClick={handleContinueButton}
+            data-dd-action-name={`${continueButtonText} button on Interstitial Page`}
+          />
+        )}
+        <h2 className="vads-u-font-size--h3 vads-u-margin-top--3 vads-u-margin-bottom--2">
           If you need help sooner, use one of these urgent communications
           options:
         </h2>

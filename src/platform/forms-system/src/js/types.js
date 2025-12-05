@@ -146,6 +146,7 @@
  * @typedef {Object} FormConfigChapter
  * @property {FormConfigPages} [pages]
  * @property {string | ({ formData, formConfig }) => string} [title]
+ * @property {string | ({ formData, formConfig }) => string} [reviewTitle]
  * @property {boolean} [hideFormNavProgress]
  * @property {boolean} [hideFormTitle]
  * @property {boolean} [hideOnReviewPage]
@@ -244,6 +245,7 @@
  * @typedef {{
  *    items?: UISchemaOptions,
  *   'ui:autocomplete'?: AutocompleteValue,
+ *   'ui:confirmationField'?: React.ReactNode | (({formData}) => {data: any, label: string}),
  *   'ui:description'?: string | JSX.Element | React.ReactNode,
  *   'ui:disabled'?: boolean,
  *   'ui:errorMessages'?: UIErrorMessages,
@@ -460,6 +462,10 @@
  */
 
 /**
+ * @typedef {(key: keyof ArrayBuilderText, itemData: any, formData?: any, index?: number) => string} ArrayBuilderGetText
+ */
+
+/**
  * @typedef {Object} ArrayBuilderOptions
  * @property {string} arrayPath the formData key for the array e.g. `"employers"` for `formData.employers`
  * @property {string} nounSingular Used for text in cancel, remove, and modals. Used with nounPlural
@@ -508,6 +514,18 @@
  *       }
  *    },
  * ```
+ */
+
+/**
+ * @typedef {Object} ArrayBuilderItemPageProps
+ * @property {string} arrayPath
+ * @property {(fullData) => string} getIntroPath
+ * @property {(fullData) => string} getSummaryPath
+ * @property {string} reviewRoute
+ * @property {ArrayBuilderOptions['required']} required Flow type of array builder
+ * @property {ArrayBuilderGetText} getText
+ * @property {DuplicateChecks} duplicateChecks
+ * @property {string} currentPath
  */
 
 /**

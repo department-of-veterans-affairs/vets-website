@@ -28,16 +28,16 @@ export const transform = (formConfig, form) => {
         fullName: veteranPersonalInfo?.fullName,
         dateOfBirth: veteranPersonalInfo?.dateOfBirth,
         veteranId: {
-          ssn: veteranIdentificationInfo?.veteranSsn,
-          vaFileNumber: veteranIdentificationInfo?.veteranVaFileNumber,
+          ssn: veteranIdentificationInfo?.ssn,
+          vaFileNumber: veteranIdentificationInfo?.vaFileNumber,
         },
       }
     : {
         fullName: claimantPersonalInfo?.claimantFullName,
         dateOfBirth: claimantPersonalInfo?.claimantDateOfBirth,
         veteranId: {
-          ssn: claimantIdentificationInfo?.claimantSsn,
-          vaFileNumber: claimantIdentificationInfo?.claimantVaFileNumber,
+          ssn: claimantIdentificationInfo?.ssn,
+          vaFileNumber: claimantIdentificationInfo?.vaFileNumber,
         },
       };
 
@@ -46,8 +46,8 @@ export const transform = (formConfig, form) => {
       fullName: veteranPersonalInfo?.fullName,
       dateOfBirth: veteranPersonalInfo?.dateOfBirth,
       veteranId: {
-        ssn: veteranIdentificationInfo?.veteranSsn,
-        vaFileNumber: veteranIdentificationInfo?.veteranVaFileNumber,
+        ssn: veteranIdentificationInfo?.ssn,
+        vaFileNumber: veteranIdentificationInfo?.vaFileNumber,
       },
     },
     claimantInformation,
@@ -81,5 +81,8 @@ export const transform = (formConfig, form) => {
     },
   };
 
-  return JSON.stringify(submissionData);
+  // Return the data as a JSON string wrapped in an object with a 'form' key
+  // The backend expects the entire payload to be a stringified JSON object,
+  // we do this because we don't want the form data modified by the inflection header
+  return JSON.stringify({ form: JSON.stringify(submissionData) });
 };

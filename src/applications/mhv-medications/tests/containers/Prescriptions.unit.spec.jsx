@@ -40,16 +40,13 @@ describe('Medications Prescriptions container', () => {
       prescriptionsList: [],
       refillAlertList: [],
     },
-    featureToggles: {
-      // eslint-disable-next-line camelcase
-      mhv_medications_display_refill_progress: false,
-    },
   };
 
-  const setup = (state = initialState) => {
+  const setup = (state = initialState, url = '/') => {
     return renderWithStoreAndRouterV6(<Prescriptions />, {
       initialState: state,
       reducers: reducer,
+      initialEntries: [url],
       additionalMiddlewares: [
         allergiesApiModule.allergiesApi.middleware,
         prescriptionsApiModule.prescriptionsApi.middleware,
@@ -98,40 +95,10 @@ describe('Medications Prescriptions container', () => {
       rx: {
         ...initialState.rx,
       },
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        mhv_medications_display_refill_progress: true,
-      },
     });
 
     expect(await screen.findByTestId('mhv-rx--delayed-refill-alert')).to.exist;
     expect(await screen.findByTestId('rxDelay-alert-message')).to.exist;
-  });
-
-  it('should not display delayed refill alert when showRefillProgressContent flag is false', async () => {
-    sandbox.restore();
-    stubAllergiesApi({ sandbox });
-    stubPrescriptionsListApi({
-      sandbox,
-      data: {
-        prescriptions: emptyPrescriptionsList.data,
-        meta: emptyPrescriptionsList.meta,
-        pagination: emptyPrescriptionsList.meta.pagination,
-        refillAlertList,
-      },
-    });
-
-    const screen = setup({
-      ...initialState,
-      rx: {
-        ...initialState.rx,
-      },
-    });
-
-    await waitFor(() => {
-      expect(screen.queryByTestId('mhv-rx--delayed-refill-alert')).not.to.exist;
-      expect(screen.queryByTestId('rxDelay-alert-message')).not.to.exist;
-    });
   });
 
   it('should not display delayed refill alert when refillAlertList is empty', async () => {
@@ -151,10 +118,6 @@ describe('Medications Prescriptions container', () => {
       ...initialState,
       rx: {
         ...initialState.rx,
-      },
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        mhv_medications_display_refill_progress: true,
       },
     });
 
@@ -317,5 +280,25 @@ describe('Medications Prescriptions container', () => {
     expect(screen.queryByTestId('meds-by-mail-header')).not.to.exist;
     expect(screen.queryByTestId('meds-by-mail-top-level-text')).not.to.exist;
     expect(screen.queryByTestId('meds-by-mail-additional-info')).not.to.exist;
+  });
+
+  describe('renderRxRenewalMessageSuccess', () => {
+    it('should render component with deleteDraftSuccess query param', async () => {
+      const screen = setup(initialState, '?page=1&draftDeleteSuccess=true');
+      await waitFor(() => {
+        expect(screen.getByTestId('rx-renewal-delete-draft-success-alert')).to
+          .exist;
+      });
+    });
+
+    it('should render component with rxRenewalMessageSuccess query param', async () => {
+      const screen = setup(
+        initialState,
+        '?page=1&rxRenewalMessageSuccess=true',
+      );
+      await waitFor(() => {
+        expect(screen.getByTestId('rx-renewal-message-success-alert')).to.exist;
+      });
+    });
   });
 });

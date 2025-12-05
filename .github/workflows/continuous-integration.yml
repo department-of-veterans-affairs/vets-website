@@ -12,9 +12,48 @@ concurrency:
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
+  # TEMPORARY: This check will be removed once Shai Hulud 2.0 is no longer a moving target
+  # Fails and cancels the workflow if package.json or yarn.lock are modified
+  check-dependency-files:
+    name: Check for Dependency File Changes
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+        with:
+          fetch-depth: 0
+
+      - name: Check for package.json or yarn.lock changes
+        run: |
+          # Fetch main branch for comparison
+          git fetch origin main
+
+          # Check if package.json or yarn.lock have been modified
+          if git diff --name-only origin/main...HEAD | grep -qE '^(package\.json|yarn\.lock)$'; then
+            echo "❌ ERROR: package.json or yarn.lock has been modified."
+            echo "This is temporarily blocked to prevent Shai Hulud 2.0 vulnerabilities."
+            echo "Once Shai Hulud 2.0 is no longer a moving target, this check will be removed."
+            exit 1
+          fi
+          echo "✓ No dependency file changes detected."
+
+      - name: Cancel workflow on failure
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.actions.cancelWorkflowRun({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              run_id: context.runId
+            });
+
   build:
     name: Build
     runs-on: ubuntu-16-cores-latest
+    permissions:
+      id-token: write
+      contents: read
     outputs:
       entry_names: ${{ steps.get-changed-apps.outputs.entry_names }}
       continuous_deployment: ${{ steps.get-changed-apps.outputs.continuous_deployment }}
@@ -34,9 +73,8 @@ jobs:
         if: ${{ matrix.buildtype == 'vagovprod' }}
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -124,12 +162,12 @@ jobs:
         if: ${{ always() }}
         id: deploy-to-prod
         run: echo "can_deploy=$CAN_DEPLOY_TO_PROD" >> $GITHUB_OUTPUT
-
-      - name: Log output
-        run: echo ${{ steps.deploy-to-prod.outputs.can_deploy }}
   fetch-allow-lists:
     name: Fetch Test Stability Allow Lists
     runs-on: ubuntu-22.04
+    permissions:
+      id-token: write
+      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
@@ -137,9 +175,8 @@ jobs:
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Get va-vsp-bot token
         uses: ./.github/workflows/inject-secrets
@@ -329,6 +366,9 @@ jobs:
     needs: [fetch-allow-lists, tests-prep]
     timeout-minutes: 30
     runs-on: ubuntu-16-cores-22.04
+    permissions:
+      id-token: write
+      contents: read
     outputs:
       tests_ran: ${{ steps.run-tests.outputs.tests_ran }}
 
@@ -354,9 +394,8 @@ jobs:
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Get va-vsp-bot token
         uses: ./.github/workflows/inject-secrets
@@ -486,6 +525,9 @@ jobs:
     name: Update Unit Test Stability Allow List
     runs-on: ubuntu-22.04
     needs: [unit-tests-stress-test, fetch-allow-lists]
+    permissions:
+      id-token: write
+      contents: read
     if: ${{ always() && (needs.unit-tests-stress-test.result == 'success' || needs.unit-tests-stress-test.result == 'failure') }}
     continue-on-error: true
     env:
@@ -497,9 +539,8 @@ jobs:
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Get va-vsp-bot token
         uses: ./.github/workflows/inject-secrets
@@ -512,24 +553,9 @@ jobs:
 
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
-      - name: Get AWS IAM role
-        uses: ./.github/workflows/inject-secrets
-        with:
-          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
-          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
 
       - name: Set UUID for Mochawesome reports
         run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
-
-      - name: Configure AWS Credentials (2)
-        uses: ./.github/workflows/configure-aws-credentials
-        with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: us-gov-west-1
-          role: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
-          role_duration: 900
-          session_name: vsp-frontendteam-githubaction
 
       - name: Download Unit Test results
         uses: ./.github/workflows/download-artifact
@@ -638,6 +664,9 @@ jobs:
   testing-reports-prep:
     name: Testing Reports Prep
     runs-on: ubuntu-22.04
+    permissions:
+      id-token: write
+      contents: read
     continue-on-error: true
     outputs:
       app_list: ${{ env.APPLICATION_LIST }}
@@ -662,9 +691,8 @@ jobs:
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Get va-vsp-bot token
         uses: ./.github/workflows/inject-secrets
@@ -687,6 +715,9 @@ jobs:
     runs-on: ubuntu-22.04
     timeout-minutes: 10
     needs: [build]
+    permissions:
+      id-token: write
+      contents: read
 
     steps:
       - name: Checkout
@@ -695,9 +726,8 @@ jobs:
       - name: Configure AWS Credentials
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Login to Amazon ECR
         id: login-ecr
@@ -714,6 +744,9 @@ jobs:
     runs-on: ubuntu-16-cores-latest
     timeout-minutes: 120
     needs: [build, tests-prep, fetch-ecr-credentials]
+    permissions:
+      id-token: write
+      contents: read
     if: |
       needs.build.result == 'success' &&
       needs.tests-prep.result == 'success' &&
@@ -754,9 +787,8 @@ jobs:
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Get va-vsp-bot token
         if: needs.tests-prep.outputs.cypress-tests != '[]'
@@ -859,6 +891,9 @@ jobs:
     runs-on: ubuntu-22.04
     timeout-minutes: 120
     needs: [build, tests-prep]
+    permissions:
+      id-token: write
+      contents: read
     if: |
       needs.build.result == 'success' &&
       needs.tests-prep.result == 'success' &&
@@ -883,9 +918,8 @@ jobs:
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Download production build artifact
         uses: ./.github/workflows/download-artifact
@@ -964,12 +998,13 @@ jobs:
         with:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
-      - name: Manual dependencies install
+      - name: Manual dependencies install (pre-merge)
         run: |
           yarn install \
           --network-timeout 1000000000 \
           --prefer-offline \
-          --production=false
+          --production=false \
+          --ignore-scripts
 
         env:
           YARN_CACHE_FOLDER: .cache/yarn
@@ -981,8 +1016,17 @@ jobs:
 
       - name: Fetch target branch
         run: git fetch origin ${{ github.head_ref }}
+
       - name: Merge in feature branch
-        run: git merge origin/${{ github.ref_name }} --no-edit
+        run: git merge -X ours origin/${{ github.ref_name }} --no-edit
+
+      - name: Manual dependencies install (post-merge)
+        run: |
+          yarn install \
+          --network-timeout 1000000000 \
+          --prefer-offline \
+          --production=false \
+          --ignore-scripts
 
       - name: Create test results folder
         run: mkdir -p test-results
@@ -1026,6 +1070,9 @@ jobs:
         stress-test-cypress-tests,
         fetch-allow-lists,
       ]
+    permissions:
+      id-token: write
+      contents: read
     if: ${{ always() && github.ref != 'refs/heads/main' && needs.tests-prep.outputs.cypress-tests-to-stress-test != '[]' && (needs.stress-test-cypress-tests.result == 'success' || needs.stress-test-cypress-tests.result == 'failure') }}
     continue-on-error: true
     env:
@@ -1037,9 +1084,8 @@ jobs:
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Get va-vsp-bot token
         uses: ./.github/workflows/inject-secrets
@@ -1053,24 +1099,8 @@ jobs:
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
 
-      - name: Get AWS IAM role
-        uses: ./.github/workflows/inject-secrets
-        with:
-          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
-          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
-
       - name: Set UUID for Mochawesome reports
         run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
-
-      - name: Configure AWS Credentials (2)
-        uses: ./.github/workflows/configure-aws-credentials
-        with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: us-gov-west-1
-          role: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
-          role_duration: 900
-          session_name: vsp-frontendteam-githubaction
 
       - name: Download Cypress E2E Mochawesome test results
         uses: ./.github/workflows/download-artifact
@@ -1137,6 +1167,9 @@ jobs:
     name: Testing Reports - Unit Tests
     runs-on: ubuntu-22.04
     needs: [testing-reports-prep, unit-tests]
+    permissions:
+      id-token: write
+      contents: read
     if: needs.unit-tests.outputs.tests_ran == 'true'
     continue-on-error: true
     env:
@@ -1175,9 +1208,8 @@ jobs:
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Get va-vsp-bot token
         uses: ./.github/workflows/inject-secrets
@@ -1191,24 +1223,8 @@ jobs:
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
 
-      - name: Get AWS IAM role
-        uses: ./.github/workflows/inject-secrets
-        with:
-          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
-          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
-
       - name: Set UUID for Mochawesome reports
         run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
-
-      - name: Configure AWS Credentials (2)
-        uses: ./.github/workflows/configure-aws-credentials
-        with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: us-gov-west-1
-          role: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
-          role_duration: 900
-          session_name: vsp-frontendteam-githubaction
 
       # --------------------------------------------------
       # | Publish Unit Test Report and Upload to BigQuery |
@@ -1263,6 +1279,9 @@ jobs:
     name: Testing Reports - Unit Test Stability Review
     runs-on: ubuntu-22.04
     needs: [testing-reports-prep, unit-tests-stress-test]
+    permissions:
+      id-token: write
+      contents: read
     if: ${{ always() && (needs.unit-tests-stress-test.result == 'success' || needs.unit-tests-stress-test.result == 'failure')}}
     continue-on-error: true
     env:
@@ -1285,9 +1304,8 @@ jobs:
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Get va-vsp-bot token
         uses: ./.github/workflows/inject-secrets
@@ -1301,24 +1319,8 @@ jobs:
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
 
-      - name: Get AWS IAM role
-        uses: ./.github/workflows/inject-secrets
-        with:
-          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
-          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
-
       - name: Set UUID for Mochawesome reports
         run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
-
-      - name: Configure AWS Credentials (2)
-        uses: ./.github/workflows/configure-aws-credentials
-        with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: us-gov-west-1
-          role: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
-          role_duration: 900
-          session_name: vsp-frontendteam-githubaction
 
       # --------------------------------------------------
       # | Publish Unit Test Report and Upload to BigQuery |
@@ -1372,6 +1374,9 @@ jobs:
     name: Testing Reports - Unit Tests Coverage
     runs-on: ubuntu-22.04
     needs: [testing-reports-prep, unit-tests]
+    permissions:
+      id-token: write
+      contents: read
     if: needs.unit-tests.outputs.tests_ran == 'true'
     continue-on-error: true
     env:
@@ -1394,9 +1399,8 @@ jobs:
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Get va-vsp-bot token
         uses: ./.github/workflows/inject-secrets
@@ -1410,24 +1414,9 @@ jobs:
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
 
-      - name: Get AWS IAM role
-        uses: ./.github/workflows/inject-secrets
-        with:
-          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
-          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
-
       - name: Set UUID for Mochawesome reports
         run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
 
-      - name: Configure AWS Credentials (2)
-        uses: ./.github/workflows/configure-aws-credentials
-        with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: us-gov-west-1
-          role: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
-          role_duration: 900
-          session_name: vsp-frontendteam-githubaction
       # --------------------------------------
       # | Publish Unit Test Coverage Report       |
       # -------------------------------------
@@ -1499,6 +1488,9 @@ jobs:
     name: Testing Reports - Cypress E2E Tests
     runs-on: ubuntu-22.04
     needs: [testing-reports-prep, tests-prep, cypress-tests]
+    permissions:
+      id-token: write
+      contents: read
     if: ${{ always() && needs.tests-prep.outputs.tests != '[]' && needs.tests-prep.outputs.cypress-tests != '' && (needs.cypress-tests.result == 'success' || needs.cypress-tests.result == 'failure') }}
     env:
       APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
@@ -1525,9 +1517,8 @@ jobs:
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Get va-vsp-bot token
         uses: ./.github/workflows/inject-secrets
@@ -1541,24 +1532,8 @@ jobs:
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
 
-      - name: Get AWS IAM role
-        uses: ./.github/workflows/inject-secrets
-        with:
-          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
-          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
-
       - name: Set UUID for Mochawesome reports
         run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
-
-      - name: Configure AWS Credentials (2)
-        uses: ./.github/workflows/configure-aws-credentials
-        with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: us-gov-west-1
-          role: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
-          role_duration: 900
-          session_name: vsp-frontendteam-githubaction
 
         # --------------------------------------
         # | Publish Cypress E2E Testing Report |
@@ -1622,6 +1597,9 @@ jobs:
     name: Testing Reports - E2E Test Stability Review
     runs-on: ubuntu-22.04
     needs: [testing-reports-prep, tests-prep, stress-test-cypress-tests]
+    permissions:
+      id-token: write
+      contents: read
     if: ${{ always() && (needs.stress-test-cypress-tests.result == 'success' || needs.stresss-test-cypress-tests.result == 'failure') }}
     env:
       APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
@@ -1648,9 +1626,8 @@ jobs:
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Get va-vsp-bot token
         uses: ./.github/workflows/inject-secrets
@@ -1664,24 +1641,8 @@ jobs:
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
 
-      - name: Get AWS IAM role
-        uses: ./.github/workflows/inject-secrets
-        with:
-          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
-          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
-
       - name: Set UUID for Mochawesome reports
         run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
-
-      - name: Configure AWS Credentials (2)
-        uses: ./.github/workflows/configure-aws-credentials
-        with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: us-gov-west-1
-          role: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
-          role_duration: 900
-          session_name: vsp-frontendteam-githubaction
 
         # --------------------------------------
         # | Publish Cypress E2E Testing Report |
@@ -1742,6 +1703,10 @@ jobs:
   test-stability-review-merge-status:
     name: QA Merge Status
     runs-on: ubuntu-22.04
+    permissions:
+      id-token: write
+      contents: read
+      checks: write
     needs:
       [
         cypress-tests,
@@ -1764,9 +1729,8 @@ jobs:
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Get va-vsp-bot token
         uses: ./.github/workflows/inject-secrets
@@ -1865,6 +1829,9 @@ jobs:
   archive:
     name: Archive
     runs-on: ubuntu-22.04
+    permissions:
+      id-token: write
+      contents: read
 
     strategy:
       matrix:
@@ -1920,28 +1887,11 @@ jobs:
         if: env.IS_SINGLE_APP_BUILD == 'true'
         run: tar -C build/${{ matrix.buildtype }} -cjf ${{ matrix.buildtype }}.tar.bz2 .
 
-      - name: Configure AWS credentials (1)
+      - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
-
-      - name: Get AWS IAM role
-        uses: ./.github/workflows/inject-secrets
-        with:
-          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
-          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
-
-      - name: Configure AWS Credentials (2)
-        uses: ./.github/workflows/configure-aws-credentials
-        with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: us-gov-west-1
-          role: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
-          role_duration: 900
-          session_name: vsp-frontendteam-githubaction
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Upload build
         run: |
@@ -1974,15 +1924,12 @@ jobs:
         id: set-environments
         run: echo environments={\"include\":[${{env.DEV}},${{env.STAGING}}]} >> $GITHUB_OUTPUT
 
-      - name: Log CD eligibility
-        run: |
-          echo ${{ needs.determine-cd-eligibility.outputs.deploy_to_prod }}
-          echo ${{ startsWith(needs.determine-cd-eligibility.outputs.deploy_to_prod, 'yes') }}
-          echo ${{ needs.determine-cd-eligibility.outputs.deploy_to_prod == 'yes' }}
-
   deploy:
     name: Deploy
     needs: [build, set-deploy-environments]
+    permissions:
+      id-token: write
+      contents: read
     if: always() && github.ref == 'refs/heads/main' && needs.set-deploy-environments.result == 'success'
     runs-on: ubuntu-22.04
     strategy:
@@ -2012,31 +1959,12 @@ jobs:
           BUILDTYPE: ${{ matrix.environment }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Configure AWS credentials (1)
+      - name: Configure AWS credentials
         if: steps.check-deployability.outputs.is_deployable == 'true'
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
-
-      - name: Get AWS IAM role
-        if: steps.check-deployability.outputs.is_deployable == 'true'
-        uses: ./.github/workflows/inject-secrets
-        with:
-          ssm_parameter: /frontend-team/github-actions/parameters/${{ matrix.iam_role }}
-          env_variable_name: ${{ matrix.iam_role }}
-
-      - name: Configure AWS Credentials (2)
-        if: steps.check-deployability.outputs.is_deployable == 'true'
-        uses: ./.github/workflows/configure-aws-credentials
-        with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: us-gov-west-1
-          role: ${{ env.AWS_FRONTEND_NONPROD_ROLE != '' && env.AWS_FRONTEND_NONPROD_ROLE || env.AWS_FRONTEND_PROD_ROLE }}
-          role_duration: 900
-          session_name: vsp-frontendteam-githubaction
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Deploy
         if: steps.check-deployability.outputs.is_deployable == 'true'
@@ -2051,71 +1979,64 @@ jobs:
           DEST: s3://${{ matrix.bucket }}
           ASSET_DEST: s3://${{ matrix.asset_bucket }}
 
-  # cd-prod-deploy:
-  #   name: CD Production Deploy
-  #   runs-on: ubuntu-22.04
-  #   needs: [build, set-deploy-environments, determine-cd-eligibility]
-  #   if: always() && ${{ startsWith(needs.determine-cd-eligibility.outputs.deploy_to_prod, 'yes') && github.ref == 'refs/heads/main' && needs.set-deploy-environments.result == 'success' }}
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
-  #       with:
-  #         fetch-depth: 0
+  cd-prod-deploy:
+    name: CD Production Deploy
+    runs-on: ubuntu-22.04
+    needs: [build, set-deploy-environments, determine-cd-eligibility]
+    if: always() && ${{ startsWith(needs.determine-cd-eligibility.outputs.deploy_to_prod, 'yes') && github.ref == 'refs/heads/main' && needs.set-deploy-environments.result == 'success' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+        with:
+          fetch-depth: 0
 
-  #     - name: Install dependencies
-  #       uses: ./.github/workflows/install
-  #       timeout-minutes: 30
-  #       with:
-  #         key: ${{ hashFiles('yarn.lock') }}
-  #         yarn_cache_folder: .cache/yarn
-  #         path: |
-  #           .cache/yarn
-  #           node_modules
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
 
-  #     - name: Get Slack channel
-  #       id: get-slack-channel
-  #       uses: ./.github/workflows/get-changed-apps
-  #       with:
-  #         output-type: 'slack_channel'
+      - name: Get Slack channel
+        id: get-slack-channel
+        uses: ./.github/workflows/get-changed-apps
+        with:
+          output-type: "slack_channel"
 
-  #     - name: Determine Slack channel
-  #       id: determine-channel
-  #       shell: bash
-  #       run: |
-  #         entries="${{ needs.build.outputs.entry_names }}"
-  #         channel="${{ steps.get-slack-channel.outputs.slack_channels }}"
-  #         if [[ "$entries" == *","* ]]; then
-  #           echo "channel=" >> $GITHUB_OUTPUT
-  #         else
-  #           echo "channel=$channel" >> $GITHUB_OUTPUT
-  #         fi
+      - name: Determine Slack channel
+        id: determine-channel
+        shell: bash
+        run: |
+          entries="${{ needs.build.outputs.entry_names }}"
+          channel="${{ steps.get-slack-channel.outputs.slack_channels }}"
+          if [[ "$entries" == *","* ]]; then
+            echo "channel=" >> $GITHUB_OUTPUT
+          else
+            echo "channel=$channel" >> $GITHUB_OUTPUT
+          fi
+      - name: Check if today is a holiday
+        id: holiday-check
+        uses: department-of-veterans-affairs/vsp-github-actions/holiday-checker@main
 
-  #     - name: Debug CD gating values
-  #       run: |
-  #         echo "entry_names=${{ needs.build.outputs.entry_names }}"
-  #         echo "continuous_deployment=${{ needs.build.outputs.continuous_deployment }}"
-  #         echo "slack_channel=${{ steps.determine-channel.outputs.channel }}"
+      - name: Dispatch Event to Next Workflow
+        if: steps.holiday-check.outputs.is_holiday == 'false'
+        run: |
+          curl -X POST \
+          -H "Accept: application/vnd.github.v3+json" \
+          -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          https://api.github.com/repos/${{ github.repository }}/dispatches \
+          -d "$(jq -n --arg sha "${{ github.sha }}" \
+          --arg ref "${{ github.ref }}" \
+          --arg entry "${{ needs.build.outputs.entry_names }}" \
+          --arg slack_channel "${{ steps.determine-channel.outputs.channel }}" \
+          '{event_type: "cd-production-deploy", client_payload: {github_sha: $sha, github_ref: $ref, entry_app: $entry, slack_channel: $slack_channel}}')"
 
-  #     - name: Check if today is a holiday
-  #       id: holiday-check
-  #       uses: department-of-veterans-affairs/vsp-github-actions/holiday-checker@main
-
-  #     - name: Dispatch Event to Next Workflow
-  #       if: steps.holiday-check.outputs.is_holiday == 'false'
-  #       run: |
-  #         curl -X POST \
-  #         -H "Accept: application/vnd.github.v3+json" \
-  #         -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-  #         https://api.github.com/repos/${{ github.repository }}/dispatches \
-  #         -d "$(jq -n --arg sha "${{ github.sha }}" \
-  #         --arg ref "${{ github.ref }}" \
-  #         --arg entry "${{ needs.build.outputs.entry_names }}" \
-  #         --arg slack_channel "${{ steps.determine-channel.outputs.channel }}" \
-  #         '{event_type: "cd-production-deploy", client_payload: {github_sha: $sha, github_ref: $ref, entry_app: $entry, slack_channel: $slack_channel}}')"
-
-  #     - name: Cancel CD dispatch due to holiday
-  #       if: steps.holiday-check.outputs.is_holiday == 'true'
-  #       run: echo "Skipping CD dispatch; holiday freeze is active."
+      - name: Cancel CD dispatch due to holiday
+        if: steps.holiday-check.outputs.is_holiday == 'true'
+        run: echo "Skipping CD dispatch; holiday freeze is active."
 
   notify-failure:
     name: Notify Failure
@@ -2170,93 +2091,3 @@ jobs:
           channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
           aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
-  stress-tests:
-    name: Stress Tests
-    needs: [fetch-allow-lists, tests-prep]
-    timeout-minutes: 30
-    runs-on: ubuntu-16-cores-22.04
-    outputs:
-      tests_ran: ${{ steps.run-tests.outputs.tests_ran }}
-
-    env:
-      TESTS_TO_STRESS_TEST: ${{ needs.tests-prep.outputs.tests-to-stress-test }}
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
-        with:
-          fetch-depth: 0
-
-      - name: Install dependencies
-        uses: ./.github/workflows/install
-        timeout-minutes: 30
-        with:
-          key: ${{ hashFiles('yarn.lock') }}
-          yarn_cache_folder: .cache/yarn
-          path: |
-            .cache/yarn
-            node_modules
-
-      - name: Configure AWS credentials
-        uses: ./.github/workflows/configure-aws-credentials
-        with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: us-gov-west-1
-
-      - name: Get va-vsp-bot token
-        uses: ./.github/workflows/inject-secrets
-        with:
-          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
-          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
-
-      - name: Init Dashboard Data Repo
-        uses: ./.github/workflows/init-data-repo
-
-      - name: Set Up BigQuery Creds
-        uses: ./.github/workflows/configure-bigquery
-
-      - name: Fetch Unit Test Stability Allow List
-        run: yarn get-allow-list
-        working-directory: qa-standards-dashboard-data
-        env:
-          TEST_TYPE: unit_test
-
-      - name: Check for newly added disallowed tests
-        run: node script/github-actions/double-check-allow-list.js
-        env:
-          TEST_TYPE: unit_test
-          TESTS: ${{ env.TESTS_TO_STRESS_TEST }}
-          TESTS_PROPERTY: "TESTS_TO_STRESS_TEST"
-
-      - name: Create test results folder
-        run: mkdir -p test-results
-
-      - name: Run stress tests
-        id: run-tests
-        run: |
-          if [[ -n "${{ env.TESTS_TO_STRESS_TEST }}" ]]; then
-            yarn test:unit:gha ${{ env.TESTS_TO_STRESS_TEST }} --coverage --log-level verbose
-            echo "tests_ran=true" >> $GITHUB_OUTPUT
-          else
-            echo "No tests to run"
-            echo "tests_ran=false" >> $GITHUB_OUTPUT
-          fi
-        env:
-          MOCHA_FILE: test-results/stress-tests.xml
-          IS_STRESS_TEST: true
-
-      - name: Archive stress test results
-        if: ${{ always() && steps.run-tests.outputs.tests_ran == 'true' }}
-        uses: ./.github/workflows/upload-artifact
-        with:
-          name: unit-test-stress-test-results-${{ matrix.ci_node_index }}
-          path: mocha/results
-
-      - name: Upload Coverage Report Artifact
-        if: ${{ always() && steps.run-tests.outputs.tests_ran == 'true' }}
-        uses: ./.github/workflows/upload-artifact
-        with:
-          name: stress-test-coverage
-          path: coverage

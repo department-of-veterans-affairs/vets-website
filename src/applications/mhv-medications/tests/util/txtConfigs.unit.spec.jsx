@@ -80,7 +80,6 @@ describe('VA prescription Config', () => {
   it('should create "Most recent prescription" section', () => {
     const txt = buildVAPrescriptionTXT(prescriptionDetails.data.attributes);
     expect(txt).to.include('Most recent prescription');
-    expect(txt).to.include('Quantity: 30');
     expect(txt).to.include(
       prescriptionDetails.data.attributes.prescriptionName,
     );
