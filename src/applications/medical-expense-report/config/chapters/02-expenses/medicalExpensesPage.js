@@ -56,7 +56,7 @@ function introDescription() {
 function checkIsItemIncomplete(item) {
   return (
     !item?.recipient ||
-    ((item.recipient === 'DEPENDENT' || item.recipient === 'OTHER') &&
+    ((item.recipient === 'CHILD' || item.recipient === 'OTHER') &&
       !item?.fullNameRecipient) ||
     !item?.paymentDate ||
     !item?.purpose ||
@@ -144,14 +144,14 @@ const recipientPage = {
     fullNameRecipient: textUI({
       title: 'Full name of the person who received care',
       expandUnder: 'recipient',
-      expandUnderCondition: field => field === 'DEPENDENT' || field === 'OTHER',
+      expandUnderCondition: field => field === 'CHILD' || field === 'OTHER',
       required: (formData, index, fullData) => {
         // Adding a check for formData and fullData since formData is sometimes undefined on load
         // and we can't rely on fullData for testing
         const medicalExpenses =
           formData?.medicalExpenses ?? fullData?.medicalExpenses;
         const medicalExpense = medicalExpenses?.[index];
-        return ['DEPENDENT', 'OTHER'].includes(medicalExpense?.recipient);
+        return ['CHILD', 'OTHER'].includes(medicalExpense?.recipient);
       },
     }),
     //

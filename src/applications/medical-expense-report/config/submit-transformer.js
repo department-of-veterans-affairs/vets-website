@@ -90,11 +90,62 @@ function switchToInternationalPhone(formData) {
   return JSON.stringify(transformedValue);
 }
 
+function renameExpenseConditionalFields(formData) {
+  const parsedFormData = JSON.parse(formData);
+  const transformedValue = parsedFormData;
+
+  // Rename recipients in careExpenses
+  if (Array.isArray(transformedValue.careExpenses)) {
+    transformedValue.careExpenses = transformedValue.careExpenses.map(
+      expense => {
+        if (expense?.fullNameRecipient === undefined) return expense;
+        const { fullNameRecipient, ...rest } = expense;
+        return { recipientName: fullNameRecipient, ...rest };
+      },
+    );
+  }
+
+  // Rename recipients in medicalExpenses
+  if (Array.isArray(transformedValue.medicalExpenses)) {
+    transformedValue.medicalExpenses = transformedValue.medicalExpenses.map(
+      expense => {
+        if (expense?.fullNameRecipient === undefined) return expense;
+        const { fullNameRecipient, ...rest } = expense;
+        return { recipientName: fullNameRecipient, ...rest };
+      },
+    );
+  }
+
+  // Rename travelers in mileageExpenses
+  if (Array.isArray(transformedValue.mileageExpenses)) {
+    transformedValue.mileageExpenses = transformedValue.mileageExpenses.map(
+      expense => {
+        if (expense?.fullNameTraveler === undefined) return expense;
+        const { fullNameTraveler, ...rest } = expense;
+        return { travelerName: fullNameTraveler, ...rest };
+      },
+    );
+  }
+
+  // Rename travelLocations in mileageExpenses
+  if (Array.isArray(transformedValue.mileageExpenses)) {
+    transformedValue.mileageExpenses = transformedValue.mileageExpenses.map(
+      expense => {
+        if (expense?.otherTravelLocation === undefined) return expense;
+        const { otherTravelLocation, ...rest } = expense;
+        return { travelLocationOther: otherTravelLocation, ...rest };
+      },
+    );
+  }
+  return JSON.stringify(transformedValue);
+}
+
 export const transform = (formConfig, form) => {
   let transformedData = transformForSubmit(formConfig, form);
   transformedData = swapNames(transformedData);
   transformedData = splitVaSsnField(transformedData);
   transformedData = switchToInternationalPhone(transformedData);
+  transformedData = renameExpenseConditionalFields(transformedData);
   return JSON.stringify({
     medicalExpenseReportsClaim: {
       form: transformedData,
