@@ -111,7 +111,7 @@ jobs:
 
       # TODO: Potentially use install composite
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --prefer-offline --production=false
+        run: yarn install --frozen-lockfile --prefer-offline --production=false --ignore-scripts
         env:
           YARN_CACHE_FOLDER: .cache/yarn
         working-directory: qa-standards-dashboard-data
