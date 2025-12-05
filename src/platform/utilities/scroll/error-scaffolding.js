@@ -30,13 +30,26 @@
 // Category Detection & Configuration
 // ============================================================================
 
+// TODO: create a fix that targets all va- components, not just the ones in this list
+const SUPPORTED_ELEMENTS = [
+  'va-checkbox-group',
+  'va-checkbox',
+  'va-combo-box',
+  'va-date',
+  'va-memorable-date',
+  'va-radio',
+  'va-radio-option',
+  'va-select',
+  'va-statement-of-truth',
+  'va-text-input',
+  'va-textarea',
+];
 const ERROR_ATTR_SELECTORS = [
   'error',
   'input-error',
   'checkbox-error',
   'generated-error',
 ];
-
 const HIDDEN_FILTER = ':not([aria-hidden="true"]):not([hidden])';
 const INPUT_SELECTOR = `input${HIDDEN_FILTER}, textarea${HIDDEN_FILTER}, select${HIDDEN_FILTER}`;
 const ERROR_SPAN_SELECTOR = 'span.usa-sr-only[id^="error-label-"]';
@@ -56,6 +69,17 @@ const GROUP_SELECTOR = GROUP_COMPONENT_TAGS.map(tag => tag.toLowerCase()).join(
 const DATE_COMPONENT_TAGS = ['VA-DATE', 'VA-MEMORABLE-DATE'];
 const DATE_CHILD_SELECTOR = 'va-select, va-text-input';
 
+// Date component error codes that require reading the rendered message text
+// from the internal #error-message span instead of using the raw
+// error attribute value on the host.
+const DATE_ERROR_CODES = [
+  'year-range',
+  'day-range',
+  'month-range',
+  'date-error',
+  'month-select',
+];
+
 // Shared constants
 const ERROR_STYLING_CLASS = 'usa-input--error';
 const DATA_PREVIOUS_ERROR_MESSAGE = 'data-previous-error-message';
@@ -64,6 +88,7 @@ const DATA_GENERATED_ERROR_LABEL_ID = 'data-generated-error-label-id';
 // ============================================================================
 // General helpers
 // ============================================================================
+
 /**
  * Checks if an element's tag name matches any in the provided tag list.
  *
@@ -75,34 +100,6 @@ const isComponentOfType = (element, tags) =>
   !!element && tags.includes(element.tagName?.toUpperCase());
 
 /**
- * Adds error styling class to an input element within a component's shadow DOM.
- *
- * @param {HTMLElement} component - The component containing the input
- * @returns {void}
- */
-function addInputErrorStyling(component) {
-  if (!component?.shadowRoot) return;
-  const input = component.shadowRoot.querySelector(INPUT_SELECTOR);
-  if (input) {
-    input.classList.add(ERROR_STYLING_CLASS);
-  }
-}
-
-/**
- * Removes error styling class from an input element within a component's shadow DOM.
- *
- * @param {HTMLElement} component - The component containing the input
- * @returns {void}
- */
-function removeInputErrorStyling(component) {
-  if (!component?.shadowRoot) return;
-  const input = component.shadowRoot.querySelector(INPUT_SELECTOR);
-  if (input) {
-    input.classList.remove(ERROR_STYLING_CLASS);
-  }
-}
-
-/**
  * Determines whether a node is a supported VA design system web component based on its tag name.
  *
  * @param {Element|null|undefined} element - The node to examine
@@ -111,22 +108,7 @@ function removeInputErrorStyling(component) {
 const isSupportedVaElement = element => {
   if (!element?.tagName) return false;
 
-  // TODO: create a fix that targets all va- components, not just the ones in this list
-  const allowedElements = [
-    'va-checkbox-group',
-    'va-checkbox',
-    'va-combo-box',
-    'va-date',
-    'va-memorable-date',
-    'va-radio',
-    'va-radio-option',
-    'va-select',
-    'va-statement-of-truth',
-    'va-text-input',
-    'va-textarea',
-  ];
-
-  return allowedElements.includes(element.tagName.toLowerCase());
+  return SUPPORTED_ELEMENTS.includes(element.tagName.toLowerCase());
 };
 
 /**
@@ -143,20 +125,86 @@ const getVaElements = root => {
   return Array.from(root.querySelectorAll('*')).filter(isSupportedVaElement);
 };
 
+// ============================================================================
+// Category 4: Date Component Helpers (defined early for use in getErrorPropText/getLabelText)
+// ============================================================================
+
 /**
- * Extracts error message text from a DOM element by checking various error attributes and properties.
- * Iterates through predefined error attribute selectors to find the first available error message.
- * Falls back to the element's error property if no attribute contains a message.
+ * Determines if an element is a date component based on its tag name.
+ * Date components include va-date and va-memorable-date.
  *
- * @param {HTMLElement} el - The DOM element to extract error text from
- * @returns {string} The error message text, or an empty string if no error is found
+ * @param {Element|null|undefined} element - The DOM element to check
+ * @returns {boolean} True if the element is a date component, false otherwise
  */
-const getErrorPropText = el => {
-  for (const attr of ERROR_ATTR_SELECTORS) {
-    const msg = el.getAttribute(attr);
-    if (msg) return msg;
-  }
-  return el.error || '';
+const isDateComponent = element =>
+  isComponentOfType(element, DATE_COMPONENT_TAGS);
+
+/**
+ * Retrieves all child input components (va-select, va-text-input) from a date component's shadow DOM.
+ *
+ * @param {Element|null|undefined} element - The date component to query
+ * @returns {HTMLElement[]} An array of child input components
+ */
+const getDateChildComponents = element => {
+  if (!element?.shadowRoot) return [];
+  return Array.from(element.shadowRoot.querySelectorAll(DATE_CHILD_SELECTOR));
+};
+
+/**
+ * Checks if a date component has an error code that requires special handling.
+ *
+ * @param {HTMLElement} el - The date component element
+ * @returns {boolean} True if the error code requires extracting text from #error-message
+ */
+const hasDateErrorCode = el => {
+  if (!isDateComponent(el)) return false;
+
+  const errorValue = el.getAttribute('error') || el.error || '';
+  return DATE_ERROR_CODES.includes(errorValue);
+};
+
+/**
+ * Extracts error message text from #error-message span for date components.
+ *
+ * @param {HTMLElement} el - The date component element
+ * @returns {string} The error message text from the span, or empty string if not found
+ */
+const getDateErrorMessageText = el => {
+  const errorMessageSpan = el.shadowRoot?.querySelector('#error-message');
+  return errorMessageSpan?.textContent?.trim() || '';
+};
+
+/**
+ * Extracts label and input message text from a date child component's shadow DOM.
+ * Provides context for the child input (e.g., "Month", "Day", "Year").
+ *
+ * @param {HTMLElement} childComponent - The va-select or va-text-input child component
+ * @returns {string} The label text and input message combined, or empty string if neither found
+ */
+const getDateChildLabel = childComponent => {
+  const labelElement = childComponent?.shadowRoot?.querySelector('label');
+  const labelText = labelElement?.textContent?.trim() || '';
+
+  const inputMessage = childComponent?.shadowRoot?.querySelector(
+    '#input-message',
+  );
+  const inputMessageText = inputMessage?.textContent?.trim() || '';
+
+  return `${labelText}. ${inputMessageText}`.trim();
+};
+
+/**
+ * Finds the first invalid child input within a date component.
+ * Checks for the 'invalid' attribute or property on each child.
+ *
+ * @param {HTMLElement} dateComponent - The date component to search within
+ * @returns {HTMLElement|undefined} The first invalid child component, or undefined if none found
+ */
+const findFirstInvalidDateChild = dateComponent => {
+  const children = getDateChildComponents(dateComponent);
+  return children.find(
+    child => child.hasAttribute('invalid') || child.invalid === true,
+  );
 };
 
 // ============================================================================
@@ -192,45 +240,6 @@ const isGroupOptionComponent = element =>
 const findParentGroupComponent = element =>
   element?.closest ? element.closest(GROUP_SELECTOR) : null;
 
-// ============================================================================
-// Category 4: Date Component Helpers
-// ============================================================================
-
-/**
- * Determines if an element is a date component based on its tag name.
- * Date components include va-date and va-memorable-date.
- *
- * @param {Element|null|undefined} element - The DOM element to check
- * @returns {boolean} True if the element is a date component, false otherwise
- */
-const isDateComponent = element =>
-  isComponentOfType(element, DATE_COMPONENT_TAGS);
-
-/**
- * Retrieves all child input components (va-select, va-text-input) from a date component's shadow DOM.
- *
- * @param {Element|null|undefined} element - The date component to query
- * @returns {HTMLElement[]} An array of child input components
- */
-const getDateChildComponents = element => {
-  if (!element?.shadowRoot) return [];
-  return Array.from(element.shadowRoot.querySelectorAll(DATE_CHILD_SELECTOR));
-};
-
-/**
- * Finds the first invalid child input within a date component.
- * Checks for the 'invalid' attribute or property on each child.
- *
- * @param {HTMLElement} dateComponent - The date component to search within
- * @returns {HTMLElement|undefined} The first invalid child component, or undefined if none found
- */
-const findFirstInvalidDateChild = dateComponent => {
-  const children = getDateChildComponents(dateComponent);
-  return children.find(
-    child => child.hasAttribute('invalid') || child.invalid === true,
-  );
-};
-
 /**
  * Retrieves all group option elements that are direct descendants of a group component.
  * Returns options that need error state synchronization with their parent group.
@@ -260,8 +269,28 @@ const findGroupOptionFocusTarget = option => {
 };
 
 // ============================================================================
-// Category 2: Child Component Helpers
+// General helper
 // ============================================================================
+/**
+ * Extracts error message text from a DOM element by checking various error attributes and properties.
+ * Iterates through predefined error attribute selectors to find the first available error message.
+ * Falls back to the element's error property if no attribute contains a message.
+ *
+ * @param {HTMLElement} el - The DOM element to extract error text from
+ * @returns {string} The error message text, or an empty string if no error is found
+ */
+const getErrorPropText = el => {
+  // Special handling for date components with specific error codes
+  if (hasDateErrorCode(el)) {
+    return getDateErrorMessageText(el);
+  }
+
+  for (const attr of ERROR_ATTR_SELECTORS) {
+    const msg = el.getAttribute(attr);
+    if (msg) return msg;
+  }
+  return el.error || '';
+};
 
 /**
  * Collects all error elements from the DOM, including nested elements within shadow roots.
@@ -299,7 +328,8 @@ const collectAllErrorElements = selectors => {
  *
  * This function attempts to retrieve label text from an element by checking:
  * 1. The 'label' attribute or property
- * 2. The 'input-label' attribute or 'inputLabel' property as fallback
+ * 2. The 'input-label' attribute or 'inputLabel' property as fallback (skipped for
+ *    date components where input-label is used for the legend, not the child label)
  * 3. Text content from a label element within the element's shadow DOM as final fallback
  *
  * @param {HTMLElement} el - The DOM element to extract label text from
@@ -308,7 +338,9 @@ const collectAllErrorElements = selectors => {
 const getLabelText = el => {
   let labelText = el.getAttribute('label') || el.label || '';
 
-  if (!labelText) {
+  // Skip input-label for date components—they use it for the legend, not individual
+  // child labels. For date components, fall through to the <label> element lookup.
+  if (!labelText && !isDateComponent(el)) {
     labelText = el.getAttribute('input-label') || el.inputLabel || '';
   }
 
@@ -428,9 +460,15 @@ function hasErrorAnnotation(element) {
 /**
  * Builds the screen reader friendly text used inside generated error labels.
  *
+ * For most components (Categories 1-3):
+ *   Order: {error}. {parent label}. {child label}. {hint}. {description}
+ *
+ * For date components (Category 4):
+ *   Order: {error}. {child label}. {child #input-message}. {parent label}. {hint}
+ *
  * @param {string} errorMessage - Raw error message coming from the component
  * @param {HTMLElement} errorWebComponent - The component producing the error
- * @param {HTMLElement|null} [childOption=null] - Optional option element when formatting group errors
+ * @param {HTMLElement|null} [childOption=null] - Optional child element (group option or date child)
  * @returns {string} Fully composed label text containing context, hints, and descriptions
  */
 const buildErrorLabelText = (
@@ -439,33 +477,45 @@ const buildErrorLabelText = (
   childOption = null,
 ) => {
   const errorText = errorMessage.replace(/^Error\s*/i, '').trim();
-  const labelText = getLabelText(errorWebComponent);
-
-  let fullText = `Error: ${errorText}`;
-  if (labelText) {
-    fullText += `. ${labelText}`;
-  }
-
-  if (childOption) {
-    const childLabelText = getLabelText(childOption);
-    if (childLabelText) {
-      fullText += `. ${childLabelText}`;
-    }
-  }
-
+  const parentLabel = getLabelText(errorWebComponent);
   const hintElement = errorWebComponent.shadowRoot?.querySelector('.usa-hint');
   const hintText = hintElement?.textContent?.trim() || '';
-
   const descriptionElement = errorWebComponent.shadowRoot?.querySelector(
     '.usa-checkbox__label-description',
   );
   const descriptionText = descriptionElement?.textContent?.trim() || '';
 
-  if (hintText) {
-    fullText += `. ${hintText}`;
+  let fullText = `Error: ${errorText}.`;
+
+  // Date components: {error}. {child label}. {child #input-message} {parent label}. {hint}
+  if (isDateComponent(errorWebComponent) && childOption) {
+    const childLabel = getDateChildLabel(childOption);
+    if (childLabel) {
+      fullText += ` ${childLabel}`;
+    }
+    if (parentLabel) {
+      fullText += ` ${parentLabel}.`;
+    }
+  } else {
+    // Groups & direct errors: {error}. {parent label}. {child label}. {hint}. {description}
+    if (parentLabel) {
+      fullText += ` ${parentLabel}.`;
+    }
+
+    if (childOption) {
+      const childLabelText = getLabelText(childOption);
+      if (childLabelText) {
+        fullText += ` ${childLabelText}.`;
+      }
+    }
+
+    if (descriptionText) {
+      fullText += ` ${descriptionText}`;
+    }
   }
-  if (descriptionText) {
-    fullText += `. ${descriptionText}`;
+
+  if (hintText) {
+    fullText += ` ${hintText}`;
   }
 
   return fullText;
@@ -600,7 +650,7 @@ function associateGroupErrorAnnotations(groupComponent, errorMessage) {
 }
 
 // ============================================================================
-// Category 4: Date Error Helpers
+// Category 4: Date Component Error Styling and Annotation
 // ============================================================================
 
 /**
@@ -644,6 +694,34 @@ function isDateChildInvalid(childComponent, parentRequired) {
 }
 
 /**
+ * Adds error styling class to an input element within a component's shadow DOM.
+ *
+ * @param {HTMLElement} component - The component containing the input
+ * @returns {void}
+ */
+function addInputErrorStyling(component) {
+  if (!component?.shadowRoot) return;
+  const input = component.shadowRoot.querySelector(INPUT_SELECTOR);
+  if (input) {
+    input.classList.add(ERROR_STYLING_CLASS);
+  }
+}
+
+/**
+ * Removes error styling class from an input element within a component's shadow DOM.
+ *
+ * @param {HTMLElement} component - The component containing the input
+ * @returns {void}
+ */
+function removeInputErrorStyling(component) {
+  if (!component?.shadowRoot) return;
+  const input = component.shadowRoot.querySelector(INPUT_SELECTOR);
+  if (input) {
+    input.classList.remove(ERROR_STYLING_CLASS);
+  }
+}
+
+/**
  * Syncs error styling on a date child component based on its validation state.
  *
  * @param {HTMLElement} childComponent - The va-select or va-text-input child
@@ -677,21 +755,20 @@ function associateDateErrorAnnotations(dateComponent, errorMessage) {
   // Sync error styling on each child based on its individual validation state
   children.forEach(child => syncDateChildErrorStyling(child, parentRequired));
 
-  // Find the first invalid child or first child as fallback
-  const targetChild = findFirstInvalidDateChild(dateComponent) || children[0];
+  children.forEach(child => {
+    if (!isDateChildInvalid(child, parentRequired)) {
+      return;
+    }
 
-  if (!targetChild) return;
+    const inputElement = findFocusTarget(child);
+    if (!inputElement) return;
 
-  // Find the actual input inside the child component
-  const inputElement = findFocusTarget(targetChild);
-  if (!inputElement) return;
+    const fullText = buildErrorLabelText(errorMessage, dateComponent, child);
 
-  // Build error text using the parent date component's label
-  const fullText = buildErrorLabelText(errorMessage, dateComponent);
-
-  // Create the SR-only label and attach to the input
-  // Use the child component as host so cleanup works correctly
-  createAndAssociateErrorLabel(inputElement, fullText, targetChild);
+    // Create the SR-only label and attach to the input. Use the child
+    // component as host so cleanup works correctly.
+    createAndAssociateErrorLabel(inputElement, fullText, child);
+  });
 }
 
 /**
