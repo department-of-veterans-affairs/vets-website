@@ -234,7 +234,7 @@ export const PreSubmitCheckboxGroup = ({ showError, onSectionComplete }) => {
           and has been represented correctly.
           <TextInputField
             name="organizationTitle"
-            label="Your organization title"
+            label="Your official title"
             value={organizationTitle}
             onChange={handleTitleChange}
             onBlur={handleTitleBlur}
