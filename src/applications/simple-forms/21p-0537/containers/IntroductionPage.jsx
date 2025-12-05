@@ -1,4 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { isLoggedIn } from 'platform/user/selectors';
+import { setData } from 'platform/forms-system/src/js/actions';
 import PropTypes from 'prop-types';
 
 import { IntroductionPageView } from '../../shared/components/IntroductionPageView';
@@ -26,12 +29,12 @@ const childContent = (
     <ul>
       <li>
         It’s important to report any changes to your marital status if you
-        receive DIC benefits
+        receive DIC benefits.
       </li>
       <li>
         If we sent you a letter asking you to verify your marital status, you
         must complete and submit this form within 60 days from the date on the
-        letter
+        letter.
       </li>
       <li>
         Your state must recognize your marriage. This could be the state where
@@ -43,6 +46,27 @@ const childContent = (
 );
 
 export const IntroductionPage = ({ route }) => {
+  // Using implementation from src/applications/medallions/containers/IntroductionPage.jsx
+  // to add user logged in status to formData so we can check it in `depends` funcs.
+  const dispatch = useDispatch();
+  const storeData = useSelector(reduxState => reduxState);
+  const userLoggedIn = isLoggedIn(storeData);
+  const formData = storeData.form.data;
+
+  useEffect(
+    () => {
+      if (userLoggedIn !== formData?.isLoggedIn) {
+        dispatch(
+          setData({
+            ...formData,
+            isLoggedIn: userLoggedIn,
+          }),
+        );
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [dispatch, userLoggedIn],
+  );
   return (
     <IntroductionPageView
       route={route}
