@@ -21,7 +21,7 @@ const IntroductionPage = ({ route, router }) => {
       const startForm = () => {
         sessionStorage.setItem('formIncompleteARP', 'true');
         recordEvent({ event: `${formNumber}-start-form` });
-        return router.push(`${ITF_PATH}/is-veteran`);
+        return router.push(`${ITF_PATH}/claimant-background`);
       };
       return (
         <VaLinkAction

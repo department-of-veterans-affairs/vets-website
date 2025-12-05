@@ -21,7 +21,8 @@ const formMappings = {
     pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21-526EZ-ARE.pdf',
   },
   '21-0966': {
-    subTitle: 'Application Request for an Intent to File',
+    subTitle:
+      'Intent to File a Claim for Compensation and/or Pension,or Survivors Pension and/or DIC (VA Form 21-0966)',
   },
 };
 
