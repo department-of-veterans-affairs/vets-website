@@ -13,13 +13,10 @@ import {
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import environment from 'platform/utilities/environment';
 
-import {
-  CernerAlertContent,
-  downtimeNotificationParams,
-  pageTitles,
-} from '../util/constants';
+import AcceleratedCernerFacilityAlert from 'platform/mhv/components/CernerFacilityAlert/AcceleratedCernerFacilityAlert';
+import { CernerAlertContent } from 'platform/mhv/components/CernerFacilityAlert/constants';
+import { downtimeNotificationParams, pageTitles } from '../util/constants';
 import { createSession, postCreateAAL } from '../api/MrApi';
-import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import { sendDataDogAction } from '../util/helpers';
 
 const LAB_TEST_RESULTS_LABEL = 'Go to your lab and test results';

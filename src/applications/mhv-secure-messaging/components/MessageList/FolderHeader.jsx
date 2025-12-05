@@ -11,6 +11,8 @@ import {
   DowntimeNotification,
   externalServices,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
+import AcceleratedCernerFacilityAlert from 'platform/mhv/components/CernerFacilityAlert/AcceleratedCernerFacilityAlert';
+import { CernerAlertContent } from 'platform/mhv/components/CernerFacilityAlert/constants';
 import {
   BlockedTriageAlertStyles,
   DefaultFolders as Folders,
@@ -18,10 +20,10 @@ import {
   downtimeNotificationParams,
 } from '../../util/constants';
 import { handleHeader, getPageTitle } from '../../util/helpers';
+import { submitLaunchMyVaHealthAal } from '../../api/SmApi';
 import ManageFolderButtons from '../ManageFolderButtons';
 import SearchForm from '../Search/SearchForm';
 import ComposeMessageButton from '../MessageActionButtons/ComposeMessageButton';
-import CernerFacilityAlert from './CernerFacilityAlert';
 import BlockedTriageGroupAlert from '../shared/BlockedTriageGroupAlert';
 import CernerTransitioningFacilityAlert from '../Alerts/CernerTransitioningFacilityAlert';
 import InnerNavigation from '../InnerNavigation';
@@ -46,6 +48,7 @@ const FolderHeader = props => {
   const {
     cernerPilotSmFeatureFlag,
     mhvSecureMessagingCernerPilotSystemMaintenanceBannerFlag,
+    isAalEnabled,
   } = useFeatureToggles();
 
   const cernerFacilities = useMemo(
@@ -106,6 +109,15 @@ const FolderHeader = props => {
 
   const { folderName, ddTitle, ddPrivacy } = handleHeader(folder);
 
+  const handleMyVaHealthLinkClick = useCallback(
+    () => {
+      if (isAalEnabled) {
+        submitLaunchMyVaHealthAal();
+      }
+    },
+    [isAalEnabled],
+  );
+
   const RecipientListErrorAlert = () => {
     return (
       <va-alert status="warning" data-testid="recipients-error-alert">
@@ -128,7 +140,14 @@ const FolderHeader = props => {
         folder.folderId === Folders.INBOX.id &&
         cernerFacilities?.length > 0
       ) {
-        return <CernerFacilityAlert cernerFacilities={cernerFacilities} />;
+        return (
+          <AcceleratedCernerFacilityAlert
+            pageName="secure messages"
+            {...CernerAlertContent.SECURE_MESSAGING}
+            className="vads-u-margin-bottom--3 vads-u-margin-top--2"
+            onLinkClick={handleMyVaHealthLinkClick}
+          />
+        );
       }
       return null;
     },
