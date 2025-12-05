@@ -1,11 +1,13 @@
 import {
-  radioSchema,
-  radioUI,
+  // radioSchema,
+  // radioUI,
   textUI,
-  phoneUI,
-  phoneSchema,
-  internationalPhoneDeprecatedUI,
-  internationalPhoneDeprecatedSchema,
+  internationalPhoneSchema,
+  internationalPhoneUI,
+  // phoneUI,
+  // phoneSchema,
+  // internationalPhoneDeprecatedUI,
+  // internationalPhoneDeprecatedSchema,
   emailUI,
   emailSchema,
   fullNameNoSuffixUI,
@@ -14,10 +16,10 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { validateWhiteSpace } from 'platform/forms/validations';
 
-const phoneLabels = {
-  us: 'US phone number',
-  intl: 'International phone number',
-};
+// const phoneLabels = {
+//   us: 'US phone number',
+//   intl: 'International phone number',
+// };
 
 const uiSchema = {
   additionalOfficialDetails: {
@@ -38,34 +40,34 @@ const uiSchema = {
         validations: [validateWhiteSpace],
       }),
     },
-    phoneType: radioUI({
-      title: 'Select a type of phone number to enter for this individual',
-      labels: phoneLabels,
-      errorMessages: {
-        required: 'Select a type of phone number',
-      },
-    }),
-    phoneNumber: {
-      ...phoneUI({
-        title: 'Phone number of certifying official',
-        hint: 'For US phone numbers. Enter a 10-digit phone number.',
-      }),
-      'ui:errorMessages': {
-        pattern: 'Enter a 10-digit phone number (with or without dashes)',
-        required: 'Enter a 10-digit phone number (with or without dashes)',
-      },
-    },
-    internationalPhoneNumber: {
-      ...internationalPhoneDeprecatedUI({
-        title: 'International phone number of certifying official',
-        hint:
-          'For non-US phone numbers. Enter a phone number with up to 15 digits.',
-      }),
-      'ui:errorMessages': {
-        pattern: 'Enter a phone number with up to 15 digits',
-        required: 'Enter a phone number with up to 15 digits',
-      },
-    },
+    // phoneType: radioUI({
+    //   title: 'Select a type of phone number to enter for this individual',
+    //   labels: phoneLabels,
+    //   errorMessages: {
+    //     required: 'Select a type of phone number',
+    //   },
+    // }),
+    // phoneNumber: {
+    //   ...phoneUI({
+    //     title: 'Phone number of certifying official',
+    //     hint: 'For US phone numbers. Enter a 10-digit phone number.',
+    //   }),
+    //   'ui:errorMessages': {
+    //     pattern: 'Enter a 10-digit phone number (with or without dashes)',
+    //     required: 'Enter a 10-digit phone number (with or without dashes)',
+    //   },
+    // },
+    // internationalPhoneNumber: {
+    //   ...internationalPhoneDeprecatedUI({
+    //     title: 'International phone number of certifying official',
+    //     hint:
+    //       'For non-US phone numbers. Enter a phone number with up to 15 digits.',
+    //   }),
+    //   'ui:errorMessages': {
+    //     pattern: 'Enter a phone number with up to 15 digits',
+    //     required: 'Enter a phone number with up to 15 digits',
+    //   },
+    // },
     emailAddress: emailUI({
       title: 'Email address of certifying official',
       errorMessages: {
@@ -73,57 +75,58 @@ const uiSchema = {
           'Enter a valid email address without spaces using this format: email@domain.com',
       },
     }),
-    'ui:options': {
-      updateSchema: (formData, formSchema, ui, index) => {
-        const isAdding = !!formData['additional-certifying-official'];
+    phoneNumber: internationalPhoneUI('Your phone number'),
+    // 'ui:options': {
+    //   updateSchema: (formData, formSchema, ui, index) => {
+    //     const isAdding = !!formData['additional-certifying-official'];
 
-        if (isAdding) {
-          const addingDetails =
-            formData['additional-certifying-official'][index]
-              .additionalOfficialDetails;
+    //     if (isAdding) {
+    //       const addingDetails =
+    //         formData['additional-certifying-official'][index]
+    //           .additionalOfficialDetails;
 
-          if (addingDetails?.phoneType === 'us') {
-            return {
-              ...formSchema,
-              required: ['title', 'phoneType', 'phoneNumber', 'emailAddress'],
-            };
-          }
-          if (addingDetails?.phoneType === 'intl') {
-            return {
-              ...formSchema,
-              required: [
-                'title',
-                'phoneType',
-                'internationalPhoneNumber',
-                'emailAddress',
-              ],
-            };
-          }
-          return { ...formSchema };
-        }
+    //       if (addingDetails?.phoneType === 'us') {
+    //         return {
+    //           ...formSchema,
+    //           required: ['title', 'phoneType', 'phoneNumber', 'emailAddress'],
+    //         };
+    //       }
+    //       if (addingDetails?.phoneType === 'intl') {
+    //         return {
+    //           ...formSchema,
+    //           required: [
+    //             'title',
+    //             'phoneType',
+    //             'internationalPhoneNumber',
+    //             'emailAddress',
+    //           ],
+    //         };
+    //       }
+    //       return { ...formSchema };
+    //     }
 
-        const editingDetails = formData.additionalOfficialDetails;
+    //     const editingDetails = formData.additionalOfficialDetails;
 
-        if (editingDetails?.phoneType === 'us') {
-          return {
-            ...formSchema,
-            required: ['title', 'phoneType', 'phoneNumber', 'emailAddress'],
-          };
-        }
-        if (editingDetails?.phoneType === 'intl') {
-          return {
-            ...formSchema,
-            required: [
-              'title',
-              'phoneType',
-              'internationalPhoneNumber',
-              'emailAddress',
-            ],
-          };
-        }
-        return { ...formSchema };
-      },
-    },
+    //     if (editingDetails?.phoneType === 'us') {
+    //       return {
+    //         ...formSchema,
+    //         required: ['title', 'phoneType', 'phoneNumber', 'emailAddress'],
+    //       };
+    //     }
+    //     if (editingDetails?.phoneType === 'intl') {
+    //       return {
+    //         ...formSchema,
+    //         required: [
+    //           'title',
+    //           'phoneType',
+    //           'internationalPhoneNumber',
+    //           'emailAddress',
+    //         ],
+    //       };
+    //     }
+    //     return { ...formSchema };
+    //   },
+    // },
   },
 };
 
@@ -139,12 +142,13 @@ const schema = {
           minLength: 1,
           maxLength: 60,
         },
-        phoneType: radioSchema(Object.keys(phoneLabels)),
-        phoneNumber: phoneSchema,
-        internationalPhoneNumber: internationalPhoneDeprecatedSchema,
+        phoneNumber: internationalPhoneSchema(),
+        // phoneType: radioSchema(Object.keys(phoneLabels)),
+        // phoneNumber: phoneSchema,
+        // internationalPhoneNumber: internationalPhoneDeprecatedSchema,
         emailAddress: emailSchema,
       },
-      required: ['title', 'phoneType', 'emailAddress'],
+      required: ['title', 'phoneNumber', 'emailAddress'],
     },
   },
 };
