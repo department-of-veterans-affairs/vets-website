@@ -95,9 +95,6 @@ const PrintDownload = props => {
       // If user pressed escape
       setMenuOpen(false);
       focusElement(document.querySelector('#print-download-menu'));
-      // if (toggleButton.current) {
-      //   focusElement(toggleButton.current); // focus returns on Escape
-      // }
     }
   };
 
@@ -176,7 +173,7 @@ const PrintDownload = props => {
         onKeyDown={handleUserKeyPress}
         ref={containerEl}
         onFocus={handleFocus}
-        onBlur={handleBlur} // added
+        onBlur={handleBlur}
       >
         <button
           data-dd-action-name={`${
@@ -188,7 +185,7 @@ const PrintDownload = props => {
           data-testid="print-records-button"
           aria-expanded={menuOpen}
           ref={toggleButton}
-          id="print-download-menu" // added id for clarity (optional)
+          id="print-download-menu"
           onFocus={handleFocus}
         >
           <span>

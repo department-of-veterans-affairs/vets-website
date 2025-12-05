@@ -57,14 +57,6 @@ describe('Medications Print/Download button component', () => {
     expect(screen.getByText('Download a text file (.txt)')).to.exist;
   });
 
-  // it('displays error modal if error occurs ', async () => {
-  //   const handleDownloadPDFError = () => {
-  //     throw new Error('error');
-  //   };
-  //   const screen = setup(handleDownloadPDFError);
-  //   const errorMessage = screen.getByText('error');
-  //   expect(errorMessage).to.exist;
-  // });
   it('displays error alert when download fails', async () => {
     setGlobalNavigator(false); // Simulate offline
     const screen = setup(handleExportListDownload, false, true);
@@ -167,7 +159,6 @@ describe('Medications Print/Download button component', () => {
     expect(screen);
   });
 
-  // New tests copied from mhv-medical-records/tests/components/PrintDownload.unit.spec.jsx
   it('should toggle aria-expanded when menu opens and closes', () => {
     const screen = setup(handleExportListDownload, false, true);
     const toggle = screen.getByTestId('print-records-button');
