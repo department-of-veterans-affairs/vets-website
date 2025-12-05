@@ -417,14 +417,11 @@ export const showAdditionalPointsOfContact = formData => {
   const isSchoolCertifyingOfficial =
     formData?.pointsOfContact?.roles?.isSchoolCertifyingOfficial === true;
 
-  if (
+  const hasBothRoles =
     (isYellowRibbonProgramPointOfContact || isSchoolFinancialRepresentative) &&
-    isSchoolCertifyingOfficial
-  ) {
-    return false;
-  }
+    isSchoolCertifyingOfficial;
 
-  return true;
+  return !hasBothRoles;
 };
 
 export const getAdditionalContactTitle = formData => {
@@ -447,4 +444,12 @@ export const getAdditionalContactTitle = formData => {
 export const capitalizeFirstLetter = str => {
   if (!str || typeof str !== 'string') return '';
   return `${str.charAt(0).toUpperCase()}${str.slice(1)}`;
+};
+
+export const CustomReviewTopContent = () => {
+  return (
+    <h3 className="vads-u-font-size--h3 vads-u-margin-top--0 vads-u-margin-bottom--3">
+      Review your form
+    </h3>
+  );
 };
