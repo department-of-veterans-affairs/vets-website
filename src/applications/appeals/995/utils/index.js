@@ -1,9 +1,7 @@
 import { EVIDENCE_URLS } from '../constants';
 
 // ------- REMOVE when new design toggle is removed
-export const redesignActive = formData => {
-  return formData?.scRedesign;
-};
+export const redesignActive = formData => formData?.scRedesign;
 // ------- END REMOVE
 
 /**
