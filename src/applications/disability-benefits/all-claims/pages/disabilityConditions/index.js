@@ -1,5 +1,6 @@
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+import { createArrayBuilderItemAddPath } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
 
 import { ConditionsIntroDescription } from '../../content/conditions';
 import {
@@ -39,6 +40,35 @@ export const disabilityConditionsWorkflow = arrayBuilderPages(
       path: `conditions/summary`,
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
+      onNavForward: props => {
+        const { formData } = props;
+        const hasConditions = formData?.['view:hasConditions'];
+
+        if (!hasConditions) {
+          return helpers.navForwardSummary(props);
+        }
+
+        const { arrayPath } = arrayOptions;
+        const items = formData?.[arrayPath] || [];
+        const nextIndex = items.length;
+
+        // If there are still rated disabilities left to claim for increase,
+        // go to Type of condition; otherwise go straight to Add new condition.
+        const hasUnaddedRated = hasRatedDisabilities(formData, nextIndex);
+
+        const basePath = hasUnaddedRated
+          ? 'conditions/:index/condition'
+          : 'conditions/:index/new-condition';
+
+        const path = createArrayBuilderItemAddPath({
+          path: basePath,
+          index: nextIndex,
+          isReview: !!props.urlParams?.review,
+          removedAllWarn: false,
+        });
+
+        return props.goPath(path);
+      },
     }),
 
     Condition: pageBuilder.itemPage({
