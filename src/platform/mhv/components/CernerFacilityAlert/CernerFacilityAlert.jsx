@@ -150,7 +150,7 @@ const CernerFacilityAlert = ({
         <a
           className="vads-c-action-link--blue vads-u-margin-bottom--0p5"
           href={getCernerURL(linkPath, true)}
-          onClick={handleLinkClick}
+          onClick={() => handleLinkClick()}
           rel="noopener noreferrer"
         >
           Go to My VA Health
