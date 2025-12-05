@@ -44,6 +44,8 @@ const testConfig = createTestConfig(
               selectRadioWebComponentAlt('view:checkVeteranPension', 'Y');
             }
             cy.clickFormContinue();
+
+            // cy.location('pathname').should('include', '/question-name');
           });
         });
       },
