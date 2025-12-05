@@ -195,35 +195,39 @@ const ExpensePage = () => {
   };
 
   const validateDescription = () => {
+    const errors = { description: null };
+
     // Validate description field length
-    const descriptionField = formState.description;
-    if (descriptionField?.length < 5) {
-      setExtraFieldErrors(prev => ({
-        ...prev,
-        description: 'Enter at least 5 characters',
-      }));
-    } else if (descriptionField?.length > 2000) {
-      setExtraFieldErrors(prev => ({
-        ...prev,
-        description: 'Enter no more than 2,000 characters',
-      }));
-    } else {
-      setExtraFieldErrors(prev => ({ ...prev, description: null }));
+    if (formState.description?.length < 5) {
+      errors.description = 'Enter at least 5 characters';
+    } else if (formState.description?.length > 2000) {
+      errors.description = 'Enter no more than 2,000 characters';
     }
+
+    setExtraFieldErrors(prev => ({
+      ...prev,
+      ...errors,
+    }));
+
+    return !errors.description;
   };
 
   const validateRequestedAmount = () => {
-    // Valid greater than 0. Other validation is handled by the TextInput component
+    const errors = { costRequested: null };
+
+    // Valid greater than 0.
+    // Other validation is handled by the VA component
     const amount = parseFloat(formState.costRequested);
     if (!Number.isNaN(amount) && amount === 0) {
-      setExtraFieldErrors(prev => ({
-        ...prev,
-        costRequested: 'Enter an amount greater than 0',
-      }));
-    } else {
-      // Other errors are handled by the component
-      setExtraFieldErrors(prev => ({ ...prev, costRequested: null }));
+      errors.costRequested = 'Enter an amount greater than 0';
     }
+
+    setExtraFieldErrors(prev => ({
+      ...prev,
+      ...errors,
+    }));
+
+    return !errors.costRequested;
   };
 
   const validatePage = () => {
@@ -236,8 +240,10 @@ const ExpensePage = () => {
 
     setShowError(emptyFields.length > 0);
 
-    validateDescription();
-    validateRequestedAmount();
+    // Extra validation for specific fields
+    if (!validateDescription() || !validateRequestedAmount()) {
+      return false;
+    }
 
     return emptyFields.length === 0;
   };
