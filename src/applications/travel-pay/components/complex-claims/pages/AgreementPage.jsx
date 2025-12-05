@@ -32,7 +32,8 @@ const AgreementPage = () => {
         // Handle error - could show an error message or stay on the page
         // eslint-disable-next-line no-console
         console.error('Failed to submit complex claim:', error);
-        // TODO: Add proper error handling UI
+        // Navigate to error page on submission failure
+        navigate(`/file-new-claim/${apptId}/${claimId}/error`);
       }
     }
   };
