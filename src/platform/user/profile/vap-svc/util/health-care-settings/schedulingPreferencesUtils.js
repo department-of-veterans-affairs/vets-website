@@ -7,16 +7,16 @@ import { FIELD_NAMES, FIELD_TITLES } from '../../constants';
 
 // Simple fields that can edit inline (single-select radio buttons)
 const INLINE_SCHEDULING_PREFERENCES = [
-  FIELD_NAMES.APPOINTMENT_PREFERENCE_1,
-  FIELD_NAMES.PROVIDER_PREFERENCE_1,
-  FIELD_NAMES.PROVIDER_PREFERENCE_2,
+  FIELD_NAMES.SCHEDULING_PREF_HELP_SCHEDULING,
+  FIELD_NAMES.SCHEDULING_PREF_PROVIDER_GENDER,
+  FIELD_NAMES.SCHEDULING_PREF_HELP_CHOOSING,
 ];
 
 // Complex fields that need subtask editing (dropdown or multi-select, complex UI)
 const SUBTASK_SCHEDULING_PREFERENCES = [
-  FIELD_NAMES.CONTACT_PREFERENCE_1,
-  FIELD_NAMES.CONTACT_PREFERENCE_2,
-  FIELD_NAMES.APPOINTMENT_PREFERENCE_2,
+  FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD,
+  FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES,
+  FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES,
 ];
 
 export const isSchedulingPreference = fieldName => {
@@ -35,7 +35,7 @@ export const isSubtaskSchedulingPreference = fieldName => {
 };
 
 const schedulingPreferenceOptions = fieldname => {
-  if (fieldname === FIELD_NAMES.PROVIDER_PREFERENCE_1) {
+  if (fieldname === FIELD_NAMES.SCHEDULING_PREF_PROVIDER_GENDER) {
     return {
       male: 'Male',
       female: 'Female',
