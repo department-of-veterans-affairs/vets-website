@@ -40,7 +40,9 @@ export {
   edipiNotFound,
   SEI_DOMAINS,
   ALERT_TYPE_SEI_ERROR,
+  allergyTypes,
 } from './util/constants';
+export { convertAllergy, convertUnifiedAllergy } from './util/allergies';
 export { trapFocus } from './util/ui/index';
 export { generateMilitaryServicePdf } from './dod-history/military-service-pdf';
 export { generateSEIPdf } from './self-entered/generate-sei-pdf';
