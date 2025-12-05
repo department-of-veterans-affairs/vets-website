@@ -97,6 +97,7 @@ jobs:
 
   build:
     name: Build
+    needs: [check-dependency-files]
     runs-on: ubuntu-16-cores-latest
     permissions:
       id-token: write
