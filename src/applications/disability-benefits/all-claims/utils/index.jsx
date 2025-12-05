@@ -14,6 +14,7 @@ import _ from 'platform/utilities/data';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { createSelector } from 'reselect';
+import { endOfDay, isAfter, isSameDay } from 'date-fns';
 import {
   CHAR_LIMITS,
   DATA_PATHS,
@@ -724,7 +725,7 @@ export const wrapWithBreadcrumb = (title, component) => (
   </>
 );
 
-const today = getToday().endOf('day');
+const today = endOfDay(new Date(getToday()));
 /**
  * Determines if a given date object is expired.
  *
@@ -752,8 +753,7 @@ export const isExpired = date => {
   }
   return !(
     expires &&
-    expires.isValid() &&
-    expires.endOf('day').isSameOrAfter(today)
+    (isAfter(endOfDay(expires), today) || isSameDay(endOfDay(expires), today))
   );
 };
 
