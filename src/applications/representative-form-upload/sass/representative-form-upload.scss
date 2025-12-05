@@ -13,6 +13,15 @@
 
 .representative-form {
   padding: 0 0 48px !important;
+  -webkit-font-smoothing: antialiased;
+
+  h1 {
+    margin: 0;
+
+    ~ p {
+      margin: 0;
+    }
+  }
 
   va-process-list {
     margin-left: 20px;
