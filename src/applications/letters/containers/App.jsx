@@ -8,11 +8,14 @@ import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user
 import { externalServices } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import { DowntimeBanner } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { useBrowserMonitoring } from 'platform/monitoring/Datadog';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 
 import AppContent from '../components/AppContent';
 import { isLoadingFeatures } from '../selectors';
 
 export function App({ featureFlagsLoading, user, loggedIn }) {
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const toggleValue = useToggleValue(TOGGLE_NAMES.lettersClientSideMonitoring);
   useBrowserMonitoring({
     loggedIn,
     version: '1.0.0',
@@ -20,6 +23,14 @@ export function App({ featureFlagsLoading, user, loggedIn }) {
     clientToken: '',
     service: 'benefits-letters-and-documents-tool',
   });
+
+  if (toggleValue) {
+    // This is temporary, just testing feature flag.
+  }
+
+  // Need to figure out how to conditionally RUM dashboard, get error on eslint, the built in filtering
+  // might not be enough, but we need this enabled all the time for logs. So many two monitors? One for
+  // logs and one for RUM?
 
   return (
     <RequiredLoginView

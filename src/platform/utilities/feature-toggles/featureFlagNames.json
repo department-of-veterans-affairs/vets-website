@@ -142,6 +142,8 @@
   "intentToFileLighthouseEnabled": "intent_to_file_lighthouse_enabled",
   "intentToFileSynchronousEnabled": "intent_to_file_synchronous_enabled",
   "kendraEnabledForResourcesAndSupportSearch": "kendra_enabled_for_resources_and_support_search",
+  "lettersClientSideMonitoring": "letters_client_side_monitoring",
+  "lettersRumDashboard": "letters_rum_dashboard",
   "loopPages": "loop_pages",
   "manageDependents": "dependents_management",
   "meb160630Automation": "meb_1606_30_automation",
