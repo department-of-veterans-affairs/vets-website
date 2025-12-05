@@ -17,16 +17,10 @@ import {
 } from '~/platform/user/cerner-dsot/selectors';
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
 import NeedHelpSection from '../components/DownloadRecords/NeedHelpSection';
-import {
-  getFailedDomainList,
-  getLastSuccessfulUpdate,
-  sendDataDogAction,
-} from '../util/helpers';
+import { getLastSuccessfulUpdate, sendDataDogAction } from '../util/helpers';
 import {
   accessAlertTypes,
-  ALERT_TYPE_BB_ERROR,
   ALERT_TYPE_CCD_ERROR,
-  BB_DOMAIN_DISPLAY_MAP,
   CernerAlertContent,
   documentTypes,
   pageTitles,
@@ -45,6 +39,7 @@ import CCDAccordionItemV1 from './ccdAccordionItem/ccdAccordionItemV1';
 import CCDAccordionItemV2 from './ccdAccordionItem/ccdAccordionItemV2';
 import CCDAccordionItemOH from './ccdAccordionItem/ccdAccordionItemOH';
 import CCDAccordionItemDual from './ccdAccordionItem/ccdAccordionItemDual';
+import VaAlertBlueButtonDualUserSection from './vaAlerts/VaAlertBlueButtonSection';
 
 // --- Main component ---
 const DownloadReportPage = ({ runningUnitTest }) => {
@@ -312,68 +307,14 @@ const DownloadReportPage = ({ runningUnitTest }) => {
       )}
       {/* Blue Button section - hidden for Oracle Health-only users */}
       {!hasOHOnly && (
-        <>
-          {/* Explanatory message for users with both facility types */}
-          {hasBothDataSources &&
-            vistaFacilityNames.length > 0 &&
-            ohFacilityNames.length > 0 && (
-              <va-alert
-                status="info"
-                className="vads-u-margin-y--2"
-                data-testid="dual-facilities-blue-button-message"
-                visible
-                aria-live="polite"
-              >
-                <p className="vads-u-margin--0">
-                  For {vistaFacilityNames.join(', ')}, you can download your
-                  data in a Blue Button report.
-                </p>
-                <p className="vads-u-margin--0 vads-u-margin-top--1">
-                  Data for {ohFacilityNames.join(', ')} is not yet available in
-                  Blue Button.
-                </p>
-                <p className="vads-u-margin--0 vads-u-margin-top--1">
-                  You can access records for those by downloading a Continuity
-                  of Care Document, which is shown above.
-                </p>
-              </va-alert>
-            )}
-          <h2>Download your VA Blue Button report</h2>
-          {activeAlert?.type === ALERT_TYPE_BB_ERROR && (
-            <AccessTroubleAlertBox
-              alertType={accessAlertTypes.DOCUMENT}
-              documentType={documentTypes.BB}
-              className="vads-u-margin-bottom--1"
-            />
-          )}
-          {successfulBBDownload === true && (
-            <>
-              <MissingRecordsError
-                documentType="VA Blue Button report"
-                recordTypes={getFailedDomainList(
-                  failedBBDomains,
-                  BB_DOMAIN_DISPLAY_MAP,
-                )}
-              />
-              <DownloadSuccessAlert
-                type="Your VA Blue Button report download has"
-                className="vads-u-margin-bottom--1"
-              />
-            </>
-          )}
-          <p className="vads-u-margin--0 vads-u-margin-top--3 vads-u-margin-bottom--1">
-            First, select the types of records you want in your report. Then
-            download.
-          </p>
-          <va-link-action
-            href="/my-health/medical-records/download/date-range"
-            label="Select records and download report"
-            text="Select records and download report"
-            data-dd-action-name="Select records and download"
-            onClick={() => sendDataDogAction('Select records and download')}
-            data-testid="go-to-download-all"
-          />
-        </>
+        <VaAlertBlueButtonDualUserSection
+          hasBothDataSources={hasBothDataSources}
+          vistaFacilityNames={vistaFacilityNames}
+          ohFacilityNames={ohFacilityNames}
+          activeAlert={activeAlert}
+          successfulBBDownload={successfulBBDownload}
+          failedBBDomains={failedBBDomains}
+        />
       )}
 
       <h2>Other reports you can download</h2>
