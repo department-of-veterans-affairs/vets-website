@@ -66,23 +66,26 @@ export const customFormReplacer = (key, value) => {
   return value;
 };
 
-/** Clean data fields - remove fields with empty values & arrays
- * @param {any} sourceData - source data object
- * @param {any} cleanData - target data object
- * @param {string[]} fields - fields to copy
- * @returns {boolean} boolean indicating data was successfully copied
+/**
+ * Extract data fields with values from source data
+ *
+ * Returns only fields that have meaningful data (non-empty values/arrays).
+ * This prevents accidentally setting flags when no actual data exists, fixing
+ * a bug where options could be enabled without corresponding data.
+ *
+ * @param {object} sourceData - source data object
+ * @param {string[]} fields - fields to extract
+ * @returns {object} object containing only fields with data
  */
-function copyDataFields(sourceData, cleanData, fields) {
-  let hasData = false;
+function extractDataFields(sourceData, fields) {
+  const result = {};
   fields.forEach(field => {
     const value = sourceData[field];
     if (Array.isArray(value) ? value.length > 0 : value) {
-      // eslint-disable-next-line no-param-reassign
-      cleanData[field] = value;
-      hasData = true;
+      result[field] = value;
     }
   });
-  return hasData;
+  return result;
 }
 
 /**
@@ -158,8 +161,9 @@ export function buildSubmissionData(payload) {
   if (addEnabled) {
     Object.entries(addDataMappings).forEach(([option, fields]) => {
       if (addOptions[option] === true) {
-        const hasData = copyDataFields(sourceData, cleanData, fields);
-        if (hasData) {
+        const optionData = extractDataFields(sourceData, fields);
+        if (Object.keys(optionData).length > 0) {
+          Object.assign(cleanData, optionData);
           enabledAddOptions[option] = true;
         }
       }
@@ -171,8 +175,9 @@ export function buildSubmissionData(payload) {
   if (removeEnabled) {
     Object.entries(removeDataMappings).forEach(([option, fields]) => {
       if (removeOptions[option] === true) {
-        const hasData = copyDataFields(sourceData, cleanData, fields);
-        if (hasData) {
+        const optionData = extractDataFields(sourceData, fields);
+        if (Object.keys(optionData).length > 0) {
+          Object.assign(cleanData, optionData);
           enabledRemoveOptions[option] = true;
         }
       }
