@@ -14,6 +14,7 @@ export function withAlertOrDescription({
   description,
   nounSingular,
   hasMultipleItemPages,
+  showEditExplanationText = true,
 }) {
   return () => {
     const search = getArrayUrlSearchParams();
@@ -33,7 +34,7 @@ export function withAlertOrDescription({
         </>
       );
     }
-    if (isEdit && hasMultipleItemPages) {
+    if (isEdit && (hasMultipleItemPages && showEditExplanationText)) {
       return `We’ll take you through each of the sections of this ${nounSingular} for you to review and edit`;
     }
     return description || '';
@@ -81,13 +82,13 @@ export const withEditTitle = (title, lowerCase = true) => {
  * }
  * ```
  *
- * @param {{
- *   title: string,
- *   nounSingular: string,
- *   lowerCase?: boolean,
- *   hasMultipleItemPages?: boolean,
- *   description?: string | JSX.Element | ({ formData, formContext }) => string | JSX.Element
- * }} options
+ * @param {Object} options
+ * @param {string} options.title
+ * @param {string} options.nounSingular
+ * @param {boolean} [options.lowerCase=true]
+ * @param {boolean} [options.hasMultipleItemPages=true]
+ * @param {string | JSX.Element | ({ formData, formContext }) => string | JSX.Element} [options.description]
+ * @param {boolean} [options.showEditExplanationText=true]
  * @returns {UISchemaOptions}
  */
 export const arrayBuilderItemFirstPageTitleUI = ({
@@ -96,10 +97,16 @@ export const arrayBuilderItemFirstPageTitleUI = ({
   nounSingular,
   lowerCase = true,
   hasMultipleItemPages = true,
+  showEditExplanationText = true,
 }) => {
   return titleUI(
     withEditTitle(title, lowerCase),
-    withAlertOrDescription({ description, nounSingular, hasMultipleItemPages }),
+    withAlertOrDescription({
+      description,
+      nounSingular,
+      hasMultipleItemPages,
+      showEditExplanationText,
+    }),
   );
 };
 
@@ -140,6 +147,7 @@ export const arrayBuilderItemSubsequentPageTitleUI = (
  * @typedef {{
  *   title?: UISchemaOptions['ui:title'],
  *   labels?: {Y?: string, N?: string},
+ *   descriptions?: {Y?: string, N?: string},
  *   hint?: string,
  *   errorMessages?: UISchemaOptions['ui:errorMessages'],
  *   labelHeaderLevel?: UISchemaOptions['ui:options']['labelHeaderLevel']
@@ -255,6 +263,7 @@ export const arrayBuilderYesNoUI = (
                   Y: yesNoOptionsAdditional?.labels?.Y || 'Yes',
                   N: yesNoOptionsAdditional?.labels?.N || 'No',
                 },
+                descriptions: yesNoOptionsAdditional?.descriptions,
               },
               'ui:errorMessages': {
                 required:
@@ -291,6 +300,7 @@ export const arrayBuilderYesNoUI = (
                   Y: yesNoOptionsInitial?.labels?.Y || 'Yes',
                   N: yesNoOptionsInitial?.labels?.N || 'No',
                 },
+                descriptions: yesNoOptionsInitial?.descriptions,
               },
               'ui:errorMessages': {
                 required:
