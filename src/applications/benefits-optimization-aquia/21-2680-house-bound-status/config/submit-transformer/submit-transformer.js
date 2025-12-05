@@ -28,18 +28,6 @@ function mapRelationship(relationship) {
 }
 
 /**
- * Maps frontend benefit type to backend benefitSelection enum
- * Frontend: SMC, SMP (uppercase)
- * Backend: smc, smp (lowercase)
- * @param {string} benefitType - Frontend benefit type value
- * @returns {string} Backend benefitSelection value (lowercase)
- */
-function mapBenefitType(benefitType) {
-  if (!benefitType) return 'smc';
-  return benefitType.toLowerCase();
-}
-
-/**
  * Builds veteranInformation section for backend submission
  * @param {Object} cleanedData - Cleaned form data
  * @returns {Object} Veteran information object
@@ -157,7 +145,7 @@ function buildClaimantInformation(cleanedData, veteranInformation) {
  */
 function buildBenefitInformation(cleanedData) {
   return {
-    benefitSelection: mapBenefitType(cleanedData.benefitType?.benefitType),
+    benefitSelection: cleanedData.benefitType?.benefitType || 'smc',
   };
 }
 

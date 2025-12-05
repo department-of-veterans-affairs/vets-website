@@ -7,7 +7,6 @@ import { expect } from 'chai';
 import {
   TITLE,
   SUBTITLE,
-  BENEFIT_TYPES,
   ADL_OPTIONS,
   LOCOMOTION_AIDS,
   DISTANCE_OPTIONS,
@@ -25,24 +24,6 @@ describe('Constants', () => {
     it('should have correct subtitle', () => {
       expect(SUBTITLE).to.exist;
       expect(SUBTITLE).to.include('VA Form 21-2680');
-    });
-  });
-
-  describe('Benefit Types', () => {
-    it('should have benefit types object', () => {
-      expect(BENEFIT_TYPES).to.be.an('object');
-    });
-
-    it('should have SMC benefit type', () => {
-      expect(BENEFIT_TYPES.SMC).to.equal('smc');
-    });
-
-    it('should have SMP benefit type', () => {
-      expect(BENEFIT_TYPES.SMP).to.equal('smp');
-    });
-
-    it('should have exactly 2 benefit types', () => {
-      expect(Object.keys(BENEFIT_TYPES)).to.have.lengthOf(2);
     });
   });
 
@@ -147,12 +128,6 @@ describe('Constants', () => {
   });
 
   describe('Constant Values Format', () => {
-    it('should use lowercase for benefit type values', () => {
-      Object.values(BENEFIT_TYPES).forEach(value => {
-        expect(value).to.match(/^[a-z]+$/);
-      });
-    });
-
     it('should use snake_case or lowercase for ADL option values', () => {
       Object.values(ADL_OPTIONS).forEach(value => {
         expect(value).to.match(/^[a-z]+(_[a-z]+)*$/);
@@ -176,7 +151,6 @@ describe('Constants', () => {
     it('should export all constants', () => {
       expect(TITLE).to.exist;
       expect(SUBTITLE).to.exist;
-      expect(BENEFIT_TYPES).to.exist;
       expect(ADL_OPTIONS).to.exist;
       expect(LOCOMOTION_AIDS).to.exist;
       expect(DISTANCE_OPTIONS).to.exist;
@@ -185,7 +159,6 @@ describe('Constants', () => {
     it('should have non-empty constant values', () => {
       expect(TITLE.length).to.be.greaterThan(0);
       expect(SUBTITLE.length).to.be.greaterThan(0);
-      expect(Object.keys(BENEFIT_TYPES).length).to.be.greaterThan(0);
       expect(Object.keys(ADL_OPTIONS).length).to.be.greaterThan(0);
       expect(Object.keys(LOCOMOTION_AIDS).length).to.be.greaterThan(0);
       expect(Object.keys(DISTANCE_OPTIONS).length).to.be.greaterThan(0);

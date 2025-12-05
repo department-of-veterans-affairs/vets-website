@@ -29,7 +29,7 @@
       "claimantEmail": "hsolo@smuggler.net"
     },
     "benefitType": {
-      "benefitType": "SMP"
+      "benefitType": "smp"
     },
     "hospitalizationStatus": {
       "isCurrentlyHospitalized": true

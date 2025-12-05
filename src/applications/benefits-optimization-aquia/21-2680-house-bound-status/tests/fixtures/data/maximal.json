@@ -52,7 +52,7 @@
       "claimantEmail": "senator.amidala@galacticsenate.gov"
     },
     "benefitType": {
-      "benefitType": "SMP"
+      "benefitType": "smp"
     },
     "hospitalizationStatus": {
       "isCurrentlyHospitalized": true
