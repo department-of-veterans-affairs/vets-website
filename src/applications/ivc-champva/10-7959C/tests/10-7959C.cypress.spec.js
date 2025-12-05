@@ -60,7 +60,7 @@ const testConfig = createTestConfig(
               // eslint-disable-next-line no-param-reassign
               data.champvaBenefitStatus = true;
               // This targets the '<< Back' button
-              cy.get('[data-testid="btn-back"]').click();
+              cy.get('.usa-button-secondary').click();
             }
           });
         });
