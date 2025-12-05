@@ -155,6 +155,7 @@ export const RX_TRACKING_SUPPORTING_FACILITIES = new Set([
   '695', // Clement J. Zablocki Veterans Affairs Medical Center
   '756', // El Paso VA Health Care System
   '983', // test-only facility ID, used by user 36 among others
+  '989', // test-only facility ID, used by MHV team among others
 ]);
 
 export const NOT_SET_TEXT = 'This information is not available right now.';
