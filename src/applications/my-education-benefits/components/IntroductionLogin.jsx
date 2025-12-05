@@ -21,6 +21,7 @@ function IntroductionLogin({
   showMeb1990EZMaintenanceAlert,
   showMeb1990EZR6MaintenanceMessage,
   showMebEnhancements09, // Add showMebEnhancements09 as a prop
+  meb1995Reroute,
 }) {
   const apiCallsComplete = isLOA3 === false || isClaimantCallComplete;
   const openLoginModal = () => {
@@ -68,7 +69,7 @@ function IntroductionLogin({
         user?.login?.hasCheckedKeepAlive && (
           <>
             <va-alert-sign-in
-              variant="signInOptional"
+              variant={meb1995Reroute ? 'signInRequired' : 'signInOptional'}
               time-limit="60 days"
               visible
               heading-level={2}
@@ -121,6 +122,7 @@ IntroductionLogin.propTypes = {
   isLOA3: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
   isPersonalInfoFetchFailed: PropTypes.bool,
+  meb1995Reroute: PropTypes.bool,
   showHideLoginModal: PropTypes.func,
   showMeb1990EZMaintenanceAlert: PropTypes.bool,
   showMeb1990EZR6MaintenanceAlert: PropTypes.bool,
@@ -133,6 +135,7 @@ const mapStateToProps = state => ({
   ...getIntroState(state),
   ...getAppData(state),
   isPersonalInfoFetchFailed: state.data.isPersonalInfoFetchFailed || false,
+  meb1995Reroute: state.featureToggles[featureFlagNames.meb1995Reroute],
   showMebEnhancements09:
     state.featureToggles[featureFlagNames.showMebEnhancements09], // Added new feature flag to mapStateToProps
   showMeb1990EZMaintenanceAlert:
