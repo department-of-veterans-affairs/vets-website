@@ -34,6 +34,7 @@ const initialState = {
 };
 
 describe('VAOS Page: ReviewPage direct scheduling', () => {
+  let storeState;
   let store;
   let start;
 
@@ -43,7 +44,7 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
       id: '983',
     });
     start = new Date();
-    store = createTestStore({
+    storeState = {
       ...initialState,
       newAppointment: {
         pages: {},
@@ -110,7 +111,8 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
           ],
         },
       },
-    });
+    };
+    store = createTestStore(storeState);
     store.dispatch(startDirectScheduleFlow());
   });
 
@@ -182,6 +184,70 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
       uniqueLinks.add(link.getAttribute('label'));
     });
     expect(uniqueLinks.size).to.equal(editLinks.length);
+  });
+
+  it('should show form information with provider for OH review', async () => {
+    const ohStoreState = {
+      ...storeState,
+      newAppointment: {
+        ...storeState.newAppointment,
+        data: {
+          ...storeState.newAppointment.data,
+          selectedProvider: 'Practitioner/1111',
+        },
+        patientProviderRelationshipsStatus: 'succeeded',
+        patientProviderRelationships: [
+          {
+            resourceType: 'PatientProviderRelationship',
+            providerName: 'Doe, Mary D, MD',
+            providerId: 'Practitioner/1111',
+            serviceType: 'foodAndNutrition',
+            locationName: 'Zanesville Primary Care',
+            lastSeen: '2024-10-15T00:32:34.216Z',
+            hasAvailability: true,
+          },
+        ],
+      },
+    };
+    const ohStore = createTestStore(ohStoreState);
+    ohStore.dispatch(startDirectScheduleFlow());
+    ohStore.dispatch(
+      onCalendarChange([
+        formatInTimeZone(
+          start,
+          'America/Denver',
+          DATE_FORMATS.ISODateTimeLocal,
+        ),
+      ]),
+    );
+
+    const screen = renderWithStoreAndRouter(<ReviewPage />, {
+      store: ohStore,
+    });
+
+    await screen.findByText('Primary care');
+    expect(screen.getByText('Primary care')).to.have.tagName('span');
+    const [
+      pageHeading,
+      typeOfCareHeading,
+      facilityHeading,
+      providerHeading,
+      dateHeading,
+      reasonHeading,
+      contactHeading,
+    ] = screen.getAllByRole('heading');
+    expect(pageHeading).to.contain.text(
+      'Review and confirm your appointment details',
+    );
+    expect(typeOfCareHeading).to.contain.text('Type of care');
+    expect(facilityHeading).to.contain.text('Facility');
+    expect(providerHeading).to.contain.text('Provider');
+    expect(screen.baseElement).to.contain.text('Doe, Mary D, MD');
+    expect(dateHeading).to.contain.text('Date and time');
+    expect(reasonHeading).to.contain.text(
+      'Details to share with your provider',
+    );
+    expect(contactHeading).to.contain.text('Your contact information');
   });
 
   it('should submit successfully', async () => {
