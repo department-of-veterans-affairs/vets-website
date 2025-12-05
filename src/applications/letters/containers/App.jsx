@@ -16,6 +16,10 @@ import { isLoadingFeatures } from '../selectors';
 export function App({ featureFlagsLoading, user, loggedIn }) {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const toggleValue = useToggleValue(TOGGLE_NAMES.lettersClientSideMonitoring);
+
+  // Need to figure out how to conditionally RUM dashboard, get error on eslint, the built in filtering
+  // might not be enough, but we need this enabled all the time for logs. So many two monitors? One for
+  // logs and one for RUM?
   useBrowserMonitoring({
     loggedIn,
     version: '1.0.0',
@@ -27,10 +31,6 @@ export function App({ featureFlagsLoading, user, loggedIn }) {
   if (toggleValue) {
     // This is temporary, just testing feature flag.
   }
-
-  // Need to figure out how to conditionally RUM dashboard, get error on eslint, the built in filtering
-  // might not be enough, but we need this enabled all the time for logs. So many two monitors? One for
-  // logs and one for RUM?
 
   return (
     <RequiredLoginView
