@@ -11,7 +11,6 @@ import {
   getPdfDownloadUrl,
   scrollAndFocusTarget,
   onCloseAlert,
-  getMockData,
   formattedPhoneNumber,
   onClickContinue,
   getAlert,
@@ -133,20 +132,6 @@ describe('Helpers', () => {
       onCloseAlert(e);
 
       expect(e.target.visible).to.eq(false);
-    });
-  });
-
-  describe('getMockData', () => {
-    const mockData = {
-      mock: 'data',
-    };
-
-    it('returns the mockData', () => {
-      expect(getMockData(mockData, () => true)).to.eq(mockData);
-    });
-
-    it('returns undefined', () => {
-      expect(getMockData(mockData, () => false)).to.eq(undefined);
     });
   });
 
