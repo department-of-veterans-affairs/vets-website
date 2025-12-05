@@ -53,6 +53,7 @@ const form210966 = (pathname = null) => {
       environment.API_URL
     }/accredited_representative_portal/v0/intent_to_file`,
     dev: { collapsibleNavLinks: true, showNavLinks: !window.Cypress },
+    disableSave: true,
     trackingPrefix,
     introduction: IntroductionPageITF,
     confirmation: ConfirmationPage,
@@ -63,7 +64,8 @@ const form210966 = (pathname = null) => {
       reviewPageTitle: 'Review and submit',
     },
     hideReviewChapters: true,
-    version: 1,
+    version: 0,
+    prefillEnabled: false,
     transformForSubmit: itfTransformForSubmit,
     submissionError,
     defaultDefinitions: {},
@@ -98,7 +100,7 @@ const form210966 = (pathname = null) => {
         title: 'Claimant background',
         pages: {
           isVeteranPage: {
-            path: 'is-veteran',
+            path: 'claimant-background',
             title: "Claimant's background",
             uiSchema: isVeteranPage.uiSchema,
             schema: isVeteranPage.schema,
