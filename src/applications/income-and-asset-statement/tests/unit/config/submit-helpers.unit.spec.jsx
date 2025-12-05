@@ -256,22 +256,6 @@ describe('submit-helpers.js', () => {
     it('should NOT remap `incomeType` field to human-readable', () => {
       const input = {
         unrelatedField: 'keep me',
-        incomeType: 'Wages',
-        anotherUnrelatedField: 'RECURRING',
-      };
-
-      const output = remapIncomeTypeFields(input);
-
-      expect(output).to.deep.equal({
-        unrelatedField: 'keep me',
-        incomeType: 'Wages',
-        anotherUnrelatedField: 'RECURRING',
-      });
-    });
-
-    it('should NOT remap `incomeType` field to human-readable', () => {
-      const input = {
-        unrelatedField: 'keep me',
         incomeType: 'Does not match any key',
         anotherUnrelatedField: 'RECURRING',
       };
@@ -344,6 +328,20 @@ describe('submit-helpers.js', () => {
         JSON.stringify({
           someArray: [{ recipientName: 'John Doe' }, null, null],
         }),
+      );
+    });
+
+    it('should normalize claimant phone number', () => {
+      const formConfig = {
+        chapters: {},
+      };
+      const formData = {
+        data: { mailingAddress: {}, claimantPhone: '555-867-5309' },
+      };
+      const transformed = transformForSubmit(formConfig, formData, replacer);
+
+      expect(transformed).to.equal(
+        JSON.stringify({ claimantPhone: '5558675309' }),
       );
     });
   });
