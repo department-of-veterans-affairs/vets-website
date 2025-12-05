@@ -80,7 +80,8 @@ export default function TravelReimbursementSection({ appointment }) {
             <va-link
               data-testid="file-claim-link"
               className="vads-u-margin-y--0p5"
-              onClick={() => setShowModal(true)}
+              href={`/my-health/travel-pay/file-new-claim/${appointment.id}`}
+              onClick={setClaimEntry}
               text="File a travel reimbursement claim"
             />
           </p>
