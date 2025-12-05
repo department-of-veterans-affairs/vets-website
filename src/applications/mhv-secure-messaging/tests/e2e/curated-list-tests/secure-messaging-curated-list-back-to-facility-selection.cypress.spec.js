@@ -1,3 +1,4 @@
+import featureFlagNames from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import { AXE_CONTEXT, Locators, Paths } from '../utils/constants';
 import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
@@ -12,7 +13,7 @@ describe('SM CURATED LIST BACK TO SELECTION', () => {
   beforeEach(() => {
     const updatedFeatureToggles = GeneralFunctionsPage.updateFeatureToggles([
       {
-        name: 'mhv_secure_messaging_curated_list_flow',
+        name: featureFlagNames.mhvSecureMessagingCuratedListFlow,
         value: true,
       },
     ]);
@@ -108,6 +109,22 @@ describe('SM CURATED LIST BACK TO SELECTION', () => {
     );
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+  });
+
+  it('prepopulates care system and triage group if we have them', () => {
+    PatientMessageDraftsPage.loadDrafts();
+    PatientMessageDraftsPage.loadSingleDraft();
+
+    cy.contains(`Select a different care team`).click();
+    cy.findByTestId(`care-system-589`).should(
+      `have.attr`,
+      `checked`,
+      `checked`,
+    );
+    cy.findByTestId('compose-recipient-combobox')
+      .shadow()
+      .find('input')
+      .should('have.value', 'TG-7410');
   });
 
   it('verify route guard when draft is not saved', () => {
