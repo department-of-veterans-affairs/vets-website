@@ -151,9 +151,22 @@ export default function ReasonForAppointmentPage() {
 
   useEffect(
     () => {
+      // Determine required fields based on flow type:
+      // - Community Care: no required fields
+      // - Request flow (OH enabled): only reasonAdditionalInfo
+      // - Default/Direct flow: both reasonForAppointment and reasonAdditionalInfo
+      let requiredFields;
+      if (isCommunityCare) {
+        requiredFields = [];
+      } else if (updateRequestFlow) {
+        requiredFields = ['reasonAdditionalInfo'];
+      } else {
+        requiredFields = ['reasonForAppointment', 'reasonAdditionalInfo'];
+      }
+
       const effectiveReasonSchema = {
         ...pageInitialSchema,
-        required: isCommunityCare ? [] : ['reasonAdditionalInfo'],
+        required: requiredFields,
       };
       document.title = `${pageTitle} | Veterans Affairs`;
       dispatch(
