@@ -1,0 +1,288 @@
+.vaos-calendar__disabled {
+  opacity: 0.3;
+  pointer-events: none;
+  background: none !important;
+  -webkit-user-select: none; /* Chrome all / Safari all */
+  -moz-user-select: none; /* Firefox all */
+  -ms-user-select: none; /* IE 10+ */
+  user-select: none; /* Likely future */
+}
+
+.vaos-calendar__disabled-overlay {
+  position: absolute;
+  width: 100%;
+  top: 25%;
+  z-index: 10000;
+}
+
+.vaos-calendar__validation-msg:focus {
+  outline: 0;
+}
+
+.vaos-calendar__weekday {
+  width: 14.3%;
+}
+
+.vaos-calendar__calendar-day {
+  flex-grow: 1;
+  flex-basis: 0;
+  margin: 4px 2px;
+
+  @include media($small-screen) {
+    margin: 8px;
+  }
+}
+
+.vaos-calendar__day--current {
+  margin-bottom: 12px;
+  @include media($small-screen) {
+    margin-bottom: 8px;
+  }
+}
+
+.vaos-calendar__day--current > button,
+.vaos-calendar__day--selected > button {
+  position: relative;
+  background-color: var(--vads-color-primary);
+  border-color: var(--vads-color-primary);
+  color: var(--vads-color-white);
+
+  &:hover {
+    border: 1px solid var(--vads-color-primary-dark);
+  }
+}
+
+.vaos-calendar__fa-check-position {
+  position: absolute;
+  left: 4px;
+  top: 4px;
+  font-size: 10px;
+}
+
+.vaos-calendar__day--selected-triangle {
+  display: block;
+  height: 20px;
+  width: 20px;
+  background-color: inherit;
+  border: inherit;
+  position: absolute;
+  bottom: -10px;
+  left: calc(50% - 10px);
+  clip-path: polygon(0% 0%, 100% 100%, 0% 100%);
+  transform: rotate(-45deg);
+  border-radius: 0 0 0 0.25em;
+  z-index: -1;
+}
+
+.vaos-calendar__calendar-day-button {
+  width: 100%;
+  color: var(--vads-color-base);
+  background-color: var(--vads-color-base-lightest);
+  border: 1px solid var(--vads-color-gray-medium);
+  border-radius: 5px;
+  padding: 11px 6px;
+  margin: 0;
+
+  &:active {
+    background-color: var(--vads-color-primary) !important;
+    color: var(--vads-color-white) !important;
+  }
+
+  &:hover {
+    border-color: var(--vads-color-primary-dark);
+  }
+
+  &:disabled {
+    background-color: var(--vads-color-base-lightest);
+    border-color: var(--vads-color-base-lightest);
+    color: var(--vads-color-base-light);
+  }
+
+  @include media($small-screen) {
+    padding: 12px;
+  }
+}
+
+.vaos-calendar__indicator-bubbles-container {
+  position: absolute;
+  top: -7px;
+  left: -7px;
+}
+
+.vaos-calendar__indicator-bubble {
+  padding: 3px 6px;
+  border-radius: 25px;
+  font-size: 12px;
+  margin-bottom: 11px;
+}
+
+.vaos-calendar__nav h2 {
+  white-space: nowrap;
+}
+
+.vaos-calendar__nav-links-button {
+  background: none;
+  align-items: center;
+
+  &:disabled {
+    color: var(--vads-color-base-light) !important;
+    background: none;
+  }
+
+  &:hover {
+    background: none;
+  }
+
+  &:active {
+    background: none !important;
+  }
+}
+
+.vaos-calendar__nav-links-button i {
+  font-size: 22px;
+  padding-top: 2px;
+}
+
+.vaos-calendar__nav-link-icon {
+  background: var(--vads-color-primary);
+  border-radius: 20px;
+  color: var(--vads-color-white);
+  font-size: 20px;
+  position: initial;
+}
+
+.vaos-calendar__options-container {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  margin-top: 15px;
+}
+
+.vaos-calendar__options {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 4px;
+
+  @include media($small-screen) {
+    margin: 0 8px;
+  }
+}
+
+.vaos-calendar__option-cell {
+  padding: 0 8px 16px 8px;
+  width: 50%;
+  min-width: 120px;
+  background-color: var(--vads-color-primary);
+  position: relative;
+
+  @include media($small-screen) {
+    width: 33.3%;
+  }
+
+  @include media($small-desktop-screen) {
+    width: 25%;
+  }
+
+  @include media($large-screen) {
+    width: 25%;
+  }
+}
+
+.vaos-calendar__option-cell--full-width {
+  @include media($small-desktop-screen) {
+    padding: 0;
+    width: 100% !important;
+    text-align: center;
+    border-radius: 5px;
+
+    .vaos-calendar__option-cell {
+      width: 98% !important;
+      margin-right: 16px;
+      label {
+        max-width: 100%;
+      }
+    }
+  }
+}
+
+.vaos-calendar__option-cell--last:after {
+  content: "";
+  background-color: var(--vads-color-primary);
+  width: 8px;
+  height: 100%;
+  border-bottom-right-radius: 5px;
+  position: absolute;
+  top: 0;
+  right: -8px;
+}
+
+.vaos-calendar__option {
+  display: flex;
+  border: 1px solid var(--vads-color-primary);
+  border-radius: 5px;
+  justify-content: center;
+
+  input[type="radio"],
+  input[type="checkbox"] {
+    width: auto;
+  }
+
+  input[type="radio"] + label::before {
+    margin-top: 0;
+    box-shadow: 0 0 0 2px var(--vads-color-white),
+      0 0 0 3px var(--vads-color-primary);
+  }
+
+  input[type="checkbox"] + label::before {
+    margin-top: 0;
+    box-shadow: 0 0 0 1px var(--vads-color-primary);
+  }
+
+  &.disabled {
+    cursor: not-allowed;
+
+    label {
+      cursor: not-allowed;
+    }
+
+    input[type="checkbox"],
+    input[type="checkbox"] + label::before {
+      box-shadow: 0 0 0 1px var(--vads-color-base-light);
+      background: var(--vads-color-base-lightest);
+      cursor: not-allowed;
+    }
+  }
+}
+
+.vaos-calendar__option--checkbox {
+  flex: 1;
+  flex-direction: column;
+  padding: 7px 10px;
+  min-width: 105px;
+}
+
+.vaos-calendar__option--radio {
+  display: block;
+  padding: 8px;
+  background-color: var(--vads-color-white);
+}
+
+.vaos-u-border-radius--top-left {
+  border-top-left-radius: 5px;
+}
+
+.vaos-u-border-radius--top-right {
+  border-top-right-radius: 5px;
+}
+
+.vaos-u-border-radius--bottom-right {
+  border-bottom-right-radius: 5px;
+}
+
+.vaos-u-border-radius--bottom-left {
+  border-bottom-left-radius: 5px;
+}
+
+.vaos-calendar > .usa-input-error {
+  margin-top: 0;
+}
