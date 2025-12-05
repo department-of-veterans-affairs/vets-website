@@ -6,7 +6,7 @@ import { additionalOfficialIntro } from './pages/additionalOfficialIntro';
 
 export const getTransformIntlPhoneNumber = (phone = {}) => {
   let _contact = '';
-  const { callingCode, contact, countryCode } = phone;
+  const { callingCode, contact, countryCode } = phone || {};
 
   if (contact) {
     const _callingCode = callingCode ? `+${callingCode} ` : '';
@@ -163,7 +163,6 @@ export const getReadOnlyPrimaryOfficialTitle = item => {
 
   return [first, middle, last].filter(Boolean).join(' ');
 };
-
 export const readOnlyCertifyingOfficialArrayOptions = {
   arrayPath: 'readOnlyCertifyingOfficials',
   nounSingular: 'certifying official',
