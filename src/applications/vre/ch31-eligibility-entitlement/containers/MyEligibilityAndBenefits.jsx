@@ -1,23 +1,17 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
-import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import NeedHelp from '../components/NeedHelp';
 import { fetchCh31Eligibility } from '../actions/ch31-my-eligibility-and-benefits';
 import EligibilityCriteria from '../components/EligibilityCriteria';
 import BenefitsSummary from '../components/BenefitsSummary';
 
 const MyEligibilityAndBenefits = () => {
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const dispatch = useDispatch();
 
   const loading = useSelector(state => state?.ch31Eligibility?.loading);
   const error = useSelector(state => state?.ch31Eligibility?.error);
   const ch31ApiResponse = useSelector(state => state?.ch31Eligibility?.data);
-
-  const showEligibilityPage = useToggleValue(
-    TOGGLE_NAMES.vreEligibilityStatusUpdates,
-  );
 
   useEffect(
     () => {
@@ -37,19 +31,6 @@ const MyEligibilityAndBenefits = () => {
   );
 
   const attrs = ch31ApiResponse?.data?.attributes || null;
-
-  if (!showEligibilityPage) {
-    return (
-      <div>
-        <div className="usa-width-two-thirds vads-u-margin-top--0p5 vads-u-margin-x--1 medium-screen:vads-u-margin-x--0">
-          <h1>Your VR&E eligibility and benefits</h1>
-          <p className="vads-u-color--gray-medium">
-            This page isn’t available right now.
-          </p>
-        </div>
-      </div>
-    );
-  }
 
   if (loading) {
     return (
