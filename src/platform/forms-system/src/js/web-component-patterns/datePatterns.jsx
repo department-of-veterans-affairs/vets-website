@@ -29,6 +29,8 @@ import {
  *     required?: string
  *   },
  *   dataDogHidden?: boolean,
+ *   monthYearOnly?: boolean,
+ *   removeDateHint?: boolean,
  * }} [options] accepts a single string for title, or an object of options
  * @returns {UISchemaOptions} uiSchema
  */
@@ -107,6 +109,7 @@ const currentOrPastDateUI = options => {
  *     pattern?: string,
  *     required?: string
  *   },
+ *   removeDateHint?: boolean,
  * }} [options] accepts a single string for title, or an object of options
  * @returns {UISchemaOptions} uiSchema
  */
@@ -138,10 +141,12 @@ const currentOrPastMonthYearDateUI = options => {
  * @param {string | UIOptions & {
  *   title?: UISchemaOptions['ui:title'],
  *   hint?: string,
+ *   removeDateHint?: boolean,
  * }} [options] accepts a single string for start/from date title, or an object of options
  * @param {string | UIOptions & {
  *   title?: UISchemaOptions['ui:title'],
  *   hint?: string,
+ *   removeDateHint?: boolean,
  * }} [options] accepts a single string for to/end date title, or an object of options
  * @param {string} [errorMessage] - Optional custom error message for the date range validation
  * @returns {UISchemaOptions} uiSchema
@@ -207,10 +212,12 @@ const currentOrPastDateRangeUI = (fromOptions, toOptions, errorMessage) => {
  * @param {string | UIOptions & {
  *   title?: UISchemaOptions['ui:title'],
  *   hint?: string,
+ *   removeDateHint?: boolean,
  * }} [options] accepts a single string for start/from date title, or an object of options
  * @param {string | UIOptions & {
  *   title?: UISchemaOptions['ui:title'],
  *   hint?: string,
+ *   removeDateHint?: boolean,
  * }} [options] accepts a single string for to/end date title, or an object of options
  * @param {string} [errorMessage] - Optional custom error message for the date range validation
  * @returns {UISchemaOptions} uiSchema
@@ -249,6 +256,8 @@ const currentOrPastMonthYearDateRangeUI = (
  * @param {string | UIOptions & {
  *   title?: UISchemaOptions['ui:title'],
  *   hint?: string,
+ *   monthYearOnly?: boolean,
+ *   removeDateHint?: boolean,
  * }} [options] accepts a single string for title, or an object of options
  * @returns {UISchemaOptions} uiSchema
  */
@@ -277,6 +286,8 @@ const currentOrPastDateDigitsUI = options => {
  * @param {string | UIOptions & {
  *   title?: UISchemaOptions['ui:title'],
  *   hint?: string,
+ *   monthYearOnly?: boolean,
+ *   removeDateHint?: boolean,
  * }} [options] accepts a single string for title, or an object of options
  * @returns {UISchemaOptions} uiSchema
  */
@@ -308,6 +319,8 @@ const dateOfBirthUI = options => {
  * @param {string | UIOptions & {
  *   title?: UISchemaOptions['ui:title'],
  *   hint?: string,
+ *   monthYearOnly?: boolean,
+ *   removeDateHint?: boolean,
  * }} [options] accepts a single string for title, or an object of options
  * @returns {UISchemaOptions} uiSchema
  */

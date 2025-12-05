@@ -11,6 +11,10 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import React from 'react';
 
+/**
+ * Required field function for schema fields
+ * @returns {boolean} - always true
+ */
 function required() {
   return true;
 }

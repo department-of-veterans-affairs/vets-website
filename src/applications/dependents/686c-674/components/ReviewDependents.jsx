@@ -7,6 +7,19 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 
 import { showV3Picklist } from '../config/utilities';
 
+/**
+ * @typedef {object} ReviewDependentsProps
+ * @property {object} data Form data
+ * @property {function} setFormData Function to update form data
+ * @property {function} goBack Function to navigate to the previous page
+ * @property {function} goForward Function to navigate to the next page
+ * @property {React.ReactNode} contentBeforeButtons Content to render before navigation buttons
+ * @property {React.ReactNode} contentAfterButtons Content to render after navigation buttons
+ *
+ * ReviewDependents component
+ * @param {ReviewDependentsProps} props Component props
+ * @returns {React.ReactElement} Review dependents component
+ */
 const ReviewDependents = ({
   data = {},
   setFormData,

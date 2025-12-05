@@ -1,5 +1,9 @@
 import React from 'react';
 
+/**
+ * Student current income content
+ * @returns {React.ReactElement} Student income content
+ */
 export const StudentCurrentIncomeContent = () => (
   <>
     <p>
@@ -12,6 +16,10 @@ export const StudentCurrentIncomeContent = () => (
   </>
 );
 
+/**
+ * Student expected income content
+ * @returns {React.ReactElement} Student expected income content
+ */
 export const StudentExpectedIncomeContent = () => (
   <>
     <p>
