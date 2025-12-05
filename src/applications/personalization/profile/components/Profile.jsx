@@ -257,12 +257,12 @@ Profile.propTypes = {
   profileToggles: PropTypes.object.isRequired,
   shouldFetchDirectDeposit: PropTypes.bool.isRequired,
   shouldFetchTotalDisabilityRating: PropTypes.bool.isRequired,
-  shouldShowAccreditedRepTab: PropTypes.bool.isRequired,
-  shouldShowHealthCareSettingsPage: PropTypes.bool.isRequired,
-  shouldShowProfile2: PropTypes.bool.isRequired,
   showLoader: PropTypes.bool.isRequired,
   togglesLoaded: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired,
+  shouldShowAccreditedRepTab: PropTypes.bool,
+  shouldShowHealthCareSettingsPage: PropTypes.bool,
+  shouldShowProfile2: PropTypes.bool,
 };
 
 const mapStateToProps = state => {
