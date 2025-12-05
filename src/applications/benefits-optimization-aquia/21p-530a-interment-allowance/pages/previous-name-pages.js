@@ -24,7 +24,6 @@ const formatName = name => {
 /** @type {ArrayBuilderOptions} */
 const previousNameOptions = {
   arrayPath: 'previousNames',
-  hint: '',
   nounSingular: 'previous name',
   nounPlural: 'previous names',
   required: false,
@@ -74,6 +73,8 @@ const previousNameSummaryPage = {
       previousNameOptions,
       {
         title: 'Did the Veteran serve under another name?',
+        hint:
+          'If you answer yes, you’ll need to add at least one previous name on the next screen.',
         labels: {
           Y: 'Yes',
           N: 'No',
