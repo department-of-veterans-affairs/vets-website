@@ -192,12 +192,12 @@ class MedicationsListPage {
   };
 
   verifyLearnHowToRenewPrescriptionsLinkExists = () => {
-    cy.get('[data-testid="learn-to-renew-precsriptions-link"]').should('exist');
+    cy.get('[data-testid="learn-to-renew-prescriptions-link"]').should('exist');
   };
 
   verifyLearnHowToRenewPrescriptionsLink = () => {
-    cy.get('[data-testid="learn-to-renew-precsriptions-link"]');
-    cy.get('[data-testid="learn-to-renew-precsriptions-link"]')
+    cy.get('[data-testid="learn-to-renew-prescriptions-link"]');
+    cy.get('[data-testid="learn-to-renew-prescriptions-link"]')
 
       .shadow()
       .find(`[href="/resources/how-to-renew-a-va-prescription"]`)
@@ -404,7 +404,10 @@ class MedicationsListPage {
   verifyInformationBasedOnStatusExpired = () => {
     cy.get('[data-testid="expired"]')
       .should('be.visible')
-      .and('contain', 'This prescription is too old to refill. ');
+      .and(
+        'contain',
+        "You can't refill this prescription. Contact your VA provider if you need more of this medication.",
+      );
   };
 
   verifyInformationBasedOnStatusTransferred = () => {
