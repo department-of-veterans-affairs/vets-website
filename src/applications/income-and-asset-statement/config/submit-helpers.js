@@ -1,5 +1,6 @@
 import { cloneDeep } from 'lodash';
 import { discontinuedIncomeTypeLabels } from '../labels';
+import { REGEXP } from '../constants';
 
 /**
  * Build a full name string from an object containing first/middle/last
@@ -240,6 +241,11 @@ export function replacer(key, value) {
     }
     // If it's already a string, return it as is
     return value;
+  }
+
+  // Normalize claimant phone number if it exists (removes dashes)
+  if (key === 'claimantPhone' && typeof value === 'string' && value !== null) {
+    return value.replace(REGEXP.NON_DIGIT, '');
   }
 
   return value;
