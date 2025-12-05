@@ -37,8 +37,8 @@ const Verify = () => {
     const mockUser = mockUsers.find(
       user => user.lastname === lastname && user.dob === dob,
     );
-    // confirm auth here and validate fields aren't empty
-    if (lastname === mockUser.lastname && dob === mockUser.dob) {
+    // confirm auth here
+    if (mockUser) {
       setError(false);
       navigate('/enter-otc');
     } else {
