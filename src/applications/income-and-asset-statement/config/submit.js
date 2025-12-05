@@ -112,7 +112,7 @@ export function prepareFormData(data) {
     ...(maybeTransformedIncomes
       ? { discontinuedIncomes: maybeTransformedIncomes }
       : {}),
-    files: newFiles,
+    ...(newFiles.length > 0 ? { files: newFiles } : {}),
   };
 
   // Step 4: remove fields vets-api does not accept
