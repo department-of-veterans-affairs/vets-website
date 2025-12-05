@@ -29,6 +29,9 @@ import {
   requiredIfMileageLocationOther,
 } from './helpers';
 
+const nounSingular = 'mileage expense';
+const nounPlural = 'mileage expenses';
+
 function introDescription() {
   return (
     <div>
@@ -61,22 +64,24 @@ function checkIsItemIncomplete(item) {
 /** @type {ArrayBuilderOptions} */
 export const options = {
   arrayPath: 'mileageExpenses',
-  nounSingular: 'mileage expense',
-  nounPlural: 'mileage expenses',
+  nounSingular,
+  nounPlural,
   required: false,
   isItemIncomplete: item => checkIsItemIncomplete(item),
   maxItems: 12,
   text: {
     getItemName: item => travelLocationLabels[(item?.travelLocation)] || '',
     cardDescription: item => transformDate(item?.travelDate) || '',
-    cancelAddTitle: 'Cancel adding this mileage expense?',
-    cancelEditTitle: 'Cancel editing this mileage expense?',
-    cancelAddDescription:
-      'If you cancel, we won’t add this expense to your list of mileage expenses. You’ll return to a page where you can add a new mileage expense.',
+    cancelAddTitle: `Cancel adding this ${nounSingular}?`,
+    cancelEditTitle: `Cancel editing this ${nounSingular}?`,
     cancelAddYes: 'Yes, cancel adding',
     cancelAddNo: 'No, continue adding',
     cancelEditYes: 'Yes, cancel editing',
     cancelEditNo: 'No, continue editing',
+    deleteDescription: `This will delete the information from your list of ${nounPlural}. You’ll return to a page where you can add a new ${nounSingular}.`,
+    deleteNo: 'No, keep',
+    deleteTitle: `Delete this ${nounSingular}?`,
+    deleteYes: 'Yes, delete',
   },
 };
 

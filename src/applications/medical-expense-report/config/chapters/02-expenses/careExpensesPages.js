@@ -27,6 +27,9 @@ import {
   getCostPageTitle,
 } from './helpers';
 
+const nounSingular = 'care expense';
+const nounPlural = 'care expenses';
+
 function introDescription() {
   return (
     <div>
@@ -116,8 +119,8 @@ function checkIsItemIncomplete(item) {
 /** @type {ArrayBuilderOptions} */
 export const options = {
   arrayPath: 'careExpenses',
-  nounSingular: 'care expense',
-  nounPlural: 'care expenses',
+  nounSingular,
+  nounPlural,
   required: false,
   isItemIncomplete: item => checkIsItemIncomplete(item),
   maxItems: 8,
@@ -142,6 +145,10 @@ export const options = {
     cancelAddNo: 'No, continue adding',
     cancelEditYes: 'Yes, cancel editing',
     cancelEditNo: 'No, continue editing',
+    deleteDescription: `This will delete the information from your list of ${nounPlural}. You’ll return to a page where you can add a new ${nounSingular}.`,
+    deleteNo: 'No, keep',
+    deleteTitle: `Delete this ${nounSingular}?`,
+    deleteYes: 'Yes, delete',
   },
 };
 
