@@ -122,9 +122,18 @@ export const options = {
   isItemIncomplete: item => checkIsItemIncomplete(item),
   maxItems: 8,
   text: {
-    getItemName: item =>
-      careTypeLabels[(item?.typeOfCare)] || 'New care expense',
-    cardDescription: item => transformDate(item?.careDateRange?.from) || '',
+    getItemName: item => item?.provider || 'Provider',
+    cardDescription: item => {
+      const fromDate = transformDate(item?.careDateRange?.from);
+      const toDate = transformDate(item?.careDateRange?.to);
+      if (fromDate && toDate) {
+        return `${fromDate} - ${toDate}`;
+      }
+      if (fromDate) {
+        return `${fromDate}`;
+      }
+      return '';
+    },
     cancelAddTitle: 'Cancel adding this care expense?',
     cancelEditTitle: 'Cancel editing this care expense?',
     cancelAddDescription:
