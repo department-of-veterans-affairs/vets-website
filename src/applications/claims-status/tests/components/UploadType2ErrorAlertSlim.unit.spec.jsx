@@ -1,10 +1,25 @@
 import React from 'react';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { renderWithRouter } from '../utils';
 
 import UploadType2ErrorAlertSlim from '../../components/UploadType2ErrorAlertSlim';
+import * as analytics from '../../utils/analytics';
 
 describe('<UploadType2ErrorAlertSlim>', () => {
+  let recordType2FailureEventStub;
+
+  beforeEach(() => {
+    recordType2FailureEventStub = sinon.stub(
+      analytics,
+      'recordType2FailureEvent',
+    );
+  });
+
+  afterEach(() => {
+    recordType2FailureEventStub.restore();
+  });
+
   const createFailedSubmission = (acknowledgementDate, failedDate) => ({
     acknowledgementDate,
     id: 1,
@@ -27,6 +42,7 @@ describe('<UploadType2ErrorAlertSlim>', () => {
     );
 
     expect(container.firstChild).to.be.null;
+    expect(recordType2FailureEventStub.called).to.be.false;
   });
 
   it('should not render when failedSubmissions is null', () => {
@@ -35,6 +51,7 @@ describe('<UploadType2ErrorAlertSlim>', () => {
     );
 
     expect(container.firstChild).to.be.null;
+    expect(recordType2FailureEventStub.called).to.be.false;
   });
 
   it('should not render when failedSubmissions is undefined', () => {
@@ -43,6 +60,7 @@ describe('<UploadType2ErrorAlertSlim>', () => {
     );
 
     expect(container.firstChild).to.be.null;
+    expect(recordType2FailureEventStub.called).to.be.false;
   });
 
   it('should render when there are failed submissions', () => {
@@ -65,5 +83,27 @@ describe('<UploadType2ErrorAlertSlim>', () => {
     expect(alert.querySelector('p')).to.have.text(
       'We need you to resubmit files for this claim.',
     );
+  });
+
+  context('Google Analytics', () => {
+    it('should record Type 2 failure analytics event when component renders with failed submissions', () => {
+      const failedSubmissions = [
+        createFailedSubmission(
+          new Date(Date.now() + 28 * 24 * 60 * 60 * 1000).toISOString(),
+          new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+        ),
+      ];
+
+      renderWithRouter(
+        <UploadType2ErrorAlertSlim failedSubmissions={failedSubmissions} />,
+      );
+
+      expect(recordType2FailureEventStub.calledOnce).to.be.true;
+      expect(
+        recordType2FailureEventStub.calledWith({
+          failedDocumentCount: 1,
+        }),
+      ).to.be.true;
+    });
   });
 });

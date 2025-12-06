@@ -16,7 +16,9 @@ import {
   uploadFile,
   selectDocumentType,
   setupUnknownErrorMock,
+  clickSubmitButton,
 } from './file-upload-helpers';
+import { assertDataLayerEvent, clearDataLayer } from './analytics-helpers';
 
 describe('Claim Files Test', () => {
   it('Gets files properly - C30822', () => {
@@ -678,13 +680,6 @@ describe('Type 1 Unknown Upload Errors', () => {
     cy.injectAxe();
   };
 
-  const clickSubmitButton = buttonText => {
-    cy.get(`va-button[text="${buttonText}"]`)
-      .shadow()
-      .find('button')
-      .click();
-  };
-
   const uploadFileAndSubmit = () => {
     uploadFile('test-document.txt');
     getFileInputElement(0)
@@ -795,7 +790,8 @@ describe('Type 1 Unknown Upload Errors', () => {
     uploadFileAndSubmit();
     verifyType1UnknownAlert();
 
-    cy.get('a[href*="/status"]').click();
+    cy.get('#tabStatus').click();
+
     verifyType1UnknownAlert();
 
     cy.get('.claims-alert')
@@ -816,6 +812,182 @@ describe('Type 1 Unknown Upload Errors', () => {
 
     cy.get('a[href*="/overview"]').click();
     cy.get('.claims-alert').should('not.exist');
+
+    cy.axeCheck();
+  });
+});
+
+describe('Google Analytics', () => {
+  const setupAnalyticsTest = () => {
+    const trackClaimsPage = new TrackClaimsPageV2();
+
+    trackClaimsPage.loadPage(
+      claimsList,
+      claimDetailsOpen,
+      false,
+      false,
+      featureToggleDocumentUploadStatusEnabled,
+    );
+    trackClaimsPage.verifyInProgressClaim(true);
+    trackClaimsPage.navigateToFilesTab();
+  };
+
+  const uploadFileAndSelectType = (
+    fileName = 'test-document.txt',
+    docTypeCode = 'L034',
+    fileIndex = 0,
+    force = false,
+  ) => {
+    uploadFile(fileName, fileIndex, force);
+    selectDocumentType(fileIndex, docTypeCode);
+  };
+
+  it('should record claims-upload-start event when file upload begins', () => {
+    setupAnalyticsTest();
+    uploadFileAndSelectType();
+    clearDataLayer();
+    clickSubmitButton(SUBMIT_FILES_FOR_REVIEW_TEXT);
+
+    cy.window().then(w => {
+      const event = assertDataLayerEvent(w, 'claims-upload-start');
+
+      expect(event['document-count']).to.exist;
+      expect(event['retry-file-count']).to.exist;
+      expect(event['total-retry-attempts']).to.exist;
+    });
+
+    cy.axeCheck();
+  });
+
+  it('should record claims-upload-success event on successful upload', () => {
+    setupAnalyticsTest();
+
+    cy.intercept('POST', '/v0/benefits_claims/*/benefits_documents', {
+      statusCode: 200,
+      body: {
+        data: {
+          id: 'test-id',
+          type: 'benefits_document',
+          attributes: {},
+        },
+      },
+    }).as('uploadRequest');
+
+    uploadFileAndSelectType();
+    clearDataLayer();
+    clickSubmitButton(SUBMIT_FILES_FOR_REVIEW_TEXT);
+
+    cy.wait('@uploadRequest');
+
+    cy.window().then(w => {
+      cy.wrap(null).then(() => {
+        const event = assertDataLayerEvent(w, 'claims-upload-success');
+
+        expect(event['document-count']).to.exist;
+      });
+    });
+
+    cy.axeCheck();
+  });
+
+  it('should record claims-upload-failure event on Type 1 upload failure', () => {
+    setupAnalyticsTest();
+    setupUnknownErrorMock();
+    uploadFileAndSelectType();
+    clearDataLayer();
+    clickSubmitButton(SUBMIT_FILES_FOR_REVIEW_TEXT);
+
+    cy.wait('@uploadRequest');
+
+    cy.window().then(w => {
+      const event = assertDataLayerEvent(w, 'claims-upload-failure');
+
+      expect(event['failed-document-count']).to.exist;
+      expect(event['error-code']).to.exist;
+    });
+
+    cy.axeCheck();
+  });
+
+  it('should record claims-upload-failure-type-2 event when Type 2 errors are displayed', () => {
+    const tomorrow = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
+    const fiveDaysAgo = new Date(
+      Date.now() - 5 * 24 * 60 * 60 * 1000,
+    ).toISOString();
+    const claimDetailsWithFailure = {
+      ...claimDetailsOpenWithFailedSubmissions,
+      data: {
+        ...claimDetailsOpenWithFailedSubmissions.data,
+        attributes: {
+          ...claimDetailsOpenWithFailedSubmissions.data.attributes,
+          evidenceSubmissions: [
+            {
+              ...claimDetailsOpenWithFailedSubmissions.data.attributes
+                .evidenceSubmissions[0],
+              failedDate: fiveDaysAgo,
+              acknowledgementDate: tomorrow,
+            },
+          ],
+        },
+      },
+    };
+    const trackClaimsPage = new TrackClaimsPageV2();
+
+    trackClaimsPage.loadPage(
+      claimsList,
+      claimDetailsWithFailure,
+      false,
+      false,
+      featureToggleDocumentUploadStatusEnabled,
+    );
+    // Click into claim detail page
+    trackClaimsPage.verifyInProgressClaim(false);
+    // Navigate to status tab where Type 2 errors are shown
+    cy.get('#tabStatus').click();
+
+    cy.window().then(w => {
+      // Verify Type 2 failure event was recorded
+      const event = assertDataLayerEvent(w, 'claims-upload-failure-type-2');
+
+      expect(event['failed-document-count']).to.equal(1);
+    });
+
+    cy.axeCheck();
+  });
+
+  it('should include retry count when uploading the same file multiple times', () => {
+    setupAnalyticsTest();
+    setupUnknownErrorMock();
+    // First upload attempt
+    uploadFileAndSelectType();
+    clearDataLayer();
+    clickSubmitButton(SUBMIT_FILES_FOR_REVIEW_TEXT);
+
+    cy.wait('@uploadRequest');
+    // Verify failure event fired on first attempt
+    cy.window().then(w => {
+      const failureEvent = assertDataLayerEvent(w, 'claims-upload-failure');
+
+      expect(failureEvent['failed-document-count']).to.exist;
+      expect(failureEvent['error-code']).to.exist;
+    });
+    // Retry with same file
+    clearDataLayer();
+    uploadFileAndSelectType('test-document.txt', 'L034', 0, true); // force: true for retry
+    clickSubmitButton(SUBMIT_FILES_FOR_REVIEW_TEXT);
+
+    cy.window().then(w => {
+      const startEvents = w.dataLayer.filter(
+        d => d.event === 'claims-upload-start',
+      );
+
+      if (startEvents.length > 0) {
+        const latestStartEvent = startEvents[startEvents.length - 1];
+
+        expect(latestStartEvent['retry-file-count']).to.exist;
+        expect(latestStartEvent['total-retry-attempts']).to.exist;
+      }
+    });
 
     cy.axeCheck();
   });

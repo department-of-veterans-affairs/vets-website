@@ -22,6 +22,11 @@ import { mockApi } from '../tests/e2e/fixtures/mocks/mock-api';
 import manifest from '../manifest.json';
 import { canUseMocks, ANCHOR_LINKS } from '../constants';
 import {
+  recordUploadStartEvent,
+  recordUploadFailureEvent,
+  recordUploadSuccessEvent,
+} from '../utils/analytics';
+import {
   BACKEND_SERVICE_ERROR,
   CANCEL_UPLOAD,
   CLEAR_ADDITIONAL_EVIDENCE_NOTIFICATION,
@@ -357,6 +362,7 @@ export function clearAdditionalEvidenceNotification() {
 }
 
 // Document upload function using Lighthouse endpoint
+// eslint-disable-next-line sonarjs/cognitive-complexity
 export function submitFiles(
   claimId,
   trackedItem,
@@ -372,9 +378,8 @@ export function submitFiles(
   const totalFiles = files.length;
   const trackedItemId = trackedItem ? trackedItem.id : null;
 
-  recordEvent({
-    event: 'claims-upload-start',
-  });
+  // Record enhanced upload start event and get retry info for each file
+  const filesWithRetryInfo = recordUploadStartEvent({ files, claimId });
 
   return dispatch => {
     dispatch(clearNotification());
@@ -412,9 +417,7 @@ export function submitFiles(
           callbacks: {
             onAllComplete: () => {
               if (!hasError) {
-                recordEvent({
-                  event: 'claims-upload-success',
-                });
+                recordUploadSuccessEvent({ documentCount: totalFiles });
                 dispatch({
                   type: DONE_UPLOADING,
                 });
@@ -495,8 +498,11 @@ export function submitFiles(
 
                 dispatch(setNotification(notificationMessage));
               } else {
-                recordEvent({
-                  event: 'claims-upload-failure',
+                recordUploadFailureEvent({
+                  errorFiles,
+                  files,
+                  filesWithRetryInfo,
+                  claimId,
                 });
                 dispatch({
                   type: SET_UPLOAD_ERROR,

@@ -1,9 +1,24 @@
 import React from 'react';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { render } from '@testing-library/react';
 import UploadType2ErrorAlert from '../../components/UploadType2ErrorAlert';
+import * as analytics from '../../utils/analytics';
 
 describe('<UploadType2ErrorAlert>', () => {
+  let recordType2FailureEventStub;
+
+  beforeEach(() => {
+    recordType2FailureEventStub = sinon.stub(
+      analytics,
+      'recordType2FailureEvent',
+    );
+  });
+
+  afterEach(() => {
+    recordType2FailureEventStub.restore();
+  });
+
   const tomorrow = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
   const yesterday = new Date(
     Date.now() - 1 * 24 * 60 * 60 * 1000,
@@ -30,6 +45,7 @@ describe('<UploadType2ErrorAlert>', () => {
     );
 
     expect(container.querySelector('va-alert')).to.not.exist;
+    expect(recordType2FailureEventStub.called).to.be.false;
   });
 
   it('should render null when failed submissions array is undefined', () => {
@@ -38,6 +54,40 @@ describe('<UploadType2ErrorAlert>', () => {
     );
 
     expect(container.querySelector('va-alert')).to.not.exist;
+    expect(recordType2FailureEventStub.called).to.be.false;
+  });
+
+  context('Google Analytics', () => {
+    it('should record Type 2 failure analytics event when component renders with failed submissions', () => {
+      const failedSubmissions = [
+        createFailedSubmission({ id: 1, fileName: 'test1.pdf' }),
+        createFailedSubmission({ id: 2, fileName: 'test2.pdf' }),
+        createFailedSubmission({ id: 3, fileName: 'test3.pdf' }),
+      ];
+
+      render(<UploadType2ErrorAlert failedSubmissions={failedSubmissions} />);
+
+      expect(recordType2FailureEventStub.calledOnce).to.be.true;
+      expect(
+        recordType2FailureEventStub.calledWith({
+          failedDocumentCount: 3,
+        }),
+      ).to.be.true;
+    });
+
+    it('should not record analytics event multiple times for same submissions', () => {
+      const failedSubmissions = [createFailedSubmission()];
+
+      const { rerender } = render(
+        <UploadType2ErrorAlert failedSubmissions={failedSubmissions} />,
+      );
+
+      expect(recordType2FailureEventStub.calledOnce).to.be.true;
+      // Rerender with same data
+      rerender(<UploadType2ErrorAlert failedSubmissions={failedSubmissions} />);
+      // Should still only be called once
+      expect(recordType2FailureEventStub.calledOnce).to.be.true;
+    });
   });
 
   context(
