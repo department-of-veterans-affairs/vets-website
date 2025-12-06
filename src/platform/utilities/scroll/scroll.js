@@ -26,6 +26,12 @@ export const scrollTo = async (el, scrollOptions) => {
       left: options.left || 0,
       behavior: options.behavior,
     });
+    // Adding window.scrollTo to support all browsers
+    window.scrollTo({
+      top: Math.round(top),
+      left: options.left || 0,
+      behavior: options.behavior,
+    });
     resolve();
   };
   return new Promise(
