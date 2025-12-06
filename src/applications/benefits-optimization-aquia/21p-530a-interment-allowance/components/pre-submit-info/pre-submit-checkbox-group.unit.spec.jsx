@@ -80,8 +80,9 @@ describe('PreSubmitCheckboxGroup', () => {
         </Provider>,
       );
 
-      expect(container.textContent).to.include(
-        'I confirm that the identifying information',
+      const statementOfTruth = container.querySelector('va-statement-of-truth');
+      expect(statementOfTruth.getAttribute('checkbox-label')).to.equal(
+        'I certify that the Veteran named on this form was buried in a state-owned Veterans cemetery or tribal cemetery without charge.',
       );
     });
   });
@@ -112,12 +113,9 @@ describe('PreSubmitCheckboxGroup', () => {
         </Provider>,
       );
 
-      // Check for the organization title text input
-      expect(
-        container.querySelector(
-          'va-text-input[label="Your organization title"]',
-        ),
-      ).to.exist;
+      // Check for the title text input
+      expect(container.querySelector('va-text-input[label="Your title"]')).to
+        .exist;
     });
 
     it('should render statement of truth with checkbox', () => {
@@ -225,11 +223,8 @@ describe('PreSubmitCheckboxGroup', () => {
       );
 
       const statementOfTruth = container.querySelector('va-statement-of-truth');
-      expect(statementOfTruth.getAttribute('input-error')).to.include(
+      expect(statementOfTruth.getAttribute('input-error')).to.equal(
         'Enter your full name',
-      );
-      expect(statementOfTruth.getAttribute('input-error')).to.include(
-        'Rebel Alliance Veterans Foundation',
       );
       expect(statementOfTruth.getAttribute('checkbox-error')).to.equal(
         'You must certify this statement is correct',
@@ -303,11 +298,8 @@ describe('PreSubmitCheckboxGroup', () => {
       fireEvent(statementOfTruth, blurEvent);
 
       await waitFor(() => {
-        expect(statementOfTruth.getAttribute('input-error')).to.include(
+        expect(statementOfTruth.getAttribute('input-error')).to.equal(
           'Enter your full name',
-        );
-        expect(statementOfTruth.getAttribute('input-error')).to.include(
-          'Rebel Alliance Veterans Foundation',
         );
       });
     });
@@ -368,7 +360,7 @@ describe('PreSubmitCheckboxGroup', () => {
       );
 
       const titleInput = container.querySelector(
-        'va-text-input[label="Your organization title"]',
+        'va-text-input[label="Your title"]',
       );
       expect(titleInput).to.exist;
     });
@@ -437,8 +429,8 @@ describe('PreSubmitCheckboxGroup', () => {
     });
   });
 
-  describe('Organization-Specific Error Messages', () => {
-    it('should show recipient organization name in full name error when present', () => {
+  describe('Error Messages', () => {
+    it('should show simple error for empty full name', () => {
       const store = createMockStore(null, mockFormData);
       const { container } = render(
         <Provider store={store}>
@@ -450,73 +442,12 @@ describe('PreSubmitCheckboxGroup', () => {
       );
 
       const statementOfTruth = container.querySelector('va-statement-of-truth');
-      expect(statementOfTruth.getAttribute('input-error')).to.include(
-        'Rebel Alliance Veterans Foundation',
+      expect(statementOfTruth.getAttribute('input-error')).to.equal(
+        'Enter your full name',
       );
     });
 
-    it('should show organization name in title error when organization is present', () => {
-      const store = createMockStore(null, mockFormData);
-      const { container } = render(
-        <Provider store={store}>
-          <PreSubmitInfo.CustomComponent
-            showError
-            onSectionComplete={mockOnSectionComplete}
-          />
-        </Provider>,
-      );
-
-      const titleInput = container.querySelector(
-        'va-text-input[label="Your organization title"]',
-      );
-      expect(titleInput.getAttribute('error')).to.include(
-        'Endor Forest Sanctuary',
-      );
-    });
-
-    it('should show generic error when organization name and user name are not present', () => {
-      const emptyFormData = {};
-      const store = createMockStore(null, emptyFormData);
-      const { container } = render(
-        <Provider store={store}>
-          <PreSubmitInfo.CustomComponent
-            showError
-            onSectionComplete={mockOnSectionComplete}
-          />
-        </Provider>,
-      );
-
-      const statementOfTruth = container.querySelector('va-statement-of-truth');
-      expect(statementOfTruth.getAttribute('input-error')).to.include(
-        'the organization',
-      );
-      expect(statementOfTruth.getAttribute('input-error')).to.not.include('(');
-
-      const titleInput = container.querySelector(
-        'va-text-input[label="Your organization title"]',
-      );
-      expect(titleInput.getAttribute('error')).to.include('the organization');
-    });
-
-    it('should show generic message when organization is not present', () => {
-      const dataWithoutOrg = {};
-      const store = createMockStore(null, dataWithoutOrg);
-      const { container } = render(
-        <Provider store={store}>
-          <PreSubmitInfo.CustomComponent
-            showError
-            onSectionComplete={mockOnSectionComplete}
-          />
-        </Provider>,
-      );
-
-      const statementOfTruth = container.querySelector('va-statement-of-truth');
-      expect(statementOfTruth.getAttribute('input-error')).to.include(
-        'the organization',
-      );
-    });
-
-    it('should show specific error for title when empty', () => {
+    it('should show simple error for empty title', () => {
       const store = createMockStore(null, mockFormData);
       const { container } = render(
         <Provider store={store}>
@@ -528,32 +459,12 @@ describe('PreSubmitCheckboxGroup', () => {
       );
 
       const titleInput = container.querySelector(
-        'va-text-input[label="Your organization title"]',
+        'va-text-input[label="Your title"]',
       );
-      // With empty title, should show "Enter your title at..." message
-      expect(titleInput.getAttribute('error')).to.include('Enter your title');
+      expect(titleInput.getAttribute('error')).to.equal('Enter your title');
     });
 
-    it('should use generic statement text without organization name', () => {
-      const store = createMockStore(null, mockFormData);
-      const { container } = render(
-        <Provider store={store}>
-          <PreSubmitInfo.CustomComponent
-            showError={false}
-            onSectionComplete={mockOnSectionComplete}
-          />
-        </Provider>,
-      );
-
-      expect(container.textContent).to.include(
-        'I confirm that the identifying information in this form is accurate and has been represented correctly',
-      );
-      expect(container.textContent).to.not.include('on behalf of');
-    });
-  });
-
-  describe('Organization Name Validation', () => {
-    it('should show mismatch error when full name does not match recipient organization', async () => {
+    it('should accept any name without organization matching', async () => {
       const store = createMockStore(null, mockFormData);
       const { container } = render(
         <Provider store={store}>
@@ -566,42 +477,9 @@ describe('PreSubmitCheckboxGroup', () => {
 
       const statementOfTruth = container.querySelector('va-statement-of-truth');
 
-      // Enter wrong name
-      const inputEvent = new CustomEvent('vaInputChange', {
-        detail: { value: 'Wrong Name' },
-      });
-      fireEvent(statementOfTruth, inputEvent);
-
-      // Blur to trigger validation
-      const blurEvent = new CustomEvent('vaInputBlur');
-      fireEvent(statementOfTruth, blurEvent);
-
-      await waitFor(() => {
-        expect(statementOfTruth.getAttribute('input-error')).to.include(
-          'Your signature must match',
-        );
-        expect(statementOfTruth.getAttribute('input-error')).to.include(
-          'Rebel Alliance Veterans Foundation',
-        );
-      });
-    });
-
-    it('should validate organization name with case-insensitive matching', async () => {
-      const store = createMockStore(null, mockFormData);
-      const { container } = render(
-        <Provider store={store}>
-          <PreSubmitInfo.CustomComponent
-            showError={false}
-            onSectionComplete={mockOnSectionComplete}
-          />
-        </Provider>,
-      );
-
-      const statementOfTruth = container.querySelector('va-statement-of-truth');
-
-      // Enter org name with different case (uppercase)
+      // Enter any name (not matching organization)
       const nameEvent = new CustomEvent('vaInputChange', {
-        detail: { value: 'REBEL ALLIANCE VETERANS FOUNDATION' },
+        detail: { value: 'John Smith' },
       });
       fireEvent(statementOfTruth, nameEvent);
 
@@ -610,79 +488,9 @@ describe('PreSubmitCheckboxGroup', () => {
       fireEvent(statementOfTruth, blurEvent);
 
       await waitFor(() => {
-        // Should not show error since name matches (case-insensitive)
+        // Should not show error since any non-empty name is valid
         const inputError = statementOfTruth.getAttribute('input-error');
-        // Error should either be null or not include "must match"
-        if (inputError) {
-          expect(inputError).to.not.include('must match');
-        }
-      });
-    });
-
-    it('should validate organization name with spaces ignored', async () => {
-      const store = createMockStore(null, mockFormData);
-      const { container } = render(
-        <Provider store={store}>
-          <PreSubmitInfo.CustomComponent
-            showError={false}
-            onSectionComplete={mockOnSectionComplete}
-          />
-        </Provider>,
-      );
-
-      const statementOfTruth = container.querySelector('va-statement-of-truth');
-
-      // Enter org name without spaces
-      const nameEvent = new CustomEvent('vaInputChange', {
-        detail: { value: 'RebelAllianceVeteransFoundation' },
-      });
-      fireEvent(statementOfTruth, nameEvent);
-
-      // Blur to trigger validation
-      const blurEvent = new CustomEvent('vaInputBlur');
-      fireEvent(statementOfTruth, blurEvent);
-
-      await waitFor(() => {
-        // Should not show error since name matches (spaces removed)
-        const inputError = statementOfTruth.getAttribute('input-error');
-        // Error should either be null or not include "must match"
-        if (inputError) {
-          expect(inputError).to.not.include('must match');
-        }
-      });
-    });
-
-    it('should validate lenient when no organization names are available', async () => {
-      const dataWithoutOrgNames = {};
-      const store = createMockStore(null, dataWithoutOrgNames);
-      const { container } = render(
-        <Provider store={store}>
-          <PreSubmitInfo.CustomComponent
-            showError={false}
-            onSectionComplete={mockOnSectionComplete}
-          />
-        </Provider>,
-      );
-
-      const statementOfTruth = container.querySelector('va-statement-of-truth');
-
-      // Enter any name
-      const nameEvent = new CustomEvent('vaInputChange', {
-        detail: { value: 'Any Name Here' },
-      });
-      fireEvent(statementOfTruth, nameEvent);
-
-      // Blur to trigger validation
-      const blurEvent = new CustomEvent('vaInputBlur');
-      fireEvent(statementOfTruth, blurEvent);
-
-      await waitFor(() => {
-        // Should not show "must match" error when no specific org name is expected
-        const inputError = statementOfTruth.getAttribute('input-error');
-        // Error should either be null or not include "must match"
-        if (inputError) {
-          expect(inputError).to.not.include('must match');
-        }
+        expect(inputError).to.be.null;
       });
     });
   });

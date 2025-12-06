@@ -22,16 +22,6 @@ const TITLE_MAX_LENGTH = 100;
 export const PreSubmitCheckboxGroup = ({ showError, onSectionComplete }) => {
   // Get formData from Redux instead of props to avoid infinite loop in useEffect
   const formData = useSelector(state => state.form.data);
-  const { burialInformation = {} } = formData;
-
-  // Organization name for title field (state/tribal cemetery organization)
-  const titleOrganizationName =
-    burialInformation?.nameOfStateCemeteryOrTribalOrganization || '';
-
-  // Organization name for full name field (recipient organization)
-  const recipientOrganizationName =
-    burialInformation?.recipientOrganization?.name || '';
-
   const submission = useSelector(state => state.form.submission);
   const dispatch = useDispatch();
   const hasSubmittedForm = Boolean(submission.status);
@@ -49,41 +39,21 @@ export const PreSubmitCheckboxGroup = ({ showError, onSectionComplete }) => {
   // Ref to track previous completion state (prevents unnecessary onSectionComplete calls)
   const prevCompleteRef = useRef(null);
 
-  // Normalize string for comparison: lowercase and remove all spaces
-  const normalizeForComparison = useCallback(str => {
-    if (!str || typeof str !== 'string') return '';
-    return str.toLowerCase().replace(/\s+/g, '');
-  }, []);
-
-  // Validate full name matches recipient organization name
+  // Validate full name is not empty
   const validateFullName = useCallback(
     () => {
-      if (!recipientOrganizationName) {
-        return fullName.trim().length > 0;
-      }
-      return (
-        normalizeForComparison(fullName) ===
-        normalizeForComparison(recipientOrganizationName)
-      );
+      return fullName.trim().length > 0;
     },
-    [fullName, recipientOrganizationName, normalizeForComparison],
+    [fullName],
   );
 
-  // Validate title matches state/tribal organization name
+  // Validate title meets length requirements
   const validateTitle = useCallback(
     () => {
-      if (!titleOrganizationName) {
-        const titleLength = organizationTitle.trim().length;
-        return (
-          titleLength >= TITLE_MIN_LENGTH && titleLength <= TITLE_MAX_LENGTH
-        );
-      }
-      return (
-        normalizeForComparison(organizationTitle) ===
-        normalizeForComparison(titleOrganizationName)
-      );
+      const titleLength = organizationTitle.trim().length;
+      return titleLength >= TITLE_MIN_LENGTH && titleLength <= TITLE_MAX_LENGTH;
     },
-    [organizationTitle, titleOrganizationName, normalizeForComparison],
+    [organizationTitle],
   );
 
   // Sync form data with certification values
@@ -141,8 +111,6 @@ export const PreSubmitCheckboxGroup = ({ showError, onSectionComplete }) => {
       fullName,
       organizationTitle,
       isCertified,
-      recipientOrganizationName,
-      titleOrganizationName,
       validateFullName,
       validateTitle,
       hasSubmittedForm,
@@ -158,29 +126,18 @@ export const PreSubmitCheckboxGroup = ({ showError, onSectionComplete }) => {
 
   // Validation checks
   const isFullNameEmpty = fullName.trim().length === 0;
-  const isFullNameValid = validateFullName();
   const isTitleEmpty = organizationTitle.trim().length === 0;
   const isTitleValid = validateTitle();
 
   // Error messages (null if no error)
   let fullNameError = null;
-  if (shouldShowFullNameError) {
-    if (isFullNameEmpty) {
-      fullNameError = `Enter your full name as the state or tribal official representing ${recipientOrganizationName ||
-        'the organization'}`;
-    } else if (!isFullNameValid && recipientOrganizationName) {
-      fullNameError = `Your signature must match: ${recipientOrganizationName}`;
-    }
+  if (shouldShowFullNameError && isFullNameEmpty) {
+    fullNameError = 'Enter your full name';
   }
 
   let titleErrorMsg = null;
-  if (shouldShowTitleError) {
-    if (isTitleEmpty) {
-      titleErrorMsg = `Enter your title at ${titleOrganizationName ||
-        'the organization'}`;
-    } else if (!isTitleValid && titleOrganizationName) {
-      titleErrorMsg = `Your title must match: ${titleOrganizationName}`;
-    }
+  if (shouldShowTitleError && isTitleEmpty) {
+    titleErrorMsg = 'Enter your title';
   }
 
   const checkboxError =
@@ -223,18 +180,16 @@ export const PreSubmitCheckboxGroup = ({ showError, onSectionComplete }) => {
           inputValue={fullName}
           inputError={fullNameError}
           checked={isCertified}
-          checkboxLabel="I certify the information above is correct and true to the best of my knowledge and belief."
+          checkboxLabel="I certify that the Veteran named on this form was buried in a state-owned Veterans cemetery or tribal cemetery without charge."
           checkboxError={checkboxError}
           onVaInputBlur={handleFullNameBlur}
           onVaInputChange={handleFullNameChange}
           onVaCheckboxChange={handleCheckboxChange}
           hideLegalNote
         >
-          I confirm that the identifying information in this form is accurate
-          and has been represented correctly.
           <TextInputField
             name="organizationTitle"
-            label="Your organization title"
+            label="Your title"
             value={organizationTitle}
             onChange={handleTitleChange}
             onBlur={handleTitleBlur}
