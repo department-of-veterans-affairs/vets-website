@@ -12,9 +12,15 @@ import * as threadDetailsActions from '../../../actions/threadDetails';
 
 describe('RouteLeavingGuard component', () => {
   let saveDraftHandlerSpy;
+  let sinonSandbox;
 
   beforeEach(() => {
-    saveDraftHandlerSpy = sinon.spy();
+    sinonSandbox = sinon.createSandbox();
+    saveDraftHandlerSpy = sinonSandbox.spy();
+  });
+
+  afterEach(() => {
+    sinonSandbox.restore();
   });
 
   const getInitialState = (draftInProgress = {}) => ({
@@ -299,7 +305,7 @@ describe('RouteLeavingGuard component', () => {
     });
 
     it('renders without crashing when saveDraftHandler is provided', () => {
-      const customHandler = sinon.spy();
+      const customHandler = sinonSandbox.spy();
       const screen = setup({ saveDraftHandler: customHandler });
       expect(screen.container).to.exist;
     });
@@ -911,7 +917,7 @@ describe('RouteLeavingGuard component', () => {
     });
 
     it('clears draft when last path is not on the list ', async () => {
-      const clearDraftInProgressSpy = sinon.spy(
+      const clearDraftInProgressSpy = sinonSandbox.spy(
         threadDetailsActions,
         'clearDraftInProgress',
       );
@@ -949,7 +955,7 @@ describe('RouteLeavingGuard component', () => {
     });
 
     it('does not clear draft when last path is on the list ', async () => {
-      const clearDraftInProgressSpy = sinon.spy(
+      const clearDraftInProgressSpy = sinonSandbox.spy(
         threadDetailsActions,
         'clearDraftInProgress',
       );
