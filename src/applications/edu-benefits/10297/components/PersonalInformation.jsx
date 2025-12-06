@@ -14,8 +14,9 @@ import {
 
 const PersonalInformation = ({ formData }) => {
   const profile = useSelector(selectProfile);
-  const { dob, userFullName = {}, ssn: profileSsn } = profile;
-  const { first, middle, last, suffix } = userFullName;
+  const { dob, ssn: profileSsn, userFullName = {} } = profile;
+  const { first, middle, last, suffix, dateOfBirth } =
+    formData.applicantFullName || userFullName;
   const age = getAgeInYears(profile?.dob);
 
   // Get SSN from formData or profile, then extract last 4 digits
@@ -26,8 +27,8 @@ const PersonalInformation = ({ formData }) => {
         .replace(/[^\d]/g, '')
         .slice(-4)
     : '';
-
-  const dobDateObj = parseDateToDateObj(dob || null, FORMAT_YMD_DATE_FNS);
+  const birthDate = dateOfBirth || dob;
+  const dobDateObj = parseDateToDateObj(birthDate || null, FORMAT_YMD_DATE_FNS);
 
   // Check for missing fields
   const missingFields = [];
@@ -101,7 +102,7 @@ const PersonalInformation = ({ formData }) => {
   return (
     <div className="personal-information-container">
       <h3 className="vads-u-margin-y--2">
-        Confirm the personal information we have on file for you
+        Confirm the personal information we have on file for you.
       </h3>
       <va-card class="data-card">
         <h4 className="vads-u-font-size--h3 vads-u-margin-top--0">
@@ -164,6 +165,13 @@ const PersonalInformation = ({ formData }) => {
 PersonalInformation.propTypes = {
   formData: PropTypes.shape({
     ssn: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    applicantFullName: PropTypes.shape({
+      first: PropTypes.string,
+      middle: PropTypes.string,
+      last: PropTypes.string,
+      suffix: PropTypes.string,
+      dateOfBirth: PropTypes.string,
+    }),
   }),
 };
 
