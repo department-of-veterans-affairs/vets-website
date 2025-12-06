@@ -657,7 +657,7 @@ export const trustPages = arrayBuilderPages(options, pageBuilder => ({
     uiSchema: veteranSummaryPage.uiSchema,
     schema: summaryPage.schema,
   }),
-  trustPagesUpdatedSpouseSummary: pageBuilder.summaryPage({
+  trustPagesSpouseSummary: pageBuilder.summaryPage({
     title: summaryPageTitle,
     path: 'trusts-summary-spouse',
     depends: formData =>
@@ -665,7 +665,7 @@ export const trustPages = arrayBuilderPages(options, pageBuilder => ({
     uiSchema: spouseSummaryPage.uiSchema,
     schema: summaryPage.schema,
   }),
-  trustPagesUpdatedChildSummary: pageBuilder.summaryPage({
+  trustPagesChildSummary: pageBuilder.summaryPage({
     title: summaryPageTitle,
     path: 'trusts-summary-child',
     depends: formData =>
@@ -673,7 +673,7 @@ export const trustPages = arrayBuilderPages(options, pageBuilder => ({
     uiSchema: childSummaryPage.uiSchema,
     schema: summaryPage.schema,
   }),
-  trustPagesUpdatedCustodianSummary: pageBuilder.summaryPage({
+  trustPagesCustodianSummary: pageBuilder.summaryPage({
     title: summaryPageTitle,
     path: 'trusts-summary-custodian',
     depends: formData =>
@@ -681,7 +681,7 @@ export const trustPages = arrayBuilderPages(options, pageBuilder => ({
     uiSchema: custodianSummaryPage.uiSchema,
     schema: summaryPage.schema,
   }),
-  trustPagesUpdatedParentSummary: pageBuilder.summaryPage({
+  trustPagesParentSummary: pageBuilder.summaryPage({
     title: summaryPageTitle,
     path: 'trusts-summary-parent',
     depends: formData =>
