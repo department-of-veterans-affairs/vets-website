@@ -8,10 +8,14 @@ import {
   selectIsEligibleForTravelClaim,
 } from '../appointment-list/redux/selectors';
 import { TRAVEL_CLAIM_MESSAGES } from '../utils/constants';
+import { TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY } from '../../travel-pay/constants';
 import Section from './Section';
 
 const setClaimEntry = () => {
-  sessionStorage.setItem('fileNewClaimEntry', 'appointment');
+  sessionStorage.setItem(
+    TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY.SESSION_KEY,
+    TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY.ENTRY_TYPES.APPOINTMENT,
+  );
 };
 
 function LateFilingModal({ showModal, setShowModal, appointmentId }) {

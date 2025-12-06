@@ -8,6 +8,7 @@ import {
   selectAppointmentTravelClaim,
   selectIsEligibleForTravelClaim,
 } from '../appointment-list/redux/selectors';
+import { TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY } from '../../travel-pay/constants';
 import Section from './Section';
 
 export default function AppointmentTasksSection({ appointment }) {
@@ -43,6 +44,12 @@ export default function AppointmentTasksSection({ appointment }) {
         data-testid="file-claim-link"
         className="vads-u-margin-top--1"
         href={`/my-health/travel-pay/file-new-claim/${appointment.id}`}
+        onClick={() => {
+          sessionStorage.setItem(
+            TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY.SESSION_KEY,
+            TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY.ENTRY_TYPES.APPOINTMENT,
+          );
+        }}
         text={
           isClaimInProgress
             ? 'Complete and file your claim'

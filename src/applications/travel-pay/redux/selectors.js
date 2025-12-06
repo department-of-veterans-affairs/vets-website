@@ -53,3 +53,6 @@ export const selectComplexClaimSubmissionState = state =>
 
 export const selectComplexClaimFetchLoadingState = state =>
   state.travelPay.complexClaim.claim.fetch?.isLoading || false;
+
+export const selectHasUnsavedExpenseChanges = state =>
+  state.travelPay.complexClaim.expenses.hasUnsavedChanges || false;
