@@ -5,7 +5,6 @@ import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/re
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 
 import Modals from '../../combined/components/Modals';
-import Alert from '../../combined/components/MCPAlerts';
 import StatementTable from '../components/StatementTable';
 import DownloadStatement from '../components/DownloadStatement';
 import StatementCharges from '../components/StatementCharges';
@@ -19,6 +18,7 @@ import {
   setPageFocus,
 } from '../../combined/utils/helpers';
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
+import CopayAlertContainer from '../components/CopayAlertContainer';
 
 const DetailCopayPage = ({ match }) => {
   const [alert, setAlert] = useState('status');
@@ -125,7 +125,9 @@ const DetailCopayPage = ({ match }) => {
         >
           {title}
         </h1>
-        <Alert type={alert} copay={selectedCopay} />
+        <div>
+          <CopayAlertContainer type={alert} copay={selectedCopay} />
+        </div>
         <div className="vads-u-margin-y--4">
           <h2 className="vads-u-margin-top--0 vads-u-font-size--h3">
             Copay details

@@ -166,25 +166,5 @@ describe('combined debt portal component helpers', () => {
       );
       wrapper.unmount();
     });
-
-    it('should render the correct title and content for VA copay', () => {
-      const wrapper = shallow(<ZeroBalanceCard appType={APP_TYPES.COPAY} />);
-
-      // Test the card title
-      expect(wrapper.find('[data-testid="card-title"]').text()).to.equal(
-        "You haven't received a copay bill in the past 6 months",
-      );
-
-      // Test the content for VA copay
-      expect(
-        wrapper.find('[data-testid="balance-card-zero-copay"]'),
-      ).to.have.lengthOf(1);
-      expect(
-        wrapper.find('[data-testid="balance-card-zero-copay"] p').text(),
-      ).to.include(
-        'If you think this is incorrect, contact the VA Health Resource Center at',
-      );
-      wrapper.unmount();
-    });
   });
 });

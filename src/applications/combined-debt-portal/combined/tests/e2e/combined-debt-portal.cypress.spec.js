@@ -175,7 +175,7 @@ describe('CDP - Overpayments and copay bills (overview)', () => {
       cy.wait(['@features', '@copaysNE', '@debtsNE']);
 
       cy.findByTestId('overview-page-title').should('exist');
-      cy.findByTestId('no-healthcare-alert').should('exist');
+      cy.findByTestId('copay-no-health-care-alert').should('exist');
 
       cy.injectAxeThenAxeCheck();
     });
