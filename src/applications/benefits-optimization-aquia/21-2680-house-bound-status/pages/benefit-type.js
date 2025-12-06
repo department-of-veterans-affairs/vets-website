@@ -39,16 +39,11 @@ const getPageTitle = formData => {
 export const benefitTypeUiSchema = {
   'ui:title': 'Benefit type',
   'ui:description': () => (
-    <p>
-      <a
-        href="https://www.va.gov/pension/aid-attendance-housebound/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Find out more about the difference between Special Monthly Compensation
-        (SMC) and Special Monthly Pension (SMP).
-      </a>
-    </p>
+    <va-link
+      href="https://www.va.gov/pension/aid-attendance-housebound/"
+      text="Find out more about the difference between Special Monthly Compensation (SMC) and Special Monthly Pension (SMP)"
+      external
+    />
   ),
   benefitType: {
     benefitType: radioUI({
