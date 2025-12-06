@@ -102,7 +102,7 @@ const PersonalInformation = ({ formData }) => {
   return (
     <div className="personal-information-container">
       <h3 className="vads-u-margin-y--2">
-        Confirm the personal information we have on file for you.
+        Confirm the personal information we have on file for you
       </h3>
       <va-card class="data-card">
         <h4 className="vads-u-font-size--h3 vads-u-margin-top--0">
