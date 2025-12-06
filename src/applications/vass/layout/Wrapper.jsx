@@ -64,7 +64,11 @@ const Wrapper = props => {
           )}
           {!verificationError && children}
           {verificationError && (
-            <va-alert data-testid="verification-error-alert" status="error">
+            <va-alert
+              data-testid="verification-error-alert"
+              class="vads-u-margin-top--4"
+              status="error"
+            >
               {verificationError}
             </va-alert>
           )}
