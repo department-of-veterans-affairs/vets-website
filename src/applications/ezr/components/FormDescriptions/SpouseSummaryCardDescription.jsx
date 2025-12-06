@@ -1,16 +1,15 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-export const spousedStatusesToHideDate = ['single', 'widowed', 'never married'];
+export const spousedStatusesToHideDate = ['married', 'separated'];
 
 const SpouseSummaryCardDescription = () => {
   const { data: formData } = useSelector(state => state.form);
   const { maritalStatus } = formData['view:maritalStatus'];
-  if (spousedStatusesToHideDate.includes(maritalStatus?.toLowerCase())) {
-    return null;
-  }
   const { dateOfMarriage } = formData;
-  const renderMarriageDate = dateOfMarriage ? (
+  const renderMarriageDate = spousedStatusesToHideDate.includes(
+    maritalStatus?.toLowerCase(),
+  ) ? (
     <>
       {' '}
       <br />
