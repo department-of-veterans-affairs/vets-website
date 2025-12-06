@@ -11,7 +11,6 @@ describe('Disability benefits 526EZ -- Date utilities index module', () => {
     expect(dateUtils.formatDateLong).to.be.a('function');
     expect(dateUtils.isValidFullDate).to.be.a('function');
     expect(dateUtils.isValidYear).to.be.a('function');
-    expect(dateUtils.isValidPartialDate).to.be.a('function');
     expect(dateUtils.validateAge).to.be.a('function');
     expect(dateUtils.validateSeparationDate).to.be.a('function');
     expect(dateUtils.validateServicePeriod).to.be.a('function');
