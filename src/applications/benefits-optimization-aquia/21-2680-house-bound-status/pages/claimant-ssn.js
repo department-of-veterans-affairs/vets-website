@@ -8,6 +8,7 @@ import {
   ssnUI,
   ssnSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { getClaimantName } from '@bio-aquia/21-2680-house-bound-status/utils/name-helpers';
 
 /**
  * uiSchema for Claimant SSN page
@@ -20,16 +21,9 @@ export const claimantSsnUiSchema = {
   'ui:options': {
     updateUiSchema: (formData, fullData) => {
       const data = fullData || formData;
-      const firstName =
-        data?.claimantInformation?.claimantFullName?.first || '';
-      const lastName = data?.claimantInformation?.claimantFullName?.last || '';
-      const fullName = `${firstName} ${lastName}`.trim();
-      const title = fullName
-        ? `${fullName}'s Social Security number`
-        : "Claimant's Social Security number";
-
+      const claimantName = getClaimantName(data, 'Claimant');
       return {
-        'ui:title': title,
+        'ui:title': `${claimantName}'s Social Security number`,
       };
     },
   },
