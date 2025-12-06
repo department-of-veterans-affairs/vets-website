@@ -1586,3 +1586,43 @@ export const getUploadErrorMessage = (
     type: 'error',
   };
 };
+
+/**
+ * Gets the display name for a supporting document (uploaded file with status)
+ * @param {Object} document - Supporting document object with status property
+ * @returns {string} Friendly name or display name
+ */
+export const getSupportingDocumentDisplayName = document => {
+  return document.friendlyName || document.displayName || 'unknown';
+};
+
+/**
+ * Gets the display name for an evidence submission (tracked item)
+ * @param {Object} document - Evidence submission object with trackedItemId
+ * @returns {string} Tracked item friendly name or display name
+ */
+export const getEvidenceSubmissionDisplayName = document => {
+  return (
+    document.trackedItemFriendlyName ||
+    document.trackedItemDisplayName ||
+    'unknown'
+  );
+};
+
+/**
+ * Gets the request type display name for any document type
+ * Determines whether document is a supporting document or evidence submission
+ * @param {Object} document - Document object (supporting doc or evidence submission)
+ * @returns {string} Display name for the document request type
+ */
+export const getDocumentRequestTypeDisplayName = document => {
+  if (document.status) {
+    return getSupportingDocumentDisplayName(document);
+  }
+
+  if (document.trackedItemId) {
+    return getEvidenceSubmissionDisplayName(document);
+  }
+
+  return 'unknown';
+};
