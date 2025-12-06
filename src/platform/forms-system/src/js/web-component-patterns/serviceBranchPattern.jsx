@@ -1,87 +1,41 @@
 import VaComboBoxField from '../web-component-fields/VaComboBoxField';
-
-export const ARMY_BRANCH_LABELS = {
-  AAC: {
-    label: 'Army Air Corps or Army Air Force',
-    group: 'Army',
-  },
-  ARMY: { label: 'Army', group: 'Army' },
-  AR: { label: 'Army Reserves', group: 'Army' },
-  ARNG: { label: 'Army National Guard', group: 'Army' },
-  WAC: { label: "Women's Army Corps", group: 'Army' },
-  PA: { label: 'Philippine Army', group: 'Army' },
-};
-
-export const NAVY_BRANCH_LABELS = {
-  NAVY: { label: 'Navy', group: 'Navy' },
-  NR: { label: 'Navy Reserves', group: 'Navy' },
-  'N ACAD': { label: 'Naval Academy', group: 'Navy' },
-  PN: { label: 'Philippine Navy', group: 'Navy' },
-};
-
-export const MARINE_BRANCH_LABELS = {
-  MC: { label: 'Marine Corps', group: 'Marine Corps' },
-  MCR: { label: 'Marine Corps Reserves', group: 'Marine Corps' },
-};
-
-export const AIR_FORCE_BRANCH_LABELS = {
-  AF: { label: 'Air Force', group: 'Air Force' },
-  AFR: { label: 'Air Force Reserves', group: 'Air Force' },
-  ANG: { label: 'Air National Guard', group: 'Air Force' },
-  'AF ACAD': { label: 'Air Force Academy', group: 'Air Force' },
-  PAF: { label: 'Philippine Air Force', group: 'Air Force' },
-};
-
-export const SPACE_FORCE_BRANCH_LABELS = {
-  SF: { label: 'Space Force', group: 'Space Force' },
-};
-
-export const COAST_GUARD_BRANCH_LABELS = {
-  CG: { label: 'Coast Guard', group: 'Coast Guard' },
-  CGR: { label: 'Coast Guard Reserves', group: 'Coast Guard' },
-  'CG ACAD': { label: 'Coast Guard Academy', group: 'Coast Guard' },
-};
-
-export const OTHER_BRANCH_LABELS = {
-  PHS: { label: 'Public Health Service (USPHS)', group: 'Other' },
-  NOAA: {
-    label: 'National Oceanic & Atmospheric Administration',
-    group: 'Other',
-  },
-  USMA: { label: 'US Military Academy', group: 'Other' },
-  MM: { label: 'Merchant Marine', group: 'Other' },
-};
-
-export const DEFAULT_BRANCH_LABELS = {
-  ...ARMY_BRANCH_LABELS,
-  ...NAVY_BRANCH_LABELS,
-  ...MARINE_BRANCH_LABELS,
-  ...AIR_FORCE_BRANCH_LABELS,
-  ...SPACE_FORCE_BRANCH_LABELS,
-  ...COAST_GUARD_BRANCH_LABELS,
-  ...OTHER_BRANCH_LABELS,
-};
-
-const BRANCHES = {
-  army: ARMY_BRANCH_LABELS,
-  navy: NAVY_BRANCH_LABELS,
-  'marine corps': MARINE_BRANCH_LABELS,
-  'air force': AIR_FORCE_BRANCH_LABELS,
-  'coast guard': COAST_GUARD_BRANCH_LABELS,
-  'space force': SPACE_FORCE_BRANCH_LABELS,
-  other: OTHER_BRANCH_LABELS,
-};
+import DEFAULT_BRANCH_LABELS from './content/serviceBranch.json';
 
 /** @typedef {'army' | 'navy' | 'marine corps' | 'air force' | 'coast guard' | 'space force' | 'other'} ServiceBranchGroup */
+
+const VALID_GROUPS = Object.values(DEFAULT_BRANCH_LABELS).map(({ group }) =>
+  group.toLowerCase(),
+);
+
+/**
+ * @param {ServiceBranchGroup} group
+ * @returns { Object } branches within a group
+ */
+export function getServiceBranchesByGroup(group) {
+  if (!VALID_GROUPS.includes(group)) {
+    throw new Error('This is an invalid group.');
+  }
+  const branches = {};
+  for (const [key, value] of Object.entries(DEFAULT_BRANCH_LABELS)) {
+    if (value.group.toLowerCase() === group) {
+      branches[key] = value;
+    }
+  }
+  return branches;
+}
+
+// object with key (a group) and value (object containing the branches for that group)
+const BRANCHES = {};
+VALID_GROUPS.forEach(group => {
+  BRANCHES[group] = getServiceBranchesByGroup(group);
+});
 
 /**
  * @param {string[]} groups the groups to include
  * @returns { Object } an object with the key/value for each option in a subset of valid groups
  */
 function getOptionsForGroups(groups) {
-  const validGroups = Object.keys(BRANCHES);
-
-  const selectedGroups = groups.filter(group => validGroups.includes(group));
+  const selectedGroups = groups.filter(group => VALID_GROUPS.includes(group));
   if (selectedGroups.length === 0) {
     throw new Error('Not a valid Service Branch group');
   }
