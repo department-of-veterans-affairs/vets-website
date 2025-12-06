@@ -233,10 +233,22 @@ export const createBannerMessage = (
 
   return message || null;
 };
+
 export const getAcademicYearDisplay = () => {
   const currentYear = new Date().getFullYear();
   return `${currentYear}-${currentYear + 1}`;
 };
+
+export const matchYearPattern = fieldData => {
+  const startYear = fieldData.split('-')[0];
+  const endYear = fieldData.split('-')[1];
+  if (Number(endYear) !== Number(startYear) + 1) {
+    return false;
+  }
+  const yearPattern = /^(\d{4}|XXXX)-(\d{4}|XXXX)$/;
+  return yearPattern.test(fieldData);
+};
+
 const yellowRibbonCardTitleCase = str => {
   if (!str || typeof str !== 'string' || str.length === 0) {
     return '';
