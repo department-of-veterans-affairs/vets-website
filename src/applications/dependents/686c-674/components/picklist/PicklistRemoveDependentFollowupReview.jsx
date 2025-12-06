@@ -15,6 +15,15 @@ import {
 import { routing } from './routes';
 import { pageDetails } from './utils';
 
+/**
+ * Picklist Remove Dependents Followup Review Component
+ * @typedef {object} PicklistRemoveDependentFollowupReviewProps
+ * @property {object} data - form data
+ * @property {function} goToPath - function to go to specific path
+ *
+ * @param {PicklistRemoveDependentFollowupReviewProps} props - Component props
+ * @returns {React.Component} - Picklist remove dependents followup review page
+ */
 const PicklistRemoveDependentsFollowupReview = ({ data = {}, goToPath }) => {
   const updatedAlertRef = useRef(null);
   const selectedDependents =
