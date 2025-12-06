@@ -18,6 +18,7 @@ import { renderMHVDowntime } from '@department-of-veterans-affairs/mhv/exports';
 import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import FileInput from './FileInput';
 import CategoryInput from './CategoryInput';
+import LockedCategoryDisplay from './LockedCategoryDisplay';
 import AttachmentsList from '../AttachmentsList';
 import { saveDraft } from '../../actions/draftDetails';
 import DraftSavedInfo from './DraftSavedInfo';
@@ -376,6 +377,48 @@ const ComposeForm = props => {
       }
     },
     [setNavigationError],
+  );
+
+  const renderCategorySection = useMemo(
+    () => {
+      if (noAssociations || allTriageGroupsBlocked) {
+        return (
+          <ViewOnlyDraftSection
+            title={FormLabels.CATEGORY}
+            body={`${Categories[(draft?.category)].label}: ${
+              Categories[(draft?.category)].description
+            }`}
+          />
+        );
+      }
+      if (isRxRenewalDraft) {
+        return <LockedCategoryDisplay />;
+      }
+      return (
+        <CategoryInput
+          categories={categories}
+          category={category}
+          categoryError={categoryError}
+          setCategory={setCategory}
+          setCategoryError={setCategoryError}
+          setUnsavedNavigationError={setUnsavedNavigationError}
+          setNavigationError={setNavigationError}
+        />
+      );
+    },
+    [
+      noAssociations,
+      allTriageGroupsBlocked,
+      isRxRenewalDraft,
+      draft?.category,
+      categories,
+      category,
+      categoryError,
+      setCategory,
+      setCategoryError,
+      setUnsavedNavigationError,
+      setNavigationError,
+    ],
   );
 
   useEffect(
@@ -1029,24 +1072,7 @@ const ComposeForm = props => {
             <SelectedRecipientTitle draftInProgress={draftInProgress} />
           )}
           <div className="compose-form-div vads-u-margin-y--3">
-            {noAssociations || allTriageGroupsBlocked ? (
-              <ViewOnlyDraftSection
-                title={FormLabels.CATEGORY}
-                body={`${Categories[(draft?.category)].label}: ${
-                  Categories[(draft?.category)].description
-                }`}
-              />
-            ) : (
-              <CategoryInput
-                categories={categories}
-                category={category}
-                categoryError={categoryError}
-                setCategory={setCategory}
-                setCategoryError={setCategoryError}
-                setUnsavedNavigationError={setUnsavedNavigationError}
-                setNavigationError={setNavigationError}
-              />
-            )}
+            {renderCategorySection}
           </div>
           <div className="compose-form-div">
             {noAssociations || allTriageGroupsBlocked ? (

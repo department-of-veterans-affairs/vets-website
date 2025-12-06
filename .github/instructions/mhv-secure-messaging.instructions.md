@@ -1,5 +1,5 @@
 ---
-applyTo: "src/applications/mhv-secure-messaging"
+applyTo: "src/applications/mhv-secure-messaging/**"
 ---
 
 # MHV Secure Messaging Application Instructions
