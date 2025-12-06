@@ -615,7 +615,7 @@
  */
 
 /**
- * @typedef {Object} PersonalInformationPageConfig - Configuration object for the PersonalInformationPage component
+ * @typedef {Object} PersonalInformationPageOptions - Options object for profilePersonalInfoPage function
  * @property {string} key=personalInfoPage - The page key within the form config chapter
  * @property {string} title=Personal Information - The title of the page
  * @property {string} path=personal-information - The path of the page
@@ -634,9 +634,12 @@
  */
 
 /**
- * Profile settings
- * @typedef ContactInformationPageSettings
- * @type {Object}
+ * Function that returns a personal information page configuration
+ * @typedef {(options?: PersonalInformationPageOptions) => FormConfigPages} PersonalInformationPageConfig
+ */
+
+/**
+ * @typedef {Object} ContactInformationPageOptions - Options object for profileContactInfoPage function
  * @property {import('../utilities/data/profile').ContactInfoContent} content
  * @property {String} contactPath=contact-information - Contact info path of
  *  formConfig page
@@ -673,4 +676,9 @@
  *  contact info pages
  * @property {boolean} prefillPatternEnabled=false - enable prefill pattern for
  *  contact info
+ */
+
+/**
+ * Function that returns contact information pages configuration
+ * @typedef {(options?: ContactInformationPageOptions) => FormConfigPages} ContactInformationPageConfig
  */
