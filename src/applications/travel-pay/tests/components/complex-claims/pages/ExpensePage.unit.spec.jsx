@@ -685,4 +685,76 @@ describe('Travel Pay – ExpensePage (Editing existing expense)', () => {
       expect(container.querySelector('va-file-input')).to.exist;
     });
   });
+
+  it('shows description error for min and max length', async () => {
+    const { container } = renderEditPage();
+
+    const inputText = container.querySelector(
+      'va-textarea[name="description"]',
+    );
+
+    // Less than min length
+    inputText.value = 'abc';
+    inputText.dispatchEvent(
+      new CustomEvent('input', {
+        detail: { value: 'abc' },
+        bubbles: true,
+        composed: true,
+      }),
+    );
+
+    // Trigger validation
+    fireEvent.blur(inputText);
+
+    await waitFor(() => {
+      const errorAttr = inputText.getAttribute('error');
+      expect(errorAttr).to.exist;
+      expect(errorAttr).to.include('Enter at least 5 characters');
+    });
+
+    // Greater than max length
+    inputText.value = 'a'.repeat(2001);
+    inputText.dispatchEvent(
+      new CustomEvent('input', {
+        bubbles: true,
+        composed: true,
+      }),
+    );
+
+    // Trigger validation
+    fireEvent.blur(inputText);
+
+    await waitFor(() => {
+      const errorAttr = inputText.getAttribute('error');
+      expect(errorAttr).to.exist;
+      expect(errorAttr).to.include('Enter no more than 2,000 characters');
+    });
+  });
+
+  it('shows cost requested amount error when value is 0', async () => {
+    const { container } = renderEditPage();
+
+    const inputText = container.querySelector(
+      'va-text-input[name="costRequested"]',
+    );
+
+    // Less than min length
+    inputText.value = '0';
+    inputText.dispatchEvent(
+      new CustomEvent('input', {
+        detail: { value: '0' },
+        bubbles: true,
+        composed: true,
+      }),
+    );
+
+    // Trigger validation
+    fireEvent.blur(inputText);
+
+    await waitFor(() => {
+      const errorAttr = inputText.getAttribute('error');
+      expect(errorAttr).to.exist;
+      expect(errorAttr).to.include('Enter an amount greater than 0');
+    });
+  });
 });
