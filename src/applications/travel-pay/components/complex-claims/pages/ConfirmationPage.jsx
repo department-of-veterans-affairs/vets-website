@@ -56,7 +56,7 @@ const ConfirmationPage = () => {
         <>
           <va-alert status={alertConfig.status} visible>
             <h2 slot="headline">{alertConfig.headline}</h2>
-            {/* ✅ SUCCESS CONTENT */}
+            {/* ✅ SUCCESS */}
             {alertConfig.status === 'success' && (
               <>
                 <p className="vads-u-margin-y--0">Claim number: {claimId}</p>
