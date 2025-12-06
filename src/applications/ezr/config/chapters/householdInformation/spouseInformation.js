@@ -9,7 +9,7 @@ import spouseInformationSummaryPage from '../../../definitions/spouseInformation
 import spousePersonalInformationPage from '../../../definitions/spousePersonalInformation';
 import { spouseAdditionalInformationPage } from '../../../definitions/spouseAdditionalInformation';
 import { spouseFinancialSupportPage } from '../../../definitions/spouseFinancialSupport';
-import { spouseContactInformationPage } from '../../../definitions/spouseContactInformation';
+import { spouseContactInformationPage } from '../spouseContactInformation';
 import content from '../../../locales/en/content.json';
 import SpouseSummaryCardDescription from '../../../components/FormDescriptions/SpouseSummaryCardDescription';
 import SpouseInformationReviewWarning from '../../../components/FormAlerts/SpouseInformationReviewWarning';
