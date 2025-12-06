@@ -15,6 +15,7 @@ const Wrapper = props => {
     testID,
     showBackLink = false,
     required = false,
+    verificationError,
   } = props;
 
   const navigate = useNavigate();
@@ -61,7 +62,12 @@ const Wrapper = props => {
               )}
             </h1>
           )}
-          {children}
+          {!verificationError && children}
+          {verificationError && (
+            <va-alert data-testid="verification-error-alert" status="error">
+              {verificationError}
+            </va-alert>
+          )}
           <NeedHelp />
         </div>
       </div>
@@ -78,4 +84,5 @@ Wrapper.propTypes = {
   required: PropTypes.bool,
   showBackLink: PropTypes.bool,
   testID: PropTypes.string,
+  verificationError: PropTypes.string,
 };
