@@ -768,5 +768,25 @@ describe('Authentication Utilities', () => {
       Cookies.set('CERNER_ELIGIBLE', parsedCookieF);
       expect(authUtilities.determineAuthBroker(true)).to.be.true;
     });
+
+    it('should return `true` when cookie is plain text "false"', () => {
+      Cookies.set('CERNER_ELIGIBLE', 'false');
+      expect(authUtilities.determineAuthBroker(true)).to.be.true;
+    });
+
+    it('should return `false` when cookie is plain text "true"', () => {
+      Cookies.set('CERNER_ELIGIBLE', 'true');
+      expect(authUtilities.determineAuthBroker(true)).to.be.false;
+    });
+
+    it('should handle casing and whitespace for plain text "false"', () => {
+      Cookies.set('CERNER_ELIGIBLE', '  FALSE  ');
+      expect(authUtilities.determineAuthBroker(true)).to.be.true;
+    });
+
+    it('should fall back to plain text and return `false` for malformed signed cookie', () => {
+      Cookies.set('CERNER_ELIGIBLE', 'not-base64--sig');
+      expect(authUtilities.determineAuthBroker(true)).to.be.false;
+    });
   });
 });
