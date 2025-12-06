@@ -35,6 +35,12 @@ export const CREATE_EXPENSE_FAILURE = 'CREATE_EXPENSE_FAILURE';
 export const DELETE_DOCUMENT_STARTED = 'DELETE_DOCUMENT_STARTED';
 export const DELETE_DOCUMENT_SUCCESS = 'DELETE_DOCUMENT_SUCCESS';
 export const DELETE_DOCUMENT_FAILURE = 'DELETE_DOCUMENT_FAILURE';
+export const UPDATE_EXPENSE_DELETE_DOCUMENT_STARTED =
+  'UPDATE_EXPENSE_DELETE_DOCUMENT_STARTED';
+export const UPDATE_EXPENSE_DELETE_DOCUMENT_SUCCESS =
+  'UPDATE_EXPENSE_DELETE_DOCUMENT_SUCCESS';
+export const UPDATE_EXPENSE_DELETE_DOCUMENT_FAILURE =
+  'UPDATE_EXPENSE_DELETE_DOCUMENT_FAILURE';
 export const FETCH_COMPLEX_CLAIM_DETAILS_STARTED =
   'FETCH_COMPLEX_CLAIM_DETAILS_STARTED';
 export const FETCH_COMPLEX_CLAIM_DETAILS_SUCCESS =
@@ -498,6 +504,77 @@ export function deleteDocument(claimId, documentId) {
     } catch (error) {
       dispatch(deleteDocumentFailure(error, documentId));
       throw error;
+    }
+  };
+}
+
+export function updateExpenseDeleteDocument(
+  claimId,
+  documentId,
+  expenseType,
+  expenseId,
+  expenseData,
+) {
+  return async dispatch => {
+    dispatch(updateExpenseStart(expenseId));
+
+    try {
+      if (!expenseType) {
+        throw new Error('Missing expense type');
+      } else if (!expenseId) {
+        throw new Error('Missing expense id');
+      }
+
+      const updateExpenseOptions = {
+        method: 'PATCH',
+        body: JSON.stringify(expenseData),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      };
+
+      const expenseUrl = `${
+        environment.API_URL
+      }/travel_pay/v0/expenses/${expenseType}/${expenseId}`;
+      await apiRequest(expenseUrl, updateExpenseOptions);
+      const result = { ...expenseData, id: expenseId };
+
+      // Dispatch success only after claim details are fetched
+      dispatch(updateExpenseSuccess(result));
+    } catch (error) {
+      dispatch(updateExpenseFailure(error, expenseId));
+      throw error;
+    }
+
+    try {
+      dispatch(deleteDocumentStart(documentId));
+
+      if (!documentId) {
+        throw new Error('Missing document id');
+      }
+
+      const deleteDocumentOptions = {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      };
+
+      const documentUrl = `${
+        environment.API_URL
+      }/travel_pay/v0/claims/${claimId}/documents/${documentId}`;
+      await apiRequest(documentUrl, deleteDocumentOptions);
+      dispatch(deleteDocumentSuccess(documentId));
+    } catch (error) {
+      dispatch(deleteDocumentFailure(error, documentId));
+      throw error;
+    }
+
+    // Fetch the complete complex claim details and load expenses into store
+    try {
+      await dispatch(getComplexClaimDetails(claimId));
+    } catch (fetchError) {
+      // Silently continue if fetching details fails
     }
   };
 }

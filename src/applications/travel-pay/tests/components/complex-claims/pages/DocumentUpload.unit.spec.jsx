@@ -8,7 +8,7 @@ import { ACCEPTED_FILE_TYPES } from '../../../../constants';
 describe('DocumentUpload component', () => {
   const defaultProps = {
     currentDocument: null,
-    handleDocumentUpload: () => {},
+    handleDocumentChange: () => {},
     loading: false,
   };
   it('renders component correctly', () => {
@@ -26,12 +26,12 @@ describe('DocumentUpload component', () => {
     expect(queryByTestId('travel-pay-document-loading-indicator')).to.exist;
   });
 
-  it('calls handleDocumentUpload when a file is selected', async () => {
-    const handleDocumentUpload = sinon.spy();
+  it('calls handleDocumentChange when a file is selected', async () => {
+    const handleDocumentChange = sinon.spy();
     const { container } = render(
       <DocumentUpload
         {...defaultProps}
-        handleDocumentUpload={handleDocumentUpload}
+        handleDocumentChange={handleDocumentChange}
       />,
     );
 
@@ -50,9 +50,9 @@ describe('DocumentUpload component', () => {
     fileInput.dispatchEvent(event);
 
     await waitFor(() => {
-      expect(handleDocumentUpload.calledOnce).to.be.true;
+      expect(handleDocumentChange.calledOnce).to.be.true;
       // Optionally verify the file passed
-      const eventArg = handleDocumentUpload.firstCall.args[0];
+      const eventArg = handleDocumentChange.firstCall.args[0];
       expect(eventArg.detail.files[0]).to.equal(testFile);
     });
   });
