@@ -17,6 +17,7 @@ import {
   maskBankInformation,
   getPrefillIntlPhoneNumber,
   getTransformIntlPhoneNumber,
+  parseDateToDateObj,
 } from '../helpers';
 
 describe('10297 Helpers', () => {
@@ -283,5 +284,26 @@ describe('#getTransformIntlPhoneNumber', () => {
 
   it('should return an empty string with no provided details', () => {
     expect(getTransformIntlPhoneNumber()).to.equal('');
+  });
+  describe('parseDateToDateObj', () => {
+    it('should parse ISO8601 date string with T', () => {
+      const result = parseDateToDateObj('2023-10-15T10:30:00.000Z');
+      expect(result).to.be.instanceOf(Date);
+      expect(result.getFullYear()).to.equal(2023);
+      expect(result.getMonth()).to.equal(9); // October is month 9
+      expect(result.getDate()).to.equal(15);
+    });
+    it('should parse date string with template', () => {
+      const result = parseDateToDateObj('10/15/2023', 'MM/dd/yyyy');
+      expect(result).to.be.instanceOf(Date);
+      expect(result.getFullYear()).to.equal(2023);
+      expect(result.getMonth()).to.equal(9);
+      expect(result.getDate()).to.equal(15);
+    });
+    it('should handle Date object input', () => {
+      const inputDate = new Date('2023-10-15');
+      const result = parseDateToDateObj(inputDate);
+      expect(result).to.be.instanceOf(Date);
+    });
   });
 });
