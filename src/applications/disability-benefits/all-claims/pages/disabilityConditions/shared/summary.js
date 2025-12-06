@@ -2,7 +2,7 @@ import {
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { arrayOptions } from './utils';
+import { arrayOptions, createNewConditionName } from './utils';
 
 // Optional: helper right here
 const isOrphanSecondary = (item, fullData = {}) => {
@@ -12,7 +12,13 @@ const isOrphanSecondary = (item, fullData = {}) => {
   if (!target) return true;
 
   const newNames = (fullData?.newDisabilities ?? [])
-    .map(it => norm(it?.condition ?? it?.newCondition ?? it?.name))
+    .map(it =>
+      norm(
+        it?.condition
+          ? createNewConditionName(it, true)
+          : it?.newCondition ?? it?.name,
+      ),
+    )
     .filter(Boolean);
 
   const ratedNames = (fullData?.ratedDisabilities ?? [])

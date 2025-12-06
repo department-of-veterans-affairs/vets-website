@@ -27,6 +27,7 @@ const sideOfBodyPage = {
   },
   schema: {
     type: 'object',
+    required: ['sideOfBody'],
     properties: {
       sideOfBody: radioSchema(Object.keys(sideOfBodyOptions)),
     },
