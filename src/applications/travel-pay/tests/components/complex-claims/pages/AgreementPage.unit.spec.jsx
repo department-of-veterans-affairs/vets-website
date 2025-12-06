@@ -1,8 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import { fireEvent } from '@testing-library/react';
+import { fireEvent, waitFor } from '@testing-library/react';
 import {
   MemoryRouter,
   Routes,
@@ -11,10 +12,20 @@ import {
 } from 'react-router-dom-v5-compat';
 import AgreementPage from '../../../../components/complex-claims/pages/AgreementPage';
 import reducer from '../../../../redux/reducer';
+import * as actions from '../../../../redux/actions';
 
 describe('Travel Pay – AgreementPage', () => {
   const apptId = '12345';
   const claimId = '45678';
+  let sandbox;
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
 
   const LocationDisplay = () => {
     const location = useLocation();
@@ -239,4 +250,57 @@ describe('Travel Pay – AgreementPage', () => {
       `/file-new-claim/${apptId}/${claimId}/review`,
     );
   });
+
+  it('navigates to the error page when submission fails', async () => {
+    // Mock submitComplexClaim to reject
+    const mockSubmitComplexClaim = sandbox
+      .stub(actions, 'submitComplexClaim')
+      .returns(() => Promise.reject(new Error('Submission failed')));
+
+    const screen = renderWithStoreAndRouter(
+      <MemoryRouter
+        initialEntries={[
+          `/file-new-claim/${apptId}/${claimId}/travel-agreement`,
+        ]}
+      >
+        <Routes>
+          <Route
+            path="/file-new-claim/:apptId/:claimId/travel-agreement"
+            element={<AgreementPage />}
+          />
+          <Route
+            path="/file-new-claim/:apptId/:claimId/error"
+            element={<div data-testid="error-page">Error Page</div>}
+          />
+        </Routes>
+        <LocationDisplay />
+      </MemoryRouter>,
+      {
+        initialState: getData(),
+        reducers: reducer,
+      },
+    );
+
+    // Check the agreement checkbox
+    const checkbox = $('va-checkbox[name="accept-agreement"]');
+    checkbox.__events.vaChange();
+    expect(checkbox).to.have.attribute('checked', 'true');
+
+    // Click submit button
+    const submitButton = $('va-button[text="Submit claim"]');
+    expect(submitButton).to.exist;
+    fireEvent.click(submitButton);
+
+    // Wait for navigation to error page
+    await waitFor(() => {
+      expect(screen.getByTestId('error-page')).to.exist;
+      expect(screen.getByTestId('location-display').textContent).to.equal(
+        `/file-new-claim/${apptId}/${claimId}/error`,
+      );
+    });
+
+    // Verify the action was called
+    expect(mockSubmitComplexClaim.calledOnce).to.be.true;
+  });
 });
+
