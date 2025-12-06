@@ -478,28 +478,21 @@ describe('Form Configuration', () => {
       expect(formConfig.preSubmitInfo).to.exist;
     });
 
-    it('should have statementOfTruth configuration', () => {
-      expect(formConfig.preSubmitInfo.statementOfTruth).to.exist;
+    it('should use CustomComponent for signature validation', () => {
+      expect(formConfig.preSubmitInfo.CustomComponent).to.exist;
     });
 
-    it('should have statementOfTruth body text', () => {
-      expect(formConfig.preSubmitInfo.statementOfTruth.body).to.equal(
-        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
-      );
+    it('should use PreSubmitInfo component (function or connected component)', () => {
+      const component = formConfig.preSubmitInfo.CustomComponent;
+      // Component can be a function (Node 14) or object (Node 22 with React element)
+      const isValid =
+        typeof component === 'function' ||
+        (typeof component === 'object' && component !== null);
+      expect(isValid).to.be.true;
     });
 
-    it('should have statementOfTruth messageAriaDescribedby', () => {
-      expect(
-        formConfig.preSubmitInfo.statementOfTruth.messageAriaDescribedby,
-      ).to.equal(
-        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
-      );
-    });
-
-    it('should have fullNamePath set to veteranInformation.veteranFullName', () => {
-      expect(formConfig.preSubmitInfo.statementOfTruth.fullNamePath).to.equal(
-        'veteranInformation.veteranFullName',
-      );
+    it('should not have statementOfTruth configuration (uses CustomComponent instead)', () => {
+      expect(formConfig.preSubmitInfo.statementOfTruth).to.not.exist;
     });
   });
 
