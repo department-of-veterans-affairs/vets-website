@@ -18,6 +18,8 @@ import * as PhoneAndEmail from '../pages/PhoneAndEmail';
 import * as TestNameAndDate from '../pages/TestNameAndDate';
 import * as OrganizationInfo from '../pages/OrganizationInfo';
 import * as TestCost from '../pages/TestCost';
+import * as Remarks from '../pages/Remarks';
+import * as SubmissionInstructions from '../pages/SubmissionInstructions';
 
 import submitForm from './submitForm';
 import transform from './transform';
@@ -164,6 +166,29 @@ const formConfig = {
           title: 'Test cost',
           uiSchema: TestCost.uiSchema,
           schema: TestCost.schema,
+        },
+      },
+    },
+    remarksChapter: {
+      title: 'Remarks',
+      pages: {
+        remarksPage: {
+          path: 'remarks',
+          title: 'Remarks',
+          uiSchema: Remarks.uiSchema,
+          schema: Remarks.schema,
+        },
+      },
+    },
+    submissionInstructionsChapter: {
+      title: 'Submission instructions',
+      hideOnReviewPage: true,
+      pages: {
+        submissionInstructions: {
+          path: 'submission-instructions',
+          title: 'Submission instructions',
+          uiSchema: SubmissionInstructions.uiSchema,
+          schema: SubmissionInstructions.schema,
         },
       },
     },
