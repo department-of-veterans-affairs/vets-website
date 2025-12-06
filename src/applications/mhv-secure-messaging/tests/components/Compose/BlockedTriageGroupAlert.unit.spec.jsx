@@ -84,7 +84,10 @@ describe('BlockedTriageGroupAlert component', () => {
         "You can't send messages to ###PQR TRIAGE_TEAM 747###",
       );
     });
-    expect(screen.getByText('Find your VA health facility')).to.exist;
+    const findFacilityLink = screen.container.querySelector(
+      'va-link-action[href*="/find-locations"]',
+    );
+    expect(findFacilityLink).to.exist;
   });
 
   it('displays all blocked teams if multiple are blocked', async () => {

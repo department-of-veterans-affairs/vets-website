@@ -18,6 +18,7 @@ import { useSelector } from 'react-redux';
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
 import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
+import RouterLinkAction from '../shared/RouterLinkAction';
 
 /**
  * @param {boolean} t5 - boolean flag to display the alert for 5 days before transition
@@ -50,7 +51,7 @@ const CernerTransitioningFacilityAlert = ({ t5, t30, facilityId }) => {
       }
       return null;
     },
-    [userFacilities, ehrFacilities],
+    [ehrFacilities, transitioningFacilityId, userFacilities],
   );
 
   const contentT30 = useMemo(
@@ -101,9 +102,11 @@ const CernerTransitioningFacilityAlert = ({ t5, t30, facilityId }) => {
               </p>
               <p>To contact your care team now, call your facility.</p>
               <p>
-                <a href="/find-locations" target="_blank">
-                  Find your VA health facility
-                </a>
+                <RouterLinkAction
+                  href="/find-locations"
+                  data-testid="find-facility-action-link"
+                  text="Find your VA health facility"
+                />
               </p>
             </div>
           </va-alert>
