@@ -203,6 +203,21 @@
     align-items: center;
     margin-left: auto;
 
+    &.is--active {
+      position: relative;
+
+      &:after {
+        content: "";
+        border-bottom: 4px solid;
+        border-color: var(--vads-color-primary);
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+      }
+    }
+
     &.is--sign-in {
       border-radius: 4px;
       padding: 12px;
