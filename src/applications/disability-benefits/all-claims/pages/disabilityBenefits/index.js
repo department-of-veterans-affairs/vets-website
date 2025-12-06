@@ -13,6 +13,7 @@ import {
   DISABILITY_SHARED_CONFIG,
   hasRatedDisabilities,
   isBDD,
+  isClaimingNew,
   isDisabilityPtsd,
 } from '../../utils';
 
@@ -62,7 +63,8 @@ export const disabilityBenefitsWorkflow = {
   },
   followUpDesc: {
     title: 'Follow-up questions',
-    depends: formData => claimingNew(formData) && !isBDD(formData),
+    depends: formData =>
+      isClaimingNew(formData) && claimingNew(formData) && !isBDD(formData),
     path: 'new-disabilities/follow-up',
     uiSchema: {
       'ui:description':
@@ -75,7 +77,7 @@ export const disabilityBenefitsWorkflow = {
       typeof formData.condition === 'string'
         ? capitalizeEachWord(formData.condition)
         : NULL_CONDITION_STRING,
-    depends: claimingNew,
+    depends: formData => isClaimingNew(formData) && claimingNew(formData),
     path: 'new-disabilities/follow-up/:index',
     showPagePerItem: true,
     itemFilter: (item, formData) => {

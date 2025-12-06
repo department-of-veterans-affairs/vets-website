@@ -3,6 +3,7 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
+import sinon from 'sinon';
 import CustomReviewTopContent from '../../components/CustomReviewTopContent';
 
 const initialState = {
@@ -110,5 +111,115 @@ describe('CustomReviewTopContent', () => {
       </Provider>,
     );
     expect(container.querySelector('va-alert')).to.not.exist;
+  });
+
+  describe('newDisabilities initialization', () => {
+    const createMockStore = (state, dispatchSpy) => ({
+      getState: () => state,
+      subscribe: () => {},
+      dispatch: dispatchSpy,
+    });
+
+    it('should initialize newDisabilities as empty array when claiming new but newDisabilities does not exist', () => {
+      const testState = JSON.parse(JSON.stringify(initialState));
+      delete testState.form.data.newDisabilities;
+      const dispatchSpy = sinon.spy();
+      const mockStore = createMockStore(testState, dispatchSpy);
+
+      render(
+        <Provider store={mockStore}>
+          <CustomReviewTopContent />
+        </Provider>,
+      );
+
+      expect(dispatchSpy.calledOnce).to.be.true;
+      const dispatchedAction = dispatchSpy.firstCall.args[0];
+      expect(dispatchedAction.type).to.equal('SET_DATA');
+      expect(dispatchedAction.data.newDisabilities).to.deep.equal([]);
+    });
+
+    it('should not initialize newDisabilities if it already exists', () => {
+      const testState = JSON.parse(JSON.stringify(initialState));
+      testState.form.data.newDisabilities = [];
+      const dispatchSpy = sinon.spy();
+      const mockStore = createMockStore(testState, dispatchSpy);
+
+      render(
+        <Provider store={mockStore}>
+          <CustomReviewTopContent />
+        </Provider>,
+      );
+
+      expect(dispatchSpy.called).to.be.false;
+    });
+
+    it('should not initialize newDisabilities when not claiming new', () => {
+      const testState = JSON.parse(JSON.stringify(initialState));
+      testState.form.data['view:claimType']['view:claimingNew'] = false;
+      delete testState.form.data.newDisabilities;
+      const dispatchSpy = sinon.spy();
+      const mockStore = createMockStore(testState, dispatchSpy);
+
+      render(
+        <Provider store={mockStore}>
+          <CustomReviewTopContent />
+        </Provider>,
+      );
+
+      expect(dispatchSpy.called).to.be.false;
+    });
+
+    it('should only initialize once even if component re-renders', () => {
+      const testState = JSON.parse(JSON.stringify(initialState));
+      delete testState.form.data.newDisabilities;
+      const dispatchSpy = sinon.spy();
+      const mockStore = createMockStore(testState, dispatchSpy);
+
+      const { rerender } = render(
+        <Provider store={mockStore}>
+          <CustomReviewTopContent />
+        </Provider>,
+      );
+
+      expect(dispatchSpy.calledOnce).to.be.true;
+
+      // Re-render with same state
+      rerender(
+        <Provider store={mockStore}>
+          <CustomReviewTopContent />
+        </Provider>,
+      );
+
+      // Should still only be called once
+      expect(dispatchSpy.calledOnce).to.be.true;
+    });
+
+    it('should reset initialization ref when claimingNew changes from true to false', () => {
+      const testState = JSON.parse(JSON.stringify(initialState));
+      delete testState.form.data.newDisabilities;
+      const dispatchSpy = sinon.spy();
+      const mockStore = createMockStore(testState, dispatchSpy);
+
+      const { rerender } = render(
+        <Provider store={mockStore}>
+          <CustomReviewTopContent />
+        </Provider>,
+      );
+
+      expect(dispatchSpy.calledOnce).to.be.true;
+
+      // Change claimingNew to false
+      testState.form.data['view:claimType']['view:claimingNew'] = false;
+      const newMockStore = createMockStore(testState, dispatchSpy);
+
+      rerender(
+        <Provider store={newMockStore}>
+          <CustomReviewTopContent />
+        </Provider>,
+      );
+
+      // Should still only be called once (no new initialization)
+      expect(dispatchSpy.calledOnce).to.be.true;
+    });
   });
 });

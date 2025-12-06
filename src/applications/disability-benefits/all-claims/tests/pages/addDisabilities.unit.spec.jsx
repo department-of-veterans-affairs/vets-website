@@ -570,6 +570,43 @@ describe('Add Disabilities Page', () => {
     });
   });
 
+  describe('keepInPageOnReview option', () => {
+    it('should return true when claiming new conditions', () => {
+      const formData = {
+        'view:claimType': {
+          'view:claimingNew': true,
+        },
+      };
+      const {
+        'ui:options': { keepInPageOnReview },
+      } = uiSchema.newDisabilities;
+      expect(keepInPageOnReview(formData)).to.be.true;
+    });
+
+    it('should return true when claiming new is not explicitly set but defaults to true', () => {
+      const formData = {
+        'view:claimType': {},
+      };
+      const {
+        'ui:options': { keepInPageOnReview },
+      } = uiSchema.newDisabilities;
+      // get function returns true as default when path doesn't exist
+      expect(keepInPageOnReview(formData)).to.be.true;
+    });
+
+    it('should return false when not claiming new conditions', () => {
+      const formData = {
+        'view:claimType': {
+          'view:claimingNew': false,
+        },
+      };
+      const {
+        'ui:options': { keepInPageOnReview },
+      } = uiSchema.newDisabilities;
+      expect(keepInPageOnReview(formData)).to.be.false;
+    });
+  });
+
   describe('Update Form Data', () => {
     const generateInitialData = () => ({
       newDisabilities: [{ condition: 'Something with-hyphens and ALLCAPS' }],

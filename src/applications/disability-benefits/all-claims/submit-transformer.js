@@ -35,6 +35,28 @@ import {
 import { purgeToxicExposureData } from './utils/on-submit';
 
 export function transform(formConfig, form) {
+  // Validate and initialize newDisabilities if claiming new conditions
+  const claimingNew = _.get(
+    'view:claimType.view:claimingNew',
+    form.data,
+    false,
+  );
+  const newDisabilities = form.data?.newDisabilities;
+
+  // Validate that at least one condition has been added if claiming new conditions
+  if (
+    claimingNew &&
+    (!newDisabilities ||
+      !Array.isArray(newDisabilities) ||
+      newDisabilities.length === 0)
+  ) {
+    const error = new Error(
+      'Please add at least one condition before submitting.',
+    );
+    error.name = 'ValidationError';
+    throw error;
+  }
+
   // Grab isBDD before things are changed/deleted
   const isBDDForm = isBDD(form.data);
   // Grab ratedDisabilities before they're deleted in case the page is inactive

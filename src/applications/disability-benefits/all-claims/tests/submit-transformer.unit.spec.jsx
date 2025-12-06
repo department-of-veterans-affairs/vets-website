@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 
 import { expect } from 'chai';
+import _ from 'platform/utilities/data';
 import { daysFromToday } from './utils/dates/dateHelper';
 
 import formConfig from '../config/form';
@@ -10,6 +11,7 @@ import { CHAR_LIMITS } from '../constants';
 import { transform } from '../submit-transformer';
 
 import maximalData from './fixtures/data/maximal-test.json';
+import minimalData from './fixtures/data/minimal-test.json';
 
 describe('transform', () => {
   beforeEach(() => {
@@ -162,5 +164,109 @@ describe('Test internal transform functions', () => {
         )}`,
       },
     ]);
+  });
+});
+
+describe('Validation for newDisabilities when claiming new', () => {
+  beforeEach(() => {
+    global.formData = {
+      disabilityCompensationNewConditionsWorkflow: false,
+    };
+  });
+
+  const getFormData = overrides => {
+    const baseData = _.cloneDeep(minimalData.data);
+    return { ...baseData, ...overrides };
+  };
+
+  it('should throw ValidationError when claiming new but newDisabilities is missing', () => {
+    const form = {
+      data: getFormData({
+        'view:claimType': {
+          'view:claimingNew': true,
+        },
+        // newDisabilities is missing
+      }),
+    };
+    delete form.data.newDisabilities;
+
+    expect(() => transform(formConfig, form)).to.throw(
+      'Please add at least one condition before submitting.',
+    );
+  });
+
+  it('should throw ValidationError when claiming new but newDisabilities is not an array', () => {
+    const form = {
+      data: getFormData({
+        'view:claimType': {
+          'view:claimingNew': true,
+        },
+        newDisabilities: 'not an array',
+      }),
+    };
+
+    expect(() => transform(formConfig, form)).to.throw(
+      'Please add at least one condition before submitting.',
+    );
+  });
+
+  it('should throw ValidationError when claiming new but newDisabilities is empty array', () => {
+    const form = {
+      data: getFormData({
+        'view:claimType': {
+          'view:claimingNew': true,
+        },
+        newDisabilities: [],
+      }),
+    };
+
+    expect(() => transform(formConfig, form)).to.throw(
+      'Please add at least one condition before submitting.',
+    );
+  });
+
+  it('should not throw when claiming new and newDisabilities has items', () => {
+    const form = {
+      data: getFormData({
+        'view:claimType': {
+          'view:claimingNew': true,
+        },
+        newDisabilities: [
+          {
+            condition: 'asthma',
+            cause: 'NEW',
+          },
+        ],
+      }),
+    };
+
+    expect(() => transform(formConfig, form)).to.not.throw();
+  });
+
+  it('should not throw when not claiming new even if newDisabilities is missing', () => {
+    const form = {
+      data: getFormData({
+        'view:claimType': {
+          'view:claimingNew': false,
+        },
+        // newDisabilities is missing
+      }),
+    };
+    delete form.data.newDisabilities;
+
+    expect(() => transform(formConfig, form)).to.not.throw();
+  });
+
+  it('should not throw when not claiming new even if newDisabilities is empty', () => {
+    const form = {
+      data: getFormData({
+        'view:claimType': {
+          'view:claimingNew': false,
+        },
+        newDisabilities: [],
+      }),
+    };
+
+    expect(() => transform(formConfig, form)).to.not.throw();
   });
 });

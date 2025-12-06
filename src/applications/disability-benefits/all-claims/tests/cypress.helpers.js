@@ -266,9 +266,11 @@ export const reviewAndSubmitPageFlow = (
     ? `${first} ${middle} ${last}`
     : `${first} ${last}`;
 
-  cy.get('#veteran-signature')
+  cy.get('va-text-input[id="veteran-signature"]')
+    .first()
     .shadow()
-    .get('#inputField')
+    .find('#inputField')
+    .first()
     .type(veteranSignature);
 
   cy.get(`va-checkbox[id="veteran-certify"]`)

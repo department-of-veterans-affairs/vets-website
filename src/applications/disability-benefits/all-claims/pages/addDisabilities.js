@@ -71,7 +71,8 @@ const platformArrayFieldWithAutocomplete = {
     useVaCards: true,
     showSave: true,
     reviewMode: true,
-    keepInPageOnReview: false,
+    keepInPageOnReview: formData =>
+      get('view:claimType.view:claimingNew', formData, true),
   },
   'ui:validations': [requireDisability],
   items: {
