@@ -1,0 +1,13 @@
+{
+  "statusCode": 200,
+  "body": {
+    "applicationDate": null,
+    "enrollmentDate": null,
+    "preferredFacility": null,
+    "effectiveDate": null,
+    "primaryEligibility": null,
+    "priorityGroup": null,
+    "canSubmitFinancialInfo": true,
+    "parsedStatus": "none_of_the_above"
+  }
+}

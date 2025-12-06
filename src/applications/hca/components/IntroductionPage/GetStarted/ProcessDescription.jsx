@@ -65,7 +65,7 @@ const ProcessDescription = ({ route: { formConfig, pageList } }) => {
 ProcessDescription.propTypes = {
   route: PropTypes.shape({
     formConfig: PropTypes.shape({
-      savedFormMessages: PropTypes.array,
+      savedFormMessages: PropTypes.object,
       prefillEnabled: PropTypes.bool,
       downtime: PropTypes.object,
     }),

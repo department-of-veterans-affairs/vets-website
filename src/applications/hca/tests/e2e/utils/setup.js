@@ -1,5 +1,6 @@
 import manifest from '../../../manifest.json';
-import mockEnrollmentStatus from '../fixtures/mocks/enrollment-status.json';
+import mockAuthEnrollmentStatus from '../fixtures/mocks/enrollment-status.auth.json';
+import mockGuestEnrollmentStatus from '../fixtures/mocks/enrollment-status.guest.json';
 import mockPdfDownload from '../fixtures/mocks/pdf-download.json';
 import mockFacilities from '../fixtures/mocks/facilities.json';
 import mockFeatures from '../fixtures/mocks/feature-toggles.json';
@@ -26,7 +27,7 @@ export const setupBasicTest = (props = {}) => {
   Cypress.config({ scrollBehavior: 'nearest' });
 
   const {
-    enrollmentStatus = mockEnrollmentStatus,
+    enrollmentStatus = mockGuestEnrollmentStatus,
     features = mockFeatures,
   } = props;
 
@@ -44,7 +45,7 @@ export const setupBasicTest = (props = {}) => {
 export const setupForAuth = (props = {}) => {
   const {
     disabilityRating = 0,
-    enrollmentStatus = mockEnrollmentStatus,
+    enrollmentStatus = mockAuthEnrollmentStatus,
     features = mockFeatures,
     prefill = mockPrefill,
     user = mockUser,
@@ -78,7 +79,7 @@ export const setupForAuth = (props = {}) => {
 
 export const setupForGuest = (props = {}) => {
   const {
-    enrollmentStatus = mockEnrollmentStatus,
+    enrollmentStatus = mockGuestEnrollmentStatus,
     features = mockFeatures,
   } = props;
 
