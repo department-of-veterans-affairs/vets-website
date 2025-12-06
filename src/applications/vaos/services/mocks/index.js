@@ -555,6 +555,30 @@ const responses = {
     let successPollCount = 2; // The number of times to poll before returning a confirmed appointment
     const { appointmentId } = req.params;
 
+    const isDetailsView = req.headers['x-page-type'] === 'details';
+
+    if (isDetailsView) {
+      const appointments = {
+        data: appointmentRequests.data
+          .concat(confirmedAppointmentsV3.data)
+          .concat(mockAppts),
+      };
+
+      const dynamicAppointment = appointments.data.find(
+        appt => appt.id === appointmentId,
+      );
+
+      // If found in dynamic appointments, return it (preserves cancelled status, etc.)
+      if (
+        dynamicAppointment &&
+        dynamicAppointment.attributes?.modality === 'communityCareEps'
+      ) {
+        return res.json({
+          data: dynamicAppointment,
+        });
+      }
+    }
+
     // create a mock appointment in draft state for polling simulation
     let mockAppointment = new MockReferralAppointmentDetailsResponse({
       appointmentId,
@@ -584,9 +608,6 @@ const responses = {
     if (appointmentId === 'appointment-for-poll-error') {
       return res.status(500).json(serverError);
     }
-
-    // Check if the request is coming from the details page
-    const isDetailsView = req.headers['x-page-type'] === 'details'; // 'details' or 'review-confirm'
 
     if (
       isDetailsView &&
