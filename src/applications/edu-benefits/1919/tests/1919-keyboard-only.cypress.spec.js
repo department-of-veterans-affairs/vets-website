@@ -167,7 +167,7 @@ describe('22-1919 Edu form', () => {
         .conflictOfInterestSummary.path,
     );
     cy.injectAxeThenAxeCheck();
-    cy.realPress('Tab');
+    cy.repeatKey('Tab', 2);
     cy.allyEvaluateRadioButtons(
       [
         'input#root_allProprietaryConflictOfInterestYesinput',

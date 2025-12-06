@@ -4,20 +4,18 @@ import {
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import ConflictOfInterestIntro from './conflictOfInterestIntro';
 
-const arrayBuilderOptions = {
-  arrayPath: 'conflictOfInterestArrayOptions',
-  nounSingular: 'individual with a potential conflict of interest',
-  nounPlural: 'individuals with a potential conflict of interest',
-  required: false,
-};
+import { allProprietaryProfitConflictsArrayOptions } from '../helpers';
 
 const schoolsSummary = {
   uiSchema: {
     'view:introduction': {
       'ui:description': ConflictOfInterestIntro,
+      'ui:options': {
+        hideIf: formData => formData?.allProprietaryProfitConflicts?.length > 0,
+      },
     },
     allProprietaryConflictOfInterest: arrayBuilderYesNoUI(
-      arrayBuilderOptions,
+      allProprietaryProfitConflictsArrayOptions,
       {
         title:
           'Do any certifying officials, owners, or officers at your institution receive educational benefits based on enrollment at your school?',
@@ -37,6 +35,7 @@ const schoolsSummary = {
           Y: 'Yes',
           N: 'No',
         },
+        hint: () => null,
         errorMessages: {
           required: 'Select yes if you have another individual to add',
         },

@@ -241,3 +241,12 @@ export const getTitle = role => {
 
   return title;
 };
+
+export const ProprietaryProfitAdditionalInfo = () => (
+  <va-additional-info trigger="What is a proprietary school?">
+    <p>
+      Proprietary schools include all private schools, both non-profit and
+      profit.
+    </p>
+  </va-additional-info>
+);
