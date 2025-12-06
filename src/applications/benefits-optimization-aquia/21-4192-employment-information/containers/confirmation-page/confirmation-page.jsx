@@ -62,8 +62,8 @@ export const ConfirmationPage = ({ route }) => {
         item1Header="We’ll review your form"
         item1Content="If we need more information after reviewing your form, we’ll contact you."
         item1Actions={<p />}
-        item2Header="We’ll send a decision on your claim"
-        item2Content="We’ll send you a letter with our decision."
+        item2Header="We’ll send the Veteran a decision on their claim"
+        item2Content="We’ll use the information you provided in our decision."
       />
       <div>
         <h2>How to submit supporting documents</h2>
