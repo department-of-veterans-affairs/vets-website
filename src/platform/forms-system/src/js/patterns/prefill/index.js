@@ -1,2 +1,2 @@
 export { profilePersonalInfoPage } from './PersonalInformation';
-export { profileContactInfoPage } from './ContactInfo';
+export { profileContactInfoPages } from './ContactInfo';

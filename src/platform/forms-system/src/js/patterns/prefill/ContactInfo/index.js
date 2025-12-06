@@ -27,7 +27,7 @@ import ContactInfoReview from './ContactInfoReview';
  * @type {ContactInformationPageSettings}
  * @returns {Object} - form config pages for a chapter
  */
-const profileContactInfoPage = ({
+const profileContactInfoPages = ({
   content = getContent('application'),
   contactPath = CONTACT_INFO_PATH,
   addressSchema,
@@ -56,7 +56,7 @@ const profileContactInfoPage = ({
   disableMockContactInfo = false,
   contactSectionHeadingLevel = null,
   editContactInfoHeadingLevel = null,
-  prefillPatternEnabled = false,
+  prefillPatternEnabled = true,
 } = {}) => {
   const config = {};
   const wrapperProperties = {};
@@ -254,4 +254,4 @@ export const profileReviewErrorOverride = ({
   return null;
 };
 
-export { profileContactInfoPage };
+export { profileContactInfoPages };
