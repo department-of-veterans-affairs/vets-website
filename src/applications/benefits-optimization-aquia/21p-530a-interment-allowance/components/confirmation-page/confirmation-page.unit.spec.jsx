@@ -65,7 +65,7 @@ describe('ConfirmationPage', () => {
     expect(alert).to.have.attribute('status', 'success');
     const heading = alert.querySelector('h2');
     expect(heading.textContent).to.include(
-      'submitted your application for a burial allowance',
+      'submitted your application for a VA interment allowance',
     );
     expect(container.textContent).to.include(
       'After we receive your application,',

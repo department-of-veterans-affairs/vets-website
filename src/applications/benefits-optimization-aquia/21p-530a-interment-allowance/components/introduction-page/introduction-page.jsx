@@ -35,7 +35,7 @@ const ProcessList = () => {
         <p>Make sure you meet our eligibility requirements before you apply.</p>
         <p>
           <a href="/burials-memorials/veterans-burial-allowance/">
-            Find out if you’re eligible for a Veterans burial allowance and
+            Find out if you’re eligible for a VA interment allowance and
             transportation benefits
           </a>
         </p>
@@ -51,7 +51,7 @@ const ProcessList = () => {
           <li>Date and place of birth</li>
           <li>Date of death</li>
           <li>Military service history</li>
-          <li>Date of burial</li>
+          <li>Date of interment</li>
           <li>Final resting place</li>
         </ul>
         <p>
@@ -112,7 +112,7 @@ export const IntroductionPage = ({ router }) => {
         cemetery.
       </p>
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
-        Follow these steps to apply for a burial allowance
+        Follow these steps to apply for an interment allowance
       </h2>
       <ProcessList />
 
@@ -123,7 +123,7 @@ export const IntroductionPage = ({ router }) => {
           e.preventDefault();
           router.push('/relationship-to-veteran');
         }}
-        text="Start the state and tribal organization burial allowance benefits application"
+        text="Start the state and tribal organization interment allowance benefits application"
       />
       <p />
       <va-omb-info

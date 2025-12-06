@@ -8,7 +8,7 @@ import {
 
 export const burialBenefitsRecipientPage = {
   uiSchema: {
-    ...titleUI('Burial benefits recipient'),
+    ...titleUI('VA interment allowance benefits recipient'),
     'ui:description':
       'This is the organization who will be receiving compensation.',
     burialInformation: {

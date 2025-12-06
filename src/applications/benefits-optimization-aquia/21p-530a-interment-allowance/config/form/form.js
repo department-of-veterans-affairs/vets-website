@@ -89,7 +89,7 @@ const formConfig = {
         },
         burialBenefitsRecipient: {
           path: 'burial-benefits-recipient',
-          title: 'Burial benefits recipient',
+          title: 'VA interment allowance benefits recipient',
           uiSchema: burialBenefitsRecipientPage.uiSchema,
           schema: burialBenefitsRecipientPage.schema,
         },
@@ -124,7 +124,7 @@ const formConfig = {
         },
         veteranBurialInformation: {
           path: 'veteran-burial-information',
-          title: 'Burial information',
+          title: 'Interment information',
           uiSchema: veteranBurialInformationPage.uiSchema,
           schema: veteranBurialInformationPage.schema,
         },
