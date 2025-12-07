@@ -57,8 +57,8 @@ const OutstandingDebtsError = () => {
               slot="headline"
               className="vads-u-font-size--md vads-u-font-weight--normal vads-u-font-family--sans vads-u-line-height--6 vads-u-margin-bottom--0"
             >
-              We can’t show your debt and copay information right now. Refresh
-              this page or try again later.
+              We can’t show your benefit overpayments and copay bills right now.
+              Refresh this page or try again later.
             </h4>
           </Toggler.Enabled>
           <Toggler.Disabled>
