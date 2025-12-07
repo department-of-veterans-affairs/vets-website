@@ -1,4 +1,3 @@
-import moment from 'moment-timezone';
 import { datadogRum } from '@datadog/browser-rum';
 import { snakeCase } from 'lodash';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
@@ -33,14 +32,16 @@ import {
 
 /**
  * @param {*} timestamp
- * @param {*} format defaults to 'MMMM d, yyyy, h:mm a', date-fns formatting guide found here: https://date-fns.org/v2.27.0/docs/format
+ * @param {*} format defaults to 'MMMM d, yyyy, h:mm a zzz', date-fns formatting guide found here: https://date-fns.org/v2.27.0/docs/format
  * @returns {String} formatted timestamp
  */
 export const dateFormat = (timestamp, format = null) => {
-  const timeZone = moment.tz.guess();
-  return moment
-    .tz(timestamp, timeZone)
-    .format(format || 'MMMM D, YYYY, h:mm a z');
+  const { timeZone } = Intl.DateTimeFormat().resolvedOptions();
+  return formatInTimeZone(
+    new Date(timestamp),
+    timeZone,
+    format || 'MMMM d, yyyy, h:mm a zzz',
+  );
 };
 
 export const dateFormatWithoutTime = str => {
