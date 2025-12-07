@@ -61,10 +61,6 @@ const formConfig = {
       body: (
         <div>
           <p>
-            I hereby authorize the release of my test information to the
-            Department of Veterans Affairs (VA).
-          </p>
-          <p>
             <strong>Penalty:</strong> Willfully false statements as to a
             material fact in a claim for education benefits payable by VA may
             result in a fine, imprisonment, or both.

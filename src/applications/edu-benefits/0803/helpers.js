@@ -10,3 +10,10 @@ export const getTransformIntlPhoneNumber = (phone = {}) => {
 
   return _contact;
 };
+
+export const todaysDate = () => {
+  const date = new Date();
+  const offset = date.getTimezoneOffset();
+  const today = new Date(date.getTime() - offset * 60 * 1000);
+  return today.toISOString().split('T')[0];
+};
