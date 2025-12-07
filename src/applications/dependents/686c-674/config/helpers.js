@@ -129,7 +129,7 @@ export const CancelButton = withRouter(
           clickToClose
         >
           <p>
-            If you cancel, we’ll take you back to Step 1 to update your
+            If you cancel, we’ll take you back to Step 2 to update your
             selection.
           </p>
         </VaModal>

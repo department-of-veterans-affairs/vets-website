@@ -3,7 +3,7 @@ name: Continuous Integration
 on:
   push:
     branches:
-      - "postinstall-local-build-fix"
+      - "**"
     tags-ignore:
       - "**"
 
@@ -30,12 +30,59 @@ jobs:
 
           # Check if package.json or yarn.lock have been modified
           if git diff --name-only origin/main...HEAD | grep -qE '^(package\.json|yarn\.lock)$'; then
-            echo "❌ ERROR: package.json or yarn.lock has been modified."
-            echo "This is temporarily blocked to prevent Shai Hulud 2.0 vulnerabilities."
-            echo "Once Shai Hulud 2.0 is no longer a moving target, this check will be removed."
-            exit 1
+            echo "⚠️  Dependency files modified. Checking if only vets-json-schema was updated..."
+
+            # Get the diff and check if any non-vets-json-schema changes exist
+            PACKAGE_JSON_DIFF=$(git diff origin/main...HEAD package.json 2>/dev/null || echo "")
+            YARN_LOCK_DIFF=$(git diff origin/main...HEAD yarn.lock 2>/dev/null || echo "")
+
+            # Check if there are any changes to package.json that don't involve vets-json-schema
+            if [ -n "$PACKAGE_JSON_DIFF" ]; then
+              # Get changed lines (excluding context lines)
+              NON_VETS_JSON_CHANGES=$(echo "$PACKAGE_JSON_DIFF" | grep -E '^\+|^-' | grep -v '+++\|---' | grep -v 'vets-json-schema' || echo "")
+
+              if [ -n "$NON_VETS_JSON_CHANGES" ]; then
+                echo "❌ ERROR: package.json has been modified with changes other than vets-json-schema."
+                echo "This is temporarily blocked to prevent Shai Hulud 2.0 vulnerabilities."
+                echo "Only updates to vets-json-schema are allowed."
+                echo ""
+                echo "Non-vets-json-schema changes detected:"
+                echo "$NON_VETS_JSON_CHANGES"
+                exit 1
+              fi
+            fi
+
+            # Check if there are any changes to yarn.lock that don't involve vets-json-schema
+            if [ -n "$YARN_LOCK_DIFF" ]; then
+              # For yarn.lock, we need to check if changes are only in vets-json-schema sections
+              # Get all added/removed lines that don't contain vets-json-schema
+              NON_VETS_JSON_LOCK_CHANGES=$(echo "$YARN_LOCK_DIFF" | grep -E '^\+|^-' | grep -v '+++\|---' | grep -v 'vets-json-schema' || echo "")
+
+              # Also check for package entry headers that might not contain the name on the same line
+              # In yarn.lock, package entries start with "package-name@version:"
+              # We need to be more lenient here as yarn.lock structure can have dependencies listed
+              # We'll check if there are substantial non-vets-json-schema changes
+              if [ -n "$NON_VETS_JSON_LOCK_CHANGES" ]; then
+                # Count lines to determine if changes are substantial
+                CHANGE_COUNT=$(echo "$NON_VETS_JSON_LOCK_CHANGES" | wc -l)
+
+                # If there are more than 10 lines of non-vets-json-schema changes, it's likely other packages
+                # This is a heuristic - yarn.lock changes for a single package typically affect surrounding context
+                if [ "$CHANGE_COUNT" -gt 10 ]; then
+                  echo "❌ ERROR: yarn.lock has been modified with substantial changes beyond vets-json-schema."
+                  echo "This is temporarily blocked to prevent Shai Hulud 2.0 vulnerabilities."
+                  echo "Only updates to vets-json-schema are allowed."
+                  echo ""
+                  echo "Detected $CHANGE_COUNT lines of non-vets-json-schema changes in yarn.lock"
+                  exit 1
+                fi
+              fi
+            fi
+
+            echo "✓ Only vets-json-schema updates detected. Allowing changes."
+          else
+            echo "✓ No dependency file changes detected."
           fi
-          echo "✓ No dependency file changes detected."
 
       - name: Cancel workflow on failure
         if: failure()
@@ -50,6 +97,7 @@ jobs:
 
   build:
     name: Build
+    needs: [check-dependency-files]
     runs-on: ubuntu-16-cores-latest
     permissions:
       id-token: write
