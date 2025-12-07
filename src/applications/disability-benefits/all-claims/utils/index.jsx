@@ -14,7 +14,7 @@ import _ from 'platform/utilities/data';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { createSelector } from 'reselect';
-import { endOfDay, isAfter, isSameDay } from 'date-fns';
+import { endOfDay, isAfter, isBefore, isSameDay } from 'date-fns';
 import {
   CHAR_LIMITS,
   DATA_PATHS,
@@ -68,12 +68,13 @@ export const srSubstitute = (srIgnored, substitutionText) => (
 
 export const isUndefined = value => (value || '') === '';
 
-// parseDate().isSameOrBefore() => true; so expirationDate can't be undefined
+// Check if expiration date is today or in the future
 export const isNotExpired = (expirationDate = '') => {
-  const today = getToday();
+  const today = new Date(getToday());
   const expiration = parseDate(expirationDate);
   if (!today || !expiration) return false;
-  return today.isSameOrBefore(expiration);
+  // Check if today is before or same as expiration (i.e., expiration is today or future)
+  return isBefore(today, expiration) || isSameDay(today, expiration);
 };
 
 export const isValidFullDate = dateString => {
@@ -725,7 +726,6 @@ export const wrapWithBreadcrumb = (title, component) => (
   </>
 );
 
-const today = endOfDay(new Date(getToday()));
 /**
  * Determines if a given date object is expired.
  *
@@ -751,6 +751,8 @@ export const isExpired = date => {
     const expiresDateString = expiresDate.toISOString().split('T')[0];
     expires = parseDate(expiresDateString);
   }
+  // Calculate today inside the function so it works with test mocking
+  const today = endOfDay(new Date(getToday()));
   return !(
     expires &&
     (isAfter(endOfDay(expires), today) || isSameDay(endOfDay(expires), today))

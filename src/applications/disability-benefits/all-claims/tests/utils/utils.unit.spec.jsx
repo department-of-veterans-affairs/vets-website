@@ -1280,7 +1280,8 @@ describe('526 v2 depends functions', () => {
 
 describe('isExpired', () => {
   const getDays = days => ({
-    expiresAt: parseDate(daysFromToday(days)).unix(),
+    // in seconds from epoch as our backend uses that format
+    expiresAt: parseDate(daysFromToday(days)).getTime() / 1000,
   });
   it('should return true for dates that are invalid or in the past', () => {
     expect(isExpired('')).to.be.true;
