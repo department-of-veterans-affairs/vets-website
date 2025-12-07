@@ -96,7 +96,7 @@ export const currentDateAddOneHourMinusOneMinute = () => {
  * @param newDate
  *
  * Current date formated "MM-dd-yyyy'_'hhmmssa"
- * @example 11-21-2025_010829p.m.
+ * @example 11-21-2025_010829PM
  * @returns {String}
  */
 const formatDateTimeForFileDownload = newDate => {
@@ -108,8 +108,8 @@ const formatDateTimeForFileDownload = newDate => {
  *
  * @param {number} seconds
  *
- * Current date minus seconds formated "MM-dd-yyyy'_'hhmmssa"
- * @example 11-21-2025_010829p.m.
+ * Current date plus seconds formated "MM-dd-yyyy'_'hhmmssa"
+ * @example 11-21-2025_010829PM
  * @returns {String}
  */
 export const currentDateAddSecondsForFileDownload = seconds => {
