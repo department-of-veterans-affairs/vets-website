@@ -91,12 +91,26 @@ export const currentDateAddOneHourMinusOneMinute = () => {
 };
 
 /**
+ * @param {number} seconds
+ *
+ * Formats a date for file download matching expected filename format
+ * @example 11-21-2025_010829PM
+ * @returns {String}
+ *
+ */
+export const formatDateForDownload = seconds => {
+  const now = new Date();
+  const date = addSeconds(now, seconds);
+  return format(date, "M-d-yyyy'_'hhmmssa");
+};
+
+/**
  *
  *
  * @param newDate
  *
  * Current date formated "MM-dd-yyyy'_'hhmmssa"
- * @example 11-21-2025_010829p.m.
+ * @example 11-21-2025_010829PM
  * @returns {String}
  */
 const formatDateTimeForFileDownload = newDate => {
@@ -108,8 +122,8 @@ const formatDateTimeForFileDownload = newDate => {
  *
  * @param {number} seconds
  *
- * Current date minus seconds formated "MM-dd-yyyy'_'hhmmssa"
- * @example 11-21-2025_010829p.m.
+ * Current date plus seconds formated "MM-dd-yyyy'_'hhmmssa"
+ * @example 11-21-2025_010829PM
  * @returns {String}
  */
 export const currentDateAddSecondsForFileDownload = seconds => {
