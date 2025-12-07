@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
 
-export const DebtsCard = ({ debtsCount }) => {
-  if (debtsCount < 1) {
+export const DebtsCard = ({ debtsCount, hasError }) => {
+  if (!hasError && debtsCount < 1) {
     return (
       <p
         className="vads-u-margin-bottom--3 vads-u-margin-top--0"
@@ -16,13 +16,25 @@ export const DebtsCard = ({ debtsCount }) => {
 
   const content = (
     <>
-      <h4
-        className="vads-u-margin-y--0 vads-u-padding-bottom--1"
-        data-testid="debt-total-header"
-      >
-        {debtsCount} benefit overpayment
-        {debtsCount > 1 ? 's' : ''}
-      </h4>
+      {hasError ? (
+        <>
+          <h4 className="vads-u-margin-y--0 vads-u-padding-bottom--1">
+            Benefit overpayments
+          </h4>
+          <va-alert status="warning" slim>
+            We can’t show your benefit overpayments right now. Refresh this page
+            or try again later.
+          </va-alert>
+        </>
+      ) : (
+        <h4
+          className="vads-u-margin-y--0 vads-u-padding-bottom--1"
+          data-testid="debt-total-header"
+        >
+          {debtsCount} benefit overpayment
+          {debtsCount > 1 ? 's' : ''}
+        </h4>
+      )}
       <p className="vads-u-margin-y--0 vads-u-margin-top--0p5 vads-u-padding-y--1">
         <va-link
           active
@@ -51,7 +63,8 @@ export const DebtsCard = ({ debtsCount }) => {
 };
 
 DebtsCard.propTypes = {
-  debtsCount: PropTypes.number.isRequired,
+  debtsCount: PropTypes.number,
+  hasError: PropTypes.number.isRequired,
 };
 
 export default DebtsCard;

@@ -196,10 +196,13 @@ const BenefitPaymentsAndDebt = ({
                 <GenericDebtCard />
               </DashboardWidgetWrapper>
             )}
-            {totalDebtsCount > 0 &&
+            {(totalDebtsCount > 0 || hasDebtError) &&
               !showGenericDebtCard && (
                 <DashboardWidgetWrapper>
-                  <DebtsCard debtsCount={totalDebtsCount} />
+                  <DebtsCard
+                    debtsCount={totalDebtsCount}
+                    hasError={hasDebtError}
+                  />
                 </DashboardWidgetWrapper>
               )}
             {copaysCount > 0 && (
