@@ -263,10 +263,10 @@ const DownloadReportPage = ({ runningUnitTest }) => {
 
   return (
     <div>
-      <h1>Download your medical records reports</h1>
+      <h1>Download your medical records report</h1>
       <p className="vads-u-margin--0">
-        Download your VA medical records as a single report (called your VA Blue
-        Button® report). Or find other reports to download.
+        Download your Continuity of Care Document (CCD), a summary of your VA
+        medical records.
       </p>
 
       <AcceleratedCernerFacilityAlert {...CernerAlertContent.DOWNLOAD} />
