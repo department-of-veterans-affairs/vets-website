@@ -10,7 +10,9 @@ import { customCOEsubmit } from './helpers';
 import { definitions } from './schemaImports';
 
 // chapter schema imports
-import { applicantInformation } from './chapters/applicant';
+import { applicantInformation, applicantInformationNew, netNewPage } from './chapters/applicant';
+
+import { nounPluralReplaceMePages } from './nounPluralReplaceMe';
 
 import {
   additionalInformation,
@@ -66,15 +68,112 @@ const formConfig = {
   subTitle: 'VA Form 26-1880',
   defaultDefinitions: definitions,
   chapters: {
+    chapter1: {
+      title: 'Chapter 1',
+      pages: {
+        page1: {
+          path: 'first-page',
+          title: 'First Page',
+          uiSchema: {
+            passPhrase: {
+              'ui:title': 'Pass Phrase',
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              passPhrase: { type: 'string' },
+            },
+          },
+        },
+         ...nounPluralReplaceMePages,
+        page2: {
+          path: 'second-page',
+          title: 'Second Page',
+          // depends: formData => {
+          //   return true;
+          // },
+          depends: (formData) => {
+            console.log('show net new page? current value:', formData['nickToggle']);
+            return formData['nickToggle'];
+          },
+          uiSchema: {
+            coolField: {
+              'ui:title': 'Cool Conditional Page',
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              coolField: { type: 'string' },
+            },
+          },
+        },
+        page3: {
+          path: 'third-page',
+          title: 'Third Page',
+          depends: (formData) => {
+            //console.log('show net new page? current value:', formData['nickToggle']);
+            return !formData['nickToggle'];
+          },
+          uiSchema: {
+            coolField: {
+              'ui:title': 'Third Page',
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              coolField: { type: 'string' },
+            },
+          },
+        },
+      },
+    },
     applicantInformationChapter: {
       title: 'Your personal information',
       pages: {
+
+        // netNewPage: {
+        //   path: 'net-new-page',
+        //   title: 'Net new page  ',
+        //   uiSchema: netNewPage.uiSchema,
+        //   schema: netNewPage.schema,
+        //   depends: formData => true
+        //   // depends: (formData) => {
+        //   //   //console.log('show net new page? current value:', formData['nickToggle']);
+        //   //   //return formData['nickToggle'];
+        //   //   return false;
+        //   // },
+        // },
         applicantInformationSummary: {
           path: 'applicant-information',
           title: 'Your personal information on file',
           uiSchema: applicantInformation.uiSchema,
           schema: applicantInformation.schema,
         },
+
+
+        // applicantInformationSummaryNew: {
+        //   path: 'applicant-information-new',
+        //   title: 'Your personal information on file New',
+        //   uiSchema: applicantInformationNew.uiSchema,
+        //   schema: applicantInformationNew.schema,
+        //   depends: (formData) => {
+        //     console.log('show New? current value:', formData['view:nickToggle']);
+        //     return formData['view:nickToggle'];
+        //   },
+        // },
+        // applicantInformationSummary: {
+        //   path: 'applicant-information',
+        //   title: 'Your personal information on file',
+        //   uiSchema: applicantInformation.uiSchema,
+        //   schema: applicantInformation.schema,
+        //   depends: (formData) => {
+        //     console.log('show old? current value:', formData['view:nickToggle']);
+        //     return !formData['view:nickToggle'];
+        //   },
+        // },
       },
     },
     contactInformationChapter: {
@@ -142,6 +241,46 @@ const formConfig = {
       },
     },
   },
+  // chapters: {
+  //   chapter1: {
+  //     title: 'Chapter 1',
+  //     pages: {
+  //       page1: {
+  //         path: 'first-page',
+  //         title: 'First Page',
+  //         uiSchema: {
+  //           passPhrase: {
+  //             'ui:title': 'Pass Phrase',
+  //           },
+  //         },
+  //         schema: {
+  //           type: 'object',
+  //           properties: {
+  //             passPhrase: { type: 'string' },
+  //           },
+  //         },
+  //       },
+  //       page2: {
+  //         path: 'second-page',
+  //         title: 'Second Page',
+  //         depends: formData => {
+  //           return true;
+  //         },
+  //         uiSchema: {
+  //           coolField: {
+  //             'ui:title': 'Cool Conditional Page',
+  //           },
+  //         },
+  //         schema: {
+  //           type: 'object',
+  //           properties: {
+  //             coolField: { type: 'string' },
+  //           },
+  //         },
+  //       },
+  //     },
+  //   }
+  // },
 };
 
 export default formConfig;

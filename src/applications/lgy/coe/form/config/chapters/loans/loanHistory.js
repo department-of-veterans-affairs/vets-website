@@ -39,7 +39,7 @@ const PreviousLoanView = ({ formData }) => {
   return (
     <>
       <div>
-        <div>{intent ? intent.shortLabel : null}</div>
+        <div>THIS PAGE SHOWS {intent ? intent.shortLabel : null}</div>
         <strong>
           {`${propertyAddress1}, ${propertyCity}, ${propertyState}, ${propertyZip}`}
         </strong>

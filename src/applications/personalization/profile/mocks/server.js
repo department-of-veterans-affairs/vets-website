@@ -102,7 +102,7 @@ const responses = {
           generateFeatureToggles({
             authExpVbaDowntimeMessage: false,
             coeAccess: true,
-            profileHideDirectDeposit: false,
+            profileHideDirectDeposit: true,
             representativeStatusEnableV2Features: true,
             profileInternationalPhoneNumbers: false,
             profileLimitDirectDepositForNonBeneficiaries: true,
@@ -124,6 +124,7 @@ const responses = {
             veteranStatusCardUseLighthouseFrontend: true,
             vreCutoverNotice: true,
             mhvEmailConfirmation: false,
+            nickToggle: false,
           }),
         ),
       secondsOfDelay,
