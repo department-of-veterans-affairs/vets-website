@@ -10,9 +10,6 @@ export default function OHProviderSection({ data }) {
     shallowEqual,
   );
 
-  // console.log('patientProviderRelationships:', patientProviderRelationships);
-  // console.log('data:', data);
-
   const selectedProvider = patientProviderRelationships.find(
     provider => provider.providerId === data.selectedProvider,
   );
