@@ -50,10 +50,10 @@ function introDescription() {
 function checkIsItemIncomplete(item) {
   return (
     !item?.traveler ||
-    ((item.traveler === 'DEPENDENT' || item.traveler === 'OTHER') &&
+    ((item.traveler === 'CHILD' || item.traveler === 'OTHER') &&
       !item?.fullNameTraveler) ||
     !item?.travelLocation ||
-    (item.travelLocation === 'OTHER' && !item?.travelLocationOther) ||
+    (item.travelLocation === 'OTHER' && !item?.otherTravelLocation) ||
     !item?.travelDate ||
     !item?.travelMilesTraveled ||
     (item?.travelReimbursed !== false &&
@@ -142,14 +142,14 @@ const travelerPage = {
     fullNameTraveler: textUI({
       title: 'Full name of the person who traveled',
       expandUnder: 'traveler',
-      expandUnderCondition: field => field === 'DEPENDENT' || field === 'OTHER',
+      expandUnderCondition: field => field === 'CHILD' || field === 'OTHER',
       required: (formData, index, fullData) => {
         // Adding a check for formData and fullData since formData is sometimes undefined on load
         // and we can't rely on fullData for testing
         const mileageExpenses =
           formData?.mileageExpenses ?? fullData?.mileageExpenses;
         const mileageExpense = mileageExpenses?.[index];
-        return ['DEPENDENT', 'OTHER'].includes(mileageExpense?.traveler);
+        return ['CHILD', 'OTHER'].includes(mileageExpense?.traveler);
       },
     }),
   },
@@ -174,7 +174,7 @@ const destinationPage = {
           'This would be a doctor’s office, dentist, or other outpatient medical provider.',
       },
     }),
-    travelLocationOther: textUI({
+    otherTravelLocation: textUI({
       title: 'Describe the destination',
       expandUnder: 'travelLocation',
       expandUnderCondition: field => field === 'OTHER',
@@ -191,7 +191,7 @@ const destinationPage = {
     type: 'object',
     properties: {
       travelLocation: radioSchema(Object.keys(travelLocationLabels)),
-      travelLocationOther: textSchema,
+      otherTravelLocation: textSchema,
       travelMilesTraveled: numberSchema,
       travelDate: currentOrPastDateSchema,
     },
