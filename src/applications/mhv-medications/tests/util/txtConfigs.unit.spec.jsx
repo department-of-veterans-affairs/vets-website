@@ -292,11 +292,6 @@ describe('Medication Information Config', () => {
         );
       });
       it('should NOT create "Refill history" section', () => {
-        rxDetails.dispensedDate = undefined;
-        rxDetails.rxRfRecords = [
-          { ...rxDetails.rxRfRecords[0] },
-          { ...rxDetails.rxRfRecords[0] },
-        ];
         expect(txt).to.not.include('Refill history\n');
       });
     });

@@ -228,12 +228,6 @@ describe('Medication Information Config', () => {
         );
       });
       it('should NOT create "Refill history" section', () => {
-        rxDetails.dispensedDate = undefined;
-        rxDetails.rxRfRecords = [
-          { ...rxDetails.rxRfRecords[0] },
-          { ...rxDetails.rxRfRecords[0] },
-        ];
-
         expect(pdfGen[1]).to.not.exist;
       });
     });
