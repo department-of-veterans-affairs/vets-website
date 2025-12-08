@@ -430,6 +430,29 @@ const responses = {
     }
     return delaySingleResponse(() => res.json(maximalSetOfPreferences), 1);
   },
+  'GET /v0/profile/scheduling_preferences': (req, res) => {
+    return res.status(200).json({
+      data: {
+        type: 'schedulingPreferences',
+        attributes: {
+          preferences: [
+            {
+              itemId: 4,
+              optionIds: [29],
+            },
+            {
+              itemId: 5,
+              optionIds: [33],
+            },
+            {
+              itemId: 6,
+              optionIds: [35],
+            },
+          ],
+        },
+      },
+    });
+  },
   'POST /v0/profile/scheduling_preferences': (req, res) => {
     return res.status(200).json({
       data: {

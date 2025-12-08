@@ -16,6 +16,7 @@ import {
 } from '@@profile/selectors';
 
 import { fetchPersonalInformation as fetchPersonalInformationAction } from '~/platform/user/profile/vap-svc/actions/personalInformation';
+import { fetchSchedulingPreferences as fetchSchedulingPreferencesAction } from '~/platform/user/profile/vap-svc/actions/schedulingPreferences';
 import { CSP_IDS } from '~/platform/user/authentication/constants';
 import DowntimeNotification, {
   externalServices,
@@ -59,6 +60,7 @@ class Profile extends Component {
       fetchFullName,
       fetchMilitaryInformation,
       fetchPersonalInformation,
+      fetchSchedulingPreferences,
       fetchTotalDisabilityRating,
       isLOA3,
       isInMVI,
@@ -73,6 +75,8 @@ class Profile extends Component {
       fetchPersonalInformation();
       fetchMilitaryInformation();
     }
+
+    fetchSchedulingPreferences();
 
     if (togglesLoaded && shouldFetchDirectDeposit) {
       fetchDirectDeposit();
@@ -248,6 +252,7 @@ Profile.propTypes = {
   fetchFullName: PropTypes.func.isRequired,
   fetchMilitaryInformation: PropTypes.func.isRequired,
   fetchPersonalInformation: PropTypes.func.isRequired,
+  fetchSchedulingPreferences: PropTypes.func.isRequired,
   fetchTotalDisabilityRating: PropTypes.func.isRequired,
   initializeDowntimeWarnings: PropTypes.func.isRequired,
   isBlocked: PropTypes.bool.isRequired,
@@ -361,6 +366,7 @@ const mapDispatchToProps = {
   fetchFullName: fetchHeroAction,
   fetchMilitaryInformation: fetchMilitaryInformationAction,
   fetchPersonalInformation: fetchPersonalInformationAction,
+  fetchSchedulingPreferences: fetchSchedulingPreferencesAction,
   fetchDirectDeposit: fetchDirectDepositAction,
   fetchTotalDisabilityRating: fetchTotalDisabilityRatingAction,
   initializeDowntimeWarnings,

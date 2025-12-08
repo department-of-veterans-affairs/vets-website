@@ -63,7 +63,12 @@ const getSchedulingPreferenceItemId = fieldName => {
   return FIELD_ITEM_IDS[fieldName];
 };
 
-const getSchedulingPreferenceOptionIds = (fieldName, values) => {
+const getSchedulingPreferencesOptionDisplayName = (fieldName, itemId) => {
+  const options = FIELD_OPTION_IDS[fieldName];
+  return Object.entries(options).find(([_key, value]) => value === itemId)?.[0];
+};
+
+const getSchedulingPreferencesOptionIds = (fieldName, values) => {
   const optionIds = FIELD_OPTION_IDS[fieldName];
   const selectedValues = Object.values(values);
 
@@ -101,7 +106,34 @@ export const schedulingPreferencesConvertCleanDataToPayload = (
   fieldName,
 ) => {
   const itemId = getSchedulingPreferenceItemId(fieldName);
-  const optionIds = getSchedulingPreferenceOptionIds(fieldName, data);
+  const optionIds = getSchedulingPreferencesOptionIds(fieldName, data);
 
   return { itemId, optionIds };
+};
+
+export const convertSchedulingPreferencesToReduxFormat = items => {
+  const formattedData = {};
+
+  items.preferences.forEach(item => {
+    const fieldName = Object.keys(FIELD_ITEM_IDS).find(
+      key => FIELD_ITEM_IDS[key] === item.itemId,
+    );
+    if (isInlineSchedulingPreference(fieldName)) {
+      formattedData[fieldName] =
+        getSchedulingPreferencesOptionDisplayName(
+          fieldName,
+          item.optionIds[0],
+        ) || '';
+    } else {
+      formattedData[fieldName] = item.optionIds.length
+        ? item.optionIds.map(optionId =>
+            Object.keys(FIELD_OPTION_IDS[fieldName]).find(
+              key => FIELD_OPTION_IDS[fieldName][key] === optionId,
+            ),
+          )
+        : [];
+    }
+  });
+
+  return formattedData;
 };
