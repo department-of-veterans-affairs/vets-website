@@ -24,7 +24,10 @@ const Confirmation = () => {
   }
 
   return (
-    <Wrapper pageTitle="Your appointment is scheduled">
+    <Wrapper
+      testID="confirmation-page"
+      pageTitle="Your appointment is scheduled"
+    >
       <p data-testid="confirmation-message" className="vads-u-margin-bottom--5">
         We’ve confirmed your appointment.
       </p>
