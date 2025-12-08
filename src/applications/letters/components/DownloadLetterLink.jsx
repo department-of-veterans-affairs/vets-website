@@ -7,7 +7,6 @@ import recordEvent from '@department-of-veterans-affairs/platform-monitoring/rec
 import CallVBACenter from '@department-of-veterans-affairs/platform-static-data/CallVBACenter';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { datadogLogs } from '@datadog/browser-logs';
 import { getLetterPdf } from '../actions/letters';
 import { DOWNLOAD_STATUSES } from '../utils/constants';
 import { getDownloadSuccessMessage } from '../utils/helpers';
@@ -33,10 +32,6 @@ export class DownloadLetterLink extends React.Component {
 
     recordEvent({
       event: 'letter-download',
-      'letter-type': this.props.letterType,
-    });
-
-    datadogLogs.logger.info('Letter downloaded.', {
       'letter-type': this.props.letterType,
     });
 
