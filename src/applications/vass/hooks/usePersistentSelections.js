@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 /**
  * Default structure for user selections
  * @type {{selectedTopicsIds: Array, selectedSlotTime: null}}
@@ -65,14 +66,17 @@ export const usePersistentSelections = uuid => {
    * Saves the selected topics array to localStorage
    * @param {Array} topics - Array of selected topic identifiers
    */
-  const saveTopicsSelection = topics => {
-    const selections = getSelections(uuid);
-    const newSelections = { ...selections, selectedTopicsIds: topics };
-    localStorage.setItem(
-      getSelectionsStorageKey(uuid),
-      JSON.stringify(newSelections),
-    );
-  };
+  const saveTopicsSelection = useCallback(
+    topics => {
+      const selections = getSelections(uuid);
+      const newSelections = { ...selections, selectedTopicsIds: topics };
+      localStorage.setItem(
+        getSelectionsStorageKey(uuid),
+        JSON.stringify(newSelections),
+      );
+    },
+    [uuid],
+  );
 
   /**
    * Removes all saved selections from localStorage for the given ID
@@ -85,9 +89,12 @@ export const usePersistentSelections = uuid => {
    * Retrieves all saved selections from localStorage
    * @returns {Object} Object containing selectedTopics and selectedSlotTime
    */
-  const getSaved = () => {
-    return getSelections(uuid);
-  };
+  const getSaved = useCallback(
+    () => {
+      return getSelections(uuid);
+    },
+    [uuid],
+  );
 
   return {
     saveDateSelection,
