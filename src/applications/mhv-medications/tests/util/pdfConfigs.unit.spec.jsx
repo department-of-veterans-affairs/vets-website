@@ -214,7 +214,7 @@ describe('Medication Information Config', () => {
     describe('VA Prescription config', () => {
       const rxDetails = { ...prescriptionDetails.data.attributes };
       const pdfGen = buildVAPrescriptionPDFList(rxDetails, true);
-      const items = pdfGen[0].sections[0].items.map(item => item.label);
+      const items = pdfGen[0].sections[0].items.map(item => item.title);
 
       it('should NOT show "Reason for Use" field', () => {
         expect(items).to.not.include('Reason for use:');
@@ -234,7 +234,7 @@ describe('Medication Information Config', () => {
 
     describe('Non-VA Prescription config', () => {
       const pdfGen = buildNonVAPrescriptionPDFList(nonVAPrescription, true);
-      const items = pdfGen[0].sections[0].items.map(item => item.label);
+      const items = pdfGen[0].sections[0].items.map(item => item.title);
 
       it('should NOT show "Reason for Use" field', () => {
         expect(items).to.not.include('Reason for use:');
