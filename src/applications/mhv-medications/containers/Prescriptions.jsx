@@ -367,7 +367,7 @@ const Prescriptions = () => {
           buildAllergiesTXT(allergies),
         );
       } else if (format === PRINT_FORMAT.PRINT) {
-        setPrintedList(prescriptionsExportList, isCernerPilot);
+        setPrintedList(prescriptionsExportList);
         setPdfTxtGenerateStatus({
           status: PDF_TXT_GENERATE_STATUS.NotStarted,
         });
