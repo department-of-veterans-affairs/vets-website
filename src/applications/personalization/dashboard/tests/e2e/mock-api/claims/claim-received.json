@@ -18,6 +18,8 @@
             "currentPhaseBack": false,
             "requestedDecision": false,
             "claimType": "Dependency",
+            "claimTypeBase": "request to add or remove a dependent",
+            "displayTitle": "Request to add or remove a dependent",
             "updatedAt": "2022-06-08T14:18:59.888Z",
             "contentionList": [],
             "vaRepresentative": "AMERICAN LEGION",

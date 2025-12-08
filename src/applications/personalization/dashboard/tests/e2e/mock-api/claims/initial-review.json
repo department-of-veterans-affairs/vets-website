@@ -18,6 +18,8 @@
             "currentPhaseBack": false,
             "requestedDecision": false,
             "claimType": "Compensation",
+            "claimTypeBase": "compensation claim",
+            "displayTitle": "Claim for compensation",
             "updatedAt": "2022-06-08T14:20:30.112Z",
             "contentionList": [
                 "lung condition (New)"
