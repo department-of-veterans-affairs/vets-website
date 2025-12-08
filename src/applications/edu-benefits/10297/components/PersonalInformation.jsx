@@ -15,9 +15,9 @@ import {
 const PersonalInformation = ({ formData }) => {
   const profile = useSelector(selectProfile);
   const { dob, ssn: profileSsn, userFullName = {} } = profile;
-  const { first, middle, last, suffix, dateOfBirth } =
-    formData.applicantFullName || userFullName;
+  const { first, middle, last, suffix, dateOfBirth } = userFullName;
   const age = getAgeInYears(profile?.dob);
+  const fullName = `${first || ''} ${middle || ''} ${last || ''}`.trim();
 
   // Get SSN from formData or profile, then extract last 4 digits
   const ssn = formData.ssn || profileSsn;
@@ -114,7 +114,7 @@ const PersonalInformation = ({ formData }) => {
             className="name dd-privacy-hidden"
             data-dd-action-name="Veteran's name"
           >
-            {`${first || ''} ${middle || ''} ${last || ''}`}
+            {fullName}
             {suffix ? `, ${suffix}` : null}
           </span>
         </p>
