@@ -309,7 +309,7 @@
     "mapbox-gl-v3": "npm:mapbox-gl@^3.9.4",
     "markdown-it": "^12.3.2",
     "markdown-it-link-attributes": "^4.0.0",
-    "moment": "~2.29.4",
+    "moment": "~2.30.0",
     "moment-timezone": "^0.5.35",
     "node-lcs": "^1.0.4",
     "octokit": "^2.1.0",
@@ -344,7 +344,7 @@
     "url-search-params-polyfill": "^8.1.1",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#7e2c6209a14ba77402609055866b3923acf9c70f",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#76d6a4972b0e59631ab6cea208947fe981d85743",
     "web-vitals": "^4.2.4"
   },
   "resolutions": {
