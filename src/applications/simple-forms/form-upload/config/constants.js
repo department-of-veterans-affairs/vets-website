@@ -179,4 +179,4 @@ export const FORM_UPLOAD_FILE_UPLOADING_ALERT = onCloseEvent => (
   </VaAlert>
 );
 
-export const MAX_FILE_SIZE = 25000000;
+export const MAX_FILE_SIZE = 25 * 1024 * 1024;
