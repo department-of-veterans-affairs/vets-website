@@ -1,5 +1,9 @@
 import React from 'react';
 
+/**
+ * Render form help footer
+ * @returns {React.ReactElement} get form help footer
+ */
 const GetFormHelp = () => (
   <>
     <p className="help-talk">
