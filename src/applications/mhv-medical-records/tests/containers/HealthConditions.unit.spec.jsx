@@ -254,3 +254,44 @@ describe('Health conditions with accelerated data', () => {
     });
   });
 });
+
+describe('Health conditions global isLoading states', () => {
+  const baseState = {
+    user,
+    mr: {
+      conditions: {
+        conditionsList: [],
+        listState: loadStates.IDLE,
+      },
+      alerts: { alertList: [] },
+    },
+  };
+
+  it('renders TrackedSpinner when feature toggles are loading', () => {
+    const initialState = {
+      ...baseState,
+      featureToggles: { loading: true },
+      drupalStaticData: { vamcEhrData: { loading: false } },
+    };
+    const screen = renderWithStoreAndRouter(<HealthConditions />, {
+      initialState,
+      reducers: reducer,
+      path: '/conditions',
+    });
+    expect(screen.queryByTestId('tracked-spinner')).to.exist;
+  });
+
+  it('renders TrackedSpinner when Drupal EHR data is loading', () => {
+    const initialState = {
+      ...baseState,
+      featureToggles: { loading: false },
+      drupalStaticData: { vamcEhrData: { loading: true } },
+    };
+    const screen = renderWithStoreAndRouter(<HealthConditions />, {
+      initialState,
+      reducers: reducer,
+      path: '/conditions',
+    });
+    expect(screen.queryByTestId('tracked-spinner')).to.exist;
+  });
+});

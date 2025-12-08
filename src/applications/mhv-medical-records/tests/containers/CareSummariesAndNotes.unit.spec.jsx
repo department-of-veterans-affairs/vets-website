@@ -151,3 +151,48 @@ describe('CareSummariesAndNotes list container with errors', () => {
     });
   });
 });
+
+describe('CareSummariesAndNotes global isLoading states', () => {
+  const baseState = {
+    user,
+    mr: {
+      careSummariesAndNotes: {
+        careSummariesAndNotesList: [],
+        dateRange: {
+          option: '3',
+          fromDate: '2025-08-13',
+          toDate: '2025-11-13',
+        },
+      },
+      alerts: { alertList: [] },
+    },
+  };
+
+  it('renders TrackedSpinner when feature toggles are loading', () => {
+    const initialState = {
+      ...baseState,
+      featureToggles: { loading: true },
+      drupalStaticData: { vamcEhrData: { loading: false } },
+    };
+    const screen = renderWithStoreAndRouter(<CareSummariesAndNotes />, {
+      initialState,
+      reducers: reducer,
+      path: '/summaries-and-notes',
+    });
+    expect(screen.queryByTestId('tracked-spinner')).to.exist;
+  });
+
+  it('renders TrackedSpinner when Drupal EHR data is loading', () => {
+    const initialState = {
+      ...baseState,
+      featureToggles: { loading: false },
+      drupalStaticData: { vamcEhrData: { loading: true } },
+    };
+    const screen = renderWithStoreAndRouter(<CareSummariesAndNotes />, {
+      initialState,
+      reducers: reducer,
+      path: '/summaries-and-notes',
+    });
+    expect(screen.queryByTestId('tracked-spinner')).to.exist;
+  });
+});
