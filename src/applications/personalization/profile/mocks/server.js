@@ -101,6 +101,8 @@ const responses = {
         res.json(
           generateFeatureToggles({
             authExpVbaDowntimeMessage: false,
+            coeAccess: true,
+            coeFormRebuildCveteam: false,
             profileHideDirectDeposit: false,
             representativeStatusEnableV2Features: true,
             profileInternationalPhoneNumbers: false,
