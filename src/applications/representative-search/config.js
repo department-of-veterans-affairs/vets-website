@@ -1,4 +1,6 @@
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import environment, {
+  isLocalhostBaseUrl,
+} from '@department-of-veterans-affairs/platform-utilities/environment';
 import compact from 'lodash/compact';
 import { RepresentativeType } from './constants';
 import manifest from './manifest.json';
@@ -35,7 +37,7 @@ export const endpointOptions = {
 export const useStagingDataLocally = true;
 
 const baseUrl =
-  useStagingDataLocally && environment.BASE_URL === 'http://localhost:3001'
+  useStagingDataLocally && isLocalhostBaseUrl(environment.BASE_URL)
     ? `https://staging-api.va.gov`
     : `${environment.API_URL}`;
 
