@@ -1,7 +1,7 @@
 import React from 'react';
 import { textUI } from 'platform/forms-system/src/js/web-component-patterns';
 import YellowRibbonProgramTitle from '../components/YellowRibbonProgramTitle';
-import { getAcademicYearDisplay } from '../helpers';
+import { getAcademicYearDisplay, matchYearPattern } from '../helpers';
 
 const uiSchema = {
   'ui:title': () => <YellowRibbonProgramTitle text="Provide your" />,
@@ -18,7 +18,7 @@ const uiSchema = {
   academicYear: {
     ...textUI({
       title: 'What academic year does this agreement apply to?',
-      description: `Enter the academic year (such as ${getAcademicYearDisplay()})`,
+      description: `Enter the academic year, such as ${getAcademicYearDisplay()}`,
       errorMessages: {
         required: `Enter the academic year, such as ${getAcademicYearDisplay()}`,
       },
@@ -31,6 +31,7 @@ const uiSchema = {
     },
     'ui:options': {
       classNames: 'vads-u-margin-bottom--2 eligible-individuals-note container',
+      useAllFormData: true,
       hideIf: (formData, index, fullData) => {
         if (index !== undefined) {
           return fullData?.agreementType === 'startNewOpenEndedAgreement';
@@ -39,10 +40,24 @@ const uiSchema = {
       },
     },
     'ui:validations': [
-      (errors, fieldData) => {
-        if (fieldData && fieldData !== getAcademicYearDisplay()) {
+      (errors, fieldData, formData) => {
+        if (
+          fieldData &&
+          fieldData !== getAcademicYearDisplay() &&
+          formData?.agreementType === 'startNewOpenEndedAgreement'
+        ) {
           errors.addError(
             `Enter the upcoming academic year this agreement applies to`,
+          );
+        }
+
+        if (
+          fieldData &&
+          !matchYearPattern(fieldData) &&
+          formData?.agreementType !== 'startNewOpenEndedAgreement'
+        ) {
+          errors.addError(
+            `Enter the academic year, such as ${getAcademicYearDisplay()}`,
           );
         }
       },
