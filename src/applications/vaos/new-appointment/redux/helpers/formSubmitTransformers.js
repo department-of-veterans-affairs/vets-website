@@ -138,9 +138,9 @@ export function transformFormToVAOSVARequest(state) {
 export function transformFormToVAOSAppointment(state) {
   const data = getFormData(state);
   const { ehr } = state.newAppointment;
-  let clinicId = null;
 
   // Only appointments booked in a VistA system need the clinic id
+  let clinicId = null;
   if (ehr === 'vista') {
     const clinic = getChosenClinicInfo(state);
     clinicId = getClinicId(clinic);
