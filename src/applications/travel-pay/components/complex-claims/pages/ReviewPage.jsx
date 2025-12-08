@@ -73,16 +73,19 @@ const ReviewPage = () => {
     navigate(`/file-new-claim/${apptId}/${claimId}/travel-agreement`);
   };
 
+  const numGroupedExpenses = Object.keys(groupedExpenses).length;
+  const isAlertVisible = !!alertMessage && numGroupedExpenses > 0;
+
   return (
     <div data-testid="review-page">
       <h1>Your unsubmitted expenses</h1>
-      {alertMessage && (
+      {isAlertVisible && (
         <ReviewPageAlert
           header={alertMessage.title}
           description={alertMessage.description}
           status={alertMessage.type}
           onCloseEvent={onAlertClose}
-          visible={!!alertMessage}
+          visible={isAlertVisible}
         />
       )}
       <VaButton
