@@ -8,20 +8,20 @@ import LoadFail from '../alerts/LoadFail';
 const SchedulingPreferencesContent = ({ hasSchedulingPreferencesError }) => {
   const contactPreferencesData = [
     {
-      title: FIELD_TITLES[FIELD_NAMES.CONTACT_PREFERENCE_1],
-      id: FIELD_IDS[FIELD_NAMES.CONTACT_PREFERENCE_1],
+      title: FIELD_TITLES[FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD],
+      id: FIELD_IDS[FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD],
       value: (
         <ProfileInformationFieldController
-          fieldName={FIELD_NAMES.CONTACT_PREFERENCE_1}
+          fieldName={FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD}
         />
       ),
     },
     {
-      title: FIELD_TITLES[FIELD_NAMES.CONTACT_PREFERENCE_2],
-      id: FIELD_IDS[FIELD_NAMES.CONTACT_PREFERENCE_2],
+      title: FIELD_TITLES[FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES],
+      id: FIELD_IDS[FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES],
       value: (
         <ProfileInformationFieldController
-          fieldName={FIELD_NAMES.CONTACT_PREFERENCE_2}
+          fieldName={FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES}
         />
       ),
     },
@@ -29,20 +29,20 @@ const SchedulingPreferencesContent = ({ hasSchedulingPreferencesError }) => {
 
   const appointmentPreferencesData = [
     {
-      title: FIELD_TITLES[FIELD_NAMES.APPOINTMENT_PREFERENCE_1],
-      id: FIELD_IDS[FIELD_NAMES.APPOINTMENT_PREFERENCE_1],
+      title: FIELD_TITLES[FIELD_NAMES.SCHEDULING_PREF_HELP_SCHEDULING],
+      id: FIELD_IDS[FIELD_NAMES.SCHEDULING_PREF_HELP_SCHEDULING],
       value: (
         <ProfileInformationFieldController
-          fieldName={FIELD_NAMES.APPOINTMENT_PREFERENCE_1}
+          fieldName={FIELD_NAMES.SCHEDULING_PREF_HELP_SCHEDULING}
         />
       ),
     },
     {
-      title: FIELD_TITLES[FIELD_NAMES.APPOINTMENT_PREFERENCE_2],
-      id: FIELD_IDS[FIELD_NAMES.APPOINTMENT_PREFERENCE_2],
+      title: FIELD_TITLES[FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES],
+      id: FIELD_IDS[FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES],
       value: (
         <ProfileInformationFieldController
-          fieldName={FIELD_NAMES.APPOINTMENT_PREFERENCE_2}
+          fieldName={FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES}
         />
       ),
     },
@@ -50,20 +50,20 @@ const SchedulingPreferencesContent = ({ hasSchedulingPreferencesError }) => {
 
   const providerPreferencesData = [
     {
-      title: FIELD_TITLES[FIELD_NAMES.PROVIDER_PREFERENCE_1],
-      id: FIELD_IDS[FIELD_NAMES.PROVIDER_PREFERENCE_1],
+      title: FIELD_TITLES[FIELD_NAMES.SCHEDULING_PREF_PROVIDER_GENDER],
+      id: FIELD_IDS[FIELD_NAMES.SCHEDULING_PREF_PROVIDER_GENDER],
       value: (
         <ProfileInformationFieldController
-          fieldName={FIELD_NAMES.PROVIDER_PREFERENCE_1}
+          fieldName={FIELD_NAMES.SCHEDULING_PREF_PROVIDER_GENDER}
         />
       ),
     },
     {
-      title: FIELD_TITLES[FIELD_NAMES.PROVIDER_PREFERENCE_2],
-      id: FIELD_IDS[FIELD_NAMES.PROVIDER_PREFERENCE_2],
+      title: FIELD_TITLES[FIELD_NAMES.SCHEDULING_PREF_HELP_CHOOSING],
+      id: FIELD_IDS[FIELD_NAMES.SCHEDULING_PREF_HELP_CHOOSING],
       value: (
         <ProfileInformationFieldController
-          fieldName={FIELD_NAMES.PROVIDER_PREFERENCE_2}
+          fieldName={FIELD_NAMES.SCHEDULING_PREF_HELP_CHOOSING}
         />
       ),
     },
