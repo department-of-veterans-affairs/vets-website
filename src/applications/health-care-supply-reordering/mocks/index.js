@@ -38,14 +38,15 @@ const getIpfMdotResponse = (req, res) => {
   //  - fields empty
   //  - temporaryAddress empty object
   //  - no temporaryAddress field
-  const { formData, metadata } = mdot.suppliesResponse;
-  Object.keys(formData.temporaryAddress).forEach(key => {
-    formData.temporaryAddress[key] = '';
-    // formData.temporaryAddress[key] = null;
-  });
+  // const { formData, metadata } = mdot.suppliesResponse;
+  // Object.keys(formData.temporaryAddress).forEach(key => {
+  //   formData.temporaryAddress[key] = '';
+  //   // formData.temporaryAddress[key] = null;
+  // });
   // formData.temporaryAddress = {};
   // delete formData.temporaryAddress;
-  return res.status(200).json({ formData, metadata });
+  // return res.status(200).json({ formData, metadata });
+  return res.status(200).json(mdot.suppliesResponse);
 };
 
 const putIpfMdotResponse = {
