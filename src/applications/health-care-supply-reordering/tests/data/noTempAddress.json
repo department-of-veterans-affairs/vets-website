@@ -13,14 +13,6 @@
       "country": "United States",
       "postalCode": "66363"
     },
-    "temporaryAddress": {
-      "street": "  ",
-      "street2": "",
-      "city": "",
-      "state": "",
-      "country": "",
-      "postalCode": ""
-    },
     "ssnLastFour": "4437",
     "gender": "M",
     "vetEmail": "vet@vet.com",
