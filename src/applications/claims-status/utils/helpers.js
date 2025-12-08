@@ -1588,8 +1588,8 @@ export const getUploadErrorMessage = (
 };
 
 /**
- * Gets the display name for a supporting document (uploaded file with status)
- * @param {Object} document - Supporting document object with status property
+ * Gets the display name for a supporting document
+ * @param {Object} document - Supporting document object
  * @returns {string} Friendly name or display name
  */
 export const getSupportingDocumentDisplayName = document => {
@@ -1616,13 +1616,9 @@ export const getEvidenceSubmissionDisplayName = document => {
  * @returns {string} Display name for the document request type
  */
 export const getDocumentRequestTypeDisplayName = document => {
-  if (document.status) {
-    return getSupportingDocumentDisplayName(document);
-  }
-
   if (document.trackedItemId) {
     return getEvidenceSubmissionDisplayName(document);
   }
 
-  return 'unknown';
+  return getSupportingDocumentDisplayName(document);
 };

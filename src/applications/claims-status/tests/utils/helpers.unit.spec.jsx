@@ -2446,69 +2446,23 @@ describe('Disability benefits helpers: ', () => {
   });
 
   describe('getDocumentRequestTypeDisplayName', () => {
-    context('when document has a status (supporting document)', () => {
-      context('when the friendlyName is present', () => {
-        it('should return the friendlyName', () => {
-          const document = {
-            status: 'NEEDED_FROM_YOU',
-            friendlyName: 'Medical Records',
-            displayName: 'Submit Medical Records',
-          };
-          const result = getDocumentRequestTypeDisplayName(document);
-          expect(result).to.equal('Medical Records');
-        });
-      });
+    it('should delegate to getEvidenceSubmissionDisplayName when trackedItemId is present', () => {
+      const document = {
+        trackedItemId: 123,
+        trackedItemFriendlyName: 'Authorization to Disclose Information',
+      };
+      const result = getDocumentRequestTypeDisplayName(document);
 
-      context('when the friendlyName is not present', () => {
-        it('should return the displayName', () => {
-          const document = {
-            status: 'NEEDED_FROM_YOU',
-            displayName: 'Submit Medical Records',
-          };
-          const result = getDocumentRequestTypeDisplayName(document);
-          expect(result).to.equal('Submit Medical Records');
-        });
-      });
+      expect(result).to.equal('Authorization to Disclose Information');
     });
 
-    context('when the trackedItemId is present (evidence submission)', () => {
-      context('when the trackedItemFriendlyName is present', () => {
-        it('should return the trackedItemFriendlyName', () => {
-          const document = {
-            trackedItemId: 123,
-            trackedItemFriendlyName: 'Authorization to Disclose Information',
-            trackedItemDisplayName: '21-4142/21-4142a',
-          };
-          const result = getDocumentRequestTypeDisplayName(document);
-          expect(result).to.equal('Authorization to Disclose Information');
-        });
-      });
+    it('should delegate to getSupportingDocumentDisplayName when trackedItemId is not present', () => {
+      const document = {
+        friendlyName: 'Medical Records',
+      };
+      const result = getDocumentRequestTypeDisplayName(document);
 
-      context('when the trackedItemFriendlyName is not present', () => {
-        it('should return the trackedItemDisplayName', () => {
-          const document = {
-            trackedItemId: 123,
-            trackedItemDisplayName: '21-4142/21-4142a',
-          };
-          const result = getDocumentRequestTypeDisplayName(document);
-          expect(result).to.equal('21-4142/21-4142a');
-        });
-      });
-    });
-
-    context('when the document has neither status nor trackedItemId', () => {
-      it("should return 'unknown'", () => {
-        const document = {
-          documentId: '{A8A7A341-E3FD-44FA-99C9-C3B772AD0200}',
-          documentTypeLabel: 'Test',
-          originalFileName: 'test-document.pdf',
-          trackedItemId: null,
-          uploadDate: '2024-10-15',
-        };
-        const result = getDocumentRequestTypeDisplayName(document);
-
-        expect(result).to.equal('unknown');
-      });
+      expect(result).to.equal('Medical Records');
     });
   });
 });
