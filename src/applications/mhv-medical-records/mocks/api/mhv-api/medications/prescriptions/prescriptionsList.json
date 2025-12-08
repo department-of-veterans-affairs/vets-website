@@ -18,6 +18,7 @@
                 "dispensedDate": null,
                 "stationNumber": "668",
                 "isRefillable": false,
+                "isRenewable": true,
                 "isTrackable": false,
                 "cmopNdcNumber": null,
                 "inCernerTransition": false,
