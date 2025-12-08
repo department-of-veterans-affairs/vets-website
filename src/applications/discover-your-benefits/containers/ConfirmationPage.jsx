@@ -424,22 +424,6 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
               onVaFilterApply={handleFilterApply}
               onVaFilterClearAll={handleFilterClearAll}
             />
-            {!isAllBenefits && (
-              <div className="all-benefits">
-                <span>
-                  If you’d like to explore all of the benefits that this tool
-                  can recommend, select the link below.&nbsp;
-                </span>
-                <va-link
-                  href="/discover-your-benefits/confirmation?allBenefits=true"
-                  external
-                  message-aria-describedby="Show every benefit in this tool"
-                  text="Show every benefit in this tool"
-                  data-testid="show-all-benefits"
-                  type="secondary"
-                />
-              </div>
-            )}
           </div>
           <div id="results-section">
             <h2 className="vads-u-font-size--h2 vads-u-margin-top--0">
