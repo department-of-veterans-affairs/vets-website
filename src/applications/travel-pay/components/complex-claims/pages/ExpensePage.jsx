@@ -237,7 +237,7 @@ const ExpensePage = () => {
       );
     } catch (error) {
       // Set alert
-      const verb = isEditMode ? 'add' : 'edit';
+      const verb = isEditMode ? 'edit' : 'add';
       dispatch(
         setReviewPageAlert({
           title: `We couldn’t ${verb} this expense right now`,
