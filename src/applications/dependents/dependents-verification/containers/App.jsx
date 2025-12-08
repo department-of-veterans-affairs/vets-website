@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { useBrowserMonitoring } from 'platform/monitoring/Datadog/';
-import environment from 'platform/utilities/environment';
+
 import formConfig from '../config/form';
 import NoFormPage from '../components/NoFormPage';
 import manifest from '../manifest.json';
@@ -67,7 +67,6 @@ export default function App({ location, children }) {
     sessionSampleRate: 100,
     defaultPrivacyLevel: 'mask-user-input',
     trackBfcacheViews: true,
-    env: environment.isProduction(),
   });
 
   useEffect(() => {
