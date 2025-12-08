@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 
+import { TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY } from '@department-of-veterans-affairs/mhv/exports';
 import { getDaysRemainingToFileClaim } from '../utils/appointment';
 import {
   selectAppointmentTravelClaim,
   selectIsEligibleForTravelClaim,
 } from '../appointment-list/redux/selectors';
-import { TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY } from '../../travel-pay/constants';
 import Section from './Section';
 
 export default function AppointmentTasksSection({ appointment }) {

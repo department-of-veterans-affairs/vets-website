@@ -10,6 +10,7 @@ import {
 
 import { Element } from 'platform/utilities/scroll';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
+import { TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY } from '@department-of-veterans-affairs/mhv/exports';
 
 import {
   selectAppointment,
@@ -23,7 +24,7 @@ import {
   getComplexClaimDetails,
   clearUnsavedExpenseChanges,
 } from '../redux/actions';
-import { STATUSES, TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY } from '../constants';
+import { STATUSES } from '../constants';
 import UnsavedChangesModal from '../components/UnsavedChangesModal';
 
 const getBackHref = ({

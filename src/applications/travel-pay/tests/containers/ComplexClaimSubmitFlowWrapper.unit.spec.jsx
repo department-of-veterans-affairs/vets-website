@@ -5,11 +5,11 @@ import sinon from 'sinon';
 import { MemoryRouter, Route, Routes } from 'react-router-dom-v5-compat';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY } from '@department-of-veterans-affairs/mhv/exports';
 
 import reducer from '../../redux/reducer';
 import ComplexClaimSubmitFlowWrapper from '../../containers/ComplexClaimSubmitFlowWrapper';
 import * as actions from '../../redux/actions';
-import { TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY } from '../../constants';
 
 // Mock components for navigation testing
 const ConfirmationPage = () => <div>Confirmation</div>;

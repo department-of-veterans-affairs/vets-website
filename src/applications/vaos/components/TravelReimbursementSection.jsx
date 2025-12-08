@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
+import { TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY } from '@department-of-veterans-affairs/mhv/exports';
 import { getDaysRemainingToFileClaim } from '../utils/appointment';
 import {
   selectAppointmentTravelClaim,
   selectIsEligibleForTravelClaim,
 } from '../appointment-list/redux/selectors';
 import { TRAVEL_CLAIM_MESSAGES } from '../utils/constants';
-import { TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY } from '../../travel-pay/constants';
 import Section from './Section';
 
 const setClaimEntry = () => {

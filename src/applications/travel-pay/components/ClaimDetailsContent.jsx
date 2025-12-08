@@ -2,14 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
+import { TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY } from '@department-of-veterans-affairs/mhv/exports';
 
 import useSetPageTitle from '../hooks/useSetPageTitle';
 import { formatDateTime } from '../util/dates';
-import {
-  STATUSES,
-  FORM_100998_LINK,
-  TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY,
-} from '../constants';
+import { STATUSES, FORM_100998_LINK } from '../constants';
 import { toPascalCase, currency } from '../util/string-helpers';
 import DocumentDownload from './DocumentDownload';
 import DecisionReason from './DecisionReason';
