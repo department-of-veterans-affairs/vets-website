@@ -33,7 +33,7 @@ export const focusableWebComponentList = [
   'va-combo-box',
   'va-file-input',
   'va-file-input-multiple',
-  // 'va-memorable-date',
+  'va-memorable-date',
   'va-number-input',
   // 'va-privacy-agreement',
   'va-radio-option',
