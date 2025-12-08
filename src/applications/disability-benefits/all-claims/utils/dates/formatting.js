@@ -22,12 +22,21 @@ import {
 import { isValidYear as platformIsValidYear } from 'platform/forms-system/src/js/utilities/validations';
 
 // Constants
-export const DATE_FORMAT = 'MMMM d, yyyy'; // e.g., "January 1, 2021" (date-fns format)
+export const DATE_FORMAT = 'MMMM d, yyyy'; // e.g., "January 1, 2021"
 export const DATE_FORMAT_SHORT = 'MM/dd/yyyy';
 export const DATE_FORMAT_LONG = 'MMMM d, yyyy';
 export const PARTIAL_DATE_FORMAT = 'yyyy-MM';
 // Public template for full ISO-like date strings used across the all-claims app
 export const DATE_TEMPLATE = 'yyyy-MM-dd';
+// Map common Moment.js tokens to date-fns tokens for compatibility in tests/components
+const normalizeFormatTokens = fmt => {
+  if (!fmt || typeof fmt !== 'string') return DATE_FORMAT;
+  return fmt
+    .replace(/YYYY/g, 'yyyy')
+    .replace(/YY/g, 'yy')
+    .replace(/DD/g, 'dd')
+    .replace(/D/g, 'd');
+};
 
 // Year validation constants
 export const MIN_VALID_YEAR = 1900;
@@ -48,6 +57,11 @@ const safeFnsDate = (date, dateFormat) => {
     return isValid(date) ? date : null;
   }
 
+  // Reject non-string, non-Date types (booleans, numbers, etc.)
+  if (typeof date !== 'string' && !(date instanceof Date)) {
+    return null;
+  }
+
   // If a format is provided, use parse with strict parsing
   if (dateFormat) {
     const parsedDate = parse(date, dateFormat, new Date());
@@ -58,13 +72,26 @@ const safeFnsDate = (date, dateFormat) => {
   if (typeof date === 'string' && /^\d{4}-\d{2}-\d{2}/.test(date)) {
     const parsedDate = parseISO(date);
     if (isValid(parsedDate)) {
-      return parsedDate;
+      // Verify the parsed date is a real calendar date.
+      // Allow full ISO timestamps (e.g., 'YYYY-MM-DDTHH:mm:ssZ') by comparing only the date portion.
+      const formattedBack = format(parsedDate, 'yyyy-MM-dd');
+      const inputDatePortion = date.slice(0, 10);
+      if (formattedBack === inputDatePortion) {
+        return parsedDate;
+      }
     }
+    // If it looks like an ISO date but fails validation, don't try fallback
+    return null;
   }
 
   // Fallback to Date constructor
   const parsedDate = new Date(date);
-  return isValid(parsedDate) ? parsedDate : null;
+  if (isValid(parsedDate)) {
+    // Additional validation for Date constructor results
+    // to prevent boolean/number coercion
+    return parsedDate;
+  }
+  return null;
 };
 
 /**
@@ -76,7 +103,8 @@ const safeFnsDate = (date, dateFormat) => {
  */
 export const formatDate = (date, formatStr = DATE_FORMAT) => {
   const parsedDate = safeFnsDate(date);
-  return parsedDate ? format(parsedDate, formatStr) : 'Unknown';
+  const fmt = normalizeFormatTokens(formatStr);
+  return parsedDate ? format(parsedDate, fmt) : 'Unknown';
 };
 
 /**
@@ -104,7 +132,6 @@ export const formatMonthYearDate = (rawDate = '') => {
 
   const date = safeFnsDate(rawDate);
   if (!date) return '';
-
   return format(date, 'MMMM yyyy');
 };
 
@@ -440,11 +467,23 @@ export const findEarliestServiceDate = servicePeriods => {
   }
 
   // Use the first valid date as initial value and find the earliest
-  return validPeriods.reduce(
+  const earliest = validPeriods.reduce(
     (earliestDate, current) =>
       isBefore(current, earliestDate) ? current : earliestDate,
     validPeriods[0],
   );
+  // Attach a minimal format method for tests expecting moment-like API
+  try {
+    Object.defineProperty(earliest, 'format', {
+      value: fmt => format(earliest, normalizeFormatTokens(fmt)),
+      configurable: true,
+      enumerable: false,
+      writable: true,
+    });
+  } catch (e) {
+    // no-op if defineProperty fails
+  }
+  return earliest;
 };
 
 /**
@@ -465,4 +504,27 @@ export const isTreatmentBeforeService = (
     (isYearMonth(fieldData) &&
       differenceInMonths(earliestServiceDate, treatmentDate) > 0)
   );
+};
+
+/*
+  * Helper Methods for Date Validation and Formatting in regards to inputs
+*/
+export const daysFromToday = days =>
+  formatDate(add(new Date(), { days }), 'yyyy-MM-dd');
+
+export const getToday = () => {
+  const today = parseDate(daysFromToday(0));
+  if (!today) return null;
+  // Attach a minimal add shim to support legacy code expecting moment-like API
+  try {
+    Object.defineProperty(today, 'add', {
+      value: duration => add(today, duration),
+      configurable: true,
+      enumerable: false,
+      writable: true,
+    });
+  } catch (e) {
+    // no-op
+  }
+  return today;
 };

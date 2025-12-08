@@ -2,7 +2,6 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import { maxYear, minYear } from 'platform/forms-system/src/js/helpers';
 import { checkboxGroupSchema } from 'platform/forms-system/src/js/web-component-patterns';
-import { daysFromToday } from './dates/dateHelper';
 
 import {
   CHAR_LIMITS,
@@ -52,6 +51,7 @@ import {
   viewifyFields,
 } from '../../utils';
 import {
+  daysFromToday,
   formatDateRange,
   formatDate,
   parseDate,
@@ -1008,7 +1008,7 @@ describe('526 v2 depends functions', () => {
         expect(
           formatDateRange(
             { from: '2020-01-31', to: '2020-02-14' },
-            'YYYY-MM-DD',
+            'yyyy-MM-dd',
           ),
         ).to.equal('2020-01-31 to 2020-02-14');
       });
