@@ -118,6 +118,7 @@ export const SearchResultsHeader = ({
         </>
       );
     }
+    return null;
   }
   function FormattedLocationText() {
     if (formattedServiceType) {
@@ -128,6 +129,7 @@ export const SearchResultsHeader = ({
         </>
       );
     }
+    return null;
   }
 
   function MessageResults() {
