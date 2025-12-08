@@ -47,7 +47,7 @@ function UploadType2ErrorAlert({ failedSubmissions }) {
               <br />
               <span>File type: {submission.documentType}</span>
               <br />
-              {requestType ? (
+              {requestType && requestType !== 'unknown' ? (
                 <span>Request type: {requestType}</span>
               ) : (
                 <span>You submitted this file as additional evidence</span>
