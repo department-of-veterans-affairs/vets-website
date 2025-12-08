@@ -392,27 +392,27 @@ export const fillInNameFromFixture = () => {
  * Fill in Address data from fixture data.
  */
 export const fillInFullAddressFromFixture = () => {
-  cy.get('select[name="root_veteranAddress_country"]').select(
+  cy.get('select[name="root_claimantAddress_country"]').select(
     fixtureData.data.attributes.veteran_address.country,
   );
 
-  cy.get('input[name="root_veteranAddress_street"').type(
+  cy.get('input[name="root_claimantAddress_street"').type(
     fixtureData.data.attributes.veteran_address.street,
   );
-  cy.get('input[name="root_veteranAddress_street2"]').type(
+  cy.get('input[name="root_claimantAddress_street2"]').type(
     fixtureData.data.attributes.veteran_address.street2,
   );
 
   cy.get('.vads-web-component-pattern-address').fillVaTextInput(
-    'root_veteranAddress_city',
+    'root_claimantAddress_city',
     fixtureData.data.attributes.veteran_address.city,
   );
 
   cy.get('va-select')
     .shadow()
-    .get('select[name="root_veteranAddress_state"]')
+    .get('select[name="root_claimantAddress_state"]')
     .select(fixtureData.data.attributes.veteran_address.state);
-  cy.get('input[name="root_veteranAddress_postalCode"]').type(
+  cy.get('input[name="root_claimantAddress_postalCode"]').type(
     fixtureData.data.attributes.veteran_address.zip,
   );
 
@@ -423,9 +423,12 @@ export const fillInFullAddressFromFixture = () => {
  * Fill in the Military Base address data from Fixture data and some ad hoc data.
  */
 export const fillInMilBaseAddressFromFixture = () => {
-  cy.get('select[name="root_veteranAddress_country"]').should('have.value', '');
-  cy.get('input[name="root_veteranAddress_isMilitary"]').check();
-  cy.get('select[name="root_veteranAddress_country"]').should(
+  cy.get('select[name="root_claimantAddress_country"]').should(
+    'have.value',
+    '',
+  );
+  cy.get('input[name="root_claimantAddress_isMilitary"]').check();
+  cy.get('select[name="root_claimantAddress_country"]').should(
     'have.value',
     'USA',
   );
@@ -435,16 +438,16 @@ export const fillInMilBaseAddressFromFixture = () => {
   cy.get('va-radio')
     .shadow()
     .contains('Overseas "state" abbreviation');
-  cy.get('input[name="root_veteranAddress_city"][value="APO"]').click();
-  cy.get('input[name="root_veteranAddress_state"][value="AE"]').click();
+  cy.get('input[name="root_claimantAddress_city"][value="APO"]').click();
+  cy.get('input[name="root_claimantAddress_state"][value="AE"]').click();
 
-  cy.get('input[name="root_veteranAddress_street"').type(
+  cy.get('input[name="root_claimantAddress_street"').type(
     fixtureData.data.attributes.veteran_address.street,
   );
-  cy.get('input[name="root_veteranAddress_street2"]').type(
+  cy.get('input[name="root_claimantAddress_street2"]').type(
     fixtureData.data.attributes.veteran_address.street2,
   );
-  cy.get('input[name="root_veteranAddress_postalCode"]').type(
+  cy.get('input[name="root_claimantAddress_postalCode"]').type(
     fixtureData.data.attributes.veteran_address.nonUsZip,
   );
 
@@ -549,11 +552,11 @@ export const fillInCareExpensesFromFixture = () => {
   );
 
   cy.fillDate(
-    'root_careDateRange_from',
+    'root_careDate_from',
     fixtureData.data.attributes.veteran_care_provider_1.fromDate,
   );
   cy.fillDate(
-    'root_careDateRange_to',
+    'root_careDate_to',
     fixtureData.data.attributes.veteran_care_provider_1.toDate,
   );
 
@@ -585,11 +588,11 @@ export const fillInCareExpensesFromFixture = () => {
   );
 
   cy.fillDate(
-    'root_careDateRange_from',
+    'root_careDate_from',
     fixtureData.data.attributes.veteran_care_provider_1.fromDate,
   );
   cy.fillDate(
-    'root_careDateRange_to',
+    'root_careDate_to',
     fixtureData.data.attributes.veteran_care_provider_1.toDate,
   );
   checkAxeAndClickContinueButton();
@@ -662,9 +665,9 @@ export const fillInMedicalExpensesFromFixture = () => {
   cy.selectRadio('root_view:medicalExpensesList', 'Y');
   checkAxeAndClickContinueButton();
 
-  cy.selectRadio('root_recipient', 'DEPENDENT');
+  cy.selectRadio('root_recipient', 'CHILD');
   cy.fillVaTextInput(
-    'root_recipientName',
+    'root_fullNameRecipient',
     fixtureData.data.attributes.veteran_med_provider_2.medPatient,
   );
 
@@ -749,7 +752,7 @@ export const fillInMilageExpensesFromFixture = () => {
     fixtureData.data.attributes.veteran_milage_2.travelDestination,
   );
   cy.fillVaTextInput(
-    'root_travelLocationOther',
+    'root_otherTravelLocation',
     fixtureData.data.attributes.veteran_milage_2.travelLocationOther,
   );
   cy.fillVaTextInput(
