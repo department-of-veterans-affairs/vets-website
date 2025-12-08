@@ -49,7 +49,7 @@ describe('<Claim />', () => {
 
     expect(
       tree.getByRole('heading', {
-        name: /Claim for compensation received January 21, 2021/,
+        name: /Compensation claim received January 21, 2021/,
       }),
     ).to.exist;
     expect(tree.getByText(/Review details/)).to.exist;

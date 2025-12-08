@@ -46,8 +46,9 @@ const Claim = ({ claim }) => {
     <>
       <h3 className="vads-u-margin-top--0">
         {/* Remove fallback when cst_use_claim_title_generator_web flag is removed */}
-        {claim.attributes.displayTitle ||
-          `${capitalizeFirstLetter(getClaimType(claim))} claim`}{' '}
+        {capitalizeFirstLetter(
+          claim.attributes.claimTypeBase || `${getClaimType(claim)} claim`,
+        )}{' '}
         received {dateRecd}
       </h3>
       <div className="vads-u-display--flex">
