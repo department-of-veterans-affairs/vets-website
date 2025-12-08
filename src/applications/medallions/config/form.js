@@ -28,7 +28,8 @@ import supportingDocumentsUpload from '../pages/supportingDocumentsUpload';
 import typeOfRequest from '../pages/typeOfRequest';
 import replacementMedallionReason from '../pages/replacementMedallionReason';
 import typeOfMedallion from '../pages/typeOfMedallion.jsx';
-import medallionSize from '../pages/medallionSize';
+import medallionSizeBronze from '../pages/medallionSizeBronze.jsx';
+import medallionSizeMOH from '../pages/medallionSizeMOH.jsx';
 import {
   ApplicantNameHeader,
   ApplicantNameNote,
@@ -240,12 +241,23 @@ const formConfig = {
           schema: typeOfMedallion.schema,
           depends: formData => formData.typeOfRequestRadio === 'new',
         },
-        medallionSize: {
-          path: 'medallion-size',
+        medallionSizeBronze: {
+          path: 'medallion-size-bronze',
           title: 'Size of medallion',
-          uiSchema: medallionSize.uiSchema,
-          schema: medallionSize.schema,
-          depends: formData => formData.typeOfRequestRadio === 'new',
+          uiSchema: medallionSizeBronze.uiSchema,
+          schema: medallionSizeBronze.schema,
+          depends: formData =>
+            formData.typeOfRequestRadio === 'new' &&
+            formData.typeOfMedallionRadio === 'bronze',
+        },
+        medallionSizeMOH: {
+          path: 'medallion-size-moh',
+          title: 'Size of medallion',
+          uiSchema: medallionSizeMOH.uiSchema,
+          schema: medallionSizeMOH.schema,
+          depends: formData =>
+            formData.typeOfRequestRadio === 'new' &&
+            formData.typeOfMedallionRadio === 'medalOfHonor',
         },
       },
     },
