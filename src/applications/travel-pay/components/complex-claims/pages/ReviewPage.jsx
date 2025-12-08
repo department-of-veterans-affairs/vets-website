@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom-v5-compat';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
@@ -11,24 +10,65 @@ import {
   selectComplexClaim,
   selectAllExpenses,
   selectAllDocuments,
+  selectReviewPageAlert,
 } from '../../../redux/selectors';
 import { formatAmount } from '../../../util/complex-claims-helper';
 import { EXPENSE_TYPES } from '../../../constants';
+import { clearReviewPageAlert } from '../../../redux/actions';
 
-const ReviewPage = ({ message }) => {
+const ReviewPage = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const { apptId, claimId } = useParams();
 
   const { data: claimDetails = {} } = useSelector(selectComplexClaim);
   const expenses = useSelector(selectAllExpenses) ?? [];
   const documents = useSelector(selectAllDocuments) ?? [];
+  const alertMessage = useSelector(selectReviewPageAlert);
+
+  // Track alert visibility
+  // const [visible, setVisible] = useState(true);
+  // const onClose = () => setVisible(false);
+  const onAlertClose = () => {
+    dispatch(clearReviewPageAlert());
+  };
+
+  // If there are errors from creating/updating expenses, show them
+  // const creationError = claimExpenses?.creation?.error;
+  // const updateError = claimExpenses?.update?.error;
+
+  // let alertConfig;
+
+  // if (creationError) {
+  //   alertConfig = {
+  //     status: 'error',
+  //     headline: 'We couldn’t add this expense right now',
+  //     description:
+  //       'We’re sorry. We can’t add this expense to your claim. Try again later.',
+  //   };
+  // } else if (updateError) {
+  //   alertConfig = {
+  //     status: 'error',
+  //     headline: 'We couldn’t edit this expense right now',
+  //     description: 'We’re sorry. We can’t edit this expense. Try again later.',
+  //   };
+  // } else {
+  //   // TODO: Tie in the actual recentlyAddedExpenseType
+  //   alertConfig = {
+  //     status: 'success',
+  //     headline: null,
+  //     description: `Your ${recentlyAddedExpenseType} expense was successfully added.`,
+  //   };
+  // }
 
   // Get total by expense type and return expenses alphabetically
   const totalByExpenseType = Object.fromEntries(
     Object.entries(
       expenses.reduce((acc, expense) => {
-        const type = expense.expenseType;
-        acc[type] = (acc[type] || 0) + (expense.costRequested || 0);
+        const { expenseType } = expense;
+        acc[expenseType] =
+          (acc[expenseType] || 0) + (expense.costRequested || 0);
         return acc;
       }, {}),
     ).sort(([a], [b]) => a.localeCompare(b)),
@@ -56,16 +96,6 @@ const ReviewPage = ({ message }) => {
     return acc;
   }, {});
 
-  // For now, we will override the message to have a title, body, and type
-  // If message is not provided, use default values
-  const overriddenMessage = message || {
-    title: '',
-    body: 'Your mileage expense was successfully added.',
-    type: 'success',
-  };
-
-  const [visible, setVisible] = useState(true);
-  const onClose = () => setVisible(false);
   const addMoreExpenses = () => {
     navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
   };
@@ -77,13 +107,15 @@ const ReviewPage = ({ message }) => {
   return (
     <div data-testid="review-page">
       <h1>Your unsubmitted expenses</h1>
-      <ReviewPageAlert
-        header={overriddenMessage.title}
-        description={overriddenMessage.body}
-        status={overriddenMessage.type}
-        onCloseEvent={onClose}
-        visible={visible}
-      />
+      {alertMessage && (
+        <ReviewPageAlert
+          header={alertMessage.title}
+          description={alertMessage.description}
+          status={alertMessage.type}
+          onCloseEvent={onAlertClose}
+          visible={!!alertMessage}
+        />
+      )}
       <VaButton
         id="add-expense-button"
         className="vads-u-display--flex vads-u-margin-y--2"
@@ -160,14 +192,6 @@ const ReviewPage = ({ message }) => {
       />
     </div>
   );
-};
-
-ReviewPage.propTypes = {
-  message: PropTypes.shape({
-    title: PropTypes.string,
-    body: PropTypes.string,
-    type: PropTypes.string,
-  }),
 };
 
 export default ReviewPage;

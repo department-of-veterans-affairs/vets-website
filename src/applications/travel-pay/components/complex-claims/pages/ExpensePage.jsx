@@ -14,7 +14,11 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import DocumentUpload from './DocumentUpload';
 import { EXPENSE_TYPES, EXPENSE_TYPE_KEYS } from '../../../constants';
-import { createExpense, updateExpense } from '../../../redux/actions';
+import {
+  createExpense,
+  updateExpense,
+  setReviewPageAlert,
+} from '../../../redux/actions';
 import {
   selectExpenseUpdateLoadingState,
   selectExpenseCreationLoadingState,
@@ -219,10 +223,34 @@ const ExpensePage = () => {
           createExpense(claimId, expenseConfig.apiRoute, formState),
         );
       }
-      navigate(`/file-new-claim/${apptId}/${claimId}/review`);
+      // Set success alert
+      const expenseTypeName = expenseConfig.expensePageText || 'expense';
+      dispatch(
+        setReviewPageAlert({
+          title: '',
+          description: `You successfully ${
+            isEditMode ? 'updated your' : 'added a'
+          } ${expenseTypeName} expense.`,
+          type: 'success',
+        }),
+      );
     } catch (error) {
-      // TODO: Handle error
+      // Set alert
+      const verb = isEditMode ? 'edit' : 'add';
+      dispatch(
+        setReviewPageAlert({
+          title: `We couldn’t ${verb} this expense right now`,
+          description: `We’re sorry. We can’t ${
+            isEditMode ? 'edit' : 'add'
+          } this expense${
+            isEditMode ? '' : ' to your claim'
+          }. Try again later.`,
+          type: 'error',
+        }),
+      );
     }
+    // navigate to review page for success and error
+    navigate(`/file-new-claim/${apptId}/${claimId}/review`);
   };
 
   const handleBack = () => {
@@ -355,7 +383,7 @@ const ExpensePage = () => {
       <TravelPayButtonPair
         continueText={isEditMode ? 'Save and continue' : 'Continue'}
         backText={isEditMode ? 'Cancel' : 'Back'}
-        className={isEditMode && 'vads-u-margin-top--2'}
+        className={isEditMode ? 'vads-u-margin-top--2' : ''}
         onBack={handleBack}
         onContinue={handleContinue}
         loading={isLoadingExpense}
