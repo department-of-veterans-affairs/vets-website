@@ -137,7 +137,7 @@ describe('SendRxRenewalMessage Component', () => {
         .exist;
     });
 
-    it('renders fallback content when alwaysShowFallBackContent is true', () => {
+    it('renders fallback content when showFallBackContent is true', () => {
       const rx = {
         ...mockRx,
         dispStatus: 'Active',
@@ -148,7 +148,7 @@ describe('SendRxRenewalMessage Component', () => {
       );
       const screen = setup(rx, {
         fallbackContent,
-        alwaysShowFallBackContent: true,
+        showFallBackContent: true,
       });
       expect(screen.getByTestId('fallback')).to.exist;
       expect(screen.queryByTestId('send-renewal-request-message-link')).to.not
