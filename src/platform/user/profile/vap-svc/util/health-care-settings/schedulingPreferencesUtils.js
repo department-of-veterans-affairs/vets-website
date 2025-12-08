@@ -4,6 +4,10 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import { FIELD_NAMES, FIELD_TITLES } from '../../constants';
+import {
+  FIELD_ITEM_IDS,
+  FIELD_OPTION_IDS,
+} from '../../constants/schedulingPreferencesConstants';
 
 // Simple fields that can edit inline (single-select radio buttons)
 const INLINE_SCHEDULING_PREFERENCES = [
@@ -55,6 +59,17 @@ export const getSchedulingPreferenceInitialFormValues = (fieldname, data) => {
   return data ? { [fieldname]: data[fieldname] } : { [fieldname]: '' };
 };
 
+const getSchedulingPreferenceItemId = fieldName => {
+  return FIELD_ITEM_IDS[fieldName];
+};
+
+const getSchedulingPreferenceOptionIds = (fieldName, values) => {
+  const optionIds = FIELD_OPTION_IDS[fieldName];
+  const selectedValues = Object.values(values);
+
+  return selectedValues.map(value => optionIds[value]);
+};
+
 export const schedulingPreferencesUiSchema = fieldname => {
   if (!isInlineSchedulingPreference(fieldname)) {
     return { [fieldname]: {} }; // To be replaced with subtask UI schema
@@ -79,4 +94,14 @@ export const schedulingPreferencesFormSchema = fieldname => {
       },
     },
   };
+};
+
+export const schedulingPreferencesConvertCleanDataToPayload = (
+  data,
+  fieldName,
+) => {
+  const itemId = getSchedulingPreferenceItemId(fieldName);
+  const optionIds = getSchedulingPreferenceOptionIds(fieldName, data);
+
+  return { itemId, optionIds };
 };
