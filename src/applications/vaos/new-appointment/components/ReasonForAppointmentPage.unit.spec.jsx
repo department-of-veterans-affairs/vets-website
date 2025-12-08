@@ -282,4 +282,108 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
       );
     });
   });
+
+  describe('OH Request flow (updateRequestFlow)', () => {
+    const ohRequestState = {
+      featureToggles: {
+        vaOnlineSchedulingDirect: true,
+        vaOnlineSchedulingCommunityCare: true,
+        vaOnlineSchedulingOhRequest: true,
+      },
+      user: {
+        profile: {
+          facilities: [
+            { facilityId: '983', isCerner: false },
+            { facilityId: '984', isCerner: false },
+          ],
+        },
+      },
+      newAppointment: {
+        data: {
+          // Use the actual ID for Food and Nutrition (123), not the idV2
+          typeOfCareId: '123',
+        },
+        pages: {},
+        facilities: {
+          // Key must match the typeOfCare.id ('123')
+          123: [
+            {
+              id: '983',
+              name: 'Test Facility',
+            },
+          ],
+        },
+        flowType: FLOW_TYPES.REQUEST,
+      },
+    };
+
+    it('should not show radio buttons for OH request flow', async () => {
+      const store = createTestStore(ohRequestState);
+      const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
+        store,
+      });
+
+      await screen.findByText(/Continue/i);
+
+      // Radio buttons should not be present for OH request flow
+      const radioOptions = screen.queryAllByRole('radio');
+      expect(radioOptions).to.have.lengthOf(0);
+    });
+
+    it('should not show (*Required) indicator for OH request flow', async () => {
+      const store = createTestStore(ohRequestState);
+      const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
+        store,
+      });
+
+      await screen.findByText(/Continue/i);
+
+      // The (*Required) span should not be present
+      expect(screen.queryByText('(*Required)')).to.not.exist;
+    });
+
+    it('should show textarea for additional info in OH request flow', async () => {
+      const store = createTestStore(ohRequestState);
+      const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
+        store,
+      });
+
+      await screen.findByText(/Continue/i);
+
+      // Textarea should still be present
+      expect(screen.getByTestId('reason-comment-field')).to.exist;
+    });
+
+    it('should show validation error when textarea is empty in OH request flow', async () => {
+      const store = createTestStore(ohRequestState);
+      const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
+        store,
+      });
+
+      await screen.findByText(/Continue/i);
+
+      // Click continue without entering text
+      fireEvent.click(screen.getByText(/Continue/));
+
+      expect(await screen.findByRole('alert')).to.contain.text(
+        'Provide more information about why you are requesting this appointment',
+      );
+    });
+
+    it('should not show radio button validation for OH request flow', async () => {
+      const store = createTestStore(ohRequestState);
+      const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
+        store,
+      });
+
+      await screen.findByText(/Continue/i);
+
+      // Click continue without any input
+      fireEvent.click(screen.getByText(/Continue/));
+
+      // Should NOT show the radio button validation error
+      expect(screen.queryByText('Select a reason for your appointment')).to.not
+        .exist;
+    });
+  });
 });
