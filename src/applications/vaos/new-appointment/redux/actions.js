@@ -19,6 +19,7 @@ import {
   selectFeatureMentalHealthHistoryFiltering,
   selectFeatureRecentLocationsFilter,
   selectFeatureRemoveFacilityConfigCheck,
+  selectFeatureOHRequest,
   selectFeatureUseBrowserTimezone,
   selectRegisteredCernerFacilityIds,
   selectSystemIds,
@@ -82,7 +83,6 @@ export const GA_FLOWS = {
   VA_REQUEST: 'va-request',
   CC_REQUEST: 'cc-request',
 };
-
 export const FORM_DATA_UPDATED = 'newAppointment/FORM_DATA_UPDATED';
 export const FORM_PAGE_OPENED = 'newAppointment/FORM_PAGE_OPENED';
 export const FORM_RESET = 'newAppointment/FORM_RESET';
@@ -646,12 +646,20 @@ export function hideEligibilityModal() {
   };
 }
 
-export function openReasonForAppointment(page, uiSchema, schema) {
-  return {
-    type: FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED,
-    page,
-    uiSchema,
-    schema,
+export function openReasonForAppointment(
+  page,
+  uiSchema,
+  schema,
+  updateRequestFlow,
+) {
+  return async dispatch => {
+    dispatch({
+      type: FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED,
+      page,
+      uiSchema,
+      schema,
+      updateRequestFlow,
+    });
   };
 }
 
@@ -848,6 +856,7 @@ export function submitAppointmentOrRequest(history) {
     const data = newAppointment?.data;
     const typeOfCare = getTypeOfCare(getFormData(state))?.name;
     const featureUseBrowserTimezone = selectFeatureUseBrowserTimezone(state);
+    const updateRequestFlow = selectFeatureOHRequest(state);
 
     dispatch({
       type: FORM_SUBMIT,
@@ -954,7 +963,7 @@ export function submitAppointmentOrRequest(history) {
       try {
         requestBody = isCommunityCare
           ? transformFormToVAOSCCRequest(getState())
-          : transformFormToVAOSVARequest(getState());
+          : transformFormToVAOSVARequest(getState(), updateRequestFlow);
 
         const requestData = await createAppointment({
           appointment: requestBody,

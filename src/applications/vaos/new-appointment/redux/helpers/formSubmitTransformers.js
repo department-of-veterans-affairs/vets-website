@@ -100,7 +100,7 @@ export function transformFormToVAOSCCRequest(state) {
   };
 }
 
-export function transformFormToVAOSVARequest(state) {
+export function transformFormToVAOSVARequest(state, updateRequestFlow = false) {
   const data = getFormData(state);
   const typeOfCare = getTypeOfCare(data);
 
@@ -114,6 +114,7 @@ export function transformFormToVAOSVARequest(state) {
       data,
       isCC: false,
       isDS: false,
+      updateRequestFlow,
     }),
     // comment: data.reasonAdditionalInfo,
     requestedPeriods: [
