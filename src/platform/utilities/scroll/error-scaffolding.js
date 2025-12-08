@@ -87,15 +87,6 @@ const GROUP_SELECTOR = GROUP_COMPONENT_TAGS.map(tag => tag.toLowerCase()).join(
 // Category 4: Date Components
 const DATE_COMPONENT_TAGS = ['VA-DATE', 'VA-MEMORABLE-DATE'];
 const DATE_CHILD_SELECTOR = 'va-select, va-text-input';
-// Error codes that require reading the rendered message text from the internal
-// #error-message span instead of using the raw error attribute value.
-const DATE_ERROR_CODES = [
-  'year-range',
-  'day-range',
-  'month-range',
-  'date-error',
-  'month-select',
-];
 
 // Styling & State Tracking
 const ERROR_STYLING_CLASS = 'usa-input--error';
@@ -174,6 +165,17 @@ const isDateComponent = element =>
   isComponentOfType(element, DATE_COMPONENT_TAGS);
 
 /**
+ * Checks if an element is a child component inside a date component's shadow DOM.
+ * These should be skipped for independent error processing since the parent
+ * date component handles their error annotations.
+ *
+ * @param {HTMLElement} el - The element to check
+ * @returns {boolean} True if the element is inside a date component's shadow root
+ */
+const hasDateComponentParent = el =>
+  isComponentOfType(el.getRootNode()?.host, DATE_COMPONENT_TAGS);
+
+/**
  * Retrieves all child input components (va-select, va-text-input) from a date component's shadow DOM.
  *
  * @param {Element|null|undefined} element - The date component to query
@@ -182,19 +184,6 @@ const isDateComponent = element =>
 const getDateChildComponents = element => {
   if (!element?.shadowRoot) return [];
   return Array.from(element.shadowRoot.querySelectorAll(DATE_CHILD_SELECTOR));
-};
-
-/**
- * Checks if a date component has an error code that requires special handling.
- *
- * @param {HTMLElement} el - The date component element
- * @returns {boolean} True if the error code requires extracting text from #error-message
- */
-const hasDateErrorCode = el => {
-  if (!isDateComponent(el)) return false;
-
-  const errorValue = el.getAttribute('error') || el.error || '';
-  return DATE_ERROR_CODES.includes(errorValue);
 };
 
 /**
@@ -298,8 +287,10 @@ const findGroupOptionFocusTarget = option => {
  * @returns {string} The error message text, or an empty string if no error is found
  */
 const getErrorPropText = el => {
-  // Special handling for date components with specific error codes
-  if (hasDateErrorCode(el)) {
+  // For date components, only read from #error-message span.
+  // The error attribute contains codes that the component translates to
+  // human-readable text in #error-message. If empty, no error to display yet.
+  if (isDateComponent(el)) {
     return getDateErrorMessageText(el);
   }
 
@@ -937,6 +928,9 @@ const associateErrorWithInput = (errorWebComponent, errorMessage) => {
 const addErrorAnnotations = errorWebComponent => {
   // Skip elements not in the allowedElements list
   if (!isSupportedVaElement(errorWebComponent)) return;
+
+  // Skip child components inside date component shadow DOM - the parent handles them
+  if (hasDateComponentParent(errorWebComponent)) return;
 
   // Remove alert role from ALL error message elements to prevent duplicate announcements
   // Use querySelectorAll since date components may have multiple error message spans
