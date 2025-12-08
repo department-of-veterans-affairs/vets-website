@@ -4,10 +4,10 @@ import { format } from 'date-fns';
 import recordEvent from '~/platform/monitoring/record-event';
 import { getLatestCopay } from '../../helpers';
 
-export const CopaysCard = ({ copays }) => {
+export const CopaysCard = ({ copays, hasError }) => {
   const latestCopay = getLatestCopay(copays) ?? null;
   const copaysCount = copays?.length || 0;
-  if (copaysCount < 1) {
+  if (!hasError && copaysCount < 1) {
     return (
       <p
         className="vads-u-margin-bottom--3 vads-u-margin-top--0"
@@ -24,16 +24,36 @@ export const CopaysCard = ({ copays }) => {
 
   const content = (
     <>
-      <h4
-        className="vads-u-margin-y--0 vads-u-padding-bottom--1"
-        data-testid="copay-due-header"
-      >
-        {copayDueHeaderContent}
-      </h4>
-      <p className="vads-u-margin-y--0 vads-u-margin-top--0p5">
-        Updated on{' '}
-        {format(new Date(latestCopay.pSStatementDateOutput), 'MMMM dd, yyyy')}
-      </p>
+      {hasError ? (
+        <>
+          <h4
+            className="vads-u-margin-y--0 vads-u-padding-bottom--1"
+            data-testid="copay-due-header"
+          >
+            Copay bills
+          </h4>
+          <va-alert status="warning" slim data-testid="copay-card-alert">
+            We can’t show your copay bills right now. Refresh this page or try
+            again later.
+          </va-alert>
+        </>
+      ) : (
+        <>
+          <h4
+            className="vads-u-margin-y--0 vads-u-padding-bottom--1"
+            data-testid="copay-due-header"
+          >
+            {copayDueHeaderContent}
+          </h4>
+          <p className="vads-u-margin-y--0 vads-u-margin-top--0p5">
+            Updated on{' '}
+            {format(
+              new Date(latestCopay.pSStatementDateOutput),
+              'MMMM dd, yyyy',
+            )}
+          </p>
+        </>
+      )}
       <p className="vads-u-margin-y--0 vads-u-margin-top--0p5 vads-u-padding-y--1">
         <va-link
           active

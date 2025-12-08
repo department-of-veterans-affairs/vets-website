@@ -205,10 +205,10 @@ const BenefitPaymentsAndDebt = ({
                   />
                 </DashboardWidgetWrapper>
               )}
-            {copaysCount > 0 && (
+            {(copaysCount > 0 || hasCopayError) && (
               <>
                 <DashboardWidgetWrapper>
-                  <CopaysCard copays={copays} />
+                  <CopaysCard copays={copays} hasError={hasCopayError} />
                 </DashboardWidgetWrapper>
                 <Toggler
                   toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}
