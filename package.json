@@ -309,7 +309,7 @@
     "mapbox-gl-v3": "npm:mapbox-gl@^3.9.4",
     "markdown-it": "^12.3.2",
     "markdown-it-link-attributes": "^4.0.0",
-    "moment": "~2.30.0",
+    "moment": "~2.29.4",
     "moment-timezone": "^0.5.35",
     "node-lcs": "^1.0.4",
     "octokit": "^2.1.0",
