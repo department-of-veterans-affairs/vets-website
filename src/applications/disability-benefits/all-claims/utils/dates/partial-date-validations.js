@@ -11,7 +11,7 @@ import {
 /**
  * Helper to convert various date formats to date field object
  */
-const normalizeDateInput = dateInput => {
+export const normalizeDateInput = dateInput => {
   // If it's already a date field object, return as-is
   if (dateInput && typeof dateInput === 'object' && 'year' in dateInput) {
     return dateInput;

@@ -6,6 +6,7 @@ import {
   validateRequiredPartialDate,
   validatePartialDateRange,
   validateYearOnlyPartialDate,
+  normalizeDateInput,
 } from '../../../utils/dates/partial-date-validations';
 
 describe('Disability benefits 526EZ -- Partial date validations', () => {
@@ -246,6 +247,47 @@ describe('Disability benefits 526EZ -- Partial date validations', () => {
 
       // Both functions should handle invalid patterns the same way
       expect(errorsSpy.addError.called).to.equal(wasRejected);
+    });
+  });
+
+  describe('normalizeDateInput (direct)', () => {
+    it('returns date-field object as-is', () => {
+      const input = { month: '1', day: '15', year: '2023' };
+      const result = normalizeDateInput(input);
+      expect(result).to.equal(input);
+    });
+
+    it('converts ISO string to date-field object (complete date)', () => {
+      const result = normalizeDateInput('2023-01-15');
+      expect(result).to.deep.equal({ month: '1', day: '15', year: '2023' });
+    });
+
+    it('converts ISO string to date-field object (month-year partial)', () => {
+      const result = normalizeDateInput('2023-01-XX');
+      expect(result).to.deep.equal({ month: '1', day: '', year: '2023' });
+    });
+
+    it('converts ISO string to date-field object (year-only partial)', () => {
+      const result = normalizeDateInput('2023-XX-XX');
+      expect(result).to.deep.equal({ month: '', day: '', year: '2023' });
+    });
+
+    it('returns empty date-field object for null/undefined', () => {
+      expect(normalizeDateInput(null)).to.deep.equal({
+        month: '',
+        day: '',
+        year: '',
+      });
+      expect(normalizeDateInput(undefined)).to.deep.equal({
+        month: '',
+        day: '',
+        year: '',
+      });
+    });
+
+    it('handles invalid pattern strings gracefully', () => {
+      const result = normalizeDateInput('XXXX-01-XX');
+      expect(result).to.deep.equal({ month: '', day: '', year: '' });
     });
   });
 
