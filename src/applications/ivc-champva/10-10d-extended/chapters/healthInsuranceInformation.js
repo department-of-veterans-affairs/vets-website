@@ -92,6 +92,7 @@ export const healthInsuranceOptions = {
   nounPlural: 'plans',
   required: false,
   isItemIncomplete: validateHealthInsurancePlan,
+  maxItems: 2,
   text: {
     getItemName: item => item?.provider,
     cardDescription: item => (
