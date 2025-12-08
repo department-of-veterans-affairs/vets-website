@@ -1,5 +1,7 @@
 export const REASON_MAX_CHARS = 250;
 
+export const NEW_REASON_MAX_CHARS = 90;
+
 export const FETCH_STATUS = {
   loading: 'loading',
   notStarted: 'notStarted',
@@ -360,6 +362,7 @@ export const TYPE_OF_VISIT = [
     name2: 'In person',
     serviceName: 'Office Visit',
     vsGUI: 'FACE TO FACE',
+    vsGUI2: 'IN-PERSON',
   },
   {
     id: 'phone',
@@ -367,6 +370,7 @@ export const TYPE_OF_VISIT = [
     name2: 'By phone',
     serviceName: 'Phone Call',
     vsGUI: 'TELEPHONE',
+    vsGUI2: 'PHONE',
   },
   {
     id: 'telehealth',
@@ -374,6 +378,7 @@ export const TYPE_OF_VISIT = [
     name2: 'Through VA Video Connect (telehealth)',
     serviceName: 'Video Conference',
     vsGUI: 'VIDEO',
+    vsGUI2: 'VIDEO',
   },
 ];
 
