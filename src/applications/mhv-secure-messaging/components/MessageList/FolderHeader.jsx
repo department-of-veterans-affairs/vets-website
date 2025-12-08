@@ -11,7 +11,7 @@ import {
   DowntimeNotification,
   externalServices,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
-import AcceleratedCernerFacilityAlert from 'platform/mhv/components/CernerFacilityAlert/AcceleratedCernerFacilityAlert';
+import CernerFacilityAlert from 'platform/mhv/components/CernerFacilityAlert/CernerFacilityAlert';
 import { CernerAlertContent } from 'platform/mhv/components/CernerFacilityAlert/constants';
 import {
   BlockedTriageAlertStyles,
@@ -141,8 +141,7 @@ const FolderHeader = props => {
         cernerFacilities?.length > 0
       ) {
         return (
-          <AcceleratedCernerFacilityAlert
-            pageName="secure messages"
+          <CernerFacilityAlert
             {...CernerAlertContent.SECURE_MESSAGING}
             className="vads-u-margin-bottom--3 vads-u-margin-top--2"
             onLinkClick={handleMyVaHealthLinkClick}
