@@ -41,6 +41,7 @@ module.exports = {
   rules: {
     /* || Eslint main rules || */
     camelcase: [2, { properties: 'always' }], // Override airbnb style.
+    'react/jsx-wrap-multilines': 'off', // Conflicts with Prettier
     '@department-of-veterans-affairs/no-cross-app-imports': [
       'warn', // Warn for now, but after cleanup of imports, change to error
       {

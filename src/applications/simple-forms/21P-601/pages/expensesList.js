@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  titleUI,
   textUI,
   textSchema,
   currencyUI,
@@ -9,6 +10,7 @@ import {
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { focusElement } from 'platform/utilities/ui/focus';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 
 /** @type {ArrayBuilderOptions} */
@@ -43,6 +45,7 @@ const yesNoOptions = {
  */
 const summaryPage = {
   uiSchema: {
+    ...titleUI('Expenses you paid'),
     'view:expenseInfo': {
       'ui:description': (
         <va-alert status="info" uswds>
@@ -131,6 +134,7 @@ export const expensesPages = arrayBuilderPages(options, pageBuilder => ({
     path: 'expenses-list',
     uiSchema: summaryPage.uiSchema,
     schema: summaryPage.schema,
+    scrollAndFocusTarget: () => focusElement('h3'),
   }),
   expenseDetailsPage: pageBuilder.itemPage({
     title: 'Expense details',
