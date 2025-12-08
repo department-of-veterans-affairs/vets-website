@@ -131,7 +131,7 @@ describe('Send Rx Renewal Message Component', () => {
     cy.axeCheck('main');
   });
 
-  it('displays compose message link for discontinued prescriptions instead of renewal', () => {
+  it('displays discontinued prescription message without renewal link', () => {
     const listPage = new MedicationsListPage();
 
     listPage.visitMedicationsListPageURL(rxList);
@@ -142,10 +142,7 @@ describe('Send Rx Renewal Message Component', () => {
 
         const discontinuedText = $discontinued.text();
         expect(discontinuedText).to.include('refill this prescription');
-
-        cy.get('[data-testid="discontinued-compose-message-link"]')
-          .should('exist')
-          .and('be.visible');
+        expect(discontinuedText).to.include('Contact your VA provider');
 
         cy.wrap($discontinued)
           .parents('[data-testid="rx-card-info"]')
