@@ -1,7 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { getArrayIndexFromPathName } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
 import PropTypes from 'prop-types';
+
+import { getArrayIndexFromPathName } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
 
 const InstitutionAddress = ({ uiSchema, formContext }) => {
   const formData = useSelector(state => state.form?.data);
