@@ -179,7 +179,7 @@ describe('CareSummariesAndNotes global isLoading states', () => {
       reducers: reducer,
       path: '/summaries-and-notes',
     });
-    expect(screen.queryByTestId('tracked-spinner')).to.exist;
+    expect(screen.queryByTestId('loading-indicator')).to.exist;
   });
 
   it('renders TrackedSpinner when Drupal EHR data is loading', () => {
@@ -193,6 +193,6 @@ describe('CareSummariesAndNotes global isLoading states', () => {
       reducers: reducer,
       path: '/summaries-and-notes',
     });
-    expect(screen.queryByTestId('tracked-spinner')).to.exist;
+    expect(screen.queryByTestId('loading-indicator')).to.exist;
   });
 });

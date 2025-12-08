@@ -278,7 +278,7 @@ describe('Health conditions global isLoading states', () => {
       reducers: reducer,
       path: '/conditions',
     });
-    expect(screen.queryByTestId('tracked-spinner')).to.exist;
+    expect(screen.queryByTestId('accelerated-loading-indicator')).to.exist;
   });
 
   it('renders TrackedSpinner when Drupal EHR data is loading', () => {
@@ -292,6 +292,6 @@ describe('Health conditions global isLoading states', () => {
       reducers: reducer,
       path: '/conditions',
     });
-    expect(screen.queryByTestId('tracked-spinner')).to.exist;
+    expect(screen.queryByTestId('accelerated-loading-indicator')).to.exist;
   });
 });
