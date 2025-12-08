@@ -41,7 +41,7 @@ describe('SM CURATED LIST BACK TO SELECTION', () => {
       .clear()
       .type(`TEST BODY`);
 
-    cy.contains(`Select a different care team`).click();
+    cy.findByText(`Select a different care team`).click();
 
     PilotEnvPage.selectTriageGroup(2);
 
@@ -78,7 +78,7 @@ describe('SM CURATED LIST BACK TO SELECTION', () => {
     PatientMessageDraftsPage.loadDrafts();
     PatientMessageDraftsPage.loadSingleDraft();
 
-    cy.contains(`Select a different care team`).click();
+    cy.findByText(`Select a different care team`).click();
 
     PilotEnvPage.selectTriageGroup(1);
 
@@ -115,7 +115,7 @@ describe('SM CURATED LIST BACK TO SELECTION', () => {
     PatientMessageDraftsPage.loadDrafts();
     PatientMessageDraftsPage.loadSingleDraft();
 
-    cy.contains(`Select a different care team`).click();
+    cy.findByText(`Select a different care team`).click();
     cy.findByTestId(`care-system-589`).should(
       `have.attr`,
       `checked`,
@@ -187,6 +187,8 @@ describe('SM CURATED LIST BACK TO SELECTION', () => {
     cy.get(
       'va-modal[modal-title="Do you want to save your changes to this draft?"]',
     ).should('not.exist');
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
   it('saves draft when routing to contact list and cant-find-care-team', () => {
@@ -279,5 +281,82 @@ describe('SM CURATED LIST BACK TO SELECTION', () => {
       'have.value',
       'Jeasmitha-Cardio-Clinic',
     );
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+  });
+});
+
+describe('dynamically updating healthcare system', () => {
+  beforeEach(() => {
+    const updatedFeatureToggles = GeneralFunctionsPage.updateFeatureToggles([
+      {
+        name: featureFlagNames.mhvSecureMessagingRecipientOptGroups,
+        value: true,
+      },
+      {
+        name: featureFlagNames.mhvSecureMessagingCuratedListFlow,
+        value: true,
+      },
+    ]);
+    SecureMessagingSite.login(updatedFeatureToggles);
+    PilotEnvPage.loadInboxMessages();
+  });
+
+  it('updates healthcare system when user selects a different care team', () => {
+    PilotEnvPage.navigateToSelectCareTeamPage();
+
+    PilotEnvPage.selectCareSystem(0);
+
+    PilotEnvPage.selectTriageGroup(2);
+
+    // this is for intercepting repeatedly calling api request for sent threads
+    cy.intercept(`GET`, Paths.INTERCEPT.SENT_THREADS, mockSentThreads).as(
+      'sentThreadsResponse',
+    );
+
+    cy.findByTestId(`continue-button`).click();
+
+    PatientComposePage.selectCategory();
+    PatientComposePage.getMessageSubjectField().type(`TEST SUBJECT`);
+    PatientComposePage.getMessageBodyField()
+      .clear()
+      .type(`TEST BODY`);
+
+    cy.findByText(`Select a different care team`).click();
+
+    cy.findByTestId(`care-system-589`).should(
+      `have.attr`,
+      `checked`,
+      `checked`,
+    );
+    cy.findByTestId('compose-recipient-combobox')
+      .shadow()
+      .find('input')
+      .should('have.value', 'TG-7410');
+
+    cy.findByTestId('compose-recipient-combobox')
+      .shadow()
+      .find('input')
+      .as('comboBoxInput');
+
+    cy.get('@comboBoxInput').clear();
+    cy.get('@comboBoxInput').type('###ABC_XYZ_TRIAGE_TEAM###');
+    cy.findByTestId(`care-system-607`).should(
+      `have.attr`,
+      `checked`,
+      `checked`,
+    );
+
+    cy.get('@comboBoxInput').clear();
+    cy.get('@comboBoxInput').type('***TG 200_APPT_SLC4%');
+    cy.findByTestId(`care-system-589`).should(
+      `have.attr`,
+      `checked`,
+      `checked`,
+    );
+
+    cy.findByTestId('continue-button').click();
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 });
