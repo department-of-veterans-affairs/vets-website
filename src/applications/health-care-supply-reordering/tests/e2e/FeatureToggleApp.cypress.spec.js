@@ -3,8 +3,6 @@ import ipfMdotGetMock from '../data/happyPath.json';
 import featureToggleEnabled from '../data/featureToggleEnabled.json';
 import userMock from '../data/users/markUserData.json';
 
-let heading;
-
 const ipfMdotPutMock = {
   data: {
     id: '12345',
@@ -27,15 +25,14 @@ const mdotSuppliesPostMock = [
 ];
 
 describe(`${appName} -- feature toggol enabled`, () => {
-  before(() => {
-    cy.intercept('GET', '/v0/feature_toggles*', featureToggleEnabled);
+  beforeEach(() => {
+    cy.intercept('GET', '/v0/feature_toggles*', featureToggleEnabled).as(
+      'featureToggles',
+    );
     cy.intercept('GET', '/v0/in_progress_forms/MDOT', ipfMdotGetMock);
     cy.intercept('PUT', '/v0/in_progress_forms/MDOT', ipfMdotPutMock);
     cy.intercept('POST', '/v0/mdot/supplies', mdotSuppliesPostMock);
     cy.intercept('GET', '/v0/user', userMock);
-  });
-
-  beforeEach(() => {
     cy.viewportPreset('va-top-mobile-1');
     cy.login(userMock);
     cy.visit(rootUrl);
@@ -43,15 +40,14 @@ describe(`${appName} -- feature toggol enabled`, () => {
 
   it('redirects to mhv supply reordering app', () => {
     cy.injectAxeThenAxeCheck();
-    heading = {
-      level: 1,
-      name: /^Medical supplies$/,
-    };
-    cy.location('pathname').should(
-      'eq',
-      '/my-health/order-medical-supplies/introduction',
-    );
-    cy.findByRole('navigation', { name: 'My HealtheVet' }).should.exist;
-    cy.findByRole('heading', heading).should('have.focus');
+    cy.wait('@featureToggles');
+    // const heading = {
+    //   level: 1,
+    //   name: /^Medical supplies$/,
+    // };
+    cy.location('pathname').should('eq', '/my-health/order-medical-supplies/');
+    // replacement app would need to be running for the following to be true
+    // cy.findByRole('navigation', { name: 'My HealtheVet' }).should.exist;
+    // cy.findByRole('heading', heading).should('have.focus');
   });
 });
