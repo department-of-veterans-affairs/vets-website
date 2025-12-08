@@ -153,9 +153,7 @@ const VaPrescription = prescription => {
           </h3>
           <div data-testid="find-facility-link">
             Check your prescription label or contact your VA facility.{' '}
-            <a
-              href="https://www.va.gov/find-locations"
-            >
+            <a href="https://www.va.gov/find-locations">
               Find your VA facility
             </a>
           </div>
