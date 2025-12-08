@@ -276,3 +276,11 @@ export const validateConflictOfInterestEndDate = (errors, dateString) => {
 
   if (!isValidDateString(dateString)) errors.addError('Enter a valid date');
 };
+export const ProprietaryProfitAdditionalInfo = () => (
+  <va-additional-info trigger="What is a proprietary school?">
+    <p>
+      Proprietary schools include all private schools, both non-profit and
+      profit.
+    </p>
+  </va-additional-info>
+);
