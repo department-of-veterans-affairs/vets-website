@@ -16,6 +16,7 @@ import {
   FORM_PAGE_CHANGE_COMPLETED,
   FORM_UPDATE_FACILITY_TYPE,
   FORM_UPDATE_SELECTED_PROVIDER,
+  FORM_UPDATE_FACILITY_EHR,
   FORM_PAGE_FACILITY_V2_OPEN,
   FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED,
   FORM_PAGE_FACILITY_V2_OPEN_FAILED,
@@ -115,6 +116,7 @@ const initialState = {
   isNewAppointmentStarted: false,
   fetchRecentLocationStatus: FETCH_STATUS.notStarted,
   isAppointmentSelectionError: false,
+  ehr: null,
 };
 
 function setupFormData(data, schema, uiSchema) {
@@ -316,6 +318,12 @@ export default function formReducer(state = initialState, action) {
           ...state.data,
           selectedProvider: action.provider.providerId,
         },
+      };
+    }
+    case FORM_UPDATE_FACILITY_EHR: {
+      return {
+        ...state,
+        ehr: action.ehr,
       };
     }
     case FORM_PAGE_FACILITY_V2_OPEN: {
