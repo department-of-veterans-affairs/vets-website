@@ -27,6 +27,9 @@ import {
   getCostPageTitle,
 } from './helpers';
 
+const nounSingular = 'care expense';
+const nounPlural = 'care expenses';
+
 function introDescription() {
   return (
     <div>
@@ -103,10 +106,10 @@ function checkIsItemIncomplete(item) {
   return (
     !item?.typeOfCare ||
     !item?.recipient ||
-    ((item.recipient === 'DEPENDENT' || item.recipient === 'OTHER') &&
+    ((item.recipient === 'CHILD' || item.recipient === 'OTHER') &&
       !item?.fullNameRecipient) ||
     !item?.provider ||
-    !item?.careDateRange?.from ||
+    !item?.careDate?.from ||
     !item?.monthlyAmount ||
     (item?.typeOfCare === 'IN_HOME_CARE_ATTENDANT' &&
       (!item?.hourlyRate || !item?.weeklyHours))
@@ -116,8 +119,8 @@ function checkIsItemIncomplete(item) {
 /** @type {ArrayBuilderOptions} */
 export const options = {
   arrayPath: 'careExpenses',
-  nounSingular: 'care expense',
-  nounPlural: 'care expenses',
+  nounSingular,
+  nounPlural,
   required: false,
   isItemIncomplete: item => checkIsItemIncomplete(item),
   maxItems: 8,
@@ -142,6 +145,10 @@ export const options = {
     cancelAddNo: 'No, continue adding',
     cancelEditYes: 'Yes, cancel editing',
     cancelEditNo: 'No, continue editing',
+    deleteDescription: `This will delete the information from your list of ${nounPlural}. You’ll return to a page where you can add a new ${nounSingular}.`,
+    deleteNo: 'No, keep',
+    deleteTitle: `Delete this ${nounSingular}?`,
+    deleteYes: 'Yes, delete',
   },
 };
 
@@ -220,13 +227,13 @@ const recipientPage = {
     fullNameRecipient: textUI({
       title: 'Full name of the person who received care',
       expandUnder: 'recipient',
-      expandUnderCondition: field => field === 'DEPENDENT' || field === 'OTHER',
+      expandUnderCondition: field => field === 'CHILD' || field === 'OTHER',
       required: (formData, index, fullData) => {
         // Adding a check for formData and fullData since formData is sometimes undefined on load
         // and we can't rely on fullData for testing
         const careExpenses = formData.careExpenses ?? fullData.careExpenses;
         const careExpense = careExpenses?.[index];
-        return ['DEPENDENT', 'OTHER'].includes(careExpense?.recipient);
+        return ['CHILD', 'OTHER'].includes(careExpense?.recipient);
       },
     }),
   },
@@ -246,7 +253,7 @@ const datePage = {
       'Care provider’s name and dates of care',
     ),
     provider: textUI('What’s the name of the care provider?'),
-    careDateRange: currentOrPastDateRangeUI(
+    careDate: currentOrPastDateRangeUI(
       {
         title: 'Care start date',
         monthSelect: false,
@@ -262,7 +269,7 @@ const datePage = {
     type: 'object',
     properties: {
       provider: textSchema,
-      careDateRange: {
+      careDate: {
         ...currentOrPastDateRangeSchema,
         required: ['from'],
       },
