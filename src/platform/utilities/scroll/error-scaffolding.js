@@ -65,6 +65,7 @@ const ERROR_ATTR_SELECTORS = [
   'generated-error', // va-radio-option, va-checkbox (propagated from group)
 ];
 const ERROR_MESSAGE_SELECTORS = [
+  '#error-message',
   '#input-error-message',
   '#radio-error-message',
   '#checkbox-error-message',
@@ -937,14 +938,15 @@ const addErrorAnnotations = errorWebComponent => {
   // Skip elements not in the allowedElements list
   if (!isSupportedVaElement(errorWebComponent)) return;
 
-  // Remove alert role from error message elements to prevent duplicate announcements
-  const errorElement = errorWebComponent?.shadowRoot?.querySelector(
+  // Remove alert role from ALL error message elements to prevent duplicate announcements
+  // Use querySelectorAll since date components may have multiple error message spans
+  const errorElements = errorWebComponent?.shadowRoot?.querySelectorAll(
     ERROR_MESSAGE_SELECTORS.join(', '),
   );
-  if (errorElement) {
-    errorElement.removeAttribute('role');
-    errorElement.removeAttribute('aria-live');
-  }
+  errorElements?.forEach(el => {
+    el.removeAttribute('role');
+    el.removeAttribute('aria-live');
+  });
 
   const errorMessage = getErrorPropText(errorWebComponent);
   if (!errorMessage) return;
