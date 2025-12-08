@@ -113,8 +113,6 @@ const Mileage = () => {
             type: 'success',
           }),
         );
-
-        navigate(`/file-new-claim/${apptId}/${claimId}/review`);
       } catch (error) {
         // Set error alert in Redux
         dispatch(
@@ -125,9 +123,8 @@ const Mileage = () => {
             type: 'error',
           }),
         );
-
-        navigate(`/file-new-claim/${apptId}/${claimId}/review`);
       }
+      navigate(`/file-new-claim/${apptId}/${claimId}/review`);
     }
   };
 

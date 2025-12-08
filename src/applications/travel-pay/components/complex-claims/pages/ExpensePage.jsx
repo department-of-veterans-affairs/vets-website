@@ -235,8 +235,6 @@ const ExpensePage = () => {
           type: 'success',
         }),
       );
-
-      navigate(`/file-new-claim/${apptId}/${claimId}/review`);
     } catch (error) {
       // Set alert
       const verb = isEditMode ? 'add' : 'edit';
@@ -247,10 +245,8 @@ const ExpensePage = () => {
           type: 'error',
         }),
       );
-
-      // Still navigate to review page to show error
-      navigate(`/file-new-claim/${apptId}/${claimId}/review`);
     }
+    navigate(`/file-new-claim/${apptId}/${claimId}/review`);
   };
 
   const handleBack = () => {
