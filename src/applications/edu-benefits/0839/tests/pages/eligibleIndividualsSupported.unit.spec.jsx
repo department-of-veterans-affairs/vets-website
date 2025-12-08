@@ -103,4 +103,40 @@ describe('Eligible Individuals Supported Page', () => {
       expect(textInput.getAttribute('required')).to.equal('true');
     });
   });
+
+  describe('Academic Year UI Validations', () => {
+    let errors;
+
+    beforeEach(() => {
+      errors = {
+        errorMessages: [],
+        addError(message) {
+          this.errorMessages.push(message);
+        },
+      };
+    });
+
+    it('should add error when fieldData does not match current academic year display and agreementType is startNewOpenEndedAgreement', () => {
+      const validationFn = page.uiSchema.academicYear['ui:validations'][0];
+      const fieldData = '2022-2023';
+      const formData = { agreementType: 'startNewOpenEndedAgreement' };
+
+      validationFn(errors, fieldData, formData);
+
+      expect(errors.errorMessages).to.have.lengthOf(1);
+      expect(errors.errorMessages[0]).to.equal(
+        'Enter the upcoming academic year this agreement applies to',
+      );
+    });
+
+    it('should allow any year to be entered for when agreementType is not startNewOpenEndedAgreement', () => {
+      const validationFn = page.uiSchema.academicYear['ui:validations'][0];
+      const fieldData = 'invalid-year';
+      const formData = { agreementType: 'startNewOpenEndedAgreement' };
+
+      validationFn(errors, fieldData, formData);
+
+      expect(errors.errorMessages.length).to.be.greaterThan(0);
+    });
+  });
 });

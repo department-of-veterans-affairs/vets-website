@@ -102,6 +102,7 @@ const Mileage = () => {
             createExpense(claimId, EXPENSE_TYPES.Mileage.apiRoute, expenseData),
           );
         }
+
         // Set success alert in Redux
         dispatch(
           setReviewPageAlert({
