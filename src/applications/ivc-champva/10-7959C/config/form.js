@@ -29,10 +29,10 @@ import {
   applicantMedicarePartBCarrierSchema,
   applicantMedicarePharmacySchema,
   applicantHasMedicareDSchema,
-  applicantMedicarePartDCarrierSchema,
   applicantMedicareABUploadSchema,
   applicantMedicareDUploadSchema,
 } from '../chapters/medicareInformation';
+import applicantMedicarePartDEffectiveDate from '../chapters/medicare/partDEffectiveDate';
 import {
   applicantHasInsuranceSchema,
   applicantProviderSchema,
@@ -240,6 +240,7 @@ const formConfig = {
           title: formData =>
             privWrapper(`${fnp(formData)} Medicare pharmacy benefits`),
           depends: formData =>
+            !formData['view:champvaForm107959cRev2025'] &&
             get('applicantMedicareStatus', formData) &&
             ['advantage', 'other'].includes(
               get('applicantMedicareClass', formData),
@@ -283,12 +284,11 @@ const formConfig = {
         },
         partDCarrier: {
           path: 'medicare-d-carrier',
-          title: formData =>
-            privWrapper(`${fnp(formData)} Medicare Part D carrier`),
+          title: 'Medicare Part D effective date',
           depends: formData =>
             get('applicantMedicareStatus', formData) &&
             get('applicantMedicareStatusD', formData),
-          ...applicantMedicarePartDCarrierSchema,
+          ...applicantMedicarePartDEffectiveDate,
           scrollAndFocusTarget,
         },
         medicareDCards: {
@@ -375,6 +375,7 @@ const formConfig = {
         primaryEob: {
           path: 'insurance-eob',
           depends: formData =>
+            !formData['view:champvaForm107959cRev2025'] &&
             get('applicantHasPrimary', formData) &&
             get('applicantPrimaryHasPrescription', formData),
           title: formData =>
@@ -389,6 +390,7 @@ const formConfig = {
         primaryScheduleOfBenefits: {
           path: 'insurance-sob',
           depends: formData =>
+            !formData['view:champvaForm107959cRev2025'] &&
             get('applicantHasPrimary', formData) &&
             get('applicantPrimaryHasPrescription', formData) &&
             !get('applicantPrimaryEob', formData),
@@ -503,6 +505,7 @@ const formConfig = {
         secondaryEob: {
           path: 'secondary-insurance-eob',
           depends: formData =>
+            !formData['view:champvaForm107959cRev2025'] &&
             get('applicantHasPrimary', formData) &&
             get('applicantHasSecondary', formData) &&
             get('applicantSecondaryHasPrescription', formData),
@@ -518,6 +521,7 @@ const formConfig = {
         secondaryScheduleOfBenefits: {
           path: 'secondary-insurance-sob',
           depends: formData =>
+            !formData['view:champvaForm107959cRev2025'] &&
             get('applicantHasPrimary', formData) &&
             get('applicantHasSecondary', formData) &&
             get('applicantSecondaryHasPrescription', formData) &&
