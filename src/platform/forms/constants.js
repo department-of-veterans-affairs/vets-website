@@ -307,11 +307,8 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_21P_601]: `${tryGetAppUrl('21P-601')}/`,
     [VA_FORM_IDS.FORM_22_10278]: `${tryGetAppUrl('22-10278')}/`,
     [VA_FORM_IDS.FORM_22_0976]: `${tryGetAppUrl('22-0976')}/`,
-    [VA_FORM_IDS.FORM_22_0803]: `${tryGetAppUrl('22-0803')}/`,
-<<<<<<< HEAD
+    [VA_FORM_IDS.FORM_22_0803]: `${tryGetAppUrl('0803-edu-benefits')}/`,
     [VA_FORM_IDS.FORM_MOCK_PREFILL]: `${tryGetAppUrl('mock-form-prefill')}/`,
-=======
->>>>>>> 2a41bc0c0f (initial scaffolding for 0803)
   };
 };
 
@@ -974,7 +971,6 @@ export const MY_VA_SIP_FORMS = [
     description: 'education benefits',
     trackingPrefix: 'edu-0803-',
   },
-<<<<<<< HEAD
   {
     id: VA_FORM_IDS.FORM_MOCK_PREFILL,
     benefit: 'Mock prefill testing',
@@ -982,8 +978,6 @@ export const MY_VA_SIP_FORMS = [
     description: 'Mock prefill testing',
     trackingPrefix: 'mock-prefill-',
   },
-=======
->>>>>>> 2a41bc0c0f (initial scaffolding for 0803)
 ];
 
 export const FORM_BENEFITS = MY_VA_SIP_FORMS.reduce((acc, form) => {
