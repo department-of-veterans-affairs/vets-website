@@ -9,7 +9,7 @@
 // TODO: Remove this rule below once SaveInProgressIntro's
 // hide-unauth'ed-content support's fixed/refactored (#914)
 .usa-alert-info.schemaform-sip-alert .usa-alert-text > p:nth-child(2) {
-  // hide "Note" paragraph in auth'ed LOA3 intro-page SIP-alert
+  // hide "Note" paragraph in auth'ed LOA3 intro-page SIP-alert 
   display: none;
 }
 
