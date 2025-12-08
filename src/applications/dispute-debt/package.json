@@ -5,21 +5,12 @@
   "scripts": {
     "demo": "echo DEMOING $npm_package_name v $npm_package_version with WORKSPACES"
   },
-  "dependencies": {
-    "@sentry/browser": "^6.13.2",
-    "date-fns": "^2.24.0",
-    "prop-types": "^15.6.1"
-  },
-  "devDependencies": {
-    "@testing-library/dom": "^7.26.6",
-    "@testing-library/react": "^11.1.2",
-    "react-i18next": "^11.15.6",
-    "chai": "^4.3.4",
-    "mockdate": "^3.0.5",
-    "sinon": "^3.2.1"
+ "dependencies": {
+    "react-i18next": "11.15.6"
   },
   "peerDependencies": {
     "react": "*",
+    "react-dom": "*",
     "react-redux": "*",
     "react-router": "*",
     "react-router-dom": "*",
