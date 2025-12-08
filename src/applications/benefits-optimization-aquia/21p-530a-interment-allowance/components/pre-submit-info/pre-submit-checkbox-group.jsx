@@ -37,10 +37,12 @@ export const PreSubmitCheckboxGroup = ({ showError, onSectionComplete }) => {
   const hasSubmittedForm = Boolean(submission.status);
 
   // State for the single signature required
-  const [fullName, setFullName] = useState('');
+  const [signatoryFullName, setSignatoryFullName] = useState('');
   const [organizationTitle, setOrganizationTitle] = useState('');
   const [isCertified, setIsCertified] = useState(false);
-  const [fullNameTouched, setFullNameTouched] = useState(false);
+  const [signatoryFullNameTouched, setSignatoryFullNameTouched] = useState(
+    false,
+  );
   const [titleTouched, setTitleTouched] = useState(false);
 
   // Ref to prevent duplicate dispatches
@@ -56,17 +58,17 @@ export const PreSubmitCheckboxGroup = ({ showError, onSectionComplete }) => {
   }, []);
 
   // Validate full name matches recipient organization name
-  const validateFullName = useCallback(
+  const validateSignatoryFullName = useCallback(
     () => {
       if (!recipientOrganizationName) {
-        return fullName.trim().length > 0;
+        return signatoryFullName.trim().length > 0;
       }
       return (
-        normalizeForComparison(fullName) ===
+        normalizeForComparison(signatoryFullName) ===
         normalizeForComparison(recipientOrganizationName)
       );
     },
-    [fullName, recipientOrganizationName, normalizeForComparison],
+    [signatoryFullName, recipientOrganizationName, normalizeForComparison],
   );
 
   // Validate title matches state/tribal organization name
@@ -92,7 +94,7 @@ export const PreSubmitCheckboxGroup = ({ showError, onSectionComplete }) => {
       if (hasSubmittedForm) return;
 
       const certificationData = {
-        signature: fullName.trim(),
+        signature: signatoryFullName.trim(),
         titleOfStateOrTribalOfficial: organizationTitle.trim(),
         certified: isCertified,
       };
@@ -115,7 +117,7 @@ export const PreSubmitCheckboxGroup = ({ showError, onSectionComplete }) => {
     },
     [
       dispatch,
-      fullName,
+      signatoryFullName,
       organizationTitle,
       isCertified,
       hasSubmittedForm,
@@ -126,9 +128,10 @@ export const PreSubmitCheckboxGroup = ({ showError, onSectionComplete }) => {
   // Check if all required fields are valid and notify parent when completion state changes
   useEffect(
     () => {
-      const hasValidFullName = validateFullName();
+      const hasValidSignatoryFullName = validateSignatoryFullName();
       const hasValidTitle = validateTitle();
-      const isComplete = hasValidFullName && hasValidTitle && isCertified;
+      const isComplete =
+        hasValidSignatoryFullName && hasValidTitle && isCertified;
 
       // Only call callback if completion state has actually changed
       // This prevents unnecessary calls even if parent passes new callback reference
@@ -138,12 +141,12 @@ export const PreSubmitCheckboxGroup = ({ showError, onSectionComplete }) => {
       }
     },
     [
-      fullName,
+      signatoryFullName,
       organizationTitle,
       isCertified,
       recipientOrganizationName,
       titleOrganizationName,
-      validateFullName,
+      validateSignatoryFullName,
       validateTitle,
       hasSubmittedForm,
       onSectionComplete,
@@ -152,24 +155,24 @@ export const PreSubmitCheckboxGroup = ({ showError, onSectionComplete }) => {
 
   // Determine if errors should be shown
   const shouldShowErrors = !hasSubmittedForm && showError;
-  const shouldShowFullNameError =
-    !hasSubmittedForm && (fullNameTouched || showError);
+  const shouldShowSignatoryFullNameError =
+    !hasSubmittedForm && (signatoryFullNameTouched || showError);
   const shouldShowTitleError = !hasSubmittedForm && (titleTouched || showError);
 
   // Validation checks
-  const isFullNameEmpty = fullName.trim().length === 0;
-  const isFullNameValid = validateFullName();
+  const isSignatoryFullNameEmpty = signatoryFullName.trim().length === 0;
+  const isSignatoryFullNameValid = validateSignatoryFullName();
   const isTitleEmpty = organizationTitle.trim().length === 0;
   const isTitleValid = validateTitle();
 
   // Error messages (null if no error)
-  let fullNameError = null;
-  if (shouldShowFullNameError) {
-    if (isFullNameEmpty) {
-      fullNameError = `Enter your full name as the state or tribal official representing ${recipientOrganizationName ||
+  let signatoryFullNameError = null;
+  if (shouldShowSignatoryFullNameError) {
+    if (isSignatoryFullNameEmpty) {
+      signatoryFullNameError = `Enter your full name as the state or tribal official representing ${recipientOrganizationName ||
         'the organization'}`;
-    } else if (!isFullNameValid && recipientOrganizationName) {
-      fullNameError = `Your signature must match: ${recipientOrganizationName}`;
+    } else if (!isSignatoryFullNameValid && recipientOrganizationName) {
+      signatoryFullNameError = `Your signature must match: ${recipientOrganizationName}`;
     }
   }
 
@@ -187,12 +190,12 @@ export const PreSubmitCheckboxGroup = ({ showError, onSectionComplete }) => {
     shouldShowErrors && !isCertified ? ERROR_MSG_CHECKBOX : null;
 
   // Event handlers
-  const handleFullNameChange = useCallback(event => {
-    setFullName(event.detail.value);
+  const handleSignatoryFullNameChange = useCallback(event => {
+    setSignatoryFullName(event.detail.value);
   }, []);
 
-  const handleFullNameBlur = useCallback(() => {
-    setFullNameTouched(true);
+  const handleSignatoryFullNameBlur = useCallback(() => {
+    setSignatoryFullNameTouched(true);
   }, []);
 
   const handleTitleChange = useCallback((_, value) => {
@@ -220,13 +223,13 @@ export const PreSubmitCheckboxGroup = ({ showError, onSectionComplete }) => {
           name="stateOrTribalOfficial"
           heading="Statement of truth"
           inputLabel="Your full name"
-          inputValue={fullName}
-          inputError={fullNameError}
+          inputValue={signatoryFullName}
+          inputError={signatoryFullNameError}
           checked={isCertified}
           checkboxLabel="I certify the information above is correct and true to the best of my knowledge and belief."
           checkboxError={checkboxError}
-          onVaInputBlur={handleFullNameBlur}
-          onVaInputChange={handleFullNameChange}
+          onVaInputBlur={handleSignatoryFullNameBlur}
+          onVaInputChange={handleSignatoryFullNameChange}
           onVaCheckboxChange={handleCheckboxChange}
           hideLegalNote
         >
