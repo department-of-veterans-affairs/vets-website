@@ -35,16 +35,18 @@ export const vassApi = createApi({
       },
     }),
     postOTCVerification: builder.mutation({
-      async queryFn({ otc, otcCode }) {
+      async queryFn({ otc, uuid, lastname, dob }) {
         try {
-          return await api('/vass/v0/TODO_GET_OTC_ENDPOINT', {
+          return await api('/vass/v0/authenticate-otc', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify({
               otc,
-              otcCode,
+              uuid,
+              lastname,
+              dob,
             }),
           });
         } catch (error) {
