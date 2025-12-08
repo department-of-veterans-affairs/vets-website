@@ -226,7 +226,10 @@ const LabsAndTests = () => {
                       role="alert"
                       data-testid="alert-images-ready"
                     >
-                      <h3 className="vads-u-font-size--lg no-print">
+                      <h3
+                        slot="headline"
+                        className="vads-u-font-size--lg no-print"
+                      >
                         Images ready
                       </h3>
                       <JobCompleteAlert
