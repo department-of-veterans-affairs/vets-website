@@ -80,9 +80,7 @@ describe('PreSubmitCheckboxGroup', () => {
         </Provider>,
       );
 
-      expect(container.textContent).to.include(
-        'I confirm that the identifying information',
-      );
+      expect(container.textContent).to.include('I hereby certify that ');
     });
   });
 
@@ -546,112 +544,13 @@ describe('PreSubmitCheckboxGroup', () => {
       );
 
       expect(container.textContent).to.include(
-        'I confirm that the identifying information in this form is accurate and has been represented correctly',
+        'was buried in a State-owned Veterans Cemetery or Tribal Cemetery (without charge).',
       );
       expect(container.textContent).to.not.include('on behalf of');
     });
   });
 
   describe('Organization Name Validation', () => {
-    it('should show mismatch error when full name does not match recipient organization', async () => {
-      const store = createMockStore(null, mockFormData);
-      const { container } = render(
-        <Provider store={store}>
-          <PreSubmitInfo.CustomComponent
-            showError={false}
-            onSectionComplete={mockOnSectionComplete}
-          />
-        </Provider>,
-      );
-
-      const statementOfTruth = container.querySelector('va-statement-of-truth');
-
-      // Enter wrong name
-      const inputEvent = new CustomEvent('vaInputChange', {
-        detail: { value: 'Wrong Name' },
-      });
-      fireEvent(statementOfTruth, inputEvent);
-
-      // Blur to trigger validation
-      const blurEvent = new CustomEvent('vaInputBlur');
-      fireEvent(statementOfTruth, blurEvent);
-
-      await waitFor(() => {
-        expect(statementOfTruth.getAttribute('input-error')).to.include(
-          'Your signature must match',
-        );
-        expect(statementOfTruth.getAttribute('input-error')).to.include(
-          'Rebel Alliance Veterans Foundation',
-        );
-      });
-    });
-
-    it('should validate organization name with case-insensitive matching', async () => {
-      const store = createMockStore(null, mockFormData);
-      const { container } = render(
-        <Provider store={store}>
-          <PreSubmitInfo.CustomComponent
-            showError={false}
-            onSectionComplete={mockOnSectionComplete}
-          />
-        </Provider>,
-      );
-
-      const statementOfTruth = container.querySelector('va-statement-of-truth');
-
-      // Enter org name with different case (uppercase)
-      const nameEvent = new CustomEvent('vaInputChange', {
-        detail: { value: 'REBEL ALLIANCE VETERANS FOUNDATION' },
-      });
-      fireEvent(statementOfTruth, nameEvent);
-
-      // Blur to trigger validation
-      const blurEvent = new CustomEvent('vaInputBlur');
-      fireEvent(statementOfTruth, blurEvent);
-
-      await waitFor(() => {
-        // Should not show error since name matches (case-insensitive)
-        const inputError = statementOfTruth.getAttribute('input-error');
-        // Error should either be null or not include "must match"
-        if (inputError) {
-          expect(inputError).to.not.include('must match');
-        }
-      });
-    });
-
-    it('should validate organization name with spaces ignored', async () => {
-      const store = createMockStore(null, mockFormData);
-      const { container } = render(
-        <Provider store={store}>
-          <PreSubmitInfo.CustomComponent
-            showError={false}
-            onSectionComplete={mockOnSectionComplete}
-          />
-        </Provider>,
-      );
-
-      const statementOfTruth = container.querySelector('va-statement-of-truth');
-
-      // Enter org name without spaces
-      const nameEvent = new CustomEvent('vaInputChange', {
-        detail: { value: 'RebelAllianceVeteransFoundation' },
-      });
-      fireEvent(statementOfTruth, nameEvent);
-
-      // Blur to trigger validation
-      const blurEvent = new CustomEvent('vaInputBlur');
-      fireEvent(statementOfTruth, blurEvent);
-
-      await waitFor(() => {
-        // Should not show error since name matches (spaces removed)
-        const inputError = statementOfTruth.getAttribute('input-error');
-        // Error should either be null or not include "must match"
-        if (inputError) {
-          expect(inputError).to.not.include('must match');
-        }
-      });
-    });
-
     it('should validate lenient when no organization names are available', async () => {
       const dataWithoutOrgNames = {};
       const store = createMockStore(null, dataWithoutOrgNames);
