@@ -79,7 +79,7 @@ describe('526 side of body shared page', () => {
 
     fireEvent.click(getByRole('button', { name: /submit/i }));
 
-    await waitFor(() => expect(onSubmit.called).to.be.true);
+    await waitFor(() => expect(onSubmit.calledOnce).to.be.true);
   });
 
   it('submits when LEFT is selected', async () => {
@@ -88,7 +88,7 @@ describe('526 side of body shared page', () => {
 
     fireEvent.click(getByRole('button', { name: /submit/i }));
 
-    await waitFor(() => expect(onSubmit.called).to.be.true);
+    await waitFor(() => expect(onSubmit.calledOnce).to.be.true);
   });
 
   it('submits when BILATERAL is selected', async () => {
@@ -97,6 +97,6 @@ describe('526 side of body shared page', () => {
 
     fireEvent.click(getByRole('button', { name: /submit/i }));
 
-    await waitFor(() => expect(onSubmit.called).to.be.true);
+    await waitFor(() => expect(onSubmit.calledOnce).to.be.true);
   });
 });
