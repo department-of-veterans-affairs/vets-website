@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom-v5-compat';
 import {
   VaCheckbox,
@@ -7,41 +8,43 @@ import {
 import Wrapper from '../layout/Wrapper';
 import { topics } from '../services/Topic/topic';
 import { usePersistentSelections } from '../hooks/usePersistentSelections';
+import {
+  setSelectedTopics,
+  selectSelectedTopics,
+} from '../redux/slices/formSlice';
 
 // TODO: remove this once we have a real UUID
 const UUID = 'af40d0e7-df29-4df3-8b5e-03eac2e760fa';
 
 const TopicSelection = () => {
+  const dispatch = useDispatch();
+  const selectedTopics = useSelector(selectSelectedTopics);
   const navigate = useNavigate();
   const { saveTopicsSelection, getSaved } = usePersistentSelections(UUID);
-  const [selectedTopicsIds, setSelectedTopicsIds] = useState(
-    getSaved()?.selectedTopicsIds || [],
-  );
 
-  useEffect(
-    () => {
-      saveTopicsSelection(selectedTopicsIds);
+  const saveTopics = useCallback(
+    newTopics => {
+      saveTopicsSelection(newTopics);
+      dispatch(setSelectedTopics(newTopics));
     },
-    [saveTopicsSelection, selectedTopicsIds],
+    [saveTopicsSelection, dispatch],
   );
 
   const handleTopicChange = event => {
     const { checked } = event.detail;
     if (checked) {
-      const newTopics = [...selectedTopicsIds, event.target.value];
-      setSelectedTopicsIds(newTopics);
-      saveTopicsSelection(newTopics);
+      const newTopics = [...selectedTopics, event.target.value];
+      saveTopics(newTopics);
     } else {
-      const newTopics = selectedTopicsIds.filter(
+      const newTopics = selectedTopics.filter(
         topic => topic !== event.target.value,
       );
-      setSelectedTopicsIds(newTopics);
-      saveTopicsSelection(newTopics);
+      saveTopics(newTopics);
     }
   };
 
   const handleBack = () => {
-    // TODO: manage state
+    // TODO: manage state?
     navigate(-1);
   };
 
@@ -49,6 +52,24 @@ const TopicSelection = () => {
     // TODO: manage state && error handling
     navigate('/review');
   };
+
+  const loadSavedTopics = useCallback(
+    () => {
+      const savedTopics = getSaved()?.selectedTopicsIds;
+      if (savedTopics) {
+        saveTopics(savedTopics);
+      }
+    },
+    [getSaved, saveTopics],
+  );
+
+  useEffect(
+    () => {
+      loadSavedTopics();
+    },
+    [loadSavedTopics],
+  );
+
   return (
     <Wrapper pageTitle="What topic would you like to talk about?" showBackLink>
       <va-checkbox-group
@@ -66,7 +87,7 @@ const TopicSelection = () => {
             name="topic"
             value={topicId}
             onVaChange={handleTopicChange}
-            checked={selectedTopicsIds.includes(topicId)}
+            checked={selectedTopics.includes(topicId)}
           />
         ))}
       </va-checkbox-group>
