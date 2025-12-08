@@ -7,6 +7,7 @@ import {
   VaLoadingIndicator,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import CallVBACenter from '@department-of-veterans-affairs/platform-static-data/CallVBACenter';
+import { datadogLogs } from '@datadog/browser-logs';
 import { DOWNLOAD_STATUSES } from '../utils/constants';
 import { getSingleLetterPDFLinkAction } from '../actions/letters';
 
@@ -69,6 +70,11 @@ const DownloadLetterBlobLink = ({
             filename={`${letterTitle}.pdf`}
             text={`Download ${letterTitle}`}
             download
+            onClick={() => {
+              datadogLogs.logger.info('Letter downloaded.', {
+                'letter-type': letterType,
+              });
+            }}
           />
         </div>
       );
@@ -101,7 +107,4 @@ const mapDispatchToProps = {
   getSingleLetterPDFLinkAction,
 };
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(DownloadLetterBlobLink);
+export default connect(null, mapDispatchToProps)(DownloadLetterBlobLink);
