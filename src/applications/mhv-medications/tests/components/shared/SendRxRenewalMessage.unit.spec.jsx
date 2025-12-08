@@ -119,6 +119,68 @@ describe('SendRxRenewalMessage Component', () => {
       expect(screen.queryByTestId('send-renewal-request-message-link')).to.not
         .exist;
     });
+
+    describe('isRenewable for OH prescriptions', () => {
+      it('renders renewal link when isRenewable is true regardless of dispStatus', () => {
+        const rx = {
+          ...mockRx,
+          isRenewable: true,
+          dispStatus: 'Some Unknown Status',
+          refillRemaining: 5,
+        };
+        const screen = setup(rx);
+        expect(screen.getByTestId('send-renewal-request-message-link')).to
+          .exist;
+      });
+
+      it('renders renewal link when isRenewable is true with null dispStatus', () => {
+        const rx = {
+          ...mockRx,
+          isRenewable: true,
+          dispStatus: null,
+          refillRemaining: null,
+        };
+        const screen = setup(rx);
+        expect(screen.getByTestId('send-renewal-request-message-link')).to
+          .exist;
+      });
+
+      it('renders renewal link when isRenewable is true even with refills remaining', () => {
+        const rx = {
+          ...mockRx,
+          isRenewable: true,
+          dispStatus: 'Active',
+          refillRemaining: 10,
+        };
+        const screen = setup(rx);
+        expect(screen.getByTestId('send-renewal-request-message-link')).to
+          .exist;
+      });
+
+      it('does not render renewal link when isRenewable is false and no other eligibility criteria met', () => {
+        const rx = {
+          ...mockRx,
+          isRenewable: false,
+          dispStatus: 'Active',
+          refillRemaining: 5,
+        };
+        const screen = setup(rx);
+        expect(screen.queryByTestId('send-renewal-request-message-link')).to.not
+          .exist;
+      });
+
+      it('renders renewal link when isRenewable is false but other eligibility criteria met', () => {
+        const rx = {
+          ...mockRx,
+          isRenewable: false,
+          dispStatus: 'Active',
+          refillRemaining: 0, // Meets Active with 0 refills criteria
+        };
+        const screen = setup(rx);
+        expect(screen.getByTestId('send-renewal-request-message-link')).to
+          .exist;
+      });
+    });
   });
 
   describe('Fallback content', () => {
