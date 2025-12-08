@@ -55,7 +55,6 @@ const AcceleratedCernerFacilityAlert = props => {
   const {
     isLoading,
     isCerner,
-    isAccelerating,
     isAcceleratingAllergies,
     isAcceleratingCareNotes,
     isAcceleratingVitals,
@@ -111,7 +110,7 @@ const AcceleratedCernerFacilityAlert = props => {
 
   // STEP 2: If user is accelerating AND on a page/domain that's been integrated, hide alert
   // When a page's data is integrated to VA.gov, users don't need to go to My VA Health for it
-  if (hideOnPage.includes(pageName) && (isCerner || isAccelerating)) {
+  if (hideOnPage.includes(pageName)) {
     return null;
   }
 
@@ -127,12 +126,12 @@ AcceleratedCernerFacilityAlert.propTypes = {
   // Required for acceleration logic
   pageName: PropTypes.string,
   // All props from CernerFacilityAlert are also supported and passed through:
-  domain: PropTypes.string,
-  linkPath: PropTypes.string,
+  domain: PropTypes.string.isRequired,
+  linkPath: PropTypes.string.isRequired,
   apiError: PropTypes.bool,
   className: PropTypes.string,
   onLinkClick: PropTypes.func,
-  headlineAction: PropTypes.string,
+  headline: PropTypes.string.isRequired,
   bodyIntro: PropTypes.string,
   bodyActionSingle: PropTypes.string,
   bodyActionMultiple: PropTypes.string,
