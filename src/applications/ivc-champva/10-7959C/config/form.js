@@ -12,15 +12,13 @@ import FileFieldWrapped from '../components/FileUploadWrapper';
 import { prefillTransformer } from './prefillTransformer';
 import SubmissionError from '../../shared/components/SubmissionError';
 import { migrateCardUploadKeys } from './migrations';
+import { blankSchema } from '../definitions';
 
-import {
-  applicantNameDobSchema,
-  applicantSsnSchema,
-  applicantAddressInfoSchema,
-  applicantContactInfoSchema,
-  applicantGenderSchema,
-  blankSchema,
-} from '../chapters/applicantInformation';
+import applicantBirthSex from '../chapters/applicantInformation/birthSex';
+import applicantContactInformation from '../chapters/applicantInformation/contactInformation';
+import applicantIdentityInformation from '../chapters/applicantInformation/identityInformation';
+import applicantMailingAddress from '../chapters/applicantInformation/mailingAddress';
+import applicantPersonalInformation from '../chapters/applicantInformation/personalInformation';
 
 import {
   applicantHasMedicareSchema,
@@ -174,45 +172,32 @@ const formConfig = {
       pages: {
         applicantNameDob: {
           path: 'applicant-info',
-          title: formData =>
-            `${
-              formData.certifierRole === 'applicant' ? 'Your' : 'Beneficiary’s'
-            } name`,
-          ...applicantNameDobSchema,
+          title: 'Beneficiary’s name',
+          ...applicantPersonalInformation,
           scrollAndFocusTarget,
         },
         applicantIdentity: {
           path: 'applicant-identification-info',
-          title: formData =>
-            privWrapper(`${fnp(formData)} identification information`),
-          ...applicantSsnSchema,
+          title: 'Beneficiary’s identification information',
+          ...applicantIdentityInformation,
           scrollAndFocusTarget,
         },
         applicantAddressInfo: {
           path: 'applicant-mailing-address',
-          title: formData => privWrapper(`${fnp(formData)} mailing address`),
-          ...applicantAddressInfoSchema,
+          title: 'Beneficiary’s mailing address',
+          ...applicantMailingAddress,
           scrollAndFocusTarget,
         },
-
-        //
-        // TODO: add prefill address page if user authenticated
-        //
-
-        // TODO: have conditional logic to check if third party and app
-        // is under age 18 (contact page)
         applicantContactInfo: {
           path: 'applicant-contact-info',
-          title: formData =>
-            privWrapper(`${fnp(formData)} contact information`),
-          ...applicantContactInfoSchema,
+          title: 'Beneficiary’s contact information',
+          ...applicantContactInformation,
           scrollAndFocusTarget,
         },
         applicantGender: {
           path: 'applicant-gender',
-          title: formData =>
-            privWrapper(`${fnp(formData)} sex listed at birth`),
-          ...applicantGenderSchema,
+          title: 'Beneficiary’s sex listed at birth',
+          ...applicantBirthSex,
           scrollAndFocusTarget,
         },
       },
