@@ -17,6 +17,7 @@ import {
 import { alertBody } from '../content/confirmation-poll';
 import { ClaimConfirmationInfo } from '../components/ClaimConfirmationInfo';
 import { BddConfirmationAlert } from '../content/bddConfirmationAlert';
+import ConfirmationPageErrorBoundary from '../components/ConfirmationPageErrorBoundary';
 import { capitalizeEachWord } from '../utils';
 
 export const getNewConditionsNames = (disabilities = []) => {
@@ -61,7 +62,9 @@ export default class ConfirmationPage extends React.Component {
           toggleName={Toggler.TOGGLE_NAMES.disability526ShowConfirmationReview}
         >
           <Toggler.Enabled>
-            <ConfirmationView.ChapterSectionCollection showPageTitles />
+            <ConfirmationPageErrorBoundary>
+              <ConfirmationView.ChapterSectionCollection showPageTitles />
+            </ConfirmationPageErrorBoundary>
           </Toggler.Enabled>
         </Toggler>
         <ConfirmationView.PrintThisPage />
