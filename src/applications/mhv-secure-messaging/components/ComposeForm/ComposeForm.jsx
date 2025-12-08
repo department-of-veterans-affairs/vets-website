@@ -63,6 +63,7 @@ import {
 import SelectedRecipientTitle from './SelectedRecipientTitle';
 import { clearPrescription } from '../../actions/prescription';
 import AddYourMedicationInfoWarning from './AddYourMedicationInfoWarning';
+import useNavigationError from '../../hooks/useNavigationError';
 
 const ComposeForm = props => {
   const { pageTitle, draft, recipients, signature } = props;
@@ -280,7 +281,6 @@ const ComposeForm = props => {
   const navigationErrorModalVisible =
     draftInProgress?.navigationErrorModalVisible;
   const [attachFileSuccess, setAttachFileSuccess] = useState(false);
-  const [deleteButtonClicked, setDeleteButtonClicked] = useState(false);
   const savedDraft = draftInProgress?.savedDraft;
   const setSavedDraft = useCallback(
     value => {
@@ -610,6 +610,18 @@ const ComposeForm = props => {
     ],
   );
 
+  const constructFormData = useCallback(
+    () => {
+      return {
+        recipientId: draftInProgress.recipientId,
+        category: draftInProgress.category,
+        subject: draftInProgress.subject,
+        body: draftInProgress.body,
+      };
+    },
+    [draftInProgress],
+  );
+
   const saveDraftHandler = useCallback(
     async (type, e) => {
       const {
@@ -673,12 +685,7 @@ const ComposeForm = props => {
       }
 
       const draftId = draft?.messageId;
-      const formData = {
-        recipientId: draftInProgress.recipientId,
-        category: draftInProgress.category,
-        subject: draftInProgress.subject,
-        body: draftInProgress.body,
-      };
+      const formData = constructFormData();
 
       const newFieldsString = JSON.stringify({
         rec: parseInt(debouncedRecipient || draftInProgress.recipientId, 10),
@@ -708,15 +715,19 @@ const ComposeForm = props => {
       checkMessageValidity,
       validMessageType.SAVE,
       draft?.messageId,
-      selectedRecipientId,
-      category,
-      subject,
-      messageBody,
+      constructFormData,
       debouncedRecipient,
+      draftInProgress.recipientId,
       debouncedCategory,
+      category,
       debouncedSubject,
+      subject,
       debouncedMessageBody,
-      attachments,
+      messageBody,
+      setSaveError,
+      setSavedDraft,
+      setNavigationError,
+      attachments.length,
       isSignatureRequired,
       electronicSignature,
       fieldsString,
@@ -758,112 +769,18 @@ const ComposeForm = props => {
     ],
   );
 
-  // Navigation error effect
-  useEffect(
-    () => {
-      const isBlankForm = () =>
-        messageBody === '' &&
-        subject === '' &&
-        Number(selectedRecipientId) === 0 &&
-        category === null &&
-        attachments.length === 0;
-
-      const isEditedSaved = () =>
-        messageBody === draft?.body &&
-        Number(selectedRecipientId) === draft?.recipientId &&
-        category === draft?.category &&
-        subject === draft?.subject;
-
-      const isEditedForm = () =>
-        (messageBody !== draft?.body ||
-          selectedRecipientId !== draft?.recipientId ||
-          category !== draft?.category ||
-          subject !== draft?.subject) &&
-        !isBlankForm() &&
-        !isEditedSaved();
-
-      const isFormFilled = () =>
-        messageBody !== '' &&
-        subject !== '' &&
-        selectedRecipientId !== null &&
-        category !== null;
-
-      let error = null;
-      const unsavedFilledDraft =
-        isFormFilled() && !isEditedSaved() && !savedDraft;
-
-      const partiallySavedDraftWithSignRequired =
-        !draft &&
-        unsavedFilledDraft &&
-        !attachments.length &&
-        isSignatureRequired;
-
-      const partiallySavedDraft =
-        (!isFormFilled() && (!isBlankForm() || attachments.length > 0)) ||
-        partiallySavedDraftWithSignRequired;
-
-      const savedDraftWithEdits =
-        (savedDraft && !isEditedSaved() && isEditedForm()) ||
-        (!!draft && unsavedFilledDraft);
-
-      const savedDraftWithNoEdits =
-        (savedDraft && !isEditedForm()) || (!!draft && !isEditedForm());
-
-      if (isBlankForm()) {
-        error = null;
-      } else if (partiallySavedDraft) {
-        error = ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR;
-      } else if (
-        attachments.length > 0 &&
-        (unsavedFilledDraft ||
-          savedDraftWithEdits ||
-          savedDraftWithNoEdits ||
-          partiallySavedDraft)
-      ) {
-        error = ErrorMessages.Navigation.UNABLE_TO_SAVE_DRAFT_ATTACHMENT_ERROR;
-      } else if (
-        !draft &&
-        unsavedFilledDraft &&
-        !attachments.length &&
-        !isSignatureRequired
-      ) {
-        error = ErrorMessages.Navigation.CONT_SAVING_DRAFT_ERROR;
-      } else if (
-        !isSignatureRequired &&
-        savedDraftWithEdits &&
-        !attachments.length
-      ) {
-        error = ErrorMessages.Navigation.CONT_SAVING_DRAFT_CHANGES_ERROR;
-      } else if (
-        isSignatureRequired &&
-        savedDraftWithEdits &&
-        !attachments.length
-      ) {
-        error = ErrorMessages.Navigation.UNABLE_TO_SAVE_DRAFT_SIGNATURE_ERROR;
-      }
-      setUnsavedNavigationError(error);
-    },
-    [
-      attachments,
-      category,
-      checkMessageValidity,
-      deleteButtonClicked,
-      draft?.category,
-      draft?.messageBody,
-      draft?.recipientId,
-      draft?.subject,
-      formPopulated,
-      isSignatureRequired,
-      messageBody,
-      selectedRecipientId,
-      subject,
-      savedDraft,
-      setUnsavedNavigationError,
-      draft?.body,
-      draft,
-      navigationErrorModalVisible,
-    ],
-  );
+  // Navigation error hook - manages navigation error state based on form state
+  useNavigationError({
+    messageBody,
+    subject,
+    selectedRecipientId,
+    category,
+    attachments,
+    draft,
+    savedDraft,
+    isSignatureRequired,
+    setUnsavedNavigationError,
+  });
 
   useEffect(
     () => {
@@ -1162,7 +1079,6 @@ const ComposeForm = props => {
             navigationError={navigationError}
             onSaveDraft={(type, e) => saveDraftHandler(type, e)}
             onSend={sendMessageHandler}
-            setDeleteButtonClicked={setDeleteButtonClicked}
             setNavigationError={setNavigationError}
             setUnsavedNavigationError={setUnsavedNavigationError}
             savedComposeDraft={!!draft}
