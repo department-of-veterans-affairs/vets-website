@@ -14,6 +14,7 @@ import {
 } from '../../../redux/selectors';
 import { formatAmount } from '../../../util/complex-claims-helper';
 import { EXPENSE_TYPES } from '../../../constants';
+import { ComplexClaimsHelpSection } from '../../HelpText';
 
 const ReviewPage = ({ message }) => {
   const navigate = useNavigate();
@@ -60,7 +61,7 @@ const ReviewPage = ({ message }) => {
   // If message is not provided, use default values
   const overriddenMessage = message || {
     title: '',
-    body: 'Your mileage expense was successfully added.',
+    body: 'You successfully added a travel expense',
     type: 'success',
   };
 
@@ -74,6 +75,9 @@ const ReviewPage = ({ message }) => {
     navigate(`/file-new-claim/${apptId}/${claimId}/travel-agreement`);
   };
 
+  const numGroupedExpenses = Object.keys(groupedExpenses).length;
+  const isAlertVisible = visible && numGroupedExpenses > 0;
+
   return (
     <div data-testid="review-page">
       <h1>Your unsubmitted expenses</h1>
@@ -82,82 +86,89 @@ const ReviewPage = ({ message }) => {
         description={overriddenMessage.body}
         status={overriddenMessage.type}
         onCloseEvent={onClose}
-        visible={visible}
+        visible={isAlertVisible}
       />
-      <VaButton
-        id="add-expense-button"
-        className="vads-u-display--flex vads-u-margin-y--2"
-        text={
-          Object.keys(groupedExpenses).length === 0
-            ? 'Add expenses'
-            : 'Add more expenses'
-        }
-        secondary
-        onClick={addMoreExpenses}
-      />
-      {Object.keys(groupedExpenses).length === 0 ? (
-        <p>No expenses have been added.</p>
-      ) : (
-        <p>
-          Once you’ve added your expenses, submit your claim within 30 days of
-          your appointment.
-        </p>
-      )}
-      <ExpensesAccordion
-        expenses={expenses}
-        documents={documents}
-        groupAccordionItemsByType
-      />
-      <div className="vads-u-margin-top--1">
-        <va-card data-testid="summary-box" background>
-          <h3 className="vads-u-margin-top--1">Estimated reimbursement</h3>
-          <ul>
-            {Object.entries(totalByExpenseType)
-              .filter(([_, total]) => total > 0) // only show if total > 0
-              .map(([type, total]) => {
-                const labelMap = {
-                  Mileage: EXPENSE_TYPES.Mileage.title,
-                  Parking: EXPENSE_TYPES.Parking.title,
-                  Toll: EXPENSE_TYPES.Toll.title,
-                  Commoncarrier: EXPENSE_TYPES.Commoncarrier.title,
-                  Airtravel: EXPENSE_TYPES.Airtravel.title,
-                  Lodging: EXPENSE_TYPES.Lodging.title,
-                  Meal: EXPENSE_TYPES.Meal.title,
-                  Other: EXPENSE_TYPES.Other.title,
-                };
-
-                return (
-                  <li key={type}>
-                    <strong>{labelMap[type] || type}</strong> $
-                    {formatAmount(total)}
-                  </li>
-                );
-              })}
-          </ul>
-
-          <p>
-            <strong>Total:</strong> $
-            {formatAmount(claimDetails?.totalCostRequested ?? 0)}
-          </p>
-          <p>
-            Before we can pay you back for expenses, you must pay a deductible.
-            The current deductible is $3 one-way or $6 round-trip for each
-            appointment, up to $18 total each month.
-          </p>
-          <va-link
-            href="/resources/reimbursed-va-travel-expenses-and-mileage-rate/#monthlydeductible"
-            text="Learn more about deductibles for VA travel claims"
-            external
-          />
-        </va-card>
+      <div className="vads-u-display--flex vads-u-justify-content--center mobile-lg:vads-u-justify-content--flex-start vads-u-margin-y--3">
+        <VaButton
+          id="add-expense-button"
+          text={numGroupedExpenses === 0 ? 'Add expenses' : 'Add more expenses'}
+          secondary={numGroupedExpenses > 0}
+          onClick={addMoreExpenses}
+        />
       </div>
-      <VaButton
-        id="sign-agreement-button"
-        className="vads-u-display--flex vads-u-margin-y--2"
-        text="Sign agreement"
-        continue
-        onClick={signAgreement}
-      />
+      {numGroupedExpenses === 0 ? (
+        <>
+          <p>
+            You haven’t added any expenses. Add at least 1 expense to submit
+            your claim.
+          </p>
+          <ComplexClaimsHelpSection />
+        </>
+      ) : (
+        <>
+          <p>
+            When you’re done adding expenses, select <b>Sign agreement</b> to
+            accept the travel agreement and submit your claim. Make sure to file
+            your claim within 30 days of your appointment.
+          </p>
+          <h2>Expense types</h2>
+          <ExpensesAccordion
+            expenses={expenses}
+            documents={documents}
+            groupAccordionItemsByType
+          />
+          <div className="vads-u-margin-top--1">
+            <va-card data-testid="summary-box" background>
+              <h3 className="vads-u-margin-top--1">Estimated reimbursement</h3>
+              <ul>
+                {Object.entries(totalByExpenseType)
+                  .filter(([_, total]) => total > 0) // only show if total > 0
+                  .map(([type, total]) => {
+                    const labelMap = {
+                      Mileage: EXPENSE_TYPES.Mileage.title,
+                      Parking: EXPENSE_TYPES.Parking.title,
+                      Toll: EXPENSE_TYPES.Toll.title,
+                      Commoncarrier: EXPENSE_TYPES.Commoncarrier.title,
+                      Airtravel: EXPENSE_TYPES.Airtravel.title,
+                      Lodging: EXPENSE_TYPES.Lodging.title,
+                      Meal: EXPENSE_TYPES.Meal.title,
+                      Other: EXPENSE_TYPES.Other.title,
+                    };
+
+                    return (
+                      <li key={type}>
+                        <strong>{labelMap[type] || type}</strong> $
+                        {formatAmount(total)}
+                      </li>
+                    );
+                  })}
+              </ul>
+
+              <p>
+                <strong>Total:</strong> $
+                {formatAmount(claimDetails?.totalCostRequested ?? 0)}
+              </p>
+              <p>
+                Before we can pay you back for expenses, you must pay a
+                deductible. The current deductible is $3 one-way or $6
+                round-trip for each appointment, up to $18 total each month.
+              </p>
+              <va-link
+                href="/resources/reimbursed-va-travel-expenses-and-mileage-rate/#monthlydeductible"
+                text="Learn more about deductibles for VA travel claims"
+                external
+              />
+            </va-card>
+          </div>
+          <VaButton
+            id="sign-agreement-button"
+            className="vads-u-display--flex vads-u-margin-y--2"
+            text="Sign agreement"
+            continue
+            onClick={signAgreement}
+          />
+        </>
+      )}
     </div>
   );
 };

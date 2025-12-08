@@ -291,7 +291,7 @@ describe('Travel Pay – ReviewPage', () => {
     expect(expenseCards.length).to.equal(defaultClaim.expenses.length);
   });
 
-  it('renders "No expenses have been added." when there are no expenses', () => {
+  it('renders correctly when there are no expenses', () => {
     // Override the Redux state to have no expenses
     const emptyState = {
       ...getData(),
@@ -307,7 +307,7 @@ describe('Travel Pay – ReviewPage', () => {
       },
     };
 
-    const { getByText } = renderWithStoreAndRouter(
+    const { getByText, container } = renderWithStoreAndRouter(
       <MemoryRouter initialEntries={['/file-new-claim/12345/67890/review']}>
         <ReviewPage />
       </MemoryRouter>,
@@ -318,10 +318,21 @@ describe('Travel Pay – ReviewPage', () => {
     );
 
     // The "no expenses" message should be visible
-    expect(getByText('No expenses have been added.')).to.exist;
+    expect(
+      getByText(
+        `You haven’t added any expenses. Add at least 1 expense to submit your claim.`,
+      ),
+    ).to.exist;
 
     // The "Add more expenses" button should still exist
     expect(document.querySelector('#add-expense-button')).to.exist;
+
+    // Help section
+    expect(getByText('Need help?')).to.exist;
+
+    // No expense accordion items
+    const accordionItems = container.querySelectorAll('va-accordion-item');
+    expect(accordionItems.length).to.equal(0);
   });
 
   it('calls addMoreExpenses when Add More Expenses button is clicked', () => {

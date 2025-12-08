@@ -1,4 +1,5 @@
 import {
+  titleUI,
   textUI,
   textSchema,
   currencyUI,
@@ -34,6 +35,7 @@ const options = {
  */
 const summaryPage = {
   uiSchema: {
+    ...titleUI("Beneficiary's other debts"),
     'view:hasOtherDebts': arrayBuilderYesNoUI(options),
   },
   schema: {
