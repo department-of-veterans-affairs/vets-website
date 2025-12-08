@@ -68,8 +68,9 @@ describe('contact-information hashUtils', () => {
     it('does not strip internal "edit" words (only leading)', () => {
       const btn = addButton('Primary Editor Contact');
       // slug becomes 'primary-editor-contact'; hash must match that
-      // eslint-disable-next-line prettier/prettier
-      expect(getEditButtonFromHash('#edit-primary-editor-contact', root)).to.equal(btn);
+      expect(
+        getEditButtonFromHash('#edit-primary-editor-contact', root),
+      ).to.equal(btn);
     });
 
     it('returns null when no matching button', () => {
