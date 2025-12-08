@@ -68,7 +68,7 @@ describe('spouseMarriageEnded', () => {
     const checkbox = $('va-checkbox', container);
     expect(checkbox).to.exist;
     expect(checkbox.getAttribute('label')).to.equal(
-      'The marriage ended outside the United States',
+      'Marriage ended outside the United States',
     );
 
     const inUSInputs = $$('va-text-input', container);
@@ -114,7 +114,7 @@ describe('spouseMarriageEnded', () => {
       );
       expect(errors).to.deep.equal([
         'Select an option',
-        'Provide a date marriage ended',
+        'Enter the date marriage ended',
         'Enter a city or county',
         'Select a state',
       ]);
@@ -144,7 +144,7 @@ describe('spouseMarriageEnded', () => {
       // Province is not required
       expect(errors).to.deep.equal([
         'Select an option',
-        'Provide a date marriage ended',
+        'Enter the date marriage ended',
         'Enter a city or county',
         'Select a country',
       ]);
@@ -173,7 +173,7 @@ describe('spouseMarriageEnded', () => {
       // province is not required
       expect(errors).to.deep.equal([
         'Enter a response', // annulment description
-        'Provide a date marriage ended',
+        'Enter the date marriage ended',
         'Enter a city or county',
         'Select a country',
       ]);
