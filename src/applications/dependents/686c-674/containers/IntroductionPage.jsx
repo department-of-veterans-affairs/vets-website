@@ -65,6 +65,7 @@ const IntroductionPage = props => {
     <div className="schemaform-intro">
       <IntroductionPageHeader />
       <IntroductionPageFormProcess />
+
       <SaveInProgressIntro
         {...props}
         hideUnauthedStartLink
@@ -85,6 +86,7 @@ const IntroductionPage = props => {
           Continue your application to use our updated form.
         </p>
       </SaveInProgressIntro>
+
       <div className="omb-info--container vads-u-padding-left--0 vads-u-margin-top--2">
         <va-omb-info
           res-burden={30}
