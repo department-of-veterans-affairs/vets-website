@@ -137,9 +137,20 @@ const getDisabilityLabel = disability => {
     typeof disability.ratedDisability === 'string'
       ? disability.ratedDisability.trim()
       : '';
+  const side =
+    typeof disability.sideOfBody === 'string'
+      ? disability.sideOfBody.trim()
+      : '';
 
   if (condition.toLowerCase() === 'rated disability' && rated) {
     return rated;
+  }
+
+  const isNewDisability = !disability['view:selected'];
+
+  if (isNewDisability && condition) {
+    const sideSuffix = side ? `, ${side.toLowerCase()}` : '';
+    return `${condition}${sideSuffix}`;
   }
 
   return name || condition || rated;

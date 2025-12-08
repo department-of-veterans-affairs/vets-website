@@ -23,17 +23,64 @@ export const workflowChoicePageTitle =
 // The user should not get to this page if these conditions are not present
 const isPlaceholderRated = v => v === 'Rated Disability';
 
+// const conditionSelections = formData => {
+//   const conditions = Array.isArray(formData?.newDisabilities)
+//     ? formData.newDisabilities
+//         .filter(
+//           d => typeof d?.condition === 'string' && d.condition.trim() !== '',
+//         )
+//         .filter(d => !isPlaceholderRated(d.condition)) // remove "Rated Disability"
+//         .map(d => {
+//           const s = d.condition.trim();
+//           return s[0].toUpperCase() + s.slice(1);
+//         })
+//         .filter(
+//           (() => {
+//             const seen = new Set();
+//             return label => (seen.has(label) ? false : (seen.add(label), true));
+//           })(),
+//         )
+//     : [];
+
+//   if (conditions.length === 0) return null;
+
+//   return (
+//     <div>
+//       <p>Your claim includes these new conditions:</p>
+//       <ul>
+//         {conditions.map((condition, index) => (
+//           <li key={index}>
+//             <strong>{condition}</strong>
+//           </li>
+//         ))}
+//       </ul>
+//     </div>
+//   );
+// };
+
 const conditionSelections = formData => {
   const conditions = Array.isArray(formData?.newDisabilities)
     ? formData.newDisabilities
+        // keep only entries with a real condition
         .filter(
           d => typeof d?.condition === 'string' && d.condition.trim() !== '',
         )
-        .filter(d => !isPlaceholderRated(d.condition)) // remove "Rated Disability"
+        // remove placeholder "Rated Disability"
+        .filter(d => !isPlaceholderRated(d.condition))
+        // apply side-of-body AND capitalization
         .map(d => {
-          const s = d.condition.trim();
-          return s[0].toUpperCase() + s.slice(1);
+          const base = d.condition.trim();
+          const side =
+            typeof d?.sideOfBody === 'string'
+              ? d.sideOfBody.trim().toLowerCase()
+              : '';
+
+          const full = side ? `${base}, ${side}` : base;
+
+          // Capitalize first letter (same as before)
+          return full.charAt(0).toUpperCase() + full.slice(1);
         })
+        // dedupe
         .filter(
           (() => {
             const seen = new Set();
