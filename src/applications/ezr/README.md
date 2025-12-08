@@ -14,11 +14,11 @@ Use the Health Benefits Update Form (VA Form 10-10EZR) to update your personal, 
 
 ## Slack Channels
 
-- [1010-health-apps](https://dsva.slack.com/archives/CMJ2V70UV)
+- [health-apps](https://dsva.slack.com/archives/CMJ2V70UV)
 
 ## Approval Groups
 
-- [1010 Health Apps](https://github.com/orgs/department-of-veterans-affairs/teams/1010-health-apps-frontend)
+- [Health Apps Frontend](https://github.com/orgs/department-of-veterans-affairs/teams/health-apps-frontend)
 
 ### Project URLs
 
@@ -60,7 +60,7 @@ Redux DevTools are automatically enabled in development mode. Install the [Redux
 **Testing with real authentication:**
 For testing with actual VA user accounts, use ID.me instead of Login.gov to allow for test accounts within lower environments to be used.
 
-Review Instances require an additional step to get the login to work. When you click on Sign in, a sign in modal appears, but before you click the id.me button, go to the URL and make sure that the oauth parameter in the URL is set to false and not true - &oauth=false. Once you adjusted the URL, click Enter to go to the new URL and the page should refresh. Now you can log in as normal.
+Review Instances require an additional step to get the login to work. When you click on Sign in, a sign in modal appears, but before you click the id.me button, go to the URL and make sure that the `oauth` parameter in the URL is set to false and not true - `&oauth=false`. Once you adjusted the URL, click Enter to go to the new URL and the page should refresh. Now you can log in as normal.
 
 ### VA Forms
 
@@ -106,11 +106,9 @@ This uses the Health Care Application EZR API endpoints:
 
 ### Feature toggles
 
+- Names start with `ezr` for both long-lived and feature-development toggles:
 - `ezrProdEnabled` - Enables the EZR application in production
-- `ezrEmergencyContactsEnabled` - Enables emergency contacts functionality
-- `ezrUploadEnabled` - Enables file upload functionality for supporting documents
-- `ezrDownloadPdfEnabled` - Enables PDF download functionality
-- `ezrProvidersAndDependentsPrefillEnabled` - Enables prefill for providers and dependents data
+- Some overarching Health Applications functionality, prefixed with `hca`, also affects EZR:
 - `hcaBrowserMonitoringEnabled` - Enables DataDog browser monitoring for the application
 
 ### Data Flow
@@ -170,8 +168,90 @@ sequenceDiagram
 
 ### Useful Commands
 
-- Redux devtools dispatch command (requires Redux DevTools extension in browser):
-`https://dsva.slack.com/archives/C05Q6411HPF/p1749491093401949`
+<details>
+
+<summary>Redux devtools dispatch command example (requires Redux DevTools extension in browser)</summary>
+
+```
+{
+  type: 'SET_DATA',
+  data: {
+    'view:preferredFacility': {
+      'view:facilityState': 'WA',
+      vaMedicalFacility: '668QE'
+    },
+    'view:locator': {},
+    'view:hasHealthInsuranceToAdd': false,
+    isMedicaidEligible: false,
+    gulfWarService: false,
+    hasTeraResponse: true,
+    vaCompensationType: 'highDisability',
+    email: 'test@test.com',
+    veteranAddress: {
+      street: '123 street',
+      street2: 'city',
+      city: 'city',
+      postalCode: '12345',
+      country: 'USA',
+      state: 'AK'
+    },
+    'view:doesMailingMatchHomeAddress': true,
+    'view:demographicCategories': {
+      isAsian: false,
+      isBlackOrAfricanAmerican: false,
+      isSpanishHispanicLatino: false
+    },
+    gender: 'M',
+    'view:placeOfBirth': {
+      cityOfBirth: 'City',
+      stateOfBirth: 'AL'
+    },
+    veteranDateOfBirth: '2000-02-02',
+    veteranHomeAddress: {
+      country: 'USA'
+    },
+    'view:registrationOnlyNote': {},
+    'view:serviceHistory': {},
+    'view:gulfWarServiceDates': {},
+    'view:dateRange': {},
+    'view:otherToxicExposures': {},
+    'view:toxicExposureDates': {},
+    spouseFullName: {},
+    spouseAddress: {
+      country: 'USA'
+    },
+    dependents: [],
+    'view:veteranGrossIncome': {},
+    'view:veteranNetIncome': {},
+    'view:veteranOtherIncome': {},
+    'view:spouseGrossIncome': {},
+    'view:spouseNetIncome': {},
+    'view:spouseOtherIncome': {},
+    'view:deductibleMedicalExpenses': {},
+    'view:deductibleEducationExpenses': {},
+    'view:deductibleFuneralExpenses': {},
+    isEssentialAcaCoverage: false,
+    'view:isLoggedIn': false,
+    'view:isRegOnlyEnabled': false,
+    'view:isInsuranceV2Enabled': true,
+    'view:totalDisabilityRating': 0,
+    'view:isUserInMvi': false,
+    'view:veteranInformation': {
+      veteranFullName: {
+        first: 'Reele',
+        last: 'Steel'
+      },
+      veteranDateOfBirth: '2000-02-02',
+      veteranSocialSecurityNumber: '623123612'
+    },
+    privacyAgreementAccepted: false
+  }
+}
+```
+
+</details>
+
+- For the source of the above snippet, see `https://dsva.slack.com/archives/C05Q6411HPF/p1749491093401949`
 
 - Run mock api (for vets-api):
 `yarn mock-api --responses ./src/applications/ezr/tests/mock-api.js`
