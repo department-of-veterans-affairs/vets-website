@@ -264,7 +264,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   return (
     <div>
       <h1>Download your medical records reports</h1>
-      <p className="vads-u-margin--0">
+      <p>
         Download your VA medical records as a single report (called your VA Blue
         Button® report). Or find other reports to download.
       </p>
