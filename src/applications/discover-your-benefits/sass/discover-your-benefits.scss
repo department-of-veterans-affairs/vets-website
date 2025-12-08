@@ -24,6 +24,10 @@
   margin-bottom: -0.5;
 }
 
+.hidden {
+  display: none;
+}
+
 .discover-your-benefits .schemaform-subtitle {
   @media (min-width: $medium-screen) {
     width: 100%;

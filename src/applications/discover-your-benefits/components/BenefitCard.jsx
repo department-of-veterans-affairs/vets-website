@@ -65,12 +65,23 @@ const BenefitCard = ({ benefit, isBenefitRecommended }) => {
           )}
         </>
         {isBenefitRecommended(benefit.id) && (
-          <span className="usa-label recommended-label">
+          <span
+            id={`tag-${benefit.id}`}
+            className="usa-label recommended-label"
+          >
             RECOMMENDED FOR YOU
           </span>
         )}
-        <p className="category-eyebrow">{category}</p>
-        <h3 className="vads-u-margin-top--0">
+        <p id={`eyebrow-${benefit.id}`} className="category-eyebrow">
+          {category}
+        </p>
+        <p id={`${benefit.id}`} className="hidden">
+          {name}
+        </p>
+        <h3
+          aria-describedby={`tag-${benefit.id} eyebrow-${benefit.id}`}
+          className="vads-u-margin-top--0"
+        >
           <span>{name}</span>
         </h3>
         <p className="vads-u-margin-y--0">{description}</p>
