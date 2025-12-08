@@ -230,6 +230,13 @@ export function updateSelectedProvider(provider) {
   };
 }
 
+export function updateFacilityEhr(ehr) {
+  return {
+    type: FORM_UPDATE_FACILITY_EHR,
+    ehr,
+  };
+}
+
 export function startDirectScheduleFlow({ isRecordEvent = true } = {}) {
   if (isRecordEvent) {
     recordEvent({
