@@ -107,9 +107,11 @@ const FileSubmissionsInProgress = ({ claim }) => {
             >
               {currentPageItems.map((item, itemIndex) => {
                 const statusBadgeText = item.uploadStatusDisplayValue;
+                const requestType = getDocumentRequestTypeDisplayName(item);
                 const requestTypeText =
-                  getDocumentRequestTypeDisplayName(item) ||
-                  'You submitted this file as additional evidence.';
+                  requestType && requestType !== 'unknown'
+                    ? requestType
+                    : 'You submitted this file as additional evidence.';
 
                 return (
                   <li key={item.id || itemIndex}>

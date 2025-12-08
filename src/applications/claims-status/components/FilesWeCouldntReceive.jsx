@@ -173,9 +173,10 @@ const FilesWeCouldntReceive = () => {
                           File name:
                           {file.fileName}
                         </h3>
-                        {requestTypeText && (
-                          <div>Request type: {requestTypeText}</div>
-                        )}
+                        {requestTypeText &&
+                          requestTypeText !== 'unknown' && (
+                            <div>Request type: {requestTypeText}</div>
+                          )}
                         <div>Date failed: {formatDate(file.failedDate)}</div>
                         <div>File type: {file.documentType}</div>
                         <VaLink
