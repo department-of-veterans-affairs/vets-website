@@ -196,6 +196,74 @@ describe('ConfirmationPage', () => {
       true, // disability526ShowConfirmationReview toggle
     );
   });
+
+  describe('Error Boundary Tests', () => {
+    let consoleErrorStub;
+
+    beforeEach(() => {
+      const sinon = require('sinon');
+      consoleErrorStub = sinon.stub(console, 'error');
+    });
+
+    afterEach(() => {
+      consoleErrorStub.restore();
+    });
+
+    it('should render error boundary around ChapterSectionCollection', () => {
+      const store = mockStore(
+        getData({
+          featureToggles: {
+            [Toggler.TOGGLE_NAMES.disability526ShowConfirmationReview]: true,
+          },
+        }),
+      );
+
+      const { container, getByText, queryByText } = render(
+        <Provider store={store}>
+          <ConfirmationPage
+            {...defaultProps}
+            submissionStatus={submissionStatuses.succeeded}
+          />
+        </Provider>,
+      );
+
+      // All main confirmation content should still be visible
+      // even if error boundary catches an error
+      expect(getByText('Disability Compensation Claim')).to.exist;
+      expect(getByText('For Hector Lee Brooks Sr.')).to.exist;
+      expect(getByText('Date submitted')).to.exist;
+      expect(getByText('November 7, 2024')).to.exist;
+      expect(getByText('Conditions claimed')).to.exist;
+      expect(getByText('Something Something')).to.exist;
+      expect(getByText('Print this confirmation page')).to.exist;
+      expect(getByText('What to expect')).to.exist;
+      expect(getByText('How to contact us if you have questions')).to.exist;
+      expect(
+        getByText('How long will it take VA to make a decision on my claim?'),
+      ).to.exist;
+      expect(
+        getByText(
+          'If I have dependents, how can I receive additional benefits?',
+        ),
+      ).to.exist;
+      expect(getByText('Need help?')).to.exist;
+
+      // ChapterSectionCollection accordion is not shown
+      const accordionHeader = queryByText(
+        'Information you submitted on this form',
+      );
+      expect(accordionHeader).to.not.exist;
+
+      // Verify all va-link elements are present
+      expect(container.querySelectorAll('va-link')).to.have.lengthOf(6);
+
+      // Verify no error alert is displayed (error boundary renders null on error)
+      const errorAlerts = container.querySelectorAll(
+        'va-alert[status="error"]',
+      );
+      expect(errorAlerts.length).to.equal(0);
+    });
+  });
 });
 
 describe('getNewConditionsNames', () => {
