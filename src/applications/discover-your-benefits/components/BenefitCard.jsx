@@ -2,14 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 
-const BenefitCard = ({ benefit }) => {
+const BenefitCard = ({ benefit, isBenefitRecommended }) => {
   const {
     name,
     category,
     description,
     isTimeSensitive,
     learnMoreURL,
-    applyNowURL,
   } = benefit;
 
   const handleClick = (url, text, label) => {
@@ -65,10 +64,13 @@ const BenefitCard = ({ benefit }) => {
             </div>
           )}
         </>
+        {isBenefitRecommended(benefit.id) && (
+          <span className="usa-label recommended-label">
+            RECOMMENDED FOR YOU
+          </span>
+        )}
+        <p className="category-eyebrow">{category}</p>
         <h3 className="vads-u-margin-top--0">
-          <span className="usa-label category-label">{category}</span>
-          <br />
-          <br />
           <span>{name}</span>
         </h3>
         <p className="vads-u-margin-y--0">{description}</p>
@@ -81,14 +83,6 @@ const BenefitCard = ({ benefit }) => {
               false,
             )}
           </div>
-          <div>
-            {renderLink(
-              applyNowURL,
-              'Apply now',
-              `Apply now for ${name}`,
-              true,
-            )}
-          </div>
         </div>
       </va-card>
     </div>
@@ -97,7 +91,6 @@ const BenefitCard = ({ benefit }) => {
 
 BenefitCard.propTypes = {
   benefit: PropTypes.shape({
-    applyNowURL: PropTypes.string,
     category: PropTypes.string,
     description: PropTypes.string,
     isTimeSensitive: PropTypes.bool,

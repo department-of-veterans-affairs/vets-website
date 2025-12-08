@@ -211,7 +211,6 @@ export const BENEFITS_LIST = [
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
     learnMoreURL: URLS.GIB_LEARN,
-    applyNowURL: URLS.GIB_APPLY,
   },
   {
     name: 'DOD SkillBridge program',
@@ -242,7 +241,6 @@ export const BENEFITS_LIST = [
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
     learnMoreURL: URLS.DBP_LEARN,
-    applyNowURL: '',
   },
   {
     name: 'Educational and career counseling (Chapter 36)',
@@ -302,7 +300,6 @@ export const BENEFITS_LIST = [
       );
     },
     learnMoreURL: URLS.ECC_LEARN,
-    applyNowURL: URLS.ECC_APPLY,
   },
   {
     name: "Veterans' Preference in federal hiring",
@@ -333,7 +330,6 @@ export const BENEFITS_LIST = [
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
     learnMoreURL: URLS.FHV_LEARN,
-    applyNowURL: '',
   },
   {
     name: 'Support for your Veteran-owned small business',
@@ -355,7 +351,6 @@ export const BENEFITS_LIST = [
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
     learnMoreURL: URLS.SVC_LEARN,
-    applyNowURL: '',
   },
   {
     name: 'Transition Assistance Program (TAP)',
@@ -377,7 +372,6 @@ export const BENEFITS_LIST = [
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
     learnMoreURL: URLS.TAP_LEARN,
-    applyNowURL: '',
   },
   {
     name: 'Veteran Readiness and Employment',
@@ -413,7 +407,6 @@ export const BENEFITS_LIST = [
       ],
     },
     learnMoreURL: URLS.VRE_LEARN,
-    applyNowURL: URLS.VRE_APPLY,
   },
   {
     name: 'VetSuccess on Campus (VSOC)',
@@ -449,7 +442,6 @@ export const BENEFITS_LIST = [
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
     learnMoreURL: URLS.VSC_LEARN,
-    applyNowURL: '',
   },
   {
     name: 'Disability housing grant',
@@ -485,7 +477,6 @@ export const BENEFITS_LIST = [
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
     learnMoreURL: URLS.DHS_LEARN,
-    applyNowURL: URLS.DHS_APPLY,
   },
   {
     name: 'Veterans Pension benefits',
@@ -537,7 +528,6 @@ export const BENEFITS_LIST = [
       );
     },
     learnMoreURL: URLS.VAP_LEARN,
-    applyNowURL: URLS.VAP_APPLY,
   },
   {
     name: 'VA mental health services',
@@ -570,7 +560,6 @@ export const BENEFITS_LIST = [
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
     learnMoreURL: URLS.MHC_LEARN,
-    applyNowURL: '',
   },
   {
     name: 'Foreign Medical Program',
@@ -603,7 +592,6 @@ export const BENEFITS_LIST = [
       ],
     },
     learnMoreURL: URLS.FMP_LEARN,
-    applyNowURL: URLS.FMP_APPLY,
   },
   {
     name: "Veterans' Group Life Insurance (VGLI)",
@@ -634,7 +622,6 @@ export const BENEFITS_LIST = [
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
     learnMoreURL: URLS.VGL_LEARN,
-    applyNowURL: '',
   },
   {
     name: 'Veterans Affairs Life Insurance (VALife)',
@@ -671,7 +658,6 @@ export const BENEFITS_LIST = [
       ],
     },
     learnMoreURL: URLS.VAL_LEARN,
-    applyNowURL: URLS.VAL_APPLY,
   },
   {
     name: 'Disability compensation',
@@ -710,7 +696,6 @@ export const BENEFITS_LIST = [
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
     learnMoreURL: URLS.DIS_LEARN,
-    applyNowURL: URLS.DIS_APPLY,
   },
   {
     name: 'VA-backed home loans',
@@ -770,7 +755,6 @@ export const BENEFITS_LIST = [
       );
     },
     learnMoreURL: URLS.COE_LEARN,
-    applyNowURL: URLS.COE_APPLY,
   },
   {
     name: 'VA health care',
@@ -816,7 +800,6 @@ export const BENEFITS_LIST = [
       );
     },
     learnMoreURL: URLS.VAH_LEARN,
-    applyNowURL: URLS.VAH_APPLY,
   },
   {
     name: 'VA national cemetery burial',
@@ -861,7 +844,6 @@ export const BENEFITS_LIST = [
       );
     },
     learnMoreURL: URLS.BUR_LEARN,
-    applyNowURL: URLS.BUR_APPLY,
   },
   {
     name: 'VA national cemetery burial',
@@ -899,7 +881,6 @@ export const BENEFITS_LIST = [
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
     learnMoreURL: URLS.BUR_LEARN,
-    applyNowURL: URLS.BUR_APPLY,
   },
   {
     name: 'Transfer your GI Bill benefits',
@@ -924,7 +905,6 @@ export const BENEFITS_LIST = [
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
     learnMoreURL: URLS.TGI_LEARN,
-    applyNowURL: '',
   },
   {
     name: 'Apply for a discharge upgrade',
@@ -952,7 +932,6 @@ export const BENEFITS_LIST = [
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
     learnMoreURL: URLS.DCU_LEARN,
-    applyNowURL: '',
   },
   {
     name: "State Veterans' benefits",
@@ -977,7 +956,6 @@ export const BENEFITS_LIST = [
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
     learnMoreURL: URLS.SVB_LEARN,
-    applyNowURL: '',
   },
   {
     name: 'Employment Navigator & Partnership Program',
@@ -1012,6 +990,5 @@ export const BENEFITS_LIST = [
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
     learnMoreURL: URLS.ENPP_LEARN,
-    applyNowURL: '',
   },
 ];

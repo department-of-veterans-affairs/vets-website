@@ -18,6 +18,12 @@
   max-width: 65ch;
 }
 
+.category-eyebrow {
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: -0.5;
+}
+
 .discover-your-benefits .schemaform-subtitle {
   @media (min-width: $medium-screen) {
     width: 100%;
@@ -120,7 +126,7 @@
   margin-bottom: 1rem;
 }
 
-.category-label {
+.recommended-label {
   font-weight: normal !important;
 }
 
