@@ -225,13 +225,13 @@ const ExpensePage = () => {
       }
 
       // Set success alert
-      const expenseTypeName = expenseConfig.expensePageText || 'expense';
+      const expenseTypeName = `${expenseConfig.expensePageText ?? ''} expense`;
       dispatch(
         setReviewPageAlert({
           title: '',
           description: `You successfully ${
             isEditMode ? 'updated your' : 'added a'
-          } ${expenseTypeName} expense.`,
+          } ${expenseTypeName}.`,
           type: 'success',
         }),
       );
