@@ -27,40 +27,9 @@ const ReviewPage = () => {
   const documents = useSelector(selectAllDocuments) ?? [];
   const alertMessage = useSelector(selectReviewPageAlert);
 
-  // Track alert visibility
-  // const [visible, setVisible] = useState(true);
-  // const onClose = () => setVisible(false);
   const onAlertClose = () => {
     dispatch(clearReviewPageAlert());
   };
-
-  // If there are errors from creating/updating expenses, show them
-  // const creationError = claimExpenses?.creation?.error;
-  // const updateError = claimExpenses?.update?.error;
-
-  // let alertConfig;
-
-  // if (creationError) {
-  //   alertConfig = {
-  //     status: 'error',
-  //     headline: 'We couldn’t add this expense right now',
-  //     description:
-  //       'We’re sorry. We can’t add this expense to your claim. Try again later.',
-  //   };
-  // } else if (updateError) {
-  //   alertConfig = {
-  //     status: 'error',
-  //     headline: 'We couldn’t edit this expense right now',
-  //     description: 'We’re sorry. We can’t edit this expense. Try again later.',
-  //   };
-  // } else {
-  //   // TODO: Tie in the actual recentlyAddedExpenseType
-  //   alertConfig = {
-  //     status: 'success',
-  //     headline: null,
-  //     description: `Your ${recentlyAddedExpenseType} expense was successfully added.`,
-  //   };
-  // }
 
   // Get total by expense type and return expenses alphabetically
   const totalByExpenseType = Object.fromEntries(
