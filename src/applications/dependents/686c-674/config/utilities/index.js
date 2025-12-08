@@ -11,7 +11,6 @@ import {
   shouldShowStudentIncomeQuestions,
 } from './api';
 import {
-  validateName,
   customFormReplacer,
   buildSubmissionData,
   customTransformForSubmit,
@@ -42,7 +41,6 @@ export {
   show674IncomeQuestions,
   shouldShowStudentIncomeQuestions,
   // data
-  validateName,
   customFormReplacer,
   buildSubmissionData,
   customTransformForSubmit,
