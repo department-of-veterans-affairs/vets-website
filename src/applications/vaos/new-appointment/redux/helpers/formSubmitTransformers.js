@@ -138,6 +138,9 @@ export function transformFormToVAOSVARequest(state) {
 export function transformFormToVAOSAppointment(state) {
   const data = getFormData(state);
   const clinic = getChosenClinicInfo(state);
+  // OH appointments do not have a clinic associated with the appointment, so
+  // we don't send it
+  const clinicId = clinic ? getClinicId(clinic) : null;
   const slot = getChosenSlot(state);
 
   // slot start and end times are not allowed on a booked va appointment.
@@ -147,7 +150,7 @@ export function transformFormToVAOSAppointment(state) {
   return {
     kind: 'clinic',
     status: 'booked',
-    clinic: getClinicId(clinic),
+    clinic: clinicId,
     slot,
     extension: {
       desiredDate: `${data.preferredDate}T00:00:00+00:00`,
