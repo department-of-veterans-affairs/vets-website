@@ -155,8 +155,6 @@ const VaPrescription = prescription => {
             Check your prescription label or contact your VA facility.{' '}
             <a
               href="https://www.va.gov/find-locations"
-              target="_blank"
-              rel="noopener noreferrer"
             >
               Find your VA facility
             </a>
