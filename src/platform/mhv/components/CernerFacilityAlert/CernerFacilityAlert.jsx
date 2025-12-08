@@ -112,8 +112,8 @@ const CernerFacilityAlert = ({
 
   return (
     <va-alert
-      // TODO: look into the custom classname thing - do we need it?
-      className={`vads-u-margin-bottom--2 ${className} ${
+      // Some usages might need extra top margin if there's an API error message above
+      className={`vads-u-margin-bottom--2p5 ${className} ${
         apiError ? 'vads-u-margin-top--2' : ''
       }`}
       status="warning"
