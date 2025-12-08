@@ -60,9 +60,9 @@ describe('RouterLinkAction', () => {
     // VaLinkAction is always styled as an action link
   });
 
-  it('renders with standard link styling when active={false}', () => {
+  it('renders with action link styling (active prop not applicable)', () => {
     const { container } = renderWithStoreAndRouter(
-      <RouterLinkAction href="/test-path" text="Test Link" active={false} />,
+      <RouterLinkAction href="/test-path" text="Test Link" />,
       {
         initialState,
         reducers: reducer,
@@ -71,12 +71,12 @@ describe('RouterLinkAction', () => {
 
     const link = container.querySelector('va-link-action');
     expect(link).to.exist;
-    // VaLinkAction is always styled as an action link - active prop is ignored
+    // VaLinkAction is always styled as an action link
   });
 
-  it('renders with action link styling when active={true} is explicit', () => {
+  it('renders with action link styling (always applied)', () => {
     const { container } = renderWithStoreAndRouter(
-      <RouterLinkAction href="/test-path" text="Test Link" active />,
+      <RouterLinkAction href="/test-path" text="Test Link" />,
       {
         initialState,
         reducers: reducer,
@@ -85,7 +85,7 @@ describe('RouterLinkAction', () => {
 
     const link = container.querySelector('va-link-action');
     expect(link).to.exist;
-    // VaLinkAction is always styled as an action link - active prop is ignored
+    // VaLinkAction is always styled as an action link
   });
 
   it('passes href prop to va-link-action', () => {
@@ -245,7 +245,6 @@ describe('RouterLinkAction', () => {
         href="/test-path"
         text="Combined Props Test"
         label="Custom Label"
-        active={false}
         reverse
         data-testid="combined-test"
         data-dd-action-name="Combined Action"
@@ -260,7 +259,7 @@ describe('RouterLinkAction', () => {
     expect(link).to.have.attribute('href', '/test-path');
     expect(link).to.have.attribute('text', 'Combined Props Test');
     expect(link).to.have.attribute('label', 'Custom Label');
-    // VaLinkAction is always styled as an action link - active prop is ignored
+    // VaLinkAction is always styled as an action link
     expect(link).to.have.attribute('reverse', 'true');
     expect(link).to.have.attribute('data-testid', 'combined-test');
     expect(link).to.have.attribute('data-dd-action-name', 'Combined Action');
@@ -311,12 +310,11 @@ describe('RouterLinkAction', () => {
       // VaLinkAction is always styled as an action link
     });
 
-    it('uses standard link styling for utility links', () => {
+    it('always uses action link styling regardless of context', () => {
       const { container } = renderWithStoreAndRouter(
         <RouterLinkAction
           href="/profile/personal-information#messaging-signature"
           text="Edit signature for all messages"
-          active={false}
           data-dd-action-name="Utility Link"
         />,
         {
@@ -327,7 +325,7 @@ describe('RouterLinkAction', () => {
 
       const link = container.querySelector('va-link-action');
       expect(link).to.exist;
-      // VaLinkAction is always styled as an action link - active prop is ignored
+      // VaLinkAction is always styled as an action link
     });
   });
 });
