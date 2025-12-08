@@ -8,8 +8,8 @@ export default function prefillTransformer(pages, formData, metadata) {
   const newFormData = formData;
 
   // prefill temporaryAddress if empty
-  const { street } = formData?.temporaryAddress || '';
-  if (street.trim().length === 0) {
+  const { street } = formData?.temporaryAddress || {};
+  if (!street || street.trim().length === 0) {
     newFormData.temporaryAddress = { ...formData.permanentAddress };
   }
 
