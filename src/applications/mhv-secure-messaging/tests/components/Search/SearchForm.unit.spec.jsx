@@ -459,6 +459,9 @@ describe('Search form', () => {
         'aria-describedby',
         'filter-default',
       );
+      expect(screen.getByText('No filters applied')).to.exist;
+      expect(screen.queryByText('Filters successfully applied')).to.not.exist;
+      expect(screen.queryByText('Filters successfully cleared')).to.not.exist;
 
       inputVaTextInput(screen.container, 'test', '#filter-input');
       userEvent.click(applyButton);
@@ -466,11 +469,18 @@ describe('Search form', () => {
         'aria-describedby',
         'filter-applied-success',
       );
+      expect(screen.getByText('Filters successfully applied')).to.exist;
+      expect(screen.queryByText('No filters applied')).to.not.exist;
+      expect(screen.queryByText('Filters successfully cleared')).to.not.exist;
+
       userEvent.click(clearButton);
       expect(inboxHeading).to.have.attribute(
         'aria-describedby',
         'filter-clear-success',
       );
+      expect(screen.getByText('Filters successfully cleared')).to.exist;
+      expect(screen.queryByText('No filters applied')).to.not.exist;
+      expect(screen.queryByText('Filters successfully applied')).to.not.exist;
     });
   });
 });
