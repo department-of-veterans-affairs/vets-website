@@ -157,7 +157,7 @@ describe('Representative Form Upload', () => {
 
           cy.location('pathname').should(
             'eq',
-            `/representative/representative-form-upload/submit-va-form-${formId}/upload`,
+            `/representative/representative-form-upload/submit-va-form-${formId}/upload-files`,
           );
 
           cy.fillVaFileInput('root_uploadedFile', uploadImgDetails);
@@ -230,7 +230,7 @@ describe('Representative Form Upload', () => {
 
           cy.location('pathname').should(
             'eq',
-            `/representative/representative-form-upload/submit-va-form-${formId}/upload`,
+            `/representative/representative-form-upload/submit-va-form-${formId}/upload-files`,
           );
 
           cy.fillVaFileInput('root_uploadedFile', uploadImgDetails);
@@ -310,7 +310,7 @@ describe('Representative Form Upload', () => {
 
       cy.location('pathname').should(
         'eq',
-        '/representative/representative-form-upload/submit-va-form-21-686c/upload',
+        '/representative/representative-form-upload/submit-va-form-21-686c/upload-files',
       );
 
       cy.fillVaFileInput('root_uploadedFile', uploadImgDetails);
@@ -399,7 +399,7 @@ describe('Representative Form Upload', () => {
 
       cy.location('pathname').should(
         'eq',
-        `/representative/representative-form-upload/submit-va-form-21-686c/upload`,
+        `/representative/representative-form-upload/submit-va-form-21-686c/upload-files`,
       );
 
       cy.fillVaFileInput('root_uploadedFile', uploadImgDetails);
