@@ -41,6 +41,7 @@ const App = ({
   showReviewPageNavigationFeature,
   getDebts,
   getCopays,
+  isVerified,
 }) => {
   const dispatch = useDispatch();
   const { shouldShowReviewButton } = useDetectFieldChanges(formData);
@@ -111,8 +112,10 @@ const App = ({
   useEffect(
     () => {
       getFormStatus();
-      getDebts();
-      getCopays();
+      if (isLoggedIn && isVerified) {
+        getDebts();
+        getCopays();
+      }
     },
     [getFormStatus],
   );
@@ -177,6 +180,9 @@ App.propTypes = {
   setFormData: PropTypes.func,
   showFSR: PropTypes.bool,
   showReviewPageNavigationFeature: PropTypes.bool,
+  isVerified: PropTypes.bool,
+  getDebts: PropTypes.func,
+  getCopays: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
@@ -189,6 +195,7 @@ const mapStateToProps = state => ({
   showReviewPageNavigationFeature: reviewPageNavigationFeatureToggle(state),
   isLoadingFeatures: toggleValues(state).loading,
   isStartingOver: state.form.isStartingOver,
+  isVerified: selectProfile(state)?.verified || false,
 });
 
 const mapDispatchToProps = dispatch => ({
