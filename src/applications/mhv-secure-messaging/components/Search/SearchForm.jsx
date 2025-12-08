@@ -16,6 +16,12 @@ import {
 import { DateRangeOptions, DateRangeValues } from '../../util/inputContants';
 import { dateFormat, isCustomFolder } from '../../util/helpers';
 
+const FilterStatus = {
+  DEFAULT: 'default',
+  APPLIED: 'applied',
+  CLEARED: 'cleared',
+};
+
 const SearchForm = props => {
   const { folder, keyword, resultsCount, query, threadCount } = props;
   const mhvSecureMessagingFilterAccordion = useSelector(
@@ -33,7 +39,7 @@ const SearchForm = props => {
   const [fromDate, setFromDate] = useState('');
   const [toDate, setToDate] = useState('');
   const [customFilter, setCustomFilter] = useState(false);
-  const [filterStatus, setFilterStatus] = useState('default'); // 'default' | 'applied' | 'cleared'
+  const [filterStatus, setFilterStatus] = useState(FilterStatus.DEFAULT);
   const resultsCountRef = useRef();
   const filterBoxRef = useRef();
   const filterInputRef = useRef();
@@ -109,7 +115,7 @@ const SearchForm = props => {
     setSearchTermError(null);
     filterBoxRef.current.clearDateErrors();
 
-    setFilterStatus('applied');
+    setFilterStatus(FilterStatus.APPLIED);
 
     dispatch(
       runAdvancedSearch(
@@ -128,7 +134,7 @@ const SearchForm = props => {
   const handleFilterClear = e => {
     e.preventDefault();
     dispatch(clearSearchResults());
-    setFilterStatus('cleared');
+    setFilterStatus(FilterStatus.CLEARED);
     setSearchTerm('');
     setSearchTermError(null);
     filterBoxRef.current.clearDateErrors();
@@ -256,13 +262,9 @@ const SearchForm = props => {
     [folder.folderId],
   );
 
-  useEffect(() => {
-    setFilterStatus('default');
-  }, []);
-
   const getAriaDescribedBy = () => {
-    if (filterStatus === 'cleared') return 'filter-clear-success';
-    if (filterStatus === 'applied') return 'filter-applied-success';
+    if (filterStatus === FilterStatus.CLEARED) return 'filter-clear-success';
+    if (filterStatus === FilterStatus.APPLIED) return 'filter-applied-success';
     return 'filter-default';
   };
 
@@ -279,8 +281,11 @@ const SearchForm = props => {
           ref={filterFormTitleRef}
           aria-describedby={getAriaDescribedBy()}
           onBlur={() => {
-            if (filterStatus === 'cleared' || filterStatus === 'applied') {
-              setFilterStatus('default');
+            if (
+              filterStatus === FilterStatus.CLEARED ||
+              filterStatus === FilterStatus.APPLIED
+            ) {
+              setFilterStatus(FilterStatus.DEFAULT);
             }
           }}
           data-dd-privacy={ddPrivacy}
@@ -368,12 +373,12 @@ const SearchForm = props => {
               />
             )
           )}
-          {filterStatus === 'default' && (
+          {filterStatus === FilterStatus.DEFAULT && (
             <span className="sr-only" aria-live="polite" id="filter-default">
               No filters applied
             </span>
           )}
-          {filterStatus === 'applied' && (
+          {filterStatus === FilterStatus.APPLIED && (
             <span
               className="sr-only"
               aria-live="polite"
@@ -382,7 +387,7 @@ const SearchForm = props => {
               Filters successfully applied
             </span>
           )}
-          {filterStatus === 'cleared' && (
+          {filterStatus === FilterStatus.CLEARED && (
             <span
               className="sr-only"
               aria-live="polite"
