@@ -7,9 +7,10 @@ import {
   getCardDescription,
   showConflictOfInterestText,
   getTitle,
+  ProprietaryProfitAdditionalInfo,
 } from '../helpers';
 
-describe('helpers ', () => {
+describe('1919 Helpers', () => {
   describe('showConflictOfInterestText', () => {
     it('should push event to dataLayer', () => {
       const dataLayerPushSpy = sinon.spy();
@@ -173,6 +174,16 @@ describe('helpers ', () => {
     it('should handle empty role object', () => {
       const role = {};
       expect(getTitle(role)).to.equal(undefined);
+    });
+  });
+
+  describe('ProprietaryProfitAdditionalInfo', () => {
+    it('should render additional info content', () => {
+      const additionalInfo = ProprietaryProfitAdditionalInfo();
+
+      expect(additionalInfo.props.trigger).to.equal(
+        'What is a proprietary school?',
+      );
     });
   });
 });
