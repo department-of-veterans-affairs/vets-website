@@ -1,6 +1,7 @@
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 import { getAPI, resolveParamsWithUrl } from '../config';
 import manifest from '../manifest.json';
+import { logPpmsResponse } from '../utils/ppmsLogging';
 
 class LocatorApi {
   /**
@@ -66,6 +67,9 @@ class LocatorApi {
           })
           .then(data => resolve(data), error => reject(error));
       } else {
+        // This branch handles CCP (community care provider) requests
+        const isCcpRequest = url.includes('/ccp/');
+
         fetch(`${url}?${params}`, api.settings)
           .then(response => {
             if (!response.ok) {
@@ -82,7 +86,21 @@ class LocatorApi {
             };
             return res;
           })
-          .then(data => resolve(data), error => reject(error));
+          .then(
+            data => {
+              // Log PPMS/CCP responses when debug is enabled
+              if (isCcpRequest) {
+                logPpmsResponse(data, {
+                  locationType,
+                  serviceType,
+                  bounds,
+                  page,
+                });
+              }
+              return resolve(data);
+            },
+            error => reject(error),
+          );
       }
     });
   }
