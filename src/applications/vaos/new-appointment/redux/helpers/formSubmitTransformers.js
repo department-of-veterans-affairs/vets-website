@@ -137,10 +137,15 @@ export function transformFormToVAOSVARequest(state) {
 
 export function transformFormToVAOSAppointment(state) {
   const data = getFormData(state);
-  const clinic = getChosenClinicInfo(state);
-  // OH appointments do not have a clinic associated with the appointment, so
-  // we don't send it
-  const clinicId = clinic && getClinicId(clinic);
+  const { ehr } = state.newAppointment;
+  let clinicId = null;
+
+  // Only appointments booked in a VistA system need the clinic id
+  if (ehr === 'vista') {
+    const clinic = getChosenClinicInfo(state);
+    clinicId = getClinicId(clinic);
+  }
+
   const slot = getChosenSlot(state);
 
   // slot start and end times are not allowed on a booked va appointment.
