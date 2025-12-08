@@ -1,6 +1,6 @@
 import React from 'react';
 import { format } from 'date-fns';
-import { createNewConditionName } from '../pages/disabilityConditions/shared/utils';
+import { createNewConditionName } from './disabilityConditions';
 
 export const ConditionsIntroDescription = () => (
   <p>
