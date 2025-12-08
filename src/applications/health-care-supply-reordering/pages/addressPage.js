@@ -27,6 +27,22 @@ const addressUiWithDlWrappedFields = () => {
   return customAddressUI;
 };
 
+// At the top, create a custom addressUI for temporary address with no required fields
+const temporaryAddressUI = () => {
+  // console.log(ReviewCardField, "ReviewCardField")
+  const customAddressUI = addressUI({
+    omit: ['street3'],
+    required: false, // This makes ALL fields not required
+  });
+
+  Object.keys(customAddressUI).forEach(element => {
+    if (customAddressUI[element]['ui:options']) {
+      customAddressUI[element]['ui:options'].useDlWrap = true;
+    }
+  });
+
+  return customAddressUI;
+};
 /** @type {PageSchema} */
 export default {
   uiSchema: {
@@ -44,13 +60,11 @@ export default {
       },
     },
     [temporaryAddressField]: {
-      ...addressUiWithDlWrappedFields(),
+      ...temporaryAddressUI(),
       'ui:title': 'Temporary address',
       'ui:field': ReviewCardField,
       'ui:options': {
-        startInEdit: formData => {
-          return Object.values(formData).every(prop => Boolean(prop));
-        },
+        startInEdit: false,
         hideOnReview: formData =>
           formData['view:currentAddress'] !== 'temporaryAddress',
         viewComponent: AddressViewField,
@@ -76,7 +90,10 @@ export default {
     type: 'object',
     properties: {
       [permanentAddressField]: addressSchema({ omit: ['street3'] }),
-      [temporaryAddressField]: addressSchema({ omit: ['street3'] }),
+      [temporaryAddressField]: addressSchema({
+        omit: ['street3'],
+        required: false,
+      }),
       [vetEmailField]: emailSchema,
       [viewCurrentAddressField]: {
         type: 'string',
