@@ -146,8 +146,10 @@ export function remapRecipientRelationshipFields(claimantType, itemData = {}) {
     return itemData;
   }
 
+  // Using a straight apostrophe (') instead of a typographic apostrophe (’)
+  // to avoid downstream PDF encoding issues where U+2019 is rendered as '?'.
   const label =
-    claimantType === 'CUSTODIAN' ? 'Custodian’s spouse' : 'Parent’s spouse';
+    claimantType === 'CUSTODIAN' ? "Custodian's spouse" : "Parent's spouse";
 
   return {
     ...itemData,
