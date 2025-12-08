@@ -332,7 +332,7 @@ describe('submit-helpers.js', () => {
 
       expect(output).to.deep.equal({
         unrelatedField: 'keep me',
-        otherRecipientRelationshipType: 'Custodian’s spouse',
+        otherRecipientRelationshipType: "Custodian's spouse",
         recipientRelationship: 'OTHER',
         anotherUnrelatedField: 'RECURRING',
       });
@@ -367,7 +367,7 @@ describe('submit-helpers.js', () => {
 
       expect(output).to.deep.equal({
         unrelatedField: 'keep me',
-        otherRecipientRelationshipType: 'Parent’s spouse',
+        otherRecipientRelationshipType: "Parent's spouse",
         recipientRelationship: 'OTHER',
         anotherUnrelatedField: 'RECURRING',
       });
@@ -401,7 +401,7 @@ describe('submit-helpers.js', () => {
       const result = remapRecipientRelationshipsInArrays(formData);
       expect(result.incomes[0]).to.deep.equal({
         recipientRelationship: 'OTHER',
-        otherRecipientRelationshipType: 'Custodian’s spouse',
+        otherRecipientRelationshipType: "Custodian's spouse",
         amount: 100,
       });
     });
@@ -414,7 +414,7 @@ describe('submit-helpers.js', () => {
       const result = remapRecipientRelationshipsInArrays(formData);
       expect(result.incomes[0]).to.deep.equal({
         recipientRelationship: 'OTHER',
-        otherRecipientRelationshipType: 'Parent’s spouse',
+        otherRecipientRelationshipType: "Parent's spouse",
         amount: 200,
       });
     });
@@ -456,7 +456,7 @@ describe('submit-helpers.js', () => {
       const result = remapRecipientRelationshipsInArrays(formData);
       expect(result.incomes[0]).to.deep.equal({
         recipientRelationship: 'OTHER',
-        otherRecipientRelationshipType: 'Parent’s spouse',
+        otherRecipientRelationshipType: "Parent's spouse",
         amount: 50,
       });
       // Non-SPOUSE item stays unchanged
