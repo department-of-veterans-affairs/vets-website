@@ -2,7 +2,9 @@ import {
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { arrayOptions, createNewConditionName } from './utils';
+
+import { createNewConditionName } from '../../../content/disabilityConditions';
+import { arrayOptions } from './utils';
 
 // Optional: helper right here
 const isOrphanSecondary = (item, fullData = {}) => {

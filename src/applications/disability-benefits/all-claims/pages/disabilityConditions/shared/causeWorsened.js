@@ -4,7 +4,8 @@ import {
   textUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import { arrayOptions, createNewConditionName } from './utils';
+import { createNewConditionName } from '../../../content/disabilityConditions';
+import { arrayOptions } from './utils';
 
 /** @returns {PageSchema} */
 const causeWorsenedPage = {

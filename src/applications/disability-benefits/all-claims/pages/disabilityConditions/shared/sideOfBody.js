@@ -4,7 +4,7 @@ import {
   radioUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import { createNewConditionName } from './utils';
+import { createNewConditionName } from '../../../content/disabilityConditions';
 
 const sideOfBodyOptions = {
   RIGHT: 'Right',

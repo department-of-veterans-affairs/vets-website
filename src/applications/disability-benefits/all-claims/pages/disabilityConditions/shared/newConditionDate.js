@@ -5,9 +5,10 @@ import {
   currentOrPastDateUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+import { createNewConditionName } from '../../../content/disabilityConditions';
+
 import {
   addStyleToShadowDomOnPages,
-  createNewConditionName,
   ForceFieldBlur,
   validateApproximateDate,
 } from './utils';

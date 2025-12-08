@@ -6,11 +6,8 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import { conditionOptions } from '../../../content/conditionOptions';
-import {
-  arrayOptions,
-  createNewConditionName,
-  isPlaceholderRated,
-} from './utils';
+import { createNewConditionName } from '../../../content/disabilityConditions';
+import { arrayOptions, isPlaceholderRated } from './utils';
 
 const getOtherConditions = (fullData, currentIndex) => {
   const ratedDisabilities =
