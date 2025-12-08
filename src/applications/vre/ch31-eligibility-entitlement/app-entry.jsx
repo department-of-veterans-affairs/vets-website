@@ -1,15 +1,14 @@
 import '@department-of-veterans-affairs/platform-polyfills';
 import './sass/ch31-eligibility-entitlement.scss';
 
-import { startAppFromIndex } from '@department-of-veterans-affairs/platform-startup/exports';
-
-import routes from './routes';
+import startApp from 'platform/startup/router';
+import { buildRoutes } from './routes';
 import reducer from './reducers';
 import manifest from './manifest.json';
 
-startAppFromIndex({
-  entryName: manifest.entryName,
+startApp({
   url: manifest.rootUrl,
+  routes: buildRoutes(),
   reducer,
-  routes,
+  entryName: manifest.entryName,
 });
