@@ -140,7 +140,7 @@ export function transformFormToVAOSAppointment(state) {
   const clinic = getChosenClinicInfo(state);
   // OH appointments do not have a clinic associated with the appointment, so
   // we don't send it
-  const clinicId = clinic ? getClinicId(clinic) : null;
+  const clinicId = clinic && getClinicId(clinic);
   const slot = getChosenSlot(state);
 
   // slot start and end times are not allowed on a booked va appointment.
