@@ -12,7 +12,7 @@ yarn watch --env entry=vass
 yarn watch --env entry=vass,auth,static-pages,login-page,verify,profile
 
 # Mock API
-yarn mock-api --responses src/applications/vass/tests/fixtures/mocks/local-mock-responses.js
+yarn mock-api --responses src/applications/vass/services/mocks/index.js
 
 # Unit tests
 yarn test:unit --app-folder vass
