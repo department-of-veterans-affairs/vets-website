@@ -13,7 +13,7 @@ import { usePagination } from '../hooks/usePagination';
 import { fetchFailedUploads } from '../actions';
 import {
   buildDateFormatter,
-  getDocumentRequestTypeDisplayName,
+  getTrackedItemDisplayNameFromEvidenceSubmission,
 } from '../utils/helpers';
 import { setPageFocus } from '../utils/page';
 import { ITEMS_PER_PAGE } from '../constants';
@@ -155,7 +155,7 @@ const FilesWeCouldntReceive = () => {
                 role="list"
               >
                 {currentPageItems.map(file => {
-                  const requestTypeText = getDocumentRequestTypeDisplayName(
+                  const requestTypeText = getTrackedItemDisplayNameFromEvidenceSubmission(
                     file,
                   );
 
@@ -173,10 +173,9 @@ const FilesWeCouldntReceive = () => {
                           File name:
                           {file.fileName}
                         </h3>
-                        {requestTypeText &&
-                          requestTypeText !== 'unknown' && (
-                            <div>Request type: {requestTypeText}</div>
-                          )}
+                        {requestTypeText && (
+                          <div>Request type: {requestTypeText}</div>
+                        )}
                         <div>Date failed: {formatDate(file.failedDate)}</div>
                         <div>File type: {file.documentType}</div>
                         <VaLink

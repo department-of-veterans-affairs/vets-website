@@ -8,7 +8,7 @@ import {
 
 import {
   buildDateFormatter,
-  getDocumentRequestTypeDisplayName,
+  getTrackedItemDisplayNameFromEvidenceSubmission,
 } from '../../utils/helpers';
 import { useIncrementalReveal } from '../../hooks/useIncrementalReveal';
 import TimezoneDiscrepancyMessage from '../TimezoneDiscrepancyMessage';
@@ -107,11 +107,12 @@ const FileSubmissionsInProgress = ({ claim }) => {
             >
               {currentPageItems.map((item, itemIndex) => {
                 const statusBadgeText = item.uploadStatusDisplayValue;
-                const requestType = getDocumentRequestTypeDisplayName(item);
-                const requestTypeText =
-                  requestType && requestType !== 'unknown'
-                    ? requestType
-                    : 'You submitted this file as additional evidence.';
+                const requestType = getTrackedItemDisplayNameFromEvidenceSubmission(
+                  item,
+                );
+                const requestTypeText = requestType
+                  ? `Request type: ${requestType}`
+                  : 'You submitted this file as additional evidence.';
 
                 return (
                   <li key={item.id || itemIndex}>

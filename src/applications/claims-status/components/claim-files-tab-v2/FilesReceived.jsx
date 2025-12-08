@@ -7,7 +7,7 @@ import {
 
 import {
   buildDateFormatter,
-  getDocumentRequestTypeDisplayName,
+  getTrackedItemDisplayFromSupportingDocument,
 } from '../../utils/helpers';
 import { useIncrementalReveal } from '../../hooks/useIncrementalReveal';
 import { ANCHOR_LINKS } from '../../constants';
@@ -32,7 +32,7 @@ const getTrackedItemText = item => {
 const generateDocsFiled = docsFiled => {
   return docsFiled.flatMap(document => {
     if (document.id && document.status) {
-      const requestTypeDisplayName = getDocumentRequestTypeDisplayName(
+      const requestTypeDisplayName = getTrackedItemDisplayFromSupportingDocument(
         document,
       );
       const requestTypeText =

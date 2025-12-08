@@ -55,9 +55,8 @@ import {
   getTimezoneDiscrepancyMessage,
   showTimezoneDiscrepancyMessage,
   formatUploadDateTime,
-  getDocumentRequestTypeDisplayName,
-  getSupportingDocumentDisplayName,
-  getEvidenceSubmissionDisplayName,
+  getTrackedItemDisplayFromSupportingDocument,
+  getTrackedItemDisplayNameFromEvidenceSubmission,
 } from '../../utils/helpers';
 
 import {
@@ -2389,80 +2388,101 @@ describe('Disability benefits helpers: ', () => {
     });
   });
 
-  describe('getSupportingDocumentDisplayName', () => {
-    it('should return friendlyName when present', () => {
-      const document = {
-        friendlyName: 'Medical Records',
-        displayName: 'Submit Medical Records',
-      };
-      const result = getSupportingDocumentDisplayName(document);
+  describe('getTrackedItemDisplayFromSupportingDocument', () => {
+    context('when the id is present', () => {
+      it('should return the friendlyName when it is present', () => {
+        const document = {
+          id: '123',
+          friendlyName: 'Medical Records',
+          displayName: 'Submit Medical Records',
+        };
+        const result = getTrackedItemDisplayFromSupportingDocument(document);
 
-      expect(result).to.equal('Medical Records');
+        expect(result).to.equal('Medical Records');
+      });
+
+      it('should return the displayName when the friendlyName is not present', () => {
+        const document = {
+          id: '123',
+          displayName: 'Submit Medical Records',
+        };
+        const result = getTrackedItemDisplayFromSupportingDocument(document);
+
+        expect(result).to.equal('Submit Medical Records');
+      });
+
+      it("should return 'unknown' when neither friendlyName nor displayName are present", () => {
+        const document = {
+          id: '123',
+        };
+        const result = getTrackedItemDisplayFromSupportingDocument(document);
+
+        expect(result).to.equal('unknown');
+      });
     });
 
-    it('should return displayName when friendlyName is not present', () => {
-      const document = {
-        displayName: 'Submit Medical Records',
-      };
-      const result = getSupportingDocumentDisplayName(document);
+    context('when the id is not present', () => {
+      it('should return null', () => {
+        const document = {
+          friendlyName: 'Medical Records',
+        };
+        const result = getTrackedItemDisplayFromSupportingDocument(document);
 
-      expect(result).to.equal('Submit Medical Records');
-    });
-
-    it("should return 'unknown' when neither friendlyName nor displayName is present", () => {
-      const document = {};
-      const result = getSupportingDocumentDisplayName(document);
-
-      expect(result).to.equal('unknown');
-    });
-  });
-
-  describe('getEvidenceSubmissionDisplayName', () => {
-    it('should return trackedItemFriendlyName when present', () => {
-      const document = {
-        trackedItemFriendlyName: 'Authorization to Disclose Information',
-        trackedItemDisplayName: '21-4142/21-4142a',
-      };
-      const result = getEvidenceSubmissionDisplayName(document);
-
-      expect(result).to.equal('Authorization to Disclose Information');
-    });
-
-    it('should return trackedItemDisplayName when trackedItemFriendlyName is not present', () => {
-      const document = {
-        trackedItemDisplayName: '21-4142/21-4142a',
-      };
-      const result = getEvidenceSubmissionDisplayName(document);
-
-      expect(result).to.equal('21-4142/21-4142a');
-    });
-
-    it("should return 'unknown' when neither trackedItemFriendlyName nor trackedItemDisplayName is present", () => {
-      const document = {};
-      const result = getEvidenceSubmissionDisplayName(document);
-
-      expect(result).to.equal('unknown');
+        expect(result).to.equal(null);
+      });
     });
   });
 
-  describe('getDocumentRequestTypeDisplayName', () => {
-    it('should delegate to getEvidenceSubmissionDisplayName when trackedItemId is present', () => {
-      const document = {
-        trackedItemId: 123,
-        trackedItemFriendlyName: 'Authorization to Disclose Information',
-      };
-      const result = getDocumentRequestTypeDisplayName(document);
+  describe('getTrackedItemDisplayNameFromEvidenceSubmission', () => {
+    context('when the trackedItemId is present', () => {
+      it('should return the trackedItemFriendlyName when it is present', () => {
+        const evidenceSubmission = {
+          trackedItemId: 123,
+          trackedItemFriendlyName: 'Authorization to Disclose Information',
+          trackedItemDisplayName: '21-4142/21-4142a',
+        };
+        const result = getTrackedItemDisplayNameFromEvidenceSubmission(
+          evidenceSubmission,
+        );
 
-      expect(result).to.equal('Authorization to Disclose Information');
+        expect(result).to.equal('Authorization to Disclose Information');
+      });
+
+      it('should return the trackedItemDisplayName when the trackedItemFriendlyName is not present', () => {
+        const evidenceSubmission = {
+          trackedItemId: 123,
+          trackedItemDisplayName: '21-4142/21-4142a',
+        };
+        const result = getTrackedItemDisplayNameFromEvidenceSubmission(
+          evidenceSubmission,
+        );
+
+        expect(result).to.equal('21-4142/21-4142a');
+      });
+
+      it("should return 'unknown' when neither trackedItemFriendlyName nor trackedItemDisplayName are present", () => {
+        const evidenceSubmission = {
+          trackedItemId: 123,
+        };
+        const result = getTrackedItemDisplayNameFromEvidenceSubmission(
+          evidenceSubmission,
+        );
+
+        expect(result).to.equal('unknown');
+      });
     });
 
-    it('should delegate to getSupportingDocumentDisplayName when trackedItemId is not present', () => {
-      const document = {
-        friendlyName: 'Medical Records',
-      };
-      const result = getDocumentRequestTypeDisplayName(document);
+    context('when the trackedItemId is not present', () => {
+      it('should return null', () => {
+        const evidenceSubmission = {
+          trackedItemFriendlyName: 'Authorization to Disclose Information',
+        };
+        const result = getTrackedItemDisplayNameFromEvidenceSubmission(
+          evidenceSubmission,
+        );
 
-      expect(result).to.equal('Medical Records');
+        expect(result).to.equal(null);
+      });
     });
   });
 });

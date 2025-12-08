@@ -4,7 +4,7 @@ import {
   VaAlert,
   VaLinkAction,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { getDocumentRequestTypeDisplayName } from '../utils/helpers';
+import { getTrackedItemDisplayNameFromEvidenceSubmission } from '../utils/helpers';
 
 function UploadType2ErrorAlert({ failedSubmissions }) {
   // Don't render anything if there are no failed submissions
@@ -37,7 +37,9 @@ function UploadType2ErrorAlert({ failedSubmissions }) {
       <strong>All files we couldn’t process:</strong>
       <ul>
         {sortedSubmissions.slice(0, itemsToShow).map(submission => {
-          const requestType = getDocumentRequestTypeDisplayName(submission);
+          const requestType = getTrackedItemDisplayNameFromEvidenceSubmission(
+            submission,
+          );
 
           return (
             <li key={submission.id}>
@@ -47,7 +49,7 @@ function UploadType2ErrorAlert({ failedSubmissions }) {
               <br />
               <span>File type: {submission.documentType}</span>
               <br />
-              {requestType && requestType !== 'unknown' ? (
+              {requestType ? (
                 <span>Request type: {requestType}</span>
               ) : (
                 <span>You submitted this file as additional evidence</span>
