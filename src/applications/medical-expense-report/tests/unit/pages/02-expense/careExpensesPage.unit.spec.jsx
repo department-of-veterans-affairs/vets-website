@@ -110,7 +110,7 @@ describe('Care Expenses Pages', () => {
     });
     expect($(vaRecipientOtherSelector, formDOM)).to.exist;
     vaRecipient.__events.vaValueChange({
-      detail: { value: 'DEPENDENT' },
+      detail: { value: 'CHILD' },
     });
     expect($(vaRecipientOtherSelector, formDOM)).to.exist;
     vaRecipient.__events.vaValueChange({
@@ -291,24 +291,24 @@ describe('Care Expenses Pages', () => {
       typeOfCare: 'RESIDENTIAL',
       recipient: 'SPOUSE',
       provider: 'Provider Name',
-      careDateRange: { from: '2004-04-04' },
+      careDate: { from: '2004-04-04' },
       monthlyAmount: 1200,
     };
     const incompleteNoHourlyItem = {
       typeOfCare: 'IN_HOME_CARE_ATTENDANT',
-      recipient: 'DEPENDENT',
+      recipient: 'CHILD',
       fullNameRecipient: 'John Doe',
       provider: 'Provider Name',
-      careDateRange: { from: '2004-04-04' },
+      careDate: { from: '2004-04-04' },
       monthlyAmount: 800,
       weeklyHours: 20,
     };
     const incompleteNoWeeklyItem = {
       typeOfCare: 'IN_HOME_CARE_ATTENDANT',
-      recipient: 'DEPENDENT',
+      recipient: 'CHILD',
       fullNameRecipient: 'John Doe',
       provider: 'Provider Name',
-      careDateRange: { from: '2004-04-04' },
+      careDate: { from: '2004-04-04' },
       monthlyAmount: 800,
       hourlyRate: 20,
     };
