@@ -123,10 +123,4 @@ describe('<OrientationToolsAndResources>', () => {
     vaButton.click();
     queryByText(/You have selected to schedule a meeting with your local RO/i);
   });
-
-  it('renders not available message when feature toggle is off', () => {
-    const { getByText } = renderPage(makeState({ toggleOn: false }));
-    getByText('Orientation Tools and Resources');
-    getByText("This page isn't available right now.");
-  });
 });

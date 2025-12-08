@@ -1,5 +1,4 @@
 import React from 'react';
-import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import HubCardList from '../components/HubCardList';
 
 const stepLabels = [
@@ -13,28 +12,11 @@ const stepLabels = [
 ];
 
 const MyCaseManagementHub = () => {
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const showMyCaseManagementHubPage = useToggleValue(
-    TOGGLE_NAMES.vre_eligibility_status_phase_2_updates,
-  );
   const total = stepLabels.length; // 7
   const [current, setCurrent] = React.useState(2);
 
   const goPrev = () => setCurrent(c => Math.max(1, c - 1));
   const goNext = () => setCurrent(c => Math.min(total, c + 1));
-
-  if (!showMyCaseManagementHubPage) {
-    return (
-      <div className="row">
-        <div className="usa-width-two-thirds vads-u-margin-top--0p5 vads-u-margin-x--1 medium-screen:vads-u-margin-x--0">
-          <h1>My Case Management Hub</h1>
-          <p className="vads-u-color--gray-medium">
-            This page isn’t available right now.
-          </p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="row">
