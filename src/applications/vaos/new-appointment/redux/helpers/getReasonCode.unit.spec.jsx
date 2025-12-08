@@ -39,8 +39,8 @@ describe('VAOS helper: getReasonCode', () => {
     });
   });
 
-  describe('Direct Schedule requests', () => {
-    it('should include reason code and comments for DS requests', () => {
+  describe('Direct schedule', () => {
+    it('should include reason code and comments for DS', () => {
       const result = getReasonCode({
         data: baseData,
         isCC: false,
@@ -65,7 +65,7 @@ describe('VAOS helper: getReasonCode', () => {
     });
   });
 
-  describe('VA Request (standard flow)', () => {
+  describe('VA Request', () => {
     it('should include all appointment info fields', () => {
       const result = getReasonCode({
         data: baseData,

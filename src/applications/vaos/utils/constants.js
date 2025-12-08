@@ -378,6 +378,7 @@ export const TYPE_OF_VISIT = [
     name2: 'Through VA Video Connect (telehealth)',
     serviceName: 'Video Conference',
     vsGUI: 'VIDEO',
+    vsGUI2: 'VIDEO',
   },
 ];
 
