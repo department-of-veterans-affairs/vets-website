@@ -1,12 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {
+  ALERT_TYPE_SEI_ERROR,
+  MissingRecordsError,
+  SEI_DOMAINS,
+} from '@department-of-veterans-affairs/mhv/exports';
 import TrackedSpinner from '../../components/shared/TrackedSpinner';
+import AcceleratedCernerFacilityAlert from '../../components/shared/AcceleratedCernerFacilityAlert';
+import {
+  accessAlertTypes,
+  ALERT_TYPE_CCD_ERROR,
+  CernerAlertContent,
+  documentTypes,
+} from '../../util/constants';
+import AccessTroubleAlertBox from '../../components/shared/AccessTroubleAlertBox';
+import DownloadSuccessAlert from '../../components/shared/DownloadSuccessAlert';
 
 const OHOnlyContent = ({
   ddSuffix,
   isLoading,
   handleDownload,
   testIdSuffix,
+  lastSuccessfulUpdate,
+  accessErrors,
+  activeAlert,
+  successfulSeiDownload,
+  failedSeiDomains,
 }) => {
   return (
     <>
@@ -23,7 +42,53 @@ const OHOnlyContent = ({
         </div>
       ) : (
         <div>
-          <h2>Download your VA Blue Button report</h2>
+          <h1>Download your medical records report</h1>
+          <p className="vads-u-margin--0">
+            Download your Continuity of Care Document (CCD), a summary of your
+            VA medical records.
+          </p>
+          <AcceleratedCernerFacilityAlert {...CernerAlertContent.DOWNLOAD} />
+          {lastSuccessfulUpdate && (
+            <va-card
+              class="vads-u-margin-y--2"
+              background
+              aria-live="polite"
+              data-testid="new-records-last-updated"
+            >
+              Records in these reports last updated at{' '}
+              {lastSuccessfulUpdate.time} on {lastSuccessfulUpdate.date}
+            </va-card>
+          )}
+          {accessErrors()}
+          {/* redux action/server errors */}
+          {activeAlert?.type === ALERT_TYPE_CCD_ERROR && (
+            <AccessTroubleAlertBox
+              alertType={accessAlertTypes.DOCUMENT}
+              documentType={documentTypes.CCD}
+              className="vads-u-margin-bottom--1"
+            />
+          )}
+          {activeAlert?.type === ALERT_TYPE_SEI_ERROR && (
+            <AccessTroubleAlertBox
+              alertType={accessAlertTypes.DOCUMENT}
+              documentType={documentTypes.SEI}
+              className="vads-u-margin-bottom--1"
+            />
+          )}
+          {successfulSeiDownload === true &&
+            failedSeiDomains.length !== SEI_DOMAINS.length && (
+              <>
+                <MissingRecordsError
+                  documentType="Self-entered health information report"
+                  recordTypes={failedSeiDomains}
+                />
+                <DownloadSuccessAlert
+                  type="Self-entered health information report download"
+                  className="vads-u-margin-bottom--1"
+                />
+              </>
+            )}
+          <h2>Download your Continuity of Care Document</h2>
           <p>
             This Continuity of Care Document (CCD) is a summary of your VA
             medical records that you can share with non-VA providers in your
@@ -68,10 +133,18 @@ const OHOnlyContent = ({
 };
 
 OHOnlyContent.propTypes = {
-  ddSuffix: PropTypes.string,
-  handleDownload: PropTypes.func,
-  isLoading: PropTypes.bool,
-  testIdSuffix: PropTypes.string,
+  accessErrors: PropTypes.func.isRequired,
+  ddSuffix: PropTypes.string.isRequired,
+  failedSeiDomains: PropTypes.array.isRequired,
+  handleDownload: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  lastSuccessfulUpdate: PropTypes.shape({
+    date: PropTypes.string,
+    time: PropTypes.string,
+  }).isRequired,
+  successfulSeiDownload: PropTypes.bool.isRequired,
+  testIdSuffix: PropTypes.string.isRequired,
+  activeAlert: PropTypes.object,
 };
 
 export default OHOnlyContent;
