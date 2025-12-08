@@ -332,19 +332,29 @@ Update this file when you:
     - Both implement `preventDefault` + `router.push(href)` for client-side navigation
     - Located in `components/shared/`
     - See VADS docs: https://design.va.gov/components/link/
-- **External Links**: Use `VaLink` directly with `external` prop
-  - For links outside the application (e.g., My VA Health, Find VA Locations)
+- **Cross-App Links** (Different VA.gov SPAs): Use `VaLink`/`VaLinkAction` directly WITHOUT router wrapper
+  - For links to other VA.gov applications (e.g., `/find-locations`, `/profile`)
+  - These are different Webpack entry points/SPAs that require full browser navigation
+  - `RouterLink`/`RouterLinkAction` won't work because `router.push()` only works within the same SPA
+  - Example: `<VaLinkAction href="/find-locations" text="Find your VA health facility" />`
+  - Example: `<VaLink href="/profile/personal-information" text="Edit signature" />`
+  - **Common cross-app destinations from mhv-secure-messaging:**
+    - `/find-locations` → facility-locator SPA
+    - `/profile/*` → profile SPA
+    - `/my-health/medical-records/*` → mhv-medical-records SPA
+- **External Links** (Non-VA sites): Use `VaLink` directly with `external` prop
+  - For links outside VA.gov entirely (e.g., My VA Health portal at different domain)
   - Use `active` prop for intermediate prominence
-  - Example: `<VaLink href={externalUrl} text="Go to My VA Health" external active />`
+  - Example: `<VaLink href={getCernerURL('/pages/messaging/inbox')} text="Go to My VA Health" external active />`
 - **When to Use Which Component**:
-  - Internal standard navigation → `RouterLink`
-  - Internal primary CTA → `RouterLinkAction`
-  - External link (standard) → `<VaLink external />`
-  - External link (prominent) → `<VaLink external active />`
+  - Same-SPA standard navigation → `RouterLink`
+  - Same-SPA primary CTA → `RouterLinkAction`
+  - Cross-app link (different VA.gov SPA) → `<VaLink />` or `<VaLinkAction />`
+  - External link (non-VA site) → `<VaLink external />`
 - **Anti-patterns**:
   - ❌ Don't use `<a href>` for internal navigation (breaks client-side routing)
-  - ❌ Don't use `VaLink` without router wrapper for internal navigation (causes full page reload)
-  - ❌ Don't use `VaLinkAction` for external links (no router integration needed)
+  - ❌ Don't use `VaLink`/`VaLinkAction` without router wrapper for same-SPA navigation (causes unnecessary full page reload)
+  - ❌ Don't use `RouterLink`/`RouterLinkAction` for cross-app navigation (router.push() only works within same SPA)
 
 ### Web Components
 - **VA Design System Components**:

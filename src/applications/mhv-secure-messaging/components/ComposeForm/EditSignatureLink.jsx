@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { selectSignature } from '../../selectors';
-import RouterLink from '../shared/RouterLink';
 
 const EditSignatureLink = () => {
   const signature = useSelector(state => selectSignature(state));
@@ -11,7 +11,7 @@ const EditSignatureLink = () => {
   if (includeSignature) {
     return (
       <div className="vads-u-margin-top--2">
-        <RouterLink
+        <VaLink
           href="/profile/personal-information#messaging-signature"
           data-dd-action-name="Edit Signature"
           data-testid="edit-signature-link"
