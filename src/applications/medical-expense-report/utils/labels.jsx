@@ -4,7 +4,7 @@
 export const recipientTypeLabels = {
   VETERAN: 'Veteran',
   SPOUSE: 'Veteran’s spouse',
-  DEPENDENT: 'Veteran’s child',
+  CHILD: 'Veteran’s child',
   OTHER: 'Other',
 };
 

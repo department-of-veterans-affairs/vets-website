@@ -30,7 +30,7 @@ describe('Helpers', () => {
       // global.window.location.href = 'http://localhost/representative/representative-form-upload/21-686c/upload';
       // expect(getFormNumber()).to.eq('21-686c');
       const pathname =
-        '/representative/representative-form-upload/submit-va-form-21-686c/upload';
+        '/representative/representative-form-upload/submit-va-form-21-686c/upload-files';
       expect(getFormNumber(pathname)).to.eq('21-686c');
     });
 
@@ -51,7 +51,7 @@ describe('Helpers', () => {
   describe('getFormContent', () => {
     it('returns appropriate content when the form number is mapped', () => {
       const pathname =
-        '/representative/representative-form-upload/submit-va-form-21-686c/upload';
+        '/representative/representative-form-upload/submit-va-form-21-686c/upload-files';
       expect(getFormContent(pathname)).to.include({ title: 'VA Form 21-686c' });
     });
   });

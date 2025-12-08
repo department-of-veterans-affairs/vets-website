@@ -56,13 +56,14 @@ const spouseDeath = {
     return (
       <>
         <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
-          {isEditing ? 'Edit information' : 'Information'} about the death of{' '}
+          {isEditing ? 'Edit information' : 'Information'} about{' '}
           <span className="dd-privacy-mask" data-dd-action-name="first name">
             {firstName}
           </span>
+          's death
         </h3>
 
-        <h4>When was the death?</h4>
+        <h4>When did they die?</h4>
         <PastDate
           label="Date of death"
           date={itemData.endDate}
@@ -71,10 +72,10 @@ const spouseDeath = {
           onChange={onChange}
         />
 
-        <h4>Where did the death happen?</h4>
+        <h4>Where did they die?</h4>
         <VaCheckbox
           name="endOutsideUS"
-          label="The death happened outside the United States"
+          label="Death occurred outside the United States"
           checked={itemData.endOutsideUS || false}
           onVaChange={onChange}
         />

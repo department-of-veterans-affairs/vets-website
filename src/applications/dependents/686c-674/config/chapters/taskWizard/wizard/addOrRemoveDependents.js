@@ -26,6 +26,6 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    'view:addOrRemoveDependents': checkboxGroupSchema(['add', 'remove']),
+    'view:addOrRemoveDependents': checkboxGroupSchema(['remove', 'add']),
   },
 };

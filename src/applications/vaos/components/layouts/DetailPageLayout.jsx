@@ -113,7 +113,6 @@ export function Details({
   const heading = request
     ? 'Details you’d like to share with your provider'
     : 'Details you shared with your provider';
-
   return (
     <Section heading={heading} level={level}>
       <span data-dd-privacy="mask">

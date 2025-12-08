@@ -61,9 +61,91 @@ function swapNames(formData) {
   return JSON.stringify(transformedValue);
 }
 
+function splitVaSsnField(formData) {
+  const parsedFormData = JSON.parse(formData);
+  const transformedValue = parsedFormData;
+  if (parsedFormData?.veteranSocialSecurityNumber?.ssn) {
+    transformedValue.veteranSocialSecurityNumber =
+      parsedFormData?.veteranSocialSecurityNumber?.ssn;
+  }
+  if (parsedFormData?.veteranSocialSecurityNumber?.vaFileNumber) {
+    transformedValue.vaFileNumber =
+      parsedFormData?.veteranSocialSecurityNumber?.vaFileNumber;
+    transformedValue.veteranSocialSecurityNumber = undefined;
+  }
+  return JSON.stringify(transformedValue);
+}
+
+function switchToInternationalPhone(formData) {
+  const parsedFormData = JSON.parse(formData);
+  const transformedValue = parsedFormData;
+  if (!parsedFormData?.primaryPhone) {
+    return JSON.stringify(transformedValue);
+  }
+  if (parsedFormData?.primaryPhone?.countryCode !== 'US') {
+    const callingCode = parsedFormData.primaryPhone?.callingCode || '';
+    const contact = parsedFormData.primaryPhone?.contact || '';
+    transformedValue.primaryPhone.contact = `+${callingCode}-${contact}`;
+  }
+  return JSON.stringify(transformedValue);
+}
+
+function renameExpenseConditionalFields(formData) {
+  const parsedFormData = JSON.parse(formData);
+  const transformedValue = parsedFormData;
+
+  // Rename recipients in careExpenses
+  if (Array.isArray(transformedValue.careExpenses)) {
+    transformedValue.careExpenses = transformedValue.careExpenses.map(
+      expense => {
+        if (expense?.fullNameRecipient === undefined) return expense;
+        const { fullNameRecipient, ...rest } = expense;
+        return { recipientName: fullNameRecipient, ...rest };
+      },
+    );
+  }
+
+  // Rename recipients in medicalExpenses
+  if (Array.isArray(transformedValue.medicalExpenses)) {
+    transformedValue.medicalExpenses = transformedValue.medicalExpenses.map(
+      expense => {
+        if (expense?.fullNameRecipient === undefined) return expense;
+        const { fullNameRecipient, ...rest } = expense;
+        return { recipientName: fullNameRecipient, ...rest };
+      },
+    );
+  }
+
+  // Rename travelers in mileageExpenses
+  if (Array.isArray(transformedValue.mileageExpenses)) {
+    transformedValue.mileageExpenses = transformedValue.mileageExpenses.map(
+      expense => {
+        if (expense?.fullNameTraveler === undefined) return expense;
+        const { fullNameTraveler, ...rest } = expense;
+        return { travelerName: fullNameTraveler, ...rest };
+      },
+    );
+  }
+
+  // Rename travelLocations in mileageExpenses
+  if (Array.isArray(transformedValue.mileageExpenses)) {
+    transformedValue.mileageExpenses = transformedValue.mileageExpenses.map(
+      expense => {
+        if (expense?.otherTravelLocation === undefined) return expense;
+        const { otherTravelLocation, ...rest } = expense;
+        return { travelLocationOther: otherTravelLocation, ...rest };
+      },
+    );
+  }
+  return JSON.stringify(transformedValue);
+}
+
 export const transform = (formConfig, form) => {
   let transformedData = transformForSubmit(formConfig, form);
   transformedData = swapNames(transformedData);
+  transformedData = splitVaSsnField(transformedData);
+  transformedData = switchToInternationalPhone(transformedData);
+  transformedData = renameExpenseConditionalFields(transformedData);
   return JSON.stringify({
     medicalExpenseReportsClaim: {
       form: transformedData,

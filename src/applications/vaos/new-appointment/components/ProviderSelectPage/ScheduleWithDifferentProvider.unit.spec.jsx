@@ -32,10 +32,10 @@ describe('ScheduleWithDifferentProvider', () => {
       { store },
     );
 
-    expect(screen.getByText(/Option 1: Call the facility/i)).to.exist;
+    expect(screen.getByText(/Option 2: Call the facility/i)).to.exist;
     expect(
       screen.getByText(
-        /Option 2: Request your preferred date and time online/i,
+        /Option 1: Request your preferred date and time online/i,
       ),
     ).to.exist;
 
@@ -64,10 +64,10 @@ describe('ScheduleWithDifferentProvider', () => {
 
     expect(screen.getByText(/Call and ask to schedule with that provider/i)).to
       .exist;
-    expect(screen.queryByText(/Option 1: Call the facility/i)).to.not.exist;
+    expect(screen.queryByText(/Option 2: Call the facility/i)).to.not.exist;
     expect(
       screen.queryByText(
-        /Option 2: Request your preferred date and time online/i,
+        /Option 1: Request your preferred date and time online/i,
       ),
     ).to.not.exist;
     expect(screen.queryByText(/Request an appointment/i)).to.not.exist;
@@ -99,10 +99,10 @@ describe('ScheduleWithDifferentProvider', () => {
 
     expect(screen.getByText(/Call and ask to schedule with that provider/i)).to
       .exist;
-    expect(screen.queryByText(/Option 1: Call the facility/i)).to.not.exist;
+    expect(screen.queryByText(/Option 2: Call the facility/i)).to.not.exist;
     expect(
       screen.queryByText(
-        /Option 2: Request your preferred date and time online/i,
+        /Option 1: Request your preferred date and time online/i,
       ),
     ).to.not.exist;
     expect(screen.queryByText(/Request an appointment/i)).to.not.exist;

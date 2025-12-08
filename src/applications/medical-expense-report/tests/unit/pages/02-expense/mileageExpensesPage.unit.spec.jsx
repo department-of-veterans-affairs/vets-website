@@ -82,7 +82,7 @@ describe('Mileage Expense Pages', () => {
     });
     expect($(vaTravelerOtherSelector, formDOM)).to.exist;
     vaTraveler.__events.vaValueChange({
-      detail: { value: 'DEPENDENT' },
+      detail: { value: 'CHILD' },
     });
     expect($(vaTravelerOtherSelector, formDOM)).to.exist;
     vaTraveler.__events.vaValueChange({
@@ -190,10 +190,10 @@ describe('Mileage Expense Pages', () => {
   });
   it('should check if the item is incomplete', () => {
     const completeItem = {
-      traveler: 'DEPENDENT',
+      traveler: 'CHILD',
       fullNameTraveler: 'John Doe',
       travelLocation: 'OTHER',
-      travelLocationOther: 'Some other place',
+      otherTravelLocation: 'Some other place',
       travelDate: '2004-04-04',
       travelMilesTraveled: 100,
       travelReimbursed: true,
@@ -203,13 +203,13 @@ describe('Mileage Expense Pages', () => {
       traveler: 'OTHER',
       fullNameTraveler: 'John Doe',
       travelLocation: 'OTHER',
-      travelLocationOther: 'Some other place',
+      otherTravelLocation: 'Some other place',
       travelDate: '2004-04-04',
       travelMilesTraveled: 100,
       travelReimbursed: false,
     };
     const incompleteNoTravelLocation = {
-      traveler: 'DEPENDENT',
+      traveler: 'CHILD',
       fullNameTraveler: 'John Doe',
       travelLocation: 'OTHER',
       travelDate: '2004-04-04',
@@ -217,7 +217,7 @@ describe('Mileage Expense Pages', () => {
       travelReimbursed: true,
     };
     const incompleteNofullNameTraveler = {
-      traveler: 'DEPENDENT',
+      traveler: 'CHILD',
       travelLocation: 'PHARMACY',
       travelDate: '2004-04-04',
       travelMilesTraveled: 100,

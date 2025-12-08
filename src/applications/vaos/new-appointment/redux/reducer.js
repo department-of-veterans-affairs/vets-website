@@ -69,6 +69,7 @@ import {
   FLOW_TYPES,
   FETCH_STATUS,
   REASON_MAX_CHARS,
+  NEW_REASON_MAX_CHARS,
 } from '../../utils/constants';
 
 import { getTypeOfCare } from './selectors';
@@ -745,17 +746,27 @@ export default function formReducer(state = initialState, action) {
     }
     case FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED: {
       const formData = state.data;
+      const { updateRequestFlow } = action;
+      const isCommunityCare =
+        formData.facilityType === FACILITY_TYPES.COMMUNITY_CARE.id;
+      const maxChars =
+        updateRequestFlow && !isCommunityCare
+          ? NEW_REASON_MAX_CHARS
+          : REASON_MAX_CHARS;
       let additionalInfoTitle = REASON_ADDITIONAL_INFO_TITLES.ccRequest;
 
       if (formData.facilityType !== FACILITY_TYPES.COMMUNITY_CARE.id) {
         additionalInfoTitle = REASON_ADDITIONAL_INFO_TITLES.va;
+        if (updateRequestFlow) {
+          delete formData.reasonForAppointment;
+        }
       } else {
         delete formData.reasonForAppointment;
       }
 
       let reasonSchema = set(
         'properties.reasonAdditionalInfo.maxLength',
-        REASON_MAX_CHARS,
+        maxChars,
         action.schema,
       );
 

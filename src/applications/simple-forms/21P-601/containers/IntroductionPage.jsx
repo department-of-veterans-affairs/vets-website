@@ -98,7 +98,8 @@ const childContent = (
       <li>Information about dependent surviving relatives</li>
       <li>
         Any certified, signed legal documents showing the assignment of the
-        executor or administrator of the beneficiary’s estate
+        executor or administrator of the beneficiary’s estate (if someone has
+        been assigned)
       </li>
       <li>
         Bills or other documentation of expenses if you’re claiming

@@ -118,14 +118,14 @@ const spouseMarriageEnded = {
           label="Date marriage ended"
           date={itemData.endDate}
           formSubmitted={formSubmitted}
-          missingErrorMessage="Provide a date marriage ended"
+          missingErrorMessage="Enter the date marriage ended"
           onChange={onChange}
         />
 
         <h4>Where did the marriage end?</h4>
         <VaCheckbox
           name="endOutsideUS"
-          label="The marriage ended outside the United States"
+          label="Marriage ended outside the United States"
           checked={itemData.endOutsideUS || false}
           onVaChange={onChange}
         />

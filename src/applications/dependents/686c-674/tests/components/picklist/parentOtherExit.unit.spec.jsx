@@ -46,7 +46,7 @@ describe('parentOtherExit', () => {
     const { container } = renderComponent();
 
     expect($('h3', container).textContent).to.equal(
-      'PETER can’t be removed using this application',
+      'You can’t use this form to remove PETER',
     );
 
     expect($$('p', container).length).to.equal(2);
@@ -54,7 +54,7 @@ describe('parentOtherExit', () => {
     const info = $('va-additional-info', container);
     expect(info).to.exist;
     expect(info.getAttribute('trigger')).to.equal(
-      'Why can I only remove a parent dependent if they have died?',
+      'How can I remove a dependent parent for reasons other than death?',
     );
 
     expect(parentOtherExit.hasExitLink).to.be.true;
