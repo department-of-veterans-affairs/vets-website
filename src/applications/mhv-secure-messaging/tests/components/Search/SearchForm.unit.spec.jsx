@@ -9,7 +9,11 @@ import folderList from '../../fixtures/folder-inbox-response.json';
 import threadList from '../../fixtures/thread-list-response.json';
 import reducer from '../../../reducers';
 import SearchForm from '../../../components/Search/SearchForm';
-import { selectVaDate, selectVaSelect } from '../../../util/testUtils';
+import {
+  selectVaDate,
+  selectVaSelect,
+  inputVaTextInput,
+} from '../../../util/testUtils';
 import { ErrorMessages } from '../../../util/constants';
 import { DateRangeValues } from '../../../util/inputContants';
 
@@ -148,7 +152,7 @@ describe('Search form', () => {
     );
     expect(
       screen.getByRole('heading', { name: /Filter messages in inbox/i }),
-    ).to.have.attribute('aria-describedby', 'filter-applied-success');
+    ).to.have.attribute('aria-describedby', 'filter-default');
   });
 
   it('returns error message on invalid custom end date', async () => {
@@ -428,8 +432,16 @@ describe('Search form', () => {
     });
 
     it('should have the correct aria-describedby on heading after applying then clearing filters', () => {
+      const searchTerm = 'test';
+      const query = {
+        category: 'other',
+        queryData: { searchTerm },
+      };
       const customProps = {
         ...defaultProps,
+        keyword: searchTerm,
+        resultsCount: searchResults.length,
+        query,
         threadCount: threadList.length,
       };
       const screen = setup(customProps);
@@ -448,8 +460,7 @@ describe('Search form', () => {
         'filter-default',
       );
 
-      const filterInput = screen.getByTestId('keyword-search-input');
-      userEvent.type(filterInput, 'test');
+      inputVaTextInput(screen.container, 'test', '#filter-input');
       userEvent.click(applyButton);
       expect(inboxHeading).to.have.attribute(
         'aria-describedby',

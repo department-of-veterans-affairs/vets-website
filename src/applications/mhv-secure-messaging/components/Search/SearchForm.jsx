@@ -72,7 +72,6 @@ const SearchForm = props => {
   };
 
   const handleSearch = () => {
-    setFilterStatus('applied');
     if (filterBoxRef.current.checkFormValidity()) {
       setSearchTermError(null);
       return;
@@ -109,6 +108,8 @@ const SearchForm = props => {
     }
     setSearchTermError(null);
     filterBoxRef.current.clearDateErrors();
+
+    setFilterStatus('applied');
 
     dispatch(
       runAdvancedSearch(
@@ -343,7 +344,6 @@ const SearchForm = props => {
             data-testid="filter-messages-button"
             data-dd-action-name="Filter Button"
             onClick={e => {
-              setFilterStatus('applied');
               e.preventDefault();
               handleSearch();
             }}
@@ -379,7 +379,7 @@ const SearchForm = props => {
               aria-live="polite"
               id="filter-applied-success"
             >
-              Filters succesfully applied
+              Filters successfully applied
             </span>
           )}
           {filterStatus === 'cleared' && (
@@ -388,7 +388,7 @@ const SearchForm = props => {
               aria-live="polite"
               id="filter-clear-success"
             >
-              Filters succesfully cleared
+              Filters successfully cleared
             </span>
           )}
         </div>
