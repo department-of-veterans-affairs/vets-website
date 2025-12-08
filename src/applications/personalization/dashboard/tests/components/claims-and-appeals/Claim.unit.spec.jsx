@@ -24,10 +24,12 @@ function makeClaimObject({
         phaseChangeDate: updateDate,
       },
       claimType: 'Compensation',
+      claimTypeBase: 'compensation claim',
       closeDate: null,
       dateFiled: dateFiled || '2021-01-21',
       decisionLetterSent,
       developmentLetterSent,
+      displayTitle: 'Claim for compensation',
       documentsNeeded,
       endProductCode: '404',
       evidenceWaiverSubmitted5103: false,
@@ -47,7 +49,7 @@ describe('<Claim />', () => {
 
     expect(
       tree.getByRole('heading', {
-        name: /Compensation claim received January 21, 2021/,
+        name: /Claim for compensation received January 21, 2021/,
       }),
     ).to.exist;
     expect(tree.getByText(/Review details/)).to.exist;
