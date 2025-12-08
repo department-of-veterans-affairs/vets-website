@@ -11,6 +11,7 @@ import MailingAddressViewField from '../../../../components/MailingAddressViewFi
 import YesNoReviewField from '../../../../components/YesNoReviewField';
 
 import { formFields } from '../../../../constants';
+import { validateMilitaryBaseConsistency } from '../../../../utils/validation';
 
 function isOnlyWhitespace(str) {
   return str && !str.trim().length;
@@ -76,6 +77,7 @@ const mailingAddress33 = {
           </p>
         </>
       ),
+      'ui:validations': [validateMilitaryBaseConsistency],
       [formFields.livesOnMilitaryBase]: {
         'ui:title': (
           <span id="LiveOnMilitaryBaseTooltip">
@@ -262,19 +264,10 @@ const mailingAddress33 = {
                 formData['view:mailingAddress']?.livesOnMilitaryBase;
 
               if (livesOnMilitaryBase) {
-                // Always have APO/FPO
-                const baseEnum = ['APO', 'FPO'];
-                // Conditionally add DPO if feature toggle is enabled
-                if (formData?.mebDpoAddressOptionEnabled) {
-                  baseEnum.push('DPO');
-                }
-
                 return {
                   type: 'string',
-                  title: formData?.mebDpoAddressOptionEnabled
-                    ? 'APO/FPO/DPO'
-                    : 'APO/FPO',
-                  enum: baseEnum,
+                  title: 'APO/FPO/DPO',
+                  enum: ['APO', 'FPO', 'DPO'],
                 };
               }
 

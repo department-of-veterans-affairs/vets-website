@@ -26,6 +26,7 @@ import {
   emailNeedsConfirmation,
   generateSentryAuthError,
   handleTokenRequest,
+  checkPortalRequirements,
 } from '../helpers';
 
 const REDIRECT_IGNORE_PATTERN = new RegExp(['/auth/login/callback'].join('|'));
@@ -54,6 +55,9 @@ export default function AuthApp({ location }) {
   );
   const isEmailInterstitialEnabled = useSelector(
     store => store?.featureToggles?.confirmContactEmailInterstitialEnabled,
+  );
+  const isPortalNoticeInterstitialEnabled = useSelector(
+    store => store?.featureToggles?.portalNoticeInterstitialEnabled,
   );
 
   const handleAuthError = (error, codeOverride) => {
@@ -151,6 +155,7 @@ export default function AuthApp({ location }) {
   const handleAuthSuccess = async ({
     response = {},
     skipToRedirect = false,
+    isMyVAHealth = false,
   } = {}) => {
     sessionStorage.setItem('shouldRedirectExpiredSession', true);
     const authMetrics = new AuthMetrics(
@@ -159,13 +164,29 @@ export default function AuthApp({ location }) {
       requestId,
       errorCode,
     );
-    if (returnUrl?.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH])) {
+    if (isMyVAHealth) {
       await handleProvisioning();
     }
     const { userAttributes, userProfile } = authMetrics;
     authMetrics.run();
-    if (!skipToRedirect) {
+    const { needsPortalNotice, needsMyHealth } = checkPortalRequirements({
+      isPortalNoticeInterstitialEnabled,
+      userAttributes,
+      isMyVAHealth,
+    });
+    if (
+      !skipToRedirect &&
+      (!isMyVAHealth || needsPortalNotice || needsMyHealth)
+    ) {
       setupProfileSession(userProfile);
+    }
+    if (needsPortalNotice) {
+      window.location.replace('/sign-in-health-portal');
+      return;
+    }
+    if (needsMyHealth) {
+      window.location.replace('/my-health');
+      return;
     }
     if (
       emailNeedsConfirmation({
@@ -191,7 +212,13 @@ export default function AuthApp({ location }) {
       });
     }
 
-    const skipToRedirect = !hasError && checkReturnUrl(returnUrl);
+    const isMyVAHealth = returnUrl.includes(
+      EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH],
+    );
+    const skipToRedirect =
+      !hasError &&
+      checkReturnUrl(returnUrl) &&
+      (!isPortalNoticeInterstitialEnabled || !isMyVAHealth);
 
     if (auth === FORCE_NEEDED) {
       handleAuthForceNeeded();
@@ -200,7 +227,11 @@ export default function AuthApp({ location }) {
     } else {
       try {
         const response = await apiRequest('/user');
-        await handleAuthSuccess({ response, skipToRedirect: false });
+        await handleAuthSuccess({
+          response,
+          skipToRedirect: false,
+          isMyVAHealth,
+        });
       } catch (error) {
         handleAuthError(error);
       }

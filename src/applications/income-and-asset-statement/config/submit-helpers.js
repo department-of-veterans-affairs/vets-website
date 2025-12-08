@@ -1,4 +1,6 @@
 import { cloneDeep } from 'lodash';
+import { discontinuedIncomeTypeLabels } from '../labels';
+import { REGEXP } from '../constants';
 
 /**
  * Build a full name string from an object containing first/middle/last
@@ -109,6 +111,131 @@ export function remapOtherVeteranFields(data = {}) {
 }
 
 /**
+ * Remap recipientRelationship for certain claimant types when the relationship is "SPOUSE".
+ *
+ * This function applies ONLY when:
+ *   - claimantType is "CUSTODIAN" or "PARENT"
+ *   - itemData.recipientRelationship === "SPOUSE"
+ *
+ * In those cases:
+ *   - recipientRelationship → "OTHER"
+ *   - otherRecipientRelationshipType → a descriptive label
+ *       • "Custodian’s spouse" when claimantType is "CUSTODIAN"
+ *       • "Parent’s spouse"     when claimantType is "PARENT"
+ *
+ * If none of the conditions match, the original item is returned unchanged.
+ *
+ * @param {string} claimantType - High-level claimant type from formData
+ * @param {Object} itemData - The array item being transformed
+ * @returns {Object} A new object with remapped fields when rules apply, otherwise the original item
+ */
+export function remapRecipientRelationshipFields(claimantType, itemData = {}) {
+  const { recipientRelationship } = itemData;
+
+  // Guard: only these claimant types ever have remapping rules
+  const isEligibleClaimant =
+    claimantType === 'CUSTODIAN' || claimantType === 'PARENT';
+
+  if (!isEligibleClaimant) {
+    return itemData;
+  }
+
+  // Guard: only remap spouse relationships
+  const shouldTransform = recipientRelationship === 'SPOUSE';
+  if (!shouldTransform) {
+    return itemData;
+  }
+
+  // Using a straight apostrophe (') instead of a typographic apostrophe (’)
+  // to avoid downstream PDF encoding issues where U+2019 is rendered as '?'.
+  const label =
+    claimantType === 'CUSTODIAN' ? "Custodian's spouse" : "Parent's spouse";
+
+  return {
+    ...itemData,
+    recipientRelationship: 'OTHER',
+    otherRecipientRelationshipType: label,
+  };
+}
+
+/**
+ * Remap recipientRelationship fields across all array-based chapters
+ * of the 0969 form (except the `files` array).
+ *
+ * This function iterates over every key in form data. For any key whose
+ * value is a non-empty array, each item in the array is inspected:
+ *
+ * - If an item contains a `recipientRelationship` field, it will be passed
+ *   to `remapRecipientRelationshipFields` along with the form's claimantType.
+ *
+ * - Items that do not contain `recipientRelationship` are left untouched.
+ *
+ * - The `files` array is explicitly ignored and never modified.
+ *
+ * This is intended to support claimant types such as "CUSTODIAN" or "PARENT",
+ * where "SPOUSE" must be converted into:
+ *   - recipientRelationship: "OTHER"
+ *   - otherRecipientRelationshipType: "<Custodian’s|Parent’s> spouse"
+ *
+ * @param {Object} formData - The full form data object before submission.
+ * @param {string} formData.claimantType - The claimant type used to determine remapping rules.
+ * @returns {Object} A shallow clone of formData with adjusted array sections where applicable.
+ */
+export function remapRecipientRelationshipsInArrays(formData) {
+  const { claimantType } = formData;
+  const result = { ...formData };
+
+  Object.entries(formData).forEach(([key, value]) => {
+    if (key === 'files') return; // skip file uploads entirely
+
+    if (Array.isArray(value) && value.length > 0) {
+      result[key] = value.map(
+        item =>
+          item && item.recipientRelationship
+            ? remapRecipientRelationshipFields(claimantType, item)
+            : item,
+      );
+    }
+  });
+
+  return result;
+}
+
+/**
+ * Remap the incomeType field of a discontinued income object
+ * to its human-readable label for submission.
+ *
+ * Special case:
+ * - If `incomeType` is "OTHER", the value will be replaced with
+ *   the value of the `view:otherIncomeType` field instead of the default label.
+ *
+ * This is intended to be used as an iterator inside transform logic, e.g.:
+ *   form.data.discontinuedIncomes.map(remapIncomeTypeFields)
+ *
+ * @param {Object} itemData - A single discontinued income object
+ * @param {string} itemData.incomeType - The raw income type key
+ * @param {string} [itemData['view:otherIncomeType'] - Required description if incomeType is OTHER
+ * @returns {Object} A new object with incomeType replaced by its label or 'view:otherIncomeType'
+ */
+export function remapIncomeTypeFields(itemData = {}) {
+  const { incomeType } = itemData;
+  const otherValue = itemData['view:otherIncomeType'];
+
+  let mappedIncomeType;
+
+  if (incomeType === 'OTHER' && otherValue) {
+    mappedIncomeType = otherValue;
+  } else {
+    mappedIncomeType = discontinuedIncomeTypeLabels[incomeType] ?? incomeType;
+  }
+
+  return {
+    ...itemData,
+    incomeType: mappedIncomeType,
+  };
+}
+
+/**
  * Remove fields that are not allowed to be submitted from form data object.
  * @param {Object} data - The form data object where fields may be removed.
  * @param {Array} disallowedFields -  The array of disallowed fields.
@@ -205,6 +332,11 @@ export function replacer(key, value) {
     }
     // If it's already a string, return it as is
     return value;
+  }
+
+  // Normalize claimant phone number if it exists (removes dashes)
+  if (key === 'claimantPhone' && typeof value === 'string' && value !== null) {
+    return value.replace(REGEXP.NON_DIGIT, '');
   }
 
   return value;

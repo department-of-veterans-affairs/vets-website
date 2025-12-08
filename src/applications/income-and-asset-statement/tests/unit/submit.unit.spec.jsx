@@ -6,6 +6,11 @@ import * as SubmitHelpers from '../../config/submit-helpers';
 
 describe('Income and asset submit', () => {
   describe('submit', () => {
+    const mockFormConfig = {
+      formId: '21P-0969',
+      trackingPrefix: '21p-0969',
+    };
+
     beforeEach(() => {
       window.VetsGov = { pollTimeout: 1 };
       window.URL = {
@@ -19,7 +24,7 @@ describe('Income and asset submit', () => {
         data: {},
       };
 
-      return SubmitModule.submit(form).then(
+      return SubmitModule.submit(form, mockFormConfig).then(
         () => {
           expect.fail();
         },
@@ -99,10 +104,7 @@ describe('Income and asset submit', () => {
       const prepared = SubmitModule.prepareFormData(inputForm.data);
 
       // Expected behavior of serializePreparedFormData
-      const serialized = SubmitModule.serializePreparedFormData(
-        prepared,
-        SubmitModule.replacer,
-      );
+      const serialized = SubmitModule.serializePreparedFormData(prepared);
 
       const wrappedOutput = SubmitModule.transform(inputForm);
       const parsed = JSON.parse(wrappedOutput);
@@ -133,7 +135,6 @@ describe('Income and asset submit', () => {
       const expectedPrepared = SubmitModule.prepareFormData(form.data);
       const expectedSerialized = SubmitModule.serializePreparedFormData(
         expectedPrepared,
-        SubmitModule.replacer,
       );
 
       expect(parsed.incomeAndAssetsClaim.form).to.equal(expectedSerialized);
