@@ -245,7 +245,7 @@ export default {
       endDate: '2025-06-06',
       endOutsideUS: true,
       endCity: 'Test',
-      endProvince: 'Prox',
+      endProvince: 'Prov',
       endCountry: 'AGO',
       endState: 'AL',
       firstName: 'FRANK',
@@ -402,7 +402,7 @@ export default {
     date: '2025-01-01',
     divorceLocation: {
       outsideUsa: true,
-      location: { city: 'Test', country: 'AGO' },
+      location: { city: 'Test', state: 'Prov', country: 'AGO' },
     },
     reasonMarriageEnded: 'Annulment',
     explanationOfOther: 'Test description',
@@ -421,7 +421,7 @@ export default {
       dependentDeathDate: '2025-01-01',
       dependentDeathLocation: {
         outsideUsa: true,
-        location: { city: 'Test', country: 'AGO' },
+        location: { city: 'Test', state: 'Prov', country: 'AGO' },
       },
       deceasedDependentIncome: 'N',
     },
@@ -433,7 +433,7 @@ export default {
       dependentDeathDate: '2025-06-06',
       dependentDeathLocation: {
         outsideUsa: true,
-        location: { city: 'Test', country: 'AGO' },
+        location: { city: 'Test', state: 'Prov', country: 'AGO' },
       },
       deceasedDependentIncome: 'N',
       childStatus: {

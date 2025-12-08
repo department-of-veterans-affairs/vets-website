@@ -823,6 +823,7 @@ describe('transformPicklistToV2', () => {
           endDate: '2020-01-01',
           endOutsideUS: true,
           endCity: 'Paris',
+          endProvince: 'Test',
           endCountry: 'FRA',
         },
       ],
@@ -837,6 +838,7 @@ describe('transformPicklistToV2', () => {
       outsideUsa: true,
       location: {
         city: 'Paris',
+        state: 'Test',
         country: 'FRA',
       },
     });
@@ -872,6 +874,7 @@ describe('transformPicklistToV2', () => {
         outsideUsa: true,
         location: {
           city: 'London',
+          state: '',
           country: 'GBR',
         },
       },

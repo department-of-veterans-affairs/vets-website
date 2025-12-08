@@ -382,6 +382,8 @@ function buildLocation(item) {
       outsideUsa: true,
       location: {
         city: item.endCity || '',
+        // Copying addressUI pattern, were 'state' is submitted for province
+        state: item.endProvince || '',
         country: item.endCountry || '',
       },
     };
