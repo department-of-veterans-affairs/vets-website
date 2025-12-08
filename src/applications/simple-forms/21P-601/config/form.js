@@ -68,7 +68,7 @@ const formConfig = {
   },
   title: 'Apply for accrued benefits online',
   subTitle:
-    'Primarily for executors or administrators of VA beneficiaries’ estates (VA Form 21P-601)',
+    'Primarily for anyone applying for accrued benefits only, to include executors or administrators of VA beneficiaries’ estates (VA Form 21P-601)',
   customText: {
     appType: 'form',
   },
@@ -102,9 +102,6 @@ const formConfig = {
           uiSchema: eligibilitySummary.uiSchema,
           schema: eligibilitySummary.schema,
           scrollAndFocusTarget: 'h3',
-          // This page should be the end - no continue button
-          hideNavButtons: true,
-          customNavButtons: () => null,
         },
         personalInformation: {
           path: 'personal-information',
@@ -126,9 +123,6 @@ const formConfig = {
     },
     veteranInformationChapter: {
       title: 'Veteran information',
-      depends: formData =>
-        formData?.hasAlreadyFiled === false &&
-        formData?.hasUnpaidCreditors === false,
       pages: {
         veteranFullName: {
           path: 'veteran-name',
@@ -148,9 +142,6 @@ const formConfig = {
     },
     deceasedBeneficiaryChapter: {
       title: 'Beneficiary information',
-      depends: formData =>
-        formData?.hasAlreadyFiled === false &&
-        formData?.hasUnpaidCreditors === false,
       pages: {
         beneficiaryIsVeteran: {
           path: 'beneficiary-is-veteran',
@@ -178,9 +169,6 @@ const formConfig = {
     },
     yourInformationChapter: {
       title: 'Your information',
-      depends: formData =>
-        formData?.hasAlreadyFiled === false &&
-        formData?.hasUnpaidCreditors === false,
       pages: {
         claimantNameAndDob: {
           path: 'your-name-and-date-of-birth',
@@ -228,9 +216,6 @@ const formConfig = {
     },
     survivingRelativesChapter: {
       title: 'Surviving relatives',
-      depends: formData =>
-        formData?.hasAlreadyFiled === false &&
-        formData?.hasUnpaidCreditors === false,
       pages: {
         relativesOverview: {
           path: 'surviving-relatives',
@@ -255,9 +240,6 @@ const formConfig = {
     },
     expensesAndDebtsChapter: {
       title: 'Expenses and debts',
-      depends: formData =>
-        formData?.hasAlreadyFiled === false &&
-        formData?.hasUnpaidCreditors === false,
       pages: {
         expensesClaim: {
           path: 'reimbursement-claim',
@@ -280,9 +262,6 @@ const formConfig = {
     },
     additionalInfoChapter: {
       title: 'Additional remarks',
-      depends: formData =>
-        formData?.hasAlreadyFiled === false &&
-        formData?.hasUnpaidCreditors === false,
       pages: {
         supportingDocuments: {
           title: 'Supporting documents',
