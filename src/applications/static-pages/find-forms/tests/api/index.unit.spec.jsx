@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { allFormsRetired, checkFormValidity } from '../../api';
-import * as sentryLogger from '../../helpers/sentryLogger';
+import * as hooks from '../../hooks/useFindFormsBrowserMonitoring';
 
 describe('find forms API methods', () => {
   const sandbox = sinon.createSandbox();
@@ -87,7 +87,7 @@ describe('find forms API methods', () => {
 
     it('should return the proper form validity markers when given a valid form but the fetch call fails', async () => {
       sandbox.stub(global, 'fetch').rejects(new Response('error'));
-      const sentryStub = sandbox.stub(sentryLogger, 'sentryLogger');
+      const datadogStub = sandbox.stub(hooks, 'datadogLogger');
 
       const form = {
         attributes: {
@@ -106,11 +106,10 @@ describe('find forms API methods', () => {
         networkRequestError: true,
       });
 
-      expect(sentryStub.called).to.be.true;
+      expect(datadogStub.called).to.be.true;
       expect(
-        sentryStub.calledWith(
+        datadogStub.calledWith(
           form,
-          form.attributes.formName,
           form.attributes.url,
           'Find Forms - Form Detail - onDownloadLinkClick function error',
         ),
