@@ -202,7 +202,6 @@ export const PreSubmitCheckboxGroup = ({ showError, onSectionComplete }) => {
       <div aria-describedby="interment-allowance-declaration">
         <VaStatementOfTruth
           name="stateOrTribalOfficial"
-          heading="Statement of truth"
           inputLabel="Your full name"
           inputValue={fullName}
           inputError={fullNameError}
