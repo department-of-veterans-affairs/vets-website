@@ -114,12 +114,12 @@ const Mileage = () => {
           }),
         );
       } catch (error) {
-        // Set error alert in Redux
+        // Set error alert
+        const verb = isEditMode ? 'edit' : 'add';
         dispatch(
           setReviewPageAlert({
-            title: 'We couldn’t add this expense right now',
-            description:
-              'We’re sorry. We can’t add this expense to your claim. Try again later.',
+            title: `We couldn’t ${verb} this expense right now`,
+            description: `We’re sorry. We can’t ${verb} this expense to your claim. Try again later.`,
             type: 'error',
           }),
         );
