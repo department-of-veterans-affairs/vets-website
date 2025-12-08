@@ -7,6 +7,7 @@ import {
 } from '@department-of-veterans-affairs/mhv/exports';
 
 import AcceleratedCernerFacilityAlert from 'platform/mhv/components/CernerFacilityAlert/AcceleratedCernerFacilityAlert';
+import { CernerAlertContent } from 'platform/mhv/components/CernerFacilityAlert/constants';
 import RecordList from '../components/RecordList/RecordList';
 import { getConditionsList, reloadRecords } from '../actions/conditions';
 import {
@@ -15,7 +16,6 @@ import {
   ALERT_TYPE_ERROR,
   accessAlertTypes,
   refreshExtractTypes,
-  CernerAlertContent,
   statsdFrontEndActions,
   loadStates,
 } from '../util/constants';

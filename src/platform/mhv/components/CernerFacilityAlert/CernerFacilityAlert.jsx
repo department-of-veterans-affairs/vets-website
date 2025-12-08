@@ -48,7 +48,7 @@ const CernerFacilityAlert = ({
   // Optional callback for when user clicks the link (e.g., for AAL tracking in secure messaging)
   onLinkClick,
   // Optional text customization props for different contexts
-  headlineAction = 'To get your medical records reports from', // e.g. 'send a secure message to a provider at'
+  headline, // e.g. 'To get your medical records reports from' or 'To send a secure message to a provider at'
   bodyIntro, // Optional custom intro text (overrides default "Some of your {domain} may be in a different portal.")
   bodyActionSingle, // Optional custom action text for single facility (overrides default "To get your {pageName} from")
   bodyActionMultiple, // Optional custom action text for multiple facilities (overrides default "To get your {pageName} from these facilities")
@@ -98,7 +98,7 @@ const CernerFacilityAlert = ({
   const isOneFacility = cernerFacilitiesNames.length === 1;
 
   // Generate default headline
-  const defaultHeadline = `${headlineAction} ${
+  const defaultHeadline = `${headline} ${
     isMultipleFacilities ? ' these facilities' : ' this facility'
   }, go to My VA Health`;
 
@@ -106,9 +106,9 @@ const CernerFacilityAlert = ({
   const defaultBodyIntro = `Some of your ${domain} may be in a different portal.`;
 
   // Generate default action text
-  const defaultBodyActionSingle = bodyActionSingle || `${headlineAction} from`;
+  const defaultBodyActionSingle = bodyActionSingle || `${headline} from`;
   const defaultBodyActionMultiple =
-    bodyActionMultiple || `${headlineAction} from these facilities`;
+    bodyActionMultiple || `${headline} from these facilities`;
 
   return (
     <va-alert
@@ -171,9 +171,9 @@ CernerFacilityAlert.propTypes = {
   bodyActionSingle: PropTypes.string,
   bodyIntro: PropTypes.string,
   className: PropTypes.string,
-  domain: PropTypes.string,
-  headlineAction: PropTypes.string,
-  linkPath: PropTypes.string,
+  domain: PropTypes.string.isRequired,
+  headline: PropTypes.string.isRequired,
+  linkPath: PropTypes.string.isRequired,
   onLinkClick: PropTypes.func,
 };
 

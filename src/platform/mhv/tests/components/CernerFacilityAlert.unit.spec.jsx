@@ -179,7 +179,7 @@ describe('CernerFacilityAlert', () => {
       const screen = setup(stateWithFacility, {
         linkPath: '/custom/path',
         domain: 'tests',
-        headlineAction: 'To manage test page from',
+        headline: 'To manage test page from',
         bodyIntro: 'Custom intro text.',
         bodyActionSingle: 'Custom single action',
       });

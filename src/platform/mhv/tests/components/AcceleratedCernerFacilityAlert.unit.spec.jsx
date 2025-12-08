@@ -13,6 +13,8 @@ describe('AcceleratedCernerFacilityAlert', () => {
     isAcceleratingVaccines = false,
     isAcceleratingCareNotes = false,
     isAcceleratingConditions = false,
+    isAcceleratingMedications = false,
+    isAcceleratingSecureMessaging = false,
     isAcceleratingLabs = false,
   }) => ({
     /* eslint-disable camelcase */
@@ -23,6 +25,8 @@ describe('AcceleratedCernerFacilityAlert', () => {
     mhv_accelerated_delivery_care_summaries_and_notes_enabled: isAcceleratingCareNotes,
     mhv_accelerated_delivery_conditions_enabled: isAcceleratingConditions,
     mhv_accelerated_delivery_labs_and_tests_enabled: isAcceleratingLabs,
+    mhv_medications_cerner_pilot: isAcceleratingMedications,
+    mhv_secure_messaging_cerner_pilot: isAcceleratingSecureMessaging,
     /* eslint-enable camelcase */
   });
 
@@ -44,6 +48,8 @@ describe('AcceleratedCernerFacilityAlert', () => {
     acceleratingCareNotes = true,
     acceleratingConditions = true,
     acceleratingLabs = true,
+    acceleratingMedications = true,
+    acceleratingSecureMessaging = true,
     userFacilities,
   }) => ({
     ...initialState,
@@ -56,6 +62,8 @@ describe('AcceleratedCernerFacilityAlert', () => {
       mhv_accelerated_delivery_care_notes_enabled: acceleratingCareNotes,
       mhv_accelerated_delivery_conditions_enabled: acceleratingConditions,
       mhv_accelerated_delivery_labs_and_tests_enabled: acceleratingLabs,
+      mhv_medications_cerner_pilot: acceleratingMedications,
+      mhv_secure_messaging_cerner_pilot: acceleratingSecureMessaging,
       /* eslint-enable camelcase */
     },
     user: {

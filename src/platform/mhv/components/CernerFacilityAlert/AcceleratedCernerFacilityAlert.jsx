@@ -19,8 +19,7 @@ import { CernerAlertContent } from './constants';
  * import { CernerAlertContent } from 'platform/mhv/components/CernerFacilityAlert/constants';
  *
  * <AcceleratedCernerFacilityAlert
- *   pageName="inbox"
- *   {...CernerAlertContent.SECURE_MESSAGING}
+ *   {...CernerAlertContent.MEDICAL_RECORDS}
  * />
  *
  * // Custom implementation:
