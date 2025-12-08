@@ -4,7 +4,12 @@ import YellowRibbonProgramTitle from '../components/YellowRibbonProgramTitle';
 import { getAcademicYearDisplay, matchYearPattern } from '../helpers';
 
 const uiSchema = {
-  'ui:title': () => <YellowRibbonProgramTitle text="Provide your" />,
+  'ui:title': () => (
+    <YellowRibbonProgramTitle
+      eligibilityChapter
+      text="Provide academic year this agreement will apply to"
+    />
+  ),
   'ui:description': () => (
     <p>
       <va-link
