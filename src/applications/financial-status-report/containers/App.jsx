@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import MetaTags from 'react-meta-tags';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { connect, useDispatch } from 'react-redux';
 import { selectProfile } from 'platform/user/selectors';
@@ -9,6 +8,11 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 
 import { setData } from 'platform/forms-system/src/js/actions';
+
+import {
+  fetchDebts,
+  fetchCopays,
+} from '~/applications/personalization/dashboard/actions/debts';
 
 import formConfig from '../config/form';
 import { fetchFormStatus } from '../actions';
@@ -35,6 +39,8 @@ const App = ({
   setFormData,
   showFSR,
   showReviewPageNavigationFeature,
+  getDebts,
+  getCopays,
 }) => {
   const dispatch = useDispatch();
   const { shouldShowReviewButton } = useDetectFieldChanges(formData);
@@ -105,6 +111,8 @@ const App = ({
   useEffect(
     () => {
       getFormStatus();
+      getDebts();
+      getCopays();
     },
     [getFormStatus],
   );
@@ -131,44 +139,25 @@ const App = ({
     ],
   );
 
-  if (pending) {
-    return (
-      <va-loading-indicator
-        label="Loading"
-        message="Loading your information..."
-        set-focus
-      />
-    );
-  }
-
-  if (isLoadingFeatures) {
-    return (
-      <va-loading-indicator
-        label="Loading"
-        message="Loading features..."
-        set-focus
-      />
-    );
-  }
-
-  if (isLoggedIn && isError) {
-    return <ErrorAlert />;
-  }
-
-  return showFSR ? (
-    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-      <MetaTags>
-        {/* TODO: used to prevent staging form being indexed remove once merged to prod */}
-        <meta name="robots" content="noindex" />
-        <meta
-          name="keywords"
-          content="repay debt, debt, debt letters, FSR, financial status report, debt forgiveness, compromise, waiver, monthly offsets, education loans repayment"
+  return (
+    <div>
+      {(pending || isLoadingFeatures) && (
+        <va-loading-indicator
+          label="Loading"
+          message={
+            pending ? 'Loading your information...' : 'Loading features...'
+          }
+          set-focus
         />
-      </MetaTags>
-
-      {children}
-    </RoutedSavableApp>
-  ) : null;
+      )}
+      {isLoggedIn && isError && <ErrorAlert />}
+      {showFSR && (
+        <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+          {children}
+        </RoutedSavableApp>
+      )}
+    </div>
+  );
 };
 
 App.propTypes = {
@@ -204,6 +193,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   getFormStatus: () => dispatch(fetchFormStatus()),
+  getDebts: () => dispatch(fetchDebts()),
+  getCopays: () => dispatch(fetchCopays()),
   setFormData: data => dispatch(setData(data)),
 });
 
