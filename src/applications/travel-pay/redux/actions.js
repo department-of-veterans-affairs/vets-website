@@ -244,6 +244,7 @@ export function submitComplexClaim(claimId, claimData) {
       dispatch(submitComplexClaimSuccess(response));
     } catch (error) {
       dispatch(submitComplexClaimFailure(error));
+      throw error;
     }
   };
 }
