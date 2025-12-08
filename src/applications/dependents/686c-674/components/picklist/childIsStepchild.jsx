@@ -12,11 +12,18 @@ import propTypes from './types';
 
 const childIsStepchild = {
   handlers: {
-    // Return "DONE" when we're done with this flow
+    /**
+     * @type {GoForwardParams}
+     * Return "DONE" when we're done with this flow
+     * @returns {string} Next page key
+     */
     goForward: (/* { itemData, index, fullData } */) =>
       'child-reason-to-remove',
 
-    /** @type {OnSubmitParams} */
+    /**
+     * @type {OnSubmitParams}
+     * @returns {void}
+     */
     onSubmit: ({ itemData, goForward }) => {
       // event.preventDefault(); // executed before this function is called
       if (!itemData.isStepchild) {
@@ -27,7 +34,10 @@ const childIsStepchild = {
     },
   },
 
-  /** @type {PicklistComponentProps} */
+  /**
+   * @type {PicklistComponentProps}
+   * @returns {React.ReactElement} Page component
+   */
   Component: ({ itemData, fullName, handlers, formSubmitted, isEditing }) => {
     const onChange = event => {
       const { field, value } = getValue(event);
