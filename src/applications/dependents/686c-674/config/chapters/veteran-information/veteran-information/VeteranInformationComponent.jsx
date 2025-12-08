@@ -15,6 +15,15 @@ import {
 import { parseDateToDateObj } from '../../../utilities';
 import { maskID } from '../../../../../shared/utils';
 
+/**
+ * @typedef {object} FormDataProps
+ * @property {object} veteranInformation - Veteran information object
+ * @property {string} veteranInformation.ssnLastFour - Last four digits of SSN
+ * @property {string} veteranInformation.vaFileLastFour - Last four digits of VA file number
+ *
+ * @param {FormDataProps} props - form data
+ * @returns {React.ReactElement} Veteran information component
+ */
 export const VeteranInformation = ({ formData }) => {
   const { ssnLastFour } = formData?.veteranInformation || {};
   const { dob, userFullName = {} } = useSelector(selectProfile);

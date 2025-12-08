@@ -3,7 +3,6 @@ import sinon from 'sinon';
 
 import {
   customFormReplacer,
-  validateName,
   spouseEvidence,
   childEvidence,
   buildSubmissionData,
@@ -43,16 +42,6 @@ describe('Utilities', () => {
     expect(customFormReplacer('phoneNumber', '123-456-7890 blah')).to.be.eq(
       '1234567890',
     );
-  });
-});
-
-describe('validateName', () => {
-  it('should validate the name', () => {
-    const response1 = validateName(
-      { first: false, last: false },
-      { first: 'Bob', last: 'Last' },
-    );
-    expect(response1).to.be.undefined;
   });
 });
 
@@ -1312,6 +1301,12 @@ describe('transformPicklistToV2', () => {
     expect(result[dataOptions]).to.deep.equal(v3Result[dataOptions]);
     expect(result['view:selectable686Options']).to.deep.equal(
       v3Result['view:selectable686Options'],
+    );
+    expect(result['view:addDependentOptions']).to.deep.equal(
+      v3Result['view:addDependentOptions'],
+    );
+    expect(result['view:removeDependentOptions']).to.deep.equal(
+      v3Result['view:removeDependentOptions'],
     );
   });
 });
