@@ -9,13 +9,10 @@ import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 
 import { setData } from 'platform/forms-system/src/js/actions';
 
-import {
-  fetchDebts,
-  fetchCopays,
-} from '~/applications/personalization/dashboard/actions/debts';
+import { fetchDebts, fetchFormStatus } from '../actions/index';
+import { getStatements } from '../actions/copays';
 
 import formConfig from '../config/form';
-import { fetchFormStatus } from '../actions';
 import { ErrorAlert } from '../components/alerts/Alerts';
 import {
   fsrFeatureToggle,
@@ -201,7 +198,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   getFormStatus: () => dispatch(fetchFormStatus()),
   getDebts: () => dispatch(fetchDebts()),
-  getCopays: () => dispatch(fetchCopays()),
+  getCopays: () => dispatch(getStatements()),
   setFormData: data => dispatch(setData(data)),
 });
 
