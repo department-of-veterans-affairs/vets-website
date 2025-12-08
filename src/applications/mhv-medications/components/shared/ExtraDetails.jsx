@@ -35,8 +35,8 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
             <va-icon icon="warning" size={4} aria-hidden="true" />
             <div className="vads-u-padding-left--2" data-testid="unknown-rx">
               <p className="vads-u-margin-y--0">
-                We’re sorry. There’s a problem with our system. You can’t
-                prescription online right now.
+                We’re sorry. There’s a problem with our system. You can’t manage
+                this prescription online right now.
               </p>
               <p className="vads-u-margin-y--0">
                 Call your VA pharmacy
@@ -129,8 +129,8 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
               fallbackContent={
                 <>
                   <p className="vads-u-margin-y--0" data-testid="expired">
-                    You can’t refill this prescription. Contact your VA provider
-                    if you need more of this medication.
+                    This prescription is too old to refill. If you need more,
+                    request a renewal.
                   </p>
                   <va-link
                     href="/resources/how-to-renew-a-va-prescription"
@@ -151,8 +151,8 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
         return (
           <div>
             <p className="vads-u-margin-y--0" data-testid="discontinued">
-              You can’t refill this prescription. Contact your VA provider if
-              you need more of this medication.
+              You can’t refill this prescription. If you need more, send a
+              message to your care team.
             </p>
             <va-link
               href={`${
