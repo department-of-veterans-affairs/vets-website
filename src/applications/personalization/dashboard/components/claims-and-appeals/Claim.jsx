@@ -45,7 +45,10 @@ const Claim = ({ claim }) => {
   const content = (
     <>
       <h3 className="vads-u-margin-top--0">
-        {capitalizeFirstLetter(getClaimType(claim))} claim received {dateRecd}
+        {/* Remove fallback when cst_use_claim_title_generator_web flag is removed */}
+        {claim.attributes.displayTitle ||
+          `${capitalizeFirstLetter(getClaimType(claim))} claim`}{' '}
+        received {dateRecd}
       </h3>
       <div className="vads-u-display--flex">
         <va-icon
