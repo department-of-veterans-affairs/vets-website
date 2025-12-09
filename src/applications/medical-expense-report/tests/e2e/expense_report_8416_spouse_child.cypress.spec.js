@@ -4,12 +4,6 @@ describe('Spouse or Child of Veteran medical expenses path', () => {
   before(() => {
     utils.startApplicationWithoutLogin();
   });
-  Cypress.config({
-    defaultCommandTimeout: 20000,
-    requestTimeout: 20000,
-    taskTimeout: 30000,
-    waitForAnimations: true,
-  });
 
   it('tests Veteran Spouse reporting medical expenses path', () => {
     cy.selectRadio('root_claimantNotVeteran', 'N');

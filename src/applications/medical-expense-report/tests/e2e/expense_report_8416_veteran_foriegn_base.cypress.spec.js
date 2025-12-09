@@ -5,13 +5,6 @@ describe('Veteran reporting medical expenses path on foreign base', () => {
     utils.startApplicationWithoutLogin();
   });
 
-  Cypress.config({
-    defaultCommandTimeout: 20000,
-    requestTimeout: 20000,
-    taskTimeout: 30000,
-    waitForAnimations: true,
-  });
-
   it('tests Veteran reporting medical expenses path', () => {
     cy.selectRadio('root_claimantNotVeteran', 'N');
     utils.checkAxeAndClickContinueButton();

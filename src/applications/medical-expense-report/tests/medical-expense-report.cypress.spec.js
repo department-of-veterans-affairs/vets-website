@@ -19,7 +19,13 @@ const testConfig = createTestConfig(
         });
       },
     },
-
+    setup: () => {
+      Cypress.config({
+        defaultCommandTimeout: 10000,
+        includeShadowDom: true,
+        waitForAnimations: true,
+      });
+    },
     setupPerTest: () => {
       cy.intercept('GET', '/v0/user', mockUser);
       cy.intercept('POST', formConfig.submitUrl, { status: 200 });
