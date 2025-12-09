@@ -130,6 +130,9 @@ jobs:
   fetch-allow-lists:
     name: Fetch Test Stability Allow Lists
     runs-on: ubuntu-22.04
+    permissions:
+      id-token: write
+      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
@@ -680,6 +683,9 @@ jobs:
   testing-reports-prep:
     name: Testing Reports Prep
     runs-on: ubuntu-22.04
+    permissions:
+      id-token: write
+      contents: read
     continue-on-error: true
     outputs:
       app_list: ${{ env.APPLICATION_LIST }}
@@ -1024,7 +1030,7 @@ jobs:
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
         with:
           fetch-depth: 0
-          ref: node-22-bug-bash-testing
+          ref: node-22-merge-conflicts
 
       - name: Get Node version
         id: get-node-version
