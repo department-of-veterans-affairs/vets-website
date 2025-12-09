@@ -38,7 +38,6 @@ describe('SM CURATED LIST MAIN FLOW WITH RECENT RECIPIENTS', () => {
     PatientInboxPage.clickCreateNewMessage();
     cy.wait('@recentRecipients');
     PatientInterstitialPage.getStartMessageLink().click();
-    cy.wait('@recentRecipients');
     GeneralFunctionsPage.verifyPageHeader(Data.RECENT_RECIPIENTS_HEADER);
     GeneralFunctionsPage.verifyPageTitle(
       'Recently Messaged Care Teams - Start Message | Veterans Affairs',
