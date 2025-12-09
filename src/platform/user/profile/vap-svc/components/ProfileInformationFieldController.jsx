@@ -27,6 +27,7 @@ import {
   selectEditViewData,
   selectMostRecentlyUpdatedField,
   selectVAProfilePersonalInformation,
+  selectVAProfileSchedulingPreferences,
 } from '../selectors';
 
 import { isFieldEmpty } from '../util';
@@ -718,7 +719,8 @@ export const mapStateToProps = (state, ownProps) => {
   );
   const data =
     selectVAPContactInfoField(state, fieldName) ||
-    selectVAProfilePersonalInformation(state, fieldName);
+    selectVAProfilePersonalInformation(state, fieldName) ||
+    selectVAProfileSchedulingPreferences(state, fieldName);
 
   const isEmpty = isFieldEmpty(data, fieldName);
   const addressValidationType = selectAddressValidationType(state);

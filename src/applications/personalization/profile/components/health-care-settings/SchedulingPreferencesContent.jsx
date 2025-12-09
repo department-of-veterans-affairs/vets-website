@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FIELD_IDS, FIELD_NAMES, FIELD_TITLES } from '@@vap-svc/constants';
 import ProfileInformationFieldController from '@@vap-svc/components/ProfileInformationFieldController';
-import { connect } from 'react-redux';
 import { ProfileInfoSection } from '../ProfileInfoSection';
 import LoadFail from '../alerts/LoadFail';
 
@@ -112,19 +111,4 @@ SchedulingPreferencesContent.propTypes = {
   hasSchedulingPreferencesError: PropTypes.bool.isRequired,
 };
 
-const mapStateToProps = state => ({
-  preferredContactMethod:
-    state.vaProfile?.schedulingPreferences?.preferredContactMethod,
-  preferredContactTimes:
-    state.vaProfile?.schedulingPreferences?.preferredContactTimes,
-  needsHelpSchedulingAppointments:
-    state.vaProfile?.schedulingPreferences?.needsHelpSchedulingAppointments,
-  preferredAppointmentTimes:
-    state.vaProfile?.schedulingPreferences?.preferredAppointmentTimes,
-  preferredProviderGender:
-    state.vaProfile?.schedulingPreferences?.preferredProviderGender,
-  needsHelpChoosingProvider:
-    state.vaProfile?.schedulingPreferences?.needsHelpChoosingProvider,
-});
-
-export default connect(mapStateToProps)(SchedulingPreferencesContent);
+export default SchedulingPreferencesContent;

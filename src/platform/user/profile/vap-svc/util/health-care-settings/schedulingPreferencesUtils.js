@@ -7,6 +7,7 @@ import { FIELD_NAMES, FIELD_TITLES } from '../../constants';
 import {
   FIELD_ITEM_IDS,
   FIELD_OPTION_IDS,
+  FIELD_OPTION_IDS_INVERTED,
 } from '../../constants/schedulingPreferencesConstants';
 
 // Simple fields that can edit inline (single-select radio buttons)
@@ -38,20 +39,22 @@ export const isSubtaskSchedulingPreference = fieldName => {
   return SUBTASK_SCHEDULING_PREFERENCES.includes(fieldName);
 };
 
-const schedulingPreferenceOptions = fieldname => {
-  if (fieldname === FIELD_NAMES.SCHEDULING_PREF_PROVIDER_GENDER) {
-    return {
-      male: 'Male',
-      female: 'Female',
-      noPreference: 'No preference',
-    };
+const schedulingPreferenceOptions = fieldName => {
+  if (fieldName === FIELD_NAMES.SCHEDULING_PREF_PROVIDER_GENDER) {
+    return FIELD_OPTION_IDS_INVERTED[
+      FIELD_NAMES.SCHEDULING_PREF_PROVIDER_GENDER
+    ];
+  }
+  if (fieldName === FIELD_NAMES.SCHEDULING_PREF_HELP_CHOOSING) {
+    return FIELD_OPTION_IDS_INVERTED[FIELD_NAMES.SCHEDULING_PREF_HELP_CHOOSING];
+  }
+  if (fieldName === FIELD_NAMES.SCHEDULING_PREF_HELP_SCHEDULING) {
+    return FIELD_OPTION_IDS_INVERTED[
+      FIELD_NAMES.SCHEDULING_PREF_HELP_SCHEDULING
+    ];
   }
 
-  return {
-    yes: 'Yes',
-    no: 'No',
-    noPreference: 'No preference',
-  };
+  return {};
 };
 
 export const getSchedulingPreferenceInitialFormValues = (fieldname, data) => {
@@ -63,16 +66,11 @@ const getSchedulingPreferenceItemId = fieldName => {
   return FIELD_ITEM_IDS[fieldName];
 };
 
-const getSchedulingPreferencesOptionDisplayName = (fieldName, itemId) => {
-  const options = FIELD_OPTION_IDS[fieldName];
-  return Object.entries(options).find(([_key, value]) => value === itemId)?.[0];
-};
-
-const getSchedulingPreferencesOptionIds = (fieldName, values) => {
-  const optionIds = FIELD_OPTION_IDS[fieldName];
-  const selectedValues = Object.values(values);
-
-  return selectedValues.map(value => optionIds[value]);
+export const getSchedulingPreferencesOptionDisplayName = (
+  fieldName,
+  itemId,
+) => {
+  return FIELD_OPTION_IDS_INVERTED[fieldName]?.[itemId];
 };
 
 export const schedulingPreferencesUiSchema = fieldname => {
@@ -106,7 +104,9 @@ export const schedulingPreferencesConvertCleanDataToPayload = (
   fieldName,
 ) => {
   const itemId = getSchedulingPreferenceItemId(fieldName);
-  const optionIds = getSchedulingPreferencesOptionIds(fieldName, data);
+  const optionIds = Object.values(data);
+  // const optionIds = getSchedulingPreferencesOptionIds(fieldName, data);
+  // if we need more granular handling of option IDs, we can adjust this logic
 
   return { itemId, optionIds };
 };
@@ -119,11 +119,8 @@ export const convertSchedulingPreferencesToReduxFormat = items => {
       key => FIELD_ITEM_IDS[key] === item.itemId,
     );
     if (isInlineSchedulingPreference(fieldName)) {
-      formattedData[fieldName] =
-        getSchedulingPreferencesOptionDisplayName(
-          fieldName,
-          item.optionIds[0],
-        ) || '';
+      const [firstOptionId] = item.optionIds;
+      formattedData[fieldName] = firstOptionId;
     } else {
       formattedData[fieldName] = item.optionIds.length
         ? item.optionIds.map(optionId =>
