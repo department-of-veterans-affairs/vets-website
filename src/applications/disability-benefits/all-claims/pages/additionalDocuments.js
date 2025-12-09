@@ -24,10 +24,16 @@ export const uiSchema = {
       },
     ),
     'ui:description': UploadDescription,
-    'ui:confirmationField': ({ formData }) => ({
-      data: formData?.map(item => item.name || item.fileName),
-      label: 'Uploaded file(s)',
-    }),
+    'ui:confirmationField': ({ formData }) => {
+      const fileNames =
+        Array.isArray(formData) && formData.length > 0
+          ? formData.map(item => item.name || item.fileName)
+          : ['File name not available'];
+      return {
+        data: fileNames,
+        label: 'Uploaded file(s)',
+      };
+    },
   },
 };
 

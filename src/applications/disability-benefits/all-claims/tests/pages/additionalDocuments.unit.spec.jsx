@@ -189,5 +189,73 @@ describe('526EZ document upload', () => {
         label: 'Uploaded file(s)',
       });
     });
+
+    it('should display "File name not available" when formData is null', () => {
+      const result = uiSchema.additionalDocuments['ui:confirmationField']({
+        formData: null,
+      });
+
+      expect(result).to.deep.equal({
+        data: ['File name not available'],
+        label: 'Uploaded file(s)',
+      });
+    });
+
+    it('should display "File name not available" when formData is undefined', () => {
+      const result = uiSchema.additionalDocuments['ui:confirmationField']({
+        formData: undefined,
+      });
+
+      expect(result).to.deep.equal({
+        data: ['File name not available'],
+        label: 'Uploaded file(s)',
+      });
+    });
+
+    it('should display "File name not available" when formData is an empty array', () => {
+      const result = uiSchema.additionalDocuments['ui:confirmationField']({
+        formData: [],
+      });
+
+      expect(result).to.deep.equal({
+        data: ['File name not available'],
+        label: 'Uploaded file(s)',
+      });
+    });
+
+    it('should use fileName when name is not available', () => {
+      const result = uiSchema.additionalDocuments['ui:confirmationField']({
+        formData: [
+          {
+            fileName: 'BackupFile.pdf',
+            confirmationCode: 'testing',
+            attachmentId: 'L015',
+          },
+        ],
+      });
+
+      expect(result).to.deep.equal({
+        data: ['BackupFile.pdf'],
+        label: 'Uploaded file(s)',
+      });
+    });
+
+    it('should prefer name over fileName when both are available', () => {
+      const result = uiSchema.additionalDocuments['ui:confirmationField']({
+        formData: [
+          {
+            name: 'PreferredName.pdf',
+            fileName: 'BackupFile.pdf',
+            confirmationCode: 'testing',
+            attachmentId: 'L015',
+          },
+        ],
+      });
+
+      expect(result).to.deep.equal({
+        data: ['PreferredName.pdf'],
+        label: 'Uploaded file(s)',
+      });
+    });
   });
 });
