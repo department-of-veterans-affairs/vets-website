@@ -45,12 +45,19 @@ describe('formatFacilityUnorderedList', () => {
     expect(items[2].textContent).to.equal('VA Central Ohio health care');
   });
 
-  it('should wrap the list in a paragraph with correct class', () => {
-    const facilities = ['VA Western New York health care'];
+  it('should render two facilities in an unordered list', () => {
+    const facilities = [
+      'VA Western New York health care',
+      'VA Pacific Islands health care',
+    ];
     const { container } = render(formatFacilityUnorderedList(facilities));
 
-    const paragraph = container.querySelector('p');
-    expect(paragraph).to.exist;
-    expect(paragraph.className).to.equal('vads-u-margin--0');
+    const list = container.querySelector('ul');
+    const items = container.querySelectorAll('li');
+
+    expect(list).to.exist;
+    expect(items).to.have.lengthOf(2);
+    expect(items[0].textContent).to.equal('VA Western New York health care');
+    expect(items[1].textContent).to.equal('VA Pacific Islands health care');
   });
 });

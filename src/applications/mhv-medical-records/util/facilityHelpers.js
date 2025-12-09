@@ -15,12 +15,10 @@ import React from 'react';
 export const formatFacilityUnorderedList = facilities => {
   if (!facilities || facilities.length === 0) return '';
   return (
-    <p className="vads-u-margin--0">
-      <ul>
-        {facilities.map((facility, index) => (
-          <li key={index}>{facility}</li>
-        ))}
-      </ul>
-    </p>
+    <ul>
+      {facilities.map((facility, index) => (
+        <li key={index}>{facility}</li>
+      ))}
+    </ul>
   );
 };
