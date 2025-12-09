@@ -11,21 +11,21 @@ export default function ProcessList() {
         </p>
         <p>
           <a href="https://www.va.gov/education/apply-for-gi-bill-form-22-1990/introduction">
-            Application for VA Education Benefits Form 22-1990 (opens in a new
-            tab)
+            Apply for VA education benefits using Form 22-1990
           </a>
           , <strong>or</strong>{' '}
+        </p>
+        <p>
           <a href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/apply-for-dea-fry-form-22-5490/introduction">
-            Dependents’ Application for VA Education Benefits Form 22-5490
-            (opens in a new tab)
+            Apply for VA education benefits as a dependent using Form 22-5490
           </a>
           , <strong>or</strong>{' '}
+        </p>
+        <p>
           <a href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/transferred-gi-bill-benefits/apply-form-22-1990e/introduction">
-            Application for Family Member to Use Transferred Benefits Form
-            22-1990e (opens in a new tab)
+            Apply to use transferred education benefits using Form 22-1990e
           </a>
         </p>
-        <p>You must also have paid in full for the test.</p>
       </va-process-list-item>
       <va-process-list-item header="Gather your information">
         <h4>Here’s what you’ll need to fill out this form:</h4>
@@ -45,6 +45,7 @@ export default function ProcessList() {
           </li>
           <li>A receipt and a copy of your test results</li>
         </ul>
+        <p>You must also have paid in full receipt.</p>
       </va-process-list-item>
       <va-process-list-item header="Fill out the online form">
         <p>
