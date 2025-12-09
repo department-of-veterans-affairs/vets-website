@@ -56,35 +56,6 @@ const servicePeriodOptions = {
   },
 };
 
-// Intro page no longer needed due to service history being optional. Will keep in case that changes in the future.
-// const servicePeriodIntroPage = {
-//   uiSchema: {
-//     ...titleUI(
-//       `Veteran's ${servicePeriodOptions.nounPlural}`,
-//       <>
-//         <p>
-//           In the next few questions, we’ll ask about the deceased Veteran’s
-//           service periods. You must add at least one{' '}
-//           {servicePeriodOptions.nounSingular}.{' '}
-//         </p>
-//         <p>You will need to provide the following:</p>
-//         <ul>
-//           <li>Branch of service</li>
-//           <li>Service start and end dates</li>
-//           <li>Service entry and separation locations</li>
-//           <li>Grade, rank, or rating</li>
-//         </ul>
-//       </>,
-//     ),
-//   },
-//   schema: {
-//     type: 'object',
-//     properties: {
-//       titleSchema,
-//     },
-//   },
-// };
-
 // Service Branch Page
 const serviceBranchPage = {
   uiSchema: {
