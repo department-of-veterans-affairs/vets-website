@@ -104,8 +104,6 @@ const ConfirmationPage = () => {
           )}
           {!submitError && (
             <>
-              <ExpensesAccordion expenses={expenses} documents={documents} />
-
               <h2 className="vads-u-margin-top--2">
                 Print this confirmation page
               </h2>
@@ -120,10 +118,9 @@ const ConfirmationPage = () => {
                 class="vads-u-margin-bottom--2"
                 uswds
               />
+              <ExpensesAccordion expenses={expenses} documents={documents} />
             </>
           )}
-          <ExpensesAccordion expenses={expenses} documents={documents} />
-
           <h2 className="vads-u-margin-top--4">What happens next</h2>
           {submitError ? (
             <div>
