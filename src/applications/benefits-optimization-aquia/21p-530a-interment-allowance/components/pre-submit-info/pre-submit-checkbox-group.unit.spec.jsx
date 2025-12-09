@@ -82,7 +82,7 @@ describe('PreSubmitCheckboxGroup', () => {
 
       const statementOfTruth = container.querySelector('va-statement-of-truth');
       expect(statementOfTruth.getAttribute('checkbox-label')).to.equal(
-        'I certify that the Veteran named on this form was buried in a state-owned Veterans cemetery or tribal cemetery without charge.',
+        'I hereby certify that the veteran named in Item 1 was buried in a State-owned Veterans Cemetery or Tribal Cemetery (without charge).',
       );
     });
   });

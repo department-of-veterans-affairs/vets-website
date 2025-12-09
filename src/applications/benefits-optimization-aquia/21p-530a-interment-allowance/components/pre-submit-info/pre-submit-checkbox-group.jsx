@@ -180,7 +180,7 @@ export const PreSubmitCheckboxGroup = ({ showError, onSectionComplete }) => {
           inputValue={fullName}
           inputError={fullNameError}
           checked={isCertified}
-          checkboxLabel="I certify that the Veteran named on this form was buried in a state-owned Veterans cemetery or tribal cemetery without charge."
+          checkboxLabel="I hereby certify that the veteran named in Item 1 was buried in a State-owned Veterans Cemetery or Tribal Cemetery (without charge)."
           checkboxError={checkboxError}
           onVaInputBlur={handleFullNameBlur}
           onVaInputChange={handleFullNameChange}
