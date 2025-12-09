@@ -62,18 +62,6 @@ const ProcessList = () => {
   );
 };
 
-const customLink = ({ children, ...props }) => {
-  return (
-    <va-link-action
-      type="primary-entry"
-      text="Start your application"
-      {...props}
-    >
-      {children}
-    </va-link-action>
-  );
-};
-
 export const IntroductionPage = props => {
   const { route } = props;
   const { formConfig, pageList } = route;
@@ -102,7 +90,6 @@ export const IntroductionPage = props => {
         messages={formConfig.savedFormMessages}
         pageList={pageList}
         startText="Start the application"
-        customLink={customLink}
         devOnly={{
           forceShowFormControls: true,
         }}
