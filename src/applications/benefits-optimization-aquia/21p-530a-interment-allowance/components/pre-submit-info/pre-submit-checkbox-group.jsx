@@ -15,6 +15,7 @@ const FULL_NAME_MIN_LENGTH = 3;
  * Validates signature input
  * Requires at least 3 non-whitespace characters
  * Allows letters (including accented/international characters), spaces, hyphens, apostrophes, and periods
+ * Must contain at least one letter (rejects strings like "---" or "...")
  * Does not allow numbers or invalid special characters
  *
  * @param {string} signatureValue - The signature input value
@@ -30,7 +31,10 @@ export const isSignatureValid = signatureValue => {
   // \p{L} matches any Unicode letter including é, ñ, ü, etc.
   // This supports names like "José García", "Mary-Jane O'Connor Jr.", "François Müller"
   const namePattern = /^[\p{L}\s'.-]+$/u;
-  return namePattern.test(trimmed);
+  if (!namePattern.test(trimmed)) return false;
+
+  // Must contain at least one letter (prevents "---", "...", etc.)
+  return /\p{L}/u.test(trimmed);
 };
 
 /**
@@ -155,8 +159,7 @@ export const PreSubmitCheckboxGroup = ({ showError, onSectionComplete }) => {
   // Error messages (null if no error)
   let fullNameError = null;
   if (shouldShowFullNameError && !isFullNameValid) {
-    fullNameError =
-      'Please enter a valid name using only letters, spaces, hyphens, apostrophes, and periods (at least 3 characters)';
+    fullNameError = 'Enter your full name';
   }
 
   let titleErrorMsg = null;

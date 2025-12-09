@@ -224,7 +224,7 @@ describe('PreSubmitCheckboxGroup', () => {
 
       const statementOfTruth = container.querySelector('va-statement-of-truth');
       expect(statementOfTruth.getAttribute('input-error')).to.equal(
-        'Please enter a valid name using only letters, spaces, hyphens, apostrophes, and periods (at least 3 characters)',
+        'Enter your full name',
       );
       expect(statementOfTruth.getAttribute('checkbox-error')).to.equal(
         'You must certify this statement is correct',
@@ -289,6 +289,22 @@ describe('PreSubmitCheckboxGroup', () => {
       expect(isSignatureValid('Jane#Doe')).to.be.false;
       expect(isSignatureValid('Test$User')).to.be.false;
       expect(isSignatureValid('Name (Nickname)')).to.be.false;
+    });
+
+    it('should reject strings with only special characters (no letters)', () => {
+      expect(isSignatureValid('---')).to.be.false;
+      expect(isSignatureValid('...')).to.be.false;
+      expect(isSignatureValid('- - -')).to.be.false;
+      expect(isSignatureValid("''-''")).to.be.false;
+      expect(isSignatureValid('   ')).to.be.false;
+    });
+
+    it('should accept organization names from fixtures', () => {
+      // Names from maximal.json and minimal.json fixtures
+      expect(isSignatureValid('Rebel Alliance Veterans Foundation')).to.be.true;
+      expect(isSignatureValid('Imperial Memorial Services')).to.be.true;
+      expect(isSignatureValid('Ewok Tribal Nation')).to.be.true;
+      expect(isSignatureValid('New Mexico State Veterans Cemetery')).to.be.true;
     });
   });
 
@@ -359,7 +375,7 @@ describe('PreSubmitCheckboxGroup', () => {
 
       await waitFor(() => {
         expect(statementOfTruth.getAttribute('input-error')).to.equal(
-          'Please enter a valid name using only letters, spaces, hyphens, apostrophes, and periods (at least 3 characters)',
+          'Enter your full name',
         );
       });
     });
@@ -503,7 +519,7 @@ describe('PreSubmitCheckboxGroup', () => {
 
       const statementOfTruth = container.querySelector('va-statement-of-truth');
       expect(statementOfTruth.getAttribute('input-error')).to.equal(
-        'Please enter a valid name using only letters, spaces, hyphens, apostrophes, and periods (at least 3 characters)',
+        'Enter your full name',
       );
     });
 
@@ -524,7 +540,7 @@ describe('PreSubmitCheckboxGroup', () => {
       expect(titleInput.getAttribute('error')).to.equal('Enter your title');
     });
 
-    it('should accept any name without organization matching', async () => {
+    it('should accept any valid name without organization matching', async () => {
       const store = createMockStore(null, mockFormData);
       const { container } = render(
         <Provider store={store}>
@@ -537,9 +553,9 @@ describe('PreSubmitCheckboxGroup', () => {
 
       const statementOfTruth = container.querySelector('va-statement-of-truth');
 
-      // Enter any name (not matching organization)
+      // Enter a name from fixtures (Rebel Alliance Veterans Foundation)
       const nameEvent = new CustomEvent('vaInputChange', {
-        detail: { value: 'John Smith' },
+        detail: { value: 'Rebel Alliance Veterans Foundation' },
       });
       fireEvent(statementOfTruth, nameEvent);
 
@@ -548,7 +564,7 @@ describe('PreSubmitCheckboxGroup', () => {
       fireEvent(statementOfTruth, blurEvent);
 
       await waitFor(() => {
-        // Should not show error since any non-empty name is valid
+        // Should not show error since valid name was entered
         const inputError = statementOfTruth.getAttribute('input-error');
         expect(inputError).to.be.null;
       });
