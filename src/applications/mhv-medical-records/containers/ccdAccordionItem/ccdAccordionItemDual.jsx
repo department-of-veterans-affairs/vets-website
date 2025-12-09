@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TrackedSpinner from '../../components/shared/TrackedSpinner';
 
-const DownloadSection = ({
+export const DownloadSection = ({
   isLoading,
   handleDownload,
   testIdSuffix,
