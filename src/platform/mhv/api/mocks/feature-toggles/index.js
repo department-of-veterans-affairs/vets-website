@@ -12,6 +12,7 @@ const generateFeatureToggles = (toggles = {}) => {
 
     // OH integration work
     mhvMedicalRecordsCcdExtendedFileTypes = true,
+    mhvMedicalRecordsMergeCvixIntoScdf = false,
     mhvAcceleratedDeliveryEnabled = false,
     mhvAcceleratedDeliveryAllergiesEnabled = false,
     mhvAcceleratedDeliveryCareNotesEnabled = false,
@@ -108,6 +109,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_medical_records_ccd_extended_file_types',
           value: mhvMedicalRecordsCcdExtendedFileTypes,
+        },
+        {
+          name: 'mhv_medical_records_merge_cvix_into_scdf',
+          value: mhvMedicalRecordsMergeCvixIntoScdf,
         },
 
         // secure messaging
