@@ -48,7 +48,7 @@ describe('<ContactInfoReview>', () => {
     const { container } = render(<ContactInfoReview {...data} />);
 
     expect($('va-button.edit-page', container)).to.exist;
-    expect($('h4', container).textContent).to.eq(content.title);
+    expect($('h3', container).textContent).to.eq(content.title);
     expect(
       $$('dd.dd-privacy-hidden[data-dd-action-name]', container).length,
     ).to.eq(9);
@@ -73,7 +73,7 @@ describe('<ContactInfoReview>', () => {
     const data = getData({ home: false });
     const { container } = render(<ContactInfoReview {...data} />);
 
-    expect($('h4', container).textContent).to.eq(content.title);
+    expect($('h3', container).textContent).to.eq(content.title);
     // homePhone, mobilePhone, email, country, street address, address line 2,
     // city, state, zip
     expect($$('dt', container).length).to.eq(9);
