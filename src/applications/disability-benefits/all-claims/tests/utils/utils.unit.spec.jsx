@@ -56,6 +56,7 @@ import {
   formatDate,
   parseDate,
   formatMonthYearDate,
+  DATE_TEMPLATE,
 } from '../../utils/dates/formatting';
 import { testBranches } from '../../utils/serviceBranches';
 
@@ -973,7 +974,7 @@ describe('526 v2 depends functions', () => {
         expect(formatDate('2020-12-05')).to.equal('December 5, 2020');
       });
       it('should return valid dates with custom format', () => {
-        expect(formatDate('2020-01-31', 'yyyy-MM-dd')).to.equal('2020-01-31');
+        expect(formatDate('2020-01-31', DATE_TEMPLATE)).to.equal('2020-01-31');
         expect(formatDate('2020-05-05', 'MM dd, yyyy')).to.equal('05 05, 2020');
         expect(formatDate('2020-12-05', 'dd/MM/yyyy')).to.equal('05/12/2020');
       });
@@ -1008,7 +1009,7 @@ describe('526 v2 depends functions', () => {
         expect(
           formatDateRange(
             { from: '2020-01-31', to: '2020-02-14' },
-            'yyyy-MM-dd',
+            DATE_TEMPLATE,
           ),
         ).to.equal('2020-01-31 to 2020-02-14');
       });
