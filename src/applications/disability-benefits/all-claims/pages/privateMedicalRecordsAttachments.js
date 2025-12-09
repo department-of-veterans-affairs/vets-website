@@ -22,10 +22,16 @@ export const uiSchema = {
     ...fileUploadUi,
     'ui:options': { ...fileUploadUi['ui:options'] },
     'ui:description': UploadDescription,
-    'ui:confirmationField': ({ formData }) => ({
-      data: formData?.map(item => item.name || item.fileName),
-      label: 'Private medical records',
-    }),
+    'ui:confirmationField': ({ formData }) => {
+      const fileNames =
+        Array.isArray(formData) && formData.length > 0
+          ? formData.map(item => item.name || item.fileName)
+          : ['File name not available'];
+      return {
+        data: fileNames,
+        label: 'Private medical records',
+      };
+    },
     'ui:required': data =>
       _.get(DATA_PATHS.hasPrivateRecordsToUpload, data, false),
   },
