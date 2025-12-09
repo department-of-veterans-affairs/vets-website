@@ -18,6 +18,7 @@ import {
   createExpense,
   updateExpense,
   setUnsavedExpenseChanges,
+  setReviewPageAlert,
 } from '../../../redux/actions';
 import {
   selectExpenseUpdateLoadingState,
@@ -247,10 +248,37 @@ const ExpensePage = () => {
       // Reset initial state reference to current state after successful save
       initialFormStateRef.current = formState;
       dispatch(setUnsavedExpenseChanges(false));
-      navigate(`/file-new-claim/${apptId}/${claimId}/review`);
+
+      // Set success alert
+      const expenseTypeName = expenseConfig.expensePageText
+        ? `${expenseConfig.expensePageText} expense`
+        : 'expense';
+
+      dispatch(
+        setReviewPageAlert({
+          title: '',
+          description: `You successfully ${
+            isEditMode ? 'updated your' : 'added a'
+          } ${expenseTypeName}.`,
+          type: 'success',
+        }),
+      );
     } catch (error) {
-      // TODO: Handle error
+      // Set alert
+      const verb = isEditMode ? 'edit' : 'add';
+      dispatch(
+        setReviewPageAlert({
+          title: `We couldn't ${verb} this expense right now`,
+          description: `We're sorry. We can't ${
+            isEditMode ? 'edit' : 'add'
+          } this expense${
+            isEditMode ? '' : ' to your claim'
+          }. Try again later.`,
+          type: 'error',
+        }),
+      );
     }
+    navigate(`/file-new-claim/${apptId}/${claimId}/review`);
   };
 
   const handleBack = () => {

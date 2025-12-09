@@ -19,6 +19,7 @@ export default function ClaimDetailsContent({
   claimStatus,
   claimNumber,
   claimId,
+  appointment,
   appointmentDate: appointmentDateTime,
   facilityName,
   modifiedOn,
@@ -29,6 +30,7 @@ export default function ClaimDetailsContent({
   isOutOfBounds,
 }) {
   useSetPageTitle('Travel Reimbursement Claim Details');
+  const { id: appointmentId } = appointment;
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const claimsMgmtToggle = useToggleValue(
     TOGGLE_NAMES.travelPayClaimsManagement,
@@ -147,7 +149,7 @@ export default function ClaimDetailsContent({
             text="Complete and file your claim"
             // Specifically NOT a client-side route to ensure
             // redirect logic is evaluated upon entry into complex claims
-            href={`/my-health/travel-pay/file-new-claim/${claimId}`}
+            href={`/my-health/travel-pay/file-new-claim/${appointmentId}`}
             onClick={() => {
               sessionStorage.setItem(
                 TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY.SESSION_KEY,
@@ -285,6 +287,7 @@ export default function ClaimDetailsContent({
 }
 
 ClaimDetailsContent.propTypes = {
+  appointment: PropTypes.object.isRequired,
   appointmentDate: PropTypes.string.isRequired,
   claimId: PropTypes.string.isRequired,
   claimNumber: PropTypes.string.isRequired,

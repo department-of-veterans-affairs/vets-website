@@ -43,6 +43,8 @@ export const FETCH_COMPLEX_CLAIM_DETAILS_FAILURE =
   'FETCH_COMPLEX_CLAIM_DETAILS_FAILURE';
 export const SET_UNSAVED_EXPENSE_CHANGES = 'SET_UNSAVED_EXPENSE_CHANGES';
 export const CLEAR_UNSAVED_EXPENSE_CHANGES = 'CLEAR_UNSAVED_EXPENSE_CHANGES';
+export const SET_REVIEW_PAGE_ALERT = 'SET_REVIEW_PAGE_ALERT';
+export const CLEAR_REVIEW_PAGE_ALERT = 'CLEAR_REVIEW_PAGE_ALERT';
 
 // Helper function to add isOutOfBounds to claim details
 function addOutOfBoundsFlag(claimData) {
@@ -512,5 +514,19 @@ export function deleteDocument(claimId, documentId) {
       dispatch(deleteDocumentFailure(error, documentId));
       throw error;
     }
+  };
+}
+
+// Alert actions for review page
+export function setReviewPageAlert({ title, description, type }) {
+  return {
+    type: SET_REVIEW_PAGE_ALERT,
+    payload: { title, description, type },
+  };
+}
+
+export function clearReviewPageAlert() {
+  return {
+    type: CLEAR_REVIEW_PAGE_ALERT,
   };
 }

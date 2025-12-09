@@ -10,6 +10,7 @@ import {
   createExpense,
   updateExpense,
   setUnsavedExpenseChanges,
+  setReviewPageAlert,
 } from '../../../redux/actions';
 import {
   selectExpenseUpdateLoadingState,
@@ -103,7 +104,7 @@ const Mileage = () => {
     // Check if user selected "another-address" or "one-way"
     if (
       departureAddress === 'another-address' ||
-      tripType === TRIP_TYPES.ONE_WAY.value
+      tripType === TRIP_TYPES.ONE_WAY.key
     ) {
       navigate(`/file-new-claim/${apptId}/${claimId}/unsupported`);
     } else {
@@ -122,14 +123,35 @@ const Mileage = () => {
             createExpense(claimId, EXPENSE_TYPES.Mileage.apiRoute, expenseData),
           );
         }
+
         // Reset initial state reference to current state after successful save
         initialStateRef.current = { departureAddress, tripType };
         dispatch(setUnsavedExpenseChanges(false));
+
+        // Set success alert in Redux
+        dispatch(
+          setReviewPageAlert({
+            title: '',
+            description: `You successfully ${
+              isEditMode ? 'updated your' : 'added a'
+            } ${EXPENSE_TYPES.Mileage.expensePageText} expense.`,
+            type: 'success',
+          }),
+        );
       } catch (error) {
-        // Handle error
-        // eslint-disable-next-line no-console
-        console.error('Error creating expense:', error);
-        return; // Don't navigate if there's an error
+        // Set error alert
+        const verb = isEditMode ? 'edit' : 'add';
+        dispatch(
+          setReviewPageAlert({
+            title: `We couldn't ${verb} this expense right now`,
+            description: `We're sorry. We can't ${
+              isEditMode ? 'edit' : 'add'
+            } this expense${
+              isEditMode ? '' : ' to your claim'
+            }. Try again later.`,
+            type: 'error',
+          }),
+        );
       }
       navigate(`/file-new-claim/${apptId}/${claimId}/review`);
     }
@@ -153,7 +175,7 @@ const Mileage = () => {
       if (expenseId ?? hasMileageExpense) {
         const initialState = {
           departureAddress: 'home-address',
-          tripType: TRIP_TYPES.ROUND_TRIP.value,
+          tripType: TRIP_TYPES.ROUND_TRIP.key,
         };
         setDepartureAddress(initialState.departureAddress);
         setTripType(initialState.tripType);
@@ -223,17 +245,17 @@ const Mileage = () => {
       >
         <va-radio-option
           label={TRIP_TYPES.ROUND_TRIP.label}
-          value={TRIP_TYPES.ROUND_TRIP.value}
+          value={TRIP_TYPES.ROUND_TRIP.key}
           key="trip-round-trip"
           name="trip-type"
-          checked={tripType === TRIP_TYPES.ROUND_TRIP.value}
+          checked={tripType === TRIP_TYPES.ROUND_TRIP.key}
         />
         <va-radio-option
           label={TRIP_TYPES.ONE_WAY.label}
-          value={TRIP_TYPES.ONE_WAY.value}
+          value={TRIP_TYPES.ONE_WAY.key}
           key="trip-one-way"
           name="trip-type"
-          checked={tripType === TRIP_TYPES.ONE_WAY.value}
+          checked={tripType === TRIP_TYPES.ONE_WAY.key}
         />
       </VaRadio>
 
@@ -248,7 +270,7 @@ const Mileage = () => {
       <TravelPayButtonPair
         continueText={expenseId ? 'Save and continue' : 'Continue'}
         backText={expenseId ? 'Cancel' : 'Back'}
-        className={expenseId && 'vads-u-margin-top--2'}
+        className={expenseId ? 'vads-u-margin-top--2' : ''}
         onBack={handleBack}
         onContinue={handleContinue}
         loading={isLoadingExpense}

@@ -56,3 +56,5 @@ export const selectComplexClaimFetchLoadingState = state =>
 
 export const selectHasUnsavedExpenseChanges = state =>
   state.travelPay.complexClaim.expenses.hasUnsavedChanges || false;
+
+export const selectReviewPageAlert = state => state.travelPay.reviewPageAlert;

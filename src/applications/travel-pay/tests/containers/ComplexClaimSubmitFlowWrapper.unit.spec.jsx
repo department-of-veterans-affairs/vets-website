@@ -31,6 +31,7 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
     isClaimFetchLoading = false,
     travelPayClaim = null,
     hasUnsavedChanges = false,
+    expenses = [],
   } = {}) => ({
     featureToggles: {
       loading: false,
@@ -94,7 +95,7 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
             isLoading: false,
             error: null,
           },
-          data: [],
+          data: expenses,
           hasUnsavedChanges,
         },
       },
@@ -225,6 +226,17 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
       const initialState = getData({
         complexClaimsEnabled: true,
         claimData: { claimId: '45678' },
+        expenses: [
+          {
+            // At least one expense so the sign agreement button renders
+            id: 'expense2',
+            expenseType: 'Parking',
+            description: 'Parking at hospital',
+            document: { filename: 'test.pdf' },
+            dateIncurred: '2023-10-15',
+            costRequested: 15,
+          },
+        ],
       });
       const {
         container,
