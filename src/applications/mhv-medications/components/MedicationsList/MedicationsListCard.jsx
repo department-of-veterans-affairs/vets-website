@@ -101,15 +101,6 @@ const MedicationsListCard = ({ rx }) => {
       <div className="rx-card-details" data-testid="rx-card-info">
         <Link
           id={`card-header-${rx.prescriptionId}`}
-          aria-describedby={
-            pendingMed || pendingRenewal
-              ? `prescription-number-${rx.prescriptionId} pending-med-content-${
-                  rx.prescriptionId
-                }`
-              : `status-${rx.prescriptionId} status-description-${
-                  rx.prescriptionId
-                } fill-or-refill-button-${rx.prescriptionId}`
-          }
           data-dd-privacy="mask"
           data-dd-action-name={
             dataDogActionNames.medicationsListPage.MEDICATION_NAME_LINK_IN_CARD

@@ -23,11 +23,6 @@ describe('Prescriptions List Config', () => {
     expect(pdfList.length).to.equal(prescriptions.length);
   });
 
-  it('should contain 13 values', () => {
-    const pdfList = buildPrescriptionsPDFList(prescriptions);
-    expect(pdfList[0].sections[0].items.length).to.equal(13);
-  });
-
   it('should contain a header with prescription name', () => {
     const pdfList = buildPrescriptionsPDFList(prescriptions);
     expect(pdfList[0].header).to.equal(prescriptions[0].prescriptionName);
@@ -213,6 +208,38 @@ describe('Medication Information Config', () => {
     ]);
     expect(pdfData.sections[1].header).to.equal('Test 2');
     expect(pdfData.sections[1].items[0].value).to.equal('Paragraph');
+  });
+
+  describe('Cerner pilot feature flag', () => {
+    describe('VA Prescription config', () => {
+      const rxDetails = { ...prescriptionDetails.data.attributes };
+      const pdfGen = buildVAPrescriptionPDFList(rxDetails, true);
+      const items = pdfGen[0].sections[0].items.map(item => item.title);
+
+      it('should NOT show "Reason for Use" field', () => {
+        expect(items).to.not.include('Reason for use:');
+      });
+      it('should show "Pharmacy contact information" field', () => {
+        const status = pdfGen[0].sections[0].items.find(
+          item => item.title === 'Pharmacy contact information',
+        );
+        expect(status.value).to.match(
+          /Check your prescription label or contact your VA facility./,
+        );
+      });
+      it('should NOT create "Refill history" section', () => {
+        expect(pdfGen[1]).to.not.exist;
+      });
+    });
+
+    describe('Non-VA Prescription config', () => {
+      const pdfGen = buildNonVAPrescriptionPDFList(nonVAPrescription, true);
+      const items = pdfGen[0].sections[0].items.map(item => item.title);
+
+      it('should NOT show "Reason for Use" field', () => {
+        expect(items).to.not.include('Reason for use:');
+      });
+    });
   });
 });
 

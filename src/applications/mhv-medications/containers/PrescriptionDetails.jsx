@@ -58,6 +58,7 @@ import {
   selectFilterOption,
   selectPageNumber,
 } from '../selectors/selectPreferences';
+import { selectCernerPilotFlag } from '../util/selectors';
 
 const PrescriptionDetails = () => {
   const { prescriptionId } = useParams();
@@ -229,7 +230,7 @@ const PrescriptionDetails = () => {
           DATETIME_FORMATS.longMonthDate,
         )}\n\n${
           nonVaPrescription
-            ? buildNonVAPrescriptionTXT(prescription)
+            ? buildNonVAPrescriptionTXT(prescription, {}, isCernerPilot)
             : buildVAPrescriptionTXT(prescription, isCernerPilot)
         }${allergiesList ?? ''}`
       );
@@ -306,7 +307,7 @@ const PrescriptionDetails = () => {
       if (!prescription) return;
       setPrescriptionPdfList(
         nonVaPrescription
-          ? buildNonVAPrescriptionPDFList(prescription)
+          ? buildNonVAPrescriptionPDFList(prescription, isCernerPilot)
           : buildVAPrescriptionPDFList(prescription, isCernerPilot),
       );
     },

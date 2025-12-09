@@ -12,12 +12,18 @@ import { RX_SOURCE } from '../../../util/constants';
 describe('vaPrescription details container', () => {
   const prescription = rxDetailsResponse.data.attributes;
   const newRx = { ...prescription, phoneNumber: '1234567891' };
-  const setup = (rx = newRx, ffEnabled = true) => {
+  const setup = (
+    rx = newRx,
+    ffEnabled = true,
+    { isCernerPilot = false } = {},
+  ) => {
     return renderWithStoreAndRouterV6(<VaPrescription {...rx} />, {
       initialState: {
         featureToggles: {
           // eslint-disable-next-line camelcase
           mhv_medications_display_documentation_content: ffEnabled,
+          // eslint-disable-next-line camelcase
+          mhv_medications_cerner_pilot: isCernerPilot,
         },
       },
       reducers: {},
@@ -560,5 +566,30 @@ describe('vaPrescription details container', () => {
       const statusElement = screen.getByTestId('status-dropdown');
       expect(statusElement).to.exist;
     });
+  it('hides reason for use when Cerner pilot is enabled', () => {
+    const screen = setup(newRx, true, { isCernerPilot: true });
+
+    expect(screen.queryByText('Reason for use')).to.not.exist;
+  });
+
+  it('hides pharmacy phone and displays a link when Cerner pilot is enabled', () => {
+    const screen = setup(newRx, true, { isCernerPilot: true });
+    const pharmacyPhone = screen.queryByTestId('phone-number');
+    const findFacilityLink = screen.getByTestId('find-facility-link');
+
+    expect(pharmacyPhone).to.not.exist;
+    expect(findFacilityLink).to.exist;
+    expect(
+      screen.getByText(
+        'Check your prescription label or contact your VA facility.',
+      ),
+    ).to.exist;
+    expect(screen.getByText('Find your VA facility')).to.exist;
+  });
+
+  it('hides refill history when Cerner pilot is enabled', () => {
+    const screen = setup(newRx, true, { isCernerPilot: true });
+
+    expect(screen.queryByText('Refill history')).to.not.exist;
   });
 });

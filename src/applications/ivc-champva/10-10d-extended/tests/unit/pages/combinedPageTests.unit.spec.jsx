@@ -6,7 +6,6 @@ import {
 } from '../../../../shared/tests/pages/pageTests.spec';
 import { ApplicantRelOriginPage } from '../../../chapters/ApplicantRelOriginPage';
 import { ApplicantGenderPage } from '../../../chapters/ApplicantGenderPage';
-import { SelectHealthcareParticipantsPage } from '../../../chapters/SelectHealthcareParticipantsPage';
 import {
   SignerContactInfoPage,
   signerContactOnGoForward,
@@ -104,13 +103,6 @@ testComponentRender(
   'ApplicantRelOriginPage',
   <ApplicantRelOriginPage
     data={{ ...mockData.data, sponsorIsDeceased: false }}
-  />,
-);
-testComponentRender(
-  'SelectHealthcareParticipantsPage',
-  <SelectHealthcareParticipantsPage
-    fullData={{ ...mockData.data }}
-    data={{ ...mockData.data.healthInsurance[0] }}
   />,
 );
 

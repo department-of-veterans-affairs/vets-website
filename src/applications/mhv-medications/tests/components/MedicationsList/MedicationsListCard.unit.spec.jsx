@@ -208,5 +208,42 @@ describe('Medication card component', () => {
     };
     const screen = setupWithCernerPilot(rxWithActiveStatus, false);
     expect(screen.getByText('Active: Refill in Process')).to.exist;
+  it('renders link text from orderableItem when prescriptionName is null', () => {
+    const rx = {
+      ...prescriptionsListItem,
+      prescriptionName: null, // null check
+      orderableItem: 'Amoxicillin 500mg Capsules', // fallback text
+    };
+    const screen = setup(rx);
+    const link = screen.getByTestId('medications-history-details-link');
+    expect(link).to.exist;
+    expect(link.textContent).to.include('Amoxicillin 500mg Capsules');
+  });
+
+  it('renders link with medication name when available', () => {
+    const rx = {
+      ...prescriptionsListItem,
+      prescriptionName: 'Atorvastatin',
+      orderableItem: 'Fallback should not be used',
+    };
+    const screen = setup(rx);
+    const link = screen.getByTestId('medications-history-details-link');
+    expect(link).to.exist;
+    expect(link.textContent).to.include('Atorvastatin');
+  });
+
+  it('does not render Unknown status text', () => {
+    const rxWithUnknownStatus = {
+      ...prescriptionsListItem,
+      dispStatus: 'Unknown',
+    };
+    const screen = setup(rxWithUnknownStatus);
+    expect(screen.queryByText(rxWithUnknownStatus.dispStatus)).to.not.exist;
+  });
+
+  it('does not render aria-describedby attribute on the link', () => {
+    const screen = setup();
+    const link = screen.getByTestId('medications-history-details-link');
+    expect(link.getAttribute('aria-describedby')).to.be.null;
   });
 });

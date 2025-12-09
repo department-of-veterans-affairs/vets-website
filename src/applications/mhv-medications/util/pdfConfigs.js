@@ -60,7 +60,10 @@ import {
  *
  * @returns {Array<PdfConfigItem>}
  */
-export const buildNonVAPrescriptionPDFList = prescription => {
+export const buildNonVAPrescriptionPDFList = (
+  prescription,
+  isCernerPilot = false,
+) => {
   return [
     {
       sections: [
@@ -71,7 +74,7 @@ export const buildNonVAPrescriptionPDFList = prescription => {
               value: prescription.sig || 'Instructions not available',
               inline: true,
             },
-            {
+            !isCernerPilot && {
               title: 'Reason for use',
               value:
                 prescription.indicationForUse || 'Reason for use not available',
@@ -128,7 +131,7 @@ export const buildPrescriptionsPDFList = (
   return prescriptions?.map(rx => {
     if (rx?.prescriptionSource === RX_SOURCE.NON_VA) {
       return {
-        ...buildNonVAPrescriptionPDFList(rx)[0],
+        ...buildNonVAPrescriptionPDFList(rx, isCernerPilot)[0],
         header: rx?.prescriptionName || rx?.orderableItem,
       };
     }
@@ -220,7 +223,12 @@ export const buildPrescriptionsPDFList = (
               value: validateIfAvailable('Facility', rx.facilityName),
               inline: true,
             },
-            {
+            (isCernerPilot && {
+              title: 'Pharmacy contact information',
+              value:
+                'Check your prescription label or contact your VA facility.',
+              inline: true,
+            }) || {
               title: 'Pharmacy phone number',
               value: validateIfAvailable(
                 'Pharmacy phone number',
@@ -233,7 +241,7 @@ export const buildPrescriptionsPDFList = (
               value: validateIfAvailable('Instructions', rx.sig),
               inline: true,
             },
-            {
+            !isCernerPilot && {
               title: 'Reason for use',
               value: validateIfAvailable('Reason for use', rx.indicationForUse),
               inline: true,
@@ -439,7 +447,12 @@ export const buildVAPrescriptionPDFList = (
               value: validateIfAvailable('Facility', prescription.facilityName),
               inline: true,
             },
-            {
+            (isCernerPilot && {
+              title: 'Pharmacy contact information',
+              value:
+                'Check your prescription label or contact your VA facility.',
+              inline: true,
+            }) || {
               title: 'Pharmacy phone number',
               value: validateIfAvailable(
                 'Pharmacy phone number',
@@ -452,7 +465,7 @@ export const buildVAPrescriptionPDFList = (
               value: validateIfAvailable('Instructions', prescription.sig),
               inline: true,
             },
-            {
+            !isCernerPilot && {
               title: 'Reason for use',
               value: validateIfAvailable(
                 'Reason for use',
@@ -486,7 +499,7 @@ export const buildVAPrescriptionPDFList = (
         },
       ],
     },
-    ...(showRefillHistory
+    ...(showRefillHistory && !isCernerPilot
       ? [
           {
             header: 'Refill history',
@@ -567,7 +580,7 @@ ${backImprint ? `* Back marking: ${backImprint}` : ''}`
                             },
                           ]
                         : []),
-                      ...(!isPartialFill
+                      ...(!isPartialFill && !isCernerPilot
                         ? [
                             {
                               title: 'Medication description',
@@ -576,7 +589,7 @@ ${backImprint ? `* Back marking: ${backImprint}` : ''}`
                             },
                           ]
                         : []),
-                      ...(hasValidDesc && !isPartialFill
+                      ...(hasValidDesc && !isPartialFill && !isCernerPilot
                         ? [
                             {
                               title: 'Note',
@@ -588,7 +601,7 @@ ${backImprint ? `* Back marking: ${backImprint}` : ''}`
                             },
                           ]
                         : []),
-                      ...(!isPartialFill
+                      ...(!isPartialFill && !isCernerPilot
                         ? [
                             {
                               value: description,

@@ -5,15 +5,26 @@ import rxDetailsResponse from '../../fixtures/prescriptionDetails.json';
 import PrescriptionPrintOnly from '../../../components/PrescriptionDetails/PrescriptionPrintOnly';
 
 describe('Prescription print only container', () => {
-  const setup = (params = { va: true, isDetailsRx: false }) => {
+  const setup = (
+    params = { va: true, isDetailsRx: false, isCernerPilot: false },
+  ) => {
     const rx = {
       ...rxDetailsResponse.data.attributes,
       ...(!params.va && { prescriptionSource: 'NV' }),
     };
+
+    const initialState = {
+      featureToggles: {
+        /* eslint-disable camelcase */
+        mhv_medications_cerner_pilot: params.isCernerPilot,
+        /* eslint-enable camelcase */
+      },
+    };
+
     return renderWithStoreAndRouterV6(
       <PrescriptionPrintOnly rx={rx} isDetailsRx={params.isDetailsRx} />,
       {
-        initialState: {},
+        initialState,
         reducers: {},
         initialEntries: ['/prescriptions/1234567891'],
       },
@@ -44,7 +55,11 @@ describe('Prescription print only container', () => {
     expect(screen.findByText('Quantity:')).to.exist;
   });
   it('should render Non-VA rx details', () => {
-    const screen = setup({ va: false });
+    const screen = setup({
+      va: false,
+      isDetailsRx: false,
+      isCernerPilot: false,
+    });
     expect(screen.findByText('Instructions:')).to.exist;
     expect(screen.findByText('Reason for use')).to.exist;
     expect(screen.findByText('Status:')).to.exist;
@@ -58,16 +73,51 @@ describe('Prescription print only container', () => {
     ).to.exist;
   });
   it('should render h2 tag', () => {
-    const screen = setup({ isDetailsRx: true, va: true });
+    const screen = setup({ isDetailsRx: true, va: true, isCernerPilot: false });
     const nameElement = screen.getByText('ONDANSETRON 8 MG TAB');
     const detailsHeaderElement = screen.getByText('Most recent prescription');
     expect(nameElement.tagName).to.equal('H2');
     expect(detailsHeaderElement.tagName).to.equal('H3');
   });
   it('should render h3 tag', () => {
-    const screen = setup({ isDetailsRx: false });
+    const screen = setup({ isDetailsRx: false, isCernerPilot: false });
     const nameElement = screen.getByText('ONDANSETRON 8 MG TAB');
     expect(nameElement.tagName).to.equal('H3');
+  });
+
+  it('should hide reason for use when Cerner pilot is enabled', () => {
+    const screen = setup({
+      va: true,
+      isDetailsRx: false,
+      isCernerPilot: true,
+    });
+
+    expect(screen.queryByText('Reason for use')).to.not.exist;
+  });
+
+  it('should hide pharmacy phone and displays a link when Cerner pilot is enabled', () => {
+    const screen = setup({
+      va: true,
+      isDetailsRx: false,
+      isCernerPilot: true,
+    });
+
+    expect(screen.queryByText('Pharmacy phone number:')).to.not.exist;
+    expect(
+      screen.getByText(
+        'Check your prescription label or contact your VA facility.',
+      ),
+    ).to.exist;
+  });
+
+  it('should hide refill history when Cerner pilot is enabled', () => {
+    const screen = setup({
+      va: true,
+      isDetailsRx: false,
+      isCernerPilot: true,
+    });
+
+    expect(screen.queryByText('Refill history')).to.not.exist;
   });
 });
 
