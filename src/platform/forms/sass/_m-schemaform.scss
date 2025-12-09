@@ -89,7 +89,7 @@ dl.review {
     column-gap: 0.9375rem;
     > dd {
       font-weight: bold;
-      @media (min-width: variables.$xsmall-screen) {
+      @media (min-width: #{variables.$xsmall-screen}) {
         text-align: right;
       }
     }
@@ -97,7 +97,7 @@ dl.review {
       margin-top: 0;
       margin-bottom: 0;
     }
-    @media (min-width: variables.$xsmall-screen) {
+    @media (min-width: #{variables.$xsmall-screen}) {
       flex-direction: row;
     }
   }
@@ -121,7 +121,7 @@ dl.review-auto-margin {
       margin-top: 0;
       margin-bottom: 0;
     }
-    @media (min-width: variables.$small-screen) {
+    @media (min-width: #{variables.$small-screen}) {
       flex-direction: row;
       > dd {
         padding-left: 5px;
@@ -232,7 +232,7 @@ label {
 }
 
 .schemaform-array-row-title:focus {
-  @include mixins.focus-gold-light-outline;
+  @include mixins.focus-gold-light-outline();
   display: inline-block;
 }
 
@@ -742,7 +742,7 @@ va-checkbox.statement-of-truth-va-checkbox::part(checkbox) {
   .rjsf-web-component-field.#{$element}::part(header) {
     font-size: $desktop-font-size;
 
-    @media (max-width: variables.$small-screen) {
+  @media (max-width: #{variables.$small-screen}) {
       font-size: $mobile-font-size;
     }
   }

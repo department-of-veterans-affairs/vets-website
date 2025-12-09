@@ -130,6 +130,9 @@ jobs:
   fetch-allow-lists:
     name: Fetch Test Stability Allow Lists
     runs-on: ubuntu-22.04
+    permissions:
+      id-token: write
+      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
@@ -680,6 +683,9 @@ jobs:
   testing-reports-prep:
     name: Testing Reports Prep
     runs-on: ubuntu-22.04
+    permissions:
+      id-token: write
+      contents: read
     continue-on-error: true
     outputs:
       app_list: ${{ env.APPLICATION_LIST }}
@@ -864,13 +870,13 @@ jobs:
 
       - name: Start server
         if: needs.tests-prep.outputs.cypress-tests != '[]'
-        run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 &
+        run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 --host=127.0.0.1 &
 
       - name: Wait for server
         run: |
           echo "Waiting for server to be ready..."
-          for i in {1..30}; do
-            if curl -f http://localhost:3001 > /dev/null 2>&1; then
+          for i in $(seq 1 30); do
+            if curl -f http://127.0.0.1:3001 > /dev/null 2>&1; then
               echo "Server is ready!"
               exit 0
             fi
@@ -879,8 +885,6 @@ jobs:
           done
           echo "Server failed to start"
           exit 1
-        env:
-            NODE_OPTIONS: '--dns-result-order=ipv4first'
 
       - name: Run Cypress tests
         if: needs.tests-prep.outputs.cypress-tests != '[]'
@@ -969,7 +973,21 @@ jobs:
             node_modules
 
       - name: Start server
-        run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 &
+        run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 --host=127.0.0.1 &
+
+      - name: Wait for server
+        run: |
+          echo "Waiting for server to be ready..."
+          for i in $(seq 1 30); do
+            if curl -f http://127.0.0.1:3001 > /dev/null 2>&1; then
+              echo "Server is ready!"
+              exit 0
+            fi
+            echo "Attempt $i failed, retrying..."
+            sleep 2
+          done
+          echo "Server failed to start"
+          exit 1
 
       - name: Download Tests to verify
         uses: ./.github/workflows/download-artifact
@@ -1012,7 +1030,7 @@ jobs:
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
         with:
           fetch-depth: 0
-          ref: node-22-bug-bash-testing
+          ref: node-22-merge-conflicts
 
       - name: Get Node version
         id: get-node-version
