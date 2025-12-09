@@ -908,7 +908,7 @@ jobs:
 
       - name: Start server
         if: needs.tests-prep.outputs.cypress-tests != '[]'
-        run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 &
+        run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 --host=127.0.0.1 &
 
       - name: Wait for server
         run: |
@@ -1013,9 +1013,7 @@ jobs:
             node_modules
 
       - name: Start server
-        run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 &
-<<<<<<< HEAD
-=======
+        run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 --host=127.0.0.1 &
 
       - name: Wait for server
         run: |
@@ -1030,7 +1028,6 @@ jobs:
           done
           echo "Server failed to start"
           exit 1
->>>>>>> 7b2fe16f96 (fix(ci): use explicit IPv4 address 127.0.0.1 for Cypress baseUrl to resolve Node 22 IPv6 resolution issues)
 
       - name: Download Tests to verify
         uses: ./.github/workflows/download-artifact
