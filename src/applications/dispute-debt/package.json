@@ -6,7 +6,7 @@
     "demo": "echo DEMOING $npm_package_name v $npm_package_version with WORKSPACES"
   },
  "dependencies": {
-    "react-i18next": "11.15.6"
+    "react-i18next": "^11.15.6"
   },
   "peerDependencies": {
     "react": "*",
