@@ -530,9 +530,6 @@ const buildErrorLabelText = (
     if (childLabel) {
       fullText += ` ${childLabel}.`;
     }
-    if (parentLabel) {
-      fullText += ` ${parentLabel}.`;
-    }
   } else {
     // Groups & direct errors: {error}. {parent label}. {child label}. {hint}. {description}
     if (parentLabel) {
@@ -549,10 +546,10 @@ const buildErrorLabelText = (
     if (descriptionText) {
       fullText += ` ${descriptionText}.`;
     }
-  }
 
-  if (hintText) {
-    fullText += ` ${hintText}.`;
+    if (hintText) {
+      fullText += ` ${hintText}.`;
+    }
   }
 
   return fullText;
