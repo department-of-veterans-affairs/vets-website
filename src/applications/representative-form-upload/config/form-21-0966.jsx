@@ -53,6 +53,7 @@ const form210966 = (pathname = null) => {
       environment.API_URL
     }/accredited_representative_portal/v0/intent_to_file`,
     dev: { collapsibleNavLinks: true, showNavLinks: !window.Cypress },
+    disableSave: true,
     trackingPrefix,
     introduction: IntroductionPageITF,
     confirmation: ConfirmationPage,
@@ -64,6 +65,7 @@ const form210966 = (pathname = null) => {
     },
     hideReviewChapters: true,
     version: 1,
+    prefillEnabled: false,
     transformForSubmit: itfTransformForSubmit,
     submissionError,
     defaultDefinitions: {},

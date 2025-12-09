@@ -65,7 +65,7 @@ const form21526Ez = (pathname = null) => {
         title: 'Upload files',
         pages: {
           uploadPage: {
-            path: 'upload',
+            path: 'upload-files',
             title: `Upload VA Form ${formNumber}`,
             uiSchema: uploadPage.uiSchema,
             schema: uploadPage.schema,
