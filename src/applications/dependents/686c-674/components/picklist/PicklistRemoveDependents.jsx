@@ -147,10 +147,12 @@ const RemoveDependentsPicklist = ({
           class="vads-u-margin-bottom--4"
           trigger="How can I remove a dependent parent?"
         >
-          You can only use this form to remove a dependent parent if they died.
-          If your parent is still living and you want to remove them as a
-          dependent, call us at <va-telephone contact="8008271000" /> (
-          <va-telephone contact="711" tty />
+          <div>
+            You can only use this form to remove a dependent parent if they
+            died. If your parent is still living and you want to remove them as
+            a dependent, call us at <va-telephone contact="8008271000" /> (
+            <va-telephone contact="711" tty />
+          </div>
           ).
         </va-additional-info>
       )}
