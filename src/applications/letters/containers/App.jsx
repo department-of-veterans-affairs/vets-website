@@ -40,35 +40,41 @@ export function App({ featureFlagsLoading, user }) {
   );
   const isRUMEnabled = useToggleValue(TOGGLE_NAMES[DATA_DOG_RUM_TOGGLE]);
 
-  useEffect(() => {
-    if (isLoadingFeatureFlags) {
-      return;
-    }
-    if (isLoggingEnabled) {
-      initializeBrowserLogging({
-        applicationId: DATA_DOG_LOGGING_ID,
-        clientToken: DATA_DOG_LOGGING_TOKEN,
-        service: DATA_DOG_LOGGING_SERVICE,
-        version: DATA_DOG_LOGGING_VERSION,
-      });
-    }
-  }, [isLoggingEnabled, isLoadingFeatureFlags]);
+  useEffect(
+    () => {
+      if (isLoadingFeatureFlags) {
+        return;
+      }
+      if (isLoggingEnabled) {
+        initializeBrowserLogging({
+          applicationId: DATA_DOG_LOGGING_ID,
+          clientToken: DATA_DOG_LOGGING_TOKEN,
+          service: DATA_DOG_LOGGING_SERVICE,
+          version: DATA_DOG_LOGGING_VERSION,
+        });
+      }
+    },
+    [isLoggingEnabled, isLoadingFeatureFlags],
+  );
 
-  useEffect(() => {
-    if (isLoadingFeatureFlags) {
-      return;
-    }
-    if (isRUMEnabled) {
-      initializeRealUserMonitoring({
-        applicationId: DATA_DOG_RUM_ID,
-        clientToken: DATA_DOG_RUM_TOKEN,
-        service: DATA_DOG_RUM_SERVICE,
-        version: DATA_DOG_RUM_VERSION,
-      });
-    } else {
-      delete window.DD_RUM;
-    }
-  }, [isRUMEnabled, isLoadingFeatureFlags]);
+  useEffect(
+    () => {
+      if (isLoadingFeatureFlags) {
+        return;
+      }
+      if (isRUMEnabled) {
+        initializeRealUserMonitoring({
+          applicationId: DATA_DOG_RUM_ID,
+          clientToken: DATA_DOG_RUM_TOKEN,
+          service: DATA_DOG_RUM_SERVICE,
+          version: DATA_DOG_RUM_VERSION,
+        });
+      } else {
+        delete window.DD_RUM;
+      }
+    },
+    [isRUMEnabled, isLoadingFeatureFlags],
+  );
 
   return (
     <RequiredLoginView
