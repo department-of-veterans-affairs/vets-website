@@ -1,0 +1,265 @@
+import React from 'react';
+import { expect } from 'chai';
+import { fireEvent } from '@testing-library/react';
+import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import sinon from 'sinon';
+import {
+  ALERT_TYPE_SEI_ERROR,
+  SEI_DOMAINS,
+} from '@department-of-veterans-affairs/mhv/exports';
+import OHOnlyContent from '../../containers/ccdContent/OHOnlyContent';
+import { ALERT_TYPE_CCD_ERROR } from '../../util/constants';
+import reducer from '../../reducers';
+
+describe('OHOnlyContent', () => {
+  const initialState = {
+    featureToggles: {
+      loading: false,
+    },
+    drupalStaticData: {
+      vamcEhrData: {
+        loading: false,
+      },
+    },
+    user: {
+      profile: {
+        facilities: [],
+      },
+    },
+  };
+
+  const defaultProps = {
+    ddSuffix: 'OH',
+    isLoading: false,
+    handleDownload: () => {},
+    testIdSuffix: 'OH',
+    lastSuccessfulUpdate: null,
+    accessErrors: () => null,
+    activeAlert: null,
+    successfulSeiDownload: false,
+    failedSeiDomains: [],
+  };
+
+  const renderComponent = (props = {}, state = {}) => {
+    return renderWithStoreAndRouter(
+      <OHOnlyContent {...defaultProps} {...props} />,
+      {
+        initialState: { ...initialState, ...state },
+        reducers: reducer,
+        path: '/download',
+      },
+    );
+  };
+
+  it('renders without errors', () => {
+    const { getByText } = renderComponent();
+    expect(getByText('Download your medical records report')).to.exist;
+  });
+
+  it('renders the main heading and description when not loading', () => {
+    const { getByText } = renderComponent();
+
+    expect(getByText('Download your medical records report')).to.exist;
+    expect(
+      getByText(
+        'Download your Continuity of Care Document (CCD), a summary of your VA medical records.',
+      ),
+    ).to.exist;
+    expect(getByText('Download your Continuity of Care Document')).to.exist;
+  });
+
+  it('shows loading spinner when isLoading is true', () => {
+    const { container, queryByText } = renderComponent({ isLoading: true });
+
+    const spinnerContainer = container.querySelector(
+      '#generating-ccd-OH-indicator',
+    );
+    expect(spinnerContainer).to.exist;
+    expect(spinnerContainer.querySelector('va-loading-indicator')).to.exist;
+
+    expect(queryByText('Download your medical records report')).to.not.exist;
+  });
+
+  it('renders all 3 download links when not loading', () => {
+    const { getByTestId } = renderComponent();
+
+    expect(getByTestId('generateCcdButtonXmlOH')).to.exist;
+    expect(getByTestId('generateCcdButtonPdfOH')).to.exist;
+    expect(getByTestId('generateCcdButtonHtmlOH')).to.exist;
+  });
+
+  it('calls handleDownload with correct format when XML link is clicked', () => {
+    const handleDownload = sinon.spy();
+    const { getByTestId } = renderComponent({ handleDownload });
+
+    fireEvent.click(getByTestId('generateCcdButtonXmlOH'));
+    expect(handleDownload.calledOnce).to.be.true;
+    expect(handleDownload.firstCall.args[1]).to.equal('xml');
+  });
+
+  it('calls handleDownload with correct format when PDF link is clicked', () => {
+    const handleDownload = sinon.spy();
+    const { getByTestId } = renderComponent({ handleDownload });
+
+    fireEvent.click(getByTestId('generateCcdButtonPdfOH'));
+    expect(handleDownload.calledOnce).to.be.true;
+    expect(handleDownload.firstCall.args[1]).to.equal('pdf');
+  });
+
+  it('calls handleDownload with correct format when HTML link is clicked', () => {
+    const handleDownload = sinon.spy();
+    const { getByTestId } = renderComponent({ handleDownload });
+
+    fireEvent.click(getByTestId('generateCcdButtonHtmlOH'));
+    expect(handleDownload.calledOnce).to.be.true;
+    expect(handleDownload.firstCall.args[1]).to.equal('html');
+  });
+
+  it('has correct data attributes for Datadog tracking', () => {
+    const { getByTestId } = renderComponent();
+
+    const xmlLink = getByTestId('generateCcdButtonXmlOH');
+    const pdfLink = getByTestId('generateCcdButtonPdfOH');
+    const htmlLink = getByTestId('generateCcdButtonHtmlOH');
+
+    expect(xmlLink.getAttribute('data-dd-action-name')).to.equal(
+      'Download CCD XML OH',
+    );
+    expect(pdfLink.getAttribute('data-dd-action-name')).to.equal(
+      'Download CCD PDF OH',
+    );
+    expect(htmlLink.getAttribute('data-dd-action-name')).to.equal(
+      'Download CCD HTML OH',
+    );
+  });
+
+  it('renders last successful update card when lastSuccessfulUpdate is provided', () => {
+    const { getByTestId, getByText } = renderComponent({
+      lastSuccessfulUpdate: { date: 'December 9, 2025', time: '10:30 AM ET' },
+    });
+
+    expect(getByTestId('new-records-last-updated')).to.exist;
+    expect(getByText(/Records in these reports last updated at/)).to.exist;
+    expect(getByText(/10:30 AM ET/)).to.exist;
+    expect(getByText(/December 9, 2025/)).to.exist;
+  });
+
+  it('does not render last successful update card when lastSuccessfulUpdate is null', () => {
+    const { queryByTestId } = renderComponent();
+    expect(queryByTestId('new-records-last-updated')).to.not.exist;
+  });
+
+  it('renders AccessTroubleAlertBox when activeAlert type is ALERT_TYPE_CCD_ERROR', () => {
+    const { getByTestId } = renderComponent({
+      activeAlert: { type: ALERT_TYPE_CCD_ERROR },
+    });
+
+    expect(getByTestId('expired-alert-message')).to.exist;
+  });
+
+  it('renders AccessTroubleAlertBox when activeAlert type is ALERT_TYPE_SEI_ERROR', () => {
+    const { getByTestId } = renderComponent({
+      activeAlert: { type: ALERT_TYPE_SEI_ERROR },
+    });
+
+    expect(getByTestId('expired-alert-message')).to.exist;
+  });
+
+  it('does not render error alerts when activeAlert is null', () => {
+    const { queryAllByTestId } = renderComponent();
+    expect(queryAllByTestId('expired-alert-message').length).to.equal(0);
+  });
+
+  it('calls accessErrors function', () => {
+    const accessErrors = sinon.spy(() => (
+      <div data-testid="custom-access-error">Custom Error</div>
+    ));
+    const { getByTestId } = renderComponent({ accessErrors });
+
+    expect(accessErrors.called).to.be.true;
+    expect(getByTestId('custom-access-error')).to.exist;
+  });
+
+  it('renders MissingRecordsError and DownloadSuccessAlert when SEI download is successful with some failed domains', () => {
+    const { getByTestId, getByText } = renderComponent({
+      successfulSeiDownload: true,
+      failedSeiDomains: ['allergies', 'medications'],
+    });
+
+    expect(getByTestId('alert-download-started')).to.exist;
+    expect(getByText(/Self-entered health information report download/)).to
+      .exist;
+  });
+
+  it('does not render MissingRecordsError when all SEI domains failed', () => {
+    const { queryByTestId } = renderComponent({
+      successfulSeiDownload: true,
+      failedSeiDomains: SEI_DOMAINS,
+    });
+
+    expect(queryByTestId('alert-download-started')).to.not.exist;
+  });
+
+  it('does not render SEI alerts when successfulSeiDownload is false', () => {
+    const { queryByTestId } = renderComponent({
+      successfulSeiDownload: false,
+      failedSeiDomains: ['allergies'],
+    });
+
+    expect(queryByTestId('alert-download-started')).to.not.exist;
+  });
+
+  it('renders CCD description text correctly', () => {
+    const { getByText } = renderComponent();
+
+    expect(
+      getByText(
+        /This Continuity of Care Document \(CCD\) is a summary of your VA medical records/,
+      ),
+    ).to.exist;
+    expect(
+      getByText(/that you can share with non-VA providers in your community/),
+    ).to.exist;
+  });
+
+  it('renders download links with correct text', () => {
+    const { getByTestId } = renderComponent();
+
+    expect(getByTestId('generateCcdButtonXmlOH')).to.have.attribute(
+      'text',
+      'Download XML (best for sharing with your provider)',
+    );
+    expect(getByTestId('generateCcdButtonPdfOH')).to.have.attribute(
+      'text',
+      'Download PDF (best for printing)',
+    );
+    expect(getByTestId('generateCcdButtonHtmlOH')).to.have.attribute(
+      'text',
+      'Download HTML (best for screen readers, enlargers, and refreshable Braille displays)',
+    );
+  });
+
+  it('uses the correct testIdSuffix in test ids', () => {
+    const { getByTestId } = renderComponent({ testIdSuffix: 'CustomSuffix' });
+
+    expect(getByTestId('generateCcdButtonXmlCustomSuffix')).to.exist;
+    expect(getByTestId('generateCcdButtonPdfCustomSuffix')).to.exist;
+    expect(getByTestId('generateCcdButtonHtmlCustomSuffix')).to.exist;
+  });
+
+  it('uses the correct ddSuffix in data-dd-action-name attributes', () => {
+    const { getByTestId } = renderComponent({ ddSuffix: 'CustomDD' });
+
+    expect(
+      getByTestId('generateCcdButtonXmlOH').getAttribute('data-dd-action-name'),
+    ).to.equal('Download CCD XML CustomDD');
+    expect(
+      getByTestId('generateCcdButtonPdfOH').getAttribute('data-dd-action-name'),
+    ).to.equal('Download CCD PDF CustomDD');
+    expect(
+      getByTestId('generateCcdButtonHtmlOH').getAttribute(
+        'data-dd-action-name',
+      ),
+    ).to.equal('Download CCD HTML CustomDD');
+  });
+});
