@@ -43,12 +43,8 @@ describe('ScheduleWithDifferentProvider', () => {
     expect(screen.getByTestId('request-appointment-link')).to.exist;
   });
 
-  /* Commenting out for now to unblock OH request test in staging
   it('should only display Call and ask to schedule with provider option when over request limit', () => {
     const store = createTestStore(defaultState);
-    const eligibility = {
-      requestReasons: ['overRequestLimit'],
-    };
     const selectedFacility = {
       id: '692',
       name: 'White City VA Medical Center',
@@ -57,13 +53,14 @@ describe('ScheduleWithDifferentProvider', () => {
     const screen = renderWithStoreAndRouter(
       <ScheduleWithDifferentProvider
         isEligibleForRequest
+        overRequestLimit
         selectedFacility={selectedFacility}
       />,
       { store },
     );
 
-    expect(screen.getByText(/Call and ask to schedule with that provider/i)).to
-      .exist;
+    // Info section below h1 now has all the text about contacting the facility when over request limit
+    // Options to request not avaialable since not eligible due to over limit
     expect(screen.queryByText(/Option 2: Call the facility/i)).to.not.exist;
     expect(
       screen.queryByText(
@@ -72,7 +69,6 @@ describe('ScheduleWithDifferentProvider', () => {
     ).to.not.exist;
     expect(screen.queryByText(/Request an appointment/i)).to.not.exist;
   });
-  */
 
   // currently using both facility configurations and eligibility endpoints as source of truth for request eligibility
   // TODO: once we switch to using only eligibility endpoint, we can remove this test
