@@ -9,6 +9,7 @@ describe('PayeeInformationCard', () => {
     expect(wrapper.exists()).to.be.ok;
     wrapper.unmount();
   });
+
   it('should render applicantName and showAdditionalInformation', () => {
     const wrapper = shallow(
       <PayeeInformationCard
@@ -16,36 +17,46 @@ describe('PayeeInformationCard', () => {
         applicantName="applicantName"
       />,
     );
-    expect(wrapper.find('va-additional-info')).to.exist;
+
+    expect(wrapper.find('va-additional-info')).to.have.lengthOf(1);
     wrapper.unmount();
   });
+
   it('should handle Chapter 1606 if applicantChapter is A', () => {
     const wrapper = shallow(
       <PayeeInformationCard
         showAdditionalInformation={false}
         applicantName="applicantName"
-        applicantChapter="A"
+        applicantChapter={[{ benefitType: 'A' }]}
       />,
     );
-    expect(wrapper.find('div > div > p').text()).to.equal(
+
+    expect(wrapper.find('li')).to.have.lengthOf(1);
+    expect(wrapper.find('li').text()).to.equal(
       'Montgomery GI Bill (MGIB) – Selective Reserve (Chapter 1606)',
     );
+
     wrapper.unmount();
   });
+
   it('should handle Chapter 30 if applicantChapter is B', () => {
     const wrapper = shallow(
       <PayeeInformationCard
         showAdditionalInformation={false}
         applicantName="applicantName"
-        applicantChapter="B"
+        applicantChapter={[{ benefitType: 'B' }]}
       />,
     );
-    expect(wrapper.find('div > div > p').text()).to.equal(
+
+    expect(wrapper.find('li')).to.have.lengthOf(1);
+    expect(wrapper.find('li').text()).to.equal(
       'Montgomery GI Bill (MGIB) – Active Duty (Chapter 30)',
     );
+
     wrapper.unmount();
   });
-  it('should render va-loading-indicator when is loading for applicantName', () => {
+
+  it('should render va-loading-indicator when loading for applicantName', () => {
     const wrapper = shallow(
       <PayeeInformationCard
         showAdditionalInformation
@@ -53,24 +64,29 @@ describe('PayeeInformationCard', () => {
         loading
       />,
     );
-    expect(wrapper.find('va-loading-indicator')).to.exist;
+
+    expect(wrapper.find('va-loading-indicator')).to.have.lengthOf(1);
     wrapper.unmount();
   });
-  it('should render va-loading-indicator when is loading for applicantChapter', () => {
+
+  it('should render va-loading-indicator when loading for applicantChapter', () => {
     const wrapper = shallow(
       <PayeeInformationCard
         showAdditionalInformation={false}
-        applicantChapter="applicantChapter"
+        applicantChapter={[]}
         loading
       />,
     );
-    expect(wrapper.find('va-loading-indicator')).to.exist;
+
+    expect(wrapper.find('va-loading-indicator')).to.have.lengthOf(1);
     wrapper.unmount();
   });
-  it('should render applicantClaimNumber when applicantClaimNumber is not null', () => {
+
+  it('should render applicantClaimNumber when applicantClaimNumber is not empty', () => {
     const wrapper = shallow(
       <PayeeInformationCard applicantClaimNumber="applicantClaimNumber" />,
     );
+
     expect(
       wrapper
         .find('p')
