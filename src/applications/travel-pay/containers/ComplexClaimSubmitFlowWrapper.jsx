@@ -27,21 +27,33 @@ import {
 import { STATUSES } from '../constants';
 import UnsavedChangesModal from '../components/UnsavedChangesModal';
 
-const getBackHref = ({
+const getBackRoute = ({
   isIntroductionPage,
   apptId,
   entryPoint,
   effectiveClaimId,
 }) => {
   if (isIntroductionPage) {
-    return `/my-health/appointments/past/${apptId}`;
+    return {
+      href: `/my-health/appointments/past/${apptId}`,
+      interAppRoute: true,
+    };
   }
 
   return (
     {
-      appointment: `/my-health/appointments/past/${apptId}`,
-      claim: `/my-health/travel-pay/claims/${effectiveClaimId}`,
-    }[entryPoint] ?? '/my-health/travel-pay/claims'
+      appointment: {
+        href: `/my-health/appointments/past/${apptId}`,
+        interAppRoute: true,
+      },
+      claim: {
+        href: `/my-health/travel-pay/claims/${effectiveClaimId}`,
+        interAppRoute: false,
+      },
+    }[entryPoint] ?? {
+      href: '/my-health/travel-pay/claims',
+      interAppRoute: false,
+    }
   );
 };
 
@@ -130,14 +142,18 @@ const ComplexClaimSubmitFlowWrapper = () => {
     setIsUnsavedChangesModalVisible(false);
 
     // Navigate to the appropriate back location
-    const backHref = getBackHref({
+    const backHref = getBackRoute({
       isIntroductionPage,
       apptId,
       entryPoint,
       effectiveClaimId,
     });
 
-    navigate(backHref);
+    if (backHref.interAppRoute) {
+      window.location.assign(backHref.href);
+    } else {
+      navigate(backHref.href.replace('/my-health/travel-pay', ''));
+    }
   };
 
   const handleContinueEditing = () => {
@@ -183,12 +199,14 @@ const ComplexClaimSubmitFlowWrapper = () => {
             back
             data-testid="complex-claim-back-link"
             disable-analytics
-            href={getBackHref({
-              isIntroductionPage,
-              apptId,
-              entryPoint,
-              effectiveClaimId,
-            })}
+            href={
+              getBackRoute({
+                isIntroductionPage,
+                apptId,
+                entryPoint,
+                effectiveClaimId,
+              }).href
+            }
             text={isIntroductionPage ? 'Back to appointment' : 'Back'}
             onClick={handleBackLinkClick}
           />
