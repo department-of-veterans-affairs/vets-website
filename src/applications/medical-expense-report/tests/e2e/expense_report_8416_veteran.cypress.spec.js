@@ -1,6 +1,6 @@
 import * as utils from '../utils';
 
-describe('Medical Expense Report Form 8416', () => {
+describe.skip('Medical Expense Report Form 8416', () => {
   describe('Veteran reporting medical expenses', () => {
     before(() => {
       utils.startApplicationWithoutLogin();

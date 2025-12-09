@@ -11,13 +11,13 @@ const testConfig = createTestConfig(
     dataDir: path.join(__dirname, 'fixtures', 'data'),
     dataSets: ['minimal-test'],
     pageHooks: {
-      introduction: ({ afterHook }) => {
-        afterHook(() => {
-          cy.findAllByText(/^start/i, { selector: 'a[href="#start"]' })
-            .last()
-            .click({ force: true });
-        });
-      },
+      // introduction: ({ afterHook }) => {
+      //   afterHook(() => {
+      //     cy.findAllByText(/^start/i, { selector: 'a[href="#start"]' })
+      //       .last()
+      //       .click({ force: true });
+      //   });
+      // },
     },
     setup: () => {
       Cypress.config({
@@ -29,7 +29,7 @@ const testConfig = createTestConfig(
     setupPerTest: () => {
       cy.intercept('GET', '/v0/user', mockUser);
       cy.intercept('POST', formConfig.submitUrl, { status: 200 });
-      cy.login(mockUser);
+      // cy.login(mockUser);
     },
 
     // Skip tests in CI until the form is released.

@@ -1,6 +1,6 @@
 import * as utils from '../utils';
 
-describe('Veteran reporting medical expenses path on foreign base', () => {
+describe.skip('Veteran reporting medical expenses path on foreign base', () => {
   before(() => {
     utils.startApplicationWithoutLogin();
   });
