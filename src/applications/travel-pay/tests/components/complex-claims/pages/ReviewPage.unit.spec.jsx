@@ -65,6 +65,11 @@ describe('Travel Pay – ReviewPage', () => {
           [claimId]: defaultClaim,
         },
       },
+      reviewPageAlert: {
+        title: 'Test Alert',
+        description: 'This is a test alert',
+        type: 'info',
+      },
       complexClaim: {
         claim: {
           creation: {
