@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { add, sub } from 'date-fns';
 
 import { requestStates } from 'platform/utilities/constants';
-import { daysFromToday } from './utils/dates/dateHelper';
+import { daysFromToday } from '../utils/dates/formatting';
 import { parseDate } from '../utils/dates';
 import { itfStatuses } from '../constants';
 
