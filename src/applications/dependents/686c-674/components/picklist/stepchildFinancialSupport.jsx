@@ -11,6 +11,11 @@ import { makeNamePossessive } from '../../../shared/utils';
 
 const stepchildFinancialSupport = {
   handlers: {
+    /**
+     * @type {GoForwardParams}
+     * Return "DONE" when we're done with this flow
+     * @returns {string} Next page key
+     */
     goForward: ({ itemData /* , index, fullData */ }) => {
       // If providing financial support, stepchild remains eligible
       if (itemData.stepchildFinancialSupport === 'Y') {
@@ -23,6 +28,10 @@ const stepchildFinancialSupport = {
       return 'DONE';
     },
 
+    /**
+     * @type {OnSubmitParams}
+     * @returns {void}
+     */
     onSubmit: ({ /* event, */ itemData, goForward }) => {
       // event.preventDefault(); // executed before this function is called
       if (!itemData.stepchildFinancialSupport) {
@@ -33,7 +42,10 @@ const stepchildFinancialSupport = {
     },
   },
 
-  /** @type {PicklistComponentProps} */
+  /**
+   * @type {PicklistComponentProps}
+   * @returns {React.ReactElement} Page component
+   */
   Component: ({
     itemData,
     formSubmitted,

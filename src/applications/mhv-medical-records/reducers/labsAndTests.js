@@ -256,7 +256,11 @@ export const convertMicrobiologyRecord = record => {
  * @returns the appropriate frontend object for display
  */
 export const convertPathologyRecord = record => {
-  const { code } = record.code.coding?.[0];
+  // Guard against null/undefined records to prevent TypeErrors
+  if (!record) return null;
+
+  // Safely access the first coding entry's code value
+  const codeValue = record?.code?.coding?.[0]?.code;
 
   // Define mapping for new LOINC codes to names
   const loincCodeMapping = {
@@ -266,22 +270,25 @@ export const convertPathologyRecord = record => {
     [loincCodes.CYTOPATHOLOGY]: 'Cytology',
   };
 
-  // Determine pathology type based on LOINC code
+  // Determine pathology type based on LOINC code (fallback to generic Pathology)
   let pathologyType;
-
-  if (code === loincCodes.PATHOLOGY) {
-    pathologyType = record.code.text;
+  if (codeValue === loincCodes.PATHOLOGY) {
+    // Prefer record.code.text when available; fallback to mapping value
+    pathologyType =
+      record?.code?.text || loincCodeMapping[loincCodes.PATHOLOGY];
   } else if (
-    code === loincCodes.SURGICAL_PATHOLOGY ||
-    code === loincCodes.ELECTRON_MICROSCOPY ||
-    code === loincCodes.CYTOPATHOLOGY
+    codeValue === loincCodes.SURGICAL_PATHOLOGY ||
+    codeValue === loincCodes.ELECTRON_MICROSCOPY ||
+    codeValue === loincCodes.CYTOPATHOLOGY
   ) {
-    pathologyType = loincCodeMapping[code];
+    pathologyType = loincCodeMapping[codeValue];
   } else {
     pathologyType = 'Pathology'; // fallback
   }
+
   const specimen = extractSpecimen(record);
   const labLocation = extractPerformingLabLocation(record) || EMPTY_FIELD;
+
   return {
     id: record.id,
     name: pathologyType,
@@ -297,9 +304,9 @@ export const convertPathologyRecord = record => {
     sampleTested: specimen?.collection?.bodySite?.text || EMPTY_FIELD,
     labLocation,
     collectingLocation: labLocation,
-    results:
-      record.presentedForm?.map(form => decodeBase64Report(form.data)) ||
-      EMPTY_FIELD,
+    results: Array.isArray(record.presentedForm)
+      ? record.presentedForm.map(form => decodeBase64Report(form.data))
+      : EMPTY_FIELD,
     sortDate: record.effectiveDateTime,
     labComments: record.labComments || EMPTY_FIELD,
   };
@@ -493,6 +500,8 @@ const labsAndTestsConverterMap = {
  * @returns the appropriate frontend object for display
  */
 export const convertLabsAndTestsRecord = record => {
+  // Null/undefined guard to prevent TypeErrors when upstream arrays contain nulls
+  if (!record) return null;
   const type = getRecordType(record);
   const convertRecord = labsAndTestsConverterMap[type];
   return convertRecord
@@ -532,6 +541,7 @@ export const convertUnifiedLabsAndTestRecord = record => {
     result: record.attributes.encodedData
       ? decodeBase64Report(record.attributes.encodedData)
       : null,
+    sortDate: record.attributes.dateCompleted,
     base: {
       ...record,
     },
@@ -588,34 +598,55 @@ export const labsAndTestsReducer = (state = initialState, action) => {
       };
     }
     case Actions.LabsAndTests.GET_UNIFIED_LIST: {
-      const data = action.labsAndTestsResponse;
+      // Coerce unified response to array before map/sort to avoid TypeErrors
+      const data = Array.isArray(action.labsAndTestsResponse)
+        ? action.labsAndTestsResponse
+        : [];
+      const labsAndTestsList = data.map(record =>
+        convertUnifiedLabsAndTestRecord(record),
+      );
+
+      // We will temporarily merge CVIX records w/ SCDF records while we wait for images to
+      // be available in SCDF radiology records.
+      const cvixData = Array.isArray(action.cvixRadiologyResponse)
+        ? action.cvixRadiologyResponse
+        : [];
+      const cvixList =
+        cvixData?.map(cvixRecord => {
+          const record = convertCvixRadiologyRecord(cvixRecord);
+          return {
+            ...record,
+            // For unified data, we are currently NOT hashing the CVIX radiology records, so
+            // remove 'undefined' hash from CVIX records
+            id: record.id.replace(/-undefined$/, ''),
+          };
+        }) || [];
+      const mergedList = [...labsAndTestsList, ...cvixList];
+
       return {
         ...state,
         listCurrentAsOf: action.isCurrent ? new Date() : null,
         listState: loadStates.FETCHED,
-        labsAndTestsList: data
-          .map(record => convertUnifiedLabsAndTestRecord(record))
-          .sort((a, b) => {
-            if (!a.base?.attributes?.dateCompleted) return 1; // Push nulls to the end
-            if (!b.base?.attributes?.dateCompleted) return -1; // Keep non-nulls at the front
-            const dateA = parseISO(a.base.attributes.dateCompleted);
-            const dateB = parseISO(b.base.attributes.dateCompleted);
-            return dateB - dateA;
-          }),
+        labsAndTestsList: sortByDate(mergedList),
       };
     }
     case Actions.LabsAndTests.GET_LIST: {
       const oldList = state.labsAndTestsList;
-      const labsAndTestsList =
-        action.labsAndTestsResponse.entry
-          ?.map(record => convertLabsAndTestsRecord(record.resource))
-          .filter(record => record.type !== labTypes.OTHER) || [];
-      const radiologyTestsList = (action.radiologyResponse || []).map(
-        convertLabsAndTestsRecord,
-      );
-      const cvixRadiologyTestsList = (action.cvixRadiologyResponse || []).map(
-        convertLabsAndTestsRecord,
-      );
+      const toArray = v => (Array.isArray(v) ? v : []);
+      // Coerce all sources to arrays before processing
+      const entry = toArray(action.labsAndTestsResponse?.entry);
+      const labsAndTestsList = entry
+        .map(record => convertLabsAndTestsRecord(record.resource))
+        .filter(record => record && record.type !== labTypes.OTHER);
+      // Filter out nulls BEFORE mapping to avoid calling converter with null
+      const radiologyTestsList = toArray(action.radiologyResponse)
+        .filter(Boolean)
+        .map(convertLabsAndTestsRecord)
+        .filter(Boolean);
+      const cvixRadiologyTestsList = toArray(action.cvixRadiologyResponse)
+        .filter(Boolean)
+        .map(convertLabsAndTestsRecord)
+        .filter(Boolean);
       const mergedRadiologyList = mergeRadiologyLists(
         radiologyTestsList,
         cvixRadiologyTestsList,

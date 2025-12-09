@@ -4,20 +4,19 @@
  * or Permanent Need for Regular Aid & Attendance
  */
 
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import {
   TITLE,
   SUBTITLE,
+  API_ENDPOINTS,
 } from '@bio-aquia/21-2680-house-bound-status/constants';
 import { GetHelp } from '@bio-aquia/21-2680-house-bound-status/components';
 import { IntroductionPage } from '@bio-aquia/21-2680-house-bound-status/containers/introduction-page';
 import { ConfirmationPage } from '@bio-aquia/21-2680-house-bound-status/containers/confirmation-page';
 import { prefillTransformer } from '@bio-aquia/21-2680-house-bound-status/config/prefill-transformer';
 import { submitTransformer } from '@bio-aquia/21-2680-house-bound-status/config/submit-transformer';
-import { submitForm } from '@bio-aquia/21-2680-house-bound-status/config/submit-handler/submit-handler';
 import manifest from '@bio-aquia/21-2680-house-bound-status/manifest.json';
 
 // Import page configurations (uiSchema and schema)
@@ -77,8 +76,7 @@ import {
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/v0/form212680/download_pdf`,
-  submit: submitForm,
+  submitUrl: API_ENDPOINTS.submitForm,
   transformForSubmit: submitTransformer,
   trackingPrefix: '21-2680-house-bound-status-',
   v3SegmentedProgressBar: true,
