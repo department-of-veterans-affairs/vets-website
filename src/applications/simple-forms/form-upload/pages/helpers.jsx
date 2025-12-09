@@ -9,9 +9,9 @@ export const CustomTopContent = () => {
   const breadcrumbs = [
     { href: '/', label: 'VA.gov home' },
     { href: '/forms', label: 'VA forms' },
-    // TODO: Restore this breadcrumb when the static content at /find-forms/upload plays nicely with the Form Upload tool
+    // TODO: Restore this breadcrumb when the static content at /forms/upload plays nicely with the Form Upload tool
     // {
-    //   href: `/find-forms/upload`,
+    //   href: `/forms/upload`,
     //   label: `Upload VA forms`,
     // },
     {
