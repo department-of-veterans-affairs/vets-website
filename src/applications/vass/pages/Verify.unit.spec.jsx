@@ -23,34 +23,33 @@ describe('VASS Component: Verify', () => {
   });
 
   it('should display error alert when submitting with incorrect credentials', async () => {
-    const { getByTestId, queryByTestId } = renderWithStoreAndRouterV6(
-      <Verify />,
-      {
-        initialState: {},
-      },
-    );
+    const {
+      getByTestId,
+      queryByTestId,
+      container,
+    } = renderWithStoreAndRouterV6(<Verify />, {
+      initialState: {},
+    });
 
     const lastNameInput = getByTestId('last-name-input');
-    const dobInput = getByTestId('dob-input');
+    const dobInput = container.querySelector(
+      'va-memorable-date[data-testid="dob-input"]',
+    );
     const submitButton = getByTestId('submit-button');
 
-    // Enter incorrect credentials
+    // Enter incorrect credentials using InputEvent
     lastNameInput.value = 'WrongName';
-    lastNameInput.dispatchEvent(
-      new CustomEvent('input', {
-        detail: { value: 'WrongName' },
-        bubbles: true,
-      }),
-    );
-
-    dobInput.value = '1990-01-01';
-    dobInput.dispatchEvent(
-      new CustomEvent('dateChange', {
-        detail: { value: '1990-01-01' },
+    const inputEvent = new container.ownerDocument.defaultView.InputEvent(
+      'input',
+      {
         bubbles: true,
         composed: true,
-      }),
+        data: 'WrongName',
+      },
     );
+    lastNameInput.dispatchEvent(inputEvent);
+
+    dobInput.__events.dateChange({ target: { value: '1990-01-01' } });
 
     submitButton.click();
 
