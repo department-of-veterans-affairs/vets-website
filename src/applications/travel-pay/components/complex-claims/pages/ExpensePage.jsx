@@ -15,7 +15,11 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import DocumentUpload from './DocumentUpload';
 import { EXPENSE_TYPES, EXPENSE_TYPE_KEYS } from '../../../constants';
-import { createExpense, updateExpense } from '../../../redux/actions';
+import {
+  createExpense,
+  updateExpense,
+  setReviewPageAlert,
+} from '../../../redux/actions';
 import {
   selectExpenseUpdateLoadingState,
   selectExpenseCreationLoadingState,
@@ -270,10 +274,37 @@ const ExpensePage = () => {
           createExpense(claimId, expenseConfig.apiRoute, formState),
         );
       }
-      navigate(`/file-new-claim/${apptId}/${claimId}/review`);
+
+      // Set success alert
+      const expenseTypeName = expenseConfig.expensePageText
+        ? `${expenseConfig.expensePageText} expense`
+        : 'expense';
+
+      dispatch(
+        setReviewPageAlert({
+          title: '',
+          description: `You successfully ${
+            isEditMode ? 'updated your' : 'added a'
+          } ${expenseTypeName}.`,
+          type: 'success',
+        }),
+      );
     } catch (error) {
-      // TODO: Handle error
+      // Set alert
+      const verb = isEditMode ? 'edit' : 'add';
+      dispatch(
+        setReviewPageAlert({
+          title: `We couldn't ${verb} this expense right now`,
+          description: `We're sorry. We can't ${
+            isEditMode ? 'edit' : 'add'
+          } this expense${
+            isEditMode ? '' : ' to your claim'
+          }. Try again later.`,
+          type: 'error',
+        }),
+      );
     }
+    navigate(`/file-new-claim/${apptId}/${claimId}/review`);
   };
 
   const handleBack = () => {
