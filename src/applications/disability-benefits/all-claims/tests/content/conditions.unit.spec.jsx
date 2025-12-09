@@ -5,6 +5,7 @@ import { cleanup, render } from '@testing-library/react';
 import {
   ConditionsIntroDescription,
   createCauseFollowUpDescriptions,
+  createNewConditionName,
   formatDateString,
   NewConditionDescription,
   NewConditionCardDescription,
@@ -87,6 +88,24 @@ describe('createCauseFollowUpDescriptions', () => {
     expect(
       createCauseFollowUpDescriptions({ cause: 'SOMETHING_ELSE' }),
     ).to.equal('');
+  });
+});
+
+describe('createNewConditionName', () => {
+  it('handles blanks, capitalization, and side-of-body', () => {
+    expect(createNewConditionName({ condition: '   ' })).to.equal('condition');
+    expect(createNewConditionName({ condition: 'knee pain' }, true)).to.equal(
+      'Knee pain',
+    );
+    expect(createNewConditionName({ condition: 'PTSD' }, true)).to.equal(
+      'PTSD',
+    );
+    expect(
+      createNewConditionName(
+        { condition: 'Shoulder', sideOfBody: 'Left' },
+        true,
+      ),
+    ).to.equal('Shoulder, left');
   });
 });
 
