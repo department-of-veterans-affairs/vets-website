@@ -49,7 +49,10 @@ const CategorySelectPage = props => {
         selectCategory: '',
         allowAttachments: false,
         categoryRequiresSignIn: false,
-        requireSignInLogic: [false, ...formData.requireSignInLogic.slice(1)],
+        requireSignInLogic: {
+          ...formData.requireSignInLogic,
+          category: false,
+        },
         contactPreferences: null,
       });
       return;
@@ -101,11 +104,15 @@ const CategorySelectPage = props => {
       categoryRequiresSignIn:
         selected.attributes.requiresAuthentication && !isLOA3,
       requireSignInLogic: formData.requireSignInLogic
-        ? [
-            selected.attributes.requiresAuthentication,
-            ...formData.requireSignInLogic.slice(1),
-          ]
-        : [selected.attributes.requiresAuthentication, false, false],
+        ? {
+            ...formData.requireSignInLogic,
+            category: selected.attributes.requiresAuthentication,
+          }
+        : {
+            category: selected.attributes.requiresAuthentication,
+            topic: false,
+            personQuestionIsAbout: false,
+          },
     });
   };
 

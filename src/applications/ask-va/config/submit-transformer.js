@@ -82,9 +82,9 @@ export default function submitTransformer(formData, uploadFiles) {
     schoolCode = formData?.schoolInfo?.schoolFacilityCode || null;
   }
 
-  const requireSignIn = (formData?.requireSignInLogic || [false]).some(
-    logic => logic === true,
-  );
+  const requireSignIn = formData?.requireSignInLogic
+    ? Object.values(formData?.requireSignInLogic).some(value => value === true)
+    : false;
 
   return {
     ...formData,
