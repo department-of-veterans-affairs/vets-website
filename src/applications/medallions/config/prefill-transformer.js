@@ -3,7 +3,7 @@ export default function prefillTransformer(pages, formData, metadata, state) {
   const { user } = state || {};
   const { profile } = user || {};
   const { vapContactInfo } = profile || {};
-  const { mailingAddress } = vapContactInfo || {};
+  const { mailingAddress, email } = vapContactInfo || {};
   // Build the transformed form data at root level
   const transformedFormData = {
     // Preserve any existing form data
@@ -23,7 +23,9 @@ export default function prefillTransformer(pages, formData, metadata, state) {
         country: mailingAddress.countryCodeIso3 || 'USA',
       },
     }),
-    // ...{email: vapContactInfo?.email?.emailAddress || formContactInfo.email},
+    ...(email && {
+      applicantEmail: { email: email.emailAddress || 'test@test.org' },
+    }),
   };
 
   return {
