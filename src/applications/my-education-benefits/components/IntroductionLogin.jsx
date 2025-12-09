@@ -5,7 +5,6 @@ import { getIntroState } from 'platform/forms/save-in-progress/selectors';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import VerifyAlert from 'platform/user/authorization/components/VerifyAlert';
-import { UNAUTH_SIGN_IN_DEFAULT_MESSAGE } from 'platform/forms-system/src/js/constants';
 import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
 import { getAppData } from '../selectors/selectors';
 import LoadingIndicator from './LoadingIndicator';
@@ -20,7 +19,6 @@ export function IntroductionLogin({
   user,
   showMeb1990EZMaintenanceAlert,
   showMeb1990EZR6MaintenanceMessage,
-  meb1995Reroute,
 }) {
   const apiCallsComplete = isLOA3 === false || isClaimantCallComplete;
   const openLoginModal = () => {
@@ -66,20 +64,14 @@ export function IntroductionLogin({
         user?.login?.hasCheckedKeepAlive && (
           <>
             <va-alert-sign-in
-              variant={
-                meb1995Reroute ? 'signInOptionalNoPrefill' : 'signInOptional'
-              }
+              variant="signInRequired"
               time-limit="60 days"
               visible
               heading-level={2}
             >
               <span slot="SignInButton">
                 <va-button
-                  text={
-                    meb1995Reroute
-                      ? 'Sign in or create an account'
-                      : UNAUTH_SIGN_IN_DEFAULT_MESSAGE
-                  }
+                  text="Sign in or create an account"
                   onClick={openLoginModal}
                 />
               </span>
@@ -124,7 +116,6 @@ IntroductionLogin.propTypes = {
   isLOA3: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
   isPersonalInfoFetchFailed: PropTypes.bool,
-  meb1995Reroute: PropTypes.bool,
   showHideLoginModal: PropTypes.func,
   showMeb1990EZMaintenanceAlert: PropTypes.bool,
   showMeb1990EZR6MaintenanceAlert: PropTypes.bool,
@@ -135,7 +126,6 @@ const mapStateToProps = state => ({
   ...getIntroState(state),
   ...getAppData(state),
   isPersonalInfoFetchFailed: state.data.isPersonalInfoFetchFailed || false,
-  meb1995Reroute: state.featureToggles[featureFlagNames.meb1995Reroute],
   showMeb1990EZMaintenanceAlert:
     state.featureToggles[featureFlagNames.showMeb1990EZMaintenanceAlert],
   showMeb1990EZR6MaintenanceMessage:

@@ -37,25 +37,12 @@ describe('IntroductionLogin', () => {
     meb1995Reroute: false,
   };
 
-  it("renders 'signInOptionalNoPrefill' va-alert-sign-in variant when meb1995Reroute is true", () => {
-    const wrapper = shallow(
-      <IntroductionLogin {...baseProps} meb1995Reroute />,
-    );
+  it("renders 'signInRequired' va-alert-sign-in variant", () => {
+    const wrapper = shallow(<IntroductionLogin {...baseProps} />);
     const alertSignIn = wrapper.find('va-alert-sign-in');
 
     expect(alertSignIn).to.have.lengthOf(1);
-    expect(alertSignIn.prop('variant')).to.equal('signInOptionalNoPrefill');
-    wrapper.unmount();
-  });
-
-  it("renders 'signInOptional' va-alert-sign-in variant when meb1995Reroute is false", () => {
-    const wrapper = shallow(
-      <IntroductionLogin {...baseProps} meb1995Reroute={false} />,
-    );
-    const alertSignIn = wrapper.find('va-alert-sign-in');
-
-    expect(alertSignIn).to.have.lengthOf(1);
-    expect(alertSignIn.prop('variant')).to.equal('signInOptional');
+    expect(alertSignIn.prop('variant')).to.equal('signInRequired');
     wrapper.unmount();
   });
 
@@ -67,25 +54,12 @@ describe('IntroductionLogin', () => {
     wrapper.unmount();
   });
 
-  it("displays 'Sign in or create an account' on the sign-in button when meb1995Reroute is true", () => {
-    const wrapper = shallow(
-      <IntroductionLogin {...baseProps} meb1995Reroute />,
-    );
+  it("displays 'Sign in or create an account' on the sign-in button", () => {
+    const wrapper = shallow(<IntroductionLogin {...baseProps} />);
     const button = wrapper.find('va-button');
 
     expect(button).to.have.lengthOf(1);
     expect(button.prop('text')).to.equal('Sign in or create an account');
-    wrapper.unmount();
-  });
-
-  it('displays the default message on the sign-in button when meb1995Reroute is false', () => {
-    const wrapper = shallow(
-      <IntroductionLogin {...baseProps} meb1995Reroute={false} />,
-    );
-    const button = wrapper.find('va-button');
-
-    expect(button).to.have.lengthOf(1);
-    expect(button.prop('text')).to.equal('Sign in to start your application');
     wrapper.unmount();
   });
 
