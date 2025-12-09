@@ -305,7 +305,7 @@ module.exports = async (env = {}) => {
     devtool: false,
     entry: entryFiles,
     output: {
-      path: path.resolve(buildPath, 'generated'),      
+      path: path.resolve(buildPath, 'generated'),
       publicPath: '/generated/',
       filename: '[name].entry.js',
       chunkFilename: '[name].entry.js',
