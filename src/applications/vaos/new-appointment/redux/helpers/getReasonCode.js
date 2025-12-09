@@ -12,10 +12,11 @@ import { format } from 'date-fns';
 import {
   PURPOSE_TEXT_V2,
   REASON_MAX_CHARS,
+  NEW_REASON_MAX_CHARS,
   TYPE_OF_VISIT,
 } from '../../../utils/constants';
 
-export function getReasonCode({ data, isCC, isDS }) {
+export function getReasonCode({ data, isCC, isDS, updateRequestFlow }) {
   const apptReasonCode = PURPOSE_TEXT_V2.find(
     purpose => purpose.id === data.reasonForAppointment,
   )?.commentShort;
@@ -23,7 +24,9 @@ export function getReasonCode({ data, isCC, isDS }) {
   let appointmentInfo = null;
   const visitMode = TYPE_OF_VISIT.filter(
     visit => visit.id === data.visitType,
-  ).map(visit => visit.vsGUI);
+  ).map(visit => (updateRequestFlow ? visit.vsGUI2 : visit.vsGUI));
+
+  const maxChars = updateRequestFlow ? NEW_REASON_MAX_CHARS : REASON_MAX_CHARS;
 
   if (isCC) {
     reasonText = data.reasonAdditionalInfo?.slice(0, REASON_MAX_CHARS);
@@ -38,20 +41,26 @@ export function getReasonCode({ data, isCC, isDS }) {
           new Date(date).getHours() >= 12 ? ' PM' : ' AM'
         }`,
     );
-    const facility = `station id: ${data.vaFacility}`;
-    const modality = `preferred modality: ${visitMode}`;
-    const phone = `phone number: ${data.phoneNumber}`;
+    const facility = updateRequestFlow
+      ? `station: ${data.vaFacility}`
+      : `station id: ${data.vaFacility}`;
+    const modality = updateRequestFlow
+      ? `modality: ${visitMode}`
+      : `preferred modality: ${visitMode}`;
+    const phone = updateRequestFlow
+      ? `phone: ${data.phoneNumber}`
+      : `phone number: ${data.phoneNumber}`;
     const email = `email: ${data.email}`;
     const preferredDates = `preferred dates:${formattedDates.toString()}`;
     const reasonCode = `reason code:${apptReasonCode}`;
-    reasonText = `comments:${data.reasonAdditionalInfo.slice(
-      0,
-      REASON_MAX_CHARS,
-    )}`;
-    // Add station id, preferred modality, phone number, email, preferred Date, reason Code to
-    // appointmentInfo string in this order: [0]station id, [1]preferred modality, [2]phone number,
-    // [3]email, [4]preferred Date, [5]reason Code
-    appointmentInfo = `${facility}|${modality}|${phone}|${email}|${preferredDates}|${reasonCode}`;
+    reasonText = `comments:${data.reasonAdditionalInfo.slice(0, maxChars)}`;
+
+    // Build appointmentInfo in order:
+    // [0] station id, [1] preferred modality, [2] phone number, [3] email, [4] preferred Date,
+    // [5] reason Code (omit when updateRequestFlow is true so it doesn't contribute to char count)
+    appointmentInfo = `${facility}|${modality}|${phone}|${email}|${preferredDates}${
+      updateRequestFlow ? '' : `|${reasonCode}`
+    }`;
   }
   if (isDS) {
     appointmentInfo = `reason code:${apptReasonCode}`;
