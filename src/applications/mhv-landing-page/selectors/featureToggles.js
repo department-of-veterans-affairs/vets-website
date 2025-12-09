@@ -9,3 +9,12 @@ import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlag
 export const personalizationEnabled = state => {
   return toggleValues(state)[FEATURE_FLAG_NAMES.mhvLandingPagePersonalization];
 };
+
+/**
+ * Determines if the Landing Page AAL flag is enabled.
+ * @param {Object} state Current redux state.
+ * @returns {Boolean} true if the personalization is enabled
+ */
+export const aalNoticeEnabled = state => {
+  return toggleValues(state)[FEATURE_FLAG_NAMES.mhvLandingPageAALNotice];
+};

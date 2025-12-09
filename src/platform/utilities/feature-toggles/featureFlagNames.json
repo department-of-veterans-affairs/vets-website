@@ -165,6 +165,7 @@
   "mhvAcceleratedDeliveryLabsAndTestsEnabled": "mhv_accelerated_delivery_labs_and_tests_enabled",
   "mhvBypassDowntimeNotification": "mhv_bypass_downtime_notification",
   "mhvEmailConfirmation": "mhv_email_confirmation",
+  "mhvLandingPageAALNotice": "mhv_landing_page_aal_notice",
   "mhvLandingPagePersonalization": "mhv_landing_page_personalization",
   "mhvLandingPageShowShareMyHealthDataLink": "mhv_landing_page_show_share_my_health_data_link",
   "mhvMedicalRecordsCcdExtendedFileTypes": "mhv_medical_records_ccd_extended_file_types",

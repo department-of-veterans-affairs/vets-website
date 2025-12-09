@@ -20,6 +20,7 @@ import {
   isCerner,
   isLOA3,
   isVAPatient,
+  aalNoticeEnabled,
   personalizationEnabled,
 } from '../selectors';
 import manifest from '../manifest.json';
@@ -31,6 +32,7 @@ const LandingPage = ({ data = {} }) => {
   const userRegistered = userVerified && vaPatient;
   const showWelcomeMessage = useSelector(personalizationEnabled);
   const userHasCernerFacility = useSelector(isCerner);
+  const showAalNotice = useSelector(aalNoticeEnabled);
 
   return (
     <>
@@ -63,7 +65,7 @@ const LandingPage = ({ data = {} }) => {
           <div className="vads-l-grid-container desktop-lg:vads-u-padding-x--0">
             <div className="vads-l-row vads-u-margin-top--3">
               <div className="vads-l-col medium-screen:vads-l-col--8">
-                <HelpdeskInfo />
+                <HelpdeskInfo aalNoticeEnabled={showAalNotice} />
               </div>
             </div>
           </div>

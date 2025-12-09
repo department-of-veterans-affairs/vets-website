@@ -10,7 +10,7 @@ import {
   isVAPatient,
 } from '~/platform/user/selectors';
 
-import { personalizationEnabled } from './featureToggles';
+import { aalNoticeEnabled, personalizationEnabled } from './featureToggles';
 import { hasEdipi } from './hasEdipi';
 import { hasMhvAccount } from './hasMhvAccount';
 import { selectGreetingName } from './personalInformation';
@@ -41,6 +41,7 @@ import {
 } from './accountInformation';
 
 export {
+  aalNoticeEnabled,
   hasEdipi,
   hasMhvAccount,
   hasMessagingAccess,
