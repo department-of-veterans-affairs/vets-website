@@ -45,7 +45,7 @@ const formConfig = {
   formOptions: {
     useWebComponentForNavigation: true,
   },
-  formId: VA_FORM_IDS.FORM_28_1900,
+  formId: VA_FORM_IDS.FORM_28_1900_V2,
   saveInProgress: {
     messages: {
       inProgress:
