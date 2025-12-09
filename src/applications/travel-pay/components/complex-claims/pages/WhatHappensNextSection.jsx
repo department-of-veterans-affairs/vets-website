@@ -1,7 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { BTSSS_PORTAL_URL, FORM_103542_LINK } from '../../../constants';
+import {
+  BTSSS_PORTAL_URL,
+  FORM_103542_LINK,
+  REIMBURSEMENT_URL,
+} from '../../../constants';
 
 const WhatHappensNextSection = ({ isError }) => {
   return (
@@ -58,7 +62,7 @@ const WhatHappensNextSection = ({ isError }) => {
                 needed.
               </p>
               <va-link
-                href="/resources/how-to-set-up-direct-deposit-for-va-travel-pay-reimbursement/"
+                href={REIMBURSEMENT_URL}
                 text="Set up direct deposit for travel pay"
               />
             </va-process-list-item>
