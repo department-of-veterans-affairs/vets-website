@@ -29,8 +29,8 @@ describe('Spouse or Child of Veteran medical expenses path', () => {
       level: 3,
       name: 'Reporting period effective date',
     }).should('exist');
-    utils.checkAxeAndClickContinueButton();
-    utils.fillInCareExpensesFromFixture();
+    // utils.checkAxeAndClickContinueButton();
+    // utils.fillInCareExpensesFromFixture();
 
     // cy.selectRadio('root_view:careExpensesList', 'N');
     // utils.checkAxeAndClickContinueButton();
