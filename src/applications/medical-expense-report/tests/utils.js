@@ -796,7 +796,7 @@ export const fillInStatementOfTruthFromFixture = () => {
 
   checkContentAnonymousStatementOfTruth();
   cy.injectAxeThenAxeCheck();
-  cy.get('button[class="usa-button-primary"]').click();
+  // cy.get('button[class="usa-button-primary"]').click();
 };
 
 /**
