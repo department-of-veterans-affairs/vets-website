@@ -242,7 +242,7 @@ class MedicationsDetailsPage {
   verifyDiscontinuedStatusDropDownDefinition = () => {
     cy.get('[data-testid="discontinued-status-definition"]').should(
       'contain',
-      "You can't refill this prescription. We may use this status for either of these reasons:",
+      'You can’t refill this prescription. We may use this status for either of these reasons:',
     );
   };
 

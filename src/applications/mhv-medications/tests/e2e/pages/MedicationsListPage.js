@@ -192,16 +192,14 @@ class MedicationsListPage {
   };
 
   verifyLearnHowToRenewPrescriptionsLinkExists = () => {
-    cy.get('[data-testid="learn-to-renew-prescriptions-link"]').should('exist');
+    cy.get('[data-testid="send-renewal-request-message-link"]').should('exist');
   };
 
   verifyLearnHowToRenewPrescriptionsLink = () => {
-    cy.get('[data-testid="learn-to-renew-prescriptions-link"]');
-    cy.get('[data-testid="learn-to-renew-prescriptions-link"]')
-
+    cy.get('[data-testid="send-renewal-request-message-link"]')
       .shadow()
-      .find(`[href="/resources/how-to-renew-a-va-prescription"]`)
-      .should('be.visible');
+      .find(`a`)
+      .should('contain', 'Send a renewal request message');
   };
 
   clickPrintOrDownloadThisListDropDown = () => {
