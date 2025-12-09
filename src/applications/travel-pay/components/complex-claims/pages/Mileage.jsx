@@ -114,12 +114,12 @@ const Mileage = () => {
           }),
         );
       } catch (error) {
-        // Set alert
+        // Set error alert
         const verb = isEditMode ? 'edit' : 'add';
         dispatch(
           setReviewPageAlert({
-            title: `We couldn’t ${verb} this expense right now`,
-            description: `We’re sorry. We can’t ${
+            title: `We couldn't ${verb} this expense right now`,
+            description: `We're sorry. We can't ${
               isEditMode ? 'edit' : 'add'
             } this expense${
               isEditMode ? '' : ' to your claim'
