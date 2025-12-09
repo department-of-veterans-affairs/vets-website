@@ -8,7 +8,7 @@ import { expect } from 'chai';
 import React from 'react';
 import { Provider } from 'react-redux';
 import sinon from 'sinon';
-import PreSubmitInfo from './pre-submit-checkbox-group';
+import PreSubmitInfo, { isSignatureValid } from './pre-submit-checkbox-group';
 
 const createMockStore = (submissionStatus = null, formData = {}) => {
   const dispatch = sinon.spy();
@@ -224,11 +224,71 @@ describe('PreSubmitCheckboxGroup', () => {
 
       const statementOfTruth = container.querySelector('va-statement-of-truth');
       expect(statementOfTruth.getAttribute('input-error')).to.equal(
-        'Enter your full name',
+        'Please enter a valid name using only letters, spaces, hyphens, apostrophes, and periods (at least 3 characters)',
       );
       expect(statementOfTruth.getAttribute('checkbox-error')).to.equal(
         'You must certify this statement is correct',
       );
+    });
+  });
+
+  describe('isSignatureValid Function', () => {
+    it('should return false for empty signature', () => {
+      expect(isSignatureValid('')).to.be.false;
+    });
+
+    it('should return false for null signature', () => {
+      expect(isSignatureValid(null)).to.be.false;
+    });
+
+    it('should return false for undefined signature', () => {
+      expect(isSignatureValid(undefined)).to.be.false;
+    });
+
+    it('should return false for signatures with less than 3 characters', () => {
+      expect(isSignatureValid('J')).to.be.false;
+      expect(isSignatureValid('Jo')).to.be.false;
+    });
+
+    it('should return true for signatures with 3+ characters', () => {
+      expect(isSignatureValid('Joe')).to.be.true;
+      expect(isSignatureValid('John')).to.be.true;
+      expect(isSignatureValid('John Doe')).to.be.true;
+    });
+
+    it('should trim whitespace before validation', () => {
+      expect(isSignatureValid('   ')).to.be.false;
+      expect(isSignatureValid('  J  ')).to.be.false;
+      expect(isSignatureValid('  Jo  ')).to.be.false;
+      expect(isSignatureValid('  Joe  ')).to.be.true;
+      expect(isSignatureValid(' John Doe ')).to.be.true;
+    });
+
+    it('should accept valid special characters in names', () => {
+      expect(isSignatureValid("O'Brien")).to.be.true;
+      expect(isSignatureValid('Smith-Jones')).to.be.true;
+      expect(isSignatureValid("Mary-Jane O'Connor")).to.be.true;
+      expect(isSignatureValid('John Jr.')).to.be.true;
+      expect(isSignatureValid('Dr. Smith')).to.be.true;
+    });
+
+    it('should accept international and accented characters', () => {
+      expect(isSignatureValid('José García')).to.be.true;
+      expect(isSignatureValid('François Müller')).to.be.true;
+      expect(isSignatureValid('María López')).to.be.true;
+    });
+
+    it('should reject names with numbers', () => {
+      expect(isSignatureValid('John123')).to.be.false;
+      expect(isSignatureValid('123 Main')).to.be.false;
+      expect(isSignatureValid('Test User 2')).to.be.false;
+    });
+
+    it('should reject names with invalid special characters', () => {
+      expect(isSignatureValid('John@Smith')).to.be.false;
+      expect(isSignatureValid('Jane#Doe')).to.be.false;
+      expect(isSignatureValid('Test$User')).to.be.false;
+      expect(isSignatureValid('Name (Nickname)')).to.be.false;
     });
   });
 
@@ -299,7 +359,7 @@ describe('PreSubmitCheckboxGroup', () => {
 
       await waitFor(() => {
         expect(statementOfTruth.getAttribute('input-error')).to.equal(
-          'Enter your full name',
+          'Please enter a valid name using only letters, spaces, hyphens, apostrophes, and periods (at least 3 characters)',
         );
       });
     });
@@ -430,7 +490,7 @@ describe('PreSubmitCheckboxGroup', () => {
   });
 
   describe('Error Messages', () => {
-    it('should show simple error for empty full name', () => {
+    it('should show validation error for empty full name', () => {
       const store = createMockStore(null, mockFormData);
       const { container } = render(
         <Provider store={store}>
@@ -443,7 +503,7 @@ describe('PreSubmitCheckboxGroup', () => {
 
       const statementOfTruth = container.querySelector('va-statement-of-truth');
       expect(statementOfTruth.getAttribute('input-error')).to.equal(
-        'Enter your full name',
+        'Please enter a valid name using only letters, spaces, hyphens, apostrophes, and periods (at least 3 characters)',
       );
     });
 

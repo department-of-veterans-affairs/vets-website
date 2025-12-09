@@ -9,6 +9,29 @@ const ERROR_MSG_CHECKBOX = 'You must certify this statement is correct';
 
 const TITLE_MIN_LENGTH = 2;
 const TITLE_MAX_LENGTH = 100;
+const FULL_NAME_MIN_LENGTH = 3;
+
+/**
+ * Validates signature input
+ * Requires at least 3 non-whitespace characters
+ * Allows letters (including accented/international characters), spaces, hyphens, apostrophes, and periods
+ * Does not allow numbers or invalid special characters
+ *
+ * @param {string} signatureValue - The signature input value
+ * @returns {boolean} - True if valid, false otherwise
+ */
+export const isSignatureValid = signatureValue => {
+  if (!signatureValue) return false;
+
+  const trimmed = signatureValue.trim();
+  if (trimmed.length < FULL_NAME_MIN_LENGTH) return false;
+
+  // Allow letters (including Unicode/accented characters), spaces, hyphens, apostrophes, and periods
+  // \p{L} matches any Unicode letter including é, ñ, ü, etc.
+  // This supports names like "José García", "Mary-Jane O'Connor Jr.", "François Müller"
+  const namePattern = /^[\p{L}\s'.-]+$/u;
+  return namePattern.test(trimmed);
+};
 
 /**
  * PreSubmitCheckboxGroup component
@@ -39,10 +62,10 @@ export const PreSubmitCheckboxGroup = ({ showError, onSectionComplete }) => {
   // Ref to track previous completion state (prevents unnecessary onSectionComplete calls)
   const prevCompleteRef = useRef(null);
 
-  // Validate full name is not empty
+  // Validate full name using shared validation logic
   const validateFullName = useCallback(
     () => {
-      return fullName.trim().length > 0;
+      return isSignatureValid(fullName);
     },
     [fullName],
   );
@@ -125,14 +148,15 @@ export const PreSubmitCheckboxGroup = ({ showError, onSectionComplete }) => {
   const shouldShowTitleError = !hasSubmittedForm && (titleTouched || showError);
 
   // Validation checks
-  const isFullNameEmpty = fullName.trim().length === 0;
+  const isFullNameValid = validateFullName();
   const isTitleEmpty = organizationTitle.trim().length === 0;
   const isTitleValid = validateTitle();
 
   // Error messages (null if no error)
   let fullNameError = null;
-  if (shouldShowFullNameError && isFullNameEmpty) {
-    fullNameError = 'Enter your full name';
+  if (shouldShowFullNameError && !isFullNameValid) {
+    fullNameError =
+      'Please enter a valid name using only letters, spaces, hyphens, apostrophes, and periods (at least 3 characters)';
   }
 
   let titleErrorMsg = null;
