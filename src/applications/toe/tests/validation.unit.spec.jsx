@@ -1,5 +1,7 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { isValidGivenName, isValidLastName } from '../utils/validation';
+import formConfig from '../config/form';
 
 describe('first middle name validation', () => {
   describe('valid given names', () => {
@@ -188,5 +190,107 @@ describe('first middle name validation', () => {
 
       expect(isValid).to.be.false;
     });
+  });
+});
+
+describe('Account Number Confirmation Validation', () => {
+  let errors;
+
+  beforeEach(() => {
+    errors = { addError: sinon.spy() };
+  });
+
+  const directDepositConfig =
+    formConfig.chapters.bankAccountInfoChapter.pages.directDeposit;
+
+  it('should show error when confirmation does not match account number', () => {
+    const formData = {
+      mebBankInfoConfirmationField: true,
+      bankAccount: {
+        accountNumber: '12345678',
+        accountNumberConfirmation: '87654321',
+      },
+    };
+
+    const validationFn =
+      directDepositConfig.uiSchema.bankAccount.accountNumberConfirmation[
+        'ui:validations'
+      ][0];
+    validationFn(errors, '87654321', formData);
+
+    expect(errors.addError.calledOnce).to.be.true;
+    expect(errors.addError.firstCall.args[0]).to.equal(
+      'This should match your bank account number',
+    );
+  });
+
+  it('should not show error when confirmation matches account number', () => {
+    const formData = {
+      mebBankInfoConfirmationField: true,
+      bankAccount: {
+        accountNumber: '12345678',
+        accountNumberConfirmation: '12345678',
+      },
+    };
+
+    const validationFn =
+      directDepositConfig.uiSchema.bankAccount.accountNumberConfirmation[
+        'ui:validations'
+      ][0];
+    validationFn(errors, '12345678', formData);
+
+    expect(errors.addError.called).to.be.false;
+  });
+
+  it('should not validate when feature flag is disabled', () => {
+    const formData = {
+      mebBankInfoConfirmationField: false,
+      bankAccount: {
+        accountNumber: '12345678',
+        accountNumberConfirmation: '87654321',
+      },
+    };
+
+    const validationFn =
+      directDepositConfig.uiSchema.bankAccount.accountNumberConfirmation[
+        'ui:validations'
+      ][0];
+    validationFn(errors, '87654321', formData);
+
+    expect(errors.addError.called).to.be.false;
+  });
+
+  it('should not show error when confirmation field is empty', () => {
+    const formData = {
+      mebBankInfoConfirmationField: true,
+      bankAccount: {
+        accountNumber: '12345678',
+      },
+    };
+
+    const validationFn =
+      directDepositConfig.uiSchema.bankAccount.accountNumberConfirmation[
+        'ui:validations'
+      ][0];
+    validationFn(errors, '', formData);
+
+    expect(errors.addError.called).to.be.false;
+  });
+
+  it('should not show error when account number is missing', () => {
+    const formData = {
+      mebBankInfoConfirmationField: true,
+      bankAccount: {
+        accountNumberConfirmation: '12345678',
+      },
+    };
+
+    const validationFn =
+      directDepositConfig.uiSchema.bankAccount.accountNumberConfirmation[
+        'ui:validations'
+      ][0];
+    validationFn(errors, '12345678', formData);
+
+    expect(errors.addError.called).to.be.false;
   });
 });

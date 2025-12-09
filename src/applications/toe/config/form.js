@@ -1282,6 +1282,7 @@ const formConfig = {
               'ui:order': [
                 'accountType',
                 'routingNumber',
+                'routingNumberConfirmation',
                 'accountNumber',
                 'accountNumberConfirmation',
               ],
@@ -1292,6 +1293,35 @@ const formConfig = {
                 },
                 'ui:reviewField': ObfuscateReviewField,
                 'ui:validations': [validateRoutingNumber],
+              },
+              routingNumberConfirmation: {
+                'ui:title': 'Re-enter routing number',
+                'ui:required': formData =>
+                  formData?.mebBankInfoConfirmationField === true,
+                'ui:options': {
+                  hideIf: formData =>
+                    formData?.mebBankInfoConfirmationField !== true,
+                },
+                'ui:errorMessages': {
+                  pattern: 'Please enter a valid 9-digit routing number',
+                },
+                'ui:validations': [
+                  (errors, fieldData, formData) => {
+                    if (formData?.mebBankInfoConfirmationField === true) {
+                      const routingNumber =
+                        formData[formFields.bankAccount]?.routingNumber;
+                      if (
+                        fieldData &&
+                        routingNumber &&
+                        fieldData !== routingNumber
+                      ) {
+                        errors.addError(
+                          'This should match your routing number',
+                        );
+                      }
+                    }
+                  },
+                ],
               },
               accountNumber: {
                 ...bankAccountUI.accountNumber,
@@ -1386,6 +1416,10 @@ const formConfig = {
                   routingNumber: {
                     type: 'string',
                     pattern: '^[\\d*]{5}\\d{4}$',
+                  },
+                  routingNumberConfirmation: {
+                    type: 'string',
+                    pattern: '^\\d{9}$',
                   },
                   accountNumberConfirmation: {
                     type: 'string',
