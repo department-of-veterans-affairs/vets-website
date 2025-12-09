@@ -5,43 +5,43 @@ import { personalInformationPage } from 'platform/forms-system/src/js/components
 import get from 'platform/utilities/data/get';
 import { TITLE, SUBTITLE } from '../constants.js';
 import manifest from '../manifest.json';
-import IntroductionPage from '../containers/IntroductionPage.jsx';
-import ConfirmationPage from '../containers/ConfirmationPage.jsx';
-import GetFormHelp from '../containers/GetFormHelp.jsx';
-import prefillTransformer from './prefill-transformer.js';
+import IntroductionPage from '../containers/IntroductionPage';
+import ConfirmationPage from '../containers/ConfirmationPage';
+import GetFormHelp from '../containers/GetFormHelp';
+import prefillTransformer from './prefill-transformer';
 
-import veteranName from '../pages/veteranName.js';
-import veteranInfo1 from '../pages/veteranInfo1.js';
-import veteranInfo2 from '../pages/veteranInfo2.js';
-import applicantName from '../pages/applicantName.js';
-import veteranDemographics1 from '../pages/veteranDemographics1.js';
-import veteranDemographics2 from '../pages/veteranDemographics2.js';
-import applicantRelationToVet from '../pages/applicantRelationToVet.js';
-import applicantRelationToVetOrg from '../pages/applicantRelationToVetOrg.js';
-import applicantRelationToVetOrg2 from '../pages/applicantRelationToVetOrg2.js';
-import applicantContactInfo from '../pages/applicantContactInfo.js';
-import applicantContactInfo2 from '../pages/applicantContactInfo2.js';
-import applicantMailingAddress from '../pages/applicantMailingAddress.js';
-import applicantMailingAddress2 from '../pages/applicantMailingAddress2.js';
-import burialLocation from '../pages/burialLocation.js';
-import headstoneOrMarker from '../pages/headstoneOrMarker.js';
-import cemeteryName from '../pages/cemeteryName.js';
-import cemeteryContactInfo from '../pages/cemeteryContactInfo.js';
-import applicantMailingAddressEdit from '../pages/applicantMailingAddressEdit.js';
-import ApplicantMailingAddressLoggedIn from '../pages/applicantMailingAddressLoggedIn.js';
-import ApplicantSuggestedAddressLoggedIn from '../pages/applicantSuggestedAddressLoggedIn.jsx';
-import supportingDocuments from '../pages/supportingDocuments.js';
-import supportingDocumentsUpload from '../pages/supportingDocumentsUpload.jsx';
-import typeOfRequest from '../pages/typeOfRequest.js';
-import replacementMedallionReason from '../pages/replacementMedallionReason.js';
-import typeOfMedallion from '../pages/typeOfMedallion.jsx';
-import medallionSize from '../pages/medallionSize.js';
+import veteranName from '../pages/veteranName';
+import veteranInfo1 from '../pages/veteranInfo1';
+import veteranInfo2 from '../pages/veteranInfo2';
+import applicantName from '../pages/applicantName';
+import veteranDemographics1 from '../pages/veteranDemographics1';
+import veteranDemographics2 from '../pages/veteranDemographics2';
+import applicantRelationToVet from '../pages/applicantRelationToVet';
+import applicantRelationToVetOrg from '../pages/applicantRelationToVetOrg';
+import applicantRelationToVetOrg2 from '../pages/applicantRelationToVetOrg2';
+import applicantContactInfo from '../pages/applicantContactInfo';
+import applicantContactInfo2 from '../pages/applicantContactInfo2';
+import applicantMailingAddress from '../pages/applicantMailingAddress';
+import applicantMailingAddress2 from '../pages/applicantMailingAddress2';
+import burialLocation from '../pages/burialLocation';
+import headstoneOrMarker from '../pages/headstoneOrMarker';
+import cemeteryName from '../pages/cemeteryName';
+import cemeteryContactInfo from '../pages/cemeteryContactInfo';
+import applicantMailingAddressEdit from '../pages/applicantMailingAddressEdit';
+import ApplicantMailingAddressLoggedIn from '../pages/applicantMailingAddressLoggedIn';
+import ApplicantSuggestedAddressLoggedIn from '../pages/applicantSuggestedAddressLoggedIn';
+import supportingDocuments from '../pages/supportingDocuments';
+import supportingDocumentsUpload from '../pages/supportingDocumentsUpload';
+import typeOfRequest from '../pages/typeOfRequest';
+import replacementMedallionReason from '../pages/replacementMedallionReason';
+import typeOfMedallion from '../pages/typeOfMedallion';
+import medallionSize from '../pages/medallionSize';
 import {
   ApplicantNameHeader,
   ApplicantNameNote,
   isUserSignedIn,
-} from '../utils/helpers.js';
-import { servicePeriodsPages } from '../pages/servicePeriodsPages.jsx';
+} from '../utils/helpers';
+import { servicePeriodsPages } from '../pages/servicePeriodsPages';
 
 /** @type {FormConfig} */
 const formConfig = {
