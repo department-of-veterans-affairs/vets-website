@@ -26,17 +26,17 @@ const ConfirmationPage = () => {
 
   const { isSubmitting, error: submitError, data: submitResponse } =
     submissionState || {};
-  let pageHeader;
+  let pageHeader = 'We’re processing your travel reimbursement claim';
   let alertConfig = { status: null, headline: '' }; // default
 
   if (submitError) {
+    // override header if there is an error
     pageHeader = 'We couldn’t file your claim';
     alertConfig = {
       status: 'error',
       headline: 'Something went wrong on our end',
     };
   } else if (submitResponse) {
-    pageHeader = 'We’re processing your travel reimbursement claim';
     alertConfig = {
       status: 'success',
       headline: 'Claim submitted',
