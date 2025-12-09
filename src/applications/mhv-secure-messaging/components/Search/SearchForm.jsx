@@ -262,11 +262,15 @@ const SearchForm = props => {
     [folder.folderId],
   );
 
-  const getAriaDescribedBy = () => {
-    if (filterStatus === FilterStatus.CLEARED) return 'filter-clear-success';
-    if (filterStatus === FilterStatus.APPLIED) return 'filter-applied-success';
-    return 'filter-default';
-  };
+  const getAriaDescribedBy = useMemo(
+    () => {
+      if (filterStatus === FilterStatus.CLEARED) return 'filter-clear-success';
+      if (filterStatus === FilterStatus.APPLIED)
+        return 'filter-applied-success';
+      return 'filter-default';
+    },
+    [filterStatus],
+  );
 
   return (
     <>
@@ -279,7 +283,7 @@ const SearchForm = props => {
       >
         <h2
           ref={filterFormTitleRef}
-          aria-describedby={getAriaDescribedBy()}
+          aria-describedby={getAriaDescribedBy}
           onBlur={() => {
             if (
               filterStatus === FilterStatus.CLEARED ||
