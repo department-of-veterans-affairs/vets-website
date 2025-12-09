@@ -9,23 +9,13 @@ import { formatIssueList } from '../../../shared/utils/contestableIssueMessages'
 export const promptContent = {
   question:
     'Do you want us to get your private (non-VA) provider or VA Vet Center medical records?',
-  // options: [
-  //   {
-  //     value: 'Y',
-  //     description: `We'll ask you to provide details for your private providers to authorize the release of your medical records to VA.`,
-  //     label: 'Yes',
-  //   },
-  //   {
-  //     value: 'N',
-  //     description:
-  //       'You can upload your private provider records later in this form, or you can authorize us to get them after you submit this application.',
-  //     label: 'No',
-  //   },
-  // ],
-  options: {
+  labels: {
+    Y: 'Yes',
+    N: 'No',
+  },
+  descriptions: {
     Y: `We'll ask you to provide details for your private providers to authorize the release of your medical records to VA.`,
-    N:
-      'You can upload your private provider records later in this form, or you can authorize us to get them after you submit this application.',
+    N: `You can upload your private provider records later in this form, or you can authorize us to get them after you submit this application.`,
   },
   description: (
     <>
@@ -66,7 +56,10 @@ export const summaryContent = {
   cardDescription: item => {
     console.log('item: ', item);
     console.log('item issues: ', item?.issues);
-    console.log('item treatmentLocation: ', item?.[PRIVATE_TREATMENT_LOCATION_KEY]);
+    console.log(
+      'item treatmentLocation: ',
+      item?.[PRIVATE_TREATMENT_LOCATION_KEY],
+    );
     return (
       <>
         {item?.[PRIVATE_TREATMENT_LOCATION_KEY] && (

@@ -86,7 +86,8 @@ const summaryPage = {
       options,
       {
         title: null,
-        labels: promptContent.options,
+        labels: promptContent.labels,
+        descriptions: promptContent.descriptions,
         labelHeaderLevel: '3',
         hint: null,
         errorMessages: {
