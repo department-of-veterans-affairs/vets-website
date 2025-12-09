@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom-v5-compat';
+import { focusElement } from 'platform/utilities/ui';
 import { VaMemorableDate } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import Wrapper from '../layout/Wrapper';
 
@@ -22,6 +23,24 @@ const Verify = () => {
   const [error, setError] = useState(false);
   const [lastnameError, setLastnameError] = useState(undefined);
   const [dobError, setDobError] = useState(undefined);
+  const [focusTrigger, setFocusTrigger] = useState(0);
+
+  useEffect(
+    () => {
+      if (error || lastnameError || dobError) {
+        setTimeout(() => {
+          if (lastnameError) {
+            focusElement('va-text-input[data-testid="last-name-input"]');
+          } else if (dobError) {
+            focusElement('va-memorable-date[data-testid="dob-input"]');
+          } else {
+            focusElement('va-alert[data-testid="verify-error-alert"]');
+          }
+        }, 100);
+      }
+    },
+    [focusTrigger, error, lastnameError, dobError],
+  );
 
   const handleSubmit = () => {
     if (lastname === '' || dob === '') {
@@ -31,6 +50,7 @@ const Verify = () => {
       if (dob === '') {
         setDobError('Please enter your date of birth');
       }
+      setFocusTrigger(prev => prev + 1);
       return;
     }
     // TODO: remove this and use the fetch call to the API

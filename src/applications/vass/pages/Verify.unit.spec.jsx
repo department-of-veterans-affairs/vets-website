@@ -2,6 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { waitFor } from '@testing-library/react';
 import { renderWithStoreAndRouterV6 } from '~/platform/testing/unit/react-testing-library-helpers';
+import { inputVaTextInput } from '@department-of-veterans-affairs/platform-testing/helpers';
 
 import Verify from './Verify';
 
@@ -31,25 +32,18 @@ describe('VASS Component: Verify', () => {
       initialState: {},
     });
 
-    const lastNameInput = getByTestId('last-name-input');
+    const submitButton = getByTestId('submit-button');
+
     const dobInput = container.querySelector(
       'va-memorable-date[data-testid="dob-input"]',
     );
-    const submitButton = getByTestId('submit-button');
-
-    // Enter incorrect credentials using InputEvent
-    lastNameInput.value = 'WrongName';
-    const inputEvent = new container.ownerDocument.defaultView.InputEvent(
-      'input',
-      {
-        bubbles: true,
-        composed: true,
-        data: 'WrongName',
-      },
-    );
-    lastNameInput.dispatchEvent(inputEvent);
-
     dobInput.__events.dateChange({ target: { value: '1990-01-01' } });
+
+    inputVaTextInput(
+      container,
+      'WrongName',
+      'va-text-input[data-testid="last-name-input"]',
+    );
 
     submitButton.click();
 
