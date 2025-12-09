@@ -19,6 +19,22 @@ import { showExitLink } from './utils';
 import { getFullName } from '../../../shared/utils';
 import ExitForm from '../../../shared/components/ExitFormLink';
 
+/**
+ * Picklist Remove Dependent Followup Component
+ * @typedef {object} PicklistRemoveDependentFollowupProps
+ *
+ * @property {object} data - form data
+ * @property {function} goBack - function to go to previous page
+ * @property {function} goForward - function to go to next page
+ * @property {function} goToPath - function to go to specific path
+ * @property {function} setFormData - function to set form data
+ * @property {node} contentBeforeButtons - content to render before buttons
+ * @property {node} contentAfterButtons - content to render after buttons
+ * @property {string} urlTestingOnly - url for testing purposes only
+ *
+ * @param {PicklistRemoveDependentFollowupProps} props - Component props
+ * @returns {React.Component} - Picklist remove dependent followup page
+ */
 const PicklistRemoveDependentFollowup = ({
   data = {},
   goBack,
