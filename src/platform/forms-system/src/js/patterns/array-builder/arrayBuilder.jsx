@@ -1,5 +1,6 @@
 import React from 'react';
 import { getNextPagePath } from 'platform/forms-system/src/js/routing';
+import environment from 'platform/utilities/environment';
 import {
   createArrayBuilderItemAddPath,
   onNavForwardKeepUrlParams,
@@ -460,7 +461,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     typeof userRequired === 'function' ? userRequired : () => userRequired;
 
   const getActiveItemPages = (formData, index, context = null) => {
-    return itemPages.filter(page => {
+    const activePages = itemPages.filter(page => {
       try {
         if (page.depends) {
           return safeDependsItem(page.depends)(formData, index, context);
@@ -470,6 +471,17 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
         return false;
       }
     });
+
+    if (activePages.length === 0 && !environment.isProduction()) {
+      throw new Error(
+        `Array Builder Error: All item pages were filtered out for arrayPath "${arrayPath}" at index ${index}. ` +
+          `Make sure at least one of your itemPage depends functions returns true for index ${index +
+            1} (next item). ` +
+          `Check your depends conditions to ensure at least one item page is always available.`,
+      );
+    }
+
+    return activePages;
   };
 
   const getFirstItemPagePath = (formData, index, context = null) => {
