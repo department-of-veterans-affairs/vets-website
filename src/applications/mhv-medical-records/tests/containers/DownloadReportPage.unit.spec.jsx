@@ -8,12 +8,22 @@ import { fireEvent } from '@testing-library/dom';
 import sinon from 'sinon';
 import reducer from '../../reducers';
 import DownloadReportPage from '../../containers/DownloadReportPage';
-import user from '../fixtures/user.json';
 import { ALERT_TYPE_BB_ERROR } from '../../util/constants';
 
 describe('DownloadRecordsPage', () => {
   const baseState = {
-    user,
+    user: {
+      profile: {
+        userFullName: { first: 'John', last: 'Smith' },
+        dob: '1974-04-06',
+        facilities: [
+          {
+            facilityId: '516',
+            isCerner: false,
+          },
+        ],
+      },
+    },
     mr: {
       downloads: {
         generatingCCD: false,
@@ -26,6 +36,23 @@ describe('DownloadRecordsPage', () => {
     },
     featureToggles: {
       [FEATURE_FLAG_NAMES.mhvMedicalRecordsCcdExtendedFileTypes]: true,
+      loading: false,
+    },
+    drupalStaticData: {
+      vamcEhrData: {
+        loading: false,
+        data: {
+          ehrDataByVhaId: {
+            '516': {
+              vhaId: '516',
+              vamcFacilityName: 'Test VA Medical Center',
+              vamcSystemName: 'VA Test health care',
+              ehr: 'vista',
+            },
+          },
+          cernerFacilities: [],
+        },
+      },
     },
   };
 
@@ -56,7 +83,7 @@ describe('DownloadRecordsPage', () => {
     );
 
     fireEvent.click(ccdGenerateButton);
-    expect(screen.container.querySelector('#generating-ccd-indicator')).to
+    expect(screen.container.querySelector('#generating-ccd-Vista-indicator')).to
       .exist;
   });
 
@@ -73,7 +100,7 @@ describe('DownloadRecordsPage', () => {
     );
 
     fireEvent.click(ccdGenerateButton);
-    expect(screen.container.querySelector('#generating-ccd-indicator')).to
+    expect(screen.container.querySelector('#generating-ccd-Vista-indicator')).to
       .exist;
   });
 
@@ -90,7 +117,7 @@ describe('DownloadRecordsPage', () => {
     );
 
     fireEvent.click(ccdGenerateButton);
-    expect(screen.container.querySelector('#generating-ccd-indicator')).to
+    expect(screen.container.querySelector('#generating-ccd-Vista-indicator')).to
       .exist;
   });
 
@@ -111,7 +138,18 @@ describe('DownloadRecordsPage with all SEI domains failed', () => {
 
     screen = renderWithStoreAndRouter(<DownloadReportPage runningUnitTest />, {
       initialState: {
-        user,
+        user: {
+          profile: {
+            userFullName: { first: 'John', last: 'Smith' },
+            dob: '1974-04-06',
+            facilities: [
+              {
+                facilityId: '516',
+                isCerner: false,
+              },
+            ],
+          },
+        },
         mr: {
           downloads: {
             generatingCCD: false,
@@ -119,6 +157,26 @@ describe('DownloadRecordsPage with all SEI domains failed', () => {
             bbDownloadSuccess: false,
           },
           blueButton: { failedDomains: [] },
+        },
+        featureToggles: {
+          [FEATURE_FLAG_NAMES.mhvMedicalRecordsCcdExtendedFileTypes]: true,
+          loading: false,
+        },
+        drupalStaticData: {
+          vamcEhrData: {
+            loading: false,
+            data: {
+              ehrDataByVhaId: {
+                '516': {
+                  vhaId: '516',
+                  vamcFacilityName: 'Test VA Medical Center',
+                  vamcSystemName: 'VA Test health care',
+                  ehr: 'vista',
+                },
+              },
+              cernerFacilities: [],
+            },
+          },
         },
       },
       reducers: reducer,
@@ -150,7 +208,18 @@ describe('DownloadRecordsPage with all SEI domains failed', () => {
 describe('DownloadRecordsPage triggering SEI PDF download', () => {
   // Here we simulate a scenario where SEI data is readily available
   const stateWithSeiData = {
-    user,
+    user: {
+      profile: {
+        userFullName: { first: 'John', last: 'Smith' },
+        dob: '1974-04-06',
+        facilities: [
+          {
+            facilityId: '516',
+            isCerner: false,
+          },
+        ],
+      },
+    },
     mr: {
       downloads: {
         generatingCCD: false,
@@ -159,6 +228,26 @@ describe('DownloadRecordsPage triggering SEI PDF download', () => {
       },
       blueButton: {
         failedDomains: [],
+      },
+    },
+    featureToggles: {
+      [FEATURE_FLAG_NAMES.mhvMedicalRecordsCcdExtendedFileTypes]: true,
+      loading: false,
+    },
+    drupalStaticData: {
+      vamcEhrData: {
+        loading: false,
+        data: {
+          ehrDataByVhaId: {
+            '516': {
+              vhaId: '516',
+              vamcFacilityName: 'Test VA Medical Center',
+              vamcSystemName: 'VA Test health care',
+              ehr: 'vista',
+            },
+          },
+          cernerFacilities: [],
+        },
       },
     },
   };
@@ -202,9 +291,48 @@ describe('DownloadRecordsPage triggering SEI PDF download', () => {
 
 describe('DownloadRecordsPage with a general BB download error', () => {
   const stateWithAllSeiFailed = {
-    user,
+    user: {
+      profile: {
+        userFullName: { first: 'John', last: 'Smith' },
+        dob: '1974-04-06',
+        facilities: [
+          {
+            facilityId: '516',
+            isCerner: false,
+          },
+        ],
+      },
+    },
     mr: {
       alerts: { alertList: [{ type: ALERT_TYPE_BB_ERROR, isActive: true }] },
+      downloads: {
+        generatingCCD: false,
+        ccdError: false,
+        bbDownloadSuccess: false,
+      },
+      blueButton: {
+        failedDomains: [],
+      },
+    },
+    featureToggles: {
+      [FEATURE_FLAG_NAMES.mhvMedicalRecordsCcdExtendedFileTypes]: true,
+      loading: false,
+    },
+    drupalStaticData: {
+      vamcEhrData: {
+        loading: false,
+        data: {
+          ehrDataByVhaId: {
+            '516': {
+              vhaId: '516',
+              vamcFacilityName: 'Test VA Medical Center',
+              vamcSystemName: 'VA Test health care',
+              ehr: 'vista',
+            },
+          },
+          cernerFacilities: [],
+        },
+      },
     },
   };
 
@@ -227,7 +355,18 @@ describe('DownloadRecordsPage with a general BB download error', () => {
 
 describe('DownloadRecordsPage with successful Blue Button download alert', () => {
   const stateWithBBSuccess = {
-    user,
+    user: {
+      profile: {
+        userFullName: { first: 'John', last: 'Smith' },
+        dob: '1974-04-06',
+        facilities: [
+          {
+            facilityId: '516',
+            isCerner: false,
+          },
+        ],
+      },
+    },
     mr: {
       downloads: {
         generatingCCD: false,
@@ -236,6 +375,26 @@ describe('DownloadRecordsPage with successful Blue Button download alert', () =>
       },
       blueButton: {
         failedDomains: [],
+      },
+    },
+    featureToggles: {
+      [FEATURE_FLAG_NAMES.mhvMedicalRecordsCcdExtendedFileTypes]: true,
+      loading: false,
+    },
+    drupalStaticData: {
+      vamcEhrData: {
+        loading: false,
+        data: {
+          ehrDataByVhaId: {
+            '516': {
+              vhaId: '516',
+              vamcFacilityName: 'Test VA Medical Center',
+              vamcSystemName: 'VA Test health care',
+              ehr: 'vista',
+            },
+          },
+          cernerFacilities: [],
+        },
       },
     },
   };
@@ -257,7 +416,18 @@ describe('DownloadRecordsPage with successful Blue Button download alert', () =>
 
 describe('DownloadRecordsPage with extended file types flag OFF', () => {
   const baseState = {
-    user,
+    user: {
+      profile: {
+        userFullName: { first: 'John', last: 'Smith' },
+        dob: '1974-04-06',
+        facilities: [
+          {
+            facilityId: '516',
+            isCerner: false,
+          },
+        ],
+      },
+    },
     mr: {
       downloads: {
         generatingCCD: false,
@@ -267,8 +437,25 @@ describe('DownloadRecordsPage with extended file types flag OFF', () => {
       blueButton: {
         failedDomains: [],
       },
-      featureToggles: {
-        [FEATURE_FLAG_NAMES.mhvMedicalRecordsCcdExtendedFileTypes]: false,
+    },
+    featureToggles: {
+      [FEATURE_FLAG_NAMES.mhvMedicalRecordsCcdExtendedFileTypes]: false,
+      loading: false,
+    },
+    drupalStaticData: {
+      vamcEhrData: {
+        loading: false,
+        data: {
+          ehrDataByVhaId: {
+            '516': {
+              vhaId: '516',
+              vamcFacilityName: 'Test VA Medical Center',
+              vamcSystemName: 'VA Test health care',
+              ehr: 'vista',
+            },
+          },
+          cernerFacilities: [],
+        },
       },
     },
   };
@@ -423,7 +610,7 @@ describe('DownloadRecordsPage for Cerner users', () => {
     });
 
     expect(screen).to.exist;
-    expect(screen.getByText('Download your medical records reports')).to.exist;
+    expect(screen.getByText('Download your medical records report')).to.exist;
     expect(screen.getByTestId('cerner-facilities-alert')).to.exist;
   });
 
