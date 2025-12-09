@@ -51,8 +51,20 @@ export const getResultsRouteName = resultType => {
   return '';
 };
 
-// Except for INTRODUCTION and results pages, left side must match
-// short name codes in constants/question-data-map
+/**
+ * Except for INTRODUCTION and results pages, left side must match
+ * short name codes in constants/question-data-map.
+ *
+ * Some question codes share content (e.g. we ask the same question
+ * in multiple paths). Because we kebab-case the <h1> from the page
+ * to create the route, we'd end up with multiple identical routes.
+ * To solve this, we pass sequential alphabetical suffixes to each
+ * question code that points to shared content. For example:
+ *
+ * Q_2_IS_1B_2_JUDGE_HEARING: 'hearing-with-a-veterans-law-judge-a'
+ * Q_2_IS_1B_3_JUDGE_HEARING: 'hearing-with-a-veterans-law-judge-b'
+ */
+
 export const ROUTES = Object.freeze({
   INTRODUCTION: ' ',
   Q_1_1_CLAIM_DECISION: getQuestionRouteName(S.Q_1_1_CLAIM_DECISION),
@@ -95,11 +107,19 @@ export const ROUTES = Object.freeze({
     'b',
   ),
   Q_2_IS_1B_NEW_EVIDENCE: getQuestionRouteName(S.Q_2_IS_1B_NEW_EVIDENCE, 'b'),
+  Q_2_IS_1B_2_JUDGE_HEARING: getQuestionRouteName(
+    S.Q_2_IS_1B_2_JUDGE_HEARING,
+    'a',
+  ),
+  Q_2_IS_1B_3_JUDGE_HEARING: getQuestionRouteName(
+    S.Q_2_IS_1B_3_JUDGE_HEARING,
+    'b',
+  ),
   Q_2_S_1_NEW_EVIDENCE: getQuestionRouteName(S.Q_2_S_1_NEW_EVIDENCE, 'c'),
   Q_2_S_2_WITHIN_120_DAYS: getQuestionRouteName(S.Q_2_S_2_WITHIN_120_DAYS),
   Q_2_H_2_NEW_EVIDENCE: getQuestionRouteName(S.Q_2_H_2_NEW_EVIDENCE, 'd'),
-  Q_2_H_2A_JUDGE_HEARING: getQuestionRouteName(S.Q_2_H_2A_JUDGE_HEARING, 'a'),
-  Q_2_H_2B_JUDGE_HEARING: getQuestionRouteName(S.Q_2_H_2B_JUDGE_HEARING, 'b'),
+  Q_2_H_2A_JUDGE_HEARING: getQuestionRouteName(S.Q_2_H_2A_JUDGE_HEARING, 'c'),
+  Q_2_H_2B_JUDGE_HEARING: getQuestionRouteName(S.Q_2_H_2B_JUDGE_HEARING, 'd'),
   RESULTS_NON_DR: getResultsRouteName('NON_DR'),
   RESULTS_DR: getResultsRouteName('DR'),
 });
