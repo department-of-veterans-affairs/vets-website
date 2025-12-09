@@ -4,9 +4,8 @@ import { waitForShadowRoot } from 'platform/utilities/ui/webComponents';
 
 import { ARRAY_PATH, NEW_CONDITION_OPTION } from '../../../constants';
 import { conditionObjects } from '../../../content/conditionOptions';
-import { createNewConditionName } from '../../../content/disabilityConditions';
-
 import {
+  createNewConditionName,
   NewConditionCardDescription,
   RatedDisabilityCardDescription,
 } from '../../../content/conditions';

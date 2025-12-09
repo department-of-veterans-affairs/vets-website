@@ -4,7 +4,7 @@ import {
   textUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import { createNewConditionName } from '../../../content/disabilityConditions';
+import { createNewConditionName } from '../../../content/conditions';
 import { arrayOptions } from './utils';
 
 /** @returns {PageSchema} */
