@@ -183,7 +183,7 @@ export const benefitSwitchPage = () => ({
     mebBenefitSelection: {
       'ui:title': (
         <span
-          className="vads-u-font-size--h2 vads-u-padding-bottom--2 vads-u-display--inline-block"
+          className="vads-u-font-size--h2 vads-u-font-family--serif vads-u-font-weight--bold vads-u-padding-bottom--2 vads-u-display--inline-block"
           style={{ fontSize: '1.5rem' }}
         >
           Benefit you want to change to
