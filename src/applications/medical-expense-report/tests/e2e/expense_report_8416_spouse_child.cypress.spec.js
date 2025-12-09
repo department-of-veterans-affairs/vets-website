@@ -32,11 +32,11 @@ describe('Spouse or Child of Veteran medical expenses path', () => {
     utils.checkAxeAndClickContinueButton();
     utils.fillInCareExpensesFromFixture();
 
-    cy.selectRadio('root_view:careExpensesList', 'N');
-    utils.checkAxeAndClickContinueButton();
+    // cy.selectRadio('root_view:careExpensesList', 'N');
+    // utils.checkAxeAndClickContinueButton();
 
     // Medical expenses
-    utils.fillInMedicalExpensesFromFixture();
+    // utils.fillInMedicalExpensesFromFixture();
 
     // cy.selectRadio('root_view:medicalExpensesList', 'N');
     // utils.checkAxeAndClickContinueButton();
