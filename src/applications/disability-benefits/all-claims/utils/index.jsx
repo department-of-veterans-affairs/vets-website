@@ -964,18 +964,6 @@ export const onFormLoaded = props => {
   const shouldRevertWhenFlipperOff = redirectWhenFlipperOff(props);
   const shouldRevertWhenNoEvidence = redirectWhenNoEvidence(props);
   const redirectUrl = legacy4142AuthURL;
-  // console.log(props.formData.mailingAddress, 'onFormLoaded check formData')
-  const newFormData = props.formData;
-  if (props.formData.mailingAddress?.addressLine1) {
-    // console.log(props.formData.mailingAddress.addressLine1, 'addressLine1')
-    newFormData.mailingAddress.street = props.formData.mailingAddress.addressLine1.trim();
-    delete newFormData.mailingAddress.addressLine1;
-  }
-  if (props.formData.mailingAddress?.zipCode) {
-    // console.log(props.formData.mailingAddress.zipCode, 'zipCode')
-    newFormData.mailingAddress.postalCode = props.formData.mailingAddress.zipCode.trim();
-    delete newFormData.mailingAddress.zipCode;
-  }
 
   if (shouldRedirectToModern4142Choice === true) {
     // if we should redirect to the modern 4142 choice page, we set the shared variable
