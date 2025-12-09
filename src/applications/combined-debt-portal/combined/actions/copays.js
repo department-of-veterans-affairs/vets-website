@@ -72,30 +72,16 @@ export const getStatements = async dispatch => {
     });
 };
 
-const transformLightHouseData = data => {
-  // console.log('LightHouse Data Transform: ', data);
-
-  return data.map(statement => {
-    if (!statement.station) {
-      return statement;
-    }
-    return {
-      ...statement,
-      station: getTransformedStation(statement.station),
-    };
-  });
-};
-
 export const getCopaySummaryPageData = async dispatch => {
   dispatch({ type: MCP_STATEMENTS_FETCH_INIT });
 
   const dataUrl = `${environment.API_URL}/v1/medical_copays`;
 
   return apiRequest(dataUrl)
-    .then(({ data }) => {
+    .then(responseData => {
       return dispatch({
         type: MCP_STATEMENTS_FETCH_SUCCESS,
-        response: transformLightHouseData(data),
+        response: responseData,
       });
     })
     .catch(({ errors }) => {

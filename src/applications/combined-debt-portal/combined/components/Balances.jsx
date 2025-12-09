@@ -1,17 +1,11 @@
 import React from 'react';
 import { isAfter } from 'date-fns';
 import { useSelector } from 'react-redux';
-import { uniqBy } from 'lodash';
 import BalanceCard from './BalanceCard';
 import ZeroBalanceCard from './ZeroBalanceCard';
 import AlertCard from './AlertCard';
-import {
-  calculateTotalDebts,
-  calculateTotalBills,
-  getLatestDebt,
-  getLatestBill,
-} from '../utils/balance-helpers';
-import { APP_TYPES, sortStatementsByDate } from '../utils/helpers';
+import { calculateTotalDebts, getLatestDebt } from '../utils/balance-helpers';
+import { APP_TYPES } from '../utils/helpers';
 import MCPAlert from './MCPAlerts';
 
 // Some terminology that could be helpful:
@@ -34,26 +28,25 @@ const Balances = () => {
   const latestDebt = getLatestDebt(debts);
 
   // get Bill info
-  const sortedStatements = sortStatementsByDate(mcp.statements ?? []);
-  const bills = uniqBy(sortedStatements, 'pSFacilityNum');
-  const totalBills = calculateTotalBills(bills);
-  const latestBill = getLatestBill(bills);
+  const copayData = mcp.statements || [];
+  const totalBills = copayData.meta.total;
+  const latestBillDate = new Date(copayData.meta.copaySummary.lastUpdatedOn);
 
   // Sort two valid BalancCards by date
   if (!debtError && !billError && totalDebts > 0 && totalBills > 0) {
-    const debtFirst = isAfter(new Date(latestDebt), new Date(latestBill));
+    const debtFirst = isAfter(new Date(latestDebt), latestBillDate);
     return (
       <>
         <BalanceCard
           amount={debtFirst ? totalDebts : totalBills}
-          count={debtFirst ? debts.length : bills.length}
-          date={debtFirst ? latestDebt : latestBill}
+          count={debtFirst ? debts.length : totalBills}
+          date={debtFirst ? latestDebt : latestBillDate}
           appType={debtFirst ? APP_TYPES.DEBT : APP_TYPES.BILL}
         />
         <BalanceCard
           amount={debtFirst ? totalBills : totalDebts}
-          count={debtFirst ? bills.length : debts.length}
-          date={debtFirst ? latestBill : latestDebt}
+          count={debtFirst ? totalBills : debts.length}
+          date={debtFirst ? latestBillDate : latestDebt}
           appType={debtFirst ? APP_TYPES.BILL : APP_TYPES.DEBT}
         />
       </>
@@ -80,8 +73,8 @@ const Balances = () => {
         totalBills > 0 && (
           <BalanceCard
             amount={totalBills}
-            count={bills.length}
-            date={latestBill}
+            count={totalBills}
+            date={latestBillDate}
             appType={APP_TYPES.COPAY}
           />
         )}

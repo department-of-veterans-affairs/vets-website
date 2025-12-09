@@ -11,10 +11,7 @@ import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatur
 import Balances from '../components/Balances';
 import ComboAlerts from '../components/ComboAlerts';
 import { ALERT_TYPES, setPageFocus } from '../utils/helpers';
-import {
-  calculateTotalDebts,
-  calculateTotalBills,
-} from '../utils/balance-helpers';
+import { calculateTotalDebts } from '../utils/balance-helpers';
 import { GenericDisasterAlert } from '../components/DisasterAlert';
 import useHeaderPageTitle from '../hooks/useHeaderPageTitle';
 
@@ -38,8 +35,7 @@ const OverviewPage = () => {
   // get totals
   const { debts } = debtLetters;
   const totalDebts = calculateTotalDebts(debts);
-  const bills = mcp.statements;
-  const totalBills = calculateTotalBills(bills);
+  const totalBills = mcp.statements.meta.total;
   const bothZero =
     totalDebts === 0 && totalBills === 0 && !billError && !debtError;
 
