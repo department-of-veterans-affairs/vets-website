@@ -1,5 +1,7 @@
 export const REASON_MAX_CHARS = 250;
 
+export const NEW_REASON_MAX_CHARS = 90;
+
 export const FETCH_STATUS = {
   loading: 'loading',
   notStarted: 'notStarted',
@@ -360,6 +362,7 @@ export const TYPE_OF_VISIT = [
     name2: 'In person',
     serviceName: 'Office Visit',
     vsGUI: 'FACE TO FACE',
+    vsGUI2: 'IN-PERSON',
   },
   {
     id: 'phone',
@@ -367,6 +370,7 @@ export const TYPE_OF_VISIT = [
     name2: 'By phone',
     serviceName: 'Phone Call',
     vsGUI: 'TELEPHONE',
+    vsGUI2: 'PHONE',
   },
   {
     id: 'telehealth',
@@ -374,6 +378,7 @@ export const TYPE_OF_VISIT = [
     name2: 'Through VA Video Connect (telehealth)',
     serviceName: 'Video Conference',
     vsGUI: 'VIDEO',
+    vsGUI2: 'VIDEO',
   },
 ];
 
@@ -501,9 +506,21 @@ export const OH_TRANSITION_SITES = {
   },
 };
 
-// Currently we are only allowing OH direct scheduling and requests for Food and Nutrition
-// appointments
-export const OH_ENABLED_TYPES_OF_CARE = ['foodAndNutrition'];
+// Types of care that are allowed in the OH direct scheduling flow and request flow
+export const OH_ENABLED_TYPES_OF_CARE = [
+  'amputation',
+  'audiology',
+  'audiology-hearing aid support',
+  'audiology-routine exam',
+  'clinicalPharmacyPrimaryCare',
+  'cpap',
+  'foodAndNutrition',
+  'homeSleepTesting',
+  'moveProgram',
+  'ophthalmology',
+  'optometry',
+  'socialWork',
+];
 
 export const TRAVEL_CLAIM_MESSAGES = {
   noClaim: 'No claims found.',
