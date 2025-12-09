@@ -68,13 +68,13 @@ const PayeeInformationCard = ({
           ) : (
             // <p>{chapters[applicantChapter.toUpperCase()]}</p>
             <ul>
-              {applicantChapter.map((ch, index) => (
-                <li key={index}>
-                  {ch.benefitType in chapters
-                    ? chapters[ch?.benefitType?.toUpperCase()]
-                    : ''}
-                </li>
-              ))}
+              {applicantChapter.map((ch, index) => {
+                const chapterKey = ch?.benefitType?.toUpperCase();
+                const chapterName = chapters[chapterKey] || '';
+                const isValidChapter = ch.benefitType in chapters;
+                if (!isValidChapter) return null;
+                return <li key={index}>{chapterName}</li>;
+              })}
             </ul>
           )}
         </div>
