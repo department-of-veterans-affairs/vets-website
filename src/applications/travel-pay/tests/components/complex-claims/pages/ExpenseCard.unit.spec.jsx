@@ -1,6 +1,7 @@
 import React from 'react';
 import { fireEvent, waitFor, within } from '@testing-library/react';
 import { expect } from 'chai';
+import { act } from 'react-dom/test-utils';
 import {
   MemoryRouter,
   Routes,
@@ -8,8 +9,10 @@ import {
   useLocation,
 } from 'react-router-dom-v5-compat';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import sinon from 'sinon';
 import ExpenseCard from '../../../../components/complex-claims/pages/ExpenseCard';
 import reducer from '../../../../redux/reducer';
+import * as actions from '../../../../redux/actions';
 
 describe('ExpenseCard', () => {
   const LocationDisplay = () => {
@@ -252,5 +255,42 @@ describe('ExpenseCard', () => {
 
     // Delete modal does not exist
     expect(queryByTestId('delete-expense-modal')).to.not.exist;
+  });
+
+  it('dispatches setReviewPageAlert when deleting expense fails', async () => {
+    // Spy on setReviewPageAlert
+    const alertSpy = sinon.spy(actions, 'setReviewPageAlert');
+
+    // Stub deleteExpenseDeleteDocument to reject
+    const deleteStub = sinon
+      .stub(actions, 'deleteExpenseDeleteDocument')
+      .callsFake(() => () => Promise.reject(new Error('Delete failed')));
+
+    const { getByTestId } = renderExpenseCard(defaultMileageExpense);
+
+    // Open the delete modal
+    const deleteButton = getByTestId('expense1-delete-expense-button');
+    fireEvent.click(deleteButton);
+
+    const modal = getByTestId('delete-expense-modal');
+    expect(modal.getAttribute('visible')).to.equal('true');
+
+    // Trigger primary button click
+    await act(async () => {
+      modal.__events.primaryButtonClick();
+    });
+
+    // Assert that setReviewPageAlert was called with the correct payload
+    const alertPayload = alertSpy.firstCall.args[0];
+    expect(alertPayload.title).to.include("We couldn't delete this expense");
+    expect(alertPayload.description).to.include('Try again later');
+    expect(alertPayload.type).to.equal('error');
+
+    // Modal should close
+    expect(modal.getAttribute('visible')).to.equal('false');
+
+    // Clean up
+    deleteStub.restore();
+    alertSpy.restore();
   });
 });
