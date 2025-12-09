@@ -18,7 +18,6 @@ const defaultState = {
 describe('ScheduleWithDifferentProvider', () => {
   it('should display both options when user is eligible', () => {
     const store = createTestStore(defaultState);
-    const eligibility = { request: true, requestReasons: [] };
     const selectedFacility = {
       id: '692',
       name: 'White City VA Medical Center',
@@ -26,7 +25,8 @@ describe('ScheduleWithDifferentProvider', () => {
 
     const screen = renderWithStoreAndRouter(
       <ScheduleWithDifferentProvider
-        eligibility={eligibility}
+        isEligibleForRequest
+        overRequestLimit={false}
         selectedFacility={selectedFacility}
       />,
       { store },
@@ -56,7 +56,7 @@ describe('ScheduleWithDifferentProvider', () => {
 
     const screen = renderWithStoreAndRouter(
       <ScheduleWithDifferentProvider
-        eligibility={eligibility}
+        isEligibleForRequest
         selectedFacility={selectedFacility}
       />,
       { store },
@@ -91,7 +91,7 @@ describe('ScheduleWithDifferentProvider', () => {
 
     const screen = renderWithStoreAndRouter(
       <ScheduleWithDifferentProvider
-        eligibility={eligibility}
+        isEligibleForRequest
         selectedFacility={selectedFacility}
       />,
       { store },
@@ -111,7 +111,6 @@ describe('ScheduleWithDifferentProvider', () => {
 
   it('should render correct facility phone number', () => {
     const store = createTestStore(defaultState);
-    const eligibility = { requestReasons: [] };
     const selectedFacility = {
       id: '692',
       name: 'White City VA Medical Center',
@@ -125,7 +124,8 @@ describe('ScheduleWithDifferentProvider', () => {
 
     const screen = renderWithStoreAndRouter(
       <ScheduleWithDifferentProvider
-        eligibility={eligibility}
+        isEligibleForRequest
+        overRequestLimit={false}
         selectedFacility={selectedFacility}
       />,
       { store },
@@ -140,7 +140,6 @@ describe('ScheduleWithDifferentProvider', () => {
   });
   it('should route to request appointment URL when link clicked', async () => {
     const store = createTestStore(defaultState);
-    const eligibility = { request: true, requestReasons: [] };
     const selectedFacility = {
       id: '692',
       name: 'White City VA Medical Center',
@@ -151,9 +150,8 @@ describe('ScheduleWithDifferentProvider', () => {
 
     const screen = renderWithStoreAndRouter(
       <ScheduleWithDifferentProvider
-        eligibility={eligibility}
+        isEligibleForRequest
         selectedFacility={selectedFacility}
-        pageKey="providerSelection"
       />,
       { store },
     );

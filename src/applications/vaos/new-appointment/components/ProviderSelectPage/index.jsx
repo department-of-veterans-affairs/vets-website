@@ -67,7 +67,12 @@ export default function SelectProviderPage() {
 
   return (
     <div>
-      <h1 className="vads-u-font-size--h2">{pageHeader}</h1>
+      <h1
+        data-testid="page-header-provider-select"
+        className="vads-u-font-size--h2"
+      >
+        {pageHeader}
+      </h1>
       {!hasProviders && (
         <NoAvailableProvidersInfo
           isEligibleForRequest={isEligibleForRequest}

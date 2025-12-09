@@ -9,21 +9,21 @@ function NoAvailableProvidersInfo({
   selectedFacility,
   typeOfCareName,
 }) {
-  const shouldAddText = !isEligibleForRequest || overRequestLimit;
+  const needsExtraInfo = !isEligibleForRequest || overRequestLimit;
   const facilityPhone = getFacilityPhone(selectedFacility);
 
-  const extraText = shouldAddText
-    ? 'You can call the facility to schedule.'
+  const extraText = needsExtraInfo
+    ? ' You can call the facility to schedule.'
     : null;
   return (
     <>
-      <p>
+      <p data-testid="no-available-provider-intro">
         We need additional information before you can schedule appointments for{' '}
-        {typeOfCareName} at this facility online.
+        {typeOfCareName.toLowerCase().trim()} at this facility online.
         {extraText}
       </p>
-      {shouldAddText ? (
-        <div>
+      {needsExtraInfo ? (
+        <div data-testid="no-available-provider-extra">
           <strong>{selectedFacility.name}</strong>
           <p className="vads-u-margin-y--0">
             <strong>Main phone: </strong>
