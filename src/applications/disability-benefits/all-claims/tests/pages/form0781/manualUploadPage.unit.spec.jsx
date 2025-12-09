@@ -68,22 +68,93 @@ describe('Form 0781 manual upload page', () => {
 
   describe('ui:confirmationField', () => {
     it('should correctly display file names and label for confirmation field', () => {
-      const testData = {
-        form781Upload: [
-          {
-            confirmationCode: 'testing',
-            name: '781.pdf',
-            attachmentId: 'L228',
-          },
-        ],
-      };
+      const testData = [
+        {
+          confirmationCode: 'testing',
+          name: '781.pdf',
+          attachmentId: 'L228',
+        },
+        {
+          confirmationCode: 'testing2',
+          name: 'Additional781.pdf',
+          attachmentId: 'L228',
+        },
+      ];
 
       const result = uiSchema.form781Upload['ui:confirmationField']({
-        formData: testData.form781Upload,
+        formData: testData,
       });
 
       expect(result).to.deep.equal({
-        data: ['781.pdf'],
+        data: ['781.pdf', 'Additional781.pdf'],
+        label: 'Uploaded file(s)',
+      });
+    });
+
+    it('should display "File name not available" when formData is null', () => {
+      const result = uiSchema.form781Upload['ui:confirmationField']({
+        formData: null,
+      });
+
+      expect(result).to.deep.equal({
+        data: ['File name not available'],
+        label: 'Uploaded file(s)',
+      });
+    });
+
+    it('should display "File name not available" when formData is undefined', () => {
+      const result = uiSchema.form781Upload['ui:confirmationField']({
+        formData: undefined,
+      });
+
+      expect(result).to.deep.equal({
+        data: ['File name not available'],
+        label: 'Uploaded file(s)',
+      });
+    });
+
+    it('should display "File name not available" when formData is an empty array', () => {
+      const result = uiSchema.form781Upload['ui:confirmationField']({
+        formData: [],
+      });
+
+      expect(result).to.deep.equal({
+        data: ['File name not available'],
+        label: 'Uploaded file(s)',
+      });
+    });
+
+    it('should use fileName when name is not available', () => {
+      const result = uiSchema.form781Upload['ui:confirmationField']({
+        formData: [
+          {
+            fileName: 'BackupFile.pdf',
+            confirmationCode: 'testing',
+            attachmentId: 'L228',
+          },
+        ],
+      });
+
+      expect(result).to.deep.equal({
+        data: ['BackupFile.pdf'],
+        label: 'Uploaded file(s)',
+      });
+    });
+
+    it('should prefer name over fileName when both are available', () => {
+      const result = uiSchema.form781Upload['ui:confirmationField']({
+        formData: [
+          {
+            name: 'PreferredName.pdf',
+            fileName: 'BackupFile.pdf',
+            confirmationCode: 'testing',
+            attachmentId: 'L228',
+          },
+        ],
+      });
+
+      expect(result).to.deep.equal({
+        data: ['PreferredName.pdf'],
         label: 'Uploaded file(s)',
       });
     });
