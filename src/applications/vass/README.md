@@ -1,5 +1,4 @@
 # VASS
-<!-- This is a feature branch while main is locked -->
 // TODO: ADD description
 
 ## URL
