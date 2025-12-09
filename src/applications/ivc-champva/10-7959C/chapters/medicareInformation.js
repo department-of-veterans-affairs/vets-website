@@ -23,11 +23,10 @@ import {
 import { fileUploadBlurb } from '../../shared/components/fileUploads/attachments';
 import { ADDITIONAL_FILES_HINT } from '../../shared/constants';
 import { validFieldCharsOnly } from '../../shared/validations';
+import { blankSchema } from '../definitions';
 
 const effectiveDateHint =
   'You may find your effective date on the front of your Medicare card near "Coverage starts" or "Effective date."';
-
-export const blankSchema = { type: 'object', properties: {} };
 
 export const applicantHasMedicareSchema = {
   uiSchema: {
@@ -335,43 +334,6 @@ export const applicantHasMedicareDSchema = {
     required: ['applicantMedicareStatusD'],
     properties: {
       applicantMedicareStatusD: yesNoSchema,
-    },
-  },
-};
-
-export const applicantMedicarePartDCarrierSchema = {
-  uiSchema: {
-    ...titleUI(({ formData }) =>
-      privWrapper(`${nameWording(formData)} Medicare Part D carrier`),
-    ),
-    applicantMedicarePartDCarrier: textUI({
-      title: 'Name of insurance carrier',
-      hint: 'Your insurance carrier is your insurance company.',
-    }),
-    applicantMedicarePartDEffectiveDate: currentOrPastDateUI({
-      title: 'Medicare Part D effective date',
-      hint: effectiveDateHint,
-    }),
-    'ui:validations': [
-      (errors, formData) =>
-        validFieldCharsOnly(
-          errors,
-          null,
-          formData,
-          'applicantMedicarePartDCarrier',
-        ),
-    ],
-  },
-  schema: {
-    type: 'object',
-    required: [
-      'applicantMedicarePartDCarrier',
-      'applicantMedicarePartDEffectiveDate',
-    ],
-    properties: {
-      titleSchema,
-      applicantMedicarePartDCarrier: textSchema,
-      applicantMedicarePartDEffectiveDate: currentOrPastDateSchema,
     },
   },
 };

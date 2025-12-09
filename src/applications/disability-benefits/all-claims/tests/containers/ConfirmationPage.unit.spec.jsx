@@ -168,7 +168,7 @@ describe('ConfirmationPage', () => {
   };
 
   it('should render confirmation page when submission succeeded with claim id', () => {
-    verifyConfirmationPage('12345678', false, submissionStatuses.succeeded);
+    verifyConfirmationPage(12345678, false, submissionStatuses.succeeded);
   });
 
   it('should render confirmation page when submission succeeded with no claim id', () => {
@@ -176,7 +176,7 @@ describe('ConfirmationPage', () => {
   });
 
   it('should render success with BDD SHA alert when submission succeeded with claim id for BDD', () => {
-    verifyConfirmationPage('12345678', true, submissionStatuses.succeeded);
+    verifyConfirmationPage(12345678, true, submissionStatuses.succeeded);
   });
 
   it('should render success when form submitted successfully but submission status has api failure', () => {
@@ -190,7 +190,7 @@ describe('ConfirmationPage', () => {
 
   it('should render confirmation review section accordion when toggle is on', () => {
     verifyConfirmationPage(
-      '12345678',
+      12345678,
       false,
       submissionStatuses.succeeded,
       true, // disability526ShowConfirmationReview toggle
@@ -205,19 +205,17 @@ describe('getNewConditionsNames', () => {
     ).to.deep.equal(['Low Back Pain', 'Knee Pain']);
   });
 
-  it('includes only NEW/SECONDARY objects, ignores others and blanks', () => {
-    const input = [
-      { condition: 'tinnitus', cause: 'secondary' },
-      { condition: 'sleep apnea', cause: 'NEW' },
-      { condition: 'flu', cause: 'primary' },
-      { condition: ' ', cause: 'NEW' },
-      { condition: 'tinnitus', cause: 'SECONDARY' },
-      undefined,
-    ];
-    expect(getNewConditionsNames(input)).to.deep.equal([
-      'Tinnitus',
-      'Sleep Apnea',
-    ]);
+  it('ignores blanks/invalids and dedupes', () => {
+    expect(
+      getNewConditionsNames([
+        'tinnitus',
+        ' ',
+        null,
+        undefined,
+        'Tinnitus',
+        'sleep apnea',
+      ]),
+    ).to.deep.equal(['Tinnitus', 'Sleep Apnea']);
   });
 
   it('returns empty list for empty/invalid inputs', () => {

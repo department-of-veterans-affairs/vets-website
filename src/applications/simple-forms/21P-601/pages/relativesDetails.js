@@ -1,4 +1,5 @@
 import {
+  titleUI,
   fullNameUI,
   fullNameSchema,
   radioUI,
@@ -48,6 +49,7 @@ const options = {
 /** @returns {PageSchema} */
 const summaryPage = {
   uiSchema: {
+    ...titleUI('Surviving relatives'),
     'view:hasRelatives': arrayBuilderYesNoUI(options),
   },
   schema: {

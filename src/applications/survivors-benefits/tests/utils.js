@@ -77,7 +77,7 @@ export const checkContentAdditionalVetsInfo = () => {
   checkVisibleElementContent('legend', 'Additional Veteran information');
   checkVisibleElementContent(
     'va-radio',
-    'Has the Veteran, surviving spouse, child or parent ever filed a claim with the VA?',
+    'Has the Veteran, surviving spouse, child, or parent ever filed a claim with the VA?',
   );
   checkVisibleElementContent(
     'va-radio',

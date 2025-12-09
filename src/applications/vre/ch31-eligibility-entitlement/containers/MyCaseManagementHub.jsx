@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+import { fetchCh31CaseStatusDetails } from '../actions/ch31-my-eligibility-and-benefits';
 import HubCardList from '../components/HubCardList';
+import ApplicationDiscontinuedAlert from '../components/ApplicationDiscontinuedAlert';
 
 const stepLabels = [
   'Application Received',
@@ -13,15 +16,66 @@ const stepLabels = [
 ];
 
 const MyCaseManagementHub = () => {
+  const dispatch = useDispatch();
+
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const showMyCaseManagementHubPage = useToggleValue(
     TOGGLE_NAMES.vre_eligibility_status_phase_2_updates,
   );
+
   const total = stepLabels.length; // 7
-  const [current, setCurrent] = React.useState(2);
+  const [current, setCurrent] = useState(2);
+
+  const caseStatusDetails = useSelector(
+    state => state?.ch31CaseStatusDetails?.data,
+  );
+
+  useEffect(
+    () => {
+      dispatch(fetchCh31CaseStatusDetails());
+    },
+    [dispatch],
+  );
+
+  useEffect(
+    () => {
+      if (!caseStatusDetails) {
+        return;
+      }
+      const attrs = caseStatusDetails?.attributes;
+      const stateList = attrs?.external_status?.state_list || [];
+
+      if (!stateList.length) {
+        return;
+      }
+
+      const activeIndex = stateList.findIndex(step => step.status === 'ACTIVE');
+
+      if (activeIndex >= 0) {
+        const activeStep = Math.min(activeIndex + 1, total);
+        setCurrent(activeStep);
+      }
+    },
+    [caseStatusDetails, total],
+  );
 
   const goPrev = () => setCurrent(c => Math.max(1, c - 1));
   const goNext = () => setCurrent(c => Math.min(total, c + 1));
+
+  let labelsWithStatus = stepLabels;
+  const attrs = caseStatusDetails?.attributes;
+  const stateList = attrs?.external_status?.state_list || [];
+
+  if (Array.isArray(stateList) && stateList.length) {
+    labelsWithStatus = stepLabels.map((label, index) => {
+      const stepState = stateList[index];
+      if (!stepState || !stepState.status) {
+        return label;
+      }
+      // e.g., "Application Received - COMPLETED"
+      return `${label} - [${stepState.status}]`;
+    });
+  }
 
   if (!showMyCaseManagementHubPage) {
     return (
@@ -84,30 +138,14 @@ const MyCaseManagementHub = () => {
             </p>
           </va-alert>
         </div>
-
-        <div className="usa-width-two-thirds vads-u-margin-y--3">
-          <va-alert
-            close-btn-aria-label="Close notification"
-            status="error"
-            visible
-          >
-            <h3 slot="headline">
-              Sorry, your application has been discontinued
-            </h3>
-            <p className="vads-u-margin-y--0">
-              Please contact your counselor. You can find a copy of the letter
-              down below.
-            </p>
-          </va-alert>
-        </div>
-
+        <ApplicationDiscontinuedAlert />
         <div className="usa-width-one-whole vads-u-margin-top--2">
           <va-segmented-progress-bar
             counters="small"
             current={String(current)}
             heading-text="VA Benefits"
             label="Label is here"
-            labels={stepLabels.join(';')}
+            labels={labelsWithStatus.join(';')}
             total={String(total)}
           />
         </div>
@@ -131,15 +169,6 @@ const MyCaseManagementHub = () => {
             </ul>
           </va-additional-info>
         </div>
-
-        <p className="usa-width-one-whole">
-          <va-link
-            download
-            filetype="PDF"
-            href="https://www.va.gov"
-            text="Download Letter"
-          />
-        </p>
 
         <div className="usa-width-one-whole vads-u-margin-top--3 vads-u-margin-bottom--3">
           <va-button

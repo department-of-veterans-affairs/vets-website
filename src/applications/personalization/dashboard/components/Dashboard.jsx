@@ -143,7 +143,13 @@ const DashboardHeader = ({
           });
         }}
       />
-      {showConfirmEmail && <MhvAlertConfirmEmail />}
+      {showConfirmEmail && (
+        <div className="vads-l-row">
+          <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+            <MhvAlertConfirmEmail />
+          </div>
+        </div>
+      )}
       {isLOA3 && <ContactInfoNeeded />}
       {showNotifications && !hideNotificationsSection && <Notifications />}
     </div>

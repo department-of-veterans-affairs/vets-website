@@ -3,11 +3,15 @@ import { expect } from 'chai';
 import { renderWithStoreAndRouterV6 as renderWithStoreAndRouter } from 'platform/testing/unit/react-testing-library-helpers';
 
 import Review from './Review';
+import reducers from '../redux/reducers';
+import { vassApi } from '../redux/api/vassApi';
 
 describe('VASS Component: Review', () => {
   it('should render review page correctly', () => {
     const screen = renderWithStoreAndRouter(<Review />, {
       initialState: {},
+      reducers,
+      additionalMiddlewares: [vassApi.middleware],
     });
     expect(screen.getByTestId('review-page')).to.exist;
     expect(screen.getByTestId('back-link')).to.exist;

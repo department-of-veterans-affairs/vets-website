@@ -26,6 +26,13 @@ const getData = ({ renderName = true, suffix = 'Esq.' } = {}) => ({
         : {},
     },
   },
+  form: {
+    data: {},
+    submission: {
+      timestamp: new Date(),
+      response: { attributes: {} },
+    },
+  },
 });
 
 const pendingResponse = {
@@ -45,7 +52,7 @@ const successResponse = {
     data: {
       attributes: {
         status: submissionStatuses.succeeded,
-        claimId: '123abc',
+        claimId: 123567,
       },
     },
   },
@@ -81,7 +88,7 @@ describe('ConfirmationPoll', () => {
     jobId: '12345',
     fullName: { first: 'asdf', last: 'fdsa' },
     disabilities: [],
-    submittedAt: Date.now(),
+    submittedAt: new Date(),
     isSubmittingBDD: false,
     route: {
       formConfig,
@@ -127,7 +134,7 @@ describe('ConfirmationPoll', () => {
       expect(confirmationPage.length).to.equal(1);
       expect(confirmationPage.first().props()).to.eql({
         submissionStatus: submissionStatuses.succeeded,
-        claimId: '123abc',
+        claimId: 123567,
         jobId: defaultProps.jobId,
         fullName: defaultProps.fullName,
         disabilities: defaultProps.disabilities,
@@ -288,6 +295,172 @@ describe('ConfirmationPoll', () => {
         newDisabilities[0].condition,
         newDisabilities[1].condition,
       ]);
+    });
+
+    it('uses ratedDisability when condition is "Rated Disability"', () => {
+      const state = {
+        form: {
+          data: {
+            ratedDisabilities: [
+              {
+                'view:selected': true,
+                condition: 'Rated Disability',
+                ratedDisability: 'Left Knee Sprain',
+              },
+              {
+                'view:selected': true,
+                condition: 'rated disability',
+                ratedDisability: 'Right SHOULDER pain',
+              },
+            ],
+            newDisabilities: [],
+          },
+        },
+      };
+
+      const selectedDisabilities = selectAllDisabilityNames(state);
+
+      expect(selectedDisabilities).to.deep.equal([
+        'Left Knee Sprain',
+        'Right SHOULDER pain',
+      ]);
+    });
+
+    it('falls back to ratedDisability when name and condition are missing', () => {
+      const state = {
+        form: {
+          data: {
+            ratedDisabilities: [],
+            newDisabilities: [
+              {
+                conditionDate: '2025-01-01',
+                ratedDisability: 'Sciatica',
+              },
+            ],
+          },
+        },
+      };
+
+      const selectedDisabilities = selectAllDisabilityNames(state);
+
+      expect(selectedDisabilities).to.deep.equal(['Sciatica']);
+    });
+
+    it('filters out disabilities that have no usable label', () => {
+      const state = {
+        form: {
+          data: {
+            ratedDisabilities: [
+              {
+                'view:selected': true,
+                name: '',
+              },
+              null,
+              {
+                'view:selected': true,
+                condition: '   ',
+              },
+            ],
+            newDisabilities: [
+              {
+                condition: 'asthma',
+              },
+              {
+                name: '',
+                condition: '',
+                ratedDisability: '',
+              },
+            ],
+          },
+        },
+      };
+
+      const selectedDisabilities = selectAllDisabilityNames(state);
+
+      expect(selectedDisabilities).to.deep.equal(['asthma']);
+    });
+
+    it('appends side of body for new disabilities', () => {
+      const state = {
+        form: {
+          data: {
+            ratedDisabilities: [],
+            newDisabilities: [
+              {
+                condition: 'wrist fracture',
+                sideOfBody: 'LEFT',
+              },
+              {
+                condition: 'knee strain',
+                sideOfBody: 'right',
+              },
+              {
+                condition: 'shoulder pain',
+              },
+            ],
+          },
+        },
+      };
+
+      const selectedDisabilities = selectAllDisabilityNames(state);
+
+      expect(selectedDisabilities).to.deep.equal([
+        'wrist fracture, left',
+        'knee strain, right',
+        'shoulder pain',
+      ]);
+    });
+
+    it('does not append side of body for rated disabilities', () => {
+      const state = {
+        form: {
+          data: {
+            ratedDisabilities: [
+              {
+                'view:selected': true,
+                name: 'Left Arm Radiculopathy',
+                sideOfBody: 'LEFT',
+              },
+            ],
+            newDisabilities: [
+              {
+                condition: 'wrist fracture',
+                sideOfBody: 'LEFT',
+              },
+            ],
+          },
+        },
+      };
+
+      const selectedDisabilities = selectAllDisabilityNames(state);
+
+      expect(selectedDisabilities).to.deep.equal([
+        'Left Arm Radiculopathy',
+        'wrist fracture, left',
+      ]);
+    });
+
+    it('does not use sideOfBody when condition is missing', () => {
+      const state = {
+        form: {
+          data: {
+            ratedDisabilities: [],
+            newDisabilities: [
+              {
+                sideOfBody: 'LEFT',
+              },
+              {
+                condition: 'ankle sprain',
+                sideOfBody: 'RIGHT',
+              },
+            ],
+          },
+        },
+      };
+
+      const selectedDisabilities = selectAllDisabilityNames(state);
+
+      expect(selectedDisabilities).to.deep.equal(['ankle sprain, right']);
     });
   });
 });

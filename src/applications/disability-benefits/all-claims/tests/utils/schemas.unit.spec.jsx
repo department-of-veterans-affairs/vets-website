@@ -50,6 +50,61 @@ describe('makeSchemaForNewDisabilities', () => {
       },
     });
   });
+
+  it('should append sideOfBody to condition name when present', () => {
+    const formData = {
+      'view:claimType': {
+        'view:claimingIncrease': false,
+        'view:claimingNew': true,
+      },
+      newDisabilities: [
+        {
+          condition: 'wrist fracture',
+          sideOfBody: 'LEFT',
+        },
+      ],
+    };
+
+    expect(makeSchemaForNewDisabilities(formData)).to.eql({
+      properties: {
+        wristfractureleft: {
+          title: 'Wrist Fracture, Left',
+          type: 'boolean',
+        },
+      },
+    });
+  });
+
+  it('should handle mix of conditions with and without sideOfBody', () => {
+    const formData = {
+      'view:claimType': {
+        'view:claimingIncrease': false,
+        'view:claimingNew': true,
+      },
+      newDisabilities: [
+        {
+          condition: 'wrist fracture',
+          sideOfBody: 'RIGHT',
+        },
+        {
+          condition: 'generalized anxiety disorder (GAD)',
+        },
+      ],
+    };
+
+    expect(makeSchemaForNewDisabilities(formData)).to.eql({
+      properties: {
+        wristfractureright: {
+          title: 'Wrist Fracture, Right',
+          type: 'boolean',
+        },
+        generalizedanxietydisordergad: {
+          title: 'Generalized Anxiety Disorder (GAD)',
+          type: 'boolean',
+        },
+      },
+    });
+  });
 });
 
 describe('makeSchemaForRatedDisabilities', () => {
