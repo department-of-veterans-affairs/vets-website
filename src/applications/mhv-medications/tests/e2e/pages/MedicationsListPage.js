@@ -395,7 +395,7 @@ class MedicationsListPage {
       .should('be.visible')
       .and(
         'contain',
-        'You can’t refill this prescription. If you need more, send a message to your care team.',
+        'Contact your VA provider if you need more of this medication.',
       );
   };
 
@@ -404,7 +404,7 @@ class MedicationsListPage {
       .should('be.visible')
       .and(
         'contain',
-        "You can't refill this prescription. Contact your VA provider if you need more of this medication.",
+        'Contact your VA provider if you need more of this medication.',
       );
   };
 
