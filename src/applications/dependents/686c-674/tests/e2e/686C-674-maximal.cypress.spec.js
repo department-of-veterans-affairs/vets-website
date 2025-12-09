@@ -33,7 +33,7 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.wait('@mockVaFileNumber');
           cy.injectAxeThenAxeCheck();
-          cy.clickStartForm();
+          cy.get('va-button[data-testid="continue-your-application"]').click();
         });
       },
 
@@ -43,6 +43,7 @@ const testConfig = createTestConfig(
             if (data?.veteranInformation?.isInReceiptOfPension === -1) {
               selectRadioWebComponentAlt('view:checkVeteranPension', 'Y');
             }
+            cy.injectAxeThenAxeCheck();
             cy.clickFormContinue();
           });
         });
