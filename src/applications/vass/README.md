@@ -22,3 +22,12 @@ yarn test:unit --app-folder vass --log-level all
 yarn cy:open
 yarn cy:run --spec "src/applications/vass/tests/e2e/vass.cypress.spec.js"
 ```
+
+## Mock UUIDs
+There are several different mock UUIDs that can be used as a value for the `uuid` URL param.
+
+- Happy path: 'http://localhost:3001/service-member/benefits/solid-start/schedule?uuid=c0ffee-1234-beef-5678`
+  - uuid='c0ffee-1234-beef-5678'
+  - lastname='Smith'
+  - dob='1935-04-07'
+  - otc='123456'
