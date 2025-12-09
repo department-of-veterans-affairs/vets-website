@@ -6,11 +6,9 @@ import {
   SEI_DOMAINS,
 } from '@department-of-veterans-affairs/mhv/exports';
 import TrackedSpinner from '../../components/shared/TrackedSpinner';
-import AcceleratedCernerFacilityAlert from '../../components/shared/AcceleratedCernerFacilityAlert';
 import {
   accessAlertTypes,
   ALERT_TYPE_CCD_ERROR,
-  CernerAlertContent,
   documentTypes,
 } from '../../util/constants';
 import AccessTroubleAlertBox from '../../components/shared/AccessTroubleAlertBox';
@@ -47,7 +45,6 @@ const OHOnlyContent = ({
             Download your Continuity of Care Document (CCD), a summary of your
             VA medical records.
           </p>
-          <AcceleratedCernerFacilityAlert {...CernerAlertContent.DOWNLOAD} />
           {lastSuccessfulUpdate && (
             <va-card
               class="vads-u-margin-y--2"

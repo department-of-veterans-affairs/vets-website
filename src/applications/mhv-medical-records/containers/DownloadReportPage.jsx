@@ -26,10 +26,12 @@ import {
   pageTitles,
   refreshExtractTypes,
   statsdFrontEndActions,
+  CernerAlertContent,
 } from '../util/constants';
 import { genAndDownloadCCD, downloadCCDV2 } from '../actions/downloads';
 import { Actions } from '../util/actionTypes';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
+import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 
 import useAlerts from '../hooks/use-alerts';
 import OHOnlyContent from './ccdContent/OHOnlyContent';
@@ -252,9 +254,10 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     sendDataDogAction('Download self-entered health information PDF link');
   };
 
-  if (true) {
+  if (hasBothDataSources) {
     return (
       <div>
+        <AcceleratedCernerFacilityAlert {...CernerAlertContent.DOWNLOAD} />
         <VistaAndOHContent
           isLoading={generatingCCD}
           testIdSuffix="Vista"
@@ -283,6 +286,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   if (hasOHOnly) {
     return (
       <div>
+        <AcceleratedCernerFacilityAlert {...CernerAlertContent.DOWNLOAD} />
         <OHOnlyContent
           testIdSuffix="OH"
           ddSuffix="OH"
@@ -302,6 +306,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   if (hasVistAFacilities) {
     return (
       <div>
+        <AcceleratedCernerFacilityAlert {...CernerAlertContent.DOWNLOAD} />
         <VistaOnlyContent
           isLoading={generatingCCD}
           testIdSuffix="Vista"

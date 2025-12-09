@@ -12,13 +12,11 @@ import CCDAccordionItemOH from '../ccdAccordionItem/ccdAccordionItemOH';
 import CCDAccordionItemV2 from '../ccdAccordionItem/ccdAccordionItemV2';
 import CCDAccordionItemV1 from '../ccdAccordionItem/ccdAccordionItemV1';
 import DownloadSuccessAlert from '../../components/shared/DownloadSuccessAlert';
-import AcceleratedCernerFacilityAlert from '../../components/shared/AcceleratedCernerFacilityAlert';
 import {
   accessAlertTypes,
   ALERT_TYPE_BB_ERROR,
   ALERT_TYPE_CCD_ERROR,
   BB_DOMAIN_DISPLAY_MAP,
-  CernerAlertContent,
   documentTypes,
 } from '../../util/constants';
 
@@ -70,8 +68,6 @@ const VistaOnlyContent = ({
             Download your VA medical records as a single report (called your VA
             Blue Button® report). Or find other reports to download.
           </p>
-
-          <AcceleratedCernerFacilityAlert {...CernerAlertContent.DOWNLOAD} />
 
           {lastSuccessfulUpdate && (
             <va-card

@@ -9,13 +9,11 @@ import {
 import TrackedSpinner from '../../components/shared/TrackedSpinner';
 import { DownloadSection } from '../ccdAccordionItem/ccdAccordionItemDual';
 import DownloadSuccessAlert from '../../components/shared/DownloadSuccessAlert';
-import AcceleratedCernerFacilityAlert from '../../components/shared/AcceleratedCernerFacilityAlert';
 import {
   accessAlertTypes,
   ALERT_TYPE_BB_ERROR,
   ALERT_TYPE_CCD_ERROR,
   BB_DOMAIN_DISPLAY_MAP,
-  CernerAlertContent,
   documentTypes,
 } from '../../util/constants';
 
@@ -71,7 +69,6 @@ const VistaAndOHContent = ({
             Document (CCD) to access medical records for these facilities:
           </p>
           {formatFacilityUnorderedList(ohFacilityNames)}
-          <AcceleratedCernerFacilityAlert {...CernerAlertContent.DOWNLOAD} />
           {lastSuccessfulUpdate && (
             <va-card
               className="vads-u-margin-y--2"
