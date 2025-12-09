@@ -89,7 +89,7 @@ export const IntroductionPage = props => {
         prefillEnabled={formConfig.prefillEnabled}
         messages={formConfig.savedFormMessages}
         pageList={pageList}
-        startText="Start the application"
+        startText="Start your application"
         devOnly={{
           forceShowFormControls: true,
         }}
