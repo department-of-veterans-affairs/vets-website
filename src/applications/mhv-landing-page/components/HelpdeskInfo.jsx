@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const HelpdeskInfo = ({ aalNoticeEnabled = false }) => {
   return (
@@ -22,6 +23,10 @@ const HelpdeskInfo = ({ aalNoticeEnabled = false }) => {
       )}
     </div>
   );
+};
+
+HelpdeskInfo.propTypes = {
+  aalNoticeEnabled: PropTypes.bool,
 };
 
 export default HelpdeskInfo;
