@@ -59,7 +59,12 @@ const directDeposit = {
       ),
       bankAccount: {
         ...bankAccountUI,
-        'ui:order': ['accountType', 'routingNumber', 'accountNumber'],
+        'ui:order': [
+          'accountType',
+          'routingNumber',
+          'accountNumber',
+          'accountNumberConfirmation',
+        ],
         routingNumber: {
           ...bankAccountUI.routingNumber,
           'ui:errorMessages': {
@@ -70,9 +75,33 @@ const directDeposit = {
         accountNumber: {
           ...bankAccountUI.accountNumber,
           'ui:errorMessages': {
-            pattern: 'Please enter a valid 5-17 digit bank account number',
+            pattern:
+              'Please enter a valid 5-17 digit bank account number (numbers only)',
           },
           'ui:reviewField': ObfuscateReviewField,
+        },
+        accountNumberConfirmation: {
+          'ui:title': 'Re-enter bank account number',
+          'ui:required': formData =>
+            formData?.mebBankInfoConfirmationField === true,
+          'ui:options': {
+            hideIf: formData => formData?.mebBankInfoConfirmationField !== true,
+          },
+          'ui:errorMessages': {
+            pattern:
+              'Please enter a valid 5-17 digit bank account number (numbers only)',
+          },
+          'ui:validations': [
+            (errors, fieldData, formData) => {
+              if (formData?.mebBankInfoConfirmationField === true) {
+                const accountNumber =
+                  formData['view:directDeposit']?.bankAccount?.accountNumber;
+                if (fieldData && accountNumber && fieldData !== accountNumber) {
+                  errors.addError('This should match your bank account number');
+                }
+              }
+            },
+          ],
         },
       },
     },
@@ -118,7 +147,7 @@ const directDeposit = {
             properties: {
               accountNumber: {
                 type: 'string',
-                pattern: '^[*a-zA-Z0-9]{5,17}$',
+                pattern: '^\\d{5,17}$',
               },
               accountType: {
                 type: 'string',
@@ -127,6 +156,10 @@ const directDeposit = {
               routingNumber: {
                 type: 'string',
                 pattern: '^[\\d*]{5}\\d{4}$',
+              },
+              accountNumberConfirmation: {
+                type: 'string',
+                pattern: '^\\d{5,17}$',
               },
             },
           },

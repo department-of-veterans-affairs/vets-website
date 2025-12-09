@@ -23,6 +23,7 @@ function App({
   getPersonalInformation,
   location,
   mebDpoAddressOptionEnabled,
+  mebBankInfoConfirmationField,
   setFormData,
   user,
 }) {
@@ -65,6 +66,20 @@ function App({
       }
     },
     [mebDpoAddressOptionEnabled, formData, setFormData],
+  );
+
+  useEffect(
+    () => {
+      if (
+        mebBankInfoConfirmationField !== formData.mebBankInfoConfirmationField
+      ) {
+        setFormData({
+          ...formData,
+          mebBankInfoConfirmationField,
+        });
+      }
+    },
+    [mebBankInfoConfirmationField, formData, setFormData],
   );
 
   useEffect(
@@ -153,6 +168,7 @@ App.propTypes = {
   getPersonalInformation: PropTypes.func,
   location: PropTypes.object,
   mebDpoAddressOptionEnabled: PropTypes.bool,
+  mebBankInfoConfirmationField: PropTypes.bool,
   setFormData: PropTypes.func,
   user: PropTypes.object,
 };
