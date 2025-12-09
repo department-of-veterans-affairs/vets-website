@@ -19,9 +19,17 @@ import propTypes from './types';
 
 const spouseMarriageEnded = {
   handlers: {
-    // Return "DONE" when we're done with this flow
+    /**
+     * @type {GoForwardParams}
+     * Return "DONE" when we're done with this flow
+     * @returns {string} Next page key
+     */
     goForward: (/* { _itemData, _index, _fullData } */) => 'DONE',
 
+    /**
+     * @type {OnSubmitParams}
+     * @returns {void}
+     */
     onSubmit: ({ /* event, */ itemData, goForward }) => {
       // event.preventDefault(); // executed before this function is called
       const hasError = getPastDateError(itemData.endDate);
@@ -41,7 +49,10 @@ const spouseMarriageEnded = {
     },
   },
 
-  /** @type {PicklistComponentProps} */
+  /**
+   * @type {PicklistComponentProps}
+   * @returns {React.ReactElement} Page component
+   */
   Component: ({ itemData, firstName, handlers, formSubmitted, isEditing }) => {
     const onChange = event => {
       const { field, value } = getValue(event);
@@ -107,14 +118,14 @@ const spouseMarriageEnded = {
           label="Date marriage ended"
           date={itemData.endDate}
           formSubmitted={formSubmitted}
-          missingErrorMessage="Provide a date marriage ended"
+          missingErrorMessage="Enter the date marriage ended"
           onChange={onChange}
         />
 
         <h4>Where did the marriage end?</h4>
         <VaCheckbox
           name="endOutsideUS"
-          label="The marriage ended outside the United States"
+          label="Marriage ended outside the United States"
           checked={itemData.endOutsideUS || false}
           onVaChange={onChange}
         />

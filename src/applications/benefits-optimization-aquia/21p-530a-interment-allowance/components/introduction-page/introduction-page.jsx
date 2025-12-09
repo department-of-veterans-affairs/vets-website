@@ -118,10 +118,10 @@ export const IntroductionPage = ({ router }) => {
 
       <VaLinkAction
         data-testid="start-burial-allowance-link"
-        href="/relationship-to-veteran"
+        href="/organization-information"
         onClick={e => {
           e.preventDefault();
-          router.push('/relationship-to-veteran');
+          router.push('/organization-information');
         }}
         text="Start the state and tribal organization burial allowance benefits application"
       />
