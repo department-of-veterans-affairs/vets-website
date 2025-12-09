@@ -45,7 +45,7 @@ describe('Veteran reporting medical expenses path on foreign base', () => {
     utils.checkAxeAndClickContinueButton();
 
     // Statement of Truth
-    utils.fillInStatementOfTruthFromFixture();
     cy.injectAxeThenAxeCheck();
+    utils.fillInStatementOfTruthFromFixture();
   });
 });

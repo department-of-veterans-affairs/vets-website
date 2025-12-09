@@ -54,8 +54,8 @@ describe('Medical Expense Report Form 8416', () => {
       utils.checkAxeAndClickContinueButton();
 
       // Statement of Truth
-      utils.fillInStatementOfTruthFromFixture();
       cy.injectAxeThenAxeCheck();
+      utils.fillInStatementOfTruthFromFixture();
     });
   });
 });

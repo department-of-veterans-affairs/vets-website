@@ -45,8 +45,7 @@ describe('Spouse or Child of Veteran medical expenses path', () => {
     utils.checkAxeAndClickContinueButton();
 
     // Statement of Truth
-    utils.fillInStatementOfTruthFromFixture();
-
     cy.injectAxeThenAxeCheck();
+    utils.fillInStatementOfTruthFromFixture();
   });
 });
