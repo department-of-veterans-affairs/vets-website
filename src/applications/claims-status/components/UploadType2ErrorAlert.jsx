@@ -10,18 +10,24 @@ function UploadType2ErrorAlert({ failedSubmissions }) {
   const hasRecordedEvent = useRef(false);
 
   // Record Type 2 failure event when component mounts with failed submissions
+  // Only records once per session to avoid inflating error counts
   useEffect(
     () => {
+      const sessionKey = 'cst_type2_failure_recorded';
+      const hasRecordedInSession = sessionStorage.getItem(sessionKey);
+
       if (
         failedSubmissions &&
         failedSubmissions.length > 0 &&
-        !hasRecordedEvent.current
+        !hasRecordedEvent.current &&
+        !hasRecordedInSession
       ) {
         recordType2FailureEvent({
           failedDocumentCount: failedSubmissions.length,
         });
 
         hasRecordedEvent.current = true;
+        sessionStorage.setItem(sessionKey, 'true');
       }
     },
 
