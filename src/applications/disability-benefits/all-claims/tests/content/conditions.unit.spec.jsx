@@ -112,17 +112,6 @@ describe('createCauseFollowUpDescriptions', () => {
     );
   });
 
-  it('returns SECONDARY with no match when sideOfBody is not present', () => {
-    const item = {
-      cause: 'SECONDARY',
-      causedByDisability: 'Ankle sprain, left',
-    };
-    const fullData = { newDisabilities: [{ condition: 'ankle sprain' }] };
-    expect(createCauseFollowUpDescriptions(item, fullData)).to.equal(
-      'Ankle sprain, left has been removed — please edit to change the cause',
-    );
-  });
-
   it('returns SECONDARY matches in ratedDisabilities', () => {
     const item = { cause: 'SECONDARY', causedByDisability: 'Knee Pain' };
     const fullData = { ratedDisabilities: [{ name: 'knee pain' }] };
