@@ -16,6 +16,9 @@ describe('ClaimDetailsContent', () => {
     createdOn: '2024-05-27T16:40:45.781Z',
     modifiedOn: '2024-05-31T16:40:45.781Z',
     totalCostRequested: 50.99,
+    appointment: {
+      id: '20d73591-ff18-4b66-9838-1429ebbf1b6e',
+    },
   };
 
   const getState = ({
