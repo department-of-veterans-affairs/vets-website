@@ -1,38 +1,34 @@
-export default function prefillTransformer(
-  pages,
-  formData,
-  metadata,
-  formContext,
-) {
+/* eslint-disable no-console */
+export default function prefillTransformer(pages, formData, metadata, state) {
+  const { user } = state || {};
+  const { profile } = user || {};
+  const { vapContactInfo } = profile || {};
+  const { mailingAddress } = vapContactInfo || {};
+  // Build the transformed form data at root level
+  const transformedFormData = {
+    // Preserve any existing form data
+    ...formData,
+    // Add login state tracking to formData for use in depends fields
+    'view:loginState': {
+      isLoggedIn: state?.user?.login?.currentlyLoggedIn || false,
+    },
+    // Prefill mailing address from VA Profile if available
+    ...(mailingAddress && {
+      applicantMailingAddress: {
+        street: mailingAddress.addressLine1 || '',
+        street2: mailingAddress.addressLine2 || '',
+        city: mailingAddress.city || '',
+        state: mailingAddress.stateCode || '',
+        postalCode: mailingAddress.zipCode || '',
+        country: mailingAddress.countryCodeIso3 || 'USA',
+      },
+    }),
+    // ...{email: vapContactInfo?.email?.emailAddress || formContactInfo.email},
+  };
+
   return {
     pages,
-    formData: {
-      // Add login state tracking to formData for use in depends fields
-      'view:loginState': {
-        isLoggedIn: formContext?.user?.login?.currentlyLoggedIn || false,
-      },
-      // application: {
-      //   applicant: {
-      //     name: {
-      //       first: formData.application.claimant.name.first,
-      //       last: formData.application.claimant.name.last,
-      //     },
-      //     'view:applicantInfo': {
-      //       mailingAddress: formData.application.claimant.address,
-      //     },
-      //   },
-      //   claimant: {
-      //     name: formData.application.claimant.name,
-      //     address: formData.application.claimant.address,
-      //     ssn: formData.application.claimant.ssn,
-      //     dateOfBirth: formData.application.claimant.dateOfBirth,
-      //     email: formData.application.claimant.email,
-      //     phoneNumber: formData.application.claimant.phoneNumber,
-      //   },
-      // },
-      email: formData.email,
-      phoneNumber: formData.phoneNumber,
-    },
+    formData: transformedFormData,
     metadata,
   };
 }

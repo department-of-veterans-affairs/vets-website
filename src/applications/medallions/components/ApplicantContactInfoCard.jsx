@@ -10,8 +10,9 @@ const ApplicantContactInfoCard = ({ formData, onEdit, content = '' }) => {
     vapContactInfo || {};
 
   // Use VA profile data if available, otherwise fall back to form data
-  const formContactInfo = formData?.application?.claimant || {};
+  const formContactInfo = formData || {};
   const email = profileEmail?.emailAddress || formContactInfo.email;
+  // const email = formContactInfo.email;
 
   // Get raw phone number (just area code + phone number, no extension)
   const phoneNumber = profileMobilePhone
