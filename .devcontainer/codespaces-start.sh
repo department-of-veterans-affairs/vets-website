@@ -59,10 +59,11 @@ if [ "$MAKE_APP_PUBLIC" == "YES" ]; then
     printf "\n\n##### Setup complete. Your servers are running and ports are public. #####\n"
 
     # Enable content-build port
-    # npx http-server build/localhost -s -c-1 -p 3002
-    # gh codespace ports visibility 3002:public -c "$CODESPACE_NAME"
+    gh codespace ports visibility 3002:public -c "$CODESPACE_NAME"
 
-    # printf "\n\n##### Content build is now running and ports public. #####\n"
+    npx http-server build/localhost -s -c-1 -p 3002
+
+    printf "\n\n##### Content build is now running and ports public. #####\n"
 
     wait
 
