@@ -11,6 +11,15 @@ beforeEach(() => {
     statusCode: 200,
     body: '',
   }).as('getFeatureToggles');
+
+  // Redirect S3 chunk requests to localhost during Cypress tests.
+  // This fixes ChunkLoadError when publicPath points to S3 but files are served locally.
+  cy.intercept('GET', '**/generated/*.js', req => {
+    if (req.url.includes('.amazonaws.com')) {
+      const chunkName = req.url.split('/generated/')[1];
+      req.url = `/generated/${chunkName}`;
+    }
+  }).as('redirectS3Chunks');
 });
 
 // workaround for 'AssertionError: Timed out retrying after 4000ms: Invalid string length'
