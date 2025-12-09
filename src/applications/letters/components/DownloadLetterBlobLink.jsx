@@ -124,4 +124,7 @@ const mapDispatchToProps = {
   getSingleLetterPDFLinkAction,
 };
 
-export default connect(null, mapDispatchToProps)(DownloadLetterBlobLink);
+export default connect(
+  null,
+  mapDispatchToProps,
+)(DownloadLetterBlobLink);
