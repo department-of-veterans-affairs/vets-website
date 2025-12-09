@@ -44,15 +44,24 @@ AppContent.propTypes = {
 
 function Post911GIBStatusApp({ user, children }) {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const toggleValue = useToggleValue(TOGGLE_NAMES.enableLightHouse);
-  const useLighthouse = toggleValue
-    ? backendServices.LIGHTHOUSE
-    : backendServices.EVSS_CLAIMS;
+  const sobDgiClaimantServiceEnabled = useToggleValue(
+    TOGGLE_NAMES.sobClaimantService,
+  );
+
+  // If sobClaimantService is true → require DGI, else LIGHTHOUSE
+  const serviceRequired = sobDgiClaimantServiceEnabled
+    ? backendServices.DGI
+    : backendServices.LIGHTHOUSE;
+
+  const downtimeDependencies = sobDgiClaimantServiceEnabled
+    ? [externalServices.dgiClaimants]
+    : [externalServices.lighthouseBenefitsEducation];
+
   return (
-    <RequiredLoginView verify serviceRequired={useLighthouse} user={user}>
+    <RequiredLoginView verify serviceRequired={serviceRequired} user={user}>
       <DowntimeNotification
         appTitle="Post-9/11 GI Bill benefits tracking tool"
-        dependencies={[externalServices.lighthouseBenefitsEducation]}
+        dependencies={downtimeDependencies}
       >
         <AppContent>
           <Main apiVersion={{ apiVersion: 'v1' }}>{children}</Main>

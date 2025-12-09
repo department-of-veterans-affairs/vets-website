@@ -12,6 +12,7 @@ export default {
   // CARMA (Caregiver Record Management Application)
   carma: 'carma',
   decisionReviews: 'decision_reviews',
+  dgiClaimants: 'dgi_claimants',
   disabilityCompensationForm: 'disability_compensation_form',
   // Debt Management Services
   dmc: 'dmc',
