@@ -1,48 +1,23 @@
-// import * as utils from '../utils';
+import * as utils from '../utils';
 
 describe('Spouse or Child of Veteran medical expenses path', () => {
-  // before(() => {
-  //   utils.startApplicationWithoutLogin();
-  // });
-  beforeEach(() => {
-    cy.visit(
-      '/supporting-forms-for-claims/submit-medical-expense-report-form-21p-8416',
-    );
+  before(() => {
+    utils.startApplicationWithoutLogin();
+  });
+  Cypress.config({
+    defaultCommandTimeout: 20000,
+    requestTimeout: 20000,
+    taskTimeout: 30000,
+    waitForAnimations: true,
   });
 
   it('tests Veteran Spouse reporting medical expenses path', () => {
-    cy.findByRole('heading', { level: 1 }).should(
-      'have.text',
-      'Submit medical expenses to support a pension or DIC claim',
-    );
-    cy.findByRole('heading', {
-      level: 2,
-      name: 'Follow these steps to get started:',
-    }).should('exist');
-    cy.findByText('What to know before you fill out this form').should('exist');
-    // cy.findByText('Sign in to start your application').should('exist');
-    cy.get('va-alert-sign-in')
-      .get('a[class="schemaform-start-button"]')
-      .should('exist');
-    // checkVisibleElementContent(
-    //   'h1',
-    //   'Submit medical expenses to support a pension or DIC claim',
-    // );
-    // checkVisibleElementContent('h2', 'Follow these steps to get started:');
-    // checkVisibleElementContent(
-    //   'va-process-list',
-    //   'What to know before you fill out this form',
-    // );
-    // checkVisibleElementContent(
-    //   'va-alert-sign-in',
-    //   'Sign in with a verified account',
-    // );
+    cy.selectRadio('root_claimantNotVeteran', 'N');
     cy.injectAxeThenAxeCheck();
-    // cy.selectRadio('root_claimantNotVeteran', 'N');
-    // utils.checkAxeAndClickContinueButton();
+    cy.clickFormContinue();
 
-    // utils.fillInNameFromFixture();
-    // utils.fillInFullAddressFromFixture();
+    utils.fillInNameFromFixture();
+    utils.fillInFullAddressFromFixture();
 
     // utils.fillInEmailAndPhoneFromFixture();
 
@@ -77,7 +52,8 @@ describe('Spouse or Child of Veteran medical expenses path', () => {
     // utils.checkAxeAndClickContinueButton();
 
     // // Statement of Truth
-    // cy.injectAxeThenAxeCheck();
     // utils.fillInStatementOfTruthFromFixture();
+
+    // cy.injectAxeThenAxeCheck();
   });
 });

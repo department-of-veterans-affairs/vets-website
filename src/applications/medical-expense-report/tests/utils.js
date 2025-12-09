@@ -21,19 +21,20 @@ export const checkVisibleElementContent = (element, content) => {
  * Check the content on the intro page for anonymous users.
  */
 export const checkContentAnonymousIntroPageContent = () => {
-  checkVisibleElementContent(
-    'h1',
-    'Submit medical expenses to support a pension or DIC claim',
-  );
-  checkVisibleElementContent('h2', 'Follow these steps to get started:');
-  checkVisibleElementContent(
-    'va-process-list',
-    'What to know before you fill out this form',
-  );
-  checkVisibleElementContent(
-    'va-alert-sign-in',
-    'Sign in with a verified account',
-  );
+  cy.findByRole('heading', {
+    level: 1,
+    name: 'Submit medical expenses to support a pension or DIC claim',
+  }).should('exist');
+  cy.findByRole('heading', {
+    level: 2,
+    name: 'Follow these steps to get started:',
+  }).should('exist');
+  cy.findByText('What to know before you fill out this form').should('exist');
+  cy.get('va-alert-sign-in')
+    .shadow()
+    .within(() => {
+      cy.findByText('Sign in with a verified account').should('exist');
+    });
 };
 
 /**
@@ -376,45 +377,50 @@ export const checkContentAnonymousStatementOfTruth = () => {
  * Fill in the name fields from the fixture data.
  */
 export const fillInNameFromFixture = () => {
-  cy.get('input[name="root_claimantFullName_first"]').type(
-    fixtureData.data.attributes.profile.first_name,
-  );
-  cy.get('input[name="root_claimantFullName_middle"]').type(
-    fixtureData.data.attributes.profile.middle_name,
-  );
-  cy.get('input[name="root_claimantFullName_last"]').type(
-    fixtureData.data.attributes.profile.last_name,
-  );
-  cy.contains('button', 'Continue').click();
+  cy.get('va-text-input[name="root_claimantFullName_first"]')
+    .shadow()
+    .findByRole('textbox', { name: /First name/i })
+    .type(fixtureData.data.attributes.profile.first_name);
+  cy.get('va-text-input[name="root_claimantFullName_middle"]')
+    .shadow()
+    .findByRole('textbox', { name: /Middle name/i })
+    .type(fixtureData.data.attributes.profile.middle_name);
+  cy.get('va-text-input[name="root_claimantFullName_last"]')
+    .shadow()
+    .findByRole('textbox', { name: /Last name/i })
+    .type(fixtureData.data.attributes.profile.last_name);
+  cy.findByRole('button', { name: /Continue/i }).click();
 };
 
 /**
  * Fill in Address data from fixture data.
  */
 export const fillInFullAddressFromFixture = () => {
-  cy.get('select[name="root_claimantAddress_country"]').select(
-    fixtureData.data.attributes.veteran_address.country,
-  );
-
-  cy.get('input[name="root_claimantAddress_street"').type(
-    fixtureData.data.attributes.veteran_address.street,
-  );
-  cy.get('input[name="root_claimantAddress_street2"]').type(
-    fixtureData.data.attributes.veteran_address.street2,
-  );
-
-  cy.get('.vads-web-component-pattern-address').fillVaTextInput(
-    'root_claimantAddress_city',
-    fixtureData.data.attributes.veteran_address.city,
-  );
-
-  cy.get('va-select')
+  cy.get('va-select[name="root_claimantAddress_country"]')
     .shadow()
-    .get('select[name="root_claimantAddress_state"]')
+    .findByRole('combobox')
+    .select(fixtureData.data.attributes.veteran_address.country);
+
+  cy.get('va-text-input[name="root_claimantAddress_street"')
+    .shadow()
+    .findByRole('textbox')
+    .type(fixtureData.data.attributes.veteran_address.street);
+  cy.get('va-text-input[name="root_claimantAddress_street2"]')
+    .shadow()
+    .findByRole('textbox')
+    .type(fixtureData.data.attributes.veteran_address.street2);
+  cy.get('va-text-input[name="root_claimantAddress_city"]')
+    .shadow()
+    .findByRole('textbox')
+    .type(fixtureData.data.attributes.veteran_address.city);
+  cy.get('va-select[name="root_claimantAddress_state"]')
+    .shadow()
+    .findByRole('combobox')
     .select(fixtureData.data.attributes.veteran_address.state);
-  cy.get('input[name="root_claimantAddress_postalCode"]').type(
-    fixtureData.data.attributes.veteran_address.zip,
-  );
+  cy.get('va-text-input[name="root_claimantAddress_postalCode"]')
+    .shadow()
+    .findByRole('textbox')
+    .type(fixtureData.data.attributes.veteran_address.zip);
 
   cy.contains('button', 'Continue').click();
 };
