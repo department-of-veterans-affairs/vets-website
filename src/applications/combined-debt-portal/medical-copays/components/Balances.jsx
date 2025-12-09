@@ -34,21 +34,28 @@ export const Balances = ({
           systems are updated with your next monthly statement.
         </p>
       )}
+
       <ul className="no-bullets vads-u-padding-x--0">
         {statements?.map((balance, idx) => {
-          const facilityName =
-            balance.station.facilityName ||
-            getMedicalCenterNameByID(balance.station.facilitYNum);
+          const facilityName = showVHAPaymentHistory
+            ? balance.attributes.facility ||
+              getMedicalCenterNameByID(balance.attributes.facility)
+            : balance.station.facilityName ||
+              getMedicalCenterNameByID(balance.station.facilityNum);
 
           return (
             <li key={idx} className="vads-u-max-width--none">
               <BalanceCard
                 id={balance.id}
-                amount={balance.pHAmtDue}
+                amount={
+                  showVHAPaymentHistory
+                    ? balance.attributes.currentBalance
+                    : balance.pHAmtDue
+                }
                 date={balance.pSStatementDateOutput}
                 city={balance.station.city}
                 facility={facilityName}
-                key={balance.id ? balance.id : `${idx}-${balance.facilitYNum}`}
+                key={balance.id ? balance.id : `${idx}-${facilityName}`}
               />
             </li>
           );

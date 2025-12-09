@@ -105,7 +105,9 @@ const OverviewPage = () => {
   const debtLoading = isDebtPending || isProfileUpdating;
   const { statements, error: mcpError, pending: mcpLoading } = mcp;
   const statementsEmpty = statements?.length === 0;
-  const sortedStatements = sortStatementsByDate(statements ?? []);
+  const sortedStatements = sortStatementsByDate(
+    showVHAPaymentHistory ? mcp.statements.data ?? [] : statements ?? [],
+  );
   const statementsByUniqueFacility = uniqBy(sortedStatements, 'pSFacilityNum');
   const title = 'Copay balances';
   useHeaderPageTitle(title);
