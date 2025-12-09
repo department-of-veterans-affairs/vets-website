@@ -8,6 +8,24 @@ import { allergyTypes } from './constants';
 const DEFAULT_EMPTY_FIELD = 'None recorded';
 
 /**
+ * Extract reactions/manifestations from a FHIR AllergyIntolerance resource.
+ * This function is used by both Medical Records and Medications apps.
+ *
+ * @param {Object} record - FHIR AllergyIntolerance resource
+ * @returns {Array<string>} Array of reaction/manifestation text values
+ */
+export const getReactions = record => {
+  const reactions = [];
+  if (!record || !record.reaction) return reactions;
+  record.reaction.forEach(reaction => {
+    reaction.manifestation.forEach(manifestation => {
+      reactions.push(manifestation.text);
+    });
+  });
+  return reactions;
+};
+
+/**
  * Extract location from a FHIR AllergyIntolerance resource.
  * This is a private helper function used by convertAllergy.
  *
@@ -58,7 +76,7 @@ const extractObservedReported = (allergy, helpers, emptyField) => {
  * Used for v1 API responses.
  *
  * @param {Object} allergy - FHIR AllergyIntolerance resource
- * @param {Object} helpers - Helper functions { isArrayAndHasItems, getReactions, extractContainedResource }
+ * @param {Object} helpers - Helper functions { isArrayAndHasItems, extractContainedResource }
  * @param {Object} options - Configuration options
  * @param {string} options.emptyField - Value for missing fields (default: 'None recorded')
  * @param {string} options.noneNotedField - Value for notes/name when none (default: same as emptyField)
@@ -67,11 +85,7 @@ const extractObservedReported = (allergy, helpers, emptyField) => {
  * @returns {Object} Normalized allergy object
  */
 export const convertAllergy = (allergy, helpers, options = {}) => {
-  const {
-    isArrayAndHasItems,
-    getReactions,
-    extractContainedResource,
-  } = helpers;
+  const { isArrayAndHasItems, extractContainedResource } = helpers;
   const {
     emptyField = DEFAULT_EMPTY_FIELD,
     noneNotedField = emptyField,

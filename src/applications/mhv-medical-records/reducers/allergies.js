@@ -4,11 +4,7 @@ import {
 } from '@department-of-veterans-affairs/mhv/exports';
 import { Actions } from '../util/actionTypes';
 import { EMPTY_FIELD, loadStates } from '../util/constants';
-import {
-  getReactions,
-  isArrayAndHasItems,
-  extractContainedResource,
-} from '../util/helpers';
+import { isArrayAndHasItems, extractContainedResource } from '../util/helpers';
 
 const initialState = {
   /**
@@ -39,7 +35,6 @@ const initialState = {
 // Helper functions object to pass to shared converters
 const allergyHelpers = {
   isArrayAndHasItems,
-  getReactions,
   extractContainedResource,
 };
 

@@ -4,11 +4,7 @@ import {
   environment,
 } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { convertAllergy as sharedConvertAllergy } from '@department-of-veterans-affairs/mhv/exports';
-import {
-  extractContainedResource,
-  getReactions,
-  isArrayAndHasItems,
-} from '../util/helpers';
+import { extractContainedResource, isArrayAndHasItems } from '../util/helpers';
 import { FIELD_NONE_NOTED, FIELD_NOT_AVAILABLE } from '../util/constants';
 
 /**
@@ -19,7 +15,6 @@ const apiBasePath = `${environment.API_URL}/my_health/v1`;
 // Helper functions object to pass to shared converter
 const allergyHelpers = {
   isArrayAndHasItems,
-  getReactions,
   extractContainedResource,
 };
 

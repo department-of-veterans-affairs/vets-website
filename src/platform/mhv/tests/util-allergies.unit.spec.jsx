@@ -1,20 +1,15 @@
 import { expect } from 'chai';
-import { convertAllergy, convertUnifiedAllergy } from '../util/allergies';
+import {
+  convertAllergy,
+  convertUnifiedAllergy,
+  getReactions,
+} from '../util/allergies';
 import { allergyTypes } from '../util/constants';
 
 // Mock helper functions that would be passed in from each app
+// Note: getReactions is exported from the shared module and used internally by convertAllergy
 const mockHelpers = {
   isArrayAndHasItems: obj => Array.isArray(obj) && obj.length > 0,
-  getReactions: record => {
-    const reactions = [];
-    if (!record || !record.reaction) return reactions;
-    record.reaction.forEach(reaction => {
-      reaction.manifestation.forEach(manifestation => {
-        reactions.push(manifestation.text);
-      });
-    });
-    return reactions;
-  },
   extractContainedResource: (resource, referenceId) => {
     if (
       resource &&
@@ -35,6 +30,77 @@ const mockHelpers = {
 const DEFAULT_EMPTY_FIELD = 'None recorded';
 
 describe('Shared Allergy Utilities', () => {
+  describe('getReactions', () => {
+    it('should extract reactions from a FHIR allergy record', () => {
+      const record = {
+        reaction: [
+          {
+            manifestation: [{ text: 'Hives' }, { text: 'Swelling' }],
+          },
+        ],
+      };
+
+      const result = getReactions(record);
+
+      expect(result).to.deep.equal(['Hives', 'Swelling']);
+    });
+
+    it('should handle multiple reaction entries', () => {
+      const record = {
+        reaction: [
+          {
+            manifestation: [{ text: 'Hives' }],
+          },
+          {
+            manifestation: [{ text: 'Difficulty breathing' }],
+          },
+        ],
+      };
+
+      const result = getReactions(record);
+
+      expect(result).to.deep.equal(['Hives', 'Difficulty breathing']);
+    });
+
+    it('should return empty array when record is null', () => {
+      const result = getReactions(null);
+
+      expect(result).to.deep.equal([]);
+    });
+
+    it('should return empty array when record is undefined', () => {
+      const result = getReactions(undefined);
+
+      expect(result).to.deep.equal([]);
+    });
+
+    it('should return empty array when record has no reaction property', () => {
+      const record = { id: '123' };
+
+      const result = getReactions(record);
+
+      expect(result).to.deep.equal([]);
+    });
+
+    it('should return empty array when reaction array is empty', () => {
+      const record = { reaction: [] };
+
+      const result = getReactions(record);
+
+      expect(result).to.deep.equal([]);
+    });
+
+    it('should handle reaction with empty manifestation array', () => {
+      const record = {
+        reaction: [{ manifestation: [] }],
+      };
+
+      const result = getReactions(record);
+
+      expect(result).to.deep.equal([]);
+    });
+  });
+
   describe('convertAllergy', () => {
     it('should convert a complete FHIR allergy correctly with default options', () => {
       const fhirAllergy = {
