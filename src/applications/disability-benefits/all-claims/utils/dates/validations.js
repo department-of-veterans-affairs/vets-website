@@ -1,26 +1,42 @@
-/* eslint-disable you-dont-need-momentjs/diff */
-/**
- * TODO: tech-debt(you-dont-need-momentjs): Waiting for Node upgrade to support Temporal API
- * @see https://github.com/department-of-veterans-affairs/va.gov-team/issues/110024
- */
-/* eslint-disable you-dont-need-momentjs/no-import-moment */
-/* eslint-disable you-dont-need-momentjs/no-moment-constructor */
-/* eslint-disable you-dont-need-momentjs/start-of */
-/* eslint-disable you-dont-need-momentjs/add */
-import moment from 'moment';
+import { parseISO, isValid, parse, add, format } from 'date-fns';
+import { isDateBefore, isDateAfter, isDateSame } from './comparisons';
 
 /**
- * Internal utility to safely create moment objects
+ * Internal utility to safely create date-fns date objects
  * @private
  */
-const safeMoment = date => {
+const safeFnsDate = date => {
   if (!date) return null;
-  // Check if the date string contains only non-date characters to avoid moment warnings
+  // Check if the date string contains only non-date characters to avoid parsing errors
   if (typeof date === 'string' && !/\d/.test(date)) {
     return null;
   }
-  const momentDate = moment(date);
-  return momentDate.isValid() ? momentDate : null;
+
+  // Handle Date objects
+  if (date instanceof Date) {
+    return isValid(date) ? date : null;
+  }
+
+  // Try parsing as ISO string first (only if it looks like ISO format)
+  let parsedDate = null;
+  if (typeof date === 'string' && /^\d{4}-\d{2}-\d{2}/.test(date)) {
+    parsedDate = parseISO(date);
+    if (isValid(parsedDate)) {
+      return parsedDate;
+    }
+  }
+
+  // Try common date formats with a consistent reference date
+  const referenceDate = new Date();
+  const formats = ['MM/dd/yyyy', 'yyyy-MM-dd', 'MM-dd-yyyy'];
+  for (const dateFormat of formats) {
+    parsedDate = parse(date, dateFormat, referenceDate);
+    if (isValid(parsedDate)) {
+      return parsedDate;
+    }
+  }
+
+  return null;
 };
 
 /**
@@ -38,8 +54,8 @@ export const validateDateNotBeforeReference = (
 ) => {
   const { inclusive = true, customMessage = null } = options;
 
-  const dateToCheck = safeMoment(date);
-  const refDate = safeMoment(referenceDate);
+  const dateToCheck = safeFnsDate(date);
+  const refDate = safeFnsDate(referenceDate);
 
   if (!dateToCheck) {
     errors.addError('Please provide a valid date');
@@ -51,13 +67,16 @@ export const validateDateNotBeforeReference = (
     return;
   }
 
-  const comparison = inclusive ? 'isBefore' : 'isSameOrBefore';
+  const isBeforeRef = inclusive
+    ? isDateBefore(dateToCheck, refDate)
+    : isDateBefore(dateToCheck, refDate) || isDateSame(dateToCheck, refDate);
 
-  if (dateToCheck[comparison](refDate)) {
+  if (isBeforeRef) {
     errors.addError(
       customMessage ||
-        `Date must be ${inclusive ? 'on or ' : ''}after ${refDate.format(
-          'MM/DD/YYYY',
+        `Date must be ${inclusive ? 'on or ' : ''}after ${format(
+          refDate,
+          'MM/dd/yyyy',
         )}`,
     );
   }
@@ -76,7 +95,7 @@ export const validateSeparationDateWithRules = (
 ) => {
   const { isBDD = false, isReserves = false } = options;
 
-  const separationDate = safeMoment(dateString);
+  const separationDate = safeFnsDate(dateString);
   if (!separationDate) {
     errors.addError(
       `The separation date provided (${dateString}) is not a real date.`,
@@ -84,11 +103,12 @@ export const validateSeparationDateWithRules = (
     return;
   }
 
-  const in90Days = moment().add(90, 'days');
-  const in180Days = moment().add(180, 'days');
+  const now = new Date();
+  const in90Days = add(now, { days: 90 });
+  const in180Days = add(now, { days: 180 });
 
   if (isBDD) {
-    if (separationDate.isAfter(in180Days)) {
+    if (isDateAfter(separationDate, in180Days)) {
       errors.addError(
         'Your separation date must be before 180 days from today',
       );
@@ -99,7 +119,7 @@ export const validateSeparationDateWithRules = (
   }
 
   // Non-BDD validation rules
-  if (separationDate.isAfter(in180Days)) {
+  if (isDateAfter(separationDate, in180Days)) {
     errors.addError(
       'You entered a date more than 180 days from now. If you are wanting to apply for the Benefits Delivery at Discharge program, you will need to wait.',
     );
@@ -107,7 +127,11 @@ export const validateSeparationDateWithRules = (
   }
 
   // For non-BDD, non-reserves: date must be in the past (more than 90 days ago)
-  if (!isReserves && separationDate.isSameOrAfter(in90Days)) {
+  if (
+    !isReserves &&
+    (isDateAfter(separationDate, in90Days) ||
+      isDateSame(separationDate, in90Days))
+  ) {
     errors.addError('Your separation date must be in the past');
   }
 };
@@ -125,13 +149,14 @@ export const validateTitle10ActivationDate = (
   servicePeriods = [],
   reservesList = [],
 ) => {
-  const activation = safeMoment(activationDate);
+  const activation = safeFnsDate(activationDate);
   if (!activation) {
     errors.addError('Please provide a valid activation date');
     return;
   }
 
-  if (activation.isAfter(moment())) {
+  const now = new Date();
+  if (isDateAfter(activation, now)) {
     errors.addError('Enter an activation date in the past');
     return;
   }
@@ -145,11 +170,19 @@ export const validateTitle10ActivationDate = (
   const earliestStart = reserveGuardPeriods
     .map(period => period.dateRange?.from)
     .filter(date => date)
-    .sort((a, b) => moment(a).diff(moment(b)))[0];
+    .sort((a, b) => {
+      const dateA = safeFnsDate(a);
+      const dateB = safeFnsDate(b);
+      if (!dateA || !dateB) return 0;
+      return dateA.getTime() - dateB.getTime();
+    })[0];
 
-  if (earliestStart && activation.isBefore(moment(earliestStart))) {
-    errors.addError(
-      'Your activation date must be after your earliest service start date for the Reserve or the National Guard',
-    );
+  if (earliestStart) {
+    const earliestStartDate = safeFnsDate(earliestStart);
+    if (earliestStartDate && isDateBefore(activation, earliestStartDate)) {
+      errors.addError(
+        'Your activation date must be after your earliest service start date for the Reserve or the National Guard',
+      );
+    }
   }
 };
