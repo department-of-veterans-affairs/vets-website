@@ -33,7 +33,7 @@ import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 
 import useAlerts from '../hooks/use-alerts';
 import OHOnlyContent from './ccdContent/OHOnlyContent';
-import VistaAOnlyContent from './ccdContent/VistaAOnlyContent';
+import VistaOnlyContent from './ccdContent/VistaOnlyContent';
 import VistaAndOHContent from './ccdContent/VistaAndOHContent';
 import { postRecordDatadogAction } from '../api/MrApi';
 
@@ -252,11 +252,6 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     sendDataDogAction('Download self-entered health information PDF link');
   };
 
-  // eslint-disable-next-line no-console
-  console.log(
-    `>>>>>--------hasOHFacilities=${hasOHFacilities} , hasVistAFacilities=${hasVistAFacilities} `,
-  );
-
   if (true) {
     return (
       <div>
@@ -307,7 +302,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   if (hasVistAFacilities) {
     return (
       <div>
-        <VistaAOnlyContent
+        <VistaOnlyContent
           isLoading={generatingCCD}
           testIdSuffix="Vista"
           ccdExtendedFileTypeFlag={ccdExtendedFileTypeFlag}

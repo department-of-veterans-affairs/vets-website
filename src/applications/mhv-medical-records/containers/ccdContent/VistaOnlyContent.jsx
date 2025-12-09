@@ -25,7 +25,7 @@ import {
 import AccessTroubleAlertBox from '../../components/shared/AccessTroubleAlertBox';
 import { sendDataDogAction } from '../../util/helpers';
 
-const VistaAOnlyContent = ({
+const VistaOnlyContent = ({
   accessErrors,
   activeAlert,
   ccdError,
@@ -206,7 +206,7 @@ const VistaAOnlyContent = ({
               </h3>
               <p className="vads-u-margin--0">
                 This report includes all the health information you entered
-                previously.
+                yourself in the previous version of My HealtheVet.
               </p>
               <p>
                 Your VA health care team can’t access this self-entered
@@ -245,7 +245,7 @@ const VistaAOnlyContent = ({
   );
 };
 
-VistaAOnlyContent.propTypes = {
+VistaOnlyContent.propTypes = {
   accessErrors: PropTypes.func.isRequired,
   ccdDownloadSuccess: PropTypes.bool.isRequired,
   ccdError: PropTypes.bool.isRequired,
@@ -271,4 +271,4 @@ VistaAOnlyContent.propTypes = {
   lastSuccessfulUpdate: PropTypes.object,
 };
 
-export default VistaAOnlyContent;
+export default VistaOnlyContent;

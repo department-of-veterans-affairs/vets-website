@@ -7,14 +7,14 @@ import {
   ALERT_TYPE_SEI_ERROR,
   SEI_DOMAINS,
 } from '@department-of-veterans-affairs/mhv/exports';
-import VistaAOnlyContent from '../../containers/ccdContent/VistaAOnlyContent';
+import VistaOnlyContent from '../../containers/ccdContent/VistaOnlyContent';
 import {
   ALERT_TYPE_BB_ERROR,
   ALERT_TYPE_CCD_ERROR,
 } from '../../util/constants';
 import reducer from '../../reducers';
 
-describe('VistaAOnlyContent', () => {
+describe('VistaOnlyContent', () => {
   const initialState = {
     featureToggles: {
       loading: false,
@@ -59,7 +59,7 @@ describe('VistaAOnlyContent', () => {
 
   const renderComponent = (props = {}, state = {}) => {
     return renderWithStoreAndRouter(
-      <VistaAOnlyContent {...defaultProps} {...props} />,
+      <VistaOnlyContent {...defaultProps} {...props} />,
       {
         initialState: { ...initialState, ...state },
         reducers: reducer,
