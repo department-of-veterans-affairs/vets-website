@@ -105,12 +105,6 @@ const formConfig = {
           schema: applicantFullname.schema,
           CustomPageReview: applicantFullnameReviewPage,
         },
-        // identificationInformation: {
-        //   path: 'identification-information',
-        //   title: 'Identification information',
-        //   uiSchema: identificationInformation.uiSchema,
-        //   schema: identificationInformation.schema,
-        // },
         mailingAddress: {
           path: 'mailing-address',
           title: 'Mailing address',

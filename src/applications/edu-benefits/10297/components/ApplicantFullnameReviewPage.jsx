@@ -9,9 +9,8 @@ import {
 } from '../helpers';
 
 const applicantFullnameReviewPage = ({ data }) => {
-  const fullName = data?.applicantFullName;
-  const dateOfBirth = data?.dateOfBirth;
-  const ssn = data?.ssn;
+  const { applicantFullName: fullName, dateOfBirth, ssn } = data;
+
   const dobDateObj = parseDateToDateObj(
     dateOfBirth || null,
     FORMAT_YMD_DATE_FNS,

@@ -16,7 +16,7 @@ const PersonalInformation = ({ formData }) => {
   const profile = useSelector(selectProfile);
   const { dob, ssn: profileSsn, userFullName = {} } = profile;
   const { first, middle, last, suffix, dateOfBirth } = userFullName;
-  const age = getAgeInYears(profile?.dob);
+  const age = getAgeInYears(dob);
   const fullName = `${first || ''} ${middle || ''} ${last || ''}`.trim();
 
   // Get SSN from formData or profile, then extract last 4 digits
