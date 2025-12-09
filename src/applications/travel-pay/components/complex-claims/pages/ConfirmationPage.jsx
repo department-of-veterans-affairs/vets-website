@@ -27,7 +27,7 @@ const ConfirmationPage = () => {
   const { isSubmitting, error: submitError, data: submitResponse } =
     submissionState || {};
   let pageHeader;
-  let alertConfig;
+  let alertConfig = { status: null, headline: '' }; // default
 
   if (submitError) {
     pageHeader = 'We couldn’t file your claim';
@@ -58,48 +58,50 @@ const ConfirmationPage = () => {
         />
       ) : (
         <>
-          <va-alert status={alertConfig.status} visible>
-            <h2 slot="headline">{alertConfig.headline}</h2>
-            {/* ✅ SUCCESS */}
-            {alertConfig.status === 'success' && (
-              <>
-                <p className="vads-u-margin-y--0">Claim number: {claimId}</p>
+          {alertConfig.status && (
+            <va-alert status={alertConfig.status} visible>
+              <h2 slot="headline">{alertConfig.headline}</h2>
+              {/* ✅ SUCCESS */}
+              {alertConfig.status === 'success' && (
+                <>
+                  <p className="vads-u-margin-y--0">Claim number: {claimId}</p>
 
-                {appointmentData && (
-                  <p className="vads-u-margin-bottom--0">
-                    This claim is for your appointment
-                    {appointmentData.location?.attributes?.name
-                      ? ` at ${appointmentData.location.attributes.name}`
-                      : ''}
-                    {appointmentData.practitionerName
-                      ? ` with ${appointmentData.practitionerName}`
-                      : ''}
-                    {formattedDate && formattedTime
-                      ? ` on ${formattedDate} at ${formattedTime}`
-                      : ''}
-                    .
+                  {appointmentData && (
+                    <p className="vads-u-margin-bottom--0">
+                      This claim is for your appointment
+                      {appointmentData.location?.attributes?.name
+                        ? ` at ${appointmentData.location.attributes.name}`
+                        : ''}
+                      {appointmentData.practitionerName
+                        ? ` with ${appointmentData.practitionerName}`
+                        : ''}
+                      {formattedDate && formattedTime
+                        ? ` on ${formattedDate} at ${formattedTime}`
+                        : ''}
+                      .
+                    </p>
+                  )}
+                </>
+              )}
+              {/* ❌ ERROR */}
+              {alertConfig.status === 'error' && (
+                <div>
+                  <p>
+                    We’re sorry. We couldn’t file your travel reimbursement
+                    claim in this tool right now. Please try again later.
                   </p>
-                )}
-              </>
-            )}
-            {/* ❌ ERROR */}
-            {alertConfig.status === 'error' && (
-              <div>
-                <p>
-                  We’re sorry. We couldn’t file your travel reimbursement claim
-                  in this tool right now. Please try again later.
-                </p>
-                <p>
-                  Or you can still file within 30 days of the appointment
-                  through the Beneficiary Travel Self Service System (BTSSS).
-                </p>
-                <va-link
-                  href={TRAVEL_PAY_INFO_LINK}
-                  text="Find out how to file for travel reimbursement"
-                />
-              </div>
-            )}
-          </va-alert>
+                  <p>
+                    Or you can still file within 30 days of the appointment
+                    through the Beneficiary Travel Self Service System (BTSSS).
+                  </p>
+                  <va-link
+                    href={TRAVEL_PAY_INFO_LINK}
+                    text="Find out how to file for travel reimbursement"
+                  />
+                </div>
+              )}
+            </va-alert>
+          )}
           {!submitError && (
             <>
               <ExpensesAccordion expenses={expenses} documents={documents} />
