@@ -1,4 +1,24 @@
 /**
+ * Generates a full name string from a fullName object.
+ *
+ * @param {Object} name - The name components.
+ * @param {string} [name.first] - First name.
+ * @param {string} [name.middle] - Middle name.
+ * @param {string} [name.last] - Last name.
+ * @param {string} [name.suffix] - Name suffix (e.g., "Jr.", "III").
+ * @param {Object} [options] - Formatting options.
+ * @param {boolean} [options.includeMiddle=false] - Whether to include the middle name.
+ * @returns {string} The formatted full name.
+ */
+export const formatFullName = (name = {}, { includeMiddle = false } = {}) => {
+  const { first, middle, last, suffix } = name;
+  const parts = [first, includeMiddle ? middle : null, last, suffix].filter(
+    Boolean,
+  );
+  return parts.join(' ');
+};
+
+/**
  * Replace placeholder(s) in a string with one or more values.
  *
  * - If `val` is an array, replaces one occurrence per item, left-to-right.

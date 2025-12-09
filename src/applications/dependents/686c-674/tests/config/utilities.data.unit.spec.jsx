@@ -3,7 +3,6 @@ import sinon from 'sinon';
 
 import {
   customFormReplacer,
-  validateName,
   spouseEvidence,
   childEvidence,
   buildSubmissionData,
@@ -43,16 +42,6 @@ describe('Utilities', () => {
     expect(customFormReplacer('phoneNumber', '123-456-7890 blah')).to.be.eq(
       '1234567890',
     );
-  });
-});
-
-describe('validateName', () => {
-  it('should validate the name', () => {
-    const response1 = validateName(
-      { first: false, last: false },
-      { first: 'Bob', last: 'Last' },
-    );
-    expect(response1).to.be.undefined;
   });
 });
 
@@ -479,10 +468,14 @@ describe('showV3Picklist', () => {
   it('should return false if feature flag is off', () => {
     expect(showV3Picklist({})).to.be.false;
     expect(showV3Picklist({ vaDependentsV3: false })).to.be.false;
+    expect(showV3Picklist({ vaDependentsV3: true, vaDependentV2Flow: true })).to
+      .be.false;
   });
 
   it('should return true if feature flag is on', () => {
     expect(showV3Picklist({ vaDependentsV3: true })).to.be.true;
+    expect(showV3Picklist({ vaDependentsV3: true, vaDependentV2Flow: false }))
+      .to.be.true;
   });
 });
 
@@ -744,7 +737,7 @@ describe('transformPicklistToV2', () => {
           isStepchild: 'Y',
           removalReason: 'childDied',
           endDate: '2023-12-01',
-          endOutsideUs: false,
+          endOutsideUS: false,
           endCity: 'Portland',
           endState: 'OR',
         },
@@ -790,7 +783,7 @@ describe('transformPicklistToV2', () => {
           endDate: '2000-02-02',
           endCity: 'test',
           endState: 'AS',
-          endOutsideUs: false,
+          endOutsideUS: false,
         },
       ],
     };
@@ -828,8 +821,9 @@ describe('transformPicklistToV2', () => {
           endType: 'annulmentOrVoid',
           endAnnulmentOrVoidDescription: 'Test description',
           endDate: '2020-01-01',
-          endOutsideUs: true,
+          endOutsideUS: true,
           endCity: 'Paris',
+          endProvince: 'Test',
           endCountry: 'FRA',
         },
       ],
@@ -844,6 +838,7 @@ describe('transformPicklistToV2', () => {
       outsideUsa: true,
       location: {
         city: 'Paris',
+        state: 'Test',
         country: 'FRA',
       },
     });
@@ -859,7 +854,7 @@ describe('transformPicklistToV2', () => {
           selected: true,
           removalReason: 'spouseDied',
           endDate: '2024-01-15',
-          endOutsideUs: true,
+          endOutsideUS: true,
           endCity: 'London',
           endCountry: 'GBR',
         },
@@ -879,6 +874,7 @@ describe('transformPicklistToV2', () => {
         outsideUsa: true,
         location: {
           city: 'London',
+          state: '',
           country: 'GBR',
         },
       },
@@ -897,7 +893,7 @@ describe('transformPicklistToV2', () => {
           selected: true,
           removalReason: 'parentDied',
           endDate: '2000-02-02',
-          endOutsideUs: false,
+          endOutsideUS: false,
           endCity: 'test',
           endState: 'AK',
         },
@@ -943,7 +939,7 @@ describe('transformPicklistToV2', () => {
           selected: true,
           removalReason: 'childDied',
           endDate: '2023-12-01',
-          endOutsideUs: false,
+          endOutsideUS: false,
           endCity: 'Portland',
           endState: 'OR',
         },
@@ -954,7 +950,7 @@ describe('transformPicklistToV2', () => {
           selected: true,
           removalReason: 'parentDied',
           endDate: '2000-02-02',
-          endOutsideUs: false,
+          endOutsideUS: false,
           endCity: 'test',
           endState: 'AK',
         },
@@ -1092,7 +1088,7 @@ describe('transformPicklistToV2', () => {
           isStepchild: 'Y',
           removalReason: 'childDied',
           endDate: '2024-01-15',
-          endOutsideUs: false,
+          endOutsideUS: false,
           endCity: 'Seattle',
           endState: 'WA',
         },
@@ -1240,7 +1236,7 @@ describe('transformPicklistToV2', () => {
           removalReason: 'marriageEnded',
           endType: 'divorce',
           endDate: '2000-02-02',
-          endOutsideUs: false,
+          endOutsideUS: false,
         },
         {
           fullName: { first: 'SPOUSE2', last: 'DOE' },
@@ -1250,7 +1246,7 @@ describe('transformPicklistToV2', () => {
           removalReason: 'marriageEnded',
           endType: 'divorce',
           endDate: '2020-01-01',
-          endOutsideUs: false,
+          endOutsideUS: false,
         },
       ],
     };
@@ -1308,6 +1304,12 @@ describe('transformPicklistToV2', () => {
     expect(result[dataOptions]).to.deep.equal(v3Result[dataOptions]);
     expect(result['view:selectable686Options']).to.deep.equal(
       v3Result['view:selectable686Options'],
+    );
+    expect(result['view:addDependentOptions']).to.deep.equal(
+      v3Result['view:addDependentOptions'],
+    );
+    expect(result['view:removeDependentOptions']).to.deep.equal(
+      v3Result['view:removeDependentOptions'],
     );
   });
 });

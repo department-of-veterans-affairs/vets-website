@@ -7,6 +7,7 @@ import { useBrowserMonitoring } from 'platform/monitoring/Datadog/';
 import environment from 'platform/utilities/environment';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { setData } from 'platform/forms-system/src/js/actions';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import manifest from '../manifest.json';
 import formConfig from '../config/form';
@@ -21,24 +22,19 @@ import { getRootParentUrl } from '../../shared/utils';
 import { fetchDependents as fetchDependentsAction } from '../../shared/actions';
 
 /**
- * @typedef FormAppProps
- * @type {object}
- * @property {object} location - react router location object
- * @property {JSX.Element} children - child components
- * @property {boolean} isLoggedIn - user login status
- * @property {boolean} isLoading - user loading status
- * @property {object} vaFileNumber - VA file number info
- * @property {object} featureToggles - feature toggles object
- * @property {array} savedForms - array of saved forms
- * @property {object} formData - form data from Redux store
- * @property {object} dependents - dependents data from Redux store
- * @property {boolean} isPrefill - whether the form is prefilled
- * @property {function} fetchDependents - action to fetch dependents
- * @property {function} setFormData - action to set form data
- */
-/**
  * Render the 686C-674 application
- * @param {FormAppProps} props - component props
+ * @param {object} location - react router location object
+ * @param {JSX.Element} children - child components
+ * @param {boolean} isLoggedIn - user login status
+ * @param {boolean} isLoading - user loading status
+ * @param {object} vaFileNumber - VA file number info
+ * @param {object} featureToggles - feature toggles object
+ * @param {array} savedForms - array of saved forms
+ * @param {object} formData - form data from Redux store
+ * @param {object} dependents - dependents data from Redux store
+ * @param {boolean} isPrefill - whether the form is prefilled
+ * @param {function} fetchDependents - action to fetch dependents
+ * @param {function} setFormData - action to set form data
  * @returns {JSX.Element} - rendered component
  */
 function App({
@@ -54,12 +50,59 @@ function App({
   isPrefill,
   fetchDependents,
   setFormData,
+  loadedData,
 }) {
   // Must match the H1
   document.title = DOC_TITLE;
 
   const loadingDependents = dependents?.loading;
   const isIntroPage = location?.pathname?.endsWith('/introduction');
+
+  // Determine form flow for v3 release
+  // toggle enabled, new form => v3 flow
+  // toggle enabled, v3 in progress => v3 flow
+  // toggle enabled, v2 in progress => v2 flow
+  // toggle disabled => v2 flow
+  useEffect(
+    () => {
+      // Don't analyze flow until we're past the intro page
+      // (in-progress form load overwrites form data set ON the intro page)
+      if (isLoading || !isLoggedIn || isIntroPage) {
+        return;
+      }
+      // Check v3 feature toggle
+      const toggleV3Enabled = featureToggles?.vaDependentsV3 === true;
+      // Check for an in-progress form (v2 or v3)
+      const hasInProgressForm = savedForms?.some(form =>
+        form?.form?.includes(VA_FORM_IDS.FORM_21_686CV2),
+      );
+      // In-progress form data with saved v3 flag, means it's in v3 flow; so if
+      // it's not set, the in-progress form is in v2 flow
+      const maybeV2InProgress = loadedData?.formData?.vaDependentsV3 !== true;
+      // Flag to stay in V2 flow already set
+      const stayInV2Flow = formData.vaDependentV2Flow === true;
+
+      // Lock form into v2 flow if:
+      // - If we're not on the intro page
+      // - If not already locked into v2 flow
+      // - V3 toggle is enabled
+      // - there is an in-progress form (v2 or v3)
+      // - We detect a possible in-progress v2 form
+      if (
+        !stayInV2Flow &&
+        toggleV3Enabled &&
+        hasInProgressForm &&
+        maybeV2InProgress
+      ) {
+        setFormData({
+          ...formData,
+          vaDependentV2Flow: true,
+        });
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [isLoading, isLoggedIn, featureToggles, isIntroPage],
+  );
 
   useEffect(
     () => {
@@ -189,6 +232,7 @@ const mapStateToProps = state => {
     featureToggles,
     savedForms: user?.profile?.savedForms,
     formData: state.form?.data || {},
+    loadedData: state.form?.loadedData || {},
     dependents: state.dependents,
     isPrefill: state.form?.loadedData?.metadata?.prefill || false,
   };
@@ -202,6 +246,7 @@ App.propTypes = {
   isLoading: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
   isPrefill: PropTypes.bool,
+  loadedData: PropTypes.object,
   location: PropTypes.object,
   savedForms: PropTypes.array,
   setFormData: PropTypes.func,
