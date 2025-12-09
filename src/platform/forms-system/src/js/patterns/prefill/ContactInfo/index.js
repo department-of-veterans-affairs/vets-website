@@ -4,7 +4,7 @@ import {
   getContent,
   CONTACT_INFO_PATH,
   standardPhoneSchema,
-  standardEmailSchema,
+  standardEmailObjectSchema,
   profileAddressSchema,
   blankSchema,
   getReturnState,
@@ -142,7 +142,7 @@ const profileContactInfoPages = ({
 
   if (included.includes(emailKey)) {
     keys.email = emailKey;
-    wrapperProperties[emailKey] = emailSchema || standardEmailSchema;
+    wrapperProperties[emailKey] = emailSchema || standardEmailObjectSchema;
     config[`${contactInfoPageKey}EditEmailAddress`] = {
       title: content.editEmail,
       path: `${contactPath}/edit-email-address`,

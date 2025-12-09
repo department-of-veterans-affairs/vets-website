@@ -276,9 +276,9 @@ const ContactInfoReview = ({
     <div className="form-review-panel-page">
       <Element name={`${contactInfoPageKey}ScrollElement`} />
       <div className="form-review-panel-page-header-row">
-        <h4 className="form-review-panel-page-header vads-u-font-size--h5 vads-u-margin--0">
+        <h3 className="form-review-panel-page-header vads-u-font-size--h5 vads-u-margin--0">
           {content.title}
-        </h4>
+        </h3>
         <va-button
           ref={editRef}
           secondary

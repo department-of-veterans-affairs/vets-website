@@ -172,6 +172,45 @@ export const standardEmailSchema = {
 };
 
 /**
+ * Email object schema
+ */
+export const standardEmailObjectSchema = {
+  type: 'object',
+  properties: {
+    createdAt: {
+      type: 'string',
+    },
+    emailAddress: {
+      type: 'string',
+    },
+    effectiveEndDate: {
+      type: 'string',
+    },
+    effectiveStartDate: {
+      type: 'string',
+    },
+    id: {
+      type: 'number',
+    },
+    sourceDate: {
+      type: 'string',
+    },
+    sourceSystemUser: {
+      type: 'string',
+    },
+    transactionId: {
+      type: 'string',
+    },
+    updatedAt: {
+      type: 'string',
+    },
+    vet360Id: {
+      type: 'string',
+    },
+  },
+};
+
+/**
  * Address schema matching the user profile mailing address; we're not including
  *  the required field here because it should be handled by the ui:validation
  *  dynamic checks for U.S. vs international addresses

@@ -82,9 +82,9 @@ export const PersonalInformationReview = ({
       <div className="form-review-panel-page">
         <div className="form-review-panel-page-header-row">
           <div className="form-review-panel-page-header vads-u-font-size--h5 vads-u-margin--0">
-            <h4 className="vads-u-margin-top--0 vads-u-font-size--h5">
+            <h3 className="vads-u-margin-top--0 vads-u-font-size--h5">
               {title}
-            </h4>
+            </h3>
           </div>
         </div>
         <dl className="review">
