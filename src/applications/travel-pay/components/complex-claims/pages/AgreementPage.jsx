@@ -32,10 +32,7 @@ const AgreementPage = () => {
         // Navigate to the confirmation page after successful submission
         navigate(`/file-new-claim/${apptId}/${claimId}/confirmation`);
       } catch (error) {
-        // Handle error - could show an error message or stay on the page
-        // eslint-disable-next-line no-console
-        console.error('Failed to submit complex claim:', error);
-        // Navigate to error page on submission failure
+        // Navigate to confimration page on submission failure and show error
         navigate(`/file-new-claim/${apptId}/${claimId}/confirmation`);
       }
     }

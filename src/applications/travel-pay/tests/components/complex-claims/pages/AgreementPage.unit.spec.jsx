@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import { fireEvent, waitFor } from '@testing-library/react';
+import { fireEvent } from '@testing-library/react';
 import {
   MemoryRouter,
   Routes,
@@ -231,6 +231,10 @@ describe('Travel Pay – AgreementPage', () => {
             path="/file-new-claim/:apptId/:claimId/travel-agreement"
             element={<AgreementPage />}
           />
+          <Route
+            path="/file-new-claim/:apptId/:claimId/review"
+            element={<div data-testid="review-page">Review Page</div>}
+          />
         </Routes>
         <LocationDisplay />
       </MemoryRouter>,
@@ -251,11 +255,11 @@ describe('Travel Pay – AgreementPage', () => {
     );
   });
 
-  it('navigates to the error page when submission fails', async () => {
+  it('navigates to the confirmation page even when submission fails', async () => {
     // Mock submitComplexClaim to reject
     const mockSubmitComplexClaim = sandbox
       .stub(actions, 'submitComplexClaim')
-      .returns(() => Promise.reject(new Error('Submission failed')));
+      .callsFake(() => () => Promise.reject(new Error('Submission failed')));
 
     const screen = renderWithStoreAndRouter(
       <MemoryRouter
@@ -269,8 +273,10 @@ describe('Travel Pay – AgreementPage', () => {
             element={<AgreementPage />}
           />
           <Route
-            path="/file-new-claim/:apptId/:claimId/error"
-            element={<div data-testid="error-page">Error Page</div>}
+            path="/file-new-claim/:apptId/:claimId/confirmation"
+            element={
+              <div data-testid="confirmation-page">Confirmation Page</div>
+            }
           />
         </Routes>
         <LocationDisplay />
@@ -288,19 +294,15 @@ describe('Travel Pay – AgreementPage', () => {
 
     // Click submit button
     const submitButton = $('va-button[text="Submit claim"]');
-    expect(submitButton).to.exist;
     fireEvent.click(submitButton);
 
-    // Wait for navigation to error page
-    await waitFor(() => {
-      expect(screen.getByTestId('error-page')).to.exist;
-      expect(screen.getByTestId('location-display').textContent).to.equal(
-        `/file-new-claim/${apptId}/${claimId}/error`,
-      );
-    });
+    // Wait for navigation to confirmation page
+    expect(await screen.findByTestId('confirmation-page')).to.exist;
+    expect(screen.getByTestId('location-display').textContent).to.equal(
+      `/file-new-claim/${apptId}/${claimId}/confirmation`,
+    );
 
     // Verify the action was called
     expect(mockSubmitComplexClaim.calledOnce).to.be.true;
   });
 });
-
