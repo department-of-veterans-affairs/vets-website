@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { APP_TYPES } from '../utils/helpers';
+import { phoneContent } from '../utils/copayAlertContent';
 
 const ZeroBalanceCard = ({ appType }) => {
   const cardTitle =
@@ -27,12 +28,7 @@ const ZeroBalanceCard = ({ appType }) => {
           If you think this is incorrect, contact the VA Health Resource Center.
           We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </p>
-        <p>
-          <span className="no-wrap">
-            <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} />
-          </span>
-          . (TTY: <va-telephone contact={CONTACTS[711]} />
-        </p>
+        {phoneContent()}
       </>
     );
 

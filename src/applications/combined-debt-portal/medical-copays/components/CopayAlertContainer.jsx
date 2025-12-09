@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
 import { useHistory } from 'react-router-dom';
 import { VaLinkAction } from '@department-of-veterans-affairs/web-components/react-bindings';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-import { getCopayAlertContent } from '../../combined/utils/copayAlertContent';
+import {
+  getCopayAlertContent,
+  phoneContent,
+} from '../../combined/utils/copayAlertContent';
 
 const CopayAlertContainer = ({ type, copay }) => {
   const history = useHistory();
@@ -42,15 +44,7 @@ const CopayAlertContainer = ({ type, copay }) => {
             help, call the VA Health Resource Center. We’re here Monday through
             Friday, 8:00 a.m. to 8:00 p.m. ET.
           </p>
-          <p>
-            <span className="no-wrap">
-              <va-icon icon="phone" size={3} />{' '}
-              <strong>
-                <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} /> (TTY:{' '}
-                <va-telephone contact={CONTACTS[711]} />)
-              </strong>
-            </span>
-          </p>
+          {phoneContent()}
         </>
       )}
     </va-alert>

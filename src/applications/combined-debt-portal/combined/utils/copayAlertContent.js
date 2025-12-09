@@ -2,6 +2,18 @@ import React from 'react';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { currency, calcDueDate, formatDate } from './helpers';
 
+export const phoneContent = () => {
+  return (
+    <>
+      <p className="vads-u-font-weight--bold">
+        <va-icon icon="phone" class="icon-action" size="3" />{' '}
+        <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} /> (TTY:{' '}
+        <va-telephone contact={CONTACTS[711]} />)
+      </p>
+    </>
+  );
+};
+
 export const getCopayAlertContent = (copay, type) => {
   const statementDate = formatDate(copay?.pSStatementDateOutput);
 
@@ -30,10 +42,9 @@ export const getCopayAlertContent = (copay, type) => {
               If you think this is incorrect, call our toll-free hotline Monday
               through Friday, 8:00 a.m. to 8:00 p.m. ET.
             </p>
-            <p>
-              <span className="no-wrap">
-                <va-telephone contact={CONTACTS['222_VETS']} />
-              </span>
+            <p className="vads-u-font-weight--bold">
+              <va-icon icon="phone" class="icon-action" size="3" />{' '}
+              <va-telephone contact={CONTACTS['222_VETS']} />
             </p>
           </div>
         ),
@@ -141,12 +152,12 @@ export const getCopayAlertContent = (copay, type) => {
         showLinks: false,
         testId: 'copay-error-alert',
         bodyText: (
-          <div>
+          <>
             <p>
               We’re sorry. Something went wrong on our end. You won’t be able to
               access information about your copay balances at this time.
             </p>
-            <h2 className="vads-u-font-size--h4">What you can do</h2>
+            <h3 className="vads-u-font-size--h4">What you can do</h3>
             <p>
               <strong className="vads-u-margin-right--0p5">
                 For questions about your payment or relief options,
@@ -154,12 +165,8 @@ export const getCopayAlertContent = (copay, type) => {
               call the VA Health Resource Center. We’re here Monday through
               Friday, 8:00 a.m. to 8:00 p.m. ET.
             </p>
-            <p>
-              <span className="no-wrap">
-                <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} />
-              </span>{' '}
-            </p>
-          </div>
+            {phoneContent()}
+          </>
         ),
       };
     default:
