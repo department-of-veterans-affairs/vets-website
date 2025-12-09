@@ -106,21 +106,25 @@ const ConfirmationPage = () => {
             <>
               <ExpensesAccordion expenses={expenses} documents={documents} />
 
-              <h2 className="vads-u-margin-top--4">
+              <h2 className="vads-u-margin-top--2">
                 Print this confirmation page
               </h2>
               <p>
                 If you’d like to keep a copy of the information on this page,
                 you can print it now.
               </p>
+
               <va-button
                 text="Print this page for your records"
                 onClick={() => window.print()}
+                class="vads-u-margin-bottom--2"
                 uswds
               />
             </>
           )}
-          <h2>What happens next</h2>
+          <ExpensesAccordion expenses={expenses} documents={documents} />
+
+          <h2 className="vads-u-margin-top--4">What happens next</h2>
           {submitError ? (
             <div>
               <p>

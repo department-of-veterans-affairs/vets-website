@@ -133,7 +133,6 @@ describe('VAOS direct schedule flow - Optometry', () => {
             .clickNextButton();
 
           ReasonForAppointmentPageObject.assertUrl()
-            .selectReasonForAppointment()
             .assertLabel({
               label: /Add any details you.d like to share with your provider/,
             })
@@ -190,7 +189,6 @@ describe('VAOS direct schedule flow - Optometry', () => {
             .clickNextButton();
 
           ReasonForAppointmentPageObject.assertUrl()
-            .selectReasonForAppointment()
             .assertLabel({
               label: /Add any details you.d like to share with your provider/,
             })
@@ -289,7 +287,6 @@ describe('VAOS direct schedule flow - Optometry', () => {
             .clickNextButton();
 
           ReasonForAppointmentPageObject.assertUrl()
-            .selectReasonForAppointment()
             .assertLabel({
               label: /Add any details you.d like to share with your provider/,
             })
@@ -344,7 +341,6 @@ describe('VAOS direct schedule flow - Optometry', () => {
             .clickNextButton();
 
           ReasonForAppointmentPageObject.assertUrl()
-            .selectReasonForAppointment()
             .assertLabel({
               label: /Add any details you.d like to share with your provider/,
             })
