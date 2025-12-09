@@ -152,7 +152,7 @@ yarn test:unit:coverage --app-folder benefits-optimization-aquia/21-0779-nursing
 yarn test:unit src/applications/benefits-optimization-aquia/21-0779-nursing-home-information/config/form/form.unit.spec.jsx
 
 # Run Cypress E2E tests (requires yarn watch to be running)
-yarn cy:run --spec "src/applications/benefits-optimization-aquia/21-0779-nursing-home-information/tests/*.cypress.spec.js"
+yarn cy:run --spec "src/applications/benefits-optimization-aquia/21-0779-nursing-home-information/tests/e2e/21-0779-nursing-home-information.cypress.spec.js"
 
 # Open Cypress test runner
 yarn cy:open
