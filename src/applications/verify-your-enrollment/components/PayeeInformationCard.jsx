@@ -69,7 +69,11 @@ const PayeeInformationCard = ({
             // <p>{chapters[applicantChapter.toUpperCase()]}</p>
             <ul>
               {applicantChapter.map((ch, index) => (
-                <li key={index}>{chapters[ch?.benefitType?.toUpperCase()]}</li>
+                <li key={index}>
+                  {ch.benefitType in chapters
+                    ? chapters[ch?.benefitType?.toUpperCase()]
+                    : ''}
+                </li>
               ))}
             </ul>
           )}
