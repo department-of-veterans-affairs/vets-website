@@ -140,7 +140,6 @@ describe('VAOS request schedule flow - sleep care', () => {
           .assertHeading({
             name: /What.s the reason for this appointment/i,
           })
-          .selectReasonForAppointment()
           .assertLabel({
             label: /Add any details you.d like to share with your provider/,
           })

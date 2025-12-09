@@ -126,6 +126,54 @@ describe('Allergies list container still loading', () => {
 
     expect(screen.getByTestId('loading-indicator')).to.exist;
   });
+
+  it('displays a loading indicator when feature toggles global loading is true', () => {
+    const initialState = {
+      user,
+      featureToggles: {
+        loading: true,
+      },
+      drupalStaticData: {
+        vamcEhrData: { loading: false },
+      },
+      mr: {
+        allergies: {},
+        alerts: { alertList: [] },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<Allergies runningUnitTest />, {
+      initialState,
+      reducers: reducer,
+      path: '/allergies',
+    });
+
+    expect(screen.getByTestId('loading-indicator')).to.exist;
+  });
+
+  it('displays a loading indicator when drupal vamcEhrData loading is true', () => {
+    const initialState = {
+      user,
+      featureToggles: {
+        loading: false,
+      },
+      drupalStaticData: {
+        vamcEhrData: { loading: true },
+      },
+      mr: {
+        allergies: {},
+        alerts: { alertList: [] },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<Allergies runningUnitTest />, {
+      initialState,
+      reducers: reducer,
+      path: '/allergies',
+    });
+
+    expect(screen.getByTestId('loading-indicator')).to.exist;
+  });
 });
 
 describe('Allergies list container with no allergies', () => {
