@@ -200,6 +200,8 @@ export function prefillTransformer(pages, formData, metadata, state) {
     declineDirectDeposit: formData?.declineDirectDeposit,
     bankAccount: {
       ...bankInformation,
+      routingNumberConfirmation: bankInformation?.routingNumber,
+      accountNumberConfirmation: bankInformation?.accountNumber,
     },
   };
 
