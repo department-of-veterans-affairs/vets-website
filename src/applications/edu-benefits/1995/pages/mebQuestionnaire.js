@@ -190,7 +190,7 @@ export const benefitSwitchPage = () => ({
         </span>
       ),
       'ui:description': () => (
-        <va-addtional-info
+        <va-additional-info
           onClick={function noRefCheck() {}}
           trigger="Learn more about these benefits"
         >
