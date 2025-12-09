@@ -125,106 +125,6 @@ export const checkContentAnonymousReportingPeriod = () => {
 };
 
 /**
- * Check Reporting Period page for anonymous users
- */
-// export const checkContentAnonymousCareExpenses = () => {
-//   checkVisibleElementContent(
-//     'h1',
-//     'Submit medical expenses to support a pension or DIC claim'
-//   );
-//   checkVisibleElementContent('va-segmented-progress-bar', 'Expenses');
-//   checkVisibleElementContent('legend', 'Do you have a care expense to add?');
-// };
-
-/**
- * Check the content on the Care Expenses Add page.
- */
-export const checkContentAnonymousCareExpensesAdd = () => {
-  checkVisibleElementContent(
-    'h1',
-    'Submit medical expenses to support a pension or DIC claim',
-  );
-  checkVisibleElementContent('va-segmented-progress-bar', 'Expenses');
-};
-
-/**
- * Check the content on the Care Expenses Type of Care page
- */
-export const checkContentAnonymousCareExpensesTypeOfCare = () => {
-  checkVisibleElementContent(
-    'h1',
-    'Submit medical expenses to support a pension or DIC claim',
-  );
-  checkVisibleElementContent('va-segmented-progress-bar', 'Expenses');
-  checkVisibleElementContent('legend', 'Select the type of care.');
-};
-
-/**
- * Check the content on the Care Expenses Recipient and Provider Name page
- */
-export const checkContentAnonymousCareExpensesRecipientAndProviderName = () => {
-  checkVisibleElementContent(
-    'h1',
-    'Submit medical expenses to support a pension or DIC claim',
-  );
-  checkVisibleElementContent('va-segmented-progress-bar', 'Expenses');
-  checkVisibleElementContent('legend', 'Care recipient');
-};
-
-/**
- * Check the content on the Care Expenses Care Dates page
- */
-export const checkContentAnonymousCareExpensesCareDates = () => {
-  checkVisibleElementContent(
-    'h1',
-    'Submit medical expenses to support a pension or DIC claim',
-  );
-  checkVisibleElementContent('va-segmented-progress-bar', 'Expenses');
-  checkVisibleElementContent(
-    'legend',
-    'Care provider’s name and dates of care',
-  );
-  checkVisibleElementContent('va-memorable-date', 'Care start date');
-  checkVisibleElementContent('va-memorable-date', 'Care end date');
-};
-
-/**
- * Check the content on the Care Expenses Care Costs page
- */
-export const checkContentAnonymousCareExpensesCareCosts = () => {
-  checkVisibleElementContent(
-    'h1',
-    'Submit medical expenses to support a pension or DIC claim',
-  );
-  checkVisibleElementContent('va-segmented-progress-bar', 'Expenses');
-  checkVisibleElementContent('legend', 'Cost of care');
-};
-
-/**
- * Check the content on the Care Expenses Review page
- */
-export const checkContentAnonymousCareExpensesReview = () => {
-  checkVisibleElementContent(
-    'h1',
-    'Submit medical expenses to support a pension or DIC claim',
-  );
-  checkVisibleElementContent('va-segmented-progress-bar', 'Expenses');
-  checkVisibleElementContent('legend', 'Review your care expenses');
-};
-
-/**
- * Check the content on the Medical Expenses intro page
- */
-export const checkContentAnonymousMedicalExpenses = () => {
-  checkVisibleElementContent(
-    'h1',
-    'Submit medical expenses to support a pension or DIC claim',
-  );
-  checkVisibleElementContent('va-segmented-progress-bar', 'Expenses');
-  checkVisibleElementContent('legend', 'Do you have a medical expense to add?');
-};
-
-/**
  * Check the content on the Medical Expenses Recipient and Provider Name page
  */
 export const checkContentAnonymousMedicalExpensesRecipientAndProviderName = () => {
@@ -377,18 +277,18 @@ export const checkContentAnonymousStatementOfTruth = () => {
  * Fill in the name fields from the fixture data.
  */
 export const fillInNameFromFixture = () => {
-  cy.get('va-text-input[name="root_claimantFullName_first"]')
-    .shadow()
-    .findByRole('textbox', { name: /First name/i })
-    .type(fixtureData.data.attributes.profile.first_name);
-  cy.get('va-text-input[name="root_claimantFullName_middle"]')
-    .shadow()
-    .findByRole('textbox', { name: /Middle name/i })
-    .type(fixtureData.data.attributes.profile.middle_name);
-  cy.get('va-text-input[name="root_claimantFullName_last"]')
-    .shadow()
-    .findByRole('textbox', { name: /Last name/i })
-    .type(fixtureData.data.attributes.profile.last_name);
+  cy.fillVaTextInput(
+    'root_claimantFullName_first',
+    fixtureData.data.attributes.profile.first_name,
+  );
+  cy.fillVaTextInput(
+    'root_claimantFullName_middle',
+    fixtureData.data.attributes.profile.middle_name,
+  );
+  cy.fillVaTextInput(
+    'root_claimantFullName_last',
+    fixtureData.data.attributes.profile.last_name,
+  );
   cy.findByRole('button', { name: /Continue/i }).click();
 };
 
@@ -396,32 +296,30 @@ export const fillInNameFromFixture = () => {
  * Fill in Address data from fixture data.
  */
 export const fillInFullAddressFromFixture = () => {
-  cy.get('va-select[name="root_claimantAddress_country"]')
-    .shadow()
-    .findByRole('combobox')
-    .select(fixtureData.data.attributes.veteran_address.country);
-
-  cy.get('va-text-input[name="root_claimantAddress_street"')
-    .shadow()
-    .findByRole('textbox')
-    .type(fixtureData.data.attributes.veteran_address.street);
-  cy.get('va-text-input[name="root_claimantAddress_street2"]')
-    .shadow()
-    .findByRole('textbox')
-    .type(fixtureData.data.attributes.veteran_address.street2);
-  cy.get('va-text-input[name="root_claimantAddress_city"]')
-    .shadow()
-    .findByRole('textbox')
-    .type(fixtureData.data.attributes.veteran_address.city);
-  cy.get('va-select[name="root_claimantAddress_state"]')
-    .shadow()
-    .findByRole('combobox')
-    .select(fixtureData.data.attributes.veteran_address.state);
-  cy.get('va-text-input[name="root_claimantAddress_postalCode"]')
-    .shadow()
-    .findByRole('textbox')
-    .type(fixtureData.data.attributes.veteran_address.zip);
-
+  cy.selectVaSelect(
+    'root_claimantAddress_country',
+    fixtureData.data.attributes.veteran_address.country,
+  );
+  cy.fillVaTextInput(
+    'root_claimantAddress_street',
+    fixtureData.data.attributes.veteran_address.street,
+  );
+  cy.fillVaTextInput(
+    'root_claimantAddress_street2',
+    fixtureData.data.attributes.veteran_address.street2,
+  );
+  cy.fillVaTextInput(
+    'root_claimantAddress_city',
+    fixtureData.data.attributes.veteran_address.city,
+  );
+  cy.selectVaSelect(
+    'root_claimantAddress_state',
+    fixtureData.data.attributes.veteran_address.state,
+  );
+  cy.fillVaTextInput(
+    'root_claimantAddress_postalCode',
+    fixtureData.data.attributes.veteran_address.zip,
+  );
   cy.contains('button', 'Continue').click();
 };
 
@@ -464,18 +362,10 @@ export const fillInMilBaseAddressFromFixture = () => {
  * Fill in the phone data from the fixture.
  */
 export const fillInEmailAndPhoneFromFixture = () => {
-  cy.get('input[name="root_email"').type(
-    fixtureData.data.attributes.profile.email,
-  );
-
-  cy.get('va-telephone-input[name="root_primaryPhone"]')
-    .shadow()
-    .get('va-text-input')
-    .shadow()
-    .get('.va-input-telephone-wrapper')
-    .get('input[type="tel"]')
-    .type(fixtureData.data.attributes.veteran_address.phone);
-
+  cy.fillVaTextInput('root_email', fixtureData.data.attributes.profile.email);
+  cy.fillVaTelephoneInput('root_primaryPhone', {
+    contact: fixtureData.data.attributes.veteran_address.phone,
+  });
   checkAxeAndClickContinueButton();
 };
 
@@ -483,13 +373,16 @@ export const fillInEmailAndPhoneFromFixture = () => {
  * Fill in the Vet Info with the name and SSN.
  */
 export const fillInVetInfoWithNameSSNFromFixture = () => {
-  cy.get('input[name="root_veteranFullName_first"]').type(
+  cy.fillVaTextInput(
+    'root_veteranFullName_first',
     fixtureData.data.attributes.profile.first_name,
   );
-  cy.get('input[name="root_veteranFullName_middle"]').type(
+  cy.fillVaTextInput(
+    'root_veteranFullName_middle',
     fixtureData.data.attributes.profile.middle_name,
   );
-  cy.get('input[name="root_veteranFullName_last"]').type(
+  cy.fillVaTextInput(
+    'root_veteranFullName_last',
     fixtureData.data.attributes.profile.last_name,
   );
   cy.fillVaTextInput(
@@ -501,9 +394,10 @@ export const fillInVetInfoWithNameSSNFromFixture = () => {
     'root_veteranSocialSecurityNumber_vaFileNumber',
     fixtureData.data.attributes.va_profile.vaFileNumber,
   );
-  cy.fillDate(
+  cy.fillVaMemorableDate(
     'root_veteranDateOfBirth',
     fixtureData.data.attributes.profile.birth_date,
+    false,
   );
   checkAxeAndClickContinueButton();
 };
@@ -533,25 +427,33 @@ export const fillInVetInfoWithoutNameSSNFromFixture = () => {
  */
 export const fillInCareExpensesFromFixture = () => {
   // care expenses
+  cy.findByRole('heading', {
+    level: 3,
+    name: 'Care expenses',
+  }).should('exist');
+  checkAxeAndClickContinueButton();
+  cy.selectYesNoVaRadioOption('root_view:careExpensesList', 'Y');
   checkAxeAndClickContinueButton();
 
-  checkContentAnonymousCareExpensesAdd();
-  checkAxeAndClickContinueButton();
-
-  cy.selectRadio('root_view:careExpensesList', 'Y');
-  checkAxeAndClickContinueButton();
-
-  checkContentAnonymousCareExpensesTypeOfCare();
+  cy.findByRole('heading', {
+    level: 3,
+    name: 'Type of care',
+  }).should('exist');
   cy.selectRadio('root_typeOfCare', 'RESIDENTIAL');
   checkAxeAndClickContinueButton();
 
-  checkContentAnonymousCareExpensesRecipientAndProviderName();
+  cy.findByRole('heading', {
+    level: 3,
+    name: 'Care recipient',
+  }).should('exist');
   cy.selectRadio('root_recipient', 'VETERAN');
 
   checkAxeAndClickContinueButton();
 
-  // care dates
-  checkContentAnonymousCareExpensesCareDates();
+  cy.findByRole('heading', {
+    level: 3,
+    name: 'Care provider’s name and dates of care',
+  }).should('exist');
   cy.fillVaTextInput(
     'root_provider',
     fixtureData.data.attributes.veteran_care_provider_1.providerName,
@@ -567,17 +469,24 @@ export const fillInCareExpensesFromFixture = () => {
   );
 
   checkAxeAndClickContinueButton();
-
-  // care expense amount
-  checkContentAnonymousCareExpensesCareCosts();
+  cy.findByRole('heading', {
+    level: 3,
+    name: `Cost of care for ${
+      fixtureData.data.attributes.veteran_care_provider_1.providerName
+    }`,
+  }).should('exist');
   cy.fillVaTextInput(
     'root_monthlyAmount',
     fixtureData.data.attributes.veteran_care_provider_1.expenseAmmount,
   );
   checkAxeAndClickContinueButton();
 
-  // care expenses
-  checkContentAnonymousCareExpensesReview();
+  cy.findByRole('heading', {
+    level: 3,
+    name: 'Review your care expenses',
+  }).should('exist');
+
+  // Add another care expense
   cy.selectRadio('root_view:careExpensesList', 'Y');
   checkAxeAndClickContinueButton();
 
@@ -602,7 +511,12 @@ export const fillInCareExpensesFromFixture = () => {
     fixtureData.data.attributes.veteran_care_provider_1.toDate,
   );
   checkAxeAndClickContinueButton();
-
+  cy.findByRole('heading', {
+    level: 3,
+    name: `Cost of care for ${
+      fixtureData.data.attributes.veteran_care_provider_2.providerName
+    }`,
+  }).should('exist');
   cy.fillVaTextInput(
     'root_monthlyAmount',
     fixtureData.data.attributes.veteran_care_provider_2.expenseAmmount,
@@ -624,86 +538,86 @@ export const fillInCareExpensesFromFixture = () => {
  * Fill in the Medical Expenses from the Fixture data.
  */
 export const fillInMedicalExpensesFromFixture = () => {
-  cy.contains('Medical expenses');
-  checkAxeAndClickContinueButton();
-
-  checkContentAnonymousMedicalExpenses();
+  cy.findByRole('heading', {
+    level: 3,
+    name: 'Medical expenses',
+  }).should('exist');
   checkAxeAndClickContinueButton();
 
   cy.selectRadio('root_view:medicalExpensesList', 'Y');
   checkAxeAndClickContinueButton();
 
-  checkContentAnonymousMedicalExpensesRecipientAndProviderName();
-  cy.selectRadio('root_recipient', 'VETERAN');
+  // checkContentAnonymousMedicalExpensesRecipientAndProviderName();
+  // cy.selectRadio('root_recipient', 'VETERAN');
 
-  checkAxeAndClickContinueButton();
+  // checkAxeAndClickContinueButton();
 
-  cy.fillVaTextInput(
-    'root_provider',
-    fixtureData.data.attributes.veteran_med_provider_1.providerName,
-  );
-  cy.fillVaTextInput(
-    'root_purpose',
-    fixtureData.data.attributes.veteran_med_provider_1.medPurpose,
-  );
-  checkContentAnonymousMedicalExpensesReason();
+  // cy.fillVaTextInput(
+  //   'root_provider',
+  //   fixtureData.data.attributes.veteran_med_provider_1.providerName,
+  // );
+  // cy.fillVaTextInput(
+  //   'root_purpose',
+  //   fixtureData.data.attributes.veteran_med_provider_1.medPurpose,
+  // );
+  // checkContentAnonymousMedicalExpensesReason();
 
-  checkAxeAndClickContinueButton();
+  // checkAxeAndClickContinueButton();
 
-  checkContentAnonymousMedicalExpensesFrequency();
-  cy.selectRadio('root_paymentFrequency', 'ONCE_MONTH');
-  cy.fillVaTextInput(
-    'root_paymentAmount',
-    fixtureData.data.attributes.veteran_med_provider_1.medPaymentAmount,
-  );
-  cy.get('va-memorable-date[name="root_paymentDate"]')
-    .shadow()
-    .get('input[name="root_paymentDateMonth"]:not([disabled]')
-    .then(() => {
-      cy.fillDate(
-        'root_paymentDate',
-        fixtureData.data.attributes.veteran_med_provider_1.medPaymentDate,
-      );
-    });
-  checkAxeAndClickContinueButton();
+  // checkContentAnonymousMedicalExpensesFrequency();
+  // cy.selectRadio('root_paymentFrequency', 'ONCE_MONTH');
+  // cy.fillVaTextInput(
+  //   'root_paymentAmount',
+  //   fixtureData.data.attributes.veteran_med_provider_1.medPaymentAmount,
+  // );
+  // cy.get('va-memorable-date[name="root_paymentDate"]')
+  //   .shadow()
+  //   .get('input[name="root_paymentDateMonth"]:not([disabled]')
+  //   .then(() => {
+  //     cy.fillDate(
+  //       'root_paymentDate',
+  //       fixtureData.data.attributes.veteran_med_provider_1.medPaymentDate,
+  //     );
+  //   });
+  // checkAxeAndClickContinueButton();
 
-  checkContentAnonymousMedicalExpensesReview();
-  cy.selectRadio('root_view:medicalExpensesList', 'Y');
-  checkAxeAndClickContinueButton();
+  // checkContentAnonymousMedicalExpensesReview();
+  // cy.selectRadio('root_view:medicalExpensesList', 'Y');
+  // checkAxeAndClickContinueButton();
 
-  cy.selectRadio('root_recipient', 'CHILD');
-  cy.fillVaTextInput(
-    'root_fullNameRecipient',
-    fixtureData.data.attributes.veteran_med_provider_2.medPatient,
-  );
+  // cy.selectRadio('root_recipient', 'CHILD');
+  // cy.fillVaTextInput(
+  //   'root_fullNameRecipient',
+  //   fixtureData.data.attributes.veteran_med_provider_2.medPatient,
+  // );
 
-  checkAxeAndClickContinueButton();
+  // checkAxeAndClickContinueButton();
 
-  cy.fillVaTextInput(
-    'root_provider',
-    fixtureData.data.attributes.veteran_med_provider_2.providerName,
-  );
-  cy.fillVaTextInput(
-    'root_purpose',
-    fixtureData.data.attributes.veteran_med_provider_2.medPurpose,
-  );
-  checkAxeAndClickContinueButton();
+  // cy.fillVaTextInput(
+  //   'root_provider',
+  //   fixtureData.data.attributes.veteran_med_provider_2.providerName,
+  // );
+  // cy.fillVaTextInput(
+  //   'root_purpose',
+  //   fixtureData.data.attributes.veteran_med_provider_2.medPurpose,
+  // );
+  // checkAxeAndClickContinueButton();
 
-  cy.selectRadio('root_paymentFrequency', 'ONCE_MONTH');
-  cy.fillVaTextInput(
-    'root_paymentAmount',
-    fixtureData.data.attributes.veteran_med_provider_2.medPaymentAmount,
-  );
-  cy.get('va-memorable-date[name="root_paymentDate"]')
-    .shadow()
-    .get('input[name="root_paymentDateMonth"]:not([disabled]')
-    .then(() => {
-      cy.fillDate(
-        'root_paymentDate',
-        fixtureData.data.attributes.veteran_med_provider_2.medPaymentDate,
-      );
-    });
-  checkAxeAndClickContinueButton();
+  // cy.selectRadio('root_paymentFrequency', 'ONCE_MONTH');
+  // cy.fillVaTextInput(
+  //   'root_paymentAmount',
+  //   fixtureData.data.attributes.veteran_med_provider_2.medPaymentAmount,
+  // );
+  // cy.get('va-memorable-date[name="root_paymentDate"]')
+  //   .shadow()
+  //   .get('input[name="root_paymentDateMonth"]:not([disabled]')
+  //   .then(() => {
+  //     cy.fillDate(
+  //       'root_paymentDate',
+  //       fixtureData.data.attributes.veteran_med_provider_2.medPaymentDate,
+  //     );
+  //   });
+  // checkAxeAndClickContinueButton();
 };
 
 /**

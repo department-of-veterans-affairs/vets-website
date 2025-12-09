@@ -60,7 +60,7 @@
         "state" : "OH",
         "zip" : "01234",
         "nonUsZip" : "09309",
-        "phone" : "123 555 1212"
+        "phone" : "(333) 555-1212"
       },
       "veteran_care_provider_1" : {
         "providerName" : "Mr One Provider",

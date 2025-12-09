@@ -15,25 +15,28 @@ describe('Spouse or Child of Veteran medical expenses path', () => {
     cy.selectRadio('root_claimantNotVeteran', 'N');
     cy.injectAxeThenAxeCheck();
     cy.clickFormContinue();
-
     utils.fillInNameFromFixture();
     utils.fillInFullAddressFromFixture();
+    utils.fillInEmailAndPhoneFromFixture();
+    utils.fillInVetInfoWithNameSSNFromFixture();
 
-    // utils.fillInEmailAndPhoneFromFixture();
+    // Reporting period
+    cy.selectYesNoVaRadioOption('root_firstTimeReporting', 'Y');
+    utils.checkAxeAndClickContinueButton();
 
-    // utils.fillInVetInfoWithNameSSNFromFixture();
+    // Care expenses
+    cy.findByRole('heading', {
+      level: 3,
+      name: 'Reporting period effective date',
+    }).should('exist');
+    utils.checkAxeAndClickContinueButton();
+    utils.fillInCareExpensesFromFixture();
 
-    // // Reporting period
-    // cy.selectRadio('root_firstTimeReporting', 'Y');
-    // utils.checkAxeAndClickContinueButton();
+    cy.selectRadio('root_view:careExpensesList', 'N');
+    utils.checkAxeAndClickContinueButton();
 
-    // utils.fillInCareExpensesFromFixture();
-
-    // cy.selectRadio('root_view:careExpensesList', 'N');
-    // utils.checkAxeAndClickContinueButton();
-
-    // // Medical expenses
-    // utils.fillInMedicalExpensesFromFixture();
+    // Medical expenses
+    utils.fillInMedicalExpensesFromFixture();
 
     // cy.selectRadio('root_view:medicalExpensesList', 'N');
     // utils.checkAxeAndClickContinueButton();
