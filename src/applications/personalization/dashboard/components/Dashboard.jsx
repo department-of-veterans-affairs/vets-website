@@ -62,7 +62,7 @@ import ClaimsAndAppeals from './claims-and-appeals/ClaimsAndAppeals';
 import HealthCare from './health-care/HealthCare';
 import CTALink from './CTALink';
 import BenefitPaymentsLegacy from './benefit-payments/BenefitPaymentsLegacy';
-import Debts from './debts/Debts';
+import DebtsLegacy from './debts/DebtsLegacy';
 import { getAllPayments } from '../actions/payments';
 import Notifications from './notifications/Notifications';
 import { canAccess } from '../../common/selectors';
@@ -519,7 +519,7 @@ const Dashboard = ({
                 >
                   <Toggler.Disabled>
                     <HealthCare isVAPatient={isVAPatient} />
-                    <Debts />
+                    <DebtsLegacy />
                     <BenefitPaymentsLegacy
                       payments={payments}
                       showNotifications={showNotifications}
