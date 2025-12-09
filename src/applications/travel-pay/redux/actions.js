@@ -501,11 +501,6 @@ export function deleteDocument(claimId, documentId) {
         // Silently continue if fetching details fails
       }
 
-      const FORCE_ERROR = true;
-      if (FORCE_ERROR) {
-        throw new Error('Forced delete error for FE testing');
-      }
-
       // Dispatch success only after claim details are fetched
       dispatch(deleteDocumentSuccess(documentId));
       return { id: documentId };
