@@ -30,6 +30,7 @@ function ToeApp({
   isLoggedIn,
   location,
   mebDpoAddressOptionEnabled,
+  mebBankInfoConfirmationField,
   setFormData,
   sponsors,
   sponsorsInitial,
@@ -210,6 +211,20 @@ function ToeApp({
 
   useEffect(
     () => {
+      if (
+        mebBankInfoConfirmationField !== formData.mebBankInfoConfirmationField
+      ) {
+        setFormData({
+          ...formData,
+          mebBankInfoConfirmationField,
+        });
+      }
+    },
+    [mebBankInfoConfirmationField],
+  );
+
+  useEffect(
+    () => {
       if (dob !== formData?.dob) {
         setFormData({
           ...formData,
@@ -268,6 +283,7 @@ ToeApp.propTypes = {
   isLoggedIn: PropTypes.bool,
   location: PropTypes.object,
   mebDpoAddressOptionEnabled: PropTypes.bool,
+  mebBankInfoConfirmationField: PropTypes.bool,
   setFormData: PropTypes.func,
   showMeb1990ER6MaintenanceMessage: PropTypes.bool,
   showUpdatedFryDeaApp: PropTypes.bool,

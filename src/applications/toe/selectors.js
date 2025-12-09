@@ -26,4 +26,6 @@ export const getAppData = state => ({
   toeHighSchoolInfoChange: state?.featureToggles?.toeHighSchoolInfoChange,
   user: state.user || {},
   mebDpoAddressOptionEnabled: state?.featureToggles?.mebDpoAddressOptionEnabled,
+  mebBankInfoConfirmationField:
+    state?.featureToggles?.mebBankInfoConfirmationField,
 });

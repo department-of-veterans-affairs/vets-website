@@ -1279,7 +1279,12 @@ const formConfig = {
             ),
             [formFields.bankAccount]: {
               ...bankAccountUI,
-              'ui:order': ['accountType', 'routingNumber', 'accountNumber'],
+              'ui:order': [
+                'accountType',
+                'routingNumber',
+                'accountNumber',
+                'accountNumberConfirmation',
+              ],
               routingNumber: {
                 ...bankAccountUI.routingNumber,
                 'ui:errorMessages': {
@@ -1292,11 +1297,41 @@ const formConfig = {
                 ...bankAccountUI.accountNumber,
                 'ui:errorMessages': {
                   pattern:
-                    'Please enter a valid 5-17 digit bank account number',
+                    'Please enter a valid 5-17 digit bank account number (numbers only)',
                 },
                 'ui:reviewField': ObfuscateReviewField,
                 'ui:title': 'Bank account number',
                 'ui:validations': [validateAccountNumber],
+              },
+              accountNumberConfirmation: {
+                'ui:title': 'Re-enter bank account number',
+                'ui:required': formData =>
+                  formData?.mebBankInfoConfirmationField === true,
+                'ui:options': {
+                  hideIf: formData =>
+                    formData?.mebBankInfoConfirmationField !== true,
+                },
+                'ui:errorMessages': {
+                  pattern:
+                    'Please enter a valid 5-17 digit bank account number (numbers only)',
+                },
+                'ui:validations': [
+                  (errors, fieldData, formData) => {
+                    if (formData?.mebBankInfoConfirmationField === true) {
+                      const accountNumber =
+                        formData[formFields.bankAccount]?.accountNumber;
+                      if (
+                        fieldData &&
+                        accountNumber &&
+                        fieldData !== accountNumber
+                      ) {
+                        errors.addError(
+                          'This should match your bank account number',
+                        );
+                      }
+                    }
+                  },
+                ],
               },
             },
             'view:learnMore': {
@@ -1342,7 +1377,7 @@ const formConfig = {
                 properties: {
                   accountNumber: {
                     type: 'string',
-                    pattern: '^[*a-zA-Z0-9]{5,17}$',
+                    pattern: '^\\d{5,17}$',
                   },
                   accountType: {
                     type: 'string',
@@ -1351,6 +1386,10 @@ const formConfig = {
                   routingNumber: {
                     type: 'string',
                     pattern: '^[\\d*]{5}\\d{4}$',
+                  },
+                  accountNumberConfirmation: {
+                    type: 'string',
+                    pattern: '^\\d{5,17}$',
                   },
                 },
               },
