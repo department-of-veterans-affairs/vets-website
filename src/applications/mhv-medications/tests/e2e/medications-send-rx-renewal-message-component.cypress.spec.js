@@ -90,16 +90,20 @@ describe('Send Rx Renewal Message Component', () => {
     cy.axeCheck('main');
   });
 
-  it('displays learn to renew link for expired prescriptions', () => {
+  it('displays fallback message for expired prescriptions older than 120 days', () => {
     const listPage = new MedicationsListPage();
 
     listPage.visitMedicationsListPageURL(rxList);
 
     cy.get('[data-testid="expired"]').then($expired => {
       if ($expired.length > 0) {
-        cy.get('[data-testid="learn-to-renew-prescriptions-link"]')
+        cy.wrap($expired)
           .should('exist')
-          .and('be.visible');
+          .and('be.visible')
+          .and(
+            'contain',
+            'Contact your VA provider if you need more of this medication',
+          );
       }
     });
 
