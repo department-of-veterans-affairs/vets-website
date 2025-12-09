@@ -97,7 +97,7 @@ describe('Send Rx Renewal Message Component', () => {
 
     cy.get('[data-testid="expired"]').then($expired => {
       if ($expired.length > 0) {
-        cy.get('[data-testid="learn-to-renew-precsriptions-link"]')
+        cy.get('[data-testid="learn-to-renew-prescriptions-link"]')
           .should('exist')
           .and('be.visible');
       }

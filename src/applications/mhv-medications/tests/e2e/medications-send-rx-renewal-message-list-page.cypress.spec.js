@@ -72,7 +72,7 @@ describe('Send Rx Renewal Message on List Page', () => {
     cy.axeCheck('main');
   });
 
-  it('displays learn how to renew link for expired prescriptions on list page', () => {
+  it('displays fallback message for expired prescriptions older than 120 days on list page', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
 
@@ -81,15 +81,12 @@ describe('Send Rx Renewal Message on List Page', () => {
 
     cy.get('[data-testid="expired"]').then($expired => {
       if ($expired.length > 0) {
-        cy.get('[data-testid="learn-to-renew-precsriptions-link"]')
+        cy.wrap($expired)
           .should('exist')
           .and('be.visible')
-          .shadow()
-          .find('a')
-          .should(
-            'have.attr',
-            'href',
-            '/resources/how-to-renew-a-va-prescription',
+          .and(
+            'contain',
+            'Contact your VA provider if you need more of this medication',
           );
       }
     });
