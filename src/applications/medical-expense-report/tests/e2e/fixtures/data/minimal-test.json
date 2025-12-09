@@ -1,0 +1,28 @@
+{
+  "data": {
+    "claimantNotVeteran": true,
+    "claimantFullName": {
+      "first": "John",
+      "middle": "Q",
+      "last": "Doe"
+    },
+    "claimantAddress": {
+      "street": "101 Main St",
+      "street2": "Apartment 2B",
+      "city": "Anytown",
+      "state": "OH",
+      "postalCode": "01234",
+      "country": "USA"
+    },
+    "email": "john.doe@example.com",
+    "primaryPhone": {
+      "contact": "(555) 123-4567"
+    },
+    "veteranSocialSecurityNumber": {
+      "ssn": "454544545",
+      "vaFileNumber": "111223333"
+    },
+    "veteranDateOfBirth": "1980-01-01",
+    "firstTimeReporting": true
+  }
+}
