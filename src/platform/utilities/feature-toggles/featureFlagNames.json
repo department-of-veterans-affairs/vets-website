@@ -168,6 +168,7 @@
   "mhvLandingPageShowShareMyHealthDataLink": "mhv_landing_page_show_share_my_health_data_link",
   "mhvMedicalRecordsCcdExtendedFileTypes": "mhv_medical_records_ccd_extended_file_types",
   "mhvMedicalRecordsFilterAndSort": "mhv_medical_records_filter_and_sort",
+  "mhvMedicalRecordsMergeCvixIntoScdf": "mhv_medical_records_merge_cvix_into_scdf",
   "mhvMedicalRecordsSupportBackendPaginationAllergy": "mhv_medical_records_support_backend_pagination_allergy",
   "mhvMedicalRecordsSupportBackendPaginationCareSummaryNote": "mhv_medical_records_support_backend_pagination_care_summary_note",
   "mhvMedicalRecordsSupportBackendPaginationHealthCondition": "mhv_medical_records_support_backend_pagination_health_condition",
