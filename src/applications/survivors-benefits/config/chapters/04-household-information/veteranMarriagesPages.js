@@ -44,8 +44,8 @@ function introDescription() {
 /** @type {ArrayBuilderOptions} */
 const options = {
   arrayPath: 'veteranMarriages',
-  nounSingular: 'veteran marriage',
-  nounPlural: 'veteran marriages',
+  nounSingular: 'previous marriage',
+  nounPlural: 'previous marriages',
   required: false,
   maxItems: 2,
   isItemIncomplete: item =>
