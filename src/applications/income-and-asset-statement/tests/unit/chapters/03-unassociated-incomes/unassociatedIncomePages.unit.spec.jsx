@@ -60,6 +60,12 @@ describe('unassociated income list and loop pages', () => {
     testOptionsTextGetItemNameRecurringIncome(options);
   });
 
+  describe('summaryTitle function', () => {
+    it('should show content', () => {
+      expect(options.text.summaryTitle).to.eql('Review recurring income');
+    });
+  });
+
   describe('text cardDescription function', () => {
     /* eslint-disable no-unused-vars */
     const {

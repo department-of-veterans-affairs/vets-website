@@ -177,11 +177,10 @@ export const convertUnifiedVital = record => {
 export const vitalReducer = (state = initialState, action) => {
   switch (action.type) {
     case Actions.Vitals.GET: {
+      const list = Array.isArray(state.vitalsList) ? state.vitalsList : [];
       return {
         ...state,
-        vitalDetails: state.vitalsList.filter(
-          vital => vital.type === action.vitalType,
-        ),
+        vitalDetails: list.filter(vital => vital.type === action.vitalType),
       };
     }
     case Actions.Vitals.GET_LIST: {
