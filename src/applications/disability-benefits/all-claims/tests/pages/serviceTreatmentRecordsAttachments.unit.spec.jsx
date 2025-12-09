@@ -126,6 +126,9 @@ describe('serviceTreatmentRecords', () => {
   });
 
   describe('ui:confirmationField', () => {
+    const confirmationField =
+      uiSchema.serviceTreatmentRecordsAttachments['ui:confirmationField'];
+
     it('should correctly display file names and label for confirmation field', () => {
       const testData = [
         {
@@ -140,14 +143,72 @@ describe('serviceTreatmentRecords', () => {
         },
       ];
 
-      const result = uiSchema.serviceTreatmentRecordsAttachments[
-        'ui:confirmationField'
-      ]({
+      const result = confirmationField({
         formData: testData,
       });
 
       expect(result).to.deep.equal({
         data: ['Test.pdf', 'Test2.pdf'],
+        label: 'Uploaded file(s)',
+      });
+    });
+
+    it('should display "File name not available" when formData is null', () => {
+      const result = confirmationField({ formData: null });
+
+      expect(result).to.deep.equal({
+        data: ['File name not available'],
+        label: 'Uploaded file(s)',
+      });
+    });
+
+    it('should display "File name not available" when formData is undefined', () => {
+      const result = confirmationField({ formData: undefined });
+
+      expect(result).to.deep.equal({
+        data: ['File name not available'],
+        label: 'Uploaded file(s)',
+      });
+    });
+
+    it('should display "File name not available" when formData is an empty array', () => {
+      const result = confirmationField({ formData: [] });
+
+      expect(result).to.deep.equal({
+        data: ['File name not available'],
+        label: 'Uploaded file(s)',
+      });
+    });
+
+    it('should use fileName when name is not available', () => {
+      const result = confirmationField({
+        formData: [
+          {
+            fileName: 'scan.pdf',
+            attachmentId: 'L450',
+          },
+        ],
+      });
+
+      expect(result).to.deep.equal({
+        data: ['scan.pdf'],
+        label: 'Uploaded file(s)',
+      });
+    });
+
+    it('should prefer name over fileName when both are available', () => {
+      const result = confirmationField({
+        formData: [
+          {
+            name: 'records.pdf',
+            fileName: 'backup.pdf',
+            attachmentId: 'L450',
+          },
+        ],
+      });
+
+      expect(result).to.deep.equal({
+        data: ['records.pdf'],
         label: 'Uploaded file(s)',
       });
     });
