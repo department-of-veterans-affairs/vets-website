@@ -56,8 +56,8 @@ export const fillSpousePersonalInformation = (spouseData = {}) => {
   cy.fillVaTextInput('root_spouseFullName_last', lastName);
   cy.fillVaTextInput('root_spouseSocialSecurityNumber', ssn);
 
-  cy.fillVaMemorableDate('root_spouseDateOfBirth', dateOfBirth, true);
-  cy.fillVaMemorableDate('root_dateOfMarriage', dateOfMarriage, true);
+  cy.fillVaMemorableDate('root_spouseDateOfBirth', dateOfBirth);
+  cy.fillVaMemorableDate('root_dateOfMarriage', dateOfMarriage);
 };
 
 // Helper function to fill spouse contact information.
