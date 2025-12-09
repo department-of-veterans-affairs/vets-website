@@ -21,7 +21,7 @@ import {
 
 import AccessTroubleAlertBox from '../../components/shared/AccessTroubleAlertBox';
 import { sendDataDogAction } from '../../util/helpers';
-import { formatFacilityList } from '../../util/facilityHelpers';
+import { formatFacilityUnorderedList } from '../../util/facilityHelpers';
 
 const VistaAndOHContent = ({
   accessErrors,
@@ -64,17 +64,13 @@ const VistaAndOHContent = ({
             your VA Blue Button report) or download your self-entered health
             information for these facilities:
           </p>
-          <p className="vads-u-font-weight--bold">
-            CCD: medical records from {formatFacilityList(vistaFacilityNames)}
-          </p>
+          {formatFacilityUnorderedList(vistaFacilityNames)}
           <p className="vads-u-margin--0">
             VA medical records for these facilities aren’t available in your
             Blue Button report right now. Download your Continuity of Care
             Document (CCD) to access medical records for these facilities:
           </p>
-          <p className="vads-u-font-weight--bold">
-            CCD: medical records from {formatFacilityList(ohFacilityNames)}
-          </p>
+          {formatFacilityUnorderedList(ohFacilityNames)}
           <AcceleratedCernerFacilityAlert {...CernerAlertContent.DOWNLOAD} />
           {lastSuccessfulUpdate && (
             <va-card
