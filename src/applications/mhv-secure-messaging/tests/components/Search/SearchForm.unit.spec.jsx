@@ -153,6 +153,7 @@ describe('Search form', () => {
     expect(
       screen.getByRole('heading', { name: /Filter messages in inbox/i }),
     ).to.have.attribute('aria-describedby', 'filter-default');
+    expect(screen.getByText('No filters applied')).to.exist;
   });
 
   it('returns error message on invalid custom end date', async () => {
@@ -425,10 +426,12 @@ describe('Search form', () => {
       expect(
         screen.getByRole('heading', { name: /Filter messages in inbox/i }),
       ).to.have.attribute('aria-describedby', 'filter-default');
+      expect(screen.getByText('No filters applied')).to.exist;
       userEvent.click(clearButton);
       expect(
         screen.getByRole('heading', { name: /Filter messages in inbox/i }),
       ).to.have.attribute('aria-describedby', 'filter-clear-success');
+      expect(screen.getByText('Filters successfully cleared')).to.exist;
     });
 
     it('should have the correct aria-describedby on heading after applying then clearing filters', () => {
