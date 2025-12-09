@@ -40,17 +40,19 @@ const WhoIsYourQuestionAboutCustomPage = props => {
           selectedValue === whoIsYourQuestionAboutLabels.SOMEONE_ELSE) &&
         !isLOA3,
       requireSignInLogic: formData.requireSignInLogic
-        ? [
-            ...formData.requireSignInLogic.slice(0, 2),
-            selectedValue === whoIsYourQuestionAboutLabels.MYSELF ||
+        ? {
+            ...formData.requireSignInLogic,
+            personQuestionIsAbout:
+              selectedValue === whoIsYourQuestionAboutLabels.MYSELF ||
               selectedValue === whoIsYourQuestionAboutLabels.SOMEONE_ELSE,
-          ]
-        : [
-            false,
-            false,
-            selectedValue === whoIsYourQuestionAboutLabels.MYSELF ||
+          }
+        : {
+            category: false,
+            topic: false,
+            personQuestionIsAbout:
+              selectedValue === whoIsYourQuestionAboutLabels.MYSELF ||
               selectedValue === whoIsYourQuestionAboutLabels.SOMEONE_ELSE,
-          ],
+          },
     });
   };
 
@@ -91,7 +93,7 @@ const WhoIsYourQuestionAboutCustomPage = props => {
 WhoIsYourQuestionAboutCustomPage.propTypes = {
   formData: PropTypes.shape({
     whoIsYourQuestionAbout: PropTypes.string,
-    requireSignInLogic: PropTypes.arrayOf(PropTypes.bool),
+    requireSignInLogic: PropTypes.object,
   }),
   goBack: PropTypes.func,
   goForward: PropTypes.func,
