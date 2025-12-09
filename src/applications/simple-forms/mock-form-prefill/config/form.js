@@ -6,6 +6,7 @@ import {
   profilePersonalInfoPage,
   profileContactInfoPages,
 } from 'platform/forms-system/src/js/patterns/prefill';
+import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -21,6 +22,32 @@ const formConfig = {
   trackingPrefix: 'mock-prefill-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  // eslint-disable-next-line no-shadow
+  transformForSubmit: (formConfig, form, options) => {
+    let newForm = form;
+    if (form.data?.veteran?.email) {
+      newForm = {
+        ...form,
+        data: {
+          ...form.data,
+          veteran: {
+            ...form.data.veteran,
+            email: form.data.veteran.email?.emailAddress,
+          },
+        },
+      };
+    }
+    return transformForSubmit(formConfig, newForm, options);
+  },
+  preSubmitInfo: {
+    statementOfTruth: {
+      body:
+        'I confirm that the identifying information in this form is accurate has been represented correctly.',
+      messageAriaDescribedby:
+        'I confirm that the identifying information in this form is accurate has been represented correctly.',
+      fullNamePath: 'fullName',
+    },
+  },
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,
@@ -37,17 +64,21 @@ const formConfig = {
   }),
   formId: VA_FORM_IDS.FORM_MOCK_PREFILL,
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your mock prefill testing application (FORM_MOCK_PREFILL) is in progress.',
-    //   expired: 'Your saved mock prefill testing application (FORM_MOCK_PREFILL) has expired. If you want to apply for mock prefill testing, please start a new application.',
-    //   saved: 'Your mock prefill testing application has been saved.',
-    // },
+    messages: {
+      inProgress:
+        'Your mock prefill testing application (FORM_MOCK_PREFILL) is in progress.',
+      expired:
+        'Your saved mock prefill testing application (FORM_MOCK_PREFILL) has expired. If you want to apply for mock prefill testing, please start a new application.',
+      saved: 'Your mock prefill testing application has been saved.',
+    },
   },
   version: 0,
   // or prefill-transformer from PR
   // https://github.com/department-of-veterans-affairs/vets-website/commit/7f49c3bdc4d1aeda2a81f74cd2735e93ff9a55fa#diff-3af1e5e44b3300d11a660f138dcdc67d2a15d1317c96c392139ba2801929fd87R1-R46
   prefillTransformer(pages, formData, metadata) {
     const transformedData = {
+      fullName: formData?.veteranFullName || null,
+      dateOfBirth: formData?.veteranDateOfBirth || null,
       ssn: formData?.veteranSocialSecurityNumber || null,
       vaFileNumber: formData?.veteranVAFileNumber || null,
     };
