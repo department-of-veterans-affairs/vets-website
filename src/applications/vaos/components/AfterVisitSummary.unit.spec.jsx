@@ -252,7 +252,7 @@ describe('VAOS Component: AfterVisitSummary', () => {
     expect(datadogAddActionStub.called).to.be.false;
   });
 
-  it('should include avs-type in GA event when OH AVS PDF link is clicked', async () => {
+  it('should fire GA event when OH AVS PDF link is clicked', async () => {
     sandbox.stub(URL, 'createObjectURL').returns('blob:pdf');
     sandbox.stub(URL, 'revokeObjectURL');
     sandbox.stub(global, 'atob').returns('%PDF-1.4\nMOCK');
@@ -281,8 +281,7 @@ describe('VAOS Component: AfterVisitSummary', () => {
     userEvent.click(pdfLink);
 
     expect(window.dataLayer[0]).to.deep.equal({
-      event: 'vaos-after-visit-summary-link-clicked',
-      'avs-type': 'oh-pdf',
+      event: 'vaos-after-visit-summary-pdf-link-clicked',
     });
   });
 });

@@ -22,10 +22,9 @@ function handleLegacyAvsClick() {
 
 function handleOhAvsPdfClick(pdfCount) {
   recordEvent({
-    event: `${GA_PREFIX}-after-visit-summary-link-clicked`,
-    'avs-type': 'oh-pdf',
+    event: `${GA_PREFIX}-after-visit-summary-pdf-link-clicked`,
   });
-  datadogRum.addAction('vaos-oh-avs-pdf-link-clicked', {
+  datadogRum.addAction(`${GA_PREFIX}-oh-avs-pdf-link-clicked`, {
     pdfCount,
   });
 }
@@ -52,7 +51,7 @@ export default function AfterVisitSummary({ data: appointment }) {
     () => {
       if (featureAddOHAvs && hasValidPdfAvs && !hasTrackedRender.current) {
         hasTrackedRender.current = true;
-        datadogRum.addAction('vaos-oh-avs-pdf-rendered', {
+        datadogRum.addAction(`${GA_PREFIX}-oh-avs-pdf-rendered`, {
           pdfCount: avsPairs.length,
         });
       }
