@@ -183,17 +183,17 @@ export const benefitSwitchPage = () => ({
     mebBenefitSelection: {
       'ui:title': (
         <span
-          className="vads-u-font-size--h3 vads-u-padding-bottom--2 vads-u-display--inline-block"
+          className="vads-u-font-size--h2 vads-u-padding-bottom--2 vads-u-display--inline-block"
           style={{ fontSize: '1.5rem' }}
         >
           Benefit you want to change to
         </span>
       ),
       'ui:description': () => (
-        <details className="vads-u-margin-bottom--3">
-          <summary className="vads-u-font-weight--bold">
-            Learn more about these benefits
-          </summary>
+        <va-addtional-info
+          onClick={function noRefCheck() {}}
+          trigger="Learn more about these benefits"
+        >
           <ul className="vads-u-margin-top--1">
             <li>
               Learn about GI Bill benefits: Post-9/11 GI Bill, Montgomery GI
@@ -240,7 +240,7 @@ export const benefitSwitchPage = () => ({
               </ul>
             </li>
           </ul>
-        </details>
+        </va-additional-info>
       ),
       'ui:widget': 'radio',
       'ui:options': {
@@ -323,7 +323,7 @@ export const foreignSchoolResultPage = () =>
     body:
       'Get answers to your questions about using eligibility at a foreign school. You should receive a reply within 7 business days.',
     linkHref: 'https://ask.va.gov/',
-    linkText: 'Ask VA',
+    linkText: 'Contact us online through Ask VA',
     answers: [
       'You want to update your Certificate of Eligibility (COE) for a foreign school',
     ],
@@ -332,7 +332,7 @@ export const foreignSchoolResultPage = () =>
 export const mgibAdResultPage = () =>
   buildResultPage({
     body:
-      'Based on your answers, use VA Form 22-1990 to apply to the same benefit again to get an updated COE.',
+      'Based on your answers, use VA Form 22-1990 switch your existing education benefit at the start of your next enrollment period.',
     linkHref:
       'https://www.va.gov/education/apply-for-education-benefits/application/1990/introduction',
     linkText: 'Apply for education benefits (VA Form 22-1990)',
@@ -345,7 +345,7 @@ export const mgibAdResultPage = () =>
 export const mgibSrResultPage = () =>
   buildResultPage({
     body:
-      'Based on your answers, use VA Form 22-1990 to apply to the same benefit again to get an updated COE.',
+      'Based on your answers, use VA Form 22-1990 switch your existing education benefit at the start of your next enrollment period.',
     linkHref:
       'https://www.va.gov/education/apply-for-education-benefits/application/1990/introduction',
     linkText: 'Apply for education benefits (VA Form 22-1990)',
@@ -358,7 +358,7 @@ export const mgibSrResultPage = () =>
 export const toeResultPage = () =>
   buildResultPage({
     body:
-      'Based on your answers, use VA Form 22-1990e to apply to the same benefit again to get an updated COE.',
+      'Based on your answers, use VA Form 22-1990e switch your existing education benefit at the start of your next enrollment period.',
     linkHref:
       'https://www.va.gov/education/apply-for-education-benefits/application/1990E/introduction',
     linkText: 'Apply for education benefits (VA Form 22-1990e)',
@@ -371,7 +371,7 @@ export const toeResultPage = () =>
 export const deaResultPage = () =>
   buildResultPage({
     body:
-      'Based on your answers, use VA Form 22-5490 to apply to the same benefit again to get an updated COE.',
+      'Based on your answers, use VA Form 22-5490 switch your existing education benefit at the start of your next enrollment period.',
     linkHref:
       'https://www.va.gov/education/apply-for-education-benefits/application/5490/introduction',
     linkText: 'Apply for education benefits (VA Form 22-5490)',
@@ -384,7 +384,7 @@ export const deaResultPage = () =>
 export const fryResultPage = () =>
   buildResultPage({
     body:
-      'Based on your answers, use VA Form 22-5490 to apply to the same benefit again to get an updated COE.',
+      'Based on your answers, use VA Form 22-5490 switch your existing education benefit at the start of your next enrollment period.',
     linkHref:
       'https://www.va.gov/education/apply-for-education-benefits/application/5490/introduction',
     linkText: 'Apply for education benefits (VA Form 22-5490)',
