@@ -48,8 +48,9 @@ export default function ScheduleWithDifferentProvider({
           dispatch(routeToRequestAppointmentPage(history, pageKey));
         }}
       />
+
       <h3
-        className="vads-u-font-size--h4 vads-u-margin-bottom--0 vads-u-margin-top--1p5"
+        className="vads-u-font-size--h4 vads-u-margin-bottom--0 vads-u-margin-top--1"
         data-testid="cc-eligible-header"
       >
         Option 2: Call the facility
