@@ -6,10 +6,12 @@ import {
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
-  currentOrPastDateRangeUI,
-  currentOrPastDateRangeSchema,
+  currentOrPastDateDigitsUI,
+  // currentOrPastDateRangeUI,
+  // currentOrPastDateRangeSchema,
   textUI,
   textSchema,
+  currentOrPastDateDigitsSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import { getAddOrEditMode } from '../../utils/evidence';
@@ -176,29 +178,48 @@ const treatmentDatePage = {
     ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) =>
       treatmentDateContent.question(formData, getAddOrEditMode()),
     ),
-    [PRIVATE_LOCATION_TREATMENT_DATES_KEY]: currentOrPastDateRangeUI(
-      {
-        title: treatmentDateContent.firstDateLabel,
-        hint: treatmentDateContent.dateHint,
-        errorMessages: {
-          required: treatmentDateContent.requiredError,
-        },
-        // removeDateHint: true,
+    from: currentOrPastDateDigitsUI({
+      title: treatmentDateContent.firstDateLabel,
+      hint: treatmentDateContent.dateHint,
+      errorMessages: {
+        required: treatmentDateContent.requiredError,
       },
-      {
-        title: treatmentDateContent.lastDateLabel,
-        hint: treatmentDateContent.dateHint,
-        errorMessages: {
-          required: treatmentDateContent.requiredError,
-        },
-        // removeDateHint: true,
+      removeDateHint: true,
+    }),
+    to: currentOrPastDateDigitsUI({
+      title: treatmentDateContent.lastDateLabel,
+      hint: treatmentDateContent.dateHint,
+      errorMessages: {
+        required: treatmentDateContent.requiredError,
       },
-    ),
+      removeDateHint: true,
+    }),
+    // [PRIVATE_LOCATION_TREATMENT_DATES_KEY]: currentOrPastDateRangeUI(
+    //   {
+    //     title: treatmentDateContent.firstDateLabel,
+    //     hint: treatmentDateContent.dateHint,
+    //     errorMessages: {
+    //       required: treatmentDateContent.requiredError,
+    //     },
+    //     removeDateHint: true,
+    //   },
+    //   {
+    //     title: treatmentDateContent.lastDateLabel,
+    //     hint: treatmentDateContent.dateHint,
+    //     errorMessages: {
+    //       required: treatmentDateContent.requiredError,
+    //     },
+    //     removeDateHint: true,
+    //   },
+    // ),
   },
   schema: {
     type: 'object',
     properties: {
-      [PRIVATE_LOCATION_TREATMENT_DATES_KEY]: currentOrPastDateRangeSchema,
+      from: currentOrPastDateDigitsSchema,
+      to: currentOrPastDateDigitsSchema,
+      //
+      // [PRIVATE_LOCATION_TREATMENT_DATES_KEY]: currentOrPastDateRangeSchema,
     },
     required: [PRIVATE_LOCATION_TREATMENT_DATES_KEY],
   },
