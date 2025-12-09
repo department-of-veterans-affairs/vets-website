@@ -257,5 +257,21 @@ describe('526EZ document upload', () => {
         label: 'Uploaded file(s)',
       });
     });
+
+    it('should handle items with neither name nor fileName', () => {
+      const result = uiSchema.additionalDocuments['ui:confirmationField']({
+        formData: [
+          {
+            confirmationCode: 'testing',
+            attachmentId: 'L015',
+          },
+        ],
+      });
+
+      expect(result).to.deep.equal({
+        data: ['File name not available'],
+        label: 'Uploaded file(s)',
+      });
+    });
   });
 });

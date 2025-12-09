@@ -186,5 +186,20 @@ describe('781a record upload', () => {
         label: 'Uploaded file(s)',
       });
     });
+
+    it('should handle items with neither name nor fileName', () => {
+      const result = uiSchema.form781aUpload['ui:confirmationField']({
+        formData: [
+          {
+            attachmentId: 'L229',
+          },
+        ],
+      });
+
+      expect(result).to.deep.equal({
+        data: ['File name not available'],
+        label: 'Uploaded file(s)',
+      });
+    });
   });
 });

@@ -212,5 +212,20 @@ describe('serviceTreatmentRecords', () => {
         label: 'Uploaded file(s)',
       });
     });
+
+    it('should handle items with neither name nor fileName', () => {
+      const result = confirmationField({
+        formData: [
+          {
+            attachmentId: 'L450',
+          },
+        ],
+      });
+
+      expect(result).to.deep.equal({
+        data: ['File name not available'],
+        label: 'Uploaded file(s)',
+      });
+    });
   });
 });

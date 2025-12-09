@@ -226,5 +226,20 @@ describe('526 All Claims Private medical records', () => {
         label: 'Private medical records',
       });
     });
+
+    it('should handle items with neither name nor fileName', () => {
+      const result = confirmationField({
+        formData: [
+          {
+            attachmentId: 'L107',
+          },
+        ],
+      });
+
+      expect(result).to.deep.equal({
+        data: ['File name not available'],
+        label: 'Private medical records',
+      });
+    });
   });
 });

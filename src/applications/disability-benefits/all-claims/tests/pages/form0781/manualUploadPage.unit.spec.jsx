@@ -158,5 +158,21 @@ describe('Form 0781 manual upload page', () => {
         label: 'Uploaded file(s)',
       });
     });
+
+    it('should handle items with neither name nor fileName', () => {
+      const result = uiSchema.form781Upload['ui:confirmationField']({
+        formData: [
+          {
+            confirmationCode: 'testing',
+            attachmentId: 'L228',
+          },
+        ],
+      });
+
+      expect(result).to.deep.equal({
+        data: ['File name not available'],
+        label: 'Uploaded file(s)',
+      });
+    });
   });
 });
