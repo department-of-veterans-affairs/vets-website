@@ -1,22 +1,26 @@
+import React from 'react';
+
 /**
- * Formats an array of facility names into a grammatically correct string.
- * Handles comma placement and "and" conjunction for multiple facilities.
+ * Formats an array of facility names into an unordered List of facility names.
+ *
  *
  * @param {Array<string>} facilities - Array of facility names
- * @returns {string} Formatted facility list
+ * @returns {Element} Formatted as an unordered list of facility names
  *
  * Examples:
  * - 1 facility: "VA Western New York health care"
  * - 2 facilities: "VA Western New York health care and VA Pacific Islands health care"
  * - 3+ facilities: "VA Western New York health care, VA Pacific Islands health care, and VA Central Ohio health care"
  */
-export const formatFacilityList = facilities => {
+export const formatFacilityUnorderedList = facilities => {
   if (!facilities || facilities.length === 0) return '';
-  if (facilities.length === 1) return facilities[0];
-  if (facilities.length === 2) return `${facilities[0]} and ${facilities[1]}`;
-
-  // For 3+ facilities: "A, B, and C"
-  const allButLast = facilities.slice(0, -1).join(', ');
-  const last = facilities[facilities.length - 1];
-  return `${allButLast}, and ${last}`;
+  return (
+    <p className="vads-u-margin--0">
+      <ul>
+        {facilities.map((facility, index) => (
+          <li key={index}>{facility}</li>
+        ))}
+      </ul>
+    </p>
+  );
 };
