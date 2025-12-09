@@ -27,7 +27,7 @@ describe('<PaymentsCard />', () => {
     expect(view.getByTestId('payment-card')).to.exist;
 
     const depositHeader = view.getByTestId('deposit-header');
-    expect(within(depositHeader).getByText(/\+.*\$3,261\.10/)).to.exist;
+    expect(within(depositHeader).getByText(/\$3,261\.10/)).to.exist;
     expect(view.getByText(/Compensation & Pension - Recurring/i)).to.exist;
     const depositedOn = `Deposited on ${format(
       payment.payCheckDt,

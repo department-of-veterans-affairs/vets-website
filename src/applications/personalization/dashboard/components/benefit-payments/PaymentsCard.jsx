@@ -25,7 +25,7 @@ export const PaymentsCard = ({ lastPayment }) => {
         data-testid="deposit-header"
         aria-describedby="paycheck-type"
       >
-        +{lastPayment.payCheckAmount}
+        {lastPayment.payCheckAmount}
       </p>
       <p className="vads-u-margin-y--0 vads-u-margin-top--0p5">
         {lastPayment.paymentMethod === 'Paper Check'
