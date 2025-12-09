@@ -4,8 +4,6 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
-import mockVaFileNumber from './fixtures/va-file-number.json';
-import user from './user.json';
 import {
   fillDateWebComponentPattern,
   fillStandardTextInput,
@@ -14,6 +12,7 @@ import {
   selectRadioWebComponent,
   signAndSubmit,
   selectRadioWebComponentAlt,
+  setupCypress,
 } from './cypress.helpers';
 
 Cypress.config('waitForAnimations', true);
@@ -26,35 +25,7 @@ const testConfig = createTestConfig(
     fixtures: { data: path.join(__dirname, 'fixtures') },
     setupPerTest: () => {
       // Pass form start page path
-      cy.login(user);
-      cy.intercept('GET', '/v0/feature_toggles?*', {
-        data: {
-          type: 'feature_toggles',
-          features: [
-            { name: 'vaDependentsV2', value: true },
-            { name: 'vaDependentsNetWorthAndPension', value: false },
-          ],
-        },
-      });
-      cy.intercept('POST', '/v0/claim_attachments', {
-        data: {
-          attributes: { confirmationCode: '5' },
-        },
-      });
-      cy.intercept(
-        'GET',
-        '/v0/profile/valid_va_file_number',
-        mockVaFileNumber,
-      ).as('mockVaFileNumber');
-      cy.get('@testData').then(testData => {
-        cy.intercept('GET', '/v0/in_progress_forms/686C-674-V2', testData);
-        cy.intercept('PUT', 'v0/in_progress_forms/686C-674-V2', testData);
-      });
-      cy.intercept('POST', '/v0/dependents_applications', {
-        formSubmissionId: '123fake-submission-id-max',
-        timestamp: '2025-01-01',
-        attributes: { guid: '123fake-submission-id-max' },
-      }).as('submitApplication');
+      setupCypress('/add-remove-form-21-686c-674/veteran-information');
     },
 
     pageHooks: {
@@ -62,7 +33,7 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.wait('@mockVaFileNumber');
           cy.injectAxeThenAxeCheck();
-          cy.clickStartForm();
+          cy.get('va-button[data-testid="continue-your-application"]').click();
         });
       },
 
