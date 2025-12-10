@@ -54,7 +54,7 @@ const CurrentBenefitsStatus = ({
 
 CurrentBenefitsStatus.propTypes = {
   expirationDate: PropTypes.string,
-  indicator: PropTypes.string,
+  indicator: PropTypes.array,
   link: PropTypes.func,
   remainingBenefits: PropTypes.string,
   updated: PropTypes.string,

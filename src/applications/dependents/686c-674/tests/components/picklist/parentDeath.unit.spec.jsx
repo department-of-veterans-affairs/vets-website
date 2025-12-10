@@ -44,11 +44,11 @@ describe('parentDeath', () => {
     const { container } = renderComponent();
 
     expect($('h3', container).textContent).to.equal(
-      'Information about the death of PETER',
+      "Information about PETER's death",
     );
     expect($$('h4', container).map(el => el.textContent)).to.deep.equal([
-      'When was the death?',
-      'Where was the death?',
+      'When did they die?',
+      'Where did they die?',
     ]);
 
     expect($('va-memorable-date', container)).to.exist;
@@ -56,7 +56,7 @@ describe('parentDeath', () => {
     const checkbox = $('va-checkbox', container);
     expect(checkbox).to.exist;
     expect(checkbox.getAttribute('label')).to.equal(
-      'The death happened outside the United States',
+      'Death occurred outside the United States',
     );
 
     const inUSInputs = $$('va-text-input', container);
@@ -100,7 +100,7 @@ describe('parentDeath', () => {
       const errors = $$('[error]', container);
       expect(errors.length).to.equal(3);
       expect(errors.map(el => el.getAttribute('error'))).to.deep.equal([
-        'Provide a date of death',
+        'Enter a date of death',
         'Enter a city or county',
         'Select a state',
       ]);
@@ -128,7 +128,7 @@ describe('parentDeath', () => {
       // Still 3 errors because province is not required
       expect(errors.length).to.equal(3);
       expect(errors.map(el => el.getAttribute('error'))).to.deep.equal([
-        'Provide a date of death',
+        'Enter a date of death',
         'Enter a city',
         'Select a country',
       ]);

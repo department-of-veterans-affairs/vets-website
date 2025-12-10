@@ -9,7 +9,7 @@
     "build-analyze-app": "node ./script/build-analyze-app.js",
     "build:codespaces": "./.devcontainer/codespaces-create.sh",
     "build:production": "NODE_ENV=production yarn build --buildtype=vagovprod",
-    "build:webpack": "NODE_OPTIONS=--max-old-space-size=16384 webpack --config config/webpack.config.js",
+    "build:webpack": "NODE_OPTIONS=--max-old-space-size=20480 webpack --config config/webpack.config.js",
     "build:webpack:prod": "NODE_ENV=production yarn build:webpack --env buildtype=vagovprod",
     "build:webpack:staging": "yarn build:webpack --env buildtype=vagovstaging",
     "build:webpack:dev": "yarn build:webpack --env buildtype=vagovdev",
@@ -344,7 +344,7 @@
     "url-search-params-polyfill": "^8.1.1",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#76d6a4972b0e59631ab6cea208947fe981d85743",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#eb3f0d8e1667713777465e7df059a5ab541dba79",
     "web-vitals": "^4.2.4"
   },
   "resolutions": {
@@ -408,6 +408,7 @@
       "src/platform/monitoring",
       "src/platform/mhv",
       "src/applications/check-in",
+      "src/applications/dispute-debt",
       "src/applications/vaos",
       "src/applications/claims-status",
       "src/applications/accredited-representative-portal",
