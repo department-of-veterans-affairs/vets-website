@@ -62,8 +62,8 @@ export const ConfirmationPage = ({ route }) => {
         item1Header="We’ll review your form"
         item1Content="If we need more information after reviewing your form, we’ll contact you."
         item1Actions={<p />}
-        item2Header="We’ll send a decision on your claim"
-        item2Content="We’ll send you a letter with our decision."
+        item2Header="We’ll send the Veteran a decision on their claim"
+        item2Content="We’ll use the information you provided in our decision."
       />
       <div>
         <h2>How to submit supporting documents</h2>
@@ -79,9 +79,9 @@ export const ConfirmationPage = ({ route }) => {
         <p>Mail any supporting documents to this address: </p>
         <p className="va-address-block">
           Department of Veterans Affairs <br />
-          Pension Claims Intake Center <br />
-          PO Box 5365 <br />
-          Janesville, WI 53547-5365 <br />
+          Evidence Intake Center <br />
+          P.O. Box 4444 <br />
+          Janesville, WI 53547-4444 <br />
         </p>
         <p>
           <strong>Note:</strong> Mail us copies of your documents only. Don’t
@@ -108,5 +108,3 @@ ConfirmationPage.propTypes = {
     formConfig: PropTypes.object,
   }),
 };
-
-export default ConfirmationPage;
