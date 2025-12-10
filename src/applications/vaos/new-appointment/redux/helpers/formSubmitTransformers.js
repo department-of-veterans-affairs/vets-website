@@ -138,7 +138,15 @@ export function transformFormToVAOSVARequest(state, updateRequestFlow = false) {
 
 export function transformFormToVAOSAppointment(state) {
   const data = getFormData(state);
-  const clinic = getChosenClinicInfo(state);
+  const { ehr } = state.newAppointment;
+
+  // Only appointments booked in a VistA system need the clinic id
+  let clinicId = null;
+  if (ehr === 'vista') {
+    const clinic = getChosenClinicInfo(state);
+    clinicId = getClinicId(clinic);
+  }
+
   const slot = getChosenSlot(state);
 
   // slot start and end times are not allowed on a booked va appointment.
@@ -148,7 +156,7 @@ export function transformFormToVAOSAppointment(state) {
   return {
     kind: 'clinic',
     status: 'booked',
-    clinic: getClinicId(clinic),
+    clinic: clinicId,
     slot,
     extension: {
       desiredDate: `${data.preferredDate}T00:00:00+00:00`,
