@@ -156,7 +156,11 @@ export function transform(formConfig, form) {
     };
   };
   const usFormTransform = formData =>
-    transformForSubmit(formConfig, { ...form, data: formData });
+    transformForSubmit(
+      formConfig,
+      { ...form, data: formData },
+      { allowPartialAddress: true },
+    );
 
   const transformedData = [
     designatingOfficialTransform,

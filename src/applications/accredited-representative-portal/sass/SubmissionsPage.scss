@@ -1,6 +1,9 @@
 @import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 .submissions {
   -webkit-font-smoothing: antialiased;
+  &__form-start {
+    margin-bottom: 32px;
+  }
   hr {
     margin: 32px 0;
   }

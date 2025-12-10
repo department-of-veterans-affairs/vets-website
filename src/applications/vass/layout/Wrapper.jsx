@@ -15,6 +15,7 @@ const Wrapper = props => {
     testID,
     showBackLink = false,
     required = false,
+    verificationError,
   } = props;
 
   const navigate = useNavigate();
@@ -22,6 +23,17 @@ const Wrapper = props => {
   useEffect(() => {
     focusElement('h1');
   }, []);
+
+  useEffect(
+    () => {
+      if (verificationError) {
+        setTimeout(() => {
+          focusElement('va-alert[data-testid="verification-error-alert"]');
+        }, 100);
+      }
+    },
+    [verificationError],
+  );
 
   return (
     <div
@@ -61,7 +73,16 @@ const Wrapper = props => {
               )}
             </h1>
           )}
-          {children}
+          {!verificationError && children}
+          {verificationError && (
+            <va-alert
+              data-testid="verification-error-alert"
+              class="vads-u-margin-top--4"
+              status="error"
+            >
+              {verificationError}
+            </va-alert>
+          )}
           <NeedHelp />
         </div>
       </div>
@@ -78,4 +99,5 @@ Wrapper.propTypes = {
   required: PropTypes.bool,
   showBackLink: PropTypes.bool,
   testID: PropTypes.string,
+  verificationError: PropTypes.string,
 };
