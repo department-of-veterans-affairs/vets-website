@@ -121,6 +121,7 @@ describe('Income and asset submit', () => {
       const preparedData = SubmitModule.prepareFormData(inputData);
       const fileNames = preparedData.files.map(f => f.name);
 
+      expect(fileNames.length).to.equal(4);
       expect(fileNames).to.include.members([
         'existing.pdf',
         'trust1.pdf',
@@ -159,6 +160,7 @@ describe('Income and asset submit', () => {
       const preparedData = SubmitModule.prepareFormData(inputData);
       const fileNames = preparedData.files.map(f => f.name);
 
+      expect(fileNames.length).to.equal(4);
       expect(fileNames).to.include.members([
         'existing.pdf',
         'trust1.pdf',
