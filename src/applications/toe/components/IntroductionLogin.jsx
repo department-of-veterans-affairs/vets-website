@@ -18,6 +18,7 @@ function IntroductionLogin({
   isLOA3,
   isPersonalInfoFetchComplete,
   isPersonalInfoFetchFailed,
+  meb1995Reroute,
   route,
   showHideLoginModal,
   showMeb1990EMaintenanceAlert,
@@ -45,6 +46,7 @@ function IntroductionLogin({
     maintenanceMessage =
       'We’re currently making updates to the My Education Benefits platform. We apologize for the inconvenience. Please check back soon.';
   }
+
   return (
     <>
       {shouldShowLoadingIndicator && <LoadingIndicator />}
@@ -70,32 +72,35 @@ function IntroductionLogin({
         </va-alert>
       )}
 
-      {!isLoggedIn &&
-        user?.login?.hasCheckedKeepAlive && (
-          <>
-            <va-alert-sign-in
-              variant="signInOptional"
-              time-limit="60 days"
-              heading-level={2}
-              visible
-            >
-              <span slot="SignInButton">
-                <va-button
-                  onClick={openLoginModal}
-                  text={UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
-                />
-              </span>
-            </va-alert-sign-in>
-            <p className="vads-u-margin-top--4">
-              If you don't want to sign in, you can{' '}
-              <a href="https://www.va.gov/find-forms/about-form-22-1990e/">
-                apply using the paper form
-              </a>
-              . Please expect longer processing time for decisions when opting
-              for this method.
-            </p>
-          </>
-        )}
+      {!isLoggedIn && user?.login?.hasCheckedKeepAlive && (
+        <>
+          <va-alert-sign-in
+            variant={meb1995Reroute ? 'signInRequired' : 'signInOptional'}
+            time-limit="60 days"
+            heading-level={2}
+            visible
+          >
+            <span slot="SignInButton">
+              <va-button
+                onClick={openLoginModal}
+                text={
+                  meb1995Reroute
+                    ? 'Sign in or create an account'
+                    : UNAUTH_SIGN_IN_DEFAULT_MESSAGE
+                }
+              />
+            </span>
+          </va-alert-sign-in>
+          <p className="vads-u-margin-top--4">
+            If you don't want to sign in, you can{' '}
+            <a href="https://www.va.gov/find-forms/about-form-22-1990e/">
+              apply using the paper form
+            </a>
+            . Please expect longer processing time for decisions when opting for
+            this method.
+          </p>
+        </>
+      )}
       {isLoggedIn &&
         apiCallsComplete &&
         !shouldShowMaintenanceAlert &&
@@ -111,9 +116,9 @@ function IntroductionLogin({
           />
         )}
 
-      {apiCallsComplete &&
-        isLoggedIn &&
-        isLOA3 === false && <VerifyAlert headingLevel={2} />}
+      {apiCallsComplete && isLoggedIn && isLOA3 === false && (
+        <VerifyAlert headingLevel={2} />
+      )}
     </>
   );
 }
@@ -125,6 +130,7 @@ IntroductionLogin.propTypes = {
   isLoggedIn: PropTypes.bool,
   isPersonalInfoFetchComplete: PropTypes.bool,
   isPersonalInfoFetchFailed: PropTypes.bool,
+  meb1995Reroute: PropTypes.bool,
   showHideLoginModal: PropTypes.func,
   showMeb1990EMaintenanceAlert: PropTypes.bool,
   showMeb1990ER6MaintenanceMessage: PropTypes.bool,
@@ -135,6 +141,7 @@ const mapStateToProps = state => ({
   ...getIntroState(state),
   ...getAppData(state),
   isPersonalInfoFetchFailed: state.data.isPersonalInfoFetchFailed || false,
+  meb1995Reroute: state.featureToggles[featureFlagNames.meb1995Reroute],
   showMeb1990EMaintenanceAlert:
     state.featureToggles[featureFlagNames.showMeb1990EMaintenanceAlert],
   showMeb1990ER6MaintenanceMessage:
@@ -145,7 +152,4 @@ const mapDispatchToProps = {
   showHideLoginModal: toggleLoginModal,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(IntroductionLogin);
+export default connect(mapStateToProps, mapDispatchToProps)(IntroductionLogin);
