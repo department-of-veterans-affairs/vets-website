@@ -49,12 +49,11 @@ const TopicSelection = () => {
   };
 
   const handleBack = () => {
-    // TODO: manage state?
     navigate(-1);
   };
 
   const handleContinue = () => {
-    // TODO: manage state && error handling
+    // TODO: manage error handling
     navigate('/review');
   };
 
