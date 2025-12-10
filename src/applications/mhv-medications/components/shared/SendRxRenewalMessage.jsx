@@ -14,8 +14,10 @@ const SendRxRenewalMessage = ({
   const showSecureMessagingRenewalRequest = useSelector(
     selectSecureMessagingMedicationsRenewalRequestFlag,
   );
+  const currentUrl = `${window.location.pathname}${window.location.search}`;
+  const separator = currentUrl.includes('?') ? '&' : '?';
   const redirectPath = encodeURIComponent(
-    '/my-health/medications?page=1&rxRenewalMessageSuccess=true',
+    `${currentUrl}${separator}rxRenewalMessageSuccess=true`,
   );
   const secureMessagesUrl = `/my-health/secure-messages/new-message?prescriptionId=${
     rx.prescriptionId
