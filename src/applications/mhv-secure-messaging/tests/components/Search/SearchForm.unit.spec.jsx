@@ -1,7 +1,6 @@
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
-import { fireEvent } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 import searchResults from '../../fixtures/search-response.json';
 import folder from '../../fixtures/folder-inbox-metadata.json';
@@ -174,7 +173,7 @@ describe('Search form', () => {
       dateValue,
       'va-date[data-testid="date-start"]',
     );
-    fireEvent.click(document.querySelector('va-button[text="Apply filters"]'));
+    userEvent.click(document.querySelector('va-button[text="Apply filters"]'));
     expect(screen.getByTestId('date-end')).to.have.attribute(
       'error',
       ErrorMessages.SearchForm.END_DATE_REQUIRED,
@@ -206,7 +205,7 @@ describe('Search form', () => {
       endDateValue,
       'va-date[data-testid="date-end"]',
     );
-    fireEvent.click(document.querySelector('va-button[text="Apply filters"]'));
+    userEvent.click(document.querySelector('va-button[text="Apply filters"]'));
     expect(screen.getByTestId('date-start')).to.have.attribute(
       'error',
       ErrorMessages.SearchForm.START_DATE_AFTER_END_DATE,
@@ -245,7 +244,7 @@ describe('Search form', () => {
       endDateValue,
       'va-date[data-testid="date-end"]',
     );
-    fireEvent.click(document.querySelector('va-button[text="Apply filters"]'));
+    userEvent.click(document.querySelector('va-button[text="Apply filters"]'));
 
     expect(screen.getByTestId('date-end')).to.have.attribute(
       'error',
@@ -277,7 +276,7 @@ describe('Search form', () => {
       DateRangeValues.LAST12,
       'va-select[name="dateRange"]',
     );
-    fireEvent.click(document.querySelector('va-button[text="Apply filters"]'));
+    userEvent.click(document.querySelector('va-button[text="Apply filters"]'));
     expect(
       screen.getByText('Last 12 months', {
         selector: 'strong',
