@@ -13,7 +13,7 @@ import {
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import environment from 'platform/utilities/environment';
 
-import AcceleratedCernerFacilityAlert from 'platform/mhv/components/CernerFacilityAlert/AcceleratedCernerFacilityAlert';
+import CernerFacilityAlert from 'platform/mhv/components/CernerFacilityAlert/CernerFacilityAlert';
 import { CernerAlertContent } from 'platform/mhv/components/CernerFacilityAlert/constants';
 import { downtimeNotificationParams, pageTitles } from '../util/constants';
 import { createSession, postCreateAAL } from '../api/MrApi';
@@ -120,7 +120,7 @@ const LandingPage = () => {
         </p>
       </section>
 
-      <AcceleratedCernerFacilityAlert {...CernerAlertContent.MR_LANDING_PAGE} />
+      <CernerFacilityAlert {...CernerAlertContent.MR_LANDING_PAGE} />
 
       {isLoading && (
         <section>

@@ -312,6 +312,8 @@ describe('DownloadRecordsPage for Cerner users', () => {
             isCerner: true,
           },
         ],
+        userAtPretransitionedOhFacility: true,
+        userFacilityReadyForInfoAlert: false,
       },
     },
     drupalStaticData: {
@@ -374,6 +376,8 @@ describe('DownloadRecordsPage for Cerner users', () => {
             isCerner: true,
           },
         ],
+        userAtPretransitionedOhFacility: true,
+        userFacilityReadyForInfoAlert: false,
       },
     },
     drupalStaticData: {
@@ -459,7 +463,7 @@ describe('DownloadRecordsPage for Cerner users', () => {
     expect(screen.getByTestId('cerner-facilities-alert')).to.exist;
     expect(
       screen.getByText(
-        'To get your medical records reports from these facilities, go to My VA Health',
+        /To get your medical records reports from these facilities/,
       ),
     ).to.exist;
 

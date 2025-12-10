@@ -6,7 +6,8 @@ import {
   usePrintTitle,
   useAcceleratedData,
 } from '@department-of-veterans-affairs/mhv/exports';
-import AcceleratedCernerFacilityAlert from 'platform/mhv/components/CernerFacilityAlert/AcceleratedCernerFacilityAlert';
+import CernerFacilityAlert from 'platform/mhv/components/CernerFacilityAlert/CernerFacilityAlert';
+
 import { CernerAlertContent } from 'platform/mhv/components/CernerFacilityAlert/constants';
 import RecordList from '../components/RecordList/RecordList';
 import { getVitals, reloadRecords } from '../actions/vitals';
@@ -125,7 +126,7 @@ const Vitals = () => {
         Vitals are basic health numbers your providers check at your
         appointments.
       </p>
-      <AcceleratedCernerFacilityAlert {...CernerAlertContent.VITALS} />
+      <CernerFacilityAlert {...CernerAlertContent.VITALS} />
 
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}

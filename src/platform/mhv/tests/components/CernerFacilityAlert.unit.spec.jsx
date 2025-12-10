@@ -12,6 +12,8 @@ describe('CernerFacilityAlert', () => {
     user: {
       profile: {
         facilities: [],
+        userAtPretransitionedOhFacility: true,
+        userFacilityReadyForInfoAlert: false,
       },
     },
   };
@@ -27,7 +29,13 @@ describe('CernerFacilityAlert', () => {
       const screen = setup(
         {
           ...initialState,
-          user: { profile: { facilities: [] } },
+          user: {
+            profile: {
+              facilities: [],
+              userAtPretransitionedOhFacility: false,
+              userFacilityReadyForInfoAlert: false,
+            },
+          },
         },
         CernerAlertContent.LABS_AND_TESTS,
       );
@@ -42,6 +50,8 @@ describe('CernerFacilityAlert', () => {
       user: {
         profile: {
           facilities: [{ facilityId: '668', isCerner: true }],
+          userAtPretransitionedOhFacility: true,
+          userFacilityReadyForInfoAlert: false,
         },
       },
     };
@@ -85,6 +95,8 @@ describe('CernerFacilityAlert', () => {
             { facilityId: '668', isCerner: true },
             { facilityId: '692', isCerner: true },
           ],
+          userAtPretransitionedOhFacility: true,
+          userFacilityReadyForInfoAlert: false,
         },
       },
     };
@@ -127,6 +139,8 @@ describe('CernerFacilityAlert', () => {
       user: {
         profile: {
           facilities: [{ facilityId: '668', isCerner: true }],
+          userAtPretransitionedOhFacility: true,
+          userFacilityReadyForInfoAlert: false,
         },
       },
     };
@@ -171,6 +185,8 @@ describe('CernerFacilityAlert', () => {
       user: {
         profile: {
           facilities: [{ facilityId: '668', isCerner: true }],
+          userAtPretransitionedOhFacility: true,
+          userFacilityReadyForInfoAlert: false,
         },
       },
     };
@@ -197,11 +213,12 @@ describe('CernerFacilityAlert', () => {
       user: {
         profile: {
           facilities: [{ facilityId: '668', isCerner: true }],
+          userAtPretransitionedOhFacility: true,
+          userFacilityReadyForInfoAlert: false,
         },
       },
     };
 
-    // TODO: look at implementation in Meds for when this is used for errors
     it.skip('adds extra margin when apiError is true', () => {
       const screen = setup(stateWithFacility, {
         ...CernerAlertContent.MEDICATIONS,
@@ -219,6 +236,8 @@ describe('CernerFacilityAlert', () => {
       user: {
         profile: {
           facilities: [{ facilityId: '668', isCerner: true }],
+          userAtPretransitionedOhFacility: true,
+          userFacilityReadyForInfoAlert: false,
         },
       },
     };
@@ -240,5 +259,92 @@ describe('CernerFacilityAlert', () => {
       const alert = screen.getByTestId('cerner-facilities-alert');
       expect(alert.classname).to.include('custom-test-class');
     });
+  });
+
+  describe('with forceHideInfoAlert prop', () => {
+    it('shows standard yellow alert when forceHideInfoAlert is true even when info flag is true', () => {
+      const stateWithFacility = {
+        ...initialState,
+        user: {
+          profile: {
+            facilities: [{ facilityId: '668', isCerner: true }],
+            userAtPretransitionedOhFacility: true,
+            userFacilityReadyForInfoAlert: true,
+          },
+        },
+      };
+
+      const screen = setup(stateWithFacility, {
+        ...CernerAlertContent.MEDICATIONS,
+        forceHideInfoAlert: true,
+      });
+
+      expect(screen.queryByTestId('cerner-facilities-alert')).to.exist;
+    });
+
+    // This needs to wait until the blue alert is implemented
+    // it('shows alert when forceHideInfoAlert is false with Cerner facilities', () => {
+    //   const stateWithFacility = {
+    //     ...initialState,
+    //     user: {
+    //       profile: {
+    //         facilities: [{ facilityId: '668', isCerner: true }],
+    //         userAtPretransitionedOhFacility: true,
+    //         userFacilityReadyForInfoAlert: false,
+    //       },
+    //     },
+    //   };
+
+    //   const screen = setup(stateWithFacility, {
+    //     ...CernerAlertContent.MEDICATIONS,
+    //     forceHideInfoAlert: false,
+    //   });
+
+    //   expect(screen.getByTestId('cerner-facilities-alert')).to.exist;
+    // });
+  });
+
+  describe('nudging info alert behavior', () => {
+    // TODO: switch this up once blue alert in implemented
+    // For now, the behavior is that nothing will render
+    it('does not render when userFacilityReadyForInfoAlert flag is true', () => {
+      const stateWithFacility = {
+        ...initialState,
+        user: {
+          profile: {
+            facilities: [{ facilityId: '668', isCerner: true }],
+            userAtPretransitionedOhFacility: true,
+            userFacilityReadyForInfoAlert: true,
+          },
+        },
+      };
+
+      const screen = setup(stateWithFacility, {
+        ...CernerAlertContent.MEDICATIONS,
+      });
+
+      expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;
+    });
+
+    // This needs to wait until the blue alert is implemented
+    // it('shows alert when forceHideInfoAlert is false with Cerner facilities', () => {
+    //   const stateWithFacility = {
+    //     ...initialState,
+    //     user: {
+    //       profile: {
+    //         facilities: [{ facilityId: '668', isCerner: true }],
+    //         userAtPretransitionedOhFacility: true,
+    //         userFacilityReadyForInfoAlert: false,
+    //       },
+    //     },
+    //   };
+
+    //   const screen = setup(stateWithFacility, {
+    //     ...CernerAlertContent.MEDICATIONS,
+    //     forceHideInfoAlert: false,
+    //   });
+
+    //   expect(screen.getByTestId('cerner-facilities-alert')).to.exist;
+    // });
   });
 });

@@ -52,7 +52,10 @@ const CernerFacilityAlert = ({
   bodyIntro, // Optional custom intro text (overrides default "Some of your {domain} may be in a different portal.")
   bodyActionSingle, // Optional custom action text for single facility (overrides default "To get your {pageName} from")
   bodyActionMultiple, // Optional custom action text for multiple facilities (overrides default "To get your {pageName} from these facilities")
+  forceHideInfoAlert = false,
 }) => {
+  const userProfile = useSelector(state => state.user.profile);
+
   const ehrDataByVhaId = useSelector(
     state => state?.drupalStaticData?.vamcEhrData?.data?.ehrDataByVhaId,
   );
@@ -70,7 +73,6 @@ const CernerFacilityAlert = ({
     },
     [userFacilities, drupalCernerFacilities],
   );
-
   const cernerFacilitiesNames = useMemo(
     () => {
       if (ehrDataByVhaId) {
@@ -89,8 +91,14 @@ const CernerFacilityAlert = ({
     }
   };
 
-  // Don't render if no Cerner facilities
-  if (!cernerFacilitiesNames?.length) {
+  // Don't render if flag is false
+  if (!userProfile.userAtPretransitionedOhFacility) {
+    return null;
+  }
+
+  // Render blue info alert if flag is true and it's not overridden
+  if (userProfile.userFacilityReadyForInfoAlert && !forceHideInfoAlert) {
+    // Blue alert content goes here
     return null;
   }
 
@@ -172,6 +180,7 @@ CernerFacilityAlert.propTypes = {
   bodyIntro: PropTypes.string,
   className: PropTypes.string,
   domain: PropTypes.string.isRequired,
+  forceHideInfoAlert: PropTypes.bool,
   headline: PropTypes.string.isRequired,
   linkPath: PropTypes.string.isRequired,
   onLinkClick: PropTypes.func,

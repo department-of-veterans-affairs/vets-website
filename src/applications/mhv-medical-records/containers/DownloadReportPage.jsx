@@ -16,7 +16,7 @@ import {
   selectIsCernerOnlyPatient,
 } from '~/platform/user/cerner-dsot/selectors';
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
-import AcceleratedCernerFacilityAlert from 'platform/mhv/components/CernerFacilityAlert/AcceleratedCernerFacilityAlert';
+import CernerFacilityAlert from 'platform/mhv/components/CernerFacilityAlert/CernerFacilityAlert';
 import { CernerAlertContent } from 'platform/mhv/components/CernerFacilityAlert/constants';
 import NeedHelpSection from '../components/DownloadRecords/NeedHelpSection';
 import {
@@ -269,7 +269,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
         Button® report). Or find other reports to download.
       </p>
 
-      <AcceleratedCernerFacilityAlert {...CernerAlertContent.DOWNLOAD} />
+      <CernerFacilityAlert {...CernerAlertContent.DOWNLOAD} />
 
       {lastSuccessfulUpdate && (
         <va-card
