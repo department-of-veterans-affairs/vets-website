@@ -1,4 +1,4 @@
-export const topics = [
+const mockTopics = [
   { topicId: 'burial', topicName: 'Burial' },
   {
     topicId: 'personalized-career-planning',
@@ -29,3 +29,5 @@ export const topics = [
   },
   { topicId: 'general-va-benefits', topicName: 'General VA benefits' },
 ];
+
+module.exports = mockTopics;

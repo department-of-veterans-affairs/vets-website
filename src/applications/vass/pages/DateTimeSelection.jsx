@@ -17,7 +17,7 @@ const DateTimeSelection = () => {
   const dispatch = useDispatch();
   const selectedDate = useSelector(selectSelectedDate);
   const navigate = useNavigate();
-  const { saveDateSelection, getSaved } = usePersistentSelections(UUID);
+  const { saveDateSelection } = usePersistentSelections(UUID);
 
   const saveDate = useCallback(
     date => {
@@ -25,16 +25,6 @@ const DateTimeSelection = () => {
       dispatch(setSelectedDate(date));
     },
     [saveDateSelection, dispatch],
-  );
-
-  const loadSavedDate = useCallback(
-    () => {
-      const savedDate = getSaved()?.selectedSlotTime;
-      if (savedDate) {
-        dispatch(setSelectedDate(savedDate));
-      }
-    },
-    [getSaved, dispatch],
   );
 
   // Add a counter state to trigger focusing
@@ -70,13 +60,6 @@ const DateTimeSelection = () => {
     saveDate(selectedDateTimes[0]);
     setHasAttemptedSubmit(false);
   };
-
-  useEffect(
-    () => {
-      loadSavedDate();
-    },
-    [loadSavedDate],
-  );
 
   const handleContinue = () => {
     if (!selectedDate) {
