@@ -56,8 +56,9 @@ const FormStartControls = props => {
         true,
         prefillTransformer,
       );
+    } else {
+      goToBeginning();
     }
-    goToBeginning();
   };
 
   const handleLoadForm = () =>
