@@ -9,6 +9,7 @@ import {
   VaDate,
   VaTextInput,
   VaButton,
+  VaTextarea,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
@@ -44,7 +45,10 @@ const ExpensePage = () => {
   const [showError, setShowError] = useState(false);
   const [document, setDocument] = useState(null);
   const [documentLoading, setDocumentLoading] = useState(false);
+  const [extraFieldErrors, setExtraFieldErrors] = useState({});
+
   const errorRef = useRef(null); // ref for the error message
+  const costRequestedRef = useRef(null);
 
   const isEditMode = !!expenseId;
   const isLoadingExpense = useSelector(
@@ -195,15 +199,62 @@ const ExpensePage = () => {
     ],
   };
 
+  const validateDescription = () => {
+    const errors = { description: null };
+
+    // Validate description field length
+    if (formState.description?.length < 5) {
+      errors.description = 'Enter at least 5 characters';
+    } else if (formState.description?.length > 2000) {
+      errors.description = 'Enter no more than 2,000 characters';
+    }
+
+    setExtraFieldErrors(prev => ({
+      ...prev,
+      ...errors,
+    }));
+
+    return !errors.description;
+  };
+
+  const validateRequestedAmount = () => {
+    // Check built in component errors first (like invalid number)
+    if (costRequestedRef.current?.error) {
+      return false;
+    }
+
+    const errors = { costRequested: null };
+
+    // Valid greater than 0.
+    // Other validation is handled by the VA component
+    const amount = parseFloat(formState.costRequested);
+    if (!Number.isNaN(amount) && amount === 0) {
+      errors.costRequested = 'Enter an amount greater than 0';
+    }
+
+    setExtraFieldErrors(prev => ({
+      ...prev,
+      ...errors,
+    }));
+
+    return !errors.costRequested;
+  };
+
   const validatePage = () => {
     // Field names must match those expected by the expenses_controller in vets-api.
-    const base = ['purchaseDate', 'costRequested', 'receipt'];
+    const base = ['purchaseDate', 'costRequested', 'receipt', 'description'];
     const extra = REQUIRED_FIELDS[expenseType] || [];
     const requiredFields = [...base, ...extra];
 
     const emptyFields = requiredFields.filter(field => !formState[field]);
 
     setShowError(emptyFields.length > 0);
+
+    // Extra validation for specific fields
+    if (!validateDescription() || !validateRequestedAmount()) {
+      return false;
+    }
+
     return emptyFields.length === 0;
   };
 
@@ -359,22 +410,36 @@ const ExpensePage = () => {
         hint={dateHintText}
         onDateChange={handleFormChange}
       />
-      <VaTextInput
-        currency
-        label="Amount requested"
-        name="costRequested"
-        value={formState.costRequested || ''}
-        required
-        show-input-error
-        onInput={handleFormChange}
-        hint="Enter the amount as dollars and cents. For example, 8.42"
-      />
-      <VaTextInput
-        label="Description"
-        name="description"
-        value={formState.description || ''}
-        onInput={handleFormChange}
-      />
+      <div className="vads-u-margin-top--2">
+        <VaTextInput
+          currency
+          label="Amount requested"
+          name="costRequested"
+          value={formState.costRequested || ''}
+          required
+          ref={costRequestedRef}
+          show-input-error
+          onBlur={validateRequestedAmount}
+          onInput={handleFormChange}
+          hint="Enter the amount as dollars and cents. For example, 8.42"
+          {...extraFieldErrors.costRequested && {
+            error: extraFieldErrors.costRequested,
+          }}
+        />
+      </div>
+      <div className="vads-u-margin-top--2">
+        <VaTextarea
+          label="Description"
+          name="description"
+          value={formState.description || ''}
+          required
+          onBlur={validateDescription}
+          onInput={handleFormChange}
+          {...extraFieldErrors.description && {
+            error: extraFieldErrors.description,
+          }}
+        />
+      </div>
       {!isEditMode && (
         <VaButton
           secondary
