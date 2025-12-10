@@ -251,7 +251,7 @@ sequenceDiagram
 
 </details>
 
-- For the source of the above snippet, see `https://dsva.slack.com/archives/C05Q6411HPF/p1749491093401949`
+- For the source of the above snippet, [see here](https://dsva.slack.com/archives/C05Q6411HPF/p1749491093401949)
 
 - Run mock api (for vets-api):
 `yarn mock-api --responses ./src/applications/ezr/tests/mock-api.js`
