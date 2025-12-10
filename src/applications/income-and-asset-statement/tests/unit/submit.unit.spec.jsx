@@ -128,6 +128,44 @@ describe('Income and asset submit', () => {
         'asset1.pdf',
       ]);
     });
+
+    it('handles missing uploadedDocuments fields gracefully', () => {
+      const inputData = {
+        trusts: [
+          {
+            otherField: 'no files here',
+          },
+          {
+            uploadedDocuments: [
+              { name: 'trust1.pdf', confirmationCode: 'code1' },
+              { name: 'trust2.pdf', confirmationCode: 'code2' },
+            ],
+          },
+        ],
+        ownedAssets: [
+          {
+            otherField: 'still no files',
+          },
+          {
+            uploadedDocuments: {
+              name: 'asset1.pdf',
+              confirmationCode: 'code3',
+            },
+          },
+        ],
+        files: [{ name: 'existing.pdf', confirmationCode: 'code0' }],
+      };
+
+      const preparedData = SubmitModule.prepareFormData(inputData);
+      const fileNames = preparedData.files.map(f => f.name);
+
+      expect(fileNames).to.include.members([
+        'existing.pdf',
+        'trust1.pdf',
+        'trust2.pdf',
+        'asset1.pdf',
+      ]);
+    });
   });
 
   describe('submission pipeline ordering', () => {
