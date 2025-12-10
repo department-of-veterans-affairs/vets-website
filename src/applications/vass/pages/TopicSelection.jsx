@@ -71,7 +71,11 @@ const TopicSelection = () => {
   );
 
   return (
-    <Wrapper pageTitle="What topic would you like to talk about?" showBackLink>
+    <Wrapper
+      pageTitle="What topic would you like to talk about?"
+      showBackLink
+      required
+    >
       <va-checkbox-group
         required
         data-testid="topic-checkbox-group"

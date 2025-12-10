@@ -21,7 +21,6 @@ import {
   burialBenefitsRecipientPage,
   burialOrganizationMailingAddressPage,
   organizationNamePage,
-  relationshipToVeteranPage,
   veteranBirthInformationPage,
   veteranBurialInformationPage,
   veteranPersonalInformationPage,
@@ -74,13 +73,6 @@ const formConfig = {
     organizationInformationChapter: {
       title: "Your organization's information",
       pages: {
-        relationshipToVeteran: {
-          path: 'relationship-to-veteran',
-          title: 'Relationship to the Veteran',
-          uiSchema: relationshipToVeteranPage.uiSchema,
-          schema: relationshipToVeteranPage.schema,
-          pagePerItemIndex: 0,
-        },
         organizationInformation: {
           path: 'organization-information',
           title: "Your organization's information",

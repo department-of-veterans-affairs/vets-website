@@ -6,7 +6,7 @@ import configureStore from 'redux-mock-store';
 import sinon from 'sinon';
 import * as api from 'platform/utilities/api';
 import { setData } from 'platform/forms-system/src/js/actions';
-import InstitutionName from '../../components/InstitutionName';
+import InstitutionName from '../../containers/InstitutionName';
 
 const mockStore = configureStore([]);
 
