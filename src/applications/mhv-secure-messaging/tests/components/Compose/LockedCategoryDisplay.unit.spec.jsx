@@ -76,4 +76,13 @@ describe('LockedCategoryDisplay component', () => {
     const outerDiv = container.querySelector('.vads-u-margin-bottom--3');
     expect(outerDiv).to.exist;
   });
+
+  it('has aria-label attribute for screen reader accessibility', () => {
+    const { container } = renderWithStoreAndRouter(<LockedCategoryDisplay />, {
+      initialState,
+      reducers: reducer,
+    });
+    const dlElement = container.querySelector('dl');
+    expect(dlElement).to.have.attribute('aria-label', 'Message category');
+  });
 });

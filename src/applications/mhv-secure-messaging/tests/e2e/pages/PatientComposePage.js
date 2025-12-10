@@ -3,6 +3,7 @@ import mockMessageResponse from '../fixtures/message-response.json';
 import mockThreadResponse from '../fixtures/thread-response.json';
 import mockSignature from '../fixtures/signature-response.json';
 import { Locators, Paths, Data, Alerts } from '../utils/constants';
+import { RxRenewalText } from '../../../util/constants';
 import mockDraftResponse from '../fixtures/message-compose-draft-response.json';
 import mockRecipients from '../fixtures/recipientsResponse/recipients-response.json';
 import newDraft from '../fixtures/draftsResponse/drafts-single-message-response.json';
@@ -134,7 +135,7 @@ class PatientComposePage {
     cy.findByTestId('locked-category-display').should('be.visible');
     cy.findByTestId('locked-category-display').should(
       'contain',
-      'Medication renewal request',
+      RxRenewalText.LOCKED_CATEGORY_DISPLAY,
     );
     // Verify dropdown does not exist
     cy.get('[data-testid="compose-message-categories"]').should('not.exist');

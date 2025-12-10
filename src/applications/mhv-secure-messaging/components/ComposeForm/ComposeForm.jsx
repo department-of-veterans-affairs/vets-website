@@ -171,7 +171,7 @@ const ComposeForm = props => {
         );
       }
     },
-    [renewalPrescription, isRxRenewalDraft, dispatch],
+    [renewalPrescription, isRxRenewalDraft, rxError, dispatch],
   );
 
   useEffect(
@@ -414,8 +414,6 @@ const ComposeForm = props => {
       categories,
       category,
       categoryError,
-      setCategory,
-      setCategoryError,
       setUnsavedNavigationError,
       setNavigationError,
     ],
@@ -521,6 +519,11 @@ const ComposeForm = props => {
       history,
       redirectPath,
       navigateToRxCallback,
+      draftInProgress.category,
+      draftInProgress.body,
+      draftInProgress.subject,
+      draftInProgress.recipientId,
+      draftInProgress.ohTriageGroup,
     ],
   );
 
@@ -755,15 +758,21 @@ const ComposeForm = props => {
       checkMessageValidity,
       validMessageType.SAVE,
       draft?.messageId,
-      selectedRecipientId,
-      category,
-      subject,
-      messageBody,
+      draftInProgress.recipientId,
+      draftInProgress.category,
+      draftInProgress.subject,
+      draftInProgress.body,
       debouncedRecipient,
       debouncedCategory,
+      category,
       debouncedSubject,
+      subject,
       debouncedMessageBody,
-      attachments,
+      messageBody,
+      setSaveError,
+      setSavedDraft,
+      setNavigationError,
+      attachments.length,
       isSignatureRequired,
       electronicSignature,
       fieldsString,
@@ -795,7 +804,12 @@ const ComposeForm = props => {
         focusOnErrorField();
       }
     },
-    [checkMessageValidity, isSignatureRequired, validMessageType.SEND],
+    [
+      checkMessageValidity,
+      isSignatureRequired,
+      setNavigationError,
+      validMessageType.SEND,
+    ],
   );
 
   // Navigation error effect

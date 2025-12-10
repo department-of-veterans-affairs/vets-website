@@ -22,7 +22,10 @@ import { FormLabels, RxRenewalText } from '../../util/constants';
  */
 const LockedCategoryDisplay = () => {
   return (
-    <dl className="vads-u-margin-bottom--3 vads-u-margin-top--0">
+    <dl
+      className="vads-u-margin-bottom--3 vads-u-margin-top--0"
+      aria-label="Message category"
+    >
       <dt className="vads-u-margin-bottom--0p5">{FormLabels.CATEGORY}</dt>
       <dd
         className="vads-u-font-weight--bold vads-u-margin-left--0"
