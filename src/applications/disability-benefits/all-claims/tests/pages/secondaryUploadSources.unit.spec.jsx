@@ -47,9 +47,9 @@ describe('Secondary Upload Sources', () => {
         },
       ];
 
-      const result = uiSchema['ui:confirmationField']({
-        formData: testData,
-      });
+      const confirmationField =
+        uiSchema.secondaryUploadSources0['ui:confirmationField'];
+      const result = confirmationField({ formData: testData });
 
       expect(result).to.deep.equal({
         data: ['Test.pdf', 'Test2.pdf'],
@@ -58,9 +58,9 @@ describe('Secondary Upload Sources', () => {
     });
 
     it('should display "File name not available" when formData is null', () => {
-      const result = uiSchema['ui:confirmationField']({
-        formData: null,
-      });
+      const confirmationField =
+        uiSchema.secondaryUploadSources0['ui:confirmationField'];
+      const result = confirmationField({ formData: null });
 
       expect(result).to.deep.equal({
         data: ['File name not available'],
@@ -69,9 +69,9 @@ describe('Secondary Upload Sources', () => {
     });
 
     it('should display "File name not available" when formData is undefined', () => {
-      const result = uiSchema['ui:confirmationField']({
-        formData: undefined,
-      });
+      const confirmationField =
+        uiSchema.secondaryUploadSources0['ui:confirmationField'];
+      const result = confirmationField({ formData: undefined });
 
       expect(result).to.deep.equal({
         data: ['File name not available'],
@@ -80,9 +80,9 @@ describe('Secondary Upload Sources', () => {
     });
 
     it('should display "File name not available" when formData is an empty array', () => {
-      const result = uiSchema['ui:confirmationField']({
-        formData: [],
-      });
+      const confirmationField =
+        uiSchema.secondaryUploadSources0['ui:confirmationField'];
+      const result = confirmationField({ formData: [] });
 
       expect(result).to.deep.equal({
         data: ['File name not available'],
@@ -91,7 +91,9 @@ describe('Secondary Upload Sources', () => {
     });
 
     it('should use fileName when name is not available', () => {
-      const result = uiSchema['ui:confirmationField']({
+      const confirmationField =
+        uiSchema.secondaryUploadSources0['ui:confirmationField'];
+      const result = confirmationField({
         formData: [
           {
             fileName: 'scan.pdf',
@@ -107,7 +109,9 @@ describe('Secondary Upload Sources', () => {
     });
 
     it('should prefer name over fileName when both are available', () => {
-      const result = uiSchema['ui:confirmationField']({
+      const confirmationField =
+        uiSchema.secondaryUploadSources0['ui:confirmationField'];
+      const result = confirmationField({
         formData: [
           {
             name: 'records.pdf',
@@ -124,7 +128,9 @@ describe('Secondary Upload Sources', () => {
     });
 
     it('should handle items with neither name nor fileName', () => {
-      const result = uiSchema['ui:confirmationField']({
+      const confirmationField =
+        uiSchema.secondaryUploadSources0['ui:confirmationField'];
+      const result = confirmationField({
         formData: [
           {
             attachmentId: 'L450',
