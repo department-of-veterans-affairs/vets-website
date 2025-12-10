@@ -76,6 +76,16 @@ export const threadsReducer = (state = initialState, action) => {
         ...state,
         refetchRequired: action.payload,
       };
+    case Actions.Thread.MARK_THREAD_AS_READ:
+      return {
+        ...state,
+        threadList: state.threadList?.map(
+          thread =>
+            thread.threadId === action.payload.threadId
+              ? { ...thread, unreadMessages: false }
+              : thread,
+        ),
+      };
     case Actions.Thread.SET_TOTAL_COUNT:
     default:
       return state;

@@ -40,6 +40,15 @@ export const markMessageAsReadInThread = messageId => async dispatch => {
       type: Actions.Thread.GET_MESSAGE_IN_THREAD,
       response,
     });
+    // Update the thread's unreadMessages flag in the thread list
+    // This ensures the inbox shows the correct read status when navigating back
+    const { threadId } = response.data.attributes;
+    if (threadId) {
+      dispatch({
+        type: Actions.Thread.MARK_THREAD_AS_READ,
+        payload: { threadId },
+      });
+    }
     dispatch(setThreadRefetchRequired(true));
   }
 };

@@ -145,6 +145,8 @@ const FolderThreadListView = () => {
     [dispatch, currentFolderId, location.pathname],
   );
 
+  // Effect to refetch threads when refetchRequired is true
+  // Includes location.pathname to ensure refetch happens when navigating back to this view
   useEffect(
     () => {
       if (
@@ -161,6 +163,7 @@ const FolderThreadListView = () => {
         });
     },
     [
+      location.pathname,
       refetchRequired,
       retrieveListOfThreads,
       threadSort.folderId,
