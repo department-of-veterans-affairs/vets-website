@@ -438,15 +438,15 @@ const responses = {
           preferences: [
             {
               itemId: 4,
-              optionIds: [29],
+              optionIds: ['29'],
             },
             {
               itemId: 5,
-              optionIds: [33],
+              optionIds: ['33'],
             },
             {
               itemId: 6,
-              optionIds: [35],
+              optionIds: ['35'],
             },
           ],
         },
@@ -454,18 +454,22 @@ const responses = {
     });
   },
   'POST /v0/profile/scheduling_preferences': (req, res) => {
-    return res.status(200).json({
-      data: {
-        id: '',
-        type: 'async_transaction_va_profile_scheduling_transactions',
-        attributes: {
-          transactionId: '94725087-d546-47e1-a247-f57ab0ed599c',
-          transactionStatus: 'RECEIVED',
-          type: 'AsyncTransaction::VAProfile::SchedulingTransaction',
-          metadata: [],
-        },
-      },
-    });
+    return delaySingleResponse(
+      () =>
+        res.status(200).json({
+          data: {
+            id: '',
+            type: 'async_transaction_va_profile_scheduling_transactions',
+            attributes: {
+              transactionId: '94725087-d546-47e1-a247-f57ab0ed599c',
+              transactionStatus: 'RECEIVED',
+              type: 'AsyncTransaction::VAProfile::SchedulingTransaction',
+              metadata: [],
+            },
+          },
+        }),
+      1,
+    );
   },
   'PATCH /v0/profile/communication_preferences/:pref': (req, res) => {
     const {
