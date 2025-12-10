@@ -47,12 +47,99 @@ describe('Secondary Upload Sources', () => {
         },
       ];
 
-      const result = uiSchema['ui:confirmationField']({
-        formData: testData,
-      });
+      const confirmationField =
+        uiSchema.secondaryUploadSources0['ui:confirmationField'];
+      const result = confirmationField({ formData: testData });
 
       expect(result).to.deep.equal({
         data: ['Test.pdf', 'Test2.pdf'],
+        label: 'Uploaded file(s)',
+      });
+    });
+
+    it('should display "File name not available" when formData is null', () => {
+      const confirmationField =
+        uiSchema.secondaryUploadSources0['ui:confirmationField'];
+      const result = confirmationField({ formData: null });
+
+      expect(result).to.deep.equal({
+        data: ['File name not available'],
+        label: 'Uploaded file(s)',
+      });
+    });
+
+    it('should display "File name not available" when formData is undefined', () => {
+      const confirmationField =
+        uiSchema.secondaryUploadSources0['ui:confirmationField'];
+      const result = confirmationField({ formData: undefined });
+
+      expect(result).to.deep.equal({
+        data: ['File name not available'],
+        label: 'Uploaded file(s)',
+      });
+    });
+
+    it('should display "File name not available" when formData is an empty array', () => {
+      const confirmationField =
+        uiSchema.secondaryUploadSources0['ui:confirmationField'];
+      const result = confirmationField({ formData: [] });
+
+      expect(result).to.deep.equal({
+        data: ['File name not available'],
+        label: 'Uploaded file(s)',
+      });
+    });
+
+    it('should use fileName when name is not available', () => {
+      const confirmationField =
+        uiSchema.secondaryUploadSources0['ui:confirmationField'];
+      const result = confirmationField({
+        formData: [
+          {
+            fileName: 'scan.pdf',
+            attachmentId: 'L450',
+          },
+        ],
+      });
+
+      expect(result).to.deep.equal({
+        data: ['scan.pdf'],
+        label: 'Uploaded file(s)',
+      });
+    });
+
+    it('should prefer name over fileName when both are available', () => {
+      const confirmationField =
+        uiSchema.secondaryUploadSources0['ui:confirmationField'];
+      const result = confirmationField({
+        formData: [
+          {
+            name: 'records.pdf',
+            fileName: 'backup.pdf',
+            attachmentId: 'L450',
+          },
+        ],
+      });
+
+      expect(result).to.deep.equal({
+        data: ['records.pdf'],
+        label: 'Uploaded file(s)',
+      });
+    });
+
+    it('should handle items with neither name nor fileName', () => {
+      const confirmationField =
+        uiSchema.secondaryUploadSources0['ui:confirmationField'];
+      const result = confirmationField({
+        formData: [
+          {
+            attachmentId: 'L450',
+          },
+        ],
+      });
+
+      expect(result).to.deep.equal({
+        data: ['File name not available'],
         label: 'Uploaded file(s)',
       });
     });
