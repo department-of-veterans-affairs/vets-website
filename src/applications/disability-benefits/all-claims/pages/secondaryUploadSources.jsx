@@ -12,23 +12,21 @@ export const uiSchema = index => ({
   'ui:description': (
     <UploadDescription uploadTitle="Upload supporting documents" />
   ),
-  'ui:confirmationField': ({ formData }) => {
-    const fileNames =
-      Array.isArray(formData) && formData.length > 0
-        ? formData.map(
-            item => item.name || item.fileName || 'File name not available',
-          )
-        : ['File name not available'];
-    return {
-      data: fileNames,
-      label: 'Uploaded file(s)',
-    };
+  [`secondaryUploadSources${index}`]: {
+    ...ancillaryFormUploadUi('', 'PTSD 781a form supporting documents', {}),
+    'ui:confirmationField': ({ formData }) => {
+      const fileNames =
+        Array.isArray(formData) && formData.length > 0
+          ? formData.map(
+              item => item.name || item.fileName || 'File name not available',
+            )
+          : ['File name not available'];
+      return {
+        data: fileNames,
+        label: 'Uploaded file(s)',
+      };
+    },
   },
-  [`secondaryUploadSources${index}`]: ancillaryFormUploadUi(
-    '',
-    'PTSD 781a form supporting documents',
-    {},
-  ),
 });
 
 export const schema = index => ({
