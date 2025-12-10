@@ -52,7 +52,7 @@ export default function AppointmentTasksSection({ appointment }) {
         }}
         text={
           isClaimInProgress
-            ? 'Complete and file your claim'
+            ? 'Complete your travel reimbursement claim'
             : 'File a travel reimbursement claim'
         }
       />
