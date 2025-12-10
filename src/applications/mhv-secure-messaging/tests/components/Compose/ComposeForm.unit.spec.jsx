@@ -1615,7 +1615,11 @@ describe('Compose form component', () => {
     const customState = { ...initialState, featureToggles: { loading: false } };
     customState.sm.preferences.signature.includeSignature = true;
     const screen = setup(customState, Paths.COMPOSE);
-    expect(screen.getByText('Edit signature for all messages')).to.exist;
+    const link = screen.getByTestId('edit-signature-link');
+    expect(link).to.exist;
+    expect(link.getAttribute('text')).to.equal(
+      'Edit signature for all messages',
+    );
   });
 
   it('renders correct headings in pilot environment', async () => {
