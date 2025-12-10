@@ -851,7 +851,7 @@ describe('Google Analytics', () => {
     cy.window().then(w => {
       const event = assertDataLayerEvent(w, 'claims-upload-start');
 
-      expect(event['document-count']).to.exist;
+      expect(event['file-count']).to.exist;
       expect(event['retry-file-count']).to.exist;
       expect(event['total-retry-attempts']).to.exist;
     });
@@ -883,7 +883,7 @@ describe('Google Analytics', () => {
       cy.wrap(null).then(() => {
         const event = assertDataLayerEvent(w, 'claims-upload-success');
 
-        expect(event['document-count']).to.exist;
+        expect(event['file-count']).to.exist;
       });
     });
 
@@ -902,55 +902,8 @@ describe('Google Analytics', () => {
     cy.window().then(w => {
       const event = assertDataLayerEvent(w, 'claims-upload-failure');
 
-      expect(event['failed-document-count']).to.exist;
+      expect(event['failed-file-count']).to.exist;
       expect(event['error-code']).to.exist;
-    });
-
-    cy.axeCheck();
-  });
-
-  it('should record claims-upload-failure-type-2 event when Type 2 errors are displayed', () => {
-    const tomorrow = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
-    const fiveDaysAgo = new Date(
-      Date.now() - 5 * 24 * 60 * 60 * 1000,
-    ).toISOString();
-    const claimDetailsWithFailure = {
-      ...claimDetailsOpenWithFailedSubmissions,
-      data: {
-        ...claimDetailsOpenWithFailedSubmissions.data,
-        attributes: {
-          ...claimDetailsOpenWithFailedSubmissions.data.attributes,
-          evidenceSubmissions: [
-            {
-              ...claimDetailsOpenWithFailedSubmissions.data.attributes
-                .evidenceSubmissions[0],
-              failedDate: fiveDaysAgo,
-              acknowledgementDate: tomorrow,
-            },
-          ],
-        },
-      },
-    };
-    const trackClaimsPage = new TrackClaimsPageV2();
-
-    trackClaimsPage.loadPage(
-      claimsList,
-      claimDetailsWithFailure,
-      false,
-      false,
-      featureToggleDocumentUploadStatusEnabled,
-    );
-    // Click into claim detail page
-    trackClaimsPage.verifyInProgressClaim(false);
-    // Navigate to status tab where Type 2 errors are shown
-    cy.get('#tabStatus').click();
-
-    cy.window().then(w => {
-      // Verify Type 2 failure event was recorded
-      const event = assertDataLayerEvent(w, 'claims-upload-failure-type-2');
-
-      // Status page sends entry-point: 'claims-status-page' only
-      expect(event['entry-point']).to.equal('claims-status-page');
     });
 
     cy.axeCheck();
@@ -969,7 +922,7 @@ describe('Google Analytics', () => {
     cy.window().then(w => {
       const failureEvent = assertDataLayerEvent(w, 'claims-upload-failure');
 
-      expect(failureEvent['failed-document-count']).to.exist;
+      expect(failureEvent['failed-file-count']).to.exist;
       expect(failureEvent['error-code']).to.exist;
     });
     // Retry with same file

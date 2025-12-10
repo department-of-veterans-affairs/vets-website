@@ -1,50 +1,17 @@
 import PropTypes from 'prop-types';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { recordType2FailureEventListPage } from '../utils/analytics';
+import { useSlimAlertRegistration } from '../contexts/Type2FailureAnalyticsContext';
 
-// Page-level coordination to count all slim alerts and fire one event
-// This is shared across all instances of UploadType2ErrorAlertSlim
-let visibleAlertsCount = 0;
-let eventTimeoutId = null;
+function UploadType2ErrorAlertSlim({ failedSubmissions, claimId }) {
+  const hasFailures = failedSubmissions && failedSubmissions.length > 0;
 
-function UploadType2ErrorAlertSlim({ failedSubmissions }) {
-  // Track mounting/unmounting and coordinate event firing
-  // Fires on mount and whenever failedSubmissions changes
-  useEffect(
-    () => {
-      if (failedSubmissions && failedSubmissions.length > 0) {
-        visibleAlertsCount += 1;
-
-        // Clear any previously scheduled event
-        if (eventTimeoutId) {
-          clearTimeout(eventTimeoutId);
-        }
-
-        // Schedule event to fire after all instances have had a chance to mount
-        eventTimeoutId = setTimeout(() => {
-          // Fire event with total count of all visible slim alerts
-          recordType2FailureEventListPage({
-            failedDocumentCount: visibleAlertsCount,
-          });
-          eventTimeoutId = null;
-        }, 100);
-
-        return () => {
-          visibleAlertsCount -= 1;
-
-          // If this was the last alert, clear any pending timeout and reset
-          if (visibleAlertsCount === 0 && eventTimeoutId) {
-            clearTimeout(eventTimeoutId);
-            eventTimeoutId = null;
-          }
-        };
-      }
-
-      return undefined;
-    },
-    [failedSubmissions],
-  );
+  // Register this alert with the analytics coordinator
+  // Coordinator will fire a single event with total count after all alerts mount
+  useSlimAlertRegistration({
+    alertKey: claimId,
+    hasFailures,
+  });
 
   // Don't render anything if there are no failed submissions
   if (!failedSubmissions || failedSubmissions.length === 0) {
@@ -63,6 +30,7 @@ function UploadType2ErrorAlertSlim({ failedSubmissions }) {
 }
 
 UploadType2ErrorAlertSlim.propTypes = {
+  claimId: PropTypes.string.isRequired,
   failedSubmissions: PropTypes.array,
 };
 

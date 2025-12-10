@@ -59,6 +59,7 @@ export default function StemClaimListItem({ claim }) {
       <Toggler toggleName={Toggler.TOGGLE_NAMES.cstShowDocumentUploadStatus}>
         <Toggler.Enabled>
           <UploadType2ErrorAlertSlim
+            claimId={claim.id}
             failedSubmissions={failedSubmissionsWithinLast30Days}
           />
         </Toggler.Enabled>

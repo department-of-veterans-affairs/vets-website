@@ -207,21 +207,21 @@ export const clearUploadTracking = claimId => {
 /**
  * Records a Type 2 failure event for claims list page
  * Counts total number of slim alerts
- * Fires on every page visit
+ * Fires on every page visit when alerts are visible
  * @param {Object} params - Event parameters
- * @param {number} params.failedDocumentCount - Number of slim alerts visible
+ * @param {number} params.count - Number of slim alerts visible
  */
-export const recordType2FailureEventListPage = ({ failedDocumentCount }) => {
+export const recordType2FailureEventListPage = ({ count }) => {
   recordEvent({
     event: 'claims-upload-failure-type-2',
-    'failed-document-count': failedDocumentCount,
+    count,
     'entry-point': 'claims-list-page',
   });
 };
 
 /**
  * Records a Type 2 failure event for status page
- * Fires once per page view on status page only
+ * Fires on every page visit when alert is visible (status tab only, not files tab)
  */
 export const recordType2FailureEventStatusPage = () => {
   recordEvent({
@@ -274,7 +274,7 @@ export const recordUploadStartEvent = ({ files, claimId }) => {
 
   recordEvent({
     event: 'claims-upload-start',
-    'document-count': files.length,
+    'file-count': files.length,
     'retry-file-count': retryFileCount,
     'total-retry-attempts': totalRetryAttempts,
   });
@@ -317,7 +317,7 @@ export const recordUploadFailureEvent = ({
 
   recordEvent({
     event: 'claims-upload-failure',
-    'failed-document-count': errorFiles.length,
+    'failed-file-count': errorFiles.length,
     'error-code': errorFiles[0]?.errors?.[0]?.detail || 'Unknown',
   });
 };
@@ -325,11 +325,11 @@ export const recordUploadFailureEvent = ({
 /**
  * Records an enhanced upload success event to Google Analytics
  * @param {Object} params - Event parameters
- * @param {number} params.documentCount - Number of documents uploaded
+ * @param {number} params.fileCount - Number of files uploaded
  */
-export const recordUploadSuccessEvent = ({ documentCount }) => {
+export const recordUploadSuccessEvent = ({ fileCount }) => {
   recordEvent({
     event: 'claims-upload-success',
-    'document-count': documentCount,
+    'file-count': fileCount,
   });
 };

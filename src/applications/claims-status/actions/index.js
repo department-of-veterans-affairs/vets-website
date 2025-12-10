@@ -417,7 +417,7 @@ export function submitFiles(
           callbacks: {
             onAllComplete: () => {
               if (!hasError) {
-                recordUploadSuccessEvent({ documentCount: totalFiles });
+                recordUploadSuccessEvent({ fileCount: totalFiles });
                 dispatch({
                   type: DONE_UPLOADING,
                 });

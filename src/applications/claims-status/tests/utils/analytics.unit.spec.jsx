@@ -5,7 +5,8 @@ import {
   storeFailedUpload,
   checkIfRetry,
   clearUploadTracking,
-  recordType2FailureEvent,
+  recordType2FailureEventListPage,
+  recordType2FailureEventStatusPage,
   recordUploadStartEvent,
   recordUploadFailureEvent,
   recordUploadSuccessEvent,
@@ -50,13 +51,17 @@ describe('analytics helpers', () => {
   const getStoredAttempts = () => {
     const raw = sessionStorage.getItem('cst_upload_attempts');
     if (!raw) return {};
+
     const parsed = JSON.parse(raw);
+
     return parsed.data || {};
   };
   const getStoredFailures = () => {
     const raw = sessionStorage.getItem('cst_failed_uploads');
     if (!raw) return {};
+
     const parsed = JSON.parse(raw);
+
     return parsed.data || {};
   };
   const createUploadParams = (overrides = {}) => {
@@ -199,20 +204,33 @@ describe('analytics helpers', () => {
     });
   });
 
-  describe('recordType2FailureEvent', () => {
-    it('should record Type 2 failure event with document count', () => {
-      recordType2FailureEvent({ failedDocumentCount: 3 });
+  describe('recordType2FailureEventListPage', () => {
+    it('should record event', () => {
+      recordType2FailureEventListPage({ count: 3 });
 
       expect(window.dataLayer.length).to.equal(1);
       expect(window.dataLayer[0]).to.deep.equal({
         event: 'claims-upload-failure-type-2',
-        'failed-document-count': 3,
+        count: 3,
+        'entry-point': 'claims-list-page',
+      });
+    });
+  });
+
+  describe('recordType2FailureEventStatusPage', () => {
+    it('should record event', () => {
+      recordType2FailureEventStatusPage();
+
+      expect(window.dataLayer.length).to.equal(1);
+      expect(window.dataLayer[0]).to.deep.equal({
+        event: 'claims-upload-failure-type-2',
+        'entry-point': 'claims-status-page',
       });
     });
   });
 
   describe('recordUploadStartEvent', () => {
-    it('should record upload start event with document count', () => {
+    it('should record event', () => {
       const files = [
         {
           file: createTestFile('test1.pdf', TEST_TIMESTAMP_1),
@@ -228,7 +246,7 @@ describe('analytics helpers', () => {
 
       expect(window.dataLayer.length).to.equal(1);
       expect(window.dataLayer[0].event).to.equal('claims-upload-start');
-      expect(window.dataLayer[0]['document-count']).to.equal(2);
+      expect(window.dataLayer[0]['file-count']).to.equal(2);
       expect(window.dataLayer[0]['retry-file-count']).to.equal(0);
       expect(window.dataLayer[0]['total-retry-attempts']).to.equal(0);
       expect(result).to.have.lengthOf(2);
@@ -258,7 +276,7 @@ describe('analytics helpers', () => {
   });
 
   describe('recordUploadFailureEvent', () => {
-    it('should record upload failure event with metadata', () => {
+    it('should record event', () => {
       const file = createTestFile();
       const errorFiles = [
         {
@@ -291,7 +309,7 @@ describe('analytics helpers', () => {
       expect(window.dataLayer.length).to.equal(1);
       expect(window.dataLayer[0]).to.deep.equal({
         event: 'claims-upload-failure',
-        'failed-document-count': 1,
+        'failed-file-count': 1,
         'error-code': 'DOC_UPLOAD_DUPLICATE',
       });
     });
@@ -312,18 +330,19 @@ describe('analytics helpers', () => {
       });
 
       expect(window.dataLayer.length).to.equal(1);
+      expect(window.dataLayer[0]['failed-file-count']).to.equal(1);
       expect(window.dataLayer[0]['error-code']).to.equal('Unknown');
     });
   });
 
   describe('recordUploadSuccessEvent', () => {
-    it('should record upload success event with document count', () => {
-      recordUploadSuccessEvent({ documentCount: 2 });
+    it('should record event', () => {
+      recordUploadSuccessEvent({ fileCount: 2 });
 
       expect(window.dataLayer.length).to.equal(1);
       expect(window.dataLayer[0]).to.deep.equal({
         event: 'claims-upload-success',
-        'document-count': 2,
+        'file-count': 2,
       });
     });
   });

@@ -115,6 +115,7 @@ export default function AppealListItem({ appeal, name }) {
         <Toggler toggleName={Toggler.TOGGLE_NAMES.cstShowDocumentUploadStatus}>
           <Toggler.Enabled>
             <UploadType2ErrorAlertSlim
+              claimId={appeal.id}
               failedSubmissions={failedSubmissionsWithinLast30Days}
             />
           </Toggler.Enabled>
