@@ -6,27 +6,6 @@ import {
 } from '../util/allergies';
 import { allergyTypes } from '../util/constants';
 
-// Mock helper functions that would be passed in from each app
-// Note: getReactions is exported from the shared module and used internally by convertAllergy
-const mockHelpers = {
-  isArrayAndHasItems: obj => Array.isArray(obj) && obj.length > 0,
-  extractContainedResource: (resource, referenceId) => {
-    if (
-      resource &&
-      Array.isArray(resource.contained) &&
-      resource.contained.length > 0 &&
-      referenceId
-    ) {
-      const strippedRefId = referenceId.substring(1);
-      const containedResource = resource.contained.find(
-        containedItem => containedItem.id === strippedRefId,
-      );
-      return containedResource || null;
-    }
-    return null;
-  },
-};
-
 const DEFAULT_EMPTY_FIELD = 'None recorded';
 
 describe('Shared Allergy Utilities', () => {
@@ -133,7 +112,7 @@ describe('Shared Allergy Utilities', () => {
         note: [{ text: 'Patient reported mild reaction' }],
       };
 
-      const result = convertAllergy(fhirAllergy, mockHelpers);
+      const result = convertAllergy(fhirAllergy);
 
       expect(result.id).to.equal('12345');
       expect(result.type).to.equal('Medication, food');
@@ -151,7 +130,7 @@ describe('Shared Allergy Utilities', () => {
         id: '12345',
       };
 
-      const result = convertAllergy(fhirAllergy, mockHelpers);
+      const result = convertAllergy(fhirAllergy);
 
       expect(result.id).to.equal('12345');
       expect(result.type).to.equal(DEFAULT_EMPTY_FIELD);
@@ -169,7 +148,7 @@ describe('Shared Allergy Utilities', () => {
         id: '12345',
       };
 
-      const result = convertAllergy(fhirAllergy, mockHelpers, {
+      const result = convertAllergy(fhirAllergy, {
         emptyField: 'Not available',
         noneNotedField: 'None noted',
       });
@@ -187,7 +166,7 @@ describe('Shared Allergy Utilities', () => {
         recorder: { display: 'Dr. Smith' },
       };
 
-      const result = convertAllergy(fhirAllergy, mockHelpers, {
+      const result = convertAllergy(fhirAllergy, {
         includeProvider: false,
       });
 
@@ -200,7 +179,7 @@ describe('Shared Allergy Utilities', () => {
         category: ['medication', 'food'],
       };
 
-      const result = convertAllergy(fhirAllergy, mockHelpers, {
+      const result = convertAllergy(fhirAllergy, {
         joinAllCategories: false,
       });
 
@@ -213,7 +192,7 @@ describe('Shared Allergy Utilities', () => {
         extension: [{ url: 'allergyObservedHistoric', valueCode: 'h' }],
       };
 
-      const result = convertAllergy(fhirAllergy, mockHelpers);
+      const result = convertAllergy(fhirAllergy);
 
       expect(result.observedOrReported).to.equal(allergyTypes.REPORTED);
     });
@@ -227,7 +206,7 @@ describe('Shared Allergy Utilities', () => {
       };
 
       // Simulate Medications app options
-      const result = convertAllergy(fhirAllergy, mockHelpers, {
+      const result = convertAllergy(fhirAllergy, {
         emptyField: 'Not available',
         noneNotedField: 'None noted',
         includeProvider: false,
@@ -257,7 +236,7 @@ describe('Shared Allergy Utilities', () => {
         },
       };
 
-      const result = convertUnifiedAllergy(unifiedAllergy, mockHelpers);
+      const result = convertUnifiedAllergy(unifiedAllergy);
 
       expect(result.id).to.equal('123');
       expect(result.name).to.equal('Test Allergy');
@@ -279,7 +258,7 @@ describe('Shared Allergy Utilities', () => {
         attributes: {},
       };
 
-      const result = convertUnifiedAllergy(unifiedAllergy, mockHelpers);
+      const result = convertUnifiedAllergy(unifiedAllergy);
 
       expect(result.id).to.equal('123');
       expect(result.name).to.equal(DEFAULT_EMPTY_FIELD);
@@ -301,7 +280,7 @@ describe('Shared Allergy Utilities', () => {
         },
       };
 
-      const result = convertUnifiedAllergy(unifiedAllergy, mockHelpers);
+      const result = convertUnifiedAllergy(unifiedAllergy);
 
       expect(result.observedOrReported).to.equal(allergyTypes.OBSERVED);
     });
@@ -314,7 +293,7 @@ describe('Shared Allergy Utilities', () => {
         },
       };
 
-      const result = convertUnifiedAllergy(unifiedAllergy, mockHelpers);
+      const result = convertUnifiedAllergy(unifiedAllergy);
 
       expect(result.observedOrReported).to.equal(allergyTypes.REPORTED);
     });
@@ -325,7 +304,7 @@ describe('Shared Allergy Utilities', () => {
         attributes: {},
       };
 
-      const result = convertUnifiedAllergy(unifiedAllergy, mockHelpers, {
+      const result = convertUnifiedAllergy(unifiedAllergy, {
         emptyField: 'Not available',
       });
 
@@ -341,7 +320,7 @@ describe('Shared Allergy Utilities', () => {
         date: '2024-06-15T00:00:00.000Z',
       };
 
-      const result = convertUnifiedAllergy(unifiedAllergy, mockHelpers);
+      const result = convertUnifiedAllergy(unifiedAllergy);
 
       expect(result.id).to.equal('123');
       expect(result.name).to.equal('Direct Allergy');
@@ -356,7 +335,7 @@ describe('Shared Allergy Utilities', () => {
         },
       };
 
-      const result = convertUnifiedAllergy(unifiedAllergy, mockHelpers);
+      const result = convertUnifiedAllergy(unifiedAllergy);
 
       expect(result.notes).to.equal('First note. Second note. Third note.');
     });

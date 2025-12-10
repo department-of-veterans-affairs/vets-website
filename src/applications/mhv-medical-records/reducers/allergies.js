@@ -4,7 +4,6 @@ import {
 } from '@department-of-veterans-affairs/mhv/exports';
 import { Actions } from '../util/actionTypes';
 import { EMPTY_FIELD, loadStates } from '../util/constants';
-import { isArrayAndHasItems, extractContainedResource } from '../util/helpers';
 
 const initialState = {
   /**
@@ -32,12 +31,6 @@ const initialState = {
   allergyDetails: undefined,
 };
 
-// Helper functions object to pass to shared converters
-const allergyHelpers = {
-  isArrayAndHasItems,
-  extractContainedResource,
-};
-
 // Options for Medical Records app (uses defaults)
 const allergyOptions = {
   emptyField: EMPTY_FIELD,
@@ -45,18 +38,18 @@ const allergyOptions = {
 
 /**
  * Convert a FHIR AllergyIntolerance resource using shared converter.
- * Wrapper that passes Medical Records helpers and options.
+ * Wrapper that passes Medical Records options.
  */
 export const convertAllergy = allergy => {
-  return sharedConvertAllergy(allergy, allergyHelpers, allergyOptions);
+  return sharedConvertAllergy(allergy, allergyOptions);
 };
 
 /**
  * Convert a unified API allergy response using shared converter.
- * Wrapper that passes Medical Records helpers and options.
+ * Wrapper that passes Medical Records options.
  */
 export const convertUnifiedAllergy = allergy => {
-  return sharedConvertUnifiedAllergy(allergy, allergyHelpers, allergyOptions);
+  return sharedConvertUnifiedAllergy(allergy, allergyOptions);
 };
 
 export const allergyReducer = (state = initialState, action) => {

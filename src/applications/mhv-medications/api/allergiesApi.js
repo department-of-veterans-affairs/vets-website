@@ -4,19 +4,12 @@ import {
   environment,
 } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { convertAllergy as sharedConvertAllergy } from '@department-of-veterans-affairs/mhv/exports';
-import { extractContainedResource, isArrayAndHasItems } from '../util/helpers';
 import { FIELD_NONE_NOTED, FIELD_NOT_AVAILABLE } from '../util/constants';
 
 /**
  * TODO: implement retry logic
  */
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
-
-// Helper functions object to pass to shared converter
-const allergyHelpers = {
-  isArrayAndHasItems,
-  extractContainedResource,
-};
 
 // Options for Medications app (different from Medical Records defaults)
 const allergyOptions = {
@@ -28,10 +21,10 @@ const allergyOptions = {
 
 /**
  * Convert a FHIR AllergyIntolerance resource using shared converter.
- * Wrapper that passes Medications helpers and options.
+ * Wrapper that passes Medications options.
  */
 export const convertAllergy = allergy => {
-  return sharedConvertAllergy(allergy, allergyHelpers, allergyOptions);
+  return sharedConvertAllergy(allergy, allergyOptions);
 };
 
 // Create the allergies API slice
