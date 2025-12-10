@@ -92,7 +92,13 @@ function setupJSDom() {
   global.dom = dom;
   global.window = window;
   global.document = window.document;
-  global.navigator = { userAgent: 'node.js' };
+  // Node 22 defines a readonly navigator getter; force a writable value for tests
+  Object.defineProperty(global, 'navigator', {
+    value: { userAgent: 'node.js' },
+    configurable: true,
+    enumerable: true,
+    writable: true,
+  });
   global.requestAnimationFrame = function(callback) {
     return setTimeout(callback, 0);
   };
