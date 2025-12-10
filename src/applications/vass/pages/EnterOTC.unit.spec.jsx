@@ -42,54 +42,34 @@ describe('VASS Component: EnterOTC', () => {
     const screen = renderComponent();
 
     expect(screen.getByTestId('header')).to.exist;
-  });
-
-  it('should render success alert with verification message', () => {
-    const { container } = renderComponent();
-    const alert = container.querySelector('va-alert[status="success"]');
-
-    expect(alert).to.exist;
-    expect(alert.getAttribute('visible')).to.exist;
-  });
-
-  it('should display email address in alert message', () => {
-    const { getByText } = renderComponent();
-
-    expect(getByText(/We just emailed a one-time verification code to/i)).to
-      .exist;
-    expect(getByText(/test@test.com/i)).to.exist;
-  });
-
-  it('should render OTC input field', () => {
-    const { container } = renderComponent();
-    const otcInput = container.querySelector('va-text-input[name="otc"]');
-
+    expect(screen.getByTestId('enter-otc-success-alert')).to.exist;
+    expect(screen.getByTestId('enter-otc-success-alert').textContent).to.match(
+      /test@test.com/i,
+    );
+    expect(screen.queryByTestId('enter-otc-error-alert')).to.not.exist;
+    const otcInput = screen.getByTestId('otc-input');
     expect(otcInput).to.exist;
-    expect(otcInput.getAttribute('label')).to.equal(
-      'Enter your one-time verification code',
+    expect(otcInput.getAttribute('label')).to.match(
+      /Enter your one-time verification code/i,
     );
     expect(otcInput.getAttribute('required')).to.exist;
-  });
-
-  it('should render continue button', () => {
-    const { container } = renderComponent();
-    const continueButton = container.querySelector('va-button');
-
-    expect(continueButton).to.exist;
-    expect(continueButton.getAttribute('text')).to.equal('Continue');
+    expect(screen.getByTestId('continue-button')).to.exist;
+    expect(screen.getByTestId('continue-button').getAttribute('text')).to.match(
+      /Continue/i,
+    );
   });
 
   describe('form validation', () => {
     it('should show field error when submitting with empty code', async () => {
-      const { container } = renderComponent();
-      const continueButton = container.querySelector('va-button');
+      const { getByTestId } = renderComponent();
+      const continueButton = getByTestId('continue-button');
 
       continueButton.click();
 
       await waitFor(() => {
-        const otcInput = container.querySelector('va-text-input[name="otc"]');
-        expect(otcInput.getAttribute('error')).to.equal(
-          'Please enter your one-time verification code',
+        const otcInput = getByTestId('otc-input');
+        expect(otcInput.getAttribute('error')).to.match(
+          /Please enter your one-time verification code/i,
         );
       });
     });
@@ -107,17 +87,15 @@ describe('VASS Component: EnterOTC', () => {
           },
         ],
       });
-      const { container } = renderComponent();
+      const { container, getByTestId } = renderComponent();
       inputVaTextInput(container, '123456', 'va-text-input[name="otc"]');
-      const continueButton = container.querySelector('va-button');
+      const continueButton = getByTestId('continue-button');
       continueButton.click();
       await waitFor(() => {
-        const errorAlert = container.querySelector(
-          'va-alert[status="error"][data-testid="enter-otc-error-alert"]',
-        );
+        const errorAlert = getByTestId('enter-otc-error-alert');
         expect(errorAlert).to.exist;
-        expect(errorAlert.textContent).to.include(
-          'The one-time verification code you entered doesn’t match the one we sent you. Check your email and try again.',
+        expect(errorAlert.textContent).to.match(
+          /The one-time verification code you entered doesn’t match the one we sent you. Check your email and try again./i,
         );
       });
     });
@@ -132,17 +110,15 @@ describe('VASS Component: EnterOTC', () => {
           },
         ],
       });
-      const { container } = renderComponent();
+      const { container, getByTestId } = renderComponent();
       inputVaTextInput(container, '123456', 'va-text-input[name="otc"]');
-      const continueButton = container.querySelector('va-button');
+      const continueButton = getByTestId('continue-button');
       continueButton.click();
       await waitFor(() => {
-        const errorAlert = container.querySelector(
-          'va-alert[status="error"][data-testid="enter-otc-error-alert"]',
-        );
+        const errorAlert = getByTestId('enter-otc-error-alert');
         expect(errorAlert).to.exist;
-        expect(errorAlert.textContent).to.include(
-          'The one-time verification code you entered doesn’t match the one we sent you. You have 1 try left.',
+        expect(errorAlert.textContent).to.match(
+          /The one-time verification code you entered doesn’t match the one we sent you. You have 1 try left./i,
         );
       });
     });
@@ -157,17 +133,15 @@ describe('VASS Component: EnterOTC', () => {
           },
         ],
       });
-      const { container } = renderComponent();
+      const { container, getByTestId } = renderComponent();
       inputVaTextInput(container, '123456', 'va-text-input[name="otc"]');
-      const continueButton = container.querySelector('va-button');
+      const continueButton = getByTestId('continue-button');
       continueButton.click();
       await waitFor(() => {
-        const errorAlert = container.querySelector(
-          'va-alert[status="error"][data-testid="enter-otc-error-alert"]',
-        );
+        const errorAlert = getByTestId('verification-error-alert');
         expect(errorAlert).to.exist;
-        expect(errorAlert.textContent).to.include(
-          'The one-time verification code you entered doesn’t match the one we sent you. You can try again in 15 minutes.',
+        expect(errorAlert.textContent).to.match(
+          /The one-time verification code you entered doesn’t match the one we sent you. You can try again in 15 minutes./i,
         );
       });
     });
@@ -182,17 +156,13 @@ describe('VASS Component: EnterOTC', () => {
           },
         ],
       });
-      const { container } = renderComponent();
+      const { container, getByTestId, queryByTestId } = renderComponent();
       inputVaTextInput(container, '123456', 'va-text-input[name="otc"]');
-      const continueButton = container.querySelector('va-button');
+      const continueButton = getByTestId('continue-button');
       continueButton.click();
       await waitFor(() => {
-        const successAlert = container.querySelector(
-          'va-alert[status="success"]',
-        );
-        const errorAlert = container.querySelector('va-alert[status="error"]');
-        expect(errorAlert).to.exist;
-        expect(successAlert).to.not.exist;
+        expect(getByTestId('enter-otc-error-alert')).to.exist;
+        expect(queryByTestId('enter-otc-success-alert')).to.not.exist;
       });
     });
     it('should clear the OTC input after an error', async () => {
@@ -206,12 +176,12 @@ describe('VASS Component: EnterOTC', () => {
           },
         ],
       });
-      const { container } = renderComponent();
+      const { container, getByTestId } = renderComponent();
       inputVaTextInput(container, '123456', 'va-text-input[name="otc"]');
-      const continueButton = container.querySelector('va-button');
+      const continueButton = getByTestId('continue-button');
       continueButton.click();
       await waitFor(() => {
-        const otcInput = container.querySelector('va-text-input[name="otc"]');
+        const otcInput = getByTestId('otc-input');
         expect(otcInput.getAttribute('value')).to.equal('');
       });
     });
@@ -249,7 +219,7 @@ describe('VASS Component: EnterOTC', () => {
       );
 
       inputVaTextInput(container, '123456', 'va-text-input[name="otc"]');
-      const continueButton = container.querySelector('va-button');
+      const continueButton = getByTestId('continue-button');
       continueButton.click();
 
       await waitFor(() => {

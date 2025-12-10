@@ -83,10 +83,16 @@ const EnterOTC = () => {
           ? "We couldn't verify your information"
           : 'Schedule a call to learn about VA benefits and health care'
       }
-      verificationError={errorMessage}
+      verificationError={
+        error?.code === 'account_locked' ? errorMessage : undefined
+      }
     >
       {!error?.code && (
-        <va-alert status="success" visible>
+        <va-alert
+          status="success"
+          visible
+          data-testid="enter-otc-success-alert"
+        >
           <p className="vads-u-margin-y--0">
             {`We just emailed a one-time verification code to ${veteranEmail}.
           Please check your email and come back to enter the code to complete
@@ -119,6 +125,7 @@ const EnterOTC = () => {
           big
           onClick={handleSubmit}
           text="Continue"
+          data-testid="continue-button"
           uswds
           loading={isLoading}
         />
