@@ -4,8 +4,8 @@ import {
   textUI,
   textSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import InstitutionName from '../components/InstitutionName';
-import InstitutionAddress from '../components/InstitutionAddress';
+import InstitutionName from '../containers/InstitutionName';
+import InstitutionAddress from '../containers/InstitutionAddress';
 
 const facilityCodeUIValidation = (errors, fieldData, formData) => {
   const details = formData?.institutionDetails || {};
