@@ -135,6 +135,9 @@ export const DEFAULT_ARRAY_BUILDER_TEXT = {
   summaryAddButtonText: props => `Add ${props.nounSingular}`,
   summaryAddLinkText: props => `Add ${props.nounSingular}`,
   summaryTitle: props => `Review your ${props.nounPlural}`,
+  // summaryTitleWithoutItems: props => `${props.nounPlural}`,
+  // summaryDescription: props => (<p>Description here</p>),
+  // summaryDescriptionWithoutItems: props => (<p>Description here</p>),
   yesNoBlankReviewQuestion: props =>
     `Do you have any ${props.nounPlural} to add?`,
 
