@@ -116,7 +116,7 @@ const DuplicateLabel = ({ text }) => (
  *   fullData: any,
  *   isIncomplete: ArrayBuilderOptions['isItemIncomplete'],
  *   nounSingular: ArrayBuilderOptions['nounSingular'],
- *   getText: import('./arrayBuilderText').ArrayBuilderGetText,
+ *   getText: ArrayBuilderGetText,
  *   isReview: boolean,
  *   onRemove: (index: number, item: any, newFormData: any) => void,
  *   onRemoveAll: (newFormData: any) => void,
