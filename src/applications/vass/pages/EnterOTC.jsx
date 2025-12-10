@@ -111,7 +111,11 @@ const EnterOTC = () => {
         label="Enter your one-time verification code"
         name="otc"
         value={code}
-        onBlur={() => {}}
+        onBlur={e => {
+          if (e.target.value !== '') {
+            setFieldError(undefined);
+          }
+        }}
         onInput={e => {
           setCode(e.target.value);
         }}
