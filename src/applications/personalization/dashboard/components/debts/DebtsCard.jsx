@@ -21,7 +21,7 @@ export const DebtsCard = ({ debtsCount, hasError }) => {
           <h4 className="vads-u-margin-y--0 vads-u-padding-bottom--1">
             Benefit overpayments
           </h4>
-          <va-alert status="warning" slim>
+          <va-alert status="warning" slim data-testid="debt-card-alert">
             We can’t show your benefit overpayments right now. Refresh this page
             or try again later.
           </va-alert>

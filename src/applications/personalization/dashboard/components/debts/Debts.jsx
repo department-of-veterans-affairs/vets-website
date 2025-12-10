@@ -121,6 +121,8 @@ const BenefitPaymentsAndDebt = ({
     );
   };
 
+  const hasDebtAndCopayError = hasDebtError && hasCopayError;
+
   const wrapperClasses = classNames({
     'vads-u-margin-top--6': !myVaAuthExpRedesignEnabled,
     'vads-u-margin-bottom-3': !myVaAuthExpRedesignEnabled,
@@ -147,33 +149,21 @@ const BenefitPaymentsAndDebt = ({
       {!shouldShowLoadingIndicator && (
         <>
           <div className="vads-l-row">
-            {(hasCopayError || hasDebtError) && (
-              <>
-                <DashboardWidgetWrapper>
-                  <OutstandingDebtsError />
-                  <Toggler
-                    toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}
-                  >
-                    <Toggler.Enabled>
-                      <va-link
-                        href="/resources/va-debt-management"
-                        text="View all debt information"
-                      />
-                    </Toggler.Enabled>
-                  </Toggler>
-                </DashboardWidgetWrapper>
-                <Toggler
-                  toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}
-                >
-                  <Toggler.Disabled>
-                    <DashboardWidgetWrapper>
-                      {hasDebtError &&
-                        copaysCount > 0 && <PopularActionsForDebts />}
-                    </DashboardWidgetWrapper>
-                  </Toggler.Disabled>
-                </Toggler>
-              </>
-            )}
+            <Toggler
+              toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}
+            >
+              <Toggler.Enabled>
+                {hasDebtAndCopayError && (
+                  <DashboardWidgetWrapper>
+                    <OutstandingDebtsError />
+                    <va-link
+                      href="/resources/va-debt-management"
+                      text="View all debt information"
+                    />
+                  </DashboardWidgetWrapper>
+                )}
+              </Toggler.Enabled>
+            </Toggler>
             {hasNoOutstandingDebts() && (
               <>
                 <DashboardWidgetWrapper>
@@ -196,7 +186,7 @@ const BenefitPaymentsAndDebt = ({
                 <GenericDebtCard />
               </DashboardWidgetWrapper>
             )}
-            {(totalDebtsCount > 0 || hasDebtError) &&
+            {(totalDebtsCount > 0 || (!hasDebtAndCopayError && hasDebtError)) &&
               !showGenericDebtCard && (
                 <DashboardWidgetWrapper>
                   <DebtsCard
@@ -205,7 +195,7 @@ const BenefitPaymentsAndDebt = ({
                   />
                 </DashboardWidgetWrapper>
               )}
-            {(copaysCount > 0 || hasCopayError) && (
+            {(copaysCount > 0 || (!hasDebtAndCopayError && hasCopayError)) && (
               <>
                 <DashboardWidgetWrapper>
                   <CopaysCard copays={copays} hasError={hasCopayError} />

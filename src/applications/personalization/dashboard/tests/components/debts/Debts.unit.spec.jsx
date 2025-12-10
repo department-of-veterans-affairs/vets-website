@@ -212,7 +212,9 @@ describe('<BenefitPaymentsAndDebt />', () => {
       </Provider>,
     );
 
-    expect(getByTestId('outstanding-debts-error')).to.exist;
+    expect(getByTestId('debt-card')).to.exist;
+    expect(getByTestId('debt-card-alert')).to.exist;
+    expect(getByTestId('manage-va-debt-link')).to.exist;
   });
 
   it('displays error message when there is a copays API error', () => {
@@ -232,6 +234,8 @@ describe('<BenefitPaymentsAndDebt />', () => {
       </Provider>,
     );
 
-    expect(getByTestId('outstanding-debts-error')).to.exist;
+    expect(getByTestId('copay-card')).to.exist;
+    expect(getByTestId('copay-card-alert')).to.exist;
+    expect(getByTestId('manage-va-copays-link')).to.exist;
   });
 });
