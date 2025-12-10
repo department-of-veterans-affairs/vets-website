@@ -55,7 +55,8 @@ export const transform = (formConfig, form) => {
   }, '');
 
   // convert service period branch name to label
-  const convertedServicePeriods = periods.map(period => {
+  // Handle optional periods - default to empty array if not provided
+  const convertedServicePeriods = (periods || []).map(period => {
     const { label } = DEFAULT_BRANCH_LABELS[period.serviceBranch];
     const serviceBranch = label ?? period.serviceBranch;
     return {
