@@ -87,6 +87,12 @@ describe('Compose form component', () => {
         allTriageGroupsBlocked: noBlockedRecipients.allTriageGroupsBlocked,
       },
       preferences: { signature: {} },
+      prescription: {
+        renewalPrescription: undefined,
+        redirectPath: undefined,
+        error: undefined,
+        isLoading: false,
+      },
     },
     drupalStaticData,
     featureToggles: {},
@@ -117,6 +123,12 @@ describe('Compose form component', () => {
           noBlockedRecipients.associatedBlockedTriageGroupsQty,
         noAssociations: noBlockedRecipients.noAssociations,
         allTriageGroupsBlocked: noBlockedRecipients.allTriageGroupsBlocked,
+      },
+      prescription: {
+        renewalPrescription: undefined,
+        redirectPath: undefined,
+        error: undefined,
+        isLoading: false,
       },
     },
     drupalStaticData,
@@ -200,7 +212,10 @@ describe('Compose form component', () => {
       ...draftState,
       sm: {
         ...draftState.sm,
-        threadDetails: { customDraftMessage },
+        threadDetails: {
+          ...draftState.sm.threadDetails,
+          customDraftMessage,
+        },
       },
     };
 
@@ -384,6 +399,7 @@ describe('Compose form component', () => {
         categories: { categories },
         threadDetails: {
           drafts: {},
+          draftInProgress: {},
         },
         preferences: signatureReducers.signatureEnabled,
       },
