@@ -67,7 +67,7 @@ describe('SECURE MESSAGING AAL', () => {
       cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
       cy.get(Locators.ALERTS.CERNER_ALERT)
-        .find('va-link')
+        .find('va-link-action')
         .click();
 
       cy.get('@submitLaunchMessagingAal.all').then(interceptions => {
@@ -100,7 +100,7 @@ describe('SECURE MESSAGING AAL', () => {
       cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
       cy.get(Locators.ALERTS.CERNER_ALERT)
-        .find('va-link')
+        .find('va-link-action')
         .click();
 
       cy.get('@submitLaunchMessagingAal.all').should('have.length', 0);
