@@ -22,7 +22,7 @@ function swapNames(formData) {
       parsedFormData.claimantFullName?.last;
     transformedValue.veteranFullName.suffix =
       parsedFormData.claimantFullName?.suffix;
-    transformedValue.claimantFullName = {};
+    delete transformedValue.claimantFullName;
   }
 
   // Alter fullNameRecipient to recipientName in careExpenses
