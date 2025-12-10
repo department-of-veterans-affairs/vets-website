@@ -91,9 +91,9 @@ export const ConfirmationPageView = ({
       </section>
       <va-link-action
         href="/representative/submissions"
-        label="Review submissions history"
+        label="Go back to submissions"
         class="vads-u-margin-bottom--4"
-        text="Review submissions history"
+        text="Go back to submissions"
         type="primary"
       />
       {childContent || null}
