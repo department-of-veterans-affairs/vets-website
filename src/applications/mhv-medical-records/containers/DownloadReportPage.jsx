@@ -303,42 +303,35 @@ const DownloadReportPage = ({ runningUnitTest }) => {
       </div>
     );
   }
-  if (hasVistAFacilities) {
-    return (
-      <div>
-        <AcceleratedCernerFacilityAlert {...CernerAlertContent.DOWNLOAD} />
-        <VistaOnlyContent
-          isLoading={generatingCCD}
-          testIdSuffix="Vista"
-          ccdExtendedFileTypeFlag={ccdExtendedFileTypeFlag}
-          hasBothDataSources={hasBothDataSources}
-          failedSeiDomains={failedSeiDomains}
-          getFailedDomainList={getFailedDomainList}
-          hasOHOnly={hasOHOnly}
-          lastSuccessfulUpdate={lastSuccessfulUpdate}
-          generatingCCD={generatingCCD}
-          handleDownloadCCD={handleDownloadCCD}
-          handleDownloadCCDV2={handleDownloadCCDV2}
-          expandSelfEntered={expandSelfEntered}
-          selfEnteredAccordionRef={selfEnteredAccordionRef}
-          selfEnteredPdfLoading={selfEnteredPdfLoading}
-          handleDownloadSelfEnteredPdf={handleDownloadSelfEnteredPdf}
-          successfulSeiDownload={successfulSeiDownload}
-          activeAlert={activeAlert}
-          accessErrors={accessErrors}
-          ccdError={ccdError}
-          ccdDownloadSuccess={ccdDownloadSuccess || false}
-          CCDRetryTimestamp={CCDRetryTimestamp}
-          failedBBDomains={failedBBDomains}
-          successfulBBDownload={successfulBBDownload || false}
-        />
-        <NeedHelpSection />
-      </div>
-    );
-  }
   return (
     <div>
-      <h1>I see else</h1>
+      <AcceleratedCernerFacilityAlert {...CernerAlertContent.DOWNLOAD} />
+      <VistaOnlyContent
+        isLoading={generatingCCD}
+        testIdSuffix="Vista"
+        ccdExtendedFileTypeFlag={ccdExtendedFileTypeFlag}
+        hasBothDataSources={hasBothDataSources}
+        failedSeiDomains={failedSeiDomains}
+        getFailedDomainList={getFailedDomainList}
+        hasOHOnly={hasOHOnly}
+        lastSuccessfulUpdate={lastSuccessfulUpdate}
+        generatingCCD={generatingCCD}
+        handleDownloadCCD={handleDownloadCCD}
+        handleDownloadCCDV2={handleDownloadCCDV2}
+        expandSelfEntered={expandSelfEntered}
+        selfEnteredAccordionRef={selfEnteredAccordionRef}
+        selfEnteredPdfLoading={selfEnteredPdfLoading}
+        handleDownloadSelfEnteredPdf={handleDownloadSelfEnteredPdf}
+        successfulSeiDownload={successfulSeiDownload}
+        activeAlert={activeAlert}
+        accessErrors={accessErrors}
+        ccdError={ccdError}
+        ccdDownloadSuccess={ccdDownloadSuccess || false}
+        CCDRetryTimestamp={CCDRetryTimestamp}
+        failedBBDomains={failedBBDomains}
+        successfulBBDownload={successfulBBDownload || false}
+      />
+      <NeedHelpSection />
     </div>
   );
 };
