@@ -517,10 +517,10 @@ export const buildRxRenewalMessageBody = (rx, rxError) => {
     return 'Number of refills left not available';
   };
 
-  const getExpirationDateValue = () => {
+  const getDateValue = date => {
     if (rxError) return '';
-    if (rx?.expirationDate) {
-      return dateFormat(rx.expirationDate, 'MMMM D, YYYY');
+    if (date) {
+      return dateFormat(date, 'MMMM D, YYYY');
     }
     return 'Date not available';
   };
@@ -537,10 +537,11 @@ export const buildRxRenewalMessageBody = (rx, rxError) => {
     `Instructions: ${rxError ? '' : rx?.sig || 'Instructions not available'}`,
     `Provider who prescribed it: ${getProviderNameValue()}`,
     `Number of refills left: ${getRefillRemainingValue()}`,
-    `Prescription expiration date: ${getExpirationDateValue()}`,
+    `Prescription expiration date: ${getDateValue(rx?.expirationDate)}`,
     `Reason for use: ${
       rxError ? '' : rx?.reason || 'Reason for use not available'
     }`,
+    `Last filled on: ${getDateValue(rx?.dispensedDate)}`,
     `Quantity: ${rxError ? '' : rx?.quantity || 'Quantity not available'}`,
   ].join('\n');
 };

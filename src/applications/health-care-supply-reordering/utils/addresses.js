@@ -19,7 +19,7 @@ const countryNameToValue = name => {
   const country = countries.find(countryMapping =>
     caseInsensitiveComparison(countryMapping.label, countryName),
   );
-  return country ? country.value : countryName;
+  return country ? country.value : 'USA';
 };
 
 const countryValueToName = countryValue => {
