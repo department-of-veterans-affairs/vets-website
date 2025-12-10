@@ -32,18 +32,6 @@ describe('Identification information page', () => {
     );
     expect(inputs.length).to.equal(2);
   });
-  // previous test implementation
-  // it('shows a validation error when neither number is supplied', () => {
-  //   const { getByRole, container } = renderPage();
-  //
-  //   fireEvent.click(getByRole('button', { name: /submit|continue/i }));
-  //
-  //   const errNode = container.querySelector('[error]');
-  //   expect(errNode).to.exist;
-  //   expect(errNode.getAttribute('error')).to.contain(
-  //     'Enter a valid 9-digit Social Security number (dashes allowed)',
-  //   );
-  // });
 
   it('shows a validation error when neither number is supplied', async () => {
     const { getByRole, container } = renderPage();
