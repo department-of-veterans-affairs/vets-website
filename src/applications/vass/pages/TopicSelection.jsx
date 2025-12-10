@@ -14,7 +14,7 @@ import {
 import { useGetTopicsQuery } from '../redux/api/vassApi';
 
 // TODO: remove this once we have a real UUID
-const UUID = 'af40d0e7-df29-4df3-8b5e-03eac2e760fa';
+import { UUID } from '../services/mocks/utils/formData';
 
 const TopicSelection = () => {
   const dispatch = useDispatch();
