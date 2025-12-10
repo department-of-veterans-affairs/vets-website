@@ -805,20 +805,27 @@ const watchErrorUpdates = (
   };
   const errorSelector = ERROR_ATTRIBUTE_SELECTOR_STRING;
 
-  let cleanupTimeout;
-  const debouncedCleanup = () => {
-    clearTimeout(cleanupTimeout);
-    cleanupTimeout = setTimeout(() => {
+  // Use requestAnimationFrame to ensure scaffolding runs
+  // after the browser completes the current rendering cycle and shadow DOM updates
+  // are fully processed. This provides consistent timing across all browsers.
+  let animationFrameId;
+  const handleErrorChange = () => {
+    if (animationFrameId) {
+      cancelAnimationFrame(animationFrameId);
+    }
+    animationFrameId = requestAnimationFrame(() => {
       scaffoldErrorsFromSelectors(errorSelector);
-    }, 0);
+    });
   };
 
-  const observer = new MutationObserver(debouncedCleanup);
+  const observer = new MutationObserver(handleErrorChange);
   observer.observe(document, observerConfig);
 
   // Return cleanup function
   return () => {
-    clearTimeout(cleanupTimeout);
+    if (animationFrameId) {
+      cancelAnimationFrame(animationFrameId);
+    }
     observer.disconnect();
   };
 };
