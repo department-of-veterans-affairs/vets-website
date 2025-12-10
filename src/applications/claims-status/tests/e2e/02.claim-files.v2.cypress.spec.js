@@ -920,30 +920,41 @@ describe('Google Analytics', () => {
     clickSubmitButton(SUBMIT_FILES_FOR_REVIEW_TEXT);
 
     cy.wait('@uploadRequest');
-    // Verify failure event fired on first attempt
-    cy.window().then(w => {
-      const failureEvent = assertDataLayerEvent(w, 'claims-upload-failure');
 
-      expect(failureEvent['failed-file-count']).to.exist;
-      expect(failureEvent['error-code']).to.exist;
-    });
+    // Verify failure event fired on first attempt (retryable)
+    cy.window()
+      .its('dataLayer')
+      .should(dl => {
+        const failureEvents = dl.filter(
+          d => d.event === 'claims-upload-failure',
+        );
+
+        expect(failureEvents.length).to.be.greaterThan(0);
+
+        const failureEvent = failureEvents[0];
+
+        expect(failureEvent['failed-file-count']).to.exist;
+        expect(failureEvent['error-code']).to.exist;
+      });
+
     // Retry with same file
     clearDataLayer();
     uploadFileAndSelectType('test-document.txt', 'L034', 0, true); // force: true for retry
     clickSubmitButton(SUBMIT_FILES_FOR_REVIEW_TEXT);
 
-    cy.window().then(w => {
-      const startEvents = w.dataLayer.filter(
-        d => d.event === 'claims-upload-start',
-      );
+    // Verify retry event fired (retryable)
+    cy.window()
+      .its('dataLayer')
+      .should(dl => {
+        const startEvents = dl.filter(d => d.event === 'claims-upload-start');
 
-      if (startEvents.length > 0) {
+        expect(startEvents.length).to.be.greaterThan(0);
+
         const latestStartEvent = startEvents[startEvents.length - 1];
 
         expect(latestStartEvent['retry-file-count']).to.exist;
         expect(latestStartEvent['total-retry-attempts']).to.exist;
-      }
-    });
+      });
 
     cy.axeCheck();
   });
