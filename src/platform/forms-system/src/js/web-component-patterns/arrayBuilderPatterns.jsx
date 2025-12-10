@@ -8,6 +8,20 @@ import {
 } from '../patterns/array-builder/helpers';
 
 /**
+ * @param {ArrayBuilderYesNoUIOptions} yesNoOptions
+ */
+const withUseFormPattern = yesNoOptions => {
+  if (!yesNoOptions) return {};
+
+  return {
+    useFormsPattern: yesNoOptions.useFormsPattern ? 'single' : undefined,
+    formHeading: yesNoOptions.formHeading,
+    formDescription: yesNoOptions.formDescription,
+    formHeadingLevel: yesNoOptions.formHeadingLevel,
+  };
+};
+
+/**
  * Looks for URL param 'add' and 'removedAllWarn' and returns a warning alert if both are present
  */
 export function withAlertOrDescription({
@@ -144,14 +158,19 @@ export const arrayBuilderItemSubsequentPageTitleUI = (
 };
 
 /**
- * @typedef {{
- *   title?: UISchemaOptions['ui:title'],
- *   labels?: {Y?: string, N?: string},
- *   descriptions?: {Y?: string, N?: string},
- *   hint?: string,
- *   errorMessages?: UISchemaOptions['ui:errorMessages'],
- *   labelHeaderLevel?: UISchemaOptions['ui:options']['labelHeaderLevel']
- * }} ArrayBuilderYesNoUIOptions
+ * @typedef {Object} ArrayBuilderYesNoUIOptions
+ * @property {UISchemaOptions['ui:title']} [title]
+ * @property {{ Y?: string, N?: string }} [labels]
+ * @property {{ Y?: string, N?: string }} [descriptions]
+ * @property {string | function} [hint]
+ * @property {UISchemaOptions['ui:errorMessages']} [errorMessages]
+ * @property {UISchemaOptions['ui:options']['labelHeaderLevel']} [labelHeaderLevel]
+ * @property {UISchemaOptions['ui:options']['labelHeaderLevelStyle']} [labelHeaderLevelStyle]
+ *
+ * @property {boolean | 'single'} [useFormsPattern] Prefer to use arrayBuilderOptions > text > summaryTitleWithoutItems | summaryTitle unless a specific need for this.
+ * @property {UISchemaOptions['ui:options']['formHeading']} [formHeading]  Used with `useFormsPattern`. Prefer to use arrayBuilderOptions > text > summaryTitleWithoutItems | summaryTitle unless a specific need for this.
+ * @property {UISchemaOptions['ui:options']['formDescription']} [formDescription]  Used with `useFormsPattern`. Prefer to use arrayBuilderOptions > text > summaryDescriptionWithoutItems | summaryDescription unless a specific need for this.
+ * @property {UISchemaOptions['ui:options']['labelHeaderLevel']} [formHeadingLevel]  Used with `useFormsPattern`
  */
 
 /**
@@ -205,7 +224,7 @@ export const arrayBuilderYesNoUI = (
 ) => {
   const { arrayPath, nounSingular, nounPlural, required } = arrayBuilderOptions;
   const defaultTitle =
-    yesNoOptionsInitial?.title || `Do you have a ${nounSingular} to add?`;
+    yesNoOptionsInitial?.title ?? `Do you have a ${nounSingular} to add?`;
 
   const requiredFn = typeof required === 'function' ? required : () => required;
 
@@ -235,16 +254,16 @@ export const arrayBuilderYesNoUI = (
         return arrayData?.length
           ? {
               'ui:title':
-                yesNoOptionsAdditional?.title ||
+                yesNoOptionsAdditional?.title ??
                 `Do you have another ${nounSingular} to add?`,
               'ui:options': {
                 labelHeaderLevel:
-                  yesNoOptionsAdditional?.labelHeaderLevel || '4',
+                  yesNoOptionsAdditional?.labelHeaderLevel ?? '4',
                 ifMinimalHeader: {
                   labelHeaderLevel:
-                    yesNoOptionsAdditional?.labelHeaderLevel || '2',
+                    yesNoOptionsAdditional?.labelHeaderLevel ?? '2',
                   labelHeaderLevelStyle:
-                    yesNoOptionsAdditional?.labelHeaderLevelStyle || '3',
+                    yesNoOptionsAdditional?.labelHeaderLevelStyle ?? '3',
                 },
                 hint: customHint
                   ? customHint({
@@ -264,6 +283,7 @@ export const arrayBuilderYesNoUI = (
                   N: yesNoOptionsAdditional?.labels?.N || 'No',
                 },
                 descriptions: yesNoOptionsAdditional?.descriptions,
+                ...withUseFormPattern(yesNoOptionsAdditional),
               },
               'ui:errorMessages': {
                 required:
@@ -274,12 +294,12 @@ export const arrayBuilderYesNoUI = (
           : {
               'ui:title': defaultTitle,
               'ui:options': {
-                labelHeaderLevel: yesNoOptionsInitial?.labelHeaderLevel || '3',
+                labelHeaderLevel: yesNoOptionsInitial?.labelHeaderLevel ?? '3',
                 ifMinimalHeader: {
                   labelHeaderLevel:
-                    yesNoOptionsInitial?.labelHeaderLevel || '1',
+                    yesNoOptionsInitial?.labelHeaderLevel ?? '1',
                   labelHeaderLevelStyle:
-                    yesNoOptionsInitial?.labelHeaderLevelStyle || '2',
+                    yesNoOptionsInitial?.labelHeaderLevelStyle ?? '2',
                 },
                 hint: customMoreHint
                   ? customMoreHint({
@@ -301,6 +321,7 @@ export const arrayBuilderYesNoUI = (
                   N: yesNoOptionsInitial?.labels?.N || 'No',
                 },
                 descriptions: yesNoOptionsInitial?.descriptions,
+                ...withUseFormPattern(yesNoOptionsInitial),
               },
               'ui:errorMessages': {
                 required:
