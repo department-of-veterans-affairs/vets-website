@@ -72,6 +72,7 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for Memorials benefits.',
   },
+  verifyRequiredPrefill: false,
   prefillTransformer,
   title: TITLE,
   subTitle: SUBTITLE,
