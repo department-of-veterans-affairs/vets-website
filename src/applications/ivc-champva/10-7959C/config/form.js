@@ -12,15 +12,13 @@ import FileFieldWrapped from '../components/FileUploadWrapper';
 import { prefillTransformer } from './prefillTransformer';
 import SubmissionError from '../../shared/components/SubmissionError';
 import { migrateCardUploadKeys } from './migrations';
+import { blankSchema } from '../definitions';
 
-import {
-  applicantNameDobSchema,
-  applicantSsnSchema,
-  applicantAddressInfoSchema,
-  applicantContactInfoSchema,
-  applicantGenderSchema,
-  blankSchema,
-} from '../chapters/applicantInformation';
+import applicantBirthSex from '../chapters/applicantInformation/birthSex';
+import applicantContactInformation from '../chapters/applicantInformation/contactInformation';
+import applicantIdentityInformation from '../chapters/applicantInformation/identityInformation';
+import applicantMailingAddress from '../chapters/applicantInformation/mailingAddress';
+import applicantPersonalInformation from '../chapters/applicantInformation/personalInformation';
 
 import {
   applicantHasMedicareSchema,
@@ -46,18 +44,16 @@ import {
   applicantInsuranceCardSchema,
 } from '../chapters/healthInsuranceInformation';
 
-import {
-  formSignatureSchema,
-  applicationEmailSchema,
-  champvaScreenSchema,
-} from '../chapters/formSignature';
+import benefitStatus from '../chapters/signerInformation/benefitStatus';
+import certifierEmail from '../chapters/signerInformation/certifierEmail';
+import certifierRole from '../chapters/signerInformation/certifierRole';
 import CustomAttestation from '../components/CustomAttestation';
 
 import GetFormHelp from '../../shared/components/GetFormHelp';
 import { hasReq } from '../../shared/components/fileUploads/MissingFileOverview';
 import SupportingDocumentsPage from '../components/SupportingDocumentsPage';
 import { MissingFileConsentPage } from '../components/MissingFileConsentPage';
-import ApplyForBenefits from '../components/ApplyForBenefits';
+import NotEnrolledPage from '../components/FormPages/NotEnrolledPage';
 
 // import mockdata from '../tests/e2e/fixtures/data/test-data.json';
 
@@ -139,21 +135,21 @@ const formConfig = {
         formSignature: {
           // initialData: mockdata.data,
           path: 'form-signature',
-          title: 'Form signature',
-          ...formSignatureSchema,
+          title: 'Your information',
+          ...certifierRole,
           scrollAndFocusTarget,
         },
         ohiScreen: {
           path: 'champva-screen',
-          ...champvaScreenSchema,
-          title: 'CHAMPVA screen',
+          title: 'Beneficiary’s CHAMPVA benefit status',
+          ...benefitStatus,
           scrollAndFocusTarget,
         },
         benefitApp: {
           path: 'benefit-application',
           title: 'Apply for Benefits',
           depends: formData => !get('champvaBenefitStatus', formData),
-          CustomPage: ApplyForBenefits,
+          CustomPage: NotEnrolledPage,
           CustomPageReview: null,
           uiSchema: {
             'ui:options': {
@@ -165,8 +161,8 @@ const formConfig = {
         },
         signerEmail: {
           path: 'signer-email',
-          title: 'Your email address',
-          ...applicationEmailSchema,
+          title: 'Beneficiary’s email address',
+          ...certifierEmail,
           scrollAndFocusTarget,
         },
       },
@@ -176,45 +172,32 @@ const formConfig = {
       pages: {
         applicantNameDob: {
           path: 'applicant-info',
-          title: formData =>
-            `${
-              formData.certifierRole === 'applicant' ? 'Your' : 'Beneficiary’s'
-            } name`,
-          ...applicantNameDobSchema,
+          title: 'Beneficiary’s name',
+          ...applicantPersonalInformation,
           scrollAndFocusTarget,
         },
         applicantIdentity: {
           path: 'applicant-identification-info',
-          title: formData =>
-            privWrapper(`${fnp(formData)} identification information`),
-          ...applicantSsnSchema,
+          title: 'Beneficiary’s identification information',
+          ...applicantIdentityInformation,
           scrollAndFocusTarget,
         },
         applicantAddressInfo: {
           path: 'applicant-mailing-address',
-          title: formData => privWrapper(`${fnp(formData)} mailing address`),
-          ...applicantAddressInfoSchema,
+          title: 'Beneficiary’s mailing address',
+          ...applicantMailingAddress,
           scrollAndFocusTarget,
         },
-
-        //
-        // TODO: add prefill address page if user authenticated
-        //
-
-        // TODO: have conditional logic to check if third party and app
-        // is under age 18 (contact page)
         applicantContactInfo: {
           path: 'applicant-contact-info',
-          title: formData =>
-            privWrapper(`${fnp(formData)} contact information`),
-          ...applicantContactInfoSchema,
+          title: 'Beneficiary’s contact information',
+          ...applicantContactInformation,
           scrollAndFocusTarget,
         },
         applicantGender: {
           path: 'applicant-gender',
-          title: formData =>
-            privWrapper(`${fnp(formData)} sex listed at birth`),
-          ...applicantGenderSchema,
+          title: 'Beneficiary’s sex listed at birth',
+          ...applicantBirthSex,
           scrollAndFocusTarget,
         },
       },
