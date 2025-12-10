@@ -18,6 +18,10 @@ import { ConfirmationPage } from '@bio-aquia/21-2680-house-bound-status/containe
 import { prefillTransformer } from '@bio-aquia/21-2680-house-bound-status/config/prefill-transformer';
 import { submitTransformer } from '@bio-aquia/21-2680-house-bound-status/config/submit-transformer';
 import manifest from '@bio-aquia/21-2680-house-bound-status/manifest.json';
+import {
+  getClaimantName,
+  getPersonName,
+} from '@bio-aquia/21-2680-house-bound-status/utils/name-helpers';
 
 // Import page configurations (uiSchema and schema)
 import {
@@ -163,14 +167,8 @@ const formConfig = {
         claimantSSN: {
           path: 'claimant-ssn',
           title: formData => {
-            const firstName =
-              formData?.claimantInformation?.claimantFullName?.first || '';
-            const lastName =
-              formData?.claimantInformation?.claimantFullName?.last || '';
-            const fullName = `${firstName} ${lastName}`.trim();
-            return fullName
-              ? `${fullName}'s Social Security number`
-              : "Claimant's Social Security number";
+            const claimantName = getClaimantName(formData, 'Claimant');
+            return `${claimantName}'s Social Security number`;
           },
           uiSchema: claimantSsnUiSchema,
           schema: claimantSsnSchema,
@@ -181,12 +179,8 @@ const formConfig = {
         claimantAddress: {
           path: 'claimant-address',
           title: formData => {
-            const firstName =
-              formData?.claimantInformation?.claimantFullName?.first || '';
-            const lastName =
-              formData?.claimantInformation?.claimantFullName?.last || '';
-            const fullName = `${firstName} ${lastName}`.trim();
-            return fullName ? `${fullName}'s address` : "Claimant's address";
+            const claimantName = getClaimantName(formData, 'Claimant');
+            return `${claimantName}'s address`;
           },
           uiSchema: claimantAddressUiSchema,
           schema: claimantAddressSchema,
@@ -197,14 +191,8 @@ const formConfig = {
         claimantContact: {
           path: 'claimant-contact',
           title: formData => {
-            const firstName =
-              formData?.claimantInformation?.claimantFullName?.first || '';
-            const lastName =
-              formData?.claimantInformation?.claimantFullName?.last || '';
-            const fullName = `${firstName} ${lastName}`.trim();
-            return fullName
-              ? `${fullName}'s phone number and email address`
-              : "Claimant's phone number and email address";
+            const claimantName = getClaimantName(formData, 'Claimant');
+            return `${claimantName}'s phone number and email address`;
           },
           uiSchema: claimantContactUiSchema,
           schema: claimantContactSchema,
@@ -235,32 +223,8 @@ const formConfig = {
         hospitalizationStatus: {
           path: 'hospitalization-status',
           title: formData => {
-            const isVeteran =
-              formData?.claimantRelationship?.relationship === 'veteran';
-
-            if (isVeteran) {
-              const firstName =
-                formData?.veteranInformation?.veteranFullName?.first || '';
-              const lastName =
-                formData?.veteranInformation?.veteranFullName?.last || '';
-              const fullName = `${firstName} ${lastName}`.trim();
-
-              if (fullName) {
-                return `Is ${fullName} hospitalized?`;
-              }
-              return 'Is the Veteran hospitalized?';
-            }
-
-            const firstName =
-              formData?.claimantInformation?.claimantFullName?.first || '';
-            const lastName =
-              formData?.claimantInformation?.claimantFullName?.last || '';
-            const fullName = `${firstName} ${lastName}`.trim();
-
-            if (fullName) {
-              return `Is ${fullName} hospitalized?`;
-            }
-            return 'Is the claimant hospitalized?';
+            const personName = getPersonName(formData);
+            return `Is ${personName} hospitalized?`;
           },
           uiSchema: hospitalizationStatusUiSchema,
           schema: hospitalizationStatusSchema,
@@ -268,32 +232,15 @@ const formConfig = {
         hospitalizationDate: {
           path: 'hospitalization-date',
           title: formData => {
-            const isVeteran =
-              formData?.claimantRelationship?.relationship === 'veteran';
+            const personName = getPersonName(formData, {
+              veteranFallback: '',
+              claimantFallback: 'the claimant',
+            });
 
-            if (isVeteran) {
-              const firstName =
-                formData?.veteranInformation?.veteranFullName?.first || '';
-              const lastName =
-                formData?.veteranInformation?.veteranFullName?.last || '';
-              const fullName = `${firstName} ${lastName}`.trim();
-
-              if (fullName) {
-                return `When was ${fullName} admitted to the hospital?`;
-              }
-              return 'When were you admitted to the hospital?';
+            if (personName) {
+              return `When was ${personName} admitted to the hospital?`;
             }
-
-            const firstName =
-              formData?.claimantInformation?.claimantFullName?.first || '';
-            const lastName =
-              formData?.claimantInformation?.claimantFullName?.last || '';
-            const fullName = `${firstName} ${lastName}`.trim();
-
-            if (fullName) {
-              return `When was ${fullName} admitted to the hospital?`;
-            }
-            return 'When was the claimant admitted to the hospital?';
+            return 'When were you admitted to the hospital?';
           },
           uiSchema: hospitalizationDateUiSchema,
           schema: hospitalizationDateSchema,
@@ -303,32 +250,8 @@ const formConfig = {
         hospitalizationFacility: {
           path: 'hospitalization-facility',
           title: formData => {
-            const isVeteran =
-              formData?.claimantRelationship?.relationship === 'veteran';
-
-            if (isVeteran) {
-              const firstName =
-                formData?.veteranInformation?.veteranFullName?.first || '';
-              const lastName =
-                formData?.veteranInformation?.veteranFullName?.last || '';
-              const fullName = `${firstName} ${lastName}`.trim();
-
-              if (fullName) {
-                return `What's the name and address of the hospital where ${fullName} is admitted?`;
-              }
-              return "What's the name and address of the hospital where the claimant is admitted?";
-            }
-
-            const firstName =
-              formData?.claimantInformation?.claimantFullName?.first || '';
-            const lastName =
-              formData?.claimantInformation?.claimantFullName?.last || '';
-            const fullName = `${firstName} ${lastName}`.trim();
-
-            if (fullName) {
-              return `What's the name and address of the hospital where ${fullName} is admitted?`;
-            }
-            return "What's the name and address of the hospital where the claimant is admitted?";
+            const personName = getPersonName(formData);
+            return `What's the name and address of the hospital where ${personName} is admitted?`;
           },
           uiSchema: hospitalizationFacilityUiSchema,
           schema: hospitalizationFacilitySchema,

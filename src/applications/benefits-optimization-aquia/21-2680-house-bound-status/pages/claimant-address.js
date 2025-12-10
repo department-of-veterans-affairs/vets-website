@@ -9,6 +9,7 @@ import {
   addressSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+import { getClaimantName } from '../utils/name-helpers';
 /**
  * uiSchema for Claimant Address page
  * Collects claimant's mailing address
@@ -25,14 +26,10 @@ export const claimantAddressUiSchema = {
   'ui:options': {
     updateUiSchema: (formData, fullData) => {
       const data = fullData || formData;
-      const firstName =
-        data?.claimantInformation?.claimantFullName?.first || '';
-      const lastName = data?.claimantInformation?.claimantFullName?.last || '';
-      const fullName = `${firstName} ${lastName}`.trim();
-      const title = fullName ? `${fullName}'s address` : "Claimant's address";
+      const claimantName = getClaimantName(data, 'Claimant');
 
       return {
-        'ui:title': title,
+        'ui:title': `${claimantName}'s address`,
       };
     },
   },
