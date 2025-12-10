@@ -16,7 +16,6 @@ const ConfirmationPage = () => {
   const { submission } = form;
   const { benefitType } = form.data;
   const submitDate = new Date(submission.response.attributes.creationDate);
-  const confirmationNumber = submission.response?.confirmationNumber;
 
   const { formNumber } = getFormContent();
 
@@ -26,11 +25,8 @@ const ConfirmationPage = () => {
 
   return (
     <ConfirmationPageView
-      formType="submission"
-      submitterHeader="Who submitted this form"
       submitDate={submitDate}
       benefitType={benefitType}
-      confirmationNumber={confirmationNumber}
       content={content}
       formNumber={formNumber}
       childContent={<></>}
@@ -51,7 +47,7 @@ ConfirmationPage.propTypes = {
     }),
     submission: PropTypes.shape({
       response: PropTypes.shape({
-        confirmationNumber: PropTypes.string,
+        creationDate: PropTypes.string,
       }),
       timestamp: PropTypes.string,
     }),

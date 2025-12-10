@@ -67,12 +67,8 @@ export const ConfirmationPageView = ({
           {city}, {state} {postalCode}
         </div>
         <p className="vads-u-margin-bottom--0">
-          <div>
-            <b>Benefit:</b> {itfTypes[benefitType]}
-          </div>
-          <div>
-            <b>ITF Date:</b> {formattedSubmitDate} (Expires in 365 days)
-          </div>
+          <b>Benefit:</b> {itfTypes[benefitType]} <br />
+          <b>ITF Date:</b> {formattedSubmitDate} (Expires in 365 days)
         </p>
       </va-card>
       <section>
