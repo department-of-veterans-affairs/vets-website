@@ -406,6 +406,7 @@ const ComposeForm = props => {
 
   const send = useCallback(
     async () => {
+      setSendMessageFlag(true);
       if (isSaving !== true) {
         scrollToTop();
         const today = dateFormat(new Date(), 'YYYY-MM-DD');
@@ -751,7 +752,6 @@ const ComposeForm = props => {
         isSignatureRequired && messageValid && signatureValid && checkboxValid;
 
       if (validSignatureNotRequired || isSignatureValid) {
-        setSendMessageFlag(true);
         send();
         setNavigationError(null);
         setLastFocusableElement(e.target);

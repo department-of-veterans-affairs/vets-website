@@ -40,7 +40,7 @@ export const calculateNavigationErrorType = ({
 
   const isEditedForm =
     (messageBody !== draft?.body ||
-      selectedRecipientId !== draft?.recipientId ||
+      Number(selectedRecipientId) !== Number(draft?.recipientId) ||
       category !== draft?.category ||
       subject !== draft?.subject) &&
     !isBlankForm &&
@@ -49,7 +49,7 @@ export const calculateNavigationErrorType = ({
   const isFormFilled =
     messageBody !== '' &&
     subject !== '' &&
-    selectedRecipientId !== null &&
+    Number(selectedRecipientId) !== 0 &&
     category !== null;
 
   const unsavedFilledDraft = isFormFilled && !isEditedSaved && !savedDraft;
