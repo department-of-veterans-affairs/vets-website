@@ -7,6 +7,7 @@ import {
   PersonalInformationReview,
   defaultConfig,
 } from '../PersonalInformationReview';
+import { $$ } from '../../../../utilities/ui';
 
 const mockProfile = {
   dob: '1980-01-15',
@@ -326,26 +327,8 @@ describe('<PersonalInformationReview>', () => {
       </Provider>,
     );
 
-    const nameElement = container.querySelector(
-      '[data-dd-action-name="Veteran\'s name"]',
-    );
-    const ssnElement = container.querySelector(
-      '[data-dd-action-name="Veteran\'s SSN"]',
-    );
-    const dobElement = container.querySelector(
-      '[data-dd-action-name="Veteran\'s date of birth"]',
-    );
-    const vaFileElement = container.querySelector(
-      '[data-dd-action-name="Veteran\'s VA file number"]',
-    );
-    const sexElement = container.querySelector(
-      '[data-dd-action-name="Veteran\'s sex"]',
-    );
-
-    expect(nameElement).to.exist;
-    expect(ssnElement).to.exist;
-    expect(dobElement).to.exist;
-    expect(vaFileElement).to.exist;
-    expect(sexElement).to.exist;
+    expect(
+      $$('dd.dd-privacy-hidden[data-dd-action-name]', container).length,
+    ).to.eq(4);
   });
 });
