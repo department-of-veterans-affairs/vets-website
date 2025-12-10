@@ -78,6 +78,41 @@ describe('Shared Allergy Utilities', () => {
 
       expect(result).to.deep.equal([]);
     });
+
+    it('should handle reaction with undefined manifestation', () => {
+      const record = {
+        reaction: [{ severity: 'mild' }], // manifestation is undefined
+      };
+
+      const result = getReactions(record);
+
+      expect(result).to.deep.equal([]);
+    });
+
+    it('should handle reaction with non-array manifestation', () => {
+      const record = {
+        reaction: [{ manifestation: 'not an array' }],
+      };
+
+      const result = getReactions(record);
+
+      expect(result).to.deep.equal([]);
+    });
+
+    it('should handle mixed reactions with valid and invalid manifestations', () => {
+      const record = {
+        reaction: [
+          { manifestation: [{ text: 'Hives' }] },
+          { severity: 'mild' }, // no manifestation
+          { manifestation: 'invalid' }, // non-array manifestation
+          { manifestation: [{ text: 'Swelling' }] },
+        ],
+      };
+
+      const result = getReactions(record);
+
+      expect(result).to.deep.equal(['Hives', 'Swelling']);
+    });
   });
 
   describe('convertAllergy', () => {
