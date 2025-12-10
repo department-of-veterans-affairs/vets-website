@@ -300,7 +300,7 @@ Cypress.Commands.add('verifyVeteranDetails', data => {
     ).should('exist');
 
     const formattedDob = formatDate(mockUser.data.attributes.profile.birthDate);
-    cy.contains('Date of birth:').should('exist');
+    cy.contains('Date of birth').should('exist');
     cy.contains(`${formattedDob}`).should('exist');
     cy.contains(genderLabels[mockUser.data.attributes.profile.gender]).should(
       'exist',
