@@ -1,31 +1,15 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 
 import { focusElement } from 'platform/utilities/ui';
-import { getArrayIndexFromPathName } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
 import { useValidateFacilityCode } from '../hooks/useValidateFacilityCode';
-import { useValidateAdditionalFacilityCode } from '../hooks/useValidateAdditionalFacilityCode';
 
-const InstitutionName = ({ uiSchema }) => {
+const InstitutionName = () => {
   const formData = useSelector(state => state.form?.data);
-  const options = uiSchema?.['ui:options'] || {};
-  const { isArrayItem = false } = options;
 
-  const index = isArrayItem ? getArrayIndexFromPathName() : null;
+  const { loader } = useValidateFacilityCode(formData);
 
-  // Use different hooks based on context
-  const mainFacilityHook = useValidateFacilityCode(formData);
-  const additionalFacilityHook = useValidateAdditionalFacilityCode(
-    formData,
-    index,
-  );
-  const { loader } = isArrayItem ? additionalFacilityHook : mainFacilityHook;
-
-  // Get data from appropriate path
-  const institutionName = isArrayItem
-    ? formData?.additionalLocations?.[index]?.institutionName
-    : formData?.institutionDetails?.institutionName;
+  const institutionName = formData?.institutionDetails?.institutionName;
 
   useEffect(
     () => {
@@ -60,10 +44,6 @@ const InstitutionName = ({ uiSchema }) => {
       )}
     </div>
   );
-};
-
-InstitutionName.propTypes = {
-  uiSchema: PropTypes.object,
 };
 
 export default InstitutionName;
