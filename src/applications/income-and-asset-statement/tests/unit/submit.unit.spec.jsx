@@ -137,6 +137,9 @@ describe('Income and asset submit', () => {
             otherField: 'no files here',
           },
           {
+            uploadedDocuments: [], // Not required, but should be handled gracefully
+          },
+          {
             uploadedDocuments: [
               { name: 'trust1.pdf', confirmationCode: 'code1' },
               { name: 'trust2.pdf', confirmationCode: 'code2' },
@@ -145,7 +148,10 @@ describe('Income and asset submit', () => {
         ],
         ownedAssets: [
           {
-            otherField: 'still no files',
+            otherField: 'still no files', // no uploadedDocuments field
+          },
+          {
+            uploadedDocuments: [], // This is the behavior we see with the forms system
           },
           {
             uploadedDocuments: {

@@ -104,7 +104,10 @@ describe('submit-helpers.js', () => {
               uploadedDocuments: { name: 'onlyFile.pdf' },
             },
             {
-              someOtherField: 'no files here',
+              someOtherField: 'no files here', // no uploadedDocuments field
+            },
+            {
+              uploadedDocuments: [], // This is the behavior we see with the forms system
             },
           ],
         };
@@ -122,6 +125,9 @@ describe('submit-helpers.js', () => {
             },
             {
               someOtherField: 'no files here',
+            },
+            {
+              uploadedDocuments: [], // This is the behavior we see with the forms system
             },
           ],
         };
