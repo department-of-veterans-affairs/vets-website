@@ -149,7 +149,7 @@ const formConfig = {
               formData.relationToVetRadio,
             ) && isUserSignedIn(formData),
           CustomPage: ApplicantContactDetailsLoggedIn,
-          CustomPageReview: ApplicantContactDetailsLoggedIn,
+          CustomPageReview: null,
           uiSchema: {},
           schema: {
             type: 'object',
