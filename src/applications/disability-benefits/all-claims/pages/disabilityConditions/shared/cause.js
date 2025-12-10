@@ -3,9 +3,7 @@ import {
   radioSchema,
   radioUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-
-import { createNewConditionName } from '../../../content/conditions';
-import { isEditFromUrl } from './utils';
+import { createNewConditionName, isEditFromUrl } from './utils';
 
 export const causeOptions = {
   NEW:

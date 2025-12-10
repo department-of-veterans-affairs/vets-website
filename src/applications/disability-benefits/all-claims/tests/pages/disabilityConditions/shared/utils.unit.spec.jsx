@@ -103,6 +103,24 @@ describe('526 utils shared page', () => {
     expect(utils.hasRatedDisabilities(fullData)).to.be.false;
   });
 
+  it('createNewConditionName handles blanks, capitalization, and side-of-body', () => {
+    expect(utils.createNewConditionName({ condition: '   ' })).to.equal(
+      'condition',
+    );
+    expect(
+      utils.createNewConditionName({ condition: 'knee pain' }, true),
+    ).to.equal('Knee pain');
+    expect(utils.createNewConditionName({ condition: 'PTSD' }, true)).to.equal(
+      'PTSD',
+    );
+    expect(
+      utils.createNewConditionName(
+        { condition: 'Shoulder', sideOfBody: 'Left' },
+        true,
+      ),
+    ).to.equal('Shoulder, left');
+  });
+
   it('validates requirements for newCondition, cause, and cause-specific fields', () => {
     expect(utils.isItemIncomplete({ condition: '', cause: undefined })).to.be
       .true;

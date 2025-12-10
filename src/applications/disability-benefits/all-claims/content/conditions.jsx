@@ -1,5 +1,6 @@
 import React from 'react';
 import { format } from 'date-fns';
+import { createNewConditionName } from '../pages/disabilityConditions/shared/utils';
 
 export const ConditionsIntroDescription = () => (
   <p>
@@ -30,31 +31,6 @@ export const NewConditionDescription = () => (
     <h4>Add a new condition</h4>
   </>
 );
-
-// Different than lodash _capitalize because does not make rest of string lowercase which would break acronyms
-export const capitalizeFirstLetter = string =>
-  string?.charAt(0).toUpperCase() + string?.slice(1);
-
-export const createNewConditionName = (item = {}, capFirstLetter = false) => {
-  const newConditionName = item.condition;
-
-  // Check for a non-empty string here instead of each time
-  // arrayBuilderItemSubsequentPageTitleUI is called in different files
-  const checkNewConditionName =
-    typeof newConditionName === 'string' && newConditionName.trim()
-      ? newConditionName.trim()
-      : 'condition';
-
-  const newCondition = capFirstLetter
-    ? capitalizeFirstLetter(checkNewConditionName)
-    : checkNewConditionName;
-
-  if (item?.sideOfBody) {
-    return `${newCondition}, ${item.sideOfBody.toLowerCase()}`;
-  }
-
-  return newCondition;
-};
 
 export const createCauseFollowUpDescriptions = (item, fullData = {}) => {
   if (!item?.cause) return '';

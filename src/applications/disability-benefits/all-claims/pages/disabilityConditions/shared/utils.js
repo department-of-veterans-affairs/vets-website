@@ -5,7 +5,6 @@ import { waitForShadowRoot } from 'platform/utilities/ui/webComponents';
 import { ARRAY_PATH, NEW_CONDITION_OPTION } from '../../../constants';
 import { conditionObjects } from '../../../content/conditionOptions';
 import {
-  createNewConditionName,
   NewConditionCardDescription,
   RatedDisabilityCardDescription,
 } from '../../../content/conditions';
@@ -93,6 +92,31 @@ export const getRemainingRatedDisabilities = (fullData, currentIndex) => {
 
 export const hasRatedDisabilities = (fullData, currentIndex) =>
   getRemainingRatedDisabilities(fullData, currentIndex).length > 0;
+
+// Different than lodash _capitalize because does not make rest of string lowercase which would break acronyms
+export const capitalizeFirstLetter = string =>
+  string?.charAt(0).toUpperCase() + string?.slice(1);
+
+export const createNewConditionName = (item = {}, capFirstLetter = false) => {
+  const newConditionName = item.condition;
+
+  // Check for a non-empty string here instead of each time
+  // arrayBuilderItemSubsequentPageTitleUI is called in different files
+  const checkNewConditionName =
+    typeof newConditionName === 'string' && newConditionName.trim()
+      ? newConditionName.trim()
+      : 'condition';
+
+  const newCondition = capFirstLetter
+    ? capitalizeFirstLetter(checkNewConditionName)
+    : checkNewConditionName;
+
+  if (item?.sideOfBody) {
+    return `${newCondition}, ${item.sideOfBody.toLowerCase()}`;
+  }
+
+  return newCondition;
+};
 
 const getItemName = (item, index, formData) =>
   isNewCondition(formData, index)
