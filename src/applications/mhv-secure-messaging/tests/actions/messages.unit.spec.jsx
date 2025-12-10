@@ -617,6 +617,48 @@ describe('messages actions', () => {
       });
     });
 
+    it('should dispatch MARK_THREAD_AS_READ with threadId from response', async () => {
+      const store = mockStore();
+      const responseWithThreadId = {
+        data: {
+          id: '7179970',
+          type: 'messages',
+          attributes: {
+            ...messageResponse.data.attributes,
+            threadId: 12345,
+          },
+        },
+      };
+      mockApiRequest(responseWithThreadId);
+      await store.dispatch(markMessageAsReadInThread(7179970));
+      const actions = store.getActions();
+      expect(actions).to.deep.include({
+        type: Actions.Thread.MARK_THREAD_AS_READ,
+        payload: { threadId: 12345 },
+      });
+    });
+
+    it('should not dispatch MARK_THREAD_AS_READ when threadId is missing', async () => {
+      const store = mockStore();
+      const responseWithoutThreadId = {
+        data: {
+          id: '7179970',
+          type: 'messages',
+          attributes: {
+            ...messageResponse.data.attributes,
+            threadId: undefined,
+          },
+        },
+      };
+      mockApiRequest(responseWithoutThreadId);
+      await store.dispatch(markMessageAsReadInThread(7179970));
+      const actions = store.getActions();
+      const markAsReadAction = actions.find(
+        a => a.type === Actions.Thread.MARK_THREAD_AS_READ,
+      );
+      expect(markAsReadAction).to.be.undefined;
+    });
+
     it('should not dispatch RE_FETCH_REQUIRED on error response', async () => {
       const store = mockStore();
       mockApiRequest({ errors: [{ code: '500', detail: 'Error' }] });
@@ -626,6 +668,17 @@ describe('messages actions', () => {
         type: Actions.Thread.RE_FETCH_REQUIRED,
         payload: true,
       });
+    });
+
+    it('should not dispatch MARK_THREAD_AS_READ on error response', async () => {
+      const store = mockStore();
+      mockApiRequest({ errors: [{ code: '500', detail: 'Error' }] });
+      await store.dispatch(markMessageAsReadInThread(7179970));
+      const actions = store.getActions();
+      const markAsReadAction = actions.find(
+        a => a.type === Actions.Thread.MARK_THREAD_AS_READ,
+      );
+      expect(markAsReadAction).to.be.undefined;
     });
   });
 });

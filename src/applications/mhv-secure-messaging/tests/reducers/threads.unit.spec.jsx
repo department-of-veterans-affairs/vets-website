@@ -112,4 +112,83 @@ describe('threads reducer', () => {
       error: errorResponse.errors,
     });
   });
+
+  describe('MARK_THREAD_AS_READ action', () => {
+    it('should set unreadMessages to false for matching thread', () => {
+      const initialThreadList = [
+        { threadId: 1001, unreadMessages: true, subject: 'Test 1' },
+        { threadId: 1002, unreadMessages: true, subject: 'Test 2' },
+        { threadId: 1003, unreadMessages: false, subject: 'Test 3' },
+      ];
+      const store = mockStore({
+        featureToggles: {},
+        threadList: initialThreadList,
+      });
+
+      store.dispatch({
+        type: Actions.Thread.MARK_THREAD_AS_READ,
+        payload: { threadId: 1001 },
+      });
+
+      const state = store.getState();
+      expect(state.threadList[0].unreadMessages).to.equal(false);
+      expect(state.threadList[1].unreadMessages).to.equal(true);
+      expect(state.threadList[2].unreadMessages).to.equal(false);
+    });
+
+    it('should not modify other threads when marking one as read', () => {
+      const initialThreadList = [
+        { threadId: 1001, unreadMessages: true, subject: 'Test 1' },
+        { threadId: 1002, unreadMessages: true, subject: 'Test 2' },
+      ];
+      const store = mockStore({
+        featureToggles: {},
+        threadList: initialThreadList,
+      });
+
+      store.dispatch({
+        type: Actions.Thread.MARK_THREAD_AS_READ,
+        payload: { threadId: 1002 },
+      });
+
+      const state = store.getState();
+      expect(state.threadList[0].unreadMessages).to.equal(true);
+      expect(state.threadList[0].subject).to.equal('Test 1');
+      expect(state.threadList[1].unreadMessages).to.equal(false);
+      expect(state.threadList[1].subject).to.equal('Test 2');
+    });
+
+    it('should handle undefined threadList gracefully', () => {
+      const store = mockStore({
+        featureToggles: {},
+        threadList: undefined,
+      });
+
+      store.dispatch({
+        type: Actions.Thread.MARK_THREAD_AS_READ,
+        payload: { threadId: 1001 },
+      });
+
+      const state = store.getState();
+      expect(state.threadList).to.equal(undefined);
+    });
+
+    it('should handle non-matching threadId without errors', () => {
+      const initialThreadList = [
+        { threadId: 1001, unreadMessages: true, subject: 'Test 1' },
+      ];
+      const store = mockStore({
+        featureToggles: {},
+        threadList: initialThreadList,
+      });
+
+      store.dispatch({
+        type: Actions.Thread.MARK_THREAD_AS_READ,
+        payload: { threadId: 9999 },
+      });
+
+      const state = store.getState();
+      expect(state.threadList[0].unreadMessages).to.equal(true);
+    });
+  });
 });
