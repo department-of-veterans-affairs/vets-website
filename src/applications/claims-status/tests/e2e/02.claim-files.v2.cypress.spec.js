@@ -598,6 +598,7 @@ describe('Failed Submissions in Progress Empty State', () => {
           failedDate: '2025-01-15T10:35:00.000Z',
           documentType: 'VA Form 21-4142',
           claimId: '123',
+          trackedItemId: 1,
         },
         {
           id: 2,
@@ -606,6 +607,7 @@ describe('Failed Submissions in Progress Empty State', () => {
           failedDate: '2025-01-20T14:20:00.000Z',
           documentType: 'Other',
           claimId: '123',
+          trackedItemId: 2,
         },
       ];
 

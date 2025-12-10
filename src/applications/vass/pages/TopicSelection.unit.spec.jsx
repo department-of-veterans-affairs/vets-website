@@ -4,11 +4,20 @@ import { renderWithStoreAndRouterV6 } from '~/platform/testing/unit/react-testin
 
 import TopicSelection from './TopicSelection';
 import { topics } from '../services/Topic/topic';
+import reducers from '../redux/reducers';
+import { vassApi } from '../redux/api/vassApi';
 
 describe('VASS Component: TopicSelection', () => {
   it('should render all content', () => {
     const { getByTestId } = renderWithStoreAndRouterV6(<TopicSelection />, {
-      initialState: {},
+      initialState: {
+        vassForm: {
+          selectedDate: null,
+          selectedTopics: [],
+        },
+      },
+      reducers,
+      additionalMiddlewares: [vassApi.middleware],
     });
 
     expect(getByTestId('header')).to.exist;

@@ -4,6 +4,7 @@ import {
   VaAlert,
   VaLinkAction,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { getTrackedItemDisplayNameFromEvidenceSubmission } from '../utils/helpers';
 import { recordType2FailureEventStatusPage } from '../utils/analytics';
 
 function UploadType2ErrorAlert({ failedSubmissions, isStatusPage }) {
@@ -47,21 +48,27 @@ function UploadType2ErrorAlert({ failedSubmissions, isStatusPage }) {
       </p>
       <strong>All files we couldn’t process:</strong>
       <ul>
-        {sortedSubmissions.slice(0, itemsToShow).map(submission => (
-          <li key={submission.id}>
-            <span>
-              <strong>{submission.fileName}</strong>
-            </span>
-            <br />
-            <span>File type: {submission.documentType}</span>
-            <br />
-            {submission.trackedItemDisplayName ? (
-              <span>Request type: {submission.trackedItemDisplayName}</span>
-            ) : (
-              <span>You submitted this file as additional evidence</span>
-            )}
-          </li>
-        ))}
+        {sortedSubmissions.slice(0, itemsToShow).map(submission => {
+          const requestType = getTrackedItemDisplayNameFromEvidenceSubmission(
+            submission,
+          );
+
+          return (
+            <li key={submission.id}>
+              <span>
+                <strong>{submission.fileName}</strong>
+              </span>
+              <br />
+              <span>File type: {submission.documentType}</span>
+              <br />
+              {requestType ? (
+                <span>Request type: {requestType}</span>
+              ) : (
+                <span>You submitted this file as additional evidence</span>
+              )}
+            </li>
+          );
+        })}
 
         {sortedSubmissions.length > 2 && (
           <li>
