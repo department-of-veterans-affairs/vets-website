@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { VaCard } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { selectProfile } from 'platform/user/selectors';
+import { formatPhone } from '../utils/helpers';
 
 const ApplicantContactInfoCard = ({ formData, onEdit, content = '' }) => {
   const profile = useSelector(selectProfile);
@@ -18,24 +19,6 @@ const ApplicantContactInfoCard = ({ formData, onEdit, content = '' }) => {
   const phoneNumber = profileMobilePhone
     ? `${profileMobilePhone.areaCode}${profileMobilePhone.phoneNumber}`
     : formContactInfo.phoneNumber;
-
-  const formatPhone = phone => {
-    if (!phone) return 'Not provided';
-
-    // Remove all non-digit characters
-    const digitsOnly = phone.replace(/\D/g, '');
-
-    // Format as xxx-xxx-xxxx if we have exactly 10 digits
-    if (digitsOnly.length === 10) {
-      return `${digitsOnly.slice(0, 3)}-${digitsOnly.slice(
-        3,
-        6,
-      )}-${digitsOnly.slice(6)}`;
-    }
-
-    // If not 10 digits, return as-is (fallback)
-    return phone;
-  };
 
   return (
     <div className="vads-u-margin-bottom--3">
