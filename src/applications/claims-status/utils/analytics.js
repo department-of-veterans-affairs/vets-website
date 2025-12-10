@@ -1,4 +1,4 @@
-import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 
 /**
  * Session storage keys for upload tracking
