@@ -130,7 +130,7 @@ describe('Income and asset submit', () => {
       ]);
     });
 
-    it('handles missing uploadedDocuments fields gracefully', () => {
+    it('handles empty uploadedDocuments fields gracefully', () => {
       const inputData = {
         trusts: [
           {

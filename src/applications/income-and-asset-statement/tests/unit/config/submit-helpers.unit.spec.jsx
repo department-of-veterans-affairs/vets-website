@@ -96,8 +96,8 @@ describe('submit-helpers.js', () => {
       ]);
     });
 
-    context('when there is no uploadedDocuments field (not required)', () => {
-      it('should handle ownedAssets without uploadedDocuments gracefully', () => {
+    context('when there are no uploadedDocuments (not required)', () => {
+      it('should handle ownedAssets with no uploadedDocuments gracefully', () => {
         const formData = {
           ownedAssets: [
             {
@@ -117,7 +117,7 @@ describe('submit-helpers.js', () => {
         expect(attachments).to.deep.equal([{ name: 'onlyFile.pdf' }]);
       });
 
-      it('should handle trusts without uploadedDocuments gracefully', () => {
+      it('should handle trusts with no uploadedDocuments gracefully', () => {
         const formData = {
           trusts: [
             {
