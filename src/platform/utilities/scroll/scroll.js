@@ -171,6 +171,11 @@ export const scrollToFirstError = async (options = {}) => {
       runCleanup(true);
     };
 
+    /**
+     * Queries for error elements and scrolls to focus on them.
+     * Prioritizes focusing on nested child error elements within shadow DOM,
+     * falling back to the parent element if no child errors are found.
+     */
     const queryForErrors = () => {
       const el = document.querySelector(selectors);
       if (el) {
