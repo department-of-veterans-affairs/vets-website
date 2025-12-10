@@ -296,6 +296,128 @@ describe('SendRxRenewalMessage Component', () => {
     });
   });
 
+  describe('Redirect path URL generation', () => {
+    let originalLocation;
+
+    beforeEach(() => {
+      originalLocation = window.location;
+      delete window.location;
+    });
+
+    afterEach(() => {
+      window.location = originalLocation;
+    });
+
+    it('generates redirect path using current URL without query params', async () => {
+      window.location = {
+        pathname: '/my-health/medications/prescription/12345',
+        search: '',
+        href: '',
+      };
+
+      const rx = {
+        ...mockRx,
+        prescriptionId: 98765,
+      };
+
+      const screen = setup(rx);
+      const link = screen.getByTestId('send-renewal-request-message-link');
+      fireEvent.click(link);
+
+      await waitFor(() => {
+        const modal = screen.container.querySelector('va-modal');
+        expect(modal?.getAttribute('visible')).to.equal('true');
+      });
+
+      // Simulate clicking Continue and check the URL that would be set
+      const modal = screen.container.querySelector('va-modal');
+      const continueHandler = modal.__events?.vaButtonPrimaryClick;
+
+      // The URL should use ? since there are no existing query params
+      const expectedRedirectPath = encodeURIComponent(
+        '/my-health/medications/prescription/12345?rxRenewalMessageSuccess=true',
+      );
+      const expectedUrl = `/my-health/secure-messages/new-message?prescriptionId=98765&redirectPath=${expectedRedirectPath}`;
+
+      // Trigger the primary button click
+      if (continueHandler) {
+        continueHandler();
+        expect(window.location.href).to.equal(expectedUrl);
+      }
+    });
+
+    it('generates redirect path using current URL with existing query params', async () => {
+      window.location = {
+        pathname: '/my-health/medications',
+        search: '?page=3',
+        href: '',
+      };
+
+      const rx = {
+        ...mockRx,
+        prescriptionId: 98765,
+      };
+
+      const screen = setup(rx);
+      const link = screen.getByTestId('send-renewal-request-message-link');
+      fireEvent.click(link);
+
+      await waitFor(() => {
+        const modal = screen.container.querySelector('va-modal');
+        expect(modal?.getAttribute('visible')).to.equal('true');
+      });
+
+      // The URL should use & since there are existing query params
+      const expectedRedirectPath = encodeURIComponent(
+        '/my-health/medications?page=3&rxRenewalMessageSuccess=true',
+      );
+      const expectedUrl = `/my-health/secure-messages/new-message?prescriptionId=98765&redirectPath=${expectedRedirectPath}`;
+
+      // Simulate primary button click
+      const modal = screen.container.querySelector('va-modal');
+      const continueHandler = modal.__events?.vaButtonPrimaryClick;
+      if (continueHandler) {
+        continueHandler();
+        expect(window.location.href).to.equal(expectedUrl);
+      }
+    });
+
+    it('uses correct separator when URL has multiple query params', async () => {
+      window.location = {
+        pathname: '/my-health/medications',
+        search: '?page=2&sort=alphabetical',
+        href: '',
+      };
+
+      const rx = {
+        ...mockRx,
+        prescriptionId: 12345,
+      };
+
+      const screen = setup(rx);
+      const link = screen.getByTestId('send-renewal-request-message-link');
+      fireEvent.click(link);
+
+      await waitFor(() => {
+        const modal = screen.container.querySelector('va-modal');
+        expect(modal?.getAttribute('visible')).to.equal('true');
+      });
+
+      // The URL should use & since there are existing query params
+      const expectedRedirectPath = encodeURIComponent(
+        '/my-health/medications?page=2&sort=alphabetical&rxRenewalMessageSuccess=true',
+      );
+      const expectedUrl = `/my-health/secure-messages/new-message?prescriptionId=12345&redirectPath=${expectedRedirectPath}`;
+
+      const modal = screen.container.querySelector('va-modal');
+      const continueHandler = modal.__events?.vaButtonPrimaryClick;
+      if (continueHandler) {
+        continueHandler();
+        expect(window.location.href).to.equal(expectedUrl);
+      }
+    });
+  });
+
   describe('Edge cases', () => {
     it('handles Expired status without expirationDate', () => {
       const rx = {

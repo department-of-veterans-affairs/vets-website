@@ -8,6 +8,49 @@ describe('Send Rx Renewal Message Component', () => {
     site.login();
   });
 
+  it('generates redirect URL using current page URL from list page', () => {
+    const listPage = new MedicationsListPage();
+
+    listPage.visitMedicationsListPageURL(rxList);
+
+    cy.get('[data-testid="send-renewal-request-message-link"]')
+      .first()
+      .shadow()
+      .find('a')
+      .click();
+
+    // Wait for modal to appear and verify it has correct properties
+    cy.get('va-modal')
+      .should('have.attr', 'status', 'info')
+      .and('have.attr', 'primary-button-text', 'Continue');
+
+    // Click the Continue button in the modal (need to traverse shadow DOMs)
+    cy.get('va-modal')
+      .shadow()
+      .find('va-button')
+      .first()
+      .shadow()
+      .find('button')
+      .click();
+
+    // Verify we're being redirected to secure messages with the correct redirectPath
+    cy.url().should('include', '/my-health/secure-messages/new-message');
+    cy.url().should('include', 'prescriptionId=');
+    cy.url().should('include', 'redirectPath=');
+
+    // The redirect path should be encoded and include the original medications page
+    cy.url().then(redirectUrl => {
+      const urlParams = new URLSearchParams(new URL(redirectUrl).search);
+      const redirectPath = decodeURIComponent(urlParams.get('redirectPath'));
+      // Verify the redirect path includes medications path and success flag
+      expect(redirectPath).to.include('/my-health/medications');
+      expect(redirectPath).to.include('rxRenewalMessageSuccess=true');
+    });
+
+    cy.injectAxe();
+    cy.axeCheck('main');
+  });
+
   it('displays renewal request link for Active prescription with 0 refills on list page', () => {
     const listPage = new MedicationsListPage();
 
