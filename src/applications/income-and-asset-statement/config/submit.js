@@ -5,6 +5,7 @@ import { cloneDeep } from 'lodash';
 import { ensureValidCSRFToken } from '../ensureValidCSRFToken';
 
 import {
+  collectAttachmentFiles,
   pruneConfiguredArrays,
   remapIncomeTypeFields,
   remapOtherVeteranFields,
@@ -21,13 +22,14 @@ import {
 // 2. Remap "otherVeteran*" → "veteran*" fields when submission requires it
 // 3. Remap "recipientRelationship" fields when submission requires it
 // 4. Remap discontinued income "incomeType" to human-readable values
-// 5. Remove disallowed fields that vets-api will reject
-// 6. Prune configured list-and-loop array fields (trusts, annuities, waivers)
-// 7. Remove invalid/null/empty/view-only fields
-// 8. Flatten nested fields (e.g., recipientName) via custom JSON replacer
-// 9. JSON.stringify the prepared form data (backend requires a *string*)
-// 10. Wrap into the "incomeAndAssetsClaim" submission envelope
-// 11. Send to vets-api with the user's local timestamp
+// 5. Collect attachment files from nested arrays into the main "files" array
+// 6. Remove disallowed fields that vets-api will reject
+// 7. Prune configured list-and-loop array fields (trusts, annuities, waivers)
+// 8. Remove invalid/null/empty/view-only fields
+// 9. Flatten nested fields (e.g., recipientName) via custom JSON replacer
+// 10. JSON.stringify the prepared form data (backend requires a *string*)
+// 11. Wrap into the "incomeAndAssetsClaim" submission envelope
+// 12. Send to vets-api with the user's local timestamp
 // -----------------------------------------------------------------------------
 
 // Fields vets-api does *not* allow for this submission
@@ -108,12 +110,20 @@ export function prepareFormData(data) {
     maybeTransformedIncomes = discontinuedIncomes.map(remapIncomeTypeFields);
   }
 
+  // Step 4: Collect attachments from 'trusts' and 'ownedAssets' into the 'files' array
+  const collectedFiles = collectAttachmentFiles(clonedData);
+  const newFiles = [
+    ...(dataWithVeteranFieldsAdjusted.files || []),
+    ...collectedFiles,
+  ];
+
   // Assemble final object — only include discontinuedIncomes if we transformed it
   const assembledData = {
     ...dataWithAllFieldsAdjusted,
     ...(maybeTransformedIncomes
       ? { discontinuedIncomes: maybeTransformedIncomes }
       : {}),
+    ...(newFiles.length > 0 ? { files: newFiles } : {}),
   };
 
   // Step 5: remove fields vets-api does not accept
