@@ -202,6 +202,16 @@ The form uses helper functions to adjust language based on whether the veteran i
 - **Currently employed**: "is working", "last 12 months"
 - **No longer employed**: "was working", "12 months before their last date of employment"
 
+## Content Widget
+
+This form has a content widget that controls the "Submit online" link on the Drupal CMS "about" page (`/find-forms/about-form-21-4192/`).
+
+- **Widget Type**: `form214192`
+- **Feature Flag**: `form_4192_enabled`
+- **Widget Location**: `src/applications/static-pages/benefits-optimization-aquia/21-4192/`
+
+When the feature flag is off, the widget shows "Submit this form by mail" instead of a link to the digital form.
+
 ## Support
 
 For questions or issues:
