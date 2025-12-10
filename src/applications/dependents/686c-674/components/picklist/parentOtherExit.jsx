@@ -4,11 +4,19 @@ import propTypes from './types';
 
 const parentOtherExit = {
   handlers: {
-    // Define goForward so the routing code doesn't break
+    /**
+     * @type {GoForwardParams}
+     * Return "DONE" when we're done with this flow
+     * @returns {string} Next page key
+     */
     goForward: () => 'DONE',
 
-    // Submit is ignored if the exit form button is visible
+    /**
+     * @type {OnSubmitParams}
+     * @returns {void}
+     */
     onSubmit: ({ goForward }) => {
+      // Submit is ignored if the exit form button is visible
       goForward();
     },
   },
@@ -16,7 +24,10 @@ const parentOtherExit = {
   // Flag to hide form navigation continue button
   hasExitLink: true,
 
-  /** @type {PicklistComponentProps} */
+  /**
+   * @type {PicklistComponentProps}
+   * @returns {React.ReactElement} Page component
+   */
   Component: ({ firstName, isShowingExitLink }) => (
     <>
       <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
