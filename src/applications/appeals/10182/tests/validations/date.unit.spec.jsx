@@ -65,7 +65,7 @@ describe('validateDate & isValidDate', () => {
     const date = parseDateWithOffset({ weeks: 1 });
     validateDate(errors, date);
     expect(errorMessage[0]).to.match(
-      /Enter a date after [A-Za-z]+ \d+, \d{4}\./,
+      /The date must be before [A-Za-z]+\.? \d+, \d{4}\./,
     );
     expect(errorMessage[1]).to.not.contain('month');
     expect(errorMessage[1]).to.not.contain('day');
@@ -77,7 +77,7 @@ describe('validateDate & isValidDate', () => {
     const date = parseDate(new Date());
     validateDate(errors, date);
     expect(errorMessage[0]).to.match(
-      /Enter a date after [A-Za-z]+ \d+, \d{4}\./,
+      /The date must be before [A-Za-z]+\.? \d+, \d{4}\./,
     );
     expect(errorMessage[1]).to.not.contain('month');
     expect(errorMessage[1]).to.not.contain('day');

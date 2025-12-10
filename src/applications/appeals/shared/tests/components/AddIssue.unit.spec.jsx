@@ -168,7 +168,9 @@ describe('<AddIssue>', () => {
     fireEvent.click($('#submit', container));
 
     const date = $('va-memorable-date', container);
-    expect(date.error).to.match(/Enter a date after [A-Za-z]+ \d+, \d{4}\./);
+    expect(date.error).to.match(
+      /The date must be before [A-Za-z]+\.? \d+, \d{4}\./,
+    );
     expect(date.invalidMonth).to.be.false;
     expect(date.invalidDay).to.be.false;
     expect(date.invalidYear).to.be.true;
@@ -187,7 +189,9 @@ describe('<AddIssue>', () => {
     fireEvent.click($('#submit', container));
 
     const date = $('va-memorable-date', container);
-    expect(date.error).to.match(/Enter a date after [A-Za-z]+ \d+, \d{4}\./);
+    expect(date.error).to.match(
+      /The date must be before [A-Za-z]+\.? \d+, \d{4}\./,
+    );
     expect(date.invalidMonth).to.be.false;
     expect(date.invalidDay).to.be.false;
     expect(date.invalidYear).to.be.true;

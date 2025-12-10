@@ -40,7 +40,7 @@ describe('addDateErrorMessages', () => {
     };
     const result = addDateErrorMessages(errors, errorMessages, date);
     expect(errors.addError.args[0][0]).to.match(
-      /Enter a date after [A-Za-z]+ \d+, \d{4}\./,
+      /The date must be before [A-Za-z]+\.? \d+, \d{4}\./,
     );
     expect(date.errors.year).to.be.true;
     expect(result).to.be.true;
@@ -48,66 +48,21 @@ describe('addDateErrorMessages', () => {
 });
 
 describe('createDecisionDateErrorMsg', () => {
-  it('should output exact formatted error message with fixed date', () => {
-    // Use a fixed date to test exact output format
-    const fixedDate = new Date(2023, 5, 15, 12, 0, 0);
-    const date = { dateObj: fixedDate };
+  it("should format error message with readable date using today's date", () => {
+    const result = createDecisionDateErrorMsg(errorMessages);
 
-    const result = createDecisionDateErrorMsg(errorMessages, date);
-
-    expect(result).to.equal('Enter a date after June 15, 2023.');
-  });
-
-  it('should format error message with readable date for today', () => {
-    const now = new Date();
-    const today = new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate(),
-      15,
-      0,
-      0,
+    expect(result).to.match(
+      /The date must be before [A-Za-z]+\.? \d+, \d{4}\./,
     );
-    const date = { dateObj: today };
-
-    const result = createDecisionDateErrorMsg(errorMessages, date);
-
-    expect(result).to.match(/Enter a date after [A-Za-z]+ \d+, \d{4}\./);
-  });
-
-  it('should format error message with readable date for future date', () => {
-    const now = new Date();
-    const tomorrow = new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate() + 1,
-      12,
-      0,
-      0,
-    );
-    const date = { dateObj: tomorrow };
-
-    const result = createDecisionDateErrorMsg(errorMessages, date);
-
-    expect(result).to.match(/Enter a date after [A-Za-z]+ \d+, \d{4}\./);
   });
 
   it('should work with the actual errorMessages.decisions.pastDate function', () => {
-    const now = new Date();
-    const futureDate = new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate() + 3, // 3 days from now
-      16,
-      45,
-      0,
-    );
-    const date = { dateObj: futureDate };
-
-    const result = createDecisionDateErrorMsg(errorMessages, date);
+    const result = createDecisionDateErrorMsg(errorMessages);
 
     expect(typeof errorMessages.decisions.pastDate).to.equal('function');
-    expect(result).to.match(/Enter a date after [A-Za-z]+ \d+, \d{4}\./);
+    expect(result).to.match(
+      /The date must be before [A-Za-z]+\.? \d+, \d{4}\./,
+    );
   });
 });
 

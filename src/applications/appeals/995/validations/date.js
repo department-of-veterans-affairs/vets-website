@@ -5,8 +5,8 @@ import sharedErrorMessages from '../../shared/content/errorMessages';
 import { MAX_YEARS_PAST } from '../../shared/constants';
 import {
   createScreenReaderErrorMsg,
-  createDecisionDateErrorMsg,
   createDateObject,
+  createDecisionDateErrorMsg,
 } from '../../shared/validations/date';
 
 // subtract max years in the past
@@ -32,10 +32,9 @@ export const validateDate = (errors, rawDateString = '', fullData) => {
     // Lighthouse won't accept same day (as submission) decision date
     if (isDecisionDateType) {
       // Decision dates: Show dynamic cutoff date
-      // exactly which date they need to exceed (e.g., "Enter a date after December 4, 2025")
+      // (e.g., "The date must be before Dec. 10, 2025.")
       const decisionDateErrorMessage = createDecisionDateErrorMsg(
         sharedErrorMessages,
-        date,
       );
 
       errors.addError(decisionDateErrorMessage);

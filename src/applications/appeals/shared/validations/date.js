@@ -80,14 +80,12 @@ export const createDateObject = rawDateString => {
 
 /**
  * Create dynamic error message for additional issues with decision dates that are today or in the future
- * Formats the cutoff date (today) and calls the pastDate function to generate user-friendly error message
- * Used specifically when users are adding additional issues and enter invalid decision dates
+ * Always uses current date as the cutoff for day of and in the future, formatted using VA.gov style
  * @param {Object} errorMessages - Error messages object containing decisions.pastDate function
- * @param {Object} date - Date object with dateObj property containing the parsed date
- * @returns {string} Formatted error message (e.g., "Enter a date after December 5, 2025.")
+ * @returns {string} Formatted error message (e.g., "Enter a date before Dec. 10, 2025." using today's date)
  */
-export const createDecisionDateErrorMsg = (errorMessages, date) => {
-  const cutoffDate = formatDateToReadableString(date.dateObj);
+export const createDecisionDateErrorMsg = errorMessages => {
+  const cutoffDate = formatDateToReadableString(new Date());
   return errorMessages.decisions.pastDate(cutoffDate);
 };
 
@@ -108,10 +106,7 @@ export const addDateErrorMessages = (errors, errorMessages, date) => {
     // Lighthouse won't accept same day (as submission) decision date
     // Using UTC-based validation to match backend behavior
 
-    const decisionDateErrorMessage = createDecisionDateErrorMsg(
-      errorMessages,
-      date,
-    );
+    const decisionDateErrorMessage = createDecisionDateErrorMsg(errorMessages);
 
     errors.addError(decisionDateErrorMessage);
     // eslint-disable-next-line no-param-reassign
