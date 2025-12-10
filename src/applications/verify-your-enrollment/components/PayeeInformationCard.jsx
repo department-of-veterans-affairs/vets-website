@@ -66,7 +66,6 @@ const PayeeInformationCard = ({
               message="Loading applicant chapter..."
             />
           ) : (
-            // <p>{chapters[applicantChapter.toUpperCase()]}</p>
             <ul>
               {applicantChapter.map((ch, index) => {
                 const chapterKey = ch?.benefitType?.toUpperCase();
