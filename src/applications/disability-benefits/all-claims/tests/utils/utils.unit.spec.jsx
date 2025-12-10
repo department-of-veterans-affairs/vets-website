@@ -57,6 +57,8 @@ import {
   parseDate,
   formatMonthYearDate,
   DATE_TEMPLATE,
+  DATE_FORMAT,
+  DATE_FORMAT_SHORT,
 } from '../../utils/dates/formatting';
 import { testBranches } from '../../utils/serviceBranches';
 
@@ -975,8 +977,10 @@ describe('526 v2 depends functions', () => {
       });
       it('should return valid dates with custom format', () => {
         expect(formatDate('2020-01-31', DATE_TEMPLATE)).to.equal('2020-01-31');
-        expect(formatDate('2020-05-05', 'MM dd, yyyy')).to.equal('05 05, 2020');
-        expect(formatDate('2020-12-05', 'dd/MM/yyyy')).to.equal('05/12/2020');
+        expect(formatDate('2020-05-05', DATE_FORMAT)).to.equal('May 5, 2020');
+        expect(formatDate('2020-12-05', DATE_FORMAT_SHORT)).to.equal(
+          '12/05/2020',
+        );
       });
       it('should return "Unknown" for invalid dates', () => {
         expect(formatDate(true)).to.equal('Unknown');
