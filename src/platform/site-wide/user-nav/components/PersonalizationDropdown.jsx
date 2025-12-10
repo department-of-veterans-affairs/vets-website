@@ -68,7 +68,7 @@ export function PersonalizationDropdown(props) {
 }
 
 PersonalizationDropdown.propTypes = {
-  csp: PropTypes.oneOf(['idme', 'logingov', 'dslogon', 'mhv']),
+  csp: PropTypes.oneOf(['idme', 'logingov', 'mhv']),
   isSSOe: PropTypes.bool,
 };
 
