@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { environment } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { pharmacyPhoneNumber } from '@department-of-veterans-affairs/mhv/exports';
 import { VaIcon } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { dateFormat, rxSourceIsNonVA } from '../../util/helpers';
@@ -11,7 +10,7 @@ import {
 } from '../../util/constants';
 import CallPharmacyPhone from './CallPharmacyPhone';
 import SendRxRenewalMessage from './SendRxRenewalMessage';
-import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
+import { pageType } from '../../util/dataDogConstants';
 
 const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
   const { dispStatus, refillRemaining } = rx;
@@ -111,21 +110,10 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
             rx={rx}
             alwaysShowFallBackContent={showRenewalLink}
             fallbackContent={
-              <>
-                <p className="vads-u-margin-y--0" data-testid="expired">
-                  This prescription is too old to refill. If you need more,
-                  request a renewal.
-                </p>
-                <va-link
-                  href="/resources/how-to-renew-a-va-prescription"
-                  text="Learn how to renew prescriptions"
-                  data-testid="learn-to-renew-precsriptions-link"
-                  data-dd-action-name={
-                    dataDogActionNames.detailsPage
-                      .LEARN_TO_RENEW_PRESCRIPTIONS_ACTION_LINK
-                  }
-                />
-              </>
+              <p className="vads-u-margin-y--0" data-testid="expired">
+                You can’t refill this prescription. Contact your VA provider if
+                you need more of this medication.
+              </p>
             }
           />
         </div>
@@ -133,19 +121,9 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
       {dispStatus === dispStatusObj.discontinued && (
         <div>
           <p className="vads-u-margin-y--0" data-testid="discontinued">
-            You can’t refill this prescription. If you need more, send a message
-            to your care team.
+            You can’t refill this prescription. Contact your VA provider if you
+            need more of this medication.
           </p>
-          <va-link
-            href={`${
-              environment.BASE_URL
-            }/my-health/secure-messages/new-message/`}
-            text="Start a new message"
-            data-testid="discontinued-compose-message-link"
-            data-dd-action-name={
-              dataDogActionNames.detailsPage.COMPOSE_A_MESSAGE_LINK
-            }
-          />
         </div>
       )}
       {dispStatus === dispStatusObj.transferred && (
