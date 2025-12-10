@@ -1,7 +1,7 @@
 import React from 'react';
 import * as Sentry from '@sentry/browser';
 
-import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
+import recordEvent from 'platform/monitoring/record-event';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import localStorage from 'platform/utilities/storage/localStorage';

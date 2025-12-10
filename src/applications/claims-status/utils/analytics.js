@@ -1,16 +1,12 @@
-import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
+import recordEvent from 'platform/monitoring/record-event';
 
-/**
- * Session storage keys for upload tracking
- */
+// Session storage keys for upload tracking
 const STORAGE_KEYS = {
   UPLOAD_ATTEMPTS: 'cst_upload_attempts',
   FAILED_UPLOADS: 'cst_failed_uploads',
 };
 
-/**
- * Time-to-live for session storage entries (2 hours in milliseconds)
- */
+// Time-to-live for session storage entries (2 hours in milliseconds)
 const TIME_TO_LIVE = 2 * 60 * 60 * 1000;
 
 /**
@@ -242,12 +238,10 @@ export const recordUploadStartEvent = ({ files, claimId }) => {
   const filesWithRetryInfo = files.map(fileData => {
     const retryInfo = checkIfRetry(fileData.file, claimId);
     const docInstanceId = generateDocInstanceId();
-
     // Note: Frontend validation ensures docType is always present before submission,
     // but we use a fallback ('Unknown') for defensive programming to ensure
     // analytics never breaks the upload flow if validation logic changes.
     const docType = fileData.docType?.value || 'Unknown';
-
     // Store this attempt in sessionStorage for retry tracking
     storeUploadAttempt({
       docInstanceId,
