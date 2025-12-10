@@ -34,10 +34,15 @@ const ProcessList = () => {
       <va-process-list-item header="Check your eligibility">
         <p>Make sure you meet our eligibility requirements before you apply.</p>
         <p>
-          <a href="/burials-memorials/veterans-burial-allowance/">
-            Find out if you’re eligible for a VA interment allowance and
-            transportation benefits
-          </a>
+          In order to apply for this benefit, you should be a State Plot or
+          Tribal organization. If you are applying for the VA interment
+          allowance and applying as an individual, use form&nbsp;
+          <span>
+            <va-link
+              href="/find-forms/about-form-21p-530ez/"
+              text="21P-530EZ"
+            />
+          </span>
         </p>
       </va-process-list-item>
       <va-process-list-item header="Gather your information">
@@ -48,7 +53,7 @@ const ProcessList = () => {
         </p>
         <ul>
           <li>Social Security number or VA file number</li>
-          <li>Date and place of birth</li>
+          <li>Date of birth</li>
           <li>Date of death</li>
           <li>Military service history</li>
           <li>Date of interment</li>
