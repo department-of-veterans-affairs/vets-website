@@ -1,29 +1,32 @@
 import React from 'react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
+import { render, cleanup } from '@testing-library/react';
 import PayeeInformationCard from '../../components/PayeeInformationCard';
 
-describe('PayeeInformationCard', () => {
+describe('<PayeeInformationCard />', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
   it('should render without crashing', () => {
-    const wrapper = shallow(<PayeeInformationCard />);
-    expect(wrapper.exists()).to.be.ok;
-    wrapper.unmount();
+    const { container, unmount } = render(<PayeeInformationCard />);
+    expect(container).to.exist;
+    unmount();
   });
 
   it('should render applicantName and showAdditionalInformation', () => {
-    const wrapper = shallow(
+    const { container } = render(
       <PayeeInformationCard
         showAdditionalInformation
         applicantName="applicantName"
       />,
     );
 
-    expect(wrapper.find('va-additional-info')).to.have.lengthOf(1);
-    wrapper.unmount();
+    expect(container.querySelector('va-additional-info')).to.exist;
   });
 
   it('should handle Chapter 1606 if applicantChapter is A', () => {
-    const wrapper = shallow(
+    const { getByText, container } = render(
       <PayeeInformationCard
         showAdditionalInformation={false}
         applicantName="applicantName"
@@ -31,16 +34,14 @@ describe('PayeeInformationCard', () => {
       />,
     );
 
-    expect(wrapper.find('li')).to.have.lengthOf(1);
-    expect(wrapper.find('li').text()).to.equal(
-      'Montgomery GI Bill (MGIB) – Selective Reserve (Chapter 1606)',
-    );
-
-    wrapper.unmount();
+    expect(container.querySelectorAll('li')).to.have.lengthOf(1);
+    expect(
+      getByText('Montgomery GI Bill (MGIB) – Selective Reserve (Chapter 1606)'),
+    ).to.exist;
   });
 
   it('should handle Chapter 30 if applicantChapter is B', () => {
-    const wrapper = shallow(
+    const { getByText, container } = render(
       <PayeeInformationCard
         showAdditionalInformation={false}
         applicantName="applicantName"
@@ -48,16 +49,13 @@ describe('PayeeInformationCard', () => {
       />,
     );
 
-    expect(wrapper.find('li')).to.have.lengthOf(1);
-    expect(wrapper.find('li').text()).to.equal(
-      'Montgomery GI Bill (MGIB) – Active Duty (Chapter 30)',
-    );
-
-    wrapper.unmount();
+    expect(container.querySelectorAll('li')).to.have.lengthOf(1);
+    expect(getByText('Montgomery GI Bill (MGIB) – Active Duty (Chapter 30)')).to
+      .exist;
   });
 
   it('should render va-loading-indicator when loading for applicantName', () => {
-    const wrapper = shallow(
+    const { container } = render(
       <PayeeInformationCard
         showAdditionalInformation
         applicantName="applicantName"
@@ -65,12 +63,11 @@ describe('PayeeInformationCard', () => {
       />,
     );
 
-    expect(wrapper.find('va-loading-indicator')).to.have.lengthOf(1);
-    wrapper.unmount();
+    expect(container.querySelector('va-loading-indicator')).to.exist;
   });
 
   it('should render va-loading-indicator when loading for applicantChapter', () => {
-    const wrapper = shallow(
+    const { container } = render(
       <PayeeInformationCard
         showAdditionalInformation={false}
         applicantChapter={[]}
@@ -78,21 +75,14 @@ describe('PayeeInformationCard', () => {
       />,
     );
 
-    expect(wrapper.find('va-loading-indicator')).to.have.lengthOf(1);
-    wrapper.unmount();
+    expect(container.querySelector('va-loading-indicator')).to.exist;
   });
 
   it('should render applicantClaimNumber when applicantClaimNumber is not empty', () => {
-    const wrapper = shallow(
+    const { getByText } = render(
       <PayeeInformationCard applicantClaimNumber="applicantClaimNumber" />,
     );
 
-    expect(
-      wrapper
-        .find('p')
-        .last()
-        .text(),
-    ).to.equal('applicantClaimNumber');
-    wrapper.unmount();
+    expect(getByText('applicantClaimNumber')).to.exist;
   });
 });
