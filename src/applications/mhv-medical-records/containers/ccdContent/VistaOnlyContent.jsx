@@ -7,7 +7,7 @@ import {
 } from '@department-of-veterans-affairs/mhv/exports';
 
 import TrackedSpinner from '../../components/shared/TrackedSpinner';
-import CCDAccordionItemDual from '../ccdAccordionItem/ccdAccordionItemDual';
+import CCDAccordionItemVista from '../ccdAccordionItem/CCDAccordionItemVista';
 import CCDAccordionItemOH from '../ccdAccordionItem/ccdAccordionItemOH';
 import CCDAccordionItemV2 from '../ccdAccordionItem/ccdAccordionItemV2';
 import CCDAccordionItemV1 from '../ccdAccordionItem/ccdAccordionItemV1';
@@ -163,7 +163,7 @@ const VistaOnlyContent = ({
               if (ccdExtendedFileTypeFlag) {
                 if (hasBothDataSources) {
                   return (
-                    <CCDAccordionItemDual
+                    <CCDAccordionItemVista
                       generatingCCD={generatingCCD}
                       handleDownloadCCD={handleDownloadCCD}
                     />
