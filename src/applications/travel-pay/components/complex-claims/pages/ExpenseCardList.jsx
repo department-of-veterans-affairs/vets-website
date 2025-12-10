@@ -27,9 +27,7 @@ const ExpenseCardList = ({
   return (
     <section key={type} className="vads-u-margin-bottom--3">
       {showHeader && (
-        <h2 data-testid="expense-type-header" className="vads-u-font-size--h3">
-          {expenseFields.title}
-        </h2>
+        <h3 data-testid="expense-type-header">{expenseFields.title}</h3>
       )}
 
       {expensesList.map(expense => (
