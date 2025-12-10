@@ -114,7 +114,7 @@ const App = ({
         getCopays();
       }
     },
-    [getFormStatus],
+    [getFormStatus, isLoggedIn, isVerified],
   );
 
   useEffect(
@@ -197,8 +197,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   getFormStatus: () => dispatch(fetchFormStatus()),
-  getDebts: () => dispatch(fetchDebts()),
-  getCopays: () => dispatch(getStatements()),
+  getDebts: () => fetchDebts(dispatch),
+  getCopays: () => getStatements(dispatch),
   setFormData: data => dispatch(setData(data)),
 });
 
