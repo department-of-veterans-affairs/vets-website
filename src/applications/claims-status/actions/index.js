@@ -361,8 +361,71 @@ export function clearAdditionalEvidenceNotification() {
   };
 }
 
+// Helper to build upload success notification message
+function buildUploadNotification(
+  uploadDate,
+  showDocumentUploadStatus,
+  timezoneMitigationEnabled,
+  now,
+  timezoneOffset,
+  claimId,
+) {
+  const isOnFilesPage = window.location.pathname.endsWith('/files');
+  const statusLinkHref = isOnFilesPage
+    ? `#${ANCHOR_LINKS.fileSubmissionsInProgress}`
+    : `/track-claims/your-claims/${claimId}/files#${
+        ANCHOR_LINKS.fileSubmissionsInProgress
+      }`;
+
+  const timezoneNote =
+    timezoneMitigationEnabled && showTimezoneDiscrepancyMessage(now) ? (
+      <div className="vads-u-margin-top--2 vads-u-margin-bottom--0">
+        <strong>Note:</strong>{' '}
+        {getTimezoneDiscrepancyMessage(timezoneOffset, now)}
+      </div>
+    ) : null;
+
+  if (showDocumentUploadStatus) {
+    return {
+      title: `Document submission started on ${uploadDate}`,
+      body: (
+        <>
+          <span>
+            Your submission is in progress. It can take up to 2 days for us to
+            receive your files.
+          </span>
+          {timezoneNote}
+          <va-link
+            class="vads-u-display--block vads-u-margin-top--2"
+            href={statusLinkHref}
+            text="Check the status of your submission"
+            onClick={e => {
+              if (isOnFilesPage) {
+                e.preventDefault();
+                setPageFocus(e.target.href);
+              }
+            }}
+          />
+        </>
+      ),
+    };
+  }
+
+  return {
+    title: `We received your file upload on ${uploadDate}`,
+    body: (
+      <>
+        <span>
+          Your file should be listed in the Documents filed section. If it's not
+          there, try refreshing the page.
+        </span>
+        {timezoneNote}
+      </>
+    ),
+  };
+}
+
 // Document upload function using Lighthouse endpoint
-// eslint-disable-next-line sonarjs/cognitive-complexity
 export function submitFiles(
   claimId,
   trackedItem,
@@ -430,71 +493,14 @@ export function submitFiles(
 
                 const timezoneOffset = now.getTimezoneOffset();
 
-                // Determine if we're currently on the files page
-                const isOnFilesPage = window.location.pathname.endsWith(
-                  '/files',
+                const notificationMessage = buildUploadNotification(
+                  uploadDate,
+                  showDocumentUploadStatus,
+                  timezoneMitigationEnabled,
+                  now,
+                  timezoneOffset,
+                  claimId,
                 );
-                const statusLinkHref = isOnFilesPage
-                  ? `#${ANCHOR_LINKS.fileSubmissionsInProgress}` // Just scroll to section
-                  : `/track-claims/your-claims/${claimId}/files#${
-                      ANCHOR_LINKS.fileSubmissionsInProgress
-                    }`; // Navigate to files page with hash
-
-                // Show different notification based on showDocumentUploadStatus
-                const notificationMessage = showDocumentUploadStatus
-                  ? {
-                      title: `Document submission started on ${uploadDate}`,
-                      body: (
-                        <>
-                          <span>
-                            Your submission is in progress. It can take up to 2
-                            days for us to receive your files.
-                          </span>
-                          {timezoneMitigationEnabled &&
-                            showTimezoneDiscrepancyMessage(now) && (
-                              <div className="vads-u-margin-top--2 vads-u-margin-bottom--0">
-                                <strong>Note:</strong>{' '}
-                                {getTimezoneDiscrepancyMessage(
-                                  timezoneOffset,
-                                  now,
-                                )}
-                              </div>
-                            )}
-                          <va-link
-                            class="vads-u-display--block vads-u-margin-top--2"
-                            href={statusLinkHref}
-                            text="Check the status of your submission"
-                            onClick={e => {
-                              if (isOnFilesPage) {
-                                e.preventDefault();
-                                setPageFocus(e.target.href);
-                              }
-                            }}
-                          />
-                        </>
-                      ),
-                    }
-                  : {
-                      title: `We received your file upload on ${uploadDate}`,
-                      body: (
-                        <>
-                          <span>
-                            Your file should be listed in the Documents filed
-                            section. If it’s not there, try refreshing the page.
-                          </span>
-                          {timezoneMitigationEnabled &&
-                            showTimezoneDiscrepancyMessage(now) && (
-                              <div className="vads-u-margin-top--2 vads-u-margin-bottom--0">
-                                <strong>Note:</strong>{' '}
-                                {getTimezoneDiscrepancyMessage(
-                                  timezoneOffset,
-                                  now,
-                                )}
-                              </div>
-                            )}
-                        </>
-                      ),
-                    };
 
                 dispatch(setNotification(notificationMessage));
               } else {
