@@ -2,6 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { waitFor } from '@testing-library/dom';
+import { omit } from 'lodash';
 import SelectProviderPage from './index';
 import {
   createTestStore,
@@ -307,7 +308,7 @@ describe('VAOS Page: ProviderSelectPage', () => {
       // should show options to request, because eligible
       expect(screen.queryAllByText(/Option/)).to.have.length(2);
     });
-    it('Should show all alert-lik infor below h1, with extras', () => {
+    it('Should show all alert-like information below h1, with extras', () => {
       const store = createTestStore({
         ...defaultState,
         newAppointment: {
@@ -333,7 +334,7 @@ describe('VAOS Page: ProviderSelectPage', () => {
       // should NOT show options to request, because over limit
       expect(screen.queryAllByText(/Option/)).to.have.length(0);
     });
-    it('Should show all alert-lik infor below h1, with extras', () => {
+    it('Should show all alert-like information below h1, with extra test', () => {
       const store = createTestStore({
         ...defaultState,
         newAppointment: {
@@ -358,6 +359,29 @@ describe('VAOS Page: ProviderSelectPage', () => {
 
       // should NOT show options to request, because over limit
       expect(screen.queryAllByText(/Option/)).to.have.length(0);
+    });
+    it('Should show alert-like information and options if providers comes back null and eligible for requests', () => {
+      const store = createTestStore({
+        ...defaultState,
+        newAppointment: {
+          ...omit(defaultState.newAppointment, [
+            'patientProviderRelationships',
+          ]),
+          patientProviderRelationships: null,
+        },
+      });
+      const screen = renderWithStoreAndRouter(<SelectProviderPage />, {
+        store,
+      });
+      expect(screen.getByTestId('page-header-provider-select')).to.have.text(
+        "You can't schedule this appointment online",
+      );
+
+      expect(
+        screen.getByTestId('no-available-provider-intro'),
+      ).not.to.contain.text('You can call the facility to schedule.');
+
+      expect(screen.queryAllByText(/Option/)).to.have.length(2);
     });
   });
 });

@@ -32,13 +32,14 @@ export default function SelectProviderPage() {
   const singleProviderTitle = `Your ${typeOfCare.name.toLowerCase()} provider`;
   const cantScheduleTitle = "You can't schedule this appointment online";
   let pageHeader = pageTitle;
-  if (patientProviderRelationships.length === 1) {
+  if (patientProviderRelationships?.length === 1) {
     pageHeader = singleProviderTitle;
-  } else if (patientProviderRelationships.length === 0) {
+  } else if ((patientProviderRelationships?.length || 0) === 0) {
+    // coerce this to 0
     pageHeader = cantScheduleTitle;
   } // no else, keep default pageTitle
 
-  const hasProviders = patientProviderRelationships.length > 0;
+  const hasProviders = (patientProviderRelationships?.length || 0) > 0;
 
   // eligibility issues
   const isEligibleForRequest = eligibility?.request;
@@ -82,16 +83,17 @@ export default function SelectProviderPage() {
         />
       )}
       {hasProviders ? (
-        <div>
-          <strong>Type of care:</strong> {typeOfCare?.name}
-          <br />
-          <strong>Facility:</strong> {selectedFacility?.name}
-        </div>
+        <>
+          <div>
+            <strong>Type of care:</strong> {typeOfCare?.name}
+            <br />
+            <strong>Facility:</strong> {selectedFacility?.name}
+          </div>
+          {patientProviderRelationships.map((provider, index) => (
+            <ProviderCard key={index} provider={provider} />
+          ))}
+        </>
       ) : null}
-
-      {patientProviderRelationships.map((provider, index) => (
-        <ProviderCard key={index} provider={provider} />
-      ))}
 
       <ScheduleWithDifferentProvider
         isEligibleForRequest={isEligibleForRequest}
