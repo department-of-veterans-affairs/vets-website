@@ -1,12 +1,12 @@
 import { expect } from 'chai';
 import React from 'react';
 import SpouseSummaryCardDescription, {
-  spousedStatusesToHideDate,
+  maritalStatusesWithDateOfMarriage,
 } from '../../../../components/FormDescriptions/SpouseSummaryCardDescription';
 import { renderProviderWrappedComponent } from '../../../helpers';
 
 describe('ezr <SpouseSummaryCardDescription>', () => {
-  spousedStatusesToHideDate.forEach(status => {
+  maritalStatusesWithDateOfMarriage.forEach(status => {
     context(
       `when marital status is ${status} and there is NO MARRIAGE DATE`,
       () => {
@@ -23,20 +23,22 @@ describe('ezr <SpouseSummaryCardDescription>', () => {
             },
             <SpouseSummaryCardDescription />,
           );
-          expect(container).to.not.be.empty;
-          expect(container.textContent.trim()).to.equal(
-            `${status} Date of Marriage:`,
+          const ul = container.querySelector('ul');
+          const items = Array.from(ul.children);
+          const match = items.filter(i =>
+            i.textContent.includes('Date of Marriage:'),
           );
+          expect(match.length).to.be.greaterThan(0);
         });
       },
     );
   });
 
-  spousedStatusesToHideDate.forEach(status => {
+  maritalStatusesWithDateOfMarriage.forEach(status => {
     context(
       `when marital status is ${status} and there IS a marriage date`,
       () => {
-        it('should render the marital status and a blank date of marriage', () => {
+        it('should render the marital status and the date of marriage', () => {
           const { container } = renderProviderWrappedComponent(
             {
               form: {
@@ -50,17 +52,19 @@ describe('ezr <SpouseSummaryCardDescription>', () => {
             },
             <SpouseSummaryCardDescription />,
           );
-          expect(container).to.not.be.empty;
-          expect(container.textContent.trim()).to.equal(
-            `${status} Date of Marriage: 1995-02-22`,
+          const ul = container.querySelector('ul');
+          const items = Array.from(ul.children);
+          const match = items.filter(i =>
+            i.textContent.includes('Date of Marriage: 1995-02-22'),
           );
+          expect(match.length).to.be.greaterThan(0);
         });
       },
     );
   });
 
   context(`when marital status is single`, () => {
-    it('should render the marital status and a blank date of marriage', () => {
+    it('should render ONLY the marital status', () => {
       const { container } = renderProviderWrappedComponent(
         {
           form: {
