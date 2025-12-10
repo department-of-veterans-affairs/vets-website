@@ -95,6 +95,8 @@ export const FORM_UPDATE_FACILITY_TYPE =
   'newAppointment/FORM_UPDATE_FACILITY_TYPE';
 export const FORM_UPDATE_SELECTED_PROVIDER =
   'newAppointment/FORM_UPDATE_SELECTED_PROVIDER';
+export const FORM_UPDATE_FACILITY_EHR =
+  'newAppointment/FORM_UPDATE_FACILITY_EH';
 export const FORM_PAGE_FACILITY_V2_OPEN =
   'newAppointment/FACILITY_PAGE_V2_OPEN';
 export const FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED =
@@ -226,6 +228,13 @@ export function updateSelectedProvider(provider) {
   return {
     type: FORM_UPDATE_SELECTED_PROVIDER,
     provider,
+  };
+}
+
+export function updateFacilityEhr(ehr) {
+  return {
+    type: FORM_UPDATE_FACILITY_EHR,
+    ehr,
   };
 }
 
