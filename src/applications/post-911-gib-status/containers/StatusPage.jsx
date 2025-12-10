@@ -66,7 +66,9 @@ class StatusPage extends React.Component {
             {introText}
             {printButton}
             <UserInfoSection enrollmentData={enrollmentData} />
-            <h3>How can I see my Post-9/11 GI Bill benefit payments?</h3>
+            <h4 className="vads-u-font-size--h3">
+              How can I see my Post-9/11 GI Bill benefit payments?
+            </h4>
             <div className="vads-u-margin-bottom--4">
               If you've received education benefit payments through this
               program,{' '}
