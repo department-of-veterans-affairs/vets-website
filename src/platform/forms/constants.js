@@ -82,6 +82,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_MOCK_MINIMAL_HEADER: 'FORM-MOCK-MINIMAL-HEADER',
   FORM_MOCK_PATTERNS_V3: 'FORM_MOCK_PATTERNS_V3',
   FORM_MOCK_SF_PATTERNS: 'FORM_MOCK_SF_PATTERNS',
+  FORM_MOCK_PREFILL: 'FORM_MOCK_PREFILL',
   FORM_MOCK: '00-1234',
   FORM_T_QSTNR: 'T-QSTNR',
   FORM_VA_2346A: 'MDOT',
@@ -117,6 +118,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_21P_601: '21P-601',
   FORM_22_10278: '22-10278',
   FORM_22_0976: '22-0976',
+  FORM_22_0803: '22-0803',
 });
 
 export const VA_FORM_IDS_SKIP_INFLECTION = Object.freeze([
@@ -305,6 +307,8 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_21P_601]: `${tryGetAppUrl('21P-601')}/`,
     [VA_FORM_IDS.FORM_22_10278]: `${tryGetAppUrl('22-10278')}/`,
     [VA_FORM_IDS.FORM_22_0976]: `${tryGetAppUrl('22-0976')}/`,
+    [VA_FORM_IDS.FORM_22_0803]: `${tryGetAppUrl('22-0803')}/`,
+    [VA_FORM_IDS.FORM_MOCK_PREFILL]: `${tryGetAppUrl('mock-form-prefill')}/`,
   };
 };
 
@@ -946,10 +950,10 @@ export const MY_VA_SIP_FORMS = [
   },
   {
     id: VA_FORM_IDS.FORM_22_10278,
-    benefit: 'Authorize VA to disclose personal information to a third party',
-    title: 'Authorize VA to disclose personal information to a third party',
+    title:
+      'Authorize VA to Disclose Personal Information to a Third Party for Education Benefits',
     description:
-      'Authorize VA to disclose personal information to a third party (22-10278)',
+      'Authorize VA to Disclose Personal Information to a Third Party for Education Benefits (VA Form 22-10278)',
     trackingPrefix: 'edu-10278-',
   },
   {
@@ -958,6 +962,21 @@ export const MY_VA_SIP_FORMS = [
     title: 'Program Apporval in a Foreign Country (VA Form 22-0976)',
     description: 'Approval of a Program in a Foreign Country (VA Form 22-0976)',
     trackingPrefix: 'edu-0976-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_22_0803,
+    benefit: 'education benefits',
+    title:
+      '22-0803 Request for reimbursement of licensing or certification test fees',
+    description: 'education benefits',
+    trackingPrefix: 'edu-0803-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_MOCK_PREFILL,
+    benefit: 'Mock prefill testing',
+    title: 'Mock Form with Prefill',
+    description: 'Mock prefill testing',
+    trackingPrefix: 'mock-prefill-',
   },
 ];
 

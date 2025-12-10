@@ -55,6 +55,7 @@ const createEvidenceSubmission = (
     trackedItemDisplayName = null,
     uploadStatus = 'FAILED',
     vaNotifyStatus = 'SENT',
+    trackedItemFriendlyName = null,
   },
 ) => ({
   acknowledgementDate,
@@ -70,6 +71,7 @@ const createEvidenceSubmission = (
   trackedItemDisplayName,
   uploadStatus,
   vaNotifyStatus,
+  trackedItemFriendlyName,
 });
 
 const createClaim = (
@@ -667,12 +669,37 @@ const baseClaims = [
       issues: [],
       evidence: [],
       evidenceSubmissions: [],
+      trackedItems: [
+        {
+          id: 101,
+          displayName: 'Unemployability - 21-8940 needed and 4192(s) requested',
+          status: 'INITIAL_REVIEW_COMPLETE',
+          receivedDate: '2025-09-24',
+          closedDate: null,
+          suspenseDate: '2024-12-01',
+          type: 'still_need_from_you_list',
+          canUploadFile: true,
+          friendlyName: 'Work status information',
+          shortDescription:
+            'We need more information about how your service-connected disabilities prevent you from working.',
+          supportAliases: [
+            'Unemployability - 21-8940 needed and 4192(s) requested',
+          ],
+        },
+      ],
       supportingDocuments: [
         createSupportingDocument(
           '{A8A7A709-E3FD-44FA-99C9-C3B772AD0200}',
           'Photographs',
           'Not tracked item photos.pdf',
           null,
+          '2024-10-15',
+        ),
+        createSupportingDocument(
+          '{A8A7A709-E3FD-44FA-99C9-C3B772AD0200}',
+          'Photographs',
+          'Tracked item photos.pdf',
+          101,
           '2024-10-15',
         ),
       ],
@@ -724,6 +751,7 @@ const baseClaims = [
           fileName: 'authorization-form-signed.pdf',
           trackedItemId: 3,
           trackedItemDisplayName: '21-4142',
+          trackedItemFriendlyName: 'Authorization to Disclose Information',
         }),
         createEvidenceSubmission(111, 8, {
           acknowledgementDate: new Date(
@@ -1132,13 +1160,16 @@ const baseClaims = [
         }),
         createEvidenceSubmission(203, 10, {
           acknowledgementDate: null,
-          createdAt: '2025-09-28T16:45:00.000Z',
-          deleteDate: '2025-11-27T23:59:59.999Z',
-          documentType: 'Buddy/Lay Statement',
+          createdAt: '2025-09-27T09:20:00.000Z',
+          deleteDate: '2025-11-26T23:59:59.999Z',
+          documentType: 'VA Form 21-4142',
           failedDate: null,
-          fileName: 'buddy_statement_john_smith.pdf',
+          fileName: 'direct_deposit_2022.pdf',
+          trackedItemId: 202,
+          trackedItemDisplayName: 'EFT - Treasury Mandate Notification',
           uploadStatus: 'QUEUED',
           vaNotifyStatus: null,
+          trackedItemFriendlyName: 'Direct deposit information',
         }),
         createEvidenceSubmission(204, 10, {
           acknowledgementDate: null,

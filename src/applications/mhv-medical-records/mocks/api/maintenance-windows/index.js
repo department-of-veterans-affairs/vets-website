@@ -1,20 +1,14 @@
-const moment = require('moment');
+// Returns ISO UTC string e.g. 2025-11-20T19:14:57.282Z
+const isoNowPlusMillis = ms => new Date(Date.now() + ms).toISOString();
 
 const SERVICES = {
   mhvMr: 'mhv_mr',
   mhvPlatform: 'mhv_platform',
 };
 
-const beforeNow = moment()
-  .subtract(1, 'minute')
-  .toISOString();
-const withinHour = moment()
-  .add(1, 'hour')
-  .subtract(1, 'minute')
-  .toISOString();
-const endTime = moment()
-  .add(6, 'hour')
-  .toISOString();
+const beforeNow = isoNowPlusMillis(-1 * 60 * 1000);
+const withinHour = isoNowPlusMillis((60 - 1) * 60 * 1000);
+const endTime = isoNowPlusMillis(6 * 60 * 60 * 1000);
 
 const createDowntimeNotificationBase = (services, startTime) => {
   return {

@@ -12,20 +12,17 @@ import {
   expandArrayPages,
   createFormPageList,
 } from 'platform/forms-system/src/js/helpers';
-import { validateWhiteSpace } from 'platform/forms/validations';
 
 import { MARRIAGE_TYPES, PICKLIST_DATA } from '../constants';
-
-export const validateName = (errors, pageData) => {
-  const { first, last } = pageData;
-  validateWhiteSpace(errors.first, first);
-  validateWhiteSpace(errors.last, last);
-};
 
 const PHONE_KEYS = ['phoneNumber', 'internationalPhone'];
 
 /**
- * Mostly copied from the platform provided stringifyFormReplacer, with the removal of the address check. We don't need it here for our location use.
+ * Cleans up form data for submission; m* Mostly copied from the platform provided stringifyFormReplacer, with the
+ * removal of the address check. We don't need it here for our location use.
+ * @param {string} key - form data field key
+ * @param {any} value - form data field value
+ * @returns {any} - cleaned form data field value
  */
 export const customFormReplacer = (key, value) => {
   // Remove all non-digit characters from phone-related fields
@@ -62,7 +59,14 @@ export const customFormReplacer = (key, value) => {
   return value;
 };
 
-function copyDataFields(sourceData, cleanData, fields) {
+/**
+ * Clean data fields - remove fields with empty values & arrays
+ * @param {any} sourceData - source data object
+ * @param {string[]} fields - fields to copy
+ * @returns {any} clean data object
+ */
+function copyDataFields(sourceData, fields) {
+  const cleanData = {};
   fields.forEach(field => {
     const value = sourceData[field];
     if (Array.isArray(value) ? value.length > 0 : value) {
@@ -70,15 +74,21 @@ function copyDataFields(sourceData, cleanData, fields) {
       cleanData[field] = value;
     }
   });
+  return cleanData;
 }
 
+/**
+ * Transform form data into submission data format
+ * @param {object} payload - form object from Redux store
+ * @returns {object} - submission data object
+ */
 export function buildSubmissionData(payload) {
   if (!payload?.data) {
     return payload;
   }
 
   const sourceData = payload.data;
-  const cleanData = {};
+  let cleanData = {};
 
   const addEnabled = sourceData['view:addOrRemoveDependents']?.add === true;
   const removeEnabled =
@@ -141,7 +151,10 @@ export function buildSubmissionData(payload) {
     Object.entries(addDataMappings).forEach(([option, fields]) => {
       if (addOptions[option] === true) {
         enabledAddOptions[option] = true;
-        copyDataFields(sourceData, cleanData, fields);
+        cleanData = {
+          ...cleanData,
+          ...copyDataFields(sourceData, fields),
+        };
       }
     });
   }
@@ -152,7 +165,10 @@ export function buildSubmissionData(payload) {
     Object.entries(removeDataMappings).forEach(([option, fields]) => {
       if (removeOptions[option] === true) {
         enabledRemoveOptions[option] = true;
-        copyDataFields(sourceData, cleanData, fields);
+        cleanData = {
+          ...cleanData,
+          ...copyDataFields(sourceData, fields),
+        };
       }
     });
   }
@@ -187,7 +203,8 @@ export function buildSubmissionData(payload) {
 
 /**
  * parseDateToDateObj from ISO8601 or JS number date (not unix time)
- * @param {string, number, Date} date - date to format
+ * @param {string|number|Date} date - date to format
+ * @param {string} template - date template for parsing non-ISO strings
  * @returns {dateObj|null} date object
  */
 export const parseDateToDateObj = (date, template) => {
@@ -206,6 +223,11 @@ export const parseDateToDateObj = (date, template) => {
   return isValid(newDate) ? newDate : null;
 };
 
+/**
+ * Get spouse evidence requirements from form data
+ * @param {object} formData - form data object
+ * @returns {object} - spouse evidence requirements
+ */
 export const spouseEvidence = (formData = {}) => {
   const { veteranAddress } = formData.veteranContactInformation || {};
   const isOutsideUSA =
@@ -228,6 +250,11 @@ export const spouseEvidence = (formData = {}) => {
   };
 };
 
+/**
+ * Get child evidence requirements from form data
+ * @param {object} formData - form data object
+ * @returns {object} - child evidence requirements
+ */
 export const childEvidence = (formData = {}) => {
   const veteranAddress =
     formData?.veteranContactInformation?.veteranAddress || {};
@@ -258,22 +285,72 @@ export const childEvidence = (formData = {}) => {
   };
 };
 
+/**
+ * Check if duplicate modal should be shown
+ * @param {object} formData - form data object
+ * @returns {boolean} - true if duplicate modal should be shown
+ */
 export const showDupeModalIfEnabled = (formData = {}) =>
   !!formData.vaDependentsDuplicateModals;
 
+/**
+ * Check if adding dependents
+ * @param {object} formData - form data object
+ * @returns {boolean} - true if adding dependents
+ */
 export const isAddingDependents = formData =>
   !!formData?.['view:addOrRemoveDependents']?.add;
+
+/**
+ * Check if removing dependents
+ * @param {object} formData - form data object
+ * @returns {boolean} - true if removing dependents
+ */
 export const isRemovingDependents = formData =>
   !!formData?.['view:addOrRemoveDependents']?.remove;
-export const showV3Picklist = formData => !!formData?.vaDependentsV3;
-export const noV3Picklist = formData => !formData?.vaDependentsV3;
-export const showOptionsSelection = formData =>
-  showV3Picklist(formData) ? formData.dependents?.awarded.length > 0 : true;
 
+/**
+ * Check if the form should go through v3 picklist unless Veteran has a v2 form
+ * in progress
+ * @param {object} formData - form data object
+ * @returns {boolean} - true if v3 picklist should be shown
+ */
+export const showV3Picklist = formData =>
+  !!formData?.vaDependentsV3 && formData?.vaDependentV2Flow !== true;
+
+/**
+ * Show v2 flow if Veteran has a v2 form in progress
+ * @param {object} formData - form data object
+ * @returns {boolean} - true if v3 picklist should be shown
+ */
+export const noV3Picklist = formData => !showV3Picklist(formData);
+
+/**
+ * Check if there are awarded dependents in form data
+ * @param {object} formData - form data object
+ * @returns {boolean} - true if there are awarded dependents
+ */
 export const hasAwardedDependents = (formData = {}) =>
   Array.isArray(formData?.dependents?.awarded) &&
   formData.dependents.awarded.length > 0;
 
+/**
+ * If v3 flow is enabled, show options selection (add or remove question) if
+ * there are awarded dependents; if no awarded dependents, only show the add
+ * dependents flow
+ * @param {object} formData - form data object
+ * @returns {boolean} - true if options selection should be shown
+ */
+export const showOptionsSelection = formData =>
+  showV3Picklist(formData) ? hasAwardedDependents(formData) : true;
+
+/**
+ * If v3 picklist is enabled, check if remove flow is selected and if all the
+ * dependents have a relationship value, then show the picklist page
+ * @param {object} formData - form data object
+ * @param {string} relationship - relationship to veteran
+ * @returns {boolean} - true if picklist page is visible
+ */
 export const isVisiblePicklistPage = (formData, relationship) => {
   const pickList = formData?.[PICKLIST_DATA] || [];
   return (
@@ -286,20 +363,27 @@ export const isVisiblePicklistPage = (formData, relationship) => {
   );
 };
 
+/**
+ * Check if any picklist items are selected
+ * @param {object} formData - form data object
+ * @returns {boolean} - true if any picklist items are selected
+ */
 export const hasSelectedPicklistItems = formData =>
   (formData?.[PICKLIST_DATA] || []).some(item => item.selected);
 
 /**
- * Build location object for V2 format
- * @param {Object} item - Picklist item with location fields
- * @returns {Object} V2 location format
+ * Transform V3 picklist location to V2 location format for submission transformation
+ * @param {object} item - Picklist item with location fields
+ * @returns {object} V2 location format
  */
 function buildLocation(item) {
-  if (item.endOutsideUs === true) {
+  if (item.endOutsideUS === true) {
     return {
       outsideUsa: true,
       location: {
         city: item.endCity || '',
+        // Copying addressUI pattern, were 'state' is submitted for province
+        state: item.endProvince || '',
         country: item.endCountry || '',
       },
     };
@@ -316,8 +400,8 @@ function buildLocation(item) {
 
 /**
  * Transform V3 picklist item with removalReason: 'childMarried' to V2 format
- * @param {Object} item - Picklist item
- * @returns {Object} V2 childMarriage format
+ * @param {object} item - Picklist item
+ * @returns {object} V2 childMarriage format
  */
 function transformChildMarriage(item) {
   return {
@@ -361,6 +445,14 @@ function transformChildDeath(item) {
     dependentDeathLocation: buildLocation(item),
     // TODO: Confirm income field source - currently defaulting to 'N'
     deceasedDependentIncome: 'N',
+    childStatus: {
+      childUnder18: item.age < 18,
+      // assume disabled if over 23, we'll add a specific question later
+      // childOver18InSchool: true, // Can't assume this
+      disabled: item.age > 23,
+      stepChild: item.isStepchild === 'Y',
+      // adopted: null, // Optional field
+    },
   };
 }
 
@@ -420,7 +512,7 @@ function transformParentDeath(item) {
     fullName: item.fullName,
     ssn: item.ssn,
     birthDate: item.dateOfBirth,
-    dependentType: 'PARENT',
+    dependentType: 'DEPENDENT_PARENT',
     dependentDeathDate: item.endDate,
     dependentDeathLocation: buildLocation(item),
     // TODO: Confirm income field source - currently defaulting to 'N'
@@ -429,22 +521,30 @@ function transformParentDeath(item) {
 }
 
 /**
- * Transform V3 picklist item with removalReason: 'stepchildNotMember' to V2 format
+ * Transform V3 picklist item where isStepchild === 'Y' to V2 stepChildren format
+ * Used for any child removal reason where the child is identified as a stepchild
  * @param {Object} item - Picklist item
  * @returns {Object} V2 stepChildren format
  */
-function transformStepchild(item) {
-  // this function isn't called if item.stepchildFinancialSupport === 'Y'
-  return {
+function transformStepchildByFlag(item) {
+  const baseData = {
     fullName: item.fullName,
     ssn: item.ssn,
     birthDate: item.dateOfBirth,
-    dateStepchildLeftHousehold: item.endDate,
-    whoDoesTheStepchildLiveWith: item.whoDoesTheStepchildLiveWith || {},
-    address: item.address || {},
-    livingExpensesPaid: 'Less than half',
-    supportingStepchild: false,
   };
+
+  if (item.removalReason === 'stepchildNotMember') {
+    return {
+      ...baseData,
+      dateStepchildLeftHousehold: item.endDate,
+      whoDoesTheStepchildLiveWith: item.whoDoesTheStepchildLiveWith || {},
+      address: item.address || {},
+      livingExpensesPaid: 'Less than half',
+      supportingStepchild: false,
+    };
+  }
+
+  return baseData;
 }
 
 /**
@@ -461,6 +561,20 @@ export function transformPicklistToV2(data) {
     return data;
   }
 
+  // Filter out items that should not be transformed
+  const itemsToTransform = selected.filter(
+    item =>
+      // Skip stepchild left household with financial support > 50% &
+      // Skip child not in school with permanent disability
+      !(
+        (item.isStepchild === 'Y' &&
+          item.removalReason === 'stepchildNotMember' &&
+          item.stepchildFinancialSupport === 'Y') ||
+        (item.removalReason === 'childNotInSchool' &&
+          item.childHasPermanentDisability === 'Y')
+      ),
+  );
+
   // Initialize V2 arrays
   const v2Data = {
     deaths: [],
@@ -470,62 +584,82 @@ export function transformPicklistToV2(data) {
     reportDivorce: null,
   };
 
-  // Group by removal reason and transform
-  selected.forEach(item => {
-    switch (item.removalReason) {
-      case 'childMarried':
-        v2Data.childMarriage.push(transformChildMarriage(item));
-        break;
-      case 'childNotInSchool':
-        // Don't add data if child has permanent disability
-        if (item.childHasPermanentDisability !== 'Y') {
-          v2Data.childStoppedAttendingSchool.push(
-            transformChildNotInSchool(item),
-          );
-        }
-        break;
-      case 'childDied':
-        v2Data.deaths.push(transformChildDeath(item));
-        break;
-      case 'marriageEnded':
-        // reportDivorce is single object, not array
-        if (v2Data.reportDivorce) {
-          // TODO: Handle multiple spouses with marriageEnded
-          dataDogLogger({
-            message:
-              'Multiple spouses with marriageEnded in v3 to V2 transform',
-            attributes: {},
-          });
-        } else {
-          v2Data.reportDivorce = transformSpouseDivorce(item);
-        }
-        break;
-      case 'spouseDied': // spouse death
-        v2Data.deaths.push(transformSpouseDeath(item));
-        break;
-      case 'parentDied':
-        v2Data.deaths.push(transformParentDeath(item));
-        break;
-      case 'stepchildNotMember':
-        // Don't remove stepchild if Veteran still provides >= 50% financial
-        // support
-        if (item.stepchildFinancialSupport !== 'Y') {
-          v2Data.stepChildren.push(transformStepchild(item));
-        }
-        break;
-      case 'childAdopted':
-        // TO DO: implement once backend support is confirmed
-        break;
-      case 'parentOther':
-        // This form does not support 'other' removal reason for parents
-        break;
-      default:
+  // Routing table: removalReason -> [arrayName, transformFn] or [[default], [stepchild]]
+  const routes = {
+    // Deaths - all dependent types go to deaths array
+    childDied: ['deaths', transformChildDeath],
+    spouseDied: ['deaths', transformSpouseDeath],
+    parentDied: ['deaths', transformParentDeath],
+
+    // Child married - stepchildren go to stepChildren, others to childMarriage
+    childMarried: [
+      ['childMarriage', transformChildMarriage], // default
+      ['stepChildren', transformStepchildByFlag], // stepchild
+    ],
+
+    // Child not in school - stepchildren go to stepChildren, others to childStoppedAttendingSchool
+    childNotInSchool: [
+      ['childStoppedAttendingSchool', transformChildNotInSchool], // default
+      ['stepChildren', transformStepchildByFlag], // stepchild
+    ],
+
+    // Spouse divorce/annulment
+    marriageEnded: ['reportDivorce', transformSpouseDivorce],
+
+    // Stepchild left household
+    stepchildNotMember: ['stepChildren', transformStepchildByFlag],
+
+    // Child adopted (TODO: implement backend support for non-stepchild adoption)
+    childAdopted: ['stepChildren', transformStepchildByFlag],
+
+    // Parent other - not supported
+    parentOther: null,
+  };
+
+  itemsToTransform.forEach(item => {
+    const route = routes[item.removalReason];
+
+    // Handle unknown removal reasons
+    if (route === undefined) {
+      dataDogLogger({
+        message: 'Unknown removal reason in v3 to V2 transform',
+        attributes: { removalReason: item.removalReason },
+        status: 'error',
+      });
+      return;
+    }
+
+    // Skip unsupported removal reasons
+    if (route === null) {
+      return;
+    }
+
+    // Determine which route to use based on stepchild status
+    let arrayName;
+    let transformFn;
+    if (Array.isArray(route[0])) {
+      // Has stepchild override: [[default], [stepchild]]
+      const routeIndex = item.isStepchild === 'Y' ? 1 : 0;
+      [arrayName, transformFn] = route[routeIndex];
+    } else {
+      // Simple route: [arrayName, transformFn]
+      [arrayName, transformFn] = route;
+    }
+
+    // Apply transformation and add to destination
+    if (arrayName === 'reportDivorce') {
+      // reportDivorce is single object, not array
+      if (v2Data.reportDivorce) {
         dataDogLogger({
-          message: 'Unknown removal reason in v3 to V2 transform',
-          attributes: { removalReason: item.removalReason },
-          status: 'error',
+          message: 'Multiple spouses with marriageEnded in v3 to V2 transform',
+          attributes: {},
         });
-        break;
+      } else {
+        v2Data.reportDivorce = transformFn(item);
+      }
+    } else {
+      // Add to array
+      v2Data[arrayName].push(transformFn(item));
     }
   });
 
@@ -561,9 +695,22 @@ export function transformPicklistToV2(data) {
     reportChild18OrOlderIsNotAttendingSchool:
       v2Data.childStoppedAttendingSchool.length > 0,
   };
+
+  // eslint-disable-next-line no-param-reassign
+  data['view:selectable686Options'] = {
+    ...data['view:addDependentOptions'],
+    ...data['view:removeDependentOptions'],
+  };
+
   return data;
 }
 
+/**
+ * Get form data for submission
+ * @param {object} formConfig - form configuration object
+ * @param {object} form - form object from Redux store
+ * @returns {object} - transformed form data
+ */
 export function customTransformForSubmit(formConfig, form) {
   const payload = cloneDeep(form);
   if (!payload.data) {
@@ -585,12 +732,14 @@ export function customTransformForSubmit(formConfig, form) {
   );
 
   // Transform V3 picklist data to V2 format if V3 is enabled
-  const updatedData =
-    withoutInactivePages?.vaDependentsV3 === true
-      ? transformPicklistToV2(withoutInactivePages)
-      : withoutInactivePages;
+  const updatedData = showV3Picklist(withoutInactivePages)
+    ? transformPicklistToV2(withoutInactivePages)
+    : withoutInactivePages;
 
   const cleanedPayload = buildSubmissionData(updatedData);
 
-  return JSON.stringify(cleanedPayload, customFormReplacer) || '{}';
+  return {
+    body: JSON.stringify(cleanedPayload, customFormReplacer) || '{}',
+    data: cleanedPayload || {},
+  };
 }

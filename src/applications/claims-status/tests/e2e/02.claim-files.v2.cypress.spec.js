@@ -501,6 +501,167 @@ describe('Failed Submissions in Progress Empty State', () => {
       );
       cy.axeCheck();
     });
+
+    it("should navigate to Files We Couldn't Receive page and display error state when API fails", () => {
+      // Intercept the failed uploads API call with error
+      cy.intercept(
+        'GET',
+        '/v0/benefits_claims/failed_upload_evidence_submissions',
+        {
+          statusCode: 500,
+          body: { errors: [{ title: 'Internal Server Error' }] },
+        },
+      ).as('failedUploadsError');
+
+      const trackClaimsPage = new TrackClaimsPageV2();
+      trackClaimsPage.loadPage(
+        claimsList,
+        claimDetailsOpenWithFailedSubmissions,
+        false,
+        false,
+        featureToggleDocumentUploadStatusEnabled,
+      );
+      trackClaimsPage.verifyInProgressClaim(false);
+      trackClaimsPage.navigateToFilesTab();
+
+      // Click link to navigate to Files We Couldn't Receive page
+      cy.get('[data-testid="files-we-couldnt-receive-entry-point"] va-link')
+        .shadow()
+        .find('a')
+        .click();
+
+      cy.wait('@failedUploadsError');
+
+      // Verify error state
+      cy.get('h1').should('contain.text', 'We encountered a problem');
+      cy.get('va-alert[status="warning"]').should('exist');
+
+      // Verify the slotted content (which is in light DOM, not shadow DOM)
+      cy.get('va-alert[status="warning"] h2[slot="headline"]').should(
+        'contain.text',
+        'Your files are temporarily unavailable',
+      );
+      cy.get('va-alert[status="warning"] p').should(
+        'contain.text',
+        'having trouble loading your files right now',
+      );
+
+      // Verify normal page content is NOT displayed (we expect "We encountered a problem" instead)
+      cy.get('h1').should('not.contain.text', 'Files we');
+      cy.get('[data-testid="files-not-received-section"]').should('not.exist');
+
+      cy.injectAxeThenAxeCheck();
+    });
+
+    it("should navigate to Files We Couldn't Receive page and display empty state when no failed files", () => {
+      // Setup feature toggles and API intercepts
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles?*',
+        featureToggleDocumentUploadStatusEnabled,
+      );
+      cy.intercept('GET', '/v0/benefits_claims', claimsList);
+      cy.intercept(
+        'GET',
+        '/v0/benefits_claims/failed_upload_evidence_submissions',
+        {
+          statusCode: 200,
+          body: { data: [] },
+        },
+      ).as('failedUploadsEmpty');
+
+      cy.login();
+      cy.visit('/track-claims/your-claims/files-we-couldnt-receive');
+
+      cy.wait('@failedUploadsEmpty');
+
+      // Verify page heading
+      cy.get('h1').should('contain.text', 'Files we');
+
+      // Verify empty state message
+      cy.contains('received all files you submitted online').should('exist');
+
+      // Verify no failed files list
+      cy.get('[data-testid="failed-files-list"]').should('not.exist');
+
+      cy.injectAxeThenAxeCheck();
+    });
+
+    it("should navigate to Files We Couldn't Receive page and display list of failed files", () => {
+      const mockFailedFiles = [
+        {
+          id: 1,
+          fileName: 'test-document-1.pdf',
+          trackedItemDisplayName: '21-4142',
+          failedDate: '2025-01-15T10:35:00.000Z',
+          documentType: 'VA Form 21-4142',
+          claimId: '123',
+          trackedItemId: 1,
+        },
+        {
+          id: 2,
+          fileName: 'test-document-2.pdf',
+          trackedItemDisplayName: 'Additional Evidence',
+          failedDate: '2025-01-20T14:20:00.000Z',
+          documentType: 'Other',
+          claimId: '123',
+          trackedItemId: 2,
+        },
+      ];
+
+      // Intercept the failed uploads API call with data
+      cy.intercept(
+        'GET',
+        '/v0/benefits_claims/failed_upload_evidence_submissions',
+        {
+          statusCode: 200,
+          body: { data: mockFailedFiles },
+        },
+      ).as('failedUploadsWithData');
+
+      const trackClaimsPage = new TrackClaimsPageV2();
+      trackClaimsPage.loadPage(
+        claimsList,
+        claimDetailsOpenWithFailedSubmissions,
+        false,
+        false,
+        featureToggleDocumentUploadStatusEnabled,
+      );
+      trackClaimsPage.verifyInProgressClaim(false);
+      trackClaimsPage.navigateToFilesTab();
+
+      // Click link to navigate to Files We Couldn't Receive page
+      cy.get('[data-testid="files-we-couldnt-receive-entry-point"] va-link')
+        .shadow()
+        .find('a')
+        .click();
+
+      cy.wait('@failedUploadsWithData');
+
+      // Verify page heading
+      cy.get('h1').should('contain.text', 'Files we');
+
+      // Verify instructions
+      cy.contains('receive files you submitted online').should('exist');
+
+      // Verify failed files list exists
+      cy.get('[data-testid="failed-files-list"]').should('exist');
+
+      // Verify both files are displayed
+      cy.get('[data-testid="failed-file-1"]').within(() => {
+        cy.contains('test-document-1.pdf').should('exist');
+        cy.contains('21-4142').should('exist');
+        cy.contains('VA Form 21-4142').should('exist');
+      });
+
+      cy.get('[data-testid="failed-file-2"]').within(() => {
+        cy.contains('test-document-2.pdf').should('exist');
+        cy.contains('Additional Evidence').should('exist');
+        cy.contains('Other').should('exist');
+      });
+
+      cy.injectAxeThenAxeCheck();
+    });
   });
 });
 

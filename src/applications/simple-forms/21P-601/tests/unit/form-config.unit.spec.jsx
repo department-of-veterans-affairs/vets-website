@@ -70,7 +70,6 @@ describe('21P-601 form config', () => {
         formConfig.chapters.eligibilityChapter.pages.eligibilitySummary;
       expect(page).to.exist;
       expect(page.path).to.equal('eligibility-summary');
-      expect(page.hideNavButtons).to.be.true;
     });
   });
 
@@ -124,65 +123,7 @@ describe('21P-601 form config', () => {
     });
   });
 
-  describe('veteranInformationChapter dependencies', () => {
-    const dependsFn = formConfig.chapters.veteranInformationChapter.depends;
-
-    it('should be visible when user is eligible', () => {
-      const formData = { hasAlreadyFiled: false, hasUnpaidCreditors: false };
-      expect(dependsFn(formData)).to.be.true;
-    });
-
-    it('should be hidden when hasAlreadyFiled is true', () => {
-      const formData = { hasAlreadyFiled: true, hasUnpaidCreditors: false };
-      expect(dependsFn(formData)).to.be.false;
-    });
-
-    it('should be hidden when hasUnpaidCreditors is true', () => {
-      const formData = { hasAlreadyFiled: false, hasUnpaidCreditors: true };
-      expect(dependsFn(formData)).to.be.false;
-    });
-
-    it('should be hidden when both are true', () => {
-      const formData = { hasAlreadyFiled: true, hasUnpaidCreditors: true };
-      expect(dependsFn(formData)).to.be.false;
-    });
-  });
-
-  describe('deceasedBeneficiaryChapter dependencies', () => {
-    const dependsFn = formConfig.chapters.deceasedBeneficiaryChapter.depends;
-
-    it('should be visible when user is eligible', () => {
-      const formData = { hasAlreadyFiled: false, hasUnpaidCreditors: false };
-      expect(dependsFn(formData)).to.be.true;
-    });
-
-    it('should be hidden when hasAlreadyFiled is true', () => {
-      const formData = { hasAlreadyFiled: true, hasUnpaidCreditors: false };
-      expect(dependsFn(formData)).to.be.false;
-    });
-
-    it('should be hidden when hasUnpaidCreditors is true', () => {
-      const formData = { hasAlreadyFiled: false, hasUnpaidCreditors: true };
-      expect(dependsFn(formData)).to.be.false;
-    });
-  });
-
-  describe('yourInformationChapter dependencies', () => {
-    const dependsFn = formConfig.chapters.yourInformationChapter.depends;
-
-    it('should be visible when user is eligible', () => {
-      const formData = { hasAlreadyFiled: false, hasUnpaidCreditors: false };
-      expect(dependsFn(formData)).to.be.true;
-    });
-
-    it('should be hidden when hasAlreadyFiled is true', () => {
-      const formData = { hasAlreadyFiled: true, hasUnpaidCreditors: false };
-      expect(dependsFn(formData)).to.be.false;
-    });
-  });
-
   describe('survivingRelativesChapter dependencies', () => {
-    const dependsFn = formConfig.chapters.survivingRelativesChapter.depends;
     const summaryDependsFn =
       formConfig.chapters.survivingRelativesChapter.pages.relativesSummary
         .depends;
@@ -195,87 +136,19 @@ describe('21P-601 form config', () => {
       formConfig.chapters.survivingRelativesChapter.pages.relativeAddressPage
         .depends;
 
-    it('should be visible when user is eligible', () => {
-      const formData = { hasAlreadyFiled: false, hasUnpaidCreditors: false };
-      expect(dependsFn(formData)).to.be.true;
-    });
-
-    it('should be hidden when hasAlreadyFiled is true', () => {
-      const formData = { hasAlreadyFiled: true, hasUnpaidCreditors: false };
-      expect(dependsFn(formData)).to.be.false;
-    });
-
     it('should show summary when has survivors is true', () => {
-      const formData = { survivors: { hasNone: false, hasSpouse: true } };
-      expect(summaryDependsFn(formData)).to.be.true;
-    });
-
-    it('should show summary when has survivors is true and hasChildren is true', () => {
-      const formData = { survivors: { hasNone: false, hasChildren: true } };
-      expect(summaryDependsFn(formData)).to.be.true;
-    });
-
-    it('should show summary when has survivors is true and hasParents is true', () => {
-      const formData = { survivors: { hasNone: false, hasParents: true } };
+      const formData = { survivors: true };
       expect(summaryDependsFn(formData)).to.be.true;
     });
 
     it('should show relative name page when has survivors is true', () => {
-      const formData = { survivors: { hasNone: false, hasSpouse: true } };
-      expect(relNameDependsFn(formData)).to.be.true;
-    });
-
-    it('should show relative name page when has survivors is true and hasChildren is true', () => {
-      const formData = { survivors: { hasNone: false, hasChildren: true } };
-      expect(relNameDependsFn(formData)).to.be.true;
-    });
-
-    it('should show relative name page when has survivors is true and hasParents is true', () => {
-      const formData = { survivors: { hasNone: false, hasParents: true } };
+      const formData = { survivors: true };
       expect(relNameDependsFn(formData)).to.be.true;
     });
 
     it('should show relative address page when has survivors is true', () => {
-      const formData = { survivors: { hasNone: false, hasSpouse: true } };
+      const formData = { survivors: true };
       expect(relAddressDependsFn(formData)).to.be.true;
-    });
-
-    it('should show relative address page when has survivors is true and hasChildren is true', () => {
-      const formData = { survivors: { hasNone: false, hasChildren: true } };
-      expect(relAddressDependsFn(formData)).to.be.true;
-    });
-
-    it('should show relative address page when has survivors is true and hasParents is true', () => {
-      const formData = { survivors: { hasNone: false, hasParents: true } };
-      expect(relAddressDependsFn(formData)).to.be.true;
-    });
-  });
-
-  describe('expensesAndDebtsChapter dependencies', () => {
-    const dependsFn = formConfig.chapters.expensesAndDebtsChapter.depends;
-
-    it('should be visible when user is eligible', () => {
-      const formData = { hasAlreadyFiled: false, hasUnpaidCreditors: false };
-      expect(dependsFn(formData)).to.be.true;
-    });
-
-    it('should be hidden when hasAlreadyFiled is true', () => {
-      const formData = { hasAlreadyFiled: true, hasUnpaidCreditors: false };
-      expect(dependsFn(formData)).to.be.false;
-    });
-  });
-
-  describe('additionalInfoChapter dependencies', () => {
-    const dependsFn = formConfig.chapters.additionalInfoChapter.depends;
-
-    it('should be visible when user is eligible', () => {
-      const formData = { hasAlreadyFiled: false, hasUnpaidCreditors: false };
-      expect(dependsFn(formData)).to.be.true;
-    });
-
-    it('should be hidden when hasAlreadyFiled is true', () => {
-      const formData = { hasAlreadyFiled: true, hasUnpaidCreditors: false };
-      expect(dependsFn(formData)).to.be.false;
     });
   });
 
@@ -337,11 +210,9 @@ describe('21P-601 form config', () => {
           formData,
         ),
       ).to.be.true;
-      expect(formConfig.chapters.veteranInformationChapter.depends(formData)).to
-        .be.false;
     });
 
-    it('should show eligibility end page when has unpaid creditors', () => {
+    it('should show eligibility page when has unpaid creditors', () => {
       const formData = { hasAlreadyFiled: false, hasUnpaidCreditors: true };
 
       expect(
@@ -349,24 +220,6 @@ describe('21P-601 form config', () => {
           formData,
         ),
       ).to.be.true;
-      expect(formConfig.chapters.veteranInformationChapter.depends(formData)).to
-        .be.false;
-    });
-
-    it('should show full form when eligible', () => {
-      const formData = { hasAlreadyFiled: false, hasUnpaidCreditors: false };
-
-      expect(
-        formConfig.chapters.eligibilityChapter.pages.eligibilitySummary.depends(
-          formData,
-        ),
-      ).to.be.false;
-      expect(formConfig.chapters.veteranInformationChapter.depends(formData)).to
-        .be.true;
-      expect(formConfig.chapters.deceasedBeneficiaryChapter.depends(formData))
-        .to.be.true;
-      expect(formConfig.chapters.yourInformationChapter.depends(formData)).to.be
-        .true;
     });
 
     it('should show beneficiaryFullName only when beneficiary is not veteran', () => {

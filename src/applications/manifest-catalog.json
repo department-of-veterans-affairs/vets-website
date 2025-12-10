@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 150,
+  "totalApplications": 151,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -122,12 +122,6 @@
       "appName": "21P-530a Interment Allowance",
       "entryName": "21p-530a-interment-allowance",
       "rootUrl": "/submit-state-interment-allowance-form-21p-530a"
-    },
-    {
-      "directoryPath": "src/applications/benefits-optimization-pingwind/21-4140",
-      "appName": "Employment Questionnaire",
-      "entryName": "21-4140",
-      "rootUrl": "/disability/verify-individual-unemployability-status/submit-employment-questionnaire-form-21-4140"
     },
     {
       "directoryPath": "src/applications/benefits-optimization-pingwind/21-8940",
@@ -256,6 +250,12 @@
       "rootUrl": "/ds-v3-playground"
     },
     {
+      "directoryPath": "src/applications/edu-benefits/0803",
+      "appName": "22-0803 Request for reimbursement of licensing or certification test fees",
+      "entryName": "0803-edu-benefits",
+      "rootUrl": "/education/other-va-education-benefits/reimbursements/test-reimbursement-22-0803"
+    },
+    {
       "directoryPath": "src/applications/edu-benefits/0839",
       "appName": "0839",
       "entryName": "0839-edu-benefits",
@@ -299,9 +299,9 @@
     },
     {
       "directoryPath": "src/applications/edu-benefits/10278",
-      "appName": "Authorize VA to disclose personal information to a third party",
+      "appName": "Authorize VA to Disclose Personal Information to a Third Party for Education Benefits",
       "entryName": "10278-edu-benefits",
-      "rootUrl": "/education/10278"
+      "rootUrl": "/education/disclose-information-to-third-party/authorize-disclosure-form-22-10278"
     },
     {
       "directoryPath": "src/applications/edu-benefits/10282",
@@ -532,10 +532,10 @@
       "rootUrl": "/education/apply-for-gi-bill-form-22-1990"
     },
     {
-      "directoryPath": "src/applications/new-28-1900",
-      "appName": "New 28-1900 Veteran Readiness",
-      "entryName": "new-28-1900-chapter-31",
-      "rootUrl": "/temporary/apply-vre-form-28-1900"
+      "directoryPath": "src/applications/new-chapter-36-form",
+      "appName": "Personalized Career Planning and Guidance/Chapter 36 (VA Form 27-8832)",
+      "entryName": "new-chapter-36-form",
+      "rootUrl": "/temporary/apply-career-guidance-form-27-8832"
     },
     {
       "directoryPath": "src/applications/office-directory",
@@ -677,7 +677,7 @@
     },
     {
       "directoryPath": "src/applications/sign-in-health-portal",
-      "appName": "Sign-in Health Portal",
+      "appName": "sign-in-health-portal",
       "entryName": "sign-in-health-portal",
       "rootUrl": "/sign-in-health-portal"
     },
@@ -736,6 +736,12 @@
       "rootUrl": "/supporting-forms-for-claims/submit-statement-form-21-4138"
     },
     {
+      "directoryPath": "src/applications/simple-forms/21-4140",
+      "appName": "Submit Employment Questionnaire",
+      "entryName": "21-4140",
+      "rootUrl": "/disability/verify-individual-unemployability-status/submit-employment-questionnaire-form-21-4140"
+    },
+    {
       "directoryPath": "src/applications/simple-forms/21-4142",
       "appName": "Authorize the release of non-VA medical information to VA",
       "entryName": "21-4142-medical-release",
@@ -782,6 +788,12 @@
       "appName": "Mock form minimal header",
       "entryName": "mock-form-minimal-header",
       "rootUrl": "/mock-form-minimal-header"
+    },
+    {
+      "directoryPath": "src/applications/simple-forms/mock-form-prefill",
+      "appName": "Mock Form with Prefill",
+      "entryName": "mock-form-prefill",
+      "rootUrl": "/mock-form-prefill"
     },
     {
       "directoryPath": "src/applications/simple-forms/mock-simple-forms-patterns",
