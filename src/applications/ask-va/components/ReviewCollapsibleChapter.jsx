@@ -36,13 +36,6 @@ class ReviewCollapsibleChapter extends React.Component {
     this.id = uniqueId();
   }
 
-  showSaveCancelButtons(editing) {
-    if (this.props.showButtons) {
-      return !editing;
-    }
-    return true;
-  }
-
   handleEdit(key, editing, index = null) {
     this.props.onEdit(key, editing, index);
     this.scrollToPage(key);
@@ -239,17 +232,16 @@ class ReviewCollapsibleChapter extends React.Component {
                 buttonClass="usa-button-primary vads-u-width--auto"
                 ariaLabel={ariaLabel}
               />
-              <button
+              <va-button
                 aria-label="Cancel"
-                type="button"
                 id="cancel"
-                className="usa-button-secondary vads-u-width--auto"
+                className="vads-u-width--auto"
+                variant="secondary"
+                text="Cancel"
                 onClick={() =>
                   this.handleEdit(page.pageKey, !editing, page.index)
                 }
-              >
-                Cancel
-              </button>
+              />
             </div>
           )}
         </SchemaForm>
@@ -404,6 +396,13 @@ class ReviewCollapsibleChapter extends React.Component {
     scrollTo(`${key}ScrollElement`, getScrollOptions({ offset: scrollOffset }));
   };
 
+  showSaveCancelButtons(editing) {
+    if (this.props.showButtons) {
+      return !editing;
+    }
+    return true;
+  }
+
   render() {
     let pageContent = null;
     pageContent = this.getChapterContent(this.props);
@@ -432,6 +431,10 @@ ReviewCollapsibleChapter.propTypes = {
   router: PropTypes.shape({
     push: PropTypes.func,
   }),
+  setData: PropTypes.func,
+  showButtons: PropTypes.bool,
+  uploadFile: PropTypes.func,
+  onBlur: PropTypes.func,
 };
 
 export default withRouter(

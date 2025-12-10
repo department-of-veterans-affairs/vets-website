@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import ProgressButton from '@department-of-veterans-affairs/platform-forms-system/ProgressButton';
 
 const SaveCancelButtons = ({ closeSection, keys, title, scroll }) => {
@@ -14,17 +16,23 @@ const SaveCancelButtons = ({ closeSection, keys, title, scroll }) => {
         buttonClass="usa-button-primary vads-u-width--auto"
         ariaLabel={`Save ${title}`}
       />
-      <button
+      <va-button
         aria-label="Cancel"
-        type="button"
         id="cancel"
-        className="usa-button-secondary vads-u-width--auto"
+        className="vads-u-width--auto"
+        variant="secondary"
+        text="Cancel"
         onClick={() => closeSection(keys, title)}
-      >
-        Cancel
-      </button>
+      />
     </div>
   );
+};
+
+SaveCancelButtons.propTypes = {
+  closeSection: PropTypes.func,
+  keys: PropTypes.array,
+  scroll: PropTypes.func,
+  title: PropTypes.string,
 };
 
 export default SaveCancelButtons;
