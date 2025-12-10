@@ -29,6 +29,7 @@ const MessageThreadItem = props => {
     readReceipt,
     senderName,
     sentDate,
+    threadId,
   } = message;
   const isDraft = folderId === DefaultFolders.DRAFTS.id;
   const isSent = folderId === DefaultFolders.SENT.id;
@@ -43,7 +44,7 @@ const MessageThreadItem = props => {
   const handleExpand = () => {
     // isSentOrReandOrDraft is most reliable prop to determine if message is read or unread
     if (!forPrint && !isSentOrReadOrDraft) {
-      dispatch(markMessageAsReadInThread(messageId, isDraftThread));
+      dispatch(markMessageAsReadInThread(messageId, threadId));
     }
   };
 

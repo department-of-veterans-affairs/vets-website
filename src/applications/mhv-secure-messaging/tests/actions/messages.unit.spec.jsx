@@ -602,10 +602,12 @@ describe('messages actions', () => {
   });
 
   describe('markMessageAsReadInThread', () => {
+    const testThreadId = 12345;
+
     it('should dispatch GET_MESSAGE_IN_THREAD and RE_FETCH_REQUIRED on success', async () => {
       const store = mockStore();
       mockApiRequest(messageResponse);
-      await store.dispatch(markMessageAsReadInThread(7179970));
+      await store.dispatch(markMessageAsReadInThread(7179970, testThreadId));
       const actions = store.getActions();
       expect(actions).to.deep.include({
         type: Actions.Thread.GET_MESSAGE_IN_THREAD,
@@ -617,40 +619,20 @@ describe('messages actions', () => {
       });
     });
 
-    it('should dispatch MARK_THREAD_AS_READ with threadId from response', async () => {
+    it('should dispatch MARK_THREAD_AS_READ with threadId passed as parameter', async () => {
       const store = mockStore();
-      const responseWithThreadId = {
-        data: {
-          id: '7179970',
-          type: 'messages',
-          attributes: {
-            ...messageResponse.data.attributes,
-            threadId: 12345,
-          },
-        },
-      };
-      mockApiRequest(responseWithThreadId);
-      await store.dispatch(markMessageAsReadInThread(7179970));
+      mockApiRequest(messageResponse);
+      await store.dispatch(markMessageAsReadInThread(7179970, testThreadId));
       const actions = store.getActions();
       expect(actions).to.deep.include({
         type: Actions.Thread.MARK_THREAD_AS_READ,
-        payload: { threadId: 12345 },
+        payload: { threadId: testThreadId },
       });
     });
 
-    it('should not dispatch MARK_THREAD_AS_READ when threadId is missing', async () => {
+    it('should not dispatch MARK_THREAD_AS_READ when threadId is not provided', async () => {
       const store = mockStore();
-      const responseWithoutThreadId = {
-        data: {
-          id: '7179970',
-          type: 'messages',
-          attributes: {
-            ...messageResponse.data.attributes,
-            threadId: undefined,
-          },
-        },
-      };
-      mockApiRequest(responseWithoutThreadId);
+      mockApiRequest(messageResponse);
       await store.dispatch(markMessageAsReadInThread(7179970));
       const actions = store.getActions();
       const markAsReadAction = actions.find(
@@ -662,7 +644,7 @@ describe('messages actions', () => {
     it('should not dispatch RE_FETCH_REQUIRED on error response', async () => {
       const store = mockStore();
       mockApiRequest({ errors: [{ code: '500', detail: 'Error' }] });
-      await store.dispatch(markMessageAsReadInThread(7179970));
+      await store.dispatch(markMessageAsReadInThread(7179970, testThreadId));
       const actions = store.getActions();
       expect(actions).to.not.deep.include({
         type: Actions.Thread.RE_FETCH_REQUIRED,
@@ -673,7 +655,7 @@ describe('messages actions', () => {
     it('should not dispatch MARK_THREAD_AS_READ on error response', async () => {
       const store = mockStore();
       mockApiRequest({ errors: [{ code: '500', detail: 'Error' }] });
-      await store.dispatch(markMessageAsReadInThread(7179970));
+      await store.dispatch(markMessageAsReadInThread(7179970, testThreadId));
       const actions = store.getActions();
       const markAsReadAction = actions.find(
         a => a.type === Actions.Thread.MARK_THREAD_AS_READ,

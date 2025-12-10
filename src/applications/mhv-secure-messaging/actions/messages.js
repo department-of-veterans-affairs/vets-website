@@ -25,13 +25,17 @@ export const clearThread = () => async dispatch => {
 
 /**
  * Call to mark message as read.
- * @param {Long} messageId
+ * @param {Long} messageId - The ID of the message to mark as read
+ * @param {Long} threadId - The ID of the thread containing the message (optional)
  * @returns
  *
  * Still need to use getMessage (single message) call to mark unread accordions
  * as read and to handle expanded messages.
  */
-export const markMessageAsReadInThread = messageId => async dispatch => {
+export const markMessageAsReadInThread = (
+  messageId,
+  threadId,
+) => async dispatch => {
   const response = await getMessage(messageId);
   if (response.errors) {
     // TODO Add error handling
@@ -42,7 +46,6 @@ export const markMessageAsReadInThread = messageId => async dispatch => {
     });
     // Update the thread's unreadMessages flag in the thread list
     // This ensures the inbox shows the correct read status when navigating back
-    const { threadId } = response.data.attributes;
     if (threadId) {
       dispatch({
         type: Actions.Thread.MARK_THREAD_AS_READ,
