@@ -1,6 +1,7 @@
 import React from 'react';
 import footerContent from 'platform/forms/components/FormFooter';
 import environment from 'platform/utilities/environment';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import { defaultItemPageScrollAndFocusTarget as scrollAndFocusTarget } from 'platform/forms-system/src/js/patterns/array-builder';
 import { PersonalInformation } from 'platform/forms-system/src/js/components/PersonalInformation/PersonalInformation';
 import manifest from '../manifest.json';
@@ -56,6 +57,12 @@ const formConfig = {
   savedFormMessages: {
     notFound: 'Please start over to apply for accrued benefits online.',
     noAuth: 'Please sign in again to continue your application.',
+  },
+  downtime: {
+    dependencies: [
+      externalServices.lighthouseBenefitsIntake,
+      externalServices.form21p601,
+    ],
   },
   preSubmitInfo: {
     statementOfTruth: {
