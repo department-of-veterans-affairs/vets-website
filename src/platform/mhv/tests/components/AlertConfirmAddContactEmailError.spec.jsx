@@ -33,7 +33,7 @@ describe('AlertConfirmAddContactEmailError />', () => {
     );
     expect(link).to.exist;
     expect(link.getAttribute('href')).to.equal(
-      '/profile/contact-information#contact-email-address',
+      '/profile/contact-information#email-address',
     );
 
     expect(recordEvent.calledOnce).to.be.true;

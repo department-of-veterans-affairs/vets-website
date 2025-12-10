@@ -4,7 +4,7 @@
  */
 
 import { expect } from 'chai';
-import prefillTransformer from './prefill-transformer';
+import { prefillTransformer } from './prefill-transformer';
 
 describe('prefillTransformer', () => {
   const mockPages = [];
