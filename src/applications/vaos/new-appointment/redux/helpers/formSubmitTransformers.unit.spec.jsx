@@ -14,41 +14,56 @@ import { getReasonCode } from './getReasonCode';
 
 describe('VAOS V2 data transformation', () => {
   describe('VA booked', () => {
-    it('remove slot.start and slot.end from new appointment object', () => {
-      const state = {
-        user: {
-          profile: {
-            vapContactInfo: {},
-          },
+    const initialState = {
+      user: {
+        profile: {
+          vapContactInfo: {},
         },
-        newAppointment: {
-          data: {
-            phoneNumber: '5035551234',
-            bestTimeToCall: {
-              morning: true,
-            },
-            email: 'test@va.gov',
-            reasonForAppointment: 'routine-follow-up',
-            reasonAdditionalInfo: 'asdfasdf',
-            selectedDates: ['2019-11-22T09:30:00Z'],
-            preferredDate: '2019-12-02',
-            clinicId: '983_308',
-            vaParent: '983',
-            vaFacility: '983',
-            facilityType: 'vamc',
-            typeOfCareId: TYPE_OF_CARE_IDS.PRIMARY_CARE,
+      },
+      newAppointment: {
+        data: {
+          phoneNumber: '5035551234',
+          bestTimeToCall: {
+            morning: true,
           },
-          availableSlots: [
-            {
-              start: '2019-12-22T09:30:00Z',
-              end: '2019-12-22T10:00:00Z',
+          email: 'test@va.gov',
+          reasonForAppointment: 'routine-follow-up',
+          reasonAdditionalInfo: 'asdfasdf',
+          selectedDates: ['2019-11-22T09:30:00Z'],
+          preferredDate: '2019-12-02',
+          clinicId: '983_308',
+          vaParent: '983',
+          vaFacility: '983',
+          facilityType: 'vamc',
+          typeOfCareId: TYPE_OF_CARE_IDS.PRIMARY_CARE,
+        },
+        availableSlots: [
+          {
+            start: '2019-12-22T09:30:00Z',
+            end: '2019-12-22T10:00:00Z',
+          },
+          {
+            start: '2019-11-22T09:30:00Z',
+            end: '2019-11-22T10:00:00Z',
+          },
+        ],
+        parentFacilities: [
+          {
+            id: '983',
+            identifier: [
+              {
+                system: VHA_FHIR_ID,
+                value: '983',
+              },
+            ],
+            address: {
+              city: 'Cheyenne',
+              state: 'WY',
             },
-            {
-              start: '2019-11-22T09:30:00Z',
-              end: '2019-11-22T10:00:00Z',
-            },
-          ],
-          parentFacilities: [
+          },
+        ],
+        facilities: {
+          '323': [
             {
               id: '983',
               identifier: [
@@ -57,44 +72,109 @@ describe('VAOS V2 data transformation', () => {
                   value: '983',
                 },
               ],
+              name: 'Cheyenne VA Medical Center',
               address: {
                 city: 'Cheyenne',
                 state: 'WY',
               },
+              legacyVAR: {
+                institutionTimezone: 'America/Denver',
+              },
             },
           ],
-          facilities: {
-            '323': [
-              {
-                id: '983',
-                identifier: [
-                  {
-                    system: VHA_FHIR_ID,
-                    value: '983',
-                  },
-                ],
-                name: 'Cheyenne VA Medical Center',
-                address: {
-                  city: 'Cheyenne',
-                  state: 'WY',
-                },
-                legacyVAR: {
-                  institutionTimezone: 'America/Denver',
-                },
-              },
-            ],
-          },
-          clinics: {
-            '983_323': [
-              {
-                id: '983_308',
-                serviceName: 'Green Team Clinic1',
-                stationId: '983',
-                stationName: 'CHYSHR-Cheyenne VA Medical Center',
-              },
-            ],
-          },
         },
+        clinics: {
+          '983_323': [
+            {
+              id: '983_308',
+              serviceName: 'Green Team Clinic1',
+              stationId: '983',
+              stationName: 'CHYSHR-Cheyenne VA Medical Center',
+            },
+          ],
+        },
+      },
+    };
+    it('returns clinic id for clinic when appointment scheduled at VistA facility', () => {
+      const state = {
+        ...initialState,
+        newAppointment: { ...initialState.newAppointment, ehr: 'vista' },
+      };
+
+      // when the reason text is combined with appointment information
+      const reasonTextTransformed = getReasonCode({
+        data: state.newAppointment.data,
+        isCC: false,
+        isDS: true,
+      });
+
+      const stateWithSlotId = {
+        ...state,
+        newAppointment: {
+          ...state.newAppointment,
+          availableSlots: [
+            { ...state.newAppointment.availableSlots[0], id: 'test' },
+            { ...state.newAppointment.availableSlots[1], id: 'test2' },
+          ],
+        },
+      };
+
+      const data = transformFormToVAOSAppointment(stateWithSlotId);
+      expect(data).to.deep.equal({
+        kind: 'clinic',
+        status: 'booked',
+        clinic: '308',
+        slot: {
+          id: 'test2',
+        },
+        extension: { desiredDate: '2019-12-02T00:00:00+00:00' },
+        locationId: '983',
+        reasonCode: reasonTextTransformed,
+      });
+    });
+
+    it('returns null for clinic when appointment scheduled at a OH facility', () => {
+      const state = {
+        ...initialState,
+        newAppointment: { ...initialState.newAppointment, ehr: 'cerner' },
+      };
+
+      // when the reason text is combined with appointment information
+      const reasonTextTransformed = getReasonCode({
+        data: state.newAppointment.data,
+        isCC: false,
+        isDS: true,
+      });
+
+      const stateWithSlotId = {
+        ...state,
+        newAppointment: {
+          ...state.newAppointment,
+          availableSlots: [
+            { ...state.newAppointment.availableSlots[0], id: 'test' },
+            { ...state.newAppointment.availableSlots[1], id: 'test2' },
+          ],
+        },
+      };
+
+      const data = transformFormToVAOSAppointment(stateWithSlotId);
+      expect(data).to.deep.equal({
+        kind: 'clinic',
+        status: 'booked',
+        clinic: null,
+        slot: {
+          id: 'test2',
+        },
+        extension: { desiredDate: '2019-12-02T00:00:00+00:00' },
+        locationId: '983',
+        reasonCode: reasonTextTransformed,
+      });
+    });
+
+    it('remove slot.start and slot.end from new appointment object', () => {
+      const state = {
+        ...initialState,
+        newAppointment: { ...initialState.newAppointment, ehr: 'vista' },
       };
 
       // when the reason text is combined with appointment information
