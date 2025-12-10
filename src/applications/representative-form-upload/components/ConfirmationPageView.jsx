@@ -60,13 +60,13 @@ export const ConfirmationPageView = ({
       )}
       <p>This information was recorded for the new intent to file.</p>
       <va-card>
-        <h2>
+        <h2 className="vads-u-margin--0 vads-u-font-size--h3">
           {last}, {first}
         </h2>
         <div>
           {city}, {state} {postalCode}
         </div>
-        <p>
+        <p className="vads-u-margin-bottom--0">
           <div>
             <b>Benefit:</b> {itfTypes[benefitType]}
           </div>
