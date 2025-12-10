@@ -86,6 +86,22 @@ const getFormInfo = benefitType => {
   }
 };
 
+const getSwitchFormHeader = val => {
+  switch (val) {
+    case 'mgib-ad':
+    case 'mgib-sr':
+    case 'chapter33':
+      return 'Application for VA Education Benefits (VA Form 22-1990)';
+    case 'dea':
+    case 'fry':
+      return "Dependent's Application for VA Education Benefits (VA Form 22-5490)";
+    case 'toe':
+      return 'Application for VA Education Benefits (VA Form 22-1990e)';
+    default:
+      return null;
+  }
+};
+
 const ResultDescription = ({
   body,
   linkHref,
@@ -189,59 +205,66 @@ export const benefitSwitchPage = () => ({
           Benefit you want to change to
         </span>
       ),
-      'ui:description': () => (
-        <va-additional-info
-          onClick={function noRefCheck() {}}
-          trigger="Learn more about these benefits"
-        >
-          <ul className="vads-u-margin-top--1">
-            <li>
-              Learn about GI Bill benefits: Post-9/11 GI Bill, Montgomery GI
-              Bill Active Duty (MGIB-AD), and Montgomery GI Bill Selected
-              Reserve (MGIB-SR) (opens in a new tab)
+      'ui:description': props => {
+        const header = getSwitchFormHeader(props?.formData?.mebBenefitSelection);
+
+        return (
+          <>
+            {header && (<h2 className="vads-u-font-size--h2">{header}</h2>)}
+            <va-additional-info
+              onClick={function noRefCheck() {}}
+              trigger="Learn more about these benefits"
+            >
               <ul className="vads-u-margin-top--1">
                 <li>
-                  <a href="https://www.va.gov/education/about-gi-bill-benefits/post-9-11">
-                    Post-9/11 GI Bill
+                  Learn about GI Bill benefits: Post-9/11 GI Bill, Montgomery GI
+                  Bill Active Duty (MGIB-AD), and Montgomery GI Bill Selected
+                  Reserve (MGIB-SR) (opens in a new tab)
+                  <ul className="vads-u-margin-top--1">
+                    <li>
+                      <a href="https://www.va.gov/education/about-gi-bill-benefits/post-9-11">
+                        Post-9/11 GI Bill
+                      </a>
+                    </li>
+                    <li>
+                      <a href="https://www.va.gov/education/about-gi-bill-benefits/montgomery-active-duty">
+                        Montgomery GI Bill Active Duty (MGIB-AD)
+                      </a>
+                    </li>
+                    <li>
+                      <a href="https://www.va.gov/education/about-gi-bill-benefits/montgomery-selected-reserve">
+                        Montgomery GI Bill Selected Reserve (MGIB-SR)
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <a href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/transferred-gi-bill-benefits/">
+                    Learn about survivors’ and dependents’ assistance: transferred
+                    Post-9/11 GI Bill benefits (opens in a new tab)
                   </a>
                 </li>
                 <li>
-                  <a href="https://www.va.gov/education/about-gi-bill-benefits/montgomery-active-duty">
-                    Montgomery GI Bill Active Duty (MGIB-AD)
-                  </a>
-                </li>
-                <li>
-                  <a href="https://www.va.gov/education/about-gi-bill-benefits/montgomery-selected-reserve">
-                    Montgomery GI Bill Selected Reserve (MGIB-SR)
-                  </a>
+                  Survivors’ and Dependents’ Education Assistance (DEA), Fry
+                  Scholarship
+                  <ul className="vads-u-margin-top--1">
+                    <li>
+                      <a href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/dependents-education-assistance/">
+                        Survivors’ and Dependents’ Education Assistance (DEA)
+                      </a>
+                    </li>
+                    <li>
+                      <a href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/fry-scholarship/">
+                        Fry Scholarship
+                      </a>
+                    </li>
+                  </ul>
                 </li>
               </ul>
-            </li>
-            <li>
-              <a href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/transferred-gi-bill-benefits/">
-                Learn about survivors’ and dependents’ assistance: transferred
-                Post-9/11 GI Bill benefits (opens in a new tab)
-              </a>
-            </li>
-            <li>
-              Survivors’ and Dependents’ Education Assistance (DEA), Fry
-              Scholarship
-              <ul className="vads-u-margin-top--1">
-                <li>
-                  <a href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/dependents-education-assistance/">
-                    Survivors’ and Dependents’ Education Assistance (DEA)
-                  </a>
-                </li>
-                <li>
-                  <a href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/fry-scholarship/">
-                    Fry Scholarship
-                  </a>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </va-additional-info>
-      ),
+            </va-additional-info>
+          </>
+        );
+      },
       'ui:widget': 'radio',
       'ui:options': {
         updateSchema: (formData, schema) => {
