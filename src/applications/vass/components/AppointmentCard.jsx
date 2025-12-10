@@ -16,14 +16,16 @@ const AppointmentCard = ({ appointmentData, handleCancelAppointment }) => {
       >
         Phone appointment
       </h2>
-      <CardSection
-        data-testid="how-to-join-section"
-        heading="How to join"
-        textContent={`Your representative will call you from ${
-          appointmentData?.phoneNumber
-        }. If you have questions or need to 
+      {appointmentData?.phoneNumber && (
+        <CardSection
+          data-testid="how-to-join-section"
+          heading="How to join"
+          textContent={`Your representative will call you from ${
+            appointmentData.phoneNumber
+          }. If you have questions or need to 
             reschedule, contact VA Solid Start. `}
-      />
+        />
+      )}
       <CardSection
         data-testid="when-section"
         heading="When"
