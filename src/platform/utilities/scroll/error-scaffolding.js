@@ -23,6 +23,10 @@
 // ============================================================================
 // Category Detection & Configuration
 // ============================================================================
+// Default value for the scaffoldAndFocusFormErrors formOption
+// If you need to turn this off, set to false in your form config:
+// formOptions: {scaffoldAndFocusFormErrors: false}
+const DEFAULT_SCAFFOLD_AND_FOCUS_FORM_ERRORS = true;
 
 const ERROR_ATTR_SELECTORS = [
   'error',
@@ -30,6 +34,9 @@ const ERROR_ATTR_SELECTORS = [
   'checkbox-error',
   'generated-error',
 ];
+const ERROR_ATTRIBUTE_SELECTOR_STRING = ERROR_ATTR_SELECTORS.map(
+  attr => `[${attr}]`,
+).join(', ');
 
 const HIDDEN_FILTER = ':not([aria-hidden="true"]):not([hidden])';
 const INPUT_SELECTOR = `input${HIDDEN_FILTER}, textarea${HIDDEN_FILTER}, select${HIDDEN_FILTER}`;
@@ -668,9 +675,7 @@ const cleanupNestedShadowRoots = root => {
  * @returns {void}
  */
 const cleanupErrorAnnotations = () => {
-  const errorSelector = ERROR_ATTR_SELECTORS.map(attr => `[${attr}]`).join(
-    ', ',
-  );
+  const errorSelector = ERROR_ATTRIBUTE_SELECTOR_STRING;
   const elementsWithErrors = document.querySelectorAll(errorSelector);
 
   // Find elements that previously had errors but no longer do
@@ -765,7 +770,61 @@ const cleanupErrorAnnotations = () => {
   cleanupNestedShadowRoots(document);
 };
 
+/**
+ * Runs full cleanup and re-scaffolding for every element matching the selectors.
+ * Useful when external code needs to ensure annotations align with current errors.
+ *
+ * @param {string} selectors - CSS selector list identifying error host elements
+ */
+const scaffoldErrorsFromSelectors = selectors => {
+  cleanupErrorAnnotations();
+  const allErrors = collectAllErrorElements(selectors);
+  allErrors.forEach(addErrorAnnotations);
+};
+
+/**
+ * Sets up a MutationObserver to watch for error attribute changes on form elements.
+ * When error attributes change (on blur or submit), it cleans up stale annotations
+ * and scaffolds new ones for accessibility.
+ *
+ * @param {boolean} [scaffoldAndFocusFormErrors]
+ *   Determines whether to enable error scaffolding watch. When false, the observer will not start.
+ * @returns {Function} Cleanup function to disconnect the observer
+ */
+const watchErrorUpdates = (
+  scaffoldAndFocusFormErrors = DEFAULT_SCAFFOLD_AND_FOCUS_FORM_ERRORS,
+) => {
+  if (typeof window === 'undefined' || !scaffoldAndFocusFormErrors) {
+    return () => {};
+  }
+
+  const observerConfig = {
+    attributes: true,
+    attributeFilter: ERROR_ATTR_SELECTORS,
+    subtree: true,
+  };
+  const errorSelector = ERROR_ATTRIBUTE_SELECTOR_STRING;
+
+  let cleanupTimeout;
+  const debouncedCleanup = () => {
+    clearTimeout(cleanupTimeout);
+    cleanupTimeout = setTimeout(() => {
+      scaffoldErrorsFromSelectors(errorSelector);
+    }, 0);
+  };
+
+  const observer = new MutationObserver(debouncedCleanup);
+  observer.observe(document, observerConfig);
+
+  // Return cleanup function
+  return () => {
+    clearTimeout(cleanupTimeout);
+    observer.disconnect();
+  };
+};
+
 export {
+  DEFAULT_SCAFFOLD_AND_FOCUS_FORM_ERRORS,
   ERROR_ATTR_SELECTORS,
   ERROR_SPAN_SELECTOR,
   addErrorAnnotations,
@@ -774,4 +833,6 @@ export {
   findFocusTarget,
   getErrorPropText,
   isSupportedVaElement,
+  scaffoldErrorsFromSelectors,
+  watchErrorUpdates,
 };
