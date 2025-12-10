@@ -134,6 +134,8 @@ const PersonalInformationSection = ({ dob }) => {
       dob,
       hasMessagingSignatureError,
       isMessagingServiceEnabled,
+      isProfile2Enabled,
+      isHealthCareSettingsEnabled,
       messagingSignature,
     ],
   );
