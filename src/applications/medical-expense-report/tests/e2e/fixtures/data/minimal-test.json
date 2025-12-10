@@ -23,6 +23,39 @@
       "vaFileNumber": "111223333"
     },
     "veteranDateOfBirth": "1980-01-01",
-    "firstTimeReporting": true
+    "firstTimeReporting": true,
+    "careExpenses": [
+      {
+        "monthlyAmount": 44,
+        "provider": "ewwgweg",
+        "careDate": {
+          "from": "2023-05-05",
+          "to": "2023-05-06"
+        },
+        "recipient": "VETERAN",
+        "typeOfCare": "RESIDENTIAL"
+      }
+    ],
+    "medicalExpenses": [
+      {
+        "paymentDate": "2001-01-01",
+        "paymentFrequency": "ONCE_MONTH",
+        "paymentAmount": 5555,
+        "provider": "ewwgweg",
+        "purpose": "sdswgweg",
+        "recipient": "VETERAN"
+      }
+    ],
+    "mileageExpenses": [
+      {
+        "travelReimbursed": true,
+        "travelReimbursementAmount": 123,
+        "travelLocation": "OTHER",
+        "otherTravelLocation": "Other location",
+        "travelMilesTraveled": "12312",
+        "travelDate": "2004-04-04",
+        "traveler": "VETERAN"
+      }
+    ]
   }
 }

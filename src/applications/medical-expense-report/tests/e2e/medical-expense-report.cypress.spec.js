@@ -12,6 +12,7 @@ const testConfig = createTestConfig(
     dataPrefix: 'data',
     dataSets: ['minimal-test'],
     dataDir: path.join(__dirname, 'fixtures', 'data'),
+    // arrayPages: [{ arrayPath: 'careExpenses', regex: /.*expenses\/care.*/g }],
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
@@ -31,6 +32,87 @@ const testConfig = createTestConfig(
             }
             if (data.veteranDateOfBirth) {
               cy.fillDate('root_veteranDateOfBirth', data.veteranDateOfBirth);
+            }
+            cy.clickFormContinue();
+          });
+        });
+      },
+      'expenses/care/:index/dates': ({ afterHook, index }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            if (data.careExpenses?.[index]?.provider) {
+              cy.fillVaTextInput(
+                'root_provider',
+                data.careExpenses[index].provider,
+              );
+            }
+            if (data.careExpenses?.[index]?.careDate?.from) {
+              cy.fillDate(
+                'root_careDate_from',
+                data.careExpenses[index].careDate.from,
+              );
+            }
+            if (data.careExpenses?.[index]?.careDate?.to) {
+              cy.fillDate(
+                'root_careDate_to',
+                data.careExpenses[index].careDate.to,
+              );
+            }
+            cy.clickFormContinue();
+          });
+        });
+      },
+      'expenses/medical/:index/frequency': ({ afterHook, index }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            if (data.medicalExpenses?.[index]?.paymentDate) {
+              cy.fillDate(
+                'root_paymentDate',
+                data.medicalExpenses[index].paymentDate,
+              );
+            }
+            if (data.medicalExpenses?.[index]?.paymentFrequency) {
+              cy.selectVaRadioOption(
+                'root_paymentFrequency',
+                data.medicalExpenses[index].paymentFrequency,
+              );
+            }
+            if (data.medicalExpenses?.[index]?.paymentAmount) {
+              cy.fillVaTextInput(
+                'root_paymentAmount',
+                data.medicalExpenses[index].paymentAmount,
+              );
+            }
+            cy.clickFormContinue();
+          });
+        });
+      },
+      'expenses/mileage/:index/destination': ({ afterHook, index }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            if (data.mileageExpenses?.[index]?.travelLocation) {
+              cy.selectVaRadioOption(
+                'root_travelLocation',
+                data.mileageExpenses[index].travelLocation,
+              );
+              if (data.mileageExpenses[index].travelLocation === 'OTHER') {
+                cy.fillVaTextInput(
+                  'root_otherTravelLocation',
+                  data.mileageExpenses[index].otherTravelLocation,
+                );
+              }
+            }
+            if (data.mileageExpenses?.[index]?.travelMilesTraveled) {
+              cy.fillVaTextInput(
+                'root_travelMilesTraveled',
+                data.mileageExpenses[index].travelMilesTraveled,
+              );
+            }
+            if (data.mileageExpenses?.[index]?.travelDate) {
+              cy.fillDate(
+                'root_travelDate',
+                data.mileageExpenses[index].travelDate,
+              );
             }
             cy.clickFormContinue();
           });
@@ -59,72 +141,18 @@ const testConfig = createTestConfig(
           });
         });
       },
-      // 'important-information': ({ afterHook }) => {
-      //   cy.injectAxeThenAxeCheck();
-      //   afterHook(() => {
-      //     cy.findByText(/continue/i, { selector: 'button' }).click();
-      //   });
-      // },
     },
     setup: () => {
       cy.log('Logging something before starting tests.');
     },
     setupPerTest: () => {
-      // `cy.server` is already set up by default, so just start adding routes.
-
       // Start an auth'd session here if your form requires it.
       cy.login(user);
       cy.intercept('POST', formConfig.submitUrl, mockSubmit);
-      // cy.route({
-      //   method: 'GET',
-      //   url: '/v0/endpoint',
-      //   response: { body: 'mock body' },
-      // });
-
-      // cy.route({
-      //   method: 'POST',
-      //   url: '/v0/endpoint',
-      //   status: 200,
-      // });
     },
   },
   manifest,
   formConfig,
 );
-
-// const testConfig = createTestConfig(
-//   {
-//     dataPrefix: 'data',
-//     dataDir: path.join(__dirname, 'fixtures', 'data'),
-//     dataSets: ['minimal-test'],
-//     pageHooks: {
-//       // introduction: ({ afterHook }) => {
-//       //   afterHook(() => {
-//       //     cy.findAllByText(/^start/i, { selector: 'a[href="#start"]' })
-//       //       .last()
-//       //       .click({ force: true });
-//       //   });
-//       // },
-//     },
-//     setup: () => {
-//       Cypress.config({
-//         defaultCommandTimeout: 10000,
-//         includeShadowDom: true,
-//         waitForAnimations: true,
-//       });
-//     },
-//     setupPerTest: () => {
-//       cy.intercept('GET', '/v0/user', mockUser);
-//       cy.intercept('POST', formConfig.submitUrl, { status: 200 });
-//       // cy.login(mockUser);
-//     },
-
-//     // Skip tests in CI until the form is released.
-//     // Remove this setting when the form has a content page in production.
-//     skip: Cypress.env('CI'),
-//   },
-//   manifest,
-//   formConfig,
-// );
 
 testForm(testConfig);
