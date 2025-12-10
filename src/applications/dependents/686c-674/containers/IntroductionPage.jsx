@@ -79,6 +79,7 @@ const IntroductionPage = props => {
     <div className="schemaform-intro">
       <IntroductionPageHeader />
       <IntroductionPageFormProcess />
+
       <SaveInProgressIntro
         {...props}
         hideUnauthedStartLink
