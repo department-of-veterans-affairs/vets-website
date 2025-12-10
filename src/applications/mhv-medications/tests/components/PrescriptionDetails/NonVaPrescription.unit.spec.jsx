@@ -6,9 +6,14 @@ import NonVaPrescription from '../../../components/PrescriptionDetails/NonVaPres
 
 describe('nonVaPrescription details container', () => {
   const prescription = nonVaRxDetailsResponse.data.attributes;
-  const setup = (rx = prescription) => {
+  const setup = (rx = prescription, { isCernerPilot = false } = {}) => {
     return renderWithStoreAndRouterV6(<NonVaPrescription {...rx} />, {
-      initialState: {},
+      initialState: {
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          mhv_medications_cerner_pilot: isCernerPilot,
+        },
+      },
       reducers: {},
       initialEntries: ['/prescriptions/1234567891'],
     });
@@ -87,5 +92,11 @@ describe('nonVaPrescription details container', () => {
     expect(getByTestId('rx-documented-by')).to.have.text('Provider name not available');
     expect(getByTestId('rx-documented-at')).to.have.text('VA facility name not available');
     /* eslint-enable prettier/prettier */
+  });
+
+  it('hides reason for use section when Cerner pilot is enabled', () => {
+    const screen = setup(prescription, { isCernerPilot: true });
+
+    expect(screen.queryByTestId('rx-reason-for-use')).to.be.null;
   });
 });

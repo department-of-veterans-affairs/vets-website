@@ -9,8 +9,8 @@
 
 .merger {
   article {
-      &.webchat__basic-transcript__activity:last-of-type {
-        padding-bottom: 0;
+    &.webchat__basic-transcript__activity:last-of-type {
+      padding-bottom: 0;
     }
   }
 }
@@ -77,12 +77,12 @@ button.webchat__suggested-actions__button:active {
 }
 
 .jumplink {
-    color: rgb(0, 62, 115);
-    margin: 20px 0px;
-    text-decoration: underline;
-    transition-duration: 0.3s;
-    transition-timing-function: ease-in-out;
-    //transition-property: color, background-color, border-color;
+  color: rgb(0, 62, 115);
+  margin: 20px 0px;
+  text-decoration: underline;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-in-out;
+  //transition-property: color, background-color, border-color;
 }
 
 .fixed-header-chatbot {
@@ -135,19 +135,47 @@ button.webchat__suggested-actions__button:active {
   color: rgb(0, 0, 0) !important;
 }
 
-div.ac-container[style*="rgb(255, 226, 178)"]{
-  background-color: rgb(250, 243, 209) !important
+div.ac-container[style*="rgb(255, 226, 178)"] {
+  background-color: rgb(250, 243, 209) !important;
 }
 
-// Screen reader only class - visually hides content but keeps it accessible to screen readers
-.sr-only {
+.va-chatbot-status-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.va-chatbot-status-wrapper .va-chatbot-ai-disclaimer {
+  font-style: italic;
+}
+
+// Visually indicate when the WebChat send box is disabled (e.g., expired session)
+.webchat__send-box-text-box__input[aria-disabled="true"],
+.webchat__send-box-text-box__input[disabled] {
+  background-color: $color-gray-lighter;
+  cursor: not-allowed;
+}
+
+button.webchat__send-button[aria-disabled="true"],
+button.webchat__send-button[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.va-chatbot-session-expired-banner {
   position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
+  right: 16px;
+  bottom: 80px;
+  color: var(--vads-color-secondary-dark);
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.va-chatbot-session-expired-banner__icon {
+  margin-right: 0.2rem;
 }

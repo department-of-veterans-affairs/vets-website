@@ -20,21 +20,10 @@ import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-b
 import { previousMarriageEndOptions } from '../../../utils/labels';
 import { handleAlertMaxItems } from '../../../components/FormAlerts';
 
-// Helper function to determine if previous marriages section should be shown
-const shouldShowPreviousMarriages = formData => {
-  // Skip if YES recognized as spouse AND NO only ever married to each other
-  if (
-    formData.recognizedAsSpouse === true &&
-    formData.hadPreviousMarriages === false
-  ) {
-    return false;
-  }
-  // Show if NO not recognized as spouse OR YES have been married before
-  return (
-    formData.recognizedAsSpouse === false ||
-    formData.hadPreviousMarriages === true
-  );
-};
+// Show previous marriages pages ONLY if user answered YES to hadPreviousMarriages
+// Ansering NO skips all previous marriage flows and jumps to Dependents
+const shouldShowPreviousMarriages = formData =>
+  formData.hadPreviousMarriages === true;
 
 // Get military states to filter them out
 const MILITARY_STATE_VALUES = constants.militaryStates.map(
@@ -57,8 +46,9 @@ const COUNTRY_NAMES = constants.countries
   .map(country => country.label);
 
 /** @type {ArrayBuilderOptions} */
+// arrayPath is spouseMarriages because it's the spouse's previous marriages
 const options = {
-  arrayPath: 'previousMarriages',
+  arrayPath: 'spouseMarriages',
   nounSingular: 'previous marriage',
   nounPlural: 'previous marriages',
   required: false,
@@ -198,13 +188,13 @@ const marriageDateAndLocationPage = {
       state: {
         ...selectUI('State'),
         'ui:required': (formData, index) => {
-          const item = formData?.previousMarriages?.[index];
+          const item = formData?.spouseMarriages?.[index];
           const currentPageData = formData;
           return !(item?.marriedOutsideUS || currentPageData?.marriedOutsideUS);
         },
         'ui:options': {
           hideIf: (formData, index) => {
-            const item = formData?.previousMarriages?.[index];
+            const item = formData?.spouseMarriages?.[index];
             const currentPageData = formData;
             return item?.marriedOutsideUS || currentPageData?.marriedOutsideUS;
           },
@@ -220,13 +210,13 @@ const marriageDateAndLocationPage = {
       country: {
         ...selectUI('Country'),
         'ui:required': (formData, index) => {
-          const item = formData?.previousMarriages?.[index];
+          const item = formData?.spouseMarriages?.[index];
           const currentPageData = formData;
           return item?.marriedOutsideUS || currentPageData?.marriedOutsideUS;
         },
         'ui:options': {
           hideIf: (formData, index) => {
-            const item = formData?.previousMarriages?.[index];
+            const item = formData?.spouseMarriages?.[index];
             const currentPageData = formData;
             return !(
               item?.marriedOutsideUS || currentPageData?.marriedOutsideUS
@@ -290,7 +280,7 @@ const marriageEndDateAndLocationPage = {
       state: {
         ...selectUI('State'),
         'ui:required': (formData, index) => {
-          const item = formData?.previousMarriages?.[index];
+          const item = formData?.spouseMarriages?.[index];
           const currentPageData = formData;
           return !(
             item?.marriageEndedOutsideUS ||
@@ -299,7 +289,7 @@ const marriageEndDateAndLocationPage = {
         },
         'ui:options': {
           hideIf: (formData, index) => {
-            const item = formData?.previousMarriages?.[index];
+            const item = formData?.spouseMarriages?.[index];
             const currentPageData = formData;
             return (
               item?.marriageEndedOutsideUS ||
@@ -318,7 +308,7 @@ const marriageEndDateAndLocationPage = {
       country: {
         ...selectUI('Country'),
         'ui:required': (formData, index) => {
-          const item = formData?.previousMarriages?.[index];
+          const item = formData?.spouseMarriages?.[index];
           const currentPageData = formData;
           return (
             item?.marriageEndedOutsideUS ||
@@ -327,7 +317,7 @@ const marriageEndDateAndLocationPage = {
         },
         'ui:options': {
           hideIf: (formData, index) => {
-            const item = formData?.previousMarriages?.[index];
+            const item = formData?.spouseMarriages?.[index];
             const currentPageData = formData;
             return !(
               item?.marriageEndedOutsideUS ||
@@ -386,7 +376,7 @@ const marriageEndPage = {
       ...textUI({
         title: 'Tell us how the marriage ended',
         required: (formData, index) => {
-          const item = formData?.previousMarriages?.[index];
+          const item = formData?.spouseMarriages?.[index];
           const currentPageData = formData;
           return (
             item?.marriageEndReason === 'OTHER' ||
@@ -395,7 +385,7 @@ const marriageEndPage = {
         },
       }),
       'ui:required': (formData, index) => {
-        const item = formData?.previousMarriages?.[index];
+        const item = formData?.spouseMarriages?.[index];
         const currentPageData = formData;
         return (
           item?.marriageEndReason === 'OTHER' ||
@@ -410,7 +400,7 @@ const marriageEndPage = {
   },
   schema: {
     type: 'object',
-    required: ['marriageEndReason', 'marriageEndOtherExplanation'],
+    required: ['marriageEndReason'],
     properties: {
       marriageEndReason: radioSchema(Object.keys(previousMarriageEndOptions)),
       marriageEndOtherExplanation: {

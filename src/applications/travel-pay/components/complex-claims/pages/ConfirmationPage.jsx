@@ -43,20 +43,23 @@ const ConfirmationPage = () => {
           </p>
         )}
       </va-alert>
-      <ExpensesAccordion expenses={expenses} documents={documents} />
 
-      <h2 className="vads-u-margin-top--4">Print this confirmation page</h2>
+      <h2 className="vads-u-margin-top--2">Print this confirmation page</h2>
       <p>
         If you’d like to keep a copy of the information on this page, you can
         print it now.
       </p>
+
       <va-button
         text="Print this page for your records"
         onClick={() => window.print()}
+        class="vads-u-margin-bottom--2"
         uswds
       />
 
-      <h2>What happens next</h2>
+      <ExpensesAccordion expenses={expenses} documents={documents} />
+
+      <h2 className="vads-u-margin-top--4">What happens next</h2>
       <va-process-list>
         <va-process-list-item header="VA will review your claim">
           <p>
@@ -68,21 +71,21 @@ const ConfirmationPage = () => {
             text="Check your travel reimbursement claim status"
           />
         </va-process-list-item>
-        <va-process-list-item header="If your claim is approved, you’ll receive reimbursement via direct deposit">
+        <va-process-list-item header="If we approve your claim, we’ll send your pay through direct deposit">
           <p>
             You must have direct deposit set up in order to receive your funds.
             Direct deposit for travel pay is different than the direct deposit
             used for other VA claims. If you’ve already set up direct deposit
-            for travel reimbursement, no additional steps are needed.
+            for travel pay, no additional other are needed.
           </p>
           <va-link
             href="/resources/how-to-set-up-direct-deposit-for-va-travel-pay-reimbursement/"
-            text="Set up direct deposit"
+            text="Set up direct deposit for travel pay"
           />
         </va-process-list-item>
       </va-process-list>
       <va-link-action
-        text="View your appointments to submit another travel reimbursement claim"
+        text="Review your appointments to submit another travel reimbursement claim"
         href="/my-health/appointments/past"
       />
       <ComplexClaimsHelpSection />

@@ -6,8 +6,12 @@ import {
   VaLink,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { buildDateFormatter } from '../../utils/helpers';
+import {
+  buildDateFormatter,
+  getTrackedItemDisplayNameFromEvidenceSubmission,
+} from '../../utils/helpers';
 import { useIncrementalReveal } from '../../hooks/useIncrementalReveal';
+import TimezoneDiscrepancyMessage from '../TimezoneDiscrepancyMessage';
 import { ANCHOR_LINKS } from '../../constants';
 import { setPageFocus } from '../../utils/page';
 
@@ -60,6 +64,7 @@ const FileSubmissionsInProgress = ({ claim }) => {
       >
         File submissions in progress
       </h3>
+      <TimezoneDiscrepancyMessage />
       <p>
         Documents you submitted for review using this tool, or the VA: Health
         and Benefits mobile app, that we haven’t received yet. It can take up to
@@ -102,8 +107,11 @@ const FileSubmissionsInProgress = ({ claim }) => {
             >
               {currentPageItems.map((item, itemIndex) => {
                 const statusBadgeText = item.uploadStatusDisplayValue;
-                const requestTypeText = item.trackedItemDisplayName
-                  ? `Request type: ${item.trackedItemDisplayName}`
+                const requestType = getTrackedItemDisplayNameFromEvidenceSubmission(
+                  item,
+                );
+                const requestTypeText = requestType
+                  ? `Request type: ${requestType}`
                   : 'You submitted this file as additional evidence.';
 
                 return (

@@ -12,7 +12,12 @@ import mockSubmit from './fixtures/mocks/application-submit.json';
 import mockUpload from './fixtures/mocks/document-upload.json';
 import mockServiceBranches from './fixtures/mocks/service-branches.json';
 import mockUser from './fixtures/mocks/user.json';
-import { capitalizeEachWord } from '../utils';
+import {
+  capitalizeEachWord,
+  showSeparationLocation,
+  isBDD,
+  hasRatedDisabilities,
+} from '../utils';
 
 import {
   MOCK_SIPS_API,
@@ -279,7 +284,7 @@ Cypress.Commands.add('verifyVeteranDetails', data => {
   // Data comes from mockPrefill, not test data
   cy.get('.confirmation-chapter-section-collection').within(() => {
     cy.get('h3')
-      .contains(/review veteran details/i)
+      .contains(/veteran details/i)
       .should('exist');
 
     if (mockPrefill.formData.veteran.primaryPhone) {
@@ -315,7 +320,7 @@ Cypress.Commands.add('verifyVeteranDetails', data => {
       }
     }
 
-    if (data.homelessOrAtRisk) {
+    if (data.homelessOrAtRisk && data['view:isBddData'] !== true) {
       cy.contains(/are you homeless or at risk of becoming homeless/i).should(
         'exist',
       );
@@ -333,6 +338,23 @@ Cypress.Commands.add('verifyVeteranDetails', data => {
       data.serviceInformation.servicePeriods.forEach(period => {
         cy.contains(period.serviceBranch).should('exist');
       });
+    }
+
+    if (showSeparationLocation(data) === true) {
+      cy.contains(/separation location/i).should('exist');
+      cy.contains(data.serviceInformation.separationLocation.label).should(
+        'exist',
+      );
+    }
+
+    if (
+      !hasRatedDisabilities(data) &&
+      !isBDD(data) &&
+      data['view:isBddData'] !== true
+    ) {
+      cy.contains(/have you ever received military retirement pay/i).should(
+        'exist',
+      );
     }
   });
 });

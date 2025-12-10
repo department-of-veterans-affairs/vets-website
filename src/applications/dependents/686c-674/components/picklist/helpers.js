@@ -11,6 +11,17 @@ import { scrollToFirstError } from 'platform/utilities/ui';
 
 import { getPastDateError } from './utils';
 
+/**
+ * typeDef GetValueResult
+ * @type {object}
+ * @property {string} field - The name of the field
+ * @property {any} value - The value of the field
+ */
+/**
+ * Get value from web component event
+ * @param {CustomEvent} event - web component event
+ * @returns {GetValueResult} - Object with field name and value
+ */
 export const getValue = event => {
   const field = event.target.name;
   switch (event.target.tagName) {
@@ -25,6 +36,15 @@ export const getValue = event => {
   }
 };
 
+/**
+ * State select component
+ * @param {string} name - name attribute
+ * @param {string} label - label text
+ * @param {function} onChange - onChange handler
+ * @param {string} error - error message
+ * @param {string} value - selected value
+ * @returns {React.ReactElement} State select component
+ */
 export const SelectState = ({ name, label, onChange, error, value }) => (
   <VaSelect
     class="vads-u-margin-top--4"
@@ -51,6 +71,19 @@ SelectState.propTypes = {
   value: PropTypes.string,
 };
 
+const countriesMinusUSA = constants.countries.filter(
+  country => country.value !== 'USA',
+);
+
+/**
+ * Country select component (excludes USA)
+ * @param {string} name - name attribute
+ * @param {string} label - label text
+ * @param {function} onChange - onChange handler
+ * @param {string} error - error message
+ * @param {string} value - selected value
+ * @returns {React.ReactElement} Country select component
+ */
 export const SelectCountry = ({ name, label, onChange, error, value }) => (
   <VaSelect
     class="vads-u-margin-top--4"
@@ -61,7 +94,7 @@ export const SelectCountry = ({ name, label, onChange, error, value }) => (
     error={error}
     required
   >
-    {constants.countries.map(country => (
+    {countriesMinusUSA.map(country => (
       <option key={country.value} value={country.value}>
         {country.label}
       </option>
@@ -71,13 +104,21 @@ export const SelectCountry = ({ name, label, onChange, error, value }) => (
 
 SelectCountry.propTypes = {
   label: PropTypes.string.isRequired,
-
   name: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   error: PropTypes.string,
   value: PropTypes.string,
 };
 
+/**
+ * Past memorable date component
+ * @param {string} date - date string in YYYY-MM-DD format
+ * @param {string} label - label text
+ * @param {boolean} formSubmitted - whether the form has been submitted
+ * @param {string} missingErrorMessage - error message for missing date
+ * @param {function} onChange - onChange handler
+ * @returns {React.ReactElement} Past date component
+ */
 export const PastDate = ({
   date,
   label,
@@ -110,6 +151,12 @@ PastDate.propTypes = {
   onChange: PropTypes.func.isRequired,
 };
 
+/**
+ * Scroll to the first error on the page after a short delay
+ * @returns {void}
+ */
 export const scrollToError = () => {
+  // focusOnAlertRole settings will set focus on the span with role="alert"
+  // inside the web component shadow DOM
   setTimeout(() => scrollToFirstError({ focusOnAlertRole: true }));
 };

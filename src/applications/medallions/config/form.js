@@ -15,7 +15,6 @@ import veteranInfo2 from '../pages/veteranInfo2';
 import applicantName from '../pages/applicantName';
 import veteranDemographics1 from '../pages/veteranDemographics1';
 import veteranDemographics2 from '../pages/veteranDemographics2';
-import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
 import applicantRelationToVet from '../pages/applicantRelationToVet';
 import applicantRelationToVetOrg from '../pages/applicantRelationToVetOrg';
 import applicantRelationToVetOrg2 from '../pages/applicantRelationToVetOrg2';
@@ -23,18 +22,23 @@ import applicantContactInfo from '../pages/applicantContactInfo';
 import applicantContactInfo2 from '../pages/applicantContactInfo2';
 import applicantMailingAddress from '../pages/applicantMailingAddress';
 import applicantMailingAddress2 from '../pages/applicantMailingAddress2';
+import burialLocation from '../pages/burialLocation';
+import headstoneOrMarker from '../pages/headstoneOrMarker';
+import cemeteryName from '../pages/cemeteryName';
+import cemeteryContactInfo from '../pages/cemeteryContactInfo';
 import supportingDocuments from '../pages/supportingDocuments';
 import supportingDocumentsUpload from '../pages/supportingDocumentsUpload';
 import typeOfRequest from '../pages/typeOfRequest';
 import replacementMedallionReason from '../pages/replacementMedallionReason';
-import typeOfMedallion from '../pages/typeOfMedallion.jsx';
-import medallionSizeBronze from '../pages/medallionSizeBronze.jsx';
-import medallionSizeMOH from '../pages/medallionSizeMOH.jsx';
+import typeOfMedallion from '../pages/typeOfMedallion';
+import medallionSizeBronze from '../pages/medallionSizeBronze';
+import medallionSizeMOH from '../pages/medallionSizeMOH';
 import {
   ApplicantNameHeader,
   ApplicantNameNote,
   isUserSignedIn,
 } from '../utils/helpers';
+import { servicePeriodsPages } from '../pages/servicePeriodsPages';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -87,6 +91,8 @@ const formConfig = {
           header: <ApplicantNameHeader />,
           note: <ApplicantNameNote />,
           depends: formData => isUserSignedIn(formData),
+          hideOnReview: false,
+          background: true,
         }),
         applicantName: {
           path: 'applicant-name',
@@ -196,25 +202,44 @@ const formConfig = {
         },
       },
     },
-    veteranServicePeriods: {
+    servicePeriods: {
       title: 'Veteran service periods',
-      pages: {
-        phoneAndEmailAddress: {
-          path: 'phone-and-email-address',
-          title: 'Phone and email address',
-          uiSchema: phoneAndEmailAddress.uiSchema,
-          schema: phoneAndEmailAddress.schema,
-        },
-      },
+      pages: servicePeriodsPages,
     },
     burialInformation: {
       title: 'Burial information',
       pages: {
-        phoneAndEmailAddress: {
-          path: 'phone-and-email-address-2',
-          title: 'Phone and email address',
-          uiSchema: phoneAndEmailAddress.uiSchema,
-          schema: phoneAndEmailAddress.schema,
+        burialLocation: {
+          path: 'burial-location',
+          title: 'Burial location',
+          uiSchema: burialLocation.uiSchema,
+          schema: burialLocation.schema,
+        },
+        headstoneOrMarker: {
+          path: 'headstone-or-marker',
+          title: 'Headstone or marker',
+          uiSchema: headstoneOrMarker.uiSchema,
+          schema: headstoneOrMarker.schema,
+        },
+        cemeteryName: {
+          path: 'cemetery-name',
+          title: 'Cemetery name',
+          uiSchema: cemeteryName.uiSchema,
+          schema: cemeteryName.schema,
+          depends: formData =>
+            !['repOfCemetery', 'repOfFuneralHome'].includes(
+              formData.relationToVetRadio,
+            ),
+        },
+        cemeteryContactInfo: {
+          path: 'cemetery-contact-info',
+          title: 'Cemetery contact information',
+          uiSchema: cemeteryContactInfo.uiSchema,
+          schema: cemeteryContactInfo.schema,
+          depends: formData =>
+            !['repOfCemetery', 'repOfFuneralHome'].includes(
+              formData.relationToVetRadio,
+            ),
         },
       },
     },

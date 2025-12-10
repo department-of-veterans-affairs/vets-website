@@ -11,7 +11,7 @@ const mockUser = require('./e2e/user.json');
 const mockVaFileNumber = require('./e2e/fixtures/va-file-number.json');
 const mockMaxData = require('./e2e/fixtures/removal-only-v3.json');
 
-const returnUrl = '/review-and-submit';
+const returnUrl = '/options-selection';
 
 const createDate = (yearsAgo = 0, monthsAgo = 0, formatDate = 'MM/dd/yyyy') =>
   dateFns.format(
@@ -87,7 +87,7 @@ const mockDependents = {
           awardIndicator: 'Y',
         },
         {
-          firstName: 'CLUMSY', // Death
+          firstName: 'FRANK', // Death
           lastName: 'FOSTER',
           dateOfBirth: createDate(33),
           ssn: '3236',

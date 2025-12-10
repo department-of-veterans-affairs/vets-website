@@ -169,6 +169,108 @@ describe('Form Configuration', () => {
     it('should have exactly 5 pages in employment information chapter', () => {
       expect(Object.keys(chapter.pages)).to.have.lengthOf(5);
     });
+
+    describe('employmentTermination conditional logic', () => {
+      const page = chapter.pages.employmentTermination;
+
+      it('should have conditional depends function', () => {
+        expect(page.depends).to.be.a('function');
+      });
+
+      it('should show page when employment ended (has ending date, not currently employed)', () => {
+        const formData = {
+          employmentDates: {
+            endingDate: '2024-01-15',
+            currentlyEmployed: false,
+          },
+        };
+        expect(page.depends(formData)).to.be.true;
+      });
+
+      it('should show page when has ending date and currentlyEmployed is undefined', () => {
+        const formData = {
+          employmentDates: {
+            endingDate: '2024-01-15',
+          },
+        };
+        expect(page.depends(formData)).to.be.true;
+      });
+
+      it('should hide page when currently employed (even with ending date)', () => {
+        const formData = {
+          employmentDates: {
+            endingDate: '2024-01-15',
+            currentlyEmployed: true,
+          },
+        };
+        expect(page.depends(formData)).to.be.false;
+      });
+
+      it('should hide page when no ending date provided', () => {
+        const formData = {
+          employmentDates: {
+            currentlyEmployed: false,
+          },
+        };
+        expect(page.depends(formData)).to.be.false;
+      });
+
+      it('should hide page when employmentDates section is missing', () => {
+        const formData = {};
+        expect(page.depends(formData)).to.be.false;
+      });
+    });
+
+    describe('employmentLastPayment conditional logic', () => {
+      const page = chapter.pages.employmentLastPayment;
+
+      it('should have conditional depends function', () => {
+        expect(page.depends).to.be.a('function');
+      });
+
+      it('should show page when employment ended (has ending date, not currently employed)', () => {
+        const formData = {
+          employmentDates: {
+            endingDate: '2024-01-15',
+            currentlyEmployed: false,
+          },
+        };
+        expect(page.depends(formData)).to.be.true;
+      });
+
+      it('should show page when has ending date and currentlyEmployed is undefined', () => {
+        const formData = {
+          employmentDates: {
+            endingDate: '2024-01-15',
+          },
+        };
+        expect(page.depends(formData)).to.be.true;
+      });
+
+      it('should hide page when currently employed (even with ending date)', () => {
+        const formData = {
+          employmentDates: {
+            endingDate: '2024-01-15',
+            currentlyEmployed: true,
+          },
+        };
+        expect(page.depends(formData)).to.be.false;
+      });
+
+      it('should hide page when no ending date provided', () => {
+        const formData = {
+          employmentDates: {
+            currentlyEmployed: false,
+          },
+        };
+        expect(page.depends(formData)).to.be.false;
+      });
+
+      it('should hide page when employmentDates section is missing', () => {
+        const formData = {};
+        expect(page.depends(formData)).to.be.false;
+      });
+    });
   });
 
   describe('Duty Status Chapter Pages', () => {
@@ -376,28 +478,21 @@ describe('Form Configuration', () => {
       expect(formConfig.preSubmitInfo).to.exist;
     });
 
-    it('should have statementOfTruth configuration', () => {
-      expect(formConfig.preSubmitInfo.statementOfTruth).to.exist;
+    it('should use CustomComponent for signature validation', () => {
+      expect(formConfig.preSubmitInfo.CustomComponent).to.exist;
     });
 
-    it('should have statementOfTruth body text', () => {
-      expect(formConfig.preSubmitInfo.statementOfTruth.body).to.equal(
-        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
-      );
+    it('should use PreSubmitInfo component (function or connected component)', () => {
+      const component = formConfig.preSubmitInfo.CustomComponent;
+      // Component can be a function (Node 14) or object (Node 22 with React element)
+      const isValid =
+        typeof component === 'function' ||
+        (typeof component === 'object' && component !== null);
+      expect(isValid).to.be.true;
     });
 
-    it('should have statementOfTruth messageAriaDescribedby', () => {
-      expect(
-        formConfig.preSubmitInfo.statementOfTruth.messageAriaDescribedby,
-      ).to.equal(
-        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
-      );
-    });
-
-    it('should have fullNamePath set to veteranInformation.veteranFullName', () => {
-      expect(formConfig.preSubmitInfo.statementOfTruth.fullNamePath).to.equal(
-        'veteranInformation.veteranFullName',
-      );
+    it('should not have statementOfTruth configuration (uses CustomComponent instead)', () => {
+      expect(formConfig.preSubmitInfo.statementOfTruth).to.not.exist;
     });
   });
 
@@ -454,6 +549,36 @@ describe('Form Configuration', () => {
       expect(() =>
         benefitsDetailsPage.depends({ benefitsInformation: null }),
       ).to.not.throw();
+    });
+
+    it('should handle missing form data in employment termination conditional', () => {
+      const employmentTerminationPage =
+        formConfig.chapters.employmentInformationChapter.pages
+          .employmentTermination;
+      expect(() => employmentTerminationPage.depends(null)).to.not.throw();
+      expect(() => employmentTerminationPage.depends(undefined)).to.not.throw();
+      expect(() => employmentTerminationPage.depends({})).to.not.throw();
+      expect(() =>
+        employmentTerminationPage.depends({ employmentDates: null }),
+      ).to.not.throw();
+      expect(employmentTerminationPage.depends(null)).to.be.false;
+      expect(employmentTerminationPage.depends(undefined)).to.be.false;
+      expect(employmentTerminationPage.depends({})).to.be.false;
+    });
+
+    it('should handle missing form data in employment last payment conditional', () => {
+      const employmentLastPaymentPage =
+        formConfig.chapters.employmentInformationChapter.pages
+          .employmentLastPayment;
+      expect(() => employmentLastPaymentPage.depends(null)).to.not.throw();
+      expect(() => employmentLastPaymentPage.depends(undefined)).to.not.throw();
+      expect(() => employmentLastPaymentPage.depends({})).to.not.throw();
+      expect(() =>
+        employmentLastPaymentPage.depends({ employmentDates: null }),
+      ).to.not.throw();
+      expect(employmentLastPaymentPage.depends(null)).to.be.false;
+      expect(employmentLastPaymentPage.depends(undefined)).to.be.false;
+      expect(employmentLastPaymentPage.depends({})).to.be.false;
     });
   });
 

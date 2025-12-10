@@ -8,6 +8,15 @@ import {
   PICKLIST_EDIT_REVIEW_FLAG,
 } from '../../config/constants';
 
+/**
+ * Picklist Remove Dependents Review Component
+ * @typedef {object} PicklistRemoveDependentsReviewProps
+ * @property {object} data - form data
+ * @property {function} goToPath - function to go to specific path
+ *
+ * @param {PicklistRemoveDependentsReviewProps} props - Component props
+ * @returns {React.Component} - Picklist remove dependents review page
+ */
 const PicklistRemoveDependentsReview = ({ data = {}, goToPath }) => {
   const selectedDependents =
     data[PICKLIST_DATA]?.filter(item => item.selected) || [];
