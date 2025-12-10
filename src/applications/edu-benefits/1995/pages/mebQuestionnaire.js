@@ -104,7 +104,7 @@ const ResultDescription = ({
       linkText && (
         <a
           href={linkHref}
-          className="vads-u-display--block vads-u-margin-bottom--3"
+          className="vads-u-display--block vads-c-action-link--green vads-u-margin-bottom--3"
         >
           {linkText}
         </a>
