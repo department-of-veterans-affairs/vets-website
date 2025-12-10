@@ -205,48 +205,53 @@ export const ContactInfoBase = ({
     }
   };
 
-  const handleEditStateScroll = () => {
-    if (editState) {
-      const [lastEdited, returnState] = editState.split(',');
-      setTimeout(() => {
-        const target =
-          returnState === 'canceled'
-            ? `#edit-${lastEdited}`
-            : `#updated-${lastEdited}`;
-        scrollTo(
-          onReviewPage
-            ? `${contactInfoPageKey}ScrollElement`
-            : `header-${lastEdited}`,
-        );
-        focusElement(onReviewPage ? `#${contactInfoPageKey}Header` : target);
-        setTimeout(() => {
+  useEffect(() => syncProfileData(), [contactInfo, data, keys, setFormData]);
+
+  useEffect(
+    () => {
+      if (editState) {
+        const [lastEdited, returnState] = editState.split(',');
+        const scrollTimer = setTimeout(() => {
+          const target =
+            returnState === 'canceled'
+              ? `#edit-${lastEdited}`
+              : `#updated-${lastEdited}`;
+          scrollTo(
+            onReviewPage
+              ? `${contactInfoPageKey}ScrollElement`
+              : `header-${lastEdited}`,
+          );
+          focusElement(onReviewPage ? `#${contactInfoPageKey}Header` : target);
+        });
+
+        const clearTimer = setTimeout(() => {
           clearReturnState();
         }, 1000);
+
+        return () => {
+          clearTimeout(scrollTimer);
+          clearTimeout(clearTimer);
+        };
+      }
+      return undefined;
+    },
+    [contactInfoPageKey, editState, onReviewPage],
+  );
+
+  useEffect(
+    () => {
+      if ((hasInitialized && missingInfo.length) || testContinueAlert) {
+        // page had an error flag, so we know when to show a success alert
+        setHadError(true);
+      }
+      const timer = setTimeout(() => {
+        setHasInitialized(true);
       });
-    }
-  };
 
-  const handleInitialErrorState = () => {
-    if ((hasInitialized && missingInfo.length) || testContinueAlert) {
-      // page had an error flag, so we know when to show a success alert
-      setHadError(true);
-    }
-    setTimeout(() => {
-      setHasInitialized(true);
-    });
-  };
-
-  useEffect(() => syncProfileData(), [contactInfo, data, keys, setFormData]);
-  useEffect(() => handleEditStateScroll(), [
-    contactInfoPageKey,
-    editState,
-    onReviewPage,
-  ]);
-  useEffect(() => handleInitialErrorState(), [
-    missingInfo,
-    hasInitialized,
-    testContinueAlert,
-  ]);
+      return () => clearTimeout(timer);
+    },
+    [missingInfo, hasInitialized, testContinueAlert],
+  );
 
   const MainHeader = onReviewPage ? 'h4' : 'h3';
   const Headers = contactSectionHeadingLevel || (onReviewPage ? 'h5' : 'h4');
