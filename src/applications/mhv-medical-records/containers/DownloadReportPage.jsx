@@ -5,8 +5,6 @@ import {
   updatePageTitle,
   generateSEIPdf,
   SEI_DOMAINS,
-  ALERT_TYPE_SEI_ERROR,
-  MissingRecordsError,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { add, compareAsc } from 'date-fns';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -24,27 +22,22 @@ import {
 } from '../util/helpers';
 import {
   accessAlertTypes,
-  ALERT_TYPE_BB_ERROR,
-  ALERT_TYPE_CCD_ERROR,
-  BB_DOMAIN_DISPLAY_MAP,
-  CernerAlertContent,
   documentTypes,
   pageTitles,
   refreshExtractTypes,
   statsdFrontEndActions,
+  CernerAlertContent,
 } from '../util/constants';
 import { genAndDownloadCCD, downloadCCDV2 } from '../actions/downloads';
-import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import { Actions } from '../util/actionTypes';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
+
 import useAlerts from '../hooks/use-alerts';
-import TrackedSpinner from '../components/shared/TrackedSpinner';
+import OHOnlyContent from './ccdContent/OHOnlyContent';
+import VistaOnlyContent from './ccdContent/VistaOnlyContent';
+import VistaAndOHContent from './ccdContent/VistaAndOHContent';
 import { postRecordDatadogAction } from '../api/MrApi';
-import CCDAccordionItemV1 from './ccdAccordionItem/ccdAccordionItemV1';
-import CCDAccordionItemV2 from './ccdAccordionItem/ccdAccordionItemV2';
-import CCDAccordionItemOH from './ccdAccordionItem/ccdAccordionItemOH';
-import CCDAccordionItemDual from './ccdAccordionItem/ccdAccordionItemDual';
 
 // --- Main component ---
 const DownloadReportPage = ({ runningUnitTest }) => {
@@ -261,186 +254,91 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     sendDataDogAction('Download self-entered health information PDF link');
   };
 
+  if (hasBothDataSources) {
+    return (
+      <div>
+        <AcceleratedCernerFacilityAlert {...CernerAlertContent.DOWNLOAD} />
+        <VistaAndOHContent
+          isLoading={generatingCCD}
+          testIdSuffix="Vista"
+          failedSeiDomains={failedSeiDomains}
+          ohFacilityNames={ohFacilityNames}
+          getFailedDomainList={getFailedDomainList}
+          lastSuccessfulUpdate={lastSuccessfulUpdate}
+          generatingCCD={generatingCCD}
+          handleDownloadCCD={handleDownloadCCD}
+          handleDownloadSelfEnteredPdf={handleDownloadSelfEnteredPdf}
+          successfulSeiDownload={successfulSeiDownload}
+          activeAlert={activeAlert}
+          accessErrors={accessErrors}
+          ccdError={ccdError}
+          ccdDownloadSuccess={ccdDownloadSuccess}
+          CCDRetryTimestamp={CCDRetryTimestamp}
+          failedBBDomains={failedBBDomains}
+          successfulBBDownload={successfulBBDownload}
+          vistaFacilityNames={vistaFacilityNames}
+        />
+        <NeedHelpSection />
+      </div>
+    );
+  }
+
+  if (hasOHOnly) {
+    return (
+      <div>
+        <AcceleratedCernerFacilityAlert {...CernerAlertContent.DOWNLOAD} />
+        <OHOnlyContent
+          testIdSuffix="OH"
+          ddSuffix="OH"
+          isLoading={generatingCCD}
+          handleDownload={handleDownloadCCDV2}
+          lastSuccessfulUpdate={lastSuccessfulUpdate}
+          accessErrors={accessErrors}
+          activeAlert={activeAlert}
+          successfulSeiDownload={successfulSeiDownload}
+          failedSeiDomains={failedSeiDomains}
+        />
+
+        <NeedHelpSection />
+      </div>
+    );
+  }
+  if (hasVistAFacilities) {
+    return (
+      <div>
+        <AcceleratedCernerFacilityAlert {...CernerAlertContent.DOWNLOAD} />
+        <VistaOnlyContent
+          isLoading={generatingCCD}
+          testIdSuffix="Vista"
+          ccdExtendedFileTypeFlag={ccdExtendedFileTypeFlag}
+          hasBothDataSources={hasBothDataSources}
+          failedSeiDomains={failedSeiDomains}
+          getFailedDomainList={getFailedDomainList}
+          hasOHOnly={hasOHOnly}
+          lastSuccessfulUpdate={lastSuccessfulUpdate}
+          generatingCCD={generatingCCD}
+          handleDownloadCCD={handleDownloadCCD}
+          handleDownloadCCDV2={handleDownloadCCDV2}
+          expandSelfEntered={expandSelfEntered}
+          selfEnteredAccordionRef={selfEnteredAccordionRef}
+          selfEnteredPdfLoading={selfEnteredPdfLoading}
+          handleDownloadSelfEnteredPdf={handleDownloadSelfEnteredPdf}
+          successfulSeiDownload={successfulSeiDownload}
+          activeAlert={activeAlert}
+          accessErrors={accessErrors}
+          ccdError={ccdError}
+          ccdDownloadSuccess={ccdDownloadSuccess || false}
+          CCDRetryTimestamp={CCDRetryTimestamp}
+          failedBBDomains={failedBBDomains}
+          successfulBBDownload={successfulBBDownload || false}
+        />
+        <NeedHelpSection />
+      </div>
+    );
+  }
   return (
     <div>
-      <h1>Download your medical records reports</h1>
-      <p>
-        Download your VA medical records as a single report (called your VA Blue
-        Button® report). Or find other reports to download.
-      </p>
-
-      <AcceleratedCernerFacilityAlert {...CernerAlertContent.DOWNLOAD} />
-
-      {lastSuccessfulUpdate && (
-        <va-card
-          class="vads-u-margin-y--2"
-          background
-          aria-live="polite"
-          data-testid="new-records-last-updated"
-        >
-          Records in these reports last updated at {lastSuccessfulUpdate.time}{' '}
-          on {lastSuccessfulUpdate.date}
-        </va-card>
-      )}
-      <h2>Download your VA Blue Button report</h2>
-      {activeAlert?.type === ALERT_TYPE_BB_ERROR && (
-        <AccessTroubleAlertBox
-          alertType={accessAlertTypes.DOCUMENT}
-          documentType={documentTypes.BB}
-          className="vads-u-margin-bottom--1"
-        />
-      )}
-      {successfulBBDownload === true && (
-        <>
-          <MissingRecordsError
-            documentType="VA Blue Button report"
-            recordTypes={getFailedDomainList(
-              failedBBDomains,
-              BB_DOMAIN_DISPLAY_MAP,
-            )}
-          />
-          <DownloadSuccessAlert
-            type="Your VA Blue Button report download has"
-            className="vads-u-margin-bottom--1"
-          />
-        </>
-      )}
-      <p className="vads-u-margin--0 vads-u-margin-top--3 vads-u-margin-bottom--1">
-        First, select the types of records you want in your report. Then
-        download.
-      </p>
-      <va-link-action
-        href="/my-health/medical-records/download/date-range"
-        label="Select records and download report"
-        text="Select records and download report"
-        data-dd-action-name="Select records and download"
-        onClick={() => sendDataDogAction('Select records and download')}
-        data-testid="go-to-download-all"
-      />
-
-      <h2>Other reports you can download</h2>
-
-      {(generatingCCD || ccdDownloadSuccess) &&
-        (!ccdError && !CCDRetryTimestamp) && (
-          <DownloadSuccessAlert
-            type="Continuity of Care Document download"
-            className="vads-u-margin-bottom--1"
-            focusId="ccd-download-success"
-          />
-        )}
-
-      {accessErrors()}
-
-      {/* redux action/server errors */}
-      {activeAlert?.type === ALERT_TYPE_CCD_ERROR && (
-        <AccessTroubleAlertBox
-          alertType={accessAlertTypes.DOCUMENT}
-          documentType={documentTypes.CCD}
-          className="vads-u-margin-bottom--1"
-        />
-      )}
-      {activeAlert?.type === ALERT_TYPE_SEI_ERROR && (
-        <AccessTroubleAlertBox
-          alertType={accessAlertTypes.DOCUMENT}
-          documentType={documentTypes.SEI}
-          className="vads-u-margin-bottom--1"
-        />
-      )}
-
-      {successfulSeiDownload === true &&
-        failedSeiDomains.length !== SEI_DOMAINS.length && (
-          <>
-            <MissingRecordsError
-              documentType="Self-entered health information report"
-              recordTypes={failedSeiDomains}
-            />
-            <DownloadSuccessAlert
-              type="Self-entered health information report download"
-              className="vads-u-margin-bottom--1"
-            />
-          </>
-        )}
-      <va-accordion bordered>
-        {(() => {
-          if (ccdExtendedFileTypeFlag) {
-            if (hasBothDataSources) {
-              return (
-                <CCDAccordionItemDual
-                  generatingCCD={generatingCCD}
-                  handleDownloadCCD={handleDownloadCCD}
-                  handleDownloadCCDV2={handleDownloadCCDV2}
-                  vistaFacilityNames={vistaFacilityNames}
-                  ohFacilityNames={ohFacilityNames}
-                />
-              );
-            }
-            if (hasOHOnly) {
-              return (
-                <CCDAccordionItemOH
-                  generatingCCD={generatingCCD}
-                  handleDownloadCCDV2={handleDownloadCCDV2}
-                />
-              );
-            }
-            return (
-              <CCDAccordionItemV2
-                generatingCCD={generatingCCD}
-                handleDownloadCCD={handleDownloadCCD}
-              />
-            );
-          }
-          return (
-            <CCDAccordionItemV1
-              generatingCCD={generatingCCD}
-              handleDownloadCCD={handleDownloadCCD}
-            />
-          );
-        })()}
-        <va-accordion-item
-          bordered
-          data-testid="selfEnteredAccordionItem"
-          open={expandSelfEntered ? 'true' : undefined}
-          ref={selfEnteredAccordionRef}
-        >
-          <h3 id="self-entered-header" slot="headline" tabIndex="-1">
-            Self-entered health information
-          </h3>
-          <p className="vads-u-margin--0">
-            This report includes all the health information you entered yourself
-            in the previous version of My HealtheVet. You can no longer enter or
-            edit health information in My HealtheVet.
-          </p>
-          <p>
-            Your VA health care team can’t access this self-entered information
-            directly. If you want to share this information with your care team,
-            print this report and bring it to your next appointment.
-          </p>
-          {selfEnteredPdfLoading ? (
-            <div id="generating-sei-indicator">
-              <TrackedSpinner
-                id="download-self-entered-spinner"
-                label="Loading"
-                message="Preparing your download..."
-                data-testid="sei-loading-indicator"
-              />
-            </div>
-          ) : (
-            <va-link
-              download
-              href="#"
-              onClick={handleDownloadSelfEnteredPdf}
-              text="Download self-entered health information report (PDF)"
-              data-testid="downloadSelfEnteredButton"
-            />
-          )}
-        </va-accordion-item>
-      </va-accordion>
-      <p className="vads-u-margin--0 vads-u-margin-top--2">
-        <strong>Note:</strong> Blue Button and the Blue Button logo are
-        registered service marks owned by the U.S. Department of Health and
-        Human Services.
-      </p>
-      <NeedHelpSection />
+      <h1>I see else</h1>
     </div>
   );
 };
