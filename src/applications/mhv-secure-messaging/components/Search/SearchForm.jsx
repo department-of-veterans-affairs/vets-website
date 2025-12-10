@@ -17,9 +17,9 @@ import { DateRangeOptions, DateRangeValues } from '../../util/inputContants';
 import { dateFormat, isCustomFolder } from '../../util/helpers';
 
 const FilterStatus = {
-  DEFAULT: 'default',
-  APPLIED: 'applied',
-  CLEARED: 'cleared',
+  DEFAULT: 'filter-default',
+  APPLIED: 'filter-applied-success',
+  CLEARED: 'filter-clear-success',
 };
 
 const SearchForm = props => {
@@ -377,29 +377,13 @@ const SearchForm = props => {
               />
             )
           )}
-          {filterStatus === FilterStatus.DEFAULT && (
-            <span className="sr-only" aria-live="polite" id="filter-default">
-              No filters applied
-            </span>
-          )}
-          {filterStatus === FilterStatus.APPLIED && (
-            <span
-              className="sr-only"
-              aria-live="polite"
-              id="filter-applied-success"
-            >
-              Filters successfully applied
-            </span>
-          )}
-          {filterStatus === FilterStatus.CLEARED && (
-            <span
-              className="sr-only"
-              aria-live="polite"
-              id="filter-clear-success"
-            >
-              Filters successfully cleared
-            </span>
-          )}
+          <span className="sr-only" aria-live="polite" id={filterStatus}>
+            {filterStatus === FilterStatus.DEFAULT && 'No filters applied'}
+            {filterStatus === FilterStatus.APPLIED &&
+              'Filters successfully applied'}
+            {filterStatus === FilterStatus.CLEARED &&
+              'Filters successfully cleared'}
+          </span>
         </div>
       </form>
       <FilterResults />
