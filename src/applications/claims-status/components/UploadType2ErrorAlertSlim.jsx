@@ -1,54 +1,48 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { recordType2FailureEvent } from '../utils/analytics';
+import { recordType2FailureEventListPage } from '../utils/analytics';
 
-// Page-level tracking to ensure only one event fires per page load
+// Page-level coordination to count all slim alerts and fire one event
 // This is shared across all instances of UploadType2ErrorAlertSlim
-let pageHasRecordedEvent = false;
-let mountedInstanceCount = 0;
+let visibleAlertsCount = 0;
+let eventTimeoutId = null;
 
 function UploadType2ErrorAlertSlim({ failedSubmissions }) {
-  const hasRecordedEvent = useRef(false);
-
-  // Track mounting/unmounting to reset page flag when all instances are gone
-  useEffect(() => {
-    mountedInstanceCount += 1;
-
-    return () => {
-      mountedInstanceCount -= 1;
-      // Reset the page flag when all instances have unmounted
-      if (mountedInstanceCount === 0) {
-        pageHasRecordedEvent = false;
-      }
-    };
-  }, []);
-
-  // Record Type 2 failure event when component mounts with failed submissions
-  // Only the first slim alert to mount will fire the event (page-level tracking)
-  // Only records once per session to avoid inflating error counts
+  // Track mounting/unmounting and coordinate event firing
+  // Fires on mount and whenever failedSubmissions changes
   useEffect(
     () => {
-      const sessionKey = 'cst_type2_failure_recorded';
-      const hasRecordedInSession = sessionStorage.getItem(sessionKey);
+      if (failedSubmissions && failedSubmissions.length > 0) {
+        visibleAlertsCount += 1;
 
-      if (
-        failedSubmissions &&
-        failedSubmissions.length > 0 &&
-        !hasRecordedEvent.current &&
-        !pageHasRecordedEvent &&
-        !hasRecordedInSession
-      ) {
-        recordType2FailureEvent({
-          failedDocumentCount: failedSubmissions.length,
-        });
+        // Clear any previously scheduled event
+        if (eventTimeoutId) {
+          clearTimeout(eventTimeoutId);
+        }
 
-        hasRecordedEvent.current = true;
-        pageHasRecordedEvent = true;
-        sessionStorage.setItem(sessionKey, 'true');
+        // Schedule event to fire after all instances have had a chance to mount
+        eventTimeoutId = setTimeout(() => {
+          // Fire event with total count of all visible slim alerts
+          recordType2FailureEventListPage({
+            failedDocumentCount: visibleAlertsCount,
+          });
+          eventTimeoutId = null;
+        }, 100);
+
+        return () => {
+          visibleAlertsCount -= 1;
+
+          // If this was the last alert, clear any pending timeout and reset
+          if (visibleAlertsCount === 0 && eventTimeoutId) {
+            clearTimeout(eventTimeoutId);
+            eventTimeoutId = null;
+          }
+        };
       }
-    },
 
+      return undefined;
+    },
     [failedSubmissions],
   );
 

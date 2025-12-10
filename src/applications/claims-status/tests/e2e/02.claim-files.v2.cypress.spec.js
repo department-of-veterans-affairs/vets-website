@@ -949,7 +949,8 @@ describe('Google Analytics', () => {
       // Verify Type 2 failure event was recorded
       const event = assertDataLayerEvent(w, 'claims-upload-failure-type-2');
 
-      expect(event['failed-document-count']).to.equal(1);
+      // Status page sends entry-point: 'claims-status-page' only
+      expect(event['entry-point']).to.equal('claims-status-page');
     });
 
     cy.axeCheck();

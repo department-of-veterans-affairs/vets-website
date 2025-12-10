@@ -6,17 +6,17 @@ import UploadType2ErrorAlert from '../../components/UploadType2ErrorAlert';
 import * as analytics from '../../utils/analytics';
 
 describe('<UploadType2ErrorAlert>', () => {
-  let recordType2FailureEventStub;
+  let recordType2FailureEventStatusPageStub;
 
   beforeEach(() => {
-    recordType2FailureEventStub = sinon.stub(
+    recordType2FailureEventStatusPageStub = sinon.stub(
       analytics,
-      'recordType2FailureEvent',
+      'recordType2FailureEventStatusPage',
     );
   });
 
   afterEach(() => {
-    recordType2FailureEventStub.restore();
+    recordType2FailureEventStatusPageStub.restore();
   });
 
   const tomorrow = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
@@ -41,52 +41,75 @@ describe('<UploadType2ErrorAlert>', () => {
 
   it('should render null when there are no failed submissions', () => {
     const { container } = render(
-      <UploadType2ErrorAlert failedSubmissions={[]} />,
+      <UploadType2ErrorAlert failedSubmissions={[]} isStatusPage />,
     );
 
     expect(container.querySelector('va-alert')).to.not.exist;
-    expect(recordType2FailureEventStub.called).to.be.false;
+    expect(recordType2FailureEventStatusPageStub.called).to.be.false;
   });
 
   it('should render null when failed submissions array is undefined', () => {
     const { container } = render(
-      <UploadType2ErrorAlert failedSubmissions={undefined} />,
+      <UploadType2ErrorAlert failedSubmissions={undefined} isStatusPage />,
     );
 
     expect(container.querySelector('va-alert')).to.not.exist;
-    expect(recordType2FailureEventStub.called).to.be.false;
+    expect(recordType2FailureEventStatusPageStub.called).to.be.false;
   });
 
   context('Google Analytics', () => {
-    it('should record Type 2 failure analytics event when component renders with failed submissions', () => {
+    it('should record Type 2 failure analytics event when component renders with failed submissions on status tab', () => {
       const failedSubmissions = [
         createFailedSubmission({ id: 1, fileName: 'test1.pdf' }),
         createFailedSubmission({ id: 2, fileName: 'test2.pdf' }),
         createFailedSubmission({ id: 3, fileName: 'test3.pdf' }),
       ];
 
-      render(<UploadType2ErrorAlert failedSubmissions={failedSubmissions} />);
+      render(
+        <UploadType2ErrorAlert
+          failedSubmissions={failedSubmissions}
+          isStatusPage
+        />,
+      );
 
-      expect(recordType2FailureEventStub.calledOnce).to.be.true;
-      expect(
-        recordType2FailureEventStub.calledWith({
-          failedDocumentCount: 3,
-        }),
-      ).to.be.true;
+      expect(recordType2FailureEventStatusPageStub.calledOnce).to.be.true;
+    });
+
+    it('should NOT record analytics event when isStatusPage is false (files tab)', () => {
+      const failedSubmissions = [
+        createFailedSubmission({ id: 1, fileName: 'test1.pdf' }),
+      ];
+
+      render(
+        <UploadType2ErrorAlert
+          failedSubmissions={failedSubmissions}
+          isStatusPage={false}
+        />,
+      );
+
+      expect(recordType2FailureEventStatusPageStub.called).to.be.false;
     });
 
     it('should not record analytics event multiple times for same submissions', () => {
       const failedSubmissions = [createFailedSubmission()];
 
       const { rerender } = render(
-        <UploadType2ErrorAlert failedSubmissions={failedSubmissions} />,
+        <UploadType2ErrorAlert
+          failedSubmissions={failedSubmissions}
+          isStatusPage
+        />,
       );
 
-      expect(recordType2FailureEventStub.calledOnce).to.be.true;
+      expect(recordType2FailureEventStatusPageStub.calledOnce).to.be.true;
       // Rerender with same data
-      rerender(<UploadType2ErrorAlert failedSubmissions={failedSubmissions} />);
+      rerender(
+        <UploadType2ErrorAlert
+          failedSubmissions={failedSubmissions}
+          isStatusPage
+        />,
+      );
       // Should still only be called once
-      expect(recordType2FailureEventStub.calledOnce).to.be.true;
+      expect(recordType2FailureEventStatusPageStub.calledOnce).to.be.true;
     });
   });
 
@@ -109,7 +132,10 @@ describe('<UploadType2ErrorAlert>', () => {
         ];
 
         const { container } = render(
-          <UploadType2ErrorAlert failedSubmissions={failedSubmissions} />,
+          <UploadType2ErrorAlert
+            failedSubmissions={failedSubmissions}
+            isStatusPage
+          />,
         );
         const alert = container.querySelector('va-alert');
 
@@ -151,7 +177,10 @@ describe('<UploadType2ErrorAlert>', () => {
         ];
 
         const { container, getByText, queryByText } = render(
-          <UploadType2ErrorAlert failedSubmissions={failedSubmissions} />,
+          <UploadType2ErrorAlert
+            failedSubmissions={failedSubmissions}
+            isStatusPage
+          />,
         );
         const alert = container.querySelector('va-alert');
 
@@ -178,7 +207,10 @@ describe('<UploadType2ErrorAlert>', () => {
       ];
 
       const { getByText } = render(
-        <UploadType2ErrorAlert failedSubmissions={failedSubmissions} />,
+        <UploadType2ErrorAlert
+          failedSubmissions={failedSubmissions}
+          isStatusPage
+        />,
       );
 
       getByText('Request type: Medical records');
@@ -203,7 +235,10 @@ describe('<UploadType2ErrorAlert>', () => {
     const failedSubmissions = [createFailedSubmission()];
 
     const { container } = render(
-      <UploadType2ErrorAlert failedSubmissions={failedSubmissions} />,
+      <UploadType2ErrorAlert
+        failedSubmissions={failedSubmissions}
+        isStatusPage
+      />,
     );
     const link = container.querySelector('va-link-action');
 

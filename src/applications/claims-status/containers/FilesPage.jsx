@@ -132,6 +132,7 @@ class FilesPage extends React.Component {
           <Toggler.Enabled>
             <UploadType2ErrorAlert
               failedSubmissions={failedSubmissionsWithinLast30Days}
+              isStatusPage={false}
             />
             <AdditionalEvidencePage additionalEvidenceTitle="Upload additional evidence" />
             <div className="vads-u-margin-y--6 vads-u-border--1px vads-u-border-color--gray-light" />

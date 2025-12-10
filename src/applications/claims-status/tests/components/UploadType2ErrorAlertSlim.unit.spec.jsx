@@ -7,17 +7,17 @@ import UploadType2ErrorAlertSlim from '../../components/UploadType2ErrorAlertSli
 import * as analytics from '../../utils/analytics';
 
 describe('<UploadType2ErrorAlertSlim>', () => {
-  let recordType2FailureEventStub;
+  let recordType2FailureEventListPageStub;
 
   beforeEach(() => {
-    recordType2FailureEventStub = sinon.stub(
+    recordType2FailureEventListPageStub = sinon.stub(
       analytics,
-      'recordType2FailureEvent',
+      'recordType2FailureEventListPage',
     );
   });
 
   afterEach(() => {
-    recordType2FailureEventStub.restore();
+    recordType2FailureEventListPageStub.restore();
   });
 
   const createFailedSubmission = (acknowledgementDate, failedDate) => ({
@@ -42,7 +42,7 @@ describe('<UploadType2ErrorAlertSlim>', () => {
     );
 
     expect(container.firstChild).to.be.null;
-    expect(recordType2FailureEventStub.called).to.be.false;
+    expect(recordType2FailureEventListPageStub.called).to.be.false;
   });
 
   it('should not render when failedSubmissions is null', () => {
@@ -51,7 +51,7 @@ describe('<UploadType2ErrorAlertSlim>', () => {
     );
 
     expect(container.firstChild).to.be.null;
-    expect(recordType2FailureEventStub.called).to.be.false;
+    expect(recordType2FailureEventListPageStub.called).to.be.false;
   });
 
   it('should not render when failedSubmissions is undefined', () => {
@@ -60,7 +60,7 @@ describe('<UploadType2ErrorAlertSlim>', () => {
     );
 
     expect(container.firstChild).to.be.null;
-    expect(recordType2FailureEventStub.called).to.be.false;
+    expect(recordType2FailureEventListPageStub.called).to.be.false;
   });
 
   it('should render when there are failed submissions', () => {
@@ -86,7 +86,7 @@ describe('<UploadType2ErrorAlertSlim>', () => {
   });
 
   context('Google Analytics', () => {
-    it('should record Type 2 failure analytics event when component renders with failed submissions', () => {
+    it('should record Type 2 failure analytics event when component renders with failed submissions', async () => {
       const failedSubmissions = [
         createFailedSubmission(
           new Date(Date.now() + 28 * 24 * 60 * 60 * 1000).toISOString(),
@@ -98,10 +98,14 @@ describe('<UploadType2ErrorAlertSlim>', () => {
         <UploadType2ErrorAlertSlim failedSubmissions={failedSubmissions} />,
       );
 
-      expect(recordType2FailureEventStub.calledOnce).to.be.true;
+      // Wait for the debounced event to fire (100ms timeout)
+      await new Promise(resolve => setTimeout(resolve, 101));
+
+      expect(recordType2FailureEventListPageStub.calledOnce).to.be.true;
       expect(
-        recordType2FailureEventStub.calledWith({
+        recordType2FailureEventListPageStub.calledWith({
           failedDocumentCount: 1,
+          entryPoint: 'claims-list',
         }),
       ).to.be.true;
     });

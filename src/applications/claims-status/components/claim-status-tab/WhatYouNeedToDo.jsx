@@ -45,6 +45,7 @@ function WhatYouNeedToDo({ claim }) {
         <Toggler.Enabled>
           <UploadType2ErrorAlert
             failedSubmissions={failedSubmissionsWithinLast30Days}
+            isStatusPage
           />
           {filesNeeded.length === 0 &&
             failedSubmissionsWithinLast30Days.length === 0 &&

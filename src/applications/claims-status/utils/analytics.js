@@ -205,14 +205,28 @@ export const clearUploadTracking = claimId => {
 };
 
 /**
- * Records a Type 2 upload failure event
+ * Records a Type 2 failure event for claims list page
+ * Counts total number of slim alerts
+ * Fires on every page visit
  * @param {Object} params - Event parameters
- * @param {number} params.failedDocumentCount - Number of failed documents
+ * @param {number} params.failedDocumentCount - Number of slim alerts visible
  */
-export const recordType2FailureEvent = ({ failedDocumentCount }) => {
+export const recordType2FailureEventListPage = ({ failedDocumentCount }) => {
   recordEvent({
     event: 'claims-upload-failure-type-2',
     'failed-document-count': failedDocumentCount,
+    'entry-point': 'claims-list-page',
+  });
+};
+
+/**
+ * Records a Type 2 failure event for status page
+ * Fires once per page view on status page only
+ */
+export const recordType2FailureEventStatusPage = () => {
+  recordEvent({
+    event: 'claims-upload-failure-type-2',
+    'entry-point': 'claims-status-page',
   });
 };
 

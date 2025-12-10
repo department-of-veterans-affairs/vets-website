@@ -1,37 +1,21 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import {
   VaAlert,
   VaLinkAction,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { recordType2FailureEvent } from '../utils/analytics';
+import { recordType2FailureEventStatusPage } from '../utils/analytics';
 
-function UploadType2ErrorAlert({ failedSubmissions }) {
-  const hasRecordedEvent = useRef(false);
-
-  // Record Type 2 failure event when component mounts with failed submissions
-  // Only records once per session to avoid inflating error counts
+function UploadType2ErrorAlert({ failedSubmissions, isStatusPage }) {
+  // Record Type 2 failure event every time component mounts with failed submissions
+  // Only fires on status page
   useEffect(
     () => {
-      const sessionKey = 'cst_type2_failure_recorded';
-      const hasRecordedInSession = sessionStorage.getItem(sessionKey);
-
-      if (
-        failedSubmissions &&
-        failedSubmissions.length > 0 &&
-        !hasRecordedEvent.current &&
-        !hasRecordedInSession
-      ) {
-        recordType2FailureEvent({
-          failedDocumentCount: failedSubmissions.length,
-        });
-
-        hasRecordedEvent.current = true;
-        sessionStorage.setItem(sessionKey, 'true');
+      if (failedSubmissions && failedSubmissions.length > 0 && isStatusPage) {
+        recordType2FailureEventStatusPage();
       }
     },
-
-    [failedSubmissions],
+    [failedSubmissions, isStatusPage],
   );
 
   // Don't render anything if there are no failed submissions
@@ -118,6 +102,7 @@ function UploadType2ErrorAlert({ failedSubmissions }) {
 
 UploadType2ErrorAlert.propTypes = {
   failedSubmissions: PropTypes.array,
+  isStatusPage: PropTypes.bool,
 };
 
 export default UploadType2ErrorAlert;
