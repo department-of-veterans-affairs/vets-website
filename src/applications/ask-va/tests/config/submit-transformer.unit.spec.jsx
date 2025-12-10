@@ -50,6 +50,7 @@ describe('Ask VA submit transformer', () => {
         SchoolFacilityCode: '333',
         StateAbbreviation: 'AL',
       },
+      requireSignIn: false,
     });
   });
 
@@ -79,6 +80,7 @@ describe('Ask VA submit transformer', () => {
         SchoolFacilityCode: '777',
         StateAbbreviation: 'MI',
       },
+      requireSignIn: false,
     });
   });
 
@@ -108,6 +110,7 @@ describe('Ask VA submit transformer', () => {
         SchoolFacilityCode: null,
         StateAbbreviation: 'NY',
       },
+      requireSignIn: false,
     });
   });
 
