@@ -80,7 +80,7 @@ const Verify = () => {
       pageTitle={
         !verificationError
           ? 'Schedule a call to learn about VA benefits and health care'
-          : "We couldn't verify your information"
+          : 'We couldn’t verify your information'
       }
       verificationError={verificationError}
     >
