@@ -1,6 +1,6 @@
 import { format } from 'date-fns';
 import { formatDateLong } from 'platform/utilities/date';
-import { MissingFieldsException } from '../utils/exceptions/MissingFieldsException';
+import { validate } from '../utils/validations/dispute_debt';
 import {
   createAccessibleDoc,
   createHeading,
@@ -10,135 +10,74 @@ import {
 } from './utils';
 
 const defaultConfig = {
-  margins: { top: 40, bottom: 40, left: 30, right: 30 },
+  margins: { top: 40, bottom: 40, left: 65, right: 65 },
   text: {
     boldFont: 'SourceSansPro-Bold',
     font: 'SourceSansPro-Regular',
     monospaceFont: 'RobotoMono-Regular',
     size: 12,
+    labelColor: '#757575',
+    valueColor: '#000000',
   },
   headings: {
-    H1: {
-      font: 'Bitter-Bold',
-      size: 30,
-    },
-    H2: {
-      font: 'Bitter-Bold',
-      size: 24,
-    },
-    H3: {
-      font: 'Bitter-Bold',
-      size: 16,
-    },
-    H4: {
-      font: 'Bitter-Bold',
-      size: 14,
-    },
-    H5: {
-      font: 'Bitter-Bold',
-      size: 12,
-    },
+    H1: { font: 'Bitter-Bold', size: 30 },
+    H2: { font: 'Bitter-Bold', size: 24 },
+    H3: { font: 'Bitter-Bold', size: 16 },
+    H4: { font: 'Bitter-Bold', size: 14 },
+    H5: { font: 'Bitter-Bold', size: 12 },
   },
 };
 
-const validate = data => {
-  const missingFields = [];
+// =====================================
+// * Helper Functions *
+// =====================================
 
-  // Validate top-level data fields
-  const requiredFieldsData = ['selectedDebts', 'submissionDetails', 'veteran'];
-  const missingDataFields = requiredFieldsData.filter(field => !data[field]);
-  missingFields.push(...missingDataFields.map(field => `data.${field}`));
+/** Creates a labeled field with gray label and black value * */
+const createLabeledField = (doc, config, label, value, options = {}) => {
+  const { lineGapLabel = 5, lineGapValue = 10 } = options;
 
-  // Early return if critical fields are missing
-  if (missingDataFields.length > 0) {
-    throw new MissingFieldsException(missingFields);
-  }
-
-  const { selectedDebts, submissionDetails, veteran } = data;
-
-  // Validate submissionDetails
-  const requiredFieldsSubmissionDetails = ['submissionDateTime'];
-  const missingSubmissionFields = requiredFieldsSubmissionDetails.filter(
-    field => !submissionDetails[field],
-  );
-  missingFields.push(
-    ...missingSubmissionFields.map(field => `submissionDetails.${field}`),
-  );
-
-  // Validate veteran fields
-  const requiredFieldsVeteran = [
-    'dob',
-    'veteranFullName',
-    'ssnLastFour',
-    'mailingAddress',
-    'email',
-    'mobilePhone',
-  ];
-  const missingVeteranFields = requiredFieldsVeteran.filter(
-    field => !veteran[field],
-  );
-  missingFields.push(...missingVeteranFields.map(field => `veteran.${field}`));
-
-  // Only validate nested objects if parent objects exist
-  if (veteran.mailingAddress) {
-    const requiredFieldsMailingAddress = [
-      'addressLine1',
-      'city',
-      'countryName',
-      'zipCode',
-      'stateCode',
-    ];
-    const missingAddressFields = requiredFieldsMailingAddress.filter(
-      field => !veteran.mailingAddress[field],
-    );
-    missingFields.push(
-      ...missingAddressFields.map(field => `veteran.mailingAddress.${field}`),
-    );
-  }
-
-  if (veteran.mobilePhone) {
-    const requiredFieldsMobilePhone = [
-      'phoneNumber',
-      'countryCode',
-      'areaCode',
-    ];
-    const missingPhoneFields = requiredFieldsMobilePhone.filter(
-      field => !veteran.mobilePhone[field],
-    );
-    missingFields.push(
-      ...missingPhoneFields.map(field => `veteran.mobilePhone.${field}`),
-    );
-  }
-
-  if (veteran.veteranFullName) {
-    const requiredFieldsVeteranFullName = ['first', 'last'];
-    const missingNameFields = requiredFieldsVeteranFullName.filter(
-      field => !veteran.veteranFullName[field],
-    );
-    missingFields.push(
-      ...missingNameFields.map(field => `veteran.veteranFullName.${field}`),
-    );
-  }
-
-  // Validate selectedDebts
-  if (!Array.isArray(selectedDebts) || selectedDebts.length === 0) {
-    missingFields.push('selectedDebts (must be a non-empty array)');
-  } else {
-    selectedDebts.forEach((debt, index) => {
-      const requiredFieldsDebt = ['label', 'disputeReason', 'supportStatement'];
-      const missingDebtFields = requiredFieldsDebt.filter(
-        field => !debt[field],
-      );
-      missingFields.push(
-        ...missingDebtFields.map(field => `selectedDebts[${index}].${field}`),
-      );
-    });
-  }
-
-  if (missingFields.length > 0) {
-    throw new MissingFieldsException(missingFields);
-  }
+  return doc.struct('P', () => {
+    doc
+      .font(config.text.font)
+      .fontSize(config.text.size)
+      .fillColor(config.text.labelColor)
+      .text(label, { lineGap: lineGapLabel });
+    doc
+      .font(config.text.font)
+      .fillColor(config.text.valueColor)
+      .text(value || '', { lineGap: lineGapValue });
+  });
 };
+
+/** Adds a labeled field to a section * */
+const addLabeledField = (section, doc, config, label, value, options = {}) => {
+  section.add(createLabeledField(doc, config, label, value, options));
+};
+
+/** Creates a section with heading and labeled fields * */
+const createFieldSection = (doc, wrapper, config, title, fields) => {
+  const section = doc.struct('Sect', { title });
+
+  section.add(
+    createHeading(doc, 'H3', config, title, {
+      x: config.margins.left,
+      paragraphGap: 12,
+    }),
+  );
+
+  fields.forEach(({ label, value, options = {} }) => {
+    // Skip labels with empty values like suffix which is often
+    if (!value || (typeof value === 'string' && !value.trim())) return;
+    addLabeledField(section, doc, config, label, value, options);
+    if (options.moveDown !== false) doc.moveDown();
+  });
+
+  section.end();
+  wrapper.add(section);
+  doc.moveDown();
+};
+
+// SHOULD VALIDATION RETURN ANYTHING ELSE?
 
 // TODO:
 // handle page breaks, so H3 sections don't break across pages
@@ -153,7 +92,7 @@ const generate = async (data = {}, config = defaultConfig) => {
   const doc = createAccessibleDoc(
     {
       author: 'U.S. Department of Veterans Affairs',
-      subject: 'Debt dispute from VA.gov',
+      subject: 'Dispute your VA debt',
       title: 'Debt Dispute',
       lang: 'en-US',
     },
@@ -184,78 +123,15 @@ const generate = async (data = {}, config = defaultConfig) => {
     title: 'Title',
   });
   titleSection.add(
-    createHeading(doc, 'H1', config, 'Debt dispute from VA.gov', {
+    createHeading(doc, 'H1', config, 'Dispute your VA debt', {
       x: config.margins.left,
-      y: doc.y,
+      y: config.margins.top,
     }),
   );
-
-  doc.moveDown(3);
-
-  const useCompAndPenTitle = selectedDebts?.some(
-    debt => debt.deductionCode === '30',
-  );
-
-  const dmcRoutingTitle = useCompAndPenTitle
-    ? 'DMC Routing: C&P Dispute'
-    : 'DMC Routing: Education Dispute';
-  titleSection.add(
-    createHeading(doc, 'H2', config, dmcRoutingTitle, {
-      x: config.margins.left,
-      y: doc.y,
-      paragraphGap: 12,
-    }),
-  );
-
-  doc.moveDown(3);
 
   titleSection.end();
   wrapper.add(titleSection);
-
-  // =====================================
-  // * Submission Type Section *
-  // =====================================
-  const submissionTypeSection = doc.struct('Sect', {
-    title: 'Submission Type',
-  });
-  const submissionTypeTitle = 'Submission type:';
-  submissionTypeSection.add(
-    createHeading(doc, 'H3', config, submissionTypeTitle, {
-      x: config.margins.left,
-      y: doc.y,
-      paragraphGap: 6,
-    }),
-  );
-
-  doc.moveDown(2);
-
-  // bulletIndent prop is just for nested lists
-  // regular indent for text will shit the bullet points over
-  const listOptions = {
-    baseline: 'hanging',
-    listType: 'bullet',
-    bulletRadius: 2,
-    indent: 10,
-    textIndent: 15,
-  };
-
-  submissionTypeSection.add(
-    doc.struct('List', { title: 'Submission type' }, () => {
-      doc
-        .fontSize(config.text.size)
-        .font(config.text.font)
-        .list(
-          selectedDebts?.map(
-            debt => `${debt?.deductionCode || ''} - ${debt?.label || ''}`,
-          ),
-          listOptions,
-        );
-    }),
-  );
-
-  submissionTypeSection.end();
-  wrapper.add(submissionTypeSection);
-  doc.moveDown();
+  doc.moveDown(0.5);
 
   // =====================================
   // * VA Logo Fetch logo as base64 *
@@ -269,7 +145,7 @@ const generate = async (data = {}, config = defaultConfig) => {
     ).toString('base64')}`;
 
     // right align logo
-    const logoWidth = 150;
+    const logoWidth = 220;
     const logoX = config.margins.left;
     wrapper.add(
       doc.struct(
@@ -280,7 +156,7 @@ const generate = async (data = {}, config = defaultConfig) => {
         },
       ),
     );
-    doc.moveDown();
+    doc.moveDown(0.5);
   }
 
   // =====================================
@@ -288,42 +164,46 @@ const generate = async (data = {}, config = defaultConfig) => {
   // =====================================
   const { submissionDateTime } = submissionDetails;
   const submissionDate = format(submissionDateTime, 'MMMM d, yyyy');
-  const submissionTimeET = format(submissionDateTime, "h:mm a 'ET'");
 
-  const submissionDetailsSection = doc.struct('Sect', {
-    title: 'Submission Type',
-  });
+  const submissionStartY = doc.y;
+  // Start at the config left margin, increase number to adjust indent as needed
+  const submissionDetailsLeftMargin = config.margins.left + 20;
+
+  const submissionDetailsSection = doc.struct('Sect');
   submissionDetailsSection.add(
-    createHeading(doc, 'H3', config, 'Submission Details', {
-      x: config.margins.left,
+    createHeading(doc, 'H3', config, `Form submitted on ${submissionDate}`, {
+      x: submissionDetailsLeftMargin,
       y: doc.y,
-      // paragraphGap: 12,
     }),
   );
+
+  const submissionText =
+    'Your submission is complete. Submissions are processed in the order they are received. Dispute decisions are normally made with 180 days. We will send you a letter with the outcome.';
 
   submissionDetailsSection.add(
     doc.struct('P', () => {
       doc
         .font(config.text.font)
         .fontSize(config.text.size)
-        .text('Date: ', { continued: true });
-      doc.text(submissionDate || '');
-    }),
-  );
-
-  submissionDetailsSection.add(
-    doc.struct('P', () => {
-      doc
-        .font(config.text.font)
-        .fontSize(config.text.size)
-        .text('Time: ', { continued: true });
-      doc.text(submissionTimeET || '');
+        .text(submissionText);
     }),
   );
 
   submissionDetailsSection.end();
   wrapper.add(submissionDetailsSection);
-  doc.moveDown();
+
+  // Start at the config left margin, increase number to adjust indent as needed
+  const verticalLineLeftMargin = config.margins.left + 5;
+
+  // Green vertical line
+  doc
+    .moveTo(verticalLineLeftMargin, submissionStartY)
+    .lineTo(verticalLineLeftMargin, doc.y)
+    .lineWidth(6)
+    .strokeColor('#00A91C')
+    .stroke();
+
+  doc.moveDown(2);
 
   // =====================================
   // * Informational header *
@@ -339,271 +219,85 @@ const generate = async (data = {}, config = defaultConfig) => {
   // * Veteran Personal Information *
   // =====================================
   const { dob, veteranFullName } = veteran;
-
-  const veteranPersonalInformation = doc.struct('Sect', {
-    title: "Veteran's personal information",
-  });
-  veteranPersonalInformation.add(
-    createHeading(doc, 'H3', config, "Veteran's personal information", {
-      x: config.margins.left,
-      paragraphGap: 12,
-    }),
-  );
-
-  // loop through all portions of the veteran name
-  Object.keys(veteranFullName).forEach(key => {
-    const nameLabel =
-      key === 'suffix'
-        ? 'Suffix'
-        : `${key.charAt(0).toUpperCase() + key.slice(1)} name`;
-
-    veteranPersonalInformation.add(
-      doc.struct('P', () => {
-        doc
-          .font(config.text.boldFont)
-          .fontSize(config.text.size)
-          .text(nameLabel);
-        doc.font(config.text.font).text(veteranFullName[key] || '', {
-          lineGap: 8,
-        });
-      }),
-    );
-    doc.moveDown();
-  });
-
-  // veteran dob
   const formattedDob = dob ? formatDateLong(dob) : 'Not provided';
 
-  veteranPersonalInformation.add(
-    doc.struct('P', () => {
-      doc
-        .font(config.text.boldFont)
-        .fontSize(config.text.size)
-        .text('Date of birth');
-      doc.font(config.text.font).text(formattedDob, {
-        lineGap: 8,
-      });
-    }),
-  );
+  // Build name fields dynamically
+  const nameFields = Object.keys(veteranFullName).map(key => ({
+    label:
+      key === 'suffix'
+        ? 'Suffix'
+        : `${key.charAt(0).toUpperCase() + key.slice(1)} name`,
+    value: veteranFullName[key],
+  }));
 
-  veteranPersonalInformation.end();
-  wrapper.add(veteranPersonalInformation);
-  doc.moveDown();
+  createFieldSection(doc, wrapper, config, "Veteran's personal information", [
+    ...nameFields,
+    { label: 'Date of birth', value: formattedDob },
+  ]);
 
   // =====================================
   // * Veteran identification information *
   // =====================================
   const { ssnLastFour } = veteran;
 
-  const veteranIdentificationInformation = doc.struct('Sect', {
-    title: "Veteran's identification information",
-  });
-  veteranIdentificationInformation.add(
-    createHeading(doc, 'H3', config, "Veteran's identification information", {
-      x: config.margins.left,
-      paragraphGap: 12,
-    }),
+  createFieldSection(
+    doc,
+    wrapper,
+    config,
+    "Veteran's identification information",
+    [{ label: 'Social Security number', value: `••• •• ${ssnLastFour}` }],
   );
-
-  veteranIdentificationInformation.add(
-    doc.struct('P', () => {
-      doc
-        .font(config.text.boldFont)
-        .fontSize(config.text.size)
-        .text('Social Security number');
-      doc.font(config.text.font).text(ssnLastFour || '');
-    }),
-  );
-
-  veteranIdentificationInformation.end();
-  wrapper.add(veteranIdentificationInformation);
-  doc.moveDown();
 
   // =====================================
   // * Veteran mailing address *
   // =====================================
+  const { mailingAddress } = veteran;
   const {
-    mailingAddress: {
-      addressLine1,
-      addressLine2,
-      addressLine3,
-      city,
-      countryName,
-      zipCode,
-      stateCode,
-    },
-  } = veteran;
-  const veteranMailingAddress = doc.struct('Sect', {
-    title: "Veteran's mailing address",
-  });
-  veteranMailingAddress.add(
-    createHeading(doc, 'H3', config, "Veteran's mailing address", {
-      paragraphGap: 12,
-    }),
-  );
+    addressLine1,
+    addressLine2,
+    addressLine3,
+    city,
+    countryName,
+    zipCode,
+    stateCode,
+  } = mailingAddress;
 
-  veteranMailingAddress.add(
-    doc.struct('P', () => {
-      doc
-        .font(config.text.boldFont)
-        .fontSize(config.text.size)
-        .text('Country', config.margins.left, doc.y);
-      doc.font(config.text.font).text(countryName || '', {
-        lineGap: 8,
-      });
-    }),
-  );
+  // Combine address lines
+  const streetAddress = [addressLine1, addressLine2, addressLine3]
+    .filter(Boolean)
+    .join('\n');
 
-  veteranMailingAddress.add(
-    doc.struct('P', () => {
-      doc
-        .font(config.text.boldFont)
-        .fontSize(config.text.size)
-        .text('Street address', config.margins.left, doc.y);
-      doc.font(config.text.font).text(addressLine1 || '', {
-        lineGap: 8,
-      });
-      if (addressLine2)
-        doc.text(addressLine2 || '', {
-          lineGap: 8,
-        });
-      if (addressLine3)
-        doc.text(addressLine3 || '', {
-          lineGap: 8,
-        });
-    }),
-  );
-
-  veteranMailingAddress.add(
-    doc.struct('P', () => {
-      doc
-        .font(config.text.boldFont)
-        .fontSize(config.text.size)
-        .text('City');
-      doc.font(config.text.font).text(city, {
-        lineGap: 8,
-      });
-    }),
-  );
-
-  veteranMailingAddress.add(
-    doc.struct('P', () => {
-      doc
-        .font(config.text.boldFont)
-        .fontSize(config.text.size)
-        .text('State', config.margins.left, doc.y);
-      doc.font(config.text.font).text(stateCode || '', {
-        lineGap: 8,
-      });
-    }),
-  );
-
-  veteranMailingAddress.add(
-    doc.struct('P', () => {
-      doc
-        .font(config.text.boldFont)
-        .fontSize(config.text.size)
-        .text('Postal code');
-      doc.font(config.text.font).text(zipCode || '', {
-        lineGap: 8,
-      });
-    }),
-  );
-
-  veteranMailingAddress.end();
-  wrapper.add(veteranMailingAddress);
-  doc.moveDown();
+  createFieldSection(doc, wrapper, config, "Veteran's mailing address", [
+    { label: 'Country', value: countryName },
+    { label: 'Street address', value: streetAddress },
+    { label: 'City', value: city },
+    { label: 'State', value: stateCode },
+    { label: 'Postal code', value: zipCode },
+  ]);
 
   // =====================================
   // * Veteran contact information *
   // =====================================
-  const {
-    email,
-    mobilePhone: { phoneNumber, countryCode, areaCode, extension },
-  } = veteran;
+  const { email, mobilePhone } = veteran;
+  const { phoneNumber, countryCode, areaCode, extension } = mobilePhone;
   const formattedPhoneNumber = `${countryCode || ''} ${areaCode ||
-    ''} ${phoneNumber || ''}${extension ? ` ext. ${extension}` : ''}`;
+    ''} ${phoneNumber || ''}${extension ? ` ext. ${extension}` : ''}`.trim();
 
-  const veteranContactInformation = doc.struct('Sect', {
-    title: "Veteran's contact information",
-  });
-  veteranContactInformation.add(
-    createHeading(doc, 'H3', config, "Veteran's contact information", {
-      paragraphGap: 12,
-    }),
-  );
-
-  veteranContactInformation.add(
-    doc.struct('P', () => {
-      doc
-        .font(config.text.boldFont)
-        .fontSize(config.text.size)
-        .text('Phone number');
-      doc.font(config.text.font).text(formattedPhoneNumber, {
-        lineGap: 8,
-      });
-    }),
-  );
-
-  veteranContactInformation.add(
-    doc.struct('P', () => {
-      doc
-        .font(config.text.boldFont)
-        .fontSize(config.text.size)
-        .text('Email');
-      doc.font(config.text.font).text(email || '', {
-        lineGap: 8,
-      });
-    }),
-  );
-
-  veteranContactInformation.end();
-  wrapper.add(veteranContactInformation);
-  doc.moveDown();
+  createFieldSection(doc, wrapper, config, "Veteran's contact information", [
+    { label: 'Phone number', value: formattedPhoneNumber },
+    { label: 'Email', value: email },
+  ]);
 
   // =====================================
   // * Selected debts *
   // =====================================
   selectedDebts.forEach(debt => {
-    const { disputeReason, supportStatement } = debt;
-    const selectedDebtsSection = doc.struct('Sect', {
-      title: debt?.label || '',
-    });
-    selectedDebtsSection.add(
-      createHeading(doc, 'H3', config, debt.label, {
-        paragraphGap: 12,
-      }),
-    );
+    const { disputeReason, supportStatement, label } = debt;
 
-    selectedDebtsSection.add(
-      doc.struct('P', () => {
-        doc
-          .font(config.text.boldFont)
-          .fontSize(config.text.size)
-          .text('Dispute reason');
-        doc.font(config.text.font).text(disputeReason || '', {
-          lineGap: 8,
-        });
-      }),
-    );
-
-    doc.moveDown();
-
-    selectedDebtsSection.add(
-      doc.struct('P', () => {
-        doc
-          .font(config.text.boldFont)
-          .fontSize(config.text.size)
-          .text('Dispute statement');
-        doc.font(config.text.font).text(supportStatement || '', {
-          lineGap: 8,
-        });
-      }),
-    );
-
-    selectedDebtsSection.end();
-    wrapper.add(selectedDebtsSection);
-    doc.moveDown();
+    createFieldSection(doc, wrapper, config, label, [
+      { label: 'Dispute reason', value: disputeReason },
+      { label: 'Dispute statement', value: supportStatement },
+    ]);
   });
 
   // =====================================
