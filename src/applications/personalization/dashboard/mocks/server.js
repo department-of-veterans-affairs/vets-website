@@ -185,12 +185,12 @@ const responses = {
     },
   },
   'GET /v0/debts': (req, res) => {
-    if (req.query?.countOnly) {
-      return res.status(200).json(createDebtsCountOnlySuccess());
-    }
     const debtStatus = 'success';
     switch (debtStatus) {
       case 'success':
+        if (req.query?.countOnly) {
+          return res.status(200).json(createDebtsCountOnlySuccess());
+        }
         return res.status(200).json(createDebtsSuccess());
       case 'empty':
         return res.status(200).json(createNoDebtsSuccess());
