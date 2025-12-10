@@ -147,7 +147,7 @@ describe('RouteLeavingGuard component', () => {
       );
       fireEvent.click(confirmButton);
 
-      expect(saveDraftHandlerSpy.calledWith('auto')).to.be.true;
+      expect(saveDraftHandlerSpy.calledWith('manual-confirmed')).to.be.true;
     });
 
     it('does not call saveDraftHandler when confirm button does not contain "Save"', async () => {

@@ -262,6 +262,7 @@ const ComposeForm = props => {
   const [messageBody, setMessageBody] = useState(draftInProgress?.body || '');
   const [electronicSignature, setElectronicSignature] = useState('');
   const [attachments, setAttachments] = useState([]);
+  const attachmentsRef = useRef(attachments);
   const [fieldsString, setFieldsString] = useState('');
   const [messageInvalid, setMessageInvalid] = useState(false);
   const navigationError = draftInProgress?.navigationError;
@@ -317,6 +318,13 @@ const ComposeForm = props => {
           alert.isActive,
       ).length > 0,
     [alertsList],
+  );
+
+  useEffect(
+    () => {
+      attachmentsRef.current = attachments;
+    },
+    [attachments],
   );
 
   useEffect(
@@ -423,10 +431,12 @@ const ComposeForm = props => {
         messageData[`${'recipient_id'}`] = draftInProgress.recipientId;
 
         let sendData;
-        if (attachments.length > 0) {
+        if (attachmentsRef.current.length > 0) {
           sendData = new FormData();
           sendData.append('message', JSON.stringify(messageData));
-          attachments.map(upload => sendData.append('uploads[]', upload));
+          attachmentsRef.current.forEach(upload =>
+            sendData.append('uploads[]', upload),
+          );
         } else {
           sendData = JSON.stringify(messageData);
         }
@@ -436,7 +446,7 @@ const ComposeForm = props => {
           await dispatch(
             sendMessage(
               sendData,
-              attachments.length > 0,
+              attachmentsRef.current.length > 0,
               draftInProgress.ohTriageGroup,
               !!redirectPath, // suppress alert when redirectPath exists
             ),
@@ -461,7 +471,6 @@ const ComposeForm = props => {
       }
     },
     [
-      attachments,
       currentFolder?.folderId,
       dispatch,
       draft?.messageId,
@@ -633,7 +642,7 @@ const ComposeForm = props => {
 
       if (type === 'manual') {
         const getErrorType = () => {
-          const hasAttachments = attachments.length > 0;
+          const hasAttachments = attachmentsRef.current.length > 0;
           const hasValidSignature =
             isSignatureRequired && electronicSignature !== '';
           const verifyAllFieldsAreValid =
@@ -695,15 +704,12 @@ const ComposeForm = props => {
         bod: debouncedMessageBody || messageBody,
       });
 
+      // For auto-save, skip if message is invalid or no fields changed
       if (type === 'auto') {
         if (!messageValid || newFieldsString === fieldsString) {
           return;
         }
         setFieldsString(newFieldsString);
-        setSavedDraft(false);
-        setSaveError(null);
-        dispatch(saveDraft(formData, type, draftId));
-        return;
       }
 
       if (messageValid) {
@@ -728,7 +734,6 @@ const ComposeForm = props => {
       setSaveError,
       setSavedDraft,
       setNavigationError,
-      attachments.length,
       isSignatureRequired,
       electronicSignature,
       fieldsString,
@@ -766,6 +771,7 @@ const ComposeForm = props => {
       isSignatureRequired,
       send,
       setNavigationError,
+      setLastFocusableElement,
     ],
   );
 
