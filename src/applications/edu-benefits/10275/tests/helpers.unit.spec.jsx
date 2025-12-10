@@ -166,12 +166,7 @@ describe('10275 Helpers', () => {
   });
 
   describe('#isPOEEligible', () => {
-    it('should return true when first digit is 0-3 and second digit is 1-5', () => {
-      expect(isPOEEligible('01123456')).to.equal(true);
-      expect(isPOEEligible('02123456')).to.equal(true);
-      expect(isPOEEligible('03123456')).to.equal(true);
-      expect(isPOEEligible('04123456')).to.equal(true);
-      expect(isPOEEligible('05123456')).to.equal(true);
+    it('should return true when first digit is 1-3 and second digit is 1-5', () => {
       expect(isPOEEligible('11123456')).to.equal(true);
       expect(isPOEEligible('12123456')).to.equal(true);
       expect(isPOEEligible('13123456')).to.equal(true);
@@ -189,7 +184,7 @@ describe('10275 Helpers', () => {
       expect(isPOEEligible('35123456')).to.equal(true);
     });
 
-    it('should return false when first digit is not 0-3', () => {
+    it('should return false when first digit is not 1-3', () => {
       expect(isPOEEligible('41123456')).to.equal(false);
       expect(isPOEEligible('51123456')).to.equal(false);
       expect(isPOEEligible('61123456')).to.equal(false);
@@ -198,12 +193,7 @@ describe('10275 Helpers', () => {
       expect(isPOEEligible('91123456')).to.equal(false);
     });
 
-    it('should return false when first digit is 0-3 but second digit is not 1-5', () => {
-      expect(isPOEEligible('00123456')).to.equal(false);
-      expect(isPOEEligible('06123456')).to.equal(false);
-      expect(isPOEEligible('07123456')).to.equal(false);
-      expect(isPOEEligible('08123456')).to.equal(false);
-      expect(isPOEEligible('09123456')).to.equal(false);
+    it('should return false when first digit is 1-3 but second digit is not 1-5', () => {
       expect(isPOEEligible('10123456')).to.equal(false);
       expect(isPOEEligible('16123456')).to.equal(false);
       expect(isPOEEligible('20123456')).to.equal(false);

@@ -126,19 +126,8 @@ export const getTransformIntlPhoneNumber = (phone = {}) => {
 export const isPOEEligible = facilityCode => {
   const firstDigit = facilityCode.charAt(0);
   const secondDigit = facilityCode.charAt(1);
-  if (
-    firstDigit === '0' ||
-    firstDigit === '1' ||
-    firstDigit === '2' ||
-    firstDigit === '3'
-  ) {
-    return (
-      secondDigit === '1' ||
-      secondDigit === '2' ||
-      secondDigit === '3' ||
-      secondDigit === '4' ||
-      secondDigit === '5'
-    );
+  if (['1', '2', '3'].includes(firstDigit)) {
+    return ['1', '2', '3', '4', '5'].includes(secondDigit);
   }
   return false;
 };
