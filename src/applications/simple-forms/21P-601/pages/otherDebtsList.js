@@ -28,10 +28,6 @@ const options = {
   },
 };
 
-const yesNoOptions = {
-  hint: `You can add up to ${options.maxItems}`,
-};
-
 /**
  * Cards are populated on this page above the uiSchema if items are present
  *
@@ -40,7 +36,7 @@ const yesNoOptions = {
 const summaryPage = {
   uiSchema: {
     ...titleUI("Beneficiary's other debts"),
-    'view:hasOtherDebts': arrayBuilderYesNoUI(options, yesNoOptions),
+    'view:hasOtherDebts': arrayBuilderYesNoUI(options),
   },
   schema: {
     type: 'object',

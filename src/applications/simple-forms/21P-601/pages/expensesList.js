@@ -36,7 +36,6 @@ const options = {
 
 const yesNoOptions = {
   title: 'Do you have an expense to add?',
-  hint: `You can add up to ${options.maxItems}`,
 };
 
 /**
