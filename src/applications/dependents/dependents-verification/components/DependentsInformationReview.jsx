@@ -5,6 +5,15 @@ import PropTypes from 'prop-types';
 import { DEPENDENT_CHOICES } from '../constants';
 import { maskID, calculateAge } from '../../shared/utils';
 
+/**
+ * Dependents Information Review Component
+ * @typedef {object} DependentsInformationReviewProps
+ * @property {object} data - form data
+ * @property {function} goToPath - function to go to specific path
+ *
+ * @param {DependentsInformationReviewProps} props - Component props
+ * @returns {React.Component} - Dependents information review page
+ */
 export const DependentsInformationReview = ({ data, goToPath }) => {
   const { hasDependentsStatusChanged = '' } = data || {};
   // Using dependents from Redux state because dependents are only set in the

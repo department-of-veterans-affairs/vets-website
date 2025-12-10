@@ -400,7 +400,7 @@ const marriageEndPage = {
   },
   schema: {
     type: 'object',
-    required: ['marriageEndReason', 'marriageEndOtherExplanation'],
+    required: ['marriageEndReason'],
     properties: {
       marriageEndReason: radioSchema(Object.keys(previousMarriageEndOptions)),
       marriageEndOtherExplanation: {
