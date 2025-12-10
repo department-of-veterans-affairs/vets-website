@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import { geoLocateUser } from '../../actions/geoLocateUser';
 import { setLocationInput } from '../../actions/index';
@@ -88,14 +89,11 @@ const SearchControls = props => {
               />
             </div>
           ) : (
-            <button
+            <va-button
               onClick={handleGeolocationButtonClick}
-              type="button"
               className="use-my-location-link vads-u-display--flex vads-u-align-items--center"
-            >
-              <va-icon icon="near_me" size={3} />
-              Use my location
-            </button>
+              text="Use my location"
+            />
           )}
         </div>
         {(geoCodeError || hasSearchInput || inputError) && (
@@ -116,12 +114,11 @@ const SearchControls = props => {
             value={queryState}
             title="Your location: Street, City, State or Postal code"
           />
-          <button type="button" id="facility-search" onClick={handleSubmit}>
-            <span className="button-text">Search</span>
-            <span className="button-icon">
-              <va-icon icon="search" size={3} />
-            </span>
-          </button>
+          <va-button
+            text="Search"
+            id="facility-search"
+            onClick={handleSubmit}
+          />
         </div>
       </div>
     );
@@ -146,5 +143,17 @@ function mapStateToProps(state) {
     geoCodeError: state.askVA.getLocationError,
   };
 }
+
+SearchControls.propTypes = {
+  geoCodeError: PropTypes.bool,
+  geolocationInProgress: PropTypes.bool,
+  hasSearchInput: PropTypes.bool,
+  locateUser: PropTypes.func,
+  searchHint: PropTypes.string,
+  searchQuery: PropTypes.string,
+  searchTitle: PropTypes.string,
+  userLocation: PropTypes.object,
+  onSubmit: PropTypes.func,
+};
 
 export default connect(mapStateToProps)(SearchControls);
