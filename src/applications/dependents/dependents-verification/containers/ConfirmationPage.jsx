@@ -11,6 +11,15 @@ import { formatDateParsedZoneLong } from 'platform/utilities/date/index';
 import { maskID } from '../../shared/utils';
 import { DEPENDENT_CHOICES } from '../constants';
 
+/**
+ * COnfirmation page component
+ * @typedef {object} ConfirmationPageProps
+ * @property {object} route - route object
+ * @property {object} route.formConfig - main form config
+ *
+ * @param {ConfirmationPageProps} props - Confirmation page props
+ * @returns {React.Component} - Confirmation page
+ */
 export const ConfirmationPage = props => {
   const form = useSelector(state => state.form || {});
   const {
