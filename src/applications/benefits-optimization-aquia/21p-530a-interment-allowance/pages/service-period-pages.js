@@ -1,9 +1,5 @@
-import React from 'react';
-
 import { capitalize } from 'lodash';
 import {
-  titleUI,
-  titleSchema,
   serviceBranchUI,
   arrayBuilderItemFirstPageTitleUI,
   serviceBranchSchema,
@@ -38,7 +34,7 @@ const servicePeriodOptions = {
   hint: '',
   nounSingular: 'service period',
   nounPlural: 'service periods',
-  required: true,
+  required: false,
   isItemIncomplete: item =>
     !item.serviceBranch &&
     !item.dateEnteredService &&
@@ -57,35 +53,6 @@ const servicePeriodOptions = {
       `Entry date (${formatDate(
         item?.dateEnteredService,
       )}) - Separation date (${formatDate(item?.dateLeftService)}}`,
-  },
-};
-
-// Intro page
-const servicePeriodIntroPage = {
-  uiSchema: {
-    ...titleUI(
-      `Veteran's ${servicePeriodOptions.nounPlural}`,
-      <>
-        <p>
-          In the next few questions, we’ll ask about the deceased Veteran’s
-          service periods. You must add at least one{' '}
-          {servicePeriodOptions.nounSingular}.{' '}
-        </p>
-        <p>You will need to provide the following:</p>
-        <ul>
-          <li>Branch of service</li>
-          <li>Service start and end dates</li>
-          <li>Service entry and separation locations</li>
-          <li>Grade, rank, or rating</li>
-        </ul>
-      </>,
-    ),
-  },
-  schema: {
-    type: 'object',
-    properties: {
-      titleSchema,
-    },
   },
 };
 
@@ -156,13 +123,24 @@ const serviceLocationsAndRankPage = {
 // Service Period Summary Page
 const servicePeriodSummaryPage = {
   uiSchema: {
-    'view:completedServicePeriods': arrayBuilderYesNoUI(servicePeriodOptions, {
-      title: 'Do you have additional service periods to add?',
-      labels: {
-        Y: 'Yes',
-        N: 'No',
+    'view:completedServicePeriods': arrayBuilderYesNoUI(
+      servicePeriodOptions,
+      {
+        title: 'Do you have any Veteran service periods to add?',
+        hint: `If you answer yes, you'll need to add at least one service period on the following pages.`,
+        labels: {
+          Y: 'Yes',
+          N: 'No',
+        },
       },
-    }),
+      {
+        title: 'Do you have another service period to add?',
+        labels: {
+          Y: 'Yes',
+          N: 'No',
+        },
+      },
+    ),
   },
   schema: {
     type: 'object',
@@ -176,12 +154,6 @@ const servicePeriodSummaryPage = {
 export const servicePeriodsPages = arrayBuilderPages(
   servicePeriodOptions,
   pageBuilder => ({
-    servicePeriodsIntro: pageBuilder.introPage({
-      title: 'Service period introduction',
-      path: 'service-periods/orientation',
-      uiSchema: servicePeriodIntroPage.uiSchema,
-      schema: servicePeriodIntroPage.schema,
-    }),
     servicePeriods: pageBuilder.summaryPage({
       path: 'service-periods',
       title: 'Service periods',
