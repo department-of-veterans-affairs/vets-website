@@ -1,6 +1,7 @@
 /* istanbul ignore file */
 /* eslint-disable camelcase */
 const delay = require('mocker-api/lib/delay');
+const mockTopics = require('./utils/topic');
 
 const mockUsers = [
   {
@@ -89,6 +90,13 @@ const responses = {
     );
     return res.json({
       data: mockAppointment,
+    });
+  },
+  'GET /vass/v0/topics': (req, res) => {
+    return res.json({
+      data: {
+        topics: mockTopics,
+      },
     });
   },
 };
