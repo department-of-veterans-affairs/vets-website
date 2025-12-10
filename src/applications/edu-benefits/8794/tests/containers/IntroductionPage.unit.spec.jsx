@@ -180,7 +180,7 @@ describe('22-8794 <IntroductionPage> (RTL, store pattern like example)', () => {
     // Be flexible about how SIP renders the CTA:
     // - It may be a <va-button text="...">
     // - Or a native <button> / <a> with visible text
-    const needle = 'Start your 85/15 calculations report';
+    const needle = 'Start your Designation of certifying official(s)';
 
     // 1) try <va-button text="...">
     let found =

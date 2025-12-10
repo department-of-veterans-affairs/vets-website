@@ -208,7 +208,7 @@ const IntroductionPage = ({ route }) => {
         messages={route.formConfig.savedFormMessages}
         formConfig={route.formConfig}
         pageList={route.pageList}
-        startText="Start your 85/15 calculations report"
+        startText="Start your Designation of certifying official(s)"
         unauthStartText="Sign in to start your form"
         hideUnauthedStartLink={!userLoggedIn}
       />
