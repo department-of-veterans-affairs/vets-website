@@ -88,6 +88,7 @@ const CernerFacilityAlert = ({ cernerFacilities }) => {
           <VaLinkAction
             data-testid="cerner-facility-action-link"
             href={getCernerURL('/pages/messaging/inbox', true)}
+            type="secondary"
             onClick={handleUrlClick}
             text="Go to My VA Health"
           />
