@@ -19,8 +19,6 @@ import { form0781WorkflowChoices } from './workflowChoices';
 export const workflowChoicePageTitle =
   'Option to add a statement in support of mental health conditions';
 
-// Lists new conditions the veteran has claimed
-// The user should not get to this page if these conditions are not present
 const isPlaceholderRated = v => v === 'Rated Disability';
 
 const conditionSelections = formData => {
@@ -29,10 +27,17 @@ const conditionSelections = formData => {
         .filter(
           d => typeof d?.condition === 'string' && d.condition.trim() !== '',
         )
-        .filter(d => !isPlaceholderRated(d.condition)) // remove "Rated Disability"
+        .filter(d => !isPlaceholderRated(d.condition))
         .map(d => {
-          const s = d.condition.trim();
-          return s[0].toUpperCase() + s.slice(1);
+          const base = d.condition.trim();
+          const side =
+            typeof d?.sideOfBody === 'string'
+              ? d.sideOfBody.trim().toLowerCase()
+              : '';
+
+          const full = side ? `${base}, ${side}` : base;
+
+          return full.charAt(0).toUpperCase() + full.slice(1);
         })
         .filter(
           (() => {
