@@ -33,7 +33,7 @@ const CopayAlertContainer = ({ type, copay }) => {
             recordEvent({ event: 'cta-link-click-copay-resolve-link' });
             history.push(`/copay-balances/${copay.id}/resolve`);
           }}
-          text="Pay your balance, request financial help, or dispute this bill"
+          text="Resolve your bill"
           type="primary"
         />
       )}

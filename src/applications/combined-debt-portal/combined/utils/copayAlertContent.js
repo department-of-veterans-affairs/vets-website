@@ -31,12 +31,11 @@ export const getCopayAlertContent = (copay, type) => {
               show that you’re not enrolled in VA health care.
             </p>
             <p>
-              <a
+              <va-link-action
                 href="https://va.gov/health-care/how-to-apply/"
-                className="vads-u-margin-left--0p5"
-              >
-                Find out how to apply for VA health care benefits
-              </a>
+                text=" Find out how to apply for VA health care benefits"
+                type=""
+              />
             </p>
             <p>
               If you think this is incorrect, call our toll-free hotline Monday

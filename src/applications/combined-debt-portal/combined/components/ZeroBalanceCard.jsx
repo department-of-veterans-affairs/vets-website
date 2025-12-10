@@ -8,7 +8,7 @@ const ZeroBalanceCard = ({ appType }) => {
   const cardTitle =
     appType === APP_TYPES.DEBT
       ? `You don't have any current VA debt`
-      : `You haven't received a copay bill in the past 6 months`;
+      : `You don't have any outstanding overpayments`;
 
   const cardContent =
     appType === APP_TYPES.DEBT ? (
