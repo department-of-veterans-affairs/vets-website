@@ -38,7 +38,11 @@
 }
 //overriding default classes set at the forms level to match figma
 .form-21-686c,
-.form-21-526EZ {
+.form-21-526EZ,
+.form-21-0966 {
+  [for="root_vaFileNumber"] {
+    margin-top: 1.5rem;
+  }
   .usa-width-two-thirds {
     max-width: 627px;
     padding: 0;

@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import { connect } from 'react-redux';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import {
   formatDateShort,
   formatDateParsedZoneLong,
 } from 'platform/utilities/date';
-
 import InfoPair from './InfoPair';
 import {
   formatPercent,
@@ -14,12 +15,20 @@ import {
   notQualifiedWarning,
 } from '../utils/helpers.jsx';
 
-function UserInfoSection({ enrollmentData = {}, showCurrentAsOfAlert }) {
+export function UserInfoSection({
+  enrollmentData = {},
+  showCurrentAsOfAlert,
+  showTransferredOutMonths,
+}) {
   // Get today’s date to show information current as of
   const todayFormatted = formatDateShort(new Date());
   const percentageBenefit =
     formatPercent(enrollmentData.percentageBenefit) || 'unavailable';
-  const fullName = `${enrollmentData.firstName} ${enrollmentData.lastName}`;
+  const safeFirstName =
+    enrollmentData.firstName == null ? 'unavailable' : enrollmentData.firstName;
+  const safeLastName =
+    enrollmentData.lastName == null ? 'unavailable' : enrollmentData.lastName;
+  const fullName = `${safeFirstName} ${safeLastName}`;
   let currentAsOfAlert;
   if (showCurrentAsOfAlert) {
     currentAsOfAlert = (
@@ -53,6 +62,7 @@ function UserInfoSection({ enrollmentData = {}, showCurrentAsOfAlert }) {
   const { originalEntitlement } = enrollmentData;
   const { usedEntitlement } = enrollmentData;
   const { remainingEntitlement } = enrollmentData;
+  const { entitlementTransferredOut } = enrollmentData;
 
   if (enrollmentData.veteranIsEligible) {
     entitlementInfo = (
@@ -67,6 +77,12 @@ function UserInfoSection({ enrollmentData = {}, showCurrentAsOfAlert }) {
             label="Months you’ve used"
             value={formatMonthDayFields(usedEntitlement)}
           />
+          {showTransferredOutMonths && (
+            <InfoPair
+              label="Months transferred to your dependents"
+              value={formatMonthDayFields(entitlementTransferredOut)}
+            />
+          )}
           <InfoPair
             label="Months you have left to use"
             value={formatMonthDayFields(remainingEntitlement)}
@@ -122,6 +138,15 @@ function UserInfoSection({ enrollmentData = {}, showCurrentAsOfAlert }) {
 UserInfoSection.propTypes = {
   enrollmentData: PropTypes.object,
   showCurrentAsOfAlert: PropTypes.bool,
+  showTransferredOutMonths: PropTypes.bool,
+};
+const mapStateToProps = state => {
+  const toggles = toggleValues(state);
+  const showTransferredOutMonths =
+    toggles?.[FEATURE_FLAG_NAMES.sobClaimantService] ?? false;
+  return {
+    showTransferredOutMonths,
+  };
 };
 
-export default UserInfoSection;
+export default connect(mapStateToProps)(UserInfoSection);
