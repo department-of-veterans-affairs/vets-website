@@ -19,7 +19,7 @@ export function AppContent({ children, isDataAvailable }) {
 
   if (unregistered) {
     view = (
-      <div className="row">
+      <div>
         <div className="small-12 columns">
           <h4>
             If none of the above situations applies to you, and you think your
@@ -34,7 +34,7 @@ export function AppContent({ children, isDataAvailable }) {
     view = children;
   }
 
-  return <div className="row">{view}</div>;
+  return <div>{view}</div>;
 }
 
 AppContent.propTypes = {
@@ -59,14 +59,16 @@ function Post911GIBStatusApp({ user, children }) {
 
   return (
     <RequiredLoginView verify serviceRequired={serviceRequired} user={user}>
-      <DowntimeNotification
-        appTitle="Post-9/11 GI Bill benefits tracking tool"
-        dependencies={downtimeDependencies}
-      >
-        <AppContent>
-          <Main apiVersion={{ apiVersion: 'v1' }}>{children}</Main>
-        </AppContent>
-      </DowntimeNotification>
+      <div className="row">
+        <DowntimeNotification
+          appTitle="Post-9/11 GI Bill benefits tracking tool"
+          dependencies={downtimeDependencies}
+        >
+          <AppContent>
+            <Main apiVersion={{ apiVersion: 'v1' }}>{children}</Main>
+          </AppContent>
+        </DowntimeNotification>
+      </div>
     </RequiredLoginView>
   );
 }
