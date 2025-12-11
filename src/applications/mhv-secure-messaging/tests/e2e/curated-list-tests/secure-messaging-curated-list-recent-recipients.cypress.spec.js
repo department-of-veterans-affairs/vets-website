@@ -19,7 +19,6 @@ describe('SM CURATED LIST MAIN FLOW WITH RECENT RECIPIENTS', () => {
       },
     ]);
     SecureMessagingSite.login(updatedFeatureToggles);
-    cy.wait('@featureToggle');
     PatientInboxPage.loadInboxMessages();
   });
 

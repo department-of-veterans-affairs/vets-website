@@ -237,7 +237,6 @@ describe('SM CURATED LIST BREADCRUMBS', () => {
         },
       ]);
       SecureMessagingSite.login(updatedFeatureToggles);
-      cy.wait('@featureToggle');
       PilotEnvPage.loadInboxMessages();
     });
 
