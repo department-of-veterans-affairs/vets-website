@@ -9,7 +9,7 @@ const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
   const MAX_ROWS = 10;
 
   function paginate(array, pageSize, pageNumber) {
-    return array.slice((pageNumber - 1) * pageSize, pageNumber * pageSize);
+    return array?.slice((pageNumber - 1) * pageSize, pageNumber * pageSize);
   }
 
   function getPaginationText(
@@ -40,13 +40,13 @@ const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
     setPageFocus(`va-table`);
   }
 
-  const numPages = Math.ceil(charges.length / MAX_ROWS);
+  const numPages = Math.ceil(charges?.length / MAX_ROWS);
 
   const getStatementDateRange = () => {
     const pageText = getPaginationText(
       currentPage,
       MAX_ROWS,
-      charges.length,
+      charges?.length,
       'charges',
     );
 
@@ -54,7 +54,7 @@ const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
       !selectedCopay?.statementStartDate ||
       !selectedCopay?.statementEndDate
     ) {
-      if (charges.length > MAX_ROWS) {
+      if (charges?.length > MAX_ROWS) {
         return `This statement shows your current charges. ${pageText}.`;
       }
       return 'This statement shows your current charges.';
@@ -63,7 +63,7 @@ const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
     const startDate = formatDate(selectedCopay.statementStartDate);
     const endDate = formatDate(selectedCopay.statementEndDate);
 
-    if (charges.length > MAX_ROWS) {
+    if (charges?.length > MAX_ROWS) {
       return `This statement shows charges you received between ${startDate} and ${endDate}. ${pageText}.`;
     }
     return `This statement shows charges you received between ${startDate} and ${endDate}.`;
@@ -157,7 +157,7 @@ const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
         </va-table>
       </div>
 
-      {charges.length > MAX_ROWS ? (
+      {charges?.length > MAX_ROWS ? (
         <VaPagination
           onPageSelect={e => onPageChange(e.detail.page)}
           page={currentPage}
