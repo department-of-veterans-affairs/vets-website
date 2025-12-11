@@ -22,11 +22,14 @@ class VitalsListPage extends BaseListPage {
   };
 
   clickLinkByRecordListItem = vitalsHeading => {
+    // Wait for the vitals list to be fully rendered
+    cy.get('[data-testid="vital-li-display-name"]').should('exist');
+
     cy.contains(vitalsHeading, { includeShadowDom: true }).then(element => {
       cy.wrap(element).should('have.prop', 'tagName', 'H2');
       cy.wrap(element)
         .parent()
-        .findByRole('link', { name: /Review your/ })
+        .findByRole('link', { name: /Review your/ }, { timeout: 10000 })
         .click();
     });
   };
