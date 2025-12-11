@@ -77,7 +77,7 @@ describe('<WhatHappensNextSection />', () => {
     // Assert Direct deposit link text is present
     expect(
       container.querySelector(
-        `va-link[text="Set up direct deposit for travel pay"]`,
+        `va-link[text="Learn how to set up direct deposit for travel pay"]`,
       ),
     ).to.exist;
   });

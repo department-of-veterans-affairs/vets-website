@@ -55,15 +55,13 @@ const WhatHappensNextSection = ({ isError }) => {
             </va-process-list-item>
             <va-process-list-item header="If we approve your claim, we’ll send your pay through direct deposit">
               <p>
-                You must have direct deposit set up in order to receive your
-                funds. Direct deposit for travel pay is different than the
-                direct deposit used for other VA claims. If you’ve already set
-                up direct deposit for travel pay, no additional other are
-                needed.
+                You must have direct deposit set up to get your travel pay. Even
+                if you already set up direct deposit for your VA benefits,
+                you’ll need to set up another direct deposit for VA travel pay.
               </p>
               <va-link
                 href={REIMBURSEMENT_URL}
-                text="Set up direct deposit for travel pay"
+                text="Learn how to set up direct deposit for travel pay"
               />
             </va-process-list-item>
           </va-process-list>

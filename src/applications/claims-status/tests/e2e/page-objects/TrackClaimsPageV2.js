@@ -4,6 +4,7 @@ import Timeouts from 'platform/testing/e2e/timeouts';
 import featureToggleClaimDetailV2Enabled from '../fixtures/mocks/lighthouse/feature-toggle-claim-detail-v2-enabled.json';
 import featureToggleClaimPhasesEnabled from '../fixtures/mocks/lighthouse/feature-toggle-claim-phases-enabled.json';
 // END lighthouse_migration
+import { SUBMIT_TEXT } from '../../../constants';
 
 /* eslint-disable class-methods-use-this */
 class TrackClaimsPageV2 {
@@ -440,11 +441,8 @@ class TrackClaimsPageV2 {
         /\/(document-request|needed-from-you|needed-from-others)\/(\d+)/,
       );
 
-      // Click submit button - use different text based on feature toggle
-      const buttonText = showDocumentUploadStatus
-        ? 'Submit files for review'
-        : 'Submit documents for review';
-      cy.get(`.add-files-form va-button[text="${buttonText}"]`)
+      // Click submit button
+      cy.get(`.add-files-form va-button[text="${SUBMIT_TEXT}"]`)
         .shadow()
         .find('button')
         .click();
@@ -477,12 +475,9 @@ class TrackClaimsPageV2 {
     cy.get('va-alert h2').should('contain', alertHeading);
   }
 
-  submitFilesShowsError(showDocumentUploadStatus = false) {
+  submitFilesShowsError() {
     // Click submit without selecting any files to trigger validation error
-    const buttonText = showDocumentUploadStatus
-      ? 'Submit files for review'
-      : 'Submit documents for review';
-    cy.get(`va-button[text="${buttonText}"]`)
+    cy.get(`va-button[text="${SUBMIT_TEXT}"]`)
       .shadow()
       .find('button')
       .click();

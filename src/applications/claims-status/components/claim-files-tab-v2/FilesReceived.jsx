@@ -5,7 +5,10 @@ import {
   VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { buildDateFormatter } from '../../utils/helpers';
+import {
+  buildDateFormatter,
+  getTrackedItemDisplayFromSupportingDocument,
+} from '../../utils/helpers';
 import { useIncrementalReveal } from '../../hooks/useIncrementalReveal';
 import { ANCHOR_LINKS } from '../../constants';
 
@@ -15,7 +18,7 @@ const formatDate = buildDateFormatter();
 
 const getTrackedItemText = item => {
   if (item.status === 'INITIAL_REVIEW_COMPLETE' || item.status === 'ACCEPTED') {
-    return `Reviewed by VA on ${formatDate(item.receivedDate)}`;
+    return 'Reviewed by VA';
   }
   if (item.status === 'NO_LONGER_REQUIRED' && item.closedDate !== null) {
     return 'No longer needed';
@@ -29,12 +32,13 @@ const getTrackedItemText = item => {
 const generateDocsFiled = docsFiled => {
   return docsFiled.flatMap(document => {
     if (document.id && document.status) {
+      const requestTypeDisplayName = getTrackedItemDisplayFromSupportingDocument(
+        document,
+      );
       const requestTypeText =
         document.status === 'NO_LONGER_REQUIRED'
-          ? `We received this file for a closed evidence request (${
-              document.displayName
-            }).`
-          : `Request type: ${document.displayName}`;
+          ? `We received this file for a closed evidence request: ${requestTypeDisplayName}`
+          : `Submitted in response to request: ${requestTypeDisplayName}`;
 
       // If tracked item has no documents, return single item
       if (document.documents.length === 0) {
@@ -216,10 +220,6 @@ const FilesReceived = ({ claim }) => {
                           </div>
                         ))
                       )}
-                      {item.text &&
-                        item.text.includes('Reviewed') && (
-                          <p className="vads-u-margin-y--0">{item.text}</p>
-                        )}
                     </VaCard>
                   </li>
                 );

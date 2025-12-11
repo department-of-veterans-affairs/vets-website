@@ -129,12 +129,15 @@ const IntroductionPage = () => {
                 />{' '}
                 to file your claim.
               </p>
-              <va-link-action
-                onClick={createClaim}
-                href="#"
-                text="Start your travel reimbursement claim"
-                type="primary"
-              />
+              {appointment &&
+                !appointment.isCC && (
+                  <va-link-action
+                    onClick={createClaim}
+                    href="#"
+                    text="Start your travel reimbursement claim"
+                    type="primary"
+                  />
+                )}
             </va-process-list-item>
           </va-process-list>
         </div>
