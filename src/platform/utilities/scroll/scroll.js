@@ -4,13 +4,10 @@ import { focusElement, focusByOrder, defaultFocusSelector } from '../ui/focus';
 import { ERROR_ELEMENTS, SCROLL_ELEMENT_SUFFIX } from '../constants';
 import environment from '../environment';
 import {
-  ERROR_ATTR_SELECTORS,
-  addErrorAnnotations,
   cleanupErrorAnnotations as cleanupErrorAnnotationsInternal,
-  collectAllErrorElements,
+  DEFAULT_SCAFFOLD_AND_FOCUS_FORM_ERRORS,
   findFocusTarget,
   isSupportedVaElement,
-  DEFAULT_SCAFFOLD_AND_FOCUS_FORM_ERRORS,
   scaffoldErrorsFromSelectors,
 } from './error-scaffolding';
 
@@ -72,46 +69,6 @@ export const scrollToTop = async (
   position = `top${SCROLL_ELEMENT_SUFFIX}`,
   scrollOptions,
 ) => scrollTo(position, scrollOptions);
-
-// Set up a MutationObserver to clean up errors when attributes change
-if (typeof window !== 'undefined') {
-  const observerConfig = {
-    attributes: true,
-    attributeFilter: ERROR_ATTR_SELECTORS,
-    subtree: true,
-  };
-
-  const startObserving = () => {
-    // Debounce cleanup to avoid excessive calls
-    let cleanupTimeout;
-    const debouncedCleanup = () => {
-      clearTimeout(cleanupTimeout);
-      cleanupTimeout = setTimeout(() => {
-        cleanupErrorAnnotations();
-
-        // After cleanup, scaffold any elements that now have errors
-        // This ensures blur validation triggers proper error scaffolding
-        // collectAllErrorElements handles both parent and nested child components
-        const errorSelector = ERROR_ATTR_SELECTORS.map(
-          attr => `[${attr}]`,
-        ).join(', ');
-        const allErrors = collectAllErrorElements(errorSelector);
-        allErrors.forEach(errorElement => {
-          addErrorAnnotations(errorElement);
-        });
-      }, 0);
-    };
-
-    const observer = new MutationObserver(debouncedCleanup);
-    observer.observe(document, observerConfig);
-  };
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', startObserving);
-  } else {
-    startObserving();
-  }
-}
 
 /**
  * scrollToFirstError options
