@@ -1225,8 +1225,6 @@ const watchErrorUpdates = (
 
 export {
   DEFAULT_SCAFFOLD_AND_FOCUS_FORM_ERRORS,
-  ERROR_ATTR_SELECTORS,
-  ERROR_SPAN_SELECTOR,
   addErrorAnnotations,
   cleanupErrorAnnotations,
   collectAllErrorElements,
