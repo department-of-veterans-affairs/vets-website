@@ -118,7 +118,7 @@ const ConfirmationPage = () => {
               <ExpensesAccordion expenses={expenses} documents={documents} />
             </>
           )}
-          <WhatHappensNextSection isError={submitError} />
+          <WhatHappensNextSection isError={!!submitError} />
           {!submitError && (
             <div className="vads-u-margin-top--2">
               <va-link-action
