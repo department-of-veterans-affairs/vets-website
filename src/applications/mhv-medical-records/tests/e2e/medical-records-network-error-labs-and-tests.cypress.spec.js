@@ -17,5 +17,9 @@ describe('Medical Records View Labs and Tests', () => {
 
     cy.visit('my-health/medical-records/labs-and-tests');
     cy.get('[data-testid="expired-alert-message"]').should('be.visible');
+
+    // Axe check
+    cy.injectAxe();
+    cy.axeCheck('main');
   });
 });
