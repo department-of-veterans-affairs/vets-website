@@ -2,19 +2,10 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { getArrayIndexFromPathName } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
-
-const InstitutionAddress = ({ uiSchema, formContext }) => {
+const InstitutionAddress = ({ formContext }) => {
   const formData = useSelector(state => state.form?.data);
 
-  const options = uiSchema?.['ui:options'] || {};
-  const { isArrayItem = false } = options;
-
-  const index = isArrayItem ? getArrayIndexFromPathName() : null;
-
-  const details = isArrayItem
-    ? formData?.additionalLocations?.[index] || {}
-    : formData?.institutionDetails || {};
+  const details = formData?.institutionDetails || {};
 
   const institutionAddress = details?.institutionAddress || {};
   const {
@@ -101,7 +92,6 @@ InstitutionAddress.propTypes = {
   formContext: PropTypes.shape({
     onReviewPage: PropTypes.bool,
   }),
-  uiSchema: PropTypes.object,
 };
 
 export default InstitutionAddress;

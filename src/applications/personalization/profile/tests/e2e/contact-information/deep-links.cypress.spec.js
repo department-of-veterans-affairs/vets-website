@@ -1,7 +1,5 @@
 import { PROFILE_PATHS } from '@@profile/constants';
-
 import { mockNotificationSettingsAPIs } from '../helpers';
-
 import mockUser from '../../fixtures/users/user-36.json';
 
 const deepLinks = [
@@ -70,9 +68,12 @@ function checkAllDeepLinks(mobile = false) {
 
   deepLinks.forEach(({ url, expectedTarget }) => {
     cy.visit(url);
+    // Wait for the element to exist and be visible
     // focus should be managed correctly
-    // console.log('expectedTarget', expectedTarget);
-    getTargetElement(expectedTarget).should('have.focus');
+    getTargetElement(expectedTarget)
+      .should('exist')
+      .and('be.visible')
+      .and('have.focus');
   });
 }
 
