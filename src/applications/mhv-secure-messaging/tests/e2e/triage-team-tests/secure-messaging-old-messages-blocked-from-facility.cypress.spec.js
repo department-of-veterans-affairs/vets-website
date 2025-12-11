@@ -76,15 +76,20 @@ describe('Verify old messages - blocked from facility', () => {
       .should('have.class', 'open');
 
     cy.get(Locators.ALERTS.BLOCKED_GROUP)
+      .shadow()
+      .find('#alert-body')
+      .should('have.class', 'open');
+
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find('p')
       .should('include.text', Alerts.BLOCKED.PARAGRAPH);
 
     cy.get(Locators.ALERTS.BLOCKED_GROUP)
-      .find('a')
-      .should('include.text', Alerts.BLOCKED.LINK);
+      .find('va-link-action')
+      .should('have.attr', 'text', Alerts.BLOCKED.LINK);
 
     cy.get(Locators.ALERTS.BLOCKED_GROUP)
-      .find('a')
+      .find('va-link-action')
       .should('have.attr', 'href', Paths.FIND_LOCATIONS);
 
     cy.get(Locators.BUTTONS.REPLY).should('not.exist');
@@ -150,11 +155,11 @@ describe('Verify old messages - blocked from facility', () => {
       .should('include.text', Alerts.BLOCKED.PARAGRAPH);
 
     cy.get(Locators.ALERTS.BLOCKED_GROUP)
-      .find('a')
-      .should('include.text', Alerts.BLOCKED.LINK);
+      .find('va-link-action')
+      .should('have.attr', 'text', Alerts.BLOCKED.LINK);
 
     cy.get(Locators.ALERTS.BLOCKED_GROUP)
-      .find('a')
+      .find('va-link-action')
       .should('have.attr', 'href', Paths.FIND_LOCATIONS);
 
     cy.get(Locators.BUTTONS.REPLY).should('not.exist');

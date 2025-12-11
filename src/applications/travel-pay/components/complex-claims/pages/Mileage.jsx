@@ -128,6 +128,7 @@ const Mileage = () => {
           }),
         );
       }
+      // Navigate to review page for success and error
       navigate(`/file-new-claim/${apptId}/${claimId}/review`);
     }
   };
