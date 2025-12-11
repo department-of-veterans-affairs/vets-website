@@ -15,7 +15,6 @@ import {
 import { GetHelp } from '@bio-aquia/21-2680-house-bound-status/components';
 import { IntroductionPage } from '@bio-aquia/21-2680-house-bound-status/containers/introduction-page';
 import { ConfirmationPage } from '@bio-aquia/21-2680-house-bound-status/containers/confirmation-page';
-import { prefillTransformer } from '@bio-aquia/21-2680-house-bound-status/config/prefill-transformer';
 import { submitTransformer } from '@bio-aquia/21-2680-house-bound-status/config/submit-transformer';
 import manifest from '@bio-aquia/21-2680-house-bound-status/manifest.json';
 
@@ -99,7 +98,6 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
-  prefillTransformer,
   savedFormMessages: {
     notFound: 'Please start over to apply for benefits.',
     noAuth: 'Please sign in again to continue your application for benefits.',
