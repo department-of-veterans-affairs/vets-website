@@ -39,7 +39,4 @@ const LockedCategoryDisplay = () => {
   );
 };
 
-// Even though it takes no props, document the intent
-LockedCategoryDisplay.propTypes = {};
-
 export default LockedCategoryDisplay;
