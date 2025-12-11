@@ -132,13 +132,13 @@ class PatientComposePage {
   };
 
   validateLockedCategoryDisplay = () => {
-    cy.findByTestId('locked-category-display').should('be.visible');
-    cy.findByTestId('locked-category-display').should(
+    cy.findByTestId(Locators.LOCKED_CATEGORY_DISPLAY).should('be.visible');
+    cy.findByTestId(Locators.LOCKED_CATEGORY_DISPLAY).should(
       'contain',
       RxRenewalText.LOCKED_CATEGORY_DISPLAY,
     );
     // Verify dropdown does not exist
-    cy.get('[data-testid="compose-message-categories"]').should('not.exist');
+    cy.findByTestId(Locators.COMPOSE_CATEGORY_DROPDOWN).should('not.exist');
   };
 
   getMessageSubjectField = () => {
