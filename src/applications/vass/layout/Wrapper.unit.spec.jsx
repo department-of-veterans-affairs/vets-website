@@ -70,7 +70,7 @@ describe('VASS Component: Wrapper', () => {
       },
     );
 
-    const container = screen.getByTestId('wrapper-container');
+    const container = screen.getByTestId('wrapper-container'); // The default testID
     expect(container).to.exist;
     expect(container).to.have.class('custom-class');
     expect(container).to.have.class('vads-l-grid-container');
@@ -101,5 +101,60 @@ describe('VASS Component: Wrapper', () => {
     );
 
     expect(screen.getByTestId('back-link')).to.exist;
+  });
+
+  it('should display *Required text when required prop is passed with pageTitle', () => {
+    const screen = renderWithStoreAndRouter(
+      <Wrapper showBackLink required pageTitle="Test Page Title">
+        <div>Content</div>
+      </Wrapper>,
+      {
+        initialState: {},
+      },
+    );
+
+    const header = screen.getByTestId('header');
+    expect(header.textContent).to.include('(*Required)');
+  });
+
+  it('should not display *Required text when required is not passed', () => {
+    const screen = renderWithStoreAndRouter(
+      <Wrapper showBackLink>
+        <div>Content</div>
+      </Wrapper>,
+      {
+        initialState: {},
+      },
+    );
+
+    expect(screen.queryByText(/\(\*Required\)/)).to.not.exist;
+  });
+
+  describe('when verificationError is provided', () => {
+    it('should render verification error alert', () => {
+      const { getByTestId } = renderWithStoreAndRouter(
+        <Wrapper verificationError="Test Verification Error">
+          <div>Content</div>
+        </Wrapper>,
+        {
+          initialState: {},
+        },
+      );
+      expect(getByTestId('verification-error-alert')).to.exist;
+      expect(getByTestId('verification-error-alert')).to.have.text(
+        'Test Verification Error',
+      );
+    });
+    it('should not render children content', () => {
+      const { queryByTestId } = renderWithStoreAndRouter(
+        <Wrapper verificationError="Test Verification Error">
+          <div data-testid="child-content">Content</div>
+        </Wrapper>,
+        {
+          initialState: {},
+        },
+      );
+      expect(queryByTestId('child-content')).to.not.exist;
+    });
   });
 });
