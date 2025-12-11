@@ -10,19 +10,31 @@ export default function ProcessList() {
           processed.
         </p>
         <p>
-          <a href="https://www.va.gov/education/apply-for-gi-bill-form-22-1990/introduction">
+          <a
+            href="https://www.va.gov/education/apply-for-gi-bill-form-22-1990/introduction"
+            target="_blank"
+            rel="noreferrer"
+          >
             Apply for VA education benefits using Form 22-1990
           </a>
           , <strong>or</strong>{' '}
         </p>
         <p>
-          <a href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/apply-for-dea-fry-form-22-5490/introduction">
+          <a
+            href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/apply-for-dea-fry-form-22-5490/introduction"
+            target="_blank"
+            rel="noreferrer"
+          >
             Apply for VA education benefits as a dependent using Form 22-5490
           </a>
           , <strong>or</strong>{' '}
         </p>
         <p>
-          <a href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/transferred-gi-bill-benefits/apply-form-22-1990e/introduction">
+          <a
+            href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/transferred-gi-bill-benefits/apply-form-22-1990e/introduction"
+            target="_blank"
+            rel="noreferrer"
+          >
             Apply to use transferred education benefits using Form 22-1990e
           </a>
         </p>
