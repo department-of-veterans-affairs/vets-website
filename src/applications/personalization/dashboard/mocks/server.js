@@ -193,6 +193,9 @@ const responses = {
         }
         return res.status(200).json(createDebtsSuccess());
       case 'empty':
+        if (req.query?.countOnly) {
+          return res.status(200).json(createDebtsCountOnlySuccess(0));
+        }
         return res.status(200).json(createNoDebtsSuccess());
       case 'failure':
         return res.status(500).json(createDebtsFailure());

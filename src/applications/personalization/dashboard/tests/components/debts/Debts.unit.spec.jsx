@@ -34,26 +34,6 @@ describe('<BenefitPaymentsAndDebt />', () => {
     expect(getAllByTestId('debts-loading-indicator')).to.exist;
   });
 
-  it('displays no outstanding debts text when no debts and copays', () => {
-    const store = mockStore({
-      allDebts: {
-        isLoading: false,
-        debts: [],
-        copays: [],
-        debtsErrors: [],
-        copaysErrors: [],
-      },
-    });
-
-    const { getByTestId } = render(
-      <Provider store={store}>
-        <BenefitPaymentsAndDebt />
-      </Provider>,
-    );
-
-    expect(getByTestId('no-outstanding-debts-text')).to.exist;
-  });
-
   it('displays debts card when using count-only mode', () => {
     const store = mockStore({
       allDebts: {

@@ -3,17 +3,6 @@ import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
 
 export const DebtsCard = ({ debtsCount, hasError }) => {
-  if (!hasError && debtsCount < 1) {
-    return (
-      <p
-        className="vads-u-margin-bottom--3 vads-u-margin-top--0"
-        data-testid="zero-debt-paragraph"
-      >
-        Your total VA debt balance is $0.
-      </p>
-    );
-  }
-
   const content = (
     <>
       {hasError ? (
@@ -31,8 +20,13 @@ export const DebtsCard = ({ debtsCount, hasError }) => {
           className="vads-u-margin-y--0 vads-u-padding-bottom--1"
           data-testid="debt-total-header"
         >
-          {debtsCount} benefit overpayment
-          {debtsCount > 1 ? 's' : ''}
+          {debtsCount > 0 && (
+            <>
+              {debtsCount} benefit overpayment
+              {debtsCount > 1 ? 's' : ''}
+            </>
+          )}
+          {debtsCount === 0 && 'No benefit overpayments'}
         </h4>
       )}
       <p className="vads-u-margin-y--0 vads-u-margin-top--0p5 vads-u-padding-y--1">

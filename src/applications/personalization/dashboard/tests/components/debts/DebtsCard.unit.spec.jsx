@@ -27,7 +27,7 @@ describe('<DebtsCard />', () => {
       initialState: {},
     });
 
-    expect(tree.getByText('Your total VA debt balance is $0.')).to.exist;
+    expect(tree.getByText('No benefit overpayments')).to.exist;
   });
 
   it('renders singular debt message when count is 1', () => {

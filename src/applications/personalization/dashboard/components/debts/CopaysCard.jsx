@@ -7,20 +7,6 @@ import { getLatestCopay } from '../../helpers';
 export const CopaysCard = ({ copays, hasError }) => {
   const latestCopay = getLatestCopay(copays) ?? null;
   const copaysCount = copays?.length || 0;
-  if (!hasError && copaysCount < 1) {
-    return (
-      <p
-        className="vads-u-margin-bottom--3 vads-u-margin-top--0"
-        data-testid="zero-debt-paragraph"
-      >
-        Your total VA copay balance is $0.
-      </p>
-    );
-  }
-
-  const copayDueHeaderContent = `${copaysCount} copay bill${
-    copaysCount > 1 ? 's' : ''
-  }`;
 
   const content = (
     <>
@@ -43,15 +29,19 @@ export const CopaysCard = ({ copays, hasError }) => {
             className="vads-u-margin-y--0 vads-u-padding-bottom--1"
             data-testid="copay-due-header"
           >
-            {copayDueHeaderContent}
+            {copaysCount > 0 &&
+              `${copaysCount} copay bill${copaysCount > 1 ? 's' : ''}`}
+            {copaysCount === 0 && 'No copay bills'}
           </h4>
-          <p className="vads-u-margin-y--0 vads-u-margin-top--0p5">
-            Updated on{' '}
-            {format(
-              new Date(latestCopay.pSStatementDateOutput),
-              'MMMM dd, yyyy',
-            )}
-          </p>
+          {copaysCount > 0 && (
+            <p className="vads-u-margin-y--0 vads-u-margin-top--0p5">
+              Updated on{' '}
+              {format(
+                new Date(latestCopay.pSStatementDateOutput),
+                'MMMM dd, yyyy',
+              )}
+            </p>
+          )}
         </>
       )}
       <p className="vads-u-margin-y--0 vads-u-margin-top--0p5 vads-u-padding-y--1">
