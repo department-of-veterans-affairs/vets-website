@@ -8,12 +8,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   VaDate,
   VaTextInput,
+  VaButton,
+  VaTextarea,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import DocumentUpload from './DocumentUpload';
-import { EXPENSE_TYPES } from '../../../constants';
-import { createExpense, updateExpense } from '../../../redux/actions';
+import { EXPENSE_TYPES, EXPENSE_TYPE_KEYS } from '../../../constants';
+import {
+  createExpense,
+  updateExpense,
+  setReviewPageAlert,
+} from '../../../redux/actions';
 import {
   selectExpenseUpdateLoadingState,
   selectExpenseCreationLoadingState,
@@ -34,20 +40,23 @@ const ExpensePage = () => {
   const { apptId, claimId, expenseId } = useParams();
   const location = useLocation();
 
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isCancelModalVisible, setIsCancelModalVisible] = useState(false);
   const [formState, setFormState] = useState({});
   const [showError, setShowError] = useState(false);
   const [document, setDocument] = useState(null);
   const [documentLoading, setDocumentLoading] = useState(false);
-  const errorRef = useRef(null); // ref for the error message
+  const [extraFieldErrors, setExtraFieldErrors] = useState({});
 
+  const errorRef = useRef(null); // ref for the error message
+  const costRequestedRef = useRef(null);
+
+  const isEditMode = !!expenseId;
   const isLoadingExpense = useSelector(
     state =>
-      expenseId
+      isEditMode
         ? selectExpenseUpdateLoadingState(state)
         : selectExpenseCreationLoadingState(state),
   );
-
   const toBase64 = file =>
     new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -57,7 +66,7 @@ const ExpensePage = () => {
     });
 
   const expense = useSelector(
-    state => (expenseId ? selectExpenseWithDocument(state, expenseId) : null),
+    state => (isEditMode ? selectExpenseWithDocument(state, expenseId) : null),
   );
 
   const { filename } = expense?.receipt ?? {};
@@ -123,7 +132,7 @@ const ExpensePage = () => {
   );
 
   const expenseTypeMatcher = new RegExp(
-    `.*(${Object.keys(EXPENSE_TYPES)
+    `.*(${Object.values(EXPENSE_TYPE_KEYS)
       .map(key => EXPENSE_TYPES[key].route)
       .join('|')}).*`,
   );
@@ -139,7 +148,7 @@ const ExpensePage = () => {
     [showError],
   );
 
-  const expenseType = Object.keys(EXPENSE_TYPES).find(
+  const expenseType = Object.values(EXPENSE_TYPE_KEYS).find(
     key => EXPENSE_TYPES[key].route === expenseTypeRoute,
   );
 
@@ -159,14 +168,19 @@ const ExpensePage = () => {
     }));
   };
 
-  const handleOpenModal = () => setIsModalVisible(true);
-  const handleCloseModal = () => {
-    setIsModalVisible(false);
-  };
-
-  const handleCancelModal = () => {
-    handleCloseModal();
-    navigate(`/file-new-claim/${apptId}/${claimId}/review`);
+  const handleOpenCancelModal = () => setIsCancelModalVisible(true);
+  const handleCloseCancelModal = () => setIsCancelModalVisible(false);
+  const handleConfirmCancel = () => {
+    handleCloseCancelModal();
+    if (isEditMode) {
+      // TODO: Add logic to determine where the user came from and direct them back to the correct location
+      // navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
+      navigate(`/file-new-claim/${apptId}/${claimId}/review`);
+    } else {
+      // TODO: Add logic to determine where the user came from and direct them back to the correct location
+      navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
+      // navigate(`/file-new-claim/${apptId}/${claimId}/review`);
+    }
   };
 
   // Field names must match those expected by the expenses_controller in vets-api.
@@ -185,15 +199,62 @@ const ExpensePage = () => {
     ],
   };
 
+  const validateDescription = () => {
+    const errors = { description: null };
+
+    // Validate description field length
+    if (formState.description?.length < 5) {
+      errors.description = 'Enter at least 5 characters';
+    } else if (formState.description?.length > 2000) {
+      errors.description = 'Enter no more than 2,000 characters';
+    }
+
+    setExtraFieldErrors(prev => ({
+      ...prev,
+      ...errors,
+    }));
+
+    return !errors.description;
+  };
+
+  const validateRequestedAmount = () => {
+    // Check built in component errors first (like invalid number)
+    if (costRequestedRef.current?.error) {
+      return false;
+    }
+
+    const errors = { costRequested: null };
+
+    // Valid greater than 0.
+    // Other validation is handled by the VA component
+    const amount = parseFloat(formState.costRequested);
+    if (!Number.isNaN(amount) && amount === 0) {
+      errors.costRequested = 'Enter an amount greater than 0';
+    }
+
+    setExtraFieldErrors(prev => ({
+      ...prev,
+      ...errors,
+    }));
+
+    return !errors.costRequested;
+  };
+
   const validatePage = () => {
     // Field names must match those expected by the expenses_controller in vets-api.
-    const base = ['purchaseDate', 'costRequested', 'receipt'];
+    const base = ['purchaseDate', 'costRequested', 'receipt', 'description'];
     const extra = REQUIRED_FIELDS[expenseType] || [];
     const requiredFields = [...base, ...extra];
 
     const emptyFields = requiredFields.filter(field => !formState[field]);
 
     setShowError(emptyFields.length > 0);
+
+    // Extra validation for specific fields
+    if (!validateDescription() || !validateRequestedAmount()) {
+      return false;
+    }
+
     return emptyFields.length === 0;
   };
 
@@ -204,7 +265,7 @@ const ExpensePage = () => {
     const expenseConfig = EXPENSE_TYPES[expenseType];
 
     try {
-      if (expenseId) {
+      if (isEditMode) {
         await dispatch(
           updateExpense(claimId, expenseConfig.apiRoute, expenseId, formState),
         );
@@ -213,16 +274,46 @@ const ExpensePage = () => {
           createExpense(claimId, expenseConfig.apiRoute, formState),
         );
       }
-      navigate(`/file-new-claim/${apptId}/${claimId}/review`);
+
+      // Set success alert
+      const expenseTypeName = expenseConfig.expensePageText
+        ? `${expenseConfig.expensePageText} expense`
+        : 'expense';
+
+      dispatch(
+        setReviewPageAlert({
+          title: '',
+          description: `You successfully ${
+            isEditMode ? 'updated your' : 'added a'
+          } ${expenseTypeName}.`,
+          type: 'success',
+        }),
+      );
     } catch (error) {
-      // TODO: Handle error
+      // Set alert
+      const verb = isEditMode ? 'edit' : 'add';
+      dispatch(
+        setReviewPageAlert({
+          title: `We couldn't ${verb} this expense right now`,
+          description: `We're sorry. We can't ${
+            isEditMode ? 'edit' : 'add'
+          } this expense${
+            isEditMode ? '' : ' to your claim'
+          }. Try again later.`,
+          type: 'error',
+        }),
+      );
     }
+    // navigate to review page for success and error
+    navigate(`/file-new-claim/${apptId}/${claimId}/review`);
   };
 
   const handleBack = () => {
-    if (expenseId) {
-      navigate(`/file-new-claim/${apptId}/${claimId}/review`);
+    if (isEditMode) {
+      setIsCancelModalVisible(true);
     } else {
+      // TODO: Add logic to determine where the user came from and direct them back to the correct location
+      // navigate(`/file-new-claim/${apptId}/${claimId}/review`);
       navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
     }
   };
@@ -249,6 +340,21 @@ const ExpensePage = () => {
     }));
   };
 
+  const isAirTravel = expenseType === EXPENSE_TYPE_KEYS.AIRTRAVEL;
+  const isMeal = expenseType === EXPENSE_TYPE_KEYS.MEAL;
+  const isCommonCarrier = expenseType === EXPENSE_TYPE_KEYS.COMMONCARRIER;
+  const isLodging = expenseType === EXPENSE_TYPE_KEYS.LODGING;
+
+  const pageDescription = isAirTravel
+    ? `Upload a receipt or proof of the expense here. If youre adding a round-trip flight, you only need to add 1 expense. If you have receipts for 2 one-way flights, you’ll need to add 2 separate expenses.`
+    : `Upload a receipt or proof of the expense here. If you have multiple ${
+        expenseTypeFields.expensePageText
+      } expenses, add just 1 on this page. You’ll be able to add more expenses after this.`;
+
+  const dateHintText = isLodging
+    ? `Enter the date on your receipt, even if it’s the same as your check in or check out dates.`
+    : '';
+
   return (
     <>
       <h1>
@@ -270,32 +376,28 @@ const ExpensePage = () => {
           Please fill out all required fields before continuing.
         </p>
       )}
-      <p>
-        Upload a receipt or proof of the expense here. If you have multiple{' '}
-        {expenseTypeFields.expensePageText} expenses, add just one on this page.
-        You’ll be able to add more expenses after this.
-      </p>
+      <p>{pageDescription}</p>
       <DocumentUpload
         loading={documentLoading}
         currentDocument={document}
         handleDocumentUpload={handleDocumentUpload}
       />
-      {expenseType === 'Meal' && (
+      {isMeal && (
         <ExpenseMealFields formState={formState} onChange={handleFormChange} />
       )}
-      {expenseType === 'Lodging' && (
+      {isLodging && (
         <ExpenseLodgingFields
           formState={formState}
           onChange={handleFormChange}
         />
       )}
-      {expenseType === 'Commoncarrier' && (
+      {isCommonCarrier && (
         <ExpenseCommonCarrierFields
           formState={formState}
           onChange={handleFormChange}
         />
       )}
-      {expenseType === 'Airtravel' && (
+      {isAirTravel && (
         <ExpenseAirTravelFields
           formState={formState}
           onChange={handleFormChange}
@@ -306,40 +408,61 @@ const ExpensePage = () => {
         name="purchaseDate"
         value={formState.purchaseDate || ''}
         required
+        hint={dateHintText}
         onDateChange={handleFormChange}
       />
-      <VaTextInput
-        currency
-        label="Amount requested"
-        name="costRequested"
-        value={formState.costRequested || ''}
-        required
-        show-input-error
-        onInput={handleFormChange}
-        hint="Enter the amount as dollars and cents. For example, 8.42"
-      />
-      <VaTextInput
-        label="Description"
-        name="description"
-        value={formState.description || ''}
-        onInput={handleFormChange}
-      />
-      {!expenseId && (
-        <CancelExpenseModal
-          visible={isModalVisible}
-          onCloseEvent={handleCloseModal}
-          onOpenModal={handleOpenModal}
-          onPrimaryButtonClick={handleCancelModal}
-          onSecondaryButtonClick={handleCloseModal}
+      <div className="vads-u-margin-top--2">
+        <VaTextInput
+          currency
+          label="Amount requested"
+          name="costRequested"
+          value={formState.costRequested || ''}
+          required
+          ref={costRequestedRef}
+          show-input-error
+          onBlur={validateRequestedAmount}
+          onInput={handleFormChange}
+          hint="Enter the amount as dollars and cents. For example, 8.42"
+          {...extraFieldErrors.costRequested && {
+            error: extraFieldErrors.costRequested,
+          }}
+        />
+      </div>
+      <div className="vads-u-margin-top--2">
+        <VaTextarea
+          label="Description"
+          name="description"
+          value={formState.description || ''}
+          required
+          onBlur={validateDescription}
+          onInput={handleFormChange}
+          {...extraFieldErrors.description && {
+            error: extraFieldErrors.description,
+          }}
+        />
+      </div>
+      {!isEditMode && (
+        <VaButton
+          secondary
+          text="Cancel adding this expense"
+          onClick={handleOpenCancelModal}
+          className="vads-u-display--flex vads-u-margin-y--2 travel-pay-complex-expense-cancel-btn"
         />
       )}
       <TravelPayButtonPair
-        continueText={expenseId ? 'Save and continue' : 'Continue'}
-        backText={expenseId ? 'Cancel' : 'Back'}
-        className={expenseId && 'vads-u-margin-top--2'}
+        continueText={isEditMode ? 'Save and continue' : 'Continue'}
+        backText={isEditMode ? 'Cancel' : 'Back'}
+        className={isEditMode ? 'vads-u-margin-top--2' : ''}
         onBack={handleBack}
         onContinue={handleContinue}
         loading={isLoadingExpense}
+      />
+      <CancelExpenseModal
+        visible={isCancelModalVisible}
+        onCloseEvent={handleCloseCancelModal}
+        onPrimaryButtonClick={handleConfirmCancel}
+        onSecondaryButtonClick={handleCloseCancelModal}
+        isEditMode={isEditMode}
       />
     </>
   );

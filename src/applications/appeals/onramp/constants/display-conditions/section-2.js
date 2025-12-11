@@ -1,6 +1,6 @@
 import { RESPONSES } from '../question-data-map';
 
-const { BOARD, HLR, INIT, NO, SC, YES } = RESPONSES;
+const { BOARD, CFI, HLR, INIT, NO, SC, YES } = RESPONSES;
 
 // Refer to the README in this directory for an explanation of display conditions
 export const section2DCs = Object.freeze({
@@ -36,14 +36,30 @@ export const section2DCs = Object.freeze({
     Q_1_1_CLAIM_DECISION: YES,
     Q_1_2_CLAIM_DECISION: YES,
     Q_1_3_CLAIM_CONTESTED: NO,
-    Q_2_0_CLAIM_TYPE: [INIT, SC],
+    Q_2_0_CLAIM_TYPE: [INIT, CFI, SC],
   },
   Q_2_IS_1B_NEW_EVIDENCE: {
     Q_1_1_CLAIM_DECISION: YES,
     Q_1_2_CLAIM_DECISION: YES,
     Q_1_3_CLAIM_CONTESTED: NO,
-    Q_2_0_CLAIM_TYPE: [INIT, SC],
+    Q_2_0_CLAIM_TYPE: [INIT, CFI, SC],
     Q_2_IS_1A_LAW_POLICY_CHANGE: NO,
+  },
+  Q_2_IS_1B_2_JUDGE_HEARING: {
+    Q_1_1_CLAIM_DECISION: YES,
+    Q_1_2_CLAIM_DECISION: YES,
+    Q_1_3_CLAIM_CONTESTED: NO,
+    Q_2_0_CLAIM_TYPE: [INIT, CFI, SC],
+    Q_2_IS_1A_LAW_POLICY_CHANGE: NO,
+    Q_2_IS_1B_NEW_EVIDENCE: NO,
+  },
+  Q_2_IS_1B_3_JUDGE_HEARING: {
+    Q_1_1_CLAIM_DECISION: YES,
+    Q_1_2_CLAIM_DECISION: YES,
+    Q_1_3_CLAIM_CONTESTED: NO,
+    Q_2_0_CLAIM_TYPE: [INIT, CFI, SC],
+    Q_2_IS_1A_LAW_POLICY_CHANGE: NO,
+    Q_2_IS_1B_NEW_EVIDENCE: YES,
   },
   Q_2_S_1_NEW_EVIDENCE: {
     Q_1_1_CLAIM_DECISION: YES,

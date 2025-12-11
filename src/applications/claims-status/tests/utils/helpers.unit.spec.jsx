@@ -10,6 +10,7 @@ import {
 import * as scrollUtils from 'platform/utilities/scroll/scroll';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import * as page from '../../utils/page';
+import { ANCHOR_LINKS } from '../../constants';
 
 import {
   groupTimelineActivity,
@@ -54,6 +55,8 @@ import {
   getTimezoneDiscrepancyMessage,
   showTimezoneDiscrepancyMessage,
   formatUploadDateTime,
+  getTrackedItemDisplayFromSupportingDocument,
+  getTrackedItemDisplayNameFromEvidenceSubmission,
 } from '../../utils/helpers';
 
 import {
@@ -1938,29 +1941,46 @@ describe('Disability benefits helpers: ', () => {
 
   describe('getUploadErrorMessage', () => {
     context('when error is due to a duplicate upload', () => {
-      it('should return a specific duplicate error message with file name', () => {
-        const claimId = '14568432';
-        const error = {
-          fileName: 'my-document.pdf',
-          errors: [
-            {
-              detail: 'DOC_UPLOAD_DUPLICATE',
-            },
-          ],
-        };
+      [
+        {
+          description: 'showDocumentUploadStatus is false (default)',
+          showDocumentUploadStatus: false,
+          expectedAnchor: ANCHOR_LINKS.documentsFiled,
+        },
+        {
+          description: 'showDocumentUploadStatus is true',
+          showDocumentUploadStatus: true,
+          expectedAnchor: ANCHOR_LINKS.filesReceived,
+        },
+      ].forEach(({ description, showDocumentUploadStatus, expectedAnchor }) => {
+        it(`should return a specific duplicate error message with file name when ${description}`, () => {
+          const claimId = '14568432';
+          const error = {
+            fileName: 'my-document.pdf',
+            errors: [
+              {
+                detail: 'DOC_UPLOAD_DUPLICATE',
+              },
+            ],
+          };
 
-        const result = getUploadErrorMessage(error, claimId);
-        expect(result.title).to.equal(
-          "You've already uploaded my-document.pdf",
-        );
-        expect(result.type).to.equal('error');
-        const { getByText, container } = render(result.body);
-        getByText(/It can take up to 2 days for the file to show up in/i);
-        expect($('va-link', container)).to.exist;
-        const link = $('va-link', container);
-        expect(link.getAttribute('href')).to.equal(
-          `/track-claims/your-claims/${claimId}/files`,
-        );
+          const result = getUploadErrorMessage(
+            error,
+            claimId,
+            showDocumentUploadStatus,
+          );
+          expect(result.title).to.equal(
+            "You've already uploaded my-document.pdf",
+          );
+          expect(result.type).to.equal('error');
+          const { getByText, container } = render(result.body);
+          getByText(/It can take up to 2 days for the file to show up in/i);
+          expect($('va-link', container)).to.exist;
+          const link = $('va-link', container);
+          expect(link.getAttribute('href')).to.equal(
+            `/track-claims/your-claims/${claimId}/files#${expectedAnchor}`,
+          );
+        });
       });
 
       it('should use a generic name if fileName is missing', () => {
@@ -2365,6 +2385,104 @@ describe('Disability benefits helpers: ', () => {
       expect(() => formatUploadDateTime(undefined)).to.throw(
         /formatUploadDateTime: date parameter is required/,
       );
+    });
+  });
+
+  describe('getTrackedItemDisplayFromSupportingDocument', () => {
+    context('when the id is present', () => {
+      it('should return the friendlyName when it is present', () => {
+        const document = {
+          id: '123',
+          friendlyName: 'Medical Records',
+          displayName: 'Submit Medical Records',
+        };
+        const result = getTrackedItemDisplayFromSupportingDocument(document);
+
+        expect(result).to.equal('Medical Records');
+      });
+
+      it('should return the displayName when the friendlyName is not present', () => {
+        const document = {
+          id: '123',
+          displayName: 'Submit Medical Records',
+        };
+        const result = getTrackedItemDisplayFromSupportingDocument(document);
+
+        expect(result).to.equal('Submit Medical Records');
+      });
+
+      it("should return 'unknown' when neither friendlyName nor displayName are present", () => {
+        const document = {
+          id: '123',
+        };
+        const result = getTrackedItemDisplayFromSupportingDocument(document);
+
+        expect(result).to.equal('unknown');
+      });
+    });
+
+    context('when the id is not present', () => {
+      it('should return null', () => {
+        const document = {
+          friendlyName: 'Medical Records',
+        };
+        const result = getTrackedItemDisplayFromSupportingDocument(document);
+
+        expect(result).to.equal(null);
+      });
+    });
+  });
+
+  describe('getTrackedItemDisplayNameFromEvidenceSubmission', () => {
+    context('when the trackedItemId is present', () => {
+      it('should return the trackedItemFriendlyName when it is present', () => {
+        const evidenceSubmission = {
+          trackedItemId: 123,
+          trackedItemFriendlyName: 'Authorization to Disclose Information',
+          trackedItemDisplayName: '21-4142/21-4142a',
+        };
+        const result = getTrackedItemDisplayNameFromEvidenceSubmission(
+          evidenceSubmission,
+        );
+
+        expect(result).to.equal('Authorization to Disclose Information');
+      });
+
+      it('should return the trackedItemDisplayName when the trackedItemFriendlyName is not present', () => {
+        const evidenceSubmission = {
+          trackedItemId: 123,
+          trackedItemDisplayName: '21-4142/21-4142a',
+        };
+        const result = getTrackedItemDisplayNameFromEvidenceSubmission(
+          evidenceSubmission,
+        );
+
+        expect(result).to.equal('21-4142/21-4142a');
+      });
+
+      it("should return 'unknown' when neither trackedItemFriendlyName nor trackedItemDisplayName are present", () => {
+        const evidenceSubmission = {
+          trackedItemId: 123,
+        };
+        const result = getTrackedItemDisplayNameFromEvidenceSubmission(
+          evidenceSubmission,
+        );
+
+        expect(result).to.equal('unknown');
+      });
+    });
+
+    context('when the trackedItemId is not present', () => {
+      it('should return null', () => {
+        const evidenceSubmission = {
+          trackedItemFriendlyName: 'Authorization to Disclose Information',
+        };
+        const result = getTrackedItemDisplayNameFromEvidenceSubmission(
+          evidenceSubmission,
+        );
+
+        expect(result).to.equal(null);
+      });
     });
   });
 });

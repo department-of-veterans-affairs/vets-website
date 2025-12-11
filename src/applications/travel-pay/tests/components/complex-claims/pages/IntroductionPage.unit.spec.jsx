@@ -270,6 +270,74 @@ describe('Travel Pay – IntroductionPage', () => {
     expect(getByTestId('introduction-page')).to.exist;
   });
 
+  it('hides the start button when appointment is community care (isCC)', () => {
+    const stateWithCCAppointment = {
+      ...getData(),
+      travelPay: {
+        ...getData().travelPay,
+        appointment: {
+          ...getData().travelPay.appointment,
+          data: {
+            id: '12345',
+            facilityName: 'Test Facility',
+            isCC: true,
+          },
+        },
+      },
+    };
+
+    const { container } = renderWithStoreAndRouter(
+      <MemoryRouter initialEntries={[initialRoute]}>
+        <IntroductionPage />
+      </MemoryRouter>,
+      {
+        initialState: stateWithCCAppointment,
+        reducers: reducer,
+      },
+    );
+
+    // Verify the start button does not exist
+    const startButton = $(
+      'va-link-action[text="Start your travel reimbursement claim"]',
+      container,
+    );
+    expect(startButton).to.not.exist;
+  });
+
+  it('shows the start button when appointment is not community care', () => {
+    const stateWithNonCCAppointment = {
+      ...getData(),
+      travelPay: {
+        ...getData().travelPay,
+        appointment: {
+          ...getData().travelPay.appointment,
+          data: {
+            id: '12345',
+            facilityName: 'Test Facility',
+            isCC: false,
+          },
+        },
+      },
+    };
+
+    const { container } = renderWithStoreAndRouter(
+      <MemoryRouter initialEntries={[initialRoute]}>
+        <IntroductionPage />
+      </MemoryRouter>,
+      {
+        initialState: stateWithNonCCAppointment,
+        reducers: reducer,
+      },
+    );
+
+    // Verify the start button exists
+    const startButton = $(
+      'va-link-action[text="Start your travel reimbursement claim"]',
+      container,
+    );
+    expect(startButton).to.exist;
+  });
+
   it('navigates using appointment claim ID when complexClaim data is null', async () => {
     // Set up state with claim ID on appointment but null complexClaim data
     const stateWithAppointmentClaim = {
@@ -330,5 +398,179 @@ describe('Travel Pay – IntroductionPage', () => {
         '/file-new-claim/12345/99999/choose-expense',
       );
     });
+  });
+
+  it('renders ComplexClaimRedirect when no skipRedirect state is present', () => {
+    const stateWithCreatedClaim = {
+      ...getData(),
+      travelPay: {
+        ...getData().travelPay,
+        complexClaim: {
+          ...getData().travelPay.complexClaim,
+          claim: {
+            ...getData().travelPay.complexClaim.claim,
+            data: {
+              claimId: '45678',
+            },
+          },
+        },
+      },
+    };
+
+    const { container } = renderWithStoreAndRouter(
+      <MemoryRouter initialEntries={[initialRoute]}>
+        <IntroductionPage />
+      </MemoryRouter>,
+      {
+        initialState: stateWithCreatedClaim,
+        reducers: reducer,
+      },
+    );
+
+    // The redirect component should be rendered (and it will redirect)
+    // We can't directly test for the component, but we can verify the page structure
+    expect(container.querySelector('[data-testid="introduction-page"]')).to
+      .exist;
+  });
+
+  it('does NOT render ComplexClaimRedirect when skipRedirect state is true', () => {
+    const stateWithCreatedClaim = {
+      ...getData(),
+      travelPay: {
+        ...getData().travelPay,
+        complexClaim: {
+          ...getData().travelPay.complexClaim,
+          claim: {
+            ...getData().travelPay.complexClaim.claim,
+            data: {
+              claimId: '45678',
+            },
+          },
+        },
+      },
+    };
+
+    const { getByTestId, queryByTestId } = renderWithStoreAndRouter(
+      <MemoryRouter
+        initialEntries={[
+          { pathname: initialRoute, state: { skipRedirect: true } },
+        ]}
+      >
+        <IntroductionPage />
+      </MemoryRouter>,
+      {
+        initialState: stateWithCreatedClaim,
+        reducers: reducer,
+      },
+    );
+
+    // The introduction page should render
+    expect(getByTestId('introduction-page')).to.exist;
+
+    // The page should NOT redirect to choose-expense because skipRedirect is true
+    expect(queryByTestId('choose-expense-page')).to.not.exist;
+  });
+
+  it('renders ComplexClaimRedirect on browser reload (no location state)', async () => {
+    const stateWithCreatedClaim = {
+      ...getData(),
+      travelPay: {
+        ...getData().travelPay,
+        complexClaim: {
+          ...getData().travelPay.complexClaim,
+          claim: {
+            ...getData().travelPay.complexClaim.claim,
+            data: {
+              claimId: '45678',
+            },
+          },
+        },
+      },
+    };
+
+    const { getByTestId } = renderWithStoreAndRouter(
+      <MemoryRouter initialEntries={[initialRoute]}>
+        <Routes>
+          <Route
+            path="/file-new-claim/:apptId"
+            element={<IntroductionPage />}
+          />
+          <Route
+            path="/file-new-claim/:apptId/:claimId/choose-expense"
+            element={<ChooseExpenseType />}
+          />
+        </Routes>
+        <LocationDisplay />
+      </MemoryRouter>,
+      {
+        initialState: stateWithCreatedClaim,
+        reducers: reducer,
+      },
+    );
+
+    // ComplexClaimRedirect should automatically redirect to choose-expense
+    // because there's no skipRedirect state (simulating a browser reload)
+    await waitFor(() => {
+      expect(getByTestId('location-display').textContent).to.equal(
+        '/file-new-claim/12345/45678/choose-expense',
+      );
+    });
+  });
+
+  it('does NOT redirect when navigating from choose-expense with skipRedirect state', () => {
+    const stateWithCreatedClaim = {
+      ...getData(),
+      travelPay: {
+        ...getData().travelPay,
+        complexClaim: {
+          ...getData().travelPay.complexClaim,
+          claim: {
+            ...getData().travelPay.complexClaim.claim,
+            data: {
+              claimId: '45678',
+            },
+          },
+        },
+      },
+    };
+
+    const { getByTestId, container } = renderWithStoreAndRouter(
+      <MemoryRouter
+        initialEntries={[
+          { pathname: initialRoute, state: { skipRedirect: true } },
+        ]}
+      >
+        <Routes>
+          <Route
+            path="/file-new-claim/:apptId"
+            element={<IntroductionPage />}
+          />
+          <Route
+            path="/file-new-claim/:apptId/:claimId/choose-expense"
+            element={<ChooseExpenseType />}
+          />
+        </Routes>
+        <LocationDisplay />
+      </MemoryRouter>,
+      {
+        initialState: stateWithCreatedClaim,
+        reducers: reducer,
+      },
+    );
+
+    // Should stay on intro page
+    expect(getByTestId('introduction-page')).to.exist;
+
+    // Verify we're still on the intro route
+    expect(getByTestId('location-display').textContent).to.equal(
+      '/file-new-claim/12345',
+    );
+
+    // Verify the start button is still present
+    const startButton = $(
+      'va-link-action[text="Start your travel reimbursement claim"]',
+      container,
+    );
+    expect(startButton).to.exist;
   });
 });

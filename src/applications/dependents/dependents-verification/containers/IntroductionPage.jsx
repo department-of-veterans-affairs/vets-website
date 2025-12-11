@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { scrollToTop } from 'platform/utilities/scroll';
-import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 
 import Gateway from '../components/Gateway';
@@ -69,12 +68,19 @@ const ProcessList = () => {
   );
 };
 
+/**
+ * Introduction page component
+ * @typedef {object} IntroductionPageProps
+ * @property {object} route - route object
+ *
+ * @param {IntroductionPageProps} props - Introduction page props
+ * @returns {React.Component} - Introduction page
+ */
 export const IntroductionPage = props => {
   const { route } = props;
 
   useEffect(() => {
     scrollToTop();
-    focusElement('h1');
   }, []);
 
   return (

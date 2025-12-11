@@ -2,6 +2,7 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
 import { AXE_CONTEXT, Paths } from './utils/constants';
+import { MessageHintText } from '../../util/constants';
 import PatientComposePage from './pages/PatientComposePage';
 import mockRecipients from './fixtures/recipientsResponse/recipients-response.json';
 import medicationResponse from './fixtures/medicationResponses/single-medication-response.json';
@@ -75,14 +76,19 @@ describe('SM Medications Renewal Request', () => {
       const expectedMessageBodyText = [
         `Medication name, strength, and form: ABACAVIR SO4 600MG/LAMIVUDINE 300MG TAB`,
         `Prescription number: 2721195`,
+        `Instructions: TAKE 1 BY MOUTH DAILY FOR 30 DAYS`,
         `Provider who prescribed it: Bob Taylor`,
-        `Number of refills left: `,
+        `Number of refills left: 0`,
         `Prescription expiration date: November 8, 2025`,
-        `Reason for use: `,
+        `Reason for use: Reason for use not available`,
+        `Last filled on: November 6, 2024`,
         `Quantity: 4`,
       ].join('\n');
 
       PatientComposePage.validateMessageBodyField(expectedMessageBodyText);
+      PatientComposePage.validateMessageBodyHint(
+        MessageHintText.RX_RENEWAL_SUCCESS,
+      );
       cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
       cy.intercept('POST', `${Paths.INTERCEPT.MESSAGES}`, {}).as('sentMessage');
@@ -151,14 +157,19 @@ describe('SM Medications Renewal Request', () => {
       const expectedMessageBodyText = [
         `Medication name, strength, and form: ABACAVIR SO4 600MG/LAMIVUDINE 300MG TAB`,
         `Prescription number: 2721195`,
+        `Instructions: TAKE 1 BY MOUTH DAILY FOR 30 DAYS`,
         `Provider who prescribed it: Bob Taylor`,
-        `Number of refills left: `,
+        `Number of refills left: 0`,
         `Prescription expiration date: November 8, 2025`,
-        `Reason for use: `,
+        `Reason for use: Reason for use not available`,
+        `Last filled on: November 6, 2024`,
         `Quantity: 4`,
       ].join('\n');
 
       PatientComposePage.validateMessageBodyField(expectedMessageBodyText);
+      PatientComposePage.validateMessageBodyHint(
+        MessageHintText.RX_RENEWAL_SUCCESS,
+      );
       cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
       cy.intercept('POST', `${Paths.INTERCEPT.MESSAGES}`, {}).as('sentMessage');
@@ -210,14 +221,19 @@ describe('SM Medications Renewal Request', () => {
       const expectedMessageBodyText = [
         `Medication name, strength, and form: `,
         `Prescription number: `,
+        `Instructions: `,
         `Provider who prescribed it: `,
         `Number of refills left: `,
         `Prescription expiration date: `,
         `Reason for use: `,
+        `Last filled on: `,
         `Quantity: `,
       ].join('\n');
 
       PatientComposePage.validateMessageBodyField(expectedMessageBodyText);
+      PatientComposePage.validateMessageBodyHint(
+        MessageHintText.RX_RENEWAL_ERROR,
+      );
       cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
       cy.intercept('POST', `${Paths.INTERCEPT.MESSAGES}`, {}).as('sentMessage');
@@ -273,14 +289,19 @@ describe('SM Medications Renewal Request', () => {
       const expectedMessageBodyText = [
         `Medication name, strength, and form: ABACAVIR SO4 600MG/LAMIVUDINE 300MG TAB`,
         `Prescription number: 2721195`,
+        `Instructions: TAKE 1 BY MOUTH DAILY FOR 30 DAYS`,
         `Provider who prescribed it: Bob Taylor`,
-        `Number of refills left: `,
+        `Number of refills left: 0`,
         `Prescription expiration date: November 8, 2025`,
-        `Reason for use: `,
+        `Reason for use: Reason for use not available`,
+        `Last filled on: November 6, 2024`,
         `Quantity: 4`,
       ].join('\n');
 
       PatientComposePage.validateMessageBodyField(expectedMessageBodyText);
+      PatientComposePage.validateMessageBodyHint(
+        MessageHintText.RX_RENEWAL_SUCCESS,
+      );
       cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
       cy.intercept('POST', `${Paths.INTERCEPT.MESSAGES}`, {}).as('sentMessage');
@@ -343,10 +364,12 @@ describe('SM Medications Renewal Request', () => {
       const expectedMessageBodyText = [
         `Medication name, strength, and form: ABACAVIR SO4 600MG/LAMIVUDINE 300MG TAB`,
         `Prescription number: 2721195`,
+        `Instructions: TAKE 1 BY MOUTH DAILY FOR 30 DAYS`,
         `Provider who prescribed it: Bob Taylor`,
-        `Number of refills left: `,
+        `Number of refills left: 0`,
         `Prescription expiration date: November 8, 2025`,
-        `Reason for use: `,
+        `Reason for use: Reason for use not available`,
+        `Last filled on: November 6, 2024`,
         `Quantity: 4`,
       ].join('\n');
 
@@ -402,14 +425,19 @@ describe('SM Medications Renewal Request', () => {
       const expectedMessageBodyText = [
         `Medication name, strength, and form: ABACAVIR SO4 600MG/LAMIVUDINE 300MG TAB`,
         `Prescription number: 2721195`,
+        `Instructions: TAKE 1 BY MOUTH DAILY FOR 30 DAYS`,
         `Provider who prescribed it: Bob Taylor`,
-        `Number of refills left: `,
+        `Number of refills left: 0`,
         `Prescription expiration date: November 8, 2025`,
-        `Reason for use: `,
+        `Reason for use: Reason for use not available`,
+        `Last filled on: November 6, 2024`,
         `Quantity: 4`,
       ].join('\n');
 
       PatientComposePage.validateMessageBodyField(expectedMessageBodyText);
+      PatientComposePage.validateMessageBodyHint(
+        MessageHintText.RX_RENEWAL_SUCCESS,
+      );
       cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
       cy.intercept('POST', `${Paths.INTERCEPT.MESSAGES}`, {}).as('sentMessage');
@@ -454,14 +482,19 @@ describe('SM Medications Renewal Request', () => {
       const expectedMessageBodyText = [
         `Medication name, strength, and form: `,
         `Prescription number: `,
+        `Instructions: `,
         `Provider who prescribed it: `,
         `Number of refills left: `,
         `Prescription expiration date: `,
         `Reason for use: `,
+        `Last filled on: `,
         `Quantity: `,
       ].join('\n');
 
       PatientComposePage.validateMessageBodyField(expectedMessageBodyText);
+      PatientComposePage.validateMessageBodyHint(
+        MessageHintText.RX_RENEWAL_ERROR,
+      );
       cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
       cy.intercept('POST', `${Paths.INTERCEPT.MESSAGES}`, {}).as('sentMessage');
@@ -501,14 +534,19 @@ describe('SM Medications Renewal Request', () => {
       const expectedMessageBodyText = [
         `Medication name, strength, and form: ABACAVIR SO4 600MG/LAMIVUDINE 300MG TAB`,
         `Prescription number: 2721195`,
+        `Instructions: TAKE 1 BY MOUTH DAILY FOR 30 DAYS`,
         `Provider who prescribed it: Bob Taylor`,
-        `Number of refills left: `,
+        `Number of refills left: 0`,
         `Prescription expiration date: November 8, 2025`,
-        `Reason for use: `,
+        `Reason for use: Reason for use not available`,
+        `Last filled on: November 6, 2024`,
         `Quantity: 4`,
       ].join('\n');
 
       PatientComposePage.validateMessageBodyField(expectedMessageBodyText);
+      PatientComposePage.validateMessageBodyHint(
+        MessageHintText.RX_RENEWAL_SUCCESS,
+      );
       cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
       cy.intercept('POST', `${Paths.INTERCEPT.MESSAGES}`, {}).as('sentMessage');

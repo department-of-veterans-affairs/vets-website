@@ -1,10 +1,12 @@
 import React from 'react';
+// eslint-disable-next-line you-dont-need-momentjs/no-import-moment
 import moment from 'moment';
 import { isValidSSN } from 'platform/forms-system/src/js/utilities/validations';
-import { $$ } from 'platform/forms-system/src/js/utilities/ui';
+import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import { focusElement } from 'platform/utilities/ui';
 import { radioUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import get from 'platform/utilities/data/get';
 
 export const applicantRelationToVetRadio = {
   relationToVetRadio: radioUI({
@@ -53,6 +55,12 @@ export const supportingDocsInfo = formData => {
         <li>
           The Veteran’s pre-need determination of eligibility decision letter,{' '}
           <strong>or</strong>
+        </li>
+        <li>
+          A police report if the medallion was stolen, <strong>or</strong>
+        </li>
+        <li>
+          A photo of the medallion if it was damaged, <strong>or</strong>
         </li>
         <li>
           Any other service documents that prove the Veteran’s eligibility for a
@@ -210,7 +218,9 @@ export const ApplicantNameNote = () => {
 export function dateOfDeathValidation(errors, fields) {
   const { veteranDateOfBirth, veteranDateOfDeath } = fields;
   // dob = date of birth | dod = date of death
+  // eslint-disable-next-line you-dont-need-momentjs/no-moment-constructor
   const dob = moment(veteranDateOfBirth);
+  // eslint-disable-next-line you-dont-need-momentjs/no-moment-constructor
   const dod = moment(veteranDateOfDeath);
 
   // Check if the dates entered are after the date of birth
@@ -235,3 +245,122 @@ export function validateSSN(errors, ssn) {
     );
   }
 }
+
+export function hasServiceRecord(item) {
+  const serviceRecords =
+    get('serviceRecords', item) || get('formData.serviceRecords', item);
+  return !(serviceRecords === undefined || serviceRecords.length === 0);
+}
+
+export function isVeteran(item) {
+  const response =
+    get('application.claimant.relationshipToVet', item) ||
+    get('formData.application.claimant.relationshipToVet', item);
+  return response === 'veteran';
+}
+
+export function isAuthorizedAgent(item) {
+  return (
+    get('application.applicant.applicantRelationshipToClaimant', item) ===
+    'Authorized Agent/Rep'
+  );
+}
+
+const validateServiceDatesAgainstBirth = (errors, serviceRecord, dob) => {
+  const errorMessage =
+    "Provide a valid date that is after the Veteran's date of birth";
+  const dobDate = new Date(dob);
+
+  if (serviceRecord.dateRange.from) {
+    const serviceStartDate = new Date(serviceRecord.dateRange.from);
+    if (serviceStartDate <= dobDate) {
+      errors.dateRange.from.addError(errorMessage);
+    }
+  }
+
+  if (serviceRecord.dateRange.to) {
+    const serviceEndDate = new Date(serviceRecord.dateRange.to);
+    if (serviceEndDate <= dobDate) {
+      errors.dateRange.to.addError(errorMessage);
+    }
+  }
+};
+
+const getVeteranDateOfBirth = useAllFormData => {
+  return (
+    useAllFormData?.veteranDateOfBirth ||
+    useAllFormData?.application?.claimant?.dateOfBirth ||
+    useAllFormData?.application?.veteran?.dateOfBirth
+  );
+};
+
+export const validateMilitaryHistory = (
+  errors,
+  serviceRecords,
+  useAllFormData,
+) => {
+  if (!serviceRecords) return;
+
+  const serviceRecord = serviceRecords;
+
+  if (isVeteran(useAllFormData) || isAuthorizedAgent(useAllFormData)) {
+    return;
+  }
+
+  // Validate service dates against date of birth
+  const dob = getVeteranDateOfBirth(useAllFormData);
+  if (dob && serviceRecord.dateRange) {
+    validateServiceDatesAgainstBirth(errors, serviceRecord, dob);
+  }
+};
+
+export const requestRecordsLink = () => {
+  return (
+    <a
+      href="https://www.va.gov/records/get-military-service-records/"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Learn how to request military service records (open in new tab)
+    </a>
+  );
+};
+
+// FileField helper functions
+export const createOpenRemoveModal = (
+  setRemoveIndex,
+  setShowRemoveModal,
+) => index => {
+  setRemoveIndex(index);
+  setShowRemoveModal(true);
+};
+
+export const createCloseRemoveModal = (
+  removeIndex,
+  setRemoveIndex,
+  setShowRemoveModal,
+  removeFile,
+  getFileListId,
+) => ({ remove = false } = {}) => {
+  const idx = removeIndex;
+  setRemoveIndex(null);
+  setShowRemoveModal(false);
+  if (remove) {
+    removeFile(idx);
+  } else {
+    setTimeout(() => {
+      focusElement(
+        'button, .delete-upload',
+        {},
+        $(`#${getFileListId(idx)} .delete-upload`)?.shadowRoot,
+      );
+    });
+  }
+};
+
+export const createCancelUpload = (uploadRequest, removeFile) => index => {
+  if (uploadRequest) {
+    uploadRequest.abort();
+  }
+  removeFile(index);
+};

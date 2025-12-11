@@ -11,6 +11,7 @@ import { evidenceDictionary } from './evidenceDictionary';
 
 import { SET_UNAUTHORIZED } from '../actions/types';
 import {
+  ANCHOR_LINKS,
   DATE_FORMATS,
   disabilityCompensationClaimTypeCodes,
   pensionClaimTypeCodes,
@@ -1467,10 +1468,12 @@ export function setPageFocus(lastPage, loading) {
     if (!loading) {
       setUpPage();
     } else {
-      scrollToTop();
+      scrollToTop({ behavior: 'instant' });
     }
   } else {
-    scrollAndFocus(document.querySelector('.tab-header'));
+    scrollAndFocus(document.querySelector('.tab-header'), {
+      behavior: 'instant',
+    });
   }
 }
 // Used to get the oldest document date
@@ -1528,18 +1531,28 @@ export const renderOverrideThirdPartyMessage = item => {
   return item.activityDescription;
 };
 
-export const getUploadErrorMessage = (error, claimId) => {
+export const getUploadErrorMessage = (
+  error,
+  claimId,
+  showDocumentUploadStatus = false,
+) => {
   if (error?.errors?.[0]?.detail === 'DOC_UPLOAD_DUPLICATE') {
+    const filesPath = `/track-claims/your-claims/${claimId}/files`;
+    const isOnFilesPage = window.location.pathname === filesPath;
+    const anchorLink = showDocumentUploadStatus
+      ? ANCHOR_LINKS.filesReceived
+      : ANCHOR_LINKS.documentsFiled;
+    const linkHref = isOnFilesPage
+      ? `#${anchorLink}`
+      : `${filesPath}#${anchorLink}`;
+
     return {
       title: `You've already uploaded ${error?.fileName || 'files'}`,
       body: (
         <>
           It can take up to 2 days for the file to show up in{' '}
-          <va-link
-            text="your list of documents filed"
-            href={`/track-claims/your-claims/${claimId}/files`}
-          />
-          . Try checking back later before uploading again.
+          <va-link text="your list of documents filed" href={linkHref} />. Try
+          checking back later before uploading again.
         </>
       ),
       type: 'error',
@@ -1572,4 +1585,37 @@ export const getUploadErrorMessage = (error, claimId) => {
       'There was an error uploading your files. Please try again',
     type: 'error',
   };
+};
+
+/**
+ * Gets the display name for an evidence submission
+ * Evidence submissions are documents that have not yet been successfully created in Lighthouse.
+ * @param {Object} evidenceSubmission - Evidence submission object with trackedItemId
+ * @returns {string|null} Tracked item friendly name, display name, 'unknown', or null if no trackedItemId
+ */
+export const getTrackedItemDisplayNameFromEvidenceSubmission = evidenceSubmission => {
+  if (evidenceSubmission.trackedItemId) {
+    return (
+      evidenceSubmission.trackedItemFriendlyName ||
+      evidenceSubmission.trackedItemDisplayName ||
+      'unknown'
+    );
+  }
+
+  return null;
+};
+
+/**
+ * Gets the display name for a supporting document
+ * Supporting documents are documents that have been successfully created in Lighthouse and have an id.
+ * These represent documents that exist in the VA's backend system.
+ * @param {Object} document - Supporting document object with id
+ * @returns {string|null} Friendly name, display name, 'unknown', or null if no id
+ */
+export const getTrackedItemDisplayFromSupportingDocument = document => {
+  if (document.id) {
+    return document.friendlyName || document.displayName || 'unknown';
+  }
+
+  return null;
 };

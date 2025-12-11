@@ -72,11 +72,11 @@ export const UPLOAD_SUPPORTING_DOCUMENTS_DESCRIPTION = Object.freeze(
       can’t save documents for later. If you need more time to gather your
       documents, follow the instructions on your form for how to submit them.
     </p>
-    <va-additional-info trigger="How to determine what supporting documents to upload">
+    <va-additional-info trigger="How to decide what supporting documents to upload">
       <p>
         {' '}
         To figure out which documents to upload, review the guidance we’ve given
-        you. This may be in:
+        you. You can find this guidance in these places:
       </p>
       <ul>
         <li>Instructions on the paper form you filled out</li>
@@ -106,6 +106,7 @@ export const FORM_UPLOAD_OCR_ALERT = (
   pdfDownloadUrl,
   onCloseEvent,
   warnings = [],
+  file,
 ) => (
   <VaAlert
     close-btn-aria-label="Close notification"
@@ -116,7 +117,7 @@ export const FORM_UPLOAD_OCR_ALERT = (
     role="status"
   >
     <h2 slot="headline">
-      Are you sure the file you uploaded is VA Form {formNumber}?
+      Are you sure the file you uploaded, {file}, is VA Form {formNumber}?
     </h2>
     <React.Fragment key=".1">
       <ul>

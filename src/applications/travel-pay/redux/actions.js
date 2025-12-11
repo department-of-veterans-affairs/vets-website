@@ -1,6 +1,10 @@
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { transformVAOSAppointment } from '../util/appointment-helpers';
+import {
+  transformVAOSAppointment,
+  calculateIsOutOfBounds,
+} from '../util/appointment-helpers';
+import { EXPENSE_TYPE_KEYS } from '../constants';
 
 export const FETCH_TRAVEL_CLAIMS_STARTED = 'FETCH_TRAVEL_CLAIMS_STARTED';
 export const FETCH_TRAVEL_CLAIMS_SUCCESS = 'FETCH_TRAVEL_CLAIMS_SUCCESS';
@@ -32,12 +36,32 @@ export const CREATE_EXPENSE_FAILURE = 'CREATE_EXPENSE_FAILURE';
 export const DELETE_DOCUMENT_STARTED = 'DELETE_DOCUMENT_STARTED';
 export const DELETE_DOCUMENT_SUCCESS = 'DELETE_DOCUMENT_SUCCESS';
 export const DELETE_DOCUMENT_FAILURE = 'DELETE_DOCUMENT_FAILURE';
+export const DELETE_EXPENSE_DELETE_DOCUMENT_STARTED =
+  'DELETE_EXPENSE_DELETE_DOCUMENT_STARTED';
+export const DELETE_EXPENSE_DELETE_DOCUMENT_SUCCESS =
+  'DELETE_EXPENSE_DELETE_DOCUMENT_SUCCESS';
+export const DELETE_EXPENSE_DELETE_DOCUMENT_FAILURE =
+  'DELETE_EXPENSE_DELETE_DOCUMENT_FAILURE';
 export const FETCH_COMPLEX_CLAIM_DETAILS_STARTED =
   'FETCH_COMPLEX_CLAIM_DETAILS_STARTED';
 export const FETCH_COMPLEX_CLAIM_DETAILS_SUCCESS =
   'FETCH_COMPLEX_CLAIM_DETAILS_SUCCESS';
 export const FETCH_COMPLEX_CLAIM_DETAILS_FAILURE =
   'FETCH_COMPLEX_CLAIM_DETAILS_FAILURE';
+export const SET_REVIEW_PAGE_ALERT = 'SET_REVIEW_PAGE_ALERT';
+export const CLEAR_REVIEW_PAGE_ALERT = 'CLEAR_REVIEW_PAGE_ALERT';
+
+// Helper function to add isOutOfBounds to claim details
+function addOutOfBoundsFlag(claimData) {
+  if (!claimData || !claimData.appointmentDate) {
+    return claimData;
+  }
+
+  return {
+    ...claimData,
+    isOutOfBounds: calculateIsOutOfBounds(claimData.appointmentDate),
+  };
+}
 
 // Get all travel claims
 const fetchTravelClaimsStart = () => ({
@@ -92,7 +116,10 @@ export function getClaimDetails(id) {
       const claimsUrl = `${environment.API_URL}/travel_pay/v0/claims/${id}`;
       const response = await apiRequest(claimsUrl);
 
-      dispatch(fetchClaimDetailsSuccess(id, response));
+      // Add isOutOfBounds flag to the claim data
+      const claimDataWithFlags = addOutOfBoundsFlag(response);
+
+      dispatch(fetchClaimDetailsSuccess(id, claimDataWithFlags));
     } catch (error) {
       dispatch(fetchClaimDetailsFailure(error));
     }
@@ -226,6 +253,7 @@ export function submitComplexClaim(claimId, claimData) {
       dispatch(submitComplexClaimSuccess(response));
     } catch (error) {
       dispatch(submitComplexClaimFailure(error));
+      throw error;
     }
   };
 }
@@ -481,5 +509,117 @@ export function deleteDocument(claimId, documentId) {
       dispatch(deleteDocumentFailure(error, documentId));
       throw error;
     }
+  };
+}
+
+/**
+ * Deletes an expense and its associated document, in that order.
+ * After deletion, fetches updated claim details.
+ *
+ * Note: Document deletion may fail after expense deletion,
+ * leaving an orphaned document. This is intentional and acceptable.
+ * Document deletion is skipped for expenses of type "MILEAGE".
+ */
+export function deleteExpenseDeleteDocument(
+  claimId,
+  documentId,
+  expenseType,
+  expenseId,
+) {
+  return async dispatch => {
+    // Delete the expense first
+    dispatch(deleteExpenseStart(expenseId));
+
+    try {
+      if (!expenseType) {
+        throw new Error('Missing expense type');
+      } else if (!expenseId) {
+        throw new Error('Missing expense id');
+      }
+
+      const deleteExpenseOptions = {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      };
+
+      const expenseUrl = `${
+        environment.API_URL
+      }/travel_pay/v0/expenses/${expenseType}/${expenseId}`;
+      await apiRequest(expenseUrl, deleteExpenseOptions);
+
+      dispatch(deleteExpenseSuccess(expenseId));
+    } catch (error) {
+      dispatch(deleteExpenseFailure(error, expenseId));
+      throw error;
+    }
+
+    // Only delete the associated document if this is NOT a mileage expense
+    if (expenseType.toUpperCase() !== EXPENSE_TYPE_KEYS.MILEAGE.toUpperCase()) {
+      // Delete the document for non-mileage expenses
+      try {
+        dispatch(deleteDocumentStart(documentId));
+
+        if (!documentId) {
+          throw new Error('Missing document id');
+        }
+
+        const deleteDocumentOptions = {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        };
+
+        const documentUrl = `${
+          environment.API_URL
+        }/travel_pay/v0/claims/${claimId}/documents/${documentId}`;
+        await apiRequest(documentUrl, deleteDocumentOptions);
+        dispatch(deleteDocumentSuccess(documentId));
+      } catch (error) {
+        /**
+         * We delete the expense first. If deleting the document fails afterward,
+         * we may end up with an orphaned (unlinked) document. This won’t break
+         * the claim and is acceptable.
+         *
+         * We do this because:
+         * - Once an expense is deleted, there’s no way to “undo” that deletion.
+         * - If we deleted the document first and the expense delete failed,
+         *   we’d still have no reliable way to re-associate the document back
+         *   to the original expense.
+         *
+         * In both failure orders, rolling back is impossible, so we choose the
+         * safer sequence: delete the expense first, then the document.
+         */
+        dispatch(deleteDocumentFailure(error, documentId));
+        throw error;
+      }
+
+      /**
+       * After deleting the expense + document, fetch the updated claim details.
+       * If this fetch fails, we ignore the error because the deletions have
+       * already completed successfully.
+       */
+      try {
+        await dispatch(getComplexClaimDetails(claimId));
+      } catch (fetchError) {
+        // Silently ignore fetch errors
+      }
+    }
+  };
+}
+
+// Alert actions for review page
+export function setReviewPageAlert({ title, description, type }) {
+  return {
+    type: SET_REVIEW_PAGE_ALERT,
+    payload: { title, description, type },
+  };
+}
+
+export function clearReviewPageAlert() {
+  return {
+    type: CLEAR_REVIEW_PAGE_ALERT,
   };
 }

@@ -306,10 +306,40 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
           ).to.exist;
         });
 
+        it('renders correct description', () => {
+          const { getByText } = renderPage(config);
+
+          if (key === 'Airtravel') {
+            expect(
+              getByText(
+                `Upload a receipt or proof of the expense here. If youre adding a round-trip flight, you only need to add 1 expense. If you have receipts for 2 one-way flights, you’ll need to add 2 separate expenses.`,
+              ),
+            ).to.exist;
+          } else {
+            expect(
+              getByText(
+                `Upload a receipt or proof of the expense here. If you have multiple ${
+                  config.expensePageText
+                } expenses, add just 1 on this page. You’ll be able to add more expenses after this.`,
+              ),
+            ).to.exist;
+          }
+        });
+
+        it('renders "Cancel adding this expense" button only in add mode', () => {
+          const { container } = renderPage(config);
+          const cancelButton = Array.from(
+            container.querySelectorAll('va-button'),
+          ).find(
+            btn => btn.getAttribute('text') === 'Cancel adding this expense',
+          );
+          expect(cancelButton).to.exist;
+        });
+
         it('renders correct buttons', () => {
           const { container } = renderPage(config);
 
-          // Get all buttons
+          // Get all buttons, will either see 3 or 2
           const buttons = container.querySelectorAll('va-button');
           expect(buttons.length).to.be.at.least(3);
 
@@ -329,11 +359,54 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
           ).find(btn => btn.getAttribute('text') === 'Continue');
           expect(continueButton).to.exist;
 
-          // Find the cancel button
+          // Find "Cancel adding this expense" button - only in add mode
           const cancelButton = Array.from(buttons).find(
             btn => btn.getAttribute('text') === 'Cancel adding this expense',
           );
           expect(cancelButton).to.exist;
+        });
+
+        it('renders date hint text for Lodging expense', () => {
+          const lodgingConfig = EXPENSE_TYPES.Lodging;
+          const { container } = renderWithStoreAndRouter(
+            <MemoryRouter
+              initialEntries={[
+                `/file-new-claim/12345/43555/${lodgingConfig.route}`,
+              ]}
+            >
+              <Routes>
+                <Route
+                  path="/file-new-claim/:apptId/:claimId/:expenseTypeRoute"
+                  element={<ExpensePage />}
+                />
+              </Routes>
+            </MemoryRouter>,
+            {
+              initialState: getData(),
+              reducers: reducer,
+            },
+          );
+
+          const dateInput = container.querySelector(
+            'va-date[name="purchaseDate"]',
+          );
+          expect(dateInput).to.exist;
+
+          // The hint text is rendered in the 'hint' attribute of the va-date component
+          const hintAttr = dateInput.getAttribute('hint');
+          expect(hintAttr).to.equal(
+            'Enter the date on your receipt, even if it’s the same as your check in or check out dates.',
+          );
+        });
+
+        it('does not render date hint text for non-Lodging expenses', () => {
+          const mealConfig = EXPENSE_TYPES.Meal;
+          const { container } = renderPage(mealConfig);
+          const dateInput = container.querySelector(
+            'va-date[name="purchaseDate"]',
+          );
+          expect(dateInput).to.exist;
+          expect(dateInput.getAttribute('hint')).to.equal('');
         });
 
         it('displays validation error when required fields are missing', () => {
@@ -475,10 +548,19 @@ describe('Travel Pay – ExpensePage (Editing existing expense)', () => {
   const TEST_EXPENSE_ID = 'abc123';
   const TEST_DOCUMENT_ID = 'doc789';
 
+  const defaultExpense = {
+    id: TEST_EXPENSE_ID,
+    expenseType: 'Meal',
+    vendorName: 'Saved Vendor',
+    dateIncurred: '2025-11-17',
+    costRequested: '10.50',
+    documentId: TEST_DOCUMENT_ID,
+  };
+
   //
   // Store containing an existing expense
   //
-  const getEditState = () => ({
+  const getEditState = expenses => ({
     travelPay: {
       claimSubmission: { isSubmitting: false, error: null, data: null },
       complexClaim: {
@@ -502,22 +584,13 @@ describe('Travel Pay – ExpensePage (Editing existing expense)', () => {
           creation: { isLoading: false, error: null },
           update: { id: '', isLoading: false, error: null },
           delete: { id: '', isLoading: false, error: null },
-          data: [
-            {
-              id: TEST_EXPENSE_ID,
-              expenseType: 'Meal',
-              vendorName: 'Saved Vendor',
-              dateIncurred: '2025-11-17',
-              costRequested: '10.50',
-              documentId: TEST_DOCUMENT_ID,
-            },
-          ],
+          data: [...expenses],
         },
       },
     },
   });
 
-  const renderEditPage = () =>
+  const renderEditPage = (expenses = [{ ...defaultExpense }]) =>
     renderWithStoreAndRouter(
       <MemoryRouter
         initialEntries={[`/file-new-claim/12345/43555/meal/${TEST_EXPENSE_ID}`]}
@@ -534,7 +607,7 @@ describe('Travel Pay – ExpensePage (Editing existing expense)', () => {
         </Routes>
         <LocationDisplay />
       </MemoryRouter>,
-      { initialState: getEditState(), reducers: reducer },
+      { initialState: getEditState(expenses), reducers: reducer },
     );
 
   let apiStub;
@@ -583,23 +656,22 @@ describe('Travel Pay – ExpensePage (Editing existing expense)', () => {
     expect(button).to.exist;
   });
 
-  it('does NOT show the cancel modal in edit mode', () => {
+  it('does NOT render "Cancel adding this expense" button when in add mode', () => {
     const { container } = renderEditPage();
-
-    const modal = container.querySelector('va-modal');
-    expect(modal).to.not.exist;
+    const addCancelButton = Array.from(
+      container.querySelectorAll('va-button'),
+    ).find(btn => btn.getAttribute('text') === 'Cancel adding this expense');
+    expect(addCancelButton).to.not.exist;
   });
 
-  it('navigates back to the review page when clicking Cancel', () => {
-    const { container, getByTestId } = renderEditPage();
-
+  it('"Back" button opens modal in edit mode', () => {
+    const { container } = renderEditPage();
     const backButton = Array.from(container.querySelectorAll('va-button')).find(
       btn => btn.getAttribute('text') === 'Cancel',
     );
-
     fireEvent.click(backButton);
-
-    expect(getByTestId('review-page')).to.exist;
+    const modal = container.querySelector('va-modal');
+    expect(modal.getAttribute('visible')).to.equal('true');
   });
 
   it('loads existing document when documentId is present', async () => {
@@ -612,5 +684,95 @@ describe('Travel Pay – ExpensePage (Editing existing expense)', () => {
     await waitFor(() => {
       expect(container.querySelector('va-file-input')).to.exist;
     });
+  });
+
+  it('shows description error for min length', async () => {
+    const { container } = renderEditPage([
+      {
+        ...defaultExpense,
+        description: '123',
+      },
+    ]);
+
+    const inputText = container.querySelector(
+      'va-textarea[name="description"]',
+    );
+
+    // Click continue to trigger validation
+    const buttonGroup = container.querySelector('.travel-pay-button-group');
+    const continueButton = Array.from(
+      buttonGroup.querySelectorAll('va-button'),
+    ).find(btn => btn.getAttribute('text') === 'Save and continue');
+
+    fireEvent.click(continueButton);
+
+    await waitFor(
+      () => {
+        const errorAttr = inputText.getAttribute('error');
+        expect(errorAttr).to.exist;
+        expect(errorAttr).to.equal('Enter at least 5 characters');
+      },
+      { timeout: 3000 },
+    );
+  });
+
+  it('shows description error for max length', async () => {
+    const { container } = renderEditPage([
+      {
+        ...defaultExpense,
+        description: 'a'.repeat(2001),
+      },
+    ]);
+
+    const inputText = container.querySelector(
+      'va-textarea[name="description"]',
+    );
+
+    // Click continue to trigger validation
+    const buttonGroup = container.querySelector('.travel-pay-button-group');
+    const continueButton = Array.from(
+      buttonGroup.querySelectorAll('va-button'),
+    ).find(btn => btn.getAttribute('text') === 'Save and continue');
+
+    fireEvent.click(continueButton);
+
+    await waitFor(
+      () => {
+        const errorAttr = inputText.getAttribute('error');
+        expect(errorAttr).to.exist;
+        expect(errorAttr).to.equal('Enter no more than 2,000 characters');
+      },
+      { timeout: 3000 },
+    );
+  });
+
+  it('shows cost requested amount error when value is 0', async () => {
+    const { container } = renderEditPage([
+      {
+        ...defaultExpense,
+        costRequested: '0',
+      },
+    ]);
+
+    const inputText = container.querySelector(
+      'va-text-input[name="costRequested"]',
+    );
+
+    // Click continue to trigger validation
+    const buttonGroup = container.querySelector('.travel-pay-button-group');
+    const continueButton = Array.from(
+      buttonGroup.querySelectorAll('va-button'),
+    ).find(btn => btn.getAttribute('text') === 'Save and continue');
+
+    fireEvent.click(continueButton);
+
+    await waitFor(
+      () => {
+        const errorAttr = inputText.getAttribute('error');
+        expect(errorAttr).to.exist;
+        expect(errorAttr).to.include('Enter an amount greater than 0');
+      },
+      { timeout: 3000 },
+    );
   });
 });

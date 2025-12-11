@@ -7,7 +7,7 @@ describe(`${appName} -- Claim Details Content`, () => {
   beforeEach(() => {
     cy.clock(new Date(2024, 5, 25), ['Date']);
     cy.intercept('/data/cms/vamc-ehr.json', {});
-    ApiInitializer.initializeFeatureToggle.withAllFeatures();
+    ApiInitializer.initializeFeatureToggle.withSmocOnly();
     ApiInitializer.initializeClaims.happyPath();
   });
 
@@ -105,6 +105,7 @@ describe(`${appName} -- Claim Details Content`, () => {
         reimbursementAmount: 0,
         createdOn: '2025-03-12T20:27:14.088Z',
         modifiedOn: '2025-03-12T20:27:14.088Z',
+        appointment: { id: 'test-appointment-id' },
         documents: [],
       });
 
@@ -131,6 +132,7 @@ describe(`${appName} -- Claim Details Content`, () => {
         reimbursementAmount: 0,
         createdOn: '2025-03-12T20:27:14.088Z',
         modifiedOn: '2025-03-12T20:27:14.088Z',
+        appointment: { id: 'test-appointment-id' },
         documents: [],
       });
 
@@ -175,6 +177,7 @@ describe(`${appName} -- Claim Details Content`, () => {
         reimbursementAmount: 14.52,
         createdOn: '2025-03-12T20:27:14.088Z',
         modifiedOn: '2025-03-12T20:27:14.088Z',
+        appointment: { id: 'test-appointment-id' },
         documents: [
           {
             documentId: 'doc123',
@@ -214,6 +217,7 @@ describe(`${appName} -- Claim Details Content`, () => {
         reimbursementAmount: 14.52,
         createdOn: '2025-03-12T20:27:14.088Z',
         modifiedOn: '2025-03-12T20:27:14.088Z',
+        appointment: { id: 'test-appointment-id' },
         documents: [
           {
             documentId: 'decision123',
@@ -243,6 +247,7 @@ describe(`${appName} -- Claim Details Content`, () => {
         reimbursementAmount: 14.52,
         createdOn: '2025-03-12T20:27:14.088Z',
         modifiedOn: '2025-03-12T20:27:14.088Z',
+        appointment: { id: 'test-appointment-id' },
         documents: [
           {
             documentId: 'partial123',
@@ -272,6 +277,7 @@ describe(`${appName} -- Claim Details Content`, () => {
         reimbursementAmount: 0,
         createdOn: '2025-03-12T20:27:14.088Z',
         modifiedOn: '2025-03-12T20:27:14.088Z',
+        appointment: { id: 'test-appointment-id' },
         documents: [
           {
             documentId: 'rejection123',
@@ -301,6 +307,7 @@ describe(`${appName} -- Claim Details Content`, () => {
         reimbursementAmount: 0,
         createdOn: '2025-03-12T20:27:14.088Z',
         modifiedOn: '2025-03-12T20:27:14.088Z',
+        appointment: { id: 'test-appointment-id' },
         documents: [
           {
             documentId: 'form123',
@@ -332,6 +339,7 @@ describe(`${appName} -- Claim Details Content`, () => {
         reimbursementAmount: 0,
         createdOn: '2025-03-12T20:27:14.088Z',
         modifiedOn: '2025-03-12T20:27:14.088Z',
+        appointment: { id: 'test-appointment-id' },
         documents: [], // No documents
       });
 
@@ -356,6 +364,7 @@ describe(`${appName} -- Claim Details Content`, () => {
         reimbursementAmount: 14.52,
         createdOn: '2025-03-12T20:27:14.088Z',
         modifiedOn: '2025-03-12T20:27:14.088Z',
+        appointment: { id: 'test-appointment-id' },
         documents: [
           {
             documentId: 'note123',
@@ -423,6 +432,7 @@ describe(`${appName} -- Claim Details Content`, () => {
         reimbursementAmount: 0,
         createdOn: '2025-03-12T20:27:14.088Z',
         modifiedOn: '2025-03-12T20:27:14.088Z',
+        appointment: { id: 'test-appointment-id' },
         documents: [],
       });
 
@@ -449,6 +459,7 @@ describe(`${appName} -- Claim Details Content`, () => {
         reimbursementAmount: 0,
         createdOn: '2025-03-12T20:27:14.088Z',
         modifiedOn: '2025-03-12T20:27:14.088Z',
+        appointment: { id: 'test-appointment-id' },
         documents: [],
       });
 
@@ -470,6 +481,7 @@ describe(`${appName} -- Claim Details Content`, () => {
         reimbursementAmount: 20.0,
         createdOn: '2025-03-12T20:27:14.088Z',
         modifiedOn: '2025-03-12T20:27:14.088Z',
+        appointment: { id: 'test-appointment-id' },
         documents: [],
       });
 

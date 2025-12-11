@@ -33,7 +33,11 @@ export default function formsPatternFieldMapping(props) {
     };
 
     formDescriptionSlot = formDescription && (
-      <div slot="form-description">{formDescription}</div>
+      <div slot="form-description">
+        {typeof formDescription === 'function'
+          ? React.createElement(formDescription)
+          : formDescription}
+      </div>
     );
   }
 

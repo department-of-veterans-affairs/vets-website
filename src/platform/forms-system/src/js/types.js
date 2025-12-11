@@ -462,6 +462,10 @@
  */
 
 /**
+ * @typedef {(key: keyof ArrayBuilderText, itemData: any, formData?: any, index?: number) => string} ArrayBuilderGetText
+ */
+
+/**
  * @typedef {Object} ArrayBuilderOptions
  * @property {string} arrayPath the formData key for the array e.g. `"employers"` for `formData.employers`
  * @property {string} nounSingular Used for text in cancel, remove, and modals. Used with nounPlural
@@ -485,6 +489,9 @@
  * @property {ArrayBuilderText} [text] Override any default text used in the array builder pattern
  * @property {boolean} [useLinkInsteadOfYesNo]
  * @property {boolean} [useButtonInsteadOfYesNo]
+ * @property {(({ arrayData, fullData, isReview }) => boolean)} [canAddItem] Control add button/link visibility on summary page
+ * @property {(({ itemData, index, fullData, isReview }) => boolean)} [canEditItem] Control edit link visibility per card
+ * @property {(({ itemData, index, fullData, isReview }) => boolean)} [canDeleteItem] Control delete button visibility per card
  * @property {DuplicateChecks} [duplicateChecks]
  * ```
  * // Example simple:
@@ -510,6 +517,18 @@
  *       }
  *    },
  * ```
+ */
+
+/**
+ * @typedef {Object} ArrayBuilderItemPageProps
+ * @property {string} arrayPath
+ * @property {(fullData) => string} getIntroPath
+ * @property {(fullData) => string} getSummaryPath
+ * @property {string} reviewRoute
+ * @property {ArrayBuilderOptions['required']} required Flow type of array builder
+ * @property {ArrayBuilderGetText} getText
+ * @property {DuplicateChecks} duplicateChecks
+ * @property {string} currentPath
  */
 
 /**
@@ -576,9 +595,10 @@
 
 /**
  * @typedef {Object} FormOptions
- * @property {boolean} filterInactiveNestedPageData - utilize filter method for removing inactive page data that filters ArrayBuilder page data
- * @property {boolean} useWebComponentForNavigation - utilize VADS button web components for page nav
- * @property {boolean} focusOnAlertRole - apply focus to va-alert on submission error
+ * @property {boolean} [filterInactiveNestedPageData] - utilize filter method for removing inactive page data that filters ArrayBuilder page data
+ * @property {boolean} [useWebComponentForNavigation] - utilize VADS button web components for page nav
+ * @property {boolean} [focusOnAlertRole] - apply focus to va-alert on submission error
+ * @property {boolean} [scaffoldAndFocusFormErrors] - create screen reader-only error messages and move focus to first error on submit
  */
 
 /**

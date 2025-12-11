@@ -47,6 +47,7 @@ export const PaginationTypes = PropTypes.shape({
   nextPage: PropTypes.number,
   prevPage: PropTypes.number,
   totalPages: PropTypes.number,
+  totalEntries: PropTypes.number,
 });
 
 export const LatLongTypes = PropTypes.shape({

@@ -47,7 +47,9 @@ export const NAV_MENU_DROPDOWN = [
   },
   {
     LABEL: 'Help',
-    URL: '/get-help',
+    URL: '/help',
     TEST_ID: 'user-nav-help-link',
   },
 ];
+
+export const ITF_PATH = '/submit-va-form-21-0966';

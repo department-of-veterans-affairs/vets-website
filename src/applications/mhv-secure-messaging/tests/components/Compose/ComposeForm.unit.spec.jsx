@@ -32,6 +32,7 @@ import {
   ElectronicSignatureBox,
   ErrorMessages,
   DefaultFolders,
+  MessageHintText,
 } from '../../../util/constants';
 import { messageSignatureFormatter } from '../../../util/helpers';
 import * as messageActions from '../../../actions/messages';
@@ -66,7 +67,7 @@ describe('Compose form component', () => {
   });
   const stubUseFeatureToggles = value => {
     const useFeatureToggles = require('../../../hooks/useFeatureToggles');
-    stub = sinon.stub(useFeatureToggles, 'default').returns(value);
+    stub = sandbox.stub(useFeatureToggles, 'default').returns(value);
     return stub;
   };
 
@@ -199,7 +200,10 @@ describe('Compose form component', () => {
       ...draftState,
       sm: {
         ...draftState.sm,
-        threadDetails: { customDraftMessage },
+        threadDetails: {
+          ...draftState.sm.threadDetails,
+          drafts: [customDraftMessage],
+        },
       },
     };
 
@@ -240,7 +244,7 @@ describe('Compose form component', () => {
       },
     };
 
-    const sendMessageSpy = sinon.spy(messageActions, 'sendMessage');
+    const sendMessageSpy = sandbox.spy(messageActions, 'sendMessage');
     const screen = setup(customState, `/thread/${customDraftMessage.id}`, {
       draft: customDraftMessage,
       recipients: customState.sm.recipients,
@@ -269,7 +273,7 @@ describe('Compose form component', () => {
       },
     };
 
-    const clearDraftInProgressSpy = sinon.spy(
+    const clearDraftInProgressSpy = sandbox.spy(
       threadDetailsActions,
       'clearDraftInProgress',
     );
@@ -360,7 +364,7 @@ describe('Compose form component', () => {
   });
 
   it('renders without errors on Save Draft button click', async () => {
-    const saveDraftSpy = sinon.spy(draftActions, 'saveDraft');
+    const saveDraftSpy = sandbox.spy(draftActions, 'saveDraft');
     const screen = setup(draftState, `/thread/${draftMessage.id}`, {
       draft: draftMessage,
       recipients: draftState.sm.recipients,
@@ -382,7 +386,8 @@ describe('Compose form component', () => {
         triageTeams: { triageTeams },
         categories: { categories },
         threadDetails: {
-          drafts: {},
+          drafts: [],
+          draftInProgress: {},
         },
         preferences: signatureReducers.signatureEnabled,
       },
@@ -527,7 +532,7 @@ describe('Compose form component', () => {
   });
 
   it('renders a loading indicator if categories are not available', async () => {
-    const getCategoriesSpy = sinon.spy(categoriesActions, 'getCategories');
+    const getCategoriesSpy = sandbox.spy(categoriesActions, 'getCategories');
     const customState = {
       ...initialState,
       sm: {
@@ -610,7 +615,7 @@ describe('Compose form component', () => {
       },
     );
 
-    const addEventListenerSpy = sinon.spy(window, 'addEventListener');
+    const addEventListenerSpy = sandbox.spy(window, 'addEventListener');
     expect(addEventListenerSpy.calledWith('beforeunload')).to.be.false;
     fireEvent.input(screen.getByTestId('message-subject-field'), {
       target: { innerHTML: 'test beforeunload event' },
@@ -653,7 +658,7 @@ describe('Compose form component', () => {
       },
     );
 
-    const addEventListenerSpy = sinon.spy(window, 'addEventListener');
+    const addEventListenerSpy = sandbox.spy(window, 'addEventListener');
     expect(addEventListenerSpy.calledWith('beforeunload')).to.be.false;
     fireEvent.input(screen.getByTestId('message-subject-field'), {
       target: { innerHTML: 'test beforeunload event' },
@@ -1614,7 +1619,11 @@ describe('Compose form component', () => {
     const customState = { ...initialState, featureToggles: { loading: false } };
     customState.sm.preferences.signature.includeSignature = true;
     const screen = setup(customState, Paths.COMPOSE);
-    expect(screen.getByText('Edit signature for all messages')).to.exist;
+    const link = screen.getByTestId('edit-signature-link');
+    expect(link).to.exist;
+    expect(link.getAttribute('text')).to.equal(
+      'Edit signature for all messages',
+    );
   });
 
   it('renders correct headings in pilot environment', async () => {
@@ -1664,7 +1673,7 @@ describe('Compose form component', () => {
   });
 
   it('sets isAutoSave to false when sending message', async () => {
-    const sendMessageSpy = sinon.stub(messageActions, 'sendMessage');
+    const sendMessageSpy = sandbox.stub(messageActions, 'sendMessage');
     sendMessageSpy.resolves({});
 
     const customDraftMessage = {
@@ -1995,6 +2004,117 @@ describe('Compose form component', () => {
       );
     });
 
+    describe('message body textarea hint text', () => {
+      it('should display medication details hint when rxError exists', async () => {
+        const errorState = {
+          ...initialState,
+          sm: {
+            ...initialState.sm,
+            prescription: {
+              error: 'SM_GET_PRESCRIPTION_BY_ID_ERROR',
+              renewalPrescription: null,
+              isLoading: false,
+            },
+          },
+        };
+
+        const { container } = setup(errorState, Paths.COMPOSE);
+
+        await waitFor(() => {
+          const textarea = container.querySelector(
+            'va-textarea[name="compose-message-body"]',
+          );
+          expect(textarea).to.exist;
+          expect(textarea.getAttribute('hint')).to.equal(
+            MessageHintText.RX_RENEWAL_ERROR,
+          );
+        });
+      });
+
+      it('should display review details hint when renewalPrescription exists', async () => {
+        const successState = {
+          ...initialState,
+          sm: {
+            ...initialState.sm,
+            prescription: {
+              error: null,
+              renewalPrescription: {
+                prescriptionId: '123',
+                prescriptionName: 'Test Medication',
+              },
+              isLoading: false,
+            },
+          },
+        };
+
+        const { container } = setup(successState, Paths.COMPOSE);
+
+        await waitFor(() => {
+          const textarea = container.querySelector(
+            'va-textarea[name="compose-message-body"]',
+          );
+          expect(textarea).to.exist;
+          expect(textarea.getAttribute('hint')).to.equal(
+            MessageHintText.RX_RENEWAL_SUCCESS,
+          );
+        });
+      });
+
+      it('should not display hint when neither rxError nor renewalPrescription exist', async () => {
+        const noHintState = {
+          ...initialState,
+          sm: {
+            ...initialState.sm,
+            prescription: {
+              error: null,
+              renewalPrescription: null,
+              isLoading: false,
+            },
+          },
+        };
+
+        const { container } = setup(noHintState, Paths.COMPOSE);
+
+        await waitFor(() => {
+          const textarea = container.querySelector(
+            'va-textarea[name="compose-message-body"]',
+          );
+          expect(textarea).to.exist;
+          expect(textarea.getAttribute('hint')).to.be.null;
+        });
+      });
+
+      it('should prioritize rxError hint over renewalPrescription hint when both exist', async () => {
+        const bothExistState = {
+          ...initialState,
+          sm: {
+            ...initialState.sm,
+            prescription: {
+              error: 'Prescription not found',
+              renewalPrescription: {
+                prescriptionId: '123',
+                prescriptionName: 'Test Medication',
+              },
+              isLoading: false,
+            },
+          },
+        };
+
+        const { container } = setup(bothExistState, Paths.COMPOSE);
+
+        await waitFor(() => {
+          const textarea = container.querySelector(
+            'va-textarea[name="compose-message-body"]',
+          );
+          expect(textarea).to.exist;
+          // Should show error hint, not success hint
+          expect(textarea.getAttribute('hint')).to.equal(
+            MessageHintText.RX_RENEWAL_ERROR,
+          );
+        });
+      });
+    });
+
     it('calls sendMessage and verifies redirect path is available for prescription renewal flow', async () => {
       // Mock the sendMessage action to return a resolved promise
       const sendMessageStub = sandbox.stub(messageActions, 'sendMessage');
@@ -2003,7 +2123,7 @@ describe('Compose form component', () => {
       // Store original replace method and create spy
       const originalLocation = global.window.location;
       global.window.location = {};
-      global.window.location.replace = sinon.spy();
+      global.window.location.replace = sandbox.spy();
 
       const customDraftMessage = {
         ...draftMessage,
@@ -2132,7 +2252,7 @@ describe('Compose form component', () => {
       // Store original replace method and create spy
       const originalLocation = global.window.location;
       global.window.location = {};
-      global.window.location.replace = sinon.spy();
+      global.window.location.replace = sandbox.spy();
 
       const customDraftMessage = {
         ...draftMessage,
@@ -2171,7 +2291,9 @@ describe('Compose form component', () => {
       await new Promise(resolve => setTimeout(resolve, 1200));
 
       // Verify that sendMessage was called with suppressAlert=true (4th argument)
-      expect(sendMessageStub.called).to.be.true;
+      await waitFor(() => {
+        expect(sendMessageStub.called).to.be.true;
+      });
       const sendMessageCall = sendMessageStub.getCall(0);
       expect(sendMessageCall.args).to.have.lengthOf(4);
       // Args: [sendData, hasAttachments, ohTriageGroup, suppressAlert]
