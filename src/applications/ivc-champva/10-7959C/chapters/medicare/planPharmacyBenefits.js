@@ -14,8 +14,8 @@ export default {
   uiSchema: {
     ...titleUI(PAGE_TITLE),
     applicantMedicarePharmacyBenefits: yesNoUI({
-      title: 'Does the beneficiary’s Medicare plan provide parmacy benefits?',
-      hint: 'You can find this information on the front of your Medicare card.',
+      title: 'Does the beneficiary’s Medicare plan provide pharmacy benefits?',
+      hint: 'You can find this information on the front of the Medicare card.',
     }),
   },
   schema: {
