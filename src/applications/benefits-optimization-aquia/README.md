@@ -28,7 +28,12 @@ We currently maintain **4 applications** covering various benefits claim types:
 - **API**: `POST /v0/form210779`
 - **Documentation**: [README](./21-0779-nursing-home-information/README.md)
 
-See the [21-0779 README](./21-0779-nursing-home-information/README.md) for detailed form flow, conditional logic, and testing information.
+**Key Features**:
+
+- Conditional form flow based on patient type (Veteran vs spouse/parent)
+- Medicaid coverage tracking
+- Prefill and submit transformers
+- Star Wars themed test data
 
 ### 21-2680 House Bound Status
 
@@ -41,7 +46,13 @@ See the [21-0779 README](./21-0779-nursing-home-information/README.md) for detai
 - **API**: `POST /v0/form212680`
 - **Documentation**: [README](./21-2680-house-bound-status/README.md)
 
-See the [21-2680 README](./21-2680-house-bound-status/README.md) for detailed form flow, conditional logic, print-and-upload workflow, and testing information.
+**Key Features**:
+
+- Conditional pages based on claimant relationship
+- Hospitalization tracking
+- Military address support (APO/FPO/DPO)
+- Prefill from user profile
+- 5 comprehensive E2E test scenarios
 
 ### 21-4192 Employment Information
 
@@ -54,7 +65,13 @@ See the [21-2680 README](./21-2680-house-bound-status/README.md) for detailed fo
 - **API**: `POST /v0/form214192`
 - **Documentation**: [README](./21-4192-employment-information/README.md)
 
-See the [21-4192 README](./21-4192-employment-information/README.md) for detailed form flow, conditional logic, employment status handling, and testing information.
+**Key Features**:
+
+- Detailed employment history collection
+- Reserve/Guard duty status tracking
+- Benefits entitlement tracking
+- Submit transformer with currency/date formatting
+- 4 E2E test scenarios (minimal, maximal, currently employed, duty status)
 
 ### 21p-530a Interment Allowance
 
@@ -67,7 +84,13 @@ See the [21-4192 README](./21-4192-employment-information/README.md) for detaile
 - **API**: `POST /v0/form21p530a`
 - **Documentation**: [README](./21p-530a-interment-allowance/README.md)
 
-See the [21p-530a README](./21p-530a-interment-allowance/README.md) for detailed form flow, List & Loop patterns, modern CustomPage architecture, and testing information.
+**Key Features**:
+
+- Organization information collection
+- Military service history (List & Loop pattern)
+- Previous names tracking (List & Loop pattern)
+- Modern CustomPage pattern with Zod validation
+- PageTemplate and ReviewPageTemplate components
 
 ## Architecture Patterns
 
@@ -95,32 +118,56 @@ Our team uses **two main form patterns** across our applications:
 
 ## Development Quick Start
 
-For general setup and development instructions, see the [vets-website README](../../../README.md).
-
 ### Watch a Single App
 
 ```bash
 # Watch only the form you're working on
-yarn watch --env entry=auth,static-pages,login-page,21-0779-nursing-home-information
-yarn watch --env entry=auth,static-pages,login-page,21-2680-house-bound-status
+yarn watch --env entry=21-0779-nursing-home-information
+yarn watch --env entry=21-2680-house-bound-status
+yarn watch --env entry=21-4192-employment-information
+yarn watch --env entry=21p-530a-interment-allowance
+```
+
+### Watch Multiple Apps
+
+```bash
+# Watch specific apps together
+yarn watch --env entry=21-0779-nursing-home-information,21-2680-house-bound-status,21-4192-employment-information,21p-530a-interment-allowance
+
+# Watch with auth and static pages
 yarn watch --env entry=auth,static-pages,login-page,21-4192-employment-information
-yarn watch --env entry=auth,static-pages,login-page,21p-530a-interment-allowance
+# Watch with auth, static pages, and all apps
+yarn watch --env entry=auth,static-pages,21-0779-nursing-home-information,21-2680-house-bound-status,21-4192-employment-information,21p-530a-interment-allowance
 ```
-Watch more:
-```
-yarn watch --env entry=auth,static-pages,dashboard,find-forms,login-page,21-2680-house-bound-status,21-0779-nursing-home-information,21-4192-employment-information,21p-530a-interment-allowance
-```
+
 ### Testing
 
-See individual form READMEs for specific test commands and scenarios:
-- [21-0779 Testing](./21-0779-nursing-home-information/README.md#testing)
-- [21-2680 Testing](./21-2680-house-bound-status/README.md#testing)
-- [21-4192 Testing](./21-4192-employment-information/README.md#testing)
-- [21p-530a Testing](./21p-530a-interment-allowance/README.md#testing)
+```bash
+# Unit tests for specific app
+yarn test:unit --app-folder benefits-optimization-aquia/21-0779-nursing-home-information
+yarn test:unit --app-folder benefits-optimization-aquia/21-2680-house-bound-status
+yarn test:unit --app-folder benefits-optimization-aquia/21-4192-employment-information
+yarn test:unit --app-folder benefits-optimization-aquia/21p-530a-interment-allowance
 
-For general testing documentation, see:
-- [vets-website Unit Testing](../../../README.md#unit-tests)
-- [vets-website E2E Testing](../../../README.md#end-to-end-e2e--browser-tests)
+# E2E tests (requires yarn watch running first)
+yarn cy:run --spec "src/applications/benefits-optimization-aquia/21-0779-nursing-home-information/**/*.cypress.spec.js"
+yarn cy:run --spec "src/applications/benefits-optimization-aquia/21-2680-house-bound-status/**/*.cypress.spec.js"
+yarn cy:run --spec "src/applications/benefits-optimization-aquia/21-4192-employment-information/**/*.cypress.spec.js"
+yarn cy:run --spec "src/applications/benefits-optimization-aquia/21p-530a-interment-allowance/**/*.cypress.spec.js"
+
+# Open Cypress UI
+yarn cy:open
+```
+
+### Linting
+
+```bash
+# Run linter for specific app directory
+yarn lint:js src/applications/benefits-optimization-aquia/21-0779-nursing-home-information
+
+# Fix linting issues in changed files
+yarn lint:js:changed:fix
+```
 
 ## Team Conventions
 
@@ -134,7 +181,11 @@ For general testing documentation, see:
 
 ### Testing Strategy
 
-All applications follow a consistent testing approach with minimal and maximal test scenarios. See individual form READMEs for specific test scenarios and data themes.
+All applications follow a consistent testing approach:
+
+- **Minimal test**: Basic required fields only, shortest path
+- **Maximal test**: All fields filled, longest path with all conditional pages
+- **Scenario tests**: Specific edge cases and conditional logic paths
 
 ### Accessibility Standards
 
@@ -144,29 +195,78 @@ All applications follow a consistent testing approach with minimal and maximal t
 - **Axe-core** accessibility testing in Cypress tests
 - **Keyboard navigation** and screen reader support
 
+### Data Themes
+
+- **21-0779, 21-2680**: Star Wars themed test data (for consistency and fun)
+- **21-4192**: Standard test data
+- **21p-530a**: Custom test data
+
 ## Common Patterns
 
 ### Conditional Pages
 
-All forms use conditional logic with the `depends` function to show/hide pages based on form data. See individual form READMEs for specific conditional logic implementation.
+```javascript
+// In form config
+pages: {
+  conditionalPage: {
+    path: 'conditional-page',
+    depends: formData => formData?.someField === true,
+    uiSchema: conditionalPageUiSchema,
+    schema: conditionalPageSchema,
+  },
+}
+```
+
+### Helper Functions
+
+```javascript
+// In pages/helpers.js
+export const isVeteranClaimant = formData =>
+  formData?.claimantRelationship?.relationship === 'veteran';
+
+export const showConditionalPages = formData => !isVeteranClaimant(formData);
+```
 
 ### Data Transformers
 
-Forms use transformers to handle data flow:
+All apps use transformers to handle data flow:
+
 - **Prefill Transformer**: User profile → Form data
 - **Submit Transformer**: Form data → API payload
 
-See individual form READMEs for transformer implementation details.
+## API Integration
 
-### API Integration
+### Endpoints Used
 
 Each form has its own dedicated vets-api endpoint:
+
 - **21-0779**: `POST /v0/form210779`
-- **21-2680**: `POST /v0/form212680` (print-and-upload workflow)
+- **21-2680**: `POST /v0/form212680`
 - **21-4192**: `POST /v0/form214192`
 - **21p-530a**: `POST /v0/form21p530a`
+- **Save-in-Progress**: `/v0/in_progress_forms/{form-id}`
+- **User Profile**: `/v0/user` (for prefill)
 
-All forms use Save-in-Progress: `/v0/in_progress_forms/{form-id}`
+## Dependencies
+
+### Platform Utilities
+
+All apps leverage these platform utilities:
+
+- `platform/forms-system` - VA.gov form system and web components
+- `platform/forms/save-in-progress` - Save-in-progress functionality
+- `platform/user/selectors` - User authentication state
+- `platform/utilities/ui` - UI helpers (focus, scroll)
+- `vets-json-schema` - Common form field definitions
+
+## Documentation
+
+Each application has comprehensive documentation:
+
+- **README.md**: Overview, architecture, development guide
+- **Form flow**: Detailed page-by-page breakdown
+- **Testing**: E2E and unit test documentation
+- **API integration**: Transformer and endpoint documentation
 
 ## Team Resources
 
