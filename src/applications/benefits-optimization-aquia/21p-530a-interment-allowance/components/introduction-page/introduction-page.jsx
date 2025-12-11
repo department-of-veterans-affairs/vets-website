@@ -35,8 +35,8 @@ const ProcessList = () => {
         <p>Make sure you meet our eligibility requirements before you apply.</p>
         <p>
           In order to apply for this benefit, you should be a State Plot or
-          Tribal organization. If you are applying for burial benefits and
-          applying as an individual, use form&nbsp;
+          Tribal organization. If you are applying for the VA interment
+          allowance and applying as an individual, use form&nbsp;
           <span>
             <va-link
               href="/find-forms/about-form-21p-530ez/"
@@ -56,7 +56,7 @@ const ProcessList = () => {
           <li>Date of birth</li>
           <li>Date of death</li>
           <li>Military service history</li>
-          <li>Date of burial</li>
+          <li>Date of interment</li>
           <li>Final resting place</li>
         </ul>
         <p>
@@ -117,7 +117,7 @@ export const IntroductionPage = ({ router }) => {
         cemetery.
       </p>
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
-        Follow these steps to apply for a burial allowance
+        Follow these steps to apply for an interment allowance
       </h2>
       <ProcessList />
 
@@ -128,7 +128,7 @@ export const IntroductionPage = ({ router }) => {
           e.preventDefault();
           router.push('/organization-information');
         }}
-        text="Start the state and tribal organization burial allowance benefits application"
+        text="Start the state and tribal organization interment allowance benefits application"
       />
       <p />
       <va-omb-info

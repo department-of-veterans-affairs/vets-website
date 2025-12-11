@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { Paths, ErrorMessages } from '../../util/constants';
 import HorizontalRule from '../shared/HorizontalRule';
+import RouterLinkAction from '../shared/RouterLinkAction';
 
 const DashboardUnreadMessages = props => {
   const { inbox } = props;
@@ -38,26 +38,21 @@ const DashboardUnreadMessages = props => {
     <va-alert status="info" visible>
       {unreadCountHeader}
       <div className="vads-u-margin-top--1p5">
-        <Link
-          className="vads-c-action-link--blue vads-u-margin-top--1"
+        <RouterLinkAction
           data-testid="inbox-link"
+          href={Paths.INBOX}
           text="Go to your inbox"
-          to={Paths.INBOX}
-        >
-          Go to your inbox
-        </Link>
+        />
 
         {!noAssociations &&
           !allTriageGroupsBlocked && (
             <>
               <HorizontalRule />
-              <Link
+              <RouterLinkAction
                 data-testid="compose-message-link"
-                className="vads-c-action-link--blue"
-                to={Paths.COMPOSE}
-              >
-                Start a new message
-              </Link>
+                href={Paths.COMPOSE}
+                text="Start a new message"
+              />
             </>
           )}
       </div>

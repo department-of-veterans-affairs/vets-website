@@ -57,6 +57,12 @@ export const supportingDocsInfo = formData => {
           <strong>or</strong>
         </li>
         <li>
+          A police report if the medallion was stolen, <strong>or</strong>
+        </li>
+        <li>
+          A photo of the medallion if it was damaged, <strong>or</strong>
+        </li>
+        <li>
           Any other service documents that prove the Veteran’s eligibility for a
           medallion
         </li>
