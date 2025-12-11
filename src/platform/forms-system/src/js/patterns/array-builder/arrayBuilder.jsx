@@ -377,6 +377,9 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     required: userRequired,
     useLinkInsteadOfYesNo = false,
     useButtonInsteadOfYesNo = false,
+    canEditItem,
+    canDeleteItem,
+    canAddItem,
     duplicateChecks = {},
   } = options;
   const hasMaxItemsFn = typeof maxItems === 'function';
@@ -649,6 +652,9 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       required,
       useLinkInsteadOfYesNo,
       useButtonInsteadOfYesNo,
+      canEditItem,
+      canDeleteItem,
+      canAddItem,
       isReviewPage: false,
       duplicateChecks,
     };

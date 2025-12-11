@@ -404,8 +404,10 @@ describe('Thread Details container', () => {
     expect(screen.getByTestId('not-for-print-header').textContent).to.contain(
       '2 messages in this conversation',
     );
-    expect(screen.getByText('Find your VA health facility', { selector: 'a' }))
-      .to.exist;
+    const findFacilityLink = screen.container.querySelector(
+      'va-link-action[data-dd-action-name="cannot-reply-find-facility"]',
+    );
+    expect(findFacilityLink).to.exist;
     expect(screen.getByText(Alerts.Message.CANNOT_REPLY_BODY.OH)).to.exist;
     expect(
       screen.getByTestId(`message-body-${olderMessage.messageId}`).textContent,

@@ -129,4 +129,32 @@ describe('VASS Component: Wrapper', () => {
 
     expect(screen.queryByText(/\(\*Required\)/)).to.not.exist;
   });
+
+  describe('when verificationError is provided', () => {
+    it('should render verification error alert', () => {
+      const { getByTestId } = renderWithStoreAndRouter(
+        <Wrapper verificationError="Test Verification Error">
+          <div>Content</div>
+        </Wrapper>,
+        {
+          initialState: {},
+        },
+      );
+      expect(getByTestId('verification-error-alert')).to.exist;
+      expect(getByTestId('verification-error-alert')).to.have.text(
+        'Test Verification Error',
+      );
+    });
+    it('should not render children content', () => {
+      const { queryByTestId } = renderWithStoreAndRouter(
+        <Wrapper verificationError="Test Verification Error">
+          <div data-testid="child-content">Content</div>
+        </Wrapper>,
+        {
+          initialState: {},
+        },
+      );
+      expect(queryByTestId('child-content')).to.not.exist;
+    });
+  });
 });
