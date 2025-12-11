@@ -850,13 +850,11 @@ describe('Google Analytics', () => {
     clearDataLayer();
     clickSubmitButton(SUBMIT_FILES_FOR_REVIEW_TEXT);
 
-    cy.window().then(w => {
-      const event = assertDataLayerEvent(w, 'claims-upload-start');
-
-      expect(event['file-count']).to.exist;
-      expect(event['retry-file-count']).to.exist;
-      expect(event['total-retry-attempts']).to.exist;
-    });
+    assertDataLayerEvent('claims-upload-start', [
+      'file-count',
+      'retry-file-count',
+      'total-retry-attempts',
+    ]);
 
     cy.axeCheck();
   });
@@ -881,13 +879,7 @@ describe('Google Analytics', () => {
 
     cy.wait('@uploadRequest');
 
-    cy.window().then(w => {
-      cy.wrap(null).then(() => {
-        const event = assertDataLayerEvent(w, 'claims-upload-success');
-
-        expect(event['file-count']).to.exist;
-      });
-    });
+    assertDataLayerEvent('claims-upload-success', ['file-count']);
 
     cy.axeCheck();
   });
@@ -901,12 +893,10 @@ describe('Google Analytics', () => {
 
     cy.wait('@uploadRequest');
 
-    cy.window().then(w => {
-      const event = assertDataLayerEvent(w, 'claims-upload-failure');
-
-      expect(event['failed-file-count']).to.exist;
-      expect(event['error-code']).to.exist;
-    });
+    assertDataLayerEvent('claims-upload-failure', [
+      'failed-file-count',
+      'error-code',
+    ]);
 
     cy.axeCheck();
   });
@@ -922,20 +912,16 @@ describe('Google Analytics', () => {
     cy.wait('@uploadRequest');
 
     // Verify failure event fired on first attempt (retryable)
-    cy.window()
-      .its('dataLayer')
-      .should(dl => {
-        const failureEvents = dl.filter(
-          d => d.event === 'claims-upload-failure',
-        );
+    assertDataLayerEvent('claims-upload-failure', [
+      'failed-file-count',
+      'error-code',
+    ]);
 
-        expect(failureEvents.length).to.be.greaterThan(0);
-
-        const failureEvent = failureEvents[0];
-
-        expect(failureEvent['failed-file-count']).to.exist;
-        expect(failureEvent['error-code']).to.exist;
-      });
+    getFileInputElement(0)
+      .find('va-select')
+      .shadow()
+      .find('select')
+      .should('not.be.disabled');
 
     // Retry with same file
     clearDataLayer();
@@ -943,18 +929,10 @@ describe('Google Analytics', () => {
     clickSubmitButton(SUBMIT_FILES_FOR_REVIEW_TEXT);
 
     // Verify retry event fired (retryable)
-    cy.window()
-      .its('dataLayer')
-      .should(dl => {
-        const startEvents = dl.filter(d => d.event === 'claims-upload-start');
-
-        expect(startEvents.length).to.be.greaterThan(0);
-
-        const latestStartEvent = startEvents[startEvents.length - 1];
-
-        expect(latestStartEvent['retry-file-count']).to.exist;
-        expect(latestStartEvent['total-retry-attempts']).to.exist;
-      });
+    assertDataLayerEvent('claims-upload-start', [
+      'retry-file-count',
+      'total-retry-attempts',
+    ]);
 
     cy.axeCheck();
   });
