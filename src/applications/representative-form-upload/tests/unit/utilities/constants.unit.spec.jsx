@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { expect } from 'chai';
 import sinon from 'sinon';
 import * as sessionUtil from 'platform/utilities/api';
@@ -8,6 +9,7 @@ import * as apiModule from '../../../utilities/api';
 import manifest from '../../../manifest.json';
 
 describe('wrapApiRequest', () => {
+  const sandbox = sinon.createSandbox();
   let fetchStub;
   let csrfGetItemStub;
   let csrfSetItemStub;
@@ -26,19 +28,19 @@ describe('wrapApiRequest', () => {
   }
 
   beforeEach(() => {
-    fetchStub = sinon.stub(sessionUtil, 'fetchAndUpdateSessionExpiration');
-    csrfGetItemStub = sinon.stub(localStorage, 'getItem').returns('old-token');
-    csrfSetItemStub = sinon.stub(localStorage, 'setItem');
+    // Clear any lingering stubs from other tests to avoid double-wrapping errors.
+    sandbox.restore();
+
+    fetchStub = sandbox.stub(sessionUtil, 'fetchAndUpdateSessionExpiration');
+    csrfGetItemStub = sandbox
+      .stub(localStorage, 'getItem')
+      .returns('old-token');
+    csrfSetItemStub = sandbox.stub(localStorage, 'setItem');
   });
 
   afterEach(() => {
-    fetchStub.restore();
-    csrfGetItemStub.restore();
-    csrfSetItemStub.restore();
-    if (locationStub) {
-      locationStub.restore();
-      locationStub = null;
-    }
+    sandbox.restore();
+    locationStub = null;
   });
 
   it('returns response on success', async () => {
