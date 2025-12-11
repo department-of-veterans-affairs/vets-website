@@ -2,7 +2,6 @@ import React from 'react';
 import { expect } from 'chai';
 import { render, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
-
 import { WIZARD_STATUS_RESTARTING } from '../../../site-wide/wizard';
 import { FormStartControls } from '../../save-in-progress/FormStartControls';
 
