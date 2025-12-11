@@ -32,10 +32,7 @@ export const clearThread = () => async dispatch => {
  * Still need to use getMessage (single message) call to mark unread accordions
  * as read and to handle expanded messages.
  */
-export const markMessageAsReadInThread = (
-  messageId,
-  threadId,
-) => async dispatch => {
+export const markMessageAsReadInThread = messageId => async dispatch => {
   const response = await getMessage(messageId);
   if (response.errors) {
     // TODO Add error handling
@@ -44,14 +41,8 @@ export const markMessageAsReadInThread = (
       type: Actions.Thread.GET_MESSAGE_IN_THREAD,
       response,
     });
-    // Update the thread's unreadMessages flag in the thread list
+    // Trigger refetch of thread list to get updated read status from API
     // This ensures the inbox shows the correct read status when navigating back
-    if (threadId) {
-      dispatch({
-        type: Actions.Thread.MARK_THREAD_AS_READ,
-        payload: { threadId },
-      });
-    }
     dispatch(setThreadRefetchRequired(true));
   }
 };
