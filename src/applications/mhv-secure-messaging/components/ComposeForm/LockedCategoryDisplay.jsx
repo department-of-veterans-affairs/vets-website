@@ -8,7 +8,7 @@ import { FormLabels, RxRenewalText } from '../../util/constants';
  * Used in ComposeForm when user is composing a prescription renewal message,
  * preventing category selection per RX renewal business rules.
  *
- * The locked category displays "Medication renewal request" in bold text,
+ * The locked category displays "Medication" in bold text,
  * replacing the standard category dropdown that appears in normal message composition.
  *
  * PII Masking: All display text is masked for Datadog RUM privacy protection.

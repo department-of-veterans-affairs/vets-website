@@ -541,7 +541,7 @@ export const FormLabels = {
 };
 
 export const RxRenewalText = {
-  LOCKED_CATEGORY_DISPLAY: 'Medication renewal request',
+  LOCKED_CATEGORY_DISPLAY: 'Medication',
 };
 
 export const downtimeNotificationParams = {
