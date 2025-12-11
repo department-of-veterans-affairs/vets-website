@@ -85,13 +85,13 @@ const IntroductionPage = ({ route }) => {
 
 IntroductionPage.propTypes = {
   route: PropTypes.shape({
-    pageList: PropTypes.array,
+    pageList: PropTypes.arrayOf(PropTypes.object).isRequired,
     formConfig: PropTypes.shape({
-      customText: PropTypes.object,
-      formId: PropTypes.string,
-      prefillEnabled: PropTypes.bool,
-      savedFormMessages: PropTypes.object,
-    }),
+      customText: PropTypes.object.isRequired,
+      formId: PropTypes.string.isRequired,
+      prefillEnabled: PropTypes.bool.isRequired,
+      savedFormMessages: PropTypes.object.isRequired,
+    }).isRequired,
   }).isRequired,
 };
 
