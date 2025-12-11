@@ -38,7 +38,6 @@ describe('LoginActions component', () => {
       const expectedArgs = {
         idme: { policy: CSP_IDS.ID_ME },
         logingov: { policy: CSP_IDS.LOGIN_GOV },
-        dslogon: { policy: CSP_IDS.DS_LOGON },
       };
 
       button.simulate('click');
