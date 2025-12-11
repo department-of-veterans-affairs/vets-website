@@ -32,7 +32,7 @@ const PayeeInformationWrapper = ({
         />
         <span className="vye-top-border" />
         <PayeeInformationCard
-          title="Program"
+          title={applicantChapter?.length > 1 ? 'Programs' : 'Program'}
           loading={loading}
           showAdditionalInformation={false}
           applicantChapter={applicantChapter}
@@ -43,7 +43,7 @@ const PayeeInformationWrapper = ({
 };
 
 PayeeInformationWrapper.propTypes = {
-  applicantChapter: PropTypes.string,
+  applicantChapter: PropTypes.array,
   applicantName: PropTypes.string,
   loading: PropTypes.bool,
 };
