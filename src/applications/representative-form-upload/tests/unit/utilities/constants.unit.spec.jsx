@@ -13,7 +13,7 @@ describe('wrapApiRequest', () => {
   let fetchStub;
   let csrfGetItemStub;
   let csrfSetItemStub;
-  let locationStub;
+  let originalWindow;
 
   // Helper to create mock response with headers.get()
   function createMockResponse(status = 200, headersObj = {}) {
@@ -28,6 +28,8 @@ describe('wrapApiRequest', () => {
   }
 
   beforeEach(() => {
+    originalWindow = global.window;
+
     // Clear any lingering stubs from other tests to avoid double-wrapping errors.
     sandbox.restore();
     if (constantsModule.getSignInUrl?.restore) {
@@ -43,7 +45,14 @@ describe('wrapApiRequest', () => {
 
   afterEach(() => {
     sandbox.restore();
-    locationStub = null;
+    // Restore original window to avoid read-only location assignment errors in jsdom
+    if (originalWindow) {
+      Object.defineProperty(global, 'window', {
+        value: originalWindow,
+        configurable: true,
+        writable: true,
+      });
+    }
   });
 
   it('returns response on success', async () => {
@@ -76,9 +85,17 @@ describe('wrapApiRequest', () => {
       .stub(constantsModule, 'getSignInUrl')
       .returns('https://fake-login-url');
 
-    locationStub = sinon.stub(window, 'location').value({
-      pathname: '/some-other-path',
-      href: 'http://example.com/current-page',
+    Object.defineProperty(global, 'window', {
+      value: {
+        ...originalWindow,
+        location: {
+          pathname: '/some-other-path',
+          href: 'http://example.com/current-page',
+        },
+        appName: originalWindow?.appName,
+      },
+      configurable: true,
+      writable: true,
     });
 
     await apiModule.default.getUser();
@@ -93,13 +110,21 @@ describe('wrapApiRequest', () => {
     const fakeResponse = createMockResponse(401);
     fetchStub.resolves(fakeResponse);
 
-    const getSignInUrlStub = sinon
+    const getSignInUrlStub = sandbox
       .stub(constantsModule, 'getSignInUrl')
       .returns('https://fake-login-url');
 
-    locationStub = sinon.stub(window, 'location').value({
-      pathname: undefined,
-      href: 'http://example.com/current-page',
+    Object.defineProperty(global, 'window', {
+      value: {
+        ...originalWindow,
+        location: {
+          pathname: undefined,
+          href: 'http://example.com/current-page',
+        },
+        appName: originalWindow?.appName,
+      },
+      configurable: true,
+      writable: true,
     });
 
     const result = await apiModule.default.getUser();
@@ -116,11 +141,16 @@ describe('wrapApiRequest', () => {
 
     fetchStub.resolves(fakeResponse);
 
-    const getSignInUrlStub = sinon.stub(constantsModule, 'getSignInUrl');
+    const getSignInUrlStub = sandbox.stub(constantsModule, 'getSignInUrl');
 
-    locationStub = sinon.stub(window, 'location').value({
-      pathname: manifest.rootUrl,
-      href: 'http://example.com/',
+    Object.defineProperty(global, 'window', {
+      value: {
+        ...originalWindow,
+        location: { pathname: manifest.rootUrl, href: 'http://example.com/' },
+        appName: originalWindow?.appName,
+      },
+      configurable: true,
+      writable: true,
     });
 
     try {
