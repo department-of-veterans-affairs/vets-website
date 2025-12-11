@@ -24,13 +24,13 @@ export const clearThread = () => async dispatch => {
 };
 
 /**
- * Call to mark message as read.
+ * Call to mark message as read and trigger thread list refetch.
  * @param {Long} messageId - The ID of the message to mark as read
- * @param {Long} threadId - The ID of the thread containing the message (optional)
- * @returns
+ * @returns {Promise<void>}
  *
- * Still need to use getMessage (single message) call to mark unread accordions
- * as read and to handle expanded messages.
+ * Uses getMessage (single message) call to mark the message as read,
+ * then sets refetchRequired to trigger a fresh fetch of the thread list
+ * when navigating back to inbox.
  */
 export const markMessageAsReadInThread = messageId => async dispatch => {
   const response = await getMessage(messageId);
