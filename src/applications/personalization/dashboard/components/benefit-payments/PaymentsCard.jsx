@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { format } from 'date-fns';
+import { format, subDays } from 'date-fns';
 import recordEvent from '~/platform/monitoring/record-event';
 import classNames from 'classnames';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
@@ -12,27 +12,34 @@ export const PaymentsCard = ({ lastPayment }) => {
   );
   const paymentDate = new Date(lastPayment.payCheckDt);
 
+  // User has not received any payments from VA in the last 60 days
+  const isRecentPayment = lastPayment && paymentDate > subDays(new Date(), 61);
+
   const content = (
     <>
       <h4
         className="vads-u-margin-y--0 vads-u-padding-bottom--1"
         id="paycheck-type"
       >
-        {lastPayment.payCheckType}
+        {isRecentPayment ? lastPayment.payCheckType : 'No recent payments'}
       </h4>
-      <p
-        className="vads-u-font-size--h4 vads-u-font-weight--bold vads-u-font-family--serif vads-u-margin-y--0 vads-u-margin-top--0p5"
-        data-testid="deposit-header"
-        aria-describedby="paycheck-type"
-      >
-        {lastPayment.payCheckAmount}
-      </p>
-      <p className="vads-u-margin-y--0 vads-u-margin-top--0p5">
-        {lastPayment.paymentMethod === 'Paper Check'
-          ? 'Check mailed'
-          : 'Deposited'}{' '}
-        on {format(paymentDate, 'MMMM d, yyyy')}
-      </p>
+      {isRecentPayment && (
+        <>
+          <p
+            className="vads-u-font-size--h4 vads-u-font-weight--bold vads-u-font-family--serif vads-u-margin-y--0 vads-u-margin-top--0p5"
+            data-testid="deposit-header"
+            aria-describedby="paycheck-type"
+          >
+            {lastPayment.payCheckAmount}
+          </p>
+          <p className="vads-u-margin-y--0 vads-u-margin-top--0p5">
+            {lastPayment.paymentMethod === 'Paper Check'
+              ? 'Check mailed'
+              : 'Deposited'}{' '}
+            on {format(paymentDate, 'MMMM d, yyyy')}
+          </p>
+        </>
+      )}
       <p className="vads-u-margin-y--0 vads-u-margin-top--0p5 vads-u-padding-y--1">
         <va-link
           active

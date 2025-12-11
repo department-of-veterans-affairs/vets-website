@@ -89,7 +89,7 @@ const responses = {
     const paymentHistoryStatus = 'success';
     switch (paymentHistoryStatus) {
       case 'success':
-        return res.status(200).json(createSuccessPayment(false));
+        return res.status(200).json(createSuccessPayment(true));
       case 'empty':
         return res.status(200).json(createEmptyPayment());
       case 'failure':

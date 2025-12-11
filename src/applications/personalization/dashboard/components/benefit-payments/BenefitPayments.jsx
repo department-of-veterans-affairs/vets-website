@@ -1,7 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { subDays } from 'date-fns';
 import recordEvent from '~/platform/monitoring/record-event';
 import {
   Toggler,
@@ -89,10 +88,9 @@ const PaymentsError = () => {
 const BenefitPayments = () => {
   const lastPayment = useSelector(
     state =>
-      state.allPayments.payments
-        ?.filter(p => new Date(p.payCheckDt) > subDays(new Date(), 61))
-        .sort((a, b) => new Date(b.payCheckDt) - new Date(a.payCheckDt))[0] ??
-      null,
+      state.allPayments.payments.sort(
+        (a, b) => new Date(b.payCheckDt) - new Date(a.payCheckDt),
+      )[0] ?? null,
   );
   const paymentsError = useSelector(
     state => !!state.allPayments.error || false,
