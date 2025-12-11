@@ -165,8 +165,11 @@ const interceptSubtopics = [
 
 export const interceptAskVaResponses = () => {
   cy.intercept(
-    'GET',
-    `**/ask_va_api/v0/contents?type=category*`,
+    {
+      method: 'GET',
+      url: '**/ask_va_api/v0/contents*',
+      query: { type: 'category' },
+    },
     responseCategory,
   ).as('askVaCategories');
 
