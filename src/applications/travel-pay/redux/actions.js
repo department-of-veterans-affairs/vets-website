@@ -511,6 +511,13 @@ export function deleteDocument(claimId, documentId) {
   };
 }
 
+/**
+ * Deletes an expense and its associated document, in that order.
+ * After deletion, fetches updated claim details.
+ *
+ * Note: Document deletion may fail after expense deletion,
+ * leaving an orphaned document. This is intentional and acceptable.
+ */
 export function deleteExpenseDeleteDocument(
   claimId,
   documentId,
@@ -565,18 +572,33 @@ export function deleteExpenseDeleteDocument(
       await apiRequest(documentUrl, deleteDocumentOptions);
       dispatch(deleteDocumentSuccess(documentId));
     } catch (error) {
-      // TODO: If the delete document fails should we re-add the expense?
-      // If we do nothing then the use will not be able to remove the rouge document
-      // but there is also no way to re-tie the document to the specific expense
+      /**
+       * We delete the expense first. If deleting the document fails afterward,
+       * we may end up with an orphaned (unlinked) document. This won’t break
+       * the claim and is acceptable.
+       *
+       * We do this because:
+       * - Once an expense is deleted, there’s no way to “undo” that deletion.
+       * - If we deleted the document first and the expense delete failed,
+       *   we’d still have no reliable way to re-associate the document back
+       *   to the original expense.
+       *
+       * In both failure orders, rolling back is impossible, so we choose the
+       * safer sequence: delete the expense first, then the document.
+       */
       dispatch(deleteDocumentFailure(error, documentId));
       throw error;
     }
 
-    // Fetch the complete complex claim details and load expenses into store
+    /**
+     * After deleting the expense + document, fetch the updated claim details.
+     * If this fetch fails, we ignore the error because the deletions have
+     * already completed successfully.
+     */
     try {
       await dispatch(getComplexClaimDetails(claimId));
     } catch (fetchError) {
-      // Silently continue if fetching details fails
+      // Silently ignore fetch errors
     }
   };
 }
