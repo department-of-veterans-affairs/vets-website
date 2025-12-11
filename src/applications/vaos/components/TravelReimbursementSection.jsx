@@ -14,38 +14,6 @@ const setClaimEntry = () => {
   sessionStorage.setItem('fileNewClaimEntry', 'appointment');
 };
 
-function LateFilingModal({ showModal, setShowModal, appointmentId }) {
-  return (
-    <VaModal
-      visible={showModal}
-      onCloseEvent={() => setShowModal(false)}
-      onPrimaryButtonClick={() => {
-        setShowModal(false);
-        setClaimEntry();
-        window.location.href = `/my-health/travel-pay/file-new-claim/${appointmentId}`;
-      }}
-      onSecondaryButtonClick={() => setShowModal(false)}
-      modalTitle="Your appointment happened more than 30 days ago"
-      primaryButtonText="Yes, I want to file"
-      secondaryButtonText="Don’t file"
-      status="warning"
-      uswds
-    >
-      <p>
-        You can still review and file your claim. But claims filed after 30 days
-        are usually denied.
-      </p>
-      <p>Do you still want to file a travel reimbursement claim?</p>
-    </VaModal>
-  );
-}
-
-LateFilingModal.propTypes = {
-  appointmentId: PropTypes.string,
-  setShowModal: PropTypes.func,
-  showModal: PropTypes.bool,
-};
-
 export default function TravelReimbursementSection({ appointment }) {
   const [showModal, setShowModal] = useState(false);
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
@@ -76,10 +44,10 @@ export default function TravelReimbursementSection({ appointment }) {
   ) {
     return (
       <Section heading={heading}>
-        <p className="vads-u-margin-y--0p5">
+        <p className="vads-u-margin-y--0p5 vads-u-margin-bottom--1">
           Days left to file: {daysRemainingToFileClaim}
         </p>
-        <p className="vads-u-margin-y--0p5">
+        <p className="vads-u-margin-y--0p5 vads-u-margin-bottom--2">
           <va-link
             data-testid="file-claim-link"
             className="vads-u-margin-y--0p5"
@@ -100,10 +68,10 @@ export default function TravelReimbursementSection({ appointment }) {
     return (
       <>
         <Section heading={heading}>
-          <p className="vads-u-margin-y--0p5">
+          <p className="vads-u-margin-y--0p5 vads-u-margin-bottom--1">
             Days left to file: {daysRemainingToFileClaim}
           </p>
-          <p className="vads-u-margin-y--0p5">
+          <p className="vads-u-margin-y--0p5 vads-u-margin-bottom--2">
             You didn’t file a claim for this appointment within the 30-day
             limit. You can still review and file your claim. But claims filed
             after 30 days are usually denied.
@@ -112,16 +80,12 @@ export default function TravelReimbursementSection({ appointment }) {
             <va-link
               data-testid="file-claim-link"
               className="vads-u-margin-y--0p5"
-              onClick={() => setShowModal(true)}
+              href={`/my-health/travel-pay/file-new-claim/${appointment.id}`}
+              onClick={setClaimEntry}
               text="File a travel reimbursement claim"
             />
           </p>
         </Section>
-        <LateFilingModal
-          showModal={showModal}
-          setShowModal={setShowModal}
-          appointmentId={appointment.id}
-        />
       </>
     );
   }
@@ -135,10 +99,10 @@ export default function TravelReimbursementSection({ appointment }) {
         return (
           <>
             <Section heading={heading}>
-              <p className="vads-u-margin-y--0p5">
+              <p className="vads-u-margin-y--0p5 vads-u-margin-bottom--1">
                 Days left to file: {daysRemainingToFileClaim}
               </p>
-              <p className="vads-u-margin-y--0p5">
+              <p className="vads-u-margin-y--0p5 vads-u-margin-bottom--2">
                 You didn’t file a claim for this appointment within the 30-day
                 limit. You can still review and file your claim. But claims
                 filed after 30 days are usually denied.
@@ -151,11 +115,29 @@ export default function TravelReimbursementSection({ appointment }) {
                 />
               </p>
             </Section>
-            <LateFilingModal
-              showModal={showModal}
-              setShowModal={setShowModal}
-              appointmentId={appointment.id}
-            />
+            <VaModal
+              visible={showModal}
+              onCloseEvent={() => setShowModal(false)}
+              onPrimaryButtonClick={() => {
+                setShowModal(false);
+                setClaimEntry();
+                window.location.href = `/my-health/travel-pay/file-new-claim/${
+                  appointment.id
+                }`;
+              }}
+              onSecondaryButtonClick={() => setShowModal(false)}
+              modalTitle="Your appointment happened more than 30 days ago"
+              primaryButtonText="Yes, I want to file"
+              secondaryButtonText="Don’t file"
+              status="warning"
+              uswds
+            >
+              <p>
+                You can still review and file your claim. But claims filed after
+                30 days are usually denied.
+              </p>
+              <p>Do you still want to file a travel reimbursement claim?</p>
+            </VaModal>
           </>
         );
       }
@@ -163,10 +145,10 @@ export default function TravelReimbursementSection({ appointment }) {
       // Unfinished claim for appointment within 30 days
       return (
         <Section heading={heading}>
-          <p className="vads-u-margin-y--0p5">
+          <p className="vads-u-margin-y--0p5 vads-u-margin-bottom--1">
             Days left to file: {daysRemainingToFileClaim}
           </p>
-          <p className="vads-u-margin-y--0p5">
+          <p className="vads-u-margin-y--0p5 vads-u-margin-bottom--2">
             You already started a claim for this appointment. Add your expenses
             and file within 30 days days of your appointment date.
           </p>
@@ -185,7 +167,7 @@ export default function TravelReimbursementSection({ appointment }) {
     // Finished claim
     return (
       <Section heading={heading}>
-        <p className="vads-u-margin-y--0p5">
+        <p className="vads-u-margin-y--0p5 vads-u-margin-bottom--2">
           You’ve already filed a claim for this appointment.
         </p>
         <p className="vads-u-margin-y--0p5">

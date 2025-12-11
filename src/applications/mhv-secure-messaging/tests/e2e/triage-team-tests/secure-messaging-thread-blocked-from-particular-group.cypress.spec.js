@@ -73,15 +73,15 @@ describe('Verify Thread - Blocked from particular Triage Group', () => {
       cy.injectAxe();
       cy.axeCheck(AXE_CONTEXT);
       cy.get(Locators.ALERTS.BLOCKED_GROUP)
-        .find('a')
-        .should('include.text', Alerts.BLOCKED.LINK);
+        .find('va-link-action')
+        .should('have.attr', 'text', Alerts.BLOCKED.LINK);
     });
 
     it('verify link', () => {
       cy.injectAxe();
       cy.axeCheck(AXE_CONTEXT);
       cy.get(Locators.ALERTS.BLOCKED_GROUP)
-        .find('a')
+        .find('va-link-action')
         .should('have.attr', 'href', Paths.FIND_LOCATIONS);
     });
 
