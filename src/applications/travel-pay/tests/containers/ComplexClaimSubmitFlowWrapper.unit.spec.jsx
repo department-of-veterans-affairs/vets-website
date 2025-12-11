@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent } from '@testing-library/react';
+import { fireEvent, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import {
@@ -664,6 +664,92 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
       );
 
       expect(getByText('Intro')).to.exist;
+    });
+  });
+
+  describe('Get Claim Error Page', () => {
+    let getComplexClaimDetailsStub;
+
+    beforeEach(() => {
+      getComplexClaimDetailsStub = sinon.stub(
+        actions,
+        'getComplexClaimDetails',
+      );
+    });
+
+    afterEach(() => {
+      getComplexClaimDetailsStub.restore();
+    });
+
+    it('redirects to get-claim-error when getComplexClaimDetails rejects', async () => {
+      // Stub the thunk correctly
+      getComplexClaimDetailsStub.callsFake(() => () =>
+        Promise.reject(new Error('Failed')),
+      );
+
+      const initialState = getData({
+        complexClaimsEnabled: true,
+        claimData: null,
+        claimError: null,
+      });
+
+      const { getByText } = renderWithStoreAndRouter(
+        <MemoryRouter
+          initialEntries={[`/file-new-claim/${appointmentId}/${claimId}`]}
+        >
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId/:claimId"
+              element={<ComplexClaimSubmitFlowWrapper />}
+            />
+            <Route
+              path="/file-new-claim/:apptId/get-claim-error"
+              element={<div>Get Claim Error Page</div>}
+            />
+          </Routes>
+        </MemoryRouter>,
+        { initialState, reducers: reducer },
+      );
+
+      // Wait for the redirect to happen and the error page to appear
+      await waitFor(() => {
+        expect(getByText('Get Claim Error Page')).to.exist;
+      });
+    });
+
+    it('does not redirect if isErrorRoute is already true', async () => {
+      getComplexClaimDetailsStub.returns(() =>
+        Promise.reject(new Error('Failed')),
+      );
+
+      const initialState = getData({
+        complexClaimsEnabled: true,
+        claimData: null,
+        claimError: null,
+      });
+
+      const { container } = renderWithStoreAndRouter(
+        <MemoryRouter
+          initialEntries={[`/file-new-claim/${appointmentId}/get-claim-error`]}
+        >
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId/"
+              element={<ComplexClaimSubmitFlowWrapper />}
+            >
+              <Route
+                path="get-claim-error"
+                element={<div>Get Claim Error Page</div>}
+              />
+            </Route>
+          </Routes>
+        </MemoryRouter>,
+        { initialState, reducers: reducer },
+      );
+
+      // The component should render without infinite redirect
+      const errorDiv = container.querySelector('div');
+      expect(errorDiv.textContent).to.equal('Get Claim Error Page');
     });
   });
 });
