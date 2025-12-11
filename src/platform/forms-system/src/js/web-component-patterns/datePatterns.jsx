@@ -299,7 +299,7 @@ const dateOfBirthUI = options => {
     title: title || 'Date of birth',
     errorMessages: {
       pattern: 'Please provide a valid date',
-      required: 'Please provide the date of birth',
+      required: 'Provide a date of birth',
     },
     ...uiOptions,
   });
