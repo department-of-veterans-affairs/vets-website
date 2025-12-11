@@ -3,9 +3,9 @@ import React from 'react';
 import { waitFor } from '@testing-library/react';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { fireEvent } from '@testing-library/dom';
-import sinon from 'sinon';
 import reducer from '../../reducers';
 import DownloadReportPage from '../../containers/DownloadReportPage';
 import user from '../fixtures/user.json';
@@ -102,12 +102,10 @@ describe('DownloadRecordsPage', () => {
 
 describe('DownloadRecordsPage with all SEI domains failed', () => {
   let screen;
-  let generateSEIPdfStub;
 
   beforeEach(() => {
-    generateSEIPdfStub = sinon
-      .stub(exports, 'generateSEIPdf')
-      .rejects(new Error('SEI PDF generation failed'));
+    // Mock the API to return an error, which will cause generateSEIPdf to fail
+    mockApiRequest({}, false);
 
     screen = renderWithStoreAndRouter(<DownloadReportPage runningUnitTest />, {
       initialState: {
@@ -124,10 +122,6 @@ describe('DownloadRecordsPage with all SEI domains failed', () => {
       reducers: reducer,
       path: '/download-all',
     });
-  });
-
-  afterEach(() => {
-    generateSEIPdfStub.restore();
   });
 
   it('displays access trouble alert for SEI document on error', async () => {
