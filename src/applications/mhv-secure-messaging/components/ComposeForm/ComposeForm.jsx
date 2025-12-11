@@ -762,11 +762,6 @@ const ComposeForm = props => {
     [
       checkMessageValidity,
       validMessageType.SAVE,
-      draft?.messageId,
-      draftInProgress.recipientId,
-      draftInProgress.category,
-      draftInProgress.subject,
-      draftInProgress.body,
       constructFormData,
       debouncedRecipient,
       debouncedCategory,
@@ -778,7 +773,6 @@ const ComposeForm = props => {
       setSaveError,
       setSavedDraft,
       setNavigationError,
-      attachments.length,
       isSignatureRequired,
       electronicSignature,
       fieldsString,
@@ -815,101 +809,6 @@ const ComposeForm = props => {
       isSignatureRequired,
       setNavigationError,
       validMessageType.SEND,
-    ],
-  );
-
-  // Navigation error effect
-  useEffect(
-    () => {
-      const isBlankForm = () =>
-        messageBody === '' &&
-        subject === '' &&
-        Number(selectedRecipientId) === 0 &&
-        category === null &&
-        attachments.length === 0;
-
-      const isEditedSaved = () =>
-        messageBody === draft?.body &&
-        Number(selectedRecipientId) === draft?.recipientId &&
-        category === draft?.category &&
-        subject === draft?.subject;
-
-      const isEditedForm = () =>
-        (messageBody !== draft?.body ||
-          selectedRecipientId !== draft?.recipientId ||
-          category !== draft?.category ||
-          subject !== draft?.subject) &&
-        !isBlankForm() &&
-        !isEditedSaved();
-
-      const isFormFilled = () =>
-        messageBody !== '' &&
-        subject !== '' &&
-        selectedRecipientId !== null &&
-        category !== null;
-
-      let error = null;
-      const unsavedFilledDraft =
-        isFormFilled() && !isEditedSaved() && !savedDraft;
-
-      const partiallySavedDraftWithSignRequired =
-        !draft &&
-        unsavedFilledDraft &&
-        !attachments.length &&
-        isSignatureRequired;
-
-      const partiallySavedDraft =
-        (!isFormFilled() && (!isBlankForm() || attachments.length > 0)) ||
-        partiallySavedDraftWithSignRequired;
-
-      const savedDraftWithEdits =
-        (savedDraft && !isEditedSaved() && isEditedForm()) ||
-        (!!draft && unsavedFilledDraft);
-
-      const savedDraftWithNoEdits =
-        (savedDraft && !isEditedForm()) || (!!draft && !isEditedForm());
-
-      if (isBlankForm()) {
-        error = null;
-      } else if (partiallySavedDraft) {
-        error = ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR;
-      } else if (
-        attachments.length > 0 &&
-        (unsavedFilledDraft ||
-          savedDraftWithEdits ||
-          savedDraftWithNoEdits ||
-          partiallySavedDraft)
-      ) {
-        error = ErrorMessages.Navigation.UNABLE_TO_SAVE_DRAFT_ATTACHMENT_ERROR;
-      } else if (
-        !draft &&
-        unsavedFilledDraft &&
-        !attachments.length &&
-        !isSignatureRequired
-      ) {
-        error = ErrorMessages.Navigation.CONT_SAVING_DRAFT_ERROR;
-      } else if (
-        !isSignatureRequired &&
-        savedDraftWithEdits &&
-        !attachments.length
-      ) {
-        error = ErrorMessages.Navigation.CONT_SAVING_DRAFT_CHANGES_ERROR;
-      } else if (
-        isSignatureRequired &&
-        savedDraftWithEdits &&
-        !attachments.length
-      ) {
-        error = ErrorMessages.Navigation.UNABLE_TO_SAVE_DRAFT_SIGNATURE_ERROR;
-      }
-      setUnsavedNavigationError(error);
-    },
-    [
-      checkMessageValidity,
-      validMessageType.SEND,
-      isSignatureRequired,
-      send,
-      setNavigationError,
-      setLastFocusableElement,
     ],
   );
 
