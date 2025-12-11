@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { useBrowserMonitoring } from 'platform/monitoring/Datadog/';
-import environment from 'platform/utilities/environment';
+
 import formConfig from '../config/form';
 import NoFormPage from '../components/NoFormPage';
 import manifest from '../manifest.json';
@@ -15,6 +15,15 @@ import { getRootParentUrl } from '../../shared/utils';
 // Must match the H1
 document.title = TITLE;
 
+/**
+ * Render the Dependents Verification application
+ * @typedef {object} AppProps
+ * @property {object} location - current location object
+ * @property {node} children - child components
+ *
+ * @param {AppProps} props - Component props
+ * @returns {React.Component} - Dependents Verification application
+ */
 export default function App({ location, children }) {
   const isLoggedIn = useSelector(
     state => state?.user?.login?.currentlyLoggedIn,
@@ -67,7 +76,6 @@ export default function App({ location, children }) {
     sessionSampleRate: 100,
     defaultPrivacyLevel: 'mask-user-input',
     trackBfcacheViews: true,
-    env: environment.isProduction(),
   });
 
   useEffect(() => {
