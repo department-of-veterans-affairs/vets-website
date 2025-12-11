@@ -89,11 +89,14 @@ const SearchControls = props => {
               />
             </div>
           ) : (
-            <va-button
+            <button
               onClick={handleGeolocationButtonClick}
+              type="button"
               className="use-my-location-link vads-u-display--flex vads-u-align-items--center"
-              text="Use my location"
-            />
+            >
+              <va-icon icon="near_me" size={3} />
+              Use my location
+            </button>
           )}
         </div>
         {(geoCodeError || hasSearchInput || inputError) && (
@@ -114,11 +117,12 @@ const SearchControls = props => {
             value={queryState}
             title="Your location: Street, City, State or Postal code"
           />
-          <va-button
-            text="Search"
-            id="facility-search"
-            onClick={handleSubmit}
-          />
+          <button type="button" id="facility-search" onClick={handleSubmit}>
+            <span className="button-text">Search</span>
+            <span className="button-icon">
+              <va-icon icon="search" size={3} />
+            </span>
+          </button>
         </div>
       </div>
     );
