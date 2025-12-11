@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { PAST_APPOINTMENTS_LINK } from '../../../constants';
 import WhatHappensNextSection from './WhatHappensNextSection';
 import { ComplexClaimsHelpSection } from '../../HelpText';
-
+// This page is displayed when the API GET CLAIM call and the API CREATE CLAIM call fails
 const ClaimErrorPage = ({ isCreate }) => {
   const header = isCreate
     ? 'We couldn’t start your claim'
