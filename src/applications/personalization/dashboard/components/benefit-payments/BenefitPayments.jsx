@@ -88,7 +88,7 @@ const PaymentsError = () => {
 const BenefitPayments = () => {
   const lastPayment = useSelector(
     state =>
-      state.allPayments.payments.sort(
+      state.allPayments.payments?.sort(
         (a, b) => new Date(b.payCheckDt) - new Date(a.payCheckDt),
       )[0] ?? null,
   );
