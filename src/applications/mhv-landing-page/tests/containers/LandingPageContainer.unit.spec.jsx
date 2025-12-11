@@ -94,14 +94,6 @@ describe(`${appName} -- <LandingPageContainer /> container`, () => {
   });
 
   describe('renders landing page when', () => {
-    it('signed in with DS Logon', async () => {
-      const initialState = stateFn({ serviceName: CSP_IDS.DS_LOGON });
-      const { getByTestId } = setup({ initialState });
-      await waitFor(() => {
-        getByTestId('landing-page-container');
-      });
-    });
-
     it('signed in with Login.gov', async () => {
       const initialState = stateFn({ serviceName: CSP_IDS.LOGIN_GOV });
       const { getByTestId } = setup({ initialState });
