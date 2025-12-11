@@ -87,12 +87,12 @@ describe('Schemaform <FormStartControls>', () => {
       await modal.__events.primaryButtonClick();
       await waitFor(() => {
         expect(removeSpy.called).to.be.true;
-        expect(global.window.sessionStorage.getItem(wizardStorageKey)).to.eq(
-          WIZARD_STATUS_RESTARTING,
-        );
         expect(tree.baseElement.querySelector('va-modal[visible="false"]')).to
           .exist;
       });
+      expect(sessionStorage.getItem(wizardStorageKey)).to.eq(
+        WIZARD_STATUS_RESTARTING,
+      );
     });
     it('should render continue & start new app buttons with a saved form', () => {
       const routerSpy = {
@@ -224,12 +224,12 @@ describe('Schemaform <FormStartControls>', () => {
       await modal.__events.primaryButtonClick();
       await waitFor(() => {
         expect(fetchSpy.called).to.be.true;
-        expect(global.window.sessionStorage.getItem(wizardStorageKey)).to.eq(
-          WIZARD_STATUS_RESTARTING,
-        );
         expect(tree.baseElement.querySelector('va-modal[visible="false"]')).to
           .exist;
       });
+      expect(sessionStorage.getItem(wizardStorageKey)).to.eq(
+        WIZARD_STATUS_RESTARTING,
+      );
     });
 
     it('should not capture analytics events when starting the form if the `gaStartEventName` prop is explicitly removed', () => {
