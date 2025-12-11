@@ -6,6 +6,7 @@ import { defaultItemPageScrollAndFocusTarget as scrollAndFocusTarget } from 'pla
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import FormFooter from '../components/FormFooter';
 import transformForSubmit from './submitTransformer';
 import { nameWording, privWrapper } from '../../shared/utilities';
 import FileFieldWrapped from '../components/FileUploadWrapper';
@@ -49,7 +50,6 @@ import certifierEmail from '../chapters/signerInformation/certifierEmail';
 import certifierRole from '../chapters/signerInformation/certifierRole';
 import CustomAttestation from '../components/CustomAttestation';
 
-import GetFormHelp from '../../shared/components/GetFormHelp';
 import { hasReq } from '../../shared/components/fileUploads/MissingFileOverview';
 import SupportingDocumentsPage from '../components/SupportingDocumentsPage';
 import { MissingFileConsentPage } from '../components/MissingFileConsentPage';
@@ -85,7 +85,7 @@ const formConfig = {
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
   showReviewErrors: !environment.isProduction(),
-  footerContent: GetFormHelp,
+  footerContent: FormFooter,
   submissionError: SubmissionError,
   formId: '10-7959C',
   dev: {
