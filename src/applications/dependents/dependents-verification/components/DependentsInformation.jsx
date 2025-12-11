@@ -11,6 +11,19 @@ import { maskID, calculateAge } from '../../shared/utils';
 
 import { removeEditContactInformation } from '../util/contact-info';
 
+/**
+ * Display Dependent Information
+ * @typedef {object} DependentsInformationProps
+ * @property {object} data - form data
+ * @property {function} goForward - function to go to next page
+ * @property {function} goToPath - function to go to specific path
+ * @property {function} setFormData - function to set form data
+ * @property {node} contentBeforeButtons - content to render before buttons
+ * @property {node} contentAfterButtons - content to render after buttons
+ *
+ * @param {DependentsInformationProps} props - Component props
+ * @returns {React.Component} - Dependents information page
+ */
 export const DependentsInformation = ({
   data = {},
   goForward,
