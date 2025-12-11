@@ -103,7 +103,7 @@ describe('MHV Email Confirmation Alert - Confirm Email', () => {
     // Click the edit link and verify redirection to contact info page.
     DashboardPage.clickErrorEditEmailLink();
     cy.url().should('include', '/profile/contact-information');
-    cy.hash().should('equal', '#contact-email-address');
+    cy.hash().should('equal', '#email-address');
 
     cy.injectAxeThenAxeCheck();
   });
@@ -131,7 +131,7 @@ describe('MHV Email Confirmation Alert - Confirm Email', () => {
     DashboardPage.clickEditEmailLink();
 
     cy.url().should('include', '/profile/contact-information');
-    cy.hash().should('equal', '#contact-email-address');
+    cy.hash().should('equal', '#email-address');
 
     cy.injectAxeThenAxeCheck();
   });

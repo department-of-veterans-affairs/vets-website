@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
+import { isValidDateString } from 'platform/utilities/date';
 
 export const showConflictOfInterestText = () => {
   window.dataLayer.push({
@@ -242,6 +243,39 @@ export const getTitle = role => {
   return title;
 };
 
+export const validateConflictOfInterestStartDate = (
+  errors,
+  fieldData,
+  formData,
+) => {
+  if (!fieldData) return;
+
+  if (!isValidDateString(fieldData)) errors.addError('Enter a valid date');
+
+  if (!isValidDateString(formData.enrollmentPeriodEnd)) return;
+
+  const start = new Date(formData.enrollmentPeriodStart);
+  const end = new Date(formData.enrollmentPeriodEnd);
+
+  if (end < start) {
+    errors.addError(
+      'The enrollment start date cannot be after the enrollment end date',
+    );
+  }
+  if (
+    start.getFullYear() === end.getFullYear() &&
+    start.getMonth() === end.getMonth() &&
+    start.getDate() === end.getDate()
+  ) {
+    errors.addError('The start date and end date cannot be the same');
+  }
+};
+
+export const validateConflictOfInterestEndDate = (errors, dateString) => {
+  if (!dateString) return;
+
+  if (!isValidDateString(dateString)) errors.addError('Enter a valid date');
+};
 export const ProprietaryProfitAdditionalInfo = () => (
   <va-additional-info trigger="What is a proprietary school?">
     <p>
