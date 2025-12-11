@@ -127,9 +127,9 @@ const OverviewPage = () => {
     totalItems,
     label = ITEM_TYPE,
   ) {
-    // Ensure numbers are valid
-    if (totalItems === 0) {
-      return `Showing 0 ${label}`;
+    // Only display pagination text when there are more than MAX_ROWS total items
+    if (totalItems <= MAX_ROWS) {
+      return '';
     }
 
     const startItemIndex = (currentPage - 1) * pageSize + 1;
