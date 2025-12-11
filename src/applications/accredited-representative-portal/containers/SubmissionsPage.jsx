@@ -93,7 +93,7 @@ const SubmissionsPage = title => {
       ) ? (
         <div className="submissions__form-start">
           <h2 className="submissions__form-name vads-u-font-size--h3 vads-u-font-family--serif submissions__margin-top">
-            VA ßßForm 21-0966
+            VA Form 21-0966
           </h2>
           <p className="submissions__form-description vads-u-font-size--h4">
             Intent to File a Claim for Compensation and/or Pension, or Survivors
