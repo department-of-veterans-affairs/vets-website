@@ -1,18 +1,19 @@
 import React, { useEffect, useRef } from 'react';
 import { format } from 'date-fns';
-import { useSelector } from 'react-redux';
 
 import { scrollTo } from 'platform/utilities/scroll';
 import { waitForRenderThenFocus } from 'platform/utilities/ui/focus';
+import PropTypes from 'prop-types';
 
 export const ConfirmationPageView = ({
   submitDate,
   benefitType,
+  address,
+  name,
   childContent = null,
 }) => {
-  const form = useSelector(state => state.form || {});
-  const { first, last } = form.data.veteranFullName;
-  const { city, state, postalCode } = form.data.address;
+  const { first, last } = name;
+  const { city, state, postalCode } = address;
   const alertRef = useRef(null);
 
   const formattedSubmitDate =
@@ -95,4 +96,19 @@ export const ConfirmationPageView = ({
       {childContent || null}
     </div>
   );
+};
+
+ConfirmationPageView.propTypes = {
+  address: PropTypes.shape({
+    city: PropTypes.string,
+    postalCode: PropTypes.string,
+    state: PropTypes.string,
+  }),
+  benefitType: PropTypes.string,
+  childContent: PropTypes.node,
+  name: PropTypes.shape({
+    first: PropTypes.string,
+    last: PropTypes.string,
+  }),
+  submitDate: PropTypes.string,
 };

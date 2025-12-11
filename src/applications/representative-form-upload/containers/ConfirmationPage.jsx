@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { ConfirmationPageView } from '../components/ConfirmationPageView';
-import { getFormContent } from '../helpers';
 
 const content = {
   headlineText: 'You’ve submitted your form',
@@ -17,7 +16,11 @@ const ConfirmationPage = () => {
   const { benefitType } = form.data;
   const submitDate = new Date(submission.response.attributes.creationDate);
 
-  const { formNumber } = getFormContent();
+  const { first, last } = form.data.veteranFullName;
+  const { city, state, postalCode } = form.data.address;
+
+  const address = { city, state, postalCode };
+  const name = { first, last };
 
   useEffect(() => {
     sessionStorage.removeItem('formIncompleteARP');
@@ -28,7 +31,8 @@ const ConfirmationPage = () => {
       submitDate={submitDate}
       benefitType={benefitType}
       content={content}
-      formNumber={formNumber}
+      address={address}
+      name={name}
       childContent={<></>}
     />
   );
