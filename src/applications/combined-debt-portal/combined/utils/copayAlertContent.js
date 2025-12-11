@@ -6,7 +6,7 @@ export const phoneContent = () => {
   return (
     <>
       <p className="vads-u-font-weight--bold">
-        <va-icon icon="phone" class="icon-action" size="3" />{' '}
+        <va-icon icon="phone" size="3" />{' '}
         <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} /> (TTY:{' '}
         <va-telephone contact={CONTACTS[711]} />)
       </p>
@@ -42,7 +42,7 @@ export const getCopayAlertContent = (copay, type) => {
               through Friday, 8:00 a.m. to 8:00 p.m. ET.
             </p>
             <p className="vads-u-font-weight--bold">
-              <va-icon icon="phone" class="icon-action" size="3" />{' '}
+              <va-icon icon="phone" size="3" />{' '}
               <va-telephone contact={CONTACTS['222_VETS']} />
             </p>
           </div>
