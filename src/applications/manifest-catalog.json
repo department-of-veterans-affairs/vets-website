@@ -670,12 +670,6 @@
       "rootUrl": "/search"
     },
     {
-      "directoryPath": "src/applications/sign-in-changes",
-      "appName": "Sign-in changes reminder",
-      "entryName": "sign-in-changes",
-      "rootUrl": "/sign-in-changes-reminder"
-    },
-    {
       "directoryPath": "src/applications/sign-in-confirm-contact-email",
       "appName": "Sign In Confirm Contact Email",
       "entryName": "confirm-contact-email",
