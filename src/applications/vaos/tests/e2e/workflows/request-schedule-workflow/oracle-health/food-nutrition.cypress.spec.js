@@ -1,5 +1,9 @@
 import { getTypeOfCareById } from '../../../../../utils/appointment';
-import { TYPE_OF_CARE_IDS } from '../../../../../utils/constants';
+import {
+  APPOINTMENT_STATUS,
+  TYPE_OF_CARE_IDS,
+} from '../../../../../utils/constants';
+import MockAppointmentResponse from '../../../../fixtures/MockAppointmentResponse';
 import MockEligibilityResponse from '../../../../fixtures/MockEligibilityResponse';
 import MockFacilityResponse from '../../../../fixtures/MockFacilityResponse';
 import MockRelationshipResponse from '../../../../fixtures/MockRelationshipResponse';
@@ -17,6 +21,8 @@ import TypeOfVisitPageObject from '../../../page-objects/TypeOfVisitPageObject';
 import UrgentCareInformationPageObject from '../../../page-objects/UrgentCareInformationPageObject';
 import VAFacilityPageObject from '../../../page-objects/VAFacilityPageObject';
 import {
+  mockAppointmentCreateApi,
+  mockAppointmentGetApi,
   mockAppointmentsGetApi,
   mockEligibilityCCApi,
   mockEligibilityDirectApi,
@@ -36,7 +42,14 @@ const { idV2: typeOfCareId, cceType } = getTypeOfCareById(
 describe('OH request flow - Food and Nutrition', () => {
   beforeEach(() => {
     vaosSetup();
-
+    const response = new MockAppointmentResponse({
+      id: 'mock1',
+      localStartTime: new Date(),
+      status: APPOINTMENT_STATUS.proposed,
+      pending: true,
+    }).setType('REQUEST');
+    mockAppointmentGetApi({ response });
+    mockAppointmentCreateApi({ response });
     mockAppointmentsGetApi({ response: [] });
     mockFeatureToggles({
       vaOnlineSchedulingImmediateCareAlert: true,
@@ -115,7 +128,6 @@ describe('OH request flow - Food and Nutrition', () => {
             .assertHeading({
               name: /What.s the reason for this appointment/i,
             })
-            .selectReasonForAppointment()
             .assertLabel({
               label: /Add any details you.d like to share with your provider/,
             })
@@ -221,7 +233,6 @@ describe('OH request flow - Food and Nutrition', () => {
               .assertHeading({
                 name: /What.s the reason for this appointment/i,
               })
-              .selectReasonForAppointment()
               .assertLabel({
                 label: /Add any details you.d like to share with your provider/,
               })
@@ -327,7 +338,6 @@ describe('OH request flow - Food and Nutrition', () => {
             .assertHeading({
               name: /What.s the reason for this appointment/i,
             })
-            .selectReasonForAppointment()
             .assertLabel({
               label: /Add any details you.d like to share with your provider/,
             })
@@ -429,7 +439,6 @@ describe('OH request flow - Food and Nutrition', () => {
             .assertHeading({
               name: /What.s the reason for this appointment/i,
             })
-            .selectReasonForAppointment()
             .assertLabel({
               label: /Add any details you.d like to share with your provider/,
             })
