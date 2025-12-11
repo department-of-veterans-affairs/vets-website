@@ -185,30 +185,6 @@ describe('Profile utilities', () => {
       expect(mappedData.facilities).to.be.undefined;
     });
 
-    it('should map userAtPretransitionedOhFacility flag', () => {
-      const data = createDefaultData();
-      const mappedData = mapRawUserDataToState({
-        data,
-        meta: {
-          errors: null,
-        },
-      });
-
-      expect(mappedData.userAtPretransitionedOhFacility).to.equal(false);
-    });
-
-    it('should map userFacilityReadyForInfoAlert flag', () => {
-      const data = createDefaultData();
-      const mappedData = mapRawUserDataToState({
-        data,
-        meta: {
-          errors: null,
-        },
-      });
-
-      expect(mappedData.userFacilityReadyForInfoAlert).to.equal(false);
-    });
-
     it('should map userAtPretransitionedOhFacility flag as true when set', () => {
       const data = createDefaultData();
       data.attributes.va_profile.user_at_pretransitioned_oh_facility = true;

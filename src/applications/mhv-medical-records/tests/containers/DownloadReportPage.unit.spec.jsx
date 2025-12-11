@@ -140,7 +140,7 @@ describe('DownloadRecordsPage with all SEI domains failed', () => {
     await waitFor(() => {
       expect(
         screen.getByText(
-          /We can't download your self-entered information right now/,
+          "We can't download your self-entered information right now",
         ),
       ).to.exist;
     });
