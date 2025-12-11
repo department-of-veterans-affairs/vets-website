@@ -42,7 +42,7 @@ const OHOnlyContent = ({
         <div>
           {lastSuccessfulUpdate && (
             <va-card
-              class="vads-u-margin-y--2"
+              className="vads-u-margin-y--2"
               background
               aria-live="polite"
               data-testid="new-records-last-updated"
