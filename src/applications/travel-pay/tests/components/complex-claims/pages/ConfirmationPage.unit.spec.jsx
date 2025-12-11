@@ -336,7 +336,7 @@ describe('Complex Claims ConfirmationPage', () => {
     ).to.exist;
     expect(
       $(
-        'va-link[href="/resources/how-to-set-up-direct-deposit-for-va-travel-pay-reimbursement/"][text="Set up direct deposit for travel pay"]',
+        'va-link[href="/resources/how-to-set-up-direct-deposit-for-va-travel-pay-reimbursement/"][text="Learn how to set up direct deposit for travel pay"]',
       ),
     ).to.exist;
   });
