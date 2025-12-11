@@ -232,16 +232,17 @@ class ReviewCollapsibleChapter extends React.Component {
                 buttonClass="usa-button-primary vads-u-width--auto"
                 ariaLabel={ariaLabel}
               />
-              <va-button
+              <button
                 aria-label="Cancel"
+                type="button"
                 id="cancel"
-                className="vads-u-width--auto"
-                variant="secondary"
-                text="Cancel"
+                className="usa-button-secondary vads-u-width--auto"
                 onClick={() =>
                   this.handleEdit(page.pageKey, !editing, page.index)
                 }
-              />
+              >
+                Cancel
+              </button>
             </div>
           )}
         </SchemaForm>
