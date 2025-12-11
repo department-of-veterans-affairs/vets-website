@@ -436,15 +436,15 @@ const responses = {
     delaySingleResponse(() => {
       switch (schedulingPreferencesResponse) {
         case 'all':
-          return res.status(200).json(schedulingPreferences.allSet);
+          return res.status(200).json(schedulingPreferences.all);
         case 'none':
-          return res.status(200).json(schedulingPreferences.noneSet);
+          return res.status(200).json(schedulingPreferences.none);
         case 'error':
           return res.status(500).json(genericErrors.error500);
         default:
           return res.status(200).json('');
       }
-    }, 3);
+    }, 2);
   },
   'POST /v0/profile/scheduling_preferences': (req, res) => {
     return delaySingleResponse(
