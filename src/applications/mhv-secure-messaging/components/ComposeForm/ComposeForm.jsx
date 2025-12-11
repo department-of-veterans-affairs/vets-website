@@ -519,11 +519,6 @@ const ComposeForm = props => {
       history,
       redirectPath,
       navigateToRxCallback,
-      draftInProgress.category,
-      draftInProgress.body,
-      draftInProgress.subject,
-      draftInProgress.recipientId,
-      draftInProgress.ohTriageGroup,
     ],
   );
 
