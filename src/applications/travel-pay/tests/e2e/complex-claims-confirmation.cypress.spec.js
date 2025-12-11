@@ -26,15 +26,18 @@ describe('Complex Claims Confirmation Page', () => {
       statusCode: 200,
       body: {
         data: {
-          claimId,
-          submission: {
-            isSubmitting: false,
-            error: null,
-            data: { claimNumber: claimId },
+          id: claimId,
+          type: 'complex_claims',
+          attributes: {
+            claimNumber: claimId,
+            appointmentId,
+            status: 'submitted',
+            createdAt: '2025-01-15T00:00:00Z',
           },
         },
       },
     }).as('claimDetails');
+
     cy.login(user);
   });
 
@@ -148,7 +151,7 @@ describe('Complex Claims Confirmation Page', () => {
 
     // Check direct deposit setup link
     cy.get(
-      'va-link[href="/resources/how-to-set-up-direct-deposit-for-va-travel-pay-reimbursement/"][text="Set up direct deposit for travel pay"]',
+      'va-link[href="/resources/how-to-set-up-direct-deposit-for-va-travel-pay-reimbursement/"][text="Learn how to set up direct deposit for travel pay"]',
     ).should('be.visible');
   });
 
