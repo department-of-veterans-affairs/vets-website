@@ -6,6 +6,8 @@ import PropTypes from 'prop-types';
 
 import { IntroductionPageView } from '../../shared/components/IntroductionPageView';
 
+// Comment added
+
 const content = {
   formTitle: 'Apply for accrued benefits online',
   formSubTitle:
