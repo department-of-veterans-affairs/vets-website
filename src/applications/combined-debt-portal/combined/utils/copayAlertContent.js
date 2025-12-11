@@ -34,7 +34,7 @@ export const getCopayAlertContent = (copay, type) => {
               <va-link-action
                 href="https://va.gov/health-care/how-to-apply/"
                 text=" Find out how to apply for VA health care benefits"
-                type=""
+                type="primary"
               />
             </p>
             <p>
