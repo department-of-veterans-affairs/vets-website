@@ -124,7 +124,7 @@ export function Type2FailureAnalyticsProvider({ children }) {
         timerRef.current = null;
       }
       // Reset all state for clean re-mount
-      // Refs are intentionally mutable - this cleanup is safe and necessary
+      // This is intentional cleanup of refs on unmount - safe and necessary for re-mount scenarios
       // eslint-disable-next-line react-hooks/exhaustive-deps
       registeredAlertsRef.current.clear();
       hasFiredRef.current = false;

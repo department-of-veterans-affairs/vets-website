@@ -8,6 +8,8 @@ const STORAGE_KEYS = {
 
 // Time-to-live for session storage entries (2 hours in milliseconds)
 const TIME_TO_LIVE = 2 * 60 * 60 * 1000;
+// Fallback value for missing document type in analytics tracking
+const UNKNOWN_DOC_TYPE = 'Unknown';
 
 /**
  * Generates a unique document instance ID
@@ -239,9 +241,9 @@ export const recordUploadStartEvent = ({ files, claimId }) => {
     const retryInfo = checkIfRetry(fileData.file, claimId);
     const docInstanceId = generateDocInstanceId();
     // Note: Frontend validation ensures docType is always present before submission,
-    // but we use a fallback ('Unknown') for defensive programming to ensure
+    // but we use a fallback for defensive programming to ensure
     // analytics never breaks the upload flow if validation logic changes.
-    const docType = fileData.docType?.value || 'Unknown';
+    const docType = fileData.docType?.value || UNKNOWN_DOC_TYPE;
     // Store this attempt in sessionStorage for retry tracking
     storeUploadAttempt({
       docInstanceId,
@@ -297,12 +299,12 @@ export const recordUploadFailureEvent = ({
     const fileObject = files?.[index]?.file;
 
     if (fileInfo && fileObject) {
-      const errorCode = error?.errors?.[0]?.detail || 'Unknown';
+      const errorCode = error?.errors?.[0]?.detail || UNKNOWN_DOC_TYPE;
 
       storeFailedUpload({
         docInstanceId: fileInfo.docInstanceId,
         file: fileObject,
-        docType: error.docType || 'Unknown',
+        docType: error.docType || UNKNOWN_DOC_TYPE,
         claimId,
         errorCode,
       });
@@ -312,7 +314,7 @@ export const recordUploadFailureEvent = ({
   recordEvent({
     event: 'claims-upload-failure',
     'failed-file-count': errorFiles.length,
-    'error-code': errorFiles[0]?.errors?.[0]?.detail || 'Unknown',
+    'error-code': errorFiles[0]?.errors?.[0]?.detail || UNKNOWN_DOC_TYPE,
   });
 };
 

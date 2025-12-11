@@ -19,7 +19,7 @@ export function getFileInputElement(fileIndex = 0) {
  * Uploads a file to the file input
  * @param {string} fileName - The name of the file to upload
  * @param {number} fileIndex - The index of the file input (default: 0)
- * @param {boolean} force - Whether to force the file selection (default: false, use true for retries)
+ * @param {boolean} force - Whether to force the file selection. Set to true if the file input is covered, disabled, or otherwise not interactable by Cypress. Use false for standard uploads. (default: false)
  */
 export function uploadFile(fileName, fileIndex = 0, force = false) {
   const fileOptions = {

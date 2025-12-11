@@ -36,9 +36,9 @@ class FilesPage extends React.Component {
   // Instance-level memoization for failed submissions to prevent UploadType2ErrorAlert
   // from receiving a new array reference on every render, which would break its useEffect tracking
   // (Class components can't use useMemo hook, so we implement manual memoization)
-  cachedEvidenceSubmissions = null;
+  _cachedEvidenceSubmissions = null;
 
-  cachedFailedSubmissions = null;
+  _cachedFailedSubmissions = null;
 
   componentDidMount() {
     const { claim, location } = this.props;
@@ -85,14 +85,14 @@ class FilesPage extends React.Component {
   }
 
   getFailedSubmissionsMemoized(evidenceSubmissions) {
-    if (this.cachedEvidenceSubmissions !== evidenceSubmissions) {
-      this.cachedEvidenceSubmissions = evidenceSubmissions;
-      this.cachedFailedSubmissions = getFailedSubmissionsWithinLast30Days(
+    if (this._cachedEvidenceSubmissions !== evidenceSubmissions) {
+      this._cachedEvidenceSubmissions = evidenceSubmissions;
+      this._cachedFailedSubmissions = getFailedSubmissionsWithinLast30Days(
         evidenceSubmissions,
       );
     }
 
-    return this.cachedFailedSubmissions;
+    return this._cachedFailedSubmissions;
   }
 
   getPageContent() {
