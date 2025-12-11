@@ -378,7 +378,7 @@ describe('SM Medications Renewal Request', () => {
       PatientComposePage.deleteUnsavedDraft();
       cy.url().should(
         'include',
-        'http://localhost:3001/my-health/medications/?page=1&draftDeleteSuccess=true',
+        '/my-health/medications/?page=1&draftDeleteSuccess=true',
       );
     });
   });

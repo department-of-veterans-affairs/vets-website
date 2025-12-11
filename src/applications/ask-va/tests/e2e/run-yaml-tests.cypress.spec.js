@@ -151,6 +151,7 @@ describe('YAML tests', () => {
             } else {
               cy.visit(`${baseUrl}/contact-us/ask-va/`);
             }
+            cy.wait('@askVaCategories', { timeout: 10000 });
             cy.injectAxeThenAxeCheck();
             executeSteps(flow.steps, folder);
           } else {

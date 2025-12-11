@@ -22,6 +22,7 @@ describe('SM CURATED LIST BREADCRUMBS', () => {
     ]);
     SecureMessagingSite.login(updatedFeatureToggles);
     PilotEnvPage.loadInboxMessages();
+    cy.wait('@featureToggle');
   });
 
   describe('Basic flow navigation', () => {

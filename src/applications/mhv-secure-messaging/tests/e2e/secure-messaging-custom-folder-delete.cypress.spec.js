@@ -14,7 +14,11 @@ describe('SM DELETE CUSTOM FOLDER', () => {
 
   it('remove non-empty folder', () => {
     PatientMessageCustomFolderPage.loadMessages();
+    cy.get('[data-testid="thread-list-item"]').should('exist');
     PatientMessageCustomFolderPage.clickRemoveFolderButton();
+    cy.findByTestId('error-folder-not-empty', { timeout: 8000 }).should(
+      'exist',
+    );
     PatientMessageCustomFolderPage.verifyEmptyFolderAlert();
     PatientMessageCustomFolderPage.clickOnCloseIcon();
     PatientMessageCustomFolderPage.verifyFocusOnRemoveFolderButton();
