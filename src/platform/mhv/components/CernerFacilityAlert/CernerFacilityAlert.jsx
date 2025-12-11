@@ -116,6 +116,7 @@ const CernerFacilityAlert = ({
           </p>
           <p>Still want to use My VA Health for now?</p>
           <va-link
+            data-testid="cerner-info-alert-link"
             href={getCernerURL(linkPath, true)}
             text="Go to My VA Health"
           />
