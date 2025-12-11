@@ -47,7 +47,7 @@ const summaryPage = {
           N: 'No',
         },
         hint: () =>
-          "You can add up to three. If you need to add more, you'll need to submit this form again.",
+          "You can add up to 3. If you need to add more, you'll need to submit this form again.",
         errorMessages: {
           required: 'Please make a selection',
         },
@@ -60,7 +60,7 @@ const summaryPage = {
           N: 'No',
         },
         hint: () =>
-          "You can add up to three. If you need to add more, you'll need to submit this form again.",
+          "You can add up to 3. If you need to add more, you'll need to submit this form again.",
         errorMessages: {
           required: 'Please make a selection',
         },

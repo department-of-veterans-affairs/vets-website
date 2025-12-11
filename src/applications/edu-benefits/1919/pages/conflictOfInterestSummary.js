@@ -24,7 +24,7 @@ const schoolsSummary = {
           N: 'No',
         },
         hint: () =>
-          "You can add up to two. If you need to add more, you'll need to submit this form again.",
+          "You can add up to 2. If you need to add more, you'll need to submit this form again.",
         errorMessages: {
           required: 'Please make a selection',
         },
@@ -37,7 +37,7 @@ const schoolsSummary = {
           N: 'No',
         },
         hint: () =>
-          "You can add up to two. If you need to add more, you'll need to submit this form again.",
+          "You can add up to 2. If you need to add more, you'll need to submit this form again.",
         errorMessages: {
           required: 'Select yes if you have another individual to add',
         },
