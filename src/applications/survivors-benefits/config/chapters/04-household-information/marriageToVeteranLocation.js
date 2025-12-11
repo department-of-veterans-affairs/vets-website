@@ -24,7 +24,7 @@ export default {
       monthSelect: false,
     }),
     marriageToVeteranStartOutsideUS: checkboxUI({
-      title: 'My marriage ended outside the U.S.',
+      title: 'I got married outside the U.S.',
     }),
     marriageToVeteranStartLocation: {
       city: textUI('City'),

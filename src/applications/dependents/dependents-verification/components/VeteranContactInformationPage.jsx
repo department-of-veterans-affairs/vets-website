@@ -17,6 +17,18 @@ import {
 } from '../util/contact-info';
 import { isEmptyObject } from '../../shared/utils';
 
+/**
+ * Veteran contact informationPage Component
+ * @typedef {object} VeteranContactInformationPageProps
+ * @property {object} data - form data
+ * @property {function} goToPath - function to go to specific path
+ * @property {function} setFormData - function to set form data
+ * @property {node} contentBeforeButtons - content to render before buttons
+ * @property {node} contentAfterButtons - content to render after buttons
+ *
+ * @param {VeteranContactInformationPageProps} props - Component props
+ * @returns {React.Component} - Veteran contact information page
+ */
 const VeteranContactInformationPage = ({
   data,
   goBack,

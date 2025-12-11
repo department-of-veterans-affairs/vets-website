@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
-import { dateSigned, transformPhoneNumber } from '../helpers';
+import { dateSigned, getTransformIntlPhoneNumber } from '../helpers';
 
 export function transform(formConfig, form) {
   const designatingOfficialTransform = formData => {
@@ -8,15 +8,15 @@ export function transform(formConfig, form) {
 
     delete clonedData.designatingOfficial.phoneType;
 
-    if (clonedData.designatingOfficial.phoneNumber) {
-      clonedData.designatingOfficial.phoneNumber = transformPhoneNumber(
+    if (clonedData.designatingOfficial.phoneNumber?.countryCode === 'US') {
+      clonedData.designatingOfficial.phoneNumber = getTransformIntlPhoneNumber(
         clonedData.designatingOfficial.phoneNumber,
       );
-    }
-    if (clonedData.designatingOfficial.internationalPhoneNumber) {
-      clonedData.designatingOfficial.internationalPhoneNumber = transformPhoneNumber(
-        clonedData.designatingOfficial.internationalPhoneNumber,
+    } else {
+      clonedData.designatingOfficial.internationalPhoneNumber = getTransformIntlPhoneNumber(
+        clonedData.designatingOfficial.phoneNumber,
       );
+      delete clonedData.designatingOfficial.phoneNumber;
     }
 
     return {
@@ -28,15 +28,15 @@ export function transform(formConfig, form) {
 
     delete clonedData.primaryOfficialDetails.phoneType;
 
-    if (clonedData.primaryOfficialDetails.phoneNumber) {
-      clonedData.primaryOfficialDetails.phoneNumber = transformPhoneNumber(
+    if (clonedData.primaryOfficialDetails.phoneNumber?.countryCode === 'US') {
+      clonedData.primaryOfficialDetails.phoneNumber = getTransformIntlPhoneNumber(
         clonedData.primaryOfficialDetails.phoneNumber,
       );
-    }
-    if (clonedData.primaryOfficialDetails.internationalPhoneNumber) {
-      clonedData.primaryOfficialDetails.internationalPhoneNumber = transformPhoneNumber(
-        clonedData.primaryOfficialDetails.internationalPhoneNumber,
+    } else {
+      clonedData.primaryOfficialDetails.internationalPhoneNumber = getTransformIntlPhoneNumber(
+        clonedData.primaryOfficialDetails.phoneNumber,
       );
+      delete clonedData.primaryOfficialDetails.phoneNumber;
     }
 
     return {
@@ -64,19 +64,22 @@ export function transform(formConfig, form) {
                 : null,
               fullName: additionalOfficial.additionalOfficialDetails.fullName,
               title: additionalOfficial.additionalOfficialDetails.title,
-              phoneNumber: additionalOfficial?.additionalOfficialDetails
-                ?.phoneNumber
-                ? transformPhoneNumber(
-                    additionalOfficial.additionalOfficialDetails.phoneNumber,
-                  )
-                : null,
-              internationalPhoneNumber: additionalOfficial
-                ?.additionalOfficialDetails?.internationalPhoneNumber
-                ? transformPhoneNumber(
-                    additionalOfficial.additionalOfficialDetails
-                      .internationalPhoneNumber,
-                  )
-                : null,
+              phoneNumber:
+                additionalOfficial.additionalOfficialDetails.phoneNumber
+                  .countryCode === 'US'
+                  ? getTransformIntlPhoneNumber(
+                      additionalOfficial.additionalOfficialDetails.phoneNumber,
+                    )
+                  : null,
+              // additionalOfficial?.additionalOfficialDetails?.phoneNumber
+              //   .contact,
+              internationalPhoneNumber:
+                additionalOfficial.additionalOfficialDetails.phoneNumber
+                  .countryCode !== 'US'
+                  ? getTransformIntlPhoneNumber(
+                      additionalOfficial.additionalOfficialDetails.phoneNumber,
+                    )
+                  : null,
               emailAddress:
                 additionalOfficial.additionalOfficialDetails.emailAddress,
               trainingExempt: additionalOfficial?.additionalOfficialTraining
@@ -153,7 +156,11 @@ export function transform(formConfig, form) {
     };
   };
   const usFormTransform = formData =>
-    transformForSubmit(formConfig, { ...form, data: formData });
+    transformForSubmit(
+      formConfig,
+      { ...form, data: formData },
+      { allowPartialAddress: true },
+    );
 
   const transformedData = [
     designatingOfficialTransform,

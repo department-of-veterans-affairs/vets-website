@@ -21,4 +21,9 @@ cd node_modules/abort-controller-es5 && yarn run postinstall && cd ../..
 echo "→ Running postinstall for markdown-it-attrs-es5..."
 cd node_modules/markdown-it-attrs-es5 && yarn run postinstall && cd ../..
 
+if ! npx cypress verify &>/dev/null; then
+  echo "→ Installing Cypress binary..."
+  npx cypress install
+fi
+
 echo "✓ Postinstall scripts completed successfully"

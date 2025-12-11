@@ -12,8 +12,8 @@ const description = formData => {
         <strong>Continue</strong> to submit them by mail or fax later.
       </p>
       <p>
-        <strong>Note:</strong> If you want to mail or fax your documents, we’ll
-        provide instructions after you submit this form.
+        <strong>Note:</strong> If you want to mail or fax your documents,
+        instructions will be provided after you submit this form.
       </p>
       <p style={{ marginBottom: 0 }}>Select a file to upload</p>
       <p style={{ color: '#757575', margin: 0 }}>

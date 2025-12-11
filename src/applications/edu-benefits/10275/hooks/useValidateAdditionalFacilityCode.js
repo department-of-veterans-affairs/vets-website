@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { apiRequest } from 'platform/utilities/api';
 import { setData } from 'platform/forms-system/src/js/actions';
+import { isPOEEligible } from '../helpers';
 
 export const useValidateAdditionalFacilityCode = (formData, index) => {
   const [loader, setLoader] = useState(false);
@@ -41,12 +42,6 @@ export const useValidateAdditionalFacilityCode = (formData, index) => {
           );
           const attrs = response.data.attributes;
 
-          const programTypes = Array.isArray(attrs.programTypes)
-            ? attrs.programTypes
-            : [];
-          const eligible =
-            programTypes.includes('IHL') || programTypes.includes('NCD');
-
           const institutionAddress = {
             street: attrs.address1 || '',
             street2: attrs.address2 || '',
@@ -65,7 +60,7 @@ export const useValidateAdditionalFacilityCode = (formData, index) => {
             ...updatedDetails[index],
             institutionName: response?.data?.attributes?.name,
             institutionAddress,
-            poeEligible: eligible,
+            poeEligible: isPOEEligible(facilityCode),
             isLoading: false,
           };
 

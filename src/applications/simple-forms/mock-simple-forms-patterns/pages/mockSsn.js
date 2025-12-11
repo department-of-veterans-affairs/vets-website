@@ -9,7 +9,7 @@ export default {
   uiSchema: {
     ...titleUI(
       'Identification information',
-      'You must enter a Social Security number or VA file number',
+      'You must enter a Social Security number or VA file number.',
     ),
     wcv3SsnNew: ssnOrVaFileNumberNoHintUI(),
   },

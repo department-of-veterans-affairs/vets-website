@@ -21,7 +21,7 @@ export const scrollTo = async (el, scrollOptions) => {
       (options.top || getElementPosition(el, options.root)) +
       (options.offset || 0);
     // Scroll to calculated position
-    document.body.scrollTo({
+    window.scrollTo({
       top: Math.round(top),
       left: options.left || 0,
       behavior: options.behavior,

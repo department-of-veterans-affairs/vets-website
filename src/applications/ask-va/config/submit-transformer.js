@@ -82,6 +82,10 @@ export default function submitTransformer(formData, uploadFiles) {
     schoolCode = formData?.schoolInfo?.schoolFacilityCode || null;
   }
 
+  const requireSignIn = formData?.requireSignInLogic
+    ? Object.values(formData?.requireSignInLogic).some(value => value === true)
+    : false;
+
   return {
     ...formData,
     ...transformAddress(formData),
@@ -94,5 +98,6 @@ export default function submitTransformer(formData, uploadFiles) {
         formData.stateOfTheFacility ||
         formData.stateOrResidency.schoolState,
     },
+    requireSignIn,
   };
 }

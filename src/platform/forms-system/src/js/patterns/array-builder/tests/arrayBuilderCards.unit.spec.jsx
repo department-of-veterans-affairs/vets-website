@@ -47,6 +47,9 @@ describe('ArrayBuilderCards', () => {
     fullData = {},
     duplicateChecks = {},
     duplicateCheckResult = {},
+    canEditItem,
+    canDeleteItem,
+    isReview = false,
   }) {
     const goToPath = sinon.spy();
     const onRemoveAll = sinon.spy();
@@ -76,9 +79,11 @@ describe('ArrayBuilderCards', () => {
           goToPath={goToPath}
           getText={getText}
           required={() => false}
-          isReview={false}
+          isReview={isReview}
           isIncomplete={isIncomplete}
           fullData={fullData}
+          canEditItem={canEditItem}
+          canDeleteItem={canDeleteItem}
           duplicateChecks={duplicateChecks}
           duplicateCheckResult={duplicateCheckResult}
         />
@@ -226,5 +231,204 @@ describe('ArrayBuilderCards', () => {
     expect(container.querySelector('.usa-label').textContent).to.eq(
       'INCOMPLETE',
     );
+  });
+
+  describe('canEditItem', () => {
+    it('should show edit link by default when canEditItem is not set', () => {
+      const { container } = setupArrayBuilderCards({
+        arrayData: [{ name: 'Test' }],
+      });
+
+      const editLink = container.querySelector('va-link[data-action="edit"]');
+      expect(editLink).to.exist;
+    });
+
+    it('should hide edit link when canEditItem returns false', () => {
+      const { container } = setupArrayBuilderCards({
+        arrayData: [{ name: 'Test' }],
+        canEditItem: () => false,
+      });
+
+      const editLink = container.querySelector('va-link[data-action="edit"]');
+      expect(editLink).to.not.exist;
+    });
+
+    it('should show edit link when canEditItem returns true', () => {
+      const { container } = setupArrayBuilderCards({
+        arrayData: [{ name: 'Test' }],
+        canEditItem: () => true,
+      });
+
+      const editLink = container.querySelector('va-link[data-action="edit"]');
+      expect(editLink).to.exist;
+    });
+
+    it('should hide edit link for specific items based on function result', () => {
+      const { container } = setupArrayBuilderCards({
+        arrayData: [{ name: 'Test1' }, { name: 'Test2' }],
+        canEditItem: ({ index }) => index !== 0, // Hide for first item only
+      });
+
+      const editLinks = container.querySelectorAll(
+        'va-link[data-action="edit"]',
+      );
+      // Only one edit link should be visible (for the second item)
+      expect(editLinks.length).to.eq(1);
+    });
+
+    it('should pass correct arguments to canEditItem function', () => {
+      const canEditItemSpy = sinon.spy(() => true);
+      const arrayData = [{ name: 'Test1' }, { name: 'Test2' }];
+      const fullData = { employers: arrayData, otherData: 'test' };
+
+      setupArrayBuilderCards({
+        arrayData,
+        fullData,
+        isReview: true,
+        canEditItem: canEditItemSpy,
+      });
+
+      expect(canEditItemSpy.calledTwice).to.be.true;
+
+      // Check first call arguments
+      const firstCallArgs = canEditItemSpy.args[0][0];
+      expect(firstCallArgs.itemData).to.deep.eq({ name: 'Test1' });
+      expect(firstCallArgs.index).to.eq(0);
+      expect(firstCallArgs.fullData).to.deep.eq(fullData);
+      expect(firstCallArgs.isReview).to.eq(true);
+
+      // Check second call arguments
+      const secondCallArgs = canEditItemSpy.args[1][0];
+      expect(secondCallArgs.itemData).to.deep.eq({ name: 'Test2' });
+      expect(secondCallArgs.index).to.eq(1);
+      expect(secondCallArgs.fullData).to.deep.eq(fullData);
+      expect(secondCallArgs.isReview).to.eq(true);
+    });
+  });
+
+  describe('canDeleteItem', () => {
+    it('should show delete button by default when canDeleteItem is not set', () => {
+      const { container } = setupArrayBuilderCards({
+        arrayData: [{ name: 'Test' }],
+      });
+
+      const deleteButton = container.querySelector(
+        'va-button-icon[data-action="remove"]',
+      );
+      expect(deleteButton).to.exist;
+    });
+
+    it('should hide delete button when canDeleteItem returns false', () => {
+      const { container } = setupArrayBuilderCards({
+        arrayData: [{ name: 'Test' }],
+        canDeleteItem: () => false,
+      });
+
+      const deleteButton = container.querySelector(
+        'va-button-icon[data-action="remove"]',
+      );
+      expect(deleteButton).to.not.exist;
+    });
+
+    it('should show delete button when canDeleteItem returns true', () => {
+      const { container } = setupArrayBuilderCards({
+        arrayData: [{ name: 'Test' }],
+        canDeleteItem: () => true,
+      });
+
+      const deleteButton = container.querySelector(
+        'va-button-icon[data-action="remove"]',
+      );
+      expect(deleteButton).to.exist;
+    });
+
+    it('should hide delete button for specific items based on function result', () => {
+      const { container } = setupArrayBuilderCards({
+        arrayData: [{ name: 'Test1' }, { name: 'Test2' }],
+        canDeleteItem: ({ index }) => index !== 0, // Hide for first item only
+      });
+
+      const deleteButtons = container.querySelectorAll(
+        'va-button-icon[data-action="remove"]',
+      );
+      // Only one delete button should be visible (for the second item)
+      expect(deleteButtons.length).to.eq(1);
+    });
+
+    it('should pass correct arguments to canDeleteItem function', () => {
+      const canDeleteItemSpy = sinon.spy(() => true);
+      const arrayData = [{ name: 'Test1' }, { name: 'Test2' }];
+      const fullData = { employers: arrayData, otherData: 'test' };
+
+      setupArrayBuilderCards({
+        arrayData,
+        fullData,
+        isReview: true,
+        canDeleteItem: canDeleteItemSpy,
+      });
+
+      expect(canDeleteItemSpy.calledTwice).to.be.true;
+
+      // Check first call arguments
+      const firstCallArgs = canDeleteItemSpy.args[0][0];
+      expect(firstCallArgs.itemData).to.deep.eq({ name: 'Test1' });
+      expect(firstCallArgs.index).to.eq(0);
+      expect(firstCallArgs.fullData).to.deep.eq(fullData);
+      expect(firstCallArgs.isReview).to.eq(true);
+
+      // Check second call arguments
+      const secondCallArgs = canDeleteItemSpy.args[1][0];
+      expect(secondCallArgs.itemData).to.deep.eq({ name: 'Test2' });
+      expect(secondCallArgs.index).to.eq(1);
+      expect(secondCallArgs.fullData).to.deep.eq(fullData);
+      expect(secondCallArgs.isReview).to.eq(true);
+    });
+  });
+
+  describe('canEditItem and canDeleteItem together', () => {
+    it('should hide both edit and delete when both functions return false', () => {
+      const { container } = setupArrayBuilderCards({
+        arrayData: [{ name: 'Test' }],
+        canEditItem: () => false,
+        canDeleteItem: () => false,
+      });
+
+      const editLink = container.querySelector('va-link[data-action="edit"]');
+      const deleteButton = container.querySelector(
+        'va-button-icon[data-action="remove"]',
+      );
+      expect(editLink).to.not.exist;
+      expect(deleteButton).to.not.exist;
+    });
+
+    it('should show both edit and delete when both functions return true', () => {
+      const { container } = setupArrayBuilderCards({
+        arrayData: [{ name: 'Test' }],
+        canEditItem: () => true,
+        canDeleteItem: () => true,
+      });
+
+      const editLink = container.querySelector('va-link[data-action="edit"]');
+      const deleteButton = container.querySelector(
+        'va-button-icon[data-action="remove"]',
+      );
+      expect(editLink).to.exist;
+      expect(deleteButton).to.exist;
+    });
+
+    it('should allow independent control of edit and delete', () => {
+      const { container } = setupArrayBuilderCards({
+        arrayData: [{ name: 'Test' }],
+        canEditItem: () => true,
+        canDeleteItem: () => false,
+      });
+
+      const editLink = container.querySelector('va-link[data-action="edit"]');
+      const deleteButton = container.querySelector(
+        'va-button-icon[data-action="remove"]',
+      );
+      expect(editLink).to.exist;
+      expect(deleteButton).to.not.exist;
+    });
   });
 });

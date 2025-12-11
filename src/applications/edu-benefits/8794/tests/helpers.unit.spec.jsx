@@ -7,6 +7,7 @@ import {
   getReadOnlyPrimaryOfficialTitle,
   readOnlyCertifyingOfficialArrayOptions,
   capitalizeFirstLetter,
+  getTransformIntlPhoneNumber,
 } from '../helpers';
 import { readOnlyCertifyingOfficialIntro } from '../pages/readOnlyCertifyingOfficialIntro';
 import { additionalOfficialIntro } from '../pages/additionalOfficialIntro';
@@ -64,8 +65,11 @@ describe('8794 helpers ', () => {
             last: 'Doe',
           },
           title: 'Official',
-          phoneType: 'us',
-          phoneNumber: '1234567890',
+          phoneNumber: {
+            callingCode: '1',
+            contact: '5162098611',
+            countryCode: 'US',
+          },
           emailAddress: 'johndoe@gmail.com',
         },
         additionalOfficialTraining: {
@@ -80,7 +84,7 @@ describe('8794 helpers ', () => {
       const { getByTestId } = render(description);
 
       expect(getByTestId('card-phone-number').innerHTML).to.include(
-        '1234567890',
+        '+1 5162098611 (US)',
       );
       expect(getByTestId('card-email').innerHTML).to.include(
         'johndoe@gmail.com',
@@ -97,8 +101,11 @@ describe('8794 helpers ', () => {
             last: 'Doe',
           },
           title: 'Official',
-          phoneType: 'intl',
-          internationalPhoneNumber: '1234567890',
+          phoneNumber: {
+            callingCode: '44',
+            contact: '1234567890',
+            countryCode: 'GB',
+          },
           emailAddress: 'johndoe@gmail.com',
         },
         additionalOfficialTraining: {
@@ -110,18 +117,21 @@ describe('8794 helpers ', () => {
       };
 
       const description = getCardDescription(card);
-      const { getByTestId } = render(description);
+      const { container } = render(description);
 
-      expect(getByTestId('card-phone-number').innerHTML).to.include(
-        '1234567890',
-      );
-      expect(getByTestId('card-email').innerHTML).to.include(
-        'johndoe@gmail.com',
-      );
-      expect(getByTestId('card-training-date').innerHTML).to.include(
-        '01/01/2020',
-      );
-      expect(getByTestId('card-has-va-benefits').innerHTML).to.include('No');
+      expect(
+        container.querySelector('[data-testid="card-phone-number"]').innerHTML,
+      ).to.include('+44 1234567890 (GB)');
+      expect(
+        container.querySelector('[data-testid="card-email"]').innerHTML,
+      ).to.include('johndoe@gmail.com');
+      expect(
+        container.querySelector('[data-testid="card-training-date"]').innerHTML,
+      ).to.include('01/01/2020');
+      expect(
+        container.querySelector('[data-testid="card-has-va-benefits"]')
+          .innerHTML,
+      ).to.include('No');
     });
     it('should handle when each card field is empty', () => {
       const card = null;
@@ -273,6 +283,47 @@ describe('8794 helpers ', () => {
     it('works with non-ASCII letters (basic unicode)', () => {
       expect(capitalizeFirstLetter('ábc')).to.equal('Ábc');
       expect(capitalizeFirstLetter('ñandú')).to.equal('Ñandú');
+    });
+  });
+  describe('getTransformIntlPhoneNumber', () => {
+    it('should format US phone numbers correctly', () => {
+      const phoneNumber = {
+        callingCode: '1',
+        contact: '5551234567',
+        countryCode: 'US',
+      };
+      const transformed = getTransformIntlPhoneNumber(phoneNumber);
+      expect(transformed).to.equal('+1 5551234567 (US)');
+    });
+
+    it('should format UK phone numbers correctly', () => {
+      const phoneNumber = {
+        callingCode: '44',
+        contact: '2079460128',
+        countryCode: 'GB',
+      };
+      const transformed = getTransformIntlPhoneNumber(phoneNumber);
+      expect(transformed).to.equal('+44 2079460128 (GB)');
+    });
+
+    it('should handle missing phone number fields gracefully', () => {
+      const phoneNumber = {
+        callingCode: '',
+        contact: '',
+        countryCode: '',
+      };
+      const transformed = getTransformIntlPhoneNumber(phoneNumber);
+      expect(transformed).to.equal('');
+    });
+
+    it('should handle null phone number object', () => {
+      const transformed = getTransformIntlPhoneNumber(null);
+      expect(transformed).to.equal('');
+    });
+
+    it('should handle undefined phone number object', () => {
+      const transformed = getTransformIntlPhoneNumber(undefined);
+      expect(transformed).to.equal('');
     });
   });
 });

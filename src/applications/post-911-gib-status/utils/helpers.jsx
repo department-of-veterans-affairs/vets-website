@@ -44,7 +44,7 @@ export function benefitEndDateExplanation(condition, delimitingDate) {
     case 'activeDuty':
       return (
         <div className="section benefit-end-date">
-          <h4>Benefit end date</h4>
+          <h3 className="vads-u-font-size--h4">Benefit end date</h3>
           <div>
             Since you’re on active duty, your benefits don’t yet have an
             expiration date.
@@ -54,7 +54,7 @@ export function benefitEndDateExplanation(condition, delimitingDate) {
     case 'remainingEntitlement':
       return (
         <div className="section benefit-end-date">
-          <h4>Benefit end date</h4>
+          <h3 className="vads-u-font-size--h4">Benefit end date</h3>
           {moment(delimitingDate).isValid() ? (
             <div>
               You have until{' '}

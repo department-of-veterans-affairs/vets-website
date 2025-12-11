@@ -33,13 +33,13 @@ describe('Authorized Official Page', () => {
   it('renders full name input fields (no middle name)', () => {
     const { container } = renderPage();
 
-    expect($$('va-text-input[label="First name"]', container).length).to.equal(
-      1,
-    );
+    expect(
+      $$('va-text-input[label="First or given name"]', container).length,
+    ).to.equal(1);
 
-    expect($$('va-text-input[label="Last name"]', container).length).to.equal(
-      1,
-    );
+    expect(
+      $$('va-text-input[label="Last or family name"]', container).length,
+    ).to.equal(1);
   });
 
   it('renders title input field', () => {

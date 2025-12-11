@@ -28,7 +28,7 @@ const isLocalhost = environment.isLocalhost();
 //  data for the new year from VES
 // Docs for our updates:
 //   https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/teams/vsa/teams/benefits-memorials-2/engineering/front-end/features/gmt-yearly-update.md
-const GMT_YEAR = 2024;
+const GMT_YEAR = 2025;
 
 /**
  * Helper calculates and returns the income upper threshold, asset threshold, and discretionary income threshold

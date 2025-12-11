@@ -37,6 +37,7 @@ import {
   startRequestAppointmentFlow,
   updateFacilityType,
   checkCommunityCareEligibility,
+  updateFacilityEhr,
 } from './redux/actions';
 import { startNewVaccineFlow } from '../appointment-list/redux/actions';
 
@@ -91,6 +92,9 @@ async function vaFacilityNext(state, dispatch) {
   const typeOfCareEnabled = OH_ENABLED_TYPES_OF_CARE.includes(
     getTypeOfCare(state.newAppointment.data)?.idV2,
   );
+
+  const ehr = isCerner ? 'cerner' : 'vista';
+  dispatch(updateFacilityEhr(ehr));
 
   if (isCerner) {
     if (featureOHDirectSchedule && featureOHRequest && typeOfCareEnabled) {

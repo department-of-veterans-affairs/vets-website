@@ -122,6 +122,8 @@ const DuplicateLabel = ({ text }) => (
  *   onRemoveAll: (newFormData: any) => void,
  *   required: (formData: any) => boolean,
  *   titleHeaderLevel: string,
+ *   canEditItem: ArrayBuilderOptions['canEditItem'],
+ *   canDeleteItem: ArrayBuilderOptions['canDeleteItem'],
  * }} props
  */
 const ArrayBuilderCards = ({
@@ -137,6 +139,8 @@ const ArrayBuilderCards = ({
   onRemove,
   required,
   isReview,
+  canEditItem,
+  canDeleteItem,
   duplicateChecks = {},
   duplicateCheckResult = {},
 }) => {
@@ -325,6 +329,13 @@ const ArrayBuilderCards = ({
                 );
               }
 
+              const canEditItemCheck =
+                typeof canEditItem !== 'function' ||
+                canEditItem({ itemData, index, fullData, isReview });
+              const canDeleteItemCheck =
+                typeof canDeleteItem !== 'function' ||
+                canDeleteItem({ itemData, index, fullData, isReview });
+
               return (
                 <li key={index} style={{ listStyleType: 'none' }}>
                   <Card index={index}>
@@ -340,25 +351,29 @@ const ArrayBuilderCards = ({
                       {alert}
                     </div>
                     <span className="vads-u-margin-bottom--neg1 vads-u-margin-top--1 vads-u-display--flex vads-u-align-items--center vads-u-justify-content--space-between vads-u-font-weight--bold">
-                      <EditLink
-                        to={createArrayBuilderItemEditPath({
-                          path: getEditItemPathUrl(
-                            formData,
+                      {canEditItemCheck && (
+                        <EditLink
+                          to={createArrayBuilderItemEditPath({
+                            path: getEditItemPathUrl(
+                              formData,
+                              index,
+                              arrayBuilderContextObject({
+                                edit: true,
+                                review: isReview,
+                              }),
+                            ),
                             index,
-                            arrayBuilderContextObject({
-                              edit: true,
-                              review: isReview,
-                            }),
-                          ),
-                          index,
-                          isReview,
-                        })}
-                        srText={`Edit ${itemName}`}
-                      />
-                      <RemoveButton
-                        onClick={() => showRemoveConfirmationModal(index)}
-                        srText={`Delete ${itemName}`}
-                      />
+                            isReview,
+                          })}
+                          srText={`Edit ${itemName}`}
+                        />
+                      )}
+                      {canDeleteItemCheck && (
+                        <RemoveButton
+                          onClick={() => showRemoveConfirmationModal(index)}
+                          srText={`Delete ${itemName}`}
+                        />
+                      )}
                     </span>
                   </Card>
                 </li>
@@ -450,6 +465,8 @@ ArrayBuilderCards.propTypes = {
     duplicateSummaryCardWarningOrErrorAlert: PropTypes.func,
     duplicateSummaryCardLabel: PropTypes.func,
   }),
+  canEditItem: PropTypes.func,
+  canDeleteItem: PropTypes.func,
   titleHeaderLevel: PropTypes.string,
 };
 

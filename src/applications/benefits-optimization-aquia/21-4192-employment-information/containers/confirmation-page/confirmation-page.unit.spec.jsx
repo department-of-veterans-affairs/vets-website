@@ -471,4 +471,88 @@ describe('ConfirmationPage', () => {
       expect(container).to.exist;
     });
   });
+
+  describe('How to Contact Section', () => {
+    it('should display contact information section', () => {
+      const mockStore = createMockStore();
+
+      const { getByText } = render(
+        <Provider store={mockStore}>
+          <ConfirmationPage route={{ formConfig }} />
+        </Provider>,
+      );
+
+      expect(getByText(/For assistance or to ask questions/i)).to.exist;
+    });
+
+    it('should display VA Benefits phone number', () => {
+      const mockStore = createMockStore();
+
+      const { container } = render(
+        <Provider store={mockStore}>
+          <ConfirmationPage route={{ formConfig }} />
+        </Provider>,
+      );
+
+      // Check for va-telephone element (the actual contact value comes from CONTACTS constant)
+      const phoneLinks = container.querySelectorAll('va-telephone');
+      expect(phoneLinks.length).to.be.greaterThan(0);
+    });
+
+    it('should display TTY phone number', () => {
+      const mockStore = createMockStore();
+
+      const { container } = render(
+        <Provider store={mockStore}>
+          <ConfirmationPage route={{ formConfig }} />
+        </Provider>,
+      );
+
+      const ttyLink = container.querySelector('va-telephone[tty="true"]');
+      expect(ttyLink).to.exist;
+    });
+
+    it('should display Ask VA link', () => {
+      const mockStore = createMockStore();
+
+      const { container } = render(
+        <Provider store={mockStore}>
+          <ConfirmationPage route={{ formConfig }} />
+        </Provider>,
+      );
+
+      const askVALink = container.querySelector(
+        'va-link[href="https://ask.va.gov/"]',
+      );
+      expect(askVALink).to.exist;
+      expect(askVALink.getAttribute('text')).to.include('Ask VA');
+    });
+
+    it('should display Veterans Benefits Administration information', () => {
+      const mockStore = createMockStore();
+
+      const { getByText } = render(
+        <Provider store={mockStore}>
+          <ConfirmationPage route={{ formConfig }} />
+        </Provider>,
+      );
+
+      expect(
+        getByText(/Veterans Benefits Administration National Call Center/i),
+      ).to.exist;
+    });
+
+    it('should display hours of operation', () => {
+      const mockStore = createMockStore();
+
+      const { getByText } = render(
+        <Provider store={mockStore}>
+          <ConfirmationPage route={{ formConfig }} />
+        </Provider>,
+      );
+
+      expect(getByText(/Monday through Friday, 8:00 a.m. to 9:00 p.m. ET/i)).to
+        .exist;
+    });
+  });
 });

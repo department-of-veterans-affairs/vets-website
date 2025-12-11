@@ -51,6 +51,12 @@ export const claimantTitleAndDescription = {
   },
 };
 
+export const ITFClaimantTitleAndDescription = {
+  'view:claimantTitle': {
+    'ui:title': 'Claimant information',
+  },
+};
+
 export const supportingEvidenceTitleAndDescription = {
   'view:supportingEvidenceTitle': {
     'ui:title': Object.freeze(<h3>Upload supporting evidence</h3>),
@@ -76,6 +82,20 @@ export const veteranTitleAndDescription = {
         processing delays.
       </div>,
     ),
+  },
+};
+export const ITFVetBenefits = Object.freeze({
+  SURVIVOR: {
+    title:
+      'Survivors pension and/or dependency and indemnity compensation (DIC)',
+    description:
+      'Select this option if you intend to file a DIC claim (VA Form 21P-534 or VA Form 21P-534EZ)',
+  },
+});
+
+export const ITFVeteranTitleAndDescription = {
+  'view:veteranTitle': {
+    'ui:title': 'Veteran identification information',
   },
 };
 

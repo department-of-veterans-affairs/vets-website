@@ -44,6 +44,7 @@ describe('<FilesWeCouldntReceive>', () => {
     return Array.from({ length: count }, (_, index) => ({
       id: startIndex + index,
       fileName: `document${startIndex + index}.pdf`,
+      trackedItemId: startIndex + index,
       trackedItemDisplayName: '21-4142',
       failedDate: `2025-01-${String(startIndex + index).padStart(
         2,
@@ -170,6 +171,7 @@ describe('<FilesWeCouldntReceive>', () => {
       {
         id: 1,
         fileName: 'document1.pdf',
+        trackedItemId: 1,
         trackedItemDisplayName: '21-4142',
         failedDate: '2025-01-15T10:35:00.000Z',
         documentType: 'VA Form 21-4142',
@@ -178,6 +180,7 @@ describe('<FilesWeCouldntReceive>', () => {
       {
         id: 2,
         fileName: 'document2.pdf',
+        trackedItemId: 2,
         trackedItemDisplayName: '21-4142',
         failedDate: '2025-01-22T10:35:00.000Z',
         documentType: 'VA Form 21-4142',
@@ -186,6 +189,7 @@ describe('<FilesWeCouldntReceive>', () => {
       {
         id: 3,
         fileName: 'document3.pdf',
+        trackedItemId: 3,
         trackedItemDisplayName: '21-4142',
         failedDate: '2025-01-10T10:35:00.000Z',
         documentType: 'VA Form 21-4142',

@@ -72,8 +72,14 @@ describe('Veteran Information Page', () => {
     const vaMemorableDates = $$('va-memorable-date', formDOM);
     const vaSelects = $$('va-select', formDOM);
 
-    const firstNameInput = $('va-text-input[label="First name"]', formDOM);
-    const lastNameInput = $('va-text-input[label="Last name"]', formDOM);
+    const firstNameInput = $(
+      'va-text-input[label="First or given name"]',
+      formDOM,
+    );
+    const lastNameInput = $(
+      'va-text-input[label="Last or family name"]',
+      formDOM,
+    );
     const middleNameInput = $('va-text-input[label="Middle name"]', formDOM);
     const suffixInput = $('va-select[label="Suffix"]', formDOM);
 

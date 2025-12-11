@@ -501,7 +501,6 @@ const formConfig = {
         supportingDocuments: {
           title: 'Supporting documents',
           path: 'additional-information/supporting-documents',
-          depends: formData => formData?.hasAssetsOverThreshold !== true,
           uiSchema: supportingDocuments.uiSchema,
           schema: supportingDocuments.schema,
         },

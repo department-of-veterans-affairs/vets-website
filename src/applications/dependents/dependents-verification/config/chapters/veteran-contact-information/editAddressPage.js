@@ -6,6 +6,7 @@ import {
 import EditMailingAddressPage from '../../../components/EditMailingAddressPage';
 import { focusPrefillAlert } from '../../../util/focus';
 
+/** @returns {PageSchema} */
 export default {
   title: 'Edit mailing address',
   path: 'veteran-contact-information/mailing-address',

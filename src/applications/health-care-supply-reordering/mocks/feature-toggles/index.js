@@ -16,6 +16,14 @@ const generateFeatureToggles = (toggles = {}) => {
           name: 'mhv_supply_reordering_enabled',
           value: mhvSupplyReorderingEnabled,
         },
+        {
+          name: 'supplyReorderingSleepApneaEnabled',
+          value: supplyReorderingSleepApneaEnabled,
+        },
+        {
+          name: 'mhvSupplyReorderingEnabled',
+          value: mhvSupplyReorderingEnabled,
+        },
       ],
     },
   };
