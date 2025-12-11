@@ -432,13 +432,13 @@ const responses = {
     return delaySingleResponse(() => res.json(maximalSetOfPreferences), 1);
   },
   'GET /v0/profile/scheduling_preferences': (req, res) => {
-    const schedulingPreferencesResponse = 'allSet';
+    const schedulingPreferencesResponse = 'all';
     delaySingleResponse(() => {
       switch (schedulingPreferencesResponse) {
-        case 'allSet':
+        case 'all':
           return res.status(200).json(schedulingPreferences.allSet);
-        case 'noneSet':
-          return res.status(400).json(schedulingPreferences.noneSet);
+        case 'none':
+          return res.status(200).json(schedulingPreferences.noneSet);
         case 'error':
           return res.status(500).json(genericErrors.error500);
         default:

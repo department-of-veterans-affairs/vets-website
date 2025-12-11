@@ -1,4 +1,4 @@
-const allSet = {
+const all = {
   data: {
     type: 'schedulingPreferences',
     attributes: {
@@ -20,7 +20,7 @@ const allSet = {
   },
 };
 
-const noneSet = {
+const none = {
   data: {
     type: 'schedulingPreferences',
     attributes: {
@@ -30,6 +30,6 @@ const noneSet = {
 };
 
 module.exports = {
-  allSet,
-  noneSet,
+  all,
+  none,
 };
