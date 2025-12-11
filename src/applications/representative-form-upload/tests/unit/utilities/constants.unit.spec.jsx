@@ -84,18 +84,26 @@ describe('wrapApiRequest', () => {
     getSignInUrlStub.restore();
   });
 
-  it('throws TypeError if location.pathname is undefined', async () => {
+  it('redirects to login when pathname is missing', async () => {
     const fakeResponse = createMockResponse(401);
     fetchStub.resolves(fakeResponse);
 
-    locationStub = sinon.stub(window, 'location').value({});
+    const getSignInUrlStub = sinon
+      .stub(constantsModule, 'getSignInUrl')
+      .returns('https://fake-login-url');
 
-    try {
-      await apiModule.default.getUser();
-      throw new Error('Should have thrown');
-    } catch (err) {
-      expect(err).to.be.instanceOf(TypeError);
-    }
+    locationStub = sinon.stub(window, 'location').value({
+      pathname: undefined,
+      href: 'http://example.com/current-page',
+    });
+
+    const result = await apiModule.default.getUser();
+
+    expect(result).to.be.null;
+    expect(getSignInUrlStub.calledOnce).to.be.true;
+    expect(window.location).to.equal('https://fake-login-url');
+
+    getSignInUrlStub.restore();
   });
 
   it('does not redirect to login if pathname is root', async () => {
