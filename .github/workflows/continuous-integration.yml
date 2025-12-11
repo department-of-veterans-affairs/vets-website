@@ -948,7 +948,6 @@ jobs:
     timeout-minutes: 120
     needs: [build, tests-prep]
     permissions:
-      checks: write
       id-token: write
       contents: read
     if: |
