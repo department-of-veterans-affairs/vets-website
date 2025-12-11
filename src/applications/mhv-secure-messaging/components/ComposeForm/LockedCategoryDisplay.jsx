@@ -22,20 +22,19 @@ import { FormLabels, RxRenewalText } from '../../util/constants';
  */
 const LockedCategoryDisplay = () => {
   return (
-    <dl
-      className="vads-u-margin-bottom--3 vads-u-margin-top--0"
-      aria-label="Message category"
+    <div
+      className="vads-u-margin-bottom--3"
+      data-testid="locked-category-display"
     >
-      <dt className="vads-u-margin-bottom--0p5">{FormLabels.CATEGORY}</dt>
-      <dd
-        className="vads-u-font-weight--bold vads-u-margin-left--0"
+      <div>{FormLabels.CATEGORY}</div>
+      <div
+        className="vads-u-font-weight--bold"
         data-dd-privacy="mask"
         data-dd-action-name="Locked Category Display"
-        data-testid="locked-category-display"
       >
         {RxRenewalText.LOCKED_CATEGORY_DISPLAY}
-      </dd>
-    </dl>
+      </div>
+    </div>
   );
 };
 

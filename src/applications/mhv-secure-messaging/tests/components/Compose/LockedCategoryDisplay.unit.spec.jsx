@@ -33,7 +33,7 @@ describe('LockedCategoryDisplay component', () => {
     });
     const lockedDisplay = screen.getByTestId('locked-category-display');
     expect(lockedDisplay).to.exist;
-    expect(lockedDisplay.textContent).to.equal(
+    expect(lockedDisplay.textContent).to.include(
       RxRenewalText.LOCKED_CATEGORY_DISPLAY,
     );
   });
@@ -44,7 +44,8 @@ describe('LockedCategoryDisplay component', () => {
       reducers: reducer,
     });
     const lockedDisplay = screen.getByTestId('locked-category-display');
-    expect(lockedDisplay).to.have.attribute('data-dd-privacy', 'mask');
+    const valueDiv = lockedDisplay.querySelector('[data-dd-privacy="mask"]');
+    expect(valueDiv).to.exist;
   });
 
   it('has data-dd-action-name attribute for Datadog tracking', () => {
@@ -53,19 +54,22 @@ describe('LockedCategoryDisplay component', () => {
       reducers: reducer,
     });
     const lockedDisplay = screen.getByTestId('locked-category-display');
-    expect(lockedDisplay).to.have.attribute(
-      'data-dd-action-name',
-      'Locked Category Display',
+    const valueDiv = lockedDisplay.querySelector(
+      '[data-dd-action-name="Locked Category Display"]',
     );
+    expect(valueDiv).to.exist;
   });
 
-  it('applies bold font weight styling', () => {
-    const screen = renderWithStoreAndRouter(<LockedCategoryDisplay />, {
+  it('uses bold class for value styling', () => {
+    const { container } = renderWithStoreAndRouter(<LockedCategoryDisplay />, {
       initialState,
       reducers: reducer,
     });
-    const lockedDisplay = screen.getByTestId('locked-category-display');
-    expect(lockedDisplay).to.have.class('vads-u-font-weight--bold');
+    const boldValue = container.querySelector('.vads-u-font-weight--bold');
+    expect(boldValue).to.exist;
+    expect(boldValue.textContent).to.equal(
+      RxRenewalText.LOCKED_CATEGORY_DISPLAY,
+    );
   });
 
   it('has correct container margin styling', () => {
@@ -75,14 +79,5 @@ describe('LockedCategoryDisplay component', () => {
     });
     const outerDiv = container.querySelector('.vads-u-margin-bottom--3');
     expect(outerDiv).to.exist;
-  });
-
-  it('has aria-label attribute for screen reader accessibility', () => {
-    const { container } = renderWithStoreAndRouter(<LockedCategoryDisplay />, {
-      initialState,
-      reducers: reducer,
-    });
-    const dlElement = container.querySelector('dl');
-    expect(dlElement).to.have.attribute('aria-label', 'Message category');
   });
 });
