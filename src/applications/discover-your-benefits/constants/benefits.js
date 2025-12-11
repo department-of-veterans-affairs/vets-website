@@ -45,6 +45,11 @@ export const goalTypeLabels = Object.freeze({
   PLAN: "Plan for my and my family's future",
 });
 
+export const WHEN_TO_APPLY = Object.freeze({
+  BEFORE_SEPARATION: 'beforeSeparation',
+  AFTER_SEPARATION: 'afterSeparation',
+});
+
 export const timeServedLabels = Object.freeze({
   UP_TO_3_MONTHS: '0 to 3 months',
   UP_TO_6_MONTHS: '4 to 6 months',
@@ -184,8 +189,12 @@ export const BENEFITS_LIST = [
     category: categories.EDUCATION,
     id: 'GIB',
     description:
-      "If you're a Veteran and you meet certain requirements, GI Bill benefits can help you pay for school and cover expenses while you’re training for a job.",
+      "Gl Bill benefits can help you pay for school and cover expenses while you're training for a job.",
     isTimeSensitive: false,
+    whenToApply: [
+      WHEN_TO_APPLY.BEFORE_SEPARATION,
+      WHEN_TO_APPLY.AFTER_SEPARATION,
+    ],
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.UNDERSTAND, goalTypes.SCHOOL],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
@@ -202,15 +211,15 @@ export const BENEFITS_LIST = [
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
     learnMoreURL: URLS.GIB_LEARN,
-    applyNowURL: URLS.GIB_APPLY,
   },
   {
     name: 'DOD SkillBridge program',
     category: categories.EMPLOYMENT,
     id: 'SBP',
     description:
-      "If you're a service member in your last 180 days of service, the DOD Skillbridge program can help you gain valuable civilian work experience through specific industry training, apprenticeships, or internships.",
+      'The DOD SkillBridge program can help you gain valuable civilian work experience through specific industry training, apprenticeships, or internships.',
     isTimeSensitive: true,
+    whenToApply: [WHEN_TO_APPLY.BEFORE_SEPARATION],
     mappings: {
       [mappingTypes.GOALS]: [
         goalTypes.RETIREMENT,
@@ -232,15 +241,18 @@ export const BENEFITS_LIST = [
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
     learnMoreURL: URLS.DBP_LEARN,
-    applyNowURL: '',
   },
   {
     name: 'Educational and career counseling (Chapter 36)',
     category: categories.EMPLOYMENT,
     id: 'ECC',
     description:
-      'If you’re leaving active service soon or have been discharged within the past year, you can apply for free educational and career guidance, planning, and resources.',
+      'You can apply for free educational and career guidance, planning, and resources through the Personalized Career Planning and Guidance (PCPG) program. Your dependents may also be eligible for this benefit.',
     isTimeSensitive: true,
+    whenToApply: [
+      WHEN_TO_APPLY.BEFORE_SEPARATION,
+      WHEN_TO_APPLY.AFTER_SEPARATION,
+    ],
     mappings: {
       [mappingTypes.GOALS]: [
         goalTypes.SCHOOL,
@@ -288,15 +300,15 @@ export const BENEFITS_LIST = [
       );
     },
     learnMoreURL: URLS.ECC_LEARN,
-    applyNowURL: URLS.ECC_APPLY,
   },
   {
     name: "Veterans' Preference in federal hiring",
     category: categories.EMPLOYMENT,
     id: 'FHV',
     description:
-      "Veterans' Preference gives eligible Veterans preference over other applicants in federal hiring. If you're a Veteran or transitioning service member, learn about the federal hiring process and get resources to help you find a career in the federal government.",
+      'You may be entitled to preference during the hiring process for federal government jobs. You can also get access to other resources to help you find a career in the federal government.',
     isTimeSensitive: false,
+    whenToApply: [WHEN_TO_APPLY.AFTER_SEPARATION],
     mappings: {
       [mappingTypes.GOALS]: [
         goalTypes.RETIREMENT,
@@ -318,7 +330,6 @@ export const BENEFITS_LIST = [
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
     learnMoreURL: URLS.FHV_LEARN,
-    applyNowURL: '',
   },
   {
     name: 'Support for your Veteran-owned small business',
@@ -327,6 +338,7 @@ export const BENEFITS_LIST = [
     description:
       'If you have a Veteran-owned small business, you may qualify for advantages when bidding on government contracts—along with access to other resources and support—through the Veteran Small Business Certification program (VetCert).',
     isTimeSensitive: false,
+    whenToApply: [WHEN_TO_APPLY.AFTER_SEPARATION],
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.CAREER, goalTypes.UNDERSTAND],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
@@ -339,15 +351,15 @@ export const BENEFITS_LIST = [
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
     learnMoreURL: URLS.SVC_LEARN,
-    applyNowURL: '',
   },
   {
     name: 'Transition Assistance Program (TAP)',
     category: categories.MORE_SUPPORT,
     id: 'TAP',
     description:
-      "If you're a transitioning service member, the TAP program provides information, services, and training to help you plan for your transition and meet your post-military goals.",
+      'The TAP program provides information, services, and training to help you plan for your transition and meet your post-military goals.',
     isTimeSensitive: true,
+    whenToApply: [WHEN_TO_APPLY.BEFORE_SEPARATION],
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.RETIREMENT, goalTypes.UNDERSTAND],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
@@ -360,15 +372,18 @@ export const BENEFITS_LIST = [
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
     learnMoreURL: URLS.TAP_LEARN,
-    applyNowURL: '',
   },
   {
-    name: 'Veteran Readiness and Employment (Chapter 31)',
+    name: 'Veteran Readiness and Employment',
     category: categories.EDUCATION,
     id: 'VRE',
     description:
-      'If you have a service-connected disability that limits your ability to work or prevents you from working, Veteran Readiness and Employment (VR&E) can help you explore employment options and address education or training needs.',
+      'Veteran Readiness and Employment (VR&E) can help you explore employment options. It can also help you with education or training needs. You must have a service-connected disability that limits your ability to work or prevents you from working to be eligible for this program.',
     isTimeSensitive: true,
+    whenToApply: [
+      WHEN_TO_APPLY.BEFORE_SEPARATION,
+      WHEN_TO_APPLY.AFTER_SEPARATION,
+    ],
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.CAREER, goalTypes.UNDERSTAND],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
@@ -392,15 +407,18 @@ export const BENEFITS_LIST = [
       ],
     },
     learnMoreURL: URLS.VRE_LEARN,
-    applyNowURL: URLS.VRE_APPLY,
   },
   {
     name: 'VetSuccess on Campus (VSOC)',
     category: categories.EMPLOYMENT,
     id: 'VSC',
     description:
-      "If you're a Veteran or service member transitioning from military to college life, VSOC counselors can help you with vocational testing, career counseling, or getting faster access to certain VA benefits while you’re attending college.",
+      "If you're transitioning from military to college life, VSOC counselors can help you with vocational testing and career counseling. You can also get faster access to certain VA benefits while you're attending college.",
     isTimeSensitive: false,
+    whenToApply: [
+      WHEN_TO_APPLY.BEFORE_SEPARATION,
+      WHEN_TO_APPLY.AFTER_SEPARATION,
+    ],
     mappings: {
       [mappingTypes.GOALS]: [
         goalTypes.SCHOOL,
@@ -424,15 +442,18 @@ export const BENEFITS_LIST = [
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
     learnMoreURL: URLS.VSC_LEARN,
-    applyNowURL: '',
   },
   {
     name: 'Disability housing grant',
     category: categories.HOUSING,
     id: 'DHS',
     description:
-      'We offer housing grants for Veterans and service members with certain service-connected disabilities so they can buy or change a home to meet their needs and live more independently. Changing a home might involve installing ramps or widening doorways. Find out if you’re eligible for a disability housing grant—and how to apply.',
+      'If you have certain service-connected disabilities, you can apply for a housing grant to help you buy or change a home to meet your needs.',
     isTimeSensitive: false,
+    whenToApply: [
+      WHEN_TO_APPLY.BEFORE_SEPARATION,
+      WHEN_TO_APPLY.AFTER_SEPARATION,
+    ],
     mappings: {
       [mappingTypes.GOALS]: [
         goalTypes.FINANCIAL,
@@ -456,15 +477,15 @@ export const BENEFITS_LIST = [
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
     learnMoreURL: URLS.DHS_LEARN,
-    applyNowURL: URLS.DHS_APPLY,
   },
   {
-    name: 'Veterans Pension',
+    name: 'Veterans Pension benefits',
     category: categories.PENSION,
     id: 'VAP',
     description:
-      'The Veterans Pension program provides monthly payments to wartime Veterans who meet certain age or disability requirements, and who have income and net worth within certain limits.',
+      'The Veterans Pension program provides monthly payments to wartime Veterans who meet certain requirements.',
     isTimeSensitive: false,
+    whenToApply: [WHEN_TO_APPLY.AFTER_SEPARATION],
     mappings: {
       [mappingTypes.GOALS]: [
         goalTypes.FINANCIAL,
@@ -507,15 +528,18 @@ export const BENEFITS_LIST = [
       );
     },
     learnMoreURL: URLS.VAP_LEARN,
-    applyNowURL: URLS.VAP_APPLY,
   },
   {
     name: 'VA mental health services',
     category: categories.HEALTH_CARE,
     id: 'MHC',
     description:
-      'Find out how to access VA mental health services for posttraumatic stress disorder (PTSD), psychological effects of military sexual trauma (MST), depression, grief, anxiety, and other needs. You can use some services even if you’re not enrolled in VA health care.',
+      "You can use VA mental health services for post-traumatic stress disorder (PTSD), psychological effects of military sexual trauma (MST), depression, grief, anxiety, and other needs. You can use some services even if you're not enrolled in VA health care.",
     isTimeSensitive: false,
+    whenToApply: [
+      WHEN_TO_APPLY.BEFORE_SEPARATION,
+      WHEN_TO_APPLY.AFTER_SEPARATION,
+    ],
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.HEALTH, goalTypes.UNDERSTAND],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
@@ -536,15 +560,15 @@ export const BENEFITS_LIST = [
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
     learnMoreURL: URLS.MHC_LEARN,
-    applyNowURL: '',
   },
   {
     name: 'Foreign Medical Program',
     category: categories.HEALTH_CARE,
     id: 'FMP',
     description:
-      "If you're a Veteran who gets medical care outside the U.S. for a service-connected condition, we may cover the cost of your care. Select Learn More below to find out how the Foreign Medical Program works and how to register.",
+      "If you're a Veteran who gets medical care outside the U.S. for a service-connected condition, we may cover the cost of your care.",
     isTimeSensitive: false,
+    whenToApply: [WHEN_TO_APPLY.AFTER_SEPARATION],
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.HEALTH, goalTypes.UNDERSTAND],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
@@ -568,15 +592,15 @@ export const BENEFITS_LIST = [
       ],
     },
     learnMoreURL: URLS.FMP_LEARN,
-    applyNowURL: URLS.FMP_APPLY,
   },
   {
     name: "Veterans' Group Life Insurance (VGLI)",
     category: categories.LIFE_INSURANCE,
     id: 'VGL',
     description:
-      "With Veterans’ Group Life Insurance (VGLI), you may be able to keep your life insurance coverage after you leave the military for as long as you continue to pay the premiums. You can start a new VGLI application or you can convert Servicemembers' Group Life Insurance (SGLI) to VGLI.",
+      "With Veterans' Group Life Insurance (VGLI), you may be able to keep your life insurance coverage after you leave the military.",
     isTimeSensitive: true,
+    whenToApply: [WHEN_TO_APPLY.AFTER_SEPARATION],
     mappings: {
       [mappingTypes.GOALS]: [
         goalTypes.RETIREMENT,
@@ -598,15 +622,15 @@ export const BENEFITS_LIST = [
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
     learnMoreURL: URLS.VGL_LEARN,
-    applyNowURL: '',
   },
   {
     name: 'Veterans Affairs Life Insurance (VALife)',
     category: categories.LIFE_INSURANCE,
     id: 'VAL',
     description:
-      "Note: You must already have a VA service-connected disability rating to be approved for Veterans Affairs Life Insurance (VALife). VALife provides low-cost coverage to Veterans with service-connected disabilities. Find out if you're eligible and how to apply.",
+      'VALife provides low-cost coverage to Veterans with service-connected disabilities. You must already have a VA service-connected disability rating to be approved.',
     isTimeSensitive: false,
+    whenToApply: [WHEN_TO_APPLY.AFTER_SEPARATION],
     mappings: {
       [mappingTypes.GOALS]: [
         goalTypes.RETIREMENT,
@@ -634,15 +658,18 @@ export const BENEFITS_LIST = [
       ],
     },
     learnMoreURL: URLS.VAL_LEARN,
-    applyNowURL: URLS.VAL_APPLY,
   },
   {
     name: 'Disability compensation',
     category: categories.DISABILITY,
     id: 'DIS',
     description:
-      'VA disability compensation (pay) offers a monthly tax-free payment to Veterans who got sick or injured while serving in the military and to Veterans whose service made an existing condition worse. You may qualify for VA disability benefits for physical conditions (like a chronic illness or injury) and mental health conditions (like PTSD) that developed before, during, or after service. Find out how to apply for and manage the Veterans disability benefits you’ve earned.',
+      'You may qualify for VA disability benefits for physical conditions (like a chronic illness or injury) and mental health conditions (like PTSD) that developed before, during, or after service.',
     isTimeSensitive: false,
+    whenToApply: [
+      WHEN_TO_APPLY.BEFORE_SEPARATION,
+      WHEN_TO_APPLY.AFTER_SEPARATION,
+    ],
     mappings: {
       [mappingTypes.GOALS]: [
         goalTypes.FINANCIAL,
@@ -669,15 +696,18 @@ export const BENEFITS_LIST = [
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
     learnMoreURL: URLS.DIS_LEARN,
-    applyNowURL: URLS.DIS_APPLY,
   },
   {
     name: 'VA-backed home loans',
     category: categories.HOUSING,
     id: 'COE',
     description:
-      'VA-backed home loans can help Veterans, service members, and their survivors to buy, build, improve, or refinance a home. In most cases, you’ll still need to find a private lender and have sufficient income and credit for the amount you want to borrow. But a VA-backed home loan may offer better terms than with a traditional loan from a private bank, mortgage company, or credit union.',
+      "If you're approved, a VA-backed home loan can help you buy, build, improve, or refinance a home. A VA-backed home loan may offer better terms than a traditional loan.",
     isTimeSensitive: false,
+    whenToApply: [
+      WHEN_TO_APPLY.BEFORE_SEPARATION,
+      WHEN_TO_APPLY.AFTER_SEPARATION,
+    ],
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.RETIREMENT, goalTypes.UNDERSTAND],
       [mappingTypes.LENGTH_OF_SERVICE]: [
@@ -725,15 +755,15 @@ export const BENEFITS_LIST = [
       );
     },
     learnMoreURL: URLS.COE_LEARN,
-    applyNowURL: URLS.COE_APPLY,
   },
   {
     name: 'VA health care',
     category: categories.HEALTH_CARE,
     id: 'VAH',
     description:
-      'With VA health care, you’re covered for regular checkups with your primary care provider and appointments with specialists (like cardiologists, gynecologists, and mental health providers). You can access Veterans health care services like home health and geriatric (elder) care, and you can get medical equipment, prosthetics, and prescriptions. Find out how to apply for and manage the health care benefits you’ve earned.',
+      "With VA health care, you're covered for regular checkups with your primary care provider and appointments with specialists (like cardiologists, gynecologists, and mental health providers). You can also access health care services like home health and geriatric (elder) care, medical equipment, and prescriptions.",
     isTimeSensitive: false,
+    whenToApply: [WHEN_TO_APPLY.AFTER_SEPARATION],
     mappings: {
       [mappingTypes.GOALS]: [
         goalTypes.RETIREMENT,
@@ -770,15 +800,18 @@ export const BENEFITS_LIST = [
       );
     },
     learnMoreURL: URLS.VAH_LEARN,
-    applyNowURL: URLS.VAH_APPLY,
   },
   {
     name: 'VA national cemetery burial',
     category: categories.BURIALS,
     id: 'BUR',
     description:
-      'Veterans, service members, and some family members may be eligible for burial in a VA national cemetery. Find out if you, or a person you’re planning a burial for, can get this benefit.',
+      'Veterans, service members, and some family members may be eligible for burial in a VA national cemetery.',
     isTimeSensitive: false,
+    whenToApply: [
+      WHEN_TO_APPLY.BEFORE_SEPARATION,
+      WHEN_TO_APPLY.AFTER_SEPARATION,
+    ],
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.UNDERSTAND, goalTypes.PLAN],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
@@ -811,15 +844,18 @@ export const BENEFITS_LIST = [
       );
     },
     learnMoreURL: URLS.BUR_LEARN,
-    applyNowURL: URLS.BUR_APPLY,
   },
   {
     name: 'VA national cemetery burial',
     category: categories.BURIALS,
     id: 'BRG',
     description:
-      'Reserves or National Guard members that became disabled or dies from an injury or certain cardiovascular disorders caused - or made worse - by their service during a period of inactive-duty training may qualify for burial in a VA National Cemetery. Click the learn more link below for more information.',
+      'Reserves or National Guard members that became disabled or die from an injury or certain cardiovascular disorders caused - or made worse - by their service during a period of inactive-duty training may qualify for burial in a VA National Cemetery.',
     isTimeSensitive: false,
+    whenToApply: [
+      WHEN_TO_APPLY.BEFORE_SEPARATION,
+      WHEN_TO_APPLY.AFTER_SEPARATION,
+    ],
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.UNDERSTAND, goalTypes.PLAN],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
@@ -845,7 +881,6 @@ export const BENEFITS_LIST = [
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
     learnMoreURL: URLS.BUR_LEARN,
-    applyNowURL: URLS.BUR_APPLY,
   },
   {
     name: 'Transfer your GI Bill benefits',
@@ -854,6 +889,7 @@ export const BENEFITS_LIST = [
     description:
       'You may be able to transfer your unused Post-9/11 GI Bill benefits to your spouse or dependent children. Learn more about this process and how to request a transfer of benefits.',
     isTimeSensitive: false,
+    whenToApply: [WHEN_TO_APPLY.BEFORE_SEPARATION],
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.SCHOOL, goalTypes.UNDERSTAND],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
@@ -869,15 +905,15 @@ export const BENEFITS_LIST = [
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
     learnMoreURL: URLS.TGI_LEARN,
-    applyNowURL: '',
   },
   {
     name: 'Apply for a discharge upgrade',
     category: categories.MORE_SUPPORT,
     id: 'DCU',
     description:
-      'Select the learn more link and answer a series of questions to get customized step-by-step instructions on how to apply for a discharge upgrade or correction. If we approve your discharge upgrade, you may be eligible for additional VA benefits.',
+      'You can get customized step-by-step instructions on how to apply for a discharge upgrade or correction. If we approve your discharge upgrade, you may be eligible for additional VA benefits.',
     isTimeSensitive: false,
+    whenToApply: [WHEN_TO_APPLY.AFTER_SEPARATION],
     mappings: {
       [mappingTypes.GOALS]: [anyType.ANY],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
@@ -896,15 +932,18 @@ export const BENEFITS_LIST = [
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
     learnMoreURL: URLS.DCU_LEARN,
-    applyNowURL: '',
   },
   {
-    name: "State Veterans' Benefits",
+    name: "State Veterans' benefits",
     category: categories.MORE_SUPPORT,
     id: 'SVB',
     description:
-      'Each state has their own list of benefits and resources that they provide at a state level to veterans and their family members. This link contains a listing of VA approved resources outside the Department.',
+      "You and your family may be eligible for Veterans' benefits provided by your state. Each state has their own list of benefits and resources that they provide.",
     isTimeSensitive: false,
+    whenToApply: [
+      WHEN_TO_APPLY.BEFORE_SEPARATION,
+      WHEN_TO_APPLY.AFTER_SEPARATION,
+    ],
     mappings: {
       [mappingTypes.GOALS]: [anyType.ANY],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
@@ -917,15 +956,18 @@ export const BENEFITS_LIST = [
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
     learnMoreURL: URLS.SVB_LEARN,
-    applyNowURL: '',
   },
   // {
   //   name: 'Employment Navigator & Partnership Program',
   //   category: categories.EMPLOYMENT,
   //   id: 'ENPP',
   //   description:
-  //     "If you're leaving active service soon or recently discharged, you and your spouse can get one-on-one career assistance through ENPP. An Employment Navigator can help you find and secure a meaningful post-separation career. Select the learn more link for a list of locations where this program is available.",
+  //     'If you’re leaving active service soon or recently discharged, you and your spouse can get one-on-one career assistance through ENPP. An Employment Navigator can help you find and secure a meaningful post-separation career. Select the learn more link for a list of locations where this program is available.',
   //   isTimeSensitive: true,
+  //   whenToApply: [
+  //     WHEN_TO_APPLY.BEFORE_SEPARATION,
+  //     WHEN_TO_APPLY.AFTER_SEPARATION,
+  //   ],
   //   mappings: {
   //     [mappingTypes.GOALS]: [
   //       goalTypes.RETIREMENT,
@@ -948,6 +990,5 @@ export const BENEFITS_LIST = [
   //     [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
   //   },
   //   learnMoreURL: URLS.ENPP_LEARN,
-  //   applyNowURL: '',
   // },
 ];
