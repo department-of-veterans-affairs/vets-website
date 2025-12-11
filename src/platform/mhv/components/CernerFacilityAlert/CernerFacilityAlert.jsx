@@ -92,15 +92,36 @@ const CernerFacilityAlert = ({
     }
   };
 
-  // Don't render if flag is false
+  // Don't render anything if flag is false
   if (!userProfile.userAtPretransitionedOhFacility) {
     return null;
   }
 
   // Render blue info alert if flag is true and it's not overridden
   if (userProfile.userFacilityReadyForInfoAlert && !forceHideInfoAlert) {
-    // Blue alert content goes here
-    return null;
+    return (
+      <va-alert-expandable
+        // Some usages might need extra top margin if there's an API error message above
+        className={`vads-u-margin-bottom--2p5 ${className} ${
+          apiError ? 'vads-u-margin-top--2' : ''
+        }`}
+        data-testid="cerner-facilities-info-alert"
+        status="info"
+        trigger="You can now manage your health care for all VA facilities right here"
+      >
+        <div data-testid="cerner-facility-info-text">
+          <p>
+            We’ve brought all your VA health care data together so you can
+            manage your care in one place.
+          </p>
+          <p>Still want to use My VA Health for now?</p>
+          <va-link
+            href={getCernerURL(linkPath, true)}
+            text="Go to My VA Health"
+          />
+        </div>
+      </va-alert-expandable>
+    );
   }
 
   const isMultipleFacilities = cernerFacilitiesNames.length > 1;

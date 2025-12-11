@@ -140,7 +140,7 @@ describe('DownloadRecordsPage with all SEI domains failed', () => {
     await waitFor(() => {
       expect(
         screen.getByText(
-          "We can't download your self-entered information right now",
+          /We can't download your self-entered information right now/,
         ),
       ).to.exist;
     });
@@ -419,7 +419,7 @@ describe('DownloadRecordsPage for Cerner users', () => {
     },
   };
 
-  it('displays Cerner facility alert for Cerner users', () => {
+  it('displays Cerner facility alert for pretransitioned users', () => {
     const screen = renderWithStoreAndRouter(<DownloadReportPage />, {
       initialState: cernerUserState,
       reducers: reducer,
@@ -484,6 +484,37 @@ describe('DownloadRecordsPage for Cerner users', () => {
     expect(screen.getByTestId('cerner-facilities-alert')).to.exist;
     const link = screen.getByTestId('cerner-facility-action-link');
     expect(link).to.exist;
+  });
+
+  it('displays Info facility alert for transitioned users', () => {
+    const screen = renderWithStoreAndRouter(<DownloadReportPage />, {
+      initialState: {
+        ...cernerUserState,
+        user: {
+          profile: {
+            userFullName: {
+              first: 'Andrew- Cerner',
+              middle: 'J',
+              last: 'Morkel',
+            },
+            facilities: [
+              {
+                facilityId: '668',
+                isCerner: true,
+              },
+            ],
+            userAtPretransitionedOhFacility: true,
+            userFacilityReadyForInfoAlert: true,
+          },
+        },
+      },
+      reducers: reducer,
+      path: '/download-all',
+    });
+
+    expect(screen).to.exist;
+    expect(screen.getByText('Download your medical records reports')).to.exist;
+    expect(screen.getByTestId('cerner-facilities-info-alert')).to.exist;
   });
 });
 

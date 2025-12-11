@@ -283,32 +283,29 @@ describe('CernerFacilityAlert', () => {
       expect(screen.queryByTestId('cerner-facilities-alert')).to.exist;
     });
 
-    // This needs to wait until the blue alert is implemented
-    // it('shows alert when forceHideInfoAlert is false with Cerner facilities', () => {
-    //   const stateWithFacility = {
-    //     ...initialState,
-    //     user: {
-    //       profile: {
-    //         facilities: [{ facilityId: '668', isCerner: true }],
-    //         userAtPretransitionedOhFacility: true,
-    //         userFacilityReadyForInfoAlert: false,
-    //       },
-    //     },
-    //   };
+    it('shows info alert when forceHideInfoAlert is false', () => {
+      const stateWithFacility = {
+        ...initialState,
+        user: {
+          profile: {
+            facilities: [{ facilityId: '668', isCerner: true }],
+            userAtPretransitionedOhFacility: true,
+            userFacilityReadyForInfoAlert: true,
+          },
+        },
+      };
 
-    //   const screen = setup(stateWithFacility, {
-    //     ...CernerAlertContent.MEDICATIONS,
-    //     forceHideInfoAlert: false,
-    //   });
+      const screen = setup(stateWithFacility, {
+        ...CernerAlertContent.MEDICATIONS,
+        forceHideInfoAlert: false,
+      });
 
-    //   expect(screen.getByTestId('cerner-facilities-alert')).to.exist;
-    // });
+      expect(screen.getByTestId('cerner-facilities-info-alert')).to.exist;
+    });
   });
 
-  describe('nudging info alert behavior', () => {
-    // TODO: switch this up once blue alert in implemented
-    // For now, the behavior is that nothing will render
-    it('does not render when userFacilityReadyForInfoAlert flag is true', () => {
+  describe('info alert behavior', () => {
+    it('renders the info alert when userFacilityReadyForInfoAlert flag is true', () => {
       const stateWithFacility = {
         ...initialState,
         user: {
@@ -325,27 +322,13 @@ describe('CernerFacilityAlert', () => {
       });
 
       expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;
+      const infoAlert = screen.getByTestId('cerner-facilities-info-alert');
+      expect(infoAlert).to.exist;
+      expect(infoAlert.getAttribute('status')).to.equal('info');
+      expect(infoAlert.getAttribute('trigger')).to.equal(
+        'You can now manage your health care for all VA facilities right here',
+      );
+      expect(screen.getByTestId('cerner-facility-info-text')).to.exist;
     });
-
-    // This needs to wait until the blue alert is implemented
-    // it('shows alert when forceHideInfoAlert is false with Cerner facilities', () => {
-    //   const stateWithFacility = {
-    //     ...initialState,
-    //     user: {
-    //       profile: {
-    //         facilities: [{ facilityId: '668', isCerner: true }],
-    //         userAtPretransitionedOhFacility: true,
-    //         userFacilityReadyForInfoAlert: false,
-    //       },
-    //     },
-    //   };
-
-    //   const screen = setup(stateWithFacility, {
-    //     ...CernerAlertContent.MEDICATIONS,
-    //     forceHideInfoAlert: false,
-    //   });
-
-    //   expect(screen.getByTestId('cerner-facilities-alert')).to.exist;
-    // });
   });
 });
