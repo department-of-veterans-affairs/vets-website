@@ -917,11 +917,15 @@ describe('Google Analytics', () => {
       'error-code',
     ]);
 
+    // Wait for error alert to appear
+    cy.get('va-alert[status="error"]').should('be.visible');
+    // Wait for select to be enabled and ready
     getFileInputElement(0)
       .find('va-select')
       .shadow()
       .find('select')
-      .should('not.be.disabled');
+      .should('not.be.disabled')
+      .and('be.visible');
 
     // Retry with same file
     clearDataLayer();
