@@ -36,23 +36,6 @@ describe('AccountSecurityLoa1CredAlert', () => {
 describe('SignInEmailAlert', () => {
   afterEach(cleanup);
 
-  // it('renders alert with DS_LOGON service provider in text', () => {
-  //   const { getByText } = renderWithProfileReducersAndRouter(
-  //     <SignInEmailAlert />,
-  //     {
-  //       initialState: createCustomProfileState({
-  //         user: { profile: { signIn: { serviceName: CSP_IDS.DS_LOGON } } },
-  //       }),
-  //     },
-  //   );
-
-  //   expect(
-  //     getByText('sign in with your DS Logon username and password', {
-  //       exact: false,
-  //     }),
-  //   ).to.exist;
-  // });
-
   it('renders alert with MHV service provider in text', () => {
     const { getByText } = renderWithProfileReducersAndRouter(
       <SignInEmailAlert />,
