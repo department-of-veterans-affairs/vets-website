@@ -62,6 +62,7 @@ export const allProprietaryProfitConflictsArrayOptions = {
   nounSingular: 'individual',
   nounPlural: 'individuals',
   required: false,
+  maxItems: 2,
   text: {
     getItemName: item => getCardTitle(item),
     cardDescription: item => getCardDescription(item),
@@ -77,6 +78,7 @@ export const proprietaryProfitConflictsArrayOptions = {
   nounSingular: 'individual',
   nounPlural: 'individuals',
   required: false,
+  maxItems: 3,
   text: {
     getItemName: item =>
       `${item?.affiliatedIndividuals?.first || ''} ${item?.affiliatedIndividuals
