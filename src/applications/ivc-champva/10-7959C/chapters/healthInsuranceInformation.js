@@ -255,7 +255,7 @@ export function applicantMedigapSchema(isPrimary) {
     uiSchema: {
       ...titleUI('Medigap information'),
       [keyname]: radioUI({
-        title: 'Select the Medigap policy the beneficiary is enrolled in?',
+        title: 'Select the Medigap policy the beneficiary is enrolled in.',
         labels: MEDIGAP,
       }),
     },
