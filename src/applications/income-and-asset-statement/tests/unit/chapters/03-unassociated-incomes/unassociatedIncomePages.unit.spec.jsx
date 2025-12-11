@@ -60,6 +60,12 @@ describe('unassociated income list and loop pages', () => {
     testOptionsTextGetItemNameRecurringIncome(options);
   });
 
+  describe('summaryTitle function', () => {
+    it('should show content', () => {
+      expect(options.text.summaryTitle).to.eql('Review recurring income');
+    });
+  });
+
   describe('text cardDescription function', () => {
     /* eslint-disable no-unused-vars */
     const {
@@ -252,8 +258,8 @@ describe('unassociated income list and loop pages', () => {
       schema,
       uiSchema,
       [
-        'va-text-input[label="Income recipient’s first name"]',
-        'va-text-input[label="Income recipient’s last name"]',
+        'va-text-input[label="Income recipient’s first or given name"]',
+        'va-text-input[label="Income recipient’s last or family name"]',
       ],
       'recipient',
     );
@@ -302,8 +308,8 @@ describe('unassociated income list and loop pages', () => {
       schema,
       uiSchema,
       [
-        'va-text-input[label="Income recipient’s first name"]',
-        'va-text-input[label="Income recipient’s last name"]',
+        'va-text-input[label="Income recipient’s first or given name"]',
+        'va-text-input[label="Income recipient’s last or family name"]',
       ],
       'child recipient',
     );

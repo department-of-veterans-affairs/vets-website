@@ -86,7 +86,7 @@ const NewRecordsIndicator = ({
         aria-live="polite"
         data-testid="new-records-refreshed-failed"
       >
-        <h2>We couldn’t update your records</h2>
+        <h2 slot="headline">We couldn’t update your records</h2>
         <p>Check back later for updates.</p>
         <p>
           If it still doesn’t work, call us at{' '}
@@ -111,7 +111,7 @@ const NewRecordsIndicator = ({
         aria-live="polite"
         data-testid="new-records-refreshed-stale"
       >
-        <h2>Reload to get updates</h2>
+        <h2 slot="headline">Reload to get updates</h2>
         <p>
           We found updates to your records. Reload this page to update your
           list.
@@ -135,7 +135,7 @@ const NewRecordsIndicator = ({
         aria-live="polite"
         data-testid="new-records-refreshed-call_failed"
       >
-        <h2>Your records may not be up to date.</h2>
+        <h2 slot="headline">Your records may not be up to date.</h2>
         <p>
           There’s a problem with our system, and we can’t access the date your
           records were last updated. We’re sorry.

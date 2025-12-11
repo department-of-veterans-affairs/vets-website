@@ -9,29 +9,6 @@ import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { getVeteranName, formatDate } from './helpers';
-
-/**
- * Generate page description
- */
-const getPageDescription = formData => {
-  // Defensive: getVeteranName handles formData validation
-  const veteranName = getVeteranName(formData);
-
-  // Defensive: Check formData before accessing nested properties
-  const endingDate =
-    formData && typeof formData === 'object' && !Array.isArray(formData)
-      ? formData.employmentDates?.endingDate || ''
-      : '';
-
-  const formattedEndDate = formatDate(endingDate);
-
-  if (formattedEndDate) {
-    return `On a previous page, you indicated that ${veteranName} stopped working on ${formattedEndDate}. Why did they stop working?`;
-  }
-
-  return `On a previous page, you indicated that ${veteranName} stopped working. Why did they stop working?`;
-};
 
 /**
  * uiSchema for Employment Termination page
@@ -39,13 +16,14 @@ const getPageDescription = formData => {
  */
 export const employmentTerminationUiSchema = {
   'ui:title': 'Termination of employment',
-  'ui:description': getPageDescription,
   employmentTermination: {
     terminationReason: textareaUI({
       title: 'Reason for termination of employment',
-      hint: 'If they retired on disability, please specify.',
+      hint:
+        'If they retired on disability, please specify the disability(ies).',
       charcount: true,
       errorMessages: {
+        required: 'Reason for termination is required',
         maxLength: 'Termination reason must be less than 1000 characters',
       },
     }),
@@ -68,7 +46,7 @@ export const employmentTerminationSchema = {
   properties: {
     employmentTermination: {
       type: 'object',
-      required: ['dateLastWorked'],
+      required: ['terminationReason', 'dateLastWorked'],
       properties: {
         terminationReason: {
           type: 'string',
