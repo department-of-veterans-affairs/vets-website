@@ -15,23 +15,6 @@ import {
 describe('AccountSecurityLoa1CredAlert', () => {
   afterEach(cleanup);
 
-  // it('renders alert with DS_LOGON service provider in text', () => {
-  //   const { getByText } = renderWithProfileReducersAndRouter(
-  //     <AccountSecurityLoa1CredAlert />,
-  //     {
-  //       initialState: createCustomProfileState({
-  //         user: { profile: { signIn: { serviceName: CSP_IDS.DS_LOGON } } },
-  //       }),
-  //     },
-  //   );
-
-  //   expect(
-  //     getByText('sign in with your DS Logon username and password', {
-  //       exact: false,
-  //     }),
-  //   ).to.exist;
-  // });
-
   it('renders alert with MHV service provider in text', () => {
     const { getByText } = renderWithProfileReducersAndRouter(
       <AccountSecurityLoa1CredAlert />,
