@@ -1,5 +1,6 @@
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import userEvent from '@testing-library/user-event';
 import searchResults from '../../fixtures/search-response.json';
@@ -433,7 +434,7 @@ describe('Search form', () => {
       expect(screen.getByText('Filters successfully cleared')).to.exist;
     });
 
-    it('should have the correct aria-describedby on heading after applying then clearing filters', () => {
+    it('should have the correct aria-describedby on heading after applying then clearing filters', async () => {
       const searchTerm = 'test';
       const query = {
         category: 'other',
@@ -467,19 +468,25 @@ describe('Search form', () => {
 
       inputVaTextInput(screen.container, 'test', '#filter-input');
       userEvent.click(applyButton);
-      expect(inboxHeading).to.have.attribute(
-        'aria-describedby',
-        'filter-applied-success',
-      );
+
+      await waitFor(() => {
+        expect(inboxHeading).to.have.attribute(
+          'aria-describedby',
+          'filter-applied-success',
+        );
+      });
       expect(screen.getByText('Filters successfully applied')).to.exist;
       expect(screen.queryByText('No filters applied')).to.not.exist;
       expect(screen.queryByText('Filters successfully cleared')).to.not.exist;
 
       userEvent.click(clearButton);
-      expect(inboxHeading).to.have.attribute(
-        'aria-describedby',
-        'filter-clear-success',
-      );
+
+      await waitFor(() => {
+        expect(inboxHeading).to.have.attribute(
+          'aria-describedby',
+          'filter-clear-success',
+        );
+      });
       expect(screen.getByText('Filters successfully cleared')).to.exist;
       expect(screen.queryByText('No filters applied')).to.not.exist;
       expect(screen.queryByText('Filters successfully applied')).to.not.exist;
