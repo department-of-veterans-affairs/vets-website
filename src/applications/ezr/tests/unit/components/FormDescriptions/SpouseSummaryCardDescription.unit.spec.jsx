@@ -10,7 +10,7 @@ describe('ezr <SpouseSummaryCardDescription>', () => {
     context(
       `when marital status is ${status} and there is NO MARRIAGE DATE`,
       () => {
-        it('should render the marital status and a blank date of marriage', () => {
+        it(`should render the marital status and 'Date of Marriage:' (no date)`, () => {
           const { container } = renderProviderWrappedComponent(
             {
               form: {
