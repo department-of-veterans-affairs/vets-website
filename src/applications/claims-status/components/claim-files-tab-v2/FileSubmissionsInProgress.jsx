@@ -111,7 +111,7 @@ const FileSubmissionsInProgress = ({ claim }) => {
                   item,
                 );
                 const requestTypeText = requestType
-                  ? `Request type: ${requestType}`
+                  ? `Submitted in response to request: ${requestType}`
                   : 'You submitted this file as additional evidence.';
 
                 return (
@@ -151,7 +151,9 @@ const FileSubmissionsInProgress = ({ claim }) => {
                       </div>
                       {item.createdAt && (
                         <p className="file-submitted-date vads-u-margin-y--0">
-                          {`Submitted on ${formatDate(item.createdAt)}`}
+                          {`Submission started on ${formatDate(
+                            item.createdAt,
+                          )}`}
                         </p>
                       )}
                     </VaCard>
