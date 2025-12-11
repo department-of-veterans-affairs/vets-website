@@ -40,16 +40,6 @@
     "nameOfStateCemeteryOrTribalOrganization": "New Mexico State Veterans Cemetery"
   },
   "titleSchema": {},
-  "periods": [
-    {
-      "placeEnteredService": "Naboo",
-      "placeLeftService": "Coruscant",
-      "rankAtSeparation": "Supreme Chancellor",
-      "dateEnteredService": "1932-01-01",
-      "dateLeftService": "2005-05-19",
-      "serviceBranch": "ARMY"
-    }
-  ],
   "certification": {
     "signature": "Imperial Memorial Services",
     "titleOfStateOrTribalOfficial": "New Mexico State Veterans Cemetery"

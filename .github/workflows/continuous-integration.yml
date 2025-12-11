@@ -1252,6 +1252,7 @@ jobs:
     runs-on: ubuntu-22.04
     needs: [testing-reports-prep, unit-tests]
     permissions:
+      checks: write
       id-token: write
       contents: read
     if: needs.unit-tests.outputs.tests_ran == 'true'
@@ -1364,6 +1365,7 @@ jobs:
     runs-on: ubuntu-22.04
     needs: [testing-reports-prep, unit-tests-stress-test]
     permissions:
+      checks: write
       id-token: write
       contents: read
     if: ${{ always() && (needs.unit-tests-stress-test.result == 'success' || needs.unit-tests-stress-test.result == 'failure')}}
@@ -1459,6 +1461,7 @@ jobs:
     runs-on: ubuntu-22.04
     needs: [testing-reports-prep, unit-tests]
     permissions:
+      checks: write
       id-token: write
       contents: read
     if: needs.unit-tests.outputs.tests_ran == 'true'
@@ -1573,6 +1576,7 @@ jobs:
     runs-on: ubuntu-22.04
     needs: [testing-reports-prep, tests-prep, cypress-tests]
     permissions:
+      checks: write
       id-token: write
       contents: read
     if: ${{ always() && needs.tests-prep.outputs.tests != '[]' && needs.tests-prep.outputs.cypress-tests != '' && (needs.cypress-tests.result == 'success' || needs.cypress-tests.result == 'failure') }}
@@ -1682,6 +1686,7 @@ jobs:
     runs-on: ubuntu-22.04
     needs: [testing-reports-prep, tests-prep, stress-test-cypress-tests]
     permissions:
+      checks: write
       id-token: write
       contents: read
     if: ${{ always() && (needs.stress-test-cypress-tests.result == 'success' || needs.stresss-test-cypress-tests.result == 'failure') }}

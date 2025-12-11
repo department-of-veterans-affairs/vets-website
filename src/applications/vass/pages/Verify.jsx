@@ -23,6 +23,8 @@ const Verify = () => {
   const [error, setError] = useState(false);
   const [lastnameError, setLastnameError] = useState(undefined);
   const [dobError, setDobError] = useState(undefined);
+  const [attemptCount, setAttemptCount] = useState(1);
+  const [verificationError, setVerificationError] = useState(undefined);
   const [focusTrigger, setFocusTrigger] = useState(0);
 
   useEffect(
@@ -62,12 +64,26 @@ const Verify = () => {
       setError(false);
       navigate('/enter-otc');
     } else {
-      setError(true);
+      if (attemptCount === 3) {
+        setVerificationError(
+          'We’re sorry. We couldn’t match your information to your records. Please call us for help.',
+        );
+      } else {
+        setError(true);
+      }
+      setAttemptCount(count => count + 1);
     }
   };
 
   return (
-    <Wrapper pageTitle="Schedule a call to learn about VA benefits and health care">
+    <Wrapper
+      pageTitle={
+        !verificationError
+          ? 'Schedule a call to learn about VA benefits and health care'
+          : 'We couldn’t verify your information'
+      }
+      verificationError={verificationError}
+    >
       <p data-testid="verify-intro-text">
         First, we’ll need your information so we can send you a one-time
         verification code to verify your identity.

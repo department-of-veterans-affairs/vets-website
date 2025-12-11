@@ -191,7 +191,7 @@ export const Locators = {
   ALERTS: {
     HEADER: `[data-testid="error-folder-not-empty"]`,
     MODEL_TITLE_ALERT: '.va-modal-alert-title',
-    TRIAGE_ALERT: '[data-testid="blocked-triage-group-alert"] > div > a',
+    TRIAGE_ALERT: '[data-testid="blocked-triage-group-alert"] va-link-action',
     CLOSE_NOTIFICATION: '.va-alert',
     REPT_SELECT: '[data-testid="compose-recipient-select"]',
     DRAFT_MODAL: '[data-testid="delete-draft-modal"]',
