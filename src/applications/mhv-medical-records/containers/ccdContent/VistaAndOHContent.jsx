@@ -19,7 +19,6 @@ import {
 
 import AccessTroubleAlertBox from '../../components/shared/AccessTroubleAlertBox';
 import { sendDataDogAction } from '../../util/helpers';
-import { formatFacilityUnorderedList } from '../../util/facilityHelpers';
 
 const VistaAndOHContent = ({
   accessErrors,
@@ -28,7 +27,6 @@ const VistaAndOHContent = ({
   CCDRetryTimestamp,
   isLoading,
   testIdSuffix,
-  ohFacilityNames,
   ccdDownloadSuccess,
   failedBBDomains,
   failedSeiDomains,
@@ -39,7 +37,6 @@ const VistaAndOHContent = ({
   lastSuccessfulUpdate,
   successfulSeiDownload,
   successfulBBDownload,
-  vistaFacilityNames,
 }) => {
   return (
     <>
@@ -56,19 +53,6 @@ const VistaAndOHContent = ({
         </div>
       ) : (
         <div>
-          <h1>Download your medical records reports</h1>
-          <p className="vads-u-margin--0">
-            You can download your VA medical records as a single report (called
-            your VA Blue Button report) or download your self-entered health
-            information for these facilities:
-          </p>
-          {formatFacilityUnorderedList(vistaFacilityNames)}
-          <p className="vads-u-margin--0">
-            VA medical records for these facilities aren’t available in your
-            Blue Button report right now. Download your Continuity of Care
-            Document (CCD) to access medical records for these facilities:
-          </p>
-          {formatFacilityUnorderedList(ohFacilityNames)}
           {lastSuccessfulUpdate && (
             <va-card
               className="vads-u-margin-y--2"
@@ -206,10 +190,8 @@ VistaAndOHContent.propTypes = {
   handleDownloadCCD: PropTypes.func.isRequired,
   handleDownloadSelfEnteredPdf: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
-  ohFacilityNames: PropTypes.array.isRequired,
   successfulSeiDownload: PropTypes.bool.isRequired,
   testIdSuffix: PropTypes.string.isRequired,
-  vistaFacilityNames: PropTypes.array.isRequired,
   CCDRetryTimestamp: PropTypes.string,
   activeAlert: PropTypes.object,
   ccdDownloadSuccess: PropTypes.bool,

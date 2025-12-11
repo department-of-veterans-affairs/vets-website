@@ -260,13 +260,15 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   if (hasBothDataSources) {
     return (
       <div>
-        <VistaAndOHIntroText />
+        <VistaAndOHIntroText
+          ohFacilityNames={ohFacilityNames}
+          vistaFacilityNames={vistaFacilityNames}
+        />
         <AcceleratedCernerFacilityAlert {...CernerAlertContent.DOWNLOAD} />
         <VistaAndOHContent
           isLoading={generatingCCD}
           testIdSuffix="Vista"
           failedSeiDomains={failedSeiDomains}
-          ohFacilityNames={ohFacilityNames}
           getFailedDomainList={getFailedDomainList}
           lastSuccessfulUpdate={lastSuccessfulUpdate}
           generatingCCD={generatingCCD}
@@ -280,7 +282,6 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           CCDRetryTimestamp={CCDRetryTimestamp}
           failedBBDomains={failedBBDomains}
           successfulBBDownload={successfulBBDownload}
-          vistaFacilityNames={vistaFacilityNames}
         />
         <NeedHelpSection />
       </div>
