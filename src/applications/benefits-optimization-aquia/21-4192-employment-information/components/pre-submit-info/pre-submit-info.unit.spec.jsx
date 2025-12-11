@@ -83,6 +83,20 @@ describe('PreSubmitInfo Component', () => {
       expect(isSignatureValid('Name&Name')).to.be.false;
     });
 
+    it('should reject strings with only special characters (no letters)', () => {
+      expect(isSignatureValid('---')).to.be.false;
+      expect(isSignatureValid('...')).to.be.false;
+      expect(isSignatureValid('- - -')).to.be.false;
+      expect(isSignatureValid("'-'-'")).to.be.false;
+      expect(isSignatureValid('...---...')).to.be.false;
+    });
+
+    it('should accept fixture test signatures', () => {
+      // These match the signatures in maximal.json and minimal.json
+      expect(isSignatureValid('Test Signature Name')).to.be.true;
+      expect(isSignatureValid('Different Test Name')).to.be.true;
+    });
+
     it('should handle very long signatures', () => {
       const longName = 'A'.repeat(100);
       expect(isSignatureValid(longName)).to.be.true;
