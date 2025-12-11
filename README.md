@@ -2,22 +2,24 @@
 
 ## Table of Contents
 
-- [What is this?](#what-is-this)
-- [Common commands](#common-commands)
-- [Building `vets-website`](#building-vets-website)
-  - [Building applications](#building-applications)
-  - [Building static content](#building-static-content)
-  - [Building both together](#building-both-together)
-- [Working in GitHub Codespaces](#working-in-github-codespaces)
-- [Running tests](#running-tests)
-  - [Unit tests](#unit-tests)
-  - [End-to-end (E2E) / Browser tests](#end-to-end-e2e--browser-tests)
-- [Changing Virtual Agent backend URL](#changing-virtual-agent-backend-url)
-- [Running a mock API for local development](#running-a-mock-api-for-local-development)
-- [More commands](#more-commands)
-- [Supported Browsers](#supported-browsers)
-- [API Keys](#api-keys)
-- [Additional Resources](#additional-resources)
+- [VA.gov ](#vagov-)
+  - [Table of Contents](#table-of-contents)
+  - [What is this?](#what-is-this)
+  - [Common commands](#common-commands)
+  - [Building `vets-website`](#building-vets-website)
+    - [Building applications](#building-applications)
+    - [Building static content](#building-static-content)
+    - [Building both together](#building-both-together)
+  - [Working in GitHub Codespaces](#working-in-github-codespaces)
+  - [Running tests](#running-tests)
+    - [Unit tests](#unit-tests)
+    - [End-to-end (E2E) / Browser tests](#end-to-end-e2e--browser-tests)
+  - [Running a mock API for local development](#running-a-mock-api-for-local-development)
+  - [More commands](#more-commands)
+  - [Supported Browsers](#supported-browsers)
+  - [API Keys](#api-keys)
+  - [Additional Resources](#additional-resources)
+  - [Not a member of the repository and want to be added?](#not-a-member-of-the-repository-and-want-to-be-added)
 
 ## What is this?
 
@@ -29,12 +31,12 @@ There are several repositories that contain the code and content used to build V
 
 Once you have the site set up locally, these are some common commands you might find useful:
 
-| I want to...               | Then you should...                                       |
-| :------------------------- | :------------------------------------------------------- |
-| fetch all dependencies     | `yarn install`; run this any time `package.json` changes |
-| build applications         | `yarn build`                                             |
-| run the webpack dev server | `yarn watch`                                             |
-| build in codespaces        | `yarn build:codespaces`. Build with codespace options    |
+| I want to...               | Then you should...                                            |
+| :------------------------- | :------------------------------------------------------------ |
+| fetch all dependencies     | `yarn install-safe`; run this any time `package.json` changes |
+| build applications         | `yarn build`                                                  |
+| run the webpack dev server | `yarn watch`                                                  |
+| build in codespaces        | `yarn build:codespaces`. Build with codespace options         |
 
 ## Building `vets-website`
 

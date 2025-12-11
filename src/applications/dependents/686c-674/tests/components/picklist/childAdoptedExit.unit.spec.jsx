@@ -46,7 +46,7 @@ describe('childAdoptedExit', () => {
     const { container } = renderComponent();
 
     expect($('h3', container).textContent).to.equal(
-      'Call the VA to remove PENNY',
+      'You can’t use this form to remove PENNY',
     );
     expect($$('p', container).length).to.equal(2);
     expect(childAdoptedExit.hasExitLink).to.be.true;

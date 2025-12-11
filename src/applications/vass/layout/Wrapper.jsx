@@ -14,6 +14,8 @@ const Wrapper = props => {
     className = '',
     testID,
     showBackLink = false,
+    required = false,
+    verificationError,
   } = props;
 
   const navigate = useNavigate();
@@ -21,6 +23,17 @@ const Wrapper = props => {
   useEffect(() => {
     focusElement('h1');
   }, []);
+
+  useEffect(
+    () => {
+      if (verificationError) {
+        setTimeout(() => {
+          focusElement('va-alert[data-testid="verification-error-alert"]');
+        }, 100);
+      }
+    },
+    [verificationError],
+  );
 
   return (
     <div
@@ -48,13 +61,31 @@ const Wrapper = props => {
           </nav>
         </div>
       )}
-      {pageTitle && (
-        <h1 tabIndex="-1" data-testid="header">
-          {pageTitle}
-        </h1>
-      )}
-      {children}
-      <NeedHelp />
+      <div className="vads-l-row">
+        <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+          {pageTitle && (
+            <h1 tabIndex="-1" data-testid="header">
+              {pageTitle}
+              {required && (
+                <span className="vass-usa-label--required vads-u-font-family--sans">
+                  (*Required)
+                </span>
+              )}
+            </h1>
+          )}
+          {!verificationError && children}
+          {verificationError && (
+            <va-alert
+              data-testid="verification-error-alert"
+              class="vads-u-margin-top--4"
+              status="error"
+            >
+              {verificationError}
+            </va-alert>
+          )}
+          <NeedHelp />
+        </div>
+      </div>
     </div>
   );
 };
@@ -62,9 +93,11 @@ const Wrapper = props => {
 export default Wrapper;
 
 Wrapper.propTypes = {
-  children: PropTypes.node,
+  children: PropTypes.node.isRequired,
+  pageTitle: PropTypes.string.isRequired,
   className: PropTypes.string,
-  pageTitle: PropTypes.string,
+  required: PropTypes.bool,
   showBackLink: PropTypes.bool,
   testID: PropTypes.string,
+  verificationError: PropTypes.string,
 };

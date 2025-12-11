@@ -245,7 +245,7 @@ export default {
       endDate: '2025-06-06',
       endOutsideUS: true,
       endCity: 'Test',
-      endProvince: 'Prox',
+      endProvince: 'Prov',
       endCountry: 'AGO',
       endState: 'AL',
       firstName: 'FRANK',
@@ -401,8 +401,8 @@ export default {
     ssn: '3332',
     date: '2025-01-01',
     divorceLocation: {
-      outsideUsa: false,
-      location: { city: 'Test', state: 'AK' },
+      outsideUsa: true,
+      location: { city: 'Test', state: 'Prov', country: 'AGO' },
     },
     reasonMarriageEnded: 'Annulment',
     explanationOfOther: 'Test description',
@@ -420,8 +420,8 @@ export default {
       dependentType: 'SPOUSE',
       dependentDeathDate: '2025-01-01',
       dependentDeathLocation: {
-        outsideUsa: false,
-        location: { city: 'Test', state: 'AK' },
+        outsideUsa: true,
+        location: { city: 'Test', state: 'Prov', country: 'AGO' },
       },
       deceasedDependentIncome: 'N',
     },
@@ -432,8 +432,8 @@ export default {
       dependentType: 'CHILD',
       dependentDeathDate: '2025-06-06',
       dependentDeathLocation: {
-        outsideUsa: false,
-        location: { city: 'Test', state: 'AL' },
+        outsideUsa: true,
+        location: { city: 'Test', state: 'Prov', country: 'AGO' },
       },
       deceasedDependentIncome: 'N',
       childStatus: {
@@ -490,6 +490,12 @@ export default {
       birthDate: createDoB(11),
     },
   ],
+  'view:addDependentOptions': {
+    addSpouse: false,
+    addChild: false,
+    report674: false,
+    addDisabledChild: false,
+  },
   'view:removeDependentOptions': {
     reportDivorce: true,
     reportDeath: true,

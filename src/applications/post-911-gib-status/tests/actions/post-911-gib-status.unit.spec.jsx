@@ -35,64 +35,36 @@ const teardown = () => {
 
 describe('getEnrollmentData', () => {
   const successResponse = {
-    meta: {
-      status: 'OK',
-    },
     data: {
-      id: 'string',
-      type: 'evss_gi_bill_status_gi_bill_status_responses',
+      id: '',
+      type: 'ch33_status',
       attributes: {
-        firstName: 'Abraham',
-        lastName: 'Lincoln',
-        nameSuffix: 'Jr',
-        dateOfBirth: '1955-11-12T06:00:00.000+0000',
-        vaFileNumber: '123456789',
-        regionalProcessingOffice: 'Central Office Washington, DC',
-        eligibilityDate: '2004-10-01T04:00:00.000+0000',
-        delimitingDate: '2015-10-01T04:00:00.000+0000',
+        firstName: 'Jane',
+        lastName: 'Smith',
+        dateOfBirth: '1988-03-01',
+        vaFileNumber: '374374377',
+        regionalProcessingOffice: 'Muskogee, OK',
+        eligibilityDate: '2005-04-01',
+        delimitingDate: null,
         percentageBenefit: 100,
-        veteranIsEligible: false,
-        activeDuty: false,
+        activeDuty: true,
+        veteranIsEligible: true,
         originalEntitlement: {
+          months: 36,
           days: 0,
-          months: 0,
         },
         usedEntitlement: {
-          days: 0,
-          months: 0,
+          months: 22,
+          days: 3,
         },
         remainingEntitlement: {
-          days: 0,
           months: 0,
+          days: 0,
         },
-        enrollments: [
-          {
-            beginDate: '2012-11-01T04:00:00.000+00:00',
-            endDate: '2012-12-01T05:00:00.000+00:00',
-            facilityCode: '12345678',
-            facilityName: 'Purdue University',
-            participantId: '11170323',
-            trainingType: 'UNDER_GRAD',
-            termId: null,
-            hourType: null,
-            fullTimeHours: 12,
-            fullTimeCreditHourUnderGrad: null,
-            vacationDayCount: 0,
-            onCampusHours: 12,
-            onlineHours: 0,
-            yellowRibbonAmount: 0,
-            status: 'Approved',
-            amendments: [
-              {
-                onCampusHours: 8,
-                onlineHours: 0,
-                yellowRibbonAmount: 1,
-                type: 'string',
-                changeEffectiveDate: 'No effective date',
-              },
-            ],
-          },
-        ],
+        entitlementTransferredOut: {
+          months: 14,
+          days: 0,
+        },
       },
     },
   };
@@ -102,8 +74,11 @@ describe('getEnrollmentData', () => {
 
   it('dispatches GET_ENROLLMENT_DATA_SUCCESS on successful fetch', done => {
     setFetchJSONResponse(global.fetch.onCall(0), successResponse);
-    const thunk = getEnrollmentData();
+
+    // pass apiVersion + enableSobClaimantService
+    const thunk = getEnrollmentData('v0', true);
     const dispatch = sinon.spy();
+
     thunk(dispatch)
       .then(() => {
         const action = dispatch.firstCall.args[0];
@@ -118,7 +93,7 @@ describe('getEnrollmentData', () => {
       global.fetch.onCall(0),
       new Error('Unknown error in apiRequest'),
     );
-    const thunk = getEnrollmentData();
+    const thunk = getEnrollmentData('v0', true);
     const dispatch = sinon.spy();
     thunk(dispatch)
       .then(() => {
@@ -130,7 +105,7 @@ describe('getEnrollmentData', () => {
 
   it('dispatches GET_ENROLLMENT_DATA_FAILURE on unexpected error without code', done => {
     setFetchJSONFailure(global.fetch.onCall(0), Promise.reject(new Error()));
-    const thunk = getEnrollmentData();
+    const thunk = getEnrollmentData('v0', true);
     const dispatch = sinon.spy();
     thunk(dispatch)
       .then(() => {
@@ -144,7 +119,7 @@ describe('getEnrollmentData', () => {
     setFetchJSONFailure(global.fetch.onCall(0), {
       errors: [{ status: '500' }],
     });
-    const thunk = getEnrollmentData();
+    const thunk = getEnrollmentData('v0', true);
     const dispatch = sinon.spy();
     thunk(dispatch)
       .then(() => {
@@ -154,11 +129,11 @@ describe('getEnrollmentData', () => {
       .then(done, done);
   });
 
-  it('dispatches matching error action on known error code', done => {
+  it('dispatches matching error action on known 503 error code', done => {
     setFetchJSONFailure(global.fetch.onCall(0), {
       errors: [{ status: '503' }],
     });
-    const thunk = getEnrollmentData();
+    const thunk = getEnrollmentData('v0', true);
     const dispatch = sinon.spy();
     thunk(dispatch)
       .then(() => {
@@ -172,7 +147,7 @@ describe('getEnrollmentData', () => {
     setFetchJSONFailure(global.fetch.onCall(0), {
       errors: [{ status: '504' }],
     });
-    const thunk = getEnrollmentData();
+    const thunk = getEnrollmentData('v0', true);
     const dispatch = sinon.spy();
     thunk(dispatch)
       .then(() => {
@@ -186,7 +161,7 @@ describe('getEnrollmentData', () => {
     setFetchJSONFailure(global.fetch.onCall(0), {
       errors: [{ status: '403' }],
     });
-    const thunk = getEnrollmentData();
+    const thunk = getEnrollmentData('v0', true);
     const dispatch = sinon.spy();
     thunk(dispatch)
       .then(() => {
@@ -196,11 +171,11 @@ describe('getEnrollmentData', () => {
       .then(done, done);
   });
 
-  it('dispatches BACKEND_AUTHENTICATION_ERROR on 404 error code', done => {
+  it('dispatches NO_CHAPTER33_RECORD_AVAILABLE on 404 error code', done => {
     setFetchJSONFailure(global.fetch.onCall(0), {
       errors: [{ status: '404' }],
     });
-    const thunk = getEnrollmentData();
+    const thunk = getEnrollmentData('v0', true);
     const dispatch = sinon.spy();
     thunk(dispatch)
       .then(() => {
@@ -214,7 +189,7 @@ describe('getEnrollmentData', () => {
     setFetchJSONFailure(global.fetch.onCall(0), {
       errors: [], // no errors received
     });
-    const thunk = getEnrollmentData();
+    const thunk = getEnrollmentData('v0', true);
     const dispatch = sinon.spy();
     thunk(dispatch)
       .then(() => {

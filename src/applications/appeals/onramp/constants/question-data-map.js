@@ -20,6 +20,8 @@ export const SHORT_NAME_MAP = Object.freeze({
   Q_2_0_CLAIM_TYPE: 'Q_2_0_CLAIM_TYPE',
   Q_2_IS_1A_LAW_POLICY_CHANGE: 'Q_2_IS_1A_LAW_POLICY_CHANGE',
   Q_2_IS_1B_NEW_EVIDENCE: 'Q_2_IS_1B_NEW_EVIDENCE',
+  Q_2_IS_1B_2_JUDGE_HEARING: 'Q_2_IS_1B_2_JUDGE_HEARING',
+  Q_2_IS_1B_3_JUDGE_HEARING: 'Q_2_IS_1B_3_JUDGE_HEARING',
   Q_2_S_1_NEW_EVIDENCE: 'Q_2_S_1_NEW_EVIDENCE',
   Q_2_S_2_WITHIN_120_DAYS: 'Q_2_S_2_WITHIN_120_DAYS',
   Q_2_H_2_NEW_EVIDENCE: 'Q_2_H_2_NEW_EVIDENCE',
@@ -196,16 +198,17 @@ const DISAGREE_DECISION = {
     <>
       <p>You might disagree with 1 or more of these things from your claim:</p>
       <ul>
-        <li>The effective date (when your benefits eligibility started)</li>
         <li>
           Your disability rating (how we rated the severity of your condition)
         </li>
         <li>Whether your condition is service-connected</li>
+        <li>The effective date (when your benefits eligibility started)</li>
       </ul>
-      <p>
-        If we change our decision, you may get retroactive compensation (back
-        pay).
-      </p>
+      <va-link
+        external
+        href="/disability/effective-date"
+        text="Learn more about disability compensation effective dates"
+      />
     </>
   ),
   h1: `Disagreement with decision`,
@@ -378,6 +381,12 @@ export const QUESTION_CONTENT = Object.freeze({
   },
   Q_2_IS_1B_NEW_EVIDENCE: {
     ...NEW_AND_RELEVANT_EVIDENCE,
+  },
+  Q_2_IS_1B_2_JUDGE_HEARING: {
+    ...JUDGE_HEARING,
+  },
+  Q_2_IS_1B_3_JUDGE_HEARING: {
+    ...JUDGE_HEARING,
   },
   Q_2_S_1_NEW_EVIDENCE: {
     ...NEW_AND_RELEVANT_EVIDENCE,

@@ -81,6 +81,7 @@ describe('SM Medications Renewal Request', () => {
         `Number of refills left: 0`,
         `Prescription expiration date: November 8, 2025`,
         `Reason for use: Reason for use not available`,
+        `Last filled on: November 6, 2024`,
         `Quantity: 4`,
       ].join('\n');
 
@@ -161,6 +162,7 @@ describe('SM Medications Renewal Request', () => {
         `Number of refills left: 0`,
         `Prescription expiration date: November 8, 2025`,
         `Reason for use: Reason for use not available`,
+        `Last filled on: November 6, 2024`,
         `Quantity: 4`,
       ].join('\n');
 
@@ -224,6 +226,7 @@ describe('SM Medications Renewal Request', () => {
         `Number of refills left: `,
         `Prescription expiration date: `,
         `Reason for use: `,
+        `Last filled on: `,
         `Quantity: `,
       ].join('\n');
 
@@ -291,6 +294,7 @@ describe('SM Medications Renewal Request', () => {
         `Number of refills left: 0`,
         `Prescription expiration date: November 8, 2025`,
         `Reason for use: Reason for use not available`,
+        `Last filled on: November 6, 2024`,
         `Quantity: 4`,
       ].join('\n');
 
@@ -365,6 +369,7 @@ describe('SM Medications Renewal Request', () => {
         `Number of refills left: 0`,
         `Prescription expiration date: November 8, 2025`,
         `Reason for use: Reason for use not available`,
+        `Last filled on: November 6, 2024`,
         `Quantity: 4`,
       ].join('\n');
 
@@ -425,6 +430,7 @@ describe('SM Medications Renewal Request', () => {
         `Number of refills left: 0`,
         `Prescription expiration date: November 8, 2025`,
         `Reason for use: Reason for use not available`,
+        `Last filled on: November 6, 2024`,
         `Quantity: 4`,
       ].join('\n');
 
@@ -481,6 +487,7 @@ describe('SM Medications Renewal Request', () => {
         `Number of refills left: `,
         `Prescription expiration date: `,
         `Reason for use: `,
+        `Last filled on: `,
         `Quantity: `,
       ].join('\n');
 
@@ -532,6 +539,7 @@ describe('SM Medications Renewal Request', () => {
         `Number of refills left: 0`,
         `Prescription expiration date: November 8, 2025`,
         `Reason for use: Reason for use not available`,
+        `Last filled on: November 6, 2024`,
         `Quantity: 4`,
       ].join('\n');
 

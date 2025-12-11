@@ -1,17 +1,14 @@
-const {
-  currentDateMinusMinutes,
-  currentDateAddHours,
-  currentDateAddOneHourMinusOneMinute,
-} = require('../../../util/dateHelpers');
+// Returns ISO UTC string e.g. 2025-11-20T19:14:57.282Z
+const isoNowPlusMillis = ms => new Date(Date.now() + ms).toISOString();
 
 const SERVICES = {
   mhvMr: 'mhv_mr',
   mhvPlatform: 'mhv_platform',
 };
 
-const beforeNow = currentDateMinusMinutes(1);
-const withinHour = currentDateAddOneHourMinusOneMinute();
-const endTime = currentDateAddHours(6);
+const beforeNow = isoNowPlusMillis(-1 * 60 * 1000);
+const withinHour = isoNowPlusMillis((60 - 1) * 60 * 1000);
+const endTime = isoNowPlusMillis(6 * 60 * 60 * 1000);
 
 const createDowntimeNotificationBase = (services, startTime) => {
   return {

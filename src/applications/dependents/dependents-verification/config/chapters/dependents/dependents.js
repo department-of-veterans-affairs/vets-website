@@ -2,6 +2,7 @@ import { radioSchema } from 'platform/forms-system/src/js/web-component-patterns
 
 import { DEPENDENT_TITLE, DEPENDENT_CHOICES } from '../../../constants';
 
+/** @returns {PageSchema} */
 export const dependents = {
   schema: {
     type: 'object',

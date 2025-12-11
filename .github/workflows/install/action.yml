@@ -56,13 +56,6 @@ runs:
       env:
         YARN_CACHE_FOLDER: ${{ inputs.yarn_cache_folder }}
 
-    - name: Rebuild native dependencies
+    - name: Run postinstall scripts
       shell: bash
-      run: |
-        # Rebuild node-sass native bindings
-        node node_modules/node-sass/scripts/install.js
-
-        # Run postinstall scripts for ES5 transpiled packages (required by Bot Framework)
-        cd node_modules/p-defer-es5 && yarn run postinstall && cd ../..
-        cd node_modules/abort-controller-es5 && yarn run postinstall && cd ../..
-        cd node_modules/markdown-it-attrs-es5 && yarn run postinstall && cd ../..
+      run: yarn postinstall

@@ -24,10 +24,10 @@ import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUpload
 import { fileUploadBlurb } from '../../shared/components/fileUploads/attachments';
 import { toHash, getAgeInYears } from '../../shared/utilities';
 import { ADDITIONAL_FILES_HINT } from '../../shared/constants';
+import { medicarePageTitleUI } from '../helpers/titles';
 import {
   generateParticipantName,
   getEligibleApplicantsWithoutMedicare,
-  medicarePageTitleUI,
   replaceStrValues,
   validateMedicarePartDDates,
   validateMedicarePlan,

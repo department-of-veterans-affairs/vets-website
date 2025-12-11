@@ -68,9 +68,7 @@
     "remarks": {
       "remarks": "Veteran sustained multiple service-connected disabilities during 15+ years of high-risk contract work including: severe burns from thermal detonator exposure, blast trauma from rocket launcher incidents, digestive system damage from Sarlacc pit digestive enzymes, and chronic pain from armor impact injuries. Employment required extensive accommodations including specialized protective equipment, modified assignment protocols, and flexible medical leave. Final contract termination resulted from accumulation of combat injuries rendering field operations no longer viable. Veteran remains active in guild advisory capacity and reserve training program despite physical limitations."
     },
-    "certification": {
-      "signature": "Boba J Fett",
-      "certified": true
-    }
+    "statementOfTruthSignature": "Test Signature Name",
+    "statementOfTruthCertified": true
   }
 }

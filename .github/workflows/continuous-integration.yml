@@ -3,8 +3,7 @@ name: Continuous Integration
 on:
   push:
     branches:
-      - "security-scan"
-      - "oidc-conversion"
+      - "**"
     tags-ignore:
       - "**"
 
@@ -31,12 +30,67 @@ jobs:
 
           # Check if package.json or yarn.lock have been modified
           if git diff --name-only origin/main...HEAD | grep -qE '^(package\.json|yarn\.lock)$'; then
-            echo "❌ ERROR: package.json or yarn.lock has been modified."
-            echo "This is temporarily blocked to prevent Shai Hulud 2.0 vulnerabilities."
-            echo "Once Shai Hulud 2.0 is no longer a moving target, this check will be removed."
-            exit 1
+            echo "⚠️  Dependency files modified. Checking if only vets-json-schema was updated..."
+
+            # Get the diff and check if any non-vets-json-schema changes exist
+            PACKAGE_JSON_DIFF=$(git diff origin/main...HEAD package.json 2>/dev/null || echo "")
+            YARN_LOCK_DIFF=$(git diff origin/main...HEAD yarn.lock 2>/dev/null || echo "")
+
+            # Check if there are any changes to package.json that don't involve vets-json-schema or scripts
+            if [ -n "$PACKAGE_JSON_DIFF" ]; then
+              # Get changed lines (excluding context lines and vets-json-schema)
+              CHANGED_LINES=$(echo "$PACKAGE_JSON_DIFF" | grep -E '^\+|^-' | grep -v '+++\|---' | grep -v 'vets-json-schema' || echo "")
+
+              if [ -n "$CHANGED_LINES" ]; then
+                # Check if changes contain dependency version bumps (lines with version patterns like ^, ~, >=, etc.)
+                # or dependency section headers, excluding vets-json-schema
+                DEPENDENCY_CHANGES=$(echo "$CHANGED_LINES" | grep -E '": "[\^~>=<]|"(dev|peer|optional)?[Dd]ependencies"' || echo "")
+
+                if [ -n "$DEPENDENCY_CHANGES" ]; then
+                  echo "❌ ERROR: package.json has dependency changes other than vets-json-schema."
+                  echo "This is temporarily blocked to prevent Shai Hulud 2.0 vulnerabilities."
+                  echo "Only updates to vets-json-schema and the scripts section are allowed."
+                  echo ""
+                  echo "Dependency changes detected:"
+                  echo "$DEPENDENCY_CHANGES"
+                  exit 1
+                fi
+
+                echo "✓ Changes detected in scripts section or other non-dependency fields. Allowing changes."
+              fi
+            fi
+
+            # Check if there are any changes to yarn.lock that don't involve vets-json-schema
+            if [ -n "$YARN_LOCK_DIFF" ]; then
+              # For yarn.lock, we need to check if changes are only in vets-json-schema sections
+              # Get all added/removed lines that don't contain vets-json-schema
+              NON_VETS_JSON_LOCK_CHANGES=$(echo "$YARN_LOCK_DIFF" | grep -E '^\+|^-' | grep -v '+++\|---' | grep -v 'vets-json-schema' || echo "")
+
+              # Also check for package entry headers that might not contain the name on the same line
+              # In yarn.lock, package entries start with "package-name@version:"
+              # We need to be more lenient here as yarn.lock structure can have dependencies listed
+              # We'll check if there are substantial non-vets-json-schema changes
+              if [ -n "$NON_VETS_JSON_LOCK_CHANGES" ]; then
+                # Count lines to determine if changes are substantial
+                CHANGE_COUNT=$(echo "$NON_VETS_JSON_LOCK_CHANGES" | wc -l)
+
+                # If there are more than 10 lines of non-vets-json-schema changes, it's likely other packages
+                # This is a heuristic - yarn.lock changes for a single package typically affect surrounding context
+                if [ "$CHANGE_COUNT" -gt 10 ]; then
+                  echo "❌ ERROR: yarn.lock has been modified with substantial changes beyond vets-json-schema."
+                  echo "This is temporarily blocked to prevent Shai Hulud 2.0 vulnerabilities."
+                  echo "Only updates to vets-json-schema are allowed."
+                  echo ""
+                  echo "Detected $CHANGE_COUNT lines of non-vets-json-schema changes in yarn.lock"
+                  exit 1
+                fi
+              fi
+            fi
+
+            echo "✓ Only vets-json-schema updates detected. Allowing changes."
+          else
+            echo "✓ No dependency file changes detected."
           fi
-          echo "✓ No dependency file changes detected."
 
       - name: Cancel workflow on failure
         if: failure()
@@ -51,6 +105,7 @@ jobs:
 
   build:
     name: Build
+    needs: [check-dependency-files]
     runs-on: ubuntu-16-cores-latest
     permissions:
       id-token: write
@@ -1169,6 +1224,7 @@ jobs:
     runs-on: ubuntu-22.04
     needs: [testing-reports-prep, unit-tests]
     permissions:
+      checks: write
       id-token: write
       contents: read
     if: needs.unit-tests.outputs.tests_ran == 'true'
@@ -1281,6 +1337,7 @@ jobs:
     runs-on: ubuntu-22.04
     needs: [testing-reports-prep, unit-tests-stress-test]
     permissions:
+      checks: write
       id-token: write
       contents: read
     if: ${{ always() && (needs.unit-tests-stress-test.result == 'success' || needs.unit-tests-stress-test.result == 'failure')}}
@@ -1376,6 +1433,7 @@ jobs:
     runs-on: ubuntu-22.04
     needs: [testing-reports-prep, unit-tests]
     permissions:
+      checks: write
       id-token: write
       contents: read
     if: needs.unit-tests.outputs.tests_ran == 'true'
@@ -1490,6 +1548,7 @@ jobs:
     runs-on: ubuntu-22.04
     needs: [testing-reports-prep, tests-prep, cypress-tests]
     permissions:
+      checks: write
       id-token: write
       contents: read
     if: ${{ always() && needs.tests-prep.outputs.tests != '[]' && needs.tests-prep.outputs.cypress-tests != '' && (needs.cypress-tests.result == 'success' || needs.cypress-tests.result == 'failure') }}
@@ -1599,6 +1658,7 @@ jobs:
     runs-on: ubuntu-22.04
     needs: [testing-reports-prep, tests-prep, stress-test-cypress-tests]
     permissions:
+      checks: write
       id-token: write
       contents: read
     if: ${{ always() && (needs.stress-test-cypress-tests.result == 'success' || needs.stresss-test-cypress-tests.result == 'failure') }}

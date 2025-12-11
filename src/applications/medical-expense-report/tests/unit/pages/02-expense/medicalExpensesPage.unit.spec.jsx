@@ -84,7 +84,7 @@ describe('Medical Expenses Pages', () => {
     });
     expect($(vaRecipientOtherSelector, formDOM)).to.exist;
     vaRecipient.__events.vaValueChange({
-      detail: { value: 'DEPENDENT' },
+      detail: { value: 'CHILD' },
     });
     expect($(vaRecipientOtherSelector, formDOM)).to.exist;
     vaRecipient.__events.vaValueChange({
@@ -207,7 +207,7 @@ describe('Medical Expenses Pages', () => {
       paymentAmount: 200,
     };
     const incompleteItem = {
-      recipient: 'DEPENDENT',
+      recipient: 'CHILD',
       paymentDate: '2004-04-04',
       purpose: 'Medical supplies',
       paymentFrequency: 'ONCE_MONTH',

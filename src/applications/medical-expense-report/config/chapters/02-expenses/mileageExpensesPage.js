@@ -29,6 +29,9 @@ import {
   requiredIfMileageLocationOther,
 } from './helpers';
 
+const nounSingular = 'mileage expense';
+const nounPlural = 'mileage expenses';
+
 function introDescription() {
   return (
     <div>
@@ -47,10 +50,10 @@ function introDescription() {
 function checkIsItemIncomplete(item) {
   return (
     !item?.traveler ||
-    ((item.traveler === 'DEPENDENT' || item.traveler === 'OTHER') &&
-      !item?.travelerName) ||
+    ((item.traveler === 'CHILD' || item.traveler === 'OTHER') &&
+      !item?.fullNameTraveler) ||
     !item?.travelLocation ||
-    (item.travelLocation === 'OTHER' && !item?.travelLocationOther) ||
+    (item.travelLocation === 'OTHER' && !item?.otherTravelLocation) ||
     !item?.travelDate ||
     !item?.travelMilesTraveled ||
     (item?.travelReimbursed !== false &&
@@ -61,22 +64,24 @@ function checkIsItemIncomplete(item) {
 /** @type {ArrayBuilderOptions} */
 export const options = {
   arrayPath: 'mileageExpenses',
-  nounSingular: 'mileage expense',
-  nounPlural: 'mileage expenses',
+  nounSingular,
+  nounPlural,
   required: false,
   isItemIncomplete: item => checkIsItemIncomplete(item),
   maxItems: 12,
   text: {
     getItemName: item => travelLocationLabels[(item?.travelLocation)] || '',
     cardDescription: item => transformDate(item?.travelDate) || '',
-    cancelAddTitle: 'Cancel adding this mileage expense?',
-    cancelEditTitle: 'Cancel editing this mileage expense?',
-    cancelAddDescription:
-      'If you cancel, we won’t add this expense to your list of mileage expenses. You’ll return to a page where you can add a new mileage expense.',
+    cancelAddTitle: `Cancel adding this ${nounSingular}?`,
+    cancelEditTitle: `Cancel editing this ${nounSingular}?`,
     cancelAddYes: 'Yes, cancel adding',
     cancelAddNo: 'No, continue adding',
     cancelEditYes: 'Yes, cancel editing',
     cancelEditNo: 'No, continue editing',
+    deleteDescription: `This will delete the information from your list of ${nounPlural}. You’ll return to a page where you can add a new ${nounSingular}.`,
+    deleteNo: 'No, keep',
+    deleteTitle: `Delete this ${nounSingular}?`,
+    deleteYes: 'Yes, delete',
   },
 };
 
@@ -134,17 +139,17 @@ const travelerPage = {
       title: 'Who needed to travel?',
       labels: recipientTypeLabels,
     }),
-    travelerName: textUI({
+    fullNameTraveler: textUI({
       title: 'Full name of the person who traveled',
       expandUnder: 'traveler',
-      expandUnderCondition: field => field === 'DEPENDENT' || field === 'OTHER',
+      expandUnderCondition: field => field === 'CHILD' || field === 'OTHER',
       required: (formData, index, fullData) => {
         // Adding a check for formData and fullData since formData is sometimes undefined on load
         // and we can't rely on fullData for testing
         const mileageExpenses =
           formData?.mileageExpenses ?? fullData?.mileageExpenses;
         const mileageExpense = mileageExpenses?.[index];
-        return ['DEPENDENT', 'OTHER'].includes(mileageExpense?.traveler);
+        return ['CHILD', 'OTHER'].includes(mileageExpense?.traveler);
       },
     }),
   },
@@ -152,7 +157,7 @@ const travelerPage = {
     type: 'object',
     properties: {
       traveler: radioSchema(Object.keys(recipientTypeLabels)),
-      travelerName: textSchema,
+      fullNameTraveler: textSchema,
     },
     required: ['traveler'],
   },
@@ -169,7 +174,7 @@ const destinationPage = {
           'This would be a doctor’s office, dentist, or other outpatient medical provider.',
       },
     }),
-    travelLocationOther: textUI({
+    otherTravelLocation: textUI({
       title: 'Describe the destination',
       expandUnder: 'travelLocation',
       expandUnderCondition: field => field === 'OTHER',
@@ -186,7 +191,7 @@ const destinationPage = {
     type: 'object',
     properties: {
       travelLocation: radioSchema(Object.keys(travelLocationLabels)),
-      travelLocationOther: textSchema,
+      otherTravelLocation: textSchema,
       travelMilesTraveled: numberSchema,
       travelDate: currentOrPastDateSchema,
     },

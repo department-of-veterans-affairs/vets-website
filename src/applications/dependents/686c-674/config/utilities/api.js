@@ -5,6 +5,12 @@ import { SERVER_ERROR_REGEX, CLIENT_ERROR_REGEX } from '../constants';
 export const isServerError = errCode => SERVER_ERROR_REGEX.test(errCode);
 export const isClientError = errCode => CLIENT_ERROR_REGEX.test(errCode);
 
+/**
+ * Get data from API endpoint
+ * @param {string} apiRoute - path to api endpoint
+ * @param {object} options - apiRequest options
+ * @returns {Promise<object>} - API response data attributes or error
+ */
 export async function getData(apiRoute, options) {
   try {
     const response = await apiRequest(apiRoute, options);

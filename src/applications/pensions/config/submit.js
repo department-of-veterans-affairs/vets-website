@@ -84,7 +84,14 @@ export async function submit(
       errorResponse?.detail === 'Invalid Authenticity Token'
     ) {
       // Log the CSRF error before retrying
-      if (window.DD_LOGS) {
+      // eslint-disable-next-line no-console
+      console.log('[CSRF Error] DD_LOGS check:', {
+        exists: !!window.DD_LOGS,
+        hasLogger: !!window.DD_LOGS?.logger,
+        hasError: !!window.DD_LOGS?.logger?.error,
+      });
+
+      if (window.DD_LOGS?.logger?.error) {
         window.DD_LOGS.logger.error(
           '21P-527EZ CSRF token invalid, retrying request',
           {
@@ -101,7 +108,14 @@ export async function submit(
       localStorage.setItem('csrfToken', '');
       return sendRequest().catch(retryError => {
         // Log the failed retry
-        if (window.DD_LOGS) {
+        // eslint-disable-next-line no-console
+        console.log('[CSRF Retry Failed] DD_LOGS check:', {
+          exists: !!window.DD_LOGS,
+          hasLogger: !!window.DD_LOGS?.logger,
+          hasError: !!window.DD_LOGS?.logger?.error,
+        });
+
+        if (window.DD_LOGS?.logger?.error) {
           window.DD_LOGS.logger.error('21P-527EZ CSRF retry failed', {
             formId: formConfig.formId,
             trackingPrefix: formConfig.trackingPrefix,

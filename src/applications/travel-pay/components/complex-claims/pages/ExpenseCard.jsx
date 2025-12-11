@@ -46,7 +46,7 @@ const ExpenseCard = ({ apptId, claimId, expense, address, showEditDelete }) => {
         className="expense-card"
         data-testid={`expense-card-${expense.id}`}
       >
-        <h3 className="vads-u-margin-top--1">{header}</h3>
+        <h4 className="vads-u-margin-top--1">{header}</h4>
         {isDeleting ? (
           <div className="vads-u-text-align--center vads-u-margin--5">
             <va-loading-indicator message="Deleting..." set-focus={false} />

@@ -141,7 +141,7 @@ export const RouteLeavingGuard = ({
     const isConfirmButtonTextMatching = confirmButtonText.includes('Save');
 
     if (isConfirmButtonTextMatching) {
-      saveDraftHandler('auto');
+      saveDraftHandler('manual-confirmed');
     }
     closeModal();
     if (lastLocation) {

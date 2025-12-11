@@ -167,7 +167,7 @@ describe('22-1919 Edu form', () => {
         .conflictOfInterestSummary.path,
     );
     cy.injectAxeThenAxeCheck();
-    cy.realPress('Tab');
+    cy.repeatKey('Tab', 2);
     cy.allyEvaluateRadioButtons(
       [
         'input#root_allProprietaryConflictOfInterestYesinput',
@@ -199,19 +199,19 @@ describe('22-1919 Edu form', () => {
     // Conflict of interest enrollment period page
     cy.injectAxeThenAxeCheck();
     cy.realPress(['Tab', 'Space']);
-    cy.tabToElement('select[name="root_enrollmentPeriod_fromMonth"]');
+    cy.tabToElement('select[name="root_enrollmentPeriodStartMonth"]');
     // cy.chooseSelectOptionByTyping('April');
     cy.realType('April');
-    cy.tabToElement('input[name="root_enrollmentPeriod_fromDay"]');
+    cy.tabToElement('input[name="root_enrollmentPeriodStartDay"]');
     cy.realType('01');
-    cy.tabToElement('input[name="root_enrollmentPeriod_fromYear"]');
+    cy.tabToElement('input[name="root_enrollmentPeriodStartYear"]');
     cy.realType('2020');
-    cy.tabToElement('select[name="root_enrollmentPeriod_toMonth"]');
+    cy.tabToElement('select[name="root_enrollmentPeriodEndMonth"]');
     // cy.chooseSelectOptionByTyping('April');
     cy.realType('April');
-    cy.tabToElement('input[name="root_enrollmentPeriod_toDay"]');
+    cy.tabToElement('input[name="root_enrollmentPeriodEndDay"]');
     cy.realType('20');
-    cy.tabToElement('input[name="root_enrollmentPeriod_toYear"]');
+    cy.tabToElement('input[name="root_enrollmentPeriodEndYear"]');
     cy.realType('2020');
     cy.tabToContinueForm();
 

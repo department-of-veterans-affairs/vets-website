@@ -2,6 +2,10 @@ import React from 'react';
 import manifest from '../manifest.json';
 import { getRootParentUrl } from '../../shared/utils';
 
+/**
+ * Renders introduction page process list
+ * @returns {React.ReactElement} Intro page content
+ */
 export const IntroductionPageFormProcess = () => (
   <>
     <h2 className="vads-u-font-size--h2 ">Follow these steps to get started</h2>

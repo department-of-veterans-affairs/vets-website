@@ -3,7 +3,12 @@ import YellowRibbonProgramDescription from '../components/YellowRibbonProgramDes
 import YellowRibbonProgramTitle from '../components/YellowRibbonProgramTitle';
 
 const uiSchema = {
-  'ui:title': () => <YellowRibbonProgramTitle text="Tell us about your" />,
+  'ui:title': () => (
+    <YellowRibbonProgramTitle
+      eligibilityChapter={false}
+      text="Tell us about your Yellow Ribbon Program contributions"
+    />
+  ),
   'ui:description': YellowRibbonProgramDescription,
 };
 

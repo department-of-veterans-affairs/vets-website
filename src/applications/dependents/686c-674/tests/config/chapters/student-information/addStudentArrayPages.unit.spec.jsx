@@ -2,7 +2,9 @@ import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import createCommonStore from '@department-of-veterans-affairs/platform-startup/store';
+
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 
@@ -135,6 +137,39 @@ describe('addStudentsOptions', () => {
 
       expect(addStudentsOptions.isItemIncomplete({ studentInformation: items }))
         .to.be.true;
+    });
+
+    it('should return true when school name exceeds character limit', () => {
+      const errors = { addError: sinon.spy() };
+      const {
+        uiSchema,
+      } = formConfig.chapters.report674.pages.addStudentsPartTen;
+      const validateSchoolName =
+        uiSchema.studentInformation.items.schoolInformation.name[
+          'ui:validations'
+        ][0];
+
+      validateSchoolName(errors, 'A'.repeat(81));
+
+      expect(errors.addError.called).to.be.true;
+      expect(errors.addError.firstCall.args[0]).to.equal(
+        'School name must be 80 characters or less',
+      );
+    });
+
+    it('should return false when school name is within limits', () => {
+      const errors = { addError: sinon.spy() };
+      const {
+        uiSchema,
+      } = formConfig.chapters.report674.pages.addStudentsPartTen;
+      const validateSchoolName =
+        uiSchema.studentInformation.items.schoolInformation.name[
+          'ui:validations'
+        ][0];
+
+      validateSchoolName(errors, 'A'.repeat(50));
+
+      expect(errors.addError.called).to.be.false;
     });
 
     it('should return the correct summary title', () => {

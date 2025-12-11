@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import { alert } from '../helpers';
+import { alert, ProprietaryProfitAdditionalInfo } from '../helpers';
 
 const ConflictOfInterestIntro = () => {
   const formData = useSelector(state => state.form?.data);
@@ -27,6 +27,9 @@ const ConflictOfInterestIntro = () => {
         your school who receive VA educational assistance based on their
         enrollment.
       </p>
+      <div className="vads-u-margin-y--4">
+        <ProprietaryProfitAdditionalInfo />
+      </div>
       {alert}
     </>
   ) : null;

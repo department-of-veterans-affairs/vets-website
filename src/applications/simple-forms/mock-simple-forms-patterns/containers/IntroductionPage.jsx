@@ -20,6 +20,7 @@ class IntroductionPage extends React.Component {
           title="Simple Forms Patterns Examples"
           subTitle="Web component v3 patterns for testing and development"
         />
+
         <div>
           <h2 className="vads-u-font-size--h3">Pages</h2>
           <ul>

@@ -26,8 +26,15 @@ describe('Marriage to Veteran Location Page', () => {
       formDOM,
     );
 
-    expect(vaDateField.length).to.equal(1);
+    const vaMarriedOutsideUSCheckbox = $(
+      'va-checkbox[label="I got married outside the U.S."]',
+      formDOM,
+    );
 
+    expect(vaDateField.length).to.equal(1);
+    expect(vaMarriedOutsideUSCheckbox.getAttribute('required')).to.equal(
+      'false',
+    );
     expect(vaMarriedAtDeathEndInfo.getAttribute('required')).to.equal('true');
   });
 });

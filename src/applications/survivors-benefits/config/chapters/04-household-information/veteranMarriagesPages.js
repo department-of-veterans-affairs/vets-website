@@ -44,8 +44,8 @@ function introDescription() {
 /** @type {ArrayBuilderOptions} */
 const options = {
   arrayPath: 'veteranMarriages',
-  nounSingular: 'veteran marriage',
-  nounPlural: 'veteran marriages',
+  nounSingular: 'previous marriage',
+  nounPlural: 'previous marriages',
   required: false,
   maxItems: 2,
   isItemIncomplete: item =>
@@ -214,7 +214,14 @@ const endedPage = {
       title: 'Tell us how the marriage ended',
       expandUnder: 'marriageEndedBy',
       expandUnderCondition: field => field === 'OTHER',
-      required: formData => formData?.marriageEndedBy === 'OTHER',
+      required: (formData, index) => {
+        const item = formData?.veteranMarriages?.[index];
+        const currentPageData = formData;
+        return (
+          item?.marriageEndedBy === 'OTHER' ||
+          currentPageData?.marriageEndedBy === 'OTHER'
+        );
+      },
       errorMessages: { required: 'Please tell us how the marriage ended' },
     }),
   },

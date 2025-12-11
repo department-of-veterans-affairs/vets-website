@@ -8,7 +8,7 @@
  * - Organization: State cemetery
  * - Veteran: First/last name only (no middle)
  * - Identification: SSN only (no VA file number)
- * - Service periods: 1 (minimum required)
+ * - Service periods: 0 (answered No to "any Veteran service periods to add?")
  * - Previous names: 0 (answered No to "served under another name")
  * - Optional fields: None (no middle name, no street2, no remarks)
  *
@@ -24,10 +24,10 @@
  * ✅ Organization types: stateCemetery, tribalOrganization
  * ✅ Veteran ID: SSN only, SSN + VA file number
  * ✅ Name patterns: no middle name, with middle name
- * ✅ Service periods array: 1 period (minimum), 2+ periods (multiple)
+ * ✅ Service periods array: 0 items (optional), 2+ periods (multiple)
  * ✅ Previous names array: 0 items (none), 2+ items (multiple)
  * ✅ Optional fields: address street2, remarks, middle names
- * ✅ All required fields: organization info, veteran info, burial info, service periods
+ * ✅ All required fields: organization info, veteran info, burial info
  *
  * Form Flow Paths Tested:
  * - Path 1 (minimal): Fastest completion, all required fields, no optional arrays

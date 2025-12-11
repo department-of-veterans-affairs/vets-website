@@ -15,6 +15,12 @@ const initialState = {
   isLoading: true,
 };
 
+/**
+ * Redux reducer for VA file number verification
+ * @param {object} state - Redux state
+ * @param {object} action - Redux action
+ * @returns {object} New state
+ */
 const vaFileNumber = (state = initialState, action) => {
   switch (action.type) {
     case VERIFY_VA_FILE_NUMBER_STARTED:

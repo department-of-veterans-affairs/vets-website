@@ -39,7 +39,7 @@ import {
  * @typedef ModalContent
  * @type {function}
  * @property {string} fileName - name of file to be removed
- * @returns {JSX} - default='<span>We’ll delete the uploaded file
+ * @returns {JSX} - default='<span>If you delete this file, we’ll remove your upload of
  *  <strong>{fileName}</strong></span>'
  */
 /**
@@ -57,8 +57,8 @@ import {
  * @property {string} modalTitle='Are you sure you want to delete this file?' -
  *  delete confirmation modal title
  * @property {ModalContent} modalContent - delete confirmation modal content
- * @property {string} yesButton='Yes, delete this' - modal Yes button text
- * @property {string} noButton='No, keep this' - modal No button text
+ * @property {string} yesButton='Yes, delete' - modal Yes button text
+ * @property {string} noButton='No, keep this file' - modal No button text
  */
 /**
  * FormData of supported files
@@ -129,12 +129,12 @@ const FileField = props => {
     modalContent: fileName =>
       uiOptions.modalContent?.(fileName || 'Unknown') || (
         <span>
-          We’ll delete the uploaded file{' '}
+          If you delete this file, we’ll remove your upload of{' '}
           <strong>{fileName || 'Unknown'}</strong>
         </span>
       ),
-    yesButton: 'Yes, delete this file',
-    noButton: 'No, keep this',
+    yesButton: 'Yes, delete',
+    noButton: 'No, keep this file',
     error: 'Error',
   };
 

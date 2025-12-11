@@ -113,7 +113,7 @@ describe('VAOS Page: ProviderSelectPage', () => {
         store,
       });
 
-      expect(screen.getByText(/Option 1: Call the facility/i)).to.exist;
+      expect(screen.getByText(/Option 2: Call the facility/i)).to.exist;
     });
   });
 

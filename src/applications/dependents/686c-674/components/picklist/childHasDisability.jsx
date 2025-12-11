@@ -11,13 +11,20 @@ import propTypes from './types';
 
 const childHasDisability = {
   handlers: {
-    // Return "DONE" when we're done with this flow
+    /**
+     * @type {GoForwardParams}
+     * Return "DONE" when we're done with this flow
+     * @returns {string} Next page key
+     */
     goForward: ({ itemData /* , index, fullData */ }) =>
       itemData.childHasPermanentDisability === 'Y'
         ? 'child-exit'
         : 'child-left-school',
 
-    /** @type {OnSubmitParams} */
+    /**
+     * @type {OnSubmitParams}
+     * @returns {void}
+     */
     onSubmit: ({ itemData, goForward }) => {
       // event.preventDefault(); // executed before this function is called
       if (!itemData.childHasPermanentDisability) {
@@ -28,7 +35,10 @@ const childHasDisability = {
     },
   },
 
-  /** @type {PicklistComponentProps} */
+  /**
+   * @type {PicklistComponentProps}
+   * @returns {React.ReactElement} Page component
+   */
   Component: ({ itemData, fullName, handlers, formSubmitted, isEditing }) => {
     const onChange = event => {
       const { field, value } = getValue(event);

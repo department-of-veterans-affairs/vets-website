@@ -1,22 +1,33 @@
 import React from 'react';
+import { useParams } from 'react-router-dom-v5-compat';
 import Wrapper from '../layout/Wrapper';
 import CardSection from '../components/CardSection';
+import { useGetAppointmentQuery } from '../redux/api/vassApi';
 
 const Confirmation = () => {
-  // Mocked data to come from API
-  const phoneNumber = '###-###-####';
-  const appointmentDateData = {
-    dateTime: '2025-11-17T20:00:00Z',
-    timezone: 'America/New_York',
-    phoneNumber: '8008270611',
-  };
+  const { appointmentId } = useParams();
+  const { data: appointmentData, isLoading, isError } = useGetAppointmentQuery({
+    appointmentId,
+  });
+  const browserTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   const handleCancelAppointment = () => {
     // TODO: Implement cancel appointment logic
   };
 
+  if (isLoading) {
+    // TODO: is there a loading screen?
+    return null;
+  }
+  if (isError) {
+    return <div>Error</div>;
+  }
+
   return (
-    <Wrapper pageTitle="Your appointment is scheduled">
+    <Wrapper
+      testID="confirmation-page"
+      pageTitle="Your appointment is scheduled"
+    >
       <p data-testid="confirmation-message" className="vads-u-margin-bottom--5">
         We’ve confirmed your appointment.
       </p>
@@ -34,28 +45,42 @@ const Confirmation = () => {
         <CardSection
           data-testid="how-to-join-section"
           heading="How to join"
-          textContent={`Your representative will call you from ${phoneNumber}. If you have questions or need to 
+          textContent={`Your representative will call you from ${
+            appointmentData?.phoneNumber
+          }. If you have questions or need to 
             reschedule, contact VA Solid Start. `}
         />
         <CardSection
           data-testid="when-section"
           heading="When"
-          dateContent={appointmentDateData}
+          dateContent={{
+            dateTime: appointmentData?.dtStartUtc,
+            timezone: browserTimezone,
+            phoneNumber: appointmentData?.phoneNumber,
+          }}
         />
         <CardSection
           data-testid="what-section"
           heading="What"
-          textContent="Type of care"
+          textContent={
+            appointmentData?.typeOfCare || 'No type of care selected'
+          }
         />
         <CardSection
           data-testid="who-section"
           heading="Who"
-          textContent="Provider name"
+          textContent={
+            appointmentData?.providerName || 'No provider name selected'
+          }
         />
         <CardSection
           data-testid="topics-section"
           heading="Topics you'd like to learn more about"
-          textContent="Health care, education"
+          textContent={
+            (appointmentData?.topics || [])
+              .map(topic => topic?.topicName || '')
+              .join(', ') || 'No topics selected'
+          }
         />
         <div className="vads-u-display--flex vads-u-margin-top--4 vass-form__button-container vass-flex-direction--column vass-hide-for-print">
           <div>

@@ -20,7 +20,7 @@ $text-color: rgba(27, 27, 27, 1);
 
   .usa-hint {
     display: block;
-    color: var(--vads-color-gray-medium);
+    color: var(--vads-color-base-darker);
   }
 
   .p1 {
@@ -132,7 +132,7 @@ $text-color: rgba(27, 27, 27, 1);
   }
 
   @media screen and (max-width: $small-screen) {
-    .facility-result + .facility-result {
+    .facility-result+.facility-result {
       border-top: solid 1px var(--vads-color-base-light);
     }
   }
@@ -188,7 +188,7 @@ $text-color: rgba(27, 27, 27, 1);
     padding: 0;
   }
 
-  .react-tabs__tab + .react-tabs__tab {
+  .react-tabs__tab+.react-tabs__tab {
     border-left: none;
   }
 
@@ -289,6 +289,7 @@ $text-color: rgba(27, 27, 27, 1);
     input {
       width: 100%;
       max-width: none;
+      font-size: 1rem;
 
       @media screen and (min-width: $small-desktop-screen) {
         max-width: 418px;
@@ -347,6 +348,14 @@ $text-color: rgba(27, 27, 27, 1);
       flex-basis: 100%;
       width: 100%;
     }
+
+    .service-type-dropdown-mobile>select,
+    .service-type-dropdown-tablet>select,
+    .service-type-dropdown-desktop>select {
+      font-size: 1rem;
+      height: auto;
+    }
+
 
     .usa-input-error {
       right: 0;

@@ -87,6 +87,28 @@ export default function transform(formConfig, form) {
     return clonedData;
   };
 
+  const allProprietaryProfitConflictsTransform = formData => {
+    const clonedData = cloneDeep(formData);
+
+    if (clonedData.allProprietaryProfitConflicts.length > 0) {
+      clonedData.allProprietaryProfitConflicts.map(conflict => {
+        // eslint-disable-next-line no-param-reassign
+        conflict.enrollmentPeriod = {
+          from: conflict?.enrollmentPeriodStart,
+          to: conflict?.enrollmentPeriodEnd,
+        };
+        // eslint-disable-next-line no-param-reassign
+        delete conflict.enrollmentPeriodStart;
+        // eslint-disable-next-line no-param-reassign
+        delete conflict.enrollmentPeriodEnd;
+
+        return conflict;
+      });
+    }
+
+    return clonedData;
+  };
+
   // Removes view fields and stringifies the form data
   const viewTransform = formData =>
     transformForSubmit(
@@ -102,6 +124,7 @@ export default function transform(formConfig, form) {
     conflictsTranform,
     dateTransform,
     proprietaryProfitConflictsTransform,
+    allProprietaryProfitConflictsTransform,
     viewTransform, // this must appear last
   ].reduce((formData, transformer) => transformer(formData), form.data);
 

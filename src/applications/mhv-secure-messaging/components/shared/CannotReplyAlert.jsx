@@ -1,8 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaAlert,
+  VaLinkAction,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { Alerts, Paths } from '../../util/constants';
+import RouterLinkAction from './RouterLinkAction';
 
 const CannotReplyAlert = props => {
   const { visible, isOhMessage = false } = props;
@@ -24,26 +27,21 @@ const CannotReplyAlert = props => {
               <p>{Alerts.Message.CANNOT_REPLY_BODY.MAIN}</p>
               <p>{Alerts.Message.CANNOT_REPLY_BODY.OH}</p>
               <p>
-                <a
-                  href="/find-locations"
-                  target="_blank"
+                <VaLinkAction
                   data-dd-action-name="cannot-reply-find-facility"
-                >
-                  Find your VA health facility
-                </a>
+                  href="/find-locations"
+                  text="Find your VA health facility"
+                />
               </p>
               <p>{Alerts.Message.CANNOT_REPLY_BODY.OH_CONTACT}</p>
             </>
           )}
           <p className="vads-u-margin-top--neg1 vads-u-margin-bottom--1 vads-u-font-weight--bold">
-            <Link
-              className="alertbox-link vads-c-action-link--green"
-              aria-label="Start a new message"
-              to={Paths.COMPOSE}
+            <RouterLinkAction
               data-dd-action-name="Start a new message - 45 day alert"
-            >
-              Start a new message
-            </Link>
+              href={Paths.COMPOSE}
+              text="Start a new message"
+            />
           </p>
         </VaAlert>
       )}

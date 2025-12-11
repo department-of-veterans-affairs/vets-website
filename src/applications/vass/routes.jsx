@@ -15,7 +15,7 @@ const routes = () => {
       <Route path="/date-time" element={<DateTimeSelection />} />
       <Route path="/topic-selection" element={<TopicSelection />} />
       <Route path="/review" element={<Review />} />
-      <Route path="/confirmation" element={<Confirmation />} />
+      <Route path="/confirmation/:appointmentId" element={<Confirmation />} />
     </Routes>
   );
 };

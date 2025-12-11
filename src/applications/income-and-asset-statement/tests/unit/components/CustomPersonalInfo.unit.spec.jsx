@@ -1,5 +1,5 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
@@ -10,20 +10,42 @@ import CustomPersonalInfo from '../../../components/CustomPersonalInfo';
 describe('CustomPersonalInfo Component', () => {
   const middleware = [thunk];
   const mockStore = configureStore(middleware);
+  const store = mockStore({
+    user: {
+      profile: {
+        userFullName: { first: 'John', last: 'Doe' },
+        dob: '2000-01-01',
+      },
+    },
+  });
+  const props = {
+    data: {
+      veteranSsnLastFour: '1234',
+      vaFileNumberLastFour: '5678',
+    },
+    goBack: () => {},
+    goForward: () => {},
+    NavButtons: () => null,
+  };
 
   it('renders PersonalInformation component', () => {
-    const wrapper = mount(
-      <Provider store={mockStore({})}>
-        <CustomPersonalInfo
-          data={{
-            veteranSocialSecurityNumber: '1234',
-            vaFileNumber: '5678',
-          }}
-        />
+    const { container } = render(
+      <Provider store={store}>
+        <CustomPersonalInfo {...props} />
+      </Provider>,
+    );
+    expect(container.querySelector('va-card')).to.exist;
+  });
+
+  it('should have a form wrapping the h1 for focus', () => {
+    const { container } = render(
+      <Provider store={store}>
+        <CustomPersonalInfo {...props} />
       </Provider>,
     );
 
-    expect(wrapper.find('PersonalInformation')).to.have.lengthOf(1);
-    wrapper.unmount();
+    const h1 = container.querySelector('h1');
+    expect(h1).to.exist;
+    expect(h1.parentElement.tagName).to.equal('FORM');
   });
 });

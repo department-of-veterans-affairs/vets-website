@@ -46,7 +46,7 @@ describe('helpers', () => {
 
   it('should return correct explanation for active duty', () => {
     const wrapper = shallow(benefitEndDateExplanation('activeDuty'));
-    expect(wrapper.find('h4').text()).to.equal('Benefit end date');
+    expect(wrapper.find('h3').text()).to.equal('Benefit end date');
     expect(
       wrapper
         .find('div')
@@ -64,7 +64,7 @@ describe('helpers', () => {
     const wrapper = shallow(
       benefitEndDateExplanation('remainingEntitlement', invalidDate),
     );
-    expect(wrapper.find('h4').text()).to.equal('Benefit end date');
+    expect(wrapper.find('h3').text()).to.equal('Benefit end date');
     expect(
       wrapper
         .find('div')

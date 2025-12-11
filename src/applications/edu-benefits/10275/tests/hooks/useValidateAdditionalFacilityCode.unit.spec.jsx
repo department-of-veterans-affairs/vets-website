@@ -197,8 +197,8 @@ describe('useValidateAdditionalFacilityCode', () => {
     expect(finalAction.data.additionalLocations[0].poeEligible).to.equal(true);
   });
 
-  it('dispatches poeEligible false when programTypes exclude IHL/NCD', async () => {
-    const formData = baseFormData('12345678');
+  it('dispatches poeEligible false when facilityCode is not POE eligible', async () => {
+    const formData = baseFormData('41123456');
     apiRequestStub.resolves({
       data: {
         attributes: {
@@ -210,7 +210,7 @@ describe('useValidateAdditionalFacilityCode', () => {
           state: 'VA',
           zip: '12345',
           country: 'USA',
-          programTypes: ['OJT'],
+          programTypes: ['IHL'],
         },
       },
     });
@@ -225,15 +225,19 @@ describe('useValidateAdditionalFacilityCode', () => {
       expect(apiRequestStub.calledOnce).to.equal(true);
     });
 
-    const actions = store.getActions();
-    const finalAction = actions.find(
-      action =>
-        action.data.additionalLocations &&
-        action.data.additionalLocations[0] &&
-        action.data.additionalLocations[0].isLoading === false,
-    );
-    expect(finalAction).to.exist;
-    expect(finalAction.data.additionalLocations[0].poeEligible).to.equal(false);
+    await waitFor(() => {
+      const actions = store.getActions();
+      const finalAction = actions.find(
+        action =>
+          action.data.additionalLocations &&
+          action.data.additionalLocations[0] &&
+          action.data.additionalLocations[0].isLoading === false,
+      );
+      expect(finalAction).to.exist;
+      expect(finalAction.data.additionalLocations[0].poeEligible).to.equal(
+        false,
+      );
+    });
   });
 
   it('dispatches "not found" on API error', async () => {

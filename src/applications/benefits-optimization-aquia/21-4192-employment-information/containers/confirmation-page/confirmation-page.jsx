@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import { formatDateLong } from 'platform/utilities/date';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
 import { transformForSubmit } from '@bio-aquia/21-4192-employment-information/config/submit-transformer';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import DownloadFormPDF from './download-form-pdf';
 
 /**
@@ -30,6 +31,27 @@ export const ConfirmationPage = ({ route }) => {
   const submitDate = submission?.timestamp || '';
   const formattedSubmitDate = submitDate ? formatDateLong(submitDate) : '';
   const confirmationNumber = submission?.response?.confirmationNumber || '';
+  const ConfirmationHowToContact = () => (
+    <>
+      <p>
+        For assistance or to ask questions about your claim status please call
+        the Veterans Benefits Administration National Call Center at{' '}
+        <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
+        <va-telephone tty="true" contact={CONTACTS[711]} />) We’re here Monday
+        through Friday, 8:00 a.m. to 9:00 p.m. ET.
+      </p>
+      <p>
+        Or you can ask us a question online through Ask VA. Select the category
+        and topic for the VA benefit this form is related to.
+      </p>
+      <p>
+        <va-link
+          href="https://ask.va.gov/"
+          text="Contact us online through Ask VA"
+        />
+      </p>
+    </>
+  );
 
   return (
     <ConfirmationView
@@ -62,8 +84,8 @@ export const ConfirmationPage = ({ route }) => {
         item1Header="We’ll review your form"
         item1Content="If we need more information after reviewing your form, we’ll contact you."
         item1Actions={<p />}
-        item2Header="We’ll send a decision on your claim"
-        item2Content="We’ll send you a letter with our decision."
+        item2Header="We’ll send the Veteran a decision on their claim"
+        item2Content="We’ll use the information you provided in our decision."
       />
       <div>
         <h2>How to submit supporting documents</h2>
@@ -79,16 +101,16 @@ export const ConfirmationPage = ({ route }) => {
         <p>Mail any supporting documents to this address: </p>
         <p className="va-address-block">
           Department of Veterans Affairs <br />
-          Pension Claims Intake Center <br />
-          PO Box 5365 <br />
-          Janesville, WI 53547-5365 <br />
+          Evidence Intake Center <br />
+          P.O. Box 4444 <br />
+          Janesville, WI 53547-4444 <br />
         </p>
         <p>
           <strong>Note:</strong> Mail us copies of your documents only. Don’t
           send us your original documents. We can’t return them.
         </p>
       </div>
-      <ConfirmationView.HowToContact />
+      <ConfirmationView.HowToContact content={ConfirmationHowToContact()} />
       <ConfirmationView.GoBackLink />
       <ConfirmationView.NeedHelp />
     </ConfirmationView>
@@ -108,5 +130,3 @@ ConfirmationPage.propTypes = {
     formConfig: PropTypes.object,
   }),
 };
-
-export default ConfirmationPage;

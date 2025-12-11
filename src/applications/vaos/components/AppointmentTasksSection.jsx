@@ -45,7 +45,7 @@ export default function AppointmentTasksSection({ appointment }) {
         href={`/my-health/travel-pay/file-new-claim/${appointment.id}`}
         text={
           isClaimInProgress
-            ? 'Complete and file your claim'
+            ? 'Complete your travel reimbursement claim'
             : 'File a travel reimbursement claim'
         }
       />

@@ -2,11 +2,13 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { apiRequest } from 'platform/utilities/api';
 import { setData } from 'platform/forms-system/src/js/actions';
+import { isPOEEligible } from '../helpers';
 
 export const useValidateFacilityCode = formData => {
   const [loader, setLoader] = useState(false);
   const dispatch = useDispatch();
   const facilityCode = formData?.institutionDetails?.facilityCode?.trim();
+
   useEffect(
     () => {
       const fetchInstitutionInfo = async () => {
@@ -22,11 +24,7 @@ export const useValidateFacilityCode = formData => {
             },
           );
           const attrs = response.data.attributes;
-          const programTypes = Array.isArray(attrs.programTypes)
-            ? attrs.programTypes
-            : [];
-          const eligible =
-            programTypes.includes('IHL') || programTypes.includes('NCD');
+
           const institutionAddress = {
             street: attrs.address1 || '',
             street2: attrs.address2 || '',
@@ -36,6 +34,7 @@ export const useValidateFacilityCode = formData => {
             postalCode: attrs.zip || '',
             country: attrs.country || '',
           };
+
           dispatch(
             setData({
               ...formData,
@@ -43,7 +42,7 @@ export const useValidateFacilityCode = formData => {
                 ...formData.institutionDetails,
                 institutionName: response?.data?.attributes?.name,
                 institutionAddress,
-                poeEligible: eligible,
+                poeEligible: isPOEEligible(facilityCode),
               },
             }),
           );
@@ -63,6 +62,7 @@ export const useValidateFacilityCode = formData => {
           setLoader(false);
         }
       };
+
       if (facilityCode?.length === 8) {
         fetchInstitutionInfo();
       }

@@ -22,9 +22,15 @@ describe('Claimant Information Page', () => {
     const vaTextInput = $$('va-text-input', formDOM);
     const vaMemorableDates = $$('va-memorable-date', formDOM);
 
-    const vaFirstNameInput = $('va-text-input[label="First name"]', formDOM);
+    const vaFirstNameInput = $(
+      'va-text-input[label="First or given name"]',
+      formDOM,
+    );
     const vaMiddleNameInput = $('va-text-input[label="Middle name"]', formDOM);
-    const vaLastNameInput = $('va-text-input[label="Last name"]', formDOM);
+    const vaLastNameInput = $(
+      'va-text-input[label="Last or family name"]',
+      formDOM,
+    );
     const vaSuffixSelect = $('va-select[label="Suffix"]', formDOM);
 
     const vaDateOfBirthInput = $(

@@ -11,6 +11,7 @@ import {
   VaAlert,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import api from '../utilities/api';
 import {
   SUBMISSIONS_BC_LABEL,
@@ -25,6 +26,7 @@ import PaginationMeta from '../components/PaginationMeta';
 import SubmissionsPageResults from '../components/SubmissionsPageResults';
 
 const SubmissionsPage = title => {
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
   const [visibleAlert, setVisibleAlert] = useState(true);
   useEffect(
     () => {
@@ -69,36 +71,65 @@ const SubmissionsPage = title => {
       <p className="submissions-subtext__copy vads-u-font-family--serif">
         Start here to submit VA forms for your claimants.
       </p>
-      <h2 className="submissions__form-name vads-u-font-size--h3 vads-u-font-family--serif">
-        Form 21-686c
-      </h2>
-      <p className="submissions__form-description vads-u-font-size--h4 vads-u-font-family--serif">
-        Application Request to Add and/or Remove Dependents
-      </p>
-      <p className="submissions__subtext submissions__subtext">
-        The form will be processed by VA Centralized Mail after you submit it.
-      </p>
-      <va-link-action
-        href="/representative/representative-form-upload/submit-va-form-21-686c"
-        text="Upload and submit VA Form 21-686c"
-      />
 
-      <h2 className="submissions__form-name vads-u-font-size--h3 vads-u-font-family--serif submissions__margin-top">
-        Form 21-526EZ
-      </h2>
-      <p className="submissions__form-description vads-u-font-size--h4 vads-u-font-family--serif">
-        Application for Disability Compensation and Related Compensation
-        Benefits
-      </p>
-      <p className="submissions__subtext submissions__subtext">
-        The form will be processed by VA Centralized Mail after you submit it.
-      </p>
-      <va-link-action
-        href="/representative/representative-form-upload/submit-va-form-21-526EZ"
-        text="Upload and submit VA Form 21-526EZ"
-      />
+      <div className="submissions__form-start">
+        <h2 className="submissions__form-name vads-u-font-size--h3 vads-u-font-family--serif">
+          Form 21-686c
+        </h2>
+        <p className="submissions__form-description vads-u-font-size--h4">
+          Application Request to Add and/or Remove Dependents
+        </p>
+        <p className="submissions__subtext submissions__subtext">
+          The form will be processed by VA Centralized Mail after submission.
+        </p>
+        <va-link-action
+          href="/representative/representative-form-upload/submit-va-form-21-686c"
+          text="Upload and submit VA Form 21-686c"
+          type="secondary"
+        />
+      </div>
+
+      <div className="submissions__form-start">
+        <h2 className="submissions__form-name vads-u-font-size--h3 vads-u-font-family--serif submissions__margin-top">
+          Form 21-526EZ
+        </h2>
+        <p className="submissions__form-description vads-u-font-size--h4">
+          Application for Disability Compensation and Related Compensation
+          Benefits
+        </p>
+        <p className="submissions__subtext submissions__subtext">
+          The form will be processed by VA Centralized Mail after submission.
+        </p>
+        <va-link-action
+          href="/representative/representative-form-upload/submit-va-form-21-526EZ"
+          text="Upload and submit VA Form 21-526EZ"
+          type="secondary"
+        />
+      </div>
+      {useToggleValue(
+        TOGGLE_NAMES.accreditedRepresentativePortalIntentToFile,
+      ) ? (
+        <div className="submissions__form-start">
+          <h2 className="submissions__form-name vads-u-font-size--h3 vads-u-font-family--serif submissions__margin-top">
+            Form 21-0966
+          </h2>
+          <p className="submissions__form-description vads-u-font-size--h4">
+            Intent to File a Claim for Compensation and/or Pension, or Survivors
+            Pension and/or DIC
+          </p>
+          <p className="submissions__subtext submissions__subtext">
+            The intent to file will be recorded immediately after submission.
+          </p>
+          <va-link-action
+            href="/representative/representative-form-upload/submit-va-form-21-0966/introduction"
+            text="Submit online VA Form 21-0966"
+            type="secondary"
+          />
+        </div>
+      ) : (
+        ''
+      )}
       <hr />
-
       <h2 className="submissions__search-header">Recent Submissions</h2>
       <p className="submissions-subtext__copy--secondary vads-u-font-family--serif">
         This list shows only your submissions sent through this portal.

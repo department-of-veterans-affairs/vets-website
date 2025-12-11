@@ -148,16 +148,49 @@ describe('CernerTransitioningFacilityAlert', () => {
     };
     const customProps = { t5: true, facilityId: '556' };
 
-    const { findByText, queryByText, container } = setup(
+    const { findByTestId, findByText, queryByText, container } = setup(
       customState,
       customProps,
     );
 
-    expect(findByText(alertT5.alertTitle)).to.exist;
+    await findByText(alertT5.alertTitle);
     expect(container.textContent).to.contain(alertT5.alertContent);
     expect(container.textContent).to.contain(alertT5.alertContent2);
-    expect(findByText('Find your VA health facility', { selector: 'a' })).to
-      .exist;
+    const findFacilityLink = await findByTestId('find-facility-action-link');
+    expect(findFacilityLink).to.exist;
     expect(queryByText(alertT30.alertTitle)).to.be.null;
+  });
+
+  describe('cross-app navigation link', () => {
+    it('renders VaLinkAction for /find-locations (cross-app destination)', async () => {
+      const customState = {
+        ...initialState,
+        user: {
+          profile: {
+            facilities: [
+              {
+                facilityId:
+                  CernerTransitioningFacilities.NORTH_CHICAGO.facilityId,
+                isCerner: false,
+              },
+            ],
+          },
+        },
+      };
+      const customProps = { t5: true, facilityId: '556' };
+
+      const { findByTestId } = setup(customState, customProps);
+
+      const findFacilityLink = await findByTestId('find-facility-action-link');
+
+      // Verify it's a va-link-action (VaLinkAction, not RouterLinkAction)
+      // This is critical: /find-locations is a different SPA, so we need
+      // VaLinkAction for full browser navigation, not React Router
+      expect(findFacilityLink.tagName).to.equal('VA-LINK-ACTION');
+      expect(findFacilityLink.getAttribute('href')).to.equal('/find-locations');
+      expect(findFacilityLink.getAttribute('text')).to.equal(
+        'Find your VA health facility',
+      );
+    });
   });
 });

@@ -14,8 +14,6 @@ import {
   reviewAndSubmitPageFlow,
 } from '../../shared/tests/e2e/helpers';
 
-import { fillDateDigitsWebComponentPattern } from './e2e/helpers';
-
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
 
@@ -130,20 +128,6 @@ const testConfig = createTestConfig(
                 data.beneficiaryFullName,
               );
             }
-            cy.axeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-
-      'beneficiary-date-of-death': ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            fillDateDigitsWebComponentPattern(
-              'beneficiaryDateOfDeath',
-              data.beneficiaryDateOfDeath,
-            );
             cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });
