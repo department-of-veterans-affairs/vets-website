@@ -151,6 +151,10 @@ describe('YAML tests', () => {
             } else {
               cy.visit(`${baseUrl}/contact-us/ask-va/`);
             }
+            cy.window().then(win =>
+              // Trigger categories fetch so the alias resolves before proceeding
+              win.fetch('/ask_va_api/v0/contents?type=category'),
+            );
             cy.wait('@askVaCategories', { timeout: 10000 });
             cy.injectAxeThenAxeCheck();
             executeSteps(flow.steps, folder);

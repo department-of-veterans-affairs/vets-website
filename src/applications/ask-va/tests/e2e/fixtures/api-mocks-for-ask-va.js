@@ -197,6 +197,10 @@ export const interceptAskVaResponses = () => {
     `**/ask_va_api/v0/education_facilities/search?name=austin*`,
     responseEducationFacilities,
   );
+
+  cy.intercept('POST', '**/ask_va_api/v0/inquiries*', {
+    inquiryNumber: 'A-TEST-123456',
+  }).as('askVaSubmit');
 };
 
 export default interceptAskVaResponses;
