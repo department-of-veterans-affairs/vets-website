@@ -127,8 +127,8 @@ const OverviewPage = () => {
     totalItems,
     label = ITEM_TYPE,
   ) {
-    // Only display pagination text when there are more than 10 total items
-    if (totalItems <= 10) {
+    // Only display pagination text when there are more than MAX_ROWS total items
+    if (totalItems <= MAX_ROWS) {
       return '';
     }
 
