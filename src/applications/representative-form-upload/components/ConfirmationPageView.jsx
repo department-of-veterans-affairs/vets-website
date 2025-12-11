@@ -7,13 +7,13 @@ import PropTypes from 'prop-types';
 
 export const ConfirmationPageView = ({
   submitDate,
+  expirationDate,
   benefitType,
   address,
   name,
   childContent = null,
 }) => {
   const { first, last } = name;
-  const { city, state, postalCode } = address;
   const alertRef = useRef(null);
 
   const formattedSubmitDate =
@@ -21,9 +21,14 @@ export const ConfirmationPageView = ({
       ? format(submitDate, 'MMMM d, yyyy')
       : null;
 
-  const formattedSubmitDateTime =
-    submitDate && typeof submitDate === 'object'
-      ? format(submitDate, "MMMM d, yyyy 'at' h:mm aaaa 'ET'")
+  const formattedExpirationDateTime =
+    expirationDate && typeof expirationDate === 'object'
+      ? format(expirationDate, "MMMM d, yyyy 'at' h:mm aaaa 'ET'")
+      : null;
+
+  const formattedAddress =
+    address && address.city && address.state && address.postalCode
+      ? `${address.city}, ${address.state} ${address.postalCode}`
       : null;
 
   const itfTypes = { compensation: 'Compensation', pension: 'Pension' };
@@ -51,10 +56,10 @@ export const ConfirmationPageView = ({
       {submitDate && (
         <va-alert status="success" ref={alertRef}>
           <h2 slot="headline">We recorded the intent to file</h2>
-          {formattedSubmitDateTime ? (
+          {formattedExpirationDateTime ? (
             <p className="vads-u-margin-y--0">
-              Submit the claim by <strong>{formattedSubmitDateTime}</strong> to
-              receive payments starting from the effective date.
+              Submit the claim by <strong>{formattedExpirationDateTime}</strong>{' '}
+              to receive payments starting from the effective date.
             </p>
           ) : null}
         </va-alert>
@@ -64,9 +69,7 @@ export const ConfirmationPageView = ({
         <h2 className="vads-u-margin--0 vads-u-font-size--h3">
           {last}, {first}
         </h2>
-        <div>
-          {city}, {state} {postalCode}
-        </div>
+        {formattedAddress && <div>{formattedAddress}</div>}
         <p className="vads-u-margin-bottom--0">
           <b>Benefit:</b> {itfTypes[benefitType]} <br />
           <b>ITF Date:</b> {formattedSubmitDate} (Expires in 365 days)
@@ -106,6 +109,7 @@ ConfirmationPageView.propTypes = {
   }),
   benefitType: PropTypes.string,
   childContent: PropTypes.node,
+  expirationDate: PropTypes.string,
   name: PropTypes.shape({
     first: PropTypes.string,
     last: PropTypes.string,

@@ -15,6 +15,9 @@ const ConfirmationPage = () => {
   const { submission } = form;
   const { benefitType } = form.data;
   const submitDate = new Date(submission.response.attributes.creationDate);
+  const expirationDate = new Date(
+    submission.response.attributes.expirationDate,
+  );
 
   const { first, last } = form.data.veteranFullName;
   const { city, state, postalCode } = form.data.address;
@@ -29,6 +32,7 @@ const ConfirmationPage = () => {
   return (
     <ConfirmationPageView
       submitDate={submitDate}
+      expirationDate={expirationDate}
       benefitType={benefitType}
       content={content}
       address={address}
