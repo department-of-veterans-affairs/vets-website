@@ -16,11 +16,13 @@ const address = {
 
 describe('ConfirmationPageView', () => {
   it('shows status success and the correct confirmation number and submitted date', () => {
-    const submitDate = new Date(2025, 4, 21);
+    const submitDate = new Date(2024, 4, 21);
+    const expirationDate = new Date(2025, 4, 21);
 
     const { getByText, container } = render(
       <ConfirmationPageView
         submitDate={submitDate}
+        expirationDate={expirationDate}
         benefitType="compensation"
         childContent={null}
         name={veteranFullName}

@@ -26,7 +26,7 @@ const storeBase = {
     formId: config.formId,
     submission: {
       response: {
-        attributes: { creationDate: Date.now() },
+        attributes: { creationDate: Date.now(), expirationDate: Date.now() },
       },
       timestamp: Date.now(),
     },
