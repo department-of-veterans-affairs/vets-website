@@ -53,18 +53,12 @@ describe('OHOnlyContent', () => {
 
   it('renders without errors', () => {
     const { getByText } = renderComponent();
-    expect(getByText('Download your medical records report')).to.exist;
+    expect(getByText('Download your Continuity of Care Document')).to.exist;
   });
 
-  it('renders the main heading and description when not loading', () => {
+  it('renders the CCD section heading when not loading', () => {
     const { getByText } = renderComponent();
 
-    expect(getByText('Download your medical records report')).to.exist;
-    expect(
-      getByText(
-        'Download your Continuity of Care Document (CCD), a summary of your VA medical records.',
-      ),
-    ).to.exist;
     expect(getByText('Download your Continuity of Care Document')).to.exist;
   });
 
@@ -77,7 +71,8 @@ describe('OHOnlyContent', () => {
     expect(spinnerContainer).to.exist;
     expect(spinnerContainer.querySelector('va-loading-indicator')).to.exist;
 
-    expect(queryByText('Download your medical records report')).to.not.exist;
+    expect(queryByText('Download your Continuity of Care Document')).to.not
+      .exist;
   });
 
   it('renders all 3 download links when not loading', () => {
@@ -250,16 +245,35 @@ describe('OHOnlyContent', () => {
   it('uses the correct ddSuffix in data-dd-action-name attributes', () => {
     const { getByTestId } = renderComponent({ ddSuffix: 'CustomDD' });
 
-    expect(
-      getByTestId('generateCcdButtonXmlOH').getAttribute('data-dd-action-name'),
-    ).to.equal('Download CCD XML CustomDD');
-    expect(
-      getByTestId('generateCcdButtonPdfOH').getAttribute('data-dd-action-name'),
-    ).to.equal('Download CCD PDF CustomDD');
-    expect(
-      getByTestId('generateCcdButtonHtmlOH').getAttribute(
-        'data-dd-action-name',
-      ),
-    ).to.equal('Download CCD HTML CustomDD');
+    const xmlLink = getByTestId('generateCcdButtonXmlOH');
+    const pdfLink = getByTestId('generateCcdButtonPdfOH');
+    const htmlLink = getByTestId('generateCcdButtonHtmlOH');
+
+    expect(xmlLink.getAttribute('data-dd-action-name')).to.equal(
+      'Download CCD XML CustomDD',
+    );
+    expect(pdfLink.getAttribute('data-dd-action-name')).to.equal(
+      'Download CCD PDF CustomDD',
+    );
+    expect(htmlLink.getAttribute('data-dd-action-name')).to.equal(
+      'Download CCD HTML CustomDD',
+    );
+  });
+
+  it('renders h2 heading for CCD section', () => {
+    const { container } = renderComponent();
+
+    const h2 = container.querySelector('h2');
+    expect(h2).to.exist;
+    expect(h2.textContent).to.equal(
+      'Download your Continuity of Care Document',
+    );
+  });
+
+  it('does not render h1 heading (heading is in parent component)', () => {
+    const { container } = renderComponent();
+
+    const h1 = container.querySelector('h1');
+    expect(h1).to.not.exist;
   });
 });

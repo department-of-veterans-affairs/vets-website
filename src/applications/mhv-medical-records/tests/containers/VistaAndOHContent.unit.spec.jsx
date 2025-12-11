@@ -38,7 +38,6 @@ describe('VistaAndOHContent', () => {
     CCDRetryTimestamp: null,
     isLoading: false,
     testIdSuffix: 'Vista',
-    ohFacilityNames: ['VA Central Ohio health care'],
     ccdDownloadSuccess: false,
     failedBBDomains: [],
     failedSeiDomains: [],
@@ -49,10 +48,6 @@ describe('VistaAndOHContent', () => {
     lastSuccessfulUpdate: null,
     successfulSeiDownload: false,
     successfulBBDownload: false,
-    vistaFacilityNames: [
-      'VA Western New York health care',
-      'VA Pacific Islands health care',
-    ],
   };
 
   const renderComponent = (props = {}, state = {}) => {
@@ -68,16 +63,12 @@ describe('VistaAndOHContent', () => {
 
   it('renders without errors', () => {
     const { getByText } = renderComponent();
-    expect(getByText('Download your medical records reports')).to.exist;
+    expect(getByText('Download your VA Blue Button report')).to.exist;
   });
 
-  it('renders the main heading and description when not loading', () => {
+  it('renders the Blue Button section heading when not loading', () => {
     const { getByText } = renderComponent();
 
-    expect(getByText('Download your medical records reports')).to.exist;
-    expect(
-      getByText(/You can download your VA medical records as a single report/),
-    ).to.exist;
     expect(getByText('Download your VA Blue Button report')).to.exist;
   });
 
@@ -90,20 +81,7 @@ describe('VistaAndOHContent', () => {
     expect(spinnerContainer).to.exist;
     expect(spinnerContainer.querySelector('va-loading-indicator')).to.exist;
 
-    expect(queryByText('Download your medical records reports')).to.not.exist;
-  });
-
-  it('renders VistA facility names list', () => {
-    const { getByText } = renderComponent();
-
-    expect(getByText('VA Western New York health care')).to.exist;
-    expect(getByText('VA Pacific Islands health care')).to.exist;
-  });
-
-  it('renders OH facility names list', () => {
-    const { getByText } = renderComponent();
-
-    expect(getByText('VA Central Ohio health care')).to.exist;
+    expect(queryByText('Download your VA Blue Button report')).to.not.exist;
   });
 
   it('renders last successful update card when lastSuccessfulUpdate is provided', () => {
@@ -343,13 +321,24 @@ describe('VistaAndOHContent', () => {
     expect(handleDownloadCCD.firstCall.args[1]).to.equal('xml');
   });
 
-  it('renders explanatory text about facility availability', () => {
-    const { getByText } = renderComponent();
+  it('does not render h1 heading (heading is in parent/intro component)', () => {
+    const { container } = renderComponent();
 
-    expect(
-      getByText(
-        /VA medical records for these facilities aren.t available in your Blue Button report right now/,
-      ),
-    ).to.exist;
+    const h1 = container.querySelector('h1');
+    expect(h1).to.not.exist;
+  });
+
+  it('renders h2 headings for each section', () => {
+    const { container } = renderComponent();
+
+    const h2s = container.querySelectorAll('h2');
+    expect(h2s.length).to.equal(3);
+    expect(h2s[0].textContent).to.equal('Download your VA Blue Button report');
+    expect(h2s[1].textContent).to.equal(
+      'Download your Continuity of Care Document',
+    );
+    expect(h2s[2].textContent).to.equal(
+      'Download your self-entered health information',
+    );
   });
 });
