@@ -76,11 +76,6 @@
           "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_518/services/chiropractic"
         },
         {
-          "name": "COVID-19 vaccines",
-          "serviceId": "covid19Vaccine",
-          "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_518/services/covid19Vaccine"
-        },
-        {
           "name": "Dental/oral surgery",
           "serviceId": "dental",
           "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_518/services/dental"
@@ -754,11 +749,6 @@
           "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_523/services/chiropractic"
         },
         {
-          "name": "COVID-19 vaccines",
-          "serviceId": "covid19Vaccine",
-          "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_523/services/covid19Vaccine"
-        },
-        {
           "name": "Dental/oral surgery",
           "serviceId": "dental",
           "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_523/services/dental"
@@ -1066,11 +1056,6 @@
           "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_523A4/services/cardiovascularSurgery"
         },
         {
-          "name": "COVID-19 vaccines",
-          "serviceId": "covid19Vaccine",
-          "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_523A4/services/covid19Vaccine"
-        },
-        {
           "name": "Critical care",
           "serviceId": "criticalCare",
           "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_523A4/services/criticalCare"
@@ -1336,11 +1321,6 @@
           "name": "Chiropractic",
           "serviceId": "chiropractic",
           "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_523A5/services/chiropractic"
-        },
-        {
-          "name": "COVID-19 vaccines",
-          "serviceId": "covid19Vaccine",
-          "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_523A5/services/covid19Vaccine"
         },
         {
           "name": "Dental/oral surgery",
@@ -2305,11 +2285,6 @@
           "name": "CaregiverSupport",
           "serviceId": "caregiverSupport",
           "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_631/services/caregiverSupport"
-        },
-        {
-          "name": "COVID-19 vaccines",
-          "serviceId": "covid19Vaccine",
-          "link": "https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_631/services/covid19Vaccine"
         },
         {
           "name": "Dental/oral surgery",
