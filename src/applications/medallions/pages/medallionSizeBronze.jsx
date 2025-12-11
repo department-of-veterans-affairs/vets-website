@@ -4,7 +4,6 @@ import {
   radioUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
-import BronzeMedallionImage from '../assets/Bronze-Medallion.png';
 
 const BronzeSizeDescription = () => {
   return (
@@ -14,7 +13,7 @@ const BronzeSizeDescription = () => {
         cemetery to check if they’ll accept the size of medallion you request.
       </p>
       <img
-        src={BronzeMedallionImage}
+        src="/img/medallions-bronze.png"
         alt="Bronze VA medallions in small, medium, and large sizes"
         className="vads-u-margin-y--2 vads-u-display--block"
         style={{ maxWidth: '100%', width: '400px' }}
