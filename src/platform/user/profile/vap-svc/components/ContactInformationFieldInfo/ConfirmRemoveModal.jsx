@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { VaModal } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { FIELD_NAMES } from '~/platform/user/profile/vap-svc/constants';
+import { FIELD_SECTION_HEADERS } from '../../constants/schedulingPreferencesConstants';
+import { isInlineSchedulingPreference } from '../../util/health-care-settings/schedulingPreferencesUtils';
 
 const ConfirmRemoveModal = ({
   cancelAction,
@@ -12,6 +14,7 @@ const ConfirmRemoveModal = ({
   isVisible,
   onHide,
 }) => {
+  let modalTitle = `Remove your ${title.toLowerCase()}?`;
   if (!isVisible) {
     return null;
   }
@@ -59,9 +62,21 @@ const ConfirmRemoveModal = ({
       </>
     );
   }
+  if (isInlineSchedulingPreference(fieldName)) {
+    modalTitle = `Remove your ${FIELD_SECTION_HEADERS[fieldName]
+      .toLowerCase()
+      .replace(/s$/, '')}?`;
+    modalContent = (
+      <p className="vads-u-margin-top--1">
+        You can always add another{' '}
+        {FIELD_SECTION_HEADERS[fieldName].toLowerCase().replace(/s$/, '')} any
+        time.
+      </p>
+    );
+  }
   return (
     <VaModal
-      modalTitle={`Remove your ${title.toLowerCase()}?`}
+      modalTitle={modalTitle}
       className="overflow-auto"
       status="warning"
       visible={isVisible}
