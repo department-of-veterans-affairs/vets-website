@@ -72,7 +72,7 @@ describe('<FilesWeCouldntReceive>', () => {
       ).to.exist;
       expect(
         document.querySelector(
-          'va-link[text="Learn about other ways to send your documents."]',
+          'va-link[text="Learn about other ways to send your documents"]',
         ),
       ).to.exist;
       expect(getByRole('heading', { name: 'Files not received' })).to.exist;

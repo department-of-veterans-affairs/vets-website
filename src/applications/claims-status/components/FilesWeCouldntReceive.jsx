@@ -112,7 +112,7 @@ const FilesWeCouldntReceive = () => {
         <VaLink
           className="vads-u-display--block"
           href="#other-ways-to-send-documents"
-          text="Learn about other ways to send your documents."
+          text="Learn about other ways to send your documents"
           onClick={e => {
             e.preventDefault();
             setPageFocus('#other-ways-to-send');

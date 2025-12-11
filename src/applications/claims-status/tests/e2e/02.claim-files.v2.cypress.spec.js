@@ -10,7 +10,7 @@ import featureToggleDisabled from './fixtures/mocks/lighthouse/feature-toggle-di
 import claimDetailsOpenManySupportingDocs from './fixtures/mocks/lighthouse/claim-detail-open-many-supporting-docs.json';
 import claimDetailsOpenManyEvidenceSubmissions from './fixtures/mocks/lighthouse/claim-detail-open-many-evidence-submissions.json';
 import claimDetailsOpenWithFailedSubmissions from './fixtures/mocks/lighthouse/claim-detail-open-with-failed-submissions.json';
-import { SUBMIT_FILES_FOR_REVIEW_TEXT, SUBMIT_TEXT } from '../../constants';
+import { SUBMIT_TEXT } from '../../constants';
 import {
   getFileInputElement,
   uploadFile,
@@ -693,7 +693,7 @@ describe('Type 1 Unknown Upload Errors', () => {
       .find('va-select')
       .should('be.visible');
     selectDocumentType(0, 'L034');
-    clickSubmitButton(SUBMIT_FILES_FOR_REVIEW_TEXT);
+    clickSubmitButton(SUBMIT_TEXT);
     cy.wait('@uploadRequest');
   };
 
@@ -735,7 +735,7 @@ describe('Type 1 Unknown Upload Errors', () => {
       .should('be.visible');
     selectDocumentType(0, 'L034');
 
-    clickSubmitButton(SUBMIT_FILES_FOR_REVIEW_TEXT);
+    clickSubmitButton(SUBMIT_TEXT);
     cy.wait('@uploadRequest');
 
     cy.get('.claims-alert').should(

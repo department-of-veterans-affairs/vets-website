@@ -292,6 +292,12 @@
       "rootUrl": "/school-administrators/35-percent-exemption"
     },
     {
+      "directoryPath": "src/applications/edu-benefits/10272",
+      "appName": "22-10272 Application for reimbursement of preparatory (prep) course for licensing or certification test",
+      "entryName": "10272-edu-benefits",
+      "rootUrl": "/education/other-va-education-benefits/reimbursements/test-reimbursement-22-10272"
+    },
+    {
       "directoryPath": "src/applications/edu-benefits/10275",
       "appName": "10275",
       "entryName": "10275-edu-benefits",

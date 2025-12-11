@@ -2,7 +2,7 @@ import React from 'react';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 const NeedHelp = () => (
-  <va-need-help class="vads-u-margin-top--8">
+  <va-need-help class="vads-u-margin-y--4">
     <div slot="content">
       <p>
         Call us at the VA benefits hotline{' '}
