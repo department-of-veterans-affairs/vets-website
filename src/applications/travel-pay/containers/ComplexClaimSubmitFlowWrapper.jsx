@@ -17,9 +17,7 @@ import { STATUSES } from '../constants';
 const ComplexClaimSubmitFlowWrapper = () => {
   const dispatch = useDispatch();
   const { apptId, claimId } = useParams();
-  const isErrorRoute =
-    window.location.pathname.endsWith('/create-claim-error') ||
-    window.location.pathname.endsWith('/get-claim-error');
+  const isErrorRoute = window?.location?.pathname?.endsWith('/get-claim-error');
   const [shouldRedirect, setShouldRedirect] = useState(false);
   const {
     useToggleValue,
