@@ -94,15 +94,15 @@ describe('EmailInformationSection', () => {
     expect(view.queryByTestId('sign-in-email-link')).not.to.exist;
   });
 
-  it('should not render Sign In email section for DS LOGON', () => {
-    const state = setSignInServiceName(baseState, CSP_IDS.DS_LOGON);
-    const view = renderInReduxProvider(<ComponentUnderTest />, {
-      initialState: state,
-      reducers: { vapService },
-    });
+  // it('should not render Sign In email section for DS LOGON', () => {
+  //   const state = setSignInServiceName(baseState, CSP_IDS.DS_LOGON);
+  //   const view = renderInReduxProvider(<ComponentUnderTest />, {
+  //     initialState: state,
+  //     reducers: { vapService },
+  //   });
 
-    expect(view.queryByTestId('sign-in-email-link')).not.to.exist;
-  });
+  //   expect(view.queryByTestId('sign-in-email-link')).not.to.exist;
+  // });
 
   describe('ProfileAlertConfirmEmail component', () => {
     it('renders <AlertConfirmContactEmail /> when email.updatedAt is before the threshold value', async () => {

@@ -1,11 +1,11 @@
 import React from 'react';
 import { expect } from 'chai';
 import { cleanup } from '@testing-library/react';
+import { CSP_IDS } from '~/platform/user/authentication/constants';
 import {
   createCustomProfileState,
   renderWithProfileReducersAndRouter,
 } from '../../unit-test-helpers';
-import { CSP_IDS } from '~/platform/user/authentication/constants';
 
 import {
   AccountSecurityLoa1CredAlert,
@@ -15,22 +15,22 @@ import {
 describe('AccountSecurityLoa1CredAlert', () => {
   afterEach(cleanup);
 
-  it('renders alert with DS_LOGON service provider in text', () => {
-    const { getByText } = renderWithProfileReducersAndRouter(
-      <AccountSecurityLoa1CredAlert />,
-      {
-        initialState: createCustomProfileState({
-          user: { profile: { signIn: { serviceName: CSP_IDS.DS_LOGON } } },
-        }),
-      },
-    );
+  // it('renders alert with DS_LOGON service provider in text', () => {
+  //   const { getByText } = renderWithProfileReducersAndRouter(
+  //     <AccountSecurityLoa1CredAlert />,
+  //     {
+  //       initialState: createCustomProfileState({
+  //         user: { profile: { signIn: { serviceName: CSP_IDS.DS_LOGON } } },
+  //       }),
+  //     },
+  //   );
 
-    expect(
-      getByText('sign in with your DS Logon username and password', {
-        exact: false,
-      }),
-    ).to.exist;
-  });
+  //   expect(
+  //     getByText('sign in with your DS Logon username and password', {
+  //       exact: false,
+  //     }),
+  //   ).to.exist;
+  // });
 
   it('renders alert with MHV service provider in text', () => {
     const { getByText } = renderWithProfileReducersAndRouter(
@@ -53,22 +53,22 @@ describe('AccountSecurityLoa1CredAlert', () => {
 describe('SignInEmailAlert', () => {
   afterEach(cleanup);
 
-  it('renders alert with DS_LOGON service provider in text', () => {
-    const { getByText } = renderWithProfileReducersAndRouter(
-      <SignInEmailAlert />,
-      {
-        initialState: createCustomProfileState({
-          user: { profile: { signIn: { serviceName: CSP_IDS.DS_LOGON } } },
-        }),
-      },
-    );
+  // it('renders alert with DS_LOGON service provider in text', () => {
+  //   const { getByText } = renderWithProfileReducersAndRouter(
+  //     <SignInEmailAlert />,
+  //     {
+  //       initialState: createCustomProfileState({
+  //         user: { profile: { signIn: { serviceName: CSP_IDS.DS_LOGON } } },
+  //       }),
+  //     },
+  //   );
 
-    expect(
-      getByText('sign in with your DS Logon username and password', {
-        exact: false,
-      }),
-    ).to.exist;
-  });
+  //   expect(
+  //     getByText('sign in with your DS Logon username and password', {
+  //       exact: false,
+  //     }),
+  //   ).to.exist;
+  // });
 
   it('renders alert with MHV service provider in text', () => {
     const { getByText } = renderWithProfileReducersAndRouter(

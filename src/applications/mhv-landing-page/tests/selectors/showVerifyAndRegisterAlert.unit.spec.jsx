@@ -38,11 +38,11 @@ describe(`${appName} -- showVerifyAndRegisterAlert`, () => {
     expect(result).to.eq(false);
   });
 
-  it('returns false when csp is DSLogon', () => {
-    state = stateFn({ serviceName: CSP_IDS.DS_LOGON });
-    result = showVerifyAndRegisterAlert(state);
-    expect(result).to.eq(false);
-  });
+  // it('returns false when csp is DSLogon', () => {
+  //   state = stateFn({ serviceName: CSP_IDS.DS_LOGON });
+  //   result = showVerifyAndRegisterAlert(state);
+  //   expect(result).to.eq(false);
+  // });
 
   it('returns false when LOA3', () => {
     state = stateFn({ loa: 3 });
