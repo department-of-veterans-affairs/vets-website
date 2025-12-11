@@ -29,6 +29,7 @@ const form210966 = (pathname = null) => {
   itfVeteranInformationPageUiSchema.benefitType = radioUI({
     title: 'What benefit do you intend to file for?',
     labels: { compensation: 'Compensation', pension: 'Pension' },
+    hideOnReview: false,
   });
   const itfVeteranInformationPageSchema = {
     ...veteranInformationPage.schema,
