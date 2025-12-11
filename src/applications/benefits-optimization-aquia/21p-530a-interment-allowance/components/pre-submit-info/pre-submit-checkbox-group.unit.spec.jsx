@@ -114,8 +114,9 @@ describe('PreSubmitCheckboxGroup', () => {
       );
 
       // Check for the title text input
-      expect(container.querySelector('va-text-input[label="Your title"]')).to
-        .exist;
+      expect(
+        container.querySelector('va-text-input[label="Your official title"]'),
+      ).to.exist;
     });
 
     it('should render statement of truth with checkbox', () => {
@@ -436,7 +437,7 @@ describe('PreSubmitCheckboxGroup', () => {
       );
 
       const titleInput = container.querySelector(
-        'va-text-input[label="Your title"]',
+        'va-text-input[label="Your official title"]',
       );
       expect(titleInput).to.exist;
     });
@@ -535,7 +536,7 @@ describe('PreSubmitCheckboxGroup', () => {
       );
 
       const titleInput = container.querySelector(
-        'va-text-input[label="Your title"]',
+        'va-text-input[label="Your official title"]',
       );
       expect(titleInput.getAttribute('error')).to.equal('Enter your title');
     });
