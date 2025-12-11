@@ -1,9 +1,5 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import footerContent from '~/platform/forms/components/FormFooter';
-import {
-  radioSchema,
-  radioUI,
-} from '~/platform/forms-system/src/js/web-component-patterns';
 import manifest from '../manifest.json';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPageITF from '../containers/IntroductionPageITF';
@@ -26,24 +22,9 @@ const form210966 = (pathname = null) => {
   const itfVeteranInformationPageUiSchema = {
     ...veteranInformationPage.uiSchema,
   };
-  itfVeteranInformationPageUiSchema.benefitType = radioUI({
-    title: 'What benefit do you intend to file for?',
-    labels: { compensation: 'Compensation', pension: 'Pension' },
-  });
   const itfVeteranInformationPageSchema = {
     ...veteranInformationPage.schema,
   };
-  itfVeteranInformationPageSchema.properties = {
-    ...itfVeteranInformationPageSchema.properties,
-  };
-  itfVeteranInformationPageSchema.properties.benefitType = radioSchema([
-    'compensation',
-    'pension',
-  ]);
-  itfVeteranInformationPageSchema.required = [
-    ...itfVeteranInformationPageSchema.required,
-    'benefitType',
-  ];
 
   return {
     formId: formNumber,
