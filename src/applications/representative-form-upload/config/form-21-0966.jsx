@@ -18,6 +18,7 @@ import submissionError from './submissionError';
 import ITFStatusLoadingIndicatorPage from '../components/ITFStatusLoadingIndicatorPage';
 import PermissionError from '../components/PermissionError';
 import ExistingItf from '../components/ExistingItf';
+import ITFClaimantInfoViewField from '../components/ITFClaimantInfoViewField';
 
 const form210966 = (pathname = null) => {
   const { subTitle, formNumber } = getFormContent(pathname);
@@ -31,6 +32,9 @@ const form210966 = (pathname = null) => {
     labels: { compensation: 'Compensation', pension: 'Pension' },
     hideOnReview: false,
   });
+  itfVeteranInformationPageUiSchema[
+    'ui:objectViewField'
+  ] = ITFClaimantInfoViewField;
   const itfVeteranInformationPageSchema = {
     ...veteranInformationPage.schema,
   };
