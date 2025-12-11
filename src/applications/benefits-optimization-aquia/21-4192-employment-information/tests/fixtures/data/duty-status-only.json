@@ -32,7 +32,9 @@
       "dailyHours": "10",
       "weeklyHours": "60"
     },
-    "employmentConcessions": {},
+    "employmentConcessions": {
+      "concessions": "None"
+    },
     "employmentTermination": {
       "terminationReason": "Voluntary separation to pursue independent contracting opportunities. Maintaining reserve guild membership status.",
       "dateLastWorked": "2023-11-20"

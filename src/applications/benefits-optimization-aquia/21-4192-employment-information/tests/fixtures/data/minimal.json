@@ -32,8 +32,11 @@
       "dailyHours": "16",
       "weeklyHours": "112"
     },
-    "employmentConcessions": {},
+    "employmentConcessions": {
+      "concessions": "None"
+    },
     "employmentTermination": {
+      "terminationReason": "End of military service following conclusion of galactic conflict operations",
       "dateLastWorked": "2005-05-19"
     },
     "employmentLastPayment": {
