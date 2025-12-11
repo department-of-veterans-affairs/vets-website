@@ -334,7 +334,7 @@ export const checkContentDependentsIntro = () => {
   );
   checkVisibleElementContent(
     'form',
-    'Next we’ll ask you about your dependent children. You may add up to 3 dependents.',
+    'Next we’ll ask you about the Veteran’s dependent children. You may add up to 3 dependents.',
   );
   checkVisibleElementContent(
     'va-additional-info',
