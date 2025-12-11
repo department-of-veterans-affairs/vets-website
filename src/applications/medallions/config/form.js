@@ -34,7 +34,8 @@ import typeOfMedallion from '../pages/typeOfMedallion';
 import medallionSize from '../pages/medallionSize';
 import EditPhone from '../pages/editPhone';
 import EditEmail from '../pages/editEmail';
-import ApplicantContactDetailsLoggedIn from '../pages/applicantContactDetailsLoggedIn';
+import ApplicantContactInfoLoggedIn from '../pages/applicantContactInfoLoggedIn';
+import applicantContactInfoLoggedInEdit from '../pages/applicantContactInfoLoggedInEdit';
 import {
   ApplicantNameHeader,
   ApplicantNameNote,
@@ -137,18 +138,24 @@ const formConfig = {
           depends: formData =>
             ['familyMember', 'personalRep', 'other'].includes(
               formData.relationToVetRadio,
-            ) &&
-            (!isUserSignedIn(formData) ||
-              formData?.['view:loggedInEditContactInfo'] === true),
+            ) && !isUserSignedIn(formData),
         },
-        applicantContactDetailsLoggedIn: {
+        applicantContactInfoLoggedInEdit: {
+          path: 'applicant-contact-info-logged-in-edit',
           title: 'Your contact information',
-          path: 'applicant-contact-details-logged-in',
+          uiSchema: applicantContactInfoLoggedInEdit.uiSchema,
+          schema: applicantContactInfo.schema,
+          depends: formData =>
+            formData?.['view:loggedInEditContactInfo'] === true,
+        },
+        applicantContactInfoLoggedIn: {
+          title: 'Your contact information',
+          path: 'applicant-contact-info-logged-in',
           depends: formData =>
             ['familyMember', 'personalRep', 'other'].includes(
               formData.relationToVetRadio,
             ) && isUserSignedIn(formData),
-          CustomPage: ApplicantContactDetailsLoggedIn,
+          CustomPage: ApplicantContactInfoLoggedIn,
           CustomPageReview: null,
           uiSchema: {},
           schema: {

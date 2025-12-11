@@ -9,7 +9,7 @@ import { scrollTo } from 'platform/utilities/scroll';
 import { focusElement } from 'platform/utilities/ui/focus';
 import ApplicantContactInfoCard from '../components/ApplicantContactInfoCard';
 
-const ApplicantContactDetailsLoggedIn = ({
+const ApplicantContactInfoLoggedIn = ({
   data,
   onReviewPage,
   goToPath,
@@ -24,10 +24,10 @@ const ApplicantContactDetailsLoggedIn = ({
 
   // Clear the edit flag when returning to this page
   useEffect(() => {
-    if (data?.['view:loggedInEditAddress'] === true) {
+    if (data?.['view:loggedInEditContactInfo'] === true) {
       const updatedFormData = {
         ...data,
-        'view:loggedInEditAddress': false,
+        'view:loggedInEditContactInfo': false,
       };
       dispatch(setData(updatedFormData));
     }
@@ -85,7 +85,7 @@ const ApplicantContactDetailsLoggedIn = ({
     // Use goToPath to navigate to edit page
     // The force: true option ensures navigation even from review page
     if (goToPath) {
-      goToPath('/applicant-contact-info', {
+      goToPath('/applicant-contact-info-logged-in-edit', {
         force: true,
       });
     } else if (goForward) {
@@ -150,4 +150,4 @@ const ApplicantContactDetailsLoggedIn = ({
   );
 };
 
-export default ApplicantContactDetailsLoggedIn;
+export default ApplicantContactInfoLoggedIn;
