@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { TextInputField } from '@bio-aquia/shared/components/atoms';
 import { VaStatementOfTruth } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { getVeteranName } from '@bio-aquia/21p-530a-interment-allowance/utils/actions/name-helpers';
 
 const ERROR_MSG_CHECKBOX = 'You must certify this statement is correct';
 
@@ -14,9 +15,6 @@ const FULL_NAME_MIN_LENGTH = 3;
 /**
  * Validates signature input
  * Requires at least 3 non-whitespace characters
- * Allows letters (including accented/international characters), spaces, hyphens, apostrophes, and periods
- * Must contain at least one letter (rejects strings like "---" or "...")
- * Does not allow numbers or invalid special characters
  *
  * @param {string} signatureValue - The signature input value
  * @returns {boolean} - True if valid, false otherwise
@@ -25,16 +23,7 @@ export const isSignatureValid = signatureValue => {
   if (!signatureValue) return false;
 
   const trimmed = signatureValue.trim();
-  if (trimmed.length < FULL_NAME_MIN_LENGTH) return false;
-
-  // Allow letters (including Unicode/accented characters), spaces, hyphens, apostrophes, and periods
-  // \p{L} matches any Unicode letter including é, ñ, ü, etc.
-  // This supports names like "José García", "Mary-Jane O'Connor Jr.", "François Müller"
-  const namePattern = /^[\p{L}\s'.-]+$/u;
-  if (!namePattern.test(trimmed)) return false;
-
-  // Must contain at least one letter (prevents "---", "...", etc.)
-  return /\p{L}/u.test(trimmed);
+  return trimmed.length >= FULL_NAME_MIN_LENGTH;
 };
 
 /**
@@ -49,15 +38,18 @@ export const isSignatureValid = signatureValue => {
 export const PreSubmitCheckboxGroup = ({ showError, onSectionComplete }) => {
   // Get formData from Redux instead of props to avoid infinite loop in useEffect
   const formData = useSelector(state => state.form.data);
+  const veteranName = getVeteranName(formData);
   const submission = useSelector(state => state.form.submission);
   const dispatch = useDispatch();
   const hasSubmittedForm = Boolean(submission.status);
 
   // State for the single signature required
-  const [fullName, setFullName] = useState('');
+  const [signatoryFullName, setSignatoryFullName] = useState('');
   const [organizationTitle, setOrganizationTitle] = useState('');
   const [isCertified, setIsCertified] = useState(false);
-  const [fullNameTouched, setFullNameTouched] = useState(false);
+  const [signatoryFullNameTouched, setSignatoryFullNameTouched] = useState(
+    false,
+  );
   const [titleTouched, setTitleTouched] = useState(false);
 
   // Ref to prevent duplicate dispatches
@@ -67,11 +59,11 @@ export const PreSubmitCheckboxGroup = ({ showError, onSectionComplete }) => {
   const prevCompleteRef = useRef(null);
 
   // Validate full name using shared validation logic
-  const validateFullName = useCallback(
+  const validateSignatoryFullName = useCallback(
     () => {
-      return isSignatureValid(fullName);
+      return isSignatureValid(signatoryFullName);
     },
-    [fullName],
+    [signatoryFullName],
   );
 
   // Validate title meets length requirements
@@ -89,7 +81,7 @@ export const PreSubmitCheckboxGroup = ({ showError, onSectionComplete }) => {
       if (hasSubmittedForm) return;
 
       const certificationData = {
-        signature: fullName.trim(),
+        signature: signatoryFullName.trim(),
         titleOfStateOrTribalOfficial: organizationTitle.trim(),
         certified: isCertified,
       };
@@ -112,7 +104,7 @@ export const PreSubmitCheckboxGroup = ({ showError, onSectionComplete }) => {
     },
     [
       dispatch,
-      fullName,
+      signatoryFullName,
       organizationTitle,
       isCertified,
       hasSubmittedForm,
@@ -123,9 +115,10 @@ export const PreSubmitCheckboxGroup = ({ showError, onSectionComplete }) => {
   // Check if all required fields are valid and notify parent when completion state changes
   useEffect(
     () => {
-      const hasValidFullName = validateFullName();
+      const hasValidSignatoryFullName = validateSignatoryFullName();
       const hasValidTitle = validateTitle();
-      const isComplete = hasValidFullName && hasValidTitle && isCertified;
+      const isComplete =
+        hasValidSignatoryFullName && hasValidTitle && isCertified;
 
       // Only call callback if completion state has actually changed
       // This prevents unnecessary calls even if parent passes new callback reference
@@ -135,10 +128,10 @@ export const PreSubmitCheckboxGroup = ({ showError, onSectionComplete }) => {
       }
     },
     [
-      fullName,
+      signatoryFullName,
       organizationTitle,
       isCertified,
-      validateFullName,
+      validateSignatoryFullName,
       validateTitle,
       hasSubmittedForm,
       onSectionComplete,
@@ -147,19 +140,19 @@ export const PreSubmitCheckboxGroup = ({ showError, onSectionComplete }) => {
 
   // Determine if errors should be shown
   const shouldShowErrors = !hasSubmittedForm && showError;
-  const shouldShowFullNameError =
-    !hasSubmittedForm && (fullNameTouched || showError);
+  const shouldShowSignatoryFullNameError =
+    !hasSubmittedForm && (signatoryFullNameTouched || showError);
   const shouldShowTitleError = !hasSubmittedForm && (titleTouched || showError);
 
   // Validation checks
-  const isFullNameValid = validateFullName();
+  const isSignatoryFullNameValid = validateSignatoryFullName();
   const isTitleEmpty = organizationTitle.trim().length === 0;
   const isTitleValid = validateTitle();
 
   // Error messages (null if no error)
-  let fullNameError = null;
-  if (shouldShowFullNameError && !isFullNameValid) {
-    fullNameError = 'Enter your full name';
+  let signatoryFullNameError = null;
+  if (shouldShowSignatoryFullNameError && !isSignatoryFullNameValid) {
+    signatoryFullNameError = 'Enter your full name';
   }
 
   let titleErrorMsg = null;
@@ -171,12 +164,12 @@ export const PreSubmitCheckboxGroup = ({ showError, onSectionComplete }) => {
     shouldShowErrors && !isCertified ? ERROR_MSG_CHECKBOX : null;
 
   // Event handlers
-  const handleFullNameChange = useCallback(event => {
-    setFullName(event.detail.value);
+  const handleSignatoryFullNameChange = useCallback(event => {
+    setSignatoryFullName(event.detail.value);
   }, []);
 
-  const handleFullNameBlur = useCallback(() => {
-    setFullNameTouched(true);
+  const handleSignatoryFullNameBlur = useCallback(() => {
+    setSignatoryFullNameTouched(true);
   }, []);
 
   const handleTitleChange = useCallback((_, value) => {
@@ -202,14 +195,15 @@ export const PreSubmitCheckboxGroup = ({ showError, onSectionComplete }) => {
       <div aria-describedby="interment-allowance-declaration">
         <VaStatementOfTruth
           name="stateOrTribalOfficial"
+          heading="Certification and signature"
           inputLabel="Your full name"
-          inputValue={fullName}
-          inputError={fullNameError}
+          inputValue={signatoryFullName}
+          inputError={signatoryFullNameError}
           checked={isCertified}
-          checkboxLabel="I HEREBY CERTIFY THAT the veteran named in Item 1 was buried in a State-owned Veterans Cemetery or Tribal Cemetery (without charge)."
+          checkboxLabel={`I hereby certify that ${veteranName} was buried in a State-owned Veterans Cemetery or Tribal Cemetery (without charge).`}
           checkboxError={checkboxError}
-          onVaInputBlur={handleFullNameBlur}
-          onVaInputChange={handleFullNameChange}
+          onVaInputBlur={handleSignatoryFullNameBlur}
+          onVaInputChange={handleSignatoryFullNameChange}
           onVaCheckboxChange={handleCheckboxChange}
           hideLegalNote
         >

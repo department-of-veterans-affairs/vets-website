@@ -35,7 +35,7 @@ describe('nameHelpers', () => {
 
     it('should return default fallback when name is missing', () => {
       const formData = { veteranInformation: { fullName: {} } };
-      expect(getVeteranName(formData)).to.equal('the veteran');
+      expect(getVeteranName(formData)).to.equal('the Veteran');
     });
 
     it('should return custom fallback when provided', () => {
@@ -47,23 +47,23 @@ describe('nameHelpers', () => {
 
     it('should return fallback when veteranInformation is missing', () => {
       const formData = {};
-      expect(getVeteranName(formData)).to.equal('the veteran');
+      expect(getVeteranName(formData)).to.equal('the Veteran');
     });
 
     it('should return fallback when formData is null', () => {
-      expect(getVeteranName(null)).to.equal('the veteran');
+      expect(getVeteranName(null)).to.equal('the Veteran');
     });
 
     it('should return fallback when formData is undefined', () => {
-      expect(getVeteranName(undefined)).to.equal('the veteran');
+      expect(getVeteranName(undefined)).to.equal('the Veteran');
     });
 
     it('should return fallback when formData is an array', () => {
-      expect(getVeteranName([])).to.equal('the veteran');
+      expect(getVeteranName([])).to.equal('the Veteran');
     });
 
     it('should return fallback when formData is a string', () => {
-      expect(getVeteranName('invalid')).to.equal('the veteran');
+      expect(getVeteranName('invalid')).to.equal('the Veteran');
     });
 
     it('should handle names with surrounding whitespace', () => {
