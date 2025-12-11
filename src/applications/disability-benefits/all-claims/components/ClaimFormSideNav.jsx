@@ -110,7 +110,9 @@ export default function ClaimFormSideNav({
           );
         }
 
-        return index <= maxChapterIndex ? (
+        // page.idx instead of index for optional chapters that may
+        //  be included after being skipped (see CFI flow)
+        return page.idx <= maxChapterIndex ? (
           <VaSidenavItem
             key={page.key}
             label={label}

@@ -489,6 +489,9 @@
  * @property {ArrayBuilderText} [text] Override any default text used in the array builder pattern
  * @property {boolean} [useLinkInsteadOfYesNo]
  * @property {boolean} [useButtonInsteadOfYesNo]
+ * @property {(({ arrayData, fullData, isReview }) => boolean)} [canAddItem] Control add button/link visibility on summary page
+ * @property {(({ itemData, index, fullData, isReview }) => boolean)} [canEditItem] Control edit link visibility per card
+ * @property {(({ itemData, index, fullData, isReview }) => boolean)} [canDeleteItem] Control delete button visibility per card
  * @property {DuplicateChecks} [duplicateChecks]
  * ```
  * // Example simple:
@@ -592,9 +595,10 @@
 
 /**
  * @typedef {Object} FormOptions
- * @property {boolean} filterInactiveNestedPageData - utilize filter method for removing inactive page data that filters ArrayBuilder page data
- * @property {boolean} useWebComponentForNavigation - utilize VADS button web components for page nav
- * @property {boolean} focusOnAlertRole - apply focus to va-alert on submission error
+ * @property {boolean} [filterInactiveNestedPageData] - utilize filter method for removing inactive page data that filters ArrayBuilder page data
+ * @property {boolean} [useWebComponentForNavigation] - utilize VADS button web components for page nav
+ * @property {boolean} [focusOnAlertRole] - apply focus to va-alert on submission error
+ * @property {boolean} [scaffoldAndFocusFormErrors] - create screen reader-only error messages and move focus to first error on submit
  */
 
 /**
