@@ -5,6 +5,7 @@ import configureStore from 'redux-mock-store';
 import sinon from 'sinon';
 
 import * as datadog from 'platform/monitoring/Datadog';
+import { assert } from 'chai';
 import { App } from '../../containers/App';
 
 const mockStore = configureStore([]);
@@ -127,5 +128,103 @@ describe('<App />', () => {
       </Provider>,
     );
     sinon.assert.notCalled(loggingStub);
+  });
+
+  it('Checks RUM is enabled if its feature flag is loaded and on.', () => {
+    const store = mockStore({
+      user: {},
+      letters: {},
+      featureToggles: {
+        loading: false,
+        /* eslint-disable camelcase */
+        letters_rum_dashboard: true,
+      },
+    });
+    const monitoringStub = sandbox.stub(
+      datadog,
+      'initializeRealUserMonitoring',
+    );
+    const props = {
+      featureFlagsLoading: false,
+      user: {
+        login: {},
+        profile: {
+          services: [],
+          verified: true,
+        },
+      },
+    };
+    render(
+      <Provider store={store}>
+        <App {...props} />
+      </Provider>,
+    );
+    sinon.assert.calledOnce(monitoringStub);
+  });
+
+  it('Checks RUM was not enabled if feature flags are loading.', () => {
+    const store = mockStore({
+      user: {},
+      letters: {},
+      featureToggles: {
+        loading: true,
+        /* eslint-disable camelcase */
+        letters_rum_dashboard: undefined,
+      },
+    });
+    const monitoringStub = sandbox.stub(
+      datadog,
+      'initializeRealUserMonitoring',
+    );
+    const props = {
+      featureFlagsLoading: false,
+      user: {
+        login: {},
+        profile: {
+          services: [],
+          verified: true,
+        },
+      },
+    };
+    render(
+      <Provider store={store}>
+        <App {...props} />
+      </Provider>,
+    );
+    sinon.assert.notCalled(monitoringStub);
+  });
+
+  it('Check RUM was not enabled if its feature flag is loaded and off.', () => {
+    const store = mockStore({
+      user: {},
+      letters: {},
+      featureToggles: {
+        loading: false,
+        /* eslint-disable camelcase */
+        letters_rum_dashboard: false,
+      },
+    });
+    const monitoringStub = sandbox.stub(
+      datadog,
+      'initializeRealUserMonitoring',
+    );
+    window.DD_RUM = true;
+    const props = {
+      featureFlagsLoading: false,
+      user: {
+        login: {},
+        profile: {
+          services: [],
+          verified: true,
+        },
+      },
+    };
+    render(
+      <Provider store={store}>
+        <App {...props} />
+      </Provider>,
+    );
+    sinon.assert.notCalled(monitoringStub);
+    assert.isUndefined(window.DD_RUM);
   });
 });
