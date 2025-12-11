@@ -56,7 +56,7 @@ const IntroductionPage = () => {
         navigate(`/file-new-claim/${apptId}/${result.claimId}/choose-expense`);
       }
     } catch (error) {
-      navigate(`/file-new-claim/${apptId}/claim-failed`);
+      navigate(`/file-new-claim/${apptId}/create-claim-error`);
     }
   };
 

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, Outlet, Navigate } from 'react-router-dom-v5-compat';
 
@@ -17,6 +17,10 @@ import { STATUSES } from '../constants';
 const ComplexClaimSubmitFlowWrapper = () => {
   const dispatch = useDispatch();
   const { apptId, claimId } = useParams();
+  const isErrorRoute =
+    window.location.pathname.endsWith('/create-claim-error') ||
+    window.location.pathname.endsWith('/get-claim-error');
+  const [shouldRedirect, setShouldRedirect] = useState(false);
   const {
     useToggleValue,
     TOGGLE_NAMES,
@@ -63,7 +67,12 @@ const ComplexClaimSubmitFlowWrapper = () => {
   useEffect(
     () => {
       if (needsClaimData) {
-        dispatch(getComplexClaimDetails(effectiveClaimId));
+        dispatch(getComplexClaimDetails(effectiveClaimId))
+          .then(() => {})
+          .catch(() => {
+            // Redirect user to an error page if the GET claim details call errors
+            setShouldRedirect(true);
+          });
       }
       if (needsApptData) {
         dispatch(getAppointmentData(apptId));
@@ -71,6 +80,12 @@ const ComplexClaimSubmitFlowWrapper = () => {
     },
     [dispatch, needsClaimData, needsApptData, effectiveClaimId, apptId],
   );
+
+  if (shouldRedirect && !isErrorRoute) {
+    return (
+      <Navigate to={`/file-new-claim/${apptId}/get-claim-error`} replace />
+    );
+  }
 
   if (isLoading) {
     return (

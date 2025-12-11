@@ -147,7 +147,7 @@ export default function ClaimDetailsContent({
           <va-link-action
             text="Complete and file your claim"
             // Specifically NOT a client-side route to ensure
-            // redirect logic is evaluated upon entry into complex claims
+            // redirect logic is evaluated upon entry into complex claims using ComplexClaimRedirect.jsx
             href={`/my-health/travel-pay/file-new-claim/${appointmentId}`}
           />
         )}
