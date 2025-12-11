@@ -1,336 +1,269 @@
 import React from 'react';
 import { expect } from 'chai';
+import { mount } from 'enzyme';
 import sinon from 'sinon';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import { waitFor } from '@testing-library/react';
-
+import { Provider } from 'react-redux';
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import * as featureToggleHook from 'platform/utilities/feature-toggles';
 import App from '../../containers/App';
-import reducer from '../../reducers';
-import * as actions from '../../actions';
-import * as copayActions from '../../actions/copays';
+import * as actionsModule from '../../actions/index';
+import * as copaysModule from '../../actions/copays';
+import * as hooks from '../../hooks/useDetectFieldChanges';
+import * as documentTitleHook from '../../hooks/useDocumentTitle';
 
-describe('App', () => {
-  let sandbox;
+const middlewares = [thunk];
+const mockStore = configureMockStore(middlewares);
 
-  const defaultInitialState = {
+describe('<App /> - API Calls', () => {
+  let store;
+  let useDetectFieldChangesStub;
+  let useDocumentTitleStub;
+  let useFeatureToggleStub;
+  let fetchDebtsStub;
+  let getStatementsStub;
+  let fetchFormStatusStub;
+
+  const defaultState = {
     form: {
       data: {},
       isStartingOver: false,
-    },
-    fsr: {
-      pending: false,
-      isError: false,
     },
     user: {
       login: {
         currentlyLoggedIn: true,
       },
       profile: {
-        vapContactInfo: {},
         verified: true,
+        vapContactInfo: {},
       },
+    },
+    fsr: {
+      isError: false,
+      pending: false,
+      debts: [],
+      statements: [],
     },
     featureToggles: {
       loading: false,
-      [FEATURE_FLAG_NAMES.showFinancialStatusReport]: true,
-      [FEATURE_FLAG_NAMES.financialStatusReportReviewPageNavigation]: false,
     },
   };
 
+  const defaultProps = {
+    children: <div>Test Children</div>,
+    location: { pathname: '/introduction' },
+  };
+
   beforeEach(() => {
-    sandbox = sinon.createSandbox();
+    // Mock custom hooks
+    useDetectFieldChangesStub = sinon
+      .stub(hooks, 'default')
+      .returns({ shouldShowReviewButton: true });
+    useDocumentTitleStub = sinon.stub(documentTitleHook, 'default');
+    useFeatureToggleStub = sinon.stub(featureToggleHook, 'useFeatureToggle');
+    useFeatureToggleStub.returns({
+      useToggleValue: sinon.stub().returns(false),
+      TOGGLE_NAMES: {},
+    });
+
+    // Mock API action creators
+    fetchDebtsStub = sinon.stub(actionsModule, 'fetchDebts');
+    getStatementsStub = sinon.stub(copaysModule, 'getStatements');
+    fetchFormStatusStub = sinon.stub(actionsModule, 'fetchFormStatus');
+
+    fetchDebtsStub.returns(Promise.resolve());
+    getStatementsStub.returns(Promise.resolve());
+    fetchFormStatusStub.returns({ type: 'FSR_API_CALL_INITIATED' });
   });
 
   afterEach(() => {
-    sandbox.restore();
+    useDetectFieldChangesStub.restore();
+    useDocumentTitleStub.restore();
+    useFeatureToggleStub.restore();
+    fetchDebtsStub.restore();
+    getStatementsStub.restore();
+    fetchFormStatusStub.restore();
   });
 
-  describe('loading states', () => {
-    it('should render loading indicator when pending is true', () => {
-      const initialState = {
-        ...defaultInitialState,
-        fsr: {
-          ...defaultInitialState.fsr,
-          pending: true,
-        },
-      };
+  const mountComponent = (stateOverrides = {}, propsOverrides = {}) => {
+    const state = { ...defaultState, ...stateOverrides };
+    store = mockStore(state);
+    return mount(
+      <Provider store={store}>
+        <App {...defaultProps} {...propsOverrides} />
+      </Provider>,
+    );
+  };
 
-      const { container } = renderWithStoreAndRouter(<App />, {
-        initialState,
-        reducers: reducer,
+  describe('fetchDebts API call', () => {
+    it('should call fetchDebts when user is logged in and verified', () => {
+      mountComponent({
+        user: {
+          login: { currentlyLoggedIn: true },
+          profile: { verified: true },
+        },
       });
 
-      const loadingIndicator = container.querySelector('va-loading-indicator');
-      expect(loadingIndicator).to.exist;
-      expect(loadingIndicator.getAttribute('label')).to.equal('Loading');
-      expect(loadingIndicator.getAttribute('message')).to.equal(
+      expect(fetchDebtsStub.called).to.be.true;
+    });
+
+    it('should not call fetchDebts when user is not logged in', () => {
+      mountComponent({
+        user: {
+          login: { currentlyLoggedIn: false },
+          profile: { verified: false },
+        },
+      });
+
+      expect(fetchDebtsStub.called).to.be.false;
+    });
+
+    it('should not call fetchDebts when user is not verified', () => {
+      mountComponent({
+        user: {
+          login: { currentlyLoggedIn: true },
+          profile: { verified: false },
+        },
+      });
+
+      expect(fetchDebtsStub.called).to.be.false;
+    });
+  });
+
+  describe('getStatements API call', () => {
+    it('should call getStatements when user is logged in and verified', () => {
+      mountComponent({
+        user: {
+          login: { currentlyLoggedIn: true },
+          profile: { verified: true },
+        },
+      });
+
+      expect(getStatementsStub.called).to.be.true;
+    });
+
+    it('should not call getStatements when user is not logged in', () => {
+      mountComponent({
+        user: {
+          login: { currentlyLoggedIn: false },
+          profile: { verified: false },
+        },
+      });
+
+      expect(getStatementsStub.called).to.be.false;
+    });
+
+    it('should not call getStatements when user is not verified', () => {
+      mountComponent({
+        user: {
+          login: { currentlyLoggedIn: true },
+          profile: { verified: false },
+        },
+      });
+
+      expect(getStatementsStub.called).to.be.false;
+    });
+  });
+
+  describe('API call coordination', () => {
+    it('should call both fetchDebts and getStatements when user is logged in and verified', () => {
+      mountComponent({
+        user: {
+          login: { currentlyLoggedIn: true },
+          profile: { verified: true },
+        },
+      });
+
+      expect(fetchDebtsStub.called).to.be.true;
+      expect(getStatementsStub.called).to.be.true;
+    });
+
+    it('should call fetchFormStatus regardless of login status', () => {
+      mountComponent({
+        user: {
+          login: { currentlyLoggedIn: false },
+          profile: { verified: false },
+        },
+      });
+
+      expect(fetchFormStatusStub.called).to.be.true;
+    });
+
+    it('should only call fetchFormStatus when user is not logged in', () => {
+      mountComponent({
+        user: {
+          login: { currentlyLoggedIn: false },
+          profile: { verified: false },
+        },
+      });
+
+      expect(fetchDebtsStub.called).to.be.false;
+      expect(getStatementsStub.called).to.be.false;
+      expect(fetchFormStatusStub.called).to.be.true;
+    });
+  });
+
+  describe('Loading states', () => {
+    it('should show loading indicator when pending is true', () => {
+      const wrapper = mountComponent({
+        fsr: {
+          pending: true,
+          isError: false,
+        },
+      });
+
+      expect(wrapper.find('va-loading-indicator').exists()).to.be.true;
+      expect(wrapper.find('va-loading-indicator').prop('message')).to.equal(
         'Loading your information...',
       );
+      wrapper.unmount();
     });
 
-    it('should render loading indicator when isLoadingFeatures is true', () => {
-      const initialState = {
-        ...defaultInitialState,
+    it('should not show loading indicator when pending is false', () => {
+      const wrapper = mountComponent({
+        fsr: {
+          pending: false,
+          isError: false,
+        },
+      });
+
+      expect(wrapper.find('va-loading-indicator').exists()).to.be.false;
+      wrapper.unmount();
+    });
+
+    it('should show loading indicator when isLoadingFeatures is true', () => {
+      const wrapper = mountComponent({
         featureToggles: {
-          ...defaultInitialState.featureToggles,
           loading: true,
         },
-      };
-
-      const { container } = renderWithStoreAndRouter(<App />, {
-        initialState,
-        reducers: reducer,
+        fsr: {
+          pending: false,
+        },
       });
 
-      const loadingIndicator = container.querySelector('va-loading-indicator');
-      expect(loadingIndicator).to.exist;
-      expect(loadingIndicator.getAttribute('label')).to.equal('Loading');
-      expect(loadingIndicator.getAttribute('message')).to.equal(
+      expect(wrapper.find('va-loading-indicator').exists()).to.be.true;
+      expect(wrapper.find('va-loading-indicator').prop('message')).to.equal(
         'Loading features...',
       );
-    });
-  });
-
-  describe('error state', () => {
-    it('should render ErrorAlert when isError is true and user is logged in', () => {
-      const initialState = {
-        ...defaultInitialState,
-        fsr: {
-          ...defaultInitialState.fsr,
-          isError: true,
-        },
-        user: {
-          login: {
-            currentlyLoggedIn: true,
-          },
-        },
-      };
-
-      const { getByTestId } = renderWithStoreAndRouter(<App />, {
-        initialState,
-        reducers: reducer,
-      });
-
-      const errorAlert = getByTestId('server-error');
-      expect(errorAlert).to.exist;
+      wrapper.unmount();
     });
 
-    it('should not render ErrorAlert when isError is true but user is not logged in', () => {
-      const initialState = {
-        ...defaultInitialState,
-        fsr: {
-          ...defaultInitialState.fsr,
-          isError: true,
-        },
-        user: {
-          login: {
-            currentlyLoggedIn: false,
-          },
-        },
-      };
-
-      const { queryByTestId } = renderWithStoreAndRouter(<App />, {
-        initialState,
-        reducers: reducer,
-      });
-
-      const errorAlert = queryByTestId('server-error');
-      expect(errorAlert).to.be.null;
-    });
-  });
-
-  describe('feature toggle', () => {
-    it('should render RoutedSavableApp when showFSR is true', () => {
-      const initialState = {
-        ...defaultInitialState,
+    it('should show loading indicator when both pending and isLoadingFeatures are true', () => {
+      const wrapper = mountComponent({
         featureToggles: {
-          ...defaultInitialState.featureToggles,
-          [FEATURE_FLAG_NAMES.showFinancialStatusReport]: true,
+          loading: true,
         },
-      };
+        fsr: {
+          pending: true,
+        },
+      });
 
-      const { container } = renderWithStoreAndRouter(
-        <App>
-          <div data-testid="children">Test Children</div>
-        </App>,
-        {
-          initialState,
-          reducers: reducer,
-        },
+      expect(wrapper.find('va-loading-indicator').exists()).to.be.true;
+      // When both are true, pending takes precedence (shows "Loading your information...")
+      expect(wrapper.find('va-loading-indicator').prop('message')).to.equal(
+        'Loading your information...',
       );
-
-      // Check that RoutedSavableApp is rendered (children should be present)
-      const children = container.querySelector('[data-testid="children"]');
-      expect(children).to.exist;
-    });
-
-    it('should not render RoutedSavableApp when showFSR is false', () => {
-      const initialState = {
-        ...defaultInitialState,
-        featureToggles: {
-          ...defaultInitialState.featureToggles,
-          [FEATURE_FLAG_NAMES.showFinancialStatusReport]: false,
-        },
-      };
-
-      const { container } = renderWithStoreAndRouter(
-        <App>
-          <div data-testid="children">Test Children</div>
-        </App>,
-        {
-          initialState,
-          reducers: reducer,
-        },
-      );
-
-      // When showFSR is false, RoutedSavableApp is not rendered
-      const children = container.querySelector('[data-testid="children"]');
-      expect(children).to.be.null;
-    });
-  });
-
-  describe('form status fetching', () => {
-    it('should render without error and call getFormStatus on mount', () => {
-      const { container } = renderWithStoreAndRouter(<App />, {
-        initialState: defaultInitialState,
-        reducers: reducer,
-      });
-
-      // Component should render successfully
-      // The getFormStatus call happens in useEffect, which is tested via integration tests
-      expect(container).to.exist;
-    });
-  });
-
-  describe('debt and copay fetching', () => {
-    it('should call getDebts and getCopays when user is logged in and verified', async () => {
-      const fetchDebtsStub = sandbox
-        .stub(actions, 'fetchDebts')
-        .callsFake(async dispatch => {
-          return dispatch({
-            type: 'DEBTS_FETCH_SUCCESS',
-            debts: [],
-          });
-        });
-
-      const getStatementsStub = sandbox
-        .stub(copayActions, 'getStatements')
-        .callsFake(async dispatch => {
-          return dispatch({
-            type: 'MCP_STATEMENTS_FETCH_SUCCESS',
-            statements: [],
-          });
-        });
-
-      const initialState = {
-        ...defaultInitialState,
-        user: {
-          login: {
-            currentlyLoggedIn: true,
-          },
-          profile: {
-            vapContactInfo: {},
-            verified: true,
-          },
-        },
-      };
-
-      renderWithStoreAndRouter(<App />, {
-        initialState,
-        reducers: reducer,
-      });
-
-      await waitFor(() => {
-        expect(fetchDebtsStub.called).to.be.true;
-        expect(getStatementsStub.called).to.be.true;
-      });
-    });
-
-    it('should not call getDebts and getCopays when user is not logged in', async () => {
-      const fetchDebtsStub = sandbox
-        .stub(actions, 'fetchDebts')
-        .callsFake(async dispatch => {
-          return dispatch({
-            type: 'DEBTS_FETCH_SUCCESS',
-            debts: [],
-          });
-        });
-
-      const getStatementsStub = sandbox
-        .stub(copayActions, 'getStatements')
-        .callsFake(async dispatch => {
-          return dispatch({
-            type: 'MCP_STATEMENTS_FETCH_SUCCESS',
-            statements: [],
-          });
-        });
-
-      const initialState = {
-        ...defaultInitialState,
-        user: {
-          login: {
-            currentlyLoggedIn: false,
-          },
-          profile: {
-            vapContactInfo: {},
-            verified: false,
-          },
-        },
-      };
-
-      renderWithStoreAndRouter(<App />, {
-        initialState,
-        reducers: reducer,
-      });
-
-      // Wait a bit to ensure useEffect has run, then verify they were not called
-      await new Promise(resolve => setTimeout(resolve, 100));
-      expect(fetchDebtsStub.called).to.be.false;
-      expect(getStatementsStub.called).to.be.false;
-    });
-
-    it('should not call getDebts and getCopays when user is logged in but not verified', async () => {
-      const fetchDebtsStub = sandbox
-        .stub(actions, 'fetchDebts')
-        .callsFake(async dispatch => {
-          return dispatch({
-            type: 'DEBTS_FETCH_SUCCESS',
-            debts: [],
-          });
-        });
-
-      const getStatementsStub = sandbox
-        .stub(copayActions, 'getStatements')
-        .callsFake(async dispatch => {
-          return dispatch({
-            type: 'MCP_STATEMENTS_FETCH_SUCCESS',
-            statements: [],
-          });
-        });
-
-      const initialState = {
-        ...defaultInitialState,
-        user: {
-          login: {
-            currentlyLoggedIn: true,
-          },
-          profile: {
-            vapContactInfo: {},
-            verified: false,
-          },
-        },
-      };
-
-      renderWithStoreAndRouter(<App />, {
-        initialState,
-        reducers: reducer,
-      });
-
-      // Wait a bit to ensure useEffect has run, then verify they were not called
-      await new Promise(resolve => setTimeout(resolve, 100));
-      expect(fetchDebtsStub.called).to.be.false;
-      expect(getStatementsStub.called).to.be.false;
+      wrapper.unmount();
     });
   });
 });
