@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
   useLoaderData,
   useSearchParams,
@@ -8,7 +8,6 @@ import {
 import {
   VaLoadingIndicator,
   VaBreadcrumbs,
-  VaAlert,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
@@ -27,7 +26,6 @@ import SubmissionsPageResults from '../components/SubmissionsPageResults';
 
 const SubmissionsPage = title => {
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const [visibleAlert, setVisibleAlert] = useState(true);
   useEffect(
     () => {
       focusElement('h1.submissions__search-header');
@@ -46,22 +44,6 @@ const SubmissionsPage = title => {
         label={SUBMISSIONS_BC_LABEL}
         homeVeteransAffairs={false}
       />
-      <VaAlert
-        close-btn-aria-label="Close notification"
-        status="info"
-        closeable
-        uswds
-        onCloseEvent={() => setVisibleAlert(false)}
-        visible={visibleAlert}
-      >
-        <h2 id="track-your-status-on-mobile" slot="headline">
-          We are working to improve this tool.
-        </h2>
-        <p className="vads-u-margin-y--0">
-          This early version of the Accredited Representative Portal has limited
-          functionality.
-        </p>
-      </VaAlert>
       <h1
         data-testid="submissions-header"
         className="submissions__search-header"
@@ -74,7 +56,7 @@ const SubmissionsPage = title => {
 
       <div className="submissions__form-start">
         <h2 className="submissions__form-name vads-u-font-size--h3 vads-u-font-family--serif">
-          Form 21-686c
+          VA Form 21-686c
         </h2>
         <p className="submissions__form-description vads-u-font-size--h4">
           Application Request to Add and/or Remove Dependents
@@ -91,7 +73,7 @@ const SubmissionsPage = title => {
 
       <div className="submissions__form-start">
         <h2 className="submissions__form-name vads-u-font-size--h3 vads-u-font-family--serif submissions__margin-top">
-          Form 21-526EZ
+          VA Form 21-526EZ
         </h2>
         <p className="submissions__form-description vads-u-font-size--h4">
           Application for Disability Compensation and Related Compensation
@@ -111,7 +93,7 @@ const SubmissionsPage = title => {
       ) ? (
         <div className="submissions__form-start">
           <h2 className="submissions__form-name vads-u-font-size--h3 vads-u-font-family--serif submissions__margin-top">
-            Form 21-0966
+            VA ßßForm 21-0966
           </h2>
           <p className="submissions__form-description vads-u-font-size--h4">
             Intent to File a Claim for Compensation and/or Pension, or Survivors
