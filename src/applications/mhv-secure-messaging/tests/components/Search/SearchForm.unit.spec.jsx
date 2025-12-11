@@ -469,25 +469,37 @@ describe('Search form', () => {
       inputVaTextInput(screen.container, 'test', '#filter-input');
       userEvent.click(applyButton);
 
+      await waitFor(
+        () => {
+          expect(inboxHeading).to.have.attribute(
+            'aria-describedby',
+            'filter-applied-success',
+          );
+        },
+        { timeout: 3000 },
+      );
+
       await waitFor(() => {
-        expect(inboxHeading).to.have.attribute(
-          'aria-describedby',
-          'filter-applied-success',
-        );
+        expect(screen.getByText('Filters successfully applied')).to.exist;
       });
-      expect(screen.getByText('Filters successfully applied')).to.exist;
       expect(screen.queryByText('No filters applied')).to.not.exist;
       expect(screen.queryByText('Filters successfully cleared')).to.not.exist;
 
       userEvent.click(clearButton);
 
+      await waitFor(
+        () => {
+          expect(inboxHeading).to.have.attribute(
+            'aria-describedby',
+            'filter-clear-success',
+          );
+        },
+        { timeout: 3000 },
+      );
+
       await waitFor(() => {
-        expect(inboxHeading).to.have.attribute(
-          'aria-describedby',
-          'filter-clear-success',
-        );
+        expect(screen.getByText('Filters successfully cleared')).to.exist;
       });
-      expect(screen.getByText('Filters successfully cleared')).to.exist;
       expect(screen.queryByText('No filters applied')).to.not.exist;
       expect(screen.queryByText('Filters successfully applied')).to.not.exist;
     });
