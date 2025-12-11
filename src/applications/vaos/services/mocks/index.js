@@ -203,12 +203,9 @@ const responses = {
     return res.json({ data: submittedAppt });
   },
   'PUT /vaos/v2/appointments/:id': (req, res) => {
-    // TODO: also check through confirmed mocks, when those exist
-    const appointments = appointmentRequests.data
-      .concat(confirmedAppointmentsV3.data)
-      .concat(mockAppts);
-
-    const appt = appointments.find(item => item.id === req.params.id);
+    const appt = confirmedAppointmentsV3.data.find(
+      item => item.id === req.params.id,
+    );
     if (req.body.status === 'cancelled') {
       appt.attributes.status = 'cancelled';
       appt.attributes.cancelationReason = { coding: [{ code: 'pat' }] };
@@ -569,10 +566,7 @@ const responses = {
       );
 
       // If found in dynamic appointments, return it (preserves cancelled status, etc.)
-      if (
-        dynamicAppointment &&
-        dynamicAppointment.attributes?.modality === 'communityCareEps'
-      ) {
+      if (dynamicAppointment) {
         return res.json({
           data: dynamicAppointment,
         });
