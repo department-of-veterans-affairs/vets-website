@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
-import { useHistory } from 'react-router-dom';
 import { VaLinkAction } from '@department-of-veterans-affairs/web-components/react-bindings';
 import {
   getCopayAlertContent,
@@ -9,8 +8,6 @@ import {
 } from '../../combined/utils/copayAlertContent';
 
 const CopayAlertContainer = ({ type, copay }) => {
-  const history = useHistory();
-
   const copayAlertContent = getCopayAlertContent(copay, type);
 
   return (
@@ -31,7 +28,6 @@ const CopayAlertContainer = ({ type, copay }) => {
           onClick={event => {
             event.preventDefault();
             recordEvent({ event: 'cta-link-click-copay-resolve-link' });
-            history.push(`/copay-balances/${copay.id}/resolve`);
           }}
           text="Resolve your bill"
           type="primary"
