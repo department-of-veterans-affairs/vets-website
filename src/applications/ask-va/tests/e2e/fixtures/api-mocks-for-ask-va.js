@@ -165,12 +165,13 @@ const interceptSubtopics = [
 
 export const interceptAskVaResponses = () => {
   cy.intercept(
-    {
-      method: 'GET',
-      url: '**/ask_va_api/v0/contents*',
-      query: { type: 'category' },
+    req =>
+      req.method === 'GET' &&
+      req.url.includes('/ask_va_api/v0/contents') &&
+      (req.query?.type === 'category' || req.url.includes('type=category')),
+    req => {
+      req.reply(responseCategory);
     },
-    responseCategory,
   ).as('askVaCategories');
 
   interceptTopics.forEach(({ parentId, response }) => {
