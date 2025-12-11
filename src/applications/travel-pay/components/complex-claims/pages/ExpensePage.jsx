@@ -304,6 +304,7 @@ const ExpensePage = () => {
         }),
       );
     }
+    // navigate to review page for success and error
     navigate(`/file-new-claim/${apptId}/${claimId}/review`);
   };
 
@@ -451,7 +452,7 @@ const ExpensePage = () => {
       <TravelPayButtonPair
         continueText={isEditMode ? 'Save and continue' : 'Continue'}
         backText={isEditMode ? 'Cancel' : 'Back'}
-        className={isEditMode && 'vads-u-margin-top--2'}
+        className={isEditMode ? 'vads-u-margin-top--2' : ''}
         onBack={handleBack}
         onContinue={handleContinue}
         loading={isLoadingExpense}

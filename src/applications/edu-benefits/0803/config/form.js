@@ -1,6 +1,8 @@
 // @ts-check
+import React from 'react';
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import environment from '~/platform/utilities/environment';
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -8,14 +10,21 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
 
+import submitForm from './submitForm';
+import transform from './transform';
+import prefillTransform from './prefillTransform';
+
+export const SUBMIT_URL = `${
+  environment.API_URL
+}/v0/education_benefits_claims/0803`;
+
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
-  trackingPrefix: 'edu-0803-',
+  submitUrl: SUBMIT_URL,
+  submit: submitForm,
+  trackingPrefix: '0803-edu-benefits-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   dev: {
@@ -33,6 +42,28 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer: prefillTransform,
+  transformForSubmit: transform,
+  preSubmitInfo: {
+    statementOfTruth: {
+      heading: 'Certification statement',
+      body: (
+        <div>
+          <p>
+            I hereby authorize the release of my test information to the
+            Department of Veterans Affairs (VA).
+          </p>
+          <p>
+            <strong>Penalty:</strong> Willfully false statements as to a
+            material fact in a claim for education benefits payable by VA may
+            result in a fine, imprisonment, or both.
+          </p>
+        </div>
+      ),
+      useProfileFullName: true,
+      messageAriaDescribedby: 'I have read and accept the privacy policy.',
+    },
+  },
   savedFormMessages: {
     notFound: 'Please start over to apply for education benefits.',
     noAuth:
