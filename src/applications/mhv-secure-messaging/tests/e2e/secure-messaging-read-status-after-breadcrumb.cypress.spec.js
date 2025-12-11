@@ -26,23 +26,23 @@ describe('SM Read Status - Breadcrumb Navigation', () => {
     PatientInboxPage.loadInboxMessages(threadsWithUnread);
 
     // Verify the unread indicator is visible on first thread
-    cy.get('[data-testid="thread-list-item"]')
+    cy.findAllByTestId('thread-list-item')
       .first()
       .within(() => {
-        cy.get('[data-testid="thread-list-unread-icon"]').should('exist');
+        cy.findByTestId('thread-list-unread-icon').should('exist');
       });
 
     // Navigate to thread detail page
     PatientInboxPage.loadSingleThread(threadResponseUnreadInbox);
 
     // Verify first accordion is auto-expanded (triggers mark as read)
-    cy.get('[data-testid="thread-expand-all"]').should('exist');
+    cy.findByTestId(Locators.BUTTONS.THREAD_EXPAND).should('exist');
     cy.get('va-accordion-item')
       .first()
       .should('have.attr', 'open');
 
     // Wait for mark-as-read API call
-    cy.wait('@fist-message-in-thread');
+    cy.wait('@first-message-in-thread');
 
     // Intercept refetch with updated (read) thread list
     cy.intercept(
@@ -69,20 +69,20 @@ describe('SM Read Status - Breadcrumb Navigation', () => {
     }).as('inbox-folder');
 
     // Navigate back to inbox
-    cy.get(`[data-testid="${Locators.BACK_BREADCRUMB_DATA_TEST_ID}"]`).click({
+    cy.findByTestId(Locators.BACK_BREADCRUMB_DATA_TEST_ID).click({
       waitForAnimations: false,
     });
 
     cy.wait('@inbox-folder', { timeout: 10000 });
     cy.url().should('include', '/inbox');
 
-    cy.get('[data-testid="thread-list-item"]').should('exist');
+    cy.findAllByTestId('thread-list-item').should('exist');
 
     // Verify thread is now shown as read (no unread indicator)
-    cy.get('[data-testid="thread-list-item"]')
+    cy.findAllByTestId('thread-list-item')
       .first()
       .within(() => {
-        cy.get('[data-testid="thread-list-unread-icon"]').should('not.exist');
+        cy.findByTestId('thread-list-unread-icon').should('not.exist');
       });
 
     // Accessibility check

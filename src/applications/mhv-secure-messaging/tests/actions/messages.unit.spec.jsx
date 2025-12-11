@@ -500,16 +500,16 @@ describe('messages actions', () => {
     mockApiRequest(messageResponse);
     await store
       .dispatch(
-        sendReply(
-          1234,
-          {
+        sendReply({
+          replyToId: 1234,
+          message: {
             category: 'EDUCATION',
             body: 'Test body',
             subject: 'Test subject',
             recipientId: '2710520',
           },
-          false,
-        ),
+          attachments: false,
+        }),
       )
       .then(() => {
         const actions = store.getActions();
@@ -537,16 +537,16 @@ describe('messages actions', () => {
     mockFetch({ ...errorResponse }, false);
     await store
       .dispatch(
-        sendReply(
-          1234,
-          {
+        sendReply({
+          replyToId: 1234,
+          message: {
             category: 'EDUCATION',
             body: 'Test body',
             subject: 'Test subject',
             recipientId: '2710520',
           },
-          true,
-        ),
+          attachments: true,
+        }),
       )
       .catch(() => {
         const actions = store.getActions();
@@ -574,16 +574,16 @@ describe('messages actions', () => {
     mockFetch({ ...errorBlockedUserResponse }, false);
     await store
       .dispatch(
-        sendReply(
-          1234,
-          {
+        sendReply({
+          replyToId: 1234,
+          message: {
             category: 'EDUCATION',
             body: 'Test body',
             subject: 'Test subject',
             recipientId: '2710520',
           },
-          false,
-        ),
+          attachments: false,
+        }),
       )
       .catch(() => {
         expect(store.getActions()).to.deep.include({
