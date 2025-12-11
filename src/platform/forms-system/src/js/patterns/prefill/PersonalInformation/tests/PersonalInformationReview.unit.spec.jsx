@@ -3,11 +3,11 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
+import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 import {
   PersonalInformationReview,
   defaultConfig,
 } from '../PersonalInformationReview';
-import { $$ } from '../../../../utilities/ui';
 
 const mockProfile = {
   dob: '1980-01-15',

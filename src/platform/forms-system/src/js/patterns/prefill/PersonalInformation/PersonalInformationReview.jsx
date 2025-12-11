@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { format, isValid } from 'date-fns';
-import { genderLabels } from '~/platform/static-data/labels';
-import { selectProfile } from '~/platform/user/selectors';
-import { formatNumberForScreenReader } from '~/platform/forms-system/src/js/utilities/ui/mask-string';
+import { genderLabels } from 'platform/static-data/labels';
+import { selectProfile } from 'platform/user/selectors';
+import { formatNumberForScreenReader } from 'platform/forms-system/src/js/utilities/ui/mask-string';
 import {
   parseDateToDateObj,
   FORMAT_READABLE_DATE_FNS,
