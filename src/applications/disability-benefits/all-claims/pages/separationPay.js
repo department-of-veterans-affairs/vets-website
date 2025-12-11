@@ -2,6 +2,7 @@ import set from 'platform/utilities/data/set';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import { yesNoUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { isValidYear } from '../validations';
+import { validateYearOnlyPartialDate } from '../utils/dates';
 import {
   SEPARATION_PAY_TITLE,
   SEPARATION_PAY_BRANCH_TITLE,
@@ -31,7 +32,7 @@ export const uiSchema = {
     },
     separationPayDate: {
       'ui:title': SEPARATION_PAY_DATE_TITLE,
-      'ui:validations': [isValidYear],
+      'ui:validations': [isValidYear, validateYearOnlyPartialDate],
       'ui:errorMessages': { pattern: SEPARATION_PAY_DATE_ERROR },
       'ui:options': { widgetClassNames: 'year-input' },
     },
