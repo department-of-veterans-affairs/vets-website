@@ -85,6 +85,10 @@ export const getLabsAndTestsList = (
     }
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
+    dispatch({
+      type: Actions.LabsAndTests.UPDATE_LIST_STATE,
+      payload: Constants.loadStates.FETCHED,
+    });
     sendDatadogError(error, 'actions_labsAndTests_getLabsAndTestsList');
   }
 };
