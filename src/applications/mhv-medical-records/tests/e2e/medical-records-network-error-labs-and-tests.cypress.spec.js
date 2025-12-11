@@ -8,7 +8,13 @@ describe('Medical Records View Labs and Tests', () => {
   });
 
   it('Visits Medical Records, Views Network Error On Labs and Tests List', () => {
-    cy.intercept('GET', '/my_health/v1/medical_records/labs_and_tests', {
+    cy.intercept('GET', '/my_health/v1/medical_records/labs_and_tests*', {
+      statusCode: 404,
+    });
+    cy.intercept('GET', '/my_health/v1/medical_records/radiology*', {
+      statusCode: 404,
+    });
+    cy.intercept('GET', '/my_health/v1/medical_records/imaging*', {
       statusCode: 404,
     });
     cy.visit('my-health/medical-records');
