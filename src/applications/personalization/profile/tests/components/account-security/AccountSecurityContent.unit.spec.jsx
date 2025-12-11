@@ -21,7 +21,7 @@ describe('AccountSecurityContent component', () => {
           ...createCustomProfileState({
             user: {
               profile: {
-                signIn: { serviceName: CSP_IDS.MHV },
+                signIn: { serviceName: CSP_IDS.ID_ME },
                 loa: { current: 1 },
               },
             },

@@ -127,7 +127,7 @@ export const selectProfileContacts = state => state?.profileContacts || {};
 
 export const selectHasRetiringSignInService = state => {
   const serviceName = state?.user?.profile?.signIn?.serviceName;
-  return !serviceName || [CSP_IDS.MHV].includes(serviceName);
+  return !serviceName || [CSP_IDS.DS_LOGON, CSP_IDS.MHV].includes(serviceName);
 };
 
 export const selectShowCredRetirementMessaging = state => {

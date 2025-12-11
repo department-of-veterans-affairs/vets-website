@@ -22,7 +22,8 @@ const BenefitsProfileWrapper = () => {
         />
       ) : (
         <section className="profile-info-section vads-u-margin-bottom--6">
-          {!serviceName || [CSP_IDS.MHV].includes(serviceName) ? (
+          {!serviceName ||
+          [CSP_IDS.DS_LOGON, CSP_IDS.MHV].includes(serviceName) ? (
             <LoginAlert />
           ) : (
             <ChangeOfDirectDepositWrapper applicantName={applicantName} />
