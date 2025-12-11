@@ -769,7 +769,6 @@ const ComposeForm = props => {
       draftInProgress.body,
       constructFormData,
       debouncedRecipient,
-      draftInProgress.recipientId,
       debouncedCategory,
       category,
       debouncedSubject,
