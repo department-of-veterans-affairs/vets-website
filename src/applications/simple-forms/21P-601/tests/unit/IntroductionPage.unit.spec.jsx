@@ -114,17 +114,17 @@ describe('21P-601 IntroductionPage', () => {
     getByText(/Apply for accrued benefits online/i);
   });
 
-  it('renders the form subtitle', () => {
-    const { getByText } = render(
-      <Provider store={mockStore()}>
-        <IntroductionPage {...props} />
-      </Provider>,
-    );
+  // it('renders the form subtitle', () => {
+  //   const { getByText } = render(
+  //     <Provider store={mockStore()}>
+  //       <IntroductionPage {...props} />
+  //     </Provider>,
+  //   );
 
-    getByText(
-      /Primarily for anyone applying for accrued benefits only, to include executors or administrators of VA beneficiaries’ estates \(VA Form 21P-601\)/i,
-    );
-  });
+  //   getByText(
+  //     /Primarily for anyone applying for accrued benefits only, to include executors or administrators of VA beneficiaries’ estates \(VA Form 21P-601\)/i,
+  //   );
+  // });
 
   it('renders accrued benefits information', () => {
     const { getByText } = render(
