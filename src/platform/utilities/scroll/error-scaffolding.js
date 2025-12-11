@@ -33,8 +33,12 @@
 // ============================================================================
 
 // ============================================================================
-// CONSTANTS
+// Category Detection & Configuration
 // ============================================================================
+// Default value for the scaffoldAndFocusFormErrors formOption
+// If you need to turn this off, set to false in your form config:
+// formOptions: {scaffoldAndFocusFormErrors: false}
+const DEFAULT_SCAFFOLD_AND_FOCUS_FORM_ERRORS = true;
 
 // Supported components from the component-library
 // TODO: create a fix that targets all va- components, not just the ones in this list
@@ -56,25 +60,25 @@ const SUPPORTED_ELEMENTS = [
   'va-memorable-date',
 ];
 
-// Error Detection
-// TODO: streamline these in component-library to reduce the need for multiple selectors
 const ERROR_ATTR_SELECTORS = [
-  'error', // va-text-input, va-textarea, va-select, va-combo-box
-  'input-error', // va-statement-of-truth
-  'checkbox-error', // va-checkbox-group
-  'generated-error', // va-radio-option, va-checkbox (propagated from group)
+  'error',
+  'input-error',
+  'checkbox-error',
+  'generated-error',
 ];
+const ERROR_ATTRIBUTE_SELECTOR_STRING = ERROR_ATTR_SELECTORS.map(
+  attr => `[${attr}]`,
+).join(', ');
+
+const HIDDEN_FILTER = ':not([aria-hidden="true"]):not([hidden])';
+const INPUT_SELECTOR = `input${HIDDEN_FILTER}, textarea${HIDDEN_FILTER}, select${HIDDEN_FILTER}`;
+const ERROR_SPAN_SELECTOR = 'span.usa-sr-only[id^="error-label-"]';
 const ERROR_MESSAGE_SELECTORS = [
   '#error-message',
   '#input-error-message',
   '#radio-error-message',
   '#checkbox-error-message',
 ];
-
-// DOM Selectors
-const HIDDEN_FILTER = ':not([aria-hidden="true"]):not([hidden])';
-const INPUT_SELECTOR = `input${HIDDEN_FILTER}, textarea${HIDDEN_FILTER}, select${HIDDEN_FILTER}`;
-const ERROR_SPAN_SELECTOR = 'span.usa-sr-only[id^="error-label-"]';
 
 // Category 3: Group Components
 const GROUP_COMPONENT_TAGS = ['VA-RADIO', 'VA-CHECKBOX-GROUP'];
@@ -98,6 +102,9 @@ const DATA_GENERATED_ERROR_LABEL_ID = 'data-generated-error-label-id';
 // Shared utilities used across all categories
 // ============================================================================
 
+// ============================================================================
+// General helpers
+// ============================================================================
 /**
  * Determines whether a node is a supported VA design system web component based on its tag name.
  *
@@ -923,7 +930,7 @@ const associateErrorWithInput = (errorWebComponent, errorMessage) => {
  * @returns {void} This function does not return a value
  */
 const addErrorAnnotations = errorWebComponent => {
-  // Skip elements not in the allowedElements list
+  // Skip elements not in the SUPPORTED_ELEMENT list
   if (!isSupportedVaElement(errorWebComponent)) return;
 
   // Skip child components inside date component shadow DOM - the parent handles them
@@ -1013,9 +1020,7 @@ const cleanupNestedShadowRoots = root => {
  * @returns {Set<HTMLElement>} Set of elements requiring error state evaluation
  */
 const collectElementsWithErrorState = () => {
-  const errorSelector = ERROR_ATTR_SELECTORS.map(attr => `[${attr}]`).join(
-    ', ',
-  );
+  const errorSelector = ERROR_ATTRIBUTE_SELECTOR_STRING;
   const elementsWithErrors = document.querySelectorAll(errorSelector);
 
   // Find elements that previously had errors but no longer do
@@ -1158,7 +1163,68 @@ const cleanupErrorAnnotations = () => {
 // EXPORTS
 // ============================================================================
 
+/**
+ * Runs full cleanup and re-scaffolding for every element matching the selectors.
+ * Useful when external code needs to ensure annotations align with current errors.
+ *
+ * @param {string} selectors - CSS selector list identifying error host elements
+ */
+const scaffoldErrorsFromSelectors = selectors => {
+  cleanupErrorAnnotations();
+  const allErrors = collectAllErrorElements(selectors);
+  allErrors.forEach(addErrorAnnotations);
+};
+
+/**
+ * Sets up a MutationObserver to watch for error attribute changes on form elements.
+ * When error attributes change (on blur or submit), it cleans up stale annotations
+ * and scaffolds new ones for accessibility.
+ *
+ * @param {boolean} [scaffoldAndFocusFormErrors]
+ *   Determines whether to enable error scaffolding watch. When false, the observer will not start.
+ * @returns {Function} Cleanup function to disconnect the observer
+ */
+const watchErrorUpdates = (
+  scaffoldAndFocusFormErrors = DEFAULT_SCAFFOLD_AND_FOCUS_FORM_ERRORS,
+) => {
+  if (typeof window === 'undefined' || !scaffoldAndFocusFormErrors) {
+    return () => {};
+  }
+
+  const observerConfig = {
+    attributes: true,
+    attributeFilter: ERROR_ATTR_SELECTORS,
+    subtree: true,
+  };
+  const errorSelector = ERROR_ATTRIBUTE_SELECTOR_STRING;
+
+  // Use requestAnimationFrame to ensure scaffolding runs
+  // after the browser completes the current rendering cycle and shadow DOM updates
+  // are fully processed. This provides consistent timing across all browsers.
+  let animationFrameId;
+  const handleErrorChange = () => {
+    if (animationFrameId) {
+      cancelAnimationFrame(animationFrameId);
+    }
+    animationFrameId = requestAnimationFrame(() => {
+      scaffoldErrorsFromSelectors(errorSelector);
+    });
+  };
+
+  const observer = new MutationObserver(handleErrorChange);
+  observer.observe(document, observerConfig);
+
+  // Return cleanup function
+  return () => {
+    if (animationFrameId) {
+      cancelAnimationFrame(animationFrameId);
+    }
+    observer.disconnect();
+  };
+};
+
 export {
+  DEFAULT_SCAFFOLD_AND_FOCUS_FORM_ERRORS,
   ERROR_ATTR_SELECTORS,
   ERROR_SPAN_SELECTOR,
   addErrorAnnotations,
@@ -1167,4 +1233,6 @@ export {
   findFocusTarget,
   getErrorPropText,
   isSupportedVaElement,
+  scaffoldErrorsFromSelectors,
+  watchErrorUpdates,
 };

@@ -78,7 +78,7 @@ const Documents = () => (
             </span>
           </li>
           <li>
-            <strong>Business or rental property</strong> income or assets
+            <strong>Rental property or business</strong> income or assets
             require a Report of Income from Property or Business (VA Form
             21P-4185)
             <span className="vads-u-display--block">
@@ -91,22 +91,18 @@ const Documents = () => (
           </li>
           <li>
             <strong>Royalties</strong> require a Statement in Support of Claim
-            (VA Form 21-4138)
+            (VA Form 21P-0969)
             <span className="vads-u-display--block">
               <va-link
-                href="https://www.va.gov/find-forms/about-form-21-4138/"
+                href="https://www.va.gov/find-forms/about-form-21p-0969/"
                 external
-                text="Get VA Form 21-4138 to download"
+                text="Get VA Form 21P-0969 to download"
               />
             </span>
           </li>
           <li>
             <strong>Trust</strong> income or assets require you to submit
             complete trust documents, including the schedule of assets
-          </li>
-          <li>
-            <strong>Interest, dividends or financial investments</strong>{' '}
-            require account statements from a financial institution
           </li>
         </ul>
       </va-accordion-item>

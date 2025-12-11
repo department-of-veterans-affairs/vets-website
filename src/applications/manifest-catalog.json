@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 151,
+  "totalApplications": 152,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -250,6 +250,12 @@
       "rootUrl": "/ds-v3-playground"
     },
     {
+      "directoryPath": "src/applications/edu-benefits/0803",
+      "appName": "22-0803 Request for reimbursement of licensing or certification test fees",
+      "entryName": "0803-edu-benefits",
+      "rootUrl": "/education/other-va-education-benefits/reimbursements/test-reimbursement-22-0803"
+    },
+    {
       "directoryPath": "src/applications/edu-benefits/0839",
       "appName": "0839",
       "entryName": "0839-edu-benefits",
@@ -284,6 +290,12 @@
       "appName": "35% exemption of the routine reporting",
       "entryName": "10216-edu-benefits",
       "rootUrl": "/school-administrators/35-percent-exemption"
+    },
+    {
+      "directoryPath": "src/applications/edu-benefits/10272",
+      "appName": "22-10272 Application for reimbursement of preparatory (prep) course for licensing or certification test",
+      "entryName": "10272-edu-benefits",
+      "rootUrl": "/education/other-va-education-benefits/reimbursements/test-reimbursement-22-10272"
     },
     {
       "directoryPath": "src/applications/edu-benefits/10275",

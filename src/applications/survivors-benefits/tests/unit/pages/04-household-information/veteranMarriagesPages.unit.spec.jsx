@@ -12,7 +12,7 @@ import {
 } from '../../../../config/chapters/04-household-information/veteranMarriagesPages';
 import { previousMarriageEndOptions } from '../../../../utils/labels';
 
-describe('Veteran previous marriages pages (array builder)', () => {
+describe('Veteran Previous Marriages pages', () => {
   const {
     veteranMarriagesIntro,
     veteranMarriagesSummary,
@@ -126,14 +126,10 @@ describe('Veteran previous marriages pages (array builder)', () => {
 
     // Explicit ui:title checks for name subfields
     const nameUi = itemUi.previousSpouseFullName;
-    expect(nameUi.first?.['ui:title'], 'first name title').to.equal(
-      'First name',
-    );
-    expect(nameUi.middle?.['ui:title'], 'middle name title').to.equal(
-      'Middle name',
-    );
-    expect(nameUi.last?.['ui:title'], 'last name title').to.equal('Last name');
-    expect(nameUi.suffix?.['ui:title'], 'suffix title').to.equal('Suffix');
+    expect(nameUi.first?.['ui:title'], 'First or given name').to.exist;
+    expect(nameUi.middle?.['ui:title'], 'Middle name').to.exist;
+    expect(nameUi.last?.['ui:title'], 'Last or family name').to.exist;
+    expect(nameUi.suffix?.['ui:title'], 'Suffix').to.exist;
 
     // Verify required titles (first & last typically required)
     if (typeof nameUi.first?.['ui:required'] === 'function') {

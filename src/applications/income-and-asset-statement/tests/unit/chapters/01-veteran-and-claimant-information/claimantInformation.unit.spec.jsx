@@ -25,8 +25,8 @@ describe('income and asset claimant information page', () => {
     schema,
     uiSchema,
     [
-      'va-text-input[label="Your first name"]',
-      'va-text-input[label="Your last name"]',
+      'va-text-input[label="Your first or given name"]',
+      'va-text-input[label="Your last or family name"]',
       'va-text-input[label="Your Social Security number"]',
     ],
     'claimant information',

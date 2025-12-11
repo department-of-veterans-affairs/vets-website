@@ -10,6 +10,8 @@ import {
   collectAllErrorElements,
   findFocusTarget,
   isSupportedVaElement,
+  DEFAULT_SCAFFOLD_AND_FOCUS_FORM_ERRORS,
+  scaffoldErrorsFromSelectors,
 } from './error-scaffolding';
 
 export const cleanupErrorAnnotations = cleanupErrorAnnotationsInternal;
@@ -31,7 +33,7 @@ export const scrollTo = async (el, scrollOptions) => {
       (options.top || getElementPosition(el, options.root)) +
       (options.offset || 0);
     // Scroll to calculated position
-    document.body.scrollTo({
+    window.scrollTo({
       top: Math.round(top),
       left: options.left || 0,
       behavior: options.behavior,
@@ -119,6 +121,9 @@ if (typeof window !== 'undefined') {
  *  and focus on the element with role=alert to ensure screen readers are
  *  reading out the correct content; it's set default to false while we perform
  *  further accessibility evaluation
+ * @property {Boolean} scaffoldAndFocusFormErrors - When a supported VA web component has an
+ *  error, find and focus on the first input element inside its shadow DOM. Set to false
+ *  to opt out and focus on the error element itself instead.
  */
 /**
  * Find first error and scroll it to the top of the page, then focus on it
@@ -126,7 +131,11 @@ if (typeof window !== 'undefined') {
  */
 export const scrollToFirstError = async (options = {}) => {
   return new Promise(resolve => {
-    const { focusOnAlertRole = false, errorContext } = options;
+    const {
+      focusOnAlertRole = false,
+      scaffoldAndFocusFormErrors = DEFAULT_SCAFFOLD_AND_FOCUS_FORM_ERRORS,
+      errorContext,
+    } = options;
     const selectors = ERROR_ELEMENTS.join(',');
     const timeout = 500;
     const observerConfig = { childList: true, subtree: true };
@@ -187,11 +196,8 @@ export const scrollToFirstError = async (options = {}) => {
           requestAnimationFrame(() => {
             focusElement('[role="alert"]', {}, el?.shadowRoot);
           });
-        } else if (isSupportedVaElement(el)) {
-          cleanupErrorAnnotations();
-
-          const allErrors = collectAllErrorElements(selectors);
-          allErrors.forEach(addErrorAnnotations);
+        } else if (scaffoldAndFocusFormErrors && isSupportedVaElement(el)) {
+          scaffoldErrorsFromSelectors(selectors);
 
           // Find and focus the appropriate input element
           const focusTarget = findFocusTarget(el);
@@ -208,6 +214,11 @@ export const scrollToFirstError = async (options = {}) => {
       runCleanup(true);
     };
 
+    /**
+     * Queries for error elements and scrolls to focus on them.
+     * Prioritizes focusing on nested child error elements within shadow DOM,
+     * falling back to the parent element if no child errors are found.
+     */
     const queryForErrors = () => {
       const el = document.querySelector(selectors);
       if (el) {
