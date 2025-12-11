@@ -5,6 +5,7 @@ const delay = require('mocker-api/lib/delay');
 const user = require('./endpoints/user');
 const mhvAcccount = require('./endpoints/mhvAccount');
 const address = require('./endpoints/address');
+const schedulingPreferences = require('./endpoints/schedulingPreferences');
 const emailAddress = require('./endpoints/email-adresses');
 const phoneNumber = require('./endpoints/phone-number');
 const ratingInfo = require('./endpoints/rating-info');
@@ -431,29 +432,39 @@ const responses = {
     return delaySingleResponse(() => res.json(maximalSetOfPreferences), 1);
   },
   'GET /v0/profile/scheduling_preferences': (req, res) => {
-    return res.status(200).json({
-      data: {
-        type: 'schedulingPreferences',
-        attributes: {
-          preferences: [
-            {
-              itemId: 4,
-              optionIds: ['29'],
-            },
-            {
-              itemId: 5,
-              optionIds: ['33'],
-            },
-            {
-              itemId: 6,
-              optionIds: ['35'],
-            },
-          ],
-        },
-      },
-    });
+    const schedulingPreferencesResponse = 'allSet';
+    delaySingleResponse(() => {
+      switch (schedulingPreferencesResponse) {
+        case 'allSet':
+          return res.status(200).json(schedulingPreferences.allSet);
+        case 'noneSet':
+          return res.status(400).json(schedulingPreferences.noneSet);
+        case 'error':
+          return res.status(500).json(genericErrors.error500);
+        default:
+          return res.status(200).json('');
+      }
+    }, 3);
   },
   'POST /v0/profile/scheduling_preferences': (req, res) => {
+    return delaySingleResponse(
+      () =>
+        res.status(200).json({
+          data: {
+            id: '',
+            type: 'async_transaction_va_profile_scheduling_transactions',
+            attributes: {
+              transactionId: '94725087-d546-47e1-a247-f57ab0ed599c',
+              transactionStatus: 'RECEIVED',
+              type: 'AsyncTransaction::VAProfile::SchedulingTransaction',
+              metadata: [],
+            },
+          },
+        }),
+      1,
+    );
+  },
+  'DELETE /v0/profile/scheduling_preferences': (req, res) => {
     return delaySingleResponse(
       () =>
         res.status(200).json({

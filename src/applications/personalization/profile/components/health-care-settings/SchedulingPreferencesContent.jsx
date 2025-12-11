@@ -6,7 +6,7 @@ import { ProfileInfoSection } from '../ProfileInfoSection';
 import LoadFail from '../alerts/LoadFail';
 
 const SchedulingPreferencesContent = props => {
-  const { hasSchedulingPreferencesError } = props;
+  const { hasSchedulingPreferencesError, isLoading } = props;
   const contactPreferencesData = [
     {
       title: FIELD_TITLES[FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD],
@@ -70,45 +70,50 @@ const SchedulingPreferencesContent = props => {
     },
   ];
 
+  if (hasSchedulingPreferencesError) {
+    return <LoadFail />;
+  }
+
+  if (isLoading) {
+    return (
+      <va-loading-indicator message="Loading your scheduling preferences..." />
+    );
+  }
+
   return (
     <>
-      {hasSchedulingPreferencesError ? (
-        <LoadFail />
-      ) : (
-        <>
-          <p className="vads-u-margin-top--0 vads-u-margin-bottom--4">
-            Manage your scheduling preferences for health care appointments.
-            When possible, schedulers will consider your preferences when
-            scheduling your appointments.
-          </p>
+      <p className="vads-u-margin-top--0 vads-u-margin-bottom--4">
+        Manage your scheduling preferences for health care appointments. When
+        possible, schedulers will consider your preferences when scheduling your
+        appointments.
+      </p>
 
-          <ProfileInfoSection
-            title="Contact preferences"
-            level={2}
-            data={contactPreferencesData}
-            className="vads-u-margin-bottom--4"
-          />
+      <ProfileInfoSection
+        title="Contact preferences"
+        level={2}
+        data={contactPreferencesData}
+        className="vads-u-margin-bottom--4"
+      />
 
-          <ProfileInfoSection
-            title="Appointment preferences"
-            level={2}
-            data={appointmentPreferencesData}
-            className="vads-u-margin-bottom--4"
-          />
+      <ProfileInfoSection
+        title="Appointment preferences"
+        level={2}
+        data={appointmentPreferencesData}
+        className="vads-u-margin-bottom--4"
+      />
 
-          <ProfileInfoSection
-            title="Provider preferences"
-            level={2}
-            data={providerPreferencesData}
-          />
-        </>
-      )}
+      <ProfileInfoSection
+        title="Provider preferences"
+        level={2}
+        data={providerPreferencesData}
+      />
     </>
   );
 };
 
 SchedulingPreferencesContent.propTypes = {
   hasSchedulingPreferencesError: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool.isRequired,
 };
 
 export default SchedulingPreferencesContent;

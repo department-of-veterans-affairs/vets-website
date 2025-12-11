@@ -10,6 +10,7 @@ import {
 } from '@@vap-svc/actions/personalInformation';
 import {
   UPDATE_SCHEDULING_PREFERENCES_FIELD,
+  FETCH_SCHEDULING_PREFERENCES,
   FETCH_SCHEDULING_PREFERENCES_FAILED,
   FETCH_SCHEDULING_PREFERENCES_SUCCESS,
 } from '@@vap-svc/actions/schedulingPreferences';
@@ -63,11 +64,31 @@ function vaProfile(state = initialState, action) {
       return set(`personalInformation.${action.fieldName}`, fieldValue, state);
     }
 
+    case FETCH_SCHEDULING_PREFERENCES:
+      return set(
+        'schedulingPreferences',
+        { error: false, loading: true },
+        state,
+      );
+
     case FETCH_SCHEDULING_PREFERENCES_SUCCESS:
+      return set(
+        'schedulingPreferences',
+        {
+          ...convertSchedulingPreferencesToReduxFormat(
+            action.schedulingPreferences,
+          ),
+          loading: false,
+        },
+        state,
+      );
     case FETCH_SCHEDULING_PREFERENCES_FAILED:
       return set(
         'schedulingPreferences',
-        convertSchedulingPreferencesToReduxFormat(action.schedulingPreferences),
+        {
+          error: true,
+          loading: false,
+        },
         state,
       );
 
