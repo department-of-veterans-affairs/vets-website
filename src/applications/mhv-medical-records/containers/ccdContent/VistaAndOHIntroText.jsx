@@ -21,8 +21,8 @@ const VistaAndOHIntroText = ({ ohFacilityNames, vistaFacilityNames }) => (
 );
 
 VistaAndOHIntroText.propTypes = {
-  ohFacilityNames: PropTypes.array.isRequired,
-  vistaFacilityNames: PropTypes.array.isRequired,
+  ohFacilityNames: PropTypes.arrayOf(PropTypes.string).isRequired,
+  vistaFacilityNames: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default VistaAndOHIntroText;
