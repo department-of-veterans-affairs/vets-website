@@ -16,14 +16,15 @@ const SaveCancelButtons = ({ closeSection, keys, title, scroll }) => {
         buttonClass="usa-button-primary vads-u-width--auto"
         ariaLabel={`Save ${title}`}
       />
-      <va-button
+      <button
         aria-label="Cancel"
+        type="button"
         id="cancel"
-        className="vads-u-width--auto"
-        variant="secondary"
-        text="Cancel"
+        className="usa-button-secondary vads-u-width--auto"
         onClick={() => closeSection(keys, title)}
-      />
+      >
+        Cancel
+      </button>
     </div>
   );
 };
