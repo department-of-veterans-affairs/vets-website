@@ -356,6 +356,47 @@ Update this file when you:
 
 ## Component Patterns
 
+### React Router + VADS Link Integration
+- **Router-Integrated Link Components**: Use wrappers for internal navigation with React Router
+  - `RouterLink`: Standard link styling for internal navigation
+    - Wraps `VaLink` with React Router integration
+    - Use for standard internal navigation that doesn't need high prominence
+    - Props: `href` (required), `text` (required), `active` (optional, default false), `label`, `reverse`
+    - Example: `<RouterLink href="/inbox" text="View messages" />`
+  - `RouterLinkAction`: Action link styling for primary CTAs
+    - Wraps `VaLinkAction` with React Router integration
+    - Use for primary calls to action, service entry points, and high-visibility links
+    - Props: `href` (required), `text` (required), `label`, `reverse`
+    - Example: `<RouterLinkAction href="/compose" text="Start a new message" />`
+  - **Pattern Details**:
+    - Both use `withRouter` HOC to inject `router` object
+    - Both implement `preventDefault` + `router.push(href)` for client-side navigation
+    - Located in `components/shared/`
+    - See VADS docs: https://design.va.gov/components/link/
+- **Cross-App Links** (Different VA.gov SPAs): Use `VaLink`/`VaLinkAction` directly WITHOUT router wrapper
+  - For links to other VA.gov applications (e.g., `/find-locations`, `/profile`)
+  - These are different Webpack entry points/SPAs that require full browser navigation
+  - `RouterLink`/`RouterLinkAction` won't work because `router.push()` only works within the same SPA
+  - Example: `<VaLinkAction href="/find-locations" text="Find your VA health facility" />`
+  - Example: `<VaLink href="/profile/personal-information" text="Edit signature" />`
+  - **Common cross-app destinations from mhv-secure-messaging:**
+    - `/find-locations` → facility-locator SPA
+    - `/profile/*` → profile SPA
+    - `/my-health/medical-records/*` → mhv-medical-records SPA
+- **External Links** (Non-VA sites): Use `VaLink` directly with `external` prop
+  - For links outside VA.gov entirely (e.g., My VA Health portal at different domain)
+  - Use `active` prop for intermediate prominence
+  - Example: `<VaLink href={getCernerURL('/pages/messaging/inbox')} text="Go to My VA Health" external active />`
+- **When to Use Which Component**:
+  - Same-SPA standard navigation → `RouterLink`
+  - Same-SPA primary CTA → `RouterLinkAction`
+  - Cross-app link (different VA.gov SPA) → `<VaLink />` or `<VaLinkAction />`
+  - External link (non-VA site) → `<VaLink external />`
+- **Anti-patterns**:
+  - ❌ Don't use `<a href>` for internal navigation (breaks client-side routing)
+  - ❌ Don't use `VaLink`/`VaLinkAction` without router wrapper for same-SPA navigation (causes unnecessary full page reload)
+  - ❌ Don't use `RouterLink`/`RouterLinkAction` for cross-app navigation (router.push() only works within same SPA)
+
 ### Web Components
 - **VA Design System Components**:
   - Use lowercase-hyphenated tags: `va-text-input`, `va-textarea`, `va-button`, `va-checkbox`, `va-select`, `va-combo-box`
@@ -559,6 +600,11 @@ Update this file when you:
   - JSON fixtures in `tests/e2e/fixtures/` directory
   - Intercept API calls with fixture data
   - Example: `cy.intercept('GET', Paths.SM_API_BASE, mockData).as('getData')`
+- **Web Component Selectors**:
+  - External links with `VaLink` render as `<va-link>` (NOT `<va-link-action>`)
+  - Internal CTAs with `RouterLinkAction` render as `<va-link-action>`
+  - Use `.find('va-link')` for external links, `.find('va-link-action')` for internal CTAs
+  - Example: `cy.get('[data-testid="alert"]').find('va-link').click()`
 - **Accessibility Testing**:
   - MUST include in all E2E tests
   - Inject axe: `cy.injectAxe()`

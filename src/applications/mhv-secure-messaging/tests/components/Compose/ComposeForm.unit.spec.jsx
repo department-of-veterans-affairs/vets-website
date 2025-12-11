@@ -67,7 +67,7 @@ describe('Compose form component', () => {
   });
   const stubUseFeatureToggles = value => {
     const useFeatureToggles = require('../../../hooks/useFeatureToggles');
-    stub = sinon.stub(useFeatureToggles, 'default').returns(value);
+    stub = sandbox.stub(useFeatureToggles, 'default').returns(value);
     return stub;
   };
 
@@ -214,7 +214,7 @@ describe('Compose form component', () => {
         ...draftState.sm,
         threadDetails: {
           ...draftState.sm.threadDetails,
-          customDraftMessage,
+          drafts: [customDraftMessage],
         },
       },
     };
@@ -256,7 +256,7 @@ describe('Compose form component', () => {
       },
     };
 
-    const sendMessageSpy = sinon.spy(messageActions, 'sendMessage');
+    const sendMessageSpy = sandbox.spy(messageActions, 'sendMessage');
     const screen = setup(customState, `/thread/${customDraftMessage.id}`, {
       draft: customDraftMessage,
       recipients: customState.sm.recipients,
@@ -285,7 +285,7 @@ describe('Compose form component', () => {
       },
     };
 
-    const clearDraftInProgressSpy = sinon.spy(
+    const clearDraftInProgressSpy = sandbox.spy(
       threadDetailsActions,
       'clearDraftInProgress',
     );
@@ -376,7 +376,7 @@ describe('Compose form component', () => {
   });
 
   it('renders without errors on Save Draft button click', async () => {
-    const saveDraftSpy = sinon.spy(draftActions, 'saveDraft');
+    const saveDraftSpy = sandbox.spy(draftActions, 'saveDraft');
     const screen = setup(draftState, `/thread/${draftMessage.id}`, {
       draft: draftMessage,
       recipients: draftState.sm.recipients,
@@ -398,7 +398,7 @@ describe('Compose form component', () => {
         triageTeams: { triageTeams },
         categories: { categories },
         threadDetails: {
-          drafts: {},
+          drafts: [],
           draftInProgress: {},
         },
         preferences: signatureReducers.signatureEnabled,
@@ -544,7 +544,7 @@ describe('Compose form component', () => {
   });
 
   it('renders a loading indicator if categories are not available', async () => {
-    const getCategoriesSpy = sinon.spy(categoriesActions, 'getCategories');
+    const getCategoriesSpy = sandbox.spy(categoriesActions, 'getCategories');
     const customState = {
       ...initialState,
       sm: {
@@ -627,7 +627,7 @@ describe('Compose form component', () => {
       },
     );
 
-    const addEventListenerSpy = sinon.spy(window, 'addEventListener');
+    const addEventListenerSpy = sandbox.spy(window, 'addEventListener');
     expect(addEventListenerSpy.calledWith('beforeunload')).to.be.false;
     fireEvent.input(screen.getByTestId('message-subject-field'), {
       target: { innerHTML: 'test beforeunload event' },
@@ -670,7 +670,7 @@ describe('Compose form component', () => {
       },
     );
 
-    const addEventListenerSpy = sinon.spy(window, 'addEventListener');
+    const addEventListenerSpy = sandbox.spy(window, 'addEventListener');
     expect(addEventListenerSpy.calledWith('beforeunload')).to.be.false;
     fireEvent.input(screen.getByTestId('message-subject-field'), {
       target: { innerHTML: 'test beforeunload event' },
@@ -1631,7 +1631,11 @@ describe('Compose form component', () => {
     const customState = { ...initialState, featureToggles: { loading: false } };
     customState.sm.preferences.signature.includeSignature = true;
     const screen = setup(customState, Paths.COMPOSE);
-    expect(screen.getByText('Edit signature for all messages')).to.exist;
+    const link = screen.getByTestId('edit-signature-link');
+    expect(link).to.exist;
+    expect(link.getAttribute('text')).to.equal(
+      'Edit signature for all messages',
+    );
   });
 
   it('renders correct headings in pilot environment', async () => {
@@ -1681,7 +1685,7 @@ describe('Compose form component', () => {
   });
 
   it('sets isAutoSave to false when sending message', async () => {
-    const sendMessageSpy = sinon.stub(messageActions, 'sendMessage');
+    const sendMessageSpy = sandbox.stub(messageActions, 'sendMessage');
     sendMessageSpy.resolves({});
 
     const customDraftMessage = {
@@ -2131,7 +2135,7 @@ describe('Compose form component', () => {
       // Store original replace method and create spy
       const originalLocation = global.window.location;
       global.window.location = {};
-      global.window.location.replace = sinon.spy();
+      global.window.location.replace = sandbox.spy();
 
       const customDraftMessage = {
         ...draftMessage,
@@ -2260,7 +2264,7 @@ describe('Compose form component', () => {
       // Store original replace method and create spy
       const originalLocation = global.window.location;
       global.window.location = {};
-      global.window.location.replace = sinon.spy();
+      global.window.location.replace = sandbox.spy();
 
       const customDraftMessage = {
         ...draftMessage,
@@ -2299,7 +2303,9 @@ describe('Compose form component', () => {
       await new Promise(resolve => setTimeout(resolve, 1200));
 
       // Verify that sendMessage was called with suppressAlert=true (4th argument)
-      expect(sendMessageStub.called).to.be.true;
+      await waitFor(() => {
+        expect(sendMessageStub.called).to.be.true;
+      });
       const sendMessageCall = sendMessageStub.getCall(0);
       expect(sendMessageCall.args).to.have.lengthOf(4);
       // Args: [sendData, hasAttachments, ohTriageGroup, suppressAlert]

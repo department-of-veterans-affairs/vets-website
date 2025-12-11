@@ -64,6 +64,7 @@ import {
 import SelectedRecipientTitle from './SelectedRecipientTitle';
 import { clearPrescription } from '../../actions/prescription';
 import AddYourMedicationInfoWarning from './AddYourMedicationInfoWarning';
+import useNavigationError from '../../hooks/useNavigationError';
 
 const ComposeForm = props => {
   const { pageTitle, draft, recipients, signature } = props;
@@ -262,6 +263,7 @@ const ComposeForm = props => {
   const [messageBody, setMessageBody] = useState(draftInProgress?.body || '');
   const [electronicSignature, setElectronicSignature] = useState('');
   const [attachments, setAttachments] = useState([]);
+  const attachmentsRef = useRef(attachments);
   const [fieldsString, setFieldsString] = useState('');
   const [messageInvalid, setMessageInvalid] = useState(false);
   const navigationError = draftInProgress?.navigationError;
@@ -281,7 +283,6 @@ const ComposeForm = props => {
   const navigationErrorModalVisible =
     draftInProgress?.navigationErrorModalVisible;
   const [attachFileSuccess, setAttachFileSuccess] = useState(false);
-  const [deleteButtonClicked, setDeleteButtonClicked] = useState(false);
   const savedDraft = draftInProgress?.savedDraft;
   const setSavedDraft = useCallback(
     value => {
@@ -318,6 +319,13 @@ const ComposeForm = props => {
           alert.isActive,
       ).length > 0,
     [alertsList],
+  );
+
+  useEffect(
+    () => {
+      attachmentsRef.current = attachments;
+    },
+    [attachments],
   );
 
   useEffect(
@@ -445,80 +453,78 @@ const ComposeForm = props => {
     [draft],
   );
 
-  useEffect(
-    () => {
-      const send = async () => {
-        if (sendMessageFlag && isSaving !== true) {
-          scrollToTop();
-          const today = dateFormat(new Date(), 'YYYY-MM-DD');
-          const messageData = {
-            category: draftInProgress.category,
-            body: `${draftInProgress.body} ${
-              electronicSignature
-                ? `\n\n--------------------------------------------------\n\n${electronicSignature}\nSigned electronically on ${today}.`
-                : ''
-            }`,
-            subject: draftInProgress.subject,
-          };
-          messageData[`${'draft_id'}`] = draft?.messageId;
-          messageData[`${'recipient_id'}`] = draftInProgress.recipientId;
+  const send = useCallback(
+    async () => {
+      setSendMessageFlag(true);
+      if (isSaving !== true) {
+        scrollToTop();
+        const today = dateFormat(new Date(), 'YYYY-MM-DD');
+        const messageData = {
+          category: draftInProgress.category,
+          body: `${draftInProgress.body} ${
+            electronicSignature
+              ? `\n\n--------------------------------------------------\n\n${electronicSignature}\nSigned electronically on ${today}.`
+              : ''
+          }`,
+          subject: draftInProgress.subject,
+        };
+        messageData[`${'draft_id'}`] = draft?.messageId;
+        messageData[`${'recipient_id'}`] = draftInProgress.recipientId;
 
-          let sendData;
-          if (attachments.length > 0) {
-            sendData = new FormData();
-            sendData.append('message', JSON.stringify(messageData));
-            attachments.map(upload => sendData.append('uploads[]', upload));
-          } else {
-            sendData = JSON.stringify(messageData);
-          }
-
-          try {
-            setIsAutoSave(false);
-            await dispatch(
-              sendMessage(
-                sendData,
-                attachments.length > 0,
-                draftInProgress.ohTriageGroup,
-                !!redirectPath, // suppress alert when redirectPath exists
-              ),
-            );
-            dispatch(clearDraftInProgress());
-            setTimeout(() => {
-              if (redirectPath) {
-                navigateToRxCallback();
-              } else {
-                navigateToFolderByFolderId(
-                  currentFolder?.folderId || DefaultFolders.INBOX.id,
-                  history,
-                );
-              }
-            }, 1000);
-            // Timeout necessary for UCD requested 1 second delay
-          } catch (err) {
-            setSendMessageFlag(false);
-            scrollToTop();
-            setIsAutoSave(true);
-          }
+        let sendData;
+        if (attachmentsRef.current.length > 0) {
+          sendData = new FormData();
+          sendData.append('message', JSON.stringify(messageData));
+          attachmentsRef.current.forEach(upload =>
+            sendData.append('uploads[]', upload),
+          );
+        } else {
+          sendData = JSON.stringify(messageData);
         }
-      };
 
-      send();
+        try {
+          setIsAutoSave(false);
+          await dispatch(
+            sendMessage(
+              sendData,
+              attachmentsRef.current.length > 0,
+              draftInProgress.ohTriageGroup,
+              !!redirectPath, // suppress alert when redirectPath exists
+            ),
+          );
+          dispatch(clearDraftInProgress());
+          setTimeout(() => {
+            if (redirectPath) {
+              navigateToRxCallback();
+            } else {
+              navigateToFolderByFolderId(
+                currentFolder?.folderId || DefaultFolders.INBOX.id,
+                history,
+              );
+            }
+          }, 1000);
+          // Timeout necessary for UCD requested 1 second delay
+        } catch (err) {
+          setSendMessageFlag(false);
+          scrollToTop();
+          setIsAutoSave(true);
+        }
+      }
     },
     [
-      sendMessageFlag,
-      isSaving,
-      category,
-      messageBody,
-      electronicSignature,
-      subject,
-      draft?.messageId,
-      selectedRecipientId,
-      attachments,
-      dispatch,
       currentFolder?.folderId,
+      dispatch,
+      draft?.messageId,
+      draftInProgress.body,
+      draftInProgress.category,
+      draftInProgress.ohTriageGroup,
+      draftInProgress.recipientId,
+      draftInProgress.subject,
+      electronicSignature,
       history,
-      redirectPath,
+      isSaving,
       navigateToRxCallback,
+      redirectPath,
     ],
   );
 
@@ -655,6 +661,18 @@ const ComposeForm = props => {
     ],
   );
 
+  const constructFormData = useCallback(
+    () => {
+      return {
+        recipientId: draftInProgress.recipientId,
+        category: draftInProgress.category,
+        subject: draftInProgress.subject,
+        body: draftInProgress.body,
+      };
+    },
+    [draftInProgress],
+  );
+
   const saveDraftHandler = useCallback(
     async (type, e) => {
       const {
@@ -665,7 +683,7 @@ const ComposeForm = props => {
 
       if (type === 'manual') {
         const getErrorType = () => {
-          const hasAttachments = attachments.length > 0;
+          const hasAttachments = attachmentsRef.current.length > 0;
           const hasValidSignature =
             isSignatureRequired && electronicSignature !== '';
           const verifyAllFieldsAreValid =
@@ -718,12 +736,7 @@ const ComposeForm = props => {
       }
 
       const draftId = draft?.messageId;
-      const formData = {
-        recipientId: draftInProgress.recipientId,
-        category: draftInProgress.category,
-        subject: draftInProgress.subject,
-        body: draftInProgress.body,
-      };
+      const formData = constructFormData();
 
       const newFieldsString = JSON.stringify({
         rec: parseInt(debouncedRecipient || draftInProgress.recipientId, 10),
@@ -732,15 +745,12 @@ const ComposeForm = props => {
         bod: debouncedMessageBody || messageBody,
       });
 
+      // For auto-save, skip if message is invalid or no fields changed
       if (type === 'auto') {
         if (!messageValid || newFieldsString === fieldsString) {
           return;
         }
         setFieldsString(newFieldsString);
-        setSavedDraft(false);
-        setSaveError(null);
-        dispatch(saveDraft(formData, type, draftId));
-        return;
       }
 
       if (messageValid) {
@@ -757,7 +767,9 @@ const ComposeForm = props => {
       draftInProgress.category,
       draftInProgress.subject,
       draftInProgress.body,
+      constructFormData,
       debouncedRecipient,
+      draftInProgress.recipientId,
       debouncedCategory,
       category,
       debouncedSubject,
@@ -791,7 +803,7 @@ const ComposeForm = props => {
         isSignatureRequired && messageValid && signatureValid && checkboxValid;
 
       if (validSignatureNotRequired || isSignatureValid) {
-        setSendMessageFlag(true);
+        send();
         setNavigationError(null);
         setLastFocusableElement(e.target);
       } else {
@@ -893,26 +905,27 @@ const ComposeForm = props => {
       setUnsavedNavigationError(error);
     },
     [
-      attachments,
-      category,
       checkMessageValidity,
-      deleteButtonClicked,
-      draft?.category,
-      draft?.messageBody,
-      draft?.recipientId,
-      draft?.subject,
-      formPopulated,
+      validMessageType.SEND,
       isSignatureRequired,
-      messageBody,
-      selectedRecipientId,
-      subject,
-      savedDraft,
-      setUnsavedNavigationError,
-      draft?.body,
-      draft,
-      navigationErrorModalVisible,
+      send,
+      setNavigationError,
+      setLastFocusableElement,
     ],
   );
+
+  // Navigation error hook - manages navigation error state based on form state
+  useNavigationError({
+    messageBody,
+    subject,
+    selectedRecipientId,
+    category,
+    attachments,
+    draft,
+    savedDraft,
+    isSignatureRequired,
+    setUnsavedNavigationError,
+  });
 
   useEffect(
     () => {
@@ -1194,7 +1207,6 @@ const ComposeForm = props => {
             navigationError={navigationError}
             onSaveDraft={(type, e) => saveDraftHandler(type, e)}
             onSend={sendMessageHandler}
-            setDeleteButtonClicked={setDeleteButtonClicked}
             setNavigationError={setNavigationError}
             setUnsavedNavigationError={setUnsavedNavigationError}
             savedComposeDraft={!!draft}
