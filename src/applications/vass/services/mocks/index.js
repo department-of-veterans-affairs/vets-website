@@ -1,6 +1,43 @@
 /* istanbul ignore file */
 /* eslint-disable camelcase */
 const delay = require('mocker-api/lib/delay');
+const { addDays, setHours, setMinutes, addMinutes } = require('date-fns');
+
+/**
+ * Generates appointment time slots for weekdays over a specified period.
+ * Creates slots starting at 8 AM with 30-minute intervals, excluding weekends.
+ */
+const generateSlots = (numberOfDays = 14, slotsPerDay = 18) => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  // Generate time slots (8 AM, 8:30 AM, 9 AM, etc.)
+  const timeSlots = Array.from(
+    { length: slotsPerDay },
+    (_, index) => 8 + index * 0.5,
+  );
+
+  const days = Array.from({ length: numberOfDays }, (_, index) =>
+    addDays(today, index + 1),
+  ).filter(date => {
+    const dayOfWeek = date.getDay();
+    return dayOfWeek !== 0 && dayOfWeek !== 6; // Skip weekends
+  });
+
+  return days.flatMap(date => {
+    return timeSlots.map(hour => {
+      const hours = Math.floor(hour);
+      const minutes = (hour % 1) * 60;
+      const slotStart = setMinutes(setHours(date, hours), minutes);
+      const slotEnd = addMinutes(slotStart, 30);
+
+      return {
+        dtStartUtc: slotStart.toISOString(),
+        dtEndUtc: slotEnd.toISOString(),
+      };
+    });
+  });
+};
 
 const mockUsers = [
   {
@@ -89,6 +126,14 @@ const responses = {
     );
     return res.json({
       data: mockAppointment,
+    });
+  },
+  'GET /vass/v0/appointment-availability': (req, res) => {
+    const availableTimeSlots = generateSlots();
+    return res.json({
+      data: {
+        availableTimeSlots,
+      },
     });
   },
 };
