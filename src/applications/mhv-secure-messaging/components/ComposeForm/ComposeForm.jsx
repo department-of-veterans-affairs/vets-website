@@ -762,8 +762,10 @@ const ComposeForm = props => {
     [
       checkMessageValidity,
       validMessageType.SAVE,
+      draft?.messageId,
       constructFormData,
       debouncedRecipient,
+      draftInProgress.recipientId,
       debouncedCategory,
       category,
       debouncedSubject,
@@ -806,9 +808,11 @@ const ComposeForm = props => {
     },
     [
       checkMessageValidity,
-      isSignatureRequired,
-      setNavigationError,
       validMessageType.SEND,
+      isSignatureRequired,
+      send,
+      setNavigationError,
+      setLastFocusableElement,
     ],
   );
 
