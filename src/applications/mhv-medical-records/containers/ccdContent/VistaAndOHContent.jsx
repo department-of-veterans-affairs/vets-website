@@ -183,8 +183,8 @@ const VistaAndOHContent = ({
 VistaAndOHContent.propTypes = {
   accessErrors: PropTypes.func.isRequired,
   ccdError: PropTypes.bool.isRequired,
-  failedBBDomains: PropTypes.array.isRequired,
-  failedSeiDomains: PropTypes.array.isRequired,
+  failedBBDomains: PropTypes.arrayOf(PropTypes.string).isRequired,
+  failedSeiDomains: PropTypes.arrayOf(PropTypes.string).isRequired,
   generatingCCD: PropTypes.bool.isRequired,
   getFailedDomainList: PropTypes.func.isRequired,
   handleDownloadCCD: PropTypes.func.isRequired,

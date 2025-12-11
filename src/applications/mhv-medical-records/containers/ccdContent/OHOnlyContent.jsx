@@ -127,7 +127,7 @@ const OHOnlyContent = ({
 OHOnlyContent.propTypes = {
   accessErrors: PropTypes.func.isRequired,
   ddSuffix: PropTypes.string.isRequired,
-  failedSeiDomains: PropTypes.array.isRequired,
+  failedSeiDomains: PropTypes.arrayOf(PropTypes.string).isRequired,
   handleDownload: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   lastSuccessfulUpdate: PropTypes.shape({
