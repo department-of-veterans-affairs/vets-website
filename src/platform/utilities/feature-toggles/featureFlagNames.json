@@ -2,6 +2,7 @@
   "accreditedRepresentativePortalFrontend": "accredited_representative_portal_frontend",
   "accreditedRepresentativePortalIdMe": "accredited_representative_portal_id_me",
   "accreditedRepresentativePortalForm21a": "accredited_representative_portal_form_21a",
+  "accreditedRepresentativePortalIntentToFile": "accredited_representative_portal_intent_to_file",
   "aedpVADX": "aedp_vadx",
   "aedpPrefill": "aedp_prefill",
   "appointARepresentativeEnableFrontend": "appoint_a_representative_enable_frontend",
@@ -378,5 +379,6 @@
   "form2680Enabled": "form_2680_enabled",
   "vre_eligibility_status_phase_2_updates": "vre_eligibility_status_phase_2_updates",
   "medicalExpenseReportsEnabled": "medical_expense_reports_form_enabled",
-  "survivorsBenefitsFormEnabled": "survivors_benefits_form_enabled"
+  "survivorsBenefitsFormEnabled": "survivors_benefits_form_enabled",
+  "sobClaimantService": "sob_claimant_service"
 }
