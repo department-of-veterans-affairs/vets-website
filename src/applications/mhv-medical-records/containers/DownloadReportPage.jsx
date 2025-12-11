@@ -38,6 +38,9 @@ import OHOnlyContent from './ccdContent/OHOnlyContent';
 import VistaOnlyContent from './ccdContent/VistaOnlyContent';
 import VistaAndOHContent from './ccdContent/VistaAndOHContent';
 import { postRecordDatadogAction } from '../api/MrApi';
+import OHOnlyIntroText from './ccdContent/OHOnlyIntroText';
+import VistaIntroText from './ccdContent/VistaIntroText';
+import VistaAndOHIntroText from './ccdContent/VistaAndOHIntroText';
 
 // --- Main component ---
 const DownloadReportPage = ({ runningUnitTest }) => {
@@ -257,6 +260,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   if (hasBothDataSources) {
     return (
       <div>
+        <VistaAndOHIntroText />
         <AcceleratedCernerFacilityAlert {...CernerAlertContent.DOWNLOAD} />
         <VistaAndOHContent
           isLoading={generatingCCD}
@@ -286,6 +290,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   if (hasOHOnly) {
     return (
       <div>
+        <OHOnlyIntroText />
         <AcceleratedCernerFacilityAlert {...CernerAlertContent.DOWNLOAD} />
         <OHOnlyContent
           testIdSuffix="OH"
@@ -305,6 +310,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   }
   return (
     <div>
+      <VistaIntroText />
       <AcceleratedCernerFacilityAlert {...CernerAlertContent.DOWNLOAD} />
       <VistaOnlyContent
         isLoading={generatingCCD}
