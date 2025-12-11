@@ -42,9 +42,10 @@ const childContent = (
           deceased Veteran,
         </strong>{' '}
         this isn’t the best form for you to use. Instead, use the application
-        that allows you to apply for survivor benefits like VA Dependency and
+        that allows you to apply for survivor benefits like VA Dependence and
         Indemnity Compensation (VA DIC), Survivors Pension, and Accrued Benefits
-        at the same time.
+        at the same time. If you only want to apply for accrued benefits, use
+        this form for a faster decision.
         <br />
         <va-link
           href="/family-member-benefits/apply-for-dependent-compensation-form-21p-534ez/"
@@ -68,7 +69,8 @@ const childContent = (
           beneficiary’s burial or care during their final illness,
         </strong>{' '}
         you’ll need to use the PDF version of this form. You’ll apply as an
-        unpaid creditor.
+        unpaid creditor. This will allow you to collect signatures from other
+        creditors. You’ll apply as an unpaid creditor.
         <br />
         <br />
         <va-link
@@ -87,10 +89,6 @@ const childContent = (
         You must apply for accrued benefits within <strong>1 year</strong> of
         the beneficiary’s death
       </li>
-      <li>
-        If you’re filing a lump sum accrued benefits claim, you must do so
-        within <strong>5 years</strong> of the beneficiary’s death
-      </li>
     </ul>
     <h3>What you’ll need to apply</h3>
     <ul className="vads-u-margin-bottom--4">
@@ -99,10 +97,11 @@ const childContent = (
         The beneficiary’s death certificate (unless they died in a VA facility)
       </li>
       <li>Your personal and contact information</li>
-      <li>Information about surviving relatives</li>
+      <li>Information about dependent surviving relatives</li>
       <li>
         Any certified, signed legal documents showing the assignment of the
-        executor or administrator of the beneficiary’s estate
+        executor or administrator of the beneficiary’s estate (if someone has
+        been assigned)
       </li>
       <li>
         Bills or other documentation of expenses if you’re claiming
