@@ -30,6 +30,9 @@ describe('wrapApiRequest', () => {
   beforeEach(() => {
     // Clear any lingering stubs from other tests to avoid double-wrapping errors.
     sandbox.restore();
+    if (constantsModule.getSignInUrl?.restore) {
+      constantsModule.getSignInUrl.restore();
+    }
 
     fetchStub = sandbox.stub(sessionUtil, 'fetchAndUpdateSessionExpiration');
     csrfGetItemStub = sandbox
