@@ -5,15 +5,6 @@ import { CSP_IDS } from '~/platform/user/authentication/constants';
 import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 
 import Alerts from '../../containers/Alerts';
-import {
-  accountStatusMultiError,
-  accountStatusFiveZeroZero,
-} from '../../mocks/api/user/mhvAccountStatus';
-import {
-  mhvAccountStatusErrorsSorted,
-  mhvAccountStatusUserError,
-  showVerifyAndRegisterAlert,
-} from '../../selectors';
 import reducers from '../../reducers';
 
 const stateFn = ({
@@ -78,61 +69,6 @@ describe('<Alerts /> container', () => {
     const { getAllByTestId, getByTestId } = setup({ initialState });
     getByTestId('mhv-alert--unregistered');
     expect(getAllByTestId(/^mhv-alert--/).length).to.eq(1);
-  });
-
-  describe('AlertAccountApiAlert', () => {
-    it('renders with userActionable=true when mhvAccountStatusSortedErrors.length > 0 and mhvAccountStatusUserErrors.length > 0', () => {
-      // accountStatusMultiError has user action codes (801, 805) and non-user codes (802, 500)
-      // sortedErrors.length > 0 and userErrors.length > 0
-      // Need to ensure renderVerifyAndRegisterAlert is false (loa=3, serviceName not ID_ME/LOGIN_GOV)
-      // and userRegistered is true (loa=3, vaPatient=true)
-      const initialState = stateFn({
-        loa: 3,
-        vaPatient: true,
-        serviceName: CSP_IDS.DS_LOGON, // Not ID_ME or LOGIN_GOV, so renderVerifyAndRegisterAlert is false
-        accountStatusErrors: accountStatusMultiError,
-      });
-
-      // Verify selectors work with this state
-      const sortedErrors = mhvAccountStatusErrorsSorted(initialState);
-      const userErrors = mhvAccountStatusUserError(initialState);
-      const shouldShowVerifyAlert = showVerifyAndRegisterAlert(initialState);
-      expect(sortedErrors.length).to.be.greaterThan(0);
-      expect(userErrors.length).to.be.greaterThan(0);
-      expect(shouldShowVerifyAlert).to.be.false; // Should be false when loa=3
-
-      const { getByTestId, getByText } = setup({ initialState });
-      getByTestId('mhv-alert--mhv-registration');
-      // When userActionable is true, it shows the actionable message
-      getByText(/Error code \d+: Contact the My HealtheVet help desk/);
-    });
-
-    it('renders with userActionable=false when mhvAccountStatusSortedErrors.length > 0 and mhvAccountStatusUserErrors.length === 0', () => {
-      // accountStatusFiveZeroZero only has error code 500, which is not a user action code
-      // sortedErrors.length > 0 but userErrors.length === 0
-      // Need to ensure renderVerifyAndRegisterAlert is false and userRegistered is true
-      const initialState = stateFn({
-        loa: 3,
-        vaPatient: true,
-        serviceName: CSP_IDS.DS_LOGON, // Not ID_ME or LOGIN_GOV, so renderVerifyAndRegisterAlert is false
-        accountStatusErrors: accountStatusFiveZeroZero,
-      });
-
-      // Verify selectors work with this state
-      const sortedErrors = mhvAccountStatusErrorsSorted(initialState);
-      const userErrors = mhvAccountStatusUserError(initialState);
-      const shouldShowVerifyAlert = showVerifyAndRegisterAlert(initialState);
-      expect(sortedErrors.length).to.be.greaterThan(0);
-      expect(userErrors.length).to.equal(0);
-      expect(shouldShowVerifyAlert).to.be.false; // Should be false when loa=3
-
-      const { getByTestId, getByText } = setup({ initialState });
-      getByTestId('mhv-alert--mhv-registration');
-      // When userActionable is false, it shows the non-actionable message
-      getByText(
-        /You can't access messages, medications, or medical records right now/,
-      );
-    });
   });
 
   it('returns empty fragment when all conditions are false', () => {

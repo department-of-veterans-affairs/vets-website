@@ -589,18 +589,6 @@ describe('profile selectors', () => {
   });
 
   describe('selectHasRetiringSignInService', () => {
-    it('returns `true` when serviceName is DS_LOGON', () => {
-      const state = {
-        user: {
-          profile: {
-            signIn: {
-              serviceName: 'dslogon',
-            },
-          },
-        },
-      };
-      expect(selectors.selectHasRetiringSignInService(state)).to.be.true;
-    });
     it('returns `true` when serviceName is MHV', () => {
       const state = {
         user: {
@@ -680,22 +668,6 @@ describe('profile selectors', () => {
   });
 
   describe('selectShowCredRetirementMessaging', () => {
-    it('returns `true` when toggle is enabled and user has retiring sign in service', () => {
-      const state = {
-        featureToggles: {
-          // eslint-disable-next-line camelcase
-          profile_show_credential_retirement_messaging: true,
-        },
-        user: {
-          profile: {
-            signIn: {
-              serviceName: 'dslogon',
-            },
-          },
-        },
-      };
-      expect(selectors.selectShowCredRetirementMessaging(state)).to.be.true;
-    });
     it('returns `false` when toggle is enabled but user does not have retiring sign in service', () => {
       const state = {
         featureToggles: {

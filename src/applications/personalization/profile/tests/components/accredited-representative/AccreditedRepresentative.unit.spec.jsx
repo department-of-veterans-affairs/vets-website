@@ -30,7 +30,7 @@ const stubbedRepresentativeData = {
 const getState = ({ isLOA3 = 1 } = {}) => ({
   user: {
     profile: {
-      signIn: { serviceName: CSP_IDS.DS_LOGON },
+      signIn: { serviceName: CSP_IDS.MHV },
       loa: { current: isLOA3 },
     },
   },
