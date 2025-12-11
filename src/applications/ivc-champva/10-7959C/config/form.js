@@ -100,8 +100,10 @@ const formConfig = {
     CustomComponent: CustomAttestation,
   },
   customText: {
-    reviewPageTitle: 'Review form',
     appType: 'form',
+    continueAppButtonText: 'Continue your form',
+    reviewPageTitle: 'Review form',
+    startNewAppButtonText: 'Start a new form',
   },
   CustomReviewTopContent: () => <h3>Review and sign</h3>,
   saveInProgress: {
@@ -125,7 +127,7 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for CHAMPVA other health insurance certification.',
   },
-  title: 'Submit other health insurance VA Form 10-7959c',
+  title: 'Submit other health insurance',
   subTitle: 'CHAMPVA Other Health Insurance Certification (VA Form 10-7959c)',
   defaultDefinitions: {},
   chapters: {
