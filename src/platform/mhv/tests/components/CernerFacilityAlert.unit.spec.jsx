@@ -148,7 +148,7 @@ describe('CernerFacilityAlert', () => {
     it('renders My VA Health link with correct href', () => {
       const screen = setup(stateWithFacility, CernerAlertContent.MEDICATIONS);
 
-      const link = screen.getByText('Go to My VA Health');
+      const link = screen.getByTestId('cerner-facility-action-link');
       expect(link).to.exist;
       expect(link.getAttribute('href')).to.include(
         '/pages/medications/current',
@@ -162,7 +162,7 @@ describe('CernerFacilityAlert', () => {
         onLinkClick,
       });
 
-      const link = screen.getByText('Go to My VA Health');
+      const link = screen.getByTestId('cerner-facility-action-link');
       link.click();
 
       expect(onLinkClick.calledOnce).to.be.true;
@@ -174,7 +174,7 @@ describe('CernerFacilityAlert', () => {
         CernerAlertContent.LABS_AND_TESTS,
       );
 
-      const link = screen.getByText('Go to My VA Health');
+      const link = screen.getByTestId('cerner-facility-action-link');
       expect(link.getAttribute('rel')).to.equal('noopener noreferrer');
     });
   });
@@ -219,6 +219,7 @@ describe('CernerFacilityAlert', () => {
       },
     };
 
+    // TODO: how to test custom classnames
     it.skip('adds extra margin when apiError is true', () => {
       const screen = setup(stateWithFacility, {
         ...CernerAlertContent.MEDICATIONS,
@@ -226,7 +227,7 @@ describe('CernerFacilityAlert', () => {
       });
 
       const alert = screen.getByTestId('cerner-facilities-alert');
-      expect(alert.className).to.include('vads-u-margin-top--2');
+      expect(alert.classname).to.include('vads-u-margin-top--2');
     });
   });
 
@@ -257,7 +258,7 @@ describe('CernerFacilityAlert', () => {
       });
 
       const alert = screen.getByTestId('cerner-facilities-alert');
-      expect(alert.classname).to.include('custom-test-class');
+      expect(alert.className).to.include('custom-test-class');
     });
   });
 

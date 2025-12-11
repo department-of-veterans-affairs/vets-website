@@ -441,7 +441,7 @@ describe('DownloadRecordsPage for Cerner users', () => {
     expect(screen.getByTestId('cerner-facilities-alert')).to.exist;
     expect(
       screen.getByText(
-        'To get your medical records reports from this facility, go to My VA Health',
+        /To get your medical records reports from this facility/,
       ),
     ).to.exist;
     // Facility name appears in alert text (within data-testid="single-cerner-facility-text")
@@ -482,7 +482,7 @@ describe('DownloadRecordsPage for Cerner users', () => {
     });
 
     expect(screen.getByTestId('cerner-facilities-alert')).to.exist;
-    const link = screen.getByRole('link', { name: /Go to My VA Health/i });
+    const link = screen.getByTestId('cerner-facility-action-link');
     expect(link).to.exist;
   });
 });

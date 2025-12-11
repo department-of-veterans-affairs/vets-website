@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
 import { selectCernerFacilities } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import { getCernerURL } from 'platform/utilities/cerner';
+import { VaLinkAction } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 /**
  * Shared Cerner Facility Alert component for MHV applications
@@ -155,14 +156,14 @@ const CernerFacilityAlert = ({
             <strong>{cernerFacilitiesNames[0]}</strong>, go to My VA Health.
           </p>
         )}
-        <a
-          className="vads-c-action-link--blue vads-u-margin-bottom--0p5"
+        <VaLinkAction
+          data-testid="cerner-facility-action-link"
           href={getCernerURL(linkPath, true)}
-          onClick={() => handleLinkClick()}
+          type="secondary"
+          onClick={handleLinkClick}
+          text="Go to My VA Health"
           rel="noopener noreferrer"
-        >
-          Go to My VA Health
-        </a>
+        />
         <p>
           <strong>Note:</strong> Having trouble opening up My VA Health? Try
           disabling your browser’s pop-up blocker or signing in to My VA Health
