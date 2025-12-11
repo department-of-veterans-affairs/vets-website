@@ -4,9 +4,10 @@ import { useSelector } from 'react-redux';
 export const maritalStatusesWithDateOfMarriage = ['married', 'separated'];
 
 const SpouseSummaryCardDescription = () => {
-  const { data: formData } = useSelector(state => state.form);
-  const { maritalStatus } = formData['view:maritalStatus'];
-  const { dateOfMarriage } = formData;
+  const { maritalStatus, dateOfMarriage } = useSelector(state => ({
+    maritalStatus: state.form.data['view:maritalStatus'].maritalStatus,
+    dateOfMarriage: state.form.data.dateOfMarriage,
+  }));
   const allDetails = [maritalStatus];
   if (
     maritalStatusesWithDateOfMarriage.includes(maritalStatus?.toLowerCase())
@@ -14,7 +15,7 @@ const SpouseSummaryCardDescription = () => {
     allDetails.push(`Date of Marriage: ${dateOfMarriage || ''}`);
   }
   return (
-    <ul className="ezr-list-reset">
+    <ul className="no-bullets">
       {allDetails.map(detail => (
         <li key={detail}>{detail}</li>
       ))}
