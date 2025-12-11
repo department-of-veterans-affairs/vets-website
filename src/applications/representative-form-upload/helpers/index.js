@@ -28,12 +28,13 @@ const formMappings = {
 export const mockData = testData.data;
 
 export const getFormNumber = (pathname = null) => {
-  const path = pathname || window?.location?.pathname;
+  const path = pathname ?? window?.location?.pathname ?? '';
   const regex = /upload\/submit-va-form-([^/]+)/;
   const match = path.match(regex)?.[1]?.toLowerCase();
-  return (
-    Object.keys(formMappings).find(key => key.toLowerCase() === match) || ''
-  );
+  const resolved =
+    Object.keys(formMappings).find(key => key.toLowerCase() === match) || '';
+
+  return resolved || '21-686c';
 };
 
 export const getFormContent = (pathname = null) => {
