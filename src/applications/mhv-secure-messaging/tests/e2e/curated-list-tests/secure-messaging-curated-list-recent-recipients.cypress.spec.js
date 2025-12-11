@@ -19,6 +19,7 @@ describe('SM CURATED LIST MAIN FLOW WITH RECENT RECIPIENTS', () => {
       },
     ]);
     SecureMessagingSite.login(updatedFeatureToggles);
+    cy.wait('@featureToggle');
     PatientInboxPage.loadInboxMessages();
   });
 
@@ -147,10 +148,11 @@ describe('SM CURATED LIST MAIN FLOW WITH RECENT RECIPIENTS', () => {
 
     cy.findByLabelText('A different care team').click();
 
-    cy.findByTestId(
-      Locators.RECENT_CARE_TEAMS_CONTINUE_BUTTON_DATA_TEST_ID,
-    ).click();
+    cy.findByTestId(Locators.RECENT_CARE_TEAMS_CONTINUE_BUTTON_DATA_TEST_ID)
+      .should('be.enabled')
+      .click();
 
+    cy.location('pathname').should('include', '/select-care-team');
     GeneralFunctionsPage.verifyPageHeader(`Select care team`);
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
@@ -185,9 +187,9 @@ describe('SM CURATED LIST MAIN FLOW WITH RECENT RECIPIENTS', () => {
     // Select the first recent care team
     cy.get(`[label="${recentCareTeams[0]}"]`).click();
 
-    cy.findByTestId(
-      Locators.RECENT_CARE_TEAMS_CONTINUE_BUTTON_DATA_TEST_ID,
-    ).click();
+    cy.findByTestId(Locators.RECENT_CARE_TEAMS_CONTINUE_BUTTON_DATA_TEST_ID)
+      .should('be.enabled')
+      .click();
 
     GeneralFunctionsPage.verifyPageHeader('Start message');
 
