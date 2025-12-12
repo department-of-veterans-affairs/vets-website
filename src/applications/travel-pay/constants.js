@@ -14,7 +14,7 @@ export const STATUSES = {
     description:
       'You submitted a claim without required expense information. You must provide the required information for BTSSS to process the claim.',
     definition:
-      'You haven’t submitted this claim yet. Make sure to add all required information and submit within 30 days of your appointment.',
+      'You haven’t filed this claim yet. Make sure to add all required information and file within 30 days of your appointment.',
     reasons: null,
   },
   Saved: {

@@ -5,7 +5,7 @@ import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureT
 
 import useSetPageTitle from '../hooks/useSetPageTitle';
 import { formatDateTime } from '../util/dates';
-import { STATUSES, FORM_100998_LINK } from '../constants';
+import { STATUSES, FORM_100998_LINK, BTSSS_PORTAL_URL } from '../constants';
 import { toPascalCase, currency } from '../util/string-helpers';
 import DocumentDownload from './DocumentDownload';
 import DecisionReason from './DecisionReason';
@@ -18,7 +18,6 @@ export default function ClaimDetailsContent({
   claimStatus,
   claimNumber,
   claimId,
-  appointment,
   appointmentDate: appointmentDateTime,
   facilityName,
   modifiedOn,
@@ -29,7 +28,6 @@ export default function ClaimDetailsContent({
   isOutOfBounds,
 }) {
   useSetPageTitle('Travel Reimbursement Claim Details');
-  const { id: appointmentId } = appointment;
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const claimsMgmtToggle = useToggleValue(
     TOGGLE_NAMES.travelPayClaimsManagement,
@@ -113,15 +111,25 @@ export default function ClaimDetailsContent({
       {claimsMgmtToggle && (
         <>
           {STATUSES[toPascalCase(claimStatus)] ? (
-            <p
-              className="vads-u-margin-top--2"
-              data-testid="status-definition-text"
-            >
-              {complexClaimsToggle
-                ? STATUSES[toPascalCase(claimStatus)].alternativeDefinition ||
-                  STATUSES[toPascalCase(claimStatus)].definition
-                : STATUSES[toPascalCase(claimStatus)].definition}
-            </p>
+            <>
+              <p
+                className="vads-u-margin-top--2"
+                data-testid="status-definition-text"
+              >
+                {complexClaimsToggle
+                  ? STATUSES[toPascalCase(claimStatus)].alternativeDefinition ||
+                    STATUSES[toPascalCase(claimStatus)].definition
+                  : STATUSES[toPascalCase(claimStatus)].definition}
+              </p>
+              {claimStatus === STATUSES.Saved.name && (
+                <p className="vads-u-margin-top--2">
+                  <span className="vads-u-font-weight--bold">Note:</span> We
+                  can't file your travel reimbursement claim here right now. But
+                  you can still file your claim in the Beneficiary Travel Self
+                  Service System (BTSSS).
+                </p>
+              )}
+            </>
           ) : (
             <p className="vads-u-margin-top--2">
               If you need help understanding your claim, call the BTSSS call
@@ -144,11 +152,11 @@ export default function ClaimDetailsContent({
       {complexClaimsToggle &&
         (claimStatus === STATUSES.Incomplete.name ||
           claimStatus === STATUSES.Saved.name) && (
-          <va-link-action
-            text="Complete and file your claim"
-            // Specifically NOT a client-side route to ensure
-            // redirect logic is evaluated upon entry into complex claims
-            href={`/my-health/travel-pay/file-new-claim/${appointmentId}`}
+          <va-link
+            text="Complete and file your claim in BTSSS"
+            label="Complete and file your claim in the Beneficiary Travel Self Service System"
+            href={BTSSS_PORTAL_URL}
+            external
           />
         )}
       <h2 className="vads-u-font-size--h3">Claim information</h2>
@@ -280,7 +288,6 @@ export default function ClaimDetailsContent({
 }
 
 ClaimDetailsContent.propTypes = {
-  appointment: PropTypes.object.isRequired,
   appointmentDate: PropTypes.string.isRequired,
   claimId: PropTypes.string.isRequired,
   claimNumber: PropTypes.string.isRequired,

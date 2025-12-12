@@ -5,6 +5,7 @@ import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 
 import ClaimDetailsContent from '../../components/ClaimDetailsContent';
+import { BTSSS_PORTAL_URL } from '../../constants';
 
 describe('ClaimDetailsContent', () => {
   const claimDetailsProps = {
@@ -450,6 +451,11 @@ describe('ClaimDetailsContent', () => {
   });
 
   describe('Complex claims feature', () => {
+    const getBTSSSLink = () =>
+      $(
+        `va-link[text="Complete and file your claim in BTSSS"][href="${BTSSS_PORTAL_URL}"]`,
+      );
+
     describe('OutOfBoundsAppointmentAlert', () => {
       it('renders out of bounds alert when complexClaimsToggle is on and isOutOfBounds is true', () => {
         const screen = renderWithStoreAndRouter(
@@ -574,13 +580,9 @@ describe('ClaimDetailsContent', () => {
           },
         );
 
-        expect(
-          $(
-            `va-link-action[text="Complete and file your claim"][href="/my-health/travel-pay/file-new-claim/${
-              claimDetailsProps.claimId
-            }"]`,
-          ),
-        ).to.exist;
+        const link = getBTSSSLink();
+        expect(link).to.exist;
+        expect(link).to.have.attribute('external');
       });
 
       it('renders complete and file link for Incomplete status when complexClaimsToggle is on', () => {
@@ -594,13 +596,9 @@ describe('ClaimDetailsContent', () => {
           },
         );
 
-        expect(
-          $(
-            `va-link-action[text="Complete and file your claim"][href="/my-health/travel-pay/file-new-claim/${
-              claimDetailsProps.claimId
-            }"]`,
-          ),
-        ).to.exist;
+        const link = getBTSSSLink();
+        expect(link).to.exist;
+        expect(link).to.have.attribute('external');
       });
 
       it('does not render complete and file link for Saved status when complexClaimsToggle is off', () => {
@@ -611,8 +609,7 @@ describe('ClaimDetailsContent', () => {
           },
         );
 
-        expect($('va-link-action[text="Complete and file your claim"]')).to.not
-          .exist;
+        expect(getBTSSSLink()).to.not.exist;
       });
 
       it('does not render complete and file link for other statuses even when complexClaimsToggle is on', () => {
@@ -623,8 +620,7 @@ describe('ClaimDetailsContent', () => {
           },
         );
 
-        expect($('va-link-action[text="Complete and file your claim"]')).to.not
-          .exist;
+        expect(getBTSSSLink()).to.not.exist;
       });
     });
 
@@ -686,17 +682,72 @@ describe('ClaimDetailsContent', () => {
         );
 
         // Complete and file link
-        expect(
-          $(
-            `va-link-action[text="Complete and file your claim"][href="/my-health/travel-pay/file-new-claim/${
-              claimDetailsProps.claimId
-            }"]`,
-          ),
-        ).to.exist;
+        const link = getBTSSSLink();
+        expect(link).to.exist;
+        expect(link).to.have.attribute('external');
 
         // Created on text
         expect(screen.getByText(/Created on Monday, May 27, 2024 at/i)).to
           .exist;
+      });
+    });
+
+    describe('Saved status note', () => {
+      it('renders note text for Saved status', () => {
+        const screen = renderWithStoreAndRouter(
+          <ClaimDetailsContent {...claimDetailsProps} claimStatus="Saved" />,
+          {
+            initialState: getState({ hasComplexClaimsFlag: true }),
+          },
+        );
+
+        expect(screen.getByText('Note:', { exact: false })).to.exist;
+        expect(
+          screen.getByText(
+            /We can't file your travel reimbursement claim here right now/i,
+          ),
+        ).to.exist;
+        expect(
+          screen.getByText(
+            /you can still file your claim in the Beneficiary Travel Self Service System \(BTSSS\)/i,
+          ),
+        ).to.exist;
+      });
+
+      it('does not render note text for non-Saved statuses', () => {
+        const screen = renderWithStoreAndRouter(
+          <ClaimDetailsContent
+            {...claimDetailsProps}
+            claimStatus="Claim submitted"
+          />,
+          {
+            initialState: getState({ hasComplexClaimsFlag: true }),
+          },
+        );
+
+        expect(
+          screen.queryByText(
+            /We can't file your travel reimbursement claim here right now/i,
+          ),
+        ).to.not.exist;
+      });
+
+      it('does not render note text for Incomplete status', () => {
+        const screen = renderWithStoreAndRouter(
+          <ClaimDetailsContent
+            {...claimDetailsProps}
+            claimStatus="Incomplete"
+          />,
+          {
+            initialState: getState({ hasComplexClaimsFlag: true }),
+          },
+        );
+
+        expect(
+          screen.queryByText(
+            /We can't file your travel reimbursement claim here right now/i,
+          ),
+        ).to.not.exist;
       });
     });
   });
