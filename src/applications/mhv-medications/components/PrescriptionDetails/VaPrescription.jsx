@@ -287,6 +287,7 @@ const VaPrescription = prescription => {
             {prescriptionMedAndRenewalStatus(
               prescription,
               medStatusDisplayTypes.VA_PRESCRIPTION,
+              isCernerPilot,
             )}
             <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
               Refills left

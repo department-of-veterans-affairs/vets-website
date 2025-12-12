@@ -32,10 +32,10 @@ import {
   medicationsUrls,
   DOWNLOAD_FORMAT,
   PRINT_FORMAT,
-  filterOptions,
   ALL_MEDICATIONS_FILTER_KEY,
   defaultSelectedSortOption,
   DATETIME_FORMATS,
+  SHIPPED_FILTER_KEY,
 } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
 import BeforeYouDownloadDropdown from '../components/shared/BeforeYouDownloadDropdown';
@@ -44,6 +44,7 @@ import {
   buildAllergiesPDFList,
 } from '../util/pdfConfigs';
 import { buildPrescriptionsTXT, buildAllergiesTXT } from '../util/txtConfigs';
+import { getFilterOptions } from '../util/helpers/getRxStatus';
 import Alert from '../components/shared/Alert';
 import PrescriptionsPrintOnly from './PrescriptionsPrintOnly';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
@@ -74,6 +75,7 @@ import {
   selectSortOption,
   selectFilterOption,
 } from '../selectors/selectPreferences';
+import { selectCernerPilotFlag } from '../util/selectors';
 import { buildPdfData } from '../util/buildPdfData';
 import { generateMedicationsPdfFile } from '../util/generateMedicationsPdfFile';
 import FilterAriaRegion from '../components/MedicationsList/FilterAriaRegion';
@@ -90,6 +92,8 @@ const Prescriptions = () => {
   const userName = useSelector(selectUserFullName);
   const dob = useSelector(selectUserDob);
   const hasMedsByMailFacility = useSelector(selectHasMedsByMailFacility);
+  const isCernerPilot = useSelector(selectCernerPilotFlag);
+  const currentFilterOptions = getFilterOptions(isCernerPilot);
   const [searchParams] = useSearchParams();
   const rxRenewalMessageSuccess = searchParams.get('rxRenewalMessageSuccess');
   const deleteDraftSuccess = searchParams.get('draftDeleteSuccess');
@@ -107,7 +111,7 @@ const Prescriptions = () => {
     sortEndpoint:
       rxListSortingOptions[selectedSortOption]?.API_ENDPOINT ||
       rxListSortingOptions[defaultSelectedSortOption].API_ENDPOINT,
-    filterOption: filterOptions[selectedFilterOption]?.url || '',
+    filterOption: currentFilterOptions[selectedFilterOption]?.url || '',
   });
 
   useEffect(
@@ -134,13 +138,22 @@ const Prescriptions = () => {
   const paginatedPrescriptionsList = useMemo(
     () => {
       if (prescriptionsData?.prescriptions) {
-        return prescriptionsData.prescriptions;
+        let { prescriptions } = prescriptionsData;
+
+        // Filter for trackable prescriptions when using SHIPPED filter with cernerPilot
+        if (isCernerPilot && selectedFilterOption === SHIPPED_FILTER_KEY) {
+          prescriptions = prescriptions.filter(
+            prescription => prescription.isTrackable === true,
+          );
+        }
+
+        return prescriptions;
       }
       return undefined;
     },
-    [prescriptionsData],
+    [prescriptionsData, selectedFilterOption, isCernerPilot],
   );
-  const { prescriptions: filteredList } = prescriptionsData || [];
+  const filteredList = prescriptionsData?.prescriptions || [];
   const { filterCount } = meta || {};
   const prescriptionId = useSelector(selectPrescriptionId);
   const [prescriptionsExportList, setPrescriptionsExportList] = useState([]);
@@ -172,7 +185,7 @@ const Prescriptions = () => {
     );
 
     if (isFiltering) {
-      updates.filterOption = filterOptions[newFilterOption]?.url || '';
+      updates.filterOption = currentFilterOptions[newFilterOption]?.url || '';
       updates.page = 1;
 
       if (newFilterOption === selectedFilterOption) {
@@ -298,7 +311,10 @@ const Prescriptions = () => {
           prescriptionsExportList?.length,
           false,
         )}\n\n\n` +
-        `${displayMedicationsListHeader(selectedFilterOption)}\n\n` +
+        `${displayMedicationsListHeader(
+          selectedFilterOption,
+          currentFilterOptions,
+        )}\n\n` +
         `${rxList}${allergiesList ?? ''}`
       );
     },
@@ -414,7 +430,7 @@ const Prescriptions = () => {
         getPrescriptionsExportList.initiate(
           {
             sortEndpoint: rxListSortingOptions[selectedSortOption].API_ENDPOINT,
-            filterOption: filterOptions[selectedFilterOption]?.url || '',
+            filterOption: currentFilterOptions[selectedFilterOption]?.url || '',
             includeImage: false,
           },
           {

@@ -187,6 +187,7 @@ export const buildPrescriptionsPDFList = (
                 prescriptionMedAndRenewalStatus(
                   rx,
                   medStatusDisplayTypes.PRINT,
+                  isCernerPilot,
                 ),
               ),
               inline: true,
@@ -410,6 +411,7 @@ export const buildVAPrescriptionPDFList = (
                 prescriptionMedAndRenewalStatus(
                   prescription,
                   medStatusDisplayTypes.PRINT,
+                  isCernerPilot,
                 ),
               ),
               inline: true,

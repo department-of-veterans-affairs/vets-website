@@ -53,7 +53,11 @@ const getLastFilledAndRxNumberBlock = rx => {
 };
 const getAttributes = (rx, isCernerPilot) =>
   joinLines(
-    `Status: ${prescriptionMedAndRenewalStatus(rx, medStatusDisplayTypes.TXT)}`,
+    `Status: ${prescriptionMedAndRenewalStatus(
+      rx,
+      medStatusDisplayTypes.TXT,
+      isCernerPilot,
+    )}`,
     fieldLine('Refills left', rx.refillRemaining),
     `Request refills by this prescription expiration date: ${dateFormat(
       rx.expirationDate,

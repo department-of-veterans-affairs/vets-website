@@ -8,9 +8,10 @@ import { datadogRum } from '@datadog/browser-rum';
 import MedicationsListCard from './MedicationsListCard';
 import {
   ALL_MEDICATIONS_FILTER_KEY,
-  filterOptions,
   rxListSortingOptions,
 } from '../../util/constants';
+import { getFilterOptions } from '../../util/helpers/getRxStatus';
+import { selectCernerPilotFlag } from '../../util/selectors';
 import PrescriptionPrintOnly from '../PrescriptionDetails/PrescriptionPrintOnly';
 import { fromToNumbs } from '../../util/helpers';
 import { dataDogActionNames } from '../../util/dataDogConstants';
@@ -56,8 +57,10 @@ const MedicationsList = props => {
   );
 
   const selectedFilterOption = useSelector(selectFilterOption);
+  const isCernerPilot = useSelector(selectCernerPilotFlag);
+  const currentFilterOptions = getFilterOptions(isCernerPilot);
   const selectedFilterDisplay =
-    filterOptions[selectedFilterOption]?.showingContentDisplayName;
+    currentFilterOptions[selectedFilterOption]?.showingContentDisplayName;
 
   const filterAndSortContent = () => {
     const allMedsSelected = selectedFilterOption === ALL_MEDICATIONS_FILTER_KEY;

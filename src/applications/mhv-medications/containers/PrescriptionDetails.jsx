@@ -34,10 +34,10 @@ import {
   buildNonVAPrescriptionTXT,
   buildAllergiesTXT,
 } from '../util/txtConfigs';
+import { getFilterOptions } from '../util/helpers/getRxStatus';
 import {
   rxListSortingOptions,
   defaultSelectedSortOption,
-  filterOptions,
   PDF_TXT_GENERATE_STATUS,
   DOWNLOAD_FORMAT,
   recordNotFoundMessage,
@@ -52,6 +52,7 @@ import { useGetAllergiesQuery } from '../api/allergiesApi';
 import { usePrescriptionData } from '../hooks/usePrescriptionData';
 import { usePrefetch } from '../api/prescriptionsApi';
 import { selectUserDob, selectUserFullName } from '../selectors/selectUser';
+import { selectCernerPilotFlag } from '../util/selectors';
 import {
   selectSortOption,
   selectFilterOption,
@@ -66,8 +67,8 @@ const PrescriptionDetails = () => {
   const selectedSortOption = useSelector(selectSortOption);
   const selectedFilterOption = useSelector(selectFilterOption);
   const currentPage = useSelector(selectPageNumber);
-  // OH feature flag
   const isCernerPilot = useSelector(selectCernerPilotFlag);
+  const currentFilterOptions = getFilterOptions(isCernerPilot);
   // Consolidate query parameters into a single state object to avoid multiple re-renders
   const [queryParams] = useState({
     page: currentPage || 1,
@@ -75,7 +76,7 @@ const PrescriptionDetails = () => {
     sortEndpoint:
       rxListSortingOptions[selectedSortOption]?.API_ENDPOINT ||
       rxListSortingOptions[defaultSelectedSortOption].API_ENDPOINT,
-    filterOption: filterOptions[selectedFilterOption]?.url || '',
+    filterOption: currentFilterOptions[selectedFilterOption]?.url || '',
   });
 
   // Use the custom hook to fetch prescription data
