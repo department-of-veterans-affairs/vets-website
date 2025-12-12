@@ -95,6 +95,9 @@ function getYesNoReviewErrorMessage(reviewErrors, hasItemsKey) {
  *   titleHeaderLevel: string,
  *   useLinkInsteadOfYesNo: ArrayBuilderOptions['useLinkInsteadOfYesNo'],
  *   useButtonInsteadOfYesNo: ArrayBuilderOptions['useButtonInsteadOfYesNo'],
+ *   canAddItem: ArrayBuilderOptions['canAddItem'],
+ *   canEditItem: ArrayBuilderOptions['canEditItem'],
+ *   canDeleteItem: ArrayBuilderOptions['canDeleteItem'],
  *   duplicateChecks: ArrayBuilderOptions['duplicateChecks'],
  * }} arrayBuilderOptions
  * @returns {CustomPageType}
@@ -116,6 +119,9 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     titleHeaderLevel,
     useLinkInsteadOfYesNo,
     useButtonInsteadOfYesNo,
+    canEditItem,
+    canDeleteItem,
+    canAddItem,
     duplicateChecks = {},
   } = arrayBuilderOptions;
 
@@ -518,10 +524,18 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
         isReview={isReviewPage}
         titleHeaderLevel={headingLevel}
         fullData={props.fullData}
+        canEditItem={canEditItem}
+        canDeleteItem={canDeleteItem}
         duplicateChecks={duplicateChecks}
         duplicateCheckResult={duplicateCheckResult}
       />
     );
+
+    // Calculate hideAdd based on maxItems and canAddItem
+    const canAddItemCheck =
+      typeof canAddItem !== 'function' ||
+      canAddItem({ arrayData, fullData: props.data, isReview: isReviewPage });
+    const hideAdd = isMaxItemsReached || !canAddItemCheck;
 
     if (isReviewPage) {
       return (
@@ -534,7 +548,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
           Alerts={Alerts}
           Cards={Cards}
           Title={Title}
-          hideAdd={isMaxItemsReached}
+          hideAdd={hideAdd}
         />
       );
     }
@@ -614,8 +628,6 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
 
     newUiSchema['ui:title'] = UITitle;
     newUiSchema['ui:description'] = UIDescription;
-
-    const hideAdd = maxItems && arrayData?.length >= maxItems;
 
     if (schema?.properties?.[hasItemsKey]) {
       if (
