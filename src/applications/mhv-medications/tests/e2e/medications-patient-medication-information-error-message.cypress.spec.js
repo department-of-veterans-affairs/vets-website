@@ -12,7 +12,14 @@ describe('Medication Information Error Message', () => {
     const detailsPage = new MedicationsDetailsPage();
     const informationPage = new MedicationsInformationPage();
     const cardNumber = 16;
+    const { prescriptionId } = rxTrackingDetails.data.attributes;
     site.login();
+    // Set up the error intercept before visiting the list page so it catches the prefetch
+    cy.intercept(
+      'GET',
+      `**/my_health/v1/prescriptions/${prescriptionId}/documentation`,
+      { statusCode: 500, body: { error: 'Internal Server Error' } },
+    ).as('medicationDescriptionError');
     listPage.visitMedicationsListPageURL(rxList);
     detailsPage.clickMedicationDetailsLink(rxTrackingDetails, cardNumber);
     detailsPage.clickLearnMoreAboutMedicationLinkOnDetailsPageError();

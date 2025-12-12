@@ -106,7 +106,7 @@ export const mockContactInformation = {
     addressLine1: 'PSC 808 Box 37',
     addressLine2: null,
     addressLine3: null,
-    addressPou: 'RESIDENCE/CHOICE',
+    addressPou: 'RESIDENCE',
     addressType: 'OVERSEAS MILITARY',
     city: 'FPO',
     countryName: 'United States',
