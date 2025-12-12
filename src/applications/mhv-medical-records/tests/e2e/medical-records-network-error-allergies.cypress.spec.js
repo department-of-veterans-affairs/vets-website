@@ -8,7 +8,10 @@ describe('Medical Records View Allergies', () => {
   });
 
   it('Visits Medical Records, Views Network Error On Allergies List', () => {
-    cy.intercept('GET', '/my_health/v1/medical_records/allergies', {
+    cy.intercept('GET', '/my_health/v1/medical_records/allergies*', {
+      statusCode: 404,
+    });
+    cy.intercept('GET', '/my_health/v2/medical_records/allergies*', {
       statusCode: 404,
     });
     cy.visit('my-health/medical-records');
@@ -17,5 +20,9 @@ describe('Medical Records View Allergies', () => {
 
     cy.visit('my-health/medical-records/allergies');
     cy.get('[data-testid="expired-alert-message"]').should('be.visible');
+
+    // Axe check
+    cy.injectAxe();
+    cy.axeCheck('main');
   });
 });
