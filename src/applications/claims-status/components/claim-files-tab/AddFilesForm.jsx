@@ -239,11 +239,10 @@ const AddFilesForm = ({ fileTab, onSubmit, uploading, progress, onCancel }) => {
 
   // Build the href for "other ways to send documents" link
   // When on the files tab, use anchor link; otherwise use full path
+  const otherWaysAnchor = `#${ANCHOR_LINKS.otherWaysToSendDocuments}`;
   const otherWaysToSendHref = fileTab
-    ? `#${ANCHOR_LINKS.otherWaysToSendDocuments}`
-    : `/track-claims/your-claims/${claimId}/files#${
-        ANCHOR_LINKS.otherWaysToSendDocuments
-      }`;
+    ? otherWaysAnchor
+    : `/track-claims/your-claims/${claimId}/files${otherWaysAnchor}`;
 
   // Track document type changes and clear errors immediately
   useEffect(
