@@ -4,12 +4,46 @@ import sinon from 'sinon';
 import { Actions } from '../../util/actionTypes';
 import labsAndTests from '../fixtures/labsAndTests.json';
 import pathology from '../fixtures/pathology.json';
+import error404 from '../fixtures/404.json';
 import {
   clearLabsAndTestDetails,
   getLabsAndTestsList,
   getLabsAndTestsDetails,
   updateLabsAndTestDateRange,
 } from '../../actions/labsAndTests';
+
+describe('getLabsAndTestsList error handling', () => {
+  it('should dispatch an add alert action on error and not throw', async () => {
+    mockApiRequest(error404, false);
+    const dispatch = sinon.spy();
+    // This should NOT throw - error should be handled internally
+    await getLabsAndTestsList()(dispatch);
+    // Verify alert was dispatched (second call after UPDATE_LIST_STATE)
+    expect(typeof dispatch.secondCall.args[0]).to.equal('function');
+  });
+
+  it('should not dispatch GET_LIST when there is an error', async () => {
+    mockApiRequest(error404, false);
+    const dispatch = sinon.spy();
+    await getLabsAndTestsList()(dispatch);
+    const dispatchCalls = dispatch.getCalls();
+    const getListCall = dispatchCalls.find(
+      call => call.args[0].type === Actions.LabsAndTests.GET_LIST,
+    );
+    expect(getListCall).to.not.exist;
+  });
+});
+
+describe('getLabsAndTestsDetails error handling', () => {
+  it('should dispatch an add alert action on error and not throw', async () => {
+    mockApiRequest(error404, false);
+    const dispatch = sinon.spy();
+    // This should NOT throw - error should be handled internally
+    await getLabsAndTestsDetails('invalid-id', [])(dispatch);
+    // Verify alert was dispatched
+    expect(typeof dispatch.firstCall.args[0]).to.equal('function');
+  });
+});
 
 describe('getLabsAndTestsList', () => {
   it('should dispatch a get list action', () => {

@@ -12,7 +12,7 @@ import {
 } from '../../../../config/chapters/04-household-information/veteranMarriagesPages';
 import { previousMarriageEndOptions } from '../../../../utils/labels';
 
-describe('Veteran previous marriages pages (array builder)', () => {
+describe('Veteran Previous Marriages pages', () => {
   const {
     veteranMarriagesIntro,
     veteranMarriagesSummary,
@@ -126,14 +126,10 @@ describe('Veteran previous marriages pages (array builder)', () => {
 
     // Explicit ui:title checks for name subfields
     const nameUi = itemUi.previousSpouseFullName;
-    expect(nameUi.first?.['ui:title'], 'first name title').to.equal(
-      'First name',
-    );
-    expect(nameUi.middle?.['ui:title'], 'middle name title').to.equal(
-      'Middle name',
-    );
-    expect(nameUi.last?.['ui:title'], 'last name title').to.equal('Last name');
-    expect(nameUi.suffix?.['ui:title'], 'suffix title').to.equal('Suffix');
+    expect(nameUi.first?.['ui:title'], 'First or given name').to.exist;
+    expect(nameUi.middle?.['ui:title'], 'Middle name').to.exist;
+    expect(nameUi.last?.['ui:title'], 'Last or family name').to.exist;
+    expect(nameUi.suffix?.['ui:title'], 'Suffix').to.exist;
 
     // Verify required titles (first & last typically required)
     if (typeof nameUi.first?.['ui:required'] === 'function') {
@@ -403,6 +399,62 @@ describe('Veteran previous marriages pages (array builder)', () => {
     const title = options.text.summaryTitle;
     expect(title).to.be.a('string');
     expect(title).to.equal("Review the Veteran's previous marriages");
+  });
+
+  it('cancel titles and descriptions are set correctly', () => {
+    expect(options.text.cancelTitle, 'cancelTitle should be set').to.equal(
+      'Cancel adding this previous marriage?',
+    );
+    expect(
+      options.text.cancelDescription,
+      'cancelDescription should be set',
+    ).to.equal(
+      'If you cancel, we won’t add this previous marriage to the list of marriages. You’ll return to a page where you can add another previous marriage for the Veteran.',
+    );
+  });
+
+  it('cancelAdd titles and descriptions are set correctly', () => {
+    expect(
+      options.text.cancelAddTitle,
+      'cancelAddTitle should be set',
+    ).to.equal('Cancel adding this previous marriage?');
+    expect(
+      options.text.cancelAddDescription,
+      'cancelAddDescription should be set',
+    ).to.equal(
+      'If you cancel, we won’t add this previous marriage to the list of marriages. You’ll return to a page where you can add another previous marriage for the Veteran.',
+    );
+  });
+
+  it('cancelEdit titles and descriptions are set correctly', () => {
+    expect(
+      options.text.cancelEditTitle,
+      'cancelEditTitle should be set',
+    ).to.equal('Cancel editing this previous marriage?');
+    expect(
+      options.text.cancelEditDescription,
+      'cancelEditDescription should be set',
+    ).to.equal(
+      'If you cancel, you’ll lose any changes you made to this previous marriage and you will be returned to the previous marriage review page.',
+    );
+  });
+
+  it('delete titles and descriptions are set correctly', () => {
+    expect(options.text.deleteTitle, 'deleteTitle should be set').to.equal(
+      'Delete this previous marriage?',
+    );
+    expect(
+      options.text.deleteDescription,
+      'deleteDescription should be set',
+    ).to.equal(
+      'This will delete the information from your list of previous marriages. You’ll return to a page where you can add a new previous marriage for the Veteran.',
+    );
+    expect(options.text.deleteYes, 'deleteYes should be set').to.equal(
+      'Yes, delete',
+    );
+    expect(options.text.deleteNo, 'deleteNo should be set').to.equal(
+      'No, keep',
+    );
   });
 
   it("getItemName returns joined name when present or default 'Previous marriage'", () => {

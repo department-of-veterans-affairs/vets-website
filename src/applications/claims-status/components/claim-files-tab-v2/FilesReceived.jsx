@@ -1,21 +1,17 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import {
-  VaCard,
-  VaButton,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { buildDateFormatter } from '../../utils/helpers';
+import { getTrackedItemDisplayFromSupportingDocument } from '../../utils/helpers';
 import { useIncrementalReveal } from '../../hooks/useIncrementalReveal';
 import { ANCHOR_LINKS } from '../../constants';
+import DocumentCard from '../DocumentCard';
 
 const NEED_ITEMS_STATUS = 'NEEDED_FROM_';
 
-const formatDate = buildDateFormatter();
-
 const getTrackedItemText = item => {
   if (item.status === 'INITIAL_REVIEW_COMPLETE' || item.status === 'ACCEPTED') {
-    return `Reviewed by VA on ${formatDate(item.receivedDate)}`;
+    return 'Reviewed by VA';
   }
   if (item.status === 'NO_LONGER_REQUIRED' && item.closedDate !== null) {
     return 'No longer needed';
@@ -29,18 +25,19 @@ const getTrackedItemText = item => {
 const generateDocsFiled = docsFiled => {
   return docsFiled.flatMap(document => {
     if (document.id && document.status) {
+      const requestTypeDisplayName = getTrackedItemDisplayFromSupportingDocument(
+        document,
+      );
       const requestTypeText =
         document.status === 'NO_LONGER_REQUIRED'
-          ? `We received this file for a closed evidence request (${
-              document.displayName
-            }).`
-          : `Request type: ${document.displayName}`;
+          ? `We received this file for a closed evidence request: ${requestTypeDisplayName}`
+          : `Submitted in response to request: ${requestTypeDisplayName}`;
 
       // If tracked item has no documents, return single item
       if (document.documents.length === 0) {
         return {
           requestTypeText,
-          documents: [],
+          document: null,
           text: getTrackedItemText(document),
           date: document.date,
           type: 'tracked_item',
@@ -49,7 +46,7 @@ const generateDocsFiled = docsFiled => {
       // Split tracked item into separate items for each document
       return document.documents.map(doc => ({
         requestTypeText,
-        documents: [doc],
+        document: doc,
         text: getTrackedItemText(document),
         date: doc.uploadDate || document.date,
         type: 'tracked_item',
@@ -57,13 +54,11 @@ const generateDocsFiled = docsFiled => {
     }
     return {
       requestTypeText: 'You submitted this file as additional evidence.',
-      documents: [
-        {
-          originalFileName: document.originalFileName,
-          documentTypeLabel: document.documentTypeLabel,
-          uploadDate: document.date,
-        },
-      ],
+      document: {
+        originalFileName: document.originalFileName,
+        documentTypeLabel: document.documentTypeLabel,
+        uploadDate: document.date,
+      },
       text: null,
       date: document.date,
       type: 'additional_evidence_item',
@@ -143,84 +138,25 @@ const FilesReceived = ({ claim }) => {
             >
               {currentPageItems.map((item, itemIndex) => {
                 const statusBadgeText = getStatusBadgeText(item);
+                const { document } = item;
+                const fileName = document?.originalFileName || null;
+                const documentType = document?.documentTypeLabel || null;
+                const date = document?.uploadDate || item.date;
+
                 return (
                   <li key={itemIndex}>
-                    <VaCard
-                      key={itemIndex}
-                      className="vads-u-margin-y--3"
-                      data-testid={`file-received-card-${itemIndex}`}
-                    >
-                      {statusBadgeText && (
-                        <div className="file-status-badge vads-u-margin-bottom--2">
-                          <span className="vads-u-visibility--screen-reader">
-                            Status
-                          </span>
-                          <span className="usa-label vads-u-padding-x--1">
-                            {statusBadgeText}
-                          </span>
-                        </div>
-                      )}
-                      {item.documents.length === 0 ? (
-                        <>
-                          <h4
-                            className="filename-title vads-u-margin-top--0 vads-u-margin-bottom--2"
-                            ref={el => {
-                              headingRefs.current[itemIndex] = el;
-                            }}
-                            tabIndex="-1"
-                          >
-                            File name unknown
-                          </h4>
-                          <div className="vads-u-margin-bottom--2">
-                            <p className="vads-u-margin--0">
-                              {item.requestTypeText}
-                            </p>
-                          </div>
-                          {item.date !== null && (
-                            <p className="file-received-date vads-u-margin--0">
-                              {`Received on ${formatDate(item.date)}`}
-                            </p>
-                          )}
-                        </>
-                      ) : (
-                        item.documents.map((doc, index) => (
-                          <div key={index}>
-                            <h4
-                              className="filename-title vads-u-margin-top--0 vads-u-margin-bottom--2"
-                              data-dd-privacy="mask"
-                              data-dd-action-name="document filename"
-                              ref={el => {
-                                headingRefs.current[itemIndex] = el;
-                              }}
-                              tabIndex="-1"
-                            >
-                              {doc.originalFileName
-                                ? doc.originalFileName
-                                : 'File name unknown'}
-                            </h4>
-                            <div className="vads-u-margin-bottom--2">
-                              <p className="vads-u-margin-y--0">
-                                {`Document type: ${doc.documentTypeLabel}`}
-                              </p>
-                              <p className="vads-u-margin-y--0">
-                                {item.requestTypeText}
-                              </p>
-                            </div>
-                            {(doc.uploadDate || item.date) && (
-                              <p className="file-received-date vads-u-margin-y--0">
-                                {`Received on ${formatDate(
-                                  doc.uploadDate || item.date,
-                                )}`}
-                              </p>
-                            )}
-                          </div>
-                        ))
-                      )}
-                      {item.text &&
-                        item.text.includes('Reviewed') && (
-                          <p className="vads-u-margin-y--0">{item.text}</p>
-                        )}
-                    </VaCard>
+                    <DocumentCard
+                      index={itemIndex}
+                      variant="received"
+                      statusBadgeText={statusBadgeText}
+                      headingRef={el => {
+                        headingRefs.current[itemIndex] = el;
+                      }}
+                      fileName={fileName}
+                      documentType={documentType}
+                      requestTypeText={item.requestTypeText}
+                      date={date}
+                    />
                   </li>
                 );
               })}
