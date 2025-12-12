@@ -10,6 +10,7 @@ import {
   toUTCStartOfDay,
   isLocalToday,
   isUTCTodayOrFuture,
+  formatDateToReadableString,
 } from '../../utils/dates';
 
 describe('parseDateToDateObj', () => {
@@ -229,5 +230,21 @@ describe('isUTCTodayOrFuture', () => {
     expect(utcComparisonResult).to.be.true;
     expect(issueDateUTC.getUTCDate()).to.equal(mockUTCToday.getUTCDate());
     expect(issueDateUTC.getTime()).to.equal(mockUTCToday.getTime());
+  });
+});
+
+describe('formatDateToReadableString', () => {
+  describe('VA.gov style month formatting', () => {
+    it('should NOT abbreviate March per VA.gov style guide', () => {
+      const marchDate = new Date(2025, 2, 15, 12, 0, 0); // March 15, 2025
+      const result = formatDateToReadableString(marchDate);
+      expect(result).to.equal('March 15, 2025');
+    });
+
+    it('should abbreviate December with period per VA.gov style guide', () => {
+      const decemberDate = new Date(2025, 11, 10, 12, 0, 0); // December 10, 2025
+      const result = formatDateToReadableString(decemberDate);
+      expect(result).to.equal('Dec. 10, 2025');
+    });
   });
 });
