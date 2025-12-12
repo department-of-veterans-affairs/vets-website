@@ -7,7 +7,7 @@ import {
 const uiSchema = {
   ...titleUI(
     'Your VA payee number',
-    'If you are a beneficiary, enter your payee number. If you are a Veteran, you can skip this question.',
+    'If you are a beneficiary using Chapter 35 Survivors’ and Dependents’ Educational Assistance Program (DEA), enter your payee number. If you are a Veteran, you can skip this question.',
   ),
   payeeNumber: {
     ...textUI({
