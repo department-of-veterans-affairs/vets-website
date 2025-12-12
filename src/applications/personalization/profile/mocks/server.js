@@ -444,7 +444,7 @@ const responses = {
         default:
           return res.status(200).json('');
       }
-    }, 2);
+    }, 1);
   },
   'POST /v0/profile/scheduling_preferences': (req, res) => {
     return delaySingleResponse(

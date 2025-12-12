@@ -110,7 +110,7 @@ export function fetchSchedulingPreferences(
   };
 }
 
-// since the personal information api requests do no fall into a transactional life cylce
+// since the personal information api requests do no fall into a transactional life cycle
 // we need to treat them differently than contact information, but also still fall within
 // the state update paradigm so that the UI reacts correctly
 export function createSchedulingPreferencesUpdate({

@@ -97,7 +97,6 @@ ConfirmRemoveModal.propTypes = {
   deleteAction: PropTypes.func.isRequired,
   fieldName: PropTypes.string.isRequired,
   isEnrolledInVAHealthCare: PropTypes.bool.isRequired,
-  isLoading: PropTypes.bool.isRequired,
   isVisible: PropTypes.bool.isRequired,
   title: PropTypes.string.isRequired,
   onHide: PropTypes.func.isRequired,
