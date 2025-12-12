@@ -41,7 +41,7 @@ const formConfig = {
       },
       {
         href:
-          '/education/other-va-education-benefits/reimbursements/test-reimbursement-22-10272',
+          '/school-administrators/commit-principles-of-excellence-form-22-10272',
         label: 'Test reimbursement 22 10272',
       },
     ],
