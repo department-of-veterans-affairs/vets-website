@@ -33,6 +33,7 @@ describe('VAOS past appointment flow', () => {
         cancellable: false,
         localStartTime: yesterday,
         status: APPOINTMENT_STATUS.booked,
+        past: true,
       });
 
       mockAppointmentsGetApi({ response: [response] });
@@ -89,6 +90,7 @@ describe('VAOS past appointment flow', () => {
           cancellable: false,
           localStartTime: subMonths(new Date(), i),
           status: APPOINTMENT_STATUS.booked,
+          past: true,
         });
       });
 

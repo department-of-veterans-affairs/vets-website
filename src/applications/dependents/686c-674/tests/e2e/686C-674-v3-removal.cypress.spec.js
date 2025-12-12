@@ -50,7 +50,7 @@ const fillOutPicklistPage = dependent => {
   checkElAndFill('endAnnulmentOrVoidDescription', 'fillVaTextInput');
   checkElAndFill('endDate', 'fillVaMemorableDate');
 
-  checkElAndFill('endOutsideUS', 'selectVaCheckbox');
+  checkElAndFill('endOutsideUs', 'selectVaCheckbox');
   checkElAndFill('endCity', 'fillVaTextInput');
   checkElAndFill('endProvince', 'fillVaTextInput');
   checkElAndFill('endCountry', 'selectVaSelect');

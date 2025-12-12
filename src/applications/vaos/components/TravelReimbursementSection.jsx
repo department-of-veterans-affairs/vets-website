@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
+import { TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY } from '@department-of-veterans-affairs/mhv/exports';
 import { getDaysRemainingToFileClaim } from '../utils/appointment';
 import {
   selectAppointmentTravelClaim,
@@ -11,7 +12,10 @@ import { TRAVEL_CLAIM_MESSAGES } from '../utils/constants';
 import Section from './Section';
 
 const setClaimEntry = () => {
-  sessionStorage.setItem('fileNewClaimEntry', 'appointment');
+  sessionStorage.setItem(
+    TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY.SESSION_KEY,
+    TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY.ENTRY_TYPES.APPOINTMENT,
+  );
 };
 
 export default function TravelReimbursementSection({ appointment }) {

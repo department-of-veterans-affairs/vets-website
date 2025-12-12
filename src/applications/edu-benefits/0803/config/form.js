@@ -8,7 +8,9 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
+import * as PreviouslyApplied from '../pages/PreviouslyApplied';
+import * as SelectVABenefit from '../pages/SelectVABenefit';
+import * as VABenefitWarning from '../pages/VABenefitWarning';
 
 import submitForm from './submitForm';
 import transform from './transform';
@@ -74,14 +76,28 @@ const formConfig = {
   defaultDefinitions: {},
   useCustomScrollAndFocus: true,
   chapters: {
-    personalInformationChapter: {
-      title: 'Your personal information',
+    benefitsInformationChapter: {
+      title: 'Your education benefits information',
       pages: {
-        nameAndDateOfBirth: {
-          path: 'name-and-date-of-birth',
-          title: 'Name and date of birth',
-          uiSchema: nameAndDateOfBirth.uiSchema,
-          schema: nameAndDateOfBirth.schema,
+        previouslyApplied: {
+          path: 'previously-applied',
+          title: 'Previously Applied',
+          uiSchema: PreviouslyApplied.uiSchema,
+          schema: PreviouslyApplied.schema,
+        },
+        selectVABenefit: {
+          path: 'select-va-benefit-program',
+          title: 'VA Benefit Program',
+          uiSchema: SelectVABenefit.uiSchema,
+          schema: SelectVABenefit.schema,
+          depends: formData => formData?.hasPreviouslyApplied,
+        },
+        vaBenefitWarning: {
+          path: 'va-benefit-warning',
+          title: 'You VA education benefits',
+          uiSchema: VABenefitWarning.uiSchema,
+          schema: VABenefitWarning.schema,
+          depends: formData => !formData?.hasPreviouslyApplied,
         },
       },
     },

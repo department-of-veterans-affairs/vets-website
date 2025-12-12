@@ -218,9 +218,9 @@ const ProgressBar = ({ pathname, formData, setFormData, emptyFormData }) => {
 };
 
 ProgressBar.propTypes = {
-  pathname: PropTypes.string,
-  formData: PropTypes.object,
   emptyFormData: PropTypes.object,
+  formData: PropTypes.object,
+  pathname: PropTypes.string,
   setFormData: PropTypes.func,
 };
 

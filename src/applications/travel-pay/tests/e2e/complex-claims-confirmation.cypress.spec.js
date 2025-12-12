@@ -193,6 +193,11 @@ describe('Complex Claims Confirmation Page', () => {
   it('handles different appointment IDs in URL', () => {
     const differentApptId = '98765';
     const differentClaimId = 'claim-11111';
+
+    cy.window().then(win => {
+      win.sessionStorage.setItem('fileNewClaimEntry', 'appointment');
+    });
+
     cy.visit(
       `${rootUrl}/file-new-claim/${differentApptId}/${differentClaimId}/confirmation`,
     );

@@ -126,7 +126,9 @@ export function transformVAOSAppointment(appt) {
     isCompAndPen, // This might come in handy?
 
     practitionerName:
-      appt.practitioners && typeof appt.practitioners !== 'undefined'
+      appt.practitioners &&
+      typeof appt.practitioners !== 'undefined' &&
+      appt.practitioners.length !== 0
         ? getPractionerName(appt.practitioners)
         : undefined,
   };

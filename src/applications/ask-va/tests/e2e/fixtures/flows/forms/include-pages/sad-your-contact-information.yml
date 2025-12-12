@@ -14,4 +14,4 @@ steps:
     value: Please enter a 10-digit phone number (with or without dashes)
   - action: exists
     target: error
-    value: Please enter an email address
+    value: 'Enter a valid email address without spaces using this format: email@domain.com'

@@ -5,7 +5,16 @@ import Breadcrumbs from '../components/Breadcrumbs';
 import { QUESTION_CONTENT } from '../constants/question-data-map';
 
 const App = ({ children, location, resultPage }) => {
-  document.title = `${QUESTION_CONTENT.INTRODUCTION.h1} | Veterans Affairs`;
+  const getTitlecasedH1 = content => {
+    return content
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  };
+
+  const titlecasedH1 = getTitlecasedH1(QUESTION_CONTENT.INTRODUCTION.h1);
+
+  document.title = `${titlecasedH1} | Veterans Affairs`;
   const route = location?.pathname.replace('/', '');
 
   return (

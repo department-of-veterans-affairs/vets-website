@@ -733,11 +733,10 @@ describe('actions', () => {
       characterOfDischargeTypes,
     );
     const validLengthOfService = [
-      timeServedTypes.UP_TO_6_MONTHS,
-      timeServedTypes.UP_TO_1_YEAR,
-      timeServedTypes.UP_TO_2_YEARS,
-      timeServedTypes.UP_TO_3_YEARS,
-      timeServedTypes.OVER_3_YEARS,
+      timeServedTypes.FOUR_MONTHS_TO_3_YEARS,
+      timeServedTypes.THREE_YEARS_TO_10_YEARS,
+      timeServedTypes.TEN_YEARS_TO_20_YEARS,
+      timeServedTypes.OVER_20_YEARS,
     ];
     const invalidLengthOfService = getInvalidMappingValues(
       validLengthOfService,
@@ -1303,11 +1302,10 @@ describe('actions', () => {
     const benefit = getBenefitById('COE');
     const validGoals = [goalTypes.RETIREMENT, goalTypes.UNDERSTAND];
     const validLengthOfService = [
-      timeServedTypes.UP_TO_6_MONTHS,
-      timeServedTypes.UP_TO_1_YEAR,
-      timeServedTypes.UP_TO_2_YEARS,
-      timeServedTypes.UP_TO_3_YEARS,
-      timeServedTypes.OVER_3_YEARS,
+      timeServedTypes.FOUR_MONTHS_TO_3_YEARS,
+      timeServedTypes.THREE_YEARS_TO_10_YEARS,
+      timeServedTypes.TEN_YEARS_TO_20_YEARS,
+      timeServedTypes.OVER_20_YEARS,
     ];
     const invalidLengthOfService = getInvalidMappingValues(
       validLengthOfService,

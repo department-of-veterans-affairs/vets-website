@@ -183,10 +183,7 @@ const ConfirmationPage = ({ form, download }) => {
       </h2>
       <va-process-list class="vads-u-margin-left--neg2 vads-u-padding-bottom--0">
         <va-process-list-item header="Sign in to VA.gov" level="3">
-          <p>
-            You can sign in with your Login.gov, ID.me, DS Logon, or My
-            HealtheVet
-          </p>
+          <p>You can sign in with your ID.me or Login.gov account.</p>
         </va-process-list-item>
         <va-process-list-item header="Submit your request" level="3">
           <p>

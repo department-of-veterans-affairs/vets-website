@@ -36,7 +36,7 @@ export const IntroductionPage = ({
 
           <p>
             <strong>Note:</strong> If you use our online tool to apply, be sure
-            you’re signed in as a family member to your own Login.gov or ID.me
+            you’re signed in as a family member to your own ID.me or Login.gov
             account to complete this application. We can’t process your
             application if the Veteran or service member signs in to their
             account and submits the application for you.

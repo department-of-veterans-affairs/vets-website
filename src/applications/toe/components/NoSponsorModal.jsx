@@ -37,7 +37,7 @@ const NoSponsorModal = ({ sponsorsList }) => {
         <li>
           If you are a Veteran or service member applying on behalf of your
           dependent, your application will be denied. Your dependent must apply
-          from their own Login.gov or ID.me account.
+          from their own ID.me or Login.gov account.
         </li>
         <li>
           If you believe you’re an eligible dependent receiving benefits through{' '}

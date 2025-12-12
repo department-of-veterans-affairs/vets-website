@@ -9,7 +9,6 @@ import {
   extractContainedResource,
   generateMedicationsPDF,
   getImageUri,
-  getReactions,
   processList,
   validateField,
   validateIfAvailable,
@@ -230,14 +229,6 @@ describe('processList function', () => {
     const list = [];
     const result = processList(list);
     expect(result).to.eq(FIELD_NONE_NOTED);
-  });
-});
-
-describe('getReactions', () => {
-  it('returns an empty array if the record passed has no reactions property', () => {
-    const record = {};
-    const reactions = getReactions(record);
-    expect(reactions.length).to.eq(0);
   });
 });
 

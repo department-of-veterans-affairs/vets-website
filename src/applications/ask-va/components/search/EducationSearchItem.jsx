@@ -1,9 +1,12 @@
+import React, { useState, useEffect, useRef } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
 import {
   VaPagination,
   VaRadio,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import React, { useState, useEffect, useRef } from 'react';
-import { connect } from 'react-redux';
+
 import { focusElement } from 'platform/utilities/ui';
 
 const EducationSearchItem = ({
@@ -122,5 +125,17 @@ function mapStateToProps(state) {
     searchInput: state.askVA.searchLocationInput,
   };
 }
+
+EducationSearchItem.propTypes = {
+  dataError: PropTypes.shape({
+    hasError: PropTypes.bool,
+    errorMessage: PropTypes.string,
+  }),
+  facilityData: PropTypes.object,
+  getData: PropTypes.func,
+  pageURL: PropTypes.string,
+  searchInput: PropTypes.string,
+  onChange: PropTypes.func,
+};
 
 export default connect(mapStateToProps)(EducationSearchItem);

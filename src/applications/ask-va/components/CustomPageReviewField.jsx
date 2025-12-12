@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const CustomPageReviewField = ({ name, data }) => {
   const getNameKey = str => {
@@ -69,6 +70,11 @@ const CustomPageReviewField = ({ name, data }) => {
       </dl>
     </>
   );
+};
+
+CustomPageReviewField.propTypes = {
+  data: PropTypes.object.isRequired,
+  name: PropTypes.string.isRequired,
 };
 
 export default CustomPageReviewField;

@@ -141,21 +141,6 @@ export const itemListWrapper = items =>
   Array.isArray(items) && items.length > 1 ? 'div' : undefined;
 
 /**
- * @param {Object} record
- * @returns {Array of Strings} array of reactions
- */
-export const getReactions = record => {
-  const reactions = [];
-  if (!record || !record.reaction) return reactions;
-  record.reaction.forEach(reaction => {
-    reaction.manifestation.forEach(manifestation => {
-      reactions.push(manifestation.text);
-    });
-  });
-  return reactions;
-};
-
-/**
  * @param {Any} obj
  * @returns {Boolean} true if obj is an array and has at least one item
  */

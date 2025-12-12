@@ -28,7 +28,7 @@ export const generateCSPBanner = ({ csp }) => {
     ? {
         headline: `You may have trouble signing in with some of your accounts`,
         status: 'warning',
-        message: `We’re sorry. We’re working to fix some problems with ID.me, but you can still sign in to VA.gov using your Login.gov account. If you’d like to sign in with your ID.me or DS Logon accounts, please check back later.`,
+        message: `We’re sorry. We’re working to fix some problems with ID.me, but you can still sign in to VA.gov using your Login.gov account. If you’d like to sign in with your ID.me account, please check back later.`,
       }
     : {
         headline: `You may have trouble signing in with ${

@@ -104,3 +104,20 @@ export const seiVitalTypes = {
   PAIN: 'pain',
   PULSE_OXIMETRY: 'pulseOximetry',
 };
+
+// Allergy observed/reported types - used by Medical Records and Medications apps
+export const allergyTypes = {
+  OBSERVED:
+    'Observed (you experienced this allergy or reaction while you were getting care at this VA location)',
+  REPORTED:
+    'Historical (you experienced this allergy or reaction in the past, before you started getting care at this VA location)',
+};
+
+// Travel Pay file new claim entry tracking
+export const TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY = Object.freeze({
+  SESSION_KEY: 'fileNewClaimEntry',
+  ENTRY_TYPES: {
+    CLAIM: 'claim',
+    APPOINTMENT: 'appointment',
+  },
+});

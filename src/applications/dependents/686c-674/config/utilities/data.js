@@ -377,7 +377,7 @@ export const hasSelectedPicklistItems = formData =>
  * @returns {object} V2 location format
  */
 function buildLocation(item) {
-  if (item.endOutsideUS === true) {
+  if (item.endOutsideUs === true) {
     return {
       outsideUsa: true,
       location: {

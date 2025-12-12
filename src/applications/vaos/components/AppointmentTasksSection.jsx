@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 
+import { TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY } from '@department-of-veterans-affairs/mhv/exports';
 import { getDaysRemainingToFileClaim } from '../utils/appointment';
 import {
   selectAppointmentTravelClaim,
@@ -43,6 +44,12 @@ export default function AppointmentTasksSection({ appointment }) {
         data-testid="file-claim-link"
         className="vads-u-margin-top--1"
         href={`/my-health/travel-pay/file-new-claim/${appointment.id}`}
+        onClick={() => {
+          sessionStorage.setItem(
+            TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY.SESSION_KEY,
+            TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY.ENTRY_TYPES.APPOINTMENT,
+          );
+        }}
         text={
           isClaimInProgress
             ? 'Complete your travel reimbursement claim'

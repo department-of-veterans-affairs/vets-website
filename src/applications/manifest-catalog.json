@@ -49,7 +49,7 @@
       "directoryPath": "src/applications/appeals/onramp",
       "appName": "Decision Reviews Onramp Tool",
       "entryName": "onramp",
-      "rootUrl": "/decision-reviews/explore-disability-claim-decision-review-options"
+      "rootUrl": "/decision-reviews/explore-disability-claim-options"
     },
     {
       "directoryPath": "src/applications/appeals/testing/download",

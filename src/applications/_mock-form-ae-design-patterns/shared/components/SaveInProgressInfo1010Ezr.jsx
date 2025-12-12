@@ -75,8 +75,8 @@ const SaveInProgressInfo = ({ formConfig, pageList }) => {
         </p>
 
         <p>
-          <strong>Don’t yet have a verified account?</strong> Create a{' '}
-          <strong>Login.gov</strong> or <strong>ID.me</strong> account now. Then
+          <strong>Don’t yet have a verified account?</strong> Create an{' '}
+          <strong>ID.me</strong> or <strong>Login.gov</strong> account now. Then
           come back here and sign in. We’ll help you verify your identity for
           your account.
         </p>

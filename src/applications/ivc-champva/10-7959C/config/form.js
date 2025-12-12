@@ -1,5 +1,6 @@
 import React from 'react';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
+import environment from 'platform/utilities/environment';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import get from 'platform/utilities/data/get';
 import { defaultItemPageScrollAndFocusTarget as scrollAndFocusTarget } from 'platform/forms-system/src/js/patterns/array-builder';
@@ -129,6 +130,28 @@ const formConfig = {
   },
   title: 'Submit other health insurance',
   subTitle: 'CHAMPVA Other Health Insurance Certification (VA Form 10-7959c)',
+  ...minimalHeaderFormConfigOptions({
+    breadcrumbList: [
+      {
+        href: '/family-and-caregiver-benefits/',
+        label: 'VA benefits for family and caregivers',
+      },
+      {
+        href: '/family-and-caregiver-benefits/health-and-disability/',
+        label: 'Health and disability benefits for family and caregivers',
+      },
+      {
+        href: '/family-and-caregiver-benefits/health-and-disability/champva/',
+        label: 'CHAMPVA benefits',
+      },
+      {
+        href: '#content',
+        label: 'Submit other health insurance',
+      },
+    ],
+    homeVeteransAffairs: true,
+    wrapping: true,
+  }),
   defaultDefinitions: {},
   chapters: {
     formSignature: {
