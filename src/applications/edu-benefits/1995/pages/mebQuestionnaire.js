@@ -159,6 +159,7 @@ const SameBenefitResultDescription = ({ formData }) => {
       linkText={formInfo.linkText}
       answers={[
         'You are looking to apply to the same benefit again to get an updated Certificate of Eligibility (COE)',
+        `Your most recently used benefit is ${formInfo.formName}`
       ]}
     />
   );
@@ -203,7 +204,7 @@ export const benefitSwitchPage = () => ({
           className="vads-u-font-size--h2 vads-u-font-family--serif vads-u-font-weight--bold vads-u-padding-bottom--2 vads-u-display--block"
           style={{ fontSize: '1.5rem' }}
         >
-          Benefit you want to change to
+          Benefit you want to change&nbsp;to
         </span>
       ),
       'ui:description': props => {
@@ -218,48 +219,22 @@ export const benefitSwitchPage = () => ({
             >
               <ul className="vads-u-margin-top--1">
                 <li>
-                  Learn about GI Bill benefits: Post-9/11 GI Bill, Montgomery GI
-                  Bill Active Duty (MGIB-AD), and Montgomery GI Bill Selected
-                  Reserve (MGIB-SR) (opens in a new tab)
-                  <ul className="vads-u-margin-top--1">
-                    <li>
-                      <a href="https://www.va.gov/education/about-gi-bill-benefits/post-9-11">
-                        Post-9/11 GI Bill
-                      </a>
-                    </li>
-                    <li>
-                      <a href="https://www.va.gov/education/about-gi-bill-benefits/montgomery-active-duty">
-                        Montgomery GI Bill Active Duty (MGIB-AD)
-                      </a>
-                    </li>
-                    <li>
-                      <a href="https://www.va.gov/education/about-gi-bill-benefits/montgomery-selected-reserve">
-                        Montgomery GI Bill Selected Reserve (MGIB-SR)
-                      </a>
-                    </li>
-                  </ul>
+                  <a href="https://www.va.gov/education/about-gi-bill-benefits/post-9-11" target="_blank">
+                    Learn about GI Bill benefits: Post-9/11 GI Bill, Montgomery GI
+                    Bill Active Duty (MGIB-AD), and Montgomery GI Bill Selected
+                    Reserve (MGIB-SR) (opens in a new tab)
+                  </a>
                 </li>
                 <li>
-                  <a href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/transferred-gi-bill-benefits/">
+                  <a href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/transferred-gi-bill-benefits/" target="_blank">
                     Learn about survivors’ and dependents’ assistance: transferred
                     Post-9/11 GI Bill benefits (opens in a new tab)
                   </a>
                 </li>
                 <li>
-                  Survivors’ and Dependents’ Education Assistance (DEA), Fry
-                  Scholarship
-                  <ul className="vads-u-margin-top--1">
-                    <li>
-                      <a href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/dependents-education-assistance/">
-                        Survivors’ and Dependents’ Education Assistance (DEA)
-                      </a>
-                    </li>
-                    <li>
-                      <a href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/fry-scholarship/">
-                        Fry Scholarship
-                      </a>
-                    </li>
-                  </ul>
+                  <a href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/dependents-education-assistance/" target="_blank">
+                    Survivors’ and Dependents’ Education Assistance (DEA), Fry Scholarship
+                  </a>
                 </li>
               </ul>
             </va-additional-info>
@@ -346,6 +321,7 @@ export const foreignSchoolResultPage = () =>
   buildResultPage({
     body:
       'Get answers to your questions about using eligibility at a foreign school. You should receive a reply within 7 business days.',
+    resultHeader: "Ask VA",
     linkHref: 'https://ask.va.gov/',
     linkText: 'Contact us online through Ask VA',
     answers: [

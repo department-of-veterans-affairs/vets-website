@@ -62,7 +62,6 @@ const baseConfig = {
     usaPhone,
   },
   title: 'Change your education benefits',
-  subTitle: 'Form 22-1995',
   preSubmitInfo: {
     CustomComponent: PreSubmitInfo,
     required: true,
