@@ -746,11 +746,6 @@ va-checkbox.statement-of-truth-va-checkbox::part(checkbox) {
   }
 }
 
-@include header-style("rjsf-wc-header--h1", $font-size-h1, $font-size-h2);
-@include header-style("rjsf-wc-header--h2", $font-size-h2, $font-size-h3);
-@include header-style("rjsf-wc-header--h3", $font-size-h3, $font-size-h4);
-@include header-style("rjsf-wc-header--h4", $font-size-h4, $font-size-h5);
-
 @mixin form-header-style($element, $desktop-font-size, $mobile-font-size) {
   .rjsf-web-component-field.#{$element}::part(form-header) {
     font-size: $desktop-font-size;
@@ -760,6 +755,11 @@ va-checkbox.statement-of-truth-va-checkbox::part(checkbox) {
     }
   }
 }
+
+@include header-style("rjsf-wc-header--h1", $font-size-h1, $font-size-h2);
+@include header-style("rjsf-wc-header--h2", $font-size-h2, $font-size-h3);
+@include header-style("rjsf-wc-header--h3", $font-size-h3, $font-size-h4);
+@include header-style("rjsf-wc-header--h4", $font-size-h4, $font-size-h5);
 
 @include form-header-style("wc-pattern-form-heading-style--h1", $font-size-h1, $font-size-h2);
 @include form-header-style("wc-pattern-form-heading-style--h2", $font-size-h2, $font-size-h3);
