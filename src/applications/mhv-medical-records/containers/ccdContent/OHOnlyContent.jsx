@@ -130,13 +130,13 @@ OHOnlyContent.propTypes = {
   failedSeiDomains: PropTypes.arrayOf(PropTypes.string).isRequired,
   handleDownload: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
-  lastSuccessfulUpdate: PropTypes.shape({
-    date: PropTypes.string,
-    time: PropTypes.string,
-  }).isRequired,
   successfulSeiDownload: PropTypes.bool.isRequired,
   testIdSuffix: PropTypes.string.isRequired,
   activeAlert: PropTypes.object,
+  lastSuccessfulUpdate: PropTypes.shape({
+    date: PropTypes.string,
+    time: PropTypes.string,
+  }),
 };
 
 export default OHOnlyContent;
