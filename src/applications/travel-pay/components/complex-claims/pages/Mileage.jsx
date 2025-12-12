@@ -96,9 +96,13 @@ const Mileage = () => {
     const emptyFields = requiredFields.filter(field => !formState[field]);
     if (emptyFields.includes('departureAddress')) {
       setShowDepartureAddresError(true);
+    } else {
+      setShowDepartureAddresError(false); // Set to false if previously shown
     }
     if (emptyFields.includes('tripType')) {
       setShowTripTypeError(true);
+    } else {
+      setShowTripTypeError(false); // Set to false if previously shown
     }
     return emptyFields.length === 0;
   };
