@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom-v5-compat';
+import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 
 export default function ClaimCardLink({
@@ -9,15 +9,16 @@ export default function ClaimCardLink({
   onClick,
 }) {
   return (
-    <Link
-      aria-label={ariaLabel}
-      className="active-va-link"
-      to={href}
-      onClick={onClick}
-    >
-      {text}
-      <va-icon icon="chevron_right" size={3} aria-hidden="true" />
-    </Link>
+    <>
+      <VaLink
+        aria-label={ariaLabel}
+        className="active-va-link"
+        href={`/track-claims${href}`}
+        onClick={onClick}
+        text={text}
+        active
+      />
+    </>
   );
 }
 

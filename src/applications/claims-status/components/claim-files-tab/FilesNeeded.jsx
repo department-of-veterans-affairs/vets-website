@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom-v5-compat';
+import { VaLinkAction } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 
 import {
@@ -11,7 +11,7 @@ import {
 import { standard5103Item } from '../../constants';
 import { evidenceDictionary } from '../../utils/evidenceDictionary';
 
-export default function FilesNeeded({ item, previousPage = null }) {
+export default function FilesNeeded({ id, item, previousPage = null }) {
   // We will not use the truncateDescription() here as these descriptions are custom and specific to what we want
   // the user to see based on the given item type.
   const itemsWithNewDescriptions = [
@@ -63,25 +63,25 @@ export default function FilesNeeded({ item, previousPage = null }) {
 
       <span className="alert-description">{getItemDescription()}</span>
       <div className="link-action-container">
-        <Link
+        <VaLinkAction
           aria-label={`About this request for ${item.friendlyName ||
             item.displayName}`}
           className="vads-c-action-link--blue"
-          to={`../needed-from-you/${item.id}`}
+          href={`/track-claims/your-claims/${id}/needed-from-you/${item.id}`}
           onClick={() => {
             if (previousPage !== null) {
               sessionStorage.setItem('previousPage', previousPage);
             }
           }}
-        >
-          About this request
-        </Link>
+          text="About this request"
+        />
       </div>
     </va-alert>
   );
 }
 
 FilesNeeded.propTypes = {
+  id: PropTypes.string.isRequired,
   item: PropTypes.object.isRequired,
   previousPage: PropTypes.string,
 };
