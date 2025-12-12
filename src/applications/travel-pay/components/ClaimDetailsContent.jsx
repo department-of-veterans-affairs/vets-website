@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 import { TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY } from '@department-of-veterans-affairs/mhv/exports';
 
+import { selectAppointment } from '../redux/selectors';
 import useSetPageTitle from '../hooks/useSetPageTitle';
 import { formatDateTime } from '../util/dates';
 import { STATUSES, FORM_100998_LINK } from '../constants';
@@ -19,7 +21,6 @@ export default function ClaimDetailsContent({
   claimStatus,
   claimNumber,
   claimId,
-  appointment,
   appointmentDate: appointmentDateTime,
   facilityName,
   modifiedOn,
@@ -30,7 +31,8 @@ export default function ClaimDetailsContent({
   isOutOfBounds,
 }) {
   useSetPageTitle('Travel Reimbursement Claim Details');
-  const { id: appointmentId } = appointment;
+  const appointment = useSelector(selectAppointment);
+  const appointmentId = appointment?.data?.id;
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const claimsMgmtToggle = useToggleValue(
     TOGGLE_NAMES.travelPayClaimsManagement,
@@ -287,7 +289,6 @@ export default function ClaimDetailsContent({
 }
 
 ClaimDetailsContent.propTypes = {
-  appointment: PropTypes.object.isRequired,
   appointmentDate: PropTypes.string.isRequired,
   claimId: PropTypes.string.isRequired,
   claimNumber: PropTypes.string.isRequired,

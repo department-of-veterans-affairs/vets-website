@@ -4,7 +4,10 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { HelpTextManage } from './HelpText';
 import ClaimDetailsContent from './ClaimDetailsContent';
-import { getClaimDetails } from '../redux/actions';
+import {
+  getClaimDetails,
+  getAppointmentDataByDateTime,
+} from '../redux/actions';
 import { TRAVEL_PAY_INFO_LINK, REIMBURSEMENT_URL } from '../constants';
 
 export default function TravelClaimDetailsContent() {
@@ -12,6 +15,12 @@ export default function TravelClaimDetailsContent() {
   const dispatch = useDispatch();
 
   const { data, error } = useSelector(state => state.travelPay.claimDetails);
+  const { data: appointmentData, isLoading: appointmentLoading } = useSelector(
+    state => state.travelPay.appointment,
+  );
+
+  const claimData = data[id];
+  const appointmentDateTime = claimData?.appointment?.appointmentDateTime;
 
   useEffect(
     () => {
@@ -20,6 +29,15 @@ export default function TravelClaimDetailsContent() {
       }
     },
     [dispatch, data, error, id],
+  );
+
+  useEffect(
+    () => {
+      if (!appointmentData && appointmentDateTime && !appointmentLoading) {
+        dispatch(getAppointmentDataByDateTime(appointmentDateTime));
+      }
+    },
+    [dispatch, appointmentData, appointmentDateTime, appointmentLoading],
   );
 
   return (
