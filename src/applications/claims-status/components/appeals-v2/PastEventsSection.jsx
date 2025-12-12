@@ -1,19 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { datadogRum } from '@datadog/browser-rum';
 import { getEventContent, formatDate } from '../../utils/appeals-v2-helpers';
+import MissingEventsAlert from './MissingEventsAlert';
 
 const PastEventsSection = ({ events, missingEvents }) => {
-  const missingEventsAlert = (
-    <div className="usa-alert usa-alert-warning">
-      <div className="usa-alert-body">
-        <h4 className="usa-alert-heading">Missing events</h4>
-        <p className="usa-alert-text">
-          There may be some events missing from this page. If you have questions
-          about a past form or VA decision, please contact your VSO or
-          representative for more information.
-        </p>
-      </div>
-    </div>
+  // Track when alert is displayed
+  useEffect(
+    () => {
+      if (missingEvents && window.DD_RUM?.getInitConfiguration()) {
+        datadogRum.addAction('appeals-missing-events-alert-displayed', {
+          component: 'PastEventsSection',
+          context: 'AppealsV2StatusPage',
+          eventsCount: events.length,
+        });
+      }
+    },
+    [missingEvents, events.length],
   );
   let pastEventsList = [];
   if (events.length) {
@@ -52,7 +55,7 @@ const PastEventsSection = ({ events, missingEvents }) => {
       <ol className="va-list-horizontal appeal-past-events">
         {pastEventsList}
       </ol>
-      {missingEvents && missingEventsAlert}
+      {missingEvents && <MissingEventsAlert />}
     </div>
   );
 };

@@ -1,25 +1,27 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-
-const missingEventsAlert = (
-  <div className="usa-alert usa-alert-warning">
-    <div className="usa-alert-body">
-      <h4 className="usa-alert-heading">Missing events</h4>
-      <p className="usa-alert-text">
-        There may be some events missing from this page. If you have questions
-        about a past form or VA decision, please contact your VSO or
-        representative for more information.
-      </p>
-    </div>
-  </div>
-);
+import { datadogRum } from '@datadog/browser-rum';
+import MissingEventsAlert from './MissingEventsAlert';
 
 const Expander = ({ expanded, dateRange, onToggle, missingEvents }) => {
+  // Track when alert is displayed
+  useEffect(
+    () => {
+      if (expanded && missingEvents && window.DD_RUM?.getInitConfiguration()) {
+        datadogRum.addAction('appeals-missing-events-alert-displayed', {
+          component: 'Expander',
+          context: 'Timeline',
+        });
+      }
+    },
+    [expanded, missingEvents],
+  );
+
   const title = expanded ? 'Hide past events' : 'Reveal past events';
   const cssClass = expanded ? 'section-expanded' : 'section-unexpanded';
   const separator =
     expanded && !missingEvents ? <div className="separator" /> : null;
-  const alert = expanded && missingEvents ? missingEventsAlert : null;
+  const alert = expanded && missingEvents ? <MissingEventsAlert /> : null;
 
   return (
     <li className={`past-events-expander process-step ${cssClass}`}>
