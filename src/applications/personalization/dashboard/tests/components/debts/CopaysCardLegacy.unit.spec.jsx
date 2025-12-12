@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { format } from 'date-fns';
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 
-import CopaysCard from '../../../components/debts/CopaysCard';
+import CopaysCardLegacy from '../../../components/debts/CopaysCardLegacy';
 
 const initialState = {
   user: {
@@ -13,17 +13,19 @@ const initialState = {
   },
 };
 
-describe('<CopaysCard />', () => {
-  it('renders CopaysCard without any copay bills', () => {
-    const tree = renderWithStoreAndRouter(<CopaysCard />, {
+describe('<CopaysCardLegacy />', () => {
+  it('should not display if user has no copay statements or total is 0', () => {
+    const tree = renderWithStoreAndRouter(<CopaysCardLegacy />, {
       initialState,
     });
 
-    expect(tree.getByTestId('copay-due-header')).to.exist;
-    expect(tree.getByText('No copay bills', { exact: false })).to.exist;
+    expect(tree.getByTestId('zero-debt-paragraph')).to.exist;
+    expect(
+      tree.getByText('Your total VA copay balance is $0', { exact: false }),
+    ).to.exist;
   });
 
-  it('renders one CopaysCard component correctly', () => {
+  it('renders one CopaysCardLegacy component correctly', () => {
     const copays = [
       {
         id: 'f4385298-08a6-42f8-a86f-50e97033fb85',
@@ -39,9 +41,12 @@ describe('<CopaysCard />', () => {
       'MMMM dd, yyyy',
     );
 
-    const tree = renderWithStoreAndRouter(<CopaysCard copays={copays} />, {
-      initialState,
-    });
+    const tree = renderWithStoreAndRouter(
+      <CopaysCardLegacy copays={copays} />,
+      {
+        initialState,
+      },
+    );
 
     expect(tree.getByTestId('copay-due-header')).to.exist;
     expect(tree.getByText(/1 copay bill/i)).to.exist;
@@ -50,7 +55,7 @@ describe('<CopaysCard />', () => {
     expect(tree.getByText(dateUpdated, { exact: false })).to.exist;
   });
 
-  it('renders more than one CopaysCard component correctly', () => {
+  it('renders more than one CopaysCardLegacy component correctly', () => {
     const copays = [
       {
         pSFacilityNum: '534',
@@ -77,9 +82,12 @@ describe('<CopaysCard />', () => {
       'MMMM dd, yyyy',
     );
 
-    const tree = renderWithStoreAndRouter(<CopaysCard copays={copays} />, {
-      initialState,
-    });
+    const tree = renderWithStoreAndRouter(
+      <CopaysCardLegacy copays={copays} />,
+      {
+        initialState,
+      },
+    );
 
     expect(tree.getByTestId('copay-due-header')).to.exist;
     expect(tree.getByText(/3 copay bills/i)).to.exist;
