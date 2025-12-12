@@ -13,6 +13,7 @@ import { setPreSubmit as setPreSubmitAction } from 'platform/forms-system/src/js
  * Validates signature input
  * Requires at least 3 non-whitespace characters
  * Allows letters (including accented/international characters), spaces, hyphens, apostrophes, and periods
+ * Must contain at least one letter (rejects strings like "---" or "...")
  * Does not allow numbers or invalid special characters
  *
  * @param {string} signatureValue - The signature input value
@@ -29,7 +30,10 @@ export const isSignatureValid = signatureValue => {
   // This supports names like "José García", "Mary-Jane O'Connor Jr.", "François Müller"
   // Note: Hyphen at end of character class to be literal, not a range
   const namePattern = /^[\p{L}\s'.-]+$/u;
-  return namePattern.test(trimmed);
+  if (!namePattern.test(trimmed)) return false;
+
+  // Must contain at least one letter (prevents "---", "...", etc.)
+  return /\p{L}/u.test(trimmed);
 };
 
 /**
@@ -106,7 +110,7 @@ const PreSubmitInfo = ({
   const signatureError =
     (showError || signatureBlurred) &&
     !isSignatureValid(formData?.statementOfTruthSignature)
-      ? 'Please enter a valid name using only letters (including accented characters), spaces, hyphens, apostrophes, and periods (at least 3 characters)'
+      ? 'Enter your full name'
       : undefined;
 
   const checkboxError =

@@ -56,7 +56,7 @@ const ConfirmRemoveModal = ({
         </VaModal>
       ) : (
         <VaModal
-          modalTitle="Are you sure?"
+          modalTitle={`Remove your ${title.toLowerCase()}?`}
           className="overflow-auto"
           status="warning"
           visible={isVisible}
@@ -79,25 +79,23 @@ const ConfirmRemoveModal = ({
             <li>Pension benefits</li>
             <li>Claims and appeals</li>
             <li>Veteran Readiness and Employment (VR&E)</li>
-            {fieldName === FIELD_NAMES.EMAIL ||
-            fieldName === FIELD_NAMES.MOBILE_PHONE ? (
+            {(fieldName === FIELD_NAMES.EMAIL ||
+              fieldName === FIELD_NAMES.MOBILE_PHONE) && (
               <li>
                 Some VA notifications. This means you’ll stop getting any VA{' '}
                 {fieldName === FIELD_NAMES.EMAIL ? 'email' : 'text'}{' '}
                 notifications you signed up for.
               </li>
-            ) : (
-              undefined
             )}
           </ul>
           <p className="vads-u-margin-top--1">
-            {`You can always come back to your profile later if you want to add this ${title.toLowerCase()} again.`}
+            {`You can always add another ${title.toLowerCase()} any time.`}
           </p>
           <div>
             <va-button
               loading={isLoading}
               onClick={deleteAction}
-              text={isLoading ? '' : 'Yes, remove my information'}
+              text={isLoading ? '' : 'Remove'}
               class="vads-u-margin-top--1 vads-u-margin-bottom--1 vads-u-width--full mobile-lg:vads-u-width--auto"
               data-testid="confirm-remove-button"
             />
@@ -106,7 +104,7 @@ const ConfirmRemoveModal = ({
               <va-button
                 secondary
                 onClick={cancelAction}
-                text="No, cancel this change"
+                text="Cancel change"
                 class="vads-u-margin-top--1 vads-u-width--full mobile-lg:vads-u-width--auto"
                 data-testid="cancel-remove-button"
               />
