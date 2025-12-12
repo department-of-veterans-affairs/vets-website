@@ -21,7 +21,7 @@ export function getPreviousPagePath(pageList, data, pathname) {
   // if we found the current page, go to previous one
   // if not, go back to the beginning because they shouldn’t be here
   const page = pageIndex >= 0 ? pageIndex - 1 : 0;
-  return pages[page].path;
+  return pages?.[page]?.path;
 }
 
 /**
