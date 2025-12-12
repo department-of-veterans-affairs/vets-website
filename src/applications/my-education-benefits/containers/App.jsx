@@ -42,6 +42,7 @@ export const App = ({
   showMebEnhancements08,
   showMebEnhancements09,
   mebKickerNotificationEnabled,
+  mebBankInfoConfirmationField,
   email,
   duplicateEmail,
   duplicatePhone,
@@ -364,6 +365,15 @@ export const App = ({
         });
       }
 
+      if (
+        mebBankInfoConfirmationField !== formData.mebBankInfoConfirmationField
+      ) {
+        setFormData({
+          ...formData,
+          mebBankInfoConfirmationField,
+        });
+      }
+
       if (isLOA3 !== formData.isLOA3) {
         setFormData({
           ...formData,
@@ -387,6 +397,7 @@ export const App = ({
       meb160630Automation,
       mebDpoAddressOptionEnabled,
       mebKickerNotificationEnabled,
+      mebBankInfoConfirmationField,
     ],
   );
 
@@ -478,6 +489,7 @@ App.propTypes = {
   meb160630Automation: PropTypes.bool,
   mebDpoAddressOptionEnabled: PropTypes.bool,
   mebKickerNotificationEnabled: PropTypes.bool,
+  mebBankInfoConfirmationField: PropTypes.bool,
   mobilePhone: PropTypes.string,
   setFormData: PropTypes.func,
   showDgiDirectDeposit1990EZ: PropTypes.bool,
