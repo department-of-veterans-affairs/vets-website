@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import recordEvent from 'platform/monitoring/record-event';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 import { buildDateFormatter } from '../../utils/helpers';
