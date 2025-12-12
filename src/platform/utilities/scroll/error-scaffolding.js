@@ -305,6 +305,12 @@ const findFocusTarget = el => {
     return fallbackFocusable;
   }
 
+  // Final fallback: return the host component itself
+  if (!el.hasAttribute('tabindex')) {
+    el.setAttribute('tabindex', '-1');
+    // Mark that we added this so we can remove it later during cleanup
+    el.setAttribute('data-error-focus-tabindex-added', 'true');
+  }
   return el;
 };
 
@@ -545,6 +551,12 @@ const clearHostErrorAnnotations = hostComponent => {
   });
 
   hostComponent.removeAttribute('data-generated-error-label-id');
+
+  // Remove tabindex if it was added programmatically for focus fallback
+  if (hostComponent.hasAttribute('data-error-focus-tabindex-added')) {
+    hostComponent.removeAttribute('tabindex');
+    hostComponent.removeAttribute('data-error-focus-tabindex-added');
+  }
 };
 
 /**
