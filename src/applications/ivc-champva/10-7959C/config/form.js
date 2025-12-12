@@ -1,4 +1,3 @@
-import React from 'react';
 import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import environment from 'platform/utilities/environment';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
@@ -103,10 +102,9 @@ const formConfig = {
   customText: {
     appType: 'form',
     continueAppButtonText: 'Continue your form',
-    reviewPageTitle: 'Review form',
+    reviewPageTitle: 'Review and sign',
     startNewAppButtonText: 'Start a new form',
   },
-  CustomReviewTopContent: () => <h3>Review and sign</h3>,
   saveInProgress: {
     messages: {
       inProgress:
