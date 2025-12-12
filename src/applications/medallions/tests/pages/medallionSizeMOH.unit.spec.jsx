@@ -7,11 +7,11 @@ import configureStore from 'redux-mock-store';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../config/form';
 
-describe('Medallions medallionSize', () => {
+describe('Medallions medallionSizeMOH', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.typeOfRequest.pages.medallionSize;
+  } = formConfig.chapters.typeOfRequest.pages.medallionSizeMOH;
 
   const mockStore = configureStore([]);
   const store = mockStore({});
@@ -27,7 +27,7 @@ describe('Medallions medallionSize', () => {
       </Provider>,
     );
     expect(form.find('VaRadioField').length).to.equal(1);
-    expect(form.find('va-radio-option').length).to.equal(3);
+    expect(form.find('va-radio-option').length).to.equal(2);
     form.unmount();
   });
 });
