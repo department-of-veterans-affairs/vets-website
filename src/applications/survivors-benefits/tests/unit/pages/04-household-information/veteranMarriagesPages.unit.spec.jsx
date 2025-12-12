@@ -401,6 +401,62 @@ describe('Veteran Previous Marriages pages', () => {
     expect(title).to.equal("Review the Veteran's previous marriages");
   });
 
+  it('cancel titles and descriptions are set correctly', () => {
+    expect(options.text.cancelTitle, 'cancelTitle should be set').to.equal(
+      'Cancel adding this previous marriage?',
+    );
+    expect(
+      options.text.cancelDescription,
+      'cancelDescription should be set',
+    ).to.equal(
+      'If you cancel, we won’t add this previous marriage to the list of marriages. You’ll return to a page where you can add another previous marriage for the Veteran.',
+    );
+  });
+
+  it('cancelAdd titles and descriptions are set correctly', () => {
+    expect(
+      options.text.cancelAddTitle,
+      'cancelAddTitle should be set',
+    ).to.equal('Cancel adding this previous marriage?');
+    expect(
+      options.text.cancelAddDescription,
+      'cancelAddDescription should be set',
+    ).to.equal(
+      'If you cancel, we won’t add this previous marriage to the list of marriages. You’ll return to a page where you can add another previous marriage for the Veteran.',
+    );
+  });
+
+  it('cancelEdit titles and descriptions are set correctly', () => {
+    expect(
+      options.text.cancelEditTitle,
+      'cancelEditTitle should be set',
+    ).to.equal('Cancel editing this previous marriage?');
+    expect(
+      options.text.cancelEditDescription,
+      'cancelEditDescription should be set',
+    ).to.equal(
+      'If you cancel, you’ll lose any changes you made to this previous marriage and you will be returned to the previous marriage review page.',
+    );
+  });
+
+  it('delete titles and descriptions are set correctly', () => {
+    expect(options.text.deleteTitle, 'deleteTitle should be set').to.equal(
+      'Delete this previous marriage?',
+    );
+    expect(
+      options.text.deleteDescription,
+      'deleteDescription should be set',
+    ).to.equal(
+      'This will delete the information from your list of previous marriages. You’ll return to a page where you can add a new previous marriage for the Veteran.',
+    );
+    expect(options.text.deleteYes, 'deleteYes should be set').to.equal(
+      'Yes, delete',
+    );
+    expect(options.text.deleteNo, 'deleteNo should be set').to.equal(
+      'No, keep',
+    );
+  });
+
   it("getItemName returns joined name when present or default 'Previous marriage'", () => {
     // Full name present: returns all parts in correect order
     const full = {
