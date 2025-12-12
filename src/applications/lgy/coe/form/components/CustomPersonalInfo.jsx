@@ -13,7 +13,6 @@ import {
 import formConfig from '../config/form';
 
 const CustomPersonalInfo = props => {
-
   return (
     <PersonalInformation
       {...props}
@@ -66,10 +65,7 @@ const CustomPersonalInfo = props => {
 };
 
 CustomPersonalInfo.propTypes = {
-  formData: PropTypes.shape({
-    // claimantType: PropTypes.string.isRequired,
-    // veteranFullName: PropTypes.object,
-  }),
+  formData: PropTypes.object,
   setFormData: PropTypes.func,
 };
 

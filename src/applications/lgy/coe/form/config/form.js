@@ -78,6 +78,7 @@ const formConfig = {
       pages: {
         applicantInformationSummary: {
           path: 'applicant-information',
+          // There seems to be a bug where the depends clause is ignored for the first item in the form
           // depends: formData => {
           //   console.log('the value 2:', formData);
           //   return !formData.coeFormRebuildCveteam;

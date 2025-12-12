@@ -102,7 +102,7 @@ const responses = {
           generateFeatureToggles({
             authExpVbaDowntimeMessage: false,
             coeAccess: true,
-            coeFormRebuildCveteam: false,
+            coeFormRebuildCveteam: true,
             profileHideDirectDeposit: false,
             representativeStatusEnableV2Features: true,
             profileInternationalPhoneNumbers: false,
