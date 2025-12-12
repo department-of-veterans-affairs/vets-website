@@ -106,7 +106,7 @@ class PatientMessageDetailsPage {
   };
 
   verifyMoveToButtonModal = () => {
-    cy.get(Locators.BUTTONS.MOVE_BUTTON_TEXT).click();
+    cy.findByTestId(Locators.BUTTONS.MOVE_BUTTON_TEST_ID).click();
     cy.get(Locators.ALERTS.MOVE_MODAL, { timeout: 8000 })
       .find('p')
       .contains('Any replies to this message will appear in your inbox')
@@ -125,7 +125,7 @@ class PatientMessageDetailsPage {
   };
 
   openMoveToButtonModal = () => {
-    cy.get(Locators.BUTTONS.MOVE_BUTTON_TEXT).click();
+    cy.findByTestId(Locators.BUTTONS.MOVE_BUTTON_TEST_ID).click();
     cy.get(Locators.ALERTS.MOVE_MODAL, { timeout: 8000 })
       .find('p')
       .contains('Any replies to this message will appear in your inbox')

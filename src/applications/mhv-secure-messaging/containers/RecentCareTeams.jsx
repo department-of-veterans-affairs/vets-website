@@ -67,11 +67,11 @@ const RecentCareTeams = () => {
 
   useEffect(
     () => {
-      if (allRecipients?.length > 0) {
+      if (allRecipients?.length > 0 && recentRecipients === undefined) {
         dispatch(getRecentRecipients(6));
       }
     },
-    [allRecipients, dispatch],
+    [allRecipients, dispatch, recentRecipients],
   );
 
   useEffect(
