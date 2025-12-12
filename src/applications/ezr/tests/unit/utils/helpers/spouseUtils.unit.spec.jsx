@@ -63,6 +63,15 @@ describe('spouseUtils', () => {
                 provideSupportLastYear: undefined,
               }),
             },
+            {
+              desc: 'valid suffix value present',
+              item: makeItem({
+                spouseFullName: {
+                  ...VALID.spouseFullName,
+                  suffix: 'Jr.',
+                },
+              }),
+            },
           ].forEach(({ desc, item }) => {
             it(`should return false when ${desc}`, () => {
               expect(isItemIncomplete(item)).to.be.false;
@@ -121,6 +130,82 @@ describe('spouseUtils', () => {
                   last: undefined,
                 },
               }),
+            },
+          ].forEach(({ desc, item }) => {
+            it(`should return true when ${desc}`, () => {
+              expect(isItemIncomplete(item)).to.be.true;
+            });
+          });
+        });
+
+        context('Required fields present but not valid', () => {
+          [
+            {
+              desc: 'spouseFullName.first is too long',
+              item: makeItem({
+                spouseFullName: {
+                  ...VALID.spouseFullName,
+                  first: '12345678901234567890123456',
+                },
+              }),
+            },
+            {
+              desc: 'spouseFullName.first fails the pattern check',
+              item: makeItem({
+                spouseFullName: {
+                  ...VALID.spouseFullName,
+                  first: ' ',
+                },
+              }),
+            },
+            {
+              desc: 'spouseFullName.middle is too long',
+              item: makeItem({
+                spouseFullName: {
+                  ...VALID.spouseFullName,
+                  middle: '1234567890123456789012345678901',
+                },
+              }),
+            },
+            {
+              desc: 'spouseFullName.last is too short',
+              item: makeItem({
+                spouseFullName: {
+                  ...VALID.spouseFullName,
+                  last: '1',
+                },
+              }),
+            },
+            {
+              desc: 'spouseFullName.last is too long',
+              item: makeItem({
+                spouseFullName: {
+                  ...VALID.spouseFullName,
+                  last: '123456789012345678901234567890123456',
+                },
+              }),
+            },
+            {
+              desc: 'spouseFullName.last fails the pattern check',
+              item: makeItem({
+                spouseFullName: {
+                  ...VALID.spouseFullName,
+                  last: '  ',
+                },
+              }),
+            },
+            {
+              desc: 'spouseFullName.suffix is invalid',
+              item: makeItem({
+                spouseFullName: {
+                  ...VALID.spouseFullName,
+                  suffix: 'foo',
+                },
+              }),
+            },
+            {
+              desc: 'spouseSocialSecurityNumber is invalid',
+              item: makeItem({ spouseSocialSecurityNumber: 'foo' }),
             },
           ].forEach(({ desc, item }) => {
             it(`should return true when ${desc}`, () => {

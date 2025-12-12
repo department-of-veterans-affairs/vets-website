@@ -1,3 +1,5 @@
+import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
+
 /**
  * Helper to test if the spouse item is in an incomplete state.
  *
@@ -7,10 +9,14 @@
  * @returns {boolean} - Returns true if the required fields are missing.
  */
 export const isItemIncomplete = item => {
+  const { spouseFullName, spouseSocialSecurityNumber } = ezrSchema.properties;
+
   // Always required fields.
+  const firstName = item?.spouseFullName?.first;
+  const lastName = item?.spouseFullName?.last;
   const missingRequiredFields =
-    !item?.spouseFullName?.first ||
-    !item?.spouseFullName?.last ||
+    !firstName ||
+    !lastName ||
     !item?.spouseSocialSecurityNumber ||
     !item?.spouseDateOfBirth ||
     !item?.dateOfMarriage ||
@@ -18,6 +24,26 @@ export const isItemIncomplete = item => {
     item?.sameAddress === undefined;
 
   if (missingRequiredFields) {
+    return true;
+  }
+
+  // identity field validation
+  const fullNameProps = spouseFullName.properties;
+  const middleName = item?.spouseFullName?.middle;
+  const suffix = item?.spouseFullName?.suffix;
+  const doesNotMatch = (prop, val) => !new RegExp(prop.pattern).test(val);
+
+  if (
+    firstName?.length > fullNameProps.first.maxLength ||
+    middleName?.length > fullNameProps.middle.maxLength ||
+    lastName?.length < fullNameProps.last.minLength ||
+    lastName?.length > fullNameProps.last.maxLength ||
+    doesNotMatch(fullNameProps.first, firstName) ||
+    doesNotMatch(fullNameProps.middle, middleName) ||
+    doesNotMatch(fullNameProps.last, lastName) ||
+    (suffix && !fullNameProps.suffix.enum.includes(suffix)) ||
+    doesNotMatch(spouseSocialSecurityNumber, item?.spouseSocialSecurityNumber)
+  ) {
     return true;
   }
 
