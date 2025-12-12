@@ -4,6 +4,7 @@ import {
   transformVAOSAppointment,
   calculateIsOutOfBounds,
 } from '../util/appointment-helpers';
+import { stripTZOffset } from '../util/dates';
 import { EXPENSE_TYPE_KEYS } from '../constants';
 
 export const FETCH_TRAVEL_CLAIMS_STARTED = 'FETCH_TRAVEL_CLAIMS_STARTED';
@@ -182,31 +183,54 @@ const fetchAppointmentByDateFailure = error => ({
   error,
 });
 
+// This action is intended to take the only appointment date time we
+// get (in local time) from the GET claim details call and use it call
+// GET appointments (takes start/end bounds in UTC) and find the
+// appointment correlated with the claim by `localStartTime` comparison
 export function getAppointmentDataByDateTime(targetDateTime) {
   return async dispatch => {
     dispatch(fetchAppointmentByDateStart());
     try {
-      const targetDate = new Date(targetDateTime).toISOString();
+      // Create ±12 hour window to cover US states and territories
+      const TWELVE_HOURS_MILLISECONDS = 12 * 60 * 60 * 1000;
+      const targetDate = new Date(targetDateTime);
+      const startDate = new Date(
+        targetDate.getTime() - TWELVE_HOURS_MILLISECONDS,
+      );
+      const endDate = new Date(
+        targetDate.getTime() + TWELVE_HOURS_MILLISECONDS,
+      );
 
       const apptUrl = `${
         environment.API_URL
-      }/vaos/v2/appointments?start=${targetDate}&end=${targetDate}&_include=facilities,travel_pay_claims`;
+      }/vaos/v2/appointments?start=${startDate.toISOString()}&end=${endDate.toISOString()}&_include=facilities,travel_pay_claims`;
       const response = await apiRequest(apptUrl);
 
       const appointments = response.data || [];
       if (appointments.length === 0) {
         throw new Error(
-          'getAppointmentDataByDateTime: Empty appointments array',
+          'getAppointmentDataByDateTime: No appointments found in date range',
         );
       }
 
-      const matchingAppointment = appointments[0];
+      const matchingAppointment = appointments.find(
+        appt =>
+          stripTZOffset(appt.attributes.localStartTime) ===
+          stripTZOffset(targetDateTime),
+      );
+
+      if (!matchingAppointment) {
+        throw new Error(
+          'getAppointmentDataByDateTime: No appointment found with matching localStartTime',
+        );
+      }
+
       const appointmentData = transformVAOSAppointment(
         matchingAppointment.attributes,
       );
       dispatch(fetchAppointmentByDateSuccess(appointmentData));
     } catch (error) {
-      dispatch(fetchAppointmentByDateFailure(error));
+      dispatch(fetchAppointmentByDateFailure(error?.toString() ?? ''));
     }
   };
 }
