@@ -464,8 +464,13 @@ function mergeUiSchemasIfDifferent(uiSchema, newUiSchema) {
         `Cannot update uiSchema property '${prop}' using updateUiSchema.`,
       );
     }
-    if (value && typeof value === 'object' && !Array.isArray(value)) {
-      newValue = mergeUiSchemasIfDifferent(uiSchema[prop], newValue);
+    if (
+      value &&
+      typeof value === 'object' &&
+      !Array.isArray(value) &&
+      !value.$$typeof // react element
+    ) {
+      newValue = mergeUiSchemasIfDifferent(uiSchema?.[prop], newValue);
     }
 
     if (updatedUiSchema[prop] !== newValue) {
