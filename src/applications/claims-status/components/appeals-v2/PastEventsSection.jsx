@@ -1,8 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { datadogRum } from '@datadog/browser-rum';
 import { getEventContent, formatDate } from '../../utils/appeals-v2-helpers';
 
 const PastEventsSection = ({ events, missingEvents }) => {
+  // Track when alert is displayed
+  useEffect(
+    () => {
+      if (missingEvents && window.DD_RUM?.getInitConfiguration()) {
+        datadogRum.addAction('appeals-missing-events-alert-displayed', {
+          component: 'PastEventsSection',
+          context: 'AppealsV2StatusPage',
+          eventsCount: events.length,
+        });
+      }
+    },
+    [missingEvents, events.length],
+  );
   const missingEventsAlert = (
     <div className="usa-alert usa-alert-warning">
       <div className="usa-alert-body">
