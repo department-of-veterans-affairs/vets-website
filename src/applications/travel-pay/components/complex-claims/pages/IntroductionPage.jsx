@@ -56,8 +56,7 @@ const IntroductionPage = () => {
         navigate(`/file-new-claim/${apptId}/${result.claimId}/choose-expense`);
       }
     } catch (error) {
-      // TODO: Add proper error handling
-      // Error will be handled by the Redux error state
+      navigate(`/file-new-claim/${apptId}/create-claim-error`);
     }
   };
 

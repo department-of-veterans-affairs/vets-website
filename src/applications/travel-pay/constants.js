@@ -7,6 +7,7 @@ export const TRAVEL_PAY_INFO_LINK =
   '/health-care/get-reimbursed-for-travel-pay/';
 export const REIMBURSEMENT_URL =
   '/resources/how-to-set-up-direct-deposit-for-va-travel-pay-reimbursement/';
+export const PAST_APPOINTMENTS_LINK = '/my-health/appointments/past';
 
 export const STATUSES = {
   Incomplete: {
