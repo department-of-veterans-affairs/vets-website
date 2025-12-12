@@ -1,8 +1,8 @@
+import React from 'react';
 import { format, isValid, parse } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz';
 import { enUS } from 'date-fns/locale';
-import React from 'react';
-import { clockIcon, folderIcon, starIcon, successIcon } from '../utils/helpers';
+import PropTypes from 'prop-types';
 
 import {
   branchOfServiceRuleforCategories,
@@ -25,6 +25,7 @@ import {
   TopicVeteranReadinessAndEmploymentChapter31,
   whoIsYourQuestionAboutLabels,
 } from '../constants';
+import { clockIcon, folderIcon, starIcon, successIcon } from '../utils/helpers';
 
 export const ServerErrorAlert = () => (
   <>
@@ -795,6 +796,12 @@ export const DownloadLink = ({ fileUrl, fileName, fileSize }) => {
       {`${fileName}${fileSizeText}`}
     </a>
   );
+};
+
+DownloadLink.propTypes = {
+  fileName: PropTypes.string.isRequired,
+  fileUrl: PropTypes.string.isRequired,
+  fileSize: PropTypes.number,
 };
 
 export const isEducationNonVRE = formData =>

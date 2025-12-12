@@ -32,6 +32,20 @@ const getIpfMdotResponse = (req, res) => {
       .status(mdot.internalServerError.status)
       .json(mdot.internalServerError.data);
   }
+
+  // temporaryAddress cases to consider:
+  //  - fields null
+  //  - fields empty
+  //  - temporaryAddress empty object
+  //  - no temporaryAddress field
+  // const { formData, metadata } = mdot.suppliesResponse;
+  // Object.keys(formData.temporaryAddress).forEach(key => {
+  //   formData.temporaryAddress[key] = '';
+  //   // formData.temporaryAddress[key] = null;
+  // });
+  // formData.temporaryAddress = {};
+  // delete formData.temporaryAddress;
+  // return res.status(200).json({ formData, metadata });
   return res.status(200).json(mdot.suppliesResponse);
 };
 

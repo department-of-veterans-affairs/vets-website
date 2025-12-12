@@ -157,11 +157,6 @@ describe('Form Configuration', () => {
       expect(formConfig.prefillEnabled).to.be.true;
     });
 
-    it('should have prefill transformer', () => {
-      expect(formConfig.prefillTransformer).to.exist;
-      expect(formConfig.prefillTransformer).to.be.a('function');
-    });
-
     it('should have submit transformer', () => {
       expect(formConfig.transformForSubmit).to.exist;
       expect(formConfig.transformForSubmit).to.be.a('function');

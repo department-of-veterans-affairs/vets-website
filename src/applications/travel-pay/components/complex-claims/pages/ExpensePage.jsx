@@ -18,6 +18,7 @@ import { EXPENSE_TYPES, EXPENSE_TYPE_KEYS } from '../../../constants';
 import {
   createExpense,
   updateExpense,
+  setUnsavedExpenseChanges,
   setReviewPageAlert,
 } from '../../../redux/actions';
 import {
@@ -49,6 +50,8 @@ const ExpensePage = () => {
 
   const errorRef = useRef(null); // ref for the error message
   const costRequestedRef = useRef(null);
+  const initialFormStateRef = useRef({});
+  const previousHasChangesRef = useRef(false);
 
   const isEditMode = !!expenseId;
   const isLoadingExpense = useSelector(
@@ -121,10 +124,12 @@ const ExpensePage = () => {
   useEffect(
     () => {
       if (expenseId && expense && !hasLoadedExpenseRef.current) {
-        setFormState({
+        const initialState = {
           ...expense,
           purchaseDate: expense.dateIncurred || '',
-        });
+        };
+        setFormState(initialState);
+        initialFormStateRef.current = initialState;
         hasLoadedExpenseRef.current = true;
       }
     },
@@ -146,6 +151,21 @@ const ExpensePage = () => {
       }
     },
     [showError],
+  );
+
+  // Track unsaved changes by comparing current state to initial state
+  useEffect(
+    () => {
+      const hasChanges =
+        JSON.stringify(formState) !==
+        JSON.stringify(initialFormStateRef.current);
+      // Only dispatch if the hasChanges value actually changed
+      if (hasChanges !== previousHasChangesRef.current) {
+        dispatch(setUnsavedExpenseChanges(hasChanges));
+        previousHasChangesRef.current = hasChanges;
+      }
+    },
+    [formState, dispatch],
   );
 
   const expenseType = Object.values(EXPENSE_TYPE_KEYS).find(
@@ -172,6 +192,8 @@ const ExpensePage = () => {
   const handleCloseCancelModal = () => setIsCancelModalVisible(false);
   const handleConfirmCancel = () => {
     handleCloseCancelModal();
+    // Clear unsaved changes when canceling
+    dispatch(setUnsavedExpenseChanges(false));
     if (isEditMode) {
       // TODO: Add logic to determine where the user came from and direct them back to the correct location
       // navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
@@ -274,6 +296,9 @@ const ExpensePage = () => {
           createExpense(claimId, expenseConfig.apiRoute, formState),
         );
       }
+      // Reset initial state reference to current state after successful save
+      initialFormStateRef.current = formState;
+      dispatch(setUnsavedExpenseChanges(false));
 
       // Set success alert
       const expenseTypeName = expenseConfig.expensePageText
@@ -304,6 +329,7 @@ const ExpensePage = () => {
         }),
       );
     }
+    // navigate to review page for success and error
     navigate(`/file-new-claim/${apptId}/${claimId}/review`);
   };
 
@@ -451,7 +477,7 @@ const ExpensePage = () => {
       <TravelPayButtonPair
         continueText={isEditMode ? 'Save and continue' : 'Continue'}
         backText={isEditMode ? 'Cancel' : 'Back'}
-        className={isEditMode && 'vads-u-margin-top--2'}
+        className={isEditMode ? 'vads-u-margin-top--2' : ''}
         onBack={handleBack}
         onContinue={handleContinue}
         loading={isLoadingExpense}

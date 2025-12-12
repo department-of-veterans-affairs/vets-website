@@ -112,3 +112,12 @@ export const allergyTypes = {
   REPORTED:
     'Historical (you experienced this allergy or reaction in the past, before you started getting care at this VA location)',
 };
+
+// Travel Pay file new claim entry tracking
+export const TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY = Object.freeze({
+  SESSION_KEY: 'fileNewClaimEntry',
+  ENTRY_TYPES: {
+    CLAIM: 'claim',
+    APPOINTMENT: 'appointment',
+  },
+});
