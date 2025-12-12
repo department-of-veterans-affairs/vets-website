@@ -9,7 +9,7 @@ import {
   fillData,
   fillDate,
 } from 'platform/testing/unit/schemaform-utils';
-import { daysFromToday } from '../utils/dates/dateHelper';
+import { daysFromToday } from '../../utils/dates/formatting';
 import formConfig from '../../config/form';
 
 import {

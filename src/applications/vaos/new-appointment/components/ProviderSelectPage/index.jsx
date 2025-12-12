@@ -11,6 +11,8 @@ import {
   selectTypeOfCare,
   selectChosenFacilityInfo,
 } from '../../redux/selectors';
+import { ELIGIBILITY_REASONS } from '../../../utils/constants';
+import NoAvailableProvidersInfo from './NoAvailableProvidersInfo';
 
 const pageKey = 'selectProvider';
 
@@ -25,11 +27,24 @@ export default function SelectProviderPage() {
     patientProviderRelationships,
   } = useGetPatientRelationships();
 
+  // page header setup
   const pageTitle = useSelector(state => getPageTitle(state, pageKey));
+  const singleProviderTitle = `Your ${typeOfCare.name.toLowerCase()} provider`;
+  const cantScheduleTitle = "You can't schedule this appointment online";
+  let pageHeader = pageTitle;
+  if (patientProviderRelationships?.length === 1) {
+    pageHeader = singleProviderTitle;
+  } else if ((patientProviderRelationships?.length || 0) === 0) {
+    // coerce this to 0
+    pageHeader = cantScheduleTitle;
+  } // no else, keep default pageTitle
 
-  const singleProviderTitle = 'Your nutrition and food provider';
-  const pageHeader =
-    patientProviderRelationships.length > 1 ? pageTitle : singleProviderTitle;
+  const hasProviders = (patientProviderRelationships?.length || 0) > 0;
+
+  // eligibility issues
+  const isEligibleForRequest = eligibility?.request;
+  const overRequestLimit =
+    eligibility.requestReasons[0] === ELIGIBILITY_REASONS.overRequestLimit;
 
   useEffect(
     () => {
@@ -53,20 +68,38 @@ export default function SelectProviderPage() {
 
   return (
     <div>
-      <h1 className="vads-u-font-size--h2">{pageHeader}</h1>
-      <div>
-        <strong>Type of care:</strong> {typeOfCare?.name}
-        <br />
-        <strong>Facility:</strong> {selectedFacility?.name}
-      </div>
-
-      {patientProviderRelationships.map((provider, index) => (
-        <ProviderCard key={index} provider={provider} />
-      ))}
+      <h1
+        data-testid="page-header-provider-select"
+        className="vads-u-font-size--h2"
+      >
+        {pageHeader}
+      </h1>
+      {!hasProviders && (
+        <NoAvailableProvidersInfo
+          isEligibleForRequest={isEligibleForRequest}
+          overRequestLimit={overRequestLimit}
+          selectedFacility={selectedFacility}
+          typeOfCareName={typeOfCare?.name}
+        />
+      )}
+      {hasProviders ? (
+        <>
+          <div>
+            <strong>Type of care:</strong> {typeOfCare?.name}
+            <br />
+            <strong>Facility:</strong> {selectedFacility?.name}
+          </div>
+          {patientProviderRelationships.map((provider, index) => (
+            <ProviderCard key={index} provider={provider} />
+          ))}
+        </>
+      ) : null}
 
       <ScheduleWithDifferentProvider
-        eligibility={eligibility}
+        isEligibleForRequest={isEligibleForRequest}
+        overRequestLimit={overRequestLimit}
         selectedFacility={selectedFacility}
+        hasProviders={hasProviders}
       />
     </div>
   );
