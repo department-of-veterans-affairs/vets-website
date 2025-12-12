@@ -13,7 +13,7 @@ const TOGGLE_KEY = 'view:champvaForm107959cRev2025';
 
 const pageTitle = () =>
   titleUI(({ formData }) => {
-    const name = nameWording(formData);
+    const name = nameWording(formData, undefined, undefined, true);
     const suffix = formData[TOGGLE_KEY] ? 'effective date' : 'carrier';
     return privWrapper(`${name} Medicare Part D ${suffix}`);
   });
