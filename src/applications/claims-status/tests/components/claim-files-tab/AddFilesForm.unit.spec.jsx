@@ -11,7 +11,6 @@ import sinon from 'sinon';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import {
   SUBMIT_TEXT,
-  SUBMIT_FILES_FOR_REVIEW_TEXT,
   SEND_YOUR_DOCUMENTS_TEXT,
   ANCHOR_LINKS,
 } from '../../../constants';
@@ -43,6 +42,10 @@ describe('<AddFilesForm>', () => {
 
     expect($('.add-files-form', container)).to.exist;
     expect($('va-file-input-multiple', container)).to.exist;
+
+    const submitButton = $('va-button', container);
+    expect(submitButton).to.exist;
+    expect(submitButton.getAttribute('text')).to.equal(SUBMIT_TEXT);
   });
 
   describe('cstShowDocumentUploadStatus is false', () => {
@@ -53,16 +56,6 @@ describe('<AddFilesForm>', () => {
         loading: false,
       },
     };
-
-    it('should render submit button', () => {
-      const { container } = renderInReduxProvider(
-        <AddFilesForm {...fileFormProps} />,
-        { initialState },
-      );
-      const submitButton = $('va-button', container);
-      expect(submitButton).to.exist;
-      expect(submitButton.getAttribute('text')).to.equal(SUBMIT_TEXT);
-    });
 
     it('should render upload modal when uploading', () => {
       const { container } = renderInReduxProvider(
@@ -131,18 +124,6 @@ describe('<AddFilesForm>', () => {
         loading: false,
       },
     };
-
-    it('should render submit button', () => {
-      const { container } = renderInReduxProvider(
-        <AddFilesForm {...fileFormProps} />,
-        { initialState },
-      );
-      const submitButton = $('va-button', container);
-      expect(submitButton).to.exist;
-      expect(submitButton.getAttribute('text')).to.equal(
-        SUBMIT_FILES_FOR_REVIEW_TEXT,
-      );
-    });
 
     it('should render va-link with correct href and text rather than va-additional-info', () => {
       const { container } = renderInReduxProvider(

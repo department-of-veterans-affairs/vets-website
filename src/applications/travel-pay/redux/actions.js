@@ -150,7 +150,7 @@ export function getAppointmentData(apptId) {
       );
       dispatch(fetchAppointmentSuccess(appointmentData));
     } catch (error) {
-      dispatch(fetchAppointmentFailure(error));
+      dispatch(fetchAppointmentFailure(error?.toString() ?? ''));
     }
   };
 }
