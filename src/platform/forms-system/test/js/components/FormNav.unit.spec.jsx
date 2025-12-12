@@ -88,10 +88,12 @@ describe('Schemaform FormNav', () => {
     expect(v3SegmentedProgressBar.getAttribute('current')).to.eq('1');
     expect(v3SegmentedProgressBar.getAttribute('total')).to.eq('4');
   });
-  it('should optionally hide current chapter progress-bar & stepText', () => {
+
+  it('should optionally hide current chapter progress-bar & stepText based on hideFormNavProgress', () => {
     const currentPath = 'testing1';
     const formConfigDefaultData = { ...getDefaultData() };
     formConfigDefaultData.chapters.chapter1.hideFormNavProgress = true;
+    formConfigDefaultData.chapters.chapter1.showSimpleHeader = false;
 
     const tree = render(
       <FormNav formConfig={formConfigDefaultData} currentPath={currentPath} />,
@@ -99,6 +101,36 @@ describe('Schemaform FormNav', () => {
 
     expect(tree.queryAllByRole('progressbar')).to.have.lengthOf(0);
     expect(tree.queryByTestId('navFormHeader')).to.be.null;
+  });
+
+  it('should optionally hide current chapter progress-bar & stepText based on showSimpleHeader', () => {
+    const currentPath = 'testing1';
+    const formConfigDefaultData = { ...getDefaultData() };
+    formConfigDefaultData.chapters.chapter1.showSimpleHeader = true;
+    formConfigDefaultData.chapters.chapter1.hideFormNavProgress = false;
+
+    const tree = render(
+      <FormNav formConfig={formConfigDefaultData} currentPath={currentPath} />,
+    );
+
+    expect(tree.queryAllByRole('progressbar')).to.have.lengthOf(0);
+    expect(tree.queryByTestId('navFormHeader')).to.be.null;
+  });
+
+  it('should display correct chapter title in h2 when showSimpleHeader is active', function() {
+    if (!environment.isLocalhost()) {
+      this.skip();
+    }
+
+    const currentPath = 'testing2';
+    const formConfigDefaultData = { ...getDefaultData() };
+
+    const tree = render(
+      <FormNav formConfig={formConfigDefaultData} currentPath={currentPath} />,
+    );
+
+    // expect(tree.getByTestId('simpleNavFormHeader')).to.exist;
+    expect(tree.getByTestId('simpleNavFormHeader')).to.contain.text('Testing');
   });
 
   it('should render dynamic chapter-title stepText', () => {
