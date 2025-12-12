@@ -1,3 +1,12 @@
+export function getSafeUserFullName(userFullName) {
+  return {
+    first: userFullName?.first ?? '',
+    middle: userFullName?.middle ?? '',
+    last: userFullName?.last ?? '',
+    suffix: userFullName?.suffix ?? '',
+  };
+}
+
 /**
  * Map necessary data from prefill to populate initial form data
  * @param {Array} pages - an array of form pages
@@ -18,17 +27,10 @@ export function prefillTransformer(pages, formData, metadata, state) {
     zipCode,
   } = vapContactInfo.mailingAddress || {};
 
-  const safeUserFullName = {
-    first: userFullName?.first ?? '',
-    middle: userFullName?.middle ?? '',
-    last: userFullName?.last ?? '',
-    suffix: userFullName?.suffix ?? '',
-  };
-
   const newData = {
     ...formData,
     dob,
-    fullName: safeUserFullName,
+    fullName: getSafeUserFullName(userFullName),
     veteranAddress: {
       country: countryCodeIso3,
       street: addressLine1,
