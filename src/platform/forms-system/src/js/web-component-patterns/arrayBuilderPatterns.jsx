@@ -8,9 +8,11 @@ import {
 } from '../patterns/array-builder/helpers';
 
 /**
+ * useFormsPattern helper
+ * https://design.va.gov/storybook/?path=/docs/uswds-va-radio--docs#forms-pattern-single
  * @param {ArrayBuilderYesNoUIOptions} yesNoOptions
  */
-const withUseFormPattern = yesNoOptions => {
+const withUseFormsPattern = yesNoOptions => {
   if (!yesNoOptions) return {};
 
   return {
@@ -214,9 +216,9 @@ export const arrayBuilderItemSubsequentPageTitleUI = (
  * @property {UISchemaOptions['ui:options']['labelHeaderLevel']} [labelHeaderLevel]
  * @property {UISchemaOptions['ui:options']['labelHeaderLevelStyle']} [labelHeaderLevelStyle]
  *
- * @property {boolean | 'single'} [useFormsPattern] Prefer to use arrayBuilderOptions > text > summaryTitleWithoutItems | summaryTitle unless a specific need for this.
- * @property {UISchemaOptions['ui:options']['formHeading']} [formHeading]  Used with `useFormsPattern`. Prefer to use arrayBuilderOptions > text > summaryTitleWithoutItems | summaryTitle unless a specific need for this.
- * @property {UISchemaOptions['ui:options']['formDescription']} [formDescription]  Used with `useFormsPattern`. Prefer to use arrayBuilderOptions > text > summaryDescriptionWithoutItems | summaryDescription unless a specific need for this.
+ * @property {boolean | 'single'} [useFormsPattern] Alternative approach to using text > summaryTitleWithoutItems | summaryTitle
+ * @property {UISchemaOptions['ui:options']['formHeading']} [formHeading]  Used with `useFormsPattern`.
+ * @property {UISchemaOptions['ui:options']['formDescription']} [formDescription]  Used with `useFormsPattern`.
  * @property {UISchemaOptions['ui:options']['formHeadingLevel']} [formHeadingLevel]  Used with `useFormsPattern`
  * @property {UISchemaOptions['ui:options']['formHeadingLevelStyle']} [formHeadingLevelStyle]  Used with `useFormsPattern`
  */
@@ -330,7 +332,7 @@ export const arrayBuilderYesNoUI = (
                   N: yesNoOptionsAdditional?.labels?.N || 'No',
                 },
                 descriptions: yesNoOptionsAdditional?.descriptions,
-                ...withUseFormPattern(yesNoOptionsAdditional),
+                ...withUseFormsPattern(yesNoOptionsAdditional),
               },
               'ui:errorMessages': {
                 required:
@@ -368,7 +370,7 @@ export const arrayBuilderYesNoUI = (
                   N: yesNoOptionsInitial?.labels?.N || 'No',
                 },
                 descriptions: yesNoOptionsInitial?.descriptions,
-                ...withUseFormPattern(yesNoOptionsInitial),
+                ...withUseFormsPattern(yesNoOptionsInitial),
               },
               'ui:errorMessages': {
                 required:
