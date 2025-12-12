@@ -5,7 +5,7 @@ import ConfirmationTrainingPayWaiver from '../components/confirmationFields/Conf
 export const uiSchema = {
   'ui:title': 'Training pay waiver',
   waiveTrainingPay: yesNoUI({
-    title: 'What would you like to do?',
+    title: '',
     description: waiveTrainingPayDescription,
     yesNoReverse: true,
     labels: {
