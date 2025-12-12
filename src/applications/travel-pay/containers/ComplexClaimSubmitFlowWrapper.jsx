@@ -65,12 +65,10 @@ const ComplexClaimSubmitFlowWrapper = () => {
   useEffect(
     () => {
       if (needsClaimData) {
-        dispatch(getComplexClaimDetails(effectiveClaimId))
-          .then(() => {})
-          .catch(() => {
-            // Redirect user to an error page if the GET claim details call errors
-            setShouldRedirect(true);
-          });
+        dispatch(getComplexClaimDetails(effectiveClaimId)).catch(() => {
+          // Redirect user to an error page if the GET claim details call errors
+          setShouldRedirect(true);
+        });
       }
       if (needsApptData) {
         dispatch(getAppointmentData(apptId));
