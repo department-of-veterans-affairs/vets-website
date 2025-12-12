@@ -9,6 +9,7 @@ import {
   VaDate,
   VaTextInput,
   VaButton,
+  VaTextarea,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
@@ -18,6 +19,7 @@ import {
   createExpense,
   updateExpenseDeleteDocument,
   updateExpense,
+  setReviewPageAlert,
 } from '../../../redux/actions';
 import {
   selectExpenseUpdateLoadingState,
@@ -46,6 +48,7 @@ const ExpensePage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { apptId, claimId, expenseId } = useParams();
+
   const isEditMode = !!expenseId;
 
   // Redux hooks
@@ -59,6 +62,7 @@ const ExpensePage = () => {
 
   // Refs
   const errorRef = useRef(null);
+  const costRequestedRef = useRef(null);
 
   // State
   const [formState, setFormState] = useState({});
@@ -70,6 +74,8 @@ const ExpensePage = () => {
   const [isCancelModalVisible, setIsCancelModalVisible] = useState(false);
   const [showError, setShowError] = useState(false);
   const [uploadError, setUploadError] = useState('');
+  const [extraFieldErrors, setExtraFieldErrors] = useState({});
+
 
   // Derived state and memoized values
   const isLoadingExpense = isEditMode
@@ -223,14 +229,61 @@ const ExpensePage = () => {
     ],
   };
 
+  const validateDescription = () => {
+    const errors = { description: null };
+
+    // Validate description field length
+    if (formState.description?.length < 5) {
+      errors.description = 'Enter at least 5 characters';
+    } else if (formState.description?.length > 2000) {
+      errors.description = 'Enter no more than 2,000 characters';
+    }
+
+    setExtraFieldErrors(prev => ({
+      ...prev,
+      ...errors,
+    }));
+
+    return !errors.description;
+  };
+
+  const validateRequestedAmount = () => {
+    // Check built in component errors first (like invalid number)
+    if (costRequestedRef.current?.error) {
+      return false;
+    }
+
+    const errors = { costRequested: null };
+
+    // Valid greater than 0.
+    // Other validation is handled by the VA component
+    const amount = parseFloat(formState.costRequested);
+    if (!Number.isNaN(amount) && amount === 0) {
+      errors.costRequested = 'Enter an amount greater than 0';
+    }
+
+    setExtraFieldErrors(prev => ({
+      ...prev,
+      ...errors,
+    }));
+
+    return !errors.costRequested;
+  };
+
   const validatePage = () => {
     // Field names must match those expected by the expenses_controller in vets-api.
-    const base = ['purchaseDate', 'costRequested', 'receipt'];
+    const base = ['purchaseDate', 'costRequested', 'receipt', 'description'];
     const extra = REQUIRED_FIELDS[expenseType] || [];
     const requiredFields = [...base, ...extra];
 
     const emptyFields = requiredFields.filter(field => !formState[field]);
     setShowError(emptyFields.length > 0);
+
+    // Extra validation for specific fields
+    if (!validateDescription() || !validateRequestedAmount()) {
+      return false;
+    }
+
     return emptyFields.length === 0;
   };
 
@@ -279,11 +332,37 @@ const ExpensePage = () => {
         );
       }
 
-      // Navigate after all async operations complete successfully
-      navigate(`/file-new-claim/${apptId}/${claimId}/review`);
+      // Set success alert
+      const expenseTypeName = expenseConfig.expensePageText
+        ? `${expenseConfig.expensePageText} expense`
+        : 'expense';
+
+      dispatch(
+        setReviewPageAlert({
+          title: '',
+          description: `You successfully ${
+            isEditMode ? 'updated your' : 'added a'
+          } ${expenseTypeName}.`,
+          type: 'success',
+        }),
+      );
     } catch (error) {
-      // TODO: Handle error - don't navigate if there's an error
+      // Set alert
+      const verb = isEditMode ? 'edit' : 'add';
+      dispatch(
+        setReviewPageAlert({
+          title: `We couldn't ${verb} this expense right now`,
+          description: `We're sorry. We can't ${
+            isEditMode ? 'edit' : 'add'
+          } this expense${
+            isEditMode ? '' : ' to your claim'
+          }. Try again later.`,
+          type: 'error',
+        }),
+      );
     }
+    // navigate to review page for success and error
+    navigate(`/file-new-claim/${apptId}/${claimId}/review`);
   };
 
   const handleBack = () => {
@@ -411,22 +490,36 @@ const ExpensePage = () => {
         hint={dateHintText}
         onDateChange={handleFormChange}
       />
-      <VaTextInput
-        currency
-        label="Amount requested"
-        name="costRequested"
-        value={formState.costRequested || ''}
-        required
-        show-input-error
-        onInput={handleFormChange}
-        hint="Enter the amount as dollars and cents. For example, 8.42"
-      />
-      <VaTextInput
-        label="Description"
-        name="description"
-        value={formState.description || ''}
-        onInput={handleFormChange}
-      />
+      <div className="vads-u-margin-top--2">
+        <VaTextInput
+          currency
+          label="Amount requested"
+          name="costRequested"
+          value={formState.costRequested || ''}
+          required
+          ref={costRequestedRef}
+          show-input-error
+          onBlur={validateRequestedAmount}
+          onInput={handleFormChange}
+          hint="Enter the amount as dollars and cents. For example, 8.42"
+          {...extraFieldErrors.costRequested && {
+            error: extraFieldErrors.costRequested,
+          }}
+        />
+      </div>
+      <div className="vads-u-margin-top--2">
+        <VaTextarea
+          label="Description"
+          name="description"
+          value={formState.description || ''}
+          required
+          onBlur={validateDescription}
+          onInput={handleFormChange}
+          {...extraFieldErrors.description && {
+            error: extraFieldErrors.description,
+          }}
+        />
+      </div>
       {!isEditMode && (
         <VaButton
           secondary
@@ -438,7 +531,7 @@ const ExpensePage = () => {
       <TravelPayButtonPair
         continueText={isEditMode ? 'Save and continue' : 'Continue'}
         backText={isEditMode ? 'Cancel' : 'Back'}
-        className={isEditMode && 'vads-u-margin-top--2'}
+        className={isEditMode ? 'vads-u-margin-top--2' : ''}
         onBack={handleBack}
         onContinue={handleContinue}
         loading={isLoadingExpense}

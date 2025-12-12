@@ -7,6 +7,8 @@ import {
   getCardDescription,
   showConflictOfInterestText,
   getTitle,
+  validateConflictOfInterestStartDate,
+  validateConflictOfInterestEndDate,
   ProprietaryProfitAdditionalInfo,
 } from '../helpers';
 
@@ -177,6 +179,73 @@ describe('1919 Helpers', () => {
     });
   });
 
+  describe('validateConflictOfInterestStartDate', () => {
+    it('allows valid dates', () => {
+      const errors = { addError: sinon.spy() };
+      validateConflictOfInterestStartDate(errors, '2025-01-03', {
+        enrollmentPeriodStart: '2025-01-03',
+        enrollmentPeriodEnd: '2025-01-10',
+      });
+      expect(errors.addError.called).to.be.false;
+    });
+    it('rejects invalid date start after end', () => {
+      const errors = { addError: sinon.spy() };
+      validateConflictOfInterestStartDate(errors, '2026-01-01', {
+        enrollmentPeriodStart: '2026-01-01',
+        enrollmentPeriodEnd: '2025-01-10',
+      });
+      expect(errors.addError.calledOnce).to.be.true;
+    });
+    it('rejects invalid date start same as end', () => {
+      const errors = { addError: sinon.spy() };
+      validateConflictOfInterestStartDate(errors, '2025-01-01', {
+        enrollmentPeriodStart: '2025-01-01',
+        enrollmentPeriodEnd: '2025-01-01',
+      });
+      expect(errors.addError.calledOnce).to.be.true;
+    });
+    it('if empty return from function', () => {
+      const errors = { addError: sinon.spy() };
+      validateConflictOfInterestStartDate(errors, '', {
+        enrollmentPeriodStart: '',
+        enrollmentPeriodEnd: '',
+      });
+      expect(errors.addError.calledOnce).to.be.false;
+    });
+    it('invalid date string', () => {
+      const errors = { addError: sinon.spy() };
+      validateConflictOfInterestStartDate(errors, 'XXXX-02-XX', {
+        enrollmentPeriodStart: 'XXXX-02-XX',
+        enrollmentPeriodEnd: '',
+      });
+      expect(errors.addError.calledOnce).to.be.true;
+    });
+    it('show no error if end date is empty', () => {
+      const errors = { addError: sinon.spy() };
+      validateConflictOfInterestStartDate(errors, '2025-01-01', {
+        enrollmentPeriodStart: '2025-01-01',
+        enrollmentPeriodEnd: '',
+      });
+      expect(errors.addError.calledOnce).to.be.false;
+    });
+  });
+  describe('validateConflictOfInterestEndDate', () => {
+    it('invalid date string', () => {
+      const errors = { addError: sinon.spy() };
+      validateConflictOfInterestEndDate(errors, 'XXXX-02-XX');
+      expect(errors.addError.calledOnce).to.be.true;
+    });
+    it('show no error if date is empty', () => {
+      const errors = { addError: sinon.spy() };
+      validateConflictOfInterestEndDate(errors, undefined);
+      expect(errors.addError.calledOnce).to.be.false;
+    });
+    it('allows valid dates', () => {
+      const errors = { addError: sinon.spy() };
+      validateConflictOfInterestEndDate(errors, '2025-01-03');
+      expect(errors.addError.called).to.be.false;
+    });
+  });
   describe('ProprietaryProfitAdditionalInfo', () => {
     it('should render additional info content', () => {
       const additionalInfo = ProprietaryProfitAdditionalInfo();

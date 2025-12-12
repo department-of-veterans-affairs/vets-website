@@ -13,6 +13,7 @@ import {
 } from './helpers';
 import { getPastDateError } from './utils';
 import propTypes from './types';
+import { makeNamePossessive } from '../../../shared/utils';
 
 const spouseDeath = {
   handlers: {
@@ -58,9 +59,9 @@ const spouseDeath = {
         <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
           {isEditing ? 'Edit information' : 'Information'} about{' '}
           <span className="dd-privacy-mask" data-dd-action-name="first name">
-            {firstName}
-          </span>
-          's death
+            {makeNamePossessive(firstName)}
+          </span>{' '}
+          death
         </h3>
 
         <h4>When did they die?</h4>

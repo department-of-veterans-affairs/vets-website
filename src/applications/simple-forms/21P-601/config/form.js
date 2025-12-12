@@ -1,6 +1,7 @@
 import React from 'react';
 import footerContent from 'platform/forms/components/FormFooter';
 import environment from 'platform/utilities/environment';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import { defaultItemPageScrollAndFocusTarget as scrollAndFocusTarget } from 'platform/forms-system/src/js/patterns/array-builder';
 import { PersonalInformation } from 'platform/forms-system/src/js/components/PersonalInformation/PersonalInformation';
 import manifest from '../manifest.json';
@@ -57,6 +58,12 @@ const formConfig = {
     notFound: 'Please start over to apply for accrued benefits online.',
     noAuth: 'Please sign in again to continue your application.',
   },
+  downtime: {
+    dependencies: [
+      externalServices.lighthouseBenefitsIntake,
+      externalServices.form21p601,
+    ],
+  },
   preSubmitInfo: {
     statementOfTruth: {
       body:
@@ -83,6 +90,7 @@ const formConfig = {
           title: 'Previous applications',
           uiSchema: hasAlreadyFiled.uiSchema,
           schema: hasAlreadyFiled.schema,
+          scrollAndFocusTarget: 'h3',
         },
         hasUnpaidCreditors: {
           path: 'unpaid-creditors',
@@ -90,6 +98,7 @@ const formConfig = {
           depends: formData => formData?.hasAlreadyFiled === false,
           uiSchema: hasUnpaidCreditors.uiSchema,
           schema: hasUnpaidCreditors.schema,
+          scrollAndFocusTarget: 'h3',
         },
         eligibilitySummary: {
           path: 'eligibility-summary',
@@ -99,6 +108,7 @@ const formConfig = {
             formData?.hasUnpaidCreditors === true,
           uiSchema: eligibilitySummary.uiSchema,
           schema: eligibilitySummary.schema,
+          scrollAndFocusTarget: 'h3',
         },
         personalInformation: {
           path: 'personal-information',
@@ -126,7 +136,7 @@ const formConfig = {
           title: "Veteran's name",
           uiSchema: veteranFullName.uiSchema,
           schema: veteranFullName.schema,
-          scrollAndFocusTarget,
+          scrollAndFocusTarget: 'h3',
         },
         veteranIdentifiers: {
           path: 'veteran-identifiers',
@@ -145,7 +155,7 @@ const formConfig = {
           title: 'Is the beneficiary the veteran?',
           uiSchema: beneficiaryIsVeteran.uiSchema,
           schema: beneficiaryIsVeteran.schema,
-          scrollAndFocusTarget,
+          scrollAndFocusTarget: 'h3',
         },
         beneficiaryFullName: {
           path: 'beneficiary-name',
@@ -153,7 +163,7 @@ const formConfig = {
           depends: formData => formData?.beneficiaryIsVeteran === false,
           uiSchema: beneficiaryFullName.uiSchema,
           schema: beneficiaryFullName.schema,
-          scrollAndFocusTarget,
+          scrollAndFocusTarget: 'h3',
         },
         beneficiaryDateOfDeath: {
           path: 'beneficiary-date-of-death',
@@ -265,6 +275,7 @@ const formConfig = {
           path: 'supporting-documents',
           uiSchema: supportingDocuments.uiSchema,
           schema: supportingDocuments.schema,
+          scrollAndFocusTarget: 'h3',
         },
         remarks: {
           path: 'additional-info/remarks',
