@@ -22,6 +22,52 @@ const withUseFormPattern = yesNoOptions => {
 };
 
 /**
+ * @param {ArrayBuilderYesNoUIOptions} options
+ * @param {{
+ * labelHeaderLevel: string,
+ * ifMinimalHeader?: {
+ *   labelHeaderLevel: string,
+ *   labelHeaderLevelStyle: string
+ * }}} defaults
+ */
+const withLabelHeaderLevel = (options, defaults) => {
+  const hasLabelHeaderLevel =
+    options &&
+    Object.prototype.hasOwnProperty.call(options, 'labelHeaderLevel');
+
+  const hasLabelHeaderLevelStyle =
+    options &&
+    Object.prototype.hasOwnProperty.call(options, 'labelHeaderLevelStyle');
+
+  const result = {};
+
+  if (hasLabelHeaderLevel) {
+    // Use user value directly
+    result.labelHeaderLevel = options.labelHeaderLevel;
+  } else {
+    // Use default + ifMinimalHeader fallback
+    result.labelHeaderLevel = defaults.labelHeaderLevel;
+    result.ifMinimalHeader = {
+      labelHeaderLevel: defaults.ifMinimalHeader.labelHeaderLevel,
+    };
+  }
+
+  if (hasLabelHeaderLevelStyle) {
+    // Use user value directly
+    result.labelHeaderLevelStyle = options.labelHeaderLevelStyle;
+  } else {
+    // Use default + ifMinimalHeader fallback
+    if (!result.ifMinimalHeader) {
+      result.ifMinimalHeader = {};
+    }
+    result.ifMinimalHeader.labelHeaderLevelStyle =
+      defaults.ifMinimalHeader.labelHeaderLevelStyle;
+  }
+
+  return result;
+};
+
+/**
  * Looks for URL param 'add' and 'removedAllWarn' and returns a warning alert if both are present
  */
 export function withAlertOrDescription({
@@ -257,14 +303,13 @@ export const arrayBuilderYesNoUI = (
                 yesNoOptionsAdditional?.title ??
                 `Do you have another ${nounSingular} to add?`,
               'ui:options': {
-                labelHeaderLevel:
-                  yesNoOptionsAdditional?.labelHeaderLevel ?? '4',
-                ifMinimalHeader: {
-                  labelHeaderLevel:
-                    yesNoOptionsAdditional?.labelHeaderLevel ?? '2',
-                  labelHeaderLevelStyle:
-                    yesNoOptionsAdditional?.labelHeaderLevelStyle ?? '3',
-                },
+                ...withLabelHeaderLevel(yesNoOptionsAdditional, {
+                  labelHeaderLevel: '4',
+                  ifMinimalHeader: {
+                    labelHeaderLevel: '2',
+                    labelHeaderLevelStyle: '3',
+                  },
+                }),
                 hint: customHint
                   ? customHint({
                       arrayData,
@@ -294,13 +339,13 @@ export const arrayBuilderYesNoUI = (
           : {
               'ui:title': defaultTitle,
               'ui:options': {
-                labelHeaderLevel: yesNoOptionsInitial?.labelHeaderLevel ?? '3',
-                ifMinimalHeader: {
-                  labelHeaderLevel:
-                    yesNoOptionsInitial?.labelHeaderLevel ?? '1',
-                  labelHeaderLevelStyle:
-                    yesNoOptionsInitial?.labelHeaderLevelStyle ?? '2',
-                },
+                ...withLabelHeaderLevel(yesNoOptionsInitial, {
+                  labelHeaderLevel: '3',
+                  ifMinimalHeader: {
+                    labelHeaderLevel: '1',
+                    labelHeaderLevelStyle: '2',
+                  },
+                }),
                 hint: customMoreHint
                   ? customMoreHint({
                       arrayData,
