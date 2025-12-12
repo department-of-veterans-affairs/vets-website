@@ -15,6 +15,12 @@ export const FETCH_CLAIM_DETAILS_FAILURE = 'FETCH_CLAIM_DETAILS_FAILURE';
 export const FETCH_APPOINTMENT_STARTED = 'FETCH_APPOINTMENT_STARTED';
 export const FETCH_APPOINTMENT_SUCCESS = 'FETCH_APPOINTMENT_SUCCESS';
 export const FETCH_APPOINTMENT_FAILURE = 'FETCH_APPOINTMENT_FAILURE';
+export const FETCH_APPOINTMENT_BY_DATE_STARTED =
+  'FETCH_APPOINTMENT_BY_DATE_STARTED';
+export const FETCH_APPOINTMENT_BY_DATE_SUCCESS =
+  'FETCH_APPOINTMENT_BY_DATE_SUCCESS';
+export const FETCH_APPOINTMENT_BY_DATE_FAILURE =
+  'FETCH_APPOINTMENT_BY_DATE_FAILURE';
 export const SUBMIT_CLAIM_STARTED = 'SUBMIT_CLAIM_STARTED';
 export const SUBMIT_CLAIM_SUCCESS = 'SUBMIT_CLAIM_SUCCESS';
 export const SUBMIT_CLAIM_FAILURE = 'SUBMIT_CLAIM_FAILURE';
@@ -159,6 +165,48 @@ export function getAppointmentData(apptId) {
       dispatch(fetchAppointmentSuccess(appointmentData));
     } catch (error) {
       dispatch(fetchAppointmentFailure(error?.toString() ?? ''));
+    }
+  };
+}
+
+// VAOS appointment info by date time
+const fetchAppointmentByDateStart = () => ({
+  type: FETCH_APPOINTMENT_BY_DATE_STARTED,
+});
+const fetchAppointmentByDateSuccess = data => ({
+  type: FETCH_APPOINTMENT_BY_DATE_SUCCESS,
+  payload: data,
+});
+const fetchAppointmentByDateFailure = error => ({
+  type: FETCH_APPOINTMENT_BY_DATE_FAILURE,
+  error,
+});
+
+export function getAppointmentDataByDateTime(targetDateTime) {
+  return async dispatch => {
+    dispatch(fetchAppointmentByDateStart());
+    try {
+      const targetDate = new Date(targetDateTime).toISOString();
+
+      const apptUrl = `${
+        environment.API_URL
+      }/vaos/v2/appointments?start=${targetDate}&end=${targetDate}&_include=facilities,travel_pay_claims`;
+      const response = await apiRequest(apptUrl);
+
+      const appointments = response.data || [];
+      if (appointments.length === 0) {
+        throw new Error(
+          'getAppointmentDataByDateTime: Empty appointments array',
+        );
+      }
+
+      const matchingAppointment = appointments[0];
+      const appointmentData = transformVAOSAppointment(
+        matchingAppointment.attributes,
+      );
+      dispatch(fetchAppointmentByDateSuccess(appointmentData));
+    } catch (error) {
+      dispatch(fetchAppointmentByDateFailure(error));
     }
   };
 }
