@@ -207,8 +207,8 @@ export const benefitSwitchPage = () => ({
           Benefit you want to change&nbsp;to
         </span>
       ),
-      'ui:description': props => {
-        const header = getSwitchFormHeader(props?.formContext?.formData?.mebBenefitSelection);
+      'ui:description': ({ formContext }) => {
+        const header = getSwitchFormHeader(formContext?.formData?.mebBenefitSelection);
 
         return (
           <>
