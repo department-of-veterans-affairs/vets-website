@@ -5,8 +5,8 @@ import {
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
-import { BASE_URL } from '../../constants';
-import { title995, subTitle995 } from '../../content/title';
+import { BASE_URL, FORM_ID } from '../../constants';
+import { title995 } from '../../content/title';
 import {
   getNextPage,
   options,
@@ -44,9 +44,7 @@ const BenefitType = ({ data = {}, error, setPageData }) => {
   return (
     <>
       <h1 className="vads-u-margin-bottom--0">{title995}</h1>
-      <div className="schemaform-subtitle vads-u-font-size--lg">
-        {subTitle995}
-      </div>
+      <div className="schemaform-subtitle vads-u-font-size--lg">{FORM_ID}</div>
       <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0">
         Is this the form I need?
       </h2>

@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { fireEvent, waitFor } from '@testing-library/react';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import reducers from '../../../reducers';
 import SendRxRenewalMessage from '../../../components/shared/SendRxRenewalMessage';
 
@@ -13,12 +14,26 @@ describe('SendRxRenewalMessage Component', () => {
     expirationDate: '2024-01-01',
   };
 
-  const setup = (rx = mockRx, props = {}) => {
+  const setup = (rx = mockRx, props = {}, initialState = {}) => {
+    const featureToggleReducer = (state = {}) => state;
+    const testReducers = {
+      ...reducers,
+      featureToggles: featureToggleReducer,
+    };
+
+    const state = {
+      ...initialState,
+      featureToggles: {
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingMedicationsRenewalRequest]: true,
+        ...(initialState.featureToggles || {}),
+      },
+    };
+
     return renderWithStoreAndRouterV6(
       <SendRxRenewalMessage rx={rx} {...props} />,
       {
-        state: {},
-        reducers,
+        initialState: state,
+        reducers: testReducers,
       },
     );
   };
@@ -147,6 +162,43 @@ describe('SendRxRenewalMessage Component', () => {
         refillRemaining: 5,
       };
       const screen = setup(rx);
+      expect(screen.queryByTestId('send-renewal-request-message-link')).to.not
+        .exist;
+      expect(screen.queryByTestId('fallback')).to.not.exist;
+    });
+  });
+
+  describe('Feature toggle gating', () => {
+    it('renders fallback content when toggle is off and fallback provided', () => {
+      const fallbackContent = (
+        <div data-testid="fallback">Fallback Content</div>
+      );
+      const screen = setup(
+        mockRx,
+        { fallbackContent },
+        {
+          featureToggles: {
+            [FEATURE_FLAG_NAMES.mhvSecureMessagingMedicationsRenewalRequest]: false,
+          },
+        },
+      );
+
+      expect(screen.getByTestId('fallback')).to.exist;
+      expect(screen.queryByTestId('send-renewal-request-message-link')).to.not
+        .exist;
+    });
+
+    it('returns null when toggle is off and no fallback provided', () => {
+      const screen = setup(
+        mockRx,
+        {},
+        {
+          featureToggles: {
+            [FEATURE_FLAG_NAMES.mhvSecureMessagingMedicationsRenewalRequest]: false,
+          },
+        },
+      );
+
       expect(screen.queryByTestId('send-renewal-request-message-link')).to.not
         .exist;
       expect(screen.queryByTestId('fallback')).to.not.exist;

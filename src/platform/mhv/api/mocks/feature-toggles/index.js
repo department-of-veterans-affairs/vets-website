@@ -7,13 +7,12 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicationsDisplayDocumentationContent = true,
     mhvMedicationsDisplayGrouping = true,
     mhvMedicationsDisplayPendingMeds = true,
-    mhvMedicationsDisplayRefillProgress = true,
     mhvMedicationsPartialFillContent,
     mhvMedicationsDontIncrementIpeCount,
 
-    // medical records
-
     // OH integration work
+    mhvMedicalRecordsCcdExtendedFileTypes = true,
+    mhvMedicalRecordsMergeCvixIntoScdf = false,
     mhvAcceleratedDeliveryEnabled = false,
     mhvAcceleratedDeliveryAllergiesEnabled = false,
     mhvAcceleratedDeliveryCareNotesEnabled = false,
@@ -21,7 +20,6 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvAcceleratedDeliveryConditionsEnabled = false,
     mhvAcceleratedDeliveryVaccinesEnabled = false,
     mhvAcceleratedDeliveryLabsAndTestsEnabled = false,
-
     mhvMedicationsDisplayNewCernerFacilityAlert = true,
 
     // secure messaging
@@ -91,10 +89,6 @@ const generateFeatureToggles = (toggles = {}) => {
           value: mhvMedicationsDisplayPendingMeds,
         },
         {
-          name: 'mhv_medications_display_refill_progress',
-          value: mhvMedicationsDisplayRefillProgress,
-        },
-        {
           name: 'mhv_medications_partial_fill_content',
           value: mhvMedicationsPartialFillContent,
         },
@@ -111,6 +105,14 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_medical_records_kill_external_links',
           value: true,
+        },
+        {
+          name: 'mhv_medical_records_ccd_extended_file_types',
+          value: mhvMedicalRecordsCcdExtendedFileTypes,
+        },
+        {
+          name: 'mhv_medical_records_merge_cvix_into_scdf',
+          value: mhvMedicalRecordsMergeCvixIntoScdf,
         },
 
         // secure messaging

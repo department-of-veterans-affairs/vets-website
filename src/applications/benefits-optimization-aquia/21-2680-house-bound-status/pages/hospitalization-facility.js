@@ -38,6 +38,22 @@ export const hospitalizationFacilityUiSchema = {
  * JSON Schema for Hospitalization Facility page
  * Validates facility name and address fields
  */
+// Customize address schema to add maxLength constraints for hospital address
+const customHospitalAddressSchema = {
+  ...addressNoMilitarySchema(),
+  properties: {
+    ...addressNoMilitarySchema().properties,
+    street: {
+      type: 'string',
+      maxLength: 30,
+    },
+    street2: {
+      type: 'string',
+      maxLength: 5,
+    },
+  },
+};
+
 export const hospitalizationFacilitySchema = {
   type: 'object',
   required: ['hospitalizationFacility'],
@@ -50,7 +66,7 @@ export const hospitalizationFacilitySchema = {
           type: 'string',
           maxLength: 100,
         },
-        facilityAddress: addressNoMilitarySchema(),
+        facilityAddress: customHospitalAddressSchema,
       },
     },
   },

@@ -26,7 +26,7 @@ describe('Verify Thread - Blocked from Facility', () => {
     cy.findByTestId(Locators.LINKS.CREATE_NEW_MESSAGE_DATA_TEST_ID).click({
       waitForAnimations: true,
     });
-    cy.findByTestId(Locators.BUTTONS.CONTINUE).click({
+    cy.findByTestId(Locators.INTERSTITIAL_CONTINUE_BUTTON).click({
       waitForAnimations: true,
     });
 
@@ -88,10 +88,10 @@ describe('Verify Thread - Blocked from Facility', () => {
 
     cy.get(Locators.ALERTS.BLOCKED_GROUP);
     cy.get(Locators.ALERTS.BLOCKED_GROUP)
-      .find('a')
+      .find('va-link-action')
       .first()
       .should('have.attr', 'href', Paths.FIND_LOCATIONS)
-      .and('have.text', Alerts.BLOCKED.LINK);
+      .and('have.attr', 'text', Alerts.BLOCKED.LINK);
 
     cy.get(Locators.BUTTONS.REPLY).should('not.exist');
   });

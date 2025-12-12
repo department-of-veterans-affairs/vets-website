@@ -1,33 +1,53 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom-v5-compat';
+import { useSelector } from 'react-redux';
 import {
   VaRadio,
   VaButtonPair,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { EXPENSE_TYPES } from '../../../constants';
+import { EXPENSE_TYPES, EXPENSE_TYPE_KEYS } from '../../../constants';
+import { selectComplexClaim } from '../../../redux/selectors';
 
 const ChooseExpenseType = () => {
   const navigate = useNavigate();
   const { apptId, claimId } = useParams();
   const [selectedExpenseType, setSelectedExpenseType] = useState('');
   const [showError, setShowError] = useState(false);
+  const [mileageError, setMileageError] = useState(false);
+
+  // Get claim data
+  const { data: claim } = useSelector(selectComplexClaim);
+
+  // Check if claim already has a mileage expense
+  const hasExistingMileageExpense = () => {
+    if (!claim || !claim.expenses) return false;
+    return claim.expenses.some(
+      expense =>
+        expense.expenseType === EXPENSE_TYPES[EXPENSE_TYPE_KEYS.MILEAGE].title,
+    );
+  };
 
   // Convert EXPENSE_TYPES object into an array for mapping
   const expenseOptions = Object.values(EXPENSE_TYPES);
 
   const handleContinue = () => {
-    // TODO: Handle error case for existing mileage expense
-    // if (selectedExpenseType === 'mileage' && hasExistingMileage) {
-    //   setShowError(true);
-    //   return;
-    // }
-
+    // Check for existing mileage expense
+    if (
+      selectedExpenseType === EXPENSE_TYPES[EXPENSE_TYPE_KEYS.MILEAGE].route &&
+      hasExistingMileageExpense()
+    ) {
+      setMileageError(true);
+      setShowError(false);
+      return;
+    }
     if (!selectedExpenseType) {
       setShowError(true);
+      setMileageError(false);
       return;
     }
 
     setShowError(false);
+    setMileageError(false);
     // Navigate to the route defined in the constant
     const selectedExpense = expenseOptions.find(
       e => e.route === selectedExpenseType,
@@ -39,27 +59,34 @@ const ChooseExpenseType = () => {
   };
 
   const handleBack = () => {
-    navigate(`/file-new-claim/${apptId}`);
+    navigate(`/file-new-claim/${apptId}`, { state: { skipRedirect: true } });
   };
+
+  const hintText = 'You can submit 1 mileage expense for this claim.';
+
+  const errorMessage = mileageError
+    ? 'You can only add 1 mileage expense for each claim. Select another expense type or submit your claim.'
+    : 'Select an expense type';
 
   return (
     <>
       <h1 className="vads-u-margin-bottom--2">
         What type of expense do you want to add?
       </h1>
-      <p>Start with one expense. You’ll be able to add other expenses later.</p>
+      <p>Select 1 expense. You’ll be able to add other expenses later.</p>
       <p className="vads-u-margin-bottom--0">
-        To request reimbursement for air fare, lodging, and meals, you’ll need a
-        pre-approval letter.
+        We’ll need to pre-approve any airfare, lodging, or meals before you
+        request reimbursement.
       </p>
       <VaRadio
-        label="Choose an expense type"
+        label="Select an expense type"
         required
-        class="vads-u-margin-top--0"
-        error={showError ? 'Please select an expense type' : null}
+        class="vads-u-margin-top--2"
+        error={showError || mileageError ? errorMessage : null}
         onVaValueChange={event => {
           setSelectedExpenseType(event.detail.value);
           if (showError) setShowError(false);
+          if (mileageError) setMileageError(false);
         }}
       >
         {expenseOptions.map(option => (
@@ -68,6 +95,9 @@ const ChooseExpenseType = () => {
             key={option.route}
             label={option.title}
             value={option.route}
+            description={
+              option.name === EXPENSE_TYPES.Mileage.name ? hintText : ''
+            }
             checked={selectedExpenseType === option.route}
           />
         ))}

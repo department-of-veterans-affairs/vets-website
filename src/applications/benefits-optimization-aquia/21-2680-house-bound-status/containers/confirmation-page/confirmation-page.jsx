@@ -7,7 +7,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
-
+import { API_ENDPOINTS } from '@bio-aquia/21-2680-house-bound-status/constants';
 /**
  * Custom submission alert component that shows warning for additional steps needed
  * @returns {React.ReactElement} Warning alert component
@@ -30,78 +30,41 @@ const CustomSubmissionAlert = () => {
   );
 };
 
-/**
- * Custom save PDF section
- * @returns {React.ReactElement} Save PDF section
- */
-const SaveFormSection = () => {
-  const form = useSelector(state => state.form || {});
-  const pdfUrl = form?.submission?.response?.pdfUrl;
-
+const DownloadFormPDF = ({ confirmationNumber }) => {
+  // Render download link
   return (
-    <div className="confirmation-save-form-section vads-u-margin-bottom--4">
-      <h2>Save a copy of your form</h2>
+    confirmationNumber && (
       <p>
-        If you’d like a PDF copy of your completed form, you can download it.
+        <va-link
+          text="Download a copy of your VA Form 21-2680"
+          download
+          filetype="PDF"
+          href={`${API_ENDPOINTS.downloadPdf}${confirmationNumber}`}
+        />
       </p>
-      {pdfUrl && (
-        <p>
-          <va-link
-            download
-            href={pdfUrl}
-            text="Download a copy of your VA Form 21-2680 (PDF)"
-          />
-        </p>
-      )}
-    </div>
+    )
   );
 };
 
-/**
- * Custom print page section
- * @returns {React.ReactElement} Print page section
- */
-const PrintPageSection = () => {
-  return (
-    <div className="confirmation-print-this-page-section screen-only">
-      <h2 className="vads-u-font-size--h4">Print this confirmation page</h2>
-      <p>
-        If you’d like to keep a copy of the information on this page, you can
-        print it now.
-      </p>
-      <va-button
-        text="Print this page for your records"
-        onClick={() => window.print()}
-      />
-    </div>
-  );
+DownloadFormPDF.propTypes = {
+  confirmationNumber: PropTypes.string,
 };
 
 /**
  * Custom what's next section with step-by-step instructions
  * @returns {React.ReactElement} What's next section
  */
-const WhatsNextSection = () => {
-  const form = useSelector(state => state.form || {});
-  const pdfUrl = form?.submission?.response?.pdfUrl;
-
+const WhatsNextSection = ({ confirmationNumber }) => {
+  // Extract veteran name for PDF filename
   return (
     <div className="confirmation-whats-next-section">
       <h2>What you need to do next</h2>
-      <p>Follow these 4 steps to complete your application:</p>
+      <p>Follow these steps to complete your application:</p>
       <va-process-list uswds>
-        <va-process-list-item header="Download a PDF version of the form you filled out.">
-          <p>
-            <va-link
-              download
-              href={pdfUrl || '#'}
-              text="Download a copy of your VA Form 21-2680 (PDF)"
-            />
-          </p>
+        <va-process-list-item header="Download a PDF version of the Form you filled out.">
+          <DownloadFormPDF confirmationNumber={confirmationNumber} />
         </va-process-list-item>
-
-        <va-process-list-item header="Send it to an examiner.">
-          <p>We recommend sending it via email.</p>
+        <va-process-list-item header="Have an examiner complete the remaining sections.">
           <p>
             The examiner must be a Medical Doctor (MD) or Doctor of Osteopathic
             (DO) medicine, physician assistant or advanced practice registered
@@ -114,7 +77,7 @@ const WhatsNextSection = () => {
         <va-process-list-item header="Upload your fully completed form.">
           <p>
             <va-link-action
-              href="/supporting-forms-for-claims"
+              href="/find-forms/upload/21-2680/introduction"
               text="Upload your completed VA form 21-2680"
             />
           </p>
@@ -124,31 +87,8 @@ const WhatsNextSection = () => {
   );
 };
 
-/**
- * Custom contact section
- * @returns {React.ReactElement} Contact section
- */
-const ContactSection = () => {
-  return (
-    <div className="confirmation-contact-section">
-      <h2>How to contact us if you have questions</h2>
-      <p>
-        Call us at <va-telephone contact="8008271000" /> (
-        <va-telephone contact="711" tty />
-        ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
-      </p>
-      <p>
-        Or you can ask us a question online through Ask VA. Select the category
-        and topic for the VA benefit this form is related to.
-      </p>
-      <p>
-        <va-link
-          href="https://ask.va.gov"
-          text="Contact us online through Ask VA"
-        />
-      </p>
-    </div>
-  );
+WhatsNextSection.propTypes = {
+  confirmationNumber: PropTypes.string,
 };
 
 /**
@@ -171,24 +111,24 @@ export const ConfirmationPage = ({ route }) => {
   const form = useSelector(state => state.form || {});
   const submission = form?.submission || {};
   const submitDate = submission?.timestamp || '';
-  const confirmationNumber = submission?.response?.confirmationNumber || '';
 
+  // Extract GUID/confirmation number (same string) from submission response
+  const confirmationNumber =
+    submission?.response?.attributes?.confirmationNumber || '';
   return (
     <ConfirmationView
       formConfig={route?.formConfig}
       submitDate={submitDate}
       confirmationNumber={confirmationNumber}
-      pdfUrl={submission.response?.pdfUrl}
       devOnly={{
         showButtons: true,
       }}
     >
       <CustomSubmissionAlert />
-      <SaveFormSection />
       <ConfirmationView.ChapterSectionCollection />
-      <PrintPageSection />
-      <WhatsNextSection />
-      <ContactSection />
+      <ConfirmationView.PrintThisPage />
+      <WhatsNextSection confirmationNumber={confirmationNumber} />
+      <ConfirmationView.HowToContact />
       <ConfirmationView.GoBackLink />
       <ConfirmationView.NeedHelp />
     </ConfirmationView>

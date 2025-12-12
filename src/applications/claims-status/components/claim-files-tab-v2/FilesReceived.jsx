@@ -5,8 +5,12 @@ import {
   VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { buildDateFormatter } from '../../utils/helpers';
+import {
+  buildDateFormatter,
+  getTrackedItemDisplayFromSupportingDocument,
+} from '../../utils/helpers';
 import { useIncrementalReveal } from '../../hooks/useIncrementalReveal';
+import { ANCHOR_LINKS } from '../../constants';
 
 const NEED_ITEMS_STATUS = 'NEEDED_FROM_';
 
@@ -14,7 +18,7 @@ const formatDate = buildDateFormatter();
 
 const getTrackedItemText = item => {
   if (item.status === 'INITIAL_REVIEW_COMPLETE' || item.status === 'ACCEPTED') {
-    return `Reviewed by VA on ${formatDate(item.receivedDate)}`;
+    return 'Reviewed by VA';
   }
   if (item.status === 'NO_LONGER_REQUIRED' && item.closedDate !== null) {
     return 'No longer needed';
@@ -28,12 +32,13 @@ const getTrackedItemText = item => {
 const generateDocsFiled = docsFiled => {
   return docsFiled.flatMap(document => {
     if (document.id && document.status) {
+      const requestTypeDisplayName = getTrackedItemDisplayFromSupportingDocument(
+        document,
+      );
       const requestTypeText =
         document.status === 'NO_LONGER_REQUIRED'
-          ? `We received this file for a closed evidence request (${
-              document.displayName
-            }).`
-          : `Request type: ${document.displayName}`;
+          ? `We received this file for a closed evidence request: ${requestTypeDisplayName}`
+          : `Submitted in response to request: ${requestTypeDisplayName}`;
 
       // If tracked item has no documents, return single item
       if (document.documents.length === 0) {
@@ -116,11 +121,14 @@ const FilesReceived = ({ claim }) => {
 
   return (
     <div className="files-received-container" data-testid="files-received">
-      <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--3">
+      <h3
+        id={ANCHOR_LINKS.filesReceived}
+        className="vads-u-margin-top--0 vads-u-margin-bottom--3"
+      >
         Files received
       </h3>
       <p>
-        Files we received after you submitted them using this tool or the VA
+        Files we received after you submitted them using this tool or the VA:
         Health and Benefits mobile app. Files submitted by mail or in person, by
         you or by others, don’t appear in this tool.
       </p>
@@ -212,10 +220,6 @@ const FilesReceived = ({ claim }) => {
                           </div>
                         ))
                       )}
-                      {item.text &&
-                        item.text.includes('Reviewed') && (
-                          <p className="vads-u-margin-y--0">{item.text}</p>
-                        )}
                     </VaCard>
                   </li>
                 );

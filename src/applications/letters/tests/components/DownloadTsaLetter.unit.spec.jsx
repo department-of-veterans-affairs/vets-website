@@ -15,12 +15,7 @@ describe('DownloadTsaLetter', () => {
   let originalURL;
   let observerCallback;
 
-  const mockLetter = {
-    attributes: {
-      documentId: '{ABCDE-FGHIJ-KLMNO}',
-      receivedAt: '2025-10-10',
-    },
-  };
+  const documentId = '{ABCDE-FGHIJ-KLMNO}';
   const mockBlob = new Blob(['test'], { type: 'application/pdf' });
   let mockResponse;
 
@@ -56,7 +51,7 @@ describe('DownloadTsaLetter', () => {
   });
 
   it('renders the accordion with title', () => {
-    const { container } = render(<DownloadTsaLetter letter={mockLetter} />);
+    const { container } = render(<DownloadTsaLetter documentId={documentId} />);
     const accordionItem = container.querySelector('va-accordion-item');
     const headline = accordionItem.querySelector('h3[slot="headline"]');
     expect(headline.textContent).to.equal(
@@ -65,7 +60,7 @@ describe('DownloadTsaLetter', () => {
   });
 
   it('renders description text', () => {
-    const { getByText } = render(<DownloadTsaLetter letter={mockLetter} />);
+    const { getByText } = render(<DownloadTsaLetter documentId={documentId} />);
     expect(
       getByText(
         /shows you’re eligible for free enrollment in Transportation Security Administration/,
@@ -76,13 +71,13 @@ describe('DownloadTsaLetter', () => {
   });
 
   it('does not fetch letter data on initial render when accordion is closed', () => {
-    render(<DownloadTsaLetter letter={mockLetter} />);
+    render(<DownloadTsaLetter documentId={documentId} />);
     expect(apiRequestStub.called).to.be.false;
   });
 
   it('fetches letter data when accordion is opened', async () => {
     apiRequestStub.resolves(mockResponse);
-    const { container } = render(<DownloadTsaLetter letter={mockLetter} />);
+    const { container } = render(<DownloadTsaLetter documentId={documentId} />);
     const accordion = container.querySelector('va-accordion-item');
     accordion.setAttribute('open', '');
     if (observerCallback) {
@@ -92,13 +87,13 @@ describe('DownloadTsaLetter', () => {
       expect(apiRequestStub.calledOnce).to.be.true;
     });
     expect(apiRequestStub.firstCall.args[0]).to.include(
-      `/v0/tsa_letter/${mockLetter.attributes.documentId}`,
+      `/v0/tsa_letter/${documentId}`,
     );
   });
 
   it('displays loading indicator while fetching', () => {
     apiRequestStub.returns(new Promise(() => {}));
-    const { container } = render(<DownloadTsaLetter letter={mockLetter} />);
+    const { container } = render(<DownloadTsaLetter documentId={documentId} />);
     const accordion = container.querySelector('va-accordion-item');
     accordion.setAttribute('open', '');
     const loading = container.querySelector('va-loading-indicator');
@@ -107,7 +102,7 @@ describe('DownloadTsaLetter', () => {
 
   it('displays download link after successful fetch', async () => {
     apiRequestStub.resolves(mockResponse);
-    const { container } = render(<DownloadTsaLetter letter={mockLetter} />);
+    const { container } = render(<DownloadTsaLetter documentId={documentId} />);
     const accordion = container.querySelector('va-accordion-item');
     accordion.setAttribute('open', '');
     if (observerCallback) {
@@ -127,7 +122,7 @@ describe('DownloadTsaLetter', () => {
 
   it('records successful API event', async () => {
     apiRequestStub.resolves(mockResponse);
-    const { container } = render(<DownloadTsaLetter letter={mockLetter} />);
+    const { container } = render(<DownloadTsaLetter documentId={documentId} />);
     const accordion = container.querySelector('va-accordion-item');
     accordion.setAttribute('open', '');
     if (observerCallback) {
@@ -147,7 +142,7 @@ describe('DownloadTsaLetter', () => {
   it('displays error alert on API failure', async () => {
     apiRequestStub.rejects(new Error('API Error'));
     const { container, findByText } = render(
-      <DownloadTsaLetter letter={mockLetter} />,
+      <DownloadTsaLetter documentId={documentId} />,
     );
     const accordion = container.querySelector('va-accordion-item');
     accordion.setAttribute('open', '');
@@ -166,7 +161,7 @@ describe('DownloadTsaLetter', () => {
 
   it('records error API event on failure', async () => {
     apiRequestStub.rejects(new Error('API Error'));
-    const { container } = render(<DownloadTsaLetter letter={mockLetter} />);
+    const { container } = render(<DownloadTsaLetter documentId={documentId} />);
     const accordion = container.querySelector('va-accordion-item');
     accordion.setAttribute('open', '');
     if (observerCallback) {
@@ -185,7 +180,7 @@ describe('DownloadTsaLetter', () => {
 
   it('creates object URL from blob', async () => {
     apiRequestStub.resolves(mockResponse);
-    const { container } = render(<DownloadTsaLetter letter={mockLetter} />);
+    const { container } = render(<DownloadTsaLetter documentId={documentId} />);
     const accordion = container.querySelector('va-accordion-item');
     accordion.setAttribute('open', '');
     if (observerCallback) {
@@ -199,7 +194,7 @@ describe('DownloadTsaLetter', () => {
 
   it('only fetches letter data once when accordion is opened multiple times', async () => {
     apiRequestStub.resolves(mockResponse);
-    const { container } = render(<DownloadTsaLetter letter={mockLetter} />);
+    const { container } = render(<DownloadTsaLetter documentId={documentId} />);
     const accordion = container.querySelector('va-accordion-item');
     accordion.setAttribute('open', '');
     if (observerCallback) {
@@ -211,5 +206,26 @@ describe('DownloadTsaLetter', () => {
     accordion.removeAttribute('open');
     accordion.setAttribute('open', '');
     expect(apiRequestStub.calledOnce).to.be.true;
+  });
+
+  it('records download event when link is clicked', async () => {
+    apiRequestStub.resolves(mockResponse);
+    const { container } = render(<DownloadTsaLetter documentId={documentId} />);
+    const accordion = container.querySelector('va-accordion-item');
+    accordion.setAttribute('open', '');
+    if (observerCallback) {
+      observerCallback();
+    }
+    await waitFor(() => {
+      expect(apiRequestStub.calledOnce).to.be.true;
+    });
+    const link = container.querySelector('va-link');
+    link.click();
+    expect(
+      recordEventStub.calledWith({
+        event: 'letter-download',
+        'letter-type': 'TSA PreCheck Application Fee Waiver Letter',
+      }),
+    ).to.be.true;
   });
 });

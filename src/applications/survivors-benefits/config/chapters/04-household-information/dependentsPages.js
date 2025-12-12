@@ -87,7 +87,7 @@ export const options = {
       }
       return 'Dependent';
     },
-    cardDescription: () => '',
+    summaryTitle: "Review the Veteran's dependent children",
   },
 };
 
@@ -118,15 +118,14 @@ const introPage = {
 /** @returns {PageSchema} */
 const summaryPage = {
   uiSchema: {
-    'ui:description': () => null,
     'view:isAddingDependent': arrayBuilderYesNoUI(
       options,
       {
-        title: 'Do you have a dependent child to add?',
+        title: 'Do you have a dependent child of the Veteran to add?',
         hint: '',
       },
       {
-        title: 'Do you have another dependent child to add?',
+        title: 'Do you have another dependent child of the Veteran to add?',
         hint: '',
         labelHeaderLevel: 3,
       },
@@ -276,11 +275,11 @@ const relationshipPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Relationship to dependent'),
     relationship: radioUI({
-      title: "What's your relationship to the child?",
+      title: "What's the Veteran's relationship to the child?",
       labels: {
-        BIOLOGICAL: "They're my biological child",
-        ADOPTED: "They're my adopted child",
-        STEPCHILD: "They're my stepchild",
+        BIOLOGICAL: "They're the Veteran's biological child",
+        ADOPTED: "They're the Veteran's adopted child",
+        STEPCHILD: "They're the Veteran's stepchild",
       },
     }),
   },
@@ -297,13 +296,13 @@ const dependentInfoPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI("Dependent's information"),
     inSchool: yesNoUI({
-      title: 'Is your child 18-23 years old and still in school?',
+      title: 'Is the child 18-23 years old and still in school?',
     }),
-    seriouslyDisabled: yesNoUI({ title: 'Is your child seriously disabled?' }),
+    seriouslyDisabled: yesNoUI({ title: 'Is the child seriously disabled?' }),
     seriouslyDisabledInfo: {
       'ui:description': () => <div>{seriouslyDisabledDescription}</div>,
     },
-    hasBeenMarried: yesNoUI({ title: 'Has your child been married?' }),
+    hasBeenMarried: yesNoUI({ title: 'Has the child been married?' }),
     currentlyMarried: {
       ...yesNoUI({ title: 'Are they currently married?' }),
       'ui:options': {
@@ -332,7 +331,7 @@ const householdPage = {
   uiSchema: {
     ...titleUI("Dependent's household"),
     livesWithYou: yesNoUI({
-      title: 'Does your child live with you?',
+      title: 'Does the child live with you?',
       'ui:required': true,
     }),
     vaForm214138Alert: {
@@ -400,7 +399,7 @@ const childSupportPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Child support payment'),
     monthlySupport: textUI(
-      "How much do you contribute per month to your child's support?",
+      "How much did the Veteran contribute per month to their child's support?",
     ),
   },
   schema: {
@@ -421,7 +420,7 @@ export const dependentsPages = arrayBuilderPages(options, pageBuilder => ({
     schema: introPage.schema,
   }),
   dependentsSummary: pageBuilder.summaryPage({
-    title: 'Do you have a dependent child to add?',
+    title: 'Do you have a dependent child of the Veteran to add?',
     path: 'household/dependents/add',
     uiSchema: summaryPage.uiSchema,
     schema: summaryPage.schema,

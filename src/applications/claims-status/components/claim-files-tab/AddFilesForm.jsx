@@ -25,7 +25,6 @@ import {
   PASSWORD_ERROR,
   DOC_TYPE_ERROR,
   SUBMIT_TEXT,
-  SUBMIT_FILES_FOR_REVIEW_TEXT,
   SEND_YOUR_DOCUMENTS_TEXT,
   ANCHOR_LINKS,
 } from '../../constants';
@@ -230,7 +229,6 @@ const createSubmissionPayload = (files, docTypes, encrypted) => {
 const AddFilesForm = ({ fileTab, onSubmit, uploading, progress, onCancel }) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const toggleValue = useToggleValue(TOGGLE_NAMES.cstShowDocumentUploadStatus);
-
   const [files, setFiles] = useState([]);
   const [errors, setErrors] = useState([]);
   const [encrypted, setEncrypted] = useState([]);
@@ -376,7 +374,7 @@ const AddFilesForm = ({ fileTab, onSubmit, uploading, progress, onCancel }) => {
         </VaFileInputMultiple>
         <VaButton
           class="vads-u-margin-top--3"
-          text={toggleValue ? SUBMIT_FILES_FOR_REVIEW_TEXT : SUBMIT_TEXT}
+          text={SUBMIT_TEXT}
           onClick={handleSubmit}
         />
         {!toggleValue && (

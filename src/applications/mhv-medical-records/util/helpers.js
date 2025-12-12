@@ -9,10 +9,13 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import {
   format as dateFnsFormat,
   formatISO,
+  subMonths,
   subYears,
   addMonths,
   startOfDay,
   endOfDay,
+  startOfYear,
+  endOfYear,
   parseISO,
   isValid,
 } from 'date-fns';
@@ -24,6 +27,8 @@ import {
   VALID_REFRESH_DURATION,
   Paths,
   Breadcrumbs,
+  DEFAULT_DATE_RANGE,
+  MONTH_BASED_OPTIONS,
 } from './constants';
 
 /**
@@ -728,8 +733,80 @@ export const getMonthFromSelectedDate = ({ date, mask = 'MMMM yyyy' }) => {
   return `${formatted}`;
 };
 
+export const getTimeFrame = dateRange => {
+  // For predefined date ranges like 3 or 6 months, return the fromDate
+  if (MONTH_BASED_OPTIONS.includes(dateRange.option)) {
+    return dateRange.fromDate;
+  }
+
+  // For year selections, return the option value (e.g., '2022')
+  return dateRange.option;
+};
+
+export const getDisplayTimeFrame = dateRange => {
+  return `${formatDate(dateRange.fromDate)} to ${formatDate(dateRange.toDate)}`;
+};
+
+export const calculateDateRange = value => {
+  const today = new Date();
+
+  if (MONTH_BASED_OPTIONS.includes(value)) {
+    return {
+      fromDate: dateFnsFormat(
+        subMonths(today, parseInt(value, 10)),
+        'yyyy-MM-dd',
+      ),
+      toDate: dateFnsFormat(today, 'yyyy-MM-dd'),
+    };
+  }
+
+  // Year-based
+  const yearDate = new Date(parseInt(value, 10), 0, 1);
+  return {
+    fromDate: dateFnsFormat(startOfYear(yearDate), 'yyyy-MM-dd'),
+    toDate: dateFnsFormat(endOfYear(yearDate), 'yyyy-MM-dd'),
+  };
+};
+
+export const buildInitialDateRange = (option = DEFAULT_DATE_RANGE) => {
+  const { fromDate, toDate } = calculateDateRange(option);
+  return {
+    option,
+    fromDate,
+    toDate,
+  };
+};
+
+/**
+ * Resolve the effective accelerated date range ensuring both start & end are present.
+ * If either supplied date is missing, fall back to the default range.
+ *
+ * @param {string|undefined} startDate ISO date (yyyy-MM-dd) or undefined
+ * @param {string|undefined} endDate   ISO date (yyyy-MM-dd) or undefined
+ * @param {string} defaultRange        Month-based option used when falling back (defaults to DEFAULT_DATE_RANGE)
+ * @returns {{ startDate: string, endDate: string, fallbackApplied: boolean }}
+ */
+export const resolveAcceleratedDateRange = (
+  startDate,
+  endDate,
+  defaultRange = DEFAULT_DATE_RANGE,
+) => {
+  if (startDate && endDate) {
+    return { startDate, endDate, fallbackApplied: false };
+  }
+  const { fromDate, toDate } = buildInitialDateRange(defaultRange);
+  return { startDate: fromDate, endDate: toDate, fallbackApplied: true };
+};
+
 export const sendDataDogAction = actionName => {
   datadogRum.addAction(actionName);
+};
+
+export const sendDatadogError = (error, feature) => {
+  datadogRum.addError(error, {
+    app: 'Medical Records',
+    feature,
+  });
 };
 
 export const handleDataDogAction = ({
@@ -904,3 +981,11 @@ export const errorForUnequalBirthDates = (
 export const asyncErrorForUnequalBirthDates = async userDob => {
   errorForUnequalBirthDates(userDob);
 };
+
+/**
+ * Check if this ID is a radiology ID. In the frontend, we preface these IDs with an "r" to
+ * distinguish them from IDs we get from FHIR sources (e.g. PHR, SCDF).
+ * @param {*} id the lab ID
+ * @returns {boolean} true if the ID is a radiology ID, false otherwise
+ */
+export const isRadiologyId = id => id && id.charAt(0).toLowerCase() === 'r';

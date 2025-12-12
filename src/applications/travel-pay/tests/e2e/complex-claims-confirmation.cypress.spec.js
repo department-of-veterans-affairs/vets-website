@@ -2,6 +2,7 @@
 import { rootUrl } from '../../manifest.json';
 import user from '../fixtures/user.json';
 import ApiInitializer from './utilities/ApiInitializer';
+import { FIND_FACILITY_TP_CONTACT_LINK } from '../../constants';
 
 describe('Complex Claims Confirmation Page', () => {
   const appointmentId = '12345';
@@ -12,6 +13,31 @@ describe('Complex Claims Confirmation Page', () => {
     cy.intercept('/data/cms/vamc-ehr.json', {});
     ApiInitializer.initializeFeatureToggle.withAllFeatures();
     ApiInitializer.initializeAppointment.happyPath();
+    // Mock the submit call
+    cy.intercept('PATCH', `/travel_pay/v0/complex_claims/${claimId}/submit`, {
+      statusCode: 200,
+      body: {
+        data: { claimNumber: claimId },
+      },
+    }).as('submitClaim');
+
+    // Mock the GET on confirmation page
+    cy.intercept('GET', `/travel_pay/v0/claims/${claimId}`, {
+      statusCode: 200,
+      body: {
+        data: {
+          id: claimId,
+          type: 'complex_claims',
+          attributes: {
+            claimNumber: claimId,
+            appointmentId,
+            status: 'submitted',
+            createdAt: '2025-01-15T00:00:00Z',
+          },
+        },
+      },
+    }).as('claimDetails');
+
     cy.login(user);
   });
 
@@ -21,8 +47,16 @@ describe('Complex Claims Confirmation Page', () => {
 
   it('displays confirmation page with success alert', () => {
     cy.visit(
-      `${rootUrl}/file-new-claim/${appointmentId}/${claimId}/confirmation`,
+      `${rootUrl}/file-new-claim/${appointmentId}/${claimId}/travel-agreement`,
     );
+
+    // Agree to travel agreement and submit
+    cy.selectVaCheckbox('accept-agreement', true);
+
+    cy.get('va-button[continue]').click();
+
+    cy.wait('@submitClaim');
+    cy.wait('@claimDetails');
     cy.injectAxeThenAxeCheck();
 
     // Check main heading
@@ -40,19 +74,27 @@ describe('Complex Claims Confirmation Page', () => {
     // Check claim number placeholder
     cy.get('va-alert[status="success"]').should(
       'contain.text',
-      'Claim number: #######',
+      `Claim number: ${claimId}`,
     );
   });
 
   it('displays appointment details in success alert', () => {
     cy.visit(
-      `${rootUrl}/file-new-claim/${appointmentId}/${claimId}/confirmation`,
+      `${rootUrl}/file-new-claim/${appointmentId}/${claimId}/travel-agreement`,
     );
+
+    // Agree to travel agreement and submit
+    cy.selectVaCheckbox('accept-agreement', true);
+
+    cy.get('va-button[continue]').click();
+
+    cy.wait('@submitClaim');
+    cy.wait('@claimDetails');
 
     // Check appointment details in the success alert
     cy.get('va-alert[status="success"]').should(
       'contain.text',
-      'This claim is for your appointment at Fort Collins VA Clinic',
+      'This claim is for your appointment at Cheyenne VA Medical Center',
     );
   });
 
@@ -96,10 +138,10 @@ describe('Complex Claims Confirmation Page', () => {
 
     // Check second process item
     cy.get(
-      'va-process-list-item[header*="receive reimbursement via direct deposit"]',
+      'va-process-list-item[header*="If we approve your claim, we’ll send your pay through direct deposit"]',
     ).should('be.visible');
     cy.get(
-      'va-process-list-item[header*="receive reimbursement via direct deposit"]',
+      'va-process-list-item[header*="If we approve your claim, we’ll send your pay through direct deposit"]',
     ).should('contain.text', 'You must have direct deposit set up');
 
     // Check travel pay claims status link
@@ -109,7 +151,7 @@ describe('Complex Claims Confirmation Page', () => {
 
     // Check direct deposit setup link
     cy.get(
-      'va-link[href="/resources/how-to-set-up-direct-deposit-for-va-travel-pay-reimbursement/"][text="Set up direct deposit"]',
+      'va-link[href="/resources/how-to-set-up-direct-deposit-for-va-travel-pay-reimbursement/"][text="Learn how to set up direct deposit for travel pay"]',
     ).should('be.visible');
   });
 
@@ -120,20 +162,17 @@ describe('Complex Claims Confirmation Page', () => {
 
     // Check link action for submitting another claim
     cy.get(
-      'va-link-action[text="Submit another travel reimbursement claim"][href="/my-health/appointments/past"]',
+      'va-link-action[text="Review your appointments to submit another travel reimbursement claim"][href="/my-health/appointments/past"]',
     ).should('be.visible');
   });
 
-  it('displays contact information section', () => {
+  it('displays help section', () => {
     cy.visit(
       `${rootUrl}/file-new-claim/${appointmentId}/${claimId}/confirmation`,
     );
 
     // Check contact section heading
-    cy.get('h2').should(
-      'contain.text',
-      'How to contact us if you have questions',
-    );
+    cy.get('h2').should('contain.text', 'Need help?');
 
     // Check phone numbers
     cy.get('va-telephone[contact="8555747292"]').should('be.visible');
@@ -145,9 +184,9 @@ describe('Complex Claims Confirmation Page', () => {
       `We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET`,
     );
 
-    // Check Ask VA link
+    // Check Find the travel contact for your facility link
     cy.get(
-      'va-link[href="https://ask.va.gov/"][text="Contact us online through Ask VA"]',
+      `va-link[href="${FIND_FACILITY_TP_CONTACT_LINK}"][text="Find the travel contact for your facility"]`,
     ).should('be.visible');
   });
 
@@ -168,8 +207,16 @@ describe('Complex Claims Confirmation Page', () => {
     it('displays correctly on mobile viewport', () => {
       cy.viewport('iphone-6');
       cy.visit(
-        `${rootUrl}/file-new-claim/${appointmentId}/${claimId}/confirmation`,
+        `${rootUrl}/file-new-claim/${appointmentId}/${claimId}/travel-agreement`,
       );
+
+      // Agree to travel agreement and submit
+      cy.selectVaCheckbox('accept-agreement', true);
+
+      cy.get('va-button[continue]').click();
+
+      cy.wait('@submitClaim');
+      cy.wait('@claimDetails');
 
       // Check that content is still accessible on mobile
       cy.get('h1').should('be.visible');

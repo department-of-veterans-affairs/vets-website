@@ -3,16 +3,17 @@ import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 import { formConfig } from '@bio-aquia/21-2680-house-bound-status';
 import manifest from '@bio-aquia/21-2680-house-bound-status/manifest.json';
-import { featureToggles, user, mockSubmit } from '../fixtures/mocks';
+import { featureToggles, user } from '../fixtures/mocks';
 
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
     dataSets: [
-      'minimal-test',
-      'maximal-test',
-      'parent-claimant-smp-hospitalized',
+      'minimal',
+      'maximal',
+      'veteran-smp-hospitalized',
       'child-claimant-smc',
+      'parent-claimant-smp-hospitalized',
     ],
     dataDir: path.join(__dirname, '..', 'fixtures', 'data'),
     pageHooks: {
@@ -90,9 +91,31 @@ const testConfig = createTestConfig(
       });
 
       // Mock form submission
-      cy.intercept('POST', formConfig.submitUrl, {
-        statusCode: 200,
-        body: mockSubmit,
+      cy.intercept('POST', formConfig.submitUrl, req => {
+        req.reply({
+          statusCode: 200,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: {
+            data: {
+              id: '7',
+              type: 'saved_claims',
+              attributes: {
+                submittedAt: '2025-11-24T04:36:36.556Z',
+                regionalOffice: [
+                  'Department of Veterans Affairs',
+                  'Pension Management Center',
+                  'P.O. Box 5365',
+                  'Janesville, WI 53547-5365',
+                ],
+                confirmationNumber: 'a3e8be92-997e-43f7-ae55-34747947740d',
+                guid: 'a3e8be92-997e-43f7-ae55-34747947740d',
+                form: '21-2680',
+              },
+            },
+          },
+        });
       });
 
       // Login

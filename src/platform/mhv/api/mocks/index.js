@@ -1,7 +1,8 @@
 /* eslint-disable camelcase */
 const delay = require('mocker-api/lib/delay');
 
-const commonResponses = require('../../../testing/local-dev-mock-api/common');
+// Note: commonResponses intentionally not imported to avoid conflicts with user/feature toggle mocks
+// const commonResponses = require('../../../testing/local-dev-mock-api/common');
 
 const featureToggles = require('./feature-toggles');
 const user = require('./user');
@@ -33,7 +34,8 @@ const acceleratedCareSummariesAndNotes = require('./medical-records/care-summari
 const healthConditions = require('./medical-records/health-conditions');
 const acceleratedHealthConditions = require('./medical-records/health-conditions/accelerated');
 const allergies = require('./medical-records/allergies');
-const acceleratedAllergies = require('./medical-records/allergies/full-example');
+const acceleratedAllergies = require('./medical-records/allergies/accelerated');
+const allergiesOH = require('./medical-records/allergies/full-example');
 const vaccines = require('./medical-records/vaccines');
 const acceleratedVaccines = require('./medical-records/vaccines/accelerated');
 const vitals = require('./medical-records/vitals');
@@ -44,6 +46,7 @@ const appointments = require('./medical-records/blue-button/appointments');
 const demographics = require('./medical-records/blue-button/demographics');
 const militaryService = require('./medical-records/blue-button/military-service');
 const patient = require('./medical-records/blue-button/patient');
+const lhVitals = require('./medical-records/vitals/lh-vitals');
 const acceleratedVitals = require('./medical-records/vitals/accelerated');
 
 // medical records self-entered
@@ -72,7 +75,9 @@ const {
 } = require('../../../../applications/mhv-medications/mocks/api/tooltips/index');
 
 const responses = {
-  ...commonResponses,
+  // Note: Not using commonResponses to avoid conflicts with user/feature toggle mocks
+  'OPTIONS /v0/maintenance_windows': 'OK',
+
   'GET /v0/user': user.acceleratedCernerUser,
   'GET /v0/feature_toggles': featureToggles.generateFeatureToggles({
     mhvAcceleratedDeliveryEnabled: true,
@@ -82,6 +87,7 @@ const responses = {
     mhvAcceleratedDeliveryVitalSignsEnabled: true,
     mhvAcceleratedDeliveryVaccinesEnabled: true,
     mhvAcceleratedDeliveryLabsAndTestsEnabled: true,
+    mhvMedicalRecordsCcdExtendedFileTypes: true,
   }),
 
   // VAMC facility data that apps query for on startup
@@ -186,17 +192,20 @@ const responses = {
   'GET /my_health/v1/medical_records/allergies': (req, res) => {
     const { use_oh_data_path } = req.query;
     if (use_oh_data_path === '1') {
-      return res.json(acceleratedAllergies.all);
+      return res.json(allergiesOH.all);
     }
     return res.json(allergies.all);
   },
   'GET /my_health/v1/medical_records/allergies/:id': (req, res) => {
     const { use_oh_data_path } = req.query;
     if (use_oh_data_path === '1') {
-      return acceleratedAllergies.single(req, res);
+      return allergiesOH.single(req, res);
     }
     return allergies.single(req, res);
   },
+  'GET /my_health/v2/medical_records/allergies': acceleratedAllergies.all,
+  'GET /my_health/v2/medical_records/allergies/:id':
+    acceleratedAllergies.single,
   'GET /my_health/v1/medical_records/vaccines': vaccines.all,
   'GET /my_health/v2/medical_records/immunizations': acceleratedVaccines.all,
   'GET /my_health/v1/medical_records/vaccines/:id': vaccines.single,
@@ -204,14 +213,146 @@ const responses = {
     acceleratedVaccines.single,
   'GET /my_health/v1/medical_records/ccd/generate': downloads.generateCCD,
   'GET /my_health/v1/medical_records/ccd/download': downloads.downloadCCD,
+  // Oracle Health CCD endpoints (V2)
+  'GET /my_health/v2/medical_records/ccd/download': downloads.downloadCCD,
+  'GET /my_health/v2/medical_records/ccd/download.xml': downloads.downloadCCD,
+  'GET /my_health/v2/medical_records/ccd/download.html': (req, res) => {
+    return res.type('text/html').send(`
+      <!DOCTYPE html>
+      <html lang="en">
+        <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Continuity of Care Document - Oracle Health</title>
+          <style>
+            body { font-family: Arial, sans-serif; margin: 2em; }
+            h1 { color: #003d7a; }
+            .section { margin: 1em 0; padding: 1em; background: #f5f5f5; }
+          </style>
+        </head>
+        <body>
+          <h1>VA Continuity of Care Document</h1>
+          <p><strong>Data Source:</strong> Oracle Health</p>
+          <div class="section">
+            <h2>Patient Information</h2>
+            <p><strong>Name:</strong> Test Patient</p>
+            <p><strong>DOB:</strong> January 1, 1950</p>
+            <p><strong>Gender:</strong> Male</p>
+          </div>
+          <div class="section">
+            <h2>Allergies</h2>
+            <p>No known allergies documented.</p>
+          </div>
+          <div class="section">
+            <h2>Medications</h2>
+            <p>Medication list from Oracle Health system.</p>
+          </div>
+        </body>
+      </html>
+    `);
+  },
+  'GET /my_health/v2/medical_records/ccd/download.pdf': (req, res) => {
+    // Get the current mock user (based on what's set in line 79)
+    const currentUser =
+      responses['GET /v0/user'].data?.attributes ||
+      user.acceleratedCernerUser.data.attributes;
+    const profile = currentUser.profile || {};
+    const vaProfile = currentUser.vaProfile || {};
+
+    const firstName = profile.firstName || 'Unknown';
+    const lastName = profile.lastName || 'User';
+    const dob = vaProfile.birthDate || 'Unknown';
+    const gender = vaProfile.gender || 'U';
+
+    // Minimal valid PDF with user-specific content
+    const pdfMock = `%PDF-1.4
+1 0 obj
+<<
+/Type /Catalog
+/Pages 2 0 R
+>>
+endobj
+2 0 obj
+<<
+/Type /Pages
+/Kids [3 0 R]
+/Count 1
+>>
+endobj
+3 0 obj
+<<
+/Type /Page
+/Parent 2 0 R
+/Resources <<
+/Font <<
+/F1 <<
+/Type /Font
+/Subtype /Type1
+/BaseFont /Helvetica
+>>
+/F2 <<
+/Type /Font
+/Subtype /Type1
+/BaseFont /Helvetica-Bold
+>>
+>>
+>>
+/MediaBox [0 0 612 792]
+/Contents 4 0 R
+>>
+endobj
+4 0 obj
+<<
+/Length 380
+>>
+stream
+BT
+/F2 18 Tf
+50 750 Td
+(VA Continuity of Care Document - Oracle Health) Tj
+/F1 12 Tf
+0 -40 Td
+(Patient Information:) Tj
+0 -20 Td
+(Name: ${firstName} ${lastName}) Tj
+0 -20 Td
+(Date of Birth: ${dob}) Tj
+0 -20 Td
+(Gender: ${gender}) Tj
+0 -40 Td
+(Data Source: Oracle Health System) Tj
+0 -20 Td
+(Generated: ${new Date().toLocaleDateString()}) Tj
+0 -40 Td
+(This is mock data for local development testing.) Tj
+ET
+endstream
+endobj
+xref
+0 5
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000427 00000 n 
+trailer
+<<
+/Size 5
+/Root 1 0 R
+>>
+startxref
+856
+%%EOF`;
+    return res.type('application/pdf').send(Buffer.from(pdfMock));
+  },
   'GET /my_health/v1/medical_records/vitals': (req, res) => {
-    const { use_oh_data_path, from, to } = req.query;
+    const { use_oh_data_path } = req.query;
     if (use_oh_data_path === '1') {
-      const vitalsData = acceleratedVitals.all(from, to);
-      return res.json(vitalsData);
+      return res.json(lhVitals.all);
     }
     return res.json(vitals.all);
   },
+  'GET /my_health/v2/medical_records/vitals': acceleratedVitals.all,
 
   // medical records Blue Button
   'GET /vaos/v2/appointments': appointments.appointments,

@@ -1,7 +1,5 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useLocation } from 'react-router-dom';
-import { format } from 'date-fns';
 
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
@@ -9,12 +7,18 @@ import {
   useAcceleratedData,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 
 import { Actions } from '../util/actionTypes';
 import RecordList from '../components/RecordList/RecordList';
-import { getLabsAndTestsList, reloadRecords } from '../actions/labsAndTests';
+import {
+  getLabsAndTestsList,
+  reloadRecords,
+  updateLabsAndTestDateRange,
+} from '../actions/labsAndTests';
 import {
   ALERT_TYPE_ERROR,
+  DEFAULT_DATE_RANGE,
   CernerAlertContent,
   accessAlertTypes,
   labTypes,
@@ -25,7 +29,12 @@ import {
   loadStates,
   statsdFrontEndActions,
 } from '../util/constants';
-import { getMonthFromSelectedDate } from '../util/helpers';
+import {
+  calculateDateRange,
+  getTimeFrame,
+  getDisplayTimeFrame,
+  sendDataDogAction,
+} from '../util/helpers';
 
 import RecordListSection from '../components/shared/RecordListSection';
 import useAlerts from '../hooks/use-alerts';
@@ -33,17 +42,19 @@ import useListRefresh from '../hooks/useListRefresh';
 import useReloadResetListOnUnmount from '../hooks/useReloadResetListOnUnmount';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
-import DatePicker from '../components/shared/DatePicker';
+import DateRangeSelector, {
+  getDateRangeList,
+} from '../components/shared/DateRangeSelector';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import { fetchImageRequestStatus } from '../actions/images';
 import JobCompleteAlert from '../components/shared/JobsCompleteAlert';
 import { useTrackAction } from '../hooks/useTrackAction';
+import TrackedSpinner from '../components/shared/TrackedSpinner';
+import AdditionalReportsInfo from '../components/shared/AdditionalReportsInfo';
 
 const LabsAndTests = () => {
   const dispatch = useDispatch();
-  const location = useLocation();
-  const history = useHistory();
-
+  const dateRange = useSelector(state => state.mr.labsAndTests.dateRange);
   const updatedRecordList = useSelector(
     state => state.mr.labsAndTests.updatedList,
   );
@@ -51,6 +62,12 @@ const LabsAndTests = () => {
     state => state.mr.labsAndTests.labsAndTestsList,
   );
   const { imageStatus: studyJobs } = useSelector(state => state.mr.images);
+  const mergeCvixWithScdf = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicalRecordsMergeCvixIntoScdf
+      ],
+  );
 
   const radRecordsWithImagesReady = labsAndTests?.filter(radRecord => {
     const isRadRecord =
@@ -77,31 +94,7 @@ const LabsAndTests = () => {
     [dispatch],
   );
 
-  const { isAcceleratingLabsAndTests } = useAcceleratedData();
-
-  const urlTimeFrame = new URLSearchParams(location.search).get('timeFrame');
-
-  // for the dropdown
-  const [acceleratedLabsAndTestDate, setAcceleratedLabsAndTestDate] = useState(
-    urlTimeFrame || format(new Date(), 'yyyy-MM'),
-  );
-  // for the display message
-  const [displayDate, setDisplayDate] = useState(acceleratedLabsAndTestDate);
-
-  // for the api call
-  const timeFrameApiParameters = useMemo(
-    () => {
-      // set end date to the last day of the month
-      const [year, month] = acceleratedLabsAndTestDate.split('-');
-      const lastDayOfMonth = new Date(year, month, 0).getDate();
-      const formattedMonth = month.padStart(2, '0');
-      return {
-        startDate: `${year}-${formattedMonth}-01`,
-        endDate: `${year}-${formattedMonth}-${lastDayOfMonth}`,
-      };
-    },
-    [acceleratedLabsAndTestDate],
-  );
+  const { isLoading, isAcceleratingLabsAndTests } = useAcceleratedData();
 
   const dispatchAction = useMemo(
     () => {
@@ -109,11 +102,15 @@ const LabsAndTests = () => {
         return getLabsAndTestsList(
           isCurrent,
           isAcceleratingLabsAndTests,
-          timeFrameApiParameters,
+          {
+            startDate: dateRange.fromDate,
+            endDate: dateRange.toDate,
+          },
+          mergeCvixWithScdf,
         );
       };
     },
-    [isAcceleratingLabsAndTests, timeFrameApiParameters],
+    [isAcceleratingLabsAndTests, dateRange, mergeCvixWithScdf],
   );
 
   useListRefresh({
@@ -144,50 +141,28 @@ const LabsAndTests = () => {
     [dispatch],
   );
 
-  useEffect(
-    () => {
-      if (isAcceleratingLabsAndTests) {
-        // Only update if there is no time frame. This is only for on initial page load.
-        const timeFrame = new URLSearchParams(location.search).get('timeFrame');
-        if (!timeFrame) {
-          const searchParams = new URLSearchParams(location.search);
-          searchParams.set('timeFrame', acceleratedLabsAndTestDate);
-          history.push({
-            pathname: location.pathname,
-            search: searchParams.toString(),
-          });
-        }
-      }
-    },
-    [
-      acceleratedLabsAndTestDate,
-      history,
-      isAcceleratingLabsAndTests,
-      location.pathname,
-      location.search,
-    ],
-  );
-  const updateDate = event => {
-    const [year, month] = event.target.value.split('-');
-    // Ignore transient date changes.
-    if (year?.length === 4 && month?.length === 2) {
-      setAcceleratedLabsAndTestDate(`${year}-${month}`);
-    }
-  };
+  const handleDateRangeSelect = useCallback(
+    event => {
+      const { value } = event.detail;
+      const { fromDate, toDate } = calculateDateRange(value);
 
-  const triggerApiUpdate = () => {
-    const searchParams = new URLSearchParams(location.search);
-    searchParams.set('timeFrame', acceleratedLabsAndTestDate);
-    history.push({
-      pathname: location.pathname,
-      search: searchParams.toString(),
-    });
-    setDisplayDate(acceleratedLabsAndTestDate);
-    dispatch({
-      type: Actions.LabsAndTests.UPDATE_LIST_STATE,
-      payload: loadStates.PRE_FETCH,
-    });
-  };
+      // Update Redux with new range
+      dispatch(updateLabsAndTestDateRange(value, fromDate, toDate));
+
+      dispatch({
+        type: Actions.LabsAndTests.UPDATE_LIST_STATE,
+        payload: loadStates.PRE_FETCH,
+      });
+
+      // DataDog tracking
+      const selectedOption = getDateRangeList().find(
+        option => option.value === value,
+      );
+      const label = selectedOption ? selectedOption.label : 'Unknown';
+      sendDataDogAction(`Date range option - ${label}`);
+    },
+    [dispatch],
+  );
 
   return (
     <div id="labs-and-tests">
@@ -231,82 +206,77 @@ const LabsAndTests = () => {
           />
         )}
         {isAcceleratingLabsAndTests && (
-          <>
-            <div className="vads-u-margin-bottom--2">
-              <DatePicker
-                {...{
-                  updateDate,
-                  triggerApiUpdate,
-                  isLoadingAcceleratedData,
-                  dateValue: acceleratedLabsAndTestDate,
-                }}
-              />
-            </div>
-          </>
+          <div>
+            <DateRangeSelector
+              onDateRangeSelect={handleDateRangeSelect}
+              selectedDate={dateRange?.option || DEFAULT_DATE_RANGE}
+              isLoading={isLoadingAcceleratedData}
+            />
+            <AdditionalReportsInfo domainName="lab and test results" />
+          </div>
         )}
-        {isLoadingAcceleratedData && (
-          <>
-            <div className="vads-u-margin-y--8">
-              <va-loading-indicator
-                message="We’re loading your records."
-                setFocus
-                data-testid="loading-indicator"
-              />
-            </div>
-          </>
+        {(isLoadingAcceleratedData || isLoading) && (
+          <div className="vads-u-margin-y--8">
+            <TrackedSpinner
+              id="labs-and-tests-page-spinner"
+              message="We’re loading your records."
+              setFocus
+              data-testid="loading-indicator"
+            />
+          </div>
         )}
-        {!isLoadingAcceleratedData && (
-          <>
-            {labsAndTests?.length ? (
-              <>
-                {radRecordsWithImagesReady?.length > 0 &&
-                  studyJobs?.length > 0 && (
-                    <VaAlert
-                      status="success"
-                      visible
-                      class="vads-u-margin-y--3 no-print"
-                      role="alert"
-                      data-testid="alert-images-ready"
-                    >
-                      <h3 className="vads-u-font-size--lg no-print">
-                        Images ready
-                      </h3>
-                      <JobCompleteAlert
-                        records={radRecordsWithImagesReady}
-                        studyJobs={studyJobs}
-                      />
-                    </VaAlert>
-                  )}
+        {!isLoadingAcceleratedData &&
+          !isLoading && (
+            <>
+              {labsAndTests?.length ? (
+                <>
+                  {radRecordsWithImagesReady?.length > 0 &&
+                    studyJobs?.length > 0 && (
+                      <VaAlert
+                        status="success"
+                        visible
+                        class="vads-u-margin-y--3 no-print"
+                        role="alert"
+                        data-testid="alert-images-ready"
+                      >
+                        <h3
+                          slot="headline"
+                          className="vads-u-font-size--lg no-print"
+                        >
+                          Images ready
+                        </h3>
+                        <JobCompleteAlert
+                          records={radRecordsWithImagesReady}
+                          studyJobs={studyJobs}
+                        />
+                      </VaAlert>
+                    )}
 
-                <RecordList
+                  <RecordList
+                    type={recordType.LABS_AND_TESTS}
+                    records={labsAndTests?.map(data => ({
+                      ...data,
+                      isAccelerating: isAcceleratingLabsAndTests,
+                    }))}
+                    domainOptions={{
+                      isAccelerating: isAcceleratingLabsAndTests,
+                      timeFrame: getTimeFrame(dateRange),
+                      displayTimeFrame: getDisplayTimeFrame(dateRange),
+                    }}
+                  />
+                </>
+              ) : (
+                <NoRecordsMessage
                   type={recordType.LABS_AND_TESTS}
-                  records={labsAndTests?.map(data => ({
-                    ...data,
-                    isAccelerating: isAcceleratingLabsAndTests,
-                  }))}
-                  domainOptions={{
-                    isAccelerating: isAcceleratingLabsAndTests,
-                    timeFrame: acceleratedLabsAndTestDate,
-                    displayTimeFrame: getMonthFromSelectedDate({
-                      date: displayDate,
-                    }),
-                  }}
+                  timeFrame={
+                    isAcceleratingLabsAndTests
+                      ? getDisplayTimeFrame(dateRange)
+                      : ''
+                  }
                 />
-              </>
-            ) : (
-              <NoRecordsMessage
-                type={recordType.LABS_AND_TESTS}
-                timeFrame={
-                  isAcceleratingLabsAndTests
-                    ? getMonthFromSelectedDate({
-                        date: displayDate,
-                      })
-                    : ''
-                }
-              />
-            )}
-          </>
-        )}
+              )}
+            </>
+          )}
       </RecordListSection>
     </div>
   );

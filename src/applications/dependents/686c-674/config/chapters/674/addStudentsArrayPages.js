@@ -259,6 +259,10 @@ export const studentAddressPage = {
             const address = formData?.address;
             const cityStr = city?.trim().toUpperCase();
 
+            if (city?.length > 30) {
+              errors.addError('City must be 30 characters or less');
+            }
+
             if (
               address &&
               ['APO', 'FPO', 'DPO'].includes(cityStr) &&
@@ -456,6 +460,13 @@ export const studentProgramInfoPage = {
         'ui:options': {
           width: 'xl',
         },
+        'ui:validations': [
+          (errors, schoolName) => {
+            if (schoolName?.length > 80) {
+              errors.addError('School name must be 80 characters or less');
+            }
+          },
+        ],
       },
     },
   },

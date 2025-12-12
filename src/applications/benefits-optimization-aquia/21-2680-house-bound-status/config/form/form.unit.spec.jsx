@@ -157,11 +157,6 @@ describe('Form Configuration', () => {
       expect(formConfig.prefillEnabled).to.be.true;
     });
 
-    it('should have prefill transformer', () => {
-      expect(formConfig.prefillTransformer).to.exist;
-      expect(formConfig.prefillTransformer).to.be.a('function');
-    });
-
     it('should have submit transformer', () => {
       expect(formConfig.transformForSubmit).to.exist;
       expect(formConfig.transformForSubmit).to.be.a('function');
@@ -188,6 +183,306 @@ describe('Form Configuration', () => {
     it('should have save in progress configuration', () => {
       expect(formConfig.saveInProgress).to.exist;
       expect(formConfig.saveInProgress).to.be.an('object');
+    });
+  });
+
+  describe('Pre-Submit Info', () => {
+    it('should have preSubmitInfo configuration', () => {
+      expect(formConfig.preSubmitInfo).to.exist;
+      expect(formConfig.preSubmitInfo).to.be.an('object');
+    });
+
+    it('should have statementOfTruth', () => {
+      expect(formConfig.preSubmitInfo.statementOfTruth).to.exist;
+      expect(formConfig.preSubmitInfo.statementOfTruth.body).to.include(
+        'identifying information',
+      );
+    });
+
+    it('should have correct fullNamePath for statement of truth', () => {
+      expect(formConfig.preSubmitInfo.statementOfTruth.fullNamePath).to.equal(
+        'veteranInformation.veteranFullName',
+      );
+    });
+
+    it('should have messageAriaDescribedby for accessibility', () => {
+      expect(formConfig.preSubmitInfo.statementOfTruth.messageAriaDescribedby)
+        .to.exist;
+    });
+  });
+
+  describe('Feature Flags', () => {
+    it('should have v3SegmentedProgressBar enabled', () => {
+      expect(formConfig.v3SegmentedProgressBar).to.be.true;
+    });
+  });
+
+  describe('Dynamic Page Titles', () => {
+    describe('Claimant Information Page', () => {
+      const page =
+        formConfig.chapters.claimantInformationChapter.pages
+          .claimantInformation;
+
+      it('should return spouse title when relationship is spouse', () => {
+        const formData = {
+          claimantRelationship: { relationship: 'spouse' },
+        };
+        expect(page.title(formData)).to.equal("Veteran's spouse's information");
+      });
+
+      it('should return child title when relationship is child', () => {
+        const formData = {
+          claimantRelationship: { relationship: 'child' },
+        };
+        expect(page.title(formData)).to.equal("Veteran's child's information");
+      });
+
+      it('should return parent title when relationship is parent', () => {
+        const formData = {
+          claimantRelationship: { relationship: 'parent' },
+        };
+        expect(page.title(formData)).to.equal("Veteran's parent's information");
+      });
+
+      it('should return default title when relationship is unknown', () => {
+        const formData = {
+          claimantRelationship: { relationship: 'other' },
+        };
+        expect(page.title(formData)).to.equal('Claimant information');
+      });
+    });
+
+    describe('Claimant SSN Page', () => {
+      const page =
+        formConfig.chapters.claimantInformationChapter.pages.claimantSSN;
+
+      it('should include claimant name in title when name is provided', () => {
+        const formData = {
+          claimantInformation: {
+            claimantFullName: { first: 'Padmé', last: 'Amidala' },
+          },
+        };
+        expect(page.title(formData)).to.equal(
+          "Padmé Amidala's Social Security number",
+        );
+      });
+
+      it('should use default title when claimant name is missing', () => {
+        const formData = {
+          claimantInformation: { claimantFullName: {} },
+        };
+        expect(page.title(formData)).to.equal(
+          "Claimant's Social Security number",
+        );
+      });
+
+      it('should handle partial name (first only)', () => {
+        const formData = {
+          claimantInformation: {
+            claimantFullName: { first: 'Padmé', last: '' },
+          },
+        };
+        expect(page.title(formData)).to.equal("Padmé's Social Security number");
+      });
+
+      it('should handle partial name (last only)', () => {
+        const formData = {
+          claimantInformation: {
+            claimantFullName: { first: '', last: 'Amidala' },
+          },
+        };
+        expect(page.title(formData)).to.equal(
+          "Amidala's Social Security number",
+        );
+      });
+    });
+
+    describe('Claimant Address Page', () => {
+      const page =
+        formConfig.chapters.claimantInformationChapter.pages.claimantAddress;
+
+      it('should include claimant name in title when name is provided', () => {
+        const formData = {
+          claimantInformation: {
+            claimantFullName: { first: 'Leia', last: 'Organa' },
+          },
+        };
+        expect(page.title(formData)).to.equal("Leia Organa's address");
+      });
+
+      it('should use default title when claimant name is missing', () => {
+        const formData = {
+          claimantInformation: { claimantFullName: {} },
+        };
+        expect(page.title(formData)).to.equal("Claimant's address");
+      });
+    });
+
+    describe('Claimant Contact Page', () => {
+      const page =
+        formConfig.chapters.claimantInformationChapter.pages.claimantContact;
+
+      it('should include claimant name in title when name is provided', () => {
+        const formData = {
+          claimantInformation: {
+            claimantFullName: { first: 'Han', last: 'Solo' },
+          },
+        };
+        expect(page.title(formData)).to.equal(
+          "Han Solo's phone number and email address",
+        );
+      });
+
+      it('should use default title when claimant name is missing', () => {
+        const formData = {
+          claimantInformation: { claimantFullName: {} },
+        };
+        expect(page.title(formData)).to.equal(
+          "Claimant's phone number and email address",
+        );
+      });
+    });
+
+    describe('Hospitalization Status Page', () => {
+      const page =
+        formConfig.chapters.hospitalizationChapter.pages.hospitalizationStatus;
+
+      it('should use veteran name when veteran is claimant', () => {
+        const formData = {
+          claimantRelationship: { relationship: 'veteran' },
+          veteranInformation: {
+            veteranFullName: { first: 'Anakin', last: 'Skywalker' },
+          },
+        };
+        expect(page.title(formData)).to.equal(
+          'Is Anakin Skywalker hospitalized?',
+        );
+      });
+
+      it('should use default veteran text when veteran is claimant but name missing', () => {
+        const formData = {
+          claimantRelationship: { relationship: 'veteran' },
+          veteranInformation: { veteranFullName: {} },
+        };
+        expect(page.title(formData)).to.equal('Is the Veteran hospitalized?');
+      });
+
+      it('should use claimant name when claimant is not veteran', () => {
+        const formData = {
+          claimantRelationship: { relationship: 'spouse' },
+          claimantInformation: {
+            claimantFullName: { first: 'Padmé', last: 'Amidala' },
+          },
+        };
+        expect(page.title(formData)).to.equal('Is Padmé Amidala hospitalized?');
+      });
+
+      it('should use default claimant text when claimant name missing', () => {
+        const formData = {
+          claimantRelationship: { relationship: 'spouse' },
+          claimantInformation: { claimantFullName: {} },
+        };
+        expect(page.title(formData)).to.equal('Is the claimant hospitalized?');
+      });
+    });
+
+    describe('Hospitalization Date Page', () => {
+      const page =
+        formConfig.chapters.hospitalizationChapter.pages.hospitalizationDate;
+
+      it('should use veteran name with proper grammar when veteran is claimant', () => {
+        const formData = {
+          claimantRelationship: { relationship: 'veteran' },
+          veteranInformation: {
+            veteranFullName: { first: 'Anakin', last: 'Skywalker' },
+          },
+        };
+        expect(page.title(formData)).to.equal(
+          'When was Anakin Skywalker admitted to the hospital?',
+        );
+      });
+
+      it('should use "you" when veteran is claimant but name missing', () => {
+        const formData = {
+          claimantRelationship: { relationship: 'veteran' },
+          veteranInformation: { veteranFullName: {} },
+        };
+        expect(page.title(formData)).to.equal(
+          'When were you admitted to the hospital?',
+        );
+      });
+
+      it('should use claimant name when claimant is not veteran', () => {
+        const formData = {
+          claimantRelationship: { relationship: 'spouse' },
+          claimantInformation: {
+            claimantFullName: { first: 'Padmé', last: 'Amidala' },
+          },
+        };
+        expect(page.title(formData)).to.equal(
+          'When was Padmé Amidala admitted to the hospital?',
+        );
+      });
+
+      it('should use default text when claimant name missing', () => {
+        const formData = {
+          claimantRelationship: { relationship: 'spouse' },
+          claimantInformation: { claimantFullName: {} },
+        };
+        expect(page.title(formData)).to.equal(
+          'When was the claimant admitted to the hospital?',
+        );
+      });
+    });
+
+    describe('Hospitalization Facility Page', () => {
+      const page =
+        formConfig.chapters.hospitalizationChapter.pages
+          .hospitalizationFacility;
+
+      it('should use veteran name when veteran is claimant', () => {
+        const formData = {
+          claimantRelationship: { relationship: 'veteran' },
+          veteranInformation: {
+            veteranFullName: { first: 'Anakin', last: 'Skywalker' },
+          },
+        };
+        expect(page.title(formData)).to.equal(
+          "What's the name and address of the hospital where Anakin Skywalker is admitted?",
+        );
+      });
+
+      it('should use default text when veteran is claimant but name missing', () => {
+        const formData = {
+          claimantRelationship: { relationship: 'veteran' },
+          veteranInformation: { veteranFullName: {} },
+        };
+        expect(page.title(formData)).to.equal(
+          "What's the name and address of the hospital where the claimant is admitted?",
+        );
+      });
+
+      it('should use claimant name when claimant is not veteran', () => {
+        const formData = {
+          claimantRelationship: { relationship: 'spouse' },
+          claimantInformation: {
+            claimantFullName: { first: 'Padmé', last: 'Amidala' },
+          },
+        };
+        expect(page.title(formData)).to.equal(
+          "What's the name and address of the hospital where Padmé Amidala is admitted?",
+        );
+      });
+
+      it('should use default text when claimant name missing', () => {
+        const formData = {
+          claimantRelationship: { relationship: 'spouse' },
+          claimantInformation: { claimantFullName: {} },
+        };
+        expect(page.title(formData)).to.equal(
+          "What's the name and address of the hospital where the claimant is admitted?",
+        );
+      });
     });
   });
 

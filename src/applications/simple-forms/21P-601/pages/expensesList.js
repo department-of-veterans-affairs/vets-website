@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  titleUI,
   textUI,
   textSchema,
   currencyUI,
@@ -9,6 +10,7 @@ import {
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { focusElement } from 'platform/utilities/ui/focus';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 
 /** @type {ArrayBuilderOptions} */
@@ -32,6 +34,11 @@ const options = {
   },
 };
 
+const yesNoOptions = {
+  title: 'Do you have an expense to add?',
+  hint: `You can add up to ${options.maxItems}`,
+};
+
 /**
  * Cards are populated on this page above the uiSchema if items are present
  *
@@ -39,6 +46,7 @@ const options = {
  */
 const summaryPage = {
   uiSchema: {
+    ...titleUI('Expenses you paid'),
     'view:expenseInfo': {
       'ui:description': (
         <va-alert status="info" uswds>
@@ -57,7 +65,7 @@ const summaryPage = {
         </va-alert>
       ),
     },
-    'view:hasExpenses': arrayBuilderYesNoUI(options),
+    'view:hasExpenses': arrayBuilderYesNoUI(options, yesNoOptions),
   },
   schema: {
     type: 'object',
@@ -82,7 +90,7 @@ const expenseDetailsPage = {
     provider: textUI('Provider or funeral home name'),
     expenseType: textUI({
       title: 'Type of expense',
-      hint: 'For example: doctor, hospital, burial, funeral service',
+      hint: 'For example: doctor, hospital, burial, funeral service.',
     }),
     amount: currencyUI({
       title: 'Cost of the expense',
@@ -127,6 +135,7 @@ export const expensesPages = arrayBuilderPages(options, pageBuilder => ({
     path: 'expenses-list',
     uiSchema: summaryPage.uiSchema,
     schema: summaryPage.schema,
+    scrollAndFocusTarget: () => focusElement('h3'),
   }),
   expenseDetailsPage: pageBuilder.itemPage({
     title: 'Expense details',

@@ -5,106 +5,16 @@ describe('21P-601 form configuration branch dependencies', () => {
   describe('survivingRelativesChapter dependencies', () => {
     const { survivingRelativesChapter } = formConfig.chapters;
 
-    describe('chapter level dependencies', () => {
-      it('should show chapter when hasAlreadyFiled is false and hasUnpaidCreditors is false', () => {
-        const formData = {
-          hasAlreadyFiled: false,
-          hasUnpaidCreditors: false,
-        };
-        expect(survivingRelativesChapter.depends(formData)).to.be.true;
-      });
-
-      it('should hide chapter when hasAlreadyFiled is true', () => {
-        const formData = {
-          hasAlreadyFiled: true,
-          hasUnpaidCreditors: false,
-        };
-        expect(survivingRelativesChapter.depends(formData)).to.be.false;
-      });
-
-      it('should hide chapter when hasUnpaidCreditors is true', () => {
-        const formData = {
-          hasAlreadyFiled: false,
-          hasUnpaidCreditors: true,
-        };
-        expect(survivingRelativesChapter.depends(formData)).to.be.false;
-      });
-
-      it('should hide chapter when both hasAlreadyFiled and hasUnpaidCreditors are true', () => {
-        const formData = {
-          hasAlreadyFiled: true,
-          hasUnpaidCreditors: true,
-        };
-        expect(survivingRelativesChapter.depends(formData)).to.be.false;
-      });
-    });
-
     describe('relativesSummary page dependencies', () => {
       const { relativesSummary } = survivingRelativesChapter.pages;
 
-      it('should show page when hasSpouse is true and hasNone is not true', () => {
-        const formData = {
-          survivors: {
-            hasSpouse: true,
-            hasNone: false,
-          },
-        };
+      it('should show page when survivors is true', () => {
+        const formData = { survivors: true };
         expect(relativesSummary.depends(formData)).to.be.true;
       });
 
-      it('should show page when hasChildren is true and hasNone is not true', () => {
-        const formData = {
-          survivors: {
-            hasChildren: true,
-            hasNone: false,
-          },
-        };
-        expect(relativesSummary.depends(formData)).to.be.true;
-      });
-
-      it('should show page when hasParents is true and hasNone is not true', () => {
-        const formData = {
-          survivors: {
-            hasParents: true,
-            hasNone: false,
-          },
-        };
-        expect(relativesSummary.depends(formData)).to.be.true;
-      });
-
-      it('should show page when multiple survivor types are selected', () => {
-        const formData = {
-          survivors: {
-            hasSpouse: true,
-            hasChildren: true,
-            hasParents: true,
-            hasNone: false,
-          },
-        };
-        expect(relativesSummary.depends(formData)).to.be.true;
-      });
-
-      it('should hide page when hasNone is true', () => {
-        const formData = {
-          survivors: {
-            hasSpouse: true,
-            hasChildren: true,
-            hasParents: true,
-            hasNone: true,
-          },
-        };
-        expect(relativesSummary.depends(formData)).to.be.false;
-      });
-
-      it('should hide page when no survivor types are selected', () => {
-        const formData = {
-          survivors: {
-            hasSpouse: false,
-            hasChildren: false,
-            hasParents: false,
-            hasNone: false,
-          },
-        };
+      it('should hide page when survivors is false', () => {
+        const formData = { survivors: false };
         expect(relativesSummary.depends(formData)).to.be.false;
       });
 
@@ -114,21 +24,7 @@ describe('21P-601 form configuration branch dependencies', () => {
       });
 
       it('should hide page when survivors is undefined', () => {
-        const formData = {
-          survivors: undefined,
-        };
-        expect(relativesSummary.depends(formData)).to.be.false;
-      });
-
-      it('should handle null values in survivors', () => {
-        const formData = {
-          survivors: {
-            hasSpouse: null,
-            hasChildren: null,
-            hasParents: null,
-            hasNone: null,
-          },
-        };
+        const formData = { survivors: undefined };
         expect(relativesSummary.depends(formData)).to.be.false;
       });
     });
@@ -136,49 +32,18 @@ describe('21P-601 form configuration branch dependencies', () => {
     describe('relativeNamePage dependencies', () => {
       const { relativeNamePage } = survivingRelativesChapter.pages;
 
-      it('should show page when hasSpouse is true and hasNone is not true', () => {
-        const formData = {
-          survivors: {
-            hasSpouse: true,
-            hasNone: false,
-          },
-        };
+      it('should show page when survivors is true', () => {
+        const formData = { survivors: true };
         expect(relativeNamePage.depends(formData)).to.be.true;
       });
 
-      it('should show page when hasChildren is true', () => {
-        const formData = {
-          survivors: {
-            hasChildren: true,
-          },
-        };
-        expect(relativeNamePage.depends(formData)).to.be.true;
-      });
-
-      it('should show page when hasParents is true', () => {
-        const formData = {
-          survivors: {
-            hasParents: true,
-          },
-        };
-        expect(relativeNamePage.depends(formData)).to.be.true;
-      });
-
-      it('should hide page when hasNone is true even if others are selected', () => {
-        const formData = {
-          survivors: {
-            hasSpouse: true,
-            hasChildren: true,
-            hasNone: true,
-          },
-        };
+      it('should hide page when survivors is false', () => {
+        const formData = { survivors: false };
         expect(relativeNamePage.depends(formData)).to.be.false;
       });
 
-      it('should hide page when no survivors are selected', () => {
-        const formData = {
-          survivors: {},
-        };
+      it('should hide page when survivors is undefined', () => {
+        const formData = { survivors: undefined };
         expect(relativeNamePage.depends(formData)).to.be.false;
       });
     });
@@ -186,82 +51,25 @@ describe('21P-601 form configuration branch dependencies', () => {
     describe('relativeAddressPage dependencies', () => {
       const { relativeAddressPage } = survivingRelativesChapter.pages;
 
-      it('should show page when hasSpouse is true and hasNone is not true', () => {
-        const formData = {
-          survivors: {
-            hasSpouse: true,
-            hasNone: false,
-          },
-        };
+      it('should show page when survivors is true', () => {
+        const formData = { survivors: true };
         expect(relativeAddressPage.depends(formData)).to.be.true;
       });
 
-      it('should show page when hasChildren is true', () => {
-        const formData = {
-          survivors: {
-            hasChildren: true,
-          },
-        };
-        expect(relativeAddressPage.depends(formData)).to.be.true;
-      });
-
-      it('should show page when hasParents is true', () => {
-        const formData = {
-          survivors: {
-            hasParents: true,
-          },
-        };
-        expect(relativeAddressPage.depends(formData)).to.be.true;
-      });
-
-      it('should hide page when hasNone is true', () => {
-        const formData = {
-          survivors: {
-            hasNone: true,
-          },
-        };
+      it('should hide page when survivors is false', () => {
+        const formData = { survivors: false };
         expect(relativeAddressPage.depends(formData)).to.be.false;
       });
 
-      it('should handle undefined hasNone with valid selections', () => {
-        const formData = {
-          survivors: {
-            hasSpouse: true,
-          },
-        };
-        expect(relativeAddressPage.depends(formData)).to.be.true;
+      it('should hide page when survivors is undefined', () => {
+        const formData = { survivors: undefined };
+        expect(relativeAddressPage.depends(formData)).to.be.false;
       });
     });
   });
 
   describe('expensesAndDebtsChapter dependencies', () => {
     const { expensesAndDebtsChapter } = formConfig.chapters;
-
-    describe('chapter level dependencies', () => {
-      it('should show chapter when hasAlreadyFiled is false and hasUnpaidCreditors is false', () => {
-        const formData = {
-          hasAlreadyFiled: false,
-          hasUnpaidCreditors: false,
-        };
-        expect(expensesAndDebtsChapter.depends(formData)).to.be.true;
-      });
-
-      it('should hide chapter when hasAlreadyFiled is true', () => {
-        const formData = {
-          hasAlreadyFiled: true,
-          hasUnpaidCreditors: false,
-        };
-        expect(expensesAndDebtsChapter.depends(formData)).to.be.false;
-      });
-
-      it('should hide chapter when hasUnpaidCreditors is true', () => {
-        const formData = {
-          hasAlreadyFiled: false,
-          hasUnpaidCreditors: true,
-        };
-        expect(expensesAndDebtsChapter.depends(formData)).to.be.false;
-      });
-    });
 
     describe('otherDebts page dependencies', () => {
       const { otherDebts } = expensesAndDebtsChapter.pages;
@@ -394,72 +202,6 @@ describe('21P-601 form configuration branch dependencies', () => {
           .be.false;
       });
     });
-
-    describe('veteranInformationChapter', () => {
-      const { veteranInformationChapter } = formConfig.chapters;
-
-      it('should show when user is eligible', () => {
-        expect(
-          veteranInformationChapter.depends({
-            hasAlreadyFiled: false,
-            hasUnpaidCreditors: false,
-          }),
-        ).to.be.true;
-      });
-
-      it('should hide when user is ineligible', () => {
-        expect(
-          veteranInformationChapter.depends({
-            hasAlreadyFiled: true,
-            hasUnpaidCreditors: false,
-          }),
-        ).to.be.false;
-      });
-    });
-
-    describe('yourInformationChapter', () => {
-      const { yourInformationChapter } = formConfig.chapters;
-
-      it('should show when user is eligible', () => {
-        expect(
-          yourInformationChapter.depends({
-            hasAlreadyFiled: false,
-            hasUnpaidCreditors: false,
-          }),
-        ).to.be.true;
-      });
-
-      it('should hide when user is ineligible', () => {
-        expect(
-          yourInformationChapter.depends({
-            hasAlreadyFiled: false,
-            hasUnpaidCreditors: true,
-          }),
-        ).to.be.false;
-      });
-    });
-
-    describe('additionalInfoChapter', () => {
-      const { additionalInfoChapter } = formConfig.chapters;
-
-      it('should show when user is eligible', () => {
-        expect(
-          additionalInfoChapter.depends({
-            hasAlreadyFiled: false,
-            hasUnpaidCreditors: false,
-          }),
-        ).to.be.true;
-      });
-
-      it('should hide when user is ineligible', () => {
-        expect(
-          additionalInfoChapter.depends({
-            hasAlreadyFiled: true,
-            hasUnpaidCreditors: true,
-          }),
-        ).to.be.false;
-      });
-    });
   });
 
   describe('edge cases and null checks', () => {
@@ -474,36 +216,6 @@ describe('21P-601 form configuration branch dependencies', () => {
         .to.be.false;
       expect(expensesAndDebtsChapter.pages.otherDebts.depends(formData)).to.be
         .false;
-    });
-
-    it('should handle null formData values', () => {
-      const formData = null;
-      const chapterDependsFn = survivingRelativesChapter.depends;
-      // Chapter level depends should handle null
-      expect(() => chapterDependsFn(formData)).to.not.throw();
-    });
-
-    it('should handle partial survivors data', () => {
-      const formData = {
-        survivors: {
-          hasSpouse: true,
-          // hasChildren and hasParents are undefined
-        },
-      };
-      expect(survivingRelativesChapter.pages.relativesSummary.depends(formData))
-        .to.be.true;
-    });
-
-    it('should handle string values for boolean fields', () => {
-      const formData = {
-        survivors: {
-          hasSpouse: 'true', // string instead of boolean
-          hasNone: 'false',
-        },
-      };
-      // JavaScript truthy/falsy evaluation should handle this
-      expect(survivingRelativesChapter.pages.relativesSummary.depends(formData))
-        .to.be.true;
     });
   });
 });

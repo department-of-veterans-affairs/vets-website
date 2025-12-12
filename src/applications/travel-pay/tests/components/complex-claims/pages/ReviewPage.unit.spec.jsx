@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
-import { fireEvent } from '@testing-library/react';
+import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import { fireEvent, waitFor } from '@testing-library/react';
 
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import {
@@ -59,15 +60,81 @@ describe('Travel Pay – ReviewPage', () => {
   const getData = () => ({
     travelPay: {
       claimSubmission: { isSubmitting: false, error: null, data: null },
+      claimDetails: {
+        data: {
+          [claimId]: defaultClaim,
+        },
+      },
+      reviewPageAlert: {
+        title: 'Test Alert',
+        description: 'This is a test alert',
+        type: 'info',
+      },
+      complexClaim: {
+        claim: {
+          creation: {
+            isLoading: false,
+            error: null,
+          },
+          submission: {
+            id: '',
+            isSubmitting: false,
+            error: null,
+            data: null,
+          },
+          data: null,
+        },
+        expenses: {
+          creation: {
+            isLoading: false,
+            error: null,
+          },
+          update: {
+            id: '',
+            isLoading: false,
+            error: null,
+          },
+          delete: {
+            id: '',
+            isLoading: false,
+            error: null,
+          },
+          data: defaultClaim.expenses,
+        },
+      },
+    },
+    user: {
+      profile: {
+        vapContactInfo: {
+          residentialAddress: {
+            addressLine1: '123 Test St',
+            addressLine2: '',
+            city: 'Test City',
+            stateCode: 'CO',
+            zipCode: '80202',
+          },
+        },
+      },
     },
   });
 
-  it('renders the review page with expenses, alert, buttons, and summary box', () => {
-    const { getByTestId, getByRole, container } = renderWithStoreAndRouter(
+  it('renders the review page with expenses, alert, buttons, and summary box', async () => {
+    const {
+      getByTestId,
+      getByRole,
+      container,
+      queryAllByTestId,
+      getByText,
+    } = renderWithStoreAndRouter(
       <MemoryRouter
         initialEntries={[`/file-new-claim/${apptId}/${claimId}/review`]}
       >
-        <ReviewPage claim={defaultClaim} />
+        <Routes>
+          <Route
+            path="/file-new-claim/:apptId/:claimId/review"
+            element={<ReviewPage />}
+          />
+        </Routes>
       </MemoryRouter>,
       {
         initialState: getData(),
@@ -93,21 +160,48 @@ describe('Travel Pay – ReviewPage', () => {
 
     // Accordion items
     const accordionItems = container.querySelectorAll('va-accordion-item');
-    expect(accordionItems.length).to.equal(
-      Object.keys(
-        defaultClaim.expenses.reduce((acc, e) => {
-          acc[e.expenseType] = true;
-          return acc;
-        }, {}),
-      ).length,
-    );
+    expect(accordionItems.length).to.equal(defaultClaim.expenses.length);
+
+    // Wait for expenses to load and render accordion items
+    await waitFor(() => {
+      expect($('va-accordion-item', container)).to.exist;
+    });
 
     // ExpenseCard should render
-    const expenseCards = container.querySelectorAll('va-card');
+    const expenseCards = document.querySelectorAll(
+      'va-card[classname="expense-card"]',
+    );
     expect(expenseCards.length).to.equal(defaultClaim.expenses.length);
 
+    // Edit buttons on expense cards
+    getByTestId('expense1-edit-expense-link');
+    getByTestId('expense2-edit-expense-link');
+
+    // Delete buttons on expense cards
+    getByTestId('expense1-delete-expense-button');
+    getByTestId('expense2-delete-expense-button');
+
+    // Delete modals
+    expect(queryAllByTestId('delete-expense-modal').length).to.eq(2);
+
     // SummaryBox should render
-    expect(container.querySelector('va-summary-box')).to.exist;
+    expect(getByTestId('summary-box')).to.exist;
+
+    // SummaryBox description text about deductible
+    expect(
+      getByText(
+        'Before we can pay you back for expenses, you must pay a deductible. The current deductible is $3 one-way or $6 round-trip for each appointment, up to $18 total each month.',
+      ),
+    ).to.exist;
+
+    // SummaryBox Va link
+    const link = container.querySelector(
+      `va-link[href="/resources/reimbursed-va-travel-expenses-and-mileage-rate/#monthlydeductible"]`,
+    );
+    expect(link).to.exist;
+    expect(link.getAttribute('text')).to.eq(
+      'Learn more about deductibles for VA travel claims',
+    );
   });
 
   it('calls signAgreement when Sign Agreement button is clicked', () => {
@@ -118,7 +212,7 @@ describe('Travel Pay – ReviewPage', () => {
         <Routes>
           <Route
             path="/file-new-claim/:apptId/:claimId/review"
-            element={<ReviewPage claim={defaultClaim} />}
+            element={<ReviewPage />}
           />
         </Routes>
         <LocationDisplay />
@@ -146,7 +240,12 @@ describe('Travel Pay – ReviewPage', () => {
       <MemoryRouter
         initialEntries={[`/file-new-claim/${apptId}/${claimId}/review`]}
       >
-        <ReviewPage claim={defaultClaim} />
+        <Routes>
+          <Route
+            path="/file-new-claim/:apptId/:claimId/review"
+            element={<ReviewPage />}
+          />
+        </Routes>
       </MemoryRouter>,
       {
         initialState: getData(),
@@ -165,12 +264,17 @@ describe('Travel Pay – ReviewPage', () => {
     expect(alert).to.exist;
   });
 
-  it('renders multiple expenses correctly', () => {
+  it('renders multiple expenses correctly', async () => {
     const { container } = renderWithStoreAndRouter(
       <MemoryRouter
         initialEntries={[`/file-new-claim/${apptId}/${claimId}/review`]}
       >
-        <ReviewPage claim={defaultClaim} />
+        <Routes>
+          <Route
+            path="/file-new-claim/:apptId/:claimId/review"
+            element={<ReviewPage />}
+          />
+        </Routes>
       </MemoryRouter>,
       {
         initialState: getData(),
@@ -178,45 +282,62 @@ describe('Travel Pay – ReviewPage', () => {
       },
     );
 
-    // Check that each expense type has an accordion item
-    const accordionItems = container.querySelectorAll('va-accordion-item');
-    expect(accordionItems.length).to.equal(
-      Object.keys(
-        defaultClaim.expenses.reduce((acc, e) => {
-          acc[e.expenseType] = true;
-          return acc;
-        }, {}),
-      ).length,
-    );
+    // Wait for expenses to load and render
+    await waitFor(() => {
+      // Check that each expense type has an accordion item
+      const accordionItems = container.querySelectorAll('va-accordion-item');
+      expect(accordionItems.length).to.equal(defaultClaim.expenses.length);
+    });
 
     // ExpenseCard rendered
-    const expenseCards = container.querySelectorAll('va-card');
+    const expenseCards = document.querySelectorAll(
+      'va-card[classname="expense-card"]',
+    );
     expect(expenseCards.length).to.equal(defaultClaim.expenses.length);
   });
 
-  it('renders "No expenses have been added to this claim." when there are no expenses', () => {
-    const emptyClaim = {
-      claimId: '67890',
-      totalCostRequested: 0,
-      expenses: [],
-      documents: [],
+  it('renders correctly when there are no expenses', () => {
+    // Override the Redux state to have no expenses
+    const emptyState = {
+      ...getData(),
+      travelPay: {
+        ...getData().travelPay,
+        complexClaim: {
+          ...getData().travelPay.complexClaim,
+          expenses: {
+            ...getData().travelPay.complexClaim.expenses,
+            data: [], // No expenses
+          },
+        },
+      },
     };
 
-    const { getByText } = renderWithStoreAndRouter(
+    const { getByText, container } = renderWithStoreAndRouter(
       <MemoryRouter initialEntries={['/file-new-claim/12345/67890/review']}>
-        <ReviewPage claim={emptyClaim} />
+        <ReviewPage />
       </MemoryRouter>,
       {
-        initialState: getData(),
+        initialState: emptyState,
         reducers: reducer,
       },
     );
 
     // The "no expenses" message should be visible
-    expect(getByText('No expenses have been added to this claim.')).to.exist;
+    expect(
+      getByText(
+        `You haven’t added any expenses. Add at least 1 expense to submit your claim.`,
+      ),
+    ).to.exist;
 
     // The "Add more expenses" button should still exist
     expect(document.querySelector('#add-expense-button')).to.exist;
+
+    // Help section
+    expect(getByText('Need help?')).to.exist;
+
+    // No expense accordion items
+    const accordionItems = container.querySelectorAll('va-accordion-item');
+    expect(accordionItems.length).to.equal(0);
   });
 
   it('calls addMoreExpenses when Add More Expenses button is clicked', () => {
@@ -227,7 +348,7 @@ describe('Travel Pay – ReviewPage', () => {
         <Routes>
           <Route
             path="/file-new-claim/:apptId/:claimId/review"
-            element={<ReviewPage claim={defaultClaim} />}
+            element={<ReviewPage />}
           />
         </Routes>
         <LocationDisplay />
@@ -256,7 +377,7 @@ describe('Travel Pay – ReviewPage', () => {
         <Routes>
           <Route
             path="/file-new-claim/:apptId/:claimId/review"
-            element={<ReviewPage claim={defaultClaim} />}
+            element={<ReviewPage />}
           />
         </Routes>
         <LocationDisplay />
@@ -276,5 +397,56 @@ describe('Travel Pay – ReviewPage', () => {
     expect(getByTestId('location-display').textContent).to.equal(
       '/file-new-claim/12345/45678/parking',
     );
+  });
+
+  it('does not render individual totals for expense types with 0 value', () => {
+    const stateWithZeroExpense = {
+      ...getData(),
+      travelPay: {
+        ...getData().travelPay,
+        complexClaim: {
+          ...getData().travelPay.complexClaim,
+          expenses: {
+            ...getData().travelPay.complexClaim.expenses,
+            data: [
+              { id: 'expense1', expenseType: 'Mileage', costRequested: 0 },
+              { id: 'expense2', expenseType: 'Parking', costRequested: 0 },
+            ],
+          },
+        },
+        claimDetails: {
+          data: {
+            [claimId]: {
+              ...getData().travelPay.claimDetails.data[claimId],
+              totalCostRequested: 0,
+            },
+          },
+        },
+      },
+    };
+
+    const { container, getByTestId } = renderWithStoreAndRouter(
+      <MemoryRouter
+        initialEntries={[`/file-new-claim/${apptId}/${claimId}/review`]}
+      >
+        <Routes>
+          <Route
+            path="/file-new-claim/:apptId/:claimId/review"
+            element={<ReviewPage />}
+          />
+        </Routes>
+      </MemoryRouter>,
+      { initialState: stateWithZeroExpense, reducers: reducer },
+    );
+
+    const summaryBox = getByTestId('summary-box');
+    expect(summaryBox).to.exist;
+
+    // Check total
+    expect(summaryBox.textContent).to.include('Total: $0.00');
+
+    // No individual <li> should exist because totals are 0
+    const expenseTotals = container.querySelectorAll('ul li');
+    expect(expenseTotals.length).to.equal(0);
   });
 });

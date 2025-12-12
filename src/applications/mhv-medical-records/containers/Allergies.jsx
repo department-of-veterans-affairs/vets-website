@@ -25,6 +25,8 @@ import {
   refreshExtractTypes,
   CernerAlertContent,
   statsdFrontEndActions,
+  loadStates,
+  MEDS_BY_MAIL_FACILITY_ID,
 } from '../util/constants';
 import { getAllergiesList, reloadRecords } from '../actions/allergies';
 import PrintHeader from '../components/shared/PrintHeader';
@@ -43,6 +45,7 @@ import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
+import TrackedSpinner from '../components/shared/TrackedSpinner';
 import { useTrackAction } from '../hooks/useTrackAction';
 import { Actions } from '../util/actionTypes';
 
@@ -61,12 +64,19 @@ const Allergies = props => {
   const refresh = useSelector(state => state.mr.refresh);
 
   const user = useSelector(state => state.user.profile);
-  const { isCerner } = useAcceleratedData();
+  const { isLoading, isCerner, isAcceleratingAllergies } = useAcceleratedData();
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
 
+  // Check if user has Meds by Mail facility (primarily CHAMPVA beneficiaries)
+  // This determines whether to show conditional content about allergy records
+  const hasMedsByMailFacility =
+    user?.facilities?.some(
+      ({ facilityId }) => facilityId === MEDS_BY_MAIL_FACILITY_ID,
+    ) ?? false;
+
   const dispatchAction = isCurrent => {
-    return getAllergiesList(isCurrent, isCerner);
+    return getAllergiesList(isCurrent, isAcceleratingAllergies, isCerner);
   };
 
   useListRefresh({
@@ -96,6 +106,9 @@ const Allergies = props => {
     [dispatch],
   );
 
+  const isLoadingAcceleratedData =
+    isAcceleratingAllergies && listState === loadStates.FETCHING;
+
   usePrintTitle(
     pageTitles.ALLERGIES_PAGE_TITLE,
     user.userFullName,
@@ -111,14 +124,18 @@ const Allergies = props => {
   const generateAllergiesPdf = async () => {
     setDownloadStarted(true);
     const { title, subject, subtitles } = generateAllergiesIntro(
-      refresh.status,
+      allergies,
       lastUpdatedText,
+      hasMedsByMailFacility,
     );
     const scaffold = generatePdfScaffold(user, title, subject);
     const pdfData = {
       ...scaffold,
       subtitles,
-      ...generateAllergiesContent(allergies, isCerner),
+      ...generateAllergiesContent(
+        allergies,
+        isAcceleratingAllergies || isCerner,
+      ),
     };
     const pdfName = `VA-allergies-list-${getNameDateAndTime(user)}`;
     makePdf(
@@ -154,15 +171,23 @@ Provider notes: ${item.notes}\n`;
   };
 
   const generateAllergiesTxt = async () => {
+    // Conditional content based on whether user has Meds by Mail facility
+    const additionalInfo = hasMedsByMailFacility
+      ? `
+If you use Meds by Mail
+
+We may not have your allergy records in our My HealtheVet tools. But the Meds by Mail servicing center keeps a record of your allergies and reactions to medications.
+
+If you have a new allergy or reaction, tell your provider. Or you can call us at 866-229-7389 or 888-385-0235 (TTY:711) and ask us to update your records. We're here Monday through Friday, 8:00 a.m. to 7:30 p.m. ET.\n`
+      : '';
+
     const content = `
 ${crisisLineHeader}\n\n
 Allergies and reactions\n
 ${formatNameFirstLast(user.userFullName)}\n
 Date of birth: ${formatUserDob(user)}\n
 ${reportGeneratedBy}\n
-This list includes all allergies, reactions, and side effects in your VA medical records. 
-If you have allergies or reactions that are missing from this list, 
-tell your care team at your next appointment.\n
+This list includes all allergies, reactions, and side effects in your VA medical records.${additionalInfo}
 Showing ${allergies.length} from newest to oldest
 ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
 
@@ -180,10 +205,27 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
         records. This includes medication side effects (also called adverse drug
         reactions).
       </p>
-      <p className="page-description">
-        If you have allergies that are missing from this list, tell your care
-        team at your next appointment.
-      </p>
+
+      {hasMedsByMailFacility && (
+        <div className="vads-u-margin-bottom--2">
+          <h2 className="vads-u-font-size--h3 vads-u-margin-top--0 vads-u-margin-bottom--1">
+            If you use Meds by Mail
+          </h2>
+          <p>
+            We may not have your allergy records in our My HealtheVet tools. But
+            the Meds by Mail servicing center keeps a record of your allergies
+            and reactions to medications.
+          </p>
+          <p>
+            If you have a new allergy or reaction, tell your provider. Or you
+            can call us at <va-telephone contact="8662297389" /> or{' '}
+            <va-telephone contact="8883850235" /> (
+            <va-telephone tty contact="711" />) and ask us to update your
+            records. We’re here Monday through Friday, 8:00 a.m. to 7:30 p.m.
+            ET.
+          </p>
+        </div>
+      )}
 
       <AcceleratedCernerFacilityAlert {...CernerAlertContent.ALLERGIES} />
 
@@ -196,41 +238,54 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
         listCurrentAsOf={allergiesCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
-        {!isCerner && (
-          <NewRecordsIndicator
-            refreshState={refresh}
-            extractType={refreshExtractTypes.ALLERGY}
-            newRecordsFound={
-              Array.isArray(allergies) &&
-              Array.isArray(updatedRecordList) &&
-              allergies.length !== updatedRecordList.length
-            }
-            reloadFunction={() => {
-              dispatch(reloadRecords());
-            }}
-          />
-        )}
-
-        {allergies?.length ? (
-          <>
-            <RecordList
-              records={allergies?.map(allergy => ({
-                ...allergy,
-                isOracleHealthData: isCerner,
-              }))}
-              type={recordType.ALLERGIES}
+        {!isCerner &&
+          !isAcceleratingAllergies && (
+            <NewRecordsIndicator
+              refreshState={refresh}
+              extractType={refreshExtractTypes.ALLERGY}
+              newRecordsFound={
+                Array.isArray(allergies) &&
+                Array.isArray(updatedRecordList) &&
+                allergies.length !== updatedRecordList.length
+              }
+              reloadFunction={() => {
+                dispatch(reloadRecords());
+              }}
             />
-            <DownloadingRecordsInfo description="Allergies" />
-            <PrintDownload
-              description="Allergies - List"
-              list
-              downloadPdf={generateAllergiesPdf}
-              downloadTxt={generateAllergiesTxt}
+          )}
+        {isLoadingAcceleratedData || isLoading ? (
+          <div className="vads-u-margin-y--8">
+            <TrackedSpinner
+              id="allergies-page-spinner"
+              message="We’re loading your records."
+              setFocus
+              data-testid="loading-indicator"
             />
-            <div className="vads-u-margin-y--5 vads-u-border-top--1px vads-u-border-color--white" />
-          </>
+          </div>
         ) : (
-          <NoRecordsMessage type={recordType.ALLERGIES} />
+          <>
+            {allergies?.length ? (
+              <>
+                <RecordList
+                  records={allergies?.map(allergy => ({
+                    ...allergy,
+                    isOracleHealthData: isCerner,
+                  }))}
+                  type={recordType.ALLERGIES}
+                />
+                <DownloadingRecordsInfo description="Allergies" />
+                <PrintDownload
+                  description="Allergies - List"
+                  list
+                  downloadPdf={generateAllergiesPdf}
+                  downloadTxt={generateAllergiesTxt}
+                />
+                <div className="vads-u-margin-y--5 vads-u-border-top--1px vads-u-border-color--white" />
+              </>
+            ) : (
+              <NoRecordsMessage type={recordType.ALLERGIES} />
+            )}
+          </>
         )}
       </RecordListSection>
     </div>

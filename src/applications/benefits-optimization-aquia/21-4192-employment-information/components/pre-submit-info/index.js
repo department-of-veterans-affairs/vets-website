@@ -1,7 +1,6 @@
 /**
- * @module components/pre-submit-info
- * @description Barrel export for PreSubmitInfo component
+ * @module components/PreSubmitInfo
+ * @description Barrel export for PreSubmitInfo component and validation utilities
  */
 
-export { default } from './pre-submit-info';
-export { isSignatureValid } from './pre-submit-info';
+export { default as PreSubmitInfo, isSignatureValid } from './pre-submit-info';

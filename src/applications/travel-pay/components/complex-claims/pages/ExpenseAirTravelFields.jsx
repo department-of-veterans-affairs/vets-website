@@ -6,7 +6,7 @@ import {
   VaRadio,
   VaDate,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { TRIP_OPTIONS } from '../../../constants';
+import { TRIP_TYPES } from '../../../constants';
 
 const ExpenseAirTravelFields = ({ formState, onChange }) => (
   <>
@@ -16,7 +16,7 @@ const ExpenseAirTravelFields = ({ formState, onChange }) => (
       value={formState.vendorName || ''}
       required
       onInput={onChange}
-      hint="If you didn’t purchase the ticket(s) directly from an airline, enter the company you purchased the ticket from."
+      hint="Enter the company you purchased the ticket from, even if it isn't an airline."
     />
 
     <VaRadio
@@ -26,12 +26,12 @@ const ExpenseAirTravelFields = ({ formState, onChange }) => (
       onVaValueChange={e => onChange(e.detail, 'tripType')}
       required
     >
-      {TRIP_OPTIONS.map(option => (
+      {Object.values(TRIP_TYPES).map(option => (
         <va-radio-option
-          key={option}
-          label={option}
-          value={option}
-          checked={formState.tripType === option}
+          key={option.label}
+          label={option.label}
+          value={option.label}
+          checked={formState.tripType === option.label}
         />
       ))}
     </VaRadio>
@@ -42,29 +42,28 @@ const ExpenseAirTravelFields = ({ formState, onChange }) => (
       value={formState.departureDate || ''}
       required
       onDateChange={onChange}
-      hint="For round trip flights, enter the departure date of your first flight."
+      hint="Enter the date on your departure ticket."
     />
     <VaTextInput
       label="Departure airport"
-      name="departureAirport"
-      value={formState.departureAirport || ''}
+      name="departedFrom"
+      value={formState.departedFrom || ''}
       required
       onInput={onChange}
-      hint="For round trip flights, enter the departure airport of your first flight."
-    />
-    <VaDate
-      label="Arrival date"
-      name="arrivalDate"
-      value={formState.arrivalDate || ''}
-      required
-      onDateChange={onChange}
     />
     <VaTextInput
       label="Arrival airport"
-      name="arrivalAirport"
-      value={formState.arrivalAirport || ''}
+      name="arrivedTo"
+      value={formState.arrivedTo || ''}
       required
       onInput={onChange}
+    />
+    <VaDate
+      label="Return date"
+      name="returnDate"
+      value={formState.returnDate || ''}
+      onDateChange={onChange}
+      hint="Enter the date on your return ticket. For one-way trips, leave this blank."
     />
   </>
 );

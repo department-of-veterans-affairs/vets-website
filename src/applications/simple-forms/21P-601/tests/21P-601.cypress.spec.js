@@ -11,11 +11,8 @@ import {
   fillDateWebComponentPattern,
   fillTextAreaWebComponent,
   selectRadioWebComponent,
-  selectCheckboxGroupWebComponent,
   reviewAndSubmitPageFlow,
 } from '../../shared/tests/e2e/helpers';
-
-import { fillDateDigitsWebComponentPattern } from './e2e/helpers';
 
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
@@ -137,20 +134,6 @@ const testConfig = createTestConfig(
         });
       },
 
-      'beneficiary-date-of-death': ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            fillDateDigitsWebComponentPattern(
-              'beneficiaryDateOfDeath',
-              data.beneficiaryDateOfDeath,
-            );
-            cy.axeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-
       'your-name-and-date-of-birth': ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
@@ -235,28 +218,6 @@ const testConfig = createTestConfig(
                 data.wantsToWaiveSubstitution,
               );
             }
-            cy.axeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-
-      'surviving-relatives': ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            const relativesData = {
-              hasSpouse: data.survivors.hasSpouse || false,
-              hasChildren: data.survivors.hasChildren || false,
-              hasParents: data.survivors.hasParents || false,
-              hasNone: data.survivors.hasNone || false,
-            };
-            cy.selectVaCheckbox(
-              `consent-checkbox`,
-              data.consentToMailMissingRequiredFiles,
-            );
-            selectCheckboxGroupWebComponent(relativesData);
-
             cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });

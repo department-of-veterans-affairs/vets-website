@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { formatDateLong } from 'platform/utilities/date';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
+import { transform } from '@bio-aquia/21p-530a-interment-allowance/config/submit-transform/transform';
+import DownloadFormPDF from './download-form-pdf';
 
 /**
  * Confirmation page displayed after successful form submission
@@ -14,6 +16,11 @@ import { ConfirmationView } from 'platform/forms-system/src/js/components/Confir
 export const ConfirmationPage = ({ route }) => {
   const form = useSelector(state => state.form || {});
   const submission = form?.submission || {};
+  const { data = {} } = form;
+  const { formConfig } = route || {};
+  const transformedData = transform(formConfig, form);
+  const veteranName = data?.veteranInformation?.fullName;
+
   const submitDate = submission?.timestamp || '';
   const formattedSubmitDate = submitDate ? formatDateLong(submitDate) : '';
   const confirmationNumber = submission?.response?.confirmationNumber || '';
@@ -37,13 +44,19 @@ export const ConfirmationPage = ({ route }) => {
     >
       {/* actions={<p />} removes the link to myVA */}
       <ConfirmationView.SubmissionAlert
-        title={`You’ve submitted your application for a burial allowance ${
+        title={`You've submitted your application for a VA interment allowance ${
           formattedSubmitDate ? `on ${formattedSubmitDate}` : ''
         }`}
         content={submissionAlertContent}
         actions={<p />}
       />
-      <ConfirmationView.SavePdfDownload />
+      <div className="confirmation-save-pdf-download-section">
+        <h2>Save a copy of your form</h2>
+        <p>
+          If you’d like a PDF copy of your completed form, you can download it.{' '}
+        </p>
+        <DownloadFormPDF formData={transformedData} veteranName={veteranName} />
+      </div>
       <ConfirmationView.ChapterSectionCollection />
       <ConfirmationView.PrintThisPage />
       <ConfirmationView.WhatsNextProcessList

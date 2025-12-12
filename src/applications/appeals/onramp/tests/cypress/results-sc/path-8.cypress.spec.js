@@ -9,16 +9,18 @@ const { RESULTS_2_S_1A } = RESULTS_NAME_MAP;
 // 1.1 - Yes
 // 1.2 - Yes
 // 1.3 - No
-// 2.IS.1 - No
-// 2.0 - Board
-// 2.S.1 - Yes
+// 2.IS.1 - Yes
+// 2.IS.2 - No
+// 2.0 - Claim for Increase
+// 2.IS.1A - Yes
 const path = {
   Q_1_1_CLAIM_DECISION: 0,
   Q_1_2_CLAIM_DECISION: 0,
   Q_1_3_CLAIM_CONTESTED: 1,
-  Q_2_IS_1_SERVICE_CONNECTED: 1,
-  Q_2_0_CLAIM_TYPE: 3,
-  Q_2_S_1_NEW_EVIDENCE: 0,
+  Q_2_IS_1_SERVICE_CONNECTED: 0,
+  Q_2_IS_2_CONDITION_WORSENED: 1,
+  Q_2_0_CLAIM_TYPE: 1,
+  Q_2_IS_1A_LAW_POLICY_CHANGE: 0,
 };
 
 describe('Decision Reviews Onramp', () => {
@@ -37,8 +39,8 @@ describe('Decision Reviews Onramp', () => {
         {
           type: c.CARD_SC,
           content: [
-            c.CARD_GF_REVIEW_BOARD,
-            c.CARD_GF_YES_EVIDENCE,
+            c.CARD_GF_REVIEW_INIT,
+            c.CARD_GF_YES_LAW_POLICY,
             c.CARD_GF_NOT_CONTESTED,
           ],
         },
@@ -47,22 +49,22 @@ describe('Decision Reviews Onramp', () => {
       h.checkNotGoodFitCards([
         {
           type: c.CARD_HLR,
-          content: [c.CARD_NGF_BOARD_NOT_AVAILABLE],
+          content: [c.CARD_NGF_YES_LAW_POLICY],
         },
         {
           type: c.CARD_BOARD_DIRECT,
-          content: [c.CARD_NGF_RECEIVED_BOARD_DECISION],
+          content: [c.CARD_NGF_YES_LAW_POLICY],
         },
         {
           type: c.CARD_BOARD_EVIDENCE,
-          content: [c.CARD_NGF_RECEIVED_BOARD_DECISION],
+          content: [c.CARD_NGF_YES_LAW_POLICY],
         },
         {
           type: c.CARD_BOARD_HEARING,
-          content: [c.CARD_NGF_RECEIVED_BOARD_DECISION],
+          content: [c.CARD_NGF_YES_LAW_POLICY],
         },
       ]);
-      h.verifyOutsideDROptionPresent();
+      h.verifyOutsideDROptionNotPresent();
       cy.go('back');
 
       h.navigateBackward(path);

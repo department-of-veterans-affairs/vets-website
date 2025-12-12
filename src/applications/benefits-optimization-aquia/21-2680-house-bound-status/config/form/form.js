@@ -4,18 +4,17 @@
  * or Permanent Need for Regular Aid & Attendance
  */
 
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import {
   TITLE,
   SUBTITLE,
+  API_ENDPOINTS,
 } from '@bio-aquia/21-2680-house-bound-status/constants';
 import { GetHelp } from '@bio-aquia/21-2680-house-bound-status/components';
 import { IntroductionPage } from '@bio-aquia/21-2680-house-bound-status/containers/introduction-page';
 import { ConfirmationPage } from '@bio-aquia/21-2680-house-bound-status/containers/confirmation-page';
-import { prefillTransformer } from '@bio-aquia/21-2680-house-bound-status/config/prefill-transformer';
 import { submitTransformer } from '@bio-aquia/21-2680-house-bound-status/config/submit-transformer';
 import manifest from '@bio-aquia/21-2680-house-bound-status/manifest.json';
 
@@ -23,6 +22,8 @@ import manifest from '@bio-aquia/21-2680-house-bound-status/manifest.json';
 import {
   veteranInformationUiSchema,
   veteranInformationSchema,
+  veteranSsnUiSchema,
+  veteranSsnSchema,
   veteranAddressUiSchema,
   veteranAddressSchema,
   claimantRelationshipUiSchema,
@@ -74,7 +75,7 @@ import {
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/v0/form212680`,
+  submitUrl: API_ENDPOINTS.submitForm,
   transformForSubmit: submitTransformer,
   trackingPrefix: '21-2680-house-bound-status-',
   v3SegmentedProgressBar: true,
@@ -97,7 +98,6 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
-  prefillTransformer,
   savedFormMessages: {
     notFound: 'Please start over to apply for benefits.',
     noAuth: 'Please sign in again to continue your application for benefits.',
@@ -115,6 +115,12 @@ const formConfig = {
           title: "Veteran's information",
           uiSchema: veteranInformationUiSchema,
           schema: veteranInformationSchema,
+        },
+        veteranSsn: {
+          path: 'veteran-ssn',
+          title: "Veteran's Social Security number",
+          uiSchema: veteranSsnUiSchema,
+          schema: veteranSsnSchema,
         },
         veteranAddress: {
           path: 'veteran-address',

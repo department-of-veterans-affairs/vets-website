@@ -68,7 +68,7 @@ describe('spouseMarriageEnded', () => {
     const checkbox = $('va-checkbox', container);
     expect(checkbox).to.exist;
     expect(checkbox.getAttribute('label')).to.equal(
-      'The marriage ended outside the United States',
+      'Marriage ended outside the United States',
     );
 
     const inUSInputs = $$('va-text-input', container);
@@ -99,6 +99,39 @@ describe('spouseMarriageEnded', () => {
     expect(inUSSelects[0].getAttribute('label')).to.eq('Country');
   });
 
+  it('should show error messages if a future date is entered', async () => {
+    const goForward = sinon.spy();
+    const futureDate = createDoB(0, -1); // 1 month in the future
+    const { container } = renderComponent({
+      formSubmitted: true,
+      goForward,
+      data: {
+        ...defaultData,
+        endType: 'divorce',
+        endDate: futureDate,
+        endCity: 'Test',
+        endState: 'AK',
+      },
+    });
+
+    $('va-memorable-date', container).__events.dateBlur({
+      target: {
+        name: 'endDate',
+        tagName: 'VA-MEMORABLE-DATE',
+        value: futureDate,
+      },
+    });
+
+    await fireEvent.submit($('form', container));
+
+    await waitFor(() => {
+      const errors = $$('[error]', container);
+      expect(errors.length).to.equal(1);
+      expect(errors[0].getAttribute('error')).to.equal('Enter a past date');
+      expect(goForward.notCalled).to.be.true;
+    });
+  });
+
   it('should show error messages if submitted without filling in fields (US)', async () => {
     const goForward = sinon.spy();
     const { container } = renderComponent({
@@ -114,7 +147,7 @@ describe('spouseMarriageEnded', () => {
       );
       expect(errors).to.deep.equal([
         'Select an option',
-        'Provide a date marriage ended',
+        'Enter the date marriage ended',
         'Enter a city or county',
         'Select a state',
       ]);
@@ -144,7 +177,7 @@ describe('spouseMarriageEnded', () => {
       // Province is not required
       expect(errors).to.deep.equal([
         'Select an option',
-        'Provide a date marriage ended',
+        'Enter the date marriage ended',
         'Enter a city or county',
         'Select a country',
       ]);
@@ -173,7 +206,7 @@ describe('spouseMarriageEnded', () => {
       // province is not required
       expect(errors).to.deep.equal([
         'Enter a response', // annulment description
-        'Provide a date marriage ended',
+        'Enter the date marriage ended',
         'Enter a city or county',
         'Select a country',
       ]);

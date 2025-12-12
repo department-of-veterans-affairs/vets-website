@@ -28,7 +28,7 @@ Benefits Intake Optimization - Aquia Team
 - **OMB Expiration**: 09/30/2026
 - **Respondent Burden**: 10 minutes
 - **Entry Name**: `21-0779-nursing-home-information`
-- **Root URL**: `/supporting-forms-for-claims/aid-attendance-housebound`
+- **Root URL**: `/supporting-forms-for-claims/submit-nursing-home-information-form-21-0779`
 - **API Endpoint**: `POST /v0/form210779`
 - **Product ID**: `0383a035-c37c-4875-ad1d-5f85c59025fe`
 
@@ -152,7 +152,7 @@ yarn test:unit:coverage --app-folder benefits-optimization-aquia/21-0779-nursing
 yarn test:unit src/applications/benefits-optimization-aquia/21-0779-nursing-home-information/config/form/form.unit.spec.jsx
 
 # Run Cypress E2E tests (requires yarn watch to be running)
-yarn cy:run --spec "src/applications/benefits-optimization-aquia/21-0779-nursing-home-information/tests/*.cypress.spec.js"
+yarn cy:run --spec "src/applications/benefits-optimization-aquia/21-0779-nursing-home-information/tests/e2e/21-0779-nursing-home-information.cypress.spec.js"
 
 # Open Cypress test runner
 yarn cy:open
@@ -178,7 +178,7 @@ yarn watch --env entry=auth,static-pages,login-page,21-0779-nursing-home-informa
 
 ### Local Development URL
 
-- Development: `http://localhost:3001/supporting-forms-for-claims/aid-attendance-housebound`
+- Development: `http://localhost:3001/supporting-forms-for-claims/submit-nursing-home-information-form-21-0779`
 - Introduction page: Starts at the root URL above
 
 ## Conditional Form Logic

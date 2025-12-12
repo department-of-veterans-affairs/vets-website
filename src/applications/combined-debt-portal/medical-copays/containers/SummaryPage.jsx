@@ -1,7 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { uniqBy } from 'lodash';
-import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaBreadcrumbs,
+  VaPagination,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import {
   setPageFocus,
@@ -17,7 +20,7 @@ import DisputeCharges from '../components/DisputeCharges';
 import HowToPay from '../components/HowToPay';
 import FinancialHelp from '../components/FinancialHelp';
 import NeedHelpCopay from '../components/NeedHelpCopay';
-import MCPAlerts from '../../combined/components/MCPAlerts';
+import CopayAlertContainer from '../components/CopayAlertContainer';
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
 
 const renderAlert = (alertType, debts) => {
@@ -111,6 +114,55 @@ const OverviewPage = () => {
     setPageFocus('h1');
   }, []);
 
+  const MAX_ROWS = 10;
+  const ITEM_TYPE = 'copays';
+
+  function paginate(array, pageSize, pageNumber) {
+    return array?.slice((pageNumber - 1) * pageSize, pageNumber * pageSize);
+  }
+
+  function getPaginationText(
+    currentPage,
+    pageSize,
+    totalItems,
+    label = ITEM_TYPE,
+  ) {
+    // Only display pagination text when there are more than MAX_ROWS total items
+    if (totalItems <= MAX_ROWS) {
+      return '';
+    }
+
+    const startItemIndex = (currentPage - 1) * pageSize + 1;
+    const endItemIndex = Math.min(currentPage * pageSize, totalItems);
+
+    return `Showing ${startItemIndex}-${endItemIndex} of ${totalItems} ${label}`;
+  }
+
+  const [currentData, setCurrentData] = useState(
+    paginate(statementsByUniqueFacility, MAX_ROWS, 1),
+  );
+  const [currentPage, setCurrentPage] = useState(1);
+
+  function onPageChange(page) {
+    setCurrentData(paginate(statementsByUniqueFacility, MAX_ROWS, page));
+    setCurrentPage(page);
+  }
+
+  const numPages = Math.ceil(statementsByUniqueFacility.length / MAX_ROWS);
+
+  const renderVaPagination = () => {
+    if (statementsByUniqueFacility.length > MAX_ROWS) {
+      return (
+        <VaPagination
+          onPageSelect={e => onPageChange(e.detail.page)}
+          page={currentPage}
+          pages={numPages}
+        />
+      );
+    }
+    return null;
+  };
+
   if (debtLoading || mcpLoading || togglesLoading) {
     return (
       <div className="vads-u-margin--5">
@@ -125,7 +177,7 @@ const OverviewPage = () => {
   const isNotEnrolledInHealthCare = mcpError?.status === '403';
   const renderContent = () => {
     if (isNotEnrolledInHealthCare) {
-      return <MCPAlerts type="no-health-care" />;
+      return <CopayAlertContainer type="no-health-care" />;
     }
     if (mcpError) {
       return renderAlert(
@@ -140,9 +192,16 @@ const OverviewPage = () => {
     return showOneThingPerPage || showVHAPaymentHistory ? (
       <article className="vads-u-padding-x--0 vads-u-padding-bottom--0">
         <Balances
-          statements={statementsByUniqueFacility}
+          statements={currentData}
           showVHAPaymentHistory={showVHAPaymentHistory}
+          paginationText={getPaginationText(
+            currentPage,
+            MAX_ROWS,
+            statementsByUniqueFacility.length,
+            ITEM_TYPE,
+          )}
         />
+        {renderVaPagination()}
         {renderOtherVA(debts?.length, debtError)}
         <NeedHelpCopay />
       </article>
@@ -150,9 +209,16 @@ const OverviewPage = () => {
       <article className="vads-u-padding-x--0">
         <va-on-this-page />
         <Balances
-          statements={statementsByUniqueFacility}
+          statements={currentData}
           showVHAPaymentHistory={showVHAPaymentHistory}
+          paginationText={getPaginationText(
+            currentPage,
+            MAX_ROWS,
+            statementsByUniqueFacility.length,
+            ITEM_TYPE,
+          )}
         />
+        {renderVaPagination()}
         {renderOtherVA(debts?.length, debtError)}
         <HowToPay isOverview />
         <FinancialHelp />

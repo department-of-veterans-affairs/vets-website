@@ -226,7 +226,13 @@ export default function AppointmentColumnLayout({
                       />
                     </span>
                   )}
-                  <span>{modalityText}</span>
+                  <span
+                    className={classNames({
+                      'vaos-appts__text--truncate': !featureListViewClinicInfo,
+                    })}
+                  >
+                    {modalityText}
+                  </span>
                 </span>
               </AppointmentColumn>
             </AppointmentRow>

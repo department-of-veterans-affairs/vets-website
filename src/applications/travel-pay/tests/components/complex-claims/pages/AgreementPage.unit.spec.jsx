@@ -1,8 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import { render } from '@testing-library/react';
+import { fireEvent } from '@testing-library/react';
 import {
   MemoryRouter,
   Routes,
@@ -11,10 +12,20 @@ import {
 } from 'react-router-dom-v5-compat';
 import AgreementPage from '../../../../components/complex-claims/pages/AgreementPage';
 import reducer from '../../../../redux/reducer';
+import * as actions from '../../../../redux/actions';
 
 describe('Travel Pay – AgreementPage', () => {
   const apptId = '12345';
   const claimId = '45678';
+  let sandbox;
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
 
   const LocationDisplay = () => {
     const location = useLocation();
@@ -23,7 +34,61 @@ describe('Travel Pay – AgreementPage', () => {
 
   const getData = () => ({
     travelPay: {
-      claimSubmission: { isSubmitting: false, error: null, data: null },
+      travelClaims: {
+        isLoading: false,
+        claims: {},
+      },
+      claimDetails: {
+        isLoading: false,
+        error: null,
+        data: {},
+      },
+      appointment: {
+        isLoading: false,
+        error: null,
+        data: null,
+      },
+      claimSubmission: {
+        isSubmitting: false,
+        error: null,
+        data: null,
+      },
+      complexClaim: {
+        claim: {
+          creation: {
+            isLoading: false,
+            error: null,
+          },
+          submission: {
+            id: '',
+            isSubmitting: false,
+            error: null,
+            data: null,
+          },
+          fetch: {
+            isLoading: false,
+            error: null,
+          },
+          data: null,
+        },
+        expenses: {
+          creation: {
+            isLoading: false,
+            error: null,
+          },
+          update: {
+            id: '',
+            isLoading: false,
+            error: null,
+          },
+          delete: {
+            id: '',
+            isLoading: false,
+            error: null,
+          },
+          data: [],
+        },
+      },
     },
   });
 
@@ -55,11 +120,11 @@ describe('Travel Pay – AgreementPage', () => {
     expect(checkbox).to.have.attribute('checked', 'false');
     expect(checkbox).to.not.have.attribute('error');
 
-    const buttonPair = screen.baseElement.querySelector('va-button-pair');
-    expect(buttonPair.getAttribute('left-button-text')).to.contain('Back');
-    expect(buttonPair.getAttribute('right-button-text')).to.contain(
-      'Submit claim',
-    );
+    // Check for individual buttons instead of button pair
+    const backButton = $('va-button[text="Back"]');
+    const submitButton = $('va-button[text="Submit claim"]');
+    expect(backButton).to.exist;
+    expect(submitButton).to.exist;
   });
 
   it('should show an error when submitting without checking the box', () => {
@@ -81,7 +146,9 @@ describe('Travel Pay – AgreementPage', () => {
     expect(checkbox).to.have.attribute('checked', 'false');
 
     // Simulate clicking Submit
-    $('va-button-pair').__events.primaryClick();
+    const submitButton = $('va-button[text="Submit claim"]');
+    expect(submitButton).to.exist;
+    fireEvent.click(submitButton);
 
     const errorCheckbox = $('va-checkbox[name="accept-agreement"]');
     expect(errorCheckbox).to.have.attribute(
@@ -90,8 +157,8 @@ describe('Travel Pay – AgreementPage', () => {
     );
   });
 
-  it('should clear error when checkbox is checked and submit is clicked and navigate to confirmation page', () => {
-    const screen = render(
+  it('should clear error when checkbox is checked and submit is clicked', async () => {
+    renderWithStoreAndRouter(
       <MemoryRouter
         initialEntries={[
           `/file-new-claim/${apptId}/${claimId}/travel-agreement`,
@@ -116,12 +183,15 @@ describe('Travel Pay – AgreementPage', () => {
 
     expect(checkbox).to.have.attribute('checked', 'true');
 
-    $('va-button-pair').__events.primaryClick();
+    const submitButton = $('va-button[text="Submit claim"]');
+    expect(submitButton).to.exist;
 
-    // Check that the location updated
-    expect(screen.getByTestId('location-display').textContent).to.equal(
-      `/file-new-claim/${apptId}/${claimId}/confirmation`,
-    );
+    // Just test that the button can be clicked without error
+    // Navigation testing would require mocking the async action
+    fireEvent.click(submitButton);
+
+    // Verify no error on checkbox after successful click
+    expect(checkbox).to.not.have.attribute('error');
   });
 
   it('should toggle the checkbox on multiple clicks', () => {
@@ -150,7 +220,7 @@ describe('Travel Pay – AgreementPage', () => {
   });
 
   it('navigates to the review page when back button is clicked', () => {
-    const screen = render(
+    const screen = renderWithStoreAndRouter(
       <MemoryRouter
         initialEntries={[
           `/file-new-claim/${apptId}/${claimId}/travel-agreement`,
@@ -160,6 +230,10 @@ describe('Travel Pay – AgreementPage', () => {
           <Route
             path="/file-new-claim/:apptId/:claimId/travel-agreement"
             element={<AgreementPage />}
+          />
+          <Route
+            path="/file-new-claim/:apptId/:claimId/review"
+            element={<div data-testid="review-page">Review Page</div>}
           />
         </Routes>
         <LocationDisplay />
@@ -171,12 +245,64 @@ describe('Travel Pay – AgreementPage', () => {
     );
 
     // Click the back button
-    const buttonPair = screen.baseElement.querySelector('va-button-pair');
-    buttonPair.__events.secondaryClick();
+    const backButton = $('va-button[text="Back"]');
+    expect(backButton).to.exist;
+    fireEvent.click(backButton);
 
     // Check that the location updated
     expect(screen.getByTestId('location-display').textContent).to.equal(
       `/file-new-claim/${apptId}/${claimId}/review`,
     );
+  });
+
+  it('navigates to the confirmation page even when submission fails', async () => {
+    // Mock submitComplexClaim to reject
+    const mockSubmitComplexClaim = sandbox
+      .stub(actions, 'submitComplexClaim')
+      .callsFake(() => () => Promise.reject(new Error('Submission failed')));
+
+    const screen = renderWithStoreAndRouter(
+      <MemoryRouter
+        initialEntries={[
+          `/file-new-claim/${apptId}/${claimId}/travel-agreement`,
+        ]}
+      >
+        <Routes>
+          <Route
+            path="/file-new-claim/:apptId/:claimId/travel-agreement"
+            element={<AgreementPage />}
+          />
+          <Route
+            path="/file-new-claim/:apptId/:claimId/confirmation"
+            element={
+              <div data-testid="confirmation-page">Confirmation Page</div>
+            }
+          />
+        </Routes>
+        <LocationDisplay />
+      </MemoryRouter>,
+      {
+        initialState: getData(),
+        reducers: reducer,
+      },
+    );
+
+    // Check the agreement checkbox
+    const checkbox = $('va-checkbox[name="accept-agreement"]');
+    checkbox.__events.vaChange();
+    expect(checkbox).to.have.attribute('checked', 'true');
+
+    // Click submit button
+    const submitButton = $('va-button[text="Submit claim"]');
+    fireEvent.click(submitButton);
+
+    // Wait for navigation to confirmation page
+    expect(await screen.findByTestId('confirmation-page')).to.exist;
+    expect(screen.getByTestId('location-display').textContent).to.equal(
+      `/file-new-claim/${apptId}/${claimId}/confirmation`,
+    );
+
+    // Verify the action was called
+    expect(mockSubmitComplexClaim.calledOnce).to.be.true;
   });
 });

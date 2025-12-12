@@ -751,7 +751,7 @@ const employerOptions = {
   nounPlural: 'employers',
   required: true,
   maxItems: 5,
-  isItemIncomplete: (item, index, arrayData) => {
+  isItemIncomplete: (item, fullData) => {
     // Complex validation logic
     if (!item?.name || !item?.address) return true;
     if (item.type === 'contract' && !item?.contractDetails) return true;
@@ -1630,7 +1630,7 @@ export default {
     ...titleUI('Military service'),
     // All service branches
     serviceBranchDefault: serviceBranchUI(),
-    
+
     // Or with specific branches only
     serviceBranchSubset: serviceBranchUI({
       title: 'Select your service branch',

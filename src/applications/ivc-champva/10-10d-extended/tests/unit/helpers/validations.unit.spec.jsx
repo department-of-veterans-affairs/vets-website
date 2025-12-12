@@ -1,11 +1,273 @@
 import sinon from 'sinon-v20';
 import { expect } from 'chai';
 import {
+  validateApplicant,
+  validateHealthInsurancePlan,
   validateMarriageAfterDob,
   validateMedicarePartDDates,
   validateMedicarePlan,
   validateOHIDates,
+  validateApplicantSsn,
+  validateSponsorSsn,
 } from '../../../helpers/validations';
+
+describe('1010d `validateSponsorSsn` form validation', () => {
+  let errors;
+
+  beforeEach(() => {
+    errors = { addError: sinon.spy() };
+  });
+
+  it('should not add an error when SSN is empty', () => {
+    const fullData = { applicants: [] };
+    validateSponsorSsn(errors, '', fullData);
+    sinon.assert.notCalled(errors.addError);
+  });
+
+  it('should not add an error when SSN is undefined', () => {
+    const fullData = { applicants: [] };
+    validateSponsorSsn(errors, undefined, fullData);
+    sinon.assert.notCalled(errors.addError);
+  });
+
+  it('should add an error when SSN is invalid', () => {
+    const fullData = { applicants: [] };
+    validateSponsorSsn(errors, '123-45-678X', fullData);
+    sinon.assert.calledOnce(errors.addError);
+  });
+
+  it('should add an error when SSN is too short', () => {
+    const fullData = { applicants: [] };
+    validateSponsorSsn(errors, '1231231', fullData);
+    sinon.assert.calledOnce(errors.addError);
+  });
+
+  it('should not add an error when SSN is valid and unique', () => {
+    const fullData = { applicants: [{ applicantSsn: '345345345' }] };
+    validateSponsorSsn(errors, '123123123', fullData);
+    sinon.assert.notCalled(errors.addError);
+  });
+
+  it('should add an error when SSN matches an applicant SSN', () => {
+    const fullData = {
+      applicants: [
+        { applicantSsn: '123123123' },
+        { applicantSsn: '345345345' },
+      ],
+    };
+    validateSponsorSsn(errors, '123123123', fullData);
+    sinon.assert.calledOnce(errors.addError);
+  });
+
+  it('should correctly handle SSNs with different formatting', () => {
+    const fullData = { applicants: [{ applicantSsn: '123-12-3123' }] };
+    validateSponsorSsn(errors, '123123123', fullData);
+    sinon.assert.calledOnce(errors.addError);
+  });
+
+  it('should correctly handle empty applicants array', () => {
+    const fullData = { applicants: [] };
+    validateSponsorSsn(errors, '123123123', fullData);
+    sinon.assert.notCalled(errors.addError);
+  });
+
+  it('should correctly handle missing applicants property', () => {
+    const fullData = {};
+    validateSponsorSsn(errors, '123123123', fullData);
+    sinon.assert.notCalled(errors.addError);
+  });
+});
+
+describe('1010d `validateApplicantSsn` form validation', () => {
+  let errors;
+
+  beforeEach(() => {
+    errors = { addError: sinon.spy() };
+  });
+
+  context('when adding the first applicant', () => {
+    beforeEach(() => {
+      Object.defineProperty(window, 'location', {
+        value: { pathname: '/applicants/0', search: '?add=true' },
+        writable: true,
+      });
+    });
+
+    it('should not add an error when SSN is empty', () => {
+      const fullData = { sponsorSsn: '345345345', applicants: [] };
+      validateApplicantSsn(errors, '', fullData);
+      sinon.assert.notCalled(errors.addError);
+    });
+
+    it('should not add an error when SSN is undefined', () => {
+      const fullData = { sponsorSsn: '345345345', applicants: [] };
+      validateApplicantSsn(errors, undefined, fullData);
+      sinon.assert.notCalled(errors.addError);
+    });
+
+    it('should add an error when SSN is invalid', () => {
+      const fullData = { sponsorSsn: '345345345', applicants: [] };
+      validateApplicantSsn(errors, '211-11-111X', fullData);
+      sinon.assert.calledOnce(errors.addError);
+    });
+
+    it('should add an error when SSN matches sponsor SSN', () => {
+      const fullData = {
+        sponsorSsn: '123123123',
+        applicants: [],
+      };
+      validateApplicantSsn(errors, '123123123', fullData);
+      sinon.assert.calledOnce(errors.addError);
+    });
+
+    it('should correctly handle SSNs with different formatting when comparing to sponsor', () => {
+      const fullData = { sponsorSsn: '123-12-3123', applicants: [] };
+      validateApplicantSsn(errors, '123123123', fullData);
+      sinon.assert.calledOnce(errors.addError);
+    });
+  });
+
+  context('when working with multiple applicants', () => {
+    beforeEach(() => {
+      Object.defineProperty(window, 'location', {
+        value: { pathname: '/applicants/1', search: '?add=true' },
+        writable: true,
+      });
+    });
+
+    it('should not add an error when SSN is valid and unique', () => {
+      const fullData = {
+        sponsorSsn: '345345345',
+        applicants: [{ applicantSsn: '211-11-1111' }],
+      };
+      validateApplicantSsn(errors, '123123123', fullData);
+      sinon.assert.notCalled(errors.addError);
+    });
+
+    it('should add an error when SSN matches another applicant SSN', () => {
+      const fullData = {
+        sponsorSsn: '345345345',
+        applicants: [{ applicantSsn: '123123123' }],
+      };
+      validateApplicantSsn(errors, '123123123', fullData);
+      sinon.assert.calledOnce(errors.addError);
+    });
+
+    it('should correctly handle missing sponsor SSN', () => {
+      const fullData = {
+        applicants: [{ applicantSsn: '211-11-1111' }],
+      };
+      validateApplicantSsn(errors, '123123123', fullData);
+      sinon.assert.notCalled(errors.addError);
+    });
+
+    it('should handle applicants with undefined/missing SSNs', () => {
+      const fullData = {
+        sponsorSsn: '345345345',
+        applicants: [{ applicantSsn: undefined }],
+      };
+      validateApplicantSsn(errors, '123123123', fullData);
+      sinon.assert.notCalled(errors.addError);
+    });
+
+    it('should not flag current applicant as duplicate of itself during edit', () => {
+      // Simulate editing the first applicant (index 0)
+      Object.defineProperty(window, 'location', {
+        value: { pathname: '/applicants/0', search: '?edit=true' },
+        writable: true,
+      });
+
+      const fullData = {
+        sponsorSsn: '345345345',
+        applicants: [
+          { applicantSsn: '123123123' }, // Current applicant being edited
+          { applicantSsn: '211-11-1111' },
+        ],
+      };
+      // Should not error when "changing" to the same SSN
+      validateApplicantSsn(errors, '123123123', fullData);
+      sinon.assert.notCalled(errors.addError);
+    });
+
+    it('should detect duplicates when changing to existing SSN during edit', () => {
+      // simulate editing the first applicant (index 0)
+      Object.defineProperty(window, 'location', {
+        value: { pathname: '/applicants/0', search: '?edit=true' },
+        writable: true,
+      });
+
+      const fullData = {
+        sponsorSsn: '345345345',
+        applicants: [
+          { applicantSsn: '123123123' },
+          { applicantSsn: '211111111' },
+        ],
+      };
+      validateApplicantSsn(errors, '211111111', fullData);
+      sinon.assert.calledOnce(errors.addError);
+    });
+  });
+
+  context('when on the review and submit page', () => {
+    beforeEach(() => {
+      Object.defineProperty(window, 'location', {
+        value: { pathname: '/review-and-submit' },
+        writable: true,
+      });
+    });
+
+    it('should not add an error when applicant SSN is unique (only appears once)', () => {
+      const fullData = {
+        sponsorSsn: '345345345',
+        applicants: [
+          { applicantSsn: '123123123' },
+          { applicantSsn: '211211211' },
+          { applicantSsn: '311311311' },
+        ],
+      };
+      validateApplicantSsn(errors, '123123123', fullData);
+      sinon.assert.notCalled(errors.addError);
+    });
+
+    it('should add an error when applicant SSN appears multiple times (duplicates exist)', () => {
+      const fullData = {
+        sponsorSsn: '345345345',
+        applicants: [
+          { applicantSsn: '123123123' },
+          { applicantSsn: '211211211' },
+          { applicantSsn: '123123123' },
+        ],
+      };
+      validateApplicantSsn(errors, '123123123', fullData);
+      sinon.assert.calledOnce(errors.addError);
+    });
+
+    it('should add an error when applicant SSN matches sponsor SSN on review page', () => {
+      const fullData = {
+        sponsorSsn: '123123123',
+        applicants: [
+          { applicantSsn: '123123123' },
+          { applicantSsn: '211211211' },
+        ],
+      };
+      validateApplicantSsn(errors, '123123123', fullData);
+      sinon.assert.calledOnce(errors.addError);
+    });
+
+    it('should handle edge case with three identical SSNs on review page', () => {
+      const fullData = {
+        sponsorSsn: '345345345',
+        applicants: [
+          { applicantSsn: '123123123' },
+          { applicantSsn: '123123123' },
+          { applicantSsn: '123123123' },
+        ],
+      };
+      validateApplicantSsn(errors, '123123123', fullData);
+      sinon.assert.calledOnce(errors.addError);
+    });
+  });
+});
 
 describe('1010d `validateMarriageAfterDob` form validation', () => {
   let errors;
@@ -504,6 +766,597 @@ describe('1010d `validateMedicarePlan` form validation', () => {
         hasMedicarePartD: false,
       });
       expect(validateMedicarePlan(item)).to.be.false;
+    });
+  });
+});
+
+describe('1010d `validateHealthInsurancePlan` form validation', () => {
+  const PARTICIPANTS_VALID = { hash1: true, hash2: false };
+  const NOW_ISO_DATE = '2025-11-05';
+  const FILES = {
+    front: () => [{ name: 'front.pdf' }],
+    back: () => [{ name: 'back.pdf' }],
+    empty: () => [],
+  };
+
+  const toISO = d => new Date(d).toISOString().slice(0, 10);
+  const YEARS = n => {
+    const d = new Date(NOW_ISO_DATE);
+    d.setFullYear(d.getFullYear() + n);
+    return toISO(d);
+  };
+
+  const PAST_DATE = YEARS(-5);
+  const FUTURE_DATE = YEARS(1);
+
+  const BASE_VALID_ITEM = Object.freeze({
+    insuranceType: 'ppo',
+    provider: 'Cigna',
+    effectiveDate: PAST_DATE,
+    throughEmployer: true,
+    eob: true,
+    healthcareParticipants: PARTICIPANTS_VALID,
+    insuranceCardFront: FILES.front(),
+    insuranceCardBack: FILES.back(),
+  });
+
+  const makeItem = (overrides = {}) => ({ ...BASE_VALID_ITEM, ...overrides });
+  let clock;
+
+  before(() => {
+    clock = sinon.useFakeTimers(new Date(NOW_ISO_DATE).getTime());
+  });
+
+  after(() => {
+    clock.restore();
+  });
+
+  context('Basic validation', () => {
+    [
+      { name: 'missing', value: undefined },
+      { name: 'null', value: null },
+      { name: 'empty', value: '' },
+    ].forEach(({ name, value }) => {
+      it(`should return "true" when insurance type is ${name}`, () => {
+        const result = validateHealthInsurancePlan(
+          makeItem({ insuranceType: value }),
+        );
+        expect(result).to.be.true;
+      });
+    });
+
+    it('should gracefully handle empty item object', () => {
+      expect(validateHealthInsurancePlan()).to.be.true;
+    });
+
+    it('should gracefully handle undefined item object', () => {
+      expect(validateHealthInsurancePlan(undefined)).to.be.true;
+    });
+  });
+
+  context('Core required fields', () => {
+    it('should return "false" when all required fields are present and valid', () => {
+      expect(validateHealthInsurancePlan(makeItem())).to.be.false;
+    });
+
+    it('should return "true" when provider is missing/empty', () => {
+      expect(validateHealthInsurancePlan(makeItem({ provider: '' }))).to.be
+        .true;
+    });
+
+    it('should return "true" when effective date is undefined', () => {
+      expect(
+        validateHealthInsurancePlan(makeItem({ effectiveDate: undefined })),
+      ).to.be.true;
+    });
+
+    it('should return "true" when effective date is in the future', () => {
+      expect(
+        validateHealthInsurancePlan(makeItem({ effectiveDate: FUTURE_DATE })),
+      ).to.be.true;
+    });
+  });
+
+  context('Date validation', () => {
+    it('should return "false" when expiration date is valid and after effective date', () => {
+      const item = makeItem({
+        effectiveDate: '2020-01-01',
+        expirationDate: '2022-12-31',
+      });
+      expect(validateHealthInsurancePlan(item)).to.be.false;
+    });
+
+    it('should return "true" when expiration date is in the future', () => {
+      const item = makeItem({
+        effectiveDate: '2020-01-01',
+        expirationDate: FUTURE_DATE,
+      });
+      expect(validateHealthInsurancePlan(item)).to.be.true;
+    });
+
+    it('should return "false" when expiration date is undefined', () => {
+      const item = makeItem({ expirationDate: undefined });
+      expect(validateHealthInsurancePlan(item)).to.be.false;
+    });
+  });
+
+  context('Medigap plan validation', () => {
+    it('should return "false" when medigap type & plan are valid', () => {
+      const item = makeItem({
+        insuranceType: 'medigap',
+        medigapPlan: 'F',
+        throughEmployer: false,
+      });
+      expect(validateHealthInsurancePlan(item)).to.be.false;
+    });
+
+    it('should return "true" when medigap type & plan is undefined', () => {
+      const item = makeItem({
+        insuranceType: 'medigap',
+        medigapPlan: undefined,
+        throughEmployer: false,
+      });
+      expect(validateHealthInsurancePlan(item)).to.be.true;
+    });
+
+    it('should return "false" when non-medigap type & plan is undefined', () => {
+      const item = makeItem({ insuranceType: 'ppo', medigapPlan: undefined });
+      expect(validateHealthInsurancePlan(item)).to.be.false;
+    });
+  });
+
+  context('Boolean field validation', () => {
+    [
+      { field: 'throughEmployer', value: undefined },
+      { field: 'eob', value: null },
+    ].forEach(({ field, value }) => {
+      it(`should return "true" when ${field} is ${
+        value === null ? 'null' : 'undefined'
+      }`, () => {
+        const item = makeItem({ [field]: value });
+        expect(validateHealthInsurancePlan(item)).to.be.true;
+      });
+    });
+
+    it('should return "false" when booleans are false', () => {
+      const item = makeItem({ throughEmployer: false, eob: false });
+      expect(validateHealthInsurancePlan(item)).to.be.false;
+    });
+  });
+
+  context('Healthcare participants validation', () => {
+    [
+      { name: 'omitted', value: undefined },
+      { name: 'not selected', value: { hash1: false, hash2: false } },
+      { name: 'empty object', value: {} },
+      { name: 'wrong type', value: 'not-an-object' },
+    ].forEach(({ name, value }) => {
+      it(`should return "true" when healthcare participant(s) is ${name}`, () => {
+        const item = makeItem({ healthcareParticipants: value });
+        expect(validateHealthInsurancePlan(item)).to.be.true;
+      });
+    });
+  });
+
+  context('Additional comments validation', () => {
+    it('should return "false" when additional comments is within character limit', () => {
+      const item = makeItem({ additionalComments: 'Under 200 chars.' });
+      expect(validateHealthInsurancePlan(item)).to.be.false;
+    });
+
+    it('should return "true" when additional comments exceeds character limit', () => {
+      const longComment = 'a'.repeat(201);
+      const item = makeItem({ additionalComments: longComment });
+      expect(validateHealthInsurancePlan(item)).to.be.true;
+    });
+
+    it('should return "false" when additional comments is undefined', () => {
+      const item = makeItem({ additionalComments: undefined });
+      expect(validateHealthInsurancePlan(item)).to.be.false;
+    });
+  });
+
+  context('Card upload validation', () => {
+    it('should return "true" when front card is omitted', () => {
+      const item = makeItem({ insuranceCardFront: FILES.empty() });
+      expect(validateHealthInsurancePlan(item)).to.be.true;
+    });
+
+    it('should return "true" when back card is omitted', () => {
+      const item = makeItem({ insuranceCardBack: FILES.empty() });
+      expect(validateHealthInsurancePlan(item)).to.be.true;
+    });
+
+    it('should return "true" when file object is missing name property', () => {
+      const item = makeItem({ insuranceCardFront: [{}] });
+      expect(validateHealthInsurancePlan(item)).to.be.true;
+    });
+  });
+});
+
+describe('1010d `validateApplicant` form validation', () => {
+  const dateStr = (y, m = 1, d = 1) =>
+    `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+  const files = (...names) => names.map(n => (n ? { name: n } : {}));
+  const makeApplicant = (overrides = {}) => ({
+    applicantName: { first: 'John', last: 'Doe' },
+    applicantDob: '1990-01-01',
+    applicantSsn: '123456789',
+    applicantGender: { gender: 'M' },
+    applicantPhone: '555-123-4567',
+    applicantAddress: {
+      street: '123 Main St',
+      city: 'Anytown',
+      state: 'NY',
+      postalCode: '12345',
+    },
+    applicantRelationshipToSponsor: { relationshipToVeteran: 'spouse' },
+    ...overrides,
+  });
+  const NOW = new Date('2025-01-15T12:00:00Z');
+  const withAge = years => dateStr(NOW.getUTCFullYear() - years);
+  let clock;
+
+  before(() => {
+    clock = sinon.useFakeTimers({ now: +NOW, toFake: ['Date'] });
+  });
+
+  after(() => {
+    clock.restore();
+  });
+
+  context('Basic required fields validation', () => {
+    it('should return "false" for a complete, valid spouse applicant', () => {
+      const applicant = makeApplicant({
+        dateOfMarriageToSponsor: '2015-06-15',
+      });
+      expect(validateApplicant(applicant)).to.be.false;
+    });
+
+    [
+      ['first name is omitted', { applicantName: { last: 'Doe' } }],
+      ['last name is omitted', { applicantName: { first: 'John' } }],
+      ['DOB is omitted', { applicantDob: undefined }],
+      ['SSN is omitted', { applicantSsn: undefined }],
+      ['gender is omitted', { applicantGender: {} }],
+      ['phone is omitted', { applicantPhone: undefined }],
+      [
+        'street is omitted',
+        { applicantAddress: { city: 'Anytown', state: 'NY' } },
+      ],
+      [
+        'city is omitted',
+        { applicantAddress: { street: '123 Main St', state: 'NY' } },
+      ],
+      [
+        'state is omitted',
+        { applicantAddress: { street: '123 Main St', city: 'Anytown' } },
+      ],
+      [
+        'relationship to sponsor is omitted',
+        { applicantRelationshipToSponsor: {} },
+      ],
+      ['applicant name is undefined', { applicantName: undefined }],
+      ['applicant address is undefined', { applicantAddress: undefined }],
+      [
+        'relationship to sponsor is undefined',
+        { applicantRelationshipToSponsor: undefined },
+      ],
+    ].forEach(([label, overrides]) => {
+      it(`should return "true" when ${label}`, () => {
+        const applicant = makeApplicant(overrides);
+        expect(validateApplicant(applicant)).to.be.true;
+      });
+    });
+  });
+
+  context('Date validation', () => {
+    it('should return "true" for invalid DOB', () => {
+      const applicant = makeApplicant({ applicantDob: 'invalid-date' });
+      expect(validateApplicant(applicant)).to.be.true;
+    });
+
+    it('should return "true" for future DOB', () => {
+      const future = dateStr(NOW.getUTCFullYear() + 1, 1, 1);
+      const applicant = makeApplicant({ applicantDob: future });
+      expect(validateApplicant(applicant)).to.be.true;
+    });
+
+    it('should return "false" for valid past DOB', () => {
+      const applicant = makeApplicant({
+        dateOfMarriageToSponsor: '2015-06-15',
+      });
+      expect(validateApplicant(applicant)).to.be.false;
+    });
+  });
+
+  context('Spouse validation', () => {
+    const spouse = (overrides = {}) =>
+      makeApplicant({
+        applicantRelationshipToSponsor: { relationshipToVeteran: 'spouse' },
+        ...overrides,
+      });
+
+    [
+      ['marriage date is omitted', {}],
+      ['marriage date is invalid', { dateOfMarriageToSponsor: 'invalid-date' }],
+      [
+        'marriage date is a future date',
+        { dateOfMarriageToSponsor: dateStr(NOW.getUTCFullYear() + 1) },
+      ],
+      [
+        'marriage date is before DOB',
+        { applicantDob: '1990-01-01', dateOfMarriageToSponsor: '1989-12-31' },
+      ],
+    ].forEach(([label, overrides]) => {
+      it(`should return "true" when ${label}`, () => {
+        expect(validateApplicant(spouse(overrides))).to.be.true;
+      });
+    });
+
+    it('should return "false" for valid spouse with proper marriage date', () => {
+      expect(
+        validateApplicant(spouse({ dateOfMarriageToSponsor: '2015-06-15' })),
+      ).to.be.false;
+    });
+  });
+
+  context('Child validation', () => {
+    const child = (overrides = {}) =>
+      makeApplicant({
+        applicantRelationshipToSponsor: { relationshipToVeteran: 'child' },
+        ...overrides,
+      });
+
+    it('should return "true" when relationship origin is omitted', () => {
+      expect(validateApplicant(child())).to.be.true;
+    });
+
+    context('Biological child', () => {
+      it('should return "false" for valid biological child', () => {
+        expect(
+          validateApplicant(
+            child({
+              applicantRelationshipOrigin: { relationshipToVeteran: 'blood' },
+            }),
+          ),
+        ).to.be.false;
+      });
+    });
+
+    context('Adopted child', () => {
+      const adopted = (overrides = {}) =>
+        child({
+          applicantRelationshipOrigin: { relationshipToVeteran: 'adoption' },
+          ...overrides,
+        });
+
+      [
+        ['birth certificate is omitted', {}],
+        [
+          'birth certificate array is empty',
+          { applicantBirthCertOrSocialSecCard: [] },
+        ],
+        [
+          'birth certificate is a nameless file',
+          { applicantBirthCertOrSocialSecCard: files(null) },
+        ],
+      ].forEach(([label, overrides]) => {
+        it(`should return "true" for adopted child when ${label}`, () => {
+          expect(validateApplicant(adopted(overrides))).to.be.true;
+        });
+      });
+
+      [
+        [
+          'adoption papers',
+          { applicantBirthCertOrSocialSecCard: files('birth-cert.pdf') },
+        ],
+        [
+          'empty adoption papers',
+          {
+            applicantBirthCertOrSocialSecCard: files('birth-cert.pdf'),
+            applicantAdoptionPapers: [],
+          },
+        ],
+        [
+          'adoption paper has no name',
+          {
+            applicantBirthCertOrSocialSecCard: files('birth-cert.pdf'),
+            applicantAdoptionPapers: files(null),
+          },
+        ],
+      ].forEach(([label, overrides]) => {
+        it(`should return "true" for adopted child when ${label}`, () => {
+          expect(validateApplicant(adopted(overrides))).to.be.true;
+        });
+      });
+
+      it('should return "false" for valid adopted child with all documents', () => {
+        expect(
+          validateApplicant(
+            adopted({
+              applicantBirthCertOrSocialSecCard: files('birth-cert.pdf'),
+              applicantAdoptionPapers: files('adoption-papers.pdf'),
+            }),
+          ),
+        ).to.be.false;
+      });
+    });
+
+    context('Stepchild', () => {
+      const step = (overrides = {}) =>
+        child({
+          applicantRelationshipOrigin: { relationshipToVeteran: 'step' },
+          ...overrides,
+        });
+
+      it('should return "true" if birth certificate is omitted', () => {
+        expect(validateApplicant(step())).to.be.true;
+      });
+
+      [
+        [
+          'proof of marriage is omitted',
+          { applicantBirthCertOrSocialSecCard: files('birth-cert.pdf') },
+        ],
+        [
+          'proof of marriage array is empty',
+          {
+            applicantBirthCertOrSocialSecCard: files('birth-cert.pdf'),
+            applicantStepMarriageCert: [],
+          },
+        ],
+        [
+          'proof of marriage is a nameless file',
+          {
+            applicantBirthCertOrSocialSecCard: files('birth-cert.pdf'),
+            applicantStepMarriageCert: files(null),
+          },
+        ],
+      ].forEach(([label, overrides]) => {
+        it(`should return "true" when ${label}`, () => {
+          expect(validateApplicant(step(overrides))).to.be.true;
+        });
+      });
+
+      it('should return "false" for valid stepchild', () => {
+        expect(
+          validateApplicant(
+            step({
+              applicantBirthCertOrSocialSecCard: files('birth-cert.pdf'),
+              applicantStepMarriageCert: files('step-marriage-cert.pdf'),
+            }),
+          ),
+        ).to.be.false;
+      });
+    });
+
+    context('College-age dependent status', () => {
+      const blood = {
+        applicantRelationshipOrigin: { relationshipToVeteran: 'blood' },
+      };
+      const twentyYearOld = child({ ...blood, applicantDob: withAge(20) });
+
+      it('should return "true" when dependent status is (age 20)', () => {
+        expect(validateApplicant(twentyYearOld)).to.be.true;
+      });
+
+      it('should return "false" for over18HelplessChild (no school docs required)', () => {
+        expect(
+          validateApplicant({
+            ...twentyYearOld,
+            applicantDependentStatus: { status: 'over18HelplessChild' },
+          }),
+        ).to.be.false;
+      });
+
+      [
+        [
+          'enrolled dependent with no proof',
+          { applicantDependentStatus: { status: 'enrolled' } },
+        ],
+        [
+          'enrolled dependent with empty proof',
+          {
+            applicantDependentStatus: { status: 'enrolled' },
+            applicantSchoolCert: [],
+          },
+        ],
+        [
+          'enrolled dependent with nameless file',
+          {
+            applicantDependentStatus: { status: 'enrolled' },
+            applicantSchoolCert: files(null),
+          },
+        ],
+      ].forEach(([label, overrides]) => {
+        it(`should return "true" for ${label}`, () => {
+          expect(validateApplicant({ ...twentyYearOld, ...overrides })).to.be
+            .true;
+        });
+      });
+
+      it('should return "false" for enrolled dependent with proof', () => {
+        expect(
+          validateApplicant({
+            ...twentyYearOld,
+            applicantDependentStatus: { status: 'enrolled' },
+            applicantSchoolCert: files('school-enrollment.pdf'),
+          }),
+        ).to.be.false;
+      });
+
+      it('should return "true" for intendsToEnroll with no proof', () => {
+        expect(
+          validateApplicant({
+            ...twentyYearOld,
+            applicantDependentStatus: { status: 'intendsToEnroll' },
+          }),
+        ).to.be.true;
+      });
+
+      it('should return "false" for intendsToEnroll with proof', () => {
+        expect(
+          validateApplicant({
+            ...twentyYearOld,
+            applicantDependentStatus: { status: 'intendsToEnroll' },
+            applicantSchoolCert: files('school-enrollment.pdf'),
+          }),
+        ).to.be.false;
+      });
+    });
+
+    context('No dependent status required under 18 or over 23', () => {
+      const blood = {
+        applicantRelationshipOrigin: { relationshipToVeteran: 'blood' },
+      };
+
+      [
+        ['16-year-old', withAge(16)],
+        ['25-year-old', withAge(25)],
+        [
+          '17-year-old exact birthday',
+          dateStr(
+            NOW.getUTCFullYear() - 17,
+            NOW.getUTCMonth() + 1,
+            NOW.getUTCDate(),
+          ),
+        ],
+        [
+          '24-year-old exact birthday',
+          dateStr(
+            NOW.getUTCFullYear() - 24,
+            NOW.getUTCMonth() + 1,
+            NOW.getUTCDate(),
+          ),
+        ],
+      ].forEach(([label, dob]) => {
+        it(`should return "false" for ${label} with no dependent status`, () => {
+          expect(validateApplicant(child({ ...blood, applicantDob: dob }))).to
+            .be.false;
+        });
+      });
+    });
+  });
+
+  context('Edge cases', () => {
+    [
+      ['empty object', {}],
+      ['undefined', undefined],
+      ['partial data (only first name)', { applicantName: { first: 'John' } }],
+    ].forEach(([label, value]) => {
+      it(`should return "true" for ${label}`, () => {
+        expect(validateApplicant(value)).to.be.true;
+      });
+    });
+
+    it('should return "false" for non-standard relationship types (treated as no extra reqs)', () => {
+      const applicant = makeApplicant({
+        applicantRelationshipToSponsor: { relationshipToVeteran: 'other' },
+        dateOfMarriageToSponsor: '2015-06-15',
+      });
+      expect(validateApplicant(applicant)).to.be.false;
     });
   });
 });

@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 147,
+  "totalApplications": 152,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -49,7 +49,7 @@
       "directoryPath": "src/applications/appeals/onramp",
       "appName": "Decision Reviews Onramp Tool",
       "entryName": "onramp",
-      "rootUrl": "/decision-reviews/explore-disability-claim-decision-review-options"
+      "rootUrl": "/decision-reviews/explore-disability-claim-options"
     },
     {
       "directoryPath": "src/applications/appeals/testing/download",
@@ -103,7 +103,7 @@
       "directoryPath": "src/applications/benefits-optimization-aquia/21-0779-nursing-home-information",
       "appName": "21-0779 Nursing Home Information",
       "entryName": "21-0779-nursing-home-information",
-      "rootUrl": "/supporting-forms-for-claims/aid-attendance-housebound"
+      "rootUrl": "/supporting-forms-for-claims/submit-nursing-home-information-form-21-0779"
     },
     {
       "directoryPath": "src/applications/benefits-optimization-aquia/21-2680-house-bound-status",
@@ -122,6 +122,12 @@
       "appName": "21P-530a Interment Allowance",
       "entryName": "21p-530a-interment-allowance",
       "rootUrl": "/submit-state-interment-allowance-form-21p-530a"
+    },
+    {
+      "directoryPath": "src/applications/benefits-optimization-pingwind/21-8940",
+      "appName": "Apply for additional compensation based on inability to work",
+      "entryName": "21-8940",
+      "rootUrl": "/disability/eligibility/special-claims/unemployability/apply-unemployability-compensation-form-21-8940"
     },
     {
       "directoryPath": "src/applications/burials-ez",
@@ -244,10 +250,22 @@
       "rootUrl": "/ds-v3-playground"
     },
     {
+      "directoryPath": "src/applications/edu-benefits/0803",
+      "appName": "22-0803 Request for reimbursement of licensing or certification test fees",
+      "entryName": "0803-edu-benefits",
+      "rootUrl": "/education/other-va-education-benefits/reimbursements/test-reimbursement-22-0803"
+    },
+    {
       "directoryPath": "src/applications/edu-benefits/0839",
       "appName": "0839",
       "entryName": "0839-edu-benefits",
       "rootUrl": "/school-administrators/submit-yellow-ribbon-program-agreement-form-22-0839"
+    },
+    {
+      "directoryPath": "src/applications/edu-benefits/0976",
+      "appName": "Program Apporval in a Foreign Country (VA Form 22-0976)",
+      "entryName": "0976-edu-benefits",
+      "rootUrl": "/education/0976"
     },
     {
       "directoryPath": "src/applications/edu-benefits/0994",
@@ -274,10 +292,22 @@
       "rootUrl": "/school-administrators/35-percent-exemption"
     },
     {
+      "directoryPath": "src/applications/edu-benefits/10272",
+      "appName": "22-10272 Application for reimbursement of preparatory (prep) course for licensing or certification test",
+      "entryName": "10272-edu-benefits",
+      "rootUrl": "/education/other-va-education-benefits/reimbursements/test-reimbursement-22-10272"
+    },
+    {
       "directoryPath": "src/applications/edu-benefits/10275",
       "appName": "10275",
       "entryName": "10275-edu-benefits",
       "rootUrl": "/school-administrators/commit-principles-of-excellence-form-22-10275"
+    },
+    {
+      "directoryPath": "src/applications/edu-benefits/10278",
+      "appName": "Authorize VA to Disclose Personal Information to a Third Party for Education Benefits",
+      "entryName": "10278-edu-benefits",
+      "rootUrl": "/education/disclose-information-to-third-party/authorize-disclosure-form-22-10278"
     },
     {
       "directoryPath": "src/applications/edu-benefits/10282",
@@ -508,12 +538,6 @@
       "rootUrl": "/education/apply-for-gi-bill-form-22-1990"
     },
     {
-      "directoryPath": "src/applications/new-28-1900",
-      "appName": "New 28-1900 Veteran Readiness",
-      "entryName": "new-28-1900-chapter-31",
-      "rootUrl": "/temporary/apply-vre-form-28-1900"
-    },
-    {
       "directoryPath": "src/applications/new-chapter-36-form",
       "appName": "Personalized Career Planning and Guidance/Chapter 36 (VA Form 27-8832)",
       "entryName": "new-chapter-36-form",
@@ -658,6 +682,12 @@
       "rootUrl": "/sign-in-confirm-contact-email"
     },
     {
+      "directoryPath": "src/applications/sign-in-health-portal",
+      "appName": "sign-in-health-portal",
+      "entryName": "sign-in-health-portal",
+      "rootUrl": "/sign-in-health-portal"
+    },
+    {
       "directoryPath": "src/applications/simple-forms-form-engine/12-3456",
       "appName": "Form Builder Sandbox",
       "entryName": "12-3456",
@@ -714,20 +744,14 @@
     {
       "directoryPath": "src/applications/simple-forms/21-4140",
       "appName": "Submit Employment Questionnaire",
-      "entryName": "21-4140-income-verification",
-      "rootUrl": "/disability/eligibility/special-claims/unemployability/employment-questionnaire-form-21-4140"
+      "entryName": "21-4140",
+      "rootUrl": "/disability/verify-individual-unemployability-status/submit-employment-questionnaire-form-21-4140"
     },
     {
       "directoryPath": "src/applications/simple-forms/21-4142",
       "appName": "Authorize the release of non-VA medical information to VA",
       "entryName": "21-4142-medical-release",
       "rootUrl": "/supporting-forms-for-claims/release-information-to-va-form-21-4142"
-    },
-    {
-      "directoryPath": "src/applications/simple-forms/21-8940",
-      "appName": "Apply for additional compensation based on inability to work",
-      "entryName": "21-8940",
-      "rootUrl": "/disability/eligibility/special-claims/unemployability/apply-form-21-8940"
     },
     {
       "directoryPath": "src/applications/simple-forms/21p-0537",
@@ -770,6 +794,12 @@
       "appName": "Mock form minimal header",
       "entryName": "mock-form-minimal-header",
       "rootUrl": "/mock-form-minimal-header"
+    },
+    {
+      "directoryPath": "src/applications/simple-forms/mock-form-prefill",
+      "appName": "Mock Form with Prefill",
+      "entryName": "mock-form-prefill",
+      "rootUrl": "/mock-form-prefill"
     },
     {
       "directoryPath": "src/applications/simple-forms/mock-simple-forms-patterns",
@@ -836,6 +866,12 @@
       "appName": "Appointments",
       "entryName": "vaos",
       "rootUrl": "/my-health/appointments"
+    },
+    {
+      "directoryPath": "src/applications/vass",
+      "appName": "VASS",
+      "entryName": "vass",
+      "rootUrl": "/service-member/benefits/solid-start/schedule"
     },
     {
       "directoryPath": "src/applications/verify",

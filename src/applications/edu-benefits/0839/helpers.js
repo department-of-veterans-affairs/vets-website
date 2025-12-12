@@ -1,4 +1,5 @@
 import React from 'react';
+import { CURRENCY_LABELS } from './constants';
 
 export const validateInitials = (inputValue, firstName, lastName) => {
   if (!inputValue || inputValue.length === 0) {
@@ -107,7 +108,6 @@ export const toTitleCase = str => {
 
   return titled.join(' ');
 };
-
 export const getCardDescription = item => {
   return item ? (
     <>
@@ -147,8 +147,8 @@ export const getCardTitle = item => {
 
 export const additionalInstitutionDetailsArrayOptions = {
   arrayPath: 'additionalInstitutionDetails',
-  nounSingular: 'institution',
-  nounPlural: 'institutions',
+  nounSingular: 'location',
+  nounPlural: 'locations',
   required: false,
   isItemIncomplete: item => !item?.facilityCode,
   maxItems: 10,
@@ -158,8 +158,8 @@ export const additionalInstitutionDetailsArrayOptions = {
     summaryTitle: props => {
       const count = props?.formData?.additionalInstitutionDetails?.length || 0;
       return count > 1
-        ? 'Review your additional institutions'
-        : 'Review your additional institution';
+        ? 'Review your additional locations'
+        : 'Review your additional location';
     },
     summaryDescriptionWithoutItems: (
       <>
@@ -179,7 +179,7 @@ export const additionalInstitutionDetailsArrayOptions = {
 export const createBannerMessage = (
   institutionDetails,
   isArrayItem,
-  mainInstitution,
+  // mainInstitution,
 ) => {
   const notYR = institutionDetails.yrEligible === false;
   const notIHL = institutionDetails.ihlEligible === false;
@@ -190,26 +190,19 @@ export const createBannerMessage = (
   const badFormat = code?.length > 0 && !/^[a-zA-Z0-9]{8}$/.test(code);
   const thirdChar = code?.charAt(2).toUpperCase();
 
-  const hasXInThirdPosition =
-    code?.length === 8 && !badFormat && thirdChar === 'X';
-
-  if (notFound) {
-    return null;
-  }
-
   if (isArrayItem) {
+    const hasXInThirdPosition =
+      code?.length === 8 && !badFormat && thirdChar === 'X';
+
     if (hasXInThirdPosition) {
       message =
         "This facility code can't be accepted. Check your WEAMS 22-1998 Report or contact your ELR for a list of eligible codes.";
       return message;
     }
-    if (
-      !mainInstitution?.facilityMap?.branches?.includes(code) &&
-      !mainInstitution?.facilityMap?.extensions?.includes(code)
-    ) {
-      message =
-        "This facility code can't be accepted because it's not associated with your main campus. Check your WEAMS 22-1998 Report or contact your ELR for a list of eligible codes.";
-    }
+  }
+
+  if (notFound) {
+    return null;
   }
 
   if (notYR && !isArrayItem) {
@@ -228,4 +221,217 @@ export const createBannerMessage = (
 export const getAcademicYearDisplay = () => {
   const currentYear = new Date().getFullYear();
   return `${currentYear}-${currentYear + 1}`;
+};
+
+export const matchYearPattern = fieldData => {
+  const startYear = fieldData.split('-')[0];
+  const endYear = fieldData.split('-')[1];
+  if (Number(endYear) !== Number(startYear) + 1) {
+    return false;
+  }
+  const yearPattern = /^(\d{4}|XXXX)-(\d{4}|XXXX)$/;
+  return yearPattern.test(fieldData);
+};
+
+const yellowRibbonCardTitleCase = str => {
+  if (!str || typeof str !== 'string' || str.length === 0) {
+    return '';
+  }
+
+  const minorWords = [
+    'a',
+    'an',
+    'the',
+    'and',
+    'but',
+    'or',
+    'for',
+    'nor',
+    'as',
+    'at',
+    'by',
+    'up',
+    'out',
+    'in',
+    'of',
+    'on',
+    'to',
+    'with',
+    'from',
+  ];
+  const words = str
+    .toLowerCase()
+    .split(/\s+/)
+    .filter(word => word.length > 0);
+
+  const result = words.map((word, index) => {
+    if (index > 0 && index < words.length - 1 && minorWords.includes(word)) {
+      return word;
+    }
+    return word.charAt(0).toUpperCase() + word.slice(1);
+  });
+
+  return result.join(' ');
+};
+
+const yellowRibbonProgramCardDescription = item => {
+  if (!item) return null;
+  return (
+    <div>
+      <p>{yellowRibbonCardTitleCase(item.degreeLevel)}</p>
+      <p>{yellowRibbonCardTitleCase(item.collegeOrProfessionalSchool)}</p>
+      <p>{CURRENCY_LABELS[item.schoolCurrency]}</p>
+      <p>
+        {!item.specificContributionAmount
+          ? 'Pay remaining tuition that Post-9/11 GI Bill doesn’t cover (unlimited)'
+          : `${item.collegeOrProfessionalSchool ? '$' : ''}${Number(
+              item.specificContributionAmount,
+            ).toLocaleString()}`}
+      </p>
+    </div>
+  );
+};
+export const arrayBuilderOptions = {
+  arrayPath: 'yellowRibbonProgramRequest',
+  nounSingular: 'contribution',
+  nounPlural: 'contributions',
+  required: true,
+  title: props => {
+    const institutionDetails = props?.formData?.institutionDetails;
+    const { isUsaSchool } = institutionDetails || {};
+    return `${
+      isUsaSchool ? 'U.S.' : 'Foreign'
+    } Yellow Ribbon Program contributions`;
+  },
+  text: {
+    getItemName: item =>
+      `Max. number of students: ${
+        item?.maximumStudentsOption === 'specific'
+          ? item?.maximumStudents
+          : 'Unlimited'
+      }`,
+    cardDescription: item => yellowRibbonProgramCardDescription(item),
+    summaryTitle: props => {
+      const institutionDetails = props?.formData?.institutionDetails;
+      const { isUsaSchool } = institutionDetails || {};
+      return `Review your Yellow Ribbon Program contributions ${
+        isUsaSchool ? '(U.S. schools)' : '(foreign schools)'
+      }`;
+    },
+  },
+};
+
+export const addMaxContributions = arr => {
+  return arr.reduce((acc, item) => {
+    return acc + Number(item.maximumStudents || 0);
+  }, 0);
+};
+export const facilityCodeUIValidation = (errors, fieldData, formData) => {
+  const code = (fieldData || '').trim();
+
+  const currentItem = formData?.additionalInstitutionDetails?.find(
+    item => item?.facilityCode?.trim() === code,
+  );
+
+  const additionalFacilityCodes = formData?.additionalInstitutionDetails?.map(
+    item => item?.facilityCode?.trim(),
+  );
+
+  const facilityCodes = [
+    ...additionalFacilityCodes,
+    formData?.institutionDetails?.facilityCode,
+  ];
+
+  const isDuplicate = facilityCodes?.filter(item => item === code).length > 1;
+
+  const badFormat = fieldData && !/^[a-zA-Z0-9]{8}$/.test(fieldData);
+  const notFound = currentItem?.institutionName === 'not found';
+  const ihlEligible = currentItem?.ihlEligible;
+  const notYR = currentItem?.yrEligible === false;
+  const thirdChar = code?.charAt(2).toUpperCase();
+
+  const hasXInThirdPosition =
+    code.length === 8 && !badFormat && thirdChar === 'X';
+
+  if (!currentItem?.isLoading) {
+    if (isDuplicate) {
+      errors.addError(
+        'You have already added this facility code to this form. Enter a new facility code, or cancel adding this additional location.',
+      );
+      return;
+    }
+
+    if (hasXInThirdPosition) {
+      errors.addError(
+        'Codes with an "X" in the third position are not eligible',
+      );
+      return;
+    }
+
+    if (badFormat || notFound) {
+      errors.addError(
+        'Please enter a valid facility code. To determine your facility code, refer to your WEAMS 22-1998 Report or contact your ELR.',
+      );
+      return;
+    }
+
+    if (notYR) {
+      errors.addError(
+        "The institution isn't eligible for the Yellow Ribbon Program.",
+      );
+      return;
+    }
+
+    if (ihlEligible === false) {
+      errors.addError(
+        'This institution is not an IHL. Please see information below.',
+      );
+    }
+  }
+};
+
+export const showAdditionalPointsOfContact = formData => {
+  const isYellowRibbonProgramPointOfContact =
+    formData?.pointsOfContact?.roles?.isYellowRibbonProgramPointOfContact ===
+    true;
+  const isSchoolFinancialRepresentative =
+    formData?.pointsOfContact?.roles?.isSchoolFinancialRepresentative === true;
+  const isSchoolCertifyingOfficial =
+    formData?.pointsOfContact?.roles?.isSchoolCertifyingOfficial === true;
+
+  const hasBothRoles =
+    (isYellowRibbonProgramPointOfContact || isSchoolFinancialRepresentative) &&
+    isSchoolCertifyingOfficial;
+
+  return !hasBothRoles;
+};
+
+export const getAdditionalContactTitle = formData => {
+  const isYellowRibbonProgramPointOfContact =
+    formData?.pointsOfContact?.roles?.isYellowRibbonProgramPointOfContact ===
+    true;
+  const isSchoolFinancialRepresentative =
+    formData?.pointsOfContact?.roles?.isSchoolFinancialRepresentative === true;
+
+  if (
+    !isSchoolFinancialRepresentative &&
+    !isYellowRibbonProgramPointOfContact
+  ) {
+    return 'Add Yellow Ribbon Program point of contact';
+  }
+
+  return 'Add school certifying official';
+};
+
+export const capitalizeFirstLetter = str => {
+  if (!str || typeof str !== 'string') return '';
+  return `${str.charAt(0).toUpperCase()}${str.slice(1)}`;
+};
+
+export const CustomReviewTopContent = () => {
+  return (
+    <h3 className="vads-u-font-size--h3 vads-u-margin-top--0 vads-u-margin-bottom--3">
+      Review your form
+    </h3>
+  );
 };

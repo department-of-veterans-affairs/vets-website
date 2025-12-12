@@ -7,6 +7,17 @@ import ViewDependentsHeader from '../components/ViewDependentsHeader/ViewDepende
 import { isServerError, isClientError } from '../util';
 import { errorFragment, noDependentsAlertV2 } from './helpers';
 
+/**
+ * Builds view dependents page '/dependents/view'
+ * @param {Object} props all props
+ * @param {Boolean} props.loading loading state
+ * @param {Boolean} props.error error status
+ * @param {Array} props.onAwardDependents list of active dependents
+ * @param {Array} props.notOAwardDependents list of inactive dependents
+ * @param {Boolean} props.manageDependentsToggle feature toggle
+ * @param {Boolean} props.hasMinimumRating true if disability rating is 30 or higher
+ * @returns {components} <ViewDependentsLists>, <ViewDependentsHeader>
+ */
 function ViewDependentsLayout(props) {
   let mainContent;
   let hasDependents = false;
@@ -23,8 +34,9 @@ function ViewDependentsLayout(props) {
   ) {
     mainContent = noDependentsAlertV2;
   } else {
-    // Don't show the alert if there are no on award dependents
-    hasDependents = props.onAwardDependents?.length > 0;
+    // Only show the alert if there are on award dependents AND a rating of 30+
+    hasDependents =
+      props.onAwardDependents?.length > 0 && props.hasMinimumRating;
     mainContent = (
       <ViewDependentsLists
         manageDependentsToggle={props.manageDependentsToggle}
@@ -32,7 +44,6 @@ function ViewDependentsLayout(props) {
         hasDependents={hasDependents}
         onAwardDependents={props.onAwardDependents}
         notOnAwardDependents={props.notOnAwardDependents}
-        dependencyVerificationToggle={props.dependencyVerificationToggle}
       />
     );
   }
@@ -64,9 +75,9 @@ function ViewDependentsLayout(props) {
 }
 
 ViewDependentsLayout.propTypes = {
-  dependencyVerificationToggle: PropTypes.bool,
   dependentsToggle: PropTypes.bool,
   error: PropTypes.object,
+  hasMinimumRating: PropTypes.bool,
   loading: PropTypes.bool,
   manageDependentsToggle: PropTypes.bool,
   notOnAwardDependents: PropTypes.array,

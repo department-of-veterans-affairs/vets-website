@@ -143,19 +143,44 @@ export const convertVital = record => {
       : EMPTY_FIELD,
     effectiveDateTime: record?.effectiveDateTime,
     location: extractLocation(record),
+    // TODO: This should be changed to accommodate multiple notes
     notes:
       (isArrayAndHasItems(record.note) && record.note[0]?.text) || EMPTY_FIELD,
+  };
+};
+
+export const convertUnifiedVital = record => {
+  // TODO: move this fallback method also into the Vitals parser in the BE
+  // Fallback: derive from text (legacy) else mark as OTHER
+  // if (!type) {
+  //   const derived = macroCase(record.code?.text);
+  //   type = loincToVitalType[derived] || derived || 'OTHER';
+  // }
+  return {
+    name: record.attributes.name,
+    type: record.attributes.type,
+    id: record.id,
+    measurement: record.attributes.measurement || EMPTY_FIELD,
+    date: record.attributes.date
+      ? dateFormatWithoutTimezone(record.attributes.date)
+      : EMPTY_FIELD,
+    effectiveDateTime: record?.attributes.date,
+    location: record.attributes.location || EMPTY_FIELD,
+    // TODO: This should be changed to accommodate multiple notes
+    notes:
+      (isArrayAndHasItems(record.attributes.notes) &&
+        record.attributes.notes[0]) ||
+      EMPTY_FIELD,
   };
 };
 
 export const vitalReducer = (state = initialState, action) => {
   switch (action.type) {
     case Actions.Vitals.GET: {
+      const list = Array.isArray(state.vitalsList) ? state.vitalsList : [];
       return {
         ...state,
-        vitalDetails: state.vitalsList.filter(
-          vital => vital.type === action.vitalType,
-        ),
+        vitalDetails: list.filter(vital => vital.type === action.vitalType),
       };
     }
     case Actions.Vitals.GET_LIST: {
@@ -170,6 +195,21 @@ export const vitalReducer = (state = initialState, action) => {
           .map(vital => {
             return convertVital(vital.resource);
           }) || [];
+
+      return {
+        ...state,
+        listCurrentAsOf: action.isCurrent ? new Date() : null,
+        listState: loadStates.FETCHED,
+        vitalsList: typeof oldList === 'undefined' ? newList : oldList,
+        updatedList: typeof oldList !== 'undefined' ? newList : undefined,
+      };
+    }
+    case Actions.Vitals.GET_UNIFIED_LIST: {
+      const oldList = state.vitalsList;
+      const newList =
+        action.response.data?.map(vital => {
+          return convertUnifiedVital(vital);
+        }) || [];
 
       return {
         ...state,

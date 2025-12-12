@@ -1,8 +1,9 @@
 import {
+  titleUI,
   fullNameUI,
   fullNameSchema,
-  selectUI,
-  selectSchema,
+  radioUI,
+  radioSchema,
   currentOrPastDateUI,
   currentOrPastDateSchema,
   addressUI,
@@ -48,6 +49,7 @@ const options = {
 /** @returns {PageSchema} */
 const summaryPage = {
   uiSchema: {
+    ...titleUI('Surviving relatives'),
     'view:hasRelatives': arrayBuilderYesNoUI(options),
   },
   schema: {
@@ -67,14 +69,17 @@ const relativeNamePage = {
       nounSingular: options.nounSingular,
     }),
     fullName: fullNameUI(),
-    relationship: selectUI('Relationship to deceased'),
+    relationship: radioUI({
+      title: 'Relationship to deceased',
+      labels: relationshipOptions,
+    }),
     dateOfBirth: currentOrPastDateUI('Date of birth'),
   },
   schema: {
     type: 'object',
     properties: {
       fullName: fullNameSchema,
-      relationship: selectSchema(Object.keys(relationshipOptions)),
+      relationship: radioSchema(Object.keys(relationshipOptions)),
       dateOfBirth: currentOrPastDateSchema,
     },
     required: ['fullName', 'relationship'],

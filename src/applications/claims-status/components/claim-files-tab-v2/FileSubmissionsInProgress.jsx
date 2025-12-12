@@ -6,8 +6,12 @@ import {
   VaLink,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { buildDateFormatter } from '../../utils/helpers';
+import {
+  buildDateFormatter,
+  getTrackedItemDisplayNameFromEvidenceSubmission,
+} from '../../utils/helpers';
 import { useIncrementalReveal } from '../../hooks/useIncrementalReveal';
+import TimezoneDiscrepancyMessage from '../TimezoneDiscrepancyMessage';
 import { ANCHOR_LINKS } from '../../constants';
 import { setPageFocus } from '../../utils/page';
 
@@ -60,6 +64,7 @@ const FileSubmissionsInProgress = ({ claim }) => {
       >
         File submissions in progress
       </h3>
+      <TimezoneDiscrepancyMessage />
       <p>
         Documents you submitted for review using this tool, or the VA: Health
         and Benefits mobile app, that we haven’t received yet. It can take up to
@@ -102,8 +107,11 @@ const FileSubmissionsInProgress = ({ claim }) => {
             >
               {currentPageItems.map((item, itemIndex) => {
                 const statusBadgeText = item.uploadStatusDisplayValue;
-                const requestTypeText = item.trackedItemDisplayName
-                  ? `Request type: ${item.trackedItemDisplayName}`
+                const requestType = getTrackedItemDisplayNameFromEvidenceSubmission(
+                  item,
+                );
+                const requestTypeText = requestType
+                  ? `Submitted in response to request: ${requestType}`
                   : 'You submitted this file as additional evidence.';
 
                 return (
@@ -143,7 +151,9 @@ const FileSubmissionsInProgress = ({ claim }) => {
                       </div>
                       {item.createdAt && (
                         <p className="file-submitted-date vads-u-margin-y--0">
-                          {`Submitted on ${formatDate(item.createdAt)}`}
+                          {`Submission started on ${formatDate(
+                            item.createdAt,
+                          )}`}
                         </p>
                       )}
                     </VaCard>

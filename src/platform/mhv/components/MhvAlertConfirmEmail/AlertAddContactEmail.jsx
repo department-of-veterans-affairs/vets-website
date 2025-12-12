@@ -8,8 +8,7 @@ import {
 
 const CONTENT = `We’ll send notifications about your VA health care and
   benefits to this email.`;
-const VA_PROFILE_EMAIL_HREF =
-  '/profile/contact-information#contact-email-address';
+const VA_PROFILE_EMAIL_HREF = '/profile/contact-information#email-address';
 
 // implements https://www.figma.com/design/CAChU51fWYMZsgDR5RXeSc/MHV-Landing-Page?node-id=7184-45009&t=CogySEDQUAcvZwHQ-4
 const AlertAddContactEmail = ({ recordEvent, onSkipClick }) => {
@@ -24,7 +23,10 @@ const AlertAddContactEmail = ({ recordEvent, onSkipClick }) => {
       dataTestid="mhv-alert--add-contact-email"
       className="vads-u-margin-y--2"
     >
-      <h2 slot="headline">{headline}</h2>
+      <h2 slot="headline">
+        <span className="usa-sr-only">warning</span>
+        {headline}
+      </h2>
       <React.Fragment key=".1">
         <p>{CONTENT}</p>
         <p>
@@ -36,7 +38,6 @@ const AlertAddContactEmail = ({ recordEvent, onSkipClick }) => {
         </p>
         <p>
           <VaButton
-            fullWidth
             secondary
             onClick={() => onSkipClick()}
             text="Skip adding email"

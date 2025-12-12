@@ -2,6 +2,8 @@ import { srSubstitute } from '~/platform/forms-system/src/js/utilities/ui/mask-s
 import { focusElement } from 'platform/utilities/ui';
 import { waitForShadowRoot } from 'platform/utilities/ui/webComponents';
 import { scrollTo } from 'platform/utilities/scroll';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import testData from '../tests/e2e/fixtures/data/veteran.json';
 import {
   FORM_UPLOAD_FILE_UPLOADING_ALERT,
   FORM_UPLOAD_INSTRUCTION_ALERT,
@@ -18,7 +20,13 @@ const formMappings = {
       'Application for Disability Compensation and Related Compensation Benefits',
     pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21-526EZ-ARE.pdf',
   },
+  '21-0966': {
+    subTitle:
+      'Intent to File a Claim for Compensation and/or Pension, or Survivors Pension and/or DIC (VA Form 21-0966)',
+  },
 };
+
+export const mockData = testData.data;
 
 export const getFormNumber = (pathname = null) => {
   const path = pathname || window?.location?.pathname;
@@ -87,8 +95,10 @@ export const onCloseAlert = e => {
   e.target.visible = false;
 };
 
-export const getMockData = (mockData, isLocalhost) => {
-  return !!mockData && isLocalhost() && !window.Cypress ? mockData : undefined;
+export const getMockData = () => {
+  return !!mockData && environment.isLocalhost() && !window.Cypress
+    ? mockData
+    : undefined;
 };
 
 export const formattedPhoneNumber = phoneNumber => {
@@ -108,11 +118,6 @@ export const onClickContinue = (props, setContinueClicked) => {
 export const getAlert = (props, continueClicked) => {
   const warnings = props.data?.uploadedFile?.warnings;
   const fileUploading = props.data?.uploadedFile?.name === 'uploading';
-  // omit 'wrong_form' until reliable form validation is done in vets-api
-  const wrongFormIndex = (warnings || []).indexOf('wrong_form');
-  if (wrongFormIndex > -1) {
-    warnings.splice(wrongFormIndex, 1);
-  }
   const formNumber = getFormNumber();
   if (warnings?.length > 0) {
     return FORM_UPLOAD_OCR_ALERT(formNumber, onCloseAlert, warnings);

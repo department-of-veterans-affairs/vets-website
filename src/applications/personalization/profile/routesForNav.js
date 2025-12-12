@@ -10,12 +10,12 @@ import ConnectedApplications from './components/connected-apps/ConnectedApps';
 import NotificationSettings from './components/notification-settings/NotificationSettings';
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from './constants';
 import PersonalHealthCareContacts from './components/personal-health-care-contacts';
-import BlankPageTemplate from './components/BlankPageTemplate';
 import FinancialInformation from './components/FinancialInformation';
 import HealthCareSettings from './components/HealthCareSettings';
 import LettersAndDocuments from './components/LettersAndDocuments';
 import AccountSecurityPage from './components/AccountSecurity';
-import AppointmentPreferences from './components/health-care-settings/AppointmentPreferences';
+import SchedulingPreferences from './components/health-care-settings/SchedulingPreferences';
+import MessagesSignature from './components/health-care-settings/MessagesSignature';
 
 // the routesForNav array is used in the routes file to build the routes
 // the edit and hub routes are not present in the routesForNav array because
@@ -77,7 +77,6 @@ const routesForNav = [
     path: PROFILE_PATHS.NOTIFICATION_SETTINGS,
     requiresLOA3: true,
     requiresMVI: true,
-    subnavParent: PROFILE_PATH_NAMES.COMMUNICATIONS_SETTINGS,
   },
   {
     component: AccountSecurity,
@@ -143,15 +142,6 @@ const routesForProfile2Nav = [
     featureFlag: 'profileHealthCareSettingsPage',
   },
   {
-    component: AppointmentPreferences,
-    name: PROFILE_PATH_NAMES.APPOINTMENT_PREFERENCES,
-    path: PROFILE_PATHS.APPOINTMENT_PREFERENCES,
-    requiresLOA3: true,
-    requiresMVI: true,
-    subnavParent: PROFILE_PATH_NAMES.HEALTH_CARE_SETTINGS,
-    featureFlag: 'profileHealthCareSettingsPage',
-  },
-  {
     component: PersonalHealthCareContacts,
     name: PROFILE_PATH_NAMES.HEALTH_CARE_CONTACTS,
     path: PROFILE_PATHS.HEALTH_CARE_CONTACTS,
@@ -161,9 +151,18 @@ const routesForProfile2Nav = [
     featureFlag: 'profileHealthCareSettingsPage',
   },
   {
-    component: BlankPageTemplate, // TODO implement before Profile 2.0 launch
-    name: PROFILE_PATH_NAMES.SECURE_MESSAGES_SIGNATURE,
-    path: PROFILE_PATHS.SECURE_MESSAGES_SIGNATURE,
+    component: MessagesSignature,
+    name: PROFILE_PATH_NAMES.MESSAGES_SIGNATURE,
+    path: PROFILE_PATHS.MESSAGES_SIGNATURE,
+    requiresLOA3: true,
+    requiresMVI: true,
+    subnavParent: PROFILE_PATH_NAMES.HEALTH_CARE_SETTINGS,
+    featureFlag: 'profileHealthCareSettingsPage',
+  },
+  {
+    component: SchedulingPreferences,
+    name: PROFILE_PATH_NAMES.SCHEDULING_PREFERENCES,
+    path: PROFILE_PATHS.SCHEDULING_PREFERENCES,
     requiresLOA3: true,
     requiresMVI: true,
     subnavParent: PROFILE_PATH_NAMES.HEALTH_CARE_SETTINGS,
@@ -249,4 +248,9 @@ export const getRoutesForNav = (
   }
 
   return routesForNav;
+};
+
+export const routeHasParent = (route, routes) => {
+  const matchedRoute = routes.find(r => r.path === route.path);
+  return Boolean(matchedRoute?.subnavParent);
 };

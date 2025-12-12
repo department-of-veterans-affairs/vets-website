@@ -3,7 +3,7 @@ import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 import formConfig from '@bio-aquia/21p-530a-interment-allowance/config/form';
 import manifest from '@bio-aquia/21p-530a-interment-allowance/manifest.json';
-import mockUser from './fixtures/mocks/user.json';
+import { featureToggles, user } from './fixtures/mocks';
 
 // Helper for date component fillings
 export const fillDateWebComponentPattern = (fieldName, value) => {
@@ -18,12 +18,11 @@ export const fillDateWebComponentPattern = (fieldName, value) => {
         .find('select')
         .as('field');
 
-      cy.get('@field')
-        .select(parseInt(month, 10))
-        .realPress('Tab')
-        .realType(day)
-        .realPress('Tab')
-        .realType(year);
+      cy.get('@field').select(parseInt(month, 10));
+      cy.get('@field').realPress('Tab');
+      cy.get('@field').realType(day);
+      cy.get('@field').realPress('Tab');
+      cy.get('@field').realType(year);
     } else {
       cy.get(`va-memorable-date[name="root_${fieldName}"]`)
         .shadow()
@@ -31,26 +30,21 @@ export const fillDateWebComponentPattern = (fieldName, value) => {
         .shadow()
         .find('select')
         .as('month');
-      cy.get('@month')
-        .select(parseInt(month, 10))
-        .then(() => {
-          cy.get(`va-memorable-date[name="root_${fieldName}"]`)
-            .shadow()
-            .find('va-text-input.usa-form-group--day-input')
-            .shadow()
-            .find('input')
-            .as('day');
-          cy.get('@day')
-            .type(day)
-            .then(() => {
-              cy.get(`va-memorable-date[name="root_${fieldName}"]`)
-                .shadow()
-                .find('va-text-input.usa-form-group--year-input')
-                .shadow()
-                .find('input')
-                .type(year);
-            });
-        });
+      cy.get('@month').select(parseInt(month, 10));
+      cy.get(`va-memorable-date[name="root_${fieldName}"]`)
+        .shadow()
+        .find('va-text-input.usa-form-group--day-input')
+        .shadow()
+        .find('input')
+        .as('day');
+      cy.get('@day').type(day);
+      cy.get(`va-memorable-date[name="root_${fieldName}"]`)
+        .shadow()
+        .find('va-text-input.usa-form-group--year-input')
+        .shadow()
+        .find('input')
+        .as('year');
+      cy.get('@year').type(year);
     }
   }
 };
@@ -59,17 +53,47 @@ const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
     dataDir: path.join(__dirname, 'fixtures', 'data'),
-    dataSets: ['minimal-test', 'maximal-test'],
+    dataSets: ['minimal', 'maximal'],
+    // Slow down test execution for debugging (in milliseconds)
+    // Comment out or remove this line for normal speed
+    // slowTestThreshold: 1000,
     setupPerTest: () => {
-      cy.intercept('GET', '/v0/user', mockUser);
+      // Mock user and authentication
+      cy.intercept('GET', '/v0/user', user);
+
+      // Mock feature toggles
+      cy.intercept('GET', '/v0/feature_toggles*', featureToggles);
+
+      // Mock form submission
       cy.intercept('POST', formConfig.submitUrl, { status: 200 });
-      cy.login(mockUser);
+
+      // Mock save-in-progress endpoints
+      cy.intercept('PUT', '/v0/in_progress_forms/21P-530A', {
+        statusCode: 200,
+        body: {
+          formId: '21P-530A',
+          createdAt: '2025-01-15T14:30:00.000Z',
+          updatedAt: '2025-01-15T14:30:00.000Z',
+        },
+      });
+      cy.intercept('GET', '/v0/in_progress_forms/21P-530A', {
+        statusCode: 200,
+        body: {
+          formId: '21P-530A',
+          createdAt: '2025-01-15T14:30:00.000Z',
+          updatedAt: '2025-01-15T14:30:00.000Z',
+        },
+      });
+
+      // Login
+      cy.login(user);
     },
 
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
           // VaLinkAction
+          cy.get('[data-testid="start-burial-allowance-link"]');
           cy.get('[data-testid="start-burial-allowance-link"]').click();
         });
       },
@@ -94,25 +118,37 @@ const testConfig = createTestConfig(
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            const {
-              signature,
-              titleOfStateOrTribalOfficial,
-            } = data?.certification;
+            // Use organization names from form data for signature validation
+            const recipientOrgName =
+              data?.burialInformation?.recipientOrganization?.name || '';
+            const stateTribalOrgName =
+              data?.burialInformation
+                ?.nameOfStateCemeteryOrTribalOrganization || '';
+
+            // Fill organization title (must match state/tribal organization name)
             cy.get('va-text-input[name="organizationTitle"]')
               .shadow()
               .find('input')
-              .type(titleOfStateOrTribalOfficial);
+              .as('orgTitle');
+            cy.get('@orgTitle').type(stateTribalOrgName);
+
+            // Fill full name signature (must match recipient organization name)
             cy.get('#veteran-signature')
               .shadow()
               .find('input')
               .first()
-              .type(signature);
+              .as('signature');
+            cy.get('@signature').type(recipientOrgName);
+
+            // Check certification checkbox
             cy.get(`va-statement-of-truth`)
               .shadow()
               .find('va-checkbox')
               .shadow()
               .find('input')
-              .check({ force: true });
+              .as('checkbox');
+            cy.get('@checkbox').check({ force: true });
+
             cy.clickFormContinue();
           });
         });

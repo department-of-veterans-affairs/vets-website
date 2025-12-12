@@ -89,7 +89,7 @@ describe('SelectCareTeam', () => {
     },
   };
 
-  it('renders the heading and radio options', () => {
+  it('renders the heading and radio options', async () => {
     const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
       initialState,
       reducers: reducer,
@@ -101,6 +101,12 @@ describe('SelectCareTeam', () => {
         name: /Select care team/i,
       }),
     ).to.exist;
+
+    await waitFor(() => {
+      expect(document.title).to.contain(
+        'Select Care Team - Start Message | Veterans Affairs',
+      );
+    });
     const vaRadio = screen.container.querySelector('va-radio');
     expect(vaRadio).to.exist;
     expect(vaRadio.getAttribute('label')).to.equal(
@@ -789,7 +795,9 @@ describe('SelectCareTeam', () => {
       screen.unmount();
 
       // Check that datadogRum.addAction was called
-      expect(addActionSpy.calledOnce).to.be.true;
+      await waitFor(() => {
+        expect(addActionSpy.calledOnce).to.be.true;
+      });
       expect(
         addActionSpy.calledWith('Care System Radio Switch Count', {
           switchCount: 1,
@@ -818,7 +826,9 @@ describe('SelectCareTeam', () => {
       screen.unmount();
 
       // Check that datadogRum.addAction was called
-      expect(addActionSpy.calledOnce).to.be.true;
+      await waitFor(() => {
+        expect(addActionSpy.calledOnce).to.be.true;
+      });
       const callArgs = addActionSpy.lastCall.args;
       expect(callArgs[0]).to.equal('Care System Radio Switch Count');
       expect(callArgs[1]).to.deep.equal({
@@ -826,7 +836,7 @@ describe('SelectCareTeam', () => {
       });
     });
 
-    it('should call datadogRum.addAction when no care system switches occurred', () => {
+    it('should call datadogRum.addAction when no care system switches occurred', async () => {
       renderWithStoreAndRouter(<SelectCareTeam />, {
         initialState: stateWithAcceptInterstitial,
         reducers: reducer,
@@ -836,7 +846,9 @@ describe('SelectCareTeam', () => {
       // Unmount without any switches
       cleanup();
 
-      expect(addActionSpy.called).to.be.true;
+      await waitFor(() => {
+        expect(addActionSpy.called).to.be.true;
+      });
       const callArgs = addActionSpy.lastCall.args;
       expect(callArgs[0]).to.equal('Care System Radio Switch Count');
       expect(callArgs[1]).to.deep.equal({
@@ -864,12 +876,97 @@ describe('SelectCareTeam', () => {
       screen.unmount();
 
       // Check that datadogRum.addAction was called
-      expect(addActionSpy.calledOnce).to.be.true;
+      await waitFor(() => {
+        expect(addActionSpy.calledOnce).to.be.true;
+      });
       expect(
         addActionSpy.calledWith('Care System Radio Switch Count', {
           switchCount: 1,
         }),
       ).to.be.true;
+    });
+  });
+
+  describe('Error Handling', () => {
+    it('should redirect to inbox when recipientsError is true', async () => {
+      const stateWithRecipientsError = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          recipients: {
+            ...initialState.sm.recipients,
+            error: true,
+          },
+          threadDetails: {
+            draftInProgress: {},
+            acceptInterstitial: true,
+          },
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+        initialState: stateWithRecipientsError,
+        reducers: reducer,
+        path: Paths.SELECT_CARE_TEAM,
+      });
+
+      await waitFor(() => {
+        expect(screen.history.location.pathname).to.equal(Paths.INBOX);
+      });
+    });
+
+    it('should not redirect to inbox when recipientsError is false', async () => {
+      const stateWithoutRecipientsError = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          recipients: {
+            ...initialState.sm.recipients,
+            error: false,
+          },
+          threadDetails: {
+            draftInProgress: {},
+            acceptInterstitial: true,
+          },
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+        initialState: stateWithoutRecipientsError,
+        reducers: reducer,
+        path: Paths.SELECT_CARE_TEAM,
+      });
+
+      // Wait a bit to ensure no redirect happens
+      await new Promise(resolve => setTimeout(resolve, 100));
+      expect(screen.history.location.pathname).to.equal(Paths.SELECT_CARE_TEAM);
+    });
+
+    it('should not redirect to inbox when recipientsError is undefined', async () => {
+      const stateWithoutRecipientsError = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          recipients: {
+            ...initialState.sm.recipients,
+            error: undefined,
+          },
+          threadDetails: {
+            draftInProgress: {},
+            acceptInterstitial: true,
+          },
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+        initialState: stateWithoutRecipientsError,
+        reducers: reducer,
+        path: Paths.SELECT_CARE_TEAM,
+      });
+
+      // Wait a bit to ensure no redirect happens
+      await new Promise(resolve => setTimeout(resolve, 100));
+      expect(screen.history.location.pathname).to.equal(Paths.SELECT_CARE_TEAM);
     });
   });
 });

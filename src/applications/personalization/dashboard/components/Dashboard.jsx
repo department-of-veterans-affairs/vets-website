@@ -29,7 +29,10 @@ import {
   hasMPIConnectionError,
   isNotInMPI,
   selectAvailableServices,
+  selectProfile,
 } from '~/platform/user/selectors';
+import { filterOutExpiredForms } from '~/applications/personalization/dashboard/helpers';
+import { VA_FORM_IDS } from '~/platform/forms/constants';
 import {
   RequiredLoginView,
   RequiredLoginLoader,
@@ -140,7 +143,13 @@ const DashboardHeader = ({
           });
         }}
       />
-      {showConfirmEmail && <MhvAlertConfirmEmail />}
+      {showConfirmEmail && (
+        <div className="vads-l-row">
+          <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+            <MhvAlertConfirmEmail />
+          </div>
+        </div>
+      )}
       {isLOA3 && <ContactInfoNeeded />}
       {showNotifications && !hideNotificationsSection && <Notifications />}
     </div>
@@ -697,12 +706,23 @@ const mapStateToProps = state => {
   const { debtsCount } = state.allDebts;
   const copays = state.allDebts.copays || [];
 
+  const hasHCAInProgress =
+    selectProfile(state)
+      .savedForms?.filter(filterOutExpiredForms)
+      .some(savedForm => savedForm.form === VA_FORM_IDS.FORM_10_10EZ) ?? false;
+
+  const isPatient = isVAPatientSelector(state);
+
+  const shouldGetESRStatus =
+    !hasHCAInProgress && !isPatient && isLOA3Selector(state);
+
   return {
     appealsData: claimsState.appeals,
     claimsData: claimsState.claims,
     debts,
     debtsCount,
     copays,
+    shouldGetESRStatus,
     shouldLoadAppeals: isAppealsAvailableSelector(state) && canAccessAppeals,
     shouldLoadClaims: isClaimsAvailableSelector(state),
     canAccessMilitaryHistory,

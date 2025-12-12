@@ -11,7 +11,7 @@ import { waitFor } from '@testing-library/dom';
 import formConfig from '../../config/form';
 import { SAVED_SEPARATION_DATE } from '../../constants';
 import { selfAssessmentHeadline } from '../../content/selfAssessmentAlert';
-import { daysFromToday } from '../utils/dates/dateHelper';
+import { daysFromToday } from '../../utils/dates/formatting';
 
 const invalidDocumentData = {
   additionalDocuments: [

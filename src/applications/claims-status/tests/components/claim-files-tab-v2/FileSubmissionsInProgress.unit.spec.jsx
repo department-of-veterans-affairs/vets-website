@@ -1,10 +1,21 @@
+/* eslint-disable camelcase */
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import userEvent from '@testing-library/user-event';
 
 import FileSubmissionsInProgress from '../../../components/claim-files-tab-v2/FileSubmissionsInProgress';
+
+// Redux store with feature toggle enabled
+const store = createStore(() => ({
+  featureToggles: {
+    // eslint-disable-next-line camelcase
+    cst_timezone_discrepancy_mitigation: true,
+  },
+}));
 
 describe('<FileSubmissionsInProgress>', () => {
   context(
@@ -20,7 +31,9 @@ describe('<FileSubmissionsInProgress>', () => {
 
       it('should render with message that there are no file submissions in progress', () => {
         const { container, getByText } = render(
-          <FileSubmissionsInProgress claim={claim} />,
+          <Provider store={store}>
+            <FileSubmissionsInProgress claim={claim} />
+          </Provider>,
         );
 
         expect($('.file-submissions-in-progress-container', container)).to
@@ -54,7 +67,9 @@ describe('<FileSubmissionsInProgress>', () => {
 
       it('should render with message that all files have been received', () => {
         const { container, getByText } = render(
-          <FileSubmissionsInProgress claim={claim} />,
+          <Provider store={store}>
+            <FileSubmissionsInProgress claim={claim} />
+          </Provider>,
         );
 
         expect($('.file-submissions-in-progress-container', container)).to
@@ -97,7 +112,11 @@ describe('<FileSubmissionsInProgress>', () => {
         getAllByText,
         queryByText,
         getByTestId,
-      } = render(<FileSubmissionsInProgress claim={claim} />);
+      } = render(
+        <Provider store={store}>
+          <FileSubmissionsInProgress claim={claim} />
+        </Provider>,
+      );
 
       expect($('.file-submissions-in-progress-container', container)).to.exist;
       expect(getByText('File submissions in progress')).to.exist;
@@ -120,8 +139,8 @@ describe('<FileSubmissionsInProgress>', () => {
       expect(getAllByText('SUBMISSION IN PROGRESS')).to.have.lengthOf(2);
 
       // Check dates
-      expect(getByText('Submitted on January 15, 2024')).to.exist;
-      expect(getByText('Submitted on January 10, 2024')).to.exist;
+      expect(getByText('Submission started on January 15, 2024')).to.exist;
+      expect(getByText('Submission started on January 10, 2024')).to.exist;
     });
   });
 
@@ -142,7 +161,9 @@ describe('<FileSubmissionsInProgress>', () => {
 
     it('should initially show only 5 items and a show more button', () => {
       const { getByTestId, queryByTestId } = render(
-        <FileSubmissionsInProgress claim={claim} />,
+        <Provider store={store}>
+          <FileSubmissionsInProgress claim={claim} />
+        </Provider>,
       );
 
       for (let i = 0; i < 5; i++) {
@@ -159,7 +180,9 @@ describe('<FileSubmissionsInProgress>', () => {
 
     it('should show more items when show more button is clicked', async () => {
       const { getByTestId, queryByTestId } = render(
-        <FileSubmissionsInProgress claim={claim} />,
+        <Provider store={store}>
+          <FileSubmissionsInProgress claim={claim} />
+        </Provider>,
       );
 
       const showMoreButton = getByTestId('show-more-in-progress-button');
@@ -191,7 +214,9 @@ describe('<FileSubmissionsInProgress>', () => {
 
     it('should show updated empty state message when there are failed uploads but no in-progress items', () => {
       const { getByText, queryByText } = render(
-        <FileSubmissionsInProgress claim={claimWithFailedUploads} />,
+        <Provider store={store}>
+          <FileSubmissionsInProgress claim={claimWithFailedUploads} />
+        </Provider>,
       );
 
       expect(
@@ -208,7 +233,9 @@ describe('<FileSubmissionsInProgress>', () => {
 
     it('should show anchor link to files we could not receive section in empty state', () => {
       const { container } = render(
-        <FileSubmissionsInProgress claim={claimWithFailedUploads} />,
+        <Provider store={store}>
+          <FileSubmissionsInProgress claim={claimWithFailedUploads} />
+        </Provider>,
       );
 
       const link = container.querySelector(
@@ -247,7 +274,9 @@ describe('<FileSubmissionsInProgress>', () => {
 
     it('should show standard empty state message when there are no failed or in-progress uploads', () => {
       const { getByText } = render(
-        <FileSubmissionsInProgress claim={claimWithoutFailedUploads} />,
+        <Provider store={store}>
+          <FileSubmissionsInProgress claim={claimWithoutFailedUploads} />
+        </Provider>,
       );
 
       expect(getByText('We’ve received all the files you’ve uploaded.')).to

@@ -12,15 +12,18 @@ describe(`${appName} -- claim detail`, () => {
     ApiInitializer.initializeMaintenanceWindow.none();
   });
 
-  it('shows the maintenance window if the API call returns maintenance data', () => {
+  it('shows the error state if the API call fails', () => {
     // Visit the root URL
     cy.login(user);
     cy.visit(`${rootUrl}/claims/123`);
     cy.injectAxeThenAxeCheck();
 
-    // Check if the maintenance window message is displayed
-    cy.contains('There was an error loading the claim details.').should(
-      'be.visible',
+    // Check if the error heading is displayed
+    cy.get('h1').should('contain.text', 'Your travel reimbursement claim');
+
+    cy.get('va-alert[status="error"]').should(
+      'contain.text',
+      'Something went wrong on our end',
     );
   });
 });

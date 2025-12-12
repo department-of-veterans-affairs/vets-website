@@ -94,7 +94,7 @@ class MedicationsDetailsPage {
       }`,
       prescriptionDetails,
     ).as('prescription_details');
-    cy.get('a[data-testid ="medications-history-details-link"]')
+    cy.get('a[data-testid="medications-history-details-link"]')
       .first()
       .click({ force: true });
   };
@@ -108,10 +108,10 @@ class MedicationsDetailsPage {
       prescriptionDetails,
     ).as('prescriptionDetails');
     cy.get(
-      `[data-testid="medication-list"] > :nth-child(${cardNumber}) > [data-testid="rx-card-info"] > [data-testid="medications-history-details-link"]`,
+      `[data-testid="medication-list"] > :nth-child(${cardNumber}) [data-testid="medications-history-details-link"]`,
     ).should('be.visible');
     cy.get(
-      `[data-testid="medication-list"] > :nth-child(${cardNumber}) > [data-testid="rx-card-info"] > [data-testid="medications-history-details-link"]`,
+      `[data-testid="medication-list"] > :nth-child(${cardNumber}) [data-testid="medications-history-details-link"]`,
     )
       .first()
       .click({ waitForAnimations: true });
@@ -240,9 +240,10 @@ class MedicationsDetailsPage {
   };
 
   verifyDiscontinuedStatusDropDownDefinition = () => {
-    cy.get(
-      '[data-testid="status-dropdown"] > [data-testid="discontinued-status-definition"]',
-    ).should('contain', 'You can’t refill this prescription.');
+    cy.get('[data-testid="discontinued-status-definition"]').should(
+      'contain',
+      'You can’t refill this prescription. We may use this status for either of these reasons:',
+    );
   };
 
   verifyExpiredStatusDropDownDefinition = () => {
@@ -372,7 +373,7 @@ class MedicationsDetailsPage {
   verifyExpiredStatusDescriptionOnDetailsPage = () => {
     cy.get('[data-testid="expired"]').should(
       'contain',
-      'This prescription is too old to refill',
+      'You can’t refill this prescription. Contact your VA provider if you need more of this medication.',
     );
   };
 

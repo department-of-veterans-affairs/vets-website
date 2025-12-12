@@ -31,7 +31,7 @@
     "wcv3FileInput": {
       "name": "my_form.pdf",
       "size": 12345,
-      "fileType": "pdf",
+      "fileType": "application/pdf",
       "confirmationCode": "7564298",
       "additionalData": {
         "documentStatus": "private"
@@ -41,7 +41,7 @@
       {
         "name": "my_form.pdf",
         "size": 2048,
-        "type": "pdf",
+        "type": "application/pdf",
         "confirmationCode": "123abc",
         "additionalData": {
           "documentStatus": "private"
@@ -50,7 +50,7 @@
       {
         "name": "my_png.png",
         "size": 2048,
-        "type": "png",
+        "type": "image/png",
         "confirmationCode": "456efg",
         "additionalData": {
           "documentStatus": "public"
@@ -142,6 +142,8 @@
     "formsPatternOtherField": "Test",
     "arrayBuilderPatternFlowType": "optional",
     "arrayBuilderPatternInteractionType": "yesNoQuestion",
+    "arrayBuilderItemPages": "complex",
+    "arrayBuilderSummaryIntroVariation": "A",
     "exampleArrayOne": [
       {
         "facilityName": "facility a",

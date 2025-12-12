@@ -17,16 +17,6 @@ const sanitize = (key, value) => {
     }
   }
 
-  // TODO - wait for endpoint update and drop this
-  // Truncate country fields to 2 characters (ISO 3166-1 alpha-2 format)
-  if (
-    key.toLowerCase().includes('country') &&
-    typeof value === 'string' &&
-    value.length > 2
-  ) {
-    return value.substring(0, 2);
-  }
-
   return value;
 };
 
@@ -65,7 +55,8 @@ export const transform = (formConfig, form) => {
   }, '');
 
   // convert service period branch name to label
-  const convertedServicePeriods = periods.map(period => {
+  // Handle optional periods - default to empty array if not provided
+  const convertedServicePeriods = (periods || []).map(period => {
     const { label } = DEFAULT_BRANCH_LABELS[period.serviceBranch];
     const serviceBranch = label ?? period.serviceBranch;
     return {

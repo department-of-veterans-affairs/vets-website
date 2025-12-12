@@ -40,3 +40,39 @@ export const advanceFromHouseholdToReview = () => {
 
   goToNextPage('review-and-submit');
 };
+
+// Household section helper functions for spouse information
+export const fillSpousePersonalInformation = (spouseData = {}) => {
+  const {
+    firstName = 'John',
+    lastName = 'Doe',
+    ssn = '123422222',
+    dateOfBirth = '1990-1-1',
+    dateOfMarriage = '2015-6-15',
+  } = spouseData;
+
+  // Fill spouse full name
+  cy.fillVaTextInput('root_spouseFullName_first', firstName);
+  cy.fillVaTextInput('root_spouseFullName_last', lastName);
+  cy.fillVaTextInput('root_spouseSocialSecurityNumber', ssn);
+
+  cy.fillVaMemorableDate('root_spouseDateOfBirth', dateOfBirth);
+  cy.fillVaMemorableDate('root_dateOfMarriage', dateOfMarriage);
+};
+
+// Helper function to fill spouse contact information.
+export const fillSpouseContactInformation = (contactData = {}) => {
+  const {
+    spouseAddress = {
+      street: '123 Main St',
+      city: 'Anytown',
+      state: 'CA',
+      postalCode: '12345',
+      country: 'United States',
+    },
+    spousePhone = '5551234567',
+  } = contactData;
+
+  cy.fillAddressWebComponentPattern('spouseAddress', spouseAddress);
+  cy.fillVaTextInput('root_spousePhone', spousePhone);
+};

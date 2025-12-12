@@ -24,7 +24,7 @@ We currently maintain **4 applications** covering various benefits claim types:
 - **Purpose**: Nursing home officials certify patient care and costs for Aid and Attendance benefits
 - **Users**: Nursing home officials, extended care facility administrators
 - **Entry**: `21-0779-nursing-home-information`
-- **URL**: `/supporting-forms-for-claims/aid-attendance-housebound`
+- **URL**: `/supporting-forms-for-claims/submit-nursing-home-information-form-21-0779`
 - **API**: `POST /v0/form210779`
 - **Documentation**: [README](./21-0779-nursing-home-information/README.md)
 

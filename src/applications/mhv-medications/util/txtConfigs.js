@@ -17,6 +17,7 @@ import {
   FIELD_NOT_AVAILABLE,
   medStatusDisplayTypes,
   RX_SOURCE,
+  DISPENSE_STATUS,
 } from './constants';
 
 const newLine = (n = 1) => '\n'.repeat(n);
@@ -33,10 +34,10 @@ const SEPARATOR =
 const getLastFilledAndRxNumberBlock = rx => {
   const pendingMed =
     rx?.prescriptionSource === RX_SOURCE.PENDING_DISPENSE &&
-    rx?.dispStatus === 'NewOrder';
+    rx?.dispStatus === DISPENSE_STATUS.NEW_ORDER;
   const pendingRenewal =
     rx?.prescriptionSource === RX_SOURCE.PENDING_DISPENSE &&
-    rx?.dispStatus === 'Renew';
+    rx?.dispStatus === DISPENSE_STATUS.RENEW;
   const isRxPending = pendingMed || pendingRenewal;
 
   return isRxPending
@@ -50,7 +51,7 @@ const getLastFilledAndRxNumberBlock = rx => {
         `Prescription number: ${rx.prescriptionNumber}`,
       );
 };
-const getAttributes = rx =>
+const getAttributes = (rx, isCernerPilot) =>
   joinLines(
     `Status: ${prescriptionMedAndRenewalStatus(rx, medStatusDisplayTypes.TXT)}`,
     fieldLine('Refills left', rx.refillRemaining),
@@ -60,10 +61,14 @@ const getAttributes = rx =>
       'Date not available',
     )}`,
     fieldLine('Facility', rx.facilityName),
-    fieldLine('Pharmacy phone number', rx.phoneNumber),
+    isCernerPilot
+      ? fieldLine(
+          'Pharmacy contact information',
+          'Check your prescription label or contact your VA facility.',
+        )
+      : fieldLine('Pharmacy phone number', rx.phoneNumber),
     fieldLine('Instructions', rx.sig),
-    fieldLine('Reason for use', rx.indicationForUse),
-    fieldLine('Quantity', rx.quantity),
+    !isCernerPilot && fieldLine('Reason for use', rx.indicationForUse),
     `Prescribed on: ${dateFormat(
       rx.orderedDate,
       DATETIME_FORMATS.longMonthDate,
@@ -78,7 +83,11 @@ const getAttributes = rx =>
 /**
  * Return Non-VA prescription TXT
  */
-export const buildNonVAPrescriptionTXT = (prescription, options) => {
+export const buildNonVAPrescriptionTXT = (
+  prescription,
+  options = {},
+  isCernerPilot = false,
+) => {
   const { includeSeparators = true } = options ?? {};
   const header = includeSeparators
     ? `${newLine()}${SEPARATOR}${newLine(3)}`
@@ -88,7 +97,8 @@ export const buildNonVAPrescriptionTXT = (prescription, options) => {
     prescription?.prescriptionName || prescription?.orderableItem,
     joinLines(
       fieldLine('Instructions', prescription.sig),
-      fieldLine('Reason for use', prescription.indicationForUse),
+      !isCernerPilot &&
+        fieldLine('Reason for use', prescription.indicationForUse),
       `Status: ${validateField(
         prescription.dispStatus?.toString(),
       )}${newLine()}A VA provider added this medication record in your VA medical records. But this isn’t a prescription you filled through a VA pharmacy. This could be sample medications, over-the-counter medications, supplements or herbal remedies. You can’t request refills or manage this medication through this online tool. If you aren't taking this medication, ask your provider to remove it at your next appointment.`,
@@ -116,7 +126,7 @@ export const buildNonVAPrescriptionTXT = (prescription, options) => {
 /**
  * Return prescriptions list TXT
  */
-export const buildPrescriptionsTXT = prescriptions => {
+export const buildPrescriptionsTXT = (prescriptions, isCernerPilot = false) => {
   const mostRecentRxRefillLine = rx => {
     const newest = getMostRecentRxRefill(rx);
 
@@ -136,9 +146,13 @@ export const buildPrescriptionsTXT = prescriptions => {
 
   const body = (prescriptions || []).map(rx => {
     if (rx?.prescriptionSource === RX_SOURCE.NON_VA) {
-      return buildNonVAPrescriptionTXT(rx, {
-        includeSeparators: false,
-      }).trimEnd();
+      return buildNonVAPrescriptionTXT(
+        rx,
+        {
+          includeSeparators: false,
+        },
+        isCernerPilot,
+      ).trimEnd();
     }
 
     const title = rx.prescriptionName;
@@ -147,7 +161,7 @@ export const buildPrescriptionsTXT = prescriptions => {
     return joinBlocks(
       title,
       getLastFilledAndRxNumberBlock(rx),
-      getAttributes(rx),
+      getAttributes(rx, isCernerPilot),
       mostRecent,
     ).trimEnd();
   });
@@ -205,7 +219,7 @@ export const buildAllergiesTXT = allergies => {
 /**
  * Return VA prescription TXT
  */
-export const buildVAPrescriptionTXT = prescription => {
+export const buildVAPrescriptionTXT = (prescription, isCernerPilot = false) => {
   const header = `${newLine()}${SEPARATOR}${newLine(3)}`;
   const rxTitle = prescription?.prescriptionName || prescription?.orderableItem;
   const subTitle = `Most recent prescription`;
@@ -214,13 +228,13 @@ export const buildVAPrescriptionTXT = prescription => {
     `${rxTitle}${newLine()}`,
     `${subTitle}${newLine()}`,
     getLastFilledAndRxNumberBlock(prescription),
-    getAttributes(prescription),
+    getAttributes(prescription, isCernerPilot),
   ).trimEnd();
 
   let refillHistorySection = '';
   const refillHistory = getRefillHistory(prescription);
   const showRefillHistory = getShowRefillHistory(refillHistory);
-  if (showRefillHistory) {
+  if (showRefillHistory && !isCernerPilot) {
     const refillHistoryHeader = joinLines(
       'Refill history',
       `Showing ${refillHistory.length} fill${
@@ -270,7 +284,9 @@ ${backImprint ? `* Back marking: ${backImprint}` : ''}${newLine()}`
                 'Date not available',
               )}`
             : '',
-          !isPartialFill ? `Medication description: ${description}` : '',
+          !isPartialFill && !isCernerPilot
+            ? `Medication description: ${description}`
+            : '',
         );
       })
       .join(newLine(2));

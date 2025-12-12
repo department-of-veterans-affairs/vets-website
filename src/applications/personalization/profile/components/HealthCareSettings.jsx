@@ -12,14 +12,14 @@ const HealthCareSettings = () => {
         href={PROFILE_PATHS.HEALTH_CARE_CONTACTS}
       />
       <ProfileHubItem
-        heading={PROFILE_PATH_NAMES.APPOINTMENT_PREFERENCES}
+        heading={PROFILE_PATH_NAMES.SCHEDULING_PREFERENCES}
         content="Manage your scheduling preferences for health care appointments"
-        href={PROFILE_PATHS.APPOINTMENT_PREFERENCES}
+        href={PROFILE_PATHS.SCHEDULING_PREFERENCES}
       />
       <ProfileHubItem
-        heading={PROFILE_PATH_NAMES.SECURE_MESSAGES_SIGNATURE}
+        heading={PROFILE_PATH_NAMES.MESSAGES_SIGNATURE}
         content="Manage your secure messages signature"
-        href={PROFILE_PATHS.SECURE_MESSAGES_SIGNATURE}
+        href={PROFILE_PATHS.MESSAGES_SIGNATURE}
       />
       <va-card background>
         <h3 slot="headline">Looking for your full health care information?</h3>
