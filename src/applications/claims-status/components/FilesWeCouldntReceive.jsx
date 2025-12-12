@@ -112,7 +112,7 @@ const FilesWeCouldntReceive = () => {
         <VaLink
           className="vads-u-display--block"
           href="#other-ways-to-send-documents"
-          text="Learn about other ways to send your documents."
+          text="Learn about other ways to send your documents"
           onClick={e => {
             e.preventDefault();
             setPageFocus('#other-ways-to-send');
@@ -159,6 +159,10 @@ const FilesWeCouldntReceive = () => {
                     file,
                   );
 
+                  const requestText = requestTypeText
+                    ? `Submitted in response to request: ${requestTypeText}`
+                    : 'You submitted this file as additional evidence.';
+
                   return (
                     <li key={file.id}>
                       <VaCard
@@ -170,14 +174,17 @@ const FilesWeCouldntReceive = () => {
                           data-dd-privacy="mask"
                           data-dd-action-name="document filename"
                         >
-                          File name:
                           {file.fileName}
                         </h3>
-                        {requestTypeText && (
-                          <div>Request type: {requestTypeText}</div>
-                        )}
-                        <div>Date failed: {formatDate(file.failedDate)}</div>
-                        <div>File type: {file.documentType}</div>
+                        <div className="vads-u-margin-bottom--2">
+                          <p className="vads-u-margin-y--0">
+                            Document type: {file.documentType}
+                          </p>
+                          <p className="vads-u-margin-y--0">{requestText}</p>
+                        </div>
+                        <p className="vads-u-margin-y--0">
+                          Date failed: {formatDate(file.failedDate)}
+                        </p>
                         <VaLink
                           active
                           href={`/track-claims/your-claims/${
