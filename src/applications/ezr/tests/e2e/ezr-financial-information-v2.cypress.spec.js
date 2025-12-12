@@ -18,7 +18,7 @@ import {
 
 // Add the feature toggle for the providers and dependents prefill
 featureToggles.data.features.push({
-  name: 'ezrProvidersAndDependentsPrefillEnabled',
+  name: 'ezrFormPrefillWithProvidersAndDependents',
   value: true,
 });
 featureToggles.data.features.push({

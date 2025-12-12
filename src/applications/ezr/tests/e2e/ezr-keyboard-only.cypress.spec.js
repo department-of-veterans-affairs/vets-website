@@ -412,7 +412,7 @@ describe('Form 10-10EZR Keyboard Only', () => {
   });
 });
 
-describe("Form 10-10EZR Keyboard Only, with the 'ezrProvidersAndDependentsPrefillEnabled' toggle enabled", () => {
+describe("Form 10-10EZR Keyboard Only, with the 'ezrFormPrefillWithProvidersAndDependents' toggle enabled", () => {
   const updatedFeatureToggles = {
     data: {
       type: 'feature_toggles',
@@ -422,7 +422,7 @@ describe("Form 10-10EZR Keyboard Only, with the 'ezrProvidersAndDependentsPrefil
           value: true,
         },
         {
-          name: 'ezrProvidersAndDependentsPrefillEnabled',
+          name: 'ezrFormPrefillWithProvidersAndDependents',
           value: true,
         },
       ],
