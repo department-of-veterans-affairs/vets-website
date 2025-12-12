@@ -35,9 +35,7 @@ import {
   canVeteranProvideCombatOperationsResponse,
   canVeteranProvideAgentOrangeResponse,
   includeHouseholdInformationWithV1Prefill,
-  includeHouseholdInformationWithV2Prefill,
   includeSpousalInformationWithV1Prefill,
-  includeSpousalInformationWithV2Prefill,
 } from '../utils/helpers/form-config';
 import { prefillTransformer } from '../utils/helpers/prefill-transformer';
 import { submitTransformer } from '../utils/helpers/submit-transformer';
@@ -420,14 +418,7 @@ const formConfig = {
           uiSchema: {},
           schema: VIEW_FIELD_SCHEMA,
         },
-        financialInformationIntroduction: {
-          ...FinancialInformationPages.financialInformationIntroduction,
-          depends: includeHouseholdInformationWithV2Prefill,
-        },
-        financialInformationSummary: {
-          ...FinancialInformationPages.financialInformationSummary,
-          depends: includeHouseholdInformationWithV2Prefill,
-        },
+        ...FinancialInformationPages,
         veteranAnnualIncome: {
           path: 'household-information/veteran-annual-income',
           title: 'Your annual income',
@@ -435,10 +426,6 @@ const formConfig = {
           depends: includeHouseholdInformationWithV1Prefill,
           uiSchema: veteranAnnualIncome.uiSchema,
           schema: veteranAnnualIncome.schema,
-        },
-        veteranAnnualIncomeV2: {
-          ...FinancialInformationPages.veteranAnnualIncome,
-          depends: includeHouseholdInformationWithV2Prefill,
         },
         spouseAnnualIncome: {
           path: 'household-information/spouse-annual-income',
@@ -448,10 +435,6 @@ const formConfig = {
           uiSchema: spouseAnnualIncome.uiSchema,
           schema: spouseAnnualIncome.schema,
         },
-        spouseAnnualIncomeV2: {
-          ...FinancialInformationPages.spouseAnnualIncome,
-          depends: includeSpousalInformationWithV2Prefill,
-        },
         deductibleExpenses: {
           path: 'household-information/deductible-expenses',
           title: 'Deductible expenses',
@@ -459,10 +442,6 @@ const formConfig = {
           depends: includeHouseholdInformationWithV1Prefill,
           uiSchema: deductibleExpenses.uiSchema,
           schema: deductibleExpenses.schema,
-        },
-        deductibleExpensesV2: {
-          ...FinancialInformationPages.veteranDeductible,
-          depends: includeHouseholdInformationWithV2Prefill,
         },
       },
     },
