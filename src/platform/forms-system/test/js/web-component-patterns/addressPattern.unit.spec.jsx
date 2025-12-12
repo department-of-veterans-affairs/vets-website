@@ -1,0 +1,430 @@
+import { expect } from 'chai';
+import sinon from 'sinon';
+import {
+  mappedAddressUI,
+  mappedAddressSchema,
+  updateMappedFormDataAddress,
+} from '../../../src/js/web-component-patterns/addressPattern';
+
+describe('addressPattern mapping functions', () => {
+  let sandbox;
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
+  describe('mappedAddressUI', () => {
+    it('should return UI schema with mapped field keys', () => {
+      const keyMap = {
+        street: 'addressLine1',
+        street2: 'addressLine2',
+        street3: 'addressLine3',
+        postalCode: 'zipCode',
+      };
+
+      const result = mappedAddressUI({ keyMap });
+
+      // Should have mapped keys instead of standard keys
+      expect(result).to.have.property('addressLine1');
+      expect(result).to.have.property('addressLine2');
+      expect(result).to.have.property('addressLine3');
+      expect(result).to.have.property('zipCode');
+
+      // Should not have original keys
+      expect(result).to.not.have.property('street');
+      expect(result).to.not.have.property('street2');
+      expect(result).to.not.have.property('street3');
+      expect(result).to.not.have.property('postalCode');
+
+      // Should still have unmapped keys
+      expect(result).to.have.property('isMilitary');
+      expect(result).to.have.property('country');
+      expect(result).to.have.property('city');
+      expect(result).to.have.property('state');
+    });
+
+    it('should preserve field configurations when mapping keys', () => {
+      const keyMap = {
+        street: 'addressLine1',
+        postalCode: 'zipCode',
+      };
+
+      const result = mappedAddressUI({ keyMap });
+
+      // Check that field configurations are preserved
+      expect(result.addressLine1).to.have.property('ui:required');
+      expect(result.addressLine1).to.have.property('ui:webComponentField');
+      expect(result.addressLine1).to.have.property('ui:errorMessages');
+
+      expect(result.zipCode).to.have.property('ui:required');
+      expect(result.zipCode).to.have.property('ui:webComponentField');
+      expect(result.zipCode).to.have.property('ui:options');
+    });
+
+    it('should handle partial key mapping correctly', () => {
+      const keyMap = {
+        postalCode: 'zipCode',
+      };
+
+      const result = mappedAddressUI({ keyMap });
+
+      // Should have mapped key
+      expect(result).to.have.property('zipCode');
+      expect(result).to.not.have.property('postalCode');
+
+      // Should keep unmapped keys with original names
+      expect(result).to.have.property('street');
+      expect(result).to.have.property('street2');
+      expect(result).to.have.property('city');
+      expect(result).to.have.property('state');
+    });
+
+    it('should respect omit option with standard keys', () => {
+      const keyMap = {
+        street: 'addressLine1',
+        street2: 'addressLine2',
+      };
+
+      const result = mappedAddressUI({
+        keyMap,
+        omit: ['street3', 'isMilitary'],
+      });
+
+      // Should have mapped keys
+      expect(result).to.have.property('addressLine1');
+      expect(result).to.have.property('addressLine2');
+
+      // Should omit specified fields (using standard keys)
+      expect(result).to.not.have.property('street3');
+      expect(result).to.not.have.property('addressLine3');
+      expect(result).to.not.have.property('isMilitary');
+    });
+
+    it('should work with no keyMap provided', () => {
+      const result = mappedAddressUI({});
+
+      // Should return standard keys when no mapping provided
+      expect(result).to.have.property('street');
+      expect(result).to.have.property('street2');
+      expect(result).to.have.property('street3');
+      expect(result).to.have.property('postalCode');
+      expect(result).to.have.property('city');
+      expect(result).to.have.property('state');
+      expect(result).to.have.property('country');
+      expect(result).to.have.property('isMilitary');
+    });
+
+    it('should pass through other options to base addressUI', () => {
+      const keyMap = {
+        street: 'addressLine1',
+      };
+
+      const labels = {
+        street: 'Custom Street Label',
+        militaryCheckbox: 'Custom Military Label',
+      };
+
+      const result = mappedAddressUI({ keyMap, labels });
+
+      // Check that labels are applied correctly
+      expect(result.addressLine1['ui:title']).to.equal('Custom Street Label');
+      expect(result.isMilitary['ui:title']).to.equal('Custom Military Label');
+    });
+  });
+
+  describe('mappedAddressSchema', () => {
+    it('should return schema with mapped property keys', () => {
+      const keyMap = {
+        street: 'addressLine1',
+        street2: 'addressLine2',
+        street3: 'addressLine3',
+        postalCode: 'zipCode',
+      };
+
+      const result = mappedAddressSchema({ keyMap });
+
+      expect(result).to.have.property('type', 'object');
+      expect(result).to.have.property('properties');
+
+      // Should have mapped keys
+      expect(result.properties).to.have.property('addressLine1');
+      expect(result.properties).to.have.property('addressLine2');
+      expect(result.properties).to.have.property('addressLine3');
+      expect(result.properties).to.have.property('zipCode');
+
+      // Should not have original keys
+      expect(result.properties).to.not.have.property('street');
+      expect(result.properties).to.not.have.property('street2');
+      expect(result.properties).to.not.have.property('street3');
+      expect(result.properties).to.not.have.property('postalCode');
+
+      // Should still have unmapped keys
+      expect(result.properties).to.have.property('isMilitary');
+      expect(result.properties).to.have.property('country');
+      expect(result.properties).to.have.property('city');
+      expect(result.properties).to.have.property('state');
+    });
+
+    it('should preserve property definitions when mapping', () => {
+      const keyMap = {
+        street: 'addressLine1',
+        postalCode: 'zipCode',
+      };
+
+      const result = mappedAddressSchema({ keyMap });
+
+      // Check that property definitions are preserved
+      expect(result.properties.addressLine1).to.have.property('type', 'string');
+      expect(result.properties.zipCode).to.have.property('type', 'string');
+    });
+
+    it('should handle omit option correctly', () => {
+      const keyMap = {
+        street: 'addressLine1',
+        street2: 'addressLine2',
+      };
+
+      const result = mappedAddressSchema({
+        keyMap,
+        omit: ['street3', 'isMilitary'],
+      });
+
+      // Should have mapped keys
+      expect(result.properties).to.have.property('addressLine1');
+      expect(result.properties).to.have.property('addressLine2');
+
+      // Should omit specified fields
+      expect(result.properties).to.not.have.property('street3');
+      expect(result.properties).to.not.have.property('addressLine3');
+      expect(result.properties).to.not.have.property('isMilitary');
+    });
+
+    it('should work with empty keyMap', () => {
+      const result = mappedAddressSchema({});
+
+      // Should return standard property names
+      expect(result.properties).to.have.property('street');
+      expect(result.properties).to.have.property('street2');
+      expect(result.properties).to.have.property('street3');
+      expect(result.properties).to.have.property('postalCode');
+    });
+  });
+
+  describe('updateMappedFormDataAddress', () => {
+    it('should update form data with mapped field keys', () => {
+      const keyMap = {
+        street: 'addressLine1',
+        street2: 'addressLine2',
+        postalCode: 'zipCode',
+      };
+
+      const oldFormData = {
+        mailingAddress: {
+          isMilitary: true,
+          addressLine1: '123 Main St',
+          city: 'APO',
+          state: 'AE',
+          zipCode: '09123',
+        },
+      };
+
+      const formData = {
+        mailingAddress: {
+          isMilitary: true,
+          addressLine1: '456 Oak St', // only changing address
+          city: 'APO',
+          state: 'AE',
+          zipCode: '09123',
+        },
+      };
+
+      const result = updateMappedFormDataAddress(
+        oldFormData,
+        formData,
+        ['mailingAddress'],
+        null,
+        keyMap,
+      );
+
+      expect(result).to.deep.equal(formData);
+    });
+
+    it('should handle military base checkbox toggle correctly', () => {
+      const keyMap = {
+        street: 'addressLine1',
+        city: 'cityName',
+        state: 'stateCode',
+      };
+
+      const oldFormData = {
+        address: {
+          isMilitary: false,
+          addressLine1: '123 Main St',
+          cityName: 'New York',
+          stateCode: 'NY',
+        },
+      };
+
+      const formData = {
+        address: {
+          isMilitary: true,
+          addressLine1: '123 Main St',
+          cityName: 'New York',
+          stateCode: 'NY',
+        },
+      };
+
+      const result = updateMappedFormDataAddress(
+        oldFormData,
+        formData,
+        ['address'],
+        null,
+        keyMap,
+      );
+
+      // Should clear city and state when switching to military
+      expect(result.address.cityName).to.equal('');
+      expect(result.address.stateCode).to.equal('');
+    });
+
+    it('should restore saved address when unchecking military base', () => {
+      const keyMap = {
+        city: 'cityName',
+        state: 'stateCode',
+      };
+
+      // First, simulate checking military base (saves current values)
+      const initialOldData = {
+        address: {
+          isMilitary: false,
+          cityName: 'New York',
+          stateCode: 'NY',
+        },
+      };
+
+      const militaryData = {
+        address: {
+          isMilitary: true,
+          cityName: 'APO',
+          stateCode: 'AE',
+        },
+      };
+
+      // This should save the original city/state
+      updateMappedFormDataAddress(
+        initialOldData,
+        militaryData,
+        ['address'],
+        null,
+        keyMap,
+      );
+
+      // Now simulate unchecking military base
+      const oldFormData = {
+        address: {
+          isMilitary: true,
+          cityName: 'APO',
+          stateCode: 'AE',
+        },
+      };
+
+      const newFormData = {
+        address: {
+          isMilitary: false,
+          cityName: 'APO',
+          stateCode: 'AE',
+        },
+      };
+
+      const result = updateMappedFormDataAddress(
+        oldFormData,
+        newFormData,
+        ['address'],
+        null,
+        keyMap,
+      );
+
+      // Should restore the previously saved city and state
+      expect(result.address.cityName).to.equal('New York');
+      expect(result.address.stateCode).to.equal('NY');
+    });
+
+    it('should work with no keyMap provided', () => {
+      const oldFormData = {
+        address: {
+          isMilitary: false,
+          street: '123 Main St',
+          city: 'New York',
+          state: 'NY',
+        },
+      };
+
+      const formData = {
+        address: {
+          isMilitary: true,
+          street: '123 Main St',
+          city: 'New York',
+          state: 'NY',
+        },
+      };
+
+      const result = updateMappedFormDataAddress(
+        oldFormData,
+        formData,
+        ['address'],
+        null,
+        {},
+      );
+
+      // Should work like regular updateFormDataAddress
+      expect(result.address.city).to.equal('');
+      expect(result.address.state).to.equal('');
+    });
+  });
+
+  describe('integration with existing patterns', () => {
+    it('should work seamlessly with existing address validation', () => {
+      const keyMap = {
+        street: 'addressLine1',
+        postalCode: 'zipCode',
+      };
+
+      const uiSchema = mappedAddressUI({ keyMap });
+      const schema = mappedAddressSchema({ keyMap });
+
+      // Should have mapped keys
+      expect(schema.properties).to.have.property('addressLine1');
+      expect(schema.properties).to.have.property('zipCode');
+
+      // Should maintain validation patterns
+      expect(uiSchema.addressLine1['ui:required']).to.be.a('function');
+      expect(uiSchema.zipCode['ui:required']).to.be.a('function');
+      expect(uiSchema['ui:validations']).to.be.an('array');
+    });
+
+    it('should preserve all address functionality with mapped keys', () => {
+      const keyMap = {
+        street: 'addressLine1',
+        street2: 'addressLine2',
+        street3: 'addressLine3',
+        postalCode: 'zipCode',
+      };
+
+      const uiSchema = mappedAddressUI({ keyMap });
+
+      // Should have military checkbox functionality
+      expect(uiSchema.isMilitary).to.exist;
+      expect(uiSchema['view:militaryBaseDescription']).to.exist;
+
+      // Should have dynamic country/state/city functionality
+      expect(uiSchema.country['ui:options'].updateSchema).to.be.a('function');
+      expect(uiSchema.city['ui:options'].replaceSchema).to.be.a('function');
+      expect(uiSchema.state['ui:options'].replaceSchema).to.be.a('function');
+      expect(uiSchema.zipCode['ui:options'].replaceSchema).to.be.a('function');
+    });
+  });
+});
