@@ -48,6 +48,8 @@ export const FETCH_COMPLEX_CLAIM_DETAILS_SUCCESS =
   'FETCH_COMPLEX_CLAIM_DETAILS_SUCCESS';
 export const FETCH_COMPLEX_CLAIM_DETAILS_FAILURE =
   'FETCH_COMPLEX_CLAIM_DETAILS_FAILURE';
+export const SET_UNSAVED_EXPENSE_CHANGES = 'SET_UNSAVED_EXPENSE_CHANGES';
+export const CLEAR_UNSAVED_EXPENSE_CHANGES = 'CLEAR_UNSAVED_EXPENSE_CHANGES';
 export const SET_REVIEW_PAGE_ALERT = 'SET_REVIEW_PAGE_ALERT';
 export const CLEAR_REVIEW_PAGE_ALERT = 'CLEAR_REVIEW_PAGE_ALERT';
 
@@ -150,7 +152,7 @@ export function getAppointmentData(apptId) {
       );
       dispatch(fetchAppointmentSuccess(appointmentData));
     } catch (error) {
-      dispatch(fetchAppointmentFailure(error));
+      dispatch(fetchAppointmentFailure(error?.toString() ?? ''));
     }
   };
 }
@@ -286,6 +288,17 @@ export function getComplexClaimDetails(claimId) {
     }
   };
 }
+
+// Set unsaved expense changes flag
+export const setUnsavedExpenseChanges = hasChanges => ({
+  type: SET_UNSAVED_EXPENSE_CHANGES,
+  payload: hasChanges,
+});
+
+// Clear unsaved expense changes flag
+export const clearUnsavedExpenseChanges = () => ({
+  type: CLEAR_UNSAVED_EXPENSE_CHANGES,
+});
 
 // Updating an expense
 const updateExpenseStart = expenseId => ({

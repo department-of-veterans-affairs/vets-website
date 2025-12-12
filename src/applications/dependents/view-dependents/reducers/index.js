@@ -1,4 +1,5 @@
 import { removeDependents } from '../manage-dependents/redux/reducers';
+import ratingValue from './ratingInfo';
 
 import { splitPersons } from '../util';
 
@@ -51,4 +52,5 @@ function allDependents(state = initialState, action) {
 export default {
   allDependents,
   removeDependents,
+  ratingValue,
 };

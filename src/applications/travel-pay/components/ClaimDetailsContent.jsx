@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
+import { TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY } from '@department-of-veterans-affairs/mhv/exports';
 
 import useSetPageTitle from '../hooks/useSetPageTitle';
 import { formatDateTime } from '../util/dates';
@@ -149,6 +150,12 @@ export default function ClaimDetailsContent({
             // Specifically NOT a client-side route to ensure
             // redirect logic is evaluated upon entry into complex claims using ComplexClaimRedirect.jsx
             href={`/my-health/travel-pay/file-new-claim/${appointmentId}`}
+            onClick={() => {
+              sessionStorage.setItem(
+                TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY.SESSION_KEY,
+                TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY.ENTRY_TYPES.CLAIM,
+              );
+            }}
           />
         )}
       <h2 className="vads-u-font-size--h3">Claim information</h2>
