@@ -2,13 +2,14 @@ import { isEmpty } from 'lodash';
 import { apiRequest } from 'platform/utilities/api';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
+const urlPrefix = '/submit-va-form-21-0966/';
+
 const goPathAfterGettingITF = (
   intent,
   formData,
   goPath,
   goNextPath,
   setFormData,
-  urlPrefix,
 ) => {
   const formDataToSet = { ...formData, 'view:activeITF': intent };
 
@@ -21,18 +22,18 @@ const goPathAfterGettingITF = (
   }
 };
 
-const fetchIntentToFile = async (
-  formData,
-  benefitType,
-  urlPrefix,
-  goPath,
-  goNextPath,
-) => {
-  let params = `?veteranFirstName=${formData.veteranFullName.first}`;
-  params = `${params}&veteranLastName=${formData.veteranFullName.last}`;
-  params = `${params}&veteranDateOfBirth=${formData.veteranDateOfBirth}`;
-  params = `${params}&veteranSsn=${formData.veteranSsn}`;
-  params = `${params}&benefitType=${benefitType}`;
+const fetchIntentToFile = async (formData, benefitType, goPath, goNextPath) => {
+  let params = `?veteranFirstName=${encodeURIComponent(
+    formData.veteranFullName.first,
+  )}`;
+  params = `${params}&veteranLastName=${encodeURIComponent(
+    formData.veteranFullName.last,
+  )}`;
+  params = `${params}&veteranDateOfBirth=${encodeURIComponent(
+    formData.veteranDateOfBirth,
+  )}`;
+  params = `${params}&veteranSsn=${encodeURIComponent(formData.veteranSsn)}`;
+  params = `${params}&benefitType=${encodeURIComponent(benefitType)}`;
   try {
     return await apiRequest(
       `${
@@ -58,29 +59,23 @@ export const getIntentsToFile = ({
   goPath,
   goNextPath,
   setFormData,
-  urlPrefix,
 }) => {
   goPath(`${urlPrefix}get-itf-status`);
 
   try {
-    fetchIntentToFile(
-      formData,
-      formData.benefitType,
-      urlPrefix,
-      goPath,
-      goNextPath,
-    ).then(val => {
-      if (val) {
-        goPathAfterGettingITF(
-          val.data,
-          formData,
-          goPath,
-          goNextPath,
-          setFormData,
-          urlPrefix,
-        );
-      }
-    });
+    fetchIntentToFile(formData, formData.benefitType, goPath, goNextPath).then(
+      val => {
+        if (val) {
+          goPathAfterGettingITF(
+            val.data,
+            formData,
+            goPath,
+            goNextPath,
+            setFormData,
+          );
+        }
+      },
+    );
   } catch (error) {
     goNextPath();
   }
