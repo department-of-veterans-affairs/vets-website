@@ -2,7 +2,7 @@ import { getNote, getNotes, getAcceleratedNotes } from '../api/MrApi';
 import { Actions } from '../util/actionTypes';
 import { addAlert } from './alerts';
 import * as Constants from '../util/constants';
-import { dispatchDetails } from '../util/helpers';
+import { dispatchDetails, sendDatadogError } from '../util/helpers';
 import { getListWithRetry } from './common';
 
 export const getCareSummariesAndNotesList = (
@@ -28,7 +28,10 @@ export const getCareSummariesAndNotesList = (
     });
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
-    throw error;
+    sendDatadogError(
+      error,
+      'actions_careSummariesAndNotes_getCareSummariesAndNotesList',
+    );
   }
 };
 
@@ -58,7 +61,10 @@ export const getCareSummaryAndNotesDetails = (
     );
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
-    throw error;
+    sendDatadogError(
+      error,
+      'actions_careSummariesAndNotes_getCareSummaryAndNotesDetails',
+    );
   }
 };
 
