@@ -9,7 +9,6 @@ import content from '../../locales/en/content.json';
 
 const yesNoOptions = {
   title: content['health-insurance--yes-no-title'],
-  hint: null,
   labelHeaderLevel: '2',
   labelHeaderLevelStyle: '4',
 };
