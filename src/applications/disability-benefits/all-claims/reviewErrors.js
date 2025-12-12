@@ -189,11 +189,17 @@ export default {
     'Exposure end date for other toxic exposures',
   _override: error => {
     if (typeof error === 'string') {
-      // Handle newDisabilities validation error when array is empty - redirect to claim-type page
+      // Handle newDisabilities validation errors - redirect to claim-type page
+      // Matches:
+      // - Empty array: 'newDisabilities', 'instance.newDisabilities', or 'newDisabilities...does not meet minimum length'
+      // - Missing condition: 'newDisabilities[0]' (array item property path) or errors including both 'newDisabilities' and 'condition'
       if (
+        error === 'newDisabilities' ||
         error === 'instance.newDisabilities' ||
         (error.includes('newDisabilities') &&
-          error.includes('does not meet minimum length'))
+          (error.includes('does not meet minimum length') ||
+            error.includes('condition'))) ||
+        /newDisabilities\[\d+\]/.test(error)
       ) {
         return {
           chapterKey: 'disabilities',

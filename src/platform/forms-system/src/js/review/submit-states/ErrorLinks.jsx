@@ -72,10 +72,11 @@ const ErrorLinks = props => {
               {errors.map(error => {
                 const handleClick = event => {
                   event.preventDefault();
-                  // Only redirect for the specific newDisabilities validation error
+                  // Redirect for newDisabilities or condition errors that should go to claimType page
                   // Other errors on the claimType page should use default behavior
                   if (
-                    error.name === 'newDisabilities' &&
+                    (error.name === 'newDisabilities' ||
+                      error.name === 'condition') &&
                     error.pageKey === 'claimType' &&
                     router &&
                     formConfig
