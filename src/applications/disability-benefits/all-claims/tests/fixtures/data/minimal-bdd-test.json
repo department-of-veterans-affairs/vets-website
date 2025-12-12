@@ -2,16 +2,30 @@
     "data": {
       "disability526ExtraBDDPagesEnabled": true,
       "view:isBddData": true,
-      "view:claimType": {
-        "view:claimingIncrease": true
+      "homelessOrAtRisk": "homeless",
+      "view:isHomeless": {
+        "homelessHousingSituation": "shelter",
+        "needToLeaveHousing": true
       },
-      "isVaEmployee": false,
-      "homelessOrAtRisk": "no",
+      "homelessnessContact": {
+        "name": "John Doe",
+        "phoneNumber": "4105551234"
+      },
+      "isTerminallyIll": true,
+      "view:terminallyIllInfo": {},
+      "hasSeparationPay": true,
+      "view:separationPayDetails": {
+        "view:separationPayDetailsDescription": {},
+        "separationPayDate": "2025",
+        "separationPayBranch": "Army"
+      },
       "view:hasMilitaryRetiredPay": true,
       "militaryRetiredPayBranch": "Air Force",
       "hasTrainingPay": true,
-      "waiveRetirementPay": false,
-      "waiveTrainingPay": false,
+      "waiveRetirementPay": true,
+      "view:waiveRetirementPayDescription": {},
+      "waiveTrainingPay": true,
+      "isVaEmployee": false,
       "phoneAndEmail": {
         "primaryPhone": "4445551212",
         "emailAddress": "test2@test1.net"
