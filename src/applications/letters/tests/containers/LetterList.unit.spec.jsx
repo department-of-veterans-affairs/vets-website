@@ -409,7 +409,7 @@ describe('<LetterList>', () => {
       expect(errorHeading).to.exist;
     });
 
-    it('renders loading indicator when determining TSA letter eligibility', async () => {
+    it('renders loading indicator when determining TSA letter eligibility', () => {
       const tsaLetterEnabledProps = {
         ...defaultProps,
         getTsaLetterEligibility: getTsaLetterEligibilityStub,
@@ -432,6 +432,7 @@ describe('<LetterList>', () => {
         'message',
         'Determining TSA PreCheck Application Fee Waiver Letter eligibility...',
       );
+      expect(selector).to.have.attr('set-focus');
     });
 
     it('renders unavailable content when there are no letters or documents including TSA', async () => {
