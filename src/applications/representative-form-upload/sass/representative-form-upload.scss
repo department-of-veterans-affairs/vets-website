@@ -39,7 +39,11 @@
 //overriding default classes set at the forms level to match figma
 .form-21-0966,
 .form-21-686c,
-.form-21-526EZ {
+.form-21-526EZ,
+.form-21-0966 {
+  [for="root_vaFileNumber"] {
+    margin-top: 1.5rem;
+  }
   .usa-width-two-thirds {
     max-width: 627px;
     padding: 0;
@@ -66,7 +70,7 @@
   }
   fieldset.vads-u-margin-y--2.rjsf-object-field {
     margin-top: 0 !important;
-    margin-bottom: 8px !important;
+    margin-bottom: 0 !important;
   }
   .schemaform-block-title.schemaform-block-subtitle {
     font-size: 1.25rem !important;
@@ -207,4 +211,8 @@
 }
 .form-upload__alert {
   margin-bottom: 32px;
+}
+
+[name="root_selectBenefits"] {
+  margin-top: 32px;
 }

@@ -10,11 +10,14 @@ import {
   ssnUI,
   dateOfBirthUI,
   dateOfBirthSchema,
+  checkboxGroupSchema,
+  checkboxGroupUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import {
   emptyObjectSchema,
-  claimantTitleAndDescription,
-  veteranTitleAndDescription,
+  ITFClaimantTitleAndDescription,
+  ITFVeteranTitleAndDescription,
+  ITFVetBenefits,
 } from './helpers';
 import ClaimantInfoViewField from '../components/ClaimantInfoViewField';
 
@@ -57,6 +60,13 @@ const veteranSubPageUI = {
     ...vaFileNumberUI,
     'ui:title': 'VA file number',
   },
+  selectBenefits: checkboxGroupUI({
+    title: 'Select the benefit you intend to file a claim for',
+    labelHeaderLevel: '3',
+    required: true,
+    tile: true,
+    labels: ITFVetBenefits,
+  }),
 };
 
 const veteranSubPageSchema = {
@@ -71,6 +81,7 @@ const veteranSubPageSchema = {
       'street',
       'street2',
       'street3',
+      'postalCode',
     ],
   }),
   veteranDateOfBirth: dateOfBirthSchema,
@@ -80,12 +91,13 @@ const veteranSubPageSchema = {
 /** @type {PageSchema} */
 export const itfClaimantInformationPage = {
   uiSchema: {
-    ...claimantTitleAndDescription,
+    ...ITFClaimantTitleAndDescription,
     'ui:objectViewField': ClaimantInfoViewField,
     ...claimantSubPageUI,
-    ...veteranTitleAndDescription,
+    ...ITFVeteranTitleAndDescription,
     ...veteranSubPageUI,
   },
+
   schema: {
     type: 'object',
     properties: {
@@ -95,6 +107,7 @@ export const itfClaimantInformationPage = {
       'view:veteranTitle': emptyObjectSchema,
       'view:veteranDescription': emptyObjectSchema,
       ...veteranSubPageSchema,
+      selectBenefits: checkboxGroupSchema(Object.keys(ITFVetBenefits)),
     },
     required: [
       'claimantSsn',

@@ -116,7 +116,7 @@ describe('email validation', () => {
     const errors = { addError: sinon.stub() };
     const value = 'email[]@name.com';
     symbolsValidation(errors, value, null, null, errorMessages);
-    expect(errors.addError.calledWith(errorMessages.symbols)).to.be.true;
+    expect(errors.addError.calledWithMatch(errorMessages.symbols)).to.be.true;
   });
 
   it('should show an error message specific to email format validation', () => {

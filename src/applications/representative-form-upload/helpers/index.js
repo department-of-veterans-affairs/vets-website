@@ -22,7 +22,7 @@ const formMappings = {
   },
   '21-0966': {
     subTitle:
-      'Intent to File a Claim for Compensation and/or Pension,or Survivors Pension and/or DIC (VA Form 21-0966)',
+      'Intent to File a Claim for Compensation and/or Pension, or Survivors Pension and/or DIC (VA Form 21-0966)',
   },
 };
 
