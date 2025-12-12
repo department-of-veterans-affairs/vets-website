@@ -367,7 +367,7 @@ describe('Complex Claims ConfirmationPage', () => {
 
     expect(
       container.querySelector(
-        'va-link-action[text="Review your appointments to submit another travel reimbursement claim"][href="/my-health/appointments/past"]',
+        'va-link-action[text="Go to your past appointments to file another claim"][href="/my-health/appointments/past"]',
       ),
     ).to.exist;
   });
