@@ -27,6 +27,8 @@ describe('TravelClaimDetails', () => {
     loadingDetails = false,
     detailsError = null,
     detailsData = {},
+    appointmentLoading = false,
+    appointmentData = null,
   } = {}) => ({
     featureToggles: {
       loading: featureTogglesAreLoading,
@@ -41,6 +43,10 @@ describe('TravelClaimDetails', () => {
         isLoading: loadingDetails,
         error: detailsError,
         data: detailsData,
+      },
+      appointment: {
+        isLoading: appointmentLoading,
+        data: appointmentData,
       },
     },
     scheduledDowntime: {
