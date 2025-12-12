@@ -90,9 +90,9 @@ export function Type2FailureAnalyticsProvider({ children }) {
         return;
       }
 
-      const wasAdded = !registeredAlertsRef.current.has(alertKey);
+      const needsToBeAdded = !registeredAlertsRef.current.has(alertKey);
 
-      if (wasAdded) {
+      if (needsToBeAdded) {
         registeredAlertsRef.current.add(alertKey);
         scheduleFire();
       }
