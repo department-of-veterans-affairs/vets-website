@@ -45,7 +45,7 @@ import {
  */
 const itemIsComplete = item => {
   let treatmentDateRequirement = item[VA_TREATMENT_BEFORE_2005_KEY];
-  const issuesComplete = item.issues?.length;
+  const issuesComplete = item.issuesVA?.length;
 
   if (item[VA_TREATMENT_BEFORE_2005_KEY] === 'Y') {
     treatmentDateRequirement =
@@ -215,11 +215,10 @@ export default arrayBuilderPages(options, pageBuilder => ({
     uiSchema: locationPage.uiSchema,
     schema: locationPage.schema,
     // ------- REMOVE toggle check when new design toggle is removed
-    // depends: redesignActive && hasVAEvidenceRecords,
     depends: redesignActive,
     // ------- END REMOVE
   }),
-  issues: pageBuilder.itemPage({
+  issuesVA: pageBuilder.itemPage({
     title: '',
     path: EVIDENCE_URLS.vaIssues,
     uiSchema: issuesPage.uiSchema,
@@ -247,20 +246,17 @@ export default arrayBuilderPages(options, pageBuilder => ({
     depends: redesignActive,
     // ------- END REMOVE
   }),
-  treatmentDate: pageBuilder.itemPage({
+  treatmentDateVA: pageBuilder.itemPage({
     title: 'Treatment date',
     path: EVIDENCE_URLS.vaTreatmentDateDetails,
     uiSchema: dateDetailsPage.uiSchema,
     schema: dateDetailsPage.schema,
-    depends: formData => {
-      const evidenceEntriesCount = formData?.[VA_EVIDENCE_KEY]?.length || 1;
-      const currentIndex = evidenceEntriesCount - 1;
-      return (
-        // ------- REMOVE toggle check when new design toggle is removed
-        redesignActive(formData) &&
-        // ------- END REMOVE
-        hasTreatmentBefore2005(formData, currentIndex)
-      );
-    },
+    depends: (
+      formData,
+      index, // ------- REMOVE toggle check when new design toggle is removed
+    ) =>
+      redesignActive(formData) &&
+      // ------- END REMOVE
+      hasTreatmentBefore2005(formData, index),
   }),
 }));
