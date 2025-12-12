@@ -70,7 +70,6 @@ const Issues = props => {
     onSubmit,
     pagePerItemIndex,
   } = props;
-  console.log('props: ', props);
   const {
     arrayPath,
     getIntroPath,
@@ -80,7 +79,6 @@ const Issues = props => {
     reviewRoute,
   } = arrayBuilder;
   const [error, setError] = useState(false);
-  console.log('formKey: ', formKey);
   const currentEvidenceData = fullData?.[formKey]?.[pagePerItemIndex] || {};
   const formLabel =
     addOrEdit === 'edit'
@@ -98,7 +96,7 @@ const Issues = props => {
   );
 
   const handleSubmit = () => {
-    if (!currentEvidenceData?.issues?.length) {
+    if (!currentEvidenceData?.[name]?.length) {
       setError(true);
       return;
     }
@@ -114,7 +112,7 @@ const Issues = props => {
       return;
     }
 
-    const issueWasAlreadyChecked = currentEvidenceData?.issues?.includes(
+    const issueWasAlreadyChecked = currentEvidenceData?.[name]?.includes(
       checkedIssue,
     );
 
@@ -122,12 +120,12 @@ const Issues = props => {
 
     // Create new issues array based on the user interaction
     if (issueWasAlreadyChecked) {
-      newData.issues = newData.issues.filter(issue => issue !== checkedIssue);
+      newData[name] = newData[name].filter(issue => issue !== checkedIssue);
     } else {
-      newData.issues = [...(newData?.issues || []), checkedIssue];
+      newData[name] = [...(newData?.[name] || []), checkedIssue];
     }
 
-    if (!newData?.issues || !newData?.issues.length) {
+    if (!newData?.[name] || !newData?.[name].length) {
       setError(true);
     } else {
       setError(false);
@@ -150,7 +148,7 @@ const Issues = props => {
         use-forms-pattern="single"
       >
         {selectedIssues.map((issue, index) => {
-          const isChecked = currentEvidenceData.issues?.includes(issue);
+          const isChecked = currentEvidenceData[name]?.includes(issue);
 
           return <va-checkbox key={index} label={issue} checked={isChecked} />;
         })}
@@ -193,6 +191,7 @@ Issues.propTypes = {
   contentAfterButtons: PropTypes.node,
   contentBeforeButtons: PropTypes.node,
   data: PropTypes.shape(),
+  formKey: PropTypes.string,
   fullData: PropTypes.shape(),
   goBack: PropTypes.func,
   goForward: PropTypes.func,

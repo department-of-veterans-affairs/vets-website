@@ -77,7 +77,6 @@ export const VA_TREATMENT_LOCATION_KEY = 'treatmentLocation';
 export const PRIVATE_TREATMENT_LOCATION_KEY = 'treatmentLocation';
 export const VA_TREATMENT_BEFORE_2005_KEY = 'treatmentBefore2005';
 export const VA_TREATMENT_MONTH_YEAR_KEY = 'treatmentMonthYear';
-export const PRIVATE_LOCATION_TREATMENT_DATES_KEY = 'treatmentDateRange';
 
 export const errorMessages = {
   evidence: {
