@@ -11,7 +11,7 @@ import {
   VaSelect,
 } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { displayResults as displayResultsAction } from '../reducers/actions';
-import { BENEFITS_LIST } from '../constants/benefits';
+import { BENEFITS_LIST, WHEN_TO_APPLY } from '../constants/benefits';
 import GetFormHelp from '../components/GetFormHelp';
 import Benefits from './components/Benefits';
 
@@ -23,8 +23,8 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
   const [benefitIds, setBenefitIds] = useState({});
   const [resultsCount, setResultsCount] = useState(0);
   const [sortValue, setSortValue] = useState('alphabetical');
-  const [filterValues, setFilterValues] = useState([]);
-  const [tempFilterValues, setTempFilterValues] = useState([]);
+  const [filterValues, setFilterValues] = useState(['recommended']);
+  const [tempFilterValues, setTempFilterValues] = useState(['recommended']);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(10);
 
@@ -41,7 +41,34 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
   const filterOptions = useMemo(
     () => [
       {
+        id: 0,
+        label: 'Show results',
+        category: [
+          {
+            id: 'recommended',
+            label: 'Show only results recommended for you',
+            active: tempFilterValues.includes('recommended'),
+          },
+        ],
+      },
+      {
         id: 1,
+        label: 'When to apply',
+        category: [
+          {
+            id: WHEN_TO_APPLY.BEFORE_SEPARATION,
+            label: 'Before separation',
+            active: tempFilterValues.includes(WHEN_TO_APPLY.BEFORE_SEPARATION),
+          },
+          {
+            id: WHEN_TO_APPLY.AFTER_SEPARATION,
+            label: 'After separation',
+            active: tempFilterValues.includes(WHEN_TO_APPLY.AFTER_SEPARATION),
+          },
+        ],
+      },
+      {
+        id: 2,
         label: 'Benefit type',
         category: [
           { id: 'Burials', label: 'Burials and memorials' },
@@ -123,17 +150,31 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
   const filterAndSortBenefits = useCallback(
     () => {
       const filterKeys = filterValues;
-      const sourceData = isAllBenefits ? BENEFITS_LIST : resultsData || [];
+      const isRecommendedOnly = filterKeys.includes('recommended');
+      const sourceData = isRecommendedOnly ? resultsData || [] : BENEFITS_LIST;
+      const nonRecommendedFilters = filterKeys.filter(f => f !== 'recommended');
 
       let filtered = sourceData;
-      if (filterKeys && filterKeys.length > 0) {
+      if (nonRecommendedFilters.length > 0) {
         filtered = sourceData.filter(benefit =>
-          filterKeys.some(
-            key =>
-              key === 'isTimeSensitive'
-                ? benefit.isTimeSensitive
-                : benefit.category.includes(key),
-          ),
+          nonRecommendedFilters.some(key => {
+            if (key === 'isTimeSensitive') {
+              return benefit.isTimeSensitive;
+            }
+
+            if (benefit.category?.includes(key)) {
+              return true;
+            }
+
+            if (
+              key === WHEN_TO_APPLY.BEFORE_SEPARATION ||
+              WHEN_TO_APPLY.AFTER_SEPARATION
+            ) {
+              return benefit.whenToApply?.includes(key);
+            }
+
+            return false;
+          }),
         );
       }
 
@@ -156,7 +197,7 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
       );
       setCurrentPage(prevPage => (prevPage === 1 ? prevPage : 1));
     },
-    [filterValues, isAllBenefits, resultsData, sortValue],
+    [filterValues, resultsData, sortValue],
   );
 
   const getPaginatedBenefits = useCallback(
@@ -179,8 +220,17 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
   );
 
   const extractSelectedFilters = activeFilters => {
-    const selectedFacet = activeFilters.find(f => f.label === 'Benefit type');
-    return selectedFacet?.category?.map(cat => cat.id) || [];
+    const selected = [];
+
+    activeFilters.forEach(facet => {
+      facet.category.forEach(cat => {
+        if (cat.active) {
+          selected.push(cat.id);
+        }
+      });
+    });
+
+    return selected;
   };
 
   const handleFilterApply = useCallback(event => {
@@ -374,22 +424,6 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
               onVaFilterApply={handleFilterApply}
               onVaFilterClearAll={handleFilterClearAll}
             />
-            {!isAllBenefits && (
-              <div className="all-benefits">
-                <span>
-                  If you’d like to explore all of the benefits that this tool
-                  can recommend, select the link below.&nbsp;
-                </span>
-                <va-link
-                  href="/discover-your-benefits/confirmation?allBenefits=true"
-                  external
-                  message-aria-describedby="Show every benefit in this tool"
-                  text="Show every benefit in this tool"
-                  data-testid="show-all-benefits"
-                  type="secondary"
-                />
-              </div>
-            )}
           </div>
           <div id="results-section">
             <h2 className="vads-u-font-size--h2 vads-u-margin-top--0">
