@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import sinon from 'sinon';
@@ -115,6 +115,7 @@ describe('<DownloadLetterBlobLink />', () => {
     expect(div).to.exist;
     expect(div).to.have.text('Refresh the browser to download your letter.');
   });
+
   it('dispatches getSingleLetterPDFLinkAction when accordion is open on mount', () => {
     const dispatchSpy = sinon.spy();
     const fakeRef = {
@@ -149,5 +150,133 @@ describe('<DownloadLetterBlobLink />', () => {
     expect(dispatchedAction).to.be.a('function');
 
     unmount();
+  });
+
+  it('Logs letter download using client side monitoring.', () => {
+    const store = mockStore({
+      letters: {
+        enhancedLetters: [
+          {
+            letterType: 'test_letter',
+            downloadUrl: 'http://example.com/test_letter.pdf',
+          },
+        ],
+        enhancedLetterStatus: {
+          [defaultProps.letterType]: DOWNLOAD_STATUSES.success,
+        },
+      },
+      featureToggles: {
+        loading: false,
+        /* eslint-disable camelcase */
+        letters_client_side_monitoring: true,
+      },
+    });
+
+    // Stub datadogLogs.logger.info
+    const loggerStub = sinon.stub(
+      require('@datadog/browser-logs').datadogLogs.logger,
+      'info',
+    );
+
+    const { container } = render(
+      <Provider store={store}>
+        <DownloadLetterBlobLink {...defaultProps} />
+      </Provider>,
+    );
+
+    const link = container.querySelector('va-link');
+
+    // Simulate click
+    fireEvent.click(link);
+
+    expect(loggerStub.calledOnce).to.be.true;
+    expect(loggerStub.firstCall.args[0]).to.equal('Letter downloaded.');
+    expect(loggerStub.firstCall.args[1]).to.deep.equal({
+      'letter-type': 'test_letter',
+    });
+
+    loggerStub.restore();
+  });
+
+  it('Does not log when feature flags are loading', () => {
+    const store = mockStore({
+      letters: {
+        enhancedLetters: [
+          {
+            letterType: 'test_letter',
+            downloadUrl: 'http://example.com/test_letter.pdf',
+          },
+        ],
+        enhancedLetterStatus: {
+          [defaultProps.letterType]: DOWNLOAD_STATUSES.success,
+        },
+      },
+      featureToggles: {
+        loading: true,
+        /* eslint-disable camelcase */
+        letters_client_side_monitoring: true,
+      },
+    });
+
+    // Stub datadogLogs.logger.info
+    const loggerStub = sinon.stub(
+      require('@datadog/browser-logs').datadogLogs.logger,
+      'info',
+    );
+
+    const { container } = render(
+      <Provider store={store}>
+        <DownloadLetterBlobLink {...defaultProps} />
+      </Provider>,
+    );
+
+    const link = container.querySelector('va-link');
+
+    // Simulate click
+    fireEvent.click(link);
+
+    expect(loggerStub.notCalled).to.be.true;
+    loggerStub.restore();
+  });
+
+  it('Does not log when feature flag is false.', () => {
+    const store = mockStore({
+      letters: {
+        enhancedLetters: [
+          {
+            letterType: 'test_letter',
+            downloadUrl: 'http://example.com/test_letter.pdf',
+          },
+        ],
+        enhancedLetterStatus: {
+          [defaultProps.letterType]: DOWNLOAD_STATUSES.success,
+        },
+      },
+      featureToggles: {
+        loading: false,
+        /* eslint-disable camelcase */
+        letters_client_side_monitoring: false,
+      },
+    });
+
+    // Stub datadogLogs.logger.info
+    const loggerStub = sinon.stub(
+      require('@datadog/browser-logs').datadogLogs.logger,
+      'info',
+    );
+
+    const { container } = render(
+      <Provider store={store}>
+        <DownloadLetterBlobLink {...defaultProps} />
+      </Provider>,
+    );
+
+    const link = container.querySelector('va-link');
+
+    // Simulate click
+    fireEvent.click(link);
+
+    expect(loggerStub.notCalled).to.be.true;
+    loggerStub.restore();
   });
 });

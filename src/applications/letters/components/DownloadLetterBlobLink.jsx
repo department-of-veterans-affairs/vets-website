@@ -7,8 +7,12 @@ import {
   VaLoadingIndicator,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import CallVBACenter from '@department-of-veterans-affairs/platform-static-data/CallVBACenter';
+import { datadogLogs } from '@datadog/browser-logs';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { DOWNLOAD_STATUSES } from '../utils/constants';
 import { getSingleLetterPDFLinkAction } from '../actions/letters';
+
+const DATA_DOG_LOGGING_TOGGLE = 'lettersClientSideMonitoring';
 
 const DownloadLetterBlobLink = ({
   letterTitle,
@@ -17,8 +21,19 @@ const DownloadLetterBlobLink = ({
   // eslint-disable-next-line -- LH_MIGRATION
   LH_MIGRATION__options,
 }) => {
+  const {
+    TOGGLE_NAMES,
+    useToggleValue,
+    useToggleLoadingValue,
+  } = useFeatureToggle();
+  const isLoadingFeatureFlags = useToggleLoadingValue();
+  const isLoggingEnabled = useToggleValue(
+    TOGGLE_NAMES[DATA_DOG_LOGGING_TOGGLE],
+  );
+
   const [hasFetched, setHasFetched] = useState(false);
   const dispatch = useDispatch();
+
   useEffect(
     () => {
       const node = accordionRef?.current;
@@ -48,6 +63,7 @@ const DownloadLetterBlobLink = ({
     // eslint-disable-next-line camelcase
     [accordionRef, hasFetched, letterType, LH_MIGRATION__options, dispatch],
   );
+
   const lettersArr = useSelector(state => state.letters.enhancedLetters);
   const letterStatus = useSelector(
     state => state.letters.enhancedLetterStatus[letterType],
@@ -69,6 +85,13 @@ const DownloadLetterBlobLink = ({
             filename={`${letterTitle}.pdf`}
             text={`Download ${letterTitle}`}
             download
+            onClick={() => {
+              if (isLoggingEnabled && !isLoadingFeatureFlags) {
+                datadogLogs.logger.info('Letter downloaded.', {
+                  'letter-type': letterType,
+                });
+              }
+            }}
           />
         </div>
       );
