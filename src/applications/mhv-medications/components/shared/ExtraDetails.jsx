@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { pharmacyPhoneNumber } from '@department-of-veterans-affairs/mhv/exports';
 import { VaIcon } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import environment from 'platform/utilities/environment';
 import { dateFormat, rxSourceIsNonVA } from '../../util/helpers';
 import {
   DATETIME_FORMATS,
@@ -10,7 +11,7 @@ import {
 } from '../../util/constants';
 import CallPharmacyPhone from './CallPharmacyPhone';
 import SendRxRenewalMessage from './SendRxRenewalMessage';
-import { pageType } from '../../util/dataDogConstants';
+import { pageType, dataDogActionNames } from '../../util/dataDogConstants';
 
 const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
   const { dispStatus, refillRemaining, isRenewable } = rx;
