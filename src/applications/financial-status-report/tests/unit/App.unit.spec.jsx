@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { mount } from 'enzyme';
+import { render } from '@testing-library/react';
 import sinon from 'sinon';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
@@ -85,10 +85,10 @@ describe('<App /> - API Calls', () => {
     fetchFormStatusStub.restore();
   });
 
-  const mountComponent = (stateOverrides = {}, propsOverrides = {}) => {
+  const renderComponent = (stateOverrides = {}, propsOverrides = {}) => {
     const state = { ...defaultState, ...stateOverrides };
     store = mockStore(state);
-    return mount(
+    return render(
       <Provider store={store}>
         <App {...defaultProps} {...propsOverrides} />
       </Provider>,
@@ -97,7 +97,7 @@ describe('<App /> - API Calls', () => {
 
   describe('fetchDebts API call', () => {
     it('should call fetchDebts when user is logged in and verified', () => {
-      mountComponent({
+      renderComponent({
         user: {
           login: { currentlyLoggedIn: true },
           profile: { verified: true },
@@ -108,7 +108,7 @@ describe('<App /> - API Calls', () => {
     });
 
     it('should not call fetchDebts when user is not logged in', () => {
-      mountComponent({
+      renderComponent({
         user: {
           login: { currentlyLoggedIn: false },
           profile: { verified: false },
@@ -119,7 +119,7 @@ describe('<App /> - API Calls', () => {
     });
 
     it('should not call fetchDebts when user is not verified', () => {
-      mountComponent({
+      renderComponent({
         user: {
           login: { currentlyLoggedIn: true },
           profile: { verified: false },
@@ -132,7 +132,7 @@ describe('<App /> - API Calls', () => {
 
   describe('getStatements API call', () => {
     it('should call getStatements when user is logged in and verified', () => {
-      mountComponent({
+      renderComponent({
         user: {
           login: { currentlyLoggedIn: true },
           profile: { verified: true },
@@ -143,7 +143,7 @@ describe('<App /> - API Calls', () => {
     });
 
     it('should not call getStatements when user is not logged in', () => {
-      mountComponent({
+      renderComponent({
         user: {
           login: { currentlyLoggedIn: false },
           profile: { verified: false },
@@ -154,7 +154,7 @@ describe('<App /> - API Calls', () => {
     });
 
     it('should not call getStatements when user is not verified', () => {
-      mountComponent({
+      renderComponent({
         user: {
           login: { currentlyLoggedIn: true },
           profile: { verified: false },
@@ -167,7 +167,7 @@ describe('<App /> - API Calls', () => {
 
   describe('API call coordination', () => {
     it('should call both fetchDebts and getStatements when user is logged in and verified', () => {
-      mountComponent({
+      renderComponent({
         user: {
           login: { currentlyLoggedIn: true },
           profile: { verified: true },
@@ -179,7 +179,7 @@ describe('<App /> - API Calls', () => {
     });
 
     it('should call fetchFormStatus regardless of login status', () => {
-      mountComponent({
+      renderComponent({
         user: {
           login: { currentlyLoggedIn: false },
           profile: { verified: false },
@@ -190,7 +190,7 @@ describe('<App /> - API Calls', () => {
     });
 
     it('should only call fetchFormStatus when user is not logged in', () => {
-      mountComponent({
+      renderComponent({
         user: {
           login: { currentlyLoggedIn: false },
           profile: { verified: false },
@@ -205,34 +205,34 @@ describe('<App /> - API Calls', () => {
 
   describe('Loading states', () => {
     it('should show loading indicator when pending is true', () => {
-      const wrapper = mountComponent({
+      const { container } = renderComponent({
         fsr: {
           pending: true,
           isError: false,
         },
       });
 
-      expect(wrapper.find('va-loading-indicator').exists()).to.be.true;
-      expect(wrapper.find('va-loading-indicator').prop('message')).to.equal(
+      const loadingIndicator = container.querySelector('va-loading-indicator');
+      expect(loadingIndicator).to.exist;
+      expect(loadingIndicator.getAttribute('message')).to.equal(
         'Loading your information...',
       );
-      wrapper.unmount();
     });
 
     it('should not show loading indicator when pending is false', () => {
-      const wrapper = mountComponent({
+      const { container } = renderComponent({
         fsr: {
           pending: false,
           isError: false,
         },
       });
 
-      expect(wrapper.find('va-loading-indicator').exists()).to.be.false;
-      wrapper.unmount();
+      const loadingIndicator = container.querySelector('va-loading-indicator');
+      expect(loadingIndicator).to.not.exist;
     });
 
-    it('should show loading indicator when isLoadingFeatures is true', () => {
-      const wrapper = mountComponent({
+    it('should show loading indicator when featureToggles.loading is true', () => {
+      const { container } = renderComponent({
         featureToggles: {
           loading: true,
         },
@@ -241,15 +241,15 @@ describe('<App /> - API Calls', () => {
         },
       });
 
-      expect(wrapper.find('va-loading-indicator').exists()).to.be.true;
-      expect(wrapper.find('va-loading-indicator').prop('message')).to.equal(
+      const loadingIndicator = container.querySelector('va-loading-indicator');
+      expect(loadingIndicator).to.exist;
+      expect(loadingIndicator.getAttribute('message')).to.equal(
         'Loading features...',
       );
-      wrapper.unmount();
     });
 
     it('should show loading indicator when both pending and isLoadingFeatures are true', () => {
-      const wrapper = mountComponent({
+      const { container } = renderComponent({
         featureToggles: {
           loading: true,
         },
@@ -258,12 +258,12 @@ describe('<App /> - API Calls', () => {
         },
       });
 
-      expect(wrapper.find('va-loading-indicator').exists()).to.be.true;
+      const loadingIndicator = container.querySelector('va-loading-indicator');
+      expect(loadingIndicator).to.exist;
       // When both are true, pending takes precedence (shows "Loading your information...")
-      expect(wrapper.find('va-loading-indicator').prop('message')).to.equal(
+      expect(loadingIndicator.getAttribute('message')).to.equal(
         'Loading your information...',
       );
-      wrapper.unmount();
     });
   });
 });
