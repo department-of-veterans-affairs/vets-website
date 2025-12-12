@@ -43,7 +43,7 @@ const ReapplyButton = ({ route: { formConfig, pageList } }) => {
 ReapplyButton.propTypes = {
   route: PropTypes.shape({
     formConfig: PropTypes.shape({
-      savedFormMessages: PropTypes.array,
+      savedFormMessages: PropTypes.object,
       downtime: PropTypes.object,
     }),
     pageList: PropTypes.array,

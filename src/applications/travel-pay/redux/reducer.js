@@ -1,4 +1,5 @@
 import {
+  CLEAR_UNSAVED_EXPENSE_CHANGES,
   CREATE_COMPLEX_CLAIM_FAILURE,
   CREATE_COMPLEX_CLAIM_STARTED,
   CREATE_COMPLEX_CLAIM_SUCCESS,
@@ -20,6 +21,7 @@ import {
   FETCH_TRAVEL_CLAIMS_FAILURE,
   FETCH_TRAVEL_CLAIMS_STARTED,
   FETCH_TRAVEL_CLAIMS_SUCCESS,
+  SET_UNSAVED_EXPENSE_CHANGES,
   SUBMIT_CLAIM_FAILURE,
   SUBMIT_CLAIM_STARTED,
   SUBMIT_CLAIM_SUCCESS,
@@ -29,6 +31,8 @@ import {
   UPDATE_EXPENSE_FAILURE,
   UPDATE_EXPENSE_STARTED,
   UPDATE_EXPENSE_SUCCESS,
+  SET_REVIEW_PAGE_ALERT,
+  CLEAR_REVIEW_PAGE_ALERT,
 } from './actions';
 
 // Helper function to merge expenses, avoiding duplicates
@@ -83,6 +87,7 @@ const initialState = {
     error: null,
     data: null,
   },
+  reviewPageAlert: null,
   complexClaim: {
     claim: {
       creation: {
@@ -117,6 +122,7 @@ const initialState = {
         error: null,
       },
       data: [],
+      hasUnsavedChanges: false,
     },
   },
 };
@@ -537,6 +543,42 @@ function travelPayReducer(state = initialState, action) {
             },
           },
         },
+      };
+
+    case SET_UNSAVED_EXPENSE_CHANGES:
+      return {
+        ...state,
+        complexClaim: {
+          ...state.complexClaim,
+          expenses: {
+            ...state.complexClaim.expenses,
+            hasUnsavedChanges: action.payload,
+          },
+        },
+      };
+
+    case CLEAR_UNSAVED_EXPENSE_CHANGES:
+      return {
+        ...state,
+        complexClaim: {
+          ...state.complexClaim,
+          expenses: {
+            ...state.complexClaim.expenses,
+            hasUnsavedChanges: false,
+          },
+        },
+      };
+
+    case SET_REVIEW_PAGE_ALERT:
+      return {
+        ...state,
+        reviewPageAlert: action.payload,
+      };
+
+    case CLEAR_REVIEW_PAGE_ALERT:
+      return {
+        ...state,
+        reviewPageAlert: null,
       };
 
     default:

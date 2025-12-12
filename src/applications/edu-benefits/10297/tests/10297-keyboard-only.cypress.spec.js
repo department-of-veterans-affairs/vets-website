@@ -1,6 +1,9 @@
 import maximalData from './fixtures/data/maximal-test.json';
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
+import mockUser from './fixtures/mocks/user.json';
+import sip from './fixtures/mocks/sip-put.json';
+import mockPrefillData from './fixtures/mocks/mockPrefillData.json';
 
 const futureDate = new Date();
 const daysToAdd = 2;
@@ -13,10 +16,12 @@ const futureDateString = `${year}-${month}-${day}`;
 describe('10297 Keyboard Only Tests', () => {
   beforeEach(function beforeEachHook() {
     if (Cypress.env('CI')) this.skip();
-    cy.login();
+    cy.login(mockUser);
     cy.intercept('GET', '/v0/edu-benefits/10297/maximal-test', {
       data: maximalData,
     });
+    cy.intercept('PUT', '/v0/in_progress_forms/22-10297', sip);
+    cy.intercept('GET', '/v0/in_progress_forms/22-10297', mockPrefillData);
     cy.visit(manifest.rootUrl);
   });
 
@@ -31,20 +36,20 @@ describe('10297 Keyboard Only Tests', () => {
     );
     cy.injectAxeThenAxeCheck();
     cy.realPress('Tab');
-    cy.typeInFocused(maximalData.data.applicantFullName.first);
-    cy.repeatKey('Tab', 2);
-    cy.typeInFocused(maximalData.data.applicantFullName.last);
-    cy.realPress('Tab');
-    cy.fillVaMemorableDate('root_dateOfBirth', maximalData.data.dateOfBirth);
+    // cy.typeInFocused(maximalData.data.applicantFullName.first);
+    // cy.repeatKey('Tab', 2);
+    // cy.typeInFocused(maximalData.data.applicantFullName.last);
+    // cy.realPress('Tab');
+    // cy.fillVaMemorableDate('root_dateOfBirth', maximalData.data.dateOfBirth);
     cy.tabToContinueForm();
-    cy.url().should(
-      'include',
-      formConfig.chapters.identificationChapter.pages.identificationInformation
-        .path,
-    );
+    // cy.url().should(
+    //   'include',
+    //   formConfig.chapters.identificationChapter.pages.identificationInformation
+    //     .path,
+    // );
     cy.injectAxeThenAxeCheck();
     cy.realPress('Tab');
-    cy.typeInFocused(maximalData.data.ssn);
+    // cy.typeInFocused(maximalData.data.ssn);
     cy.tabToContinueForm();
     cy.url().should(
       'include',

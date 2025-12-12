@@ -137,7 +137,8 @@ export class LetterList extends React.Component {
         <Toggler toggleName={Toggler.TOGGLE_NAMES.emptyStateBenefitLetters}>
           <Toggler.Enabled>
             {letterItems.length === 0 &&
-              !eligibilityMessage && (
+              !eligibilityMessage &&
+              !hasTsaLetter && (
                 <div className="vads-u-margin-top--2">
                   <h3>
                     You don't have any benefit letters or documents available.

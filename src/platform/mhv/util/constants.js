@@ -104,3 +104,12 @@ export const seiVitalTypes = {
   PAIN: 'pain',
   PULSE_OXIMETRY: 'pulseOximetry',
 };
+
+// Travel Pay file new claim entry tracking
+export const TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY = Object.freeze({
+  SESSION_KEY: 'fileNewClaimEntry',
+  ENTRY_TYPES: {
+    CLAIM: 'claim',
+    APPOINTMENT: 'appointment',
+  },
+});

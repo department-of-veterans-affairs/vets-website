@@ -24,8 +24,8 @@ export const notFoundComponent = () => {
       </h3>
       <p className="vads-u-margin-y--0">
         You don’t have a 1095-B tax form available. This could be because you
-        were a CHAMPVA beneficiary or you weren’t enrolled in VA healthcare in
-        2024. If you think you were enrolled, call us at{' '}
+        were a CHAMPVA beneficiary or you weren’t enrolled in VA healthcare. If
+        you think you were enrolled, call us at{' '}
         {phoneComponent(CONTACTS['222_VETS'])}. We’re here Monday through
         Friday, 8:00 a.m. to 8:00 p.m. ET.
       </p>
