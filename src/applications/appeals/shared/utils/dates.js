@@ -1,6 +1,10 @@
 import { parse, parseISO, add, format, isValid, isToday } from 'date-fns';
 
-import { FORMAT_YMD_DATE_FNS, FORMAT_READABLE_DATE_FNS } from '../constants';
+import {
+  FORMAT_YMD_DATE_FNS,
+  FORMAT_READABLE_DATE_FNS,
+  VA_LONG_FORM_MONTHS,
+} from '../constants';
 
 /**
  * parseDateToDateObj from ISO8601 or JS number date (not unix time)
@@ -122,4 +126,31 @@ export const isUTCTodayOrFuture = date => {
   const utcToday = getCurrentUTCStartOfDay();
   const issueDateUtc = toUTCStartOfDay(date);
   return issueDateUtc.getTime() >= utcToday.getTime();
+};
+
+/**
+ * Format a date object to VA.gov style with proper month abbreviations
+ * VA.gov style guide: Jan., Feb., Aug., Sept., Oct., Nov., Dec.
+ * (Don't abbreviate March, April, May, June, July.)
+ * @param {Date} date - Date object to format
+ * @returns {string} - Date in VA.gov format (e.g., "Dec. 10, 2025" or "March 15, 2025")
+ */
+export const formatDateToReadableString = date => {
+  if (!date || !isValid(date)) {
+    return '';
+  }
+
+  const month = date.getMonth();
+
+  if (VA_LONG_FORM_MONTHS.includes(month)) {
+    return format(date, FORMAT_READABLE_DATE_FNS);
+  }
+
+  // Use standard abbreviation with period, handle September special case
+  const monthText = format(date, 'MMM');
+  const abbreviatedMonth = monthText === 'Sep' ? 'Sept.' : `${monthText}.`;
+  const day = format(date, 'd');
+  const year = format(date, 'yyyy');
+
+  return `${abbreviatedMonth} ${day}, ${year}`;
 };
