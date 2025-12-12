@@ -15,6 +15,9 @@ import {
   FETCH_APPOINTMENT_FAILURE,
   FETCH_APPOINTMENT_STARTED,
   FETCH_APPOINTMENT_SUCCESS,
+  FETCH_APPOINTMENT_BY_DATE_FAILURE,
+  FETCH_APPOINTMENT_BY_DATE_STARTED,
+  FETCH_APPOINTMENT_BY_DATE_SUCCESS,
   FETCH_CLAIM_DETAILS_FAILURE,
   FETCH_CLAIM_DETAILS_STARTED,
   FETCH_CLAIM_DETAILS_SUCCESS,
@@ -208,6 +211,7 @@ function travelPayReducer(state = initialState, action) {
       };
 
     case FETCH_APPOINTMENT_STARTED:
+    case FETCH_APPOINTMENT_BY_DATE_STARTED:
       return {
         ...state,
         appointment: {
@@ -216,6 +220,7 @@ function travelPayReducer(state = initialState, action) {
         },
       };
     case FETCH_APPOINTMENT_SUCCESS:
+    case FETCH_APPOINTMENT_BY_DATE_SUCCESS:
       return {
         ...state,
         appointment: {
@@ -225,6 +230,7 @@ function travelPayReducer(state = initialState, action) {
         },
       };
     case FETCH_APPOINTMENT_FAILURE:
+    case FETCH_APPOINTMENT_BY_DATE_FAILURE:
       return {
         ...state,
         appointment: {
