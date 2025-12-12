@@ -15,9 +15,9 @@ const ConfirmationPrintView = ({
     />
 
     <h1 className="vads-u-font-size--h2 vads-u-margin-bottom--0">
-      File a CHAMPVA claim
+      Submit other health insurance
     </h1>
-    <div>CHAMPVA Claim Form (VA Form 10-7959a)</div>
+    <div>CHAMPVA Other Health Insurance Certification (VA Form 10-7959c)</div>
 
     {alertContent}
 
