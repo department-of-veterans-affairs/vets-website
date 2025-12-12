@@ -96,6 +96,7 @@ export const Form526Entry = ({
   form,
   inProgressFormId,
   isBDDForm,
+  isStartingOver,
   location,
   loggedIn,
   mvi,
@@ -173,7 +174,7 @@ export const Form526Entry = ({
   useFormFeatureToggleSync([
     'disability526Enable2024Form4142',
     'disability526ToxicExposureOptOutDataPurge',
-    'disabilityCompNewConditionsWorkflow',
+    // 'disabilityCompNewConditionsWorkflow',
   ]);
 
   // including this helper to showLoading when feature toggles are loading
@@ -182,6 +183,28 @@ export const Form526Entry = ({
   // We don't really need this feature toggle in formData since it's only used here
   const sideNavFeatureEnabled = useToggleValue(
     TOGGLE_NAMES.disability526SidenavEnabled,
+  );
+
+  // testttinngggg
+  const newConditionsFlowEnabled = useToggleValue(
+    TOGGLE_NAMES.disabilityCompNewConditionsWorkflow,
+  );
+
+  useEffect(
+    () => {
+      if (
+        form?.data?.disabilityCompNewConditionsWorkflow !==
+        newConditionsFlowEnabled
+      ) {
+        setFormData({
+          ...form?.data,
+          disabilityCompNewConditionsWorkflow: newConditionsFlowEnabled,
+        });
+      }
+    },
+    // Do not add formData to the dependency array, as it will cause an infinite loop. Linter warning will go away when feature flag is deprecated.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [isStartingOver, setFormData, newConditionsFlowEnabled],
   );
 
   useBrowserMonitoring({
