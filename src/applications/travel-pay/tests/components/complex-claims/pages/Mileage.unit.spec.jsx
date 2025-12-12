@@ -140,6 +140,33 @@ describe('Complex Claims Mileage - Add', () => {
     ).to.exist;
   });
 
+  describe('Form validation', () => {
+    it('shows errors when departure address or trip type are not selected', () => {
+      const { container } = renderComponent();
+
+      // Click the continue button without selecting anything
+      const continueButton = container.querySelector(
+        '.travel-pay-button-group va-button[continue]',
+      );
+      fireEvent.click(continueButton);
+
+      // Get the radio elements
+      const departureRadio = $('va-radio[name="departureAddress"]');
+      const tripTypeRadio = $('va-radio[name="tripType"]');
+
+      // Check the error attributes
+      expect(departureRadio).to.exist;
+      expect(departureRadio.getAttribute('error')).to.equal(
+        'Select a departure address',
+      );
+
+      expect(tripTypeRadio).to.exist;
+      expect(tripTypeRadio.getAttribute('error')).to.equal(
+        'Select a trip type',
+      );
+    });
+  });
+
   describe('Departure Address Radio Group', () => {
     it('renders departure address radio group with correct properties', () => {
       renderComponent();
