@@ -85,7 +85,7 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
       );
     });
 
-    it('displays "Complete and file your claim" link for Incomplete status', () => {
+    it('displays "Complete and file your claim in BTSSS" link for Incomplete status', () => {
       cy.intercept('GET', '/travel_pay/v0/claims/*', {
         claimId: '73611905-71bf-46ed-b1ec-e790593b8565',
         claimNumber: 'TC0000000000001',
@@ -103,17 +103,19 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
       cy.visit(`${rootUrl}/claims/73611905-71bf-46ed-b1ec-e790593b8565`);
 
       // Should show the complete and file link
-      cy.get('va-link-action[text="Complete and file your claim"]').should(
+      cy.get('va-link[text="Complete and file your claim in BTSSS"]').should(
         'be.visible',
       );
-      cy.get('va-link-action[text="Complete and file your claim"]').should(
-        'have.attr',
-        'href',
-        '/my-health/travel-pay/file-new-claim/73611905-71bf-46ed-b1ec-e790593b8565',
-      );
+      cy.get('va-link[text="Complete and file your claim in BTSSS"]')
+        .should(
+          'have.attr',
+          'href',
+          'https://dvagov-btsss.dynamics365portals.us/',
+        )
+        .should('have.attr', 'external');
     });
 
-    it('displays "Complete and file your claim" link for Saved status', () => {
+    it('displays "Complete and file your claim in BTSSS" link for Saved status', () => {
       cy.intercept('GET', '/travel_pay/v0/claims/*', {
         claimId: '73611905-71bf-46ed-b1ec-e790593b8565',
         claimNumber: 'TC0000000000001',
@@ -131,17 +133,19 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
       cy.visit(`${rootUrl}/claims/73611905-71bf-46ed-b1ec-e790593b8565`);
 
       // Should show the complete and file link
-      cy.get('va-link-action[text="Complete and file your claim"]').should(
+      cy.get('va-link[text="Complete and file your claim in BTSSS"]').should(
         'be.visible',
       );
-      cy.get('va-link-action[text="Complete and file your claim"]').should(
-        'have.attr',
-        'href',
-        '/my-health/travel-pay/file-new-claim/73611905-71bf-46ed-b1ec-e790593b8565',
-      );
+      cy.get('va-link[text="Complete and file your claim in BTSSS"]')
+        .should(
+          'have.attr',
+          'href',
+          'https://dvagov-btsss.dynamics365portals.us/',
+        )
+        .should('have.attr', 'external');
     });
 
-    it('does not display "Complete and file your claim" link for other statuses', () => {
+    it('does not display "Complete and file your claim in BTSSS" link for other statuses', () => {
       cy.intercept('GET', '/travel_pay/v0/claims/*', {
         claimId: '73611905-71bf-46ed-b1ec-e790593b8565',
         claimNumber: 'TC0000000000001',
@@ -159,7 +163,7 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
       cy.visit(`${rootUrl}/claims/73611905-71bf-46ed-b1ec-e790593b8565`);
 
       // Should not show the complete and file link for approved claims
-      cy.get('va-link-action[text="Complete and file your claim"]').should(
+      cy.get('va-link[text="Complete and file your claim in BTSSS"]').should(
         'not.exist',
       );
     });
@@ -243,7 +247,7 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
       cy.contains('Created on').should('be.visible');
 
       // Should show complete and file link
-      cy.get('va-link-action[text="Complete and file your claim"]').should(
+      cy.get('va-link[text="Complete and file your claim in BTSSS"]').should(
         'be.visible',
       );
 
@@ -277,7 +281,7 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
       cy.contains('Created on').should('be.visible');
 
       // Should show complete and file link
-      cy.get('va-link-action[text="Complete and file your claim"]').should(
+      cy.get('va-link[text="Complete and file your claim in BTSSS"]').should(
         'be.visible',
       );
 
