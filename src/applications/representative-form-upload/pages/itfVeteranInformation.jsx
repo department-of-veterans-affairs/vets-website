@@ -11,24 +11,24 @@ import {
   ssnUI,
   dateOfBirthUI,
   dateOfBirthSchema,
+  radioUI,
+  radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import {
   emptyObjectSchema,
-  claimantTitleAndDescription,
+  ITFClaimantTitleAndDescription,
   CustomAlertPage,
+  ITFBenefitTypes,
 } from './helpers';
 import ClaimantInfoViewField from '../components/ClaimantInfoViewField';
 
 /** @type {PageSchema} */
-export const veteranInformationPage = {
+export const itfVeteranInformationPage = {
   uiSchema: {
-    ...claimantTitleAndDescription,
+    ...ITFClaimantTitleAndDescription,
     'ui:objectViewField': ClaimantInfoViewField,
     veteranFullName: firstNameLastNameNoSuffixUI(),
     address: addressUI({
-      labels: {
-        postalCode: 'Postal code',
-      },
       omit: [
         'country',
         'city',
@@ -37,6 +37,7 @@ export const veteranInformationPage = {
         'street',
         'street2',
         'street3',
+        'postalCode',
       ],
       required: true,
     }),
@@ -46,6 +47,14 @@ export const veteranInformationPage = {
       ...vaFileNumberUI,
       'ui:title': 'VA file number',
     },
+    benefitType: radioUI({
+      title: 'Select the benefit you intend to file a claim for',
+      labelHeaderLevel: '3',
+      tile: true,
+      required: () => true,
+      labels: ITFBenefitTypes.labels,
+      descriptions: ITFBenefitTypes.descriptions,
+    }),
   },
   schema: {
     type: 'object',
@@ -64,15 +73,18 @@ export const veteranInformationPage = {
           'street',
           'street2',
           'street3',
+          'postalCode',
         ],
       }),
       vaFileNumber: vaFileNumberSchema,
+      benefitType: radioSchema(Object.keys(ITFBenefitTypes.labels)),
     },
     required: [
       'veteranSsn',
       'veteranDateOfBirth',
       'address',
       'veteranFullName',
+      'benefitType',
     ],
   },
 };
@@ -81,7 +93,7 @@ export function VeteranInformationPage(props) {
   return <CustomAlertPage {...props} />;
 }
 
-VeteranInformationPage.propTypes = {
+itfVeteranInformationPage.propTypes = {
   name: PropTypes.string.isRequired,
   schema: PropTypes.object.isRequired,
   uiSchema: PropTypes.object.isRequired,
