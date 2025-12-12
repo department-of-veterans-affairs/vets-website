@@ -18,10 +18,17 @@ export function prefillTransformer(pages, formData, metadata, state) {
     zipCode,
   } = vapContactInfo.mailingAddress || {};
 
+  const safeUserFullName = {
+    first: userFullName?.first ?? '',
+    middle: userFullName?.middle ?? '',
+    last: userFullName?.last ?? '',
+    suffix: userFullName?.suffix ?? '',
+  };
+
   const newData = {
     ...formData,
     dob,
-    fullName: userFullName,
+    fullName: safeUserFullName,
     veteranAddress: {
       country: countryCodeIso3,
       street: addressLine1,
