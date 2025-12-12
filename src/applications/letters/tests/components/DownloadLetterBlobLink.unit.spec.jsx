@@ -198,7 +198,7 @@ describe('<DownloadLetterBlobLink />', () => {
     loggerStub.restore();
   });
 
-  it('Does not log when feature flags are loading', () => {
+  it('Does not log when feature flags are loading.', () => {
     const store = mockStore({
       letters: {
         enhancedLetters: [
