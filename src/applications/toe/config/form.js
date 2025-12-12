@@ -1295,7 +1295,7 @@ const formConfig = {
                 'ui:validations': [validateRoutingNumber],
               },
               routingNumberConfirmation: {
-                'ui:title': 'Re-enter routing number',
+                'ui:title': 'Confirm bank routing number',
                 'ui:required': formData =>
                   formData?.mebBankInfoConfirmationField === true,
                 'ui:options': {
@@ -1332,7 +1332,7 @@ const formConfig = {
                 'ui:validations': [validateAccountNumber],
               },
               accountNumberConfirmation: {
-                'ui:title': 'Re-enter bank account number',
+                'ui:title': 'Confirm bank account number',
                 'ui:required': formData =>
                   formData?.mebBankInfoConfirmationField === true,
                 'ui:options': {

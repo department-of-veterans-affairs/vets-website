@@ -74,7 +74,7 @@ const directDeposit = {
           'ui:reviewField': ObfuscateReviewField,
         },
         routingNumberConfirmation: {
-          'ui:title': 'Re-enter routing number',
+          'ui:title': 'Confirm bank routing number',
           'ui:required': formData =>
             formData?.mebBankInfoConfirmationField === true,
           'ui:options': {
@@ -104,7 +104,7 @@ const directDeposit = {
           'ui:reviewField': ObfuscateReviewField,
         },
         accountNumberConfirmation: {
-          'ui:title': 'Re-enter bank account number',
+          'ui:title': 'Confirm bank account number',
           'ui:required': formData =>
             formData?.mebBankInfoConfirmationField === true,
           'ui:options': {

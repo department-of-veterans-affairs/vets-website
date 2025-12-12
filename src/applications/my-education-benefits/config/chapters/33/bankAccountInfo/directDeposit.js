@@ -77,7 +77,7 @@ const directDeposit33 = {
           'ui:validations': [validateRoutingNumber],
         },
         routingNumberConfirmation: {
-          'ui:title': 'Re-enter routing number',
+          'ui:title': 'Confirm bank routing number',
           'ui:required': formData =>
             formData?.mebBankInfoConfirmationField === true,
           'ui:options': {
@@ -108,7 +108,7 @@ const directDeposit33 = {
           'ui:validations': [validateBankAccountNumber],
         },
         accountNumberConfirmation: {
-          'ui:title': 'Re-enter bank account number',
+          'ui:title': 'Confirm bank account number',
           'ui:required': formData =>
             formData?.mebBankInfoConfirmationField === true,
           'ui:options': {
