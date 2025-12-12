@@ -45,6 +45,8 @@ describe('Display Cerner Facility Alert', () => {
           isCerner: true,
         },
       ],
+      userAtPretransitionedOhFacility: true,
+      userFacilityReadyForInfoAlert: false,
     });
 
     const cernerAlert = screen.queryByTestId('cerner-facilities-alert');
@@ -61,6 +63,8 @@ describe('Display Cerner Facility Alert', () => {
 
     const screen = setup(initialStateMock, {
       facilities: userProfileFacilities,
+      userAtPretransitionedOhFacility: true,
+      userFacilityReadyForInfoAlert: false,
     });
 
     const cernerAlert = screen.queryByTestId('cerner-facilities-alert');
@@ -83,6 +87,8 @@ describe('Display Cerner Facility Alert', () => {
           isCerner: true,
         },
       ],
+      userAtPretransitionedOhFacility: true,
+      userFacilityReadyForInfoAlert: false,
     });
 
     const newCernerAlert = screen.queryByTestId('new-cerner-facilities-alert');
