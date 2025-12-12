@@ -41,8 +41,8 @@ schemas
 export function applicantHasInsuranceSchema(isPrimary) {
   const keyname = isPrimary ? 'applicantHasPrimary' : 'applicantHasSecondary';
   const pageTitle = `Report ${
-    !isPrimary ? 'additional' : ''
-  } other health insurance`;
+    !isPrimary ? 'additional ' : ''
+  }other health insurance`;
   const inputLabel = `Do you have ${
     isPrimary ? 'any' : 'additional'
   } other health insurance information to report?`;
