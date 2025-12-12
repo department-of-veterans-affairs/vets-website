@@ -1,5 +1,6 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
+import SharedComponents from './pages/SharedComponents';
 import threadResponseUnreadInbox from './fixtures/thread-response-unread-inbox.json';
 import threadsWithUnread from './fixtures/threads-response-with-unread.json';
 import { AXE_CONTEXT, Locators, Paths } from './utils/constants';
@@ -68,10 +69,9 @@ describe('SM Read Status - Breadcrumb Navigation', () => {
       },
     }).as('inbox-folder');
 
-    // Navigate back to inbox
-    cy.findByTestId(Locators.BACK_BREADCRUMB_DATA_TEST_ID).click({
-      waitForAnimations: false,
-    });
+    // Navigate back to inbox using SharedComponents helper
+    // (handles web component hydration timing with scrollIntoView + force: true)
+    SharedComponents.clickBackBreadcrumb();
 
     cy.wait('@inbox-folder', { timeout: 10000 });
     cy.url().should('include', '/inbox');
