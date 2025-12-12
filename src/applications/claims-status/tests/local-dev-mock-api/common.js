@@ -1800,8 +1800,12 @@ const responses = {
     };
 
     // Configuration for testing different scenarios
-    const errorPattern = ['duplicate']; // Change this to test different scenarios
-    // const errorPattern = [null]; // for success only
+    // Appropriate values:
+    // - 'duplicate',
+    // - 'invalidClaimant',
+    // - 'unknown'
+    // - null for success only
+    const errorPattern = ['duplicate'];
 
     return (_req, res) => {
       uploadCount += 1;
