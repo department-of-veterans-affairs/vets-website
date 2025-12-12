@@ -39,7 +39,7 @@ const OHOnlyContent = ({
           />
         </div>
       ) : (
-        <div>
+        <div className="vads-u-margin-y--2">
           {lastSuccessfulUpdate && (
             <va-card
               className="vads-u-margin-y--2"
