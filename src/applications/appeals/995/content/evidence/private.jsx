@@ -5,6 +5,7 @@ import {
   PRIVATE_TREATMENT_LOCATION_KEY,
 } from '../../constants';
 import { formatIssueList } from '../../../shared/utils/contestableIssueMessages';
+import { formatDateToReadableString } from '../../../shared/utils/dates';
 
 export const promptContent = {
   question:
@@ -55,7 +56,7 @@ export const summaryContent = {
     `${itemData[PRIVATE_TREATMENT_LOCATION_KEY]} information has been updated.`,
   cardDescription: item => {
     console.log('item: ', item);
-    console.log('item issues: ', item?.issues);
+    console.log('item issues: ', item?.issuesPrivate);
     console.log(
       'item treatmentLocation: ',
       item?.[PRIVATE_TREATMENT_LOCATION_KEY],
@@ -67,23 +68,25 @@ export const summaryContent = {
             {item[PRIVATE_TREATMENT_LOCATION_KEY]}
           </h3>
         )}
-        {item?.issues?.length === 1 && (
+        {item?.issuesPrivate?.length === 1 && (
           <p>
-            <strong>Condition:</strong> {item.issues[0]}
+            <strong>Condition:</strong> {item.issuesPrivate[0]}
           </p>
         )}
-        {item?.issues?.length > 1 && (
+        {item?.issuesPrivate?.length > 1 && (
           <p>
-            <strong>Conditions:</strong> {formatIssueList(item.issues)}
+            <strong>Conditions:</strong> {formatIssueList(item.issuesPrivate)}
           </p>
         )}
-        {item?.[PRIVATE_LOCATION_TREATMENT_DATES_KEY](
-          <p>
-            <strong>Treatment start date:</strong>
-            &nbsp;
-            {/* {formatMonthYear(item[PRIVATE_LOCATION_TREATMENT_DATES_KEY])} */}
-          </p>,
-        )}
+        {item?.to &&
+          item?.from && (
+            <p>
+              <strong>Treatment:</strong>
+              &nbsp;
+              {formatDateToReadableString(item.to)} to{' '}
+              {formatDateToReadableString(item.from)}
+            </p>
+          )}
       </>
     );
   },
