@@ -38,7 +38,6 @@ describe('SubmissionCard', () => {
     vbmsReceivedDate: '2024-06-02T09:10:00Z',
     formType: '21-22',
     packet: false,
-    url: true,
   };
 
   it('renders name, confirmation number, and form type', () => {
@@ -48,39 +47,19 @@ describe('SubmissionCard', () => {
       </MemoryRouter>,
     );
 
-    const nameLink = container.querySelector(
-      `[data-testid="submission-card-${baseSubmission.id}-name"]`,
-    );
-    expect(nameLink).to.exist;
-    expect(nameLink.textContent).to.equal('Doe, John');
+    const nameHeading = container.querySelector('h3');
+    expect(nameHeading).to.exist;
+    expect(nameHeading.textContent).to.equal('Doe, John');
 
     const formName = container.querySelector('.submission__card-form-name');
     expect(formName).to.exist;
-    expect(formName.textContent).to.include('21-22');
+    expect(formName.textContent).to.include('VA 21-22');
 
     const statusText = container.querySelector('.submission__card-status');
     expect(statusText.textContent).to.include('Confirmation:');
     expect(statusText.textContent).to.include('ABC123456');
     expect(statusText.textContent).to.include('VBMS eFolder status:');
     expect(statusText.textContent).to.include('Received');
-  });
-
-  it('renders without a link if no url is provided', () => {
-    const submissionWithoutUrl = {
-      ...baseSubmission,
-      url: false,
-    };
-
-    const { container } = render(
-      <MemoryRouter>
-        <SubmissionCard submission={submissionWithoutUrl} />
-      </MemoryRouter>,
-    );
-
-    const nameHeading = container.querySelector('h3');
-    expect(nameHeading).to.exist;
-    expect(nameHeading.textContent).to.equal('Doe, John');
-    expect(container.querySelector('a')).to.not.exist;
   });
 
   it('renders status message for "processing_error"', () => {
