@@ -126,6 +126,7 @@ const BenefitPaymentsAndDebt = ({
                     <va-link
                       href="/resources/va-debt-management"
                       text="View all debt information"
+                      data-testid="view-all-debt-information-link"
                     />
                   </DashboardWidgetWrapper>
                 )}

@@ -6,6 +6,7 @@ import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
 import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
+import FEATURE_FLAGS from 'platform/utilities/feature-toggles/featureFlagNames';
 import { createDebtsSuccess } from '../../../mocks/debts';
 import { has3Copays } from '../../../mocks/medical-copays';
 import BenefitPaymentsAndDebt from '../../../components/debts/Debts';
@@ -217,5 +218,33 @@ describe('<BenefitPaymentsAndDebt />', () => {
     expect(getByTestId('copay-card')).to.exist;
     expect(getByTestId('copay-card-alert')).to.exist;
     expect(getByTestId('manage-va-copays-link')).to.exist;
+  });
+
+  it('displays error message when there is a debts and copays API error', () => {
+    const store = mockStore({
+      featureToggles: {
+        [FEATURE_FLAGS.myVaAuthExpRedesignEnabled]: true,
+      },
+      allDebts: {
+        isLoading: false,
+        debts: [],
+        copays: [],
+        debtsErrors: ['Debt error'],
+        copaysErrors: ['and copay error'],
+      },
+    });
+
+    const { getByTestId, queryByTestId } = render(
+      <Provider store={store}>
+        <BenefitPaymentsAndDebt />
+      </Provider>,
+    );
+
+    expect(getByTestId('outstanding-debts-error')).to.exist;
+    expect(getByTestId('view-all-debt-information-link')).to.exist;
+    expect(queryByTestId('copay-card-alert')).not.to.exist;
+    expect(queryByTestId('manage-va-copays-link')).not.to.exist;
+    expect(queryByTestId('debt-card-alert')).not.to.exist;
+    expect(queryByTestId('manage-va-debt-link')).not.to.exist;
   });
 });
