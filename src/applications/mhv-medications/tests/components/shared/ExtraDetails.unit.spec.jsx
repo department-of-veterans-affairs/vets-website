@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import reducers from '../../../reducers';
 import prescriptionsListItem from '../../fixtures/prescriptionsListItem.json';
 import ExtraDetails from '../../../components/shared/ExtraDetails';
@@ -9,10 +10,24 @@ import { DATETIME_FORMATS, dispStatusObj } from '../../../util/constants';
 
 describe('Medications List Card Extra Details', () => {
   const prescription = prescriptionsListItem;
-  const setup = (rx = prescription) => {
+  const setup = (rx = prescription, initialState = {}) => {
+    const featureToggleReducer = (state = {}) => state;
+    const testReducers = {
+      ...reducers,
+      featureToggles: featureToggleReducer,
+    };
+
+    const state = {
+      ...initialState,
+      featureToggles: {
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingMedicationsRenewalRequest]: true,
+        ...(initialState.featureToggles || {}),
+      },
+    };
+
     return renderWithStoreAndRouterV6(<ExtraDetails {...rx} />, {
-      state: {},
-      reducers,
+      initialState: state,
+      reducers: testReducers,
     });
   };
 
@@ -69,7 +84,7 @@ describe('Medications List Card Extra Details', () => {
       dispStatus: dispStatusObj.discontinued,
     });
     expect(await screen.findByTestId('discontinued')).to.contain.text(
-      'You can’t refill this prescription. Contact your VA provider if you need more of this medication.',
+      'You can’t refill this prescription. If you need more, send a message to your care team.',
     );
   });
 
@@ -121,7 +136,70 @@ describe('Medications List Card Extra Details', () => {
       refillRemaining: 0,
     });
     expect(await screen.findByTestId('expired')).to.contain.text(
-      'You can’t refill this prescription. Contact your VA provider if you need more of this medication.',
+      'This prescription is too old to refill. If you need more, request a renewal.',
     );
+  });
+
+  describe('isRenewable for OH prescriptions', () => {
+    it('displays renewal link when isRenewable is true and prescription is not non-VA', async () => {
+      const screen = setup({
+        ...prescription,
+        isRenewable: true,
+        prescriptionSource: 'VA',
+        dispStatus: null,
+      });
+      expect(await screen.findByTestId('send-renewal-request-message-link')).to
+        .exist;
+    });
+
+    it('displays renewal link when isRenewable is true with any dispStatus', async () => {
+      const screen = setup({
+        ...prescription,
+        isRenewable: true,
+        prescriptionSource: 'VA',
+        dispStatus: 'Active',
+        refillRemaining: 5, // Has refills but isRenewable should still show link
+      });
+      expect(await screen.findByTestId('send-renewal-request-message-link')).to
+        .exist;
+    });
+
+    it('does not display renewal link when isRenewable is true but prescription is non-VA', async () => {
+      const screen = setup({
+        ...prescription,
+        isRenewable: true,
+        prescriptionSource: 'NV',
+        dispStatus: null,
+      });
+      expect(screen.queryByTestId('send-renewal-request-message-link')).to.not
+        .exist;
+    });
+
+    it('does not display renewal link when isRenewable is false', async () => {
+      const screen = setup({
+        ...prescription,
+        isRenewable: false,
+        prescriptionSource: 'VA',
+        dispStatus: 'Active',
+        refillRemaining: 5,
+      });
+      expect(screen.queryByTestId('send-renewal-request-message-link')).to.not
+        .exist;
+    });
+
+    it('falls back to dispStatus logic when isRenewable is undefined', async () => {
+      const screen = setup({
+        ...prescription,
+        isRenewable: undefined,
+        prescriptionSource: 'VA',
+        dispStatus: dispStatusObj.active,
+        refillRemaining: 0,
+      });
+      expect(
+        await screen.findByTestId('active-no-refill-left'),
+      ).to.contain.text(
+        'You have no refills left. If you need more, request a renewal.',
+      );
+    });
   });
 });

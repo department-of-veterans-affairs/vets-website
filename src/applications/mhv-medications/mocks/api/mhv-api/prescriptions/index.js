@@ -20,6 +20,7 @@ function mockPrescription(n = 0, attrs = {}, isV2 = false) {
   const refillRemaining = isRefillable
     ? Math.ceil(Math.log((typeof n === 'number' ? n : 0) + 1))
     : 0;
+  const isRenewable = attrs.isRenewable ?? false;
   const {
     cmopNdcNumber,
     cmopDivisionPhone = '(555) 555-5555',
@@ -55,6 +56,7 @@ function mockPrescription(n = 0, attrs = {}, isV2 = false) {
       dispensedDate: '2024-02-25T10:30:00-05:00',
       stationNumber: '001',
       isRefillable,
+      isRenewable,
       isTrackable: null,
       sig: null,
       cmopDivisionPhone,
@@ -152,6 +154,7 @@ function mockPrescriptionArray(n = 20, isV2 = false) {
         dispensedDate: realPrescription.dispensedDate || recentlyISOString,
         stationNumber: realPrescription.stationNumber,
         isRefillable: realPrescription.isRefillable,
+        isRenewable: realPrescription.isRenewable,
         isTrackable: realPrescription.isTrackable,
         sig: realPrescription.sig,
         cmopDivisionPhone:
