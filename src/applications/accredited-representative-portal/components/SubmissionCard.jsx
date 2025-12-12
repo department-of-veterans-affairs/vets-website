@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { formatDateParsedZoneLong } from 'platform/utilities/date/index';
+import { differenceInDays } from 'date-fns';
 
 const formatStatus = submission => {
   switch (submission.vbmsStatus) {
@@ -47,12 +48,28 @@ const formatStatus = submission => {
   }
 };
 
+const getBenefitName = benefitType => {
+  switch (benefitType) {
+    case 'compensation':
+      return 'Disability Compensation (VA Form 21-526EZ)';
+    case 'pension':
+      return 'Pension (VA Form 21P-527EZ)';
+    case 'survivor':
+      return 'Survivors pension and/or dependency and indemnity compensation (DIC) (VA Form 21P-534 or VA Form 21P-534EZ)';
+    default:
+      return '';
+  }
+};
+
 const SubmissionCard = ({ submission }) => {
+  const formattedSubmittedDate = formatDateParsedZoneLong(
+    submission.submittedDate,
+  );
   return (
     <li>
       <va-card class="submission__card">
         <p className="submission__card-date">
-          Submitted {formatDateParsedZoneLong(submission.submittedDate)}
+          Submitted {formattedSubmittedDate}
         </p>
         <h3 className="submission__card-name vads-u-font-size--h3 vads-u-font-family--serif">
           {submission.url ? (
@@ -74,6 +91,34 @@ const SubmissionCard = ({ submission }) => {
           </strong>
         </p>
         <p className="submission__card-status">
+          {submission.benefitType ? (
+            <>
+              <span className="submission__card-attribute-text">
+                {'Benefit: '}
+              </span>
+              {getBenefitName(submission.benefitType)}
+              <br />
+            </>
+          ) : (
+            ''
+          )}
+          {submission.formType === '21-0966' ? (
+            <>
+              <span className="submission__card-attribute-text">
+                {'ITF Date: '}
+              </span>
+              {formattedSubmittedDate} (Expires in{' '}
+              {365 -
+                differenceInDays(
+                  new Date(),
+                  new Date(formattedSubmittedDate),
+                )}{' '}
+              days)
+              <br />
+            </>
+          ) : (
+            ''
+          )}
           {submission.confirmationNumber ? (
             <>
               <span className="submission__card-attribute-text">
