@@ -111,6 +111,22 @@ describe('analytics helpers', () => {
 
       expect(stored[TEST_CLAIM_ID][fingerprint].attempts).to.equal(2);
     });
+
+    it('should use timestamp 0 when file.lastModified is undefined', () => {
+      // Create a file and manually remove lastModified to simulate edge case
+      const file = createTestFile();
+      Object.defineProperty(file, 'lastModified', { value: undefined });
+
+      // Should still work with fallback to 0
+      storeUploadAttempt(createUploadParams({ file }));
+
+      const stored = getStoredAttempts();
+      // Fingerprint should use 0 for timestamp
+      const expectedFingerprint = `pdf_${file.size}_0`;
+
+      expect(stored[TEST_CLAIM_ID][expectedFingerprint]).to.exist;
+      expect(stored[TEST_CLAIM_ID][expectedFingerprint].attempts).to.equal(1);
+    });
   });
 
   describe('storeFailedUpload', () => {
@@ -129,6 +145,36 @@ describe('analytics helpers', () => {
       expect(stored[TEST_CLAIM_ID][fingerprint]).to.exist;
       expect(stored[TEST_CLAIM_ID][fingerprint].errorCode).to.equal(
         'DOC_UPLOAD_DUPLICATE',
+      );
+    });
+
+    it('should store multiple failures for the same claim', () => {
+      const file1 = createTestFile('file1.pdf', TEST_TIMESTAMP_1);
+      const file2 = createTestFile('file2.pdf', TEST_TIMESTAMP_2);
+
+      // Store first failure
+      storeFailedUpload(
+        createUploadParams({ file: file1, errorCode: 'ERROR_1' }),
+      );
+
+      // Store second failure for same claim
+      storeFailedUpload(
+        createUploadParams({
+          file: file2,
+          docInstanceId: TEST_DOC_INSTANCE_ID_2,
+          errorCode: 'ERROR_2',
+        }),
+      );
+
+      const storedFailures = getStoredFailures();
+      const fingerprint1 = createFingerprint(file1);
+      const fingerprint2 = createFingerprint(file2);
+
+      expect(storedFailures[TEST_CLAIM_ID][fingerprint1].errorCode).to.equal(
+        'ERROR_1',
+      );
+      expect(storedFailures[TEST_CLAIM_ID][fingerprint2].errorCode).to.equal(
+        'ERROR_2',
       );
     });
   });
@@ -155,7 +201,7 @@ describe('analytics helpers', () => {
       expect(result.previousDocInstanceId).to.equal(TEST_DOC_INSTANCE_ID);
     });
 
-    it('should NOT detect retry for different file with same size', () => {
+    it('should not detect retry for different files with same size', () => {
       const file1 = createTestFile('medical.pdf', TEST_TIMESTAMP_1);
       const file2 = createTestFile('dental.pdf', TEST_TIMESTAMP_2);
       // Store first file
@@ -165,6 +211,19 @@ describe('analytics helpers', () => {
       // Should NOT be detected as retry because timestamps differ
       expect(result.isRetry).to.be.false;
       expect(result.retryCount).to.equal(0);
+    });
+
+    it('should return default values and not throw when sessionStorage contains invalid JSON', () => {
+      // Store invalid JSON in sessionStorage
+      sessionStorage.setItem('cst_upload_attempts', 'invalid{json');
+
+      const file = createTestFile();
+      const result = checkIfRetry(file, TEST_CLAIM_ID);
+
+      // Should return default values instead of throwing
+      expect(result.isRetry).to.be.false;
+      expect(result.retryCount).to.equal(0);
+      expect(result.previousDocInstanceId).to.be.null;
     });
   });
 
@@ -201,6 +260,30 @@ describe('analytics helpers', () => {
 
       expect(result123.isRetry).to.be.false;
       expect(result456.isRetry).to.be.true;
+    });
+
+    it('should not throw when clearing a claim that has no tracking data', () => {
+      // Clear a claim that was never stored - should not throw
+      clearUploadTracking('non-existent-claim');
+
+      // Verify storage is still accessible
+      const file = createTestFile();
+      storeUploadAttempt(createUploadParams({ file }));
+      const result = checkIfRetry(file, TEST_CLAIM_ID);
+
+      expect(result.isRetry).to.be.true;
+    });
+
+    it('should clear failed uploads even when no upload attempts exist for claim', () => {
+      const file = createTestFile();
+      // Only store a failed upload, no attempt
+      storeFailedUpload(createUploadParams({ file, errorCode: 'ERROR' }));
+
+      // Clear should handle case where attempts[claimId] doesn't exist
+      clearUploadTracking(TEST_CLAIM_ID);
+
+      const storedFailures = getStoredFailures();
+      expect(storedFailures[TEST_CLAIM_ID]).to.be.undefined;
     });
   });
 
@@ -273,6 +356,18 @@ describe('analytics helpers', () => {
       expect(window.dataLayer[1]['retry-file-count']).to.equal(2);
       expect(window.dataLayer[1]['total-retry-attempts']).to.equal(2);
     });
+
+    it("should use 'Unknown' as fallback when file object is missing docType property", () => {
+      const files = [
+        {
+          file: createTestFile('test1.pdf', TEST_TIMESTAMP_1),
+          // No docType property
+        },
+      ];
+      const result = recordUploadStartEvent({ files, claimId: TEST_CLAIM_ID });
+
+      expect(result[0].docType).to.equal('Unknown');
+    });
   });
 
   describe('recordUploadFailureEvent', () => {
@@ -314,7 +409,7 @@ describe('analytics helpers', () => {
       });
     });
 
-    it('should handle unknown error codes', () => {
+    it("should record 'Unknown' error code when errorFile has no errors array", () => {
       const errorFiles = [
         {
           fileName: 'test.pdf',
@@ -333,6 +428,72 @@ describe('analytics helpers', () => {
       expect(window.dataLayer[0]['failed-file-count']).to.equal(1);
       expect(window.dataLayer[0]['error-code']).to.equal('Unknown');
     });
+
+    it("should store 'Unknown' as docType when errorFile is missing docType property", () => {
+      const file = createTestFile();
+      const errorFiles = [
+        {
+          fileName: 'test.pdf',
+          // No docType property
+          errors: [{ detail: 'SOME_ERROR' }],
+        },
+      ];
+      const files = [{ file, docType: { value: TEST_DOC_TYPE } }];
+      const filesWithRetryInfo = [
+        {
+          docInstanceId: TEST_DOC_INSTANCE_ID,
+          retryInfo: { isRetry: false, retryCount: 0 },
+          docType: TEST_DOC_TYPE,
+        },
+      ];
+
+      recordUploadFailureEvent({
+        errorFiles,
+        files,
+        filesWithRetryInfo,
+        claimId: TEST_CLAIM_ID,
+      });
+
+      const storedFailures = getStoredFailures();
+      const fingerprint = createFingerprint(file);
+
+      expect(storedFailures[TEST_CLAIM_ID][fingerprint].docType).to.equal(
+        'Unknown',
+      );
+    });
+
+    it("should store 'Unknown' as errorCode when errorFile is missing errors array", () => {
+      const file = createTestFile();
+      const errorFiles = [
+        {
+          fileName: 'test.pdf',
+          docType: 'L023',
+          // No errors array
+        },
+      ];
+      const files = [{ file, docType: { value: TEST_DOC_TYPE } }];
+      const filesWithRetryInfo = [
+        {
+          docInstanceId: TEST_DOC_INSTANCE_ID,
+          retryInfo: { isRetry: false, retryCount: 0 },
+          docType: TEST_DOC_TYPE,
+        },
+      ];
+
+      recordUploadFailureEvent({
+        errorFiles,
+        files,
+        filesWithRetryInfo,
+        claimId: TEST_CLAIM_ID,
+      });
+
+      const storedFailures = getStoredFailures();
+      const fingerprint = createFingerprint(file);
+
+      expect(storedFailures[TEST_CLAIM_ID][fingerprint].errorCode).to.equal(
+        'Unknown',
+      );
+    });
   });
 
   describe('recordUploadSuccessEvent', () => {
@@ -348,7 +509,7 @@ describe('analytics helpers', () => {
   });
 
   describe('TTL expiration', () => {
-    it('should expire data after TTL', () => {
+    it('should not detect retry when stored data is older than 2-hour TTL', () => {
       const file = createTestFile();
       const uploadAttemptsKey = 'cst_upload_attempts';
       // Manually create expired data
@@ -363,7 +524,7 @@ describe('analytics helpers', () => {
             },
           },
         },
-        timestamp: Date.now() - 2 * 60 * 60 * 1000 - 1000, // 2 hours old
+        timestamp: Date.now() - 2 * 60 * 60 * 1000 - 1000, // 2 hours + 1 second = expired
       };
 
       sessionStorage.setItem(uploadAttemptsKey, JSON.stringify(expiredData));

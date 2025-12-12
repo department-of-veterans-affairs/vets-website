@@ -231,5 +231,30 @@ describe('Type2FailureAnalyticsContext', () => {
       const secondCall = recordType2FailureEventListPageStub.getCall(1).args[0];
       expect(secondCall).to.deep.equal({ count: 3 });
     });
+
+    it('should clear pending timer when all alerts unmount', async () => {
+      const { rerender } = render(
+        <Type2FailureAnalyticsProvider>
+          <TestAlert claimId="claim-1" hasFailures />
+          <TestAlert claimId="claim-2" hasFailures />
+        </Type2FailureAnalyticsProvider>,
+      );
+      // Unmount one alert
+      rerender(
+        <Type2FailureAnalyticsProvider>
+          <TestAlert claimId="claim-1" hasFailures />
+        </Type2FailureAnalyticsProvider>,
+      );
+      // Unmount the last alert before debounce completes
+      rerender(
+        <Type2FailureAnalyticsProvider>
+          <TestAlert claimId="claim-1" hasFailures={false} />
+        </Type2FailureAnalyticsProvider>,
+      );
+
+      await waitForDebounce();
+      // Event should not fire because all alerts unmounted
+      expect(recordType2FailureEventListPageStub.notCalled).to.be.true;
+    });
   });
 });
