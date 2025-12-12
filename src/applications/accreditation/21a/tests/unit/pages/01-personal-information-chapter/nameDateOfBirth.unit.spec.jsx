@@ -26,10 +26,10 @@ describe('Name and date of birth page', () => {
     ).to.exist;
 
     const firstNameInput = container.querySelector(
-      'va-text-input[label="First name"]',
+      'va-text-input[label="First or given name"]',
     );
     const lastNameInput = container.querySelector(
-      'va-text-input[label="Last name"]',
+      'va-text-input[label="Last or family name"]',
     );
     const middleNameInput = container.querySelector(
       'va-text-input[label="Middle name"]',

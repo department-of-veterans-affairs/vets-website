@@ -20,7 +20,13 @@ function handleClick({ history, dispatch, data, provider, pageKey }) {
 }
 
 export default function ProviderCard({ provider }) {
-  const { lastSeen, providerName, hasAvailability } = provider;
+  // Temporarily marking all providers as hasAvailability=true to enable a
+  // test on staging
+  const hasAvailability = true;
+  const { lastSeen, providerName } = provider;
+
+  // const { lastSeen, providerName, hasAvailability } = provider;
+
   const dispatch = useDispatch();
   const history = useHistory();
   const pageKey = useSelector(state => state?.newAppointment?.currentPageKey);
