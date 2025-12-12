@@ -69,11 +69,7 @@ describe('IntroductionPage', () => {
         'Apply for a Veterans burial allowance and transportation benefits',
       ),
     ).to.exist;
-    expect(
-      screen.queryByText(
-        'Follow these steps to apply for a burial allowance and transportation benefits',
-      ),
-    ).to.exist;
+    expect(screen.queryByText('Follow the steps below to apply:')).to.exist;
 
     // logged in false, toggle false, verified false, saved form false
     expect($('va-alert-sign-in[variant="signInOptional"]', screen.container)).to
