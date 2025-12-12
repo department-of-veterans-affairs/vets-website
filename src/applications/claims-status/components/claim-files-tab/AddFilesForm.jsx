@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useParams } from 'react-router-dom-v5-compat';
 
 import {
   VaFileInputMultiple,
@@ -229,11 +230,20 @@ const createSubmissionPayload = (files, docTypes, encrypted) => {
 const AddFilesForm = ({ fileTab, onSubmit, uploading, progress, onCancel }) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const toggleValue = useToggleValue(TOGGLE_NAMES.cstShowDocumentUploadStatus);
+  const { id: claimId } = useParams();
   const [files, setFiles] = useState([]);
   const [errors, setErrors] = useState([]);
   const [encrypted, setEncrypted] = useState([]);
   const [canShowUploadModal, setCanShowUploadModal] = useState(false);
   const fileInputRef = useRef(null);
+
+  // Build the href for "other ways to send documents" link
+  // When on the files tab, use anchor link; otherwise use full path
+  const otherWaysToSendHref = fileTab
+    ? `#${ANCHOR_LINKS.otherWaysToSendDocuments}`
+    : `/track-claims/your-claims/${claimId}/files#${
+        ANCHOR_LINKS.otherWaysToSendDocuments
+      }`;
 
   // Track document type changes and clear errors immediately
   useEffect(
@@ -389,11 +399,15 @@ const AddFilesForm = ({ fileTab, onSubmit, uploading, progress, onCancel }) => {
           <>
             <div className="vads-u-margin-top--3 vads-u-margin-bottom--5">
               <va-link
-                href={`#${ANCHOR_LINKS.otherWaysToSendDocuments}`}
+                href={otherWaysToSendHref}
                 text={SEND_YOUR_DOCUMENTS_TEXT}
                 onClick={e => {
-                  e.preventDefault();
-                  setPageFocus(e.target.href);
+                  // Only prevent default and scroll if we're on the files tab
+                  // Otherwise, let the link navigate to the files page
+                  if (fileTab) {
+                    e.preventDefault();
+                    setPageFocus(`#${ANCHOR_LINKS.otherWaysToSendDocuments}`);
+                  }
                 }}
               />
             </div>
