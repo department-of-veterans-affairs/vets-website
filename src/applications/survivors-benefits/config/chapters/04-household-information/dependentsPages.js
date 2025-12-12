@@ -103,7 +103,7 @@ const introPage = {
       <div>
         <p className="vads-u-margin-top--0">
           Next we’ll ask you about the Veteran’s dependent children. You may add
-          dependents.
+          up to 3 dependents.
         </p>
         {DependentChildDescription}
       </div>
