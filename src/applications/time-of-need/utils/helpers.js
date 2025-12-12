@@ -77,7 +77,10 @@ export function getCemeteries(query = '') {
     .catch(error => {
       // Prototype: do not call Sentry.captureException(error)
       // Light dev-only console notice so the variable is used
-      if (window?.location?.hostname === 'localhost') {
+      if (
+        window?.location?.hostname === 'localhost' ||
+        window?.location?.hostname === '127.0.0.1'
+      ) {
         // eslint-disable-next-line no-console
         console.warn('getCemeteries request failed', error);
       }

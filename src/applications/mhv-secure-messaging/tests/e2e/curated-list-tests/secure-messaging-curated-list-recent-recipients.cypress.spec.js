@@ -38,7 +38,6 @@ describe('SM CURATED LIST MAIN FLOW WITH RECENT RECIPIENTS', () => {
     PatientInboxPage.clickCreateNewMessage();
     cy.wait('@recentRecipients');
     PatientInterstitialPage.getStartMessageLink().click();
-    cy.wait('@recentRecipients');
     GeneralFunctionsPage.verifyPageHeader(Data.RECENT_RECIPIENTS_HEADER);
     GeneralFunctionsPage.verifyPageTitle(
       'Recently Messaged Care Teams - Start Message | Veterans Affairs',
@@ -79,7 +78,6 @@ describe('SM CURATED LIST MAIN FLOW WITH RECENT RECIPIENTS', () => {
     PatientInboxPage.clickCreateNewMessage();
     cy.wait('@recentRecipients');
     PatientInterstitialPage.getStartMessageLink().click();
-    cy.wait('@recentRecipients');
     GeneralFunctionsPage.verifyPageHeader(Data.RECENT_RECIPIENTS_HEADER);
 
     cy.findByTestId(Locators.EMERGENCY_USE_EXPANDABLE_DATA_TEST_ID).should(
@@ -113,7 +111,6 @@ describe('SM CURATED LIST MAIN FLOW WITH RECENT RECIPIENTS', () => {
     PatientInboxPage.clickCreateNewMessage();
     cy.wait('@recentRecipients');
     PatientInterstitialPage.getStartMessageLink().click();
-    cy.wait('@recentRecipients');
     GeneralFunctionsPage.verifyPageHeader(Data.RECENT_RECIPIENTS_HEADER);
 
     cy.findByLabelText(`${recentCareTeams[0]}VA Madison health care`).should(
@@ -150,10 +147,13 @@ describe('SM CURATED LIST MAIN FLOW WITH RECENT RECIPIENTS', () => {
 
     cy.findByLabelText('A different care team').click();
 
-    cy.findByTestId(
-      Locators.RECENT_CARE_TEAMS_CONTINUE_BUTTON_DATA_TEST_ID,
-    ).click();
+    cy.findByTestId(Locators.RECENT_CARE_TEAMS_CONTINUE_BUTTON_DATA_TEST_ID)
+      .shadow()
+      .find('button')
+      .should('be.enabled', { timeout: 10000 })
+      .click();
 
+    cy.location('pathname').should('include', '/select-care-team');
     GeneralFunctionsPage.verifyPageHeader(`Select care team`);
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
@@ -183,15 +183,17 @@ describe('SM CURATED LIST MAIN FLOW WITH RECENT RECIPIENTS', () => {
     PatientInboxPage.clickCreateNewMessage();
     cy.wait('@recentRecipients');
     PatientInterstitialPage.getStartMessageLink().click();
-    cy.wait('@recentRecipients');
     GeneralFunctionsPage.verifyPageHeader(Data.RECENT_RECIPIENTS_HEADER);
 
     // Select the first recent care team
     cy.get(`[label="${recentCareTeams[0]}"]`).click();
 
-    cy.findByTestId(
-      Locators.RECENT_CARE_TEAMS_CONTINUE_BUTTON_DATA_TEST_ID,
-    ).click();
+    cy.get('body').should('not.have.class', 'loading');
+
+    cy.findByTestId(Locators.RECENT_CARE_TEAMS_CONTINUE_BUTTON_DATA_TEST_ID)
+      .should('be.visible')
+      .and('not.be.disabled')
+      .click({ scrollBehavior: 'center' });
 
     GeneralFunctionsPage.verifyPageHeader('Start message');
 

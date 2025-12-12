@@ -9,7 +9,8 @@ describe('Form Config - Core Branch Coverage', () => {
   describe('pathname parameter coverage', () => {
     it('calls formConfig with no parameters (default null)', () => {
       const config = formConfig();
-      expect(config).to.be.null;
+      expect(config).to.be.an('object');
+      expect(config.formId).to.equal('21-686C-UPLOAD');
     });
 
     it('calls formConfig with explicit pathname', () => {
@@ -19,17 +20,20 @@ describe('Form Config - Core Branch Coverage', () => {
 
     it('calls formConfig with undefined', () => {
       const config = formConfig();
-      expect(config).to.be.null;
+      expect(config).to.be.an('object');
+      expect(config.formId).to.equal('21-686C-UPLOAD');
     });
 
     it('calls formConfig with null', () => {
       const config = formConfig(null);
-      expect(config).to.be.null;
+      expect(config).to.be.an('object');
+      expect(config.formId).to.equal('21-686C-UPLOAD');
     });
 
     it('calls formConfig with empty string', () => {
       const config = formConfig('');
-      expect(config).to.be.null;
+      expect(config).to.be.an('object');
+      expect(config.formId).to.equal('21-686C-UPLOAD');
     });
   });
 

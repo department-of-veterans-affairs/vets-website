@@ -1,5 +1,9 @@
 import { pageNotFoundHeading } from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 
+const baseUrl =
+  (globalThis.Cypress && globalThis.Cypress.config('baseUrl')) ||
+  'http://127.0.0.1:3001';
+
 export const AXE_CONTEXT = '.secure-messaging-container';
 
 export const Paths = {
@@ -471,7 +475,7 @@ export const Data = {
   },
   CL_LINK_TEXT: 'Show more teams in your contact list',
   URL: {
-    LANDING_PAGE: `http://localhost:3001/my-health/secure-messages/`,
+    LANDING_PAGE: `${baseUrl}/my-health/secure-messages/`,
   },
   FAQ_LINK: {
     URL: {

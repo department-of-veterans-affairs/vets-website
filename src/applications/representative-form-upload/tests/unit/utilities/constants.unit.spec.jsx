@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { expect } from 'chai';
 import sinon from 'sinon';
 import * as sessionUtil from 'platform/utilities/api';
@@ -8,10 +9,11 @@ import * as apiModule from '../../../utilities/api';
 import manifest from '../../../manifest.json';
 
 describe('wrapApiRequest', () => {
+  const sandbox = sinon.createSandbox();
   let fetchStub;
   let csrfGetItemStub;
   let csrfSetItemStub;
-  let locationStub;
+  let originalWindow;
 
   // Helper to create mock response with headers.get()
   function createMockResponse(status = 200, headersObj = {}) {
@@ -26,18 +28,30 @@ describe('wrapApiRequest', () => {
   }
 
   beforeEach(() => {
-    fetchStub = sinon.stub(sessionUtil, 'fetchAndUpdateSessionExpiration');
-    csrfGetItemStub = sinon.stub(localStorage, 'getItem').returns('old-token');
-    csrfSetItemStub = sinon.stub(localStorage, 'setItem');
+    originalWindow = global.window;
+
+    // Clear any lingering stubs from other tests to avoid double-wrapping errors.
+    sandbox.restore();
+    if (constantsModule.getSignInUrl?.restore) {
+      constantsModule.getSignInUrl.restore();
+    }
+
+    fetchStub = sandbox.stub(sessionUtil, 'fetchAndUpdateSessionExpiration');
+    csrfGetItemStub = sandbox
+      .stub(localStorage, 'getItem')
+      .returns('old-token');
+    csrfSetItemStub = sandbox.stub(localStorage, 'setItem');
   });
 
   afterEach(() => {
-    fetchStub.restore();
-    csrfGetItemStub.restore();
-    csrfSetItemStub.restore();
-    if (locationStub) {
-      locationStub.restore();
-      locationStub = null;
+    sandbox.restore();
+    // Restore original window to avoid read-only location assignment errors in jsdom
+    if (originalWindow) {
+      Object.defineProperty(global, 'window', {
+        value: originalWindow,
+        configurable: true,
+        writable: true,
+      });
     }
   });
 
@@ -71,9 +85,17 @@ describe('wrapApiRequest', () => {
       .stub(constantsModule, 'getSignInUrl')
       .returns('https://fake-login-url');
 
-    locationStub = sinon.stub(window, 'location').value({
-      pathname: '/some-other-path',
-      href: 'http://example.com/current-page',
+    Object.defineProperty(global, 'window', {
+      value: {
+        ...originalWindow,
+        location: {
+          pathname: '/some-other-path',
+          href: 'http://example.com/current-page',
+        },
+        appName: originalWindow?.appName,
+      },
+      configurable: true,
+      writable: true,
     });
 
     await apiModule.default.getUser();
@@ -84,18 +106,34 @@ describe('wrapApiRequest', () => {
     getSignInUrlStub.restore();
   });
 
-  it('throws TypeError if location.pathname is undefined', async () => {
+  it('redirects to login when pathname is missing', async () => {
     const fakeResponse = createMockResponse(401);
     fetchStub.resolves(fakeResponse);
 
-    locationStub = sinon.stub(window, 'location').value({});
+    const getSignInUrlStub = sandbox
+      .stub(constantsModule, 'getSignInUrl')
+      .returns('https://fake-login-url');
 
-    try {
-      await apiModule.default.getUser();
-      throw new Error('Should have thrown');
-    } catch (err) {
-      expect(err).to.be.instanceOf(TypeError);
-    }
+    Object.defineProperty(global, 'window', {
+      value: {
+        ...originalWindow,
+        location: {
+          pathname: undefined,
+          href: 'http://example.com/current-page',
+        },
+        appName: originalWindow?.appName,
+      },
+      configurable: true,
+      writable: true,
+    });
+
+    const result = await apiModule.default.getUser();
+
+    expect(result).to.be.null;
+    expect(getSignInUrlStub.calledOnce).to.be.true;
+    expect(window.location).to.equal('https://fake-login-url');
+
+    getSignInUrlStub.restore();
   });
 
   it('does not redirect to login if pathname is root', async () => {
@@ -103,11 +141,16 @@ describe('wrapApiRequest', () => {
 
     fetchStub.resolves(fakeResponse);
 
-    const getSignInUrlStub = sinon.stub(constantsModule, 'getSignInUrl');
+    const getSignInUrlStub = sandbox.stub(constantsModule, 'getSignInUrl');
 
-    locationStub = sinon.stub(window, 'location').value({
-      pathname: manifest.rootUrl,
-      href: 'http://example.com/',
+    Object.defineProperty(global, 'window', {
+      value: {
+        ...originalWindow,
+        location: { pathname: manifest.rootUrl, href: 'http://example.com/' },
+        appName: originalWindow?.appName,
+      },
+      configurable: true,
+      writable: true,
     });
 
     try {
