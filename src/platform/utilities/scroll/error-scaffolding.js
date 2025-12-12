@@ -1,23 +1,35 @@
 // ============================================================================
-// Error Handling Categories
+// ERROR SCAFFOLDING
+// Screen reader accessibility for VA form component error states
+// ============================================================================
 //
-// VA form web components expose validation state in three shapes:
+// OVERVIEW
+// --------
+// This module manages screen reader announcements for form validation errors
+// in VA Design System web components. It creates hidden labels that provide
+// context when users focus on invalid form fields.
 //
+// CATEGORY DETAILS
+// ----------------
 // CATEGORY 1 – DIRECT ERROR
 //   The component itself receives the error attribute and owns the focus target
-//   inside its shadow DOM (va-text-input, va-textarea, va-select). We attach the
-//   screen reader label directly to that input element.
+//   inside its shadow DOM. We attach the screen reader label directly to that
+//   input element.
 //
 // CATEGORY 2 – CHILD COMPONENT ERROR
-//   Composite wrappers delegate errors to their internal VA children (for
-//   example va-memorable-date, va-statement-of-truth). The shared helpers discover
-//   those children and treat them the same as Category 1 controls.
+//   Composite wrappers delegate errors to their internal VA children. The shared
+//   helpers discover those children and treat them the same as Category 1.
 //
 // CATEGORY 3 – GROUP COMPONENT ERROR
 //   Group hosts receive the parent error while each option mirrors the message
-//   via an alternate attribute (va-radio with va-radio-option, va-checkbox-group
-//   with va-checkbox). We propagate labels to every option to avoid repeated
-//   announcements when focus moves within the group.
+//   via an alternate attribute. We propagate labels to every option to avoid
+//   repeated announcements when focus moves within the group.
+//
+// CATEGORY 4 – DATE COMPONENT ERROR
+//   Date components delegate validation to their child inputs (va-select,
+//   va-text-input). We attach error labels to each invalid child and apply
+//   error styling only to those children, using the parent's error message.
+//
 // ============================================================================
 
 // ============================================================================
@@ -27,6 +39,26 @@
 // If you need to turn this off, set to false in your form config:
 // formOptions: {scaffoldAndFocusFormErrors: false}
 const DEFAULT_SCAFFOLD_AND_FOCUS_FORM_ERRORS = true;
+
+// Supported components from the component-library
+// TODO: create a fix that targets all va- components, not just the ones in this list
+const SUPPORTED_ELEMENTS = [
+  // Category 1: Direct error components
+  'va-text-input',
+  'va-textarea',
+  'va-select',
+  'va-combo-box',
+  // Category 2: Child component error wrappers
+  'va-statement-of-truth',
+  // Category 3: Group components and their options
+  'va-radio',
+  'va-radio-option',
+  'va-checkbox-group',
+  'va-checkbox',
+  // Category 4: Date components
+  'va-date',
+  'va-memorable-date',
+];
 
 const ERROR_ATTR_SELECTORS = [
   'error',
@@ -42,16 +74,33 @@ const HIDDEN_FILTER = ':not([aria-hidden="true"]):not([hidden])';
 const INPUT_SELECTOR = `input${HIDDEN_FILTER}, textarea${HIDDEN_FILTER}, select${HIDDEN_FILTER}`;
 const ERROR_SPAN_SELECTOR = 'span.usa-sr-only[id^="error-label-"]';
 const ERROR_MESSAGE_SELECTORS = [
+  '#error-message',
   '#input-error-message',
   '#radio-error-message',
   '#checkbox-error-message',
 ];
+
+// Category 3: Group Components
 const GROUP_COMPONENT_TAGS = ['VA-RADIO', 'VA-CHECKBOX-GROUP'];
-const GROUP_OPTION_SELECTOR = 'va-radio-option, va-checkbox';
 const GROUP_OPTION_TAGS = ['VA-RADIO-OPTION', 'VA-CHECKBOX'];
+const GROUP_OPTION_SELECTOR = 'va-radio-option, va-checkbox';
 const GROUP_SELECTOR = GROUP_COMPONENT_TAGS.map(tag => tag.toLowerCase()).join(
   ', ',
 );
+
+// Category 4: Date Components
+const DATE_COMPONENT_TAGS = ['VA-DATE', 'VA-MEMORABLE-DATE'];
+const DATE_CHILD_SELECTOR = 'va-select, va-text-input';
+
+// Styling & State Tracking
+const ERROR_STYLING_CLASS = 'usa-input--error';
+const DATA_PREVIOUS_ERROR_MESSAGE = 'data-previous-error-message';
+const DATA_GENERATED_ERROR_LABEL_ID = 'data-generated-error-label-id';
+
+// ============================================================================
+// GENERAL HELPERS
+// Shared utilities used across all categories
+// ============================================================================
 
 // ============================================================================
 // General helpers
@@ -65,55 +114,24 @@ const GROUP_SELECTOR = GROUP_COMPONENT_TAGS.map(tag => tag.toLowerCase()).join(
 const isSupportedVaElement = element => {
   if (!element?.tagName) return false;
 
-  // TODO: create a fix that targets all va- components, not just the ones in this list
-  const allowedElements = [
-    'va-checkbox-group',
-    'va-checkbox',
-    'va-combo-box',
-    'va-radio',
-    'va-radio-option',
-    'va-select',
-    'va-statement-of-truth',
-    'va-text-input',
-    'va-textarea',
-  ];
-
-  return allowedElements.includes(element.tagName.toLowerCase());
+  return SUPPORTED_ELEMENTS.includes(element.tagName.toLowerCase());
 };
 
 /**
  * Collects VA design system elements under the provided root.
+ * Uses a direct selector query for better performance than filtering all elements.
  *
  * @param {Element|ShadowRoot|Document|null} root - The root node to scan
  * @returns {HTMLElement[]} Array of descendant VA components, or empty array when none are present
  */
-const getVaElements = root => {
+const getSupportedVaElements = root => {
   if (!root?.querySelectorAll) {
     return [];
   }
 
-  return Array.from(root.querySelectorAll('*')).filter(isSupportedVaElement);
+  return Array.from(root.querySelectorAll(SUPPORTED_ELEMENTS.join(', ')));
 };
 
-/**
- * Extracts error message text from a DOM element by checking various error attributes and properties.
- * Iterates through predefined error attribute selectors to find the first available error message.
- * Falls back to the element's error property if no attribute contains a message.
- *
- * @param {HTMLElement} el - The DOM element to extract error text from
- * @returns {string} The error message text, or an empty string if no error is found
- */
-const getErrorPropText = el => {
-  for (const attr of ERROR_ATTR_SELECTORS) {
-    const msg = el.getAttribute(attr);
-    if (msg) return msg;
-  }
-  return el.error || '';
-};
-
-// ============================================================================
-// Category 3: Group Component Helpers
-// ============================================================================
 /**
  * Checks if an element's tag name matches any in the provided tag list.
  *
@@ -124,6 +142,86 @@ const getErrorPropText = el => {
 const isComponentOfType = (element, tags) =>
   !!element && tags.includes(element.tagName?.toUpperCase());
 
+/**
+ * Normalizes text for error label composition by trimming whitespace and
+ * stripping trailing punctuation. This allows buildErrorLabelText to control
+ * punctuation consistently without creating double periods.
+ *
+ * @param {string} text - The text to normalize
+ * @returns {string} Text with trailing periods/punctuation removed and whitespace trimmed
+ */
+const normalizeText = text => {
+  if (!text) return '';
+  return text.trim().replace(/[.]+$/, '');
+};
+
+// ============================================================================
+// CATEGORY 4: DATE COMPONENT HELPERS
+// Detection and child component utilities for va-date and va-memorable-date.
+// Defined early because getErrorPropText and getLabelText depend on them.
+// ============================================================================
+
+/**
+ * Determines if an element is a date component based on its tag name.
+ * Date components include va-date and va-memorable-date.
+ *
+ * @param {Element|null|undefined} element - The DOM element to check
+ * @returns {boolean} True if the element is a date component, false otherwise
+ */
+const isDateComponent = element =>
+  isComponentOfType(element, DATE_COMPONENT_TAGS);
+
+/**
+ * Checks if an element is a child component inside a date component's shadow DOM.
+ * These should be skipped for independent error processing since the parent
+ * date component handles their error annotations.
+ *
+ * @param {HTMLElement} el - The element to check
+ * @returns {boolean} True if the element is inside a date component's shadow root
+ */
+const hasDateComponentParent = el =>
+  isComponentOfType(el.getRootNode()?.host, DATE_COMPONENT_TAGS);
+
+/**
+ * Retrieves all child input components (va-select, va-text-input) from a date component's shadow DOM.
+ *
+ * @param {Element|null|undefined} element - The date component to query
+ * @returns {HTMLElement[]} An array of child input components
+ */
+const getDateChildComponents = element => {
+  if (!element?.shadowRoot) return [];
+  return Array.from(element.shadowRoot.querySelectorAll(DATE_CHILD_SELECTOR));
+};
+
+/**
+ * Extracts error message text from #error-message span for date components.
+ *
+ * @param {HTMLElement} el - The date component element
+ * @returns {string} The error message text from the span, or empty string if not found
+ */
+const getDateErrorMessageText = el => {
+  const errorMessageSpan = el.shadowRoot?.querySelector('#error-message');
+  return errorMessageSpan?.textContent?.trim() || '';
+};
+
+/**
+ * Finds the first invalid child input within a date component.
+ * Checks for the 'invalid' attribute or property on each child.
+ *
+ * @param {HTMLElement} dateComponent - The date component to search within
+ * @returns {HTMLElement|undefined} The first invalid child component, or undefined if none found
+ */
+const findFirstInvalidDateChild = dateComponent => {
+  const children = getDateChildComponents(dateComponent);
+  return children.find(
+    child => child.hasAttribute('invalid') || child.invalid === true,
+  );
+};
+
+// ============================================================================
+// CATEGORY 3: GROUP COMPONENT HELPERS
+// Detection and traversal utilities for va-radio and va-checkbox-group.
+// ============================================================================
 /**
  * Determines if an element is a group component based on its tag name.
  * Group components include radio groups and checkbox groups that contain multiple options.
@@ -183,8 +281,32 @@ const findGroupOptionFocusTarget = option => {
 };
 
 // ============================================================================
-// Category 2: Child Component Helpers
+// ERROR TEXT & LABEL EXTRACTION
+// Utilities for reading error messages and label text from components.
 // ============================================================================
+
+/**
+ * Extracts error message text from a DOM element by checking various error attributes and properties.
+ * Iterates through predefined error attribute selectors to find the first available error message.
+ * Falls back to the element's error property if no attribute contains a message.
+ *
+ * @param {HTMLElement} el - The DOM element to extract error text from
+ * @returns {string} The error message text, or an empty string if no error is found
+ */
+const getErrorPropText = el => {
+  // For date components, only read from #error-message span.
+  // The error attribute contains codes that the component translates to
+  // human-readable text in #error-message. If empty, no error to display yet.
+  if (isDateComponent(el)) {
+    return getDateErrorMessageText(el);
+  }
+
+  for (const attr of ERROR_ATTR_SELECTORS) {
+    const msg = el.getAttribute(attr);
+    if (msg) return msg;
+  }
+  return el.error || '';
+};
 
 /**
  * Collects all error elements from the DOM, including nested elements within shadow roots.
@@ -205,7 +327,7 @@ const collectAllErrorElements = selectors => {
   const nestedErrorElements = [];
 
   allErrorElements.forEach(el => {
-    const nestedErrors = getVaElements(el.shadowRoot).filter(child =>
+    const nestedErrors = getSupportedVaElements(el.shadowRoot).filter(child =>
       getErrorPropText(child),
     );
 
@@ -222,16 +344,24 @@ const collectAllErrorElements = selectors => {
  *
  * This function attempts to retrieve label text from an element by checking:
  * 1. The 'label' attribute or property
- * 2. The 'input-label' attribute or 'inputLabel' property as fallback
+ * 2. The 'input-label' attribute or 'inputLabel' property as fallback (skipped for
+ *    date components where input-label is used for the legend, not the child label)
  * 3. Text content from a label element within the element's shadow DOM as final fallback
  *
+ * When includeInputMessage is true, also appends text from #input-message (used for
+ * date child components to include hint text like format instructions).
+ *
  * @param {HTMLElement} el - The DOM element to extract label text from
+ * @param {Object} [options] - Optional configuration
+ * @param {boolean} [options.includeInputMessage=false] - Whether to append #input-message text
  * @returns {string} The label text found, or an empty string if no label is found
  */
-const getLabelText = el => {
+const getLabelText = (el, { includeInputMessage = false } = {}) => {
   let labelText = el.getAttribute('label') || el.label || '';
 
-  if (!labelText) {
+  // Skip input-label for date components—they use it for the legend, not individual
+  // child labels. For date components, fall through to the <label> element lookup.
+  if (!labelText && !isDateComponent(el)) {
     labelText = el.getAttribute('input-label') || el.inputLabel || '';
   }
 
@@ -240,8 +370,24 @@ const getLabelText = el => {
     labelText = labelElement?.textContent?.trim() || '';
   }
 
+  // Optionally include #input-message text (used for date child hints)
+  if (includeInputMessage) {
+    const inputMessage = el.shadowRoot?.querySelector('#input-message');
+    const inputMessageText = inputMessage?.textContent?.trim() || '';
+    if (inputMessageText) {
+      labelText = labelText
+        ? `${labelText}. ${inputMessageText}.`
+        : inputMessageText;
+    }
+  }
+
   return labelText;
 };
+
+// ============================================================================
+// FOCUS TARGET RESOLUTION
+// Determines which element should receive focus when navigating to an error.
+// ============================================================================
 
 /**
  * Resolves the element that should receive focus for a component displaying an error state.
@@ -258,6 +404,21 @@ const getLabelText = el => {
  * @returns {HTMLElement} The element that should receive focus
  */
 const findFocusTarget = el => {
+  // CATEGORY 4: Date component handling
+  // Find the first invalid child input, or fall back to first child
+  if (isDateComponent(el)) {
+    const invalidChild = findFirstInvalidDateChild(el);
+    if (invalidChild) {
+      return findFocusTarget(invalidChild);
+    }
+    // Fallback to first child component
+    const children = getDateChildComponents(el);
+    if (children.length) {
+      return findFocusTarget(children[0]);
+    }
+  }
+
+  // CATEGORY 3: Group component handling
   if (isGroupComponent(el)) {
     const options = getGroupOptions(el);
     for (const option of options) {
@@ -287,7 +448,7 @@ const findFocusTarget = el => {
   }
 
   // Check nested VA components
-  const nestedComponents = getVaElements(shadowRoot);
+  const nestedComponents = getSupportedVaElements(shadowRoot);
   for (const nestedComponent of nestedComponents) {
     const nestedFocusTarget = findFocusTarget(nestedComponent);
     if (nestedFocusTarget && nestedFocusTarget !== nestedComponent) {
@@ -333,12 +494,23 @@ function hasErrorAnnotation(element) {
   return potentialHosts.some(root => root.querySelector(`#${labelledBy}`));
 }
 
+// ============================================================================
+// ERROR LABEL CREATION
+// Building and attaching screen reader labels to form inputs.
+// ============================================================================
+
 /**
  * Builds the screen reader friendly text used inside generated error labels.
  *
+ * For most components (Categories 1-3):
+ *   Order: {error}. {parent label}. {child label}. {hint}. {description}
+ *
+ * For date components (Category 4):
+ *   Order: {error}. {child label}. {child #input-message}. {parent label}. {hint}
+ *
  * @param {string} errorMessage - Raw error message coming from the component
  * @param {HTMLElement} errorWebComponent - The component producing the error
- * @param {HTMLElement|null} [childOption=null] - Optional option element when formatting group errors
+ * @param {HTMLElement|null} [childOption=null] - Optional child element (group option or date child)
  * @returns {string} Fully composed label text containing context, hints, and descriptions
  */
 const buildErrorLabelText = (
@@ -346,34 +518,45 @@ const buildErrorLabelText = (
   errorWebComponent,
   childOption = null,
 ) => {
-  const errorText = errorMessage.replace(/^Error\s*/i, '').trim();
-  const labelText = getLabelText(errorWebComponent);
-
-  let fullText = `Error: ${errorText}`;
-  if (labelText) {
-    fullText += `. ${labelText}`;
-  }
-
-  if (childOption) {
-    const childLabelText = getLabelText(childOption);
-    if (childLabelText) {
-      fullText += `. ${childLabelText}`;
-    }
-  }
-
+  const errorText = normalizeText(errorMessage.replace(/^Error\s*/i, ''));
+  const parentLabel = normalizeText(getLabelText(errorWebComponent));
   const hintElement = errorWebComponent.shadowRoot?.querySelector('.usa-hint');
-  const hintText = hintElement?.textContent?.trim() || '';
-
+  const hintText = normalizeText(hintElement?.textContent || '');
   const descriptionElement = errorWebComponent.shadowRoot?.querySelector(
     '.usa-checkbox__label-description',
   );
-  const descriptionText = descriptionElement?.textContent?.trim() || '';
+  const descriptionText = normalizeText(descriptionElement?.textContent || '');
 
-  if (hintText) {
-    fullText += `. ${hintText}`;
-  }
-  if (descriptionText) {
-    fullText += `. ${descriptionText}`;
+  let fullText = `Error: ${errorText}.`;
+
+  // Date components: {error}. {child label}. {child #input-message} {parent label}. {hint}
+  if (isDateComponent(errorWebComponent) && childOption) {
+    const childLabel = normalizeText(
+      getLabelText(childOption, { includeInputMessage: true }),
+    );
+    if (childLabel) {
+      fullText += ` ${childLabel}.`;
+    }
+  } else {
+    // Groups & direct errors: {error}. {parent label}. {child label}. {hint}. {description}
+    if (parentLabel) {
+      fullText += ` ${parentLabel}.`;
+    }
+
+    if (childOption) {
+      const childLabelText = normalizeText(getLabelText(childOption));
+      if (childLabelText) {
+        fullText += ` ${childLabelText}.`;
+      }
+    }
+
+    if (descriptionText) {
+      fullText += ` ${descriptionText}.`;
+    }
+
+    if (hintText) {
+      fullText += ` ${hintText}.`;
+    }
   }
 
   return fullText;
@@ -407,7 +590,7 @@ const createAndAssociateErrorLabel = (input, fullText, hostComponent) => {
   }
 
   const hostLabelId = hostComponent?.getAttribute?.(
-    'data-generated-error-label-id',
+    DATA_GENERATED_ERROR_LABEL_ID,
   );
   const inputLabelId = input.getAttribute('aria-labelledby');
 
@@ -439,13 +622,14 @@ const createAndAssociateErrorLabel = (input, fullText, hostComponent) => {
 
   input.setAttribute('aria-labelledby', labelId);
   if (hostComponent?.setAttribute) {
-    hostComponent.setAttribute('data-generated-error-label-id', labelId);
+    hostComponent.setAttribute(DATA_GENERATED_ERROR_LABEL_ID, labelId);
   }
   input.removeAttribute('aria-describedby');
 };
 
 // ============================================================================
-// Category 3: Group Error Helpers
+// CATEGORY 3: GROUP ERROR ANNOTATION
+// Error propagation and cleanup for va-radio and va-checkbox-group.
 // ============================================================================
 
 /**
@@ -457,7 +641,7 @@ const createAndAssociateErrorLabel = (input, fullText, hostComponent) => {
  * @param {string|null} errorMessage - Error text to apply or null/undefined to clear
  * @returns {HTMLElement[]} The option elements that were inspected during synchronization
  */
-function syncGroupGeneratedErrors(groupElement, errorMessage) {
+function syncGroupErrorAttributes(groupElement, errorMessage) {
   if (!isGroupComponent(groupElement)) return [];
 
   const options = getGroupOptions(groupElement);
@@ -488,11 +672,11 @@ function syncGroupGeneratedErrors(groupElement, errorMessage) {
  */
 function associateGroupErrorAnnotations(groupComponent, errorMessage) {
   if (!errorMessage) {
-    syncGroupGeneratedErrors(groupComponent, null);
+    syncGroupErrorAttributes(groupComponent, null);
     return;
   }
 
-  const options = syncGroupGeneratedErrors(groupComponent, errorMessage);
+  const options = syncGroupErrorAttributes(groupComponent, errorMessage);
   options.forEach(option => {
     const optionInput = findGroupOptionFocusTarget(option);
     if (!optionInput) return;
@@ -504,6 +688,129 @@ function associateGroupErrorAnnotations(groupComponent, errorMessage) {
     );
 
     createAndAssociateErrorLabel(optionInput, optionText, option);
+  });
+}
+
+// ============================================================================
+// CATEGORY 4: DATE COMPONENT ERROR STYLING & ANNOTATION
+// Validation, styling, and annotation for va-date and va-memorable-date.
+// ============================================================================
+
+/**
+ * Checks if a date child component should show error styling.
+ * A child is considered invalid if:
+ * 1. The child component has the 'invalid' attribute/property (set by component-library on blur), OR
+ * 2. Its internal input/select has aria-invalid="true", OR
+ * 3. A required child has no value (handles initial submit before blur)
+ *
+ * @param {HTMLElement} childComponent - The va-select or va-text-input child
+ * @param {boolean} parentRequired - Whether the parent date component is required
+ * @returns {boolean} True if the child should show error styling
+ */
+function isDateChildInvalid(childComponent, parentRequired) {
+  if (!childComponent?.shadowRoot) return false;
+
+  // Check invalid attribute/property on the child component itself
+  // This is set by the parent date component based on its internal validation
+  if (
+    childComponent.hasAttribute('invalid') ||
+    childComponent.invalid === true
+  ) {
+    return true;
+  }
+
+  // Check aria-invalid on the internal input
+  const input = childComponent.shadowRoot.querySelector(INPUT_SELECTOR);
+  if (input?.getAttribute('aria-invalid') === 'true') {
+    return true;
+  }
+
+  // If parent is required, check if child has no value (handles initial submit)
+  if (parentRequired && input) {
+    const value = input.value?.trim();
+    if (!value || value === '') {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+/**
+ * Adds error styling class to an input element within a component's shadow DOM.
+ *
+ * @param {HTMLElement} component - The component containing the input
+ * @returns {void}
+ */
+function addInputErrorStyling(component) {
+  if (!component?.shadowRoot) return;
+  const input = component.shadowRoot.querySelector(INPUT_SELECTOR);
+  if (input) {
+    input.classList.add(ERROR_STYLING_CLASS);
+  }
+}
+
+/**
+ * Removes error styling class from an input element within a component's shadow DOM.
+ *
+ * @param {HTMLElement} component - The component containing the input
+ * @returns {void}
+ */
+function removeInputErrorStyling(component) {
+  if (!component?.shadowRoot) return;
+  const input = component.shadowRoot.querySelector(INPUT_SELECTOR);
+  if (input) {
+    input.classList.remove(ERROR_STYLING_CLASS);
+  }
+}
+
+/**
+ * Syncs error styling on a date child component based on its validation state.
+ *
+ * @param {HTMLElement} childComponent - The va-select or va-text-input child
+ * @param {boolean} parentRequired - Whether the parent date component is required
+ * @returns {void}
+ */
+function syncDateChildErrorStyling(childComponent, parentRequired) {
+  if (isDateChildInvalid(childComponent, parentRequired)) {
+    addInputErrorStyling(childComponent);
+  } else {
+    removeInputErrorStyling(childComponent);
+  }
+}
+
+/**
+ * Associates error annotations with date component child inputs.
+ * When the parent date component has an error, adds error styling only to invalid children
+ * and attaches the error label to the first invalid child input (or first child as fallback).
+ *
+ * @param {HTMLElement} dateComponent - The date component emitting an error
+ * @param {string|null} errorMessage - Message to associate with the child input
+ * @returns {void}
+ */
+function associateDateErrorAnnotations(dateComponent, errorMessage) {
+  if (!errorMessage) return;
+
+  const children = getDateChildComponents(dateComponent);
+  const parentRequired =
+    dateComponent.hasAttribute('required') || dateComponent.required === true;
+
+  // Sync error styling on each child based on its individual validation state
+  children.forEach(child => syncDateChildErrorStyling(child, parentRequired));
+
+  children.forEach(child => {
+    if (!isDateChildInvalid(child, parentRequired)) {
+      return;
+    }
+
+    const inputElement = findFocusTarget(child);
+    if (!inputElement) return;
+
+    const fullText = buildErrorLabelText(errorMessage, dateComponent, child);
+
+    // Create the SR-only label and attach to the input. Use the child
+    // component as host so cleanup works correctly.
+    createAndAssociateErrorLabel(inputElement, fullText, child);
   });
 }
 
@@ -542,8 +849,28 @@ const clearHostErrorAnnotations = hostComponent => {
     }
   });
 
-  hostComponent.removeAttribute('data-generated-error-label-id');
+  hostComponent.removeAttribute(DATA_GENERATED_ERROR_LABEL_ID);
 };
+
+// Category 4: Date cleanup
+
+/**
+ * Clears error annotations from all child inputs within a date component.
+ * Also removes error styling that was added by associateDateErrorAnnotations.
+ *
+ * @param {HTMLElement} dateComponent - The date component to clear
+ * @returns {void}
+ */
+function clearDateErrorAnnotations(dateComponent) {
+  const children = getDateChildComponents(dateComponent);
+  children.forEach(child => {
+    removeInputErrorStyling(child);
+    clearHostErrorAnnotations(child);
+    child.removeAttribute(DATA_PREVIOUS_ERROR_MESSAGE);
+  });
+}
+
+// Category 3: Group cleanup
 
 /**
  * Clears cached error state for every option belonging to the supplied group component.
@@ -552,12 +879,17 @@ const clearHostErrorAnnotations = hostComponent => {
  * @returns {void}
  */
 function clearGroupOptionAnnotations(groupComponent) {
-  const options = syncGroupGeneratedErrors(groupComponent, null);
+  const options = syncGroupErrorAttributes(groupComponent, null);
   options.forEach(option => {
     clearHostErrorAnnotations(option);
-    option.removeAttribute('data-previous-error-message');
+    option.removeAttribute(DATA_PREVIOUS_ERROR_MESSAGE);
   });
 }
+
+// ============================================================================
+// ERROR ASSOCIATION ORCHESTRATION
+// Main entry points that route to category-specific handlers.
+// ============================================================================
 
 /**
  * Associates error messages with input elements, handling both group components and individual inputs.
@@ -569,11 +901,19 @@ function clearGroupOptionAnnotations(groupComponent) {
  * @returns {void}
  */
 const associateErrorWithInput = (errorWebComponent, errorMessage) => {
+  // CATEGORY 3: Group component handling
   if (isGroupComponent(errorWebComponent)) {
     associateGroupErrorAnnotations(errorWebComponent, errorMessage);
     return;
   }
 
+  // CATEGORY 4: Date component handling
+  if (isDateComponent(errorWebComponent)) {
+    associateDateErrorAnnotations(errorWebComponent, errorMessage);
+    return;
+  }
+
+  // CATEGORY 1 & 2: Direct error and child component handling
   const inputElement = findFocusTarget(errorWebComponent);
   if (!inputElement) return;
 
@@ -590,17 +930,21 @@ const associateErrorWithInput = (errorWebComponent, errorMessage) => {
  * @returns {void} This function does not return a value
  */
 const addErrorAnnotations = errorWebComponent => {
-  // Skip elements not in the allowedElements list
+  // Skip elements not in the SUPPORTED_ELEMENT list
   if (!isSupportedVaElement(errorWebComponent)) return;
 
-  // Remove alert role from error message elements to prevent duplicate announcements
-  const errorElement = errorWebComponent?.shadowRoot?.querySelector(
+  // Skip child components inside date component shadow DOM - the parent handles them
+  if (hasDateComponentParent(errorWebComponent)) return;
+
+  // Remove alert role from ALL error message elements to prevent duplicate announcements
+  // Use querySelectorAll since date components may have multiple error message spans
+  const errorElements = errorWebComponent?.shadowRoot?.querySelectorAll(
     ERROR_MESSAGE_SELECTORS.join(', '),
   );
-  if (errorElement) {
-    errorElement.removeAttribute('role');
-    errorElement.removeAttribute('aria-live');
-  }
+  errorElements?.forEach(el => {
+    el.removeAttribute('role');
+    el.removeAttribute('aria-live');
+  });
 
   const errorMessage = getErrorPropText(errorWebComponent);
   if (!errorMessage) return;
@@ -617,12 +961,23 @@ const addErrorAnnotations = errorWebComponent => {
 function removeErrorAnnotations(el) {
   if (!el) return;
 
+  // CATEGORY 3: Group component cleanup
   if (isGroupComponent(el)) {
     clearGroupOptionAnnotations(el);
   }
 
+  // CATEGORY 4: Date component cleanup
+  if (isDateComponent(el)) {
+    clearDateErrorAnnotations(el);
+  }
+
   clearHostErrorAnnotations(el);
 }
+
+// ============================================================================
+// CLEANUP & SYNCHRONIZATION
+// Batch processing of error state changes across the document.
+// ============================================================================
 
 /**
  * Recursively cleans up error annotations from nested shadow DOM elements.
@@ -639,7 +994,7 @@ function removeErrorAnnotations(el) {
 const cleanupNestedShadowRoots = root => {
   if (!root) return;
 
-  const elements = getVaElements(root);
+  const elements = getSupportedVaElements(root);
 
   elements.forEach(el => {
     const errorMessage = getErrorPropText(el);
@@ -659,22 +1014,12 @@ const cleanupNestedShadowRoots = root => {
 };
 
 /**
- * Cleans up error annotations for form elements by synchronizing current error states
- * with previously stored error messages. Handles both regular elements and group components,
- * managing error message associations and cleanup of stale annotations.
+ * Collects all elements that currently have or previously had error states.
+ * Includes elements with error attributes and elements with cached previous error messages.
  *
- * The function:
- * - Queries all elements with error attributes
- * - Compares current error messages with previously stored ones
- * - Removes error annotations when no current error exists
- * - Associates new error messages with inputs when errors change
- * - Synchronizes group component error states
- * - Cleans up nested shadow DOM error annotations
- *
- * @function cleanupErrorAnnotations
- * @returns {void}
+ * @returns {Set<HTMLElement>} Set of elements requiring error state evaluation
  */
-const cleanupErrorAnnotations = () => {
+const collectElementsWithErrorState = () => {
   const errorSelector = ERROR_ATTRIBUTE_SELECTOR_STRING;
   const elementsWithErrors = document.querySelectorAll(errorSelector);
 
@@ -682,93 +1027,141 @@ const cleanupErrorAnnotations = () => {
   // These elements need cleanup to remove stale aria-labelledby references
   // Added to prevent JAWS from announcing stale error messages in radio when selecting option
   const elementsWithPreviousErrors = document.querySelectorAll(
-    '[data-previous-error-message]',
+    `[${DATA_PREVIOUS_ERROR_MESSAGE}]`,
   );
 
-  const allElementsWithErrors = new Set([
+  return new Set([
     ...Array.from(elementsWithErrors),
     ...Array.from(elementsWithPreviousErrors),
   ]);
+};
 
-  allElementsWithErrors.forEach(el => {
-    // Skip elements not in the allowedElements list
-    if (!isSupportedVaElement(el)) return;
-    // ============================================================================
-    // CATEGORY 3: Group Option Component Synchronization
-    // Sync individual group options with their parent group component's error state
-    // ============================================================================
-    if (isGroupOptionComponent(el)) {
-      const parentGroup = findParentGroupComponent(el);
-      if (parentGroup) {
-        const groupErrorMessage = getErrorPropText(parentGroup);
-        const optionErrorMessage = el.getAttribute('generated-error') || '';
+/**
+ * Synchronizes a group option's error state with its parent group component.
+ * Ensures the option's generated-error attribute matches the parent's error state.
+ *
+ * @param {HTMLElement} option - The group option element (va-radio-option or va-checkbox)
+ * @returns {void}
+ */
+const syncGroupOptionWithParent = option => {
+  const parentGroup = findParentGroupComponent(option);
+  if (!parentGroup) return;
 
-        if (!groupErrorMessage) {
-          if (optionErrorMessage) {
-            el.removeAttribute('generated-error');
-            removeErrorAnnotations(el);
-            el.removeAttribute('data-previous-error-message');
-          }
-        } else if (optionErrorMessage !== groupErrorMessage) {
-          el.setAttribute('generated-error', groupErrorMessage);
-        }
-      }
+  const groupErrorMessage = getErrorPropText(parentGroup);
+  const optionErrorMessage = option.getAttribute('generated-error') || '';
+
+  if (!groupErrorMessage) {
+    if (optionErrorMessage) {
+      option.removeAttribute('generated-error');
+      removeErrorAnnotations(option);
+      option.removeAttribute(DATA_PREVIOUS_ERROR_MESSAGE);
     }
+  } else if (optionErrorMessage !== groupErrorMessage) {
+    option.setAttribute('generated-error', groupErrorMessage);
+  }
+};
 
-    const currentErrorMessage = getErrorPropText(el);
-    const previousErrorMessage =
-      el.getAttribute('data-previous-error-message') || '';
-    const hasExistingAnnotation =
-      hasErrorAnnotation(el) || (!el.shadowRoot && !isGroupComponent(el));
+/**
+ * Clears error annotations and cached state from an element.
+ * Handles group component cleanup by also clearing synchronized errors.
+ *
+ * @param {HTMLElement} el - The element to clear
+ * @returns {void}
+ */
+const clearErrorAnnotations = el => {
+  removeErrorAnnotations(el);
 
-    // ERROR REMOVAL: Clear annotations when no current error exists
-    // Handles all categories - direct errors, child components, and groups
-    if (!currentErrorMessage) {
-      removeErrorAnnotations(el);
+  if (isGroupComponent(el)) {
+    syncGroupErrorAttributes(el, null);
+  }
 
-      // CATEGORY 3: Clear group-specific error synchronization
-      if (isGroupComponent(el)) {
-        syncGroupGeneratedErrors(el, null);
-      }
+  el.removeAttribute(DATA_PREVIOUS_ERROR_MESSAGE);
+};
 
-      el.removeAttribute('data-previous-error-message');
-    }
+/**
+ * Applies error annotations when an element's error message has changed.
+ * Clears stale labels, associates new error messages, and syncs group components.
+ *
+ * @param {HTMLElement} el - The element with an error message
+ * @param {string} currentErrorMessage - The new error message
+ * @param {string} previousErrorMessage - The previous error message (may be empty)
+ * @returns {void}
+ */
+const applyErrorAnnotations = (
+  el,
+  currentErrorMessage,
+  previousErrorMessage,
+) => {
+  // Clear previous error label cache when message changes
+  if (previousErrorMessage && previousErrorMessage !== currentErrorMessage) {
+    el.removeAttribute(DATA_GENERATED_ERROR_LABEL_ID);
+  }
 
-    // ERROR ASSOCIATION: Add/update annotations when error message changes
-    // Handles all categories - direct errors, child components, and groups
-    else if (
-      previousErrorMessage !== currentErrorMessage ||
-      !hasExistingAnnotation
-    ) {
-      // Clear previous error label cache when message changes
-      if (
-        previousErrorMessage &&
-        previousErrorMessage !== currentErrorMessage
-      ) {
-        el.removeAttribute('data-generated-error-label-id');
-      }
+  associateErrorWithInput(el, currentErrorMessage);
 
-      // CATEGORY 1 & 2: Associate error with input elements
-      associateErrorWithInput(el, currentErrorMessage);
+  if (isGroupComponent(el)) {
+    syncGroupErrorAttributes(el, currentErrorMessage);
+  }
 
-      // CATEGORY 3: Sync group component errors to all options
-      if (isGroupComponent(el)) {
-        syncGroupGeneratedErrors(el, currentErrorMessage);
-      }
+  el.setAttribute(DATA_PREVIOUS_ERROR_MESSAGE, currentErrorMessage);
+};
 
-      el.setAttribute('data-previous-error-message', currentErrorMessage);
-    }
+/**
+ * Synchronizes error annotations for a single element based on its current error state.
+ * Handles clearing, applying, and maintaining annotations as needed.
+ *
+ * @param {HTMLElement} el - The element to synchronize
+ * @returns {void}
+ */
+const syncErrorAnnotations = el => {
+  if (!isSupportedVaElement(el)) return;
 
-    // CATEGORY 3: Group Component Maintenance
-    // Ensure group options stay synchronized even when error message unchanged
-    else if (isGroupComponent(el)) {
-      syncGroupGeneratedErrors(el, currentErrorMessage);
-    }
-  });
+  // Sync group options with their parent's error state
+  if (isGroupOptionComponent(el)) {
+    syncGroupOptionWithParent(el);
+  }
 
-  // Clean up stale error annotations from deeply nested shadow DOM structures
+  const currentErrorMessage = getErrorPropText(el);
+  const previousErrorMessage =
+    el.getAttribute(DATA_PREVIOUS_ERROR_MESSAGE) || '';
+  const hasExistingAnnotation =
+    hasErrorAnnotation(el) || (!el.shadowRoot && !isGroupComponent(el));
+
+  // No current error: clear all annotations
+  if (!currentErrorMessage) {
+    clearErrorAnnotations(el);
+    return;
+  }
+
+  // Error message changed or missing annotation: update annotations
+  if (previousErrorMessage !== currentErrorMessage || !hasExistingAnnotation) {
+    applyErrorAnnotations(el, currentErrorMessage, previousErrorMessage);
+    return;
+  }
+
+  // Error unchanged but ensure group options stay synchronized
+  if (isGroupComponent(el)) {
+    syncGroupErrorAttributes(el, currentErrorMessage);
+  }
+};
+
+/**
+ * Cleans up error annotations for form elements by synchronizing current error states
+ * with previously stored error messages. Handles all component categories including
+ * direct errors, child components, groups, and date components.
+ *
+ * @function cleanupErrorAnnotations
+ * @returns {void}
+ */
+const cleanupErrorAnnotations = () => {
+  const elementsWithErrorState = collectElementsWithErrorState();
+  elementsWithErrorState.forEach(syncErrorAnnotations);
   cleanupNestedShadowRoots(document);
 };
+
+// ============================================================================
+// EXPORTS
+// ============================================================================
 
 /**
  * Runs full cleanup and re-scaffolding for every element matching the selectors.
@@ -832,8 +1225,6 @@ const watchErrorUpdates = (
 
 export {
   DEFAULT_SCAFFOLD_AND_FOCUS_FORM_ERRORS,
-  ERROR_ATTR_SELECTORS,
-  ERROR_SPAN_SELECTOR,
   addErrorAnnotations,
   cleanupErrorAnnotations,
   collectAllErrorElements,
