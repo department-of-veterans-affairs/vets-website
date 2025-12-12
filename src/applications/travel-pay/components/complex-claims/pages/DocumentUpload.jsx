@@ -4,7 +4,12 @@ import PropTypes from 'prop-types';
 import { VaFileInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { ACCEPTED_FILE_TYPES } from '../../../constants';
 
-const DocumentUpload = ({ currentDocument, handleDocumentUpload, loading }) => {
+const DocumentUpload = ({
+  currentDocument,
+  handleDocumentChange,
+  loading,
+  uploadError,
+}) => {
   return (
     <>
       {loading ? (
@@ -24,8 +29,9 @@ const DocumentUpload = ({ currentDocument, handleDocumentUpload, loading }) => {
           maxFileSize={5200000} // Based on platform cals have to use 5200000 to get 5MB
           minFileSize={0}
           name="travel-pay-claim-document-upload"
-          onVaChange={handleDocumentUpload}
+          onVaChange={handleDocumentChange}
           required
+          error={uploadError}
           value={currentDocument}
         />
       )}
@@ -42,8 +48,9 @@ const DocumentUpload = ({ currentDocument, handleDocumentUpload, loading }) => {
 
 DocumentUpload.propTypes = {
   currentDocument: PropTypes.object,
-  handleDocumentUpload: PropTypes.func,
+  handleDocumentChange: PropTypes.func,
   loading: PropTypes.bool,
+  uploadError: PropTypes.string,
 };
 
 export default DocumentUpload;
