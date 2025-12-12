@@ -23,6 +23,8 @@ import {
   useAcceleratedData,
 } from '@department-of-veterans-affairs/mhv/exports';
 
+import CernerFacilityAlert from 'platform/mhv/components/CernerFacilityAlert/CernerFacilityAlert';
+import { CernerAlertContent } from 'platform/mhv/components/CernerFacilityAlert/constants';
 import RecordList from '../components/RecordList/RecordList';
 import RecordListNew from '../components/RecordList/RecordListNew';
 import {
@@ -37,7 +39,6 @@ import {
   pageTitles,
   accessAlertTypes,
   refreshExtractTypes,
-  CernerAlertContent,
   statsdFrontEndActions,
 } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
@@ -58,7 +59,6 @@ import {
 } from '../util/pdfHelpers/vaccines';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
-import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import { useTrackAction } from '../hooks/useTrackAction';
 import { Actions } from '../util/actionTypes';
@@ -250,7 +250,7 @@ const Vaccines = props => {
           Go to your allergy records
         </Link>
       </div>
-      <AcceleratedCernerFacilityAlert {...CernerAlertContent.VACCINES} />
+      <CernerFacilityAlert {...CernerAlertContent.VACCINES} />
       {downloadStarted && <DownloadSuccessAlert />}
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}

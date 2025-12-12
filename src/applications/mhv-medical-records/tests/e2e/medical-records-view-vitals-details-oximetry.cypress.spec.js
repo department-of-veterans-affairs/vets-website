@@ -2,7 +2,7 @@ import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import VitalsListPage from './pages/VitalsListPage';
 import VitalsDetailsPage from './pages/VitalsDetailsPage';
 import defaultVitals from '../fixtures/vitals.json';
-import { formatDateMonthDayCommaYearHoursMinutes } from '../../util/dateHelpers';
+import { dateFormatWithoutTimezone } from '../../util/dateHelpers';
 
 describe('Medical Records Vitals Details Page', () => {
   const site = new MedicalRecordsSite();
@@ -20,7 +20,7 @@ describe('Medical Records Vitals Details Page', () => {
 
     VitalsDetailsPage.verifyVitalReadingByIndex(
       0,
-      formatDateMonthDayCommaYearHoursMinutes(
+      dateFormatWithoutTimezone(
         defaultVitals.entry[6].resource.effectiveDateTime,
       ),
       `${defaultVitals.entry[6].resource.valueQuantity.value}%`,
@@ -30,7 +30,7 @@ describe('Medical Records Vitals Details Page', () => {
 
     VitalsDetailsPage.verifyVitalReadingByIndex(
       1,
-      formatDateMonthDayCommaYearHoursMinutes(
+      dateFormatWithoutTimezone(
         defaultVitals.entry[16].resource.effectiveDateTime,
       ),
       `${defaultVitals.entry[16].resource.valueQuantity.value}%`,
@@ -40,7 +40,7 @@ describe('Medical Records Vitals Details Page', () => {
 
     VitalsDetailsPage.verifyVitalReadingByIndex(
       2,
-      formatDateMonthDayCommaYearHoursMinutes(
+      dateFormatWithoutTimezone(
         defaultVitals.entry[26].resource.effectiveDateTime,
       ),
       `${defaultVitals.entry[26].resource.valueQuantity.value}%`,
@@ -50,7 +50,7 @@ describe('Medical Records Vitals Details Page', () => {
 
     VitalsDetailsPage.verifyVitalReadingByIndex(
       3,
-      formatDateMonthDayCommaYearHoursMinutes(
+      dateFormatWithoutTimezone(
         defaultVitals.entry[36].resource.effectiveDateTime,
       ),
       `${defaultVitals.entry[36].resource.valueQuantity.value}%`,
