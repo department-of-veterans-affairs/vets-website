@@ -1,11 +1,11 @@
-import React, { useEffect, useCallback, useState } from 'react';
+import React, { useEffect, useCallback, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom-v5-compat';
 import { focusElement } from 'platform/utilities/ui/focus';
-import { generateSlots } from '../utils/mock-helpers';
 import Wrapper from '../layout/Wrapper';
 import { usePersistentSelections } from '../hooks/usePersistentSelections';
 import { setSelectedDate, selectSelectedDate } from '../redux/slices/formSlice';
+import { useGetAppointmentAvailabilityQuery } from '../redux/api/vassApi';
 
 // TODO: remove this once we have a real UUID
 const UUID = 'af40d0e7-df29-4df3-8b5e-03eac2e760fa';
@@ -18,6 +18,13 @@ const DateTimeSelection = () => {
   const selectedDate = useSelector(selectSelectedDate);
   const navigate = useNavigate();
   const { saveDateSelection, getSaved } = usePersistentSelections(UUID);
+
+  // Fetch appointment availability using RTK Query
+  const {
+    data: availabilityData,
+    isLoading,
+    isError,
+  } = useGetAppointmentAvailabilityQuery();
 
   const saveDate = useCallback(
     date => {
@@ -46,24 +53,44 @@ const DateTimeSelection = () => {
   // Check if a date/time has been selected
   const showValidationError = hasAttemptedSubmit && !selectedDate;
 
-  // Placeholder values for the calendar widget two weeks from now
-  const draftAppointmentInfo = {
-    attributes: {
-      slots: generateSlots(),
+  // Convert API response format to calendar widget format
+  const draftAppointmentInfo = useMemo(
+    () => {
+      const availableSlots = availabilityData?.data?.availableTimeSlots || [];
+      return {
+        attributes: {
+          slots: availableSlots.map(slot => ({
+            start: slot.dtStartUtc,
+            end: slot.dtEndUtc,
+          })),
+        },
+      };
     },
-  };
+    [availabilityData],
+  );
 
-  // This is for loading not sure if we will need it
-  const disabledMessage = null;
+  // Disable calendar if loading or error
+  let disabledMessage = null;
+  if (isLoading) {
+    disabledMessage = 'Loading available appointments...';
+  } else if (isError) {
+    disabledMessage =
+      'Unable to load available appointments. Please try again later.';
+  }
 
   const errorMessage = showValidationError
     ? 'Please select a preferred date and time for your appointment.'
     : '';
-  const latestAvailableSlot = new Date(
-    draftAppointmentInfo.attributes.slots[
-      draftAppointmentInfo.attributes.slots.length - 1
-    ].end,
-  );
+
+  // Calculate latest available slot if slots exist
+  const latestAvailableSlot =
+    draftAppointmentInfo.attributes.slots.length > 0
+      ? new Date(
+          draftAppointmentInfo.attributes.slots[
+            draftAppointmentInfo.attributes.slots.length - 1
+          ].end,
+        )
+      : new Date();
 
   const onChange = selectedDateTimes => {
     // Update selected dates and clear any previous error state
@@ -120,34 +147,56 @@ const DateTimeSelection = () => {
         </p>
       </div>
 
-      <CalendarWidget
-        maxSelections={1}
-        availableSlots={draftAppointmentInfo.attributes.slots}
-        value={selectedDate ? [selectedDate] : []}
-        id="dateTime"
-        timezone="America/New_York"
-        additionalOptions={{
-          required: true,
-        }}
-        disabledMessage={disabledMessage}
-        onChange={onChange}
-        onNextMonth={null}
-        onPreviousMonth={null}
-        minDate={new Date()}
-        maxDate={latestAvailableSlot}
-        required
-        requiredMessage={errorMessage}
-        startMonth={new Date()}
-        showValidation={showValidationError}
-        showWeekends
-        overrideMaxDays
-      />
-      <va-button
-        data-testid="continue-button"
-        continue
-        onClick={handleContinue}
-        text={null}
-      />
+      {isLoading && (
+        <va-loading-indicator
+          message="Loading available appointments..."
+          set-focus
+        />
+      )}
+
+      {isError && (
+        <va-alert status="error" visible>
+          <h2 slot="headline">We can’t load available appointments</h2>
+          <p>
+            We’re sorry. Something went wrong on our end. Please try again
+            later.
+          </p>
+        </va-alert>
+      )}
+
+      {!isLoading &&
+        !isError && (
+          <>
+            <CalendarWidget
+              maxSelections={1}
+              availableSlots={draftAppointmentInfo.attributes.slots}
+              value={selectedDate ? [selectedDate] : []}
+              id="dateTime"
+              timezone="America/New_York"
+              additionalOptions={{
+                required: true,
+              }}
+              disabledMessage={disabledMessage}
+              onChange={onChange}
+              onNextMonth={null}
+              onPreviousMonth={null}
+              minDate={new Date()}
+              maxDate={latestAvailableSlot}
+              required
+              requiredMessage={errorMessage}
+              startMonth={new Date()}
+              showValidation={showValidationError}
+              showWeekends
+              overrideMaxDays
+            />
+            <va-button
+              data-testid="continue-button"
+              continue
+              onClick={handleContinue}
+              text={null}
+            />
+          </>
+        )}
     </Wrapper>
   );
 };

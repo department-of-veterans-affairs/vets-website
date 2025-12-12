@@ -103,6 +103,25 @@ export const vassApi = createApi({
         }
       },
     }),
+    getAppointmentAvailability: builder.query({
+      async queryFn() {
+        try {
+          return await api('/vass/v0/appointment-availability', {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+          });
+        } catch (error) {
+          // captureError(error, false, 'get appointment availability');
+          // TODO: do something with error
+          return {
+            error: { status: error.status || 500, message: error?.message },
+          };
+        }
+      },
+    }),
   }),
 });
 
@@ -111,4 +130,5 @@ export const {
   usePostOTCVerificationMutation,
   usePostAppointmentMutation,
   useGetAppointmentQuery,
+  useGetAppointmentAvailabilityQuery,
 } = vassApi;
