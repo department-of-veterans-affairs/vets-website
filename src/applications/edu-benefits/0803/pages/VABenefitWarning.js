@@ -28,20 +28,27 @@ const uiSchema = {
           and be found eligible in order for your reimbursement to be processed.{' '}
         </p>
         <p>
-          <a href="https://www.va.gov/education/apply-for-gi-bill-form-22-1990/introduction">
-            Application for VA Education Benefits Form 22-1990 (opens in a new
-            tab)
-          </a>
+          <va-link
+            external
+            href="https://www.va.gov/education/apply-for-gi-bill-form-22-1990/introduction"
+            text="Apply for VA education benefits using Form 22-1990"
+          />
           , <strong>or</strong>{' '}
-          <a href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/apply-for-dea-fry-form-22-5490/introduction">
-            Dependents’ Application for VA Education Benefits Form 22-5490
-            (opens in a new tab)
-          </a>
+        </p>
+        <p>
+          <va-link
+            external
+            href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/apply-for-dea-fry-form-22-5490/introduction"
+            text="Apply for VA education benefits as a dependent using Form 22-5490"
+          />
           , <strong>or</strong>{' '}
-          <a href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/transferred-gi-bill-benefits/apply-form-22-1990e/introduction">
-            Application for Family Member to Use Transferred Benefits Form
-            22-1990e (opens in a new tab)
-          </a>
+        </p>
+        <p>
+          <va-link
+            external
+            href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/transferred-gi-bill-benefits/apply-form-22-1990e/introduction"
+            text="Apply to use transferred education benefits using Form 22-1990e"
+          />
         </p>
         <p>
           If you’d still like to request reimbursement, you can continue with
