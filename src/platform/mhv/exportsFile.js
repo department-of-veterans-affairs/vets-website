@@ -40,6 +40,7 @@ export {
   edipiNotFound,
   SEI_DOMAINS,
   ALERT_TYPE_SEI_ERROR,
+  TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY,
 } from './util/constants';
 export { trapFocus } from './util/ui/index';
 export { generateMilitaryServicePdf } from './dod-history/military-service-pdf';
