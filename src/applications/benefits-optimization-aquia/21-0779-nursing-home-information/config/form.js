@@ -42,6 +42,7 @@ import {
   monthlyCostsUiSchema,
   monthlyCostsSchema,
 } from '@bio-aquia/21-0779-nursing-home-information/pages';
+import { isPatientSpouseOrParentOrChild } from '../utils';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -113,16 +114,14 @@ const formConfig = {
           title: 'Claimant personal information',
           uiSchema: claimantPersonalInfoUiSchema,
           schema: claimantPersonalInfoSchema,
-          depends: formData =>
-            formData?.claimantQuestion?.patientType === 'spouseOrParent',
+          depends: isPatientSpouseOrParentOrChild,
         },
         claimantIdentificationInfo: {
           path: 'claimant-identification-info',
           title: 'Claimant identification',
           uiSchema: claimantIdentificationInfoUiSchema,
           schema: claimantIdentificationInfoSchema,
-          depends: formData =>
-            formData?.claimantQuestion?.patientType === 'spouseOrParent',
+          depends: isPatientSpouseOrParentOrChild,
         },
         veteranPersonalInfo: {
           path: 'veteran-personal-info',
