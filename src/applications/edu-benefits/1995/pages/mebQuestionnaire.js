@@ -136,7 +136,8 @@ const ResultDescription = ({
             <va-icon
               icon="check"
               size={3}
-              className="vads-u-margin-right--2 vads-u-color--green"
+              color="green"
+              className="vads-u-margin-right--2"
             />
             <span>{answer}</span>
           </li>
