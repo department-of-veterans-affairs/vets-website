@@ -70,7 +70,7 @@ describe('SM Medications Renewal Request', () => {
         `VA Madison health care - ${mockRecipients.data[0].attributes.name}`,
       );
 
-      PatientComposePage.validateCategorySelection('MEDICATIONS');
+      PatientComposePage.validateLockedCategoryDisplay();
       PatientComposePage.validateMessageSubjectField('Renewal Needed');
 
       const expectedMessageBodyText = [
@@ -151,7 +151,7 @@ describe('SM Medications Renewal Request', () => {
         }`,
       );
 
-      PatientComposePage.validateCategorySelection('MEDICATIONS');
+      PatientComposePage.validateLockedCategoryDisplay();
       PatientComposePage.validateMessageSubjectField('Renewal Needed');
 
       const expectedMessageBodyText = [
@@ -215,7 +215,7 @@ describe('SM Medications Renewal Request', () => {
         `VA Madison health care - ${mockRecipients.data[0].attributes.name}`,
       );
 
-      PatientComposePage.validateCategorySelection('MEDICATIONS');
+      PatientComposePage.validateLockedCategoryDisplay();
       PatientComposePage.validateMessageSubjectField('Renewal Needed');
 
       const expectedMessageBodyText = [
@@ -283,7 +283,7 @@ describe('SM Medications Renewal Request', () => {
         `VA Madison health care - ${mockRecipients.data[0].attributes.name}`,
       );
 
-      PatientComposePage.validateCategorySelection('MEDICATIONS');
+      PatientComposePage.validateLockedCategoryDisplay();
       PatientComposePage.validateMessageSubjectField('Renewal Needed');
 
       const expectedMessageBodyText = [
@@ -358,7 +358,7 @@ describe('SM Medications Renewal Request', () => {
         `VA Madison health care - ${mockRecipients.data[0].attributes.name}`,
       );
 
-      PatientComposePage.validateCategorySelection('MEDICATIONS');
+      PatientComposePage.validateLockedCategoryDisplay();
       PatientComposePage.validateMessageSubjectField('Renewal Needed');
 
       const expectedMessageBodyText = [
@@ -419,7 +419,7 @@ describe('SM Medications Renewal Request', () => {
       PatientComposePage.validateAddYourMedicationWarningBanner(false);
 
       PatientComposePage.selectRecipient(3);
-      PatientComposePage.validateCategorySelection('MEDICATIONS');
+      PatientComposePage.validateLockedCategoryDisplay();
       PatientComposePage.validateMessageSubjectField('Renewal Needed');
 
       const expectedMessageBodyText = [
@@ -476,7 +476,7 @@ describe('SM Medications Renewal Request', () => {
       PatientComposePage.validateAddYourMedicationWarningBanner(true);
 
       PatientComposePage.selectRecipient(3);
-      PatientComposePage.validateCategorySelection('MEDICATIONS');
+      PatientComposePage.validateLockedCategoryDisplay();
       PatientComposePage.validateMessageSubjectField('Renewal Needed');
 
       const expectedMessageBodyText = [
@@ -528,7 +528,7 @@ describe('SM Medications Renewal Request', () => {
       PatientComposePage.validateAddYourMedicationWarningBanner(false);
 
       PatientComposePage.selectRecipient(3);
-      PatientComposePage.validateCategorySelection('MEDICATIONS');
+      PatientComposePage.validateLockedCategoryDisplay();
       PatientComposePage.validateMessageSubjectField('Renewal Needed');
 
       const expectedMessageBodyText = [
