@@ -93,10 +93,10 @@ export default function CustomAttestation(signatureProps) {
         (Reference: 18 U.S.C. 1001).
       </p>
       <section className="box vads-u-background-color--gray-lightest vads-u-padding-bottom--6 vads-u-padding-x--3 vads-u-padding-top--1px vads-u-margin-bottom--7">
-        <h3>
+        <h2 className="vads-u-font-size--h3">
           {formData?.certifierRole !== 'applicant' ? 'Representative’s ' : ''}
           Statement of truth
-        </h3>
+        </h2>
         {content}
         {privWrapper(
           <FormSignature
