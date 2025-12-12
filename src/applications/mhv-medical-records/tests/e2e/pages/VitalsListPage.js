@@ -25,11 +25,17 @@ class VitalsListPage extends BaseListPage {
     // Wait for the vitals list to be fully rendered
     cy.get('[data-testid="vital-li-display-name"]').should('exist');
 
-    cy.contains(vitalsHeading, { includeShadowDom: true }).then(element => {
+    cy.contains(new RegExp(vitalsHeading, 'i'), {
+      includeShadowDom: true,
+    }).then(element => {
       cy.wrap(element).should('have.prop', 'tagName', 'H2');
       cy.wrap(element)
         .parent()
-        .findByRole('link', { name: /Review your/ }, { timeout: 10000 })
+        .findByRole(
+          'link',
+          { name: `Review your ${vitalsHeading.toLowerCase()} over time` },
+          { timeout: 10000 },
+        )
         .click();
     });
   };
