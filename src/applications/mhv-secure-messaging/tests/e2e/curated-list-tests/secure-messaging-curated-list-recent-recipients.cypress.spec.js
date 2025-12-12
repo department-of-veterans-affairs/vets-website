@@ -197,8 +197,6 @@ describe('SM CURATED LIST MAIN FLOW WITH RECENT RECIPIENTS', () => {
 
     GeneralFunctionsPage.verifyPageHeader('Start message');
 
-    GeneralFunctionsPage.verifyPageHeader('Start message');
-
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 });
