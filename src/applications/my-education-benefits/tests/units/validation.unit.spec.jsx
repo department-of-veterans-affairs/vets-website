@@ -234,3 +234,107 @@ describe('Account Number Confirmation Validation', () => {
     expect(errors.addError.called).to.be.false;
   });
 });
+
+describe('Routing Number Confirmation Validation', () => {
+  let errors;
+
+  beforeEach(() => {
+    errors = { addError: sinon.spy() };
+  });
+
+  it('should show error when confirmation does not match routing number', () => {
+    const formData = {
+      mebBankInfoConfirmationField: true,
+      'view:directDeposit': {
+        bankAccount: {
+          routingNumber: '123456789',
+          routingNumberConfirmation: '987654321',
+        },
+      },
+    };
+
+    const validationFn =
+      directDeposit33.uiSchema['view:directDeposit'].bankAccount
+        .routingNumberConfirmation['ui:validations'][0];
+    validationFn(errors, '987654321', formData);
+
+    expect(errors.addError.calledOnce).to.be.true;
+    expect(errors.addError.firstCall.args[0]).to.equal(
+      'This should match your routing number',
+    );
+  });
+
+  it('should not show error when confirmation matches routing number', () => {
+    const formData = {
+      mebBankInfoConfirmationField: true,
+      'view:directDeposit': {
+        bankAccount: {
+          routingNumber: '123456789',
+          routingNumberConfirmation: '123456789',
+        },
+      },
+    };
+
+    const validationFn =
+      directDeposit33.uiSchema['view:directDeposit'].bankAccount
+        .routingNumberConfirmation['ui:validations'][0];
+    validationFn(errors, '123456789', formData);
+
+    expect(errors.addError.called).to.be.false;
+  });
+
+  it('should not validate when feature flag is disabled', () => {
+    const formData = {
+      mebBankInfoConfirmationField: false,
+      'view:directDeposit': {
+        bankAccount: {
+          routingNumber: '123456789',
+          routingNumberConfirmation: '987654321',
+        },
+      },
+    };
+
+    const validationFn =
+      directDeposit33.uiSchema['view:directDeposit'].bankAccount
+        .routingNumberConfirmation['ui:validations'][0];
+    validationFn(errors, '987654321', formData);
+
+    expect(errors.addError.called).to.be.false;
+  });
+
+  it('should not show error when confirmation field is empty', () => {
+    const formData = {
+      mebBankInfoConfirmationField: true,
+      'view:directDeposit': {
+        bankAccount: {
+          routingNumber: '123456789',
+        },
+      },
+    };
+
+    const validationFn =
+      directDeposit33.uiSchema['view:directDeposit'].bankAccount
+        .routingNumberConfirmation['ui:validations'][0];
+    validationFn(errors, '', formData);
+
+    expect(errors.addError.called).to.be.false;
+  });
+
+  it('should not show error when routing number is missing', () => {
+    const formData = {
+      mebBankInfoConfirmationField: true,
+      'view:directDeposit': {
+        bankAccount: {
+          routingNumberConfirmation: '123456789',
+        },
+      },
+    };
+
+    const validationFn =
+      directDeposit33.uiSchema['view:directDeposit'].bankAccount
+        .routingNumberConfirmation['ui:validations'][0];
+    validationFn(errors, '123456789', formData);
+
+    expect(errors.addError.called).to.be.false;
+  });
+});
