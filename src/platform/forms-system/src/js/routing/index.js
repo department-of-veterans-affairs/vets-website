@@ -13,8 +13,7 @@ export function getEligiblePages(pageList, data, pathname) {
 
 export function getNextPagePath(pageList, data, pathname) {
   const { pages, pageIndex } = getEligiblePages(pageList, data, pathname);
-  if (!pages?.length) return null;
-  return pages[pageIndex + 1].path;
+  return pages?.[pageIndex + 1]?.path;
 }
 
 export function getPreviousPagePath(pageList, data, pathname) {
