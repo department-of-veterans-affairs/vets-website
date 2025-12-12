@@ -1,19 +1,13 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import {
-  formatDateLong,
   apiRequest,
   environment,
 } from '@department-of-veterans-affairs/platform-utilities/exports';
 import {
-  extractContainedResource,
-  getReactions,
-  isArrayAndHasItems,
-} from '../util/helpers';
-import {
-  allergyTypes,
-  FIELD_NONE_NOTED,
-  FIELD_NOT_AVAILABLE,
-} from '../util/constants';
+  convertAllergy as sharedConvertAllergy,
+  convertUnifiedAllergy as sharedConvertAcceleratedAllergy,
+} from '@department-of-veterans-affairs/mhv/exports';
+import { FIELD_NONE_NOTED, FIELD_NOT_AVAILABLE } from '../util/constants';
 
 /**
  * TODO: implement retry logic
@@ -22,80 +16,24 @@ const apiBasePath = `${environment.API_URL}/my_health/v1`;
 
 const API_BASE_PATH_V2 = `${environment.API_URL}/my_health/v2`;
 
-export const extractLocation = allergy => {
-  if (isArrayAndHasItems(allergy?.recorder?.extension)) {
-    const ref = allergy.recorder.extension[0].valueReference?.reference;
-    // Use the reference inside "recorder" to get the value from "contained".
-    const org = extractContainedResource(allergy, ref);
-    if (org?.name) {
-      return org.name;
-    }
-  }
-  return FIELD_NOT_AVAILABLE;
+// Options for Medications app (different from Medical Records defaults)
+const allergyOptions = {
+  emptyField: FIELD_NOT_AVAILABLE,
+  noneNotedField: FIELD_NONE_NOTED,
+  includeProvider: false,
+  joinAllCategories: false,
 };
 
-export const extractObservedReported = allergy => {
-  if (allergy && isArrayAndHasItems(allergy.extension)) {
-    const extItem = allergy.extension.find(
-      item => item.url && item.url.includes('allergyObservedHistoric'),
-    );
-    if (extItem?.valueCode) {
-      if (extItem.valueCode === 'o') return allergyTypes.OBSERVED;
-      if (extItem.valueCode === 'h') return allergyTypes.REPORTED;
-    }
-  }
-  if (allergy && allergy.attributes?.observedHistoric) {
-    if (allergy.attributes.observedHistoric === 'o')
-      return allergyTypes.OBSERVED;
-    if (allergy.attributes.observedHistoric === 'h')
-      return allergyTypes.REPORTED;
-  }
-  return FIELD_NOT_AVAILABLE;
-};
-
+/**
+ * Convert a FHIR AllergyIntolerance resource using shared converter.
+ * Wrapper that passes Medications options.
+ */
 export const convertAllergy = allergy => {
-  return {
-    id: allergy.id,
-    type:
-      (isArrayAndHasItems(allergy.category) &&
-        allergy.category[0].charAt(0).toUpperCase() +
-          allergy.category[0].slice(1)) ||
-      FIELD_NOT_AVAILABLE,
-    name: allergy?.code?.text || FIELD_NONE_NOTED,
-    date: allergy?.recordedDate
-      ? formatDateLong(allergy.recordedDate)
-      : FIELD_NOT_AVAILABLE,
-    reaction: getReactions(allergy),
-    location: extractLocation(allergy),
-    observedOrReported: extractObservedReported(allergy),
-    notes:
-      (isArrayAndHasItems(allergy.note) && allergy.note[0].text) ||
-      FIELD_NONE_NOTED,
-  };
+  return sharedConvertAllergy(allergy, allergyOptions);
 };
 
 export const convertAcceleratedAllergy = allergy => {
-  return {
-    id: allergy.id,
-    type:
-      (isArrayAndHasItems(allergy.attributes.categories) &&
-        allergy.attributes.categories[0].charAt(0).toUpperCase() +
-          allergy.attributes.categories[0].slice(1)) ||
-      FIELD_NOT_AVAILABLE,
-    name: allergy.attributes.name || FIELD_NONE_NOTED,
-    date: allergy.attributes.date
-      ? formatDateLong(allergy.attributes.date)
-      : FIELD_NOT_AVAILABLE,
-    reaction: isArrayAndHasItems(allergy.attributes.reactions)
-      ? allergy.attributes.reactions
-      : [FIELD_NONE_NOTED],
-    location: allergy.attributes.location || FIELD_NOT_AVAILABLE,
-    observedOrReported: extractObservedReported(allergy),
-    notes: isArrayAndHasItems(allergy.attributes.notes)
-      ? allergy.attributes.notes.join(', ')
-      : FIELD_NONE_NOTED,
-    provider: allergy.attributes.provider || FIELD_NOT_AVAILABLE,
-  };
+  return sharedConvertAcceleratedAllergy(allergy, allergyOptions);
 };
 
 // Create the allergies API slice
