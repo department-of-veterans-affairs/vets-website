@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { formatDateParsedZoneLong } from 'platform/utilities/date/index';
 import { differenceInDays } from 'date-fns';
 
@@ -48,6 +47,18 @@ const formatStatus = submission => {
   }
 };
 
+const getFormName = formType => {
+  switch (formType) {
+    case '21-686c':
+    case '21-526EZ':
+      return `VA ${formType}`;
+    case '21-0966':
+      return `VA Form ${formType}`;
+    default:
+      return `VA ${formType}`;
+  }
+};
+
 const getBenefitName = benefitType => {
   switch (benefitType) {
     case 'compensation':
@@ -65,6 +76,14 @@ const SubmissionCard = ({ submission }) => {
   const formattedSubmittedDate = formatDateParsedZoneLong(
     submission.submittedDate,
   );
+  const isITF = submission.formType === '21-0966';
+  let daysTilExpiration;
+  let showWarningIcon;
+  if (isITF) {
+    daysTilExpiration =
+      365 - differenceInDays(new Date(), new Date(formattedSubmittedDate));
+    showWarningIcon = daysTilExpiration <= 60;
+  }
   return (
     <li>
       <va-card class="submission__card">
@@ -72,21 +91,11 @@ const SubmissionCard = ({ submission }) => {
           Submitted {formattedSubmittedDate}
         </p>
         <h3 className="submission__card-name vads-u-font-size--h3 vads-u-font-family--serif">
-          {submission.url ? (
-            <Link
-              to={`/submissions/${submission.id}`}
-              data-testid={`submission-card-${submission.id}-name`}
-              className="submission__card-title"
-            >
-              {`${submission.lastName}, ${submission.firstName}`}
-            </Link>
-          ) : (
-            `${submission.lastName}, ${submission.firstName}`
-          )}
+          {submission.lastName}, {submission.firstName}
         </h3>
         <p className="submission__card-form-name vads-u-font-size--h5 vads-u-font-family--serif">
           <strong>
-            {submission.formType}
+            {getFormName(submission.formType)}
             {submission.packet ? ' packet' : ''}
           </strong>
         </p>
@@ -102,42 +111,47 @@ const SubmissionCard = ({ submission }) => {
           ) : (
             ''
           )}
-          {submission.formType === '21-0966' ? (
+          {isITF && (
             <>
               <span className="submission__card-attribute-text">
-                {'ITF Date: '}
+                ITF Date:{' '}
               </span>
-              {formattedSubmittedDate} (Expires in{' '}
-              {365 -
-                differenceInDays(
-                  new Date(),
-                  new Date(formattedSubmittedDate),
-                )}{' '}
-              days)
+              {showWarningIcon && (
+                <va-icon
+                  icon="warning"
+                  class="submissions__inline-status-icon submissions__card-error"
+                  size="3"
+                />
+              )}
+              {formattedSubmittedDate} (Expires in {daysTilExpiration} days)
               <br />
             </>
-          ) : (
-            ''
           )}
-          {submission.confirmationNumber ? (
+          {!isITF && (
             <>
-              <span className="submission__card-attribute-text">
-                {'Confirmation: '}
+              {submission.confirmationNumber ? (
+                <>
+                  <span className="submission__card-attribute-text">
+                    {'Confirmation: '}
+                  </span>
+                  {submission.confirmationNumber}
+                  <br />
+                </>
+              ) : (
+                ''
+              )}
+              <span
+                className={`submission__card-status--row ${
+                  submission.vbmsStatus
+                }`}
+              >
+                <span className="submission__card-attribute-text">
+                  {'VBMS eFolder status: '}
+                </span>
+                {formatStatus(submission)}
               </span>
-              {submission.confirmationNumber}
-              <br />
             </>
-          ) : (
-            ''
           )}
-          <span
-            className={`submission__card-status--row ${submission.vbmsStatus}`}
-          >
-            <span className="submission__card-attribute-text">
-              {'VBMS eFolder status: '}
-            </span>
-            {formatStatus(submission)}
-          </span>
         </p>
       </va-card>
     </li>

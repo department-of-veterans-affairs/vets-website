@@ -1,3 +1,9 @@
+import { addDays } from 'date-fns';
+
+const now = new Date();
+const expirationInSixtyDays = addDays(now, -305);
+const expirationInSeventyDays = addDays(now, -295);
+
 export const setSubmissions = () => {
   cy.intercept('/accredited_representative_portal/v0/claim_submissions**', {
     data: [
@@ -43,6 +49,53 @@ export const setSubmissions = () => {
         confirmationNumber: 'b4d7ae1d-6aa9-4231-930c-e3b3e73f0e31',
         vbmsStatus: 'awaiting_receipt_warning',
         vbmsReceivedDate: '2025-04-15',
+        url: null,
+      },
+      {
+        submittedDate: '2025-04-09',
+        firstName: 'Rachel',
+        lastName: 'Karlsson',
+        formType: '21-686c',
+        packet: true,
+        confirmationNumber: 'e3bd5925-6902-4b94-acbc-49b554ffce22',
+        vbmsStatus: 'awaiting_receipt_warning',
+        vbmsReceivedDate: '2025-04-19',
+        url: null,
+      },
+      {
+        submittedDate: now,
+        firstName: 'Logan',
+        lastName: 'Ryan',
+        formType: '21-0966',
+        packet: true,
+        confirmationNumber: 'b4d7ae1d-6aa9-4231-930c-e3b3e73f0e26',
+        vbmsStatus: 'recieved',
+        vbmsReceivedDate: null,
+        benefitType: 'compensation',
+        url: null,
+      },
+      {
+        submittedDate: expirationInSixtyDays,
+        firstName: 'David',
+        lastName: 'Andrews',
+        formType: '21-0966',
+        packet: true,
+        confirmationNumber: 'b4d7ae1d-6aa9-4231-930c-e3b3e73f0e60',
+        vbmsStatus: 'recieved',
+        vbmsReceivedDate: null,
+        benefitType: 'pension',
+        url: null,
+      },
+      {
+        submittedDate: expirationInSeventyDays,
+        firstName: 'Aaron',
+        lastName: 'Dobson',
+        formType: '21-0966',
+        packet: true,
+        confirmationNumber: 'b4d7ae1d-6aa9-4231-930c-e3b3e73f0e17',
+        vbmsStatus: 'recieved',
+        vbmsReceivedDate: null,
+        benefitType: 'survivor',
         url: null,
       },
     ],
