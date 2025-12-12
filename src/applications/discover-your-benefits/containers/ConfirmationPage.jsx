@@ -43,11 +43,17 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
       {
         id: 0,
         label: 'Show results',
+        isRadio: true,
         category: [
           {
             id: 'recommended',
-            label: 'Show only results recommended for you',
+            label: 'Recommended for you',
             active: tempFilterValues.includes('recommended'),
+          },
+          {
+            id: 'all',
+            label: 'All results',
+            active: tempFilterValues.includes('all'),
           },
         ],
       },
@@ -152,8 +158,9 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
       const filterKeys = filterValues;
       const isRecommendedOnly = filterKeys.includes('recommended');
       const sourceData = isRecommendedOnly ? resultsData || [] : BENEFITS_LIST;
-      const nonRecommendedFilters = filterKeys.filter(f => f !== 'recommended');
-
+      const nonRecommendedFilters = filterKeys.filter(
+        f => f !== 'recommended' && f !== 'all',
+      );
       let filtered = sourceData;
       if (nonRecommendedFilters.length > 0) {
         filtered = sourceData.filter(benefit =>
@@ -245,8 +252,8 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
   }, []);
 
   const handleFilterClearAll = useCallback(() => {
-    setFilterValues([]);
-    setTempFilterValues([]);
+    setFilterValues(['recommended']);
+    setTempFilterValues(['recommended']);
     setSortValue('alphabetical');
   }, []);
 
@@ -316,23 +323,38 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
       <>
         {window.history.length > 2 ? (
           <>
-            <p className="vads-u-margin-bottom--0">
-              Based on your answers, we’ve recommended benefits for you to
-              explore. If you need to, you can&nbsp;
+            <p>
+              {' '}
+              Based on your answers, we’re recommending programs and benefits
+              for you to explore. You can go back and update your answers if you
+              need to.{' '}
+            </p>
+            <p>
               <va-link
                 data-testid="back-link"
                 href="#"
                 onClick={handleBackClick}
-                text="go back and update your answers"
+                text="Go back and update your answers"
               />
-              . Remember to check your eligibility before you apply.
+            </p>
+            <p>
+              Remember to check your eligibility for each program or benefit
+              before you apply. Some are available to both you and your
+              dependents. And some are only available for certain amounts of
+              time.
             </p>
           </>
         ) : (
           <>
             <p className="vads-u-margin-bottom--0">
-              Based on your answers, we’ve recommended benefits for you to
-              explore. Remember to check your eligibility before you apply.
+              Based on your answers, we’re recommending programs and benefits
+              for you to explore.
+            </p>
+            <p>
+              Remember to check your eligibility for each program or benefit
+              before you apply. Some are available to both you and your
+              dependents. And some are only available for certain amounts of
+              time.
             </p>
           </>
         )}
@@ -396,9 +418,8 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
           <p className="vads-u-margin--0">
             We can help guide you as you transition from active-duty service or
             from service in the National Guard or Reserves. Some benefits are
-            only available while you’re still serving, and others are best
-            explored soon after you separate. We’re here to help you understand
-            your options so you can take the steps that are right for you.
+            only available while you’re still serving. And some benefits are
+            only available for a certain amount of time after you separate.
           </p>
           <br />
           <va-link
@@ -406,7 +427,7 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
             external
             text="Learn more about VA benefits for service members"
             type="secondary"
-            label="Learn more about VA benefits for service members"
+            label="Learn more about VA benefits for service members (opens in a new tab)"
           />
         </va-additional-info>
       </article>
