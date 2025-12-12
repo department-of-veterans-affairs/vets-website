@@ -43,11 +43,11 @@ describe('childDeath', () => {
     const { container } = renderComponent();
 
     expect($('h3', container).textContent).to.equal(
-      'Information about the death of PENNY',
+      'Information about PENNY’s death',
     );
     expect($$('h4', container).map(el => el.textContent)).to.deep.equal([
-      'When was the death?',
-      'Where was the death?',
+      'When did they die?',
+      'Where did they die?',
     ]);
 
     expect($('va-memorable-date', container)).to.exist;
