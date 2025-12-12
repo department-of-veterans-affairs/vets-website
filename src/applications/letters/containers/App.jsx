@@ -15,18 +15,18 @@ import {
 
 import AppContent from '../components/AppContent';
 import { isLoadingFeatures } from '../selectors';
-
-const DATA_DOG_LOGGING_TOGGLE = 'lettersClientSideMonitoring';
-const DATA_DOG_LOGGING_ID = '{APP_UUID}';
-const DATA_DOG_LOGGING_SERVICE = '{APP_DASHBOARD_NAME}';
-const DATA_DOG_LOGGING_TOKEN = 'pub{TOKEN_ID}';
-const DATA_DOG_LOGGING_VERSION = '1.0.0';
-
-const DATA_DOG_RUM_TOGGLE = 'lettersRumDashboard';
-const DATA_DOG_RUM_ID = '{APP_UUID}';
-const DATA_DOG_RUM_SERVICE = '{APP_DASHBOARD_NAME}';
-const DATA_DOG_RUM_TOKEN = 'pub{TOKEN_ID}';
-const DATA_DOG_RUM_VERSION = '1.0.0';
+import {
+  DATA_DOG_LOGGING_ID,
+  DATA_DOG_LOGGING_SERVICE,
+  DATA_DOG_LOGGING_TOGGLE,
+  DATA_DOG_LOGGING_TOKEN,
+  DATA_DOG_LOGGING_VERSION,
+  DATA_DOG_RUM_ID,
+  DATA_DOG_RUM_SERVICE,
+  DATA_DOG_RUM_TOGGLE,
+  DATA_DOG_RUM_TOKEN,
+  DATA_DOG_RUM_VERSION,
+} from '../utils/constants';
 
 export function App({ featureFlagsLoading, user }) {
   const {

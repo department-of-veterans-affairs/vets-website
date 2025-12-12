@@ -9,10 +9,8 @@ import {
 import CallVBACenter from '@department-of-veterans-affairs/platform-static-data/CallVBACenter';
 import { datadogLogs } from '@datadog/browser-logs';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
-import { DOWNLOAD_STATUSES } from '../utils/constants';
+import { DATA_DOG_LOGGING_TOGGLE, DOWNLOAD_STATUSES } from '../utils/constants';
 import { getSingleLetterPDFLinkAction } from '../actions/letters';
-
-const DATA_DOG_LOGGING_TOGGLE = 'lettersClientSideMonitoring';
 
 const DownloadLetterBlobLink = ({
   letterTitle,

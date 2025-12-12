@@ -100,3 +100,17 @@ export const REQUEST_OPTIONS = Object.freeze({
 import ADDRESS_DATA from 'platform/forms/address/data';
 
 export const STATE_CODE_TO_NAME = ADDRESS_DATA.states;
+
+// Client side logging configuration
+export const DATA_DOG_LOGGING_TOGGLE = 'lettersClientSideMonitoring';
+export const DATA_DOG_LOGGING_ID = '{APP_UUID}';
+export const DATA_DOG_LOGGING_SERVICE = '{APP_DASHBOARD_NAME}';
+export const DATA_DOG_LOGGING_TOKEN = 'pub{TOKEN_ID}';
+export const DATA_DOG_LOGGING_VERSION = '1.0.0';
+
+// Client side RUM configuration
+export const DATA_DOG_RUM_TOGGLE = 'lettersRumDashboard';
+export const DATA_DOG_RUM_ID = '{APP_UUID}';
+export const DATA_DOG_RUM_SERVICE = '{APP_DASHBOARD_NAME}';
+export const DATA_DOG_RUM_TOKEN = 'pub{TOKEN_ID}';
+export const DATA_DOG_RUM_VERSION = '1.0.0';
