@@ -125,8 +125,14 @@ describe('VAOS Component: ScheduleReferral', () => {
   });
 
   it('should display warning alert when station id is not valid', async () => {
-    const referral = createReferralById(referralDate, '444');
-    referral.attributes.stationId = '12345';
+    const referral = createReferralById(
+      referralDate,
+      '444',
+      null,
+      'OPTOMETRY',
+      true,
+      '12345',
+    );
 
     sandbox.stub(vaosApi, 'useGetReferralByIdQuery').returns({
       data: referral,
