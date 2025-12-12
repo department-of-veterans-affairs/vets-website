@@ -28,6 +28,7 @@ import cemeteryName from '../pages/cemeteryName';
 import cemeteryContactInfo from '../pages/cemeteryContactInfo';
 import supportingDocuments from '../pages/supportingDocuments';
 import supportingDocumentsUpload from '../pages/supportingDocumentsUpload';
+import ApplicantMailingAddressLoggedIn from '../pages/applicantMailingAddressLoggedIn';
 import typeOfRequest from '../pages/typeOfRequest';
 import replacementMedallionReason from '../pages/replacementMedallionReason';
 import typeOfMedallion from '../pages/typeOfMedallion';
@@ -131,7 +132,29 @@ const formConfig = {
           depends: formData =>
             ['familyMember', 'personalRep', 'other'].includes(
               formData.relationToVetRadio,
-            ),
+            ) && !isUserSignedIn(formData),
+        },
+        applicantContactInfoSignedIn: {
+          path: 'applicant-contact-info-signed-in',
+          title: 'Your contact information',
+          depends: formData =>
+            ['familyMember', 'personalRep', 'other'].includes(
+              formData.relationToVetRadio,
+            ) && isUserSignedIn(formData),
+          CustomPage: ApplicantMailingAddressLoggedIn,
+          CustomPageReview: ApplicantMailingAddressLoggedIn,
+          uiSchema: {},
+          schema: {
+            type: 'object',
+            properties: {},
+          },
+        },
+        editMailingAddress: {
+          title: 'Edit your mailing address',
+          path: 'applicant-contact-info-signed-in/edit-address',
+          depends: formData => formData?.['view:loggedInEditAddress'] === true,
+          uiSchema: applicantContactInfo.uiSchema,
+          schema: applicantContactInfo.schema,
         },
         applicantContactInfo2: {
           path: 'applicant-contact-info-2',
