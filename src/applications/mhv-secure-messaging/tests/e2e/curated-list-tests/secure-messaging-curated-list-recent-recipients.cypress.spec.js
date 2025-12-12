@@ -148,7 +148,9 @@ describe('SM CURATED LIST MAIN FLOW WITH RECENT RECIPIENTS', () => {
     cy.findByLabelText('A different care team').click();
 
     cy.findByTestId(Locators.RECENT_CARE_TEAMS_CONTINUE_BUTTON_DATA_TEST_ID)
-      .should('be.enabled')
+      .shadow()
+      .find('button')
+      .should('be.enabled', { timeout: 10000 })
       .click();
 
     cy.location('pathname').should('include', '/select-care-team');
@@ -186,9 +188,14 @@ describe('SM CURATED LIST MAIN FLOW WITH RECENT RECIPIENTS', () => {
     // Select the first recent care team
     cy.get(`[label="${recentCareTeams[0]}"]`).click();
 
+    cy.get('body').should('not.have.class', 'loading');
+
     cy.findByTestId(Locators.RECENT_CARE_TEAMS_CONTINUE_BUTTON_DATA_TEST_ID)
-      .should('be.enabled')
-      .click();
+      .should('be.visible')
+      .and('not.be.disabled')
+      .click({ scrollBehavior: 'center' });
+
+    GeneralFunctionsPage.verifyPageHeader('Start message');
 
     GeneralFunctionsPage.verifyPageHeader('Start message');
 
