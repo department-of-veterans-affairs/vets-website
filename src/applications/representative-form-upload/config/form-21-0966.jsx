@@ -64,7 +64,7 @@ const form210966 = (pathname = null) => {
       reviewPageTitle: 'Review and submit',
     },
     hideReviewChapters: true,
-    version: 1,
+    version: 0,
     prefillEnabled: false,
     transformForSubmit: itfTransformForSubmit,
     submissionError,
@@ -100,7 +100,7 @@ const form210966 = (pathname = null) => {
         title: 'Claimant background',
         pages: {
           isVeteranPage: {
-            path: 'is-veteran',
+            path: 'claimant-background',
             title: "Claimant's background",
             uiSchema: isVeteranPage.uiSchema,
             schema: isVeteranPage.schema,
