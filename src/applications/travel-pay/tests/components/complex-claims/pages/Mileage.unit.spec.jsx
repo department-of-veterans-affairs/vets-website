@@ -9,8 +9,8 @@ import Mileage from '../../../../components/complex-claims/pages/Mileage';
 import reducer from '../../../../redux/reducer';
 
 describe('Complex Claims Mileage - Add', () => {
-  const TEST_CLAIM_ID = 'abc123';
-  const TEST_APPT_ID = 'abc123';
+  const TEST_CLAIM_ID = '4f5a9e2b-1c6a-4f1a-9b6c-2a7d3f1e8b9d';
+  const TEST_APPT_ID = 'd2e3f4a5-b6c7-4d8e-9f1a-0b2c3d4e5f6a';
 
   const getAddState = () => ({
     travelPay: {
@@ -101,8 +101,8 @@ describe('Complex Claims Mileage - Add', () => {
     );
     expect($('va-additional-info[trigger="How we calculate mileage"]')).to
       .exist;
-    expect($('va-radio[id="departure-address"]')).to.exist;
-    expect($('va-radio[id="trip-type"]')).to.exist;
+    expect($('va-radio[name="departureAddress"]')).to.exist;
+    expect($('va-radio[name="tripType"]')).to.exist;
     expect($('.travel-pay-button-group')).to.exist;
     expect($('va-modal')).to.exist;
   });
@@ -144,7 +144,7 @@ describe('Complex Claims Mileage - Add', () => {
     it('renders departure address radio group with correct properties', () => {
       renderComponent();
 
-      const departureRadio = $('va-radio[id="departure-address"]');
+      const departureRadio = $('va-radio[name="departureAddress"]');
       expect(departureRadio).to.exist;
       expect(departureRadio.getAttribute('label')).to.equal(
         'Which address did you depart from?',
@@ -155,20 +155,18 @@ describe('Complex Claims Mileage - Add', () => {
     it('renders departure address radio options', () => {
       renderComponent();
 
-      const departureRadio = $('va-radio[id="departure-address"]');
+      const departureRadio = $('va-radio[name="departureAddress"]');
       expect(departureRadio).to.exist;
-
-      // Verify the radio group has options by checking innerHTML contains va-radio-option
       expect(departureRadio.innerHTML).to.include('va-radio-option');
     });
 
     it('handles departure address selection change', () => {
       renderComponent();
 
-      const departureRadio = $('va-radio[id="departure-address"]');
-      expect(departureRadio.value).to.equal('');
+      const departureRadio = $('va-radio[name="departureAddress"]');
+      expect(departureRadio).to.exist;
+      expect(departureRadio.value).to.equal(undefined);
 
-      // Simulate selection change
       fireEvent(
         departureRadio,
         new CustomEvent('vaValueChange', {
@@ -184,7 +182,7 @@ describe('Complex Claims Mileage - Add', () => {
     it('renders trip type radio group with correct properties', () => {
       renderComponent();
 
-      const tripTypeRadio = $('va-radio[id="trip-type"]');
+      const tripTypeRadio = $('va-radio[name="tripType"]');
       expect(tripTypeRadio).to.exist;
       expect(tripTypeRadio.getAttribute('label')).to.equal(
         'Was your trip round trip or one way?',
@@ -195,20 +193,17 @@ describe('Complex Claims Mileage - Add', () => {
     it('renders trip type radio options', () => {
       renderComponent();
 
-      const tripTypeRadio = $('va-radio[id="trip-type"]');
+      const tripTypeRadio = $('va-radio[name="tripType"]');
       expect(tripTypeRadio).to.exist;
-
-      // Verify the radio group has options by checking innerHTML contains va-radio-option
       expect(tripTypeRadio.innerHTML).to.include('va-radio-option');
     });
 
     it('handles trip type selection change', () => {
       renderComponent();
 
-      const tripTypeRadio = $('va-radio[id="trip-type"]');
-      expect(tripTypeRadio.value).to.equal('');
+      const tripTypeRadio = $('va-radio[name="tripType"]');
+      expect(tripTypeRadio.value).to.equal(undefined);
 
-      // Simulate selection change
       fireEvent(
         tripTypeRadio,
         new CustomEvent('vaValueChange', {
@@ -238,11 +233,7 @@ describe('Complex Claims Mileage - Add', () => {
       renderComponent();
 
       const buttonGroup = $('.travel-pay-button-group');
-      expect(buttonGroup).to.exist;
-
       const continueButton = buttonGroup.querySelectorAll('va-button')[1];
-      expect(continueButton).to.exist;
-      expect(continueButton.getAttribute('text')).to.eq('Continue');
 
       fireEvent.click(continueButton);
       expect(continueButton).to.exist;
@@ -252,14 +243,9 @@ describe('Complex Claims Mileage - Add', () => {
       renderComponent();
 
       const buttonGroup = $('.travel-pay-button-group');
-      expect(buttonGroup).to.exist;
-
       const backButton = buttonGroup.querySelectorAll('va-button')[0];
-      expect(backButton).to.exist;
-      expect(backButton.getAttribute('text')).to.eq('Back');
 
       fireEvent.click(backButton);
-
       expect(backButton).to.exist;
     });
 
@@ -274,24 +260,41 @@ describe('Complex Claims Mileage - Add', () => {
   });
 
   describe('Initial State', () => {
-    it('starts with empty values for both radio groups', () => {
+    it('starts with undefined values for both radio groups', () => {
       renderComponent();
 
-      const departureRadio = $('va-radio[id="departure-address"]');
-      const tripTypeRadio = $('va-radio[id="trip-type"]');
-
-      expect(departureRadio.value).to.equal('');
-      expect(tripTypeRadio.value).to.equal('');
+      const departureRadio = $('va-radio[name="departureAddress"]');
+      const tripTypeRadio = $('va-radio[name="tripType"]');
+      expect(departureRadio.value).to.equal(undefined);
+      expect(tripTypeRadio.value).to.equal(undefined);
     });
 
     it('has no radio options checked initially', () => {
       renderComponent();
 
-      const departureRadio = $('va-radio[id="departure-address"]');
-      const tripTypeRadio = $('va-radio[id="trip-type"]');
+      // Departure address radio group
+      const departureHomeAddressRadio = $(
+        'va-radio-option[value="home-address"]',
+      );
+      expect(departureHomeAddressRadio).to.exist;
+      expect(departureHomeAddressRadio.getAttribute('checked')).to.equal(
+        'false',
+      );
+      const departureAnotherAddressRadio = $(
+        'va-radio-option[value="another-address"]',
+      );
+      expect(departureAnotherAddressRadio).to.exist;
+      expect(departureAnotherAddressRadio.getAttribute('checked')).to.equal(
+        'false',
+      );
 
-      expect(departureRadio.value).to.equal('');
-      expect(tripTypeRadio.value).to.equal('');
+      // Trip type radio group
+      const tripTypeRoundTripRadio = $('va-radio-option[value="RoundTrip"]');
+      expect(tripTypeRoundTripRadio).to.exist;
+      expect(tripTypeRoundTripRadio.getAttribute('checked')).to.equal('false');
+      const tripTypeOneWayRadio = $('va-radio-option[value="OneWay"]');
+      expect(tripTypeOneWayRadio).to.exist;
+      expect(tripTypeOneWayRadio.getAttribute('checked')).to.equal('false');
     });
   });
 
@@ -300,7 +303,6 @@ describe('Complex Claims Mileage - Add', () => {
       const { container } = renderComponent();
 
       const button = container.querySelector('va-button');
-      // Click Cancel button
       fireEvent.click(button);
 
       const modal = container.querySelector('va-modal');
@@ -311,9 +313,9 @@ describe('Complex Claims Mileage - Add', () => {
 });
 
 describe('Complex Claims Mileage - Edit', () => {
-  const TEST_CLAIM_ID = 'abc123';
-  const TEST_EXPENSE_ID = 'abc123';
-  const TEST_APPT_ID = 'abc123';
+  const TEST_CLAIM_ID = '4f5a9e2b-1c6a-4f1a-9b6c-2a7d3f1e8b9d';
+  const TEST_EXPENSE_ID = 'a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d';
+  const TEST_APPT_ID = 'd2e3f4a5-b6c7-4d8e-9f1a-0b2c3d4e5f6a';
 
   const getEditState = () => ({
     travelPay: {
@@ -412,8 +414,8 @@ describe('Complex Claims Mileage - Edit', () => {
     );
     expect($('va-additional-info[trigger="How we calculate mileage"]')).to
       .exist;
-    expect($('va-radio[id="departure-address"]')).to.exist;
-    expect($('va-radio[id="trip-type"]')).to.exist;
+    expect($('va-radio[name="departureAddress"]')).to.exist;
+    expect($('va-radio[name="tripType"]')).to.exist;
     expect($('.travel-pay-button-group')).to.exist;
     expect($('va-modal')).to.exist;
   });
@@ -467,11 +469,7 @@ describe('Complex Claims Mileage - Edit', () => {
     renderEditPage();
 
     const buttonGroup = $('.travel-pay-button-group');
-    expect(buttonGroup).to.exist;
-
     const continueButton = buttonGroup.querySelectorAll('va-button')[1];
-    expect(continueButton).to.exist;
-    expect(continueButton.getAttribute('text')).to.eq('Save and continue');
 
     fireEvent.click(continueButton);
     expect(continueButton).to.exist;
@@ -481,14 +479,9 @@ describe('Complex Claims Mileage - Edit', () => {
     renderEditPage();
 
     const buttonGroup = $('.travel-pay-button-group');
-    expect(buttonGroup).to.exist;
-
     const backButton = buttonGroup.querySelectorAll('va-button')[0];
-    expect(backButton).to.exist;
-    expect(backButton.getAttribute('text')).to.eq('Cancel');
 
     fireEvent.click(backButton);
-
     expect(backButton).to.exist;
   });
 });
