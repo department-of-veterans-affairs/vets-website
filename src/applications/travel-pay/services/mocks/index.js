@@ -35,12 +35,13 @@ function generateAppointmentDates(daysOffset) {
   // Set appointment time to 8:00 AM local time
   appointmentDate.setHours(8, 0, 0, 0);
 
-  // Format as ISO string with timezone offset for localStartTime
+  // IMPORTANT: localStartTime has proper timezone offset (e.g. -08:00 for PST)
+  // This represents actual local time: 8:00 AM PST
   const localStartTime = appointmentDate.toISOString().replace('Z', '-08:00');
 
-  // Create UTC times for start and end (8:00 AM PST = 4:00 PM UTC)
+  // start is in true UTC (8:00 AM PST = 4:00 PM UTC)
   const startDate = new Date(appointmentDate);
-  startDate.setHours(startDate.getHours() + 8); // Convert to UTC
+  startDate.setHours(startDate.getHours() + 8); // Convert PST to UTC
   const start = startDate.toISOString();
 
   const endDate = new Date(startDate);
@@ -459,8 +460,78 @@ const responses = {
   //     ],
   //   });
   // },
-  // Get appointments
+  // Get appointments - handles both date range queries and list view
   'GET /vaos/v2/appointments': (req, res) => {
+    const { start: startParam, end: endParam } = req.query;
+
+    // If querying by date range (used by getAppointmentDataByDateTime action)
+    if (startParam && endParam) {
+      const startDate = new Date(startParam);
+      const endDate = new Date(endParam);
+
+      // Create appointment matching the claim details mock datetime
+      const claimDetailsDateTime = '2025-03-20T16:30:00Z';
+      const appointmentDate = new Date(claimDetailsDateTime);
+
+      // Check if this appointment falls within the requested range
+      if (appointmentDate >= startDate && appointmentDate <= endDate) {
+        // IMPORTANT: Claim's appointmentDateTime has 'Z' suffix but represents local time (bad data)
+        // Convert it to proper localStartTime format with timezone offset
+        // Example: "2025-03-20T16:30:00Z" (claim) -> "2025-03-20T16:30:00.000-08:00" (localStartTime)
+        const localStartTime = claimDetailsDateTime.replace('Z', '.000-08:00');
+
+        const matchingAppointment = {
+          ...appointment.claim.data,
+          id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+          type: 'appointments',
+          attributes: {
+            ...appointment.claim.data.attributes,
+            id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+            localStartTime, // Proper format with timezone offset
+            start: claimDetailsDateTime, // Keep as UTC for backend consistency
+            end: new Date(
+              appointmentDate.getTime() + 30 * 60 * 1000,
+            ).toISOString(),
+          },
+        };
+
+        // Add non-matching appointments to test filtering logic
+        return res.json({
+          data: [
+            {
+              ...appointment.noClaim.data,
+              id: 'non-match-1',
+              type: 'appointments',
+              attributes: {
+                ...appointment.noClaim.data.attributes,
+                id: 'non-match-1',
+                localStartTime: '2025-03-20T10:00:00.000-08:00', // Different time - won't match
+                start: '2025-03-20T18:00:00Z',
+                end: '2025-03-20T18:30:00Z',
+              },
+            },
+            {
+              ...appointment.noClaim.data,
+              id: 'non-match-2',
+              type: 'appointments',
+              attributes: {
+                ...appointment.noClaim.data.attributes,
+                id: 'non-match-2',
+                localStartTime: '2025-03-20T20:00:00.000-08:00', // Different time - won't match
+                start: '2025-03-21T04:00:00Z',
+                end: '2025-03-21T04:30:00Z',
+              },
+            },
+            matchingAppointment,
+          ],
+        });
+      }
+
+      // Return empty array if no appointments match the range
+      return res.json({ data: [] });
+    }
+
+    // Default behavior - return all appointments (list view)
     const appointments = [
       appointment.noClaim,
       appointment.claim,
