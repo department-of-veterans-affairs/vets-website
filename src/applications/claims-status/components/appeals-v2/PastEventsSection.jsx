@@ -15,7 +15,7 @@ const PastEventsSection = ({ events, missingEvents }) => {
         });
       }
     },
-    [missingEvents, events.length],
+    [missingEvents],
   );
   const missingEventsAlert = (
     <div className="usa-alert usa-alert-warning">
