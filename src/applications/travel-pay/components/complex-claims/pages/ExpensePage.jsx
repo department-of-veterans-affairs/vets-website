@@ -19,6 +19,7 @@ import {
   createExpense,
   updateExpenseDeleteDocument,
   updateExpense,
+  setUnsavedExpenseChanges,
   setReviewPageAlert,
 } from '../../../redux/actions';
 import {
@@ -61,8 +62,11 @@ const ExpensePage = () => {
   const isDeletingDocument = useSelector(selectDocumentDeleteLoadingState);
 
   // Refs
-  const errorRef = useRef(null);
+  const errorRef = useRef(null); // ref for the error message
   const costRequestedRef = useRef(null);
+  const initialFormStateRef = useRef({});
+  const previousHasChangesRef = useRef(false);
+  const hasLoadedExpenseRef = useRef(false);
 
   // State
   const [formState, setFormState] = useState({});
@@ -70,7 +74,6 @@ const ExpensePage = () => {
   const [expenseDocument, setExpenseDocument] = useState(null);
   const [isFetchingDocument, setIsDocumentLoading] = useState(false);
   const [previousDocumentId, setPreviousDocumentId] = useState(null);
-  const [fieldsInitialized, setFieldsInitialized] = useState(false);
   const [isCancelModalVisible, setIsCancelModalVisible] = useState(false);
   const [showError, setShowError] = useState(false);
   const [uploadError, setUploadError] = useState('');
@@ -81,28 +84,22 @@ const ExpensePage = () => {
     ? isUpdatingExpense || isDeletingDocument
     : isCreatingExpense;
   const filename = expense?.receipt?.filename;
-  const initialFormState = useMemo(
-    () => {
-      if (!isEditMode || !expense) return {};
-      return {
-        ...expense,
-        purchaseDate: expense.dateIncurred || '',
-      };
-    },
-    [isEditMode, expense],
-  );
 
   // Effects
   // Effect 1: Hydrate form fields once when initialFormState is ready
   useEffect(
     () => {
-      if (!fieldsInitialized && Object.keys(initialFormState).length > 0) {
-        setFormState(initialFormState);
-        setPreviousFormState(initialFormState);
-        setFieldsInitialized(true);
+      if (expenseId && expense && !hasLoadedExpenseRef.current) {
+        const initialState = {
+          ...expense,
+          purchaseDate: expense.dateIncurred || '',
+        };
+        setFormState(initialState);
+        initialFormStateRef.current = initialState;
+        hasLoadedExpenseRef.current = true;
       }
     },
-    [fieldsInitialized, initialFormState, navigate, location.pathname],
+    [expenseId, expense],
   );
 
   // Effect 2: Load document once when documentId is available
@@ -172,6 +169,21 @@ const ExpensePage = () => {
     [showError],
   );
 
+  // Track unsaved changes by comparing current state to initial state
+  useEffect(
+    () => {
+      const hasChanges =
+        JSON.stringify(formState) !==
+        JSON.stringify(initialFormStateRef.current);
+      // Only dispatch if the hasChanges value actually changed
+      if (hasChanges !== previousHasChangesRef.current) {
+        dispatch(setUnsavedExpenseChanges(hasChanges));
+        previousHasChangesRef.current = hasChanges;
+      }
+    },
+    [formState, dispatch],
+  );
+
   // Derived values for expense type
   const expenseTypeMatcher = new RegExp(
     `.*(${Object.values(EXPENSE_TYPE_KEYS)
@@ -201,6 +213,8 @@ const ExpensePage = () => {
   const handleCloseCancelModal = () => setIsCancelModalVisible(false);
   const handleConfirmCancel = () => {
     handleCloseCancelModal();
+    // Clear unsaved changes when canceling
+    dispatch(setUnsavedExpenseChanges(false));
     if (isEditMode) {
       // TODO: Add logic to determine where the user came from and direct them back to the correct location
       // navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
@@ -330,6 +344,9 @@ const ExpensePage = () => {
           createExpense(claimId, expenseConfig.apiRoute, formState),
         );
       }
+      // Reset initial state reference to current state after successful save
+      initialFormStateRef.current = formState;
+      dispatch(setUnsavedExpenseChanges(false));
 
       // Set success alert
       const expenseTypeName = expenseConfig.expensePageText

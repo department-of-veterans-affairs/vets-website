@@ -1,4 +1,5 @@
 import {
+  CLEAR_UNSAVED_EXPENSE_CHANGES,
   CREATE_COMPLEX_CLAIM_FAILURE,
   CREATE_COMPLEX_CLAIM_STARTED,
   CREATE_COMPLEX_CLAIM_SUCCESS,
@@ -23,6 +24,7 @@ import {
   FETCH_TRAVEL_CLAIMS_FAILURE,
   FETCH_TRAVEL_CLAIMS_STARTED,
   FETCH_TRAVEL_CLAIMS_SUCCESS,
+  SET_UNSAVED_EXPENSE_CHANGES,
   SUBMIT_CLAIM_FAILURE,
   SUBMIT_CLAIM_STARTED,
   SUBMIT_CLAIM_SUCCESS,
@@ -123,6 +125,7 @@ const initialState = {
         error: null,
       },
       data: [],
+      hasUnsavedChanges: false,
     },
     documentDelete: {
       id: '',
@@ -585,6 +588,30 @@ function travelPayReducer(state = initialState, action) {
             id: action.documentId,
             isLoading: false,
             error: action.error,
+          },
+        },
+      };
+
+    case SET_UNSAVED_EXPENSE_CHANGES:
+      return {
+        ...state,
+        complexClaim: {
+          ...state.complexClaim,
+          expenses: {
+            ...state.complexClaim.expenses,
+            hasUnsavedChanges: action.payload,
+          },
+        },
+      };
+
+    case CLEAR_UNSAVED_EXPENSE_CHANGES:
+      return {
+        ...state,
+        complexClaim: {
+          ...state.complexClaim,
+          expenses: {
+            ...state.complexClaim.expenses,
+            hasUnsavedChanges: false,
           },
         },
       };
