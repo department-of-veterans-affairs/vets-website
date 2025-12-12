@@ -30,8 +30,8 @@ export const formatFacilityUnorderedList = facilities => {
   if (!facilities || facilities.length === 0) return '';
   return (
     <ul>
-      {facilities.map((facility, index) => (
-        <li key={index}>{facility}</li>
+      {facilities.map(facility => (
+        <li key={facility}>{facility}</li>
       ))}
     </ul>
   );
