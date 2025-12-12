@@ -44,7 +44,7 @@ describe('spouseDeath', () => {
     const { container } = renderComponent();
 
     expect($('h3', container).textContent).to.equal(
-      "Information about SPOUSY's death",
+      'Information about SPOUSY’s death',
     );
     expect($$('h4', container).map(el => el.textContent)).to.deep.equal([
       'When did they die?',
