@@ -30,10 +30,14 @@ const getLabelHeaderLevelProps = uiOptions => {
     // h1 style is too big when used as a field label
     labelHeaderLevelStyle = '2';
   }
+  const formHeadingLevelStyle = uiOptions?.formHeadingLevelStyle;
   return {
     labelHeaderLevel: uiOptions?.labelHeaderLevel,
     headerStyleClass: labelHeaderLevelStyle
       ? ` rjsf-wc-header--h${labelHeaderLevelStyle} `
+      : '',
+    formHeadingStyleClass: formHeadingLevelStyle
+      ? ` wc-pattern-form-heading-style--h${formHeadingLevelStyle} `
       : '',
   };
 };
@@ -51,9 +55,11 @@ export default function commonFieldMapping(props) {
   // of a React component, using a hook should be fine here.
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const uiOptions = useConditionalMinimalHeader(uiOptionsOriginal);
-  const { headerStyleClass, labelHeaderLevel } = getLabelHeaderLevelProps(
-    uiOptions,
-  );
+  const {
+    headerStyleClass,
+    labelHeaderLevel,
+    formHeadingStyleClass,
+  } = getLabelHeaderLevelProps(uiOptions);
   const dataAttributes = {};
 
   if (uiOptions?.data) {
@@ -63,7 +69,7 @@ export default function commonFieldMapping(props) {
   }
 
   return {
-    className: `rjsf-web-component-field${headerStyleClass}${
+    className: `rjsf-web-component-field${headerStyleClass}${formHeadingStyleClass}${
       uiOptions?.classNames ? ` ${uiOptions.classNames}` : ''
     }`,
     ...dataAttributes,

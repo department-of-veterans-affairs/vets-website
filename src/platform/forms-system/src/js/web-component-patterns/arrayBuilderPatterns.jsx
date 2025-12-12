@@ -18,6 +18,7 @@ const withUseFormPattern = yesNoOptions => {
     formHeading: yesNoOptions.formHeading,
     formDescription: yesNoOptions.formDescription,
     formHeadingLevel: yesNoOptions.formHeadingLevel,
+    formHeadingLevelStyle: yesNoOptions.formHeadingLevelStyle,
   };
 };
 
@@ -216,7 +217,8 @@ export const arrayBuilderItemSubsequentPageTitleUI = (
  * @property {boolean | 'single'} [useFormsPattern] Prefer to use arrayBuilderOptions > text > summaryTitleWithoutItems | summaryTitle unless a specific need for this.
  * @property {UISchemaOptions['ui:options']['formHeading']} [formHeading]  Used with `useFormsPattern`. Prefer to use arrayBuilderOptions > text > summaryTitleWithoutItems | summaryTitle unless a specific need for this.
  * @property {UISchemaOptions['ui:options']['formDescription']} [formDescription]  Used with `useFormsPattern`. Prefer to use arrayBuilderOptions > text > summaryDescriptionWithoutItems | summaryDescription unless a specific need for this.
- * @property {UISchemaOptions['ui:options']['labelHeaderLevel']} [formHeadingLevel]  Used with `useFormsPattern`
+ * @property {UISchemaOptions['ui:options']['formHeadingLevel']} [formHeadingLevel]  Used with `useFormsPattern`
+ * @property {UISchemaOptions['ui:options']['formHeadingLevelStyle']} [formHeadingLevelStyle]  Used with `useFormsPattern`
  */
 
 /**
