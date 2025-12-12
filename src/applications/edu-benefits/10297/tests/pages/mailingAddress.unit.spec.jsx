@@ -5,22 +5,23 @@ import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../config/form';
 
-const {
-  schema,
-  uiSchema,
-} = formConfig.chapters.identificationChapter.pages.mailingAddress;
-
-const renderPage = (data = {}) =>
-  render(
-    <DefinitionTester
-      schema={schema}
-      uiSchema={uiSchema}
-      definitions={formConfig.defaultDefinitions}
-      data={data}
-    />,
-  );
 describe('22-10297 Mailing address page', () => {
   afterEach(cleanup);
+
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.identificationChapter.pages.mailingAddress;
+
+  const renderPage = (data = {}) =>
+    render(
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        definitions={formConfig.defaultDefinitions}
+        data={data}
+      />,
+    );
 
   it('renders the military checkbox and address fields', () => {
     const { container } = renderPage();
