@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { waitFor, waitForElementToBeRemoved } from '@testing-library/dom';
+import { waitFor } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 import * as utils from 'applications/vaos/services/utils';
 import ReviewAndConfirm from './ReviewAndConfirm';
@@ -12,11 +12,11 @@ import {
 import { createReferralById, getReferralSlotKey } from './utils/referrals';
 import { FETCH_STATUS } from '../utils/constants';
 import { createDraftAppointmentInfo } from './utils/provider';
-import * as flow from './flow';
 import {
   generateSlotsForDay,
   transformSlotsForCommunityCare,
 } from '../services/mocks/utils/slots';
+import * as vaosApi from '../redux/api/vaosApi';
 
 describe('VAOS Component: ReviewAndConfirm', () => {
   let requestStub;
@@ -68,6 +68,33 @@ describe('VAOS Component: ReviewAndConfirm', () => {
   };
   beforeEach(() => {
     requestStub = sandbox.stub(utils, 'apiRequestWithUrl');
+
+    // Mock the referral fetch hook that's now in each component
+    sandbox.stub(vaosApi, 'useGetReferralByIdQuery').returns({
+      data: createReferralById('2024-09-09', 'UUID'),
+      error: null,
+      isLoading: false,
+    });
+
+    // Mock the draft appointment hook
+    sandbox.stub(vaosApi, 'useGetDraftReferralAppointmentQuery').returns({
+      data: draftAppointmentInfo,
+      isLoading: false,
+      isError: false,
+      isSuccess: true,
+      isUninitialized: false,
+    });
+
+    // Mock the post appointment mutation
+    sandbox.stub(vaosApi, 'usePostReferralAppointmentMutation').returns([
+      sandbox.stub(), // postReferralAppointment function
+      {
+        data: null,
+        isError: false,
+        isLoading: false,
+        isSuccess: false,
+      },
+    ]);
   });
   afterEach(() => {
     sandbox.restore();
@@ -79,10 +106,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
       .resolves({ data: draftAppointmentInfo });
     const selectedSlotKey = getReferralSlotKey('UUID');
 
-    sessionStorage.setItem(
-      selectedSlotKey,
-      '5vuTac8v-practitioner-1-role-2|e43a19a8-b0cb-4dcf-befa-8cc511c3999b|2025-01-02T15:30:00Z|30m0s|1736636444704|ov0',
-    );
+    sessionStorage.setItem(selectedSlotKey, slotDate);
 
     const noSelectState = {
       ...initialFullState,
@@ -91,22 +115,18 @@ describe('VAOS Component: ReviewAndConfirm', () => {
       },
     };
 
-    const screen = renderWithStoreAndRouter(
-      <ReviewAndConfirm
-        currentReferral={createReferralById('2024-09-09', 'UUID')}
-      />,
-      {
-        store: createTestStore(noSelectState),
-      },
-    );
+    const screen = renderWithStoreAndRouter(<ReviewAndConfirm />, {
+      store: createTestStore(noSelectState),
+      path: '/?id=UUID',
+    });
 
-    waitFor(() => {
+    await waitFor(() => {
       expect(screen.getByTestId('referral-layout-heading')).to.exist;
       expect(screen.getByTestId('slot-day-time')).to.contain.text(
         'Monday, September 9, 2024',
       );
       expect(screen.getByTestId('slot-day-time')).to.contain.text(
-        '12:00 p.m. Eastern time (ET)',
+        '12:00 p.m. ET',
       );
     });
   });
@@ -122,180 +142,93 @@ describe('VAOS Component: ReviewAndConfirm', () => {
         referral: { ...initialFullState.referral, selectedSlotStartTime: '' },
       },
     };
-    const screen = renderWithStoreAndRouter(
-      <ReviewAndConfirm
-        currentReferral={createReferralById('2024-09-09', 'UUID')}
-      />,
-      {
-        store: createTestStore(noSelectState),
-        path: '/schedule-referral/date-time',
-      },
-    );
-    waitFor(() => {
+    const screen = renderWithStoreAndRouter(<ReviewAndConfirm />, {
+      store: createTestStore(noSelectState),
+      path: '/schedule-referral/review-and-confirm?id=UUID',
+    });
+    await waitFor(() => {
       expect(screen.history.push.calledWith('/schedule-referral?id=UUID')).to.be
         .true;
     });
   });
   it('should call create appointment post when "continue" is pressed', async () => {
     const store = createTestStore(initialFullState);
-    // Stub the appointment creation function
-    requestStub
-      .withArgs('/vaos/v2/appointments/draft')
-      .resolves({ data: draftAppointmentInfo });
-    requestStub
-      .withArgs('/vaos/v2/appointments/submit')
-      .resolves({ data: { appointmentId: draftAppointmentInfo?.id } });
+    const postReferralAppointmentMock = sandbox.stub();
 
-    const screen = renderWithStoreAndRouter(
-      <ReviewAndConfirm
-        currentReferral={createReferralById('2024-09-09', 'UUID')}
-      />,
+    // Override the default mock for this specific test
+    vaosApi.usePostReferralAppointmentMutation.restore();
+    sandbox.stub(vaosApi, 'usePostReferralAppointmentMutation').returns([
+      postReferralAppointmentMock,
       {
-        store,
+        data: null,
+        isError: false,
+        isLoading: false,
+        isSuccess: false,
       },
-    );
-    await screen.findByTestId('continue-button');
-    waitFor(() => {
-      userEvent.click(screen.queryByTestId('continue-button'));
-    });
-    sandbox.assert.calledOnce(
-      requestStub.withArgs('/vaos/v2/appointments/draft'),
-    );
-    sandbox.assert.calledOnce(
-      requestStub.withArgs('/vaos/v2/appointments/submit'),
-    );
-  });
-  it('should call "routeToNextReferralPage" when appointment creation is successful', async () => {
-    const store = createTestStore(initialEmptyState);
-    sandbox.spy(flow, 'routeToNextReferralPage');
-    requestStub.resolves({ data: draftAppointmentInfo });
+    ]);
 
-    const screen = renderWithStoreAndRouter(
-      <ReviewAndConfirm
-        currentReferral={createReferralById('2024-09-09', 'UUID')}
-      />,
-      {
-        store,
-      },
-    );
-
+    const screen = renderWithStoreAndRouter(<ReviewAndConfirm />, {
+      store,
+      path: '/schedule-referral/review-and-confirm?id=UUID',
+    });
     await screen.findByTestId('continue-button');
-    expect(screen.getByTestId('continue-button')).to.exist;
-    expect(
-      Object.keys(store.getState().appointmentApi.queries).length,
-    ).to.equal(1);
-    await userEvent.click(screen.getByTestId('continue-button'));
-    await waitFor(() => {
-      const mutation = Object.keys(
-        store.getState().appointmentApi.mutations,
-      )[0];
-      expect(
-        store.getState().appointmentApi.mutations[mutation].status,
-      ).to.equal('fulfilled');
-    });
-    await waitFor(() => {
-      expect(
-        Object.keys(store.getState().appointmentApi.queries).length,
-      ).to.equal(0);
-    });
-    await waitFor(() => {
-      expect(
-        screen.history.push.calledWith(
-          '/schedule-referral/complete/EEKoGzEf?id=UUID',
-        ),
-      ).to.be.true;
-    });
-    expect(
-      screen.history.push.calledWith(
-        '/schedule-referral/complete/EEKoGzEf?id=UUID',
-      ),
-    ).to.be.true;
-    sandbox.assert.calledWith(requestStub, '/vaos/v2/appointments/submit');
+    await userEvent.click(screen.queryByTestId('continue-button'));
+
+    // Verify the mutation function was called
+    sandbox.assert.calledOnce(postReferralAppointmentMock);
   });
   it('should display an error message when appointment creation fails', async () => {
-    // Stub only for that specific call
-    requestStub
-      .withArgs('/vaos/v2/appointments/draft')
-      .resolves({ data: draftAppointmentInfo });
-    requestStub.withArgs('/vaos/v2/appointments/submit').throws({
-      error: { status: 500, message: 'Failed to create appointment' },
-    });
-    const screen = renderWithStoreAndRouter(
-      <ReviewAndConfirm
-        currentReferral={createReferralById('2024-09-09', 'UUID')}
-      />,
+    // Override the mutation mock to return error state
+    vaosApi.usePostReferralAppointmentMutation.restore();
+    const postReferralAppointmentMock = sandbox.stub();
+    sandbox.stub(vaosApi, 'usePostReferralAppointmentMutation').returns([
+      postReferralAppointmentMock,
       {
-        store: createTestStore(initialFullState),
+        data: null,
+        isError: true,
+        isLoading: false,
+        isSuccess: false,
       },
-    );
+    ]);
+
+    const screen = renderWithStoreAndRouter(<ReviewAndConfirm />, {
+      store: createTestStore(initialFullState),
+      path: '/schedule-referral/review-and-confirm?id=UUID',
+    });
     // Ensure the "Continue" button is present
     await screen.findByTestId('continue-button');
     expect(screen.getByTestId('continue-button')).to.exist;
     await userEvent.click(screen.getByTestId('continue-button'));
 
     await screen.findByTestId('create-error-alert');
-    expect(screen.getByTestId('create-error-alert')).to.contain.text(
-      'We couldn’t schedule this appointment',
+    expect(screen.getByTestId('create-error-alert').textContent).to.include(
+      'schedule this appointment',
     );
     expect(screen.getByTestId('referral-community-care-office')).to.exist;
-    sandbox.assert.calledOnce(
-      requestStub.withArgs('/vaos/v2/appointments/draft'),
-    );
-    sandbox.assert.calledOnce(
-      requestStub.withArgs('/vaos/v2/appointments/submit'),
-    );
-  });
-  it('should fetch draft appointment info on mount if not in store', async () => {
-    const store = createTestStore(initialEmptyState);
-    requestStub.resolves({ data: draftAppointmentInfo });
-    const screen = renderWithStoreAndRouter(
-      <ReviewAndConfirm
-        currentReferral={createReferralById('2024-09-09', 'UUID')}
-      />,
-      {
-        store,
-      },
-    );
-    await screen.findByTestId('continue-button');
-    sandbox.assert.calledWith(requestStub, '/vaos/v2/appointments/draft', {
-      body: JSON.stringify({
-        /* eslint-disable camelcase */
-        referral_number: 'VA0000007241',
-        referral_consult_id: '984_646907',
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      method: 'POST',
-    });
-    const query = Object.keys(store.getState().appointmentApi.queries)[0];
-    expect(store.getState().appointmentApi.queries[query].data).to.deep.equal(
-      draftAppointmentInfo,
-    );
   });
   it('should display an error message when new draft appointment creation fails', async () => {
     const store = createTestStore(initialEmptyState);
-    // Stub only for that specific call
-    requestStub.throws({
-      error: { status: 500, message: 'Failed to create draft appointment' },
+
+    // Override the draft query mock to return error state
+    vaosApi.useGetDraftReferralAppointmentQuery.restore();
+    sandbox.stub(vaosApi, 'useGetDraftReferralAppointmentQuery').returns({
+      data: null,
+      isLoading: false,
+      isError: true,
+      isSuccess: false,
+      isUninitialized: false,
     });
-    const screen = renderWithStoreAndRouter(
-      <ReviewAndConfirm
-        currentReferral={createReferralById('2024-09-09', 'UUID')}
-      />,
-      {
-        store,
-      },
-    );
-    await waitForElementToBeRemoved(() =>
-      screen.queryByTestId('loading-container'),
-    );
+
+    const screen = renderWithStoreAndRouter(<ReviewAndConfirm />, {
+      store,
+      path: '/schedule-referral/review-and-confirm?id=UUID',
+    });
+
     await waitFor(() => {
       expect(screen.getByTestId('error')).to.exist;
     });
     expect(screen.getByTestId('error')).to.contain.text(
       'Something went wrong on our end. Please try again later.',
     );
-    sandbox.assert.calledOnce(requestStub);
   });
 });

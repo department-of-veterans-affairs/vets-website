@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from 'react';
-import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useHistory } from 'react-router-dom';
 import { formatISO, differenceInMilliseconds } from 'date-fns';
@@ -33,11 +32,12 @@ function handleScheduleClick(dispatch) {
 const timeOut = 30000; // 30 seconds
 const pollingInterval = 1000; // 1 second
 
-export const CompleteReferral = props => {
-  const { attributes: currentReferral } = props.currentReferral;
-  const { pathname } = useLocation();
+export const CompleteReferral = () => {
+  const location = useLocation();
   const dispatch = useDispatch();
   const history = useHistory();
+
+  const { pathname } = location;
   const appointmentCreateStatus = useSelector(getAppointmentCreateStatus);
   const currentPage = useSelector(selectCurrentPage);
   const [requestTime, setRequestTime] = useState(0);
@@ -102,13 +102,16 @@ export const CompleteReferral = props => {
   );
 
   if (appointmentInfoError || appointmentInfoTimeout) {
+    const phoneNumber = referralAppointmentInfo?.attributes?.provider?.phone;
+    const phoneText = phoneNumber ? `${phoneNumber} or ` : '';
+
     return (
       <ReferralLayout
         hasEyebrow
         heading={
           appointmentInfoTimeout
-            ? 'We’re having trouble scheduling this appointment'
-            : 'We can’t schedule this appointment online'
+            ? `We’re having trouble scheduling this appointment`
+            : `We can’t schedule this appointment online`
         }
       >
         <va-alert
@@ -118,12 +121,8 @@ export const CompleteReferral = props => {
         >
           <p className="vads-u-margin-top--0 vads-u-margin-bottom--2">
             {appointmentInfoTimeout
-              ? `Try refreshing this page. If it still doesn’t work, call your community care provider at  ${
-                  currentReferral.provider.phone
-                } or your facility’s community care office to schedule an appointment.`
-              : `We’re sorry. Call your community care provider at ${
-                  currentReferral.provider.phone
-                } or your facility’s community care office to schedule an appointment.`}
+              ? `Try refreshing this page. If it still doesn’t work, call your community care provider at ${phoneText}your facility’s community care office to schedule an appointment.`
+              : `We’re sorry. Call your community care provider at ${phoneText}your facility’s community care office to schedule an appointment.`}
           </p>
           <FindCommunityCareOfficeLink />
         </va-alert>
@@ -185,9 +184,11 @@ export const CompleteReferral = props => {
               />
             </h2>
             <strong data-dd-privacy="mask" data-testid="appointment-type">
-              {titleCase(currentReferral.categoryOfCare)} with{' '}
-              {`${currentReferral.provider.name ||
-                'Provider name not available'}`}
+              {attributes?.categoryOfCare
+                ? `${titleCase(attributes.categoryOfCare)} with ${attributes
+                    ?.provider?.name || 'Provider name not available'}`
+                : `${attributes?.provider?.name ||
+                    'Provider name not available'}`}
             </strong>
             <p
               className="vads-u-margin-bottom--0"
@@ -196,10 +197,10 @@ export const CompleteReferral = props => {
               Community care
             </p>
             <ProviderAddress
-              address={attributes.provider.location.address}
+              address={attributes?.provider?.location?.address}
               showDirections
-              directionsName={attributes.provider.location.name}
-              phone={currentReferral.provider.phone}
+              directionsName={attributes?.provider?.location?.name}
+              phone={attributes?.provider?.phone}
             />
             <p>
               <va-link
@@ -274,10 +275,6 @@ export const CompleteReferral = props => {
       )}
     </ReferralLayout>
   );
-};
-
-CompleteReferral.propTypes = {
-  currentReferral: PropTypes.object.isRequired,
 };
 
 export default CompleteReferral;
