@@ -198,6 +198,16 @@ The form uses multi-page list & loop patterns for repeating data:
 - Step 1: Enter full name
 - Summary: Review all names with edit/delete/add options
 
+## Content Widget
+
+This form has a content widget that controls the "Submit online" link on the Drupal CMS "about" page (`/find-forms/about-form-21p-530a/`).
+
+- **Widget Type**: `form21p530a`
+- **Feature Flag**: `form_530a_enabled`
+- **Widget Location**: `src/applications/static-pages/benefits-optimization-aquia/21P-530a/`
+
+When the feature flag is off, the widget shows "Submit this form by mail" instead of a link to the digital form.
+
 ## Support
 
 For questions or issues:
