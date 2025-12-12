@@ -10,9 +10,9 @@ export default {
     'Did you serve in a combat zone after September 11, 2001? (select yes or no)',
   ratedDisabilities:
     'Rated disability (select the disability you’re filing for)',
-  // newDisabilities is returning null so it doesn't render because a missing
-  // "condition" will show the error
-  newDisabilities: () => null,
+  // newDisabilities validation error when view:claimType exists but newDisabilities is empty
+  newDisabilities:
+    'Reason for claim (select at least one type and add at least one new condition)',
   condition: index =>
     `New conditions (in the ${numberToWords(
       index + 1,
@@ -189,6 +189,17 @@ export default {
     'Exposure end date for other toxic exposures',
   _override: error => {
     if (typeof error === 'string') {
+      // Handle newDisabilities validation error when array is empty - redirect to claim-type page
+      if (
+        error === 'instance.newDisabilities' ||
+        (error.includes('newDisabilities') &&
+          error.includes('does not meet minimum length'))
+      ) {
+        return {
+          chapterKey: 'disabilities',
+          pageKey: 'claimType',
+        };
+      }
       if (error?.endsWith('startDate') || error?.endsWith('endDate')) {
         const errorParts = error.split('.');
         if (error.startsWith('toxicExposure.gulfWar1990Details')) {

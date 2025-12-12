@@ -25,18 +25,40 @@ import {
 } from '../actions';
 
 class SubmitController extends Component {
-  /* eslint-disable-next-line camelcase */
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const nextStatus = nextProps.form.submission.status;
-    const previousStatus = this.props.form.submission.status;
+  componentDidUpdate(prevProps) {
+    const nextStatus = this.props.form.submission.status;
+    const previousStatus = prevProps.form.submission.status;
+
+    // Handle successful submission
     if (
       nextStatus !== previousStatus &&
       nextStatus === 'applicationSubmitted'
     ) {
-      const newRoute = `${nextProps.formConfig.urlPrefix}confirmation`;
+      const newRoute = `${this.props.formConfig.urlPrefix}confirmation`;
       this.props.router.push(newRoute);
     }
   }
+
+  getNewDisabilitiesValidationError = formData => {
+    const customErrors = [];
+    if (formData?.['view:claimType']?.['view:claimingNew']) {
+      const newDisabilities = formData?.newDisabilities;
+      if (
+        !newDisabilities ||
+        !Array.isArray(newDisabilities) ||
+        newDisabilities.length === 0
+      ) {
+        customErrors.push({
+          property: 'instance.newDisabilities',
+          message: 'does not meet minimum length of 1',
+          name: 'minItems',
+          argument: 1,
+          stack: 'instance.newDisabilities does not meet minimum length of 1',
+        });
+      }
+    }
+    return customErrors;
+  };
 
   getPreSubmit = formConfig => ({
     required: false,
@@ -91,6 +113,9 @@ class SubmitController extends Component {
       return;
     }
 
+    // Custom validation: Check if view:claimingNew is true and newDisabilities is valid
+    const customErrors = this.getNewDisabilitiesValidationError(form.data);
+
     // Validation errors in this situation are not visible, so we’d
     // like to know if they’re common
     const { isValid, errors } = isValidForm(form, pageList);
@@ -101,14 +126,18 @@ class SubmitController extends Component {
       timestamp: now,
     };
 
-    if (!isValid) {
+    // Combine custom errors with form validation errors
+    const allErrors = [...customErrors, ...errors];
+    const hasErrors = !isValid || customErrors.length > 0;
+
+    if (hasErrors) {
       const processedErrors = reduceErrors(
-        errors,
+        allErrors,
         pageList,
         formConfig.reviewErrors,
       );
       this.props.setFormErrors({
-        rawErrors: errors,
+        rawErrors: allErrors,
         errors: processedErrors,
       });
       recordEvent({
@@ -117,7 +146,7 @@ class SubmitController extends Component {
       // Sentry
       Sentry.setUser({ id: user.profile.accountUuid });
       Sentry.withScope(scope => {
-        scope.setExtra('rawErrors', errors);
+        scope.setExtra('rawErrors', allErrors);
         scope.setExtra('errors', processedErrors);
         scope.setExtra('prefix', trackingPrefix);
         scope.setExtra('inProgressFormId', inProgressFormId);
@@ -132,7 +161,7 @@ class SubmitController extends Component {
           'Validation issue not displayed',
           {
             errors: processedErrors,
-            rawErrors: errors,
+            rawErrors: allErrors,
             inProgressFormId,
             userId: user.profile.accountUuid,
           },
@@ -142,7 +171,7 @@ class SubmitController extends Component {
 
       if (isLoggedIn && formConfig.prefillEnabled) {
         // Update save-in-progress with failed submit
-        submissionData.errors = errors;
+        submissionData.errors = allErrors;
         this.props.autoSaveForm(
           formId,
           data,
