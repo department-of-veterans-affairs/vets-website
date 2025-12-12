@@ -855,7 +855,7 @@ describe('Google Analytics', () => {
     setupAnalyticsTest();
     uploadFileAndSelectType();
     clearDataLayer();
-    clickSubmitButton(SUBMIT_FILES_FOR_REVIEW_TEXT);
+    clickSubmitButton(SUBMIT_TEXT);
 
     assertDataLayerEvent('claims-upload-start', [
       'file-count',
@@ -882,7 +882,7 @@ describe('Google Analytics', () => {
 
     uploadFileAndSelectType();
     clearDataLayer();
-    clickSubmitButton(SUBMIT_FILES_FOR_REVIEW_TEXT);
+    clickSubmitButton(SUBMIT_TEXT);
 
     cy.wait('@uploadRequest');
 
@@ -896,7 +896,7 @@ describe('Google Analytics', () => {
     setupUnknownErrorMock();
     uploadFileAndSelectType();
     clearDataLayer();
-    clickSubmitButton(SUBMIT_FILES_FOR_REVIEW_TEXT);
+    clickSubmitButton(SUBMIT_TEXT);
 
     cy.wait('@uploadRequest');
 
@@ -914,7 +914,7 @@ describe('Google Analytics', () => {
     // First upload attempt
     uploadFileAndSelectType();
     clearDataLayer();
-    clickSubmitButton(SUBMIT_FILES_FOR_REVIEW_TEXT);
+    clickSubmitButton(SUBMIT_TEXT);
 
     cy.wait('@uploadRequest');
 
@@ -937,7 +937,7 @@ describe('Google Analytics', () => {
     // Retry with same file
     clearDataLayer();
     uploadFileAndSelectType('test-document.txt', 'L034', 0, true); // force: true for retry
-    clickSubmitButton(SUBMIT_FILES_FOR_REVIEW_TEXT);
+    clickSubmitButton(SUBMIT_TEXT);
 
     // Verify retry event fired (retryable)
     assertDataLayerEvent('claims-upload-start', [
