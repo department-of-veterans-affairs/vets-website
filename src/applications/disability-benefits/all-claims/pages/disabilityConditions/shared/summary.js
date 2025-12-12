@@ -4,7 +4,6 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayOptions } from './utils';
 
-// Optional: helper right here
 const isOrphanSecondary = (item, fullData = {}) => {
   if (!item || item.cause !== 'SECONDARY') return false;
   const norm = s => (typeof s === 'string' ? s.trim().toLowerCase() : '');
@@ -34,7 +33,7 @@ const summaryPage = {
             ) || [];
           if (orphans.length > 0) {
             errors.addError(
-              'There’s a secondary condition that’s no longer connected to an existing condition. Please update the secondary condition so it’s linked to a current condition or change its cause.',
+              'A secondary condition is no longer linked to an existing condition. Please delete it, relink it to a current condition, or update its cause.',
             );
           }
         },

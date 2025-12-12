@@ -3,7 +3,7 @@ import {
   radioSchema,
   radioUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { createNewConditionName, isEditFromUrl } from './utils';
+import { createNewConditionName } from './utils';
 
 export const causeOptions = {
   NEW:
@@ -14,29 +14,43 @@ export const causeOptions = {
   VA: 'An injury, exposure, or event due to care I received from VA',
 };
 
+const countSecondaryParents = (fullData, currentIndex) => {
+  const ratedCount = Array.isArray(fullData?.ratedDisabilities)
+    ? fullData.ratedDisabilities.filter(d => d?.name).length
+    : 0;
+
+  const newItems = Array.isArray(fullData?.newDisabilities)
+    ? fullData.newDisabilities
+    : [];
+
+  const otherNewCount = newItems.reduce((count, item, idx) => {
+    if (idx === currentIndex) return count;
+
+    const hasName = item?.condition || item?.newCondition || item?.name;
+
+    return hasName ? count + 1 : count;
+  }, 0);
+
+  return ratedCount + otherNewCount;
+};
+
 const allowSecondary = (formData, index) => {
-  if (isEditFromUrl()) return true;
-  const ratedCount = Array.isArray(formData?.ratedDisabilities)
-    ? formData.ratedDisabilities.length
-    : 0;
-
-  // How many NEW conditions are in this claim?
-  const newCount = Array.isArray(formData?.newDisabilities)
-    ? formData.newDisabilities.length
-    : 0;
-
-  // Show SECONDARY if:
-  //  - the Veteran already has rated disabilities, OR
-  //  - we’re on any item AFTER the first new condition in this claim
-  //
-  // If your forms runtime passes the array item index to updateSchema (many VA pages do),
-  // this check makes the intent explicit (index > 0 = not the first condition page).
   if (typeof index === 'number') {
-    return ratedCount > 0 || index > 0;
+    return countSecondaryParents(formData, index) > 0;
   }
 
-  // Fallback when index isn’t available: show once the claim has >1 new condition
-  return ratedCount > 0 || newCount > 1;
+  const ratedCount = Array.isArray(formData?.ratedDisabilities)
+    ? formData.ratedDisabilities.filter(d => d?.name).length
+    : 0;
+
+  const newCount = Array.isArray(formData?.newDisabilities)
+    ? formData.newDisabilities.filter(
+        it => it?.condition || it?.newCondition || it?.name,
+      ).length
+    : 0;
+
+  const possibleParents = ratedCount + Math.max(newCount - 1, 0);
+  return possibleParents > 0;
 };
 
 const allowedCauseValues = (formData, index) => {
@@ -63,11 +77,14 @@ const causePage = {
       ...baseRadioUI,
       'ui:options': {
         ...baseRadioUI['ui:options'],
-        // Dynamically hide SECONDARY until allowed
-        updateSchema: (formData, schema, uiSchema, index) => ({
-          ...schema,
-          enum: allowedCauseValues(formData, index),
-        }),
+        updateSchema: (...args) => {
+          // eslint-disable-next-line no-unused-vars
+          const [_itemData, schema, _uiSchema, index, _path, fullData] = args;
+          return {
+            ...schema,
+            enum: allowedCauseValues(fullData || _itemData, index),
+          };
+        },
       },
       'ui:required': formData => !formData?.ratedDisability,
     },
