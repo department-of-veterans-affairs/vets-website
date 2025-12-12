@@ -66,7 +66,7 @@ export const isNewCondition = (formData = {}, index) => {
     return true;
   }
 
-  return false;
+  return true;
 };
 
 export const isRatedDisability = (formData, index) => {
