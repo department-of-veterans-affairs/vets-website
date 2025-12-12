@@ -11,7 +11,10 @@ import OtherWaysToSendYourDocuments from './claim-files-tab-v2/OtherWaysToSendYo
 import ClaimsBreadcrumbs from './ClaimsBreadcrumbs';
 import { usePagination } from '../hooks/usePagination';
 import { fetchFailedUploads } from '../actions';
-import { buildDateFormatter } from '../utils/helpers';
+import {
+  buildDateFormatter,
+  getTrackedItemDisplayNameFromEvidenceSubmission,
+} from '../utils/helpers';
 import { setPageFocus } from '../utils/page';
 import { ITEMS_PER_PAGE } from '../constants';
 import NeedHelp from './NeedHelp';
@@ -109,7 +112,7 @@ const FilesWeCouldntReceive = () => {
         <VaLink
           className="vads-u-display--block"
           href="#other-ways-to-send-documents"
-          text="Learn about other ways to send your documents."
+          text="Learn about other ways to send your documents"
           onClick={e => {
             e.preventDefault();
             setPageFocus('#other-ways-to-send');
@@ -151,36 +154,51 @@ const FilesWeCouldntReceive = () => {
                 data-testid="failed-files-list"
                 role="list"
               >
-                {currentPageItems.map(file => (
-                  <li key={file.id}>
-                    <VaCard
-                      className="vads-u-margin-y--3"
-                      data-testid={`failed-file-${file.id}`}
-                    >
-                      <h3
-                        className="filename-title vads-u-margin-y--0 vads-u-margin-bottom--2"
-                        data-dd-privacy="mask"
-                        data-dd-action-name="document filename"
+                {currentPageItems.map(file => {
+                  const requestTypeText = getTrackedItemDisplayNameFromEvidenceSubmission(
+                    file,
+                  );
+
+                  const requestText = requestTypeText
+                    ? `Submitted in response to request: ${requestTypeText}`
+                    : 'You submitted this file as additional evidence.';
+
+                  return (
+                    <li key={file.id}>
+                      <VaCard
+                        className="vads-u-margin-y--3"
+                        data-testid={`failed-file-${file.id}`}
                       >
-                        File name:
-                        {file.fileName}
-                      </h3>
-                      <div>Request type: {file.trackedItemDisplayName}</div>
-                      <div>Date failed: {formatDate(file.failedDate)}</div>
-                      <div>File type: {file.documentType}</div>
-                      <VaLink
-                        active
-                        href={`/track-claims/your-claims/${
-                          file.claimId
-                        }/status`}
-                        text="Go to claim this file was uploaded for"
-                        label={`Go to the claim this file was uploaded for: ${
-                          file.fileName
-                        }`}
-                      />
-                    </VaCard>
-                  </li>
-                ))}
+                        <h3
+                          className="filename-title vads-u-margin-y--0 vads-u-margin-bottom--2"
+                          data-dd-privacy="mask"
+                          data-dd-action-name="document filename"
+                        >
+                          {file.fileName}
+                        </h3>
+                        <div className="vads-u-margin-bottom--2">
+                          <p className="vads-u-margin-y--0">
+                            Document type: {file.documentType}
+                          </p>
+                          <p className="vads-u-margin-y--0">{requestText}</p>
+                        </div>
+                        <p className="vads-u-margin-y--0">
+                          Date failed: {formatDate(file.failedDate)}
+                        </p>
+                        <VaLink
+                          active
+                          href={`/track-claims/your-claims/${
+                            file.claimId
+                          }/status`}
+                          text="Go to claim this file was uploaded for"
+                          label={`Go to the claim this file was uploaded for: ${
+                            file.fileName
+                          }`}
+                        />
+                      </VaCard>
+                    </li>
+                  );
+                })}
               </ul>
               {shouldPaginate && (
                 <VaPagination
