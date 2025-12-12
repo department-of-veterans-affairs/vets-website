@@ -76,7 +76,6 @@ const ExpensePage = () => {
   const [uploadError, setUploadError] = useState('');
   const [extraFieldErrors, setExtraFieldErrors] = useState({});
 
-
   // Derived state and memoized values
   const isLoadingExpense = isEditMode
     ? isUpdatingExpense || isDeletingDocument
