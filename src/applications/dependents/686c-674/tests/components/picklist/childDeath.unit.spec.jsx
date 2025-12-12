@@ -55,7 +55,7 @@ describe('childDeath', () => {
     const checkbox = $('va-checkbox', container);
     expect(checkbox).to.exist;
     expect(checkbox.getAttribute('label')).to.equal(
-      'The death happened outside the United States',
+      'Death occurred outside the United States',
     );
 
     const inUSInputs = $$('va-text-input', container);
