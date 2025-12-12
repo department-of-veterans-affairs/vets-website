@@ -1,10 +1,13 @@
+import React, { useEffect, useRef, useState } from 'react';
+import { connect, useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 import {
   VaPagination,
   VaRadio,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
 import { focusElement } from 'platform/utilities/ui';
-import React, { useEffect, useRef, useState } from 'react';
-import { connect, useDispatch } from 'react-redux';
+
 import { setVAHealthFacility } from '../../actions';
 
 const SearchItem = ({
@@ -135,5 +138,14 @@ function mapStateToProps(state) {
     searchInput: state.askVA.searchLocationInput,
   };
 }
+
+SearchItem.propTypes = {
+  facilityData: PropTypes.object,
+  getData: PropTypes.func,
+  pageURL: PropTypes.string,
+  searchInput: PropTypes.string,
+  validationError: PropTypes.string,
+  onChange: PropTypes.func,
+};
 
 export default connect(mapStateToProps)(SearchItem);

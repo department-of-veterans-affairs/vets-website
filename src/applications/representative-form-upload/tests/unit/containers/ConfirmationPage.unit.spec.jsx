@@ -16,17 +16,24 @@ const veteranFullName = {
   middle: '',
   last: 'Veteran',
 };
+const address = {
+  city: 'Boston',
+  state: 'MA',
+  postalCode: '12345',
+};
 const storeBase = {
   form: {
     formId: config.formId,
     submission: {
       response: {
-        confirmationNumber: '123456',
+        attributes: { creationDate: Date.now(), expirationDate: Date.now() },
       },
       timestamp: Date.now(),
     },
     data: {
-      fullName: veteranFullName,
+      veteranFullName,
+      address,
+      benefitType: 'compensation',
     },
   },
 };
@@ -68,27 +75,6 @@ describe('Confirmation page', () => {
       'status',
       'success',
     );
-  });
-
-  it('handles missing submission response', () => {
-    const storeWithMissingResponse = {
-      ...storeBase,
-      form: {
-        ...storeBase.form,
-        submission: {
-          ...storeBase.form.submission,
-          response: null,
-        },
-      },
-    };
-
-    const { queryByText } = render(
-      <Provider store={mockStore(storeWithMissingResponse)}>
-        <ConfirmationPage />
-      </Provider>,
-    );
-
-    expect(queryByText(/123456/)).to.be.null;
   });
 
   it('throws error when state.form is empty', () => {

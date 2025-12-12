@@ -1,5 +1,6 @@
 import { cloneDeep } from 'lodash';
 import { discontinuedIncomeTypeLabels } from '../labels';
+import { REGEXP } from '../constants';
 
 /**
  * Build a full name string from an object containing first/middle/last
@@ -16,6 +17,35 @@ export function flattenRecipientName({ first, middle, last }) {
 
   // Join remaining parts with space and trim extra spaces
   return parts.join(' ').trim();
+}
+
+/**
+ * Collect all attachment objects from the form data, specifically from the trusts
+ * and ownedAssets arrays.
+ * @param {Object} data the form data object
+ * @returns {Array} an array of all attachment objects found in the data
+ */
+export function collectAttachmentFiles(data) {
+  const attachments = [];
+
+  const { trusts = [] } = data;
+
+  trusts.forEach(trust => {
+    if (trust.uploadedDocuments) {
+      // Spread to avoid nested arrays
+      attachments.push(...trust.uploadedDocuments);
+    }
+  });
+
+  const assets = data.ownedAssets || [];
+  assets.forEach(asset => {
+    if (asset.uploadedDocuments && !Array.isArray(asset.uploadedDocuments)) {
+      // Owned assets can only have one supporting document each
+      attachments.push(asset.uploadedDocuments);
+    }
+  });
+
+  return attachments;
 }
 
 /**
@@ -107,6 +137,97 @@ export function remapOtherVeteranFields(data = {}) {
   }
 
   return updated;
+}
+
+/**
+ * Remap recipientRelationship for certain claimant types when the relationship is "SPOUSE".
+ *
+ * This function applies ONLY when:
+ *   - claimantType is "CUSTODIAN" or "PARENT"
+ *   - itemData.recipientRelationship === "SPOUSE"
+ *
+ * In those cases:
+ *   - recipientRelationship → "OTHER"
+ *   - otherRecipientRelationshipType → a descriptive label
+ *       • "Custodian’s spouse" when claimantType is "CUSTODIAN"
+ *       • "Parent’s spouse"     when claimantType is "PARENT"
+ *
+ * If none of the conditions match, the original item is returned unchanged.
+ *
+ * @param {string} claimantType - High-level claimant type from formData
+ * @param {Object} itemData - The array item being transformed
+ * @returns {Object} A new object with remapped fields when rules apply, otherwise the original item
+ */
+export function remapRecipientRelationshipFields(claimantType, itemData = {}) {
+  const { recipientRelationship } = itemData;
+
+  // Guard: only these claimant types ever have remapping rules
+  const isEligibleClaimant =
+    claimantType === 'CUSTODIAN' || claimantType === 'PARENT';
+
+  if (!isEligibleClaimant) {
+    return itemData;
+  }
+
+  // Guard: only remap spouse relationships
+  const shouldTransform = recipientRelationship === 'SPOUSE';
+  if (!shouldTransform) {
+    return itemData;
+  }
+
+  // Using a straight apostrophe (') instead of a typographic apostrophe (’)
+  // to avoid downstream PDF encoding issues where U+2019 is rendered as '?'.
+  const label =
+    claimantType === 'CUSTODIAN' ? "Custodian's spouse" : "Parent's spouse";
+
+  return {
+    ...itemData,
+    recipientRelationship: 'OTHER',
+    otherRecipientRelationshipType: label,
+  };
+}
+
+/**
+ * Remap recipientRelationship fields across all array-based chapters
+ * of the 0969 form (except the `files` array).
+ *
+ * This function iterates over every key in form data. For any key whose
+ * value is a non-empty array, each item in the array is inspected:
+ *
+ * - If an item contains a `recipientRelationship` field, it will be passed
+ *   to `remapRecipientRelationshipFields` along with the form's claimantType.
+ *
+ * - Items that do not contain `recipientRelationship` are left untouched.
+ *
+ * - The `files` array is explicitly ignored and never modified.
+ *
+ * This is intended to support claimant types such as "CUSTODIAN" or "PARENT",
+ * where "SPOUSE" must be converted into:
+ *   - recipientRelationship: "OTHER"
+ *   - otherRecipientRelationshipType: "<Custodian’s|Parent’s> spouse"
+ *
+ * @param {Object} formData - The full form data object before submission.
+ * @param {string} formData.claimantType - The claimant type used to determine remapping rules.
+ * @returns {Object} A shallow clone of formData with adjusted array sections where applicable.
+ */
+export function remapRecipientRelationshipsInArrays(formData) {
+  const { claimantType } = formData;
+  const result = { ...formData };
+
+  Object.entries(formData).forEach(([key, value]) => {
+    if (key === 'files') return; // skip file uploads entirely
+
+    if (Array.isArray(value) && value.length > 0) {
+      result[key] = value.map(
+        item =>
+          item && item.recipientRelationship
+            ? remapRecipientRelationshipFields(claimantType, item)
+            : item,
+      );
+    }
+  });
+
+  return result;
 }
 
 /**
@@ -240,6 +361,11 @@ export function replacer(key, value) {
     }
     // If it's already a string, return it as is
     return value;
+  }
+
+  // Normalize claimant phone number if it exists (removes dashes)
+  if (key === 'claimantPhone' && typeof value === 'string' && value !== null) {
+    return value.replace(REGEXP.NON_DIGIT, '');
   }
 
   return value;

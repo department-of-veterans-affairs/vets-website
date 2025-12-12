@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -10,10 +10,13 @@ import { renderDOB } from '@@vap-svc/util/personal-information/personalInformati
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { getMessagingSignature } from 'platform/user/profile/actions';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { ProfileInfoSection } from '../ProfileInfoSection';
 import LegalName from './LegalName';
 import DisabilityRating from './DisabilityRating';
 import MessagingSignature from './MessagingSignature';
+import { PROFILE_PATHS } from '../../constants';
+import { handleRouteChange } from '../../helpers';
 
 const LegalNameDescription = () => (
   <va-additional-info trigger="How to update your legal name" uswds>
@@ -35,9 +38,15 @@ const LegalNameDescription = () => (
 const PersonalInformationSection = ({ dob }) => {
   const dispatch = useDispatch();
   const location = useLocation();
+  const history = useHistory();
   const userServices = useSelector(state => state.user.profile.services);
   const isMessagingServiceEnabled = userServices.includes(
     backendServices.MESSAGING,
+  );
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const isProfile2Enabled = useToggleValue(TOGGLE_NAMES.profile2Enabled);
+  const isHealthCareSettingsEnabled = useToggleValue(
+    TOGGLE_NAMES.profileHealthCareSettingsPage,
   );
 
   const messagingSignature = useSelector(
@@ -95,10 +104,13 @@ const PersonalInformationSection = ({ dob }) => {
         },
       ];
 
-      if (isMessagingServiceEnabled) {
+      if (
+        isMessagingServiceEnabled &&
+        (!isProfile2Enabled || !isHealthCareSettingsEnabled)
+      ) {
         const signaturePresent =
-          messagingSignature?.signatureName?.trim() &&
-          messagingSignature?.signatureTitle?.trim();
+          !!messagingSignature?.signatureName?.trim() &&
+          !!messagingSignature?.signatureTitle?.trim();
         return [
           ...cardFields,
           {
@@ -122,6 +134,8 @@ const PersonalInformationSection = ({ dob }) => {
       dob,
       hasMessagingSignatureError,
       isMessagingServiceEnabled,
+      isProfile2Enabled,
+      isHealthCareSettingsEnabled,
       messagingSignature,
     ],
   );
@@ -165,6 +179,24 @@ const PersonalInformationSection = ({ dob }) => {
         </va-additional-info>
       </div>
       <ProfileInfoSection data={updatedCardFields} level={1} />
+      {isMessagingServiceEnabled &&
+        isProfile2Enabled &&
+        isHealthCareSettingsEnabled && (
+          <div className="vads-u-margin-top--4">
+            <va-alert slim status="info" visible>
+              <p className="vads-u-margin-y--0">
+                Your health care messages signature has moved to your health
+                care settings.{' '}
+                <va-link
+                  href={PROFILE_PATHS.MESSAGES_SIGNATURE}
+                  text="Manage the signature on your messages"
+                  onClick={event => handleRouteChange(event, history)}
+                />
+                .
+              </p>
+            </va-alert>
+          </div>
+        )}
     </div>
   );
 };

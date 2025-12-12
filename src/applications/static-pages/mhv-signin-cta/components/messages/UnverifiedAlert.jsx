@@ -99,19 +99,19 @@ const UnverifiedAlert = ({
             account.
           </p>
           <p>
-            <strong>If you already have a Login.gov or ID.me account,</strong>{' '}
+            <strong>If you already have an ID.me or Login.gov account,</strong>{' '}
             sign in with that account. If you still need to verify your identity
             for your account, we’ll help you do that now.
           </p>
           <p>
-            <strong>If you don’t have a Login.gov or ID.me account,</strong>{' '}
+            <strong>If you don’t have an ID.me or Login.gov account,</strong>{' '}
             create one now. We’ll help you verify your identity.
           </p>
           <p>
-            <VerifyButton csp={CSP_IDS.LOGIN_GOV} />
+            <VerifyButton csp={CSP_IDS.ID_ME} />
           </p>
           <p>
-            <VerifyButton csp={CSP_IDS.ID_ME} />
+            <VerifyButton csp={CSP_IDS.LOGIN_GOV} />
           </p>
           <va-link
             href="/resources/creating-an-account-for-vagov/"
