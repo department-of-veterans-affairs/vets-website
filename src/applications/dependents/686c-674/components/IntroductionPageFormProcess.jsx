@@ -1,4 +1,6 @@
 import React from 'react';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+
 import manifest from '../manifest.json';
 import { getRootParentUrl } from '../../shared/utils';
 
@@ -138,8 +140,8 @@ export const IntroductionPageFormProcess = () => (
           <p>
             <strong>If you don’t hear back from us about your request,</strong>{' '}
             don’t submit another request. Contact us online or call us at{' '}
-            <va-telephone contact="8772228387" /> (
-            <va-telephone contact="711" tty />
+            <va-telephone contact={CONTACTS['222_VETS']} /> (
+            <va-telephone contact={CONTACTS['711']} tty />
             ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
           </p>
           <p />

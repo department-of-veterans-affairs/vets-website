@@ -10,7 +10,7 @@ import featureToggleDisabled from './fixtures/mocks/lighthouse/feature-toggle-di
 import claimDetailsOpenManySupportingDocs from './fixtures/mocks/lighthouse/claim-detail-open-many-supporting-docs.json';
 import claimDetailsOpenManyEvidenceSubmissions from './fixtures/mocks/lighthouse/claim-detail-open-many-evidence-submissions.json';
 import claimDetailsOpenWithFailedSubmissions from './fixtures/mocks/lighthouse/claim-detail-open-with-failed-submissions.json';
-import { SUBMIT_FILES_FOR_REVIEW_TEXT, SUBMIT_TEXT } from '../../constants';
+import { SUBMIT_TEXT } from '../../constants';
 import {
   getFileInputElement,
   uploadFile,
@@ -603,11 +603,11 @@ describe('Failed Submissions in Progress Empty State', () => {
         {
           id: 2,
           fileName: 'test-document-2.pdf',
-          trackedItemDisplayName: 'Additional Evidence',
+          trackedItemDisplayName: null,
           failedDate: '2025-01-20T14:20:00.000Z',
-          documentType: 'Other',
+          documentType: 'Other Correspondence',
           claimId: '123',
-          trackedItemId: 2,
+          trackedItemId: null,
         },
       ];
 
@@ -649,17 +649,24 @@ describe('Failed Submissions in Progress Empty State', () => {
       // Verify failed files list exists
       cy.get('[data-testid="failed-files-list"]').should('exist');
 
-      // Verify both files are displayed
+      // Verify card for tracked item (with trackedItemId)
       cy.get('[data-testid="failed-file-1"]').within(() => {
         cy.contains('test-document-1.pdf').should('exist');
-        cy.contains('21-4142').should('exist');
-        cy.contains('VA Form 21-4142').should('exist');
+        cy.contains('Document type: VA Form 21-4142').should('exist');
+        cy.contains('Submitted in response to request: 21-4142').should(
+          'exist',
+        );
+        cy.contains('Date failed:').should('exist');
       });
 
+      // Verify card for additional evidence (without trackedItemId)
       cy.get('[data-testid="failed-file-2"]').within(() => {
         cy.contains('test-document-2.pdf').should('exist');
-        cy.contains('Additional Evidence').should('exist');
-        cy.contains('Other').should('exist');
+        cy.contains('Document type: Other Correspondence').should('exist');
+        cy.contains('You submitted this file as additional evidence.').should(
+          'exist',
+        );
+        cy.contains('Date failed:').should('exist');
       });
 
       cy.injectAxeThenAxeCheck();
@@ -688,7 +695,7 @@ describe('Type 1 Unknown Upload Errors', () => {
       .find('va-select')
       .should('be.visible');
     selectDocumentType(0, 'L034');
-    clickSubmitButton(SUBMIT_FILES_FOR_REVIEW_TEXT);
+    clickSubmitButton(SUBMIT_TEXT);
     cy.wait('@uploadRequest');
   };
 
@@ -730,7 +737,7 @@ describe('Type 1 Unknown Upload Errors', () => {
       .should('be.visible');
     selectDocumentType(0, 'L034');
 
-    clickSubmitButton(SUBMIT_FILES_FOR_REVIEW_TEXT);
+    clickSubmitButton(SUBMIT_TEXT);
     cy.wait('@uploadRequest');
 
     cy.get('.claims-alert').should(
