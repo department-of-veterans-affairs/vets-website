@@ -182,6 +182,15 @@ const childContent = (
           Mock form minimal header
         </a>
       </li>
+      <li>
+        <a
+          target="_blank"
+          rel="noreferrer"
+          href="https://staging.va.gov/mock-form-prefill/introduction"
+        >
+          Mock form prefill
+        </a>
+      </li>
     </ul>
   </>
 );
