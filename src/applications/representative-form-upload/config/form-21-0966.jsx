@@ -1,14 +1,10 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import footerContent from '~/platform/forms/components/FormFooter';
-import {
-  radioSchema,
-  radioUI,
-} from '~/platform/forms-system/src/js/web-component-patterns';
 import manifest from '../manifest.json';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPageITF from '../containers/IntroductionPageITF';
 import { itfClaimantInformationPage } from '../pages/itfClaimantInformation';
-import { veteranInformationPage } from '../pages/veteranInformation';
+import { itfVeteranInformationPage } from '../pages/itfVeteranInformation';
 import { IsVeteranPage, isVeteranPage } from '../pages/isVeteranPage';
 import { itfTransformForSubmit } from './submit-transformer';
 import { getMockData, scrollAndFocusTarget, getFormContent } from '../helpers';
@@ -22,28 +18,6 @@ import ExistingItf from '../components/ExistingItf';
 const form210966 = (pathname = null) => {
   const { subTitle, formNumber } = getFormContent(pathname);
   const trackingPrefix = `form-${formNumber.toLowerCase()}-`;
-
-  const itfVeteranInformationPageUiSchema = {
-    ...veteranInformationPage.uiSchema,
-  };
-  itfVeteranInformationPageUiSchema.benefitType = radioUI({
-    title: 'What benefit do you intend to file for?',
-    labels: { compensation: 'Compensation', pension: 'Pension' },
-  });
-  const itfVeteranInformationPageSchema = {
-    ...veteranInformationPage.schema,
-  };
-  itfVeteranInformationPageSchema.properties = {
-    ...itfVeteranInformationPageSchema.properties,
-  };
-  itfVeteranInformationPageSchema.properties.benefitType = radioSchema([
-    'compensation',
-    'pension',
-  ]);
-  itfVeteranInformationPageSchema.required = [
-    ...itfVeteranInformationPageSchema.required,
-    'benefitType',
-  ];
 
   return {
     formId: formNumber,
@@ -115,7 +89,7 @@ const form210966 = (pathname = null) => {
           veteranInformationPage: {
             path: 'veteran-information',
             title: 'Claimant information',
-            uiSchema: itfVeteranInformationPageUiSchema,
+            uiSchema: itfVeteranInformationPage.uiSchema,
             depends: formData => {
               return formData.isVeteran === 'yes';
             },
@@ -127,7 +101,7 @@ const form210966 = (pathname = null) => {
                 setFormData,
                 urlPrefix: `submit-va-form-${formNumber}/`,
               }),
-            schema: itfVeteranInformationPageSchema,
+            schema: itfVeteranInformationPage.schema,
             scrollAndFocusTarget,
             // we want req'd fields prefilled for LOCAL testing/previewing
             // one single initialData prop here will suffice for entire form
