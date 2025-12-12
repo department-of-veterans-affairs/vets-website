@@ -75,12 +75,19 @@ describe('Profile utilities', () => {
   describe('mapRawUserDataToState', () => {
     // This url change is to work around the VA Profile Service data mocking
     beforeEach(() => {
-      oldLocation = document.location.href;
-      global.dom.reconfigure({ url: 'https://www.va.gov' });
+      oldLocation = window.location.href;
+      Object.defineProperty(window, 'location', {
+        writable: true,
+        value: { href: 'https://www.va.gov' },
+      });
     });
     afterEach(() => {
-      global.dom.reconfigure({ url: oldLocation });
+      Object.defineProperty(window, 'location', {
+        writable: true,
+        value: { href: oldLocation },
+      });
     });
+
     it('should map profile', () => {
       const data = createDefaultData();
       const mappedData = mapRawUserDataToState({
