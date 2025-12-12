@@ -8,6 +8,7 @@ export const uiSchema = {
     title: ' ',
     description: waiveTrainingPayDescription,
     yesNoReverse: true,
+    classNames: 'vads-u-margin-top--0',
     labels: {
       Y:
         "I don't want to get VA compensation pay for the days I receive training pay.",
