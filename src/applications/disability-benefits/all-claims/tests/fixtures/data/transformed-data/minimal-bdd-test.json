@@ -1,5 +1,21 @@
 {
     "form526": {
+      "disability526ExtraBDDPagesEnabled": true,
+      "homelessOrAtRisk": "homeless",
+      "homelessHousingSituation": "shelter",
+      "needToLeaveHousing": true,
+      "homelessnessContact": {
+        "name": "John Doe",
+        "phoneNumber": "4105551234"
+      },
+      "isTerminallyIll": true,
+      "hasSeparationPay": true,
+      "separationPayDate": "2025-XX-XX",
+      "separationPayBranch": "Army",
+      "militaryRetiredPayBranch": "Air Force",
+      "hasTrainingPay": true,
+      "waiveRetirementPay": true,
+      "waiveTrainingPay": true,
       "isVaEmployee": false,
       "phoneAndEmail": {
         "primaryPhone": "4445551212",
@@ -41,4 +57,3 @@
       "standardClaim": false
     }
   }
-  
