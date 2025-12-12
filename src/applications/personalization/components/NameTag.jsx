@@ -180,7 +180,11 @@ const NameTag = ({
       ' ',
     ),
     title: [...titleClasses, ...titleClassesMedium].join(' '),
-    fullName: [...fullNameClasses, ...fullNameClassesMedium].join(' '),
+    fullName: [
+      ...fullNameClasses,
+      ...fullNameClassesMedium,
+      'dd-privacy-mask',
+    ].join(' '),
     latestBranch: [...latestBranchClasses, ...latestBranchClassesMedium].join(
       ' ',
     ),
@@ -208,9 +212,7 @@ const NameTag = ({
         <div>
           <dl className="vads-u-margin-y--0">
             <dt className="sr-only">Name: </dt>
-            <dd className={`${classes.fullName} dd-privacy-mask`}>
-              {fullName}
-            </dd>
+            <dd className={classes.fullName}>{fullName}</dd>
             {latestBranchOfService && (
               <>
                 <dt className="sr-only">Branch of service: </dt>
