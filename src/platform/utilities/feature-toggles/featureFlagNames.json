@@ -367,6 +367,7 @@
   "accreditedRepresentativePortalSortBy": "accredited_representative_portal_sort_by",
   "accreditedRepresentativePortalProfile": "accredited_representative_portal_profile",
   "myVaAuthExpRedesignEnabled": "my_va_auth_exp_redesign_enabled",
+  "myVaBrowserMonitoringEnabled": "my_va_browser_monitoring_enabled",
   "myVaAuthExpRedesignAvailableToOptIn": "my_va_auth_exp_redesign_available_to_opt_in",
   "isDgibCallOnly": "is_dgib_call_only",
   "showVyeDowntimeAlert": "show_vye_downtime_alert",

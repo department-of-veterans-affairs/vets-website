@@ -58,6 +58,7 @@ import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '
 import { hasTotalDisabilityError } from '../../common/selectors/ratedDisabilities';
 import { API_NAMES } from '../../common/constants';
 import useDowntimeApproachingRenderMethod from '../useDowntimeApproachingRenderMethod';
+import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
 import ClaimsAndAppeals from './claims-and-appeals/ClaimsAndAppeals';
 import HealthCare from './health-care/HealthCare';
 import CTALink from './CTALink';
@@ -288,6 +289,8 @@ const Dashboard = ({
 }) => {
   const downtimeApproachingRenderMethod = useDowntimeApproachingRenderMethod();
   const dispatch = useDispatch();
+
+  useBrowserMonitoring();
 
   const [welcomeModalVisible, setWelcomeModalVisible] = useState(
     !localStorage.getItem('welcomeToMyVAModalIsDismissed'),
