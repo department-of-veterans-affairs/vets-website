@@ -1,14 +1,4 @@
-import * as Sentry from '@sentry/browser';
-
-// HOF for reusable situations in Component.
-export function sentryLogger(form, downloadUrl, message) {
-  return Sentry.withScope(scope => {
-    scope.setExtra('form API response', form);
-    scope.setExtra('form number', form?.formName);
-    scope.setExtra('download link (invalid)', downloadUrl);
-    Sentry.captureMessage(message);
-  });
-}
+import { datadogLogger } from '../hooks/useFindFormsBrowserMonitoring';
 
 export const createLogMessage = ({
   downloadUrl,
@@ -33,5 +23,5 @@ export const createLogMessage = ({
     errorMessage = 'Find Forms - Form Detail - invalid PDF link';
   }
 
-  sentryLogger(form, downloadUrl, errorMessage);
+  datadogLogger(form, downloadUrl, errorMessage);
 };
