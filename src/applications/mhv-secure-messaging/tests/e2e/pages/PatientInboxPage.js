@@ -179,7 +179,7 @@ class PatientInboxPage {
         this.singleThread.data[0].attributes.messageId
       }`,
       { data: this.singleThread.data[0] },
-    ).as('fist-message-in-thread');
+    ).as('first-message-in-thread');
 
     if (this.singleThread.data.length > 1) {
       cy.intercept(
@@ -195,7 +195,7 @@ class PatientInboxPage {
       waitForAnimations: true,
     });
     cy.wait('@full-thread', { requestTimeout: 20000 });
-    // cy.wait('@fist-message-in-thread');
+    // cy.wait('@first-message-in-thread');
   };
 
   getNewMessage = () => {
