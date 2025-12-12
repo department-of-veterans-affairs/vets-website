@@ -32,6 +32,9 @@ class VitalsListPage extends BaseListPage {
         .findByRole('link', { name: /Review your/ }, { timeout: 10000 })
         .click();
     });
+    // Wait for the detail page to load after navigation
+    cy.get('[data-testid="vital-date"]', { timeout: 10000 }).should('exist');
+    cy.get('[data-testid="vital-result"]').should('exist');
   };
 
   verifyVitalOnListPage = (index, name, measurement, date) => {
