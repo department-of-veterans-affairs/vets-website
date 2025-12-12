@@ -314,7 +314,7 @@ export const validateAddress = (
     response = isVAProfileServiceConfigured()
       ? await apiRequest('/profile/address_validation', options)
       : await localVAProfileService.addressValidationSuccess();
-    const { addresses, validationKey } = response;
+    const { addresses, overrideValidationKey } = response;
     const suggestedAddresses = addresses
       // sort highest confidence score to lowest confidence score
       .sort(
@@ -345,7 +345,7 @@ export const validateAddress = (
     // always select first address as default if there are any
     let selectedAddress = confirmedSuggestions[0];
 
-    if (!confirmedSuggestions.length && validationKey) {
+    if (!confirmedSuggestions.length && overrideValidationKey) {
       // if there are no confirmed suggestions and user can override, fall back to submitted address
       selectedAddress = userEnteredAddress;
     }
@@ -382,7 +382,7 @@ export const validateAddress = (
         selectedAddress,
         suggestedAddresses,
         selectedAddressId,
-        validationKey,
+        overrideValidationKey,
         confirmedSuggestions,
       });
     }
@@ -482,11 +482,11 @@ export const updateValidationKeyAndSave = (
     const response = isVAProfileServiceConfigured()
       ? await apiRequest('/profile/address_validation', options)
       : await localVAProfileService.addressValidationSuccess();
-    const { validationKey } = response;
+    const { overrideValidationKey } = response;
 
     dispatch({
       type: ADDRESS_VALIDATION_SET_VALIDATION_KEY,
-      validationKey,
+      overrideValidationKey,
     });
 
     return dispatch(
@@ -494,7 +494,7 @@ export const updateValidationKeyAndSave = (
         route,
         method,
         fieldName,
-        { ...payload, validationKey },
+        { ...payload, overrideValidationKey },
         analyticsSectionName,
       ),
     );
@@ -504,7 +504,7 @@ export const updateValidationKeyAndSave = (
       addressValidationType: fieldName,
       addressValidationError: true,
       addressFromUser: { ...payload },
-      validationKey: null, // add this in when changes are made to API / override logic
+      overrideValidationKey: null, // add this in when changes are made to API / override logic
     });
   }
 };
@@ -513,9 +513,9 @@ export const resetAddressValidation = () => ({
   type: ADDRESS_VALIDATION_RESET,
 });
 
-export const setAddressValidationKey = validationKey => ({
+export const setAddressValidationKey = overrideValidationKey => ({
   type: ADDRESS_VALIDATION_SET_VALIDATION_KEY,
-  validationKey,
+  overrideValidationKey,
 });
 
 export const clearAddressValidationKey = () => ({
