@@ -208,7 +208,9 @@ const NameTag = ({
         <div>
           <dl className="vads-u-margin-y--0">
             <dt className="sr-only">Name: </dt>
-            <dd className={classes.fullName}>{fullName}</dd>
+            <dd className={`${classes.fullName} dd-privacy-mask`}>
+              {fullName}
+            </dd>
             {latestBranchOfService && (
               <>
                 <dt className="sr-only">Branch of service: </dt>
