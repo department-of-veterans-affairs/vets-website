@@ -4,7 +4,10 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom-v5-compat';
 
-import { deleteExpense, deleteDocument } from '../../../redux/actions';
+import {
+  setReviewPageAlert,
+  deleteExpenseDeleteDocument,
+} from '../../../redux/actions';
 import { selectIsExpenseDeleting } from '../../../redux/selectors';
 import {
   EXPENSE_TYPES,
@@ -32,11 +35,27 @@ const ExpenseCard = ({ apptId, claimId, expense, address, showEditDelete }) => {
 
   const handleDeleteExpenseAndDocument = async () => {
     setShowDeleteModal(false);
-    dispatch(
-      deleteExpense(claimId, EXPENSE_TYPES[expenseType]?.apiRoute, expenseId),
-    );
-    if (documentId !== '') {
-      dispatch(deleteDocument(claimId, documentId));
+
+    try {
+      // This action deletes the expense first, then the document.
+      // If any step fails, it throws an error and nothing else runs.
+      await dispatch(
+        deleteExpenseDeleteDocument(
+          claimId,
+          documentId,
+          EXPENSE_TYPES[expenseType]?.apiRoute,
+          expenseId,
+        ),
+      );
+    } catch (error) {
+      // Any error from deleting either the expense or document ends up here
+      dispatch(
+        setReviewPageAlert({
+          title: `We couldn't delete this expense right now`,
+          description: `We're sorry. We can't delete this expense. Try again later.`,
+          type: 'error',
+        }),
+      );
     }
   };
 
@@ -46,7 +65,7 @@ const ExpenseCard = ({ apptId, claimId, expense, address, showEditDelete }) => {
         className="expense-card"
         data-testid={`expense-card-${expense.id}`}
       >
-        <h3 className="vads-u-margin-top--1">{header}</h3>
+        <h4 className="vads-u-margin-top--1">{header}</h4>
         {isDeleting ? (
           <div className="vads-u-text-align--center vads-u-margin--5">
             <va-loading-indicator message="Deleting..." set-focus={false} />

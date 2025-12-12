@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 import { BDD_INFO_URL } from 'applications/disability-benefits/all-claims/constants';
 
-import { daysFromToday } from '../../tests/utils/dates/dateHelper';
+import { daysFromToday } from '../../utils/dates/formatting';
 import { parseDate } from '../../utils/dates';
 
 import { getDiffInDays } from '../utils';

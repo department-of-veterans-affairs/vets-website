@@ -110,6 +110,7 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
             },
           ],
         },
+        ehr: 'vista',
       },
     };
     store = createTestStore(storeState);
