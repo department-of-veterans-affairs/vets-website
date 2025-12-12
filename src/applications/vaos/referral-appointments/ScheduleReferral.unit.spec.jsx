@@ -128,12 +128,18 @@ describe('VAOS Component: ScheduleReferral', () => {
     const referral = createReferralById(referralDate, '444');
     referral.attributes.stationId = '12345';
 
+    sandbox.stub(vaosApi, 'useGetReferralByIdQuery').returns({
+      data: referral,
+      error: null,
+      isLoading: false,
+    });
+
     const store = createTestStore();
 
-    const screen = renderWithStoreAndRouter(
-      <ScheduleReferral currentReferral={referral} />,
-      { store },
-    );
+    const screen = renderWithStoreAndRouter(<ScheduleReferral />, {
+      store,
+      path: '/?id=444',
+    });
 
     const alert = await screen.findByTestId('referral-alert');
     expect(alert).to.exist;
