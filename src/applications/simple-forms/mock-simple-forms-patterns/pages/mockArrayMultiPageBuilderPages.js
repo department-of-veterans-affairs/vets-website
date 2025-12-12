@@ -154,6 +154,17 @@ export const employersSummaryPageA = {
           'Variation A: Do you have any employment, including self-employment for the last 5 years to report?',
         hint:
           'Include self-employment and military duty (including inactive duty for training).',
+        useFormsPattern: true,
+        formDescription: () => (
+          <p>
+            If you have employment to report, you must add at least one
+            employer. You may add up to 5 employers.
+          </p>
+        ),
+        formHeading: 'Your employers',
+        formHeadingLevel: 1,
+        formHeadingLevelStyle: 2,
+        labelHeaderLevel: null,
         labels: {
           Y: 'Yes, I have employment to report',
           N: 'No, I don’t have employment to report',
