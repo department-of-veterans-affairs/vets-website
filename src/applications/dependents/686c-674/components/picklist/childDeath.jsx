@@ -76,7 +76,7 @@ const childDeath = {
         <h4>Where did they die?</h4>
         <VaCheckbox
           name="endOutsideUS"
-          label="Death occurred outside the U.S."
+          label="Death occurred outside the United States"
           checked={itemData.endOutsideUS || false}
           onVaChange={onChange}
         />
