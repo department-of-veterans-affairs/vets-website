@@ -72,6 +72,17 @@ const directDeposit = {
             pattern: 'Please enter a valid 9-digit routing number',
           },
           'ui:reviewField': ObfuscateReviewField,
+          'ui:validations': [
+            (errors, fieldData, formData) => {
+              const accountNumber =
+                formData['view:directDeposit']?.bankAccount?.accountNumber;
+              if (fieldData && accountNumber && fieldData === accountNumber) {
+                errors.addError(
+                  'Your bank account and routing number cannot match',
+                );
+              }
+            },
+          ],
         },
         routingNumberConfirmation: {
           'ui:title': 'Confirm bank routing number',
@@ -98,10 +109,20 @@ const directDeposit = {
         accountNumber: {
           ...bankAccountUI.accountNumber,
           'ui:errorMessages': {
-            pattern:
-              'Please enter a valid 5-17 digit bank account number (numbers only)',
+            pattern: 'Please enter a valid 5-17 digit account number',
           },
           'ui:reviewField': ObfuscateReviewField,
+          'ui:validations': [
+            (errors, fieldData, formData) => {
+              const routingNumber =
+                formData['view:directDeposit']?.bankAccount?.routingNumber;
+              if (fieldData && routingNumber && fieldData === routingNumber) {
+                errors.addError(
+                  'Your bank account and routing number cannot match',
+                );
+              }
+            },
+          ],
         },
         accountNumberConfirmation: {
           'ui:title': 'Confirm bank account number',
@@ -111,8 +132,7 @@ const directDeposit = {
             hideIf: formData => formData?.mebBankInfoConfirmationField !== true,
           },
           'ui:errorMessages': {
-            pattern:
-              'Please enter a valid 5-17 digit bank account number (numbers only)',
+            pattern: 'Please enter a valid 5-17 digit account number',
           },
           'ui:validations': [
             (errors, fieldData, formData) => {

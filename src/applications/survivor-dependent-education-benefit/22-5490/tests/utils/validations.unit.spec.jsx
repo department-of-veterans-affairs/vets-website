@@ -266,3 +266,118 @@ describe('Routing Number Confirmation Validation', () => {
     expect(errors.addError.called).to.be.false;
   });
 });
+
+describe('Routing Number and Account Number Cannot Match Validation', () => {
+  let errors;
+
+  beforeEach(() => {
+    errors = { addError: sinon.spy() };
+  });
+
+  it('should show error on routing number field when routing number matches account number', () => {
+    const formData = {
+      'view:directDeposit': {
+        bankAccount: {
+          routingNumber: '123456789',
+          accountNumber: '123456789',
+        },
+      },
+    };
+
+    const validationFn =
+      directDeposit.uiSchema['view:directDeposit'].bankAccount.routingNumber[
+        'ui:validations'
+      ][0];
+    validationFn(errors, '123456789', formData);
+
+    expect(errors.addError.calledOnce).to.be.true;
+    expect(errors.addError.firstCall.args[0]).to.equal(
+      'Your bank account and routing number cannot match',
+    );
+  });
+
+  it('should show error on account number field when account number matches routing number', () => {
+    const formData = {
+      'view:directDeposit': {
+        bankAccount: {
+          routingNumber: '123456789',
+          accountNumber: '123456789',
+        },
+      },
+    };
+
+    const validationFn =
+      directDeposit.uiSchema['view:directDeposit'].bankAccount.accountNumber[
+        'ui:validations'
+      ][0];
+    validationFn(errors, '123456789', formData);
+
+    expect(errors.addError.calledOnce).to.be.true;
+    expect(errors.addError.firstCall.args[0]).to.equal(
+      'Your bank account and routing number cannot match',
+    );
+  });
+
+  it('should not show error when routing number and account number are different', () => {
+    const formData = {
+      'view:directDeposit': {
+        bankAccount: {
+          routingNumber: '123456789',
+          accountNumber: '987654321',
+        },
+      },
+    };
+
+    const routingValidationFn =
+      directDeposit.uiSchema['view:directDeposit'].bankAccount.routingNumber[
+        'ui:validations'
+      ][0];
+    routingValidationFn(errors, '123456789', formData);
+
+    expect(errors.addError.called).to.be.false;
+
+    const accountValidationFn =
+      directDeposit.uiSchema['view:directDeposit'].bankAccount.accountNumber[
+        'ui:validations'
+      ][0];
+    accountValidationFn(errors, '987654321', formData);
+
+    expect(errors.addError.called).to.be.false;
+  });
+
+  it('should not show error when either field is empty', () => {
+    const formDataEmptyRouting = {
+      'view:directDeposit': {
+        bankAccount: {
+          routingNumber: '',
+          accountNumber: '123456789',
+        },
+      },
+    };
+
+    const routingValidationFn =
+      directDeposit.uiSchema['view:directDeposit'].bankAccount.routingNumber[
+        'ui:validations'
+      ][0];
+    routingValidationFn(errors, '', formDataEmptyRouting);
+
+    expect(errors.addError.called).to.be.false;
+
+    const formDataEmptyAccount = {
+      'view:directDeposit': {
+        bankAccount: {
+          routingNumber: '123456789',
+          accountNumber: '',
+        },
+      },
+    };
+
+    const accountValidationFn =
+      directDeposit.uiSchema['view:directDeposit'].bankAccount.accountNumber[
+        'ui:validations'
+      ][0];
+    accountValidationFn(errors, '', formDataEmptyAccount);
+
+    expect(errors.addError.called).to.be.false;
+  });
+});
