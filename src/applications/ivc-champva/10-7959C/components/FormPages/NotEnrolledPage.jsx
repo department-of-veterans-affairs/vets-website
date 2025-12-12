@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import {
   CHAMPVA_FAX_NUMBER,
@@ -63,9 +62,5 @@ const NotEnrolledPage = () => (
     </p>
   </form>
 );
-
-NotEnrolledPage.propTypes = {
-  goBack: PropTypes.func,
-};
 
 export default NotEnrolledPage;
