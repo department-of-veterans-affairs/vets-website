@@ -19,7 +19,6 @@ import Authorization from '../../components/4142/Authorization';
 import Issues, { issuesPage } from '../../components/evidence/IssuesNew';
 import {
   EVIDENCE_URLS,
-  PRIVATE_LOCATION_TREATMENT_DATES_KEY,
   PRIVATE_EVIDENCE_KEY,
   PRIVATE_EVIDENCE_PROMPT_KEY,
 } from '../../constants';
@@ -43,8 +42,8 @@ import {
  * @returns bool
  */
 const itemIsComplete = item => {
-  const { address, issues, treatmentLocation } = item;
-  const issuesComplete = issues?.length;
+  const { address, issuesPrivate, treatmentLocation } = item;
+  const issuesComplete = issuesPrivate?.length;
   const { city, country, postalCode, state, street } = address;
   const addressIsComplete =
     address && city && country && postalCode && state && street;
@@ -169,9 +168,6 @@ const detailsPage = {
   },
 };
 
-// We cannot use our custom hint text here until DST fixes this defect:
-// https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/5263
-// Array Builder does not support the `removeDateHint` prop used by custom components
 /** @returns {PageSchema} */
 const treatmentDatePage = {
   uiSchema: {
@@ -194,34 +190,14 @@ const treatmentDatePage = {
       },
       removeDateHint: true,
     }),
-    // [PRIVATE_LOCATION_TREATMENT_DATES_KEY]: currentOrPastDateRangeUI(
-    //   {
-    //     title: treatmentDateContent.firstDateLabel,
-    //     hint: treatmentDateContent.dateHint,
-    //     errorMessages: {
-    //       required: treatmentDateContent.requiredError,
-    //     },
-    //     removeDateHint: true,
-    //   },
-    //   {
-    //     title: treatmentDateContent.lastDateLabel,
-    //     hint: treatmentDateContent.dateHint,
-    //     errorMessages: {
-    //       required: treatmentDateContent.requiredError,
-    //     },
-    //     removeDateHint: true,
-    //   },
-    // ),
   },
   schema: {
     type: 'object',
     properties: {
       from: currentOrPastDateDigitsSchema,
       to: currentOrPastDateDigitsSchema,
-      //
-      // [PRIVATE_LOCATION_TREATMENT_DATES_KEY]: currentOrPastDateRangeSchema,
     },
-    required: [PRIVATE_LOCATION_TREATMENT_DATES_KEY],
+    required: ['to', 'from'],
   },
 };
 
@@ -267,7 +243,7 @@ export default arrayBuilderPages(options, pageBuilder => ({
     depends: redesignActive,
     // ------- END REMOVE
   }),
-  issues: pageBuilder.itemPage({
+  issuesPrivate: pageBuilder.itemPage({
     title: '',
     path: EVIDENCE_URLS.privateIssues,
     uiSchema: issuesPage.uiSchema,
@@ -285,7 +261,7 @@ export default arrayBuilderPages(options, pageBuilder => ({
     depends: redesignActive,
     // ------- END REMOVE
   }),
-  treatmentDate: pageBuilder.itemPage({
+  treatmentDatePrivate: pageBuilder.itemPage({
     title: 'Treatment date',
     path: EVIDENCE_URLS.privateTreatmentDate,
     uiSchema: treatmentDatePage.uiSchema,

@@ -259,7 +259,7 @@ const formConfig = {
           schema: facilityTypes.schema,
           scrollAndFocusTarget: focusRadioH3,
         },
-        // ...vaEvidence,
+        ...vaEvidence,
         ...privateEvidence,
         // ------- REMOVE when new design toggle is removed
         // vaPrompt: {

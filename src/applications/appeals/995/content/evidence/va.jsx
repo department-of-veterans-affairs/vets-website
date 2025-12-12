@@ -71,14 +71,14 @@ export const summaryContent = {
           {item[VA_TREATMENT_LOCATION_KEY]}
         </h3>
       )}
-      {item?.issues?.length === 1 && (
+      {item?.issuesVA?.length === 1 && (
         <p>
-          <strong>Condition:</strong> {item.issues[0]}
+          <strong>Condition:</strong> {item.issuesVA[0]}
         </p>
       )}
-      {item?.issues?.length > 1 && (
+      {item?.issuesVA?.length > 1 && (
         <p>
-          <strong>Conditions:</strong> {formatIssueList(item.issues)}
+          <strong>Conditions:</strong> {formatIssueList(item.issuesVA)}
         </p>
       )}
       {item?.[VA_TREATMENT_MONTH_YEAR_KEY] && (
@@ -98,7 +98,7 @@ export const locationContent = {
     // ------- Remove the .replace when the design toggle is removed
     // The current content requires the word "Edit" but it is baked into
     // array builder so we won't need it when that is the default path
-    return getProviderDetailsTitle(addOrEdit, index + 1, 'va').replace(
+    return getProviderDetailsTitle(addOrEdit, Number(index) + 1, 'va').replace(
       'Edit',
       '',
     );
