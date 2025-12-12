@@ -20,7 +20,7 @@ const UnsupportedMileage = () => {
       </p>
       <va-link
         href={BTSSS_PORTAL_URL}
-        text="Continue this claim on BTSSS"
+        text="Continue this claim in BTSSS"
         external
       />
       <VaButton

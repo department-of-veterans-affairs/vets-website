@@ -577,7 +577,7 @@ describe('ClaimDetailsContent', () => {
         expect(
           $(
             `va-link-action[text="Complete and file your claim"][href="/my-health/travel-pay/file-new-claim/${
-              claimDetailsProps.claimId
+              claimDetailsProps.appointment.id
             }"]`,
           ),
         ).to.exist;
@@ -597,7 +597,7 @@ describe('ClaimDetailsContent', () => {
         expect(
           $(
             `va-link-action[text="Complete and file your claim"][href="/my-health/travel-pay/file-new-claim/${
-              claimDetailsProps.claimId
+              claimDetailsProps.appointment.id
             }"]`,
           ),
         ).to.exist;

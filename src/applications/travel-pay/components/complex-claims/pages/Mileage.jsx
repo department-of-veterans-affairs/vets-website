@@ -241,7 +241,7 @@ const Mileage = () => {
         id="trip-type"
         onVaValueChange={handleTripTypeChange}
         value={tripType}
-        label="Was your trip round trip or one way?"
+        label="Was your drive round trip or one way?"
         required
       >
         <va-radio-option

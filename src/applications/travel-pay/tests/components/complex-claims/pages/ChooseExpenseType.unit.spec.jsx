@@ -65,7 +65,7 @@ describe('ChooseExpenseType', () => {
     expect(screen.getByText(/Select 1 expense/)).to.exist;
     expect(
       screen.getByText(
-        /We’ll need to pre-approve any airfare, lodging, or meals before you request reimbursement/,
+        /We’ll need to pre-approve any lodging or meals before you request reimbursement/,
       ),
     ).to.exist;
 
@@ -172,7 +172,7 @@ describe('ChooseExpenseType', () => {
 
     expect(
       screen.getByText(
-        /We’ll need to pre-approve any airfare, lodging, or meals before you request reimbursement/,
+        /We’ll need to pre-approve any lodging or meals before you request reimbursement/,
       ),
     ).to.exist;
   });
