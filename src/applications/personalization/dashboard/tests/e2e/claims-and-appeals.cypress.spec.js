@@ -42,7 +42,7 @@ describe('The My VA Dashboard Claims and Appeals section', () => {
           name: /manage all claims and appeals/i,
         }).should('exist');
         cy.findByRole('heading', {
-          name: /dependency claim received/i,
+          name: /Request to add or remove a dependent received/i,
         }).should('exist');
         // the claims/appeals error is not shown
         cy.findByRole('heading', {
@@ -104,7 +104,7 @@ describe('The My VA Dashboard Claims and Appeals section', () => {
 
         // highlighted claim should still show since claims API is working
         cy.findByRole('heading', {
-          name: /dependency claim received/i,
+          name: /Request to add or remove a dependent received/i,
         }).should('be.visible');
 
         // make the a11y check
