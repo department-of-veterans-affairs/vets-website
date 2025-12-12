@@ -266,6 +266,9 @@ const DownloadReportPage = ({ runningUnitTest }) => {
         />
         <AcceleratedCernerFacilityAlert {...CernerAlertContent.DOWNLOAD} />
         <VistaAndOHContent
+          vistaFacilityNames={vistaFacilityNames}
+          ohFacilityNames={ohFacilityNames}
+          handleDownloadCCDV2={handleDownloadCCDV2}
           isLoading={generatingCCD}
           testIdSuffix="Vista"
           failedSeiDomains={failedSeiDomains}

@@ -19,6 +19,7 @@ import {
 
 import AccessTroubleAlertBox from '../../components/shared/AccessTroubleAlertBox';
 import { sendDataDogAction } from '../../util/helpers';
+import { formatFacilityList } from '../../util/facilityHelpers';
 
 const VistaAndOHContent = ({
   accessErrors,
@@ -27,6 +28,8 @@ const VistaAndOHContent = ({
   CCDRetryTimestamp,
   isLoading,
   testIdSuffix,
+  handleDownloadCCDV2,
+  ohFacilityNames,
   ccdDownloadSuccess,
   failedBBDomains,
   failedSeiDomains,
@@ -37,6 +40,7 @@ const VistaAndOHContent = ({
   lastSuccessfulUpdate,
   successfulSeiDownload,
   successfulBBDownload,
+  vistaFacilityNames,
 }) => {
   return (
     <>
@@ -108,11 +112,28 @@ const VistaAndOHContent = ({
             Summary.
           </p>
           <div className="vads-u-margin-bottom--4">
+            <p className="vads-u-font-weight--bold">
+              CCD: medical records from {formatFacilityList(vistaFacilityNames)}
+            </p>
+
+            <div className="vads-u-margin-bottom--4">
+              <DownloadSection
+                isLoading={generatingCCD}
+                handleDownload={handleDownloadCCD}
+                testIdSuffix="Vista"
+                ddSuffix="VistA"
+              />
+            </div>
+
+            <p className="vads-u-font-weight--bold">
+              CCD: medical records from {formatFacilityList(ohFacilityNames)}
+            </p>
+
             <DownloadSection
               isLoading={generatingCCD}
-              handleDownload={handleDownloadCCD}
-              testIdSuffix="Vista"
-              ddSuffix="VistA"
+              handleDownload={handleDownloadCCDV2}
+              testIdSuffix="OH"
+              ddSuffix="OH"
             />
           </div>
           <h2>Download your self-entered health information</h2>
@@ -188,10 +209,13 @@ VistaAndOHContent.propTypes = {
   generatingCCD: PropTypes.bool.isRequired,
   getFailedDomainList: PropTypes.func.isRequired,
   handleDownloadCCD: PropTypes.func.isRequired,
+  handleDownloadCCDV2: PropTypes.func.isRequired,
   handleDownloadSelfEnteredPdf: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
+  ohFacilityNames: PropTypes.arrayOf(PropTypes.string).isRequired,
   successfulSeiDownload: PropTypes.bool.isRequired,
   testIdSuffix: PropTypes.string.isRequired,
+  vistaFacilityNames: PropTypes.arrayOf(PropTypes.string).isRequired,
   CCDRetryTimestamp: PropTypes.string,
   activeAlert: PropTypes.object,
   ccdDownloadSuccess: PropTypes.bool,
