@@ -1,5 +1,5 @@
 ---
-applyTo: "src/applications/mhv-medical-records"
+applyTo: "src/applications/mhv-medical-records/**/*"
 ---
 
 # MHV Medical Records Application Instructions

@@ -73,13 +73,3 @@ This is a monorepo for VA.gov, with shared code in `src/platform` and individual
 ## Forms
 - For understanding valid uiSchema and schema web component patterns, reference `src/platform/forms-system/src/js/web-component-patterns/web-component-patterns-catalog.json`.
 - For understanding a form's name, directory path, entryName and rootUrl, reference `src/applications/manifest-catalog.json`.
-
-## 📚 Additional Resources
-
-### Path-Specific Instructions
-**Path-specific custom instructions automatically apply when working on specific modules:**
-
-- **[instructions/mhv-medical-records.instructions.md](./instructions/mhv-medical-records.instructions.md)** - Automatically applies to `src/applications/mhv-medical-records/` - Medical Records specific patterns, API client usage, and PHR refresh logic
-- **[instructions/mhv-secure-messaging.instructions.md](./instructions/mhv-secure-messaging.instructions.md)** - Automatically applies to `src/applications/mhv-secure-messaging/` - Secure Messaging specific patterns, models, and API client usage
-
-These path-specific instructions are automatically loaded by GitHub Copilot when you work on files matching their `applyTo` patterns. You can create additional path-specific instruction files in `.github/instructions/` for other modules or features.
