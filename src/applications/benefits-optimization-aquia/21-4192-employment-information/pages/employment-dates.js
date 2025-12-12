@@ -7,8 +7,6 @@
 import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
-  checkboxUI,
-  checkboxSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { getVeteranName, getEmployerName } from './helpers';
@@ -37,16 +35,6 @@ const getBeginningDateTitle = formData => {
 };
 
 /**
- * Generate title for currently employed field
- */
-const getCurrentlyEmployedTitle = formData => {
-  if (!formData || typeof formData !== 'object') return 'Currently employed';
-  const veteranName = getVeteranName(formData);
-  const employerName = getEmployerName(formData);
-  return `${veteranName} is currently employed at ${employerName}.`;
-};
-
-/**
  * Generate title for ending date field
  */
 const getEndingDateTitle = formData => {
@@ -59,7 +47,7 @@ const getEndingDateTitle = formData => {
 
 /**
  * uiSchema for Employment Dates page
- * Collects employment start date, end date, and current employment status
+ * Collects employment start date and end date (optional)
  */
 export const employmentDatesUiSchema = {
   ...titleUI(getPageTitle),
@@ -70,52 +58,21 @@ export const employmentDatesUiSchema = {
         required: 'Beginning date of employment is required',
       },
     }),
-    currentlyEmployed: checkboxUI({
-      title: 'Currently employed', // Default title, will be updated by updateUiSchema
-    }),
     endingDate: currentOrPastDateUI({
       title: 'Ending date of employment', // Default title, will be updated by updateUiSchema
-      errorMessages: {
-        required: 'Ending date of employment is required',
-      },
-      expandUnder: 'currentlyEmployed',
-      expandUnderCondition: value => !value,
-      required: formData => !formData?.employmentDates?.currentlyEmployed,
+      required: false,
     }),
   },
   'ui:options': {
-    updateSchema: (formData, formSchema) => {
-      const currentlyEmployed = formData?.employmentDates?.currentlyEmployed;
-      const requiredFields = currentlyEmployed
-        ? ['beginningDate']
-        : ['beginningDate', 'endingDate'];
-
-      return {
-        ...formSchema,
-        properties: {
-          ...formSchema.properties,
-          employmentDates: {
-            ...formSchema.properties.employmentDates,
-            required: requiredFields,
-          },
-        },
-      };
-    },
     updateUiSchema: (formData, fullData) => {
       // Evaluate dynamic field titles
       const beginningDateTitle = getBeginningDateTitle(fullData || formData);
-      const currentlyEmployedTitle = getCurrentlyEmployedTitle(
-        fullData || formData,
-      );
       const endingDateTitle = getEndingDateTitle(fullData || formData);
 
       return {
         employmentDates: {
           beginningDate: {
             'ui:title': beginningDateTitle,
-          },
-          currentlyEmployed: {
-            'ui:title': currentlyEmployedTitle,
           },
           endingDate: {
             'ui:title': endingDateTitle,
@@ -139,7 +96,6 @@ export const employmentDatesSchema = {
       required: ['beginningDate'],
       properties: {
         beginningDate: currentOrPastDateSchema,
-        currentlyEmployed: checkboxSchema,
         endingDate: currentOrPastDateSchema,
       },
     },

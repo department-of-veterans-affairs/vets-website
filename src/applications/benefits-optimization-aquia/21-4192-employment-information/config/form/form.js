@@ -144,18 +144,14 @@ const formConfig = {
           title: 'Employment Termination',
           uiSchema: employmentTerminationUiSchema,
           schema: employmentTerminationSchema,
-          depends: formData =>
-            !!formData?.employmentDates?.endingDate &&
-            !formData?.employmentDates?.currentlyEmployed,
+          depends: formData => !!formData?.employmentDates?.endingDate,
         },
         employmentLastPayment: {
           path: 'employment-last-payment',
           title: 'Employment Last Payment',
           uiSchema: employmentLastPaymentUiSchema,
           schema: employmentLastPaymentSchema,
-          depends: formData =>
-            !!formData?.employmentDates?.endingDate &&
-            !formData?.employmentDates?.currentlyEmployed,
+          depends: formData => !!formData?.employmentDates?.endingDate,
         },
       },
     },
