@@ -89,7 +89,7 @@ const directDeposit = {
                 const routingNumber =
                   formData['view:directDeposit']?.bankAccount?.routingNumber;
                 if (fieldData && routingNumber && fieldData !== routingNumber) {
-                  errors.addError('This should match your routing number');
+                  errors.addError('Your routing number must match');
                 }
               }
             },
@@ -120,7 +120,7 @@ const directDeposit = {
                 const accountNumber =
                   formData['view:directDeposit']?.bankAccount?.accountNumber;
                 if (fieldData && accountNumber && fieldData !== accountNumber) {
-                  errors.addError('This should match your bank account number');
+                  errors.addError('Your bank account number must match');
                 }
               }
             },

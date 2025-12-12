@@ -1315,9 +1315,7 @@ const formConfig = {
                         routingNumber &&
                         fieldData !== routingNumber
                       ) {
-                        errors.addError(
-                          'This should match your routing number',
-                        );
+                        errors.addError('Your routing number must match');
                       }
                     }
                   },
@@ -1355,9 +1353,7 @@ const formConfig = {
                         accountNumber &&
                         fieldData !== accountNumber
                       ) {
-                        errors.addError(
-                          'This should match your bank account number',
-                        );
+                        errors.addError('Your bank account number must match');
                       }
                     }
                   },

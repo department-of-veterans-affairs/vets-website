@@ -156,7 +156,7 @@ describe('Account Number Confirmation Validation', () => {
 
     expect(errors.addError.calledOnce).to.be.true;
     expect(errors.addError.firstCall.args[0]).to.equal(
-      'This should match your bank account number',
+      'Your bank account number must match',
     );
   });
 
@@ -260,7 +260,7 @@ describe('Routing Number Confirmation Validation', () => {
 
     expect(errors.addError.calledOnce).to.be.true;
     expect(errors.addError.firstCall.args[0]).to.equal(
-      'This should match your routing number',
+      'Your routing number must match',
     );
   });
 
