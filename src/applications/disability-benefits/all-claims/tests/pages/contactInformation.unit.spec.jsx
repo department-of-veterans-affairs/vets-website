@@ -15,7 +15,17 @@ import {
 import { commonReducer } from 'platform/startup/store';
 import formConfig from '../../config/form';
 import reducers from '../../reducers';
-import testSchema from './test-schema.json'
+
+// import testSchema from './contactInformationSchemas/bad.json';
+import testSchema from './contactInformationSchemas/good.json';
+
+const consoleWithNoop = new Proxy(console, {
+  get(target, prop) {
+    return prop === 'noop' ?
+      () => {} :
+      target[prop];
+  },
+});
 
 describe('Disability benefits 526EZ contact information', () => {
   const fakeStore = createStore(
@@ -29,10 +39,9 @@ describe('Disability benefits 526EZ contact information', () => {
     schema,
     uiSchema,
     updateFormData,
-  } = formConfig.chapters.veteranDetails.pages.contactInformation;
-  // } = testSchema;
+  } = testSchema;
 
-  console.log(JSON.stringify({
+  consoleWithNoop.noop(JSON.stringify({
     schema,
     uiSchema,
     updateFormData,
@@ -53,6 +62,8 @@ describe('Disability benefits 526EZ contact information', () => {
         />
       </Provider>,
     );
+
+    consoleWithNoop.log(form.debug());
 
     // country
     expect(form.find('select').length).to.equal(1);
