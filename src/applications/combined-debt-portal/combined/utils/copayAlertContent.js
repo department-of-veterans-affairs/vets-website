@@ -25,7 +25,7 @@ export const getCopayAlertContent = (copay, type) => {
         showLinks: false,
         testId: 'copay-no-health-care-alert',
         bodyText: (
-          <div>
+          <>
             <p>
               You can’t check copay balances at this time because our records
               show that you’re not enrolled in VA health care.
@@ -33,7 +33,7 @@ export const getCopayAlertContent = (copay, type) => {
             <p>
               <va-link-action
                 href="https://va.gov/health-care/how-to-apply/"
-                text=" Find out how to apply for VA health care benefits"
+                text="Find out how to apply for VA health care benefits"
                 type="primary"
               />
             </p>
@@ -45,7 +45,7 @@ export const getCopayAlertContent = (copay, type) => {
               <va-icon icon="phone" size="3" />{' '}
               <va-telephone contact={CONTACTS['222_VETS']} />
             </p>
-          </div>
+          </>
         ),
       };
     case 'status':
