@@ -55,9 +55,11 @@ import VAPServiceEditModalErrorMessage from './base/VAPServiceEditModalErrorMess
 import CopyMailingAddress from '../containers/CopyMailingAddress';
 
 import { createPersonalInfoUpdate } from '../actions/personalInformation';
+import { createSchedulingPreferencesUpdate } from '../actions/schedulingPreferences';
 import { updateMessagingSignature } from '../../actions/mhv';
 
 import ProfileInformationActionButtons from './ProfileInformationActionButtons';
+import { isSchedulingPreference } from '../util/health-care-settings/schedulingPreferencesUtils';
 
 export class ProfileInformationEditView extends Component {
   componentDidMount() {
@@ -235,6 +237,18 @@ export class ProfileInformationEditView extends Component {
       this.props.createPersonalInfoUpdate({
         route: apiRoute,
         method: 'PUT',
+        fieldName,
+        payload,
+        analyticsSectionName,
+        value: field.value,
+      });
+      return;
+    }
+
+    if (isSchedulingPreference(fieldName)) {
+      this.props.createSchedulingPreferencesUpdate({
+        route: apiRoute,
+        method: 'POST',
         fieldName,
         payload,
         analyticsSectionName,
@@ -517,6 +531,7 @@ ProfileInformationEditView.propTypes = {
   clearTransactionRequest: PropTypes.func.isRequired,
   convertCleanDataToPayload: PropTypes.func.isRequired,
   createPersonalInfoUpdate: PropTypes.func.isRequired,
+  createSchedulingPreferencesUpdate: PropTypes.func.isRequired,
   createTransaction: PropTypes.func.isRequired,
   fieldName: PropTypes.oneOf(Object.values(FIELD_NAMES)).isRequired,
   formSchema: PropTypes.object.isRequired,
@@ -602,6 +617,7 @@ const mapDispatchToProps = {
   validateAddress,
   refreshTransaction,
   createPersonalInfoUpdate,
+  createSchedulingPreferencesUpdate,
   updateMessagingSignature,
   openIntlMobileConfirmModal,
 };

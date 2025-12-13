@@ -1,12 +1,10 @@
 import appendQuery from 'append-query';
 import set from 'lodash/set';
-import capitalize from 'lodash/capitalize';
 
 import recordEvent from 'platform/monitoring/record-event';
 import { apiRequest } from 'platform/utilities/api';
 
 import { captureError, createApiEvent, ERROR_SOURCES } from '../util/analytics';
-import { PERSONAL_INFO_FIELD_NAMES } from '../constants';
 
 import {
   VAP_SERVICE_TRANSACTION_REQUESTED,
@@ -15,14 +13,14 @@ import {
   clearTransaction,
 } from '.';
 
-export const FETCH_PERSONAL_INFORMATION = 'FETCH_PERSONAL_INFORMATION';
-export const FETCH_PERSONAL_INFORMATION_SUCCESS =
-  'FETCH_PERSONAL_INFORMATION_SUCCESS';
-export const FETCH_PERSONAL_INFORMATION_FAILED =
-  'FETCH_PERSONAL_INFORMATION_FAILED';
+export const FETCH_SCHEDULING_PREFERENCES = 'FETCH_SCHEDULING_PREFERENCES';
+export const FETCH_SCHEDULING_PREFERENCES_SUCCESS =
+  'FETCH_SCHEDULING_PREFERENCES_SUCCESS';
+export const FETCH_SCHEDULING_PREFERENCES_FAILED =
+  'FETCH_SCHEDULING_PREFERENCES_FAILED';
 
-export const UPDATE_PERSONAL_INFORMATION_FIELD =
-  'UPDATE_PERSONAL_INFORMATION_FIELD';
+export const UPDATE_SCHEDULING_PREFERENCES_FIELD =
+  'UPDATE_SCHEDULING_PREFERENCES_FIELD';
 
 const handleServerErrorResponse = response => {
   if (response?.errors) {
@@ -60,14 +58,14 @@ const captureAndRecordError = ({
   captureError(error, { eventName: apiEventName, code, title, detail, status });
 };
 
-export function fetchPersonalInformation(
+export function fetchSchedulingPreferences(
   forceCacheClear = false,
   recordAnalyticsEvent = recordEvent,
 ) {
   return async dispatch => {
-    dispatch({ type: FETCH_PERSONAL_INFORMATION });
+    dispatch({ type: FETCH_SCHEDULING_PREFERENCES });
 
-    const baseUrl = '/profile/personal_information';
+    const baseUrl = '/profile/scheduling_preferences';
 
     const apiEventName = `GET ${baseUrl}`;
 
@@ -87,7 +85,7 @@ export function fetchPersonalInformation(
 
       handleServerErrorResponse(response);
 
-      const personalInfoData = response.data.attributes;
+      const schedulingPreferencesData = response.data.attributes;
 
       recordAnalyticsEvent(
         createApiEvent({
@@ -96,38 +94,15 @@ export function fetchPersonalInformation(
         }),
       );
 
-      // preferred name returns as ALL CAPS, so it needs to be capitalized appropriately for display
-      if (personalInfoData?.[PERSONAL_INFO_FIELD_NAMES.PREFERRED_NAME]) {
-        set(
-          personalInfoData,
-          PERSONAL_INFO_FIELD_NAMES.PREFERRED_NAME,
-          capitalize(
-            personalInfoData?.[PERSONAL_INFO_FIELD_NAMES.PREFERRED_NAME],
-          ),
-        );
-      }
-
-      // a null code for gender identity needs to instead be set to an empty string or else
-      // validation message will be incorrectly set to 'is not of a type(s) string'
-      if (
-        !personalInfoData?.[PERSONAL_INFO_FIELD_NAMES.GENDER_IDENTITY]?.code
-      ) {
-        set(
-          personalInfoData,
-          `${PERSONAL_INFO_FIELD_NAMES.GENDER_IDENTITY}.code`,
-          '',
-        );
-      }
-
       dispatch({
-        type: FETCH_PERSONAL_INFORMATION_SUCCESS,
-        personalInformation: personalInfoData,
+        type: FETCH_SCHEDULING_PREFERENCES_SUCCESS,
+        schedulingPreferences: schedulingPreferencesData,
       });
     } catch (error) {
       captureAndRecordError({ error, apiEventName, recordAnalyticsEvent });
       dispatch({
-        type: FETCH_PERSONAL_INFORMATION_FAILED,
-        personalInformation: {
+        type: FETCH_SCHEDULING_PREFERENCES_FAILED,
+        schedulingPreferences: {
           error: { message: error.message || 'no error message provided' },
         },
       });
@@ -138,9 +113,9 @@ export function fetchPersonalInformation(
 // since the personal information api requests do no fall into a transactional life cycle
 // we need to treat them differently than contact information, but also still fall within
 // the state update paradigm so that the UI reacts correctly
-export function createPersonalInfoUpdate({
+export function createSchedulingPreferencesUpdate({
   route,
-  method = 'PUT',
+  method = 'POST',
   fieldName,
   payload,
   analyticsSectionName,
@@ -198,7 +173,7 @@ export function createPersonalInfoUpdate({
 
       // optimistic UI update to show saved field value
       dispatch({
-        type: UPDATE_PERSONAL_INFORMATION_FIELD,
+        type: UPDATE_SCHEDULING_PREFERENCES_FIELD,
         fieldName,
         value,
       });
