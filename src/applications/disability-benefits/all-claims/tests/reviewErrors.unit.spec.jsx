@@ -11,9 +11,66 @@ describe('reviewErrors', () => {
   });
 
   describe('newDisabilities', () => {
-    it('returns null', () => {
-      // for coverage
-      expect(reviewErrors.newDisabilities()).to.equal(null);
+    it('returns error message string', () => {
+      expect(reviewErrors.newDisabilities).to.equal(
+        'Reason for claim (select at least one type and add at least one new condition)',
+      );
+    });
+  });
+
+  describe('_override for newDisabilities errors', () => {
+    it('redirects empty array error to claim-type page', () => {
+      const result = reviewErrors._override('newDisabilities');
+      expect(result).to.deep.equal({
+        chapterKey: 'disabilities',
+        pageKey: 'claimType',
+      });
+    });
+
+    it('redirects instance.newDisabilities error to claim-type page', () => {
+      const result = reviewErrors._override('instance.newDisabilities');
+      expect(result).to.deep.equal({
+        chapterKey: 'disabilities',
+        pageKey: 'claimType',
+      });
+    });
+
+    it('redirects minItems error to claim-type page', () => {
+      const result = reviewErrors._override(
+        'instance.newDisabilities does not meet minimum length of 1',
+      );
+      expect(result).to.deep.equal({
+        chapterKey: 'disabilities',
+        pageKey: 'claimType',
+      });
+    });
+
+    it('redirects condition error within newDisabilities array to claim-type page', () => {
+      const result = reviewErrors._override('newDisabilities[0]');
+      expect(result).to.deep.equal({
+        chapterKey: 'disabilities',
+        pageKey: 'claimType',
+      });
+    });
+
+    it('redirects condition error with stack message to claim-type page', () => {
+      const result = reviewErrors._override(
+        'instance.newDisabilities[0] requires property "condition"',
+      );
+      expect(result).to.deep.equal({
+        chapterKey: 'disabilities',
+        pageKey: 'claimType',
+      });
+    });
+
+    it('redirects condition error with both newDisabilities and condition to claim-type page', () => {
+      const result = reviewErrors._override(
+        'newDisabilities[1] condition is required',
+      );
+      expect(result).to.deep.equal({
+        chapterKey: 'disabilities',
+        pageKey: 'claimType',
+      });
     });
   });
 
