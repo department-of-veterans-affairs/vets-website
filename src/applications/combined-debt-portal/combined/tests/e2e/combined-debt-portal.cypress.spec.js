@@ -36,7 +36,7 @@ describe('CDP - Overpayments and copay bills (overview)', () => {
     it('should display No-copays-or-debts alert - C17928', () => {
       cy.get('h2').should(
         'contain',
-        'You don’t have any current VA debt or copay bills',
+        'You don’t have any outstanding overpayments or copay bills',
       );
 
       cy.findByTestId('balance-card-copay').should('not.exist');

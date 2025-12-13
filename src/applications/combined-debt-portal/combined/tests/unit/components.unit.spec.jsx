@@ -152,7 +152,7 @@ describe('combined debt portal component helpers', () => {
 
       // Test the card title
       expect(wrapper.find('[data-testid="card-title"]').text()).to.equal(
-        "You don't have any current VA debt",
+        "You don't have any outstanding overpayments",
       );
 
       // Test the content for VA debt
