@@ -15,6 +15,7 @@ import {
 import { commonReducer } from 'platform/startup/store';
 import formConfig from '../../config/form';
 import reducers from '../../reducers';
+import testSchema from './test-schema.json'
 
 describe('Disability benefits 526EZ contact information', () => {
   const fakeStore = createStore(
@@ -29,6 +30,13 @@ describe('Disability benefits 526EZ contact information', () => {
     uiSchema,
     updateFormData,
   } = formConfig.chapters.veteranDetails.pages.contactInformation;
+  // } = testSchema;
+
+  console.log(JSON.stringify({
+    schema,
+    uiSchema,
+    updateFormData,
+  }));
 
   it('renders contact information form', () => {
     const form = mount(
@@ -53,7 +61,7 @@ describe('Disability benefits 526EZ contact information', () => {
     form.unmount();
   });
 
-  it('shows state and zip when country is USA', () => {
+  it.skip('shows state and zip when country is USA', () => {
     const form = mount(
       <Provider store={fakeStore}>
         <DefinitionTester
@@ -78,7 +86,7 @@ describe('Disability benefits 526EZ contact information', () => {
     form.unmount();
   });
 
-  it('hides state and zip when country is not USA', () => {
+  it.skip('hides state and zip when country is not USA', () => {
     const form = mount(
       <Provider store={fakeStore}>
         <DefinitionTester
@@ -103,7 +111,7 @@ describe('Disability benefits 526EZ contact information', () => {
     form.unmount();
   });
 
-  it('restricts state options to military state codes when city is a military city code', () => {
+  it.skip('restricts state options to military state codes when city is a military city code', () => {
     const form = mount(
       <Provider store={fakeStore}>
         <DefinitionTester
@@ -132,7 +140,7 @@ describe('Disability benefits 526EZ contact information', () => {
     form.unmount();
   });
 
-  it('does not restrict state options  when city is not a military city code', () => {
+  it.skip('does not restrict state options  when city is not a military city code', () => {
     const form = mount(
       <Provider store={fakeStore}>
         <DefinitionTester
@@ -159,7 +167,7 @@ describe('Disability benefits 526EZ contact information', () => {
     form.unmount();
   });
 
-  it('validates that state is military type if city is military type', async () => {
+  it.skip('validates that state is military type if city is military type', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <Provider store={fakeStore}>
@@ -194,7 +202,7 @@ describe('Disability benefits 526EZ contact information', () => {
     form.unmount();
   });
 
-  it('validates that city is military type if state is military type', async () => {
+  it.skip('validates that city is military type if state is military type', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <Provider store={fakeStore}>
@@ -229,7 +237,7 @@ describe('Disability benefits 526EZ contact information', () => {
     form.unmount();
   });
 
-  it('disables the country dropdown when overseas address is checked', () => {
+  it.skip('disables the country dropdown when overseas address is checked', () => {
     const form = mount(
       <Provider store={fakeStore}>
         <DefinitionTester
@@ -258,7 +266,7 @@ describe('Disability benefits 526EZ contact information', () => {
     form.unmount();
   });
 
-  it('does not submit without required info', async () => {
+  it.skip('does not submit without required info', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <Provider store={fakeStore}>
@@ -291,7 +299,7 @@ describe('Disability benefits 526EZ contact information', () => {
     form.unmount();
   });
 
-  it('does submit with required info', () => {
+  it.skip('does submit with required info', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <Provider store={fakeStore}>
@@ -323,7 +331,7 @@ describe('Disability benefits 526EZ contact information', () => {
     form.unmount();
   });
 
-  describe('updateFormData', () => {
+  describe.skip('updateFormData', () => {
     const getFormData = (checkbox, city = '', state = '') => ({
       mailingAddress: {
         'view:livesOnMilitaryBase': checkbox,

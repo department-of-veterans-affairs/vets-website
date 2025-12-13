@@ -1,0 +1,184 @@
+{
+  "schema": {
+    "type": "object",
+    "properties": {
+      "phoneAndEmail": {
+        "type": "object",
+        "required": [
+          "emailAddress"
+        ],
+        "properties": {
+          "primaryPhone": {
+            "$ref": "#/definitions/nonRequiredPhone"
+          },
+          "emailAddress": {
+            "$ref": "#/definitions/email"
+          }
+        }
+      },
+      "mailingAddress": {
+        "properties": {
+          "view:livesOnMilitaryBase": {
+            "type": "boolean"
+          },
+          "view:livesOnMilitaryBaseInfo": {
+            "type": "object",
+            "properties": {}
+          },
+          "country": {
+            "$ref": "#/definitions/country"
+          },
+          "addressLine1": {
+            "type": "string",
+            "maxLength": 20,
+            "pattern": "^([-a-zA-Z0-9'.,&#][ ]?)+$"
+          },
+          "addressLine2": {
+            "type": "string",
+            "maxLength": 20,
+            "pattern": "^([-a-zA-Z0-9'.,&#][ ]?)+$"
+          },
+          "addressLine3": {
+            "type": "string",
+            "maxLength": 20,
+            "pattern": "^([-a-zA-Z0-9'.,&#][ ]?)+$"
+          },
+          "city": {
+            "type": "string",
+            "maxLength": 30,
+            "pattern": "^([-a-zA-Z0-9'.#][ ]?)+$"
+          },
+          "state": {
+            "$ref": "#/definitions/state"
+          },
+          "zipCode": {
+            "type": "string",
+            "pattern": "^\\d{5}(?:([-\\s]?)\\d{4})?$"
+          }
+        },
+        "type": "object",
+        "required": [
+          "country",
+          "city",
+          "addressLine1"
+        ]
+      },
+      "view:contactInfoDescription": {
+        "type": "object",
+        "properties": {}
+      }
+    }
+  },
+  "uiSchema": {
+    "ui:title": "Contact information",
+    "phoneAndEmail": {
+      "ui:title": "Phone & email",
+      "ui:options": {},
+      "primaryPhone": {
+        "ui:title": "Phone number",
+        "ui:autocomplete": "tel",
+        "ui:errorMessages": {
+          "pattern": "Please enter a 10-digit phone number (with or without dashes)",
+          "minLength": "Please enter a 10-digit phone number (with or without dashes)",
+          "required": "Please enter a phone number"
+        },
+        "ui:options": {
+          "widgetClassNames": "va-input-medium-large"
+        }
+      },
+      "emailAddress": {
+        "ui:title": "Email address",
+        "ui:errorMessages": {
+          "format": "Enter a valid email address using the format email@domain.com. Your email address can only have letters, numbers, the @ symbol and a period, with no spaces.",
+          "pattern": "Enter a valid email address using the format email@domain.com. Your email address can only have letters, numbers, the @ symbol and a period, with no spaces.",
+          "required": "Please enter an email address"
+        },
+        "ui:autocomplete": "email",
+        "ui:options": {
+          "inputType": "email"
+        }
+      }
+    },
+    "mailingAddress": {
+      "ui:title": "Mailing address",
+      "ui:options": {},
+      "country": {
+        "ui:title": "Country",
+        "ui:autocomplete": "country",
+        "ui:options": {},
+        "ui:disabled": false
+      },
+      "addressLine1": {
+        "ui:title": "Street address (20 characters maximum)",
+        "ui:autocomplete": "address-line1",
+        "ui:errorMessages": {
+          "required": "Please enter a street address"
+        }
+      },
+      "addressLine2": {
+        "ui:title": "Street address line 2 (20 characters maximum)",
+        "ui:autocomplete": "address-line2",
+        "ui:errorMessages": {
+          "pattern": "Please enter a valid street address"
+        }
+      },
+      "addressLine3": {
+        "ui:title": "Street address line 3 (20 characters maximum)",
+        "ui:autocomplete": "address-line3",
+        "ui:errorMessages": {
+          "pattern": "Please enter a valid street address"
+        }
+      },
+      "city": {
+        "ui:autocomplete": "address-level2",
+        "ui:errorMessages": {
+          "pattern": "Please enter a valid city",
+          "required": "Please enter a city"
+        },
+        "ui:options": {},
+        "ui:validations": [
+          {
+            "options": {
+              "addressPath": "mailingAddress"
+            }
+          }
+        ]
+      },
+      "state": {
+        "ui:title": "State",
+        "ui:autocomplete": "address-level1",
+        "ui:options": {},
+        "ui:validations": [
+          {
+            "options": {
+              "addressPath": "mailingAddress"
+            }
+          }
+        ],
+        "ui:errorMessages": {
+          "pattern": "Please enter a valid state",
+          "required": "Please enter a state"
+        }
+      },
+      "zipCode": {
+        "ui:title": "Postal code",
+        "ui:autocomplete": "postal-code",
+        "ui:validations": [
+          null
+        ],
+        "ui:errorMessages": {
+          "required": "Please enter a postal code",
+          "pattern": "Please enter a valid 5- or 9-digit postal code (dashes allowed)"
+        },
+        "ui:options": {
+          "widgetClassNames": "va-input-medium-large"
+        }
+      },
+      "view:livesOnMilitaryBase": {
+        "ui:title": "I live on a United States military base outside of the United States"
+      },
+      "view:livesOnMilitaryBaseInfo": {}
+    },
+    "view:contactInfoDescription": {}
+  }
+}
