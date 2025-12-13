@@ -1,0 +1,57 @@
+{
+  "data": {
+    "id": "",
+    "type": "user",
+    "attributes": {
+      "services": ["facilities", "medical-records"],
+      "account": {
+        "accountUuid": "9b8a5a1f-d99f-4e03-9b43-4c689f3e4f01"
+      },
+      "profile": {
+        "email": "oh.only@example.com",
+        "firstName": "Oracle",
+        "middleName": "H",
+        "lastName": "Only",
+        "birthDate": "1970-01-01",
+        "gender": "M",
+        "zip": "12345",
+        "lastSignedIn": "2024-12-09T10:00:00.000Z",
+        "loa": {
+          "current": 3,
+          "highest": 3
+        },
+        "multifactor": true,
+        "verified": true,
+        "signIn": {
+          "serviceName": "idme",
+          "clientId": "vaweb",
+          "authBroker": "sis"
+        },
+        "authnContext": "http://idmanagement.gov/ns/assurance/loa/3",
+        "icn": "1234567890V123457"
+      },
+      "vaProfile": {
+        "status": "OK",
+        "birthDate": "19700101",
+        "familyName": "Only",
+        "gender": "M",
+        "givenNames": ["Oracle", "H"],
+        "isCernerPatient": true,
+        "cernerId": "1234567890",
+        "cernerFacilityIds": ["757"],
+        "facilities": [
+          {
+            "facilityId": "757",
+            "isCerner": true
+          }
+        ],
+        "vaPatient": true,
+        "mhvAccountState": "OK"
+      },
+      "veteranStatus": {
+        "status": "OK",
+        "isVeteran": true
+      }
+    }
+  }
+}
