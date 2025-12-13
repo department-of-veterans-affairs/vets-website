@@ -1,5 +1,6 @@
 import { descriptionUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { fileUploadUi as fileUploadUI } from '../../../shared/components/fileUploads/upload';
+import FileUploadDescription from '../../components/FormDescriptions/FileUploadDescription';
 import { singleFileUploadSchema } from '../../definitions';
 import { healthInsurancePageTitleUI } from '../../utils/titles';
 import { ATTACHMENT_IDS } from '../../utils/constants';
@@ -16,7 +17,7 @@ const INPUT_LABELS = {
 export default {
   uiSchema: {
     ...healthInsurancePageTitleUI(TITLE_TEXT, DESC_TEXT),
-    ...descriptionUI(),
+    ...descriptionUI(FileUploadDescription),
     insuranceCardFront: fileUploadUI({
       label: INPUT_LABELS.cardFront,
       attachmentId: ATTACHMENT_IDS.ohiCardFront,
