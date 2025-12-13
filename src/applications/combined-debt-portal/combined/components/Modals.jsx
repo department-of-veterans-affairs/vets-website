@@ -5,6 +5,10 @@ import {
 } from '@department-of-veterans-affairs/web-components/react-bindings';
 import PropTypes from 'prop-types';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import {
+  dmcPhoneContent,
+  healthResourceCenterPhoneContent,
+} from '../utils/helpers';
 
 const Modals = ({ children, title }) => {
   const [visible, setVisible] = useState(false);
@@ -92,14 +96,7 @@ Modals.Rights = () => (
           text="va.gov/contact-us/ask-va/"
         />
       </li>
-      <li>
-        Calling the Debt Management Center at{' '}
-        <va-telephone contact={CONTACTS.DMC} /> (
-        <va-telephone contact={CONTACTS[711]} tty />
-        ). For international callers, use{' '}
-        <va-telephone contact={CONTACTS.DMC_OVERSEAS} international />. We’re
-        here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
-      </li>
+      <li>Calling the Debt Management Center at {dmcPhoneContent()}</li>
     </ul>
 
     <h3>Right to request waiver of a debt</h3>
@@ -203,7 +200,7 @@ Modals.Rights = () => (
       <li>
         Calling us at <va-telephone contact={CONTACTS.HELP_DESK} /> (
         <va-telephone contact={CONTACTS[711]} tty />
-        ). For international callers, use{' '}
+        ). If you’re outside the U.S., call{' '}
         <va-telephone contact={CONTACTS.DMC_OVERSEAS} international />. We’re
         here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
       </li>
@@ -216,10 +213,7 @@ Modals.Rights = () => (
     </p>
     <p>
       To request a hardship determination, submit a completed Financial Status
-      Report (VA Form VA5655). If you need help, call us at{' '}
-      <va-telephone contact="8008270648" />. If you’re outside the U.S., call{' '}
-      <va-telephone contact="6127136415" international />. We’re here Monday
-      through Friday, 7:30 a.m. to 7:00 p.m. ET.
+      Report (VA Form VA5655). If you need help, call us at {dmcPhoneContent()}
     </p>
     <p>
       You can fill out VA Form VA5655 online at{' '}
@@ -268,16 +262,11 @@ Modals.Rights = () => (
     </p>
     <p>
       For help with understanding your health care copay charges, contact our VA
-      Health Resource Center at 866-400-1238. We're here Monday through Friday,
-      8:00 a.m. to 8:00 p.m. ET.
+      Health Resource Center at {healthResourceCenterPhoneContent()}
     </p>
     <p>
       For help with understanding your VA benefit overpayments, contact our VA
-      Debt Management Center at <va-telephone contact={CONTACTS.DMC} /> (
-      <va-telephone contact={CONTACTS[711]} tty />
-      ). If you’re outside the U.S., call{' '}
-      <va-telephone contact={CONTACTS.DMC_OVERSEAS} international />. We’re here
-      Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
+      Debt Management Center at {dmcPhoneContent()}
     </p>
 
     <h3>VA Privacy</h3>

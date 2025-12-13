@@ -4,13 +4,17 @@ import {
   VaBreadcrumbs,
   VaLinkAction,
 } from '@department-of-veterans-affairs/web-components/react-bindings';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 
 import Balances from '../components/Balances';
 import ComboAlerts from '../components/ComboAlerts';
-import { ALERT_TYPES, setPageFocus } from '../utils/helpers';
+import {
+  ALERT_TYPES,
+  setPageFocus,
+  healthResourceCenterPhoneContent,
+  dmcPhoneContent,
+} from '../utils/helpers';
 import {
   calculateTotalDebts,
   calculateTotalBills,
@@ -109,21 +113,25 @@ const OverviewPage = () => {
                   <strong>Questions about overpayments</strong>
                 </p>
                 <p>
-                  Call the Debt Management Center (DMC) at{' '}
-                  <va-telephone contact={CONTACTS.DMC} /> (
-                  <va-telephone tty contact="711" />
-                  ). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m.
-                  ET.
+                  Contact us online through{' '}
+                  <va-link
+                    text="AskVA"
+                    href="/contact-us/ask-va/introduction"
+                  />{' '}
+                  or call the Debt Management Center (DMC) at{' '}
+                  {dmcPhoneContent()}
                 </p>
                 <p>
                   <strong>Questions about copay bills</strong>
                 </p>
                 <p>
-                  Call the VA Health Resource Center at{' '}
-                  <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} /> (
-                  <va-telephone tty contact="711" />
-                  ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m.
-                  ET.
+                  Contact us online through{' '}
+                  <va-link
+                    text="AskVA"
+                    href="/contact-us/ask-va/introduction"
+                  />{' '}
+                  or call the VA Health Resource Center at{' '}
+                  {healthResourceCenterPhoneContent()}
                 </p>
               </div>
             </va-need-help>

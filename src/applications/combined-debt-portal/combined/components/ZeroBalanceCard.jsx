@@ -1,22 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-import { APP_TYPES } from '../utils/helpers';
+import { APP_TYPES, dmcPhoneContent } from '../utils/helpers';
 import { phoneContent } from '../utils/copayAlertContent';
 
 const ZeroBalanceCard = ({ appType }) => {
   const cardTitle =
     appType === APP_TYPES.DEBT
-      ? `You don't have any current VA debt`
-      : `You don't have any outstanding overpayments`;
+      ? `You don't have any outstanding overpayments`
+      : `You don't have any copay bills`;
 
   const cardContent =
     appType === APP_TYPES.DEBT ? (
       <p className="vads-u-margin-y--0">
-        If you think this is incorrect, call the Debt Management Center (DMC) at{' '}
-        <va-telephone contact={CONTACTS.DMC} /> (
-        <va-telephone tty contact="711" />
-        ). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
+        If you think this is incorrect, call the Debt Management Center at{' '}
+        {dmcPhoneContent()}
       </p>
     ) : (
       <>
