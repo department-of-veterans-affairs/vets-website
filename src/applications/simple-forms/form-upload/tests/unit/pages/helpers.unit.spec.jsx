@@ -84,7 +84,7 @@ describe('CustomTopContent', () => {
     // );
     expect(breadcrumbs).to.have.attr(
       'breadcrumb-list',
-      '[{"href":"/","label":"VA.gov home"},{"href":"/find-forms","label":"Find a VA form"},{"href":"/find-forms/upload/21-0779/introduction","label":"Upload form 21-0779"}]',
+      '[{"href":"/","label":"VA.gov home"},{"href":"/find-forms","label":"Find a VA form"},{"href":"/find-forms/upload/21-0779/introduction","label":"Upload VA Form 21-0779"}]',
     );
   });
 });
