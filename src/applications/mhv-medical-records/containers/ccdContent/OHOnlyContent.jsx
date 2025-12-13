@@ -15,6 +15,7 @@ import AccessTroubleAlertBox from '../../components/shared/AccessTroubleAlertBox
 import DownloadSuccessAlert from '../../components/shared/DownloadSuccessAlert';
 
 const OHOnlyContent = ({
+  ccdExtendedFileTypeFlag,
   ddSuffix,
   isLoading,
   handleDownload,
@@ -88,36 +89,55 @@ const OHOnlyContent = ({
             results, and more. We used to call this report your VA Health
             Summary.
           </p>
-          <div className="vads-u-display--flex vads-u-flex-direction--column">
-            <span className="vads-u-margin-bottom--2">
+          {ccdExtendedFileTypeFlag ? (
+            <div className="vads-u-display--flex vads-u-flex-direction--column">
+              <span className="vads-u-margin-bottom--2">
+                <va-link
+                  download
+                  href="#"
+                  onClick={e => handleDownload(e, 'xml')}
+                  text="Download XML (best for sharing with your provider)"
+                  data-testid={`generateCcdButtonXml${testIdSuffix}`}
+                  data-dd-action-name={`Download CCD XML ${ddSuffix}`}
+                />
+              </span>
+              <span className="vads-u-margin-bottom--2">
+                <va-link
+                  download
+                  href="#"
+                  onClick={e => handleDownload(e, 'pdf')}
+                  text="Download PDF (best for printing)"
+                  data-testid={`generateCcdButtonPdf${testIdSuffix}`}
+                  data-dd-action-name={`Download CCD PDF ${ddSuffix}`}
+                />
+              </span>
               <va-link
                 download
                 href="#"
-                onClick={e => handleDownload(e, 'xml')}
-                text="Download XML (best for sharing with your provider)"
-                data-testid={`generateCcdButtonXml${testIdSuffix}`}
-                data-dd-action-name={`Download CCD XML ${ddSuffix}`}
+                onClick={e => handleDownload(e, 'html')}
+                text="Download HTML (best for screen readers, enlargers, and refreshable Braille displays)"
+                data-testid={`generateCcdButtonHtml${testIdSuffix}`}
+                data-dd-action-name={`Download CCD HTML ${ddSuffix}`}
               />
-            </span>
-            <span className="vads-u-margin-bottom--2">
-              <va-link
-                download
-                href="#"
-                onClick={e => handleDownload(e, 'pdf')}
-                text="Download PDF (best for printing)"
-                data-testid={`generateCcdButtonPdf${testIdSuffix}`}
-                data-dd-action-name={`Download CCD PDF ${ddSuffix}`}
-              />
-            </span>
-            <va-link
-              download
-              href="#"
-              onClick={e => handleDownload(e, 'html')}
-              text="Download HTML (best for screen readers, enlargers, and refreshable Braille displays)"
-              data-testid={`generateCcdButtonHtml${testIdSuffix}`}
-              data-dd-action-name={`Download CCD HTML ${ddSuffix}`}
-            />
-          </div>
+            </div>
+          ) : (
+            <>
+              <p>
+                You can download this report in .xml format, a standard file
+                format that works with other providers' medical records systems.
+              </p>
+              <div className="vads-u-display--flex vads-u-flex-direction--column">
+                <va-link
+                  download
+                  href="#"
+                  onClick={e => handleDownload(e, 'xml')}
+                  text="Download Continuity of Care Document (XML)"
+                  data-testid={`generateCcdButtonXml${testIdSuffix}`}
+                  data-dd-action-name={`Download CCD XML ${ddSuffix}`}
+                />
+              </div>
+            </>
+          )}
         </div>
       )}
     </>
@@ -126,6 +146,7 @@ const OHOnlyContent = ({
 
 OHOnlyContent.propTypes = {
   accessErrors: PropTypes.func.isRequired,
+  ccdExtendedFileTypeFlag: PropTypes.bool.isRequired,
   ddSuffix: PropTypes.string.isRequired,
   failedSeiDomains: PropTypes.arrayOf(PropTypes.string).isRequired,
   handleDownload: PropTypes.func.isRequired,

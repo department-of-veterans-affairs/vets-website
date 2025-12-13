@@ -25,6 +25,7 @@ const VistaAndOHContent = ({
   accessErrors,
   activeAlert,
   ccdError,
+  ccdExtendedFileTypeFlag,
   CCDRetryTimestamp,
   isLoading,
   testIdSuffix,
@@ -117,24 +118,80 @@ const VistaAndOHContent = ({
             </p>
 
             <div className="vads-u-margin-bottom--4">
-              <DownloadSection
-                isLoading={generatingCCD}
-                handleDownload={handleDownloadCCD}
-                testIdSuffix="Vista"
-                ddSuffix="VistA"
-              />
+              {ccdExtendedFileTypeFlag ? (
+                <DownloadSection
+                  isLoading={generatingCCD}
+                  handleDownload={handleDownloadCCD}
+                  testIdSuffix="Vista"
+                  ddSuffix="VistA"
+                />
+              ) : (
+                <>
+                  {generatingCCD ? (
+                    <div
+                      id="generating-ccd-Vista-indicator"
+                      data-testid="generating-ccd-Vista-indicator"
+                    >
+                      <TrackedSpinner
+                        id="download-ccd-Vista-spinner"
+                        label="Loading"
+                        message="Preparing your download..."
+                      />
+                    </div>
+                  ) : (
+                    <div className="vads-u-display--flex vads-u-flex-direction--column">
+                      <va-link
+                        download
+                        href="#"
+                        onClick={e => handleDownloadCCD(e, 'xml')}
+                        text="Download Continuity of Care Document (XML)"
+                        data-testid="generateCcdButtonXmlVista"
+                        data-dd-action-name="Download CCD XML VistA"
+                      />
+                    </div>
+                  )}
+                </>
+              )}
             </div>
 
             <p className="vads-u-font-weight--bold">
               CCD: medical records from {formatFacilityList(ohFacilityNames)}
             </p>
 
-            <DownloadSection
-              isLoading={generatingCCD}
-              handleDownload={handleDownloadCCDV2}
-              testIdSuffix="OH"
-              ddSuffix="OH"
-            />
+            {ccdExtendedFileTypeFlag ? (
+              <DownloadSection
+                isLoading={generatingCCD}
+                handleDownload={handleDownloadCCDV2}
+                testIdSuffix="OH"
+                ddSuffix="OH"
+              />
+            ) : (
+              <>
+                {generatingCCD ? (
+                  <div
+                    id="generating-ccd-OH-indicator"
+                    data-testid="generating-ccd-OH-indicator"
+                  >
+                    <TrackedSpinner
+                      id="download-ccd-OH-spinner"
+                      label="Loading"
+                      message="Preparing your download..."
+                    />
+                  </div>
+                ) : (
+                  <div className="vads-u-display--flex vads-u-flex-direction--column">
+                    <va-link
+                      download
+                      href="#"
+                      onClick={e => handleDownloadCCDV2(e, 'xml')}
+                      text="Download Continuity of Care Document (XML)"
+                      data-testid="generateCcdButtonXmlOH"
+                      data-dd-action-name="Download CCD XML OH"
+                    />
+                  </div>
+                )}
+              </>
+            )}
           </div>
           <h2>Download your self-entered health information</h2>
           <p className="vads-u-margin--0">
@@ -204,6 +261,7 @@ const VistaAndOHContent = ({
 VistaAndOHContent.propTypes = {
   accessErrors: PropTypes.func.isRequired,
   ccdError: PropTypes.bool.isRequired,
+  ccdExtendedFileTypeFlag: PropTypes.bool.isRequired,
   failedBBDomains: PropTypes.arrayOf(PropTypes.string).isRequired,
   failedSeiDomains: PropTypes.arrayOf(PropTypes.string).isRequired,
   generatingCCD: PropTypes.bool.isRequired,

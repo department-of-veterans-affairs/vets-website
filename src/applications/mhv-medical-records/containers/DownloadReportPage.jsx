@@ -271,6 +271,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           handleDownloadCCDV2={handleDownloadCCDV2}
           isLoading={generatingCCD}
           testIdSuffix="Vista"
+          ccdExtendedFileTypeFlag={ccdExtendedFileTypeFlag}
           failedSeiDomains={failedSeiDomains}
           getFailedDomainList={getFailedDomainList}
           lastSuccessfulUpdate={lastSuccessfulUpdate}
@@ -301,6 +302,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           ddSuffix="OH"
           isLoading={generatingCCD}
           handleDownload={handleDownloadCCDV2}
+          ccdExtendedFileTypeFlag={ccdExtendedFileTypeFlag}
           lastSuccessfulUpdate={lastSuccessfulUpdate}
           accessErrors={accessErrors}
           activeAlert={activeAlert}
