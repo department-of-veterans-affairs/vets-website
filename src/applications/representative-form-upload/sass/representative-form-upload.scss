@@ -69,7 +69,7 @@
   }
   fieldset.vads-u-margin-y--2.rjsf-object-field {
     margin-top: 0 !important;
-    margin-bottom: 8px !important;
+    margin-bottom: 0 !important;
   }
   .schemaform-block-title.schemaform-block-subtitle {
     font-size: 1.25rem !important;
@@ -210,4 +210,8 @@
 }
 .form-upload__alert {
   margin-bottom: 32px;
+}
+
+[name="root_selectBenefits"] {
+  margin-top: 32px;
 }
