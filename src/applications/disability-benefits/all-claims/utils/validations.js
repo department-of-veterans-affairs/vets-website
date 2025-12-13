@@ -69,32 +69,44 @@ export function validateMissingValues(errors, startDate, endDate) {
 */
 export function validateToxicExposureGulfWar1990Dates(
   errors,
-  { startDate, endDate },
+  { startDate, endDate, 'view:notSure': notSure },
 ) {
-  validateRange(errors, startDate, endDate);
+  // Only validate dates if "not sure" checkbox is not checked and dates are provided
+  if (!notSure && (startDate || endDate)) {
+    // Only validate range if both dates are provided
+    if (startDate && endDate) {
+      validateRange(errors, startDate, endDate);
+    }
 
-  if (new Date(endDate ?? '') <= new Date('1990-08-02')) {
-    errors.endDate.addError(messages.endDate1990);
+    if (endDate && new Date(endDate) <= new Date('1990-08-02')) {
+      errors.endDate.addError(messages.endDate1990);
+    }
   }
-
-  validateMissingValues(errors, startDate, endDate);
 }
 
 export function validateToxicExposureGulfWar2001Dates(
   errors,
-  { startDate, endDate },
+  { startDate, endDate, 'view:notSure': notSure },
 ) {
-  validateRange(errors, startDate, endDate);
+  // Only validate dates if "not sure" checkbox is not checked and dates are provided
+  if (!notSure && (startDate || endDate)) {
+    // Only validate range if both dates are provided
+    if (startDate && endDate) {
+      validateRange(errors, startDate, endDate);
+    }
 
-  if (new Date(endDate ?? '') <= new Date('2001-09-11')) {
-    errors.endDate.addError(messages.endDate2001);
+    if (endDate && new Date(endDate) <= new Date('2001-09-11')) {
+      errors.endDate.addError(messages.endDate2001);
+    }
   }
-
-  validateMissingValues(errors, startDate, endDate);
 }
 
-export function validateToxicExposureDates(errors, { startDate, endDate }) {
-  validateRange(errors, startDate, endDate);
-
-  validateMissingValues(errors, startDate, endDate);
+export function validateToxicExposureDates(
+  errors,
+  { startDate, endDate, 'view:notSure': notSure },
+) {
+  // Only validate range if both dates are provided and "not sure" checkbox is not checked
+  if (!notSure && startDate && endDate) {
+    validateRange(errors, startDate, endDate);
+  }
 }

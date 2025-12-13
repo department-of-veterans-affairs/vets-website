@@ -1,6 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { format, subYears, addYears } from 'date-fns';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
@@ -14,6 +15,7 @@ import {
 } from '../../../content/toxicExposure';
 import { GULF_WAR_1990_LOCATIONS } from '../../../constants';
 import { pageSubmitTest } from '../../unit.helpers.spec';
+import { validateToxicExposureGulfWar1990Dates } from '../../../utils/validations';
 
 const schemas = { ...makePages() };
 
@@ -87,15 +89,12 @@ describe('gulfWar1990Details', () => {
         }
       });
 
-      // TODO: We currently validate against this on the frontend to prevent the 'XX' date issue,
-      // however we want Veterans to be able to submit with a completely blank or partial date.
-      // Note to revisit after we land on a solution for accommodating partial dates.
-      // @see https://github.com/department-of-veterans-affairs/va.gov-team/issues/112288
-      it(`should not submit without dates for ${locationId}`, () => {
+      // Dates are now optional - users can submit without dates
+      it(`should submit without dates for ${locationId}`, () => {
         pageSubmitTest(
           schemas[`gulf-war-1990-location-${locationId}`],
           formData,
-          false,
+          true,
         );
       });
 
@@ -125,10 +124,8 @@ describe('gulfWar1990Details', () => {
   describe('date validation', () => {
     const locationId = 'bahrain';
 
-    // TODO: We currently validate against this on the frontend to prevent the 'XX' date issue,
-    // however we want Veterans to be able to submit with a completely blank date.
-    // Note to revisit after we land on a solution for accommodating partial dates.
-    it(`should not submit with start date only`, () => {
+    // Dates are now optional - partial dates are allowed
+    it(`should submit with start date only`, () => {
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.gulfWar1990Details = {
         [locationId]: {
@@ -139,25 +136,23 @@ describe('gulfWar1990Details', () => {
       pageSubmitTest(
         schemas[`gulf-war-1990-location-${locationId}`],
         data,
-        false,
+        true,
       );
     });
 
-    // TODO: We currently validate against this on the frontend to prevent the 'XX' date issue,
-    // however we want Veterans to be able to submit with a completely blank date.
-    // Note to revisit after we land on a solution for accommodating partial dates.
-    it(`should not submit with end date only`, () => {
+    // Dates are now optional - partial dates are allowed
+    it(`should submit with end date only`, () => {
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.gulfWar1990Details = {
         [locationId]: {
-          endDate: '1970-04-02',
+          endDate: '1991-04-02', // After August 2, 1990
         },
       };
 
       pageSubmitTest(
         schemas[`gulf-war-1990-location-${locationId}`],
         data,
-        false,
+        true,
       );
     });
 
@@ -529,6 +524,89 @@ describe('gulfWar1990Details', () => {
         data,
         true,
       );
+    });
+  });
+
+  describe('validateToxicExposureGulfWar1990Dates - checkbox behavior', () => {
+    let errors;
+
+    beforeEach(() => {
+      errors = {
+        startDate: { addError: sinon.spy() },
+        endDate: { addError: sinon.spy() },
+      };
+    });
+
+    it('should not validate when "not sure" checkbox is checked with invalid dates', () => {
+      validateToxicExposureGulfWar1990Dates(errors, {
+        startDate: '1990-08-01',
+        endDate: '1990-08-01', // Invalid: before August 2, 1990
+        'view:notSure': true,
+      });
+
+      expect(errors.endDate.addError.called).to.be.false;
+      expect(errors.startDate.addError.called).to.be.false;
+    });
+
+    it('should show error when end date is on or before August 2, 1990 and checkbox not checked', () => {
+      validateToxicExposureGulfWar1990Dates(errors, {
+        startDate: '1990-08-01',
+        endDate: '1990-08-02', // On August 2, 1990
+        'view:notSure': false,
+      });
+
+      expect(errors.endDate.addError.called).to.be.true;
+      expect(
+        errors.endDate.addError.calledWith(
+          'Enter a service end date after August 2, 1990',
+        ),
+      ).to.be.true;
+    });
+
+    it('should not show error when end date is after August 2, 1990 and checkbox not checked', () => {
+      validateToxicExposureGulfWar1990Dates(errors, {
+        startDate: '1990-08-03',
+        endDate: '1990-09-01',
+        'view:notSure': false,
+      });
+
+      expect(
+        errors.endDate.addError.neverCalledWith(
+          'Enter a service end date after August 2, 1990',
+        ),
+      ).to.be.true;
+    });
+
+    it('should not validate when checkbox is not checked but no dates provided', () => {
+      validateToxicExposureGulfWar1990Dates(errors, {
+        startDate: '',
+        endDate: '',
+        'view:notSure': false,
+      });
+
+      expect(errors.startDate.addError.called).to.be.false;
+      expect(errors.endDate.addError.called).to.be.false;
+    });
+
+    it('should validate range when dates provided and checkbox not checked', () => {
+      validateToxicExposureGulfWar1990Dates(errors, {
+        startDate: '1992-01-01',
+        endDate: '1991-01-01', // End before start
+        'view:notSure': false,
+      });
+
+      expect(errors.startDate.addError.called).to.be.true;
+    });
+
+    it('should skip all validation when checkbox is checked even with invalid range', () => {
+      validateToxicExposureGulfWar1990Dates(errors, {
+        startDate: '1992-01-01',
+        endDate: '1991-01-01', // End before start
+        'view:notSure': true,
+      });
+
+      expect(errors.startDate.addError.called).to.be.false;
+      expect(errors.endDate.addError.called).to.be.false;
     });
   });
 });
