@@ -3,17 +3,18 @@ import PropTypes from 'prop-types';
 import { APP_TYPES } from '../utils/helpers';
 
 const OtherVADebts = ({ module, subHeading }) => {
+  const HeadingTag = subHeading ? 'h3' : 'h2';
   return (
     <>
-      <h2
-        className={subHeading ? 'vads-u-font-size--h3' : ''}
+      <HeadingTag
+        className={subHeading ? 'vads-u-font-size--h4' : 'vads-u-font-size--h2'}
         data-testid="other-va-debts-head"
         id="other-va-debts"
       >
         {`${
           module === APP_TYPES.DEBT ? `Overpayment balances` : 'VA copay bills'
         }`}
-      </h2>
+      </HeadingTag>
       <p>
         Our records show you have{' '}
         {module === APP_TYPES.DEBT && (
