@@ -7,6 +7,16 @@ import sinon from 'sinon';
 import * as datadog from 'platform/monitoring/Datadog';
 import { assert } from 'chai';
 import { App } from '../../containers/App';
+import {
+  DATA_DOG_LOGGING_ID,
+  DATA_DOG_LOGGING_SERVICE,
+  DATA_DOG_LOGGING_TOKEN,
+  DATA_DOG_LOGGING_VERSION,
+  DATA_DOG_RUM_ID,
+  DATA_DOG_RUM_SERVICE,
+  DATA_DOG_RUM_TOKEN,
+  DATA_DOG_RUM_VERSION,
+} from '../../utils/constants';
 
 const mockStore = configureStore([]);
 
@@ -21,7 +31,7 @@ describe('<App />', () => {
     sandbox.restore();
   });
 
-  it('Check component renders without crashing.', () => {
+  it('Component renders without crashing.', () => {
     const store = mockStore({
       user: {},
       letters: {},
@@ -43,7 +53,7 @@ describe('<App />', () => {
     );
   });
 
-  it('Checks feature flags are enabled if loaded and on.', () => {
+  it('Logging is intialized when feature flag is loaded and on.', () => {
     const store = mockStore({
       user: {},
       letters: {},
@@ -70,9 +80,15 @@ describe('<App />', () => {
       </Provider>,
     );
     sinon.assert.calledOnce(loggingStub);
+    assert.deepEqual(loggingStub.firstCall.args[0], {
+      applicationId: DATA_DOG_LOGGING_ID,
+      clientToken: DATA_DOG_LOGGING_TOKEN,
+      service: DATA_DOG_LOGGING_SERVICE,
+      version: DATA_DOG_LOGGING_VERSION,
+    });
   });
 
-  it('Checks logging was not enabled if feature flags are loading.', () => {
+  it('Logging is not initialized if feature flags are loading.', () => {
     const store = mockStore({
       user: {},
       letters: {},
@@ -101,7 +117,7 @@ describe('<App />', () => {
     sinon.assert.notCalled(loggingStub);
   });
 
-  it('Check logging not enabled if feature flag loaded and off.', () => {
+  it('Logging is not initialized if feature flag is loaded and off.', () => {
     const store = mockStore({
       user: {},
       letters: {},
@@ -130,7 +146,7 @@ describe('<App />', () => {
     sinon.assert.notCalled(loggingStub);
   });
 
-  it('Checks RUM is enabled if its feature flag is loaded and on.', () => {
+  it('RUM is initialized if its feature flag is loaded and on.', () => {
     const store = mockStore({
       user: {},
       letters: {},
@@ -160,9 +176,15 @@ describe('<App />', () => {
       </Provider>,
     );
     sinon.assert.calledOnce(monitoringStub);
+    assert.deepEqual(monitoringStub.firstCall.args[0], {
+      applicationId: DATA_DOG_RUM_ID,
+      clientToken: DATA_DOG_RUM_TOKEN,
+      service: DATA_DOG_RUM_SERVICE,
+      version: DATA_DOG_RUM_VERSION,
+    });
   });
 
-  it('Checks RUM was not enabled if feature flags are loading.', () => {
+  it('RUM is not initialized if feature flags are loading.', () => {
     const store = mockStore({
       user: {},
       letters: {},
@@ -194,7 +216,7 @@ describe('<App />', () => {
     sinon.assert.notCalled(monitoringStub);
   });
 
-  it('Check RUM was not enabled if its feature flag is loaded and off.', () => {
+  it('RUM is not initialized if its feature flag is loaded and off.', () => {
     const store = mockStore({
       user: {},
       letters: {},
