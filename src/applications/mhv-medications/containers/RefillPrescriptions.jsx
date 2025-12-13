@@ -27,7 +27,7 @@ import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import PrintOnlyPage from './PrintOnlyPage';
 import DelayedRefillAlert from '../components/shared/DelayedRefillAlert';
-import DisplayCernerFacilityAlert from '../components/shared/DisplayCernerFacilityAlert';
+import OracleHealthPilotCernerFacilityAlert from '../components/shared/OracleHealthPilotCernerFacilityAlert';
 import NeedHelp from '../components/shared/NeedHelp';
 import { dataDogActionNames, pageType } from '../util/dataDogConstants';
 import ProcessList from '../components/shared/ProcessList';
@@ -244,7 +244,7 @@ const RefillPrescriptions = () => {
         {prescriptionsApiError ? (
           <>
             <ApiErrorNotification errorType="access" content="medications" />
-            <DisplayCernerFacilityAlert />
+            <OracleHealthPilotCernerFacilityAlert />
           </>
         ) : (
           <>
@@ -255,7 +255,7 @@ const RefillPrescriptions = () => {
             />
             {fullRefillList?.length > 0 ? (
               <div>
-                <DisplayCernerFacilityAlert />
+                <OracleHealthPilotCernerFacilityAlert />
                 <h2
                   className="vads-u-margin-top--3"
                   data-testid="refill-page-subtitle"
@@ -358,7 +358,7 @@ const RefillPrescriptions = () => {
                   You don’t have any VA prescriptions with refills available. If
                   you need a prescription, contact your care team.
                 </p>
-                <DisplayCernerFacilityAlert className="vads-u-margin-top--2" />
+                <OracleHealthPilotCernerFacilityAlert className="vads-u-margin-top--2" />
               </>
             )}
             <p className="vads-u-margin-top--3" data-testid="note-refill-page">
