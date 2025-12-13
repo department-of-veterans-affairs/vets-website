@@ -21,8 +21,6 @@ export const getAppData = state => ({
     state.featureToggles.showMeb1990ER6MaintenanceMessage,
   showMeb54901990eTextUpdate: state?.featureToggles.showMeb54901990eTextUpdate,
   toeDupContactInfoCall: state.featureToggles.toeDupContactInfoCall,
-  toeLightHouseDgiDirectDeposit:
-    state?.featureToggles?.toeLightHouseDGIDirectDeposit,
   toeHighSchoolInfoChange: state?.featureToggles?.toeHighSchoolInfoChange,
   user: state.user || {},
   mebDpoAddressOptionEnabled: state?.featureToggles?.mebDpoAddressOptionEnabled,

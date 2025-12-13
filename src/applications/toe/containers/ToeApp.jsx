@@ -37,11 +37,9 @@ function ToeApp({
   user,
   showMeb1990ER6MaintenanceMessage,
   toeHighSchoolInfoChange,
-  toeLightHouseDgiDirectDeposit,
 }) {
   const [fetchedUserInfo, setFetchedUserInfo] = useState(false);
   const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
-  const [lightHouseFlag, setLighthouseFlag] = useState(false);
 
   useEffect(
     () => {
@@ -149,29 +147,13 @@ function ToeApp({
 
   useEffect(
     () => {
-      if (
-        toeLightHouseDgiDirectDeposit !==
-        formData?.toeLightHouseDgiDirectDeposit
-      ) {
-        setLighthouseFlag(true);
-        setFormData({
-          ...formData,
-          toeLightHouseDgiDirectDeposit,
-        });
-      }
-    },
-    [toeLightHouseDgiDirectDeposit],
-  );
-
-  useEffect(
-    () => {
       if (!user?.login?.currentlyLoggedIn) {
         return;
       }
 
-      if (!fetchedDirectDeposit && lightHouseFlag && isLoggedIn && isLOA3) {
+      if (!fetchedDirectDeposit && isLoggedIn && isLOA3) {
         setFetchedDirectDeposit(true);
-        getDirectDeposit(formData?.toeLightHouseDgiDirectDeposit);
+        getDirectDeposit();
       }
     },
     [
@@ -180,7 +162,6 @@ function ToeApp({
       fetchedDirectDeposit,
       getDirectDeposit,
       user?.login?.currentlyLoggedIn,
-      lightHouseFlag,
     ],
   );
 
@@ -275,7 +256,6 @@ ToeApp.propTypes = {
   sponsorsInitial: SPONSORS_TYPE,
   sponsorsSavedState: SPONSORS_TYPE,
   toeHighSchoolInfoChange: PropTypes.bool,
-  toeLightHouseDgiDirectDeposit: PropTypes.bool,
   user: PropTypes.object,
 };
 
