@@ -118,11 +118,13 @@ export const createTrackedItem = ({
  * @param {Array} overrides.evidenceSubmissions - Evidence submissions array
  * @param {Array} overrides.trackedItems - Tracked items
  * @param {boolean} overrides.currentPhaseBack - Whether claim moved back to current phase
+ * @param {boolean} overrides.decisionLetterSent - Whether decision letter was sent (for closed claims)
  * @returns {Object} Claim detail object
  */
 export const createBenefitsClaim = ({
   claimTypeCode = '010LCOMP',
   currentPhaseBack = false,
+  decisionLetterSent = false,
   latestPhaseType = 'GATHERING_OF_EVIDENCE',
   closeDate = null,
   contentions = [{ name: 'Tinnitus' }, { name: 'Hearing Loss' }],
@@ -148,7 +150,7 @@ export const createBenefitsClaim = ({
       claimType: 'Compensation',
       closeDate,
       contentions,
-      decisionLetterSent: false,
+      decisionLetterSent,
       developmentLetterSent: true,
       documentsNeeded: true,
       endProductCode: '016',

@@ -132,4 +132,25 @@ describe('Claim layout', () => {
 
     cy.axeCheck();
   });
+
+  context('when claim is closed', () => {
+    it('should display claim without In Progress label', () => {
+      setupClaimTest({
+        claim: createBenefitsClaim({
+          status: 'COMPLETE',
+          closeDate: '2025-01-15',
+          latestPhaseType: 'COMPLETE',
+        }),
+      });
+
+      cy.findByRole('heading', {
+        name: 'Claim for compensation Received on January 1, 2025',
+        level: 1,
+      });
+
+      cy.findByText('In Progress').should('not.exist');
+
+      cy.axeCheck();
+    });
+  });
 });

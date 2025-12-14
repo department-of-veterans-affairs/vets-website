@@ -169,4 +169,45 @@ describe('Claim files', () => {
       });
     });
   });
+
+  context('when claim is closed', () => {
+    beforeEach(() => {
+      mockFeatureToggles();
+      cy.login();
+      setupClaimTest({
+        claim: createBenefitsClaim({
+          status: 'COMPLETE',
+          closeDate: '2025-01-15',
+          latestPhaseType: 'COMPLETE',
+        }),
+        path: FILES_PATH,
+      });
+    });
+
+    it('should not display upload evidence section', () => {
+      cy.findByRole('heading', { name: 'Additional evidence' }).should(
+        'not.exist',
+      );
+      cy.findByRole('heading', { name: 'Upload additional evidence' }).should(
+        'not.exist',
+      );
+
+      cy.axeCheck();
+    });
+
+    it('should display closed claim header text', () => {
+      cy.findByText('You can see the files associated with this claim.');
+      cy.findByText('If you need to add evidence').should('not.exist');
+
+      cy.axeCheck();
+    });
+
+    it('should display closed claim message instead of upload form', () => {
+      cy.findByText(
+        'The claim is closed so you can no longer submit any additional evidence.',
+      );
+
+      cy.axeCheck();
+    });
+  });
 });

@@ -343,4 +343,104 @@ describe('Claim status', () => {
       cy.axeCheck();
     });
   });
+
+  context('when claim is closed', () => {
+    beforeEach(() => {
+      setupClaimTest({
+        claim: createBenefitsClaim({
+          status: 'COMPLETE',
+          closeDate: '2025-01-15',
+          latestPhaseType: 'COMPLETE',
+        }),
+      });
+    });
+
+    it('should display closed claim alert with close date', () => {
+      cy.get('[data-testid="closed-claim-alert"]').within(() => {
+        cy.findByRole('heading', {
+          name: 'We closed your claim on January 15, 2025',
+        });
+        cy.findByText('We mailed you a decision letter.', { exact: false });
+      });
+
+      cy.axeCheck();
+    });
+
+    it('should not display In Progress label', () => {
+      cy.findByText('In Progress').should('not.exist');
+
+      cy.axeCheck();
+    });
+
+    it('should not display "What you need to do" section', () => {
+      cy.findByRole('heading', {
+        name: 'What you need to do',
+        level: 3,
+      }).should('not.exist');
+
+      cy.axeCheck();
+    });
+
+    it('should not display "What we\'re doing" section', () => {
+      cy.findByRole('heading', { name: 'What we’re doing', level: 3 }).should(
+        'not.exist',
+      );
+
+      cy.axeCheck();
+    });
+
+    it('should display Payments section', () => {
+      cy.findByRole('heading', { name: 'Payments', level: 3 });
+      cy.findByText('If you are entitled to back payment', { exact: false });
+
+      cy.axeCheck();
+    });
+
+    it('should display Next steps section with action links', () => {
+      cy.findByRole('heading', { name: 'Next steps', level: 3 });
+
+      cy.get('va-link[href="/decision-reviews/supplemental-claim/"]')
+        .shadow()
+        .should('contain.text', 'Learn more about Supplemental Claims');
+      cy.get('va-link[href="/disability/how-to-file-claim/"]')
+        .shadow()
+        .should('contain.text', 'Learn how to file a VA disability claim');
+      cy.get('va-link[href="/resources/choosing-a-decision-review-option/"]')
+        .shadow()
+        .should(
+          'contain.text',
+          'Find out how to choose a decision review option',
+        );
+      cy.get('va-link[href="/health-care/apply-for-health-care-form-10-10ez/"]')
+        .shadow()
+        .should('contain.text', 'Apply for VA health care benefits');
+
+      cy.axeCheck();
+    });
+
+    context('when decisionLetterSent is true', () => {
+      it('should display decision letter link in closed claim alert', () => {
+        setupClaimTest({
+          claim: createBenefitsClaim({
+            status: 'COMPLETE',
+            closeDate: '2025-01-15',
+            latestPhaseType: 'COMPLETE',
+            decisionLetterSent: true,
+          }),
+        });
+
+        cy.get('[data-testid="closed-claim-alert"]').within(() => {
+          cy.findByRole('heading', {
+            name: 'We closed your claim on January 15, 2025',
+          });
+          cy.findByText('You can download your decision letter online now.', {
+            exact: false,
+          });
+          cy.findByRole('link', { name: 'Get your claim letters' });
+        });
+
+        cy.axeCheck();
+      });
+    });
+  });
 });
