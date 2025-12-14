@@ -69,7 +69,7 @@ describe('childDeath', () => {
 
   it('should render country & province fields when outside US checkbox is checked', () => {
     const { container } = renderComponent({
-      data: { ...defaultData, endOutsideUS: true },
+      data: { ...defaultData, endOutsideUs: true },
     });
 
     expect($('va-checkbox', container).checked).to.be.true;
@@ -142,13 +142,13 @@ describe('childDeath', () => {
   it('should show error messages if submitted without filling in fields (non-US)', async () => {
     const goForward = sinon.spy();
     const { container } = renderComponent({
-      data: { ...defaultData, endOutsideUS: true },
+      data: { ...defaultData, endOutsideUs: true },
       formSubmitted: true,
       goForward,
     });
 
     $('va-checkbox', container).__events.vaChange({
-      target: { name: 'endOutsideUS', tagName: 'VA-CHECKBOX' },
+      target: { name: 'endOutsideUs', tagName: 'VA-CHECKBOX' },
       detail: { checked: true },
     });
 
@@ -208,7 +208,7 @@ describe('childDeath', () => {
       const goForward = sinon.spy();
       childDeath.handlers.onSubmit({
         itemData: {
-          endOutsideUS: true,
+          endOutsideUs: true,
           endDate: '2000-01-01',
           endCity: 'Test',
           endCountry: 'TTT',
