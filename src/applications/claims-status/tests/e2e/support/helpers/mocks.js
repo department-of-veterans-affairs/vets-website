@@ -1,4 +1,15 @@
 /**
+ * API endpoint URLs used in claims-status E2E tests.
+ * Single source of truth for endpoint paths.
+ */
+export const ENDPOINTS = {
+  CLAIMS: '/v0/benefits_claims',
+  CLAIM_DETAIL: id => `/v0/benefits_claims/${id}`,
+  APPEALS: '/v0/appeals',
+  STEM: '/v0/education_benefits_claims/stem_claim_status',
+};
+
+/**
  * Default feature flags that are ON in both staging and production.
  * These should be included in all tests to match production behavior.
  */
@@ -33,14 +44,40 @@ export const mockFeatureToggles = ({ showDocumentUploadStatus } = {}) => {
 };
 
 /**
- * Stubs list page endpoints (your-claims page).
- * Prevents real API calls to claims, appeals, and STEM data.
- * All endpoints return empty data arrays by default.
+ * Stubs the benefits claims endpoint.
+ *
+ * @param {Array} claims - Array of claim objects to return (default: empty array)
+ * @param {number} statusCode - HTTP status code to return (default: 200)
  */
-export const mockListPageEndpoints = () => {
-  cy.intercept('GET', '/v0/benefits_claims', { data: [] });
-  cy.intercept('GET', '/v0/appeals', { data: [] });
-  cy.intercept('GET', '/v0/education_benefits_claims/stem_claim_status', {
-    data: {},
+export const mockClaimsEndpoint = (claims = [], statusCode = 200) => {
+  cy.intercept('GET', ENDPOINTS.CLAIMS, {
+    statusCode,
+    body: { data: claims },
+  });
+};
+
+/**
+ * Stubs the appeals endpoint.
+ *
+ * @param {Array} appeals - Array of appeal objects to return (default: empty array)
+ * @param {number} statusCode - HTTP status code to return (default: 200)
+ */
+export const mockAppealsEndpoint = (appeals = [], statusCode = 200) => {
+  cy.intercept('GET', ENDPOINTS.APPEALS, {
+    statusCode,
+    body: { data: appeals },
+  });
+};
+
+/**
+ * Stubs the STEM claims endpoint.
+ *
+ * @param {Array} stemClaims - Array of STEM claim objects to return (default: empty array)
+ * @param {number} statusCode - HTTP status code to return (default: 200)
+ */
+export const mockStemEndpoint = (stemClaims = [], statusCode = 200) => {
+  cy.intercept('GET', ENDPOINTS.STEM, {
+    statusCode,
+    body: { data: stemClaims },
   });
 };

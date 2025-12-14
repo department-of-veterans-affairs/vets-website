@@ -1,12 +1,16 @@
 import {
+  mockAppealsEndpoint,
+  mockClaimsEndpoint,
   mockFeatureToggles,
-  mockListPageEndpoints,
+  mockStemEndpoint,
 } from '../../support/helpers/mocks';
 
 describe('Loading', () => {
   beforeEach(() => {
     mockFeatureToggles();
-    mockListPageEndpoints();
+    mockClaimsEndpoint();
+    mockAppealsEndpoint();
+    mockStemEndpoint();
   });
 
   it('should display required login view loader', () => {

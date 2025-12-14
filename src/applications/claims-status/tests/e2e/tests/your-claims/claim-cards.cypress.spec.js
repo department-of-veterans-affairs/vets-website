@@ -1,22 +1,22 @@
-import { mockFeatureToggles } from '../../support/helpers/mocks';
+import {
+  mockAppealsEndpoint,
+  mockClaimsEndpoint,
+  mockFeatureToggles,
+  mockStemEndpoint,
+} from '../../support/helpers/mocks';
 import { createBenefitsClaimListItem } from '../../support/fixtures/benefitsClaims';
 
 describe('Claim cards', () => {
   const setupClaimCardsTest = (claims = []) => {
-    cy.intercept('GET', '/v0/benefits_claims', { data: claims });
+    mockClaimsEndpoint(claims);
     cy.visit('/track-claims');
     cy.injectAxe();
   };
 
   beforeEach(() => {
     mockFeatureToggles();
-
-    cy.intercept('GET', '/v0/appeals', {
-      data: [],
-    });
-    cy.intercept('GET', '/v0/education_benefits_claims/stem_claim_status', {
-      data: {},
-    });
+    mockAppealsEndpoint();
+    mockStemEndpoint();
 
     cy.login();
   });

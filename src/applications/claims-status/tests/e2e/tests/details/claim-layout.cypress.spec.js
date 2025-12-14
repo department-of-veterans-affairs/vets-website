@@ -1,7 +1,9 @@
-import { mockFeatureToggles } from '../../support/helpers/mocks';
+import { ENDPOINTS, mockFeatureToggles } from '../../support/helpers/mocks';
 import { setupClaimTest } from '../../support/helpers/setup';
 import { verifyNeedHelp } from '../../support/helpers/assertions';
 import { createBenefitsClaim } from '../../support/fixtures/benefitsClaims';
+
+const DEFAULT_CLAIM_ID = '123456789';
 
 describe('Claim layout', () => {
   beforeEach(() => {
@@ -10,7 +12,7 @@ describe('Claim layout', () => {
   });
 
   it('should display claim loader', () => {
-    cy.intercept('GET', '/v0/benefits_claims/123456789', {
+    cy.intercept('GET', ENDPOINTS.CLAIM_DETAIL(DEFAULT_CLAIM_ID), {
       delay: 1500,
       statusCode: 200,
       body: {
@@ -18,7 +20,7 @@ describe('Claim layout', () => {
       },
     }).as('claimRequest');
 
-    cy.visit('/track-claims/your-claims/123456789');
+    cy.visit(`/track-claims/your-claims/${DEFAULT_CLAIM_ID}`);
 
     cy.get('va-loading-indicator').as('loadingIndicator');
 
@@ -103,17 +105,21 @@ describe('Claim layout', () => {
     }).should(
       'have.attr',
       'href',
-      '/track-claims/your-claims/123456789/status',
+      `/track-claims/your-claims/${DEFAULT_CLAIM_ID}/status`,
     );
     cy.findByRole('link', {
       name: 'Files',
-    }).should('have.attr', 'href', '/track-claims/your-claims/123456789/files');
+    }).should(
+      'have.attr',
+      'href',
+      `/track-claims/your-claims/${DEFAULT_CLAIM_ID}/files`,
+    );
     cy.findByRole('link', {
       name: 'Overview',
     }).should(
       'have.attr',
       'href',
-      '/track-claims/your-claims/123456789/overview',
+      `/track-claims/your-claims/${DEFAULT_CLAIM_ID}/overview`,
     );
 
     cy.axeCheck();

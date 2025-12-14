@@ -1,3 +1,7 @@
+import { ENDPOINTS } from './mocks';
+
+const DEFAULT_CLAIM_ID = '123456789';
+
 /**
  * Sets up a claim detail page test.
  * Intercepts the claim API endpoint, visits the claim detail page, and injects Axe.
@@ -7,7 +11,9 @@
  * @returns {void}
  */
 export const setupClaimTest = ({ claim = {}, path = 'status' } = {}) => {
-  cy.intercept('GET', '/v0/benefits_claims/123456789', { data: claim });
-  cy.visit(`/track-claims/your-claims/123456789/${path}`);
+  cy.intercept('GET', ENDPOINTS.CLAIM_DETAIL(DEFAULT_CLAIM_ID), {
+    data: claim,
+  });
+  cy.visit(`/track-claims/your-claims/${DEFAULT_CLAIM_ID}/${path}`);
   cy.injectAxe();
 };

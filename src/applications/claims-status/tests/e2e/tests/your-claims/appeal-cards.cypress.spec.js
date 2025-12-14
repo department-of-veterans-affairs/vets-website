@@ -1,23 +1,23 @@
 import userWithAppeals from '../../fixtures/mocks/user-with-appeals.json';
 import { createAppeal } from '../../support/fixtures/appeals';
-import { mockFeatureToggles } from '../../support/helpers/mocks';
+import {
+  mockAppealsEndpoint,
+  mockClaimsEndpoint,
+  mockFeatureToggles,
+  mockStemEndpoint,
+} from '../../support/helpers/mocks';
 
 describe('Appeal cards', () => {
   const setupAppealCardsTest = (appeals = []) => {
-    cy.intercept('GET', '/v0/appeals', { data: appeals });
+    mockAppealsEndpoint(appeals);
     cy.visit('/track-claims');
     cy.injectAxe();
   };
 
   beforeEach(() => {
     mockFeatureToggles();
-
-    cy.intercept('GET', '/v0/benefits_claims', {
-      data: [],
-    });
-    cy.intercept('GET', '/v0/education_benefits_claims/stem_claim_status', {
-      data: {},
-    });
+    mockClaimsEndpoint();
+    mockStemEndpoint();
 
     cy.login(userWithAppeals);
   });
