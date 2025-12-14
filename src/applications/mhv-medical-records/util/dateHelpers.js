@@ -2,35 +2,30 @@ import { addHours, subHours, subMinutes, addSeconds } from 'date-fns';
 import { formatInTimeZone, format } from 'date-fns-tz';
 
 /**
- *
- *  @param dateTime
- *
- *  Current year formatted 'yyyy'
- *  @example 2024
- * @returns {String}
+ * Current year formatted 'yyyy'.
+ * @param {*} dateTime - Date/time value parsable by Date.
+ * @returns {string} 'yyyy'
+ * @example 2024
  */
 export const formatDateYear = dateTime => {
   return format(new Date(dateTime), 'yyyy');
 };
 
 /**
- *
- *  @param dateTime
- *
- *  Passed in dateTime formated 'MMMM d, yyyy'
- *  @example November 27, 2023
- * @returns {String}
+ * Passed in dateTime formatted 'MMMM d, yyyy'.
+ * @param {*} dateTime - Date/time value parsable by Date.
+ * @returns {string} 'MMMM d, yyyy'
+ * @example November 27, 2023
  */
 export const formatDateMonthDayCommaYear = dateTime => {
   return format(new Date(dateTime), 'MMMM d, yyyy');
 };
 
 /**
- * Returns the Current date formated "MMMM d, yyyy, h:mm" Example: August 18, 2022, 4:29
- *
- *  @param dateTime
- *  @example
- * @returns {String}
+ * Returns the current date formatted "MMMM d, yyyy, h:mm".
+ * @param {*} dateTime - Date/time value parsable by Date.
+ * @returns {string} 'MMMM d, yyyy, h:mm'
+ * @example August 18, 2022, 4:29
  */
 export const formatDateMonthDayCommaYearHoursMinutes = dateTime => {
   return formatInTimeZone(
@@ -41,24 +36,20 @@ export const formatDateMonthDayCommaYearHoursMinutes = dateTime => {
 };
 
 /**
- *
- * @param newDate
- *
- * Date formated "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+ * Date formatted "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'".
+ * @param {Date} newDate - Date object to format.
+ * @returns {string} UTC timestamp string.
  * @example 2025-11-20T19:14:57.282Z
- * @returns {String}
  */
 const formatUtcTime = newDate => {
   return formatInTimeZone(newDate, 'UTC', "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 };
 
 /**
- *
- * @param {number} minutes
- *
- * Current date minus minutes formated "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+ * Current date minus minutes formatted "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'".
+ * @param {number} minutes - Minutes to subtract from now.
+ * @returns {string} UTC timestamp string.
  * @example 2025-11-20T19:14:57.282Z
- * @returns {String}
  */
 export const currentDateMinusMinutes = minutes => {
   const newDate = subMinutes(new Date(), minutes);
@@ -66,13 +57,10 @@ export const currentDateMinusMinutes = minutes => {
 };
 
 /**
- *
- *
- * @param {number} hours
- *
- * Current date plus hours formated "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+ * Current date plus hours formatted "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'".
+ * @param {number} hours - Hours to add to now.
+ * @returns {string} UTC timestamp string.
  * @example 2025-11-20T19:14:57.282Z
- * @returns {String}
  */
 export const currentDateAddHours = hours => {
   const newDate = addHours(new Date(), hours);
@@ -91,12 +79,10 @@ export const currentDateAddOneHourMinusOneMinute = () => {
 };
 
 /**
- * @param {number} seconds
- *
  * Formats a date for file download matching expected filename format
+ * @param {number} seconds
+ * @returns {String} Date/time string.
  * @example 11-21-2025_010829PM
- * @returns {String}
- *
  */
 export const formatDateForDownload = seconds => {
   const now = new Date();
@@ -105,26 +91,20 @@ export const formatDateForDownload = seconds => {
 };
 
 /**
- *
- *
- * @param newDate
- *
- * Current date formated "MM-dd-yyyy'_'hhmmssa"
+ * Current date formatted "MM-dd-yyyy'_'hhmmssa".
+ * @param {Date} newDate - Date object to format.
+ * @returns {string} Date/time string.
  * @example 11-21-2025_010829PM
- * @returns {String}
  */
 const formatDateTimeForFileDownload = newDate => {
   return formatInTimeZone(newDate, 'UTC', "MM-dd-yyyy'_'hhmmssa");
 };
 
 /**
- *
- *
- * @param {number} seconds
- *
- * Current date plus seconds formated "MM-dd-yyyy'_'hhmmssa"
+ * Current date minus seconds formatted "MM-dd-yyyy'_'hhmmssa".
+ * @param {number} seconds - Seconds to add to now.
+ * @returns {string} Date/time string.
  * @example 11-21-2025_010829PM
- * @returns {String}
  */
 export const currentDateAddSecondsForFileDownload = seconds => {
   const newDate = addSeconds(new Date(), seconds);

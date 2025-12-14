@@ -524,7 +524,7 @@ export const unassociatedIncomePages = arrayBuilderPages(
       uiSchema: veteranSummaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
-    unassociatedIncomePagesUpdatedSpouseSummary: pageBuilder.summaryPage({
+    unassociatedIncomePagesSpouseSummary: pageBuilder.summaryPage({
       title: summaryPageTitle,
       path: 'recurring-income-summary-spouse',
       depends: formData =>
@@ -532,7 +532,7 @@ export const unassociatedIncomePages = arrayBuilderPages(
       uiSchema: spouseSummaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
-    unassociatedIncomePagesUpdatedChildSummary: pageBuilder.summaryPage({
+    unassociatedIncomePagesChildSummary: pageBuilder.summaryPage({
       title: summaryPageTitle,
       path: 'recurring-income-summary-child',
       depends: formData =>
@@ -540,7 +540,7 @@ export const unassociatedIncomePages = arrayBuilderPages(
       uiSchema: childSummaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
-    unassociatedIncomePagesUpdatedCustodianSummary: pageBuilder.summaryPage({
+    unassociatedIncomePagesCustodianSummary: pageBuilder.summaryPage({
       title: summaryPageTitle,
       path: 'recurring-income-summary-custodian',
       depends: formData =>
@@ -548,7 +548,7 @@ export const unassociatedIncomePages = arrayBuilderPages(
       uiSchema: custodianSummaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
-    unassociatedIncomePagesUpdatedParentSummary: pageBuilder.summaryPage({
+    unassociatedIncomePagesParentSummary: pageBuilder.summaryPage({
       title: summaryPageTitle,
       path: 'recurring-income-summary-parent',
       depends: formData =>

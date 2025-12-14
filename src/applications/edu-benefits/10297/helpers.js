@@ -3,8 +3,12 @@ import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { countries } from 'platform/forms/address';
-
 import { focusElement } from '~/platform/utilities/ui';
+import { isValid, parseISO, parse } from 'date-fns';
+import { srSubstitute } from '~/platform/forms-system/src/js/utilities/ui/mask-string';
+
+export const FORMAT_YMD_DATE_FNS = 'yyyy-MM-dd';
+export const FORMAT_READABLE_DATE_FNS = 'MMMM d, yyyy';
 
 export const ConfirmationSubmissionAlert = ({ confirmationNumber }) => (
   <>
@@ -203,4 +207,21 @@ export const getTransformIntlPhoneNumber = (phone = {}) => {
   }
 
   return _contact;
+};
+export const mask = value => {
+  const number = (value || '').toString().slice(-4);
+  return srSubstitute(number, `ending with ${number.split('').join(' ')}`);
+};
+export const parseDateToDateObj = (date, template) => {
+  let newDate = date;
+  if (typeof date === 'string') {
+    if (date.includes('T')) {
+      newDate = parseISO((date || '').split('T')[0]);
+    } else if (template) {
+      newDate = parse(date, template, new Date());
+    }
+  } else if (date instanceof Date && isValid(date)) {
+    newDate.setMinutes(newDate.getMinutes() + newDate.getTimezoneOffset());
+  }
+  return isValid(newDate) ? newDate : null;
 };
