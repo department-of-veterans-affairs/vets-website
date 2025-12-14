@@ -1,0 +1,20 @@
+{
+  "arraybuilder--button-cancel-no": "No, continue",
+  "arraybuilder--button-cancel-yes": "Yes, cancel",
+  "arraybuilder--button-delete-no": "No, keep",
+  "arraybuilder--button-delete-yes": "Yes, delete",
+  "health-insurance--cancel-add-title": "Cancel adding this plan?",
+  "health-insurance--cancel-add-description": "If you cancel adding this plan, we won\u2019t save its information. You\u2019ll return to a screen where you can add or remove plans.",
+  "health-insurance--cancel-edit-item-title": "Cancel editing %s\u2019s information?",
+  "health-insurance--cancel-edit-noun-title": "Cancel editing this %s information?",
+  "health-insurance--cancel-edit-description": "If you cancel editing this health insurance plan, we won\u2019t save its information. You\u2019ll return to a screen where you can add or remove other health insurance policies.",
+  "health-insurance--delete-item-description": "This will delete %s and all the information from your list of other health insurance plans.",
+  "health-insurance--delete-noun-description": "This will delete this %s and all the information from your list of other health insurance plans.",
+  "health-insurance--summary-title": "Review other health insurance",
+  "health-insurance--summary-title-no-items": "Report health insurance",
+  "health-insurance--summary-date-present": "present",
+  "health-insurance--summary-date-missing": "Not specified",
+  "health-insurance--yes-no-title": "Does the beneficiary need to add or update other health insurance information?",
+  "health-insurance--yes-no-more-title": "Do you have any other health insurance to report?",
+  "health-insurance--yes-no-hint": "If so, you must report this information for us to process your application."
+}
