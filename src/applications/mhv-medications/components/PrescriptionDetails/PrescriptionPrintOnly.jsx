@@ -33,7 +33,6 @@ const PrescriptionPrintOnly = props => {
   const pharmacyPhone = pharmacyPhoneNumber(rx);
   const latestTrackingStatus = rx?.trackingList?.[0];
   const showPendingMedsContent = useSelector(selectPendingMedsFlag);
-  const isCernerPilot = useSelector(selectCernerPilotFlag);
   const pendingMed =
     rx?.prescriptionSource === RX_SOURCE.PENDING_DISPENSE &&
     rx?.dispStatus === DISPENSE_STATUS.NEW_ORDER;

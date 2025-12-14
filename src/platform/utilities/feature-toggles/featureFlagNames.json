@@ -178,6 +178,7 @@
   "mhvMedicalRecordsSupportBackendPaginationVaccine": "mhv_medical_records_support_backend_pagination_vaccine",
   "mhvMedicalRecordsSupportBackendPaginationVital": "mhv_medical_records_support_backend_pagination_vital",
   "mhvMedicationsCernerPilot": "mhv_medications_cerner_pilot",
+  "mhvMedicationsV2StatusMapping": "mhv_medications_v2_status_mapping",
   "mhvMedicationsDisplayAllergies": "mhv_medications_display_allergies",
   "mhvMedicationsDisplayDocumentationContent": "mhv_medications_display_documentation_content",
   "mhvMedicationsDisplayGrouping": "mhv_medications_display_grouping",

@@ -82,7 +82,6 @@ import FilterAriaRegion from '../components/MedicationsList/FilterAriaRegion';
 import RxRenewalDeleteDraftSuccessAlert from '../components/shared/RxRenewalDeleteDraftSuccessAlert';
 import { useURLPagination } from '../hooks/useURLPagination';
 import { usePageTitle } from '../hooks/usePageTitle';
-import { selectCernerPilotFlag } from '../util/selectors';
 
 const Prescriptions = () => {
   const navigate = useNavigate();
@@ -92,7 +91,6 @@ const Prescriptions = () => {
   const userName = useSelector(selectUserFullName);
   const dob = useSelector(selectUserDob);
   const hasMedsByMailFacility = useSelector(selectHasMedsByMailFacility);
-  const isCernerPilot = useSelector(selectCernerPilotFlag);
   const currentFilterOptions = getFilterOptions(isCernerPilot);
   const [searchParams] = useSearchParams();
   const rxRenewalMessageSuccess = searchParams.get('rxRenewalMessageSuccess');

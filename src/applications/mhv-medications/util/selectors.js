@@ -27,3 +27,6 @@ export const selectSecureMessagingMedicationsRenewalRequestFlag = state =>
 
 export const selectCernerPilotFlag = state =>
   state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicationsCernerPilot];
+
+export const selectMHVMedicationsV2StatusMappingFlag = state =>
+  state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicationsV2StatusMapping];

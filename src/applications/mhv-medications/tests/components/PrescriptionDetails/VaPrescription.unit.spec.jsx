@@ -566,30 +566,31 @@ describe('vaPrescription details container', () => {
       const statusElement = screen.getByTestId('status-dropdown');
       expect(statusElement).to.exist;
     });
-  it('hides reason for use when Cerner pilot is enabled', () => {
-    const screen = setup(newRx, true, { isCernerPilot: true });
+    it('hides reason for use when Cerner pilot is enabled', () => {
+      const screen = setup(newRx, true, { isCernerPilot: true });
 
-    expect(screen.queryByText('Reason for use')).to.not.exist;
-  });
+      expect(screen.queryByText('Reason for use')).to.not.exist;
+    });
 
-  it('hides pharmacy phone and displays a link when Cerner pilot is enabled', () => {
-    const screen = setup(newRx, true, { isCernerPilot: true });
-    const pharmacyPhone = screen.queryByTestId('phone-number');
-    const findFacilityLink = screen.getByTestId('find-facility-link');
+    it('hides pharmacy phone and displays a link when Cerner pilot is enabled', () => {
+      const screen = setup(newRx, true, { isCernerPilot: true });
+      const pharmacyPhone = screen.queryByTestId('phone-number');
+      const findFacilityLink = screen.getByTestId('find-facility-link');
 
-    expect(pharmacyPhone).to.not.exist;
-    expect(findFacilityLink).to.exist;
-    expect(
-      screen.getByText(
-        'Check your prescription label or contact your VA facility.',
-      ),
-    ).to.exist;
-    expect(screen.getByText('Find your VA facility')).to.exist;
-  });
+      expect(pharmacyPhone).to.not.exist;
+      expect(findFacilityLink).to.exist;
+      expect(
+        screen.getByText(
+          'Check your prescription label or contact your VA facility.',
+        ),
+      ).to.exist;
+      expect(screen.getByText('Find your VA facility')).to.exist;
+    });
 
-  it('hides refill history when Cerner pilot is enabled', () => {
-    const screen = setup(newRx, true, { isCernerPilot: true });
+    it('hides refill history when Cerner pilot is enabled', () => {
+      const screen = setup(newRx, true, { isCernerPilot: true });
 
-    expect(screen.queryByText('Refill history')).to.not.exist;
+      expect(screen.queryByText('Refill history')).to.not.exist;
+    });
   });
 });

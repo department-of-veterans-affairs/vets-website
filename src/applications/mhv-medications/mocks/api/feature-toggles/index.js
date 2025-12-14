@@ -8,6 +8,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicationsDisplayNewCernerFacilityAlert = true,
     mhvSecureMessagingMedicationsRenewalRequest = false,
     mhvMedicationsCernerPilot = true,
+    mhvMedicationsV2StatusMapping = true,
   } = toggles;
 
   return {
@@ -45,6 +46,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_medications_cerner_pilot',
           value: mhvMedicationsCernerPilot,
+        },
+        {
+          name: 'mhv_medications_v2_status_mapping',
+          value: mhvMedicationsV2StatusMapping,
         },
       ],
     },
