@@ -4,7 +4,10 @@ import {
   mockFeatureToggles,
   mockStemEndpoint,
 } from '../../support/helpers/mocks';
-import { createBenefitsClaimListItem } from '../../support/fixtures/benefitsClaims';
+import {
+  createBenefitsClaimListItem,
+  createEvidenceSubmission,
+} from '../../support/fixtures/benefitsClaims';
 
 describe('Claim cards', () => {
   const setupClaimCardsTest = (claims = []) => {
@@ -244,6 +247,71 @@ describe('Claim cards', () => {
       cy.findByText('We requested more information from you:');
 
       cy.axeCheck();
+    });
+  });
+
+  describe('Upload error alerts', () => {
+    context('when cst_show_document_upload_status toggle is enabled', () => {
+      beforeEach(() => {
+        mockFeatureToggles({ showDocumentUploadStatus: true });
+        mockAppealsEndpoint();
+        mockStemEndpoint();
+
+        cy.login();
+      });
+
+      it('should display upload error alert for failed submissions within last 30 days', () => {
+        setupClaimCardsTest([
+          createBenefitsClaimListItem({
+            evidenceSubmissions: [createEvidenceSubmission()],
+          }),
+        ]);
+
+        cy.get('va-alert').findByText(
+          'We need you to resubmit files for this claim.',
+        );
+
+        cy.axeCheck();
+      });
+
+      it('should not display upload error alert for failed submissions older than 30 days', () => {
+        setupClaimCardsTest([
+          createBenefitsClaimListItem({
+            evidenceSubmissions: [
+              createEvidenceSubmission({
+                acknowledgementDate: '2020-01-01T12:00:00.000Z',
+                failedDate: '2019-12-01T12:00:00.000Z',
+              }),
+            ],
+          }),
+        ]);
+
+        cy.get('va-alert[status="error"]').should('not.exist');
+
+        cy.axeCheck();
+      });
+    });
+
+    context('when cst_show_document_upload_status toggle is disabled', () => {
+      beforeEach(() => {
+        mockFeatureToggles({ showDocumentUploadStatus: false });
+        mockAppealsEndpoint();
+        mockStemEndpoint();
+
+        cy.login();
+      });
+
+      it('should not display upload error alert even with failed submissions', () => {
+        setupClaimCardsTest([
+          createBenefitsClaimListItem({
+            evidenceSubmissions: [createEvidenceSubmission()],
+          }),
+        ]);
+
+        cy.get('va-alert[status="error"]').should('not.exist');
+
+        cy.axeCheck();
+      });
     });
   });
 });

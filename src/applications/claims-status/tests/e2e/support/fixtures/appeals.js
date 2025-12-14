@@ -11,6 +11,7 @@
  * @param {string} overrides.description - Issue description
  * @param {number} overrides.issuesCount - Number of issues to generate
  * @param {string} overrides.statusType - Status type for the appeal
+ * @param {Array} overrides.evidenceSubmissions - Evidence submissions array (use createEvidenceSubmission)
  * @returns {Object} Appeal object
  */
 export const createAppeal = ({
@@ -23,6 +24,7 @@ export const createAppeal = ({
   description = 'Tinnitus',
   issuesCount = 1,
   statusType = 'pending_soc',
+  evidenceSubmissions = [],
 }) => {
   const events = [
     { type: eventType, date: eventDate },
@@ -46,7 +48,7 @@ export const createAppeal = ({
       active: true,
       issues,
       description,
-      evidenceSubmissions: [],
+      evidenceSubmissions,
     },
   };
 };

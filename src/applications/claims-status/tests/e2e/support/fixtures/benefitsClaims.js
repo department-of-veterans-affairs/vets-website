@@ -11,6 +11,7 @@
  * @param {boolean} overrides.developmentLetterSent - Whether development letter was sent
  * @param {string} overrides.displayTitle - Display title for the claim
  * @param {boolean} overrides.documentsNeeded - Whether documents are needed
+ * @param {Array} overrides.evidenceSubmissions - Evidence submissions array (use createEvidenceSubmission)
  * @param {string} overrides.status - Claim status
  * @returns {Object} Claim list item object
  */
@@ -24,6 +25,7 @@ export const createBenefitsClaimListItem = ({
   developmentLetterSent,
   displayTitle = 'Claim for compensation',
   documentsNeeded,
+  evidenceSubmissions = [],
   status = 'CLAIM_RECEIVED',
 } = {}) => ({
   id: '123456789',
@@ -39,6 +41,7 @@ export const createBenefitsClaimListItem = ({
     developmentLetterSent,
     displayTitle,
     documentsNeeded,
+    evidenceSubmissions,
     status,
   },
 });

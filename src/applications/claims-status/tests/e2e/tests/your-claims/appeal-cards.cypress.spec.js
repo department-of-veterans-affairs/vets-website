@@ -1,5 +1,6 @@
 import userWithAppeals from '../../fixtures/mocks/user-with-appeals.json';
 import { createAppeal } from '../../support/fixtures/appeals';
+import { createEvidenceSubmission } from '../../support/fixtures/benefitsClaims';
 import {
   mockAppealsEndpoint,
   mockClaimsEndpoint,
@@ -278,6 +279,32 @@ describe('Appeal cards', () => {
       cy.findByText('Issues on appeal:').should('not.exist');
       cy.findByText(/Status:/);
       cy.findByText('Last updated: January 15, 2025');
+
+      cy.axeCheck();
+    });
+  });
+
+  describe('Upload error alerts', () => {
+    beforeEach(() => {
+      mockFeatureToggles({ showDocumentUploadStatus: true });
+      mockClaimsEndpoint();
+      mockStemEndpoint();
+
+      cy.login(userWithAppeals);
+    });
+
+    it('should display upload error alert for supplemental claim with failed submissions', () => {
+      setupAppealCardsTest([
+        createAppeal({
+          type: 'supplementalClaim',
+          eventType: 'sc_request',
+          evidenceSubmissions: [createEvidenceSubmission()],
+        }),
+      ]);
+
+      cy.get('va-alert').findByText(
+        'We need you to resubmit files for this claim.',
+      );
 
       cy.axeCheck();
     });
