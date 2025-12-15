@@ -18,12 +18,18 @@ const AdditionalInstitutionName = () => {
   const institutionName = details?.institutionName;
   const facilityCode = (details?.facilityCode || '').trim();
 
-  const additionalFacilityCodes = formData?.additionalInstitutionDetails?.map(
-    item => item?.facilityCode?.trim(),
-  );
+  const additionalFacilityCodes =
+    formData?.additionalInstitutionDetails?.map(item =>
+      item?.facilityCode?.trim(),
+    ) || [];
+
+  const facilityCodes = [
+    ...additionalFacilityCodes,
+    formData?.institutionDetails?.facilityCode,
+  ];
 
   const isDuplicate =
-    additionalFacilityCodes?.filter(item => item === facilityCode).length > 1;
+    facilityCodes?.filter(item => item === facilityCode).length > 1;
 
   const badFormat =
     facilityCode.length > 0 && !/^[a-zA-Z0-9]{8}$/.test(facilityCode);
@@ -40,22 +46,6 @@ const AdditionalInstitutionName = () => {
     if (hasXInThirdPosition) {
       return true;
     }
-
-    // // Check if not attached to main campus
-    // const mainInstitution = formData?.institutionDetails;
-    // const branches =
-    //   mainInstitution?.facilityMap?.branches?.map(
-    //     branch => branch?.institution?.facilityCode,
-    //   ) || [];
-    // const extensions =
-    //   mainInstitution?.facilityMap?.extensions?.map(
-    //     extension => extension?.institution?.facilityCode,
-    //   ) || [];
-    // const branchList = [...branches, ...extensions];
-
-    // if (!branchList.includes(facilityCode)) {
-    //   return true;
-    // }
 
     return false;
   })();

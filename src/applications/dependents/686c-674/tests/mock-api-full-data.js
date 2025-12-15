@@ -11,7 +11,7 @@ const mockUser = require('./e2e/user.json');
 const mockVaFileNumber = require('./e2e/fixtures/va-file-number.json');
 const mockMaxData = require('./e2e/fixtures/removal-only-v3.json');
 
-const returnUrl = '/review-and-submit';
+const returnUrl = '/options-selection';
 
 const createDate = (yearsAgo = 0, monthsAgo = 0, formatDate = 'MM/dd/yyyy') =>
   dateFns.format(
@@ -210,6 +210,10 @@ const responses = {
         { name: 'va_dependents_net_worth_and_pension', value: true },
         { name: 'vaDependentsDuplicateModals', value: true },
         { name: 'va_dependents_duplicate_modals', value: true },
+        { name: 'manage_dependents', value: true },
+        { name: 'manageDependents', value: true },
+        { name: 'vaDependentsVerification', value: true },
+        { name: 'va_dependents_verification', value: true },
       ],
     },
   },
@@ -220,6 +224,14 @@ const responses = {
   'GET /v0/profile/valid_va_file_number': mockVaFileNumber,
   'GET /v0/in_progress_forms/686C-674-V2': mockSipGet,
   'PUT /v0/in_progress_forms/686C-674-V2': mockSipPut,
+  'GET /v0/disability_compensation_form/rating_info': {
+    // eslint-disable-next-line camelcase
+    disability_decision_type_name: 'Service Connected',
+    // eslint-disable-next-line camelcase
+    service_connected_combined_degree: 90,
+    // eslint-disable-next-line camelcase
+    user_percent_of_disability: 90,
+  },
 
   'GET /v0/dependents_applications/show': mockDependents,
 
