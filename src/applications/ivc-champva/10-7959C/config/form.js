@@ -1,11 +1,12 @@
-import React from 'react';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
+import environment from 'platform/utilities/environment';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import get from 'platform/utilities/data/get';
 import { defaultItemPageScrollAndFocusTarget as scrollAndFocusTarget } from 'platform/forms-system/src/js/patterns/array-builder';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import FormFooter from '../components/FormFooter';
 import transformForSubmit from './submitTransformer';
 import { nameWording, privWrapper } from '../../shared/utilities';
 import FileFieldWrapped from '../components/FileUploadWrapper';
@@ -20,17 +21,16 @@ import applicantIdentityInformation from '../chapters/applicantInformation/ident
 import applicantMailingAddress from '../chapters/applicantInformation/mailingAddress';
 import applicantPersonalInformation from '../chapters/applicantInformation/personalInformation';
 
-import {
-  applicantHasMedicareSchema,
-  applicantMedicareClassSchema,
-  applicantMedicarePartACarrierSchema,
-  applicantMedicarePartBCarrierSchema,
-  applicantMedicarePharmacySchema,
-  applicantHasMedicareDSchema,
-  applicantMedicareABUploadSchema,
-  applicantMedicareDUploadSchema,
-} from '../chapters/medicareInformation';
-import applicantMedicarePartDEffectiveDate from '../chapters/medicare/partDEffectiveDate';
+import medicareReportPlans from '../chapters/medicare/reportPlans';
+import medicarePlanTypes from '../chapters/medicare/planTypes';
+import medicarePharmacyBenefits from '../chapters/medicare/planPharmacyBenefits';
+import medicarePartACarrier from '../chapters/medicare/partACarrier';
+import medicarePartBCarrier from '../chapters/medicare/partBCarrier';
+import medicareCardUpload from '../chapters/medicare/partsABCardUpload';
+import medicarePartDStatus from '../chapters/medicare/partDStatus';
+import medicarePartDEffectiveDate from '../chapters/medicare/partDEffectiveDate';
+import medicarePartDCardUpload from '../chapters/medicare/partDCardUpload';
+
 import {
   applicantHasInsuranceSchema,
   applicantProviderSchema,
@@ -49,7 +49,6 @@ import certifierEmail from '../chapters/signerInformation/certifierEmail';
 import certifierRole from '../chapters/signerInformation/certifierRole';
 import CustomAttestation from '../components/CustomAttestation';
 
-import GetFormHelp from '../../shared/components/GetFormHelp';
 import { hasReq } from '../../shared/components/fileUploads/MissingFileOverview';
 import SupportingDocumentsPage from '../components/SupportingDocumentsPage';
 import { MissingFileConsentPage } from '../components/MissingFileConsentPage';
@@ -85,7 +84,7 @@ const formConfig = {
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
   showReviewErrors: !environment.isProduction(),
-  footerContent: GetFormHelp,
+  footerContent: FormFooter,
   submissionError: SubmissionError,
   formId: '10-7959C',
   dev: {
@@ -100,10 +99,11 @@ const formConfig = {
     CustomComponent: CustomAttestation,
   },
   customText: {
-    reviewPageTitle: 'Review form',
     appType: 'form',
+    continueAppButtonText: 'Continue your form',
+    reviewPageTitle: 'Review and sign',
+    startNewAppButtonText: 'Start a new form',
   },
-  CustomReviewTopContent: () => <h3>Review and sign</h3>,
   saveInProgress: {
     messages: {
       inProgress:
@@ -125,8 +125,30 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for CHAMPVA other health insurance certification.',
   },
-  title: 'Submit other health insurance VA Form 10-7959c',
+  title: 'Submit other health insurance',
   subTitle: 'CHAMPVA Other Health Insurance Certification (VA Form 10-7959c)',
+  ...minimalHeaderFormConfigOptions({
+    breadcrumbList: [
+      {
+        href: '/family-and-caregiver-benefits/',
+        label: 'VA benefits for family and caregivers',
+      },
+      {
+        href: '/family-and-caregiver-benefits/health-and-disability/',
+        label: 'Health and disability benefits for family and caregivers',
+      },
+      {
+        href: '/family-and-caregiver-benefits/health-and-disability/champva/',
+        label: 'CHAMPVA benefits',
+      },
+      {
+        href: '#content',
+        label: 'Submit other health insurance',
+      },
+    ],
+    homeVeteransAffairs: true,
+    wrapping: true,
+  }),
   defaultDefinitions: {},
   chapters: {
     formSignature: {
@@ -207,45 +229,41 @@ const formConfig = {
       pages: {
         hasMedicareAB: {
           path: 'medicare-ab-status',
-          title: formData => privWrapper(`${fnp(formData)} Medicare status`),
-          ...applicantHasMedicareSchema,
+          title: 'Report Medicare plans',
+          ...medicareReportPlans,
           scrollAndFocusTarget,
         },
         medicareClass: {
           path: 'medicare-plan',
-          title: formData => privWrapper(`${fnp(formData)} Medicare coverage`),
+          title: 'Medicare plan types',
           depends: formData => get('applicantMedicareStatus', formData),
-          ...applicantMedicareClassSchema,
+          ...medicarePlanTypes,
           scrollAndFocusTarget,
         },
         pharmacyBenefits: {
           path: 'medicare-pharmacy',
-          title: formData =>
-            privWrapper(`${fnp(formData)} Medicare pharmacy benefits`),
+          title: 'Medicare pharmacy benefits',
           depends: formData =>
             !formData['view:champvaForm107959cRev2025'] &&
             get('applicantMedicareStatus', formData) &&
             ['advantage', 'other'].includes(
               get('applicantMedicareClass', formData),
             ),
-          ...applicantMedicarePharmacySchema,
+          ...medicarePharmacyBenefits,
           scrollAndFocusTarget,
         },
-        // If 'yes' to previous question:
         partACarrier: {
           path: 'medicare-a-carrier',
-          title: formData =>
-            privWrapper(`${fnp(formData)} Medicare Part A carrier`),
+          title: 'Medicare Part A carrier',
           depends: formData => get('applicantMedicareStatus', formData),
-          ...applicantMedicarePartACarrierSchema,
+          ...medicarePartACarrier,
           scrollAndFocusTarget,
         },
         partBCarrier: {
           path: 'medicare-b-carrier',
-          title: formData =>
-            privWrapper(`${fnp(formData)} Medicare Part B carrier`),
+          title: 'Medicare Part B carrier',
           depends: formData => get('applicantMedicareStatus', formData),
-          ...applicantMedicarePartBCarrierSchema,
+          ...medicarePartBCarrier,
           scrollAndFocusTarget,
         },
         medicareABCards: {
@@ -254,15 +272,14 @@ const formConfig = {
           depends: formData => get('applicantMedicareStatus', formData),
           CustomPage: FileFieldWrapped,
           CustomPageReview: null,
-          ...applicantMedicareABUploadSchema,
+          ...medicareCardUpload,
           scrollAndFocusTarget,
         },
         hasMedicareD: {
           path: 'medicare-d-status',
-          title: formData =>
-            privWrapper(`${fnp(formData)} Medicare Part D status`),
+          title: 'Medicare Part D status',
           depends: formData => get('applicantMedicareStatus', formData),
-          ...applicantHasMedicareDSchema,
+          ...medicarePartDStatus,
           scrollAndFocusTarget,
         },
         partDCarrier: {
@@ -271,7 +288,7 @@ const formConfig = {
           depends: formData =>
             get('applicantMedicareStatus', formData) &&
             get('applicantMedicareStatusD', formData),
-          ...applicantMedicarePartDEffectiveDate,
+          ...medicarePartDEffectiveDate,
           scrollAndFocusTarget,
         },
         medicareDCards: {
@@ -283,7 +300,7 @@ const formConfig = {
           CustomPage: FileFieldWrapped,
           CustomPageReview: null,
           customPageUsesPagePerItemData: true,
-          ...applicantMedicareDUploadSchema,
+          ...medicarePartDCardUpload,
           scrollAndFocusTarget,
         },
       },

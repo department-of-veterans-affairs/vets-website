@@ -37,9 +37,7 @@ const options = {
         )}
       />
     ),
-    cardDescription: item => {
-      return item && <SpouseSummaryCardDescription item={item} />;
-    },
+    cardDescription: SpouseSummaryCardDescription,
     cancelAddDescription: () =>
       content['household-spouse-add-cancel-modal-text'],
     cancelEditDescription: () =>
