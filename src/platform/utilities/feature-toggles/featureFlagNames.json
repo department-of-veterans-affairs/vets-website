@@ -350,6 +350,7 @@
   "virtualAgentUseStsAuthentication": "virtual_agent_use_sts_authentication",
   "virtualAgentChatbotSessionPersistenceEnabled": "virtual_agent_chatbot_session_persistence_enabled",
   "vreModularApi": "vre_modular_api",
+  "vrePrefillName": "vre_prefill_name",
   "vreCutoverNotice": "vre_cutover_notice",
   "vyeLoginWidget": "vye_login_widget",
   "yellowRibbonAutomatedDateOnSchoolSearch": "yellow_ribbon_automated_date_on_school_search",

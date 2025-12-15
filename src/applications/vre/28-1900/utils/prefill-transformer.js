@@ -30,7 +30,9 @@ export function prefillTransformer(pages, formData, metadata, state) {
   const newData = {
     ...formData,
     dob,
-    fullName: getSafeUserFullName(userFullName),
+    fullName: formData['view:vrePrefillName']
+      ? getSafeUserFullName(userFullName)
+      : userFullName,
     veteranAddress: {
       country: countryCodeIso3,
       street: addressLine1,
