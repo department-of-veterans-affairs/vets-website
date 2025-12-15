@@ -62,6 +62,8 @@ describe('Medications Prescriptions container', () => {
   it('should display loading message when loading prescriptions', async () => {
     // Restore the existing stubs from beforeEach
     sandbox.restore();
+    // Recreate sandbox for this test
+    sandbox = sinon.createSandbox();
 
     // Create fresh stubs with loading state
     stubAllergiesApi({ sandbox, isLoading: false });
@@ -95,6 +97,7 @@ describe('Medications Prescriptions container', () => {
 
   it('should display delayed refill alert when showRefillProgressContent flag is true and refillAlertList has items', async () => {
     sandbox.restore();
+    sandbox = sinon.createSandbox();
     stubAllergiesApi({ sandbox });
     stubPrescriptionsListApi({
       sandbox,
@@ -119,6 +122,7 @@ describe('Medications Prescriptions container', () => {
 
   it('should not display delayed refill alert when refillAlertList is empty', async () => {
     sandbox.restore();
+    sandbox = sinon.createSandbox();
     stubAllergiesApi({ sandbox });
     stubPrescriptionsListApi({
       sandbox,
@@ -145,6 +149,7 @@ describe('Medications Prescriptions container', () => {
 
   it('displays empty list alert', async () => {
     sandbox.restore();
+    sandbox = sinon.createSandbox();
     stubAllergiesApi({ sandbox });
     stubPrescriptionsListApi({
       sandbox,
@@ -173,6 +178,7 @@ describe('Medications Prescriptions container', () => {
 
   it('should show the allergy error alert when downloading PDF', async () => {
     sandbox.restore();
+    sandbox = sinon.createSandbox();
     stubAllergiesApi({ sandbox, error: true });
     stubPrescriptionsListApi({ sandbox });
     const screen = setup();
@@ -189,6 +195,7 @@ describe('Medications Prescriptions container', () => {
 
   it('should show the allergy error alert when printing', async () => {
     sandbox.restore();
+    sandbox = sinon.createSandbox();
     stubAllergiesApi({ sandbox, error: true });
     stubPrescriptionsListApi({ sandbox });
     const screen = setup();
@@ -206,6 +213,7 @@ describe('Medications Prescriptions container', () => {
 
   it('should show the allergy error alert when downloading txt', async () => {
     sandbox.restore();
+    sandbox = sinon.createSandbox();
     stubAllergiesApi({ sandbox, error: true });
     stubPrescriptionsListApi({ sandbox });
     const screen = setup();
