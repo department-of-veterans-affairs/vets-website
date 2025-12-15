@@ -75,6 +75,7 @@ describe('Prescription details container', () => {
 
   it('should display loading message when loading specific rx', async () => {
     sandbox.restore();
+    sandbox = sinon.createSandbox();
     stubAllergiesApi({ sandbox });
     stubPrescriptionsApiCache({ sandbox, data: false });
     stubPrescriptionIdApi({ sandbox, isLoading: true });
@@ -91,6 +92,7 @@ describe('Prescription details container', () => {
 
   it('should show the allergy error alert when downloading txt', async () => {
     sandbox.restore();
+    sandbox = sinon.createSandbox();
     stubAllergiesApi({ sandbox, error: true });
     stubPrescriptionsApiCache({ sandbox, data: false });
     stubPrescriptionIdApi({ sandbox });
@@ -108,6 +110,7 @@ describe('Prescription details container', () => {
 
   it('should show the allergy error alert when printing', async () => {
     sandbox.restore();
+    sandbox = sinon.createSandbox();
     stubAllergiesApi({ sandbox, error: true });
     stubPrescriptionsApiCache({ sandbox, data: false });
     stubPrescriptionIdApi({ sandbox });
@@ -125,6 +128,7 @@ describe('Prescription details container', () => {
 
   it('displays the prescription name and filled by date', async () => {
     sandbox.restore();
+    sandbox = sinon.createSandbox();
     stubAllergiesApi({ sandbox });
     stubPrescriptionsApiCache({
       sandbox,
@@ -163,6 +167,7 @@ describe('Prescription details container', () => {
 
   it('displays "Not filled yet" when there is no dispense date', async () => {
     sandbox.restore();
+    sandbox = sinon.createSandbox();
     stubAllergiesApi({ sandbox });
     stubPrescriptionsApiCache({ sandbox, data: false });
     const data = JSON.parse(JSON.stringify(singlePrescription));
@@ -180,6 +185,7 @@ describe('Prescription details container', () => {
 
   it('displays "Documented on" instead of "filled by" date, when med is non VA', async () => {
     sandbox.restore();
+    sandbox = sinon.createSandbox();
     stubAllergiesApi({ sandbox });
     stubPrescriptionsApiCache({ sandbox, data: false });
     stubPrescriptionIdApi({ sandbox, data: nonVaRxResponse.data.attributes });
@@ -211,6 +217,7 @@ describe('Prescription details container', () => {
 
   it('name should use prescriptionName for non va prescription if available', async () => {
     sandbox.restore();
+    sandbox = sinon.createSandbox();
     stubAllergiesApi({ sandbox });
     stubPrescriptionsApiCache({ sandbox, data: false });
     const data = JSON.parse(JSON.stringify(nonVaRxResponse.data.attributes));
@@ -228,6 +235,7 @@ describe('Prescription details container', () => {
 
   it('Shows error message for apiError', async () => {
     sandbox.restore();
+    sandbox = sinon.createSandbox();
     stubAllergiesApi({ sandbox });
     stubPrescriptionsApiCache({ sandbox, data: false });
     stubPrescriptionIdApi({ sandbox, error: true });
@@ -244,6 +252,7 @@ describe('Prescription details container', () => {
 
   it('should display alert if prescription has a prescriptionSource of PD', async () => {
     sandbox.restore();
+    sandbox = sinon.createSandbox();
     stubAllergiesApi({ sandbox });
     stubPrescriptionsApiCache({ sandbox });
     const data = JSON.parse(JSON.stringify(singlePrescription));
@@ -258,6 +267,7 @@ describe('Prescription details container', () => {
 
   it('should prefetch the prescription documentation when there is an NDC number', async () => {
     sandbox.restore();
+    sandbox = sinon.createSandbox();
     stubAllergiesApi({ sandbox });
     stubPrescriptionsApiCache({ sandbox, data: null, error: true });
     const data = JSON.parse(JSON.stringify(singlePrescription));
@@ -275,6 +285,7 @@ describe('Prescription details container', () => {
 
   it('should not prefetch the prescription documentation when there is not an NDC number', async () => {
     sandbox.restore();
+    sandbox = sinon.createSandbox();
     stubAllergiesApi({ sandbox });
     stubPrescriptionsApiCache({ sandbox, data: null, error: true });
     const data = JSON.parse(JSON.stringify(singlePrescription));
@@ -292,6 +303,7 @@ describe('Prescription details container', () => {
 
   it('should pass station number to the API when present in the URL', async () => {
     sandbox.restore();
+    sandbox = sinon.createSandbox();
     stubAllergiesApi({ sandbox });
     stubPrescriptionsApiCache({ sandbox, data: false });
     const apiStub = stubPrescriptionIdApi({ sandbox });

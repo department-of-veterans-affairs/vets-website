@@ -89,6 +89,7 @@ describe('Refill Prescriptions Component', () => {
 
   it('should render loading state', async () => {
     sandbox.restore();
+    sandbox = sinon.createSandbox();
     initMockApis({ sinonSandbox: sandbox, isLoading: true });
     const screen = setup();
     expect(screen.getByTestId('loading-indicator')).to.exist;
@@ -210,6 +211,7 @@ describe('Refill Prescriptions Component', () => {
 
   it('Shows the correct text for one prescription', async () => {
     sandbox.restore();
+    sandbox = sinon.createSandbox();
     initMockApis({
       sinonSandbox: sandbox,
       prescriptions: [refillablePrescriptions[0]],
@@ -233,6 +235,7 @@ describe('Refill Prescriptions Component', () => {
 
   it('Checks for error message when refilling with 0 meds selected and 1 available', async () => {
     sandbox.restore();
+    sandbox = sinon.createSandbox();
     initMockApis({
       sinonSandbox: sandbox,
       prescriptions: [refillablePrescriptions[0]],
@@ -275,6 +278,7 @@ describe('Refill Prescriptions Component', () => {
 
   it('Shows h1 and note if no prescriptions are refillable', async () => {
     sandbox.restore();
+    sandbox = sinon.createSandbox();
     initMockApis({
       sinonSandbox: sandbox,
       prescriptions: [],
@@ -289,6 +293,7 @@ describe('Refill Prescriptions Component', () => {
   describe('Oracle Health Pilot Flag Tests', () => {
     it('calls bulkRefillPrescriptions with simple IDs when pilot flag is disabled', async () => {
       sandbox.restore();
+      sandbox = sinon.createSandbox();
       const bulkRefillStub = sinon.stub().resolves({
         data: { successfulIds: [22377956], failedIds: [] },
       });
@@ -334,6 +339,7 @@ describe('Refill Prescriptions Component', () => {
 
     it('calls bulkRefillPrescriptions with ID objects when pilot flag is enabled', async () => {
       sandbox.restore();
+      sandbox = sinon.createSandbox();
       const bulkRefillStub = sinon.stub().resolves({
         data: {
           successfulIds: [{ id: 22377956, stationNumber: '989' }],
@@ -388,6 +394,7 @@ describe('Refill Prescriptions Component', () => {
 
     it('matches medications by ID and stationNumber when pilot flag is enabled', async () => {
       sandbox.restore();
+      sandbox = sinon.createSandbox();
       const bulkRefillStub = sinon.stub().resolves({
         data: {
           successfulIds: [{ id: 22377956, stationNumber: '989' }],
@@ -439,6 +446,7 @@ describe('Refill Prescriptions Component', () => {
 
     it('matches medications by ID only when pilot flag is disabled', async () => {
       sandbox.restore();
+      sandbox = sinon.createSandbox();
       const bulkRefillStub = sinon.stub().resolves({
         data: {
           successfulIds: [22377956],

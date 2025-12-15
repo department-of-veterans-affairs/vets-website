@@ -78,6 +78,7 @@ describe('Prescription details documentation container', () => {
 
   it('should display loading message when loading specific rx documentation', async () => {
     sandbox.restore();
+    sandbox = sinon.createSandbox();
     stubAllergiesApi({ sandbox });
     stubPrescriptionIdApi({ sandbox });
     stubPrescriptionDocumentationQuery({
@@ -125,6 +126,7 @@ describe('Prescription details documentation container', () => {
 
   it('Certain content should not exist after receiving no information from API', async () => {
     sandbox.restore();
+    sandbox = sinon.createSandbox();
     stubAllergiesApi({ sandbox });
     stubPrescriptionIdApi({ sandbox });
     stubPrescriptionDocumentationQuery({
@@ -158,6 +160,7 @@ describe('Prescription details documentation container', () => {
 
   it('Certain content should not exist after receiving error from API', async () => {
     sandbox.restore();
+    sandbox = sinon.createSandbox();
     stubAllergiesApi({ sandbox });
     stubPrescriptionIdApi({ sandbox });
     stubPrescriptionDocumentationQuery({
