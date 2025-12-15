@@ -116,15 +116,14 @@ const ResultDescription = ({
       </h2>
     )}
     <p>{body}</p>
-    {linkHref &&
-      linkText && (
-        <a
-          href={linkHref}
-          className="vads-u-display--block vads-c-action-link--green vads-u-margin-bottom--3"
-        >
-          {linkText}
-        </a>
-      )}
+    {linkHref && linkText && (
+      <a
+        href={linkHref}
+        className="vads-u-display--block vads-c-action-link--green vads-u-margin-bottom--3"
+      >
+        {linkText}
+      </a>
+    )}
     <div className="usa-alert background-color-only">
       <h3 className="vads-u-margin-top--0">Your answers:</h3>
       <ul className="vads-u-list-style--none vads-u-padding-left--0">
@@ -152,9 +151,7 @@ const SameBenefitResultDescription = ({ formData }) => {
   return (
     <ResultDescription
       resultHeader={formInfo.header}
-      body={`Based on your answers, use ${
-        formInfo.formName
-      } to apply to the same benefit again to get an updated COE.`}
+      body={`Based on your answers, use ${formInfo.formName} to apply to the same benefit again to get an updated COE.`}
       linkHref={formInfo.link}
       linkText={formInfo.linkText}
       answers={[
