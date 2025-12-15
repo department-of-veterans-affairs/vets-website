@@ -80,8 +80,17 @@ describe('Claim layout', () => {
       level: 2,
     });
 
-    cy.findByText('Tinnitus');
+    cy.findByText('Asthma');
+    cy.findByText('Emphysema');
     cy.findByText('Hearing Loss');
+    cy.findByText('Sleep Apnea').should('not.exist');
+
+    cy.get('va-button')
+      .contains('Show full list')
+      .click();
+
+    cy.findByText('Sleep Apnea');
+    cy.findByText('Tinnitus');
 
     cy.axeCheck();
   });
