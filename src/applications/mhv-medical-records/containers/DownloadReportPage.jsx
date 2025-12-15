@@ -276,6 +276,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           generatingCCD={generatingCCD}
           handleDownloadCCD={handleDownloadCCD}
           handleDownloadSelfEnteredPdf={handleDownloadSelfEnteredPdf}
+          selfEnteredPdfLoading={selfEnteredPdfLoading}
           successfulSeiDownload={successfulSeiDownload}
           activeAlert={activeAlert}
           accessErrors={accessErrors}

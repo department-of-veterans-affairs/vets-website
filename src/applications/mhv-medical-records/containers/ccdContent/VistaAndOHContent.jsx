@@ -37,6 +37,7 @@ const VistaAndOHContent = ({
   handleDownloadCCD,
   handleDownloadSelfEnteredPdf,
   lastSuccessfulUpdate,
+  selfEnteredPdfLoading,
   successfulSeiDownload,
   successfulBBDownload,
   vistaFacilityNames,
@@ -198,13 +199,24 @@ const VistaAndOHContent = ({
         directly. If you want to share this information with your care team,
         print this report and bring it to your next appointment.
       </p>
-      <va-link
-        download
-        href="#"
-        onClick={handleDownloadSelfEnteredPdf}
-        text="Download self-entered health information report (PDF)"
-        data-testid="downloadSelfEnteredButton"
-      />
+      {selfEnteredPdfLoading ? (
+        <div id="generating-sei-indicator">
+          <TrackedSpinner
+            id="download-self-entered-spinner"
+            label="Loading"
+            message="Preparing your download..."
+            data-testid="sei-loading-indicator"
+          />
+        </div>
+      ) : (
+        <va-link
+          download
+          href="#"
+          onClick={handleDownloadSelfEnteredPdf}
+          text="Download self-entered health information report (PDF)"
+          data-testid="downloadSelfEnteredButton"
+        />
+      )}
       <p className="vads-u-margin--0 vads-u-margin-top--2">
         <strong>Note:</strong> Blue Button and the Blue Button logo are
         registered service marks owned by the U.S. Department of Health and
@@ -226,6 +238,7 @@ VistaAndOHContent.propTypes = {
   handleDownloadCCDV2: PropTypes.func.isRequired,
   handleDownloadSelfEnteredPdf: PropTypes.func.isRequired,
   ohFacilityNames: PropTypes.arrayOf(PropTypes.string).isRequired,
+  selfEnteredPdfLoading: PropTypes.bool.isRequired,
   successfulSeiDownload: PropTypes.bool.isRequired,
   vistaFacilityNames: PropTypes.arrayOf(PropTypes.string).isRequired,
   CCDRetryTimestamp: PropTypes.string,
