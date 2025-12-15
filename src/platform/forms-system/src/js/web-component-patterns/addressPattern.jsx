@@ -709,11 +709,8 @@ export function addressUI(options = {}) {
             addressSchema.pattern =
               POSTAL_CODE_PATTERNS[isMilitary ? 'USA' : country];
             addressSchema.maxLength = 5;
-          } else if (country === 'CAN') {
-            addressSchema.pattern = POSTAL_CODE_PATTERNS[country];
-            addressSchema.maxLength = 6;
           } else {
-            // pattern validation for other countries - alphanumeric and spaces/hyphens only
+            // CAN and other countries use same validation (6-char alphanumeric)
             addressSchema.pattern = country
               ? POSTAL_CODE_PATTERNS.CAN
               : undefined;
