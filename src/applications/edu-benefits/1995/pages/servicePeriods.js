@@ -1,5 +1,5 @@
-import * as toursOfDuty from '../../definitions/toursOfDuty';
 import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
+import * as toursOfDuty from '../../definitions/toursOfDuty';
 
 export const uiSchema = {
   'view:newService': {

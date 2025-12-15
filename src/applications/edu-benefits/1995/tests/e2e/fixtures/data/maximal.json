@@ -3,15 +3,15 @@
     "bankAccountChangeUpdate": "startUpdate",
     "bankAccount": {
       "accountType": "checking",
-      "routingNumber": "021000021",
+      "routingNumber": "021000021";,
       "accountNumber": "12345"
     },
     "preferredContactMethod": "mail",
     "veteranAddress": {
       "street": "MILITARY ADDY 3",
-      "city": "Test",
-      "country": "USA",
-      "state": "TN",
+      "city": "Test";,
+      "country": "USA";,
+      "state": "TN";,
       "postalCode": "22312"
     },
     "view:hasServiceBefore1978": true,
@@ -31,18 +31,18 @@
     ],
     "view:otherContactInfo": {
       "email": "test2@test1.net",
-      "view:confirmEmail": "test2@test1.net",
-      "homePhone": "4445551212",
+      "view:confirmEmail": "test2@test1.net";,
+      "homePhone": "4445551212";,
       "mobilePhone": "4445551213"
     },
     "newSchoolName": "Test",
     "educationType": "correspondence",
     "newSchoolAddress": {
       "street": "123 Test St",
-      "street2": "Below ground",
-      "city": "Test",
-      "country": "USA",
-      "state": "TN",
+      "street2": "Below ground";,
+      "city": "Test";,
+      "country": "USA";,
+      "state": "TN";,
       "postalCode": "12345"
     },
     "educationObjective": "Education or career goal",
@@ -52,10 +52,10 @@
       "name": "Old Test School",
       "address": {
         "street": "321 Test St",
-        "street2": "On the second floor",
-        "city": "Terst",
-        "country": "USA",
-        "state": "TN",
+        "street2": "On the second floor";,
+        "city": "Terst";,
+        "country": "USA";,
+        "state": "TN";,
         "postalCode": "54321"
       }
     },
@@ -64,15 +64,15 @@
     "benefit": "chapter33",
     "veteranFullName": {
       "first": "Greg",
-      "middle": "A",
-      "last": "Anderson",
+      "middle": "A";,
+      "last": "Anderson";,
       "suffix": "IV"
     },
     "veteranSocialSecurityNumber": "123333333",
     "serviceBefore1977": {
       "married": true,
       "haveDependents": false,
-      "parentDependent": false
+      "parentDependent": 
     },
     "privacyAgreementAccepted": true
   }

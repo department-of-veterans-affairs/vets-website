@@ -1,8 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
 
-import { ConfirmationPage } from '../../containers/ConfirmationPage';
 import { shallow } from 'enzyme';
+import { ConfirmationPage } from '../../containers/ConfirmationPage';
 import { ConfirmationPageContent } from '../../../components/ConfirmationPageContent';
 
 const form = {
