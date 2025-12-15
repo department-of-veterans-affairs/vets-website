@@ -272,6 +272,7 @@ const formConfig = {
           schema: medallionSize.schema,
           depends: formData => formData.typeOfRequestRadio === 'new',
         },
+        // NEW SCREENS START HERE
       },
     },
     supportingDocuments: {
