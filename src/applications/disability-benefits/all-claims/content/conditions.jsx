@@ -56,7 +56,7 @@ export const createCauseFollowUpDescriptions = (item, fullData = {}) => {
 
       return found
         ? `caused by ${item.causedByDisability.trim()}`
-        : `${item.causedByDisability.trim()} has been removed — please edit to change the cause`;
+        : `${item.causedByDisability.trim()} has been removed — please edit to change the cause or delete the condition`;
     }
 
     case 'WORSENED':
