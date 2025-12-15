@@ -102,7 +102,12 @@ describe('Claim status', () => {
           it('should hide upload error alert and show nothing needed message even when failed submissions exist', () => {
             setupClaimTest({
               claim: createBenefitsClaim({
-                evidenceSubmissions: [createEvidenceSubmission()],
+                evidenceSubmissions: [
+                  createEvidenceSubmission({
+                    uploadStatus: 'FAILED',
+                    acknowledgementDate: '2050-01-01T00:00:00.000Z',
+                  }),
+                ],
                 trackedItems: [],
               }),
             });
@@ -122,7 +127,12 @@ describe('Claim status', () => {
           it('should show upload error alert and hide nothing needed message when failed submissions exist', () => {
             setupClaimTest({
               claim: createBenefitsClaim({
-                evidenceSubmissions: [createEvidenceSubmission()],
+                evidenceSubmissions: [
+                  createEvidenceSubmission({
+                    uploadStatus: 'FAILED',
+                    acknowledgementDate: '2050-01-01T00:00:00.000Z',
+                  }),
+                ],
                 trackedItems: [],
               }),
             });
@@ -143,11 +153,15 @@ describe('Claim status', () => {
                 evidenceSubmissions: [
                   createEvidenceSubmission({
                     id: 1,
+                    uploadStatus: 'FAILED',
+                    acknowledgementDate: '2050-01-01T00:00:00.000Z',
                     fileName: 'older-file.pdf',
                     failedDate: '2025-01-10T12:00:00.000Z',
                   }),
                   createEvidenceSubmission({
                     id: 2,
+                    uploadStatus: 'FAILED',
+                    acknowledgementDate: '2050-01-01T00:00:00.000Z',
                     fileName: 'newer-file.pdf',
                     failedDate: '2025-01-15T12:00:00.000Z',
                   }),

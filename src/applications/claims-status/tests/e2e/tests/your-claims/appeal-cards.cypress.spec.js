@@ -298,7 +298,12 @@ describe('Appeal cards', () => {
         createAppeal({
           type: 'supplementalClaim',
           eventType: 'sc_request',
-          evidenceSubmissions: [createEvidenceSubmission()],
+          evidenceSubmissions: [
+            createEvidenceSubmission({
+              uploadStatus: 'FAILED',
+              acknowledgementDate: '2050-01-01T00:00:00.000Z',
+            }),
+          ],
         }),
       ]);
 

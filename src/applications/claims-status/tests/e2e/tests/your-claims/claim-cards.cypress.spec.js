@@ -263,7 +263,12 @@ describe('Claim cards', () => {
       it('should display upload error alert for failed submissions within last 30 days', () => {
         setupClaimCardsTest([
           createBenefitsClaimListItem({
-            evidenceSubmissions: [createEvidenceSubmission()],
+            evidenceSubmissions: [
+              createEvidenceSubmission({
+                uploadStatus: 'FAILED',
+                acknowledgementDate: '2050-01-01T00:00:00.000Z',
+              }),
+            ],
           }),
         ]);
 
