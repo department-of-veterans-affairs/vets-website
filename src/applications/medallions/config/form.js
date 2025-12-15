@@ -144,7 +144,7 @@ const formConfig = {
           path: 'applicant-contact-info-logged-in-edit',
           title: 'Your contact information',
           uiSchema: applicantContactInfoLoggedInEdit.uiSchema,
-          schema: applicantContactInfo.schema,
+          schema: applicantContactInfoLoggedInEdit.schema,
           depends: formData =>
             formData?.['view:loggedInEditContactInfo'] === true,
         },
@@ -156,7 +156,8 @@ const formConfig = {
               formData.relationToVetRadio,
             ) && isUserSignedIn(formData),
           CustomPage: ApplicantContactInfoLoggedIn,
-          CustomPageReview: null,
+          CustomPageReview: ApplicantContactInfoLoggedIn,
+          // CustomPageReview: null,
           uiSchema: {},
           schema: {
             type: 'object',
