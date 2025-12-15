@@ -1,118 +1,72 @@
 import React from 'react';
-import PreSubmitSection from 'platform/forms/components/review/PreSubmitSection';
 import { Provider } from 'react-redux';
-import userEvent from '@testing-library/user-event';
-import { render, fireEvent } from '@testing-library/react';
-import configureStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
+import { fireEvent, render } from '@testing-library/react';
 import { expect } from 'chai';
+import sinon from 'sinon-v20';
 import ConfirmationPage from '../../containers/ConfirmationPage';
-import formConfig from '../../config/form';
-import mockData from '../e2e/fixtures/data/test-data.json';
 
-const subDate = new Date('11/13/2023').toString();
-
-const storeBase = {
-  form: {
-    ...formConfig,
-    ...mockData,
-    pages: { page1: { schema: { properties: {} } } },
-    submission: {
-      response: {
-        confirmationNumber: '123456',
-      },
-      timestamp: subDate,
-    },
-  },
+const MOCK_FORM_DATA = {
+  applicantName: { first: 'Jack', middle: 'W', last: 'Smith' },
+  signature: 'Jack W Smith',
 };
 
-const createForm = options => ({
-  submission: {
-    hasAttemptedSubmit: false,
-    status: false,
-  },
-  pages: {
-    page1: {
-      schema: {},
-    },
-  },
-  data: {},
-  ...options,
-});
+const MOCK_SUBMISSION = {
+  timestamp: Date.UTC(2010, 0, 1, 12, 0, 0),
+  id: '3702390024',
+};
 
-describe('Confirmation page', () => {
-  const middleware = [thunk];
-  const mockStore = configureStore(middleware);
+describe('10-7959c ConfirmationPage', () => {
+  let printSpy;
 
-  it('should exist', () => {
+  const subject = ({ submission = MOCK_SUBMISSION } = {}) => {
+    const mockStore = {
+      getState: () => ({
+        form: {
+          data: MOCK_FORM_DATA,
+          pages: {},
+          submission,
+        },
+      }),
+      subscribe: () => {},
+      dispatch: () => {},
+    };
     const { container } = render(
-      <Provider store={mockStore(storeBase)}>
+      <Provider store={mockStore}>
         <ConfirmationPage />
       </Provider>,
     );
+    const getPrintBtn = () => container.querySelector('va-button');
+    const getSubmissionDate = () =>
+      container.querySelector('[data-dd-action-name="Submission date"]');
+    return { getPrintBtn, getSubmissionDate };
+  };
 
-    expect(container).to.exist;
-  });
-});
-
-describe('presubmit section', () => {
-  it('should render presubmit section', () => {
-    const form = createForm();
-    const store = {
-      getState: () => ({
-        form,
-        user: { login: { currentlyLoggedIn: false } },
-        location: { pathname: '/review-and-submit' },
-        navigation: { showLoginModal: false },
-      }),
-      subscribe: () => {},
-      dispatch: () => {},
-    };
-
-    const tree = render(
-      <Provider store={store}>
-        <PreSubmitSection formConfig={formConfig} />
-      </Provider>,
-    );
-
-    expect(tree.getByText('Representative’s Statement of truth')).to.exist;
-
-    tree.unmount();
-  });
-
-  it('should collect signature', async () => {
-    const form = createForm({
-      data: { certifierRole: 'applicant', applicantName: 'John' },
+  beforeEach(() => {
+    printSpy = sinon.spy();
+    Object.defineProperty(window, 'print', {
+      value: printSpy,
+      configurable: true,
     });
-    const store = {
-      getState: () => ({
-        form,
-        user: { login: { currentlyLoggedIn: false } },
-        location: { pathname: '/review-and-submit' },
-        navigation: { showLoginModal: false },
-      }),
-      subscribe: () => {},
-      dispatch: () => {},
-    };
+  });
 
-    const tree = render(
-      <Provider store={store}>
-        <PreSubmitSection formConfig={formConfig} />
-      </Provider>,
-    );
+  afterEach(() => {
+    printSpy.resetHistory();
+  });
 
-    const sigBlock = tree.container.querySelector('va-text-input');
-    // Type wrong signature
-    const signature = 'asdf';
-    sigBlock.value = signature;
-    fireEvent.input(sigBlock, { target: { name: 'name' } });
-    await userEvent.type(sigBlock, signature);
-    expect(sigBlock.value).to.equal(signature);
-    // Type correct signature
-    sigBlock.value = form.data.applicantName;
-    fireEvent.input(sigBlock, { target: { name: 'name' } });
-    await userEvent.type(sigBlock, form.data.applicantName);
-    expect(sigBlock.value).to.equal(form.data.applicantName);
-    tree.unmount();
+  it('should not render submission date container when there is no response data', () => {
+    const { getSubmissionDate } = subject({ submission: { timestamp: false } });
+    expect(getSubmissionDate()).to.not.exist;
+  });
+
+  it('should render application date container when there is response data', () => {
+    const { getSubmissionDate } = subject();
+    const expectedResult = 'January 1, 2010';
+    expect(getSubmissionDate()).to.contain.text(expectedResult);
+  });
+
+  it('should fire the correct event when the print button is clicked', () => {
+    const { getPrintBtn } = subject();
+    fireEvent.click(getPrintBtn());
+    sinon.assert.calledOnce(printSpy);
   });
 });
