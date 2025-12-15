@@ -60,9 +60,8 @@ const RefillPrescriptions = () => {
 
     return ids
       .map(id => {
-        const isObjectId = typeof id === 'object' && id !== null;
-        const prescriptionId = isObjectId ? id.id : id;
-        const stationNumber = isObjectId ? id.stationNumber : null;
+        const prescriptionId = id?.id ?? id;
+        const stationNumber = id?.stationNumber ?? null;
 
         return prescriptions.find(prescription => {
           const idMatch =
