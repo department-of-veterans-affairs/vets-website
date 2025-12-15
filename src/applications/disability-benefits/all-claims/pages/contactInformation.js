@@ -1,13 +1,13 @@
-import {
-  mappedAddressUI,
-  mappedAddressSchema,
-  updateMappedFormDataAddress,
-} from 'platform/forms-system/src/js/web-component-patterns/addressPattern';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 
 import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
+import {
+  mappedAddressUI,
+  mappedAddressSchema,
+  updateMappedFormDataAddress,
+} from '../utils/addressPattern';
 
 import {
   contactInfoDescription,
