@@ -66,7 +66,6 @@ export default function FilesNeeded({ claimId, item, previousPage = null }) {
         <VaLinkAction
           aria-label={`About this request for ${item.friendlyName ||
             item.displayName}`}
-          className="vads-c-action-link--blue"
           href={`/track-claims/your-claims/${claimId}/needed-from-you/${
             item.id
           }`}
@@ -76,6 +75,7 @@ export default function FilesNeeded({ claimId, item, previousPage = null }) {
             }
           }}
           text="About this request"
+          type="secondary"
         />
       </div>
     </va-alert>
