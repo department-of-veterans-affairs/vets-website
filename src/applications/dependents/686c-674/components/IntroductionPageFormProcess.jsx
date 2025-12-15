@@ -89,7 +89,7 @@ export const IntroductionPageFormProcess = () => (
             <strong>Income information:</strong> This only applies if you’re
             adding a dependent and you receive VA pension benefits. You’ll need
             to tell us whether your dependent receives monthly income and your
-            net worth meet the limits set by Congress.{' '}
+            net worth meets the limits set by Congress.{' '}
             <va-link
               href="/pension/veterans-pension-rates/"
               text="Find out about net worth limits for Veterans Pension benefits"
