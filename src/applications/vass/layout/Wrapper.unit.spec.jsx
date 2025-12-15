@@ -132,9 +132,7 @@ describe('VASS Component: Wrapper', () => {
         <Wrapper verificationError="Test Verification Error">
           <div>Content</div>
         </Wrapper>,
-        {
-          initialState: {},
-        },
+        defaultRenderOptions,
       );
       expect(getByTestId('verification-error-alert')).to.exist;
       expect(getByTestId('verification-error-alert')).to.have.text(
@@ -146,9 +144,7 @@ describe('VASS Component: Wrapper', () => {
         <Wrapper verificationError="Test Verification Error">
           <div data-testid="child-content">Content</div>
         </Wrapper>,
-        {
-          initialState: {},
-        },
+        defaultRenderOptions,
       );
       expect(queryByTestId('child-content')).to.not.exist;
     });
