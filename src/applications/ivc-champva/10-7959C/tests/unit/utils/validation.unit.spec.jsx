@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import sinon from 'sinon-v20';
 import {
   validateDateRange,
