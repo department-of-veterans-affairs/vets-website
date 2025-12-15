@@ -19,7 +19,7 @@ describe('<FilesNeeded>', () => {
   context('when user navigates to page directly', () => {
     it('should render va-alert with item data and show DueDate', () => {
       const { getByText } = renderWithRouter(
-        <FilesNeeded id={claimId} item={item} />,
+        <FilesNeeded claimId={claimId} item={item} />,
       );
 
       getByText('December 1, 2024', { exact: false });
@@ -39,7 +39,7 @@ describe('<FilesNeeded>', () => {
       context('when evidenceWaiverSubmitted5103 is false', () => {
         it('should render va-alert with item data and hide DueDate', () => {
           const { queryByText, getByText } = renderWithRouter(
-            <FilesNeeded id={claimId} item={item5103} />,
+            <FilesNeeded claimId={claimId} item={item5103} />,
           );
 
           expect(queryByText('December 1, 2024')).to.not.exist;
@@ -58,7 +58,7 @@ describe('<FilesNeeded>', () => {
   context('when user navigates to page from the files tab', () => {
     it('clicking details link should set session storage', () => {
       const { getByRole } = renderWithRouter(
-        <FilesNeeded id={claimId} item={item} previousPage={filesTab} />,
+        <FilesNeeded claimId={claimId} item={item} previousPage={filesTab} />,
       );
 
       fireEvent.click(getByRole('link'));
@@ -70,7 +70,7 @@ describe('<FilesNeeded>', () => {
   context('when user navigates to page from the status tab', () => {
     it('clicking details link should set session storage', () => {
       const { getByRole } = renderWithRouter(
-        <FilesNeeded id={claimId} item={item} previousPage={statusTab} />,
+        <FilesNeeded claimId={claimId} item={item} previousPage={statusTab} />,
       );
 
       fireEvent.click(getByRole('link'));
@@ -98,7 +98,7 @@ describe('<FilesNeeded>', () => {
       date: '2024-03-07',
     };
     const { getByText } = renderWithRouter(
-      <FilesNeeded id={claimId} item={item214142} />,
+      <FilesNeeded claimId={claimId} item={item214142} />,
     );
     getByText('good description');
     getByText('Provide authorization to Disclose Information');
@@ -115,7 +115,7 @@ describe('<FilesNeeded>', () => {
       date: '2024-03-07',
     };
     const { getByText } = renderWithRouter(
-      <FilesNeeded id={claimId} item={noOverrideItem} />,
+      <FilesNeeded claimId={claimId} item={noOverrideItem} />,
     );
     getByText('Request for evidence');
     getByText('Description comes from API');

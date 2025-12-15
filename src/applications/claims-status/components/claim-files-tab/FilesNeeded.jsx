@@ -11,7 +11,7 @@ import {
 import { standard5103Item } from '../../constants';
 import { evidenceDictionary } from '../../utils/evidenceDictionary';
 
-export default function FilesNeeded({ id, item, previousPage = null }) {
+export default function FilesNeeded({ claimId, item, previousPage = null }) {
   // We will not use the truncateDescription() here as these descriptions are custom and specific to what we want
   // the user to see based on the given item type.
   const itemsWithNewDescriptions = [
@@ -67,7 +67,9 @@ export default function FilesNeeded({ id, item, previousPage = null }) {
           aria-label={`About this request for ${item.friendlyName ||
             item.displayName}`}
           className="vads-c-action-link--blue"
-          href={`/track-claims/your-claims/${id}/needed-from-you/${item.id}`}
+          href={`/track-claims/your-claims/${claimId}/needed-from-you/${
+            item.id
+          }`}
           onClick={() => {
             if (previousPage !== null) {
               sessionStorage.setItem('previousPage', previousPage);
@@ -81,7 +83,7 @@ export default function FilesNeeded({ id, item, previousPage = null }) {
 }
 
 FilesNeeded.propTypes = {
-  id: PropTypes.string.isRequired,
+  claimId: PropTypes.string.isRequired,
   item: PropTypes.object.isRequired,
   previousPage: PropTypes.string,
 };
