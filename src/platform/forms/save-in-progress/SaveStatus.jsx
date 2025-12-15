@@ -37,7 +37,14 @@ function SaveStatus({
     inProgressFormId && savedAtMessage ? (
       <>
         {' '}
-        Your {appType} ID number is <strong>{inProgressFormId}</strong>.
+        Your {appType} ID number is{' '}
+        <strong
+          data-dd-privacy="allow"
+          data-dd-action-name="in-progress-form-id"
+        >
+          {inProgressFormId}
+        </strong>
+        .
       </>
     ) : null;
 
