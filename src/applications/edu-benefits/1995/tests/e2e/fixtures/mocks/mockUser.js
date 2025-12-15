@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-const { VA_FORM_IDS } = require('platform/forms/constants');
+const VA_FORM_IDS = require('platform/forms/constants').VA_FORM_IDS;
 
 /* eslint-disable camelcase */
 const mockUser = {

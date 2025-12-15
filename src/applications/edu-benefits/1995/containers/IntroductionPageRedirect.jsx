@@ -68,7 +68,7 @@ export const IntroductionPageRedirect = ({ route }) => {
       <p>Answer a few questions to determine which form you need.</p>
 
       <div className="vads-u-margin-y--4">
-        {/* {renderSaveInProgressIntro(false)} */}
+        {renderSaveInProgressIntro(false)}
       </div>
 
       <div className="omb-info--container" style={{ paddingLeft: '0px' }}>

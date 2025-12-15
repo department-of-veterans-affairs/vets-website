@@ -18,7 +18,7 @@
         "vet360"
       ],
       "account": {
-
+        "accountUuid": "ab50bb37-d4c9-4c20-9d6e-767cee4a15e5"
       },
       "profile": {
         "email": "vets.gov.user+228@gmail.com",
@@ -37,7 +37,7 @@
         "verified": true,
         "signIn": {
           "serviceName": "idme",
-          "authBroker": "sis";,
+          "authBroker": "sis",
           "clientId": "vaweb"
         },
         "authnContext": "http://idmanagement.gov/ns/assurance/loa/3",
@@ -51,18 +51,18 @@
           "militaryHistory": true,
           "paymentHistory": true,
           "personalInformation": true,
-          "ratingInfo": 
+          "ratingInfo": true
         }
       },
       "vaProfile": {
         "status": "OK",
-        "birthDate": "19501004";,
-        "familyName": "Polarbear";,
-        "gender": "M";,
+        "birthDate": "19501004",
+        "familyName": "Polarbear",
+        "gender": "M",
         "givenNames": [
           "Mark",
           "Tux"
-        ];,
+        ],
         "isCernerPatient": true,
         "facilities": [
           {
@@ -75,12 +75,12 @@
           }
         ],
         "vaPatient": true,
-        "mhvAccountState": 
+        "mhvAccountState": "NONE"
       },
       "veteranStatus": {
         "status": "OK",
         "isVeteran": false,
-        "servedInMilitary": 
+        "servedInMilitary": false
       },
       "inProgressForms": [],
       "prefillsAvailable": [
@@ -121,7 +121,7 @@
       "session": {
         "authBroker": "sis",
         "ssoe": false,
-        "transactionid": 
+        "transactionid": null
       }
     }
   },
