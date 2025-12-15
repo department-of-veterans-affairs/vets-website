@@ -122,7 +122,7 @@ describe('createCauseFollowUpDescriptions', () => {
   it('returns SECONDARY with no match', () => {
     const item = { cause: 'SECONDARY', causedByDisability: 'Unknown Thing' };
     expect(createCauseFollowUpDescriptions(item, {})).to.equal(
-      'Unknown Thing has been removed — please edit to change the cause',
+      'Unknown Thing has been removed — please edit to change the cause or delete the condition',
     );
   });
 
@@ -190,6 +190,17 @@ describe('RatedDisabilityCardDescription', () => {
       RatedDisabilityCardDescription(item, fullData),
     );
     expect(getByText('Current rating: %')).to.exist;
+  });
+
+  it('renders "Claim for increase" without date when conditionDate is missing', () => {
+    const item = { ratedDisability: 'Knee' };
+    const fullData = {
+      ratedDisabilities: [{ name: 'Knee', ratingPercentage: 40 }],
+    };
+    const { getByText } = render(
+      RatedDisabilityCardDescription(item, fullData),
+    );
+    expect(getByText('Claim for increase')).to.exist;
   });
 });
 
