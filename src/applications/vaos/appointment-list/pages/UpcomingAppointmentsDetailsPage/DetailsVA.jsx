@@ -51,7 +51,7 @@ export default function DetailsVA({ appointment, facilityData }) {
     return (
       <FullWidthLayout>
         <va-loading-indicator
-          // set-focus
+          set-focus
           message="Canceling your appointment..."
         />
       </FullWidthLayout>
