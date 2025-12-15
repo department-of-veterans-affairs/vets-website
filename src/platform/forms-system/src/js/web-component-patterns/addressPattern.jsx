@@ -22,7 +22,8 @@ import VaRadioField from '../web-component-fields/VaRadioField';
 const NONBLANK_PATTERN = '^.*\\S.*';
 const STATE_PROVINCE_PATTERN = "^[a-zA-Z0-9\\s'-]+$";
 const POSTAL_CODE_PATTERNS = {
-  CAN: '^[A-Za-z0-9]{6}$',
+  CAN:
+    '^(?=[^DdFfIiOoQqUu\\d\\s])[A-Za-z]\\d(?=[^DdFfIiOoQqUu\\d\\s])[A-Za-z]\\s{0,1}\\d(?=[^DdFfIiOoQqUu\\d\\s])[A-Za-z]\\d$',
   MEX: '^[A-Za-z0-9]{5}$',
   USA: '^\\d{5}$',
 };
