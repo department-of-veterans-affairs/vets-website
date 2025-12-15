@@ -710,12 +710,13 @@ export function addressUI(options = {}) {
             addressSchema.pattern =
               POSTAL_CODE_PATTERNS[isMilitary ? 'USA' : country];
             addressSchema.maxLength = 5;
+          } else if (country === 'CAN') {
+            addressSchema.pattern = POSTAL_CODE_PATTERNS.CAN;
+            addressSchema.maxLength = 7;
           } else {
-            // CAN and other countries use same validation (6-char alphanumeric)
-            addressSchema.pattern = country
-              ? POSTAL_CODE_PATTERNS.CAN
-              : undefined;
-            addressSchema.maxLength = country ? 6 : undefined;
+            // Other countries have no pattern validation
+            addressSchema.pattern = undefined;
+            delete addressSchema.maxLength;
           }
 
           return {
