@@ -162,7 +162,7 @@ describe('combined debt portal component helpers', () => {
       expect(
         wrapper.find('[data-testid="balance-card-zero-debt"] p').text(),
       ).to.include(
-        'If you think this is incorrect, call the Debt Management Center (DMC) at',
+        'If you think this is incorrect, call the Debt Management Center at',
       );
       wrapper.unmount();
     });
