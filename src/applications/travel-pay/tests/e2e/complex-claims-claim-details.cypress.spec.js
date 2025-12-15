@@ -240,21 +240,22 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
         claimId: 'complex-full-test',
         claimNumber: 'TC0000000000021',
         claimStatus: 'Incomplete',
-        appointmentDate: '2024-03-01T09:00:00.000Z',
+        appointmentDate: '2024-01-01T16:45:34.465Z',
         facilityName: 'Complex Claims VA Medical Center',
         totalCostRequested: 0,
         reimbursementAmount: 0,
         createdOn: '2024-03-02T09:00:00.000Z',
         modifiedOn: '2024-03-02T09:00:00.000Z',
         appointment: {
-          appointmentDateTime: '2024-03-01T09:00:00.000Z',
+          appointmentDateTime: '2024-01-01T16:45:34.465Z',
         },
         documents: [],
         isOutOfBounds: true,
-      });
+      }).as('details');
 
       cy.login(user);
       cy.visit(`${rootUrl}/claims/complex-full-test`);
+      cy.wait('@details');
       cy.injectAxeThenAxeCheck();
 
       // Should show out of bounds alert
@@ -278,21 +279,22 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
         claimId: 'complex-saved-test',
         claimNumber: 'TC0000000000022',
         claimStatus: 'Saved',
-        appointmentDate: '2024-05-01T13:00:00.000Z',
+        appointmentDate: '2024-01-01T16:45:34.465Z',
         facilityName: 'Test VA Medical Center',
         totalCostRequested: 25.0,
         reimbursementAmount: 0,
         createdOn: '2024-05-01T14:00:00.000Z',
         modifiedOn: '2024-05-01T14:00:00.000Z',
         appointment: {
-          appointmentDateTime: '2024-05-01T13:00:00.000Z',
+          appointmentDateTime: '2024-01-01T16:45:34.465Z',
         },
         documents: [],
         isOutOfBounds: false,
-      });
+      }).as('details');
 
       cy.login(user);
       cy.visit(`${rootUrl}/claims/complex-saved-test`);
+      cy.wait('@details');
 
       // Should not show out of bounds alert
       cy.get('va-alert[status="warning"]').should('not.exist');
