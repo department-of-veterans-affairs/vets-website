@@ -269,8 +269,6 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           vistaFacilityNames={vistaFacilityNames}
           ohFacilityNames={ohFacilityNames}
           handleDownloadCCDV2={handleDownloadCCDV2}
-          isLoading={generatingCCD}
-          testIdSuffix="Vista"
           ccdExtendedFileTypeFlag={ccdExtendedFileTypeFlag}
           failedSeiDomains={failedSeiDomains}
           getFailedDomainList={getFailedDomainList}
