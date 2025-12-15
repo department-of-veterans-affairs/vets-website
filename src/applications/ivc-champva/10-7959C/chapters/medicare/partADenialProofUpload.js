@@ -5,7 +5,7 @@ import {
 } from '../../../shared/components/fileUploads/upload';
 import { fileUploadBlurb } from '../../../shared/components/fileUploads/attachments';
 import MedicareIneligibilityDescription from '../../components/FormDescriptions/MedicareIneligibilityDescription';
-import { blankSchema } from '../medicareInformation';
+import { blankSchema } from '../../definitions';
 
 export default {
   uiSchema: {

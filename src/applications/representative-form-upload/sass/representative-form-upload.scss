@@ -109,6 +109,10 @@
   }
   va-radio {
     margin-top: 16px;
+
+    &:has([name="root_benefitType"]) {
+      margin-top: 32px;
+    }
   }
   #root_supportingDocuments_add_label {
     margin: 0;
