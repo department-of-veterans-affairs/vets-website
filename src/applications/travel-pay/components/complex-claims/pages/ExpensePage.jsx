@@ -28,6 +28,12 @@ import {
   selectExpenseWithDocument,
   selectDocumentDeleteLoadingState,
 } from '../../../redux/selectors';
+import {
+  DATE_VALIDATION_TYPE,
+  validateReceiptDate,
+  validateDescription,
+  validateRequestedAmount,
+} from '../../../util/expenseValidations';
 
 import TravelPayButtonPair from '../../shared/TravelPayButtonPair';
 import ExpenseMealFields from './ExpenseMealFields';
@@ -62,7 +68,7 @@ const ExpensePage = () => {
   const isDeletingDocument = useSelector(selectDocumentDeleteLoadingState);
 
   // Refs
-  const errorRef = useRef(null); // ref for the error message
+  // const errorRef = useRef(null); // ref for the error message
   const costRequestedRef = useRef(null);
   const initialFormStateRef = useRef({});
   const previousHasChangesRef = useRef(false);
@@ -75,7 +81,6 @@ const ExpensePage = () => {
   const [isFetchingDocument, setIsDocumentLoading] = useState(false);
   const [previousDocumentId, setPreviousDocumentId] = useState(null);
   const [isCancelModalVisible, setIsCancelModalVisible] = useState(false);
-  const [showError, setShowError] = useState(false);
   const [uploadError, setUploadError] = useState('');
   const [extraFieldErrors, setExtraFieldErrors] = useState({});
 
@@ -160,14 +165,13 @@ const ExpensePage = () => {
   );
 
   // Effect 3: Focus error message when it becomes visible
-  useEffect(
-    () => {
-      if (showError && errorRef.current) {
-        errorRef.current.focus();
-      }
-    },
-    [showError],
-  );
+  // useEffect();
+  // () => {
+  //   if (showError && errorRef.current) {
+  //     errorRef.current.focus();
+  //   }
+  // },
+  // [showError],
 
   // Track unsaved changes by comparing current state to initial state
   useEffect(
@@ -242,47 +246,6 @@ const ExpensePage = () => {
     ],
   };
 
-  const validateDescription = () => {
-    const errors = { description: null };
-
-    // Validate description field length
-    if (formState.description?.length < 5) {
-      errors.description = 'Enter at least 5 characters';
-    } else if (formState.description?.length > 2000) {
-      errors.description = 'Enter no more than 2,000 characters';
-    }
-
-    setExtraFieldErrors(prev => ({
-      ...prev,
-      ...errors,
-    }));
-
-    return !errors.description;
-  };
-
-  const validateRequestedAmount = () => {
-    // Check built in component errors first (like invalid number)
-    if (costRequestedRef.current?.error) {
-      return false;
-    }
-
-    const errors = { costRequested: null };
-
-    // Valid greater than 0.
-    // Other validation is handled by the VA component
-    const amount = parseFloat(formState.costRequested);
-    if (!Number.isNaN(amount) && amount === 0) {
-      errors.costRequested = 'Enter an amount greater than 0';
-    }
-
-    setExtraFieldErrors(prev => ({
-      ...prev,
-      ...errors,
-    }));
-
-    return !errors.costRequested;
-  };
-
   const validatePage = () => {
     // Field names must match those expected by the expenses_controller in vets-api.
     const base = ['purchaseDate', 'costRequested', 'receipt', 'description'];
@@ -290,14 +253,28 @@ const ExpensePage = () => {
     const requiredFields = [...base, ...extra];
 
     const emptyFields = requiredFields.filter(field => !formState[field]);
-    setShowError(emptyFields.length > 0);
+    const isDateValid = validateReceiptDate(
+      formState.purchaseDate,
+      DATE_VALIDATION_TYPE.SUBMIT,
+      setExtraFieldErrors,
+    );
+    const isDescriptionValid = validateDescription(
+      formState.description,
+      setExtraFieldErrors,
+    );
+    const isAmountValid = validateRequestedAmount(
+      formState.costRequested,
+      costRequestedRef,
+      setExtraFieldErrors,
+    );
 
     // Extra validation for specific fields
-    if (!validateDescription() || !validateRequestedAmount()) {
-      return false;
-    }
-
-    return emptyFields.length === 0;
+    return (
+      emptyFields.length === 0 &&
+      isDateValid &&
+      isDescriptionValid &&
+      isAmountValid
+    );
   };
 
   const isFormChanged =
@@ -460,16 +437,7 @@ const ExpensePage = () => {
             )} expense`
           : 'Unknown expense'}
       </h1>
-      {showError && (
-        <p
-          data-testid="expense-page-error"
-          ref={errorRef}
-          tabIndex={-1} // make focusable
-          style={{ color: 'red' }}
-        >
-          Please fill out all required fields before continuing.
-        </p>
-      )}
+
       <p>{pageDescription}</p>
       <DocumentUpload
         loading={isFetchingDocument}
@@ -504,8 +472,26 @@ const ExpensePage = () => {
         value={formState.purchaseDate || ''}
         required
         hint={dateHintText}
-        onDateChange={handleFormChange}
+        onDateChange={e => {
+          handleFormChange(e);
+          validateReceiptDate(
+            e.detail.target?.value,
+            DATE_VALIDATION_TYPE.CHANGE,
+            setExtraFieldErrors,
+          );
+        }}
+        onDateBlur={e =>
+          validateReceiptDate(
+            e.detail.target?.value,
+            DATE_VALIDATION_TYPE.BLUR,
+            setExtraFieldErrors,
+          )
+        }
+        {...extraFieldErrors.purchaseDate && {
+          error: extraFieldErrors.purchaseDate,
+        }}
       />
+
       <div className="vads-u-margin-top--2">
         <VaTextInput
           currency
