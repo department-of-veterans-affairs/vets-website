@@ -321,8 +321,6 @@ const DownloadReportPage = ({ runningUnitTest }) => {
       <VistaIntroText />
       <AcceleratedCernerFacilityAlert {...CernerAlertContent.DOWNLOAD} />
       <VistaOnlyContent
-        isLoading={generatingCCD}
-        testIdSuffix="Vista"
         ccdExtendedFileTypeFlag={ccdExtendedFileTypeFlag}
         hasBothDataSources={hasBothDataSources}
         failedSeiDomains={failedSeiDomains}
