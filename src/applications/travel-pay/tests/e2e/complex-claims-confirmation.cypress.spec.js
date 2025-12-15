@@ -138,10 +138,10 @@ describe('Complex Claims Confirmation Page', () => {
 
     // Check second process item
     cy.get(
-      'va-process-list-item[header*="If we approve your claim, we’ll send your pay through direct deposit"]',
+      'va-process-list-item[header*="If we approve your claim, we’ll deposit your funds into your bank account"]',
     ).should('be.visible');
     cy.get(
-      'va-process-list-item[header*="If we approve your claim, we’ll send your pay through direct deposit"]',
+      'va-process-list-item[header*="If we approve your claim, we’ll deposit your funds into your bank account"]',
     ).should('contain.text', 'You must have direct deposit set up');
 
     // Check travel pay claims status link
@@ -162,7 +162,7 @@ describe('Complex Claims Confirmation Page', () => {
 
     // Check link action for submitting another claim
     cy.get(
-      'va-link-action[text="Review your appointments to submit another travel reimbursement claim"][href="/my-health/appointments/past"]',
+      'va-link-action[text="Go to your past appointments to file another claim"][href="/my-health/appointments/past"]',
     ).should('be.visible');
   });
 
