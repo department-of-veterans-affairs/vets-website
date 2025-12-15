@@ -277,7 +277,7 @@ const formConfig = {
           schema: marriageToVeteranLocation.schema,
         },
         marriageToVeteranInfo: {
-          path: 'household/marriage-to-veteran-inf',
+          path: 'household/marriage-to-veteran-info',
           title: 'Marriage to Veteran Details',
           depends: formData => formData.claimantRelationship === 'SPOUSE',
           uiSchema: marriageToVeteranInfo.uiSchema,
@@ -501,7 +501,6 @@ const formConfig = {
         supportingDocuments: {
           title: 'Supporting documents',
           path: 'additional-information/supporting-documents',
-          depends: formData => formData?.hasAssetsOverThreshold !== true,
           uiSchema: supportingDocuments.uiSchema,
           schema: supportingDocuments.schema,
         },

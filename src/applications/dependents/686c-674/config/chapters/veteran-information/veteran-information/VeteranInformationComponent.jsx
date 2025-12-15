@@ -76,7 +76,7 @@ export const VeteranInformation = ({ formData }) => {
         allow online changes to your name, date of birth, or Social Security
         number. If you need to change this information, call us at{' '}
         <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
-        <va-telephone tty contact="711" />
+        <va-telephone tty contact={CONTACTS['711']} />
         ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m.{' '}
         <dfn>
           <abbr title="Eastern Time">ET</abbr>
