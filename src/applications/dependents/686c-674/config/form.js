@@ -119,7 +119,7 @@ export const formConfig = {
   defaultDefinitions: { ...fullSchema.definitions },
   chapters: {
     veteranInformation: {
-      title: "Veteran's information",
+      title: 'Veteran’s information',
       pages: {
         veteranInformation: {
           path: 'veteran-information',

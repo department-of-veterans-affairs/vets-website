@@ -52,8 +52,6 @@ describe('EZR V2 spouse information flow', () => {
     it('should successfully fill the marital information', () => {
       cy.selectVaSelect('root_view:maritalStatus_maritalStatus', 'Married');
       goToNextPage('/household-information/spouse-information');
-
-      selectYesNoWebComponent('view:hasSpouseInformationToAdd', true);
       goToNextPage(
         'household-information/spouse-information/0/personal-information',
       );
@@ -118,6 +116,7 @@ describe('EZR V2 spouse information flow', () => {
         .find('select')
         .should('have.value', 'Married');
       goToNextPage('household-information/spouse-information');
+      goToNextPage('household-information/spouse-information-summary');
 
       cy.findAllByRole('button', {
         name: /delete/i,
