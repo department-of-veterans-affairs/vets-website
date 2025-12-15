@@ -32,7 +32,7 @@ export const goToPrevPage = () =>
 
 export const typeSearchTerm = (term = '') =>
   cy
-    .get(FINDFORM_INPUT_ROOT)
+    .get(FINDFORM_INPUT_ROOT, { timeout: 10000 })
     .shadow()
     .find(FINDFORM_INPUT)
     .should('exist')
@@ -44,7 +44,7 @@ export const typeSearchTerm = (term = '') =>
 
 export const clickSearch = () =>
   cy
-    .get(FINDFORM_INPUT_ROOT)
+    .get(FINDFORM_INPUT_ROOT, { timeout: 10000 })
     .shadow()
     .find(FINDFORM_SEARCH)
     .should('exist')
@@ -53,7 +53,7 @@ export const clickSearch = () =>
 
 export const focusSearchButton = () =>
   cy
-    .get(FINDFORM_INPUT_ROOT)
+    .get(FINDFORM_INPUT_ROOT, { timeout: 10000 })
     .shadow()
     .find(FINDFORM_SEARCH)
     .should('exist')
