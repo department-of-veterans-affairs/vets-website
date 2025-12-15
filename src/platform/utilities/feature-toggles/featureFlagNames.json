@@ -1,7 +1,7 @@
 {
   "accreditedRepresentativePortalFrontend": "accredited_representative_portal_frontend",
-  "accreditedRepresentativePortalIdMe": "accredited_representative_portal_id_me",
   "accreditedRepresentativePortalForm21a": "accredited_representative_portal_form_21a",
+  "accreditedRepresentativePortalIntentToFile": "accredited_representative_portal_intent_to_file",
   "aedpVADX": "aedp_vadx",
   "aedpPrefill": "aedp_prefill",
   "appointARepresentativeEnableFrontend": "appoint_a_representative_enable_frontend",
@@ -60,6 +60,7 @@
   "cstTimezoneDateDiscrepancyMitigation": "cst_timezone_discrepancy_mitigation",
   "cstUseDataDogRUM": "cst_use_dd_rum",
   "debtLettersShowLettersVBMS": "debt_letters_show_letters_vbms",
+  "decisionReviewNodFeb2025PdfEnabled": "decision_review_nod_feb2025_pdf_enabled",
   "decisionReviewsScRedesign": "decision_review_sc_redesign_nov2025",
   "dependentsModuleEnabled": "dependents_module_enabled",
   "dependentsEnableFormViewerMFE": "dependents_enable_form_viewer_mfe",
@@ -76,7 +77,6 @@
   "disabilityCompNewConditionsWorkflow": "disability_compensation_new_conditions_workflow",
   "dischargeWizardFeatures": "discharge_wizard_features",
   "disputeDebt": "dispute_debt",
-  "dslogonInterstitialRedirect": "dslogon_interstitial_redirect",
   "dslogonButtonDisabled": "dslogon_button_disabled",
   "emptyStateBenefitLetters": "empty_state_benefit_letters",
   "enrollmentVerification": "enrollment_verification",
@@ -155,6 +155,7 @@
   "mebKickerNotificationEnabled": "meb_kicker_notification_enabled",
   "meb1995Reroute": "meb_1995_re_reroute",
   "mebParentGuardianStep": "meb_parent_guardian_step",
+  "mebBankInfoConfirmationField": "meb_bank_info_confirmation_field",
   "merge1995And5490": "merge_1995_and_5490",
   "mgibVerificationsMaintenance": "mgib_verifications_maintenance",
   "mhvAcceleratedDeliveryEnabled": "mhv_accelerated_delivery_enabled",
@@ -381,5 +382,6 @@
   "form2680Enabled": "form_2680_enabled",
   "vre_eligibility_status_phase_2_updates": "vre_eligibility_status_phase_2_updates",
   "medicalExpenseReportsEnabled": "medical_expense_reports_form_enabled",
-  "survivorsBenefitsFormEnabled": "survivors_benefits_form_enabled"
+  "survivorsBenefitsFormEnabled": "survivors_benefits_form_enabled",
+  "sobClaimantService": "sob_claimant_service"
 }

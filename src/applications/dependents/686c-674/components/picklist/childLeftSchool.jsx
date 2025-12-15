@@ -3,6 +3,7 @@ import React from 'react';
 import { scrollToFirstError } from 'platform/utilities/ui';
 
 import { getValue, PastDate } from './helpers';
+import { getPastDateError } from './utils';
 import propTypes from './types';
 
 const childLeftSchool = {
@@ -20,7 +21,8 @@ const childLeftSchool = {
      */
     onSubmit: ({ /* event, */ itemData, goForward }) => {
       // event.preventDefault(); // executed before this function is called
-      if (!itemData.endDate) {
+      const hasError = getPastDateError(itemData.endDate);
+      if (hasError) {
         setTimeout(() => scrollToFirstError({ focusOnAlertRole: true }));
       } else {
         goForward();

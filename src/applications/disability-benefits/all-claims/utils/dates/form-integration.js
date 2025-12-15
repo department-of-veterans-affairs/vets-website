@@ -6,7 +6,9 @@
 /* eslint-disable you-dont-need-momentjs/no-moment-constructor */
 /* eslint-disable you-dont-need-momentjs/start-of */
 import moment from 'moment';
-import { DATE_FORMAT } from './formatting';
+
+// Local moment.js format constant (form-integration still uses moment)
+const MOMENT_DATE_FORMAT = 'LL'; // e.g., "January 1, 2021" - moment.js format
 
 /**
  * Form integration utilities for date handling
@@ -95,7 +97,7 @@ export const formatReviewDate = (dateString, monthYear = false) => {
   const date = moment(dateString);
   if (!date.isValid()) return dateString;
 
-  return monthYear ? date.format('MMMM YYYY') : date.format(DATE_FORMAT);
+  return monthYear ? date.format('MMMM YYYY') : date.format(MOMENT_DATE_FORMAT);
 };
 
 /**
