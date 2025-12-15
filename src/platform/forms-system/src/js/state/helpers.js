@@ -1,3 +1,4 @@
+import React from 'react';
 import { dropRight, merge } from 'lodash';
 import { getDefaultFormState } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 import dataGet from '../../../../utilities/data/get';
@@ -468,7 +469,7 @@ function mergeUiSchemasIfDifferent(uiSchema, newUiSchema) {
       value &&
       typeof value === 'object' &&
       !Array.isArray(value) &&
-      !value.$$typeof // react element
+      !React.isValidElement(value)
     ) {
       newValue = mergeUiSchemasIfDifferent(uiSchema?.[prop], newValue);
     }
