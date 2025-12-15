@@ -45,6 +45,10 @@ const uiSchema = {
   institutionDetails: {
     ...titleUI("Please enter your institution's facility code"),
     'view:additionalInstructions': {
+      'ui:options': {
+        hideIf: formData =>
+          formData?.agreementType === 'withdrawFromYellowRibbonProgram',
+      },
       'ui:description': (
         <va-link
           text="Review additional instructions for the Yellow Ribbon Program Agreement"
