@@ -4,7 +4,6 @@ import {
 } from 'platform/user/selectors';
 
 export const getAppData = state => {
-  console.log(state.featureToggles.meb1995InstructionPageUpdateV3,'state@')
   return {
     featureTogglesLoaded: state.featureToggles?.loading === false,
     formId: state?.form?.formId,

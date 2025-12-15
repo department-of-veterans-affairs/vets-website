@@ -70,7 +70,6 @@ function App({
 
   useEffect(
     () => {
-      console.log(meb1995InstructionPageUpdateV3, "flag")
       if (meb1995InstructionPageUpdateV3 !== formData.meb1995InstructionPageUpdateV3) {
         setFormData({
           ...formData,
