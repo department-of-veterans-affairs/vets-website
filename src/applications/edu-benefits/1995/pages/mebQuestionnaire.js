@@ -159,7 +159,7 @@ const SameBenefitResultDescription = ({ formData }) => {
       linkText={formInfo.linkText}
       answers={[
         'You are looking to apply to the same benefit again to get an updated Certificate of Eligibility (COE)',
-        `Your most recently used benefit is ${formInfo.formName}`
+        `Your most recently used benefit is ${formInfo.formName}`,
       ]}
     />
   );
@@ -208,32 +208,47 @@ export const benefitSwitchPage = () => ({
         </span>
       ),
       'ui:description': props => {
-        const header = getSwitchFormHeader(props?.formData?.mebBenefitSelection);
+        const header = getSwitchFormHeader(
+          props?.formData?.mebBenefitSelection,
+        );
 
         return (
           <>
-            {header && (<h2 className="vads-u-font-size--h2">{header}</h2>)}
+            {header && <h2 className="vads-u-font-size--h2">{header}</h2>}
             <va-additional-info
               onClick={function noRefCheck() {}}
               trigger="Learn more about these benefits"
             >
               <ul className="vads-u-margin-top--1">
                 <li>
-                  <a href="https://www.va.gov/education/about-gi-bill-benefits/post-9-11" target="_blank" rel="noreferrer">
-                    Learn about GI Bill benefits: Post-9/11 GI Bill, Montgomery GI
-                    Bill Active Duty (MGIB-AD), and Montgomery GI Bill Selected
-                    Reserve (MGIB-SR) (opens in a new tab)
+                  <a
+                    href="https://www.va.gov/education/about-gi-bill-benefits/post-9-11"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Learn about GI Bill benefits: Post-9/11 GI Bill, Montgomery
+                    GI Bill Active Duty (MGIB-AD), and Montgomery GI Bill
+                    Selected Reserve (MGIB-SR) (opens in a new tab)
                   </a>
                 </li>
                 <li>
-                  <a href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/transferred-gi-bill-benefits/" target="_blank" rel="noreferrer">
-                    Learn about survivors’ and dependents’ assistance: transferred
-                    Post-9/11 GI Bill benefits (opens in a new tab)
+                  <a
+                    href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/transferred-gi-bill-benefits/"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Learn about survivors’ and dependents’ assistance:
+                    transferred Post-9/11 GI Bill benefits (opens in a new tab)
                   </a>
                 </li>
                 <li>
-                  <a href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/dependents-education-assistance/" target="_blank" rel="noreferrer">
-                    Survivors’ and Dependents’ Education Assistance (DEA), Fry Scholarship
+                  <a
+                    href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/dependents-education-assistance/"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Survivors’ and Dependents’ Education Assistance (DEA), Fry
+                    Scholarship
                   </a>
                 </li>
               </ul>
@@ -321,7 +336,7 @@ export const foreignSchoolResultPage = () =>
   buildResultPage({
     body:
       'Get answers to your questions about using eligibility at a foreign school. You should receive a reply within 7 business days.',
-    resultHeader: "Ask VA",
+    resultHeader: 'Ask VA',
     linkHref: 'https://ask.va.gov/',
     linkText: 'Contact us online through Ask VA',
     answers: [
