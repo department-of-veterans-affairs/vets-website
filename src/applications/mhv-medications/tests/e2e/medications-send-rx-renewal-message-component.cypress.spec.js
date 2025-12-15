@@ -90,16 +90,20 @@ describe('Send Rx Renewal Message Component', () => {
     cy.axeCheck('main');
   });
 
-  it('displays learn to renew link for expired prescriptions', () => {
+  it('displays fallback message for expired prescriptions older than 120 days', () => {
     const listPage = new MedicationsListPage();
 
     listPage.visitMedicationsListPageURL(rxList);
 
     cy.get('[data-testid="expired"]').then($expired => {
       if ($expired.length > 0) {
-        cy.get('[data-testid="learn-to-renew-precsriptions-link"]')
+        cy.wrap($expired)
           .should('exist')
-          .and('be.visible');
+          .and('be.visible')
+          .and(
+            'contain',
+            'This prescription is too old to refill. If you need more, request a renewal.',
+          );
       }
     });
 
@@ -131,7 +135,7 @@ describe('Send Rx Renewal Message Component', () => {
     cy.axeCheck('main');
   });
 
-  it('displays compose message link for discontinued prescriptions instead of renewal', () => {
+  it('displays discontinued prescription message without renewal link', () => {
     const listPage = new MedicationsListPage();
 
     listPage.visitMedicationsListPageURL(rxList);
@@ -141,11 +145,9 @@ describe('Send Rx Renewal Message Component', () => {
         cy.wrap($discontinued).should('be.visible');
 
         const discontinuedText = $discontinued.text();
-        expect(discontinuedText).to.include('refill this prescription');
-
-        cy.get('[data-testid="discontinued-compose-message-link"]')
-          .should('exist')
-          .and('be.visible');
+        expect(discontinuedText).to.include(
+          'You can’t refill this prescription',
+        );
 
         cy.wrap($discontinued)
           .parents('[data-testid="rx-card-info"]')

@@ -12,15 +12,8 @@ import {
   expandArrayPages,
   createFormPageList,
 } from 'platform/forms-system/src/js/helpers';
-import { validateWhiteSpace } from 'platform/forms/validations';
 
 import { MARRIAGE_TYPES, PICKLIST_DATA } from '../constants';
-
-export const validateName = (errors, pageData) => {
-  const { first, last } = pageData;
-  validateWhiteSpace(errors.first, first);
-  validateWhiteSpace(errors.last, last);
-};
 
 const PHONE_KEYS = ['phoneNumber', 'internationalPhone'];
 
@@ -292,25 +285,72 @@ export const childEvidence = (formData = {}) => {
   };
 };
 
+/**
+ * Check if duplicate modal should be shown
+ * @param {object} formData - form data object
+ * @returns {boolean} - true if duplicate modal should be shown
+ */
 export const showDupeModalIfEnabled = (formData = {}) =>
   !!formData.vaDependentsDuplicateModals;
 
+/**
+ * Check if adding dependents
+ * @param {object} formData - form data object
+ * @returns {boolean} - true if adding dependents
+ */
 export const isAddingDependents = formData =>
   !!formData?.['view:addOrRemoveDependents']?.add;
+
+/**
+ * Check if removing dependents
+ * @param {object} formData - form data object
+ * @returns {boolean} - true if removing dependents
+ */
 export const isRemovingDependents = formData =>
   !!formData?.['view:addOrRemoveDependents']?.remove;
 
-// Go through v3 picklist unless Veteran has a v2 for in progress
+/**
+ * Check if the form should go through v3 picklist unless Veteran has a v2 form
+ * in progress
+ * @param {object} formData - form data object
+ * @returns {boolean} - true if v3 picklist should be shown
+ */
 export const showV3Picklist = formData =>
   !!formData?.vaDependentsV3 && formData?.vaDependentV2Flow !== true;
-export const noV3Picklist = formData => !showV3Picklist(formData);
-export const showOptionsSelection = formData =>
-  showV3Picklist(formData) ? formData.dependents?.awarded.length > 0 : true;
 
+/**
+ * Show v2 flow if Veteran has a v2 form in progress
+ * @param {object} formData - form data object
+ * @returns {boolean} - true if v3 picklist should be shown
+ */
+export const noV3Picklist = formData => !showV3Picklist(formData);
+
+/**
+ * Check if there are awarded dependents in form data
+ * @param {object} formData - form data object
+ * @returns {boolean} - true if there are awarded dependents
+ */
 export const hasAwardedDependents = (formData = {}) =>
   Array.isArray(formData?.dependents?.awarded) &&
   formData.dependents.awarded.length > 0;
 
+/**
+ * If v3 flow is enabled, show options selection (add or remove question) if
+ * there are awarded dependents; if no awarded dependents, only show the add
+ * dependents flow
+ * @param {object} formData - form data object
+ * @returns {boolean} - true if options selection should be shown
+ */
+export const showOptionsSelection = formData =>
+  showV3Picklist(formData) ? hasAwardedDependents(formData) : true;
+
+/**
+ * If v3 picklist is enabled, check if remove flow is selected and if all the
+ * dependents have a relationship value, then show the picklist page
+ * @param {object} formData - form data object
+ * @param {string} relationship - relationship to veteran
+ * @returns {boolean} - true if picklist page is visible
+ */
 export const isVisiblePicklistPage = (formData, relationship) => {
   const pickList = formData?.[PICKLIST_DATA] || [];
   return (
@@ -323,13 +363,18 @@ export const isVisiblePicklistPage = (formData, relationship) => {
   );
 };
 
+/**
+ * Check if any picklist items are selected
+ * @param {object} formData - form data object
+ * @returns {boolean} - true if any picklist items are selected
+ */
 export const hasSelectedPicklistItems = formData =>
   (formData?.[PICKLIST_DATA] || []).some(item => item.selected);
 
 /**
- * Build location object for V2 format
- * @param {Object} item - Picklist item with location fields
- * @returns {Object} V2 location format
+ * Transform V3 picklist location to V2 location format for submission transformation
+ * @param {object} item - Picklist item with location fields
+ * @returns {object} V2 location format
  */
 function buildLocation(item) {
   if (item.endOutsideUs === true) {
@@ -337,6 +382,8 @@ function buildLocation(item) {
       outsideUsa: true,
       location: {
         city: item.endCity || '',
+        // Copying addressUI pattern, were 'state' is submitted for province
+        state: item.endProvince || '',
         country: item.endCountry || '',
       },
     };
@@ -353,8 +400,8 @@ function buildLocation(item) {
 
 /**
  * Transform V3 picklist item with removalReason: 'childMarried' to V2 format
- * @param {Object} item - Picklist item
- * @returns {Object} V2 childMarriage format
+ * @param {object} item - Picklist item
+ * @returns {object} V2 childMarriage format
  */
 function transformChildMarriage(item) {
   return {
@@ -515,26 +562,18 @@ export function transformPicklistToV2(data) {
   }
 
   // Filter out items that should not be transformed
-  const itemsToTransform = selected.filter(item => {
-    // Skip stepchild left household with financial support > 50%
-    if (
-      item.isStepchild === 'Y' &&
-      item.removalReason === 'stepchildNotMember' &&
-      item.stepchildFinancialSupport === 'Y'
-    ) {
-      return false;
-    }
-
-    // Skip child not in school with permanent disability
-    if (
-      item.removalReason === 'childNotInSchool' &&
-      item.childHasPermanentDisability === 'Y'
-    ) {
-      return false;
-    }
-
-    return true;
-  });
+  const itemsToTransform = selected.filter(
+    item =>
+      // Skip stepchild left household with financial support > 50% &
+      // Skip child not in school with permanent disability
+      !(
+        (item.isStepchild === 'Y' &&
+          item.removalReason === 'stepchildNotMember' &&
+          item.stepchildFinancialSupport === 'Y') ||
+        (item.removalReason === 'childNotInSchool' &&
+          item.childHasPermanentDisability === 'Y')
+      ),
+  );
 
   // Initialize V2 arrays
   const v2Data = {
@@ -659,11 +698,7 @@ export function transformPicklistToV2(data) {
 
   // eslint-disable-next-line no-param-reassign
   data['view:selectable686Options'] = {
-    addSpouse: v2Data['view:selectable686Options']?.addSpouse || false,
-    addChild: v2Data['view:selectable686Options']?.addChild || false,
-    report674: v2Data['view:selectable686Options']?.report674 || false,
-    addDisabledChild:
-      v2Data['view:selectable686Options']?.addDisabledChild || false,
+    ...data['view:addDependentOptions'],
     ...data['view:removeDependentOptions'],
   };
 
@@ -703,5 +738,8 @@ export function customTransformForSubmit(formConfig, form) {
 
   const cleanedPayload = buildSubmissionData(updatedData);
 
-  return JSON.stringify(cleanedPayload, customFormReplacer) || '{}';
+  return {
+    body: JSON.stringify(cleanedPayload, customFormReplacer) || '{}',
+    data: cleanedPayload || {},
+  };
 }

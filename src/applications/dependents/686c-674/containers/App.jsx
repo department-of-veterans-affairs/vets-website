@@ -12,7 +12,6 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import manifest from '../manifest.json';
 import formConfig from '../config/form';
 import { DOC_TITLE } from '../config/constants';
-import { getShouldUseV2 } from '../utils/redirect';
 import {
   processDependents,
   updateDependentsInFormData,
@@ -22,24 +21,19 @@ import { getRootParentUrl } from '../../shared/utils';
 import { fetchDependents as fetchDependentsAction } from '../../shared/actions';
 
 /**
- * @typedef FormAppProps
- * @type {object}
- * @property {object} location - react router location object
- * @property {JSX.Element} children - child components
- * @property {boolean} isLoggedIn - user login status
- * @property {boolean} isLoading - user loading status
- * @property {object} vaFileNumber - VA file number info
- * @property {object} featureToggles - feature toggles object
- * @property {array} savedForms - array of saved forms
- * @property {object} formData - form data from Redux store
- * @property {object} dependents - dependents data from Redux store
- * @property {boolean} isPrefill - whether the form is prefilled
- * @property {function} fetchDependents - action to fetch dependents
- * @property {function} setFormData - action to set form data
- */
-/**
  * Render the 686C-674 application
- * @param {FormAppProps} props - component props
+ * @param {object} location - react router location object
+ * @param {JSX.Element} children - child components
+ * @param {boolean} isLoggedIn - user login status
+ * @param {boolean} isLoading - user loading status
+ * @param {object} vaFileNumber - VA file number info
+ * @param {object} featureToggles - feature toggles object
+ * @param {array} savedForms - array of saved forms
+ * @param {object} formData - form data from Redux store
+ * @param {object} dependents - dependents data from Redux store
+ * @param {boolean} isPrefill - whether the form is prefilled
+ * @param {function} fetchDependents - action to fetch dependents
+ * @param {function} setFormData - action to set form data
  * @returns {JSX.Element} - rendered component
  */
 function App({
@@ -162,15 +156,6 @@ function App({
   // Handle loading
   if (isLoading) {
     return <va-loading-indicator message="Loading your information..." />;
-  }
-
-  const flipperV2 = featureToggles.vaDependentsV2;
-
-  if (!getShouldUseV2(flipperV2, savedForms)) {
-    window.location.href = `${getRootParentUrl(
-      manifest.rootUrl,
-    )}/add-remove-form-21-686c/`;
-    return <></>;
   }
 
   const breadcrumbs = [

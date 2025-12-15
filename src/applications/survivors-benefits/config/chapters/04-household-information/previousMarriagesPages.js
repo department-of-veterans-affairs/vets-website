@@ -67,7 +67,7 @@ const options = {
     cancelAddTitle: 'Cancel adding this previous marriage?',
     cancelEditTitle: 'Cancel editing this previous marriage?',
     cancelAddDescription:
-      'If you cancel, we won’t add this previous marriage to your list of marriages. You’ll return to a page where you can add another previous marriage.',
+      'If you cancel, we won’t add this previous marriage to the list of marriages. You’ll return to a page where you can add another previous marriage.',
     cancelEditDescription:
       'If you cancel, you’ll lose any changes you made to this previous marriage and you will be returned to the previous marriage review page.',
     cancelAddYes: 'Yes, cancel adding',
@@ -400,7 +400,7 @@ const marriageEndPage = {
   },
   schema: {
     type: 'object',
-    required: ['marriageEndReason', 'marriageEndOtherExplanation'],
+    required: ['marriageEndReason'],
     properties: {
       marriageEndReason: radioSchema(Object.keys(previousMarriageEndOptions)),
       marriageEndOtherExplanation: {

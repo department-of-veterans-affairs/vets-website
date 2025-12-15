@@ -15,6 +15,15 @@ import {
 import { parseDateToDateObj } from '../../../utilities';
 import { maskID } from '../../../../../shared/utils';
 
+/**
+ * @typedef {object} FormDataProps
+ * @property {object} veteranInformation - Veteran information object
+ * @property {string} veteranInformation.ssnLastFour - Last four digits of SSN
+ * @property {string} veteranInformation.vaFileLastFour - Last four digits of VA file number
+ *
+ * @param {FormDataProps} props - form data
+ * @returns {React.ReactElement} Veteran information component
+ */
 export const VeteranInformation = ({ formData }) => {
   const { ssnLastFour } = formData?.veteranInformation || {};
   const { dob, userFullName = {} } = useSelector(selectProfile);
@@ -67,7 +76,7 @@ export const VeteranInformation = ({ formData }) => {
         allow online changes to your name, date of birth, or Social Security
         number. If you need to change this information, call us at{' '}
         <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
-        <va-telephone tty contact="711" />
+        <va-telephone tty contact={CONTACTS['711']} />
         ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m.{' '}
         <dfn>
           <abbr title="Eastern Time">ET</abbr>
