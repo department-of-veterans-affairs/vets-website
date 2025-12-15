@@ -37,6 +37,7 @@
   }
 }
 //overriding default classes set at the forms level to match figma
+.form-21-0966,
 .form-21-686c,
 .form-21-526EZ,
 .form-21-0966 {
@@ -109,6 +110,10 @@
   }
   va-radio {
     margin-top: 16px;
+
+    &:has([name="root_benefitType"]) {
+      margin-top: 32px;
+    }
   }
   #root_supportingDocuments_add_label {
     margin: 0;
