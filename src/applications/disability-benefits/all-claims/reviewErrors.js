@@ -1,5 +1,3 @@
-import numberToWords from 'platform/forms-system/src/js/utilities/data/numberToWords';
-
 // Link text for review & submit page errors
 // key = "name" from `form.formErrors.errors`
 // see src/platform/forms-system/docs/reviewErrors.md
@@ -13,10 +11,8 @@ export default {
   // newDisabilities validation error when view:claimType exists but newDisabilities is empty
   newDisabilities:
     'Reason for claim (select at least one type and add at least one new condition)',
-  condition: index =>
-    `New conditions (in the ${numberToWords(
-      index + 1,
-    )} section, enter a condition or select one from the list)`,
+  condition: () =>
+    'Reason for claim (select at least one type and add at least one new condition)',
   cause: 'What caused this condition? (select from the list of causes)',
   'view:hasMilitaryRetiredPay':
     'Have you ever received military retirement pay? (select yes or no)',
@@ -189,17 +185,20 @@ export default {
     'Exposure end date for other toxic exposures',
   _override: error => {
     if (typeof error === 'string') {
-      // Handle newDisabilities validation errors - redirect to claim-type page
-      // Matches:
-      // - Empty array: 'newDisabilities', 'instance.newDisabilities', or 'newDisabilities...does not meet minimum length'
-      // - Missing condition: 'newDisabilities[0]' (array item property path) or errors including both 'newDisabilities' and 'condition'
+      // Handle newDisabilities and condition validation errors - redirect to claim-type page
+      // Matches error strings for:
+      // - Empty or missing newDisabilities array: 'newDisabilities',
+      // 'instance.newDisabilities', or errors containing 'does not meet minimum length'
+      // - Missing condition property: 'condition', 'newDisabilities[0]',
+      // 'instance.newDisabilities[0].condition', or errors containing both 'newDisabilities' and 'condition'
       if (
         error === 'newDisabilities' ||
         error === 'instance.newDisabilities' ||
+        error === 'condition' ||
         (error.includes('newDisabilities') &&
           (error.includes('does not meet minimum length') ||
             error.includes('condition'))) ||
-        /newDisabilities\[\d+\]/.test(error)
+        /newDisabilities\[\d+\](\.condition)?/.test(error)
       ) {
         return {
           chapterKey: 'disabilities',

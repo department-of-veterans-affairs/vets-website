@@ -2,74 +2,44 @@ import { expect } from 'chai';
 import reviewErrors from '../reviewErrors';
 
 describe('reviewErrors', () => {
-  describe('condition', () => {
-    it('returns condition text', () => {
-      expect(reviewErrors.condition(2)).to.equal(
-        'New conditions (in the third section, enter a condition or select one from the list)',
-      );
-    });
-  });
+  const EXPECTED_MESSAGE =
+    'Reason for claim (select at least one type and add at least one new condition)';
+  const EXPECTED_CLAIM_TYPE_REDIRECT = {
+    chapterKey: 'disabilities',
+    pageKey: 'claimType',
+  };
 
   describe('newDisabilities', () => {
     it('returns error message string', () => {
-      expect(reviewErrors.newDisabilities).to.equal(
-        'Reason for claim (select at least one type and add at least one new condition)',
-      );
+      expect(reviewErrors.newDisabilities).to.equal(EXPECTED_MESSAGE);
     });
   });
 
-  describe('_override for newDisabilities errors', () => {
-    it('redirects empty array error to claim-type page', () => {
-      const result = reviewErrors._override('newDisabilities');
-      expect(result).to.deep.equal({
-        chapterKey: 'disabilities',
-        pageKey: 'claimType',
-      });
+  describe('condition', () => {
+    it('returns same message as newDisabilities regardless of index', () => {
+      expect(reviewErrors.condition()).to.equal(EXPECTED_MESSAGE);
+      expect(reviewErrors.condition(0)).to.equal(EXPECTED_MESSAGE);
+      expect(reviewErrors.condition(2)).to.equal(EXPECTED_MESSAGE);
     });
+  });
 
-    it('redirects instance.newDisabilities error to claim-type page', () => {
-      const result = reviewErrors._override('instance.newDisabilities');
-      expect(result).to.deep.equal({
-        chapterKey: 'disabilities',
-        pageKey: 'claimType',
-      });
-    });
+  describe('_override for newDisabilities and condition errors', () => {
+    const errorCases = [
+      'newDisabilities',
+      'instance.newDisabilities',
+      'instance.newDisabilities does not meet minimum length of 1',
+      'newDisabilities[0]',
+      'instance.newDisabilities[0] requires property "condition"',
+      'newDisabilities[1] condition is required',
+      'condition',
+      'instance.newDisabilities[0].condition',
+      'newDisabilities[0].condition',
+    ];
 
-    it('redirects minItems error to claim-type page', () => {
-      const result = reviewErrors._override(
-        'instance.newDisabilities does not meet minimum length of 1',
-      );
-      expect(result).to.deep.equal({
-        chapterKey: 'disabilities',
-        pageKey: 'claimType',
-      });
-    });
-
-    it('redirects condition error within newDisabilities array to claim-type page', () => {
-      const result = reviewErrors._override('newDisabilities[0]');
-      expect(result).to.deep.equal({
-        chapterKey: 'disabilities',
-        pageKey: 'claimType',
-      });
-    });
-
-    it('redirects condition error with stack message to claim-type page', () => {
-      const result = reviewErrors._override(
-        'instance.newDisabilities[0] requires property "condition"',
-      );
-      expect(result).to.deep.equal({
-        chapterKey: 'disabilities',
-        pageKey: 'claimType',
-      });
-    });
-
-    it('redirects condition error with both newDisabilities and condition to claim-type page', () => {
-      const result = reviewErrors._override(
-        'newDisabilities[1] condition is required',
-      );
-      expect(result).to.deep.equal({
-        chapterKey: 'disabilities',
-        pageKey: 'claimType',
+    errorCases.forEach(errorString => {
+      it(`redirects "${errorString}" error to claim-type page`, () => {
+        const result = reviewErrors._override(errorString);
+        expect(result).to.deep.equal(EXPECTED_CLAIM_TYPE_REDIRECT);
       });
     });
   });
