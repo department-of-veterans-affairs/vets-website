@@ -17,8 +17,6 @@ export const Locators = {
       REMOVE_TITLE: `#heading`,
       MODAL: `va-modal[data-testid="confirm-remove-modal"]`,
       REMOVE_TEXT: `[modal-title="Remove your messages signature?"] > p`,
-      CONFIRM_REMOVE_BTN: `[modal-title="Remove your messages signature?"] > div > va-button`,
-      CANCEL_REMOVE_BTN: `[modal-title="Remove your messages signature?"] > div > va-button`,
     },
   },
 };
