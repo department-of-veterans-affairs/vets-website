@@ -82,7 +82,8 @@ const useFindFormsBrowserMonitoring = () => {
   useEffect(() => {
     if (
       (environment.isStaging() || environment.isProduction()) &&
-      !window.Mocha
+      !window.Mocha &&
+      !window.Cypress
     ) {
       // Enable browser logging
       initializeBrowserLogging();

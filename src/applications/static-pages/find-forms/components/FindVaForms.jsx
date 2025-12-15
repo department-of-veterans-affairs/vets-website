@@ -9,7 +9,7 @@ import SearchResults from '../containers/SearchResults';
 import { useFindFormsBrowserMonitoring } from '../hooks/useFindFormsBrowserMonitoring';
 
 export const FindVaForms = () => {
-  // Initialize Datadog browser monitoring (RUM + Logs) with feature flag
+  // Initialize Datadog browser monitoring (RUM + Logs) only in production
   useFindFormsBrowserMonitoring();
 
   return (
