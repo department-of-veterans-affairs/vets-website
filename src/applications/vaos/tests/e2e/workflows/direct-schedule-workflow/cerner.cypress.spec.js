@@ -244,7 +244,7 @@ describe('VAOS direct schedule flow - Cerner', () => {
               })
               .assertLink({
                 name:
-                  'Go to My VA Health (Opens in new tab) Link opens in a new tab.',
+                  'Go to My VA Health (opens in a new tab) Link opens in a new tab.',
               });
 
             // Assert
@@ -311,7 +311,7 @@ describe('VAOS direct schedule flow - Cerner', () => {
               })
               .assertLink({
                 name:
-                  'Go to My VA Health (Opens in new tab) Link opens in a new tab.',
+                  'Go to My VA Health (opens in a new tab) Link opens in a new tab.',
               });
 
             // Assert
