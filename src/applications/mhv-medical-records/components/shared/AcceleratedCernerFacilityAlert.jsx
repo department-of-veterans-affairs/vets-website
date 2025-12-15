@@ -11,7 +11,6 @@ const AcceleratedCernerFacilityAlert = ({ linkPath, pageName }) => {
     isAcceleratingAllergies,
     isAcceleratingCareNotes,
     isAcceleratingVitals,
-    isAcceleratingVaccines,
     isAcceleratingLabsAndTests,
     isAcceleratingConditions,
   } = useAcceleratedData();
@@ -24,7 +23,7 @@ const AcceleratedCernerFacilityAlert = ({ linkPath, pageName }) => {
     isCerner || isAcceleratingAllergies
       ? CernerAlertContent.ALLERGIES.pageName
       : null,
-    isAcceleratingVaccines ? CernerAlertContent.VACCINES.pageName : null,
+    CernerAlertContent.VACCINES.pageName,
     isAcceleratingCareNotes
       ? CernerAlertContent.CARE_SUMMARIES_AND_NOTES.pageName
       : null,

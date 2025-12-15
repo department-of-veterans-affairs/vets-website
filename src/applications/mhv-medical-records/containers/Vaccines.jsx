@@ -20,7 +20,6 @@ import {
   makePdf,
   formatNameFirstLast,
   formatUserDob,
-  useAcceleratedData,
 } from '@department-of-veterans-affairs/mhv/exports';
 
 import RecordList from '../components/RecordList/RecordList';
@@ -95,15 +94,8 @@ const Vaccines = props => {
   const history = useHistory();
   const paramPage = getParamValue(location.search, 'page');
 
-  const { isAcceleratingVaccines } = useAcceleratedData();
-
   const dispatchAction = isCurrent => {
-    return getVaccinesList(
-      isCurrent,
-      paramPage,
-      useBackendPagination,
-      isAcceleratingVaccines,
-    );
+    return getVaccinesList(isCurrent, paramPage, useBackendPagination);
   };
 
   useTrackAction(statsdFrontEndActions.VITALS_LIST);
@@ -178,20 +170,19 @@ const Vaccines = props => {
       `Date received: ${item.date}\n`,
     ];
 
-    // Add conditional fields based on whether accelerating vaccines is enabled
-    if (isAcceleratingVaccines) {
-      content.push(`Provider: ${item.location || 'None recorded'}\n`);
-      content.push(`Type and dosage: ${item.shortDescription}\n`);
-      content.push(`Manufacturer: ${item.manufacturer}\n`);
-      content.push(`Series status: ${item.doseDisplay}\n`);
-      content.push(`Dose number: ${item.doseNumber}\n`);
-      content.push(`Dose series: ${item.doseSeries}\n`);
-      content.push(`CVX code: ${item.cvxCode}\n`);
-      content.push(`Reactions: ${item.reaction}\n`);
-      content.push(`Notes: ${item.note}\n`);
-    } else {
-      content.push(`Location: ${item.location || 'None recorded'}\n`);
-    }
+    // Add conditional fields for accelerating vaccines
+    content.push(`Provider: ${item.location || 'None recorded'}\n`);
+    content.push(`Type and dosage: ${item.shortDescription}\n`);
+    content.push(`Manufacturer: ${item.manufacturer}\n`);
+    content.push(`Series status: ${item.doseDisplay}\n`);
+    content.push(`Dose number: ${item.doseNumber}\n`);
+    content.push(`Dose series: ${item.doseSeries}\n`);
+    content.push(`CVX code: ${item.cvxCode}\n`);
+    content.push(`Reactions: ${item.reaction}\n`);
+    content.push(`Notes: ${item.note}\n`);
+    // } else {
+    //   content.push(`Location: ${item.location || 'None recorded'}\n`);
+    // }
 
     return content.join('');
   };
@@ -216,14 +207,7 @@ const Vaccines = props => {
    */
   const loadUpdatedRecords = () => {
     if (paramPage === '1') {
-      dispatch(
-        getVaccinesList(
-          true,
-          paramPage,
-          useBackendPagination,
-          isAcceleratingVaccines,
-        ),
-      );
+      dispatch(getVaccinesList(true, paramPage, useBackendPagination));
     } else {
       // The page change will trigger a fetch.
       history.push(`${history.location.pathname}?page=1`);
@@ -264,26 +248,24 @@ const Vaccines = props => {
         listCurrentAsOf={vaccinesCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
-        {!isAcceleratingVaccines && (
-          <NewRecordsIndicator
-            refreshState={refresh}
-            extractType={refreshExtractTypes.VPR}
-            newRecordsFound={
-              useBackendPagination
-                ? updateNeeded
-                : Array.isArray(vaccines) &&
-                  Array.isArray(updatedRecordList) &&
-                  vaccines.length !== updatedRecordList.length
-            }
-            reloadFunction={
-              useBackendPagination
-                ? loadUpdatedRecords
-                : () => {
-                    dispatch(reloadRecords());
-                  }
-            }
-          />
-        )}
+        <NewRecordsIndicator
+          refreshState={refresh}
+          extractType={refreshExtractTypes.VPR}
+          newRecordsFound={
+            useBackendPagination
+              ? updateNeeded
+              : Array.isArray(vaccines) &&
+                Array.isArray(updatedRecordList) &&
+                vaccines.length !== updatedRecordList.length
+          }
+          reloadFunction={
+            useBackendPagination
+              ? loadUpdatedRecords
+              : () => {
+                  dispatch(reloadRecords());
+                }
+          }
+        />
 
         {vaccines?.length ? (
           <>
@@ -291,7 +273,7 @@ const Vaccines = props => {
               <RecordListNew
                 records={vaccines?.map(vaccine => ({
                   ...vaccine,
-                  isOracleHealthData: isAcceleratingVaccines,
+                  isOracleHealthData: true,
                 }))}
                 type={recordType.VACCINES}
                 metadata={metadata}
@@ -300,7 +282,7 @@ const Vaccines = props => {
               <RecordList
                 records={vaccines?.map(vaccine => ({
                   ...vaccine,
-                  isOracleHealthData: isAcceleratingVaccines,
+                  isOracleHealthData: true,
                 }))}
                 type={recordType.VACCINES}
               />

@@ -46,19 +46,17 @@ const VaccineDetails = props => {
   const dispatch = useDispatch();
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
-  const { isAcceleratingVaccines, isLoading } = useAcceleratedData();
+  const { isLoading } = useAcceleratedData();
 
   useTrackAction(statsdFrontEndActions.VACCINES_DETAILS);
 
   useEffect(
     () => {
       if (vaccineId && !isLoading) {
-        dispatch(
-          getVaccineDetails(vaccineId, vaccines, isAcceleratingVaccines),
-        );
+        dispatch(getVaccineDetails(vaccineId, vaccines));
       }
     },
-    [vaccineId, vaccines, dispatch, isAcceleratingVaccines, isLoading],
+    [vaccineId, vaccines, dispatch, isLoading],
   );
 
   useEffect(
@@ -115,20 +113,19 @@ const VaccineDetails = props => {
       `Date received: ${record.date}\n`,
     ];
 
-    // Add conditional fields based on whether accelerating vaccines is enabled
-    if (isAcceleratingVaccines) {
-      content.push(`Provider: ${record.location || 'None recorded'}\n`);
-      content.push(`Type and dosage: ${record.shortDescription}\n`);
-      content.push(`Manufacturer: ${record.manufacturer}\n`);
-      content.push(`Series status: ${record.doseDisplay}\n`);
-      content.push(`Dose number: ${record.doseNumber}\n`);
-      content.push(`Dose series: ${record.doseSeries}\n`);
-      content.push(`CVX code: ${record.cvxCode}\n`);
-      content.push(`Reactions: ${record.reaction}\n`);
-      content.push(`Notes: ${record.note}\n`);
-    } else {
-      content.push(`Location: ${record.location || 'None recorded'}\n`);
-    }
+    // Add conditional fields basedfor accelerating vaccines
+    content.push(`Provider: ${record.location || 'None recorded'}\n`);
+    content.push(`Type and dosage: ${record.shortDescription}\n`);
+    content.push(`Manufacturer: ${record.manufacturer}\n`);
+    content.push(`Series status: ${record.doseDisplay}\n`);
+    content.push(`Dose number: ${record.doseNumber}\n`);
+    content.push(`Dose series: ${record.doseSeries}\n`);
+    content.push(`CVX code: ${record.cvxCode}\n`);
+    content.push(`Reactions: ${record.reaction}\n`);
+    content.push(`Notes: ${record.note}\n`);
+    // } else {
+    //   content.push(`Location: ${record.location || 'None recorded'}\n`);
+    // }
 
     const fileName = `VA-vaccines-details-${getNameDateAndTime(user)}`;
 
@@ -169,61 +166,43 @@ const VaccineDetails = props => {
             {downloadStarted && <DownloadSuccessAlert />}
 
             <div>
-              {isAcceleratingVaccines && (
-                <LabelValue
-                  label="Type and dosage"
-                  value={record.shortDescription}
-                  testId="vaccine-description"
-                  actionName="[vaccine details - description]"
-                />
-              )}
-              {isAcceleratingVaccines && (
-                <LabelValue
-                  label="Manufacturer"
-                  value={record.manufacturer}
-                  testId="vaccine-manufacturer"
-                  actionName="[vaccine details - manufacturer]"
-                />
-              )}
-              {isAcceleratingVaccines && (
-                <LabelValue
-                  label="Series status"
-                  value={record.doseDisplay}
-                  testId="vaccine-dosage"
-                  actionName="[vaccine details - dosage]"
-                />
-              )}
               <LabelValue
-                label={isAcceleratingVaccines ? 'Provider' : 'Location'}
+                label="Type and dosage"
+                value={record.shortDescription}
+                testId="vaccine-description"
+                actionName="[vaccine details - description]"
+              />
+              <LabelValue
+                label="Manufacturer"
+                value={record.manufacturer}
+                testId="vaccine-manufacturer"
+                actionName="[vaccine details - manufacturer]"
+              />
+              <LabelValue
+                label="Series status"
+                value={record.doseDisplay}
+                testId="vaccine-dosage"
+                actionName="[vaccine details - dosage]"
+              />
+              <LabelValue
+                label="Provider"
                 value={record.location}
-                testId={
-                  isAcceleratingVaccines
-                    ? 'vaccine-provider'
-                    : 'vaccine-location'
-                }
-                actionName={
-                  isAcceleratingVaccines
-                    ? '[vaccine details - provider]'
-                    : '[vaccine details - location]'
-                }
+                testId="vaccine-provider"
+                actionName="[vaccine details - provider]"
               />
 
-              {isAcceleratingVaccines && (
-                <LabelValue
-                  label="Reactions"
-                  value={record.reaction}
-                  testId="vaccine-reactions"
-                  actionName="[vaccine details - reaction]"
-                />
-              )}
-              {isAcceleratingVaccines && (
-                <LabelValue
-                  label="Notes"
-                  value={record.note}
-                  testId="vaccine-notes"
-                  actionName="[vaccine details - note]"
-                />
-              )}
+              <LabelValue
+                label="Reactions"
+                value={record.reaction}
+                testId="vaccine-reactions"
+                actionName="[vaccine details - reaction]"
+              />
+              <LabelValue
+                label="Notes"
+                value={record.note}
+                testId="vaccine-notes"
+                actionName="[vaccine details - note]"
+              />
             </div>
             <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
             <DownloadingRecordsInfo description="Vaccines Detail" />
