@@ -266,77 +266,77 @@ const formConfig = {
         ...vaEvidence,
         ...privateEvidence,
         // ------- REMOVE when new design toggle is removed
-        // vaPrompt: {
-        //   title: 'VA medical records prompt',
-        //   path: EVIDENCE_VA_PROMPT_URL,
-        //   depends: formData => !redesignActive(formData, true),
-        //   CustomPage: VaPrompt,
-        //   CustomPageReview: null,
-        //   uiSchema: vaPrompt.uiSchema,
-        //   schema: vaPrompt.schema,
-        //   scrollAndFocusTarget: focusRadioH3,
-        // },
-        // vaDetails: {
-        //   title: 'VA medical records details',
-        //   path: EVIDENCE_VA_DETAILS_URL,
-        //   depends: formData =>
-        //     !redesignActive(formData) && hasVAEvidence(formData),
-        //   CustomPage: VaDetailsEntry,
-        //   CustomPageReview: null,
-        //   uiSchema: vaDetails.uiSchema,
-        //   schema: vaDetails.schema,
-        //   hideHeaderRow: true,
-        //   scrollAndFocusTarget: focusEvidence,
-        // },
-        // privatePrompt: {
-        //   title: 'Request non-VA medical records',
-        //   path: EVIDENCE_PRIVATE_PROMPT_URL,
-        //   CustomPage: PrivatePrompt,
-        //   CustomPageReview: null,
-        //   uiSchema: privatePrompt.uiSchema,
-        //   schema: privatePrompt.schema,
-        //   scrollAndFocusTarget: focusRadioH3,
-        //   depends: !redesignActive,
-        // },
-        // privateAuthorization: {
-        //   title: 'Non-VA medical record authorization',
-        //   path: 'supporting-evidence/private-medical-records-authorization',
-        //   depends: formData =>
-        //     !redesignActive(formData) && hasPrivateEvidence(formData),
-        //   CustomPage: PrivateRecordsAuthorization,
-        //   CustomPageReview: null,
-        //   uiSchema: privateAuthorization.uiSchema,
-        //   schema: privateAuthorization.schema,
-        // },
-        // limitedConsentPrompt: {
-        //   title: 'Non-VA medical record: limited consent prompt',
-        //   path: LIMITED_CONSENT_PROMPT_URL,
-        //   depends: formData =>
-        //     !redesignActive(formData) && hasPrivateEvidence(formData),
-        //   uiSchema: limitedConsentPromptPage.uiSchema,
-        //   schema: limitedConsentPromptPage.schema,
-        //   scrollAndFocusTarget: focusRadioH3,
-        // },
-        // limitedConsentDetails: {
-        //   title: 'Non-VA medical record: limited consent details',
-        //   path: LIMITED_CONSENT_DETAILS_URL,
-        //   depends: formData =>
-        //     !redesignActive(formData) && hasPrivateLimitation(formData),
-        //   uiSchema: limitedConsentDetailsPage.uiSchema,
-        //   schema: limitedConsentDetailsPage.schema,
-        //   scrollAndFocusTarget: focusRadioH3,
-        // },
-        // privateDetails: {
-        //   title: 'Non-VA medical records',
-        //   path: EVIDENCE_PRIVATE_DETAILS_URL,
-        //   depends: formData =>
-        //     !redesignActive(formData) && hasPrivateEvidence(formData),
-        //   CustomPage: PrivateDetailsEntry,
-        //   CustomPageReview: null,
-        //   uiSchema: privateDetails.uiSchema,
-        //   schema: privateDetails.schema,
-        //   scrollAndFocusTarget: focusEvidence,
-        // },
+        vaPrompt: {
+          title: 'VA medical records prompt',
+          path: EVIDENCE_VA_PROMPT_URL,
+          depends: !redesignActive,
+          CustomPage: VaPrompt,
+          CustomPageReview: null,
+          uiSchema: vaPrompt.uiSchema,
+          schema: vaPrompt.schema,
+          scrollAndFocusTarget: focusRadioH3,
+        },
+        vaDetails: {
+          title: 'VA medical records details',
+          path: EVIDENCE_VA_DETAILS_URL,
+          depends: formData =>
+            !redesignActive(formData) && hasVAEvidence(formData),
+          CustomPage: VaDetailsEntry,
+          CustomPageReview: null,
+          uiSchema: vaDetails.uiSchema,
+          schema: vaDetails.schema,
+          hideHeaderRow: true,
+          scrollAndFocusTarget: focusEvidence,
+        },
+        privatePrompt: {
+          title: 'Request non-VA medical records',
+          path: EVIDENCE_PRIVATE_PROMPT_URL,
+          CustomPage: PrivatePrompt,
+          CustomPageReview: null,
+          uiSchema: privatePrompt.uiSchema,
+          schema: privatePrompt.schema,
+          scrollAndFocusTarget: focusRadioH3,
+          depends: !redesignActive,
+        },
+        privateAuthorization: {
+          title: 'Non-VA medical record authorization',
+          path: 'supporting-evidence/private-medical-records-authorization',
+          depends: formData =>
+            !redesignActive(formData) && hasPrivateEvidence(formData),
+          CustomPage: PrivateRecordsAuthorization,
+          CustomPageReview: null,
+          uiSchema: privateAuthorization.uiSchema,
+          schema: privateAuthorization.schema,
+        },
+        limitedConsentPrompt: {
+          title: 'Non-VA medical record: limited consent prompt',
+          path: LIMITED_CONSENT_PROMPT_URL,
+          depends: formData =>
+            !redesignActive(formData) && hasPrivateEvidence(formData),
+          uiSchema: limitedConsentPromptPage.uiSchema,
+          schema: limitedConsentPromptPage.schema,
+          scrollAndFocusTarget: focusRadioH3,
+        },
+        limitedConsentDetails: {
+          title: 'Non-VA medical record: limited consent details',
+          path: LIMITED_CONSENT_DETAILS_URL,
+          depends: formData =>
+            !redesignActive(formData) && hasPrivateLimitation(formData),
+          uiSchema: limitedConsentDetailsPage.uiSchema,
+          schema: limitedConsentDetailsPage.schema,
+          scrollAndFocusTarget: focusRadioH3,
+        },
+        privateDetails: {
+          title: 'Non-VA medical records',
+          path: EVIDENCE_PRIVATE_DETAILS_URL,
+          depends: formData =>
+            !redesignActive(formData) && hasPrivateEvidence(formData),
+          CustomPage: PrivateDetailsEntry,
+          CustomPageReview: null,
+          uiSchema: privateDetails.uiSchema,
+          schema: privateDetails.schema,
+          scrollAndFocusTarget: focusEvidence,
+        },
         // ------- END REMOVE (note this will move down under uploadDetails
         // once we replace the upload input with v3)
         uploadPrompt: {

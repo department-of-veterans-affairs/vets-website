@@ -214,7 +214,7 @@ export default arrayBuilderPages(options, pageBuilder => ({
     uiSchema: summaryPage.uiSchema,
     schema: summaryPage.schema,
     // ------- REMOVE toggle check when new design toggle is removed
-    depends: redesignActive,
+    depends: formData => redesignActive(formData),
     // ------- END REMOVE
   }),
   authorization: pageBuilder.itemPage({
@@ -230,17 +230,17 @@ export default arrayBuilderPages(options, pageBuilder => ({
       }),
     // ------- REMOVE toggle check when new design toggle is removed
     depends: (props, index) => {
-      return redesignActive && index === 0;
+      return redesignActive(props) && index === 0;
     },
     // ------- END REMOVE
   }),
-  privateDetails: pageBuilder.itemPage({
+  privateLocation: pageBuilder.itemPage({
     title: '',
     path: EVIDENCE_URLS.privateDetails,
     uiSchema: detailsPage.uiSchema,
     schema: detailsPage.schema,
     // ------- REMOVE toggle check when new design toggle is removed
-    depends: redesignActive,
+    depends: formData => redesignActive(formData),
     // ------- END REMOVE
   }),
   issuesPrivate: pageBuilder.itemPage({
@@ -255,10 +255,11 @@ export default arrayBuilderPages(options, pageBuilder => ({
         ...props,
         // resolve prop warning that the index is a string rather than a number
         pagePerItemIndex: +props.pagePerItemIndex,
+        addOrEdit: getAddOrEditMode(),
         formKey: PRIVATE_EVIDENCE_KEY,
       }),
     // ------- REMOVE toggle check when new design toggle is removed
-    depends: redesignActive,
+    depends: formData => redesignActive(formData),
     // ------- END REMOVE
   }),
   treatmentDatePrivate: pageBuilder.itemPage({
