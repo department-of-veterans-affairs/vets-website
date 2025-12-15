@@ -16,11 +16,13 @@ const FilesWeCouldntReceiveEntryPoint = ({ evidenceSubmissions }) => {
 
   return (
     <div
-      id={ANCHOR_LINKS.filesWeCouldntReceive}
       className="files-we-couldnt-receive-entry-point"
       data-testid="files-we-couldnt-receive-entry-point"
     >
-      <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--3">
+      <h3
+        className="vads-u-margin-top--0 vads-u-margin-bottom--3"
+        id={ANCHOR_LINKS.filesWeCouldntReceive}
+      >
         Files we couldn’t receive
       </h3>
       <p>
