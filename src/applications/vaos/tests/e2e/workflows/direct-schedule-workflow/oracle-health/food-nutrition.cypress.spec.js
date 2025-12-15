@@ -204,8 +204,83 @@ describe('OH direct schedule flow - Food and Nutrition', () => {
     describe('And some providers have available slots in the next 13 months', () => {
       describe('And request enabled', () => {
         describe('And request limit reached', () => {
-          it('should display dead end call to schedule');
+          it('should display choose proivder page without request option', () => {
+            // Arrange
+            const mockEligibilityResponse = new MockEligibilityResponse({
+              facilityId: '983',
+              typeOfCareId,
+              ineligibilityReason:
+                INELIGIBILITY_CODES_VAOS.REQUEST_LIMIT_EXCEEDED,
+            });
+            const mockUser = new MockUser({ addressLine1: '123 Main St.' });
+
+            mockClinicsApi({
+              locationId: '983',
+              response: MockClinicResponse.createResponses({ count: 2 }),
+            });
+            mockFacilitiesApi({
+              response: MockFacilityResponse.createResponses({
+                facilityIds: ['983', '984'],
+              }),
+            });
+            mockEligibilityDirectApi({
+              response: mockEligibilityResponse,
+            });
+            mockEligibilityRequestApi({
+              response: mockEligibilityResponse,
+            });
+            mockEligibilityCCApi({ cceType, isEligible: true });
+            mockRelationshipsApi({
+              response: [
+                new MockRelationshipResponse(),
+                new MockRelationshipResponse({ hasAvailability: false }),
+              ],
+            });
+            mockSchedulingConfigurationApi({
+              facilityIds: ['983'],
+              typeOfCareId,
+              isDirect: true,
+              isRequest: false,
+            });
+
+            // Act
+            cy.login(mockUser);
+            AppointmentListPageObject.visit().scheduleAppointment(
+              'Schedule a new appointment',
+            );
+            UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
+            TypeOfCarePageObject.assertUrl()
+              .assertAddressAlert({ exist: false })
+              .selectTypeOfCare(/Nutrition and food/i)
+              .clickNextButton();
+            TypeOfFacilityPageObject.assertUrl()
+              .selectTypeOfFacility(/VA medical center or clinic/i)
+              .clickNextButton();
+            VAFacilityPageObject.assertUrl()
+              .selectLocation(/Facility 983/i)
+              .clickNextButton();
+            ProviderPageObject.assertUrl()
+              .assertHeading({
+                level: 1,
+                name: /Which provider do you want to schedule with/i,
+              })
+              .assertLink({
+                name: 'Request an appointment',
+                exist: false,
+                useShadowDOM: true,
+              })
+              .clickLink({
+                name: 'Choose your preferred date and time',
+                useShadowDOM: true,
+              });
+
+            PreferredDatePageObject.assertUrl();
+
+            // Assert
+            cy.axeCheckBestPractice();
+          });
         });
+
         describe('And request limit not reached', () => {
           it('should display choose provider page with request option', () => {
             // Arrange
@@ -366,84 +441,6 @@ describe('OH direct schedule flow - Food and Nutrition', () => {
           });
         });
 
-        describe('And request limit not reached', () => {
-          it('should display choose provider page with request option', () => {
-            // Arrange
-            const mockEligibilityResponse = new MockEligibilityResponse({
-              facilityId: '983',
-              typeOfCareId,
-            });
-            const mockUser = new MockUser({ addressLine1: '123 Main St.' });
-
-            mockClinicsApi({
-              locationId: '983',
-              response: MockClinicResponse.createResponses({ count: 2 }),
-            });
-            mockFacilitiesApi({
-              response: MockFacilityResponse.createResponses({
-                facilityIds: ['983', '984'],
-              }),
-            });
-            mockEligibilityDirectApi({
-              response: mockEligibilityResponse,
-            });
-            mockEligibilityRequestApi({
-              response: mockEligibilityResponse,
-            });
-            mockEligibilityCCApi({ cceType, isEligible: true });
-            mockRelationshipsApi({
-              response: [new MockRelationshipResponse()],
-            });
-            mockSchedulingConfigurationApi({
-              facilityIds: ['983'],
-              typeOfCareId,
-              isDirect: true,
-              isRequest: false,
-            });
-
-            // Act
-            cy.login(mockUser);
-            AppointmentListPageObject.visit().scheduleAppointment(
-              'Schedule a new appointment',
-            );
-            UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
-            TypeOfCarePageObject.assertUrl()
-              .assertAddressAlert({ exist: false })
-              .selectTypeOfCare(/Nutrition and food/i)
-              .clickNextButton();
-            TypeOfFacilityPageObject.assertUrl()
-              .selectTypeOfFacility(/VA medical center or clinic/i)
-              .clickNextButton();
-            VAFacilityPageObject.assertUrl()
-              .selectLocation(/Facility 983/i)
-              .clickNextButton();
-            ProviderPageObject.assertUrl()
-              .assertHeading({
-                level: 1,
-                name: /Your nutrition and food provider/i,
-              })
-              .assertLink({
-                name: 'Request an appointment',
-                useShadowDOM: true,
-              })
-              .clickLink({
-                name: 'Choose your preferred date and time',
-                useShadowDOM: true,
-              });
-
-            PreferredDatePageObject.assertUrl();
-
-            // Assert
-            cy.axeCheckBestPractice();
-          });
-        });
-      });
-    });
-    describe('And some providers have available slots in the next 13 months', () => {
-      describe('And request enabled', () => {
-        describe('And request limit reached', () => {
-          it('should display dead end call to schedule');
-        });
         describe('And request limit not reached', () => {
           it('should display choose provider page with request option', () => {
             // Arrange
