@@ -83,6 +83,64 @@ describe('institutionDetailsFacility page', () => {
     expect(form.find('va-link').length).to.be.at.least(1);
     form.unmount();
   });
+  it('does not hide additional instructions link when not withdrawal', () => {
+    const { hideIf } = uiSchema.institutionDetails[
+      'view:additionalInstructions'
+    ]['ui:options'];
+
+    expect(hideIf({ agreementType: 'addToYellowRibbonProgram' })).to.equal(
+      false,
+    );
+    expect(hideIf({})).to.equal(false);
+  });
+
+  it('hides additional instructions link when agreementType is withdrawal', () => {
+    const { hideIf } = uiSchema.institutionDetails[
+      'view:additionalInstructions'
+    ]['ui:options'];
+
+    expect(
+      hideIf({ agreementType: 'withdrawFromYellowRibbonProgram' }),
+    ).to.equal(true);
+  });
+
+  it('does not render additional instructions link when agreementType is withdrawal', () => {
+    const withdrawState = {
+      form: {
+        data: {
+          agreementType: 'withdrawFromYellowRibbonProgram',
+          institutionDetails: { facilityCode: '' },
+        },
+      },
+    };
+    store = mockStore(withdrawState);
+
+    const form = mount(
+      <Provider store={store}>
+        <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          uiSchema={uiSchema}
+          data={withdrawState.form.data}
+        />
+      </Provider>,
+    );
+
+    expect(form.text()).to.not.include(
+      'Review additional instructions for the Yellow Ribbon Program Agreement',
+    );
+    expect(
+      form.find('va-link').filterWhere(n => {
+        const props = n.props() || {};
+        return (
+          props.text ===
+          'Review additional instructions for the Yellow Ribbon Program Agreement'
+        );
+      }).length,
+    ).to.equal(0);
+
+    form.unmount();
+  });
 
   it('renders facility code input field', () => {
     const form = mount(
