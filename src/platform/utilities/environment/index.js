@@ -38,6 +38,13 @@ if (environment.BUILDTYPE === ENVIRONMENTS.LOCALHOST) {
   if (CUSTOM_API) environment.API_URL = CUSTOM_API;
 }
 
+if (
+  typeof location !== 'undefined' &&
+  location.hostname?.includes('app.github.dev')
+) {
+  environment.BASE_URL = `${location.protocol}//${location.hostname}`;
+}
+
 export default Object.freeze({
   /**
    * The name of the environment under which the site is currently executing.
