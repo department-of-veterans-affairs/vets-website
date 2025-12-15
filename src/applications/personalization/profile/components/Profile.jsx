@@ -66,6 +66,7 @@ class Profile extends Component {
       isInMVI,
       shouldFetchDirectDeposit,
       shouldFetchTotalDisabilityRating,
+      shouldFetchSchedulingPreferences,
       connectDrupalSourceOfTruthCerner,
       togglesLoaded,
     } = this.props;
@@ -76,7 +77,9 @@ class Profile extends Component {
       fetchMilitaryInformation();
     }
 
-    fetchSchedulingPreferences();
+    if (togglesLoaded && shouldFetchSchedulingPreferences) {
+      fetchSchedulingPreferences();
+    }
 
     if (togglesLoaded && shouldFetchDirectDeposit) {
       fetchDirectDeposit();
@@ -93,9 +96,11 @@ class Profile extends Component {
       fetchFullName,
       fetchMilitaryInformation,
       fetchPersonalInformation,
+      fetchSchedulingPreferences,
       fetchTotalDisabilityRating,
       isLOA3,
       shouldFetchDirectDeposit,
+      shouldFetchSchedulingPreferences,
       shouldFetchTotalDisabilityRating,
       isInMVI,
       togglesLoaded,
@@ -120,6 +125,17 @@ class Profile extends Component {
         !prevProps.shouldFetchDirectDeposit)
     ) {
       fetchDirectDeposit();
+    }
+
+    if (
+      (togglesLoaded &&
+        !prevProps.togglesLoaded &&
+        shouldFetchSchedulingPreferences) ||
+      (togglesLoaded &&
+        shouldFetchSchedulingPreferences &&
+        !prevProps.shouldFetchSchedulingPreferences)
+    ) {
+      fetchSchedulingPreferences();
     }
   }
 
@@ -261,6 +277,7 @@ Profile.propTypes = {
   isLOA3: PropTypes.bool.isRequired,
   profileToggles: PropTypes.object.isRequired,
   shouldFetchDirectDeposit: PropTypes.bool.isRequired,
+  shouldFetchSchedulingPreferences: PropTypes.bool.isRequired,
   shouldFetchTotalDisabilityRating: PropTypes.bool.isRequired,
   showLoader: PropTypes.bool.isRequired,
   togglesLoaded: PropTypes.bool.isRequired,
@@ -298,6 +315,9 @@ const mapStateToProps = state => {
     isEligibleForDD &&
     isLighthouseAvailable &&
     !profileToggles?.profileHideDirectDeposit;
+
+  const shouldFetchSchedulingPreferences =
+    profileToggles?.profileSchedulingPreferences;
 
   // block profile access for deceased, fiduciary flagged, and incompetent veterans
   const isBlocked = selectIsBlocked(state);
@@ -352,6 +372,7 @@ const mapStateToProps = state => {
     shouldShowAccreditedRepTab,
     shouldShowProfile2,
     shouldShowHealthCareSettingsPage,
+    shouldFetchSchedulingPreferences,
     shouldFetchTotalDisabilityRating,
     isDowntimeWarningDismissed: state.scheduledDowntime?.dismissedDowntimeWarnings?.includes(
       'profile',

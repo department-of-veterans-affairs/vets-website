@@ -119,6 +119,7 @@ const responses = {
             profileShowPaperlessDelivery: false,
             profile2Enabled: true,
             profileHealthCareSettingsPage: true,
+            profileSchedulingPreferences: true,
             vetStatusPdfLogging: true,
             veteranStatusCardUseLighthouse: true,
             veteranStatusCardUseLighthouseFrontend: true,
