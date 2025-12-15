@@ -297,6 +297,7 @@
   "validation-error-message-generic":"Please provide a response",
   "validation-insurance-group-code": "Group code (either this or the policy number is required)",
   "validation-insurance-policy-number": "Policy number (either this or the group code is required)",
+  "validation-marriage-date": "Date of marriage must be after spouse’s date of birth",
   "validation-medicare-claim-number": "Please enter a valid 11-character Medicare claim number",
   "validation-required-label": "(*Required)",
   "vet-address-match-title": "Is your home address the same as your mailing address?",
