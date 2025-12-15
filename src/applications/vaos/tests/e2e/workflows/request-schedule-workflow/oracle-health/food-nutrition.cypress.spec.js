@@ -163,108 +163,106 @@ describe('OH request flow - Food and Nutrition', () => {
       });
     });
     describe('And only request enabled', () => {
-      describe('And request enabled', () => {
-        describe('And request limit not reached', () => {
-          it('should submit form', () => {
-            // Arrange
-            const mockEligibilityResponse = new MockEligibilityResponse({
-              facilityId: '983',
-              typeOfCareId,
-            });
-            const mockUser = new MockUser({ addressLine1: '123 Main St.' });
-
-            mockFacilitiesApi({
-              response: MockFacilityResponse.createResponses({
-                facilityIds: ['983', '984'],
-              }),
-            });
-            mockEligibilityDirectApi({
-              response: mockEligibilityResponse,
-            });
-            mockEligibilityRequestApi({
-              response: mockEligibilityResponse,
-            });
-            mockEligibilityCCApi({ cceType, isEligible: true });
-            mockRelationshipsApi({
-              response: [
-                new MockRelationshipResponse(),
-                new MockRelationshipResponse(),
-              ],
-            });
-            mockSchedulingConfigurationApi({
-              facilityIds: ['983'],
-              typeOfCareId,
-              isDirect: false,
-              isRequest: true,
-            });
-
-            // Act
-            cy.login(mockUser);
-            AppointmentListPageObject.visit().scheduleAppointment(
-              'Schedule a new appointment',
-            );
-            UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
-            TypeOfCarePageObject.assertUrl()
-              .assertAddressAlert({ exist: false })
-              .selectTypeOfCare(/Nutrition and food/i)
-              .clickNextButton();
-            TypeOfFacilityPageObject.assertUrl()
-              .selectTypeOfFacility(/VA medical center or clinic/i)
-              .clickNextButton();
-            VAFacilityPageObject.assertUrl()
-              .selectLocation(/Facility 983/i)
-              .clickNextButton();
-            ProviderPageObject.assertUrl()
-              .assertHeading({
-                level: 1,
-                name: /Which provider do you want to schedule with/i,
-              })
-              .clickLink({
-                name: 'Request an appointment',
-                useShadowDOM: true,
-              });
-            DateTimeRequestPageObject.assertUrl()
-              .assertHeading({
-                name: /When would you like an appointment/i,
-              })
-              .selectFirstAvailableDate()
-              .clickNextButton();
-            ReasonForAppointmentPageObject.assertUrl()
-              .assertHeading({
-                name: /What.s the reason for this appointment/i,
-              })
-              .assertLabel({
-                label: /Add any details you.d like to share with your provider/,
-              })
-              .typeAdditionalText({
-                content: 'This is a test',
-              })
-              .clickNextButton();
-            TypeOfVisitPageObject.assertUrl()
-              .assertHeading({
-                name: /How do you want to attend this appointment/i,
-              })
-              .selectVisitType('In person')
-              .clickNextButton();
-            ContactInfoPageObject.assertUrl()
-              .assertHeading({
-                name: /How should we contact you/i,
-              })
-              .typeEmailAddress('veteran@va.gov')
-              .typePhoneNumber('5555555555')
-              .clickNextButton();
-            ReviewPageObject.assertUrl()
-              .assertHeading({
-                name: /Review and submit your request/,
-              })
-              .clickRequestButton();
-            ConfirmationPageObject.assertUrl({
-              isDirect: false,
-            });
-
-            // Assert
-            cy.axeCheckBestPractice();
+      describe('And request limit not reached', () => {
+        it('should submit form', () => {
+          // Arrange
+          const mockEligibilityResponse = new MockEligibilityResponse({
+            facilityId: '983',
+            typeOfCareId,
           });
+          const mockUser = new MockUser({ addressLine1: '123 Main St.' });
+
+          mockFacilitiesApi({
+            response: MockFacilityResponse.createResponses({
+              facilityIds: ['983', '984'],
+            }),
+          });
+          mockEligibilityDirectApi({
+            response: mockEligibilityResponse,
+          });
+          mockEligibilityRequestApi({
+            response: mockEligibilityResponse,
+          });
+          mockEligibilityCCApi({ cceType, isEligible: true });
+          mockRelationshipsApi({
+            response: [
+              new MockRelationshipResponse(),
+              new MockRelationshipResponse(),
+            ],
+          });
+          mockSchedulingConfigurationApi({
+            facilityIds: ['983'],
+            typeOfCareId,
+            isDirect: false,
+            isRequest: true,
+          });
+
+          // Act
+          cy.login(mockUser);
+          AppointmentListPageObject.visit().scheduleAppointment(
+            'Schedule a new appointment',
+          );
+          UrgentCareInformationPageObject.assertUrl().scheduleAppointment();
+          TypeOfCarePageObject.assertUrl()
+            .assertAddressAlert({ exist: false })
+            .selectTypeOfCare(/Nutrition and food/i)
+            .clickNextButton();
+          TypeOfFacilityPageObject.assertUrl()
+            .selectTypeOfFacility(/VA medical center or clinic/i)
+            .clickNextButton();
+          VAFacilityPageObject.assertUrl()
+            .selectLocation(/Facility 983/i)
+            .clickNextButton();
+          ProviderPageObject.assertUrl()
+            .assertHeading({
+              level: 1,
+              name: /Which provider do you want to schedule with/i,
+            })
+            .clickLink({
+              name: 'Request an appointment',
+              useShadowDOM: true,
+            });
+          DateTimeRequestPageObject.assertUrl()
+            .assertHeading({
+              name: /When would you like an appointment/i,
+            })
+            .selectFirstAvailableDate()
+            .clickNextButton();
+          ReasonForAppointmentPageObject.assertUrl()
+            .assertHeading({
+              name: /What.s the reason for this appointment/i,
+            })
+            .assertLabel({
+              label: /Add any details you.d like to share with your provider/,
+            })
+            .typeAdditionalText({
+              content: 'This is a test',
+            })
+            .clickNextButton();
+          TypeOfVisitPageObject.assertUrl()
+            .assertHeading({
+              name: /How do you want to attend this appointment/i,
+            })
+            .selectVisitType('In person')
+            .clickNextButton();
+          ContactInfoPageObject.assertUrl()
+            .assertHeading({
+              name: /How should we contact you/i,
+            })
+            .typeEmailAddress('veteran@va.gov')
+            .typePhoneNumber('5555555555')
+            .clickNextButton();
+          ReviewPageObject.assertUrl()
+            .assertHeading({
+              name: /Review and submit your request/,
+            })
+            .clickRequestButton();
+          ConfirmationPageObject.assertUrl({
+            isDirect: false,
+          });
+
+          // Assert
+          cy.axeCheckBestPractice();
         });
       });
     });
