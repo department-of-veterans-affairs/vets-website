@@ -14,7 +14,6 @@ describe('Accelerated Cerner Facility Alert', () => {
     isAccelerating = false,
     isAcceleratingAllergies = false,
     isAcceleratingVitals = false,
-    isAcceleratingVaccines = false,
     isAcceleratingCareNotes = false,
     isAcceleratingConditions = false,
   }) => ({
@@ -22,7 +21,6 @@ describe('Accelerated Cerner Facility Alert', () => {
     mhv_accelerated_delivery_enabled: isAccelerating,
     mhv_accelerated_delivery_allergies_enabled: isAcceleratingAllergies,
     mhv_accelerated_delivery_vital_signs_enabled: isAcceleratingVitals,
-    mhv_accelerated_delivery_vaccines_enabled: isAcceleratingVaccines,
     mhv_accelerated_delivery_care_summaries_and_notes_enabled: isAcceleratingCareNotes,
     mhv_accelerated_delivery_conditions_enabled: isAcceleratingConditions,
     /* eslint-enable camelcase */
@@ -182,14 +180,10 @@ describe('Accelerated Cerner Facility Alert', () => {
     expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;
   });
 
-  it('hides correctly when isAcceleratingVaccines is true', () => {
+  it('hides yellow Alert correctly', () => {
     const screen = setup(
       {
         ...initialState,
-        featureToggles: createFeatureToggles({
-          isAccelerating: true,
-          isAcceleratingVaccines: true,
-        }),
         user: { profile: { facilities: [] } },
       },
       { facilities: [] },

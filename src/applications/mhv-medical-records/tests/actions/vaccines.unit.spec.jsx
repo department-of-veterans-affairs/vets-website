@@ -23,7 +23,7 @@ describe('Get vaccines action', () => {
         Actions.Refresh.CLEAR_INITIAL_FHIR_LOAD,
       );
       expect(dispatch.thirdCall.args[0].type).to.equal(
-        Actions.Vaccines.GET_LIST,
+        Actions.Vaccines.GET_UNIFIED_LIST,
       );
     });
   });
@@ -35,7 +35,9 @@ describe('Get vaccine action', () => {
     mockApiRequest(mockData);
     const dispatch = sinon.spy();
     return getVaccineDetails('3106', undefined)(dispatch).then(() => {
-      expect(dispatch.firstCall.args[0].type).to.equal(Actions.Vaccines.GET);
+      expect(dispatch.firstCall.args[0].type).to.equal(
+        Actions.Vaccines.GET_UNIFIED_VACCINE,
+      );
     });
   });
 });
@@ -58,75 +60,6 @@ describe('Clear vaccine details action', () => {
       expect(dispatch.firstCall.args[0].type).to.equal(
         Actions.Vaccines.CLEAR_DETAIL,
       );
-    });
-  });
-});
-
-describe('Get vaccines list with acceleration', () => {
-  it('should dispatch GET_UNIFIED_LIST action when isAccelerating is true', () => {
-    const mockData = vaccines;
-    mockApiRequest(mockData);
-    const dispatch = sinon.spy();
-    return getVaccinesList(false, undefined, false, true)(dispatch).then(() => {
-      expect(dispatch.firstCall.args[0].type).to.equal(
-        Actions.Vaccines.UPDATE_LIST_STATE,
-      );
-      expect(dispatch.secondCall.args[0].type).to.equal(
-        Actions.Refresh.CLEAR_INITIAL_FHIR_LOAD,
-      );
-      expect(dispatch.thirdCall.args[0].type).to.equal(
-        Actions.Vaccines.GET_UNIFIED_LIST,
-      );
-    });
-  });
-
-  it('should dispatch GET_LIST action when isAccelerating is false', () => {
-    const mockData = vaccines;
-    mockApiRequest(mockData);
-    const dispatch = sinon.spy();
-    return getVaccinesList(false, undefined, false, false)(dispatch).then(
-      () => {
-        expect(dispatch.firstCall.args[0].type).to.equal(
-          Actions.Vaccines.UPDATE_LIST_STATE,
-        );
-        expect(dispatch.secondCall.args[0].type).to.equal(
-          Actions.Refresh.CLEAR_INITIAL_FHIR_LOAD,
-        );
-        expect(dispatch.thirdCall.args[0].type).to.equal(
-          Actions.Vaccines.GET_LIST,
-        );
-      },
-    );
-  });
-});
-
-describe('Get vaccine details with acceleration', () => {
-  it('should dispatch GET_UNIFIED_VACCINE action when isAccelerating is true', () => {
-    const mockData = vaccine;
-    mockApiRequest(mockData);
-    const dispatch = sinon.spy();
-    return getVaccineDetails('3106', undefined, true)(dispatch).then(() => {
-      expect(dispatch.firstCall.args[0].type).to.equal(
-        Actions.Vaccines.GET_UNIFIED_VACCINE,
-      );
-    });
-  });
-
-  it('should dispatch GET action when isAccelerating is false', () => {
-    const mockData = vaccine;
-    mockApiRequest(mockData);
-    const dispatch = sinon.spy();
-    return getVaccineDetails('3106', undefined, false)(dispatch).then(() => {
-      expect(dispatch.firstCall.args[0].type).to.equal(Actions.Vaccines.GET);
-    });
-  });
-
-  it('should dispatch GET action when isAccelerating is undefined (default behavior)', () => {
-    const mockData = vaccine;
-    mockApiRequest(mockData);
-    const dispatch = sinon.spy();
-    return getVaccineDetails('3106', undefined)(dispatch).then(() => {
-      expect(dispatch.firstCall.args[0].type).to.equal(Actions.Vaccines.GET);
     });
   });
 });

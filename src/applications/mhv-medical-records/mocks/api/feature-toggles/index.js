@@ -9,7 +9,7 @@ const APPLICATION_FEATURE_TOGGLES = Object.freeze({
   mhvAcceleratedDeliveryAllergiesEnabled: true,
   mhvAcceleratedDeliveryConditionsEnabled: true,
   mhvAcceleratedDeliveryVitalSignsEnabled: true,
-  mhvAcceleratedDeliveryVaccinesEnabled: true,
+  // mhvAcceleratedDeliveryVaccinesEnabled: true,
   mhvAcceleratedDeliveryLabsAndTestsEnabled: true,
   mhvAcceleratedDeliveryCareNotesEnabled: true,
   mhvMedicalRecordsCcdExtendedFileTypes: true,
