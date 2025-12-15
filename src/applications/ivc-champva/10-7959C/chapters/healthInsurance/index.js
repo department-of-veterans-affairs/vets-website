@@ -29,7 +29,7 @@ export const healthInsuranceRev2025Pages = arrayBuilderPages(
     }),
     medigapType: pageBuilder.itemPage({
       path: 'health-insurance-medigap-information/:index',
-      title: 'Plan type',
+      title: 'Medigap information',
       depends: (formData, index) =>
         formData[TOGGLE_KEY] &&
         formData.healthInsurance?.[index].insuranceType === 'medigap',
@@ -37,13 +37,13 @@ export const healthInsuranceRev2025Pages = arrayBuilderPages(
     }),
     provider: pageBuilder.itemPage({
       path: 'health-insurance-provider-information/:index',
-      title: 'Health insurance information',
+      title: 'Plan information',
       depends: formData => formData[TOGGLE_KEY],
       ...provider,
     }),
     throughEmployer: pageBuilder.itemPage({
       path: 'health-insurance-employer-sponsorship/:index',
-      title: 'Type of insurance - through employer',
+      title: 'Employer sponsorship',
       depends: formData => formData[TOGGLE_KEY],
       ...employer,
     }),
