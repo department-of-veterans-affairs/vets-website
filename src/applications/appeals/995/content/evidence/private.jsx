@@ -1,5 +1,5 @@
 import React from 'react';
-import { getProviderDetailsTitle } from '../../utils/evidence';
+import { formatDate, getProviderDetailsTitle } from '../../utils/evidence';
 import {
   PRIVATE_LOCATION_TREATMENT_DATES_KEY,
   PRIVATE_TREATMENT_LOCATION_KEY,
@@ -55,40 +55,32 @@ export const summaryContent = {
   alertItemUpdatedText: itemData =>
     `${itemData[PRIVATE_TREATMENT_LOCATION_KEY]} information has been updated.`,
   cardDescription: item => {
-    console.log('item: ', item);
-    console.log('item issues: ', item?.issuesPrivate);
-    console.log(
-      'item treatmentLocation: ',
-      item?.[PRIVATE_TREATMENT_LOCATION_KEY],
-    );
-    return (
-      <>
-        {item?.[PRIVATE_TREATMENT_LOCATION_KEY] && (
-          <h3 className="vads-u-margin-top--0">
-            {item[PRIVATE_TREATMENT_LOCATION_KEY]}
-          </h3>
-        )}
-        {item?.issuesPrivate?.length === 1 && (
+    <>
+      {item?.[PRIVATE_TREATMENT_LOCATION_KEY] && (
+        <h3 className="vads-u-margin-top--0">
+          {item[PRIVATE_TREATMENT_LOCATION_KEY]}
+        </h3>
+      )}
+      {item?.issuesPrivate?.length === 1 && (
+        <p>
+          <strong>Condition:</strong> {item.issuesPrivate[0]}
+        </p>
+      )}
+      {item?.issuesPrivate?.length > 1 && (
+        <p>
+          <strong>Conditions:</strong> {formatIssueList(item.issuesPrivate)}
+        </p>
+      )}
+      {item?.to &&
+        item?.from && (
           <p>
-            <strong>Condition:</strong> {item.issuesPrivate[0]}
+            <strong>Treatment:</strong>
+            &nbsp;
+            {formatDateToReadableString(new Date(item.to))} to{' '}
+            {formatDateToReadableString(new Date(item.from))}
           </p>
         )}
-        {item?.issuesPrivate?.length > 1 && (
-          <p>
-            <strong>Conditions:</strong> {formatIssueList(item.issuesPrivate)}
-          </p>
-        )}
-        {item?.to &&
-          item?.from && (
-            <p>
-              <strong>Treatment:</strong>
-              &nbsp;
-              {formatDateToReadableString(item.to)} to{' '}
-              {formatDateToReadableString(item.from)}
-            </p>
-          )}
-      </>
-    );
+    </>;
   },
 };
 

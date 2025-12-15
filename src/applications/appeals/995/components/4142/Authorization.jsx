@@ -105,6 +105,9 @@ const Authorization = ({
   const abCheckboxIsChecked =
     fullData?.privateEvidence?.[pagePerItemIndex]?.authorization;
 
+  console.log('abCheckboxIsChecked: ', abCheckboxIsChecked);
+  console.log('fullData: ', fullData);
+
   const handlers = {
     onSubmit: event => {
       // This prevents this nested form submit event from passing to the
@@ -136,7 +139,21 @@ const Authorization = ({
       // ------- END REMOVE
     },
     onGoForward: () => {
-      if (data?.privacyAgreementAccepted || abCheckboxIsChecked) {
+      if (abCheckboxIsChecked) {
+        const currentEvidenceData =
+          fullData?.privateEvidence?.[pagePerItemIndex] || {};
+        const newData = {
+          ...currentEvidenceData,
+          authorization: true,
+        };
+
+        onChange(newData);
+
+        setHasError(false);
+        goForward(data);
+      }
+
+      if (data?.privacyAgreementAccepted) {
         setHasError(false);
         goForward(data);
       } else {
