@@ -190,4 +190,17 @@ describe('VAOS Component: ScheduleReferral', () => {
     expect(details).to.contain.text('Provider: Not available');
     expect(details).to.contain.text('Location: Not available');
   });
+  it('should allow user to schedule from pilot expansion station', async () => {
+    const referral = createReferralById(referralDate, '99999');
+    referral.attributes.stationId = '648GE';
+    const store = createTestStore();
+    const screen = renderWithStoreAndRouter(
+      <ScheduleReferral currentReferral={referral} />,
+      { store },
+    );
+    const scheduleButton = await screen.findByTestId(
+      'schedule-appointment-button',
+    );
+    expect(scheduleButton).to.exist;
+  });
 });
