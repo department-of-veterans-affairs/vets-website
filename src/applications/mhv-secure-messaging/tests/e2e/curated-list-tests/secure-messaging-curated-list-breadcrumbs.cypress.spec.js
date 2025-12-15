@@ -271,6 +271,9 @@ describe('Recent care teams', () => {
 
     // Wait for recent recipients to load
     cy.wait('@recentRecipients');
+    PatientInterstitialPage.getStartMessageLink()
+      .should('have.attr', 'href')
+      .and('include', Paths.RECENT_CARE_TEAMS);
     PatientInterstitialPage.getStartMessageLink().click();
     GeneralFunctionsPage.verifyPageHeader(Data.RECENT_RECIPIENTS_HEADER);
 

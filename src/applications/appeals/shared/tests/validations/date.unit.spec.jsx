@@ -5,6 +5,7 @@ import errorMessages from '../../content/errorMessages';
 import {
   addDateErrorMessages,
   isTodayOrInFuture,
+  createDecisionDateErrorMsg,
 } from '../../validations/date';
 
 describe('addDateErrorMessages', () => {
@@ -32,11 +33,36 @@ describe('addDateErrorMessages', () => {
   });
   it('should not show an error when a date today or in the future', () => {
     const errors = { addError: sinon.spy() };
-    const date = { isTodayOrInFuture: true, errors: {} };
+    const date = {
+      isTodayOrInFuture: true,
+      errors: {},
+      dateObj: new Date(), // Add the dateObj property that createDecisionDateErrorMsg needs
+    };
     const result = addDateErrorMessages(errors, errorMessages, date);
-    expect(errors.addError.args[0][0]).to.eq(errorMessages.decisions.pastDate);
+    expect(errors.addError.args[0][0]).to.match(
+      /The date must be before [A-Za-z]+\.? \d+, \d{4}\./,
+    );
     expect(date.errors.year).to.be.true;
     expect(result).to.be.true;
+  });
+});
+
+describe('createDecisionDateErrorMsg', () => {
+  it("should format error message with readable date using today's date", () => {
+    const result = createDecisionDateErrorMsg(errorMessages);
+
+    expect(result).to.match(
+      /The date must be before [A-Za-z]+\.? \d+, \d{4}\./,
+    );
+  });
+
+  it('should work with the actual errorMessages.decisions.pastDate function', () => {
+    const result = createDecisionDateErrorMsg(errorMessages);
+
+    expect(typeof errorMessages.decisions.pastDate).to.equal('function');
+    expect(result).to.match(
+      /The date must be before [A-Za-z]+\.? \d+, \d{4}\./,
+    );
   });
 });
 
