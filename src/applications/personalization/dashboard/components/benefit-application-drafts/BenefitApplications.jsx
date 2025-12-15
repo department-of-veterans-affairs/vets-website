@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useRef } from 'react';
-import ApplicationsInProgress from './ApplicationsInProgress';
+import ApplicationsInProgressLegacy from './ApplicationsInProgressLegacy';
 
 const BenefitApplications = () => {
   const sectionRef = useRef(null);
@@ -29,7 +29,7 @@ const BenefitApplications = () => {
       tabIndex={-1}
     >
       <h2>Benefit applications and forms</h2>
-      <ApplicationsInProgress hideH3 />
+      <ApplicationsInProgressLegacy hideH3 />
     </div>
   );
 };
