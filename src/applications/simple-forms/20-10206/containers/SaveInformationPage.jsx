@@ -19,7 +19,7 @@ const SaveInformationPage = props => {
               </h1>
               <p>
                 If you want to take a break from filling out this form, select
-                the Finish later button anytime to stop.
+                the <strong>Finish later</strong> button anytime to stop.
               </p>
               <p>
                 When you’re ready to resume the form, reopen it from My VA or
