@@ -13,7 +13,9 @@ import {
   updateExpense,
   deleteExpense,
   deleteDocument,
+  deleteExpenseDeleteDocument,
 } from '../../redux/actions';
+import { EXPENSE_TYPES } from '../../constants';
 import { stripTZOffset } from '../../util/dates';
 
 const mockAppt = {
@@ -296,7 +298,12 @@ describe('Redux - actions', () => {
         expenses: [{ expenseType: 'Mileage', amount: 50.25 }],
       };
 
-      await submitComplexClaim(claimData)(mockDispatch);
+      try {
+        await submitComplexClaim(claimData)(mockDispatch);
+        expect.fail('Expected an error to be thrown');
+      } catch (error) {
+        expect(error.message).to.equal('Failed to submit claim');
+      }
 
       expect(
         mockDispatch.calledWithMatch({ type: 'SUBMIT_COMPLEX_CLAIM_STARTED' }),
@@ -403,6 +410,27 @@ describe('Redux - actions', () => {
           mockDispatch.calledWithMatch({
             type: 'CREATE_EXPENSE_FAILURE',
             error: sinon.match.instanceOf(Error),
+          }),
+        ).to.be.true;
+      });
+
+      it('should still dispatch CREATE_EXPENSE_SUCCESS even if getComplexClaimDetails fails', async () => {
+        const mockDispatch = sinon.spy();
+        apiStub.onFirstCall().resolves({ id: 'exp123' }); // expense POST
+        apiStub
+          .onSecondCall()
+          .rejects(new Error('Failed to fetch claim details')); // fetch
+
+        const expenseData = { expenseType: 'Parking', amount: 10.0 };
+
+        await createExpense('claim123', 'Parking', expenseData)(mockDispatch);
+
+        expect(mockDispatch.calledWithMatch({ type: 'CREATE_EXPENSE_STARTED' }))
+          .to.be.true;
+        expect(
+          mockDispatch.calledWithMatch({
+            type: 'CREATE_EXPENSE_SUCCESS',
+            payload: { ...expenseData, id: 'exp123' },
           }),
         ).to.be.true;
       });
@@ -751,6 +779,93 @@ describe('Redux - actions', () => {
             error: sinon.match.instanceOf(Error),
           }),
         ).to.be.true;
+      });
+    });
+
+    describe('deleteExpenseDeleteDocument', () => {
+      let mockDispatch;
+      beforeEach(() => {
+        mockDispatch = sinon.spy();
+      });
+
+      const claimId = 'claim123';
+      const expenseId = 'exp123';
+      const documentId = 'doc123';
+
+      it('should delete both expense and document for non-mileage expense', async () => {
+        const expenseType = EXPENSE_TYPES.Parking.route;
+
+        apiStub.resolves(); // resolve for DELETE requests
+
+        await deleteExpenseDeleteDocument(
+          claimId,
+          documentId,
+          expenseType,
+          expenseId,
+        )(mockDispatch);
+
+        expect(mockDispatch.calledWithMatch({ type: 'DELETE_EXPENSE_STARTED' }))
+          .to.be.true;
+        expect(mockDispatch.calledWithMatch({ type: 'DELETE_EXPENSE_SUCCESS' }))
+          .to.be.true;
+        expect(
+          mockDispatch.calledWithMatch({ type: 'DELETE_DOCUMENT_STARTED' }),
+        ).to.be.true;
+        expect(
+          mockDispatch.calledWithMatch({ type: 'DELETE_DOCUMENT_SUCCESS' }),
+        ).to.be.true;
+      });
+
+      it('should skip document deletion for MILEAGE expense', async () => {
+        const expenseType = EXPENSE_TYPES.Mileage.route;
+
+        apiStub.resolves(); // resolve for DELETE requests
+
+        await deleteExpenseDeleteDocument(
+          claimId,
+          documentId,
+          expenseType,
+          expenseId,
+        )(mockDispatch);
+
+        expect(mockDispatch.calledWithMatch({ type: 'DELETE_EXPENSE_STARTED' }))
+          .to.be.true;
+        expect(mockDispatch.calledWithMatch({ type: 'DELETE_EXPENSE_SUCCESS' }))
+          .to.be.true;
+        expect(
+          mockDispatch.calledWithMatch({ type: 'DELETE_DOCUMENT_STARTED' }),
+        ).to.be.false; // document deletion should be skipped
+        expect(
+          mockDispatch.calledWithMatch({ type: 'DELETE_DOCUMENT_SUCCESS' }),
+        ).to.be.false;
+      });
+
+      it('should throw error if expenseType is missing', async () => {
+        try {
+          await deleteExpenseDeleteDocument(
+            claimId,
+            documentId,
+            null,
+            expenseId,
+          )(mockDispatch);
+          expect.fail('Expected error to be thrown');
+        } catch (error) {
+          expect(error.message).to.equal('Missing expense type');
+        }
+      });
+
+      it('should throw error if expenseId is missing', async () => {
+        try {
+          await deleteExpenseDeleteDocument(
+            claimId,
+            documentId,
+            EXPENSE_TYPES.Parking.route,
+            null,
+          )(mockDispatch);
+          expect.fail('Expected error to be thrown');
+        } catch (error) {
+          expect(error.message).to.equal('Missing expense id');
+        }
       });
     });
   });

@@ -72,7 +72,7 @@ describe('Send Rx Renewal Message on List Page', () => {
     cy.axeCheck('main');
   });
 
-  it('displays learn how to renew link for expired prescriptions on list page', () => {
+  it('displays fallback message for expired prescriptions older than 120 days on list page', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
 
@@ -81,15 +81,12 @@ describe('Send Rx Renewal Message on List Page', () => {
 
     cy.get('[data-testid="expired"]').then($expired => {
       if ($expired.length > 0) {
-        cy.get('[data-testid="learn-to-renew-precsriptions-link"]')
+        cy.wrap($expired)
           .should('exist')
           .and('be.visible')
-          .shadow()
-          .find('a')
-          .should(
-            'have.attr',
-            'href',
-            '/resources/how-to-renew-a-va-prescription',
+          .and(
+            'contain',
+            'This prescription is too old to refill. If you need more, request a renewal.',
           );
       }
     });
@@ -149,7 +146,7 @@ describe('Send Rx Renewal Message on List Page', () => {
     cy.axeCheck('main');
   });
 
-  it('displays discontinued prescription message with compose message link instead of renewal', () => {
+  it('displays discontinued prescription message without renewal link', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
 
@@ -161,11 +158,14 @@ describe('Send Rx Renewal Message on List Page', () => {
         cy.wrap($discontinued).should('be.visible');
 
         const discontinuedText = $discontinued.text();
-        expect(discontinuedText).to.include('refill this prescription');
+        expect(discontinuedText).to.include(
+          'You can’t refill this prescription. If you need more, send a message to your care team.',
+        );
 
-        cy.get('[data-testid="discontinued-compose-message-link"]')
-          .should('exist')
-          .and('be.visible');
+        cy.wrap($discontinued)
+          .parent()
+          .find('[data-testid="send-renewal-request-message-link"]')
+          .should('not.exist');
       }
     });
 

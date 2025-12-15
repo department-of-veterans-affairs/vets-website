@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Toggler } from 'platform/utilities/feature-toggles';
-import recordEvent from 'platform/monitoring/record-event';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import DownloadLetterLink from '../components/DownloadLetterLink';
@@ -10,23 +9,17 @@ import DownloadLetterBlobLink from '../components/DownloadLetterBlobLink';
 import { DownloadTsaLetter } from '../components/DownloadTsaLetter';
 import VeteranBenefitSummaryOptions from './VeteranBenefitSummaryOptions';
 import {
-  apiRequest,
   //  eslint-disable-next-line -- LH_MIGRATION
   LH_MIGRATION__getOptions,
   newLetterContent,
 } from '../utils/helpers';
-import {
-  AVAILABILITY_STATUSES,
-  GET_TSA_LETTER_ELIGIBILITY_ENDPOINT,
-  LETTER_TYPES,
-} from '../utils/constants';
+import { AVAILABILITY_STATUSES, LETTER_TYPES } from '../utils/constants';
+import { getTsaLetterEligibility } from '../actions/letters';
 
 export class LetterList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      tsaLetter: null,
-      tsaLetterError: false,
       // eslint-disable-next-line -- LH_MIGRATION
       LH_MIGRATION__options: LH_MIGRATION__getOptions(false),
     };
@@ -40,43 +33,17 @@ export class LetterList extends React.Component {
       LH_MIGRATION__options: LH_MIGRATION__getOptions(),
     });
     if (this.props.tsaSafeTravelLetter) {
-      this.getTsaLetter();
+      this.props.getTsaLetterEligibility();
     }
-  }
-
-  getTsaLetter() {
-    return apiRequest(GET_TSA_LETTER_ELIGIBILITY_ENDPOINT)
-      .then(response => {
-        const hasTSALetter =
-          Array.isArray(response.data) && response.data.length > 0;
-        if (hasTSALetter) {
-          const latestLetter = response.data.reduce((latest, current) => {
-            const latestDate = latest.attributes?.receivedAt || '0';
-            const currentDate = current.attributes?.receivedAt || '0';
-            return currentDate > latestDate ? current : latest;
-          });
-          this.setState({ tsaLetter: latestLetter });
-        }
-        recordEvent({
-          event: 'api_call',
-          'api-name': 'GET /v0/tsa_letter',
-          'api-status': 'successful',
-          'has-letter': hasTSALetter,
-        });
-      })
-      .catch(() => {
-        this.setState({ tsaLetterError: true });
-        recordEvent({
-          event: 'api_call',
-          'api-name': 'GET /v0/tsa_letter',
-          'api-status': 'error',
-        });
-      });
   }
 
   render() {
     const downloadStatus = this.props.letterDownloadStatus;
-    const hasTsaLetter = Boolean(this.state.tsaLetter?.attributes?.documentId);
+    const hasTsaLetter = Boolean(this.props.tsaLetterEligibility?.documentId);
+    const isDeterminingTsaEligibility =
+      this.props.tsaSafeTravelLetter &&
+      this.props.tsaLetterEligibility?.loading;
+
     const letterItems = (this.props.letters || []).map((letter, index) => {
       if (!this.accordionRefs[index]) {
         this.accordionRefs[index] = React.createRef();
@@ -136,7 +103,7 @@ export class LetterList extends React.Component {
     if (
       this.props.lettersAvailability ===
         AVAILABILITY_STATUSES.letterEligibilityError ||
-      this.state.tsaLetterError
+      this.props.tsaLetterEligibility?.error
     ) {
       eligibilityMessage = (
         <div className="vads-u-margin-top--2">
@@ -158,14 +125,24 @@ export class LetterList extends React.Component {
           <va-accordion data-test-id="letters-accordion" bordered>
             {letterItems}
             {hasTsaLetter && (
-              <DownloadTsaLetter letter={this.state.tsaLetter} />
+              <DownloadTsaLetter
+                documentId={this.props.tsaLetterEligibility?.documentId}
+              />
             )}
           </va-accordion>
+        )}
+        {isDeterminingTsaEligibility && (
+          <va-loading-indicator
+            aria-live="polite"
+            message="Determining TSA PreCheck Application Fee Waiver Letter eligibility..."
+            set-focus
+          />
         )}
         <Toggler toggleName={Toggler.TOGGLE_NAMES.emptyStateBenefitLetters}>
           <Toggler.Enabled>
             {letterItems.length === 0 &&
-              !eligibilityMessage && (
+              !eligibilityMessage &&
+              !hasTsaLetter && (
                 <div className="vads-u-margin-top--2">
                   <h3>
                     You don't have any benefit letters or documents available.
@@ -195,6 +172,10 @@ export class LetterList extends React.Component {
   }
 }
 
+const mapDispatchToProps = {
+  getTsaLetterEligibility,
+};
+
 function mapStateToProps(state) {
   const letterState = state.letters;
 
@@ -203,12 +184,14 @@ function mapStateToProps(state) {
     lettersAvailability: letterState.lettersAvailability,
     letterDownloadStatus: letterState.letterDownloadStatus,
     optionsAvailable: letterState.optionsAvailable,
+    tsaLetterEligibility: letterState.tsaLetterEligibility,
     tsaSafeTravelLetter:
       state.featureToggles[FEATURE_FLAG_NAMES.tsaSafeTravelLetter],
   };
 }
 
 LetterList.propTypes = {
+  getTsaLetterEligibility: PropTypes.func,
   letterDownloadStatus: PropTypes.shape({}),
   letters: PropTypes.arrayOf(
     PropTypes.shape({
@@ -218,10 +201,15 @@ LetterList.propTypes = {
   ),
   lettersAvailability: PropTypes.string,
   optionsAvailable: PropTypes.bool,
+  tsaLetterEligibility: PropTypes.shape({
+    documentId: PropTypes.string,
+    error: PropTypes.bool,
+    loading: PropTypes.bool,
+  }),
   tsaSafeTravelLetter: PropTypes.bool,
 };
 
 export default connect(
   mapStateToProps,
-  null,
+  mapDispatchToProps,
 )(LetterList);

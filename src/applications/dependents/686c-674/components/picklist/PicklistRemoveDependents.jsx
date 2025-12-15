@@ -14,10 +14,25 @@ import {
   PICKLIST_EDIT_REVIEW_FLAG,
 } from '../../config/constants';
 import { getPicklistRoutes } from './routes';
-import { scrollToError } from './helpers';
+import { RemoveParentAdditionalInfo, scrollToError } from './helpers';
 
 import { getFullName, calculateAge } from '../../../shared/utils';
 
+/**
+ * Main remove dependents picklist component
+ * @typedef {object} RemoveDependentsPicklistProps
+ * @property {object} data - form data
+ * @property {function} goBack - function to go to previous page
+ * @property {function} goForward - function to go to next page
+ * @property {function} goToPath - function to go to specific path
+ * @property {function} setFormData - function to set form data
+ * @property {node} contentBeforeButtons - content to render before buttons
+ * @property {node} contentAfterButtons - content to render after buttons
+ * @property {function} onSubmit - function to handle form submission
+ *
+ * @param {RemoveDependentsPicklistProps} props - Component props
+ * @returns {React.Component} - Main remove dependents picklist page
+ */
 const RemoveDependentsPicklist = ({
   data = {},
   goBack,
@@ -49,6 +64,9 @@ const RemoveDependentsPicklist = ({
   }, data[PICKLIST_DATA] || []);
   const atLeastOneChecked = (list = picklistChoices) =>
     list.some(v => v.selected);
+  const hasParentDependent = picklistChoices.some(
+    item => item.relationshipToVeteran === 'Parent',
+  );
 
   const handlers = {
     onChange: event => {
@@ -114,8 +132,8 @@ const RemoveDependentsPicklist = ({
               {item.relationshipToVeteran === 'Parent' ? (
                 <div slot="internal-description">
                   <p className="vads-u-margin-bottom--0">
-                    <strong>Note:</strong> You can only remove a dependent
-                    parent if they have died.
+                    <strong>Note:</strong> You can only use this form to remove
+                    a dependent parent if they died.
                   </p>
                 </div>
               ) : null}
@@ -124,16 +142,7 @@ const RemoveDependentsPicklist = ({
         })}
       </VaCheckboxGroup>
 
-      <va-additional-info
-        class="vads-u-margin-bottom--4"
-        trigger="Why can I only remove a dependent parent if they have died?"
-      >
-        The only removal option for a parent allowed in this application is due
-        to death. If your parent is still living and you need to make changes to
-        your benefits, call us at <va-telephone contact="8008271000" /> (
-        <va-telephone contact="711" tty />
-        ).
-      </va-additional-info>
+      {hasParentDependent && <RemoveParentAdditionalInfo />}
 
       {contentBeforeButtons}
       <FormNavButtons goBack={goBack} useWebComponents submitToContinue />

@@ -141,21 +141,6 @@ export const itemListWrapper = items =>
   Array.isArray(items) && items.length > 1 ? 'div' : undefined;
 
 /**
- * @param {Object} record
- * @returns {Array of Strings} array of reactions
- */
-export const getReactions = record => {
-  const reactions = [];
-  if (!record || !record.reaction) return reactions;
-  record.reaction.forEach(reaction => {
-    reaction.manifestation.forEach(manifestation => {
-      reactions.push(manifestation.text);
-    });
-  });
-  return reactions;
-};
-
-/**
  * @param {Any} obj
  * @returns {Boolean} true if obj is an array and has at least one item
  */
@@ -981,3 +966,11 @@ export const errorForUnequalBirthDates = (
 export const asyncErrorForUnequalBirthDates = async userDob => {
   errorForUnequalBirthDates(userDob);
 };
+
+/**
+ * Check if this ID is a radiology ID. In the frontend, we preface these IDs with an "r" to
+ * distinguish them from IDs we get from FHIR sources (e.g. PHR, SCDF).
+ * @param {*} id the lab ID
+ * @returns {boolean} true if the ID is a radiology ID, false otherwise
+ */
+export const isRadiologyId = id => id && id.charAt(0).toLowerCase() === 'r';
