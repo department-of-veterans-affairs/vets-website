@@ -80,8 +80,17 @@ const initializeBrowserLogging = () => {
  */
 const useFindFormsBrowserMonitoring = () => {
   useEffect(() => {
-    initializeRealUserMonitoring();
-    initializeBrowserLogging();
+    if (
+      (environment.isStaging() || environment.isProduction()) &&
+      !window.Mocha
+    ) {
+      // Enable browser logging
+      initializeBrowserLogging();
+      // Enable RUM
+      initializeRealUserMonitoring();
+    } else {
+      delete window?.DD_RUM;
+    }
   }, []);
 };
 
