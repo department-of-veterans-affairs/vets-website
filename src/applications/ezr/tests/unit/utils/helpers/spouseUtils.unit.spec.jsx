@@ -141,71 +141,19 @@ describe('spouseUtils', () => {
         context('Required fields present but not valid', () => {
           [
             {
-              desc: 'spouseFullName.first is too long',
-              item: makeItem({
-                spouseFullName: {
-                  ...VALID.spouseFullName,
-                  first: '12345678901234567890123456',
-                },
-              }),
+              desc: 'spouseDateOfBirth is before 1900',
+              item: makeItem({ spouseDateOfBirth: '1899-01-01' }),
             },
             {
-              desc: 'spouseFullName.first fails the pattern check',
-              item: makeItem({
-                spouseFullName: {
-                  ...VALID.spouseFullName,
-                  first: ' ',
-                },
-              }),
+              desc: 'dateOfMarriage is before 1900',
+              item: makeItem({ dateOfMarriage: '1899-01-01' }),
             },
             {
-              desc: 'spouseFullName.middle is too long',
+              desc: 'dateOfMarriage is before spouseDateOfBirth',
               item: makeItem({
-                spouseFullName: {
-                  ...VALID.spouseFullName,
-                  middle: '1234567890123456789012345678901',
-                },
+                spouseDateOfBirth: '2010-06-15',
+                dateOfMarriage: '1980-01-01',
               }),
-            },
-            {
-              desc: 'spouseFullName.last is too short',
-              item: makeItem({
-                spouseFullName: {
-                  ...VALID.spouseFullName,
-                  last: '1',
-                },
-              }),
-            },
-            {
-              desc: 'spouseFullName.last is too long',
-              item: makeItem({
-                spouseFullName: {
-                  ...VALID.spouseFullName,
-                  last: '123456789012345678901234567890123456',
-                },
-              }),
-            },
-            {
-              desc: 'spouseFullName.last fails the pattern check',
-              item: makeItem({
-                spouseFullName: {
-                  ...VALID.spouseFullName,
-                  last: '  ',
-                },
-              }),
-            },
-            {
-              desc: 'spouseFullName.suffix is invalid',
-              item: makeItem({
-                spouseFullName: {
-                  ...VALID.spouseFullName,
-                  suffix: 'foo',
-                },
-              }),
-            },
-            {
-              desc: 'spouseSocialSecurityNumber is invalid',
-              item: makeItem({ spouseSocialSecurityNumber: 'foo' }),
             },
           ].forEach(({ desc, item }) => {
             it(`should return true when ${desc}`, () => {

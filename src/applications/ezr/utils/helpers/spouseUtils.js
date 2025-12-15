@@ -1,4 +1,4 @@
-import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
+import { isAfter } from 'date-fns';
 
 /**
  * Helper to test if the spouse item is in an incomplete state.
@@ -6,20 +6,20 @@ import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
  * The spouse section has a few required fields that are always required, and some that are only required if the spouse does not have the same address, or if they provide support last year.
  *
  * @param {Object} item - The spouse item.
- * @returns {boolean} - Returns true if the required fields are missing.
+ * @returns {boolean} - Returns true if the required fields are missing/invalid.
  */
 export const isItemIncomplete = item => {
-  const { spouseFullName, spouseSocialSecurityNumber } = ezrSchema.properties;
-
   // Always required fields.
   const firstName = item?.spouseFullName?.first;
   const lastName = item?.spouseFullName?.last;
+  const dateOfMarriage = item?.dateOfMarriage;
+  const spouseDateOfBirth = item?.spouseDateOfBirth;
   const missingRequiredFields =
     !firstName ||
     !lastName ||
     !item?.spouseSocialSecurityNumber ||
-    !item?.spouseDateOfBirth ||
-    !item?.dateOfMarriage ||
+    !spouseDateOfBirth ||
+    !dateOfMarriage ||
     item?.cohabitedLastYear === undefined ||
     item?.sameAddress === undefined;
 
@@ -28,21 +28,10 @@ export const isItemIncomplete = item => {
   }
 
   // identity field validation
-  const fullNameProps = spouseFullName.properties;
-  const middleName = item?.spouseFullName?.middle;
-  const suffix = item?.spouseFullName?.suffix;
-  const doesNotMatch = (prop, val) => !new RegExp(prop.pattern).test(val);
-
   if (
-    firstName?.length > fullNameProps.first.maxLength ||
-    middleName?.length > fullNameProps.middle.maxLength ||
-    lastName?.length < fullNameProps.last.minLength ||
-    lastName?.length > fullNameProps.last.maxLength ||
-    doesNotMatch(fullNameProps.first, firstName) ||
-    doesNotMatch(fullNameProps.middle, middleName) ||
-    doesNotMatch(fullNameProps.last, lastName) ||
-    (suffix && !fullNameProps.suffix.enum.includes(suffix)) ||
-    doesNotMatch(spouseSocialSecurityNumber, item?.spouseSocialSecurityNumber)
+    isAfter(new Date(1900, 1, 1), new Date(spouseDateOfBirth)) ||
+    isAfter(new Date(1900, 1, 1), new Date(dateOfMarriage)) ||
+    isAfter(new Date(spouseDateOfBirth), new Date(dateOfMarriage))
   ) {
     return true;
   }
