@@ -1,11 +1,9 @@
-import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
-import { Actions } from '../util/actionTypes';
-import { EMPTY_FIELD, allergyTypes, loadStates } from '../util/constants';
 import {
-  getReactions,
-  isArrayAndHasItems,
-  extractContainedResource,
-} from '../util/helpers';
+  convertAllergy as sharedConvertAllergy,
+  convertUnifiedAllergy as sharedConvertUnifiedAllergy,
+} from '@department-of-veterans-affairs/mhv/exports';
+import { Actions } from '../util/actionTypes';
+import { EMPTY_FIELD, loadStates } from '../util/constants';
 
 const initialState = {
   /**
@@ -33,90 +31,25 @@ const initialState = {
   allergyDetails: undefined,
 };
 
-export const extractLocation = allergy => {
-  if (isArrayAndHasItems(allergy?.recorder?.extension)) {
-    const ref = allergy.recorder.extension[0]?.valueReference?.reference;
-    // Use the reference inside "recorder" to get the value from "contained".
-    const org = extractContainedResource(allergy, ref);
-    if (org?.name) {
-      return org.name;
-    }
-  }
-  return EMPTY_FIELD;
+// Options for Medical Records app (uses defaults)
+const allergyOptions = {
+  emptyField: EMPTY_FIELD,
 };
 
-export const extractObservedReported = allergy => {
-  if (allergy && isArrayAndHasItems(allergy.extension)) {
-    const extItem = allergy.extension.find(
-      item => item.url && item.url.includes('allergyObservedHistoric'),
-    );
-    if (extItem?.valueCode) {
-      if (extItem.valueCode === 'o') return allergyTypes.OBSERVED;
-      if (extItem.valueCode === 'h') return allergyTypes.REPORTED;
-    }
-  }
-  return EMPTY_FIELD;
-};
-
+/**
+ * Convert a FHIR AllergyIntolerance resource using shared converter.
+ * Wrapper that passes Medical Records options.
+ */
 export const convertAllergy = allergy => {
-  return {
-    id: allergy.id,
-    type:
-      (isArrayAndHasItems(allergy.category) &&
-        allergy.category
-          .join(', ')
-          .replace(/^./, char => char.toUpperCase())) ||
-      EMPTY_FIELD,
-    name: allergy?.code?.text || EMPTY_FIELD,
-    date: allergy?.recordedDate
-      ? formatDateLong(allergy.recordedDate)
-      : EMPTY_FIELD,
-    reaction: getReactions(allergy),
-    location: extractLocation(allergy),
-    observedOrReported: extractObservedReported(allergy),
-    notes:
-      (isArrayAndHasItems(allergy.note) && allergy.note[0]?.text) ||
-      EMPTY_FIELD,
-    provider: allergy.recorder?.display || EMPTY_FIELD,
-  };
+  return sharedConvertAllergy(allergy, allergyOptions);
 };
 
+/**
+ * Convert a unified API allergy response using shared converter.
+ * Wrapper that passes Medical Records options.
+ */
 export const convertUnifiedAllergy = allergy => {
-  const allergyData = allergy?.attributes || allergy;
-
-  return {
-    id: allergy.id,
-    type:
-      (isArrayAndHasItems(allergyData.categories) &&
-        allergyData.categories
-          .join(', ')
-          .replace(/^./, char => char.toUpperCase())) ||
-      EMPTY_FIELD,
-    name: allergyData?.name || EMPTY_FIELD,
-    date: allergyData?.date ? formatDateLong(allergyData.date) : EMPTY_FIELD,
-    reaction: allergyData?.reactions || EMPTY_FIELD,
-    location: allergyData?.location || EMPTY_FIELD,
-    observedOrReported: (() => {
-      if (allergyData?.observedHistoric) {
-        return allergyData.observedHistoric === 'o'
-          ? allergyTypes.OBSERVED
-          : allergyTypes.REPORTED;
-      }
-      return EMPTY_FIELD;
-    })(),
-    notes:
-      (isArrayAndHasItems(allergyData.notes) && allergyData.notes.join(' ')) ||
-      EMPTY_FIELD,
-    provider: allergyData?.provider || EMPTY_FIELD,
-    sortKey: allergyData?.date ? new Date(allergyData.date) : null,
-    // Note: The v2 unified endpoint combines both Oracle Health and VistA data sources
-    // into a single normalized format. The backend does not provide a data source field
-    // to distinguish between them. We set isOracleHealthData to true for all v2 records
-    // because the unified format uses the same display logic as Oracle Health data
-    // (with provider, location, and other OH-style fields). Components check this flag
-    // to determine which template to use for rendering.
-    isOracleHealthData: true,
-  };
+  return sharedConvertUnifiedAllergy(allergy, allergyOptions);
 };
 
 export const allergyReducer = (state = initialState, action) => {

@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 
 import { expect } from 'chai';
-import { daysFromToday } from './utils/dates/dateHelper';
+import { daysFromToday } from '../utils/dates/formatting';
 
 import formConfig from '../config/form';
 import { CHAR_LIMITS } from '../constants';

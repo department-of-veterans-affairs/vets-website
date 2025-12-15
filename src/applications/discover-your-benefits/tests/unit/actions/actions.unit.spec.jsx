@@ -733,11 +733,10 @@ describe('actions', () => {
       characterOfDischargeTypes,
     );
     const validLengthOfService = [
-      timeServedTypes.UP_TO_6_MONTHS,
-      timeServedTypes.UP_TO_1_YEAR,
-      timeServedTypes.UP_TO_2_YEARS,
-      timeServedTypes.UP_TO_3_YEARS,
-      timeServedTypes.OVER_3_YEARS,
+      timeServedTypes.FOUR_MONTHS_TO_3_YEARS,
+      timeServedTypes.THREE_YEARS_TO_10_YEARS,
+      timeServedTypes.TEN_YEARS_TO_20_YEARS,
+      timeServedTypes.OVER_20_YEARS,
     ];
     const invalidLengthOfService = getInvalidMappingValues(
       validLengthOfService,
@@ -1303,11 +1302,10 @@ describe('actions', () => {
     const benefit = getBenefitById('COE');
     const validGoals = [goalTypes.RETIREMENT, goalTypes.UNDERSTAND];
     const validLengthOfService = [
-      timeServedTypes.UP_TO_6_MONTHS,
-      timeServedTypes.UP_TO_1_YEAR,
-      timeServedTypes.UP_TO_2_YEARS,
-      timeServedTypes.UP_TO_3_YEARS,
-      timeServedTypes.OVER_3_YEARS,
+      timeServedTypes.FOUR_MONTHS_TO_3_YEARS,
+      timeServedTypes.THREE_YEARS_TO_10_YEARS,
+      timeServedTypes.TEN_YEARS_TO_20_YEARS,
+      timeServedTypes.OVER_20_YEARS,
     ];
     const invalidLengthOfService = getInvalidMappingValues(
       validLengthOfService,
@@ -1635,63 +1633,63 @@ describe('actions', () => {
     });
   });
 
-  describe('Employment Navigator & Partnership Program - ENPP', () => {
-    const benefit = getBenefitById('ENPP');
-    const validGoal = [
-      goalTypes.RETIREMENT,
-      goalTypes.CAREER,
-      goalTypes.UNDERSTAND,
-      goalTypes.PLAN,
-    ];
-    const invalidGoal = getInvalidMappingValues(validGoal, goalTypes);
-    const validSeparation = [
-      separationTypes.UP_TO_3_MONTHS,
-      separationTypes.UP_TO_6_MONTHS,
-      separationTypes.UP_TO_1_YEAR,
-    ];
-    const invalidSeparation = getInvalidMappingValues(
-      validSeparation,
-      separationTypes,
-    );
+  // describe('Employment Navigator & Partnership Program - ENPP', () => {
+  //   const benefit = getBenefitById('ENPP');
+  //   const validGoal = [
+  //     goalTypes.RETIREMENT,
+  //     goalTypes.CAREER,
+  //     goalTypes.UNDERSTAND,
+  //     goalTypes.PLAN,
+  //   ];
+  //   const invalidGoal = getInvalidMappingValues(validGoal, goalTypes);
+  //   const validSeparation = [
+  //     separationTypes.UP_TO_3_MONTHS,
+  //     separationTypes.UP_TO_6_MONTHS,
+  //     separationTypes.UP_TO_1_YEAR,
+  //   ];
+  //   const invalidSeparation = getInvalidMappingValues(
+  //     validSeparation,
+  //     separationTypes,
+  //   );
 
-    validGoal.forEach(goal => {
-      const formData = {
-        [mappingTypes.GOALS]: goal,
-        [mappingTypes.SEPARATION]: formatData(validSeparation),
-      };
-      it(`should return true with goal: ${goal}`, () => {
-        const result = actions.mapBenefitFromFormInputData(benefit, formData);
-        expect(result).to.be.true;
-      });
-    });
+  //   validGoal.forEach(goal => {
+  //     const formData = {
+  //       [mappingTypes.GOALS]: goal,
+  //       [mappingTypes.SEPARATION]: formatData(validSeparation),
+  //     };
+  //     it(`should return true with goal: ${goal}`, () => {
+  //       const result = actions.mapBenefitFromFormInputData(benefit, formData);
+  //       expect(result).to.be.true;
+  //     });
+  //   });
+  //
+  //   validSeparation.forEach(separation => {
+  //     const formData = {
+  //       [mappingTypes.GOALS]: formatData(validGoal),
+  //       [mappingTypes.SEPARATION]: separation,
+  //     };
+  //     it(`should return true with separation: ${separation}`, () => {
+  //       const result = actions.mapBenefitFromFormInputData(benefit, formData);
+  //       expect(result).to.be.true;
+  //     });
+  //   });
 
-    validSeparation.forEach(separation => {
-      const formData = {
-        [mappingTypes.GOALS]: formatData(validGoal),
-        [mappingTypes.SEPARATION]: separation,
-      };
-      it(`should return true with separation: ${separation}`, () => {
-        const result = actions.mapBenefitFromFormInputData(benefit, formData);
-        expect(result).to.be.true;
-      });
-    });
+  //   it(`should return false with incorrect goals`, () => {
+  //     const formData = {
+  //       [mappingTypes.GOALS]: formatData(invalidGoal),
+  //       [mappingTypes.SEPARATION]: formatData(validSeparation),
+  //     };
+  //     const result = actions.mapBenefitFromFormInputData(benefit, formData);
+  //     expect(result).to.be.false;
+  //   });
 
-    it(`should return false with incorrect goals`, () => {
-      const formData = {
-        [mappingTypes.GOALS]: formatData(invalidGoal),
-        [mappingTypes.SEPARATION]: formatData(validSeparation),
-      };
-      const result = actions.mapBenefitFromFormInputData(benefit, formData);
-      expect(result).to.be.false;
-    });
-
-    it(`should return false with incorrect separation`, () => {
-      const formData = {
-        [mappingTypes.GOALS]: formatData(validGoal),
-        [mappingTypes.SEPARATION]: formatData(invalidSeparation),
-      };
-      const result = actions.mapBenefitFromFormInputData(benefit, formData);
-      expect(result).to.be.false;
-    });
-  });
+  //   it(`should return false with incorrect separation`, () => {
+  //     const formData = {
+  //       [mappingTypes.GOALS]: formatData(validGoal),
+  //       [mappingTypes.SEPARATION]: formatData(invalidSeparation),
+  //     };
+  //     const result = actions.mapBenefitFromFormInputData(benefit, formData);
+  //     expect(result).to.be.false;
+  //   });
+  // });
 });

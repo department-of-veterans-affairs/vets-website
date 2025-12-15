@@ -77,7 +77,7 @@ export const checkContentAdditionalVetsInfo = () => {
   checkVisibleElementContent('legend', 'Additional Veteran information');
   checkVisibleElementContent(
     'va-radio',
-    'Has the Veteran, surviving spouse, child or parent ever filed a claim with the VA?',
+    'Has the Veteran, surviving spouse, child, or parent ever filed a claim with the VA?',
   );
   checkVisibleElementContent(
     'va-radio',
@@ -102,9 +102,9 @@ export const checkContentClaimantsRelationship = () => {
     'va-radio',
     'What is the claimant’s relationship to the Veteran?',
   );
-  checkVisibleElementContent('va-text-input', 'First name');
+  checkVisibleElementContent('va-text-input', 'First or given name');
   checkVisibleElementContent('va-text-input', 'Middle name');
-  checkVisibleElementContent('va-text-input', 'Last name');
+  checkVisibleElementContent('va-text-input', 'Last or family name');
   checkVisibleElementContent('va-select', 'Suffix');
   checkVisibleElementContent('va-text-input', 'Social Security number');
   checkVisibleElementContent('va-memorable-date', 'Date of birth');
@@ -334,7 +334,7 @@ export const checkContentDependentsIntro = () => {
   );
   checkVisibleElementContent(
     'form',
-    'Next we’ll ask you about your dependent children. You may add up to 3 dependents.',
+    'Next we’ll ask you about the Veteran’s dependent children. You may add up to 3 dependents.',
   );
   checkVisibleElementContent(
     'va-additional-info',
