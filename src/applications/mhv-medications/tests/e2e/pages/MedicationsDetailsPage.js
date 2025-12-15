@@ -373,7 +373,7 @@ class MedicationsDetailsPage {
   verifyExpiredStatusDescriptionOnDetailsPage = () => {
     cy.get('[data-testid="expired"]').should(
       'contain',
-      'You can’t refill this prescription. Contact your VA provider if you need more of this medication.',
+      'This prescription is too old to refill. If you need more, request a renewal.',
     );
   };
 
