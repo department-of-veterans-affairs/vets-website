@@ -28,7 +28,7 @@ export function toggleLoginModal(
 
     const nextQuery = {
       next: nextParam ?? 'loginModal',
-      ...{ oauth: authBrokerCookieSelector },
+      oauth: authBrokerCookieSelector,
       ...(forceVerification && { verification: 'required' }),
     };
 
