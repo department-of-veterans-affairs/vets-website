@@ -70,7 +70,10 @@ function App({
 
   useEffect(
     () => {
-      if (meb1995InstructionPageUpdateV3 !== formData.meb1995InstructionPageUpdateV3) {
+      if (
+        meb1995InstructionPageUpdateV3 !==
+        formData.meb1995InstructionPageUpdateV3
+      ) {
         setFormData({
           ...formData,
           meb1995InstructionPageUpdateV3,
