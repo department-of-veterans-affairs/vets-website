@@ -4,6 +4,19 @@ import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
 import { readOnlyCertifyingOfficialIntro } from './pages/readOnlyCertifyingOfficialIntro';
 import { additionalOfficialIntro } from './pages/additionalOfficialIntro';
 
+export const getTransformIntlPhoneNumber = (phone = {}) => {
+  let _contact = '';
+  const { callingCode, contact, countryCode } = phone || {};
+
+  if (contact) {
+    const _callingCode = callingCode ? `+${callingCode} ` : '';
+    const _countryCode = countryCode ? ` (${countryCode})` : '';
+    _contact = `${_callingCode}${contact}${_countryCode}`;
+  }
+
+  return _contact;
+};
+
 export const getCardDescription = item => {
   return item ? (
     <>
@@ -19,9 +32,9 @@ export const getCardDescription = item => {
           }}
         />
         <span data-testid="card-phone-number">
-          {item.additionalOfficialDetails?.phoneType === 'us'
-            ? item.additionalOfficialDetails?.phoneNumber
-            : item.additionalOfficialDetails?.internationalPhoneNumber}
+          {getTransformIntlPhoneNumber(
+            item.additionalOfficialDetails?.phoneNumber,
+          )}
         </span>
       </p>
       <p>
@@ -55,6 +68,11 @@ export const getCardDescription = item => {
       </p>
     </>
   ) : null;
+};
+
+export const capitalizeFirstLetter = str => {
+  if (!str || typeof str !== 'string') return '';
+  return `${str.charAt(0).toUpperCase()}${str.slice(1)}`;
 };
 
 export const getCardTitle = item => {
@@ -99,7 +117,6 @@ export const additionalOfficialArrayOptions = {
     },
   },
 };
-
 export const certifyingOfficialInfoAlert = (
   <va-alert status="info" visible>
     <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
@@ -146,7 +163,6 @@ export const getReadOnlyPrimaryOfficialTitle = item => {
 
   return [first, middle, last].filter(Boolean).join(' ');
 };
-
 export const readOnlyCertifyingOfficialArrayOptions = {
   arrayPath: 'readOnlyCertifyingOfficials',
   nounSingular: 'certifying official',
@@ -280,3 +296,12 @@ export const childContent = (pdfUrl, trackingPrefix, goBack) => (
     </p>
   </div>
 );
+
+export const dateSigned = () => {
+  const date = new Date();
+  return date.toISOString().split('T')[0];
+};
+
+export const transformPhoneNumber = phoneNumber => {
+  return phoneNumber.replaceAll('-', '');
+};

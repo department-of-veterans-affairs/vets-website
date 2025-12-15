@@ -7,6 +7,8 @@ import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import { fileUploadUi } from '../utils/upload';
+import { veteranApplicantDetailsReviewPage } from './pages/veteranApplicantDetailsReview';
+import { veteranApplicantDetailsReviewPreparerPage } from './pages/veteranApplicantDetailsReviewPreparer';
 import * as applicantMilitaryName from './pages/applicantMilitaryName';
 import * as applicantMilitaryNameInformation from './pages/applicantMilitaryNameInformation';
 import * as applicantMilitaryNameInformationPreparer from './pages/applicantMilitaryNameInformationPreparer';
@@ -25,9 +27,17 @@ import * as sponsorMilitaryDetailsPreparer from './pages/sponsorMilitaryDetailsP
 import * as applicantRelationshipToVet from './pages/applicantRelationshipToVet';
 import * as veteranApplicantDetails from './pages/veteranApplicantDetails';
 import * as veteranApplicantDetailsPreparer from './pages/veteranApplicantDetailsPreparer';
+import * as veteranBirthLocation from './pages/veteranBirthLocation';
+import * as veteranBirthLocationPreparer from './pages/veteranBirthLocationPreparer';
 import * as nonVeteranApplicantDetails from './pages/nonVeteranApplicantDetails';
 import * as nonVeteranApplicantDetailsPreparer from './pages/nonVeteranApplicantDetailsPreparer';
-import * as applicantContactInformation from './pages/applicantContactInformation';
+import * as applicantMailingAddress from './pages/applicantMailingAddress';
+import * as applicantContactDetails from './pages/applicantContactDetails';
+import ApplicantContactDetailsLoggedIn from './pages/applicantContactDetailsLoggedIn';
+import ApplicantMailingAddressLoggedIn from './pages/applicantMailingAddressLoggedIn';
+import EditPhone from './pages/editPhone';
+import EditEmail from './pages/editEmail';
+import ApplicantSuggestedAddressLoggedIn from './pages/applicantSuggestedAddressLoggedIn';
 import * as preparer from './pages/preparer';
 import * as preparerDetails from './pages/preparerDetails';
 import * as preparerContactDetails from './pages/preparerContactDetails';
@@ -36,7 +46,6 @@ import * as applicantDemographics2 from './pages/applicantDemographics2';
 import * as applicantDemographics2Preparer from './pages/applicantDemographics2Preparer';
 import * as militaryDetailsSelf from './pages/militaryDetailsSelf';
 import * as militaryDetailsPreparer from './pages/militaryDetailsPreparer';
-import * as currentlyBuriedPersons from './pages/currentlyBuriedPersons';
 import * as burialCemetery from './pages/burialCemetery';
 import {
   servicePeriodsPagesVeteran,
@@ -44,6 +53,12 @@ import {
   servicePeriodsPagesPreparerVeteran,
   servicePeriodsPagesPreparerNonVeteran,
 } from './pages/servicePeriodsPages';
+import {
+  burialBenefitsPagesVeteran,
+  burialBenefitsPagesNonVeteran,
+  burialBenefitsPagesPreparerVeteran,
+  burialBenefitsPagesPreparerNonVeteran,
+} from './pages/burialBenefitsPages';
 
 import transformForSubmit from './transformForSubmit';
 import prefillTransformer from './prefill-transformer';
@@ -81,6 +96,8 @@ import {
   preparerDateOfBirthUI,
   applicantContactInfoAddressTitle,
   applicantContactInfoPreparerAddressTitle,
+  applicantContactDetailsTitle,
+  applicantContactDetailsPreparerTitle,
   applicantContactInfoSubheader,
   applicantContactInfoPreparerSubheader,
   applicantContactInfoDescription,
@@ -102,7 +119,16 @@ import {
   isApplicantTheSponsor,
   militaryDetailsReviewHeader,
   previousNameReviewHeader,
+  addConditionalDependency,
+  isLoggedInUser,
+  applicantEditAddressTitleLoggedIn,
+  applicantEditAddressDescriptionLoggedIn,
 } from '../utils/helpers';
+
+import {
+  isNotLoggedInVeteran,
+  isNotLoggedInVeteranPreparer,
+} from '../utils/helpers2';
 import SupportingFilesDescription from '../components/SupportingFilesDescription';
 import {
   ContactDetailsTitle,
@@ -268,37 +294,55 @@ const formConfig = {
           ),
           schema: applicantRelationshipToVet.schema,
         },
+        ...veteranApplicantDetailsReviewPage,
         veteranApplicantDetails: {
           title: 'Your details',
           path: 'veteran-applicant-details',
-          depends: formData =>
-            !isAuthorizedAgent(formData) && isVeteran(formData),
+          depends: formData => isNotLoggedInVeteran(formData),
           uiSchema: veteranApplicantDetails.uiSchema(
             veteranApplicantDetailsSubHeader,
             '',
             nonPreparerFullMaidenNameUI,
             ssnDashesUI,
             nonPreparerDateOfBirthUI,
-            applicantDetailsCityTitle,
-            applicantDetailsStateTitle,
           ),
           schema: veteranApplicantDetails.schema,
         },
+        veteranBirthLocation: {
+          title: 'Birth location',
+          path: 'veteran-birth-location',
+          depends: formData =>
+            !isAuthorizedAgent(formData) && isVeteran(formData),
+          uiSchema: veteranBirthLocation.uiSchema(
+            applicantDetailsCityTitle,
+            applicantDetailsStateTitle,
+          ),
+          schema: veteranBirthLocation.schema,
+        },
+        ...veteranApplicantDetailsReviewPreparerPage,
         veteranApplicantDetailsPreparer: {
           title: 'Applicant details',
           path: 'veteran-applicant-details-preparer',
-          depends: formData =>
-            isAuthorizedAgent(formData) && isVeteran(formData),
+          depends: formData => isNotLoggedInVeteranPreparer(formData),
           uiSchema: veteranApplicantDetailsPreparer.uiSchema(
             veteranApplicantDetailsPreparerSubHeader,
             veteranApplicantDetailsPreparerDescription,
             preparerFullMaidenNameUI,
             preparerSsnDashesUI,
             preparerDateOfBirthUI,
+          ),
+          schema: veteranApplicantDetailsPreparer.schema,
+        },
+        veteranBirthLocationPreparer: {
+          title: 'Applicant birth location',
+          path: 'veteran-birth-location-preparer',
+          depends: formData =>
+            isAuthorizedAgent(formData) && isVeteran(formData),
+          uiSchema: veteranBirthLocationPreparer.uiSchema(
             applicantDetailsPreparerCityTitle,
             applicantDetailsPreparerStateTitle,
           ),
-          schema: veteranApplicantDetailsPreparer.schema,
+          schema: veteranBirthLocationPreparer.schema,
         },
         nonVeteranApplicantDetails: {
           title: 'Your details',
@@ -328,21 +372,44 @@ const formConfig = {
           ),
           schema: nonVeteranApplicantDetailsPreparer.schema,
         },
-        applicantContactInformation: {
+        applicantMailingAddress: {
           title: applicantContactInfoAddressTitle,
-          path: 'applicant-contact-information',
-          depends: formData => !isAuthorizedAgent(formData),
-          uiSchema: applicantContactInformation.uiSchema(
+          path: 'applicant-mailing-address',
+          depends: formData =>
+            !isAuthorizedAgent(formData) && !isLoggedInUser(formData),
+          uiSchema: applicantMailingAddress.uiSchema(
             applicantContactInfoAddressTitle,
-            applicantContactInfoSubheader,
-            applicantContactInfoDescription,
           ),
-          schema: applicantContactInformation.schema,
+          schema: applicantMailingAddress.schema,
+        },
+        applicantMailingAddressLoggedIn: {
+          title: applicantContactInfoAddressTitle,
+          path: 'applicant-mailing-address-logged-in',
+          depends: formData =>
+            !isAuthorizedAgent(formData) && isLoggedInUser(formData),
+          CustomPage: ApplicantMailingAddressLoggedIn,
+          CustomPageReview: ApplicantMailingAddressLoggedIn,
+          uiSchema: {},
+          schema: {
+            type: 'object',
+            properties: {},
+          },
+        },
+        editMailingAddress: {
+          title: 'Edit your mailing address',
+          path: 'applicant-mailing-address-logged-in/edit-address',
+          depends: formData => formData?.['view:loggedInEditAddress'] === true,
+          uiSchema: applicantMailingAddress.uiSchema(
+            applicantEditAddressTitleLoggedIn,
+            applicantEditAddressDescriptionLoggedIn,
+          ),
+          schema: applicantMailingAddress.schema,
         },
         applicantSuggestedAddress: {
           title: 'Validate Address',
           path: 'applicant-suggested-address',
-          depends: formData => !isAuthorizedAgent(formData),
+          depends: formData =>
+            !isAuthorizedAgent(formData) && !isLoggedInUser(formData),
           uiSchema: {
             application: {
               applicant: {
@@ -373,16 +440,73 @@ const formConfig = {
             },
           },
         },
-        applicantContactInformationPreparer: {
-          title: applicantContactInfoPreparerAddressTitle,
-          path: 'applicant-contact-information-preparer',
-          depends: formData => isAuthorizedAgent(formData),
-          uiSchema: applicantContactInformation.uiSchema(
-            applicantContactInfoPreparerAddressTitle,
-            applicantContactInfoPreparerSubheader,
-            applicantContactInfoPreparerDescription,
+        applicantSuggestedAddressLoggedIn: {
+          title: 'Validate Address',
+          path: 'applicant-suggested-address-logged-in',
+          depends: formData => formData?.['view:loggedInEditAddress'] === true,
+          CustomPage: ApplicantSuggestedAddressLoggedIn,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: {
+            type: 'object',
+            properties: {},
+          },
+        },
+        applicantContactDetails: {
+          title: applicantContactDetailsTitle,
+          path: 'applicant-contact-details',
+          depends: formData =>
+            !isAuthorizedAgent(formData) && !isLoggedInUser(formData),
+          uiSchema: applicantContactDetails.uiSchema(
+            applicantContactInfoSubheader,
+            applicantContactInfoDescription,
           ),
-          schema: applicantContactInformation.schema,
+          schema: applicantContactDetails.schema,
+        },
+        applicantContactDetailsLoggedIn: {
+          title: applicantContactDetailsTitle,
+          path: 'applicant-contact-details-logged-in',
+          depends: formData => isLoggedInUser(formData),
+          CustomPage: ApplicantContactDetailsLoggedIn,
+          CustomPageReview: ApplicantContactDetailsLoggedIn,
+          uiSchema: {},
+          schema: {
+            type: 'object',
+            properties: {},
+          },
+        },
+        editPhone: {
+          title: 'Edit phone number',
+          path: 'applicant-contact-details-logged-in/edit-phone',
+          depends: () => false, // accessed directly from contact details page
+          CustomPage: EditPhone,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: {
+            type: 'object',
+            properties: {},
+          },
+        },
+        editEmail: {
+          title: 'Edit email address',
+          path: 'applicant-contact-details-logged-in/edit-email',
+          depends: () => false, // accessed directly from contact details page
+          CustomPage: EditEmail,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: {
+            type: 'object',
+            properties: {},
+          },
+        },
+        applicantMailingAddressPreparer: {
+          title: applicantContactInfoPreparerAddressTitle,
+          path: 'applicant-mailing-address-preparer',
+          depends: formData => isAuthorizedAgent(formData),
+          uiSchema: applicantMailingAddress.uiSchema(
+            applicantContactInfoPreparerAddressTitle,
+          ),
+          schema: applicantMailingAddress.schema,
         },
         applicantSuggestedAddressPreparer: {
           title: 'Validate Address',
@@ -417,6 +541,16 @@ const formConfig = {
               },
             },
           },
+        },
+        applicantContactDetailsPreparer: {
+          title: applicantContactDetailsPreparerTitle,
+          path: 'applicant-contact-details-preparer',
+          depends: formData => isAuthorizedAgent(formData),
+          uiSchema: applicantContactDetails.uiSchema(
+            applicantContactInfoPreparerSubheader,
+            applicantContactInfoPreparerDescription,
+          ),
+          schema: applicantContactDetails.schema,
         },
         applicantDemographics: {
           title: 'Your demographics',
@@ -677,7 +811,7 @@ const formConfig = {
     burialBenefits: {
       title: 'Burial benefits',
       pages: {
-        burialBenefits: {
+        burialBenefitsVeteran: {
           path: 'burial-benefits',
           depends: formData =>
             isVeteran(formData) && !isAuthorizedAgent(formData),
@@ -697,14 +831,26 @@ const formConfig = {
           uiSchema: burialBenefits.uiSchema('sponsor’s cemetery'),
           schema: burialBenefits.schema,
         },
-        currentlyBuriedPersons: {
-          path: 'current-burial-benefits',
-          depends: formData => buriedWSponsorsEligibility(formData),
-          editModeOnReviewPage: true,
-          uiSchema: currentlyBuriedPersons.uiSchema,
-          schema: currentlyBuriedPersons.schema,
-        },
+        // If the user selects Yes in burialbenfits, the burialBenefitsPages are displayed
+        // If they select No or I don't know, it skips to burialCemetery
+        ...addConditionalDependency(
+          burialBenefitsPagesVeteran,
+          buriedWSponsorsEligibility,
+        ),
+        ...addConditionalDependency(
+          burialBenefitsPagesPreparerVeteran,
+          buriedWSponsorsEligibility,
+        ),
+        ...addConditionalDependency(
+          burialBenefitsPagesNonVeteran,
+          buriedWSponsorsEligibility,
+        ),
+        ...addConditionalDependency(
+          burialBenefitsPagesPreparerNonVeteran,
+          buriedWSponsorsEligibility,
+        ),
         burialCemetery: {
+          title: 'Preferred cemetery',
           path: 'burial-cemetery',
           uiSchema: burialCemetery.uiSchema,
           schema: burialCemetery.schema,

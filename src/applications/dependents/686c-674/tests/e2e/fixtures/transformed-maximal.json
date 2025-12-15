@@ -1,4 +1,5 @@
 {
+  "vaDependentsNetWorthAndPension": false,
   "view:addOrRemoveDependents": { "add": true, "remove": true },
   "view:addDependentOptions": {
     "addSpouse": true,
@@ -22,7 +23,8 @@
     "ssn": "796330625",
     "birthDate": "1976-06-09",
     "ssnLastFour": "0625",
-    "vaFileLastFour": "0625"
+    "vaFileLastFour": "0625",
+    "isInReceiptOfPension": -1
   },
   "veteranContactInformation": {
     "veteranAddress": {
@@ -105,6 +107,7 @@
       "isEncrypted": false
     }
   ],
+  "view:householdIncome": true,
   "householdIncome": false,
 
   "reportDivorce": {
@@ -224,7 +227,7 @@
       "otherProgramOrBenefit": "Test",
       "tuitionIsPaidByGovAgency": false,
       "ssn": "333445555",
-      "isParent": false,
+      "relationshipToStudent": "biological",
       "wasMarried": false,
       "address": {
         "country": "USA",

@@ -6,13 +6,14 @@ import { expect } from 'chai';
 import {
   addDays,
   addMonths,
-  endOfMonth,
   format,
-  isSameDay,
+  lastDayOfMonth,
   setDay,
   startOfDay,
   startOfMonth,
 } from 'date-fns';
+import { formatInTimeZone } from 'date-fns-tz';
+import MockDate from 'mockdate';
 import React from 'react';
 import {
   createTestStore,
@@ -23,12 +24,14 @@ import {
 
 import MockClinicResponse from '../../tests/fixtures/MockClinicResponse';
 import MockFacilityResponse from '../../tests/fixtures/MockFacilityResponse';
+import MockSlotResponse from '../../tests/fixtures/MockSlotResponse';
 import {
   mockAppointmentSlotApi,
   mockEligibilityFetches,
 } from '../../tests/mocks/mockApis';
 import { DATE_FORMATS, TYPE_OF_CARE_IDS } from '../../utils/constants';
 import SelectDate1Page from './SelectDate1Page';
+import { mockToday } from '../../tests/mocks/constants';
 
 const initialState = {
   featureToggles: {
@@ -51,6 +54,7 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
 
   beforeEach(() => {
     mockFetch();
+    MockDate.set(mockToday);
   });
 
   it('should not submit form with validation error', async () => {
@@ -60,7 +64,7 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
       clinics,
     });
 
-    const preferredDate = new Date();
+    const preferredDate = new Date(mockToday);
 
     mockAppointmentSlotApi({
       facilityId: '983',
@@ -101,7 +105,7 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
   });
 
   it('should display error message if slots call fails', async () => {
-    const preferredDate = new Date();
+    const preferredDate = new Date(mockToday);
     mockEligibilityFetches({
       facilityId: '983',
       typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
@@ -154,9 +158,13 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
     });
 
     // Slot dates are in UTC
-    const slot308Date = new Date(setDay(new Date(), 9).setHours(15, 0, 0));
-    const slot309Date = new Date(setDay(new Date(), 11).setHours(19, 0, 0));
-    const preferredDate = new Date();
+    const slot308Date = new Date(
+      setDay(new Date(mockToday), 9).setHours(15, 0, 0),
+    );
+    const slot309Date = new Date(
+      setDay(new Date(mockToday), 11).setHours(19, 0, 0),
+    );
+    const preferredDate = new Date(mockToday);
 
     mockAppointmentSlotApi({
       facilityId: '983',
@@ -293,7 +301,7 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
       clinics,
     });
 
-    const preferredDate = new Date();
+    const preferredDate = new Date(mockToday);
     mockAppointmentSlotApi({
       facilityId: '983',
       clinicId: '308',
@@ -321,147 +329,161 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
     );
     expect(screen.history.push.called).not.to.be.true;
   });
+});
 
-  // Flaky test: https://github.com/department-of-veterans-affairs/va.gov-team/issues/94471
-  it.skip('should fetch slots when moving between months', async () => {
-    mockEligibilityFetches({
-      facilityId: '983',
-      typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
-      clinics,
+describe('When preferred date is immediate care', () => {
+  describe('And current date is last day of the month and end of day', () => {
+    beforeEach(() => {
+      mockFetch();
+      MockDate.set(lastDayOfMonth(new Date(mockToday)));
     });
 
-    const preferredDate = new Date();
-    const isLastDayOfMonth = isSameDay(
-      preferredDate,
-      endOfMonth(preferredDate, 'month'),
-    );
-    const slot308Date = new Date(addDays(preferredDate, 1).setHours(9, 0, 0));
-    const secondSlotDate = new Date(
-      addMonths(slot308Date, isLastDayOfMonth ? 1 : 2).setHours(10, 0, 0),
-    );
-
-    mockAppointmentSlotApi({
-      facilityId: '983',
-      clinicId: '308',
-      response: [
-        {
-          id: '308',
-          type: 'slots',
-          attributes: {
-            start: format(slot308Date, DATE_FORMATS.ISODateTimeUTC),
-            end: format(
-              new Date(new Date(slot308Date).setMinutes(20)),
-              DATE_FORMATS.ISODateTimeUTC,
-            ),
-          },
-        },
-      ],
-      preferredDate,
-    });
-    mockAppointmentSlotApi({
-      facilityId: '983',
-      clinicId: '308',
-      response: [
-        {
-          id: '308',
-          type: 'slots',
-          attributes: {
-            start: format(secondSlotDate, DATE_FORMATS.ISODateTimeUTC),
-            end: format(
-              new Date(new Date(secondSlotDate).setMinutes(20)),
-              DATE_FORMATS.ISODateTimeUTC,
-            ),
-          },
-        },
-      ],
-      preferredDate: startOfMonth(secondSlotDate),
-      endDate: endOfMonth(startOfDay(secondSlotDate)),
+    afterEach(() => {
+      MockDate.reset();
     });
 
-    const store = createTestStore(initialState);
+    it('should fetch slots when moving between months', async () => {
+      const clinics = MockClinicResponse.createResponses({
+        clinics: [
+          { id: '308', name: 'Green team clinic' },
+          { id: '309', name: 'Red team clinic' },
+        ],
+      });
 
-    await setVaccineFacility(store, new MockFacilityResponse());
-    await setVaccineClinic(store, /Green team/i);
+      // Use the mocked current date (last day of month) instead of mockToday
+      // mock date is set in the beforeEach
+      const preferredDate = new Date();
 
-    // First pass check to make sure the slots associated with green team are displayed
-    const screen = renderWithStoreAndRouter(<SelectDate1Page />, {
-      store,
-    });
+      // NOTE: Available slot dates must be after tommorow. So in this case, timezone
+      // conversion to MT resulted in the previous day thus the need to add 2 days.
+      // See: ./new-appointments/redux/actions.js/getAppointmentsSlots:680
+      const slot308Date = addDays(preferredDate, 2);
 
-    // Need to move to the next month if today is the last day
-    let overlay = screen.queryByTestId('loadingIndicator');
-    if (overlay) {
-      await waitForElementToBeRemoved(overlay);
-    }
+      // NOTE: The initial request for slots returns 2 months worth thus the need
+      // to add 2 months.
+      const secondSlotDate = lastDayOfMonth(addMonths(preferredDate, 2));
 
-    if (isLastDayOfMonth) {
+      mockAppointmentSlotApi({
+        facilityId: '983',
+        clinicId: '308',
+        response: [
+          new MockSlotResponse({
+            id: '1',
+            start: slot308Date,
+          }),
+        ],
+        preferredDate,
+      });
+      mockAppointmentSlotApi({
+        facilityId: '983',
+        clinicId: '308',
+        response: [
+          new MockSlotResponse({
+            id: '1',
+            start: secondSlotDate,
+          }),
+        ],
+        preferredDate: startOfMonth(addMonths(startOfDay(preferredDate), 2)),
+        endDate: lastDayOfMonth(addMonths(startOfDay(preferredDate), 2)),
+      });
+      mockEligibilityFetches({
+        facilityId: '983',
+        typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
+        clinics,
+      });
+
+      const store = createTestStore(initialState);
+
+      await setVaccineFacility(store, new MockFacilityResponse());
+      await setVaccineClinic(store, /Green team/i);
+
+      // First pass check to make sure the slots associated with green team are displayed
+      const screen = renderWithStoreAndRouter(<SelectDate1Page />, {
+        store,
+      });
+
+      // Need to move to the next month if today is the last day
+      let overlay = screen.queryByTestId('loadingIndicator');
+      if (overlay) {
+        await waitForElementToBeRemoved(overlay);
+      }
+
+      let dayOfMonthButton = screen.getByLabelText(
+        new RegExp(
+          formatInTimeZone(slot308Date, 'America/Denver', 'EEEE, MMMM do'),
+          'i',
+        ),
+      );
+      userEvent.click(dayOfMonthButton);
+      userEvent.click(
+        await screen.findByRole('radio', {
+          id: `dateTime_${format(slot308Date, 'yyyy-MM-dd')}_0`,
+        }),
+      );
+
+      // To trigger the second fetch:
       userEvent.click(screen.getByText(/^Next/));
-    }
 
-    let dayOfMonthButton = screen.getByLabelText(
-      new RegExp(format(slot308Date, 'EEEE, MMMM do'), 'i'),
-    );
-    userEvent.click(dayOfMonthButton);
-    userEvent.click(
-      await screen.findByRole('radio', {
-        id: `dateTime_${format(slot308Date, 'yyyy-MM-dd')}_0`,
-      }),
-    );
+      overlay = screen.queryByTestId('loadingIndicator');
+      if (overlay) {
+        await waitForElementToBeRemoved(overlay);
+      }
 
-    // To trigger the second fetch:
-    // 1. Need to move only one more month if today is the last day of the month
-    // 2. Need to move two months if today isn't the last day of the month
-    userEvent.click(screen.getByText(/^Next/));
-    if (!isLastDayOfMonth) {
-      userEvent.click(screen.getByText(/^Next/));
-    }
-    overlay = screen.queryByTestId('loadingIndicator');
-    if (overlay) {
-      await waitForElementToBeRemoved(overlay);
-    }
+      dayOfMonthButton = await screen.findByLabelText(
+        new RegExp(
+          formatInTimeZone(secondSlotDate, 'America/Denver', 'EEEE, MMMM do'),
+          'i',
+        ),
+      );
+      userEvent.click(dayOfMonthButton);
 
-    dayOfMonthButton = await screen.findByLabelText(
-      new RegExp(format(secondSlotDate, 'EEEE, MMMM do'), 'i'),
-    );
-    userEvent.click(dayOfMonthButton);
+      // Select the slot
+      userEvent.click(
+        await screen.findByRole('radio', {
+          id: `dateTime_${formatInTimeZone(
+            secondSlotDate,
+            'America/Denver',
+            'yyyy-MM-dd',
+          )}_0`,
+        }),
+      );
 
-    userEvent.click(
-      await screen.findByRole('radio', {
-        id: `dateTime_${format(secondSlotDate, 'YYYY-MM-DD')}_0`,
-      }),
-    );
-
-    // To go back and select initial slot:
-    // 1. Need to move back only one month if today is the last day of the month
-    // 2. Need to move back two months if today isn't the last day of the month
-    userEvent.click(screen.getByText(/^Prev/));
-    if (!isLastDayOfMonth) {
+      // To go back and select initial slot:
       userEvent.click(screen.getByText(/^Prev/));
-    }
 
-    dayOfMonthButton = screen.getByLabelText(
-      new RegExp(format(slot308Date, 'EEEE, MMMM do'), 'i'),
-    );
-    userEvent.click(dayOfMonthButton);
-    userEvent.click(
-      await screen.findByRole('radio', {
-        id: `dateTime_${format(slot308Date, 'yyyy-MM-dd')}_0`,
-      }),
-    );
+      dayOfMonthButton = screen.getByLabelText(
+        new RegExp(
+          formatInTimeZone(slot308Date, 'America/Denver', 'EEEE, MMMM do'),
+          'i',
+        ),
+      );
+      userEvent.click(dayOfMonthButton);
 
-    // Have a selected slot, can move to next screen
-    userEvent.click(screen.getByText(/^Continue/));
-    await waitFor(() => {
-      expect(screen.history.push.called).to.be.true;
+      // Select the slot
+      userEvent.click(
+        await screen.findByRole('radio', {
+          id: `dateTime_${formatInTimeZone(
+            slot308Date,
+            'America/Denver',
+            'yyyy-MM-dd',
+          )}_0`,
+        }),
+      );
+
+      // Have a selected slot, can move to next screen
+      userEvent.click(screen.getByText(/^Continue/));
+      await waitFor(() => {
+        expect(screen.history.push.called).to.be.true;
+      });
+      screen.history.push.reset();
+
+      // Clicking selected date should unselect date
+      userEvent.click(dayOfMonthButton);
+      userEvent.click(screen.getByText(/^Continue/));
+      await waitFor(() => {
+        expect(screen.getByRole('alert')).to.be.ok;
+      });
+      expect(screen.history.push.called).to.be.false;
     });
-    screen.history.push.reset();
-
-    // Clicking selected date should unselect date
-    userEvent.click(dayOfMonthButton);
-    userEvent.click(screen.getByText(/^Continue/));
-    await waitFor(() => {
-      expect(screen.getByRole('alert')).to.be.ok;
-    });
-    expect(screen.history.push.called).to.be.false;
   });
 });

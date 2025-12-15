@@ -8,11 +8,19 @@ import {
   VERIFY_VA_FILE_NUMBER_FAILED,
 } from '../actions';
 
+import dependents from '../../shared/reducers/dependents';
+
 const initialState = {
   hasVaFileNumber: null,
   isLoading: true,
 };
 
+/**
+ * Redux reducer for VA file number verification
+ * @param {object} state - Redux state
+ * @param {object} action - Redux action
+ * @returns {object} New state
+ */
 const vaFileNumber = (state = initialState, action) => {
   switch (action.type) {
     case VERIFY_VA_FILE_NUMBER_STARTED:
@@ -30,5 +38,6 @@ const vaFileNumber = (state = initialState, action) => {
 
 export default {
   vaFileNumber,
+  dependents,
   form: createSaveInProgressFormReducer(formConfig),
 };

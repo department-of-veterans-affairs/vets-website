@@ -1,13 +1,19 @@
-import moment from 'moment-timezone';
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import DownloadReportsPage from './pages/DownloadReportsPage';
 import selfEnteredResponse from './fixtures/selfEnteredResponse.json';
+import { currentDateAddSecondsForFileDownload } from '../../util/dateHelpers';
 
 describe('Medical Records download page', () => {
-  it('Verifies self-entered download', () => {
-    const site = new MedicalRecordsSite();
+  const site = new MedicalRecordsSite();
+
+  beforeEach(() => {
     site.login();
-    site.loadPage();
+  });
+
+  it('Verifies self-entered download', () => {
+    // const site = new MedicalRecordsSite();
+    // site.login();
+    // site.loadPage();
 
     DownloadReportsPage.goToReportsPage();
 
@@ -21,7 +27,7 @@ describe('Medical Records download page', () => {
 
     site.verifyDownloadedPdfFile(
       'VA-Blue-Button-report-Safari-Mhvtp',
-      moment(),
+      currentDateAddSecondsForFileDownload(1),
       '',
     );
 

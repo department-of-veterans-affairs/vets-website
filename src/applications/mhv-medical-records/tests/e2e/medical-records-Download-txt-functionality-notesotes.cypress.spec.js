@@ -5,10 +5,10 @@ import NotesListPage from './pages/NotesListPage';
 describe('Medical Records Care summaries and notes', () => {
   const site = new MedicalRecordsSite();
 
-  before(() => {
+  beforeEach(() => {
     site.login();
-    cy.visit('my-health/medical-records');
-    NotesListPage.clickGotoNotesLink();
+    // cy.visit('my-health/medical-records');
+    NotesListPage.gotoNotesList();
   });
 
   it('Care summaries and notes Page Toggle Menu button Print or download ', () => {

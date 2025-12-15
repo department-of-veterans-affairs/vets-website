@@ -3,7 +3,8 @@ import PatientInboxPage from '../pages/PatientInboxPage';
 import PatientComposePage from '../pages/PatientComposePage';
 import PatientMessageDraftsPage from '../pages/PatientMessageDraftsPage';
 import requestBody from '../fixtures/message-compose-request-body.json';
-import { AXE_CONTEXT, Locators } from '../utils/constants';
+import { AXE_CONTEXT } from '../utils/constants';
+import SharedComponents from '../pages/SharedComponents';
 
 describe('SM SAVING DRAFT BY KEYBOARD', () => {
   it('verify draft saved', () => {
@@ -19,15 +20,19 @@ describe('SM SAVING DRAFT BY KEYBOARD', () => {
 
     // temporarily using save button to save draft
     PatientComposePage.saveNewDraft(requestBody.category, requestBody.subject);
-    // PatientComposePage.saveDraftByKeyboard();
 
     PatientMessageDraftsPage.verifySavedMessageAlertText();
 
-    cy.get(Locators.BUTTONS.SAVE_DRAFT).should(`be.focused`);
+    // Wait for the breadcrumb element to be fully loaded and visible
+    SharedComponents.clickBackBreadcrumb();
+
+    cy.findByTestId('route-guard-secondary-button')
+      .should('be.visible')
+      .click();
+
+    cy.findByText('Messages: Inbox').should('be.visible');
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
-
-    cy.get(Locators.BACK_TO).click();
   });
 });

@@ -25,9 +25,7 @@ describe('income and asset statement date received by page', () => {
     formConfig,
     schema,
     uiSchema,
-    [
-      'va-radio[label="Are you submitting an initial application for Veterans Pension or Parents’ DIC, or are you already receiving these benefits?"]',
-    ],
+    ['va-radio[label="Which of these best describe your case?"]'],
     'date received by',
   );
 

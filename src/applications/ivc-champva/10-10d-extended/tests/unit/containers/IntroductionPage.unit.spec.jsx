@@ -5,64 +5,67 @@ import { expect } from 'chai';
 import formConfig from '../../../config/form';
 import IntroductionPage from '../../../containers/IntroductionPage';
 
-const props = {
-  route: {
-    path: 'introduction',
-    pageList: [],
-    formConfig,
-  },
-  userLoggedIn: false,
-  userIdVerified: true,
-};
-
-const mockStore = {
-  getState: () => ({
-    user: {
-      login: {
-        currentlyLoggedIn: false,
+describe('1010d IntroductionPage', () => {
+  const subject = ({ loggedIn = true } = {}) => {
+    const props = {
+      route: {
+        formConfig,
+        pageList: [{ path: '/introduction' }, { path: '/next', formConfig }],
       },
-      profile: {
-        savedForms: [],
-        prefillsAvailable: [],
-        loa: {
-          current: 3,
-          highest: 3,
+    };
+    const mockStore = {
+      getState: () => ({
+        form: {
+          formId: formConfig.formId,
+          data: {},
+          migrations: [],
+          loadedData: { metadata: {} },
+          lastSavedDate: null,
+          prefillTransformer: null,
         },
-        verified: true,
-        dob: '2000-01-01',
-        claims: {
-          appeals: false,
+        user: {
+          login: {
+            currentlyLoggedIn: loggedIn,
+          },
+          profile: {
+            loading: false,
+            loa: { current: loggedIn ? 3 : undefined },
+            savedForms: [],
+            prefillsAvailable: [],
+          },
         },
-      },
-    },
-    form: {
-      formId: formConfig.formId,
-      loadedStatus: 'success',
-      savedStatus: '',
-      loadedData: {
-        metadata: {},
-      },
-      data: {},
-    },
-    scheduledDowntime: {
-      globalDowntime: null,
-      isReady: true,
-      isPending: false,
-      serviceMap: { get() {} },
-      dismissedDowntimeWarnings: [],
-    },
-  }),
-  subscribe: () => {},
-  dispatch: () => {},
-};
-
-describe('IntroductionPage', () => {
-  it('should render', () => {
+        scheduledDowntime: {
+          globalDowntime: null,
+          isReady: true,
+          isPending: false,
+          serviceMap: { get: () => {} },
+          dismissedDowntimeWarnings: [],
+        },
+      }),
+      subscribe: () => {},
+      dispatch: () => {},
+    };
     const { container } = render(
       <Provider store={mockStore}>
         <IntroductionPage {...props} />
       </Provider>,
     );
-    expect(container).to.exist;
+    const selectors = () => ({
+      signInAlert: container.querySelector(
+        'va-alert-sign-in[variant="signInOptional"]',
+      ),
+      startBtn: container.querySelector('a[href="#start"]'),
+    });
+    return { selectors };
+  };
+
+  it('should render start button when the user is logged in', () => {
+    const { selectors } = subject();
+    expect(selectors().startBtn).to.exist;
+  });
+
+  it('should render login alert when the user is logged out', () => {
+    const { selectors } = subject({ loggedIn: false });
+    expect(selectors().signInAlert).to.exist;
   });
 });

@@ -11,20 +11,14 @@ import {
   OAUTH_KEYS as SIS_QUERY_PARAM_KEYS,
 } from '~/platform/utilities/oauth/constants';
 
-import { IsCustomLoginEnabled } from './featureToggles';
-
-const PLATFORM_SIGN_IN_URL = '/sign-in';
 const ARP_SIGN_IN_URL = '/representative/sign-in';
 const USIP_BASE_URL = environment.BASE_URL;
 
 export const getSignInUrl = ({ returnUrl } = {}) => {
-  // Get feature toggle with safe fallback
-  const useNewLogin = IsCustomLoginEnabled();
-  const signInPath = useNewLogin ? ARP_SIGN_IN_URL : PLATFORM_SIGN_IN_URL;
+  const signInPath = ARP_SIGN_IN_URL;
   const url = new URL(signInPath, USIP_BASE_URL);
   url.searchParams.set(USIP_QUERY_PARAMS.application, USIP_APPLICATIONS.ARP);
   url.searchParams.set(USIP_QUERY_PARAMS.OAuth, true);
-  url.searchParams.set(USIP_QUERY_PARAMS.to, '/poa-requests');
   if (returnUrl) {
     url.searchParams.set(USIP_QUERY_PARAMS.to, returnUrl);
   }
@@ -48,3 +42,30 @@ export const SEARCH_PARAMS = {
   SIZE: 'pageSize',
   NUMBER: 'pageNumber',
 };
+
+export const NAV_MOBILE_DROPDOWN = [
+  {
+    LABEL: 'Dashboard',
+    URL: '/dashboard',
+    TEST_ID: 'user-nav-profile-link',
+  },
+];
+
+export const NAV_MENU_DROPDOWN = [
+  {
+    LABEL: 'Find Claimant',
+    URL: '/find-claimant',
+    ICON: 'search',
+    TEST_ID: 'user-nav-claimant-search-link',
+  },
+  {
+    LABEL: 'Representation Requests',
+    URL: '/representation-requests',
+    TEST_ID: 'user-nav-representation-requests-link',
+  },
+  {
+    LABEL: 'Submissions',
+    URL: '/submissions',
+    TEST_ID: 'submissions-link',
+  },
+];

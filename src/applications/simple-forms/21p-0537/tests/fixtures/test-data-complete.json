@@ -1,0 +1,44 @@
+{
+  "data": {
+    "veteranFullName": {
+      "first": "Robert",
+      "middle": "James",
+      "last": "Martinez"
+    },
+    "veteranIdentification": {
+      "ssn": "434353347",
+      "vaFileNumber": "987654321"
+    },
+    "recipientName": {
+      "first": "Jane",
+      "middle": "M",
+      "last": "Spouse"
+    },
+    "hasRemarried": true,
+    "remarriage": {
+      "dateOfMarriage": "2023-06-15",
+      "spouseName": {
+        "first": "Michael",
+        "middle": "James",
+        "last": "Smith"
+      },
+      "spouseDateOfBirth": "1965-03-20",
+      "ageAtMarriage": "58",
+      "spouseIsVeteran": true,
+      "spouseVeteranId": {
+        "vaFileNumber": "555666777",
+        "ssn": "999888777"
+      },
+      "hasTerminated": true,
+      "terminationDate": "2024-01-15",
+      "terminationReason": "Death"
+    },
+    "certification": {
+      "marriageRecognition": true
+    },
+    "signature": "Jane M Spouse",
+    "primaryPhone": "555-123-4567",
+    "secondaryPhone": "555-987-6543",
+    "emailAddress": "jane.spouse@example.com"
+  }
+}

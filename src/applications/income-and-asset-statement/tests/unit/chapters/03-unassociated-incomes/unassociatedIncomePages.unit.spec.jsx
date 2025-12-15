@@ -1,10 +1,12 @@
+import { expect } from 'chai';
+import sinon from 'sinon';
 import formConfig from '../../../../config/form';
 import {
   unassociatedIncomePages,
   options,
 } from '../../../../config/chapters/02-unassociated-incomes/unassociatedIncomePages';
 import { incomeTypeLabels } from '../../../../labels';
-
+import * as helpers from '../../../../helpers';
 import testData from '../../../e2e/fixtures/data/test-data.json';
 import testDataZeroes from '../../../e2e/fixtures/data/test-data-all-zeroes.json';
 
@@ -22,7 +24,27 @@ import {
 } from '../pageTests.spec';
 
 describe('unassociated income list and loop pages', () => {
-  const { unassociatedIncomePagesSummary } = unassociatedIncomePages;
+  let showUpdatedContentStub;
+
+  beforeEach(() => {
+    showUpdatedContentStub = sinon.stub(helpers, 'showUpdatedContent');
+  });
+
+  afterEach(() => {
+    if (showUpdatedContentStub && showUpdatedContentStub.restore) {
+      showUpdatedContentStub.restore();
+    }
+  });
+  const {
+    unassociatedIncomePagesSummary,
+    unassociatedIncomeNonVeteranRecipientPage,
+    unassociatedIncomeVeteranRecipientPage,
+    unassociatedIncomeSpouseRecipientPage,
+    unassociatedIncomeCustodianRecipientPage,
+    unassociatedIncomeParentRecipientPage,
+    unassociatedIncomeChildRecipientNamePage,
+    unassociatedIncomeRecipientNamePage,
+  } = unassociatedIncomePages;
 
   describe('isItemIncomplete function', () => {
     const baseItem = testData.data.unassociatedIncomes[0];
@@ -36,6 +58,12 @@ describe('unassociated income list and loop pages', () => {
 
   describe('text getItemName function', () => {
     testOptionsTextGetItemNameRecurringIncome(options);
+  });
+
+  describe('summaryTitle function', () => {
+    it('should show content', () => {
+      expect(options.text.summaryTitle).to.eql('Review recurring income');
+    });
   });
 
   describe('text cardDescription function', () => {
@@ -62,8 +90,13 @@ describe('unassociated income list and loop pages', () => {
     testOptionsTextCardDescription(options, baseItem, incomeTypeLabels);
   });
 
-  describe('summary page', () => {
+  describe('MVP summary page', () => {
+    beforeEach(() => {
+      showUpdatedContentStub.returns(false);
+    });
+
     const { schema, uiSchema } = unassociatedIncomePagesSummary;
+
     testNumberOfFieldsByType(
       formConfig,
       schema,
@@ -71,6 +104,7 @@ describe('unassociated income list and loop pages', () => {
       { 'va-radio': 1 },
       'summary page',
     );
+
     testComponentFieldsMarkedAsRequired(
       formConfig,
       schema,
@@ -80,6 +114,7 @@ describe('unassociated income list and loop pages', () => {
       ],
       'summary page',
     );
+
     testSubmitsWithoutErrors(
       formConfig,
       schema,
@@ -90,13 +125,17 @@ describe('unassociated income list and loop pages', () => {
     );
   });
 
-  describe('income recipient page', () => {
+  describe('MVP income recipient page', () => {
+    beforeEach(() => {
+      showUpdatedContentStub.returns(false);
+    });
+
     const schema =
-      unassociatedIncomePages.unassociatedIncomeNonVeteranRecipientPage.schema
-        .properties.unassociatedIncomes.items;
-    const uiSchema =
-      unassociatedIncomePages.unassociatedIncomeNonVeteranRecipientPage.uiSchema
+      unassociatedIncomeNonVeteranRecipientPage.schema.properties
         .unassociatedIncomes.items;
+    const uiSchema =
+      unassociatedIncomeNonVeteranRecipientPage.uiSchema.unassociatedIncomes
+        .items;
 
     testNumberOfFieldsByType(
       formConfig,
@@ -127,15 +166,85 @@ describe('unassociated income list and loop pages', () => {
       'recipient',
       'root_otherRecipientRelationshipType',
     );
+
+    describe('Non-Veteran recipient page', () => {
+      it('should display when showUpdatedContent is false', () => {
+        const formData = { ...testData.data, claimantType: 'SPOUSE' };
+        const { depends } = unassociatedIncomeNonVeteranRecipientPage;
+        expect(depends(formData)).to.be.true;
+      });
+    });
+  });
+
+  describe('Updated recipient pages', () => {
+    beforeEach(() => {
+      showUpdatedContentStub.returns(true);
+    });
+
+    describe('Veteran recipient page', () => {
+      const formData = { ...testData.data, claimantType: 'VETERAN' };
+
+      it('should display when showUpdatedContent is true and claimantType is VETERAN', () => {
+        const { depends } = unassociatedIncomeVeteranRecipientPage;
+        expect(depends(formData)).to.be.true;
+      });
+    });
+
+    describe('Spouse recipient page', () => {
+      const formData = { ...testData.data, claimantType: 'SPOUSE' };
+
+      it('should display when showUpdatedContent is true and claimantType is SPOUSE', () => {
+        const { depends } = unassociatedIncomeSpouseRecipientPage;
+        expect(depends(formData)).to.be.true;
+      });
+    });
+
+    describe('Custodian recipient page', () => {
+      const formData = { ...testData.data, claimantType: 'CUSTODIAN' };
+
+      it('should display when showUpdatedContent is true and claimantType is CUSTODIAN', () => {
+        const { depends } = unassociatedIncomeCustodianRecipientPage;
+        expect(depends(formData)).to.be.true;
+      });
+    });
+
+    describe('Parent recipient page', () => {
+      const formData = { ...testData.data, claimantType: 'PARENT' };
+
+      it('should display when showUpdatedContent is true and claimantType is PARENT', () => {
+        const { depends } = unassociatedIncomeParentRecipientPage;
+        expect(depends(formData)).to.be.true;
+      });
+    });
+
+    describe('Income recipient pages', () => {
+      const formData = { ...testData.data, claimantType: 'CHILD' };
+
+      it('should NOT display any recipient pages when claimantType is CHILD', () => {
+        expect(unassociatedIncomeNonVeteranRecipientPage.depends(formData)).to
+          .be.false;
+        expect(unassociatedIncomeVeteranRecipientPage.depends(formData)).to.be
+          .false;
+        expect(unassociatedIncomeSpouseRecipientPage.depends(formData)).to.be
+          .false;
+        expect(unassociatedIncomeCustodianRecipientPage.depends(formData)).to.be
+          .false;
+        expect(unassociatedIncomeParentRecipientPage.depends(formData)).to.be
+          .false;
+      });
+    });
   });
 
   describe('recipient name page', () => {
+    beforeEach(() => {
+      showUpdatedContentStub.returns(false);
+    });
+
     const schema =
-      unassociatedIncomePages.unassociatedIncomeRecipientNamePage.schema
-        .properties.unassociatedIncomes.items;
+      unassociatedIncomeRecipientNamePage.schema.properties.unassociatedIncomes
+        .items;
     const uiSchema =
-      unassociatedIncomePages.unassociatedIncomeRecipientNamePage.uiSchema
-        .unassociatedIncomes.items;
+      unassociatedIncomeRecipientNamePage.uiSchema.unassociatedIncomes.items;
 
     testNumberOfFieldsByType(
       formConfig,
@@ -149,8 +258,8 @@ describe('unassociated income list and loop pages', () => {
       schema,
       uiSchema,
       [
-        'va-text-input[label="Income recipient’s first name"]',
-        'va-text-input[label="Income recipient’s last name"]',
+        'va-text-input[label="Income recipient’s first or given name"]',
+        'va-text-input[label="Income recipient’s last or family name"]',
       ],
       'recipient',
     );
@@ -162,6 +271,68 @@ describe('unassociated income list and loop pages', () => {
       testData.data.unassociatedIncomes[0],
       { loggedIn: true },
     );
+
+    it('should show recipient name page when claimantType is not CHILD', () => {
+      const formData = { ...testData.data, claimantType: 'SPOUSE' };
+      expect(unassociatedIncomeRecipientNamePage.depends(formData)).to.be.true;
+    });
+
+    it('should not show recipient name page when claimantType is CHILD', () => {
+      showUpdatedContentStub.returns(true);
+      const formData = { ...testData.data, claimantType: 'CHILD' };
+      expect(unassociatedIncomeRecipientNamePage.depends(formData)).to.be.false;
+    });
+  });
+
+  describe('child recipient name page', () => {
+    beforeEach(() => {
+      showUpdatedContentStub.returns(true);
+    });
+
+    const schema =
+      unassociatedIncomeChildRecipientNamePage.schema.properties
+        .unassociatedIncomes.items;
+    const uiSchema =
+      unassociatedIncomeChildRecipientNamePage.uiSchema.unassociatedIncomes
+        .items;
+
+    testNumberOfFieldsByType(
+      formConfig,
+      schema,
+      uiSchema,
+      { 'va-text-input': 3 },
+      'child recipient',
+    );
+    testComponentFieldsMarkedAsRequired(
+      formConfig,
+      schema,
+      uiSchema,
+      [
+        'va-text-input[label="Income recipient’s first or given name"]',
+        'va-text-input[label="Income recipient’s last or family name"]',
+      ],
+      'child recipient',
+    );
+    testSubmitsWithoutErrors(
+      formConfig,
+      schema,
+      uiSchema,
+      'child recipient',
+      testData.data.unassociatedIncomes[0],
+      { loggedIn: true },
+    );
+
+    it('should show child recipient name page when claimantType is CHILD', () => {
+      const formData = { ...testData.data, claimantType: 'CHILD' };
+      expect(unassociatedIncomeChildRecipientNamePage.depends(formData)).to.be
+        .true;
+    });
+
+    it('should not show child recipient name page when claimantType is not CHILD', () => {
+      const formData = { ...testData.data, claimantType: 'SPOUSE' };
+      expect(unassociatedIncomeChildRecipientNamePage.depends(formData)).to.be
+        .false;
+    });
   });
 
   describe('income type page', () => {

@@ -8,9 +8,6 @@ const AdditionalConsiderationsReviewPage = ({ formData, editPage }) => {
   const {
     [formFields.activeDutyKicker]: activeDutyKicker,
     [formFields.selectedReserveKicker]: selectedReserveKicker,
-    [formFields.federallySponsoredAcademy]: federallySponsoredAcademy,
-    [formFields.seniorRotcCommission]: seniorRotcCommission,
-    [formFields.loanPayment]: loanPayment,
     [formFields.sixHundredDollarBuyUp]: sixHundredDollarBuyUp,
   } = formData || {};
 
@@ -53,18 +50,6 @@ const AdditionalConsiderationsReviewPage = ({ formData, editPage }) => {
         {renderReviewRow(
           'Do you qualify for a reserve kicker?',
           selectedReserveKicker,
-        )}
-        {renderReviewRow(
-          'Did you graduate and receive a commission from the United States Military Academy?',
-          federallySponsoredAcademy,
-        )}
-        {renderReviewRow(
-          'Were you commissioned as a result of Senior ROTC?',
-          seniorRotcCommission,
-        )}
-        {renderReviewRow(
-          'Do you have a period of service that the Department of Defense counts towards an education loan payment?',
-          loanPayment,
         )}
         {renderReviewRow(
           'Did you make additional contributions (up to $600) to increase your monthly benefits?',

@@ -45,6 +45,7 @@
           "~": "./src",
           "@@vap-svc": "./src/platform/user/profile/vap-svc",
           "@@profile": "./src/applications/personalization/profile",
+          "@bio-aquia": "./src/applications/benefits-optimization-aquia",
 
           "@department-of-veterans-affairs/component-library/ProgressButton": "@department-of-veterans-affairs/react-components/ProgressButton",
           "@department-of-veterans-affairs/component-library/RadioButtons": "@department-of-veterans-affairs/react-components/RadioButtons",

@@ -19,12 +19,19 @@ export const inputVaTextInput = (
   selector = 'va-text-input',
 ) => {
   const vaTextInput = $(selector, container);
+  if (!vaTextInput) throw new Error(`Element not found: ${selector}`);
+
+  // set the value on the component instance
   vaTextInput.value = value;
 
-  const event = new CustomEvent('input', {
+  // create and dispatch a native 'input' event
+  // Using InputEvent from the container's window for happydom/jsdom compatibility
+  const event = new container.ownerDocument.defaultView.InputEvent('input', {
     bubbles: true,
-    detail: { value },
+    composed: true,
+    data: value,
   });
+
   vaTextInput.dispatchEvent(event);
 };
 
@@ -57,10 +64,11 @@ export const selectVaDate = (container, value, selector = 'va-date') => {
 };
 
 export const selectVaRadio = (container, value, selector = 'va-radio') => {
-  const changeEvent = new CustomEvent('selected', {
+  const vaRadio = $(selector, container);
+  const changeEvent = new CustomEvent('vaValueChange', {
     detail: { value },
   });
-  $(selector, container).__events.vaValueChange(changeEvent);
+  vaRadio.dispatchEvent(changeEvent);
 };
 
 export const checkVaCheckbox = (checkboxGroup, bool) => {

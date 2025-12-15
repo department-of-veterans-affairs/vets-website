@@ -4,11 +4,8 @@ import {
   radioUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
-import { addSpouse } from '../../../utilities';
 import { marriageTypeLabels, marriageTypeArr } from './helpers';
 import { SpouseEvidencePreparation } from '../../../../components/SpouseEvidencePreparation';
-
-const { currentMarriageInformation } = addSpouse.properties;
 
 export const schema = {
   type: 'object',
@@ -20,8 +17,10 @@ export const schema = {
         typeOther: {
           type: 'string',
         },
-        'view:marriageTypeInformation':
-          currentMarriageInformation.properties['view:marriageTypeInformation'],
+        'view:marriageTypeInformation': {
+          type: 'object',
+          properties: {},
+        },
       },
       required: ['typeOfMarriage'],
     },

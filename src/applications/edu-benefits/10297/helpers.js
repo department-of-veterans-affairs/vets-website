@@ -2,6 +2,29 @@ import React from 'react';
 
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import { countries } from 'platform/forms/address';
+import { focusElement } from '~/platform/utilities/ui';
+import { isValid, parseISO, parse } from 'date-fns';
+import { srSubstitute } from '~/platform/forms-system/src/js/utilities/ui/mask-string';
+
+export const FORMAT_YMD_DATE_FNS = 'yyyy-MM-dd';
+export const FORMAT_READABLE_DATE_FNS = 'MMMM d, yyyy';
+
+export const ConfirmationSubmissionAlert = ({ confirmationNumber }) => (
+  <>
+    <p>Your submission is in progress.</p>
+    <p>
+      It can take up to 30 days for us to review your application and make a
+      decision.
+      {confirmationNumber &&
+        ` Your confirmation number is ${confirmationNumber}.`}
+    </p>
+  </>
+);
+
+ConfirmationSubmissionAlert.propTypes = {
+  confirmationNumber: PropTypes.string,
+};
 
 export const ConfirmationWhatsNextProcessList = () => (
   <>
@@ -51,55 +74,22 @@ export const ConfirmationGoBackLink = () => (
   </div>
 );
 
-export const EligibleIcon = ({ isEligible }) => {
-  const icon = isEligible ? 'check' : 'close';
-  const classes = classNames('icon-li', {
-    'vads-u-color--green': isEligible,
-    'vads-u-color--gray-medium': !isEligible,
-  });
-
-  return (
-    <span className={classes}>
-      <va-icon icon={icon} size={3} />
-    </span>
-  );
-};
-
-EligibleIcon.propTypes = {
-  isEligible: PropTypes.bool,
-};
-
 // Expects a birthDate as a string in YYYY-MM-DD format
 export const getAgeInYears = birthDate =>
   Math.floor((new Date() - new Date(birthDate).getTime()) / 3.15576e10);
 
-export const getEligibilityStatus = formData => {
-  const validDutyRequirements = ['atLeast3Years', 'byDischarge'];
-
-  const isDutyEligible = validDutyRequirements.includes(
-    formData?.dutyRequirement,
-  );
-  const isDobEligible = !!(
-    formData?.dateOfBirth && getAgeInYears(formData?.dateOfBirth) < 62
-  );
-  const isDischargeEligible = formData?.otherThanDishonorableDischarge === true;
-  const isFullyEligible =
-    isDutyEligible && isDobEligible && isDischargeEligible;
-
-  return {
-    isDutyEligible,
-    isDobEligible,
-    isDischargeEligible,
-    isFullyEligible,
-  };
-};
-
 export const getCardDescription = item => {
+  const countryCode = item?.providerAddress?.country;
+  const countryObj = countries.find(country => country.value === countryCode);
+  const countryName = countryObj?.label || countryCode;
+
   return item ? (
     <>
       <div className=" vads-u-margin-y--2" data-testid="card-street">
-        <p>{item?.providerAddress?.street}</p>
-        <p data-testid="card-address">
+        <p className="vads-u-margin-bottom--0">
+          {item?.providerAddress?.street}
+        </p>
+        <p className="vads-u-margin-y--0" data-testid="card-address">
           {`${item?.providerAddress?.city}${
             item?.providerAddress?.state ||
             item?.providerAddress?.postalCode !== 'NA'
@@ -113,6 +103,11 @@ export const getCardDescription = item => {
             ? ` ${item?.providerAddress?.postalCode}`
             : ''}
         </p>
+        {countryCode !== 'USA' && (
+          <p className="vads-u-margin-top--0" data-testid="card-country">
+            {countryName}
+          </p>
+        )}
       </div>
     </>
   ) : null;
@@ -144,30 +139,89 @@ export const trainingProviderArrayOptions = {
   },
 };
 
-const MS_IN_DAY = 86_400_000;
-const MAX_FUTURE_DAYS = 180;
-
-export const validateWithin180Days = (errors, dateString) => {
-  if (!dateString) return;
-  const picked = new Date(`${dateString}T00:00:00`);
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-
-  if (picked < today) errors.addError('Date can’t be in the past.');
-
-  if (picked - today > MAX_FUTURE_DAYS * MS_IN_DAY)
-    errors.addError(
-      'This date is more than 180 days away. You must be within 180 days of discharge to be eligible for the program.',
-    );
-};
-
 export const validateTrainingProviderStartDate = (errors, dateString) => {
   if (!dateString) return;
   const picked = new Date(`${dateString}T00:00:00`);
   const startDate = new Date('2025-01-02T00:00:00');
 
-  if (picked < startDate)
-    errors.addError(
-      'Training must start on or after 1/2/2025 to qualify for VET TEC 2.0',
-    );
+  if (picked < startDate) errors.addError('Enter a date after 1/2/2025');
+};
+
+export const dateSigned = () => {
+  const date = new Date();
+  date.setDate(date.getDate() + 365);
+  return date.toISOString().split('T')[0];
+};
+
+export const viewifyFields = formData => {
+  const newFormData = {};
+  Object.keys(formData).forEach(key => {
+    const viewKey = /^view:/.test(key) ? key : `view:${key}`;
+    // Recurse if necessary
+    newFormData[viewKey] =
+      typeof formData[key] === 'object' && !Array.isArray(formData[key])
+        ? viewifyFields(formData[key])
+        : formData[key];
+  });
+  return newFormData;
+};
+
+export const maskBankInformation = (string, unmaskedLength) => {
+  if (!string) {
+    return '';
+  }
+  const repeatCount =
+    string.length > unmaskedLength ? string.length - unmaskedLength : 0;
+  const maskedPart = '●'.repeat(repeatCount);
+  const unmaskedPart = string.slice(-unmaskedLength);
+  return `${maskedPart}${unmaskedPart}`;
+};
+
+export const focusOnH3 = () => {
+  focusElement('#main h3');
+};
+
+export const getPrefillIntlPhoneNumber = (phone = {}) => {
+  const areaCode = (phone.areaCode || '').trim();
+  const phoneNumber = (phone.phoneNumber || '').trim();
+
+  /**
+   * All user profile numbers set to the *US* country code by default.
+   * This is due to the user endpoint only returning a calling code which is not unique.
+   */
+  return {
+    callingCode: 1,
+    countryCode: 'US',
+    contact: `${areaCode}${phoneNumber}`,
+  };
+};
+
+export const getTransformIntlPhoneNumber = (phone = {}) => {
+  let _contact = '';
+  const { callingCode, contact, countryCode } = phone;
+
+  if (contact) {
+    const _callingCode = callingCode ? `+${callingCode} ` : '';
+    const _countryCode = countryCode ? ` (${countryCode})` : '';
+    _contact = `${_callingCode}${contact}${_countryCode}`;
+  }
+
+  return _contact;
+};
+export const mask = value => {
+  const number = (value || '').toString().slice(-4);
+  return srSubstitute(number, `ending with ${number.split('').join(' ')}`);
+};
+export const parseDateToDateObj = (date, template) => {
+  let newDate = date;
+  if (typeof date === 'string') {
+    if (date.includes('T')) {
+      newDate = parseISO((date || '').split('T')[0]);
+    } else if (template) {
+      newDate = parse(date, template, new Date());
+    }
+  } else if (date instanceof Date && isValid(date)) {
+    newDate.setMinutes(newDate.getMinutes() + newDate.getTimezoneOffset());
+  }
+  return isValid(newDate) ? newDate : null;
 };

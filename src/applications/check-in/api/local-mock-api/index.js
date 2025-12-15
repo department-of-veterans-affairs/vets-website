@@ -117,6 +117,13 @@ const responses = {
     }
     return res.status(202).json(btsss.post.createMockSuccessResponse({}));
   },
+  'POST /check_in/v1/travel_claims/': (req, res) => {
+    const { uuid, appointmentDate } = req.body?.travelClaims || {};
+    if (!uuid || !appointmentDate) {
+      return res.status(500).json(btsss.post.createMockFailedResponse());
+    }
+    return res.status(202).json(btsss.post.createMockSuccessResponse({}));
+  },
   'GET /check_in/v2/sessions/:uuid/appointments': (req, res) => {
     const { uuid } = req.params;
     if (hasBeenValidated) {

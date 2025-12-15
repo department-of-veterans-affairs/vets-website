@@ -38,6 +38,16 @@ const mockStore = withPhoneNumber => ({
         address: { postalCode: '55555' },
         fullName: { first: 'John', last: 'Veteran' },
         phoneNumber: withPhoneNumber ? '1234567890' : null,
+        supportingDocuments: [
+          {
+            confirmationCode: '12345',
+            name: 'placeholder',
+            size: 1024,
+            warnings: [],
+            additionalData: {},
+            type: 'image/png',
+          },
+        ],
       },
     },
     scheduledDowntime: {
@@ -79,7 +89,14 @@ describe('CustomReviewTopContent', () => {
 
       expect(fileInput).to.exist;
       expect(fileInput).to.have.attr('read-only', 'true');
-      expect(fileInput).to.have.attr('uswds', 'true');
+    });
+
+    it('renders the supporting documents input component', () => {
+      const { container } = subject();
+      const fileInputMultiple = $('va-file-input-multiple', container);
+
+      expect(fileInputMultiple).to.exist;
+      expect(fileInputMultiple).to.have.attr('read-only', 'true');
     });
   });
 
@@ -108,7 +125,7 @@ describe('CustomReviewTopContent', () => {
   it('renders the correct headers', () => {
     const { getByText } = subject();
 
-    expect(getByText('Personal information')).to.exist;
+    expect(getByText('Veteran’s information')).to.exist;
     expect(getByText('Uploaded file')).to.exist;
   });
 

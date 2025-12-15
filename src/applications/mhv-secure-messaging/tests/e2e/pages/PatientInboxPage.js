@@ -8,7 +8,7 @@ import mockSpecialCharsMessage from '../fixtures/message-response-specialchars.j
 import mockMessageDetails from '../fixtures/message-response.json';
 import mockThread from '../fixtures/thread-response.json';
 import PatientInterstitialPage from './PatientInterstitialPage';
-import { AXE_CONTEXT, Locators, Paths } from '../utils/constants';
+import { Alerts, AXE_CONTEXT, Locators, Paths } from '../utils/constants';
 import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
 import mockSentThreads from '../fixtures/sentResponse/sent-messages-response.json';
 
@@ -74,6 +74,11 @@ class PatientInboxPage {
       `${Paths.SM_API_BASE + Paths.FOLDERS}/0/threads*`,
       this.mockInboxMessages,
     ).as('inboxMessages');
+    cy.intercept(
+      'GET',
+      `${Paths.SM_API_BASE + Paths.FOLDERS}/-1/threads*`,
+      mockSentThreads,
+    ).as('sentThreads');
     cy.intercept(
       'GET',
       `${Paths.SM_API_BASE + Paths.FOLDERS}/0*`,
@@ -174,7 +179,7 @@ class PatientInboxPage {
         this.singleThread.data[0].attributes.messageId
       }`,
       { data: this.singleThread.data[0] },
-    ).as('fist-message-in-thread');
+    ).as('first-message-in-thread');
 
     if (this.singleThread.data.length > 1) {
       cy.intercept(
@@ -190,7 +195,7 @@ class PatientInboxPage {
       waitForAnimations: true,
     });
     cy.wait('@full-thread', { requestTimeout: 20000 });
-    // cy.wait('@fist-message-in-thread');
+    // cy.wait('@first-message-in-thread');
   };
 
   getNewMessage = () => {
@@ -328,7 +333,29 @@ class PatientInboxPage {
     cy.get(Locators.BUTTONS.REPLY).click({
       waitForAnimations: true,
     });
-    cy.findByTestId(Locators.BUTTONS.CONTINUE).click();
+    PatientInterstitialPage.getContinueButton().click();
+  };
+
+  replyToMessageCuratedFlow = () => {
+    cy.intercept(
+      'GET',
+      'my_health/v1/messaging/messages/7192838/thread?full_body=true',
+      mockThread,
+    ).as('threadAgain');
+    cy.intercept('GET', 'my_health/v1/messaging/messages/7192838', {
+      data: mockThread.data[0],
+    }).as('messageAgain');
+
+    cy.get(Locators.BUTTONS.REPLY).click({
+      waitForAnimations: true,
+    });
+    PatientInterstitialPage.getStartMessageLink().click();
+  };
+
+  clickCreateNewMessage = () => {
+    cy.findByTestId(Locators.LINKS.CREATE_NEW_MESSAGE_DATA_TEST_ID).click({
+      force: true,
+    });
   };
 
   navigateToComposePage = (checkFocusOnVcl = false) => {
@@ -342,12 +369,67 @@ class PatientInboxPage {
       `sentThreadsResponse`,
     );
 
-    cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click({ force: true });
+    this.clickCreateNewMessage();
     // cy.wait('@signature');
     if (checkFocusOnVcl) {
       PatientInterstitialPage.CheckFocusOnVcl();
     }
     PatientInterstitialPage.getContinueButton().click({ force: true });
+  };
+
+  navigateToComposePageCuratedFlow = (hasRecentRecipients = false) => {
+    cy.intercept(
+      'GET',
+      Paths.SM_API_EXTENDED + Paths.CATEGORIES,
+      mockCategories,
+    ).as('categories');
+
+    cy.intercept(`GET`, Paths.INTERCEPT.SENT_THREADS, mockSentThreads).as(
+      `sentThreadsResponse`,
+    );
+
+    if (hasRecentRecipients) {
+      // Mock WITH recent recipients - navigates to /recent page
+      cy.intercept(
+        'POST',
+        '/my_health/v1/messaging/folders/-1/search*',
+        mockSentThreads,
+      ).as('recentRecipients');
+    } else {
+      // Mock empty recent recipients to force navigation to select care team
+      cy.intercept('POST', '/my_health/v1/messaging/folders/-1/search*', {
+        data: [],
+      }).as('recentRecipients');
+    }
+
+    this.clickCreateNewMessage();
+    // Continue through interstitial
+    PatientInterstitialPage.getStartMessageLink().click({ force: true });
+
+    // Wait for recent recipients check
+    cy.wait('@recentRecipients');
+
+    // Verify navigation based on recent recipients availability
+    if (hasRecentRecipients) {
+      cy.url().should('include', '/recent');
+    } else {
+      cy.url().should('include', '/select-care-team');
+    }
+  };
+
+  navigateDirectlyToSelectCareTeam = () => {
+    cy.intercept(
+      'GET',
+      Paths.SM_API_EXTENDED + Paths.CATEGORIES,
+      mockCategories,
+    ).as('categories');
+
+    cy.intercept(`GET`, Paths.INTERCEPT.SENT_THREADS, mockSentThreads).as(
+      `sentThreadsResponse`,
+    );
+
+    // Navigate directly to select care team page
+    cy.visit('/my-health/secure-messages/new-message/select-care-team/');
   };
 
   navigateToInterstitialPage = () => {
@@ -356,7 +438,9 @@ class PatientInboxPage {
       Paths.SM_API_EXTENDED + Paths.SIGNATURE,
       mockSignature,
     ).as('signature');
-    cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click({ force: true });
+    cy.findByTestId(Locators.LINKS.CREATE_NEW_MESSAGE_DATA_TEST_ID).click({
+      force: true,
+    });
     cy.wait('@signature');
   };
 
@@ -412,16 +496,16 @@ class PatientInboxPage {
     cy.get(Locators.BUTTONS.CATEGORY_RADIOBTN)
       .first()
       .click();
-    cy.get(Locators.FIELDS.MESSAGE_SUBJECT)
+    cy.findByTestId(Locators.FIELDS.MESSAGE_SUBJECT_DATA_TEST_ID)
       .find(`#inputField`)
       .type('testSubject', { force: true });
-    cy.get(Locators.FIELDS.MESSAGE_BODY)
+    cy.findByTestId(Locators.FIELDS.MESSAGE_BODY)
       .find(`#input-type-textarea`)
       .type('\ntestMessage', { force: true });
   };
 
   verifySignature = () => {
-    cy.get(Locators.FIELDS.MESSAGE_BODY)
+    cy.findByTestId(Locators.FIELDS.MESSAGE_BODY)
       .should('have.attr', 'value')
       .and('not.be.empty');
   };
@@ -494,10 +578,7 @@ class PatientInboxPage {
   };
 
   verifyAddFilterButton = (text = 'Show filters') => {
-    cy.get(Locators.BUTTONS.ADDITIONAL_FILTER).should(
-      'contain.text',
-      `${text}`,
-    );
+    cy.findByText(text).should('contain.text', `${text}`);
   };
 
   verifyNotForPrintHeaderText = (text = 'messages in this conversation') => {
@@ -529,6 +610,18 @@ class PatientInboxPage {
         },
       ],
     };
+  };
+
+  validateNoRecipientsAlert = () => {
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
+      .find('h2')
+      .should('have.text', Alerts.NO_ASSOCIATION.AT_ALL_HEADER);
+  };
+
+  validateRecipientsErrorAlert = () => {
+    cy.findByTestId(Locators.ALERTS.RECIPIENTS_ERROR)
+      .find('h2')
+      .should('have.text', Alerts.ERROR_LOADING_RECIPIENTS_HEADER);
   };
 }
 

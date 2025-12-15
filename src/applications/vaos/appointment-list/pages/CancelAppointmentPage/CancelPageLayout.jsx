@@ -25,6 +25,8 @@ import {
   selectIsPhone,
 } from '../../redux/selectors';
 import { isInPersonVisit } from '../../../services/appointment';
+import ClinicPhysicalLocation from '../../../components/layouts/ClinicPhysicalLocation';
+import ClinicName from '../../../components/layouts/ClinicName';
 
 function getHeading(appointment) {
   const isCanceled = selectIsCanceled(appointment);
@@ -57,6 +59,7 @@ export default function CancelPageLayout() {
     practitionerName,
     startDate,
     typeOfCareName,
+    isCerner,
   } = useSelector(
     state => getConfirmedAppointmentDetailsInfo(state, id),
     shallowEqual,
@@ -119,10 +122,7 @@ export default function CancelPageLayout() {
               <Address address={facility?.address} />
             </span>
           )}
-          <span data-dd-privacy="mask">
-            {clinicName ? `Clinic: ${clinicName}` : 'Clinic not available'}
-          </span>
-          <br />
+          <ClinicName name={clinicName} /> <br />
           <ClinicOrFacilityPhone
             clinicPhone={clinicPhone}
             clinicPhoneExtension={clinicPhoneExtension}
@@ -170,14 +170,8 @@ export default function CancelPageLayout() {
               <div className="vads-u-margin-top--1 vads-u-color--link-default">
                 <FacilityDirectionsLink location={facility} icon />
               </div>
-              <br />
-              <span data-dd-privacy="mask">
-                Clinic: {clinicName || 'Not available'}
-              </span>{' '}
-              <br />
-              <span data-dd-privacy="mask">
-                Location: {clinicPhysicalLocation || 'Not available'}
-              </span>
+              <ClinicName name={clinicName} />{' '}
+              <ClinicPhysicalLocation location={clinicPhysicalLocation} />{' '}
               <br />
             </>
           )}
@@ -192,6 +186,7 @@ export default function CancelPageLayout() {
         reason={reasonForAppointment}
         otherDetails={patientComments}
         level={3}
+        isCerner={isCerner}
       />
     </>
   );

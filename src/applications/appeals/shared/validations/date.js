@@ -1,10 +1,33 @@
-import { isValid, isToday, isAfter, startOfToday } from 'date-fns';
+import { isValid } from 'date-fns';
 
 import { parseISODate } from '~/platform/forms-system/src/js/helpers';
 
 import { FORMAT_YMD_DATE_FNS } from '../constants';
-import { parseDateToDateObj } from '../utils/dates';
+import {
+  parseDateToDateObj,
+  isLocalToday,
+  isUTCTodayOrFuture,
+  formatDateToReadableString,
+} from '../utils/dates';
 import { fixDateFormat } from '../utils/replace';
+
+/**
+ * Main validation method: Check if a date should be blocked from appeal submission
+ * Uses dual validation approach combining local timezone and UTC validation
+ * This prevents same-day submissions globally while maintaining backend consistency
+ *
+ * Decision tree:
+ * 1. If decision date is same as current local calendar day → Block (return true)
+ * 2. If different local calendar day but same UTC day → Block (return true)
+ * 3. If both different → Allow (return false)
+ *
+ * @param {Date} date - The date to check
+ * @returns {boolean} - True if the date should be blocked from appeal submission
+ */
+export const isTodayOrInFuture = date => {
+  if (!date || !isValid(date)) return false;
+  return isLocalToday(date) || isUTCTodayOrFuture(date);
+};
 
 const buildDatePartErrors = (month, day, year) => {
   // get last day of the month (month is zero based, so we're +1 month, day 0);
@@ -51,8 +74,19 @@ export const createDateObject = rawDateString => {
       datePartErrors.year ||
       invalidDate,
     dateObj,
-    isTodayOrInFuture: isToday(dateObj) || isAfter(dateObj, startOfToday()),
+    isTodayOrInFuture: isTodayOrInFuture(dateObj),
   };
+};
+
+/**
+ * Create dynamic error message for additional issues with decision dates that are today or in the future
+ * Always uses current date as the cutoff for day of and in the future, formatted using VA.gov style
+ * @param {Object} errorMessages - Error messages object containing decisions.pastDate function
+ * @returns {string} Formatted error message (e.g., "Enter a date before Dec. 10, 2025." using today's date)
+ */
+export const createDecisionDateErrorMsg = errorMessages => {
+  const cutoffDate = formatDateToReadableString(new Date());
+  return errorMessages.decisions.pastDate(cutoffDate);
 };
 
 export const addDateErrorMessages = (errors, errorMessages, date) => {
@@ -70,7 +104,11 @@ export const addDateErrorMessages = (errors, errorMessages, date) => {
   }
   if (date.isTodayOrInFuture) {
     // Lighthouse won't accept same day (as submission) decision date
-    errors.addError(errorMessages.decisions.pastDate);
+    // Using UTC-based validation to match backend behavior
+
+    const decisionDateErrorMessage = createDecisionDateErrorMsg(errorMessages);
+
+    errors.addError(decisionDateErrorMessage);
     // eslint-disable-next-line no-param-reassign
     date.errors.year = true; // only the year is invalid at this point
     return true;

@@ -30,7 +30,7 @@ describe('handle multiple drafts in one thread', () => {
     PatientMessageDraftsPage.expandAllDrafts();
 
     cy.get(Locators.REPLY_FORM)
-      .find('h3')
+      .find('h3[slot="headline"]')
       .each(el => {
         cy.wrap(el).should('include.text', 'Draft ');
       });

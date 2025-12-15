@@ -124,3 +124,15 @@ export const setupInProgressReturnUrl = ({
 
   cy.login(userData);
 };
+
+/**
+ * Create a minimal .png file for use testing va-file-input-multiple
+ * @return {Object} file - a File object containing a valid and small .png file
+ */
+export async function makeMinimalPNG() {
+  const b64PNGData =
+    'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMB/PMh2bQAAAAASUVORK5CYII=';
+  const res = await fetch(`data:image/png;base64,${b64PNGData}`);
+  const blob = await res.blob();
+  return new File([blob], 'placeholder.png', { type: 'image/png' });
+}

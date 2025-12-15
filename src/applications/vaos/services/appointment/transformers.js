@@ -57,9 +57,20 @@ function getAtlasLocation(appt) {
   };
 }
 
-export function transformVAOSAppointment(appt) {
+function getAppointmentTimezone(appt, featureUseBrowserTimezone) {
+  const timezone = appt.location?.attributes?.timezone?.timeZoneId;
+
+  return (
+    timezone ||
+    getTimezoneByFacilityId(appt.locationId, featureUseBrowserTimezone)
+  );
+}
+
+export function transformVAOSAppointment(
+  appt,
+  featureUseBrowserTimezone = false,
+) {
   const appointmentType = getAppointmentType(appt);
-  const isCerner = appt?.id?.startsWith('CERN');
   const isCC = appt.kind === 'cc';
   const isPast = appt.past;
   const isRequest = appt.pending;
@@ -78,9 +89,7 @@ export function transformVAOSAppointment(appt) {
     isCompAndPen || isCovid || appt.modality === 'vaInPerson';
 
   const isCancellable = appt.cancellable;
-  const appointmentTZ = appt.location
-    ? appt.location?.attributes?.timezone?.timeZoneId
-    : getTimezoneByFacilityId(appt.locationId);
+  const appointmentTZ = getAppointmentTimezone(appt, featureUseBrowserTimezone);
 
   let videoData = { isVideo };
   if (isVideo) {
@@ -167,7 +176,9 @@ export function transformVAOSAppointment(appt) {
     status: appt.status,
     cancelationReason: appt.cancelationReason?.coding?.[0].code || null,
     showScheduleLink: appt.showScheduleLink,
-    avsPath: isPast ? appt.avsPath : null,
+    avsPath: appt.avsPath ?? null,
+    avsPdf: appt.avsPdf ?? null,
+    avsError: appt.avsError ?? null,
     start: !isRequest ? start : null,
     startUtc: !isRequest ? appt.start : null,
     reasonForAppointment,
@@ -184,8 +195,8 @@ export function transformVAOSAppointment(appt) {
       vistaId: appt.locationId?.substr(0, 3) || null,
       clinicId: appt.clinic,
       stationId: appt.locationId,
-      clinicName: appt.serviceName || null,
-      clinicPhysicalLocation: appt.physicalLocation || null,
+      clinicName: appt.serviceName,
+      clinicPhysicalLocation: appt.physicalLocation,
       clinicPhone: appt.extension?.clinic?.phoneNumber || null,
       clinicPhoneExtension:
         appt.extension?.clinic?.phoneNumberExtension || null,
@@ -236,7 +247,7 @@ export function transformVAOSAppointment(appt) {
       isInPersonVisit,
       isVideoAtHome,
       isVideoAtVA,
-      isCerner,
+      isCerner: appt.isCerner || false,
       apiData: appt,
       timeZone: appointmentTZ,
       facilityData,
@@ -245,6 +256,8 @@ export function transformVAOSAppointment(appt) {
   };
 }
 
-export function transformVAOSAppointments(appts) {
-  return appts.map(appt => transformVAOSAppointment(appt));
+export function transformVAOSAppointments(appts, featureUseBrowserTimezone) {
+  return appts.map(appt =>
+    transformVAOSAppointment(appt, featureUseBrowserTimezone),
+  );
 }

@@ -12,15 +12,19 @@
 }
 
 .breadcrumbs-loading-container {
-  min-height: 4rem;
+  min-height: 82px;
+
+  @media (min-width: $medium-screen) {
+    min-height: 100px;
+  }
 }
 
 .on-this-page-loading-container {
-  min-height: 350px;
+  min-height: 310px;
 }
 
 .additional-info-loading-container {
-  min-height: 1.625rem;
+  min-height: 26.5px;
   margin: 1rem 0;
 }
 
@@ -744,7 +748,8 @@ h1:focus {
   margin-top: 3px;
 }
 
-.claims-evidence-list {
+.claims-evidence-list,
+.failed-files-list {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -1159,6 +1164,14 @@ $marker-text-width: 5.625rem;
   position: relative;
   top: 4px;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-anchor {
+    animation: none; transition: none;
+  }
+}
+
+
 .tabs {
   list-style: none;
   margin-bottom: -1px;
@@ -1282,4 +1295,10 @@ va-icon.phase-current {
 
 .bullet-disc {
   list-style-type: disc;
+}
+
+.other-ways-mail-section {
+  .va-address-block {
+    margin-left: 0 !important;
+  }
 }

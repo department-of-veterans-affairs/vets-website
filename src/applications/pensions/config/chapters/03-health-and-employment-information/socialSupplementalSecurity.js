@@ -3,26 +3,20 @@ import {
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
-import { showMedicalEvidenceClarification } from '../../../helpers';
 
 const { socialSecurityDisability } = fullSchemaPensions.properties;
-
-const path = showMedicalEvidenceClarification()
-  ? 'medical/history/social-security-disability'
-  : 'temporarily-hidden-social-supplemental-security';
 
 /** @type {PageSchema} */
 export default {
   title: 'Social Security or Supplement Security payments',
-  path,
-  depends: formData => !formData.isOver65 && showMedicalEvidenceClarification(),
+  path: 'medical/history/social-security-disability',
+  depends: formData => !formData.isOver65,
   uiSchema: {
     ...titleUI(
       'Tell us about any Social Security or Supplement Security payments',
     ),
     socialSecurityDisability: yesNoUI({
-      title:
-        'Do you receive Social Security Disability Insurance or Supplemental Security Income?',
+      title: 'Do you currently receive Social Security disability payments?',
       classNames: 'vads-u-margin-bottom--2',
     }),
   },

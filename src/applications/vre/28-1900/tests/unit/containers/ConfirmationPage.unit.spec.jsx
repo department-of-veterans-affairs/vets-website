@@ -1,67 +1,75 @@
 import React from 'react';
-import { mount } from 'enzyme';
-import { Provider } from 'react-redux';
-import { createStore } from 'redux';
 import { expect } from 'chai';
-import { format } from 'date-fns';
-import sinon from 'sinon';
-import { cleanup } from '@testing-library/react';
-import * as ui from 'platform/utilities/ui';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import { cleanup, render } from '@testing-library/react';
+import { createInitialState } from '@department-of-veterans-affairs/platform-forms-system/state/helpers';
 import formConfig from '../../../config/form';
-import ConfirmationPage, {
-  getFullName,
-} from '../../../containers/ConfirmationPage';
+import ConfirmationPage from '../../../containers/ConfirmationPage';
 
-sinon.stub(ui, 'scrollTo').callsFake(() => {});
-sinon.stub(ui, 'waitForRenderThenFocus').callsFake(() => {});
+const mockStore = state => createStore(() => state);
 
-const makeState = submission => ({
-  form: {
-    data: {
-      fullName: {
-        first: 'Jane',
-        middle: 'Q',
-        last: 'Doe',
+const initConfirmationPage = formData => {
+  const store = mockStore({
+    form: {
+      ...createInitialState(formConfig),
+      submission: {
+        response: {
+          confirmationNumber: '1234567890',
+        },
+        timestamp: new Date(),
       },
+      data: formData,
     },
-    formId: formConfig.formId,
-    submission,
-  },
-});
+  });
 
-const mountPage = submission => {
-  const store = createStore(() => makeState(submission));
-  return mount(
+  return render(
     <Provider store={store}>
-      <ConfirmationPage />
+      <ConfirmationPage route={{ formConfig }} />
     </Provider>,
   );
 };
 
-describe('28-1900 ConfirmationPage', () => {
-  afterEach(() => cleanup());
+describe('ConfirmationPage', () => {
+  afterEach(() => {
+    cleanup();
+  });
 
-  it('formats name correctly', () => {
-    expect(getFullName({ first: 'A', middle: 'B', last: 'C' })).to.equal(
-      'A B C',
+  it('should show success alert, h2, and confirmation number', () => {
+    const formData = {
+      internationalPhone: {
+        countryCode: 'US',
+        contact: '',
+        _isValid: false,
+        _error:
+          'Enter a valid United States of America phone number. Use 10 digits.',
+        _touched: false,
+        _required: false,
+      },
+      email: 'email@email.com',
+      isMoving: false,
+      checkBoxGroup: {
+        checkForMailingAddress: true,
+      },
+      veteranAddress: {
+        'view:militaryBaseDescription': {},
+      },
+      yearsOfEducation: '10',
+      fullName: {
+        first: 'First',
+        last: 'Last',
+      },
+      dob: '2000-01-01',
+      newAddress: {
+        'view:militaryBaseDescription': {},
+      },
+    };
+    const { container } = initConfirmationPage(formData);
+    const alert = container.querySelector('va-alert');
+    expect(alert).to.have.attribute('status', 'success');
+    expect(alert.querySelector('h2')).to.contain.text(
+      "You've submitted your application for Veteran Readiness and Employment (VR&E)",
     );
-    expect(getFullName({ first: 'A', last: 'C' })).to.equal('A C');
-    expect(getFullName()).to.equal('');
-  });
-
-  it('renders submission info with a date', () => {
-    const date = new Date();
-    const wrapper = mountPage({ timestamp: date, response: {} });
-    expect(wrapper.text()).to.include('VA Form 28-1900');
-    expect(wrapper.text()).to.include('Jane Q Doe');
-    expect(wrapper.text()).to.include(format(date, 'MMMM d, yyyy'));
-    wrapper.unmount();
-  });
-
-  it('renders without a date when the timestamp is invalid', () => {
-    const wrapper = mountPage({ timestamp: null, response: {} });
-    expect(wrapper.text()).to.include('Jane Q Doe');
-    expect(wrapper.text()).to.not.include('Date submitted');
-    wrapper.unmount();
+    expect(alert).to.contain.text('Your confirmation number is 1234567890');
   });
 });

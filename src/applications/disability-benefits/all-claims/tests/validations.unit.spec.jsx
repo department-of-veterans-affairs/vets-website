@@ -1,9 +1,17 @@
 import { add, format, subDays, addDays } from 'date-fns';
 import sinon from 'sinon';
 import { expect } from 'chai';
-import moment from 'moment';
 
 import { minYear, maxYear } from 'platform/forms-system/src/js/helpers';
+import {
+  parseDate,
+  isTreatmentBeforeService,
+  findEarliestServiceDate,
+  isMonthOnly,
+  isYearOnly,
+  isYearMonth,
+} from '../utils/dates';
+import { DATE_TEMPLATE } from '../utils/dates/formatting';
 
 import {
   isValidYear,
@@ -24,17 +32,12 @@ import {
   validateZIP,
   limitNewDisabilities,
   requireSeparationLocation,
-  isMonthOnly,
-  isYearOnly,
-  isYearMonth,
-  isTreatmentBeforeService,
-  findEarliestServiceDate,
 } from '../validations';
 
 import { getDisabilityLabels } from '../content/disabilityLabels';
 import { capitalizeEachWord } from '../utils';
 
-const formatDate = date => format(date, 'yyyy-MM-dd');
+const formatDate = date => format(date, DATE_TEMPLATE);
 const daysFromToday = days => formatDate(add(new Date(), { days }));
 
 describe('526 All Claims validations', () => {
@@ -983,7 +986,7 @@ describe('526 All Claims validations', () => {
     it('adds an error when entered date is in the past', () => {
       const addError = sinon.spy();
       const errors = { addError };
-      const yesterday = format(subDays(new Date(), 1), 'yyyy-MM-dd');
+      const yesterday = format(subDays(new Date(), 1), DATE_TEMPLATE);
 
       isInFuture(errors, yesterday);
       expect(addError.calledOnce).to.be.true;
@@ -993,7 +996,7 @@ describe('526 All Claims validations', () => {
     it('adds an error when entered date is today', () => {
       const addError = sinon.spy();
       const errors = { addError };
-      const today = format(new Date(), 'yyyy-MM-dd');
+      const today = format(new Date(), DATE_TEMPLATE);
 
       isInFuture(errors, today);
 
@@ -1004,7 +1007,8 @@ describe('526 All Claims validations', () => {
     it('does not add an error when the entered date is in the future', () => {
       const addError = sinon.spy();
       const errors = { addError };
-      const tomorrow = format(add(new Date(), { days: 1 }), 'yyyy-MM-dd');
+      // Use 2 days in the future to avoid time-of-day issues
+      const tomorrow = format(addDays(new Date(), 2), DATE_TEMPLATE);
 
       isInFuture(errors, tomorrow);
       expect(addError.callCount).to.equal(0);
@@ -1378,7 +1382,7 @@ describe('526 All Claims validations', () => {
   });
 
   describe('requireSeparationLocation', () => {
-    const getDays = days => format(addDays(new Date(), days), 'yyyy-MM-dd');
+    const getDays = days => format(addDays(new Date(), days), DATE_TEMPLATE);
     const getFormData = (activeDate, reserveDate) => ({
       serviceInformation: {
         servicePeriods: [{ dateRange: { to: activeDate } }],
@@ -1526,10 +1530,8 @@ describe('526 All Claims validations', () => {
     describe('isTreatmentBeforeService', () => {
       describe('year-only format (YYYY-XX-XX)', () => {
         it('should return true when treatment year is before service year', () => {
-          // eslint-disable-next-line no-restricted-globals
-          const treatmentDate = moment('1999-01-01');
-          // eslint-disable-next-line no-restricted-globals
-          const earliestServiceDate = moment('2000-01-01');
+          const treatmentDate = parseDate('1999-01-01');
+          const earliestServiceDate = parseDate('2000-01-01');
           const fieldData = '1999-XX-XX';
 
           const result = isTreatmentBeforeService(
@@ -1541,10 +1543,8 @@ describe('526 All Claims validations', () => {
         });
 
         it('should return false when treatment year is after service year', () => {
-          // eslint-disable-next-line no-restricted-globals
-          const treatmentDate = moment('2001-01-01');
-          // eslint-disable-next-line no-restricted-globals
-          const earliestServiceDate = moment('2000-01-01');
+          const treatmentDate = parseDate('2001-01-01');
+          const earliestServiceDate = parseDate('2000-01-01');
           const fieldData = '2001-XX-XX';
 
           const result = isTreatmentBeforeService(
@@ -1558,10 +1558,8 @@ describe('526 All Claims validations', () => {
 
       describe('year-month format (YYYY-MM-XX)', () => {
         it('should return true when treatment year-month is before service year-month', () => {
-          // eslint-disable-next-line no-restricted-globals
-          const treatmentDate = moment('1999-12-01');
-          // eslint-disable-next-line no-restricted-globals
-          const earliestServiceDate = moment('2000-01-01');
+          const treatmentDate = parseDate('1999-12-01');
+          const earliestServiceDate = parseDate('2000-01-01');
           const fieldData = '1999-12-XX';
 
           const result = isTreatmentBeforeService(
@@ -1573,10 +1571,8 @@ describe('526 All Claims validations', () => {
         });
 
         it('should return false when treatment year-month is after service year-month', () => {
-          // eslint-disable-next-line no-restricted-globals
-          const treatmentDate = moment('2000-02-01');
-          // eslint-disable-next-line no-restricted-globals
-          const earliestServiceDate = moment('2000-01-01');
+          const treatmentDate = parseDate('2000-02-01');
+          const earliestServiceDate = parseDate('2000-01-01');
           const fieldData = '2000-02-XX';
 
           const result = isTreatmentBeforeService(
@@ -1590,10 +1586,8 @@ describe('526 All Claims validations', () => {
 
       describe('non-matching format cases', () => {
         it('should return false for complete date format (YYYY-MM-DD)', () => {
-          // eslint-disable-next-line no-restricted-globals
-          const treatmentDate = moment('1999-01-01');
-          // eslint-disable-next-line no-restricted-globals
-          const earliestServiceDate = moment('2000-01-01');
+          const treatmentDate = parseDate('1999-01-01');
+          const earliestServiceDate = parseDate('2000-01-01');
           const fieldData = '1999-01-01';
 
           const result = isTreatmentBeforeService(
@@ -1605,10 +1599,8 @@ describe('526 All Claims validations', () => {
         });
 
         it('should return false for month-only format (XXXX-MM-XX)', () => {
-          // eslint-disable-next-line no-restricted-globals
-          const treatmentDate = moment('1999-01-01');
-          // eslint-disable-next-line no-restricted-globals
-          const earliestServiceDate = moment('2000-01-01');
+          const treatmentDate = parseDate('1999-01-01');
+          const earliestServiceDate = parseDate('2000-01-01');
           const fieldData = 'XXXX-01-XX';
 
           const result = isTreatmentBeforeService(
@@ -1620,10 +1612,8 @@ describe('526 All Claims validations', () => {
         });
 
         it('should return false for invalid date format', () => {
-          // eslint-disable-next-line no-restricted-globals
-          const treatmentDate = moment('1999-01-01');
-          // eslint-disable-next-line no-restricted-globals
-          const earliestServiceDate = moment('2000-01-01');
+          const treatmentDate = parseDate('1999-01-01');
+          const earliestServiceDate = parseDate('2000-01-01');
           const fieldData = 'invalid-date';
 
           const result = isTreatmentBeforeService(
@@ -1645,7 +1635,7 @@ describe('526 All Claims validations', () => {
         ];
 
         const result = findEarliestServiceDate(servicePeriods);
-        expect(result.format('YYYY-MM-DD')).to.equal('2000-01-14');
+        expect(result.format(DATE_TEMPLATE)).to.equal('2000-01-14');
       });
 
       it('should return the single service date when only one period exists', () => {
@@ -1654,7 +1644,7 @@ describe('526 All Claims validations', () => {
         ];
 
         const result = findEarliestServiceDate(servicePeriods);
-        expect(result.format('YYYY-MM-DD')).to.equal('2005-06-15');
+        expect(result.format(DATE_TEMPLATE)).to.equal('2005-06-15');
       });
 
       it('should filter out service periods with empty serviceBranch', () => {
@@ -1664,7 +1654,7 @@ describe('526 All Claims validations', () => {
         ];
 
         const result = findEarliestServiceDate(servicePeriods);
-        expect(result.format('YYYY-MM-DD')).to.equal('2000-01-14');
+        expect(result.format(DATE_TEMPLATE)).to.equal('2000-01-14');
       });
 
       it('should filter out service periods with missing serviceBranch', () => {
@@ -1674,7 +1664,7 @@ describe('526 All Claims validations', () => {
         ];
 
         const result = findEarliestServiceDate(servicePeriods);
-        expect(result.format('YYYY-MM-DD')).to.equal('2000-01-14');
+        expect(result.format(DATE_TEMPLATE)).to.equal('2000-01-14');
       });
 
       it('should filter out service periods with null serviceBranch', () => {
@@ -1684,16 +1674,17 @@ describe('526 All Claims validations', () => {
         ];
 
         const result = findEarliestServiceDate(servicePeriods);
-        expect(result.format('YYYY-MM-DD')).to.equal('2000-01-14');
+        expect(result.format(DATE_TEMPLATE)).to.equal('2000-01-14');
       });
 
-      it('should throw error when service period has undefined dateRange', () => {
+      it('should filter out service periods with undefined dateRange', () => {
         const servicePeriods = [
           { serviceBranch: 'Army', dateRange: { from: '2003-03-12' } },
           { serviceBranch: 'Navy' },
         ];
 
-        expect(() => findEarliestServiceDate(servicePeriods)).to.throw();
+        const result = findEarliestServiceDate(servicePeriods);
+        expect(result.format(DATE_TEMPLATE)).to.equal('2003-03-12');
       });
     });
   });

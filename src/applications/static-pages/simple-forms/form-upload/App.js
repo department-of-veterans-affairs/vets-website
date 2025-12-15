@@ -25,7 +25,7 @@ export const App = ({ formNumber, hasOnlineTool }) => {
               className="vads-c-action-link--white"
               href={`/find-forms/upload/${formNumber.toLowerCase()}`}
             >
-              Go to the upload tool for this form
+              Upload VA Form {formNumber}
             </a>
           </div>
         </div>

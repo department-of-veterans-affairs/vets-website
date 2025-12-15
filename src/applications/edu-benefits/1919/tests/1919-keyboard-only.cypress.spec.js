@@ -125,17 +125,17 @@ describe('22-1919 Edu form', () => {
     // Affliated Individuals association page
     cy.injectAxeThenAxeCheck();
     cy.realPress(['Tab', 'Space']);
-    cy.tabToElement('input[name="root_first"]');
+    cy.tabToElement('input[name="root_affiliatedIndividuals_first"]');
     cy.typeInFocused('Jane');
-    cy.tabToElement('input[name="root_last"]');
+    cy.tabToElement('input[name="root_affiliatedIndividuals_last"]');
     cy.typeInFocused('Doe');
-    cy.tabToElement('input[name="root_title"]');
+    cy.tabToElement('input[name="root_affiliatedIndividuals_title"]');
     cy.typeInFocused('Administrator');
     cy.realPress('Tab');
     cy.allyEvaluateRadioButtons(
       [
-        'input#root_individualAssociationTypevaEmployeeinput',
-        'input#root_individualAssociationTypesaaEmployeeinput',
+        'input#root_affiliatedIndividuals_individualAssociationTypevaEmployeeinput',
+        'input#root_affiliatedIndividuals_individualAssociationTypesaaEmployeeinput',
       ],
       'ArrowDown',
     );
@@ -167,7 +167,7 @@ describe('22-1919 Edu form', () => {
         .conflictOfInterestSummary.path,
     );
     cy.injectAxeThenAxeCheck();
-    cy.realPress('Tab');
+    cy.repeatKey('Tab', 2);
     cy.allyEvaluateRadioButtons(
       [
         'input#root_allProprietaryConflictOfInterestYesinput',
@@ -193,25 +193,25 @@ describe('22-1919 Edu form', () => {
     cy.injectAxeThenAxeCheck();
     cy.realPress(['Tab', 'Space']);
     cy.tabToElement('input[name="root_fileNumber"]');
-    cy.typeInFocused('1234567890');
+    cy.typeInFocused('123456789');
     cy.tabToContinueForm();
 
     // Conflict of interest enrollment period page
     cy.injectAxeThenAxeCheck();
     cy.realPress(['Tab', 'Space']);
-    cy.tabToElement('select[name="root_enrollmentPeriod_fromMonth"]');
+    cy.tabToElement('select[name="root_enrollmentPeriodStartMonth"]');
     // cy.chooseSelectOptionByTyping('April');
     cy.realType('April');
-    cy.tabToElement('input[name="root_enrollmentPeriod_fromDay"]');
+    cy.tabToElement('input[name="root_enrollmentPeriodStartDay"]');
     cy.realType('01');
-    cy.tabToElement('input[name="root_enrollmentPeriod_fromYear"]');
+    cy.tabToElement('input[name="root_enrollmentPeriodStartYear"]');
     cy.realType('2020');
-    cy.tabToElement('select[name="root_enrollmentPeriod_toMonth"]');
+    cy.tabToElement('select[name="root_enrollmentPeriodEndMonth"]');
     // cy.chooseSelectOptionByTyping('April');
     cy.realType('April');
-    cy.tabToElement('input[name="root_enrollmentPeriod_toDay"]');
+    cy.tabToElement('input[name="root_enrollmentPeriodEndDay"]');
     cy.realType('20');
-    cy.tabToElement('input[name="root_enrollmentPeriod_toYear"]');
+    cy.tabToElement('input[name="root_enrollmentPeriodEndYear"]');
     cy.realType('2020');
     cy.tabToContinueForm();
 
@@ -222,7 +222,7 @@ describe('22-1919 Edu form', () => {
         .conflictOfInterestSummary.path,
     );
     cy.injectAxeThenAxeCheck();
-    cy.realPress('Tab');
+    cy.repeatKey('Tab', 3);
     cy.allyEvaluateRadioButtons(
       [
         'input#root_allProprietaryConflictOfInterestYesinput',
@@ -246,7 +246,7 @@ describe('22-1919 Edu form', () => {
     // Review and sumbit page
     cy.url().should('include', 'review-and-submit');
     cy.injectAxeThenAxeCheck();
-    cy.tabToElement('va-link[text="privacy policy"]').click();
+    cy.tabToElement('va-link[text="privacy policy."]').click();
     cy.realPress('Enter');
     // Certification Statement
     cy.tabToElement('input[name="veteran-signature"]');

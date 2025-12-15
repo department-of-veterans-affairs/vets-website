@@ -7,7 +7,7 @@ import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import {
   testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfWebComponentFields,
-} from '../../../shared/tests/pages/pageTests.spec';
+} from 'platform/forms-system/test/pageTestHelpers.spec';
 
 import formConfig from '../../config/form';
 import authTypeNonVet from '../e2e/fixtures/data/authTypeNonVet.json';

@@ -7,12 +7,11 @@ import cypressSetup, { cypressBeforeAllSetup } from './cypress.setup';
 import {
   keyboardTestArrayPages,
   keyboardTestPage,
-  startForm,
   fillReviewPage,
   fillSchema,
   fillField,
 } from './helpers/keyboardOnlyHelpers';
-import { shouldHaveValidationError } from './helpers';
+import { shouldHaveVaTextInputError } from './helpers';
 import pagePaths from './pagePaths';
 
 const skipInCI = (testKey, callback) =>
@@ -23,7 +22,7 @@ const skipInCI = (testKey, callback) =>
 const testForm = (data, pageHooks = {}) => {
   const { chapters } = formConfig;
 
-  startForm();
+  cy.clickStartForm();
 
   let pathsVisited = [];
   Object.values(chapters).forEach(chapter => {
@@ -110,7 +109,10 @@ describe('Pensions keyboard only navigation', () => {
               elementPath: ['veteranDateOfBirth'],
             });
             cy.tabToContinueForm();
-            shouldHaveValidationError('Please enter a Social Security number');
+            shouldHaveVaTextInputError(
+              'root_veteranSocialSecurityNumber',
+              'Enter a valid 9-digit Social Security number (dashes allowed)',
+            );
 
             // returning the keyboard test page allows the test to continue with a valid SSN
             return keyboardTestPage(page, d);

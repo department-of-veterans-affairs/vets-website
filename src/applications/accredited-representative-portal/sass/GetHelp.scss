@@ -1,16 +1,67 @@
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 .help {
-  max-width: 627px;
-  margin-bottom: 72px;
+  padding: 0px !important;
 
+  a.content-link {
+    overflow-wrap: break-word;
+    display: inline;
+    @media screen and (min-width: $large-screen) {
+      display: unset;
+    }
+  }
   h1 {
-    margin-bottom: 32px;
+    max-width: 627px;
+    margin-bottom: 8px;
   }
 
   h2 {
     margin: 32px 0 24px 0;
+    margin-top: 48px;
+    &:first-of-type {
+      margin-top: 24px;
+    }
+    margin-bottom: 8px;
   }
   a {
     display: flex;
     align-items: center;
+  }
+
+  p {
+    margin-top: 0px;
+  }
+  .subtext {
+    font-family: var(--font-serif);
+    margin-top: 0px;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 30px;
+  }
+
+  va-accordion-item {
+    margin-bottom: 8px;
+    button {
+      height: 56px;
+    }
+  }
+
+  .contact-us {
+    @media screen and (min-width: $medium-screen) {
+      padding-left: 17px;
+    }
+
+    h3.no-spacing-top {
+      margin-top: 0px;
+    }
+  }
+
+  .mobile-view-divider {
+    margin: 32px;
+  }
+
+  @media screen and (min-width: 1202px) {
+    .mobile-view-divider {
+      display: none;
+    }
   }
 }

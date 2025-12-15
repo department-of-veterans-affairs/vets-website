@@ -6,9 +6,15 @@ import viewImagesResponse from './fixtures/labs-and-tests/imaging-view-images-re
 import imagingStudies from './fixtures/labs-and-tests/radiologyCvix.json';
 
 describe('Medical Records View Labs and Tests', () => {
-  it('Visits Medical Records View Labs and Tests', () => {
-    const site = new MedicalRecordsSite();
+  const site = new MedicalRecordsSite();
+
+  beforeEach(() => {
     site.login();
+  });
+
+  it('Visits Medical Records View Labs and Tests', () => {
+    // const site = new MedicalRecordsSite();
+    // site.login();
     // cy.visit('my-health/medical-records/labs-and-tests');
     LabsAndTestsListPage.goToLabsAndTests(
       defaultLabsAndTests,
@@ -16,6 +22,7 @@ describe('Medical Records View Labs and Tests', () => {
       statusResponseComplete,
       true,
     );
+    cy.url().should('not.include', `timeFrame`);
 
     LabsAndTestsListPage.verifyImagesReadyAlert();
     const studyId = statusResponseComplete[0].studyIdUrn;

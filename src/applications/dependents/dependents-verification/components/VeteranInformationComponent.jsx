@@ -9,6 +9,14 @@ import { formatDateParsedZoneLong } from 'platform/utilities/date/index';
 
 import { maskID, getFullName } from '../../shared/utils';
 
+/**
+ * Veteran Information Review Component
+ * @typedef {object} VeteranInformationReviewProps
+ * @property {object} formData - form data
+ *
+ * @param {VeteranInformationReviewProps} props - Component props
+ * @returns {React.Component} - Veteran information review page
+ */
 export const VeteranInformation = ({ formData }) => {
   const { ssnLastFour } = formData?.veteranInformation || {};
   const { dob, userFullName = {} } = useSelector(selectProfile);
@@ -17,14 +25,6 @@ export const VeteranInformation = ({ formData }) => {
 
   return (
     <>
-      <va-alert close-btn-aria-label="Close notification" status="info" visible>
-        <h3>We’ve prefilled some information for you</h3>
-        <p>
-          Since you’re signed in, we’ve prefilled part of your form based on
-          your profile details. You can also save your progress and come back
-          later to finish filling it out.
-        </p>
-      </va-alert>
       <h3>Your personal information</h3>
       <p>
         This is part of the information we’ll submit on your behalf for your

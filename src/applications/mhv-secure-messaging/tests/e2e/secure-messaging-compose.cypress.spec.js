@@ -80,7 +80,7 @@ describe('SM MESSAGING COMPOSE', () => {
     PatientComposePage.getMessageSubjectField()
       .clear()
       .type(maxText, { waitForAnimations: true });
-    cy.get(Locators.FIELDS.MESSAGE_SUBJECT).should(
+    cy.findByTestId(Locators.FIELDS.MESSAGE_SUBJECT_DATA_TEST_ID).should(
       'have.attr',
       'value',
       `${maxText}`,

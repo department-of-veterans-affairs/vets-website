@@ -13,7 +13,7 @@ describe('Pre-need Schemaform definition fullName', () => {
       <DefinitionTester schema={definitions.fullName} uiSchema={uiSchema} />,
     );
     const formDOM = findDOMNode(form);
-    const inputs = formDOM.querySelectorAll('input');
+    const inputs = formDOM.querySelectorAll('va-text-input');
     expect(inputs.length).to.equal(2);
   });
 });

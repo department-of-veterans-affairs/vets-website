@@ -2,7 +2,6 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
-import moment from 'moment';
 import { waitFor } from '@testing-library/dom';
 
 import {
@@ -10,7 +9,7 @@ import {
   fillData,
   fillDate,
 } from 'platform/testing/unit/schemaform-utils';
-
+import { daysFromToday } from '../../utils/dates/formatting';
 import formConfig from '../../config/form';
 
 import {
@@ -155,16 +154,12 @@ describe('Military history', () => {
     fillDate(
       form,
       'root_serviceInformation_servicePeriods_0_dateRange_from',
-      moment()
-        .add(1, 'days')
-        .format('YYYY-MM-DD'),
+      daysFromToday(1),
     );
     fillDate(
       form,
       'root_serviceInformation_servicePeriods_0_dateRange_to',
-      moment()
-        .add(7, 'days')
-        .format('YYYY-MM-DD'),
+      daysFromToday(7),
     );
 
     await waitFor(() => {
@@ -178,9 +173,7 @@ describe('Military history', () => {
     fillDate(
       form,
       'root_serviceInformation_servicePeriods_0_dateRange_from',
-      moment()
-        .subtract(1, 'days')
-        .format('YYYY-MM-DD'),
+      daysFromToday(-1),
     );
 
     await waitFor(() => {

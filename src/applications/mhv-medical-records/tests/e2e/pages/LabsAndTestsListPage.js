@@ -7,7 +7,6 @@ class LabsAndTestsListPage extends BaseListPage {
     labsAndTests = defaultLabsAndTests,
     imaging = [],
     imagingStatus = [],
-    waitForLabsAndTests = false,
   ) => {
     cy.intercept(
       'GET',
@@ -32,13 +31,18 @@ class LabsAndTestsListPage extends BaseListPage {
       '/my_health/v1/medical_records/bbmi_notification/status',
       { flag: true },
     ).as('BbmiNotificationStatus');
+    cy.intercept('POST', '/v0/datadog_action', {}).as('datadogAction');
     // cy.get('[href="/my-health/medical-records/labs-and-tests"]').click();
     cy.visit('my-health/medical-records/labs-and-tests');
-    if (waitForLabsAndTests) {
-      cy.wait('@LabsAndTestsList');
-      cy.wait('@RadiologyRecordsMhv');
-      cy.wait('@CvixRadiologyRecordsMhvImagingStatus');
-    }
+    cy.wait([
+      '@LabsAndTestsList',
+      '@RadiologyRecordsMhv',
+      '@CvixRadiologyRecordsMhvImagingStatus',
+      '@CvixRadiologyRecordsMhvImaging',
+      '@vamcEhr',
+      '@mockUser',
+      '@featureToggles',
+    ]);
   };
 
   clickLabsAndTestsDetailsLink = (_LabsAndTestsItemIndex = 0, entry) => {
@@ -47,7 +51,7 @@ class LabsAndTestsListPage extends BaseListPage {
       `/my_health/v1/medical_records/labs_and_tests/${entry.resource.id}`,
       entry.resource,
     );
-    cy.get('[data-testid="record-list-item"]')
+    cy.findAllByTestId('record-list-item')
       .find('a')
       .eq(_LabsAndTestsItemIndex)
       .click();
@@ -55,11 +59,18 @@ class LabsAndTestsListPage extends BaseListPage {
 
   // "Radiology has no details call so we always use the list call for everything"
   // - Mike Moyer 08/01/2024
-  clickRadiologyDetailsLink = (labsAndTestsItemIndex = 0) => {
-    cy.get('[data-testid="record-list-item"]')
-      .find('a')
-      .eq(labsAndTestsItemIndex)
-      .click();
+  clickRadiologyDetailsLink = (heading, index = 0) => {
+    // Ensure the text exists in a link somewhere (retries)
+    cy.contains('a', heading, { includeShadowDom: true, timeout: 10000 });
+
+    // If duplicates are possible, pick the indexed one
+    cy.contains('a', heading, { includeShadowDom: true })
+      .eq(index)
+      .as('radLink');
+
+    cy.get('@radLink').scrollIntoView();
+    cy.get('@radLink').should('be.visible');
+    cy.get('@radLink').click();
   };
 
   loadVAPaginationNext = () => {

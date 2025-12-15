@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { LETTER_URL, LETTER_ENDPOINT } from '../../constants';
 import LoadingIndicator from '../LoadingIndicator';
+import FormFooter from '../FormFooter';
 
 const ApprovedConfirmation = ({
   confirmationError,
@@ -54,64 +55,80 @@ const ApprovedConfirmation = ({
             address.{' '}
           </div>
           <div>
-            <a
-              className="vads-u-font-weight--bold vads-u-flex--1 vads-u-margin-bottom--6"
+            <va-link
               download
               href={LETTER_ENDPOINT}
-            >
-              <span className="vads-u-display--inline-block vads-u-margin-right--1">
-                <va-icon icon="file_download" size={3} />
-              </span>
-              Download your decision letter (PDF).
-            </a>
-          </div>
-        </va-alert>
-      </div>
-      <div className="vads-u-margin-bottom--6">
-        <va-alert
-          background-only
-          close-btn-aria-label="Close notification"
-          status="info"
-          visible
-        >
-          <div>
-            <h3 slot="headline" style={{ marginTop: '0.625rem' }}>
-              Application for VA education benefits (Form 22-1990e)
-            </h3>
-            For {user}
-            <div className="vads-u-display--flex vads-u-flex-direction--column">
-              <strong>Date received</strong>
-              {dateReceived}
-            </div>
-            <br />
-            <va-button
-              uswds
-              className="usa-button vads-u-margin-top--3 vads-u-width--auto"
-              text="Print this page"
-              onClick={printPage}
+              filetype="PDF"
+              text="Download your decision letter"
+              class="vads-u-margin-bottom--6"
             />
+            .
           </div>
         </va-alert>
       </div>
+      <va-summary-box class="vads-u-margin-y--3">
+        <h3
+          slot="headline"
+          className="vads-u-margin-top--0 vads-u-margin-bottom--0"
+        >
+          Application for VA education benefits (Form 22-1990e)
+        </h3>
+        <h3
+          slot="headline"
+          className="vads-u-margin-top--0 vads-u-margin-bottom--0"
+        >
+          Transfer of Entitlement
+        </h3>
+
+        <div className="vads-u-margin-bottom--2">
+          <h4 className="vads-u-margin-bottom--0p5 vads-u-font-weight--bold">
+            Who submitted this form
+          </h4>
+          <p className="vads-u-margin--0">{user || 'Not provided'}</p>
+        </div>
+
+        <div className="vads-u-margin-bottom--2">
+          <h4 className="vads-u-margin-bottom--0p5 vads-u-font-weight--bold">
+            Date received
+          </h4>
+          <p className="vads-u-margin--0">{dateReceived}</p>
+        </div>
+
+        <div className="vads-u-margin-bottom--1">
+          <h4 className="vads-u-margin-bottom--0p5 vads-u-font-weight--bold">
+            Confirmation for your records
+          </h4>
+          <p className="vads-u-margin--0">
+            You can print this confirmation page for your records.
+          </p>
+        </div>
+
+        <div className="vads-u-margin-bottom--1">
+          <va-button
+            uswds
+            className="usa-button vads-u-margin-top--3 vads-u-width--auto"
+            text="Print this page"
+            onClick={printPage}
+          />
+        </div>
+      </va-summary-box>
       <div className="vads-u-margin-bottom--4">
         <h2>What happens next?</h2>
         <ul>
           <li>
-            Download a copy of your decision letter. This can also be found at{' '}
-            <a href={LETTER_URL} target="_blank" rel="noopener noreferrer">
-              Download VA education letter
-            </a>
+            <va-link
+              href={LETTER_URL}
+              download
+              filetype="PDF"
+              text="Download a copy of your decision letter"
+            />
             .
           </li>
           <li>
-            <a
+            <va-link
               href="/education/gi-bill-comparison-tool/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Use our GI Bill Comparison Tool to help you decide which schools
-              are best for you
-            </a>
+              text="Use our GI Bill Comparison Tool on VA.gov to help you decide which schools are best for you"
+            />
             .
           </li>
           <li>
@@ -120,25 +137,19 @@ const ApprovedConfirmation = ({
             of eligibility.
           </li>
           <li>
-            <a
+            <va-link
               href="/profile/direct-deposit"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Review and/or update your direct deposit information on your
-              VA.gov profile
-            </a>
+              text="Review and/or update your direct deposit information on your VA.gov profile"
+            />
             .
           </li>
           <li>
-            <a
-              href="https://benefits.va.gov/GIBILL/docs/GIBguideseries/ChooseYourEducationPathway.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learn more about VA benefits and programs through the Building
-              Your Future with the GI Bill Series
-            </a>
+            <va-link
+              href="https://benefits.va.gov/gibill/docs/gibguideseries/chooseyoureducationbenefits.pdf"
+              external
+              filetype="PDF"
+              text="Learn more about VA benefits and programs through the Building Your Future with the GI Bill Series"
+            />
             .
           </li>
         </ul>
@@ -154,6 +165,7 @@ const ApprovedConfirmation = ({
           </div>
         </va-additional-info>
       </div>
+      <FormFooter />
     </>
   );
 };

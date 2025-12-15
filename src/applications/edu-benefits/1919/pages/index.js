@@ -1,6 +1,7 @@
 import * as certifyingOfficials from './certifyingOfficials';
 import * as aboutYourInstitution from './aboutYourInstitution';
 import * as institutionDetails from './institutionDetails';
+import * as institutionNameAndAddress from './institutionNameAndAddress';
 import * as conflictOfInterestCertifyingOfficial from './conflictOfInterestCertifyingOfficial';
 import * as conflictOfInterestFileNumber from './conflictOfInterestFileNumber';
 import * as conflictOfInterestEnrollmentPeriod from './conflictOfInterestEnrollmentPeriod';
@@ -13,6 +14,7 @@ export {
   certifyingOfficials,
   aboutYourInstitution,
   institutionDetails,
+  institutionNameAndAddress,
   affiliatedIndividualsSummary,
   affiliatedIndividualsAssociation,
   conflictOfInterestCertifyingOfficial,

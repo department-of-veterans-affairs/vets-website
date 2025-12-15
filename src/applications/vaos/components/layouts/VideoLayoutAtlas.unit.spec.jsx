@@ -8,6 +8,8 @@ import {
 } from '../../tests/mocks/setup';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
 import VideoLayoutAtlas from './VideoLayoutAtlas';
+import MockFacilityResponse from '../../tests/fixtures/MockFacilityResponse';
+import { textMatcher } from '../../tests/utils';
 
 describe('VAOS Component: VideoLayoutAtlas', () => {
   const initialState = {
@@ -96,7 +98,8 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
         screen.queryByRole('heading', { level: 2, name: /Where to attend/i }),
       ).not.to.exist;
 
-      expect(screen.getByText(/Clinic not available/i));
+      expect(screen.queryByText(textMatcher({ text: 'Clinic: Not available' })))
+        .not.to.exist;
       expect(screen.getByText(/Facility not available/i));
 
       expect(window.dataLayer).to.deep.include({
@@ -159,6 +162,54 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
       expect(
         screen.container.querySelector('va-telephone[contact="800-698-2411"]'),
       ).to.be.ok;
+    });
+
+    describe('And appointment is Cerner', () => {
+      it('should not display clinic heading when service name is missing', async () => {
+        // Arrange
+        const store = createTestStore(initialState);
+        const response = MockAppointmentResponse.createAtlasResponse({
+          isCerner: true,
+          localStartTime: new Date(),
+        }).setLocation(new MockFacilityResponse());
+        const appointment = MockAppointmentResponse.getTransformedResponse(
+          response,
+        );
+
+        // Act
+        const screen = renderWithStoreAndRouter(
+          <VideoLayoutAtlas data={appointment} />,
+          {
+            store,
+          },
+        );
+
+        // Assert
+        expect(screen.queryByText(/Clinic: Service name/i)).not.to.exist;
+      });
+
+      it('should not display location heading when physical location is missing', async () => {
+        // Arrange
+        const store = createTestStore(initialState);
+        const response = MockAppointmentResponse.createAtlasResponse({
+          isCerner: true,
+          localStartTime: new Date(),
+        }).setLocation(new MockFacilityResponse());
+        const appointment = MockAppointmentResponse.getTransformedResponse(
+          response,
+        );
+
+        // Act
+        const screen = renderWithStoreAndRouter(
+          <VideoLayoutAtlas data={appointment} />,
+          {
+            store,
+          },
+        );
+
+        // Assert
+        expect(screen.queryByText(/Location:/i)).not.to.exist;
+      });
     });
   });
 
@@ -273,7 +324,7 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
       expect(screen.container.querySelector('va-icon[icon="directions"]')).to.be
         .ok;
 
-      expect(screen.getByText(/Clinic: Clinic 1/i));
+      expect(screen.getByText(textMatcher({ text: 'Clinic: Clinic 1' })));
       expect(screen.getByText(/Phone:/i));
       expect(
         screen.container.querySelector('va-telephone[contact="500-500-5000"]'),
@@ -361,7 +412,7 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
       expect(
         screen.getByRole('heading', {
           level: 2,
-          name: /After visit summary/i,
+          name: /After-visit summary/i,
         }),
       );
 
@@ -473,7 +524,7 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
       expect(
         screen.queryByRole('heading', {
           level: 2,
-          name: /After visit summary/i,
+          name: /After-visit summary/i,
         }),
       ).not.to.exist;
 
@@ -607,7 +658,7 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
       expect(
         screen.queryByRole('heading', {
           level: 2,
-          name: /After visit summary/i,
+          name: /After-visit summary/i,
         }),
       ).not.to.exist;
 

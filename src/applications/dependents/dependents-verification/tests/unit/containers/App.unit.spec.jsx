@@ -76,12 +76,11 @@ function getDefaultState({
 
 function renderApp({
   pathname = '/introduction',
-  search = '',
-  hash = '',
   featureToggle,
   loading,
   hasSession,
   dependentsLoading,
+  replace = () => {},
 } = {}) {
   const state = getDefaultState({
     featureToggle,
@@ -91,16 +90,9 @@ function renderApp({
   });
   const store = mockStore(state);
 
-  const _location = {
-    ...window.location,
-    pathname,
-    search,
-    hash,
-  };
-
   return render(
     <Provider store={store}>
-      <App location={_location}>
+      <App location={{ pathname, replace, search: '' }}>
         <div data-testid="children-content">Child content</div>
       </App>
     </Provider>,
@@ -108,10 +100,16 @@ function renderApp({
 }
 
 describe('App container logic', () => {
-  const oldLocation = global.window.location;
+  let sandbox;
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+  });
 
   afterEach(() => {
-    global.window.location = oldLocation;
+    if (sandbox) {
+      sandbox.restore();
+    }
     localStorage.removeItem('hasSession');
   });
 
@@ -154,28 +152,26 @@ describe('App container logic', () => {
   });
 
   it('should not redirect when on intro page (with session)', () => {
-    const mockReplace = sinon.stub();
-    delete window.location;
-    window.location = { replace: mockReplace };
+    const mockReplace = sandbox.stub();
 
     renderApp({
       pathname: '/introduction',
       hasSession: true,
       dependentsLoading: true,
+      replace: mockReplace,
     });
 
     expect(mockReplace.called).to.be.false;
   });
 
   it('should not redirect when on intro page (without session)', () => {
-    const mockReplace = sinon.stub();
-    delete window.location;
-    window.location = { replace: mockReplace };
+    const mockReplace = sandbox.stub();
 
     renderApp({
       pathname: '/introduction',
       hasSession: false,
       dependentsLoading: true,
+      replace: mockReplace,
     });
 
     expect(mockReplace.called).to.be.false;

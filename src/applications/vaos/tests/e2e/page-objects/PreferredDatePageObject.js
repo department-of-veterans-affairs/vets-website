@@ -68,10 +68,10 @@ class PreferredDatePageObject extends PageObject {
 
     this.typeDate({ date: pastDate });
     this.clickNextButton();
-    this.assertValidationError('Please enter a future date');
+    this.assertValidationErrorShadow('Please enter a future date');
     this.typeDate({ date: farFutureDate });
     this.clickNextButton();
-    this.assertValidationError(
+    this.assertValidationErrorShadow(
       'Please enter a date less than 395 days in the future',
     );
 

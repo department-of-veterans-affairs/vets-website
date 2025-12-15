@@ -56,4 +56,17 @@ describe('<SubmitHelper>', () => {
       expect(dispatch.called).to.be.true;
     });
   });
+
+  it('handles keyDown event', async () => {
+    const { mockStore, props } = getData();
+    const { dispatch } = mockStore;
+    const { container } = subject({ mockStore, props });
+
+    const submitHelper = container.querySelector('#submit-helper');
+    fireEvent.keyDown(submitHelper);
+
+    await waitFor(() => {
+      expect(dispatch.called).to.be.false;
+    });
+  });
 });

@@ -16,7 +16,13 @@
  * since in this case there are no other content on screen.
  */
 
-import React, { useEffect, useState, useRef, useCallback } from 'react';
+import React, {
+  useEffect,
+  useState,
+  useRef,
+  useCallback,
+  useMemo,
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -29,6 +35,7 @@ import { retrieveFolder } from '../../actions/folders';
 import { formatPathName } from '../../util/helpers';
 
 const AlertBackgroundBox = props => {
+  const { setShowAlertBackgroundBox = () => {} } = props;
   const dispatch = useDispatch();
   const alertList = useSelector(state => state.sm.alerts?.alertList);
   const folder = useSelector(state => state.sm.folders?.folder);
@@ -51,16 +58,31 @@ const AlertBackgroundBox = props => {
   const location = useLocation();
   const SrOnlyTag = 'span';
 
-  const lastPathName = formatPathName(location.pathname, 'Messages');
-
   // these props check if the current page is the folder view page or thread view page
-  const foldersViewPage = /folders\/\d+/.test(location.pathname);
-  const threadViewPage = /thread\/\d+/.test(location.pathname);
-  const replyViewPage = /reply\/\d+/.test(location.pathname);
-  const contactListPage = /contact-list/.test(location.pathname);
+
+  const {
+    startNewMessagePage,
+    foldersViewPage,
+    threadViewPage,
+    replyViewPage,
+    contactListPage,
+  } = useMemo(
+    () => {
+      return {
+        startNewMessagePage: /new-message|draft/.test(location.pathname),
+        foldersViewPage: /folders\/\d+/.test(location.pathname),
+        threadViewPage: /thread\/\d+/.test(location.pathname),
+        replyViewPage: /reply\/\d+/.test(location.pathname),
+        contactListPage: /contact-list/.test(location.pathname),
+      };
+    },
+    [location.pathname],
+  );
 
   useEffect(
     () => {
+      const lastPathName = formatPathName(location.pathname, 'Messages');
+
       if (alertList?.length) {
         if (foldersViewPage && !folder?.name) return;
         if (
@@ -107,14 +129,16 @@ const AlertBackgroundBox = props => {
 
         // The activeAlert is the most recent alert marked as active.
         setActiveAlert(filteredSortedAlerts[0] || null);
+        if (filteredSortedAlerts[0]) setShowAlertBackgroundBox(true);
       }
     },
     [
       alertList,
       folder,
       foldersViewPage,
-      lastPathName,
+      location.pathname,
       replyViewPage,
+      setShowAlertBackgroundBox,
       threadMessages,
       threadViewPage,
     ],
@@ -129,6 +153,7 @@ const AlertBackgroundBox = props => {
   const closeAlertBox = () => {
     dispatch(closeAlert());
     dispatch(focusOutAlert());
+    setShowAlertBackgroundBox(false);
   };
 
   // sets custom server error messages for the landing page and folder view pages
@@ -139,7 +164,7 @@ const AlertBackgroundBox = props => {
       let content = activeAlert?.content;
 
       if (
-        lastPathName !== 'Messages' &&
+        !startNewMessagePage &&
         !foldersViewPage &&
         !threadViewPage &&
         !contactListPage &&
@@ -155,8 +180,7 @@ const AlertBackgroundBox = props => {
       activeAlert,
       contactListPage,
       foldersViewPage,
-      lastPathName,
-      location.pathname,
+      startNewMessagePage,
       threadViewPage,
     ],
   );
@@ -228,6 +252,7 @@ AlertBackgroundBox.propTypes = {
   closeable: PropTypes.bool,
   focus: PropTypes.bool,
   noIcon: PropTypes.bool,
+  setShowAlertBackgroundBox: PropTypes.func,
 };
 
 export default AlertBackgroundBox;

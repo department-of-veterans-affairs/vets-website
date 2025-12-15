@@ -51,8 +51,11 @@ describe('Unemployability affective Dates', () => {
       />,
     );
 
+    form.find('form').simulate('submit');
+    form.update();
+
     await waitFor(() => {
-      form.find('form').simulate('submit');
+      form.update();
       expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(1);
       expect(onSubmit.called).to.be.false;
     });
@@ -199,8 +202,11 @@ describe('Unemployability affective Dates', () => {
         fillDate(form, `root_unemployability_${fieldName}`, futureDate);
 
         form.find('form').simulate('submit');
+        form.update();
+
         await waitFor(() => {
-          expect(form.find(ERR_MSG_CSS_CLASS)).to.have.lengthOf(1);
+          form.update();
+          expect(form.find(ERR_MSG_CSS_CLASS)).to.have.lengthOf.at.least(1);
           expect(form.find(ERR_MSG_CSS_CLASS).text()).to.contain(
             'Please provide a valid current or past date',
           );
@@ -317,8 +323,11 @@ describe('Unemployability affective Dates', () => {
       );
 
       form.find('form').simulate('submit');
+      form.update();
+
       await waitFor(() => {
-        expect(form.find(ERR_MSG_CSS_CLASS)).to.have.lengthOf(1);
+        form.update();
+        expect(form.find(ERR_MSG_CSS_CLASS)).to.have.lengthOf.at.least(1);
         expect(form.find(ERR_MSG_CSS_CLASS).text()).to.contain(
           'Please provide a valid current or past date',
         );

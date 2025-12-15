@@ -1,6 +1,8 @@
 import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
-import { arrayBuilderItemFirstPageTitleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import {
+  arrayBuilderItemFirstPageTitleUI,
+  currencyUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import { LAST_YEAR } from '../utils/constants';
 import content from '../locales/en/content.json';
 import {
@@ -10,7 +12,6 @@ import {
 } from '../components/FormDescriptions/ExpensesDescriptions';
 import { replaceStrValues } from '../utils/helpers/general';
 import { inlineTitleUI } from '../components/FormPatterns/TitlePatterns';
-import { validateCurrency } from '../utils/validation';
 
 const {
   deductibleMedicalExpenses,
@@ -32,28 +33,22 @@ export const DeductibleExpensesPage = () => ({
     'view:deductibleMedicalExpenses': {
       'ui:title': content['household-expenses-medical-title'],
       'ui:description': MedicalExpensesDescription,
-      deductibleMedicalExpenses: {
-        ...currencyUI(
-          replaceStrValues(
-            content['household-expenses-medical-label'],
-            LAST_YEAR,
-          ),
+      deductibleMedicalExpenses: currencyUI(
+        replaceStrValues(
+          content['household-expenses-medical-label'],
+          LAST_YEAR,
         ),
-        'ui:validations': [validateCurrency],
-      },
+      ),
     },
     'view:deductibleEducationExpenses': {
       'ui:title': content['household-expenses-education-title'],
       'ui:description': EducationalExpensesDescription,
-      deductibleEducationExpenses: {
-        ...currencyUI(
-          replaceStrValues(
-            content['household-expenses-education-label'],
-            LAST_YEAR,
-          ),
+      deductibleEducationExpenses: currencyUI(
+        replaceStrValues(
+          content['household-expenses-education-label'],
+          LAST_YEAR,
         ),
-        'ui:validations': [validateCurrency],
-      },
+      ),
     },
     'view:deductibleFuneralExpenses': {
       ...inlineTitleUI(
@@ -61,15 +56,12 @@ export const DeductibleExpensesPage = () => ({
         content['household-expenses-funeral-description'],
       ),
       'ui:description': PreviousFuneralExpenses,
-      deductibleFuneralExpenses: {
-        ...currencyUI(
-          replaceStrValues(
-            content['household-expenses-funeral-label'],
-            LAST_YEAR,
-          ),
+      deductibleFuneralExpenses: currencyUI(
+        replaceStrValues(
+          content['household-expenses-funeral-label'],
+          LAST_YEAR,
         ),
-        'ui:validations': [validateCurrency],
-      },
+      ),
     },
   },
   schema: {

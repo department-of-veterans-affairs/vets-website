@@ -6,6 +6,10 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
 import { uploadPage, UploadPage } from '../pages/upload';
 import {
+  uploadSupportingDocuments,
+  showSupportingDocuments,
+} from '../pages/uploadSupportingDocuments';
+import {
   NameAndZipCodePage,
   nameAndZipCodePage,
 } from '../pages/nameAndZipCode';
@@ -13,7 +17,12 @@ import { SAVE_IN_PROGRESS_CONFIG } from './constants';
 import prefillTransformer from './prefill-transformer';
 import transformForSubmit from './submit-transformer';
 import CustomReviewTopContent from '../components/CustomReviewTopContent';
-import { getMockData, scrollAndFocusTarget, getFormContent } from '../helpers';
+import {
+  getMockData,
+  scrollAndFocusTarget,
+  getFormContent,
+  formMappings,
+} from '../helpers';
 import {
   VeteranIdentificationInformationPage,
   veteranIdentificationInformationPage,
@@ -23,7 +32,6 @@ import { CustomTopContent } from '../pages/helpers';
 
 // mock-data import for local development
 import testData from '../tests/e2e/fixtures/data/veteran.json';
-
 // export isLocalhost() to facilitate unit-testing
 export function isLocalhost() {
   return environment.isLocalhost();
@@ -31,6 +39,7 @@ export function isLocalhost() {
 
 const mockData = testData.data;
 
+/** @returns {FormConfig} */
 const formConfig = (pathname = null) => {
   const { title, subTitle, formNumber } = getFormContent(pathname);
   const formId = `${formNumber.toUpperCase()}-UPLOAD`;
@@ -64,7 +73,7 @@ const formConfig = (pathname = null) => {
     v3SegmentedProgressBar: { useDiv: false },
     chapters: {
       personalInformationChapter: {
-        title: 'Veteran information',
+        title: 'Veteran’s information',
         pages: {
           nameAndZipCodePage: {
             path: 'name-and-zip-code',
@@ -100,7 +109,8 @@ const formConfig = (pathname = null) => {
         },
       },
       uploadChapter: {
-        title: 'Upload',
+        title: 'Upload form',
+        reviewTitle: 'Uploaded form',
         pages: {
           uploadPage: {
             path: 'upload',
@@ -112,10 +122,33 @@ const formConfig = (pathname = null) => {
           },
         },
       },
+      uploadSupportingDocuments: {
+        title: 'Upload supporting documents',
+        reviewTitle: 'Uploaded supporting documents',
+        pages: {
+          showSupportingDocuments: {
+            path: 'supporting-documents',
+            title: 'Supporting documents',
+            uiSchema: showSupportingDocuments.uiSchema,
+            schema: showSupportingDocuments.schema,
+            depends: () =>
+              formMappings[formNumber]?.showSupportingDocuments &&
+              !environment.isProduction(),
+            scrollAndFocusTarget,
+          },
+          uploadSupportingDocuments: {
+            path: 'upload-supporting-documents',
+            title: 'Upload Supporting Documents',
+            uiSchema: uploadSupportingDocuments.uiSchema,
+            schema: uploadSupportingDocuments.schema,
+            depends: formData => formData.showSupportingDocuments,
+            scrollAndFocusTarget,
+          },
+        },
+      },
     },
     footerContent,
     getHelp,
   };
 };
-
 export default formConfig;

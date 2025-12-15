@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
 import { getCernerURL } from 'platform/utilities/cerner';
+import { VaLinkAction } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import useFeatureToggles from '../../hooks/useFeatureToggles';
 import { submitLaunchMyVaHealthAal } from '../../api/SmApi';
 
@@ -84,15 +85,13 @@ const CernerFacilityAlert = ({ cernerFacilities }) => {
           {isMultipleFacilities && renderMultipleFacilities()}
           {isOneFacility && renderSingleFacility()}
 
-          <a
-            className="vads-c-action-link--blue vads-u-margin-bottom--0p5"
+          <VaLinkAction
+            data-testid="cerner-facility-action-link"
             href={getCernerURL('/pages/messaging/inbox', true)}
-            target="_blank"
-            rel="noopener noreferrer"
+            type="secondary"
             onClick={handleUrlClick}
-          >
-            Go to My VA Health (opens in new tab)
-          </a>
+            text="Go to My VA Health"
+          />
 
           <p>
             <strong>Note:</strong> Having trouble opening up My VA Health? Try

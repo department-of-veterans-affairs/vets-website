@@ -54,7 +54,7 @@ describe('debtSummaryText', () => {
     },
     {
       diaryCode: '439',
-      expectedText: `Pay your balance now or request help by ${endDate(
+      expectedText: `Pay your 100 balance now or request help by ${endDate(
         testDate,
         '439',
       )}.`,

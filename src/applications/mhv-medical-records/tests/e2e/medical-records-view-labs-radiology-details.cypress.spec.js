@@ -1,25 +1,24 @@
-import moment from 'moment';
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import RadiologyDetailsPage from './pages/RadiologyDetailsPage';
 import LabsAndTestsListPage from './pages/LabsAndTestsListPage';
 import radiologyRecordsMhv from './fixtures/labs-and-tests/radiologyRecordsMhv.json';
+import { formatDateMonthDayCommaYear } from '../../util/dateHelpers';
 
 describe('Medical Records Redirect Users to MHV Classic to view images', () => {
   const site = new MedicalRecordsSite();
 
-  before(() => {
+  beforeEach(() => {
     site.login();
     // cy.visit('my-health/medical-records/labs-and-tests');
     LabsAndTestsListPage.goToLabsAndTests();
   });
 
   it('View Radiology Details Page', () => {
-    cy.reload();
-    LabsAndTestsListPage.clickRadiologyDetailsLink(0);
+    LabsAndTestsListPage.clickRadiologyDetailsLink('CHEST 2 VIEWS PA&LAT');
 
     RadiologyDetailsPage.verifyTitle(radiologyRecordsMhv[11].procedureName);
     RadiologyDetailsPage.verifyDate(
-      moment(radiologyRecordsMhv[11].eventDate).format('MMMM D, YYYY'),
+      formatDateMonthDayCommaYear(radiologyRecordsMhv[11].eventDate),
     );
 
     RadiologyDetailsPage.verifyRadiologyReason('None recorded');

@@ -15,7 +15,6 @@ import {
   decodeHtmlEntities,
   messageSignatureFormatter,
   navigateToFolderByFolderId,
-  resetUserSession,
   setCaretToPos,
 } from '../../util/helpers';
 import AttachmentsList from '../AttachmentsList';
@@ -28,13 +27,12 @@ import {
   draftAutoSaveTimeout,
   Alerts,
 } from '../../util/constants';
-import featureToggles from '../../hooks/useFeatureToggles';
 import useDebounce from '../../hooks/use-debounce';
 import { saveReplyDraft } from '../../actions/draftDetails';
 import RouteLeavingGuard from '../shared/RouteLeavingGuard';
 import { retrieveMessageThread, sendReply } from '../../actions/messages';
 import { focusOnErrorField } from '../../util/formHelpers';
-import { useSessionExpiration } from '../../hooks/use-session-expiration';
+import { updateDraftInProgress } from '../../actions/threadDetails';
 
 const ReplyDraftItem = props => {
   const {
@@ -60,7 +58,17 @@ const ReplyDraftItem = props => {
   const composeFormActionButtonsRef = useRef(null);
 
   const folderId = useSelector(state => state.sm.folders.folder?.folderId);
-  const { cernerPilotSmFeatureFlag } = featureToggles();
+
+  const draftInProgress = useSelector(
+    state => state.sm.threadDetails?.draftInProgress,
+  );
+
+  const isOhTriageGroup = useMemo(
+    () => {
+      return replyMessage?.isOhMessage;
+    },
+    [replyMessage],
+  );
 
   const [category, setCategory] = useState(null);
   const [subject, setSubject] = useState('');
@@ -71,7 +79,14 @@ const ReplyDraftItem = props => {
   const [messageBody, setMessageBody] = useState('');
   const [attachments, setAttachments] = useState([]);
   const debouncedMessageBody = useDebounce(messageBody, draftAutoSaveTimeout);
-  const [navigationError, setNavigationError] = useState(null);
+
+  const navigationError = draftInProgress?.navigationError;
+  const setNavigationError = useCallback(
+    error => {
+      dispatch(updateDraftInProgress({ navigationError: error }));
+    },
+    [dispatch],
+  );
   const [isAutosave, setIsAutosave] = useState(true); // to halt autosave debounce on message send and resume if message send failed
   const [attachFileSuccess, setAttachFileSuccess] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -81,7 +96,12 @@ const ReplyDraftItem = props => {
   const [saveError, setSaveError] = useState(null);
   const [focusToTextarea, setFocusToTextarea] = useState(false);
   const [draftId, setDraftId] = useState(null);
-  const [savedDraft, setSavedDraft] = useState(false);
+  const setSavedDraft = useCallback(
+    value => {
+      dispatch(updateDraftInProgress({ savedDraft: value }));
+    },
+    [dispatch],
+  );
   const [attachFileError, setAttachFileError] = useState(null);
 
   const alertsList = useSelector(state => state.sm.alerts.alertList);
@@ -95,22 +115,7 @@ const ReplyDraftItem = props => {
     [alertsList],
   );
 
-  const localStorageValues = useMemo(() => {
-    return {
-      atExpires: localStorage.atExpires,
-      hasSession: localStorage.hasSession,
-      sessionExpiration: localStorage.sessionExpiration,
-      userFirstName: localStorage.userFirstName,
-    };
-  }, []);
-
-  const { signOutMessage, timeoutId } = resetUserSession(localStorageValues);
-
   const replyToMessageId = draft?.messageId || replyMessage.messageId;
-
-  const noTimeout = () => {
-    clearTimeout(timeoutId);
-  };
 
   const formattededSignature = useMemo(
     () => {
@@ -125,24 +130,6 @@ const ReplyDraftItem = props => {
     },
     [replyMessage, dispatch],
   );
-
-  const beforeUnloadHandler = useCallback(
-    e => {
-      if (messageBody !== (draft ? draft.body : '') || attachments.length) {
-        e.preventDefault();
-        window.onbeforeunload = () => signOutMessage;
-        e.returnValue = true;
-      } else {
-        window.removeEventListener('beforeunload', beforeUnloadHandler);
-        window.onbeforeunload = null;
-        e.returnValue = false;
-        noTimeout();
-      }
-    },
-    [messageBody, draft, attachments, signOutMessage, noTimeout],
-  );
-
-  useSessionExpiration(beforeUnloadHandler, noTimeout);
 
   const checkMessageValidity = useCallback(
     () => {
@@ -369,7 +356,14 @@ const ReplyDraftItem = props => {
             : JSON.stringify(decodedMessageData);
 
         setIsSending(true);
-        dispatch(sendReply(replyToMessageId, sendData, attachments.length > 0))
+        dispatch(
+          sendReply({
+            replyToId: replyToMessageId,
+            message: sendData,
+            attachments: attachments.length > 0,
+            ohTriageGroup: isOhTriageGroup,
+          }),
+        )
           .then(() => {
             setTimeout(() => {
               if (draftsCount > 1) {
@@ -479,35 +473,7 @@ const ReplyDraftItem = props => {
           {saveError.p2 && <p>{saveError.p2}</p>}
         </VaModal>
       )}
-      <RouteLeavingGuard
-        when={!!navigationError}
-        modalVisible={isModalVisible}
-        setIsModalVisible={setIsModalVisible}
-        setSetErrorModal={setSavedDraft}
-        navigate={path => {
-          history.push(path);
-        }}
-        shouldBlockNavigation={() => {
-          return !!navigationError;
-        }}
-        title={navigationError?.title}
-        p1={navigationError?.p1}
-        p2={navigationError?.p2}
-        confirmButtonText={navigationError?.confirmButtonText}
-        cancelButtonText={navigationError?.cancelButtonText}
-        saveDraftHandler={saveDraftHandler}
-        savedDraft={savedDraft}
-        confirmButtonDDActionName={
-          attachments.length > 0
-            ? "Save draft without attachments button - Can't save with attachments modal"
-            : undefined
-        }
-        cancelButtonDDActionName={
-          attachments.length > 0
-            ? "Edit draft button - Can't save with attachments modal"
-            : undefined
-        }
-      />
+      <RouteLeavingGuard saveDraftHandler={saveDraftHandler} type="reply" />
 
       <h3 className="vads-u-margin-bottom--0p5" slot="headline">
         [Draft
@@ -580,6 +546,7 @@ const ReplyDraftItem = props => {
                 attachmentScanError={attachmentScanError}
                 attachFileError={attachFileError}
                 setAttachFileError={setAttachFileError}
+                isOhTriageGroup={isOhTriageGroup}
               />
 
               <FileInput
@@ -590,7 +557,7 @@ const ReplyDraftItem = props => {
                 attachmentScanError={attachmentScanError}
                 attachFileError={attachFileError}
                 setAttachFileError={setAttachFileError}
-                isPilot={cernerPilotSmFeatureFlag}
+                isOhTriageGroup={isOhTriageGroup}
               />
             </section>
           )}

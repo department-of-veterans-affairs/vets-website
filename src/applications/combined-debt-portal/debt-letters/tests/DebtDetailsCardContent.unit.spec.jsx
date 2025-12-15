@@ -11,15 +11,13 @@ const renderDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
 };
 
 describe('getDebtDetailsCardContent', () => {
-  const testDate = '01/01/2025';
+  const testDate = '01/31/2025';
   const testAmountDue = '100';
   const testCases = [
     {
       debt: { diaryCode: '71' },
       expectedHeaderText: `Contact us to verify your military status`,
-      expectedBodyText: `Please contact us online through Ask VA or call us at (or from overseas)
-            to verify your military status. We’re here Monday through Friday,
-            7:30 a.m. to 7:00 p.m. ET.`,
+      expectedBodyText: `Please contact us online through Ask VA or call us at (). If you’re outside the U.S., call to verify your military status. We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.`,
     },
     {
       debt: { diaryCode: '109' },
@@ -57,9 +55,7 @@ describe('getDebtDetailsCardContent', () => {
     {
       debt: { diaryCode: '212' },
       expectedHeaderText: `Contact us to update your address`,
-      expectedBodyText: `Please contact us online through Ask VA or call us at (or from overseas)
-             to update your address. We’re here Monday through Friday,
-            7:30 a.m. to 7:00 p.m. ET.`,
+      expectedBodyText: `Please contact us online through Ask VA or call us at (). If you’re outside the U.S., call to update your address. We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.`,
     },
     {
       debt: { diaryCode: '815' },
@@ -79,94 +75,68 @@ describe('getDebtDetailsCardContent', () => {
       debt: { diaryCode: '811' },
       expectedHeaderText:
         'Continue making monthly payments while we review your compromise offer',
-      expectedBodyText: `We’ll send you a letter with our decision. Please continue to make payments monthly while we complete our review. Your next payment is due by ${endDate(
-        testDate,
-        '811',
-      )}.`,
+      expectedBodyText: `We’ll send you a letter with our decision. Please continue to make payments monthly while we complete our review. 
+              Your next payment is due by ${endDate(testDate, '811')}.`,
     },
     {
       debt: { diaryCode: '816' },
-      expectedHeaderText: 'We’re processing your compromise payment',
-      expectedBodyText: `Please check your debt balance again soon. If it isn’t adjusted to
-            reflect your payment within 30 days, call us at (or from overseas),
-            Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.`,
+      expectedHeaderText: `We’re processing your compromise payment`,
+      expectedBodyText: `Please check your debt balance again soon. If it isn’t adjusted to reflect your payment within 30 days, call us at (). If you’re outside the U.S., call , Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.`,
     },
     {
       debt: { diaryCode: '002' },
-      expectedHeaderText: 'We’re updating your account',
-      expectedBodyText: `Please check back in 1 week for updates. If your account shows the
-            same information then call us at (or from overseas),
-            Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.`,
+      expectedHeaderText: `We’re updating your account`,
+      expectedBodyText: `Please check back in 1 week for updates. If your account shows the same information then call us at (). If you’re outside the U.S., call , Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.`,
     },
     {
       debt: { diaryCode: '005' },
-      expectedHeaderText: 'We’re updating your account',
-      expectedBodyText: `Please check back in 1 week for updates. If your account shows the
-            same information then call us at (or from overseas),
-            Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.`,
+      expectedHeaderText: `We’re updating your account`,
+      expectedBodyText: `Please check back in 1 week for updates. If your account shows the same information then call us at (). If you’re outside the U.S., call , Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.`,
     },
     {
       debt: { diaryCode: '032' },
-      expectedHeaderText: 'We’re updating your account',
-      expectedBodyText: `Please check back in 1 week for updates. If your account shows the
-            same information then call us at (or from overseas),
-            Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.`,
+      expectedHeaderText: `We’re updating your account`,
+      expectedBodyText: `Please check back in 1 week for updates. If your account shows the same information then call us at (). If you’re outside the U.S., call , Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.`,
     },
     {
       debt: { diaryCode: '609' },
-      expectedHeaderText: 'We’re updating your account',
-      expectedBodyText: `Please check back in 1 week for updates. If your account shows the
-            same information then call us at (or from overseas),
-            Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.`,
+      expectedHeaderText: `We’re updating your account`,
+      expectedBodyText: `Please check back in 1 week for updates. If your account shows the same information then call us at (). If you’re outside the U.S., call , Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.`,
     },
     {
       debt: { diaryCode: '321' },
-      expectedHeaderText: 'We’re updating your account',
-      expectedBodyText: `Please check back in 30 days for updates. If your account shows the
-            same information then call us at (or from overseas),
-            Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.`,
+      expectedHeaderText: `We’re updating your account`,
+      expectedBodyText: `Please check back in 30 days for updates. If your account shows the same information then call us at (). If you’re outside the U.S., call , Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.`,
     },
     {
       debt: { diaryCode: '400' },
-      expectedHeaderText: 'We’re updating your account',
-      expectedBodyText: `Please check back in 30 days for updates. If your account shows the
-            same information then call us at (or from overseas),
-            Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.`,
+      expectedHeaderText: `We’re updating your account`,
+      expectedBodyText: `Please check back in 30 days for updates. If your account shows the same information then call us at (). If you’re outside the U.S., call , Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.`,
     },
     {
       debt: { diaryCode: '420' },
-      expectedHeaderText: 'We’re updating your account',
-      expectedBodyText: `Please check back in 30 days for updates. If your account shows the
-            same information then call us at (or from overseas),
-            Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.`,
+      expectedHeaderText: `We’re updating your account`,
+      expectedBodyText: `Please check back in 30 days for updates. If your account shows the same information then call us at (). If you’re outside the U.S., call , Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.`,
     },
     {
       debt: { diaryCode: '421' },
-      expectedHeaderText: 'We’re updating your account',
-      expectedBodyText: `Please check back in 30 days for updates. If your account shows the
-            same information then call us at (or from overseas),
-            Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.`,
+      expectedHeaderText: `We’re updating your account`,
+      expectedBodyText: `Please check back in 30 days for updates. If your account shows the same information then call us at (). If you’re outside the U.S., call , Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.`,
     },
     {
       debt: { diaryCode: '422' },
-      expectedHeaderText: 'We’re updating your account',
-      expectedBodyText: `Please check back in 30 days for updates. If your account shows the
-            same information then call us at (or from overseas),
-            Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.`,
+      expectedHeaderText: `We’re updating your account`,
+      expectedBodyText: `Please check back in 30 days for updates. If your account shows the same information then call us at (). If you’re outside the U.S., call , Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.`,
     },
     {
       debt: { diaryCode: '425' },
-      expectedHeaderText: 'We’re updating your account',
-      expectedBodyText: `Please check back in 30 days for updates. If your account shows the
-            same information then call us at (or from overseas),
-            Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.`,
+      expectedHeaderText: `We’re updating your account`,
+      expectedBodyText: `Please check back in 30 days for updates. If your account shows the same information then call us at (). If you’re outside the U.S., call , Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.`,
     },
     {
       debt: { diaryCode: '627' },
-      expectedHeaderText: 'We’re updating your account',
-      expectedBodyText: `Please check back in 30 days for updates. If your account shows the
-            same information then call us at (or from overseas),
-            Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.`,
+      expectedHeaderText: `We’re updating your account`,
+      expectedBodyText: `Please check back in 30 days for updates. If your account shows the same information then call us at (). If you’re outside the U.S., call , Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.`,
     },
     {
       debt: { diaryCode: '080' },
@@ -211,114 +181,98 @@ describe('getDebtDetailsCardContent', () => {
     {
       debt: { diaryCode: '081' },
       expectedHeaderText: `We’re referring this debt to the U.S. Department of the Treasury today`,
-      expectedBodyText: `Please pay the full amount online or by phone at (or from overseas) to prevent referral. 
-      We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET. 
+      expectedBodyText: `Please pay the full amount online or by phone at (). If you’re outside the U.S., call  to prevent referral. We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.  
       If we don’t receive your payment today, we’re required by law to refer your debt to the U.S. Department of the Treasury.`,
     },
     {
       debt: { diaryCode: '500' },
       expectedHeaderText: `We’re referring this debt to the U.S. Department of the Treasury today`,
-      expectedBodyText: `Please pay the full amount online or by phone at (or from overseas) to prevent referral. 
-      We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET. 
+      expectedBodyText: `Please pay the full amount online or by phone at (). If you’re outside the U.S., call  to prevent referral. We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.  
       If we don’t receive your payment today, we’re required by law to refer your debt to the U.S. Department of the Treasury.`,
     },
     {
       debt: { diaryCode: '510' },
       expectedHeaderText: `We’re referring this debt to the U.S. Department of the Treasury today`,
-      expectedBodyText: `Please pay the full amount online or by phone at (or from overseas) to prevent referral. 
-      We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET. 
+      expectedBodyText: `Please pay the full amount online or by phone at (). If you’re outside the U.S., call  to prevent referral. We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.  
       If we don’t receive your payment today, we’re required by law to refer your debt to the U.S. Department of the Treasury.`,
     },
     {
       debt: { diaryCode: '503' },
       expectedHeaderText: `We’re referring this debt to the U.S. Department of the Treasury today`,
-      expectedBodyText: `Please pay the full amount online or by phone at (or from overseas) to prevent referral. 
-      We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET. 
+      expectedBodyText: `Please pay the full amount online or by phone at (). If you’re outside the U.S., call  to prevent referral. We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.  
       If we don’t receive your payment today, we’re required by law to refer your debt to the U.S. Department of the Treasury.`,
     },
     {
       debt: { diaryCode: '430' },
       expectedHeaderText: `We’re reducing your education benefits each month until your debt is paid`,
       expectedBodyText: `If you’d like to pay in full now, call us first to ensure you don’t overpay. 
-      If you stop receiving VA benefits, call us to set up a new payment plan. We can be reached at (or from overseas). 
-      We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET. If reduced payments are causing you hardship, you can request help with your debt.`,
+      If you stop receiving VA benefits, call us to set up a new payment plan. We can be reached at (). If you’re outside the U.S., call . We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET. If reduced payments are causing you hardship, you can request help with your debt.`,
     },
     {
       debt: { diaryCode: '431' },
       expectedHeaderText: `We’re reducing your education benefits each month until your debt is paid`,
       expectedBodyText: `If you’d like to pay in full now, call us first to ensure you don’t overpay. 
-      If you stop receiving VA benefits, call us to set up a new payment plan. We can be reached at (or from overseas). 
-      We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET. If reduced payments are causing you hardship, you can request help with your debt.`,
+      If you stop receiving VA benefits, call us to set up a new payment plan. We can be reached at (). If you’re outside the U.S., call . We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET. If reduced payments are causing you hardship, you can request help with your debt.`,
     },
     {
       debt: { diaryCode: '450' },
       expectedHeaderText: `We’re reducing your benefit payments each month until your debt is paid`,
       expectedBodyText: `If you’d like to pay in full now, call us first to ensure you don’t overpay. 
-      If you stop receiving VA benefits, call us to set up a new payment plan. We can be reached at (or from overseas). 
-      We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET. If reduced payments are causing you hardship, you can request help with your debt.`,
+      If you stop receiving VA benefits, call us to set up a new payment plan. We can be reached at (). If you’re outside the U.S., call . We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET. If reduced payments are causing you hardship, you can request help with your debt.`,
     },
     {
       debt: { diaryCode: '101' },
       expectedHeaderText: `We’re reducing your benefit payments each month until your debt is paid`,
       expectedBodyText: `If you’d like to pay in full now, call us first to ensure you don’t overpay. 
-      If you stop receiving VA benefits, call us to set up a new payment plan. We can be reached at (or from overseas). 
-      We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET. If reduced payments are causing you hardship, you can request help with your debt.`,
+      If you stop receiving VA benefits, call us to set up a new payment plan. We can be reached at (). If you’re outside the U.S., call . We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET. If reduced payments are causing you hardship, you can request help with your debt.`,
     },
     {
       debt: { diaryCode: '602' },
       expectedHeaderText: `We’re reducing your benefit payments each month until your debt is paid`,
       expectedBodyText: `If you’d like to pay in full now, call us first to ensure you don’t overpay. 
-      If you stop receiving VA benefits, call us to set up a new payment plan. We can be reached at (or from overseas). 
-      We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET. If reduced payments are causing you hardship, you can request help with your debt.`,
+      If you stop receiving VA benefits, call us to set up a new payment plan. We can be reached at (). If you’re outside the U.S., call . We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET. If reduced payments are causing you hardship, you can request help with your debt.`,
     },
     {
       debt: { diaryCode: '607' },
       expectedHeaderText: `We’re reducing your benefit payments each month until your debt is paid`,
       expectedBodyText: `If you’d like to pay in full now, call us first to ensure you don’t overpay. 
-      If you stop receiving VA benefits, call us to set up a new payment plan. We can be reached at (or from overseas). 
-      We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET. If reduced payments are causing you hardship, you can request help with your debt.`,
+      If you stop receiving VA benefits, call us to set up a new payment plan. We can be reached at (). If you’re outside the U.S., call . We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET. If reduced payments are causing you hardship, you can request help with your debt.`,
     },
     {
       debt: { diaryCode: '608' },
       expectedHeaderText: `We’re reducing your benefit payments each month until your debt is paid`,
       expectedBodyText: `If you’d like to pay in full now, call us first to ensure you don’t overpay. 
-      If you stop receiving VA benefits, call us to set up a new payment plan. We can be reached at (or from overseas). 
-      We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET. If reduced payments are causing you hardship, you can request help with your debt.`,
+      If you stop receiving VA benefits, call us to set up a new payment plan. We can be reached at (). If you’re outside the U.S., call . We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET. If reduced payments are causing you hardship, you can request help with your debt.`,
     },
     {
       debt: { diaryCode: '610' },
       expectedHeaderText: `We’re reducing your benefit payments each month until your debt is paid`,
       expectedBodyText: `If you’d like to pay in full now, call us first to ensure you don’t overpay. 
-      If you stop receiving VA benefits, call us to set up a new payment plan. We can be reached at (or from overseas). 
-      We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET. If reduced payments are causing you hardship, you can request help with your debt.`,
+      If you stop receiving VA benefits, call us to set up a new payment plan. We can be reached at (). If you’re outside the U.S., call . We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET. If reduced payments are causing you hardship, you can request help with your debt.`,
     },
     {
       debt: { diaryCode: '611' },
       expectedHeaderText: `We’re reducing your benefit payments each month until your debt is paid`,
       expectedBodyText: `If you’d like to pay in full now, call us first to ensure you don’t overpay. 
-      If you stop receiving VA benefits, call us to set up a new payment plan. We can be reached at (or from overseas). 
-      We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET. If reduced payments are causing you hardship, you can request help with your debt.`,
+      If you stop receiving VA benefits, call us to set up a new payment plan. We can be reached at (). If you’re outside the U.S., call . We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET. If reduced payments are causing you hardship, you can request help with your debt.`,
     },
     {
       debt: { diaryCode: '614' },
       expectedHeaderText: `We’re reducing your benefit payments each month until your debt is paid`,
       expectedBodyText: `If you’d like to pay in full now, call us first to ensure you don’t overpay. 
-      If you stop receiving VA benefits, call us to set up a new payment plan. We can be reached at (or from overseas). 
-      We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET. If reduced payments are causing you hardship, you can request help with your debt.`,
+      If you stop receiving VA benefits, call us to set up a new payment plan. We can be reached at (). If you’re outside the U.S., call . We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET. If reduced payments are causing you hardship, you can request help with your debt.`,
     },
     {
       debt: { diaryCode: '615' },
       expectedHeaderText: `We’re reducing your benefit payments each month until your debt is paid`,
       expectedBodyText: `If you’d like to pay in full now, call us first to ensure you don’t overpay. 
-      If you stop receiving VA benefits, call us to set up a new payment plan. We can be reached at (or from overseas). 
-      We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET. If reduced payments are causing you hardship, you can request help with your debt.`,
+      If you stop receiving VA benefits, call us to set up a new payment plan. We can be reached at (). If you’re outside the U.S., call . We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET. If reduced payments are causing you hardship, you can request help with your debt.`,
     },
     {
       debt: { diaryCode: '617' },
       expectedHeaderText: `We’re reducing your benefit payments each month until your debt is paid`,
       expectedBodyText: `If you’d like to pay in full now, call us first to ensure you don’t overpay. 
-      If you stop receiving VA benefits, call us to set up a new payment plan. We can be reached at (or from overseas). 
-      We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET. If reduced payments are causing you hardship, you can request help with your debt.`,
+      If you stop receiving VA benefits, call us to set up a new payment plan. We can be reached at (). If you’re outside the U.S., call . We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET. If reduced payments are causing you hardship, you can request help with your debt.`,
     },
     {
       debt: { diaryCode: '681' },

@@ -25,10 +25,10 @@ const Routes = () => (
           recordEvent({ event: 'cta-link-click-enter-mcp' });
         }}
       />
-      <Route exact path="/copay-balances/:id/detail" component={Details} />
+      <Route exact path="/copay-balances/:id" component={Details} />
       <Route
         exact
-        path="/copay-balances/:id/detail/statement"
+        path="/copay-balances/:id/statement"
         component={HTMLStatementPage}
       />
       <Route exact path="/copay-balances/:id/resolve" component={ResolvePage} />
@@ -41,10 +41,10 @@ const Routes = () => (
           recordEvent({ event: 'cta-link-click-enter-ltr' });
         }}
       />
-      <Route exact path="/debt-balances/details/:id" component={DebtDetails} />
+      <Route exact path="/debt-balances/:id" component={DebtDetails} />
       <Route
         exact
-        path="/debt-balances/details/:id/resolve"
+        path="/debt-balances/:id/resolve"
         component={ResolveDebtPage}
       />
       <Route exact path="/combined-statements" component={CombinedStatements} />

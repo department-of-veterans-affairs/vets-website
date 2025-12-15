@@ -1,62 +1,74 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { shallowEqual, useSelector } from 'react-redux';
+import { isProfileLoading } from 'platform/user/selectors';
 import { Toggler } from 'platform/utilities/feature-toggles';
-import {
-  DowntimeNotification,
-  externalServices,
-} from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
+import { DowntimeNotification } from 'platform/monitoring/DowntimeNotification';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import WIP from '../../shared/components/WIP';
 import formConfig from '../config/form';
-import manifest from '../manifest.json';
 
-export default function App({ location, children }) {
-  document.title = `${manifest.appName} | Veterans Affairs`;
+const App = ({ location, children }) => {
+  const isAppLoading = useSelector(
+    state =>
+      state?.featureToggles?.loading === true ||
+      isProfileLoading(state) === true,
+    shallowEqual,
+  );
 
-  const breadcrumbs = [
-    { href: '/', label: 'Home' },
-    { href: '/health-care', label: 'Health care' },
-    {
-      href: '/health-care/file-foreign-medical-program-claim',
-      label: 'File a Foreign Medical Program (FMP) claim',
-    },
-  ];
-  const bcString = JSON.stringify(breadcrumbs);
+  const wipContent = useMemo(
+    () => ({
+      description:
+        'We’re rolling out the Foreign Medical Program (FMP) claims (VA Form 10-7959f-2) in stages. It’s not quite ready yet. Please check back again soon.',
+      redirectText: 'Return to VA.gov home page',
+      redirectLink: '/',
+    }),
+    [],
+  );
+
+  const appRouter = useMemo(
+    () => (
+      <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+        <DowntimeNotification
+          appTitle="File a Foreign Medical Program (FMP) claim"
+          dependencies={formConfig.downtime.dependencies}
+        >
+          {children}
+        </DowntimeNotification>
+      </RoutedSavableApp>
+    ),
+    [children, location],
+  );
+
+  const comingSoonAlert = useMemo(() => <WIP content={wipContent} />, [
+    wipContent,
+  ]);
+
+  if (isAppLoading) {
+    return (
+      <va-loading-indicator
+        message="Loading application..."
+        class="vads-u-margin-y--4"
+        set-focus
+      />
+    );
+  }
 
   return (
-    <div className="vads-l-grid-container desktop-lg:vads-u-padding-x--0">
-      <Toggler toggleName={Toggler.TOGGLE_NAMES.form107959f2}>
-        <Toggler.Enabled>
-          <va-breadcrumbs breadcrumb-list={bcString} />
-          <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-            <DowntimeNotification
-              appTitle={`CHAMPVA Form ${formConfig.formId}`}
-              dependencies={[
-                externalServices.pega,
-                externalServices.form107959f2,
-              ]}
-            >
-              {children}
-            </DowntimeNotification>
-          </RoutedSavableApp>
-        </Toggler.Enabled>
-        <Toggler.Disabled>
-          <br />
-          <WIP
-            content={{
-              description:
-                'We’re rolling out the Foreign Medical Program (FMP) claims (VA Form 10-7959f-2) in stages. It’s not quite ready yet. Please check back again soon.',
-              redirectLink: '/',
-              redirectText: 'Return to VA home page',
-            }}
-          />
-        </Toggler.Disabled>
-      </Toggler>
-    </div>
+    <Toggler toggleName={Toggler.TOGGLE_NAMES.form107959f2}>
+      <Toggler.Enabled>{appRouter}</Toggler.Enabled>
+      <Toggler.Disabled>{comingSoonAlert}</Toggler.Disabled>
+    </Toggler>
   );
-}
+};
 
 App.propTypes = {
-  children: PropTypes.object,
-  location: PropTypes.object,
+  children: PropTypes.node,
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+    search: PropTypes.string,
+    href: PropTypes.string,
+  }),
 };
+
+export default App;

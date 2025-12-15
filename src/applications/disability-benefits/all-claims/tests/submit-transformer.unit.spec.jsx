@@ -1,8 +1,8 @@
 import fs from 'fs';
 import path from 'path';
-import moment from 'moment';
 
 import { expect } from 'chai';
+import { daysFromToday } from '../utils/dates/formatting';
 
 import formConfig from '../config/form';
 import { CHAR_LIMITS } from '../constants';
@@ -12,14 +12,18 @@ import { transform } from '../submit-transformer';
 import maximalData from './fixtures/data/maximal-test.json';
 
 describe('transform', () => {
+  beforeEach(() => {
+    global.formData = {
+      disabilityCompensationNewConditionsWorkflow: false,
+    };
+  });
+
   const servicePeriodsBDD = [
     {
       serviceBranch: 'Air Force Reserves',
       dateRange: {
         from: '2001-03-21',
-        to: moment()
-          .add(90, 'days')
-          .format('YYYY-MM-DD'),
+        to: daysFromToday(90),
       },
     },
   ];

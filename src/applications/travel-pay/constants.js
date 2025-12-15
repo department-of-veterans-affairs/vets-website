@@ -7,6 +7,7 @@ export const TRAVEL_PAY_INFO_LINK =
   '/health-care/get-reimbursed-for-travel-pay/';
 export const REIMBURSEMENT_URL =
   '/resources/how-to-set-up-direct-deposit-for-va-travel-pay-reimbursement/';
+export const PAST_APPOINTMENTS_LINK = '/my-health/appointments/past';
 
 export const STATUSES = {
   Incomplete: {
@@ -23,6 +24,8 @@ export const STATUSES = {
       'You saved changes to your claim, but you did not submit it to BTSSS for review. Submit the claim so BTSSS can begin processing your claim.',
     definition:
       'We saved your claim. Make sure to submit it within 30 days of your appointment.',
+    alternativeDefinition:
+      'We saved the expenses you’ve added so far. But you haven’t filed your travel reimbursement claim yet. Make sure to complete and file your claim within 30 days of your appointment.',
     reasons: null,
   },
   InProcess: {
@@ -171,3 +174,126 @@ export const STATUS_GROUPINGS = [
     ],
   },
 ];
+
+export const EXPENSE_TYPE_KEYS = Object.freeze({
+  AIRTRAVEL: 'Airtravel',
+  MEAL: 'Meal',
+  COMMONCARRIER: 'Commoncarrier',
+  LODGING: 'Lodging',
+  MILEAGE: 'Mileage',
+  PARKING: 'Parking',
+  TOLL: 'Toll',
+  OTHER: 'Other',
+});
+
+export const EXPENSE_TYPES = Object.freeze({
+  [EXPENSE_TYPE_KEYS.MILEAGE]: {
+    addButtonText: 'mileage',
+    expensePageText: 'mileage',
+    name: 'mileage',
+    title: 'Mileage',
+    route: 'mileage',
+    apiRoute: 'mileage',
+  },
+  [EXPENSE_TYPE_KEYS.PARKING]: {
+    addButtonText: 'parking',
+    expensePageText: 'parking',
+    name: 'parking',
+    title: 'Parking',
+    route: 'parking',
+    apiRoute: 'parking',
+  },
+  [EXPENSE_TYPE_KEYS.TOLL]: {
+    addButtonText: 'toll',
+    expensePageText: 'toll',
+    name: 'toll',
+    title: 'Tolls',
+    route: 'toll',
+    apiRoute: 'toll',
+  },
+  [EXPENSE_TYPE_KEYS.COMMONCARRIER]: {
+    addButtonText: 'public transportation, taxi, or rideshare',
+    expensePageText: 'public transportation, taxi, or rideshare',
+    name: 'common carrier',
+    title: 'Public transportation, taxi, or rideshare',
+    route: 'common-carrier',
+    apiRoute: 'commoncarrier',
+  },
+  [EXPENSE_TYPE_KEYS.AIRTRAVEL]: {
+    addButtonText: 'air travel',
+    expensePageText: 'airfare',
+    name: 'air travel',
+    title: 'Airfare',
+    route: 'air-travel',
+    apiRoute: 'airtravel',
+  },
+  [EXPENSE_TYPE_KEYS.LODGING]: {
+    addButtonText: 'lodging',
+    expensePageText: 'lodging',
+    name: 'lodging',
+    title: 'Lodging',
+    route: 'lodging',
+    apiRoute: 'lodging',
+  },
+  [EXPENSE_TYPE_KEYS.MEAL]: {
+    addButtonText: 'meal',
+    expensePageText: 'meal',
+    name: 'meal',
+    title: 'Meals',
+    route: 'meal',
+    apiRoute: 'meal',
+  },
+  [EXPENSE_TYPE_KEYS.OTHER]: {
+    addButtonText: 'travel',
+    expensePageText: 'other travel',
+    name: 'other',
+    title: 'Other travel expenses',
+    route: 'other',
+    apiRoute: 'other',
+  },
+});
+
+export const TRANSPORTATION_OPTIONS = Object.freeze([
+  'Bus',
+  'Subway',
+  'Train',
+  'Other',
+]);
+
+export const TRANSPORTATION_REASONS = Object.freeze({
+  PrivatelyOwnedVehicleNotAvailable: {
+    label: "I don't own a private vehicle or it wasn't available",
+  },
+  MedicallyIndicated: {
+    label: 'Medical reasons',
+  },
+  Other: {
+    label: 'Other',
+  },
+});
+
+export const TRIP_TYPES = Object.freeze({
+  ROUND_TRIP: {
+    value: 'round-trip',
+    label: 'Round trip',
+    key: 'RoundTrip',
+  },
+  ONE_WAY: {
+    value: 'one-way',
+    label: 'One way',
+    key: 'OneWay',
+  },
+});
+
+export const ACCEPTED_FILE_TYPES = Object.freeze([
+  '.jpg',
+  '.jpeg',
+  '.png',
+  '.pdf',
+  '.doc',
+  '.docx',
+  '.gif',
+  '.bmp',
+  '.tif',
+  '.tiff',
+]);

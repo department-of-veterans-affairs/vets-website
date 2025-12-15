@@ -88,7 +88,12 @@
         },
         "view:currentToLabel": {},
         "currentlyEmployed": true,
-        "phone": "123-123-1233",
+        "phone": {
+          "callingCode": 1,
+          "countryCode": "US",
+          "contact": "2345689095",
+          "_isValid": true
+        },
         "address": {
           "view:militaryBaseDescription": {},
           "country": "USA",
@@ -126,33 +131,33 @@
         "major": "Potions"
       }
     ],
-    "convictionDetailsDocuments": {},
+    "convictionDetailsDocuments": [],
     "convictionDetailsCertification": {},
-    "courtMartialedDetailsDocuments": {},
+    "courtMartialedDetailsDocuments": [],
     "courtMartialedDetailsCertification": {},
-    "underChargesDetailsDocuments": {},
+    "underChargesDetailsDocuments": [],
     "underChargesDetailsCertification": {},
-    "resignedFromEducationDetailsDocuments": {},
+    "resignedFromEducationDetailsDocuments": [],
     "resignedFromEducationDetailsCertification": {},
-    "withdrawnFromEducationDetailsDocuments": {},
+    "withdrawnFromEducationDetailsDocuments": [],
     "withdrawnFromEducationDetailsCertification": {},
-    "disciplinedForDishonestyDetailsDocuments": {},
+    "disciplinedForDishonestyDetailsDocuments": [],
     "disciplinedForDishonestyDetailsCertification": {},
-    "resignedForDishonestyDetailsDocuments": {},
+    "resignedForDishonestyDetailsDocuments": [],
     "resignedForDishonestyDetailsCertification": {},
-    "representativeForAgencyDetailsDocuments": {},
+    "representativeForAgencyDetailsDocuments": [],
     "representativeForAgencyDetailsCertification": {},
-    "reprimandedInAgencyDetailsDocuments": {},
+    "reprimandedInAgencyDetailsDocuments": [],
     "reprimandedInAgencyDetailsCertification": {},
-    "resignedFromAgencyDetailsDocuments": {},
+    "resignedFromAgencyDetailsDocuments": [],
     "resignedFromAgencyDetailsCertification": {},
-    "appliedForVaAccreditationDetailsDocuments": {},
+    "appliedForVaAccreditationDetailsDocuments": [],
     "appliedForVaAccreditationDetailsCertification": {},
-    "terminatedByVsorgDetailsDocuments": {},
+    "terminatedByVsorgDetailsDocuments": [],
     "terminatedByVsorgDetailsCertification": {},
-    "conditionThatAffectsRepresentationDetailsDocuments": {},
+    "conditionThatAffectsRepresentationDetailsDocuments": [],
     "conditionThatAffectsRepresentationDetailsCertification": {},
-    "conditionThatAffectsExaminationDetailsDocuments": {},
+    "conditionThatAffectsExaminationDetailsDocuments": [],
     "conditionThatAffectsExaminationDetailsCertification": {},
     "jurisdictions": [
       {
@@ -172,7 +177,12 @@
     "characterReferences": [
       {
         "relationship": "Friend",
-        "phone": "123-123-3333",
+        "phone": {
+          "callingCode": 1,
+          "countryCode": "US",
+          "contact": "2345689096",
+          "_isValid": true
+        },
         "email": "ginny@gmail.com",
         "address": {
           "view:militaryBaseDescription": {},
@@ -189,7 +199,12 @@
       },
       {
         "relationship": "Educator",
-        "phone": "444-099-9876",
+        "phone": {
+          "callingCode": 1,
+          "countryCode": "US",
+          "contact": "2345689090",
+          "_isValid": true
+        },
         "email": "test@gmail.com",
         "address": {
           "view:militaryBaseDescription": {},
@@ -206,7 +221,12 @@
       },
       {
         "relationship": "Colleague",
-        "phone": "888-543-4321",
+        "phone": {
+          "callingCode": 1,
+          "countryCode": "US",
+          "contact": "2345689091",
+          "_isValid": true
+        },
         "email": "draco@gmail.com",
         "address": {
           "view:militaryBaseDescription": {},

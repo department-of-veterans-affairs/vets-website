@@ -47,10 +47,18 @@ class PatientMessageDetailsPage {
   };
 
   expandAllThreadMessages = () => {
-    cy.findByTestId(Locators.ALERTS.THREAD_EXPAND).should('be.visible');
     cy.findByTestId(Locators.ALERTS.THREAD_EXPAND)
+      .should('be.visible')
       .shadow()
-      .find('button')
+      .findByText('Expand all')
+      .click({ force: true });
+  };
+
+  collapseAllThreadMessages = () => {
+    cy.findByTestId(Locators.ALERTS.THREAD_EXPAND)
+      .should('be.visible')
+      .shadow()
+      .findByText('Collapse all')
       .click({ force: true });
   };
 
@@ -98,7 +106,7 @@ class PatientMessageDetailsPage {
   };
 
   verifyMoveToButtonModal = () => {
-    cy.get(Locators.BUTTONS.MOVE_BUTTON_TEXT).click();
+    cy.findByTestId(Locators.BUTTONS.MOVE_BUTTON_TEST_ID).click();
     cy.get(Locators.ALERTS.MOVE_MODAL, { timeout: 8000 })
       .find('p')
       .contains('Any replies to this message will appear in your inbox')
@@ -112,6 +120,24 @@ class PatientMessageDetailsPage {
       .should('be.visible');
     cy.get(Locators.ALERTS.MOVE_MODAL)
       .find('va-button[text="Cancel"]')
+      .should('be.visible')
+      .click();
+  };
+
+  openMoveToButtonModal = () => {
+    cy.findByTestId(Locators.BUTTONS.MOVE_BUTTON_TEST_ID).click();
+    cy.get(Locators.ALERTS.MOVE_MODAL, { timeout: 8000 })
+      .find('p')
+      .contains('Any replies to this message will appear in your inbox')
+      .should('be.visible');
+    cy.get(Locators.BUTTONS.DELETE_RADIOBTN).should('be.visible');
+    cy.get(Locators.BUTTONS.TEST2).should('be.visible');
+    cy.get(Locators.BUTTONS.TESTAGAIN)
+      .should('be.visible')
+      .click();
+    cy.get(Locators.BUTTONS.NEW_FOLDER_RADIOBTN).should('be.visible');
+    cy.get(Locators.ALERTS.MOVE_MODAL)
+      .find('va-button[text="Confirm"]')
       .should('be.visible')
       .click();
   };
@@ -226,18 +252,16 @@ class PatientMessageDetailsPage {
   };
 
   verifyExpandedThreadBody = (messageThread, messageIndex = 0) => {
-    cy.get(
-      `[data-testid="expand-message-button-${
-        messageThread.data[messageIndex].id
-      }"]`,
-    )
-      .find(
-        `[data-testid="message-body-${messageThread.data[messageIndex].id}"]`,
-      )
-      .should(
+    cy.findByTestId(
+      `expand-message-button-${messageThread.data[messageIndex].id}`,
+    ).within(() => {
+      cy.findByTestId(
+        `message-body-${messageThread.data[messageIndex].id}`,
+      ).should(
         'have.text',
         `${messageThread.data[messageIndex].attributes.body}`,
       );
+    });
   };
 
   replyToMessageTo = (messageDetails, messageIndex = 0) => {
@@ -353,6 +377,17 @@ class PatientMessageDetailsPage {
     PatientInterstitialPage.getContinueButton().click();
   };
 
+  clickReplyButtonCuratedFlow = singleThreadData => {
+    cy.intercept(
+      'GET',
+      `${Paths.SM_API_EXTENDED}/${singleThreadData.data[0].id}/thread*`,
+      singleThreadData,
+    ).as('replyThread');
+
+    cy.get(Locators.BUTTONS.REPLY).click({ force: true });
+    PatientInterstitialPage.getStartMessageLink().click();
+  };
+
   verifyMessageAttachment = (messageDetails, messageIndex = 0) => {
     if (messageDetails.data.at(messageIndex).attributes.hasAttachments) {
       cy.log('message has attachment... checking for image');
@@ -369,6 +404,15 @@ class PatientMessageDetailsPage {
   };
 
   verifyAccordionStatus = value => {
+    // First, wait for at least one accordion to have the expected state - fixes flakiness to split these up.
+    cy.findByTestId(Locators.BUTTONS.THREAD_EXPAND)
+      .find(`va-accordion-item`)
+      .should('have.length.greaterThan', 0)
+      .first()
+      .invoke('prop', 'open')
+      .should('eq', value);
+
+    // Then check all accordions
     cy.findByTestId(Locators.BUTTONS.THREAD_EXPAND)
       .find(`va-accordion-item`)
       .each(el => {

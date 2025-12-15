@@ -1,7 +1,6 @@
-import PropTypes from 'prop-types';
-
-import { connect } from 'react-redux';
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import {
   FIELD_IDS,
@@ -83,6 +82,7 @@ const EmailInformationSection = ({ className, signInServiceName }) => {
         namedAnchor="email-address"
         data={generateRows(signInServiceName)}
         className="vads-u-margin-bottom--4"
+        enableAlertConfirmEmail
       />
     </div>
   );

@@ -25,7 +25,9 @@ import State from '../State';
 import {
   NULL_STATE_FIELD,
   recordAppointmentDetailsNullStates,
+  captureMissingModalityLogs,
 } from '../../utils/events';
+import ClinicName from './ClinicName';
 
 export default function VideoLayoutAtlas({ data: appointment }) {
   const {
@@ -53,6 +55,9 @@ export default function VideoLayoutAtlas({ data: appointment }) {
   else if (isPastAppointment)
     heading = 'Past video appointment at an ATLAS location';
 
+  if (!appointment.modality) {
+    captureMissingModalityLogs(appointment);
+  }
   recordAppointmentDetailsNullStates(
     {
       type: appointment.type,
@@ -193,11 +198,7 @@ export default function VideoLayoutAtlas({ data: appointment }) {
             ) : (
               'Facility not available'
             )}
-            <br />
-            <span data-dd-privacy="mask">
-              {clinicName ? `Clinic: ${clinicName}` : 'Clinic not available'}
-            </span>
-            <br />
+            <ClinicName name={clinicName} /> <br />
             <ClinicOrFacilityPhone
               clinicPhone={clinicPhone}
               clinicPhoneExtension={clinicPhoneExtension}

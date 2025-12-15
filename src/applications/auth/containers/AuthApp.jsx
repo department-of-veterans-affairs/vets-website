@@ -10,10 +10,8 @@ import {
   FORCE_NEEDED,
   EXTERNAL_APPS,
   EXTERNAL_REDIRECTS,
-  CSP_IDS,
 } from 'platform/user/authentication/constants';
 import { AUTH_LEVEL, getAuthError } from 'platform/user/authentication/errors';
-// import { useDatadogRum } from 'platform/user/authentication/hooks/useDatadogRum';
 import { setupProfileSession } from 'platform/user/profile/utilities';
 import { apiRequest } from 'platform/utilities/api';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
@@ -24,15 +22,15 @@ import RenderErrorUI from '../components/RenderErrorContainer';
 import AuthMetrics from './AuthMetrics';
 import {
   checkReturnUrl,
+  emailNeedsConfirmation,
   generateSentryAuthError,
   handleTokenRequest,
+  checkPortalRequirements,
 } from '../helpers';
 
 const REDIRECT_IGNORE_PATTERN = new RegExp(['/auth/login/callback'].join('|'));
 
 export default function AuthApp({ location }) {
-  // useDatadogRum();
-
   const [
     { auth, errorCode, returnUrl, loginType, state, requestId },
     setAuthState,
@@ -51,8 +49,11 @@ export default function AuthApp({ location }) {
   const isFeatureToggleLoading = useSelector(
     store => store?.featureToggles?.loading,
   );
-  const isInterstitialEnabled = useSelector(
-    store => store?.featureToggles?.dslogonInterstitialRedirect,
+  const isEmailInterstitialEnabled = useSelector(
+    store => store?.featureToggles?.confirmContactEmailInterstitialEnabled,
+  );
+  const isPortalNoticeInterstitialEnabled = useSelector(
+    store => store?.featureToggles?.portalNoticeInterstitialEnabled,
   );
 
   const handleAuthError = (error, codeOverride) => {
@@ -76,11 +77,6 @@ export default function AuthApp({ location }) {
   };
 
   const redirect = () => {
-    if (isInterstitialEnabled && CSP_IDS.DS_LOGON === loginType) {
-      window.location.replace('/sign-in-changes-reminder');
-      return;
-    }
-
     // remove from session storage
     sessionStorage.removeItem(AUTHN_SETTINGS.RETURN_URL);
 
@@ -150,6 +146,7 @@ export default function AuthApp({ location }) {
   const handleAuthSuccess = async ({
     response = {},
     skipToRedirect = false,
+    isMyVAHealth = false,
   } = {}) => {
     sessionStorage.setItem('shouldRedirectExpiredSession', true);
     const authMetrics = new AuthMetrics(
@@ -158,13 +155,39 @@ export default function AuthApp({ location }) {
       requestId,
       errorCode,
     );
-    const { userProfile } = authMetrics;
-    if (returnUrl?.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH])) {
+    if (isMyVAHealth) {
       await handleProvisioning();
     }
+    const { userAttributes, userProfile } = authMetrics;
     authMetrics.run();
-    if (!skipToRedirect) {
+    const { needsPortalNotice, needsMyHealth } = checkPortalRequirements({
+      isPortalNoticeInterstitialEnabled,
+      userAttributes,
+      isMyVAHealth,
+    });
+    if (
+      !skipToRedirect &&
+      (!isMyVAHealth || needsPortalNotice || needsMyHealth)
+    ) {
       setupProfileSession(userProfile);
+    }
+    if (needsPortalNotice) {
+      window.location.replace('/sign-in-health-portal');
+      return;
+    }
+    if (needsMyHealth) {
+      window.location.replace('/my-health');
+      return;
+    }
+    if (
+      emailNeedsConfirmation({
+        isEmailInterstitialEnabled,
+        loginType,
+        userAttributes,
+      })
+    ) {
+      window.location.replace('/sign-in-confirm-contact-email');
+      return;
     }
     redirect();
   };
@@ -180,7 +203,13 @@ export default function AuthApp({ location }) {
       });
     }
 
-    const skipToRedirect = !hasError && checkReturnUrl(returnUrl);
+    const isMyVAHealth = returnUrl.includes(
+      EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH],
+    );
+    const skipToRedirect =
+      !hasError &&
+      checkReturnUrl(returnUrl) &&
+      (!isPortalNoticeInterstitialEnabled || !isMyVAHealth);
 
     if (auth === FORCE_NEEDED) {
       handleAuthForceNeeded();
@@ -189,7 +218,11 @@ export default function AuthApp({ location }) {
     } else {
       try {
         const response = await apiRequest('/user');
-        await handleAuthSuccess({ response, skipToRedirect: false });
+        await handleAuthSuccess({
+          response,
+          skipToRedirect: false,
+          isMyVAHealth,
+        });
       } catch (error) {
         handleAuthError(error);
       }

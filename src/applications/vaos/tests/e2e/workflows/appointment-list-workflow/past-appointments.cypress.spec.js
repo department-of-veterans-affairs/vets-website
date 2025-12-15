@@ -12,6 +12,7 @@ import {
   mockVamcEhrApi,
   vaosSetup,
 } from '../../vaos-cypress-helpers';
+import AppointmentDetailPageObject from '../../page-objects/AppointmentList/AppointmentDetailPageObject';
 
 describe('VAOS past appointment flow', () => {
   describe('When veteran has past appointments', () => {
@@ -32,6 +33,7 @@ describe('VAOS past appointment flow', () => {
         cancellable: false,
         localStartTime: yesterday,
         status: APPOINTMENT_STATUS.booked,
+        past: true,
       });
 
       mockAppointmentsGetApi({ response: [response] });
@@ -75,6 +77,8 @@ describe('VAOS past appointment flow', () => {
         .selectListItem()
         .assertLink({ name: /Back to past appointments/i, useShadowDOM: true });
 
+      AppointmentDetailPageObject.assertDaysLeftToFile();
+
       cy.axeCheckBestPractice();
     });
 
@@ -86,6 +90,7 @@ describe('VAOS past appointment flow', () => {
           cancellable: false,
           localStartTime: subMonths(new Date(), i),
           status: APPOINTMENT_STATUS.booked,
+          past: true,
         });
       });
 

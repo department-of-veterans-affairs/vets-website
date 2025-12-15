@@ -50,42 +50,76 @@ const ConfirmationDenied = ({
         <p>
           Your denial letter, which explains why you are ineligible, is now
           available. A physical copy will also be mailed to your mailing
-          address.{' '}
+          address.
         </p>
-        <a
-          type="button"
-          className="usa-button meb-print"
-          href={LETTER_URL}
+        <va-link
           download
-        >
-          Download your letter
-        </a>
+          href={LETTER_URL}
+          filetype="PDF"
+          text="Download your denial letter"
+          class="vads-u-padding-bottom--2"
+        />
+        .
       </va-alert>
-
       <va-summary-box class="vads-u-margin-y--3">
-        <h3 slot="headline">
+        <h3
+          slot="headline"
+          className="vads-u-margin-top--0 vads-u-margin-bottom--0"
+        >
           Application for VA education benefits (Form 22-1990)
         </h3>
-        <h3 slot="headline">Post-9/11 GI Bill, Chapter 33</h3>
-        {claimantName.trim() ? <p>For {claimantName}</p> : <></>}
-        <dl>
-          <dt>Date received</dt>
-          <dd>{confirmationDate}</dd>
-        </dl>
-        <va-button
-          class="meb-print"
-          text="Print this page"
-          onClick={printPage}
-        />
-      </va-summary-box>
+        <h3
+          slot="headline"
+          className="vads-u-margin-top--0 vads-u-margin-bottom--0"
+        >
+          Post-9/11 GI Bill, Chapter 33
+        </h3>
 
+        <div className="vads-u-margin-bottom--2">
+          <h4 className="vads-u-margin-bottom--0p5 vads-u-font-weight--bold">
+            Who submitted this form
+          </h4>
+          {claimantName.trim() ? (
+            <p className="vads-u-margin--0">{claimantName}</p>
+          ) : (
+            <p className="vads-u-margin--0">Not provided</p>
+          )}
+        </div>
+
+        <div className="vads-u-margin-bottom--2">
+          <h4 className="vads-u-margin-bottom--0p5 vads-u-font-weight--bold">
+            Date received
+          </h4>
+          <p className="vads-u-margin--0">{confirmationDate}</p>
+        </div>
+
+        <div className="vads-u-margin-bottom--1">
+          <h4 className="vads-u-margin-bottom--0p5 vads-u-font-weight--bold">
+            Confirmation for your records
+          </h4>
+          <p className="vads-u-margin--0">
+            You can print this confirmation page for your records.
+          </p>
+        </div>
+
+        <div className="vads-u-margin-bottom--1">
+          <va-button
+            class="meb-print"
+            text="Print this page"
+            onClick={printPage}
+          />
+        </div>
+      </va-summary-box>
       <h2>What happens next?</h2>
       <ul>
         <li>
-          Download a copy of your{' '}
-          <a href={LETTER_URL} download>
-            Denial Letter
-          </a>
+          <va-link
+            href={LETTER_URL}
+            download
+            filetype="PDF"
+            text="Download a copy of your denial letter for your records"
+          />
+          .
         </li>
         <li>
           We will review your eligibility for other VA education benefit
@@ -96,13 +130,22 @@ const ConfirmationDenied = ({
           benefits.
         </li>
         <li>There is no further action required by you at this time.</li>
+        <li>
+          <va-link
+            href="https://benefits.va.gov/gibill/docs/gibguideseries/chooseyoureducationbenefits.pdf"
+            external
+            filetype="PDF"
+            text="Learn more about VA benefits and programs through the Building Your Future with the GI Bill Series"
+          />
+          .
+        </li>
       </ul>
-
-      <a className="vads-c-action-link--green" href="/my-va/">
-        Go to your My VA dashboard
-      </a>
-
-      <FormFooter />
+      <va-link
+        class="vads-c-action-link--green"
+        href="/my-va/"
+        text="Go to your My VA dashboard"
+      />
+      .<FormFooter />
     </div>
   );
 };

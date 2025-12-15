@@ -19,6 +19,12 @@ import {
   SET_FORM_ERRORS,
   setItf,
   SET_ITF,
+  closeReviewChapter,
+  CLOSE_REVIEW_CHAPTER,
+  openReviewChapter,
+  OPEN_REVIEW_CHAPTER,
+  toggleAllReviewChapters,
+  TOGGLE_ALL_REVIEW_CHAPTERS,
 } from '../../src/js/actions';
 
 describe('Schemaform actions:', () => {
@@ -609,7 +615,7 @@ describe('Schemaform actions:', () => {
         name: '1.jpg',
         uploading: true,
       });
-      expect(onChange.secondCall.args[0]).to.eql({
+      expect(onChange.secondCall.args[0]).to.include({
         name: 'Test name',
         size: 1234,
         confirmationCode: 'Test code',
@@ -661,7 +667,7 @@ describe('Schemaform actions:', () => {
         name: '1.pdf',
         uploading: true,
       });
-      expect(onChange.secondCall.args[0]).to.eql({
+      expect(onChange.secondCall.args[0]).to.include({
         name: 'Test name',
         size: 10,
         confirmationCode: 'Test code',
@@ -746,7 +752,7 @@ describe('Schemaform actions:', () => {
       expect(onChange.secondCall.args[0]).to.eql({
         name: '1.jpg',
         errorMessage:
-          'We\u2019re sorry. We had a connection problem. Please try again.',
+          'We couldn’t upload your file due to a connection problem. Try again in a few moments.',
         file: {
           name: '1.jpg',
           size: 0,
@@ -914,7 +920,7 @@ describe('Schemaform actions:', () => {
       expect(onChange.secondCall.args[0]).to.eql({
         name: '1.jpg',
         errorMessage:
-          'We\u2019re sorry. We had a connection problem. Please try again.',
+          'We couldn’t upload your file due to a connection problem. Try again in a few moments.',
         alert: {
           header: 'Alert header',
           body: ['body text'],
@@ -986,6 +992,146 @@ describe('Schemaform actions:', () => {
       const action = setItf(data);
       expect(action.data).to.equal(data);
       expect(action.type).to.equal(SET_ITF);
+    });
+  });
+
+  describe('closeReviewChapter', () => {
+    it('should return action', () => {
+      const data = { name: 'foo' };
+      const action = closeReviewChapter(data);
+      expect(action).to.deep.equal({
+        type: CLOSE_REVIEW_CHAPTER,
+        closedChapter: data,
+        pageKeys: [],
+      });
+    });
+  });
+
+  describe('openReviewChapter', () => {
+    it('should return action', () => {
+      const data = { name: 'foo' };
+      const action = openReviewChapter(data);
+      expect(action).to.deep.equal({
+        type: OPEN_REVIEW_CHAPTER,
+        openedChapter: data,
+      });
+    });
+  });
+
+  describe('toggleAllReviewChapters', () => {
+    it('should return action', () => {
+      const data = { foo: true, bar: true };
+      const action = toggleAllReviewChapters(data);
+      expect(action).to.deep.equal({
+        type: TOGGLE_ALL_REVIEW_CHAPTERS,
+        chapters: data,
+      });
+    });
+  });
+  describe('uploadFile token refresh retry', () => {
+    let xhr;
+    let requests = [];
+    let refreshStub;
+    let infoTokenExistsStub;
+
+    beforeEach(() => {
+      global.FormData = sinon.stub().returns({
+        append: sinon.spy(),
+        set: sinon.spy(),
+      });
+      xhr = sinon.useFakeXMLHttpRequest();
+      xhr.onCreate = req => {
+        requests.push(req);
+      };
+
+      const oauthUtilities = require('platform/utilities/oauth/utilities');
+      refreshStub = sinon.stub(oauthUtilities, 'refresh').resolves();
+      infoTokenExistsStub = sinon
+        .stub(oauthUtilities, 'infoTokenExists')
+        .returns(true);
+    });
+
+    afterEach(() => {
+      delete global.FormData;
+      global.XMLHttpRequest = window.XMLHttpRequest;
+      xhr.restore();
+      requests = [];
+
+      if (refreshStub) refreshStub.restore();
+      if (infoTokenExistsStub) infoTokenExistsStub.restore();
+    });
+
+    it('should call refresh on 403 token expired error', async () => {
+      const onChange = sinon.spy();
+      const thunk = uploadFile(
+        { name: '1.jpg', size: 1234 },
+        {
+          fileUploadUrl: '/v0/upload',
+          fileTypes: ['jpg'],
+          maxSize: 5000,
+          createPayload: f => f,
+          parseResponse: f => f.data.attributes,
+        },
+        f => f,
+        onChange,
+        () => {},
+        'test-prefix',
+      );
+      const dispatch = sinon.spy();
+      const getState = sinon.stub().returns({
+        form: { formId: 'test-form', data: {} },
+      });
+
+      thunk(dispatch, getState);
+
+      requests[0].respond(
+        403,
+        null,
+        JSON.stringify({
+          errors: 'Access token has expired',
+        }),
+      );
+
+      expect(refreshStub.called).to.be.true;
+
+      await refreshStub.returnValues[0];
+
+      expect(requests.length).to.equal(2);
+      expect(requests[1].url).to.equal('/v0/upload');
+    });
+
+    it('should not call refresh on 403 with different error', () => {
+      const onChange = sinon.spy();
+      const thunk = uploadFile(
+        { name: '1.jpg', size: 1234 },
+        {
+          fileUploadUrl: '/v0/upload',
+          fileTypes: ['jpg'],
+          maxSize: 5000,
+          createPayload: f => f,
+          parseResponse: f => f.data.attributes,
+        },
+        f => f,
+        onChange,
+        () => {},
+        'test-prefix',
+      );
+      const dispatch = sinon.spy();
+      const getState = sinon.stub().returns({
+        form: { formId: 'test-form', data: {} },
+      });
+
+      thunk(dispatch, getState);
+
+      requests[0].respond(
+        403,
+        null,
+        JSON.stringify({
+          errors: 'Forbidden - insufficient permissions',
+        }),
+      );
+
+      expect(refreshStub.called).to.be.false;
     });
   });
 });

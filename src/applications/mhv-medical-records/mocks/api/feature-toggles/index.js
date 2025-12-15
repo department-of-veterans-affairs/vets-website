@@ -3,27 +3,16 @@ const { snakeCase } = require('lodash');
 // Please, keep these feature toggle settings up-to-date with production's feature toggles settings.
 const APPLICATION_FEATURE_TOGGLES = Object.freeze({
   // medical records
-  mhvMedicalRecordsAllowTxtDownloads: true,
-  mhvMedicalRecordsDisplayConditions: true,
-  mhvMedicalRecordsDisplayDomains: true,
-  mhvMedicalRecordsDisplayLabsAndTests: true,
-  mhvMedicalRecordsDisplayNotes: true,
-  mhvMedicalRecordsDisplaySidenav: true,
-  mhvMedicalRecordsDisplayVaccines: true,
-  mhvMedicalRecordsDisplaySettingsPage: true,
-  mhvMedicalRecordsDisplayVitals: true,
-  mhvMedicalRecordsToVaGovRelease: true,
-  mhvMedicalRecordsMarch17Updates: true,
 
   // OH integration work
-  mhvMedicationsToVaGovRelease: true,
   mhvAcceleratedDeliveryEnabled: true,
   mhvAcceleratedDeliveryAllergiesEnabled: true,
+  mhvAcceleratedDeliveryConditionsEnabled: true,
   mhvAcceleratedDeliveryVitalSignsEnabled: true,
   mhvAcceleratedDeliveryVaccinesEnabled: true,
   mhvAcceleratedDeliveryLabsAndTestsEnabled: true,
-
-  mhvMedicalRecordsMilestoneTwo: true,
+  mhvAcceleratedDeliveryCareNotesEnabled: true,
+  mhvMedicalRecordsCcdExtendedFileTypes: true,
 });
 
 const generateFeatureToggles = ({

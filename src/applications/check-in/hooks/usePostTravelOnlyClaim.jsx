@@ -4,6 +4,7 @@ import { differenceInCalendarDays, parseISO } from 'date-fns';
 import { api } from '../api';
 import { useStorage } from './useStorage';
 import { makeSelectForm, makeSelectCurrentContext } from '../selectors';
+import { makeSelectFeatureToggles } from '../utils/selectors/feature-toggles';
 import { useFormRouting } from './useFormRouting';
 import { APP_NAMES } from '../utils/appConstants';
 import { URLS } from '../utils/navigation';
@@ -21,6 +22,10 @@ const usePostTravelOnlyClaim = props => {
   const appointmentStartTime = utcToFacilityTimeZone(
     appointmentToFile.startTime,
     appointmentToFile.timezone,
+  );
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+  const { isTravelPayApiEnabled: isV1TravelPayApiEnabled } = useSelector(
+    selectFeatureToggles,
   );
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const { token: uuid } = useSelector(selectCurrentContext);
@@ -60,7 +65,12 @@ const usePostTravelOnlyClaim = props => {
         return;
       }
       api.v2
-        .postTravelOnlyClaim(appointmentStartTime, uuid, timeToComplete)
+        .postTravelOnlyClaim(
+          appointmentStartTime,
+          uuid,
+          timeToComplete,
+          isV1TravelPayApiEnabled,
+        )
         .catch(() => {
           setTravelPayClaimError(true);
         })
@@ -86,6 +96,7 @@ const usePostTravelOnlyClaim = props => {
       alreadyPosted,
       appointmentStartTime,
       setCompleteTimestamp,
+      isV1TravelPayApiEnabled,
       getCompleteTimestamp,
     ],
   );

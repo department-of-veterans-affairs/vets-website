@@ -28,7 +28,7 @@ describe('VAOS Page: ContactInfoPage', () => {
       },
       newAppointment: {
         data: {
-          facilityType: FACILITY_TYPES.VAMC,
+          facilityType: FACILITY_TYPES.VAMC.id,
         },
         flowType: FLOW_TYPES.DIRECT,
         previousPages: {},

@@ -1,11 +1,12 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
-import moment from 'moment';
 import { render } from '@testing-library/react';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+
+import { daysFromToday } from '../../utils/dates/formatting';
 import {
   PAGE_TITLES,
   START_TEXT,
@@ -88,12 +89,7 @@ describe('<IntroductionPage/>', () => {
   });
 
   it('should render a BDD form title', () => {
-    window.sessionStorage.setItem(
-      SAVED_SEPARATION_DATE,
-      moment()
-        .add(90, 'days')
-        .format('YYYY-MM-DD'),
-    );
+    window.sessionStorage.setItem(SAVED_SEPARATION_DATE, daysFromToday(90));
     const wrapper = shallow(<IntroductionPage {...defaultProps} />);
     const title = wrapper.find('FormTitle');
     expect(title.length).to.equal(1);
@@ -112,12 +108,7 @@ describe('<IntroductionPage/>', () => {
   });
 
   it('should render BDD SiP intros', () => {
-    window.sessionStorage.setItem(
-      SAVED_SEPARATION_DATE,
-      moment()
-        .add(90, 'days')
-        .format('YYYY-MM-DD'),
-    );
+    window.sessionStorage.setItem(SAVED_SEPARATION_DATE, daysFromToday(90));
     const wrapper = shallow(<IntroductionPage {...defaultProps} />);
     const sipIntro = wrapper.find('Connect(withRouter(SaveInProgressIntro))');
     expect(sipIntro.length).to.equal(2);

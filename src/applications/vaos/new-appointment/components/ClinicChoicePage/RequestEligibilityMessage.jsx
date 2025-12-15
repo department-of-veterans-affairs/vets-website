@@ -12,9 +12,9 @@ export default function RequestEligibilityMessage({
   typeOfCareName,
 }) {
   const requestReason = eligibility.requestReasons[0];
-  const monthRequirement = facilityDetails?.legacyVAR?.settings
-    ? (facilityDetails.legacyVAR.settings[typeOfCare.id].request
-        .patientHistoryDuration /
+  const monthRequirement = facilityDetails?.legacyVAR?.settings?.[typeOfCare.id]
+    ? (facilityDetails.legacyVAR.settings[typeOfCare.id]?.request
+        ?.patientHistoryDuration /
         365) *
       12
     : '12-24';

@@ -14,6 +14,7 @@ import { VaButton } from '@department-of-veterans-affairs/component-library/dist
 import OmbInfo from '../components/OmbInfo';
 import ProcessList from '../components/ProcessList';
 import TechnologyProgramAccordion from '../components/TechnologyProgramAccordion';
+import { TITLE, SUBTITLE } from '../constants';
 
 const IntroductionPage = props => {
   const { route, toggleLoginModal, loggedIn, showLoadingIndicator } = props;
@@ -53,12 +54,9 @@ const IntroductionPage = props => {
 
   return (
     <article className="schemaform-intro form-10297-introduction-page">
-      <FormTitle title="Apply for the High Technology Program" />
+      <FormTitle title={TITLE} />
       <div>
-        <p className="vads-u-margin-y--2">
-          High Technology Veterans Education, Training and Skills (HITECH VETS)
-          program (VA Form 22-10297)
-        </p>
+        <p className="vads-u-margin-y--2">{SUBTITLE}</p>
       </div>
       <p className="vads-u-font-size--lg vads-u-font-family--serif vads-u-color--base vads-u-font-weight--normal">
         Use this form to apply for the High Technology Program, which covers
@@ -71,7 +69,7 @@ const IntroductionPage = props => {
       </h2>
       <ProcessList />
       <va-additional-info trigger="What happens after I apply?">
-        <p className="additional-info-content">
+        <p>
           If you’re eligible and the 4,000-student cap hasn’t been met, we’ll
           email you a Certificate of Eligibility. Otherwise, we’ll explain why
           you’re not eligible.

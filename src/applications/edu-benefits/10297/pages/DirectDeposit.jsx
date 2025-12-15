@@ -5,9 +5,12 @@ import {
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { isValidRoutingNumber } from 'platform/forms/validations';
+import MaskedBankAccountInfo from '../components/MaskedBankAccountInfo';
 
 const validateRoutingNumber = (errors, routingNumber) => {
-  if (!isValidRoutingNumber(routingNumber)) {
+  if (!routingNumber) return;
+  const cleanValue = routingNumber.toString().replace(/[^\d]/g, '');
+  if (!isValidRoutingNumber(cleanValue)) {
     errors.addError('Please enter a valid 9 digit routing number');
   }
 };
@@ -32,8 +35,9 @@ const bankInfoHelpText = (
 
 const EligibilityRegulationNote = () => (
   <p>
-    Direct deposit information is not required to determine eligibility.
-    However, benefits cannot be paid without this information per U.S. Treasury
+    Please provide the following information to enroll in direct deposit. Direct
+    deposit information is not required to determine eligibility. However,
+    benefits cannot be paid without this information per U.S. Treasury
     regulation 31 C.F.R. § 208.3.
   </p>
 );
@@ -54,62 +58,75 @@ const CheckGuideDetails = () => (
 );
 
 export default function createDirectDepositPage() {
+  // Base schema/field UI from the pattern
   const baseSchema = bankAccountSchema({ omitBankName: true });
+  const baseUIAll = bankAccountUI({ omitBankName: true });
+
+  // Strip out any object-level ui:order/description from the pattern to avoid conflicts
+  const {
+    // eslint-disable-next-line no-unused-vars
+    'ui:order': _dropOrder,
+    // eslint-disable-next-line no-unused-vars
+    'ui:description': _dropDesc,
+    ...baseBankAccountUI
+  } = baseUIAll;
+
+  // Build schema with properties in the exact render order you want
+  const bankAccountProperties = {
+    accountType: baseSchema.properties.accountType,
+    'view:checkGuideDetails': { type: 'object', properties: {} },
+    routingNumber: baseSchema.properties.routingNumber,
+    accountNumber: baseSchema.properties.accountNumber,
+    'view:bankInfoHelpText': { type: 'object', properties: {} },
+  };
 
   const schema = {
     type: 'object',
     properties: {
       bankAccount: {
-        type: 'object',
-        required: baseSchema.required,
-        properties: {
-          ...baseSchema.properties,
-          'view:checkGuideDetails': { type: 'object', properties: {} },
-          'view:bankInfoHelpText': { type: 'object', properties: {} },
-        },
+        ...baseSchema,
+        properties: bankAccountProperties,
+        required: [],
       },
     },
   };
-
-  const baseUI = bankAccountUI({ omitBankName: true });
-  const baseUIWithoutDesc = { ...baseUI };
-  delete baseUIWithoutDesc['ui:description'];
 
   const uiSchema = {
     ...titleUI('Direct deposit'),
     'ui:description': <EligibilityRegulationNote />,
     bankAccount: {
-      ...baseUIWithoutDesc,
-      'ui:order': [
-        'accountType',
-        'view:checkGuideDetails',
-        'routingNumber',
-        'accountNumber',
-        'view:bankInfoHelpText',
-      ],
+      // Use the pattern’s field-level config, but WITHOUT its object-level ui:order
+      ...baseBankAccountUI,
+
+      // Explicitly null any lingering order from upstream patterns (VRRAP-style)
+      'ui:order': null,
+
       accountType: {
-        ...baseUIWithoutDesc.accountType,
-        'ui:errorMessages': { required: 'Select an account type' },
+        ...baseBankAccountUI.accountType,
       },
 
       'view:checkGuideDetails': {
+        'ui:field': 'ViewField',
         'ui:description': <CheckGuideDetails />,
       },
 
       routingNumber: {
-        ...baseUIWithoutDesc.routingNumber,
+        ...baseBankAccountUI.routingNumber,
         'ui:title': 'Bank’s 9-digit routing number',
         'ui:validations': [validateRoutingNumber],
+        'ui:webComponentField': MaskedBankAccountInfo,
         'ui:errorMessages': {
-          required: 'Enter a 9-digit routing number',
           pattern: 'Please enter a valid 9 digit routing number',
         },
       },
+
       accountNumber: {
-        ...baseUIWithoutDesc.accountNumber,
-        'ui:errorMessages': { required: 'Enter your account number' },
+        ...baseBankAccountUI.accountNumber,
+        'ui:webComponentField': MaskedBankAccountInfo,
       },
+
       'view:bankInfoHelpText': {
+        'ui:field': 'ViewField',
         'ui:description': (
           <>
             <p>

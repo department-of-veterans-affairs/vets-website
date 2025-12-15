@@ -14,7 +14,7 @@ Before you get started check [this page](https://depo-platform-documentation.scr
   `mkdir -p build/localhost/data/cms`
 - fetch the CMS data and save to the specified location
   `curl -o build/localhost/data/cms/vamc-ehr.json "https://www.va.gov/data/cms/vamc-ehr.json"`
-- turn on local mocks `yarn mock-api --responses src/applications/mhv-medical-records/mocks/api/index.js`
+- turn on local mocks `yarn mock-api --responses src/platform/mhv/api/mocks`
 - start app `yarn watch --env entry=medical-records`
 - Run this in your browser console to simulate being logged in `localStorage.setItem('hasSession', true);`
 - visit the app: `http://localhost:3001/my-health/medical-records`

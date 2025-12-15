@@ -1,0 +1,58 @@
+{
+  "claimantQuestion": {
+    "patientType": "child"
+  },
+  "claimantPersonalInfo": {
+    "claimantFullName": {
+      "first": "Jane",
+      "middle": "M",
+      "last": "Doe"
+    },
+    "claimantDateOfBirth": "1950-01-15"
+  },
+  "claimantIdentificationInfo": {
+    "vaFileNumber": "41982736"
+  },
+  "veteranPersonalInfo": {
+    "fullName": {
+      "first": "John",
+      "middle": "Q",
+      "last": "Veteran"
+    },
+    "dateOfBirth": "1948-06-20"
+  },
+  "veteranIdentificationInfo": {
+    "vaFileNumber": "501987654"
+  },
+  "nursingHomeDetails": {
+    "nursingHomeName": "Sunny Acres Nursing Home",
+    "nursingHomeAddress": {
+      "street": "123 Main St",
+      "city": "Anytown",
+      "state": "CA",
+      "postalCode": "90210"
+    }
+  },
+  "certificationLevelOfCare": {
+    "certificationChoice": "certifiedNeedForNursingHomeCare"
+  },
+  "admissionDate": {
+    "admissionDate": "2023-01-15"
+  },
+  "medicaidFacility": false,
+  "monthlyCosts": {
+    "medicaidCost": 5000
+  },
+  "nursingOfficialInformation": {
+    "fullName": {
+      "first": "Sarah",
+      "last": "Johnson"
+    },
+    "title": "Administrator",
+    "phoneNumber": "555-123-4567"
+  },
+  "signature": {
+    "signatureCheckbox": true,
+    "signature": "Jane Doe"
+  }
+}

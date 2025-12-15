@@ -1,20 +1,20 @@
-import moment from 'moment';
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import NotesDetailsPage from './pages/NotesDetailsPage';
 import NotesListPage from './pages/NotesListPage';
 import notes from './fixtures/notes/notes.json';
+import { formatDateMonthDayCommaYear } from '../../util/dateHelpers';
 
-describe('Medical Records Care Summary Page ', () => {
+describe('Medical Records Care Summary Page', () => {
   const site = new MedicalRecordsSite();
 
-  before(() => {
+  beforeEach(() => {
     site.login();
     // Given Navigate to Notes Page
-    NotesListPage.clickGotoNotesLink();
+    NotesListPage.gotoNotesList();
   });
 
   it('Progress Note Details', () => {
-    NotesDetailsPage.clickProgressNoteLink(0);
+    NotesDetailsPage.clickProgressNoteLink('ADHC CONSULT RESULTS');
 
     NotesDetailsPage.verifyProgressNoteTitle(
       notes.entry[4].resource.content[0].attachment.title,
@@ -25,22 +25,18 @@ describe('Medical Records Care Summary Page ', () => {
     NotesDetailsPage.verifyProgressNoteLocation(
       notes.entry[4].resource.contained[0].name,
     );
+
     // Verify Progress Note Details Written by
-    NotesDetailsPage.verifyProgressNoteWrittenBy(
-      // notes.entry[4].resource.contained[1].name[0].text,
-      'JOHN TESTER',
-    );
+    NotesDetailsPage.verifyProgressNoteWrittenBy('JOHN TESTER');
     // Verify Progress Note Details Signed by
-    NotesDetailsPage.verifyProgressNoteSignedBy(
-      // notes.entry[4].resource.contained[2].name[0].text,
-      'JOHN TESTER',
-    );
-    // Verify Progress Note Details Signed Date
+    NotesDetailsPage.verifyProgressNoteSignedBy('JOHN TESTER');
+
     NotesDetailsPage.verifyProgressNoteSignedDate(
-      moment(
+      formatDateMonthDayCommaYear(
         notes.entry[4].resource.authenticator.extension[0].valueDateTime,
-      ).format('MMMM D, YYYY'),
+      ),
     );
+
     // Verify Progress Note Record Details
     NotesDetailsPage.verifyProgressNoteRecord(
       `LOCAL TITLE: ${notes.entry[4].resource.content[0].attachment.title}`, // ADHC CONSULT RESULTS

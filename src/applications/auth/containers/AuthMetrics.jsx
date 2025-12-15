@@ -11,7 +11,8 @@ export default class AuthMetrics {
     this.payload = payload;
     this.requestId = requestId;
     this.errorCode = errorCode;
-    this.userProfile = get('data.attributes.profile', payload, {});
+    this.userAttributes = get('data.attributes', payload, {});
+    this.userProfile = get('profile', this.userAttributes, {});
     this.loaCurrent = get('loa.current', this.userProfile, null);
     this.serviceName = get('signIn.serviceName', this.userProfile, null);
   }
@@ -38,7 +39,6 @@ export default class AuthMetrics {
       case POLICY_TYPES.CUSTOM: /* type=custom is used for SSOe auto login */
       case POLICY_TYPES.MHV_VERIFIED: /* type=mhv_verified */
       case CSP_IDS.MHV:
-      case CSP_IDS.DS_LOGON:
       case CSP_IDS.ID_ME:
       case CSP_IDS.LOGIN_GOV:
       case CSP_IDS.VAMOCK:

@@ -16,7 +16,7 @@ const setup = () => {
     'v0/profile/status',
     'v0/profile/personal_information',
     'v0/profile/service_history',
-    'v0/ppiu/payment_information',
+    'v0/profile/direct_deposits',
   ]);
 
   // This test covers the international phones flag ON scenario using the va-telephone-input component
@@ -195,7 +195,7 @@ describe('Profile - Contact Information - editing phone numbers', () => {
     cy.get('va-telephone-input').should(
       'have.attr',
       'error',
-      'Enter a United States of America phone number in a valid format, for example, (xxx) xxx-xxxx',
+      'Enter a valid United States of America phone number. Use 10 digits.',
     );
 
     cy.contains('Update saved.').should('not.exist');

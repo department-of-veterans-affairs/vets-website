@@ -7,7 +7,7 @@ describe(`${appName} -- Claim Details Edge Cases`, () => {
   beforeEach(() => {
     cy.clock(new Date(2024, 5, 25), ['Date']);
     cy.intercept('/data/cms/vamc-ehr.json', {});
-    ApiInitializer.initializeFeatureToggle.withAllFeatures();
+    ApiInitializer.initializeFeatureToggle.withSmocOnly();
     ApiInitializer.initializeClaims.happyPath();
   });
 
@@ -25,6 +25,7 @@ describe(`${appName} -- Claim Details Edge Cases`, () => {
         facilityName: 'Test VA Medical Center',
         createdOn: '2024-03-02T09:00:00.000Z',
         modifiedOn: '2024-03-02T09:00:00.000Z',
+        appointment: { id: 'minimal-claim-456' },
         // Missing: documents, totalCostRequested, reimbursementAmount
       });
 
@@ -60,6 +61,7 @@ describe(`${appName} -- Claim Details Edge Cases`, () => {
         reimbursementAmount: 12.0,
         createdOn: '2024-04-02T13:30:00.000Z',
         modifiedOn: '2024-04-02T13:30:00.000Z',
+        appointment: { id: 'no-docs-claim-789' },
         documents: [], // Empty array
       });
 
@@ -83,6 +85,7 @@ describe(`${appName} -- Claim Details Edge Cases`, () => {
         reimbursementAmount: 0,
         createdOn: '2024-05-02T16:45:00.000Z',
         modifiedOn: '2024-05-02T16:45:00.000Z',
+        appointment: { id: 'null-docs-claim-101' },
         documents: null, // Null value
       });
 
@@ -106,6 +109,7 @@ describe(`${appName} -- Claim Details Edge Cases`, () => {
         reimbursementAmount: 47.0,
         createdOn: '2024-06-02T11:00:00.000Z',
         modifiedOn: '2024-06-02T11:00:00.000Z',
+        appointment: { id: 'long-names-claim-202' },
         documents: [],
       });
 
@@ -133,6 +137,7 @@ describe(`${appName} -- Claim Details Edge Cases`, () => {
         reimbursementAmount: 32.0,
         createdOn: '2024-07-02T08:15:00.000Z',
         modifiedOn: '2024-07-02T08:15:00.000Z',
+        appointment: { id: 'special-chars-claim-303' },
         documents: [
           {
             documentId: 'special-char-doc-1',
@@ -169,6 +174,7 @@ describe(`${appName} -- Claim Details Edge Cases`, () => {
         reimbursementAmount: 0,
         createdOn: '2024-08-02T12:30:00.000Z',
         modifiedOn: '2024-08-05T09:45:00.000Z',
+        appointment: { id: 'on-hold-claim-404' },
         documents: [],
       });
 
@@ -192,6 +198,7 @@ describe(`${appName} -- Claim Details Edge Cases`, () => {
         reimbursementAmount: 0,
         createdOn: '2024-09-02T15:00:00.000Z',
         modifiedOn: '2024-09-10T11:20:00.000Z',
+        appointment: { id: 'appealed-claim-505' },
         documents: [],
       });
 
@@ -215,6 +222,7 @@ describe(`${appName} -- Claim Details Edge Cases`, () => {
         reimbursementAmount: 45.0,
         createdOn: '2024-10-02T10:45:00.000Z',
         modifiedOn: '2024-10-08T14:30:00.000Z',
+        appointment: { id: 'partial-payment-claim-606' },
         documents: [],
       });
 
@@ -245,6 +253,7 @@ describe(`${appName} -- Claim Details Edge Cases`, () => {
         reimbursementAmount: 0,
         createdOn: '2024-11-02T13:15:00.000Z',
         modifiedOn: '2024-11-05T16:20:00.000Z',
+        appointment: { id: 'rejection-letter-claim-707' },
         documents: [
           {
             documentId: 'rejection-doc-1',
@@ -283,6 +292,7 @@ describe(`${appName} -- Claim Details Edge Cases`, () => {
         reimbursementAmount: 0,
         createdOn: '2024-12-02T09:30:00.000Z',
         modifiedOn: '2024-12-07T12:45:00.000Z',
+        appointment: { id: 'mixed-docs-claim-808' },
         documents: [
           {
             documentId: 'decision-doc',
@@ -345,6 +355,7 @@ describe(`${appName} -- Claim Details Edge Cases`, () => {
         reimbursementAmount: 17.0,
         createdOn: '2024-01-01T23:59:59.999Z', // End of day UTC
         modifiedOn: '2024-01-02T12:00:00.000Z', // Noon UTC
+        appointment: { id: 'date-test-claim-909' },
         documents: [],
       });
 

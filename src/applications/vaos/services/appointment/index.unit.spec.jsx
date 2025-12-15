@@ -1,5 +1,8 @@
 /* eslint-disable @department-of-veterans-affairs/axe-check-required */
-import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
+import {
+  mockFetch,
+  resetFetch,
+} from '@department-of-veterans-affairs/platform-testing/helpers';
 import { expect } from 'chai';
 
 import { addDays, format, subDays } from 'date-fns';
@@ -9,6 +12,7 @@ import {
   getLongTermAppointmentHistoryV2,
   getVAAppointmentLocationId,
   isValidPastAppointment,
+  getLink,
 } from '.';
 import MockAppointmentResponse from '../../tests/fixtures/MockAppointmentResponse';
 import {
@@ -19,8 +23,27 @@ import {
 import { APPOINTMENT_TYPES, VIDEO_TYPES } from '../../utils/constants';
 
 describe('VAOS Services: Appointment ', () => {
+  // Global cleanup to ensure clean state for all tests
+  beforeEach(() => {
+    // Reset any global fetch state that might be lingering
+    if (global.fetch && global.fetch.isSinonProxy) {
+      global.fetch.resetHistory();
+    }
+  });
+
+  afterEach(() => {
+    // Ensure complete cleanup after each test
+    if (global.fetch && global.fetch.isSinonProxy) {
+      global.fetch.resetHistory();
+    }
+  });
+
   describe('fetchBookedAppointment by id', () => {
     beforeEach(() => mockFetch());
+
+    afterEach(() => {
+      resetFetch();
+    });
 
     it('should return data for an in person VA appointment', async () => {
       mockAppointmentApi({
@@ -185,6 +208,10 @@ describe('VAOS Services: Appointment ', () => {
   describe('getAppointmentRequests', () => {
     beforeEach(() => mockFetch());
 
+    afterEach(() => {
+      resetFetch();
+    });
+
     it('should return data for a VA appointment request', async () => {
       // Given VA appointment request
       const start = subDays(new Date(), 30);
@@ -284,11 +311,41 @@ describe('VAOS Services: Appointment ', () => {
   });
 
   describe('getLongTermAppointmentHistoryV2', () => {
+    let originalUserAgent;
+
     beforeEach(() => {
+      // Complete reset to ensure clean state
+      resetFetch();
       mockFetch();
+
+      // Force navigator.userAgent to node.js to ensure fresh function calls
+      originalUserAgent = navigator.userAgent;
+      Object.defineProperty(navigator, 'userAgent', {
+        value: 'node.js',
+        writable: true,
+      });
+
+      // Verify the mock is properly set up
+      if (!global.fetch || !global.fetch.isSinonProxy) {
+        throw new Error('Mock fetch was not properly set up');
+      }
     });
 
-    it.skip('should fetch 3 years of appointment history', async () => {
+    afterEach(() => {
+      // Restore navigator.userAgent
+      if (originalUserAgent) {
+        Object.defineProperty(navigator, 'userAgent', {
+          value: originalUserAgent,
+          writable: true,
+        });
+      }
+      resetFetch();
+    });
+
+    it('should fetch 3 years of appointment history', async () => {
+      // Verify clean starting state
+      expect(global.fetch.callCount).to.equal(0);
+
       const dateRanges = getDateRanges(3);
       dateRanges.forEach(range => {
         mockAppointmentsApi({
@@ -296,12 +353,21 @@ describe('VAOS Services: Appointment ', () => {
           end: range.end,
           useRFC3339: false,
           response: [],
-          statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+          statuses: [
+            'booked',
+            'arrived',
+            'fulfilled',
+            'cancelled',
+            'checked-in',
+          ],
         });
       });
 
+      const initialCallCount = global.fetch.callCount;
       await getLongTermAppointmentHistoryV2();
-      expect(global.fetch.callCount).to.equal(3);
+
+      // Verify exactly 3 new calls were made
+      expect(global.fetch.callCount - initialCallCount).to.equal(3);
       expect(global.fetch.firstCall.args[0]).to.contain(
         `${format(dateRanges[0].start, 'yyyy-MM-dd')}`,
       );
@@ -322,8 +388,6 @@ describe('VAOS Services: Appointment ', () => {
       );
     });
   });
-
-  //--------
 
   describe('getVAAppointmentLocationId', () => {
     it('should return null for undefined appointment', () => {
@@ -387,6 +451,51 @@ describe('VAOS Services: Appointment ', () => {
       const filtered = appointments.filter(isValidPastAppointment);
 
       expect(filtered.length).to.equal(3);
+    });
+  });
+
+  describe('getLink', () => {
+    it('should return the correct link for a past appointment', () => {
+      const appointment = {
+        vaos: {
+          isPastAppointment: true,
+        },
+        id: '123',
+        modality: 'vaInPerson',
+      };
+      expect(getLink({ appointment })).to.equal('past/123');
+    });
+
+    it('should return the correct link for a CC appointment', () => {
+      const appointment = {
+        id: '123',
+        vaos: {
+          isPastAppointment: true,
+        },
+        modality: 'communityCareEps',
+      };
+      expect(getLink({ appointment })).to.equal('/123?eps=true');
+      const futureAppointment = {
+        id: '1234',
+        vaos: {
+          isPastAppointment: false,
+        },
+        modality: 'communityCareEps',
+      };
+      expect(getLink({ appointment: futureAppointment })).to.equal(
+        '/1234?eps=true',
+      );
+    });
+
+    it('should return the correct link for a future appointment', () => {
+      const appointment = {
+        id: '123',
+        vaos: {
+          isPastAppointment: false,
+        },
+        modality: 'vaInPerson',
+      };
+      expect(getLink({ appointment })).to.equal('/123');
     });
   });
 });

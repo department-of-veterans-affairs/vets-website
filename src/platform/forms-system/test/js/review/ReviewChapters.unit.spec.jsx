@@ -116,14 +116,14 @@ describe('Schemaform review: ReviewChapters', () => {
     instance.handleToggleChapter({
       target: {
         dataset: { chapter: 'chapter1' },
-        getAttribute: () => true,
+        getAttribute: () => 'true',
       },
     });
     expect(openReviewChapter.args[0][0]).to.eq('chapter1');
     instance.handleToggleChapter({
       target: {
         dataset: { chapter: 'chapter2' },
-        getAttribute: () => false,
+        getAttribute: () => 'false',
       },
     });
     expect(closeReviewChapter.args[0][0]).to.eq('chapter2');

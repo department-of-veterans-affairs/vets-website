@@ -285,11 +285,11 @@ export const setUnsavedNavigationError = (
 };
 
 export const getSize = num => {
-  if (num > 999999) {
-    return `${(num / 1000000).toFixed(1)} MB`;
+  if (num >= 1024 * 1024) {
+    return `${(num / 1024 / 1024).toFixed(1)} MB`;
   }
-  if (num > 999) {
-    return `${Math.floor(num / 1000)} KB`;
+  if (num >= 1024) {
+    return `${(num / 1024).toFixed(1)} KB`;
   }
   return `${num} B`;
 };
@@ -410,6 +410,28 @@ export const findBlockedFacilities = recipients => {
   return { fullyBlockedFacilities, allFacilities };
 };
 
+export const findAllowedFacilities = recipients => {
+  const allowedVistaFacilities = new Set();
+  const allowedOracleFacilities = new Set();
+
+  recipients.forEach(recipient => {
+    const { stationNumber, blockedStatus, ohTriageGroup } = recipient;
+
+    if (blockedStatus === false) {
+      if (ohTriageGroup === true) {
+        allowedOracleFacilities.add(stationNumber);
+      } else {
+        allowedVistaFacilities.add(stationNumber);
+      }
+    }
+  });
+
+  return {
+    allowedVistaFacilities: [...allowedVistaFacilities],
+    allowedOracleFacilities: [...allowedOracleFacilities],
+  };
+};
+
 export const getStationNumberFromRecipientId = (recipientId, recipients) => {
   const recipient = recipients.find(item => item.triageTeamId === recipientId);
   return recipient?.stationNumber || null;
@@ -428,6 +450,7 @@ import {
   scrollToElement,
   scrollToTop as scrollToTopUtil,
 } from 'platform/utilities/scroll';
+import { datadogRum } from '@datadog/browser-rum';
 
 export const scrollTo = (element, behavior = 'smooth') => {
   if (element) {
@@ -457,4 +480,68 @@ export const scrollIfFocusedAndNotInView = (offset = 0) => {
       });
     }
   }
+};
+
+export const sendDatadogError = (error, feature) => {
+  datadogRum.addError(error, {
+    app: 'Secure Messaging',
+    feature,
+  });
+};
+
+/**
+ * Builds the message body for prescription renewal requests
+ * @param {Object} rx - The prescription object containing details
+ * @returns {string} Formatted message body with prescription information
+ */
+export const buildRxRenewalMessageBody = (rx, rxError) => {
+  const getProviderNameValue = () => {
+    if (rxError) return '';
+
+    return (
+      [rx?.providerFirstName, rx?.providerLastName].filter(Boolean).join(' ') ||
+      'Provider name not available'
+    );
+  };
+
+  const getRefillRemainingValue = () => {
+    if (rxError) return '';
+    if (
+      rx?.refillRemaining !== null &&
+      rx?.refillRemaining !== undefined &&
+      rx?.refillRemaining !== '' &&
+      !Number.isNaN(rx.refillRemaining)
+    ) {
+      return rx.refillRemaining;
+    }
+    return 'Number of refills left not available';
+  };
+
+  const getDateValue = date => {
+    if (rxError) return '';
+    if (date) {
+      return dateFormat(date, 'MMMM D, YYYY');
+    }
+    return 'Date not available';
+  };
+
+  return [
+    `Medication name, strength, and form: ${
+      rxError ? '' : rx?.prescriptionName || ''
+    }`,
+    `Prescription number: ${
+      rxError
+        ? ''
+        : rx?.prescriptionNumber || 'Prescription number not available'
+    }`,
+    `Instructions: ${rxError ? '' : rx?.sig || 'Instructions not available'}`,
+    `Provider who prescribed it: ${getProviderNameValue()}`,
+    `Number of refills left: ${getRefillRemainingValue()}`,
+    `Prescription expiration date: ${getDateValue(rx?.expirationDate)}`,
+    `Reason for use: ${
+      rxError ? '' : rx?.reason || 'Reason for use not available'
+    }`,
+    `Last filled on: ${getDateValue(rx?.sortedDispensedDate)}`,
+    `Quantity: ${rxError ? '' : rx?.quantity || 'Quantity not available'}`,
+  ].join('\n');
 };

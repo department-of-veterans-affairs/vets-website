@@ -30,20 +30,21 @@ export const useVaFacilityCode = () => {
               },
             },
           );
+          const { attributes } = response?.data || {};
           dispatch(
             setData({
               ...formData,
               institutionDetails: {
                 ...formData.institutionDetails,
-                institutionName: response?.data?.attributes?.name,
-                address: {
-                  address1: response?.data?.attributes?.address1,
-                  address2: response?.data?.attributes?.address2,
-                  address3: response?.data?.attributes?.address3,
-                  city: response?.data?.attributes?.city,
-                  state: response?.data?.attributes?.state,
-                  zip: response?.data?.attributes?.zip,
-                  country: response?.data?.attributes?.country,
+                institutionName: attributes?.name,
+                institutionAddress: {
+                  street: attributes?.address1 || '',
+                  street2: attributes?.address2 || '',
+                  street3: attributes?.address3 || '',
+                  city: attributes?.city || '',
+                  state: attributes?.state || '',
+                  postalCode: attributes?.zip || '',
+                  country: attributes?.country || '',
                 },
                 loader: false,
               },
@@ -56,13 +57,13 @@ export const useVaFacilityCode = () => {
               institutionDetails: {
                 ...formData.institutionDetails,
                 institutionName: 'not found',
-                address: {
-                  address1: '',
-                  address2: '',
-                  address3: '',
+                institutionAddress: {
+                  street: '',
+                  street2: '',
+                  street3: '',
                   city: '',
                   state: '',
-                  zip: '',
+                  postalCode: '',
                   country: '',
                 },
                 loader: false,

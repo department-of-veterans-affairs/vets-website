@@ -17,6 +17,18 @@ import {
 } from '../util/contact-info';
 import { isEmptyObject } from '../../shared/utils';
 
+/**
+ * Veteran contact informationPage Component
+ * @typedef {object} VeteranContactInformationPageProps
+ * @property {object} data - form data
+ * @property {function} goToPath - function to go to specific path
+ * @property {function} setFormData - function to set form data
+ * @property {node} contentBeforeButtons - content to render before buttons
+ * @property {node} contentAfterButtons - content to render after buttons
+ *
+ * @param {VeteranContactInformationPageProps} props - Component props
+ * @returns {React.Component} - Veteran contact information page
+ */
 const VeteranContactInformationPage = ({
   data,
   goBack,
@@ -65,9 +77,9 @@ const VeteranContactInformationPage = ({
     profileMobilePhone,
   );
   const profileHomePhoneString = convertPhoneObjectToString(profileHomePhone);
-  const [phoneSource] = useState(
-    phone || profileMobilePhoneString ? 'Mobile' : 'Home',
-  );
+  const phoneSource =
+    data['view:phoneSource'] ||
+    (phone || profileMobilePhoneString ? 'Mobile' : 'Home');
 
   // Get international phone from mobile or home, if it's international
   let profileInternationalPhone = null;
@@ -123,6 +135,7 @@ const VeteranContactInformationPage = ({
     }
 
     updateContactInfo({
+      'view:phoneSource': phoneSource,
       email: email || profileEmail?.emailAddress || '',
       phone: phone || profileMobilePhoneString || profileHomePhoneString || '',
       address: newAddress,
@@ -154,6 +167,7 @@ const VeteranContactInformationPage = ({
         if (updateAlertRef?.current && name && action === 'update') {
           setTimeout(() => {
             scrollAndFocus(updateAlertRef.current);
+            removeEditContactInformation();
           });
         } else if (action === 'cancel') {
           setTimeout(() => {
@@ -164,6 +178,7 @@ const VeteranContactInformationPage = ({
               scrollTo(card);
               focusElement('a', {}, card.querySelector('va-link'));
             }
+            removeEditContactInformation();
           });
         }
       }
@@ -236,9 +251,9 @@ const VeteranContactInformationPage = ({
         </va-alert>
       ) : null}
       <p>
-        If you notice any errors, correct them now.{' '}
-        <strong>Changes made here apply only to this form.</strong> If you want
-        to update your contact information in our system, go to your VA profile.
+        If you notice any errors, correct them now. Changes made here apply only
+        to this form. If you want to update your contact information in our
+        system, go to your VA profile.
       </p>
       <va-link
         text="Update your contact information in your VA profile"
@@ -421,6 +436,7 @@ VeteranContactInformationPage.propTypes = {
   // updatePage: PropTypes.func,
   data: PropTypes.shape({
     email: PropTypes.string,
+    'view:phoneSource': PropTypes.string,
     phone: PropTypes.string,
     address: PropTypes.shape({
       street: PropTypes.string,

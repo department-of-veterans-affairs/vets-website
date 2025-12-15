@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+import { selectProfile } from 'platform/user/selectors';
 import { apiRequest } from 'platform/utilities/api';
 import { focusElement } from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
@@ -13,6 +14,10 @@ const ApplicationDownloadLink = ({ formConfig, linkText }) => {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
 
+  const {
+    userFullName: { first = 'Applicant', last = 'Submission' } = {},
+  } = useSelector(selectProfile);
+
   // define local use variables
   const form = useSelector(state => state.form);
   const formData = useMemo(() => submitTransformer(formConfig, form), [
@@ -20,30 +25,19 @@ const ApplicationDownloadLink = ({ formConfig, linkText }) => {
     form,
   ]);
 
-  // Default name to Applicant Submission if view:veteranInformation is empty for some reason
-  const name = useMemo(
-    () => {
-      const { veteranFullName = { first: 'Applicant', last: 'Submission' } } =
-        form.data?.['view:veteranInformation'] ?? {};
-      return veteranFullName;
-    },
-    [form.data],
-  );
-
   const handlePdfDownload = useCallback(
     blob => {
       const downloadUrl = URL.createObjectURL(blob);
       const downloadLink = document.createElement('a');
-
       downloadLink.href = downloadUrl;
-      downloadLink.download = `10-10EZR_${name.first}_${name.last}.pdf`;
+      downloadLink.download = `10-10EZR_${first}_${last}.pdf`;
       document.body.appendChild(downloadLink);
 
       downloadLink.click();
       document.body.removeChild(downloadLink);
       URL.revokeObjectURL(downloadUrl);
     },
-    [name],
+    [first, last],
   );
 
   const fetchPdf = useCallback(

@@ -1,11 +1,27 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { DEPENDENT_CHOICES } from '../constants';
-import { maskID } from '../../shared/utils';
+import { maskID, calculateAge } from '../../shared/utils';
 
+/**
+ * Dependents Information Review Component
+ * @typedef {object} DependentsInformationReviewProps
+ * @property {object} data - form data
+ * @property {function} goToPath - function to go to specific path
+ *
+ * @param {DependentsInformationReviewProps} props - Component props
+ * @returns {React.Component} - Dependents information review page
+ */
 export const DependentsInformationReview = ({ data, goToPath }) => {
-  const { dependents, hasDependentsStatusChanged = '' } = data || {};
+  const { hasDependentsStatusChanged = '' } = data || {};
+  // Using dependents from Redux state because dependents are only set in the
+  // form data on the dependents page; this change allows the mock server to
+  // jump straight to the review page and still show dependents
+  const dependents = useSelector(
+    state => state.form?.data?.dependents || state.dependents?.data || [],
+  );
 
   const onEditClick = () => {
     sessionStorage.setItem('onReviewPage', 'true');
@@ -74,7 +90,8 @@ export const DependentsInformationReview = ({ data, goToPath }) => {
                   className="dd-privacy-hidden"
                   data-dd-action-name="Dependent's age"
                 >
-                  {dep.age} years old
+                  {calculateAge(dep.dateOfBirth).labeledAge ||
+                    'Unable to determine'}
                 </dd>
               </div>
               <div className="review-row">

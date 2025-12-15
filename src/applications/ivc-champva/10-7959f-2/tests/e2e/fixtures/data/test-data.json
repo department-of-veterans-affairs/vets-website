@@ -6,10 +6,7 @@
       "last": "last"
     },
     "veteranDateOfBirth": "2000-01-01",
-    "veteranSocialSecurityNumber": {
-      "ssn": "123123123",
-      "vaFileNumber": "123123123"
-    },
+    "veteranSocialSecurityNumber": "123123123",
     "veteranAddress": {
       "country": "USA",
       "street": "123 Street Lane",

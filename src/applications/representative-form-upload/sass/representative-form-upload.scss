@@ -13,6 +13,15 @@
 
 .representative-form {
   padding: 0 0 48px !important;
+  -webkit-font-smoothing: antialiased;
+
+  h1 {
+    margin: 0;
+
+    ~ p {
+      margin: 0;
+    }
+  }
 
   va-process-list {
     margin-left: 20px;
@@ -28,8 +37,13 @@
   }
 }
 //overriding default classes set at the forms level to match figma
+.form-21-0966,
 .form-21-686c,
-.form-21-526EZ {
+.form-21-526EZ,
+.form-21-0966 {
+  [for="root_vaFileNumber"] {
+    margin-top: 1.5rem;
+  }
   .usa-width-two-thirds {
     max-width: 627px;
     padding: 0;
@@ -56,7 +70,7 @@
   }
   fieldset.vads-u-margin-y--2.rjsf-object-field {
     margin-top: 0 !important;
-    margin-bottom: 8px !important;
+    margin-bottom: 0 !important;
   }
   .schemaform-block-title.schemaform-block-subtitle {
     font-size: 1.25rem !important;
@@ -96,6 +110,10 @@
   }
   va-radio {
     margin-top: 16px;
+
+    &:has([name="root_benefitType"]) {
+      margin-top: 32px;
+    }
   }
   #root_supportingDocuments_add_label {
     margin: 0;
@@ -197,4 +215,32 @@
 }
 .form-upload__alert {
   margin-bottom: 32px;
+}
+
+[name="root_selectBenefits"] {
+  margin-top: 32px;
+}
+
+.form-21-0966 {
+  .form-review-panel-page {
+    div[name="veteranInformationPageScrollElement"] {
+      display: none;
+    }
+    div[name="claimantInformationScrollElement"] {
+      display: none;
+    }
+    .form-review-panel-page-header-row {
+      border-bottom: none !important;
+    }
+    form.rjsf {
+      margin-bottom: 0px;
+    }
+  }
+  @media screen and (min-width: 768px) {
+    .form-progress-buttons {
+      .vads-u-flex--1 {
+        width: 246px;
+      }
+    }
+  }
 }

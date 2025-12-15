@@ -21,7 +21,7 @@ class MicrobiologyListPage extends BaseListPage {
 */
 
   clickMicrobiologyDetailsLink = (_MicrobiologyIndex = 0) => {
-    cy.get('[data-testid="record-list-item"]')
+    cy.findAllByTestId('record-list-item')
       .find('a')
       .eq(_MicrobiologyIndex)
       .click();

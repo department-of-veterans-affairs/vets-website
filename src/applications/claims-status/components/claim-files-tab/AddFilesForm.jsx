@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useParams } from 'react-router-dom-v5-compat';
 
 import {
   VaFileInputMultiple,
@@ -12,6 +13,7 @@ import {
   checkIsEncryptedPdf,
 } from 'platform/forms-system/src/js/utilities/file';
 
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { DOC_TYPES } from '../../utils/helpers';
 import { FILE_TYPES, isPdf, validateFiles } from '../../utils/validations';
 import mailMessage from '../MailMessage';
@@ -24,7 +26,10 @@ import {
   PASSWORD_ERROR,
   DOC_TYPE_ERROR,
   SUBMIT_TEXT,
+  SEND_YOUR_DOCUMENTS_TEXT,
+  ANCHOR_LINKS,
 } from '../../constants';
+import { setPageFocus } from '../../utils/page';
 
 // File encryption utilities
 const checkFileEncryption = async file => {
@@ -223,11 +228,21 @@ const createSubmissionPayload = (files, docTypes, encrypted) => {
 };
 
 const AddFilesForm = ({ fileTab, onSubmit, uploading, progress, onCancel }) => {
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const toggleValue = useToggleValue(TOGGLE_NAMES.cstShowDocumentUploadStatus);
+  const { id: claimId } = useParams();
   const [files, setFiles] = useState([]);
   const [errors, setErrors] = useState([]);
   const [encrypted, setEncrypted] = useState([]);
   const [canShowUploadModal, setCanShowUploadModal] = useState(false);
   const fileInputRef = useRef(null);
+
+  // Build the href for "other ways to send documents" link
+  // When on the files tab, use anchor link; otherwise use full path
+  const otherWaysAnchor = `#${ANCHOR_LINKS.otherWaysToSendDocuments}`;
+  const otherWaysToSendHref = fileTab
+    ? otherWaysAnchor
+    : `/track-claims/your-claims/${claimId}/files${otherWaysAnchor}`;
 
   // Track document type changes and clear errors immediately
   useEffect(
@@ -349,6 +364,7 @@ const AddFilesForm = ({ fileTab, onSubmit, uploading, progress, onCancel }) => {
           ref={fileInputRef}
           hint={HINT_TEXT}
           label={LABEL_TEXT}
+          labelClass={toggleValue ? 'vads-u-visibility--screen-reader' : ''}
           onVaMultipleChange={handleFileChange}
           errors={errors}
           encrypted={encrypted}
@@ -370,12 +386,32 @@ const AddFilesForm = ({ fileTab, onSubmit, uploading, progress, onCancel }) => {
           text={SUBMIT_TEXT}
           onClick={handleSubmit}
         />
-        <va-additional-info
-          class="vads-u-margin-y--3"
-          trigger="Need to mail your documents?"
-        >
-          {mailMessage}
-        </va-additional-info>
+        {!toggleValue && (
+          <va-additional-info
+            class="vads-u-margin-y--3"
+            trigger="Need to mail your documents?"
+          >
+            {mailMessage}
+          </va-additional-info>
+        )}
+        {toggleValue && (
+          <>
+            <div className="vads-u-margin-top--3 vads-u-margin-bottom--5">
+              <va-link
+                href={otherWaysToSendHref}
+                text={SEND_YOUR_DOCUMENTS_TEXT}
+                onClick={e => {
+                  // Only prevent default and scroll if we're on the files tab
+                  // Otherwise, let the link navigate to the files page
+                  if (fileTab) {
+                    e.preventDefault();
+                    setPageFocus(`#${ANCHOR_LINKS.otherWaysToSendDocuments}`);
+                  }
+                }}
+              />
+            </div>
+          </>
+        )}
         <VaModal
           id="upload-status"
           onCloseEvent={() => setCanShowUploadModal(false)}

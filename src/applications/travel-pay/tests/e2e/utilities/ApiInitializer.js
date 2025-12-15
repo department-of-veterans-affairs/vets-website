@@ -20,6 +20,21 @@ class ApiInitializer {
             { name: 'travel_pay_view_claim_details', value: true },
             { name: 'travel_pay_submit_mileage_expense', value: true },
             { name: 'travel_pay_claims_management', value: true },
+            { name: 'travel_pay_enable_complex_claims', value: true },
+          ],
+        },
+      }).as('featureToggles');
+    },
+    withSmocOnly: () => {
+      cy.intercept('GET', API_PATHS.FEATURE_TOGGLES, {
+        data: {
+          type: 'feature_toggles',
+          features: [
+            { name: 'travel_pay_power_switch', value: true },
+            { name: 'travel_pay_view_claim_details', value: true },
+            { name: 'travel_pay_submit_mileage_expense', value: true },
+            { name: 'travel_pay_claims_management', value: true },
+            { name: 'travel_pay_enable_complex_claims', value: false },
           ],
         },
       }).as('featureToggles');

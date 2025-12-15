@@ -3,8 +3,8 @@ import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
-import { EVIDENCE_UPLOAD_PATH } from '../../constants';
-import { content } from '../../content/evidenceSummary';
+import { EVIDENCE_UPLOAD_URL } from '../../constants';
+import { content } from '../../content/evidence/summary';
 import { EvidenceUploadContent } from '../../components/EvidenceUploadContent';
 import { records } from '../data/evidence-records';
 
@@ -83,8 +83,8 @@ describe('buildUploadContent', () => {
     );
 
     const links = $$('.edit-item', container);
-    expect(links[0].getAttribute('data-link')).to.contain(EVIDENCE_UPLOAD_PATH);
-    expect(links[1].getAttribute('data-link')).to.contain(EVIDENCE_UPLOAD_PATH);
+    expect(links[0].getAttribute('data-link')).to.contain(EVIDENCE_UPLOAD_URL);
+    expect(links[1].getAttribute('data-link')).to.contain(EVIDENCE_UPLOAD_URL);
   });
   it('should execute callback when removing an upload', () => {
     const removeSpy = sinon.spy();

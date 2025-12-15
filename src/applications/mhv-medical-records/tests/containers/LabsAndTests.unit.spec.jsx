@@ -22,6 +22,12 @@ describe('LabsAndTests list container', () => {
     mr: {
       labsAndTests: {
         labsAndTestsList: [...labsAndTestsFhir, ...radiologyTestsMhv],
+        // Ensure dateRange exists to avoid access during render
+        dateRange: {
+          option: '3',
+          fromDate: '2025-08-13',
+          toDate: '2025-11-13',
+        },
       },
     },
   };
@@ -65,10 +71,76 @@ describe('Labs and tests list container still loading', () => {
     const initialState = {
       user,
       mr: {
-        labsAndTests: {},
+        labsAndTests: {
+          dateRange: {
+            option: '3',
+            fromDate: '2025-08-13',
+            toDate: '2025-11-13',
+          },
+        },
         alerts: {
           alertList: [],
         },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<LabsAndTests />, {
+      initialState,
+      reducers: reducer,
+      path: '/labs-and-tests',
+    });
+
+    expect(screen.getByTestId('loading-indicator')).to.exist;
+  });
+
+  it('displays a loading indicator when feature toggles global loading is true', () => {
+    const initialState = {
+      user,
+      featureToggles: {
+        loading: true,
+      },
+      drupalStaticData: {
+        vamcEhrData: { loading: false },
+      },
+      mr: {
+        labsAndTests: {
+          dateRange: {
+            option: '3',
+            fromDate: '2025-08-13',
+            toDate: '2025-11-13',
+          },
+        },
+        alerts: { alertList: [] },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<LabsAndTests />, {
+      initialState,
+      reducers: reducer,
+      path: '/labs-and-tests',
+    });
+
+    expect(screen.getByTestId('loading-indicator')).to.exist;
+  });
+
+  it('displays a loading indicator when drupal vamcEhrData loading is true', () => {
+    const initialState = {
+      user,
+      featureToggles: {
+        loading: false,
+      },
+      drupalStaticData: {
+        vamcEhrData: { loading: true },
+      },
+      mr: {
+        labsAndTests: {
+          dateRange: {
+            option: '3',
+            fromDate: '2025-08-13',
+            toDate: '2025-11-13',
+          },
+        },
+        alerts: { alertList: [] },
       },
     };
 
@@ -89,6 +161,11 @@ describe('Labs and tests list container with no data', () => {
       mr: {
         labsAndTests: {
           labsAndTestsList: [],
+          dateRange: {
+            option: '3',
+            fromDate: '2025-08-13',
+            toDate: '2025-11-13',
+          },
         },
         alerts: {
           alertList: [],
@@ -118,7 +195,13 @@ describe('Labs and tests list container with errors', () => {
     const initialState = {
       user,
       mr: {
-        labsAndTests: {},
+        labsAndTests: {
+          dateRange: {
+            option: '3',
+            fromDate: '2025-08-13',
+            toDate: '2025-11-13',
+          },
+        },
         alerts: {
           alertList: [
             {
@@ -166,6 +249,11 @@ describe('Labs and tests list container with radiology images ready', () => {
       mr: {
         labsAndTests: {
           labsAndTestsList: radiologyTestsMhv,
+          dateRange: {
+            option: '3',
+            fromDate: '2025-08-13',
+            toDate: '2025-11-13',
+          },
         },
         images: {
           imageStatus: radiologyTestsMhv.map(r => ({

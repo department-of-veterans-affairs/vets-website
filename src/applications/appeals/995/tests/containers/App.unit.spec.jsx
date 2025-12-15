@@ -9,22 +9,14 @@ import { setStoredSubTask } from '@department-of-veterans-affairs/platform-forms
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { SET_DATA } from 'platform/forms-system/src/js/actions';
 import { mockApiRequest, resetFetch } from 'platform/testing/unit/helpers';
-
 import App from '../../containers/App';
-
-import {
-  EVIDENCE_VA,
-  SC_NEW_FORM_TOGGLE,
-  SC_NEW_FORM_DATA,
-} from '../../constants';
+import { HAS_VA_EVIDENCE } from '../../constants';
 import { CONTESTABLE_ISSUES_API } from '../../constants/apis';
-
 import { SELECTED } from '../../../shared/constants';
 import {
   FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
   FETCH_CONTESTABLE_ISSUES_FAILED,
 } from '../../../shared/actions';
-
 import { contestableIssuesResponse } from '../../../shared/tests/fixtures/mocks/contestable-issues.json';
 
 const hasComp = { benefitType: 'compensation' };
@@ -38,7 +30,6 @@ const getData = ({
   pathname = '/introduction',
   push = () => {},
   status = '',
-  toggle = false,
 } = {}) => {
   setStoredSubTask({ benefitType: data?.benefitType || '' });
   return {
@@ -79,10 +70,6 @@ const getData = ({
           },
         },
         data,
-      },
-      featureToggles: {
-        loading: false,
-        [SC_NEW_FORM_TOGGLE]: toggle,
       },
       contestableIssues: {
         status,
@@ -281,7 +268,6 @@ describe('App', () => {
       loggedIn: true,
       data: {
         ...hasComp,
-        [SC_NEW_FORM_DATA]: false,
         internalTesting: true,
         contestedIssues: [
           {
@@ -320,7 +306,7 @@ describe('App', () => {
         ...hasComp,
         contestedIssues: [],
         legacyCount: 0,
-        [EVIDENCE_VA]: true,
+        [HAS_VA_EVIDENCE]: true,
         locations: [{ issues: ['abc', 'def'] }],
         additionalIssues: [{ issue: 'bbb', [SELECTED]: true }],
         internalTesting: true,
@@ -347,27 +333,6 @@ describe('App', () => {
         ...data.form.data,
         providerFacility: [],
         locations: [{ issues: [] }],
-      });
-    });
-  });
-
-  it('should set feature toggle in form data', async () => {
-    setStoredSubTask(hasComp);
-    const { props, data } = getData({ toggle: true });
-    const store = mockStore(data);
-    render(
-      <Provider store={store}>
-        <App {...props} />
-      </Provider>,
-    );
-
-    // testing issuesNeedUpdating branch for code coverage
-    await waitFor(() => {
-      const [action] = store.getActions();
-      expect(action.type).to.eq(SET_DATA);
-      expect(action.data).to.deep.equal({
-        ...hasComp,
-        [SC_NEW_FORM_DATA]: true,
       });
     });
   });

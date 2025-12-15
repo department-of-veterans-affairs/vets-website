@@ -23,7 +23,8 @@ import { TYPE_OF_CARE_IDS, TYPES_OF_CARE } from '../../../utils/constants';
 import useFormState from '../../../hooks/useFormState';
 import { getLongTermAppointmentHistoryV2 } from '../../../services/appointment';
 import { getPageTitle } from '../../newAppointmentFlow';
-import TypeOfCareRadioWidget from '../VAFacilityPage/TypeOfCareRadioWidget';
+import AppointmentsRadioWidget from '../AppointmentsRadioWidget';
+import { selectFeatureUseBrowserTimezone } from '../../../redux/selectors';
 
 const pageKey = 'typeOfCare';
 
@@ -41,6 +42,9 @@ export default function TypeOfCarePage() {
     removePodiatry,
     showPodiatryApptUnavailableModal,
   } = useSelector(selectTypeOfCarePage, shallowEqual);
+  const featureUseBrowserTimezone = useSelector(
+    selectFeatureUseBrowserTimezone,
+  );
 
   const history = useHistory();
   const showUpdateAddressAlert = useMemo(
@@ -95,7 +99,7 @@ export default function TypeOfCarePage() {
     uiSchema: {
       typeOfCareId: {
         'ui:title': pageTitle,
-        'ui:widget': TypeOfCareRadioWidget,
+        'ui:widget': AppointmentsRadioWidget,
         'ui:options': {
           classNames: 'vads-u-margin-top--neg2',
           hideLabelText: true,
@@ -140,7 +144,7 @@ export default function TypeOfCarePage() {
             // This could get called multiple times, but the function is memoized
             // and returns the previous promise if it eixsts
             if (showDirectScheduling) {
-              getLongTermAppointmentHistoryV2();
+              getLongTermAppointmentHistoryV2(featureUseBrowserTimezone);
             }
 
             setData(newData);

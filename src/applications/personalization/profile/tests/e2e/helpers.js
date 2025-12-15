@@ -1,7 +1,7 @@
 import dd4eduNotEnrolled from '@@profile/tests/fixtures/dd4edu/dd4edu-not-enrolled.json';
 import disabilityRating from '@@profile/tests/fixtures/disability-rating-success.json';
 import fullName from '@@profile/tests/fixtures/full-name-success.json';
-import mockPaymentInfoNotEligible from '@@profile/tests/fixtures/dd4cnp/dd4cnp-is-not-eligible.json';
+import mockPaymentInfo from '@@profile/tests/fixtures/direct-deposits/base.json';
 import personalInformation from '@@profile/tests/fixtures/personal-information-success.json';
 import serviceHistory from '@@profile/tests/fixtures/service-history-success.json';
 
@@ -11,31 +11,53 @@ import error500 from '@@profile/tests/fixtures/500.json';
 
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '../../constants';
 
-export function subNavOnlyContainsAccountSecurity(mobile) {
+export function subNavOnlyContainsAccountSecurity({
+  profile2Enabled = false,
+  mobile = false,
+} = {}) {
   if (mobile) {
-    cy.findByRole('button', { name: /profile menu/i }).click();
+    if (profile2Enabled) {
+      cy.get('va-sidenav')
+        .filter(':visible')
+        .click();
+    } else {
+      cy.findByRole('button', { name: /profile menu/i }).click();
+    }
   }
-  cy.findByRole('navigation', { name: /profile/i }).within(() => {
-    cy.findAllByRole('link').should('have.length', 1);
-    cy.findByRole('link', {
-      name: PROFILE_PATH_NAMES.ACCOUNT_SECURITY,
-    }).should('exist');
-  });
+
+  if (profile2Enabled) {
+    cy.get(
+      `va-sidenav-submenu[label="${PROFILE_PATH_NAMES.ACCOUNT_SECURITY}"]`,
+    ).should('exist');
+  } else {
+    cy.findByRole('navigation', { name: /profile/i }).within(() => {
+      cy.findAllByRole('link').should('have.length', 1);
+      cy.findByRole('link', {
+        name: PROFILE_PATH_NAMES.ACCOUNT_SECURITY,
+      }).should('exist');
+    });
+  }
 }
 
-export function onlyAccountSecuritySectionIsAccessible() {
+export function onlyAccountSecuritySectionIsAccessible({
+  profile2Enabled = false,
+}) {
   // get all of the PROFILE_PATHS _except_ for account security
+  const accountSecurityLandingPageKeys = [
+    'SIGNIN_INFORMATION',
+    'ACCOUNT_SECURITY',
+  ];
   const profilePathsExcludingAccountSecurity = Object.entries(
     PROFILE_PATHS,
   ).filter(([key]) => {
-    return key !== 'ACCOUNT_SECURITY';
+    return !accountSecurityLandingPageKeys.includes(key);
   });
+  const expectedPath = profile2Enabled
+    ? PROFILE_PATHS.SIGNIN_INFORMATION
+    : PROFILE_PATHS.ACCOUNT_SECURITY;
   profilePathsExcludingAccountSecurity.forEach(([_, path]) => {
     cy.visit(path);
-    cy.url().should(
-      'eq',
-      `${Cypress.config().baseUrl}${PROFILE_PATHS.ACCOUNT_SECURITY}`,
-    );
+    cy.url().should('eq', `${Cypress.config().baseUrl}${expectedPath}`);
   });
 }
 
@@ -100,7 +122,7 @@ export function nameTagRendersWithoutDisabilityRating() {
  * This does _not_ mock the APIs used by the Notification Setting section. It
  * only mocks the other APIs that are required by the Profile
  */
-export function mockNotificationSettingsAPIs() {
+export function mockNotificationSettingsAPIs(toggles) {
   mockGETEndpoints(['/v0/mhv_account']);
   cy.intercept(
     '/v0/disability_compensation_form/rating_info',
@@ -110,8 +132,8 @@ export function mockNotificationSettingsAPIs() {
   cy.intercept('/v0/profile/personal_information', personalInformation);
   cy.intercept('/v0/profile/service_history', serviceHistory);
   cy.intercept('/v0/profile/ch33_bank_accounts', dd4eduNotEnrolled);
-  cy.intercept('/v0/ppiu/payment_information', mockPaymentInfoNotEligible);
-  mockFeatureToggles();
+  cy.intercept('/v0/profile/direct_deposits', mockPaymentInfo);
+  mockFeatureToggles(toggles ? () => toggles : null);
 }
 
 /**

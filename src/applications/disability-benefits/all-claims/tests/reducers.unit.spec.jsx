@@ -1,7 +1,9 @@
 import { expect } from 'chai';
-import moment from 'moment';
+import { add, sub } from 'date-fns';
 
 import { requestStates } from 'platform/utilities/constants';
+import { daysFromToday } from '../utils/dates/formatting';
+import { parseDate } from '../utils/dates';
 import { itfStatuses } from '../constants';
 
 import {
@@ -18,6 +20,9 @@ import {
 } from '../actions';
 
 import reducers from '../reducers';
+
+// Helper to get current date as Date object
+const getToday = () => parseDate(daysFromToday(0));
 
 const initialState = {
   fetchCallState: requestStates.notCalled,
@@ -49,17 +54,13 @@ describe('ITF reducer', () => {
               {
                 type: 'compensation',
                 status: itfStatuses.active,
-                expirationDate: moment()
-                  .add(1, 'days')
-                  .format(),
+                expirationDate: add(getToday(), { days: 1 }).toISOString(),
               },
               {
                 // duplicate ITF with later expiration date; should use the active one
                 type: 'compensation',
                 status: itfStatuses.duplicate,
-                expirationDate: moment()
-                  .add(1, 'year')
-                  .format(),
+                expirationDate: add(getToday(), { years: 1 }).toISOString(),
               },
             ],
           },
@@ -81,17 +82,13 @@ describe('ITF reducer', () => {
               },
               {
                 type: 'compensation',
-                status: itfStatuses.expired,
-                expirationDate: moment()
-                  .subtract(1, 'd')
-                  .format(),
+                status: itfStatuses.duplicate,
+                expirationDate: add(getToday(), { years: 1 }).toISOString(),
               },
               {
                 type: 'compensation',
                 status: itfStatuses.duplicate,
-                expirationDate: moment()
-                  .add(1, 'd')
-                  .format(),
+                expirationDate: add(getToday(), { days: 1 }).toISOString(),
               },
             ],
           },
@@ -115,23 +112,17 @@ describe('ITF reducer', () => {
             {
               type: 'compensation',
               status: itfStatuses.expired,
-              expirationDate: moment()
-                .subtract(3, 'd')
-                .format(),
+              expirationDate: sub(getToday(), { days: 3 }).toISOString(),
             },
             {
               type: 'compensation',
               status: itfStatuses.duplicate,
-              expirationDate: moment()
-                .subtract(2, 'd')
-                .format(),
+              expirationDate: sub(getToday(), { days: 1 }).toISOString(),
             },
             {
               type: 'compensation',
-              status: itfStatuses.active,
-              expirationDate: moment()
-                .subtract(1, 'd')
-                .format(),
+              status: itfStatuses.duplicate,
+              expirationDate: sub(getToday(), { years: 1 }).toISOString(),
             },
           ],
         },

@@ -20,7 +20,8 @@ describe('526 vaEmployee', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(2);
+    expect(form.find('VaRadio').length).to.equal(1);
+    expect(form.find('va-radio-option').length).to.equal(2);
     form.unmount();
   });
 });

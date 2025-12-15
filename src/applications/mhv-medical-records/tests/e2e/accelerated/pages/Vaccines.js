@@ -37,7 +37,7 @@ class Vaccines {
   };
 
   clickVaccineDetailsLink = (vaccineIndex = 0) => {
-    cy.get('[data-testid="record-list-item"]')
+    cy.findAllByTestId('record-list-item')
       .eq(vaccineIndex)
       .find('a')
       .click();

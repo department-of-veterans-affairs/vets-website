@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import {
   focusElement,
   waitForRenderThenFocus,
@@ -16,7 +15,7 @@ import {
 } from '../util/constants';
 import useInterval from '../hooks/use-interval';
 import FolderHeader from '../components/MessageList/FolderHeader';
-import { clearFolder, retrieveFolder } from '../actions/folders';
+import { retrieveFolder } from '../actions/folders';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import { closeAlert } from '../actions/alerts';
 import ThreadsList from '../components/ThreadList/ThreadsList';
@@ -30,12 +29,13 @@ import {
   getPageTitle,
 } from '../util/helpers';
 
-const FolderThreadListView = props => {
-  const { testing } = props;
+const FolderThreadListView = () => {
   const dispatch = useDispatch();
   const error = null;
   const threadsPerPage = THREADS_PER_PAGE_DEFAULT;
-  const { threadList, isLoading } = useSelector(state => state.sm.threads);
+  const { threadList, isLoading, refetchRequired } = useSelector(
+    state => state.sm.threads,
+  );
   const threadSort = useSelector(state => state.sm.threads.threadSort);
   const alertList = useSelector(state => state.sm.alerts?.alertList);
   const folder = useSelector(state => state.sm.folders?.folder);
@@ -58,6 +58,28 @@ const FolderThreadListView = props => {
   const displayingNumberOfThreadsSelector =
     "[data-testid='displaying-number-of-threads']";
 
+  // Calculate folder ID based on current route
+  const currentFolderId = useMemo(
+    () => {
+      if (params?.folderId) {
+        return params.folderId;
+      }
+
+      const normalizedPath = location.pathname.endsWith('/')
+        ? location.pathname
+        : `${location.pathname}/`;
+      const pathToFolderMap = {
+        [Paths.INBOX]: Folders.INBOX.id,
+        [Paths.SENT]: Folders.SENT.id,
+        [Paths.DRAFTS]: Folders.DRAFTS.id,
+        [Paths.DELETED]: Folders.DELETED.id,
+      };
+
+      return pathToFolderMap[normalizedPath];
+    },
+    [location.pathname, params?.folderId],
+  );
+
   const retrieveListOfThreads = useCallback(
     ({
       sortFolderId = threadSort.folderId,
@@ -75,56 +97,43 @@ const FolderThreadListView = props => {
       );
       dispatch(getListOfThreads(sortFolderId, perPage, page, value, update));
     },
-    [dispatch, threadsPerPage],
+    [
+      dispatch,
+      threadSort.folderId,
+      threadSort.page,
+      threadSort.value,
+      threadsPerPage,
+    ],
   );
 
-  const handleSortCallback = sortOrderValue => {
-    retrieveListOfThreads({
-      sortFolderId: folderId,
-      value: sortOrderValue,
-      page: 1,
-    });
-    waitForRenderThenFocus(displayingNumberOfThreadsSelector, document, 500);
-  };
+  const handleSortCallback = useCallback(
+    sortOrderValue => {
+      retrieveListOfThreads({
+        sortFolderId: folderId,
+        value: sortOrderValue,
+        page: 1,
+      });
+      waitForRenderThenFocus(displayingNumberOfThreadsSelector, document, 500);
+    },
+    [folderId, retrieveListOfThreads],
+  );
 
-  const handlePagination = page => {
-    scrollTo(document.querySelector('h1'));
-    retrieveListOfThreads({
-      sortFolderId: threadSort.folderId,
-      value: threadSort.value,
-      page,
-    });
-    waitForRenderThenFocus(displayingNumberOfThreadsSelector, document, 500);
-  };
+  const handlePagination = useCallback(
+    page => {
+      scrollTo(document.querySelector('h1'));
+      retrieveListOfThreads({
+        sortFolderId: threadSort.folderId,
+        value: threadSort.value,
+        page,
+      });
+      waitForRenderThenFocus(displayingNumberOfThreadsSelector, document, 500);
+    },
+    [retrieveListOfThreads, threadSort.folderId, threadSort.value],
+  );
 
   useEffect(
     () => {
-      // clear out folder reducer to prevent from previous folder data flashing
-      // when navigating between folders
-      if (!testing) dispatch(clearFolder());
-
-      let id = null;
-      if (params?.folderId) {
-        id = params.folderId;
-      } else {
-        switch (location.pathname) {
-          case Paths.INBOX:
-            id = Folders.INBOX.id;
-            break;
-          case Paths.SENT:
-            id = Folders.SENT.id;
-            break;
-          case Paths.DRAFTS:
-            id = Folders.DRAFTS.id;
-            break;
-          case Paths.DELETED:
-            id = Folders.DELETED.id;
-            break;
-          default:
-            break;
-        }
-      }
-      dispatch(retrieveFolder(id));
+      dispatch(retrieveFolder(currentFolderId));
 
       return () => {
         // clear out alerts if user navigates away from this component
@@ -133,14 +142,44 @@ const FolderThreadListView = props => {
         }
       };
     },
-    [dispatch, location.pathname, params.folderId],
+    [dispatch, currentFolderId, location.pathname],
   );
 
+  // Effect to refetch threads when refetchRequired is true
+  // Includes location.pathname to ensure refetch happens when navigating back to this view
+  // Note: Use != null check for folderId because Inbox folder ID is 0 (falsy)
   useEffect(
     () => {
-      if (folderId != null) {
+      if (
+        refetchRequired &&
+        threadSort.folderId != null &&
+        threadSort.value &&
+        threadSort.page
+      )
+        retrieveListOfThreads({
+          sortFolderId: threadSort.folderId,
+          perPage: threadsPerPage,
+          page: threadSort.page,
+          value: threadSort.value,
+        });
+    },
+    [
+      location.pathname,
+      refetchRequired,
+      retrieveListOfThreads,
+      threadSort.folderId,
+      threadSort.page,
+      threadSort.value,
+      threadsPerPage,
+    ],
+  );
+
+  // Effect to retrieve threads when folder changes
+  useEffect(
+    () => {
+      if (folderId != null && folderId !== threadSort.folderId) {
         let sortOption = threadSortingOptions.SENT_DATE_DESCENDING.value;
-        if (location.pathname === Paths.DRAFTS) {
+        if (folderId === Folders.DRAFTS.id) {
           sortOption = threadSortingOptions.DRAFT_DATE_DESCENDING.value;
         }
         retrieveListOfThreads({
@@ -148,30 +187,32 @@ const FolderThreadListView = props => {
           value: sortOption,
           page: 1,
         });
-
-        dispatch(
-          getListOfThreads(folderId, threadsPerPage, 1, sortOption, false),
-        );
-        if (folder?.name === convertPathNameToTitleCase(location.pathname)) {
-          const pageTitleTag = getPageTitle({
-            folderName: folder.name,
-          });
-          updatePageTitle(pageTitleTag);
-        }
-        if (folderId !== searchFolder?.folderId) {
-          dispatch(clearSearchResults());
-        }
       }
     },
-    [
-      folderId,
-      dispatch,
-      retrieveListOfThreads,
-      folder?.name,
-      location?.pathname,
-      threadsPerPage,
-      searchFolder?.folderId,
-    ],
+    [folderId, threadSort.folderId, retrieveListOfThreads],
+  );
+
+  // Effect to update page title when folder name changes
+  useEffect(
+    () => {
+      if (folder?.name === convertPathNameToTitleCase(location.pathname)) {
+        const pageTitleTag = getPageTitle({
+          folderName: folder.name,
+        });
+        updatePageTitle(pageTitleTag);
+      }
+    },
+    [folder?.name, location?.pathname],
+  );
+
+  // Effect to clear search results when folder changes
+  useEffect(
+    () => {
+      if (folderId !== searchFolder?.folderId) {
+        dispatch(clearSearchResults());
+      }
+    },
+    [folderId, searchFolder?.folderId, dispatch],
   );
 
   useEffect(
@@ -188,15 +229,13 @@ const FolderThreadListView = props => {
 
   useInterval(() => {
     if (folderId !== null) {
-      dispatch(
-        getListOfThreads(
-          threadSort.folderId,
-          threadsPerPage,
-          threadSort.page,
-          threadSort.value,
-          true,
-        ),
-      );
+      retrieveListOfThreads({
+        sortFolderId: threadSort.folderId,
+        perPage: threadsPerPage,
+        page: threadSort.page,
+        value: threadSort.value,
+        update: true,
+      });
     }
   }, 60000); // 1 minute
 
@@ -278,15 +317,18 @@ const FolderThreadListView = props => {
       return null;
     },
     [
+      allTriageGroupsBlocked,
       awaitingResults,
       folder,
       handlePagination,
       handleSortCallback,
       isLoading,
+      noAssociations,
       searchResults,
       threadList,
       threadSort.page,
       threadSort.value,
+      threadsPerPage,
     ],
   );
 
@@ -314,10 +356,6 @@ const FolderThreadListView = props => {
       </div>
     </div>
   );
-};
-
-FolderThreadListView.propTypes = {
-  testing: PropTypes.any,
 };
 
 export default FolderThreadListView;

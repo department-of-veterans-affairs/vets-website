@@ -28,19 +28,10 @@ describe('Keyboard Only Letter Test', () => {
     cy.get('.letters', { timeout: Timeouts.slow }).should('be.visible');
 
     // Update address
-    cy.tabToElement('#mailingAddress-edit-link');
+    cy.tabToElement('#edit-mailing-address');
     cy.realPress('Space');
     cy.tabToElement('button:contains("Cancel")'); // just cancel
     cy.realPress('Space');
-
-    // go to letters page
-    cy.tabToElement('[data-cy="view-letters-button"]');
-    cy.realPress('Space');
-
-    cy.location('pathname').should(
-      'equal',
-      '/records/download-va-letters/letters/letter-list',
-    );
 
     cy.get('va-accordion-item').should('exist');
     cy.get('va-accordion-item').should('have.length', 5);
@@ -52,8 +43,14 @@ describe('Keyboard Only Letter Test', () => {
       .realPress('Enter');
     cy.axeCheck();
 
-    cy.tabToElement('#militaryService');
+    cy.get('va-checkbox#militaryService')
+      .shadow()
+      .find('input[type="checkbox"]')
+      .focus();
     cy.realPress('Space');
-    cy.get('#militaryService').should('not.be.checked');
+    cy.get('va-checkbox#militaryService')
+      .shadow()
+      .find('input[type="checkbox"]')
+      .should('not.be.checked');
   });
 });

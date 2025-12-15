@@ -4,6 +4,7 @@ import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/re
 const Breadcrumbs = () => (
   <VaBreadcrumbs
     label="Breadcrumbs"
+    currentPageRedirect
     breadcrumbList={[
       {
         href: '/',

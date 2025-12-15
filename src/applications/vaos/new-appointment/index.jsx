@@ -17,6 +17,7 @@ import TypeOfVisitPage from './components/TypeOfVisitPage';
 import TypeOfSleepCarePage from './components/TypeOfSleepCarePage';
 import TypeOfEyeCarePage from './components/TypeOfEyeCarePage';
 import TypeOfAudiologyCarePage from './components/TypeOfAudiologyCarePage';
+import TypeOfMentalHealthPage from './components/TypeOfMentalHealthPage';
 import PreferredDatePageVaDate from './components/PreferredDatePageVaDate';
 import VARequest from './components/DateTimeRequestPage/VA';
 import CCRequest from './components/DateTimeRequestPage/CommunityCare';
@@ -34,6 +35,8 @@ import useFormRedirectToStart from '../hooks/useFormRedirectToStart';
 import useFormUnsavedDataWarning from '../hooks/useFormUnsavedDataWarning';
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
 import ScheduleCernerPage from './components/ScheduleCernerPage';
+import UrgentCareInformationPage from './components/UrgentCareInformationPage';
+import { selectFeatureImmediateCareAlert } from '../redux/selectors';
 
 export function NewAppointment() {
   const isCernerOnlyPatient = useSelector(selectIsCernerOnlyPatient);
@@ -41,6 +44,9 @@ export function NewAppointment() {
   const match = useRouteMatch();
   const location = useLocation();
   const pageTitle = 'Schedule an appointment';
+  const featureImmediateCareAlert = useSelector(
+    selectFeatureImmediateCareAlert,
+  );
 
   useManualScrollRestoration();
 
@@ -55,11 +61,17 @@ export function NewAppointment() {
     shouldRedirect: () =>
       !isNewAppointmentStarted &&
       !location.pathname.endsWith('confirmation') &&
-      !location.pathname.endsWith('type-of-care'),
+      (featureImmediateCareAlert
+        ? !location.pathname.endsWith('schedule')
+        : !location.pathname.endsWith('type-of-care')),
   });
 
   if (shouldRedirectToStart) {
-    return <Redirect to="/" />;
+    return (
+      <Redirect
+        to={featureImmediateCareAlert ? '/schedule' : '/schedule/type-of-care'}
+      />
+    );
   }
 
   return (
@@ -90,6 +102,9 @@ export function NewAppointment() {
         </Route>
         <Route path={`${match.url}/eye-care`}>
           <TypeOfEyeCarePage />
+        </Route>
+        <Route path={`${match.url}/mental-health`}>
+          <TypeOfMentalHealthPage />
         </Route>
         <Route path={`${match.url}/audiology-care`}>
           <TypeOfAudiologyCarePage />
@@ -160,9 +175,21 @@ export function NewAppointment() {
         >
           <ReviewPage />
         </Route>
-        <Route path={match.url}>
-          <TypeOfCarePage />
-        </Route>
+        {featureImmediateCareAlert && (
+          <>
+            <Route path={`${match.url}/type-of-care`}>
+              <TypeOfCarePage />
+            </Route>
+            <Route exact path={match.url}>
+              <UrgentCareInformationPage />
+            </Route>
+          </>
+        )}
+        {!featureImmediateCareAlert && (
+          <Route path={match.url}>
+            <TypeOfCarePage />
+          </Route>
+        )}
       </Switch>
     </FormLayout>
   );

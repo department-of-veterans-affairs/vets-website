@@ -53,7 +53,7 @@ const AddressValidationRadio = props => {
     state_code: state || militaryState,
     country_name: 'United States',
     country_code_iso3: 'USA',
-    address_pou: 'RESIDENCE/CHOICE',
+    address_pou: 'RESIDENCE',
     address_type: 'DOMESTIC',
   };
 
@@ -80,15 +80,17 @@ const AddressValidationRadio = props => {
 
   useEffect(() => {
     getApiData(`${envUrl}${URL.ADDRESS_VALIDATION}`);
-    focusElement('#address-validation-alert-heading');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(
     () => {
       if (apiData.length > 0) {
         handleValueChange(apiData[0].address, '0');
+        focusElement('h2');
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [apiData],
   );
 

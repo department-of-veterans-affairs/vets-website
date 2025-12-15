@@ -1,0 +1,52 @@
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+
+.dashboard {
+  &__content,
+  &__banner {
+    max-width: 627px;
+  }
+  &__header {
+    margin: 0 0 $vads-spacing-2 0;
+  }
+  h2 {
+    margin-top: $vads-spacing-4;
+  }
+  &__intro {
+    max-width: 627px;
+  }
+  &__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    @media (min-width: $small-desktop-screen) {
+      flex-direction: row;
+    }
+
+    li {
+      width: 100%;
+      margin-right: $vads-spacing-4;
+      @media (min-width: $small-desktop-screen) {
+        width: 300px;
+      }
+
+      &:last-child {
+        margin: 0;
+      }
+    }
+  }
+
+  &__card-link {
+    font-size: 15px;
+    line-height: 22px;
+    font-weight: bold;
+  }
+
+  .dashboard__list, .dashboard__banner {
+    h2 {
+      margin-top: 0px;
+      margin-bottom: 0px;
+    }
+  }
+}

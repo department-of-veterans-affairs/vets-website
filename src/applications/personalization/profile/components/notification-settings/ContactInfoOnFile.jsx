@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 
 import { FIELD_NAMES, USA } from '@@vap-svc/constants';
 
@@ -35,20 +34,21 @@ const ContactInfoOnFile = ({
           <li className="vads-u-margin-y--0p5">
             <strong>Email address: </strong>
             {emailAddress && `${emailAddress} `}
-            <Link
+            <va-link
               data-testid="email-address-on-file"
-              to={generateContactInfoLink({
+              href={generateContactInfoLink({
                 fieldName: FIELD_NAMES.EMAIL,
                 returnPath: encodeURIComponent(
                   PROFILE_PATHS.NOTIFICATION_SETTINGS,
                 ),
               })}
-              className="vads-u-display--block medium-screen:vads-u-display--inline vads-u-margin-bottom--1p5 medium-screen:vads-u-margin-bottom--0 medium-screen:vads-u-margin-left--1"
-            >
-              {emailAddress
-                ? 'Update your email address'
-                : 'Add your email address to your profile'}
-            </Link>
+              class="vads-u-display--block medium-screen:vads-u-display--inline vads-u-margin-bottom--1p5 medium-screen:vads-u-margin-bottom--0 medium-screen:vads-u-margin-left--1"
+              text={
+                emailAddress
+                  ? 'Update your email address'
+                  : 'Add your email address to your profile'
+              }
+            />
           </li>
         ) : null}
 
@@ -90,51 +90,6 @@ const ContactInfoOnFile = ({
           />
         </li>
       </ul>
-
-      {isInternationalMobile && (
-        <va-alert-expandable
-          status="info"
-          trigger="You won’t receive text notifications"
-          class="vads-u-margin-top--2"
-          data-testid="international-mobile-number-info-alert"
-        >
-          <p className="vads-u-padding-bottom--2">
-            You have an international phone number, update to a US based mobile
-            phone number to have access to these text notifications settings:
-          </p>
-          <ul className="vads-u-padding-bottom--2">
-            <li>Health appointment reminders</li>
-            <li>Prescription shipping notifications</li>
-            <li>Appeal status updates</li>
-            <li>Appeal hearing reminders</li>
-            <li>Disability and pension deposit notifications</li>
-          </ul>
-          <p>
-            <va-link
-              href={updateMobileNumberHref}
-              text="Update your mobile phone number"
-            />
-          </p>
-        </va-alert-expandable>
-      )}
-      <va-additional-info
-        data-testid="data-encryption-notice"
-        trigger="By setting up notifications, you agree to receive unsecure emails and texts"
-      >
-        <p>
-          Data encryption is a way of making data hard to read by people other
-          than the intended recipient. SMS text messaging and email aren’t
-          encrypted. This means they’re not secure. Other people could read your
-          appointment information if they get access to the messages when sent,
-          received, or on your phone or computer.
-        </p>
-        <p className="vads-u-padding-top--2">
-          <va-link
-            href="/privacy-policy/digital-notifications-terms-and-conditions/"
-            text="Read more about privacy and security for digital notifications"
-          />
-        </p>
-      </va-additional-info>
     </>
   );
 };

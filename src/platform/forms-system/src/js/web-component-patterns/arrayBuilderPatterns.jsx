@@ -3,6 +3,7 @@ import { titleUI } from './titlePattern';
 import { yesNoSchema, yesNoUI } from './yesNoPattern';
 import {
   getArrayUrlSearchParams,
+  maxItemsFn,
   maxItemsHint,
 } from '../patterns/array-builder/helpers';
 
@@ -13,6 +14,7 @@ export function withAlertOrDescription({
   description,
   nounSingular,
   hasMultipleItemPages,
+  showEditExplanationText = true,
 }) {
   return () => {
     const search = getArrayUrlSearchParams();
@@ -32,7 +34,7 @@ export function withAlertOrDescription({
         </>
       );
     }
-    if (isEdit && hasMultipleItemPages) {
+    if (isEdit && (hasMultipleItemPages && showEditExplanationText)) {
       return `We’ll take you through each of the sections of this ${nounSingular} for you to review and edit`;
     }
     return description || '';
@@ -80,13 +82,13 @@ export const withEditTitle = (title, lowerCase = true) => {
  * }
  * ```
  *
- * @param {{
- *   title: string,
- *   nounSingular: string,
- *   lowerCase?: boolean,
- *   hasMultipleItemPages?: boolean,
- *   description?: string | JSX.Element | ({ formData, formContext }) => string | JSX.Element
- * }} options
+ * @param {Object} options
+ * @param {string} options.title
+ * @param {string} options.nounSingular
+ * @param {boolean} [options.lowerCase=true]
+ * @param {boolean} [options.hasMultipleItemPages=true]
+ * @param {string | JSX.Element | ({ formData, formContext }) => string | JSX.Element} [options.description]
+ * @param {boolean} [options.showEditExplanationText=true]
  * @returns {UISchemaOptions}
  */
 export const arrayBuilderItemFirstPageTitleUI = ({
@@ -95,10 +97,16 @@ export const arrayBuilderItemFirstPageTitleUI = ({
   nounSingular,
   lowerCase = true,
   hasMultipleItemPages = true,
+  showEditExplanationText = true,
 }) => {
   return titleUI(
     withEditTitle(title, lowerCase),
-    withAlertOrDescription({ description, nounSingular, hasMultipleItemPages }),
+    withAlertOrDescription({
+      description,
+      nounSingular,
+      hasMultipleItemPages,
+      showEditExplanationText,
+    }),
   );
 };
 
@@ -139,6 +147,7 @@ export const arrayBuilderItemSubsequentPageTitleUI = (
  * @typedef {{
  *   title?: UISchemaOptions['ui:title'],
  *   labels?: {Y?: string, N?: string},
+ *   descriptions?: {Y?: string, N?: string},
  *   hint?: string,
  *   errorMessages?: UISchemaOptions['ui:errorMessages'],
  *   labelHeaderLevel?: UISchemaOptions['ui:options']['labelHeaderLevel']
@@ -151,10 +160,10 @@ export const arrayBuilderItemSubsequentPageTitleUI = (
  *   arrayPath: string,
  *   nounSingular: string,
  *   required: boolean | (formData) => boolean,
- *   maxItems?: number,
+ *   maxItems?: number | (formData) => number,
  * }} arrayBuilderOptions partial of same options you pass into `arrayBuilderPages`
- * @param {ArrayBuilderYesNoUIOptions} yesNoOptions yesNoUI options for 0 items
- * @param {ArrayBuilderYesNoUIOptions} yesNoOptionsMore yesNoUI options for more than 0 items
+ * @param {ArrayBuilderYesNoUIOptions} [yesNoOptionsInitial] yesNoUI options for 0 items
+ * @param {ArrayBuilderYesNoUIOptions} [yesNoOptionsAdditional] yesNoUI options for more than 0 items
  * @returns {UISchemaOptions}
  * Usage:
  * ```
@@ -191,18 +200,12 @@ export const arrayBuilderItemSubsequentPageTitleUI = (
  */
 export const arrayBuilderYesNoUI = (
   arrayBuilderOptions,
-  yesNoOptions,
-  yesNoOptionsMore,
+  yesNoOptionsInitial,
+  yesNoOptionsAdditional,
 ) => {
-  const {
-    arrayPath,
-    nounSingular,
-    nounPlural,
-    maxItems,
-    required,
-  } = arrayBuilderOptions;
+  const { arrayPath, nounSingular, nounPlural, required } = arrayBuilderOptions;
   const defaultTitle =
-    yesNoOptions?.title || `Do you have a ${nounSingular} to add?`;
+    yesNoOptionsInitial?.title || `Do you have a ${nounSingular} to add?`;
 
   const requiredFn = typeof required === 'function' ? required : () => required;
 
@@ -215,26 +218,33 @@ export const arrayBuilderYesNoUI = (
     return null;
   };
 
-  const customHint = getCustomHint(yesNoOptionsMore);
-  const customMoreHint = getCustomHint(yesNoOptions);
+  const customHint = getCustomHint(yesNoOptionsAdditional);
+  const customMoreHint = getCustomHint(yesNoOptionsInitial);
 
   return {
     ...yesNoUI({
       title: defaultTitle,
-      classNames: 'wc-pattern-array-builder-yes-no',
+      data: {
+        arrayPath, // `data-array-path` attribute for e2e testing
+      },
+      classNames:
+        'wc-pattern-array-builder wc-pattern-array-builder-yes-no vads-web-component-pattern',
       updateUiSchema: formData => {
         const arrayData = formData?.[arrayPath];
+        const maxItems = maxItemsFn(arrayBuilderOptions.maxItems, formData);
         return arrayData?.length
           ? {
               'ui:title':
-                yesNoOptionsMore?.title ||
+                yesNoOptionsAdditional?.title ||
                 `Do you have another ${nounSingular} to add?`,
               'ui:options': {
-                labelHeaderLevel: yesNoOptionsMore?.labelHeaderLevel || '4',
+                labelHeaderLevel:
+                  yesNoOptionsAdditional?.labelHeaderLevel || '4',
                 ifMinimalHeader: {
-                  labelHeaderLevel: yesNoOptionsMore?.labelHeaderLevel || '2',
+                  labelHeaderLevel:
+                    yesNoOptionsAdditional?.labelHeaderLevel || '2',
                   labelHeaderLevelStyle:
-                    yesNoOptionsMore?.labelHeaderLevelStyle || '3',
+                    yesNoOptionsAdditional?.labelHeaderLevelStyle || '3',
                 },
                 hint: customHint
                   ? customHint({
@@ -250,24 +260,26 @@ export const arrayBuilderYesNoUI = (
                       maxItems,
                     }),
                 labels: {
-                  Y: yesNoOptionsMore?.labels?.Y || 'Yes',
-                  N: yesNoOptionsMore?.labels?.N || 'No',
+                  Y: yesNoOptionsAdditional?.labels?.Y || 'Yes',
+                  N: yesNoOptionsAdditional?.labels?.N || 'No',
                 },
+                descriptions: yesNoOptionsAdditional?.descriptions,
               },
               'ui:errorMessages': {
                 required:
-                  yesNoOptionsMore?.errorMessages?.required ||
+                  yesNoOptionsAdditional?.errorMessages?.required ||
                   `Select yes if you have another ${nounSingular} to add`,
               },
             }
           : {
               'ui:title': defaultTitle,
               'ui:options': {
-                labelHeaderLevel: yesNoOptions?.labelHeaderLevel || '3',
+                labelHeaderLevel: yesNoOptionsInitial?.labelHeaderLevel || '3',
                 ifMinimalHeader: {
-                  labelHeaderLevel: yesNoOptions?.labelHeaderLevel || '1',
+                  labelHeaderLevel:
+                    yesNoOptionsInitial?.labelHeaderLevel || '1',
                   labelHeaderLevelStyle:
-                    yesNoOptions?.labelHeaderLevelStyle || '2',
+                    yesNoOptionsInitial?.labelHeaderLevelStyle || '2',
                 },
                 hint: customMoreHint
                   ? customMoreHint({
@@ -285,13 +297,14 @@ export const arrayBuilderYesNoUI = (
                       },
                     )}`,
                 labels: {
-                  Y: yesNoOptions?.labels?.Y || 'Yes',
-                  N: yesNoOptions?.labels?.N || 'No',
+                  Y: yesNoOptionsInitial?.labels?.Y || 'Yes',
+                  N: yesNoOptionsInitial?.labels?.N || 'No',
                 },
+                descriptions: yesNoOptionsInitial?.descriptions,
               },
               'ui:errorMessages': {
                 required:
-                  yesNoOptions?.errorMessages?.required ||
+                  yesNoOptionsInitial?.errorMessages?.required ||
                   `Select yes if you have a ${nounSingular} to add`,
               },
             };

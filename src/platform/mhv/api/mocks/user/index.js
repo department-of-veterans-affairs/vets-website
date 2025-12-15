@@ -81,7 +81,7 @@ const defaultUser = {
         cernerFacilityIds: [],
         facilities: [
           {
-            facilityId: '979',
+            facilityId: '528',
             isCerner: false,
           },
         ],
@@ -212,13 +212,18 @@ const cernerUser = {
         familyName: 'Hunter',
         gender: 'M',
         givenNames: ['Julio', 'E'],
-        activeStatus: 'active',
+        isCernerPatient: true,
+        cernerId: '1234567890',
+        cernerFacilityIds: ['757'],
         facilities: [
           {
             facilityId: '757',
             isCerner: true,
           },
         ],
+        vaPatient: true,
+        mhvAccountState: 'OK',
+        activeMHVIds: [],
       },
     },
   },
@@ -242,6 +247,7 @@ const acceleratedCernerUser = {
         'identity-proofed',
         'vet360',
         'medical-records',
+        'messaging',
       ],
       account: {
         accountUuid: '9b8a5a1f-d99f-4e03-9b43-4c689f3e4f00',
@@ -302,10 +308,10 @@ const acceleratedCernerUser = {
         givenNames: ['Andrew', 'J'],
         isCernerPatient: true,
         cernerId: '2116564958',
-        cernerFacilityIds: ['556'],
+        cernerFacilityIds: ['757'],
         facilities: [
           {
-            facilityId: '556',
+            facilityId: '757',
             isCerner: true,
           },
           {

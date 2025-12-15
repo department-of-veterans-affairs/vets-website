@@ -1,19 +1,25 @@
 import React from 'react';
-import moment from 'moment';
 import { VaAdditionalInfo } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 import { recordEventOnce } from 'platform/monitoring/record-event';
 
+import { add as addFns, format as formatFns } from 'date-fns';
+import { parseDate } from '../utils/dates';
+
 // EVSS returns dates like '2014-07-28T19:53:45.810+0000'
-const evssDateFormat = 'YYYY-MM-DDTHH:mm:ss.SSSZ';
-const outputDateFormat = 'dddd[,] MMMM Do[,] Y [at] h[:]mm a';
+// Use date-fns tokens to parse this format
+const evssDateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSX";
+const outputDateFormat = "eeee, MMMM do, yyyy 'at' h:mm a";
+
 // Adding 1 hour to the displayDate output will display the time in the ET timezone as the returned time and date
 // is in the central timezone
-const displayDate = dateString =>
-  moment(dateString, evssDateFormat)
-    .add(1, 'hours')
-    .format(outputDateFormat);
+const displayDate = dateString => {
+  const parsed = parseDate(dateString, evssDateFormat);
+  if (!parsed) return '';
+  const adjusted = addFns(parsed, { hours: 1 });
+  return formatFns(adjusted, outputDateFormat);
+};
 
 export const itfMessage = (headline, content, status) => (
   // Inline style to match .full-page-alert bottom margin because usa-grid > :last-child has a

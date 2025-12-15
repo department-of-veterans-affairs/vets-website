@@ -9,7 +9,6 @@ import {
   mockUserData,
   benefitSummaryLetter,
 } from './e2e/fixtures/mocks/lh_letters';
-import featureToggleLettersNewDesign from './e2e/fixtures/mocks/featureToggleLettersNewDesign.json';
 
 describe('New letters page design', () => {
   beforeEach(() => {
@@ -18,7 +17,6 @@ describe('New letters page design', () => {
       'binary',
     ).as('letterPDFBlob');
 
-    cy.intercept('GET', '/v0/feature_toggles?*', featureToggleLettersNewDesign);
     cy.intercept(
       'GET',
       '/v0/letters_generator/beneficiary',
@@ -37,7 +35,7 @@ describe('New letters page design', () => {
     cy.intercept('POST', 'v0/letters_generator/download/*', '@letterPDFBlob');
 
     cy.login(mockUserData);
-    cy.visit('/records/download-va-letters/letters/letter-page');
+    cy.visit('/records/download-va-letters/letters/');
   });
 
   it('confirms non-BSL letters load asynchronously', () => {
@@ -47,13 +45,13 @@ describe('New letters page design', () => {
       .should('be.visible');
     cy.title().should(
       'contain',
-      'Download VA Letters and Documents | Veterans Affair',
+      'Your VA benefit letters and documents | Veterans Affairs',
     );
     cy.axeCheck('main');
     cy.get('@lettersAccordion')
       .shadow()
       .find('button.va-accordion__button')
-      .click();
+      .click({ multiple: true });
     cy.get('va-link[filetype="PDF"]', { timeout: Timeouts.slow }).should(
       'have.length',
       4,
@@ -69,10 +67,10 @@ describe('New letters page design', () => {
     cy.get('@lettersAccordion')
       .shadow()
       .find('button.va-accordion__button')
-      .click();
+      .click({ multiple: true });
     cy.get('va-link[filetype="PDF"]', { timeout: Timeouts.slow })
       .first()
-      .click();
+      .click({ force: true });
     cy.get('@letterPDFBlob').then(blob => {
       expect(blob).to.exist;
     });
@@ -86,7 +84,7 @@ describe('New letters page design', () => {
     cy.get('va-accordion-item:nth-of-type(4)')
       .shadow()
       .find('button[aria-expanded=false]')
-      .click();
+      .click({ force: true });
     cy.get('va-button')
       .shadow()
       .find('button')
@@ -114,7 +112,7 @@ describe('New letters page design', () => {
     cy.get('va-accordion-item:nth-of-type(4)')
       .shadow()
       .find('button[aria-expanded=false]')
-      .click();
+      .click({ force: true });
     // Get array of checkboxes, loop to click through all but the first one
     cy.get('input[type="checkbox"]').each(($el, index) => {
       if (index > 0) {

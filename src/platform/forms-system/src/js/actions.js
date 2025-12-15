@@ -3,6 +3,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import localStorage from 'platform/utilities/storage/localStorage';
 import { displayFileSize } from 'platform/utilities/ui/index';
 import { FILE_UPLOAD_NETWORK_ERROR_MESSAGE } from 'platform/forms-system/src/js/constants';
+import { infoTokenExists, refresh } from 'platform/utilities/oauth/utilities';
 import { timeFromNow } from '../../../utilities/date';
 import { transformForSubmit, handleSessionRefresh } from './helpers';
 
@@ -14,6 +15,7 @@ export const SET_SUBMISSION = 'SET_SUBMISSION';
 export const SET_SUBMITTED = 'SET_SUBMITTED';
 export const OPEN_REVIEW_CHAPTER = 'OPEN_REVIEW_CHAPTER';
 export const CLOSE_REVIEW_CHAPTER = 'CLOSE_REVIEW_CHAPTER';
+export const TOGGLE_ALL_REVIEW_CHAPTERS = 'TOGGLE_ALL_REVIEW_CHAPTERS';
 export const SET_FORM_ERRORS = 'SET_FORM_ERRORS';
 export const SET_ITF = 'SET_ITF';
 
@@ -29,6 +31,13 @@ export function openReviewChapter(openedChapter) {
   return {
     type: OPEN_REVIEW_CHAPTER,
     openedChapter,
+  };
+}
+
+export function toggleAllReviewChapters(chapters) {
+  return {
+    type: TOGGLE_ALL_REVIEW_CHAPTERS,
+    chapters,
   };
 }
 
@@ -239,6 +248,8 @@ export function uploadFile(
       (file.name.toLowerCase().endsWith('pdf') && uiOptions.maxPdfSize) ||
       uiOptions.maxSize;
 
+    /* NOTE: this if block not needed for web-component patttern.
+       Delete when legacy file input patterns have been removed */
     if (file.size > maxSize) {
       const fileSizeText = uiOptions?.maxSizeText || displayFileSize(maxSize);
       const fileTooBigErrorMessage =
@@ -282,10 +293,15 @@ export function uploadFile(
 
     // we limit file types, but it’s not respected on mobile and desktop
     // users can bypass it without much effort
+    const anyImage =
+      uiOptions.fileTypes[0] === 'image/*' && file.type.startsWith('image/');
+    /* NOTE: this if block not needed for web-component patttern.
+       Delete when legacy file input patterns have been removed */
     if (
       !uiOptions.fileTypes.some(fileType =>
         file.name.toLowerCase().endsWith(fileType.toLowerCase()),
-      )
+      ) &&
+      !anyImage
     ) {
       const allowedTypes = uiOptions.fileTypes.reduce(
         (accumulator, fileType, index, array) => {
@@ -309,6 +325,7 @@ export function uploadFile(
       onError();
       return null;
     }
+
     if (password) {
       onChange({ name: file.name, uploading: true, password });
     } else {
@@ -330,7 +347,35 @@ export function uploadFile(
         const body = 'response' in req ? req.response : req.responseText;
         const fileData = uiOptions.parseResponse(JSON.parse(body), file);
         recordEvent({ event: `${trackingPrefix}file-uploaded` });
-        onChange({ ...fileData, isEncrypted: !!password });
+        onChange({
+          ...fileData,
+          isEncrypted: !!password,
+        });
+      } else if (req.status === 403) {
+        let errorResponse;
+        try {
+          errorResponse = JSON.parse(req.response);
+          const errorMessage = errorResponse?.errors || '';
+          const isTokenExpired = errorMessage.includes('token has expired');
+
+          if (isTokenExpired && infoTokenExists()) {
+            refresh({ type: sessionStorage.getItem('serviceName') }).then(
+              () => {
+                return uploadFile(
+                  file,
+                  uiOptions,
+                  onProgress,
+                  onChange,
+                  onError,
+                  trackingPrefix,
+                  password,
+                )(dispatch, getState);
+              },
+            );
+          }
+        } catch (e) {
+          // fall through to show error
+        }
       } else {
         const fileObj = { file, name: file.name, size: file.size };
         let errorMessage = req.statusText;
@@ -349,7 +394,11 @@ export function uploadFile(
           )}.`;
         }
         if (password) {
-          onChange({ ...fileObj, errorMessage, isEncrypted: true });
+          onChange({
+            ...fileObj,
+            errorMessage,
+            isEncrypted: true,
+          });
         } else {
           onChange({ ...fileObj, errorMessage });
         }
@@ -363,13 +412,11 @@ export function uploadFile(
         uiOptions?.fileUploadNetworkErrorMessage ||
         FILE_UPLOAD_NETWORK_ERROR_MESSAGE;
       const errorAlert = uiOptions?.fileUploadNetworkErrorAlert;
-
       if (password) {
         onChange({
           file, // return file object to allow resubmit
           name: file.name,
           errorMessage,
-          password: file.password,
         });
       } else {
         const changePayload = {

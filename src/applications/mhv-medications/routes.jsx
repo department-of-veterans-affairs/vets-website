@@ -1,18 +1,18 @@
 import React, { lazy, Suspense } from 'react';
 import { createBrowserRouter, useParams } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
-import { authenticatedLoader } from '@department-of-veterans-affairs/platform-startup/exports';
+import { useSelector } from 'react-redux';
 import { MhvPageNotFound } from '@department-of-veterans-affairs/mhv/exports';
-import { useMyHealthAccessGuard } from '~/platform/mhv/hooks/useMyHealthAccessGuard';
-
+import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
 import manifest from './manifest.json';
-
+import AppProviders from './containers/AppProviders';
 import App from './containers/App';
 import RxBreadcrumbs from './containers/RxBreadcrumbs';
 import { allergiesLoader } from './loaders/allergiesLoader';
-import { prescriptionsLoader } from './loaders/prescriptionsLoader';
+// Disabling loaders temporarily while rolling out Oracle Health Pilot
+// TODO: When the pilot is complete, re-enable loaders
+// import { prescriptionsLoader } from './loaders/prescriptionsLoader';
 
-// Lazy-loaded components
 const Prescriptions = lazy(() => import('./containers/Prescriptions'));
 const RefillPrescriptions = lazy(() =>
   import('./containers/RefillPrescriptions'),
@@ -33,26 +33,31 @@ const Loading = () => (
   />
 );
 
-// Wrapper component that provides both access guard and App container
-const AppWrapper = props => {
-  useMyHealthAccessGuard();
+const RouteWrapper = props => {
   const { id, prescriptionId } = useParams();
+  const user = useSelector(selectUser);
 
   return (
-    <App>
-      <RxBreadcrumbs />
-      <Suspense fallback={<Loading />}>
-        {props.children ? (
-          props.children
-        ) : (
-          <props.Component {...props} id={id} prescriptionId={prescriptionId} />
-        )}
-      </Suspense>
-    </App>
+    <AppProviders user={user}>
+      <App>
+        <RxBreadcrumbs />
+        <Suspense fallback={<Loading />}>
+          {props.children ? (
+            props.children
+          ) : (
+            <props.Component
+              {...props}
+              id={id}
+              prescriptionId={prescriptionId}
+            />
+          )}
+        </Suspense>
+      </App>
+    </AppProviders>
   );
 };
 
-AppWrapper.propTypes = {
+RouteWrapper.propTypes = {
   Component: PropTypes.elementType,
   children: PropTypes.node,
 };
@@ -60,32 +65,23 @@ AppWrapper.propTypes = {
 const routes = [
   {
     path: 'refill',
-    element: <AppWrapper Component={RefillPrescriptions} />,
-    loader: authenticatedLoader({ loader: prescriptionsLoader }),
+    element: <RouteWrapper Component={RefillPrescriptions} />,
+    // loader: prescriptionsLoader,
   },
   {
     path: '/',
-    element: <AppWrapper Component={Prescriptions} />,
+    element: <RouteWrapper Component={Prescriptions} />,
     // loader: prescriptionsLoader,
-    loader: authenticatedLoader({
-      loader: (...args) => {
-        return Promise.all([prescriptionsLoader(...args)]);
-      },
-    }),
   },
   {
     path: 'prescription/:prescriptionId/documentation',
-    element: <AppWrapper Component={PrescriptionDetailsDocumentation} />,
-    loader: authenticatedLoader({ loader: prescriptionsLoader }),
+    element: <RouteWrapper Component={PrescriptionDetailsDocumentation} />,
+    // loader: prescriptionsLoader,
   },
   {
     path: 'prescription/:prescriptionId',
-    element: <AppWrapper Component={PrescriptionDetails} />,
-    loader: authenticatedLoader({
-      loader: (...args) => {
-        return Promise.all([allergiesLoader(...args)]);
-      },
-    }),
+    element: <RouteWrapper Component={PrescriptionDetails} />,
+    loader: allergiesLoader,
   },
   {
     path: '*',

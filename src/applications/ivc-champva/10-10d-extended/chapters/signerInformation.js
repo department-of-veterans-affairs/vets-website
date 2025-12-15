@@ -1,6 +1,7 @@
 import { cloneDeep } from 'lodash';
-import get from '@department-of-veterans-affairs/platform-forms-system/get';
-import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
+import React from 'react';
+import PropTypes from 'prop-types';
+import get from 'platform/utilities/data/get';
 import {
   addressUI,
   addressSchema,
@@ -9,7 +10,7 @@ import {
   fullNameUI,
   fullNameSchema,
   titleUI,
-  titleSchema,
+  descriptionUI,
   radioUI,
   radioSchema,
   phoneUI,
@@ -17,49 +18,27 @@ import {
   emailUI,
   emailSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import React from 'react';
-import PropTypes from 'prop-types';
-import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
+import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
+import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { CustomPageNavButtons } from '../../shared/components/CustomPageNavButtons';
 import { populateFirstApplicant } from '../helpers/utilities';
-import manifest from '../manifest.json';
+import SignInAlert from '../components/FormAlerts/SignInAlert';
 
 const fullNameMiddleInitialUI = cloneDeep(fullNameUI());
 fullNameMiddleInitialUI.middle['ui:title'] = 'Middle initial';
 
-const signInAlert = loggedIn => (
-  <>
-    {!loggedIn && (
-      <va-alert status="info">
-        <p className="vads-u-margin-y--0">
-          It may take some time to complete this form. Sign in to save your
-          progress. We can also pre-fill some of the information for you to save
-          you time.
-          <br />
-          <va-link
-            href={`${manifest.rootUrl}?next=loginModal`}
-            text="Sign in to start your application"
-          />
-        </p>
-      </va-alert>
-    )}
-  </>
-);
-
 export const certifierRoleSchema = {
   uiSchema: {
-    ...titleUI('Your information', ({ formContext }) =>
-      signInAlert(formContext?.isLoggedIn),
-    ),
+    ...titleUI('Your information'),
+    ...descriptionUI(SignInAlert),
     certifierRole: radioUI({
       title: 'Which of these best describes you?',
-      required: () => true,
       labels: {
-        applicant: 'I’m applying for benefits for myself',
+        applicant:
+          'I’m the spouse, dependent, or survivor of a Veteran applying for benefits for myself',
         sponsor:
-          'I’m a Veteran applying for benefits for my spouse or dependents',
-        other:
-          'I’m a representative applying for benefits on behalf of someone else',
+          'I’m a Veteran applying for benefits for my spouse, dependents, or both',
+        other: 'I’m applying for benefits on behalf of someone else',
       },
       // Changing this data on review messes up the ad hoc prefill
       // mapping of certifier -> applicant|sponsor:
@@ -70,7 +49,6 @@ export const certifierRoleSchema = {
     type: 'object',
     required: ['certifierRole'],
     properties: {
-      titleSchema,
       certifierRole: radioSchema(['applicant', 'sponsor', 'other']),
     },
   },
@@ -79,7 +57,7 @@ export const certifierRoleSchema = {
 export const certifierNameSchema = {
   uiSchema: {
     ...titleUI('Your name'),
-    certifierName: fullNameUI(),
+    certifierName: fullNameMiddleInitialUI,
     // TODO: get this validation back in place
     // 'ui:validations': [certifierNameValidation],
   },
@@ -87,8 +65,16 @@ export const certifierNameSchema = {
     type: 'object',
     required: ['certifierName'],
     properties: {
-      titleSchema,
-      certifierName: fullNameSchema,
+      certifierName: {
+        ...fullNameSchema,
+        properties: {
+          ...fullNameSchema.properties,
+          middle: {
+            type: 'string',
+            maxLength: 1,
+          },
+        },
+      },
     },
   },
 };
@@ -97,9 +83,14 @@ export const certifierAddressSchema = {
   uiSchema: {
     ...titleUI(
       'Your mailing address',
-      'We’ll send any important information about this application to your address',
+      'We’ll send any important information about this application to your address.',
     ),
-    certifierAddress: addressUI(),
+    certifierAddress: addressUI({
+      labels: {
+        militaryCheckbox:
+          'Address is on military base outside of the United States.',
+      },
+    }),
     // TODO: get these validations back in place
     /*
     'ui:validations': [
@@ -112,8 +103,7 @@ export const certifierAddressSchema = {
     type: 'object',
     required: ['certifierAddress'],
     properties: {
-      titleSchema,
-      certifierAddress: addressSchema(),
+      certifierAddress: addressSchema({ omit: ['street3'] }),
     },
   },
 };
@@ -133,7 +123,6 @@ export const signerContactInfoPage = {
     type: 'object',
     required: ['certifierPhone', 'certifierEmail'],
     properties: {
-      titleSchema,
       certifierPhone: phoneSchema,
       certifierEmail: emailSchema,
     },
@@ -238,7 +227,6 @@ export const certifierContactSchema = {
     type: 'object',
     required: ['certifierPhone', 'certifierEmail'],
     properties: {
-      titleSchema,
       certifierPhone: phoneSchema,
       certifierEmail: emailSchema,
     },
@@ -252,7 +240,7 @@ export const certifierRelationshipSchema = {
       relationshipToVeteran: checkboxGroupUI({
         title: 'Which of these best describes you?',
         hint:
-          'If you’re applying on behalf of multiple applicants, you can select all applicable options',
+          'If you’re applying for multiple applicants, select all that apply.',
         required: () => true,
         labels: {
           spouse: 'I’m an applicant’s spouse',
@@ -302,7 +290,6 @@ export const certifierRelationshipSchema = {
     type: 'object',
     required: ['certifierRelationship'],
     properties: {
-      titleSchema,
       certifierRelationship: {
         type: 'object',
         properties: {

@@ -755,3 +755,8 @@ va-checkbox.statement-of-truth-va-checkbox::part(checkbox) {
 .va-profile-wrapper button[data-action="save-edit"] {
   padding: 0.45rem 1.25rem;
 }
+
+/* additional input on FileInput in error state */
+.additional-input-container:has(> [error]) {
+  margin-top: 24px;
+}

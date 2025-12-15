@@ -7,7 +7,10 @@ import {
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { QUESTION_CONTENT } from '../constants/question-data-map';
+import {
+  QUESTION_CONTENT,
+  SHORT_NAME_MAP,
+} from '../constants/question-data-map';
 import {
   updateFormStore,
   updateQuestionValue,
@@ -15,6 +18,13 @@ import {
 } from '../actions';
 import { cleanUpAnswers } from '../utilities/answer-storage';
 import { navigateForward } from '../utilities/page-navigation';
+
+export const QUESTION_STANDARD_ERROR = `Choose yes or no`;
+export const QUESTION_DECISION_TYPE_ERROR = `Choose the type of decision`;
+
+export const QUESTION_STANDARD_LABEL = 'Select one';
+export const QUESTION_DECISION_TYPE_LABEL =
+  'Select the type of claim or appeal that we previously sent you a decision on.';
 
 /**
  * Produces a set of 2-3 radio options
@@ -41,7 +51,10 @@ const RadioQuestion = ({
   const [valueHasChanged, setValueHasChanged] = useState(false);
   const radioRef = useRef(null);
   const formResponse = formResponses?.[shortName];
-  let radios;
+
+  if (formResponse && formError) {
+    setFormError(false);
+  }
 
   const onContinueClick = () => {
     if (!formResponse) {
@@ -97,52 +110,40 @@ const RadioQuestion = ({
     });
   };
 
-  if (descriptionText) {
-    radios = (
-      <>
-        <VaRadio
-          class="vads-u-margin-top--0"
-          data-testid={shortName}
-          error={formError ? 'Placeholder error message' : null}
-          form-heading={h1}
-          form-heading-level={1}
-          hint={hintText}
-          id="onramp-radio"
-          label={questionText}
-          onVaValueChange={e => onValueChange(e.detail.value)}
-          required
-          use-forms-pattern="single"
-        >
-          {renderRadioOptions()}
-          <div className="vads-u-margin-bottom--3" slot="form-description">
-            {descriptionText}
-          </div>
-        </VaRadio>
-      </>
-    );
-  } else {
-    radios = (
-      <>
-        <h1 className="vads-u-margin-bottom--3">{h1}</h1>
-        <VaRadio
-          class="vads-u-margin-top--0"
-          data-testid={shortName}
-          error={formError ? 'Placeholder error message' : null}
-          hint={hintText}
-          id="onramp-radio"
-          label={questionText}
-          onVaValueChange={e => onValueChange(e.detail.value)}
-          required
-        >
-          {renderRadioOptions()}
-        </VaRadio>
-      </>
-    );
-  }
+  const errorMessage =
+    shortName === SHORT_NAME_MAP.Q_2_0_CLAIM_TYPE
+      ? QUESTION_DECISION_TYPE_ERROR
+      : QUESTION_STANDARD_ERROR;
+
+  const radioLabel =
+    shortName === SHORT_NAME_MAP.Q_2_0_CLAIM_TYPE
+      ? QUESTION_DECISION_TYPE_LABEL
+      : QUESTION_STANDARD_LABEL;
 
   return (
     <>
-      {radios}
+      <VaRadio
+        class="vads-u-margin-top--0"
+        data-testid={shortName}
+        error={formError ? errorMessage : null}
+        form-heading={h1}
+        form-heading-level={1}
+        hint={hintText || null}
+        id="onramp-radio"
+        label={radioLabel}
+        onVaValueChange={e => onValueChange(e.detail.value)}
+        required
+        use-forms-pattern="single"
+      >
+        {renderRadioOptions()}
+        <div className="vads-u-margin-bottom--3" slot="form-description">
+          <p className="vads-u-margin-y--0 vads-u-font-size--h3">
+            Explore disability claim decision review options
+          </p>
+          <h2 className="vads-u-margin-y--2p5">{questionText}</h2>
+          {descriptionText || null}
+        </div>
+      </VaRadio>
       <VaButtonPair
         class="vads-u-margin-top--2"
         data-testid="onramp-buttonPair"

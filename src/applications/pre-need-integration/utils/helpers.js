@@ -9,11 +9,13 @@ import { focusElement } from 'platform/utilities/ui';
 
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import fullNameUI from 'platform/forms/definitions/fullName';
-import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
+import {
+  ssnUI,
+  currentOrPastDateUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
-import { currentOrPastDateUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { countries } from 'platform/forms/address';
 
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
@@ -312,9 +314,39 @@ export const applicantContactInfoAddressTitle = (
   </div>
 );
 
+export const applicantEditAddressTitleLoggedIn = (
+  <div>
+    <va-alert status="info" slim class="vads-u-margin-bottom--2">
+      <p className="vads-u-margin-y--0 vads-u-font-weight--normal">
+        Any changes you make will also be reflected on your VA.gov profile.
+      </p>
+    </va-alert>
+    <h3>Edit your mailing address</h3>
+  </div>
+);
+
+export const applicantEditAddressDescriptionLoggedIn = (
+  <p className="vads-u-margin-top--0">
+    We may mail information about your application to the address you provide
+    here.
+  </p>
+);
+
 export const applicantContactInfoPreparerAddressTitle = (
   <div>
     <h3>Applicant mailing address</h3>
+  </div>
+);
+
+export const applicantContactDetailsTitle = (
+  <div>
+    <h3>Your contact details</h3>
+  </div>
+);
+
+export const applicantContactDetailsPreparerTitle = (
+  <div>
+    <h3>Applicant’s contact details</h3>
   </div>
 );
 
@@ -651,6 +683,13 @@ export function hasServiceRecord(item) {
   return !(serviceRecords === undefined || serviceRecords.length === 0);
 }
 
+export function hasDeceasedPersons(item) {
+  const deceasedPersons =
+    get('currentlyBuriedPersons', item) ||
+    get('formData.currentlyBuriedPersons', item);
+  return !(deceasedPersons === undefined || deceasedPersons.length === 0);
+}
+
 export function formatName(name) {
   const { first, middle, last, suffix } = name;
   return (
@@ -781,21 +820,19 @@ export function transform(formConfig, form) {
 }
 
 export const fullMaidenNameUI = merge({}, fullNameUI, {
-  first: {
-    'ui:title': 'First name',
-  },
+  first: { 'ui:title': 'First name', 'ui:webComponentField': VaTextInputField },
   middle: {
     'ui:title': 'Middle name',
+    'ui:webComponentField': VaTextInputField,
   },
-  last: {
-    'ui:title': 'Last name',
-  },
+  last: { 'ui:title': 'Last name', 'ui:webComponentField': VaTextInputField },
   suffix: {
     'ui:webComponentField': VaSelectField,
     'ui:options': { classNames: 'form-select-medium' },
   },
   maiden: {
     'ui:title': 'Maiden name',
+    'ui:webComponentField': VaTextInputField,
   },
   'ui:order': ['first', 'middle', 'last', 'suffix', 'maiden'],
 });
@@ -824,11 +861,13 @@ export const preparerDateOfBirthUI = currentOrPastDateUI(
 );
 
 // Modify default uiSchema for SSN to insert any missing dashes.
-export const ssnDashesUI = ssnUI;
+export const ssnDashesUI = ssnUI();
 
-export const preparerSsnDashesUI = merge({}, ssnDashesUI, {
-  'ui:title': 'Applicant’s Social Security number',
-});
+export const preparerSsnDashesUI = ssnUI('Applicant’s Social Security number');
+
+export const sponsorDetailsSsnDashesUI = ssnUI(
+  'Sponsor’s Social Security number',
+);
 
 export const VAClaimNumberAdditionalInfo = (
   <va-additional-info trigger="What is a “VA claim number”?">
@@ -1360,7 +1399,9 @@ export function DesiredCemeteryNoteDescription() {
 }
 
 export function getCemeteries() {
-  return fetch(`${environment.API_URL}/v0/preneeds/cemeteries`, {
+  const apiUrl = `${environment.API_URL}/simple_forms_api/v1/cemeteries`;
+
+  return fetch(apiUrl, {
     credentials: 'include',
     headers: {
       'X-Key-Inflection': 'camel',
@@ -1371,23 +1412,19 @@ export function getCemeteries() {
       if (!res.ok) {
         return Promise.reject(res);
       }
-
       return res.json();
     })
-    .then(res =>
-      res.data.map(item => ({
+    .then(res => {
+      return res.data.map(item => ({
         label: item.attributes.name,
         id: item.id,
-      })),
-    )
-    .catch(res => {
-      if (res instanceof Error) {
-        Sentry.captureException(res);
+      }));
+    })
+    .catch(error => {
+      if (error instanceof Error) {
+        Sentry.captureException(error);
         Sentry.captureMessage('vets_preneed_cemeteries_error');
       }
-
-      // May change this to a reject later, depending on how we want
-      // to surface errors in autosuggest field
       return Promise.resolve([]);
     });
 }
@@ -1487,4 +1524,33 @@ export const addressConfirmationRenderLine = content => {
       <br />
     </>
   ) : null;
+};
+
+// This function ensures the `depends` function of each page is called with the correct form data
+// in the burialBenefits section of the form
+export const addConditionalDependency = (pages, condition) => {
+  return Object.fromEntries(
+    Object.entries(pages).map(([key, page]) => [
+      key,
+      {
+        ...page,
+        depends: formData => page.depends?.(formData) && condition(formData),
+      },
+    ]),
+  );
+};
+
+export const ApplicantDetailsHeader = () => {
+  return (
+    <h3 className="vads-u-margin-bottom--3">
+      Confirm the personal information we have on file for you
+    </h3>
+  );
+};
+
+// Helper function to check if user is logged in and not an authorized agent
+export const isLoggedInUser = formData => {
+  const isLoggedIn = formData?.['view:loginState']?.isLoggedIn || false;
+  const isAgent = isAuthorizedAgent(formData);
+  return !isAgent && isLoggedIn;
 };

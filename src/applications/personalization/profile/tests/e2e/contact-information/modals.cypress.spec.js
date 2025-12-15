@@ -1,17 +1,25 @@
 import { PROFILE_PATHS } from '@@profile/constants';
-
 import { mockUser } from '@@profile/tests/fixtures/users/user';
 import transactionCompletedWithNoChanges from '@@profile/tests/fixtures/transactions/no-changes-transaction.json';
 import transactionCompletedWithError from '@@profile/tests/fixtures/transactions/error-transaction.json';
 import { mockFeatureToggles } from '../helpers';
 
-const setup = (mobile = false) => {
+const setup = ({ profile2Enabled = false, mobile = false } = {}) => {
   if (mobile) {
     cy.viewportPreset('va-top-mobile-1');
   }
 
   cy.login(mockUser);
-  mockFeatureToggles();
+  if (profile2Enabled) {
+    cy.intercept('GET', 'v0/feature_toggles*', {
+      data: {
+        type: 'feature_toggles',
+        features: [{ name: 'profile_2_enabled', value: true }],
+      },
+    });
+  } else {
+    mockFeatureToggles();
+  }
   cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);
 
   // should show a loading indicator
@@ -123,7 +131,7 @@ const checkRemovalWhileEditingModal = options => {
 
 describe('Modals for removal of field', () => {
   it('should show edit notice modal when attempting to remove field after editing another field', () => {
-    setup(false);
+    setup({ mobile: false });
     checkRemovalWhileEditingModal({
       editSectionName: 'Mailing address',
       editLineId: 'root_addressLine1',
@@ -133,7 +141,7 @@ describe('Modals for removal of field', () => {
   });
 
   it('should show edit notice modal when attempting to remove field after editing another field', () => {
-    setup(false);
+    setup({ mobile: false });
     checkRemovalWhileEditingModal({
       editSectionName: 'Home phone number',
       editLineId: 'root_inputPhoneNumber',
@@ -143,7 +151,7 @@ describe('Modals for removal of field', () => {
   });
 
   it('should show edit notice modal when attempting to remove field after editing another field', () => {
-    setup(false);
+    setup({ mobile: false });
     checkRemovalWhileEditingModal({
       editSectionName: 'Mailing address',
       editLineId: 'root_addressLine1',
@@ -201,7 +209,7 @@ describe('Modals on the contact information and content page', () => {
   });
 
   it('should render as expected on Mobile 1', () => {
-    setup(true);
+    setup({ mobile: true });
 
     // should appear when editing mailing address
     checkModals({
@@ -213,7 +221,7 @@ describe('Modals on the contact information and content page', () => {
   });
 
   it('should render as expected on Mobile 2', () => {
-    setup(true);
+    setup({ mobile: true });
     // should appear when editing residential address
     checkModals({
       otherSectionName: 'Mailing address',
@@ -224,7 +232,7 @@ describe('Modals on the contact information and content page', () => {
   });
 
   it('should render as expected on Mobile 3', () => {
-    setup(true);
+    setup({ mobile: true });
     // should appear when editing home phone number
     checkModals({
       otherSectionName: 'Mailing address',
@@ -235,7 +243,7 @@ describe('Modals on the contact information and content page', () => {
   });
 
   it('should render as expected on Mobile 4', () => {
-    setup(true);
+    setup({ mobile: true });
     // should appear when editing email address
     checkModals({
       otherSectionName: 'Mailing address',
@@ -300,6 +308,36 @@ describe('when moving to other profile pages', () => {
     }).click({
       force: true,
     });
+    // uncomment when Paperless Delivery is ready for production
+    //  cy.get('va-sidenav-item[label="Military information"]')
+    //   .filter(':visible')
+    //   .click();
+    // cy.get('va-sidenav-item[label="Contact information"]')
+    //   .filter(':visible')
+    //   .click();
+    cy.get(`va-button[label="Edit ${sectionName}"]`).should('exist');
+
+    cy.axeCheck();
+  });
+
+  it('should exit edit mode if opened (profile2Enabled)', () => {
+    setup({ profile2Enabled: true });
+
+    const sectionName = 'Contact email address';
+
+    cy.intercept(
+      '/v0/profile/email_addresses',
+      transactionCompletedWithNoChanges,
+    );
+
+    // Open edit view
+    cy.get(`va-button[label="Edit ${sectionName}"]`).click({ force: true });
+    cy.get('va-sidenav-item[label="Service history information"]')
+      .filter(':visible')
+      .click();
+    cy.get('va-sidenav-item[label="Contact information"]')
+      .filter(':visible')
+      .click();
     cy.get(`va-button[label="Edit ${sectionName}"]`).should('exist');
 
     cy.axeCheck();

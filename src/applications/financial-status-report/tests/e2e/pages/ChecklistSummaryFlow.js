@@ -19,6 +19,7 @@ const fillInputList = values => {
       .should('contain', values[index].name);
     cy.wrap(input)
       .find('input')
+      .should('not.be.disabled')
       .type(values[index].amount);
   });
 };
@@ -53,11 +54,17 @@ const verifyEditPage = (values, editButtonText) => {
   cy.get('@TextInput').should('have.value', values[0].name);
   cy.get('@ValueInput').should('have.value', values[0].amount);
 
-  // edit the values
-  cy.get('@TextInput').clear({ force: true });
+  // edit the values - use force to handle any timing issues
+  cy.get('@TextInput').type('{selectall}{backspace}', {
+    timeout: 1000,
+    force: true,
+  });
   cy.get('@TextInput').type('edit-test', { force: true });
 
-  cy.get('@ValueInput').clear({ force: true });
+  cy.get('@ValueInput').type('{selectall}{backspace}', {
+    timeout: 1000,
+    force: true,
+  });
   cy.get('@ValueInput').type('111', { force: true });
 
   // return to summary page
@@ -77,16 +84,19 @@ const verifyAddPage = (values, editButtonText) => {
   // find add link on mini summary page
   cy.findByTestId('add-link').click();
 
-  // verify edit page has correct values populated in input fields
+  // Type values - use force to handle any timing issues
   cy.get('va-text-input')
     .first()
     .shadow()
     .find('input')
+    .clear({ force: true })
     .type('add-test', { force: true });
+
   cy.get('va-text-input')
     .last()
     .shadow()
     .find('input')
+    .clear({ force: true })
     .type('1234', { force: true });
 
   // return to summary page

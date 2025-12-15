@@ -1,26 +1,29 @@
-import React, { useEffect } from 'react';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import { validateWhiteSpace } from '@department-of-veterans-affairs/platform-forms/validations';
+import React, { useEffect, useMemo } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { VaRadioField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
-import classNames from 'classnames';
 import FormButtons from '../../components/FormButtons';
-import { getFormPageInfo } from '../redux/selectors';
-import { focusFormHeader } from '../../utils/scrollAndFocus';
-import { PURPOSE_TEXT_V2, FACILITY_TYPES } from '../../utils/constants';
-import TextareaWidget from '../../components/TextareaWidget';
-import PostFormFieldContent from '../../components/PostFormFieldContent';
-import NewTabAnchor from '../../components/NewTabAnchor';
 import InfoAlert from '../../components/InfoAlert';
+import PostFormFieldContent from '../../components/PostFormFieldContent';
+import TextareaWidget from '../../components/TextareaWidget';
+import {
+  FACILITY_TYPES,
+  FLOW_TYPES,
+  PURPOSE_TEXT_V2,
+} from '../../utils/constants';
+import { focusFormHeader } from '../../utils/scrollAndFocus';
+import { getPageTitle } from '../newAppointmentFlow';
 import {
   openReasonForAppointment,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
   updateReasonForAppointmentData,
 } from '../redux/actions';
-import { getPageTitle } from '../newAppointmentFlow';
+import { getFlowType, getFormPageInfo } from '../redux/selectors';
+import AppointmentsRadioWidget from './AppointmentsRadioWidget';
+import UrgentCareLinks from './UrgentCareLinks';
+import { useOHRequestScheduling } from '../hooks/useOHRequestScheduling';
 
 function isValidComment(value) {
   // exclude the ^ since the caret is a delimiter for MUMPS (Vista)
@@ -54,7 +57,7 @@ const initialSchema = {
       },
     },
   },
-  cc: {
+  request: {
     type: 'object',
     properties: {
       reasonAdditionalInfo: {
@@ -68,6 +71,9 @@ const pageKey = 'reasonForAppointment';
 
 export default function ReasonForAppointmentPage() {
   const pageTitle = useSelector(state => getPageTitle(state, pageKey));
+  const flowType = useSelector(getFlowType);
+  const updateRequestFlow =
+    useOHRequestScheduling() && flowType === FLOW_TYPES.REQUEST;
 
   const dispatch = useDispatch();
   const { schema, data, pageChangeInProgress } = useSelector(
@@ -75,57 +81,111 @@ export default function ReasonForAppointmentPage() {
     shallowEqual,
   );
   const history = useHistory();
-  const isCommunityCare = data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
-  const pageInitialSchema = isCommunityCare
-    ? initialSchema.cc
-    : initialSchema.default;
-  const uiSchema = {
-    default: {
-      reasonForAppointment: {
-        'ui:widget': 'radio', // Required
-        'ui:webComponentField': VaRadioField,
-        'ui:title': pageTitle,
-        'ui:errorMessages': {
-          required: 'Select a reason for your appointment',
+
+  const isCommunityCare =
+    data.facilityType === FACILITY_TYPES.COMMUNITY_CARE.id;
+
+  const pageInitialSchema = useMemo(
+    () =>
+      isCommunityCare || updateRequestFlow
+        ? initialSchema.request
+        : initialSchema.default,
+    [isCommunityCare, updateRequestFlow],
+  );
+
+  const uiSchema = useMemo(
+    () => ({
+      default: {
+        reasonForAppointment: {
+          'ui:widget': AppointmentsRadioWidget,
+          'ui:title': pageTitle,
+          'ui:errorMessages': {
+            required: 'Select a reason for your appointment',
+          },
+          'ui:options': {
+            classNames: 'vads-u-margin-top--neg2',
+            hideLabelText: true,
+          },
         },
-        'ui:options': {
-          labelHeaderLevel: '1',
+        reasonAdditionalInfo: {
+          'ui:widget': TextareaWidget,
+          'ui:options': {
+            hideLabelText: true,
+            rows: 5,
+          },
+          'ui:validations': [validComment],
+          'ui:errorMessages': {
+            required: `Provide more information about why you are ${
+              flowType === FLOW_TYPES.DIRECT ? 'scheduling' : 'requesting'
+            } this appointment`,
+          },
         },
       },
-      reasonAdditionalInfo: {
-        'ui:widget': TextareaWidget,
-        'ui:options': {
-          hideLabelText: true,
-          rows: 5,
-        },
-        'ui:validations': [validComment],
-        'ui:errorMessages': {
-          required:
-            'Provide more information about why you are requesting this appointment',
+      request: {
+        reasonAdditionalInfo: {
+          'ui:widget': TextareaWidget,
+          'ui:options': {
+            hideLabelText: true,
+            rows: 5,
+          },
+          'ui:validations': [
+            isCommunityCare ? validateWhiteSpace : validComment,
+          ],
+          'ui:errorMessages': {
+            required:
+              'Provide more information about why you are requesting this appointment',
+          },
         },
       },
-    },
-    cc: {
-      reasonAdditionalInfo: {
-        'ui:widget': TextareaWidget,
-        'ui:options': {
-          hideLabelText: true,
-          rows: 5,
-        },
-        'ui:validations': [validateWhiteSpace],
-      },
-    },
-  };
-  const pageUISchema = isCommunityCare ? uiSchema.cc : uiSchema.default;
+    }),
+    [pageTitle, flowType, isCommunityCare],
+  );
+
+  const pageUISchema = useMemo(
+    () =>
+      isCommunityCare || updateRequestFlow
+        ? uiSchema.request
+        : uiSchema.default,
+    [isCommunityCare, updateRequestFlow, uiSchema],
+  );
 
   useEffect(
     () => {
+      // Determine required fields based on flow type:
+      // - Community Care: no required fields
+      // - Request flow (OH enabled): only reasonAdditionalInfo
+      // - Default/Direct flow: both reasonForAppointment and reasonAdditionalInfo
+      let requiredFields;
+      if (isCommunityCare) {
+        requiredFields = [];
+      } else if (updateRequestFlow) {
+        requiredFields = ['reasonAdditionalInfo'];
+      } else {
+        requiredFields = ['reasonForAppointment', 'reasonAdditionalInfo'];
+      }
+
+      const effectiveReasonSchema = {
+        ...pageInitialSchema,
+        required: requiredFields,
+      };
       document.title = `${pageTitle} | Veterans Affairs`;
       dispatch(
-        openReasonForAppointment(pageKey, pageUISchema, pageInitialSchema),
+        openReasonForAppointment(
+          pageKey,
+          pageUISchema,
+          effectiveReasonSchema,
+          updateRequestFlow,
+        ),
       );
     },
-    [dispatch],
+    [
+      dispatch,
+      isCommunityCare,
+      updateRequestFlow,
+      pageInitialSchema,
+      pageTitle,
+      pageUISchema,
+    ],
   );
 
   useEffect(
@@ -138,14 +198,16 @@ export default function ReasonForAppointmentPage() {
   );
 
   return (
-    <div
-      className={classNames('vaos-form__radio-field', {
-        'vads-u-margin-top--neg3': !isCommunityCare,
-      })}
-    >
-      {isCommunityCare && (
-        <h1 className="vaos__dynamic-font-size--h2">{pageTitle}</h1>
-      )}
+    <div className="vaos-form__radio-field">
+      <h1 className="vaos__dynamic-font-size--h2">
+        {pageTitle}
+        {!isCommunityCare &&
+          !updateRequestFlow && (
+            <span className="schemaform-required-span vads-u-font-family--sans vads-u-font-weight--normal">
+              (*Required)
+            </span>
+          )}
+      </h1>
       {!!schema && (
         <SchemaForm
           name="Reason for appointment"
@@ -165,31 +227,11 @@ export default function ReasonForAppointmentPage() {
           <PostFormFieldContent>
             <InfoAlert
               status="warning"
-              headline="If you have an urgent medical need, please:"
+              headline="Only schedule appointments for non-urgent needs"
               className="vads-u-margin-y--3"
               level="2"
             >
-              <ul>
-                <li>
-                  Call <VaTelephone contact="911" />,{' '}
-                  <span className="vads-u-font-weight--bold">or</span>
-                </li>
-                <li>
-                  Call the Veterans Crisis hotline at{' '}
-                  <VaTelephone
-                    contact="988"
-                    data-testid="crisis-hotline-telephone"
-                  />{' '}
-                  and select 1,{' '}
-                  <span className="vads-u-font-weight--bold">or</span>
-                </li>
-                <li>
-                  Go to your nearest emergency room or VA medical center.{' '}
-                  <NewTabAnchor href="/find-locations">
-                    Find your nearest VA medical center
-                  </NewTabAnchor>
-                </li>
-              </ul>
+              <UrgentCareLinks />
             </InfoAlert>
           </PostFormFieldContent>
           <FormButtons

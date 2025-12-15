@@ -7,10 +7,12 @@ import {
   fetchMilitaryInformation as fetchMilitaryInformationAction,
   fetchHero as fetchHeroAction,
 } from '@@profile/actions';
+import { selectVAPContactInfoField } from '@@vap-svc/selectors';
 import {
   VaAlert,
   VaModal,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { MhvAlertConfirmEmail } from '@department-of-veterans-affairs/mhv/exports';
 import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
 import { connectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/dsot';
 import recordEvent from '~/platform/monitoring/record-event';
@@ -26,7 +28,11 @@ import {
   isVAPatient as isVAPatientSelector,
   hasMPIConnectionError,
   isNotInMPI,
+  selectAvailableServices,
+  selectProfile,
 } from '~/platform/user/selectors';
+import { filterOutExpiredForms } from '~/applications/personalization/dashboard/helpers';
+import { VA_FORM_IDS } from '~/platform/forms/constants';
 import {
   RequiredLoginView,
   RequiredLoginLoader,
@@ -41,6 +47,13 @@ import NameTag from '~/applications/personalization/components/NameTag';
 import MPIConnectionError from '~/applications/personalization/components/MPIConnectionError';
 import NotInMPIError from '~/applications/personalization/components/NotInMPIError';
 import IdentityNotVerified from '~/platform/user/authorization/components/IdentityNotVerified';
+import { getEnrollmentStatus } from 'platform/user/profile/actions/hca';
+import { fetchUnreadMessagesCount as fetchUnreadMessageCountAction } from '~/applications/personalization/dashboard/actions/messaging';
+import { fetchConfirmedFutureAppointments as fetchConfirmedFutureAppointmentsAction } from '~/applications/personalization/appointments/actions';
+import {
+  fetchDebts,
+  fetchCopays,
+} from '~/applications/personalization/dashboard/actions/debts';
 import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '../../common/actions/ratedDisabilities';
 import { hasTotalDisabilityError } from '../../common/selectors/ratedDisabilities';
 import { API_NAMES } from '../../common/constants';
@@ -59,8 +72,18 @@ import EducationAndTraining from './education-and-training/EducationAndTraining'
 import { ContactInfoNeeded } from '../../profile/components/alerts/ContactInfoNeeded';
 import FormsAndApplications from './benefit-application-drafts/FormsAndApplications';
 import PaymentsAndDebts from './benefit-payments/PaymentsAndDebts';
+import NewMyVaToggle from './NewMyVaToggle';
 
-const DashboardHeader = ({ isLOA3, showNotifications, user }) => {
+import { getAppeals as getAppealsAction } from '../actions/appeals';
+import { getClaims as getClaimsAction } from '../actions/claims';
+import { fetchFormStatuses } from '../actions/form-status';
+
+const DashboardHeader = ({
+  isLOA3,
+  showConfirmEmail,
+  showNotifications,
+  user,
+}) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const hideNotificationsSection = useToggleValue(
     TOGGLE_NAMES.myVaHideNotificationsSection,
@@ -120,6 +143,13 @@ const DashboardHeader = ({ isLOA3, showNotifications, user }) => {
           });
         }}
       />
+      {showConfirmEmail && (
+        <div className="vads-l-row">
+          <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+            <MhvAlertConfirmEmail />
+          </div>
+        </div>
+      )}
       {isLOA3 && <ContactInfoNeeded />}
       {showNotifications && !hideNotificationsSection && <Notifications />}
     </div>
@@ -209,6 +239,7 @@ const LOA1Content = ({
 
 DashboardHeader.propTypes = {
   isLOA3: PropTypes.bool,
+  showConfirmEmail: PropTypes.bool,
   showNotifications: PropTypes.bool,
   user: PropTypes.object,
 };
@@ -239,6 +270,20 @@ const Dashboard = ({
   showNotifications,
   isVAPatient,
   user,
+  dataLoadingDisabled,
+  getAppeals,
+  shouldLoadAppeals,
+  getClaims,
+  shouldLoadClaims,
+  shouldGetESRStatus,
+  getESREnrollmentStatus,
+  getFormStatuses,
+  fetchConfirmedFutureAppointments,
+  shouldFetchUnreadMessages,
+  fetchUnreadMessages,
+  getDebts,
+  getCopays,
+
   ...props
 }) => {
   const downtimeApproachingRenderMethod = useDowntimeApproachingRenderMethod();
@@ -251,6 +296,63 @@ const Dashboard = ({
     setWelcomeModalVisible(false);
     localStorage.setItem('welcomeToMyVAModalIsDismissed', 'true');
   };
+
+  React.useEffect(
+    () => {
+      if (!dataLoadingDisabled && shouldLoadAppeals) {
+        getAppeals();
+      }
+    },
+    [dataLoadingDisabled, getAppeals, shouldLoadAppeals],
+  );
+
+  React.useEffect(
+    () => {
+      if (!dataLoadingDisabled && shouldLoadClaims) {
+        getClaims();
+      }
+    },
+    [dataLoadingDisabled, getClaims, shouldLoadClaims],
+  );
+
+  useEffect(
+    () => {
+      if (shouldGetESRStatus) {
+        getESREnrollmentStatus();
+      }
+    },
+    [shouldGetESRStatus, getESREnrollmentStatus],
+  );
+
+  useEffect(
+    () => {
+      getFormStatuses();
+    },
+    [getFormStatuses],
+  );
+
+  useEffect(
+    () => {
+      if (!dataLoadingDisabled && isVAPatient) {
+        fetchConfirmedFutureAppointments();
+      }
+    },
+    [dataLoadingDisabled, fetchConfirmedFutureAppointments, isVAPatient],
+  );
+
+  useEffect(
+    () => {
+      if (shouldFetchUnreadMessages && !dataLoadingDisabled && isVAPatient) {
+        fetchUnreadMessages();
+      }
+    },
+    [
+      shouldFetchUnreadMessages,
+      fetchUnreadMessages,
+      dataLoadingDisabled,
+      isVAPatient,
+    ],
+  );
 
   useEffect(
     () => {
@@ -307,6 +409,25 @@ const Dashboard = ({
     [canAccessPaymentHistory, getPayments],
   );
 
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const showGenericDebtCard = useToggleValue(TOGGLE_NAMES.showGenericDebtCard);
+
+  useEffect(
+    () => {
+      if (!showGenericDebtCard) {
+        getDebts(true);
+      }
+    },
+    [getDebts, showGenericDebtCard],
+  );
+
+  useEffect(
+    () => {
+      getCopays();
+    },
+    [getCopays],
+  );
+
   return (
     <RequiredLoginView
       serviceRequired={[backendServices.USER_PROFILE]}
@@ -345,9 +466,20 @@ const Dashboard = ({
             <div className="vads-l-grid-container vads-u-padding-x--1 vads-u-padding-bottom--3 medium-screen:vads-u-padding-x--2 medium-screen:vads-u-padding-bottom--4">
               <DashboardHeader
                 isLOA3={isLOA3}
+                showConfirmEmail={props.showConfirmEmail}
                 showNotifications={showNotifications}
                 user={props.user}
               />
+
+              <Toggler
+                toggleName={
+                  Toggler.TOGGLE_NAMES.myVaAuthExpRedesignAvailableToOptIn
+                }
+              >
+                <Toggler.Enabled>
+                  <NewMyVaToggle />
+                </Toggler.Enabled>
+              </Toggler>
 
               {showMPIConnectionError && (
                 <div className="vads-l-row">
@@ -441,7 +573,7 @@ const Dashboard = ({
                       </li>
                       <li className="vads-u-padding-y--1">
                         <va-link
-                          href="/view-change-dependents/view"
+                          href="/manage-dependents/view"
                           text="View or change VA dependents"
                         />
                       </li>
@@ -504,6 +636,7 @@ const isAppealsAvailableSelector = createIsServiceAvailableSelector(
 );
 
 const mapStateToProps = state => {
+  const claimsState = state.claims;
   const { isReady: hasLoadedScheduledDowntime } = state.scheduledDowntime;
   const isLOA3 = isLOA3Selector(state);
   const isLOA1 = isLOA1Selector(state);
@@ -558,16 +691,51 @@ const mapStateToProps = state => {
   const showNotifications =
     !showMPIConnectionError && !showNotInMPIError && isLOA3;
 
+  const showConfirmEmail =
+    selectVAPContactInfoField(state, 'email')?.emailAddress &&
+    selectVAPContactInfoField(state, 'mailingAddress')?.addressLine1 &&
+    selectVAPContactInfoField(state, 'mobilePhone')?.phoneNumber;
+
+  const canAccessAppeals = canAccess(state)[API_NAMES.APPEALS] !== undefined;
+
+  const shouldFetchUnreadMessages = selectAvailableServices(state).includes(
+    backendServices.MESSAGING,
+  );
+
+  const debts = state.allDebts.debts || [];
+  const { debtsCount } = state.allDebts;
+  const copays = state.allDebts.copays || [];
+
+  const hasHCAInProgress =
+    selectProfile(state)
+      .savedForms?.filter(filterOutExpiredForms)
+      .some(savedForm => savedForm.form === VA_FORM_IDS.FORM_10_10EZ) ?? false;
+
+  const isPatient = isVAPatientSelector(state);
+
+  const shouldGetESRStatus =
+    !hasHCAInProgress && !isPatient && isLOA3Selector(state);
+
   return {
+    appealsData: claimsState.appeals,
+    claimsData: claimsState.claims,
+    debts,
+    debtsCount,
+    copays,
+    shouldGetESRStatus,
+    shouldLoadAppeals: isAppealsAvailableSelector(state) && canAccessAppeals,
+    shouldLoadClaims: isClaimsAvailableSelector(state),
     canAccessMilitaryHistory,
     canAccessPaymentHistory,
     canAccessRatingInfo,
     isLOA3,
     isLOA1,
+    showConfirmEmail,
     showLoader,
     showValidateIdentityAlert,
     showClaimsAndAppeals,
     showHealthCare,
+    shouldFetchUnreadMessages,
     isVAPatient,
     showNameTag,
     hero,
@@ -605,6 +773,7 @@ Dashboard.propTypes = {
     }),
   ),
   showClaimsAndAppeals: PropTypes.bool,
+  showConfirmEmail: PropTypes.bool,
   showHealthCare: PropTypes.bool,
   showLoader: PropTypes.bool,
   showMPIConnectionError: PropTypes.bool,
@@ -615,13 +784,31 @@ Dashboard.propTypes = {
   totalDisabilityRating: PropTypes.number,
   totalDisabilityRatingError: PropTypes.bool,
   user: PropTypes.object,
+  getAppeals: PropTypes.func.isRequired,
+  getClaims: PropTypes.func.isRequired,
+  getFormStatuses: PropTypes.func.isRequired,
+  getESREnrollmentStatus: PropTypes.func.isRequired,
+  hasAPIError: PropTypes.bool.isRequired,
+  shouldLoadAppeals: PropTypes.bool.isRequired,
+  shouldLoadClaims: PropTypes.bool.isRequired,
+  dataLoadingDisabled: PropTypes.bool,
+  shouldGetESRStatus: PropTypes.bool,
+  submittedError: PropTypes.bool,
 };
 
 const mapDispatchToProps = {
+  getAppeals: getAppealsAction,
+  getClaims: getClaimsAction,
+  getFormStatuses: fetchFormStatuses,
+  getESREnrollmentStatus: getEnrollmentStatus,
   fetchFullName: fetchHeroAction,
   fetchMilitaryInformation: fetchMilitaryInformationAction,
   fetchTotalDisabilityRating: fetchTotalDisabilityRatingAction,
   getPayments: getAllPayments,
+  fetchUnreadMessages: fetchUnreadMessageCountAction,
+  fetchConfirmedFutureAppointments: fetchConfirmedFutureAppointmentsAction,
+  getDebts: fetchDebts,
+  getCopays: fetchCopays,
 };
 
 export default connect(

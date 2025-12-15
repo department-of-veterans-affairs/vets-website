@@ -35,25 +35,19 @@ describe('VAOS Page: TypeOfFacilityPage', () => {
     });
     await screen.findByText(/Continue/i);
 
-    // Then the primary header should have focus
-    const radioSelector = screen.container.querySelector('va-radio');
-    expect(radioSelector).to.exist;
-    expect(radioSelector).to.have.attribute(
-      'label',
-      'Where do you prefer to receive care?',
-    );
+    // Should show title
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: /Where do you prefer to receive care\?/,
+      }),
+    ).to.exist;
 
     // And the user should see radio buttons for each clinic
-    const radioOptions = screen.container.querySelectorAll('va-radio-option');
+    const radioOptions = screen.getAllByRole('radio');
     expect(radioOptions).to.have.lengthOf(2);
-    expect(radioOptions[0]).to.have.attribute(
-      'label',
-      'VA medical center or clinic',
-    );
-    expect(radioOptions[1]).to.have.attribute(
-      'label',
-      'Community care facility',
-    );
+    await screen.findByLabelText(/VA medical center or clinic/i);
+    await screen.findByLabelText(/Community care facility/i);
   });
 
   it('should show validation', async () => {
@@ -82,23 +76,17 @@ describe('VAOS Page: TypeOfFacilityPage', () => {
     );
     await screen.findByText(/Continue/i);
 
-    const radioSelector = screen.container.querySelector('va-radio');
-    let changeEvent = new CustomEvent('selected', {
-      detail: { value: 'communityCare' },
-    });
-    radioSelector.__events.vaValueChange(changeEvent);
+    fireEvent.click(await screen.findByLabelText(/Community care facility/i));
     fireEvent.click(screen.getByText(/Continue/));
-
     await waitFor(() =>
       expect(screen.history.push.lastCall?.args[0]).to.equal(
         'community-request/',
       ),
     );
 
-    changeEvent = new CustomEvent('selected', {
-      detail: { value: 'vamc' },
-    });
-    radioSelector.__events.vaValueChange(changeEvent);
+    fireEvent.click(
+      await screen.findByLabelText(/VA medical center or clinic/i),
+    );
     fireEvent.click(screen.getByText(/Continue/));
 
     await waitFor(() =>
@@ -116,11 +104,13 @@ describe('VAOS Page: TypeOfFacilityPage', () => {
     );
     await screen.findByText(/Continue/i);
 
-    const radioSelector = screen.container.querySelector('va-radio');
-    const changeEvent = new CustomEvent('selected', {
-      detail: { value: 'communityCare' },
-    });
-    radioSelector.__events.vaValueChange(changeEvent);
+    fireEvent.click(
+      await screen.findByLabelText(/VA medical center or clinic/i),
+    );
+    fireEvent.click(screen.getByText(/Continue/));
+    await waitFor(() =>
+      expect(screen.history.push.lastCall.args[0]).to.equal('location'),
+    );
     await cleanup();
 
     screen = renderWithStoreAndRouter(
@@ -130,8 +120,8 @@ describe('VAOS Page: TypeOfFacilityPage', () => {
       },
     );
 
-    await waitFor(() => {
-      expect(radioSelector).to.have.attribute('value', 'communityCare');
-    });
+    expect(
+      await screen.findByLabelText(/VA medical center or clinic/i),
+    ).to.have.attribute('checked');
   });
 });

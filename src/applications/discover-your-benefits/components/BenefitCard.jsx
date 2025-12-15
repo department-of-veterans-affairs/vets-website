@@ -51,7 +51,10 @@ const BenefitCard = ({ benefit }) => {
   };
 
   return (
-    <div className="benefit-card vads-u-margin-bottom--2">
+    <div
+      className="benefit-card vads-u-margin-bottom--2"
+      data-testid={`benefit-card-${benefit.name}`}
+    >
       <va-card>
         <>
           {isTimeSensitive && (

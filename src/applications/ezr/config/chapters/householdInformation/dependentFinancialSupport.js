@@ -13,12 +13,16 @@ export default {
     ...descriptionUI(DependentSupportDescription, {
       hideOnReview: true,
     }),
-    receivedSupportLastYear: yesNoUI(
-      replaceStrValues(
+    receivedSupportLastYear: yesNoUI({
+      title: replaceStrValues(
         content['household-dependent-received-support-label'],
         LAST_YEAR,
       ),
-    ),
+      labels: {
+        Y: content['household-dependent-received-support-yes-label'],
+        N: content['household-dependent-received-support-no-label'],
+      },
+    }),
   },
   schema: {
     type: 'object',

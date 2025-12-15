@@ -1,5 +1,6 @@
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import React from 'react';
+import classNames from 'classnames';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import { shallowEqual } from 'recompose';
@@ -48,7 +49,11 @@ export default function CancelPageLayoutRequest() {
         {`Request for ${isCC ? 'community care appointment' : 'appointment'}`}
       </h2>
       <Section heading="Preferred date and time" level={3}>
-        <ul className="usa-unstyled-list">
+        <ul
+          className={classNames({
+            'usa-unstyled-list': preferredDates.length === 1,
+          })}
+        >
           {preferredDates.map((date, index) => (
             <li key={`${id}-option-${index}`}>{date}</li>
           ))}

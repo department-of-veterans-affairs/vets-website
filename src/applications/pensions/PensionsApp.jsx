@@ -16,15 +16,9 @@ export default function PensionEntry({ location, children }) {
   const pensionMultiplePageResponse = useToggleValue(
     TOGGLE_NAMES.pensionMultiplePageResponse,
   );
-  const pensionIncomeAndAssetsClarification = useToggleValue(
-    TOGGLE_NAMES.pensionIncomeAndAssetsClarification,
+  const pensionPdfFormAlignment = useToggleValue(
+    TOGGLE_NAMES.pensionPdfFormAlignment,
   );
-  const pensionMedicalEvidenceClarification = useToggleValue(
-    TOGGLE_NAMES.pensionMedicalEvidenceClarification,
-  );
-
-  const pensionItfShowAlert = useToggleValue(TOGGLE_NAMES.pensionItfShowAlert);
-
   const isLoadingFeatures = useSelector(
     state => state?.featureToggles?.loading,
   );
@@ -46,21 +40,12 @@ export default function PensionEntry({ location, children }) {
           pensionMultiplePageResponse,
         );
         window.sessionStorage.setItem(
-          'showIncomeAndAssetsClarification',
-          pensionIncomeAndAssetsClarification,
-        );
-        window.sessionStorage.setItem(
-          'showPensionEvidenceClarification',
-          !!pensionMedicalEvidenceClarification,
+          'showPdfFormAlignment',
+          pensionPdfFormAlignment,
         );
       }
     },
-    [
-      isLoadingFeatures,
-      pensionMultiplePageResponse,
-      pensionIncomeAndAssetsClarification,
-      pensionMedicalEvidenceClarification,
-    ],
+    [isLoadingFeatures, pensionMultiplePageResponse, pensionPdfFormAlignment],
   );
 
   if (isLoadingFeatures !== false || redirectToHowToPage) {
@@ -73,9 +58,7 @@ export default function PensionEntry({ location, children }) {
 
   return (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-      {pensionItfShowAlert && (
-        <IntentToFile itfType="pension" location={location} disableAutoFocus />
-      )}
+      <IntentToFile itfType="pension" location={location} disableAutoFocus />
       {children}
     </RoutedSavableApp>
   );

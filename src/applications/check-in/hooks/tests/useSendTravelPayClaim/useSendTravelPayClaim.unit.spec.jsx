@@ -1,11 +1,10 @@
 import React from 'react';
 
-import { Provider } from 'react-redux';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { render } from '@testing-library/react';
 
-import configureStore from 'redux-mock-store';
+import CheckInProvider from '../../../tests/unit/utils/CheckInProvider';
 import TestComponent from './TestComponent';
 import { api } from '../../../api';
 
@@ -13,42 +12,28 @@ describe('check-in', () => {
   describe('useSendTravelPayClaim hook', () => {
     const sandbox = sinon.createSandbox();
     const { v2 } = api;
-    let store;
+    let initState = {};
     beforeEach(() => {
       global.XMLHttpRequest = sinon.useFakeXMLHttpRequest();
-      const middleware = [];
-      const mockStore = configureStore(middleware);
-      const initState = {
-        featureToggles: {
+      initState = {
+        features: {
           /* eslint-disable-next-line camelcase */
           check_in_experience_travel_reimbursement: true,
         },
-        checkInData: {
-          context: {
-            token: 'some-token',
+        demographicsUpToDate: 'yes',
+        emergencyContactUpToDate: 'yes',
+        nextOfKinUpToDate: 'yes',
+        travelQuestion: 'yes',
+        travelAddress: 'yes',
+        travelMileage: 'yes',
+        travelReview: 'yes',
+        travelVehicle: 'yes',
+        appointments: [
+          {
+            startTime: '2022-08-12T15:15:00',
           },
-          form: {
-            data: {
-              demographicsUpToDate: 'yes',
-              emergencyContactUpToDate: 'yes',
-              nextOfKinUpToDate: 'yes',
-              'travel-question': 'yes',
-              'travel-address': 'yes',
-              'travel-mileage': 'yes',
-              'travel-review': 'yes',
-              'travel-vehicle': 'yes',
-            },
-            pages: [],
-          },
-          appointments: [
-            {
-              startTime: '2022-08-12T15:15:00',
-            },
-          ],
-          veteranData: {},
-        },
+        ],
       };
-      store = mockStore(initState);
       sandbox.stub(v2, 'postDayOfTravelPayClaim').resolves({});
     });
     afterEach(() => {
@@ -56,12 +41,40 @@ describe('check-in', () => {
     });
     it('Loads test component with hook', () => {
       const screen = render(
-        <Provider store={store}>
+        <CheckInProvider store={initState}>
           <TestComponent />
-        </Provider>,
+        </CheckInProvider>,
       );
       expect(screen.getByText(/TestComponent/i)).to.exist;
       sandbox.assert.calledOnce(v2.postDayOfTravelPayClaim);
+    });
+    [
+      { featureEnabled: true, expectedValue: true },
+      { featureEnabled: false, expectedValue: false },
+    ].forEach(({ featureEnabled, expectedValue }) => {
+      it(`calls travel api with isV1TravelPayApiEnabled=${expectedValue} when feature toggle is ${featureEnabled}`, () => {
+        sandbox.restore();
+        sandbox.stub(v2, 'postDayOfTravelPayClaim').resolves({});
+
+        const stateWithFeatureToggle = {
+          ...initState,
+          features: {
+            ...initState.features,
+            // eslint-disable-next-line camelcase
+            check_in_experience_travel_pay_api: featureEnabled,
+          },
+        };
+
+        render(
+          <CheckInProvider store={stateWithFeatureToggle}>
+            <TestComponent />
+          </CheckInProvider>,
+        );
+
+        sandbox.assert.calledOnce(v2.postDayOfTravelPayClaim);
+        const callArgs = v2.postDayOfTravelPayClaim.getCall(0).args;
+        expect(callArgs[2]).to.equal(expectedValue);
+      });
     });
   });
 });

@@ -9,6 +9,7 @@ import {
 } from '../../actions/draftDetails';
 import saveDraftResponse from '../e2e/fixtures/draftsResponse/drafts-single-message-response.json';
 import { Actions } from '../../util/actionTypes';
+import { Alerts } from '../../util/constants';
 
 describe('draftDetails actions', () => {
   const middlewares = [thunk];
@@ -26,13 +27,20 @@ describe('draftDetails actions', () => {
   it('should call dispatch on sendSaveDraft "Save new draft" success', async () => {
     mockApiRequest(saveDraftResponse);
     const store = mockStore({ sm: {} });
-    store.dispatch(saveDraft(requestMessageData, 'manual')).then(() => {
-      expect(store.getActions()).to.deep.include({
+    await store.dispatch(saveDraft(requestMessageData, 'manual')).then(() => {
+      const actions = store.getActions();
+      expect(actions).to.deep.include({
         type: Actions.Thread.DRAFT_SAVE_STARTED,
       });
-      expect(store.getActions()).to.deep.include({
+      expect(actions).to.deep.include({
         type: Actions.Draft.CREATE_SUCCEEDED,
-        response: saveDraftResponse.data,
+        response: {
+          data: saveDraftResponse.data,
+        },
+      });
+      // Check that resetRecentRecipient is dispatched after successful draft save
+      expect(actions).to.deep.include({
+        type: Actions.AllRecipients.RESET_RECENT,
       });
     });
   });
@@ -40,27 +48,44 @@ describe('draftDetails actions', () => {
   it('should call dispatch on sendSaveDraft "Update draft" success', async () => {
     mockApiRequest({ ok: true, status: 204 });
     const store = mockStore({ sm: {} });
-    const timeNow = Date.now();
+    const testStartTime = Date.now();
 
     await store
       .dispatch(saveDraft(requestMessageData, 'manual', messageId))
       .then(() => {
-        expect(store.getActions()).to.deep.include({
+        const actions = store.getActions();
+        expect(actions).to.deep.include({
           type: Actions.Thread.DRAFT_SAVE_STARTED,
         });
-        const action = store.getActions()[1];
-        action.payload.draftDate = timeNow;
-        expect(store.getActions()[1]).to.deep.include(
-          {
-            type: Actions.Thread.UPDATE_DRAFT_IN_THREAD,
-            payload: {
-              messageId,
-              draftDate: timeNow,
-              ...requestMessageData,
-            },
-          },
-          'excluding payload.draftDate',
+
+        const updateAction = actions.find(
+          action => action.type === Actions.Thread.UPDATE_DRAFT_IN_THREAD,
         );
+
+        expect(updateAction).to.exist;
+        expect(updateAction.payload.messageId).to.equal(messageId);
+        expect(updateAction.payload.body).to.equal(requestMessageData.body);
+        expect(updateAction.payload.subject).to.equal(
+          requestMessageData.subject,
+        );
+        expect(updateAction.payload.category).to.equal(
+          requestMessageData.category,
+        );
+        expect(updateAction.payload.recipientId).to.equal(
+          requestMessageData.recipientId,
+        );
+
+        // Check that draftDate is a reasonable timestamp (within 1 second of test start)
+        expect(updateAction.payload.draftDate).to.be.a('number');
+        expect(updateAction.payload.draftDate).to.be.at.least(testStartTime);
+        expect(updateAction.payload.draftDate).to.be.at.most(
+          testStartTime + 1000,
+        );
+
+        // For update draft (response.ok), resetRecentRecipient should NOT be called
+        expect(actions).to.not.deep.include({
+          type: Actions.AllRecipients.RESET_RECENT,
+        });
       });
   });
 
@@ -68,15 +93,61 @@ describe('draftDetails actions', () => {
     const mockResponse = { errors: [{ title: 'Error' }] };
     mockApiRequest(mockResponse);
     const store = mockStore({ sm: {} });
-    store
+    await store
       .dispatch(saveDraft(requestMessageData, 'manual', messageId))
       .then(() => {
-        expect(store.getActions()).to.deep.include({
-          type: Actions.Draft.SAVE_STARTED,
+        const actions = store.getActions();
+        expect(actions).to.deep.include({
+          type: Actions.Thread.DRAFT_SAVE_STARTED,
         });
-        expect(store.getActions()).to.deep.include({
+        expect(actions).to.deep.include({
           type: Actions.Draft.SAVE_FAILED,
           response: mockResponse.errors[0],
+        });
+        // Verify alert is dispatched with error title
+        expect(actions).to.deep.include({
+          type: Actions.Alerts.ADD_ALERT,
+          payload: {
+            alertType: 'error',
+            header: '',
+            content: 'Error',
+            className: undefined,
+            link: undefined,
+            title: undefined,
+            response: undefined,
+          },
+        });
+        // For error case, resetRecentRecipient should NOT be called
+        expect(actions).to.not.deep.include({
+          type: Actions.AllRecipients.RESET_RECENT,
+        });
+      });
+  });
+
+  it('should show fallback alert message when error has no title', async () => {
+    const mockResponse = { errors: [{}] };
+    mockApiRequest(mockResponse);
+    const store = mockStore({ sm: {} });
+    await store
+      .dispatch(saveDraft(requestMessageData, 'manual', messageId))
+      .then(() => {
+        const actions = store.getActions();
+        expect(actions).to.deep.include({
+          type: Actions.Draft.SAVE_FAILED,
+          response: mockResponse.errors[0],
+        });
+        // Verify alert is dispatched with fallback message
+        expect(actions).to.deep.include({
+          type: Actions.Alerts.ADD_ALERT,
+          payload: {
+            alertType: 'error',
+            header: '',
+            content: Alerts.Message.GET_MESSAGE_ERROR,
+            className: undefined,
+            link: undefined,
+            title: undefined,
+            response: undefined,
+          },
         });
       });
   });
@@ -87,12 +158,19 @@ describe('draftDetails actions', () => {
     await store
       .dispatch(saveDraft({ body, subject, category, recipientId }, 'auto'))
       .then(() => {
-        expect(store.getActions()).to.deep.include({
+        const actions = store.getActions();
+        expect(actions).to.deep.include({
           type: Actions.Thread.DRAFT_SAVE_STARTED,
         });
-        expect(store.getActions()).to.deep.include({
+        expect(actions).to.deep.include({
           type: Actions.Draft.CREATE_SUCCEEDED,
-          response: saveDraftResponse,
+          response: {
+            data: saveDraftResponse.data,
+          },
+        });
+        // Check that resetRecentRecipient is dispatched after successful auto draft save
+        expect(actions).to.deep.include({
+          type: Actions.AllRecipients.RESET_RECENT,
         });
       });
   });
@@ -112,13 +190,20 @@ describe('draftDetails actions', () => {
         ),
       )
       .then(() => {
-        expect(store.getActions()).to.deep.include({
+        const actions = store.getActions();
+        expect(actions).to.deep.include({
           type: Actions.Thread.DRAFT_SAVE_STARTED,
           payload: { messageId: saveDraftResponse.data.id },
         });
-        expect(store.getActions()).to.deep.include({
+        expect(actions).to.deep.include({
           type: Actions.Draft.CREATE_SUCCEEDED,
-          response: saveDraftResponse,
+          response: {
+            data: saveDraftResponse.data,
+          },
+        });
+        // Check that resetRecentRecipient is dispatched after successful reply draft save
+        expect(actions).to.deep.include({
+          type: Actions.AllRecipients.RESET_RECENT,
         });
       });
   });
@@ -126,16 +211,44 @@ describe('draftDetails actions', () => {
   it('should call dispatch on saveReplyDraft "Update draft" success', async () => {
     mockApiRequest({ ok: true, status: 204 });
     const store = mockStore({ sm: {} });
+    const testStartTime = Date.now();
 
-    store
+    await store
       .dispatch(saveReplyDraft('1234', requestMessageData, 'manual', messageId))
       .then(() => {
-        expect(store.getActions()).to.deep.include({
-          type: Actions.Draft.SAVE_STARTED,
+        const actions = store.getActions();
+        expect(actions).to.deep.include({
+          type: Actions.Thread.DRAFT_SAVE_STARTED,
+          payload: { messageId },
         });
-        expect(store.getActions()).to.deep.include({
-          type: Actions.Draft.CREATE_SUCCEEDED,
-          response: requestMessageData,
+
+        const updateAction = actions.find(
+          action => action.type === Actions.Thread.UPDATE_DRAFT_IN_THREAD,
+        );
+
+        expect(updateAction).to.exist;
+        expect(updateAction.payload.messageId).to.equal(messageId);
+        expect(updateAction.payload.body).to.equal(requestMessageData.body);
+        expect(updateAction.payload.subject).to.equal(
+          requestMessageData.subject,
+        );
+        expect(updateAction.payload.category).to.equal(
+          requestMessageData.category,
+        );
+        expect(updateAction.payload.recipientId).to.equal(
+          requestMessageData.recipientId,
+        );
+
+        // Check that draftDate is a reasonable timestamp (within 1 second of test start)
+        expect(updateAction.payload.draftDate).to.be.a('number');
+        expect(updateAction.payload.draftDate).to.be.at.least(testStartTime);
+        expect(updateAction.payload.draftDate).to.be.at.most(
+          testStartTime + 1000,
+        );
+
+        // For update reply draft (response.ok), resetRecentRecipient should NOT be called
+        expect(actions).to.not.deep.include({
+          type: Actions.AllRecipients.RESET_RECENT,
         });
       });
   });
@@ -144,17 +257,26 @@ describe('draftDetails actions', () => {
     const mockResponse = { errors: [{ title: 'Error' }] };
     mockApiRequest(mockResponse);
     const store = mockStore({ sm: {} });
-    store
-      .dispatch(saveReplyDraft('1234', requestMessageData, 'manual', messageId))
-      .then(() => {
-        expect(store.getActions()).to.deep.include({
-          type: Actions.Draft.SAVE_STARTED,
-        });
-        expect(store.getActions()).to.deep.include({
-          type: Actions.Draft.SAVE_FAILED,
-          response: mockResponse.errors[0],
-        });
+    try {
+      await store.dispatch(
+        saveReplyDraft('1234', requestMessageData, 'manual', messageId),
+      );
+    } catch (error) {
+      const actions = store.getActions();
+      expect(actions).to.deep.include({
+        type: Actions.Thread.DRAFT_SAVE_STARTED,
+        payload: { messageId },
       });
+      expect(actions).to.deep.include({
+        type: Actions.Draft.SAVE_FAILED,
+        payload: { messageId },
+        response: mockResponse.errors[0],
+      });
+      // For error case, resetRecentRecipient should NOT be called
+      expect(actions).to.not.deep.include({
+        type: Actions.AllRecipients.RESET_RECENT,
+      });
+    }
   });
 
   it('should call dispatch on "auto" saveReplyDraft "Save reply draft" success', async () => {
@@ -170,13 +292,20 @@ describe('draftDetails actions', () => {
         ),
       )
       .then(() => {
-        expect(store.getActions()).to.deep.include({
+        const actions = store.getActions();
+        expect(actions).to.deep.include({
           type: Actions.Thread.DRAFT_SAVE_STARTED,
           payload: { messageId: saveDraftResponse.data.id },
         });
-        expect(store.getActions()).to.deep.include({
+        expect(actions).to.deep.include({
           type: Actions.Draft.CREATE_SUCCEEDED,
-          response: saveDraftResponse,
+          response: {
+            data: saveDraftResponse.data,
+          },
+        });
+        // Check that resetRecentRecipient is dispatched after successful auto reply draft save
+        expect(actions).to.deep.include({
+          type: Actions.AllRecipients.RESET_RECENT,
         });
       });
   });

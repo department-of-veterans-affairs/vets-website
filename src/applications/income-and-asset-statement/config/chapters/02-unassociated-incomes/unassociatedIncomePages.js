@@ -16,24 +16,33 @@ import {
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
-import { SummaryDescription } from '../../../components/RecurringIncomeSummaryDescription';
+import { UnassociatedIncomeSummaryDescription } from '../../../components/SummaryDescriptions';
+import { DependentDescription } from '../../../components/DependentDescription';
 import {
   formatCurrency,
   formatPossessiveString,
+  fullNameUIHelper,
   generateDeleteDescription,
   isDefined,
   isIncomeTypeInfoIncomplete,
-  isRecipientInfoIncomplete,
   otherIncomeTypeExplanationRequired,
-  otherRecipientRelationshipExplanationRequired,
-  recipientNameRequired,
-  resolveRecipientFullName,
+  otherRecipientRelationshipTypeUI,
+  sharedRecipientRelationshipBase,
   showUpdatedContent,
+  sharedYesNoOptionsBase,
+  updatedIsRecipientInfoIncomplete,
+  updatedRecipientNameRequired,
+  updatedResolveRecipientFullName,
+  requireExpandedArrayField,
 } from '../../../helpers';
 import {
+  custodianRelationshipLabels,
   incomeTypeLabels,
+  parentRelationshipLabels,
   relationshipLabelDescriptions,
   relationshipLabels,
+  spouseRelationshipLabels,
+  updatedIncomeTypeLabels,
 } from '../../../labels';
 
 /** @type {ArrayBuilderOptions} */
@@ -43,7 +52,7 @@ export const options = {
   nounPlural: 'recurring income',
   required: false,
   isItemIncomplete: item =>
-    isRecipientInfoIncomplete(item) ||
+    updatedIsRecipientInfoIncomplete(item) ||
     isIncomeTypeInfoIncomplete(item) ||
     !isDefined(item?.grossMonthlyIncome) ||
     !isDefined(item?.payer), // include all required fields here
@@ -53,13 +62,13 @@ export const options = {
       ? 'Recurring income that’s not from an account or property'
       : null,
     summaryDescriptionWithoutItems: showUpdatedContent()
-      ? SummaryDescription
+      ? UnassociatedIncomeSummaryDescription
       : null,
     getItemName: (item, index, formData) => {
       if (!isDefined(item?.recipientRelationship) || !isDefined(item?.payer)) {
         return undefined;
       }
-      const fullName = resolveRecipientFullName(item, formData);
+      const fullName = updatedResolveRecipientFullName(item, formData);
       const possessiveName = formatPossessiveString(fullName);
       return `${possessiveName} income from ${item.payer}`;
     },
@@ -69,7 +78,11 @@ export const options = {
           <li>
             Income type:{' '}
             <span className="vads-u-font-weight--bold">
-              {incomeTypeLabels[item.incomeType]}
+              {
+                (showUpdatedContent()
+                  ? updatedIncomeTypeLabels
+                  : incomeTypeLabels)[item.incomeType]
+              }
             </span>
           </li>
           <li>
@@ -84,7 +97,9 @@ export const options = {
     alertItemUpdated: 'Your recurring income information has been updated',
     alertItemDeleted: 'Your recurring income information has been deleted',
     cancelAddTitle: 'Cancel adding this recurring income',
-    cancelAddButtonText: 'Cancel adding this recurring income',
+    cancelAddButtonText: showUpdatedContent()
+      ? 'Cancel adding this income'
+      : 'Cancel adding this recurring income',
     cancelAddYes: 'Yes, cancel adding this recurring income',
     cancelAddNo: 'No',
     cancelEditTitle: 'Cancel editing this recurring income',
@@ -98,30 +113,19 @@ export const options = {
   },
 };
 
+// We support multiple summary pages (one per claimant type).
+// These constants centralize shared text so each summary page stays consistent.
+// Important: only one summary page should ever be displayed at a time.
+
+// Shared summary page text
+const updatedTitleNoItems =
+  'Will you or your dependents receive any income in the next year from sources other than bank accounts or property?';
+const updatedTitleWithItems = 'Do you have more recurring income to report?';
+const summaryPageTitle = 'Recurring income';
+const incomeRecipientPageTitle = 'Recurring income recipient';
 const yesNoOptionLabels = {
   Y: 'Yes, I have recurring income to report',
   N: 'No, I don’t have recurring income to report',
-};
-
-const sharedYesNoOptionsBase = {
-  labelHeaderLevel: '2',
-  labelHeaderLevelStyle: '4',
-  labels: yesNoOptionLabels,
-};
-
-const yesNoOptionsMore = {
-  title: 'Do you have more recurring income to report?',
-  labels: {
-    Y: 'Yes',
-    N: 'No',
-  },
-};
-
-const sharedRecipientRelationshipBase = {
-  title: 'Who receives this income?',
-  hint: 'You’ll be able to add individual incomes separately',
-  labelHeaderLevel: '2',
-  labelHeaderLevelStyle: '3',
 };
 
 /**
@@ -142,7 +146,10 @@ const summaryPage = {
           N: 'No',
         },
       },
-      yesNoOptionsMore,
+      {
+        title: updatedTitleWithItems,
+        ...sharedYesNoOptionsBase,
+      },
     ),
   },
   schema: {
@@ -155,40 +162,46 @@ const summaryPage = {
 };
 
 /** @returns {PageSchema} */
-const updatedSummaryPage = {
+const veteranSummaryPage = {
   uiSchema: {
     'view:isAddingUnassociatedIncomes': arrayBuilderYesNoUI(
       options,
       {
-        title:
-          'Will you or your dependents receive any income in the next year from sources other than bank accounts or property?',
+        title: updatedTitleNoItems,
         hint:
           'Your dependents include your spouse, including a same-sex and common-law partner and children who you financially support.',
         ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
       },
-      yesNoOptionsMore,
+      {
+        title: updatedTitleWithItems,
+        ...sharedYesNoOptionsBase,
+      },
     ),
   },
 };
 
 /** @returns {PageSchema} */
-const updatedSpouseSummaryPage = {
+const spouseSummaryPage = {
   uiSchema: {
     'view:isAddingUnassociatedIncomes': arrayBuilderYesNoUI(
       options,
       {
-        title:
-          'Will you or your dependents receive any income in the next year from sources other than bank accounts or property?',
+        title: updatedTitleNoItems,
         hint: 'Your dependents include children who you financially support. ',
         ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
       },
-      yesNoOptionsMore,
+      {
+        title: updatedTitleWithItems,
+        ...sharedYesNoOptionsBase,
+      },
     ),
   },
 };
 
 /** @returns {PageSchema} */
-const updatedChildSummaryPage = {
+const childSummaryPage = {
   uiSchema: {
     'view:isAddingUnassociatedIncomes': arrayBuilderYesNoUI(
       options,
@@ -197,25 +210,51 @@ const updatedChildSummaryPage = {
           'Will you receive any income in the next year from sources other than bank accounts or property?',
         hint: null,
         ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
       },
-      yesNoOptionsMore,
+      {
+        title: updatedTitleWithItems,
+        ...sharedYesNoOptionsBase,
+      },
+    ),
+  },
+};
+
+const parentSummaryPage = {
+  uiSchema: {
+    'view:isAddingUnassociatedIncomes': arrayBuilderYesNoUI(
+      options,
+      {
+        title: updatedTitleNoItems,
+        hint:
+          'Your dependents include your spouse, including a same-sex and common-law partner.',
+        ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
+      },
+      {
+        title: updatedTitleWithItems,
+        ...sharedYesNoOptionsBase,
+      },
     ),
   },
 };
 
 /** @returns {PageSchema} */
-const updatedCustodianSummaryPage = {
+const custodianSummaryPage = {
   uiSchema: {
     'view:isAddingUnassociatedIncomes': arrayBuilderYesNoUI(
       options,
       {
-        title:
-          'Will you or your dependents receive any income in the next year from sources other than bank accounts or property?',
+        title: updatedTitleNoItems,
         hint:
           'Your dependents include your spouse, including a same-sex and common-law partner and the Veteran’s children who you financially support.',
         ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
       },
-      yesNoOptionsMore,
+      {
+        title: updatedTitleWithItems,
+        ...sharedYesNoOptionsBase,
+      },
     ),
   },
 };
@@ -236,19 +275,11 @@ const veteranIncomeRecipientPage = {
       ),
       descriptions: relationshipLabelDescriptions,
     }),
-    otherRecipientRelationshipType: {
-      'ui:title': 'Describe their relationship to the Veteran',
-      'ui:webComponentField': VaTextInputField,
-      'ui:options': {
-        expandUnder: 'recipientRelationship',
-        expandUnderCondition: 'OTHER',
-      },
-      'ui:required': (formData, index) =>
-        otherRecipientRelationshipExplanationRequired(
-          formData,
-          index,
-          'unassociatedIncomes',
-        ),
+    otherRecipientRelationshipType: otherRecipientRelationshipTypeUI(
+      'unassociatedIncomes',
+    ),
+    'ui:options': {
+      ...requireExpandedArrayField('otherRecipientRelationshipType'),
     },
   },
   schema: {
@@ -274,46 +305,24 @@ const spouseIncomeRecipientPage = {
     }),
     recipientRelationship: radioUI({
       ...sharedRecipientRelationshipBase,
-      labels: Object.fromEntries(
-        Object.entries(relationshipLabels)
-          .filter(
-            ([key]) =>
-              key !== 'VETERAN' && key !== 'PARENT' && key !== 'CUSTODIAN',
-          )
-          .map(([key, value]) => [
-            key,
-            key === 'SPOUSE' ? 'Surviving spouse' : value,
-          ]),
-      ),
+      labels: spouseRelationshipLabels,
       descriptions: Object.fromEntries(
         Object.entries(relationshipLabelDescriptions).filter(
           ([key]) => key === 'CHILD',
         ),
       ),
     }),
-    otherRecipientRelationshipType: {
-      'ui:title': 'Describe their relationship to the Veteran',
-      'ui:webComponentField': VaTextInputField,
-      'ui:options': {
-        expandUnder: 'recipientRelationship',
-        expandUnderCondition: 'OTHER',
-      },
-      'ui:required': (formData, index) =>
-        otherRecipientRelationshipExplanationRequired(
-          formData,
-          index,
-          'unassociatedIncomes',
-        ),
+    otherRecipientRelationshipType: otherRecipientRelationshipTypeUI(
+      'unassociatedIncomes',
+    ),
+    'ui:options': {
+      ...requireExpandedArrayField('otherRecipientRelationshipType'),
     },
   },
   schema: {
     type: 'object',
     properties: {
-      recipientRelationship: radioSchema(
-        Object.keys(relationshipLabels).filter(
-          key => key !== 'VETERAN' && key !== 'PARENT' && key !== 'CUSTODIAN',
-        ),
-      ),
+      recipientRelationship: radioSchema(Object.keys(spouseRelationshipLabels)),
       otherRecipientRelationshipType: { type: 'string' },
     },
     required: ['recipientRelationship'],
@@ -329,47 +338,26 @@ const custodianIncomeRecipientPage = {
     }),
     recipientRelationship: radioUI({
       ...sharedRecipientRelationshipBase,
-      labels: Object.fromEntries(
-        Object.entries(relationshipLabels)
-          .filter(
-            ([key]) =>
-              key === 'SPOUSE' || key === 'CUSTODIAN' || key === 'OTHER',
-          )
-          .map(([key, value]) => {
-            if (key === 'SPOUSE') {
-              return [key, 'Custodian’s spouse'];
-            }
-            if (key === 'CUSTODIAN') {
-              return [key, 'Child’s custodian'];
-            }
-            return [key, value];
-          }),
-      ),
+      labels: custodianRelationshipLabels,
       descriptions: Object.fromEntries(
         Object.entries(relationshipLabelDescriptions).filter(
           ([key]) => key !== 'CHILD',
         ),
       ),
     }),
-    otherRecipientRelationshipType: {
-      'ui:title': 'Describe their relationship to the Veteran',
-      'ui:webComponentField': VaTextInputField,
-      'ui:options': {
-        expandUnder: 'recipientRelationship',
-        expandUnderCondition: 'OTHER',
-      },
-      'ui:required': (formData, index) =>
-        otherRecipientRelationshipExplanationRequired(
-          formData,
-          index,
-          'unassociatedIncomes',
-        ),
+    otherRecipientRelationshipType: otherRecipientRelationshipTypeUI(
+      'unassociatedIncomes',
+    ),
+    'ui:options': {
+      ...requireExpandedArrayField('otherRecipientRelationshipType'),
     },
   },
   schema: {
     type: 'object',
     properties: {
-      recipientRelationship: radioSchema(['CUSTODIAN', 'SPOUSE', 'OTHER']),
+      recipientRelationship: radioSchema(
+        Object.keys(custodianRelationshipLabels),
+      ),
       otherRecipientRelationshipType: { type: 'string' },
     },
     required: ['recipientRelationship'],
@@ -385,44 +373,22 @@ const parentIncomeRecipientPage = {
     }),
     recipientRelationship: radioUI({
       ...sharedRecipientRelationshipBase,
-      labels: Object.fromEntries(
-        Object.entries(relationshipLabels)
-          .filter(
-            ([key]) => key === 'SPOUSE' || key === 'PARENT' || key === 'OTHER',
-          )
-          .map(([key, value]) => {
-            if (key === 'SPOUSE') {
-              return [key, 'My spouse'];
-            }
-            if (key === 'PARENT') {
-              return [key, 'Me'];
-            }
-            return [key, value];
-          }),
-      ),
+      labels: parentRelationshipLabels,
       descriptions: {
         SPOUSE: 'The Veteran’s other parent should file a separate claim',
       },
     }),
-    otherRecipientRelationshipType: {
-      'ui:title': 'Describe their relationship to the Veteran',
-      'ui:webComponentField': VaTextInputField,
-      'ui:options': {
-        expandUnder: 'recipientRelationship',
-        expandUnderCondition: 'OTHER',
-      },
-      'ui:required': (formData, index) =>
-        otherRecipientRelationshipExplanationRequired(
-          formData,
-          index,
-          'unassociatedIncomes',
-        ),
+    otherRecipientRelationshipType: otherRecipientRelationshipTypeUI(
+      'unassociatedIncomes',
+    ),
+    'ui:options': {
+      ...requireExpandedArrayField('otherRecipientRelationshipType'),
     },
   },
   schema: {
     type: 'object',
     properties: {
-      recipientRelationship: radioSchema(['PARENT', 'SPOUSE', 'OTHER']),
+      recipientRelationship: radioSchema(Object.keys(parentRelationshipLabels)),
       otherRecipientRelationshipType: { type: 'string' },
     },
     required: ['recipientRelationship'],
@@ -438,23 +404,14 @@ const nonVeteranIncomeRecipientPage = {
     }),
     recipientRelationship: radioUI({
       title: 'Who receives the income?',
-      labelHeaderLevel: '2',
-      labelHeaderLevelStyle: '3',
+      ...sharedYesNoOptionsBase,
       labels: relationshipLabels,
     }),
-    otherRecipientRelationshipType: {
-      'ui:title': 'Describe their relationship to the Veteran',
-      'ui:webComponentField': VaTextInputField,
-      'ui:options': {
-        expandUnder: 'recipientRelationship',
-        expandUnderCondition: 'OTHER',
-      },
-      'ui:required': (formData, index) =>
-        otherRecipientRelationshipExplanationRequired(
-          formData,
-          index,
-          'unassociatedIncomes',
-        ),
+    otherRecipientRelationshipType: otherRecipientRelationshipTypeUI(
+      'unassociatedIncomes',
+    ),
+    'ui:options': {
+      ...requireExpandedArrayField('otherRecipientRelationshipType'),
     },
   },
   schema: {
@@ -476,21 +433,7 @@ const recipientNamePage = {
         : 'Recurring income recipient',
     ),
     recipientName: showUpdatedContent()
-      ? {
-          ...fullNameNoSuffixUI(),
-          first: {
-            ...fullNameNoSuffixUI().first,
-            'ui:title': 'First or given name',
-          },
-          middle: {
-            ...fullNameNoSuffixUI().middle,
-            'ui:title': 'Middle name',
-          },
-          last: {
-            ...fullNameNoSuffixUI().last,
-            'ui:title': 'Last or family name',
-          },
-        }
+      ? fullNameUIHelper()
       : fullNameNoSuffixUI(title => `Income recipient’s ${title}`),
   },
   schema: {
@@ -504,17 +447,24 @@ const recipientNamePage = {
 /** @returns {PageSchema} */
 const incomeTypePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Recurring income type'),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      showUpdatedContent() ? 'Income information' : 'Recurring income type',
+    ),
     incomeType: radioUI({
-      title: 'What is the type of income?',
-      labels: incomeTypeLabels,
+      title: showUpdatedContent()
+        ? 'What type of income is it?'
+        : 'What is the type of income?',
+      labels: showUpdatedContent() ? updatedIncomeTypeLabels : incomeTypeLabels,
     }),
     otherIncomeType: {
-      'ui:title': 'Tell us the type of income',
+      'ui:title': showUpdatedContent()
+        ? 'Describe the type of income'
+        : 'Tell us the type of income',
       'ui:webComponentField': VaTextInputField,
       'ui:options': {
         expandUnder: 'incomeType',
         expandUnderCondition: 'OTHER',
+        expandedContentFocus: true,
       },
       'ui:required': (formData, index) =>
         otherIncomeTypeExplanationRequired(
@@ -523,16 +473,38 @@ const incomeTypePage = {
           'unassociatedIncomes',
         ),
     },
-    grossMonthlyIncome: currencyUI('Gross monthly income'),
-    payer: textUI({
-      title: 'Income payer name',
-      hint: 'Name of business, financial institution, or program, etc.',
-    }),
+    grossMonthlyIncome: currencyUI(
+      showUpdatedContent()
+        ? {
+            title: `What's the gross monthly income from this financial account?`,
+            hint:
+              'Gross income is income before taxes and any other deductions.',
+          }
+        : 'Gross monthly income',
+    ),
+    payer: textUI(
+      showUpdatedContent()
+        ? {
+            title: 'Who pays the income?',
+            hint: 'Name of business, agency, or program',
+          }
+        : {
+            title: 'Income payer name',
+            hint: 'Name of business, financial institution, or program, etc.',
+          },
+    ),
+    'ui:options': {
+      ...requireExpandedArrayField('otherIncomeType'),
+    },
   },
   schema: {
     type: 'object',
     properties: {
-      incomeType: radioSchema(Object.keys(incomeTypeLabels)),
+      incomeType: radioSchema(
+        Object.keys(
+          showUpdatedContent() ? updatedIncomeTypeLabels : incomeTypeLabels,
+        ),
+      ),
       otherIncomeType: { type: 'string' },
       grossMonthlyIncome: currencySchema,
       payer: textSchema,
@@ -544,50 +516,59 @@ const incomeTypePage = {
 export const unassociatedIncomePages = arrayBuilderPages(
   options,
   pageBuilder => ({
+    unassociatedIncomePagesVeteranSummary: pageBuilder.summaryPage({
+      title: summaryPageTitle,
+      path: 'recurring-income-summary-veteran',
+      depends: formData =>
+        showUpdatedContent() && formData.claimantType === 'VETERAN',
+      uiSchema: veteranSummaryPage.uiSchema,
+      schema: summaryPage.schema,
+    }),
+    unassociatedIncomePagesSpouseSummary: pageBuilder.summaryPage({
+      title: summaryPageTitle,
+      path: 'recurring-income-summary-spouse',
+      depends: formData =>
+        showUpdatedContent() && formData.claimantType === 'SPOUSE',
+      uiSchema: spouseSummaryPage.uiSchema,
+      schema: summaryPage.schema,
+    }),
+    unassociatedIncomePagesChildSummary: pageBuilder.summaryPage({
+      title: summaryPageTitle,
+      path: 'recurring-income-summary-child',
+      depends: formData =>
+        showUpdatedContent() && formData.claimantType === 'CHILD',
+      uiSchema: childSummaryPage.uiSchema,
+      schema: summaryPage.schema,
+    }),
+    unassociatedIncomePagesCustodianSummary: pageBuilder.summaryPage({
+      title: summaryPageTitle,
+      path: 'recurring-income-summary-custodian',
+      depends: formData =>
+        showUpdatedContent() && formData.claimantType === 'CUSTODIAN',
+      uiSchema: custodianSummaryPage.uiSchema,
+      schema: summaryPage.schema,
+    }),
+    unassociatedIncomePagesParentSummary: pageBuilder.summaryPage({
+      title: summaryPageTitle,
+      path: 'recurring-income-summary-parent',
+      depends: formData =>
+        showUpdatedContent() && formData.claimantType === 'PARENT',
+      uiSchema: parentSummaryPage.uiSchema,
+      schema: summaryPage.schema,
+    }),
+    // Ensure MVP summary page is listed last so it’s not accidentally overridden by claimantType-specific summary pages
     unassociatedIncomePagesSummary: pageBuilder.summaryPage({
-      title: 'Recurring income',
+      title: summaryPageTitle,
       path: 'recurring-income-summary',
       depends: () => !showUpdatedContent(),
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
-    unassociatedIncomePagesUpdatedSummary: pageBuilder.summaryPage({
-      title: 'Recurring income',
-      path: 'recurring-income-summary-updated',
-      depends: formData =>
-        showUpdatedContent() &&
-        formData.claimantType !== 'SPOUSE' &&
-        formData.claimantType !== 'CHILD' &&
-        formData.claimantType !== 'CUSTODIAN',
-      uiSchema: updatedSummaryPage.uiSchema,
-      schema: summaryPage.schema,
-    }),
-    unassociatedIncomePagesUpdatedSpouseSummary: pageBuilder.summaryPage({
-      title: 'Recurring income',
-      path: 'recurring-income-summary-spouse',
-      depends: formData =>
-        showUpdatedContent() && formData.claimantType === 'SPOUSE',
-      uiSchema: updatedSpouseSummaryPage.uiSchema,
-      schema: summaryPage.schema,
-    }),
-    unassociatedIncomePagesUpdatedChildSummary: pageBuilder.summaryPage({
-      title: 'Recurring income',
-      path: 'recurring-income-summary-child',
-      depends: formData =>
-        showUpdatedContent() && formData.claimantType === 'CHILD',
-      uiSchema: updatedChildSummaryPage.uiSchema,
-      schema: summaryPage.schema,
-    }),
-    unassociatedIncomePagesUpdatedCustodianSummary: pageBuilder.summaryPage({
-      title: 'Recurring income',
-      path: 'recurring-income-summary-custodian',
-      depends: formData =>
-        showUpdatedContent() && formData.claimantType === 'CUSTODIAN',
-      uiSchema: updatedCustodianSummaryPage.uiSchema,
-      schema: summaryPage.schema,
-    }),
     unassociatedIncomeVeteranRecipientPage: pageBuilder.itemPage({
-      title: 'Recurring income recipient',
+      ContentBeforeButtons: showUpdatedContent() ? (
+        <DependentDescription claimantType="VETERAN" />
+      ) : null,
+      title: incomeRecipientPageTitle,
       path: 'recurring-income/:index/veteran-income-recipient',
       depends: formData =>
         showUpdatedContent() && formData.claimantType === 'VETERAN',
@@ -595,7 +576,10 @@ export const unassociatedIncomePages = arrayBuilderPages(
       schema: veteranIncomeRecipientPage.schema,
     }),
     unassociatedIncomeSpouseRecipientPage: pageBuilder.itemPage({
-      title: 'Recurring income recipient',
+      ContentBeforeButtons: showUpdatedContent() ? (
+        <DependentDescription claimantType="SPOUSE" />
+      ) : null,
+      title: incomeRecipientPageTitle,
       path: 'recurring-income/:index/spouse-income-recipient',
       depends: formData =>
         showUpdatedContent() && formData.claimantType === 'SPOUSE',
@@ -603,7 +587,10 @@ export const unassociatedIncomePages = arrayBuilderPages(
       schema: spouseIncomeRecipientPage.schema,
     }),
     unassociatedIncomeCustodianRecipientPage: pageBuilder.itemPage({
-      title: 'Recurring income recipient',
+      ContentBeforeButtons: showUpdatedContent() ? (
+        <DependentDescription claimantType="CUSTODIAN" />
+      ) : null,
+      title: incomeRecipientPageTitle,
       path: 'recurring-income/:index/custodian-income-recipient',
       depends: formData =>
         showUpdatedContent() && formData.claimantType === 'CUSTODIAN',
@@ -611,7 +598,10 @@ export const unassociatedIncomePages = arrayBuilderPages(
       schema: custodianIncomeRecipientPage.schema,
     }),
     unassociatedIncomeParentRecipientPage: pageBuilder.itemPage({
-      title: 'Recurring income recipient',
+      ContentBeforeButtons: showUpdatedContent() ? (
+        <DependentDescription claimantType="PARENT" />
+      ) : null,
+      title: incomeRecipientPageTitle,
       path: 'recurring-income/:index/parent-income-recipient',
       depends: formData =>
         showUpdatedContent() && formData.claimantType === 'PARENT',
@@ -619,19 +609,42 @@ export const unassociatedIncomePages = arrayBuilderPages(
       schema: parentIncomeRecipientPage.schema,
     }),
     unassociatedIncomeNonVeteranRecipientPage: pageBuilder.itemPage({
-      title: 'Recurring income recipient',
+      title: incomeRecipientPageTitle,
       path: 'recurring-income/:index/income-recipient',
-      depends: formData =>
-        !showUpdatedContent() ||
-        (showUpdatedContent() && formData.claimantType === 'CHILD'),
+      depends: () => !showUpdatedContent(),
       uiSchema: nonVeteranIncomeRecipientPage.uiSchema,
       schema: nonVeteranIncomeRecipientPage.schema,
     }),
+    // When claimantType is 'CHILD' we skip showing the recipient page entirely
+    // To preserve required data, we auto-set recipientRelationship to 'CHILD'
+    unassociatedIncomeChildRecipientNamePage: pageBuilder.itemPage({
+      title: incomeRecipientPageTitle,
+      path: 'recurring-income/:index/recipient-name-updated',
+      depends: formData =>
+        showUpdatedContent() && formData.claimantType === 'CHILD',
+      uiSchema: {
+        ...recipientNamePage.uiSchema,
+        'ui:options': {
+          updateSchema: (formData, formSchema, _uiSchema, index) => {
+            const arrayData = formData?.unassociatedIncomes || [];
+            const item = arrayData[index];
+            if (formData.claimantType === 'CHILD' && item) {
+              item.recipientRelationship = 'CHILD';
+            }
+            return {
+              ...formSchema,
+            };
+          },
+        },
+      },
+      schema: recipientNamePage.schema,
+    }),
     unassociatedIncomeRecipientNamePage: pageBuilder.itemPage({
-      title: 'Recurring income recipient',
+      title: incomeRecipientPageTitle,
       path: 'recurring-income/:index/recipient-name',
       depends: (formData, index) =>
-        recipientNameRequired(formData, index, 'unassociatedIncomes'),
+        (!showUpdatedContent() || formData.claimantType !== 'CHILD') &&
+        updatedRecipientNameRequired(formData, index, 'unassociatedIncomes'),
       uiSchema: recipientNamePage.uiSchema,
       schema: recipientNamePage.schema,
     }),

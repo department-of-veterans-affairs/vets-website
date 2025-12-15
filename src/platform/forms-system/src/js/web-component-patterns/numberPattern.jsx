@@ -54,7 +54,7 @@ export function minMaxValidation(min, max) {
  * ```
  * @param {string | UIOptions & {
  *   title?: UISchemaOptions['ui:title'],
- *   description: UISchemaOptions['ui:description'],
+ *   description?: UISchemaOptions['ui:description'],
  *   hint?: string,
  *   width?: UISchemaOptions['ui:options']['width'],
  *   errorMessages?: UISchemaOptions['ui:errorMessages'],

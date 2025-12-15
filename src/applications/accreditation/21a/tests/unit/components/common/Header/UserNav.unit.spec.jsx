@@ -29,8 +29,6 @@ const getStore = () =>
       // eslint-disable-next-line camelcase
       accredited_representative_portal_search: true,
       // eslint-disable-next-line camelcase
-      accredited_representative_portal_help: true,
-      // eslint-disable-next-line camelcase
       accredited_representative_portal_profile: true,
     },
     user: { profile },
@@ -54,8 +52,6 @@ describe('UserNav', () => {
     );
     fireEvent.click(getByTestId('account_circle-toggle-dropdown-desktop'));
     expect(getByTestId('account_circle-toggle-dropdown-desktop-list')).to.exist;
-    const profileLink = getByTestId('user-nav-profile-link');
-    expect(profileLink).to.exist;
     const signOutLink = getByTestId('user-nav-sign-out-link');
     expect(signOutLink).to.exist;
     fireEvent.mouseDown(document);
@@ -69,7 +65,9 @@ describe('UserNav', () => {
     );
     fireEvent.click(getByTestId('menu-toggle-dropdown-mobile'));
     expect(getByTestId('menu-toggle-dropdown-mobile-list')).to.exist;
-    const poaRequestsLink = getByTestId('user-nav-poa-requests-link');
+    const poaRequestsLink = getByTestId(
+      'user-nav-representation-requests-link',
+    );
     expect(poaRequestsLink).to.exist;
   });
 });

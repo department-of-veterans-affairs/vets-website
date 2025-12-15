@@ -1,4 +1,9 @@
 /**
+ **** BENEFIT TYPES ****
+ */
+export const DEFAULT_BENEFIT_TYPE = 'compensation';
+
+/**
  **** KEYS ****
  */
 // key for contestableIssues to indicate that the user selected the issue
@@ -41,11 +46,6 @@ export const NOD_BASE_URL = `${NOD_INFO_URL}/request-board-appeal-form-10182`;
 export const NOD_OPTIONS_URL = `${NOD_INFO_URL}/#what-are-my-board-appeal-optio`;
 export const NOD_FORM_URL = 'https://www.va.gov/vaforms/va/pdf/VA10182.pdf';
 
-export const CLAIM_STATUS_TOOL_URL = '/claim-or-appeal-status';
-
-export const COVID_FAQ_URL =
-  'https://www.va.gov/coronavirus-veteran-frequently-asked-questions/#more-benefit-and-claim-questio';
-
 export const FACILITY_LOCATOR_URL = '/find-locations';
 export const PROFILE_URL = '/profile';
 export const HEALTH_BENEFITS_URL = '/health-care/about-va-health-benefits';
@@ -64,6 +64,12 @@ export const FORMAT_YMD_DATE_FNS = 'yyyy-MM-dd';
 export const FORMAT_COMPACT_DATE_FNS = 'MMM d, yyyy';
 export const FORMAT_READABLE_DATE_FNS = 'MMMM d, yyyy';
 export const FORMAT_READABLE_MMYY_DATE_FNS = 'MMMM yyyy';
+
+// VA.gov style guide: months that should NOT be abbreviated in dates
+// March, April, May, June, July stay as full month names
+// Array contains month numbers (0-based): 2=March, 3=April, 4=May, 5=June, 6=July
+// https://design.va.gov/content-style-guide/dates-and-numbers#dates
+export const VA_LONG_FORM_MONTHS = [2, 3, 4, 5, 6];
 
 // Supplemental Claim allows for past decision dates, but we should limit them.
 // Limit past decision dates to 100 years until told otherwise
@@ -157,3 +163,5 @@ export const NONE_SELECTED_ERROR =
 
 export const MAX_SELECTED_ERROR =
   'You’ve reached the maximum number of allowed selected issues';
+
+export const NOT_ANSWERED = 'Not answered';

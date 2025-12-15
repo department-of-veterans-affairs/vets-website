@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PropType from 'prop-types';
@@ -11,10 +17,15 @@ import {
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
 import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
-import { Paths } from '../util/constants';
+import { datadogRum } from '@datadog/browser-rum';
+
+import { populatedDraft } from '../selectors';
+import { ErrorMessages, Paths, PageTitles } from '../util/constants';
 import RecipientsSelect from '../components/ComposeForm/RecipientsSelect';
 import EmergencyNote from '../components/EmergencyNote';
 import { updateDraftInProgress } from '../actions/threadDetails';
+import RouteLeavingGuard from '../components/shared/RouteLeavingGuard';
+import { saveDraft } from '../actions/draftDetails';
 
 const SelectCareTeam = () => {
   const dispatch = useDispatch();
@@ -24,9 +35,14 @@ const SelectCareTeam = () => {
     noAssociations,
     allTriageGroupsBlocked,
     allowedRecipients,
+    vistaFacilities,
+    error: recipientsError,
   } = useSelector(state => state.sm.recipients);
   const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
-  const { draftInProgress } = useSelector(state => state.sm.threadDetails);
+  const { draftInProgress, acceptInterstitial } = useSelector(
+    state => state.sm.threadDetails,
+  );
+  const validDraft = useSelector(populatedDraft);
 
   const [careTeamError, setCareTeamError] = useState('');
   const [careTeamsList, setCareTeamsList] = useState([]);
@@ -37,43 +53,87 @@ const SelectCareTeam = () => {
   const [careTeamComboInputValue, setCareTeamComboInputValue] = useState('');
   const [showContactListLink, setShowContactListLink] = useState(false);
   const [recipientsSelectKey, setRecipientsSelectKey] = useState(0); // controls resetting the careTeam combo box when the careSystem changes
+  const careSystemSwitchCountRef = useRef(0);
 
   const MAX_RADIO_OPTIONS = 6;
+
+  const h1Ref = useRef(null);
+
+  useEffect(
+    () => {
+      if (recipientsError || noAssociations) {
+        history.push(Paths.INBOX);
+      }
+    },
+    [recipientsError, noAssociations, history],
+  );
+
+  useEffect(
+    () => {
+      if (!acceptInterstitial && !validDraft) {
+        history.push(Paths.COMPOSE);
+      }
+    },
+    [acceptInterstitial, validDraft, history],
+  );
 
   // On initial load, always clear the active care system
   // This ensures that if the user navigates back to this page, they will see
   // all care teams without being filtered by the active care system
   // If they have an active care team, we set that as the selected care team
-  useEffect(() => {
-    dispatch(
-      updateDraftInProgress({ careSystemVhaId: null, careSystemName: null }),
-    );
-    if (draftInProgress?.recipientId) {
-      setSelectedCareTeamId(draftInProgress.recipientId);
-    }
-  }, []);
+  useEffect(
+    () => {
+      if (draftInProgress?.recipientId) {
+        setSelectedCareTeamId(draftInProgress.recipientId);
+      }
+    },
+    [draftInProgress.recipientId],
+  );
 
   const careTeamHandler = useCallback(
     recipient => {
       const newId = recipient?.id ? recipient.id.toString() : null;
 
       // Only update if the value actually changes
-      if (selectedCareTeamId !== newId) {
+      if (String(selectedCareTeamId) !== String(newId)) {
         setSelectedCareTeamId(newId);
 
-        if (recipient.id && recipient.id !== '0') {
+        if (newId && newId !== '0') {
           setCareTeamError('');
           dispatch(
             updateDraftInProgress({
+              careSystemVhaId: recipient.stationNumber,
+              careSystemName:
+                ehrDataByVhaId[recipient.stationNumber]?.vamcSystemName,
               recipientId: recipient.id,
               recipientName: recipient.suggestedNameDisplay || recipient.name,
+              ohTriageGroup: recipient.ohTriageGroup,
             }),
           );
-        } else if (!recipient.id) {
+          if (
+            draftInProgress?.body &&
+            draftInProgress?.subject &&
+            draftInProgress?.category
+          ) {
+            dispatch(
+              updateDraftInProgress({
+                navigationError:
+                  ErrorMessages.ComposeForm.CONT_SAVING_DRAFT_CHANGES,
+              }),
+            );
+          } else {
+            dispatch(
+              updateDraftInProgress({
+                navigationError: ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
+              }),
+            );
+          }
+        } else if (!newId || newId === '0') {
           dispatch(
             updateDraftInProgress({
               recipientId: null,
               recipientName: null,
+              ohTriageGroup: null,
             }),
           );
           setSelectedCareTeamId(null);
@@ -81,17 +141,44 @@ const SelectCareTeam = () => {
       }
       // Do nothing if the id hasn't changed
     },
-    [dispatch, selectedCareTeamId],
+    [
+      dispatch,
+      selectedCareTeamId,
+      draftInProgress?.body,
+      draftInProgress?.subject,
+      draftInProgress?.category,
+      draftInProgress?.careSystemVhaId,
+    ],
   );
 
   useEffect(() => {
     focusElement(document.querySelector('h1'));
   }, []);
 
+  useEffect(
+    () => {
+      document.title = `Select Care Team - Start Message${
+        PageTitles.DEFAULT_PAGE_TITLE_TAG
+      }`;
+    },
+    [allowedRecipients],
+  );
+
+  // Send DataDog RUM action on component unmount with the count of care system switches
+  // Should call addAction even if the count is zero
+  useEffect(() => {
+    return () => {
+      datadogRum.addAction('Care System Radio Switch Count', {
+        switchCount: careSystemSwitchCountRef.current,
+      });
+    };
+  }, []);
+
   const onRadioChangeHandler = e => {
     if (e?.detail?.value) {
       const careSystem = ehrDataByVhaId[e.detail.value];
       if (e.detail.value !== draftInProgress?.careSystemVhaId) {
+        careSystemSwitchCountRef.current += 1;
         setRecipientsSelectKey(prevKey => prevKey + 1);
         dispatch(
           updateDraftInProgress({
@@ -99,6 +186,7 @@ const SelectCareTeam = () => {
             careSystemName: careSystem?.vamcSystemName,
             recipientId: null,
             recipientName: null,
+            ohTriageGroup: null,
           }),
         );
         setSelectedCareTeamId(null);
@@ -122,6 +210,7 @@ const SelectCareTeam = () => {
             careSystemName: null,
             recipientId: null,
             recipientName: null,
+            ohTriageGroup: null,
           }),
         );
         setRecipientsSelectKey(prevKey => prevKey + 1);
@@ -135,6 +224,7 @@ const SelectCareTeam = () => {
           updateDraftInProgress({
             recipientId: null,
             recipientName: null,
+            ohTriageGroup: null,
           }),
         );
         setSelectedCareTeamId(null);
@@ -153,14 +243,10 @@ const SelectCareTeam = () => {
 
   useEffect(
     () => {
-      if (allFacilities.length > 0 && ehrDataByVhaId) {
-        allFacilities.forEach(facility => {
-          if (ehrDataByVhaId[facility]?.ehr !== 'cerner')
-            setShowContactListLink(true);
-        });
-      }
+      const hasVistaFacility = vistaFacilities?.length > 0;
+      setShowContactListLink(hasVistaFacility);
     },
-    [allFacilities, ehrDataByVhaId],
+    [vistaFacilities],
   );
 
   // updates the available teams in the Care Team combo box
@@ -210,6 +296,10 @@ const SelectCareTeam = () => {
       if (!selectedCareTeamId || !draftInProgress.recipientId) {
         setCareTeamError('Select a care team');
         selectionsValid = false;
+        const recipientSelect = document
+          .querySelector('[data-testid="compose-recipient-combobox"]')
+          ?.shadowRoot?.querySelector('input');
+        focusElement(recipientSelect);
       }
       return selectionsValid;
     },
@@ -222,7 +312,7 @@ const SelectCareTeam = () => {
 
       const selectedRecipientStationNumber = allowedRecipients.find(
         recipient => recipient.id === +selectedCareTeamId,
-      ).stationNumber;
+      )?.stationNumber;
 
       if (
         !draftInProgress.careSystemVhaId ||
@@ -265,6 +355,15 @@ const SelectCareTeam = () => {
     [allFacilities, ehrDataByVhaId],
   );
 
+  const saveDraftHandler = useCallback(
+    () => {
+      dispatch(
+        saveDraft(draftInProgress, 'manual', draftInProgress?.messageId),
+      );
+    },
+    [dispatch, draftInProgress],
+  );
+
   const renderCareSystems = () => {
     if (
       allFacilities?.length > 1 &&
@@ -275,6 +374,8 @@ const SelectCareTeam = () => {
           label="Select a VA health care system"
           name="va-health-care-system"
           onVaValueChange={onRadioChangeHandler}
+          data-dd-privacy="mask"
+          data-dd-action-name="Care System Radio button"
         >
           {allFacilities.map(facility => (
             <>
@@ -289,6 +390,7 @@ const SelectCareTeam = () => {
                 name="va-health-care-system"
                 tile
                 value={facility}
+                checked={draftInProgress?.careSystemVhaId === facility}
                 radioOptionSelected={draftInProgress?.careSystemVhaId || ''}
               />
             </>
@@ -321,8 +423,15 @@ const SelectCareTeam = () => {
 
   return (
     <div className="choose-va-health-care-system">
-      <h1 className="vads-u-margin-bottom--2">Select care team</h1>
+      <h1 className="vads-u-margin-bottom--2" ref={h1Ref}>
+        Select care team
+      </h1>
       <EmergencyNote dropDownFlag />
+      <RouteLeavingGuard
+        saveDraftHandler={saveDraftHandler}
+        type="compose"
+        persistDraftPaths={[Paths.CONTACT_LIST, Paths.CARE_TEAM_HELP]}
+      />
       <div>
         {renderCareSystems()}
 
@@ -345,7 +454,9 @@ const SelectCareTeam = () => {
         </div>
         <div className="vads-u-margin-top--2">
           <p className="vads-u-margin-bottom--1">
-            <Link to="/">What to do if you can’t find your care team</Link>
+            <Link to={Paths.CARE_TEAM_HELP}>
+              What to do if you can’t find your care team
+            </Link>
           </p>
         </div>
         {showContactListLink && (

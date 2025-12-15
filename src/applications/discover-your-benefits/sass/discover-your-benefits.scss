@@ -7,8 +7,7 @@
 @import "../../../platform/forms/sass/m-form-confirmation";
 
 .discover-your-benefits .confirmation-page p,
-.discover-your-benefits article p,
-.discover-your-benefits va-alert p {
+.discover-your-benefits article p {
   @media (min-width: $medium-screen) {
     width: 75ch !important;
   }
@@ -26,12 +25,7 @@
   }
 }
 
-.discover-your-benefits .row {
-  margin-left: 0;
-  margin-right: 0;
-}
-
-.discover-your-benefits .usa-width-two-thirds {
+.usa-width-two-thirds:has(#results-container) {
   width: auto !important;
 }
 
@@ -168,4 +162,8 @@
 
 .description-article {
   max-width: 648px;
+}
+
+.schemaform-intro {
+  padding: 0 !important;
 }

@@ -1,102 +1,96 @@
 import React from 'react';
-import { Provider } from 'react-redux';
-import { expect } from 'chai';
-import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
-import configureStore from 'redux-mock-store';
-
+import { expect } from 'chai';
+import { fireEvent, render } from '@testing-library/react';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
-
+import { content } from '../../content/notice5103';
 import Notice5103 from '../../components/Notice5103';
 
-describe('<Notice5103>', () => {
-  const mockStore = configureStore([]);
-  it('should render', () => {
-    const { container } = render(
-      <Provider store={mockStore({})}>
-        <Notice5103 />
-      </Provider>,
-    );
+describe('Notice5103', () => {
+  describe('when on the review page', () => {
+    it('should render the proper content', () => {
+      const { container } = render(<Notice5103 onReviewPage />);
 
-    expect($('va-alert', container)).to.exist;
-    expect($('va-checkbox', container)).to.exist;
-    expect($('va-additional-info', container)).to.not.exist;
-  });
-
-  it('should not submit page when unchecked', () => {
-    const goSpy = sinon.spy();
-    const setFormDataSpy = sinon.spy();
-    const { container } = render(
-      <Provider store={mockStore({})}>
-        <Notice5103 goForward={goSpy} setFormData={setFormDataSpy} />
-      </Provider>,
-    );
-
-    $('va-checkbox', container).__events.vaChange({
-      detail: { checked: false },
+      expect($('h4', container).textContent).to.eq(content.header);
+      expect($('va-checkbox', container)).to.exist;
+      expect($('va-additional-info', container)).to.exist;
+      expect($('[text="Update page"]', container)).to.exist;
     });
 
-    fireEvent.click($('button.usa-button-primary', container));
-    expect(goSpy.called).to.be.false;
-  });
-
-  it('should submit page when checked', () => {
-    const goSpy = sinon.spy();
-    const setFormDataSpy = sinon.spy();
-    const data = { form5103Acknowledged: true };
-    const { container, rerender } = render(
-      <Provider store={mockStore({})}>
-        <Notice5103 goForward={goSpy} data={{}} setFormData={setFormDataSpy} />
-      </Provider>,
-    );
-
-    $('va-checkbox', container).__events.vaChange({
-      detail: { checked: true },
-    });
-
-    rerender(
-      <Provider store={mockStore({})}>
-        <Notice5103
-          goForward={goSpy}
-          data={data}
-          setFormData={setFormDataSpy}
-        />
-      </Provider>,
-    );
-
-    fireEvent.click($('button.usa-button-primary', container));
-    expect(goSpy.called).to.be.true;
-  });
-
-  it('should update page', () => {
-    const updateSpy = sinon.spy();
-    const setFormDataSpy = sinon.spy();
-    const data = { form5103Acknowledged: true };
-    const { container } = render(
-      <Provider store={mockStore({})}>
+    it('should update page', () => {
+      const updateSpy = sinon.spy();
+      const setFormDataSpy = sinon.spy();
+      const data = { form5103Acknowledged: true };
+      const { container } = render(
         <Notice5103
           updatePage={updateSpy}
           data={data}
           setFormData={setFormDataSpy}
           onReviewPage
-        />
-      </Provider>,
-    );
+        />,
+      );
 
-    fireEvent.click($(`va-button`, container));
-    expect(updateSpy.called).to.be.true;
+      fireEvent.click($(`va-button`, container));
+      expect(updateSpy.called).to.be.true;
+    });
   });
 
-  it('should render new content', () => {
-    const { container } = render(
-      // eslint-disable-next-line camelcase
-      <Provider store={mockStore({ featureToggles: { sc_new_form: true } })}>
-        <Notice5103 />
-      </Provider>,
-    );
+  describe('when not on the review page', () => {
+    it('should render the proper content', () => {
+      const { container } = render(<Notice5103 onReviewPage={false} />);
 
-    expect($('va-alert', container)).to.not.exist;
-    expect($('va-checkbox', container)).to.exist;
-    expect($('va-additional-info', container)).to.exist;
+      expect($('h3', container).textContent).to.eq(content.header);
+      expect($('va-checkbox', container)).to.exist;
+      expect($('va-additional-info', container)).to.exist;
+      expect($('va-button[continue]', container)).to.exist;
+    });
+
+    it('should not submit page when unchecked', () => {
+      const goSpy = sinon.spy();
+      const setFormDataSpy = sinon.spy();
+      const { container } = render(
+        <Notice5103
+          goForward={goSpy}
+          setFormData={setFormDataSpy}
+          onReviewPage={false}
+        />,
+      );
+
+      $('va-checkbox', container).__events.vaChange({
+        detail: { checked: false },
+      });
+
+      fireEvent.click($('va-button[continue]', container));
+      expect(goSpy.called).to.be.false;
+    });
+
+    it('should submit page when checked', () => {
+      const goSpy = sinon.spy();
+      const setFormDataSpy = sinon.spy();
+      const data = { form5103Acknowledged: true };
+      const { container, rerender } = render(
+        <Notice5103
+          goForward={goSpy}
+          data={{}}
+          setFormData={setFormDataSpy}
+          onReviewPage={false}
+        />,
+      );
+
+      $('va-checkbox', container).__events.vaChange({
+        detail: { checked: true },
+      });
+
+      rerender(
+        <Notice5103
+          goForward={goSpy}
+          data={data}
+          setFormData={setFormDataSpy}
+        />,
+      );
+
+      fireEvent.click($('va-button[continue]', container));
+      expect(goSpy.called).to.be.true;
+    });
   });
 });

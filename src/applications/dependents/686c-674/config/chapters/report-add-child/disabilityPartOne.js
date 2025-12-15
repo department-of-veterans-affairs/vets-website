@@ -6,7 +6,7 @@ import {
 
 export const disabilityPartOne = {
   uiSchema: {
-    ...titleUI('Child’s disability'),
+    ...titleUI('Child’s disability status'),
 
     doesChildHaveDisability: yesNoUI({
       title: 'Does this child have a permanent mental or physical disability?',

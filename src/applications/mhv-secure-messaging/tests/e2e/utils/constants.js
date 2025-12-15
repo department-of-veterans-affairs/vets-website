@@ -13,6 +13,9 @@ export const Paths = {
   DRAFT: '/draft/',
   DELETED: '/trash/',
   COMPOSE: '/new-message/',
+  RECENT_CARE_TEAMS: 'recent/',
+  START_MESSAGE: '/start-message',
+  SELECT_CARE_TEAM: '/select-care-team',
   MESSAGE: '/message/',
   MESSAGE_THREAD: '/thread/',
   FOLDERS: '/folders',
@@ -50,6 +53,8 @@ export const Paths = {
     MAINTENANCE_WINDOWS: `/v0/maintenance_windows/`,
     DRAFT_AUTO_SAVE: `/my_health/v1/messaging/message_drafts`,
     SENT_THREADS: '/my_health/v1/messaging/folders/-1/threads*',
+    SENT_SEARCH: '/my_health/v1/messaging/folders/-1/search*',
+    PRESCRIPTIONS: '/my_health/v1/prescriptions/',
   },
 };
 
@@ -89,17 +94,26 @@ export const Locators = {
   ACCORDIONS: '[data-testid="faq-accordion-item"]',
   ACCORDION_ITEM_OPEN: 'va-accordion-item[open]:not([open="false"])',
   MESSAGE_THREAD_META: '.message-thread-meta',
-  SPINNER: `[data-testid="loading-indicator"]`,
-  BACK_TO: '.sm-breadcrumb-list-item > a',
+  SPINNER: 'va-loading-indicator',
+  BACK_BREADCRUMB_DATA_TEST_ID: 'sm-breadcrumbs-back',
   FAQ_ACC_ITEM: '[data-testid="faq-accordion-item"]',
   INBOX_FOOTER: `[data-testid="inbox-footer"]`,
   COMBO_BOX: '.usa-combo-box',
   SEARCH_RESULT: `[data-testid="search-messages"]`,
   PAGE_NOT_FOUND: `mhv-page-not-found`,
   CARE_SYSTEM: '[data-testid^="care-system-"]',
+  EMERGENCY_USE_EXPANDABLE_DATA_TEST_ID: 'emergency-use-only-expandable',
+  RECENT_CARE_TEAMS_RADIO_GROUP_TEST_ID: 'recent-care-teams-radio-group',
+  RECENT_CARE_TEAMS_CONTINUE_BUTTON_DATA_TEST_ID:
+    'recent-care-teams-continue-button',
+  COMPOSE_RECIPIENT_TITLE: 'compose-recipient-title',
+  COMPOSE_CATEGORY_DROPDOWN: 'compose-message-categories',
+  LOCKED_CATEGORY_DISPLAY: 'locked-category-display',
+  INTERSTITIAL_CONTINUE_BUTTON: 'continue-button',
   FOLDERS: {
     FOLDER_NAME: '[label="Folder name"]',
-    FOLDER_REMOVE: '[text="Yes, remove this folder"]',
+    FOLDER_REMOVE: 'va-button[text="Yes, remove this folder"]',
+    FOLDER_REMOVE_DATA_TEST_ID: 'confirm-remove-folder',
     FOLDER_HEADER: '[data-testid="folder-header"]',
     INBOX: '[data-testid="inbox-sidebar"] > a',
     DRAFTS: '[data-testid="drafts-sidebar"]',
@@ -131,9 +145,10 @@ export const Locators = {
     MOVE: `#move-button`,
     TRASH: `#trash-button`,
     BUTTON_TEXT: '[data-testid="trash-button-text"]',
-    MOVE_BUTTON_TEXT: '[data-testid="move-button-text"]',
+    MOVE_BUTTON_TEST_ID: 'move-button-text',
     FILTER: '[data-testid="filter-messages-button"]',
     SEND: '[data-testid="send-button"]',
+    SEND_TEST_ID: 'send-button',
     SAVE_DRAFT: '[data-testid="save-draft-button"]',
     PRINT_ONE_MESS: '[data-testid="radio-print-one-message"]',
     CREATE_NEW_FOLDER: '[data-testid="create-new-folder"]',
@@ -142,7 +157,7 @@ export const Locators = {
     DELETE_FOLDER: '[data-testid="remove-folder-button"]',
     PRINT: '[data-testid="print-button"]',
     SORT: '[data-testid="sort-button"]',
-    ATTACH_FILE: '[data-testid="attach-file-button"]',
+    ATTACH_FILE: 'attach-file-button',
     REMOVE_ATTACHMENT: '[data-testid="remove-attachment-button"]',
     REMOVE_ALL_ATTCH: `[data-testid="remove-all-attachments-button"]`,
     CONFIRM_REMOVE_ATTACHMENT:
@@ -156,25 +171,24 @@ export const Locators = {
     EDIT_DRAFT: `[data-testid="edit-draft-button-body"]`,
     EDIT_DRAFTS: '[data-testid="edit-draft-button-body-text"]',
     CL_SAVE: `[data-testid="contact-list-save"]`,
-    CL_GO_BACK: '[data-testid="contact-list-go-back"]',
+    CL_GO_BACK: 'contact-list-go-back',
     ALERT_CLOSE: `.first-focusable-child`,
   },
   LINKS: {
     GO_TO_INBOX: '[data-testid="inbox-link"]',
     CREATE_NEW_MESSAGE: '[data-testid="compose-message-link"]',
+    CREATE_NEW_MESSAGE_DATA_TEST_ID: 'compose-message-link',
     CRUMB: 'ol[role="list"] > li',
     CRUMB_LIST: '[data-testid="sm-breadcrumbs"]',
-    CRUMB_BACK: '[data-testid="sm-breadcrumbs-back"]',
-    BACK_TO_DRAFTS: '.sm-breadcrumb-list-item>a',
-    CRUMBS_BACK: '.sm-breadcrumb-list-item',
     OLD_VERSION: `.welcome-message > p > a`,
     EDIT_SIGNATURE: `div.vads-u-margin-top--2`,
     REPLY: `reply-to-message-link`,
+    START_NEW_MESSAGE: 'start-message-link',
   },
   ALERTS: {
     HEADER: `[data-testid="error-folder-not-empty"]`,
     MODEL_TITLE_ALERT: '.va-modal-alert-title',
-    TRIAGE_ALERT: '[data-testid="blocked-triage-group-alert"] > div > a',
+    TRIAGE_ALERT: '[data-testid="blocked-triage-group-alert"] va-link-action',
     CLOSE_NOTIFICATION: '.va-alert',
     REPT_SELECT: '[data-testid="compose-recipient-select"]',
     DRAFT_MODAL: '[data-testid="delete-draft-modal"]',
@@ -206,6 +220,7 @@ export const Locators = {
     BACK_TOP: 'va-back-to-top',
     CERNER_ALERT: '[data-testid="cerner-facilities-alert"]',
     BLOCKED_GROUP: '[data-testid="blocked-triage-group-alert"]',
+    RECIPIENTS_ERROR: 'recipients-error-alert',
     RECIP_SELECT: '[data-testid="compose-recipient-select"]',
     MESS_CATAGO: '[data-testid="compose-message-categories"]',
     LIST_HEADER: '.sidebar-navigation-messages-list-header > a',
@@ -232,6 +247,7 @@ export const Locators = {
     COMBO_BOX: '.usa-error-message',
     EL_SIGN_NAME: '#input-error-message .usa-error-message',
     EL_SIGN_CHECK: `#checkbox-error-message .usa-error-message`,
+    ADD_MEDICATION_INFO_WARNING: 'add-medication-info-warning',
   },
   FIELDS: {
     RECIPIENT: '#select',
@@ -248,7 +264,8 @@ export const Locators = {
     NOT_FOR_PRINT_HEADER: '[data-testid="not-for-print-header"]',
     EL_SIGN: `[message-aria-describedby="Electronic signature"]`,
     MESSAGE_SUBJECT: '[data-testid="message-subject-field"]',
-    MESSAGE_BODY: `[data-testid="message-body-field"]`,
+    MESSAGE_SUBJECT_DATA_TEST_ID: 'message-subject-field',
+    MESSAGE_BODY: 'message-body-field',
     RECIPIENTS_COMBO: `#options`,
   },
   INFO: {
@@ -259,6 +276,7 @@ export const Locators = {
   BLOCKS: {
     ATTACHMENTS: '.attachments-list',
     FILTER_START_DATE: `[data-testid="date-start"]`,
+    FILTER_KEYWORD_INPUT: `[data-testid="keyword-search-input"]`,
     FILTER_END_DATE: `[data-testid="date-end"]`,
   },
   CHECKBOX: {
@@ -306,12 +324,17 @@ export const Alerts = {
     LOAD_API_ERROR: `We can’t load your contact list right now`,
   },
   ATTACHMENT: {
-    TYPES: `We can't attach this file type.`,
+    TYPES: `We can't attach this file type. Try attaching a DOC, DOCX, GIF, JPG, JPEG, PDF, PNG, RTF, TXT, XLS, XLSX, JFIF, PJPEG, or PJP.`,
+    TYPES_EXPANDED: `We can't attach this file type. Try attaching a DOC, DOCX, GIF, JPG, JPEG, PDF, PNG, RTF, TXT, XLS, XLSX, BMP, TIFF, TIF, PPT, PPTX, PPS, PPSX, ODT, MP4, M4V, MOV, WMV, MPG, JFIF, PJPEG, or PJP.`,
     EMPTY: `Your file is empty. Try attaching a different file.`,
     VISTA_TOO_LARGE:
       'Your file is too large. Try attaching a file smaller than 6MB.',
-    OH_TOO_LARGE:
+    VISTA_ALL_FILES_TOO_LARGE:
+      'Your files are too large. The total size of all files must be smaller than 10MB.',
+    LARGE_UPLOAD_FILE_TOO_LARGE:
       'Your file is too large. Try attaching a file smaller than 25MB.',
+    LARGE_UPLOAD_TOTAL_TOO_LARGE:
+      'Your files are too large. The total size of all files must be smaller than 25MB.',
     ALREADY_ATTACHED: 'You have already attached this file.',
   },
   MAINTENANCE: {
@@ -346,6 +369,9 @@ export const Alerts = {
   VIRUS_MULTI_ATTCH: `Our file scanner found a problem with your attachments. To send your message, remove the attachments.`,
   SAVE_DRAFT: `Do you want to save your draft message?`,
   SAVE_CHANGES: `Do you want to save your changes to this draft?`,
+  SEARCH_TERM_REQUIRED: 'Please enter a search term.',
+  ERROR_LOADING_RECIPIENTS_HEADER:
+    'We can’t load your care team list right now',
 };
 
 export const Data = {
@@ -397,22 +423,18 @@ export const Data = {
   CANNOT_REMOVE_FOLDER: `You can't remove a folder with messages in it. Move all the messages to another folder. Then try removing it again.`,
   HCS_SELECT: `Select care team`,
   REPLY_HEADER: `Only use messages for non-urgent needs`,
+  RECENT_RECIPIENTS_HEADER: 'Care teams you recently sent messages to',
+  RECENT_RECIPIENTS_LABEL: `Select a team you want to message. This list only includes teams that you’ve sent messages to in the last 6 months. If you want to contact another team, select “A different care team.”`,
   ATTACH_INFO: [
     'You may attach up to 4 files to each message',
     'You can attach only these file types: doc, docx, gif, jpg, pdf, png, rtf, txt, xls, xlsx, jpeg, jfif, pjpeg, pjp',
     'The maximum size for each file is 6 MB',
     'The maximum total size for all files attached to 1 message is 10 MB',
   ],
-  VISTA_LARGE_ATTACH_INFO: [
+  LARGE_ATTACH_INFO: [
     'You can attach up to 10 files to each message',
     'You can attach only these file types: doc, docx, gif, jpg, pdf, png, rtf, txt, xls, xlxs, jpeg, jfif, pjpeg, pjp, bmp, tiff, ppt, pptx, pps, ppsx, odt, mp4, m4v, mov, wmv, mpg',
-    'The maximum size for each file is 6 MB',
-    'The maximum total size for all files attached to 1 message is 10 MB',
-  ],
-  OH_LARGE_ATTACH_INFO: [
-    'You can attach up to 10 files to each message',
-    'You can attach only these file types: doc, docx, gif, jpg, pdf, png, rtf, txt, xls, xlxs, jpeg, jfif, pjpeg, pjp, bmp, tiff, ppt, pptx, pps, ppsx, odt, mp4, m4v, mov, wmv, mpg',
-    'The maximum size for each file is 6 MB',
+    'The maximum size for each file is 25 MB',
     'The maximum total size for all files attached to 1 message is 25 MB',
   ],
   EL_SIGN_CHECK: `I certify that the above is correct and true to the best of my knowledge and belief.`,
@@ -444,7 +466,9 @@ export const Data = {
     PROFILE_SIGNATURE: `/profile/personal-information#messaging-signature`,
     HOME: '/my-health/secure-messages/',
     CONTACT_LIST: '/my-health/secure-messages/contact-list/',
-    SELECT_CARE_TEAM: '/my-health/secure-messages/new-message/select-care-team',
+    SELECT_CARE_TEAM:
+      '/my-health/secure-messages/new-message/select-care-team/',
+    CARE_TEAM_HELP: '/my-health/secure-messages/new-message/care-team-help/',
   },
   CL_LINK_TEXT: 'Show more teams in your contact list',
   URL: {
@@ -484,6 +508,119 @@ export const Data = {
     P_O: `If you typed or copied the URL into your web browser, check that it’s correct.`,
     P_1: `If that doesn’t work, try going to the My HealtheVet homepage.`,
     LINK: `Go to the My HealtheVet on VA.gov homepage`,
+  },
+
+  TEST_FILES: {
+    FAKE_FILE_1KB: {
+      fileName: 'small-file.txt',
+      mimeType: 'text/plain',
+      size: 1024, // 1KB
+    },
+    FAKE_FILE_10KB: {
+      fileName: 'small-file-10kb.txt',
+      mimeType: 'text/plain',
+      size: 10240, // 10KB
+    },
+    FAKE_FILE_100KB: {
+      fileName: 'small-file-100kb.txt',
+      mimeType: 'text/plain',
+      size: 102400, // 100KB
+    },
+
+    FAKE_FILE_3MB: {
+      fileName: 'medium-file.pdf',
+      mimeType: 'application/pdf',
+      size: 3 * 1024 * 1024, // 3MB
+    },
+    FAKE_FILE_4MB: {
+      fileName: 'medium-file-4mb.pdf',
+      mimeType: 'application/pdf',
+      size: 4 * 1024 * 1024, // 4MB
+    },
+    FAKE_FILE_4_5MB: {
+      fileName: 'medium-file-4-5mb.pdf',
+      mimeType: 'application/pdf',
+      size: 4.5 * 1024 * 1024, // 4.5MB
+    },
+
+    FAKE_FILE_5MB: {
+      fileName: 'large-file-5mb.pdf',
+      mimeType: 'application/pdf',
+      size: 5 * 1024 * 1024, // 5MB
+    },
+
+    FAKE_FILE_7MB: {
+      fileName: 'large-file.pdf',
+      mimeType: 'application/pdf',
+      size: 7 * 1024 * 1024, // 7MB (exceeds 6MB limit)
+    },
+
+    FAKE_FILE_25MB: {
+      fileName: 'max-size-file.pdf',
+      mimeType: 'application/pdf',
+      size: 25 * 1024 * 1024, // 25MB
+    },
+
+    FAKE_FILE_30MB: {
+      fileName: 'max-size-file-30-mb.pdf',
+      mimeType: 'application/pdf',
+      size: 30 * 1024 * 1024, // 30MB
+    },
+
+    FAKE_OVERSIZED_FILE: {
+      fileName: 'oversized-file.pdf',
+      mimeType: 'application/pdf',
+      size: 30 * 1024 * 1024, // 30MB (exceeds 25MB limit)
+    },
+
+    FAKE_MP4_FILE: {
+      fileName: 'video-file.mp4',
+      mimeType: 'video/mp4',
+      size: 2 * 1024 * 1024, // 2MB
+    },
+
+    FAKE_MP3_FILE: {
+      fileName: 'audio-file.mp3',
+      mimeType: 'audio/mpeg',
+      size: 3 * 1024 * 1024, // 3MB
+    },
+
+    // Multiple files for total size testing
+    FAKE_FILES_10MB_TOTAL: [
+      { fileName: 'file1.txt', mimeType: 'text/plain', size: 2 * 1024 * 1024 },
+      { fileName: 'file2.txt', mimeType: 'text/plain', size: 3 * 1024 * 1024 },
+      { fileName: 'file3.txt', mimeType: 'text/plain', size: 5 * 1024 * 1024 },
+    ],
+
+    FAKE_FILES_12MB_TOTAL: [
+      {
+        fileName: 'file1.pdf',
+        mimeType: 'application/pdf',
+        size: 6 * 1024 * 1024,
+      },
+      {
+        fileName: 'file2.pdf',
+        mimeType: 'application/pdf',
+        size: 6 * 1024 * 1024,
+      },
+    ],
+    FAKE_FILES_30MB_TOTAL: [
+      {
+        fileName: 'file30_MB.pdf',
+        mimeType: 'application/pdf',
+        size: 10 * 1024 * 1024,
+      },
+      {
+        fileName: 'file2.pdf',
+        mimeType: 'application/pdf',
+        size: 10 * 1024 * 1024,
+      },
+      {
+        fileName: 'file3.pdf',
+        mimeType: 'application/pdf',
+        size: 10 * 1024 * 1024,
+      },
+    ],
   },
 };
 

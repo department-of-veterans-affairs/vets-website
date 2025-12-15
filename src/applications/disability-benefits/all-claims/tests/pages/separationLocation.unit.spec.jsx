@@ -1,12 +1,11 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import moment from 'moment';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { mount } from 'enzyme';
 import { waitFor } from '@testing-library/dom';
 import formConfig from '../../config/form';
-
+import { daysFromToday } from '../../utils/dates/formatting';
 // Failed on master: http://jenkins.vfs.va.gov/blue/organizations/jenkins/testing%2Fvets-website/detail/master/10203/tests
 describe.skip('Separation location', () => {
   const {
@@ -41,9 +40,7 @@ describe.skip('Separation location', () => {
             servicePeriods: [
               {
                 dateRange: {
-                  to: moment()
-                    .add(90, 'days')
-                    .format('YYYY-MM-DD'),
+                  to: daysFromToday(90),
                 },
               },
             ],

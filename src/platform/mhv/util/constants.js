@@ -71,26 +71,6 @@ export const selfEnteredDocSections = {
   VITALS: 'vitals and readings',
 };
 
-// used to reference the sections of the SEI document
-// (does not show emergency contacts because it is only a sub-section)
-export const selfEnteredDomains = {
-  ACTIVITY_JOURNAL: 'activityJournal',
-  ALLERGIES: 'allergies',
-  DEMOGRAPHICS: 'demographics',
-  EMERGENCY_CONTACTS: 'emergencyContacts',
-  FAMILY_HISTORY: 'familyHistory',
-  FOOD_JOURNAL: 'foodJournal',
-  HEALTH_PROVIDERS: 'providers',
-  HEALTH_INSURANCE: 'healthInsurance',
-  TEST_ENTRIES: 'testEntries',
-  MEDICAL_EVENTS: 'medicalEvents',
-  MEDICATIONS: 'medications',
-  MILITARY_HISTORY: 'militaryHistory',
-  TREATMENT_FACILITIES: 'treatmentFacilities',
-  VACCINES: 'vaccines',
-  VITALS: 'vitals',
-};
-
 // All SEI domains in one place for easy iteration
 export const SEI_DOMAINS = [
   'activityJournal',
@@ -124,3 +104,20 @@ export const seiVitalTypes = {
   PAIN: 'pain',
   PULSE_OXIMETRY: 'pulseOximetry',
 };
+
+// Allergy observed/reported types - used by Medical Records and Medications apps
+export const allergyTypes = {
+  OBSERVED:
+    'Observed (you experienced this allergy or reaction while you were getting care at this VA location)',
+  REPORTED:
+    'Historical (you experienced this allergy or reaction in the past, before you started getting care at this VA location)',
+};
+
+// Travel Pay file new claim entry tracking
+export const TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY = Object.freeze({
+  SESSION_KEY: 'fileNewClaimEntry',
+  ENTRY_TYPES: {
+    CLAIM: 'claim',
+    APPOINTMENT: 'appointment',
+  },
+});

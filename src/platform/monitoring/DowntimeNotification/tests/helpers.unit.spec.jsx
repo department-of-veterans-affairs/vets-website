@@ -165,10 +165,10 @@ describe('createServiceMap', () => {
   });
 
   it('creates a map using the attributes.externalService property as keys', () => {
-    const evss = serviceMap.get('evss');
-    const vic = serviceMap.get('vic');
-    const mvi = serviceMap.get('mvi');
-    const appeals = serviceMap.get('appeals');
+    const { evss } = serviceMap;
+    const { vic } = serviceMap;
+    const { mvi } = serviceMap;
+    const { appeals } = serviceMap;
 
     expect(evss.status).to.equal(externalServiceStatus.down);
     expect(vic.status).to.equal(externalServiceStatus.ok);

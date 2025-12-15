@@ -1,46 +1,49 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
 import { Toggler } from 'platform/utilities/feature-toggles';
-
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-
 import DownloadLetterLink from '../components/DownloadLetterLink';
 import DownloadLetterBlobLink from '../components/DownloadLetterBlobLink';
-import VeteranBenefitSummaryLetter from './VeteranBenefitSummaryLetter';
+import { DownloadTsaLetter } from '../components/DownloadTsaLetter';
 import VeteranBenefitSummaryOptions from './VeteranBenefitSummaryOptions';
-
 import {
-  letterContent,
-  bslHelpInstructions,
   //  eslint-disable-next-line -- LH_MIGRATION
   LH_MIGRATION__getOptions,
   newLetterContent,
 } from '../utils/helpers';
 import { AVAILABILITY_STATUSES, LETTER_TYPES } from '../utils/constants';
-
-import { lettersPageNewDesign, togglesAreLoaded } from '../selectors';
+import { getTsaLetterEligibility } from '../actions/letters';
 
 export class LetterList extends React.Component {
   constructor(props) {
     super(props);
-    // eslint-disable-next-line -- LH_MIGRATION
-    this.state = { LH_MIGRATION__options: LH_MIGRATION__getOptions(false) };
+    this.state = {
+      // eslint-disable-next-line -- LH_MIGRATION
+      LH_MIGRATION__options: LH_MIGRATION__getOptions(false),
+    };
     this.accordionRefs = {};
   }
 
   componentDidMount() {
-    const { lettersNewDesign } = this.props;
-    focusElement(lettersNewDesign ? '#letters-title-id' : 'h2#nav-form-header');
+    focusElement('#letters-title-id');
     this.setState({
       // eslint-disable-next-line -- LH_MIGRATION
       LH_MIGRATION__options: LH_MIGRATION__getOptions(),
     });
+    if (this.props.tsaSafeTravelLetter) {
+      this.props.getTsaLetterEligibility();
+    }
   }
 
   render() {
     const downloadStatus = this.props.letterDownloadStatus;
+    const hasTsaLetter = Boolean(this.props.tsaLetterEligibility?.documentId);
+    const isDeterminingTsaEligibility =
+      this.props.tsaSafeTravelLetter &&
+      this.props.tsaLetterEligibility?.loading;
+
     const letterItems = (this.props.letters || []).map((letter, index) => {
       if (!this.accordionRefs[index]) {
         this.accordionRefs[index] = React.createRef();
@@ -48,73 +51,18 @@ export class LetterList extends React.Component {
       const accordionRef = this.accordionRefs[index];
       let content;
       let letterTitle;
-      let helpText;
       if (letter.letterType === LETTER_TYPES.benefitSummary) {
         letterTitle = 'Benefit Summary and Service Verification Letter';
-        content = (
-          <Toggler.Hoc toggleName={Toggler.TOGGLE_NAMES.lettersPageNewDesign}>
-            {toggleValue =>
-              toggleValue ? (
-                <VeteranBenefitSummaryOptions />
-              ) : (
-                <VeteranBenefitSummaryLetter />
-              )
-            }
-          </Toggler.Hoc>
-        );
-        helpText = bslHelpInstructions;
+        content = <VeteranBenefitSummaryOptions />;
       } else if (letter.letterType === LETTER_TYPES.proofOfService) {
         letterTitle = 'Proof of Service Card';
-        content = (
-          <Toggler.Hoc toggleName={Toggler.TOGGLE_NAMES.lettersPageNewDesign}>
-            {toggleValue =>
-              toggleValue
-                ? newLetterContent[letter.letterType] || ''
-                : letterContent[letter.letterType] || ''
-            }
-          </Toggler.Hoc>
-        );
+        content = newLetterContent[letter.letterType];
       } else if (letter.letterType === LETTER_TYPES.benefitSummaryDependent) {
         letterTitle = 'Benefit Summary Letter';
-        content = (
-          <Toggler.Hoc toggleName={Toggler.TOGGLE_NAMES.lettersPageNewDesign}>
-            {toggleValue =>
-              toggleValue
-                ? newLetterContent[letter.letterType] || ''
-                : letterContent[letter.letterType] || ''
-            }
-          </Toggler.Hoc>
-        );
+        content = newLetterContent[letter.letterType];
       } else {
         letterTitle = letter.name;
-        content = (
-          <Toggler.Hoc toggleName={Toggler.TOGGLE_NAMES.lettersPageNewDesign}>
-            {toggleValue =>
-              toggleValue
-                ? newLetterContent[letter.letterType] || ''
-                : letterContent[letter.letterType] || ''
-            }
-          </Toggler.Hoc>
-        );
-      }
-
-      // OLD conditional download button
-      // TODO: Remove after feature flag is turned off.
-      let conditionalDownloadButton;
-      if (
-        letter.letterType !== LETTER_TYPES.benefitSummary ||
-        this.props.optionsAvailable
-      ) {
-        conditionalDownloadButton = (
-          <DownloadLetterLink
-            letterType={letter.letterType}
-            letterTitle={letterTitle}
-            downloadStatus={downloadStatus[letter.letterType]}
-            // eslint-disable-next-line -- LH_MIGRATION
-            LH_MIGRATION__options={this.state.LH_MIGRATION__options}
-            key={`download-link-${index}`}
-          />
-        );
+        content = newLetterContent[letter.letterType];
       }
 
       // NEW conditional download link (KEEP)
@@ -146,18 +94,7 @@ export class LetterList extends React.Component {
         <va-accordion-item key={`panel-${index}`} ref={accordionRef}>
           <h3 slot="headline">{letterTitle}</h3>
           <div>{content}</div>
-          <Toggler.Hoc toggleName={Toggler.TOGGLE_NAMES.lettersPageNewDesign}>
-            {toggleValue =>
-              toggleValue ? (
-                <>{conditionalDownloadElem}</>
-              ) : (
-                <>
-                  {conditionalDownloadButton}
-                  {helpText}
-                </>
-              )
-            }
-          </Toggler.Hoc>
+          <>{conditionalDownloadElem}</>
         </va-accordion-item>
       );
     });
@@ -165,7 +102,8 @@ export class LetterList extends React.Component {
     let eligibilityMessage;
     if (
       this.props.lettersAvailability ===
-      AVAILABILITY_STATUSES.letterEligibilityError
+        AVAILABILITY_STATUSES.letterEligibilityError ||
+      this.props.tsaLetterEligibility?.error
     ) {
       eligibilityMessage = (
         <div className="vads-u-margin-top--2">
@@ -183,139 +121,77 @@ export class LetterList extends React.Component {
 
     return (
       <div className="step-content">
-        <Toggler.Hoc toggleName={Toggler.TOGGLE_NAMES.lettersPageNewDesign}>
-          {toggleValue =>
-            toggleValue ? null : (
-              <>
-                <p>
-                  To see an explanation about each letter, click on the (+) to
-                  expand the box. After you expand the box, you’ll be given the
-                  option to download the letter.
-                </p>
-                <p>
-                  To download a letter, you’ll need to have Adobe Acrobat Reader
-                  installed on your computer. You can then download or save the
-                  letter to your device. Open Acrobat Reader, and from the File
-                  menu, choose Open. Select the PDF.
-                </p>
-                <p>
-                  If you’re still having trouble opening the letter, you may
-                  have an older version of Adobe Acrobat Reader. You’ll need to{' '}
-                  <a
-                    href="https://get.adobe.com/reader/otherversions/"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    download the latest version
-                  </a>
-                  . It’s free.
-                </p>
-                <p>
-                  <Link to="/confirm-address">Go back to edit address</Link>
-                </p>
-              </>
-            )
-          }
-        </Toggler.Hoc>
-
-        {letterItems.length !== 0 && (
+        {(letterItems.length !== 0 || hasTsaLetter) && (
           <va-accordion data-test-id="letters-accordion" bordered>
             {letterItems}
+            {hasTsaLetter && (
+              <DownloadTsaLetter
+                documentId={this.props.tsaLetterEligibility?.documentId}
+              />
+            )}
           </va-accordion>
         )}
+        {isDeterminingTsaEligibility && (
+          <va-loading-indicator
+            aria-live="polite"
+            message="Determining TSA PreCheck Application Fee Waiver Letter eligibility..."
+            set-focus
+          />
+        )}
+        <Toggler toggleName={Toggler.TOGGLE_NAMES.emptyStateBenefitLetters}>
+          <Toggler.Enabled>
+            {letterItems.length === 0 &&
+              !eligibilityMessage &&
+              !hasTsaLetter && (
+                <div className="vads-u-margin-top--2">
+                  <h3>
+                    You don't have any benefit letters or documents available.
+                  </h3>
+                  <p>
+                    Most Veterans find benefit letters and documents here such
+                    as:
+                  </p>
+                  <ul>
+                    <li>Benefit Summary and Service Verification Letter</li>
+                    <li>Proof of Service Card</li>
+                    <li>Civil Service Preference Letter</li>
+                  </ul>
+                  <p>
+                    If you think you should have a benefit letter and document
+                    that's not here, call the VA benefits hotline at{' '}
+                    <va-telephone contact="8008271000" /> (
+                    <va-telephone contact="711" tty />) for help.
+                  </p>
+                </div>
+              )}
+          </Toggler.Enabled>
+        </Toggler>
         {eligibilityMessage}
-
-        <Toggler.Hoc toggleName={Toggler.TOGGLE_NAMES.lettersPageNewDesign}>
-          {toggleValue =>
-            toggleValue ? null : (
-              <>
-                <h2 slot="headline">
-                  Other sources of VA benefit documentation
-                </h2>
-                <p>
-                  A lot of people come to this page looking for their Post-9/11
-                  GI Bill statement of benefits, their Certificate of
-                  Eligibility (COE) for home loan benefits, and their DD214. We
-                  don’t have these documents available here yet, but if you’re
-                  eligible for them, you can get them through these links:
-                </p>
-                <ul className="vads-u-margin-bottom--9 bullet-disc">
-                  <li>
-                    <a
-                      href="/education/download-letters/"
-                      target="_blank"
-                      className="vads-u-text-decoration--none"
-                    >
-                      VA education letters
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="/education/gi-bill/post-9-11/ch-33-benefit"
-                      target="_blank"
-                      className="vads-u-text-decoration--none"
-                    >
-                      Post-9/11 GI Bill statement of benefits
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="/housing-assistance/home-loans/check-coe-status/"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                      className="vads-u-text-decoration--none"
-                    >
-                      Certificate of home loan benefits
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="/records/get-military-service-records/"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                      className="vads-u-text-decoration--none"
-                    >
-                      Discharge or separation papers (DD214)
-                    </a>
-                  </li>
-                </ul>
-                <>
-                  <h2 className="vads-u-padding-top--1 vads-u-padding-bottom--1p5 vads-u-border-bottom--3px vads-u-border-color--primary">
-                    Need help?
-                  </h2>
-                  <div className="vads-u-margin-bottom--4">
-                    If you have any questions, please call the VA Benefits Help
-                    Desk:
-                    <br />
-                    <va-telephone contact="8008271000" />, Monday &#8211;
-                    Friday, 8 a.m. &#8211; 9 p.m. ET
-                  </div>
-                </>
-              </>
-            )
-          }
-        </Toggler.Hoc>
       </div>
     );
   }
 }
 
+const mapDispatchToProps = {
+  getTsaLetterEligibility,
+};
+
 function mapStateToProps(state) {
   const letterState = state.letters;
-  const togglesLoaded = togglesAreLoaded(state);
-  const lettersNewDesign = lettersPageNewDesign(state);
 
   return {
     letters: letterState.letters,
     lettersAvailability: letterState.lettersAvailability,
     letterDownloadStatus: letterState.letterDownloadStatus,
     optionsAvailable: letterState.optionsAvailable,
-    togglesLoaded,
-    lettersNewDesign,
+    tsaLetterEligibility: letterState.tsaLetterEligibility,
+    tsaSafeTravelLetter:
+      state.featureToggles[FEATURE_FLAG_NAMES.tsaSafeTravelLetter],
   };
 }
 
 LetterList.propTypes = {
+  getTsaLetterEligibility: PropTypes.func,
   letterDownloadStatus: PropTypes.shape({}),
   letters: PropTypes.arrayOf(
     PropTypes.shape({
@@ -324,12 +200,16 @@ LetterList.propTypes = {
     }),
   ),
   lettersAvailability: PropTypes.string,
-  lettersNewDesign: PropTypes.bool,
   optionsAvailable: PropTypes.bool,
-  togglesLoaded: PropTypes.bool,
+  tsaLetterEligibility: PropTypes.shape({
+    documentId: PropTypes.string,
+    error: PropTypes.bool,
+    loading: PropTypes.bool,
+  }),
+  tsaSafeTravelLetter: PropTypes.bool,
 };
 
 export default connect(
   mapStateToProps,
-  null,
+  mapDispatchToProps,
 )(LetterList);

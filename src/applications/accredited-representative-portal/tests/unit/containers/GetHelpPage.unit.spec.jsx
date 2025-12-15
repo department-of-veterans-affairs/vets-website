@@ -1,21 +1,13 @@
 import React from 'react';
 import { expect } from 'chai';
-import GetHelpPage from '../../../containers/GetHelpPage';
+import HelpPage from '../../../containers/HelpPage';
 import { renderTestApp } from '../helpers';
 
 describe('Get Help Page', () => {
   it('renders get help heading and content', () => {
-    const { getByTestId } = renderTestApp(<GetHelpPage />);
+    const { getByTestId } = renderTestApp(<HelpPage />);
     expect(getByTestId('get-help-page-heading').textContent).to.eq(
-      'Get help using the portal',
+      'Get help with the Accredited Representative Portal',
     );
-    expect(getByTestId('get-help-page-link')).to.exist;
-  });
-  it('renders download instructions and content', () => {
-    const { getByTestId } = renderTestApp(<GetHelpPage />);
-    expect(getByTestId('download-instructions-heading').textContent).to.eq(
-      'Download instructions for submitting VA Form 21-22 online',
-    );
-    expect(getByTestId('download-instructions-pdf-link')).to.exist;
   });
 });

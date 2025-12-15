@@ -16,6 +16,9 @@ describe('ClaimDetailsContent', () => {
     createdOn: '2024-05-27T16:40:45.781Z',
     modifiedOn: '2024-05-31T16:40:45.781Z',
     totalCostRequested: 50.99,
+    appointment: {
+      id: '20d73591-ff18-4b66-9838-1429ebbf1b6e',
+    },
   };
 
   const getState = ({
@@ -24,6 +27,7 @@ describe('ClaimDetailsContent', () => {
     hasDetailsFeatureFlag = true,
     hasClaimsManagementFlag = true,
     hasClaimsManagementDecisionReasonFlag = true,
+    hasComplexClaimsFlag = false,
   } = {}) => ({
     featureToggles: {
       loading: featureTogglesAreLoading,
@@ -32,6 +36,7 @@ describe('ClaimDetailsContent', () => {
       travel_pay_view_claim_details: hasDetailsFeatureFlag,
       travel_pay_claims_management: hasClaimsManagementFlag,
       travel_pay_claims_management_decision_reason: hasClaimsManagementDecisionReasonFlag,
+      travel_pay_enable_complex_claims: hasComplexClaimsFlag,
       /* eslint-enable camelcase */
     },
   });
@@ -52,6 +57,16 @@ describe('ClaimDetailsContent', () => {
     expect(screen.getByText('Claim number: TC0928098230498')).to.exist;
     expect(screen.getByText('Tomah VA Medical Center')).to.exist;
     expect(screen.getByText('Claim status: Claim submitted')).to.exist;
+  });
+
+  it('sets the page title correctly', () => {
+    renderWithStoreAndRouter(<ClaimDetailsContent {...claimDetailsProps} />, {
+      initialState: getState(),
+    });
+
+    expect(document.title).to.equal(
+      'Travel Reimbursement Claim Details - Travel Pay | Veterans Affairs',
+    );
   });
 
   it('renders secure messaging link for denied claims', () => {
@@ -153,6 +168,28 @@ describe('ClaimDetailsContent', () => {
       expect($('va-link[text="note-1.txt"]')).to.not.exist;
     });
 
+    it('renders download links for partial payment letter as decision letter', () => {
+      renderWithStoreAndRouter(
+        <ClaimDetailsContent
+          {...claimDetailsProps}
+          documents={[
+            {
+              filename: 'Partial Payment Letter.docx',
+              mimetype:
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            },
+            { filename: 'screenshot.png', mimetype: 'image/png' },
+          ]}
+        />,
+        {
+          initialState: getState(),
+        },
+      );
+
+      expect($('va-link[text="Download your decision letter"]')).to.exist;
+      expect($('va-link[text="screenshot.png"]')).to.exist;
+    });
+
     it('renders only user document links', () => {
       renderWithStoreAndRouter(
         <ClaimDetailsContent
@@ -243,7 +280,7 @@ describe('ClaimDetailsContent', () => {
         },
       );
       expect(screen.getByText('Amount')).to.exist;
-      expect(screen.getByText('Submitted amount of $120.5')).to.exist;
+      expect(screen.getByText('Submitted amount of $120.50')).to.exist;
       expect(screen.getByText('Reimbursement amount of $100.25')).to.exist;
     });
 
@@ -259,7 +296,7 @@ describe('ClaimDetailsContent', () => {
         },
       );
       expect(screen.getByText('Amount')).to.exist;
-      expect(screen.getByText('Submitted amount of $75')).to.exist;
+      expect(screen.getByText('Submitted amount of $75.00')).to.exist;
       expect(screen.queryByText(/Reimbursement amount of/)).to.not.exist;
     });
 
@@ -409,6 +446,258 @@ describe('ClaimDetailsContent', () => {
       ).to.exist;
       expect(screen.getByText('We only paid some of your requested amount')).to
         .exist;
+    });
+  });
+
+  describe('Complex claims feature', () => {
+    describe('OutOfBoundsAppointmentAlert', () => {
+      it('renders out of bounds alert when complexClaimsToggle is on and isOutOfBounds is true', () => {
+        const screen = renderWithStoreAndRouter(
+          <ClaimDetailsContent {...claimDetailsProps} isOutOfBounds />,
+          {
+            initialState: getState({ hasComplexClaimsFlag: true }),
+          },
+        );
+
+        expect(
+          screen.getByText('Your appointment happened more than 30 days ago'),
+        ).to.exist;
+        // va-alert is rendered with the warning message
+        expect($('va-alert[status="warning"]')).to.exist;
+      });
+
+      it('does not render out of bounds alert when complexClaimsToggle is off even if isOutOfBounds is true', () => {
+        const screen = renderWithStoreAndRouter(
+          <ClaimDetailsContent {...claimDetailsProps} isOutOfBounds />,
+          {
+            initialState: getState({ hasComplexClaimsFlag: false }),
+          },
+        );
+
+        expect(
+          screen.queryByText('Your appointment happened more than 30 days ago'),
+        ).to.not.exist;
+      });
+
+      it('does not render out of bounds alert when isOutOfBounds is false even if complexClaimsToggle is on', () => {
+        const screen = renderWithStoreAndRouter(
+          <ClaimDetailsContent {...claimDetailsProps} isOutOfBounds={false} />,
+          {
+            initialState: getState({ hasComplexClaimsFlag: true }),
+          },
+        );
+
+        expect(
+          screen.queryByText('Your appointment happened more than 30 days ago'),
+        ).to.not.exist;
+      });
+
+      it('does not render out of bounds alert when isOutOfBounds is undefined', () => {
+        const screen = renderWithStoreAndRouter(
+          <ClaimDetailsContent {...claimDetailsProps} />,
+          {
+            initialState: getState({ hasComplexClaimsFlag: true }),
+          },
+        );
+
+        expect(
+          screen.queryByText('Your appointment happened more than 30 days ago'),
+        ).to.not.exist;
+      });
+    });
+
+    describe('Status alternative definition', () => {
+      it('renders alternative definition for Saved status when complexClaimsToggle is on', () => {
+        const screen = renderWithStoreAndRouter(
+          <ClaimDetailsContent {...claimDetailsProps} claimStatus="Saved" />,
+          {
+            initialState: getState({ hasComplexClaimsFlag: true }),
+          },
+        );
+
+        const statusDef = screen.getByTestId('status-definition-text');
+        expect(statusDef.textContent).to.include(
+          'We saved the expenses you’ve added so far',
+        );
+        expect(statusDef.textContent).to.include(
+          'you haven’t filed your travel reimbursement claim yet',
+        );
+        expect(
+          screen.queryByText(
+            'We saved your claim. Make sure to submit it within 30 days of your appointment.',
+          ),
+        ).to.not.exist;
+      });
+
+      it('renders regular definition for Saved status when complexClaimsToggle is off', () => {
+        const screen = renderWithStoreAndRouter(
+          <ClaimDetailsContent {...claimDetailsProps} claimStatus="Saved" />,
+          {
+            initialState: getState({ hasComplexClaimsFlag: false }),
+          },
+        );
+
+        expect(
+          screen.getByText(
+            'We saved your claim. Make sure to submit it within 30 days of your appointment.',
+          ),
+        ).to.exist;
+        expect(
+          screen.queryByText(
+            /We saved the expenses you've added so far. But you haven’t filed your travel reimbursement claim yet/i,
+          ),
+        ).to.not.exist;
+      });
+
+      it('uses regular definition when alternativeDefinition does not exist', () => {
+        const screen = renderWithStoreAndRouter(
+          <ClaimDetailsContent
+            {...claimDetailsProps}
+            claimStatus="Claim submitted"
+          />,
+          {
+            initialState: getState({ hasComplexClaimsFlag: true }),
+          },
+        );
+
+        expect(screen.getByText('You submitted this claim for review.')).to
+          .exist;
+      });
+    });
+
+    describe('Complete and file claim link', () => {
+      it('renders complete and file link for Saved status when complexClaimsToggle is on', () => {
+        renderWithStoreAndRouter(
+          <ClaimDetailsContent {...claimDetailsProps} claimStatus="Saved" />,
+          {
+            initialState: getState({ hasComplexClaimsFlag: true }),
+          },
+        );
+
+        expect(
+          $(
+            `va-link-action[text="Complete and file your claim"][href="/my-health/travel-pay/file-new-claim/${
+              claimDetailsProps.claimId
+            }"]`,
+          ),
+        ).to.exist;
+      });
+
+      it('renders complete and file link for Incomplete status when complexClaimsToggle is on', () => {
+        renderWithStoreAndRouter(
+          <ClaimDetailsContent
+            {...claimDetailsProps}
+            claimStatus="Incomplete"
+          />,
+          {
+            initialState: getState({ hasComplexClaimsFlag: true }),
+          },
+        );
+
+        expect(
+          $(
+            `va-link-action[text="Complete and file your claim"][href="/my-health/travel-pay/file-new-claim/${
+              claimDetailsProps.claimId
+            }"]`,
+          ),
+        ).to.exist;
+      });
+
+      it('does not render complete and file link for Saved status when complexClaimsToggle is off', () => {
+        renderWithStoreAndRouter(
+          <ClaimDetailsContent {...claimDetailsProps} claimStatus="Saved" />,
+          {
+            initialState: getState({ hasComplexClaimsFlag: false }),
+          },
+        );
+
+        expect($('va-link-action[text="Complete and file your claim"]')).to.not
+          .exist;
+      });
+
+      it('does not render complete and file link for other statuses even when complexClaimsToggle is on', () => {
+        renderWithStoreAndRouter(
+          <ClaimDetailsContent {...claimDetailsProps} claimStatus="Denied" />,
+          {
+            initialState: getState({ hasComplexClaimsFlag: true }),
+          },
+        );
+
+        expect($('va-link-action[text="Complete and file your claim"]')).to.not
+          .exist;
+      });
+    });
+
+    describe('Claim submission timeline text', () => {
+      it('renders "Created on" when complexClaimsToggle is on', () => {
+        const screen = renderWithStoreAndRouter(
+          <ClaimDetailsContent {...claimDetailsProps} />,
+          {
+            initialState: getState({ hasComplexClaimsFlag: true }),
+          },
+        );
+
+        expect(screen.getByText(/Created on Monday, May 27, 2024 at/i)).to
+          .exist;
+        expect(screen.queryByText(/Submitted on Monday, May 27, 2024 at/i)).to
+          .not.exist;
+      });
+
+      it('renders "Submitted on" when complexClaimsToggle is off', () => {
+        const screen = renderWithStoreAndRouter(
+          <ClaimDetailsContent {...claimDetailsProps} />,
+          {
+            initialState: getState({ hasComplexClaimsFlag: false }),
+          },
+        );
+
+        expect(screen.getByText(/Submitted on Monday, May 27, 2024 at/i)).to
+          .exist;
+        expect(screen.queryByText(/Created on Monday, May 27, 2024 at/i)).to.not
+          .exist;
+      });
+    });
+
+    describe('Combined scenarios', () => {
+      it('renders all complex claims features when flag is on with Saved status and isOutOfBounds', () => {
+        const screen = renderWithStoreAndRouter(
+          <ClaimDetailsContent
+            {...claimDetailsProps}
+            claimStatus="Saved"
+            isOutOfBounds
+          />,
+          {
+            initialState: getState({ hasComplexClaimsFlag: true }),
+          },
+        );
+
+        // Out of bounds alert
+        expect(
+          screen.getByText('Your appointment happened more than 30 days ago'),
+        ).to.exist;
+
+        // Alternative definition
+        const statusDef = screen.getByTestId('status-definition-text');
+        expect(statusDef.textContent).to.include(
+          'We saved the expenses you’ve added so far',
+        );
+        expect(statusDef.textContent).to.include(
+          'you haven’t filed your travel reimbursement claim yet',
+        );
+
+        // Complete and file link
+        expect(
+          $(
+            `va-link-action[text="Complete and file your claim"][href="/my-health/travel-pay/file-new-claim/${
+              claimDetailsProps.claimId
+            }"]`,
+          ),
+        ).to.exist;
+
+        // Created on text
+        expect(screen.getByText(/Created on Monday, May 27, 2024 at/i)).to
+          .exist;
+      });
     });
   });
 });

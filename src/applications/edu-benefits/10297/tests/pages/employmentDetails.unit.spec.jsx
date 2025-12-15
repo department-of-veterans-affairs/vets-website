@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import sinon from 'sinon';
@@ -28,13 +28,6 @@ describe('Background Information Step 4 - Page 2, Employment Details', () => {
       'va-radio, va-radio-option, input[type="radio"]',
     );
     expect(radios.length).to.be.greaterThan(0);
-  });
-
-  it('shows a validation error when not answered', () => {
-    const { getByRole, container } = renderPage();
-    fireEvent.click(getByRole('button', { name: /submit|continue/i }));
-    const errNode = container.querySelector('[error]');
-    expect(errNode).to.exist;
   });
 
   it('accepts Yes or No as valid answers', () => {

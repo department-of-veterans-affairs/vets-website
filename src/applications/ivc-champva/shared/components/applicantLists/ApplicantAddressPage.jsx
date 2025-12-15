@@ -191,13 +191,12 @@ export function ApplicantAddressCopyPage(props) {
   );
 
   // We use this a few times, so compute now.
-  const curAppFullName = fullName(currentApp.applicantName);
   const selectWording =
     customSelectText ??
     `${
       pagePerItemIndex === 0 && data.certifierRole === 'applicant'
         ? 'Do you'
-        : `Does ${curAppFullName}`
+        : `Does the applicant`
     } have the same mailing address as another person listed in this application?`;
 
   return (

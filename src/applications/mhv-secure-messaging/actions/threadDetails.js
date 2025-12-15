@@ -1,4 +1,5 @@
 import { Actions } from '../util/actionTypes';
+import { setThreadRefetchRequired } from './threads';
 
 export const clearThread = () => dispatch => {
   dispatch({ type: Actions.Thread.CLEAR_THREAD });
@@ -13,8 +14,16 @@ export const updateDraftInProgress = updates => dispatch => {
     type: Actions.Draft.UPDATE_DRAFT_IN_PROGRESS,
     payload: updates,
   });
+  dispatch(setThreadRefetchRequired(true));
 };
 
 export const clearDraftInProgress = () => dispatch => {
   dispatch({ type: Actions.Draft.CLEAR_DRAFT_IN_PROGRESS });
+};
+
+export const acceptInterstitial = () => dispatch => {
+  dispatch({
+    type: Actions.Draft.SET_ACCEPT_INTERSTITIAL,
+    payload: true,
+  });
 };

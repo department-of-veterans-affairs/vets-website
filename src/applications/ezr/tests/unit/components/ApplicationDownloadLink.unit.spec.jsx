@@ -9,16 +9,23 @@ import content from '../../../locales/en/content.json';
 import { renderProviderWrappedComponent } from '../../helpers';
 
 describe('ezr <ApplicationDownloadLink>', () => {
-  const subject = ({ veteranInformation } = {}) => {
-    const expectedVeteranInformation = veteranInformation ?? {
-      veteranFullName: { first: 'John', last: 'Smith' },
-    };
+  const subject = (options = {}) => {
+    const hasUserFullNameParam = 'userFullName' in options;
+
+    const expectedUserFullName = hasUserFullNameParam
+      ? options.userFullName
+      : { first: 'John', last: 'Smith' };
+
     const mockStoreData = {
       form: {
         data: {
-          'view:veteranInformation': expectedVeteranInformation,
           veteranDateOfBirth: '1990-01-01',
           gender: 'M',
+        },
+      },
+      user: {
+        profile: {
+          userFullName: expectedUserFullName,
         },
       },
     };
@@ -112,7 +119,7 @@ describe('ezr <ApplicationDownloadLink>', () => {
       });
 
       it('should still succeed when no veteranInformation is set', async () => {
-        const { selectors } = subject({ veteranInformation: {} });
+        const { selectors } = subject({ userFullName: {} });
         const { vaLink: link } = selectors();
         const createObjectStub = createStubObject();
         const revokeObjectStub = revokeObjectstub();

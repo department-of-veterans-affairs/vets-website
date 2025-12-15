@@ -7,7 +7,7 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import vaFileInputFieldMapping from 'platform/forms-system/src/js/web-component-fields/vaFileInputFieldMapping';
-import { uploadScannedForm as uploadFile } from 'platform/forms-system/src/js/web-component-fields/vaFileInputFieldHelpers';
+import { uploadFile } from 'platform/forms-system/src/js/web-component-fields/vaFileInputFieldHelpers';
 
 /**
  * Matches errors to files based on the file characteristics rather

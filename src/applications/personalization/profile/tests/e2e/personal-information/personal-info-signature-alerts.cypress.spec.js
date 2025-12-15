@@ -90,7 +90,9 @@ describe('PERSONAL INFORMATION ADD SIGNATURE ALERTS', () => {
     cy.get(Locators.SIGNATURE.NAME_FIELD).type('Jack Sparrow');
     cy.get(Locators.SIGNATURE.CANCEL_BTN).click();
 
-    cy.get(Locators.SIGNATURE.ALERTS.CROSS_BTN).click();
+    cy.get(Locators.SIGNATURE.ALERTS.CROSS_BTN)
+      .first()
+      .click();
     cy.get(Locators.SIGNATURE.CANCEL_BTN).should(`be.focused`);
 
     cy.injectAxeThenAxeCheck();
@@ -166,7 +168,9 @@ describe('PERSONAL INFORMATION EDIT SIGNATURE ALERTS', () => {
       .type('Jack Sparrow');
     cy.get(Locators.SIGNATURE.CANCEL_BTN).click();
 
-    cy.get(Locators.SIGNATURE.ALERTS.CROSS_BTN).click();
+    cy.get(Locators.SIGNATURE.ALERTS.CROSS_BTN)
+      .first()
+      .click();
     cy.get(Locators.SIGNATURE.CANCEL_BTN).should(`be.focused`);
 
     cy.injectAxeThenAxeCheck();

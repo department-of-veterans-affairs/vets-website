@@ -1,10 +1,15 @@
 import { reportGeneratedBy } from '@department-of-veterans-affairs/mhv/exports';
-import { dateFormat } from './helpers';
-import { rxListSortingOptions } from './constants';
+import {
+  dateFormat,
+  displayHeaderPrefaceText,
+  displayMedicationsListHeader,
+} from './helpers';
+import { DATETIME_FORMATS } from './constants';
 
 export function buildPdfData({
   userName,
   dob,
+  selectedFilterOption,
   selectedSortOption,
   rxList,
   allergiesList,
@@ -22,25 +27,25 @@ export function buildPdfData({
     headerLeft: userName.first
       ? `${userName.last}, ${userName.first}`
       : `${userName.last || ' '}`,
-    headerRight: `Date of birth: ${dateFormat(dob, 'MMMM D, YYYY')}`,
+    headerRight: `Date of birth: ${dateFormat(
+      dob,
+      DATETIME_FORMATS.longMonthDate,
+    )}`,
     footerLeft: reportGeneratedBy,
     footerRight: 'Page %PAGE_NUMBER% of %TOTAL_PAGES%',
     title: 'Medications',
-    preface: [
-      {
-        value: `This is a list of prescriptions and other medications in your VA medical records. When you download medication records, we also include a list of allergies and reactions in your VA medical records.`,
-      },
-    ],
+    preface: displayHeaderPrefaceText(
+      selectedFilterOption,
+      selectedSortOption,
+      rxList?.length,
+    ),
     results: [
       {
-        header: 'Medications list',
-        preface: `Showing ${rxList?.length} medications, ${rxListSortingOptions[
-          selectedSortOption
-        ].LABEL.toLowerCase()}`,
+        header: displayMedicationsListHeader(selectedFilterOption),
         list: rxList,
       },
       {
-        header: 'Allergies',
+        header: 'Allergies and reactions',
         ...(allergiesList &&
           allergiesList.length > 0 && {
             preface: [
@@ -49,9 +54,11 @@ export function buildPdfData({
                   'This list includes all allergies, reactions, and side effects in your VA medical records. This includes medication side effects (also called adverse drug reactions). If you have allergies or reactions that are missing from this list, tell your care team at your next appointment.',
               },
               {
-                value: `Showing ${
-                  allergiesList.length
-                } records from newest to oldest`,
+                value: `Showing ${allergiesList.length} ${
+                  allergiesList.length === 1
+                    ? 'record'
+                    : 'records from newest to oldest'
+                }`,
               },
             ],
           }),

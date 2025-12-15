@@ -1,7 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Toggler } from 'platform/utilities/feature-toggles';
-import UserNav from './UserNav';
+import DropdownContainer from './DropdownContainer';
 import { SIGN_IN_URL } from '../../constants';
 import { selectUserProfile } from '../../selectors/user';
 
@@ -26,7 +25,7 @@ export const Nav = () => {
           data-testid="nav-home-link"
           aria-label="VA Accredited Representative Portal"
           className="nav__link vads-u-display--flex"
-          to="/"
+          href="/representative"
         >
           <img
             data-testid="mobile-logo"
@@ -44,60 +43,46 @@ export const Nav = () => {
             alt="VA Accredited Representative Portal, U.S. Department of Veterans Affairs"
           />
         </a>
-        {profile ? <UserNav profile={profile} /> : <SignInButton />}
+        <div className="heading-right">
+          <a
+            href="/representative/help"
+            className={`usa-button-secondary heading-help-link ${
+              profile ? 'logged-in' : ''
+            }`}
+            data-testid="heading-help-link"
+            data-eventname="nav-link-click"
+          >
+            Help
+          </a>
+
+          {profile ? <DropdownContainer profile={profile} /> : <SignInButton />}
+        </div>
       </div>
 
       {profile && (
         <div className="nav__container-secondary" data-testid="desktop-nav-row">
           <div className="nav__container vads-u-display--flex">
-            <Toggler
-              toggleName={
-                Toggler.TOGGLE_NAMES.accreditedRepresentativePortalSearch
-              }
-            >
-              <Toggler.Enabled>
-                <a
-                  className="nav__btn desktop"
-                  href="/representative/claimant-search"
-                  data-testid="desktop-search-link"
-                >
-                  <va-icon
-                    icon="search"
-                    size={2}
-                    className="people-search-icon"
-                  />
-                  Find Claimant
-                </a>
-              </Toggler.Enabled>
-            </Toggler>
             <a
               className="nav__btn desktop"
-              href="/representative/poa-requests"
+              href="/representative/find-claimant"
+              data-testid="desktop-search-link"
+            >
+              <va-icon icon="search" size={2} className="people-search-icon" />
+              Find Claimant
+            </a>
+            <a
+              className="nav__btn desktop"
+              href="/representative/representation-requests"
               data-testid="desktop-poa-link"
             >
               Representation Requests
             </a>
-            <Toggler
-              toggleName={
-                Toggler.TOGGLE_NAMES.accreditedRepresentativePortalSubmissions
-              }
-            >
-              <Toggler.Enabled>
-                <a
-                  className="nav__btn desktop"
-                  href="/representative/submissions"
-                  data-testid="desktop-submissions-link"
-                >
-                  Submissions
-                </a>
-              </Toggler.Enabled>
-            </Toggler>
             <a
-              to="/get-help"
-              className="nav__btn desktop vads-u-display--none"
-              data-testid="desktop-help-link"
+              className="nav__btn desktop is--active"
+              href="/representative/submissions"
+              data-testid="desktop-submissions-link"
             >
-              Get Help
+              Submissions
             </a>
           </div>
         </div>

@@ -1,11 +1,10 @@
 import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import {
+  currencyUI,
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { replaceStrValues } from '../../../utils/helpers/general';
-import { validateCurrency } from '../../../utils/validation';
 import { LAST_YEAR } from '../../../utils/constants';
 import content from '../../../locales/en/content.json';
 import DependentExpensesDescription from '../../../components/FormDescriptions/DependentExpensesDescription';
@@ -23,11 +22,10 @@ export default {
         LAST_YEAR,
       ),
     ),
-    dependentEducationExpenses: {
-      ...currencyUI(content['household-dependent-education-expenses-label']),
-      'ui:validations': [validateCurrency],
-      'ui:description': DependentExpensesDescription,
-    },
+    dependentEducationExpenses: currencyUI({
+      title: content['household-dependent-education-expenses-label'],
+      description: DependentExpensesDescription,
+    }),
   },
   schema: {
     type: 'object',

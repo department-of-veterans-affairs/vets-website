@@ -21,20 +21,19 @@ import { standardTitle } from '../content/form0781';
 
 import {
   capitalizeEachWord,
-  claimingNew,
-  DISABILITY_SHARED_CONFIG,
   getPageTitle,
   hasGuardOrReservePeriod,
   hasNewPtsdDisability,
   hasOtherEvidence,
   hasPrivateEvidence,
   hasRatedDisabilities,
+  hasRealNewOrSecondaryConditions,
   hasVAEvidence,
-  increaseOnly,
   isAnswering781aQuestions,
   isAnswering781Questions,
   isBDD,
-  isDisabilityPtsd,
+  isNewConditionsOn,
+  isNewConditionsOff,
   isNotUploadingPrivateMedical,
   isUploading781aForm,
   isUploading781Form,
@@ -44,17 +43,18 @@ import {
   showPtsdCombat,
   showPtsdNonCombat,
   showSeparationLocation,
+  isCompletingModern4142,
+  onFormLoaded,
 } from '../utils';
 
+import { gatePages } from '../utils/gatePages';
 import captureEvents from '../analytics-functions';
 import prefillTransformer from '../prefill-transformer';
 import { transform } from '../submit-transformer';
 
-import { disabilitiesOrientation } from '../content/disabilitiesOrientation';
 import { supportingEvidenceOrientation } from '../content/supportingEvidenceOrientation';
 import {
   adaptiveBenefits,
-  addDisabilities,
   additionalBehaviorChanges,
   additionalDocuments,
   additionalRemarks781,
@@ -63,7 +63,6 @@ import {
   ancillaryFormsWizardSummary,
   choosePtsdType,
   claimExamsInfo,
-  claimType,
   contactInformation,
   evidenceTypes,
   evidenceTypesBDD,
@@ -74,20 +73,19 @@ import {
   individualUnemployability,
   mentalHealthChanges,
   militaryHistory,
-  newDisabilityFollowUp,
   newPTSDFollowUp,
   paymentInformation,
   physicalHealthChanges,
   prisonerOfWar,
   privateMedicalRecords,
   privateMedicalRecordsAttachments,
+  privateMedicalAuthorizeRelease,
   privateMedicalRecordsRelease,
   ptsd781aChangesIntro,
   ptsdBypassCombat,
   ptsdBypassNonCombat,
   ptsdWalkthroughChoice781,
   ptsdWalkthroughChoice781a,
-  ratedDisabilities,
   reservesNationalGuardService,
   retirementPay,
   retirementPayWaiver,
@@ -112,11 +110,14 @@ import {
 
 import { toxicExposurePages } from '../pages/toxicExposure/toxicExposurePages';
 import { form0781PagesConfig } from './form0781/index';
+import { disabilityBenefitsWorkflow } from '../pages/disabilityBenefits';
+import { disabilityConditionsWorkflow } from '../pages/disabilityConditions';
 
 import { ancillaryFormsWizardDescription } from '../content/ancillaryFormsWizardIntro';
 
 import { ptsd781NameTitle } from '../content/ptsdClassification';
 import { ptsdFirstIncidentIntro } from '../content/ptsdFirstIncidentIntro';
+import PrivateRecordsAuthorization from '../components/Authorization';
 
 import { createFormConfig781, createFormConfig781a } from './781';
 
@@ -125,6 +126,7 @@ import createformConfig8940 from './8940';
 import {
   NULL_CONDITION_STRING,
   PTSD_INCIDENT_ITERATION,
+  SEPARATION_PAY_SECTION_TITLE,
   WIZARD_STATUS,
 } from '../constants';
 
@@ -134,10 +136,15 @@ import reviewErrors from '../reviewErrors';
 import manifest from '../manifest.json';
 import CustomReviewTopContent from '../components/CustomReviewTopContent';
 import getPreSubmitInfo from '../content/preSubmitInfo';
+import ConfirmationAncillaryFormsWizard from '../components/confirmationFields/ConfirmationAncillaryFormsWizard';
 
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
+  dev: {
+    showNavLinks: true,
+    collapsibleNavLinks: true,
+  },
   urlPrefix: '/',
   intentToFileUrl: '/evss_claims/intent_to_file/compensation',
   submitUrl: `${
@@ -189,17 +196,20 @@ const formConfig = {
   errorText: ErrorText,
   showReviewErrors: true,
   reviewErrors,
+  onFormLoaded,
   defaultDefinitions: {
     ...fullSchema.definitions,
   },
   title: ({ formData }) => getPageTitle(formData),
-  subTitle: 'VA Form 21-526EZ',
+  subTitle:
+    'Disability Compensation and Related Compensation Benefits (VA Form 21-526EZ)',
   preSubmitInfo: getPreSubmitInfo(),
   CustomReviewTopContent,
   chapters: {
     veteranDetails: {
       title: ({ onReviewPage }) =>
         `${onReviewPage ? 'Review ' : ''}Veteran Details`,
+      reviewTitle: 'Review Veteran Details',
       pages: {
         veteranInformation: {
           title: 'Veteran information',
@@ -278,7 +288,7 @@ const formConfig = {
           schema: separationLocation.schema,
         },
         separationPay: {
-          title: 'Separation or severance pay',
+          title: SEPARATION_PAY_SECTION_TITLE,
           path: 'separation-pay',
           depends: formData =>
             !hasRatedDisabilities(formData) && !isBDD(formData),
@@ -304,76 +314,11 @@ const formConfig = {
       },
     },
     disabilities: {
-      title: 'Conditions', // this probably needs to change
+      title: 'Conditions',
       pages: {
-        claimType: {
-          title: 'Reason for claim',
-          path: 'claim-type',
-          depends: formData => hasRatedDisabilities(formData),
-          uiSchema: claimType.uiSchema,
-          schema: claimType.schema,
-          onContinue: captureEvents.claimType,
-        },
-        disabilitiesOrientation: {
-          title: '',
-          path: DISABILITY_SHARED_CONFIG.orientation.path,
-          depends: formData =>
-            DISABILITY_SHARED_CONFIG.orientation.depends(formData),
-          uiSchema: { 'ui:description': disabilitiesOrientation },
-          schema: { type: 'object', properties: {} },
-        },
-        ratedDisabilities: {
-          title: 'Existing conditions (rated disabilities)',
-          path: DISABILITY_SHARED_CONFIG.ratedDisabilities.path,
-          depends: formData =>
-            DISABILITY_SHARED_CONFIG.ratedDisabilities.depends(formData),
-          uiSchema: ratedDisabilities.uiSchema,
-          schema: ratedDisabilities.schema,
-        },
-        addDisabilities: {
-          title: 'Add a new disability',
-          path: DISABILITY_SHARED_CONFIG.addDisabilities.path,
-          depends: formData =>
-            DISABILITY_SHARED_CONFIG.addDisabilities.depends(formData),
-          uiSchema: addDisabilities.uiSchema,
-          schema: addDisabilities.schema,
-          updateFormData: addDisabilities.updateFormData,
-          appStateSelector: state => ({
-            // needed for validateDisabilityName to work properly on the review
-            // & submit page. Validation functions are provided the pageData and
-            // not the formData on the review & submit page. For more details
-            // see https://dsva.slack.com/archives/CBU0KDSB1/p1614182869206900
-            newDisabilities: state.form?.data?.newDisabilities || [],
-          }),
-        },
-        followUpDesc: {
-          title: 'Follow-up questions',
-          depends: formData => claimingNew(formData) && !isBDD(formData),
-          path: 'new-disabilities/follow-up',
-          uiSchema: {
-            'ui:description':
-              'Now we’re going to ask you some follow-up questions about each of your conditions. We’ll go through them one by one.',
-          },
-          schema: { type: 'object', properties: {} },
-        },
-        newDisabilityFollowUp: {
-          title: formData =>
-            typeof formData.condition === 'string'
-              ? capitalizeEachWord(formData.condition)
-              : NULL_CONDITION_STRING,
-          depends: claimingNew,
-          path: 'new-disabilities/follow-up/:index',
-          showPagePerItem: true,
-          itemFilter: (item, formData) => {
-            if (formData?.syncModern0781Flow === true) {
-              return !!item.condition;
-            }
-            return !isDisabilityPtsd(item.condition);
-          },
-          arrayPath: 'newDisabilities',
-          uiSchema: newDisabilityFollowUp.uiSchema,
-          schema: newDisabilityFollowUp.schema,
-        },
+        ...gatePages(disabilityBenefitsWorkflow, isNewConditionsOff),
+        ...gatePages(disabilityConditionsWorkflow, isNewConditionsOn),
+
         // Consecutive `showPagePerItem` pages that have the same arrayPath
         // will force each item in the array to be evaluated by both pages
         // before the next item is evaluated (e.g., if PTSD was entered first,
@@ -439,10 +384,7 @@ const formConfig = {
             'ui:title': ptsd781NameTitle,
             'ui:description': ptsdFirstIncidentIntro,
           },
-          schema: {
-            type: 'object',
-            properties: {},
-          },
+          schema: { type: 'object', properties: {} },
         },
         // 781 - Pages 3 - 12 (Event Loop)
         ...createFormConfig781(PTSD_INCIDENT_ITERATION),
@@ -550,7 +492,8 @@ const formConfig = {
         prisonerOfWar: {
           title: 'Prisoner of war (POW)',
           path: 'pow',
-          depends: formData => !increaseOnly(formData) && !isBDD(formData),
+          depends: formData =>
+            !isBDD(formData) && hasRealNewOrSecondaryConditions(formData),
           uiSchema: prisonerOfWar.uiSchema,
           schema: prisonerOfWar.schema,
           appStateSelector: state => ({
@@ -569,6 +512,7 @@ const formConfig = {
                 'Do you want to answer questions to determine if you may be eligible for additional benefits?',
               'ui:widget': 'yesNo',
             },
+            'ui:confirmationField': ConfirmationAncillaryFormsWizard,
           },
           schema: {
             type: 'object',
@@ -616,6 +560,7 @@ const formConfig = {
         summaryOfDisabilities: {
           title: 'Summary of conditions',
           path: 'disabilities/summary',
+          depends: isNewConditionsOff,
           uiSchema: summaryOfDisabilities.uiSchema,
           schema: summaryOfDisabilities.schema,
         },
@@ -679,14 +624,14 @@ const formConfig = {
           schema: vaMedicalRecords.schema,
         },
         privateMedicalRecords: {
-          title: 'Private medical records',
+          title: 'Non-VA treatment records',
           path: 'supporting-evidence/private-medical-records',
           depends: hasPrivateEvidence,
           uiSchema: privateMedicalRecords.uiSchema,
           schema: privateMedicalRecords.schema,
         },
         privateMedicalRecordsAttachments: {
-          title: 'Private medical records',
+          title: 'Non-VA treatment records',
           path: 'supporting-evidence/private-medical-records-upload',
           depends: formData =>
             hasPrivateEvidence(formData) &&
@@ -694,8 +639,22 @@ const formConfig = {
           uiSchema: privateMedicalRecordsAttachments.uiSchema,
           schema: privateMedicalRecordsAttachments.schema,
         },
+        // 2024 authorization
+        privateMedicalAuthorizeRelease: {
+          title: 'Non-VA treatment records',
+          path: 'supporting-evidence/private-medical-records-authorize-release',
+          depends: formData =>
+            hasPrivateEvidence(formData) &&
+            isNotUploadingPrivateMedical(formData) &&
+            isCompletingModern4142(formData),
+          CustomPage: PrivateRecordsAuthorization,
+          CustomPageReview: null,
+          uiSchema: privateMedicalAuthorizeRelease.uiSchema,
+          schema: privateMedicalAuthorizeRelease.schema,
+        },
+        // PMR Facilities Page
         privateMedicalRecordsRelease: {
-          title: 'Private medical records',
+          title: 'Non-VA treatment records',
           path: 'supporting-evidence/private-medical-records-release',
           depends: formData =>
             hasPrivateEvidence(formData) &&

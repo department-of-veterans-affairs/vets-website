@@ -1,27 +1,26 @@
-import moment from 'moment';
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import VitalsListPage from './pages/VitalsListPage';
 import VitalsDetailsPage from './pages/VitalsDetailsPage';
 import defaultVitals from '../fixtures/vitals.json';
+import { formatDateMonthDayCommaYearHoursMinutes } from '../../util/dateHelpers';
 
 describe('Medical Records Vitals Details Page', () => {
   const site = new MedicalRecordsSite();
 
   beforeEach(() => {
     site.login();
-    cy.visit('my-health/medical-records');
   });
 
   it('Vitals Details Temperature', () => {
     VitalsListPage.goToVitals();
     // click temperature link
-    VitalsListPage.clickLinkByRecordListItemIndex(4);
+    VitalsListPage.clickLinkByRecordListItem('Temperature');
 
     VitalsDetailsPage.verifyVitalReadingByIndex(
       0,
-      moment
-        .parseZone(defaultVitals.entry[8].resource.effectiveDateTime)
-        .format('MMMM D, YYYY, h:mm'),
+      formatDateMonthDayCommaYearHoursMinutes(
+        defaultVitals.entry[8].resource.effectiveDateTime,
+      ),
       `${defaultVitals.entry[8].resource.valueQuantity.value} °F`,
       defaultVitals.entry[8].resource.contained[0].name,
       'None recorded',
@@ -29,9 +28,9 @@ describe('Medical Records Vitals Details Page', () => {
 
     VitalsDetailsPage.verifyVitalReadingByIndex(
       1,
-      moment
-        .parseZone(defaultVitals.entry[18].resource.effectiveDateTime)
-        .format('MMMM D, YYYY, h:mm'),
+      formatDateMonthDayCommaYearHoursMinutes(
+        defaultVitals.entry[18].resource.effectiveDateTime,
+      ),
       `${defaultVitals.entry[18].resource.valueQuantity.value} °F`,
       defaultVitals.entry[18].resource.contained[0].name,
       'None recorded',
@@ -39,9 +38,9 @@ describe('Medical Records Vitals Details Page', () => {
 
     VitalsDetailsPage.verifyVitalReadingByIndex(
       2,
-      moment
-        .parseZone(defaultVitals.entry[28].resource.effectiveDateTime)
-        .format('MMMM D, YYYY, h:mm'),
+      formatDateMonthDayCommaYearHoursMinutes(
+        defaultVitals.entry[28].resource.effectiveDateTime,
+      ),
       `${defaultVitals.entry[28].resource.valueQuantity.value} °F`,
       defaultVitals.entry[28].resource.contained[0].name,
       'None recorded',
@@ -49,9 +48,9 @@ describe('Medical Records Vitals Details Page', () => {
 
     VitalsDetailsPage.verifyVitalReadingByIndex(
       3,
-      moment
-        .parseZone(defaultVitals.entry[38].resource.effectiveDateTime)
-        .format('MMMM D, YYYY, h:mm'),
+      formatDateMonthDayCommaYearHoursMinutes(
+        defaultVitals.entry[38].resource.effectiveDateTime,
+      ),
       `${defaultVitals.entry[38].resource.valueQuantity.value} °F`,
       defaultVitals.entry[38].resource.contained[0].name,
       'None recorded',

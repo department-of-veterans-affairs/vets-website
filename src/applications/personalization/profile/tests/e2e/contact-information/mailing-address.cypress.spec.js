@@ -17,7 +17,7 @@ const setup = (mobile = false) => {
     'v0/profile/status',
     'v0/profile/personal_information',
     'v0/profile/service_history',
-    'v0/ppiu/payment_information',
+    'v0/profile/direct_deposits',
   ]);
   mockFeatureToggles();
   cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);

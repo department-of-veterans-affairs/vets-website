@@ -3,6 +3,8 @@ import {
   extractLocation,
   vitalReducer,
   getMeasurement,
+  convertVital,
+  convertUnifiedVital,
 } from '../../reducers/vitals';
 import { EMPTY_FIELD } from '../../util/constants';
 import { Actions } from '../../util/actionTypes';
@@ -112,6 +114,14 @@ describe('extractLocation function', () => {
 });
 
 describe('vitalReducer', () => {
+  it('handles GET when vitalsList is undefined without throwing', () => {
+    const action = { type: Actions.Vitals.GET, vitalType: 'WEIGHT' };
+    // Previously this would throw TypeError: cannot read properties of undefined (filter)
+    const newState = vitalReducer({}, action);
+    expect(newState.vitalDetails).to.be.an('array');
+    expect(newState.vitalDetails.length).to.equal(0);
+  });
+
   it('creates a list', () => {
     const response = {
       entry: [
@@ -192,6 +202,38 @@ describe('vitalReducer', () => {
   });
 });
 
+describe('vitalReducer LOINC mapping', () => {
+  it('maps alternate weight LOINC 3141-9 to WEIGHT', () => {
+    const response = {
+      entry: [
+        { resource: { id: 'w1', code: { coding: [{ code: '3141-9' }] } } },
+      ],
+      resourceType: 'Observation',
+    };
+    const newState = vitalReducer(
+      {},
+      { type: Actions.Vitals.GET_LIST, response },
+    );
+    expect(newState.vitalsList[0].type).to.equal('WEIGHT');
+  });
+
+  it('maps pulse oximetry LOINCs to PULSE_OXIMETRY', () => {
+    const response = {
+      entry: [
+        { resource: { id: 'o1', code: { coding: [{ code: '59408-5' }] } } },
+        { resource: { id: 'o2', code: { coding: [{ code: '2708-6' }] } } },
+      ],
+      resourceType: 'Observation',
+    };
+    const newState = vitalReducer(
+      {},
+      { type: Actions.Vitals.GET_LIST, response },
+    );
+    expect(newState.vitalsList[0].type).to.equal('PULSE_OXIMETRY');
+    expect(newState.vitalsList[1].type).to.equal('PULSE_OXIMETRY');
+  });
+});
+
 describe('getMeasurement', () => {
   it('should return the correct measurement for a given type', () => {
     const record = {
@@ -239,5 +281,196 @@ describe('getMeasurement', () => {
     const type = 'HEART_RATE';
     const measurement = getMeasurement(record, type);
     expect(measurement).to.eq(EMPTY_FIELD);
+  });
+
+  it('formats pulse oximetry without a space before %', () => {
+    const record = {
+      valueQuantity: {
+        value: 84,
+        code: '%',
+      },
+    };
+    const type = 'PULSE_OXIMETRY';
+    const measurement = getMeasurement(record, type);
+    expect(measurement).to.equal('84%');
+  });
+
+  it('should return EMPTY_FIELD for blood pressure when component is missing or empty', () => {
+    const type = 'BLOOD_PRESSURE';
+
+    expect(getMeasurement({}, type)).to.eq(EMPTY_FIELD);
+    expect(getMeasurement({ component: null }, type)).to.eq(EMPTY_FIELD);
+    expect(getMeasurement({ component: [] }, type)).to.eq(EMPTY_FIELD);
+  });
+
+  it('should return EMPTY_FIELD for blood pressure when systolic or diastolic is missing', () => {
+    const type = 'BLOOD_PRESSURE';
+
+    const onlyDiastolic = {
+      component: [
+        {
+          code: { coding: [{ code: '8462-4' }] },
+          valueQuantity: { value: 79 },
+        },
+      ],
+    };
+    expect(getMeasurement(onlyDiastolic, type)).to.eq(EMPTY_FIELD);
+
+    const onlySystolic = {
+      component: [
+        {
+          code: { coding: [{ code: '8480-6' }] },
+          valueQuantity: { value: 125 },
+        },
+      ],
+    };
+    expect(getMeasurement(onlySystolic, type)).to.eq(EMPTY_FIELD);
+  });
+
+  it('should return EMPTY_FIELD for blood pressure when component items are malformed', () => {
+    const type = 'BLOOD_PRESSURE';
+
+    const missingValueQuantity = {
+      component: [
+        { code: { coding: [{ code: '8480-6' }] } },
+        {
+          code: { coding: [{ code: '8462-4' }] },
+          valueQuantity: { value: 79 },
+        },
+      ],
+    };
+    expect(getMeasurement(missingValueQuantity, type)).to.eq(EMPTY_FIELD);
+
+    const missingCoding = {
+      component: [
+        { valueQuantity: { value: 125 } },
+        { code: {}, valueQuantity: { value: 79 } },
+      ],
+    };
+    expect(getMeasurement(missingCoding, type)).to.eq(EMPTY_FIELD);
+  });
+});
+
+describe('convertUnifiedVital function', () => {
+  it('should convert a unified vital record to the expected format', () => {
+    const record = {
+      id: '49c80309-efa0-41fd-84a0-870ed1b38100',
+      type: 'observation',
+      attributes: {
+        id: '49c80309-efa0-41fd-84a0-870ed1b38100',
+        name: 'Height',
+        type: 'HEIGHT',
+        date: '2024-11-14T18:19:23Z',
+        measurement: '6 feet, 3.0 inches',
+        location: 'FT COLLINS HEALTH SCREENING',
+        notes: ['Patient was calm during measurement.'],
+      },
+    };
+
+    const converted = convertUnifiedVital(record);
+    expect(converted).to.deep.equal({
+      id: '49c80309-efa0-41fd-84a0-870ed1b38100',
+      type: 'HEIGHT',
+      name: 'Height',
+      measurement: '6 feet, 3.0 inches',
+      date: 'November 14, 2024, 6:19 p.m.',
+      effectiveDateTime: '2024-11-14T18:19:23Z',
+      location: 'FT COLLINS HEALTH SCREENING',
+      notes: 'Patient was calm during measurement.',
+    });
+  });
+});
+
+describe('convertVital function', () => {
+  it('should convert a FHIR vital record to the expected format', () => {
+    const record = {
+      code: {
+        coding: [
+          {
+            code: '85354-9',
+            display: 'Blood pressure panel with all children optional',
+            system: 'http://loinc.org',
+          },
+          {
+            code: '4500634',
+            display: 'BLOOD PRESSURE',
+            system: 'urn:oid:2.16.840.1.113883.6.233',
+          },
+        ],
+        text: 'BLOOD PRESSURE',
+      },
+      component: [
+        {
+          code: {
+            coding: [
+              {
+                code: '8480-6',
+                display: 'Systolic blood pressure',
+                system: 'http://loinc.org',
+              },
+            ],
+          },
+          valueQuantity: {
+            code: 'mm[Hg]',
+            system: 'http://unitsofmeasure.org',
+            unit: 'mm[Hg]',
+            value: 130,
+          },
+        },
+        {
+          code: {
+            coding: [
+              {
+                code: '8462-4',
+                display: 'Diastolic blood pressure',
+                system: 'http://loinc.org',
+              },
+            ],
+          },
+          valueQuantity: {
+            code: 'mm[Hg]',
+            system: 'http://unitsofmeasure.org',
+            unit: 'mm[Hg]',
+            value: 70,
+          },
+        },
+      ],
+      contained: [
+        {
+          id: 'Location-0',
+          name: 'ADTP BURNETT',
+          resourceType: 'Location',
+        },
+      ],
+      effectiveDateTime: '2023-10-27T10:00:00-04:00',
+      id: '38852',
+      performer: [
+        {
+          display: 'ADTP BURNETT',
+          extension: [
+            {
+              url:
+                'http://hl7.org/fhir/StructureDefinition/alternate-reference',
+              valueReference: {
+                reference: '#Location-0',
+              },
+            },
+          ],
+        },
+      ],
+      resourceType: 'Observation',
+    };
+
+    const converted = convertVital(record);
+    expect(converted).to.deep.equal({
+      id: '38852',
+      type: 'BLOOD_PRESSURE',
+      name: 'BLOOD PRESSURE',
+      measurement: '130/70',
+      date: 'October 27, 2023, 10:00 a.m.',
+      effectiveDateTime: '2023-10-27T10:00:00-04:00',
+      location: 'ADTP BURNETT',
+      notes: 'None recorded',
+    });
   });
 });

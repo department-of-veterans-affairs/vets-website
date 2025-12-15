@@ -2094,12 +2094,6 @@
 },
 {
   "domain": "www.benefits.va.gov",
-  "src": "/compensation/dbq_disabilityexams.asp",
-  "dest": "/disability/how-to-file-claim/evidence-needed/",
-  "catchAll": true
-},
-{
-  "domain": "www.benefits.va.gov",
   "src": "/compensation/claimexam.asp",
   "dest": "/resources/va-claim-exam/",
   "catchAll": true
@@ -2174,6 +2168,30 @@
   "domain": "www.benefits.va.gov",
   "src": "/rosiouxfalls",
   "dest": "/sioux-falls-va-regional-benefit-office-at-royal-c-johnson-veterans-memorial-hospital/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/sandiego",
+  "dest": "/san-diego-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/rosandiego",
+  "dest": "/san-diego-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/cleveland",
+  "dest": "/cleveland-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/rocleveland",
+  "dest": "/cleveland-va-regional-benefit-office/",
   "catchAll": true
 }
 ]

@@ -43,11 +43,25 @@ export default class PageObject {
     return this;
   }
 
+  assertCrisisModal() {
+    cy.get(`#modal-crisisline`).as('alert');
+    cy.get('@alert').contains('We’re here anytime, day or night – 24/7');
+    return this;
+  }
+
   assertErrorAlert({ text, exist = true }) {
     return this.assertAlert({ text, exist, status: 'error' });
   }
 
   assertValidationError(error) {
+    cy.get(`span[role="alert"]`).as('alert');
+    cy.get('@alert')
+      .contains(error)
+      .should('exist');
+    return this;
+  }
+
+  assertValidationErrorShadow(error) {
     cy.get(`[error="${error}"]`).should('exist');
     return this;
   }
@@ -189,18 +203,54 @@ export default class PageObject {
     return this.clickButton({ label });
   }
 
-  clickButton({ label }) {
-    cy.contains('button', label)
-      .as('button')
-      .should('not.be.disabled');
+  clickButton({ ariaLabel, label, shadow = false }) {
+    if (shadow) {
+      cy.get('va-button')
+        .shadow()
+        .contains(label)
+        .click();
+
+      return this;
+    }
+
+    if (ariaLabel) {
+      cy.get(`[aria-label="${ariaLabel}"]`)
+        .as('button')
+        .should('not.be.disabled');
+    } else {
+      cy.contains('button', label)
+        .as('button')
+        .should('not.be.disabled');
+    }
+
     cy.get('@button').focus();
     cy.get('@button').click({ waitForAnimations: true });
 
     return this;
   }
 
+  clickLink({ name, useShadowDOM = false }) {
+    if (useShadowDOM) {
+      cy.get('va-link')
+        .as('link')
+        .shadow();
+      cy.get('@link')
+        .contains(name)
+        .click();
+    } else {
+      cy.findByRole('link', { name }).click({ waitForAnimations: true });
+    }
+
+    return this;
+  }
+
   clickNextButton(label = 'Continue') {
     return this.clickButton({ label });
+  }
+
+  scheduleAppointment(text = 'Start scheduling') {
+    cy.findByText(text).click({ waitForAnimations: true });
+    return this;
   }
 
   selectRadioButton(label) {

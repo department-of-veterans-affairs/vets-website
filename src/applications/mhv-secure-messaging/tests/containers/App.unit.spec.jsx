@@ -7,35 +7,13 @@ import { createServiceMap } from '@department-of-veterans-affairs/platform-monit
 import { pageNotFoundHeading } from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import sinon from 'sinon';
 import { addDays, subDays, format } from 'date-fns';
-import { waitFor } from '@testing-library/dom';
+import { fireEvent, waitFor } from '@testing-library/dom';
 import App from '../../containers/App';
 import * as SmApi from '../../api/SmApi';
 import reducer from '../../reducers';
+import { PageHeaders, Paths } from '../../util/constants';
 
 describe('App', () => {
-  let oldLocation;
-
-  beforeEach(() => {
-    oldLocation = global.window.location;
-    global.window.location = {
-      replace: sinon.spy(),
-    };
-  });
-
-  afterEach(() => {
-    global.window.location = oldLocation;
-  });
-
-  const noDowntime = {
-    scheduledDowntime: {
-      globalDowntime: null,
-      isReady: true,
-      isPending: false,
-      serviceMap: { get() {} },
-      dismissedDowntimeWarnings: [],
-    },
-  };
-
   const initialState = {
     user: {
       login: {
@@ -67,9 +45,8 @@ describe('App', () => {
     );
   };
 
-  it('user is not logged in', () => {
-    // expected behavior is be redirected to the home page with next in the url
-    renderWithStoreAndRouter(<App />, {
+  it('user is not logged in', async () => {
+    const screen = renderWithStoreAndRouter(<App />, {
       initialState: {
         ...initialState,
         user: {
@@ -84,7 +61,10 @@ describe('App', () => {
       path: `/`,
       reducers: reducer,
     });
-    waitFor(() => expect(window.location.replace.called).to.be.true);
+
+    await waitFor(() => {
+      expect(screen.getByTestId('redirect-to-login'));
+    });
   });
 
   it('feature flags are still loading', () => {
@@ -283,46 +263,20 @@ describe('App', () => {
     expect(downtimeComponent).to.be.null;
   });
 
-  it('redirects Basic users to /health-care/secure-messaging', async () => {
-    window.location.replace = sinon.spy();
-    const customState = {
-      featureToggles: {},
-      user: {
-        login: {
-          currentlyLoggedIn: true,
-        },
-        profile: {
-          services: [],
-        },
-      },
-      ...noDowntime,
-    };
-    renderWithStoreAndRouter(<App />, {
-      initialState: customState,
-      reducers: reducer,
-      path: `/`,
-    });
-    await waitFor(() => {
-      expect(window.location.replace.called).to.be.true;
-    });
-  });
-
   it('redirects user to /my-health/secure-messages/inbox', async () => {
-    window.location.replace = sinon.spy();
     const customState = { ...initialState, featureToggles: [] };
 
-    await renderWithStoreAndRouter(<App />, {
+    const { history } = renderWithStoreAndRouter(<App />, {
       initialState: customState,
       reducers: reducer,
       path: `/`,
     });
 
     await waitFor(() => {
-      expect(window.location.replace.called).to.be.true;
+      const ariaLabel = document.querySelector('va-alert span');
+      expect(ariaLabel.textContent).to.contain(`You are in Inbox.`);
+      expect(history.location.pathname).to.equal('/inbox/');
     });
-    expect(window.location.replace.args[0][0]).to.equal(
-      '/my-health/secure-messages/inbox/',
-    );
   });
 
   it('displays Page Not Found component if bad url', async () => {
@@ -331,6 +285,181 @@ describe('App', () => {
       reducers: reducer,
       path: `/sdfsdf`,
     });
+    await waitFor(() => {
+      expect(screen.getByTestId('mhv-page-not-found')).to.exist;
+      expect(
+        screen.getByText(pageNotFoundHeading, {
+          selector: 'h1',
+          exact: true,
+        }),
+      ).to.exist;
+    });
+  });
+
+  it('renders CareTeamHelp when cerner pilot feature flag is enabled', async () => {
+    const customState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        threadDetails: {
+          acceptInterstitial: 'true',
+          draftInProgress: {
+            recipientId: '12345',
+            category: 'TEST',
+            subject: 'Test Subject',
+            body: 'Test Body',
+          },
+        },
+      },
+      featureToggles: {},
+    };
+    customState.featureToggles[
+      FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow
+    ] = true;
+
+    const screen = renderWithStoreAndRouter(<App />, {
+      initialState: customState,
+      reducers: reducer,
+      path: Paths.COMPOSE,
+    });
+
+    // Accept interstitial (sets acceptInterstitial internally)
+    const startMessageLink = await screen.findByTestId('start-message-link');
+    startMessageLink.click();
+
+    // Navigate to Care Team Help route
+    const link = await screen.findByText(
+      'What to do if you can’t find your care team',
+    );
+    fireEvent.click(link);
+
+    await waitFor(() => {
+      expect(
+        screen.getByRole('heading', {
+          name: /can.?t find your care team\?/i,
+        }),
+      ).to.exist;
+    });
+  });
+
+  it('renders CareTeamHelp when cerner pilot feature flag is enabled and redirects if interstitial is not acknowledged', async () => {
+    const customState = {
+      ...initialState,
+      featureToggles: {},
+    };
+    customState.featureToggles[
+      FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow
+    ] = true;
+
+    const screen = renderWithStoreAndRouter(<App />, {
+      initialState: customState,
+      reducers: reducer,
+      path: Paths.CARE_TEAM_HELP,
+    });
+
+    await waitFor(() => {
+      // validate that routing is handled properly and <PageNotFound> is not being rendered
+      expect(
+        screen.queryByText(pageNotFoundHeading, {
+          selector: 'h1',
+          exact: true,
+        }),
+      ).to.not.exist;
+    });
+  });
+
+  it('does not render CareTeamHelp when cerner pilot feature flag is disabled', async () => {
+    const customState = {
+      ...initialState,
+      featureToggles: {},
+    };
+    customState.featureToggles[
+      FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow
+    ] = false;
+
+    const screen = renderWithStoreAndRouter(<App />, {
+      initialState: customState,
+      reducers: reducer,
+      path: Paths.CARE_TEAM_HELP,
+    });
+
+    await waitFor(() => {
+      expect(screen.getByTestId('mhv-page-not-found')).to.exist;
+      expect(
+        screen.getByText(pageNotFoundHeading, {
+          selector: 'h1',
+          exact: true,
+        }),
+      ).to.exist;
+    });
+  });
+
+  it('renders RecentCareTeams component when feature flag is enabled', async () => {
+    const recipients = [
+      {
+        triageTeamId: 3188767,
+        name: 'TG API TESTING',
+        healthCareSystemName: 'VA Maryland health care',
+        stationNumber: '512',
+      },
+      {
+        triageTeamId: 3658288,
+        name: 'Record Amendment Admin',
+        healthCareSystemName: 'VA Maryland health care',
+        stationNumber: '512',
+      },
+    ];
+    const customState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        recipients: {
+          recentRecipients: recipients,
+          allRecipients: recipients,
+        },
+        threadDetails: {
+          acceptInterstitial: true,
+        },
+      },
+      featureToggles: {},
+    };
+    customState.featureToggles[
+      FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow
+    ] = true;
+    customState.featureToggles[
+      FEATURE_FLAG_NAMES.mhvSecureMessagingRecentRecipients
+    ] = true;
+
+    const screen = renderWithStoreAndRouter(<App />, {
+      initialState: customState,
+      reducers: reducer,
+      path: Paths.RECENT_CARE_TEAMS,
+    });
+
+    await waitFor(() => {
+      expect(
+        screen.getByText(PageHeaders.RECENT_RECIPIENTS, {
+          selector: 'h1',
+        }),
+      ).to.exist;
+    });
+  });
+
+  it('does not render RecentCareTeams component when feature flag is disabled', async () => {
+    const customState = {
+      ...initialState,
+      featureToggles: {},
+    };
+    customState.featureToggles[
+      FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot
+    ] = false;
+
+    const screen = renderWithStoreAndRouter(<App />, {
+      initialState: customState,
+      reducers: reducer,
+      path: Paths.RECENT_CARE_TEAMS,
+    });
+
     await waitFor(() => {
       expect(screen.getByTestId('mhv-page-not-found')).to.exist;
       expect(

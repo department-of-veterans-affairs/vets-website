@@ -123,4 +123,160 @@ describe('poaRequests utilities', () => {
       expect(poa.findClaimantBC[1].href).to.equal(window.location.href);
     });
   });
+
+  describe('addStyleToShadowDomOnPages', () => {
+    let mockDocument;
+    let mockWindow;
+    let originalDocument;
+    let originalWindow;
+
+    beforeEach(() => {
+      mockDocument = {
+        querySelectorAll: sinon.stub(),
+      };
+
+      mockWindow = {
+        location: {
+          href: 'https://example.com/test-page',
+        },
+      };
+
+      originalDocument = global.document;
+      originalWindow = global.window;
+      global.document = mockDocument;
+      global.window = mockWindow;
+    });
+
+    afterEach(() => {
+      global.document = originalDocument;
+      global.window = originalWindow;
+    });
+
+    it('should inject styles when URL matches and elements have shadow roots', async () => {
+      const urlArray = ['test-page'];
+      const targetElements = ['custom-element'];
+      const style = 'body { color: red; }';
+
+      const mockElement = {
+        shadowRoot: {
+          adoptedStyleSheets: [],
+        },
+      };
+
+      mockDocument.querySelectorAll.returns([mockElement]);
+
+      const mockStyleSheet = {
+        replaceSync: sinon.stub(),
+      };
+      global.CSSStyleSheet = sinon.stub().returns(mockStyleSheet);
+
+      await poa.addStyleToShadowDomOnPages(urlArray, targetElements, style);
+
+      expect(mockDocument.querySelectorAll.calledWith('custom-element')).to.be
+        .true;
+    });
+
+    it('should not inject styles when URL does not match', async () => {
+      const urlArray = ['different-page'];
+      const targetElements = ['custom-element'];
+      const style = 'body { color: red; }';
+
+      mockWindow.location.href = 'https://example.com/other-page';
+
+      await poa.addStyleToShadowDomOnPages(urlArray, targetElements, style);
+
+      expect(mockDocument.querySelectorAll.called).to.be.false;
+    });
+
+    it('should handle elements without shadow roots gracefully', async () => {
+      const urlArray = ['test-page'];
+      const targetElements = ['custom-element'];
+      const style = 'body { color: red; }';
+
+      // Mock element without shadow root
+      const mockElement = {
+        shadowRoot: null,
+      };
+
+      mockDocument.querySelectorAll.returns([mockElement]);
+
+      await poa.addStyleToShadowDomOnPages(urlArray, targetElements, style);
+
+      expect(mockDocument.querySelectorAll.calledWith('custom-element')).to.be
+        .true;
+    });
+
+    it('should handle errors gracefully and fail silently', async () => {
+      const urlArray = ['test-page'];
+      const targetElements = ['custom-element'];
+      const style = 'body { color: red; }';
+
+      mockDocument.querySelectorAll.throws(new Error('DOM error'));
+
+      expect(() => {
+        poa.addStyleToShadowDomOnPages(urlArray, targetElements, style);
+      }).to.not.throw();
+    });
+  });
+
+  describe('checkReason', () => {
+    it('should return correct message for LIMITED_AUTH', () => {
+      const mockRequest = {
+        resolution: {
+          declinationReason: 'LIMITED_AUTH',
+        },
+      };
+
+      const result = poa.checkReason(mockRequest);
+      expect(result).to.equal('because authorization is limited.');
+    });
+
+    it('should return correct message for OUTSIDE_SERVICE_TERRITORY', () => {
+      const mockRequest = {
+        resolution: {
+          declinationReason: 'OUTSIDE_SERVICE_TERRITORY',
+        },
+      };
+
+      const result = poa.checkReason(mockRequest);
+      expect(result).to.equal(
+        'because the claimant is outside of the organization’s service territory.',
+      );
+    });
+
+    it('should return default message for unknown reason', () => {
+      const mockRequest = {
+        resolution: {
+          declinationReason: 'UNKNOWN_REASON',
+        },
+      };
+
+      const result = poa.checkReason(mockRequest);
+      expect(result).to.equal('because of another reason.');
+    });
+
+    it('should handle missing resolution object', () => {
+      const mockRequest = {};
+
+      const result = poa.checkReason(mockRequest);
+      expect(result).to.equal('because of another reason.');
+    });
+
+    it('should handle null/undefined request', () => {
+      const result1 = poa.checkReason(null);
+      const result2 = poa.checkReason(undefined);
+
+      expect(result1).to.equal('because of another reason.');
+      expect(result2).to.equal('because of another reason.');
+    });
+
+    it('should handle missing declinationReason', () => {
+      const mockRequest = {
+        resolution: {},
+      };
+
+      const result = poa.checkReason(mockRequest);
+      expect(result).to.equal('because of another reason.');
+    });
+  });
 });

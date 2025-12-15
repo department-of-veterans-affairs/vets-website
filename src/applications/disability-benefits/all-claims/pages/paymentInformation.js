@@ -8,6 +8,7 @@ import {
   addAccountAlert,
   paymentInformationTitle,
 } from '../content/paymentInformation';
+import ConfirmationPaymentInformation from '../components/confirmationFields/ConfirmationPaymentInformation';
 
 const {
   bankAccountType,
@@ -64,6 +65,7 @@ export const uiSchema = {
       'ui:required': bankFieldsHaveInput,
     },
   },
+  'ui:confirmationField': ConfirmationPaymentInformation,
 };
 
 export const schema = {

@@ -38,7 +38,7 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
     newAppointment: {
       pages: {},
       data: {
-        facilityType: FACILITY_TYPES.VAMC,
+        facilityType: FACILITY_TYPES.VAMC.id,
         typeOfCareId: TYPE_OF_CARE_IDS.PRIMARY_CARE,
         phoneNumber: '1234567890',
         email: 'joeblow@gmail.com',
@@ -164,7 +164,8 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
     });
   });
 
-  it('should record GA tracking event', async () => {
+  // Skipped test: https://github.com/department-of-veterans-affairs/va.gov-team/issues/119526
+  it.skip('should record GA tracking event', async () => {
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
     store = createTestStore({

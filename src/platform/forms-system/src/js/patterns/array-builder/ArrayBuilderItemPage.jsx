@@ -1,47 +1,52 @@
 /* eslint-disable no-unused-vars */
-/* eslint-disable react/sort-prop-types */
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
-import navigationState from 'platform/forms-system/src/js/utilities/navigation/navigationState';
+import get from 'platform/utilities/data/get';
 import { useEditOrAddForm } from './useEditOrAddForm';
+import { useDuplicateChecks } from './useDuplicateChecks';
+import { useItemPageGuard } from './useItemPageGuard';
 import ArrayBuilderCancelButton from './ArrayBuilderCancelButton';
 import { getArrayUrlSearchParams } from './helpers';
 
 /**
- * @param {{
- *   arrayPath: string,
- *   nounPlural: string,
- *   nounSingular: string,
- *   summaryRoute: string,
- *   introRoute?: string,
- *   required: (formData) => boolean,
- *   reviewRoute: string,
- *   getText: import('./arrayBuilderText').ArrayBuilderGetText,
- * }} props
+ * @param {ArrayBuilderItemPageProps} itemPageProps
  */
-export default function ArrayBuilderItemPage({
-  arrayPath,
-  summaryRoute,
-  introRoute,
-  reviewRoute,
-  getText,
-  required,
-}) {
+export default function ArrayBuilderItemPage(itemPageProps) {
   /** @type {CustomPageType} */
   function CustomPage(props) {
+    const arrayBuilderProps = itemPageProps;
+    // For CustomPages use this line instead:
+    // const arrayBuilderProps = props.arrayBuilder;
+
+    const {
+      arrayPath,
+      getSummaryPath,
+      getIntroPath,
+      reviewRoute,
+      getText,
+      required,
+      currentPath,
+    } = arrayBuilderProps;
+
     const searchParams = getArrayUrlSearchParams();
     const isEdit = !!searchParams.get('edit');
     const isAdd = !!searchParams.get('add');
+    const isReview = searchParams?.has('review');
+    const currentItem = get(arrayPath, props.fullData)?.[
+      props.pagePerItemIndex
+    ];
+    const introRoute = getIntroPath(props.fullData);
+    const summaryRoute = getSummaryPath(props.fullData);
 
     const { data, schema, uiSchema, onChange, onSubmit } = useEditOrAddForm({
       isEdit,
       schema: props.schema,
       uiSchema: props.uiSchema,
       data: props.data,
-      fullData: props.fullData,
+      fullData: props.fullData || {},
       onChange: props.onChange,
       onSubmit: props.onSubmit,
       index: props.pagePerItemIndex
@@ -50,79 +55,52 @@ export default function ArrayBuilderItemPage({
       arrayPath,
     });
 
-    if (!props.onReviewPage && !isEdit && !isAdd) {
-      // we should only arrive at this page with
-      // ?add=true or ?edit=true, so if we somehow
-      // get here without those, redirect to the
-      // summary/intro
-      const path =
-        required(props.data) && introRoute && !data?.length
-          ? introRoute
-          : summaryRoute;
+    const { checkForDuplicates, renderDuplicateModal } = useDuplicateChecks({
+      arrayBuilderProps,
+      customPageProps: props,
+    });
 
-      // We might end up here from a save in progress continue,
-      // but ?add=true or ?edit=true won't be set...
-      // Consider how to handle this in the future, so save in progress can work.
-      // In the meantime, go back to intro or summary, and set navigation event
-      // so that validation for missing info will work properly.
-      navigationState.setNavigationEvent();
-      props.goToPath(path);
-      return null;
-    }
+    const handleSubmit = checkForDuplicates(
+      useCallback(
+        newProps => {
+          onSubmit(newProps);
+        },
+        [onSubmit],
+      ),
+    );
 
-    if (props.onReviewPage || (isEdit && !schema)) {
-      // 1. Don't show for review page.
-      // 2. If we're editing, the schema will initially be null
-      //    so just return null until schema is loaded by useState
+    const shouldRender = useItemPageGuard({
+      arrayBuilderProps,
+      customPageProps: props,
+      schema,
+    });
+
+    if (!shouldRender) {
       return null;
     }
 
     const NavButtons = props.NavButtons || FormNavButtons;
 
     return (
-      <SchemaForm
-        name={props.name}
-        title={props.title}
-        data={data}
-        appStateData={props.appStateData}
-        schema={schema}
-        uiSchema={uiSchema}
-        pagePerItemIndex={props.pagePerItemIndex}
-        formContext={props.formContext}
-        getFormData={props.getFormData}
-        trackingPrefix={props.trackingPrefix}
-        onChange={onChange}
-        onSubmit={onSubmit}
-        formOptions={props.formOptions}
-      >
-        <>
-          {isAdd && (
-            <>
-              <ArrayBuilderCancelButton
-                goToPath={props.goToPath}
-                arrayPath={arrayPath}
-                summaryRoute={summaryRoute}
-                introRoute={introRoute}
-                reviewRoute={reviewRoute}
-                getText={getText}
-                required={required}
-              />
-              {/* save-in-progress link, etc */}
-              {props.pageContentBeforeButtons}
-              {props.contentBeforeButtons}
-              <NavButtons
-                goBack={props.goBack}
-                goForward={props.onContinue}
-                submitToContinue
-                useWebComponents={
-                  props.formOptions?.useWebComponentForNavigation
-                }
-              />
-            </>
-          )}
-          {isEdit && (
-            <div className="vads-u-display--flex">
-              <div className="vads-u-margin-right--2">
+      <>
+        {renderDuplicateModal()}
+        <SchemaForm
+          name={props.name}
+          title={props.title}
+          data={data}
+          appStateData={props.appStateData}
+          schema={schema}
+          uiSchema={uiSchema}
+          pagePerItemIndex={props.pagePerItemIndex}
+          formContext={props.formContext}
+          getFormData={props.getFormData}
+          trackingPrefix={props.trackingPrefix}
+          onChange={onChange}
+          onSubmit={handleSubmit}
+        >
+          <>
+            {isAdd && (
+              <>
                 <ArrayBuilderCancelButton
                   goToPath={props.goToPath}
                   arrayPath={arrayPath}
@@ -131,25 +109,51 @@ export default function ArrayBuilderItemPage({
                   reviewRoute={reviewRoute}
                   getText={getText}
                   required={required}
-                  className="vads-u-margin-0"
                 />
-              </div>
-              <div>
-                <VaButton
-                  continue
-                  submit="prevent"
-                  // "Continue" will display instead of `text`
-                  // prop until this is fixed:
-                  // https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/2733
-                  text={getText('editSaveButtonText')}
+                {/* save-in-progress link, etc */}
+                {props.pageContentBeforeButtons}
+                {props.contentBeforeButtons}
+                <NavButtons
+                  goBack={props.goBack}
+                  goForward={props.onContinue}
+                  submitToContinue
+                  useWebComponents={
+                    props.formOptions?.useWebComponentForNavigation
+                  }
                 />
+              </>
+            )}
+            {isEdit && (
+              <div className="vads-u-display--flex">
+                <div className="vads-u-margin-right--2">
+                  <ArrayBuilderCancelButton
+                    goToPath={props.goToPath}
+                    arrayPath={arrayPath}
+                    summaryRoute={summaryRoute}
+                    introRoute={introRoute}
+                    reviewRoute={reviewRoute}
+                    getText={getText}
+                    required={required}
+                    className="vads-u-margin-0"
+                  />
+                </div>
+                <div>
+                  <VaButton
+                    continue
+                    submit="prevent"
+                    // "Continue" will display instead of `text`
+                    // prop until this is fixed:
+                    // https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/2733
+                    text={getText('editSaveButtonText')}
+                  />
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
-          {props.contentAfterButtons}
-        </>
-      </SchemaForm>
+            {props.contentAfterButtons}
+          </>
+        </SchemaForm>
+      </>
     );
   }
 
@@ -173,11 +177,22 @@ export default function ArrayBuilderItemPage({
     onSubmit: PropTypes.func,
     pageContentBeforeButtons: PropTypes.node,
     pagePerItemIndex: PropTypes.string,
+    path: PropTypes.string,
     required: PropTypes.bool,
     setFormData: PropTypes.func,
     title: PropTypes.string,
     trackingPrefix: PropTypes.string,
     NavButtons: PropTypes.func,
+    duplicateChecks: PropTypes.shape({
+      // allowDuplicates: PropTypes.bool, // Not enabled in MVP
+      comparisons: PropTypes.arrayOf(PropTypes.string),
+      duplicateModalTitle: PropTypes.func,
+      duplicateModalPrimaryButtonText: PropTypes.func,
+      duplicateModalSecondaryButtonText: PropTypes.func,
+      duplicateModalDescription: PropTypes.func,
+      externalComparisonData: PropTypes.func,
+      itemPathModalChecks: PropTypes.object,
+    }),
   };
 
   return CustomPage;
@@ -185,13 +200,13 @@ export default function ArrayBuilderItemPage({
 
 ArrayBuilderItemPage.propTypes = {
   arrayPath: PropTypes.string.isRequired,
+  getText: PropTypes.func.isRequired,
   modalDescription: PropTypes.string.isRequired,
   modalTitle: PropTypes.string.isRequired,
   nounPlural: PropTypes.string.isRequired,
   nounSingular: PropTypes.string.isRequired,
-  summaryRoute: PropTypes.string.isRequired,
   required: PropTypes.func.isRequired,
-  introRoute: PropTypes.string,
   reviewRoute: PropTypes.string.isRequired,
-  getText: PropTypes.func.isRequired,
+  getIntroPath: PropTypes.func,
+  getSummaryPath: PropTypes.func,
 };

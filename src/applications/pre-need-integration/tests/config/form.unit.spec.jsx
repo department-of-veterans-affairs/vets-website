@@ -12,13 +12,17 @@ const testCases = [
   { chapter: 'applicantInformation', page: 'applicantRelationshipToVet', expected: (A) => !A },
   { chapter: 'applicantInformation', page: 'applicantRelationshipToVetPreparer', expected: (A) => A },
   { chapter: 'applicantInformation', page: 'veteranApplicantDetails', expected: (A, V) => (!A && V) },
+  { chapter: 'applicantInformation', page: 'veteranBirthLocation', expected: (A, V) => (!A && V) },
   { chapter: 'applicantInformation', page: 'veteranApplicantDetailsPreparer', expected: (A, V) => (A && V) },
+  { chapter: 'applicantInformation', page: 'veteranBirthLocationPreparer', expected: (A, V) => (A && V) },
   { chapter: 'applicantInformation', page: 'nonVeteranApplicantDetails', expected: (A, V) => (!A && !V) },
   { chapter: 'applicantInformation', page: 'nonVeteranApplicantDetailsPreparer', expected: (A, V) => (A && !V) },
-  { chapter: 'applicantInformation', page: 'applicantContactInformation', expected: (A) => !A },
+  { chapter: 'applicantInformation', page: 'applicantMailingAddress', expected: (A) => !A },
   { chapter: 'applicantInformation', page: 'applicantSuggestedAddress', expected: (A) => !A },
-  { chapter: 'applicantInformation', page: 'applicantContactInformationPreparer', expected: (A) => A },
+  { chapter: 'applicantInformation', page: 'applicantContactDetails', expected: (A) => !A },
+  { chapter: 'applicantInformation', page: 'applicantMailingAddressPreparer', expected: (A) => A },
   { chapter: 'applicantInformation', page: 'applicantSuggestedAddressPreparer', expected: (A) => A },
+  { chapter: 'applicantInformation', page: 'applicantContactDetailsPreparer', expected: (A) => A },
   { chapter: 'applicantInformation', page: 'applicantDemographics', expected: (A, V) => (!A && V) },
   { chapter: 'applicantInformation', page: 'applicantDemographicsPreparer', expected: (A, V) => (A && V) },
   { chapter: 'applicantInformation', page: 'applicantDemographics2', expected: (A, V) => (!A && V) },
@@ -61,6 +65,7 @@ describe('preneed formConfig depends logic (isAuthorizedAgent & isVeteran)', () 
     stubs.isApplicantTheSponsor = sinon.stub(helpers, 'isApplicantTheSponsor');
     stubs.isSponsorDeceased = sinon.stub(helpers, 'isSponsorDeceased');
     stubs.buriedWSponsorsEligibility = sinon.stub(helpers, 'buriedWSponsorsEligibility');
+    stubs.isLoggedInUser = sinon.stub(helpers, 'isLoggedInUser');
 
     stubs.isApplicantTheSponsor.returns(false);
     stubs.isSponsorDeceased.returns(false);

@@ -1,4 +1,4 @@
-import { format, addMonths } from 'date-fns';
+const { format, addMonths } = require('date-fns');
 
 /**
  * Class to create mock referral list responses for Cypress tests
@@ -7,6 +7,7 @@ class MockReferralListResponse {
   constructor(options = {}) {
     this.options = {
       numberOfReferrals: 0,
+      predefined: false,
       notFound: false,
       serverError: false,
       ...options,
@@ -30,12 +31,13 @@ class MockReferralListResponse {
     categoryOfCare = 'OPTOMETRY',
     referralNumber = `VA${Math.floor(1000 + Math.random() * 9000)}`,
     expirationDate = format(addMonths(new Date(), 6), 'yyyy-MM-dd'),
+    stationId = '659',
   } = {}) {
     return {
       id,
       type: 'referrals',
       attributes: {
-        stationId: '659BY',
+        stationId,
         categoryOfCare,
         referralNumber,
         uuid: id,
@@ -68,9 +70,58 @@ class MockReferralListResponse {
       }),
       MockReferralListResponse.createReferral({
         id: 'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
+        categoryOfCare: 'CHIROPRACTIC',
+        referralNumber: 'VA0000007123',
+        expirationDate: format(addMonths(today, 5), formatStr),
+      }),
+      MockReferralListResponse.createReferral({
+        id: 'out-of-pilot-station',
         categoryOfCare: 'OPTOMETRY',
         referralNumber: 'VA0000007123',
         expirationDate: format(addMonths(today, 5), formatStr),
+        stationId: '123',
+      }),
+      MockReferralListResponse.createReferral({
+        id: 'appointment-submit-error',
+        categoryOfCare: 'OPTOMETRY',
+        referralNumber: 'appointment-submit-error',
+        expirationDate: format(addMonths(today, 5), formatStr),
+      }),
+      MockReferralListResponse.createReferral({
+        id: 'poll-retry-error',
+        categoryOfCare: 'OPTOMETRY',
+        referralNumber: 'poll-retry-error',
+        expirationDate: format(addMonths(today, 5), formatStr),
+      }),
+      MockReferralListResponse.createReferral({
+        id: 'poll-error',
+        categoryOfCare: 'OPTOMETRY',
+        referralNumber: 'poll-error',
+        expirationDate: format(new Date(2024, 12, 2), formatStr),
+      }),
+      MockReferralListResponse.createReferral({
+        id: 'draft-no-slots-error',
+        categoryOfCare: 'OPTOMETRY',
+        referralNumber: 'draft-no-slots-error',
+        expirationDate: format(new Date(2024, 12, 2), formatStr),
+      }),
+      MockReferralListResponse.createReferral({
+        id: 'referral-without-provider-error',
+        categoryOfCare: 'OPTOMETRY',
+        referralNumber: 'VA0000007123',
+        expirationDate: format(addMonths(today, 5), formatStr),
+      }),
+      MockReferralListResponse.createReferral({
+        id: 'details-not-found-error',
+        categoryOfCare: 'OPTOMETRY',
+        referralNumber: 'details-not-found-error',
+        expirationDate: format(new Date(2024, 12, 2), formatStr),
+      }),
+      MockReferralListResponse.createReferral({
+        id: 'details-error',
+        categoryOfCare: 'OPTOMETRY',
+        referralNumber: 'details-error',
+        expirationDate: format(new Date(2024, 12, 2), formatStr),
       }),
     ];
   }
@@ -84,7 +135,11 @@ class MockReferralListResponse {
   static getRandomReferrals(count = 3) {
     const referrals = [];
     for (let i = 0; i < count; i++) {
-      referrals.push(MockReferralListResponse.createReferral());
+      // Use OPTOMETRY and CHIROPRACTIC to test chiro flipper
+      const categoryOfCare = i % 2 === 0 ? 'OPTOMETRY' : 'CHIROPRACTIC';
+      referrals.push(
+        MockReferralListResponse.createReferral({ categoryOfCare }),
+      );
     }
     return referrals;
   }
@@ -131,7 +186,12 @@ class MockReferralListResponse {
    * @returns {Object} The complete response object with referrals
    */
   toJSON() {
-    const { numberOfReferrals, notFound, serverError } = this.options;
+    const {
+      numberOfReferrals,
+      notFound,
+      serverError,
+      predefined,
+    } = this.options;
 
     // Return 404 error if notFound is true
     if (notFound) {
@@ -143,14 +203,14 @@ class MockReferralListResponse {
       return MockReferralListResponse.create500Response();
     }
 
+    // If predefined referrals are requested
+    if (predefined) {
+      return { data: MockReferralListResponse.getPredefinedReferrals() };
+    }
+
     // If number of referrals is 0, return empty array
     if (numberOfReferrals === 0) {
       return { data: [] };
-    }
-
-    // If predefined referrals are requested
-    if (numberOfReferrals === 'predefined') {
-      return { data: MockReferralListResponse.getPredefinedReferrals() };
     }
 
     // Otherwise generate random referrals
@@ -160,4 +220,5 @@ class MockReferralListResponse {
   }
 }
 
-export default MockReferralListResponse;
+// export default MockReferralListResponse;
+module.exports = MockReferralListResponse;

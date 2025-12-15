@@ -9,6 +9,8 @@ export const PROFILE_TOGGLES = {
   profileShowQuickSubmitNotificationSetting: false,
   profileShowEmailNotificationSettings: false,
   profileShowPaperlessDelivery: false,
+  profile2Enabled: false,
+  profileHealthCareSettingsPage: false,
 };
 
 // The values of these constants map to the possible values that come back from
@@ -34,40 +36,61 @@ export const SERVICE_BADGE_IMAGE_PATHS = new Map([
 // These breadcrumbs are the base breadcrumbs for the profile app
 // They are used when the user is on the profile root page
 export const PROFILE_BREADCRUMB_BASE = [
-  { href: '/', label: 'Home' },
+  { href: '/', label: 'VA.gov home' },
   { href: '/profile', label: 'Profile', isRouterLink: true },
 ];
 
 export const PROFILE_PATHS = Object.freeze({
   PROFILE_ROOT: '/profile',
-  DIRECT_DEPOSIT: '/profile/direct-deposit',
-  ACCREDITED_REPRESENTATIVE: '/profile/accredited-representative',
   PERSONAL_INFORMATION: '/profile/personal-information',
   CONTACT_INFORMATION: '/profile/contact-information',
   MILITARY_INFORMATION: '/profile/military-information',
+  SERVICE_HISTORY_INFORMATION: '/profile/military-information',
+  FINANCIAL_INFORMATION: '/profile/financial-information',
+  DIRECT_DEPOSIT: '/profile/direct-deposit',
+  HEALTH_CARE_SETTINGS: '/profile/health-care-settings',
+  SCHEDULING_PREFERENCES:
+    '/profile/health-care-settings/scheduling-preferences',
+  HEALTH_CARE_CONTACTS: '/profile/contacts',
+  MESSAGES_SIGNATURE: '/profile/message-signature',
+  DEPENDENTS_AND_CONTACTS: '/profile/dependents-and-contacts',
+  CONTACTS: '/profile/contacts',
+  ACCREDITED_REPRESENTATIVE: '/profile/accredited-representative',
+  LETTERS_AND_DOCUMENTS: '/profile/letters-and-documents',
   VETERAN_STATUS_CARD: '/profile/veteran-status-card',
   NOTIFICATION_SETTINGS: '/profile/notifications',
-  CONNECTED_APPLICATIONS: '/profile/connected-applications',
+  EMAIL_AND_TEXT_NOTIFICATIONS: '/profile/notifications',
   ACCOUNT_SECURITY: '/profile/account-security',
-  CONTACTS: '/profile/contacts',
+  CONNECTED_APPLICATIONS: '/profile/connected-applications',
+  SIGNIN_INFORMATION: '/profile/account-security/sign-in-information',
   EDIT: '/profile/edit',
   PAPERLESS_DELIVERY: '/profile/paperless-delivery',
 });
 
 export const PROFILE_PATH_NAMES = Object.freeze({
   PROFILE_ROOT: 'Profile',
-  DIRECT_DEPOSIT: 'Direct deposit information',
-  ACCREDITED_REPRESENTATIVE: 'Accredited representative or VSO',
   PERSONAL_INFORMATION: 'Personal information',
   CONTACT_INFORMATION: 'Contact information',
   MILITARY_INFORMATION: 'Military information',
+  SERVICE_HISTORY_INFORMATION: 'Service history information',
+  FINANCIAL_INFORMATION: 'Financial information',
+  DIRECT_DEPOSIT: 'Direct deposit information',
+  HEALTH_CARE_SETTINGS: 'Health care settings',
+  SCHEDULING_PREFERENCES: 'Scheduling preferences',
+  HEALTH_CARE_CONTACTS: 'Health care contacts',
+  MESSAGES_SIGNATURE: 'Messages signature',
+  DEPENDENTS_AND_CONTACTS: 'Dependents and contacts',
+  CONTACTS: 'Personal health care contacts',
+  ACCREDITED_REPRESENTATIVE: 'Accredited representative or VSO',
+  LETTERS_AND_DOCUMENTS: 'Letters and documents',
   VETERAN_STATUS_CARD: 'Veteran Status Card',
   NOTIFICATION_SETTINGS: 'Notification settings',
-  CONNECTED_APPLICATIONS: 'Connected apps',
-  ACCOUNT_SECURITY: 'Account security',
-  CONTACTS: 'Personal health care contacts',
-  EDIT: 'Edit your information',
+  EMAIL_AND_TEXT_NOTIFICATIONS: 'Email and text notifications',
   PAPERLESS_DELIVERY: 'Paperless delivery',
+  ACCOUNT_SECURITY: 'Account security',
+  CONNECTED_APPLICATIONS: 'Connected apps',
+  SIGNIN_INFORMATION: 'Sign-in information',
+  EDIT: 'Edit your information',
 });
 
 export const PROFILE_PATHS_WITH_NAMES = Object.entries(PROFILE_PATHS).map(

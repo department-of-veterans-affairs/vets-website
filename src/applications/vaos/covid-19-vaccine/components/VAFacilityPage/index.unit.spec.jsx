@@ -202,7 +202,7 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
       // Radio buttons only show up after all the data is loaded, which
       // should mean all page rendering is finished
       await screen.findAllByRole('radio');
-      fireEvent.click(screen.getByText('use your current location'));
+      fireEvent.click(screen.getByTestId('use-current-location'));
       await screen.findAllByRole('radio');
       expect(screen.baseElement).to.contain.text(
         'Facilities based on your location',
@@ -225,8 +225,8 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
         }
       }).to.not.throw();
 
-      // Clicking use home address should revert sort back to distance from hoem address
-      fireEvent.click(screen.getByText('use your home address on file'));
+      // Clicking use home address should revert sort back to distance from home address
+      fireEvent.click(screen.getByTestId('use-home-address'));
       expect(screen.baseElement).to.contain.text(
         'Facilities based on your home address',
       );
@@ -520,7 +520,7 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
       });
 
       await screen.findAllByRole('radio');
-      fireEvent.click(screen.getByText('use your current location'));
+      fireEvent.click(screen.getByTestId('use-current-location'));
       await screen.findAllByRole('radio');
       expect(
         await screen.findByRole('heading', {

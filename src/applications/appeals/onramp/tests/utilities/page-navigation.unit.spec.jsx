@@ -5,8 +5,8 @@ import { ALL_QUESTIONS, ALL_RESULTS, ROUTES } from '../../constants';
 import { RESPONSES, SHORT_NAME_MAP } from '../../constants/question-data-map';
 import { RESULTS_NAME_MAP } from '../../constants/results-data-map';
 
-const { HLR, INIT, NO, SC, YES } = RESPONSES;
-const { RESULTS_BOARD_HEARING } = RESULTS_NAME_MAP;
+const { CFI, HLR, INIT, NO, SC, YES } = RESPONSES;
+const { RESULTS_2_H_2B_1 } = RESULTS_NAME_MAP;
 
 const {
   Q_1_2_CLAIM_DECISION,
@@ -14,33 +14,42 @@ const {
   Q_1_3A_FEWER_60_DAYS,
   Q_2_0_CLAIM_TYPE,
   Q_2_IS_1A_LAW_POLICY_CHANGE,
-  Q_2_H_1_EXISTING_BOARD_APPEAL,
   Q_2_H_2_NEW_EVIDENCE,
   Q_2_H_2A_JUDGE_HEARING,
+  Q_2_H_2B_JUDGE_HEARING,
 } = SHORT_NAME_MAP;
 
-const pushSpy = sinon.spy();
-const updateResultsPageSpy = sinon.spy();
-
-const router = {
-  push: pushSpy,
-};
-
-beforeEach(() => {
-  pushSpy.resetHistory();
-  updateResultsPageSpy.resetHistory();
-});
-
 describe('page navigation utilities', () => {
+  const sandbox = sinon.createSandbox();
+  const pushSpy = sandbox.spy();
+  const updateResultsPageSpy = sandbox.spy();
+  let consoleErrorStub;
+
+  const router = {
+    push: pushSpy,
+  };
+
+  beforeEach(() => {
+    pushSpy.resetHistory();
+    updateResultsPageSpy.resetHistory();
+    consoleErrorStub = sandbox.stub(console, 'error');
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
   describe('pushToRoute', () => {
     it('should navigate to the given route', () => {
       pushToRoute('INTRODUCTION', router);
       expect(router.push.firstCall.calledWith(ROUTES.INTRODUCTION)).to.be.true;
     });
 
-    it('should not navigate to an undefined route', () => {
+    it('should not navigate to an undefined route, and log an error', () => {
       pushToRoute('NON_EXISTENT_ROUTE', router);
       expect(router.push.called).to.be.false;
+      expect(consoleErrorStub.calledWith('Unable to determine page to display'))
+        .to.be.true;
     });
   });
 
@@ -71,14 +80,14 @@ describe('page navigation utilities', () => {
         Q_1_1_CLAIM_DECISION: YES,
         Q_1_2_CLAIM_DECISION: YES,
         Q_1_3_CLAIM_CONTESTED: NO,
+        Q_2_IS_1_SERVICE_CONNECTED: NO,
         Q_2_0_CLAIM_TYPE: HLR,
-        Q_2_H_1_EXISTING_BOARD_APPEAL: NO,
       };
 
       navigateForward(
         ALL_QUESTIONS,
         ALL_RESULTS,
-        Q_2_H_1_EXISTING_BOARD_APPEAL,
+        Q_2_0_CLAIM_TYPE,
         formResponses,
         router,
         updateResultsPageSpy,
@@ -201,6 +210,30 @@ describe('page navigation utilities', () => {
         .be.true;
     });
 
+    it('should navigate to the route for Q_2_IS_1B_NEW_EVIDENCE for the correct form responses (path #3)', () => {
+      const formResponses = {
+        Q_1_1_CLAIM_DECISION: YES,
+        Q_1_2_CLAIM_DECISION: YES,
+        Q_1_3_CLAIM_CONTESTED: NO,
+        Q_2_0_CLAIM_TYPE: CFI,
+        Q_2_IS_1_SERVICE_CONNECTED: YES,
+        Q_2_IS_2_CONDITION_WORSENED: NO,
+        Q_2_IS_1A_LAW_POLICY_CHANGE: NO,
+      };
+
+      navigateForward(
+        ALL_QUESTIONS,
+        ALL_RESULTS,
+        Q_2_IS_1A_LAW_POLICY_CHANGE,
+        formResponses,
+        router,
+        updateResultsPageSpy,
+      );
+
+      expect(router.push.firstCall.calledWith(ROUTES.Q_2_IS_1B_NEW_EVIDENCE)).to
+        .be.true;
+    });
+
     it('should NOT navigate to the route for Q_2_IS_1_SERVICE_CONNECTED for the incorrect form responses', () => {
       const formResponses = {
         Q_1_1_CLAIM_DECISION: YES,
@@ -230,8 +263,8 @@ describe('page navigation utilities', () => {
             Q_1_1_CLAIM_DECISION: YES,
             Q_1_2_CLAIM_DECISION: YES,
             Q_1_3_CLAIM_CONTESTED: NO,
+            Q_2_IS_1_SERVICE_CONNECTED: NO,
             Q_2_0_CLAIM_TYPE: HLR,
-            Q_2_H_1_EXISTING_BOARD_APPEAL: NO,
             Q_2_H_2_NEW_EVIDENCE: YES,
             Q_2_H_2A_JUDGE_HEARING: YES,
           };
@@ -245,10 +278,39 @@ describe('page navigation utilities', () => {
             updateResultsPageSpy,
           );
 
-          expect(router.push.firstCall.calledWith(ROUTES.RESULTS)).to.be.true;
+          expect(router.push.firstCall.calledWith(ROUTES.RESULTS_DR)).to.be
+            .true;
           expect(updateResultsPageSpy.firstCall.args[0]).to.equal(
-            RESULTS_BOARD_HEARING,
+            RESULTS_2_H_2B_1,
           );
+        });
+      });
+
+      describe('when the end of the question flow is reached but the results page is not found', () => {
+        it('should not navigate to a results page or set a results page in the store, and should log an error', () => {
+          // Note that one of the form responses is missing from this set to force a no-match
+          const formResponses = {
+            Q_1_1_CLAIM_DECISION: YES,
+            Q_1_3_CLAIM_CONTESTED: NO,
+            Q_2_0_CLAIM_TYPE: HLR,
+            Q_2_H_1_EXISTING_BOARD_APPEAL: NO,
+            Q_2_H_2_NEW_EVIDENCE: NO,
+            Q_2_H_2B_JUDGE_HEARING: NO,
+          };
+
+          navigateForward(
+            ALL_QUESTIONS,
+            ALL_RESULTS,
+            Q_2_H_2B_JUDGE_HEARING,
+            formResponses,
+            router,
+            updateResultsPageSpy,
+          );
+
+          expect(router.push.called).to.be.false;
+          expect(
+            consoleErrorStub.calledWith('Unable to determine results page'),
+          ).to.be.true;
         });
       });
 

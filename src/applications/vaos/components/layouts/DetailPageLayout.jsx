@@ -100,7 +100,16 @@ CCDetails.propTypes = {
   request: PropTypes.bool,
 };
 
-export function Details({ reason, otherDetails, request, level = 2 }) {
+export function Details({
+  reason,
+  otherDetails,
+  request,
+  level = 2,
+  isCerner = false,
+}) {
+  // Do not display details for Oracle (Cerner) appointments
+  if (isCerner) return null;
+
   const heading = request
     ? 'Details you’d like to share with your provider'
     : 'Details you shared with your provider';
@@ -117,6 +126,7 @@ export function Details({ reason, otherDetails, request, level = 2 }) {
   );
 }
 Details.propTypes = {
+  isCerner: PropTypes.bool,
   level: PropTypes.number,
   otherDetails: PropTypes.string,
   reason: PropTypes.string,

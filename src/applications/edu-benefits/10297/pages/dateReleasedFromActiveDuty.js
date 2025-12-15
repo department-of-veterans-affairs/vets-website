@@ -1,29 +1,31 @@
 import React from 'react';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import {
-  currentOrPastDateSchema,
-  currentOrPastDateUI,
-} from '~/platform/forms-system/src/js/web-component-patterns/datePatterns';
-
-import { validateWithin180Days } from '../helpers';
+import { currentOrPastDateSchema } from '~/platform/forms-system/src/js/web-component-patterns/datePatterns';
+import VaMemorableDateField from 'platform/forms-system/src/js/web-component-fields/VaMemorableDateField';
 
 const uiSchema = {
-  ...titleUI('Date you will be released from active duty'),
+  ...titleUI('Your active duty release date'),
   dateReleasedFromActiveDuty: {
-    ...currentOrPastDateUI({
-      title: 'Please provide the date you will be released from active duty.',
-      errorMessages: { required: 'Please enter a date' },
-      hint: null,
-    }),
-    'ui:validations': [validateWithin180Days],
+    'ui:title':
+      'Please provide the date you were or will be released from active duty.',
+    'ui:webComponentField': VaMemorableDateField,
+    'ui:required': () => true,
+    'ui:errorMessages': {
+      required: 'You must provide an answer',
+      pattern: 'Please enter a year between 1900 and 2125',
+    },
+    'ui:options': {
+      monthSelect: false,
+      hint: 'Enter 2 digits for the month and day and 4 digits for the year.',
+      classNames: 'va-memorable-date-field',
+    },
   },
   'view:releaseDateNote': {
     'ui:description': (
-      <p className="vads-u-margin-top--4">
+      <p className="vads-u-margin-top--4" data-testid="static-note">
         <strong>Note:</strong> When we review your application, we may ask for a
-        copy of your&nbsp;DD&nbsp;214 or a certification of your expected
-        release date. You can request that certification from your Military
-        Personnel Office.
+        copy of your DD 214 or a certification of your expected release date.
+        You can request that certification from your Military Personnel Office.
       </p>
     ),
   },

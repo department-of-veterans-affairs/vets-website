@@ -1,5 +1,5 @@
 import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
-import { WIZARD_STATUS } from '../../wizard/constants';
+
 import manifest from '../../manifest.json';
 
 import mockUser from './fixtures/mocks/mockUser.json';
@@ -24,7 +24,7 @@ describe('Enhanced FSR debt and copay alerts', () => {
   });
 
   beforeEach(() => {
-    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+    sessionStorage.setItem('wizardStatus', WIZARD_STATUS_COMPLETE);
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
         type: 'feature_toggles',
@@ -62,17 +62,13 @@ describe('Enhanced FSR debt and copay alerts', () => {
             'contain',
             '/manage-va-debt/request-debt-help-form-5655/introduction',
           );
-          cy.get('a.vads-c-action-link--green')
-            .first()
-            .click({ waitForAnimations: true });
+          cy.clickStartForm();
 
           cy.url().should(
             'contain',
             '/manage-va-debt/request-debt-help-form-5655/veteran-information',
           );
-          cy.findAllByText(/continue/i, { selector: 'button' })
-            .first()
-            .click({ waitForAnimations: true });
+          cy.clickFormContinue();
           cy.wait(['@copaysC1', '@debtsC1']);
 
           cy.findByTestId('balance-card-alert-copay').should('exist');
@@ -93,17 +89,13 @@ describe('Enhanced FSR debt and copay alerts', () => {
             'contain',
             '/manage-va-debt/request-debt-help-form-5655/introduction',
           );
-          cy.get('a.vads-c-action-link--green')
-            .first()
-            .click({ waitForAnimations: true });
+          cy.clickStartForm();
 
           cy.url().should(
             'contain',
             '/manage-va-debt/request-debt-help-form-5655/veteran-information',
           );
-          cy.findAllByText(/continue/i, { selector: 'button' })
-            .first()
-            .click({ waitForAnimations: true });
+          cy.clickFormContinue();
           cy.wait(['@copaysC2', '@debtsC2']);
 
           cy.get('[data-testid="debt-selection-checkbox"]').should(
@@ -134,17 +126,13 @@ describe('Enhanced FSR debt and copay alerts', () => {
             'contain',
             '/manage-va-debt/request-debt-help-form-5655/introduction',
           );
-          cy.get('a.vads-c-action-link--green')
-            .first()
-            .click({ waitForAnimations: true });
+          cy.clickStartForm();
 
           cy.url().should(
             'contain',
             '/manage-va-debt/request-debt-help-form-5655/veteran-information',
           );
-          cy.findAllByText(/continue/i, { selector: 'button' })
-            .first()
-            .click({ waitForAnimations: true });
+          cy.clickFormContinue();
           cy.wait(['@copaysD1', '@debtsD1']);
 
           cy.findByTestId('balance-card-alert-debt').should('exist');
@@ -164,17 +152,13 @@ describe('Enhanced FSR debt and copay alerts', () => {
             'contain',
             '/manage-va-debt/request-debt-help-form-5655/introduction',
           );
-          cy.get('a.vads-c-action-link--green')
-            .first()
-            .click({ waitForAnimations: true });
+          cy.clickStartForm();
 
           cy.url().should(
             'contain',
             '/manage-va-debt/request-debt-help-form-5655/veteran-information',
           );
-          cy.findAllByText(/continue/i, { selector: 'button' })
-            .first()
-            .click({ waitForAnimations: true });
+          cy.clickFormContinue();
           cy.wait(['@copaysD2', '@debtsD2']);
 
           cy.get('[data-testid="copay-selection-checkbox"]').should(

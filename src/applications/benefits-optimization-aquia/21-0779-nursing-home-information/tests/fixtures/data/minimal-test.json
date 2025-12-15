@@ -1,0 +1,55 @@
+{
+  "data": {
+    "nursingOfficialInformation": {
+      "fullName": {
+        "first": "Evazan",
+        "last": "Ponda"
+      },
+      "jobTitle": "Medical Director",
+      "phoneNumber": "5055551138"
+    },
+    "nursingHomeDetails": {
+      "nursingHomeName": "Mos Eisley Extended Care Facility",
+      "nursingHomeAddress": {
+        "street": "1138 Chalmun's Cantina Row",
+        "city": "Mos Eisley",
+        "state": "AZ",
+        "country": "USA",
+        "postalCode": "85001"
+      }
+    },
+    "claimantQuestion": {
+      "patientType": "veteran"
+    },
+    "veteranPersonalInfo": {
+      "fullName": {
+        "first": "Ben",
+        "last": "Kenobi"
+      },
+      "dateOfBirth": "1932-04-02"
+    },
+    "veteranIdentificationInfo": {
+      "ssn": "987654321"
+    },
+    "certificationLevelOfCare": {
+      "levelOfCare": "intermediate"
+    },
+    "admissionDate": {
+      "admissionDate": "2022-05-04"
+    },
+    "medicaidFacility": {
+      "isMedicaidApprovedFacility": false
+    },
+    "medicaidApplication": {
+      "hasAppliedForMedicaid": false
+    },
+    "medicaidStatus": {
+      "currentlyCoveredByMedicaid": false
+    },
+    "monthlyCosts": {
+      "monthlyOutOfPocket": 1138
+    },
+    "signature": "Evazan Ponda",
+    "certificationChecked": true
+  }
+}

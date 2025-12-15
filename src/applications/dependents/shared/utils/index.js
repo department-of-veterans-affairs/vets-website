@@ -1,5 +1,11 @@
 import { srSubstitute } from 'platform/forms-system/src/js/utilities/ui/mask-string';
 
+import { getFormatedDate, calculateAge } from './dates';
+
+export { getFormatedDate, calculateAge };
+
+const VIEW_DEPENDENTS_WARNING_KEY = 'viewDependentsWarningClosedAt';
+
 /**
  * Return formatted full name from name object
  * @param {Object} name - An object containing first, middle, and last names
@@ -12,6 +18,16 @@ import { srSubstitute } from 'platform/forms-system/src/js/utilities/ui/mask-str
 export const getFullName = ({ first, middle, last, suffix } = {}) =>
   [first || '', middle || '', last || ''].filter(Boolean).join(' ') +
   (suffix ? `, ${suffix}` : '');
+
+/**
+ * Make a name possessive by adding an apostrophe
+ * @param {String} name - The name to make possessive
+ * @returns {String} - The possessive form of the name
+ * @example makeNamePossessive('Alex') => "Alex's"
+ * @example makeNamePossessive('Chris') => "Chris'"
+ */
+export const makeNamePossessive = name =>
+  `${name}’${name.toLowerCase().endsWith('s') ? '' : 's'}`;
 
 /**
  * Separate each number so the screen reader reads "number ending with 1 2 3 4"
@@ -29,9 +45,18 @@ export const maskID = (id = '', mask = '●●●–●●-') => {
 };
 
 /**
+ * Check if field value is missing
+ * @param {any} value - Any non-object or non-array field value
+ * @returns {boolean} True if field is missing, false otherwise
+ */
+export function isFieldMissing(value) {
+  return value === undefined || value === null || value === '';
+}
+
+/**
  * Check if an object is empty
- * @param {Any} obj
- * @returns {Boolean} - Returns true if the object & any nested objects are
+ * @param {object} obj - The object to check
+ * @returns {boolean} - Returns true if the object & any nested objects are
  * empty, false otherwise
  */
 export function isEmptyObject(obj) {
@@ -46,4 +71,28 @@ export function isEmptyObject(obj) {
     );
   }
   return false;
+}
+
+export const getRootParentUrl = rootUrl => rootUrl.split(/\b\//)[0];
+
+/**
+ * Check if the dependents warning has been hidden
+ * @returns {boolean} True if the warning has been hidden, false otherwise
+ */
+export function getIsDependentsWarningHidden() {
+  const rawStoredDate = localStorage.getItem(VIEW_DEPENDENTS_WARNING_KEY);
+  if (!rawStoredDate) {
+    return false;
+  }
+
+  const dateClosed = new Date(rawStoredDate);
+  return !Number.isNaN(dateClosed.getTime());
+}
+
+/**
+ * Hide the dependents warning by storing the current date in localStorage
+ * @returns {void}
+ */
+export function hideDependentsWarning() {
+  localStorage.setItem(VIEW_DEPENDENTS_WARNING_KEY, new Date().toISOString());
 }

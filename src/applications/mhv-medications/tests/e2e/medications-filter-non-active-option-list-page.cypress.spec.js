@@ -27,5 +27,6 @@ describe('Medications List Page Non-Active Filter Option', () => {
     listPage.verifyFocusOnPaginationTextInformationOnListPage(
       Data.PAGINATION_NON_ACTIVE,
     );
+    listPage.verifyFilterAriaRegionText('Filter applied: Non-active.');
   });
 });

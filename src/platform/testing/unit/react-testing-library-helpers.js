@@ -122,7 +122,7 @@ export function renderWithStoreAndRouter(
  * Takes a React element and wraps it in a Redux Provider and a React Router v6 MemoryRouter.
  *
  * @export
- * @param {ReactElement} ui ReactElement that you want to render for testing
+ * @param {React.JSX.Element} ui ReactElement that you want to render for testing
  * @param {Object} renderParams
  * @param {Object} [renderParams.initialState] Initial Redux state, used to create a new store if a store is not passed
  * @param {Object} [renderParams.reducers={}] App specific reducers

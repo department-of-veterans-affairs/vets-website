@@ -6,7 +6,7 @@ import formConfig from './config/form';
 import App from './containers/App';
 
 // Add any new form-upload forms to this list
-const formUploadForms = ['21-686c', '21-526EZ'];
+const formUploadForms = ['21-686c', '21-526EZ', '21-0966'];
 
 userPromise
   .then(user => {
@@ -15,12 +15,14 @@ userPromise
   .catch(error => {
     console.error('Error checking user login status:', error); // eslint-disable-line no-console
   });
-const config = formConfig();
 
 const routes = formUploadForms.map(formId => {
   const lowerCaseFormId = formId.toLowerCase();
+  const config = formConfig(
+    `/representative-form-upload/submit-va-form-${formId}`,
+  );
   return {
-    path: `/${lowerCaseFormId}`,
+    path: `/submit-va-form-${lowerCaseFormId}`,
     component: ({ location, children }) => (
       <App>
         <FormApp formConfig={config} currentLocation={location}>
@@ -30,7 +32,7 @@ const routes = formUploadForms.map(formId => {
     ),
     indexRoute: {
       onEnter: (_nextState, replace) =>
-        replace(`/${lowerCaseFormId}/introduction`),
+        replace(`/submit-va-form-${lowerCaseFormId}/introduction`),
     },
     childRoutes: createRoutes(config),
   };

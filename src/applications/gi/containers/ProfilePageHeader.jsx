@@ -224,7 +224,7 @@ const ProfilePageHeader = ({
                 <span>Accreditation: Yes</span>
               ) : (
                 <LearnMoreLabel
-                  text={`${_.capitalize(accreditationType)} Accreditation`}
+                  text="Accredited"
                   onClick={() => dispatchShowModal('typeAccredited')}
                   ariaLabel={ariaLabels.learnMore.accreditation}
                   buttonId="typeAccredited-button"

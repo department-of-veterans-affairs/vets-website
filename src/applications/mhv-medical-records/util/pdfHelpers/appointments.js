@@ -1,6 +1,9 @@
+import { NO_INFO_PROVIDED, UNKNOWN } from '../constants';
+import { isArrayAndHasItems } from '../helpers';
+
 export const generateAppointmentsContent = records => ({
   results: {
-    preface: `Showing ${records.length} appointments, sorted by date`,
+    preface: `Showing ${records?.length} appointments, sorted by date`,
     sectionSeparators: false,
     items: records.map(item => ({
       header: item.date,
@@ -19,7 +22,9 @@ export const generateAppointmentsContent = records => ({
         // cancelled appointment fields?
         {
           title: 'Provider',
-          value: [...item.address.map(i => ({ value: i }))],
+          value: isArrayAndHasItems(item.address)
+            ? item.address?.map(i => ({ value: i }))
+            : [{ value: UNKNOWN }],
           isRich: true,
         },
         {
@@ -35,12 +40,14 @@ export const generateAppointmentsContent = records => ({
         },
         {
           title: 'Who',
-          value: [...item.address.map(i => ({ value: i }))],
+          value: isArrayAndHasItems(item.address)
+            ? item.address?.map(i => ({ value: i }))
+            : [{ value: UNKNOWN }],
           isRich: true,
         },
         {
           title: 'Where to attend',
-          value: item.address,
+          value: item.address ?? UNKNOWN,
           inline: true,
         },
         {
@@ -67,12 +74,12 @@ export const generateAppointmentsContent = records => ({
           value: [
             {
               title: 'Reason',
-              value: item.detailsShared.reason,
+              value: item.detailsShared?.reason ?? NO_INFO_PROVIDED,
               paragraphGap: 2,
             },
             {
               title: 'Other details',
-              value: item.detailsShared.otherDetails,
+              value: item.detailsShared?.otherDetails ?? NO_INFO_PROVIDED,
               paragraphGap: 2,
             },
           ],

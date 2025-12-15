@@ -1,0 +1,10 @@
+{
+  "hasAlreadyFiled": true,
+  "veteranFullName": {
+    "first": "Test",
+    "last": "User"
+  },
+  "veteranIdentification": {
+    "ssn": "123456789"
+  }
+}

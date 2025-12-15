@@ -1,7 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
+import {
+  updatePageTitle,
+  useAcceleratedData,
+} from '@department-of-veterans-affairs/mhv/exports';
+
 import RecordList from '../components/RecordList/RecordList';
 import { getConditionsList, reloadRecords } from '../actions/conditions';
 import {
@@ -12,14 +16,18 @@ import {
   refreshExtractTypes,
   CernerAlertContent,
   statsdFrontEndActions,
+  loadStates,
 } from '../util/constants';
 import RecordListSection from '../components/shared/RecordListSection';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
+import useReloadResetListOnUnmount from '../hooks/useReloadResetListOnUnmount';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
+import TrackedSpinner from '../components/shared/TrackedSpinner';
 import { useTrackAction } from '../hooks/useTrackAction';
+import { Actions } from '../util/actionTypes';
 
 const HealthConditions = () => {
   const ABOUT_THE_CODES_LABEL = 'About the codes in some condition names';
@@ -37,26 +45,32 @@ const HealthConditions = () => {
   );
   useTrackAction(statsdFrontEndActions.HEALTH_CONDITIONS_LIST);
 
+  const { isLoading, isAcceleratingConditions } = useAcceleratedData();
+  const dispatchAction = useMemo(
+    () => {
+      return isCurrent => {
+        return getConditionsList(isCurrent, isAcceleratingConditions);
+      };
+    },
+    [isAcceleratingConditions],
+  );
+
   useListRefresh({
     listState,
     listCurrentAsOf: conditionsCurrentAsOf,
     refreshStatus: refresh.status,
     extractType: refreshExtractTypes.VPR,
-    dispatchAction: getConditionsList,
+    dispatchAction,
     dispatch,
   });
 
-  useEffect(
-    /**
-     * @returns a callback to automatically load any new records when unmounting this component
-     */
-    () => {
-      return () => {
-        dispatch(reloadRecords());
-      };
-    },
-    [dispatch],
-  );
+  // On Unmount: reload any newly updated records and normalize the FETCHING state.
+  useReloadResetListOnUnmount({
+    listState,
+    dispatch,
+    updateListActionType: Actions.Conditions.UPDATE_LIST_STATE,
+    reloadRecordsAction: reloadRecords,
+  });
 
   useEffect(
     () => {
@@ -65,6 +79,9 @@ const HealthConditions = () => {
     },
     [dispatch],
   );
+
+  const isLoadingAcceleratedData =
+    isAcceleratingConditions && listState === loadStates.FETCHING;
 
   return (
     <>
@@ -89,18 +106,20 @@ const HealthConditions = () => {
         listCurrentAsOf={conditionsCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
-        <NewRecordsIndicator
-          refreshState={refresh}
-          extractType={refreshExtractTypes.VPR}
-          newRecordsFound={
-            Array.isArray(conditions) &&
-            Array.isArray(updatedRecordList) &&
-            conditions.length !== updatedRecordList.length
-          }
-          reloadFunction={() => {
-            dispatch(reloadRecords());
-          }}
-        />
+        {!isAcceleratingConditions && (
+          <NewRecordsIndicator
+            refreshState={refresh}
+            extractType={refreshExtractTypes.VPR}
+            newRecordsFound={
+              Array.isArray(conditions) &&
+              Array.isArray(updatedRecordList) &&
+              conditions.length !== updatedRecordList.length
+            }
+            reloadFunction={() => {
+              dispatch(reloadRecords());
+            }}
+          />
+        )}
 
         <va-additional-info
           data-dd-action-name={ABOUT_THE_CODES_LABEL}
@@ -115,7 +134,17 @@ const HealthConditions = () => {
             condition, ask your provider at your next appointment.
           </p>
         </va-additional-info>
-        {conditions?.length ? (
+        {(isLoadingAcceleratedData || isLoading) && (
+          <div className="vads-u-margin-y--8">
+            <TrackedSpinner
+              id="conditions-page-spinner"
+              message="We’re loading your records."
+              setFocus
+              data-testid="accelerated-loading-indicator"
+            />
+          </div>
+        )}
+        {!isLoadingAcceleratedData && !isLoading && conditions?.length ? (
           <RecordList
             records={conditions}
             type={recordType.HEALTH_CONDITIONS}

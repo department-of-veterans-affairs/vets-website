@@ -36,11 +36,11 @@ const DebtLettersDownload = () => {
           },
           {
             href: '/manage-va-debt/summary',
-            label: 'Your VA debt and bills',
+            label: 'Overpayments and copay bills',
           },
           {
             href: '/manage-va-debt/summary/debt-balances',
-            label: 'Current debts',
+            label: 'Overpayment balances',
           },
           {
             href: '/manage-va-debt/summary/debt-balances/letters',
@@ -73,25 +73,18 @@ const DebtLettersDownload = () => {
           <h2 className="vads-u-margin-y--0">
             What if the letter I’m looking for isn’t listed here?
           </h2>
-          <p className="vads-u-font-family--sans vads-u-margin-bottom--0">
+          <p>
             If you’ve received a letter about a VA debt that isn’t listed here,
-            call us at{' '}
-            <span className="no-wrap">
-              <va-telephone contact={CONTACTS.DMC} />
-            </span>{' '}
-            (or{' '}
-            <span className="no-wrap">
-              <va-telephone contact={CONTACTS.DMC_OVERSEAS} international />
-            </span>{' '}
-            from overseas). You can also call us to get information about your
-            resolved debts.
+            call us at <va-telephone contact={CONTACTS.DMC} /> (
+            <va-telephone contact="711" tty="true" />
+            ). If you’re outside the U.S., call{' '}
+            <va-telephone contact={CONTACTS.DMC_OVERSEAS} international />.
+            We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET. You can
+            also call us to get information about your resolved debts.
           </p>
-          <p className="vads-u-font-family--sans">
-            For medical copay debt, please go to
-            <a
-              className="vads-u-margin-x--0p5"
-              href="/manage-va-debt/summary/copay-balances"
-            >
+          <p>
+            For medical copay debt, please go to{' '}
+            <a href="/manage-va-debt/summary/copay-balances">
               pay your VA copay bill
             </a>
             to learn about your payment options.

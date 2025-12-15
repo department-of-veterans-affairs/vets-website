@@ -1,7 +1,7 @@
 import {
   testNumberOfErrorsOnSubmit,
   testNumberOfFields,
-} from '../../../shared/tests/pages/pageTests.spec';
+} from 'platform/forms-system/test/pageTestHelpers.spec';
 import { CLAIM_OWNERSHIPS } from '../../definitions/constants';
 import formConfig from '../../config/form';
 

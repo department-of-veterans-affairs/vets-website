@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/sort-prop-types */
+import classNames from 'classnames';
 import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui/focus';
@@ -9,17 +10,20 @@ import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/Sc
 import get from '~/platform/utilities/data/get';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { setData } from '~/platform/forms-system/src/js/actions';
-import { isMinimalHeaderPath } from '~/platform/forms-system/src/js/patterns/minimal-header';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import ArrayBuilderCards from './ArrayBuilderCards';
 import ArrayBuilderSummaryReviewPage from './ArrayBuilderSummaryReviewPage';
 import ArrayBuilderSummaryNoSchemaFormPage from './ArrayBuilderSummaryNoSchemaFormPage';
 import {
   arrayBuilderContextObject,
+  checkIfArrayHasDuplicateData,
   createArrayBuilderItemAddPath,
   getUpdatedItemFromPath,
   isDeepEmpty,
+  // META_DATA_KEY,
+  maxItemsFn,
   slugifyText,
+  useHeadingLevels,
   validateIncompleteItems,
 } from './helpers';
 
@@ -34,7 +38,9 @@ const SuccessAlert = ({ nounSingular, index, onDismiss, text }) => (
       closeBtnAriaLabel="Close notification"
       uswds
     >
-      {text}
+      <div className="dd-privacy-mask" data-dd-action-name="Success Alert">
+        {text}
+      </div>
     </VaAlert>
   </div>
 );
@@ -71,38 +77,28 @@ function getYesNoReviewErrorMessage(reviewErrors, hasItemsKey) {
   return error?.message;
 }
 
-const useHeadingLevels = (userHeaderLevel, isReviewPage) => {
-  const isMinimalHeader = useRef(null);
-  if (isMinimalHeader.current === null) {
-    // only check once
-    isMinimalHeader.current = isMinimalHeaderPath();
-  }
-  const headingLevel =
-    userHeaderLevel || (isMinimalHeader.current && !isReviewPage ? '1' : '3');
-  const headingStyle =
-    isMinimalHeader.current && !isReviewPage ? ' vads-u-font-size--h2' : '';
-
-  return { headingLevel, headingStyle };
-};
-
 /**
  * @param {{
- *   arrayPath: string,
+ *   arrayPath: ArrayBuilderOptions['arrayPath'],
  *   getFirstItemPagePath: (formData, index, context) => string,
- *   getText: import('./arrayBuilderText').ArrayBuilderGetText
+ *   getText: ArrayBuilderGetText,
  *   hasItemsKey: string,
  *   hideMaxItemsAlert: boolean,
- *   introPath: string,
- *   isItemIncomplete: function,
+ *   getIntroPath: (formData) => string,
+ *   isItemIncomplete: ArrayBuilderOptions['isItemIncomplete'],
  *   isReviewPage: boolean,
- *   maxItems: number,
+ *   maxItems: ArrayBuilderOptions['maxItems'],
  *   missingInformationKey: string,
- *   nounPlural: string,
- *   nounSingular: string,
+ *   nounPlural: ArrayBuilderOptions['nounPlural'],
+ *   nounSingular: ArrayBuilderOptions['nounSingular'],
  *   required: (formData) => boolean,
  *   titleHeaderLevel: string,
- *   useLinkInsteadOfYesNo: boolean,
- *   useButtonInsteadOfYesNo: boolean,
+ *   useLinkInsteadOfYesNo: ArrayBuilderOptions['useLinkInsteadOfYesNo'],
+ *   useButtonInsteadOfYesNo: ArrayBuilderOptions['useButtonInsteadOfYesNo'],
+ *   canAddItem: ArrayBuilderOptions['canAddItem'],
+ *   canEditItem: ArrayBuilderOptions['canEditItem'],
+ *   canDeleteItem: ArrayBuilderOptions['canDeleteItem'],
+ *   duplicateChecks: ArrayBuilderOptions['duplicateChecks'],
  * }} arrayBuilderOptions
  * @returns {CustomPageType}
  */
@@ -113,10 +109,9 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     getText,
     hasItemsKey,
     hideMaxItemsAlert,
-    introPath,
+    getIntroPath,
     isItemIncomplete,
     isReviewPage,
-    maxItems,
     missingInformationKey,
     nounPlural,
     nounSingular,
@@ -124,6 +119,10 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     titleHeaderLevel,
     useLinkInsteadOfYesNo,
     useButtonInsteadOfYesNo,
+    canEditItem,
+    canDeleteItem,
+    canAddItem,
+    duplicateChecks = {},
   } = arrayBuilderOptions;
 
   // use closure variable rather than useRef to
@@ -152,15 +151,36 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     const removedAlertRef = useRef(null);
     const reviewErrorAlertRef = useRef(null);
     const maxItemsAlertRef = useRef(null);
+    const dataRef = useRef(props.data);
     const { uiSchema, schema } = props;
     const { headingLevel, headingStyle } = useHeadingLevels(
       titleHeaderLevel,
       isReviewPage,
     );
     const Heading = `h${headingLevel}`;
+    const maxItems = maxItemsFn(arrayBuilderOptions.maxItems, props.data);
     const isMaxItemsReached = arrayData?.length >= maxItems;
     const hasReviewError =
       isReviewPage && checkHasYesNoReviewError(props.reviewErrors, hasItemsKey);
+
+    const duplicateCheckResult = checkIfArrayHasDuplicateData({
+      arrayPath,
+      duplicateChecks,
+      fullData: props.fullData,
+    });
+
+    const setDataFromRef = data => {
+      const dataToSet = { ...(dataRef.current || {}), ...data };
+      dataRef.current = dataToSet;
+      props.setData(dataToSet);
+    };
+
+    useEffect(
+      () => {
+        dataRef.current = props.data;
+      },
+      [props.data],
+    );
 
     useEffect(() => {
       const cleanupEmptyItems = () => {
@@ -172,7 +192,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
         if (arrayData?.length) {
           const newArrayData = filterEmptyItems(arrayData);
           if (newArrayData?.length !== arrayData.length) {
-            props.setData({ ...props.data, [arrayPath]: newArrayData });
+            setDataFromRef({ [arrayPath]: newArrayData });
           }
         }
       };
@@ -181,7 +201,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
         if (!isReviewPage && !arrayData?.length && required(props.data)) {
           // We shouldn't be on this page if there are no items and its required
           // because the required flow goes intro -> item page with no items
-          props.goToPath(introPath);
+          props.goToPath(getIntroPath(props.fullData));
         }
       };
 
@@ -189,8 +209,8 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
         // We shouldn't persist the 'yes' answer after an item is entered/cancelled
         // We should ask the yes/no question again after an item is entered/cancelled
         // Since it is required, it shouldn't be left null/undefined
-        if (!isReviewPage && props.data?.[hasItemsKey]) {
-          props.setData({ ...props.data, [hasItemsKey]: undefined });
+        if (!isReviewPage && dataRef.current?.[hasItemsKey]) {
+          setDataFromRef({ [hasItemsKey]: undefined });
         }
       };
 
@@ -244,36 +264,35 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
 
     useEffect(
       () => {
-        if (
-          (uiSchema &&
-            schema?.properties &&
-            isMaxItemsReached &&
-            props.data?.[hasItemsKey] !== false) ||
-          (isReviewPage && props.data?.[hasItemsKey] == null)
-        ) {
-          // 1. If the user has reached the max items, we want to make sure the
-          //    yes/no field is set to false because it will be hidden yet required.
-          //    So we need to make sure it's false so it doesn't block the continue button.
-          // 2. the yes/no field should never be null/undefined on the final review page,
-          //    or it could cause a hidden validation error.
-          props.setData({ ...props.data, [hasItemsKey]: false });
-        }
-      },
-      [isReviewPage, arrayData?.length],
-    );
+        // Ensure yes/no field is never left in a bad state:
+        // - On summary page: force false when max items reached (field hidden but still required)
+        // - On review page: force false to avoid hidden validation error
+        const length = Array.isArray(arrayData) ? arrayData.length : 0;
+        const reachedMax =
+          Number.isFinite(maxItems) && maxItems > 0 && length >= maxItems;
 
-    function forceRerender(data = props.data) {
-      // This is a hacky workaround to rerender the page
-      // due to the way SchemaForm interacts with CustomPage
-      // here in order to hide/show alerts correctly.
-      props.setData({
-        ...data,
-        _metadata: {
-          ...data._metadata,
-          [`${nounPlural}ForceRenderTimestamp`]: Date.now(),
-        },
-      });
-    }
+        const id = requestAnimationFrame(() => {
+          const curr = dataRef.current || {};
+          const val = curr?.[hasItemsKey];
+
+          const setFalseForReview = isReviewPage && typeof val === 'undefined';
+          const setFalseForMax = !isReviewPage && reachedMax && val !== false;
+
+          if (setFalseForMax || setFalseForReview) {
+            setDataFromRef({ [hasItemsKey]: false });
+          }
+        });
+
+        return () => cancelAnimationFrame(id);
+      },
+      [
+        isReviewPage,
+        hasItemsKey,
+        maxItems,
+        props.data?.[hasItemsKey],
+        Array.isArray(arrayData) ? arrayData.length : 0,
+      ],
+    );
 
     useEffect(
       () => {
@@ -321,7 +340,6 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
           ),
         );
       });
-      forceRerender();
     }
 
     function onDismissRemovedAlert() {
@@ -335,10 +353,11 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
           ),
         );
       });
-      forceRerender();
     }
 
-    function onRemoveItem(index, item) {
+    function onRemoveItem(index, item, newFormData) {
+      const onUpdate = isReviewPage ? props.setData : props.onChange;
+      onUpdate(newFormData);
       // updated alert may be from initial state (URL path)
       // so we can go ahead and remove it if there is a new
       // alert
@@ -371,15 +390,19 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
 
     const Title = ({ textType }) => {
       const text = getText(textType, updatedItemData, props.data);
-
+      const baseClasses = ['vads-u-color--gray-dark', 'vads-u-margin-top--0'];
       return text ? (
         <Heading
-          className={`vads-u-color--gray-dark vads-u-margin-top--0${headingStyle}`}
+          className={classNames(baseClasses, headingStyle)}
           data-title-for-noun-singular={nounSingular}
         >
           {text}
         </Heading>
       ) : null;
+    };
+
+    Title.propTypes = {
+      textType: PropTypes.string.isRequired,
     };
 
     const UpdatedAlert = ({ show }) => {
@@ -402,6 +425,10 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
       );
     };
 
+    UpdatedAlert.propTypes = {
+      show: PropTypes.bool.isRequired,
+    };
+
     const RemovedAlert = ({ show }) => {
       return (
         <div ref={removedAlertRef}>
@@ -415,6 +442,10 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
           ) : null}
         </div>
       );
+    };
+
+    RemovedAlert.propTypes = {
+      show: PropTypes.bool.isRequired,
     };
 
     const ReviewErrorAlert = ({ show }) => {
@@ -435,6 +466,10 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
           ) : null}
         </div>
       );
+    };
+
+    ReviewErrorAlert.propTypes = {
+      show: PropTypes.bool.isRequired,
     };
 
     const Alerts = () => {
@@ -487,10 +522,20 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
         onRemoveAll={onRemoveAllItems}
         onRemove={onRemoveItem}
         isReview={isReviewPage}
-        forceRerender={forceRerender}
         titleHeaderLevel={headingLevel}
+        fullData={props.fullData}
+        canEditItem={canEditItem}
+        canDeleteItem={canDeleteItem}
+        duplicateChecks={duplicateChecks}
+        duplicateCheckResult={duplicateCheckResult}
       />
     );
+
+    // Calculate hideAdd based on maxItems and canAddItem
+    const canAddItemCheck =
+      typeof canAddItem !== 'function' ||
+      canAddItem({ arrayData, fullData: props.data, isReview: isReviewPage });
+    const hideAdd = isMaxItemsReached || !canAddItemCheck;
 
     if (isReviewPage) {
       return (
@@ -503,7 +548,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
           Alerts={Alerts}
           Cards={Cards}
           Title={Title}
-          hideAdd={isMaxItemsReached}
+          hideAdd={hideAdd}
         />
       );
     }
@@ -532,6 +577,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
               nounSingular,
               errors,
               arrayPath,
+              fullData: formData,
             });
           },
         ],
@@ -548,25 +594,25 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
       ...uiSchema,
     };
     let newSchema = schema;
-    let titleTextType;
-    let descriptionTextType;
-    let UIDescription;
     const NavButtons = props.NavButtons || FormNavButtons;
+    const hasArrayItems = !!arrayData?.length;
 
-    if (arrayData?.length > 0) {
-      titleTextType = 'summaryTitle';
-      descriptionTextType = 'summaryDescription';
-      UIDescription = (
-        <>
-          <Alerts />
-          <Cards />
-        </>
-      );
-    } else {
-      titleTextType = 'summaryTitleWithoutItems';
-      descriptionTextType = 'summaryDescriptionWithoutItems';
-      UIDescription = <Alerts />;
-    }
+    const typeSuffix = hasArrayItems ? '' : 'WithoutItems';
+    const titleTextType = `summaryTitle${typeSuffix}`;
+    const descriptionTextType = `summaryDescription${typeSuffix}`;
+
+    const renderKey = [
+      showUpdatedAlert ? 'u1' : 'u0',
+      showRemovedAlert ? 'r1' : 'r0',
+      showReviewErrorAlert ? 'e1' : 'e0',
+      isMaxItemsReached ? 'm1' : 'm0',
+    ].join('-');
+    const UIDescription = (
+      <div key={renderKey}>
+        <Alerts />
+        {hasArrayItems && <Cards />}
+      </div>
+    );
 
     const descriptionText = getText(descriptionTextType, null, props.data);
     const UITitle = (
@@ -582,8 +628,6 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
 
     newUiSchema['ui:title'] = UITitle;
     newUiSchema['ui:description'] = UIDescription;
-
-    const hideAdd = maxItems && arrayData?.length >= maxItems;
 
     if (schema?.properties?.[hasItemsKey]) {
       if (
@@ -628,18 +672,27 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
       );
     }
 
-    const onNavForward = () => {
+    const onSubmit = (...args) => {
       const isValid = validateIncompleteItems({
         arrayData: get(arrayPath, props.data),
         isItemIncomplete,
         nounSingular,
         errors: { addError: () => {} },
         arrayPath,
+        fullData: props.fullData,
       });
 
       if (isValid) {
-        props.onContinue();
-        props.onSubmit(props.data);
+        // NOTE: Blocking submission using duplicateChecks.allowDuplicates is
+        // not enabled in MVP because we need to consider UX of the modal first
+        // if (
+        //   duplicateChecks?.allowDuplicates === false &&
+        //   duplicateCheckResult.hasDuplicate
+        // ) {
+        //   scrollAndFocus('va-card:has(.array-builder-duplicate-alert)');
+        // } else {
+        props.onSubmit(...args);
+        // }
       }
     };
 
@@ -655,7 +708,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
         formContext={props.formContext}
         trackingPrefix={props.trackingPrefix}
         onChange={props.onChange}
-        onSubmit={onNavForward}
+        onSubmit={onSubmit}
         formOptions={props.formOptions}
       >
         <>
@@ -664,7 +717,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
           {props.contentBeforeButtons}
           <NavButtons
             goBack={props.goBack}
-            goForward={onNavForward}
+            goForward={props.onContinue}
             submitToContinue
             useWebComponents={props.formOptions?.useWebComponentForNavigation}
           />
@@ -677,13 +730,14 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
   CustomPage.propTypes = {
     name: PropTypes.string.isRequired,
     schema: PropTypes.object,
-    uiSchema: PropTypes.object,
+    uiSchema: PropTypes.object.isRequired,
     appStateData: PropTypes.object,
     contentAfterButtons: PropTypes.node,
     contentBeforeButtons: PropTypes.node,
     data: PropTypes.object,
     formContext: PropTypes.object,
     formOptions: PropTypes.object,
+    fullData: PropTypes.object,
     goBack: PropTypes.func,
     goToPath: PropTypes.func,
     onChange: PropTypes.func,
@@ -695,7 +749,6 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     recalculateErrors: PropTypes.func,
     reviewErrors: PropTypes.object,
     setData: PropTypes.func, // available regardless of review page or not
-    setFormData: PropTypes.func, // not available on review page
     title: PropTypes.string,
     trackingPrefix: PropTypes.string,
     NavButtons: PropTypes.func,

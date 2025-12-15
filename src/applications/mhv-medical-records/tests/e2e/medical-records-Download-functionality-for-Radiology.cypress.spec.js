@@ -3,13 +3,20 @@ import LabsAndTestsListPage from './pages/LabsAndTestsListPage';
 import RadiologyDetailsPage from './pages/RadiologyDetailsPage';
 
 describe('Medical Records Download Functionality For Radiology', () => {
-  it('Visits Medical Records View Labs And Tests Details', () => {
-    const site = new MedicalRecordsSite();
+  const site = new MedicalRecordsSite();
+
+  beforeEach(() => {
     site.login();
+    site.loadPage();
+  });
+
+  it('Visits Medical Records View Labs And Tests Details', () => {
+    // const site = new MedicalRecordsSite();
+    // site.login();
     // cy.visit('my-health/medical-records/labs-and-tests');
     LabsAndTestsListPage.goToLabsAndTests();
     // Navigate to radiology page
-    LabsAndTestsListPage.clickRadiologyDetailsLink(0);
+    LabsAndTestsListPage.clickRadiologyDetailsLink('CHEST 2 VIEWS PA&LAT');
 
     // should display a toggle menu button
     RadiologyDetailsPage.verifyPrintOrDownload();

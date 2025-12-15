@@ -3,7 +3,6 @@ import { createApi } from '@reduxjs/toolkit/query/react';
 import { apiRequestWithUrl } from 'applications/vaos/services/utils';
 import { captureError } from '../../utils/error';
 import { fetchPendingAppointments } from '../actions';
-import { cacheDraftReferralAppointment } from '../../referral-appointments/redux/actions';
 
 export const vaosApi = createApi({
   reducerPath: 'appointmentApi',
@@ -41,11 +40,51 @@ export const vaosApi = createApi({
       // Needs an argumant to be passed in to trigger the query.
       async onQueryStarted(id, { dispatch }) {
         dispatch(fetchPendingAppointments());
-        // Reset draft referral appointment cache when fetching new referrals.
-        dispatch(cacheDraftReferralAppointment({}));
       },
     }),
-    postDraftReferralAppointment: builder.mutation({
+    getAppointmentInfo: builder.query({
+      async queryFn(appointmentId) {
+        try {
+          return await apiRequestWithUrl(
+            `/vaos/v2/eps_appointments/${appointmentId}`,
+            {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+                'X-Page-Type': 'details',
+              },
+            },
+          );
+        } catch (error) {
+          captureError(error, false, 'details fetch appointment info');
+          return {
+            error: { status: error.status || 500, message: error.message },
+          };
+        }
+      },
+    }),
+    pollAppointmentInfo: builder.query({
+      async queryFn(appointmentId) {
+        try {
+          return await apiRequestWithUrl(
+            `/vaos/v2/eps_appointments/${appointmentId}`,
+            {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+                'X-Page-Type': 'polling',
+              },
+            },
+          );
+        } catch (error) {
+          captureError(error, false, 'poll fetch appointment info');
+          return {
+            error: { status: error.status || 500, message: error.message },
+          };
+        }
+      },
+    }),
+    getDraftReferralAppointment: builder.query({
       async queryFn({ referralNumber, referralConsultId }) {
         try {
           return await apiRequestWithUrl(`/vaos/v2/appointments/draft`, {
@@ -104,6 +143,8 @@ export const vaosApi = createApi({
 export const {
   useGetReferralByIdQuery,
   useGetPatientReferralsQuery,
-  usePostDraftReferralAppointmentMutation,
+  useGetAppointmentInfoQuery,
+  usePollAppointmentInfoQuery,
   usePostReferralAppointmentMutation,
+  useGetDraftReferralAppointmentQuery,
 } = vaosApi;

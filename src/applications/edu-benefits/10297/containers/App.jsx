@@ -8,6 +8,8 @@ import formConfig from '../config/form';
 import { addStyleToShadowDomOnPages } from '../../utils/helpers';
 import NeedHelp from '../components/NeedHelp';
 import Breadcrumbs from '../components/Breadcrumbs';
+import manifest from '../manifest.json';
+import { TITLE } from '../constants';
 
 export default function App({ location, children }) {
   const userLoggedIn = useSelector(state => isLoggedIn(state));
@@ -15,16 +17,16 @@ export default function App({ location, children }) {
     // Insert CSS to hide 'For example: January 19 2000' hint on memorable dates
     // (can't be overridden by passing 'hint' to uiOptions):
     addStyleToShadowDomOnPages(
-      ['date-released-from-active-duty'],
+      ['date-released-from-active-duty', 'training-provider-start-date'],
       ['va-memorable-date'],
       '#dateHint {display: none}',
     );
+    document.title = `${TITLE} | Veterans Affairs`;
   });
   useEffect(
     () => {
       if (!userLoggedIn && location.pathname !== '/introduction') {
-        window.location.href =
-          '/education/other-va-education-benefits/high-technology-program/apply-for-high-technology-program-form-22-10297/introduction';
+        window.location.href = manifest.rootUrl;
       }
     },
     [userLoggedIn, location],

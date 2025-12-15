@@ -6,6 +6,15 @@ import { scrollTo } from 'platform/utilities/scroll';
 
 import { electronicCorrespondenceMessage } from '../config/chapters/veteran-contact-information/editEmailPage';
 
+/**
+ * Veteran contact information Review Component
+ * @typedef {object} VeteranContactInformationReviewProps
+ * @property {object} data - form data
+ * @property {function} goToPath - function to go to specific path
+ *
+ * @param {VeteranContactInformationReviewProps} props - Component props
+ * @returns {React.Component} - Veteran contact information review page
+ */
 const VeteranContactInformationReviewPage = ({ data, goToPath }) => {
   const dispatch = useDispatch();
   const {
@@ -90,6 +99,7 @@ const VeteranContactInformationReviewPage = ({ data, goToPath }) => {
     <span className="usa-input-error-message">{message}</span>
   );
   const isUSA = address.country === 'USA';
+  const phoneSource = data['view:phoneSource'] || 'Mobile';
 
   return (
     <div className="form-review-panel-page">
@@ -206,21 +216,24 @@ const VeteranContactInformationReviewPage = ({ data, goToPath }) => {
 
       <div className="form-review-panel-page-header-row vads-u-margin-top--4">
         <h4 className="form-review-panel-page-header vads-u-font-size--h5 vads-u-margin--0">
-          Home phone number
+          {`${phoneSource} phone number`}
         </h4>
         <va-button
           secondary
           class="edit-page float-right"
           onClick={handlers.editPhone}
-          label="Edit home phone number"
+          label={`Edit ${phoneSource} phone number`}
           text="Edit"
           ref={phoneRef}
         />
       </div>
       <dl className="review">
         <div className="review-row">
-          <dt>Home phone number</dt>
-          <dd className="dd-privacy-hidden" data-dd-action-name="home phone">
+          <dt>{`${phoneSource} phone number`}</dt>
+          <dd
+            className="dd-privacy-hidden"
+            data-dd-action-name={`${phoneSource} phone number`}
+          >
             <strong>
               {phone ? (
                 <va-telephone contact={phone} not-clickable />
@@ -264,6 +277,7 @@ VeteranContactInformationReviewPage.propTypes = {
   goToPath: PropTypes.func.isRequired,
   data: PropTypes.shape({
     email: PropTypes.string,
+    'view:phoneSource': PropTypes.string,
     phone: PropTypes.string,
     address: PropTypes.shape({
       country: PropTypes.string,

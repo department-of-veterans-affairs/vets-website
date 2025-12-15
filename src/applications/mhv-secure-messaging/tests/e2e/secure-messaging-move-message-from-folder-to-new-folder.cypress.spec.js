@@ -6,7 +6,7 @@ import mockFoldersResponse from './fixtures/folder-response.json';
 import createdFolderResponse from './fixtures/customResponse/created-folder-response.json';
 import { AXE_CONTEXT } from './utils/constants';
 
-describe('Secure Messaging Move Message tests', () => {
+describe('Secure Messaging Move Message to New Folder tests', () => {
   it(`move message from inbox to new folder`, () => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
@@ -17,16 +17,17 @@ describe('Secure Messaging Move Message tests', () => {
       data: [...mockFoldersResponse.data, createdFolderResponse.data],
     };
 
-    FolderManagementPage.selectFolderFromModal(`newFolder`);
+    FolderManagementPage.selectFolderFromModal(`Create new folder`);
     FolderManagementPage.moveMessageToNewFolder(updatedFoldersList);
 
+    // backToInbox just hits the back button.
     FolderManagementPage.backToInbox();
 
-    GeneralFunctionsPage.verifyUrl(`inbox`);
+    GeneralFunctionsPage.verifyUrl(
+      `folders/${createdFolderResponse.data.attributes.folderId}`,
+    );
 
-    cy.get(`h1`)
-      .should('be.focused')
-      .and(`have.text`, `Messages: Inbox`);
+    cy.get(`va-alert`).should('be.focused');
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

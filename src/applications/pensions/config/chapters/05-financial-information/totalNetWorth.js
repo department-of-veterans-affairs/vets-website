@@ -3,56 +3,38 @@ import {
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
-import {
-  AssetInformationAlert,
-  RequestIncomeAndAssetInformationAlert,
-} from '../../../components/FormAlerts';
-import { showIncomeAndAssetsClarification } from '../../../helpers';
+import { AssetsInformation } from '../../../components/FormAlerts';
+import { showPdfFormAlignment } from '../../../helpers';
 
 const { totalNetWorth } = fullSchemaPensions.properties;
 
-// TODO: Remove this page when pension_income_and_assets_clarification flipper is removed
-
-const path = !showIncomeAndAssetsClarification()
-  ? 'financial/total-net-worth'
-  : 'temporarily-hidden-total-net-worth';
+const threshold = showPdfFormAlignment() ? 75000 : 25000;
 
 /** @type {PageSchema} */
 export default {
   title: 'Total net worth',
-  path,
-  depends: () => !showIncomeAndAssetsClarification(),
+  path: 'financial/total-net-worth',
   uiSchema: {
     ...titleUI(
       'Income and assets',
-      'We need to know if you and your dependents have over $25,000 in assets.',
+      `We need to know if you and your dependents have over $${threshold.toLocaleString()} in combined assets.`,
     ),
-    'view:warningAlert': {
-      'ui:description': AssetInformationAlert,
+    'view:AssetsInformation': {
+      'ui:description': AssetsInformation,
     },
     totalNetWorth: yesNoUI({
-      title: 'Do you and your dependents have over $25,000 in assets?',
+      title: `Do you and your dependents have over $${threshold.toLocaleString()} in combined assets?`,
     }),
-    'view:warningAlertOnYes': {
-      'ui:description': RequestIncomeAndAssetInformationAlert,
-      'ui:options': {
-        hideIf: formData => formData.totalNetWorth !== true,
-      },
-    },
   },
   schema: {
     type: 'object',
     required: ['totalNetWorth'],
     properties: {
-      'view:warningAlert': {
+      'view:AssetsInformation': {
         type: 'object',
         properties: {},
       },
       totalNetWorth,
-      'view:warningAlertOnYes': {
-        type: 'object',
-        properties: {},
-      },
     },
   },
 };

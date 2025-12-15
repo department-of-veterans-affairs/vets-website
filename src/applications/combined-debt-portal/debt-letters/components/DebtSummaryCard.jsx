@@ -8,21 +8,10 @@ import { VaLink } from '@department-of-veterans-affairs/component-library/dist/r
 import { deductionCodes } from '../const/deduction-codes';
 import { setActiveDebt } from '../../combined/actions/debts';
 import { currency } from '../utils/page';
-import { debtSummaryText } from '../const/diary-codes/debtSummaryCardContent';
-
-// Define the Post-9/11 GI Bill housing debt codes
-const HOUSING_DEBT_CODES = [
-  '16',
-  '17',
-  '18',
-  '19',
-  '20',
-  '48',
-  '49',
-  '50',
-  '51',
-  '72',
-];
+import {
+  debtSummaryText,
+  resolveLinkDiaryCodes,
+} from '../const/diary-codes/debtSummaryCardContent';
 
 const DebtSummaryCard = ({ debt }) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
@@ -37,9 +26,6 @@ const DebtSummaryCard = ({ debt }) => {
     mostRecentHistory?.date,
     debtCardTotal,
   );
-
-  // Check if the debt is a Post-9/11 GI Bill housing debt
-  const isHousingDebt = HOUSING_DEBT_CODES.includes(debt.deductionCode);
 
   return (
     <va-card
@@ -56,51 +42,43 @@ const DebtSummaryCard = ({ debt }) => {
       </p>
       {debtCardSubHeading}
 
-      {/* Housing debt specific note */}
-      {isHousingDebt && (
-        <p className="vads-u-margin-top--2 vads-u-margin-bottom--2">
-          <strong>Note:</strong> As of August 5, 2025, we now add an ID number
-          (called a "receivable ID") to each VA education debt letter. You’ll
-          need this number instead of your VA file number or Social Security
-          number to process a payment. Questions? Call us at{' '}
-          <va-telephone contact="8008270648" />. We’re here Monday through
-          Friday, 7:30 a.m. to 7:00 p.m. ET.
-        </p>
-      )}
-
       {showResolveLinks ? (
         <>
-          <VaLink
-            active
-            data-testid="debt-details-link"
-            onClick={() => {
-              recordEvent({ event: 'cta-link-click-debt-summary-card' });
-              dispatch(setActiveDebt(debt));
-            }}
-            href={`/manage-va-debt/summary/debt-balances/details/${
-              debt.compositeDebtId
-            }`}
-            text="Review details"
-            aria-label={`Check details for ${debtCardHeading}`}
-          />
-          <div className="vads-u-margin-top--1">
+          <p className="vads-u-margin-bottom--0">
             <VaLink
               active
-              data-testid="debt-resolve-link"
+              data-testid="debt-details-link"
               onClick={() => {
                 recordEvent({ event: 'cta-link-click-debt-summary-card' });
                 dispatch(setActiveDebt(debt));
               }}
-              href={`/manage-va-debt/summary/debt-balances/details/${
+              href={`/manage-va-debt/summary/debt-balances/${
                 debt.compositeDebtId
-              }/resolve`}
-              text="Resolve this debt"
-              aria-label={`Resolve ${debtCardHeading}`}
+              }`}
+              text="Review details"
+              label={`Check details for ${debtCardHeading}`}
             />
-          </div>
+          </p>
+          {resolveLinkDiaryCodes.includes(debt.diaryCode) ? (
+            <p className="vads-u-margin-top--1 vads-u-margin-bottom--0">
+              <VaLink
+                active
+                data-testid="debt-resolve-link"
+                onClick={() => {
+                  recordEvent({ event: 'cta-link-click-debt-summary-card' });
+                  dispatch(setActiveDebt(debt));
+                }}
+                href={`/manage-va-debt/summary/debt-balances/${
+                  debt.compositeDebtId
+                }/resolve`}
+                text="Resolve this overpayment"
+                label={`Resolve ${debtCardHeading}`}
+              />
+            </p>
+          ) : null}
         </>
       ) : (
-        <>
+        <p className="vads-u-margin-bottom--0">
           <VaLink
             active
             data-testid="debt-details-button"
@@ -108,13 +86,13 @@ const DebtSummaryCard = ({ debt }) => {
               recordEvent({ event: 'cta-link-click-debt-summary-card' });
               dispatch(setActiveDebt(debt));
             }}
-            href={`/manage-va-debt/summary/debt-balances/details/${
+            href={`/manage-va-debt/summary/debt-balances/${
               debt.compositeDebtId
             }`}
-            text="Check details and resolve this debt"
+            text="Check details and Resolve this overpayment"
             label={`Check details and resolve this ${debtCardHeading}`}
           />
-        </>
+        </p>
       )}
     </va-card>
   );

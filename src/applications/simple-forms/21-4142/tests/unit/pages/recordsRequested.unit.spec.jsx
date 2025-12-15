@@ -1,7 +1,7 @@
 import {
   testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfWebComponentFields,
-} from '../../../../shared/tests/pages/pageTests.spec';
+} from 'platform/forms-system/test/pageTestHelpers.spec';
 import { patientIdentificationFields } from '../../../definitions/constants';
 import formConfig from '../../../config/form';
 

@@ -11,8 +11,9 @@ export default function ReviewRequestInfo({
   vaCityState,
   pageTitle,
 }) {
-  const isCommunityCare = data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
-  const isVAAppointment = data.facilityType === FACILITY_TYPES.VAMC;
+  const isCommunityCare =
+    data.facilityType === FACILITY_TYPES.COMMUNITY_CARE.id;
+  const isVAAppointment = data.facilityType === FACILITY_TYPES.VAMC.id;
 
   return (
     <div>

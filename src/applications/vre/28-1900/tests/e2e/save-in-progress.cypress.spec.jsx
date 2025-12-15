@@ -32,13 +32,20 @@ const testConfig = createTestConfig(
           );
         });
       },
+      confirmation: ({ afterHook }) => {
+        afterHook(() => {
+          cy.get(
+            `va-link[text="Download a copy of your VA Form 28-1900"]`,
+          ).should('be.visible');
+        });
+      },
     },
 
     setupPerTest: () => {
       cy.intercept('GET', '/v0/user', userSip);
       cy.intercept('/v0/feature_toggles*', featureToggles);
-      cy.intercept('PUT', '/v0/in_progress_forms/28-1900-V2', mockInProgress);
-      cy.intercept('GET', '/v0/in_progress_forms/28-1900-V2', mockPrefill);
+      cy.intercept('PUT', '/v0/in_progress_forms/28-1900', mockInProgress);
+      cy.intercept('GET', '/v0/in_progress_forms/28-1900', mockPrefill);
       cy.intercept('POST', '/v0/veteran_readiness_employment_claims', submit);
       cy.login(userSip);
     },

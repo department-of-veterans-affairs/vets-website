@@ -5,6 +5,7 @@ import {
   isArrayAndHasItems,
   extractContainedResource,
   formatNameFirstToLast,
+  formatDateTime,
 } from '../util/helpers';
 
 const initialState = {
@@ -113,6 +114,27 @@ export const convertNewCondition = condition => {
   return null;
 };
 
+export const convertUnifiedCondition = condition => {
+  const formatConditionDate = formatDateTime(condition?.attributes?.date);
+  const conditionDate = formatConditionDate
+    ? formatConditionDate.formattedDate
+    : '';
+  // Ensure a finite timestamp
+  const ts = new Date(condition?.attributes?.date).getTime();
+
+  return {
+    id: condition?.id,
+    name: condition?.attributes?.name || EMPTY_FIELD,
+    date: conditionDate || EMPTY_FIELD,
+    sortKey: Number.isFinite(ts) ? ts : null,
+    provider: condition?.attributes?.provider || EMPTY_FIELD,
+    facility: condition?.attributes?.facility || EMPTY_FIELD,
+    comments: isArrayAndHasItems(condition?.attributes?.comments)
+      ? condition.attributes?.comments
+      : EMPTY_FIELD,
+  };
+};
+
 export const conditionReducer = (state = initialState, action) => {
   switch (action.type) {
     case Actions.Conditions.GET: {
@@ -140,15 +162,16 @@ export const conditionReducer = (state = initialState, action) => {
       const oldList = state.conditionsList;
       let newList;
       if (action.response.resourceType) {
-        newList =
-          action.response.entry
-            ?.map(record => {
-              const condition = record.resource;
-              return convertCondition(condition);
-            })
-            .sort((a, b) => new Date(b.date) - new Date(a.date)) || [];
+        // Harden: ensure entry is an array before map/sort to avoid undefined.sort TypeErrors
+        const fhirEntry = Array.isArray(action.response?.entry)
+          ? action.response.entry
+          : [];
+        newList = fhirEntry
+          .map(record => convertCondition(record.resource))
+          .sort((a, b) => new Date(b.date) - new Date(a.date));
       } else {
-        newList = action.response.data?.map(record =>
+        // Ensure we always produce an array for non-FHIR responses
+        newList = (action.response?.data || []).map(record =>
           convertNewCondition(record.attributes),
         );
       }
@@ -158,6 +181,31 @@ export const conditionReducer = (state = initialState, action) => {
         listState: loadStates.FETCHED,
         conditionsList: typeof oldList === 'undefined' ? newList : oldList,
         updatedList: typeof oldList !== 'undefined' ? newList : undefined,
+      };
+    }
+    case Actions.Conditions.GET_UNIFIED_ITEM: {
+      return {
+        ...state,
+        conditionDetails: convertUnifiedCondition(action.response.data),
+      };
+    }
+    case Actions.Conditions.GET_UNIFIED_LIST: {
+      const data = action.response?.data || [];
+      const newList =
+        data
+          .map(condition => {
+            return convertUnifiedCondition(condition);
+          })
+          .sort((a, b) => {
+            const ak = Number.isFinite(a.sortKey) ? a.sortKey : -Infinity;
+            const bk = Number.isFinite(b.sortKey) ? b.sortKey : -Infinity;
+            return bk - ak; // desc, missing/invalid last
+          }) || [];
+      return {
+        ...state,
+        listCurrentAsOf: action.isCurrent ? new Date() : null,
+        listState: loadStates.FETCHED,
+        conditionsList: newList,
       };
     }
     case Actions.Conditions.COPY_UPDATED_LIST: {

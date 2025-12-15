@@ -2,10 +2,12 @@ import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import PeriodOfConfinement from '../components/PeriodOfConfinement';
-import { claimingNew, formatDate } from '../utils';
+import { claimingNew } from '../utils';
+import { formatDate } from '../utils/dates/formatting';
 import { makeSchemaForNewDisabilities } from '../utils/schemas';
 import { isWithinServicePeriod } from '../validations';
 import { confinementDescription } from '../content/prisonerOfWar';
+import ConfirmationPrisonerOfWar from '../components/confirmationFields/ConfirmationPrisonerOfWar';
 
 const confinementUI = dateRangeUI(
   'From',
@@ -54,6 +56,7 @@ export const uiSchema = {
       },
     },
   },
+  'ui:confirmationField': ConfirmationPrisonerOfWar,
 };
 
 export const schema = {

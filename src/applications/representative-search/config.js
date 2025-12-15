@@ -22,44 +22,40 @@ export const searchAreaOptions = {
   '200': '200 miles',
   'Show all': 'Show all',
 };
-const appUrl = new URL(environment.BASE_URL);
-const apiUrl = new URL(environment.API_URL);
-
-const LOCAL_HOST = 'localhost:3001';
-const STAGING_HOST = 'staging-api.va.gov';
-
-const isLocal = appUrl.host === LOCAL_HOST;
-const isStaging = apiUrl.host === STAGING_HOST;
-
-const baseUrl = isLocal ? `https://${STAGING_HOST}` : apiUrl.origin; // We use .origin here to have no trailing slash
-const isLocalOrStaging = isLocal || isStaging;
-
-export const endpointOptions = () => {
-  // When we were testing with isCypressTest, this value needs to be set to the legacy endpoint.
-  // At the time of writing the Accreditation API had no data for VSO Representatives.
-  const isCypressTest = typeof Cypress !== 'undefined';
-  if (isCypressTest)
-    return {
-      fetchVSOReps: `/services/veteran/v0/vso_accredited_representatives`, // Legacy endpoint
-      fetchOtherReps: `/services/veteran/v0/other_accredited_representatives`, // Legacy endpoint
-      flagReps: `/representation_management/v0/flag_accredited_representatives`, // Legacy endpoint
-    };
-
-  return {
-    fetchVSOReps: isLocalOrStaging
-      ? `/representation_management/v0/accredited_individuals` // Accreditation API data endpoint
-      : `/services/veteran/v0/vso_accredited_representatives`, // Legacy endpoint
-
-    fetchOtherReps: isLocalOrStaging
-      ? `/representation_management/v0/accredited_individuals` // Accreditation API data endpoint
-      : `/services/veteran/v0/other_accredited_representatives`, // Legacy endpoint
-    flagReps: `/representation_management/v0/flag_accredited_representatives`, // Legacy endpoint
-  };
-};
 
 /*
  * Toggle true for local development
  */
+export const useStagingDataLocally = true;
+
+const baseUrl =
+  useStagingDataLocally && environment.BASE_URL === 'http://localhost:3001'
+    ? 'https://staging-api.va.gov'
+    : environment.API_URL;
+
+let endpoints = {
+  fetchVSOReps: '/services/veteran/v0/vso_accredited_representatives',
+  fetchOtherReps: '/services/veteran/v0/other_accredited_representatives',
+  flagReps: '/representation_management/v0/flag_accredited_representatives',
+};
+
+export const getEndpointOptions = () => endpoints;
+
+export const setRepSearchEndpointsFromFlag = enabled => {
+  if (enabled) {
+    endpoints = {
+      ...endpoints,
+      fetchVSOReps: '/representation_management/v0/accredited_individuals',
+      fetchOtherReps: '/representation_management/v0/accredited_individuals',
+    };
+  } else {
+    endpoints = {
+      ...endpoints,
+      fetchVSOReps: '/services/veteran/v0/vso_accredited_representatives',
+      fetchOtherReps: '/services/veteran/v0/other_accredited_representatives',
+    };
+  }
+};
 
 export const formatReportBody = newReport => {
   const reportRequestBody = {

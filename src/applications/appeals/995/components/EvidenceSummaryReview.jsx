@@ -1,25 +1,20 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-
 import { focusElement } from '@department-of-veterans-affairs/platform-forms-system/ui';
-
 import {
   getVAEvidence,
   getPrivateEvidence,
   getOtherEvidence,
 } from '../utils/evidence';
-
-import { content } from '../content/evidenceSummary';
-
-import { EvidencePrivateContent } from './EvidencePrivateContent';
+import { content } from '../content/evidence/summary';
+import { PrivateDetailsDisplay } from './evidence/PrivateDetailsDisplay';
 import { EvidenceUploadContent } from './EvidenceUploadContent';
-import { EvidenceVaContent } from './EvidenceVaContent';
-import { SUMMARY_EDIT, SC_NEW_FORM_DATA, EVIDENCE_LIMIT } from '../constants';
+import { VaDetailsDisplay } from './evidence/VaDetailsDisplay';
+import { SUMMARY_EDIT, HAS_PRIVATE_LIMITATION } from '../constants';
 import { data995 } from '../../shared/props';
 
 const EvidenceSummaryReview = ({ data, editPage }) => {
   const { limitedConsent = '', privacyAgreementAccepted } = data;
-
   const editRef = useRef(null);
 
   useEffect(
@@ -41,9 +36,6 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
   const privateEvidence = getPrivateEvidence(data);
   const otherEvidence = getOtherEvidence(data);
 
-  const showScNewForm = data[SC_NEW_FORM_DATA];
-  const showLimitedConsentYN = showScNewForm && data[EVIDENCE_LIMIT];
-
   const evidenceLength =
     vaEvidence.length + privateEvidence.length + otherEvidence.length;
   const noEvidence = evidenceLength === 0;
@@ -57,7 +49,6 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
   };
 
   const props = {
-    showScNewForm,
     isOnReviewPage: true,
     reviewMode: true,
   };
@@ -78,7 +69,6 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
           text={content.edit}
         />
       </div>
-
       {noEvidence ? (
         <dl className="review">
           <div className="review-row">
@@ -87,11 +77,10 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
           </div>
         </dl>
       ) : null}
-
-      <EvidenceVaContent list={vaEvidence} {...props} />
-      <EvidencePrivateContent
+      <VaDetailsDisplay list={vaEvidence} {...props} />
+      <PrivateDetailsDisplay
         list={privateEvidence}
-        showLimitedConsentYN={showLimitedConsentYN}
+        limitedConsentResponse={data?.[HAS_PRIVATE_LIMITATION]}
         limitedConsent={limitedConsent}
         privacyAgreementAccepted={privacyAgreementAccepted}
         {...props}
@@ -102,7 +91,7 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
 };
 
 EvidenceSummaryReview.propTypes = {
-  data: data995,
+  data: PropTypes.shape(data995),
   editPage: PropTypes.func,
 };
 

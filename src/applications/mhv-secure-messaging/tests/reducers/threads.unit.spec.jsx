@@ -46,6 +46,7 @@ describe('threads reducer', () => {
         return { ...thrdAttr };
       }),
       isLoading: false,
+      refetchRequired: false,
     });
   });
 

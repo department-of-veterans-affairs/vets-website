@@ -15,7 +15,7 @@ import get from '~/platform/utilities/data/get';
 import set from '~/platform/utilities/data/set';
 import { getArrayIndexFromPathName, getArrayUrlSearchParams } from './helpers';
 
-function formatPath(path) {
+export function formatPath(path) {
   return path && path.charAt(0) !== '/' ? `/${path}` : path;
 }
 
@@ -30,7 +30,7 @@ function formatPath(path) {
  *   required: (formData) => boolean,
  *   reviewRoute: string,
  *   introRoute: string,
- *   getText: import('./arrayBuilderText').ArrayBuilderGetText,
+ *   getText: ArrayBuilderGetText,
  * }} props
  */
 const ArrayBuilderCancelButton = ({
@@ -136,6 +136,8 @@ const ArrayBuilderCancelButton = ({
       <VaModal
         clickToClose
         status="warning"
+        data-dd-privacy="mask"
+        data-dd-action-name="Cancel Modal"
         modalTitle={getText(
           isEdit ? 'cancelEditTitle' : 'cancelAddTitle',
           currentItem,
@@ -160,7 +162,12 @@ const ArrayBuilderCancelButton = ({
         visible={isModalVisible}
         uswds
       >
-        {getText(modalDescriptionKey, currentItem, formData, arrayIndex)}
+        <div
+          className="dd-privacy-mask"
+          data-dd-action-name="Cancel Confirmation"
+        >
+          {getText(modalDescriptionKey, currentItem, formData, arrayIndex)}
+        </div>
       </VaModal>
     </div>
   );

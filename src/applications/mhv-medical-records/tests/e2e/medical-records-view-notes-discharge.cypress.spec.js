@@ -1,21 +1,21 @@
-import moment from 'moment';
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import NotesDetailsPage from './pages/NotesDetailsPage';
 import NotesListPage from './pages/NotesListPage';
 import notes from './fixtures/notes/notes.json';
+import { formatDateMonthDayCommaYear } from '../../util/dateHelpers';
 
 describe('Medical Records Care Summary Page', () => {
   const site = new MedicalRecordsSite();
 
-  before(() => {
+  beforeEach(() => {
     site.login();
     // Given Navigate to Notes Page
-    NotesListPage.clickGotoNotesLink();
+    NotesListPage.gotoNotesList();
   });
 
   it('Discharge Summary Details, DS with discharged date', () => {
     // should display Discharge Summary
-    NotesDetailsPage.clickDischargeSummaryLink(4);
+    NotesDetailsPage.clickDischargeSummaryLink(1);
 
     NotesDetailsPage.verifyDischargeSummaryTitle(
       notes.entry[1].resource.content[0].attachment.title,
@@ -27,7 +27,7 @@ describe('Medical Records Care Summary Page', () => {
     );
     // Verify Discharged Date
     NotesDetailsPage.verifyDischargeSummaryDischargeDate(
-      moment(notes.entry[1].resource.date).format('MMMM D, YYYY'),
+      formatDateMonthDayCommaYear(notes.entry[1].resource.date),
     );
     // Verify Discharge Summary discharged By
     NotesDetailsPage.verifyDischargeSummaryDischargedBy(

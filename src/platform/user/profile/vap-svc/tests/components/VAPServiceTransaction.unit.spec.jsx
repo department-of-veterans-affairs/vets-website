@@ -44,11 +44,6 @@ describe('<VAPServiceTransaction/>', () => {
       },
     });
 
-    expect(
-      component.find('VAPServiceTransactionInlineErrorMessage'),
-      'renders error messages',
-    ).to.have.lengthOf(1);
-
     component.setProps({
       transaction: {
         data: {

@@ -19,3 +19,8 @@ export const facilityLocatorAutosuggestVAMCServices = state =>
   toggleValues(state)[
     FEATURE_FLAG_NAMES.facilitiesAutoSuggestVAMCServicesEnabled
   ];
+
+export const showFacilityLocatorNoticeAboutNonVACare = state =>
+  toggleValues(state)[
+    FEATURE_FLAG_NAMES.showFacilityLocatorNoticeAboutNonVACare
+  ];

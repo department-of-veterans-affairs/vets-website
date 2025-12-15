@@ -1,6 +1,7 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import environment from 'platform/utilities/environment';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import {
   TITLE,
   SUBTITLE,
@@ -44,7 +45,7 @@ const formConfig = {
   formOptions: {
     useWebComponentForNavigation: true,
   },
-  formId: VA_FORM_IDS.FORM_28_1900_V2,
+  formId: VA_FORM_IDS.FORM_28_1900,
   saveInProgress: {
     messages: {
       inProgress:
@@ -65,6 +66,11 @@ const formConfig = {
   title: TITLE,
   subTitle: SUBTITLE,
   defaultDefinitions: {},
+  downtime: {
+    requiredForPrefill: true,
+    dependencies: [externalServices.vre],
+  },
+  useCustomScrollAndFocus: true,
   preSubmitInfo,
   chapters: {
     yourInformationChapter: {

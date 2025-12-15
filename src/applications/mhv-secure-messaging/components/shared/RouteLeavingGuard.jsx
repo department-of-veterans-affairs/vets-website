@@ -1,56 +1,147 @@
-import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import React, { useEffect, useState } from 'react';
-import { datadogRum } from '@datadog/browser-rum';
-import { Prompt } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { ErrorMessages } from '../../util/constants';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { datadogRum } from '@datadog/browser-rum';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { Prompt, useHistory, useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  clearDraftInProgress,
+  updateDraftInProgress,
+} from '../../actions/threadDetails';
+import { ErrorMessages, Paths } from '../../util/constants';
+import useBeforeUnloadGuard from '../../hooks/useBeforeUnloadGuard';
 
 export const RouteLeavingGuard = ({
-  navigate,
-  when,
-  shouldBlockNavigation,
-  title,
-  p1,
-  p2,
-  setIsModalVisible,
-  confirmButtonText,
-  cancelButtonText,
   saveDraftHandler,
-  savedDraft,
-  saveError,
-  setSetErrorModal,
-  confirmButtonDDActionName = 'Confirm Navigation Leaving Button',
-  cancelButtonDDActionName = 'Cancel Navigation Continue Editing Button',
+  type,
+  persistDraftPaths = [],
 }) => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const location = useLocation();
+  const navigate = useCallback(
+    path => {
+      history.push(path);
+    },
+    [history],
+  );
+
   const [lastLocation, updateLastLocation] = useState();
   const [confirmedNavigation, updateConfirmedNavigation] = useState(false);
   const [modalVisible, updateModalVisible] = useState(false);
+  const draftInProgress = useSelector(
+    state => state.sm.threadDetails.draftInProgress,
+  );
+  const navigationError = draftInProgress?.navigationError;
+  const saveError = draftInProgress?.saveError;
+  const when = useMemo(() => !!navigationError || !!saveError, [
+    navigationError,
+    saveError,
+  ]);
+  const savedDraft = draftInProgress?.savedDraft;
+  const { title, p1, p2, confirmButtonText, cancelButtonText } = useMemo(
+    () => (saveError && savedDraft ? saveError : navigationError) || {},
+    [saveError, savedDraft, navigationError],
+  );
 
-  const showModal = location => {
-    setIsModalVisible(true);
-    updateModalVisible(true);
-    updateLastLocation(location);
-  };
+  const confirmButtonDDActionName = useMemo(
+    () =>
+      saveError && savedDraft
+        ? "Save draft without attachments button - Can't save with attachments modal"
+        : 'Confirm Navigation Leaving Button',
+    [saveError, savedDraft],
+  );
+  const cancelButtonDDActionName = useMemo(
+    () =>
+      saveError && savedDraft
+        ? "Edit draft button - Can't save with attachments modal"
+        : undefined,
+    [saveError, savedDraft],
+  );
 
-  const closeModal = () => {
-    updateModalVisible(false);
-    setSetErrorModal(false);
-  };
+  const setIsModalVisible = useCallback(
+    val =>
+      dispatch(updateDraftInProgress({ navigationErrorModalVisible: val })),
+    [dispatch],
+  );
 
-  const handleBlockedNavigation = nextLocation => {
-    if (!confirmedNavigation && shouldBlockNavigation(nextLocation)) {
-      showModal(nextLocation);
+  const setSavedDraft = useCallback(
+    value => {
+      dispatch(updateDraftInProgress({ savedDraft: value }));
+    },
+    [dispatch],
+  );
+
+  const showModal = useCallback(
+    nextLocation => {
+      setIsModalVisible(true);
       updateModalVisible(true);
-      return false;
-    }
-    return true;
-  };
+      updateLastLocation(nextLocation);
+    },
+    [setIsModalVisible],
+  );
+
+  const closeModal = useCallback(
+    () => {
+      setIsModalVisible(false);
+      updateModalVisible(false);
+      setSavedDraft(false);
+    },
+    [setIsModalVisible, setSavedDraft],
+  );
+
+  const handleBlockedNavigation = useCallback(
+    nextLocation => {
+      let allowedPaths = [];
+      if (type === 'compose') {
+        allowedPaths = [
+          `${Paths.RECENT_CARE_TEAMS}`,
+          `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`,
+          `${Paths.COMPOSE}${Paths.START_MESSAGE}`,
+          `${Paths.MESSAGE_THREAD}${draftInProgress?.messageId}`,
+        ];
+      } else if (type === 'reply') {
+        allowedPaths = [`${Paths.REPLY}`];
+      }
+
+      const currentPath = location.pathname;
+      const nextPath = nextLocation.pathname;
+
+      // Allow navigation between specified paths without guard
+      const normalizePath = path => path.replace(/\/$/, '');
+      const normalizedAllowedPaths = allowedPaths.map(normalizePath);
+      const normalizedCurrentPath = normalizePath(currentPath);
+      const normalizedNextPath = normalizePath(nextPath);
+
+      if (
+        normalizedAllowedPaths.includes(normalizedCurrentPath) &&
+        normalizedAllowedPaths.includes(normalizedNextPath)
+      ) {
+        return true;
+      }
+
+      if (!confirmedNavigation && !!navigationError) {
+        showModal(nextLocation);
+        updateModalVisible(true);
+        return false;
+      }
+      return true;
+    },
+    [
+      type,
+      location.pathname,
+      confirmedNavigation,
+      navigationError,
+      draftInProgress?.messageId,
+      showModal,
+    ],
+  );
 
   const handleConfirmNavigationClick = () => {
     const isConfirmButtonTextMatching = confirmButtonText.includes('Save');
 
     if (isConfirmButtonTextMatching) {
-      saveDraftHandler('auto');
+      saveDraftHandler('manual-confirmed');
     }
     closeModal();
     if (lastLocation) {
@@ -61,7 +152,7 @@ export const RouteLeavingGuard = ({
   const handleCancelNavigationClick = e => {
     setIsModalVisible(false);
     updateModalVisible(false);
-    setSetErrorModal(false);
+    setSavedDraft(false);
 
     const isCancelButtonTextMatching =
       cancelButtonText ===
@@ -71,17 +162,27 @@ export const RouteLeavingGuard = ({
 
     if (isCancelButtonTextMatching) {
       saveDraftHandler('manual', e);
+      updateConfirmedNavigation(true);
     }
   };
 
   useEffect(
     () => {
-      if (confirmedNavigation) {
+      if (confirmedNavigation && lastLocation?.pathname) {
+        if (!persistDraftPaths.includes(lastLocation?.pathname)) {
+          dispatch(clearDraftInProgress());
+        }
         navigate(lastLocation.pathname);
         updateConfirmedNavigation(false);
       }
     },
-    [confirmedNavigation],
+    [
+      confirmedNavigation,
+      dispatch,
+      lastLocation?.pathname,
+      navigate,
+      persistDraftPaths,
+    ],
   );
 
   useEffect(
@@ -93,6 +194,7 @@ export const RouteLeavingGuard = ({
     [saveError, savedDraft],
   );
 
+  useBeforeUnloadGuard(when);
   return (
     <>
       <Prompt when={when} message={handleBlockedNavigation} />
@@ -119,6 +221,7 @@ export const RouteLeavingGuard = ({
             text={cancelButtonText}
             onClick={handleCancelNavigationClick} // need to pass a func to save draft
             data-dd-action-name={cancelButtonDDActionName}
+            data-testid="route-guard-primary-button"
           />
           <va-button
             class="vads-u-margin-top--1 vads-u-flex--auto"
@@ -126,6 +229,7 @@ export const RouteLeavingGuard = ({
             text={confirmButtonText}
             onClick={handleConfirmNavigationClick}
             data-dd-action-name={confirmButtonDDActionName}
+            data-testid="route-guard-secondary-button"
           />
         </div>
       </VaModal>
@@ -142,6 +246,7 @@ RouteLeavingGuard.propTypes = {
   navigate: PropTypes.func,
   p1: PropTypes.string,
   p2: PropTypes.any,
+  persistDraftPaths: PropTypes.array,
   saveDraftHandler: PropTypes.func,
   saveError: PropTypes.object,
   savedDraft: PropTypes.bool,
@@ -149,6 +254,7 @@ RouteLeavingGuard.propTypes = {
   setSetErrorModal: PropTypes.func,
   shouldBlockNavigation: PropTypes.func,
   title: PropTypes.string,
+  type: PropTypes.oneOf(['compose', 'reply']),
   updateModalVisible: PropTypes.func,
   when: PropTypes.bool,
 };

@@ -4,7 +4,7 @@ import {
   fetchAndUpdateSessionExpiration as fetch,
   apiRequest,
 } from '@department-of-veterans-affairs/platform-utilities/api';
-import { getApi, resolveParamsWithUrl, endpointOptions } from '../config';
+import { getApi, resolveParamsWithUrl, getEndpointOptions } from '../config';
 
 class RepresentativeFinderApi {
   /**
@@ -33,10 +33,9 @@ class RepresentativeFinderApi {
       distance,
     });
 
+    const { fetchVSOReps, fetchOtherReps } = getEndpointOptions();
     const endpoint =
-      type === 'veteran_service_officer'
-        ? endpointOptions().fetchVSOReps
-        : endpointOptions().fetchOtherReps;
+      type === 'veteran_service_officer' ? fetchVSOReps : fetchOtherReps;
 
     const { requestUrl, apiSettings } = getApi(endpoint);
     const startTime = new Date().getTime();
@@ -65,11 +64,8 @@ class RepresentativeFinderApi {
   static reportResult(newReport) {
     const startTime = new Date().getTime();
 
-    const { requestUrl, apiSettings } = getApi(
-      endpointOptions().flagReps,
-      'POST',
-      newReport,
-    );
+    const { flagReps } = getEndpointOptions();
+    const { requestUrl, apiSettings } = getApi(flagReps, 'POST', newReport);
 
     return new Promise((resolve, reject) => {
       apiRequest(requestUrl, apiSettings)

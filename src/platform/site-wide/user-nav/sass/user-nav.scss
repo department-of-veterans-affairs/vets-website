@@ -97,22 +97,6 @@ $idme-background-green: #08833d;
     margin: 1em 0;
     white-space: normal !important;
 
-    &.dslogon-button {
-      background: var(--vads-color-primary-dark);
-
-      &:hover {
-        background: var(--vads-color-primary-darker);
-      }
-    }
-
-    &.dslogon {
-      background: var(--vads-color-primary-dark);
-
-      &:hover {
-        background: var(--vads-color-primary-darker);
-      }
-    }
-
     &.idme-button {
       background: $idme-background-green;
 
@@ -128,14 +112,6 @@ $idme-background-green: #08833d;
 
       &:hover {
         background: var(--vads-color-secondary-darkest);
-      }
-    }
-
-    &.mhv-button {
-      background: var(--vads-color-primary);
-
-      &:hover {
-        background: var(--vads-color-primary-dark);
       }
     }
 
@@ -224,10 +200,6 @@ $idme-background-green: #08833d;
 
   .downtime-notification.row {
     margin: 0 0 1em;
-  }
-
-  #mhvH3 {
-    margin-top: unset;
   }
 }
 

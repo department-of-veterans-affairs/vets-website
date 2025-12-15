@@ -76,22 +76,21 @@ export const SearchResultsHeader = ({
 
   const handleNumberOfResults = () => {
     const { totalEntries, currentPage, totalPages } = pagination;
+
     if (noResultsFound) {
       return 'No results found';
     }
     if (totalEntries === 1) {
       return 'Showing 1 result';
     }
-    if (totalEntries < 11 && totalEntries > 1) {
+    if (totalEntries < 11) {
       return `Showing 1 - ${totalEntries} results`;
     }
+
     if (totalEntries > 10) {
       const startResultNum = 10 * (currentPage - 1) + 1;
-      let endResultNum;
-
-      if (currentPage !== totalPages) {
-        endResultNum = 10 * currentPage;
-      } else endResultNum = totalEntries;
+      const endResultNum =
+        currentPage !== totalPages ? 10 * currentPage : totalEntries;
 
       return `Showing ${startResultNum} - ${endResultNum} of ${totalEntries} results`;
     }

@@ -2,8 +2,6 @@ import mockUser from '../fixtures/user.json';
 import vamc from '../fixtures/facilities/vamc-ehr.json';
 import sessionStatus from '../fixtures/session-status.json';
 import createAal from '../fixtures/create-aal.json';
-// import mockNonMRuser from '../fixtures/non_mr_user.json';
-// import mockNonMhvUser from '../fixtures/user-mhv-account-state-none.json';
 
 class MedicalRecordsSite {
   login = (userFixture = mockUser, useDefaultFeatureToggles = true) => {
@@ -24,6 +22,7 @@ class MedicalRecordsSite {
       statusCode: 200,
       body: createAal,
     }).as('aal');
+    cy.intercept('POST', '/v0/datadog_action', {}).as('datadogAction');
     cy.login(userFixture);
   };
 
@@ -33,6 +32,9 @@ class MedicalRecordsSite {
     isAcceleratingVitals = false,
     isAcceleratingLabsAndTests = false,
     isAcceleratingVaccines = false,
+    isAcceleratingCareNotes = false,
+    isAcceleratingConditions = false,
+    isCcdExtendedFileTypesEnabled = false,
   } = {}) => {
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
@@ -47,6 +49,10 @@ class MedicalRecordsSite {
             value: isAcceleratingAllergies,
           },
           {
+            name: 'mhv_accelerated_delivery_care_notes_enabled',
+            value: isAcceleratingCareNotes,
+          },
+          {
             name: 'mhv_accelerated_delivery_vital_signs_enabled',
             value: isAcceleratingVitals,
           },
@@ -59,56 +65,24 @@ class MedicalRecordsSite {
             value: isAcceleratingVaccines,
           },
           {
+            name: 'mhv_accelerated_delivery_conditions_enabled',
+            value: isAcceleratingConditions,
+          },
+          {
+            name: 'mhv_medical_records_ccd_extended_file_types',
+            value: isCcdExtendedFileTypesEnabled,
+          },
+          {
+            name: 'mhvMedicalRecordsCcdExtendedFileTypes',
+            value: isCcdExtendedFileTypesEnabled,
+          },
+          {
             name: 'mhvMedicalRecordsPhrRefreshOnLogin',
             value: false,
           },
           {
             name: 'mhv_medical_records_phr_refresh_on_login',
             value: false,
-          },
-          {
-            name: 'mhvMedicalRecordsDisplayDomains',
-            value: true,
-          },
-          {
-            name: 'mhv_medical_records_display_domains',
-            value: true,
-          },
-          {
-            name: 'mhv_medical_records_allow_txt_downloads',
-            value: true,
-          },
-          {
-            name: 'mhv_medical_records_display_vaccines',
-            value: true,
-          },
-          {
-            name: 'mhv_medical_records_display_notes',
-            value: true,
-          },
-          {
-            name: 'mhv_medical_records_display_conditions',
-            value: true,
-          },
-          {
-            name: 'mhv_medical_records_display_vitals',
-            value: true,
-          },
-          {
-            name: 'mhv_medical_records_display_labs_and_tests',
-            value: true,
-          },
-          {
-            name: 'mhv_medical_records_display_settings_page',
-            value: true,
-          },
-          {
-            name: 'mhvMedicalRecordsDisplaySidenav',
-            value: true,
-          },
-          {
-            name: 'mhv_medical_records_display_sidenav',
-            value: true,
           },
           {
             name: 'mhv_medical_records_support_backend_pagination_allergy',
@@ -136,10 +110,6 @@ class MedicalRecordsSite {
             name: 'mhv_medical_records_support_backend_pagination_vital',
             value: false,
           },
-          {
-            name: 'mhv_medical_records_use_unified_sei_api',
-            value: true,
-          },
         ],
       },
     }).as('featureToggles');
@@ -153,19 +123,13 @@ class MedicalRecordsSite {
     cy.intercept('GET', '/v0/maintenance_windows', {}).as('maintenanceWindow');
   };
 
-  verifyDownloadedPdfFile = (_prefixString, _clickMoment, _searchText) => {
+  verifyDownloadedPdfFile = (_prefixString, _currentDateTime, _searchText) => {
     if (Cypress.browser.isHeadless) {
       cy.log('browser is headless');
       const downloadsFolder = Cypress.config('downloadsFolder');
-      const txtPath1 = `${downloadsFolder}/${_prefixString}-${_clickMoment
-        .add(1, 'seconds')
-        .format('M-D-YYYY_hhmmssa')}.pdf`;
-      const txtPath2 = `${downloadsFolder}/${_prefixString}-${_clickMoment
-        .add(1, 'seconds')
-        .format('M-D-YYYY_hhmmssa')}.pdf`;
-      const txtPath3 = `${downloadsFolder}/${_prefixString}-${_clickMoment
-        .add(1, 'seconds')
-        .format('M-D-YYYY_hhmmssa')}.pdf`;
+      const txtPath1 = `${downloadsFolder}/${_prefixString}-${_currentDateTime}.pdf`;
+      const txtPath2 = `${downloadsFolder}/${_prefixString}-${_currentDateTime}.pdf`;
+      const txtPath3 = `${downloadsFolder}/${_prefixString}-${_currentDateTime}.pdf`;
       this.internalReadFileMaybe(txtPath1, _searchText);
       this.internalReadFileMaybe(txtPath2, _searchText);
       this.internalReadFileMaybe(txtPath3, _searchText);
@@ -174,19 +138,13 @@ class MedicalRecordsSite {
     }
   };
 
-  verifyDownloadedTxtFile = (_prefixString, _clickMoment, _searchText) => {
+  verifyDownloadedTxtFile = (_prefixString, _currentDateTime, _searchText) => {
     if (Cypress.browser.isHeadless) {
       cy.log('browser is headless');
       const downloadsFolder = Cypress.config('downloadsFolder');
-      const txtPath1 = `${downloadsFolder}/${_prefixString}-${_clickMoment
-        .add(1, 'seconds')
-        .format('M-D-YYYY_hhmmssa')}.txt`;
-      const txtPath2 = `${downloadsFolder}/${_prefixString}-${_clickMoment
-        .add(1, 'seconds')
-        .format('M-D-YYYY_hhmmssa')}.txt`;
-      const txtPath3 = `${downloadsFolder}/${_prefixString}-${_clickMoment
-        .add(1, 'seconds')
-        .format('M-D-YYYY_hhmmssa')}.txt`;
+      const txtPath1 = `${downloadsFolder}/${_prefixString}-${_currentDateTime}.txt`;
+      const txtPath2 = `${downloadsFolder}/${_prefixString}-${_currentDateTime}.txt`;
+      const txtPath3 = `${downloadsFolder}/${_prefixString}-${_currentDateTime}.txt`;
       this.internalReadFileMaybe(txtPath1, _searchText);
       this.internalReadFileMaybe(txtPath2, _searchText);
       this.internalReadFileMaybe(txtPath3, _searchText);
@@ -209,7 +167,7 @@ class MedicalRecordsSite {
 
   loadPage = () => {
     cy.visit('my-health/medical-records');
-    cy.wait('@mockUser');
+    cy.wait(['@vamcEhr', '@mockUser', '@featureToggles', '@session']);
   };
 }
 export default MedicalRecordsSite;

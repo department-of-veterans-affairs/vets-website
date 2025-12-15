@@ -13,6 +13,8 @@ const validatedConfigs = new Map();
 
 const formConfigFnParams = {
   'form-upload': '/find-forms/upload/21-0779',
+  'representative-form-upload':
+    '/representative/representative-form-upload/submit-va-form-21-686c',
 };
 
 const missingFromVetsJsonSchema = [
@@ -29,7 +31,6 @@ const missingFromVetsJsonSchema = [
   VA_FORM_IDS.FORM_20_10207,
   VA_FORM_IDS.FORM_21_0779_UPLOAD,
   VA_FORM_IDS.FORM_21_0845,
-  VA_FORM_IDS.FORM_21_0966,
   VA_FORM_IDS.FORM_21_0972,
   VA_FORM_IDS.FORM_21_10210,
   VA_FORM_IDS.FORM_21_4138,
@@ -40,7 +41,6 @@ const missingFromVetsJsonSchema = [
   VA_FORM_IDS.FORM_21_686C_UPLOAD,
   VA_FORM_IDS.FORM_21P_0847,
   VA_FORM_IDS.FORM_27_8832,
-  // VA_FORM_IDS.FORM_22_8794,
   VA_FORM_IDS.FORM_40_0247,
   VA_FORM_IDS.FORM_COVID_VACCINE_TRIAL_UPDATE,
   VA_FORM_IDS.FORM_HC_QSTNR,
@@ -55,11 +55,17 @@ const missingFromVetsJsonSchema = [
   VA_FORM_IDS.FORM_T_QSTNR,
   VA_FORM_IDS.FORM_WELCOME_VA_SETUP_REVIEW_INFORMATION,
   VA_FORM_IDS.FORM_XX_123,
-  // VA_FORM_IDS.FORM_28_1900,
   VA_FORM_IDS.FORM_28_1900_V2,
   VA_FORM_IDS.FORM_10_10D_EXTENDED,
-  VA_FORM_IDS.FORM_22_0839,
-  VA_FORM_IDS.FORM_22_10275,
+  VA_FORM_IDS.FORM_40_XXXX,
+  VA_FORM_IDS.FORM_21_4140,
+  VA_FORM_IDS.FORM_21_2680,
+  VA_FORM_IDS.FORM_21_8940,
+  VA_FORM_IDS.FORM_21_4192,
+  VA_FORM_IDS.FORM_21P_530A,
+  VA_FORM_IDS.FORM_21P_0537,
+  VA_FORM_IDS.FORM_21P_601,
+  VA_FORM_IDS.FORM_MOCK_PREFILL,
 ];
 
 const remapFormId = {
@@ -264,10 +270,6 @@ const validateForm = async (formSlug, formConfigParam) => {
     const key = formSlug.split('/')[0] || 'unknown';
     const options = formConfigFnParams[key];
     config = options ? config(options) : config();
-  }
-
-  if (formSlug === 'representative-form-upload/config') {
-    config.formId = '21-686C-UPLOAD';
   }
 
   const coreValidations = [

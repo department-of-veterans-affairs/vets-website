@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
-
 import recordEvent from 'platform/monitoring/record-event';
+import { daysFromToday } from '../../utils/dates/formatting';
+import { parseDate } from '../../utils/dates';
 
 import { BDD_INFO_URL, DISABILITY_526_V2_ROOT_URL } from '../../constants';
 
@@ -15,6 +15,9 @@ const content = {
   linkText: 'Learn more about the BDD program',
 };
 
+// Helper to get current date as moment object
+const getToday = () => parseDate(daysFromToday(0));
+
 const FileBDDClaim = ({ data = {} }) => {
   const { radDate } = data;
 
@@ -22,9 +25,10 @@ const FileBDDClaim = ({ data = {} }) => {
 
   const daysRemainingToFileBDD = differenceBetweenDatesInDays - 90;
   const isLastDayToFileBDD = daysRemainingToFileBDD === 0;
-  const dateOfLastBDDEligibility = moment()
+
+  const dateOfLastBDDEligibility = getToday()
     .add(daysRemainingToFileBDD, 'days')
-    .format('MMMM D, YYYY');
+    .formatDate();
   const daysLeft = `day${daysRemainingToFileBDD > 1 ? 's' : ''} left`;
 
   return (

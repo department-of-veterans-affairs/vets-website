@@ -1,3 +1,6 @@
+import get from 'platform/utilities/data/get';
+import { makeMinimalPNG } from '../form-tester/utilities';
+
 const FORCE_OPTION = { force: true };
 const DELAY_OPTION = { force: true, delay: 100 };
 
@@ -107,6 +110,45 @@ Cypress.Commands.add('selectVaSelect', (field, value) => {
   }
 });
 
+Cypress.Commands.add('selectVaComboBox', (field, value) => {
+  if (typeof value !== 'undefined') {
+    const strValue = value.toString();
+    const element =
+      typeof field === 'string'
+        ? cy.get(`va-combo-box[name="${field}"]`)
+        : cy.wrap(field);
+
+    element
+      .shadow()
+      .find('input')
+      .as('inputElement');
+
+    cy.get('@inputElement').click();
+
+    cy.get('@inputElement').clear(DELAY_OPTION);
+
+    const elementAgain =
+      typeof field === 'string'
+        ? cy.get(`va-combo-box[name="${field}"]`)
+        : cy.wrap(field);
+
+    elementAgain
+      .shadow()
+      .find('select')
+      .as('selectElement');
+
+    cy.get('@selectElement')
+      .find(`option[value="${strValue}"]`)
+      .invoke('text')
+      .as('optionLabel');
+
+    cy.get('@optionLabel').then(label => {
+      cy.get('@inputElement').type(label, FORCE_OPTION);
+      cy.get('@inputElement').type('{enter}');
+    });
+  }
+});
+
 Cypress.Commands.add('selectVaCheckbox', (field, isChecked) => {
   if (typeof isChecked !== 'undefined') {
     const element =
@@ -139,6 +181,75 @@ Cypress.Commands.add('fillVaTelephoneInput', (field, value) => {
       cy.get('va-text-input').then($contact => {
         cy.fillVaTextInput($contact, value.contact);
       });
+    });
+  }
+});
+
+Cypress.Commands.add('fillVaFileInput', (field, value) => {
+  if (typeof value !== 'undefined') {
+    const element =
+      typeof field === 'string'
+        ? cy.get(`va-file-input[name="${field}"]`)
+        : cy.wrap(field);
+    cy.log('made it here');
+    element.then(async $el => {
+      const el = $el[0];
+
+      const pngFile = await makeMinimalPNG();
+      const mockFormData = {
+        name: value?.name || 'placeholder.png',
+        size: value?.size || 123,
+        password: value?.password || 'abc',
+        additionalData: value?.additionalData || {},
+        confirmationCode: value?.confirmationCode || '123456',
+        isEncrypted: value?.isEncrypted || true,
+        hasAdditionalInputError: false,
+        hasPasswordError: false,
+      };
+      const fileSelectEvent = new CustomEvent('vaChange', {
+        detail: { files: [pngFile], mockFormData },
+        bubbles: true,
+        composed: true,
+      });
+
+      el.dispatchEvent(fileSelectEvent);
+    });
+  }
+});
+
+Cypress.Commands.add('fillVaFileInputMultiple', (field, value) => {
+  if (typeof value !== 'undefined') {
+    const element =
+      typeof field === 'string'
+        ? cy.get(`va-file-input-multiple[name="${field}"]`)
+        : cy.wrap(field);
+
+    element.then(async $el => {
+      const el = $el[0];
+
+      const pngFile = await makeMinimalPNG();
+      const detail = {
+        action: 'FILE_ADDED',
+        file: pngFile,
+        state: [{ file: pngFile, password: undefined, changed: true }],
+        mockFormData: {
+          confirmationCode: 'abc123',
+          name: 'placeholder.png',
+          size: 123,
+          additionalData: {
+            documentStatus: 'public',
+          },
+        },
+      };
+
+      const options = {
+        detail,
+        bubbles: true,
+        composed: true,
+      };
+
+      const event = new CustomEvent('vaMultipleChange', options);
+      el.dispatchEvent(event);
     });
   }
 });
@@ -298,6 +409,11 @@ Cypress.Commands.add('enterWebComponentData', field => {
       break;
     }
 
+    case 'VA-COMBO-BOX': {
+      cy.selectVaComboBox(field.element, field.data);
+      break;
+    }
+
     case 'VA-SELECT': {
       cy.selectVaSelect(field.element, field.data);
       break;
@@ -327,6 +443,16 @@ Cypress.Commands.add('enterWebComponentData', field => {
 
     case 'VA-MEMORABLE-DATE': {
       cy.fillVaMemorableDate(field.key, field.data);
+      break;
+    }
+
+    case 'VA-FILE-INPUT': {
+      cy.fillVaFileInput(field.key, field.data);
+      break;
+    }
+
+    case 'VA-FILE-INPUT-MULTIPLE': {
+      cy.fillVaFileInputMultiple(field.key, field.data);
       break;
     }
 
@@ -452,21 +578,144 @@ Cypress.Commands.add(
 
 Cypress.Commands.add(
   'fillVaStatementOfTruth',
-  (field, { fullName, checked } = {}) => {
-    if (!fullName && typeof checked !== 'boolean') return;
+  ({ field = '', fullName = '', checked } = {}) => {
+    let element;
 
-    const element =
-      typeof field === 'string'
-        ? cy.get(`va-statement-of-truth[name="${field}"]`)
-        : cy.wrap(field);
+    if (!field) {
+      element = cy.get('va-statement-of-truth');
+    } else if (typeof field === 'string') {
+      element = cy.get(`va-statement-of-truth[name="${field}"]`);
+    } else {
+      element = cy.wrap(field);
+    }
 
     element.shadow().within(() => {
       if (fullName) {
         cy.get('va-text-input').then($el => cy.fillVaTextInput($el, fullName));
       }
-      if (checked) {
+      if (typeof checked === 'boolean') {
         cy.get('va-checkbox').then($el => cy.selectVaCheckbox($el, checked));
       }
     });
   },
 );
+
+/**
+ * Determines whether to "add another" item based on test data vs existing cards.
+ * @param {string} selector - CSS selector for the element with data-array-path
+ * @param {boolean} overrideValue - Optional override value
+ * @param {function} actionCallback - Function to call with the decision (true/false)
+ */
+function arrayBuilderConditionalAction(
+  selector,
+  overrideValue,
+  actionCallback,
+) {
+  // If override is provided, use it directly
+  if (typeof overrideValue === 'boolean') {
+    return actionCallback(overrideValue);
+  }
+
+  // Otherwise, auto-determine based on test data and existing cards
+  return cy.get(selector).then($element => {
+    const arrayPath = $element.attr('data-array-path');
+
+    return cy.get('@testData').then(testData => {
+      const arrayData = get(arrayPath, testData, []);
+      const arrayLength = Array.isArray(arrayData) ? arrayData.length : 0;
+
+      return cy.get('body').then($body => {
+        const cardCount = $body.find('va-card').length;
+        const shouldAddAnother = arrayLength > cardCount;
+
+        return actionCallback(shouldAddAnother);
+      });
+    });
+  });
+}
+
+/**
+ * Selects Yes/No for array builder summary page conditionally based on test data and existing cards on the page.
+ * @param {boolean} [overrideValue]
+ */
+Cypress.Commands.add('selectArrayBuilderSummaryYesNo', overrideValue => {
+  return arrayBuilderConditionalAction(
+    '.wc-pattern-array-builder-yes-no',
+    overrideValue,
+    shouldSelect => {
+      return cy.get('.wc-pattern-array-builder-yes-no').then($element => {
+        const fieldName = $element.attr('name');
+        cy.selectYesNoVaRadioOption(fieldName, shouldSelect);
+        return cy.wrap(null, { log: false });
+      });
+    },
+  );
+});
+
+/**
+ * Clicks array builder summary page add button conditionally based on test data and existing cards on the page.
+ * @param {boolean} [overrideValue]
+ */
+Cypress.Commands.add('clickArrayBuilderSummaryAddButton', overrideValue => {
+  return arrayBuilderConditionalAction(
+    '.wc-pattern-array-builder-summary-add-button',
+    overrideValue,
+    shouldClick => {
+      if (shouldClick) {
+        cy.get('.wc-pattern-array-builder-summary-add-button').click();
+        // we abort because we will have navigated to a new page
+        return cy.wrap({ abortProcessing: true }, { log: false });
+      }
+      return cy.wrap(null, { log: false });
+    },
+  );
+});
+
+/**
+ * Clicks array builder summary page add link conditionally based on test data and existing cards on the page.
+ * @param {boolean} [overrideValue]
+ */
+Cypress.Commands.add('clickArrayBuilderSummaryAddLink', overrideValue => {
+  return arrayBuilderConditionalAction(
+    '.wc-pattern-array-builder-summary-add-link',
+    overrideValue,
+    shouldClick => {
+      if (shouldClick) {
+        cy.get('.wc-pattern-array-builder-summary-add-link').click();
+        // we abort because we will have navigated to a new page
+        return cy.wrap({ abortProcessing: true }, { log: false });
+      }
+      return cy.wrap(null, { log: false });
+    },
+  );
+});
+
+/**
+ * General-purpose array builder summary continue command that auto-detects the pattern type
+ * (yes/no radio, button, or link) and applies the appropriate interaction based on the cards present.
+ * @param {boolean} [overrideValue] - true=add another, false=continue without adding
+ */
+Cypress.Commands.add('arrayBuilderSummaryContinue', overrideValue => {
+  return cy.get('body').then($body => {
+    const hasYesNoRadio =
+      $body.find('.wc-pattern-array-builder-yes-no').length > 0;
+    if (hasYesNoRadio) {
+      return cy.selectArrayBuilderSummaryYesNo(overrideValue);
+    }
+
+    const hasButton =
+      $body.find('.wc-pattern-array-builder-summary-add-button').length > 0;
+    if (hasButton) {
+      return cy.clickArrayBuilderSummaryAddButton(overrideValue);
+    }
+
+    const hasLink =
+      $body.find('.wc-pattern-array-builder-summary-add-link').length > 0;
+    if (hasLink) {
+      return cy.clickArrayBuilderSummaryAddLink(overrideValue);
+    }
+
+    cy.log('Warning: No array builder pattern found (yes/no, button, or link)');
+    return cy.wrap(null, { log: false });
+  });
+});

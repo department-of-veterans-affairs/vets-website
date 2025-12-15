@@ -16,7 +16,7 @@ class TypeOfSleepCarePageObject extends PageObject {
   }
 
   selectTypeOfSleepCare(label) {
-    return super.selectRadioButtonShadow(label);
+    return super.selectRadioButton(label);
   }
 }
 

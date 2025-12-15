@@ -6,10 +6,13 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { useBrowserMonitoring } from 'platform/monitoring/Datadog/';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import environment from 'platform/utilities/environment';
+import { openReviewChapter as openReviewChapterAction } from 'platform/forms-system/src/js/actions';
+
 import formConfig from '../config/form';
 import { NoFormPage } from '../components/NoFormPage';
+import { getAssetTypes } from '../components/FormAlerts/SupplementaryFormsAlert';
 
-function App({ location, children, isLoggedIn }) {
+function App({ location, children, isLoggedIn, openReviewChapter }) {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const incomeAndAssetsFormEnabled = useToggleValue(
     TOGGLE_NAMES.incomeAndAssetsFormEnabled,
@@ -21,6 +24,13 @@ function App({ location, children, isLoggedIn }) {
 
   const isLoadingFeatures = useSelector(
     state => state?.featureToggles?.loading ?? false,
+  );
+  const assets = useSelector(state => state?.form?.data?.ownedAssets || []);
+
+  const content = (
+    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+      {children}
+    </RoutedSavableApp>
   );
 
   // Add Datadog UX monitoring to the application
@@ -52,6 +62,19 @@ function App({ location, children, isLoggedIn }) {
     [isLoadingFeatures, incomeAndAssetsContentUpdates],
   );
 
+  useEffect(
+    () => {
+      if (location.pathname === '/review-and-submit') {
+        const assetTypes = getAssetTypes(assets);
+        if (assets.length > 0 && assetTypes.length > 0) {
+          // auto-open "Property and business" accordion on review & submit page
+          openReviewChapter('ownedAssets');
+        }
+      }
+    },
+    [location, assets, openReviewChapter],
+  );
+
   if (isLoadingFeatures) {
     return <va-loading-indicator message="Loading application..." />;
   }
@@ -60,11 +83,7 @@ function App({ location, children, isLoggedIn }) {
     return <NoFormPage />;
   }
 
-  return (
-    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-      {children}
-    </RoutedSavableApp>
-  );
+  return content;
 }
 
 const mapStateToProps = state => {
@@ -74,10 +93,18 @@ const mapStateToProps = state => {
   };
 };
 
+const mapDispatchToProps = {
+  openReviewChapter: openReviewChapterAction,
+};
+
 App.propTypes = {
   children: PropTypes.node.isRequired,
   location: PropTypes.object.isRequired,
   isLoggedIn: PropTypes.bool,
+  openReviewChapter: PropTypes.func,
 };
 
-export default connect(mapStateToProps)(App);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(App);

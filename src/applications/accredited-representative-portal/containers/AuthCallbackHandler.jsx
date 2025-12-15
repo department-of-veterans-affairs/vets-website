@@ -2,6 +2,7 @@ import React from 'react';
 import { useLoaderData, redirect } from 'react-router-dom';
 import { AUTH_ERRORS } from 'platform/user/authentication/errors';
 import { userPromise } from '../utilities/auth';
+import manifest from '../manifest.json';
 
 /**
  * Component to handle OAuth callback from Login.gov
@@ -108,7 +109,28 @@ AuthCallbackHandler.loader = async () => {
   const searchParams = new URLSearchParams(window.location.search);
   const code = searchParams.get('code');
   const state = searchParams.get('state');
-  const to = searchParams.get('to') || '/poa-requests';
+  const toParam = searchParams.get('to');
+  const fallback = '/representative/dashboard';
+
+  // Sanitize untrusted redirect target to prevent open redirects
+  const sanitizeReturnPath = (untrusted, defaultPath) => {
+    if (!untrusted) return defaultPath;
+    try {
+      // Disallow protocol-relative and external URLs
+      if (/^\s*(?:[a-z][a-z0-9+.-]*:)?\/\//i.test(untrusted)) {
+        return defaultPath;
+      }
+      const url = new URL(untrusted, window.location.origin);
+      // Require same-origin and that the path stays within this app
+      if (url.origin !== window.location.origin) return defaultPath;
+      if (!url.pathname.startsWith(manifest.rootUrl)) return defaultPath;
+      return `${url.pathname}${url.search}${url.hash}`;
+    } catch (e) {
+      return defaultPath;
+    }
+  };
+
+  const to = sanitizeReturnPath(toParam, fallback);
 
   // If we have code and state, process the OAuth callback
   if (code && state) {
@@ -133,7 +155,8 @@ AuthCallbackHandler.loader = async () => {
       // Set hasSession flag to ensure page refreshes recognize the user is authenticated
       localStorage.setItem('hasSession', 'true');
 
-      window.location.replace('/representative/poa-requests');
+      // Redirect to the destination computed earlier (defaults to POA requests)
+      window.location.replace(to);
       return null; // Return null since the page will reload
     } catch (error) {
       // Get detailed error information

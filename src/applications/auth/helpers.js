@@ -3,6 +3,7 @@ import {
   EXTERNAL_APPS,
   ARP_APPS,
   EXTERNAL_REDIRECTS,
+  CSP_IDS,
 } from 'platform/user/authentication/constants';
 import {
   SENTRY_TAGS,
@@ -16,6 +17,7 @@ import {
   OAUTH_KEYS,
 } from 'platform/utilities/oauth/constants';
 import { requestToken } from 'platform/utilities/oauth/utilities';
+import { isBefore, parseISO } from 'date-fns';
 
 export const checkReturnUrl = passedUrl => {
   return (
@@ -25,6 +27,46 @@ export const checkReturnUrl = passedUrl => {
     passedUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.ARP]) ||
     passedUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.SMHD]) ||
     passedUrl.includes(EXTERNAL_REDIRECTS[ARP_APPS.FORM21A])
+  );
+};
+
+export const emailNeedsConfirmation = ({
+  isEmailInterstitialEnabled,
+  loginType,
+  userAttributes,
+}) => {
+  const beforeDate = new Date('2025-03-01');
+  const {
+    profile = {},
+    vaProfile = {},
+    vet360ContactInformation,
+  } = userAttributes;
+
+  if (isEmailInterstitialEnabled === false || !profile || !vaProfile) {
+    return false;
+  }
+
+  // Confirmation Date is null
+  const hasNoConfirmationDate =
+    vet360ContactInformation?.email?.confirmationDate === null;
+
+  // Confirmation Date is before March 1, 2025
+  const confirmationDateIsBefore =
+    hasNoConfirmationDate === false
+      ? isBefore(
+          parseISO(
+            userAttributes.vet360ContactInformation?.email?.confirmationDate,
+          ),
+          beforeDate,
+        )
+      : false;
+
+  return (
+    [CSP_IDS.LOGIN_GOV, CSP_IDS.ID_ME].includes(loginType) &&
+    profile?.verified && // Verified User
+    vaProfile?.vaPatient && // VA Patient
+    vaProfile?.facilities?.length > 0 && // Assigned to a facility
+    (hasNoConfirmationDate || confirmationDateIsBefore) // Confirmation Date related
   );
 };
 
@@ -61,13 +103,46 @@ export const handleTokenRequest = async ({
     });
   } else {
     // Matches - requestToken exchange
-    try {
-      await requestToken({ code, csp });
-    } catch (error) {
-      const { errors } = await error.json();
-      const oauthErrorCode = OAUTH_ERROR_RESPONSES[errors];
-      const event = OAUTH_EVENTS[errors] ?? OAUTH_EVENTS.ERROR_DEFAULT;
+    const response = await requestToken({ code, csp });
+
+    if (!response.ok) {
+      const data = await response?.json();
+      const oauthErrorCode = OAUTH_ERROR_RESPONSES[(data?.errors)];
+      const event = OAUTH_EVENTS[(data?.errors)] ?? OAUTH_EVENTS.ERROR_DEFAULT;
       generateOAuthError({ oauthErrorCode, event });
     }
   }
+};
+
+export const checkPortalRequirements = ({
+  isPortalNoticeInterstitialEnabled,
+  userAttributes,
+  isMyVAHealth,
+}) => {
+  const { vaPatient = false, facilities = [] } =
+    userAttributes?.vaProfile || {};
+  const redirectElligible =
+    isPortalNoticeInterstitialEnabled && isMyVAHealth && vaPatient;
+
+  const activeFacilities = ['757'];
+  const approvedFacilities = [
+    ...activeFacilities,
+    '653',
+    '687',
+    '692',
+    '668',
+    '556',
+  ];
+
+  const hasApprovedFacility = facilities.some(facility =>
+    approvedFacilities.includes(facility.facilityId),
+  );
+  const hasActiveFacility = facilities.some(facility =>
+    activeFacilities.includes(facility.facilityId),
+  );
+
+  return {
+    needsPortalNotice: redirectElligible && hasActiveFacility,
+    needsMyHealth: redirectElligible && !hasApprovedFacility,
+  };
 };

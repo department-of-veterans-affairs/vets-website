@@ -1,31 +1,56 @@
 import React from 'react';
+import { isEmpty } from 'lodash';
 import { VaFileInputField } from '../web-component-fields';
-
-export const filePresenceValidation = (
-  errors,
-  uploadedFile,
-  _uiSchema,
-  _schema,
-  errorMessages,
-) => {
-  if (
-    !(uploadedFile.confirmationCode && uploadedFile.name && uploadedFile.size)
-  ) {
-    errors.addError(errorMessages.required);
-  }
-};
+import navigationState from '../utilities/navigation/navigationState';
+import errorStates from '../utilities/file/passwordErrorState';
+import {
+  MISSING_PASSWORD_ERROR,
+  MISSING_FILE,
+  MISSING_ADDITIONAL_INFO,
+  filePresenceValidation,
+} from '../validation';
 
 /**
  * uiSchema for file input field
  *
  * Usage uiSchema:
  * ```js
- * exampleText: fileInputUI('Simple fileInput field')
- * exampleText: fileInputUI({
+ * exampleFileInputUI: fileInputUI({
+ *   title: 'Simple fileInput field',
+ *   required: true,
+ * })
+ * exampleFileInputUI: fileInputUI({
  *   title: 'FileInput field',
+ *   required: true,
  *   hint: 'This is a hint',
- *   description: 'This is a description',
- *   charcount: true, // Used with minLength and maxLength in the schema
+ *   fileUploadUrl: 'https://api.test.va.gov,
+ *   accept: '.pdf,.jpeg,.png',
+ *   name: 'form-upload-file-input',
+ *   errorMessages: { required: 'File upload required' },
+ *   maxFileSize: 1048576,
+ *   minFileSize: 1024,
+ *   labelHeaderLevel: '3',
+ *   skipUpload: true, // set to true if your app does not yet have a backend for upload
+ *   disallowEncryptedPdfs: true, // set to true to prohibit upload of encrypted pdfs
+ *   formNumber: '20-10206', // required for upload
+ *   additionalInputRequired: true, // user must supply additional input
+ *   additionalInput: (error, data) => {
+ *     const { documentStatus } = data;
+ *     return (
+ *       <VaSelect
+ *         required
+ *         error={error}
+ *         value={documentStatus}
+ *         label="Document status"
+ *       >
+ *         <option value="public">Public</option>
+ *         <option value="private">Private</option>
+ *       </VaSelect>
+ *     );
+ *   },
+ *   handleAdditionalInput: (e) => {    // handle optional additional input
+ *     return { documentStatus: e.detail.value }
+ *   }
  * })
  * ```
  *
@@ -51,22 +76,38 @@ export const filePresenceValidation = (
  * when the label of the field should be the actual form title and
  * have a description with JSX that should be read out by screen readers.
  *
- * @param {UIOptions & {
- *  title?: UISchemaOptions['ui:title'],
- *  description?: UISchemaOptions['ui:description'],
- *  hint?: UIOptions['hint'],
- *  errorMessages?: UISchemaOptions['ui:errorMessages'],
- *  labelHeaderLevel?: UIOptions['labelHeaderLevel'],
- *  messageAriaDescribedby?: UIOptions['messageAriaDescribedby'],
- *  useFormsPattern?: UIOptions['useFormsPattern'],
- *  formHeading?: UIOptions['formHeading'],
- *  formDescription?: UIOptions['formDescription'],
- *  formHeadingLevel?: UIOptions['formHeadingLevel'],
- * }} options
+ * @param {Object } options
+ * @param {UISchemaOptions['ui:title']} options.title
+ * @param {boolean | ((formData: any) => boolean)} options.required
+ * @param {UISchemaOptions['ui:description']} [options.description]
+ * @param {UISchemaOptions['ui:hint']} [options.hint]
+ * @param {ObjUISchemaOptions['ui:errorMessages']} [options.errorMessages]
+ * @param {UISchemaOptions['ui:labelHeaderLevel']} [options.labelHeaderLevel]
+ * @param {UISchemaOptions['ui:messageAriaDescribedby']} [options.messageAriaDescribedBy]
+ * @param {UISchemaOptions['ui:reviewField']} [options.reviewField]
+ * @param {UISchemaOptions['ui:confirmationField']} [options.confirmationField]
+ * @param {string | string[]} [options.accept] - File types to accept
+ * @param {number} [options.maxFileSize] - maximum allowed file size in bytes
+ * @param {number} [options.minFileSize] - minimum allowed file size in bytes
+ * @param {boolean} [options.additionalInputRequired] - is additional information required
+ * @param {((error:any, data:any) => React.ReactNode) } [options.additionalInput] - renders the additional information
+ * @param {(e: CustomEvent) => {[key: string]: any}} [options.handleAdditionalInput] - function to handle event payload from additional info
+ * @param {string} [options.fileUploadUrl] - url to which file will be uploaded
+ * @param {string} [options.formNumber] - the form's number
+ * @param {boolean} [options.skipUpload] - skip attempt to upload in dev when there is no backend
+ * @param {boolean} [options.disallowEncryptedPdfs] - don't allow encrypted pdfs
  * @returns {UISchemaOptions}
  */
 export const fileInputUI = options => {
-  const { title, description, errorMessages, required, ...uiOptions } = options;
+  const {
+    title,
+    description,
+    errorMessages,
+    required,
+    reviewField,
+    confirmationField,
+    ...uiOptions
+  } = options;
 
   if (required === undefined) {
     throw new Error(
@@ -83,37 +124,62 @@ export const fileInputUI = options => {
     'ui:webComponentField': VaFileInputField,
     'ui:required': typeof required === 'function' ? required : () => !!required,
     'ui:errorMessages': {
-      required: 'A file is required to submit your application',
+      required: MISSING_FILE,
       ...errorMessages,
     },
     'ui:validations': [
       (errors, data, formData, schema, uiErrorMessages) => {
+        // don't enter error state unless navigation attempted
+        const isNavigationEvent = navigationState.getNavigationEventStatus();
+        if (!isNavigationEvent) return;
+
         const isRequired =
           typeof required === 'function' ? required(formData) : !!required;
-        if (isRequired) {
-          filePresenceValidation(
-            errors,
-            data,
-            formData,
-            schema,
-            uiErrorMessages,
-          );
+
+        const { additionalData, _id } = data;
+        const hasCompleteFile = filePresenceValidation(data);
+
+        // if file is encrypted skip this check
+        // validation will not pass for an encrypted file unless password present, which will ensure file existence
+        if (isRequired && !hasCompleteFile && !data.isEncrypted) {
+          errors.addError(uiErrorMessages.required);
+          return;
+        }
+
+        const passwordErrorManager = errorStates.getInstance(_id);
+
+        const passwordError = passwordErrorManager.hasPasswordError();
+        if (passwordError) {
+          errors.isEncrypted.addError(MISSING_PASSWORD_ERROR);
+          return;
+        }
+
+        if (uiOptions.additionalInputRequired && isEmpty(additionalData)) {
+          const errorMessage =
+            uiErrorMessages.additionalInput || MISSING_ADDITIONAL_INFO;
+          errors.additionalData.addError(errorMessage);
         }
       },
     ],
     'ui:options': {
       ...uiOptions,
     },
-    'ui:reviewField': ({ children }) => (
-      <div className="review-row">
-        <dt>{title}</dt>
-        <dd>{children.props?.formData?.name}</dd>
-      </div>
-    ),
-    'ui:confirmationField': ({ formData }) => ({
-      data: formData?.name,
-      label: title,
-    }),
+    'ui:reviewField':
+      reviewField ||
+      (({ children }) => {
+        return (
+          <div className="review-row">
+            <dt>{title}</dt>
+            <dd>{children.props?.formData?.name}</dd>
+          </div>
+        );
+      }),
+    'ui:confirmationField':
+      confirmationField ||
+      (({ formData }) => ({
+        data: formData?.name,
+        label: title,
+      })),
     warnings: {
       'ui:options': {
         keepInPageOnReview: true,
@@ -128,30 +194,46 @@ export const fileInputUI = options => {
  * ```js
  * exampleFileInput: fileInputSchema()
  * ```
+ *
+ * @param {Object} [options] - Additional schema options
+ * @returns {Object} JSON schema for file input
  */
-export const fileInputSchema = () => ({
-  type: 'object',
-  properties: {
-    confirmationCode: {
-      type: 'string',
-    },
-    isEncrypted: {
-      type: 'boolean',
-    },
-    name: {
-      type: 'string',
-    },
-    size: {
-      type: 'integer',
-    },
-    fileType: {
-      type: 'string',
-    },
-    warnings: {
-      type: 'array',
-      items: {
+export const fileInputSchema = (options = {}) => {
+  return {
+    type: 'object',
+    properties: {
+      confirmationCode: {
+        type: 'string',
+      },
+      isEncrypted: {
+        type: 'boolean',
+      },
+      name: {
+        type: 'string',
+      },
+      size: {
+        type: 'integer',
+      },
+      fileType: {
+        type: 'string',
+      },
+      warnings: {
+        type: 'array',
+        items: {
+          type: 'string',
+        },
+      },
+      additionalData: {
+        type: 'object',
+        properties: {},
+      },
+      type: {
+        type: 'string',
+      },
+      _id: {
         type: 'string',
       },
     },
-  },
-});
+    ...options,
+  };
+};

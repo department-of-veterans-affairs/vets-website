@@ -1,17 +1,28 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { QUESTION_CONTENT } from '../constants/question-data-map';
 
-const App = ({ children }) => {
-  document.title = `${QUESTION_CONTENT.INTRODUCTION.h1} | Veterans Affairs`;
+const App = ({ children, location, resultPage }) => {
+  const getTitlecasedH1 = content => {
+    return content
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  };
+
+  const titlecasedH1 = getTitlecasedH1(QUESTION_CONTENT.INTRODUCTION.h1);
+
+  document.title = `${titlecasedH1} | Veterans Affairs`;
+  const route = location?.pathname.replace('/', '');
 
   return (
     <div className="onramp-app row vads-u-padding-bottom--8">
-      <Breadcrumbs />
+      <Breadcrumbs resultPage={resultPage} route={route} />
       <div className="usa-width-two-thirds medium-8 columns">
         {children}
-        <va-need-help class="vads-u-margin-top--9">
+        <va-need-help class="vads-u-margin-top--8">
           <div slot="content">
             <p>
               Call us at <va-telephone contact="8008271000" />. We’re here
@@ -25,8 +36,16 @@ const App = ({ children }) => {
   );
 };
 
+const mapStateToProps = state => ({
+  resultPage: state?.decisionReviewsGuide?.resultPage,
+});
+
 App.propTypes = {
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+  }).isRequired,
   children: PropTypes.node,
+  resultPage: PropTypes.string,
 };
 
-export default App;
+export default connect(mapStateToProps)(App);

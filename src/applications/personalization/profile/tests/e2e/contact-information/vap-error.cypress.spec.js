@@ -4,7 +4,7 @@ import { mockUser } from '@@profile/tests/fixtures/users/user-vap-error';
 import mockPersonalInformation from '@@profile/tests/fixtures/personal-information-success.json';
 import mockServiceHistory from '@@profile/tests/fixtures/service-history-success.json';
 import mockFullName from '@@profile/tests/fixtures/full-name-success.json';
-import mockPaymentInfoNotEligible from '@@profile/tests/fixtures/dd4cnp/dd4cnp-is-not-eligible.json';
+import mockPaymentInfo from '@@profile/tests/fixtures/direct-deposits/base.json';
 import dd4eduNotEnrolled from '@@profile/tests/fixtures/dd4edu/dd4edu-not-enrolled.json';
 import { mockFeatureToggles } from '../helpers';
 
@@ -13,7 +13,7 @@ const setup = () => {
   cy.intercept('v0/profile/personal_information', mockPersonalInformation);
   cy.intercept('v0/profile/service_history', mockServiceHistory);
   cy.intercept('v0/profile/full_name', mockFullName);
-  cy.intercept('v0/ppiu/payment_information', mockPaymentInfoNotEligible);
+  cy.intercept('v0/profile/direct_deposits', mockPaymentInfo);
   cy.intercept('v0/profile/ch33_bank_accounts', dd4eduNotEnrolled);
   mockFeatureToggles();
   cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);

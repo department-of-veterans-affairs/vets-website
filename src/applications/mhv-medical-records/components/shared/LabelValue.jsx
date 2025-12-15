@@ -8,10 +8,12 @@ const LabelValue = ({
   children,
   testId,
   actionName,
+  element = 'p',
   ifEmpty = 'N/A',
   monospace = false,
   headerClass = 'vads-u-margin-top--2 vads-u-margin-bottom--0 vads-u-font-size--md vads-u-font-family--sans',
 }) => {
+  const Element = element;
   let displayValue = children || value; // Prefer children if provided
   if (!children && (value === undefined || value === null || value === '')) {
     displayValue = ifEmpty; // Default to a placeholder if both value and children are empty
@@ -19,9 +21,8 @@ const LabelValue = ({
 
   return (
     <HeaderSection header={label} className={headerClass}>
-      <p
-        style={{ whiteSpace: 'pre-line' }}
-        className={`vads-u-margin-y--0 ${
+      <Element
+        className={`breakable-text-wrap vads-u-margin-y--0 ${
           monospace ? 'monospace vads-u-line-height--6' : null
         }`}
         data-dd-privacy="mask"
@@ -29,7 +30,7 @@ const LabelValue = ({
         data-dd-action-name={actionName}
       >
         {displayValue}
-      </p>
+      </Element>
     </HeaderSection>
   );
 };
@@ -38,6 +39,7 @@ LabelValue.propTypes = {
   label: PropTypes.string.isRequired,
   actionName: PropTypes.string,
   children: PropTypes.node,
+  element: PropTypes.string,
   headerClass: PropTypes.string,
   ifEmpty: PropTypes.string,
   monospace: PropTypes.bool,

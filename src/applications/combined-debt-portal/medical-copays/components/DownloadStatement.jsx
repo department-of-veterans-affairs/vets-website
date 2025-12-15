@@ -17,45 +17,33 @@ const DownloadStatement = ({ statementId, statementDate, fullName }) => {
   const formattedStatementDate = formatDate(parsedStatementDate);
 
   const downloadFileName = `${fullName} Veterans Medical copay statement dated ${formattedStatementDate}.pdf`;
-
+  const downloadText = `Download your ${formattedStatementDate} statement`;
   const pdfStatementUri = encodeURI(
     `${
       environment.API_URL
     }/v0/medical_copays/get_pdf_statement_by_id/${statementId}?file_name=${downloadFileName}`,
   );
 
+  const handler = {
+    onClick: () => {
+      recordEvent({ event: 'cta-link-click-copay-statement-download' });
+      handleDownloadClick(statementDate);
+    },
+  };
   return (
-    <article className="vads-u-padding--0">
-      <div className="vads-u-margin-top--2">
-        <a
-          className="vads-u-text-decoration--none vads-u-display--flex vads-u-align-items--flex-start"
-          onClick={() => {
-            recordEvent({ event: 'cta-link-click-copay-statement-download' });
-            handleDownloadClick(statementDate);
-          }}
-          download={downloadFileName}
-          href={pdfStatementUri}
-          type="application/pdf"
-          rel="noreferrer"
-        >
-          <va-icon
-            icon="file_download"
-            size={3}
-            className="vads-u-margin-top--0p5 vads-u-padding-right--1"
-          />
-
-          <span aria-hidden="true">
-            Download your {formattedStatementDate} statement{' '}
-          </span>
-          <span className="sr-only">
-            Download {formattedStatementDate} dated medical copay statement{' '}
-          </span>
-          <dfn>
-            <abbr title="Portable Document Format"> (PDF)</abbr>
-          </dfn>
-        </a>
-      </div>
-    </article>
+    <p
+      className="vads-u-margin-top--0 vads-u-padding--0"
+      data-testid="download-statement-section"
+    >
+      <va-link
+        download
+        filetype="PDF"
+        filename={downloadFileName}
+        href={pdfStatementUri}
+        text={downloadText}
+        onClick={handler.onClick}
+      />
+    </p>
   );
 };
 

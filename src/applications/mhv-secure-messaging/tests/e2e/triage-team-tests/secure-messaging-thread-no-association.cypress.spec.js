@@ -25,11 +25,11 @@ describe('SM NO ASSOCIATION WITH PARTICULAR TG', () => {
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
-    cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click({
+    cy.findByTestId(Locators.LINKS.CREATE_NEW_MESSAGE_DATA_TEST_ID).click({
       waitForAnimations: true,
     });
 
-    cy.findByTestId(Locators.BUTTONS.CONTINUE).click({
+    cy.findByTestId(Locators.INTERSTITIAL_CONTINUE_BUTTON).click({
       waitForAnimations: true,
     });
 
@@ -96,10 +96,10 @@ describe('SM NO ASSOCIATION WITH PARTICULAR TG', () => {
       .should('have.text', Alerts.NO_ASSOCIATION.PARAGRAPH);
 
     cy.get(Locators.ALERTS.BLOCKED_GROUP)
-      .find('a')
+      .find('va-link-action')
       .first()
       .should('have.attr', 'href', Paths.FIND_LOCATIONS)
-      .and('have.text', Alerts.NO_ASSOCIATION.LINK);
+      .and('have.attr', 'text', Alerts.NO_ASSOCIATION.LINK);
 
     cy.get(Locators.BUTTONS.REPLY).should('not.exist');
   });

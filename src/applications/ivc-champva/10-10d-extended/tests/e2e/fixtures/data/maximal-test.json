@@ -12,11 +12,10 @@
           "suffix": "Jr."
         },
         "applicantDob": "2003-01-04",
-        "applicantSSN": "345345345",
+        "applicantSsn": "345345345",
         "applicantAddress": {
           "street": "456 Circle St",
           "street2": "Apt 2",
-          "street3": "Floor 5",
           "city": "Applicant",
           "country": "USA",
           "state": "IN",
@@ -82,7 +81,6 @@
     "certifierAddress": {
       "street": "123 Certifier St",
       "street2": "Apt 5",
-      "street3": "Floor 2",
       "city": "Citytown",
       "country": "USA",
       "state": "AL",
@@ -92,7 +90,7 @@
     "certifierEmail": "certifier@email.gov",
     "sponsorName": {
       "first": "Joe",
-      "middle": "James",
+      "middle": "J",
       "last": "Johnson",
       "suffix": "Jr."
     },
@@ -106,9 +104,10 @@
       "postalCode": "12312"
     },
     "sponsorPhone": "5552223333",
+    "sponsorEmail": "sponsor@email.gov",
     "sponsorIsDeceased": true,
     "sponsorDOD": "2001-01-01",
     "sponsorDeathConditions": false,
-    "statementOfTruthSignature": "Certifier Jones"
+    "statementOfTruthSignature": "Certifier T Jones"
   }
 }

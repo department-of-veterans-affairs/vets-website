@@ -5,42 +5,31 @@ const generateFeatureToggles = (toggles = {}) => {
 
     // medications
     mhvMedicationsDisplayDocumentationContent = true,
-    mhvMedicationsDisplayFilter = true,
     mhvMedicationsDisplayGrouping = true,
     mhvMedicationsDisplayPendingMeds = true,
-    mhvMedicationsDisplayRefillProgress = true,
-    mhvMedicationsShowIpeContent = true,
     mhvMedicationsPartialFillContent,
     mhvMedicationsDontIncrementIpeCount,
 
-    // medical records
-    mhvMedicalRecordsAllowTxtDownloads = true,
-    mhvMedicalRecordsDisplayConditions = true,
-    mhvMedicalRecordsDisplayDomains = true,
-    mhvMedicalRecordsDisplayLabsAndTests = true,
-    mhvMedicalRecordsDisplayNotes = true,
-    mhvMedicalRecordsDisplaySidenav = true,
-    mhvMedicalRecordsDisplayVaccines = true,
-    mhvMedicalRecordsDisplaySettingsPage = true,
-    mhvMedicalRecordsDisplayVitals = true,
-    mhvMedicalRecordsToVaGovRelease = true,
-    mhvMedicalRecordsMarch17Updates = true,
-
     // OH integration work
+    mhvMedicalRecordsCcdExtendedFileTypes = true,
+    mhvMedicalRecordsMergeCvixIntoScdf = false,
     mhvAcceleratedDeliveryEnabled = false,
     mhvAcceleratedDeliveryAllergiesEnabled = false,
+    mhvAcceleratedDeliveryCareNotesEnabled = false,
     mhvAcceleratedDeliveryVitalSignsEnabled = false,
+    mhvAcceleratedDeliveryConditionsEnabled = false,
     mhvAcceleratedDeliveryVaccinesEnabled = false,
     mhvAcceleratedDeliveryLabsAndTestsEnabled = false,
-
-    mhvMedicalRecordsMilestoneTwo = false,
+    mhvMedicationsDisplayNewCernerFacilityAlert = true,
 
     // secure messaging
     mhvSecureMessagingTriageGroupPlainLanguage = false,
     mhvSecureMessagingRecipientOptGroups = true,
-    mhvSecureMessagingRecipientCombobox = true,
+    mhvSecureMessagingRecipientCombobox = false,
     mhvSecureMessagingCernerPilot = true,
     mhvSecureMessagingLargeAttachments = true,
+    mhvSecureMessagingCuratedListFlow = true,
+    mhvSecureMessagingRecentRecipients = true,
   } = toggles;
 
   return {
@@ -64,6 +53,14 @@ const generateFeatureToggles = (toggles = {}) => {
           value: mhvAcceleratedDeliveryAllergiesEnabled,
         },
         {
+          name: 'mhv_accelerated_delivery_care_notes_enabled',
+          value: mhvAcceleratedDeliveryCareNotesEnabled,
+        },
+        {
+          name: 'mhv_accelerated_delivery_conditions_enabled',
+          value: mhvAcceleratedDeliveryConditionsEnabled,
+        },
+        {
           name: 'mhv_accelerated_delivery_vaccines_enabled',
           value: mhvAcceleratedDeliveryVaccinesEnabled,
         },
@@ -84,24 +81,12 @@ const generateFeatureToggles = (toggles = {}) => {
           value: mhvMedicationsDisplayDocumentationContent,
         },
         {
-          name: 'mhv_medications_display_filter',
-          value: mhvMedicationsDisplayFilter,
-        },
-        {
           name: 'mhv_medications_display_grouping',
           value: mhvMedicationsDisplayGrouping,
         },
         {
           name: 'mhv_medications_display_pending_meds',
           value: mhvMedicationsDisplayPendingMeds,
-        },
-        {
-          name: 'mhv_medications_display_refill_progress',
-          value: mhvMedicationsDisplayRefillProgress,
-        },
-        {
-          name: 'mhv_medications_show_ipe_content',
-          value: mhvMedicationsShowIpeContent,
         },
         {
           name: 'mhv_medications_partial_fill_content',
@@ -111,6 +96,10 @@ const generateFeatureToggles = (toggles = {}) => {
           name: 'mhv_medications_dont_increment_ipe_count',
           value: mhvMedicationsDontIncrementIpeCount,
         },
+        {
+          name: 'mhv_medications_display_new_cerner_facility_alert',
+          value: mhvMedicationsDisplayNewCernerFacilityAlert,
+        },
 
         // medical records
         {
@@ -118,52 +107,12 @@ const generateFeatureToggles = (toggles = {}) => {
           value: true,
         },
         {
-          name: 'mhv_medical_records_allow_txt_downloads',
-          value: mhvMedicalRecordsAllowTxtDownloads,
+          name: 'mhv_medical_records_ccd_extended_file_types',
+          value: mhvMedicalRecordsCcdExtendedFileTypes,
         },
         {
-          name: 'mhv_medical_records_display_conditions',
-          value: mhvMedicalRecordsDisplayConditions,
-        },
-        {
-          name: 'mhv_medical_records_display_domains',
-          value: mhvMedicalRecordsDisplayDomains,
-        },
-        {
-          name: 'mhv_medical_records_display_labs_and_tests',
-          value: mhvMedicalRecordsDisplayLabsAndTests,
-        },
-        {
-          name: 'mhv_medical_records_display_notes',
-          value: mhvMedicalRecordsDisplayNotes,
-        },
-        {
-          name: 'mhv_medical_records_display_sidenav',
-          value: mhvMedicalRecordsDisplaySidenav,
-        },
-        {
-          name: 'mhv_medical_records_display_vaccines',
-          value: mhvMedicalRecordsDisplayVaccines,
-        },
-        {
-          name: 'mhv_medical_records_display_settings_page',
-          value: mhvMedicalRecordsDisplaySettingsPage,
-        },
-        {
-          name: 'mhv_medical_records_display_vitals',
-          value: mhvMedicalRecordsDisplayVitals,
-        },
-        {
-          name: 'mhv_medical_records_to_va_gov_release',
-          value: mhvMedicalRecordsToVaGovRelease,
-        },
-        {
-          name: 'mhv_medical_records_update_landing_page',
-          value: mhvMedicalRecordsMarch17Updates,
-        },
-        {
-          name: 'mhv_medical_records_milestone_two',
-          value: mhvMedicalRecordsMilestoneTwo,
+          name: 'mhv_medical_records_merge_cvix_into_scdf',
+          value: mhvMedicalRecordsMergeCvixIntoScdf,
         },
 
         // secure messaging
@@ -186,6 +135,14 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_secure_messaging_large_attachments',
           value: mhvSecureMessagingLargeAttachments,
+        },
+        {
+          name: 'mhv_secure_messaging_curated_list_flow',
+          value: mhvSecureMessagingCuratedListFlow,
+        },
+        {
+          name: 'mhv_secure_messaging_recent_recipients',
+          value: mhvSecureMessagingRecentRecipients,
         },
       ],
     },

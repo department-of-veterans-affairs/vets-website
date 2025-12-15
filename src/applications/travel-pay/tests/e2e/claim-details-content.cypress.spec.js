@@ -7,7 +7,7 @@ describe(`${appName} -- Claim Details Content`, () => {
   beforeEach(() => {
     cy.clock(new Date(2024, 5, 25), ['Date']);
     cy.intercept('/data/cms/vamc-ehr.json', {});
-    ApiInitializer.initializeFeatureToggle.withAllFeatures();
+    ApiInitializer.initializeFeatureToggle.withSmocOnly();
     ApiInitializer.initializeClaims.happyPath();
   });
 
@@ -105,6 +105,7 @@ describe(`${appName} -- Claim Details Content`, () => {
         reimbursementAmount: 0,
         createdOn: '2025-03-12T20:27:14.088Z',
         modifiedOn: '2025-03-12T20:27:14.088Z',
+        appointment: { id: 'test-appointment-id' },
         documents: [],
       });
 
@@ -131,6 +132,7 @@ describe(`${appName} -- Claim Details Content`, () => {
         reimbursementAmount: 0,
         createdOn: '2025-03-12T20:27:14.088Z',
         modifiedOn: '2025-03-12T20:27:14.088Z',
+        appointment: { id: 'test-appointment-id' },
         documents: [],
       });
 
@@ -175,6 +177,7 @@ describe(`${appName} -- Claim Details Content`, () => {
         reimbursementAmount: 14.52,
         createdOn: '2025-03-12T20:27:14.088Z',
         modifiedOn: '2025-03-12T20:27:14.088Z',
+        appointment: { id: 'test-appointment-id' },
         documents: [
           {
             documentId: 'doc123',
@@ -214,11 +217,13 @@ describe(`${appName} -- Claim Details Content`, () => {
         reimbursementAmount: 14.52,
         createdOn: '2025-03-12T20:27:14.088Z',
         modifiedOn: '2025-03-12T20:27:14.088Z',
+        appointment: { id: 'test-appointment-id' },
         documents: [
           {
             documentId: 'decision123',
-            filename: 'Decision Letter - Claim TC123.pdf',
-            mimetype: 'application/pdf',
+            filename: 'Decision Letter.docx',
+            mimetype:
+              'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
           },
         ],
       });
@@ -227,6 +232,66 @@ describe(`${appName} -- Claim Details Content`, () => {
       cy.visit(`${rootUrl}/claims/73611905-71bf-46ed-b1ec-e790593b8565`);
 
       // Decision letter should be displayed above claim information
+      cy.get('va-link').should('have.length.at.least', 1);
+    });
+
+    it('displays partial payment letter as decision letter', () => {
+      ApiInitializer.initializeFeatureToggle.withAllFeatures(); // Ensure feature toggles are enabled
+      cy.intercept('GET', '/travel_pay/v0/claims/*', {
+        claimId: '73611905-71bf-46ed-b1ec-e790593b8565',
+        claimNumber: 'TC0000000000001',
+        claimStatus: 'Partial payment',
+        appointmentDate: '2024-01-01T16:45:34.465Z',
+        facilityName: 'Cheyenne VA Medical Center',
+        totalCostRequested: 20.0,
+        reimbursementAmount: 14.52,
+        createdOn: '2025-03-12T20:27:14.088Z',
+        modifiedOn: '2025-03-12T20:27:14.088Z',
+        appointment: { id: 'test-appointment-id' },
+        documents: [
+          {
+            documentId: 'partial123',
+            filename: 'Partial Payment Letter.docx',
+            mimetype:
+              'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+          },
+        ],
+      });
+
+      cy.login(user);
+      cy.visit(`${rootUrl}/claims/73611905-71bf-46ed-b1ec-e790593b8565`);
+
+      // Partial payment letter should be displayed as decision letter
+      cy.get('va-link').should('have.length.at.least', 1);
+    });
+
+    it('displays rejection letter as decision letter', () => {
+      ApiInitializer.initializeFeatureToggle.withAllFeatures(); // Ensure feature toggles are enabled
+      cy.intercept('GET', '/travel_pay/v0/claims/*', {
+        claimId: '73611905-71bf-46ed-b1ec-e790593b8565',
+        claimNumber: 'TC0000000000001',
+        claimStatus: 'Denied',
+        appointmentDate: '2024-01-01T16:45:34.465Z',
+        facilityName: 'Cheyenne VA Medical Center',
+        totalCostRequested: 20.0,
+        reimbursementAmount: 0,
+        createdOn: '2025-03-12T20:27:14.088Z',
+        modifiedOn: '2025-03-12T20:27:14.088Z',
+        appointment: { id: 'test-appointment-id' },
+        documents: [
+          {
+            documentId: 'rejection123',
+            filename: 'Rejection Letter.docx',
+            mimetype:
+              'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+          },
+        ],
+      });
+
+      cy.login(user);
+      cy.visit(`${rootUrl}/claims/73611905-71bf-46ed-b1ec-e790593b8565`);
+
+      // Rejection letter should be displayed as decision letter
       cy.get('va-link').should('have.length.at.least', 1);
     });
 
@@ -242,6 +307,7 @@ describe(`${appName} -- Claim Details Content`, () => {
         reimbursementAmount: 0,
         createdOn: '2025-03-12T20:27:14.088Z',
         modifiedOn: '2025-03-12T20:27:14.088Z',
+        appointment: { id: 'test-appointment-id' },
         documents: [
           {
             documentId: 'form123',
@@ -273,6 +339,7 @@ describe(`${appName} -- Claim Details Content`, () => {
         reimbursementAmount: 0,
         createdOn: '2025-03-12T20:27:14.088Z',
         modifiedOn: '2025-03-12T20:27:14.088Z',
+        appointment: { id: 'test-appointment-id' },
         documents: [], // No documents
       });
 
@@ -297,6 +364,7 @@ describe(`${appName} -- Claim Details Content`, () => {
         reimbursementAmount: 14.52,
         createdOn: '2025-03-12T20:27:14.088Z',
         modifiedOn: '2025-03-12T20:27:14.088Z',
+        appointment: { id: 'test-appointment-id' },
         documents: [
           {
             documentId: 'note123',
@@ -364,6 +432,7 @@ describe(`${appName} -- Claim Details Content`, () => {
         reimbursementAmount: 0,
         createdOn: '2025-03-12T20:27:14.088Z',
         modifiedOn: '2025-03-12T20:27:14.088Z',
+        appointment: { id: 'test-appointment-id' },
         documents: [],
       });
 
@@ -390,6 +459,7 @@ describe(`${appName} -- Claim Details Content`, () => {
         reimbursementAmount: 0,
         createdOn: '2025-03-12T20:27:14.088Z',
         modifiedOn: '2025-03-12T20:27:14.088Z',
+        appointment: { id: 'test-appointment-id' },
         documents: [],
       });
 
@@ -411,6 +481,7 @@ describe(`${appName} -- Claim Details Content`, () => {
         reimbursementAmount: 20.0,
         createdOn: '2025-03-12T20:27:14.088Z',
         modifiedOn: '2025-03-12T20:27:14.088Z',
+        appointment: { id: 'test-appointment-id' },
         documents: [],
       });
 

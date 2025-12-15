@@ -11,13 +11,12 @@ const PROPERTY_NAMES = {
 
 function generateOptions({ data, pagePerItemIndex }) {
   const bp = appRelBoilerplate({ data, pagePerItemIndex });
-  const customTitle = `${bp.applicant}’s status`;
+  const customTitle = `${bp.applicant}’s dependent status`;
   const relativeBeingVerb = `${bp.relative} ${bp.beingVerbPresent}`;
   const options = [
     {
-      label: `${relativeBeingVerb} between the ages of 18 and 23 years old and ${
-        bp.beingVerbPresent
-      } enrolled as a student in a high school, college, or vocational school`,
+      label: `${relativeBeingVerb} between the ages of 18 and 23 years old and will be
+       enrolled as a student in a high school, college, or vocational school`,
       value: 'enrolled',
     },
     {
@@ -25,7 +24,7 @@ function generateOptions({ data, pagePerItemIndex }) {
       value: 'intendsToEnroll',
     },
     {
-      label: `${relativeBeingVerb} over the age of 18, permanently incapable of self-support and was rated as a helpless child`,
+      label: `${relativeBeingVerb} over the age of 18, permanently incapable of self-support, and rated as a helpless child`,
       value: 'over18HelplessChild',
     },
   ];

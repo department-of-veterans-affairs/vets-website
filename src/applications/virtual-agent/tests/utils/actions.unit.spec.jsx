@@ -291,7 +291,7 @@ describe('actions', () => {
         ),
       ).to.be.true;
     });
-    it('should set event skill value and call recordEvent for Skill_Entry action', () => {
+    it('should set event skill value and record Skill Entry for Skill_Entry action', () => {
       const action = {
         payload: {
           activity: {
@@ -322,12 +322,10 @@ describe('actions', () => {
       expect(setEventSkillValueStub.calledOnce).to.be.true;
       expect(setEventSkillValueStub.calledWithExactly('some_skill_value')).to.be
         .true;
-      expect(recordEventStub.calledOnce).to.be.true;
       expect(
         recordEventStub.calledWithExactly({
           event: 'api_call',
           'api-name': 'Chatbot Skill Entry - some_skill_value',
-          topic: 'some_skill_value',
           'api-status': 'successful',
         }),
       ).to.be.true;
@@ -467,6 +465,10 @@ describe('actions', () => {
       };
 
       const processCSATStub = sandbox.stub(ProcessCSATModule, 'default');
+      const originalRAF = window.requestAnimationFrame;
+      const originalGlobalRAF = global.requestAnimationFrame;
+      window.requestAnimationFrame = cb => cb();
+      global.requestAnimationFrame = cb => cb();
 
       processIncomingActivity({
         action,
@@ -474,6 +476,8 @@ describe('actions', () => {
       })();
 
       expect(processCSATStub.calledOnce).to.be.true;
+      window.requestAnimationFrame = originalRAF;
+      global.requestAnimationFrame = originalGlobalRAF;
     });
 
     it('should not call processCSAT when activity is not CSATSurveyResponse', () => {
@@ -493,6 +497,99 @@ describe('actions', () => {
       })();
 
       expect(processCSATStub.notCalled).to.be.true;
+    });
+
+    it('should emit RAG Agent Entry on RAG_ENTRY for non-RootBot skill', () => {
+      const action = {
+        payload: {
+          activity: {
+            type: 'event',
+            name: 'Rag_Entry',
+            value: { value: 'some_skill_value' },
+          },
+        },
+      };
+      const recordEventStub = sandbox.stub(RecordEventModule, 'default');
+
+      processIncomingActivity({ action, dispatch: sandbox.spy() })();
+
+      expect(
+        recordEventStub.calledWithExactly({
+          event: 'api_call',
+          'api-name': 'Chatbot RAG Agent Entry - some_skill_value',
+          'api-status': 'successful',
+        }),
+      ).to.be.true;
+    });
+
+    it('should emit RAG Agent Entry for RootBot RAG_ENTRY', () => {
+      const action = {
+        payload: {
+          activity: {
+            type: 'event',
+            name: 'Rag_Entry',
+            value: { value: 'RootBot' },
+          },
+        },
+      };
+      const recordEventStub = sandbox.stub(RecordEventModule, 'default');
+
+      processIncomingActivity({ action, dispatch: sandbox.spy() })();
+
+      expect(
+        recordEventStub.calledWithExactly({
+          event: 'api_call',
+          'api-name': 'Chatbot RAG Agent Entry - RootBot',
+          'api-status': 'successful',
+        }),
+      ).to.be.true;
+    });
+
+    it('should emit RAG Agent Exit on RAG_EXIT for non-RootBot skill', () => {
+      const action = {
+        payload: {
+          activity: {
+            type: 'event',
+            name: 'Rag_Exit',
+            value: 'some_skill_value',
+          },
+        },
+      };
+      const recordEventStub = sandbox.stub(RecordEventModule, 'default');
+
+      processIncomingActivity({ action, dispatch: sandbox.spy() })();
+
+      // And explicit RAG Agent Exit
+      expect(
+        recordEventStub.calledWithExactly({
+          event: 'api_call',
+          'api-name': 'Chatbot RAG Agent Exit - some_skill_value',
+          'api-status': 'successful',
+        }),
+      ).to.be.true;
+    });
+
+    it('should emit RAG Agent Exit on RAG_EXIT for RootBot', () => {
+      const action = {
+        payload: {
+          activity: {
+            type: 'event',
+            name: 'Rag_Exit',
+            value: 'RootBot',
+          },
+        },
+      };
+      const recordEventStub = sandbox.stub(RecordEventModule, 'default');
+
+      processIncomingActivity({ action, dispatch: sandbox.spy() })();
+
+      expect(
+        recordEventStub.calledWithExactly({
+          event: 'api_call',
+          'api-name': 'Chatbot RAG Agent Exit - RootBot',
+          'api-status': 'successful',
+        }),
+      ).to.be.true;
     });
   });
 

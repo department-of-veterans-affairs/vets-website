@@ -18,7 +18,7 @@ const App = ({ formEnabled }) => {
           className="vads-c-action-link--blue"
           href="/supporting-forms-for-claims/submit-statement-form-21-4138"
         >
-          Submit a Statement in support of your claim online
+          Submit a statement in support of your claim
         </a>
       </>
     );

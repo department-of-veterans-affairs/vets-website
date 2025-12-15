@@ -13,20 +13,48 @@ import {
   INCLUDE_IMAGE_ENDPOINT,
   rxListSortingOptions,
 } from '../util/constants';
+import { selectCernerPilotFlag } from '../util/selectors';
 
-const apiBasePath = `${environment.API_URL}/my_health/v1`;
+const documentationApiBasePath = `${environment.API_URL}/my_health/v1`;
+
+export const getApiBasePath = state => {
+  // Handle loading state - default to v1
+  if (!state?.featureToggles || state.featureToggles.loading) {
+    return `${environment.API_URL}/my_health/v1`;
+  }
+
+  const isCernerPilot = selectCernerPilotFlag(state);
+  return `${environment.API_URL}/my_health/${isCernerPilot ? 'v2' : 'v1'}`;
+};
+
+export const getRefillMethod = state => {
+  // Handle loading state - default to PATCH
+  if (!state?.featureToggles || state.featureToggles.loading) {
+    return 'PATCH';
+  }
+
+  const isCernerPilot = selectCernerPilotFlag(state);
+  return isCernerPilot ? 'POST' : 'PATCH';
+};
 
 // Create the prescriptions API slice
 export const prescriptionsApi = createApi({
   reducerPath: 'prescriptionsApi',
-  baseQuery: async ({ path, options = {} }) => {
+  baseQuery: async ({ path, options = {} }, api) => {
     const defaultOptions = {
       headers: {
         'Content-Type': 'application/json',
       },
     };
+
+    const state = api.getState();
+    const apiBasePath = getApiBasePath(state);
+
     try {
-      const result = await apiRequest(path, { ...defaultOptions, ...options });
+      const result = await apiRequest(`${apiBasePath}${path}`, {
+        ...defaultOptions,
+        ...options,
+      });
       return { data: result };
     } catch ({ errors }) {
       return {
@@ -45,9 +73,9 @@ export const prescriptionsApi = createApi({
   // refetchOnMountOrArgChange: 60,
   tagTypes: ['Prescription'],
   endpoints: builder => ({
-    getPrescriptionSortedList: builder.query({
-      query: ({ sortEndpoint, includeImage = false }) => ({
-        path: `${apiBasePath}/prescriptions?${sortEndpoint}${
+    getPrescriptionsExportList: builder.query({
+      query: ({ filterOption = '', sortEndpoint, includeImage = false }) => ({
+        path: `/prescriptions?${filterOption}${sortEndpoint}${
           includeImage ? INCLUDE_IMAGE_ENDPOINT : ''
         }`,
       }),
@@ -81,7 +109,7 @@ export const prescriptionsApi = createApi({
         if (includeImage) queryParams += '&include_image=true';
 
         return {
-          path: `${apiBasePath}/prescriptions?${queryParams}`,
+          path: `/prescriptions?${queryParams}`,
         };
       },
       providesTags: ['Prescription'],
@@ -109,7 +137,7 @@ export const prescriptionsApi = createApi({
     }),
     getPrescriptionById: builder.query({
       query: id => ({
-        path: `${apiBasePath}/prescriptions/${id}`,
+        path: `/prescriptions/${id}`,
       }),
       providesTags: ['Prescription'],
       transformResponse: response => {
@@ -125,7 +153,7 @@ export const prescriptionsApi = createApi({
     }),
     getRefillablePrescriptions: builder.query({
       query: () => ({
-        path: `${apiBasePath}/prescriptions/list_refillable_prescriptions`,
+        path: `/prescriptions/list_refillable_prescriptions`,
       }),
       providesTags: ['Prescription'],
       transformResponse: response => {
@@ -151,30 +179,113 @@ export const prescriptionsApi = createApi({
       },
     }),
     getPrescriptionDocumentation: builder.query({
-      query: id => ({
-        path: `${apiBasePath}/prescriptions/${id}/documentation`,
-      }),
-      transformResponse: response => {
-        return response?.data?.attributes?.html
-          ? sanitizeKramesHtmlStr(response.data.attributes.html)
-          : null;
+      // This endpoint always hits v1 docs API regardless of Cerner pilot flag
+      async queryFn(id) {
+        try {
+          const response = await apiRequest(
+            `${documentationApiBasePath}/prescriptions/${id}/documentation`,
+          );
+
+          const html = response?.data?.attributes?.html
+            ? sanitizeKramesHtmlStr(response.data.attributes.html)
+            : null;
+
+          return { data: html };
+        } catch (error) {
+          const errors = error?.errors || [];
+          return {
+            error: {
+              status: errors?.[0]?.status || 500,
+              message: errors?.[0]?.title || 'Failed to fetch data',
+            },
+          };
+        }
       },
     }),
     refillPrescription: builder.mutation({
-      query: id => {
-        return {
-          path: `${apiBasePath}/prescriptions/${id}/refill`,
-          options: { method: 'PATCH' },
-        };
+      queryFn: async (id, { getState }) => {
+        const state = getState();
+        const apiBasePath = getApiBasePath(state);
+        const method = getRefillMethod(state);
+
+        try {
+          const result = await apiRequest(
+            `${apiBasePath}/prescriptions/${id}/refill`,
+            {
+              method,
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            },
+          );
+          return { data: result };
+        } catch ({ errors }) {
+          return {
+            error: {
+              status: errors?.[0]?.status || 500,
+              message: errors?.[0]?.title || 'Failed to refill prescription',
+            },
+          };
+        }
       },
     }),
     bulkRefillPrescriptions: builder.mutation({
-      query: ids => {
-        const idParams = ids.map(id => `ids[]=${id}`).join('&');
-        return {
-          path: `${apiBasePath}/prescriptions/refill_prescriptions?${idParams}`,
-          options: { method: 'PATCH' },
-        };
+      queryFn: async (ids, { getState }) => {
+        const state = getState();
+        const apiBasePath = getApiBasePath(state);
+        const method = getRefillMethod(state);
+        const isOracleHealthPilot = selectCernerPilotFlag(state);
+
+        if (isOracleHealthPilot) {
+          try {
+            const result = await apiRequest(
+              `${apiBasePath}/prescriptions/refill`,
+              {
+                method,
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(ids),
+              },
+            );
+            return {
+              data: {
+                ...result,
+                successfulIds: result.data.attributes.prescriptionList || [],
+                failedIds: result.data.attributes.failedPrescriptionList || [],
+              },
+            };
+          } catch ({ errors }) {
+            return {
+              error: {
+                status: errors?.[0]?.status || 500,
+                message: errors?.[0]?.title || 'Failed to refill prescriptions',
+              },
+            };
+          }
+        } else {
+          const idParams = ids.map(id => `ids[]=${id}`).join('&');
+
+          try {
+            const result = await apiRequest(
+              `${apiBasePath}/prescriptions/refill_prescriptions?${idParams}`,
+              {
+                method,
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+              },
+            );
+            return { data: result };
+          } catch ({ errors }) {
+            return {
+              error: {
+                status: errors?.[0]?.status || 500,
+                message: errors?.[0]?.title || 'Failed to refill prescriptions',
+              },
+            };
+          }
+        }
       },
       invalidatesTags: ['Prescription'],
       transformResponse: response => {
@@ -195,7 +306,7 @@ export const {
   useGetPrescriptionDocumentationQuery,
   useRefillPrescriptionMutation,
   useBulkRefillPrescriptionsMutation,
-  useGetPrescriptionSortedListQuery,
+  useGetPrescriptionsExportListQuery,
   endpoints: {
     // Auto-generated hooks for the endpoints
     getPrescriptionsList,
@@ -204,7 +315,7 @@ export const {
     getPrescriptionDocumentation,
     refillPrescription,
     bulkRefillPrescriptions,
-    getPrescriptionSortedList,
+    getPrescriptionsExportList,
   },
   usePrefetch,
 } = prescriptionsApi;

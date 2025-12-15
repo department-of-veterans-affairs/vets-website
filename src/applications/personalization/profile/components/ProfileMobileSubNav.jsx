@@ -1,11 +1,10 @@
+/* eslint-disable @department-of-veterans-affairs/prefer-button-component */
 import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-
 import { isEscape } from 'platform/utilities/accessibility';
 import prefixUtilityClasses from 'platform/utilities/prefix-utility-classes';
 import { focusElement } from 'platform/utilities/ui';
-
-import ProfileSubNavItems from './ProfileSubNavItems';
+import ProfileSubNav from './ProfileSubNav';
 
 const menuButtonClasses = prefixUtilityClasses([
   'font-size--base',
@@ -106,7 +105,7 @@ const ProfileMobileSubNav = ({ isLOA3, isInMVI, routes }) => {
                 />
               </button>
             </div>
-            <ProfileSubNavItems
+            <ProfileSubNav
               isLOA3={isLOA3}
               isInMVI={isInMVI}
               routes={routes}

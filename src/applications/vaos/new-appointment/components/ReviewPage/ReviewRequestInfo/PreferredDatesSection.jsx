@@ -30,7 +30,7 @@ export default function PreferredDatesSection(props) {
   const flowType = useSelector(getFlowType);
 
   const isCommunityCare =
-    props.data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
+    props.data.facilityType === FACILITY_TYPES.COMMUNITY_CARE.id;
   const url = isCommunityCare ? ccRequestDateTime.url : requestDateTime.url;
 
   return (
@@ -48,7 +48,12 @@ export default function PreferredDatesSection(props) {
               Preferred date and timeframe
             </h2>
             {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
-            <ul className="usa-unstyled-list" role="list">
+            <ul
+              className={classNames({
+                'usa-unstyled-list': props.data.selectedDates.length === 1,
+              })}
+              role="list"
+            >
               <PreferredDates dates={props.data.selectedDates} />
             </ul>
           </div>

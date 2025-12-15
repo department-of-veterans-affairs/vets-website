@@ -18,7 +18,7 @@ describe('SM EXPAND ALL ACCORDIONS', () => {
 
     PatientMessageDetailsPage.verifyExpandedThreadBody(threadResponse);
 
-    PatientMessageDetailsPage.expandAllThreadMessages();
+    PatientMessageDetailsPage.collapseAllThreadMessages();
 
     PatientMessageDetailsPage.verifyAccordionStatus(false);
 
@@ -26,7 +26,6 @@ describe('SM EXPAND ALL ACCORDIONS', () => {
 
     PatientMessageDetailsPage.verifyAccordionStatus(true);
 
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 });

@@ -1,37 +1,32 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import {
   validateField,
   dateFormat,
   displayProviderName,
 } from '../../util/helpers';
+import { selectCernerPilotFlag } from '../../util/selectors';
 import ExtraDetails from '../shared/ExtraDetails';
-import { selectGroupingFlag } from '../../util/selectors';
-import { dataDogActionNames } from '../../util/dataDogConstants';
+import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
 import { ACTIVE_NON_VA } from '../../util/constants';
 
 const NonVaPrescription = prescription => {
-  const showGroupingFlag = useSelector(selectGroupingFlag);
+  const isCernerPilot = useSelector(selectCernerPilotFlag);
+
   const content = () => {
     return (
-      <div
-        className={`medication-details-div vads-u-margin-bottom--3 ${
-          showGroupingFlag
-            ? ''
-            : 'vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-margin-top--3 medium-screen:vads-u-margin-top--4'
-        }`}
-      >
-        <h2
-          className={`vads-u-margin-bottom--2 no-print ${
-            showGroupingFlag
-              ? 'vads-u-margin-top--neg2'
-              : 'vads-u-margin-top--3 medium-screen:vads-u-margin-top--4'
-          }`}
-        >
+      <div className="medication-details-div vads-u-margin-bottom--3">
+        <h2 className="vads-u-margin-bottom--2 no-print vads-u-margin-top--neg2">
           About this medication or supply
         </h2>
-        {prescription && <ExtraDetails {...prescription} />}
+        {prescription && (
+          <ExtraDetails
+            {...prescription}
+            page={pageType.DETAILS}
+            showRenewalLink
+          />
+        )}
         <section>
           <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
             Status
@@ -82,14 +77,16 @@ const NonVaPrescription = prescription => {
             {prescription.sig || 'Instructions not available'}
           </p>
         </section>
-        <section>
-          <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
-            Reason for use
-          </h3>
-          <p data-testid="rx-reason-for-use">
-            {prescription.indicationForUse || 'Reason for use not available'}
-          </p>
-        </section>
+        {!isCernerPilot && (
+          <section>
+            <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
+              Reason for use
+            </h3>
+            <p data-testid="rx-reason-for-use">
+              {prescription.indicationForUse || 'Reason for use not available'}
+            </p>
+          </section>
+        )}
         <section>
           <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
             When you started taking this medication

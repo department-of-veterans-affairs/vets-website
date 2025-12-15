@@ -1,13 +1,16 @@
+import React from 'react';
 import { expect } from 'chai';
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook, act } from '@testing-library/react-hooks';
 import sinon from 'sinon';
-import useDirectLine from '../../hooks/useDirectline';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import TOGGLE_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import * as SessionStorageModule from '../../utils/sessionStorage';
+import useDirectLine from '../../hooks/useDirectline';
 
 const publicDirectLine =
   'https://northamerica.directline.botframework.com/v3/directline';
 const localDirectLine = 'http://localhost:3002/v3/directline';
-const token = 'fake-token';
 const sessionToken = 'fake-session-token';
 const sessionConversationIdKey = 'fake-session-conversation-id';
 
@@ -24,11 +27,24 @@ describe('directline', () => {
 
   const stubUseLocalDirectline = useLocalDirectline => {
     sandbox.stub(process, 'env').value({
+      ...process.env,
       USE_LOCAL_DIRECTLINE: useLocalDirectline,
     });
   };
 
-  const setSessionStorage = loggedIn => {
+  const createWrapper = (persist = false) => {
+    const initialState = {
+      featureToggles: {
+        loading: false,
+        [TOGGLE_NAMES.virtualAgentChatbotSessionPersistenceEnabled]: persist,
+      },
+    };
+    const store = createStore((state = initialState) => state);
+    // eslint-disable-next-line react/prop-types
+    return ({ children }) => <Provider store={store}>{children}</Provider>;
+  };
+
+  const setSessionStorageBase = () => {
     sandbox
       .stub(SessionStorageModule, SessionStorageModule.getTokenKey.name)
       .returns(sessionToken);
@@ -39,69 +55,167 @@ describe('directline', () => {
         SessionStorageModule.getConversationIdKey.name,
       )
       .returns(sessionConversationIdKey);
-
-    sandbox
-      .stub(SessionStorageModule, SessionStorageModule.getLoggedInFlow.name)
-      .returns(loggedIn);
   };
 
   describe('useDirectLine', () => {
     it('should call local directline when USE_LOCAL_DIRECTLINE is true', () => {
       const createDirectLineFn = sandbox.spy();
       stubUseLocalDirectline(true);
+      setSessionStorageBase();
 
-      renderHook(() => useDirectLine(createDirectLineFn, token, false));
+      renderHook(() => useDirectLine(createDirectLineFn), {
+        wrapper: createWrapper(false),
+      });
 
       expect(createDirectLineFn.calledOnce).to.be.true;
       expect(createDirectLineFn.args[0][0].domain).to.equal(localDirectLine);
+      expect(createDirectLineFn.args[0][0]).to.not.have.property(
+        'conversationId',
+      );
+      expect(createDirectLineFn.args[0][0]).to.not.have.property('watermark');
     });
     it('should call public directline when USE_LOCAL_DIRECTLINE is false', () => {
       const createDirectLineFn = sandbox.spy();
       stubUseLocalDirectline(false);
+      setSessionStorageBase();
 
-      renderHook(() => useDirectLine(createDirectLineFn, token, false));
+      renderHook(() => useDirectLine(createDirectLineFn), {
+        wrapper: createWrapper(false),
+      });
 
       expect(createDirectLineFn.calledOnce).to.be.true;
       expect(createDirectLineFn.args[0][0].domain).to.equal(publicDirectLine);
+      expect(createDirectLineFn.args[0][0]).to.not.have.property(
+        'conversationId',
+      );
+      expect(createDirectLineFn.args[0][0]).to.not.have.property('watermark');
     });
     it('should call public directline when USE_LOCAL_DIRECTLINE is not set', () => {
       const createDirectLineFn = sandbox.spy();
       stubUseLocalDirectline('');
+      setSessionStorageBase();
 
-      renderHook(() => useDirectLine(createDirectLineFn, token, false));
+      renderHook(() => useDirectLine(createDirectLineFn), {
+        wrapper: createWrapper(false),
+      });
 
       expect(createDirectLineFn.calledOnce).to.be.true;
       expect(createDirectLineFn.args[0][0].domain).to.equal(publicDirectLine);
+      expect(createDirectLineFn.args[0][0]).to.not.have.property(
+        'conversationId',
+      );
     });
-    it('should use default values when logged out', () => {
+    it('should not include conversationId when persistence is disabled', () => {
       const createDirectLineFn = sandbox.spy();
-      setSessionStorage('false');
+      setSessionStorageBase();
+      stubUseLocalDirectline(false);
 
-      renderHook(() => useDirectLine(createDirectLineFn, token, false));
-
-      expect(createDirectLineFn.calledOnce).to.be.true;
-      expect(
-        createDirectLineFn.calledWithExactly({
-          token,
-          domain: publicDirectLine,
-          conversationId: '',
-          watermark: '',
-        }),
-      ).to.be.true;
-    });
-    it('should use session storage values when logged in', () => {
-      const createDirectLineFn = sandbox.spy();
-      setSessionStorage('true');
-
-      renderHook(() => useDirectLine(createDirectLineFn, token, true));
+      renderHook(() => useDirectLine(createDirectLineFn), {
+        wrapper: createWrapper(false),
+      });
 
       expect(createDirectLineFn.calledOnce).to.be.true;
       expect(
         createDirectLineFn.calledWithExactly({
           token: sessionToken,
           domain: publicDirectLine,
+        }),
+      ).to.be.true;
+    });
+    it('should not include conversationId on connection when persistence is disabled', () => {
+      const createDirectLineFn = sandbox.spy();
+      setSessionStorageBase();
+      stubUseLocalDirectline(false);
+
+      renderHook(() => useDirectLine(createDirectLineFn), {
+        wrapper: createWrapper(false),
+      });
+
+      expect(createDirectLineFn.calledOnce).to.be.true;
+      expect(
+        createDirectLineFn.calledWithExactly({
+          token: sessionToken,
+          domain: publicDirectLine,
+        }),
+      ).to.be.true;
+    });
+    it('should not include conversationId on first connection when using local mock if persistence is disabled', () => {
+      const createDirectLineFn = sandbox.spy();
+      setSessionStorageBase();
+      stubUseLocalDirectline(true);
+
+      renderHook(() => useDirectLine(createDirectLineFn), {
+        wrapper: createWrapper(false),
+      });
+
+      expect(createDirectLineFn.calledOnce).to.be.true;
+      expect(
+        createDirectLineFn.calledWithExactly({
+          token: sessionToken,
+          domain: localDirectLine,
+        }),
+      ).to.be.true;
+    });
+    it('should set watermark when persistence is enabled for the local mock', () => {
+      const createDirectLineFn = sandbox.spy();
+      setSessionStorageBase();
+      stubUseLocalDirectline(true);
+      renderHook(() => useDirectLine(createDirectLineFn), {
+        wrapper: createWrapper(true),
+      });
+
+      expect(createDirectLineFn.calledOnce).to.be.true;
+      expect(
+        createDirectLineFn.calledWithExactly({
+          token: sessionToken,
+          domain: localDirectLine,
           conversationId: sessionConversationIdKey,
-          watermark: '',
+          watermark: '0',
+        }),
+      ).to.be.true;
+    });
+
+    it('should fallback to a fresh connection when initial reconnect fails using the local mock', () => {
+      // First instance simulates a failed reconnect via connectionStatus$ = 4
+      let subscriber;
+      const firstInstance = {
+        connectionStatus$: {
+          subscribe: fn => {
+            subscriber = fn;
+            return { unsubscribe() {} };
+          },
+        },
+      };
+      const secondInstance = {}; // fresh
+
+      const createDirectLineFn = sandbox.stub();
+      setSessionStorageBase();
+      stubUseLocalDirectline(true);
+
+      createDirectLineFn.onCall(0).returns(firstInstance);
+      createDirectLineFn.onCall(1).returns(secondInstance);
+
+      renderHook(() => useDirectLine(createDirectLineFn), {
+        wrapper: createWrapper(true),
+      });
+
+      expect(createDirectLineFn.calledOnce).to.be.true;
+      expect(
+        createDirectLineFn.calledWithExactly({
+          token: sessionToken,
+          domain: localDirectLine,
+          conversationId: sessionConversationIdKey,
+          watermark: '0',
+        }),
+      ).to.be.true;
+
+      act(() => subscriber(4));
+
+      expect(createDirectLineFn.calledTwice).to.be.true;
+      expect(
+        createDirectLineFn.secondCall.calledWithExactly({
+          token: sessionToken,
+          domain: localDirectLine,
         }),
       ).to.be.true;
     });

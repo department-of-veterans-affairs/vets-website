@@ -2,6 +2,7 @@ import mockCustomResponse from '../fixtures/custom-response.json';
 import defaultMockThread from '../fixtures/thread-response.json';
 import { Data, Locators, Alerts, Paths } from '../utils/constants';
 import createdFolderResponse from '../fixtures/customResponse/created-folder-response.json';
+import SharedComponents from './SharedComponents';
 
 class FolderManagementPage {
   currentThread = defaultMockThread;
@@ -93,9 +94,13 @@ class FolderManagementPage {
       .should(`${assertion}`, createdFolderResponse.data.attributes.name);
   };
 
-  selectFolderFromModal = (folderName = `Deleted`) => {
-    cy.get(Locators.BUTTONS.MOVE_BUTTON_TEXT).click();
-    cy.get(`#radiobutton-${folderName}`).click();
+  selectFolderFromModal = (folderName = `Trash`) => {
+    cy.findByTestId('move-button-text')
+      .should('be.visible')
+      .click();
+    cy.findByLabelText(folderName)
+      .should('be.visible')
+      .click();
   };
 
   confirmMovingMessageToFolder = (
@@ -135,6 +140,8 @@ class FolderManagementPage {
       force: true,
     });
     cy.get(Locators.BUTTONS.CREATE_FOLDER).click();
+    cy.findByText('Folder was successfully created.').should('be.visible');
+    cy.get('va-alert').should('have.focus');
   };
 
   backToInbox = () => {
@@ -146,12 +153,7 @@ class FolderManagementPage {
       defaultMockThread,
     ).as(`updatedFolder`);
 
-    cy.get(Locators.LINKS.CRUMBS_BACK).then(btn => {
-      return new Cypress.Promise(resolve => {
-        setTimeout(resolve, 2000);
-        cy.wrap(btn).click();
-      });
-    });
+    SharedComponents.clickBackBreadcrumb();
   };
 
   verifyMoveMessageSuccessConfirmationMessage = () => {

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import RadioQuestion from '../components/RadioQuestion';
 import { ROUTES } from '../constants';
+import { pageSetup } from '../utilities';
 
 const QuestionTemplate = ({ location, router, viewedIntroPage }) => {
   const route = location?.pathname.replace('/', '');
@@ -12,10 +13,17 @@ const QuestionTemplate = ({ location, router, viewedIntroPage }) => {
   useEffect(
     () => {
       if (!viewedIntroPage) {
-        router.push(ROUTES.HOME);
+        router.push(ROUTES.INTRODUCTION);
       }
     },
     [router, viewedIntroPage],
+  );
+
+  useEffect(
+    () => {
+      if (document) pageSetup();
+    },
+    [route],
   );
 
   return <RadioQuestion router={router} shortName={shortName} />;

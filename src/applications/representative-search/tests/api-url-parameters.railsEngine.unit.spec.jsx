@@ -3,8 +3,9 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import {
   resolveParamsWithUrl,
   getApi,
-  endpointOptions,
   formatReportBody,
+  getEndpointOptions,
+  setRepSearchEndpointsFromFlag,
 } from '../config';
 
 describe('Locator url and parameters builder', () => {
@@ -15,10 +16,15 @@ describe('Locator url and parameters builder', () => {
   const sort = 'distance_asc';
   const distance = '100';
 
+  beforeEach(() => {
+    setRepSearchEndpointsFromFlag(false);
+  });
+
   it('should build VA request with type=veteran_service_officer', () => {
     const type = 'veteran_service_officer';
 
-    const { requestUrl } = getApi(endpointOptions().fetchVSOReps);
+    const { fetchVSOReps } = getEndpointOptions();
+    const { requestUrl } = getApi(fetchVSOReps);
 
     const params = resolveParamsWithUrl({
       address,
@@ -36,14 +42,17 @@ describe('Locator url and parameters builder', () => {
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/services/veteran/v0/vso_accredited_representatives?address=43210&lat=40.17887&long=-99.27246&name=test&page=1&per_page=10&sort=distance_asc&type=veteran_service_officer&distance=100`,
+      }/services/veteran/v0/vso_accredited_representatives` +
+        `?address=43210&lat=40.17887&long=-99.27246&name=test&page=1&per_page=10` +
+        `&sort=distance_asc&type=veteran_service_officer&distance=100`,
     );
   });
 
   it('should build VA request with type=claim_agents', () => {
     const type = 'claim_agents';
 
-    const { requestUrl } = getApi(endpointOptions().fetchOtherReps);
+    const { fetchOtherReps } = getEndpointOptions();
+    const { requestUrl } = getApi(fetchOtherReps);
 
     const params = resolveParamsWithUrl({
       address,
@@ -61,13 +70,17 @@ describe('Locator url and parameters builder', () => {
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/services/veteran/v0/other_accredited_representatives?address=43210&lat=40.17887&long=-99.27246&name=test&page=1&per_page=10&sort=distance_asc&type=claim_agents&distance=100`,
+      }/services/veteran/v0/other_accredited_representatives` +
+        `?address=43210&lat=40.17887&long=-99.27246&name=test&page=1&per_page=10` +
+        `&sort=distance_asc&type=claim_agents&distance=100`,
     );
   });
 
   it('should build VA request with type=attorney and page = 2 and perPage = 7', () => {
     const type = 'attorney';
-    const { requestUrl } = getApi(endpointOptions().fetchOtherReps);
+
+    const { fetchOtherReps } = getEndpointOptions();
+    const { requestUrl } = getApi(fetchOtherReps);
 
     const params = resolveParamsWithUrl({
       address,
@@ -85,13 +98,16 @@ describe('Locator url and parameters builder', () => {
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/services/veteran/v0/other_accredited_representatives?address=43210&lat=40.17887&long=-99.27246&name=test&page=2&per_page=7&sort=distance_asc&type=attorney&distance=100`,
+      }/services/veteran/v0/other_accredited_representatives` +
+        `?address=43210&lat=40.17887&long=-99.27246&name=test&page=2&per_page=7` +
+        `&sort=distance_asc&type=attorney&distance=100`,
     );
   });
 
   it('should set csrfToken in request headers', () => {
     localStorage.setItem('csrfToken', '12345');
-    const { apiSettings } = getApi(endpointOptions().flagReps);
+    const { flagReps } = getEndpointOptions();
+    const { apiSettings } = getApi(flagReps);
     expect(apiSettings?.headers?.['X-CSRF-Token']).to.eql('12345');
   });
 
@@ -109,12 +125,17 @@ describe('Locator url and parameters builder', () => {
     const formattedReportBody = JSON.stringify(formatReportBody(reportObject));
 
     expect(formattedReportBody).to.eql(
-      '{"representative_id":123,"flags":[{"flag_type":"phone_number","flagged_value":"644-465-8493"},{"flag_type":"email","flagged_value":"example@rep.com"},{"flag_type":"address","flagged_value":"123 Any Street"},{"flag_type":"other","flagged_value":"other comment"}]}',
+      '{"representative_id":123,"flags":[' +
+        '{"flag_type":"phone_number","flagged_value":"644-465-8493"},' +
+        '{"flag_type":"email","flagged_value":"example@rep.com"},' +
+        '{"flag_type":"address","flagged_value":"123 Any Street"},' +
+        '{"flag_type":"other","flagged_value":"other comment"}]}',
     );
   });
 
   it('should exclude null params from request', () => {
-    const { requestUrl } = getApi(endpointOptions().fetchOtherReps);
+    const { fetchOtherReps } = getEndpointOptions();
+    const { requestUrl } = getApi(fetchOtherReps);
 
     const params = resolveParamsWithUrl({
       address: null,
@@ -131,7 +152,19 @@ describe('Locator url and parameters builder', () => {
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/services/veteran/v0/other_accredited_representatives?page=2&per_page=7&sort=distance_asc&type=veteran_service_officer&distance=100`,
+      }/services/veteran/v0/other_accredited_representatives` +
+        `?page=2&per_page=7&sort=distance_asc&type=veteran_service_officer&distance=100`,
+    );
+  });
+
+  it('uses new accredited_individuals endpoints when flag is ON', () => {
+    setRepSearchEndpointsFromFlag(true); // new endpoints
+    const { fetchVSOReps, fetchOtherReps } = getEndpointOptions();
+    expect(fetchVSOReps).to.equal(
+      '/representation_management/v0/accredited_individuals',
+    );
+    expect(fetchOtherReps).to.equal(
+      '/representation_management/v0/accredited_individuals',
     );
   });
 });

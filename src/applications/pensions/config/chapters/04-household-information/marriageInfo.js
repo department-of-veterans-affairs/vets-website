@@ -1,4 +1,4 @@
-import { isMarried } from './helpers';
+import { hasMarriageHistory } from './helpers';
 import { marriages } from '../../definitions';
 import MarriageCount from '../../../components/MarriageCount';
 import MarriageCountReview from '../../../components/MarriageCountReview';
@@ -6,7 +6,7 @@ import MarriageCountReview from '../../../components/MarriageCountReview';
 export default {
   title: 'Marriage history',
   path: 'household/marriage-info',
-  depends: isMarried,
+  depends: hasMarriageHistory,
   CustomPage: MarriageCount,
   CustomPageReview: MarriageCountReview,
   uiSchema: {},

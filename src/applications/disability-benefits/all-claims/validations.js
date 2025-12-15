@@ -1,6 +1,14 @@
 import _ from 'platform/utilities/data';
 import some from 'lodash/some';
-import moment from 'moment';
+import { isValid, isBefore, isAfter, add } from 'date-fns';
+
+import {
+  parseDate,
+  isTreatmentBeforeService,
+  findEarliestServiceDate,
+  isMonthOnly,
+  isYearMonth,
+} from './utils/dates';
 
 import {
   isWithinRange,
@@ -266,12 +274,17 @@ export const isInFuture = (err, fieldData) => {
  * @param {string} fieldData - The data associated with the current schema. Expected separation date
  */
 export const isLessThan180DaysInFuture = (errors, fieldData) => {
-  const enteredDate = moment(fieldData);
-  const in180Days = moment().add(180, 'days');
-  if (enteredDate.isValid()) {
-    if (enteredDate.isBefore()) {
+  const enteredDate = parseDate(fieldData);
+  if (enteredDate && isValid(enteredDate)) {
+    const today = parseDate(new Date().toISOString().split('T')[0]);
+    const in180Days = add(today, { days: 180 });
+
+    if (isBefore(enteredDate, today)) {
       errors.addError('Enter a future separation date');
-    } else if (enteredDate.isSameOrAfter(in180Days)) {
+    } else if (
+      isAfter(enteredDate, in180Days) ||
+      enteredDate.getTime() === in180Days.getTime()
+    ) {
       errors.addError(
         'Enter a separation date less than 180 days in the future',
       );
@@ -290,11 +303,19 @@ export const title10BeforeRad = (errors, pageData) => {
   const { anticipatedSeparationDate, title10ActivationDate } =
     pageData?.reservesNationalGuardService?.title10Activation || {};
 
-  const rad = moment(anticipatedSeparationDate);
-  const activation = moment(title10ActivationDate);
+  const rad = parseDate(anticipatedSeparationDate);
+  const activation = parseDate(title10ActivationDate);
 
-  if (rad.isValid() && activation.isValid() && rad.isBefore(activation)) {
-    errors.reservesNationalGuardService.title10Activation.anticipatedSeparationDate.addError(
+  if (
+    rad &&
+    isValid(rad) &&
+    activation &&
+    isValid(activation) &&
+    isBefore(rad, activation) &&
+    errors?.reservesNationalGuardService?.title10Activation
+      ?.anticipatedSeparationDate?.addError
+  ) {
+    errors?.reservesNationalGuardService?.title10Activation?.anticipatedSeparationDate?.addError(
       'Enter an expected separation date that is after your activation date',
     );
   }
@@ -326,43 +347,11 @@ export const isValidYear = (err, fieldData) => {
  * first visited the facility.
  * @param {Object} formData - Full formData for the form
  */
-export function findEarliestServiceDate(servicePeriods) {
-  return servicePeriods
-    .filter(({ serviceBranch } = {}) => (serviceBranch || '') !== '')
-    .map(period => moment(period.dateRange.from, 'YYYY-MM-DD'))
-    .reduce(
-      (earliestDate, current) =>
-        current.isBefore(earliestDate) ? current : earliestDate,
-      moment(),
-    );
-}
-export function isMonthOnly(fieldData) {
-  return /^XXXX-\d{2}-XX$/.test(fieldData);
-}
-export function isYearOnly(fieldData) {
-  return /^\d{4}-XX-XX$/.test(fieldData);
-}
-export function isYearMonth(fieldData) {
-  return /^\d{4}-\d{2}-XX$/.test(fieldData);
-}
-export function isTreatmentBeforeService(
-  treatmentDate,
-  earliestServiceDate,
-  fieldData,
-) {
-  return (
-    (isYearOnly(fieldData) &&
-      treatmentDate.diff(earliestServiceDate, 'year') < 0) ||
-    (isYearMonth(fieldData) &&
-      treatmentDate.diff(earliestServiceDate, 'month') < 0)
-  );
-}
 export function startedAfterServicePeriod(err, fieldData, formData) {
   if (!_.get('servicePeriods.length', formData.serviceInformation, false)) {
     return;
   }
 
-  const treatmentDate = moment(fieldData, 'YYYY-MM');
   const { servicePeriods } = formData.serviceInformation;
   const earliestServiceDate = findEarliestServiceDate(servicePeriods);
 
@@ -371,7 +360,20 @@ export function startedAfterServicePeriod(err, fieldData, formData) {
     return;
   }
 
-  if (isTreatmentBeforeService(treatmentDate, earliestServiceDate, fieldData)) {
+  // For year-month format (YYYY-MM-XX), parse the first day of that month
+  let treatmentDate;
+  if (isYearMonth(fieldData)) {
+    const yearMonth = fieldData.replace('-XX', '-01');
+    treatmentDate = parseDate(yearMonth);
+  } else {
+    treatmentDate = parseDate(fieldData);
+  }
+
+  if (
+    treatmentDate &&
+    earliestServiceDate &&
+    isTreatmentBeforeService(treatmentDate, earliestServiceDate, fieldData)
+  ) {
     err.addError(
       'Your first treatment date needs to be after the start of your earliest service period.',
     );
@@ -589,8 +591,16 @@ export const validateAge = (
   _currentIndex,
   appStateData,
 ) => {
-  const dob = moment(appStateData.dob).add(13, 'years');
-  if (moment(dateString).isSameOrBefore(dob)) {
+  const dob = parseDate(appStateData?.dob);
+  const start = parseDate(dateString);
+
+  // Bail if either date is missing/invalid
+  if (!dob || !isValid(dob) || !start || !isValid(start)) {
+    return;
+  }
+
+  const minStart = add(dob, { years: 13 });
+  if (isBefore(start, minStart) || start.getTime() === minStart.getTime()) {
     errors.addError('Your start date must be after your 13th birthday');
   }
 };
@@ -621,23 +631,44 @@ export const validateSeparationDate = (
 ) => {
   const { isBDD, servicePeriods = [] } = appStateData;
   const branch = servicePeriods[currentIndex]?.serviceBranch || '';
+
+  // Parse the date first to validate it
+  const separationDate = parseDate(dateString);
+
+  // Check if date is invalid
+  if (!separationDate || !isValid(separationDate)) {
+    errors.addError(
+      `The separation date provided (${dateString}) is not a real date.`,
+    );
+    return;
+  }
+
+  // Get today as a Date object by parsing the current date
+  const today = parseDate(new Date().toISOString().split('T')[0]);
+
   // If a reservist is activated, they are considered to be active duty.
   // Inactive or active reserves may have a future separation date.
   // Regardless, no separation date should be greater than 180 days.
   const isReserves = reservesList.some(match => branch.includes(match));
-  const in90Days = moment().add(90, 'days');
-  if (!isBDD && !isReserves && moment(dateString).isSameOrAfter(in90Days)) {
+
+  // Check if date is more than 180 days in the future (applies to both BDD and non-BDD)
+  if (isAfter(separationDate, add(today, { days: 180 }))) {
+    if (isBDD) {
+      errors.addError(
+        'Your separation date must be before 180 days from today',
+      );
+    } else {
+      errors.addError(
+        'You entered a date more than 180 days from now. If you are wanting to apply for the Benefits Delivery at Discharge program, you will need to wait.',
+      );
+    }
+  } else if (
+    !isBDD &&
+    !isReserves &&
+    isAfter(separationDate, add(today, { days: 90 }))
+  ) {
+    // For non-BDD active duty claims, separation date must not be more than 90 days in the future
     errors.addError('Your separation date must be in the past');
-  } else if (!moment(dateString).isValid()) {
-    errors.addError(
-      `The separation date provided (${dateString}) is not a real date.`,
-    );
-  } else if (moment(dateString).isAfter(moment().add(180, 'days'))) {
-    errors.addError(
-      +isBDD
-        ? 'Your separation date must be before 180 days from today'
-        : 'You entered a date more than 180 days from now. If you are wanting to apply for the Benefits Delivery at Discharge program, you will need to wait.',
-    );
   }
 };
 
@@ -674,7 +705,9 @@ export const validateTitle10StartDate = (
       }
       return b > a ? -1 : 1;
     });
-  if (moment(dateString).isAfter()) {
+  const activationDate = parseDate(dateString);
+  const today = parseDate(new Date().toISOString().split('T')[0]);
+  if (activationDate && isAfter(activationDate, today)) {
     errors.addError('Enter an activation date in the past');
   } else if (!startTimes[0] || dateString < startTimes[0]) {
     errors.addError(

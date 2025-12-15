@@ -1,0 +1,51 @@
+{
+  "data": {
+    "id": "189685",
+    "type": "claim",
+    "attributes": {
+      "claimDate": "2021-01-12",
+      "claimPhaseDates": {
+        "phaseChangeDate": "2022-01-02",
+        "currentPhaseBack": false,
+        "latestPhaseType": "GATHERING_OF_EVIDENCE",
+        "previousPhases": {
+          "phase1CompleteDate": "2022-01-01",
+          "phase2CompleteDate": "2022-01-02"
+        }
+      },
+      "claimType": "Compensation",
+      "claimTypeCode": "110LCMP7IDES",
+      "closeDate": null,
+      "contentions": [
+        {
+          "name": "tinnitus (New)"
+        }
+      ],
+      "decisionLetterSent": false,
+      "developmentLetterSent": false,
+      "documentsNeeded": false,
+      "endProductCode": "020",
+      "evidenceWaiverSubmitted5103": false,
+      "errors": [],
+      "jurisdiction": "National Work Queue",
+      "lighthouseId": null,
+      "maxEstClaimDate": "2022-02-02",
+      "minEstClaimDate": null,
+      "status": "EVIDENCE_GATHERING_REVIEW_DECISION",
+      "submitterApplicationCode": "EBN",
+      "submitterRoleCode": "VET",
+      "supportingDocuments": [
+        {
+          "documentId": "{A8A7A709-E3FD-44FA-99C9-C3B772AD0200}",
+          "documentTypeLabel": "Photographs",
+          "originalFileName": "Not tracked item photos.pdf",
+          "trackedItemId": null,
+          "uploadDate": "2024-10-15"
+        }
+      ],
+      "evidenceSubmissions": [],
+      "tempJurisdiction": null,
+      "trackedItems": []
+    }
+  }
+}

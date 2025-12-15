@@ -6,16 +6,13 @@ import { render } from '@testing-library/react';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import LetterPage from '../../containers/LetterPage';
 
 const mockReducer = (state = {}) => state;
 
-const getStore = (lettersPageNewDesign = true) => {
+const getStore = () => {
   const initialState = {
-    featureToggles: {
-      // eslint-disable-next-line camelcase
-      letters_page_new_design: lettersPageNewDesign,
-    },
     vapService: {
       hasUnsavedEdits: false,
       initialFormFields: {},
@@ -62,6 +59,9 @@ const getStore = (lettersPageNewDesign = true) => {
         letterType: 'benefit_verification',
       },
     ],
+    featureToggles: {
+      [FEATURE_FLAG_NAMES.tsaSafeTravelLetter]: true,
+    },
   };
   return createStore(mockReducer, initialState, applyMiddleware(thunk));
 };

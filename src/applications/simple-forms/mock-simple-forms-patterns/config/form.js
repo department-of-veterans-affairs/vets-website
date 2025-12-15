@@ -18,6 +18,7 @@ import radioRelationshipToVeteran from '../pages/mockRadioRelationshipToVeteran'
 import select from '../pages/mockSelect';
 import date from '../pages/mockDate';
 import fileInput from '../pages/mockFileInput';
+import fileInputMultiple from '../pages/mockFileInputMultiple';
 import dynamicFields from '../pages/mockDynamicFields';
 import formsPatternSingleRadio from '../pages/mockFormsPatternSingleRadio';
 import formsPatternSingleCheckboxGroup from '../pages/mockFormsPatternSingleCheckboxGroup';
@@ -36,6 +37,7 @@ import {
 } from '../pages/mockArrayMultiPageBuilderPages';
 import { MockCustomPage, mockCustomPage } from '../pages/mockCustomPage';
 import arrayBuilderPatternChooseFlow from '../pages/mockArrayMultiPageBuilderChooseFlow';
+import serviceBranch from '../pages/mockServiceBranch';
 
 const initialData = {
   chapterSelect: {
@@ -45,6 +47,7 @@ const initialData = {
     checkbox: true,
     date: true,
     fileInput: true,
+    fileInputMultiple: true,
     internationalPhone: true,
     formsPattern: true,
     miscellaneous: true,
@@ -52,6 +55,7 @@ const initialData = {
     radio: true,
     select: true,
     textInput: true,
+    serviceBranch: true,
   },
 };
 
@@ -271,6 +275,18 @@ const formConfig = {
         },
       },
     },
+    fileInputMultiple: {
+      title: 'File input multiple',
+      pages: {
+        fileInputMultiple: {
+          title: 'File input multiple',
+          path: 'file-input-multiple',
+          uiSchema: fileInputMultiple.uiSchema,
+          schema: fileInputMultiple.schema,
+          depends: includeChapter('fileInputMultiple'),
+        },
+      },
+    },
     miscellaneous: {
       title: 'Miscellaneous',
       pages: {
@@ -346,11 +362,25 @@ const formConfig = {
           initialData: {
             arrayBuilderPatternFlowType: 'required',
             arrayBuilderPatternInteractionType: 'yesNoQuestion',
+            arrayBuilderItemPages: 'complex',
+            arrayBuilderSummaryIntroVariation: 'A',
           },
         },
         ...arrayBuilderPagesYesNoQuestion,
         ...arrayBuilderPagesAddButton,
         ...arrayBuilderPagesAddLink,
+      },
+    },
+    serviceBranch: {
+      title: 'Branch of Service Pattern',
+      pages: {
+        serviceBranch: {
+          title: 'Service Branch Pattern',
+          path: 'service-branch',
+          uiSchema: serviceBranch.uiSchema,
+          schema: serviceBranch.schema,
+          depends: includeChapter('serviceBranch'),
+        },
       },
     },
   },

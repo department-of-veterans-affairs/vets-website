@@ -1,10 +1,13 @@
 import { formatInTimeZone } from 'date-fns-tz';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { DATE_FORMATS } from '../../../utils/constants';
 import {
   getTimezoneAbbrByFacilityId,
   getTimezoneByFacilityId,
 } from '../../../utils/timezone';
+import { selectFeatureUseBrowserTimezone } from '../../../redux/selectors';
 
 export default function AppointmentDate({
   classes,
@@ -13,9 +16,18 @@ export default function AppointmentDate({
   level = 3,
   directSchedule = false,
 }) {
+  const featureUseBrowserTimezone = useSelector(
+    selectFeatureUseBrowserTimezone,
+  );
   const Heading = `h${level}`;
-  const timezone = getTimezoneByFacilityId(facilityId);
-  const timezoneAbbr = getTimezoneAbbrByFacilityId(facilityId);
+  const timezone = getTimezoneByFacilityId(
+    facilityId,
+    featureUseBrowserTimezone,
+  );
+  const timezoneAbbr = getTimezoneAbbrByFacilityId(
+    facilityId,
+    featureUseBrowserTimezone,
+  );
 
   if (directSchedule) {
     return (
@@ -29,7 +41,11 @@ export default function AppointmentDate({
           return (
             <React.Fragment key={index}>
               <span>
-                {formatInTimeZone(date, timezone, 'EEEE, MMMM d, yyyy')}
+                {formatInTimeZone(
+                  date,
+                  timezone,
+                  DATE_FORMATS.friendlyWeekdayDate,
+                )}
               </span>
               <br />
               <span>
@@ -44,8 +60,12 @@ export default function AppointmentDate({
 
   return dates?.map((date, i) => (
     <h3 key={i} className="vaos-appts__block-label">
-      {formatInTimeZone(date, timezone, "EEEE, MMMM d, yyyy 'at' h:mm aaaa ") +
-        getTimezoneAbbrByFacilityId(facilityId)}
+      {formatInTimeZone(
+        date,
+        timezone,
+        `${DATE_FORMATS.friendlyWeekdayDate} 'at' h:mm aaaa `,
+        getTimezoneAbbrByFacilityId(facilityId),
+      )}
     </h3>
   ));
 }

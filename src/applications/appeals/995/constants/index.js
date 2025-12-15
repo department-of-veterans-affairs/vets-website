@@ -1,32 +1,54 @@
 import constants from 'vets-json-schema/dist/constants.json';
+import manifest from '../manifest.json';
 // import schema from './config/form-0995-schema.json';
 
 export const APP_NAME = 'Supplemental Claim';
+export const FORM_ID = 'VA Form 20-0995';
 
 export const DATA_DOG_ID = '2779ccc3-be87-4b2d-a757-9ff54b58761b';
 export const DATA_DOG_TOKEN = 'pub442ae6e93be9f8d93a358bf78095c88a';
 export const DATA_DOG_SERVICE = 'benefits---supplemental-claim';
 
-export const SC_NEW_FORM_KEY = 'scNewForm';
-export const SC_NEW_FORM_TOGGLE = 'sc_new_form';
-export const SC_NEW_FORM_DATA = 'showScNewForm';
-
 // *** URLS ***
 export const DECISION_REVIEWS_URL = '/decision-reviews';
 export const SC_INFO_URL = `${DECISION_REVIEWS_URL}/supplemental-claim`;
-// Same as "rootUrl" in manifest.json
-export const BASE_URL = `${SC_INFO_URL}/file-supplemental-claim-form-20-0995`;
-
+export const BASE_URL = manifest.rootUrl;
 export const FORM_URL = 'https://www.vba.va.gov/pubs/forms/VBA-20-0995-ARE.pdf';
+export const CONTACT_INFO_URL = 'contact-information';
+export const ADD_ISSUE_URL = 'add-issue';
+export const EVIDENCE_VA_PROMPT_URL =
+  'supporting-evidence/request-va-medical-records';
+export const EVIDENCE_VA_DETAILS_URL = 'supporting-evidence/va-medical-records';
+export const EVIDENCE_PRIVATE_PROMPT_URL =
+  'supporting-evidence/request-private-medical-records';
+export const EVIDENCE_PRIVATE_AUTHORIZATION_URL =
+  'supporting-evidence/private-medical-records-authorization';
+export const EVIDENCE_PRIVATE_DETAILS_URL =
+  'supporting-evidence/private-medical-records';
+export const LIMITED_CONSENT_PROMPT_URL = 'supporting-evidence/add-limitation';
+export const LIMITED_CONSENT_DETAILS_URL = 'supporting-evidence/limitation';
+export const EVIDENCE_ADDITIONAL_URL =
+  'supporting-evidence/will-add-supporting-evidence';
+export const EVIDENCE_UPLOAD_URL = 'supporting-evidence/upload-evidence';
 
-export const BOARD_APPEALS_URL = `${DECISION_REVIEWS_URL}/board-appeal`;
-export const CLAIM_STATUS_TOOL_URL = '/claim-or-appeal-status';
-export const HIGHER_LEVEL_REVIEW_URL = `${DECISION_REVIEWS_URL}/higher-level-review`;
-export const COVID_FAQ_URL =
-  'https://www.va.gov/coronavirus-veteran-frequently-asked-questions/#more-benefit-and-claim-questio';
-export const FACILITY_LOCATOR_URL = '/find-locations';
-export const GET_HELP_REVIEW_REQUEST_URL = `${DECISION_REVIEWS_URL}/get-help-with-review-request`;
-export const PROFILE_URL = '/profile';
+// This is for URLs specific to the redesign to avoid collision with existing URL variables
+export const EVIDENCE_URLS = {
+  vaPrompt: 'supporting-evidence/va-medical-records',
+  vaLocation: 'supporting-evidence/:index/va-medical-records-location',
+  vaIssues: 'supporting-evidence/:index/va-medical-records-condition',
+  vaTreatmentDatePrompt: 'supporting-evidence/:index/va-medical-before-2005',
+  vaTreatmentDateDetails:
+    'supporting-evidence/:index/va-medical-before-2005-date',
+  vaSummary: 'supporting-evidence/va-medical-summary',
+  privatePrompt: 'supporting-evidence/request-private-medical-records',
+  privateAuthorization:
+    'supporting-evidence/private-medical-records-authorization',
+  privateDetails: 'supporting-evidence/:index/private-medical-records-location',
+  privateIssues: 'supporting-evidence/:index/private-medical-records/condition',
+  privateTreatmentDate:
+    'supporting-evidence/:index/private-medical-records-dates',
+  privateSummary: 'supporting-evidence/private-medical-records-review',
+};
 
 // Point to header of the "File by mail, in person, or with the help of a VSO
 // for any type of benefit claim"
@@ -39,34 +61,27 @@ export const OTHER_HOUSING_RISK_MAX = 100;
 export const POINT_OF_CONTACT_MAX = 150;
 export const TREATMENT_FACILITY_OTHER_MAX = 115;
 
-export const EVIDENCE_VA = 'view:hasVaEvidence';
-export const EVIDENCE_PRIVATE = 'view:hasPrivateEvidence';
-export const EVIDENCE_OTHER = 'view:hasOtherEvidence';
-export const EVIDENCE_LIMIT = 'view:hasPrivateLimitation';
+export const HAS_VA_EVIDENCE = 'view:hasVaEvidence';
+export const HAS_PRIVATE_EVIDENCE = 'view:hasPrivateEvidence';
+export const HAS_OTHER_EVIDENCE = 'view:hasOtherEvidence';
+export const HAS_PRIVATE_LIMITATION = 'view:hasPrivateLimitation';
 export const MST_OPTION = 'mstOption';
-
-export const HAS_REDIRECTED = 'hasRedirected';
-
-// Including a default until we determine how to get around the user restarting
-// the application after using the "Finish this application later" link
-// See https://dsva.slack.com/archives/C0113MPTGH5/p1600725048027200
-export const DEFAULT_BENEFIT_TYPE = 'compensation';
 
 export const errorMessages = {
   evidence: {
     // VA evidence
     pastDate: 'You must add a past treatment date',
     newerDate: 'You must add a more recent treatment date',
-    blankDate: 'You must enter a treatment date',
+    blankDate: 'Enter a month from 1 to 12, even if it’s an estimate',
     missing: 'You must include at least 1 type of supporting evidence',
-    locationMissing: 'You must enter a treatment location',
+    locationMissing: 'Enter a treatment location',
     locationMaxLength: 'You can enter a maximum of 255 characters',
-    issuesMissing: 'You must select 1 or more conditions',
+    issuesMissing: 'Select a condition',
     uniqueVA:
       'You must enter a location, condition and dates you haven’t already entered',
 
     // private evidence
-    facilityMissing: 'You must add a provider or facility name',
+    facilityMissing: 'Enter a location name',
     uniquePrivate:
       'You must enter a provider, address, condition and dates you haven’t already entered',
   },
@@ -75,12 +90,10 @@ export const errorMessages = {
   missingPrimaryPhoneReview: 'Missing primary phone',
 };
 
-export const NULL_CONDITION_STRING = 'Unknown Condition';
 export const NO_ISSUES_SELECTED = 'No issues were selected';
 
 // contested issue dates
 export const SUMMARY_EDIT = 'edit-evidence-summary'; // evidence summary focus
-export const REVIEW_CONTACT = 'onReviewPageContact';
 export const LIMITATION_KEY = 'limitation';
 
 // Values from benefitTypes in Lighthouse 0995 schema
@@ -165,27 +178,6 @@ export const ATTACHMENTS_OTHER = {
   L149:
     'VA Form 21-8940 - Veterans Application for Increased Compensation Based on Un-employability',
 };
-
-export const CONTACT_INFO_PATH = 'contact-information';
-export const ADD_ISSUE_PATH = 'add-issue';
-export const EVIDENCE_VA_REQUEST =
-  'supporting-evidence/request-va-medical-records';
-export const EVIDENCE_VA_PATH = 'supporting-evidence/va-medical-records';
-export const EVIDENCE_PRIVATE_REQUEST =
-  'supporting-evidence/request-private-medical-records';
-export const EVIDENCE_PRIVATE_AUTHORIZATION =
-  'supporting-evidence/private-medical-records-authorization';
-export const EVIDENCE_PRIVATE_PATH =
-  'supporting-evidence/private-medical-records';
-export const EVIDENCE_LIMITATION_PATH =
-  'supporting-evidence/add-private-record-limitations';
-export const EVIDENCE_LIMITATION_PATH1 = 'supporting-evidence/add-limitation';
-export const EVIDENCE_LIMITATION_PATH2 = 'supporting-evidence/limitation';
-
-// TODO: Update this path
-export const EVIDENCE_ADDITIONAL_PATH =
-  'supporting-evidence/will-add-supporting-evidence';
-export const EVIDENCE_UPLOAD_PATH = 'supporting-evidence/upload-evidence';
 
 export const AUTHORIZATION_LABEL =
   'I acknowledge and authorize this release of information';

@@ -4,174 +4,51 @@ import { render, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
-
+import { records } from '../data/evidence-records';
 import EvidenceSummaryReview from '../../components/EvidenceSummaryReview';
 import {
-  EVIDENCE_PRIVATE,
-  EVIDENCE_VA,
-  EVIDENCE_OTHER,
+  HAS_PRIVATE_EVIDENCE,
+  HAS_VA_EVIDENCE,
+  HAS_OTHER_EVIDENCE,
   SUMMARY_EDIT,
 } from '../../constants';
-import { content } from '../../content/evidenceSummary';
-
-const providerFacilityAddress = {
-  country: 'USA',
-  street: '123 main',
-  city: 'city',
-  state: 'AK',
-  postalCode: '90210',
-};
-
-const records = () => ({
-  locations: [
-    {
-      locationAndName: 'VAMC Location 1',
-      issues: ['Test'],
-      evidenceDates: { from: '2001-01-01', to: '2011-01-01' },
-      treatmentDate: '2002-05',
-    },
-    {
-      locationAndName: 'VAMC Location 2',
-      issues: ['Test 2'],
-      evidenceDates: { from: '2002-02-02', to: '2012-02-02' },
-      treatmentDate: '2002-07',
-    },
-  ],
-  providerFacility: [
-    {
-      providerFacilityName: 'Private Doctor',
-      providerFacilityAddress,
-      issues: ['PTSD', 'Tinnitus'],
-      treatmentDateRange: { from: '2022-04-01', to: '2022-07-01' },
-    },
-    {
-      providerFacilityName: 'Private Hospital',
-      providerFacilityAddress,
-      issues: ['Test 2', 'Tinnitus', 'Test'],
-      treatmentDateRange: { from: '2022-09-20', to: '2022-09-30' },
-    },
-  ],
-  additionalDocuments: [
-    {
-      name: 'private-medical-records.pdf',
-      confirmationCode: 'aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee',
-      attachmentId: 'L049',
-      size: 20000,
-      isEncrypted: false,
-    },
-    {
-      name: 'x-rays.pdf',
-      confirmationCode: 'ffffffff-gggg-hhhh-iiii-jjjjjjjjjjjj',
-      attachmentId: 'L023',
-      size: 30000,
-      isEncrypted: false,
-    },
-  ],
-});
+import { content } from '../../content/evidence/summary';
+import { verifyHeader } from '../unit-test-helpers';
 
 const setupSummary = ({
   vaMR = true,
   privateMR = true,
   other = true,
   limit,
-  showScNewForm = false,
   list = records(),
   editPage = () => {},
 } = {}) =>
   render(
-    <div>
-      <EvidenceSummaryReview
-        data={{
-          [EVIDENCE_VA]: vaMR,
-          [EVIDENCE_PRIVATE]: privateMR,
-          [EVIDENCE_OTHER]: other,
-          showScNewForm,
-
-          ...list,
-          limitedConsent: limit,
-        }}
-        editPage={editPage}
-      />
-    </div>,
+    <EvidenceSummaryReview
+      data={{
+        [HAS_VA_EVIDENCE]: vaMR,
+        [HAS_PRIVATE_EVIDENCE]: privateMR,
+        [HAS_OTHER_EVIDENCE]: other,
+        ...list,
+        limitedConsent: limit,
+      }}
+      editPage={editPage}
+    />,
   );
 
-describe('<EvidenceSummaryReview>', () => {
-  it('should render', () => {
-    const { container } = setupSummary({ limit: 'Pizza addiction' });
+describe('EvidenceSummaryReview', () => {
+  it('should render the proper content', () => {
+    const { container } = setupSummary({ limit: 'Limited consent details' });
 
-    expect($('va-button', container)).to.exist;
-    // now includes limited consent
-    expect(
-      $$('.va-title, .private-title, .upload-title', container).length,
-    ).to.eq(3);
-    expect($$('ul', container).length).to.eq(3);
+    const h4s = $$('h4', container);
+    const h5s = $$('h5', container);
 
-    const items = $$('li', container);
-    expect(items.length).to.eq(7);
-    expect(items[0].textContent).to.contain(
-      'VAMC Location 1TestJan 1, 2001 – Jan 1, 2011',
-    );
-    expect(items[1].textContent).to.contain(
-      'VAMC Location 2Test 2Feb 2, 2002 – Feb 2, 2012',
-    );
-    expect(items[2].textContent).to.contain(
-      'Private DoctorPTSD and TinnitusApr 1, 2022 – Jul 1, 2022',
-    );
-    expect(items[3].textContent).to.contain(
-      'Private HospitalTest 2, Tinnitus, and TestSep 20, 2022 – Sep 30, 2022',
-    );
-    expect(items[4].textContent).to.contain(
-      'Yes, I want to limit the information requested',
-    );
-    expect(items[5].textContent).to.contain(
-      'private-medical-records.pdfMedical Treatment Record - Non-Government Facility',
-    );
-    expect(items[6].textContent).to.contain('x-rays.pdfOther Correspondence');
+    verifyHeader(h4s, 0, content.summaryTitle);
+    expect($$('.edit-page', container)).to.exist;
 
-    expect($$('a', container).length).to.eq(0);
-  });
-
-  it('should render VA evidence one section', () => {
-    const { container } = setupSummary({
-      privateMR: false,
-      other: false,
-      limit: 'Pizza addiction',
-    });
-
-    expect($$('h4', container).length).to.eq(1);
-    expect($$('ul', container).length).to.eq(1);
-    expect($$('li', container).length).to.eq(2);
-  });
-
-  it('should only render VA evidence section with new data', () => {
-    const { container } = setupSummary({
-      privateMR: false,
-      other: false,
-      limit: 'Pizza addiction',
-      showScNewForm: true,
-    });
-
-    expect($$('h4', container).length).to.eq(1);
-    expect($$('ul', container).length).to.eq(1);
-
-    const items = $$('li', container);
-    expect(items.length).to.eq(2);
-    expect(items[0].textContent).to.contain('VAMC Location 1TestMay 2002');
-    expect(items[1].textContent).to.contain('VAMC Location 2Test 2July 2002');
-  });
-
-  it('should render missing evidence alert', () => {
-    const { container } = setupSummary({
-      vaMR: false,
-      privateMR: false,
-      other: false,
-      limit: 'Pizza addiction',
-    });
-
-    expect($$('h3', container).length).to.eq(0);
-    expect($$('ul', container).length).to.eq(0);
-    expect($$('a', container).length).to.eq(0);
-    expect(container.innerHTML).to.contain(content.missingEvidenceReviewText);
+    verifyHeader(h5s, 0, content.vaTitle);
+    verifyHeader(h5s, 1, content.privateTitle);
+    verifyHeader(h5s, 2, content.otherTitle);
   });
 
   it('should call editPage callback', () => {
@@ -189,6 +66,13 @@ describe('<EvidenceSummaryReview>', () => {
 
     await waitFor(() => {
       expect(global.window.sessionStorage.getItem(SUMMARY_EDIT)).to.be.null;
+    });
+  });
+
+  describe('when there is no evidence', () => {
+    it('should render the missing evidence text', () => {
+      const screen = setupSummary({ list: [] });
+      expect(screen.getByText(content.missingEvidenceReviewText)).to.exist;
     });
   });
 });

@@ -1,0 +1,78 @@
+{
+  "hasAlreadyFiled": false,
+  "hasUnpaidCreditors": false,
+  "veteranFullName": {
+    "first": "John",
+    "middle": "A",
+    "last": "Smith"
+  },
+  "beneficiaryIsVeteran": false,
+  "beneficiaryFullName": {
+    "first": "Mary",
+    "middle": "J",
+    "last": "Smith"
+  },
+  "beneficiaryDateOfDeath": "2024-01-15",
+  "claimantFullName": {
+    "first": "Robert",
+    "middle": "L",
+    "last": "Johnson"
+  },
+  "claimantDateOfBirth": "1960-05-10",
+  "claimantAddress": {
+    "street": "123 Main Street",
+    "street2": "Apt 4B",
+    "city": "Arlington",
+    "state": "VA",
+    "country": "USA",
+    "postalCode": "22201"
+  },
+  "claimantPhone": "7035551234",
+  "claimantEmail": "robert.johnson@email.com",
+  "relationshipToDeceased": "executor",
+  "wantsToWaiveSubstitution": false,
+  "survivors": true,
+  "survivingRelatives": [
+    {
+      "fullName": {
+        "first": "Michael",
+        "middle": "J",
+        "last": "Smith"
+      },
+      "relationship": "child",
+      "dateOfBirth": "1990-03-15",
+      "address": {
+        "street": "456 Oak Avenue",
+        "city": "Falls Church",
+        "state": "VA",
+        "country": "USA",
+        "postalCode": "22046"
+      }
+    },
+    {
+      "fullName": {
+        "first": "Sarah",
+        "middle": "A",
+        "last": "Smith"
+      },
+      "relationship": "child",
+      "dateOfBirth": "1992-07-22",
+      "address": {
+        "street": "789 Pine Street",
+        "city": "Alexandria",
+        "state": "VA",
+        "country": "USA",
+        "postalCode": "22314"
+      }
+    }
+  ],
+  "claimingReimbursement": false,
+  "remarks": "Filing for accrued benefits as the executor of the beneficiary's estate. The deceased had a pending claim for increased disability compensation at the time of death.",
+  "veteranIdentification": {
+    "ssn": "123123123",
+    "vaFileNumber": "12345678"
+  },
+  "claimantIdentification": {
+    "ssn": "987654321"
+  }
+}

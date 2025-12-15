@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { datadogRum } from '@datadog/browser-rum';
 import { fetchFormStatus } from '../actions';
 import formConfig from '../config/form';
@@ -39,8 +41,23 @@ class App extends Component {
       datadogRum.startSessionReplayRecording();
     }
 
-    const { location, children, isError, pending, isLoggedIn } = this.props;
-    const showMainContent = !pending && !isError;
+    const {
+      location,
+      children,
+      isError,
+      pending,
+      isLoggedIn,
+      featureToggles,
+    } = this.props;
+    const showMainContent = !pending && !isError && !featureToggles.loading;
+    const isMhvSupplyReorderingEnabled =
+      featureToggles[FEATURE_FLAG_NAMES.mhvSupplyReorderingEnabled];
+
+    // Redirect to mhv app and render nothing if feature toggle is enabled.
+    if (isMhvSupplyReorderingEnabled && !featureToggles.loading) {
+      window.location.replace('/my-health/order-medical-supplies');
+      return null;
+    }
 
     const breadcrumbLinks = [
       { href: '/', label: 'Home' },
@@ -50,18 +67,19 @@ class App extends Component {
         label: `Order hearing aid or CPAP supplies`,
       },
     ];
+    const bcString = JSON.stringify(breadcrumbLinks);
 
     return (
       <>
         <div className="row">
           <div className="usa-width-two-thirds medium-8 columns print-full-width">
             <VaBreadcrumbs
-              breadcrumb-list={breadcrumbLinks}
+              breadcrumb-list={bcString}
               class="va-nav-breadcrumbs vads-u-padding--0"
             />
           </div>
         </div>
-        {pending && (
+        {(pending || featureToggles.loading) && (
           <va-loading-indicator>
             Loading your information...
           </va-loading-indicator>
@@ -83,10 +101,21 @@ class App extends Component {
   }
 }
 
+App.propTypes = {
+  location: PropTypes.object.isRequired,
+  children: PropTypes.node,
+  featureToggles: PropTypes.object,
+  fetchFormStatus: PropTypes.func,
+  isError: PropTypes.bool,
+  isLoggedIn: PropTypes.bool,
+  pending: PropTypes.bool,
+};
+
 const mapStateToProps = state => ({
   isLoggedIn: state.user.login.currentlyLoggedIn,
   isError: state.mdot.isError,
   pending: state.mdot.pending,
+  featureToggles: state.featureToggles,
 });
 
 const mapDispatchToProps = dispatch => ({

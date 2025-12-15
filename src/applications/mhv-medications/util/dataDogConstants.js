@@ -40,12 +40,12 @@ export const dataDogActionNames = {
     GO_TO_USE_MEDICATIONS_LINK: `Go to use medications link - ${pageType.LIST}`,
     STOP_SHOWING_IPE_FILTERING_HINT: `In production education for filtering - Stop showing this hint`,
     REFILL_ALERT_LINK: `Med Link in Delay Alert - ${pageType.LIST}`,
+    GO_TO_SELF_ENTERED_HEALTH_INFORMATION_LINK: `Go to self-entered health information link - ${
+      pageType.LIST
+    }`,
   },
   detailsPage: {
     COMPOSE_A_MESSAGE_LINK: `Compose A Message Link - ${pageType.DETAILS}`,
-    LEARN_TO_RENEW_PRESCRIPTIONS_ACTION_LINK: `Learn How To Renew Prescriptions Action Link - ${
-      pageType.DETAILS
-    }`,
     RX_DOCUMENTATION_LINK: `Rx Documentation Link - ${pageType.DETAILS}`,
     FILL_THIS_PRESCRIPTION: `Fill this prescription - ${pageType.DETAILS}`,
     REFILLS_ACCORDIAN: 'Refills Accordion',
@@ -72,13 +72,16 @@ export const dataDogActionNames = {
       pageType.REFILL
     }`,
     REFILL_ALERT_LINK: `Med Link in Delay Alert - ${pageType.REFILL}`,
+    GO_TO_SELF_ENTERED_HEALTH_INFORMATION_LINK: `Go to self-entered health information link - ${
+      pageType.REFILL
+    }`,
   },
   shared: {
     DOWNLOAD_A_PDF_OF_THIS: 'Download A PDF Of This ',
     DOWNLOAD_A_TEXT_FILE_OF_THIS: 'Download A Text File Of This ',
     PHARMACY_PHONE_NUMBER_LINK: 'Pharmacy Phone Number Link - ',
     PRINT_OR_DOWNLOAD_BUTTON: 'Print Or Download Button - ',
-    PRINT_THIS: 'Print This ',
+    PRINT: 'Print ',
     WHAT_TO_KNOW_BEFORE_YOU_PRINT_OR_DOWNLOAD_BUTTON:
       'What To Know Before You Print Or Download Button - ',
   },

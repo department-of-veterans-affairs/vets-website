@@ -1,21 +1,26 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
+import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
 import { formatDate } from '../../combined/utils/helpers';
 
 const HTMLStatementLink = ({ id, statementDate }) => {
+  const history = useHistory();
+
   return (
     <li>
-      <Link
-        to={`/copay-balances/${id}/detail/statement`}
+      <VaLink
         data-testid={`balance-details-${id}-statement-view`}
-        onClick={() => {
+        onClick={event => {
+          event.preventDefault();
           recordEvent({ event: 'cta-link-click-copay-statement-link' });
+          history.push(`/copay-balances/${id}/statement`);
         }}
-      >
-        {formatDate(statementDate)} statement
-      </Link>
+        href={`/copay-balances/${id}/statement`}
+        text={`${formatDate(statementDate)} statement`}
+      />
     </li>
   );
 };

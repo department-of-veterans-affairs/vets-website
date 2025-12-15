@@ -13,18 +13,17 @@ const uiSchema = {
       <va-alert status="info" class="vads-u-margin-top--4">
         <h4>What to know if you’re on active duty</h4>
         <p>
-          If you’re on active duty while enrolled in the program, it does not
-          make you ineligible, it just means that you would not get housing
-          allowance from the VA since it’s already covered by your service
-          branch.
+          If you’re on active duty while enrolled in the program, you will not
+          get a Monthly Housing Allowance (MHA) from VA since you will be
+          receiving a Basic Allowance for Housing (BAH) from the military.
         </p>
       </va-alert>
     ),
   },
 
-  hasCompletedActiveDuty: yesNoUI({
+  activeDutyDuringHitechVets: yesNoUI({
     title:
-      'Do you expect to be called to active duty while enrolled in a High Technology Veterans Education, Training and Skills (HITECH VETS) Program?',
+      'Do you expect to be called to active duty while enrolled in this program?',
     errorMessages: { required: 'Select an option' },
   }),
 };
@@ -33,9 +32,9 @@ const schema = {
   type: 'object',
   properties: {
     'view:activeDutyInfo': { type: 'object', properties: {} },
-    hasCompletedActiveDuty: yesNoSchema,
+    activeDutyDuringHitechVets: yesNoSchema,
   },
-  required: ['hasCompletedActiveDuty'],
+  required: ['activeDutyDuringHitechVets'],
 };
 
 export default { schema, uiSchema };

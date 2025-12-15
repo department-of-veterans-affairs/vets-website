@@ -1,31 +1,34 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { shallowEqual } from 'recompose';
 import { useSelector } from 'react-redux';
-import { getRealFacilityId } from '../../utils/appointment';
+import { shallowEqual } from 'recompose';
 import {
   AppointmentDate,
   AppointmentTime,
 } from '../../appointment-list/components/AppointmentDateTime';
 import { selectConfirmedAppointmentData } from '../../appointment-list/redux/selectors';
-import DetailPageLayout, {
-  Details,
-  When,
-  What,
-  Where,
-  Who,
-  ClinicOrFacilityPhone,
-  Prepare,
-} from './DetailPageLayout';
+import { getRealFacilityId } from '../../utils/appointment';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
-import FacilityDirectionsLink from '../FacilityDirectionsLink';
-import Address from '../Address';
-import AddToCalendarButton from '../AddToCalendarButton';
-import NewTabAnchor from '../NewTabAnchor';
 import {
   NULL_STATE_FIELD,
   recordAppointmentDetailsNullStates,
+  captureMissingModalityLogs,
 } from '../../utils/events';
+import Address from '../Address';
+import AddToCalendarButton from '../AddToCalendarButton';
+import FacilityDirectionsLink from '../FacilityDirectionsLink';
+import NewTabAnchor from '../NewTabAnchor';
+import ClinicName from './ClinicName';
+import ClinicPhysicalLocation from './ClinicPhysicalLocation';
+import DetailPageLayout, {
+  ClinicOrFacilityPhone,
+  Details,
+  Prepare,
+  What,
+  When,
+  Where,
+  Who,
+} from './DetailPageLayout';
 
 export default function InPersonLayout({ data: appointment }) {
   const {
@@ -42,6 +45,7 @@ export default function InPersonLayout({ data: appointment }) {
     status,
     timezone,
     typeOfCareName,
+    isCerner,
   } = useSelector(
     state => selectConfirmedAppointmentData(state, appointment),
     shallowEqual,
@@ -57,6 +61,9 @@ export default function InPersonLayout({ data: appointment }) {
     heading = 'Canceled in-person appointment';
   else if (isPastAppointment) heading = 'Past in-person appointment';
 
+  if (!appointment.modality) {
+    captureMissingModalityLogs(appointment);
+  }
   recordAppointmentDetailsNullStates(
     {
       type: appointment.type,
@@ -141,21 +148,8 @@ export default function InPersonLayout({ data: appointment }) {
             <div className="vads-u-margin-top--1 vads-u-color--link-default">
               <FacilityDirectionsLink location={facility} icon />
             </div>
-            <br />
-            <span>
-              Clinic:{' '}
-              <span data-dd-privacy="mask">
-                {clinicName || 'Not available'}
-              </span>
-            </span>{' '}
-            <br />
-            <span>
-              Location:{' '}
-              <span data-dd-privacy="mask">
-                {clinicPhysicalLocation || 'Not available'}
-              </span>
-            </span>
-            <br />
+            <ClinicName name={clinicName} />{' '}
+            <ClinicPhysicalLocation location={clinicPhysicalLocation} /> <br />
           </>
         )}
         <ClinicOrFacilityPhone
@@ -164,7 +158,11 @@ export default function InPersonLayout({ data: appointment }) {
           facilityPhone={facilityPhone}
         />
       </Where>
-      <Details reason={reasonForAppointment} otherDetails={patientComments} />
+      <Details
+        reason={reasonForAppointment}
+        otherDetails={patientComments}
+        isCerner={isCerner}
+      />
       {!isPastAppointment &&
         (APPOINTMENT_STATUS.booked === status ||
           APPOINTMENT_STATUS.cancelled === status) && (

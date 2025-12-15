@@ -5,10 +5,12 @@ import PropTypes from 'prop-types';
 // import { setActiveDebt } from '../../combined/actions/debts';
 import { format, isValid } from 'date-fns';
 import recordEvent from '~/platform/monitoring/record-event';
+import { useHistory } from 'react-router-dom';
 import { getDebtDetailsCardContent } from '../const/diary-codes/debtDetailsCardContent';
 import { currency } from '../utils/page';
 
 const DebtDetailsCard = ({ debt, showOTPP }) => {
+  const history = useHistory();
   const dates = debt?.debtHistory?.map(m => new Date(m.date)) ?? [];
   const sortedHistory = dates.sort((a, b) => Date.parse(b) - Date.parse(a));
   const mostRecentDate = isValid(head(sortedHistory))
@@ -28,7 +30,6 @@ const DebtDetailsCard = ({ debt, showOTPP }) => {
       class="vads-u-margin-bottom--1"
       disable-analytics="false"
       full-width="false"
-      show-icon={debtCardContent.showIcon}
       status={debtCardContent.status}
       visible="true"
     >
@@ -38,11 +39,14 @@ const DebtDetailsCard = ({ debt, showOTPP }) => {
 
       {debtCardContent.showLinks && (
         <va-link-action
-          href={`/manage-va-debt/summary/debt-balances/details/${
-            debt.compositeDebtId
-          }/resolve`}
           data-testid="link-resolve"
-          text="Pay your balance, request financial help, or dispute this bill"
+          href={`/debt-balances/${debt.compositeDebtId}/resolve`}
+          onClick={event => {
+            event.preventDefault();
+            recordEvent({ event: 'cta-link-click-debt-details-card' });
+            history.push(`/debt-balances/${debt.compositeDebtId}/resolve`);
+          }}
+          text="Resolve this overpayment"
           type="primary"
         />
       )}
@@ -52,7 +56,6 @@ const DebtDetailsCard = ({ debt, showOTPP }) => {
       class="vads-u-margin-bottom--1"
       disable-analytics="false"
       full-width="false"
-      show-icon={debtCardContent.showIcon}
       status={debtCardContent.status}
       visible="true"
     >
@@ -63,7 +66,7 @@ const DebtDetailsCard = ({ debt, showOTPP }) => {
       {debtCardContent.showLinks && (
         <>
           {debtCardContent.showMakePayment && (
-            <p>
+            <p className="vads-u-margin-y--0">
               <va-link-action
                 aria-label="Make a payment"
                 data-testid="link-make-payment"
@@ -77,7 +80,7 @@ const DebtDetailsCard = ({ debt, showOTPP }) => {
             </p>
           )}
           {debtCardContent.showRequestHelp && (
-            <p>
+            <p className="vads-u-margin-y--0">
               <va-link-action
                 aria-label="Request help with your debt"
                 data-testid="link-request-help"

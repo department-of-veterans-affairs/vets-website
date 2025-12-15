@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import {
   generatePdfScaffold,
   updatePageTitle,
@@ -15,13 +14,15 @@ import {
   getNameDateAndTime,
   makePdf,
   formatUserDob,
+  useAcceleratedData,
 } from '@department-of-veterans-affairs/mhv/exports';
+
 import ItemList from '../components/shared/ItemList';
 import { clearAllergyDetails, getAllergyDetails } from '../actions/allergies';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
-import { generateTextFile } from '../util/helpers';
+import { generateTextFile, itemListWrapper } from '../util/helpers';
 import {
   ALERT_TYPE_ERROR,
   accessAlertTypes,
@@ -36,7 +37,6 @@ import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import HeaderSection from '../components/shared/HeaderSection';
 import LabelValue from '../components/shared/LabelValue';
 
-import useAcceleratedData from '../hooks/useAcceleratedData';
 import { useTrackAction } from '../hooks/useTrackAction';
 
 const AllergyDetails = props => {
@@ -45,14 +45,8 @@ const AllergyDetails = props => {
   const allergy = useSelector(state => state.mr.allergies.allergyDetails);
   const allergyList = useSelector(state => state.mr.allergies.allergiesList);
   const user = useSelector(state => state.user.profile);
-  const allowTxtDownloads = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
-      ],
-  );
 
-  const { isAcceleratingAllergies, isLoading } = useAcceleratedData();
+  const { isLoading, isCerner, isAcceleratingAllergies } = useAcceleratedData();
 
   const { allergyId } = useParams();
   const activeAlert = useAlerts(dispatch);
@@ -66,21 +60,47 @@ const AllergyDetails = props => {
       }
       return {
         ...allergy,
-        isOracleHealthData: isAcceleratingAllergies,
+        // Note: isOracleHealthData is true for both v2 unified data and v1 OH data
+        // The v2 endpoint combines Oracle Health and VistA records into a single format,
+        // and the backend doesn't provide a field to distinguish the source.
+        // Components use this flag to determine which template to render.
+        isOracleHealthData: isAcceleratingAllergies || isCerner,
       };
     },
-    [allergy, isAcceleratingAllergies],
+    [allergy, isAcceleratingAllergies, isCerner],
   );
 
   useEffect(
     () => {
       if (allergyId && !isLoading) {
         dispatch(
-          getAllergyDetails(allergyId, allergyList, isAcceleratingAllergies),
+          getAllergyDetails(
+            allergyId,
+            allergyList,
+            isAcceleratingAllergies,
+            isCerner,
+          ),
         );
       }
+      updatePageTitle(pageTitles.ALLERGY_DETAILS_PAGE_TITLE);
     },
-    [allergyId, allergyList, dispatch, isAcceleratingAllergies, isLoading],
+    [
+      allergyId,
+      allergyList,
+      dispatch,
+      isLoading,
+      isAcceleratingAllergies,
+      isCerner,
+    ],
+  );
+
+  useEffect(
+    () => {
+      if (allergyData) {
+        focusElement(document.querySelector('h1'));
+      }
+    },
+    [allergyData],
   );
 
   useEffect(
@@ -90,16 +110,6 @@ const AllergyDetails = props => {
       };
     },
     [dispatch],
-  );
-
-  useEffect(
-    () => {
-      if (allergyData) {
-        focusElement(document.querySelector('h1'));
-        updatePageTitle(pageTitles.ALLERGY_DETAILS_PAGE_TITLE);
-      }
-    },
-    [dispatch, allergyData],
   );
 
   usePrintTitle(
@@ -126,7 +136,7 @@ const AllergyDetails = props => {
   };
 
   const generateAllergyTextContent = () => {
-    if (isAcceleratingAllergies) {
+    if (allergyData.isOracleHealthData) {
       return `
       ${crisisLineHeader}\n\n
       ${allergyData.name}\n
@@ -165,18 +175,18 @@ Provider notes: ${allergyData.notes} \n`;
     generateTextFile(content, fileName);
   };
 
+  const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
+
+  if (accessAlert) {
+    return (
+      <AccessTroubleAlertBox
+        alertType={accessAlertTypes.ALLERGY}
+        className="vads-u-margin-bottom--9"
+      />
+    );
+  }
+
   const content = () => {
-    if (activeAlert && activeAlert.type === ALERT_TYPE_ERROR) {
-      return (
-        <>
-          <h1 className="vads-u-margin-bottom--0p5">Allergy:</h1>
-          <AccessTroubleAlertBox
-            alertType={accessAlertTypes.ALLERGY}
-            className="vads-u-margin-bottom--9"
-          />
-        </>
-      );
-    }
     if (allergyData) {
       return (
         <>
@@ -196,22 +206,16 @@ Provider notes: ${allergyData.notes} \n`;
             />
 
             {downloadStarted && <DownloadSuccessAlert />}
-            <PrintDownload
-              description="Allergies Detail"
-              downloadPdf={generateAllergyPdf}
-              allowTxtDownloads={allowTxtDownloads}
-              downloadTxt={generateAllergyTxt}
-            />
-            <DownloadingRecordsInfo
-              description="Allergy Detail"
-              allowTxtDownloads={allowTxtDownloads}
-            />
 
             <div
               className="max-80 vads-u-margin-top--4"
               data-testid="allergy-reaction"
             >
-              <LabelValue label="Signs and symptoms">
+              <LabelValue
+                label="Signs and symptoms"
+                element={itemListWrapper(allergyData?.reaction)}
+                testId="allergy-signs-symptoms"
+              >
                 <ItemList list={allergyData.reaction} />
               </LabelValue>
               <LabelValue
@@ -240,7 +244,7 @@ Provider notes: ${allergyData.notes} \n`;
                 <LabelValue
                   label="Recorded by"
                   value={allergyData.provider}
-                  testId="allergy-observed"
+                  testId="allergy-recorded-by"
                   actionName="[allergy recorded by]"
                 />
               )}
@@ -251,6 +255,17 @@ Provider notes: ${allergyData.notes} \n`;
                 actionName="[allergy provider notes]"
               />
             </div>
+            <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
+            <DownloadingRecordsInfo description="Allergy Detail" />
+            <PrintDownload
+              description="Allergies Detail"
+              downloadPdf={generateAllergyPdf}
+              downloadTxt={generateAllergyTxt}
+            />
+            <br />
+            <br />
+            <br />
+            <div className="vads-u-margin-bottom--300 vads-u-border-top--1px vads-u-border-color--white" />
           </HeaderSection>
         </>
       );

@@ -6,7 +6,7 @@ import { render } from 'enzyme';
 import {
   testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfWebComponentFields,
-} from '../../../../shared/tests/pages/pageTests.spec';
+} from 'platform/forms-system/test/pageTestHelpers.spec';
 import formConfig from '../../../config/form';
 
 const {

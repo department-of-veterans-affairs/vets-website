@@ -1,0 +1,62 @@
+{
+  "hasAlreadyFiled": false,
+  "hasUnpaidCreditors": false,
+  "veteranFullName": {
+    "first": "George",
+    "middle": "W",
+    "last": "Anderson"
+  },
+  "beneficiaryIsVeteran": false,
+  "beneficiaryFullName": {
+    "first": "Helen",
+    "middle": "M",
+    "last": "Anderson"
+  },
+  "beneficiaryDateOfDeath": "2024-04-05",
+  "claimantFullName": {
+    "first": "Michael",
+    "middle": "G",
+    "last": "Anderson"
+  },
+  "claimantDateOfBirth": "1975-11-30",
+  "claimantAddress": {
+    "street": "321 Oak Street",
+    "street2": "Suite 2",
+    "city": "Chesapeake",
+    "state": "VA",
+    "country": "USA",
+    "postalCode": "23320"
+  },
+  "claimantPhone": "7575558888",
+  "claimantEmail": "manderson@email.com",
+  "relationshipToDeceased": "executor",
+  "wantsToWaiveSubstitution": false,
+  "survivors": true,
+  "claimingReimbursement": false,
+  "survivingRelatives": [
+    {
+      "fullName": {
+        "first": "Jennifer",
+        "middle": "L",
+        "last": "Anderson"
+      },
+      "relationship": "child",
+      "dateOfBirth": "1978-06-15",
+      "address": {
+        "street": "654 Maple Ave",
+        "city": "Virginia Beach",
+        "state": "VA",
+        "country": "USA",
+        "postalCode": "23456"
+      }
+    }
+  ],
+  "remarks": "Filing for accrued benefits. The deceased beneficiary (Helen) was the veteran's spouse who was receiving DIC benefits. The veteran (George) passed away years ago.",
+  "veteranIdentification": {
+    "ssn": "222334444",
+    "vaFileNumber": "22233444"
+  },
+  "claimantIdentification": {
+    "ssn": "777889999"
+  }
+}

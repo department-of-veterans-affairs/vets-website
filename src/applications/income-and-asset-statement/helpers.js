@@ -1,5 +1,14 @@
+// TODO: Break this file into smaller modules.
+// Suggested organization:
+// - sharedUtils.js (formatting, name helpers, conditional required checks)
+// - arrayBuilderHelpers.js (ArrayBuilder-specific logic and utilities)
+// - sessionHelpers.js (localStorage/sessionStorage/browser-based logic)
+
 import get from 'platform/utilities/data/get';
 import { capitalize } from 'lodash';
+import { fullNameNoSuffixUI } from '~/platform/forms-system/src/js/web-component-patterns';
+
+import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 
 export const showUpdatedContent = () =>
   window.sessionStorage.getItem('showUpdatedContent') === 'true';
@@ -81,14 +90,27 @@ export const otherGeneratedIncomeTypeExplanationRequired = (form, index) =>
     form,
   ) === 'OTHER';
 
-export const otherNewOwnerRelationshipExplanationRequired = (form, index) =>
-  get(['assetTransfers', index, 'originalOwnerRelationship'], form) === 'OTHER';
-
 export const otherTransferMethodExplanationRequired = (form, index) =>
   get(['assetTransfers', index, 'transferMethod'], form) === 'OTHER';
 
 export const recipientNameRequired = (form, index, arrayKey) =>
   get([arrayKey, index, 'recipientRelationship'], form) !== 'VETERAN';
+
+export const updatedRecipientNameRequired = (form, index, arrayKey) => {
+  if (!showUpdatedContent()) {
+    return recipientNameRequired(form, index, arrayKey);
+  }
+  const recipientRelationship = get(
+    [arrayKey, index, 'recipientRelationship'],
+    form,
+  );
+  return (
+    recipientRelationship === 'CHILD' ||
+    recipientRelationship === 'PARENT' ||
+    recipientRelationship === 'CUSTODIAN' ||
+    recipientRelationship === 'OTHER'
+  );
+};
 
 export const surrenderValueRequired = (form, index) =>
   get(['annuities', index, 'canBeLiquidated'], form);
@@ -100,9 +122,87 @@ export const isRecipientInfoIncomplete = item =>
   (!isDefined(item?.otherRecipientRelationshipType) &&
     item?.recipientRelationship === 'OTHER');
 
+export const updatedIsRecipientInfoIncomplete = item => {
+  if (!showUpdatedContent()) {
+    return isRecipientInfoIncomplete(item);
+  }
+  return (
+    !isDefined(item?.recipientRelationship) ||
+    (!isDefined(item?.recipientName) &&
+      item?.recipientRelationship !== 'VETERAN' &&
+      item?.recipientRelationship !== 'SPOUSE') ||
+    (!isDefined(item?.otherRecipientRelationshipType) &&
+      item?.recipientRelationship === 'OTHER')
+  );
+};
+
 export const isIncomeTypeInfoIncomplete = item =>
   !isDefined(item?.incomeType) ||
   (!isDefined(item?.otherIncomeType) && item?.incomeType === 'OTHER');
+
+export const sharedRecipientRelationshipBase = {
+  title: 'Who receives this income?',
+  hint: 'You’ll be able to add individual incomes separately',
+  labelHeaderLevel: '2',
+  labelHeaderLevelStyle: '3',
+};
+
+/**
+ * Returns a reusable UI schema config for the "otherRecipientRelationshipType" field.
+ *
+ * @param {string} arrayKey - The array key this field belongs to (e.g., 'unassociatedIncomes')
+ * @param {string} otherRecipientRelationshipTypeKey - The field key this field belongs
+ */
+export function otherRecipientRelationshipTypeUI(
+  arrayKey,
+  otherRecipientRelationshipTypeKey = 'recipientRelationship',
+) {
+  return {
+    'ui:title': 'Describe their relationship to the Veteran',
+    'ui:webComponentField': VaTextInputField,
+    'ui:options': {
+      expandUnder: otherRecipientRelationshipTypeKey,
+      expandUnderCondition: 'OTHER',
+      expandedContentFocus: true,
+    },
+    'ui:required': (formData, index) =>
+      otherRecipientRelationshipExplanationRequired(formData, index, arrayKey),
+  };
+}
+
+/**
+ * Returns a reusable updateSchema method to allow proper validation for expanded fields within arrays.
+ * Used at the top-level of the uiSchema
+ * uiSchema: {
+ * 'ui:options': {
+ *    ...existingUIoptions
+ *    ...requireExpandedArrayField('otherRecipientRelationshipType'),
+ *    }
+ * }
+ *
+ * @param {string} expandedFieldKey - The key the expanded field belongs to (e.g., 'otherRecipientRelationshipType').
+ */
+export const requireExpandedArrayField = expandedFieldKey => {
+  return {
+    updateSchema: (formData, formSchema) => {
+      const existingRequired = (formSchema.required || []).filter(
+        field => field !== expandedFieldKey,
+      );
+
+      if (formSchema.properties[expandedFieldKey]['ui:collapsed']) {
+        return {
+          ...formSchema,
+          required: existingRequired,
+        };
+      }
+
+      return {
+        ...formSchema,
+        required: [...existingRequired, expandedFieldKey],
+      };
+    },
+  };
+};
 
 /**
  * Generates the delete description text for an array item.
@@ -152,3 +252,111 @@ export function resolveRecipientFullName(item, formData) {
 
   return formatFullNameNoSuffix(recipientName);
 }
+
+// updated version of above function
+// needed a separate function and not just a showUpdatedContent check because
+// these functions are reused across the app and i'm unsure that the same
+// functionality is needed everywhere
+/**
+ * Resolve the recipient's full name to display on summary cards.
+ * Post-MVP updates
+ *
+ * - If the recipientRelationship is "VETERAN":
+ *   - Use `veteranFullName` when the user is logged in
+ *   - Use `otherVeteranFullName` when the user is not logged in
+ * - If the recipientRelationship is "SPOUSE":
+ *   - Use "Spouse"
+ * - If the recipient is not the Veteran, use `recipientName`
+ *
+ * This helper is useful across multiple arrayBuilder pages where we conditionally display
+ * either the Veteran's name or the name of another recipient.
+ *
+ * @param {object} item - The array item object containing recipient data.
+ * @param {object} formData - The overall form data, which may include veteran names and logged in.
+ * @returns {string} The formatted full name string or undefined if no name is resolvable
+ */
+export function updatedResolveRecipientFullName(item, formData) {
+  const { recipientRelationship, recipientName } = item;
+  const {
+    veteranFullName,
+    otherVeteranFullName,
+    isLoggedIn = false,
+  } = formData;
+
+  const isVeteran = recipientRelationship === 'VETERAN';
+
+  if (isVeteran) {
+    const veteranName = isLoggedIn ? veteranFullName : otherVeteranFullName;
+    return formatFullNameNoSuffix(veteranName);
+  }
+  const isSpouse = recipientRelationship === 'SPOUSE';
+  if (showUpdatedContent() && isSpouse) {
+    return 'Spouse';
+  }
+
+  return formatFullNameNoSuffix(recipientName);
+}
+
+export function fullNameUIHelper() {
+  return {
+    ...fullNameNoSuffixUI(),
+    first: {
+      ...fullNameNoSuffixUI().first,
+      'ui:title': 'First or given name',
+    },
+    middle: {
+      ...fullNameNoSuffixUI().middle,
+      'ui:title': 'Middle name',
+    },
+    last: {
+      ...fullNameNoSuffixUI().last,
+      'ui:title': 'Last or family name',
+    },
+  };
+}
+
+export const sharedYesNoOptionsBase = {
+  labelHeaderLevel: '2',
+  labelHeaderLevelStyle: '3',
+};
+
+/**
+ * Filters and classifies owned assets based on upload status and type.
+ *
+ * @param {Object} formData - The form data object.
+ * @param {string[]} [assetTypeAllowlist=['BUSINESS', 'FARM']] - Asset types to include.
+ * @returns {{
+ *   alertAssets: Array<Object>,
+ *   hasFarm: boolean,
+ *   hasBusiness: boolean,
+ *   missingAssetTypes: string[],
+ * }} An object with filtered assets and derived flags.
+ */
+export const getIncompleteOwnedAssets = (
+  formData,
+  assetTypeAllowlist = ['BUSINESS', 'FARM'],
+) => {
+  const assets = formData?.ownedAssets || [];
+
+  // Filter for assets where user either declined to upload OR said yes but didn't upload
+  const alertAssets = assets.filter(asset => {
+    const isFarmOrBusiness = assetTypeAllowlist.includes(asset.assetType);
+    const declinedUpload = asset['view:addFormQuestion'] === false;
+    const saidYesButNoUpload =
+      asset['view:addFormQuestion'] === true &&
+      (!asset?.uploadedDocuments || !asset.uploadedDocuments.name);
+
+    return isFarmOrBusiness && (declinedUpload || saidYesButNoUpload);
+  });
+
+  const missingAssetTypes = [
+    ...new Set(alertAssets.map(asset => asset.assetType)),
+  ];
+
+  return {
+    alertAssets,
+    missingAssetTypes,
+    hasFarm: missingAssetTypes.includes('FARM'),
+    hasBusiness: missingAssetTypes.includes('BUSINESS'),
+  };
+};

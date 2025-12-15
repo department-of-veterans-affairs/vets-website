@@ -26,6 +26,13 @@ describe('Need Help shared component', () => {
       dataDogActionNames.refillPage.GO_TO_USE_MEDICATIONS_LINK,
     );
 
+    expect(
+      screen.getByTestId('go-to-self-entered-health-information-link'),
+    ).to.have.attribute(
+      'data-dd-action-name',
+      dataDogActionNames.refillPage.GO_TO_SELF_ENTERED_HEALTH_INFORMATION_LINK,
+    );
+
     expect(screen.getByTestId('start-a-new-message-link')).to.have.attribute(
       'data-dd-action-name',
       dataDogActionNames.refillPage.COMPOSE_A_MESSAGE_LINK,

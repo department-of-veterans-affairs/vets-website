@@ -123,9 +123,31 @@ describe('The My VA Dashboard', () => {
       },
       lastUpdated: 1604951152,
     },
+    {
+      form: '1010ez',
+      metadata: {
+        version: 0,
+        returnUrl: '/#',
+        savedAt: 1604951152710,
+        expiresAt: now + oneYearInSeconds,
+        lastUpdated: 1604951152,
+        inProgressFormId: 5200,
+      },
+      lastUpdated: 1604951152,
+    },
   ];
 
   beforeEach(() => {
+    // Blank intercepts for stuff we don't care about
+    cy.intercept('/data/cms/vamc-ehr.json', { data: [] });
+    cy.intercept('/v0/appeals', { data: [] });
+    cy.intercept('/v0/benefits_claims', { data: [] });
+    cy.intercept('/v0/debts*', { data: [] });
+    cy.intercept('/v0/medical_copays', { data: [] });
+    cy.intercept('/v0/my_va/submission_statuses', { data: [] });
+    cy.intercept('/v0/onsite_notifications', { data: [] });
+    cy.intercept('/vaos/v2/appointments*', { data: [] });
+
     cy.intercept('/v0/profile/service_history', serviceHistory);
     cy.intercept('/v0/profile/full_name', fullName);
     cy.intercept(
@@ -147,7 +169,7 @@ describe('The My VA Dashboard', () => {
       cy.findByRole('heading', {
         name: /benefit applications and forms/i,
       }).should('exist');
-      cy.findAllByTestId('application-in-progress').should('have.length', 5);
+      cy.findAllByTestId('application-in-progress').should('have.length', 6);
       cy.findByText(/you have no benefit application drafts to show/i).should(
         'not.exist',
       );
@@ -155,9 +177,10 @@ describe('The My VA Dashboard', () => {
       cy.axeCheck();
     });
 
-    it('should show in-progress 26-1880, 28-8832, and 21P-530EZ forms', () => {
+    it('should show in-progress 26-1880, 28-8832, 10-10EZ, and 21P-530EZ forms', () => {
       cy.findByText(/26-1880/i).should('exist');
       cy.findByText(/28-8832/i).should('exist');
+      cy.findByText(/10-10EZ/i).should('exist');
       cy.findByText(/21P-530EZ/i).should('exist');
       cy.injectAxe();
       cy.axeCheck();

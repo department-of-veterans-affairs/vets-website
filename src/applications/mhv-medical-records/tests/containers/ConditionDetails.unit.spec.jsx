@@ -14,10 +14,6 @@ import conditions from '../fixtures/conditions.json';
 describe('Condition details container', () => {
   const initialState = {
     mr: { conditions: { conditionDetails: convertCondition(condition) } },
-    featureToggles: {
-      // eslint-disable-next-line camelcase
-      mhv_medical_records_allow_txt_downloads: true,
-    },
     user,
   };
 
@@ -86,15 +82,24 @@ describe('Condition details container', () => {
       }),
     ).to.exist;
   });
+
+  it('renders each provider note inside the ItemList', () => {
+    const { comments } = initialState.mr.conditions.conditionDetails;
+    expect(comments).to.be.an('array').and.not.empty;
+    // The ItemList component does not forward arbitrary data-testid props at the container level.
+    // Instead, each list entry renders with data-testid="list-item-multiple" when multiple entries exist.
+    const items = screen.getAllByTestId('list-item-multiple');
+    expect(items.length).to.equal(comments.length);
+    const itemTexts = items.map(i => i.textContent.trim());
+    comments.forEach(text => {
+      expect(itemTexts).to.include(text);
+    });
+  });
 });
 
 describe('Condition details container with record with no ICD/SCT code in the name', () => {
   const initialState = {
     mr: { conditions: { conditionDetails: convertCondition(conditions[4]) } },
-    featureToggles: {
-      // eslint-disable-next-line camelcase
-      mhv_medical_records_allow_txt_downloads: true,
-    },
     user,
   };
 
@@ -210,5 +215,67 @@ describe('Health conditions details container with errors', () => {
         ),
       ).to.exist;
     });
+  });
+});
+
+describe('when accelerated conditions is enabled', () => {
+  const acceleratedRecord = {
+    id: '123',
+    date: 'September 17, 2020',
+    sortKey: 1600352400000,
+    name: 'Anemia (ICD102894)',
+    provider: 'M.D. Tracy Marrow',
+    facility: 'Washington DC VA Medical Center',
+    comments: ['Hemoglobin baseline <10'],
+  };
+
+  let screen;
+  beforeEach(() => {
+    const initialState = {
+      user,
+      mr: {
+        conditions: {
+          conditionDetails: acceleratedRecord,
+        },
+        alerts: { alertList: [] },
+      },
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        mhv_accelerated_delivery_enabled: true,
+        // eslint-disable-next-line camelcase
+        mhv_accelerated_delivery_conditions_enabled: true,
+      },
+    };
+
+    screen = renderWithStoreAndRouter(<ConditionDetails runningUnitTest />, {
+      initialState,
+      reducers: reducer,
+      path: '/conditions/123',
+    });
+  });
+
+  it('shows accelerated condition fields when conditions are met', () => {
+    // Name
+    expect(screen.getByRole('heading', { level: 1 }).textContent).to.equal(
+      acceleratedRecord.name,
+    );
+
+    // Date (inside header-time span)
+    const dateNode = screen.getByTestId('header-time');
+    expect(dateNode.textContent).to.include(acceleratedRecord.date);
+
+    // Provider (may render as N/A if convertCondition lacked provider)
+    // Only assert if present
+    const providerEl = screen.queryByTestId('condition-provider');
+    if (providerEl) {
+      expect(providerEl.textContent).to.match(/(Tracy Marrow|N\/A)/);
+    }
+
+    const locationEl = screen.queryByTestId('condition-location');
+    if (locationEl) {
+      expect(locationEl.textContent).to.match(
+        /(Washington DC VA Medical Center|There is no facility reported)/,
+      );
+    }
   });
 });

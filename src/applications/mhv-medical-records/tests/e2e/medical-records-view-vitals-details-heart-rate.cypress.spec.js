@@ -1,27 +1,26 @@
-import moment from 'moment';
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import VitalsListPage from './pages/VitalsListPage';
 import VitalsDetailsPage from './pages/VitalsDetailsPage';
 import defaultVitals from '../fixtures/vitals.json';
+import { formatDateMonthDayCommaYearHoursMinutes } from '../../util/dateHelpers';
 
 describe('Medical Records Vitals Details Page', () => {
   const site = new MedicalRecordsSite();
 
   beforeEach(() => {
     site.login();
-    cy.visit('my-health/medical-records');
   });
 
   it('Vitals Details Heart Rate', () => {
     VitalsListPage.goToVitals();
     // click heart rate link
-    VitalsListPage.clickLinkByRecordListItemIndex(1);
+    VitalsListPage.clickLinkByRecordListItem('Heart rate');
 
     VitalsDetailsPage.verifyVitalReadingByIndex(
       0,
-      moment
-        .parseZone(defaultVitals.entry[4].resource.effectiveDateTime)
-        .format('MMMM D, YYYY, h:mm'),
+      formatDateMonthDayCommaYearHoursMinutes(
+        defaultVitals.entry[4].resource.effectiveDateTime,
+      ),
       `${defaultVitals.entry[4].resource.valueQuantity.value} beats per minute`,
       defaultVitals.entry[4].resource.contained[0].name,
       'None recorded',
@@ -29,9 +28,9 @@ describe('Medical Records Vitals Details Page', () => {
 
     VitalsDetailsPage.verifyVitalReadingByIndex(
       1,
-      moment
-        .parseZone(defaultVitals.entry[14].resource.effectiveDateTime)
-        .format('MMMM D, YYYY, h:mm'),
+      formatDateMonthDayCommaYearHoursMinutes(
+        defaultVitals.entry[14].resource.effectiveDateTime,
+      ),
       `${
         defaultVitals.entry[14].resource.valueQuantity.value
       } beats per minute`,
@@ -41,9 +40,9 @@ describe('Medical Records Vitals Details Page', () => {
 
     VitalsDetailsPage.verifyVitalReadingByIndex(
       2,
-      moment
-        .parseZone(defaultVitals.entry[24].resource.effectiveDateTime)
-        .format('MMMM D, YYYY, h:mm'),
+      formatDateMonthDayCommaYearHoursMinutes(
+        defaultVitals.entry[24].resource.effectiveDateTime,
+      ),
       `${
         defaultVitals.entry[24].resource.valueQuantity.value
       } beats per minute`,
@@ -53,9 +52,9 @@ describe('Medical Records Vitals Details Page', () => {
 
     VitalsDetailsPage.verifyVitalReadingByIndex(
       3,
-      moment
-        .parseZone(defaultVitals.entry[34].resource.effectiveDateTime)
-        .format('MMMM D, YYYY, h:mm'),
+      formatDateMonthDayCommaYearHoursMinutes(
+        defaultVitals.entry[34].resource.effectiveDateTime,
+      ),
       `${
         defaultVitals.entry[34].resource.valueQuantity.value
       } beats per minute`,

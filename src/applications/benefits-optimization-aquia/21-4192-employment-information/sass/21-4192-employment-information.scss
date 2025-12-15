@@ -1,0 +1,21 @@
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
+@import "../../../../platform/forms/sass/m-schemaform";
+@import "../../../../platform/forms/sass/m-form-confirmation";
+
+// Application-specific styles for VA Form 21-4192
+
+.help-footer-box {
+  padding: 1.5rem;
+  background-color: var(--vads-color-gray-lightest);
+  margin-top: 2rem;
+
+  h3 {
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .va-address-block {
+    margin-left: 1rem;
+    font-style: normal;
+  }
+}

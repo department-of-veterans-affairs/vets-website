@@ -12,6 +12,9 @@ jobs:
   fetch-unit-tests-allow-list:
     name: Fetch Unit Test Stability Allow List
     runs-on: ubuntu-22.04
+    permissions:
+      id-token: write
+      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
@@ -19,9 +22,8 @@ jobs:
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Get va-vsp-bot token
         uses: ./.github/workflows/inject-secrets
@@ -112,8 +114,8 @@ jobs:
           check_title: 'App Isolation Annotations'
           input_json: './isolation-annotations.json'
       
-  annotate-e2e-tests:
-    name: Annotate e2e Tests
+  annotate-files:
+    name: Platform-elected file notations
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -177,10 +179,32 @@ jobs:
           check_title: 'Flaky e2e Annotations'
           input_json: './flaky-dates-times-annotations.json'
 
+      - name: Annotate files that use Enzyme instead of RTL
+        run: node script/github-actions/annotate-enzyme.js
+        env:
+          CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
+
+      - name: Create e2e annotations file  
+        if: ${{ env.ENZYME_ANNOTATIONS_JSON != '[]' }}
+        run: |
+          echo "$ENZYME_ANNOTATIONS_JSON" > enzyme-annotations.json
+          cat enzyme-annotations.json
+        
+      - name: Annotate files that use Enzyme instead of RTL
+        if: ${{ env.ENZYME_ANNOTATIONS_JSON != '[]' }}
+        uses: ./.github/workflows/annotations
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          check_title: 'Enzyme Annotations'
+          input_json: './enzyme-annotations.json'
+
   eslint-disable-check:
     name: ESLint Disable Check
     runs-on: ubuntu-latest
     if: ${{ github.event.pull_request.draft == false }}
+    permissions:
+      id-token: write
+      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
@@ -197,9 +221,8 @@ jobs:
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Get bot token from Parameter Store
         uses: ./.github/workflows/inject-secrets
@@ -237,6 +260,9 @@ jobs:
     name: Icon Check
     runs-on: ubuntu-latest
     if: ${{ github.event.pull_request.draft == false }}
+    permissions:
+      id-token: write
+      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
@@ -253,9 +279,8 @@ jobs:
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Get bot token from Parameter Store
         uses: ./.github/workflows/inject-secrets
@@ -298,6 +323,9 @@ jobs:
     name: Sentry Check
     runs-on: ubuntu-latest
     if: ${{ github.event.pull_request.draft == false }}
+    permissions:
+      id-token: write
+      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
@@ -314,9 +342,8 @@ jobs:
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Get bot token from Parameter Store
         uses: ./.github/workflows/inject-secrets

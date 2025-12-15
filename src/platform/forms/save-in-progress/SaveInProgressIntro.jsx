@@ -296,9 +296,10 @@ class SaveInProgressIntro extends React.Component {
   getStartPage = () => {
     const { pageList, pathname, formData } = this.props;
     const data = formData || {};
-    // pathname is only provided when the first page is conditional
-    if (pathname) return getNextPagePath(pageList, data, pathname);
-    return pageList[1]?.path;
+    // Use the provided pathname, or default to the first page in the list
+    // Always use getNextPagePath to respect page 'depends' conditions
+    const startingPath = pathname || pageList[0]?.path;
+    return getNextPagePath(pageList, data, startingPath);
   };
 
   handleClick = () => {
@@ -424,12 +425,6 @@ class SaveInProgressIntro extends React.Component {
 }
 
 SaveInProgressIntro.propTypes = {
-  fetchInProgressForm: PropTypes.func.isRequired,
-  formId: PropTypes.string.isRequired,
-  pageList: PropTypes.array.isRequired,
-  removeInProgressForm: PropTypes.func.isRequired,
-  toggleLoginModal: PropTypes.func.isRequired,
-  user: PropTypes.object.isRequired,
   afterButtonContent: PropTypes.element,
   alertTitle: PropTypes.string,
   ariaDescribedby: PropTypes.string,
@@ -444,6 +439,7 @@ SaveInProgressIntro.propTypes = {
   }),
   displayNonVeteranMessaging: PropTypes.bool,
   downtime: PropTypes.object,
+  fetchInProgressForm: PropTypes.func,
   formConfig: PropTypes.shape({
     signInHelpList: PropTypes.func,
     customText: PropTypes.shape({
@@ -457,6 +453,7 @@ SaveInProgressIntro.propTypes = {
     }),
   }),
   formData: PropTypes.object,
+  formId: PropTypes.string,
   gaStartEventName: PropTypes.string,
   headingLevel: PropTypes.number,
   hideUnauthedStartLink: PropTypes.bool,
@@ -464,9 +461,11 @@ SaveInProgressIntro.propTypes = {
   lastSavedDate: PropTypes.number,
   messages: PropTypes.object,
   migrations: PropTypes.array,
+  pageList: PropTypes.array,
   pathname: PropTypes.string,
   prefillEnabled: PropTypes.bool,
   prefillTransformer: PropTypes.func,
+  removeInProgressForm: PropTypes.func,
   resumeOnly: PropTypes.bool,
   retentionPeriod: PropTypes.string,
   retentionPeriodStart: PropTypes.string,
@@ -476,8 +475,10 @@ SaveInProgressIntro.propTypes = {
   }),
   startMessageOnly: PropTypes.bool,
   startText: PropTypes.string,
+  toggleLoginModal: PropTypes.func,
   unauthStartText: PropTypes.string,
   unverifiedPrefillAlert: PropTypes.element,
+  user: PropTypes.object,
   verifiedPrefillAlert: PropTypes.element,
   verifyRequiredPrefill: PropTypes.bool,
 };
@@ -513,55 +514,55 @@ const mapDispatchToProps = {
 
 /**
  * @type {React.FC<{
- *   fetchInProgressForm: any,
- *   formId: string,
- *   pageList: any[],
- *   removeInProgressForm: any,
- *   toggleLoginModal: any,
- *   user: any,
- *   afterButtonContent: any,
- *   alertTitle: string,
- *   ariaDescribedby: string,
- *   ariaLabel: string,
- *   buttonAriaDescribedby: string,
- *   buttonOnly: boolean,
- *   children: any,
- *   customLink: any,
- *   devOnly: {
- *     forceShowFormControls: boolean,
+ *   fetchInProgressForm?: any,
+ *   formId?: string,
+ *   pageList?: any[],
+ *   removeInProgressForm?: any,
+ *   toggleLoginModal?: any,
+ *   user?: any,
+ *   afterButtonContent?: any,
+ *   alertTitle?: string,
+ *   ariaDescribedby?: string,
+ *   ariaLabel?: string,
+ *   buttonAriaDescribedby?: string,
+ *   buttonOnly?: boolean,
+ *   children?: any,
+ *   customLink?: any,
+ *   devOnly?: {
+ *     forceShowFormControls?: boolean,
  *   },
- *   displayNonVeteranMessaging: boolean,
- *   downtime: any,
- *   formConfig: {
- *     signInHelpList: any,
- *     customText: {
- *       appType: string,
- *       appAction: string,
- *       appContinuing: string,
+ *   displayNonVeteranMessaging?: boolean,
+ *   downtime?: any,
+ *   formConfig?: {
+ *     signInHelpList?: any,
+ *     customText?: {
+ *       appType?: string,
+ *       appAction?: string,
+ *       appContinuing?: string,
  *     },
- *    requiresVerifiedUser: any
+ *    requiresVerifiedUser?: any
  *   },
- *   formData: any,
- *   gaStartEventName: string,
- *   headingLevel: number,
- *   hideUnauthedStartLink: boolean,
- *   isLoggedIn: boolean,
- *   lastSavedDate: number,
- *   messages: any,
- *   migrations: any[],
- *   pathname: string,
- *   prefillEnabled: bullion,
- *   prefillTransformer: any,
- *   resumeOnly: boolean,
- *   retentionPeriod: string,
- *   retentionPeriodStart: string,
- *   returnUrl: string,
- *   startMessageOnly: boolean,
- *   startText: string,
- *   unauthStartText: string,
- *   unverifiedPrefillAlert: any,
- *   verifiedPrefillAlert: any,
- *   verifyRequiredPrefill: boolean,
+ *   formData?: any,
+ *   gaStartEventName?: string,
+ *   headingLevel?: number,
+ *   hideUnauthedStartLink?: boolean,
+ *   isLoggedIn?: boolean,
+ *   lastSavedDate?: number,
+ *   messages?: any,
+ *   migrations?: any[],
+ *   pathname?: string,
+ *   prefillEnabled?: boolean,
+ *   prefillTransformer?: any,
+ *   resumeOnly?: boolean,
+ *   retentionPeriod?: string,
+ *   retentionPeriodStart?: string,
+ *   returnUrl?: string,
+ *   startMessageOnly?: boolean,
+ *   startText?: string,
+ *   unauthStartText?: string,
+ *   unverifiedPrefillAlert?: any,
+ *   verifiedPrefillAlert?: any,
+ *   verifyRequiredPrefill?: boolean,
  * }>}
  */
 export default connect(

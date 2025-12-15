@@ -1,11 +1,9 @@
-import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
-import { Actions } from '../util/actionTypes';
-import { EMPTY_FIELD, allergyTypes, loadStates } from '../util/constants';
 import {
-  getReactions,
-  isArrayAndHasItems,
-  extractContainedResource,
-} from '../util/helpers';
+  convertAllergy as sharedConvertAllergy,
+  convertUnifiedAllergy as sharedConvertUnifiedAllergy,
+} from '@department-of-veterans-affairs/mhv/exports';
+import { Actions } from '../util/actionTypes';
+import { EMPTY_FIELD, loadStates } from '../util/constants';
 
 const initialState = {
   /**
@@ -33,52 +31,25 @@ const initialState = {
   allergyDetails: undefined,
 };
 
-export const extractLocation = allergy => {
-  if (isArrayAndHasItems(allergy?.recorder?.extension)) {
-    const ref = allergy.recorder.extension[0]?.valueReference?.reference;
-    // Use the reference inside "recorder" to get the value from "contained".
-    const org = extractContainedResource(allergy, ref);
-    if (org?.name) {
-      return org.name;
-    }
-  }
-  return EMPTY_FIELD;
+// Options for Medical Records app (uses defaults)
+const allergyOptions = {
+  emptyField: EMPTY_FIELD,
 };
 
-export const extractObservedReported = allergy => {
-  if (allergy && isArrayAndHasItems(allergy.extension)) {
-    const extItem = allergy.extension.find(
-      item => item.url && item.url.includes('allergyObservedHistoric'),
-    );
-    if (extItem?.valueCode) {
-      if (extItem.valueCode === 'o') return allergyTypes.OBSERVED;
-      if (extItem.valueCode === 'h') return allergyTypes.REPORTED;
-    }
-  }
-  return EMPTY_FIELD;
-};
-
+/**
+ * Convert a FHIR AllergyIntolerance resource using shared converter.
+ * Wrapper that passes Medical Records options.
+ */
 export const convertAllergy = allergy => {
-  return {
-    id: allergy.id,
-    type:
-      (isArrayAndHasItems(allergy.category) &&
-        allergy.category
-          .join(', ')
-          .replace(/^./, char => char.toUpperCase())) ||
-      EMPTY_FIELD,
-    name: allergy?.code?.text || EMPTY_FIELD,
-    date: allergy?.recordedDate
-      ? formatDateLong(allergy.recordedDate)
-      : EMPTY_FIELD,
-    reaction: getReactions(allergy),
-    location: extractLocation(allergy),
-    observedOrReported: extractObservedReported(allergy),
-    notes:
-      (isArrayAndHasItems(allergy.note) && allergy.note[0]?.text) ||
-      EMPTY_FIELD,
-    provider: allergy.recorder?.display || EMPTY_FIELD,
-  };
+  return sharedConvertAllergy(allergy, allergyOptions);
+};
+
+/**
+ * Convert a unified API allergy response using shared converter.
+ * Wrapper that passes Medical Records options.
+ */
+export const convertUnifiedAllergy = allergy => {
+  return sharedConvertUnifiedAllergy(allergy, allergyOptions);
 };
 
 export const allergyReducer = (state = initialState, action) => {
@@ -98,7 +69,7 @@ export const allergyReducer = (state = initialState, action) => {
     case Actions.Allergies.GET_LIST: {
       const oldList = state.allergiesList;
       const newList =
-        action.response.entry
+        action?.response?.entry
           ?.map(allergy => {
             return convertAllergy(allergy.resource);
           })
@@ -140,6 +111,31 @@ export const allergyReducer = (state = initialState, action) => {
       return {
         ...state,
         listState: action.payload,
+      };
+    }
+    case Actions.Allergies.GET_UNIFIED_LIST: {
+      const data = action.response.data || [];
+      const newList =
+        data
+          ?.map(allergy => {
+            return convertUnifiedAllergy(allergy);
+          })
+          .sort((a, b) => {
+            if (!a.sortKey) return 1; // Push nulls to the end
+            if (!b.sortKey) return -1; // Keep non-nulls at the front
+            return b.sortKey.getTime() - a.sortKey.getTime();
+          }) || [];
+      return {
+        ...state,
+        listCurrentAsOf: action.isCurrent ? new Date() : null,
+        listState: loadStates.FETCHED,
+        allergiesList: newList,
+      };
+    }
+    case Actions.Allergies.GET_UNIFIED_ITEM: {
+      return {
+        ...state,
+        allergyDetails: convertUnifiedAllergy(action.response.data),
       };
     }
     default:

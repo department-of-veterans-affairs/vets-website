@@ -1,0 +1,16 @@
+{
+  "data": {
+    "id": "0",
+    "type": "folders",
+    "attributes": {
+      "name": "Inbox",
+      "count": 202,
+      "unreadCount": 13,
+      "systemFolder": true,
+      "folderId": 0
+    },
+    "links": {
+      "self": "http://127.0.0.1:3000/my_health/v1/messaging/folders/0"
+    }
+  }
+}

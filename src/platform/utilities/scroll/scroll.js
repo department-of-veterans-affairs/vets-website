@@ -1,6 +1,17 @@
+/* eslint-disable no-console */
 import { getScrollOptions, getElementPosition } from './utils';
 import { focusElement, focusByOrder, defaultFocusSelector } from '../ui/focus';
 import { ERROR_ELEMENTS, SCROLL_ELEMENT_SUFFIX } from '../constants';
+import environment from '../environment';
+import {
+  cleanupErrorAnnotations as cleanupErrorAnnotationsInternal,
+  DEFAULT_SCAFFOLD_AND_FOCUS_FORM_ERRORS,
+  findFocusTarget,
+  isSupportedVaElement,
+  scaffoldErrorsFromSelectors,
+} from './error-scaffolding';
+
+export const cleanupErrorAnnotations = cleanupErrorAnnotationsInternal;
 
 // Let the form system control scroll behavior
 window.history.scrollRestoration = 'manual';
@@ -19,7 +30,7 @@ export const scrollTo = async (el, scrollOptions) => {
       (options.top || getElementPosition(el, options.root)) +
       (options.offset || 0);
     // Scroll to calculated position
-    document.body.scrollTo({
+    window.scrollTo({
       top: Math.round(top),
       left: options.left || 0,
       behavior: options.behavior,
@@ -49,10 +60,10 @@ export const scrollToElement = async (el, scrollOptions) =>
 
 /**
  * Scroll to top of the page
- * @param {String|Number|Element} el='topScrollElement' - top scroll element, or
+ * @param {String|Number|Element} [position='topScrollElement'] - top scroll element, or
  *  selector, id, name, class name, number, or DOM element to position
- * @param {ScrollOptions} scrollOptions - settings & overrides
- * @returns Promise
+ * @param {ScrollOptions} [scrollOptions] - settings & overrides
+ * @returns {Promise<void>}
  */
 export const scrollToTop = async (
   position = `top${SCROLL_ELEMENT_SUFFIX}`,
@@ -67,6 +78,9 @@ export const scrollToTop = async (
  *  and focus on the element with role=alert to ensure screen readers are
  *  reading out the correct content; it's set default to false while we perform
  *  further accessibility evaluation
+ * @property {Boolean} scaffoldAndFocusFormErrors - When a supported VA web component has an
+ *  error, find and focus on the first input element inside its shadow DOM. Set to false
+ *  to opt out and focus on the error element itself instead.
  */
 /**
  * Find first error and scroll it to the top of the page, then focus on it
@@ -74,7 +88,11 @@ export const scrollToTop = async (
  */
 export const scrollToFirstError = async (options = {}) => {
   return new Promise(resolve => {
-    const { focusOnAlertRole = false } = options;
+    const {
+      focusOnAlertRole = false,
+      scaffoldAndFocusFormErrors = DEFAULT_SCAFFOLD_AND_FOCUS_FORM_ERRORS,
+      errorContext,
+    } = options;
     const selectors = ERROR_ELEMENTS.join(',');
     const timeout = 500;
     const observerConfig = { childList: true, subtree: true };
@@ -83,8 +101,28 @@ export const scrollToFirstError = async (options = {}) => {
     let observer;
 
     const runCleanup = el => {
-      // eslint-disable-next-line no-console
-      if (!el) console.warn('scrollToFirstError: Error element not found', el);
+      if (!el) {
+        console.warn('scrollToFirstError: Error element not found', el);
+        if (
+          !environment.isProduction() &&
+          Array.isArray(errorContext) &&
+          errorContext.length &&
+          errorContext.some(err =>
+            err?.stack?.includes('You must provide a response'),
+          )
+        ) {
+          const fieldKeys = errorContext
+            .filter(err => err?.stack?.includes('You must provide a response'))
+            .map(err => err.stack.split(':')[0]);
+          console.warn(
+            `Schema validation error: The following fields are marked as required in your schema but do not exist in the page:\n${fieldKeys
+              .map(key => `- "${key}"`)
+              .join(
+                '\n',
+              )}\nCheck your required fields in the schema match the fields in your UI.`,
+          );
+        }
+      }
       clearTimeout(fallbackTimer);
       observer?.disconnect();
       resolve();
@@ -115,6 +153,16 @@ export const scrollToFirstError = async (options = {}) => {
           requestAnimationFrame(() => {
             focusElement('[role="alert"]', {}, el?.shadowRoot);
           });
+        } else if (scaffoldAndFocusFormErrors && isSupportedVaElement(el)) {
+          scaffoldErrorsFromSelectors(selectors);
+
+          // Find and focus the appropriate input element
+          const focusTarget = findFocusTarget(el);
+          if (focusTarget) {
+            setTimeout(() => {
+              focusTarget.focus({ preventScroll: true });
+            }, 100);
+          }
         } else {
           focusElement(el);
         }
@@ -123,9 +171,25 @@ export const scrollToFirstError = async (options = {}) => {
       runCleanup(true);
     };
 
+    /**
+     * Queries for error elements and scrolls to focus on them.
+     * Prioritizes focusing on nested child error elements within shadow DOM,
+     * falling back to the parent element if no child errors are found.
+     */
     const queryForErrors = () => {
       const el = document.querySelector(selectors);
-      if (el) scrollAndFocus(el);
+      if (el) {
+        // Check if this element has child components with errors (nested errors)
+        const childWithError = el.shadowRoot?.querySelector(
+          '[error]:not([error=""])',
+        );
+        if (childWithError) {
+          // If there's a child with error, focus that instead of the parent
+          scrollAndFocus(childWithError);
+        } else {
+          scrollAndFocus(el);
+        }
+      }
     };
 
     // use MutationObserver to only watch `addedNodes` for the selectors
@@ -156,7 +220,7 @@ export const scrollAndFocus = (target, options) =>
   new Promise(resolve => {
     if (target) {
       scrollTo(target, options);
-      focusElement(target);
+      focusElement(target, { preventScroll: true });
     }
     resolve();
   });

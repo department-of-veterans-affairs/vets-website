@@ -13,7 +13,8 @@ const formatStatus = submission => {
             icon="check_circle"
             size="3"
           />
-          {` Received ${formatDateParsedZoneLong(submission.vbmsReceivedDate)}`}
+          {` Received ${submission.vbmsReceivedDate &&
+            formatDateParsedZoneLong(submission.vbmsReceivedDate)}`}
         </span>
       );
     case 'awaiting_receipt_warning':
@@ -28,7 +29,7 @@ const formatStatus = submission => {
             />
             {' Processing error'}
           </span>
-          <span>Contact 800-827-1000 for assistance</span>
+          <span>Contact 855-225-0709 for assistance</span>
         </>
       );
     case 'awaiting_receipt':
@@ -73,11 +74,17 @@ const SubmissionCard = ({ submission }) => {
           </strong>
         </p>
         <p className="submission__card-status">
-          <span className="submission__card-attribute-text">
-            {'Confirmation: '}
-          </span>
-          {submission.confirmationNumber}
-          <br />
+          {submission.confirmationNumber ? (
+            <>
+              <span className="submission__card-attribute-text">
+                {'Confirmation: '}
+              </span>
+              {submission.confirmationNumber}
+              <br />
+            </>
+          ) : (
+            ''
+          )}
           <span
             className={`submission__card-status--row ${submission.vbmsStatus}`}
           >

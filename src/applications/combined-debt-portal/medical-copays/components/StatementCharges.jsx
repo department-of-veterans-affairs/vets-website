@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { subMonths } from 'date-fns';
+import { subDays } from 'date-fns';
 import { formatDate } from '../../combined/utils/helpers';
 
-const StatementCharges = ({ copay }) => {
-  const initialDate = new Date();
-  const today = formatDate(initialDate);
-  const previousCopaysStartDate = formatDate(subMonths(initialDate, 1));
+const StatementCharges = ({ copay, showCurrentStatementHeader = false }) => {
+  const initialDate = new Date(copay.pSStatementDateOutput);
+  const statementDate = formatDate(initialDate);
+  const previousCopayStartDate = formatDate(subDays(initialDate, 30));
 
   const tableData = copay.details.map(item => {
     return (
@@ -28,19 +28,24 @@ const StatementCharges = ({ copay }) => {
       </va-table-row>
     );
   });
+  const transactionHistoryTableTitle = `This statement shows charges you received between 
+        ${previousCopayStartDate} and ${statementDate}.`;
 
   return (
-    <article className="vads-u-padding-x--0">
-      <h2 data-testid="statement-charges-head" id="statement-charges">
-        Statement Charges
+    <>
+      <h2
+        data-testid="statement-charges-head"
+        id="statement-charges"
+        className="vads-u-margin-bottom--0"
+      >
+        {showCurrentStatementHeader
+          ? 'Most recent statement charges'
+          : 'Statement Charges'}
       </h2>
-      <p className="vads-u-margin-bottom--0">
-        This statement shows charges you received between{' '}
-        {previousCopaysStartDate} and {today}.
-      </p>
+
       <va-table
         data-testid="statement-charges-table"
-        table-title="Transaction history"
+        table-title={transactionHistoryTableTitle}
         uswds
         table-type="bordered"
       >
@@ -51,12 +56,14 @@ const StatementCharges = ({ copay }) => {
         </va-table-row>
         {tableData}
       </va-table>
-    </article>
+    </>
   );
 };
 
 StatementCharges.propTypes = {
   copay: PropTypes.object,
+  showCurrentStatementHeader: PropTypes.bool,
+  showOneThingPerPage: PropTypes.bool,
 };
 
 export default StatementCharges;

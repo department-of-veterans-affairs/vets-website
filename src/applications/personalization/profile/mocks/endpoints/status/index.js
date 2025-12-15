@@ -16,6 +16,40 @@ let retries = 0;
 const generateStatusResponse = (req, res) => {
   const { id } = req.params;
 
+  // Special handling for VA Profile initialization transactions
+  if (id.startsWith('init-vap-')) {
+    // Simulate a brief initialization period
+    const transactionAge = Date.now() - parseInt(id.split('-')[2], 10);
+    const isInitializing = transactionAge < 3000; // 3 seconds of "initializing"
+
+    if (isInitializing) {
+      return res.json({
+        data: {
+          id: '',
+          type: 'async_transaction_va_profile_initialize_person_transactions',
+          attributes: {
+            transactionId: id,
+            transactionStatus: 'RECEIVED',
+            type: 'AsyncTransaction::VAProfile::InitializePersonTransaction',
+            metadata: [],
+          },
+        },
+      });
+    }
+    return res.json({
+      data: {
+        id: '',
+        type: 'async_transaction_va_profile_initialize_person_transactions',
+        attributes: {
+          transactionId: id,
+          transactionStatus: 'COMPLETED_SUCCESS',
+          type: 'AsyncTransaction::VAProfile::InitializePersonTransaction',
+          metadata: [],
+        },
+      },
+    });
+  }
+
   // increase to use multiple retries
   const requiredRetries = 0;
 

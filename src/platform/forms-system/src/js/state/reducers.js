@@ -3,6 +3,7 @@ import set from '../../../../utilities/data/set';
 import {
   CLOSE_REVIEW_CHAPTER,
   OPEN_REVIEW_CHAPTER,
+  TOGGLE_ALL_REVIEW_CHAPTERS,
   SET_DATA,
   SET_EDIT_MODE,
   SET_PRE_SUBMIT,
@@ -37,6 +38,9 @@ export default {
     action.pageKeys.forEach(pageKey => viewedPages.add(pageKey));
 
     return set('reviewPageView.viewedPages', viewedPages, newState);
+  },
+  [TOGGLE_ALL_REVIEW_CHAPTERS]: (state, action) => {
+    return set('reviewPageView.openChapters', action.chapters, state);
   },
   [SET_DATA]: (state, action) => {
     const newState = set('data', action.data, state);

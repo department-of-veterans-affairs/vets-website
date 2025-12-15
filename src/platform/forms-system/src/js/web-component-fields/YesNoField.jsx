@@ -14,6 +14,10 @@ import vaRadioFieldMapping from './vaRadioFieldMapping';
  *      Y: 'Yes, I have health insurance',
  *      N: 'No, I do not have health insurance',
  *    },
+ *    descriptions: {
+ *      Y: 'Select this if you currently have any form of health insurance coverage',
+ *      N: 'Select this if you do not have health insurance coverage',
+ *    },
  * })
  * ```
  * @param {WebComponentFieldProps} props
@@ -22,6 +26,7 @@ export default function YesNoField(props) {
   const mappedProps = vaRadioFieldMapping(props);
 
   const labels = props.uiOptions?.labels || {};
+  const descriptions = props.uiOptions?.descriptions || {};
 
   const yesNoReverse = props.uiOptions?.yesNoReverse || false;
 
@@ -50,6 +55,7 @@ export default function YesNoField(props) {
         value="Y"
         checked={selectedValue === values.Y}
         label={labels.Y || 'Yes'}
+        {...descriptions.Y && { description: descriptions.Y }}
         uswds={mappedProps?.uswds}
         tile={props.uiOptions?.tile}
       />
@@ -60,6 +66,7 @@ export default function YesNoField(props) {
         value="N"
         checked={selectedValue === values.N}
         label={labels.N || 'No'}
+        {...descriptions.N && { description: descriptions.N }}
         uswds={mappedProps?.uswds}
         tile={props.uiOptions?.tile}
       />

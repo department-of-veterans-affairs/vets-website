@@ -2,7 +2,8 @@
   "apps": [
     {
       "rootFolder": "dependents",
-      "slackGroup": "<@U055VBGMWD9> <@U059ATZPRUZ> <@UN2J9UE1L>"
+      "slackGroup": "<@U055VBGMWD9> <@U059ATZPRUZ> <@UN2J9UE1L>",
+      "slackChannel": "C063YELFVLM"
     },
     {
       "rootFolder": "accreditation",
@@ -14,7 +15,8 @@
     },
     {
       "rootFolder": "appeals",
-      "slackGroup": "@benefits-decision-reviews-team"
+      "slackGroup": "@benefits-decision-reviews-team",
+      "slackChannel": "C5AGLBNRK"
     },
     {
       "rootFolder": "ask-a-question",
@@ -26,7 +28,8 @@
     },
     {
       "rootFolder": "auth",
-      "slackGroup": "<@U05TSDR2NAF> <@U04M52Y7VFU>"
+      "slackGroup": "<@U05TSDR2NAF> <@U04M52Y7VFU>",
+      "slackChannel": "C02SBFQ22RL"
     },
     {
       "rootFolder": "avs",
@@ -38,11 +41,13 @@
     },
     {
       "rootFolder": "burials-ez",
-      "slackGroup": "<@U05UWBJ0LC8> <@U02JAL36LG3> <@UN2J9UE1L>"
+      "slackGroup": "<@U05UWBJ0LC8> <@U02JAL36LG3> <@UN2J9UE1L>",
+      "slackChannel": "C090C6NNZGS"
     },
     {
       "rootFolder": "caregivers",
-      "slackGroup": "@1010-fe-dev"
+      "slackGroup": "@health-apps-fe-dev",
+      "slackChannel": "C05Q6411HPF"
     },
     {
       "rootFolder": "check-in",
@@ -50,7 +55,8 @@
     },
     {
       "rootFolder": "claims-status",
-      "slackGroup": "@benefits-management-tools-team-2 @benefits-management-tools-team-1"
+      "slackGroup": "@benefits-management-tools-team-2 @benefits-management-tools-team-1",
+      "slackChannel": "C090ZRQHRL5"
     },
     {
       "rootFolder": "combined-debt-portal",
@@ -67,7 +73,8 @@
     {
       "rootFolder": "disability-benefits",
       "slackGroup": "<@U08Q9EMQATV> <@U053MKBJE1H> <@U04L7TKUJQL>",
-      "continuousDeployment": false
+      "continuousDeployment": false,
+      "slackChannel": "C05URMLM09Z"
     },
     {
       "rootFolder": "discharge-wizard",
@@ -107,7 +114,8 @@
     },
     {
       "rootFolder": "ezr",
-      "slackGroup": "@1010-fe-dev"
+      "slackGroup": "@health-apps-fe-dev",
+      "slackChannel": "C05Q6411HPF"
     },
     {
       "rootFolder": "facility-locator",
@@ -127,23 +135,28 @@
     },
     {
       "rootFolder": "hca",
-      "slackGroup": "@1010-fe-dev"
+      "slackGroup": "@health-apps-fe-dev",
+      "slackChannel": "C05Q6411HPF"
     },
     {
       "rootFolder": "health-care-supply-reordering",
-      "slackGroup": "<@C05DFSM57FW>"
+      "slackGroup": "<@C05DFSM57FW>",
+      "slackChannel": "C05DFSM57FW"
     },
     {
       "rootFolder": "income-and-asset-statement",
-      "slackGroup": "<@U05UWBJ0LC8> <@U02JAL36LG3> <@UN2J9UE1L>"
+      "slackGroup": "<@U05UWBJ0LC8> <@U02JAL36LG3> <@UN2J9UE1L>",
+      "slackChannel": "C0909A2S57F"
     },
     {
       "rootFolder": "ivc-champva",
-      "slackGroup": "<@U074HNVJ7TQ> <@U066MEYGKDX> <@U02R5NVRJEP> <@U063V879TEX>"
+      "slackGroup": "@health-apps-fe-dev",
+      "slackChannel": "C05Q6411HPF"
     },
     {
       "rootFolder": "letters",
-      "slackGroup": "@benefits-management-tools-team-2 @benefits-management-tools-team-1"
+      "slackGroup": "@benefits-management-tools-team-2 @benefits-management-tools-team-1",
+      "slackChannel": "C090ZRQHRL5"
     },
     {
       "rootFolder": "lgy",
@@ -151,15 +164,18 @@
     },
     {
       "rootFolder": "login",
-      "slackGroup": "<@U05TSDR2NAF> <@U03MR6MK08Z>"
+      "slackGroup": "<@U05TSDR2NAF> <@U03MR6MK08Z>",
+      "slackChannel": "C02SBFQ22RL"
     },
     {
       "rootFolder": "medallions",
-      "slackGroup": "<@UJBTZN4RG> <@U04LYEY3B9C>"
+      "slackGroup": "<@UJBTZN4RG> <@U04LYEY3B9C>",
+      "slackChannel": "C06C6CAG3DG"
     },
     {
       "rootFolder": "medallions2",
-      "slackGroup": "<@UJBTZN4RG> <@U04LYEY3B9C>"
+      "slackGroup": "<@UJBTZN4RG> <@U04LYEY3B9C>",
+      "slackChannel": "C06C6CAG3DG"
     },
     {
       "rootFolder": "messages",
@@ -167,7 +183,8 @@
     },
     {
       "rootFolder": "mhv-landing-page",
-      "slackGroup": "@mhv-vagov-dev"
+      "slackGroup": "@mhv-vagov-dev",
+      "slackChannel": "C096YQLRWHK"
     },
     {
       "rootFolder": "mhv-medical-records",
@@ -175,11 +192,13 @@
     },
     {
       "rootFolder": "mhv-medications",
-      "slackGroup": "<@U05J06WJNUE> <@U03R3CJ3N3D> <@U063FU5526B>"
+      "slackGroup": "@mhv-vagov-dev",
+      "slackChannel": "C059Q28DV99"
     },
     {
       "rootFolder": "mhv-secure-messaging",
-      "slackGroup": "<@U03FYHMUG9K> <@U02EVE4RX8W>"
+      "slackGroup": "<@U03FYHMUG9K> <@U02EVE4RX8W>",
+      "slackChannel": "C03T8JY2DM2"
     },
     {
       "rootFolder": "mhv",
@@ -187,7 +206,8 @@
     },
     {
       "rootFolder": "mhv-supply-reordering",
-      "slackGroup": "@mhv-vagov-dev"
+      "slackGroup": "@mhv-vagov-dev",
+      "slackChannel": "C05DFSM57FW"
     },
     {
       "rootFolder": "_mock-form",
@@ -215,7 +235,8 @@
     },
     {
       "rootFolder": "pensions",
-      "slackGroup": "<@U05UWBJ0LC8> <@U02JAL36LG3> <@UN2J9UE1L>"
+      "slackGroup": "<@U05UWBJ0LC8> <@U02JAL36LG3> <@UN2J9UE1L>",
+      "slackChannel": "C090CFCVATW"
     },
     {
       "rootFolder": "personalization",
@@ -228,11 +249,13 @@
     },
     {
       "rootFolder": "pre-need",
-      "slackGroup": "<@UJBTZN4RG> <@U04LYEY3B9C>"
+      "slackGroup": "<@UJBTZN4RG> <@U04LYEY3B9C>",
+      "slackChannel": "C06C6CAG3DG"
     },
     {
       "rootFolder": "pre-need-integration",
-      "slackGroup": "<@UJBTZN4RG> <@U04LYEY3B9C>"
+      "slackGroup": "<@UJBTZN4RG> <@U04LYEY3B9C>",
+      "slackChannel": "C06C6CAG3DG"
     },
     {
       "rootFolder": "proxy-rewrite",
@@ -244,7 +267,8 @@
     },
     {
       "rootFolder": "rated-disabilities",
-      "slackGroup": "@benefits-management-tools-team-2 @benefits-management-tools-team-1"
+      "slackGroup": "@benefits-management-tools-team-2 @benefits-management-tools-team-1",
+      "slackChannel": "C090ZRQHRL5"
     },
     {
       "rootFolder": "representative-appoint",
@@ -292,7 +316,8 @@
     },
     {
       "rootFolder": "terms-of-use",
-      "slackGroup": "<@U018M85FA2K> <@U04M52Y7VFU>"
+      "slackGroup": "<@U018M85FA2K> <@U04M52Y7VFU>",
+      "slackChannel": "C02SBFQ22RL"
     },
     {
       "rootFolder": "toe",
@@ -300,7 +325,8 @@
     },
     {
       "rootFolder": "travel-pay",
-      "slackGroup": "<@U01NU8D1Q5B> <@U0894STJS9F> <@U06059URY69>"
+      "slackGroup": "<@U01NU8D1Q5B> <@U0894STJS9F> <@U06059URY69>",
+      "slackChannel": "C05UTPZRZFY"
     },
     {
       "rootFolder": "user-testing",
@@ -312,7 +338,8 @@
     },
     {
       "rootFolder": "verify",
-      "slackGroup": "<@U03MR6MK08Z> <@U018M85FA2K>"
+      "slackGroup": "<@U03MR6MK08Z> <@U018M85FA2K>",
+      "slackChannel": "C02SBFQ22RL"
     },
     {
       "rootFolder": "verify-your-enrollment",
@@ -324,7 +351,8 @@
     },
     {
       "rootFolder": "virtual-agent",
-      "slackGroup": "<@U022GNYPJ1L>"
+      "slackGroup": "<@U022GNYPJ1L>",
+      "slackChannel": "C088VHR0GTS"
     },
     {
       "rootFolder": "vre",
@@ -333,6 +361,34 @@
     {
       "rootFolder": "yellow-ribbon",
       "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "21-2680-house-bound-status",
+      "slackGroup": "@benefits-optimization-aquia",
+      "slackChannel": "C09FWT9U1JP",
+      "continuousDeployment": false
+    },
+    {
+      "rootFolder": "21-4192-employment-information",
+      "slackGroup": "@benefits-optimization-aquia",
+      "slackChannel": "C09FWT9U1JP",
+      "continuousDeployment": false
+    },
+    {
+      "rootFolder": "21-0779-nursing-home-information",
+      "slackGroup": "@benefits-optimization-aquia",
+      "slackChannel": "C09FWT9U1JP",
+      "continuousDeployment": false
+    },
+    {
+      "rootFolder": "21p-530a-interment-allowance",
+      "slackGroup": "@benefits-optimization-aquia",
+      "slackChannel": "C09FWT9U1JP",
+      "continuousDeployment": false
+    },
+    {
+      "rootFolder": "vass",
+      "slackGroup": "@check-in-fe"
     }
   ]
 }

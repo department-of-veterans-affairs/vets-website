@@ -1,4 +1,6 @@
 {
+  "vaDependentsNetWorthAndPension": false,
+  "view:householdIncome": true,
   "householdIncome": false,
   "reportDivorce": {
     "spouseIncome": "NA",
@@ -111,7 +113,8 @@
       "ssn": "796330625",
       "birthDate": "1976-06-09",
       "ssnLastFour": "0625",
-      "vaFileLastFour": "0625"
+      "vaFileLastFour": "0625",
+      "isInReceiptOfPension": -1
     },
   "statementOfTruthSignature": "Pauline E Foster",
   "statementOfTruthCertified": true,

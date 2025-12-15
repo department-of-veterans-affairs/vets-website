@@ -1,10 +1,11 @@
 import _ from 'platform/utilities/data';
 import {
-  PTSD_INCIDENT_ITERATION,
-  PTSD_CHANGE_LABELS,
   ATTACHMENT_KEYS,
   causeTypes,
   disabilityActionTypes,
+  NEW_CONDITION_OPTION,
+  PTSD_INCIDENT_ITERATION,
+  PTSD_CHANGE_LABELS,
 } from '../constants';
 
 import {
@@ -61,18 +62,6 @@ export function customReplacer(key, value) {
 }
 
 /**
- * Cycles through the list of provider facilities and performs transformations on each property as needed
- * @param {array} providerFacilities array of objects being transformed
- * @returns {array} containing the new Provider Facility structure
- */
-export function transformProviderFacilities(providerFacilities) {
-  return providerFacilities.map(facility => ({
-    ...facility,
-    treatmentDateRange: [facility.treatmentDateRange],
-  }));
-}
-
-/**
  * Returns an array of disabilities pulled from ratedDisabilities, newDisabilities, newPrimaryDisabilities and newSecondaryDisabilities
  * @param {object} formData
  */
@@ -121,6 +110,23 @@ export const setActionType = disability =>
     ? _.set('disabilityActionType', disabilityActionTypes.INCREASE, disability)
     : _.set('disabilityActionType', disabilityActionTypes.NONE, disability);
 
+const norm = str => (str || '').trim().toLowerCase();
+
+const collectSelectedNamesFromNewDisabilities = formData => {
+  const picked = new Set();
+  const list = formData?.newDisabilities || [];
+  for (const newDisability of list) {
+    // For "increase on rated condition", UI stores: { ratedDisability: '<name>' }
+    const name = newDisability?.ratedDisability || null;
+
+    // Ignore "new condition" sentinel and empties
+    if (name && name !== NEW_CONDITION_OPTION) {
+      picked.add(norm(name));
+    }
+  }
+  return picked;
+};
+
 /**
  * Sets disabilityActionType for rated disabilities to either INCREASE (for
  * selected disabilities) or NONE (for unselected disabilities)
@@ -130,17 +136,139 @@ export const setActionType = disability =>
  * exist
  */
 export const setActionTypes = formData => {
-  const { ratedDisabilities } = formData;
-
-  if (ratedDisabilities) {
-    return _.set(
-      'ratedDisabilities',
-      ratedDisabilities.map(setActionType),
-      formData,
-    );
+  const rated = formData?.ratedDisabilities || [];
+  if (!rated.length) {
+    return _.cloneDeep(formData);
   }
 
-  return _.cloneDeep(formData);
+  const selectedNames = collectSelectedNamesFromNewDisabilities(formData);
+  const useFallback = selectedNames.size === 0;
+
+  const mapped = rated.map(data => {
+    let candidate;
+
+    if (!useFallback) {
+      if (selectedNames.has(norm(data.name))) {
+        candidate = { ...data, 'view:selected': true };
+      } else {
+        candidate = { ...data, 'view:selected': undefined };
+      }
+    } else {
+      candidate = data;
+    }
+
+    return setActionType(candidate);
+  });
+
+  return _.set('ratedDisabilities', mapped, formData);
+};
+
+/* At time of submission, the newDisabilities object also contains
+rated disabilities. These rated disabilities that have been selected
+for increase must be removed from the newDisabilities object and
+added to the ratedDisabilities object. This transformation is needed
+in order for the form to successfully submit.
+*/
+const isRatedDisabilityCondition = v => norm(v) === 'rated disability';
+
+export const normalizeIncreases = formData => {
+  if (!formData?.disabilityCompNewConditionsWorkflow) return formData;
+
+  const rated = Array.isArray(formData?.ratedDisabilities)
+    ? formData.ratedDisabilities.map(r => ({ ...r }))
+    : [];
+
+  const indexByName = new Map(rated.map((r, i) => [norm(r.name), i]));
+
+  const listKeys = ['newDisabilities', 'newPrimaryDisabilities'];
+  const survivors = { newDisabilities: [], newPrimaryDisabilities: [] };
+
+  for (const key of listKeys) {
+    const list = Array.isArray(formData[key]) ? formData[key] : [];
+    for (const row of list) {
+      // eslint-disable-next-line no-continue
+      if (!row) continue;
+
+      const condIsRated = isRatedDisabilityCondition(row.condition);
+      const nameMatchesRated =
+        typeof row.ratedDisability === 'string' &&
+        indexByName.has(norm(row.ratedDisability));
+
+      if (condIsRated || nameMatchesRated) {
+        if (nameMatchesRated) {
+          const idx = indexByName.get(norm(row.ratedDisability));
+          const target = rated[idx];
+          target['view:selected'] = true;
+          target.disabilityActionType = 'INCREASE';
+          if (row.conditionDate && !target.approximateDate) {
+            target.approximateDate = row.conditionDate;
+          }
+        }
+        // eslint-disable-next-line no-continue
+        continue;
+      }
+
+      survivors[key].push(row);
+    }
+  }
+
+  const out = { ...formData, ratedDisabilities: rated };
+  for (const key of listKeys) {
+    if (survivors[key].length) out[key] = survivors[key];
+    else if (key in out) delete out[key];
+  }
+  return out;
+};
+
+export const sanitizeNewDisabilities = formData => {
+  if (!formData?.disabilityCompNewConditionsWorkflow) return formData;
+
+  const out = { ...formData };
+
+  const clean = key => {
+    if (!Array.isArray(out[key])) return;
+    const filtered = out[key].filter(r => r && r.condition && r.cause);
+    if (filtered.length) out[key] = filtered;
+    else delete out[key];
+  };
+
+  clean('newDisabilities');
+  clean('newPrimaryDisabilities');
+
+  return out;
+};
+
+export const removeRatedDisabilityFromNew = formData => {
+  const out = { ...formData };
+  const rated = Array.isArray(out.ratedDisabilities)
+    ? out.ratedDisabilities
+    : [];
+  const ratedNameSet = new Set(rated.map(r => norm(r.name)));
+
+  const keys = [
+    'newDisabilities',
+    'newPrimaryDisabilities',
+    'newSecondaryDisabilities',
+  ];
+  for (const key of keys) {
+    // eslint-disable-next-line no-continue
+    if (!Array.isArray(out[key])) continue;
+
+    const filtered = out[key].filter(r => {
+      const condIsRated =
+        typeof r?.condition === 'string' &&
+        isRatedDisabilityCondition(r.condition);
+      const nameMatchesRated =
+        typeof r?.ratedDisability === 'string' &&
+        ratedNameSet.has(norm(r.ratedDisability));
+      // Drop only true increases
+      return !(condIsRated || nameMatchesRated);
+    });
+
+    if (filtered.length) out[key] = filtered;
+    else delete out[key];
+  }
+  return out;
 };
 
 /**
@@ -164,7 +292,6 @@ export function transformRelatedDisabilities(
       // name should already be lower-case, but just in case...no pun intended
       claimedName => sippableId(claimedName) === name.toLowerCase(),
     );
-
   return (
     Object.keys(conditionContainer)
       // The check box is checked
@@ -176,6 +303,26 @@ export function transformRelatedDisabilities(
   );
 }
 
+/**
+ * Cycles through the list of provider facilities and performs transformations on each property as needed
+ * @param {array} providerFacilities array of objects being transformed
+ * @returns {array} containing the new Provider Facility structure
+ */
+export function transformProviderFacilities(providerFacilities, clonedData) {
+  // This map transforms treatedDisabilityNames back into the original condition names from the sippableIds
+  return providerFacilities.map(facility => {
+    const disabilityNames = transformRelatedDisabilities(
+      facility.treatedDisabilityNames || [],
+      getClaimedConditionNames(clonedData, false),
+    );
+
+    return {
+      ...facility,
+      treatedDisabilityNames: disabilityNames,
+      treatmentDateRange: [facility.treatmentDateRange],
+    };
+  });
+}
 export const removeExtraData = formData => {
   // EVSS no longer accepts some keys
   const ratingKeysToRemove = [
@@ -195,7 +342,10 @@ export const removeExtraData = formData => {
         return acc;
       }, {}),
     );
+  } else {
+    delete clonedData.ratedDisabilities;
   }
+
   return clonedData;
 };
 
@@ -346,14 +496,26 @@ export const addForm4142 = formData => {
   if (!formData.providerFacility) {
     return formData;
   }
+
+  // Flipper was on at submission time
+  const completed2024Form = formData?.disability526Enable2024Form4142 === true;
+
+  // If the 2024 form was completed but they revoke auth at some point and still somehow submit with the 4142 data
+  // protect against filling out the form
+  if (completed2024Form && formData?.patient4142Acknowledgement !== true) {
+    return formData;
+  }
+
   const clonedData = _.cloneDeep(formData);
   clonedData.form4142 = {
+    completed2024Form,
     ...(clonedData.limitedConsent && {
       limitedConsent: clonedData.limitedConsent,
     }),
     ...(clonedData.providerFacility && {
       providerFacility: transformProviderFacilities(
         clonedData.providerFacility,
+        clonedData,
       ),
     }),
   };

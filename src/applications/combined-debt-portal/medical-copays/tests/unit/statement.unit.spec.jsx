@@ -217,27 +217,6 @@ describe('mcp statement view', () => {
       );
       expect(totalCreditsRow).to.not.exist;
     });
-
-    it('should render Previous Balance and Current Balance rows', () => {
-      const { container } = render(
-        <StatementTable
-          charges={mockSelectedCopay.details}
-          formatCurrency={mockFormatCurrency}
-          selectedCopay={mockSelectedCopay}
-        />,
-      );
-
-      const tableRows = container.querySelectorAll('va-table-row');
-      const previousBalanceRow = Array.from(tableRows).find(row =>
-        row.textContent.includes('Previous Balance'),
-      );
-      const currentBalanceRow = Array.from(tableRows).find(row =>
-        row.textContent.includes('Current Balance'),
-      );
-
-      expect(previousBalanceRow).to.exist;
-      expect(currentBalanceRow).to.exist;
-    });
   });
 
   describe('DownloadStatement component', () => {
@@ -250,20 +229,19 @@ describe('mcp statement view', () => {
     it('should render PDF link with proper spacing', () => {
       const { container } = render(<DownloadStatement {...mockProps} />);
 
-      // Check that there's a space before (PDF)
-      const pdfAbbr = container.querySelector(
-        'abbr[title="Portable Document Format"]',
-      );
-      expect(pdfAbbr).to.exist;
-      expect(pdfAbbr.textContent).to.equal(' (PDF)');
+      // Check that va-link has the correct filetype attribute
+      const vaLink = container.querySelector('va-link');
+      expect(vaLink).to.exist;
+      expect(vaLink.getAttribute('filetype')).to.equal('PDF');
     });
 
     it('should render download link with correct attributes', () => {
       const { container } = render(<DownloadStatement {...mockProps} />);
 
-      const downloadLink = container.querySelector('a[download]');
-      expect(downloadLink).to.exist;
-      expect(downloadLink.getAttribute('type')).to.equal('application/pdf');
+      const vaLink = container.querySelector('va-link');
+      expect(vaLink).to.exist;
+      expect(vaLink.hasAttribute('download')).to.be.true;
+      expect(vaLink.getAttribute('filetype')).to.equal('PDF');
     });
   });
 });

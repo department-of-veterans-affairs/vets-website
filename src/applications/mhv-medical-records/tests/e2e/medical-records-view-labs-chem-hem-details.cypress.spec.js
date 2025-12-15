@@ -1,13 +1,19 @@
-import moment from 'moment';
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import LabsAndTestsListPage from './pages/LabsAndTestsListPage';
 import ChemHemDetailsPage from './pages/ChemHemDetailsPage';
 import labsAndTests from './fixtures/labs-and-tests/labsAndTests.json';
+import { formatDateMonthDayCommaYear } from '../../util/dateHelpers';
 
 describe('Medical Records View Labs And Tests', () => {
-  it('Visits Medical Records View Labs And Tests Details', () => {
-    const site = new MedicalRecordsSite();
+  const site = new MedicalRecordsSite();
+
+  beforeEach(() => {
     site.login();
+  });
+
+  it('Visits Medical Records View Labs And Tests Details', () => {
+    // const site = new MedicalRecordsSite();
+    // site.login();
     LabsAndTestsListPage.goToLabsAndTests();
     const record = labsAndTests.entry[1].resource;
     LabsAndTestsListPage.clickLabsAndTestsDetailsLink(3, labsAndTests.entry[1]);
@@ -15,8 +21,8 @@ describe('Medical Records View Labs And Tests', () => {
       record.contained[4].code.coding[1].display,
     );
     ChemHemDetailsPage.verifyLabDate(
-      moment(record.contained[0].collection.collectedDateTime).format(
-        'MMMM D, YYYY',
+      formatDateMonthDayCommaYear(
+        record.contained[0].collection.collectedDateTime,
       ),
     );
     ChemHemDetailsPage.verifySampleTested(record.contained[0].type.text);

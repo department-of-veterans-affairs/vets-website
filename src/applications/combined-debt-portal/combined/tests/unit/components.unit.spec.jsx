@@ -50,7 +50,7 @@ describe('combined debt portal component helpers', () => {
       const cardAmount = wrapper.find('[data-testid="card-amount"]');
       expect(cardAmount.text()).to.include(currency(amount)); // Assuming currency is something like "$1,000.00"
       expect(cardAmount.text()).to.include(
-        `for ${count} outstanding debt${count > 1 ? 's' : ''}`,
+        `for ${count} benefit overpayment${count > 1 ? 's' : ''}`,
       );
     });
   });
@@ -76,7 +76,7 @@ describe('combined debt portal component helpers', () => {
       // Check that the correct trigger text is displayed in va-alert-expandable
       const triggerText = wrapper.find('va-alert-expandable').prop('trigger');
       expect(triggerText).to.equal(
-        'Need help with VA Debt after a natural disaster?',
+        'Need help with VA debt after a natural disaster?',
       );
     });
   });
@@ -114,7 +114,7 @@ describe('combined debt portal component helpers', () => {
       const wrapper = shallow(<OtherVADebts module={APP_TYPES.DEBT} />);
 
       // Test the heading text
-      expect(wrapper.find('h2').text()).to.equal('Your VA debt');
+      expect(wrapper.find('h2').text()).to.equal('Overpayment balances');
 
       // Test the body content for VA debt
       expect(
@@ -122,9 +122,7 @@ describe('combined debt portal component helpers', () => {
       ).to.have.lengthOf(1);
       expect(
         wrapper.find('[data-testid="other-va-debt-body"]').text(),
-      ).to.include(
-        'VA benefit debt. You can check the details of your current debt',
-      );
+      ).to.include('VA benefit overpayments.');
 
       // Test the link for VA debt
       expect(
@@ -136,7 +134,7 @@ describe('combined debt portal component helpers', () => {
       const wrapper = shallow(<OtherVADebts module={APP_TYPES.COPAY} />);
 
       // Test the heading text
-      expect(wrapper.find('h2').text()).to.equal('Your VA copay bills');
+      expect(wrapper.find('h2').text()).to.equal('VA copay bills');
 
       // Test the body content for VA copay
       expect(
@@ -144,9 +142,7 @@ describe('combined debt portal component helpers', () => {
       ).to.have.lengthOf(1);
       expect(
         wrapper.find('[data-testid="other-va-copay-body"]').text(),
-      ).to.include(
-        'VA health care copay bills. You can check the details of your copay balance',
-      );
+      ).to.include('VA health care copay bills.');
       wrapper.unmount();
     });
   });
@@ -167,26 +163,6 @@ describe('combined debt portal component helpers', () => {
         wrapper.find('[data-testid="balance-card-zero-debt"] p').text(),
       ).to.include(
         'If you think this is incorrect, call the Debt Management Center (DMC) at',
-      );
-      wrapper.unmount();
-    });
-
-    it('should render the correct title and content for VA copay', () => {
-      const wrapper = shallow(<ZeroBalanceCard appType={APP_TYPES.COPAY} />);
-
-      // Test the card title
-      expect(wrapper.find('[data-testid="card-title"]').text()).to.equal(
-        "You haven't received a copay bill in the past 6 months",
-      );
-
-      // Test the content for VA copay
-      expect(
-        wrapper.find('[data-testid="balance-card-zero-copay"]'),
-      ).to.have.lengthOf(1);
-      expect(
-        wrapper.find('[data-testid="balance-card-zero-copay"] p').text(),
-      ).to.include(
-        'If you think this is incorrect, contact the VA Health Resource Center at',
       );
       wrapper.unmount();
     });

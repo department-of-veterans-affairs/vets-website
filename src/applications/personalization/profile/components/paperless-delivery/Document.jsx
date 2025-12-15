@@ -46,7 +46,7 @@ export const Document = ({ document }) => {
   });
 
   const handleChange = e => {
-    const newValue = e.target.checked;
+    const newValue = e.detail.checked;
     if (newValue === isAllowed) {
       return;
     }
@@ -76,7 +76,6 @@ export const Document = ({ document }) => {
       <VaCheckbox
         checked={checked}
         className={checkboxClassName}
-        disabled={loading}
         id={`paperless-checkbox-${item.name}`}
         label={item.name}
         onVaChange={handleChange}

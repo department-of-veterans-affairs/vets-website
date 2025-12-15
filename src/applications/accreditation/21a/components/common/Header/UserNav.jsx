@@ -1,71 +1,51 @@
 import React from 'react';
-import { Toggler } from 'platform/utilities/feature-toggles';
 import { SIGN_OUT_URL } from '../../../utilities/constants';
 import NavDropdown from './NavDropdown';
 
 const UserHelpLinks = () => {
   return (
     <>
-      <Toggler
-        toggleName={Toggler.TOGGLE_NAMES.accreditedRepresentativePortalSearch}
-      >
-        <Toggler.Enabled>
-          <li>
-            <a
-              data-testid="user-nav-poa-search-link"
-              className="vads-u-color--white"
-              href="/representative/claimant-search"
-              data-eventname="nav-link-click"
-            >
-              <va-icon icon="search" size={2} className="people-search-icon" />
-              Find Claimant
-            </a>
-          </li>
-        </Toggler.Enabled>
-      </Toggler>
       <li>
         <a
-          data-testid="user-nav-poa-requests-link"
+          data-testid="user-nav-poa-search-link"
           className="vads-u-color--white"
-          href="/representative/poa-requests"
+          href="/representative/find-claimant"
+          data-eventname="nav-link-click"
+        >
+          <va-icon icon="search" size={2} className="people-search-icon" />
+          Find Claimant
+        </a>
+      </li>
+      <li>
+        <a
+          data-testid="user-nav-representation-requests-link"
+          className="vads-u-color--white"
+          href="/representative/representation-requests"
           data-eventname="nav-link-click"
         >
           Representation Requests
         </a>
       </li>
-      <Toggler
-        toggleName={
-          Toggler.TOGGLE_NAMES.accreditedRepresentativePortalSubmissions
-        }
-      >
-        <li>
-          <Toggler.Enabled>
-            <a
-              data-testid="submissions-link"
-              className="vads-u-color--white"
-              href="/representative/submissions"
-            >
-              Submissions
-            </a>
-          </Toggler.Enabled>
-        </li>
-      </Toggler>
-      <Toggler
-        toggleName={Toggler.TOGGLE_NAMES.accreditedRepresentativePortalHelp}
-      >
-        <Toggler.Enabled>
-          <li>
-            <a
-              data-testid="user-nav-profile-link"
-              className="vads-u-color--white"
-              href="/representative/get-help"
-              data-eventname="nav-link-click"
-            >
-              Get Help
-            </a>
-          </li>
-        </Toggler.Enabled>
-      </Toggler>
+      <li>
+        <a
+          data-testid="submissions-link"
+          className="vads-u-color--white"
+          href="/representative/submissions"
+        >
+          Submissions
+        </a>
+      </li>
+
+      <li>
+        <a
+          data-testid="user-nav-help-link"
+          className="vads-u-color--white"
+          href="/representative/get-help"
+          data-eventname="nav-link-click"
+        >
+          Get Help
+        </a>
+      </li>
     </>
   );
 };
@@ -73,22 +53,6 @@ const UserHelpLinks = () => {
 const UserNavLinks = () => {
   return (
     <>
-      <Toggler
-        toggleName={Toggler.TOGGLE_NAMES.accreditedRepresentativePortalProfile}
-      >
-        <Toggler.Enabled>
-          <li>
-            <a
-              data-testid="user-nav-profile-link"
-              className="vads-u-color--black"
-              href="/representative/profile"
-              data-eventname="nav-link-click"
-            >
-              Profile
-            </a>
-          </li>
-        </Toggler.Enabled>
-      </Toggler>
       <li>
         <a
           data-testid="user-nav-sign-out-link"

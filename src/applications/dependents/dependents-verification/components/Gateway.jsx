@@ -7,8 +7,20 @@ import VerifyAlert from 'platform/user/authorization/components/VerifyAlert';
 // import { setData } from 'platform/forms-system/exportsFile';
 import { isLOA3, isLoggedIn } from 'platform/user/selectors';
 
-import { fetchDependents } from '../actions';
+import { fetchDependents } from '../../shared/actions';
+import manifest from '../manifest.json';
+import { getRootParentUrl } from '../../shared/utils';
 
+/**
+ * Gateway Component fetches dependents and displays appropriate messaging
+ * @typedef {object} GatewayProps
+ * @property {object} route - form route information
+ * @property {boolean} top - whether to render different information depending
+ * on the part of the page
+ *
+ * @param {GatewayProps} props - Component props
+ * @returns {React.Component} - Gateway component
+ */
 const Gateway = ({ route, top = false }) => {
   const userLoggedIn = useSelector(state => isLoggedIn(state));
   const userIdVerified = useSelector(state => isLOA3(state));
@@ -82,7 +94,7 @@ const Gateway = ({ route, top = false }) => {
           </h2>
           <p>We can’t find any dependents added to your disability award.</p>
           <va-link
-            href="/view-change-dependents"
+            href={getRootParentUrl(manifest.rootUrl)}
             text="Find out how to add a dependent to your disability claim"
           />
         </va-alert>

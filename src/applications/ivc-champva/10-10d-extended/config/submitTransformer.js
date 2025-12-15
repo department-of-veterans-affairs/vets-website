@@ -2,11 +2,10 @@
 import { transformForSubmit as formsSystemTransformForSubmit } from 'platform/forms-system/src/js/helpers';
 import {
   adjustYearString,
-  concatStreets,
-  getAgeInYears,
   getObjectsWithAttachmentId,
   toHash,
 } from '../../shared/utilities';
+import { concatStreets, getAgeInYears } from '../helpers/utilities';
 
 /**
  * Formats a date string from YYYY-MM-DD to MM-DD-YYYY
@@ -64,7 +63,7 @@ function transformApplicants(applicants = []) {
   return applicants.map(applicant => {
     const transformedApplicant = {
       ...applicant,
-      ssnOrTin: applicant.applicantSSN ?? '',
+      ssnOrTin: applicant.applicantSsn ?? '',
       vetRelationship: extractRelationship(
         applicant.applicantRelationshipToSponsor || 'NA',
       ),
@@ -89,7 +88,10 @@ function transformApplicants(applicants = []) {
  * @param {Object} data - Form data
  * @returns {Object} Data with policies mapped to applicants
  */
-function mapHealthInsuranceToApplicants(data) {
+function mapHealthInsuranceToApplicants(
+  data,
+  advantageParticipants = new Set(),
+) {
   // Create a deep copy to avoid mutations
   const result = JSON.parse(JSON.stringify(data));
 
@@ -98,12 +100,20 @@ function mapHealthInsuranceToApplicants(data) {
     result.applicants
       .filter(
         applicant =>
-          plan.medicareParticipant === toHash(applicant.applicantSSN),
+          plan.medicareParticipant === toHash(applicant.applicantSsn),
       )
       .forEach(applicant => {
         // Initialize Medicare array if it doesn't exist
         applicant.medicare = applicant.medicare || [];
-        applicant.applicantMedicareAdvantage = plan.medicarePlanType === 'c';
+        const planType = String(plan?.medicarePlanType ?? '')
+          .trim()
+          .toLowerCase();
+        const isAdvantage =
+          planType === 'c' ||
+          advantageParticipants.has(plan?.medicareParticipant) ||
+          Boolean(plan?.medicarePartCCarrier);
+        applicant.applicantMedicareAdvantage =
+          Boolean(applicant.applicantMedicareAdvantage) || isAdvantage;
         // original 10-10d form produces this medicareStatus field, so we need
         // it to fill the PDF on the backend
         applicant.applicantMedicareStatus = { eligibility: 'enrolled' };
@@ -118,7 +128,7 @@ function mapHealthInsuranceToApplicants(data) {
 
     result.applicants
       .filter(applicant =>
-        participantHashes.includes(toHash(applicant.applicantSSN)),
+        participantHashes.includes(toHash(applicant.applicantSsn)),
       )
       .forEach(applicant => {
         // Initialize health insurance array
@@ -142,7 +152,12 @@ function mapHealthInsuranceToApplicants(data) {
   // Add current date
   // eslint-disable-next-line prefer-destructuring
   result.certificationDate = new Date().toISOString().split('T')[0];
-  return result;
+
+  // Ensure veteran object is preserved in the result
+  return {
+    ...result,
+    veteran: data.veteran,
+  };
 }
 
 /**
@@ -190,7 +205,6 @@ function collectSupportingDocuments(data) {
  * @returns {string} JSON string of transformed data
  */
 export default function transformForSubmit(formConfig, form) {
-  // First transform using the forms-system transformer
   const initialTransform = JSON.parse(
     formsSystemTransformForSubmit(formConfig, form),
   );
@@ -198,9 +212,9 @@ export default function transformForSubmit(formConfig, form) {
   // Concat streets for addresses
   const withConcatAddresses = {
     ...initialTransform,
-    sponsorAddress: initialTransform.sponsorAddress
-      ? concatStreets(initialTransform.sponsorAddress)
-      : initialTransform.sponsorAddress,
+    sponsorAddress: form.data.sponsorAddress
+      ? concatStreets(form.data.sponsorAddress)
+      : form.data.sponsorAddress,
     certifierAddress: initialTransform.certifierAddress
       ? concatStreets(initialTransform.certifierAddress)
       : initialTransform.certifierAddress,
@@ -242,6 +256,7 @@ export default function transformForSubmit(formConfig, form) {
     ssnOrTin: withConcatAddresses.sponsorSsn || '',
     dateOfBirth: formatDate(withConcatAddresses.sponsorDob) || '',
     phoneNumber: withConcatAddresses.sponsorPhone || '',
+    email: withConcatAddresses.sponsorEmail || '',
     address: withConcatAddresses.sponsorAddress || {},
     sponsorIsDeceased: withConcatAddresses.sponsorIsDeceased,
     dateOfDeath: formatDate(withConcatAddresses.sponsorDOD) || '',
@@ -260,13 +275,28 @@ export default function transformForSubmit(formConfig, form) {
   };
 
   // Apply OHI transformation and collect supporting documents
-  const transformedData = mapHealthInsuranceToApplicants(initialData);
+  const advantageParticipants = new Set(
+    (form?.data?.medicare || [])
+      .filter(
+        p =>
+          String(p?.medicarePlanType ?? '')
+            .trim()
+            .toLowerCase() === 'c',
+      )
+      .map(p => p?.medicareParticipant)
+      .filter(Boolean),
+  );
+  const transformedData = mapHealthInsuranceToApplicants(
+    initialData,
+    advantageParticipants,
+  );
   transformedData.supportingDocs = collectSupportingDocuments(transformedData);
 
   // Check if any applicants are over 65
-  transformedData.hasApplicantOver65 = transformedData.applicants.some(
-    applicant => getAgeInYears(applicant.applicantDob) >= 65,
-  );
+  transformedData.hasApplicantOver65 = transformedData.applicants.some(a => {
+    const age = getAgeInYears(a.applicantDob);
+    return Number.isFinite(age) && age >= 65;
+  });
 
   // Add certifier data
   transformedData.certifierRole = withConcatAddresses.certifierRole;

@@ -6,7 +6,8 @@ import {
 export const uiSchema = {
   'view:addOrRemoveDependents': {
     ...checkboxGroupUI({
-      title: 'What would you like to do? Check everything that you want to do.',
+      title: 'What would you like to do?',
+      hint: 'Select all that apply.',
       required: true,
       labelHeaderLevel: '3',
       tile: true,
@@ -25,6 +26,6 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    'view:addOrRemoveDependents': checkboxGroupSchema(['add', 'remove']),
+    'view:addOrRemoveDependents': checkboxGroupSchema(['remove', 'add']),
   },
 };

@@ -64,7 +64,7 @@ const FormSaved = props => {
             !!expirationDate && (
               <div className="saved-form-metadata-container">
                 <span className="saved-form-metadata">
-                  We saved your application on{' '}
+                  We saved your {appType} on{' '}
                   {format(lastSavedDate, "MMMM d, yyyy', at' h:mm aaaa z")}.
                 </span>
                 {expirationMessage || (

@@ -44,10 +44,8 @@ for (const featureSet of featureSets) {
       h.focusElement(h.CITY_STATE_ZIP_INPUT);
       h.findSelectInVaSelect(h.FACILITY_TYPE_DROPDOWN).focus();
 
+      h.submitSearchForm();
       h.errorMessageContains(addrErrorMessage);
-
-      h.typeInCityStateInput('A', true);
-      h.verifyElementDoesNotExist(h.SEARCH_FORM_ERROR_MESSAGE);
     });
 
     it('shows error message when leaving facility type field empty', () => {
@@ -110,7 +108,7 @@ for (const featureSet of featureSets) {
 
       h.verifyElementShouldContainString(
         h.SEARCH_RESULTS_SUMMARY,
-        /results.*Community providers.*Dentist - Orofacial Pain.*Austin, Texas/,
+        /(Showing|results).*Community providers.*Dentist - Orofacial Pain.*Austin, Texas/i,
       );
 
       h.clearInput(h.CCP_SERVICE_TYPE_INPUT);

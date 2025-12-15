@@ -16,8 +16,9 @@ import {
 } from '~/platform/user/selectors';
 
 import { LOADING_STATES } from '~/applications/personalization/common/constants';
+import { VaCheckboxGroup } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import NotificationChannel from './NotificationChannel';
-import { NotificationChannelCheckboxesFieldset } from './NotificationChannelCheckboxesFieldset';
+// import { NotificationChannelCheckboxesFieldset } from './NotificationChannelCheckboxesFieldset';
 import { useNotificationSettingsUtils } from '../../hooks';
 
 const getChannelsByItemId = (itemId, channelEntities) => {
@@ -44,17 +45,26 @@ const NotificationItem = ({ channelIds, itemName, description, itemId }) => {
     }
   })();
 
+  const mobilePhone = useSelector(state => selectVAPMobilePhone(state));
+
   // this is filtering all the channels that end with 1, which is the text channel
   // once the support for email is added, we'll need to remove this filter along with the feature toggle reliance
   const filteredChannels = useMemo(
     () => {
       return channelIds.filter(channelId => {
+        // Do not include texting to international
+        if (
+          channelId.endsWith(NOTIFICATION_CHANNEL_IDS.TEXT) &&
+          mobilePhone?.isInternational
+        ) {
+          return false;
+        }
         return emailNotificationsEnabled
           ? channelId
           : channelId.endsWith(NOTIFICATION_CHANNEL_IDS.TEXT);
       });
     },
-    [channelIds, emailNotificationsEnabled],
+    [channelIds, emailNotificationsEnabled, mobilePhone],
   );
 
   const channelsByItemId = useSelector(state =>
@@ -100,7 +110,6 @@ const NotificationItem = ({ channelIds, itemName, description, itemId }) => {
   );
 
   // need to do this otherwise we will see Appointment Reminder and Shipment item title only without any checkbox
-  const mobilePhone = useSelector(state => selectVAPMobilePhone(state));
   const shouldBlock =
     userHasAtLeastOneChannelContactInfo &&
     ((itemId === 'item3' && !aptReminderToggle) ||
@@ -109,17 +118,21 @@ const NotificationItem = ({ channelIds, itemName, description, itemId }) => {
 
   if (shouldBlock) return null;
 
+  // Ensure "empty `filterChannels`" will not render an empty fieldset wrapper
+  // This is its own condition since `userHasAtLeastOneChannelContactInfo`
+  // can still be true when filterChannels length is 0
+  if (filteredChannels.length === 0) {
+    return null;
+  }
+
   return (
     <>
       {userHasAtLeastOneChannelContactInfo ? (
-        <NotificationChannelCheckboxesFieldset
-          itemName={itemName}
+        <VaCheckboxGroup
+          label={itemName}
+          label-header-level="3"
           description={description}
-          channels={filteredChannels}
-          itemId={itemId}
-          hasSomeErrorUpdates={itemStatusIndicators.hasSomeErrorUpdates}
-          hasSomePendingUpdates={itemStatusIndicators.hasSomePendingUpdates}
-          hasSomeSuccessUpdates={itemStatusIndicators.hasSomeSuccessUpdates}
+          data-testid={`checkbox-group-${itemId}`}
         >
           {filteredChannels.map((channelId, index) => (
             <NotificationChannel
@@ -130,7 +143,7 @@ const NotificationItem = ({ channelIds, itemName, description, itemId }) => {
               itemName={itemName}
             />
           ))}
-        </NotificationChannelCheckboxesFieldset>
+        </VaCheckboxGroup>
       ) : null}
     </>
   );

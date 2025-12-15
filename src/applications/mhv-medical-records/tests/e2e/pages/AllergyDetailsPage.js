@@ -19,12 +19,7 @@ class AllergyDetailsPage extends BaseDetailsPage {
       `/my_health/v1/medical_records/allergies/${allergyId}`,
       allergyDetails,
     ).as('allergyDetails');
-    cy.get('[data-testid="record-list-item"]')
-      .contains(allergyTitle)
-      .should('be.visible');
-    cy.get('[data-testid="record-list-item"]')
-      .contains(allergyTitle)
-      .click();
+    cy.contains(allergyTitle, { includeShadowDom: false }).click();
   };
 
   verifyAllergyDetailReaction = reaction => {
@@ -73,7 +68,7 @@ class AllergyDetailsPage extends BaseDetailsPage {
     cy.get('[data-testid="mhv-sec-nav-item"]')
       .eq(4)
       .find('a')
-      .should('have.attr', 'href', '/my-health/medical-records');
+      .should('have.attr', 'href', '/my-health/medical-records/');
   };
 }
 export default new AllergyDetailsPage();

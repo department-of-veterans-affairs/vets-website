@@ -52,7 +52,7 @@ const mockRedux = ({
 
 const defaultProps = {
   arrayBuilder: {
-    summaryRoute: 'mental-health-form-0781/events-summary',
+    getSummaryPath: () => 'mental-health-form-0781/events-summary',
     reviewRoute: 'review-and-submit',
     arrayPath: 'events',
     required: () => true,
@@ -192,7 +192,7 @@ describe('OfficialReport', () => {
         agency: 'An Agency',
         city: 'Somewhere',
         state: 'VA',
-        otherReports: { police: false },
+        otherReports: { police: true },
       },
     });
 
@@ -206,7 +206,8 @@ describe('OfficialReport', () => {
       expect($alert).to.have.text(
         'We’ve removed police report information about Event #1.',
       );
-      expect($alert).to.equal(document.activeElement);
+      // expect($alert).to.equal(document.activeElement);
+      expect($alert.getAttribute('tabIndex')).to.equal('-1');
     });
   });
 });

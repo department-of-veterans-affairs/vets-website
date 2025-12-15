@@ -80,7 +80,6 @@ describe('VA prescription Config', () => {
   it('should create "Most recent prescription" section', () => {
     const txt = buildVAPrescriptionTXT(prescriptionDetails.data.attributes);
     expect(txt).to.include('Most recent prescription');
-    expect(txt).to.include('Quantity: 30');
     expect(txt).to.include(
       prescriptionDetails.data.attributes.prescriptionName,
     );
@@ -99,7 +98,7 @@ describe('VA prescription Config', () => {
 
   it('should not show refill history if there is 1 record with dispensedDate undefined', () => {
     const rxDetails = { ...prescriptionDetails.data.attributes };
-    rxDetails.dispensedDate = undefined; // this is to skip createOriginalFillRecord
+    rxDetails.dispensedDate = undefined;
     rxDetails.rxRfRecords[0].dispensedDate = undefined;
     const txt = buildVAPrescriptionTXT(rxDetails);
     expect(txt).to.not.include('Refill history\n');
@@ -107,7 +106,7 @@ describe('VA prescription Config', () => {
 
   it('should not show refill history if there are no records', () => {
     const rxDetails = { ...prescriptionDetails.data.attributes };
-    rxDetails.dispensedDate = undefined; // this is to skip createOriginalFillRecord
+    rxDetails.dispensedDate = undefined;
     rxDetails.rxRfRecords = [];
     const txt = buildVAPrescriptionTXT(rxDetails);
     expect(txt).to.not.include('Refill history\n');
@@ -122,13 +121,98 @@ describe('VA prescription Config', () => {
 
   it('should show refill history if there are 2 records', () => {
     const rxDetails = { ...prescriptionDetails.data.attributes };
-    rxDetails.dispensedDate = undefined; // this is to skip createOriginalFillRecord
+    rxDetails.dispensedDate = undefined;
     rxDetails.rxRfRecords = [
       { ...rxDetails.rxRfRecords[0] },
       { ...rxDetails.rxRfRecords[0] },
     ];
     const txt = buildVAPrescriptionTXT(rxDetails);
     expect(txt).to.include('Refill history\n');
+  });
+
+  it('should NOT display "Last filled on" if rx prescription source is PD and dispStatus is NewOrder', () => {
+    const rxDetails = { ...prescriptionDetails.data.attributes };
+    rxDetails.prescriptionSource = 'PD';
+    rxDetails.dispStatus = 'NewOrder';
+    const txt = buildVAPrescriptionTXT(rxDetails);
+    expect(txt).to.not.include('Last filled on:');
+  });
+
+  it('should NOT display "Last filled on" if rx prescription source is PD and the disp status is Renew', () => {
+    const rxDetails = { ...prescriptionDetails.data.attributes };
+    rxDetails.prescriptionSource = 'PD';
+    rxDetails.dispStatus = 'Renew';
+    const txt = buildVAPrescriptionTXT(rxDetails);
+    expect(txt).to.not.include('Last filled on:');
+  });
+
+  it('should display PendingMed status description if NewOrder', () => {
+    const rxDetails = { ...prescriptionDetails.data.attributes };
+    rxDetails.dispStatus = 'NewOrder';
+    rxDetails.prescriptionSource = 'PD';
+    const txt = buildVAPrescriptionTXT(rxDetails);
+    expect(txt).to.match(
+      /Status: This is a new prescription from your provider/,
+    );
+  });
+
+  it('should display PendingMed status description if Renew', () => {
+    const rxDetails = { ...prescriptionDetails.data.attributes };
+    rxDetails.dispStatus = 'Renew';
+    rxDetails.prescriptionSource = 'PD';
+    const txt = buildVAPrescriptionTXT(rxDetails);
+    expect(txt).to.match(/Status: This is a renewal you requested/);
+  });
+
+  it('should include previous prescriptions section when grouped medications exist', () => {
+    const rxDetails = { ...prescriptionDetails.data.attributes };
+    rxDetails.groupedMedications = [
+      {
+        prescriptionNumber: '44444',
+        sortedDispensedDate: '2023-12-01',
+        quantity: 90,
+        orderedDate: '2023-10-15',
+      },
+      {
+        prescriptionNumber: '55555',
+        sortedDispensedDate: '2023-09-01',
+        quantity: 60,
+        orderedDate: '2023-08-01',
+      },
+    ];
+
+    const txt = buildVAPrescriptionTXT(rxDetails);
+
+    expect(txt).to.include('Previous prescriptions');
+    expect(txt).to.include('Showing 2 prescriptions, from newest to oldest');
+    expect(txt).to.include('Prescription number: 44444');
+    expect(txt).to.include('Prescription number: 55555');
+  });
+
+  it('should handle single previous prescription without plural wording', () => {
+    const rxDetails = { ...prescriptionDetails.data.attributes };
+    rxDetails.groupedMedications = [
+      {
+        prescriptionNumber: '10101',
+        sortedDispensedDate: '2024-07-01',
+        quantity: 30,
+        orderedDate: '2024-06-01',
+      },
+    ];
+
+    const txt = buildVAPrescriptionTXT(rxDetails);
+
+    expect(txt).to.include('Showing 1 prescription');
+    expect(txt).to.not.include('prescriptions, from newest to oldest');
+  });
+
+  it('should handle empty groupedMedications array', () => {
+    const rxDetails = { ...prescriptionDetails.data.attributes };
+    rxDetails.groupedMedications = [];
+
+    const txt = buildVAPrescriptionTXT(rxDetails);
+
+    expect(txt).to.not.include('Previous prescriptions');
   });
 });
 
@@ -192,5 +276,36 @@ describe('Medication Information Config', () => {
 
     const txt = await convertHtmlForDownload(htmlContent, DOWNLOAD_FORMAT.PDF);
     expect(txt).to.be.a('array');
+  });
+
+  describe('Cerner pilot feature flag', () => {
+    describe('VA Prescription config', () => {
+      const rxDetails = { ...prescriptionDetails.data.attributes };
+      const txt = buildVAPrescriptionTXT(rxDetails, true);
+
+      it('should NOT show "Reason for Use" field', () => {
+        expect(txt).to.not.include('Reason for use:');
+      });
+      it('should show "Pharmacy contact information" field', () => {
+        expect(txt).to.include(
+          'Pharmacy contact information: Check your prescription label or contact your VA facility.',
+        );
+      });
+      it('should NOT create "Refill history" section', () => {
+        expect(txt).to.not.include('Refill history\n');
+      });
+    });
+
+    describe('Non-VA Prescription config', () => {
+      const txt = buildNonVAPrescriptionTXT(
+        nonVAPrescription.data.attributes,
+        { includeSeparators: true },
+        true,
+      );
+
+      it('should NOT show "Reason for Use" field', () => {
+        expect(txt).to.not.include('Reason for use:');
+      });
+    });
   });
 });

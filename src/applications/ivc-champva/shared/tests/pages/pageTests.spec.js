@@ -21,6 +21,7 @@ export const getProps = () => {
     mockStore: {
       getState: () => ({
         form: { data: {} },
+        user: { login: { currentlyLoggedIn: false } },
       }),
       subscribe: () => {},
       dispatch: () => ({

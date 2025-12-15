@@ -11,6 +11,17 @@ import {
   setVitalsList,
   reloadRecords,
 } from '../../actions/vitals';
+import error404 from '../fixtures/404.json';
+
+describe('unable to get vitals action because of server error', () => {
+  it("should Not Call Actions.Conditions.GET_UNIFIED_LIST when there's an error", () => {
+    mockApiRequest(error404, false);
+    const dispatch = sinon.spy();
+    return getVitals()(dispatch).then(() => {
+      expect(dispatch.secondCall.args[0].type).to.not.equal(Actions.Vitals.GET);
+    });
+  });
+});
 
 describe('Get vitals action', () => {
   it('should dispatch a get list action', () => {
@@ -25,6 +36,21 @@ describe('Get vitals action', () => {
         Actions.Refresh.CLEAR_INITIAL_FHIR_LOAD,
       );
       expect(dispatch.thirdCall.args[0].type).to.equal(Actions.Vitals.GET_LIST);
+    });
+  });
+
+  it('should dispatch a get unified list action when accelerating', () => {
+    const mockData = vitals;
+    mockApiRequest(mockData);
+    const dispatch = sinon.spy();
+    return getVitals(false, true, true)(dispatch).then(() => {
+      expect(dispatch.firstCall.args[0].type).to.equal(
+        Actions.Vitals.UPDATE_LIST_STATE,
+      );
+      // For the Unified list we don't clear the FHIR load so this is the second call
+      expect(dispatch.secondCall.args[0].type).to.equal(
+        Actions.Vitals.GET_UNIFIED_LIST,
+      );
     });
   });
 
@@ -74,6 +100,13 @@ describe('Get vital details action', () => {
     return getVitalDetails()(dispatch).then(() => {
       expect(typeof dispatch.firstCall.args[0]).to.equal('function');
     });
+  });
+
+  it('should dispatch an add alert action on error and not throw', async () => {
+    mockApiRequest(error404, false);
+    const dispatch = sinon.spy();
+    await getVitalDetails('vitalType', [])(dispatch);
+    expect(typeof dispatch.firstCall.args[0]).to.equal('function');
   });
 });
 

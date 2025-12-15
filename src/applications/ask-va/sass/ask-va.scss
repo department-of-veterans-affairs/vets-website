@@ -82,7 +82,6 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-  height: calc(1.5em * 1);
   line-height: 1.5;
   font-size: 16px;
 }
@@ -93,7 +92,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-  height: calc(1.2em * 2);
+  height: calc(1.2rem * 2);
   line-height: 1.5;
   font-size: 16px;
 }
@@ -104,7 +103,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-  height: calc(1.5em * 3);
+  height: calc(1.5rem * 3);
   line-height: 1.5;
   font-size: 16px;
 }
@@ -391,12 +390,8 @@ ul.react-tabs__tab-list {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 375px;
+  height: 100%;
   padding: 24px;
-
-  @include media($medium-screen) {
-    height: 365px;
-  }
 }
 
 .vacardCategory {
@@ -420,81 +415,28 @@ ul.react-tabs__tab-list {
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-  height: calc(1.5em * 3.75);
   line-height: 1.5;
   font-size: 16px;
   box-sizing: border-box;
   padding-top: 0px;
-  padding-bottom: 70px;
   margin-top: 0px;
-}
-
-.vacardSelectFilters {
-  display: flex;
-  flex-direction: row;
-  gap: 1rem;
-  flex: 1;
-  margin-bottom: 0;
-
-  @media screen and (max-width: $medium-screen) {
-    flex-direction: column;
-    margin-bottom: 1rem;
-  }
-
-  > div {
-    flex: 1;
-  }
-
-  > div:last-child {
-    flex: 2;
-  }
-}
-
-.filter-actions {
-  display: flex;
-  align-items: center;
-  margin-left: 1rem;
-  width: auto;
-  height: 40px;
-
-  @media screen and (max-width: $medium-screen) {
-    margin-left: 0;
-    margin-top: 1rem;
-    width: 100%;
-    height: auto;
-
-    va-button-pair {
-      width: 100%;
-
-      ::part(button-pair) {
-        display: flex !important;
-        flex-direction: row !important;
-        gap: 1rem;
-      }
-
-      ::part(button-container) {
-        flex: 1;
-        width: 50%;
-        margin: 0;
-      }
-
-      ::part(primary-button),
-      ::part(secondary-button) {
-        width: 100%;
-        margin: 0;
-      }
-    }
-  }
 }
 
 .filter-container {
   display: flex;
   flex-direction: row;
+  gap: 0.5rem;
   align-items: flex-end;
   margin-bottom: 1rem;
+  box-sizing: border-box;
+
+  > div {
+    flex: 1;
+  }
 
   @media screen and (max-width: $medium-screen) {
     flex-direction: column;
+    align-items: stretch;
   }
 }
 

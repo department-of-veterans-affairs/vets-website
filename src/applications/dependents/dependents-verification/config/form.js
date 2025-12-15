@@ -74,10 +74,10 @@ const formConfig = {
   scrollAndFocusTarget: focusH3,
   saveInProgress: {
     messages: {
-      inProgress: 'Your dependent-benefits form (21-0538) is in progress.',
+      inProgress: 'Your form is in progress',
       expired:
         'Your saved dependent-benefits form (21-0538) has expired. If you want to apply for dependent-benefits, please start a new form.',
-      saved: 'Your dependent-benefits form has been saved.',
+      saved: "We've saved your in-progress form",
     },
   },
   version: 0,

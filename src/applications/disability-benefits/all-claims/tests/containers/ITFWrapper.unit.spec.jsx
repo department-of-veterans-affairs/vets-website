@@ -3,12 +3,14 @@ import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 import sinon from 'sinon';
 import { merge } from 'lodash';
-import moment from 'moment';
 
 import { requestStates } from 'platform/utilities/constants';
 import { mockFetch } from 'platform/testing/unit/helpers';
 import { ITFWrapper } from '../../containers/ITFWrapper';
 import { itfStatuses } from '../../constants';
+
+import { parseDate, parseDateWithTemplate } from '../../utils/dates';
+import { daysFromToday } from '../../utils/dates/formatting';
 
 const fetchITF = sinon.spy();
 const createITF = sinon.spy();
@@ -162,9 +164,7 @@ describe('526 ITFWrapper', () => {
   });
 
   it('should submit a new ITF if the current ITF is expired', () => {
-    const expirationDate = moment()
-      .subtract(1, 'd')
-      .format();
+    const expirationDate = parseDateWithTemplate(daysFromToday(-1));
     const tree = shallow(
       <ITFWrapper {...defaultProps}>
         <p>Shouldn’t see me yet...</p>
@@ -228,9 +228,7 @@ describe('526 ITFWrapper', () => {
   });
 
   it('should render a success message for fetched ITF', () => {
-    const expirationDate = moment()
-      .add(1, 'd')
-      .format();
+    const expirationDate = parseDate(daysFromToday(1));
     const props = merge({}, defaultProps, {
       itf: {
         fetchCallState: requestStates.succeeded,
@@ -255,12 +253,8 @@ describe('526 ITFWrapper', () => {
   });
 
   it('should render a success message for newly created ITF', () => {
-    const expirationDate = moment()
-      .add(1, 'd')
-      .format();
-    const previousExpirationDate = moment()
-      .subtract(1, 'd')
-      .format();
+    const expirationDate = parseDate(daysFromToday(1));
+    const previousExpirationDate = parseDate(daysFromToday(-1));
     const props = merge({}, defaultProps, {
       itf: {
         fetchCallState: requestStates.succeeded,

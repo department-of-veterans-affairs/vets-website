@@ -6,7 +6,8 @@ import { VaLink } from '@department-of-veterans-affairs/component-library/dist/r
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import ProfilePageHeader from '../../containers/ProfilePageHeader';
 import SchoolLocations from './SchoolLocations';
-import CautionaryInformation from './CautionaryInformation';
+import CautionaryInformationLegacy from './CautionaryInformation';
+import CautionaryInformationUpdate from './CautionaryInformationUpdate';
 import JumpLink from './JumpLink';
 import ProfileSection from './ProfileSection';
 import ContactInformation from './ContactInformation';
@@ -52,6 +53,12 @@ export default function InstitutionProfile({
   const isShowRatingsToggle = useToggleValue(
     TOGGLE_NAMES.giComparisonToolShowRatings,
   );
+  const showNewCautionary = useToggleValue(
+    TOGGLE_NAMES.giComparisonToolCautionaryInfoUpdate,
+  );
+  const CautionaryInformationCmp = showNewCautionary
+    ? CautionaryInformationUpdate
+    : CautionaryInformationLegacy;
 
   let stars = false;
   let ratingCount = 0;
@@ -262,7 +269,7 @@ export default function InstitutionProfile({
         id="cautionary-information"
       >
         <CautionaryInformationLearMore />
-        <CautionaryInformation
+        <CautionaryInformationCmp
           institution={institution}
           showModal={showModal}
         />

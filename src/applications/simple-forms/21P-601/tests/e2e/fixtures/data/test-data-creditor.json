@@ -1,0 +1,54 @@
+{
+  "hasAlreadyFiled": false,
+  "hasUnpaidCreditors": false,
+  "veteranFullName": {
+    "first": "William",
+    "middle": "R",
+    "last": "Johnson"
+  },
+  "beneficiaryIsVeteran": true,
+  "beneficiaryDateOfDeath": "2024-02-20",
+  "claimantFullName": {
+    "first": "Funeral",
+    "middle": "",
+    "last": "Home LLC"
+  },
+  "claimantDateOfBirth": "1980-01-01",
+  "claimantAddress": {
+    "street": "789 Memorial Drive",
+    "street2": "Suite 100",
+    "city": "Richmond",
+    "state": "VA",
+    "country": "USA",
+    "postalCode": "23220"
+  },
+  "claimantPhone": "8045559999",
+  "claimantEmail": "billing@funeralhome.com",
+  "relationshipToDeceased": "creditor",
+  "wantsToWaiveSubstitution": true,
+  "survivors": false,
+  "claimingReimbursement": true,
+  "expenses": [
+    {
+      "provider": "Funeral home",
+      "expenseType": "Funeral",
+      "amount": 100
+    }
+  ],
+  "lastIllnessExpenses": 5000,
+  "burialExpenses": 10000,
+  "totalExpenses": 15000,
+  "amountPaidByVA": 0,
+  "amountPaidByOthers": 2000,
+  "netAmountDue": 13000,
+  "hasOtherDebts": false,
+  "estateBeingAdministered": false,
+  "remarks": "Funeral home seeking reimbursement for burial services provided. No surviving relatives found.",
+  "veteranIdentification": {
+    "ssn": "555667777",
+    "vaFileNumber": "55566777"
+  },
+  "claimantIdentification": {
+    "ssn": "111223333"
+  }
+}

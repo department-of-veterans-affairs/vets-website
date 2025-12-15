@@ -73,28 +73,28 @@ describe('VAOS Page: ClinicChoicePage', () => {
       store,
     });
 
-    // Then the primary header should have focus
-    const radioSelector = screen.container.querySelector('va-radio');
-    expect(radioSelector).to.exist;
-    expect(radioSelector).to.have.attribute(
-      'label',
-      'Which VA clinic would you like to go to?',
-    );
+    // Should show title
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: /Which VA clinic would you like to go to\?/,
+      }),
+    ).to.exist;
 
     // And the user should see radio buttons for each clinic
-    const radioOptions = screen.container.querySelectorAll('va-radio-option');
+    const radioOptions = screen.getAllByRole('radio');
     expect(radioOptions).to.have.lengthOf(3);
-    expect(radioOptions[0]).to.have.attribute('label', 'Green team clinic');
-    expect(radioOptions[1]).to.have.attribute('label', 'Red team clinic');
-    expect(radioOptions[2]).to.have.attribute(
-      'label',
-      'I need a different clinic',
-    );
+    await screen.findByLabelText(/Green team clinic/i);
+    await screen.findByLabelText(/Red team clinic/i);
+    await screen.findByLabelText(/I need a different clinic/i);
 
     // When the user continues
     userEvent.click(screen.getByText(/continue/i));
 
     // The user should stay on the page
+    expect(await screen.findByRole('alert')).to.contain.text(
+      'You must provide a response',
+    );
     expect(screen.history.push.called).to.be.false;
 
     await cleanup();
@@ -139,11 +139,7 @@ describe('VAOS Page: ClinicChoicePage', () => {
     });
 
     // And the user selected a clinic
-    const radioSelector = screen.container.querySelector('va-radio');
-    let changeEvent = new CustomEvent('selected', {
-      detail: { value: '983_309' },
-    });
-    radioSelector.__events.vaValueChange(changeEvent);
+    userEvent.click(screen.getByLabelText(/red team/i));
     userEvent.click(screen.getByText(/continue/i));
 
     await waitFor(() =>
@@ -151,10 +147,7 @@ describe('VAOS Page: ClinicChoicePage', () => {
     );
 
     // choosing the third option sends you to request flow
-    changeEvent = new CustomEvent('selected', {
-      detail: { value: 'NONE' },
-    });
-    radioSelector.__events.vaValueChange(changeEvent);
+    userEvent.click(screen.getByText(/need a different clinic/i));
     userEvent.click(screen.getByText(/continue/i));
 
     await waitFor(() =>
@@ -197,42 +190,26 @@ describe('VAOS Page: ClinicChoicePage', () => {
       store,
     });
 
-    // Then the primary header should have focus
-    const radioSelector = screen.container.querySelector('va-radio');
-    expect(radioSelector).to.exist;
-    expect(radioSelector).to.have.attribute(
-      'label',
-      'Would you like to make an appointment at Green team clinic?',
+    // Should show label
+    expect(screen.baseElement).to.contain.text(
+      'Would you like to make an appointment at Green team clinic',
     );
 
-    const radioOptions = screen.container.querySelectorAll('va-radio-option');
+    // Should display yes or no options
+    const radioOptions = screen.getAllByRole('radio');
     expect(radioOptions).to.have.lengthOf(2);
-    expect(radioOptions[0]).to.have.attribute(
-      'label',
-      'Yes, make my appointment here',
-    );
-    expect(radioOptions[1]).to.have.attribute(
-      'label',
-      'No, I need a different clinic',
-    );
+    await screen.findByLabelText(/Yes, make my appointment here/i);
+    await screen.findByLabelText(/No, I need a different clinic/i);
 
     // Yes should go to direct flow
-    let changeEvent = new CustomEvent('selected', {
-      detail: { value: '983_308' },
-    });
-    radioSelector.__events.vaValueChange(changeEvent);
-
+    userEvent.click(screen.getByText(/Yes, make my appointment here/i));
     userEvent.click(screen.getByText(/continue/i));
     await waitFor(() =>
       expect(screen.history.push.firstCall.args[0]).to.equal('preferred-date'),
     );
 
     // No sends you to the request flow
-    changeEvent = new CustomEvent('selected', {
-      detail: { value: 'NONE' },
-    });
-    radioSelector.__events.vaValueChange(changeEvent);
-
+    userEvent.click(screen.getByText(/No, I need a different clinic/i));
     userEvent.click(screen.getByText(/continue/i));
     await waitFor(() =>
       expect(screen.history.push.secondCall.args[0]).to.equal('va-request/'),
@@ -243,8 +220,8 @@ describe('VAOS Page: ClinicChoicePage', () => {
 
   it('should retain form data after page changes', async () => {
     // Arrange
-    const clinics = [
-      MockClinicResponse.createResponses([
+    const clinics = MockClinicResponse.createResponses({
+      clinics: [
         {
           id: '308',
           name: 'Green team clinic',
@@ -255,8 +232,8 @@ describe('VAOS Page: ClinicChoicePage', () => {
           name: 'Red team clinic',
           locationId: '983',
         },
-      ]),
-    ];
+      ],
+    });
 
     mockEligibilityFetches({
       siteId: '983',
@@ -280,11 +257,7 @@ describe('VAOS Page: ClinicChoicePage', () => {
     });
 
     // And the user selected a clinic
-    const radioSelector = screen.container.querySelector('va-radio');
-    const changeEvent = new CustomEvent('selected', {
-      detail: { value: '983_309' },
-    });
-    radioSelector.__events.vaValueChange(changeEvent);
+    userEvent.click(screen.getByLabelText(/Green team clinic/i));
     userEvent.click(screen.getByRole('button', { name: /Continue/i }));
 
     await cleanup();
@@ -293,9 +266,9 @@ describe('VAOS Page: ClinicChoicePage', () => {
       store,
     });
 
-    await waitFor(() => {
-      expect(radioSelector).to.have.attribute('value', '983_309');
-    });
+    expect(
+      await screen.findByLabelText(/Green team clinic/i),
+    ).to.have.attribute('checked');
 
     await cleanup();
   });
@@ -347,10 +320,9 @@ describe('VAOS Page: ClinicChoicePage', () => {
     );
 
     // And the user is asked if they want an appt at matching clinic
-    expect(
-      screen.container.querySelector(
-        'va-radio[label="Would you like to make an appointment at Green team clinic?"',
-      ),
-    ).to.be.ok;
+
+    expect(screen.baseElement).to.contain.text(
+      'Would you like to make an appointment at Green team clinic',
+    );
   });
 });

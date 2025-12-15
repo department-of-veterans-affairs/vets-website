@@ -1,0 +1,79 @@
+{
+  "hasAlreadyFiled": false,
+  "hasUnpaidCreditors": false,
+  "understandsTimeLimit": true,
+  "veteranFullName": {
+    "first": "Richard",
+    "middle": "P",
+    "last": "Anderson"
+  },
+  "beneficiaryIsVeteran": false,
+  "beneficiaryFullName": {
+    "first": "Linda",
+    "middle": "M",
+    "last": "Anderson"
+  },
+  "beneficiaryDateOfDeath": "2024-01-20",
+  "claimantFullName": {
+    "first": "Christopher",
+    "middle": "R",
+    "last": "Anderson"
+  },
+  "claimantDateOfBirth": "1985-04-15",
+  "claimantAddress": {
+    "street": "321 College Avenue",
+    "street2": "Unit 12",
+    "city": "Blacksburg",
+    "state": "VA",
+    "country": "USA",
+    "postalCode": "24060"
+  },
+  "claimantPhone": "5405554567",
+  "claimantEmail": "chris.anderson@university.edu",
+  "relationshipToDeceased": "executor",
+  "wantsToWaiveSubstitution": false,
+  "survivors": true,
+  "survivingRelatives": [
+    {
+      "fullName": {
+        "first": "Elizabeth",
+        "middle": "A",
+        "last": "Anderson"
+      },
+      "relationship": "child",
+      "dateOfBirth": "1987-09-10",
+      "address": {
+        "street": "654 University Drive",
+        "city": "Charlottesville",
+        "state": "VA",
+        "country": "USA",
+        "postalCode": "22903"
+      }
+    },
+    {
+      "fullName": {
+        "first": "David",
+        "middle": "L",
+        "last": "Anderson"
+      },
+      "relationship": "child",
+      "dateOfBirth": "1990-12-05",
+      "address": {
+        "street": "987 Campus Road",
+        "city": "Williamsburg",
+        "state": "VA",
+        "country": "USA",
+        "postalCode": "23185"
+      }
+    }
+  ],
+  "claimingReimbursement": false,
+  "remarks": "Filing as the eldest child. Mother (surviving spouse) passed away with pending DIC claim. All siblings listed are in agreement with this application.",
+  "veteranIdentification": {
+    "ssn": "456789012",
+    "vaFileNumber": "98765432"
+  },
+  "claimantIdentification": {
+    "ssn": "654321098"
+  }
+}

@@ -1,9 +1,13 @@
 import _ from 'platform/utilities/data';
 import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
+import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import { validateDate } from 'platform/forms-system/src/js/validation';
-import { yesNoUI } from 'platform/forms-system/src/js/web-component-patterns';
+import {
+  selectUI,
+  yesNoUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import {
   recordReleaseDescription,
   limitedConsentTitle,
@@ -12,10 +16,13 @@ import {
 } from '../content/privateMedicalRecordsRelease';
 import { isCompletingForm0781 } from '../utils/form0781';
 import { standardTitle } from '../content/form0781';
+import { makeSchemaForAllDisabilities } from '../utils/schemas';
+import { isCompletingModern4142 } from '../utils';
 
 import PrivateProviderTreatmentView from '../components/PrivateProviderTreatmentView';
 
-import { validateZIP } from '../validations';
+import { validateBooleanGroup, validateZIP } from '../validations';
+import PrivateMedicalProvidersConditions from '../components/confirmationFields/PrivateMedicalProvidersConditions';
 
 const { form4142 } = fullSchema.properties;
 
@@ -45,7 +52,7 @@ export const uiSchema = {
   },
   providerFacility: {
     'ui:options': {
-      itemName: 'Provider Facility',
+      itemName: 'Provider or hospital',
       viewField: PrivateProviderTreatmentView,
       hideTitle: true,
     },
@@ -62,14 +69,39 @@ export const uiSchema = {
           hideIf: formData => !isCompletingForm0781(formData),
         },
         'ui:required': formData => isCompletingForm0781(formData),
+        'ui:confirmationField': value => {
+          return {
+            data: value.formData ? 'Yes' : 'No',
+            label:
+              'Did you receive treatment at this facility related to the impact of any of your traumatic events?',
+          };
+        },
+      },
+      treatedDisabilityNames: {
+        'ui:title': 'What conditions were you treated for?',
+        'ui:webComponentField': VaCheckboxGroupField,
+        'ui:options': {
+          updateSchema: makeSchemaForAllDisabilities,
+          itemAriaLabel: data => data.treatmentCenterName,
+          showFieldLabel: true,
+          hideIf: formData => !isCompletingModern4142(formData),
+        },
+        'ui:validations': [validateBooleanGroup],
+        'ui:errorMessages': {
+          atLeastOne: 'Please select at least one condition',
+          required: 'Please select at least one condition',
+        },
+        'ui:required': formData => isCompletingModern4142(formData),
+        'ui:confirmationField': PrivateMedicalProvidersConditions,
       },
       'ui:validations': [validateDate],
       treatmentDateRange: dateRangeUI(
-        'First treatment date (you can provide an estimated date)',
-        'Last treatment date (you can provide an estimated date)',
+        'When did your treatment start? (You can provide an estimated date)',
+        'When did your treatment end? (You can provide an estimated date)',
         'End of treatment must be after start of treatment',
       ),
       providerFacilityAddress: {
+        'ui:title': 'Address of provider or hospital',
         'ui:order': [
           'country',
           'street',
@@ -78,26 +110,20 @@ export const uiSchema = {
           'state',
           'postalCode',
         ],
-        country: {
-          'ui:title': 'Country',
-          'ui:autocomplete': 'off',
-        },
+        country: selectUI('Country'),
         street: {
-          'ui:title': 'Street',
+          'ui:title': 'Street address (20 characters maximum)',
           'ui:autocomplete': 'off',
         },
         street2: {
-          'ui:title': 'Street 2',
+          'ui:title': 'Street address 2 (20 characters maximum)',
           'ui:autocomplete': 'off',
         },
         city: {
-          'ui:title': 'City',
+          'ui:title': 'City (30 characters maximum)',
           'ui:autocomplete': 'off',
         },
-        state: {
-          'ui:title': 'State',
-          'ui:autocomplete': 'off',
-        },
+        state: selectUI('State'),
         postalCode: {
           'ui:title': 'Postal code',
           'ui:autocomplete': 'off',
@@ -129,11 +155,16 @@ export const schema = {
           'treatmentDateRange',
           'providerFacilityAddress',
           'treatmentLocation0781Related',
+          'treatedDisabilityNames',
         ],
         properties: {
           providerFacilityName,
           treatmentLocation0781Related: {
             type: 'boolean',
+            properties: {},
+          },
+          treatedDisabilityNames: {
+            type: 'object',
             properties: {},
           },
           treatmentDateRange: {

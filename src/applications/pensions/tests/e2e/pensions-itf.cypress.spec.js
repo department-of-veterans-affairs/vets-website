@@ -8,7 +8,6 @@ import mockPrefill from '../fixtures/mocks/prefill.json';
 import inProgressForms from '../fixtures/mocks/in-progress-forms.json';
 
 import { cypressBeforeAllSetup } from './cypress.setup';
-import { startForm } from './helpers/keyboardOnlyHelpers';
 import { mockItf, errorItf, postItf } from './helpers/itfHelpers';
 
 const FORM_ID = '21P-527EZ';
@@ -26,10 +25,6 @@ const cypressSetup = ({
       features: [
         {
           name: 'pension_form_enabled',
-          value: true,
-        },
-        {
-          name: 'pension_itf_show_alert',
           value: true,
         },
       ],
@@ -68,7 +63,7 @@ describe('Pensions ITF', () => {
     cy.intercept('GET', '/v0/intent_to_file/pension', mockItf());
 
     cypressSetup(cy);
-    startForm();
+    cy.clickStartForm();
 
     cy.get('va-alert[status="success"]')
       .should('be.visible')
@@ -86,7 +81,7 @@ describe('Pensions ITF', () => {
     cy.intercept('POST', '/v0/intent_to_file/pension', postItf());
 
     cypressSetup(cy);
-    startForm();
+    cy.clickStartForm();
 
     cy.get('va-alert[status="success"]')
       .should('be.visible')
@@ -109,7 +104,7 @@ describe('Pensions ITF', () => {
     cy.intercept('POST', '/v0/intent_to_file/pension', postItf());
 
     cypressSetup(cy);
-    startForm();
+    cy.clickStartForm();
 
     cy.get('va-alert[status="success"]')
       .should('be.visible')
@@ -127,7 +122,7 @@ describe('Pensions ITF', () => {
     cy.intercept('POST', '/v0/intent_to_file/pension', errorItf());
 
     cypressSetup(cy);
-    startForm();
+    cy.clickStartForm();
 
     cy.get('va-alert[status="warning"]')
       .should('be.visible')
@@ -146,7 +141,7 @@ describe('Pensions ITF', () => {
     cy.intercept('POST', '/v0/intent_to_file/pension', errorItf());
 
     cypressSetup(cy);
-    startForm();
+    cy.clickStartForm();
 
     cy.get('va-alert[status="warning"]')
       .should('be.visible')

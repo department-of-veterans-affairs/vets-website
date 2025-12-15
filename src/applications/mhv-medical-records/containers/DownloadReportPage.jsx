@@ -8,13 +8,15 @@ import {
   ALERT_TYPE_SEI_ERROR,
   MissingRecordsError,
 } from '@department-of-veterans-affairs/mhv/exports';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { add, compareAsc } from 'date-fns';
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import {
+  selectPatientFacilities,
+  selectIsCernerPatient,
+  selectIsCernerOnlyPatient,
+} from '~/platform/user/cerner-dsot/selectors';
+import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
 import NeedHelpSection from '../components/DownloadRecords/NeedHelpSection';
-import ExternalLink from '../components/shared/ExternalLink';
 import {
   getFailedDomainList,
   getLastSuccessfulUpdate,
@@ -25,18 +27,24 @@ import {
   ALERT_TYPE_BB_ERROR,
   ALERT_TYPE_CCD_ERROR,
   BB_DOMAIN_DISPLAY_MAP,
+  CernerAlertContent,
   documentTypes,
   pageTitles,
   refreshExtractTypes,
   statsdFrontEndActions,
 } from '../util/constants';
-import { genAndDownloadCCD } from '../actions/downloads';
+import { genAndDownloadCCD, downloadCCDV2 } from '../actions/downloads';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import { Actions } from '../util/actionTypes';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
+import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import useAlerts from '../hooks/use-alerts';
 import TrackedSpinner from '../components/shared/TrackedSpinner';
 import { postRecordDatadogAction } from '../api/MrApi';
+import CCDAccordionItemV1 from './ccdAccordionItem/ccdAccordionItemV1';
+import CCDAccordionItemV2 from './ccdAccordionItem/ccdAccordionItemV2';
+import CCDAccordionItemOH from './ccdAccordionItem/ccdAccordionItemOH';
+import CCDAccordionItemDual from './ccdAccordionItem/ccdAccordionItemDual';
 
 // --- Main component ---
 const DownloadReportPage = ({ runningUnitTest }) => {
@@ -56,18 +64,8 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     },
   } = useSelector(state => state);
 
-  const fullState = useSelector(state => state);
-
-  const selectMilestoneTwoFlag = useSelector(
-    state =>
-      state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsMilestoneTwo],
-  );
-
-  const useUnifiedSelfEnteredAPI = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvMedicalRecordsUseUnifiedSeiApi
-      ],
+  const ccdExtendedFileTypeFlag = useSelector(
+    state => state.featureToggles?.mhv_medical_records_ccd_extended_file_types,
   );
 
   const [selfEnteredPdfLoading, setSelfEnteredPdfLoading] = useState(false);
@@ -78,6 +76,44 @@ const DownloadReportPage = ({ runningUnitTest }) => {
 
   const activeAlert = useAlerts(dispatch);
   const selfEnteredAccordionRef = useRef(null);
+
+  // Determine user's data sources using platform selectors
+  const { facilities, hasOHFacilities, hasOHOnly } = useSelector(state => ({
+    facilities: selectPatientFacilities(state) || [],
+    hasOHFacilities: selectIsCernerPatient(state),
+    hasOHOnly: selectIsCernerOnlyPatient(state),
+  }));
+  // Note: No platform selector exists for "has VistA facilities only"
+  const hasVistAFacilities = facilities.length > 0 && !hasOHOnly;
+  const hasBothDataSources = hasOHFacilities && hasVistAFacilities;
+
+  // Get Drupal EHR data for facility name mapping
+  const ehrDataByVhaId = useSelector(
+    state => state.drupalStaticData?.vamcEhrData?.data?.ehrDataByVhaId,
+  );
+
+  // Map facility IDs to facility names
+  const vistaFacilityNames = useMemo(
+    () => {
+      if (!ehrDataByVhaId) return [];
+      const vistaFacilities = facilities.filter(f => !f.isCerner);
+      return vistaFacilities
+        .map(f => getVamcSystemNameFromVhaId(ehrDataByVhaId, f.facilityId))
+        .filter(name => name); // Filter out undefined/null names
+    },
+    [facilities, ehrDataByVhaId],
+  );
+
+  const ohFacilityNames = useMemo(
+    () => {
+      if (!ehrDataByVhaId) return [];
+      const ohFacilities = facilities.filter(f => f.isCerner);
+      return ohFacilities
+        .map(f => getVamcSystemNameFromVhaId(ehrDataByVhaId, f.facilityId))
+        .filter(name => name); // Filter out undefined/null names
+    },
+    [facilities, ehrDataByVhaId],
+  );
 
   // Checks if CCD retry is needed and returns a formatted timestamp or null.
   const CCDRetryTimestamp = useMemo(
@@ -176,22 +212,36 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     [refreshStatus],
   );
 
-  const handleDownloadCCD = e => {
+  const handleDownloadCCD = (e, fileType) => {
     e.preventDefault();
     dispatch(
       genAndDownloadCCD(
-        userProfile?.userFullName?.first,
-        userProfile?.userFullName?.last,
+        userProfile?.userFullName?.first || '',
+        userProfile?.userFullName?.last || '',
+        fileType,
       ),
     );
     postRecordDatadogAction(statsdFrontEndActions.DOWNLOAD_CCD);
-    sendDataDogAction('Download Continuity of Care Document xml Link');
+    sendDataDogAction(`Download Continuity of Care Document ${fileType} link`);
+  };
+
+  const handleDownloadCCDV2 = (e, fileType) => {
+    e.preventDefault();
+    dispatch(
+      downloadCCDV2(
+        userProfile?.userFullName?.first || '',
+        userProfile?.userFullName?.last || '',
+        fileType,
+      ),
+    );
+    postRecordDatadogAction(statsdFrontEndActions.DOWNLOAD_CCD);
+    sendDataDogAction(`Download CCD V2 ${fileType} link`);
   };
 
   const handleDownloadSelfEnteredPdf = e => {
     e.preventDefault();
     setSelfEnteredPdfLoading(true);
-    generateSEIPdf(userProfile, useUnifiedSelfEnteredAPI, runningUnitTest)
+    generateSEIPdf(userProfile, runningUnitTest)
       .then(res => {
         if (res.success) {
           const { failedDomains } = res;
@@ -214,10 +264,13 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   return (
     <div>
       <h1>Download your medical records reports</h1>
-      <p className="vads-u-margin--0">
+      <p>
         Download your VA medical records as a single report (called your VA Blue
         Button® report). Or find other reports to download.
       </p>
+
+      <AcceleratedCernerFacilityAlert {...CernerAlertContent.DOWNLOAD} />
+
       {lastSuccessfulUpdate && (
         <va-card
           class="vads-u-margin-y--2"
@@ -308,38 +361,41 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           </>
         )}
       <va-accordion bordered>
-        <va-accordion-item bordered data-testid="ccdAccordionItem">
-          <h3 slot="headline">
-            Continuity of Care Document (VA Health Summary)
-          </h3>
-          <p className="vads-u-margin--0">
-            This Continuity of Care Document (CCD) is a summary of your VA
-            medical records that you can share with non-VA providers in your
-            community. It includes your allergies, medications, recent lab
-            results, and more.
-          </p>
-          <p>
-            You can download this report in .xml format, a standard file format
-            that works with other providers’ medical records systems.
-          </p>
-          {generatingCCD ? (
-            <div id="generating-ccd-indicator">
-              <TrackedSpinner
-                id="download-ccd-spinner"
-                label="Loading"
-                message="Preparing your download..."
+        {(() => {
+          if (ccdExtendedFileTypeFlag) {
+            if (hasBothDataSources) {
+              return (
+                <CCDAccordionItemDual
+                  generatingCCD={generatingCCD}
+                  handleDownloadCCD={handleDownloadCCD}
+                  handleDownloadCCDV2={handleDownloadCCDV2}
+                  vistaFacilityNames={vistaFacilityNames}
+                  ohFacilityNames={ohFacilityNames}
+                />
+              );
+            }
+            if (hasOHOnly) {
+              return (
+                <CCDAccordionItemOH
+                  generatingCCD={generatingCCD}
+                  handleDownloadCCDV2={handleDownloadCCDV2}
+                />
+              );
+            }
+            return (
+              <CCDAccordionItemV2
+                generatingCCD={generatingCCD}
+                handleDownloadCCD={handleDownloadCCD}
               />
-            </div>
-          ) : (
-            <va-link
-              download
-              href="#"
-              onClick={handleDownloadCCD}
-              text="Download Continuity of Care Document (XML)"
-              data-testid="generateCcdButton"
+            );
+          }
+          return (
+            <CCDAccordionItemV1
+              generatingCCD={generatingCCD}
+              handleDownloadCCD={handleDownloadCCD}
             />
-          )}
-        </va-accordion-item>
+          );
+        })()}
         <va-accordion-item
           bordered
           data-testid="selfEnteredAccordionItem"
@@ -351,10 +407,8 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           </h3>
           <p className="vads-u-margin--0">
             This report includes all the health information you entered yourself
-            in the previous version of My HealtheVet.
-            {selectMilestoneTwoFlag &&
-              ` You can no longer enter or
-            edit health information in My HealtheVet.`}
+            in the previous version of My HealtheVet. You can no longer enter or
+            edit health information in My HealtheVet.
           </p>
           <p>
             Your VA health care team can’t access this self-entered information
@@ -378,24 +432,6 @@ const DownloadReportPage = ({ runningUnitTest }) => {
               text="Download self-entered health information report (PDF)"
               data-testid="downloadSelfEnteredButton"
             />
-          )}
-          {!selectMilestoneTwoFlag && (
-            <>
-              <p>
-                <strong>Note:</strong> Self-entered My Goals are no longer
-                available on My HealtheVet and not included in this report. To
-                download your historical goals you can go to the previous
-                version of My HealtheVet.
-              </p>
-              <ExternalLink
-                href={mhvUrl(
-                  isAuthenticatedWithSSOe(fullState),
-                  'va-blue-button',
-                )}
-                text="Go to the previous version of My HealtheVet to download historical
-                goals"
-              />
-            </>
           )}
         </va-accordion-item>
       </va-accordion>

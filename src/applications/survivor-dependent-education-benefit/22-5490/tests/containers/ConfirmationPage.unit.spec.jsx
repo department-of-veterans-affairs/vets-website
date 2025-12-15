@@ -72,7 +72,7 @@ describe('<ConfirmationPage>', () => {
     // Use a regex matcher to find "DEA, Chapter 35" and other text
     expect(
       getByText(
-        /Survivors' and Dependents' Educational Assistance \(Chapter 35\)/i,
+        /Survivors'\s+and\s+Dependents'\s+Educational\s+Assistance\s+\(Chapter\s+35\)/i,
       ),
     ).to.exist;
 

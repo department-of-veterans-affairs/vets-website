@@ -117,7 +117,7 @@ export default [
       <>
         <p>
           Groups of people who use VA.gov and other VA online tools and services
-          include those who sign in with an account (such as Login.gov or ID.me)
+          include those who sign in with an account (such as ID.me or Login.gov)
           and those who don’t sign in. These groups include Veterans, VA
           patients, beneficiaries, Veteran advocates, caregivers, personal legal
           representatives, and the general public.
@@ -247,7 +247,7 @@ export default [
             an individual as permitted by law and as outlined in the Veterans
             Health Administration (VHA) notice of privacy practices.{' '}
             <a
-              href="https://www.va.gov/files/2022-10/10-163p_(004)_-Notices_of_Privacy_Practices-_PRINT_ONLY.pdf"
+              href="https://www.va.gov/files/2025-10/NOPP_IB_163p_Revisions_Final_30SEP2025.pdf"
               rel="noopener noreferrer"
               target="_blank"
             >

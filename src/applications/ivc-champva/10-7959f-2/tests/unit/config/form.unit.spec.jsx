@@ -17,7 +17,7 @@ testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.veteranIdentificationChapter.pages.page2.schema,
   formConfig.chapters.veteranIdentificationChapter.pages.page2.uiSchema,
-  2,
+  1,
   'Applicant identification',
   { ...mockdata.data },
 );

@@ -1,12 +1,21 @@
-import moment from 'moment';
+import { add, differenceInDays, isAfter, isBefore, format } from 'date-fns';
+import { getToday } from '../utils/dates/formatting';
+import {
+  parseDate,
+  parseDateWithTemplate,
+  DATE_TEMPLATE,
+} from '../utils/dates';
 
-export const dateTemplate = 'YYYY-MM-DD';
+// Helper to get current date as Date object
+export const maxDate = format(add(getToday(), { years: 100 }), DATE_TEMPLATE);
 
-export const maxDate = moment().add(100, 'year');
-export const getDate = date => moment(date, dateTemplate);
-export const isDateComplete = date => date?.length === dateTemplate.length;
-export const isDateInFuture = date => date?.diff(moment()) > 0;
-export const isDateLessThanMax = date => date?.isBefore(maxDate);
+export const getDate = date => parseDateWithTemplate(date);
+export const isDateComplete = date => date?.length === DATE_TEMPLATE.length;
+export const isDateInFuture = date => isAfter(date, getToday());
+export const isDateLessThanMax = date => {
+  const maxDateObj = parseDate(maxDate);
+  return isBefore(date, maxDateObj);
+};
 
 export const isValidDate = date => {
   if (date && isDateComplete(date)) {
@@ -17,7 +26,7 @@ export const isValidDate = date => {
 };
 
 export const getDiffInDays = date => {
-  const dateDischarge = moment(date, dateTemplate);
-  const dateToday = moment();
-  return dateDischarge.diff(dateToday, 'days');
+  const dateDischarge = getDate(date);
+  const dateToday = getToday();
+  return differenceInDays(dateDischarge, dateToday);
 };

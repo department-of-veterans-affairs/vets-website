@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams, useHistory } from 'react-router-dom';
 import { addUserProperties } from '@department-of-veterans-affairs/mhv/exports';
@@ -24,13 +23,16 @@ import {
 import { getRecentThreads } from '../util/threads';
 import { getUniqueTriageGroups } from '../util/recipients';
 import featureToggles from '../hooks/useFeatureToggles';
+import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 
-const Compose = ({ skipInterstitial }) => {
-  const { cernerPilotSmFeatureFlag } = featureToggles();
+const Compose = () => {
+  const { mhvSecureMessagingCuratedListFlow } = featureToggles();
 
   const dispatch = useDispatch();
   const recipients = useSelector(state => state.sm.recipients);
-  const { drafts, saveError } = useSelector(state => state.sm.threadDetails);
+  const { drafts, saveError, acceptInterstitial } = useSelector(
+    state => state.sm.threadDetails,
+  );
   const signature = useSelector(state => state.sm.preferences.signature);
   const { noAssociations } = useSelector(state => state.sm.recipients);
 
@@ -42,10 +44,9 @@ const Compose = ({ skipInterstitial }) => {
   const { draftId } = useParams();
   const { allTriageGroupsBlocked } = recipients;
 
-  const [acknowledged, setAcknowledged] = useState(skipInterstitial);
   const [draftType, setDraftType] = useState('');
   const [pageTitle, setPageTitle] = useState(
-    cernerPilotSmFeatureFlag ? 'Start message' : 'Start a new message',
+    mhvSecureMessagingCuratedListFlow ? 'Start message' : 'Start a new message',
   );
   const location = useLocation();
   const history = useHistory();
@@ -53,10 +54,13 @@ const Compose = ({ skipInterstitial }) => {
 
   useEffect(
     () => {
-      if (location.pathname.startsWith(Paths.COMPOSE)) {
+      const composePathNoSlash = Paths.COMPOSE.endsWith('/')
+        ? Paths.COMPOSE.slice(0, -1)
+        : Paths.COMPOSE;
+      if (location.pathname.startsWith(composePathNoSlash)) {
         dispatch(clearThread());
         setDraftType('compose');
-      } else {
+      } else if (draftId) {
         dispatch(retrieveMessageThread(draftId));
       }
 
@@ -104,12 +108,14 @@ const Compose = ({ skipInterstitial }) => {
     [isDraftPage],
   );
 
+  const headerText = document.querySelector('h1')?.textContent;
   useEffect(
     () => {
-      document.title = `${pageTitle} ${PageTitles.DEFAULT_PAGE_TITLE_TAG}`;
+      document.title = `${headerText} ${PageTitles.DEFAULT_PAGE_TITLE_TAG}`;
     },
-    [pageTitle],
+    [headerText],
   );
+
   // make sure the thread list is fetched when navigating to the compose page
   useEffect(
     () => {
@@ -214,22 +220,17 @@ const Compose = ({ skipInterstitial }) => {
             />
           </div>
         )}
-
       {draftType &&
-      !acknowledged &&
+      !acceptInterstitial &&
       (noAssociations === (undefined || false) && !allTriageGroupsBlocked) ? (
-        <InterstitialPage
-          acknowledge={() => {
-            setAcknowledged(true);
-          }}
-          type={draftType}
-        />
+        <InterstitialPage type={draftType} />
       ) : (
         <>
           {draftType &&
             (noAssociations === (undefined || false) &&
               !allTriageGroupsBlocked) && (
               <div className="vads-l-grid-container compose-container">
+                <AlertBackgroundBox closeable />
                 {content()}
               </div>
             )}
@@ -237,10 +238,6 @@ const Compose = ({ skipInterstitial }) => {
       )}
     </>
   );
-};
-
-Compose.propTypes = {
-  skipInterstitial: PropTypes.bool,
 };
 
 export default Compose;

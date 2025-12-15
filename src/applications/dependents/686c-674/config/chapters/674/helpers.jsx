@@ -27,6 +27,12 @@ export const benefitUiLabels = {
   other: 'Another program',
 };
 
+export const relationshipToStudentLabels = {
+  biological: 'They’re my biological child',
+  stepchild: 'They’re my stepchild',
+  adopted: 'They’re my adopted child',
+};
+
 export const ProgramExamples = (
   <va-additional-info trigger="Examples of federally funded programs or schools">
     <ul>
@@ -74,3 +80,27 @@ export const studentIncomeNote = (
     <strong>Note:</strong> Don’t report VA benefits as income
   </p>
 );
+
+/**
+ * @typedef {object} StudentNetworthInformation
+ * @property {string} otherAssets - Other assets amount
+ * @property {string} realEstate - Real estate amount
+ * @property {string} savings - Savings amount
+ * @property {string} securities - Securities amount
+ *
+ * @param {StudentNetworthInformation} studentNetworthInformation - Student networth info
+ * @returns {number} Total student assets
+ */
+export const calculateStudentAssetTotal = (studentNetworthInformation = {}) => {
+  const parseCurrency = value => {
+    if (!value) return 0;
+    return parseFloat(value) || 0;
+  };
+
+  return (
+    parseCurrency(studentNetworthInformation.otherAssets) +
+    parseCurrency(studentNetworthInformation.realEstate) +
+    parseCurrency(studentNetworthInformation.savings) +
+    parseCurrency(studentNetworthInformation.securities)
+  ).toFixed(2);
+};

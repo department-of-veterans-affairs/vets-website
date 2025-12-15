@@ -23,7 +23,7 @@ export const createAddressValidationResponse = type => {
           },
         },
       ],
-      validationKey: 80251930,
+      overrideValidationKey: 80251930,
     };
   }
 
@@ -51,7 +51,7 @@ export const createAddressValidationResponse = type => {
           },
         },
       ],
-      validationKey: -884397865,
+      overrideValidationKey: -884397865,
     };
   }
 
@@ -74,7 +74,7 @@ export const createAddressValidationResponse = type => {
           },
         },
       ],
-      validationKey: 873828139,
+      overrideValidationKey: 873828139,
     };
   }
 
@@ -104,7 +104,7 @@ export const createAddressValidationResponse = type => {
           },
         },
       ],
-      validationKey: 66006473,
+      overrideValidationKey: 66006473,
     };
   }
 
@@ -133,7 +133,7 @@ export const createAddressValidationResponse = type => {
           },
         },
       ],
-      validationKey: -1868391762,
+      overrideValidationKey: -1868391762,
     };
   }
 
@@ -161,7 +161,7 @@ export const createAddressValidationResponse = type => {
           },
         },
       ],
-      validationKey: -938645178,
+      overrideValidationKey: -938645178,
     };
   }
 
@@ -188,7 +188,7 @@ export const createAddressValidationResponse = type => {
           },
         },
       ],
-      validationKey: 1952767315,
+      overrideValidationKey: 1952767315,
     };
   }
 
@@ -256,7 +256,7 @@ export const createAddressValidationResponse = type => {
           },
         },
       ],
-      validationKey: -29210804,
+      overrideValidationKey: -29210804,
     };
   }
 
@@ -304,7 +304,7 @@ export const createAddressValidationResponse = type => {
           },
         },
       ],
-      validationKey: 1786974931,
+      overrideValidationKey: 1786974931,
     };
   }
 
@@ -328,8 +328,7 @@ export const createAddressValidationResponse = type => {
           },
         },
       ],
-      // Does the response send null or nothing for validationKey?
-      validationKey: null,
+      overrideValidationKey: null,
     };
   }
 
@@ -353,12 +352,34 @@ export const createAddressValidationResponse = type => {
           },
         },
       ],
-      validationKey: 1785474938,
+      overrideValidationKey: 1785474938,
     };
   }
 
-  // validation-error also applies to the NO_SUGGESTIONS_NO_OVERRIDE case
-  // when the profileShowNoValidationKeyAddressAlert flag is enabled
+  if (type === 'no-suggestions-no-override') {
+    return {
+      addresses: [
+        {
+          address: {
+            addressLine1: '999 Unknown Ave',
+            city: 'Springfield',
+            stateCode: 'IL',
+            zipCode: '62704',
+            countryName: 'United States',
+            addressType: 'DOMESTIC',
+          },
+          addressMetaData: {
+            confidenceScore: 40,
+            addressType: 'Domestic',
+            deliveryPointValidation: 'UNDELIVERABLE',
+            residentialDeliveryIndicator: 'RESIDENTIAL',
+          },
+        },
+      ],
+      overrideValidationKey: null,
+    };
+  }
+
   if (type === 'validation-error') {
     return {
       errors: [

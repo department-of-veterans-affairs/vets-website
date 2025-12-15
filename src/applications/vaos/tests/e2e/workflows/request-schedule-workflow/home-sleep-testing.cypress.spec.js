@@ -24,7 +24,8 @@ import {
   mockAppointmentGetApi,
   mockAppointmentsGetApi,
   mockClinicsApi,
-  mockEligibilityApi,
+  mockEligibilityDirectApi,
+  mockEligibilityRequestApi,
   mockFacilitiesApi,
   mockFeatureToggles,
   mockSchedulingConfigurationApi,
@@ -60,9 +61,19 @@ describe('VAOS request schedule flow - sleep care', () => {
 
     describe('And one facility supports requesting with no history required', () => {
       const setup = () => {
-        const mockEligibilityResponse = new MockEligibilityResponse({
+        const mockEligibilityResponseDirect = new MockEligibilityResponse({
           facilityId: '983',
           typeOfCareId,
+          type: 'direct',
+          isEligible: false,
+          ineligibilityReason:
+            MockEligibilityResponse.PATIENT_HISTORY_INSUFFICIENT,
+        });
+
+        const mockEligibilityResponseRequest = new MockEligibilityResponse({
+          facilityId: '983',
+          typeOfCareId,
+          type: 'request',
           isEligible: true,
         });
 
@@ -71,7 +82,8 @@ describe('VAOS request schedule flow - sleep care', () => {
             facilityIds: ['983'],
           }),
         });
-        mockEligibilityApi({ response: mockEligibilityResponse });
+        mockEligibilityDirectApi({ response: mockEligibilityResponseDirect });
+        mockEligibilityRequestApi({ response: mockEligibilityResponseRequest });
         mockSchedulingConfigurationApi({
           facilityIds: ['983'],
           typeOfCareId,
@@ -128,7 +140,6 @@ describe('VAOS request schedule flow - sleep care', () => {
           .assertHeading({
             name: /What.s the reason for this appointment/i,
           })
-          .selectReasonForAppointment()
           .assertLabel({
             label: /Add any details you.d like to share with your provider/,
           })

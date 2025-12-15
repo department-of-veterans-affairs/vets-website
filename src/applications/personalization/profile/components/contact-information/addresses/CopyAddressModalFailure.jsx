@@ -7,12 +7,11 @@ const CopyAddressModalFailure = ({ visible, onClose }) => (
   <VaModal
     modalTitle="We can't update your mailing address"
     visible={visible}
-    onClose={onClose}
+    onCloseEvent={onClose}
     status="error"
     primaryButtonText="Close"
     onPrimaryButtonClick={onClose}
     data-testid="copy-address-failure"
-    uswds
   >
     <>
       <div data-testid="modal-content">

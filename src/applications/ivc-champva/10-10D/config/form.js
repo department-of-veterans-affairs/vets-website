@@ -1,6 +1,7 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import React from 'react';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
+import { cloneDeep } from 'lodash';
 import {
   checkboxGroupSchema,
   checkboxGroupUI,
@@ -149,6 +150,9 @@ function showFileOverviewPage(formData) {
   }
 }
 
+const veteranFullNameUI = cloneDeep(fullNameUI());
+veteranFullNameUI.middle['ui:title'] = 'Middle initial';
+
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -246,7 +250,7 @@ const formConfig = {
           title: 'Your name',
           uiSchema: {
             ...titleUI('Your name'),
-            certifierName: fullNameUI(),
+            certifierName: veteranFullNameUI,
             'ui:validations': [certifierNameValidation],
           },
           schema: {
@@ -254,7 +258,16 @@ const formConfig = {
             required: ['certifierName'],
             properties: {
               titleSchema,
-              certifierName: fullNameSchema,
+              certifierName: {
+                ...fullNameSchema,
+                properties: {
+                  ...fullNameSchema.properties,
+                  middle: {
+                    type: 'string',
+                    maxLength: 1,
+                  },
+                },
+              },
             },
           },
         },
@@ -600,6 +613,12 @@ const formConfig = {
               }),
               'ui:required': () => true,
             },
+            sponsorEmail: {
+              ...emailUI(),
+              'ui:options': {
+                hideIf: formData => !formData.champvaForm1010d2027,
+              },
+            },
           },
           schema: {
             type: 'object',
@@ -607,6 +626,7 @@ const formConfig = {
             properties: {
               titleSchema,
               sponsorPhone: phoneSchema,
+              sponsorEmail: emailSchema,
             },
           },
         },
@@ -640,14 +660,23 @@ const formConfig = {
                 itemAriaLabel: item => `${applicantWording(item, false)}`,
               },
               items: {
-                applicantName: fullNameUI(),
+                applicantName: veteranFullNameUI,
                 applicantDob: dateOfBirthUI({ required: () => true }),
               },
             },
           },
           schema: applicantListSchema(['applicantDob'], {
             titleSchema,
-            applicantName: fullNameSchema,
+            applicantName: {
+              ...fullNameSchema,
+              properties: {
+                ...fullNameSchema.properties,
+                middle: {
+                  type: 'string',
+                  maxLength: 1,
+                },
+              },
+            },
             applicantDob: dateOfBirthSchema,
           }),
         },

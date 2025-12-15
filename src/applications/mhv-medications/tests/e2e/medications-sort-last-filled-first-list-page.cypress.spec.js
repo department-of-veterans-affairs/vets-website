@@ -19,6 +19,7 @@ describe('Medications List Page Sort By Last Filled First', () => {
     listPage.selectSortDropDownOption('Last filled first');
     listPage.validateMedicationsListSorted(sortedData);
     listPage.verifyPaginationDisplayedforSortLastFilledFirst(1, 10, listLength);
+    listPage.verifySortScreenReaderActionText('Sorting: Last filled first');
     cy.injectAxe();
     cy.axeCheck('main');
   });

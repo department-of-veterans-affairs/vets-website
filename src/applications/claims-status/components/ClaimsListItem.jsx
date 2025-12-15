@@ -1,15 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
-
+import {
+  Toggler,
+  useFeatureToggle,
+} from '~/platform/utilities/feature-toggles';
 import {
   getClaimPhaseTypeHeaderText,
   buildDateFormatter,
+  getFailedSubmissionsWithinLast30Days,
   getStatusDescription,
   generateClaimTitle,
   getShowEightPhases,
 } from '../utils/helpers';
 import ClaimCard from './ClaimCard';
+import UploadType2ErrorAlertSlim from './UploadType2ErrorAlertSlim';
 
 const formatDate = buildDateFormatter();
 
@@ -57,7 +61,8 @@ export default function ClaimsListItem({ claim }) {
     developmentLetterSent,
     documentsNeeded,
     status,
-  } = claim.attributes;
+    evidenceSubmissions = [],
+  } = claim.attributes || {};
 
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
   const cstClaimPhasesEnabled = useToggleValue(TOGGLE_NAMES.cstClaimPhases);
@@ -76,6 +81,10 @@ export default function ClaimsListItem({ claim }) {
 
   const ariaLabel = `Details for claim submitted on ${formattedReceiptDate}`;
   const href = `/your-claims/${claim.id}/status`;
+
+  const failedSubmissionsWithinLast30Days = getFailedSubmissionsWithinLast30Days(
+    evidenceSubmissions,
+  );
 
   return (
     <ClaimCard
@@ -99,6 +108,13 @@ export default function ClaimsListItem({ claim }) {
         {humanStatus && <p>{humanStatus}</p>}
         <p>{getLastUpdated(claim)}</p>
       </div>
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.cstShowDocumentUploadStatus}>
+        <Toggler.Enabled>
+          <UploadType2ErrorAlertSlim
+            failedSubmissions={failedSubmissionsWithinLast30Days}
+          />
+        </Toggler.Enabled>
+      </Toggler>
       {showAlert && (
         <va-alert status="info" slim>
           <span className="vads-u-font-weight--bold">

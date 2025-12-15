@@ -10,7 +10,9 @@ import {
 import {
   VaLoadingIndicator,
   VaBreadcrumbs,
+  VaAlert,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { focusElement } from 'platform/utilities/ui';
 import api from '../utilities/api';
 import {
   SEARCH_BC_LABEL,
@@ -27,7 +29,21 @@ import Pagination from '../components/Pagination';
 import PaginationMeta from '../components/PaginationMeta';
 import POARequestSearchPageResults from '../components/POARequestSearchPageResults';
 
-const StatusTabLink = ({ tabStatus, searchStatus, tabSort, children }) => {
+const NoResultsText = searchStatus => (
+  <div className="no-poa-requests-text">
+    {searchStatus.searchStatus === STATUSES.PENDING
+      ? 'No pending representation requests.'
+      : 'No processed representation requests.'}
+  </div>
+);
+
+const StatusTabLink = ({
+  tabStatus,
+  searchStatus,
+  tabSort,
+  selectedIndividual,
+  children,
+}) => {
   const active = tabStatus === searchStatus;
   const classNames = ['poa-request__tab-link'];
   if (active) classNames.push('active');
@@ -35,7 +51,7 @@ const StatusTabLink = ({ tabStatus, searchStatus, tabSort, children }) => {
     <Link
       to={`?status=${tabStatus}&sortBy=${
         tabStatus === 'pending' ? 'created_at' : 'resolved_at'
-      }&sortOrder=${tabSort}&pageSize=20&pageNumber=1`}
+      }&sortOrder=${tabSort}&pageSize=20&pageNumber=1&as_selected_individual=${selectedIndividual}`}
       className={classNames.join(' ')}
       role="tab"
       id={`tab-${tabStatus}`}
@@ -52,20 +68,29 @@ const StatusTabLink = ({ tabStatus, searchStatus, tabSort, children }) => {
 StatusTabLink.propTypes = {
   children: PropTypes.node,
   searchStatus: PropTypes.string,
+  selectedIndividual: PropTypes.string,
   tabSort: PropTypes.string,
   tabStatus: PropTypes.string,
 };
 
 const POARequestSearchPage = title => {
+  const [searchParams] = useSearchParams();
   useEffect(
     () => {
+      focusElement('h1');
       document.title = title.title;
     },
     [title],
   );
-  const poaRequests = useLoaderData().data;
-  const meta = useLoaderData().meta.page;
-  const searchStatus = useSearchParams()[0].get('status');
+  const loaderData = useLoaderData() || {};
+  const poaRequests = loaderData.data || [];
+  const meta =
+    loaderData.meta && loaderData.meta.page
+      ? loaderData.meta
+      : { page: { total: 0, number: 1, totalPages: 1 } };
+  const { showPOA403Alert } = loaderData;
+  const searchStatus = searchParams.get('status');
+  const selectedIndividual = searchParams.get('as_selected_individual');
   const navigation = useNavigation();
 
   return (
@@ -76,7 +101,7 @@ const POARequestSearchPage = title => {
         homeVeteransAffairs={false}
       />
       <h1
-        data-testid="poa-requests-heading"
+        data-testid="representation-requests-heading"
         className="poa-request__search-header"
       >
         Representation requests
@@ -95,13 +120,46 @@ const POARequestSearchPage = title => {
         />
         .
       </p>
+      {showPOA403Alert && (
+        <>
+          <br />
+          <VaAlert status="info" uswds visible data-testid="poa-403-info-alert">
+            <h2 slot="headline">
+              You currently can’t receive requests in the portal
+            </h2>
+            <div className="vads-u-margin-y--0">
+              <p className="vads-u-margin-bottom--1">
+                <strong>Veteran Service Organization representatives:</strong>{' '}
+                None of your organizations have activated the Representation
+                Request feature. If you’d like one of your organizations to
+                activate this feature, ask the VSO manager or certifying us at{' '}
+                <a href="mailto:RepresentativePortalHelp@va.gov">
+                  RepresentativePortalHelp@va.gov
+                </a>
+                .
+              </p>
+              <p className="vads-u-margin-y--0">
+                <strong>Claims agents and attorneys:</strong> This feature is
+                not yet available for establishing representation with claims
+                agents or attorneys. We are exploring it as a future
+                enhancement. Visit our{' '}
+                <a href="/representative/get-help" rel="noopener noreferrer">
+                  help resources
+                </a>{' '}
+                to learn more about current and upcoming features.
+              </p>
+            </div>
+          </VaAlert>
+        </>
+      )}
 
-      <div className="poa-requests-page-table-container">
+      <div className="representation-requests-page-table-container">
         <div role="tablist" className="poa-request__tabs">
           <StatusTabLink
             tabStatus={STATUSES.PENDING}
             searchStatus={searchStatus}
             tabSort={SORT_BY.DESC}
+            selectedIndividual={selectedIndividual}
           >
             Pending
           </StatusTabLink>
@@ -109,6 +167,7 @@ const POARequestSearchPage = title => {
             tabStatus={STATUSES.PROCESSED}
             searchStatus={searchStatus}
             tabSort={SORT_BY.DESC}
+            selectedIndividual={selectedIndividual}
           >
             Processed
           </StatusTabLink>
@@ -128,7 +187,7 @@ const POARequestSearchPage = title => {
                   return (
                     <>
                       <h2
-                        data-testid="poa-requests-table-heading"
+                        data-testid="representation-requests-table-heading"
                         className="poa-request__tab-heading"
                       >
                         Pending representation requests
@@ -148,19 +207,23 @@ const POARequestSearchPage = title => {
                         ]}
                         defaults={PENDING_SORT_DEFAULTS}
                       />
-                      <PaginationMeta
-                        meta={meta}
-                        results={poaRequests}
-                        resultType="requests"
-                        defaults={PENDING_SORT_DEFAULTS}
-                      />
+                      {(meta.page.total > 0 ||
+                        (selectedIndividual &&
+                          selectedIndividual !== 'false')) && (
+                        <PaginationMeta
+                          meta={meta}
+                          results={poaRequests}
+                          resultType="requests"
+                          defaults={PENDING_SORT_DEFAULTS}
+                        />
+                      )}
                     </>
                   );
                 case STATUSES.PROCESSED:
                   return (
                     <>
                       <h2
-                        data-testid="poa-requests-table-heading"
+                        data-testid="representation-requests-table-heading"
                         className="poa-request__tab-heading"
                       >
                         Processed representation requests
@@ -180,12 +243,16 @@ const POARequestSearchPage = title => {
                         ]}
                         defaults={PROCESSED_SORT_DEFAULTS}
                       />
-                      <PaginationMeta
-                        meta={meta}
-                        results={poaRequests}
-                        resultType="requests"
-                        defaults={PROCESSED_SORT_DEFAULTS}
-                      />
+                      {(meta.page.total > 0 ||
+                        (selectedIndividual &&
+                          selectedIndividual !== 'false')) && (
+                        <PaginationMeta
+                          meta={meta}
+                          results={poaRequests}
+                          resultType="requests"
+                          defaults={PROCESSED_SORT_DEFAULTS}
+                        />
+                      )}
                     </>
                   );
                 default:
@@ -193,8 +260,16 @@ const POARequestSearchPage = title => {
               }
             })()}
 
-            <POARequestSearchPageResults poaRequests={poaRequests} />
-            <Pagination meta={meta} />
+            {meta.page.total === 0 && (
+              <NoResultsText searchStatus={searchStatus} />
+            )}
+
+            {meta.page.total >= 1 && (
+              <>
+                <POARequestSearchPageResults poaRequests={poaRequests} />
+                <Pagination meta={meta} defaults={PENDING_SORT_DEFAULTS} />
+              </>
+            )}
           </div>
         )}
       </div>
@@ -206,13 +281,16 @@ POARequestSearchPage.propTypes = {
   title: PropTypes.string,
 };
 
-POARequestSearchPage.loader = ({ request }) => {
+POARequestSearchPage.loader = async ({ request }) => {
   const { searchParams } = new URL(request.url);
   const status = searchParams.get(SEARCH_PARAMS.STATUS);
   const sort = searchParams.get(SEARCH_PARAMS.SORTORDER);
   const sortBy = searchParams.get(SEARCH_PARAMS.SORTBY);
   const size = searchParams.get(SEARCH_PARAMS.SIZE);
   const number = searchParams.get(SEARCH_PARAMS.NUMBER);
+  const selectedIndividual = searchParams.get(
+    SEARCH_PARAMS.SELECTED_INDIVIDUAL,
+  );
   if (
     !Object.values(STATUSES).includes(status) &&
     !Object.values(STATUSES).includes(sort)
@@ -222,15 +300,37 @@ POARequestSearchPage.loader = ({ request }) => {
     searchParams.set(SEARCH_PARAMS.SORTBY, SORT_BY.CREATED);
     searchParams.set(SEARCH_PARAMS.SIZE, PENDING_SORT_DEFAULTS.SIZE);
     searchParams.set(SEARCH_PARAMS.NUMBER, PENDING_SORT_DEFAULTS.NUMBER);
+    searchParams.set(
+      SEARCH_PARAMS.SELECTED_INDIVIDUAL,
+      PENDING_SORT_DEFAULTS.SELECTED_INDIVIDUAL,
+    );
     throw redirect(`?${searchParams}`);
   }
 
-  return api.getPOARequests(
-    { status, sort, size, number, sortBy },
-    {
-      signal: request.signal,
-    },
-  );
+  try {
+    return await api.getPOARequests(
+      { status, sort, size, number, sortBy, selectedIndividual },
+      {
+        signal: request.signal,
+        skip403Redirect: true,
+      },
+    );
+  } catch (err) {
+    if (err instanceof Response && err.status === 403) {
+      // Try authorization endpoint
+      try {
+        await api.checkAuthorized({
+          signal: request.signal,
+        });
+        // If authorized as a representative, show alert and empty data
+        return { data: [], meta: {}, showPOA403Alert: true };
+      } catch (authErr) {
+        // If not authorized, let the redirect/throw happen as usual
+        throw err;
+      }
+    }
+    throw err;
+  }
 };
 
 export default POARequestSearchPage;

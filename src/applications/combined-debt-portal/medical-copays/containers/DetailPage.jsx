@@ -8,7 +8,7 @@ import DisputeCharges from '../components/DisputeCharges';
 import HowToPay from '../components/HowToPay';
 import FinancialHelp from '../components/FinancialHelp';
 import Modals from '../../combined/components/Modals';
-import Alert from '../../combined/components/MCPAlerts';
+import CopayAlertContainer from '../components/CopayAlertContainer';
 import {
   formatDate,
   verifyCurrentBalance,
@@ -56,14 +56,14 @@ const DetailPage = ({ match }) => {
           },
           {
             href: '/manage-va-debt/summary',
-            label: 'Your VA debt and bills',
+            label: 'Overpayments and copay bills',
           },
           {
             href: '/manage-va-debt/summary/copay-balances',
             label: 'Current copay balances',
           },
           {
-            href: `/manage-va-debt/summary/copay-balances/${selectedId}/detail`,
+            href: `/manage-va-debt/summary/copay-balances/${selectedId}`,
             label: `${title}`,
           },
         ]}
@@ -85,7 +85,7 @@ const DetailPage = ({ match }) => {
           </time>
           . Payments after this date will not be reflected here.
         </p>
-        <Alert type={alert} copay={selectedCopay} />
+        <CopayAlertContainer type={alert} copay={selectedCopay} />{' '}
         <va-on-this-page class="vads-u-margin-top--2 medium-screen:vads-u-margin-top--0" />
         <HTMLStatementList selectedId={selectedId} />
         <HowToPay acctNum={acctNum} facility={selectedCopay?.station} />

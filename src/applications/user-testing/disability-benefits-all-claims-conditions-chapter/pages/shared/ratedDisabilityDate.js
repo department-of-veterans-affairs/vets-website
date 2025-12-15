@@ -28,7 +28,7 @@ const HideDefaultDateHint = () => {
 const baseDateUI = currentOrPastDateUI({
   title: 'When did your condition get worse?',
   hint:
-    "You can share an approximate date. If your condition started in the winter of 2020, you'd enter December 1, 2020.",
+    'You can share an approximate date. If your condition started in the winter of 2020, enter December 1, 2020.',
 });
 
 /** @returns {PageSchema} */

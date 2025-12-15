@@ -29,15 +29,15 @@ const NoSponsorModal = ({ sponsorsList }) => {
       modalClass="vads-u-max-width--5xl"
       onPrimaryButtonClick={handleContinue}
       primaryButtonText="Yes, continue"
-      onSecondaryButtonClick={handleContinue}
+      onSecondaryButtonClick={handleExit}
       secondaryButtonText="No, exit application"
-      onCloseEvent={handleExit}
+      onCloseEvent={handleContinue}
     >
       <ul className="vads-u-margin-bottom--2">
         <li>
           If you are a Veteran or service member applying on behalf of your
           dependent, your application will be denied. Your dependent must apply
-          from their own Login.gov or ID.me account.
+          from their own ID.me or Login.gov account.
         </li>
         <li>
           If you believe you’re an eligible dependent receiving benefits through{' '}
@@ -60,7 +60,7 @@ const NoSponsorModal = ({ sponsorsList }) => {
         </li>
         <li>
           If you are a Veteran or service member applying for a benefit based on
-          your own your own service,{' '}
+          your own service,{' '}
           <a
             href="/education/apply-for-gi-bill-form-22-1990/introduction"
             target="_blank"

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import {
   generatePdfScaffold,
   updatePageTitle,
@@ -22,7 +21,12 @@ import ChemHemResults from './ChemHemResults';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
 import InfoAlert from '../shared/InfoAlert';
-import { processList, generateTextFile } from '../../util/helpers';
+import {
+  processList,
+  generateTextFile,
+  asyncErrorForUnequalBirthDates,
+  itemListWrapper,
+} from '../../util/helpers';
 import { pageTitles } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
 import {
@@ -36,12 +40,6 @@ import LabelValue from '../shared/LabelValue';
 const ChemHemDetails = props => {
   const { record, fullState, runningUnitTest } = props;
   const user = useSelector(state => state.user.profile);
-  const allowTxtDownloads = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
-      ],
-  );
   const [downloadStarted, setDownloadStarted] = useState(false);
 
   useEffect(
@@ -59,6 +57,11 @@ const ChemHemDetails = props => {
   );
 
   const generateChemHemPdf = async () => {
+    // Test to see if formatDateLong and formatBirthDate return the same value for the user's
+    // date of birth. If not, throw an error that will get picked up by Datadog that indicates
+    // which date is earlier.
+    asyncErrorForUnequalBirthDates(user.dob);
+
     setDownloadStarted(true);
     const { title, subject, subtitles } = generateLabsIntro(record);
     const scaffold = generatePdfScaffold(user, title, subject);
@@ -132,16 +135,6 @@ Lab comments: ${entry.labComments}\n`,
         />
 
         {downloadStarted && <DownloadSuccessAlert />}
-        <PrintDownload
-          description="L&TR Detail"
-          downloadPdf={generateChemHemPdf}
-          downloadTxt={generateChemHemTxt}
-          allowTxtDownloads={allowTxtDownloads}
-        />
-        <DownloadingRecordsInfo
-          description="L&TR Detail"
-          allowTxtDownloads={allowTxtDownloads}
-        />
 
         {/*                   TEST DETAILS                          */}
         <div className="test-details-container max-80">
@@ -170,8 +163,13 @@ Lab comments: ${entry.labComments}\n`,
               testId="chem-hem-collecting-location"
               data-dd-action-name="[lab and tests - location]"
             />
-            <LabelValue label="Lab comments" />
-            <ItemList list={record.comments} />
+            <LabelValue
+              label="Lab comments"
+              element={itemListWrapper(record?.comments)}
+              testId="chem-hem-lab-comments"
+            >
+              <ItemList list={record.comments} />
+            </LabelValue>
           </HeaderSection>
         </div>
         {/*         RESULTS CARDS            */}
@@ -194,6 +192,14 @@ Lab comments: ${entry.labComments}\n`,
             <ChemHemResults results={record.results} />
           </HeaderSection>
         </div>
+        <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
+        <DownloadingRecordsInfo description="L&TR Detail" />
+        <PrintDownload
+          description="L&TR Detail"
+          downloadPdf={generateChemHemPdf}
+          downloadTxt={generateChemHemTxt}
+        />
+        <div className="vads-u-margin-y--5 vads-u-border-top--1px vads-u-border-color--white" />
       </HeaderSection>
     </div>
   );

@@ -11,6 +11,8 @@ import { setFormCurrentPage, setInitReferralFlow } from './redux/actions';
 import { selectCurrentPage } from './redux/selectors';
 import { getReferralSlotKey } from './utils/referrals';
 import { titleCase } from '../utils/formatters';
+import FindCommunityCareOfficeLink from './components/FindCCFacilityLink';
+import { getIsInPilotReferralStation } from './utils/pilot';
 
 export default function ScheduleReferral(props) {
   const { attributes: currentReferral } = props.currentReferral;
@@ -19,6 +21,8 @@ export default function ScheduleReferral(props) {
   const currentPage = useSelector(selectCurrentPage);
   const dispatch = useDispatch();
   const selectedSlotKey = getReferralSlotKey(currentReferral.uuid);
+
+  const stationIdValid = getIsInPilotReferralStation(currentReferral);
   useEffect(
     () => {
       dispatch(setFormCurrentPage('scheduleReferral'));
@@ -39,26 +43,26 @@ export default function ScheduleReferral(props) {
     };
   };
 
+  const canScheduleAppointment =
+    currentReferral.provider?.name &&
+    !currentReferral.hasAppointments &&
+    stationIdValid;
+
   return (
     <ReferralLayout hasEyebrow heading={`Referral for ${categoryOfCare}`}>
       <div>
-        {!currentReferral.provider?.name && (
+        {!canScheduleAppointment && (
           <va-alert
             status="warning"
             data-testid="referral-alert"
             class="vads-u-margin-bottom--2"
           >
-            <p className="vads-u-margin-top--0">
-              Online scheduling is not available for this referral at this time.
-              Please call your provider directly for help scheduling an
-              appointment.
+            <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
+              Online scheduling isn’t available for this referral right now.
+              Call your community care provider or your facility’s community
+              care office to schedule an appointment.
             </p>
-            <p className="vads-u-margin-bottom--0">
-              <va-link
-                href="https://www.va.gov/find-locations"
-                text="Find your community care provider's phone number"
-              />
-            </p>
+            <FindCommunityCareOfficeLink />
           </va-alert>
         )}
 
@@ -82,7 +86,7 @@ export default function ScheduleReferral(props) {
             text="Find your VA health facility"
           />
         </va-additional-info>
-        {currentReferral.provider?.name && (
+        {canScheduleAppointment && (
           <va-link-action
             className="vads-u-margin-top--1"
             href={`/my-health/appointments/schedule-referral?id=${
@@ -121,22 +125,12 @@ export default function ScheduleReferral(props) {
           referral.
         </p>
         <h2>If you have questions about your referral</h2>
-        <p>
-          Contact the team at your referring VA facility. They can answer
-          questions about your referral, like how many appointments are included
-          and how to schedule your first one.
+        <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
+          If you have questions about scheduling an appointment, or about how
+          many appointments you have left, contact your facility’s community
+          care office.
         </p>
-        <p data-testid="referral-facility">
-          <strong>Referring VA facility: </strong>
-          <span data-dd-privacy="mask">
-            {currentReferral.referringFacility.name}
-          </span>
-          <br />
-          <strong>Phone: </strong>
-          <span data-dd-privacy="mask">
-            {currentReferral.referringFacility.phone}
-          </span>
-        </p>
+        <FindCommunityCareOfficeLink />
       </div>
     </ReferralLayout>
   );

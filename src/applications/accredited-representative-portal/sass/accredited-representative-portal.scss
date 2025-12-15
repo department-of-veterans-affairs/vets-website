@@ -1,7 +1,7 @@
 @import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 
 .arp-container {
-  max-width: 960px;
+  max-width: 984px;
   width: 100%;
   padding: 0 $vads-spacing-2;
   margin: 0 auto $vads-spacing-6;
@@ -44,7 +44,7 @@
   width: 100%;
 
   &__container {
-    max-width: 960px;
+    max-width: 984px;
     margin: 0 auto 20px;
   }
 
@@ -52,9 +52,12 @@
   h2 {
     margin: 0 0 16px 0;
   }
-
+  .usa-grid-full {
+    max-width: 984px;
+  }
   .va-footer-links-bottom {
     padding: 0;
+    max-width: 984px;
     ul {
       max-width: 720px;
       padding-bottom: 20px;
@@ -77,21 +80,134 @@
   display: none;
 }
 
-.home {
-  -webkit-font-smoothing: antialiased;
+.hp {
+   &__login {
+    padding: 12px 20px;
+    background-color: $vads-color-link;
+    border-radius: 0.25rem;
+    color: $vads-color-white !important;
+    text-decoration: none;
+    font-weight: 700;
+    display: block;
+    text-align: center;
+    @media (max-width: $medium-screen) {
+      max-width: 245px;
+    }
 
-  &__container {
-    max-width: 960px;
-    margin: 0 auto;
-
-    .home__full-width--portal & {
-      display: flex;
-      align-items: center;
-      flex-direction: column-reverse;
+    &:hover {
+      background-color: $vads-color-primary-dark;
+    }
+  }
+  &__img {
+    margin-bottom: 24px;
+    @media (min-width: $tablet) {
+      margin-bottom: 0;
+    }
+    .hp__content--get-started & {
+      @media (min-width: $tablet) {
+        padding: 0 24px 0 0;
+      }
 
       @media (min-width: $small-desktop-screen) {
         padding: 0;
-        flex-direction: row;
+      }
+    }
+
+    .hp__content--improve & {
+      @media (min-width: $tablet) {
+        padding: 0 0 0 24px;
+      }
+      @media (min-width: $small-desktop-screen) {
+        padding: 0;
+      }
+    }
+    &--portal {
+      @media (min-width: $small-desktop-screen) {
+        .hp__content--improve & {
+          margin-left: auto;
+          display: flex;
+        }
+      }
+    }
+  }
+  &__content {
+    &--hero {
+      @media (min-width: $tablet) {
+        align-items: center;
+      }
+    }
+    &--get-started {
+      margin-bottom: 48px !important;
+      align-items: center;
+      @media (min-width: $small-desktop-screen) {
+        margin-bottom: 72px !important;
+      }
+
+      div:nth-child(2) {
+        @media (min-width: $small-desktop-screen) {
+          margin-left: auto;
+        }
+      }
+
+      .hp__copy {
+        @media (min-width: $small-desktop-screen) {
+          margin-left: auto;
+          max-width: 396px;
+        }
+      }
+      h2 {
+        margin-top: 0;
+      }
+    }
+
+    &--improve {
+      align-items: center;
+      @media (max-width: $tablet) {
+        flex-direction: column-reverse;
+      }
+      @media (min-width: $tablet) {
+        align-items: center;
+      }
+      div:nth-child(2) {
+        @media (min-width: $small-desktop-screen) {
+          margin-left: auto;
+        }
+      }
+
+      .hp__copy {
+        @media (min-width: $small-desktop-screen) {
+          max-width: 396px;
+        }
+      }
+      h2 {
+        margin-top: 0;
+      }
+    }
+    &--portal {
+      div:first-child {
+        align-self: center;
+        @media (min-width: $small-desktop-screen) {
+          padding-right: 24px;
+        }
+      }
+      h2 {
+        margin-top: 0;
+      }
+    }
+    &--veteran {
+      h2 {
+        margin: 0 0 24px 0;
+      }
+    }
+
+    &--accreditation {
+      align-items: center;
+
+      div:nth-child(2) {
+        margin-left: auto;
+      }
+      h2 {
+        margin-top: 0;
       }
     }
   }
@@ -105,15 +221,38 @@
       url("../../../site/assets/img/arp-hp-hero.jpg");
     background-size: cover;
     background-position: center;
+    padding: 30px 0;
 
-    &-container {
-      max-width: 960px;
-      margin: 0 auto;
-      color: $vads-color-base-lightest;
-      padding: 30px 16px;
+    @media (min-width: $medium-screen) {
+      padding: 48px 30px;
+    }
 
+    @media (min-width: $small-desktop-screen) {
+      padding: 72px 16px;
+    }
+
+    &-bg {
+      background-color: $vads-color-primary-dark;
+      padding: 20px;
+      border-radius: 8px;
       @media (min-width: $medium-screen) {
-        padding: 72px 16px;
+        padding: 50px 16px;
+      }
+
+      @media (min-width: $small-desktop-screen) {
+        padding: 50px 70px 50px 50px;
+      }
+
+      &--login {
+        background-color: $vads-color-white;
+        color: $vads-color-base;
+        width: 100%;
+        padding: 30px;
+        margin-top: 24px;
+
+        @media (min-width: $medium-screen) {
+          margin-top: 0;
+        }
       }
     }
     &-header {
@@ -122,48 +261,61 @@
     }
 
     &-sub-header {
+      color: $vads-color-white;
       font-size: 24px;
       font-family: $font-family-serif;
-    }
 
-    &-bg {
-      background-color: $vads-color-primary-dark;
-      padding: 20px;
-      border-radius: 8px;
-
-      @media (min-width: $medium-screen) {
-        max-width: 544px;
-        padding: 50px;
+      &--login {
+        margin-top: 0;
       }
     }
   }
-
-  &__content {
-    padding: 32px 16px;
-    max-width: 732px;
+  &__container {
+    padding: 40px 16px;
+    .vads-grid-row {
+      max-width: 984px;
+      margin: 0 auto;
+      @media (min-width: $small-desktop-screen) {
+        padding: 0 16px;
+      }
+    }
 
     @media (min-width: $medium-screen) {
-      padding: 52px 16px;
+      padding: 48px 16px;
     }
 
-    h2 {
-      margin: 0 0 24px 0;
-    }
-    &-copy {
-      margin-bottom: 32px;
+    @media (min-width: $small-desktop-screen) {
+      padding: 72px 16px;
     }
 
-    .vads-u-background-color--primary & {
-      color: $vads-color-base-lightest;
+    &.is--lighter {
+      background-color: $vads-color-primary-lighter;
     }
   }
 
-  &__full-width {
+  &__card {
+    margin-bottom: 20px;
+    display: flex;
     h3 {
-      margin: 0;
+      margin-top: 0;
     }
-    &.is--lighter {
-      background-color: $vads-color-primary-lighter;
+    &:last-child {
+      @media (min-width: $tablet) {
+        padding-right: 0;
+      }
+    }
+
+    h3 {
+      margin-top: 0;
+    }
+
+    @media (min-width: $tablet) {
+      padding-right: 20px;
+      margin-bottom: 0;
+    }
+
+    &:first-child {
+      padding: 0;
     }
   }
   &__link {
@@ -177,50 +329,15 @@
       word-break: break-all;
     }
   }
-
-  &__overlay {
-    position: relative;
-
-    ~ div {
-      @media (min-width: $medium-screen) {
-        margin-left: 55px;
-        width: 50%;
-        padding: 60px 0;
-      }
-    }
-
-    &::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 100%;
-      width: 100%;
-      background-color: rgba($vads-color-primary-dark, 0.46);
-    }
-  }
-
-  &__sub-header {
-    @media (min-width: $medium-screen) {
-      font-size: 20px;
-    }
-  }
-  &__portal-img {
-    width: 100%;
-
-    @media (min-width: $small-desktop-screen) {
-      width: 464px;
-      height: 340px;
-    }
-  }
-
-  &__banner {
-    &-email {
-      margin-bottom: 0;
-    }
+}
+.is--login {
+  margin-left: auto;
+}
+.is--sm-padding {
+  @media (min-width: $small-desktop-screen) {
+    padding: 40px 16px;
   }
 }
-
 .arp-full-width-alert {
   width: 100%;
 
@@ -229,7 +346,7 @@
   }
 }
 
-.poa-requests-page-table-container {
+.representation-requests-page-table-container {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -323,5 +440,25 @@ h2.claimant-name {
       height: 1em;
       padding: 0 0.25em;
     }
+  }
+}
+
+.arp__home__link--learn-more {
+  margin-bottom: 24px;
+  display: block;
+}
+
+.arp__home__link--watch-video {
+  margin-bottom: 24px;
+  display: block;
+}
+
+.arp__landing__card-body {
+  margin: 0;
+}
+
+.poa-request {
+  .no-poa-requests-text {
+    margin-top: 32px;
   }
 }

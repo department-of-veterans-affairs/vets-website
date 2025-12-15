@@ -1,6 +1,7 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+import { focusElement } from 'platform/utilities/ui';
 import { isLoggedIn } from 'platform/user/selectors';
 import FormTitle from '~/platform/forms-system/src/js/components/FormTitle';
 import {
@@ -16,7 +17,6 @@ import { getFormContent, getFormNumber } from '../helpers';
 import { SIGN_IN_URL } from '../constants';
 
 const IntroductionPage = ({ route, router }) => {
-  const [visibleAlert, setVisibleAlert] = useState(true);
   const userLoggedIn = useSelector(state => isLoggedIn(state));
   const formNumber = getFormNumber();
   const { subTitle, pdfDownloadUrl } = getFormContent();
@@ -45,37 +45,21 @@ const IntroductionPage = ({ route, router }) => {
     },
     [route.pageList, router],
   );
-
+  useEffect(() => {
+    focusElement('h1');
+  }, []);
   return (
     <article className="schemaform-intro representative-form">
-      <VaAlert
-        close-btn-aria-label="Close notification"
-        status="info"
-        closeable
-        uswds
-        onCloseEvent={() => setVisibleAlert(false)}
-        visible={visibleAlert}
-        className="form-upload__alert"
-      >
-        <h2 id="track-your-status-on-mobile" slot="headline">
-          We are working to improve this tool
-        </h2>
-        <p className="vads-u-margin-y--0">
-          This is an early version of the Accredited Representative Portal that
-          has limited functionality.
-        </p>
-      </VaAlert>
       <FormTitle title={`Submit VA Form ${formNumber}`} subTitle={subTitle} />
       <h2 className="representative-form__h2">
         Follow these steps to submit the form
       </h2>
       <VaProcessList>
-        <VaProcessListItem header="Confirm power of attorney">
+        <VaProcessListItem header="Confirm that you represent the claimant">
           <p>
-            Make sure you or your Veterans Service Organization (VSO) has
-            established power of attorney (POA) with the claimant. If POA is not
-            established, the portal will not allow you to submit the claimant’s
-            form.
+            Make sure you or your Veterans Service Organization (VSO) have
+            established representation with the claimant. If you don’t currently
+            represent them, the portal will not allow you to submit the form.
           </p>
         </VaProcessListItem>
         <VaProcessListItem header="Download, fill out, and sign the form">
@@ -100,8 +84,8 @@ const IntroductionPage = ({ route, router }) => {
         </VaProcessListItem>
         <VaProcessListItem header="Upload and submit the form">
           <p>
-            First provide information about the claimant so we can confirm you
-            have established POA. Then upload the form, review, and submit the
+            First provide information about the claimant so we can confirm that
+            you represent them. Then upload the form, review, and submit the
             form.
           </p>
           <p>

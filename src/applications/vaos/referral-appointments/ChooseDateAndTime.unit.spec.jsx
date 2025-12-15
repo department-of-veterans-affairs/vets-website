@@ -102,6 +102,23 @@ describe('VAOS ChooseDateAndTime component', () => {
       confirmed,
       confirmedStatus: FETCH_STATUS.succeeded,
     },
+    appointmentApi: {
+      queries: {
+        'getDraftReferralAppointment({"referralConsultId":"984_646907","referralNumber":"VA0000007241"})': {
+          status: 'fulfilled',
+          data: createDraftAppointmentInfo(1),
+          endpoint: 'getDraftReferralAppointment',
+          requestId: 'abc',
+          startedTimeStamp: 1758046349181,
+          fulfilledTimeStamp: 1758046349182,
+        },
+      },
+      subscriptions: {
+        'getDraftReferralAppointment({"referralConsultId":"984_646907","referralNumber":"VA0000007241"})': {
+          abc: { pollingInterval: 0 },
+        },
+      },
+    },
   };
   const initialEmptyState = {
     featureToggles: {
@@ -147,15 +164,16 @@ describe('VAOS ChooseDateAndTime component', () => {
     sandbox.restore();
   });
   it('should fetch provider or appointments from store if it exists and not call API', async () => {
+    const store = createTestStore(initialFullState);
     sandbox
       .stub(utils, 'apiRequestWithUrl')
-      .resolves({ data: createDraftAppointmentInfo(1) });
+      .resolves({ data: createDraftAppointmentInfo() });
     renderWithStoreAndRouter(
       <ChooseDateAndTime
         currentReferral={createReferralById('2024-09-09', 'UUID')}
       />,
       {
-        store: createTestStore(initialFullState),
+        store,
       },
     );
     sandbox.assert.notCalled(utils.apiRequestWithUrl);
@@ -164,7 +182,7 @@ describe('VAOS ChooseDateAndTime component', () => {
   it('should call API for provider or appointment data if not in store', async () => {
     sandbox
       .stub(utils, 'apiRequestWithUrl')
-      .resolves({ data: createDraftAppointmentInfo(1) });
+      .resolves({ data: createDraftAppointmentInfo() });
     const screen = renderWithStoreAndRouter(
       <ChooseDateAndTime
         currentReferral={createReferralById('2024-09-09', 'UUID')}
@@ -194,7 +212,9 @@ describe('VAOS ChooseDateAndTime component', () => {
     sandbox.assert.calledOnce(fetchAppointmentsModule.fetchAppointments);
   });
   it('should show error if any fetch fails', async () => {
-    sandbox.stub(utils, 'apiRequestWithUrl').throws();
+    sandbox.stub(utils, 'apiRequestWithUrl').throws({
+      error: { status: 500, message: 'Failed to create appointment' },
+    });
     const screen = renderWithStoreAndRouter(
       <ChooseDateAndTime
         currentReferral={createReferralById('2024-09-09', 'UUID')}
@@ -203,7 +223,7 @@ describe('VAOS ChooseDateAndTime component', () => {
         store: createTestStore(failedState),
       },
     );
-    waitFor(() => {
+    await waitFor(() => {
       expect(screen.getByTestId('error')).to.exist;
     });
   });

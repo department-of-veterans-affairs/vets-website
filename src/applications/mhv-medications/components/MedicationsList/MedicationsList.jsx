@@ -13,7 +13,6 @@ import {
 } from '../../util/constants';
 import PrescriptionPrintOnly from '../PrescriptionDetails/PrescriptionPrintOnly';
 import { fromToNumbs } from '../../util/helpers';
-import { selectGroupingFlag } from '../../util/selectors';
 import { dataDogActionNames } from '../../util/dataDogConstants';
 import { selectPrescriptionId } from '../../selectors/selectPrescription';
 import { selectFilterOption } from '../../selectors/selectPreferences';
@@ -34,9 +33,8 @@ const MedicationsList = props => {
   ]?.LABEL.toLowerCase();
   const totalMedications = pagination.totalEntries;
   const prescriptionId = useSelector(selectPrescriptionId);
-  const showGroupingFlag = useSelector(selectGroupingFlag);
 
-  const perPage = showGroupingFlag ? 10 : 20;
+  const perPage = 10;
 
   const displaynumberOfPrescriptionsSelector =
     ".no-print [data-testid='page-total-info']";
@@ -46,7 +44,7 @@ const MedicationsList = props => {
     navigate(`/?page=${page}`, {
       replace: true,
     });
-    updateLoadingStatus(null, 'Loading your medications...');
+    updateLoadingStatus('Loading your medications...');
     waitForRenderThenFocus(displaynumberOfPrescriptionsSelector, document, 500);
   };
 
@@ -76,12 +74,25 @@ const MedicationsList = props => {
     );
   };
 
+  // used to create aria-label for filter and sort info (for Firefox)
+  const filterAndSortAriaLabel = () => {
+    const allMedsSelected = selectedFilterOption === ALL_MEDICATIONS_FILTER_KEY;
+    const filterText =
+      !isFullList && !allMedsSelected
+        ? `${selectedFilterDisplay} medications`
+        : 'medications';
+    return `${filterText}, ${sortOptionLowercase}`;
+  };
+
   return (
     <>
       <p
         className="rx-page-total-info vads-u-font-family--sans"
         data-testid="page-total-info"
         id="showingRx"
+        aria-label={`Showing ${displayNums[0]} - ${
+          displayNums[1]
+        } of ${totalMedications} ${filterAndSortAriaLabel()}`}
       >
         <span className="no-print">
           {`Showing ${displayNums[0]} - ${
@@ -99,22 +110,24 @@ const MedicationsList = props => {
         {rxList?.length > 0 &&
           rxList.map((rx, idx) => <PrescriptionPrintOnly key={idx} rx={rx} />)}
       </div>
-      <div
-        className="vads-u-display--block vads-u-margin-top--3"
+      <ul
+        className="medications-list-style--none vads-u-margin--0 vads-u-padding--0 vads-u-margin-top--3"
         data-testid="medication-list"
       >
         {rxList?.length > 0 &&
           rxList.map(
             (rx, idx) =>
               rx.prescriptionId === prescriptionId ? (
-                <div ref={scrollLocation} key={idx}>
+                <li ref={scrollLocation} key={idx}>
                   <MedicationsListCard rx={rx} />
-                </div>
+                </li>
               ) : (
-                <MedicationsListCard key={idx} rx={rx} />
+                <li key={idx}>
+                  <MedicationsListCard rx={rx} />
+                </li>
               ),
           )}
-      </div>
+      </ul>
       <VaPagination
         max-page-list-length={MAX_PAGE_LIST_LENGTH}
         id="pagination"

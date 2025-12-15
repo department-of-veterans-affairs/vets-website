@@ -31,6 +31,13 @@ export const clearListOfThreads = () => async dispatch => {
   dispatch({ type: Actions.Thread.CLEAR_LIST });
 };
 
+export const setThreadRefetchRequired = value => async dispatch => {
+  dispatch({
+    type: Actions.Thread.RE_FETCH_REQUIRED,
+    payload: value,
+  });
+};
+
 export const getListOfThreads = (
   folderId,
   pageSize,

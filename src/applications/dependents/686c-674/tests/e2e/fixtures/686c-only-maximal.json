@@ -1,4 +1,5 @@
 {
+  "vaDependentsNetWorthAndPension": false,
   "doesLiveWithSpouse": {
     "spouseIncome": "Y",
     "spouseDoesLiveWithVeteran": true,
@@ -48,6 +49,7 @@
       "isEncrypted": false
     }
   ],
+  "view:householdIncome": true,
   "view:completedChildStoppedAttendingSchool": false,
   "view:completedMarriedChild": false,
   "view:completedDependent": false,
@@ -194,13 +196,11 @@
     "ssn": "764133702",
     "birthDate": "1977-06-23",
     "ssnLastFour": "3702",
-    "vaFileLastFour": "3702"
+    "vaFileLastFour": "3702",
+    "isInReceiptOfPension": -1
   },
   "useV2": true,
   "daysTillExpires": 365,
-  "metadata": {
-    "former marriagesForceRenderTimestamp": 1745275642611
-  },
   "privacyAgreementAccepted": true,
   "studentInformation": [
     {
@@ -247,7 +247,7 @@
       "tuitionIsPaidByGovAgency": false,
       "view:programExamples": {},
       "ssn": "800662233",
-      "isParent": false,
+      "relationshipToStudent": "biological",
       "wasMarried": false,
       "address": {
         "view:militaryBaseDescription": {},

@@ -1,10 +1,9 @@
 import React from 'react';
 
-import { DLC_PHONE } from '../constants';
-
 import Accessories from './Accessories';
 import ApneaSupplies from './ApneaSupplies';
 import Batteries from './Batteries';
+import DlcTelephoneLink from './DlcTelephoneLink';
 
 const BatteriesAndAccessories = () => (
   <>
@@ -15,7 +14,7 @@ const BatteriesAndAccessories = () => (
     </p>
     <p>
       If you need unavailable items sooner, please call the DLC Customer Service
-      Section at <va-telephone contact={DLC_PHONE} /> or email{' '}
+      Section at <DlcTelephoneLink /> or email{' '}
       <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
     </p>
     <Batteries />

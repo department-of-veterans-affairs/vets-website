@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
-
 import recordEvent from 'platform/monitoring/record-event';
-
 import { BDD_INFO_URL } from 'applications/disability-benefits/all-claims/constants';
+
+import { daysFromToday } from '../../utils/dates/formatting';
+import { parseDate } from '../../utils/dates';
 
 import { getDiffInDays } from '../utils';
 
@@ -15,13 +15,15 @@ const content = {
     'Learn more about why you’re not eligible for disability benefits right now',
 };
 
+const getToday = () => parseDate(daysFromToday(0));
+
 const UnableToFileBDDPage = ({ data = {} }) => {
   const { radDate } = data;
 
   const differenceBetweenDatesInDays = getDiffInDays(radDate) - 179;
-  const dateEligible = moment()
+  const dateEligible = getToday()
     .add(differenceBetweenDatesInDays, 'days')
-    .format('MMMM D, YYYY');
+    .formatDate();
 
   recordEvent({
     event: 'howToWizard-alert-displayed',

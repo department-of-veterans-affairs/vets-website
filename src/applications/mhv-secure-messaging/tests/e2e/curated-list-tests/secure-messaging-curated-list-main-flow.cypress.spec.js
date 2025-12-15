@@ -10,7 +10,7 @@ describe('SM CURATED LIST MAIN FLOW', () => {
   beforeEach(() => {
     const updatedFeatureToggles = GeneralFunctionsPage.updateFeatureToggles([
       {
-        name: 'mhv_secure_messaging_cerner_pilot',
+        name: 'mhv_secure_messaging_curated_list_flow',
         value: true,
       },
     ]);
@@ -27,8 +27,15 @@ describe('SM CURATED LIST MAIN FLOW', () => {
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
+  it('verify page title', () => {
+    GeneralFunctionsPage.verifyPageTitle(
+      'Select Care Team - Start Message | Veterans Affairs',
+    );
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+  });
+
   it('verify navigating to compose page', () => {
-    PilotEnvPage.selectCareTeam(0);
+    PilotEnvPage.selectCareSystem(0);
 
     PilotEnvPage.selectTriageGroup(2);
 
@@ -49,7 +56,7 @@ describe('SM CURATED LIST MAIN FLOW', () => {
   });
 
   it('verify user can send a message', () => {
-    PilotEnvPage.selectCareTeam(0);
+    PilotEnvPage.selectCareSystem(0);
 
     PilotEnvPage.selectTriageGroup(2);
 

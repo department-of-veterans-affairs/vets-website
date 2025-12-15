@@ -19,6 +19,7 @@ import {
   TYPE_OF_CARE_IDS,
   TYPES_OF_CARE,
   TYPES_OF_EYE_CARE,
+  TYPES_OF_MENTAL_HEALTH,
   TYPES_OF_SLEEP_CARE,
 } from '../../utils/constants';
 import { removeDuplicateId } from '../../utils/data';
@@ -60,9 +61,24 @@ export function getTypeOfCare(data) {
     return TYPES_OF_EYE_CARE.find(care => care.id === data.typeOfEyeCareId);
   }
 
+  if (data.typeOfCareId === TYPE_OF_CARE_IDS.MENTAL_HEALTH_ID) {
+    // When featureSubstanceUseDisorder and featurePCMHI are off, there will be no
+    // typeOfMentalHealthId in the form data. In this case, we should use the existing
+    // Mental health care with a specialist type of care (stop code 502). This can be
+    // removed once the features are released.
+    if (!data.typeOfMentalHealthId) {
+      return TYPES_OF_MENTAL_HEALTH.find(
+        care => care.id === TYPE_OF_CARE_IDS.MENTAL_HEALTH_SERVICES_ID,
+      );
+    }
+    return TYPES_OF_MENTAL_HEALTH.find(
+      care => care.id === data.typeOfMentalHealthId,
+    );
+  }
+
   if (
     data.typeOfCareId === TYPE_OF_CARE_IDS.AUDIOLOGY_ID &&
-    data.facilityType === FACILITY_TYPES.COMMUNITY_CARE
+    data.facilityType === FACILITY_TYPES.COMMUNITY_CARE.id
   ) {
     return AUDIOLOGY_TYPES_OF_CARE.find(
       care => care.ccId === data.audiologyType,

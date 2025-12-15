@@ -1,11 +1,5 @@
-import React from 'react';
-import { cloneDeep } from 'lodash';
-import merge from 'lodash/merge';
 import {
-  fullNameUI,
-  fullNameSchema,
   titleUI,
-  titleSchema,
   addressUI,
   addressSchema,
   phoneUI,
@@ -17,47 +11,23 @@ import {
   validAddressCharsOnly,
   validObjectCharsOnly,
 } from '../../shared/validations';
-
-export const blankSchema = { type: 'object', properties: {} };
-
-const fullNameMiddleInitialUI = cloneDeep(fullNameUI());
-fullNameMiddleInitialUI.middle['ui:title'] = 'Middle initial';
-
-const sponsorHint = (
-  <>
-    You selected that you’re the Veteran filling out this form for your spouse
-    or dependent. This means that you’re their sponsor (this is the Veteran or
-    service member the beneficiary is connected to).
-    <br />
-    <br />
-    Enter your information here. We’ll use this information to confirm the
-    beneficiary’s eligibility.
-  </>
-);
-
-const otherHint = addressee =>
-  `Enter the information for the sponsor (this is the Veteran or service member ${
-    addressee[0]
-  } connected to). We’ll use the sponsor’s information to confirm ${
-    addressee[1]
-  } eligibility.`;
+import VeteranNameDescription from '../components/FormDescriptions/VeteranNameDescription';
+import {
+  fullNameMiddleInitialSchema,
+  fullNameMiddleInitialUI,
+} from '../definitions';
+import { personalizeTitleByRole } from '../utils/helpers';
+import content from '../locales/en/content.json';
 
 export const sponsorNameSchema = {
   uiSchema: {
     ...titleUI(
-      ({ formData }) => {
-        const isSponsor = formData?.certifierRole === 'sponsor';
-        return `${isSponsor ? 'Your' : 'Sponsor’s'} name`;
-      },
-      ({ formData }) => {
-        const isSponsor = formData?.certifierRole === 'sponsor';
-        const isBeneficiary = formData?.certifierRole === 'applicant';
-        const addressee = isBeneficiary
-          ? ['you are', 'your']
-          : ['the beneficiary is', 'the beneficiary’s'];
-
-        return <>{isSponsor ? sponsorHint : otherHint(addressee)}</>;
-      },
+      ({ formData }) =>
+        personalizeTitleByRole(formData, content['page-title--name'], {
+          matchRole: 'sponsor',
+          other: content['noun--veteran-possessive'],
+        }),
+      VeteranNameDescription,
     ),
     sponsorName: fullNameMiddleInitialUI,
     'ui:validations': [
@@ -68,8 +38,7 @@ export const sponsorNameSchema = {
   schema: {
     type: 'object',
     properties: {
-      titleSchema,
-      sponsorName: fullNameSchema,
+      sponsorName: fullNameMiddleInitialSchema,
     },
   },
 };
@@ -77,14 +46,12 @@ export const sponsorNameSchema = {
 export const sponsorAddressSchema = {
   uiSchema: {
     ...titleUI(
-      'Your mailing address',
-      'We’ll send any important information about this form to this address.',
+      content['veteran--mailing-address-title'],
+      content['veteran--mailing-address-desc'],
     ),
-    sponsorAddress: merge({}, addressUI(), {
-      state: {
-        'ui:errorMessages': {
-          required: 'Enter a valid State, Province, or Region',
-        },
+    sponsorAddress: addressUI({
+      labels: {
+        militaryCheckbox: content['form-label--address-military'],
       },
     }),
     'ui:validations': [
@@ -95,7 +62,6 @@ export const sponsorAddressSchema = {
   schema: {
     type: 'object',
     properties: {
-      titleSchema,
       sponsorAddress: addressSchema({ omit: ['street3'] }),
     },
   },
@@ -104,8 +70,8 @@ export const sponsorAddressSchema = {
 export const sponsorContactSchema = {
   uiSchema: {
     ...titleUI(
-      'Your phone number',
-      'We’ll use this information to contact you if we have more questions.',
+      content['veteran--contact-info-title'],
+      content['veteran--contact-info-desc'],
     ),
     sponsorPhone: phoneUI(),
     sponsorEmail: emailUI(),
@@ -114,7 +80,6 @@ export const sponsorContactSchema = {
     type: 'object',
     required: ['sponsorPhone', 'sponsorEmail'],
     properties: {
-      titleSchema,
       sponsorPhone: phoneSchema,
       sponsorEmail: emailSchema,
     },

@@ -4,10 +4,11 @@ import {
   useLocation,
   useHistory,
 } from 'react-router-dom/cjs/react-router-dom.min';
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import {
   updatePageTitle,
   generatePdfScaffold,
@@ -19,7 +20,9 @@ import {
   makePdf,
   formatNameFirstLast,
   formatUserDob,
+  useAcceleratedData,
 } from '@department-of-veterans-affairs/mhv/exports';
+
 import RecordList from '../components/RecordList/RecordList';
 import RecordListNew from '../components/RecordList/RecordListNew';
 import {
@@ -47,6 +50,7 @@ import {
 } from '../util/helpers';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
+import useReloadResetListOnUnmount from '../hooks/useReloadResetListOnUnmount';
 import RecordListSection from '../components/shared/RecordListSection';
 import {
   generateVaccinesIntro,
@@ -54,10 +58,10 @@ import {
 } from '../util/pdfHelpers/vaccines';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
-import useAcceleratedData from '../hooks/useAcceleratedData';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import { useTrackAction } from '../hooks/useTrackAction';
+import { Actions } from '../util/actionTypes';
 
 const Vaccines = props => {
   const { runningUnitTest } = props;
@@ -74,11 +78,9 @@ const Vaccines = props => {
   } = useSelector(state => state.mr.vaccines);
   const user = useSelector(state => state.user.profile);
   const refresh = useSelector(state => state.mr.refresh);
-  const { allowTxtDownloads, useBackendPagination } = useSelector(state => {
+  const { useBackendPagination } = useSelector(state => {
     const toggles = state.featureToggles;
     return {
-      allowTxtDownloads:
-        toggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads],
       useBackendPagination:
         toggles[
           FEATURE_FLAG_NAMES.mhvMedicalRecordsSupportBackendPaginationVaccine
@@ -118,17 +120,13 @@ const Vaccines = props => {
     checkUpdatesAction: checkForVaccineUpdates,
   });
 
-  useEffect(
-    /**
-     * @returns a callback to automatically load any new records when unmounting this component
-     */
-    () => {
-      return () => {
-        dispatch(reloadRecords());
-      };
-    },
-    [dispatch],
-  );
+  // On Unmount: reload any newly updated records and normalize the FETCHING state.
+  useReloadResetListOnUnmount({
+    listState,
+    dispatch,
+    updateListActionType: Actions.Vaccines.UPDATE_LIST_STATE,
+    reloadRecordsAction: reloadRecords,
+  });
 
   useEffect(
     () => {
@@ -289,17 +287,6 @@ const Vaccines = props => {
 
         {vaccines?.length ? (
           <>
-            <PrintDownload
-              description="Vaccines - List"
-              list
-              downloadPdf={generateVaccinesPdf}
-              allowTxtDownloads={allowTxtDownloads}
-              downloadTxt={generateVaccinesTxt}
-            />
-            <DownloadingRecordsInfo
-              allowTxtDownloads={allowTxtDownloads}
-              description="Vaccines"
-            />
             {useBackendPagination && vaccines ? (
               <RecordListNew
                 records={vaccines?.map(vaccine => ({
@@ -318,6 +305,15 @@ const Vaccines = props => {
                 type={recordType.VACCINES}
               />
             )}
+
+            <DownloadingRecordsInfo description="Vaccines" />
+            <PrintDownload
+              description="Vaccines - List"
+              list
+              downloadPdf={generateVaccinesPdf}
+              downloadTxt={generateVaccinesTxt}
+            />
+            <div className="vads-u-margin-y--5 vads-u-border-top--1px vads-u-border-color--white" />
           </>
         ) : (
           <NoRecordsMessage type={recordType.VACCINES} />

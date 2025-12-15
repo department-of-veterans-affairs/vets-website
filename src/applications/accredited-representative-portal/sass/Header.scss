@@ -2,13 +2,19 @@
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
 
 .header {
+  @media screen and (max-width: 428px) {
+    button.nav__btn--user {
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+  }
   min-height: auto;
   -webkit-font-smoothing: antialiased;
 
   &__govt-site {
     width: 100%;
     padding: 8px 16px;
-    max-width: 960px;
+    max-width: 984px;
     @media (min-width: $medium-screen) {
       margin: 0 auto;
       padding: 4px 16px;
@@ -43,6 +49,33 @@
       margin: 4px 0;
     }
   }
+
+  .heading-right {
+    display: inline-flex;
+    margin-left: auto;
+    align-items: center;
+    .heading-help-link {
+      border: none;
+      color: var(--vads-color-base);
+      padding: 8px 12px 8px 12px;
+      font-size: 16.96px;
+      font-weight: 700;
+      text-decoration: none;
+      margin-right: 12px;
+      border-radius: 4px;
+
+      &.logged-in {
+        @media screen and (max-width: 768px) {
+          transform: translateY(-6px);
+          display: none;
+        }
+        @media screen and (max-width: 425px) {
+          padding-right: 0px;
+          margin-right: 0px;
+        }
+      }
+    }
+  }
 }
 .user-nav {
   margin-left: auto;
@@ -58,9 +91,18 @@
 .nav {
   flex-wrap: wrap;
   border-bottom: 2px solid $vads-color-primary-darker;
+  &:has(.is--displayed) {
+    @media (min-width: $medium-screen) {
+      border-bottom: none;
+    }
+  }
 
-  &:has(.nav__container-secondary) {
-    border-bottom: none;
+  &__mobile-menu-links {
+    color: var(--vads-color-white) !important;
+  }
+  &__dropdown-group {
+    display: flex;
+    align-items: center;
   }
 
   &__container-primary {
@@ -83,12 +125,34 @@
     padding: 0 16px;
 
     li {
-      border-bottom: 4px solid $vads-color-white;
+      border-top: 4px solid var(--vads-color-white);
       padding: 16px 0;
 
+      .nav__profile-menu & {
+        border-top: 1px solid $vads-color-base-light;
+      }
+
       &:first-child {
+        display: flex;
+        align-items: center;
         border: none;
         margin-bottom: 0;
+
+        .nav__full-width & {
+          a {
+            margin-left: 10px;
+
+            @media (min-width: $medium-screen) {
+              margin-left: 0;
+            }
+          }
+        }
+      }
+
+      &.vads-u-display--none {
+        ~ li {
+          border-top: none;
+        }
       }
     }
 
@@ -113,7 +177,7 @@
     width: 100%;
     flex-wrap: wrap;
     margin: 0 auto;
-    max-width: 960px;
+    max-width: 984px;
     align-items: center;
     flex-wrap: nowrap;
   }
@@ -131,7 +195,7 @@
 
     @media (min-width: $medium-screen) {
       display: flex;
-      max-width: 960px;
+      max-width: 984px;
       margin: 0 auto 48px;
     }
   }
@@ -146,6 +210,21 @@
     display: flex;
     align-items: center;
     margin-left: auto;
+
+    &.is--active {
+      position: relative;
+
+      &:after {
+        content: "";
+        border-bottom: 4px solid;
+        border-color: var(--vads-color-primary);
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+      }
+    }
 
     &.is--sign-in {
       border-radius: 4px;
@@ -214,7 +293,7 @@
         }
       }
 
-      &:focus {
+      &[aria-expanded="true"] {
         .user-nav__chevron {
           transform: rotate(90deg);
         }

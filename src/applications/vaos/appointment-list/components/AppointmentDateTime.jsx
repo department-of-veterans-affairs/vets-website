@@ -1,12 +1,15 @@
 import { formatInTimeZone } from 'date-fns-tz';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { getAppointmentTimezone } from '../../services/appointment';
+import { DATE_FORMATS } from '../../utils/constants';
+import { selectFeatureUseBrowserTimezone } from '../../redux/selectors';
 
 export function AppointmentDate({
   date,
   timezone,
-  format = 'EEEE, MMMM d, yyyy',
+  format = DATE_FORMATS.friendlyWeekdayDate,
 }) {
   return (
     <span data-dd-privacy="mask">
@@ -26,16 +29,27 @@ export function AppointmentTime({
   timezone,
   format = 'h:mm aaaa',
 }) {
+  const featureUseBrowserTimezone = useSelector(
+    selectFeatureUseBrowserTimezone,
+  );
+
   if (!appointment) return null;
 
-  const { abbreviation, description } = getAppointmentTimezone(appointment);
+  const { abbreviation, description } = getAppointmentTimezone(
+    appointment,
+    featureUseBrowserTimezone,
+  );
   return (
     <>
-      <span data-dd-privacy="mask">
+      <span data-dd-privacy="mask" data-testid="appointment-time">
         {formatInTimeZone(appointment.start, timezone, format)}{' '}
       </span>
-      <span aria-hidden="true">{abbreviation}</span>
-      <span className="sr-only">{description}</span>
+      <span aria-hidden="true" data-testid="appointment-time-abbreviation">
+        {abbreviation}
+      </span>
+      <span className="sr-only" data-testid="appointment-time-description">
+        {description}
+      </span>
     </>
   );
 }

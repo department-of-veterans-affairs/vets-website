@@ -1,5 +1,4 @@
 import React from 'react';
-import moment from 'moment';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import {
@@ -9,6 +8,7 @@ import {
 } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import { mount } from 'enzyme';
 import { waitFor } from '@testing-library/dom';
+import { daysFromToday } from '../../utils/dates/formatting';
 import formConfig from '../../config/form';
 
 describe('Reserve and National Guard Information', () => {
@@ -116,16 +116,12 @@ describe('Reserve and National Guard Information', () => {
     fillDate(
       form,
       'root_serviceInformation_reservesNationalGuardService_obligationTermOfServiceDateRange_from',
-      moment()
-        .add(100, 'days')
-        .format('YYYY-MM-DD'),
+      daysFromToday(100),
     );
     fillDate(
       form,
       'root_serviceInformation_reservesNationalGuardService_obligationTermOfServiceDateRange_to',
-      moment()
-        .add(90, 'days')
-        .format('YYYY-MM-DD'),
+      daysFromToday(90),
     );
     fillData(
       form,

@@ -1,13 +1,10 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { render } from '@testing-library/react';
+import { render, cleanup, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
-import { $ } from 'platform/forms-system/src/js/utilities/ui';
-import {
-  createGetHandler,
-  jsonResponse,
-  setupServer,
-} from 'platform/testing/unit/msw-adapter';
+import sinon from 'sinon';
+
+import * as actions from '../../actions';
 import IntroductionPage from '../../containers/IntroductionPage';
 
 const generateStore = ({
@@ -18,23 +15,18 @@ const generateStore = ({
   getState: () => ({
     vaFileNumber: {
       isLoading,
-      hasVaFileNumber: { ...hasVaFileNumber },
+      hasVaFileNumber: hasVaFileNumber
+        ? { ...hasVaFileNumber }
+        : hasVaFileNumber,
     },
     user: {
-      login: {
-        currentlyLoggedIn: true,
-      },
-      profile: {
-        savedForms: [],
-        prefillsAvailable: [],
-      },
+      login: { currentlyLoggedIn: true },
+      profile: { savedForms: [], prefillsAvailable: [] },
     },
     form: {
       formId: '686C-674-V2',
       savedStatus: '',
-      loadedData: {
-        metadata: {},
-      },
+      loadedData: { metadata: {} },
       data: {},
       contestedIssues: {},
     },
@@ -44,57 +36,129 @@ const generateStore = ({
 });
 
 const mockRoute = {
-  pageList: [
-    {
-      path: 'wrong-path',
-    },
-    {
-      path: 'testing',
-    },
-  ],
-  formConfig: {
-    prefillEnabled: false,
-    downtime: false,
-  },
+  pageList: [{ path: 'wrong-path' }, { path: 'testing' }],
+  formConfig: { prefillEnabled: false, downtime: false, savedFormMessages: {} },
 };
 
 describe('IntroductionPage', () => {
-  const server = setupServer();
-  before(() => {
-    server.listen();
-  });
+  let verifyStub;
+
   beforeEach(() => {
-    server.resetHandlers();
+    localStorage.setItem('hasSession', 'false');
+
+    verifyStub = sinon
+      .stub(actions, 'verifyVaFileNumber')
+      .callsFake(() => ({ type: 'TEST/VERIFY' }));
   });
-  after(() => {
-    server.close();
+
+  afterEach(() => {
+    cleanup();
+    sessionStorage.clear();
+    localStorage.clear();
+    if (verifyStub?.restore) verifyStub.restore();
   });
-  it('renders the IntroductionPage component', () => {
-    localStorage.setItem('hasSession', true);
+
+  it('renders introduction page', async () => {
     const store = generateStore({
+      hasVaFileNumber: { VALIDVAFILENUMBER: true },
+      isLoading: false,
+    });
+
+    const { container, queryByText } = render(
+      <Provider store={store}>
+        <IntroductionPage
+          route={mockRoute}
+          location={{ basename: '/some-path' }}
+        />
+      </Provider>,
+    );
+
+    expect(verifyStub.called).to.be.false;
+
+    expect(container.querySelector('va-loading-indicator')).to.not.exist;
+    expect(container.querySelector('va-alert[status="error"]')).to.not.exist;
+    expect(queryByText(/Add or remove a dependent/i)).to.exist;
+  });
+
+  it('dispatches verify and shows loading when session exists & isLoading is true', async () => {
+    localStorage.setItem('hasSession', 'true');
+    const dispatchSpy = sinon.spy();
+    const store = generateStore({
+      isLoading: true,
+      hasVaFileNumber: { VALIDVAFILENUMBER: false },
+      spyFn: dispatchSpy,
+    });
+
+    const { container } = render(
+      <Provider store={store}>
+        <IntroductionPage
+          route={mockRoute}
+          location={{ basename: '/some-path' }}
+        />
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      expect(verifyStub.calledOnce).to.be.true;
+      expect(dispatchSpy.called).to.be.true;
+      expect(container.querySelector('va-loading-indicator')).to.exist;
+    });
+  });
+
+  it('shows missing VA file number alert when session exists & not loading & invalid', async () => {
+    localStorage.setItem('hasSession', 'true');
+    const store = generateStore({
+      isLoading: false,
+      hasVaFileNumber: { VALIDVAFILENUMBER: false },
+    });
+
+    const { container } = render(
+      <Provider store={store}>
+        <IntroductionPage
+          route={mockRoute}
+          location={{ basename: '/some-path' }}
+        />
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      expect(verifyStub.calledOnce).to.be.true;
+      const alert = container.querySelector('va-alert[status="error"]');
+      expect(alert).to.exist;
+    });
+  });
+
+  it('shows server error alert when hasVaFileNumber.errors is present', async () => {
+    localStorage.setItem('hasSession', 'true');
+    const store = generateStore({
+      isLoading: false,
+      hasVaFileNumber: { errors: [{ code: '500' }] },
+    });
+
+    const { container } = render(
+      <Provider store={store}>
+        <IntroductionPage
+          route={mockRoute}
+          location={{ basename: '/some-path' }}
+        />
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      expect(verifyStub.calledOnce).to.be.true;
+      const alert = container.querySelector('va-alert[status="error"]');
+      expect(alert).to.exist;
+    });
+  });
+
+  it('renders intro when session exists, not loading, and VALIDVAFILENUMBER is true', async () => {
+    localStorage.setItem('hasSession', 'true');
+    const store = generateStore({
+      isLoading: false,
       hasVaFileNumber: { VALIDVAFILENUMBER: true },
     });
 
-    server.use(
-      createGetHandler(
-        `https://dev-api.va.gov/v0/profile/valid_va_file_number`,
-        () => {
-          return jsonResponse(
-            {
-              data: {
-                attributes: {
-                  // eslint-disable-next-line camelcase
-                  valid_va_file_number: true,
-                },
-              },
-            },
-            { status: 200 },
-          );
-        },
-      ),
-    );
-
-    const screen = render(
+    const { container, queryByText } = render(
       <Provider store={store}>
         <IntroductionPage
           route={mockRoute}
@@ -103,78 +167,11 @@ describe('IntroductionPage', () => {
       </Provider>,
     );
 
-    expect(screen.queryByText('Add or remove dependents on VA benefits')).to
-      .exist;
-    expect(screen.queryByText('Follow these steps to get started')).to.exist;
-  });
-  it('renders the IntroductionPage component', () => {
-    localStorage.setItem('hasSession', true);
-    const store = generateStore({
-      hasVaFileNumber: { errors: 'va file num error' },
+    await waitFor(() => {
+      expect(verifyStub.calledOnce).to.be.true;
+      expect(container.querySelector('va-loading-indicator')).to.not.exist;
+      expect(container.querySelector('va-alert[status="error"]')).to.not.exist;
+      expect(queryByText(/Add or remove a dependent/i)).to.exist;
     });
-    server.use(
-      createGetHandler(
-        `https://dev-api.va.gov/v0/profile/valid_va_file_number`,
-        () => {
-          return jsonResponse(
-            {
-              errors: 'junk',
-            },
-            { status: 401 },
-          );
-        },
-      ),
-    );
-
-    const screen = render(
-      <Provider store={store}>
-        <IntroductionPage
-          route={mockRoute}
-          location={{ basename: '/some-path' }}
-        />
-      </Provider>,
-    );
-
-    expect(screen.queryByText('We’re sorry. Something went wrong on our end'))
-      .to.exist;
-  });
-  it('renders the IntroductionPage component', () => {
-    localStorage.setItem('hasSession', true);
-    const store = generateStore({
-      isLoading: true,
-    });
-
-    const screen = render(
-      <Provider store={store}>
-        <IntroductionPage
-          route={mockRoute}
-          location={{ basename: '/some-path' }}
-        />
-      </Provider>,
-    );
-
-    const loadingIndicator = $('va-loading-indicator', screen.container);
-
-    expect(loadingIndicator).to.not.be.null;
-  });
-  it('renders the IntroductionPage component', () => {
-    localStorage.setItem('hasSession', true);
-    const store = generateStore({
-      isLoading: false,
-      hasVaFileNumber: false,
-    });
-
-    const screen = render(
-      <Provider store={store}>
-        <IntroductionPage
-          route={mockRoute}
-          location={{ basename: '/some-path' }}
-        />
-      </Provider>,
-    );
-
-    const loadingIndicator = $('va-loading-indicator', screen.container);
-
-    expect(loadingIndicator).to.be.null;
   });
 });

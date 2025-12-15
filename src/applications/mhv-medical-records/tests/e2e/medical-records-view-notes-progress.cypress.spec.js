@@ -1,20 +1,20 @@
-import moment from 'moment';
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import NotesDetailsPage from './pages/NotesDetailsPage';
 import NotesListPage from './pages/NotesListPage';
 import notes from './fixtures/notes/notes.json';
+import { formatDateMonthDayCommaYear } from '../../util/dateHelpers';
 
 describe('Medical Records Care Summary Page ', () => {
   const site = new MedicalRecordsSite();
 
-  before(() => {
+  beforeEach(() => {
     site.login();
     // Given Navigate to Notes Page
-    NotesListPage.clickGotoNotesLink();
+    NotesListPage.gotoNotesList();
   });
 
   it('Progress Note Details', () => {
-    NotesDetailsPage.clickProgressNoteLink(3);
+    NotesDetailsPage.clickProgressNoteLink('Adverse React/Allergy', 1);
 
     NotesDetailsPage.verifyProgressNoteTitle(
       notes.entry[0].resource.content[0].attachment.title,
@@ -32,15 +32,12 @@ describe('Medical Records Care Summary Page ', () => {
       }`,
     );
     // Verify Progress Note Details Signed by
-    NotesDetailsPage.verifyProgressNoteSignedBy(
-      // notes.entry[0].resource.contained[2].name[0].text, // "text": "AHMED,MARUF"
-      'AHMED MARUF',
-    );
+    NotesDetailsPage.verifyProgressNoteSignedBy('AHMED MARUF');
     // Verify Progress Note Details Signed Date
     NotesDetailsPage.verifyProgressNoteSignedDate(
-      moment(
+      formatDateMonthDayCommaYear(
         notes.entry[0].resource.authenticator.extension[0].valueDateTime,
-      ).format('MMMM D, YYYY'),
+      ),
     );
     // Verify Progress Note Record Details
     NotesDetailsPage.verifyProgressNoteRecord(

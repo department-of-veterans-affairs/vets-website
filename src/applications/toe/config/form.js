@@ -40,7 +40,7 @@ import SponsorCheckboxGroup from '../components/SponsorsCheckboxGroup';
 import Sponsors from '../components/Sponsors';
 import SponsorsSelectionHeadings from '../components/SponsorsSelectionHeadings';
 import YesNoReviewField from '../components/YesNoReviewField';
-import preSubmitInfo from '../components/preSubmitInfo';
+import CustomPreSubmitInfo from '../components/CustomPreSubmitInfo';
 import DuplicateContactInfoModal from '../components/DuplicateContactInfoModal';
 
 import {
@@ -128,7 +128,11 @@ const formConfig = {
   defaultDefinitions: {},
   footerContent: FormFooter,
   getHelp: GetHelp,
-  preSubmitInfo,
+  preSubmitInfo: {
+    CustomComponent: CustomPreSubmitInfo,
+    required: true,
+    field: 'privacyAgreementAccepted',
+  },
   chapters: {
     applicantInformationChapter: {
       title: 'Your information',
@@ -1129,7 +1133,7 @@ const formConfig = {
                       href="https://www.va.gov/education/verify-school-enrollment"
                       rel="noreferrer"
                     >
-                      Learn more about the Enrollment Verifications
+                      Learn more about Enrollment Verifications
                     </a>
                   </>
                 </va-alert>
@@ -1167,7 +1171,7 @@ const formConfig = {
                       href="https://www.va.gov/education/verify-school-enrollment"
                       rel="noreferrer"
                     >
-                      Learn more about the Enrollment Verifications
+                      Learn more about Enrollment Verifications
                     </a>
                   </>
                 </va-alert>

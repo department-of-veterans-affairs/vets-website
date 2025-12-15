@@ -1,13 +1,20 @@
-import moment from 'moment-timezone';
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import DownloadReportsPage from './pages/DownloadReportsPage';
 import DownloadAllPage from './pages/DownloadAllPage';
+import { currentDateAddSecondsForFileDownload } from '../../util/dateHelpers';
 
 describe('Test download all page', () => {
-  it('test download all feature', () => {
-    const site = new MedicalRecordsSite();
+  const site = new MedicalRecordsSite();
+
+  beforeEach(() => {
     site.login();
     site.loadPage();
+  });
+
+  it('test download all feature', () => {
+    // const site = new MedicalRecordsSite();
+    // site.login();
+    // site.loadPage();
 
     DownloadReportsPage.goToReportsPage();
     DownloadReportsPage.goToDownloadAllPage();
@@ -84,7 +91,7 @@ describe('Test download all page', () => {
 
     site.verifyDownloadedPdfFile(
       'VA-Blue-Button-report-Safari-Mhvtp',
-      moment(),
+      currentDateAddSecondsForFileDownload(1),
       '',
     );
     // Axe check

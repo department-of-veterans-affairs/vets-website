@@ -7,8 +7,16 @@ import YesNoWidget from 'platform/forms-system/src/js/widgets/YesNoWidget';
 import { DEPENDENT_VIEW_FIELDS } from '../../utils/constants';
 import content from '../../locales/en/content.json';
 
+const yesNoLabels = hasList => ({
+  labels: {
+    Y: content[`household-dependent-report-yes${hasList ? '-addtl' : ''}`],
+    N: content[`household-dependent-report-no${hasList ? '-addtl' : ''}`],
+  },
+});
+
 const DependentDeclaration = ({ defaultValue, error, hasList, onChange }) => {
   const fieldsetRef = useRef(null);
+  const labels = yesNoLabels(hasList);
 
   // set focus to this component on form error
   useEffect(
@@ -37,12 +45,17 @@ const DependentDeclaration = ({ defaultValue, error, hasList, onChange }) => {
           'usa-input-error-label': error,
         })}
       >
-        {!hasList
-          ? content['household-dependent-report-question']
-          : content['household-dependent-report-question-addtl']}
+        <span className="vads-u-display--block vads-u-margin-top--2">
+          {!hasList
+            ? content['household-dependent-report-question']
+            : content['household-dependent-report-question-addtl']}
+        </span>
         <span className="schemaform-required-span">
           {content['validation-required-label']}
         </span>
+        <p className="usa-hint vads-u-margin-bottom--0">
+          You can add up to six dependents.
+        </p>
       </legend>
 
       {/** Error message */}
@@ -63,6 +76,7 @@ const DependentDeclaration = ({ defaultValue, error, hasList, onChange }) => {
           id={`root_${DEPENDENT_VIEW_FIELDS.add}`}
           value={defaultValue}
           onChange={onChange}
+          options={labels}
         />
       </div>
     </fieldset>

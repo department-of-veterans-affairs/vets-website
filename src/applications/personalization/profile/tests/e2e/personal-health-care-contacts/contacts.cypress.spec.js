@@ -18,77 +18,99 @@ describe('Personal health care contacts', () => {
       '/v0/profile/personal_information',
     ];
     mockGETEndpoints(otherEndpoints, 200, {});
-
-    cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles());
   });
 
-  it('links from the hub page', () => {
-    cy.intercept('GET', '/v0/profile/contacts', contacts);
-    cy.login(loa3User72);
-    cy.visit(PROFILE_PATHS.PROFILE_ROOT);
-    cy.get('a[href$="/profile/contacts"]').should('exist');
-    cy.injectAxeThenAxeCheck();
+  describe('when feature profile2Enabled is true', () => {
+    it('links from the nav', () => {
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles*',
+        generateFeatureToggles({
+          profile2Enabled: true,
+          profileHealthCareSettingsPage: true,
+        }),
+      );
+      cy.intercept('GET', '/v0/profile/contacts', contacts);
+      cy.login(loa3User72);
+      cy.visit(PROFILE_PATHS.PERSONAL_INFORMATION);
+      cy.get('va-sidenav-item[href="/profile/contacts"').should('exist');
+      cy.injectAxeThenAxeCheck();
+    });
   });
 
-  it('links from the nav', () => {
-    cy.intercept('GET', '/v0/profile/contacts', contacts);
-    cy.login(loa3User72);
-    cy.visit(PROFILE_PATHS.CONTACTS);
-    cy.get('a[href$="/profile/contacts"]').should('exist');
-    cy.injectAxeThenAxeCheck();
-  });
+  describe('when feature profile2Enabled is false', () => {
+    beforeEach(() => {
+      cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles());
+    });
 
-  it("displays a Veteran's Next of kin and Emergency contacts", () => {
-    cy.intercept('GET', '/v0/profile/contacts', contacts);
-    cy.login(loa3User72);
-    cy.visit(PROFILE_PATHS.CONTACTS);
-    cy.findByTestId('phcc-emergency-contact-0');
-    cy.findByTestId('phcc-emergency-contact-1');
-    cy.findByTestId('phcc-next-of-kin-0');
-    cy.findByTestId('phcc-next-of-kin-1');
-    cy.injectAxeThenAxeCheck();
-  });
+    it('links from the hub page', () => {
+      cy.intercept('GET', '/v0/profile/contacts', contacts);
+      cy.login(loa3User72);
+      cy.visit(PROFILE_PATHS.PROFILE_ROOT);
+      cy.get('a[href$="/profile/contacts"]').should('exist');
+      cy.injectAxeThenAxeCheck();
+    });
 
-  it('displays instructions when no contacts are present', () => {
-    cy.intercept('GET', '/v0/profile/contacts', { data: [] });
-    cy.login(loa3User72);
-    cy.visit(PROFILE_PATHS.CONTACTS);
-    cy.findByTestId('phcc-no-ecs');
-    cy.findByTestId('phcc-no-nok');
-    cy.injectAxeThenAxeCheck();
-  });
+    it('links from the nav', () => {
+      cy.intercept('GET', '/v0/profile/contacts', contacts);
+      cy.login(loa3User72);
+      cy.visit(PROFILE_PATHS.CONTACTS);
+      cy.get('a[href$="/profile/contacts"]').should('exist');
+      cy.injectAxeThenAxeCheck();
+    });
 
-  it('handles one emergency contact', () => {
-    cy.intercept('GET', '/v0/profile/contacts', contactsSingleEc);
-    cy.login(loa3User72);
-    cy.visit(PROFILE_PATHS.CONTACTS);
-    cy.findByText(/Ethan Jermey Bishop/);
-    cy.findByTestId('phcc-no-nok');
-    cy.injectAxeThenAxeCheck();
-  });
+    it("displays a Veteran's Next of kin and Emergency contacts", () => {
+      cy.intercept('GET', '/v0/profile/contacts', contacts);
+      cy.login(loa3User72);
+      cy.visit(PROFILE_PATHS.CONTACTS);
+      cy.findByTestId('phcc-emergency-contact-0');
+      cy.findByTestId('phcc-emergency-contact-1');
+      cy.findByTestId('phcc-next-of-kin-0');
+      cy.findByTestId('phcc-next-of-kin-1');
+      cy.injectAxeThenAxeCheck();
+    });
 
-  it('handles one next of kin', () => {
-    cy.intercept('GET', '/v0/profile/contacts', contactsSingleNok);
-    cy.login(loa3User72);
-    cy.visit(PROFILE_PATHS.CONTACTS);
-    cy.findByTestId('phcc-no-ecs');
-    cy.findByText(/James Daniel Bishop/);
-    cy.injectAxeThenAxeCheck();
-  });
+    it('displays instructions when no contacts are present', () => {
+      cy.intercept('GET', '/v0/profile/contacts', { data: [] });
+      cy.login(loa3User72);
+      cy.visit(PROFILE_PATHS.CONTACTS);
+      cy.findByTestId('phcc-no-ecs');
+      cy.findByTestId('phcc-no-nok');
+      cy.injectAxeThenAxeCheck();
+    });
 
-  it('handles a 500 response', () => {
-    cy.intercept('GET', '/v0/profile/contacts', { statusCode: 500 });
-    cy.login(loa3User72);
-    cy.visit(PROFILE_PATHS.CONTACTS);
-    cy.findByTestId('service-is-down-banner');
-    cy.injectAxeThenAxeCheck();
-  });
+    it('handles one emergency contact', () => {
+      cy.intercept('GET', '/v0/profile/contacts', contactsSingleEc);
+      cy.login(loa3User72);
+      cy.visit(PROFILE_PATHS.CONTACTS);
+      cy.findByText(/Ethan Jermey Bishop/);
+      cy.findByTestId('phcc-no-nok');
+      cy.injectAxeThenAxeCheck();
+    });
 
-  it('handles a non-veteran user by displaying the non-va-patient-message ', () => {
-    cy.intercept('GET', '/v0/profile/contacts', contacts);
-    cy.login(nonVeteranUser);
-    cy.visit(PROFILE_PATHS.CONTACTS);
-    cy.findByTestId('non-va-patient-message');
-    cy.injectAxeThenAxeCheck();
+    it('handles one next of kin', () => {
+      cy.intercept('GET', '/v0/profile/contacts', contactsSingleNok);
+      cy.login(loa3User72);
+      cy.visit(PROFILE_PATHS.CONTACTS);
+      cy.findByTestId('phcc-no-ecs');
+      cy.findByText(/James Daniel Bishop/);
+      cy.injectAxeThenAxeCheck();
+    });
+
+    it('handles a 500 response', () => {
+      cy.intercept('GET', '/v0/profile/contacts', { statusCode: 500 });
+      cy.login(loa3User72);
+      cy.visit(PROFILE_PATHS.CONTACTS);
+      cy.findByTestId('service-is-down-banner');
+      cy.injectAxeThenAxeCheck();
+    });
+
+    it('handles a non-veteran user by displaying the non-va-patient-message ', () => {
+      cy.intercept('GET', '/v0/profile/contacts', contacts);
+      cy.login(nonVeteranUser);
+      cy.visit(PROFILE_PATHS.CONTACTS);
+      cy.findByTestId('non-va-patient-message');
+      cy.injectAxeThenAxeCheck();
+    });
   });
 });

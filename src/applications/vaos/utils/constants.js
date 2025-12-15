@@ -1,5 +1,7 @@
 export const REASON_MAX_CHARS = 250;
 
+export const NEW_REASON_MAX_CHARS = 90;
+
 export const FETCH_STATUS = {
   loading: 'loading',
   notStarted: 'notStarted',
@@ -80,7 +82,6 @@ export const COMP_AND_PEN = 'COMPENSATION & PENSION';
 export const TYPE_OF_CARE_IDS = {
   PRIMARY_CARE: '323',
   COVID_VACCINE_ID: 'covid',
-  MENTAL_HEALTH: '502',
   PHARMACY_ID: '160',
   SOCIAL_WORK_ID: '125',
   AMPUTATION_ID: '211',
@@ -96,6 +97,10 @@ export const TYPE_OF_CARE_IDS = {
   AUDIOLOGY_ROUTINE_ID: 'CCAUDRTNE',
   AUDIOLOGY_HEARING_ID: 'CCAUDHEAR',
   PODIATRY_ID: 'tbd-podiatry',
+  MENTAL_HEALTH_ID: 'MENTAL_HEALTH',
+  MENTAL_HEALTH_PRIMARY_CARE_ID: '534',
+  MENTAL_HEALTH_SERVICES_ID: '502',
+  MENTAL_HEALTH_SUBSTANCE_USE_ID: '513',
 };
 
 export const TYPES_OF_CARE = [
@@ -113,12 +118,6 @@ export const TYPES_OF_CARE = [
     idV2: 'clinicalPharmacyPrimaryCare',
     name: 'Pharmacy',
     group: 'primary',
-  },
-  {
-    id: TYPE_OF_CARE_IDS.MENTAL_HEALTH,
-    idV2: 'outpatientMentalHealth',
-    name: 'Mental health',
-    group: 'mentalHealth',
   },
   {
     id: TYPE_OF_CARE_IDS.SOCIAL_WORK_ID,
@@ -187,6 +186,11 @@ export const TYPES_OF_CARE = [
     idV2: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
     name: 'COVID-19 vaccine',
   },
+  {
+    id: TYPE_OF_CARE_IDS.MENTAL_HEALTH_ID,
+    name: 'Mental health',
+    group: 'specialty',
+  },
 ];
 
 export const TYPES_OF_SLEEP_CARE = [
@@ -218,6 +222,37 @@ export const TYPES_OF_EYE_CARE = [
   },
 ];
 
+export const TYPES_OF_MENTAL_HEALTH = [
+  {
+    id: TYPE_OF_CARE_IDS.MENTAL_HEALTH_PRIMARY_CARE_ID,
+    idV2: 'primaryCareMentalHealth',
+    name: 'Mental health care in a primary care setting',
+    group: 'mentalHealth',
+    description:
+      'Brief follow-up care with your primary care mental health provider for ' +
+      'concerns such as stress, anxiety, irritability, or trouble sleeping.',
+  },
+  {
+    id: TYPE_OF_CARE_IDS.MENTAL_HEALTH_SERVICES_ID,
+    idV2: 'outpatientMentalHealth',
+    name: 'Mental health care with a specialist',
+    group: 'mentalHealth',
+    description:
+      'For therapy, medication, and other services to help with posttraumatic ' +
+      'stress disorder (PTSD), psychological effects of military sexual ' +
+      'trauma (MST), depression, grief, anxiety, and other needs.',
+  },
+  {
+    id: TYPE_OF_CARE_IDS.MENTAL_HEALTH_SUBSTANCE_USE_ID,
+    idV2: 'individualSubstanceUseDisorder',
+    name: 'Substance use problem services',
+    group: 'mentalHealth',
+    description:
+      'For counseling, recovery support, and treatment options for Veterans ' +
+      'seeking help with alcohol or other substance use.',
+  },
+];
+
 export const AUDIOLOGY_TYPES_OF_CARE = [
   {
     ccId: TYPE_OF_CARE_IDS.AUDIOLOGY_ROUTINE_ID,
@@ -234,8 +269,14 @@ export const AUDIOLOGY_TYPES_OF_CARE = [
 ];
 
 export const FACILITY_TYPES = {
-  VAMC: 'vamc',
-  COMMUNITY_CARE: 'communityCare',
+  VAMC: {
+    id: 'vamc',
+    name: 'VA medical center or clinic',
+  },
+  COMMUNITY_CARE: {
+    id: 'communityCare',
+    name: 'Community care facility',
+  },
 };
 
 export const FACILITY_SORT_METHODS = {
@@ -321,6 +362,7 @@ export const TYPE_OF_VISIT = [
     name2: 'In person',
     serviceName: 'Office Visit',
     vsGUI: 'FACE TO FACE',
+    vsGUI2: 'IN-PERSON',
   },
   {
     id: 'phone',
@@ -328,6 +370,7 @@ export const TYPE_OF_VISIT = [
     name2: 'By phone',
     serviceName: 'Phone Call',
     vsGUI: 'TELEPHONE',
+    vsGUI2: 'PHONE',
   },
   {
     id: 'telehealth',
@@ -335,6 +378,7 @@ export const TYPE_OF_VISIT = [
     name2: 'Through VA Video Connect (telehealth)',
     serviceName: 'Video Conference',
     vsGUI: 'VIDEO',
+    vsGUI2: 'VIDEO',
   },
 ];
 
@@ -388,6 +432,15 @@ export const ELIGIBILITY_REASONS = {
   noClinics: 'noClinics',
   noMatchingClinics: 'noMatchingClinics',
   error: 'error',
+};
+
+// https://coderepo.mobilehealth.va.gov/projects/VAR/repos/vaos-service/browse/vaos-service/src/main/resources/swagger.json?useDefaultHandler=true
+// VaosIneligibilityReasonValueSet
+export const INELIGIBILITY_CODES_VAOS = {
+  PATIENT_HISTORY_INSUFFICIENT: 'patient-history-insufficient',
+  REQUEST_LIMIT_EXCEEDED: 'facility-request-limit-exceeded',
+  DIRECT_SCHEDULING_DISABLED: 'facility-cs-direct-disabled',
+  REQUEST_SCHEDULING_DISABLED: 'facility-cs-request-disabled',
 };
 
 export const CANCELLATION_REASONS = {
@@ -453,9 +506,21 @@ export const OH_TRANSITION_SITES = {
   },
 };
 
-// Currently we are only allowing OH direct scheduling and requests for Food and Nutrition
-// appointments
-export const OH_ENABLED_TYPES_OF_CARE = ['foodAndNutrition'];
+// Types of care that are allowed in the OH direct scheduling flow and request flow
+export const OH_ENABLED_TYPES_OF_CARE = [
+  'amputation',
+  'audiology',
+  'audiology-hearing aid support',
+  'audiology-routine exam',
+  'clinicalPharmacyPrimaryCare',
+  'cpap',
+  'foodAndNutrition',
+  'homeSleepTesting',
+  'moveProgram',
+  'ophthalmology',
+  'optometry',
+  'socialWork',
+];
 
 export const TRAVEL_CLAIM_MESSAGES = {
   noClaim: 'No claims found.',
@@ -492,3 +557,5 @@ export const POST_DRAFT_REFERRAL_APPOINTMENT_CACHE =
   'postDraftReferralAppointmentCache';
 
 export const POST_REFERRAL_REQUEST_CACHE = 'postReferralAppointmentCache';
+
+export const AMBULATORY_PATIENT_SUMMARY = 'ambulatory_patient_summary';

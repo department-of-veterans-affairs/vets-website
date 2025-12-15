@@ -10,9 +10,8 @@ const uiSchema = {
   ...titleUI('Do you have a start date for the program you wish to enroll in?'),
   plannedStartDate: {
     ...currentOrPastDateUI({
-      title: `You can leave this blank if you haven't chosen a program yet.`,
+      title: `You can leave this blank if you haven't chosen a program yet`,
       errorMessages: { pattern: 'Please enter a valid date' },
-      hint: null,
     }),
     'ui:validations': [validateTrainingProviderStartDate],
   },

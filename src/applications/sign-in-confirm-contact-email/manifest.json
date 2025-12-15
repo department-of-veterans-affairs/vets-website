@@ -1,0 +1,7 @@
+{
+  "appName": "Sign In Confirm Contact Email",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "confirm-contact-email",
+  "rootUrl": "/sign-in-confirm-contact-email",
+  "productId": "ad06fcf8-da87-4a7a-9efc-258b57ae944d"
+}

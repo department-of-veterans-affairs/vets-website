@@ -82,8 +82,7 @@ export const spouseMarriageHistorySummaryPage = {
 export const formerMarriagePersonalInfoPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Spouse’s former marriage',
-      nounSingular: spouseMarriageHistoryOptions.nounSingular,
+      title: 'Name of your spouse’s former spouse',
     }),
     fullName: fullNameNoSuffixUI(),
   },
@@ -100,7 +99,7 @@ export const formerMarriagePersonalInfoPage = {
 export const formerMarriageEndReasonPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(() => {
-      return 'Spouse’s former marriage';
+      return 'Spouse’s former marriage end details';
     }),
     reasonMarriageEnded: radioUI({
       title: 'How did your spouse’s previous marriage end?',
@@ -218,6 +217,13 @@ export const formerMarriageStartLocationPage = {
             required: 'Enter the city where your spouse was previously married',
           },
           'ui:webComponentField': VaTextInputField,
+          'ui:validations': [
+            (errors, city) => {
+              if (city?.length > 30) {
+                errors.addError('City must be 30 characters or less');
+              }
+            },
+          ],
         },
         state: {
           'ui:title': 'State',
@@ -292,6 +298,13 @@ export const formerMarriageEndLocationPage = {
             required: 'Enter the city where this occurred',
           },
           'ui:webComponentField': VaTextInputField,
+          'ui:validations': [
+            (errors, city) => {
+              if (city?.length > 30) {
+                errors.addError('City must be 30 characters or less');
+              }
+            },
+          ],
         },
         state: {
           'ui:title': 'State',

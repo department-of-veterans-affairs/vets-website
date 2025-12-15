@@ -6,11 +6,24 @@ import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { scrollToFirstError } from 'platform/utilities/ui';
 
-import { DEPENDENT_CHOICES } from '../constants';
-import { maskID } from '../../shared/utils';
+import { DEPENDENT_CHOICES, DEPENDENT_TITLE } from '../constants';
+import { maskID, calculateAge } from '../../shared/utils';
 
 import { removeEditContactInformation } from '../util/contact-info';
 
+/**
+ * Display Dependent Information
+ * @typedef {object} DependentsInformationProps
+ * @property {object} data - form data
+ * @property {function} goForward - function to go to next page
+ * @property {function} goToPath - function to go to specific path
+ * @property {function} setFormData - function to set form data
+ * @property {node} contentBeforeButtons - content to render before buttons
+ * @property {node} contentAfterButtons - content to render after buttons
+ *
+ * @param {DependentsInformationProps} props - Component props
+ * @returns {React.Component} - Dependents information page
+ */
 export const DependentsInformation = ({
   data = {},
   goForward,
@@ -107,14 +120,15 @@ export const DependentsInformation = ({
                       {dependent.dob}
                     </dd>
                   </div>
-                  {dependent.age && (
+                  {dependent.dob && (
                     <div className="item vads-u-display--flex vads-u-justify-content--start vads-u-margin-bottom--1">
                       <dt>Age:&nbsp;</dt>
                       <dd
                         className="dd-privacy-hidden"
                         data-dd-action-name="Dependent's age"
                       >
-                        {dependent.age} years old
+                        {calculateAge(dependent.dateOfBirth).labeledAge ||
+                          'Unable to determine'}
                       </dd>
                     </div>
                   )}
@@ -184,7 +198,7 @@ export const DependentsInformation = ({
       </ul>
 
       <VaRadio
-        label="Has the status of your dependents changed?"
+        label={DEPENDENT_TITLE}
         required
         onVaValueChange={handlers.onValueChange}
         label-header-level="3"

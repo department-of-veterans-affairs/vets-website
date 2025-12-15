@@ -1,7 +1,5 @@
 import React from 'react';
-import moment from 'moment';
 import { expect } from 'chai';
-import { add, format } from 'date-fns';
 import sinon from 'sinon';
 import {
   DefinitionTester,
@@ -11,6 +9,7 @@ import {
 import { mount } from 'enzyme';
 import { waitFor } from '@testing-library/dom';
 import formConfig from '../../config/form';
+import { daysFromToday } from '../../utils/dates/formatting';
 
 function getMostRecentLeapYearDate() {
   const now = new Date();
@@ -28,10 +27,8 @@ function getMostRecentLeapYearDate() {
   return '2016-02-29';
 }
 
-const formatDate = date => format(date, 'yyyy-MM-dd');
-const daysFromToday = days => formatDate(add(new Date(), { days }));
 const leapDay = getMostRecentLeapYearDate();
-const separationDate = format(add(new Date(), { days: 90 }), 'yyyy-MM-dd');
+const separationDate = daysFromToday(90);
 
 describe('Federal orders info', () => {
   const {
@@ -128,9 +125,7 @@ describe('Federal orders info', () => {
     fillDate(
       form,
       'root_serviceInformation_reservesNationalGuardService_title10Activation_anticipatedSeparationDate',
-      moment()
-        .add(160, 'days') // < 180 days
-        .format('YYYY-MM-DD'),
+      daysFromToday(160), // < 180 days
     );
 
     form.find('form').simulate('submit');
@@ -245,16 +240,12 @@ describe('Federal orders info', () => {
     fillDate(
       form,
       'root_serviceInformation_reservesNationalGuardService_title10Activation_title10ActivationDate',
-      moment()
-        .add(-10, 'days')
-        .format('YYYY-MM-DD'),
+      daysFromToday(-10),
     );
     fillDate(
       form,
       'root_serviceInformation_reservesNationalGuardService_title10Activation_anticipatedSeparationDate',
-      moment()
-        .add(190, 'days')
-        .format('YYYY-MM-DD'),
+      daysFromToday(190),
     );
 
     await waitFor(() => {

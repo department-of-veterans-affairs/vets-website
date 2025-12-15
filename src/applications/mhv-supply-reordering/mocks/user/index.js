@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-const ok = {
+const defaultUser = {
   data: {
     attributes: {
       profile: {
@@ -64,6 +64,32 @@ const ok = {
   meta: { errors: null },
 };
 
+const generateUser = ({ loa = 3, vaPatient = true } = {}) => {
+  return {
+    ...defaultUser,
+    data: {
+      ...defaultUser.data,
+      attributes: {
+        ...defaultUser.data.attributes,
+        va_profile: {
+          ...defaultUser.data.attributes.va_profile,
+          va_patient: vaPatient,
+        },
+        profile: {
+          ...defaultUser.data.attributes.profile,
+          loa: { current: loa },
+        },
+      },
+    },
+  };
+};
+
+const USER_MOCKS = Object.freeze({
+  UNREGISTERED: generateUser({ vaPatient: false }),
+  UNVERIFIED: generateUser({ loa: 1 }),
+  DEFAULT: generateUser(),
+});
+
 module.exports = {
-  'GET /v0/user': ok,
+  'GET /v0/user': USER_MOCKS.DEFAULT,
 };

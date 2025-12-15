@@ -3,8 +3,6 @@ import manifest from '../../manifest.json';
 import mockUser from './fixtures/mocks/mockUser.json';
 import saveInProgressData from './fixtures/mocks/saveInProgress.json';
 
-import { WIZARD_STATUS } from '../../wizard/constants';
-
 describe(`Fetch Debts Successfully`, () => {
   Cypress.config({ requestTimeout: 10000 });
 
@@ -73,7 +71,7 @@ describe(`Fetch Debts Successfully`, () => {
     });
 
     cy.intercept('GET', '/v0/in_progress_forms/5655', saveInProgressData);
-    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+    sessionStorage.setItem('wizardStatus', WIZARD_STATUS_COMPLETE);
 
     cy.login(mockUser);
     cy.intercept('GET', '/v0/user?*', mockUser);
@@ -83,17 +81,13 @@ describe(`Fetch Debts Successfully`, () => {
   });
 
   it('Successful API Response', () => {
-    cy.get('a.vads-c-action-link--green')
-      .first()
-      .click({ waitForAnimations: true });
+    cy.clickStartForm();
 
     cy.location('pathname').should(
       'eq',
       `/manage-va-debt/request-debt-help-form-5655/veteran-information`,
     );
-    cy.findAllByText(/continue/i, { selector: 'button' })
-      .first()
-      .click({ waitForAnimations: true });
+    cy.clickFormContinue();
 
     cy.get('[data-testid="debt-selection-checkbox"]').should('have.length', 2);
 

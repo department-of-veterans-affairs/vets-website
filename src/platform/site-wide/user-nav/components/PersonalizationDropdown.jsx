@@ -50,7 +50,7 @@ export function PersonalizationDropdown(props) {
         </a>
       </li>
       <li>
-        <a href="/view-change-dependents/view" onClick={recordDependentsEvent}>
+        <a href="/manage-dependents/view" onClick={recordDependentsEvent}>
           Dependents
         </a>
       </li>
@@ -68,7 +68,7 @@ export function PersonalizationDropdown(props) {
 }
 
 PersonalizationDropdown.propTypes = {
-  csp: PropTypes.oneOf(['idme', 'logingov', 'dslogon', 'mhv']),
+  csp: PropTypes.oneOf(['idme', 'logingov', 'mhv']),
   isSSOe: PropTypes.bool,
 };
 

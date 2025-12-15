@@ -10,7 +10,7 @@ import {
   jsonResponse,
   setupServer,
 } from 'platform/testing/unit/msw-adapter';
-import { handleTokenRequest } from '../helpers';
+import { handleTokenRequest, emailNeedsConfirmation } from '../helpers';
 
 import AuthApp from '../containers/AuthApp';
 
@@ -333,7 +333,7 @@ describe('AuthApp', () => {
     });
   });
 
-  it('should redirect to /sign-in-changes-reminder interstitial page', async () => {
+  it('should redirect to /sign-in-confirm-contact-email interstitial page', async () => {
     const originalLocation = window.location;
     if (!Location.prototype.replace) {
       window.location = { replace: sinon.spy() };
@@ -346,7 +346,7 @@ describe('AuthApp', () => {
       subscribe: sinon.spy(),
       getState: () => ({
         featureToggles: {
-          dslogonInterstitialRedirect: true,
+          confirmContactEmailInterstitialEnabled: true,
         },
       }),
     };
@@ -358,7 +358,22 @@ describe('AuthApp', () => {
             data: {
               attributes: {
                 profile: {
-                  signIn: { serviceName: 'dslogon', ssoe: true },
+                  signIn: { serviceName: 'idme', ssoe: true },
+                  verified: true,
+                },
+                vaProfile: {
+                  vaPatient: true,
+                  facilities: [
+                    {
+                      facilityId: 'facility',
+                      isCerner: true,
+                    },
+                  ],
+                },
+                vet360ContactInformation: {
+                  email: {
+                    confirmationDate: '2018-04-21T20:09:50Z',
+                  },
                 },
               },
             },
@@ -370,13 +385,131 @@ describe('AuthApp', () => {
 
     render(
       <Provider store={store}>
-        <AuthApp location={{ query: { auth: 'success', type: 'dslogon' } }} />
+        <AuthApp location={{ query: { auth: 'success', type: 'idme' } }} />
       </Provider>,
     );
-
     await waitFor(() => expect(window.location.replace.calledOnce).to.be.true);
-    expect(window.location.replace.calledWith('/sign-in-changes-reminder'));
+    expect(window.location.replace.calledWith('/sign-in-confirm-contact-email'))
+      .to.be.true;
+    window.location = originalLocation;
+    sessionStorage.clear();
+  });
 
+  it('should redirect to /sign-in-health-portal interstitial page', async () => {
+    const originalLocation = window.location;
+    if (!Location.prototype.replace) {
+      window.location = { replace: sinon.spy() };
+    } else {
+      window.location.replace = sinon.spy();
+    }
+
+    const store = {
+      dispatch: sinon.spy(),
+      subscribe: sinon.spy(),
+      getState: () => ({
+        featureToggles: {
+          portalNoticeInterstitialEnabled: true,
+        },
+      }),
+    };
+    sessionStorage.setItem(
+      'authReturnUrl',
+      'https://staging-patientportal.myhealth.va.gov',
+    );
+    server.use(
+      createGetHandler('https://dev-api.va.gov/v0/user', () => {
+        return jsonResponse(
+          {
+            data: {
+              attributes: {
+                profile: {
+                  signIn: { serviceName: 'idme', ssoe: true },
+                  verified: true,
+                },
+                vaProfile: {
+                  vaPatient: true,
+                  facilities: [
+                    {
+                      facilityId: '757',
+                      isCerner: true,
+                    },
+                  ],
+                },
+              },
+            },
+          },
+          { status: 200 },
+        );
+      }),
+    );
+
+    render(
+      <Provider store={store}>
+        <AuthApp location={{ query: { auth: 'success', type: 'idme' } }} />
+      </Provider>,
+    );
+    await waitFor(() => expect(window.location.replace.calledOnce).to.be.true);
+    expect(window.location.replace.calledWith('/sign-in-health-portal')).to.be
+      .true;
+    window.location = originalLocation;
+    sessionStorage.clear();
+  });
+
+  it('should redirect to /my-health', async () => {
+    const originalLocation = window.location;
+    if (!Location.prototype.replace) {
+      window.location = { replace: sinon.spy() };
+    } else {
+      window.location.replace = sinon.spy();
+    }
+
+    const store = {
+      dispatch: sinon.spy(),
+      subscribe: sinon.spy(),
+      getState: () => ({
+        featureToggles: {
+          portalNoticeInterstitialEnabled: true,
+        },
+      }),
+    };
+    sessionStorage.setItem(
+      'authReturnUrl',
+      'https://staging-patientportal.myhealth.va.gov',
+    );
+    server.use(
+      createGetHandler('https://dev-api.va.gov/v0/user', () => {
+        return jsonResponse(
+          {
+            data: {
+              attributes: {
+                profile: {
+                  signIn: { serviceName: 'idme', ssoe: true },
+                  verified: true,
+                },
+                vaProfile: {
+                  vaPatient: true,
+                  facilities: [
+                    {
+                      facilityId: '100',
+                      isCerner: true,
+                    },
+                  ],
+                },
+              },
+            },
+          },
+          { status: 200 },
+        );
+      }),
+    );
+
+    render(
+      <Provider store={store}>
+        <AuthApp location={{ query: { auth: 'success', type: 'idme' } }} />
+      </Provider>,
+    );
+    await waitFor(() => expect(window.location.replace.calledOnce).to.be.true);
+    expect(window.location.replace.calledWith('/my-health')).to.be.true;
     window.location = originalLocation;
     sessionStorage.clear();
   });
@@ -435,5 +568,50 @@ describe('handleTokenRequest', () => {
       csp: 'logingov',
     });
     expect(handleTokenSpy.called).to.be.false;
+  });
+
+  it('should NOT call generateOAuthError when `requestToken` fails', async () => {
+    server.use(
+      createPostHandler('https://dev-api.va.gov/v0/sign_in/token?*', () => {
+        return jsonResponse({ errors: [{ code: '100' }] }, { status: 401 });
+      }),
+    );
+    const handleTokenSpy = sinon.spy();
+    localStorage.setItem('state', 'hhh');
+    localStorage.setItem('code_verifier', 'anything');
+
+    await handleTokenRequest({
+      code: 'hello',
+      state: 'hhh',
+      generateOAuthError: handleTokenSpy,
+      csp: 'logingov',
+    });
+    expect(handleTokenSpy.called).to.be.true;
+  });
+});
+
+describe('emailNeedsConfirmation', () => {
+  it('should return false when conditions are met', () => {
+    expect(
+      emailNeedsConfirmation({
+        isEmailInterstitialEnabled: false,
+        userAttributes: {
+          profile: { verified: true },
+          vaProfile: { vaPatient: true },
+        },
+      }),
+    ).to.be.false;
+    expect(
+      emailNeedsConfirmation({
+        isEmailInterstitialEnabled: true,
+        userAttributes: { profile: {} },
+      }),
+    ).to.be.false;
+    expect(
+      emailNeedsConfirmation({
+        isEmailInterstitialEnabled: true,
+        userAttributes: { profile: {} },
+      }),
+    ).to.be.false;
   });
 });

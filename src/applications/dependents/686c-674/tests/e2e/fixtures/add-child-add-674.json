@@ -1,5 +1,8 @@
 {
+  "vaDependentsNetWorthAndPension": false,
+  "view:checkVeteranPension": true,
   "view:additionalEvidenceDescription": {},
+  "view:householdIncome": true,
   "householdIncome": false,
   "view:studentInformationMissingInformation": {},
   "view:completedStudent": false,
@@ -14,7 +17,8 @@
       "ssn": "796330625",
       "birthDate": "1976-06-09",
       "ssnLastFour": "0625",
-      "vaFileLastFour": "0625"
+      "vaFileLastFour": "0625",
+      "isInReceiptOfPension": -1
     },
   "veteranContactInformation": {
     "phoneNumber": "8008885555",
@@ -133,9 +137,9 @@
         "state": "AL",
         "postalCode": "12345"
       },
-      "studentIncome": "NA",
+      "studentIncome": "N",
       "ssn": "333446666",
-      "isParent": true,
+      "relationshipToStudent": "biological",
       "fullName": {
         "first": "Jane",
         "middle": "C",

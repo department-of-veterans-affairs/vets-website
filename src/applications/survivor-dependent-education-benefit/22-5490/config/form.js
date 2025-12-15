@@ -181,7 +181,7 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for DEPENDENTS&#39; APPLICATION FOR VA EDUCATION BENEFITS .',
   },
-  subTitle: "Form 22-5490 (Dependent's Application for VA Education Benefits)",
+  subTitle: "Form 22-5490 (Dependents' Application for VA Education Benefits)",
   defaultDefinitions: {
     fullName,
     ssn,
@@ -1092,7 +1092,7 @@ const formConfig = {
                       href="https://www.va.gov/education/verify-school-enrollment"
                       rel="noreferrer"
                     >
-                      Learn more about the Enrollment Verifications
+                      Learn more about Enrollment Verifications
                     </a>
                   </>
                 </va-alert>
@@ -1125,7 +1125,7 @@ const formConfig = {
                       href="https://www.va.gov/education/verify-school-enrollment"
                       rel="noreferrer"
                     >
-                      Learn more about the Enrollment Verifications
+                      Learn more about Enrollment Verifications
                     </a>
                   </>
                 </va-alert>
@@ -1197,7 +1197,7 @@ const formConfig = {
       pages: {
         applicantInformation: {
           path: 'veteran-or-service-member-information',
-          title: 'Review veteran or service member information',
+          title: 'Review Veteran or service member information',
           uiSchema: {
             relationshipToMember: {
               'ui:title':

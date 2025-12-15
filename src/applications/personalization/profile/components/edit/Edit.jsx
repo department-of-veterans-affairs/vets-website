@@ -2,6 +2,7 @@ import React, { useMemo, useEffect, useState } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+import { focusElement } from 'platform/utilities/ui/focus';
 
 import { FIELD_NAMES, FIELD_TITLES } from '@@vap-svc/constants';
 import { selectVAPContactInfoField } from '@@vap-svc/selectors';
@@ -19,7 +20,7 @@ import { EditContext } from './EditContext';
 import { EditConfirmCancelModal } from './EditConfirmCancelModal';
 import { EditBreadcrumb } from './EditBreadcrumb';
 
-import { routesForNav } from '../../routesForNav';
+import { getRoutesForNav } from '../../routesForNav';
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '../../constants';
 import { getRouteInfoFromPath } from '../../../common/helpers';
 
@@ -59,6 +60,13 @@ export const Edit = () => {
 
   const [showConfirmCancelModal, setShowConfirmCancelModal] = useState(false);
   const [hasBeforeUnloadListener, setHasBeforeUnloadListener] = useState(false);
+
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const profile2Toggle = useToggleValue(TOGGLE_NAMES.profile2Enabled);
+
+  const routesForNav = getRoutesForNav({
+    profile2Enabled: profile2Toggle,
+  });
 
   const fieldInfo = getFieldInfo(query.get('fieldName'));
 
@@ -101,9 +109,32 @@ export const Edit = () => {
     [fieldData, fieldInfo],
   );
 
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const internationalPhonesToggleValue = useToggleValue(
     TOGGLE_NAMES.profileInternationalPhoneNumbers,
+  );
+
+  useEffect(
+    () => {
+      document.title = `${editPageHeadingString} | Veterans Affairs`;
+    },
+    [editPageHeadingString],
+  );
+
+  useEffect(
+    () => {
+      // Set initial focus on the page heading for keyboard navigation
+      if (fieldInfo && !hasVAPServiceError) {
+        const headingElement = document.querySelector('h1');
+        if (headingElement) {
+          // Only call scrollIntoView if it exists (not in test environment)
+          if (headingElement.scrollIntoView) {
+            headingElement.scrollIntoView();
+          }
+          focusElement(headingElement);
+        }
+      }
+    },
+    [fieldInfo, hasVAPServiceError],
   );
 
   useEffect(() => {
@@ -196,10 +227,7 @@ export const Edit = () => {
             activeSection={fieldInfo.fieldName.toLowerCase()}
             onHide={() => setShowConfirmCancelModal(false)}
           />
-          <div
-            className="vads-u-display--block medium-screen:vads-u-display--block"
-            id="profile-edit-field-page"
-          >
+          <div className="vads-u-display--block medium-screen:vads-u-display--block">
             <EditBreadcrumb
               className="vads-u-margin-top--2 vads-u-margin-bottom--3"
               onClickHandler={handlers.breadCrumbClick}

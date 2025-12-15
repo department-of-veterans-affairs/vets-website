@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 134,
+  "totalApplications": 152,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -49,7 +49,7 @@
       "directoryPath": "src/applications/appeals/onramp",
       "appName": "Decision Reviews Onramp Tool",
       "entryName": "onramp",
-      "rootUrl": "/decision-reviews/onramp-to-dr"
+      "rootUrl": "/decision-reviews/explore-disability-claim-options"
     },
     {
       "directoryPath": "src/applications/appeals/testing/download",
@@ -100,6 +100,36 @@
       "rootUrl": "/my-health/medical-records/summaries-and-notes/visit-summary"
     },
     {
+      "directoryPath": "src/applications/benefits-optimization-aquia/21-0779-nursing-home-information",
+      "appName": "21-0779 Nursing Home Information",
+      "entryName": "21-0779-nursing-home-information",
+      "rootUrl": "/supporting-forms-for-claims/submit-nursing-home-information-form-21-0779"
+    },
+    {
+      "directoryPath": "src/applications/benefits-optimization-aquia/21-2680-house-bound-status",
+      "appName": "21-2680 House Bound Status",
+      "entryName": "21-2680-house-bound-status",
+      "rootUrl": "/pension/aid-attendance-housebound/apply-form-21-2680"
+    },
+    {
+      "directoryPath": "src/applications/benefits-optimization-aquia/21-4192-employment-information",
+      "appName": "21-4192 Employment Information",
+      "entryName": "21-4192-employment-information",
+      "rootUrl": "/disability/eligibility/special-claims/unemployability/submit-employment-information-form-21-4192"
+    },
+    {
+      "directoryPath": "src/applications/benefits-optimization-aquia/21p-530a-interment-allowance",
+      "appName": "21P-530a Interment Allowance",
+      "entryName": "21p-530a-interment-allowance",
+      "rootUrl": "/submit-state-interment-allowance-form-21p-530a"
+    },
+    {
+      "directoryPath": "src/applications/benefits-optimization-pingwind/21-8940",
+      "appName": "Apply for additional compensation based on inability to work",
+      "entryName": "21-8940",
+      "rootUrl": "/disability/eligibility/special-claims/unemployability/apply-unemployability-compensation-form-21-8940"
+    },
+    {
       "directoryPath": "src/applications/burials-ez",
       "appName": "21P-530EZ Burials benefits form",
       "entryName": "burials-ez",
@@ -136,12 +166,6 @@
       "rootUrl": "/track-claims"
     },
     {
-      "directoryPath": "src/applications/claims-status/node_modules/@stencil/core/screenshot/compare",
-      "appName": "N/A",
-      "entryName": "N/A",
-      "rootUrl": "N/A"
-    },
-    {
       "directoryPath": "src/applications/combined-debt-portal/combined",
       "appName": "Debt and bills",
       "entryName": "combined-debt-portal",
@@ -157,25 +181,25 @@
       "directoryPath": "src/applications/dependents/686c-674",
       "appName": "686C-674-v2",
       "entryName": "686C-674-v2",
-      "rootUrl": "/view-change-dependents/add-remove-form-21-686c-674"
+      "rootUrl": "/manage-dependents/add-remove-form-21-686c-674"
     },
     {
       "directoryPath": "src/applications/dependents/686c-674-old",
       "appName": "686C-674",
       "entryName": "686C-674",
-      "rootUrl": "/view-change-dependents/add-remove-form-21-686c"
+      "rootUrl": "/manage-dependents/add-remove-form-21-686c"
     },
     {
       "directoryPath": "src/applications/dependents/dependents-verification",
       "appName": "21-0538 Dependents verification",
       "entryName": "0538-dependents-verification",
-      "rootUrl": "/view-change-dependents/verify-dependents-form-21-0538"
+      "rootUrl": "/manage-dependents/verify-dependents-form-21-0538"
     },
     {
       "directoryPath": "src/applications/dependents/view-dependents",
       "appName": "View Dependents",
       "entryName": "dependents-view-dependents",
-      "rootUrl": "/view-change-dependents/view"
+      "rootUrl": "/manage-dependents/view"
     },
     {
       "directoryPath": "src/applications/dhp-connected-devices",
@@ -226,10 +250,22 @@
       "rootUrl": "/ds-v3-playground"
     },
     {
+      "directoryPath": "src/applications/edu-benefits/0803",
+      "appName": "22-0803 Request for reimbursement of licensing or certification test fees",
+      "entryName": "0803-edu-benefits",
+      "rootUrl": "/education/other-va-education-benefits/reimbursements/test-reimbursement-22-0803"
+    },
+    {
       "directoryPath": "src/applications/edu-benefits/0839",
       "appName": "0839",
       "entryName": "0839-edu-benefits",
       "rootUrl": "/school-administrators/submit-yellow-ribbon-program-agreement-form-22-0839"
+    },
+    {
+      "directoryPath": "src/applications/edu-benefits/0976",
+      "appName": "Program Apporval in a Foreign Country (VA Form 22-0976)",
+      "entryName": "0976-edu-benefits",
+      "rootUrl": "/education/0976"
     },
     {
       "directoryPath": "src/applications/edu-benefits/0994",
@@ -256,10 +292,22 @@
       "rootUrl": "/school-administrators/35-percent-exemption"
     },
     {
+      "directoryPath": "src/applications/edu-benefits/10272",
+      "appName": "22-10272 Application for reimbursement of preparatory (prep) course for licensing or certification test",
+      "entryName": "10272-edu-benefits",
+      "rootUrl": "/education/other-va-education-benefits/reimbursements/test-reimbursement-22-10272"
+    },
+    {
       "directoryPath": "src/applications/edu-benefits/10275",
       "appName": "10275",
       "entryName": "10275-edu-benefits",
       "rootUrl": "/school-administrators/commit-principles-of-excellence-form-22-10275"
+    },
+    {
+      "directoryPath": "src/applications/edu-benefits/10278",
+      "appName": "Authorize VA to Disclose Personal Information to a Third Party for Education Benefits",
+      "entryName": "10278-edu-benefits",
+      "rootUrl": "/education/disclose-information-to-third-party/authorize-disclosure-form-22-10278"
     },
     {
       "directoryPath": "src/applications/edu-benefits/10282",
@@ -271,7 +319,7 @@
       "directoryPath": "src/applications/edu-benefits/10297",
       "appName": "10297",
       "entryName": "10297-edu-benefits",
-      "rootUrl": "/education/other-va-education-benefits/high-technology-program/apply-for-high-technology-program-form-22-10297"
+      "rootUrl": "/education/other-va-education-benefits/vet-tec-2/apply-for-program-form-22-10297"
     },
     {
       "directoryPath": "src/applications/edu-benefits/1919",
@@ -373,13 +421,13 @@
       "directoryPath": "src/applications/ivc-champva/10-10d-extended",
       "appName": "10-10d Extended",
       "entryName": "10-10d-extended",
-      "rootUrl": "/ivc-champva/10-10d-extended"
+      "rootUrl": "/family-and-caregiver-benefits/health-and-disability/champva/apply-champva-form-10-10d"
     },
     {
       "directoryPath": "src/applications/ivc-champva/10-7959a",
       "appName": "File a CHAMPVA claim",
       "entryName": "10-7959a",
-      "rootUrl": "/family-and-caregiver-benefits/health-and-disability/file-champva-claim-10-7959a"
+      "rootUrl": "/family-and-caregiver-benefits/health-and-disability/champva/file-champva-claim-10-7959a"
     },
     {
       "directoryPath": "src/applications/ivc-champva/10-7959C",
@@ -436,6 +484,12 @@
       "rootUrl": "/burials-memorials/memorial-items/headstones-markers-medallions-approver/request-medallion-form-40-1330m2"
     },
     {
+      "directoryPath": "src/applications/medical-expense-report",
+      "appName": "Submit Medical Expenses To Support A Pension or DIC Claim",
+      "entryName": "medical-expense-report",
+      "rootUrl": "/supporting-forms-for-claims/submit-medical-expense-report-form-21p-8416"
+    },
+    {
       "directoryPath": "src/applications/messages",
       "appName": "My Messages",
       "entryName": "messages",
@@ -482,12 +536,6 @@
       "appName": "My Education Benefits",
       "entryName": "1990ez-edu-benefits",
       "rootUrl": "/education/apply-for-gi-bill-form-22-1990"
-    },
-    {
-      "directoryPath": "src/applications/new-28-1900",
-      "appName": "New 28-1900 Veteran Readiness",
-      "entryName": "new-28-1900-chapter-31",
-      "rootUrl": "/temporary/apply-vre-form-28-1900"
     },
     {
       "directoryPath": "src/applications/new-chapter-36-form",
@@ -628,6 +676,18 @@
       "rootUrl": "/sign-in-changes-reminder"
     },
     {
+      "directoryPath": "src/applications/sign-in-confirm-contact-email",
+      "appName": "Sign In Confirm Contact Email",
+      "entryName": "confirm-contact-email",
+      "rootUrl": "/sign-in-confirm-contact-email"
+    },
+    {
+      "directoryPath": "src/applications/sign-in-health-portal",
+      "appName": "sign-in-health-portal",
+      "entryName": "sign-in-health-portal",
+      "rootUrl": "/sign-in-health-portal"
+    },
+    {
       "directoryPath": "src/applications/simple-forms-form-engine/12-3456",
       "appName": "Form Builder Sandbox",
       "entryName": "12-3456",
@@ -682,16 +742,34 @@
       "rootUrl": "/supporting-forms-for-claims/submit-statement-form-21-4138"
     },
     {
+      "directoryPath": "src/applications/simple-forms/21-4140",
+      "appName": "Submit Employment Questionnaire",
+      "entryName": "21-4140",
+      "rootUrl": "/disability/verify-individual-unemployability-status/submit-employment-questionnaire-form-21-4140"
+    },
+    {
       "directoryPath": "src/applications/simple-forms/21-4142",
       "appName": "Authorize the release of non-VA medical information to VA",
       "entryName": "21-4142-medical-release",
       "rootUrl": "/supporting-forms-for-claims/release-information-to-va-form-21-4142"
     },
     {
+      "directoryPath": "src/applications/simple-forms/21p-0537",
+      "appName": "Marital Status Questionnaire (21P-0537)",
+      "entryName": "21p-0537",
+      "rootUrl": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/verify-marital-status-21p-0537"
+    },
+    {
       "directoryPath": "src/applications/simple-forms/21P-0847",
       "appName": "Request to be a substitute claimant for a deceased claimant",
       "entryName": "21P-0847-substitute-claimant",
       "rootUrl": "/supporting-forms-for-claims/substitute-claimant-form-21P-0847"
+    },
+    {
+      "directoryPath": "src/applications/simple-forms/21P-601",
+      "appName": "Application for Accrued Amounts Due a Deceased Beneficiary",
+      "entryName": "21P-601",
+      "rootUrl": "/family-and-caregiver-benefits/survivor-compensation/apply-for-accrued-benefits-form-21p-601"
     },
     {
       "directoryPath": "src/applications/simple-forms/26-4555",
@@ -718,6 +796,12 @@
       "rootUrl": "/mock-form-minimal-header"
     },
     {
+      "directoryPath": "src/applications/simple-forms/mock-form-prefill",
+      "appName": "Mock Form with Prefill",
+      "entryName": "mock-form-prefill",
+      "rootUrl": "/mock-form-prefill"
+    },
+    {
       "directoryPath": "src/applications/simple-forms/mock-simple-forms-patterns",
       "appName": "Simple Forms Patterns",
       "entryName": "mock-simple-forms-patterns",
@@ -742,10 +826,22 @@
       "rootUrl": "/family-and-caregiver-benefits/education-and-careers/apply-for-dea-fry-form-22-5490"
     },
     {
+      "directoryPath": "src/applications/survivors-benefits",
+      "appName": "Apply For DIC, Survivors Pension, Or Accrued Benefits Online",
+      "entryName": "survivors-benefits",
+      "rootUrl": "/family-and-caregiver-benefits/survivor-compensation/apply-for-dic-survivors-pension-accrued-benefits-form-21p-534ez"
+    },
+    {
       "directoryPath": "src/applications/terms-of-use",
       "appName": "VA online services terms of use",
       "entryName": "terms-of-use",
       "rootUrl": "/terms-of-use"
+    },
+    {
+      "directoryPath": "src/applications/time-of-need",
+      "appName": "Apply for burial in a VA national cemetery",
+      "entryName": "40-xxxx-ton",
+      "rootUrl": "/burials-and-memorials/time-of-need"
     },
     {
       "directoryPath": "src/applications/toe",
@@ -770,6 +866,12 @@
       "appName": "Appointments",
       "entryName": "vaos",
       "rootUrl": "/my-health/appointments"
+    },
+    {
+      "directoryPath": "src/applications/vass",
+      "appName": "VASS",
+      "entryName": "vass",
+      "rootUrl": "/service-member/benefits/solid-start/schedule"
     },
     {
       "directoryPath": "src/applications/verify",
@@ -806,6 +908,12 @@
       "appName": "28-1900 Veteran Readiness",
       "entryName": "28-1900-chapter-31",
       "rootUrl": "/careers-employment/vocational-rehabilitation/apply-vre-form-28-1900"
+    },
+    {
+      "directoryPath": "src/applications/vre/ch31-eligibility-entitlement",
+      "appName": "VRE CH31 Eligibility &amp; Entitlement",
+      "entryName": "ch31-eligibility-entitlement",
+      "rootUrl": "/careers-employment/your-vre-eligibility"
     },
     {
       "directoryPath": "src/applications/yellow-ribbon",
