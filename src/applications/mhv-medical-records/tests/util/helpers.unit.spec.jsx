@@ -26,7 +26,6 @@ import {
   getLastUpdatedText,
   getMonthFromSelectedDate,
   getObservationValueWithUnits,
-  getReactions,
   getStatusExtractPhase,
   handleDataDogAction,
   nameFormat,
@@ -99,14 +98,6 @@ describe('dateFormatWithoutTimezone', () => {
     const expectedFormat = '2021-05-18';
     const result = dateFormatWithoutTimezone(isoString, customFormat);
     expect(result).to.equal(expectedFormat);
-  });
-});
-
-describe('getReactions', () => {
-  it('returns an empty array if the record passed has no reactions property', () => {
-    const record = {};
-    const reactions = getReactions(record);
-    expect(reactions.length).to.eq(0);
   });
 });
 

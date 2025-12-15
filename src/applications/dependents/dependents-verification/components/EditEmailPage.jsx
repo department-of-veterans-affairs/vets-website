@@ -6,6 +6,20 @@ import EditPageButtons from './EditPageButtons';
 
 import { saveEditContactInformation } from '../util/contact-info';
 
+/**
+ * Edit Email Page Component
+ * @typedef {object} EditEmailPageProps
+ * @property {object} schema - form schema
+ * @property {object} uiSchema - form uiSchema
+ * @property {object} data - form data
+ * @property {function} goToPath - function to go to specific path
+ * @property {function} setFormData - function to set form data
+ * @property {node} contentBeforeButtons - content to render before buttons
+ * @property {node} contentAfterButtons - content to render after buttons
+ *
+ * @param {EditEmailPageProps} props - Component props
+ * @returns {React.Component} - Edit email page
+ */
 const EditEmailPage = ({
   schema,
   uiSchema,
