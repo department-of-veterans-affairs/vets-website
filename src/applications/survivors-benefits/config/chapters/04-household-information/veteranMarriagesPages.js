@@ -42,15 +42,36 @@ function introDescription() {
   );
 }
 /** @type {ArrayBuilderOptions} */
+// arrayPath is veteranMarriages because it's the Veteran's marriages being collected
 const options = {
   arrayPath: 'veteranMarriages',
-  nounSingular: 'veteran marriage',
-  nounPlural: 'veteran marriages',
+  nounSingular: 'previous marriage',
+  nounPlural: 'previous marriages',
   required: false,
   maxItems: 2,
   isItemIncomplete: item =>
     !item?.previousSpouseFullName || !item?.marriageDate,
   text: {
+    cancelTitle: 'Cancel adding this previous marriage?',
+    cancelAddTitle: 'Cancel adding this previous marriage?',
+    cancelEditTitle: 'Cancel editing this previous marriage?',
+    cancelDescription:
+      'If you cancel, we won’t add this previous marriage to the list of marriages. You’ll return to a page where you can add another previous marriage for the Veteran.',
+    cancelAddDescription:
+      'If you cancel, we won’t add this previous marriage to the list of marriages. You’ll return to a page where you can add another previous marriage for the Veteran.',
+    cancelEditDescription:
+      'If you cancel, you’ll lose any changes you made to this previous marriage and you will be returned to the previous marriage review page.',
+    cancelYes: 'Yes, cancel adding',
+    cancelAddYes: 'Yes, cancel adding',
+    cancelNo: 'No, continue adding',
+    cancelAddNo: 'No, continue adding',
+    cancelEditYes: 'Yes, cancel editing',
+    cancelEditNo: 'No, continue editing',
+    deleteDescription:
+      'This will delete the information from your list of previous marriages. You’ll return to a page where you can add a new previous marriage for the Veteran.',
+    deleteNo: 'No, keep',
+    deleteTitle: 'Delete this previous marriage?',
+    deleteYes: 'Yes, delete',
     alertMaxItems: handleAlertMaxItems,
     getItemName: item => {
       const { first, middle, last, suffix } =
@@ -214,7 +235,14 @@ const endedPage = {
       title: 'Tell us how the marriage ended',
       expandUnder: 'marriageEndedBy',
       expandUnderCondition: field => field === 'OTHER',
-      required: formData => formData?.marriageEndedBy === 'OTHER',
+      required: (formData, index) => {
+        const item = formData?.veteranMarriages?.[index];
+        const currentPageData = formData;
+        return (
+          item?.marriageEndedBy === 'OTHER' ||
+          currentPageData?.marriageEndedBy === 'OTHER'
+        );
+      },
       errorMessages: { required: 'Please tell us how the marriage ended' },
     }),
   },

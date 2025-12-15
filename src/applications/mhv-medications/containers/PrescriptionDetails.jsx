@@ -66,8 +66,8 @@ const PrescriptionDetails = () => {
   const selectedSortOption = useSelector(selectSortOption);
   const selectedFilterOption = useSelector(selectFilterOption);
   const currentPage = useSelector(selectPageNumber);
-  const isOracleHealthPilot = useSelector(selectCernerPilotFlag);
-
+  // OH feature flag
+  const isCernerPilot = useSelector(selectCernerPilotFlag);
   // Consolidate query parameters into a single state object to avoid multiple re-renders
   const [queryParams] = useState({
     page: currentPage || 1,
@@ -81,7 +81,7 @@ const PrescriptionDetails = () => {
   // Use the custom hook to fetch prescription data
   const { prescription, prescriptionApiError, isLoading } = usePrescriptionData(
     prescriptionId,
-    { ...queryParams, isOracleHealthPilot },
+    { ...queryParams, isCernerPilot },
   );
 
   const nonVaPrescription =
@@ -229,12 +229,12 @@ const PrescriptionDetails = () => {
           DATETIME_FORMATS.longMonthDate,
         )}\n\n${
           nonVaPrescription
-            ? buildNonVAPrescriptionTXT(prescription)
-            : buildVAPrescriptionTXT(prescription)
+            ? buildNonVAPrescriptionTXT(prescription, {}, isCernerPilot)
+            : buildVAPrescriptionTXT(prescription, isCernerPilot)
         }${allergiesList ?? ''}`
       );
     },
-    [userName, dob, prescription, nonVaPrescription],
+    [userName, dob, prescription, nonVaPrescription, isCernerPilot],
   );
 
   const handleFileDownload = async format => {
@@ -306,11 +306,11 @@ const PrescriptionDetails = () => {
       if (!prescription) return;
       setPrescriptionPdfList(
         nonVaPrescription
-          ? buildNonVAPrescriptionPDFList(prescription)
-          : buildVAPrescriptionPDFList(prescription),
+          ? buildNonVAPrescriptionPDFList(prescription, isCernerPilot)
+          : buildVAPrescriptionPDFList(prescription, isCernerPilot),
       );
     },
-    [nonVaPrescription, prescription],
+    [nonVaPrescription, prescription, isCernerPilot],
   );
 
   const filledEnteredDate = () => {

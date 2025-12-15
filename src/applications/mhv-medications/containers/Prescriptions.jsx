@@ -81,10 +81,12 @@ import FilterAriaRegion from '../components/MedicationsList/FilterAriaRegion';
 import RxRenewalDeleteDraftSuccessAlert from '../components/shared/RxRenewalDeleteDraftSuccessAlert';
 import { useURLPagination } from '../hooks/useURLPagination';
 import { usePageTitle } from '../hooks/usePageTitle';
+import { selectCernerPilotFlag } from '../util/selectors';
 
 const Prescriptions = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const isCernerPilot = useSelector(selectCernerPilotFlag);
   const ssoe = useSelector(isAuthenticatedWithSSOe);
   const userName = useSelector(selectUserFullName);
   const dob = useSelector(selectUserDob);
@@ -364,12 +366,12 @@ const Prescriptions = () => {
 
       if (format === DOWNLOAD_FORMAT.PDF) {
         generatePDF(
-          buildPrescriptionsPDFList(prescriptionsExportList),
+          buildPrescriptionsPDFList(prescriptionsExportList, isCernerPilot),
           buildAllergiesPDFList(allergies),
         );
       } else if (format === DOWNLOAD_FORMAT.TXT) {
         generateTXT(
-          buildPrescriptionsTXT(prescriptionsExportList),
+          buildPrescriptionsTXT(prescriptionsExportList, isCernerPilot),
           buildAllergiesTXT(allergies),
         );
       } else if (format === PRINT_FORMAT.PRINT) {
@@ -388,6 +390,7 @@ const Prescriptions = () => {
       pdfTxtGenerateStatus,
       generatePDF,
       generateTXT,
+      isCernerPilot,
     ],
   );
 
