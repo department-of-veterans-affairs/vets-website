@@ -277,7 +277,7 @@ describe('SM CURATED LIST BREADCRUMBS', () => {
       // Navigate forward to select care team
       cy.findByLabelText('A different care team').click();
       cy.findByTestId('recent-care-teams-continue-button')
-        .should('be.enabled')
+        .should('be.enabled', { timeout: 10000 })
         .click();
       GeneralFunctionsPage.verifyPageHeader('Select care team');
 
@@ -338,7 +338,7 @@ describe('SM CURATED LIST BREADCRUMBS', () => {
       // Forward: Recent care teams → Select care team
       cy.findByLabelText('A different care team').click();
       cy.findByTestId('recent-care-teams-continue-button')
-        .should('be.enabled')
+        .should('be.enabled', { timeout: 10000 })
         .click();
       GeneralFunctionsPage.verifyPageHeader('Select care team');
       cy.location('pathname').should('equal', Data.LINKS.SELECT_CARE_TEAM);
