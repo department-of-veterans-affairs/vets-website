@@ -20,7 +20,7 @@ describe('getSafeUserFullName', () => {
     });
   });
 
-  it('should return empty strings for missing fields', () => {
+  it('should return empty strings for missing fields and not include suffix', () => {
     const userFullName = {
       first: 'John',
       last: 'Doe',
@@ -32,7 +32,6 @@ describe('getSafeUserFullName', () => {
       first: 'John',
       middle: '',
       last: 'Doe',
-      suffix: '',
     });
   });
 
@@ -43,7 +42,6 @@ describe('getSafeUserFullName', () => {
       first: '',
       middle: '',
       last: '',
-      suffix: '',
     });
   });
 
@@ -54,7 +52,6 @@ describe('getSafeUserFullName', () => {
       first: '',
       middle: '',
       last: '',
-      suffix: '',
     });
   });
 
@@ -65,7 +62,6 @@ describe('getSafeUserFullName', () => {
       first: '',
       middle: '',
       last: '',
-      suffix: '',
     });
   });
 });

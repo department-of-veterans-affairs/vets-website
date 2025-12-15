@@ -3,7 +3,7 @@ export function getSafeUserFullName(userFullName) {
     first: userFullName?.first ?? '',
     middle: userFullName?.middle ?? '',
     last: userFullName?.last ?? '',
-    suffix: userFullName?.suffix ?? '',
+    ...(userFullName?.suffix && { suffix: userFullName.suffix }), // this key shouldn't be included unless it has a value
   };
 }
 
