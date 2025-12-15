@@ -11,7 +11,10 @@ import {
   rxListSortingOptions,
 } from '../../util/constants';
 import { getFilterOptions } from '../../util/helpers/getRxStatus';
-import { selectCernerPilotFlag } from '../../util/selectors';
+import {
+  selectCernerPilotFlag,
+  selectV2StatusMappingFlag,
+} from '../../util/selectors';
 import PrescriptionPrintOnly from '../PrescriptionDetails/PrescriptionPrintOnly';
 import { fromToNumbs } from '../../util/helpers';
 import { dataDogActionNames } from '../../util/dataDogConstants';
@@ -58,7 +61,11 @@ const MedicationsList = props => {
 
   const selectedFilterOption = useSelector(selectFilterOption);
   const isCernerPilot = useSelector(selectCernerPilotFlag);
-  const currentFilterOptions = getFilterOptions(isCernerPilot);
+  const isV2StatusMapping = useSelector(selectV2StatusMappingFlag);
+  const currentFilterOptions = getFilterOptions(
+    isCernerPilot,
+    isV2StatusMapping,
+  );
   const selectedFilterDisplay =
     currentFilterOptions[selectedFilterOption]?.showingContentDisplayName;
 

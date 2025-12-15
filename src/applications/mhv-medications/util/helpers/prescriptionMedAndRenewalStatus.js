@@ -39,19 +39,26 @@ const formatStatusParagraph = (
 };
 
 /**
- * Gets status text and definition for Cerner pilot or regular mode
+ * Gets status text and definition for V2 status mapping or regular mode
  * @param {Object} prescription - The prescription object
  * @param {boolean} isCernerPilot - Whether Cerner pilot is enabled
+ * @param {boolean} isV2StatusMapping - Whether V2 status mapping is enabled
  * @returns {Object} Object containing statusText and statusDefinition
  */
-const getStatusTextAndDefinition = (prescription, isCernerPilot) => {
-  if (isCernerPilot) {
-    const statusText = getRxStatus(prescription, isCernerPilot);
-    const statusDefinitions = getStatusDefinitions(isCernerPilot);
+const getStatusTextAndDefinition = (
+  prescription,
+  isCernerPilot,
+  isV2StatusMapping,
+) => {
+  if (isCernerPilot && isV2StatusMapping) {
+    const statusText = getRxStatus(prescription);
+    const statusDefinitions = getStatusDefinitions(
+      isCernerPilot,
+      isV2StatusMapping,
+    );
     const definitionKey = getPdfStatusDefinitionKey(
       prescription.dispStatus,
       prescription.refillStatus,
-      isCernerPilot,
     );
     const statusDefinition =
       statusDefinitions[definitionKey] || pdfDefaultStatusDefinition;
@@ -72,6 +79,7 @@ const determineStatus = (
   pendingRenewal,
   prescription,
   isCernerPilot = false,
+  isV2StatusMapping = false,
 ) => {
   switch (displayType) {
     case medStatusDisplayTypes.VA_PRESCRIPTION:
@@ -94,6 +102,7 @@ const determineStatus = (
       const { statusText, statusDefinition } = getStatusTextAndDefinition(
         prescription,
         isCernerPilot,
+        isV2StatusMapping,
       );
       return `${statusText} - ${statusDefinition?.[0]?.value}`;
     }
@@ -102,10 +111,11 @@ const determineStatus = (
       if (pendingMed) return pdfDefaultPendingMedDefinition;
       if (pendingRenewal) return pdfDefaultPendingRenewalDefinition;
 
-      if (isCernerPilot) {
+      if (isCernerPilot && isV2StatusMapping) {
         const { statusText, statusDefinition } = getStatusTextAndDefinition(
           prescription,
           isCernerPilot,
+          isV2StatusMapping,
         );
         const statusParagraph = formatStatusParagraph(statusDefinition);
         return `${statusText} - ${statusParagraph}`;
@@ -134,12 +144,14 @@ const determineStatus = (
 /**
  * @param {{prescriptionSource: string, dispStatus: string}} prescription The prescription object to evaluate status
  * @param {string} displayType - Flag to indicate how this status is being displayed
+ * @param {boolean} isCernerPilot - Whether Cerner pilot is enabled
+ * @param {boolean} isV2StatusMapping - Whether V2 status mapping is enabled
  */
-
 export const prescriptionMedAndRenewalStatus = (
   prescription,
   displayType,
   isCernerPilot = false,
+  isV2StatusMapping = false,
 ) => {
   if (!prescription) {
     return null;
@@ -157,5 +169,6 @@ export const prescriptionMedAndRenewalStatus = (
     pendingRenewal,
     prescription,
     isCernerPilot,
+    isV2StatusMapping,
   );
 };

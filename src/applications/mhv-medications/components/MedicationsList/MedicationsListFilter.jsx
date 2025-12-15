@@ -13,7 +13,10 @@ import {
 import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { ALL_MEDICATIONS_FILTER_KEY } from '../../util/constants';
 import { getFilterOptions } from '../../util/helpers/getRxStatus';
-import { selectCernerPilotFlag } from '../../util/selectors';
+import {
+  selectCernerPilotFlag,
+  selectV2StatusMappingFlag,
+} from '../../util/selectors';
 import { dataDogActionNames } from '../../util/dataDogConstants';
 import { setFilterOpen, setFilterOption } from '../../redux/preferencesSlice';
 import {
@@ -27,7 +30,11 @@ const MedicationsListFilter = ({ updateFilter, filterCount }) => {
   const filterOpenByDefault = useSelector(selectFilterOpenByDefault);
   const filterOption = useSelector(selectFilterOption);
   const isCernerPilot = useSelector(selectCernerPilotFlag);
-  const currentFilterOptions = getFilterOptions(isCernerPilot);
+  const isV2StatusMapping = useSelector(selectV2StatusMappingFlag);
+  const currentFilterOptions = getFilterOptions(
+    isCernerPilot,
+    isV2StatusMapping,
+  );
   const [selectedFilterOption, setSelectedFilterOption] = useState(
     filterOption,
   );

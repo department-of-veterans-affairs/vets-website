@@ -15,7 +15,8 @@ import { getFilterOptions } from './getRxStatus';
 /**
  * Display the medication list header based on the selectedFilterOption
  * @param {String} selectedFilterOption - The filter option selected.
- * @param {Boolean} isCernerPilot - Whether Cerner pilot is enabled (optional, for backwards compatibility).
+ * @param {Boolean} isCernerPilot - Whether Cerner pilot is enabled.
+ * @param {Boolean} isV2StatusMapping - Whether V2 status mapping is enabled.
  * @param {Object} currentFilterOptions - The filter options object to use (optional, for backwards compatibility).
  * @returns {String}
  * - If selectedFilterOption is provided, return the label associated with the filter options key.
@@ -25,11 +26,12 @@ import { getFilterOptions } from './getRxStatus';
 export const displayMedicationsListHeader = (
   selectedFilterOption,
   isCernerPilot = false,
+  isV2StatusMapping = false,
   currentFilterOptions = null,
 ) => {
-  /* Use getFilterOptions if isCernerPilot is provided, otherwise fall back to passed currentFilterOptions or default */
-  const filterOptions = currentFilterOptions || getFilterOptions(isCernerPilot);
-
+  /* Use getFilterOptions if flags are provided, otherwise fall back to passed currentFilterOptions or default */
+  const filterOptions =
+    currentFilterOptions || getFilterOptions(isCernerPilot, isV2StatusMapping);
   switch (selectedFilterOption) {
     case ALL_MEDICATIONS_FILTER_KEY: {
       return filterOptions[ALL_MEDICATIONS_FILTER_KEY].label;

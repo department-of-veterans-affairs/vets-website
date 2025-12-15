@@ -52,13 +52,15 @@ import { useGetAllergiesQuery } from '../api/allergiesApi';
 import { usePrescriptionData } from '../hooks/usePrescriptionData';
 import { usePrefetch } from '../api/prescriptionsApi';
 import { selectUserDob, selectUserFullName } from '../selectors/selectUser';
-import { selectCernerPilotFlag } from '../util/selectors';
+import {
+  selectCernerPilotFlag,
+  selectV2StatusMappingFlag,
+} from '../util/selectors';
 import {
   selectSortOption,
   selectFilterOption,
   selectPageNumber,
 } from '../selectors/selectPreferences';
-import { selectCernerPilotFlag } from '../util/selectors';
 
 const PrescriptionDetails = () => {
   const { prescriptionId } = useParams();
@@ -68,7 +70,11 @@ const PrescriptionDetails = () => {
   const selectedFilterOption = useSelector(selectFilterOption);
   const currentPage = useSelector(selectPageNumber);
   const isCernerPilot = useSelector(selectCernerPilotFlag);
-  const currentFilterOptions = getFilterOptions(isCernerPilot);
+  const isV2StatusMapping = useSelector(selectV2StatusMappingFlag);
+  const currentFilterOptions = getFilterOptions(
+    isCernerPilot,
+    isV2StatusMapping,
+  );
   // Consolidate query parameters into a single state object to avoid multiple re-renders
   const [queryParams] = useState({
     page: currentPage || 1,
@@ -230,12 +236,28 @@ const PrescriptionDetails = () => {
           DATETIME_FORMATS.longMonthDate,
         )}\n\n${
           nonVaPrescription
-            ? buildNonVAPrescriptionTXT(prescription, {}, isCernerPilot)
-            : buildVAPrescriptionTXT(prescription, isCernerPilot)
+            ? buildNonVAPrescriptionTXT(
+                prescription,
+                {},
+                isCernerPilot,
+                isV2StatusMapping,
+              )
+            : buildVAPrescriptionTXT(
+                prescription,
+                isCernerPilot,
+                isV2StatusMapping,
+              )
         }${allergiesList ?? ''}`
       );
     },
-    [userName, dob, prescription, nonVaPrescription, isCernerPilot],
+    [
+      userName,
+      dob,
+      prescription,
+      nonVaPrescription,
+      isCernerPilot,
+      isV2StatusMapping,
+    ],
   );
 
   const handleFileDownload = async format => {
@@ -307,11 +329,19 @@ const PrescriptionDetails = () => {
       if (!prescription) return;
       setPrescriptionPdfList(
         nonVaPrescription
-          ? buildNonVAPrescriptionPDFList(prescription, isCernerPilot)
-          : buildVAPrescriptionPDFList(prescription, isCernerPilot),
+          ? buildNonVAPrescriptionPDFList(
+              prescription,
+              isCernerPilot,
+              isV2StatusMapping,
+            )
+          : buildVAPrescriptionPDFList(
+              prescription,
+              isCernerPilot,
+              isV2StatusMapping,
+            ),
       );
     },
-    [nonVaPrescription, prescription, isCernerPilot],
+    [nonVaPrescription, prescription, isCernerPilot, isV2StatusMapping],
   );
 
   const filledEnteredDate = () => {

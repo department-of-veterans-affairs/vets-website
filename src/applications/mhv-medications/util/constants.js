@@ -273,7 +273,7 @@ export const pdfStatusDefinitionsV2 = {
       value: `A prescription moved to VA’s new electronic health record. This prescription may also be described as “Discontinued” on medication lists from your health care team. Take your medications as prescribed by your health care team.`,
     },
   ],
-  unknown: [
+  statusNotAvailable: [
     {
       value: `There’s a problem with our system. You can’t manage this prescription online right now.`,
     },
@@ -325,14 +325,10 @@ export const dispStatusObj = {
 export const dispStatusObjV2 = {
   statusNotAvailable: 'Status not available',
   active: 'Active',
-  refillinprocess: 'In progress',
-  submitted: 'In progress',
-  expired: 'Inactive',
-  discontinued: 'Inactive',
+  inprogress: 'In progress',
+  inactive: 'Inactive',
   transferred: 'Transferred',
   nonVA: ACTIVE_NON_VA,
-  onHold: 'Inactive',
-  activeParked: 'Active',
 };
 
 export const SESSION_SELECTED_SORT_OPTION = 'SESSION_SELECTED_SORT_OPTION';

@@ -13,11 +13,14 @@ import {
   prescriptionMedAndRenewalStatus,
 } from './helpers';
 import {
+  getPdfStatusDefinitionKey,
+  getStatusDefinitions,
+} from './helpers/getRxStatus';
+import {
   ACTIVE_NON_VA,
   DATETIME_FORMATS,
   FIELD_NOT_AVAILABLE,
   medStatusDisplayTypes,
-  pdfStatusDefinitions,
   RX_SOURCE,
   DISPENSE_STATUS,
 } from './constants';
@@ -87,7 +90,7 @@ export const buildNonVAPrescriptionPDFList = (
             },
             {
               value:
-                "A VA provider added this medication record in your VA medical records. But this isn’t a prescription you filled through a VA pharmacy. This could be sample medications, over-the-counter medications, supplements or herbal remedies. You can’t request refills or manage this medication through this online tool. If you aren't taking this medication, ask your provider to remove it at your next appointment.",
+                "A VA provider added this medication record in your VA medical records. But this isn't a prescription you filled through a VA pharmacy. This could be sample medications, over-the-counter medications, supplements or herbal remedies. You can't request refills or manage this medication through this online tool. If you aren't taking this medication, ask your provider to remove it at your next appointment.",
             },
             {
               title: 'When you started taking this medication',
@@ -127,7 +130,13 @@ export const buildNonVAPrescriptionPDFList = (
 export const buildPrescriptionsPDFList = (
   prescriptions,
   isCernerPilot = false,
+  isV2StatusMapping = false,
 ) => {
+  const statusDefinitions = getStatusDefinitions(
+    isCernerPilot,
+    isV2StatusMapping,
+  );
+
   return prescriptions?.map(rx => {
     if (rx?.prescriptionSource === RX_SOURCE.NON_VA) {
       return {
@@ -143,6 +152,11 @@ export const buildPrescriptionsPDFList = (
       rx?.prescriptionSource === RX_SOURCE.PENDING_DISPENSE &&
       rx?.dispStatus === DISPENSE_STATUS.RENEW;
     const isPending = pendingMed || pendingRenewal;
+
+    const statusDefinitionKey = getPdfStatusDefinitionKey(
+      rx.dispStatus,
+      rx.refillStatus,
+    );
 
     const mostRecentRxRefillLine = () => {
       const newest = getMostRecentRxRefill(rx);
@@ -188,6 +202,7 @@ export const buildPrescriptionsPDFList = (
                   rx,
                   medStatusDisplayTypes.PRINT,
                   isCernerPilot,
+                  isV2StatusMapping,
                 ),
               ),
               inline: true,
@@ -197,8 +212,8 @@ export const buildPrescriptionsPDFList = (
               value:
                 !pendingMed &&
                 !pendingRenewal &&
-                pdfStatusDefinitions?.[rx.refillStatus]?.length > 1
-                  ? pdfStatusDefinitions[rx.refillStatus].slice(1)
+                statusDefinitions?.[statusDefinitionKey]?.length > 1
+                  ? statusDefinitions[statusDefinitionKey].slice(1)
                   : [],
             },
             {
@@ -370,6 +385,7 @@ export const buildAllergiesPDFList = allergies => {
 export const buildVAPrescriptionPDFList = (
   prescription,
   isCernerPilot = false,
+  isV2StatusMapping = false,
 ) => {
   const refillHistory = getRefillHistory(prescription);
   const showRefillHistory = getShowRefillHistory(refillHistory);
@@ -379,6 +395,16 @@ export const buildVAPrescriptionPDFList = (
   const pendingRenewal =
     prescription?.prescriptionSource === RX_SOURCE.PENDING_DISPENSE &&
     prescription?.dispStatus === DISPENSE_STATUS.RENEW;
+
+  const statusDefinitions = getStatusDefinitions(
+    isCernerPilot,
+    isV2StatusMapping,
+  );
+  const statusDefinitionKey = getPdfStatusDefinitionKey(
+    prescription.dispStatus,
+    prescription.refillStatus,
+  );
+
   const VAPrescriptionPDFList = [
     {
       header: 'Most recent prescription',
@@ -412,6 +438,7 @@ export const buildVAPrescriptionPDFList = (
                   prescription,
                   medStatusDisplayTypes.PRINT,
                   isCernerPilot,
+                  isV2StatusMapping,
                 ),
               ),
               inline: true,
@@ -421,8 +448,8 @@ export const buildVAPrescriptionPDFList = (
               value:
                 !pendingMed &&
                 !pendingRenewal &&
-                pdfStatusDefinitions?.[prescription.refillStatus]?.length > 1
-                  ? pdfStatusDefinitions[prescription.refillStatus].slice(1)
+                statusDefinitions?.[statusDefinitionKey]?.length > 1
+                  ? statusDefinitions[statusDefinitionKey].slice(1)
                   : [],
             },
             {

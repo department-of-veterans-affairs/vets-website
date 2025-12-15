@@ -1,13 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { ACTIVE_NON_VA, dispStatusObj } from '../../util/constants';
+import {
+  ACTIVE_NON_VA,
+  dispStatusObj,
+  dispStatusObjV2,
+} from '../../util/constants';
 import { dataDogActionNames } from '../../util/dataDogConstants';
-import { selectCernerPilotFlag } from '../../util/selectors';
+import {
+  selectCernerPilotFlag,
+  selectV2StatusMappingFlag,
+} from '../../util/selectors';
 
 const StatusDropdown = props => {
   const { status } = props;
   const isCernerPilot = useSelector(selectCernerPilotFlag);
+  const isV2StatusMapping = useSelector(selectV2StatusMappingFlag);
+  const useV2Statuses = isCernerPilot && isV2StatusMapping;
+  const statusObj = useV2Statuses ? dispStatusObjV2 : dispStatusObj;
 
   const displayStatus = statusTxt => {
     return (
@@ -18,9 +28,9 @@ const StatusDropdown = props => {
   };
 
   const content = () => {
-    if (!isCernerPilot) {
+    if (!useV2Statuses) {
       switch (status) {
-        case dispStatusObj.active: {
+        case statusObj.active: {
           const dropdownContent = () => {
             return (
               <>
@@ -54,7 +64,7 @@ const StatusDropdown = props => {
             </>
           );
         }
-        case dispStatusObj.nonVA: {
+        case statusObj.nonVA: {
           const dropdownContent = () => {
             return (
               <>
@@ -100,7 +110,7 @@ const StatusDropdown = props => {
             </>
           );
         }
-        case dispStatusObj.activeParked: {
+        case statusObj.activeParked: {
           const dropdownContent = () => {
             return (
               <>
@@ -147,7 +157,7 @@ const StatusDropdown = props => {
             </>
           );
         }
-        case dispStatusObj.onHold: {
+        case statusObj.onHold: {
           const dropdownContent = () => {
             return (
               <>
@@ -183,7 +193,7 @@ const StatusDropdown = props => {
             </>
           );
         }
-        case dispStatusObj.refillinprocess: {
+        case statusObj.refillinprocess: {
           const dropdownContent = () => {
             return (
               <p>
@@ -207,7 +217,7 @@ const StatusDropdown = props => {
             </>
           );
         }
-        case dispStatusObj.discontinued: {
+        case statusObj.discontinued: {
           const dropdownContent = () => {
             return (
               <>
@@ -251,7 +261,7 @@ const StatusDropdown = props => {
             </>
           );
         }
-        case dispStatusObj.submitted: {
+        case statusObj.submitted: {
           const dropdownContent = () => {
             return (
               <>
@@ -282,7 +292,7 @@ const StatusDropdown = props => {
             </>
           );
         }
-        case dispStatusObj.expired: {
+        case statusObj.expired: {
           const dropdownContent = () => {
             return (
               <>
@@ -320,7 +330,7 @@ const StatusDropdown = props => {
             </>
           );
         }
-        case dispStatusObj.transferred: {
+        case statusObj.transferred: {
           const dropdownContent = () => {
             return (
               <p data-testid="transferred-status-definition">
@@ -375,8 +385,7 @@ const StatusDropdown = props => {
       }
     } else {
       switch (status) {
-        case dispStatusObj.active:
-        case dispStatusObj.activeParked: {
+        case statusObj.active: {
           const dropdownContent = () => {
             return (
               <>
@@ -412,7 +421,7 @@ const StatusDropdown = props => {
             </>
           );
         }
-        case dispStatusObj.nonVA: {
+        case statusObj.nonVA: {
           const dropdownContent = () => {
             return (
               <>
@@ -458,8 +467,7 @@ const StatusDropdown = props => {
             </>
           );
         }
-        case dispStatusObj.submitted:
-        case dispStatusObj.refillinprocess: {
+        case statusObj.inprogress: {
           const dropdownContent = () => {
             return (
               <>
@@ -492,9 +500,7 @@ const StatusDropdown = props => {
             </>
           );
         }
-        case dispStatusObj.expired:
-        case dispStatusObj.discontinued:
-        case dispStatusObj.onHold: {
+        case statusObj.inactive: {
           const dropdownContent = () => {
             return (
               <>
@@ -524,7 +530,7 @@ const StatusDropdown = props => {
             </>
           );
         }
-        case dispStatusObj.transferred: {
+        case statusObj.transferred: {
           const dropdownContent = () => {
             return (
               <p data-testid="transferred-status-definition">
