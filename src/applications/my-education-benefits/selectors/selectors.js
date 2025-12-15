@@ -70,6 +70,7 @@ export const getAppData = state => ({
   mebDpoAddressOptionEnabled: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.mebDpoAddressOptionEnabled
   ],
+  meb1995Reroute: !!toggleValues(state)[FEATURE_FLAG_NAMES.meb1995Reroute],
   // **NEW** flag for the v2 intro/process updates
   showMeb54901990eTextUpdate: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.showMeb54901990eTextUpdate
