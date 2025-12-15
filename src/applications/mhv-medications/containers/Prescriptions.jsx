@@ -81,7 +81,6 @@ import FilterAriaRegion from '../components/MedicationsList/FilterAriaRegion';
 import RxRenewalDeleteDraftSuccessAlert from '../components/shared/RxRenewalDeleteDraftSuccessAlert';
 import { useURLPagination } from '../hooks/useURLPagination';
 import { usePageTitle } from '../hooks/usePageTitle';
-import { selectCernerPilotFlag } from '../util/selectors';
 
 const Prescriptions = () => {
   const navigate = useNavigate();
