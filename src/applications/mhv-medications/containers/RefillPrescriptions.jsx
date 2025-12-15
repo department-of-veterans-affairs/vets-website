@@ -68,14 +68,13 @@ const RefillPrescriptions = () => {
           const idMatch =
             String(prescription.prescriptionId) === String(prescriptionId);
 
-          // If we have a stationNumber from the ID object, also match on that
           if (stationNumber) {
             return idMatch && prescription.stationNumber === stationNumber;
           }
           return idMatch;
         });
       })
-      .filter(Boolean); // Filter out undefined values from unmatched IDs
+      .filter(Boolean);
   }, []);
 
   const successfulMeds = useMemo(
