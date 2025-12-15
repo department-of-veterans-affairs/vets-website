@@ -15,9 +15,12 @@ import AccessTroubleAlertBox from '../../components/shared/AccessTroubleAlertBox
 import DownloadSuccessAlert from '../../components/shared/DownloadSuccessAlert';
 
 const OHOnlyContent = ({
+  ccdDownloadSuccess,
+  ccdError,
   ccdExtendedFileTypeFlag,
+  CCDRetryTimestamp,
   ddSuffix,
-  isLoading,
+  generatingCCD,
   handleDownload,
   testIdSuffix,
   lastSuccessfulUpdate,
@@ -28,7 +31,7 @@ const OHOnlyContent = ({
 }) => {
   return (
     <>
-      {isLoading ? (
+      {generatingCCD ? (
         <div
           id={`generating-ccd-${testIdSuffix}-indicator`}
           data-testid={`generating-ccd-${testIdSuffix}-indicator`}
@@ -80,6 +83,15 @@ const OHOnlyContent = ({
                   className="vads-u-margin-bottom--1"
                 />
               </>
+            )}
+          {(generatingCCD || ccdDownloadSuccess) &&
+            !ccdError &&
+            !CCDRetryTimestamp && (
+              <DownloadSuccessAlert
+                type="Continuity of Care Document download"
+                className="vads-u-margin-bottom--1"
+                focusId="ccd-download-success"
+              />
             )}
           <h2>Download your Continuity of Care Document</h2>
           <p>
@@ -149,11 +161,14 @@ OHOnlyContent.propTypes = {
   ccdExtendedFileTypeFlag: PropTypes.bool.isRequired,
   ddSuffix: PropTypes.string.isRequired,
   failedSeiDomains: PropTypes.arrayOf(PropTypes.string).isRequired,
+  generatingCCD: PropTypes.bool.isRequired,
   handleDownload: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool.isRequired,
   successfulSeiDownload: PropTypes.bool.isRequired,
   testIdSuffix: PropTypes.string.isRequired,
+  CCDRetryTimestamp: PropTypes.string,
   activeAlert: PropTypes.object,
+  ccdDownloadSuccess: PropTypes.bool,
+  ccdError: PropTypes.bool,
   lastSuccessfulUpdate: PropTypes.shape({
     date: PropTypes.string,
     time: PropTypes.string,

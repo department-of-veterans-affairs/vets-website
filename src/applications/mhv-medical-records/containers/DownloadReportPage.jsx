@@ -299,7 +299,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
         <OHOnlyContent
           testIdSuffix="OH"
           ddSuffix="OH"
-          isLoading={generatingCCD}
+          generatingCCD={generatingCCD}
           handleDownload={handleDownloadCCDV2}
           ccdExtendedFileTypeFlag={ccdExtendedFileTypeFlag}
           lastSuccessfulUpdate={lastSuccessfulUpdate}
@@ -307,6 +307,9 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           activeAlert={activeAlert}
           successfulSeiDownload={successfulSeiDownload}
           failedSeiDomains={failedSeiDomains}
+          ccdDownloadSuccess={ccdDownloadSuccess}
+          ccdError={ccdError}
+          CCDRetryTimestamp={CCDRetryTimestamp}
         />
 
         <NeedHelpSection />
