@@ -43,7 +43,7 @@ export default function ScheduleCernerPageV2() {
             VA Health portal.
             <br />
             <NewTabAnchor href={getCernerURL('/pages/scheduling/upcoming')}>
-              Go to My VA Health (Opens in new tab)
+              Go to My VA Health (opens in a new tab)
             </NewTabAnchor>
           </p>
         </>
