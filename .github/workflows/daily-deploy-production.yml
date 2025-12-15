@@ -354,7 +354,7 @@ jobs:
     needs: [set-env, notify-start]
     permissions:
       id-token: write
-      contents: read
+      contents: write
 
     steps:
       - name: Checkout
