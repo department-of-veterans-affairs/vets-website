@@ -118,7 +118,7 @@ export const uiSchema = {
               formattedDate = year;
             } else if (day === 'XX') {
               // Month/Year: 2015-12-XX → "December 2015"
-              const monthYear = formatDate(`${year}-${month}-01`, 'MMMM YYYY');
+              const monthYear = formatDate(`${year}-${month}-01`, 'MMMM yyyy');
               formattedDate =
                 monthYear && monthYear !== 'Invalid date'
                   ? monthYear

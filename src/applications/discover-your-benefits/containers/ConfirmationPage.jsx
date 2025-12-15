@@ -55,6 +55,12 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
             label: 'All results',
             active: tempFilterValues.includes('all'),
           },
+        category: [
+          {
+            id: 'recommended',
+            label: 'Show only results recommended for you',
+            active: tempFilterValues.includes('recommended'),
+          },
         ],
       },
       {
