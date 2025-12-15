@@ -1,4 +1,3 @@
-import React from 'react';
 import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import environment from 'platform/utilities/environment';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
@@ -22,17 +21,16 @@ import applicantIdentityInformation from '../chapters/applicantInformation/ident
 import applicantMailingAddress from '../chapters/applicantInformation/mailingAddress';
 import applicantPersonalInformation from '../chapters/applicantInformation/personalInformation';
 
-import {
-  applicantHasMedicareSchema,
-  applicantMedicareClassSchema,
-  applicantMedicarePartACarrierSchema,
-  applicantMedicarePartBCarrierSchema,
-  applicantMedicarePharmacySchema,
-  applicantHasMedicareDSchema,
-  applicantMedicareABUploadSchema,
-  applicantMedicareDUploadSchema,
-} from '../chapters/medicareInformation';
-import applicantMedicarePartDEffectiveDate from '../chapters/medicare/partDEffectiveDate';
+import medicareReportPlans from '../chapters/medicare/reportPlans';
+import medicarePlanTypes from '../chapters/medicare/planTypes';
+import medicarePharmacyBenefits from '../chapters/medicare/planPharmacyBenefits';
+import medicarePartACarrier from '../chapters/medicare/partACarrier';
+import medicarePartBCarrier from '../chapters/medicare/partBCarrier';
+import medicareCardUpload from '../chapters/medicare/partsABCardUpload';
+import medicarePartDStatus from '../chapters/medicare/partDStatus';
+import medicarePartDEffectiveDate from '../chapters/medicare/partDEffectiveDate';
+import medicarePartDCardUpload from '../chapters/medicare/partDCardUpload';
+
 import {
   applicantHasInsuranceSchema,
   applicantProviderSchema,
@@ -103,10 +101,9 @@ const formConfig = {
   customText: {
     appType: 'form',
     continueAppButtonText: 'Continue your form',
-    reviewPageTitle: 'Review form',
+    reviewPageTitle: 'Review and sign',
     startNewAppButtonText: 'Start a new form',
   },
-  CustomReviewTopContent: () => <h3>Review and sign</h3>,
   saveInProgress: {
     messages: {
       inProgress:
@@ -232,45 +229,41 @@ const formConfig = {
       pages: {
         hasMedicareAB: {
           path: 'medicare-ab-status',
-          title: formData => privWrapper(`${fnp(formData)} Medicare status`),
-          ...applicantHasMedicareSchema,
+          title: 'Report Medicare plans',
+          ...medicareReportPlans,
           scrollAndFocusTarget,
         },
         medicareClass: {
           path: 'medicare-plan',
-          title: formData => privWrapper(`${fnp(formData)} Medicare coverage`),
+          title: 'Medicare plan types',
           depends: formData => get('applicantMedicareStatus', formData),
-          ...applicantMedicareClassSchema,
+          ...medicarePlanTypes,
           scrollAndFocusTarget,
         },
         pharmacyBenefits: {
           path: 'medicare-pharmacy',
-          title: formData =>
-            privWrapper(`${fnp(formData)} Medicare pharmacy benefits`),
+          title: 'Medicare pharmacy benefits',
           depends: formData =>
             !formData['view:champvaForm107959cRev2025'] &&
             get('applicantMedicareStatus', formData) &&
             ['advantage', 'other'].includes(
               get('applicantMedicareClass', formData),
             ),
-          ...applicantMedicarePharmacySchema,
+          ...medicarePharmacyBenefits,
           scrollAndFocusTarget,
         },
-        // If 'yes' to previous question:
         partACarrier: {
           path: 'medicare-a-carrier',
-          title: formData =>
-            privWrapper(`${fnp(formData)} Medicare Part A carrier`),
+          title: 'Medicare Part A carrier',
           depends: formData => get('applicantMedicareStatus', formData),
-          ...applicantMedicarePartACarrierSchema,
+          ...medicarePartACarrier,
           scrollAndFocusTarget,
         },
         partBCarrier: {
           path: 'medicare-b-carrier',
-          title: formData =>
-            privWrapper(`${fnp(formData)} Medicare Part B carrier`),
+          title: 'Medicare Part B carrier',
           depends: formData => get('applicantMedicareStatus', formData),
-          ...applicantMedicarePartBCarrierSchema,
+          ...medicarePartBCarrier,
           scrollAndFocusTarget,
         },
         medicareABCards: {
@@ -279,15 +272,14 @@ const formConfig = {
           depends: formData => get('applicantMedicareStatus', formData),
           CustomPage: FileFieldWrapped,
           CustomPageReview: null,
-          ...applicantMedicareABUploadSchema,
+          ...medicareCardUpload,
           scrollAndFocusTarget,
         },
         hasMedicareD: {
           path: 'medicare-d-status',
-          title: formData =>
-            privWrapper(`${fnp(formData)} Medicare Part D status`),
+          title: 'Medicare Part D status',
           depends: formData => get('applicantMedicareStatus', formData),
-          ...applicantHasMedicareDSchema,
+          ...medicarePartDStatus,
           scrollAndFocusTarget,
         },
         partDCarrier: {
@@ -296,7 +288,7 @@ const formConfig = {
           depends: formData =>
             get('applicantMedicareStatus', formData) &&
             get('applicantMedicareStatusD', formData),
-          ...applicantMedicarePartDEffectiveDate,
+          ...medicarePartDEffectiveDate,
           scrollAndFocusTarget,
         },
         medicareDCards: {
@@ -308,7 +300,7 @@ const formConfig = {
           CustomPage: FileFieldWrapped,
           CustomPageReview: null,
           customPageUsesPagePerItemData: true,
-          ...applicantMedicareDUploadSchema,
+          ...medicarePartDCardUpload,
           scrollAndFocusTarget,
         },
       },
