@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { environment } from '@department-of-veterans-affairs/platform-utilities/exports';
+import { focusElement } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import GetFormHelp from '../components/GetFormHelp';
@@ -8,6 +9,7 @@ const SaveInformationPage = props => {
   const { goBack, goForward, NavButtons = FormNavButtons } = props;
 
   useEffect(() => {
+    focusElement('h1');
     const progressBar = document.querySelector('va-segmented-progress-bar');
     if (progressBar) {
       progressBar.style.display = 'none';
