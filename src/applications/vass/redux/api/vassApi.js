@@ -103,6 +103,26 @@ export const vassApi = createApi({
         }
       },
     }),
+    getTopics: builder.query({
+      async queryFn() {
+        try {
+          return await api('/vass/v0/topics', {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              // TODO: confirm token storage location, maybe redux?
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+          });
+        } catch (error) {
+          // captureError(error, false, 'get topics');
+          // TODO: do something with error
+          return {
+            error: { status: error.status || 500, message: error?.message },
+          };
+        }
+      },
+    }),
   }),
 });
 
@@ -111,4 +131,5 @@ export const {
   usePostOTCVerificationMutation,
   usePostAppointmentMutation,
   useGetAppointmentQuery,
+  useGetTopicsQuery,
 } = vassApi;

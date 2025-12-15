@@ -3,6 +3,20 @@ import { expect } from 'chai';
 import { renderWithStoreAndRouterV6 as renderWithStoreAndRouter } from 'platform/testing/unit/react-testing-library-helpers';
 
 import Wrapper from './Wrapper';
+import reducers from '../redux/reducers';
+import { vassApi } from '../redux/api/vassApi';
+
+const defaultRenderOptions = {
+  initialState: {
+    vassForm: {
+      hydrated: false,
+      selectedDate: null,
+      selectedTopics: [],
+    },
+  },
+  reducers,
+  additionalMiddlewares: [vassApi.middleware],
+};
 
 describe('VASS Component: Wrapper', () => {
   it('should render children content', () => {
@@ -10,9 +24,7 @@ describe('VASS Component: Wrapper', () => {
       <Wrapper>
         <div data-testid="test-child">Test Content</div>
       </Wrapper>,
-      {
-        initialState: {},
-      },
+      defaultRenderOptions,
     );
 
     expect(screen.getByTestId('test-child')).to.exist;
@@ -23,9 +35,7 @@ describe('VASS Component: Wrapper', () => {
       <Wrapper pageTitle="Test Page Title">
         <div>Content</div>
       </Wrapper>,
-      {
-        initialState: {},
-      },
+      defaultRenderOptions,
     );
 
     expect(screen.getByRole('heading', { level: 1, name: /test page title/i }))
@@ -39,9 +49,7 @@ describe('VASS Component: Wrapper', () => {
       <Wrapper>
         <div>Content</div>
       </Wrapper>,
-      {
-        initialState: {},
-      },
+      defaultRenderOptions,
     );
 
     expect(screen.queryByTestId('header')).to.not.exist;
@@ -52,9 +60,7 @@ describe('VASS Component: Wrapper', () => {
       <Wrapper>
         <div>Content</div>
       </Wrapper>,
-      {
-        initialState: {},
-      },
+      defaultRenderOptions,
     );
 
     expect(screen.getByTestId('help-footer')).to.exist;
@@ -65,9 +71,7 @@ describe('VASS Component: Wrapper', () => {
       <Wrapper className="custom-class" testID="wrapper-container">
         <div>Content</div>
       </Wrapper>,
-      {
-        initialState: {},
-      },
+      defaultRenderOptions,
     );
 
     const container = screen.getByTestId('wrapper-container'); // The default testID
@@ -82,9 +86,7 @@ describe('VASS Component: Wrapper', () => {
       <Wrapper testID="test-wrapper">
         <div>Content</div>
       </Wrapper>,
-      {
-        initialState: {},
-      },
+      defaultRenderOptions,
     );
 
     expect(screen.getByTestId('test-wrapper')).to.exist;
@@ -95,9 +97,7 @@ describe('VASS Component: Wrapper', () => {
       <Wrapper showBackLink>
         <div>Content</div>
       </Wrapper>,
-      {
-        initialState: {},
-      },
+      defaultRenderOptions,
     );
 
     expect(screen.getByTestId('back-link')).to.exist;
@@ -108,9 +108,7 @@ describe('VASS Component: Wrapper', () => {
       <Wrapper showBackLink required pageTitle="Test Page Title">
         <div>Content</div>
       </Wrapper>,
-      {
-        initialState: {},
-      },
+      defaultRenderOptions,
     );
 
     const header = screen.getByTestId('header');
@@ -122,9 +120,7 @@ describe('VASS Component: Wrapper', () => {
       <Wrapper showBackLink>
         <div>Content</div>
       </Wrapper>,
-      {
-        initialState: {},
-      },
+      defaultRenderOptions,
     );
 
     expect(screen.queryByText(/\(\*Required\)/)).to.not.exist;
@@ -136,9 +132,7 @@ describe('VASS Component: Wrapper', () => {
         <Wrapper verificationError="Test Verification Error">
           <div>Content</div>
         </Wrapper>,
-        {
-          initialState: {},
-        },
+        defaultRenderOptions,
       );
       expect(getByTestId('verification-error-alert')).to.exist;
       expect(getByTestId('verification-error-alert')).to.have.text(
@@ -150,9 +144,7 @@ describe('VASS Component: Wrapper', () => {
         <Wrapper verificationError="Test Verification Error">
           <div data-testid="child-content">Content</div>
         </Wrapper>,
-        {
-          initialState: {},
-        },
+        defaultRenderOptions,
       );
       expect(queryByTestId('child-content')).to.not.exist;
     });
