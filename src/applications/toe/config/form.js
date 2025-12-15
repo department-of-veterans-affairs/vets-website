@@ -1279,24 +1279,113 @@ const formConfig = {
             ),
             [formFields.bankAccount]: {
               ...bankAccountUI,
-              'ui:order': ['accountType', 'routingNumber', 'accountNumber'],
+              'ui:order': [
+                'accountType',
+                'routingNumber',
+                'routingNumberConfirmation',
+                'accountNumber',
+                'accountNumberConfirmation',
+              ],
               routingNumber: {
                 ...bankAccountUI.routingNumber,
                 'ui:errorMessages': {
                   pattern: 'Please enter a valid 9-digit routing number',
                 },
                 'ui:reviewField': ObfuscateReviewField,
-                'ui:validations': [validateRoutingNumber],
+                'ui:validations': [
+                  validateRoutingNumber,
+                  (errors, fieldData, formData) => {
+                    const accountNumber =
+                      formData[formFields.bankAccount]?.accountNumber;
+                    if (
+                      fieldData &&
+                      accountNumber &&
+                      fieldData === accountNumber
+                    ) {
+                      errors.addError(
+                        'Your bank account and routing number cannot match',
+                      );
+                    }
+                  },
+                ],
+              },
+              routingNumberConfirmation: {
+                'ui:title': 'Confirm bank routing number',
+                'ui:required': formData =>
+                  formData?.mebBankInfoConfirmationField === true,
+                'ui:options': {
+                  hideIf: formData =>
+                    formData?.mebBankInfoConfirmationField !== true,
+                },
+                'ui:errorMessages': {
+                  pattern: 'Please enter a valid 9-digit routing number',
+                },
+                'ui:validations': [
+                  (errors, fieldData, formData) => {
+                    if (formData?.mebBankInfoConfirmationField === true) {
+                      const routingNumber =
+                        formData[formFields.bankAccount]?.routingNumber;
+                      if (
+                        fieldData &&
+                        routingNumber &&
+                        fieldData !== routingNumber
+                      ) {
+                        errors.addError('Your routing number must match');
+                      }
+                    }
+                  },
+                ],
               },
               accountNumber: {
                 ...bankAccountUI.accountNumber,
                 'ui:errorMessages': {
-                  pattern:
-                    'Please enter a valid 5-17 digit bank account number',
+                  pattern: 'Please enter a valid 5-17 digit account number',
                 },
                 'ui:reviewField': ObfuscateReviewField,
                 'ui:title': 'Bank account number',
-                'ui:validations': [validateAccountNumber],
+                'ui:validations': [
+                  validateAccountNumber,
+                  (errors, fieldData, formData) => {
+                    const routingNumber =
+                      formData[formFields.bankAccount]?.routingNumber;
+                    if (
+                      fieldData &&
+                      routingNumber &&
+                      fieldData === routingNumber
+                    ) {
+                      errors.addError(
+                        'Your bank account and routing number cannot match',
+                      );
+                    }
+                  },
+                ],
+              },
+              accountNumberConfirmation: {
+                'ui:title': 'Confirm bank account number',
+                'ui:required': formData =>
+                  formData?.mebBankInfoConfirmationField === true,
+                'ui:options': {
+                  hideIf: formData =>
+                    formData?.mebBankInfoConfirmationField !== true,
+                },
+                'ui:errorMessages': {
+                  pattern: 'Please enter a valid 5-17 digit account number',
+                },
+                'ui:validations': [
+                  (errors, fieldData, formData) => {
+                    if (formData?.mebBankInfoConfirmationField === true) {
+                      const accountNumber =
+                        formData[formFields.bankAccount]?.accountNumber;
+                      if (
+                        fieldData &&
+                        accountNumber &&
+                        fieldData !== accountNumber
+                      ) {
+                        errors.addError('Your bank account number must match');
+                      }
+                    }
+                  },
+                ],
               },
             },
             'view:learnMore': {
@@ -1342,7 +1431,7 @@ const formConfig = {
                 properties: {
                   accountNumber: {
                     type: 'string',
-                    pattern: '^[*a-zA-Z0-9]{5,17}$',
+                    pattern: '^\\d{5,17}$',
                   },
                   accountType: {
                     type: 'string',
@@ -1351,6 +1440,14 @@ const formConfig = {
                   routingNumber: {
                     type: 'string',
                     pattern: '^[\\d*]{5}\\d{4}$',
+                  },
+                  routingNumberConfirmation: {
+                    type: 'string',
+                    pattern: '^\\d{9}$',
+                  },
+                  accountNumberConfirmation: {
+                    type: 'string',
+                    pattern: '^\\d{5,17}$',
                   },
                 },
               },
