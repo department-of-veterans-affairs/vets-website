@@ -105,6 +105,35 @@ const VistaAndOHContent = ({
             data-testid="go-to-download-all"
           />
           <h2>Download your Continuity of Care Document</h2>
+          {accessErrors()}
+          {/* redux action/server errors */}
+          {activeAlert?.type === ALERT_TYPE_CCD_ERROR && (
+            <AccessTroubleAlertBox
+              alertType={accessAlertTypes.DOCUMENT}
+              documentType={documentTypes.CCD}
+              className="vads-u-margin-bottom--1"
+            />
+          )}
+          {activeAlert?.type === ALERT_TYPE_SEI_ERROR && (
+            <AccessTroubleAlertBox
+              alertType={accessAlertTypes.DOCUMENT}
+              documentType={documentTypes.SEI}
+              className="vads-u-margin-bottom--1"
+            />
+          )}
+          {successfulSeiDownload === true &&
+            failedSeiDomains.length !== SEI_DOMAINS.length && (
+              <>
+                <MissingRecordsError
+                  documentType="Self-entered health information report"
+                  recordTypes={failedSeiDomains}
+                />
+                <DownloadSuccessAlert
+                  type="Self-entered health information report download"
+                  className="vads-u-margin-bottom--1"
+                />
+              </>
+            )}
           <p className="vads-u-margin-bottom--3">
             This Continuity of Care Document (CCD) is a summary of your VA
             medical records that you can share with non-VA providers in your
@@ -193,35 +222,6 @@ const VistaAndOHContent = ({
                 className="vads-u-margin-bottom--1"
                 focusId="ccd-download-success"
               />
-            )}
-          {accessErrors()}
-          {/* redux action/server errors */}
-          {activeAlert?.type === ALERT_TYPE_CCD_ERROR && (
-            <AccessTroubleAlertBox
-              alertType={accessAlertTypes.DOCUMENT}
-              documentType={documentTypes.CCD}
-              className="vads-u-margin-bottom--1"
-            />
-          )}
-          {activeAlert?.type === ALERT_TYPE_SEI_ERROR && (
-            <AccessTroubleAlertBox
-              alertType={accessAlertTypes.DOCUMENT}
-              documentType={documentTypes.SEI}
-              className="vads-u-margin-bottom--1"
-            />
-          )}
-          {successfulSeiDownload === true &&
-            failedSeiDomains.length !== SEI_DOMAINS.length && (
-              <>
-                <MissingRecordsError
-                  documentType="Self-entered health information report"
-                  recordTypes={failedSeiDomains}
-                />
-                <DownloadSuccessAlert
-                  type="Self-entered health information report download"
-                  className="vads-u-margin-bottom--1"
-                />
-              </>
             )}
           <p className="vads-u-margin--0 vads-u-margin-top--2">
             <strong>Note:</strong> Blue Button and the Blue Button logo are
