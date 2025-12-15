@@ -36,7 +36,7 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
     [location.search, location.query],
   );
 
-  const isAllBenefits = query.allBenefits;
+  const isAllBenefits = () => filterValues.includes('all');
 
   const filterOptions = useMemo(
     () => [
@@ -54,12 +54,6 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
             id: 'all',
             label: 'All results',
             active: tempFilterValues.includes('all'),
-          },
-        category: [
-          {
-            id: 'recommended',
-            label: 'Show only results recommended for you',
-            active: tempFilterValues.includes('recommended'),
           },
         ],
       },
@@ -299,7 +293,7 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
 
   const handleResults = useCallback(
     () => {
-      if (isAllBenefits) return;
+      if (isAllBenefits()) return;
 
       if (Array.isArray(resultsData) && resultsData.length > 0) {
         handleResultsData();
@@ -308,7 +302,7 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
       }
     },
     [
-      isAllBenefits,
+      isAllBenefits(),
       resultsData,
       query,
       handleResultsData,
@@ -380,7 +374,7 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
     () => {
       scrollToTop('topScrollElement');
 
-      if (isAllBenefits) {
+      if (isAllBenefits()) {
         setBenefits(BENEFITS_LIST);
         setResultsCount(BENEFITS_LIST.length);
         setBenefitIds(
@@ -393,7 +387,7 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
         resetSubmissionStatus();
       }
     },
-    [isAllBenefits, handleResults, resetSubmissionStatus],
+    [isAllBenefits(), handleResults, resetSubmissionStatus],
   );
 
   useEffect(
@@ -407,7 +401,7 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
     <div>
       <article className="description-article vads-u-padding--0 vads-u-margin--0">
         <div className="description-padding-btm">
-          {isAllBenefits ? (
+          {isAllBenefits() ? (
             <div>
               <p>
                 Below are all of the benefits that this tool can recommend.
@@ -462,7 +456,7 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
           </div>
           <div id="results-section">
             <h2 className="vads-u-font-size--h2 vads-u-margin-top--0">
-              {isAllBenefits ? 'All benefits' : 'Recommended benefits for you'}
+              {isAllBenefits() ? 'All benefits' : 'For you'}
             </h2>
             <VaSelect
               data-testid="sort-select"
