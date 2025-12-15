@@ -12,7 +12,7 @@ export default function ClaimCardLink({
     <>
       <VaLink
         aria-label={ariaLabel}
-        className="active-va-link"
+        className="vads-u-display--block vads-u-margin-top--2"
         href={`/track-claims${href}`}
         onClick={onClick}
         text={text}
