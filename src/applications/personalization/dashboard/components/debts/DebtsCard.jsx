@@ -57,8 +57,8 @@ export const DebtsCard = ({ debtsCount, hasError }) => {
 };
 
 DebtsCard.propTypes = {
-  debtsCount: PropTypes.number,
   hasError: PropTypes.number.isRequired,
+  debtsCount: PropTypes.number,
 };
 
 export default DebtsCard;
