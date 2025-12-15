@@ -55,8 +55,8 @@ export const IntroductionPageFormProcess = () => (
             school
           </li>
           <li>
-            An unmarried child who can’t support themselves because they became
-            permanently disabled before they turned 18 years old
+            A child who can’t support themselves because they became permanently
+            disabled before they turned 18 years old
           </li>
         </ul>
         <p>
@@ -75,7 +75,7 @@ export const IntroductionPageFormProcess = () => (
         </p>
       </va-process-list-item>
       <va-process-list-item header="Gather your information">
-        <p>Here is what you’ll need to apply:</p>
+        <p>Here’s what you’ll need to apply:</p>
         <ul>
           <li>
             <strong>Your personal information:</strong> This includes your date
@@ -87,10 +87,10 @@ export const IntroductionPageFormProcess = () => (
             includes their date of birth and Social Security number.
           </li>
           <li>
-            <strong>Income information:</strong> Income information: This only
-            applies if you’re adding a dependent and you receive VA pension
-            benefits. You’ll need to tell us whether your dependent receives
-            monthly income and your net worth meet the limits set by Congress.{' '}
+            <strong>Income information:</strong> This only applies if you’re
+            adding a dependent and you receive VA pension benefits. You’ll need
+            to tell us whether your dependent receives monthly income and your
+            net worth meet the limits set by Congress.{' '}
             <va-link
               href="/pension/veterans-pension-rates/"
               text="Find out about net worth limits for Veterans Pension benefits"
@@ -98,10 +98,9 @@ export const IntroductionPageFormProcess = () => (
           </li>
         </ul>
         <p>
-          In certain situations, you may also need to provide other information.
-          Or you may need to submit supporting documents, like copies of your
-          marriage license or birth certificates. We’ll tell you if we need
-          other information or supporting documents.
+          You may also need to provide supporting documents, such as a marriage
+          license or birth certificates. We’ll let you know if we need more
+          information.
         </p>
         <va-link
           href={getRootParentUrl(manifest.rootUrl)}
@@ -122,8 +121,8 @@ export const IntroductionPageFormProcess = () => (
           30 minutes.
         </p>
         <p>
-          When you submit your application, you’ll get a confirmation message.
-          You can print this message for your records.
+          When you submit your request, you’ll get a confirmation message. You
+          can print this message for your records.
         </p>
         <va-additional-info trigger="What happens after I apply?">
           <p>
