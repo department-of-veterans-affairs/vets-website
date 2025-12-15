@@ -13,17 +13,20 @@ const ErrorLinks = props => {
   const errorRef = useRef(null);
   const [hadErrors, setHadErrors] = useState(false);
 
-  const resolved = hadErrors && errors.length === 0;
-
-  if (!hadErrors && errors.length > 0) {
-    setHadErrors(true);
-  }
-
   useEffect(
     () => {
+      // Update hadErrors state based on errors
+      if (!hadErrors && errors.length > 0) {
+        setHadErrors(true);
+      }
+      // Note: We don't reset hadErrors when errors are cleared because we want to
+      // show the "resolved" message. The early return below handles the case where
+      // there are no errors and we haven't had errors before.
+
       // Move focus to legend
       if (
         errors.length > 0 &&
+        errorRef.current &&
         !errorRef.current.classList.contains('has-focused')
       ) {
         // initially focus on alert legend immediately above error links
@@ -31,8 +34,16 @@ const ErrorLinks = props => {
         errorRef.current.classList.add('has-focused');
       }
     },
-    [errors, errorRef],
+    [errors, errorRef, hadErrors],
   );
+
+  const resolved = hadErrors && errors.length === 0;
+
+  // Don't render alert if there are no errors and we haven't had errors before
+  // Only show alert when there are actual errors or when errors were resolved
+  if (errors.length === 0 && !hadErrors) {
+    return null;
+  }
 
   return (
     <va-alert
