@@ -206,7 +206,7 @@ export default arrayBuilderPages(options, pageBuilder => ({
     uiSchema: summaryPage.uiSchema,
     schema: summaryPage.schema,
     // ------- REMOVE toggle check when new design toggle is removed
-    depends: redesignActive,
+    depends: formData => redesignActive(formData),
     // ------- END REMOVE
   }),
   vaLocation: pageBuilder.itemPage({
@@ -215,7 +215,7 @@ export default arrayBuilderPages(options, pageBuilder => ({
     uiSchema: locationPage.uiSchema,
     schema: locationPage.schema,
     // ------- REMOVE toggle check when new design toggle is removed
-    depends: redesignActive,
+    depends: formData => redesignActive(formData),
     // ------- END REMOVE
   }),
   issuesVA: pageBuilder.itemPage({
@@ -234,7 +234,7 @@ export default arrayBuilderPages(options, pageBuilder => ({
         formKey: VA_EVIDENCE_KEY,
       }),
     // ------- REMOVE toggle check when new design toggle is removed
-    depends: redesignActive,
+    depends: formData => redesignActive(formData),
     // ------- END REMOVE
   }),
   treatmentDatePrompt: pageBuilder.itemPage({
@@ -243,7 +243,7 @@ export default arrayBuilderPages(options, pageBuilder => ({
     uiSchema: datePromptPage.uiSchema,
     schema: datePromptPage.schema,
     // ------- REMOVE toggle check when new design toggle is removed
-    depends: redesignActive,
+    depends: formData => redesignActive(formData),
     // ------- END REMOVE
   }),
   treatmentDateVA: pageBuilder.itemPage({
