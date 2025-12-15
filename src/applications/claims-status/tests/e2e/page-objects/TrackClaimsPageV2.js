@@ -665,13 +665,11 @@ class TrackClaimsPageV2 {
       .should('be.visible');
     cy.get('va-alert.primary-alert')
       .first()
-      .shadow()
-      .get('va-alert.primary-alert:first-of-type a')
-      .should('contain', 'About this request');
+      .find('va-link-action[text="About this request"]')
+      .should('exist');
     cy.get('va-alert.primary-alert')
       .first()
-      .shadow()
-      .get('va-alert.primary-alert:first-of-type a')
+      .find('va-link-action[text="About this request"]')
       .click();
     cy.url().should(
       'contain',
@@ -682,15 +680,13 @@ class TrackClaimsPageV2 {
   verifyPrimaryAlertforSubmitBuddyStatement() {
     cy.get('[data-testid="item-2"]').should('be.visible');
     cy.get('[data-testid="item-2"]')
-      .shadow()
-      .get('[data-testid="item-2"]:first-of-type a')
-      .should('contain', 'About this request');
+      .find('va-link-action[text="About this request"]')
+      .should('exist');
     cy.get('[data-testid="item-2"]')
       .find('.alert-description')
       .should('contain', 'Submit Buddy Statement(s)');
     cy.get('[data-testid="item-2"]')
-      .shadow()
-      .get('[data-testid="item-2"]:first-of-type a')
+      .find('va-link-action[text="About this request"]')
       .click();
     cy.url().should(
       'contain',
@@ -718,8 +714,8 @@ class TrackClaimsPageV2 {
         .should('contain', 'Request for evidence');
     }
     cy.get(testId)
-      .find('a')
-      .should('contain', 'About this request');
+      .find('va-link-action[text="About this request"]')
+      .should('exist');
     cy.get(testId)
       .find('.alert-description')
       .first()

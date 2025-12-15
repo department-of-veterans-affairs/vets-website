@@ -18,14 +18,16 @@ const statusTab = 'status';
 describe('<FilesNeeded>', () => {
   context('when user navigates to page directly', () => {
     it('should render va-alert with item data and show DueDate', () => {
-      const { getByText } = renderWithRouter(
+      const { getByText, container } = renderWithRouter(
         <FilesNeeded claimId={claimId} item={item} />,
       );
 
       getByText('December 1, 2024', { exact: false });
       getByText('Request for evidence');
       getByText(item.description);
-      getByText('About this request');
+      expect(
+        container.querySelector('va-link-action[text="About this request"]'),
+      ).to.exist;
       expect(sessionStorage.getItem('previousPage')).to.not.exist;
     });
 
@@ -38,7 +40,7 @@ describe('<FilesNeeded>', () => {
 
       context('when evidenceWaiverSubmitted5103 is false', () => {
         it('should render va-alert with item data and hide DueDate', () => {
-          const { queryByText, getByText } = renderWithRouter(
+          const { queryByText, container } = renderWithRouter(
             <FilesNeeded claimId={claimId} item={item5103} />,
           );
 
@@ -49,7 +51,11 @@ describe('<FilesNeeded>', () => {
             ),
           ).to.exist;
           expect(queryByText('Review evidence list (5103 notice)')).to.exist;
-          getByText('About this request');
+          expect(
+            container.querySelector(
+              'va-link-action[text="About this request"]',
+            ),
+          ).to.exist;
         });
       });
     });
@@ -57,11 +63,12 @@ describe('<FilesNeeded>', () => {
 
   context('when user navigates to page from the files tab', () => {
     it('clicking details link should set session storage', () => {
-      const { getByRole } = renderWithRouter(
+      const { container } = renderWithRouter(
         <FilesNeeded claimId={claimId} item={item} previousPage={filesTab} />,
       );
 
-      fireEvent.click(getByRole('link'));
+      const link = container.querySelector('va-link-action');
+      fireEvent.click(link);
 
       expect(sessionStorage.getItem('previousPage')).to.equal(filesTab);
     });
@@ -69,11 +76,12 @@ describe('<FilesNeeded>', () => {
 
   context('when user navigates to page from the status tab', () => {
     it('clicking details link should set session storage', () => {
-      const { getByRole } = renderWithRouter(
+      const { container } = renderWithRouter(
         <FilesNeeded claimId={claimId} item={item} previousPage={statusTab} />,
       );
 
-      fireEvent.click(getByRole('link'));
+      const link = container.querySelector('va-link-action');
+      fireEvent.click(link);
 
       expect(sessionStorage.getItem('previousPage')).to.equal(statusTab);
     });

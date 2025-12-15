@@ -61,7 +61,7 @@ describe('Claim status', () => {
         cy.findByRole('heading', { name: 'Provide medical records' });
         cy.findByText('Respond by January 1, 2050');
         cy.findByText('Please provide your medical records.');
-        cy.findByRole('link', { name: /About this request/i });
+        cy.get('va-link-action[text="About this request"]');
       });
 
       cy.axeCheck();
