@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,6 +19,7 @@ import TravelReimbursementSection from '../TravelReimbursementSection';
 import AppointmentTasksSection from '../AppointmentTasksSection';
 import Section from '../Section';
 import ErrorAlert from '../ErrorAlert';
+import { scrollAndFocus } from '../../utils/scrollAndFocus';
 
 export function When({ children, level = 2 }) {
   return (
@@ -204,6 +205,19 @@ export default function DetailPageLayout({
     selectFeatureTravelPaySubmitMileageExpense(state),
   );
 
+  const headingRef = useRef(null);
+
+  useEffect(
+    () => {
+      if (headingRef.current) {
+        setTimeout(() => {
+          scrollAndFocus();
+        }, 50);
+      }
+    },
+    [headingRef],
+  );
+
   if (!appointment) return null;
 
   const isPastAppointment = selectIsPast(appointment);
@@ -214,7 +228,11 @@ export default function DetailPageLayout({
     <>
       <BackLink appointment={appointment} />
       <AppointmentCard appointment={appointment}>
-        <h1 className="vaos__dynamic-font-size--h2">
+        <h1
+          className="vaos__dynamic-font-size--h2"
+          tabIndex="-1"
+          ref={headingRef}
+        >
           <span data-dd-privacy="mask">{heading}</span>
         </h1>
         {featureTravelPayViewClaimDetails && (
