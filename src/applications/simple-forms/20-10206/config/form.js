@@ -92,6 +92,7 @@ const formConfig = {
   },
   chapters: {
     preparerTypeChapter: {
+      hideFormNavProgress: true,
       title: 'Your personal information',
       pages: {
         preparerTypePage: {
