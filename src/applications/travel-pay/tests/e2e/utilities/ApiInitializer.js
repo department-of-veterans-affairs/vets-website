@@ -178,10 +178,29 @@ class ApiInitializer {
         },
       }).as('appointmentError');
     },
-    byDateTime: () => {
+    byDateTime: (appointmentDate = '2024-01-01T16:45:34.465Z') => {
       // Intercept the appointments list endpoint for getAppointmentDataByDateTime
+      // Returns minimal appointment data to satisfy TravelClaimDetailsContent
       cy.intercept('GET', '/vaos/v2/appointments?*', {
-        data: [],
+        data: [
+          {
+            id: '167322',
+            type: 'appointment',
+            attributes: {
+              kind: 'clinic',
+              id: '167322',
+              localStartTime: appointmentDate,
+              serviceName: 'Test Service',
+              location: {
+                id: '983',
+                attributes: {
+                  name: 'Test VA Medical Center',
+                  timezone: { timeZoneId: 'America/Denver' },
+                },
+              },
+            },
+          },
+        ],
       }).as('appointmentsByDate');
     },
   };
