@@ -22,8 +22,7 @@ export const IntroductionPageFormProcess = () => (
         <ul>
           <li>
             You’re a Veteran entitled to disability benefits and you have a
-            combined disability rating of at least 30&nbsp;%,{' '}
-            <strong>or</strong>
+            combined disability rating of at least 30%, <strong>or</strong>
           </li>
           <li>
             You’re a Veteran entitled to Veterans Pension benefits,{' '}
