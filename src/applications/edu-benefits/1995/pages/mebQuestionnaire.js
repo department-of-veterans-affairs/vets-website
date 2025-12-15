@@ -201,7 +201,7 @@ export const benefitSwitchPage = () => ({
     mebBenefitSelection: {
       'ui:title': (
         <span
-          className="change-subheader vads-u-font-size--h2 vads-u-font-family--serif vads-u-font-weight--bold vads-u-padding-bottom--2 vads-u-display--block"
+          className="change-subheader vads-u-font-size--h2 vads-u-font-family--serif vads-u-font-weight--bold vads-u-padding-bottom--2"
           style={{ fontSize: '1.5rem' }}
         >
           Benefit you want to change&nbsp;to
@@ -219,20 +219,20 @@ export const benefitSwitchPage = () => ({
             >
               <ul className="vads-u-margin-top--1">
                 <li>
-                  <a href="https://www.va.gov/education/about-gi-bill-benefits/post-9-11" target="_blank">
+                  <a href="https://www.va.gov/education/about-gi-bill-benefits/post-9-11" target="_blank" rel="noreferrer">
                     Learn about GI Bill benefits: Post-9/11 GI Bill, Montgomery GI
                     Bill Active Duty (MGIB-AD), and Montgomery GI Bill Selected
                     Reserve (MGIB-SR) (opens in a new tab)
                   </a>
                 </li>
                 <li>
-                  <a href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/transferred-gi-bill-benefits/" target="_blank">
+                  <a href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/transferred-gi-bill-benefits/" target="_blank" rel="noreferrer">
                     Learn about survivors’ and dependents’ assistance: transferred
                     Post-9/11 GI Bill benefits (opens in a new tab)
                   </a>
                 </li>
                 <li>
-                  <a href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/dependents-education-assistance/" target="_blank">
+                  <a href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/dependents-education-assistance/" target="_blank" rel="noreferrer">
                     Survivors’ and Dependents’ Education Assistance (DEA), Fry Scholarship
                   </a>
                 </li>
