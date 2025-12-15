@@ -210,13 +210,15 @@ export const vitalReducer = (state = initialState, action) => {
         action.response.data
           ?.map(vital => {
             return convertUnifiedVital(vital);
-          }) // Sort newest first using numeric timestamp, invalid/missing last
+          }) // Sort newest first using raw ISO timestamp; invalid/missing dates last
           .sort((a, b) => {
-            const at = new Date(a.date).getTime();
-            const bt = new Date(b.date).getTime();
+            const at = Date.parse(a.effectiveDateTime);
+            const bt = Date.parse(b.effectiveDateTime);
             const ak = Number.isFinite(at) ? at : -Infinity;
             const bk = Number.isFinite(bt) ? bt : -Infinity;
-            return bk - ak;
+            if (bk !== ak) return bk - ak;
+            // Optional stable tie-breaker by id to keep order deterministic
+            return String(a.id).localeCompare(String(b.id));
           }) || [];
 
       return {
