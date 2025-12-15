@@ -14,12 +14,12 @@ const SaveInformationPage = props => {
           <div className="progress-box progress-box-schemaform">
             <div className="form-panel preparer-type-page">
               <h1>
-                Your information will be saved automatically after every change
-                you make.
+                We’ll save your information automatically after every change you
+                make
               </h1>
               <p>
-                If you want to take a break from filling out this form, you can
-                stop anytime using the "Finish later" button.
+                If you want to take a break from filling out this form, select
+                the Finish later button anytime to stop.
               </p>
               <p>
                 When you’re ready to resume the form, reopen it from My VA or
@@ -30,6 +30,7 @@ const SaveInformationPage = props => {
                 <va-link
                   href={`${environment.BASE_URL}/my-va/?loggedIn=true`}
                   text="My VA"
+                  external="true"
                 />
               </div>
               <div className="vads-u-margin-top--1">
@@ -37,7 +38,8 @@ const SaveInformationPage = props => {
                   href={`${
                     environment.BASE_URL
                   }/records/request-personal-records-form-20-10206`}
-                  text="VA Form 20-10206 Introduction (opens in a new window)"
+                  text="VA Form 20-10206 Introduction"
+                  external="true"
                 />
               </div>
               <NavButtons goBack={goBack} goForward={goForward} />
