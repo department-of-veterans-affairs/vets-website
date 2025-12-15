@@ -22,7 +22,7 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
   const [benefits, setBenefits] = useState([]);
   const [benefitIds, setBenefitIds] = useState({});
   const [resultsCount, setResultsCount] = useState(0);
-  const [sortValue, setSortValue] = useState('alphabetical');
+  const [sortValue, setSortValue] = useState('isTimeSensitive');
   const [filterValues, setFilterValues] = useState(['recommended']);
   const [tempFilterValues, setTempFilterValues] = useState(['recommended']);
   const [currentPage, setCurrentPage] = useState(1);
@@ -262,7 +262,7 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
   const handleFilterClearAll = useCallback(() => {
     setFilterValues(['recommended']);
     setTempFilterValues(['recommended']);
-    setSortValue('alphabetical');
+    setSortValue('isTimeSensitive');
   }, []);
 
   const handlePageChange = useCallback(
@@ -380,7 +380,7 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
         setBenefitIds(
           BENEFITS_LIST.reduce((acc, b) => ({ ...acc, [b.id]: true }), {}),
         );
-        setSortValue('alphabetical');
+        setSortValue('isTimeSensitive');
         setCurrentPage(prevPage => (prevPage === 1 ? prevPage : 1));
       } else {
         handleResults();
@@ -469,14 +469,14 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
               onVaSelect={handleSortSelect}
               style={{ maxWidth: '288px' }}
             >
+              <option key="isTimeSensitive" value="isTimeSensitive">
+                Expiration date (soonest first)
+              </option>
               <option key="alphabetical" value="alphabetical">
                 Name (A-Z)
               </option>
               <option key="type" value="category">
                 Type of benefit (A-Z)
-              </option>
-              <option key="isTimeSensitive" value="isTimeSensitive">
-                Time-sensitive
               </option>
             </VaSelect>
             {filterText && <div id="filter-text">{filterText}</div>}
