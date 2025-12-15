@@ -206,7 +206,7 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
     it('formats dates correctly with "Created on" label', () => {
       ApiInitializer.initializeClaimDetails.happyPath();
       cy.intercept('GET', '/travel_pay/v0/claims/*', {
-        claimId: 'date-test-complex',
+        claimId: 'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
         claimNumber: 'TC0000000000020',
         claimStatus: 'Saved',
         appointmentDate: '2024-06-15T14:30:00.000Z',
@@ -222,7 +222,10 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
       });
 
       cy.login(user);
-      cy.visit(`${rootUrl}/claims/date-test-complex`);
+      ApiInitializer.initializeAppointment.byDateTime(
+        '2024-06-15T14:30:00.000Z',
+      );
+      cy.visit(`${rootUrl}/claims/a1b2c3d4-e5f6-7890-abcd-ef1234567890`);
 
       // Should show "Created on" with formatted date
       cy.contains('Created on').should('be.visible');
@@ -237,7 +240,7 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
     it('displays all complex claims features together for Incomplete claim', () => {
       ApiInitializer.initializeClaimDetails.happyPath();
       cy.intercept('GET', '/travel_pay/v0/claims/*', {
-        claimId: 'complex-full-test',
+        claimId: '12345678-90ab-cdef-1234-567890abcdef',
         claimNumber: 'TC0000000000021',
         claimStatus: 'Incomplete',
         appointmentDate: '2024-01-01T16:45:34.465Z',
@@ -254,7 +257,10 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
       }).as('details');
 
       cy.login(user);
-      cy.visit(`${rootUrl}/claims/complex-full-test`);
+      ApiInitializer.initializeAppointment.byDateTime(
+        '2024-01-01T16:45:34.465Z',
+      );
+      cy.visit(`${rootUrl}/claims/12345678-90ab-cdef-1234-567890abcdef`);
       cy.wait('@details');
       cy.injectAxeThenAxeCheck();
 
@@ -274,26 +280,32 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
     });
 
     it('displays complex claims features for Saved claim without out of bounds alert', () => {
-      ApiInitializer.initializeClaimDetails.happyPath();
+      // Use a recent date (within 30 days) so calculateIsOutOfBounds returns false
+      const recentDate = new Date();
+      recentDate.setDate(recentDate.getDate() - 5); // 5 days ago
+      const recentDateString = recentDate.toISOString();
+
       cy.intercept('GET', '/travel_pay/v0/claims/*', {
-        claimId: 'complex-saved-test',
+        claimId: 'fedcba09-8765-4321-fedc-ba0987654321',
         claimNumber: 'TC0000000000022',
         claimStatus: 'Saved',
-        appointmentDate: '2024-01-01T16:45:34.465Z',
+        appointmentDate: recentDateString,
         facilityName: 'Test VA Medical Center',
         totalCostRequested: 25.0,
         reimbursementAmount: 0,
         createdOn: '2024-05-01T14:00:00.000Z',
         modifiedOn: '2024-05-01T14:00:00.000Z',
         appointment: {
-          appointmentDateTime: '2024-01-01T16:45:34.465Z',
+          appointmentDateTime: recentDateString,
         },
         documents: [],
         isOutOfBounds: false,
       }).as('details');
 
+      ApiInitializer.initializeAppointment.byDateTime(recentDateString);
+
       cy.login(user);
-      cy.visit(`${rootUrl}/claims/complex-saved-test`);
+      cy.visit(`${rootUrl}/claims/fedcba09-8765-4321-fedc-ba0987654321`);
       cy.wait('@details');
 
       // Should not show out of bounds alert
