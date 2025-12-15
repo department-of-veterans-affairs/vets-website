@@ -92,7 +92,6 @@ const formConfig = {
   },
   chapters: {
     preparerTypeChapter: {
-      hideFormNavProgress: true,
       title: 'Your personal information',
       pages: {
         preparerTypePage: {
@@ -103,6 +102,7 @@ const formConfig = {
           pageClass: 'preparer-type-page',
         },
         saveInformationPage: {
+          hideFormNavProgress: true,
           path: 'save-information',
           title: 'Save information',
           CustomPage: SaveInformationPage,
