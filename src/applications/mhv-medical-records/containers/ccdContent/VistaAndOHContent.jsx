@@ -113,67 +113,43 @@ const VistaAndOHContent = ({
             Summary.
           </p>
           <div className="vads-u-margin-bottom--4">
-            <p className="vads-u-font-weight--bold">
-              CCD: medical records from {formatFacilityList(vistaFacilityNames)}
-            </p>
+            {ccdExtendedFileTypeFlag ? (
+              <>
+                <p className="vads-u-font-weight--bold">
+                  CCD: medical records from{' '}
+                  {formatFacilityList(vistaFacilityNames)}
+                </p>
 
-            <div className="vads-u-margin-bottom--4">
-              {ccdExtendedFileTypeFlag ? (
+                <div className="vads-u-margin-bottom--4">
+                  <DownloadSection
+                    isLoading={generatingCCD}
+                    handleDownload={handleDownloadCCD}
+                    testIdSuffix="Vista"
+                    ddSuffix="VistA"
+                  />
+                </div>
+
+                <p className="vads-u-font-weight--bold">
+                  CCD: medical records from{' '}
+                  {formatFacilityList(ohFacilityNames)}
+                </p>
+
                 <DownloadSection
                   isLoading={generatingCCD}
-                  handleDownload={handleDownloadCCD}
-                  testIdSuffix="Vista"
-                  ddSuffix="VistA"
+                  handleDownload={handleDownloadCCDV2}
+                  testIdSuffix="OH"
+                  ddSuffix="OH"
                 />
-              ) : (
-                <>
-                  {generatingCCD ? (
-                    <div
-                      id="generating-ccd-Vista-indicator"
-                      data-testid="generating-ccd-Vista-indicator"
-                    >
-                      <TrackedSpinner
-                        id="download-ccd-Vista-spinner"
-                        label="Loading"
-                        message="Preparing your download..."
-                      />
-                    </div>
-                  ) : (
-                    <div className="vads-u-display--flex vads-u-flex-direction--column">
-                      <va-link
-                        download
-                        href="#"
-                        onClick={e => handleDownloadCCD(e, 'xml')}
-                        text="Download Continuity of Care Document (XML)"
-                        data-testid="generateCcdButtonXmlVista"
-                        data-dd-action-name="Download CCD XML VistA"
-                      />
-                    </div>
-                  )}
-                </>
-              )}
-            </div>
-
-            <p className="vads-u-font-weight--bold">
-              CCD: medical records from {formatFacilityList(ohFacilityNames)}
-            </p>
-
-            {ccdExtendedFileTypeFlag ? (
-              <DownloadSection
-                isLoading={generatingCCD}
-                handleDownload={handleDownloadCCDV2}
-                testIdSuffix="OH"
-                ddSuffix="OH"
-              />
+              </>
             ) : (
               <>
                 {generatingCCD ? (
                   <div
-                    id="generating-ccd-OH-indicator"
-                    data-testid="generating-ccd-OH-indicator"
+                    id="generating-ccd-indicator"
+                    data-testid="generating-ccd-indicator"
                   >
                     <TrackedSpinner
-                      id="download-ccd-OH-spinner"
+                      id="download-ccd-spinner"
                       label="Loading"
                       message="Preparing your download..."
                     />
@@ -183,10 +159,10 @@ const VistaAndOHContent = ({
                     <va-link
                       download
                       href="#"
-                      onClick={e => handleDownloadCCDV2(e, 'xml')}
+                      onClick={e => handleDownloadCCD(e, 'xml')}
                       text="Download Continuity of Care Document (XML)"
-                      data-testid="generateCcdButtonXmlOH"
-                      data-dd-action-name="Download CCD XML OH"
+                      data-testid="generateCcdButtonXml"
+                      data-dd-action-name="Download CCD XML"
                     />
                   </div>
                 )}
