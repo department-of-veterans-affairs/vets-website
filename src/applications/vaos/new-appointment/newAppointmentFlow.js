@@ -38,6 +38,7 @@ import {
   startRequestAppointmentFlow,
   updateFacilityType,
   checkCommunityCareEligibility,
+  updateFacilityEhr,
 } from './redux/actions';
 import { startNewVaccineFlow } from '../appointment-list/redux/actions';
 
@@ -93,14 +94,12 @@ async function vaFacilityNext(state, dispatch) {
     state,
   );
 
-  // NOTE: Add 'clinicalPharmacyPrimaryCare' to OH_ENABLED_TYPES_OF_CARE array when flag is removed.
-  const typeOfCareEnabled = featureRemoveFacilityConfigCheck
-    ? [...OH_ENABLED_TYPES_OF_CARE, 'clinicalPharmacyPrimaryCare'].includes(
-        getTypeOfCare(state.newAppointment.data)?.idV2,
-      )
-    : OH_ENABLED_TYPES_OF_CARE.includes(
-        getTypeOfCare(state.newAppointment.data)?.idV2,
-      );
+  const typeOfCareEnabled = OH_ENABLED_TYPES_OF_CARE.includes(
+    getTypeOfCare(state.newAppointment.data)?.idV2,
+  );
+
+  const ehr = isCerner ? 'cerner' : 'vista';
+  dispatch(updateFacilityEhr(ehr));
 
   if (isCerner) {
     if (featureOHDirectSchedule && featureOHRequest && typeOfCareEnabled) {

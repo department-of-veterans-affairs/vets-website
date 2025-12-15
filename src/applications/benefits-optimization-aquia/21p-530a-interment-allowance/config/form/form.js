@@ -21,7 +21,6 @@ import {
   burialBenefitsRecipientPage,
   burialOrganizationMailingAddressPage,
   organizationNamePage,
-  relationshipToVeteranPage,
   veteranBirthInformationPage,
   veteranBurialInformationPage,
   veteranPersonalInformationPage,
@@ -74,13 +73,6 @@ const formConfig = {
     organizationInformationChapter: {
       title: "Your organization's information",
       pages: {
-        relationshipToVeteran: {
-          path: 'relationship-to-veteran',
-          title: 'Relationship to the Veteran',
-          uiSchema: relationshipToVeteranPage.uiSchema,
-          schema: relationshipToVeteranPage.schema,
-          pagePerItemIndex: 0,
-        },
         organizationInformation: {
           path: 'organization-information',
           title: "Your organization's information",
@@ -89,7 +81,7 @@ const formConfig = {
         },
         burialBenefitsRecipient: {
           path: 'burial-benefits-recipient',
-          title: 'Burial benefits recipient',
+          title: 'VA interment allowance benefits recipient',
           uiSchema: burialBenefitsRecipientPage.uiSchema,
           schema: burialBenefitsRecipientPage.schema,
         },
@@ -124,7 +116,7 @@ const formConfig = {
         },
         veteranBurialInformation: {
           path: 'veteran-burial-information',
-          title: 'Burial information',
+          title: 'Interment information',
           uiSchema: veteranBurialInformationPage.uiSchema,
           schema: veteranBurialInformationPage.schema,
         },

@@ -11,6 +11,7 @@ import { RequiredLoginView } from 'platform/user/authorization/components/Requir
 import titleCase from 'platform/utilities/data/titleCase';
 
 import { fetchAllDependents as fetchAllDependentsAction } from '../actions/index';
+import { fetchRatingInfo as fetchRatingInfoAction } from '../actions/ratingInfo';
 import ViewDependentsLayout from '../layouts/ViewDependentsLayout';
 import ViewDependentsLayoutV2 from '../layouts/ViewDependentsLayoutV2';
 
@@ -26,13 +27,16 @@ const ViewDependentsApp = ({
   dependentsVerificationFormToggle,
   updateDiariesStatus,
   fetchAllDependents,
+  fetchRatingInfo,
+  hasMinimumRating,
 }) => {
   useEffect(
     () => {
       fetchAllDependents();
+      fetchRatingInfo();
       document.title = `${titleCase(PAGE_TITLE)}${TITLE_SUFFIX}`;
     },
-    [fetchAllDependents],
+    [fetchAllDependents, fetchRatingInfo],
   );
 
   const layout = dependentsVerificationFormToggle ? (
@@ -43,6 +47,7 @@ const ViewDependentsApp = ({
       notOnAwardDependents={notOnAwardDependents}
       manageDependentsToggle={manageDependentsToggle}
       updateDiariesStatus={updateDiariesStatus}
+      hasMinimumRating={hasMinimumRating}
     />
   ) : (
     <ViewDependentsLayout
@@ -81,8 +86,8 @@ const ViewDependentsApp = ({
 
 const mapStateToProps = state => ({
   user: state.user,
-  loading: state.allDependents.loading,
-  error: state.allDependents.error,
+  loading: state.allDependents.loading || state.ratingValue.loading,
+  error: state.allDependents.error || state.ratingValue.error,
   manageDependentsToggle: toggleValues(state)[
     FEATURE_FLAG_NAMES.manageDependents
   ],
@@ -90,12 +95,14 @@ const mapStateToProps = state => ({
     FEATURE_FLAG_NAMES.vaDependentsVerification
   ],
   onAwardDependents: state.allDependents.onAwardDependents,
+  hasMinimumRating: state.ratingValue.hasMinimumRating,
   notOnAwardDependents: state.allDependents.notOnAwardDependents,
   updateDiariesStatus: state.verifyDependents.updateDiariesStatus,
 });
 
 const mapDispatchToProps = {
   fetchAllDependents: fetchAllDependentsAction,
+  fetchRatingInfo: fetchRatingInfoAction,
 };
 
 export default connect(
@@ -105,10 +112,12 @@ export default connect(
 
 ViewDependentsApp.propTypes = {
   fetchAllDependents: PropTypes.func.isRequired,
+  fetchRatingInfo: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired,
   dependentsVerificationFormToggle: PropTypes.bool,
   error: PropTypes.object,
+  hasMinimumRating: PropTypes.bool,
   manageDependentsToggle: PropTypes.bool,
   notOnAwardDependents: PropTypes.array,
   updateDiariesStatus: PropTypes.bool,

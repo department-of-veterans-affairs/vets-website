@@ -149,16 +149,17 @@ describe('Care Expenses Pages', () => {
       formDOM,
     );
     expect(vaMemorableDateStart.getAttribute('required')).to.equal('true');
+    expect(vaMemorableDateStart.getAttribute('hint')).to.equal(
+      'Enter 1 or 2 digits for the month and day and 4 digits for the year.',
+    );
     const vaMemorableDateEnd = $(
       'va-memorable-date[label*="Care end date"]',
       formDOM,
     );
     expect(vaMemorableDateEnd.getAttribute('required')).to.equal('false');
-
-    const vaCheckboxes = $$('va-checkbox', formDOM);
-    expect(vaCheckboxes.length).to.equal(1);
-    const vaCheckbox = $('va-checkbox[label*="No end date"]', formDOM);
-    expect(vaCheckbox.getAttribute('required')).to.equal('false');
+    expect(vaMemorableDateEnd.getAttribute('hint')).to.equal(
+      'Leave blank if care is ongoing.',
+    );
   });
   it('renders the cost of care page with no provider', async () => {
     const { careExpensesCostPage } = careExpensesPages;
@@ -251,7 +252,7 @@ describe('Care Expenses Pages', () => {
   it('should return the correct card description when only from date is provided', () => {
     const item = {
       provider: 'John Doe Provider',
-      careDateRange: {
+      careDate: {
         from: '2004-04-04',
       },
       typeOfCare: 'RESIDENTIAL',
@@ -266,7 +267,7 @@ describe('Care Expenses Pages', () => {
   it('should return the correct card description when from and to date is provided', () => {
     const item = {
       provider: 'John Doe Provider',
-      careDateRange: {
+      careDate: {
         from: '2004-04-04',
         to: '2005-05-05',
       },
