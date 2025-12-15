@@ -1,5 +1,5 @@
 ---
-applyTo: "src/applications/mhv-secure-messaging"
+applyTo: "src/applications/mhv-secure-messaging/**"
 ---
 
 # MHV Secure Messaging Application Instructions
@@ -97,6 +97,11 @@ Update this file when you:
 - **acceptedFileTypes** and **acceptedFileTypesExtended**: Define allowed file types with MIME types
 - **RecipientStatus**: BLOCKED, ALLOWED, NOT_ASSOCIATED - for recipient state management
 - **Errors.Code**: Error codes for specific error handling (BLOCKED_USER: 'SM119', ATTACHMENT_SCAN_FAIL: 'SM172', etc.)
+- **RxRenewalText**: Constants for medication renewal request flow
+  - `LOCKED_CATEGORY_DISPLAY`: Text shown in locked category display ("Medication renewal request")
+- **MessageHintText**: Hint text for form fields
+  - `RX_RENEWAL_SUCCESS`: Hint when prescription loaded successfully
+  - `RX_RENEWAL_ERROR`: Hint when prescription failed to load
 
 ### Helper Functions (`util/helpers.js`)
 - **Date formatting**:
@@ -312,6 +317,42 @@ Update this file when you:
   - Use `runBasicSearch()` or `runAdvancedSearch()` actions
   - Results stored in `search` reducer
   - API: `searchFolderBasic()` or `searchFolderAdvanced()` in `SmApi.js`
+
+### RX Renewal / Medication Integration
+- **Purpose**: Veterans can request medication renewals via Secure Messaging from the Medications app
+- **Entry Point**: URL with query params: `/my-health/secure-messages/new-message?prescriptionId={id}&redirectPath={path}`
+- **Detection Logic**:
+  ```javascript
+  const isRxRenewalDraft = renewalPrescription?.prescriptionId || rxError;
+  ```
+- **State Management**:
+  - Reducer: `prescription` at `state.sm.prescription`
+  - State shape: `{ renewalPrescription, redirectPath, error, isLoading }`
+  - Actions: `getPrescriptionById()`, `clearPrescription()`, `setRedirectPath()`
+  - Action types: `Actions.Prescriptions.*` (GET_PRESCRIPTION_BY_ID, CLEAR_PRESCRIPTION, etc.)
+- **API Client**:
+  - File: `api/RxApi.js` - separate from `SmApi.js` for Medications integration
+  - Endpoint: `GET /my_health/v1/prescriptions/{prescriptionId}`
+  - Returns prescription attributes for message body population
+- **Locked Category Behavior**:
+  - When `isRxRenewalDraft` is true, category dropdown is replaced with `LockedCategoryDisplay` component
+  - Category is locked to "Medications" - users cannot change it
+  - Display text: `RxRenewalText.LOCKED_CATEGORY_DISPLAY` ("Medication renewal request")
+- **Message Body Auto-Population**:
+  - Use `buildRxRenewalMessageBody(prescription)` helper from `util/helpers.js`
+  - Populates: medication name, prescription number, instructions, provider, refills left, expiration date, reason for use, quantity
+- **Constants**:
+  - `RxRenewalText.LOCKED_CATEGORY_DISPLAY`: Display text for locked category
+  - `MessageHintText.RX_RENEWAL_SUCCESS`: Hint text when prescription loads successfully
+  - `MessageHintText.RX_RENEWAL_ERROR`: Hint text when prescription fails to load
+- **Error Handling**:
+  - 404 errors: Prescription not found - show warning, allow manual entry
+  - Non-VA medications: Missing required fields - show warning, allow manual entry
+  - Errors logged to Datadog with `dataDogLogger()` including prescriptionId context
+- **Redirect After Send**:
+  - Store `redirectPath` in prescription state
+  - After successful send, redirect to `redirectPath` (typically back to Medications)
+  - Append `?rxRenewalMessageSuccess=true` query param for success messaging
 
 ## Component Patterns
 
