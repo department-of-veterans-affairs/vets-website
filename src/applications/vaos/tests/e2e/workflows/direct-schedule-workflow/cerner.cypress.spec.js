@@ -187,7 +187,7 @@ describe('VAOS direct schedule flow - Cerner', () => {
       });
 
       describe('And type of care is pharmacy', () => {
-        describe('And direct schedule is disabled', () => {
+        describe('And direct and request schedule is disabled', () => {
           it('should display "how to schedule" appointment page', () => {
             // Arrange
             const mockUser = new MockUser({
@@ -254,7 +254,7 @@ describe('VAOS direct schedule flow - Cerner', () => {
       });
 
       describe('And type of care is food and nutrition', () => {
-        describe('And direct schedule is disabled', () => {
+        describe('And direct and request schedule is disabled', () => {
           it('should display "how to schedule" appointment page', () => {
             // Arrange
             const mockUser = new MockUser({

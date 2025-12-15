@@ -118,7 +118,7 @@ async function vaFacilityNext(state, dispatch) {
       }
 
       if (featureRemoveFacilityConfigCheck) {
-        if (eligibility.direct === true && eligibility.request === true)
+        if (eligibility.direct === true || eligibility.request === true)
           return 'selectProvider';
       } else return 'selectProvider';
     }
