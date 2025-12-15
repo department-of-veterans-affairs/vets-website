@@ -1,0 +1,27 @@
+{
+    "formData": {
+        "applicantFullName": {
+            "first": "Hector",
+            "middle": "J",
+            "last": "Allen"
+        },
+        "dateOfBirth": "1932-02-05",
+        "ssn": "796126859",
+        "contactInfo": {
+            "emailAddress": "vets.gov.user80@gmail.com",
+            "homePhone": "2023336688"
+        },
+        "mailingAddress": {
+            "street": "1700 Clairmont Rd",
+            "city": "Decatur",
+            "state": "GA",
+            "country": "USA",
+            "postalCode": "30033"
+        }
+    },
+    "metadata": {
+        "version": 0,
+        "prefill": true,
+        "returnUrl": "/applicant/information"
+    }
+}

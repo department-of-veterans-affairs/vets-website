@@ -87,12 +87,12 @@ describe('Schemaform <FormStartControls>', () => {
       await modal.__events.primaryButtonClick();
       await waitFor(() => {
         expect(removeSpy.called).to.be.true;
-        expect(global.window.sessionStorage.getItem(wizardStorageKey)).to.eq(
-          WIZARD_STATUS_RESTARTING,
-        );
         expect(tree.baseElement.querySelector('va-modal[visible="false"]')).to
           .exist;
       });
+      expect(sessionStorage.getItem(wizardStorageKey)).to.eq(
+        WIZARD_STATUS_RESTARTING,
+      );
     });
     it('should render continue & start new app buttons with a saved form', () => {
       const routerSpy = {
@@ -189,12 +189,14 @@ describe('Schemaform <FormStartControls>', () => {
           router={routerSpy}
           fetchInProgressForm={fetchSpy}
           prefillAvailable
+          formSaved
           routes={[{}, { formConfig: { wizardStorageKey } }]}
         />,
       );
-
-      tree.baseElement.querySelector('a.vads-c-action-link--green').click();
-      expect(fetchSpy.firstCall.args[2]).to.be.true;
+      tree.baseElement
+        .querySelector('va-button[text="Continue your application"]')
+        .click();
+      expect(!!fetchSpy.firstCall.args[1]).to.be.true;
     });
 
     it('should show modal and remove form when starting over', async () => {
@@ -222,12 +224,12 @@ describe('Schemaform <FormStartControls>', () => {
       await modal.__events.primaryButtonClick();
       await waitFor(() => {
         expect(fetchSpy.called).to.be.true;
-        expect(global.window.sessionStorage.getItem(wizardStorageKey)).to.eq(
-          WIZARD_STATUS_RESTARTING,
-        );
         expect(tree.baseElement.querySelector('va-modal[visible="false"]')).to
           .exist;
       });
+      expect(sessionStorage.getItem(wizardStorageKey)).to.eq(
+        WIZARD_STATUS_RESTARTING,
+      );
     });
 
     it('should not capture analytics events when starting the form if the `gaStartEventName` prop is explicitly removed', () => {
@@ -521,6 +523,7 @@ describe('Schemaform <FormStartControls>', () => {
           router={routerSpy}
           fetchInProgressForm={fetchSpy}
           prefillAvailable
+          formSaved
           routes={[
             {},
             {
@@ -532,9 +535,10 @@ describe('Schemaform <FormStartControls>', () => {
           ]}
         />,
       );
-
-      tree.baseElement.querySelector('va-link-action').click();
-      expect(fetchSpy.firstCall.args[2]).to.be.true;
+      tree.baseElement
+        .querySelector('va-button[text="Continue your application"]')
+        .click();
+      expect(!!fetchSpy.firstCall.args[1]).to.be.true;
     });
 
     it('should not capture analytics events when starting the form if the `gaStartEventName` prop is explicitly removed', () => {

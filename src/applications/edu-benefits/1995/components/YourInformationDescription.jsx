@@ -41,6 +41,7 @@ const getBenefitLabel = benefitType => {
 
 const YourInformationDescription = ({ formData }) => (
   <div className="vads-u-margin-bottom--4">
+    <h2 style={{ fontSize: '30px' }}>Your information</h2>
     <div
       className="usa-summary-box"
       role="region"
@@ -55,7 +56,7 @@ const YourInformationDescription = ({ formData }) => (
         <h3
           className="usa-summary-box__heading vads-u-margin-top--0"
           id="summary-box-current-benefit"
-          style={{ marginBottom: '0.25rem' }}
+          style={{ marginBottom: '0.25rem', fontSize: '20px' }}
         >
           Your current benefit
         </h3>
@@ -67,9 +68,12 @@ const YourInformationDescription = ({ formData }) => (
       </div>
     </div>
     <p className="vads-u-margin-top--2">
-      <strong>Note:</strong> If this information is incorrect, call us at
-      800-827-1000 (TTY: 711). We’re here Monday through Friday, 8:00 a.m. to
-      9:00 p.m. ET.
+      <strong>Note:</strong> If this information is incorrect, contact us at{' '}
+      <va-link
+        href="https://va.gov/contact-us/ask-va/introduction"
+        text="Ask VA"
+      />
+      .
     </p>
   </div>
 );

@@ -25,8 +25,8 @@ describe('income and asset other veteran information page', () => {
     schema,
     uiSchema,
     [
-      'va-text-input[label="Veteran’s first name"]',
-      'va-text-input[label="Veteran’s last name"]',
+      'va-text-input[label="Veteran’s first or given name"]',
+      'va-text-input[label="Veteran’s last or family name"]',
       'va-text-input[label="Veteran’s Social Security number"]',
     ],
     'other veteran information',

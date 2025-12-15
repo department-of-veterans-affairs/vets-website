@@ -110,7 +110,7 @@ describe('Care Expenses Pages', () => {
     });
     expect($(vaRecipientOtherSelector, formDOM)).to.exist;
     vaRecipient.__events.vaValueChange({
-      detail: { value: 'DEPENDENT' },
+      detail: { value: 'CHILD' },
     });
     expect($(vaRecipientOtherSelector, formDOM)).to.exist;
     vaRecipient.__events.vaValueChange({
@@ -149,16 +149,17 @@ describe('Care Expenses Pages', () => {
       formDOM,
     );
     expect(vaMemorableDateStart.getAttribute('required')).to.equal('true');
+    expect(vaMemorableDateStart.getAttribute('hint')).to.equal(
+      'Enter 1 or 2 digits for the month and day and 4 digits for the year.',
+    );
     const vaMemorableDateEnd = $(
       'va-memorable-date[label*="Care end date"]',
       formDOM,
     );
     expect(vaMemorableDateEnd.getAttribute('required')).to.equal('false');
-
-    const vaCheckboxes = $$('va-checkbox', formDOM);
-    expect(vaCheckboxes.length).to.equal(1);
-    const vaCheckbox = $('va-checkbox[label*="No end date"]', formDOM);
-    expect(vaCheckbox.getAttribute('required')).to.equal('false');
+    expect(vaMemorableDateEnd.getAttribute('hint')).to.equal(
+      'Leave blank if care is ongoing.',
+    );
   });
   it('renders the cost of care page with no provider', async () => {
     const { careExpensesCostPage } = careExpensesPages;
@@ -248,9 +249,10 @@ describe('Care Expenses Pages', () => {
     );
     expect(vaHoursPerWeekInput).to.not.exist;
   });
-  it('should return the correct card description with paymentDate', () => {
+  it('should return the correct card description when only from date is provided', () => {
     const item = {
-      careDateRange: {
+      provider: 'John Doe Provider',
+      careDate: {
         from: '2004-04-04',
       },
       typeOfCare: 'RESIDENTIAL',
@@ -259,39 +261,55 @@ describe('Care Expenses Pages', () => {
     const { getByText: descriptionText } = render(
       options.text.cardDescription(item),
     );
-    expect(nameText('Residential care facility')).to.exist;
+    expect(nameText('John Doe Provider')).to.exist;
     expect(descriptionText('04/04/2004')).to.exist;
+  });
+  it('should return the correct card description when from and to date is provided', () => {
+    const item = {
+      provider: 'John Doe Provider',
+      careDate: {
+        from: '2004-04-04',
+        to: '2005-05-05',
+      },
+      typeOfCare: 'RESIDENTIAL',
+    };
+    const { getByText: nameText } = render(options.text.getItemName(item));
+    const { getByText: descriptionText } = render(
+      options.text.cardDescription(item),
+    );
+    expect(nameText('John Doe Provider')).to.exist;
+    expect(descriptionText('04/04/2004 - 05/05/2005')).to.exist;
   });
   it('should return default card description', () => {
     const item = {
       typeOfCare: 'BLAH',
     };
     const { getByText: nameText } = render(options.text.getItemName(item));
-    expect(nameText('New care expense')).to.exist;
+    expect(nameText('Provider')).to.exist;
   });
   it('should check if the item is incomplete', () => {
     const completeItem = {
       typeOfCare: 'RESIDENTIAL',
       recipient: 'SPOUSE',
       provider: 'Provider Name',
-      careDateRange: { from: '2004-04-04' },
+      careDate: { from: '2004-04-04' },
       monthlyAmount: 1200,
     };
     const incompleteNoHourlyItem = {
       typeOfCare: 'IN_HOME_CARE_ATTENDANT',
-      recipient: 'DEPENDENT',
-      recipientName: 'John Doe',
+      recipient: 'CHILD',
+      fullNameRecipient: 'John Doe',
       provider: 'Provider Name',
-      careDateRange: { from: '2004-04-04' },
+      careDate: { from: '2004-04-04' },
       monthlyAmount: 800,
       weeklyHours: 20,
     };
     const incompleteNoWeeklyItem = {
       typeOfCare: 'IN_HOME_CARE_ATTENDANT',
-      recipient: 'DEPENDENT',
-      recipientName: 'John Doe',
+      recipient: 'CHILD',
+      fullNameRecipient: 'John Doe',
       provider: 'Provider Name',
-      careDateRange: { from: '2004-04-04' },
+      careDate: { from: '2004-04-04' },
       monthlyAmount: 800,
       hourlyRate: 20,
     };

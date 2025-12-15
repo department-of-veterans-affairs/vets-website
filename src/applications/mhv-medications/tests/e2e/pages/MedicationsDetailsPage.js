@@ -240,9 +240,10 @@ class MedicationsDetailsPage {
   };
 
   verifyDiscontinuedStatusDropDownDefinition = () => {
-    cy.get(
-      '[data-testid="status-dropdown"] > [data-testid="discontinued-status-definition"]',
-    ).should('contain', 'You can’t refill this prescription.');
+    cy.get('[data-testid="discontinued-status-definition"]').should(
+      'contain',
+      'You can’t refill this prescription. We may use this status for either of these reasons:',
+    );
   };
 
   verifyExpiredStatusDropDownDefinition = () => {
@@ -372,7 +373,7 @@ class MedicationsDetailsPage {
   verifyExpiredStatusDescriptionOnDetailsPage = () => {
     cy.get('[data-testid="expired"]').should(
       'contain',
-      'This prescription is too old to refill',
+      'This prescription is too old to refill. If you need more, request a renewal.',
     );
   };
 

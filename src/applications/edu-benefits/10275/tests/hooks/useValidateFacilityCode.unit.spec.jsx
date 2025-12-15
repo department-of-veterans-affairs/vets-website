@@ -110,8 +110,8 @@ describe('useValidateFacilityCode', () => {
     });
   });
 
-  it('dispatches poeEligible false when programTypes exclude IHL/NCD', async () => {
-    const formData = baseFormData('12345678');
+  it('dispatches poeEligible false when facilityCode is not POE eligible', async () => {
+    const formData = baseFormData('41123456');
     apiRequestStub.resolves({
       data: {
         attributes: {
@@ -123,7 +123,7 @@ describe('useValidateFacilityCode', () => {
           state: 'VA',
           zip: '12345',
           country: 'USA',
-          programTypes: ['OJT'], // NOT eligible
+          programTypes: ['IHL'],
         },
       },
     });
@@ -138,24 +138,26 @@ describe('useValidateFacilityCode', () => {
       expect(apiRequestStub.calledOnce).to.equal(true);
     });
 
-    const setDataAction = store
-      .getActions()
-      .find(a => a.type === setData().type);
-    expect(setDataAction).to.exist;
-    expect(setDataAction.data.institutionDetails.poeEligible).to.equal(false);
-    expect(setDataAction.data.institutionDetails).to.deep.equal({
-      facilityCode: '12345678',
-      institutionName: 'Test Institution',
-      institutionAddress: {
-        street: '123 Main St',
-        street2: 'Suite 100',
-        street3: 'Building A',
-        city: 'Anytown',
-        state: 'VA',
-        postalCode: '12345',
-        country: 'USA',
-      },
-      poeEligible: false,
+    await waitFor(() => {
+      const setDataAction = store
+        .getActions()
+        .find(a => a.type === setData().type);
+      expect(setDataAction).to.exist;
+      expect(setDataAction.data.institutionDetails.poeEligible).to.equal(false);
+      expect(setDataAction.data.institutionDetails).to.deep.equal({
+        facilityCode: '41123456',
+        institutionName: 'Test Institution',
+        institutionAddress: {
+          street: '123 Main St',
+          street2: 'Suite 100',
+          street3: 'Building A',
+          city: 'Anytown',
+          state: 'VA',
+          postalCode: '12345',
+          country: 'USA',
+        },
+        poeEligible: false,
+      });
     });
   });
 

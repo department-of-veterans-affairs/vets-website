@@ -37,7 +37,6 @@ export const App = ({
   setFormData,
   showMeb1990EZMaintenanceAlert,
   showMeb1990EZR6MaintenanceMessage,
-  showDgiDirectDeposit1990EZ,
   showMebEnhancements06,
   showMebEnhancements08,
   showMebEnhancements09,
@@ -365,13 +364,6 @@ export const App = ({
         });
       }
 
-      if (showDgiDirectDeposit1990EZ !== formData.showDgiDirectDeposit1990EZ) {
-        setFormData({
-          ...formData,
-          showDgiDirectDeposit1990EZ,
-        });
-      }
-
       if (isLOA3 !== formData.isLOA3) {
         setFormData({
           ...formData,
@@ -383,7 +375,6 @@ export const App = ({
       formData,
       isLOA3,
       setFormData,
-      showDgiDirectDeposit1990EZ,
       showMeb1990EZMaintenanceAlert,
       showMeb1990EZR6MaintenanceMessage,
       showMebEnhancements06,
@@ -490,7 +481,6 @@ App.propTypes = {
   mebKickerNotificationEnabled: PropTypes.bool,
   mobilePhone: PropTypes.string,
   setFormData: PropTypes.func,
-  showDgiDirectDeposit1990EZ: PropTypes.bool,
   showMeb1990EZMaintenanceAlert: PropTypes.bool,
   showMeb1990EZR6MaintenanceMessage: PropTypes.bool,
   showMebEnhancements06: PropTypes.bool,
