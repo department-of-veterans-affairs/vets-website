@@ -20,6 +20,7 @@ describe(`${appName} -- Claim Details Content`, () => {
       ApiInitializer.initializeClaimDetails.happyPath();
       cy.login(user);
       cy.visit(`${rootUrl}/claims/73611905-71bf-46ed-b1ec-e790593b8565`);
+      cy.wait('@details');
       cy.injectAxeThenAxeCheck();
     });
 
@@ -503,6 +504,7 @@ describe(`${appName} -- Claim Details Content`, () => {
       ApiInitializer.initializeClaimDetails.happyPath();
       cy.login(user);
       cy.visit(`${rootUrl}/claims/73611905-71bf-46ed-b1ec-e790593b8565`);
+      cy.wait('@details');
     });
 
     it('maintains proper heading hierarchy', () => {

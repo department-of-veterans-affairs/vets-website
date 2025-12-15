@@ -20,6 +20,7 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
       ApiInitializer.initializeClaimDetails.happyPath();
       cy.login(user);
       cy.visit(`${rootUrl}/claims/73611905-71bf-46ed-b1ec-e790593b8565`);
+      cy.wait('@details');
       cy.injectAxeThenAxeCheck();
     });
 
@@ -46,7 +47,9 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
         reimbursementAmount: 0,
         createdOn: '2025-03-12T20:27:14.088Z',
         modifiedOn: '2025-03-12T20:27:14.088Z',
-        appointment: { id: '73611905-71bf-46ed-b1ec-e790593b8565' },
+        appointment: {
+          appointmentDateTime: '2024-01-01T16:45:34.465Z',
+        },
         documents: [],
         isOutOfBounds: true,
       });
@@ -71,7 +74,9 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
         reimbursementAmount: 0,
         createdOn: '2025-03-12T20:27:14.088Z',
         modifiedOn: '2025-03-12T20:27:14.088Z',
-        appointment: { id: '73611905-71bf-46ed-b1ec-e790593b8565' },
+        appointment: {
+          appointmentDateTime: '2024-01-01T16:45:34.465Z',
+        },
         documents: [],
         isOutOfBounds: false,
       });
@@ -96,20 +101,23 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
         reimbursementAmount: 0,
         createdOn: '2025-03-12T20:27:14.088Z',
         modifiedOn: '2025-03-12T20:27:14.088Z',
-        appointment: { id: '73611905-71bf-46ed-b1ec-e790593b8565' },
+        appointment: {
+          appointmentDateTime: '2024-01-01T16:45:34.465Z',
+        },
         documents: [],
       });
 
       cy.visit(`${rootUrl}/claims/73611905-71bf-46ed-b1ec-e790593b8565`);
 
       // Should show the complete and file link
+      // Uses appointment ID from ApiInitializer.happyPath() (167322)
       cy.get('va-link-action[text="Complete and file your claim"]').should(
         'be.visible',
       );
       cy.get('va-link-action[text="Complete and file your claim"]').should(
         'have.attr',
         'href',
-        '/my-health/travel-pay/file-new-claim/73611905-71bf-46ed-b1ec-e790593b8565',
+        '/my-health/travel-pay/file-new-claim/167322',
       );
     });
 
@@ -124,20 +132,23 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
         reimbursementAmount: 0,
         createdOn: '2025-03-12T20:27:14.088Z',
         modifiedOn: '2025-03-12T20:27:14.088Z',
-        appointment: { id: '73611905-71bf-46ed-b1ec-e790593b8565' },
+        appointment: {
+          appointmentDateTime: '2024-01-01T16:45:34.465Z',
+        },
         documents: [],
       });
 
       cy.visit(`${rootUrl}/claims/73611905-71bf-46ed-b1ec-e790593b8565`);
 
       // Should show the complete and file link
+      // Uses appointment ID from ApiInitializer.happyPath() (167322)
       cy.get('va-link-action[text="Complete and file your claim"]').should(
         'be.visible',
       );
       cy.get('va-link-action[text="Complete and file your claim"]').should(
         'have.attr',
         'href',
-        '/my-health/travel-pay/file-new-claim/73611905-71bf-46ed-b1ec-e790593b8565',
+        '/my-health/travel-pay/file-new-claim/167322',
       );
     });
 
@@ -152,7 +163,9 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
         reimbursementAmount: 14.52,
         createdOn: '2025-03-12T20:27:14.088Z',
         modifiedOn: '2025-03-12T20:27:14.088Z',
-        appointment: { id: '73611905-71bf-46ed-b1ec-e790593b8565' },
+        appointment: {
+          appointmentDateTime: '2024-01-01T16:45:34.465Z',
+        },
         documents: [],
       });
 
@@ -175,7 +188,9 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
         reimbursementAmount: 0,
         createdOn: '2025-03-12T20:27:14.088Z',
         modifiedOn: '2025-03-12T20:27:14.088Z',
-        appointment: { id: '73611905-71bf-46ed-b1ec-e790593b8565' },
+        appointment: {
+          appointmentDateTime: '2024-01-01T16:45:34.465Z',
+        },
         documents: [],
       });
 
@@ -189,6 +204,7 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
 
   describe('Date formatting with complex claims', () => {
     it('formats dates correctly with "Created on" label', () => {
+      ApiInitializer.initializeClaimDetails.happyPath();
       cy.intercept('GET', '/travel_pay/v0/claims/*', {
         claimId: 'date-test-complex',
         claimNumber: 'TC0000000000020',
@@ -199,7 +215,9 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
         reimbursementAmount: 0,
         createdOn: '2024-06-16T10:00:00.000Z',
         modifiedOn: '2024-06-17T15:45:00.000Z',
-        appointment: { id: '73611905-71bf-46ed-b1ec-e790593b8565' },
+        appointment: {
+          appointmentDateTime: '2024-06-15T14:30:00.000Z',
+        },
         documents: [],
       });
 
@@ -217,6 +235,7 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
 
   describe('Combined complex claims scenarios', () => {
     it('displays all complex claims features together for Incomplete claim', () => {
+      ApiInitializer.initializeClaimDetails.happyPath();
       cy.intercept('GET', '/travel_pay/v0/claims/*', {
         claimId: 'complex-full-test',
         claimNumber: 'TC0000000000021',
@@ -227,7 +246,9 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
         reimbursementAmount: 0,
         createdOn: '2024-03-02T09:00:00.000Z',
         modifiedOn: '2024-03-02T09:00:00.000Z',
-        appointment: { id: '73611905-71bf-46ed-b1ec-e790593b8565' },
+        appointment: {
+          appointmentDateTime: '2024-03-01T09:00:00.000Z',
+        },
         documents: [],
         isOutOfBounds: true,
       });
@@ -252,6 +273,7 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
     });
 
     it('displays complex claims features for Saved claim without out of bounds alert', () => {
+      ApiInitializer.initializeClaimDetails.happyPath();
       cy.intercept('GET', '/travel_pay/v0/claims/*', {
         claimId: 'complex-saved-test',
         claimNumber: 'TC0000000000022',
@@ -262,7 +284,9 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
         reimbursementAmount: 0,
         createdOn: '2024-05-01T14:00:00.000Z',
         modifiedOn: '2024-05-01T14:00:00.000Z',
-        appointment: { id: '73611905-71bf-46ed-b1ec-e790593b8565' },
+        appointment: {
+          appointmentDateTime: '2024-05-01T13:00:00.000Z',
+        },
         documents: [],
         isOutOfBounds: false,
       });
