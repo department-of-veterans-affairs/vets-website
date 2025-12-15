@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { environment } from '@department-of-veterans-affairs/platform-utilities/exports';
 import PropTypes from 'prop-types';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
@@ -6,6 +6,18 @@ import GetFormHelp from '../components/GetFormHelp';
 
 const SaveInformationPage = props => {
   const { goBack, goForward, NavButtons = FormNavButtons } = props;
+
+  useEffect(() => {
+    const progressBar = document.querySelector('va-segmented-progress-bar');
+    if (progressBar) {
+      progressBar.style.display = 'none';
+    }
+    return () => {
+      if (progressBar) {
+        progressBar.style.display = '';
+      }
+    };
+  }, []);
 
   return (
     <>
