@@ -86,6 +86,22 @@ const getFormInfo = benefitType => {
   }
 };
 
+const getSwitchFormHeader = val => {
+  switch (val) {
+    case 'mgib-ad':
+    case 'mgib-sr':
+    case 'chapter33':
+      return 'Application for VA Education Benefits (VA Form 22-1990)';
+    case 'dea':
+    case 'fry':
+      return "Dependent's Application for VA Education Benefits (VA Form 22-5490)";
+    case 'toe':
+      return 'Application for VA Education Benefits (VA Form 22-1990e)';
+    default:
+      return null;
+  }
+};
+
 const ResultDescription = ({
   body,
   linkHref,
@@ -100,27 +116,27 @@ const ResultDescription = ({
       </h2>
     )}
     <p>{body}</p>
-    {linkHref &&
-      linkText && (
-        <a
-          href={linkHref}
-          className="vads-u-display--block vads-u-margin-bottom--3"
-        >
-          {linkText}
-        </a>
-      )}
+    {linkHref && linkText && (
+      <a
+        href={linkHref}
+        className="vads-u-display--block vads-c-action-link--green vads-u-margin-bottom--3"
+      >
+        {linkText}
+      </a>
+    )}
     <div className="usa-alert background-color-only">
       <h3 className="vads-u-margin-top--0">Your answers:</h3>
       <ul className="vads-u-list-style--none vads-u-padding-left--0">
         {answers.map((answer, index) => (
           <li
             key={index}
-            className="vads-u-display--flex vads-u-align-items--start vads-u-margin-bottom--2"
+            className="vads-u-display--block vads-u-align-items--start vads-u-margin-bottom--2"
           >
             <va-icon
               icon="check"
               size={3}
-              className="vads-u-margin-right--2 vads-u-color--green"
+              color="green"
+              className="vads-u-margin-right--2"
             />
             <span>{answer}</span>
           </li>
@@ -135,13 +151,12 @@ const SameBenefitResultDescription = ({ formData }) => {
   return (
     <ResultDescription
       resultHeader={formInfo.header}
-      body={`Based on your answers, use ${
-        formInfo.formName
-      } to apply to the same benefit again to get an updated COE.`}
+      body={`Based on your answers, use ${formInfo.formName} to apply to the same benefit again to get an updated COE.`}
       linkHref={formInfo.link}
       linkText={formInfo.linkText}
       answers={[
         'You are looking to apply to the same benefit again to get an updated Certificate of Eligibility (COE)',
+        `Your most recently used benefit is ${formInfo.formName}`,
       ]}
     />
   );
@@ -183,65 +198,61 @@ export const benefitSwitchPage = () => ({
     mebBenefitSelection: {
       'ui:title': (
         <span
-          className="vads-u-font-size--h3 vads-u-padding-bottom--2 vads-u-display--inline-block"
+          className="change-subheader vads-u-font-size--h2 vads-u-font-family--serif vads-u-font-weight--bold vads-u-padding-bottom--2"
           style={{ fontSize: '1.5rem' }}
         >
-          Benefit you want to change to
+          Benefit you want to change&nbsp;to
         </span>
       ),
-      'ui:description': () => (
-        <details className="vads-u-margin-bottom--3">
-          <summary className="vads-u-font-weight--bold">
-            Learn more about these benefits
-          </summary>
-          <ul className="vads-u-margin-top--1">
-            <li>
-              Learn about GI Bill benefits: Post-9/11 GI Bill, Montgomery GI
-              Bill Active Duty (MGIB-AD), and Montgomery GI Bill Selected
-              Reserve (MGIB-SR) (opens in a new tab)
+      'ui:description': props => {
+        const header = getSwitchFormHeader(
+          props?.formData?.mebBenefitSelection,
+        );
+
+        return (
+          <>
+            {header && <h2 className="vads-u-font-size--h2">{header}</h2>}
+            <va-additional-info
+              onClick={function noRefCheck() {}}
+              trigger="Learn more about these benefits"
+            >
               <ul className="vads-u-margin-top--1">
                 <li>
-                  <a href="https://www.va.gov/education/about-gi-bill-benefits/post-9-11">
-                    Post-9/11 GI Bill
+                  <a
+                    href="https://www.va.gov/education/about-gi-bill-benefits/post-9-11"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Learn about GI Bill benefits: Post-9/11 GI Bill, Montgomery
+                    GI Bill Active Duty (MGIB-AD), and Montgomery GI Bill
+                    Selected Reserve (MGIB-SR) (opens in a new tab)
                   </a>
                 </li>
                 <li>
-                  <a href="https://www.va.gov/education/about-gi-bill-benefits/montgomery-active-duty">
-                    Montgomery GI Bill Active Duty (MGIB-AD)
+                  <a
+                    href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/transferred-gi-bill-benefits/"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Learn about survivors’ and dependents’ assistance:
+                    transferred Post-9/11 GI Bill benefits (opens in a new tab)
                   </a>
                 </li>
                 <li>
-                  <a href="https://www.va.gov/education/about-gi-bill-benefits/montgomery-selected-reserve">
-                    Montgomery GI Bill Selected Reserve (MGIB-SR)
+                  <a
+                    href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/dependents-education-assistance/"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Survivors’ and Dependents’ Education Assistance (DEA), Fry
+                    Scholarship
                   </a>
                 </li>
               </ul>
-            </li>
-            <li>
-              <a href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/transferred-gi-bill-benefits/">
-                Learn about survivors’ and dependents’ assistance: transferred
-                Post-9/11 GI Bill benefits (opens in a new tab)
-              </a>
-            </li>
-            <li>
-              Survivors’ and Dependents’ Education Assistance (DEA), Fry
-              Scholarship
-              <ul className="vads-u-margin-top--1">
-                <li>
-                  <a href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/dependents-education-assistance/">
-                    Survivors’ and Dependents’ Education Assistance (DEA)
-                  </a>
-                </li>
-                <li>
-                  <a href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/fry-scholarship/">
-                    Fry Scholarship
-                  </a>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </details>
-      ),
+            </va-additional-info>
+          </>
+        );
+      },
       'ui:widget': 'radio',
       'ui:options': {
         updateSchema: (formData, schema) => {
@@ -322,8 +333,9 @@ export const foreignSchoolResultPage = () =>
   buildResultPage({
     body:
       'Get answers to your questions about using eligibility at a foreign school. You should receive a reply within 7 business days.',
+    resultHeader: 'Ask VA',
     linkHref: 'https://ask.va.gov/',
-    linkText: 'Ask VA',
+    linkText: 'Contact us online through Ask VA',
     answers: [
       'You want to update your Certificate of Eligibility (COE) for a foreign school',
     ],
@@ -332,7 +344,7 @@ export const foreignSchoolResultPage = () =>
 export const mgibAdResultPage = () =>
   buildResultPage({
     body:
-      'Based on your answers, use VA Form 22-1990 to apply to the same benefit again to get an updated COE.',
+      'Based on your answers, use VA Form 22-1990 switch your existing education benefit at the start of your next enrollment period.',
     linkHref:
       'https://www.va.gov/education/apply-for-education-benefits/application/1990/introduction',
     linkText: 'Apply for education benefits (VA Form 22-1990)',
@@ -345,7 +357,7 @@ export const mgibAdResultPage = () =>
 export const mgibSrResultPage = () =>
   buildResultPage({
     body:
-      'Based on your answers, use VA Form 22-1990 to apply to the same benefit again to get an updated COE.',
+      'Based on your answers, use VA Form 22-1990 switch your existing education benefit at the start of your next enrollment period.',
     linkHref:
       'https://www.va.gov/education/apply-for-education-benefits/application/1990/introduction',
     linkText: 'Apply for education benefits (VA Form 22-1990)',
@@ -358,7 +370,7 @@ export const mgibSrResultPage = () =>
 export const toeResultPage = () =>
   buildResultPage({
     body:
-      'Based on your answers, use VA Form 22-1990e to apply to the same benefit again to get an updated COE.',
+      'Based on your answers, use VA Form 22-1990e switch your existing education benefit at the start of your next enrollment period.',
     linkHref:
       'https://www.va.gov/education/apply-for-education-benefits/application/1990E/introduction',
     linkText: 'Apply for education benefits (VA Form 22-1990e)',
@@ -371,7 +383,7 @@ export const toeResultPage = () =>
 export const deaResultPage = () =>
   buildResultPage({
     body:
-      'Based on your answers, use VA Form 22-5490 to apply to the same benefit again to get an updated COE.',
+      'Based on your answers, use VA Form 22-5490 switch your existing education benefit at the start of your next enrollment period.',
     linkHref:
       'https://www.va.gov/education/apply-for-education-benefits/application/5490/introduction',
     linkText: 'Apply for education benefits (VA Form 22-5490)',
@@ -384,7 +396,7 @@ export const deaResultPage = () =>
 export const fryResultPage = () =>
   buildResultPage({
     body:
-      'Based on your answers, use VA Form 22-5490 to apply to the same benefit again to get an updated COE.',
+      'Based on your answers, use VA Form 22-5490 switch your existing education benefit at the start of your next enrollment period.',
     linkHref:
       'https://www.va.gov/education/apply-for-education-benefits/application/5490/introduction',
     linkText: 'Apply for education benefits (VA Form 22-5490)',

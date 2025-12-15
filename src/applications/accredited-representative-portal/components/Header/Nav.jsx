@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useLoaderData } from 'react-router-dom';
+import { NavLink, Link, useLoaderData } from 'react-router-dom';
 import { recordDatalayerEvent } from '../../utilities/analytics';
 import { getSignInUrl } from '../../utilities/constants';
 import DropdownContainer from './DropdownContainer';
 
 function SignInButton() {
   return (
-    <a
+    <Link
       data-testid="user-nav-sign-in-link"
       className="nav__btn is--sign-in"
-      href={getSignInUrl()}
+      to={getSignInUrl().toString()}
     >
       Sign in
-    </a>
+    </Link>
   );
 }
 
@@ -79,8 +79,10 @@ export const Nav = () => {
           data-testid="desktop-nav-row"
         >
           <div className="nav__container vads-u-display--flex">
-            <Link
-              className="nav__btn desktop"
+            <NavLink
+              className={({ isActive }) =>
+                isActive ? 'nav__btn is--active desktop' : 'nav__btn desktop'
+              }
               to="/find-claimant"
               data-testid="desktop-search-link"
               onClick={recordDatalayerEvent}
@@ -88,23 +90,27 @@ export const Nav = () => {
             >
               <va-icon icon="search" size={2} className="people-search-icon" />
               Find Claimant
-            </Link>
-            <Link
-              className="nav__btn desktop"
+            </NavLink>
+            <NavLink
+              className={({ isActive }) =>
+                isActive ? 'nav__btn is--active desktop' : 'nav__btn desktop'
+              }
               to="/representation-requests"
               data-testid="desktop-poa-link"
               onClick={recordDatalayerEvent}
               data-eventname="nav-link-click"
             >
               Representation Requests
-            </Link>
-            <Link
-              className="nav__btn desktop"
+            </NavLink>
+            <NavLink
+              className={({ isActive }) =>
+                isActive ? 'nav__btn is--active desktop' : 'nav__btn desktop'
+              }
               to="/submissions"
               data-testid="desktop-search-link"
             >
               Submissions
-            </Link>
+            </NavLink>
           </div>
         </div>
       )}

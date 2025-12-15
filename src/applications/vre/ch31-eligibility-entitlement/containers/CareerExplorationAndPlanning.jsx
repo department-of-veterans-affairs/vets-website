@@ -3,6 +3,7 @@ import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import AssessYourInterestsSection from '../components/AssessYourInterestsSection';
 import FindAPathSection from '../components/FindAPathSection';
 import FindAJobSection from '../components/FindAJobSection';
+import NeedHelp from '../components/NeedHelp';
 
 export default function CareerExplorationAndPlanning() {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
@@ -39,34 +40,7 @@ export default function CareerExplorationAndPlanning() {
           <FindAJobSection />
         </va-card>
 
-        <va-need-help class="vads-u-margin-top--4">
-          <div slot="content">
-            <p>
-              Do you have more questions or need more information? Reach out to
-              your VR&E RO Counselor or Officer:
-            </p>
-            <p className="va-address-block vads-u-margin-left--0">
-              U.S. Department of Veterans Affairs
-              <br />
-              Medical Office
-              <br />
-              PO Box 11930
-              <br />
-              St. Paul, MN 55111
-              <br />
-              United States of America
-              <br />
-            </p>
-            <p>
-              Phone number title:&nbsp;
-              <va-telephone contact="8773459876" />
-            </p>
-            <p>
-              Monday through Friday, 8:00 a.m to 9:00 p.m ET. If you have
-              hearing loss, call <va-telephone contact="711" tty />.
-            </p>
-          </div>
-        </va-need-help>
+        <NeedHelp />
 
         <va-back-to-top />
       </article>

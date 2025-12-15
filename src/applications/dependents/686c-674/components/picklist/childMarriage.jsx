@@ -8,9 +8,17 @@ import propTypes from './types';
 
 const childMarried = {
   handlers: {
-    // Return "DONE" when we're done with this flow
+    /**
+     * @type {GoForwardParams}
+     * Return "DONE" when we're done with this flow
+     * @returns {string} Next page key
+     */
     goForward: (/* { _itemData, _index, _fullData } */) => 'DONE',
 
+    /**
+     * @type {OnSubmitParams}
+     * @returns {void}
+     */
     onSubmit: ({ /* event, */ itemData, goForward }) => {
       const hasError = getPastDateError(itemData.endDate);
       // event.preventDefault(); // executed before this function is called
@@ -22,7 +30,10 @@ const childMarried = {
     },
   },
 
-  /** @type {PicklistComponentProps} */
+  /**
+   * @type {PicklistComponentProps}
+   * @returns {React.ReactElement} Page component
+   */
   Component: ({ itemData, firstName, handlers, formSubmitted, isEditing }) => {
     const onChange = event => {
       const { field, value } = getValue(event);
