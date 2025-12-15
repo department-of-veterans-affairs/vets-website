@@ -85,6 +85,7 @@ const ConfirmRemoveModal = ({
       secondaryButtonText="Cancel change"
       onPrimaryButtonClick={deleteAction}
       onSecondaryButtonClick={cancelAction}
+      data-testid="confirm-remove-modal"
       uswds
     >
       {modalContent}

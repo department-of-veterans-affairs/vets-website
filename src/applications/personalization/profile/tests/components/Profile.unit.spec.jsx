@@ -21,6 +21,7 @@ describe('Profile', () => {
   let fetchCNPPaymentInfoSpy;
   let fetchPersonalInfoSpy;
   let fetchTotalDisabilityRatingSpy;
+  let fetchSchedulingPreferencesSpy;
   let connectDrupalSourceOfTruthCernerSpy;
 
   beforeEach(() => {
@@ -30,6 +31,7 @@ describe('Profile', () => {
     fetchCNPPaymentInfoSpy = sinon.spy();
     fetchPersonalInfoSpy = sinon.spy();
     fetchTotalDisabilityRatingSpy = sinon.spy();
+    fetchSchedulingPreferencesSpy = sinon.spy();
     connectDrupalSourceOfTruthCernerSpy = sinon.spy();
 
     defaultProps = {
@@ -40,6 +42,7 @@ describe('Profile', () => {
       fetchCNPPaymentInformation: fetchCNPPaymentInfoSpy,
       fetchPersonalInformation: fetchPersonalInfoSpy,
       fetchTotalDisabilityRating: fetchTotalDisabilityRatingSpy,
+      fetchSchedulingPreferences: fetchSchedulingPreferencesSpy,
       shouldFetchCNPDirectDepositInformation: true,
       shouldFetchTotalDisabilityRating: true,
       showLoader: false,
