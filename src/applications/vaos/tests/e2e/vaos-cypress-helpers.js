@@ -62,8 +62,8 @@ export function mockCCProvidersApi({
     req => {
       if (responseCode !== 200) {
         req.reply({
-          body: '404 Not Found',
-          statusCode: 404,
+          body: `${responseCode}`,
+          statusCode: responseCode,
         });
 
         return;
@@ -96,8 +96,8 @@ export function mockAppointmentGetApi({ response: data, responseCode = 200 }) {
     req => {
       if (responseCode !== 200) {
         req.reply({
-          body: '404 Not Found',
-          statusCode: 404,
+          body: `${responseCode}`,
+          statusCode: responseCode,
         });
         return;
       }
@@ -129,8 +129,8 @@ export function mockAppointmentUpdateApi({
     req => {
       if (responseCode !== 200) {
         req.reply({
-          body: '404 Not Found',
-          statusCode: 404,
+          body: `${responseCode}`,
+          statusCode: responseCode,
         });
         return;
       }
@@ -164,8 +164,8 @@ export function mockAppointmentCreateApi({
     req => {
       if (responseCode !== 200) {
         req.reply({
-          body: '404 Not Found',
-          statusCode: 404,
+          body: `${responseCode}`,
+          statusCode: responseCode,
         });
         return;
       }
@@ -201,8 +201,8 @@ export function mockAppointmentsGetApi({ response: data, responseCode = 200 }) {
     req => {
       if (responseCode !== 200) {
         req.reply({
-          body: '404 Not Found',
-          statusCode: 404,
+          body: `${responseCode}`,
+          statusCode: responseCode,
         });
         return;
       }
@@ -236,8 +236,8 @@ export function mockFacilityApi({ id, response: data, responseCode = 200 }) {
     req => {
       if (responseCode !== 200) {
         req.reply({
-          body: '404 Not Found',
-          statusCode: 404,
+          body: `${responseCode}`,
+          statusCode: responseCode,
         });
 
         return;
@@ -273,8 +273,8 @@ export function mockFacilitiesApi({ response: data, responseCode = 200 }) {
     req => {
       if (responseCode !== 200) {
         req.reply({
-          body: '404 Not Found',
-          statusCode: 404,
+          body: `${responseCode}`,
+          statusCode: responseCode,
         });
 
         return;
@@ -383,8 +383,8 @@ export function mockEligibilityApi({ response: data, responseCode = 200 }) {
     req => {
       if (responseCode !== 200) {
         req.reply({
-          body: '404 Not Found',
-          statusCode: 404,
+          body: `${responseCode}`,
+          statusCode: responseCode,
         });
 
         return;
@@ -426,8 +426,8 @@ export function mockEligibilityDirectApi({
     req => {
       if (responseCode !== 200) {
         req.reply({
-          body: '404 Not Found',
-          statusCode: 404,
+          body: `${responseCode}`,
+          statusCode: responseCode,
         });
 
         return;
@@ -463,8 +463,8 @@ export function mockEligibilityRequestApi({
     req => {
       if (responseCode !== 200) {
         req.reply({
-          body: '404 Not Found',
-          statusCode: 404,
+          body: `${responseCode}`,
+          statusCode: responseCode,
         });
 
         return;
@@ -526,8 +526,8 @@ export function mockClinicsApi({
     req => {
       if (responseCode !== 200) {
         req.reply({
-          body: '404 Not Found',
-          statusCode: 404,
+          body: `${responseCode}`,
+          statusCode: responseCode,
         });
 
         return;
@@ -570,8 +570,8 @@ export function mockSlotsApi({
     req => {
       if (responseCode !== 200) {
         req.reply({
-          body: '404 Not Found',
-          statusCode: 404,
+          body: `${responseCode}`,
+          statusCode: responseCode,
         });
 
         return;

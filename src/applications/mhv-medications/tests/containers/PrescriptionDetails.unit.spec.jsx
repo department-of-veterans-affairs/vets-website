@@ -135,7 +135,7 @@ describe('Prescription details container', () => {
     await waitFor(() => {
       expect(screen.getByTestId('rx-last-filled-date')).to.have.text(
         `Last filled on ${dateFormat(
-          rxDetailsResponse.data.attributes.dispensedDate,
+          rxDetailsResponse.data.attributes.sortedDispensedDate,
           DATETIME_FORMATS.longMonthDate,
         )}`,
       );

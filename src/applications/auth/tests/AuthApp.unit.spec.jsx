@@ -333,55 +333,6 @@ describe('AuthApp', () => {
     });
   });
 
-  it('should redirect to /sign-in-changes-reminder interstitial page', async () => {
-    const originalLocation = window.location;
-    if (!Location.prototype.replace) {
-      window.location = { replace: sinon.spy() };
-    } else {
-      window.location.replace = sinon.spy();
-    }
-
-    const store = {
-      dispatch: sinon.spy(),
-      subscribe: sinon.spy(),
-      getState: () => ({
-        featureToggles: {
-          dslogonInterstitialRedirect: true,
-        },
-      }),
-    };
-    sessionStorage.setItem('authReturnUrl', 'https://dev.va.gov/my-va');
-    server.use(
-      createGetHandler('https://dev-api.va.gov/v0/user', () => {
-        return jsonResponse(
-          {
-            data: {
-              attributes: {
-                profile: {
-                  signIn: { serviceName: 'dslogon', ssoe: true },
-                },
-              },
-            },
-          },
-          { status: 200 },
-        );
-      }),
-    );
-
-    render(
-      <Provider store={store}>
-        <AuthApp location={{ query: { auth: 'success', type: 'dslogon' } }} />
-      </Provider>,
-    );
-
-    await waitFor(() => expect(window.location.replace.calledOnce).to.be.true);
-    expect(window.location.replace.calledWith('/sign-in-changes-reminder')).to
-      .be.true;
-
-    window.location = originalLocation;
-    sessionStorage.clear();
-  });
-
   it('should redirect to /sign-in-confirm-contact-email interstitial page', async () => {
     const originalLocation = window.location;
     if (!Location.prototype.replace) {

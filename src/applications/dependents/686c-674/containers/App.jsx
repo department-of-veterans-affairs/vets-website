@@ -12,7 +12,6 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import manifest from '../manifest.json';
 import formConfig from '../config/form';
 import { DOC_TITLE } from '../config/constants';
-import { getShouldUseV2 } from '../utils/redirect';
 import {
   processDependents,
   updateDependentsInFormData,
@@ -157,15 +156,6 @@ function App({
   // Handle loading
   if (isLoading) {
     return <va-loading-indicator message="Loading your information..." />;
-  }
-
-  const flipperV2 = featureToggles.vaDependentsV2;
-
-  if (!getShouldUseV2(flipperV2, savedForms)) {
-    window.location.href = `${getRootParentUrl(
-      manifest.rootUrl,
-    )}/add-remove-form-21-686c/`;
-    return <></>;
   }
 
   const breadcrumbs = [

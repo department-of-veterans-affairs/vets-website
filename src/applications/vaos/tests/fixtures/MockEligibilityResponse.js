@@ -1,4 +1,5 @@
 import { INELIGIBILITY_CODES_VAOS } from '../../utils/constants';
+
 /**
  * Mock eligibility response.
  *
@@ -132,6 +133,54 @@ export default class MockEligibilityResponse {
         type === 'direct'
           ? MockEligibilityResponse.DIRECT_DISABLED
           : MockEligibilityResponse.REQUEST_DISABLED,
+    });
+  }
+
+  /**
+   * Method to create a direct scheduling eligibility response.
+   *
+   * @static
+   * @param {Object} arguments - Method arguments
+   * @param {string} [arguments.facilityId=983] - Facility id. Default: 983
+   * @param {string} [arguments.ineligibilityReason] - Ineligibility reason.
+   * @param {string} [arguments.typeOfCareId] - Type of care id. Default: 'primaryCare'
+   * @returns Instance of MockEligibilityResponse
+   * @memberof MockEligibilityResponse
+   */
+  static createEligibilityDirectResponse({
+    facilityId,
+    ineligibilityReason,
+    typeOfCareId,
+  } = {}) {
+    return new MockEligibilityResponse({
+      facilityId,
+      ineligibilityReason,
+      type: 'direct',
+      typeOfCareId,
+    });
+  }
+
+  /**
+   * Method to create a request scheduling eligibility response.
+   *
+   * @static
+   * @param {Object} arguments - Method arguments
+   * @param {string} [arguments.facilityId=983] - Facility id. Default: 983
+   * @param {string} [arguments.ineligibilityReason] - Ineligibility reason.
+   * @param {string} [arguments.typeOfCareId] - Type of care id. Default: 'primaryCare'
+   * @returns Instance of MockEligibilityResponse
+   * @memberof MockEligibilityResponse
+   */
+  static createEligibilityRequestResponse({
+    facilityId,
+    ineligibilityReason,
+    typeOfCareId,
+  } = {}) {
+    return new MockEligibilityResponse({
+      facilityId,
+      ineligibilityReason,
+      type: 'request',
+      typeOfCareId,
     });
   }
 
