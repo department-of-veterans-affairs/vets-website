@@ -68,7 +68,7 @@ describe('ConfirmationPage', () => {
     const alert = container.querySelector('va-alert');
     expect(alert).to.have.attribute('status', 'success');
     expect(alert.querySelector('h2')).to.contain.text(
-      'Form submission started',
+      "You've submitted your application for Veteran Readiness and Employment (VR&E)",
     );
     expect(alert).to.contain.text('Your confirmation number is 1234567890');
   });

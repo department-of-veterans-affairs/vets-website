@@ -144,7 +144,7 @@ export const Locators = {
     MOVE: `#move-button`,
     TRASH: `#trash-button`,
     BUTTON_TEXT: '[data-testid="trash-button-text"]',
-    MOVE_BUTTON_TEXT: '[data-testid="move-button-text"]',
+    MOVE_BUTTON_TEST_ID: 'move-button-text',
     FILTER: '[data-testid="filter-messages-button"]',
     SEND: '[data-testid="send-button"]',
     SEND_TEST_ID: 'send-button',
@@ -187,7 +187,7 @@ export const Locators = {
   ALERTS: {
     HEADER: `[data-testid="error-folder-not-empty"]`,
     MODEL_TITLE_ALERT: '.va-modal-alert-title',
-    TRIAGE_ALERT: '[data-testid="blocked-triage-group-alert"] > div > a',
+    TRIAGE_ALERT: '[data-testid="blocked-triage-group-alert"] va-link-action',
     CLOSE_NOTIFICATION: '.va-alert',
     REPT_SELECT: '[data-testid="compose-recipient-select"]',
     DRAFT_MODAL: '[data-testid="delete-draft-modal"]',

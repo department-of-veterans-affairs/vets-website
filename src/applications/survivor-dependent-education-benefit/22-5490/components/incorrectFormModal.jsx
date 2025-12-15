@@ -53,7 +53,7 @@ const IncorrectFormModal = props => {
         <li>
           If you are a Veteran or service member applying on behalf of your
           dependent, your application will be denied. Your dependent will need
-          to complete the application from their own Login.gov or ID.me account.
+          to complete the application from their own ID.me or Login.gov account.
         </li>
         {relationshipToMember === 'child' && (
           <li>
