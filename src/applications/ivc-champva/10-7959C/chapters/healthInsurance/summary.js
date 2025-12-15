@@ -4,6 +4,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { validateHealthInsurancePlan } from '../../utils/validation';
 import { replaceStrValues } from '../../helpers/formatting';
+import { OHI_ITEM_MAX } from '../../utils/constants';
 import HealthInsuranceSummaryCard from '../../components/FormDescriptions/HealthInsuranceSummaryCard';
 import content from '../../locales/en/content.json';
 
@@ -26,7 +27,7 @@ export const ohiArrayOptions = {
   nounPlural: 'plans',
   required: false,
   isItemIncomplete: validateHealthInsurancePlan,
-  maxItems: 2,
+  maxItems: OHI_ITEM_MAX,
   text: {
     getItemName: item => item?.provider,
     cardDescription: HealthInsuranceSummaryCard,
