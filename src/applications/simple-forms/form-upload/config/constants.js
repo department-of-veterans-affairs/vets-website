@@ -1,6 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaAlert,
+  VaLink,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { formMappings } from '../helpers';
 
 export const PrimaryActionLink = ({ href, children, onClick }) => (
   <div className="action-bar-arrow">
@@ -72,11 +76,11 @@ export const UPLOAD_SUPPORTING_DOCUMENTS_DESCRIPTION = Object.freeze(
       can’t save documents for later. If you need more time to gather your
       documents, follow the instructions on your form for how to submit them.
     </p>
-    <va-additional-info trigger="How to determine what supporting documents to upload">
+    <va-additional-info trigger="How to decide what supporting documents to upload">
       <p>
         {' '}
         To figure out which documents to upload, review the guidance we’ve given
-        you. This may be in:
+        you. You can find this guidance in these places:
       </p>
       <ul>
         <li>Instructions on the paper form you filled out</li>
@@ -148,23 +152,32 @@ export const FORM_UPLOAD_OCR_ALERT = (
   </VaAlert>
 );
 
-export const FORM_UPLOAD_INSTRUCTION_ALERT = onCloseEvent => (
-  <VaAlert
-    close-btn-aria-label="Close notification"
-    status="warning"
-    visible
-    closeable
-    onCloseEvent={onCloseEvent}
-  >
-    <h2 slot="headline">Complete and sign your form before you upload</h2>
-    <React.Fragment key=".1">
-      <p>
-        If you upload a form that’s missing a signature or any other required
-        information, we can’t process it.
-      </p>
-    </React.Fragment>
-  </VaAlert>
-);
+export const FORM_UPLOAD_INSTRUCTION_ALERT = (onCloseEvent, formNumber) => {
+  return (
+    <VaAlert
+      close-btn-aria-label="Close notification"
+      status="warning"
+      visible
+      closeable
+      onCloseEvent={onCloseEvent}
+    >
+      <h2 slot="headline">Complete and sign your form before you upload</h2>
+      <React.Fragment key=".1">
+        <p>
+          If you upload a form that’s missing a signature or any other required
+          information, we can’t process it.
+        </p>
+        <p>Download the official VA Form {formNumber} from VA.gov.</p>
+        <VaLink
+          external
+          download
+          href={formMappings[formNumber].pdfDownloadUrl}
+          text={`Download VA Form ${formNumber}`}
+        />
+      </React.Fragment>
+    </VaAlert>
+  );
+};
 
 export const FORM_UPLOAD_FILE_UPLOADING_ALERT = onCloseEvent => (
   <VaAlert
@@ -179,4 +192,4 @@ export const FORM_UPLOAD_FILE_UPLOADING_ALERT = onCloseEvent => (
   </VaAlert>
 );
 
-export const MAX_FILE_SIZE = 25000000;
+export const MAX_FILE_SIZE = 25 * 1024 * 1024;
