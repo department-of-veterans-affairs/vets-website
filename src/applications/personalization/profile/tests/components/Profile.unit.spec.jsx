@@ -221,6 +221,7 @@ describe('mapStateToProps', () => {
       'shouldShowAccreditedRepTab',
       'shouldShowProfile2',
       'shouldShowHealthCareSettingsPage',
+      'shouldFetchSchedulingPreferences',
       'shouldFetchTotalDisabilityRating',
       'isDowntimeWarningDismissed',
       'isBlocked',
