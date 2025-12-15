@@ -6,6 +6,7 @@ import {
   getTravelClaims,
   getClaimDetails,
   getAppointmentData,
+  getAppointmentDataByDateTime,
   submitMileageOnlyClaim,
   createComplexClaim,
   submitComplexClaim,
@@ -153,6 +154,225 @@ describe('Redux - actions', () => {
       expect(
         mockDispatch.calledWithMatch({ type: 'FETCH_APPOINTMENT_FAILURE' }),
       ).to.be.true;
+    });
+  });
+
+  describe('Appointments by date/time', () => {
+    it('should find matching appointment when localStartTime matches target', async () => {
+      const mockDispatch = sinon.spy();
+      const targetDateTime = '2024-12-30T08:00:00.000-06:00';
+
+      // Mock API returns multiple appointments, one matching
+      apiStub.resolves({
+        data: [
+          {
+            attributes: {
+              start: '2024-12-30T08:00:00Z',
+              localStartTime: '2024-12-30T02:00:00.000-06:00',
+              location: {
+                id: '983',
+                type: 'appointments',
+                attributes: { name: 'Non-matching appointment' },
+              },
+            },
+          },
+          {
+            attributes: {
+              start: '2024-12-30T14:00:00Z',
+              localStartTime: targetDateTime, // This matches
+              location: {
+                id: '983',
+                type: 'appointments',
+                attributes: { name: 'Cheyenne VA Medical Center' },
+              },
+            },
+          },
+          {
+            attributes: {
+              start: '2024-12-30T20:00:00Z',
+              localStartTime: '2024-12-30T14:00:00.000-06:00',
+              location: {
+                id: '983',
+                type: 'appointments',
+                attributes: { name: 'Another non-matching appointment' },
+              },
+            },
+          },
+        ],
+      });
+
+      await getAppointmentDataByDateTime(targetDateTime)(mockDispatch);
+
+      expect(
+        mockDispatch.calledWithMatch({
+          type: 'FETCH_APPOINTMENT_BY_DATE_STARTED',
+        }),
+      ).to.be.true;
+      expect(
+        mockDispatch.calledWithMatch({
+          type: 'FETCH_APPOINTMENT_BY_DATE_SUCCESS',
+        }),
+      ).to.be.true;
+
+      // Verify the correct appointment was matched
+      const successCall = mockDispatch
+        .getCalls()
+        .find(
+          call => call.args[0].type === 'FETCH_APPOINTMENT_BY_DATE_SUCCESS',
+        );
+      expect(successCall.args[0].payload.location.attributes.name).to.equal(
+        'Cheyenne VA Medical Center',
+      );
+    });
+
+    it('should handle matching with different timezone offsets using stripTZOffset', async () => {
+      const mockDispatch = sinon.spy();
+      const targetDateTime = '2024-12-30T08:00:00.000-08:00'; // PST
+
+      apiStub.resolves({
+        data: [
+          {
+            attributes: {
+              start: '2024-12-30T16:00:00Z',
+              localStartTime: '2024-12-30T08:00:00.000-08:00', // Same time, PST
+              location: {
+                id: '983',
+                type: 'appointments',
+                attributes: { name: 'San Diego VA' },
+              },
+            },
+          },
+        ],
+      });
+
+      await getAppointmentDataByDateTime(targetDateTime)(mockDispatch);
+
+      expect(
+        mockDispatch.calledWithMatch({
+          type: 'FETCH_APPOINTMENT_BY_DATE_SUCCESS',
+        }),
+      ).to.be.true;
+
+      // Verify the correct appointment was matched
+      const successCall = mockDispatch
+        .getCalls()
+        .find(
+          call => call.args[0].type === 'FETCH_APPOINTMENT_BY_DATE_SUCCESS',
+        );
+      expect(successCall.args[0].payload.location.attributes.name).to.equal(
+        'San Diego VA',
+      );
+    });
+
+    it('should fail when no appointments found in date range', async () => {
+      const mockDispatch = sinon.spy();
+      apiStub.resolves({ data: [] });
+
+      await getAppointmentDataByDateTime('2024-12-30T08:00:00.000-06:00')(
+        mockDispatch,
+      );
+
+      expect(
+        mockDispatch.calledWithMatch({
+          type: 'FETCH_APPOINTMENT_BY_DATE_STARTED',
+        }),
+      ).to.be.true;
+      expect(
+        mockDispatch.calledWithMatch({
+          type: 'FETCH_APPOINTMENT_BY_DATE_FAILURE',
+          error: sinon.match('No appointments found in date range'),
+        }),
+      ).to.be.true;
+    });
+
+    it('should fail when no matching localStartTime found', async () => {
+      const mockDispatch = sinon.spy();
+
+      apiStub.resolves({
+        data: [
+          {
+            attributes: {
+              start: '2024-12-30T14:00:00Z',
+              localStartTime: '2024-12-30T10:00:00.000-06:00', // Doesn't match target
+              location: {
+                id: '983',
+                type: 'appointments',
+                attributes: { name: 'Cheyenne VA Medical Center' },
+              },
+            },
+          },
+        ],
+      });
+
+      await getAppointmentDataByDateTime('2024-12-30T08:00:00.000-06:00')(
+        mockDispatch,
+      );
+
+      expect(
+        mockDispatch.calledWithMatch({
+          type: 'FETCH_APPOINTMENT_BY_DATE_STARTED',
+        }),
+      ).to.be.true;
+      expect(
+        mockDispatch.calledWithMatch({
+          type: 'FETCH_APPOINTMENT_BY_DATE_FAILURE',
+          error: sinon.match(
+            'No appointment found with matching localStartTime',
+          ),
+        }),
+      ).to.be.true;
+    });
+
+    it('should fail when API request fails', async () => {
+      const mockDispatch = sinon.spy();
+      apiStub.rejects(new Error('Network error'));
+
+      await getAppointmentDataByDateTime('2024-12-30T08:00:00.000-06:00')(
+        mockDispatch,
+      );
+
+      expect(
+        mockDispatch.calledWithMatch({
+          type: 'FETCH_APPOINTMENT_BY_DATE_STARTED',
+        }),
+      ).to.be.true;
+      expect(
+        mockDispatch.calledWithMatch({
+          type: 'FETCH_APPOINTMENT_BY_DATE_FAILURE',
+        }),
+      ).to.be.true;
+    });
+
+    it('should create correct ±12 hour time window for API request', async () => {
+      const mockDispatch = sinon.spy();
+      const targetDateTime = '2024-12-30T12:00:00.000-06:00';
+
+      apiStub.resolves({
+        data: [
+          {
+            attributes: {
+              start: '2024-12-30T18:00:00Z',
+              localStartTime: targetDateTime,
+              location: {
+                id: '983',
+                type: 'appointments',
+                attributes: { name: 'Test VA' },
+              },
+            },
+          },
+        ],
+      });
+
+      await getAppointmentDataByDateTime(targetDateTime)(mockDispatch);
+
+      // Verify API was called with start/end times
+      expect(apiStub.calledOnce).to.be.true;
+      const apiUrl = apiStub.firstCall.args[0];
+
+      // URL should contain start and end query parameters
+      expect(apiUrl).to.include('start=');
+      expect(apiUrl).to.include('end=');
+      expect(apiUrl).to.include('_include=facilities,travel_pay_claims');
     });
   });
 
