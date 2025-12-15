@@ -70,7 +70,7 @@ describe('SM Medications Renewal Request', () => {
         `VA Madison health care - ${mockRecipients.data[0].attributes.name}`,
       );
 
-      PatientComposePage.validateCategorySelection('MEDICATIONS');
+      PatientComposePage.validateLockedCategoryDisplay();
       PatientComposePage.validateMessageSubjectField('Renewal Needed');
 
       const expectedMessageBodyText = [
@@ -81,6 +81,7 @@ describe('SM Medications Renewal Request', () => {
         `Number of refills left: 0`,
         `Prescription expiration date: November 8, 2025`,
         `Reason for use: Reason for use not available`,
+        `Last filled on: November 6, 2024`,
         `Quantity: 4`,
       ].join('\n');
 
@@ -150,7 +151,7 @@ describe('SM Medications Renewal Request', () => {
         }`,
       );
 
-      PatientComposePage.validateCategorySelection('MEDICATIONS');
+      PatientComposePage.validateLockedCategoryDisplay();
       PatientComposePage.validateMessageSubjectField('Renewal Needed');
 
       const expectedMessageBodyText = [
@@ -161,6 +162,7 @@ describe('SM Medications Renewal Request', () => {
         `Number of refills left: 0`,
         `Prescription expiration date: November 8, 2025`,
         `Reason for use: Reason for use not available`,
+        `Last filled on: November 6, 2024`,
         `Quantity: 4`,
       ].join('\n');
 
@@ -213,7 +215,7 @@ describe('SM Medications Renewal Request', () => {
         `VA Madison health care - ${mockRecipients.data[0].attributes.name}`,
       );
 
-      PatientComposePage.validateCategorySelection('MEDICATIONS');
+      PatientComposePage.validateLockedCategoryDisplay();
       PatientComposePage.validateMessageSubjectField('Renewal Needed');
 
       const expectedMessageBodyText = [
@@ -224,6 +226,7 @@ describe('SM Medications Renewal Request', () => {
         `Number of refills left: `,
         `Prescription expiration date: `,
         `Reason for use: `,
+        `Last filled on: `,
         `Quantity: `,
       ].join('\n');
 
@@ -280,7 +283,7 @@ describe('SM Medications Renewal Request', () => {
         `VA Madison health care - ${mockRecipients.data[0].attributes.name}`,
       );
 
-      PatientComposePage.validateCategorySelection('MEDICATIONS');
+      PatientComposePage.validateLockedCategoryDisplay();
       PatientComposePage.validateMessageSubjectField('Renewal Needed');
 
       const expectedMessageBodyText = [
@@ -291,6 +294,7 @@ describe('SM Medications Renewal Request', () => {
         `Number of refills left: 0`,
         `Prescription expiration date: November 8, 2025`,
         `Reason for use: Reason for use not available`,
+        `Last filled on: November 6, 2024`,
         `Quantity: 4`,
       ].join('\n');
 
@@ -354,7 +358,7 @@ describe('SM Medications Renewal Request', () => {
         `VA Madison health care - ${mockRecipients.data[0].attributes.name}`,
       );
 
-      PatientComposePage.validateCategorySelection('MEDICATIONS');
+      PatientComposePage.validateLockedCategoryDisplay();
       PatientComposePage.validateMessageSubjectField('Renewal Needed');
 
       const expectedMessageBodyText = [
@@ -365,6 +369,7 @@ describe('SM Medications Renewal Request', () => {
         `Number of refills left: 0`,
         `Prescription expiration date: November 8, 2025`,
         `Reason for use: Reason for use not available`,
+        `Last filled on: November 6, 2024`,
         `Quantity: 4`,
       ].join('\n');
 
@@ -414,7 +419,7 @@ describe('SM Medications Renewal Request', () => {
       PatientComposePage.validateAddYourMedicationWarningBanner(false);
 
       PatientComposePage.selectRecipient(3);
-      PatientComposePage.validateCategorySelection('MEDICATIONS');
+      PatientComposePage.validateLockedCategoryDisplay();
       PatientComposePage.validateMessageSubjectField('Renewal Needed');
 
       const expectedMessageBodyText = [
@@ -425,6 +430,7 @@ describe('SM Medications Renewal Request', () => {
         `Number of refills left: 0`,
         `Prescription expiration date: November 8, 2025`,
         `Reason for use: Reason for use not available`,
+        `Last filled on: November 6, 2024`,
         `Quantity: 4`,
       ].join('\n');
 
@@ -470,7 +476,7 @@ describe('SM Medications Renewal Request', () => {
       PatientComposePage.validateAddYourMedicationWarningBanner(true);
 
       PatientComposePage.selectRecipient(3);
-      PatientComposePage.validateCategorySelection('MEDICATIONS');
+      PatientComposePage.validateLockedCategoryDisplay();
       PatientComposePage.validateMessageSubjectField('Renewal Needed');
 
       const expectedMessageBodyText = [
@@ -481,6 +487,7 @@ describe('SM Medications Renewal Request', () => {
         `Number of refills left: `,
         `Prescription expiration date: `,
         `Reason for use: `,
+        `Last filled on: `,
         `Quantity: `,
       ].join('\n');
 
@@ -521,7 +528,7 @@ describe('SM Medications Renewal Request', () => {
       PatientComposePage.validateAddYourMedicationWarningBanner(false);
 
       PatientComposePage.selectRecipient(3);
-      PatientComposePage.validateCategorySelection('MEDICATIONS');
+      PatientComposePage.validateLockedCategoryDisplay();
       PatientComposePage.validateMessageSubjectField('Renewal Needed');
 
       const expectedMessageBodyText = [
@@ -532,6 +539,7 @@ describe('SM Medications Renewal Request', () => {
         `Number of refills left: 0`,
         `Prescription expiration date: November 8, 2025`,
         `Reason for use: Reason for use not available`,
+        `Last filled on: November 6, 2024`,
         `Quantity: 4`,
       ].join('\n');
 

@@ -86,15 +86,11 @@ export function fetchPersonalInformation() {
   };
 }
 
-export function fetchDirectDeposit(toeLightHouseDgiDirectDeposit) {
-  const ddEndpoint = toeLightHouseDgiDirectDeposit
-    ? LIGHTHOUSE_DIRECT_DEPOSIT_ENDPOINT
-    : DIRECT_DEPOSIT_ENDPOINT;
-
+export function fetchDirectDeposit() {
   return async dispatch => {
     dispatch({ type: FETCH_DIRECT_DEPOSIT });
 
-    return apiRequest(ddEndpoint)
+    return apiRequest(LIGHTHOUSE_DIRECT_DEPOSIT_ENDPOINT)
       .then(response => {
         dispatch({
           type: FETCH_DIRECT_DEPOSIT_SUCCESS,

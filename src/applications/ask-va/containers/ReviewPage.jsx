@@ -1,8 +1,13 @@
+import React, { useEffect, useState } from 'react';
+import { connect, useDispatch } from 'react-redux';
+import { withRouter } from 'react-router';
+import PropTypes from 'prop-types';
 import {
   VaAccordion,
   VaAccordionItem,
   VaAlert,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
 import {
   setData,
   setEditMode,
@@ -18,12 +23,9 @@ import {
   isLOA3,
   isLoggedIn,
 } from '@department-of-veterans-affairs/platform-user/selectors';
-import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
-import { connect, useDispatch } from 'react-redux';
-import { withRouter } from 'react-router';
 import { scrollTo, getScrollOptions } from 'platform/utilities/scroll';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+
 import {
   closeReviewChapter,
   openReviewChapter,
@@ -37,6 +39,7 @@ import SaveCancelButtons from '../components/reviewPage/SaveCancelButtons';
 // eslint-disable-next-line import/no-cycle
 import formConfig from '../config/form';
 import { DownloadLink } from '../config/helpers';
+import { relationshipOptionsSomeoneElse } from '../constants';
 import {
   chapterTitles,
   createPageListByChapterAskVa,
@@ -57,7 +60,6 @@ import {
   handleFormSubmission,
   maskSocial,
 } from '../utils/reviewPageUtils';
-import { relationshipOptionsSomeoneElse } from '../constants';
 
 const ReviewPage = props => {
   const [showAlert, setShowAlert] = useState(true);

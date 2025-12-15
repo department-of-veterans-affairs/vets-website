@@ -18,6 +18,7 @@ describe('VASS Component: CardSection', () => {
     const mockDateContent = {
       dateTime: '2025-11-17T20:00:00Z',
       phoneNumber: '8008270611',
+      showAddToCalendarButton: true,
     };
 
     const { getByText, getByTestId } = render(
@@ -27,5 +28,19 @@ describe('VASS Component: CardSection', () => {
     expect(getByText('When')).to.exist;
     expect(getByTestId('date-time-description')).to.exist;
     expect(getByTestId('add-to-calendar-button')).to.exist;
+  });
+
+  it('should hide calendar button when flag is false', () => {
+    const mockDateContent = {
+      dateTime: '2025-11-17T20:00:00Z',
+      phoneNumber: '8008270611',
+      showAddToCalendarButton: false,
+    };
+
+    const { queryByTestId } = render(
+      <CardSection heading="When" dateContent={mockDateContent} />,
+    );
+
+    expect(queryByTestId('add-to-calendar-button')).to.not.exist;
   });
 });

@@ -22,7 +22,7 @@ export const allowanceLabels = {
   service: {
     title: 'Burial allowance for a service-connected death',
     description:
-      'Select if the Veteran’s death was caused by an illness or injury related to their military service.',
+      'Select if the Veteran’s death was caused by an illness, injury, or condition related to their military service.',
   },
   nonService: {
     title: 'Burial allowance for a non-service-connected death',
