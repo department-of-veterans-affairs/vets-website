@@ -1,4 +1,4 @@
-import { ENDPOINTS } from './mocks';
+import { ENDPOINTS, mockClaimLettersEndpoint } from './mocks';
 
 const DEFAULT_CLAIM_ID = '123456789';
 
@@ -15,5 +15,22 @@ export const setupClaimTest = ({ claim = {}, path = 'status' } = {}) => {
     data: claim,
   });
   cy.visit(`/track-claims/your-claims/${DEFAULT_CLAIM_ID}/${path}`);
+  cy.injectAxe();
+};
+
+/**
+ * Sets up a claim letters page test.
+ * Intercepts the claim letters API endpoint, visits the page, and injects Axe.
+ * @param {Object} options - Configuration options
+ * @param {Array} options.letters - Array of claim letter objects
+ * @param {number} options.statusCode - HTTP status code to return (default: 200)
+ * @returns {void}
+ */
+export const setupClaimLettersTest = ({
+  letters = [],
+  statusCode = 200,
+} = {}) => {
+  mockClaimLettersEndpoint(letters, statusCode);
+  cy.visit('/track-claims/your-claim-letters');
   cy.injectAxe();
 };

@@ -145,7 +145,7 @@ export const createMultipleSupportingDocuments = (count, overrides = {}) => {
         '0',
       )}}`,
       originalFileName: `document-${i + 1}.pdf`,
-      uploadDate: `2025-01-${String(15 - i).padStart(2, '0')}`,
+      uploadDate: `2025-01-${String(1 + i).padStart(2, '0')}`,
       ...overrides,
     }),
   );
