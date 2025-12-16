@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom-v5-compat';
 import { useDispatch, useSelector } from 'react-redux';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 
 import { HelpTextManage } from './HelpText';
 import ClaimDetailsContent from './ClaimDetailsContent';
@@ -13,6 +14,10 @@ import { TRAVEL_PAY_INFO_LINK, REIMBURSEMENT_URL } from '../constants';
 export default function TravelClaimDetailsContent() {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const complexClaimsEnabled = useToggleValue(
+    TOGGLE_NAMES.travelPayEnableComplexClaims,
+  );
 
   const { data, error } = useSelector(state => state.travelPay.claimDetails);
   const {
@@ -36,6 +41,7 @@ export default function TravelClaimDetailsContent() {
   useEffect(
     () => {
       if (
+        complexClaimsEnabled &&
         !appointmentData &&
         appointmentDateTime &&
         !appointmentLoading &&
@@ -46,6 +52,7 @@ export default function TravelClaimDetailsContent() {
     },
     [
       dispatch,
+      complexClaimsEnabled,
       appointmentData,
       appointmentDateTime,
       appointmentLoading,
