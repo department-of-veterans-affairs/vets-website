@@ -152,5 +152,44 @@
   },
   "dateInitiallyEnteredActiveDuty": "2000-01-01",
   "finalReleaseDateFromActiveDuty": "2005-01-01",
-  "placeOfSeparation": "Some City, ST"
+  "placeOfSeparation": "Some City, ST",
+  "careExpenses": [
+    {
+      "careType": "IN_HOME_CARE_ATTENDANT",
+      "recipient": "SURVIVING_SPOUSE",
+      "provider": "Some provider",
+      "careDateRange": {
+        "from": "2020-01-01"
+      },
+      "paymentAmount": 200,
+      "noCareEndDate": true,
+      "paymentFrequency": "MONTHLY",
+      "hoursPerWeek": "20",
+      "ratePerHour": 15
+    },
+    {
+      "careType": "CARE_FACILITY",
+      "recipient": "OTHER",
+      "recipientName": "Other name",
+      "provider": "Some provider 2",
+      "careDateRange": {
+        "from": "2021-01-01",
+        "to": "2022-01-01"
+      },
+      "noCareEndDate": false,
+      "paymentAmount": 300,
+      "paymentFrequency": "ANNUALLY"
+    }
+  ],
+  "medicalExpenses": [
+    {
+      "recipient": "SURVIVING_SPOUSE",
+      "recipientOther": "Spouse name",
+      "provider": "Some provider 2",
+      "purpose": "Some purpose",
+      "paymentDate": "2022-05-05",
+      "paymentAmount": 150,
+      "paymentFrequency": "MONTHLY"
+    }
+  ]
 }

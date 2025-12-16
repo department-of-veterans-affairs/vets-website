@@ -81,7 +81,7 @@ export const medicalExpenseRecipientLabels = {
 };
 
 export const careTypeLabels = {
-  RESIDENTIAL_CARE_FACILITY: 'Residential care facility',
+  CARE_FACILITY: 'Residential care facility',
   IN_HOME_CARE_ATTENDANT: 'In-home care attendant',
   NURSING_HOME: 'Nursing home',
   ADULT_DAYCARE: 'Adult daycare',
@@ -95,7 +95,7 @@ export const frequencyLabels = {
 
 export const careFrequencyLabels = {
   MONTHLY: 'Once a month',
-  YEARLY: 'Once a year',
+  ANNUALLY: 'Once a year',
 };
 
 export const typeOfIncomeLabels = {

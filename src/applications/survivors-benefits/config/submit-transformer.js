@@ -4,6 +4,8 @@ import {
   calculateSeparationDuration,
   splitVaSsnField,
   switchToInternationalPhone,
+  updateBankValues,
+  transformCareExpenses,
 } from '../utils/transformers';
 
 export const transform = (formConfig, form) => {
@@ -11,6 +13,8 @@ export const transform = (formConfig, form) => {
   transformedData = calculateSeparationDuration(transformedData);
   transformedData = splitVaSsnField(transformedData);
   transformedData = switchToInternationalPhone(transformedData);
+  transformedData = updateBankValues(transformedData);
+  transformedData = transformCareExpenses(transformedData);
   return JSON.stringify({
     survivorsBenefitsClaim: {
       form: transformedData,
