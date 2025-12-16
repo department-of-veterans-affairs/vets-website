@@ -46,7 +46,10 @@ describe('usePersistentSelections', () => {
       'vass-selections-123',
       JSON.stringify({
         selectedSlotTime: '2021-01-01T00:00:00.000Z',
-        selectedTopicsIds: ['id-1', 'id-2'],
+        selectedTopics: [
+          { topicId: 'id-1', topicName: 'Topic 1' },
+          { topicId: 'id-2', topicName: 'Topic 2' },
+        ],
       }),
     );
   });
@@ -57,7 +60,10 @@ describe('usePersistentSelections', () => {
       const { getSaved } = result.current;
       expect(getSaved()).to.deep.equal({
         selectedSlotTime: '2021-01-01T00:00:00.000Z',
-        selectedTopicsIds: ['id-1', 'id-2'],
+        selectedTopics: [
+          { topicId: 'id-1', topicName: 'Topic 1' },
+          { topicId: 'id-2', topicName: 'Topic 2' },
+        ],
       });
     });
     it('should save date selection and update only the date selection', () => {
@@ -66,16 +72,25 @@ describe('usePersistentSelections', () => {
       saveDateSelection('2021-01-02T00:00:00.000Z');
       expect(getSaved()).to.deep.equal({
         selectedSlotTime: '2021-01-02T00:00:00.000Z',
-        selectedTopicsIds: ['id-1', 'id-2'],
+        selectedTopics: [
+          { topicId: 'id-1', topicName: 'Topic 1' },
+          { topicId: 'id-2', topicName: 'Topic 2' },
+        ],
       });
     });
     it('should save topics selection and update only the topics selection', () => {
       const { result } = renderHook(() => usePersistentSelections(uuid));
       const { saveTopicsSelection, getSaved } = result.current;
-      saveTopicsSelection(['id-3', 'id-4']);
+      saveTopicsSelection([
+        { topicId: 'id-3', topicName: 'Topic 3' },
+        { topicId: 'id-4', topicName: 'Topic 4' },
+      ]);
       expect(getSaved()).to.deep.equal({
         selectedSlotTime: '2021-01-01T00:00:00.000Z',
-        selectedTopicsIds: ['id-3', 'id-4'],
+        selectedTopics: [
+          { topicId: 'id-3', topicName: 'Topic 3' },
+          { topicId: 'id-4', topicName: 'Topic 4' },
+        ],
       });
     });
   });
@@ -86,7 +101,7 @@ describe('usePersistentSelections', () => {
       const { getSaved } = result.current;
       expect(getSaved()).to.deep.equal({
         selectedSlotTime: null,
-        selectedTopicsIds: [],
+        selectedTopics: [],
       });
     });
 
@@ -96,16 +111,22 @@ describe('usePersistentSelections', () => {
       saveDateSelection('2021-01-02T00:00:00.000Z');
       expect(getSaved()).to.deep.equal({
         selectedSlotTime: '2021-01-02T00:00:00.000Z',
-        selectedTopicsIds: [],
+        selectedTopics: [],
       });
     });
     it('should save topics selection and update only the topics selection', () => {
       const { result } = renderHook(() => usePersistentSelections(uuid));
       const { saveTopicsSelection, getSaved } = result.current;
-      saveTopicsSelection(['id-3', 'id-4']);
+      saveTopicsSelection([
+        { topicId: 'id-3', topicName: 'Topic 3' },
+        { topicId: 'id-4', topicName: 'Topic 4' },
+      ]);
       expect(getSaved()).to.deep.equal({
         selectedSlotTime: null,
-        selectedTopicsIds: ['id-3', 'id-4'],
+        selectedTopics: [
+          { topicId: 'id-3', topicName: 'Topic 3' },
+          { topicId: 'id-4', topicName: 'Topic 4' },
+        ],
       });
     });
   });
@@ -116,7 +137,7 @@ describe('usePersistentSelections', () => {
       const { getSaved } = result.current;
       expect(getSaved()).to.deep.equal({
         selectedSlotTime: null,
-        selectedTopicsIds: [],
+        selectedTopics: [],
       });
       expect(localStorage.getItem('vass-selections-123')).to.be.null;
     });
