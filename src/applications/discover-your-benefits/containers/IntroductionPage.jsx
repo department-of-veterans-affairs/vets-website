@@ -22,7 +22,7 @@ const IntroductionPage = ({ router }) => {
       <va-link-action
         href="#"
         onClick={startForm}
-        message-aria-describedby="Get started"
+        label="Get started"
         text="Get started"
         data-testid="get-started"
       />
