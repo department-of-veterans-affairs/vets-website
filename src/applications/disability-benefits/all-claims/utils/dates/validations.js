@@ -186,3 +186,113 @@ export const validateTitle10ActivationDate = (
     }
   }
 };
+
+/**
+ * Validate approximate/partial date - supports year-only, year-month, or full date
+ * Aligns with Conditions approach for handling approximate dates
+ * @param {Object} errors - Errors object
+ * @param {string} dateString - Date string in format YYYY-MM-DD or with XX placeholders
+ * @param {Object} options - Validation options
+ * @param {boolean} options.allowPartial - Allow partial dates (year-only or year-month). Defaults to true
+ * @param {number} options.minYear - Minimum valid year. Defaults to 1900
+ * @param {number} options.maxYear - Maximum valid year. Defaults to current year
+ */
+export const validateApproximateDate = (errors, dateString, options = {}) => {
+  const {
+    allowPartial = true,
+    minYear = 1900,
+    maxYear = new Date().getFullYear(),
+  } = options;
+
+  if (!dateString) return;
+
+  const [year, month, day] = dateString.split('-');
+  const isYearValid = year && year !== 'XXXX';
+  const isMonthValid = month && month !== 'XX';
+  const isDayValid = day && day !== 'XX';
+
+  if (allowPartial) {
+    // Conditions pattern: allow year-only, year-month, or full date
+    const isValidDateFormat =
+      (isYearValid && !isMonthValid && !isDayValid) || // Year only
+      (isYearValid && isMonthValid && !isDayValid) || // Year + Month
+      (isYearValid && isMonthValid && isDayValid); // Full date
+
+    if (!isValidDateFormat) {
+      errors.addError(
+        'Enter a year only (e.g., 1988), a month and year (e.g., June 1988), or a full date (e.g., June 1 1988)',
+      );
+      return;
+    }
+  } else if (!isYearValid || !isMonthValid || !isDayValid) {
+    // Toxic Exposure pattern: require all parts
+    errors.addError(
+      'Enter a service date that includes the month, day, and year',
+    );
+    return;
+  }
+
+  // Validate year range
+  const y = Number(year);
+  if (!Number.isInteger(y) || y < minYear || y > maxYear) {
+    errors.addError(`Please enter a year between ${minYear} and ${maxYear}`);
+    return;
+  }
+
+  // Validate month if present
+  if (isMonthValid) {
+    const m = Number(month);
+    if (!Number.isInteger(m) || m < 1 || m > 12) {
+      errors.addError('Please enter a valid month');
+      return;
+    }
+  }
+
+  // Validate day if present
+  if (isDayValid) {
+    const d = Number(day);
+    if (!Number.isInteger(d) || d < 1 || d > 31) {
+      errors.addError('Please enter a valid day');
+      return;
+    }
+  }
+
+  // Validate it's not a future date if full date is provided
+  if (isYearValid && isMonthValid && isDayValid) {
+    const fullDate = safeFnsDate(dateString);
+    const now = new Date();
+    if (fullDate && isDateAfter(fullDate, now)) {
+      errors.addError('Please enter a date that is not in the future');
+    }
+  }
+};
+
+/**
+ * Validate that date has all parts (no partial dates)
+ * Aligns with Toxic Exposure approach - requires full dates
+ * This can be used to replace validateMissingValues in toxic exposure validation
+ * @param {Object} errors - Errors object
+ * @param {string} startDate - Start date
+ * @param {string} endDate - End date
+ */
+export const validateFullDatesRequired = (errors, startDate, endDate) => {
+  const checkFullDate = dateStr => {
+    if (!dateStr) return false;
+    const [year, month, day] = dateStr.split('-');
+    return (
+      year && year !== 'XXXX' && month && month !== 'XX' && day && day !== 'XX'
+    );
+  };
+
+  if (!checkFullDate(startDate)) {
+    errors.startDate?.addError(
+      'Enter a service date that includes the month, day, and year',
+    );
+  }
+
+  if (!checkFullDate(endDate)) {
+    errors.endDate?.addError(
+      'Enter a service date that includes the month, day, and year',
+    );
+  }
+};

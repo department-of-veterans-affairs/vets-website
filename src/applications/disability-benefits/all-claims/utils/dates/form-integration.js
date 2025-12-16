@@ -18,21 +18,41 @@ const MOMENT_DATE_FORMAT = 'LL'; // e.g., "January 1, 2021" - moment.js format
 /**
  * Convert form date field object to ISO date string
  * @param {Object} dateField - Form date field with month, day, year properties
- * @returns {string|null} ISO date string (YYYY-MM-DD) or null if invalid
+ * @param {Object} options - Optional configuration
+ * @param {boolean} options.allowPartial - Whether to allow partial dates (XX placeholders). Defaults to false.
+ *                                          Only set to true for fields that explicitly support approximate dates
+ *                                          (e.g., conditionDate, vaMedicalRecords treatment dates).
+ * @returns {string|null} ISO date string (YYYY-MM-DD) or null if invalid/incomplete
  */
-export const dateFieldToISO = dateField => {
+export const dateFieldToISO = (dateField, options = {}) => {
   if (!dateField) return null;
 
+  const { allowPartial = false } = options;
   const { month, day, year } = dateField;
 
-  // Handle partial dates
-  const monthStr = String(month?.value || month || 'XX');
-  const dayStr = String(day?.value || day || 'XX');
-  const yearStr = String(year?.value || year || 'XXXX');
+  const monthStr = String(month?.value || month || '');
+  const dayStr = String(day?.value || day || '');
+  const yearStr = String(year?.value || year || '');
 
-  // Return partial date format if any component is missing
-  if (monthStr === 'XX' || dayStr === 'XX' || yearStr === 'XXXX') {
-    return `${yearStr}-${monthStr.padStart(2, '0')}-${dayStr.padStart(2, '0')}`;
+  // Check if any component is missing or is an XX placeholder
+  const isMonthMissing = !monthStr || monthStr === 'XX';
+  const isDayMissing = !dayStr || dayStr === 'XX';
+  const isYearMissing = !yearStr || yearStr === 'XXXX';
+
+  // If any component is missing
+  if (isMonthMissing || isDayMissing || isYearMissing) {
+    // Only create XX placeholders for fields that explicitly allow partial dates
+    if (allowPartial) {
+      const monthFinal = isMonthMissing ? 'XX' : monthStr;
+      const dayFinal = isDayMissing ? 'XX' : dayStr;
+      const yearFinal = isYearMissing ? 'XXXX' : yearStr;
+      return `${yearFinal}-${monthFinal.padStart(2, '0')}-${dayFinal.padStart(
+        2,
+        '0',
+      )}`;
+    }
+    // For all other fields, return null to indicate incomplete date
+    return null;
   }
 
   // Validate and format complete date
@@ -192,7 +212,7 @@ export const validateFormDateField = (dateField, options = {}) => {
   }
 
   // Convert to ISO format
-  const isoDate = dateFieldToISO(dateField);
+  const isoDate = dateFieldToISO(dateField, options);
 
   // Validate ISO format
   const formatError = validateISOFormat(isoDate);
@@ -218,12 +238,14 @@ export const validateFormDateField = (dateField, options = {}) => {
  * Create date range from form date fields
  * @param {Object} fromField - From date field
  * @param {Object} toField - To date field
+ * @param {Object} options - Optional configuration
+ * @param {boolean} options.allowPartial - Whether to allow partial dates (XX placeholders)
  * @returns {Object} Date range object with from and to ISO strings
  */
-export const createDateRange = (fromField, toField) => {
+export const createDateRange = (fromField, toField, options = {}) => {
   return {
-    from: dateFieldToISO(fromField),
-    to: dateFieldToISO(toField),
+    from: dateFieldToISO(fromField, options),
+    to: dateFieldToISO(toField, options),
   };
 };
 
@@ -248,8 +270,8 @@ export const validateFormDateRange = (fromField, toField, options = {}) => {
   }
 
   // Check range validity if both dates are complete
-  const fromISO = dateFieldToISO(fromField);
-  const toISO = dateFieldToISO(toField);
+  const fromISO = dateFieldToISO(fromField, options);
+  const toISO = dateFieldToISO(toField, options);
 
   if (fromISO && toISO && !fromISO.includes('XX') && !toISO.includes('XX')) {
     const fromDate = moment(fromISO);

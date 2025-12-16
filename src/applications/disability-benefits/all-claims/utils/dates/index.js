@@ -17,7 +17,6 @@ export {
   // Validation functions
   isValidFullDate,
   isValidYear,
-  isValidPartialDate,
   validateAge,
   validateSeparationDate,
   validateServicePeriod,

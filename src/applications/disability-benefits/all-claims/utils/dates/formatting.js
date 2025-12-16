@@ -195,30 +195,6 @@ export const isValidYear = (err, fieldData) => {
 };
 
 /**
- * Validate partial date (year or year-month)
- * Enhanced version of platform utility to handle our specific formats
- * @param {string} dateString - Partial date string
- * @returns {boolean} True if valid
- */
-export const isValidPartialDate = dateString => {
-  if (!dateString) return false;
-
-  // Check if it's just a year
-  if (/^\d{4}$/.test(dateString)) {
-    const year = parseInt(dateString, 10);
-    return (
-      !Number.isNaN(year) && year >= MIN_VALID_YEAR && year <= MAX_VALID_YEAR
-    );
-  }
-
-  // Check if it's year-month
-  const date = parse(dateString, PARTIAL_DATE_FORMAT, new Date());
-  if (!isValid(date)) return false;
-  const year = getYear(date);
-  return year >= MIN_VALID_YEAR && year <= MAX_VALID_YEAR;
-};
-
-/**
  * Validate age based on date
  * @param {any} err - Error object
  * @param {string} fieldData - Date string
