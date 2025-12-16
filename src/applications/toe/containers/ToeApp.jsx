@@ -29,7 +29,6 @@ function ToeApp({
   isLOA3,
   isLoggedIn,
   location,
-  meb1995Reroute,
   mebDpoAddressOptionEnabled,
   setFormData,
   sponsors,
@@ -102,18 +101,6 @@ function ToeApp({
       }
     },
     [showMeb1990ER6MaintenanceMessage],
-  );
-
-  useEffect(
-    () => {
-      if (meb1995Reroute !== formData.meb1995Reroute) {
-        setFormData({
-          ...formData,
-          meb1995Reroute,
-        });
-      }
-    },
-    [formData, meb1995Reroute, setFormData],
   );
 
   useEffect(
@@ -261,7 +248,6 @@ ToeApp.propTypes = {
   isLOA3: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
   location: PropTypes.object,
-  meb1995Reroute: PropTypes.bool,
   mebDpoAddressOptionEnabled: PropTypes.bool,
   setFormData: PropTypes.func,
   showMeb1990ER6MaintenanceMessage: PropTypes.bool,

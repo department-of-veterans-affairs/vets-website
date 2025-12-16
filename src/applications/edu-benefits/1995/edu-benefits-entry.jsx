@@ -1,6 +1,5 @@
 import 'platform/polyfills';
 import '../sass/edu-benefits.scss';
-import './1995.scss';
 
 import startApp from 'platform/startup';
 

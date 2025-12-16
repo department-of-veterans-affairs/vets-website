@@ -13,11 +13,11 @@ import GetFormHelp from '../../components/GetFormHelp';
 import ErrorText from '../../components/ErrorText';
 
 import ConfirmationPage from '../containers/ConfirmationPage';
-import { allChapters } from './chapters';
+import { chapters } from './chapters';
 
 import manifest from '../manifest.json';
 import PreSubmitInfo from '../containers/PreSubmitInfo';
-import IntroductionRouter from '../containers/IntroductionRouter';
+import { introductionPage } from '../helpers';
 
 const {
   preferredContactMethod,
@@ -27,7 +27,7 @@ const {
   usaPhone,
 } = fullSchema1995.definitions;
 
-const baseConfig = {
+const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/education_benefits_claims/1995`,
@@ -53,6 +53,7 @@ const baseConfig = {
       'Please sign in again to resume your application for education benefits.',
   },
   transformForSubmit: transform,
+  introduction: introductionPage(),
   confirmation: ConfirmationPage,
   defaultDefinitions: {
     preferredContactMethod,
@@ -62,6 +63,7 @@ const baseConfig = {
     usaPhone,
   },
   title: 'Change your education benefits',
+  subTitle: 'Form 22-1995',
   preSubmitInfo: {
     CustomComponent: PreSubmitInfo,
     required: true,
@@ -70,11 +72,7 @@ const baseConfig = {
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   errorText: ErrorText,
-  // Always render the wrapper; it decides which intro component to show once
-  introduction: IntroductionRouter,
+  chapters,
 };
 
-export default {
-  ...baseConfig,
-  chapters: allChapters,
-};
+export default formConfig;
