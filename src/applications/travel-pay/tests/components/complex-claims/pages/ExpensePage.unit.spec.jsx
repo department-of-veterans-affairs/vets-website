@@ -911,11 +911,11 @@ describe('toBase64 helper function', () => {
     const mockBase64 = 'iVBORw0KGgoAAAANSUhEUgAAAAUA';
     const mockDataUrl = `data:image/png;base64,${mockBase64}`;
 
-    global.FileReader = class {
-      readAsDataURL() {
+    global.FileReader = function MockFileReader() {
+      this.readAsDataURL = function readAsDataURL() {
         this.result = mockDataUrl;
         setTimeout(() => this.onload(), 0);
-      }
+      };
     };
 
     const file = new File(['test'], 'test.png', { type: 'image/png' });
@@ -924,11 +924,11 @@ describe('toBase64 helper function', () => {
   });
 
   it('should return empty string if result is malformed', async () => {
-    global.FileReader = class {
-      readAsDataURL() {
+    global.FileReader = function MockFileReader() {
+      this.readAsDataURL = function readAsDataURL() {
         this.result = 'malformed-no-comma';
         setTimeout(() => this.onload(), 0);
-      }
+      };
     };
 
     const file = new File(['test'], 'test.png', { type: 'image/png' });
@@ -937,11 +937,11 @@ describe('toBase64 helper function', () => {
   });
 
   it('should return empty string if result is null', async () => {
-    global.FileReader = class {
-      readAsDataURL() {
+    global.FileReader = function MockFileReader() {
+      this.readAsDataURL = function readAsDataURL() {
         this.result = null;
         setTimeout(() => this.onload(), 0);
-      }
+      };
     };
 
     const file = new File(['test'], 'test.png', { type: 'image/png' });
@@ -950,10 +950,10 @@ describe('toBase64 helper function', () => {
   });
 
   it('should handle FileReader errors', async () => {
-    global.FileReader = class {
-      readAsDataURL() {
+    global.FileReader = function MockFileReader() {
+      this.readAsDataURL = function readAsDataURL() {
         setTimeout(() => this.onerror(new Error('Read failed')), 0);
-      }
+      };
     };
 
     const file = new File(['test'], 'test.png', { type: 'image/png' });
