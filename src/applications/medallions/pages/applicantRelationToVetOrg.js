@@ -2,13 +2,11 @@ import {
   textUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { MedallionsDescription } from '../components/MedallionsDescription';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
     ...titleUI('Your organization'),
-    'ui:description': formContext => MedallionsDescription(formContext),
     yourOrganizationText: textUI({
       title: 'Enter the name of the cemetery or funeral home you represent',
     }),

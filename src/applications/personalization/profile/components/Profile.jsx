@@ -16,6 +16,7 @@ import {
 } from '@@profile/selectors';
 
 import { fetchPersonalInformation as fetchPersonalInformationAction } from '~/platform/user/profile/vap-svc/actions/personalInformation';
+import { fetchSchedulingPreferences as fetchSchedulingPreferencesAction } from '~/platform/user/profile/vap-svc/actions/schedulingPreferences';
 import { CSP_IDS } from '~/platform/user/authentication/constants';
 import DowntimeNotification, {
   externalServices,
@@ -59,11 +60,13 @@ class Profile extends Component {
       fetchFullName,
       fetchMilitaryInformation,
       fetchPersonalInformation,
+      fetchSchedulingPreferences,
       fetchTotalDisabilityRating,
       isLOA3,
       isInMVI,
       shouldFetchDirectDeposit,
       shouldFetchTotalDisabilityRating,
+      shouldFetchSchedulingPreferences,
       connectDrupalSourceOfTruthCerner,
       togglesLoaded,
     } = this.props;
@@ -72,6 +75,10 @@ class Profile extends Component {
       fetchFullName();
       fetchPersonalInformation();
       fetchMilitaryInformation();
+    }
+
+    if (togglesLoaded && shouldFetchSchedulingPreferences) {
+      fetchSchedulingPreferences();
     }
 
     if (togglesLoaded && shouldFetchDirectDeposit) {
@@ -89,9 +96,11 @@ class Profile extends Component {
       fetchFullName,
       fetchMilitaryInformation,
       fetchPersonalInformation,
+      fetchSchedulingPreferences,
       fetchTotalDisabilityRating,
       isLOA3,
       shouldFetchDirectDeposit,
+      shouldFetchSchedulingPreferences,
       shouldFetchTotalDisabilityRating,
       isInMVI,
       togglesLoaded,
@@ -116,6 +125,17 @@ class Profile extends Component {
         !prevProps.shouldFetchDirectDeposit)
     ) {
       fetchDirectDeposit();
+    }
+
+    if (
+      (togglesLoaded &&
+        !prevProps.togglesLoaded &&
+        shouldFetchSchedulingPreferences) ||
+      (togglesLoaded &&
+        shouldFetchSchedulingPreferences &&
+        !prevProps.shouldFetchSchedulingPreferences)
+    ) {
+      fetchSchedulingPreferences();
     }
   }
 
@@ -248,6 +268,7 @@ Profile.propTypes = {
   fetchFullName: PropTypes.func.isRequired,
   fetchMilitaryInformation: PropTypes.func.isRequired,
   fetchPersonalInformation: PropTypes.func.isRequired,
+  fetchSchedulingPreferences: PropTypes.func.isRequired,
   fetchTotalDisabilityRating: PropTypes.func.isRequired,
   initializeDowntimeWarnings: PropTypes.func.isRequired,
   isBlocked: PropTypes.bool.isRequired,
@@ -256,13 +277,14 @@ Profile.propTypes = {
   isLOA3: PropTypes.bool.isRequired,
   profileToggles: PropTypes.object.isRequired,
   shouldFetchDirectDeposit: PropTypes.bool.isRequired,
+  shouldFetchSchedulingPreferences: PropTypes.bool.isRequired,
   shouldFetchTotalDisabilityRating: PropTypes.bool.isRequired,
-  shouldShowAccreditedRepTab: PropTypes.bool.isRequired,
-  shouldShowHealthCareSettingsPage: PropTypes.bool.isRequired,
-  shouldShowProfile2: PropTypes.bool.isRequired,
   showLoader: PropTypes.bool.isRequired,
   togglesLoaded: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired,
+  shouldShowAccreditedRepTab: PropTypes.bool,
+  shouldShowHealthCareSettingsPage: PropTypes.bool,
+  shouldShowProfile2: PropTypes.bool,
 };
 
 const mapStateToProps = state => {
@@ -293,6 +315,9 @@ const mapStateToProps = state => {
     isEligibleForDD &&
     isLighthouseAvailable &&
     !profileToggles?.profileHideDirectDeposit;
+
+  const shouldFetchSchedulingPreferences =
+    profileToggles?.profileSchedulingPreferences;
 
   // block profile access for deceased, fiduciary flagged, and incompetent veterans
   const isBlocked = selectIsBlocked(state);
@@ -347,6 +372,7 @@ const mapStateToProps = state => {
     shouldShowAccreditedRepTab,
     shouldShowProfile2,
     shouldShowHealthCareSettingsPage,
+    shouldFetchSchedulingPreferences,
     shouldFetchTotalDisabilityRating,
     isDowntimeWarningDismissed: state.scheduledDowntime?.dismissedDowntimeWarnings?.includes(
       'profile',
@@ -361,6 +387,7 @@ const mapDispatchToProps = {
   fetchFullName: fetchHeroAction,
   fetchMilitaryInformation: fetchMilitaryInformationAction,
   fetchPersonalInformation: fetchPersonalInformationAction,
+  fetchSchedulingPreferences: fetchSchedulingPreferencesAction,
   fetchDirectDeposit: fetchDirectDepositAction,
   fetchTotalDisabilityRating: fetchTotalDisabilityRatingAction,
   initializeDowntimeWarnings,
