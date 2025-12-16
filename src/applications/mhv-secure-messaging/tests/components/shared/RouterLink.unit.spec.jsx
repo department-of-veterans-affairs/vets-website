@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import RouterLink from '../RouterLink';
+import RouterLink from '../../../components/shared/RouterLink';
 import reducer from '../../../reducers';
 
 describe('RouterLink', () => {
