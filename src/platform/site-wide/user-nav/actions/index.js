@@ -1,5 +1,4 @@
 import appendQuery from 'append-query';
-import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 
 import { determineAuthBroker } from 'platform/user/authentication/utilities';
 
@@ -18,19 +17,17 @@ export function toggleLoginModal(
   forceVerification = false,
 ) {
   return async (dispatch, getState) => {
-    const { cernerNonEligibleSisEnabled } = getState()?.featureToggles;
-    const { useToggleLoadingValue } = useFeatureToggle();
-    const togglesLoading = useToggleLoadingValue();
+    const { loading, cernerNonEligibleSisEnabled } = getState()?.featureToggles;
 
     const nextParam = new URLSearchParams(window?.location?.search)?.get(
       'next',
     );
     const authBrokerCookieSelector = determineAuthBroker(
       cernerNonEligibleSisEnabled,
-      togglesLoading,
+      loading,
     );
 
-    const oauth = togglesLoading ? true : authBrokerCookieSelector !== false;
+    const oauth = loading ? true : authBrokerCookieSelector !== false;
 
     const nextQuery = {
       next: nextParam ?? 'loginModal',
