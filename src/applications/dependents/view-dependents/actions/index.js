@@ -1,11 +1,13 @@
 import recordEvent from 'platform/monitoring/record-event';
 import { getData } from '../util';
 
+export const FETCH_ALL_DEPENDENTS_STARTED = 'FETCH_ALL_DEPENDENTS_STARTED';
 export const FETCH_ALL_DEPENDENTS_SUCCESS = 'FETCH_ALL_DEPENDENTS_SUCCESS';
 export const FETCH_ALL_DEPENDENTS_FAILED = 'FETCH_ALL_DEPENDENTS_FAILED';
 
 export function fetchAllDependents() {
   return async dispatch => {
+    dispatch({ type: FETCH_ALL_DEPENDENTS_STARTED });
     const response = await getData('/dependents_applications/show');
 
     if (response.errors) {

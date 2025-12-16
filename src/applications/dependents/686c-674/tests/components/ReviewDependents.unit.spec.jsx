@@ -157,11 +157,13 @@ describe('ReviewDependents', () => {
     );
 
     expect(container.querySelector('va-alert[status="info"]')).to.exist;
+    expect(container.querySelector('va-alert[status="error"]')).to.not.exist;
     expect(setFormDataSpy.called).to.be.true;
     expect(setFormDataSpy.args[0][0]).to.deep.equal({
       vaDependentsV3: true,
       dependents: { awarded: [] },
       'view:addOrRemoveDependents': { add: true },
+      'view:dependentsApiError': false,
     });
   });
 
@@ -178,11 +180,13 @@ describe('ReviewDependents', () => {
     );
 
     expect(container.querySelector('va-alert[status="error"]')).to.exist;
+    expect(container.querySelector('va-alert[status="info"]')).to.not.exist;
     expect(setFormDataSpy.called).to.be.true;
     expect(setFormDataSpy.args[0][0]).to.deep.equal({
       vaDependentsV3: true,
       dependents: { awarded: [] },
       'view:addOrRemoveDependents': { add: true },
+      'view:dependentsApiError': true,
     });
   });
 

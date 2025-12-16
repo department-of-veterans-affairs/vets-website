@@ -16,6 +16,8 @@ import {
   selectIsCernerOnlyPatient,
 } from '~/platform/user/cerner-dsot/selectors';
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
+import CernerFacilityAlert from 'platform/mhv/components/CernerFacilityAlert/CernerFacilityAlert';
+import { CernerAlertContent } from 'platform/mhv/components/CernerFacilityAlert/constants';
 import NeedHelpSection from '../components/DownloadRecords/NeedHelpSection';
 import {
   getFailedDomainList,
@@ -27,7 +29,6 @@ import {
   ALERT_TYPE_BB_ERROR,
   ALERT_TYPE_CCD_ERROR,
   BB_DOMAIN_DISPLAY_MAP,
-  CernerAlertContent,
   documentTypes,
   pageTitles,
   refreshExtractTypes,
@@ -37,7 +38,6 @@ import { genAndDownloadCCD, downloadCCDV2 } from '../actions/downloads';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import { Actions } from '../util/actionTypes';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
-import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import useAlerts from '../hooks/use-alerts';
 import TrackedSpinner from '../components/shared/TrackedSpinner';
 import { postRecordDatadogAction } from '../api/MrApi';
@@ -269,7 +269,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
         Button® report). Or find other reports to download.
       </p>
 
-      <AcceleratedCernerFacilityAlert {...CernerAlertContent.DOWNLOAD} />
+      <CernerFacilityAlert {...CernerAlertContent.DOWNLOAD} />
 
       {lastSuccessfulUpdate && (
         <va-card
