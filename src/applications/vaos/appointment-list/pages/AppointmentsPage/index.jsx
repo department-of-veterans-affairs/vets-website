@@ -1,19 +1,24 @@
 import DowntimeNotification, {
   externalServices,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
+import { selectPatientFacilities } from '@department-of-veterans-affairs/platform-user/cerner-dsot/selectors';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
+import { OH_TRANSITION_FACILITY_IDS } from 'platform/mhv/util/constants';
 import CernerAlert from '../../../components/CernerAlert';
+import OhTransitionAlert from '../../../components/OhTransitionAlert';
 import WarningNotification from '../../../components/WarningNotification';
-import { selectPendingAppointments } from '../../../redux/selectors';
+import {
+  selectFeatureOhTransitionAlert,
+  selectPendingAppointments,
+} from '../../../redux/selectors';
 import { APPOINTMENT_STATUS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import RequestedAppointmentsPage from '../RequestedAppointmentsPage/RequestedAppointmentsPage';
 // import CernerTransitionAlert from '../../../components/CernerTransitionAlert';
-// import { selectPatientFacilities } from '~/platform/user/cerner-dsot/selectors';
 // import ReferralTaskCardWithReferral from '../../../referral-appointments/components/ReferralTaskCardWithReferral';
 import { routeToCCPage } from '../../../referral-appointments/flow';
 import { useIsInPilotUserStations } from '../../../referral-appointments/hooks/useIsInPilotUserStations';
@@ -50,6 +55,22 @@ export default function AppointmentsPage() {
   const pendingAppointments = useSelector(state =>
     selectPendingAppointments(state),
   );
+
+  const featureOhTransitionAlert = useSelector(selectFeatureOhTransitionAlert);
+  const patientFacilities = useSelector(selectPatientFacilities);
+
+  // Check if user has a facility that is transitioning
+  const hasTransitionalFacility = useMemo(
+    () =>
+      patientFacilities?.some(({ facilityId }) =>
+        OH_TRANSITION_FACILITY_IDS.BLUE_ALERT.includes(facilityId),
+      ) ?? false,
+    [patientFacilities],
+  );
+
+  // Show the blue OH transition alert if feature flag is on and user has transitional facility
+  const showOhTransitionAlert =
+    featureOhTransitionAlert && hasTransitionalFacility;
 
   // const featureBookingExclusion = useSelector(state =>
   //   selectFeatureBookingExclusion(state),
@@ -133,10 +154,14 @@ export default function AppointmentsPage() {
       >
         {pageTitle}
       </h1>
-      <CernerAlert
-        className="vaos-hide-for-print vads-u-margin-bottom--3"
-        pageTitle={pageTitle}
-      />
+      {showOhTransitionAlert ? (
+        <OhTransitionAlert className="vaos-hide-for-print vads-u-margin-bottom--3" />
+      ) : (
+        <CernerAlert
+          className="vaos-hide-for-print vads-u-margin-bottom--3"
+          pageTitle={pageTitle}
+        />
+      )}
       {/* {featureBookingExclusion && (
         <CernerTransitionAlert
           className="vads-u-margin-bottom--3"

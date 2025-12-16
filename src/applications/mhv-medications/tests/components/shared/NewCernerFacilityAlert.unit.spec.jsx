@@ -22,11 +22,9 @@ describe('New Cerner Facility Alert', () => {
     const text = screen.getByTestId('new-cerner-health-facility-text')
       .textContent;
     expect(text).to.include(
-      'You can now manage your care for any VA health facility right here in myHeatheVet on VA.gov.',
+      "We've brought all your VA health care data together so you can manage your care in one place.",
     );
-    expect(text).to.include(
-      'Note: You can also still access the My VA Health portal at this time.',
-    );
+    expect(text).to.include('Still want to use My VA Health for now?');
 
     const link = screen.getByText('Go to My VA Health');
     expect(link).to.exist;

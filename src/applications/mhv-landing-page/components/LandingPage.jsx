@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
@@ -9,6 +9,8 @@ import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/re
 import DowntimeNotification, {
   externalServices,
 } from '~/platform/monitoring/DowntimeNotification';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import { OH_TRANSITION_FACILITY_IDS } from 'platform/mhv/util/constants';
 
 import CardLayout from './CardLayout';
 import HeaderLayout from './HeaderLayout';
@@ -31,6 +33,27 @@ const LandingPage = ({ data = {} }) => {
   const userRegistered = userVerified && vaPatient;
   const showWelcomeMessage = useSelector(personalizationEnabled);
   const userHasCernerFacility = useSelector(isCerner);
+  const mhvSecureMessagingOhTransitionAlert = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvSecureMessagingOhTransitionAlert
+      ],
+  );
+  const userFacilities = useSelector(state => state?.user?.profile?.facilities);
+
+  // Check if user has a transitional facility (VHA_757)
+  const hasTransitionalFacility = useMemo(
+    () => {
+      return userFacilities?.some(facility =>
+        OH_TRANSITION_FACILITY_IDS.BLUE_ALERT.includes(facility.facilityId),
+      );
+    },
+    [userFacilities],
+  );
+
+  // Show blue OH transition alert if feature flag is on AND user has transitional facility
+  const showOhTransitionAlert =
+    mhvSecureMessagingOhTransitionAlert && hasTransitionalFacility;
 
   return (
     <>
@@ -55,6 +78,7 @@ const LandingPage = ({ data = {} }) => {
           <HeaderLayout
             showWelcomeMessage={showWelcomeMessage}
             isCerner={userHasCernerFacility}
+            showOhTransitionAlert={showOhTransitionAlert}
           />
           <Alerts />
           {userRegistered && <CardLayout data={cards} />}

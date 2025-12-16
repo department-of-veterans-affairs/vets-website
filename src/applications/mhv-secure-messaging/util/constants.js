@@ -588,12 +588,12 @@ export const OhTransitionFacilityIds = {
 };
 
 /**
- * Content for the new OH Transition blue alert
+ * Content for the new OH Transition blue alert - Messages specific
  */
 export const OhTransitionAlertContent = {
   TRIGGER:
-    'You can now manage your health care for all VA facilities right here',
-  BODY: `We've brought all your VA health care data together so you can manage your care in one place.`,
+    'You can now manage messages for all VA health care teams right here',
+  BODY: `We've brought all your VA health care data together so you can manage your care in one place. You no longer need to go to My VA Health to communicate with teams at any VA facilities.`,
   QUESTION: 'Still want to use My VA Health for now?',
   LINK_TEXT: 'Go to My VA Health',
 };

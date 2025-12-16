@@ -12,17 +12,15 @@ const NewCernerFacilityAlert = ({ apiError, className = '' }) => {
       }`}
       data-testid="new-cerner-facilities-alert"
       status="info"
-      trigger="New: Manage your health care on VA.gov"
+      trigger="You can now manage your medications for all VA facilities right here"
     >
       <div data-testid="new-cerner-health-facility-text">
         <p>
-          You can now manage your care for any VA health facility right here in
-          myHeatheVet on VA.gov.
+          We’ve brought all your VA health care data together so you can manage
+          your care in one place. You no longer need to go to My VA Health to
+          manage your prescriptions for any VA facilities.
         </p>
-        <p>
-          <strong>Note:</strong> You can also still access the My VA Health
-          portal at this time.
-        </p>
+        <p>Still want to use My VA Health for now?</p>
         <a href={getCernerURL('/pages/medications/current', true)}>
           Go to My VA Health
         </a>

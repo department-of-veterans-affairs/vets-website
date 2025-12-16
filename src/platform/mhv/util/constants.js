@@ -121,3 +121,20 @@ export const TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY = Object.freeze({
     APPOINTMENT: 'appointment',
   },
 });
+
+/**
+ * Oracle Health (OH) Transition Configuration
+ *
+ * Facility IDs for the OH-to-MHV transition alerts.
+ * - BLUE_ALERT_FACILITY_IDS: Facilities that have fully transitioned and should see
+ *   the blue "info" alert indicating they can now manage care on VA.gov
+ * - YELLOW_ALERT_FACILITY_IDS: Facilities still in transition that should see
+ *   the yellow "warning" alert directing them to My VA Health portal
+ */
+export const OH_TRANSITION_FACILITY_IDS = Object.freeze({
+  // Facilities showing the blue "info" expandable alert (fully transitioned)
+  BLUE_ALERT: ['757'], // Columbus VA (Chalmers P. Wylie)
+
+  // Facilities showing yellow "warning" alert (still transitioning)
+  YELLOW_ALERT: ['653', '687', '692', '668', '556'], // Roseburg, Walla Walla, White City, Spokane, North Chicago
+});
