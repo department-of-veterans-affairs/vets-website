@@ -189,11 +189,13 @@ const fetchAppointmentByDateFailure = error => ({
 // appointment correlated with the claim by `localStartTime` comparison
 export function getAppointmentDataByDateTime(targetDateTime) {
   return async dispatch => {
+    const strippedTargetDateTime = stripTZOffset(targetDateTime);
+
     dispatch(fetchAppointmentByDateStart());
     try {
       // Create ±12 hour window to cover US states and territories
       const TWELVE_HOURS_MILLISECONDS = 12 * 60 * 60 * 1000;
-      const targetDate = new Date(targetDateTime);
+      const targetDate = new Date(stripTZOffset(strippedTargetDateTime));
       const startDate = new Date(
         targetDate.getTime() - TWELVE_HOURS_MILLISECONDS,
       );
@@ -216,7 +218,7 @@ export function getAppointmentDataByDateTime(targetDateTime) {
       const matchingAppointment = appointments.find(
         appt =>
           stripTZOffset(appt.attributes.localStartTime) ===
-          stripTZOffset(targetDateTime),
+          strippedTargetDateTime,
       );
 
       if (!matchingAppointment) {
