@@ -214,6 +214,12 @@ const ExpensePage = () => {
       ...prev,
       [name]: value,
     }));
+    // Clear error for this field if there was one
+    setExtraFieldErrors(prevErrors =>
+      Object.fromEntries(
+        Object.entries(prevErrors).filter(([key]) => key !== name),
+      ),
+    );
   };
 
   const handleOpenCancelModal = () => setIsCancelModalVisible(true);
@@ -232,6 +238,11 @@ const ExpensePage = () => {
       // navigate(`/file-new-claim/${apptId}/${claimId}/review`);
     }
   };
+
+  const isAirTravel = expenseType === EXPENSE_TYPE_KEYS.AIRTRAVEL;
+  const isMeal = expenseType === EXPENSE_TYPE_KEYS.MEAL;
+  const isCommonCarrier = expenseType === EXPENSE_TYPE_KEYS.COMMONCARRIER;
+  const isLodging = expenseType === EXPENSE_TYPE_KEYS.LODGING;
 
   // Field names must match those expected by the expenses_controller in vets-api.
   // The controller converts them to forwards them unchanged to the API.
@@ -259,11 +270,26 @@ const ExpensePage = () => {
 
     const errors = { ...extraFieldErrors }; // clone existing errors
 
-    // Set error if receipt is missing
+    // Receipt validation
     if (!formState.receipt) {
-      errors.receipt = 'Select an approved file type under 5MB ';
+      errors.receipt = 'Select an approved file type under 5MB';
     } else {
-      delete errors.receipt; // clear if file exists
+      delete errors.receipt;
+    }
+
+    // Commoncarrier-specific validations
+    if (isCommonCarrier) {
+      if (!formState.carrierType) {
+        errors.carrierType = 'Select a transportation type';
+      } else {
+        delete errors.carrierType;
+      }
+
+      if (!formState.reasonNotUsingPOV) {
+        errors.reasonNotUsingPOV = 'Select a reason';
+      } else {
+        delete errors.reasonNotUsingPOV;
+      }
     }
 
     setExtraFieldErrors(errors);
@@ -435,11 +461,6 @@ const ExpensePage = () => {
     }
   };
 
-  const isAirTravel = expenseType === EXPENSE_TYPE_KEYS.AIRTRAVEL;
-  const isMeal = expenseType === EXPENSE_TYPE_KEYS.MEAL;
-  const isCommonCarrier = expenseType === EXPENSE_TYPE_KEYS.COMMONCARRIER;
-  const isLodging = expenseType === EXPENSE_TYPE_KEYS.LODGING;
-
   const pageDescription = isAirTravel
     ? `Upload a receipt or proof of the expense here. If youre adding a round-trip flight, you only need to add 1 expense. If you have receipts for 2 one-way flights, you’ll need to add 2 separate expenses.`
     : `Upload a receipt or proof of the expense here. If you have multiple ${
@@ -504,6 +525,7 @@ const ExpensePage = () => {
         <ExpenseCommonCarrierFields
           formState={formState}
           onChange={handleFormChange}
+          errors={extraFieldErrors}
         />
       )}
       {isAirTravel && (
