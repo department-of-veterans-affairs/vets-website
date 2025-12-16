@@ -4,14 +4,14 @@ import FileUploadDescription from '../../components/FormDescriptions/FileUploadD
 import { singleFileUploadSchema } from '../../definitions';
 import { healthInsurancePageTitleUI } from '../../utils/titles';
 import { ATTACHMENT_IDS } from '../../utils/constants';
+import content from '../../locales/en/content.json';
 
-const TITLE_TEXT = 'Upload %s health insurance card';
-const DESC_TEXT =
-  'You’ll need to submit a copy of the front and back of this health insurance card.';
+const TITLE_TEXT = content['health-insurance--card-upload-title'];
+const DESC_TEXT = content['health-insurance--card-upload-description'];
 
 const INPUT_LABELS = {
-  cardFront: 'Upload front of the health insurance card',
-  cardBack: 'Upload back of the health insurance card',
+  cardFront: content['health-insurance--card-upload-label--front'],
+  cardBack: content['health-insurance--card-upload-label--back'],
 };
 
 export default {
