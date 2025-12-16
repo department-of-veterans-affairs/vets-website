@@ -101,17 +101,19 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
   // Fill required fields based on the expense type
   //
   const fillRequiredFields = (containerWrapper, expenseKey) => {
-    const root = containerWrapper?.baseElement || containerWrapper; // safe fallback
-
-    if (!root) return; // just in case
+    const root = containerWrapper?.baseElement || containerWrapper;
+    if (!root) return;
 
     // ---- COMMON FIELDS ----
     const purchaseDate = root.querySelector('va-date[name="purchaseDate"]');
     const costRequested = root.querySelector(
       'va-text-input[name="costRequested"]',
     );
+    const description = root.querySelector('va-textarea[name="description"]');
+    const fileInput = root.querySelector('va-file-input');
 
     if (purchaseDate) {
+      purchaseDate.value = '2025-10-31';
       purchaseDate.dispatchEvent(
         new CustomEvent('dateChange', {
           detail: { value: '2025-10-31' },
@@ -122,170 +124,153 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
     }
 
     if (costRequested) {
-      costRequested.dispatchEvent(
-        new CustomEvent('input', {
-          detail: { value: '50.00' },
+      costRequested.value = '50.00';
+      costRequested.dispatchEvent(new Event('input', { bubbles: true }));
+    }
+
+    if (description) {
+      description.value = 'Test description';
+      description.dispatchEvent(new Event('input', { bubbles: true }));
+    }
+
+    if (fileInput) {
+      const testFile = new File(['dummy'], 'receipt.pdf', {
+        type: 'application/pdf',
+      });
+      fileInput.dispatchEvent(
+        new CustomEvent('vaChange', {
+          detail: { files: [testFile] },
           bubbles: true,
           composed: true,
         }),
       );
     }
 
-    const upload = root.querySelector('document-upload');
-    if (upload) {
-      upload.dispatchEvent(
-        new CustomEvent('fileChange', {
-          detail: {
-            files: [
-              new File(['dummy'], 'receipt.pdf', { type: 'application/pdf' }),
-            ],
-          },
-          bubbles: true,
-          composed: true,
-        }),
-      );
-    }
-
-    // ---- EXPENSE-SPECIFIC FIELDS ----
+    // ---- EXPENSE-SPECIFIC ----
     switch (expenseKey) {
       case 'Meal': {
         const vendor = root.querySelector('va-text-input[name="vendorName"]');
-        vendor?.dispatchEvent(
-          new CustomEvent('input', {
-            detail: { value: 'Test Vendor' },
-            bubbles: true,
-            composed: true,
-          }),
-        );
+        if (vendor) {
+          vendor.value = 'Test Vendor';
+          vendor.dispatchEvent(new Event('input', { bubbles: true }));
+        }
         break;
       }
-
       case 'Lodging': {
         const vendor = root.querySelector('va-text-input[name="vendor"]');
-        vendor?.dispatchEvent(
-          new CustomEvent('input', {
-            detail: { value: 'Test Hotel' },
-            bubbles: true,
-            composed: true,
-          }),
-        );
-
         const checkIn = root.querySelector('va-date[name="checkInDate"]');
-        checkIn?.dispatchEvent(
-          new CustomEvent('dateChange', {
-            detail: { value: '2025-10-28' },
-            bubbles: true,
-            composed: true,
-          }),
-        );
-
         const checkOut = root.querySelector('va-date[name="checkOutDate"]');
-        checkOut?.dispatchEvent(
-          new CustomEvent('dateChange', {
-            detail: { value: '2025-10-30' },
-            bubbles: true,
-            composed: true,
-          }),
-        );
+        if (vendor) {
+          vendor.value = 'Test Hotel';
+          vendor.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+        if (checkIn) {
+          checkIn.value = '2025-10-28';
+          checkIn.dispatchEvent(
+            new CustomEvent('dateChange', {
+              detail: { value: '2025-10-28' },
+              bubbles: true,
+              composed: true,
+            }),
+          );
+        }
+        if (checkOut) {
+          checkOut.value = '2025-10-30';
+          checkOut.dispatchEvent(
+            new CustomEvent('dateChange', {
+              detail: { value: '2025-10-30' },
+              bubbles: true,
+              composed: true,
+            }),
+          );
+        }
         break;
       }
-
       case 'Commoncarrier': {
-        const typeOption = root.querySelector(
-          `va-radio[name="carrierType"] va-radio-option[value="${
-            TRANSPORTATION_OPTIONS[0]
-          }"]`,
+        const carrierTypeOption = root.querySelector(
+          `va-radio[name="carrierType"] va-radio-option`,
         );
-        typeOption?.dispatchEvent(
-          new CustomEvent('vaValueChange', {
-            detail: { value: TRANSPORTATION_OPTIONS[0] },
-            bubbles: true,
-            composed: true,
-          }),
-        );
-
         const reasonOption = root.querySelector(
-          `va-radio[name="reasonNotUsingPOV"] va-radio-option[value="${
-            Object.keys(TRANSPORTATION_REASONS)[0]
-          }"]`,
+          `va-radio[name="reasonNotUsingPOV"] va-radio-option`,
         );
-        reasonOption?.dispatchEvent(
-          new CustomEvent('vaValueChange', {
-            detail: { value: Object.keys(TRANSPORTATION_REASONS)[0] },
-            bubbles: true,
-            composed: true,
-          }),
-        );
+        if (carrierTypeOption)
+          carrierTypeOption.dispatchEvent(
+            new CustomEvent('vaValueChange', {
+              detail: { value: TRANSPORTATION_OPTIONS[0] },
+              bubbles: true,
+              composed: true,
+            }),
+          );
+        if (reasonOption)
+          reasonOption.dispatchEvent(
+            new CustomEvent('vaValueChange', {
+              detail: { value: Object.keys(TRANSPORTATION_REASONS)[0] },
+              bubbles: true,
+              composed: true,
+            }),
+          );
         break;
       }
-
       case 'Airtravel': {
         const vendorName = root.querySelector(
           'va-text-input[name="vendorName"]',
         );
-        vendorName?.dispatchEvent(
-          new CustomEvent('input', {
-            detail: { value: 'Airline Vendor' },
-            bubbles: true,
-            composed: true,
-          }),
-        );
-
-        const tripType = root.querySelector(
+        const tripTypeOption = root.querySelector(
           `va-radio[name="tripType"] va-radio-option[value="${
-            TRIP_TYPES.ROUND_TRIP.label
+            TRIP_TYPES.ROUND_TRIP.value
           }"]`,
         );
-        tripType?.dispatchEvent(
-          new CustomEvent('vaValueChange', {
-            detail: { value: TRIP_TYPES.ROUND_TRIP.label },
-            bubbles: true,
-            composed: true,
-          }),
-        );
-
         const departureDate = root.querySelector(
           'va-date[name="departureDate"]',
         );
-        departureDate?.dispatchEvent(
-          new CustomEvent('dateChange', {
-            detail: { value: '2025-10-31' },
-            bubbles: true,
-            composed: true,
-          }),
-        );
-
+        const returnDate = root.querySelector('va-date[name="returnDate"]');
         const departedFrom = root.querySelector(
           'va-text-input[name="departedFrom"]',
         );
-        departedFrom?.dispatchEvent(
-          new CustomEvent('input', {
-            detail: { value: 'SFO' },
-            bubbles: true,
-            composed: true,
-          }),
-        );
-
-        const returnDate = root.querySelector('va-date[name="returnDate"]');
-        returnDate?.dispatchEvent(
-          new CustomEvent('dateChange', {
-            detail: { value: '2025-11-01' },
-            bubbles: true,
-            composed: true,
-          }),
-        );
-
         const arrivedTo = root.querySelector('va-text-input[name="arrivedTo"]');
-        arrivedTo?.dispatchEvent(
-          new CustomEvent('input', {
-            detail: { value: 'LAX' },
-            bubbles: true,
-            composed: true,
-          }),
-        );
+
+        if (vendorName) {
+          vendorName.value = 'Airline Vendor';
+          vendorName.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+        if (tripTypeOption)
+          tripTypeOption.dispatchEvent(
+            new CustomEvent('vaValueChange', {
+              detail: { value: TRIP_TYPES.ROUND_TRIP.value },
+              bubbles: true,
+              composed: true,
+            }),
+          );
+        if (departureDate) {
+          departureDate.value = '2025-10-31';
+          departureDate.dispatchEvent(
+            new CustomEvent('dateChange', {
+              detail: { value: '2025-10-31' },
+              bubbles: true,
+              composed: true,
+            }),
+          );
+        }
+        if (returnDate) {
+          returnDate.value = '2025-11-01';
+          returnDate.dispatchEvent(
+            new CustomEvent('dateChange', {
+              detail: { value: '2025-11-01' },
+              bubbles: true,
+              composed: true,
+            }),
+          );
+        }
+        if (departedFrom) {
+          departedFrom.value = 'SFO';
+          departedFrom.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+        if (arrivedTo) {
+          arrivedTo.value = 'LAX';
+          arrivedTo.dispatchEvent(new Event('input', { bubbles: true }));
+        }
         break;
       }
-
       default:
         break;
     }
@@ -598,6 +583,203 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
 
         it.skip('scrolls to the first error for the date field', () => {
           // Skipped temporarily until we figure out how to spy on shadow DOM scroll/focus
+        });
+      });
+
+      describe('Travel Pay – ExpensePage (Validation & Error Handling)', () => {
+        describe(`${key} expense validation`, () => {
+          it('shows error when required fields are empty', async () => {
+            const { container } = renderPage(config);
+
+            const continueButton = Array.from(
+              container.querySelectorAll('.travel-pay-button-group va-button'),
+            ).find(btn => btn.getAttribute('text') === 'Continue');
+
+            fireEvent.click(continueButton);
+
+            await waitFor(() => {
+              const dateInput = container.querySelector(
+                'va-date[name="purchaseDate"]',
+              );
+              const amountInput = container.querySelector(
+                'va-text-input[name="costRequested"]',
+              );
+              const descriptionInput = container.querySelector(
+                'va-textarea[name="description"]',
+              );
+
+              expect(dateInput.getAttribute('error')).to.exist;
+              expect(amountInput.getAttribute('error')).to.exist;
+              expect(descriptionInput.getAttribute('error')).to.exist;
+
+              if (key === 'Commoncarrier') {
+                const carrierType = container.querySelector(
+                  'va-radio[name="carrierType"]',
+                );
+                const reason = container.querySelector(
+                  'va-radio[name="reasonNotUsingPOV"]',
+                );
+
+                expect(carrierType.getAttribute('error')).to.equal(
+                  'Select a transportation type',
+                );
+                expect(reason.getAttribute('error')).to.equal(
+                  'Select a reason',
+                );
+              }
+
+              if (key === 'Airtravel') {
+                const tripType = container.querySelector(
+                  'va-radio[name="tripType"]',
+                );
+                const departureDate = container.querySelector(
+                  'va-date[name="departureDate"]',
+                );
+
+                expect(tripType.getAttribute('error')).to.exist;
+                expect(departureDate.getAttribute('error')).to.exist;
+              }
+
+              const fileInput = container.querySelector('va-file-input');
+              expect(fileInput.getAttribute('error')).to.equal(
+                'Select an approved file type under 5MB',
+              );
+            });
+          });
+
+          it('clears errors when required fields are filled', async () => {
+            const { container } = renderPage(config);
+            fillRequiredFields(container, key);
+
+            const continueButton = Array.from(
+              container.querySelectorAll('.travel-pay-button-group va-button'),
+            ).find(btn => btn.getAttribute('text') === 'Continue');
+
+            fireEvent.click(continueButton);
+
+            await waitFor(() => {
+              const dateInput = container.querySelector(
+                'va-date[name="purchaseDate"]',
+              );
+              const amountInput = container.querySelector(
+                'va-text-input[name="costRequested"]',
+              );
+              const descriptionInput = container.querySelector(
+                'va-textarea[name="description"]',
+              );
+              const fileInput = container.querySelector('va-file-input');
+
+              expect(dateInput.getAttribute('error')).to.not.exist;
+              expect(amountInput.getAttribute('error')).to.not.exist;
+              expect(descriptionInput.getAttribute('error')).to.not.exist;
+              expect(fileInput.getAttribute('error')).to.not.exist;
+
+              if (key === 'Commoncarrier') {
+                const carrierType = container.querySelector(
+                  'va-radio[name="carrierType"]',
+                );
+                const reason = container.querySelector(
+                  'va-radio[name="reasonNotUsingPOV"]',
+                );
+                expect(carrierType.getAttribute('error')).to.not.exist;
+                expect(reason.getAttribute('error')).to.not.exist;
+              }
+            });
+          });
+
+          it('updates formState when a document is uploaded', async () => {
+            const { container } = renderPage(config);
+            const input = container.querySelector('va-file-input');
+            if (!input) return;
+
+            const testFile = new File(['dummy'], 'receipt.pdf', {
+              type: 'application/pdf',
+            });
+
+            fireEvent.change(input, { target: { files: [testFile] } });
+
+            await waitFor(() => {
+              expect(input.files[0]).to.eq(testFile);
+            });
+          });
+        });
+
+        it('requires return date when Airtravel tripType is Round Trip', async () => {
+          const { container } = renderPage(EXPENSE_TYPES.Airtravel);
+
+          // Fill only the common required fields except returnDate
+          const purchaseDate = container.querySelector(
+            'va-date[name="purchaseDate"]',
+          );
+          const costRequested = container.querySelector(
+            'va-text-input[name="costRequested"]',
+          );
+          const descriptionInput = container.querySelector(
+            'va-textarea[name="description"]',
+          );
+
+          purchaseDate.value = '2025-10-31';
+          purchaseDate.dispatchEvent(
+            new CustomEvent('dateChange', {
+              detail: { value: '2025-10-31' },
+              bubbles: true,
+              composed: true,
+            }),
+          );
+
+          costRequested.value = '100.00';
+          costRequested.dispatchEvent(
+            new CustomEvent('input', { bubbles: true, composed: true }),
+          );
+
+          descriptionInput.value = 'Flight description';
+          descriptionInput.dispatchEvent(
+            new CustomEvent('input', { bubbles: true, composed: true }),
+          );
+
+          // Select Round Trip
+          const roundTripOption = container.querySelector(
+            `va-radio[name="tripType"] va-radio-option[value="${
+              TRIP_TYPES.ROUND_TRIP.value
+            }"]`,
+          );
+          roundTripOption.dispatchEvent(
+            new CustomEvent('vaValueChange', {
+              detail: { value: TRIP_TYPES.ROUND_TRIP.value },
+              bubbles: true,
+              composed: true,
+            }),
+          );
+
+          // Fill departure date but leave return date empty
+          const departureDate = container.querySelector(
+            'va-date[name="departureDate"]',
+          );
+          departureDate.value = '2025-10-31';
+          departureDate.dispatchEvent(
+            new CustomEvent('dateChange', {
+              detail: { value: '2025-10-31' },
+              bubbles: true,
+              composed: true,
+            }),
+          );
+
+          // Click continue
+          const continueButton = Array.from(
+            container.querySelectorAll('.travel-pay-button-group va-button'),
+          ).find(btn => btn.getAttribute('text') === 'Continue');
+
+          fireEvent.click(continueButton);
+
+          await waitFor(() => {
+            // Return date should show required error
+            const returnDate = container.querySelector(
+              'va-date[name="returnDate"]',
+            );
+            expect(returnDate.getAttribute('error')).to.equal(
+              'Enter a return date',
+            );
+          });
         });
       });
 
