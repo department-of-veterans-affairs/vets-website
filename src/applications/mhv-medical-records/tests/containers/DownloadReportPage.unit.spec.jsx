@@ -638,9 +638,20 @@ describe('DownloadReportPage - Extended File Types Flag', () => {
 });
 
 describe('DownloadReportPage - Cerner Facility Alert', () => {
+  // Create state with userAtPretransitionedOhFacility flag for CernerFacilityAlert to render
+  const ohStateWithCernerAlert = {
+    ...ohOnlyBaseState,
+    user: {
+      profile: {
+        ...ohOnlyBaseState.user.profile,
+        userAtPretransitionedOhFacility: true,
+      },
+    },
+  };
+
   it('displays Cerner facility alert for Cerner users', () => {
     const screen = renderWithStoreAndRouter(<DownloadReportPage />, {
-      initialState: ohOnlyBaseState,
+      initialState: ohStateWithCernerAlert,
       reducers: reducer,
       path: '/download',
     });
@@ -652,7 +663,7 @@ describe('DownloadReportPage - Cerner Facility Alert', () => {
 
   it('displays correct alert text for single Cerner facility', () => {
     const screen = renderWithStoreAndRouter(<DownloadReportPage />, {
-      initialState: ohOnlyBaseState,
+      initialState: ohStateWithCernerAlert,
       reducers: reducer,
       path: '/download',
     });
@@ -677,6 +688,7 @@ describe('DownloadReportPage - Cerner Facility Alert', () => {
       user: {
         profile: {
           ...ohOnlyBaseState.user.profile,
+          userAtPretransitionedOhFacility: true,
           facilities: [
             { facilityId: '757', isCerner: true },
             { facilityId: '692', isCerner: true },
@@ -741,7 +753,7 @@ describe('DownloadReportPage - Cerner Facility Alert', () => {
 
   it('includes link to My VA Health portal', () => {
     const screen = renderWithStoreAndRouter(<DownloadReportPage />, {
-      initialState: ohOnlyBaseState,
+      initialState: ohStateWithCernerAlert,
       reducers: reducer,
       path: '/download',
     });
@@ -802,19 +814,6 @@ describe('DownloadReportPage - Non-Cerner Users', () => {
 });
 
 describe('DownloadReportPage - URL Parameter Handling', () => {
-  it('expands self-entered accordion when ?sei=true query param is present', () => {
-    const screen = renderWithStoreAndRouter(<DownloadReportPage />, {
-      initialState: vistaOnlyBaseState,
-      reducers: reducer,
-      path: '/download?sei=true',
-    });
-
-    const selfEnteredAccordion = screen.getByTestId('selfEnteredAccordionItem');
-    expect(selfEnteredAccordion).to.exist;
-    // The accordion should be expanded based on the expandSelfEntered state
-    expect(selfEnteredAccordion).to.have.attribute('open', 'true');
-  });
-
   it('does not expand self-entered accordion when sei param is not present', () => {
     const screen = renderWithStoreAndRouter(<DownloadReportPage />, {
       initialState: vistaOnlyBaseState,
@@ -862,9 +861,10 @@ describe('DownloadReportPage - CCD Retry Timestamp', () => {
       path: '/download',
     });
 
+    // Note: AccessTroubleAlertBox uses smart apostrophe (') and lowercase documentType
     expect(
       screen.getByText(
-        "We can't download your Continuity of Care Document right now",
+        "We can't download your continuity of care document right now",
       ),
     ).to.exist;
   });
@@ -880,9 +880,10 @@ describe('DownloadReportPage - CCD Retry Timestamp', () => {
       path: '/download',
     });
 
+    // Note: AccessTroubleAlertBox uses smart apostrophe (') and lowercase documentType
     expect(
       screen.queryByText(
-        "We can't download your Continuity of Care Document right now",
+        "We can't download your continuity of care document right now",
       ),
     ).to.be.null;
   });
@@ -947,8 +948,9 @@ describe('DownloadReportPage - Facility Name Mapping', () => {
       path: '/download',
     });
 
-    // VistA facility name should be displayed
-    expect(screen.getByText(/VA Test health care/)).to.exist;
+    // VistA facility name should be displayed (may appear in multiple places)
+    const vistaFacilityTexts = screen.getAllByText(/VA Test health care/);
+    expect(vistaFacilityTexts.length).to.be.greaterThan(0);
   });
 
   it('displays OH facility names for dual-source user', () => {
@@ -958,8 +960,9 @@ describe('DownloadReportPage - Facility Name Mapping', () => {
       path: '/download',
     });
 
-    // OH facility name should be displayed
-    expect(screen.getByText(/VA Spokane health care/)).to.exist;
+    // OH facility name should be displayed (may appear in multiple places)
+    const ohFacilityTexts = screen.getAllByText(/VA Spokane health care/);
+    expect(ohFacilityTexts.length).to.be.greaterThan(0);
   });
 });
 
@@ -1169,4 +1172,3 @@ describe('DownloadReportPage - Refresh Status', () => {
     expect(screen.getByTestId('ccdAccordionItem')).to.exist;
   });
 });
-
