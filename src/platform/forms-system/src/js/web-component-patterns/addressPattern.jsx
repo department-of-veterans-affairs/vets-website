@@ -751,7 +751,7 @@ export function addressUI(options = {}) {
  * @param {Object} [options.newSchemaKeys] - Maps standard keys to custom keys (e.g., {street: 'addressLine1', postalCode: 'zipCode'})
  * @returns {SchemaOptions}
  */
-export const addressSchema = options => {
+export const addressSchema = (options = {}) => {
   const { newSchemaKeys = {}, omit = [] } = options;
   let schema = commonDefinitions.profileAddress;
 
