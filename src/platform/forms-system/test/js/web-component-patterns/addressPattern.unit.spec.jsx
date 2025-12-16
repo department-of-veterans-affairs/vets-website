@@ -1,9 +1,9 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import {
-  mappedAddressUI,
-  mappedAddressSchema,
-  updateMappedFormDataAddress,
+  addressUI,
+  addressSchema,
+  updateFormDataAddress,
 } from '../../../src/js/web-component-patterns/addressPattern';
 
 describe('addressPattern mapping functions', () => {
@@ -17,7 +17,7 @@ describe('addressPattern mapping functions', () => {
     sandbox.restore();
   });
 
-  describe('mappedAddressUI', () => {
+  describe('addressUI', () => {
     it('should return UI schema with mapped field keys', () => {
       const keyMap = {
         street: 'addressLine1',
@@ -26,7 +26,7 @@ describe('addressPattern mapping functions', () => {
         postalCode: 'zipCode',
       };
 
-      const result = mappedAddressUI({ keyMap });
+      const result = addressUI({ keyMap });
 
       // Should have mapped keys instead of standard keys
       expect(result).to.have.property('addressLine1');
@@ -53,7 +53,7 @@ describe('addressPattern mapping functions', () => {
         postalCode: 'zipCode',
       };
 
-      const result = mappedAddressUI({ keyMap });
+      const result = addressUI({ keyMap });
 
       // Check that field configurations are preserved
       expect(result.addressLine1).to.have.property('ui:required');
@@ -70,7 +70,7 @@ describe('addressPattern mapping functions', () => {
         postalCode: 'zipCode',
       };
 
-      const result = mappedAddressUI({ keyMap });
+      const result = addressUI({ keyMap });
 
       // Should have mapped key
       expect(result).to.have.property('zipCode');
@@ -89,7 +89,7 @@ describe('addressPattern mapping functions', () => {
         street2: 'addressLine2',
       };
 
-      const result = mappedAddressUI({
+      const result = addressUI({
         keyMap,
         omit: ['street3', 'isMilitary'],
       });
@@ -105,7 +105,7 @@ describe('addressPattern mapping functions', () => {
     });
 
     it('should work with no keyMap provided', () => {
-      const result = mappedAddressUI({});
+      const result = addressUI({});
 
       // Should return standard keys when no mapping provided
       expect(result).to.have.property('street');
@@ -128,7 +128,7 @@ describe('addressPattern mapping functions', () => {
         militaryCheckbox: 'Custom Military Label',
       };
 
-      const result = mappedAddressUI({ keyMap, labels });
+      const result = addressUI({ keyMap, labels });
 
       // Check that labels are applied correctly
       expect(result.addressLine1['ui:title']).to.equal('Custom Street Label');
@@ -136,7 +136,7 @@ describe('addressPattern mapping functions', () => {
     });
   });
 
-  describe('mappedAddressSchema', () => {
+  describe('addressSchema', () => {
     it('should return schema with mapped property keys', () => {
       const keyMap = {
         street: 'addressLine1',
@@ -145,7 +145,7 @@ describe('addressPattern mapping functions', () => {
         postalCode: 'zipCode',
       };
 
-      const result = mappedAddressSchema({ keyMap });
+      const result = addressSchema({ keyMap });
 
       expect(result).to.have.property('type', 'object');
       expect(result).to.have.property('properties');
@@ -175,7 +175,7 @@ describe('addressPattern mapping functions', () => {
         postalCode: 'zipCode',
       };
 
-      const result = mappedAddressSchema({ keyMap });
+      const result = addressSchema({ keyMap });
 
       // Check that property definitions are preserved
       expect(result.properties.addressLine1).to.have.property('type', 'string');
@@ -188,7 +188,7 @@ describe('addressPattern mapping functions', () => {
         street2: 'addressLine2',
       };
 
-      const result = mappedAddressSchema({
+      const result = addressSchema({
         keyMap,
         omit: ['street3', 'isMilitary'],
       });
@@ -204,7 +204,7 @@ describe('addressPattern mapping functions', () => {
     });
 
     it('should work with empty keyMap', () => {
-      const result = mappedAddressSchema({});
+      const result = addressSchema({});
 
       // Should return standard property names
       expect(result.properties).to.have.property('street');
@@ -214,7 +214,7 @@ describe('addressPattern mapping functions', () => {
     });
   });
 
-  describe('updateMappedFormDataAddress', () => {
+  describe('updateFormDataAddress', () => {
     it('should update form data with mapped field keys', () => {
       const keyMap = {
         street: 'addressLine1',
@@ -242,7 +242,7 @@ describe('addressPattern mapping functions', () => {
         },
       };
 
-      const result = updateMappedFormDataAddress(
+      const result = updateFormDataAddress(
         oldFormData,
         formData,
         ['mailingAddress'],
@@ -278,7 +278,7 @@ describe('addressPattern mapping functions', () => {
         },
       };
 
-      const result = updateMappedFormDataAddress(
+      const result = updateFormDataAddress(
         oldFormData,
         formData,
         ['address'],
@@ -315,7 +315,7 @@ describe('addressPattern mapping functions', () => {
       };
 
       // This should save the original city/state
-      updateMappedFormDataAddress(
+      updateFormDataAddress(
         initialOldData,
         militaryData,
         ['address'],
@@ -340,7 +340,7 @@ describe('addressPattern mapping functions', () => {
         },
       };
 
-      const result = updateMappedFormDataAddress(
+      const result = updateFormDataAddress(
         oldFormData,
         newFormData,
         ['address'],
@@ -372,7 +372,7 @@ describe('addressPattern mapping functions', () => {
         },
       };
 
-      const result = updateMappedFormDataAddress(
+      const result = updateFormDataAddress(
         oldFormData,
         formData,
         ['address'],
@@ -393,8 +393,8 @@ describe('addressPattern mapping functions', () => {
         postalCode: 'zipCode',
       };
 
-      const uiSchema = mappedAddressUI({ keyMap });
-      const schema = mappedAddressSchema({ keyMap });
+      const uiSchema = addressUI({ keyMap });
+      const schema = addressSchema({ keyMap });
 
       // Should have mapped keys
       expect(schema.properties).to.have.property('addressLine1');
@@ -414,7 +414,7 @@ describe('addressPattern mapping functions', () => {
         postalCode: 'zipCode',
       };
 
-      const uiSchema = mappedAddressUI({ keyMap });
+      const uiSchema = addressUI({ keyMap });
 
       // Should have military checkbox functionality
       expect(uiSchema.isMilitary).to.exist;
