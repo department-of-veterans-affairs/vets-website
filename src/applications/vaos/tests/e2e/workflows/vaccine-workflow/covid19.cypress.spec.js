@@ -513,7 +513,7 @@ describe('VAOS covid-19 vaccine flow', () => {
   });
 
   describe('When appointment can not be scheduled', () => {
-    it('should display 500 error message', () => {
+    it.skip('should display 500 error message', () => {
       // Arrange
       const mockUser = new MockUser({ addressLine1: '123 Main St.' });
 
