@@ -1,9 +1,7 @@
 import React from 'react';
-import fullSchemaBurials from 'vets-json-schema/dist/21P-530EZ-schema.json';
-import { generateTitle } from '../../../utils/helpers';
+import { fileInputMultipleSchema } from '~/platform/forms-system/src/js/web-component-patterns';
 import { burialUploadUI } from '../../../utils/upload';
-
-const { files } = fullSchemaBurials.definitions;
+import { generateTitle } from '../../../utils/helpers';
 
 export default {
   uiSchema: {
@@ -23,18 +21,29 @@ export default {
         </ul>
       </>
     ),
-    militarySeparationDocuments: burialUploadUI(
-      'Upload DD214 or other separation documents',
-    ),
+    militarySeparationDocuments: {
+      ...burialUploadUI('Upload DD214 or other separation documents'),
+      'ui:validations': [
+        // Temporary workaround to enforce required file until bug is fixed
+        // https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/4716
+        (errors, fieldData) => {
+          const file = fieldData[0] || {};
+          if (file?.isEncrypted && !file?.confirmationCode) {
+            return;
+          }
+
+          if (!file || !file.name) {
+            errors.addError('Upload a supporting document');
+          }
+        },
+      ],
+    },
   },
   schema: {
     type: 'object',
     required: ['militarySeparationDocuments'],
     properties: {
-      militarySeparationDocuments: {
-        ...files,
-        minItems: 1,
-      },
+      militarySeparationDocuments: fileInputMultipleSchema(),
     },
   },
 };

@@ -8,7 +8,7 @@ export default {
     'ui:title': generateTitle('Death certificate'),
     'ui:description': DeathCertificateUploadMessage,
     deathCertificate: {
-      ...burialUploadUI('Upload the Veteran’s death certificate', false, {
+      ...burialUploadUI('Upload the Veteran’s death certificate', true, {
         fileUploadNetworkErrorMessage:
           'We’re sorry. There was problem with our system and we couldn’t upload your file. You can try again later.',
         fileUploadNetworkErrorAlert: {
@@ -24,6 +24,20 @@ export default {
           hideAlertIfLoggedIn: true,
         },
       }),
+      'ui:validations': [
+        // Temporary workaround to enforce required file until bug is fixed
+        // https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/4716
+        (errors, fieldData) => {
+          const file = fieldData[0] || {};
+          if (file?.isEncrypted && !file?.confirmationCode) {
+            return;
+          }
+
+          if (!file || !file.name) {
+            errors.addError('Upload a supporting document');
+          }
+        },
+      ],
       // Empty items object required for confirmation page
       items: {},
     },
