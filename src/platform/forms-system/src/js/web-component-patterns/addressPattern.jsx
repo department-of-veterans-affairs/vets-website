@@ -715,7 +715,7 @@ export function addressUI(options = {}) {
             addressSchema.maxLength = 7;
           } else {
             // Other countries have no pattern validation
-            addressSchema.pattern = undefined;
+            addressSchema.pattern = NONBLANK_PATTERN;
             delete addressSchema.maxLength;
           }
 
