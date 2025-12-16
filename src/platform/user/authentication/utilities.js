@@ -458,7 +458,7 @@ export const logoutUrl = () => {
  * @returns {Boolean} Returns a boolean to determine AuthBroker
  */
 export const determineAuthBroker = featureFlagEnabled => {
-  if (!featureFlagEnabled) return false;
+  if (!featureFlagEnabled) return true;
 
   const cookieValue = Cookies.get('CERNER_ELIGIBLE');
 
