@@ -40,7 +40,7 @@ const getFormInfo = benefitType => {
   const form1990 = {
     header: 'Application for VA Education Benefits (VA Form 22-1990)',
     link:
-      '/education/apply-for-education-benefits/application/1990/introduction',
+      '/education/apply-for-gi-bill-form-22-1990/introduction',
     linkText: 'Apply for education benefits (VA Form 22-1990)',
     formName: 'VA Form 22-1990',
   };
@@ -55,7 +55,7 @@ const getFormInfo = benefitType => {
   const form1990e = {
     header: 'Application for VA Education Benefits (VA Form 22-1990e)',
     link:
-      '/education/apply-for-education-benefits/application/1990E/introduction',
+      '/family-and-caregiver-benefits/education-and-careers/transferred-gi-bill-benefits/apply-form-22-1990e',
     linkText: 'Apply for education benefits (VA Form 22-1990e)',
     formName: 'VA Form 22-1990e',
   };
@@ -350,7 +350,7 @@ export const mgibAdResultPage = () =>
     body:
       'Based on your answers, use VA Form 22-1990 switch your existing education benefit at the start of your next enrollment period.',
     linkHref:
-      `${environment.BASE_URL}/education/apply-for-education-benefits/application/1990/introduction`,
+      `${environment.BASE_URL}/education/apply-for-gi-bill-form-22-1990/introduction`,
     linkText: 'Apply for education benefits (VA Form 22-1990)',
     answers: [
       'You are looking to apply to switch your existing education benefit and get a new Certificate of Eligibility (COE)',
@@ -363,7 +363,7 @@ export const mgibSrResultPage = () =>
     body:
       'Based on your answers, use VA Form 22-1990 switch your existing education benefit at the start of your next enrollment period.',
     linkHref:
-      `${environment.BASE_URL}/education/apply-for-education-benefits/application/1990/introduction`,
+      `${environment.BASE_URL}/education/apply-for-gi-bill-form-22-1990/introduction`,
     linkText: 'Apply for education benefits (VA Form 22-1990)',
     answers: [
       'You are looking to apply to switch your existing education benefit and get a new Certificate of Eligibility (COE)',
@@ -376,7 +376,7 @@ export const toeResultPage = () =>
     body:
       'Based on your answers, use VA Form 22-1990e switch your existing education benefit at the start of your next enrollment period.',
     linkHref:
-      `${environment.BASE_URL}/education/apply-for-education-benefits/application/1990E/introduction`,
+      `${environment.BASE_URL}/family-and-caregiver-benefits/education-and-careers/transferred-gi-bill-benefits/apply-form-22-1990e`,
     linkText: 'Apply for education benefits (VA Form 22-1990e)',
     answers: [
       'You are looking to apply to switch your existing education benefit and get a new Certificate of Eligibility (COE)',
@@ -389,7 +389,7 @@ export const deaResultPage = () =>
     body:
       'Based on your answers, use VA Form 22-5490 switch your existing education benefit at the start of your next enrollment period.',
     linkHref:
-      `${environment.BASE_URL}/education/apply-for-education-benefits/application/5490/introduction`,
+      `${environment.BASE_URL}/family-and-caregiver-benefits/education-and-careers/apply-for-dea-fry-form-22-5490/introduction`,
     linkText: 'Apply for education benefits (VA Form 22-5490)',
     answers: [
       'You are looking to apply to switch your existing education benefit and get a new Certificate of Eligibility (COE)',
@@ -402,7 +402,7 @@ export const fryResultPage = () =>
     body:
       'Based on your answers, use VA Form 22-5490 switch your existing education benefit at the start of your next enrollment period.',
     linkHref:
-      `${environment.BASE_URL}/education/apply-for-education-benefits/application/5490/introduction`,
+      `${environment.BASE_URL}/family-and-caregiver-benefits/education-and-careers/apply-for-dea-fry-form-22-5490/introduction`,
     linkText: 'Apply for education benefits (VA Form 22-5490)',
     answers: [
       'You are looking to apply to switch your existing education benefit and get a new Certificate of Eligibility (COE)',
