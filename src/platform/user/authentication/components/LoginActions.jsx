@@ -18,6 +18,19 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
 
   const actionLocation = isUnifiedSignIn ? 'usip' : 'modal';
 
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    const params = url.searchParams;
+
+    const isLoginModalEntry = params.get('next') === 'login-modal';
+    const hasOauth = params.has('oauth');
+
+    if (isLoginModalEntry && !hasOauth) {
+      params.set('oauth', 'true');
+      window.history.replaceState({}, '', url.toString());
+    }
+  }, []);
+
   useEffect(
     () => {
       setOAuth(OAuthEnabled && OAuth === 'true');
