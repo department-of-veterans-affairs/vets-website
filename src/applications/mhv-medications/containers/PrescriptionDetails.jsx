@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom-v5-compat';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -51,10 +57,7 @@ import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import { pageType } from '../util/dataDogConstants';
 import { useGetAllergiesQuery } from '../api/allergiesApi';
 import { usePrescriptionData } from '../hooks/usePrescriptionData';
-import {
-  usePrefetch,
-  useGetPrescriptionDocumentationQuery,
-} from '../api/prescriptionsApi';
+import { usePrefetch } from '../api/prescriptionsApi';
 import { selectUserDob, selectUserFullName } from '../selectors/selectUser';
 import {
   selectSortOption,
@@ -117,7 +120,9 @@ const PrescriptionDetails = () => {
 
   const prescriptionHeader =
     prescription?.prescriptionName || prescription?.orderableItem;
-  const refillHistory = getRefillHistory(prescription);
+  const refillHistory = useMemo(() => getRefillHistory(prescription), [
+    prescription,
+  ]);
 
   // Prefetch prescription documentation for faster loading when
   // going to the documentation page
@@ -125,33 +130,24 @@ const PrescriptionDetails = () => {
     'getPrescriptionDocumentation',
   );
 
-  // But we also need to check whether or not it's already been fetched
-  const {
-    data: documentationData,
-    isLoading: isDocumentationLoading,
-    error: documentationError,
-  } = useGetPrescriptionDocumentationQuery(prescriptionId);
+  const hasPrefetched = useRef(false);
 
   useEffect(
     () => {
       if (
         !isLoading &&
-        !isDocumentationLoading &&
-        !documentationData &&
-        !documentationError &&
+        !hasPrefetched.current &&
         hasCmopNdcNumber(refillHistory)
       ) {
         prefetchPrescriptionDocumentation(prescriptionId);
+        hasPrefetched.current = true;
       }
     },
     [
       isLoading,
-      isDocumentationLoading,
-      documentationData,
-      documentationError,
-      prefetchPrescriptionDocumentation,
       prescriptionId,
       refillHistory,
+      prefetchPrescriptionDocumentation,
     ],
   );
 
