@@ -15,6 +15,7 @@ const appointmentData = {
   providerName: 'Bill Brasky',
   typeOfCare: 'Solid Start',
 };
+
 const CancelConfirmation = () => {
   return (
     <Wrapper
