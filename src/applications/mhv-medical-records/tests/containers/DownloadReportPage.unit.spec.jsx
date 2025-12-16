@@ -4,7 +4,7 @@ import { waitFor } from '@testing-library/react';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
-import { beforeEach, describe, it } from 'mocha';
+import { beforeEach, describe, it, afterEach } from 'mocha';
 import { fireEvent } from '@testing-library/dom';
 import reducer from '../../reducers';
 import DownloadReportPage from '../../containers/DownloadReportPage';
@@ -800,3 +800,373 @@ describe('DownloadReportPage - Non-Cerner Users', () => {
     expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;
   });
 });
+
+describe('DownloadReportPage - URL Parameter Handling', () => {
+  it('expands self-entered accordion when ?sei=true query param is present', () => {
+    const screen = renderWithStoreAndRouter(<DownloadReportPage />, {
+      initialState: vistaOnlyBaseState,
+      reducers: reducer,
+      path: '/download?sei=true',
+    });
+
+    const selfEnteredAccordion = screen.getByTestId('selfEnteredAccordionItem');
+    expect(selfEnteredAccordion).to.exist;
+    // The accordion should be expanded based on the expandSelfEntered state
+    expect(selfEnteredAccordion).to.have.attribute('open', 'true');
+  });
+
+  it('does not expand self-entered accordion when sei param is not present', () => {
+    const screen = renderWithStoreAndRouter(<DownloadReportPage />, {
+      initialState: vistaOnlyBaseState,
+      reducers: reducer,
+      path: '/download',
+    });
+
+    const selfEnteredAccordion = screen.getByTestId('selfEnteredAccordionItem');
+    expect(selfEnteredAccordion).to.exist;
+    // Without sei=true, accordion should not be automatically expanded
+    expect(selfEnteredAccordion).to.not.have.attribute('open', 'true');
+  });
+});
+
+describe('DownloadReportPage - CCD Retry Timestamp', () => {
+  beforeEach(() => {
+    // Clear localStorage before each test
+    localStorage.removeItem('lastCCDError');
+  });
+
+  afterEach(() => {
+    // Clean up localStorage after each test
+    localStorage.removeItem('lastCCDError');
+  });
+
+  it('displays access trouble alert when CCD error is within 24 hours', () => {
+    // Set error timestamp to now (within 24 hour window)
+    const recentError = new Date().toISOString();
+    localStorage.setItem('lastCCDError', recentError);
+
+    const stateWithCCDError = {
+      ...vistaOnlyBaseState,
+      mr: {
+        ...vistaOnlyBaseState.mr,
+        downloads: {
+          ...vistaOnlyBaseState.mr.downloads,
+          error: true,
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<DownloadReportPage />, {
+      initialState: stateWithCCDError,
+      reducers: reducer,
+      path: '/download',
+    });
+
+    expect(
+      screen.getByText(
+        "We can't download your Continuity of Care Document right now",
+      ),
+    ).to.exist;
+  });
+
+  it('does not display CCD retry alert when error is older than 24 hours', () => {
+    // Set error timestamp to more than 24 hours ago
+    const oldError = new Date(Date.now() - 25 * 60 * 60 * 1000).toISOString();
+    localStorage.setItem('lastCCDError', oldError);
+
+    const screen = renderWithStoreAndRouter(<DownloadReportPage />, {
+      initialState: vistaOnlyBaseState,
+      reducers: reducer,
+      path: '/download',
+    });
+
+    expect(
+      screen.queryByText(
+        "We can't download your Continuity of Care Document right now",
+      ),
+    ).to.be.null;
+  });
+});
+
+describe('DownloadReportPage - CCD Download Handlers', () => {
+  it('renders CCD download button for VistA user and can be clicked', () => {
+    const screen = renderWithStoreAndRouter(<DownloadReportPage />, {
+      initialState: vistaOnlyBaseState,
+      reducers: reducer,
+      path: '/download',
+    });
+
+    const ccdAccordion = screen.getByTestId('ccdAccordionItem');
+    fireEvent.click(ccdAccordion);
+
+    const xmlButton = screen.getByTestId('generateCcdButtonXml');
+    expect(xmlButton).to.exist;
+
+    // Click should not throw error
+    fireEvent.click(xmlButton);
+  });
+
+  it('renders CCD V2 download buttons for OH user and can be clicked', () => {
+    const screen = renderWithStoreAndRouter(<DownloadReportPage />, {
+      initialState: ohOnlyBaseState,
+      reducers: reducer,
+      path: '/download',
+    });
+
+    const xmlButton = screen.getByTestId('generateCcdButtonXmlOH');
+    expect(xmlButton).to.exist;
+
+    // Click should not throw error
+    fireEvent.click(xmlButton);
+  });
+
+  it('renders both VistA and OH CCD download buttons for dual-source user', () => {
+    const screen = renderWithStoreAndRouter(<DownloadReportPage />, {
+      initialState: bothSourcesBaseState,
+      reducers: reducer,
+      path: '/download',
+    });
+
+    // VistA CCD buttons
+    expect(screen.getByTestId('generateCcdButtonXmlVista')).to.exist;
+    expect(screen.getByTestId('generateCcdButtonPdfVista')).to.exist;
+    expect(screen.getByTestId('generateCcdButtonHtmlVista')).to.exist;
+
+    // OH CCD buttons
+    expect(screen.getByTestId('generateCcdButtonXmlOH')).to.exist;
+    expect(screen.getByTestId('generateCcdButtonPdfOH')).to.exist;
+    expect(screen.getByTestId('generateCcdButtonHtmlOH')).to.exist;
+  });
+});
+
+describe('DownloadReportPage - Facility Name Mapping', () => {
+  it('displays VistA facility names for dual-source user', () => {
+    const screen = renderWithStoreAndRouter(<DownloadReportPage />, {
+      initialState: bothSourcesBaseState,
+      reducers: reducer,
+      path: '/download',
+    });
+
+    // VistA facility name should be displayed
+    expect(screen.getByText(/VA Test health care/)).to.exist;
+  });
+
+  it('displays OH facility names for dual-source user', () => {
+    const screen = renderWithStoreAndRouter(<DownloadReportPage />, {
+      initialState: bothSourcesBaseState,
+      reducers: reducer,
+      path: '/download',
+    });
+
+    // OH facility name should be displayed
+    expect(screen.getByText(/VA Spokane health care/)).to.exist;
+  });
+});
+
+describe('DownloadReportPage - Self-Entered Download', () => {
+  it('renders self-entered download button in both sources view', () => {
+    const screen = renderWithStoreAndRouter(<DownloadReportPage />, {
+      initialState: bothSourcesBaseState,
+      reducers: reducer,
+      path: '/download',
+    });
+
+    const downloadButton = screen.getByTestId('downloadSelfEnteredButton');
+    expect(downloadButton).to.exist;
+  });
+
+  it('renders self-entered accordion in VistA-only view', () => {
+    const screen = renderWithStoreAndRouter(<DownloadReportPage />, {
+      initialState: vistaOnlyBaseState,
+      reducers: reducer,
+      path: '/download',
+    });
+
+    const selfEnteredAccordion = screen.getByTestId('selfEnteredAccordionItem');
+    expect(selfEnteredAccordion).to.exist;
+
+    fireEvent.click(selfEnteredAccordion);
+
+    const downloadButton = screen.getByTestId('downloadSelfEnteredButton');
+    expect(downloadButton).to.exist;
+  });
+});
+
+describe('DownloadReportPage - Both Sources Loading States', () => {
+  it('shows loading spinner for VistA CCD when generatingCCD is true', () => {
+    const stateWithGeneratingCCD = {
+      ...bothSourcesBaseState,
+      mr: {
+        ...bothSourcesBaseState.mr,
+        downloads: {
+          ...bothSourcesBaseState.mr.downloads,
+          generatingCCD: true,
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<DownloadReportPage />, {
+      initialState: stateWithGeneratingCCD,
+      reducers: reducer,
+      path: '/download',
+    });
+
+    // Loading spinner should exist for generating CCD
+    expect(screen.container.querySelector('[id*="generating-ccd"]')).to.exist;
+  });
+});
+
+describe('DownloadReportPage - Empty Facility Data', () => {
+  it('handles missing ehrDataByVhaId gracefully', () => {
+    const stateWithoutEhrData = {
+      ...vistaOnlyBaseState,
+      drupalStaticData: {
+        vamcEhrData: {
+          loading: false,
+          data: {
+            ehrDataByVhaId: null,
+            cernerFacilities: [],
+          },
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<DownloadReportPage />, {
+      initialState: stateWithoutEhrData,
+      reducers: reducer,
+      path: '/download',
+    });
+
+    // Should still render without errors
+    expect(screen).to.exist;
+    const headings = screen.getAllByText(
+      'Download your medical records reports',
+    );
+    expect(headings.length).to.be.greaterThan(0);
+  });
+});
+
+describe('DownloadReportPage - CCD Success Alert for OH Users', () => {
+  it('renders CCD download success alert for OH only user', () => {
+    const stateWithCCDSuccess = {
+      ...ohOnlyBaseState,
+      mr: {
+        ...ohOnlyBaseState.mr,
+        downloads: {
+          ...ohOnlyBaseState.mr.downloads,
+          ccdDownloadSuccess: true,
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<DownloadReportPage />, {
+      initialState: stateWithCCDSuccess,
+      reducers: reducer,
+      path: '/download',
+    });
+
+    expect(screen.getByText('Continuity of Care Document download started')).to
+      .exist;
+  });
+});
+
+describe('DownloadReportPage - CCD Success Alert for Both Sources Users', () => {
+  it('renders CCD download success alert for dual-source user', () => {
+    const stateWithCCDSuccess = {
+      ...bothSourcesBaseState,
+      mr: {
+        ...bothSourcesBaseState.mr,
+        downloads: {
+          ...bothSourcesBaseState.mr.downloads,
+          ccdDownloadSuccess: true,
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<DownloadReportPage />, {
+      initialState: stateWithCCDSuccess,
+      reducers: reducer,
+      path: '/download',
+    });
+
+    expect(screen.getByText('Continuity of Care Document download started')).to
+      .exist;
+  });
+});
+
+describe('DownloadReportPage - Blue Button Failed Domains', () => {
+  it('passes failedBBDomains to content components for VistA only user', () => {
+    const stateWithFailedDomains = {
+      ...vistaOnlyBaseState,
+      mr: {
+        ...vistaOnlyBaseState.mr,
+        blueButton: {
+          failedDomains: ['allergies', 'medications'],
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<DownloadReportPage />, {
+      initialState: stateWithFailedDomains,
+      reducers: reducer,
+      path: '/download',
+    });
+
+    // Component should render without errors even with failed domains
+    expect(screen).to.exist;
+    expect(screen.getByTestId('go-to-download-all')).to.exist;
+  });
+
+  it('passes failedBBDomains to content components for dual-source user', () => {
+    const stateWithFailedDomains = {
+      ...bothSourcesBaseState,
+      mr: {
+        ...bothSourcesBaseState.mr,
+        blueButton: {
+          failedDomains: ['allergies', 'medications'],
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<DownloadReportPage />, {
+      initialState: stateWithFailedDomains,
+      reducers: reducer,
+      path: '/download',
+    });
+
+    // Component should render without errors even with failed domains
+    expect(screen).to.exist;
+    expect(screen.getByTestId('go-to-download-all')).to.exist;
+  });
+});
+
+describe('DownloadReportPage - Refresh Status', () => {
+  it('handles refresh status for VistA user with status data', () => {
+    const stateWithRefreshStatus = {
+      ...vistaOnlyBaseState,
+      mr: {
+        ...vistaOnlyBaseState.mr,
+        refresh: {
+          status: [
+            {
+              extract: 'Allergy',
+              lastRequested: '2024-01-01T12:00:00Z',
+              lastCompleted: '2024-01-01T12:05:00Z',
+              lastSuccessfulCompleted: '2024-01-01T12:05:00Z',
+            },
+          ],
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<DownloadReportPage />, {
+      initialState: stateWithRefreshStatus,
+      reducers: reducer,
+      path: '/download',
+    });
+
+    expect(screen).to.exist;
+    expect(screen.getByTestId('ccdAccordionItem')).to.exist;
+  });
+});
+
