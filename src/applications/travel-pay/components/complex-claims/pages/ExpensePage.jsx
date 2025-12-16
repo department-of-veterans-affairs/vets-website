@@ -33,7 +33,7 @@ import {
   validateReceiptDate,
   validateDescription,
   validateRequestedAmount,
-} from '../../../util/expenseValidations';
+} from '../../../util/expense-validation-helpers';
 
 import TravelPayButtonPair from '../../shared/TravelPayButtonPair';
 import ExpenseMealFields from './ExpenseMealFields';
@@ -68,8 +68,6 @@ const ExpensePage = () => {
   const isDeletingDocument = useSelector(selectDocumentDeleteLoadingState);
 
   // Refs
-  // const errorRef = useRef(null); // ref for the error message
-  // const costRequestedRef = useRef(null);
   const initialFormStateRef = useRef({});
   const previousHasChangesRef = useRef(false);
   const hasLoadedExpenseRef = useRef(false);
@@ -165,13 +163,7 @@ const ExpensePage = () => {
   );
 
   // Effect 3: Focus error message when it becomes visible
-  // useEffect();
-  // () => {
-  //   if (showError && errorRef.current) {
-  //     errorRef.current.focus();
-  //   }
-  // },
-  // [showError],
+  // TODO: Look to see if any new error appears and focus it
 
   // Track unsaved changes by comparing current state to initial state
   useEffect(
@@ -528,7 +520,6 @@ const ExpensePage = () => {
           name="costRequested"
           value={formState.costRequested || ''}
           required
-          // ref={costRequestedRef}
           show-input-error
           inputmode="decimal"
           pattern="^[0-9]*(\.[0-9]{0,2})?$"

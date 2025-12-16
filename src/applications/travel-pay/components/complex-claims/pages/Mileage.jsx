@@ -29,6 +29,7 @@ const Mileage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { apptId, claimId, expenseId } = useParams();
+
   const isEditMode = !!expenseId;
 
   const allExpenses = useSelector(selectAllExpenses);
@@ -64,6 +65,7 @@ const Mileage = () => {
       const hasChanges =
         JSON.stringify(formState) !==
         JSON.stringify(initialFormStateRef.current);
+      // Only dispatch if the hasChanges value actually changed
       if (hasChanges !== previousHasChangesRef.current) {
         dispatch(setUnsavedExpenseChanges(hasChanges));
         previousHasChangesRef.current = hasChanges;
@@ -115,7 +117,7 @@ const Mileage = () => {
       expenseType: EXPENSE_TYPE_KEYS.MILEAGE,
     };
 
-    // Check for unsupported combinations
+    // Check if user selected "another-address" or "one-way"
     if (
       formState.departureAddress === 'another-address' ||
       formState.tripType === TRIP_TYPES.ONE_WAY.key
