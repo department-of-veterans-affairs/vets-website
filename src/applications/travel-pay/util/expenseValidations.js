@@ -119,6 +119,7 @@ export const validateReceiptDate = (dateInput, type, setExtraFieldErrors) => {
  * @returns {boolean} - Returns true if the description is valid, false otherwise.
  */
 export const validateDescription = (description, setExtraFieldErrors, type) => {
+  // Always start by clearing any previous error
   let error = null;
 
   if (type === DATE_VALIDATION_TYPE.SUBMIT && !description) {
@@ -157,6 +158,7 @@ export const validateRequestedAmount = (
   setFormState,
   fieldName = 'costRequested',
 ) => {
+  // Always start by clearing any previous error
   let error = null;
 
   const strAmount = (amount ?? '').toString().trim();
