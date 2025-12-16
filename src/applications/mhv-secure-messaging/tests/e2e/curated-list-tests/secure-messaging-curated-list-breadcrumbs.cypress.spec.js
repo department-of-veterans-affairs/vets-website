@@ -279,10 +279,10 @@ describe('Recent care teams', () => {
     GeneralFunctionsPage.verifyPageHeader(Data.RECENT_RECIPIENTS_HEADER);
 
     // Navigate forward to select care team
-    cy.findByLabelText('A different care team').click();
-    cy.findByTestId('recent-care-teams-continue-button')
-      .should('be.enabled', { timeout: 10000 })
-      .click();
+    cy.findByLabelText('A different care team').click({
+      waitForAnimations: true,
+    });
+    cy.findByTestId('recent-care-teams-continue-button').click();
     GeneralFunctionsPage.verifyPageHeader('Select care team');
 
     // Navigate back through the flow
@@ -337,10 +337,10 @@ describe('Recent care teams', () => {
     );
 
     // Forward: Recent care teams → Select care team
-    cy.findByLabelText('A different care team').click();
-    cy.findByTestId('recent-care-teams-continue-button')
-      .should('be.enabled', { timeout: 10000 })
-      .click();
+    cy.findByLabelText('A different care team').click({
+      waitForAnimations: true,
+    });
+    cy.findByTestId('recent-care-teams-continue-button').click();
     GeneralFunctionsPage.verifyPageHeader('Select care team');
     cy.location('pathname').should('equal', Data.LINKS.SELECT_CARE_TEAM);
 
