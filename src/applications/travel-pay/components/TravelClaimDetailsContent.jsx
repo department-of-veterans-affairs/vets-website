@@ -23,7 +23,6 @@ export default function TravelClaimDetailsContent() {
 
   const claimData = data[id];
   const appointmentDateTime = claimData?.appointment?.appointmentDateTime;
-  const missingAppointmentId = !appointmentData?.id;
 
   useEffect(
     () => {
@@ -56,7 +55,7 @@ export default function TravelClaimDetailsContent() {
 
   return (
     <>
-      {(error || appointmentError || missingAppointmentId) && (
+      {error && (
         <>
           <h1>Your travel reimbursement claim</h1>
           <va-alert
@@ -82,9 +81,7 @@ export default function TravelClaimDetailsContent() {
           </va-alert>
         </>
       )}
-      {data[id] &&
-        !appointmentError &&
-        !missingAppointmentId && <ClaimDetailsContent {...data[id]} />}
+      {data[id] && <ClaimDetailsContent {...data[id]} />}
       <hr />
 
       <div className="vads-u-margin-bottom--4">

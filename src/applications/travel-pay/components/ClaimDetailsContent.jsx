@@ -146,7 +146,8 @@ export default function ClaimDetailsContent({
       )}
       {complexClaimsToggle &&
         (claimStatus === STATUSES.Incomplete.name ||
-          claimStatus === STATUSES.Saved.name) && (
+          claimStatus === STATUSES.Saved.name) &&
+        appointmentId && (
           <va-link-action
             text="Complete and file your claim"
             // Specifically NOT a client-side route to ensure
