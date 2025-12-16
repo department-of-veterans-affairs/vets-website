@@ -19,14 +19,14 @@ describe('addressPattern mapping functions', () => {
 
   describe('addressUI', () => {
     it('should return UI schema with mapped field keys', () => {
-      const keyMap = {
+      const newSchemaKeys = {
         street: 'addressLine1',
         street2: 'addressLine2',
         street3: 'addressLine3',
         postalCode: 'zipCode',
       };
 
-      const result = addressUI({ keyMap });
+      const result = addressUI({ newSchemaKeys });
 
       // Should have mapped keys instead of standard keys
       expect(result).to.have.property('addressLine1');
@@ -48,12 +48,12 @@ describe('addressPattern mapping functions', () => {
     });
 
     it('should preserve field configurations when mapping keys', () => {
-      const keyMap = {
+      const newSchemaKeys = {
         street: 'addressLine1',
         postalCode: 'zipCode',
       };
 
-      const result = addressUI({ keyMap });
+      const result = addressUI({ newSchemaKeys });
 
       // Check that field configurations are preserved
       expect(result.addressLine1).to.have.property('ui:required');
@@ -66,11 +66,11 @@ describe('addressPattern mapping functions', () => {
     });
 
     it('should handle partial key mapping correctly', () => {
-      const keyMap = {
+      const newSchemaKeys = {
         postalCode: 'zipCode',
       };
 
-      const result = addressUI({ keyMap });
+      const result = addressUI({ newSchemaKeys });
 
       // Should have mapped key
       expect(result).to.have.property('zipCode');
@@ -84,13 +84,13 @@ describe('addressPattern mapping functions', () => {
     });
 
     it('should respect omit option with standard keys', () => {
-      const keyMap = {
+      const newSchemaKeys = {
         street: 'addressLine1',
         street2: 'addressLine2',
       };
 
       const result = addressUI({
-        keyMap,
+        newSchemaKeys,
         omit: ['street3', 'isMilitary'],
       });
 
@@ -104,7 +104,7 @@ describe('addressPattern mapping functions', () => {
       expect(result).to.not.have.property('isMilitary');
     });
 
-    it('should work with no keyMap provided', () => {
+    it('should work with no newSchemaKeys provided', () => {
       const result = addressUI({});
 
       // Should return standard keys when no mapping provided
@@ -119,7 +119,7 @@ describe('addressPattern mapping functions', () => {
     });
 
     it('should pass through other options to base addressUI', () => {
-      const keyMap = {
+      const newSchemaKeys = {
         street: 'addressLine1',
       };
 
@@ -128,7 +128,7 @@ describe('addressPattern mapping functions', () => {
         militaryCheckbox: 'Custom Military Label',
       };
 
-      const result = addressUI({ keyMap, labels });
+      const result = addressUI({ newSchemaKeys, labels });
 
       // Check that labels are applied correctly
       expect(result.addressLine1['ui:title']).to.equal('Custom Street Label');
@@ -138,14 +138,14 @@ describe('addressPattern mapping functions', () => {
 
   describe('addressSchema', () => {
     it('should return schema with mapped property keys', () => {
-      const keyMap = {
+      const newSchemaKeys = {
         street: 'addressLine1',
         street2: 'addressLine2',
         street3: 'addressLine3',
         postalCode: 'zipCode',
       };
 
-      const result = addressSchema({ keyMap });
+      const result = addressSchema({ newSchemaKeys });
 
       expect(result).to.have.property('type', 'object');
       expect(result).to.have.property('properties');
@@ -170,12 +170,12 @@ describe('addressPattern mapping functions', () => {
     });
 
     it('should preserve property definitions when mapping', () => {
-      const keyMap = {
+      const newSchemaKeys = {
         street: 'addressLine1',
         postalCode: 'zipCode',
       };
 
-      const result = addressSchema({ keyMap });
+      const result = addressSchema({ newSchemaKeys });
 
       // Check that property definitions are preserved
       expect(result.properties.addressLine1).to.have.property('type', 'string');
@@ -183,13 +183,13 @@ describe('addressPattern mapping functions', () => {
     });
 
     it('should handle omit option correctly', () => {
-      const keyMap = {
+      const newSchemaKeys = {
         street: 'addressLine1',
         street2: 'addressLine2',
       };
 
       const result = addressSchema({
-        keyMap,
+        newSchemaKeys,
         omit: ['street3', 'isMilitary'],
       });
 
@@ -203,7 +203,7 @@ describe('addressPattern mapping functions', () => {
       expect(result.properties).to.not.have.property('isMilitary');
     });
 
-    it('should work with empty keyMap', () => {
+    it('should work with empty newSchemaKeys', () => {
       const result = addressSchema({});
 
       // Should return standard property names
@@ -216,7 +216,7 @@ describe('addressPattern mapping functions', () => {
 
   describe('updateFormDataAddress', () => {
     it('should update form data with mapped field keys', () => {
-      const keyMap = {
+      const newSchemaKeys = {
         street: 'addressLine1',
         street2: 'addressLine2',
         postalCode: 'zipCode',
@@ -247,14 +247,14 @@ describe('addressPattern mapping functions', () => {
         formData,
         ['mailingAddress'],
         null,
-        keyMap,
+        newSchemaKeys,
       );
 
       expect(result).to.deep.equal(formData);
     });
 
     it('should handle military base checkbox toggle correctly', () => {
-      const keyMap = {
+      const newSchemaKeys = {
         street: 'addressLine1',
         city: 'cityName',
         state: 'stateCode',
@@ -283,7 +283,7 @@ describe('addressPattern mapping functions', () => {
         formData,
         ['address'],
         null,
-        keyMap,
+        newSchemaKeys,
       );
 
       // Should clear city and state when switching to military
@@ -292,7 +292,7 @@ describe('addressPattern mapping functions', () => {
     });
 
     it('should restore saved address when unchecking military base', () => {
-      const keyMap = {
+      const newSchemaKeys = {
         city: 'cityName',
         state: 'stateCode',
       };
@@ -320,7 +320,7 @@ describe('addressPattern mapping functions', () => {
         militaryData,
         ['address'],
         null,
-        keyMap,
+        newSchemaKeys,
       );
 
       // Now simulate unchecking military base
@@ -345,7 +345,7 @@ describe('addressPattern mapping functions', () => {
         newFormData,
         ['address'],
         null,
-        keyMap,
+        newSchemaKeys,
       );
 
       // Should restore the previously saved city and state
@@ -353,7 +353,7 @@ describe('addressPattern mapping functions', () => {
       expect(result.address.stateCode).to.equal('NY');
     });
 
-    it('should work with no keyMap provided', () => {
+    it('should work with no newSchemaKeys provided', () => {
       const oldFormData = {
         address: {
           isMilitary: false,
@@ -388,13 +388,13 @@ describe('addressPattern mapping functions', () => {
 
   describe('integration with existing patterns', () => {
     it('should work seamlessly with existing address validation', () => {
-      const keyMap = {
+      const newSchemaKeys = {
         street: 'addressLine1',
         postalCode: 'zipCode',
       };
 
-      const uiSchema = addressUI({ keyMap });
-      const schema = addressSchema({ keyMap });
+      const uiSchema = addressUI({ newSchemaKeys });
+      const schema = addressSchema({ newSchemaKeys });
 
       // Should have mapped keys
       expect(schema.properties).to.have.property('addressLine1');
@@ -407,14 +407,14 @@ describe('addressPattern mapping functions', () => {
     });
 
     it('should preserve all address functionality with mapped keys', () => {
-      const keyMap = {
+      const newSchemaKeys = {
         street: 'addressLine1',
         street2: 'addressLine2',
         street3: 'addressLine3',
         postalCode: 'zipCode',
       };
 
-      const uiSchema = addressUI({ keyMap });
+      const uiSchema = addressUI({ newSchemaKeys });
 
       // Should have military checkbox functionality
       expect(uiSchema.isMilitary).to.exist;
