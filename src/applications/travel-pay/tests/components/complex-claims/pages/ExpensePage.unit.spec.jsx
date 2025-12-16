@@ -486,6 +486,116 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
           );
         });
 
+        it('shows receipt error when continue is clicked without a file', async () => {
+          const { container } = renderPage(config);
+
+          const buttonGroup = container.querySelector(
+            '.travel-pay-button-group',
+          );
+          const continueButton = Array.from(
+            buttonGroup.querySelectorAll('va-button'),
+          ).find(btn => btn.getAttribute('text') === 'Continue');
+
+          fireEvent.click(continueButton);
+
+          await waitFor(() => {
+            const fileInput = container.querySelector('va-file-input');
+            expect(fileInput).to.exist;
+            expect(fileInput.getAttribute('error')).to.equal(
+              'Select an approved file type under 5MB',
+            );
+          });
+        });
+
+        it('clears receipt error when a file is uploaded', async () => {
+          const { container } = renderPage(config);
+
+          // Trigger validation
+          const continueButton = Array.from(
+            container.querySelectorAll('.travel-pay-button-group va-button'),
+          ).find(btn => btn.getAttribute('text') === 'Continue');
+
+          fireEvent.click(continueButton);
+
+          const fileInput = container.querySelector('va-file-input');
+          expect(fileInput.getAttribute('error')).to.exist;
+
+          // Upload a file
+          const testFile = new File(['dummy'], 'receipt.pdf', {
+            type: 'application/pdf',
+          });
+
+          fileInput.dispatchEvent(
+            new CustomEvent('vaChange', {
+              detail: { files: [testFile] },
+              bubbles: true,
+              composed: true,
+            }),
+          );
+
+          await waitFor(() => {
+            expect(fileInput.getAttribute('error')).to.not.exist;
+          });
+        });
+
+        it('shows errors for missing Common Carrier fields on continue', async () => {
+          if (key !== 'Commoncarrier') return;
+
+          const { container } = renderPage(config);
+
+          const continueButton = Array.from(
+            container.querySelectorAll('.travel-pay-button-group va-button'),
+          ).find(btn => btn.getAttribute('text') === 'Continue');
+
+          fireEvent.click(continueButton);
+
+          await waitFor(() => {
+            const carrierType = container.querySelector(
+              'va-radio[name="carrierType"]',
+            );
+            const reason = container.querySelector(
+              'va-radio[name="reasonNotUsingPOV"]',
+            );
+
+            expect(carrierType.getAttribute('error')).to.equal(
+              'Select a transportation type',
+            );
+            expect(reason.getAttribute('error')).to.equal('Select a reason');
+          });
+        });
+
+        it('clears carrierType error when a transportation option is selected', async () => {
+          if (key !== 'Commoncarrier') return;
+
+          const { container } = renderPage(config);
+
+          // Trigger error
+          const continueButton = Array.from(
+            container.querySelectorAll('.travel-pay-button-group va-button'),
+          ).find(btn => btn.getAttribute('text') === 'Continue');
+
+          fireEvent.click(continueButton);
+
+          const carrierRadio = container.querySelector(
+            'va-radio[name="carrierType"]',
+          );
+
+          expect(carrierRadio.getAttribute('error')).to.exist;
+
+          // Select an option
+          carrierRadio.dispatchEvent(
+            new CustomEvent('vaValueChange', {
+              detail: { value: TRANSPORTATION_OPTIONS[0] },
+              bubbles: true,
+              composed: true,
+            }),
+          );
+
+          await waitFor(() => {
+            expect(carrierRadio.getAttribute('error')).to.not.exist;
+          });
+        });
+
         it.skip('scrolls to the first error for the date field', () => {
           // Skipped temporarily until we figure out how to spy on shadow DOM scroll/focus
         });

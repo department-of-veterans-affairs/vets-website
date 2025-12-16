@@ -8,67 +8,81 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { TRIP_TYPES } from '../../../constants';
 
-const ExpenseAirTravelFields = ({ formState, onChange }) => (
+const ExpenseAirTravelFields = ({ errors = {}, formState, onChange }) => (
   <>
-    <VaTextInput
-      label="Where did you purchase your ticket?"
-      name="vendorName"
-      value={formState.vendorName || ''}
-      required
-      onInput={onChange}
-      hint="Enter the company you purchased the ticket from, even if it isn't an airline."
-    />
-
+    <div className="vads-u-margin-top--2">
+      <VaTextInput
+        label="Where did you purchase your ticket?"
+        name="vendorName"
+        value={formState.vendorName || ''}
+        required
+        onInput={onChange}
+        hint="Enter the company you purchased the ticket from, even if it isn't an airline."
+        {...errors.vendorName && { error: errors.vendorName }}
+      />
+    </div>
     <VaRadio
       name="tripType"
       value={formState.tripType || ''}
       label="Type of trip"
       onVaValueChange={e => onChange(e.detail, 'tripType')}
       required
+      {...errors.tripType && { error: errors.tripType }}
     >
       {Object.values(TRIP_TYPES).map(option => (
         <va-radio-option
-          key={option.label}
+          key={option.key}
           label={option.label}
-          value={option.label}
-          checked={formState.tripType === option.label}
+          value={option.value}
+          checked={formState.tripType === option.value}
         />
       ))}
     </VaRadio>
-
-    <VaDate
-      label="Departure date"
-      name="departureDate"
-      value={formState.departureDate || ''}
-      required
-      onDateChange={onChange}
-      hint="Enter the date on your departure ticket."
-    />
-    <VaTextInput
-      label="Departure airport"
-      name="departedFrom"
-      value={formState.departedFrom || ''}
-      required
-      onInput={onChange}
-    />
-    <VaTextInput
-      label="Arrival airport"
-      name="arrivedTo"
-      value={formState.arrivedTo || ''}
-      required
-      onInput={onChange}
-    />
+    <div className="vads-u-margin-top--2">
+      <VaDate
+        label="Departure date"
+        name="departureDate"
+        value={formState.departureDate || ''}
+        required
+        onDateChange={onChange}
+        hint="Enter the date on your departure ticket."
+        {...errors.departureDate && { error: errors.departureDate }}
+      />
+    </div>
+    <div className="vads-u-margin-top--2">
+      <VaTextInput
+        label="Departure airport"
+        name="departedFrom"
+        value={formState.departedFrom || ''}
+        required
+        onInput={onChange}
+        {...errors.departedFrom && { error: errors.departedFrom }}
+      />
+    </div>
+    <div className="vads-u-margin-top--2">
+      <VaTextInput
+        label="Arrival airport"
+        name="arrivedTo"
+        value={formState.arrivedTo || ''}
+        required
+        onInput={onChange}
+        {...errors.arrivedTo && { error: errors.arrivedTo }}
+      />
+    </div>
     <VaDate
       label="Return date"
       name="returnDate"
       value={formState.returnDate || ''}
+      required={formState.tripType === TRIP_TYPES.ROUND_TRIP.value}
       onDateChange={onChange}
       hint="Enter the date on your return ticket. For one-way trips, leave this blank."
+      {...errors.returnDate && { error: errors.returnDate }}
     />
   </>
 );
 
 ExpenseAirTravelFields.propTypes = {
+  errors: PropTypes.object,
   formState: PropTypes.object,
   onChange: PropTypes.func,
 };

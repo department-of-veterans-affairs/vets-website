@@ -15,7 +15,11 @@ import {
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import DocumentUpload from './DocumentUpload';
-import { EXPENSE_TYPES, EXPENSE_TYPE_KEYS } from '../../../constants';
+import {
+  EXPENSE_TYPES,
+  EXPENSE_TYPE_KEYS,
+  TRIP_TYPES,
+} from '../../../constants';
 import {
   createExpense,
   updateExpenseDeleteDocument,
@@ -163,15 +167,6 @@ const ExpensePage = () => {
     [isEditMode, expense?.documentId, claimId, filename, previousDocumentId],
   );
 
-  // Effect 3: Focus error message when it becomes visible
-  useEffect(
-    () => {
-      if (Object.keys(extraFieldErrors).length === 0) return;
-      scrollToFirstError({ focusOnAlertRole: true });
-    },
-    [extraFieldErrors],
-  );
-
   // Track unsaved changes by comparing current state to initial state
   useEffect(
     () => {
@@ -292,6 +287,50 @@ const ExpensePage = () => {
       }
     }
 
+    // Airtravel-specific validations
+    if (isAirTravel) {
+      if (!formState.vendorName) {
+        errors.vendorName = 'Enter the company name';
+      } else {
+        delete errors.vendorName;
+      }
+
+      if (!formState.tripType) {
+        errors.tripType = 'Select a trip type';
+      } else {
+        delete errors.tripType;
+      }
+
+      if (!formState.departureDate) {
+        errors.departureDate = 'Enter a departure date';
+      } else if (formState.departureDate < formState.returnDate) {
+        errors.departureDate = 'Departure date must be later than return date';
+      } else {
+        delete errors.departureDate;
+      }
+
+      if (!formState.departedFrom) {
+        errors.departedFrom = 'Enter the airport name';
+      } else {
+        delete errors.departedFrom;
+      }
+
+      if (!formState.arrivedTo) {
+        errors.arrivedTo = 'Enter the airport name';
+      } else {
+        delete errors.arrivedTo;
+      }
+
+      if (
+        formState.tripType === TRIP_TYPES.ROUND_TRIP.value &&
+        !formState.returnDate
+      ) {
+        errors.returnDate = 'Enter a return date';
+      } else {
+        delete errors.returnDate;
+      }
+    }
+
     setExtraFieldErrors(errors);
 
     const isDateValid = validateReceiptDate(
@@ -323,7 +362,10 @@ const ExpensePage = () => {
     JSON.stringify(previousFormState) !== JSON.stringify(formState);
 
   const handleContinue = async () => {
-    if (!validatePage()) return;
+    if (!validatePage()) {
+      scrollToFirstError({ focusOnAlertRole: true });
+      return;
+    }
 
     const expenseConfig = EXPENSE_TYPES[expenseType];
 
@@ -532,6 +574,7 @@ const ExpensePage = () => {
         <ExpenseAirTravelFields
           formState={formState}
           onChange={handleFormChange}
+          errors={extraFieldErrors}
         />
       )}
       <VaDate
