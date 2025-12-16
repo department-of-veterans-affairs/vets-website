@@ -41,7 +41,7 @@ export const defaultPageConfig = {
 /**
  * Add this page to config/form
  * Spread the returned object into the app config/form
- * @type {PersonalInformationPageConfig}
+ * @type {PrefillPersonalInfoPageConfig}
  * @returns {Object} - form config pages for a chapter
  */
 const profilePersonalInfoPage = ({
