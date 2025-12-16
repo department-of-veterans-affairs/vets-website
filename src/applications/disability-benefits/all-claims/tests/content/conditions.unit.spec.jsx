@@ -107,7 +107,7 @@ describe('createCauseFollowUpDescriptions', () => {
       newDisabilities: [{ condition: 'ankle sprain', sideOfBody: 'Right' }],
     };
     expect(createCauseFollowUpDescriptions(item, fullData)).to.equal(
-      'Ankle sprain, left has been removed — please edit to change the cause',
+      'Ankle sprain, left has been removed — please edit to change the cause or delete the condition',
     );
   });
 
