@@ -37,6 +37,7 @@
   }
 }
 //overriding default classes set at the forms level to match figma
+.form-21-0966,
 .form-21-686c,
 .form-21-526EZ,
 .form-21-0966 {
@@ -218,4 +219,28 @@
 
 [name="root_selectBenefits"] {
   margin-top: 32px;
+}
+
+.form-21-0966 {
+  .form-review-panel-page {
+    div[name="veteranInformationPageScrollElement"] {
+      display: none;
+    }
+    div[name="claimantInformationScrollElement"] {
+      display: none;
+    }
+    .form-review-panel-page-header-row {
+      border-bottom: none !important;
+    }
+    form.rjsf {
+      margin-bottom: 0px;
+    }
+  }
+  @media screen and (min-width: 768px) {
+    .form-progress-buttons {
+      .vads-u-flex--1 {
+        width: 246px;
+      }
+    }
+  }
 }

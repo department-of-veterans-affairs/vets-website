@@ -18,6 +18,7 @@ describe('ezr <SpouseSummaryCardDescription>', () => {
                   'view:maritalStatus': {
                     maritalStatus: status,
                   },
+                  spouseInformation: [{}],
                 },
               },
             },
@@ -46,7 +47,11 @@ describe('ezr <SpouseSummaryCardDescription>', () => {
                   'view:maritalStatus': {
                     maritalStatus: status,
                   },
-                  dateOfMarriage: '1995-02-22',
+                  spouseInformation: [
+                    {
+                      dateOfMarriage: '1995-02-22',
+                    },
+                  ],
                 },
               },
             },
@@ -72,7 +77,11 @@ describe('ezr <SpouseSummaryCardDescription>', () => {
               'view:maritalStatus': {
                 maritalStatus: 'never married',
               },
-              dateOfMarriage: '1995-02-22',
+              spouseInformation: [
+                {
+                  dateOfMarriage: '1995-02-22',
+                },
+              ],
             },
           },
         },

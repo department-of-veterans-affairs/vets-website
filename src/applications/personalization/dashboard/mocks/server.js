@@ -89,7 +89,7 @@ const responses = {
     const paymentHistoryStatus = 'success';
     switch (paymentHistoryStatus) {
       case 'success':
-        return res.status(200).json(createSuccessPayment(false));
+        return res.status(200).json(createSuccessPayment(true));
       case 'empty':
         return res.status(200).json(createEmptyPayment());
       case 'failure':
@@ -185,14 +185,17 @@ const responses = {
     },
   },
   'GET /v0/debts': (req, res) => {
-    if (req.query?.countOnly) {
-      return res.status(200).json(createDebtsCountOnlySuccess());
-    }
     const debtStatus = 'success';
     switch (debtStatus) {
       case 'success':
+        if (req.query?.countOnly) {
+          return res.status(200).json(createDebtsCountOnlySuccess());
+        }
         return res.status(200).json(createDebtsSuccess());
       case 'empty':
+        if (req.query?.countOnly) {
+          return res.status(200).json(createDebtsCountOnlySuccess(0));
+        }
         return res.status(200).json(createNoDebtsSuccess());
       case 'failure':
         return res.status(500).json(createDebtsFailure());
