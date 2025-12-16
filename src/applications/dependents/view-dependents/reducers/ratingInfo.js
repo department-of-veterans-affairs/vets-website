@@ -12,15 +12,15 @@ const initialState = {
 const minRating = 30;
 
 /**
- *
- * @param {*} state
- * @param {*} action
- * @returns
+ * Sets hasMinimumRating state value
+ * @param {object} state
+ * @param {object} action
+ * @returns {object} state object and loading state
  */
 function ratingValue(state = initialState, action) {
   switch (action.type) {
     case FETCH_RATING_INFO_SUCCESS:
-      if (action.response.service_connected_combined_degree >= minRating) {
+      if (action.response.userPercentOfDisability >= minRating) {
         return {
           ...state,
           loading: false,
