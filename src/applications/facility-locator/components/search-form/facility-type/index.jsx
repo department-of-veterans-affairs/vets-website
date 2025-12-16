@@ -22,8 +22,9 @@ const FacilityType = ({
     ? nonPPMSfacilityTypeOptions
     : facilityTypesOptions;
   const showError = !isValid && facilityTypeChanged && !facilityType;
-
-  const options = Object.keys(locationOptions).map(facility => (
+  const { ...filteredLocationOptions } = locationOptions;
+  delete filteredLocationOptions[''];
+  const options = Object.keys(filteredLocationOptions).map(facility => (
     <option key={facility} value={facility}>
       {locationOptions[facility]}
     </option>
