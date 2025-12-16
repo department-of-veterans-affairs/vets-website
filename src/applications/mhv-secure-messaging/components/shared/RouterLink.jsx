@@ -30,7 +30,7 @@ const RouterLink = ({
 }) => {
   const history = useHistory();
 
-  function handleClick(e) {
+  const handleClick = e => {
     e.preventDefault();
     if (history) {
       history.push(href);
@@ -38,7 +38,7 @@ const RouterLink = ({
       // Fallback: use window.location if not in Router context
       window.location.href = href;
     }
-  }
+  };
 
   const linkProps = {
     href,

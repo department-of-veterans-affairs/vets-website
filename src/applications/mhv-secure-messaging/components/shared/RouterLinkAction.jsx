@@ -28,7 +28,7 @@ import { VaLinkAction } from '@department-of-veterans-affairs/component-library/
 const RouterLinkAction = ({ href, text, reverse, label, ...rest }) => {
   const history = useHistory();
 
-  function handleClick(e) {
+  const handleClick = e => {
     e.preventDefault();
     if (history) {
       history.push(href);
@@ -36,7 +36,7 @@ const RouterLinkAction = ({ href, text, reverse, label, ...rest }) => {
       // Fallback: use window.location if not in Router context
       window.location.href = href;
     }
-  }
+  };
 
   const linkProps = {
     href,
