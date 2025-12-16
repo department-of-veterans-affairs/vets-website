@@ -191,8 +191,7 @@ const cypressConfig = {
       );
     },
     baseUrl: 'http://localhost:3001',
-    specPattern:
-      'src/applications/discover-your-benefits/tests/e2e/confirmation-page.cypress.spec.js',
+    specPattern: 'src/**/tests/**/*.cypress.spec.js?(x)',
     supportFile: 'src/platform/testing/e2e/cypress/support/index.js',
     includeShadowDom: true,
   },
