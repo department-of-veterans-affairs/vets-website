@@ -1,5 +1,4 @@
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
-import FileFieldCustom from '../../../shared/components/fileUploads/FileUpload';
 import { FEATURE_TOGGLES } from '../../hooks/useDefaultFormData';
 import additionalComments from './addtlComments';
 import cardUpload from './cardUpload';
@@ -63,7 +62,6 @@ export const healthInsuranceRev2025Pages = arrayBuilderPages(
       path: 'health-insurance-card/:index',
       title: 'Health insurance card',
       depends: formData => formData[TOGGLE_KEY],
-      CustomPage: FileFieldCustom,
       ...cardUpload,
     }),
   }),
