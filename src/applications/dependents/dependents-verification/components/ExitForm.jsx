@@ -6,7 +6,7 @@ import { scrollAndFocus } from 'platform/utilities/scroll';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { deleteInProgressForm } from '../../shared/utils/api';
 
-export const form686Url = getAppUrl('686C-674');
+export const form686Url = getAppUrl('686C-674-V2');
 
 /**
  * Exit Form Page Component
