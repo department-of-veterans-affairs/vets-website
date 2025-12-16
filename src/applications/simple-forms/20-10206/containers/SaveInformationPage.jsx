@@ -10,6 +10,15 @@ const SaveInformationPage = props => {
 
   useEffect(() => {
     focusElement('h1');
+    const progressBar = document.querySelector('va-segmented-progress-bar');
+    if (progressBar) {
+      progressBar.style.display = 'none';
+    }
+    return () => {
+      if (progressBar) {
+        progressBar.style.display = '';
+      }
+    };
   }, []);
 
   return (

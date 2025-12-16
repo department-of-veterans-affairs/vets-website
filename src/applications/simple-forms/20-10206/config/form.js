@@ -102,7 +102,6 @@ const formConfig = {
           pageClass: 'preparer-type-page',
         },
         saveInformationPage: {
-          hideFormNavProgress: true,
           path: 'save-information',
           title: 'Save information',
           CustomPage: SaveInformationPage,
