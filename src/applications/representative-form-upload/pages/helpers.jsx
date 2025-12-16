@@ -93,6 +93,19 @@ export const ITFVetBenefits = Object.freeze({
   },
 });
 
+export const ITFBenefitTypes = Object.freeze({
+  labels: {
+    compensation: 'Disability Compensation',
+    pension: 'Pension',
+  },
+  descriptions: {
+    compensation:
+      'Select this option if you intend to file for disability compensation (VA Form 21-526EZ)',
+    pension:
+      'Select this option if you intend to file a pension claim (VA Form 21P-527EZ)',
+  },
+});
+
 export const ITFVeteranTitleAndDescription = {
   'view:veteranTitle': {
     'ui:title': 'Veteran identification information',
