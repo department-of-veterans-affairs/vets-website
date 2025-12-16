@@ -56,24 +56,26 @@ const RefillPrescriptions = () => {
 
   const refillAlertList = refillableData?.refillAlertList || [];
 
-  const getMedicationsByIds = useCallback(
-    (ids, prescriptions) => {
-      if (!ids || !prescriptions) return [];
+  const getMedicationsByIds = useCallback((ids, prescriptions) => {
+    if (!ids || !prescriptions) return [];
 
-      return ids.map(id =>
-        prescriptions.find(prescription => {
-          if (isOracleHealthPilot) {
-            return (
-              String(prescription.prescriptionId) === String(id.id) &&
-              prescription.stationNumber === id.stationNumber
-            );
+    return ids
+      .map(id => {
+        const prescriptionId = id?.id ?? id;
+        const stationNumber = id?.stationNumber ?? null;
+
+        return prescriptions.find(prescription => {
+          const idMatch =
+            String(prescription.prescriptionId) === String(prescriptionId);
+
+          if (stationNumber) {
+            return idMatch && prescription.stationNumber === stationNumber;
           }
-          return String(prescription.prescriptionId) === String(id);
-        }),
-      );
-    },
-    [isOracleHealthPilot],
-  );
+          return idMatch;
+        });
+      })
+      .filter(Boolean);
+  }, []);
 
   const successfulMeds = useMemo(
     () =>

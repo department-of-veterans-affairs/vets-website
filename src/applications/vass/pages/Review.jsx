@@ -12,8 +12,6 @@ import {
 // TODO: replace with actual data
 const details = {
   phoneNumber: '8008270611',
-  appointmentDateTime: new Date().toISOString(),
-  topic: 'Education',
 };
 
 const Review = () => {
@@ -25,7 +23,7 @@ const Review = () => {
     const res = await postAppointment({
       topics: selectedTopics,
       dtStartUtc: selectedDate,
-      dtEndUtc: selectedDate + 30 * 60 * 1000,
+      dtEndUtc: selectedDate,
     });
     navigate(`/confirmation/${res.data.appointmentId}`);
   };
@@ -69,7 +67,7 @@ const Review = () => {
           Edit
         </Link>
       </div>
-      <DateTime dateTime={details.appointmentDateTime} />
+      {selectedDate && <DateTime dateTime={selectedDate} />}
       <hr
         aria-hidden="true"
         className=" vads-u-margin-top--1 vads-u-margin-bottom--0p5"
@@ -93,7 +91,7 @@ const Review = () => {
         className="vads-u-margin-top--0p5 vads-u-margin-bottom--1"
         data-testid="topic-description"
       >
-        {details.topic}
+        {(selectedTopics || []).map(topic => topic?.topicName || '').join(', ')}
       </p>
       <hr
         aria-hidden="true"

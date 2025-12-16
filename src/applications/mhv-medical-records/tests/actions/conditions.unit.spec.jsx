@@ -61,6 +61,12 @@ describe('Get condition action', () => {
       expect(dispatch.calledOnce).to.be.true;
     });
   });
+
+  it('should dispatch an add alert action on error and not throw', async () => {
+    mockApiRequest(error404, false);
+    await getConditionDetails('123', [])(dispatch);
+    expect(typeof dispatch.firstCall.args[0]).to.equal('function');
+  });
 });
 
 describe('Clear condition details action', () => {

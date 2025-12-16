@@ -53,7 +53,7 @@ const WhatHappensNextSection = ({ isError }) => {
                 text="Check your travel reimbursement claim status"
               />
             </va-process-list-item>
-            <va-process-list-item header="If we approve your claim, we’ll send your pay through direct deposit">
+            <va-process-list-item header="If we approve your claim, we’ll deposit your funds into your bank account">
               <p>
                 You must have direct deposit set up to get your travel pay. Even
                 if you already set up direct deposit for your VA benefits,
