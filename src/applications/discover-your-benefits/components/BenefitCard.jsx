@@ -119,11 +119,15 @@ const BenefitCard = ({ benefit, isBenefitRecommended }) => {
 
 BenefitCard.propTypes = {
   benefit: PropTypes.shape({
+    id: PropTypes.string,
     category: PropTypes.string,
     description: PropTypes.string,
     isTimeSensitive: PropTypes.bool,
     learnMoreURL: PropTypes.string,
     name: PropTypes.string,
+    isBenefitRecommended: PropTypes.bool,
+    whenToApplyDescription: PropTypes.string,
+    whenToApplyNote: PropTypes.string,
   }),
 };
 
