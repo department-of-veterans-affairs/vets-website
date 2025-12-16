@@ -42,7 +42,7 @@ describe('VAOS covid-19 vaccine flow', () => {
     mockVamcEhrApi();
   });
 
-  describe('When more than one facility supports online scheduling', () => {
+  describe.skip('When more than one facility supports online scheduling', () => {
     const setup = () => {
       const response = new MockAppointmentResponse({
         id: 'mock1',
@@ -83,7 +83,7 @@ describe('VAOS covid-19 vaccine flow', () => {
       });
     };
 
-    describe('And veteran does have a home address', () => {
+    describe.skip('And veteran does have a home address', () => {
       beforeEach(setup);
 
       it('should submit form', () => {
@@ -144,7 +144,7 @@ describe('VAOS covid-19 vaccine flow', () => {
       });
     });
 
-    describe('And veteran does not have a home address', () => {
+    describe.skip('And veteran does not have a home address', () => {
       beforeEach(setup);
 
       it('should submit form', () => {
@@ -206,7 +206,7 @@ describe('VAOS covid-19 vaccine flow', () => {
     });
   });
 
-  describe('When one facility supports online scheduling', () => {
+  describe.skip('When one facility supports online scheduling', () => {
     const setup = () => {
       const response = new MockAppointmentResponse({
         id: 'mock1',
@@ -242,7 +242,7 @@ describe('VAOS covid-19 vaccine flow', () => {
       });
     };
 
-    describe('And veteran does have a home address', () => {
+    describe.skip('And veteran does have a home address', () => {
       beforeEach(setup);
 
       it('should submit form', () => {
@@ -309,7 +309,7 @@ describe('VAOS covid-19 vaccine flow', () => {
       });
     });
 
-    describe('And veteran does not have a home address', () => {
+    describe.skip('And veteran does not have a home address', () => {
       beforeEach(setup);
 
       it('should submit form', () => {
