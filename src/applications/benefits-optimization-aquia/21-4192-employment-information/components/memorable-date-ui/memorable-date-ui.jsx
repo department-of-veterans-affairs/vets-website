@@ -27,11 +27,8 @@ export const MemorableDateUI = options => {
     'ui:required': required,
     'ui:validations': [validateDate],
     'ui:errorMessages': {
-      'ui:errorMessages': {
-        pattern:
-          errorMessages?.pattern || 'Please enter a valid current or past date',
-        required: errorMessages?.required || 'Please enter a date',
-      },
+      pattern: errorMessages?.pattern || 'Please enter a valid date',
+      required: errorMessages?.required || 'Please enter a date',
     },
     'ui:options': {
       ...uiOptions,
