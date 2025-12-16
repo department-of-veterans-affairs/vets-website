@@ -7,7 +7,7 @@ import content from '../../locales/en/content.json';
 
 const TITLE_TEXT = content['health-insurance--prescription-title'];
 const INPUT_LABEL = content['health-insurance--prescription-label'];
-const HINT_TEXT = content['heatlh-insurance--prescription-hint'];
+const HINT_TEXT = content['health-insurance--prescription-hint'];
 
 export default {
   uiSchema: {
