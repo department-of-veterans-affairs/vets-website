@@ -2,6 +2,7 @@ import React, { useLayoutEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { format } from 'date-fns';
 import PropTypes from 'prop-types';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 import { scrollToTop } from 'platform/utilities/scroll';
 import { waitForRenderThenFocus } from 'platform/utilities/ui';
@@ -178,8 +179,9 @@ export default function ConfirmationPage() {
       <section>
         <h2>How to contact us if you have questions</h2>
         <p>
-          Call us at <va-telephone international contact="8008271000" /> (
-          <va-telephone tty contact="711" />
+          Call us at{' '}
+          <va-telephone international contact={CONTACTS.VA_BENEFITS} /> (
+          <va-telephone tty contact={CONTACTS['711']} />
           ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </p>
         <p>
