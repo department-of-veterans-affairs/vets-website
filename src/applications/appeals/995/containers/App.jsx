@@ -10,7 +10,10 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { isLoggedIn } from 'platform/user/selectors';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
-import { getContestableIssues as getContestableIssuesAction } from '../actions';
+import {
+  getContestableIssues as getContestableIssuesAction,
+  setHasEvidence,
+} from '../actions';
 import formConfig from '../config/form';
 import {
   removeNonSelectedIssuesFromEvidence,
@@ -70,6 +73,8 @@ export const App = ({
   const hasSupportedBenefitType = SUPPORTED_BENEFIT_TYPES_LIST.includes(
     subTaskBenefitType,
   );
+
+  useEffect(() => {});
 
   useEffect(
     () => {
@@ -210,6 +215,8 @@ App.propTypes = {
 
 const mapStateToProps = state => ({
   accountUuid: state?.user?.profile?.accountUuid,
+  hasPrivateEvidence: state?.evidenceTracking?.hasPrivateEvidence,
+  hasVAEvidence: state?.evidenceTracking?.hasVAEvidence,
   inProgressFormId: state?.form?.loadedData?.metadata?.inProgressFormId,
   loggedIn: isLoggedIn(state),
   formData: state.form?.data || {},
@@ -219,6 +226,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
+  setEvidence: setHasEvidence,
   setFormData: setData,
   getContestableIssues: getContestableIssuesAction,
 };

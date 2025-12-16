@@ -54,7 +54,7 @@ export const summaryContent = {
   },
   alertItemUpdatedText: itemData =>
     `${itemData[PRIVATE_TREATMENT_LOCATION_KEY]} information has been updated.`,
-  cardDescription: item => {
+  cardDescription: item => (
     <>
       {item?.[PRIVATE_TREATMENT_LOCATION_KEY] && (
         <h3 className="vads-u-margin-top--0">
@@ -76,12 +76,12 @@ export const summaryContent = {
           <p>
             <strong>Treatment:</strong>
             &nbsp;
-            {formatDateToReadableString(new Date(item.to))} to{' '}
-            {formatDateToReadableString(new Date(item.from))}
+            {formatDateToReadableString(new Date(item.from))} to{' '}
+            {formatDateToReadableString(new Date(item.to))}
           </p>
         )}
-    </>;
-  },
+    </>
+  ),
 };
 
 export const detailsEntryContent = {
