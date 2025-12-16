@@ -162,7 +162,7 @@ export const createMultipleSupportingDocuments = (count, overrides = {}) => {
  * @returns {Object} Tracked item object
  */
 export const createTrackedItem = ({
-  id = 1,
+  id = 123456,
   displayName = 'Medical Records Request',
   status = 'NEEDED_FROM_YOU',
   requestedDate = '2025-05-01',
