@@ -26,13 +26,17 @@ import React, {
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaAlert,
+  VaLink,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
 import useInterval from '../../hooks/use-interval';
-import { Alerts, Categories, Errors } from '../../util/constants';
+import { Alerts, Categories, Errors, Paths } from '../../util/constants';
 import { closeAlert, focusOutAlert } from '../../actions/alerts';
 import { retrieveFolder } from '../../actions/folders';
 import { formatPathName } from '../../util/helpers';
+import manifest from '../../manifest.json';
 
 const AlertBackgroundBox = props => {
   const { setShowAlertBackgroundBox = () => {} } = props;
@@ -231,7 +235,14 @@ const AlertBackgroundBox = props => {
           >
             <div>
               <p className="vads-u-margin-y--0" data-testid="alert-text">
-                {alertContent}
+                {alertContent === Alerts.Message.SEND_MESSAGE_SUCCESS ? (
+                  <>
+                    Message{' '}
+                    <VaLink href={manifest.rootUrl + Paths.SENT} text="sent" />.
+                  </>
+                ) : (
+                  alertContent
+                )}
                 <SrOnlyTag
                   className="sr-only"
                   aria-live="polite"
