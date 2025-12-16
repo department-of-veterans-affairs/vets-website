@@ -9,6 +9,14 @@ const HINT_TEXT = content['attachments--hint-text'];
 const API_ENDPOINT = 'ivc_champva/v1/forms/submit_supporting_documents';
 const FILE_UPLOAD_URL = `${environment.API_URL}/${API_ENDPOINT}`;
 
+/**
+ * Builds a configured file upload UI component for submitting a single supporting document.
+ *
+ * @param {Object} [options={}] - Configuration options.
+ * @param {string} [options.label=''] - Optional label displayed for the upload field.
+ * @param {string} [options.attachmentId=''] - Optional attachment identifier sent with the upload payload.
+ * @returns {Object} A `fileUploadUI` configuration object.
+ */
 export const attachmentUI = ({ label = '', attachmentId = '' } = {}) => {
   const createPayload = (file, formId, password) => {
     const payload = new FormData();
