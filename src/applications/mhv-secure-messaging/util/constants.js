@@ -187,7 +187,7 @@ export const Alerts = {
     DELETE_DRAFT_SUCCESS: 'Draft was successfully deleted.',
     DELETE_DRAFT_ERROR:
       'Draft could not be deleted. Try again later. If this problem persists, contact the help desk.',
-    SEND_MESSAGE_SUCCESS: 'Message Sent.',
+    SEND_MESSAGE_SUCCESS: 'Message sent',
     SEND_MESSAGE_ERROR: 'We’re sorry. Something went wrong on our end.',
     SERVER_ERROR_503:
       'We’re sorry. We couldn’t load this page. Try again later.',

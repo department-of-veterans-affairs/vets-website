@@ -236,23 +236,21 @@ const AlertBackgroundBox = props => {
           >
             <div>
               <p className="vads-u-margin-y--0" data-testid="alert-text">
-                {alertContent === Alerts.Message.SEND_MESSAGE_SUCCESS ? (
-                  <>
-                    Message{' '}
+                <strong>{alertContent}</strong>
+                {alertContent === Alerts.Message.SEND_MESSAGE_SUCCESS && (
+                  <p className="vads-u-margin-y--0">
                     <VaLink
                       href={manifest.rootUrl + Paths.SENT}
                       onClick={e => {
                         e.preventDefault();
                         history.push(Paths.SENT);
                       }}
-                      text="sent"
+                      text="Review your sent messages"
                       data-dd-action-name="Sent messages link in success alert"
                     />
-                    .
-                  </>
-                ) : (
-                  alertContent
+                  </p>
                 )}
+
                 <SrOnlyTag
                   className="sr-only"
                   aria-live="polite"
