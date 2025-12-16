@@ -32,6 +32,7 @@ import typeOfRequest from '../pages/typeOfRequest';
 import replacementMedallionReason from '../pages/replacementMedallionReason';
 import typeOfMedallion from '../pages/typeOfMedallion';
 import medallionSize from '../pages/medallionSize';
+import presidentialMemorialCertificate from '../pages/presidentialMemorialCertificate';
 import {
   ApplicantNameHeader,
   ApplicantNameNote,
@@ -272,7 +273,13 @@ const formConfig = {
           schema: medallionSize.schema,
           depends: formData => formData.typeOfRequestRadio === 'new',
         },
-        // NEW SCREENS START HERE
+        // PMC is usually used in reference to Presidential Memorial Certificate
+        presidentialMemorialCertificate: {
+          path: 'presidential-memorial-certificate',
+          title: 'Presidential Memorial Certificate',
+          uiSchema: presidentialMemorialCertificate.uiSchema,
+          schema: presidentialMemorialCertificate.schema,
+        },
       },
     },
     supportingDocuments: {
