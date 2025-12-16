@@ -20,7 +20,6 @@ function IntroductionLogin({
   route,
   showHideLoginModal,
   showMeb5490MaintenanceAlert,
-  meb1995InstructionPageUpdateV3,
   user,
 }) {
   const apiCallsComplete = isLOA3 === false || isPersonalInfoFetchComplete;
@@ -126,7 +125,6 @@ IntroductionLogin.propTypes = {
   isPersonalInfoFetchFailed: PropTypes.bool,
   showHideLoginModal: PropTypes.func,
   showMeb5490MaintenanceAlert: PropTypes.bool,
-  meb1995InstructionPageUpdateV3: PropTypes.bool,
   user: PropTypes.object,
 };
 
@@ -135,9 +133,7 @@ const mapStateToProps = state => ({
   ...getAppData(state),
   isPersonalInfoFetchFailed: state.data.isPersonalInfoFetchFailed || false,
   showMeb5490MaintenanceAlert:
-    state.featureToggles[featureFlagNames.showMeb5490MaintenanceAlert],
-  meb1995InstructionPageUpdateV3:
-    state.featureToggles[featureFlagNames.meb1995InstructionPageUpdateV3],
+    state.featureToggles[featureFlagNames.showMeb5490MaintenanceAlert]
 });
 
 const mapDispatchToProps = {
