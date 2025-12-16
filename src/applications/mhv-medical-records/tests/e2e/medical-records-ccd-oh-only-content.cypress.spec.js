@@ -191,3 +191,108 @@ describe('Medical Records Download Page - OHOnlyContent Component', () => {
     });
   });
 });
+
+describe('Medical Records Download Page - OHOnlyContent CCD Downloads', () => {
+  const site = new MedicalRecordsSite();
+
+  describe('CCD V2 Download Functionality', () => {
+    beforeEach(() => {
+      site.login(ohOnlyUser, false);
+      site.mockFeatureToggles({
+        isCcdExtendedFileTypesEnabled: true,
+      });
+      DownloadReportsPage.goToReportsPage();
+    });
+
+    it('successfully downloads CCD XML file for OH-only user', () => {
+      const pathToFixture =
+        './applications/mhv-medical-records/tests/e2e/fixtures/ccd-download-response.xml';
+
+      DownloadReportsPage.clickCcdDownloadXmlButtonV2(pathToFixture);
+
+      // Verify success alert appears
+      cy.get('[data-testid="alert-download-started"]')
+        .should('exist')
+        .and('contain', 'Continuity of Care Document download started');
+
+      cy.injectAxeThenAxeCheck();
+    });
+
+    it('successfully downloads CCD PDF file for OH-only user', () => {
+      DownloadReportsPage.clickCcdDownloadPdfButtonV2();
+
+      // Verify success alert appears
+      cy.get('[data-testid="alert-download-started"]')
+        .should('exist')
+        .and('contain', 'Continuity of Care Document download started');
+
+      cy.injectAxeThenAxeCheck();
+    });
+
+    it('successfully downloads CCD HTML file for OH-only user', () => {
+      const pathToFixture =
+        './applications/mhv-medical-records/tests/e2e/fixtures/ccd-download-response.xml';
+
+      DownloadReportsPage.clickCcdDownloadHtmlButtonV2(pathToFixture);
+
+      // Verify success alert appears
+      cy.get('[data-testid="alert-download-started"]')
+        .should('exist')
+        .and('contain', 'Continuity of Care Document download started');
+
+      cy.injectAxeThenAxeCheck();
+    });
+  });
+
+  describe('CCD Loading State', () => {
+    beforeEach(() => {
+      site.login(ohOnlyUser, false);
+      site.mockFeatureToggles({
+        isCcdExtendedFileTypesEnabled: true,
+      });
+      DownloadReportsPage.goToReportsPage();
+    });
+
+    it('shows loading indicator while downloading CCD', () => {
+      // Intercept with delay to see loading state
+      cy.intercept('GET', '/my_health/v2/medical_records/ccd/download.xml', {
+        delay: 3000,
+        statusCode: 200,
+        headers: { 'Content-Type': 'application/xml' },
+        body: '<?xml version="1.0"?><ClinicalDocument></ClinicalDocument>',
+      }).as('ccdV2Delayed');
+
+      cy.get('[data-testid="generateCcdButtonXmlOH"]')
+        .shadow()
+        .find('a')
+        .click({ force: true });
+
+      // Loading indicator should appear
+      cy.get('#generating-ccd-OH-indicator').should('exist');
+
+      cy.injectAxeThenAxeCheck();
+    });
+  });
+
+  describe('Feature Flag Disabled', () => {
+    beforeEach(() => {
+      site.login(ohOnlyUser, false);
+      site.mockFeatureToggles({
+        isCcdExtendedFileTypesEnabled: false,
+      });
+      DownloadReportsPage.goToReportsPage();
+    });
+
+    it('only shows XML download when extended file types flag is disabled', () => {
+      // XML should exist
+      cy.get('[data-testid="generateCcdButtonXmlOH"]').should('exist');
+
+      // PDF and HTML should NOT exist
+      cy.get('[data-testid="generateCcdButtonPdfOH"]').should('not.exist');
+      cy.get('[data-testid="generateCcdButtonHtmlOH"]').should('not.exist');
+
+      cy.injectAxeThenAxeCheck();
+    });
+  });
+});
+

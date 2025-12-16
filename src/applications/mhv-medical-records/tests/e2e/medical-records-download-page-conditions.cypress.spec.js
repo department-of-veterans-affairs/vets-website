@@ -400,6 +400,239 @@ describe('Medical Records Download Page - Self-Entered Health Information', () =
   });
 });
 
+describe('Medical Records Download Page - CernerFacilityAlert', () => {
+  const site = new MedicalRecordsSite();
+
+  describe('Cerner alert for OH-only users', () => {
+    beforeEach(() => {
+      site.login(ohOnlyUser, false);
+      site.mockFeatureToggles({
+        isCcdExtendedFileTypesEnabled: true,
+      });
+      DownloadReportsPage.goToReportsPage();
+    });
+
+    it('displays Cerner facility alert for OH-only users', () => {
+      cy.get('[data-testid="cerner-facilities-alert"]').should('exist');
+      cy.injectAxeThenAxeCheck();
+    });
+
+    it('displays link to My VA Health portal', () => {
+      cy.get('[data-testid="cerner-facility-action-link"]').should('exist');
+      cy.injectAxeThenAxeCheck();
+    });
+  });
+
+  describe('Cerner alert for both sources users', () => {
+    beforeEach(() => {
+      site.login(bothSourcesUser, false);
+      site.mockFeatureToggles({
+        isCcdExtendedFileTypesEnabled: true,
+      });
+      DownloadReportsPage.goToReportsPage();
+    });
+
+    it('displays Cerner facility alert for dual-source users', () => {
+      cy.get('[data-testid="cerner-facilities-alert"]').should('exist');
+      cy.injectAxeThenAxeCheck();
+    });
+  });
+
+  describe('No Cerner alert for VistA-only users', () => {
+    beforeEach(() => {
+      site.login(vistaOnlyUser, false);
+      site.mockFeatureToggles({
+        isCcdExtendedFileTypesEnabled: true,
+      });
+      DownloadReportsPage.goToReportsPage();
+    });
+
+    it('does not display Cerner facility alert for VistA-only users', () => {
+      cy.get('[data-testid="cerner-facilities-alert"]').should('not.exist');
+      cy.injectAxeThenAxeCheck();
+    });
+  });
+});
+
+describe('Medical Records Download Page - CCD Download Success Alerts', () => {
+  const site = new MedicalRecordsSite();
+
+  describe('CCD success alert for VistA users', () => {
+    it('displays CCD download started alert after successful download', () => {
+      site.login(vistaOnlyUser, false);
+      site.mockFeatureToggles({
+        isCcdExtendedFileTypesEnabled: true,
+      });
+      DownloadReportsPage.goToReportsPage();
+      DownloadReportsPage.clickCcdAccordionItem();
+
+      const pathToCcdDownloadResponse =
+        './applications/mhv-medical-records/tests/e2e/fixtures/ccd-download-response.xml';
+
+      cy.fixture(pathToCcdDownloadResponse, 'utf8').then(xmlBody => {
+        cy.intercept('GET', '/my_health/v1/medical_records/ccd/generate', {
+          statusCode: 200,
+          body: { dateGenerated: new Date().toISOString() },
+        }).as('ccdGenerate');
+
+        cy.intercept('GET', '/my_health/v1/medical_records/ccd/d**', {
+          statusCode: 200,
+          headers: { 'Content-Type': 'application/xml' },
+          body: xmlBody,
+        }).as('ccdDownload');
+
+        cy.get('[data-testid="generateCcdButtonXml"]').click();
+        cy.wait('@ccdGenerate');
+        cy.wait('@ccdDownload');
+
+        DownloadReportsPage.verifyCcdDownloadStartedAlert();
+      });
+
+      cy.injectAxeThenAxeCheck();
+    });
+  });
+
+  describe('CCD success alert for OH-only users', () => {
+    it('displays CCD download started alert after successful V2 download', () => {
+      site.login(ohOnlyUser, false);
+      site.mockFeatureToggles({
+        isCcdExtendedFileTypesEnabled: true,
+      });
+      DownloadReportsPage.goToReportsPage();
+
+      const pathToFixture =
+        './applications/mhv-medical-records/tests/e2e/fixtures/ccd-download-response.xml';
+
+      DownloadReportsPage.clickCcdDownloadXmlButtonV2(pathToFixture);
+
+      cy.get('[data-testid="alert-download-started"]')
+        .should('exist')
+        .and('contain', 'Continuity of Care Document download started');
+
+      cy.injectAxeThenAxeCheck();
+    });
+  });
+});
+
+describe('Medical Records Download Page - Loading States', () => {
+  const site = new MedicalRecordsSite();
+
+  describe('CCD loading spinner for VistA users', () => {
+    it('shows loading indicator while generating CCD', () => {
+      site.login(vistaOnlyUser, false);
+      site.mockFeatureToggles({
+        isCcdExtendedFileTypesEnabled: true,
+      });
+      DownloadReportsPage.goToReportsPage();
+      DownloadReportsPage.clickCcdAccordionItem();
+
+      // Intercept with a delay to catch the loading state
+      cy.intercept('GET', '/my_health/v1/medical_records/ccd/generate', req => {
+        req.reply({
+          delay: 2000,
+          statusCode: 200,
+          body: { dateGenerated: new Date().toISOString() },
+        });
+      }).as('ccdGenerateDelayed');
+
+      cy.get('[data-testid="generateCcdButtonXml"]').click();
+
+      // Verify loading indicator appears
+      cy.get('#generating-ccd-indicator').should('exist');
+
+      cy.injectAxeThenAxeCheck();
+    });
+  });
+
+  describe('CCD loading spinner for OH-only users', () => {
+    it('shows loading indicator while generating CCD V2', () => {
+      site.login(ohOnlyUser, false);
+      site.mockFeatureToggles({
+        isCcdExtendedFileTypesEnabled: true,
+      });
+      DownloadReportsPage.goToReportsPage();
+
+      // Intercept with a delay to catch the loading state
+      cy.intercept('GET', '/my_health/v2/medical_records/ccd/download.xml', {
+        delay: 2000,
+        statusCode: 200,
+        headers: { 'Content-Type': 'application/xml' },
+        body: '<?xml version="1.0"?><ClinicalDocument></ClinicalDocument>',
+      }).as('ccdV2Delayed');
+
+      cy.get('[data-testid="generateCcdButtonXmlOH"]')
+        .shadow()
+        .find('a')
+        .click({ force: true });
+
+      // Verify loading indicator appears for OH users
+      cy.get('#generating-ccd-OH-indicator').should('exist');
+
+      cy.injectAxeThenAxeCheck();
+    });
+  });
+});
+
+describe('Medical Records Download Page - Blue Button Section', () => {
+  const site = new MedicalRecordsSite();
+
+  describe('Blue Button for VistA users', () => {
+    beforeEach(() => {
+      site.login(vistaOnlyUser, false);
+      site.mockFeatureToggles({
+        isCcdExtendedFileTypesEnabled: true,
+      });
+      DownloadReportsPage.goToReportsPage();
+    });
+
+    it('displays Blue Button report section with download link', () => {
+      cy.contains('h2', 'Download your VA Blue Button report').should('exist');
+      cy.get('[data-testid="go-to-download-all"]').should('exist');
+      cy.injectAxeThenAxeCheck();
+    });
+
+    it('Blue Button link navigates to download-all page', () => {
+      cy.get('[data-testid="go-to-download-all"]').click();
+      cy.url().should('include', '/download-all');
+      cy.injectAxeThenAxeCheck();
+    });
+  });
+
+  describe('Blue Button for both sources users', () => {
+    beforeEach(() => {
+      site.login(bothSourcesUser, false);
+      site.mockFeatureToggles({
+        isCcdExtendedFileTypesEnabled: true,
+      });
+      DownloadReportsPage.goToReportsPage();
+    });
+
+    it('displays Blue Button report section for dual-source users', () => {
+      cy.contains('h2', 'Download your VA Blue Button report').should('exist');
+      cy.get('[data-testid="go-to-download-all"]').should('exist');
+      cy.injectAxeThenAxeCheck();
+    });
+  });
+
+  describe('No Blue Button for OH-only users', () => {
+    beforeEach(() => {
+      site.login(ohOnlyUser, false);
+      site.mockFeatureToggles({
+        isCcdExtendedFileTypesEnabled: true,
+      });
+      DownloadReportsPage.goToReportsPage();
+    });
+
+    it('does not display Blue Button section for OH-only users', () => {
+      cy.contains('h2', 'Download your VA Blue Button report').should(
+        'not.exist',
+      );
+      cy.get('[data-testid="go-to-download-all"]').should('not.exist');
+      cy.injectAxeThenAxeCheck();
+    });
+  });
+});
+
 describe('Medical Records Download Page - AcceleratedCernerFacilityAlert', () => {
   const site = new MedicalRecordsSite();
 
