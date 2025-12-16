@@ -1,12 +1,24 @@
 import React from 'react';
 import { expect } from 'chai';
 import { renderWithStoreAndRouterV6 } from '~/platform/testing/unit/react-testing-library-helpers';
+
+import { vassApi } from '../redux/api/vassApi';
+import reducers from '../redux/reducers';
+
 import AlreadyScheduled from './AlreadyScheduled';
 
 describe('VASS Component: AlreadyScheduled', () => {
   it('should render all content', () => {
     const { getByTestId } = renderWithStoreAndRouterV6(<AlreadyScheduled />, {
-      initialState: {},
+      initialState: {
+        vassForm: {
+          hydrated: false,
+          selectedDate: null,
+          selectedTopics: [],
+        },
+      },
+      reducers,
+      additionalMiddlewares: [vassApi.middleware],
     });
     expect(getByTestId('already-scheduled-page')).to.exist;
     expect(getByTestId('already-scheduled-phone-number')).to.exist;
