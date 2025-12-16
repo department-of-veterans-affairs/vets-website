@@ -38,8 +38,7 @@ describe('22-0803 organization info page', () => {
         .length,
     ).to.equal(1);
     expect(
-      $$('va-text-input[name="root_organizationAddress_state"]', container)
-        .length,
+      $$('va-select[name="root_organizationAddress_state"]', container).length,
     ).to.equal(1);
     expect(
       $$('va-text-input[name="root_organizationAddress_postalCode"]', container)
