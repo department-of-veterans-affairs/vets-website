@@ -705,7 +705,7 @@ export function addressUI(options = {}) {
           }
 
           addressSchema.type = 'string';
-          // country-specific patterns and maxLength
+          // country-specific patterns
           if (isMilitary) {
             addressSchema.pattern = POSTAL_CODE_PATTERNS.USA;
           } else if (['CAN', 'MEX', 'USA'].includes(country)) {
