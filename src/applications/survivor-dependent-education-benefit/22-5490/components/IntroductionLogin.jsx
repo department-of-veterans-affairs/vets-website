@@ -69,7 +69,7 @@ function IntroductionLogin({
         user?.login?.hasCheckedKeepAlive && (
           <>
             <va-alert-sign-in
-              variant={meb1995InstructionPageUpdateV3 ? 'signInRequired' : 'signInOptional'}
+              variant="signInRequired"
               time-limit="60 days"
               heading-level={2}
               visible
