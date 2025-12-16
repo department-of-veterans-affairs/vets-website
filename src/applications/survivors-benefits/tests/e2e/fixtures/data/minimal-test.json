@@ -1,0 +1,63 @@
+{
+  "data": {
+    "hasBankAccount": false,
+      "needRegularAssistance": false,
+      "inNursingHome": false,
+      "dicType": "DIC",
+      "view:isAddingDependent": false,
+      "recognizedAsSpouse": false,
+      "hadPreviousMarriages": false,
+      "remarried": false,
+      "livedContinuouslyWithVeteran": true,
+      "awareOfLegalIssues": false,
+      "marriageToVeteranEndDate": "1999-05-05",
+      "marriageToVeteranEndLocation": {
+        "city": "wefgwfg",
+        "state": "AL"
+      },
+      "marriageType": "CIVIL_RELIGIOUS",
+      "marriageToVeteranStartDate": "1980-05-05",
+      "marriageToVeteranStartLocation": {
+        "city": "ewfgw",
+        "state": "AL"
+      },
+      "marriedAtDeath": true,
+      "receivedBenefits": true,
+      "claims": {
+        "dependencyIndemnityComp": true
+      },
+      "email": "myemail72585885@unattended.com",
+      "primaryPhone": {
+        "callingCode": 1,
+        "countryCode": "US",
+        "contact": "(555) 511-2312"
+      },
+      "claimantAddress": {
+        "view:militaryBaseDescription": {},
+        "country": "USA",
+        "street": "123123",
+        "city": "123213",
+        "state": "AL",
+        "postalCode": "12313"
+      },
+      "claimantIsVeteran": false,
+      "claimantSocialSecurityNumber": "454544545",
+      "claimantFullName": {
+        "first": "Test",
+        "last": "Testerson"
+      },
+      "claimantDateOfBirth": "1955-05-05",
+      "claimantRelationship": "SPOUSE",
+      "vaClaimsHistory": false,
+      "diedOnDuty": false,
+      "veteranDateOfDeath": "2002-02-02",
+      "veteranSocialSecurityNumber": {
+        "ssn": "454544545"
+      },
+      "veteranFullName": {
+        "first": "John",
+        "last": "Doe"
+      },
+      "veteranDateOfBirth": "1954-01-11"
+  }
+}

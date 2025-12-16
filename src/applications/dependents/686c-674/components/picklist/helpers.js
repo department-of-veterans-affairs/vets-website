@@ -5,6 +5,7 @@ import {
   VaSelect,
   VaMemorableDate,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import constants from 'vets-json-schema/dist/constants.json';
 
 import { scrollToFirstError } from 'platform/utilities/ui';
@@ -150,6 +151,23 @@ PastDate.propTypes = {
   missingErrorMessage: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
 };
+
+/**
+ * Additional info component with info about removing a dependent parent for
+ * reasons other than death
+ * @returns {React.ReactElement} - Additional info component
+ */
+export const RemoveParentAdditionalInfo = () => (
+  <va-additional-info trigger="How can I remove a dependent parent for reasons other than death?">
+    <p>
+      You can only use this form to remove a dependent parent if they died. If
+      your parent is still living and you want to remove them as a dependent,
+      call us at <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
+      <va-telephone contact={CONTACTS['711']} tty />
+      ).
+    </p>
+  </va-additional-info>
+);
 
 /**
  * Scroll to the first error on the page after a short delay
