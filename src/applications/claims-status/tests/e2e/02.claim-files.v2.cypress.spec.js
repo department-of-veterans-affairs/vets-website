@@ -10,13 +10,15 @@ import featureToggleDisabled from './fixtures/mocks/lighthouse/feature-toggle-di
 import claimDetailsOpenManySupportingDocs from './fixtures/mocks/lighthouse/claim-detail-open-many-supporting-docs.json';
 import claimDetailsOpenManyEvidenceSubmissions from './fixtures/mocks/lighthouse/claim-detail-open-many-evidence-submissions.json';
 import claimDetailsOpenWithFailedSubmissions from './fixtures/mocks/lighthouse/claim-detail-open-with-failed-submissions.json';
-import { SUBMIT_FILES_FOR_REVIEW_TEXT, SUBMIT_TEXT } from '../../constants';
+import { SUBMIT_TEXT } from '../../constants';
 import {
   getFileInputElement,
   uploadFile,
   selectDocumentType,
   setupUnknownErrorMock,
+  clickSubmitButton,
 } from './file-upload-helpers';
+import { assertDataLayerEvent, clearDataLayer } from './analytics-helpers';
 
 describe('Claim Files Test', () => {
   it('Gets files properly - C30822', () => {
@@ -601,11 +603,11 @@ describe('Failed Submissions in Progress Empty State', () => {
         {
           id: 2,
           fileName: 'test-document-2.pdf',
-          trackedItemDisplayName: 'Additional Evidence',
+          trackedItemDisplayName: null,
           failedDate: '2025-01-20T14:20:00.000Z',
-          documentType: 'Other',
+          documentType: 'Other Correspondence',
           claimId: '123',
-          trackedItemId: 2,
+          trackedItemId: null,
         },
       ];
 
@@ -647,17 +649,24 @@ describe('Failed Submissions in Progress Empty State', () => {
       // Verify failed files list exists
       cy.get('[data-testid="failed-files-list"]').should('exist');
 
-      // Verify both files are displayed
+      // Verify card for tracked item (with trackedItemId)
       cy.get('[data-testid="failed-file-1"]').within(() => {
         cy.contains('test-document-1.pdf').should('exist');
-        cy.contains('21-4142').should('exist');
-        cy.contains('VA Form 21-4142').should('exist');
+        cy.contains('Document type: VA Form 21-4142').should('exist');
+        cy.contains('Submitted in response to request: 21-4142').should(
+          'exist',
+        );
+        cy.contains('Date failed:').should('exist');
       });
 
+      // Verify card for additional evidence (without trackedItemId)
       cy.get('[data-testid="failed-file-2"]').within(() => {
         cy.contains('test-document-2.pdf').should('exist');
-        cy.contains('Additional Evidence').should('exist');
-        cy.contains('Other').should('exist');
+        cy.contains('Document type: Other Correspondence').should('exist');
+        cy.contains('You submitted this file as additional evidence.').should(
+          'exist',
+        );
+        cy.contains('Date failed:').should('exist');
       });
 
       cy.injectAxeThenAxeCheck();
@@ -680,20 +689,13 @@ describe('Type 1 Unknown Upload Errors', () => {
     cy.injectAxe();
   };
 
-  const clickSubmitButton = buttonText => {
-    cy.get(`va-button[text="${buttonText}"]`)
-      .shadow()
-      .find('button')
-      .click();
-  };
-
   const uploadFileAndSubmit = () => {
     uploadFile('test-document.txt');
     getFileInputElement(0)
       .find('va-select')
       .should('be.visible');
     selectDocumentType(0, 'L034');
-    clickSubmitButton(SUBMIT_FILES_FOR_REVIEW_TEXT);
+    clickSubmitButton(SUBMIT_TEXT);
     cy.wait('@uploadRequest');
   };
 
@@ -735,7 +737,7 @@ describe('Type 1 Unknown Upload Errors', () => {
       .should('be.visible');
     selectDocumentType(0, 'L034');
 
-    clickSubmitButton(SUBMIT_FILES_FOR_REVIEW_TEXT);
+    clickSubmitButton(SUBMIT_TEXT);
     cy.wait('@uploadRequest');
 
     cy.get('.claims-alert').should(
@@ -797,7 +799,8 @@ describe('Type 1 Unknown Upload Errors', () => {
     uploadFileAndSubmit();
     verifyType1UnknownAlert();
 
-    cy.get('a[href*="/status"]').click();
+    cy.get('#tabStatus').click();
+
     verifyType1UnknownAlert();
 
     cy.get('.claims-alert')
@@ -818,6 +821,129 @@ describe('Type 1 Unknown Upload Errors', () => {
 
     cy.get('a[href*="/overview"]').click();
     cy.get('.claims-alert').should('not.exist');
+
+    cy.axeCheck();
+  });
+});
+
+describe('Google Analytics', () => {
+  const setupAnalyticsTest = () => {
+    const trackClaimsPage = new TrackClaimsPageV2();
+
+    trackClaimsPage.loadPage(
+      claimsList,
+      claimDetailsOpen,
+      false,
+      false,
+      featureToggleDocumentUploadStatusEnabled,
+    );
+    trackClaimsPage.verifyInProgressClaim(true);
+    trackClaimsPage.navigateToFilesTab();
+  };
+
+  const uploadFileAndSelectType = (
+    fileName = 'test-document.txt',
+    docTypeCode = 'L034',
+    fileIndex = 0,
+    force = false,
+  ) => {
+    uploadFile(fileName, fileIndex, force);
+    selectDocumentType(fileIndex, docTypeCode);
+  };
+
+  it('should record claims-upload-start event when file upload begins', () => {
+    setupAnalyticsTest();
+    uploadFileAndSelectType();
+    clearDataLayer();
+    clickSubmitButton(SUBMIT_TEXT);
+
+    assertDataLayerEvent('claims-upload-start', [
+      'file-count',
+      'retry-file-count',
+      'total-retry-attempts',
+    ]);
+
+    cy.axeCheck();
+  });
+
+  it('should record claims-upload-success event on successful upload', () => {
+    setupAnalyticsTest();
+
+    cy.intercept('POST', '/v0/benefits_claims/*/benefits_documents', {
+      statusCode: 200,
+      body: {
+        data: {
+          id: 'test-id',
+          type: 'benefits_document',
+          attributes: {},
+        },
+      },
+    }).as('uploadRequest');
+
+    uploadFileAndSelectType();
+    clearDataLayer();
+    clickSubmitButton(SUBMIT_TEXT);
+
+    cy.wait('@uploadRequest');
+
+    assertDataLayerEvent('claims-upload-success', ['file-count']);
+
+    cy.axeCheck();
+  });
+
+  it('should record claims-upload-failure event on Type 1 upload failure', () => {
+    setupAnalyticsTest();
+    setupUnknownErrorMock();
+    uploadFileAndSelectType();
+    clearDataLayer();
+    clickSubmitButton(SUBMIT_TEXT);
+
+    cy.wait('@uploadRequest');
+
+    assertDataLayerEvent('claims-upload-failure', [
+      'failed-file-count',
+      'error-code',
+    ]);
+
+    cy.axeCheck();
+  });
+
+  it('should include retry count when uploading the same file multiple times', () => {
+    setupAnalyticsTest();
+    setupUnknownErrorMock();
+    // First upload attempt
+    uploadFileAndSelectType();
+    clearDataLayer();
+    clickSubmitButton(SUBMIT_TEXT);
+
+    cy.wait('@uploadRequest');
+
+    // Verify failure event fired on first attempt (retryable)
+    assertDataLayerEvent('claims-upload-failure', [
+      'failed-file-count',
+      'error-code',
+    ]);
+
+    // Wait for error alert to appear
+    cy.get('va-alert[status="error"]').should('be.visible');
+    // Wait for select to be enabled and ready
+    getFileInputElement(0)
+      .find('va-select')
+      .shadow()
+      .find('select')
+      .should('not.be.disabled')
+      .and('be.visible');
+
+    // Retry with same file
+    clearDataLayer();
+    uploadFileAndSelectType('test-document.txt', 'L034', 0, true); // force: true for retry
+    clickSubmitButton(SUBMIT_TEXT);
+
+    // Verify retry event fired (retryable)
+    assertDataLayerEvent('claims-upload-start', [
+      'retry-file-count',
+      'total-retry-attempts',
+    ]);
 
     cy.axeCheck();
   });

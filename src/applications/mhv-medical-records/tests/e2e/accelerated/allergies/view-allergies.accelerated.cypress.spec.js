@@ -23,6 +23,9 @@ describe('Medical Records Accelerated Allergies', () => {
 
     cy.injectAxeThenAxeCheck();
 
+    // OH user, in the "accelerated" feature toggle group should see blue alert
+    cy.get('[data-testid="cerner-facilities-info-alert"]').should('be.visible');
+
     // Verify unified allergy format is displayed
     cy.get('[data-testid="record-list-item"]').should(
       'have.length.at.least',

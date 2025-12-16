@@ -393,10 +393,7 @@ class MedicationsListPage {
   verifyInformationBasedOnStatusDiscontinued = () => {
     cy.get('[data-testid="discontinued"]')
       .should('be.visible')
-      .and(
-        'contain',
-        'Contact your VA provider if you need more of this medication.',
-      );
+      .and('contain', 'If you need more, send a message to your care team.');
   };
 
   verifyInformationBasedOnStatusExpired = () => {
@@ -404,7 +401,7 @@ class MedicationsListPage {
       .should('be.visible')
       .and(
         'contain',
-        'Contact your VA provider if you need more of this medication.',
+        'This prescription is too old to refill. If you need more, request a renewal.',
       );
   };
 

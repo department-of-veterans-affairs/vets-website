@@ -6,7 +6,6 @@ import { isProfileLoading, isLoggedIn } from 'platform/user/selectors';
 import { useSelector } from 'react-redux';
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
-
 import Breadcrumbs from '../components/Breadcrumbs';
 import NeedHelp from '../components/NeedHelp';
 

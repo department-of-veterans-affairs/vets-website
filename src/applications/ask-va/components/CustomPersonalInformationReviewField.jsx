@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const CustomPersonalInformationReviewField = ({ name, data }) => {
   const getNameKey = str => {
@@ -45,6 +46,11 @@ const CustomPersonalInformationReviewField = ({ name, data }) => {
       </dl>
     </>
   );
+};
+
+CustomPersonalInformationReviewField.propTypes = {
+  data: PropTypes.object.isRequired,
+  name: PropTypes.string.isRequired,
 };
 
 export default CustomPersonalInformationReviewField;
