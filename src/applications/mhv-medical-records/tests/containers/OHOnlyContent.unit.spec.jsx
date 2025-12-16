@@ -30,7 +30,7 @@ describe('OHOnlyContent', () => {
 
   const defaultProps = {
     ddSuffix: 'OH',
-    isLoading: false,
+    generatingCCD: false,
     handleDownload: () => {},
     testIdSuffix: 'OH',
     lastSuccessfulUpdate: null,
@@ -38,6 +38,10 @@ describe('OHOnlyContent', () => {
     activeAlert: null,
     successfulSeiDownload: false,
     failedSeiDomains: [],
+    ccdExtendedFileTypeFlag: true,
+    ccdDownloadSuccess: false,
+    ccdError: false,
+    CCDRetryTimestamp: null,
   };
 
   const renderComponent = (props = {}, state = {}) => {
@@ -62,8 +66,8 @@ describe('OHOnlyContent', () => {
     expect(getByText('Download your Continuity of Care Document')).to.exist;
   });
 
-  it('shows loading spinner when isLoading is true', () => {
-    const { container, queryByText } = renderComponent({ isLoading: true });
+  it('shows loading spinner when generatingCCD is true', () => {
+    const { container, queryByText } = renderComponent({ generatingCCD: true });
 
     const spinnerContainer = container.querySelector(
       '#generating-ccd-OH-indicator',
@@ -75,57 +79,170 @@ describe('OHOnlyContent', () => {
       .exist;
   });
 
-  it('renders all 3 download links when not loading', () => {
-    const { getByTestId } = renderComponent();
+  describe('when ccdExtendedFileTypeFlag is true', () => {
+    it('renders all 3 download links when not loading', () => {
+      const { getByTestId } = renderComponent({
+        ccdExtendedFileTypeFlag: true,
+      });
 
-    expect(getByTestId('generateCcdButtonXmlOH')).to.exist;
-    expect(getByTestId('generateCcdButtonPdfOH')).to.exist;
-    expect(getByTestId('generateCcdButtonHtmlOH')).to.exist;
+      expect(getByTestId('generateCcdButtonXmlOH')).to.exist;
+      expect(getByTestId('generateCcdButtonPdfOH')).to.exist;
+      expect(getByTestId('generateCcdButtonHtmlOH')).to.exist;
+    });
+
+    it('calls handleDownload with correct format when XML link is clicked', () => {
+      const handleDownload = sinon.spy();
+      const { getByTestId } = renderComponent({
+        handleDownload,
+        ccdExtendedFileTypeFlag: true,
+      });
+
+      fireEvent.click(getByTestId('generateCcdButtonXmlOH'));
+      expect(handleDownload.calledOnce).to.be.true;
+      expect(handleDownload.firstCall.args[1]).to.equal('xml');
+    });
+
+    it('calls handleDownload with correct format when PDF link is clicked', () => {
+      const handleDownload = sinon.spy();
+      const { getByTestId } = renderComponent({
+        handleDownload,
+        ccdExtendedFileTypeFlag: true,
+      });
+
+      fireEvent.click(getByTestId('generateCcdButtonPdfOH'));
+      expect(handleDownload.calledOnce).to.be.true;
+      expect(handleDownload.firstCall.args[1]).to.equal('pdf');
+    });
+
+    it('calls handleDownload with correct format when HTML link is clicked', () => {
+      const handleDownload = sinon.spy();
+      const { getByTestId } = renderComponent({
+        handleDownload,
+        ccdExtendedFileTypeFlag: true,
+      });
+
+      fireEvent.click(getByTestId('generateCcdButtonHtmlOH'));
+      expect(handleDownload.calledOnce).to.be.true;
+      expect(handleDownload.firstCall.args[1]).to.equal('html');
+    });
+
+    it('has correct data attributes for Datadog tracking', () => {
+      const { getByTestId } = renderComponent({
+        ccdExtendedFileTypeFlag: true,
+      });
+
+      const xmlLink = getByTestId('generateCcdButtonXmlOH');
+      const pdfLink = getByTestId('generateCcdButtonPdfOH');
+      const htmlLink = getByTestId('generateCcdButtonHtmlOH');
+
+      expect(xmlLink.getAttribute('data-dd-action-name')).to.equal(
+        'Download CCD XML OH',
+      );
+      expect(pdfLink.getAttribute('data-dd-action-name')).to.equal(
+        'Download CCD PDF OH',
+      );
+      expect(htmlLink.getAttribute('data-dd-action-name')).to.equal(
+        'Download CCD HTML OH',
+      );
+    });
+
+    it('renders download links with correct text', () => {
+      const { getByTestId } = renderComponent({
+        ccdExtendedFileTypeFlag: true,
+      });
+
+      expect(getByTestId('generateCcdButtonXmlOH')).to.have.attribute(
+        'text',
+        'Download XML (best for sharing with your provider)',
+      );
+      expect(getByTestId('generateCcdButtonPdfOH')).to.have.attribute(
+        'text',
+        'Download PDF (best for printing)',
+      );
+      expect(getByTestId('generateCcdButtonHtmlOH')).to.have.attribute(
+        'text',
+        'Download HTML (best for screen readers, enlargers, and refreshable Braille displays)',
+      );
+    });
+
+    it('uses the correct testIdSuffix in test ids', () => {
+      const { getByTestId } = renderComponent({
+        testIdSuffix: 'CustomSuffix',
+        ccdExtendedFileTypeFlag: true,
+      });
+
+      expect(getByTestId('generateCcdButtonXmlCustomSuffix')).to.exist;
+      expect(getByTestId('generateCcdButtonPdfCustomSuffix')).to.exist;
+      expect(getByTestId('generateCcdButtonHtmlCustomSuffix')).to.exist;
+    });
+
+    it('uses the correct ddSuffix in data-dd-action-name attributes', () => {
+      const { getByTestId } = renderComponent({
+        ddSuffix: 'CustomDD',
+        ccdExtendedFileTypeFlag: true,
+      });
+
+      const xmlLink = getByTestId('generateCcdButtonXmlOH');
+      const pdfLink = getByTestId('generateCcdButtonPdfOH');
+      const htmlLink = getByTestId('generateCcdButtonHtmlOH');
+
+      expect(xmlLink.getAttribute('data-dd-action-name')).to.equal(
+        'Download CCD XML CustomDD',
+      );
+      expect(pdfLink.getAttribute('data-dd-action-name')).to.equal(
+        'Download CCD PDF CustomDD',
+      );
+      expect(htmlLink.getAttribute('data-dd-action-name')).to.equal(
+        'Download CCD HTML CustomDD',
+      );
+    });
   });
 
-  it('calls handleDownload with correct format when XML link is clicked', () => {
-    const handleDownload = sinon.spy();
-    const { getByTestId } = renderComponent({ handleDownload });
+  describe('when ccdExtendedFileTypeFlag is false', () => {
+    it('renders only XML download link', () => {
+      const { getByTestId, queryByTestId } = renderComponent({
+        ccdExtendedFileTypeFlag: false,
+      });
 
-    fireEvent.click(getByTestId('generateCcdButtonXmlOH'));
-    expect(handleDownload.calledOnce).to.be.true;
-    expect(handleDownload.firstCall.args[1]).to.equal('xml');
-  });
+      expect(getByTestId('generateCcdButtonXmlOH')).to.exist;
+      expect(queryByTestId('generateCcdButtonPdfOH')).to.not.exist;
+      expect(queryByTestId('generateCcdButtonHtmlOH')).to.not.exist;
+    });
 
-  it('calls handleDownload with correct format when PDF link is clicked', () => {
-    const handleDownload = sinon.spy();
-    const { getByTestId } = renderComponent({ handleDownload });
+    it('renders XML download link with correct text', () => {
+      const { getByTestId } = renderComponent({
+        ccdExtendedFileTypeFlag: false,
+      });
 
-    fireEvent.click(getByTestId('generateCcdButtonPdfOH'));
-    expect(handleDownload.calledOnce).to.be.true;
-    expect(handleDownload.firstCall.args[1]).to.equal('pdf');
-  });
+      expect(getByTestId('generateCcdButtonXmlOH')).to.have.attribute(
+        'text',
+        'Download Continuity of Care Document (XML)',
+      );
+    });
 
-  it('calls handleDownload with correct format when HTML link is clicked', () => {
-    const handleDownload = sinon.spy();
-    const { getByTestId } = renderComponent({ handleDownload });
+    it('renders XML format description text', () => {
+      const { getByText } = renderComponent({
+        ccdExtendedFileTypeFlag: false,
+      });
 
-    fireEvent.click(getByTestId('generateCcdButtonHtmlOH'));
-    expect(handleDownload.calledOnce).to.be.true;
-    expect(handleDownload.firstCall.args[1]).to.equal('html');
-  });
+      expect(
+        getByText(
+          /You can download this report in .xml format, a standard file format/,
+        ),
+      ).to.exist;
+    });
 
-  it('has correct data attributes for Datadog tracking', () => {
-    const { getByTestId } = renderComponent();
+    it('calls handleDownload with xml format when XML link is clicked', () => {
+      const handleDownload = sinon.spy();
+      const { getByTestId } = renderComponent({
+        handleDownload,
+        ccdExtendedFileTypeFlag: false,
+      });
 
-    const xmlLink = getByTestId('generateCcdButtonXmlOH');
-    const pdfLink = getByTestId('generateCcdButtonPdfOH');
-    const htmlLink = getByTestId('generateCcdButtonHtmlOH');
-
-    expect(xmlLink.getAttribute('data-dd-action-name')).to.equal(
-      'Download CCD XML OH',
-    );
-    expect(pdfLink.getAttribute('data-dd-action-name')).to.equal(
-      'Download CCD PDF OH',
-    );
-    expect(htmlLink.getAttribute('data-dd-action-name')).to.equal(
-      'Download CCD HTML OH',
-    );
+      fireEvent.click(getByTestId('generateCcdButtonXmlOH'));
+      expect(handleDownload.calledOnce).to.be.true;
+      expect(handleDownload.firstCall.args[1]).to.equal('xml');
+    });
   });
 
   it('renders last successful update card when lastSuccessfulUpdate is provided', () => {
@@ -204,6 +321,53 @@ describe('OHOnlyContent', () => {
     expect(queryByTestId('alert-download-started')).to.not.exist;
   });
 
+  describe('CCD Download Success Alert', () => {
+    it('renders CCD download success alert when ccdDownloadSuccess is true', () => {
+      const { getByText } = renderComponent({
+        ccdDownloadSuccess: true,
+        ccdError: false,
+        CCDRetryTimestamp: null,
+      });
+
+      expect(getByText(/Continuity of Care Document download/)).to.exist;
+    });
+
+    it('does not render CCD download success alert when ccdError is true', () => {
+      const { queryByText } = renderComponent({
+        ccdDownloadSuccess: true,
+        ccdError: true,
+        CCDRetryTimestamp: null,
+      });
+
+      // Should not find the CCD success alert (but might find SEI if that's also present)
+      const alerts = queryByText(/Continuity of Care Document download/);
+      expect(alerts).to.not.exist;
+    });
+
+    it('does not render CCD download success alert when CCDRetryTimestamp is set', () => {
+      const { queryByText } = renderComponent({
+        ccdDownloadSuccess: true,
+        ccdError: false,
+        CCDRetryTimestamp: '2025-12-16T10:00:00Z',
+      });
+
+      const alerts = queryByText(/Continuity of Care Document download/);
+      expect(alerts).to.not.exist;
+    });
+
+    it('does not render CCD download success alert when ccdDownloadSuccess is false and not generating', () => {
+      const { queryByText } = renderComponent({
+        ccdDownloadSuccess: false,
+        generatingCCD: false,
+        ccdError: false,
+        CCDRetryTimestamp: null,
+      });
+
+      const alerts = queryByText(/Continuity of Care Document download/);
+      expect(alerts).to.not.exist;
+    });
+  });
+
   it('renders CCD description text correctly', () => {
     const { getByText } = renderComponent();
 
@@ -215,49 +379,6 @@ describe('OHOnlyContent', () => {
     expect(
       getByText(/that you can share with non-VA providers in your community/),
     ).to.exist;
-  });
-
-  it('renders download links with correct text', () => {
-    const { getByTestId } = renderComponent();
-
-    expect(getByTestId('generateCcdButtonXmlOH')).to.have.attribute(
-      'text',
-      'Download XML (best for sharing with your provider)',
-    );
-    expect(getByTestId('generateCcdButtonPdfOH')).to.have.attribute(
-      'text',
-      'Download PDF (best for printing)',
-    );
-    expect(getByTestId('generateCcdButtonHtmlOH')).to.have.attribute(
-      'text',
-      'Download HTML (best for screen readers, enlargers, and refreshable Braille displays)',
-    );
-  });
-
-  it('uses the correct testIdSuffix in test ids', () => {
-    const { getByTestId } = renderComponent({ testIdSuffix: 'CustomSuffix' });
-
-    expect(getByTestId('generateCcdButtonXmlCustomSuffix')).to.exist;
-    expect(getByTestId('generateCcdButtonPdfCustomSuffix')).to.exist;
-    expect(getByTestId('generateCcdButtonHtmlCustomSuffix')).to.exist;
-  });
-
-  it('uses the correct ddSuffix in data-dd-action-name attributes', () => {
-    const { getByTestId } = renderComponent({ ddSuffix: 'CustomDD' });
-
-    const xmlLink = getByTestId('generateCcdButtonXmlOH');
-    const pdfLink = getByTestId('generateCcdButtonPdfOH');
-    const htmlLink = getByTestId('generateCcdButtonHtmlOH');
-
-    expect(xmlLink.getAttribute('data-dd-action-name')).to.equal(
-      'Download CCD XML CustomDD',
-    );
-    expect(pdfLink.getAttribute('data-dd-action-name')).to.equal(
-      'Download CCD PDF CustomDD',
-    );
-    expect(htmlLink.getAttribute('data-dd-action-name')).to.equal(
-      'Download CCD HTML CustomDD',
-    );
   });
 
   it('renders h2 heading for CCD section', () => {
