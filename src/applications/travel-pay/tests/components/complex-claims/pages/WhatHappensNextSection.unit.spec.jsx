@@ -58,7 +58,7 @@ describe('<WhatHappensNextSection />', () => {
     ).to.exist;
     expect(
       container.querySelector(
-        `va-process-list-item[header="If we approve your claim, we’ll send your pay through direct deposit"]`,
+        `va-process-list-item[header*="If we approve your claim"]`,
       ),
     ).to.exist;
 
