@@ -1,233 +1,117 @@
 import React from 'react';
 import { expect } from 'chai';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import sinon from 'sinon';
+import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import RouterLinkAction from '../RouterLinkAction';
 import reducer from '../../../reducers';
 
 describe('RouterLinkAction', () => {
   const initialState = {
-    sm: {
-      alerts: {},
-      recipients: {},
-      breadcrumbs: {},
-      categories: {},
-      facilities: {},
-      folders: {},
-      search: {},
-      threads: {},
-      threadDetails: {},
-      triageTeams: {},
-      preferences: {},
-      prescription: {},
-    },
+    sm: {},
   };
 
-  let sandbox;
+  const setup = (customProps = {}) => {
+    const props = {
+      href: '/my-health/secure-messages/inbox',
+      text: 'Go to inbox',
+      ...customProps,
+    };
 
-  beforeEach(() => {
-    sandbox = sinon.createSandbox();
-  });
-
-  afterEach(() => {
-    sandbox.restore();
-  });
+    return renderWithStoreAndRouter(<RouterLinkAction {...props} />, {
+      initialState,
+      reducers: reducer,
+      path: '/my-health/secure-messages',
+    });
+  };
 
   it('renders a va-link-action element', () => {
-    const { container } = renderWithStoreAndRouter(
-      <RouterLinkAction href="/test-path" text="Test Link" />,
-      {
-        initialState,
-        reducers: reducer,
-      },
-    );
-
+    const { container } = setup();
     const link = container.querySelector('va-link-action');
     expect(link).to.exist;
   });
 
-  it('renders with action link styling by default (active={true})', () => {
-    const { container } = renderWithStoreAndRouter(
-      <RouterLinkAction href="/test-path" text="Test Link" />,
-      {
-        initialState,
-        reducers: reducer,
-      },
-    );
-
+  it('renders with correct href attribute', () => {
+    const { container } = setup({ href: '/test-path' });
     const link = container.querySelector('va-link-action');
-    expect(link).to.exist;
-    // VaLinkAction is always styled as an action link
+    expect(link.getAttribute('href')).to.equal('/test-path');
   });
 
-  it('renders with action link styling (active prop not applicable)', () => {
-    const { container } = renderWithStoreAndRouter(
-      <RouterLinkAction href="/test-path" text="Test Link" />,
-      {
-        initialState,
-        reducers: reducer,
-      },
-    );
-
+  it('renders with correct text attribute', () => {
+    const { container } = setup({ text: 'Test Link Text' });
     const link = container.querySelector('va-link-action');
-    expect(link).to.exist;
-    // VaLinkAction is always styled as an action link
+    expect(link.getAttribute('text')).to.equal('Test Link Text');
   });
 
-  it('renders with action link styling (always applied)', () => {
-    const { container } = renderWithStoreAndRouter(
-      <RouterLinkAction href="/test-path" text="Test Link" />,
-      {
-        initialState,
-        reducers: reducer,
-      },
-    );
-
+  it('renders with label attribute when provided', () => {
+    const { container } = setup({ label: 'Custom aria label' });
     const link = container.querySelector('va-link-action');
-    expect(link).to.exist;
-    // VaLinkAction is always styled as an action link
+    expect(link.getAttribute('label')).to.equal('Custom aria label');
   });
 
-  it('passes href prop to va-link-action', () => {
-    const { container } = renderWithStoreAndRouter(
-      <RouterLinkAction href="/my-test-path" text="Test Link" />,
-      {
-        initialState,
-        reducers: reducer,
-      },
-    );
-
-    const link = container.querySelector('va-link-action');
-    expect(link).to.have.attribute('href', '/my-test-path');
-  });
-
-  it('passes text prop to va-link-action', () => {
-    const { container } = renderWithStoreAndRouter(
-      <RouterLinkAction href="/test-path" text="My Test Text" />,
-      {
-        initialState,
-        reducers: reducer,
-      },
-    );
-
-    const link = container.querySelector('va-link-action');
-    expect(link).to.have.attribute('text', 'My Test Text');
-  });
-
-  it('passes label prop to va-link-action when provided', () => {
-    const { container } = renderWithStoreAndRouter(
-      <RouterLinkAction
-        href="/test-path"
-        text="Test Link"
-        label="Accessible label"
-      />,
-      {
-        initialState,
-        reducers: reducer,
-      },
-    );
-
-    const link = container.querySelector('va-link-action');
-    expect(link).to.have.attribute('label', 'Accessible label');
-  });
-
-  it('does not pass label prop when not provided', () => {
-    const { container } = renderWithStoreAndRouter(
-      <RouterLinkAction href="/test-path" text="Test Link" />,
-      {
-        initialState,
-        reducers: reducer,
-      },
-    );
-
+  it('does not render label attribute when not provided', () => {
+    const { container } = setup();
     const link = container.querySelector('va-link-action');
     expect(link).to.not.have.attribute('label');
   });
 
-  it('passes reverse prop to va-link-action when true', () => {
-    const { container } = renderWithStoreAndRouter(
-      <RouterLinkAction href="/test-path" text="Test Link" reverse />,
-      {
-        initialState,
-        reducers: reducer,
-      },
-    );
-
+  it('renders with reverse attribute when reverse=true', () => {
+    const { container } = setup({ reverse: true });
     const link = container.querySelector('va-link-action');
-    expect(link).to.have.attribute('reverse', 'true');
+    expect(link).to.have.attribute('reverse');
   });
 
-  it('does not pass reverse prop when false', () => {
-    const { container } = renderWithStoreAndRouter(
-      <RouterLinkAction href="/test-path" text="Test Link" reverse={false} />,
-      {
-        initialState,
-        reducers: reducer,
-      },
-    );
-
+  it('does not render reverse attribute when reverse=false', () => {
+    const { container } = setup({ reverse: false });
     const link = container.querySelector('va-link-action');
     expect(link).to.not.have.attribute('reverse');
   });
 
-  it('passes data attributes to va-link-action', () => {
-    const { container } = renderWithStoreAndRouter(
-      <RouterLinkAction
-        href="/test-path"
-        text="Test Link"
-        data-testid="my-test-id"
-        data-dd-action-name="Test Action"
-        data-dd-privacy="mask"
-      />,
-      {
-        initialState,
-        reducers: reducer,
-      },
-    );
-
+  it('passes through data attributes', () => {
+    const { container } = setup({
+      'data-testid': 'custom-test-id',
+      'data-dd-action-name': 'Test Action',
+    });
     const link = container.querySelector('va-link-action');
-    expect(link).to.have.attribute('data-testid', 'my-test-id');
-    expect(link).to.have.attribute('data-dd-action-name', 'Test Action');
-    expect(link).to.have.attribute('data-dd-privacy', 'mask');
+    expect(link.getAttribute('data-testid')).to.equal('custom-test-id');
+    expect(link.getAttribute('data-dd-action-name')).to.equal('Test Action');
   });
 
-  it('calls router.push with correct href on click', () => {
-    const { container } = renderWithStoreAndRouter(
-      <RouterLinkAction href="/inbox" text="Go to Inbox" />,
-      {
-        initialState,
-        reducers: reducer,
-        path: '/',
-      },
-    );
+  describe('click navigation (history.push)', () => {
+    it('should navigate to correct path on click', () => {
+      const { container, history } = renderWithStoreAndRouter(
+        <RouterLinkAction
+          href="/my-health/secure-messages/compose"
+          text="Start a new message"
+          data-testid="click-test-link"
+        />,
+        {
+          initialState,
+          reducers: reducer,
+          path: '/my-health/secure-messages',
+        },
+      );
 
-    const link = container.querySelector('va-link-action');
+      const link = container.querySelector('va-link-action');
 
-    // Simulate click event
-    const clickEvent = new MouseEvent('click', {
-      bubbles: true,
-      cancelable: true,
+      // Simulate click
+      const clickEvent = new MouseEvent('click', {
+        bubbles: true,
+        cancelable: true,
+      });
+      link.dispatchEvent(clickEvent);
+
+      // Verify navigation occurred by checking history location
+      expect(history.location.pathname).to.equal(
+        '/my-health/secure-messages/compose',
+      );
     });
 
-    // Spy on preventDefault
-    const preventDefaultSpy = sandbox.spy(clickEvent, 'preventDefault');
-
-    link.dispatchEvent(clickEvent);
-
-    // Verify preventDefault was called
-    expect(preventDefaultSpy.calledOnce).to.be.true;
-  });
-
-  it('handles navigation to different paths', () => {
-    const paths = [
-      '/my-health/secure-messages/inbox/',
-      '/my-health/secure-messages/compose',
-      '/profile/personal-information#messaging-signature',
-    ];
-
-    paths.forEach(path => {
+    it('should prevent default browser navigation on click', () => {
       const { container } = renderWithStoreAndRouter(
-        <RouterLinkAction href={path} text="Test Link" />,
+        <RouterLinkAction
+          href="/my-health/secure-messages/inbox"
+          text="Go to inbox"
+        />,
         {
           initialState,
           reducers: reducer,
@@ -235,97 +119,101 @@ describe('RouterLinkAction', () => {
       );
 
       const link = container.querySelector('va-link-action');
-      expect(link).to.have.attribute('href', path);
-    });
-  });
-
-  it('combines multiple props correctly', () => {
-    const { container } = renderWithStoreAndRouter(
-      <RouterLinkAction
-        href="/test-path"
-        text="Combined Props Test"
-        label="Custom Label"
-        reverse
-        data-testid="combined-test"
-        data-dd-action-name="Combined Action"
-      />,
-      {
-        initialState,
-        reducers: reducer,
-      },
-    );
-
-    const link = container.querySelector('va-link-action');
-    expect(link).to.have.attribute('href', '/test-path');
-    expect(link).to.have.attribute('text', 'Combined Props Test');
-    expect(link).to.have.attribute('label', 'Custom Label');
-    // VaLinkAction is always styled as an action link
-    expect(link).to.have.attribute('reverse', 'true');
-    expect(link).to.have.attribute('data-testid', 'combined-test');
-    expect(link).to.have.attribute('data-dd-action-name', 'Combined Action');
-  });
-
-  describe('PropTypes validation', () => {
-    let consoleErrorStub;
-
-    beforeEach(() => {
-      consoleErrorStub = sandbox.stub(console, 'error');
-    });
-
-    it('does not warn when all required props are provided', () => {
-      renderWithStoreAndRouter(<RouterLinkAction href="/test" text="Test" />, {
-        initialState,
-        reducers: reducer,
+      const clickEvent = new MouseEvent('click', {
+        bubbles: true,
+        cancelable: true,
       });
+      const preventDefaultSpy = sinon.spy(clickEvent, 'preventDefault');
 
-      // Filter out unrelated warnings
-      const relevantErrors = consoleErrorStub
-        .getCalls()
-        .filter(
-          call =>
-            call.args[0]?.includes('RouterLinkAction') ||
-            call.args[0]?.includes('Failed prop type'),
-        );
+      link.dispatchEvent(clickEvent);
 
-      expect(relevantErrors.length).to.equal(0);
+      expect(preventDefaultSpy.calledOnce).to.be.true;
+    });
+
+    it('should navigate to paths with query parameters', () => {
+      const { container, history } = renderWithStoreAndRouter(
+        <RouterLinkAction
+          href="/my-health/secure-messages/inbox?folder=custom"
+          text="View folder"
+        />,
+        {
+          initialState,
+          reducers: reducer,
+          path: '/my-health/secure-messages',
+        },
+      );
+
+      const link = container.querySelector('va-link-action');
+
+      link.dispatchEvent(
+        new MouseEvent('click', { bubbles: true, cancelable: true }),
+      );
+
+      expect(history.location.pathname).to.equal(
+        '/my-health/secure-messages/inbox',
+      );
+      expect(history.location.search).to.equal('?folder=custom');
+    });
+
+    it('should navigate to paths with hash fragments', () => {
+      const { container, history } = renderWithStoreAndRouter(
+        <RouterLinkAction
+          href="/profile/personal-information#messaging-signature"
+          text="Edit signature"
+        />,
+        {
+          initialState,
+          reducers: reducer,
+          path: '/profile',
+        },
+      );
+
+      const link = container.querySelector('va-link-action');
+
+      link.dispatchEvent(
+        new MouseEvent('click', { bubbles: true, cancelable: true }),
+      );
+
+      expect(history.location.pathname).to.equal(
+        '/profile/personal-information',
+      );
+      expect(history.location.hash).to.equal('#messaging-signature');
+    });
+  });
+
+  describe('accessibility', () => {
+    it('announces link purpose with aria-label', () => {
+      const { container } = setup({
+        text: 'Go',
+        label: 'Go to your inbox to read messages',
+      });
+      const link = container.querySelector('va-link-action');
+
+      expect(link.getAttribute('text')).to.equal('Go');
+      expect(link.getAttribute('label')).to.equal(
+        'Go to your inbox to read messages',
+      );
     });
   });
 
   describe('VADS compliance', () => {
-    it('uses action link styling for primary CTAs in alerts', () => {
-      const { container } = renderWithStoreAndRouter(
-        <RouterLinkAction
-          href="/compose"
-          text="Start a new message"
-          data-dd-action-name="Primary CTA"
-        />,
-        {
-          initialState,
-          reducers: reducer,
-        },
-      );
+    it('uses action link styling for primary CTAs', () => {
+      const { container } = setup({
+        href: '/my-health/secure-messages/compose',
+        text: 'Start a new message',
+      });
 
       const link = container.querySelector('va-link-action');
       expect(link).to.exist;
-      // VaLinkAction is always styled as an action link
+      expect(link.tagName).to.equal('VA-LINK-ACTION');
     });
 
-    it('always uses action link styling regardless of context', () => {
-      const { container } = renderWithStoreAndRouter(
-        <RouterLinkAction
-          href="/profile/personal-information#messaging-signature"
-          text="Edit signature for all messages"
-          data-dd-action-name="Utility Link"
-        />,
-        {
-          initialState,
-          reducers: reducer,
-        },
-      );
-
+    it('renders reverse styling for dark backgrounds', () => {
+      const { container } = setup({ reverse: true, text: 'Reverse Action' });
       const link = container.querySelector('va-link-action');
-      expect(link).to.exist;
-      // VaLinkAction is always styled as an action link
+
+      expect(link).to.have.attribute('reverse');
+      expect(link.getAttribute('text')).to.equal('Reverse Action');
     });
   });
 });

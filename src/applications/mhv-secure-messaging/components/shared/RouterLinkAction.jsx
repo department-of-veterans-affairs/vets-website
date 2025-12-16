@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router';
+import { useHistory } from 'react-router-dom';
 import { VaLinkAction } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 /**
@@ -25,11 +25,17 @@ import { VaLinkAction } from '@department-of-veterans-affairs/component-library/
  * @see https://design.va.gov/components/link/ - Link component guidance
  * @see https://design.va.gov/components/link/action - Action Link guidance
  */
-const RouterLinkAction = ({ href, text, reverse, label, router, ...rest }) => {
+const RouterLinkAction = ({ href, text, reverse, label, ...rest }) => {
+  const history = useHistory();
+
   function handleClick(e) {
     e.preventDefault();
-    // Access router from props (injected by withRouter HOC)
-    router.push(href);
+    if (history) {
+      history.push(href);
+    } else {
+      // Fallback: use window.location if not in Router context
+      window.location.href = href;
+    }
   }
 
   const linkProps = {
@@ -55,8 +61,6 @@ const RouterLinkAction = ({ href, text, reverse, label, router, ...rest }) => {
 RouterLinkAction.propTypes = {
   /** The destination path for React Router navigation */
   href: PropTypes.string.isRequired,
-  /** Router object injected by withRouter HOC */
-  router: PropTypes.object.isRequired,
   /** The link text to display */
   text: PropTypes.string.isRequired,
   /** Optional aria-label for screen readers */
@@ -65,4 +69,4 @@ RouterLinkAction.propTypes = {
   reverse: PropTypes.bool,
 };
 
-export default withRouter(RouterLinkAction);
+export default RouterLinkAction;

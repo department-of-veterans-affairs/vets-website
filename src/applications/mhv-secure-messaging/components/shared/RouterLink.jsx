@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router';
+import { useHistory } from 'react-router-dom';
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 /**
@@ -25,13 +25,19 @@ const RouterLink = ({
   text,
   reverse,
   label,
-  active = false, // Default to standard link styling
-  router,
+  active = false,
   ...rest
 }) => {
+  const history = useHistory();
+
   function handleClick(e) {
     e.preventDefault();
-    router.push(href);
+    if (history) {
+      history.push(href);
+    } else {
+      // Fallback: use window.location if not in Router context
+      window.location.href = href;
+    }
   }
 
   const linkProps = {
@@ -62,8 +68,6 @@ const RouterLink = ({
 RouterLink.propTypes = {
   /** The destination path for React Router navigation */
   href: PropTypes.string.isRequired,
-  /** Router object injected by withRouter HOC */
-  router: PropTypes.object.isRequired,
   /** The link text to display */
   text: PropTypes.string.isRequired,
   /** If true, renders as active link; if false (default), renders as standard link */
@@ -74,4 +78,4 @@ RouterLink.propTypes = {
   reverse: PropTypes.bool,
 };
 
-export default withRouter(RouterLink);
+export default RouterLink;
