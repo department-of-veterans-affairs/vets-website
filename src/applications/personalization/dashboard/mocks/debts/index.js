@@ -1,6 +1,6 @@
-const createDebtsCountOnlySuccess = () => {
+const createDebtsCountOnlySuccess = (debtsCount = 8) => {
   return {
-    debtsCount: 8,
+    debtsCount,
   };
 };
 

@@ -150,8 +150,9 @@ const ReviewPage = () => {
               </p>
               <p>
                 Before we can pay you back for expenses, you must pay a
-                deductible. The current deductible is $3 one-way or $6
-                round-trip for each appointment, up to $18 total each month.
+                deductible. The current deductible is <strong>$3</strong>{' '}
+                one-way or <strong>$6</strong> round-trip for each appointment.
+                You’ll pay no more than <strong>$18</strong> total each month.
               </p>
               <va-link
                 href="/resources/reimbursed-va-travel-expenses-and-mileage-rate/#monthlydeductible"
