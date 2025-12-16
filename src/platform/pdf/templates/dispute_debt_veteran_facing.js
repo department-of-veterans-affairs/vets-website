@@ -1,6 +1,16 @@
 import { format } from 'date-fns';
 import { formatDateLong } from 'platform/utilities/date';
+import i18nDebtApp from 'applications/dispute-debt/i18n';
 import { validate } from '../utils/validations/dispute_debt';
+import {
+  drawNumberedCircle,
+  drawVerticalLine,
+  drawHorizontalLine,
+  addPhone,
+  addTTY,
+  addWebLink,
+  createFieldSection,
+} from '../utils/helpers/dispute_debt';
 import {
   createAccessibleDoc,
   createHeading,
@@ -29,55 +39,159 @@ const defaultConfig = {
 };
 
 // =====================================
-// * Helper Functions *
+// * Section Builders *
 // =====================================
+const createWhatToExpectSection = (doc, wrapper, config, content) => {
+  const section = doc.struct('Sect', { title: content.title });
 
-/** Creates a labeled field with gray label and black value * */
-const createLabeledField = (doc, config, label, value, options = {}) => {
-  const { lineGapLabel = 5, lineGapValue = 10 } = options;
+  // Define circle constants
+  const circleIndent = 15;
+  const circleRadius = 10;
+  const circleX = config.margins.left + circleRadius + circleIndent;
+  const textIndent = circleX + 20;
 
-  return doc.struct('P', () => {
-    doc
-      .font(config.text.font)
-      .fontSize(config.text.size)
-      .fillColor(config.text.labelColor)
-      .text(label, { lineGap: lineGapLabel });
-    doc
-      .font(config.text.font)
-      .fillColor(config.text.valueColor)
-      .text(value || '', { lineGap: lineGapValue });
-  });
-};
-
-/** Adds a labeled field to a section * */
-const addLabeledField = (section, doc, config, label, value, options = {}) => {
-  section.add(createLabeledField(doc, config, label, value, options));
-};
-
-/** Creates a section with heading and labeled fields * */
-const createFieldSection = (doc, wrapper, config, title, fields) => {
-  const section = doc.struct('Sect', { title });
-
+  // Add section heading
   section.add(
-    createHeading(doc, 'H3', config, title, {
+    createHeading(doc, 'H2', config, content.title, {
+      x: config.margins.left,
+    }),
+  );
+  doc.moveDown(3);
+  let circle1CenterY;
+
+  // Draw steps with circles and vertical lines
+  content.steps.forEach((step, index) => {
+    const stepY = doc.y;
+    const { circleCenterY, circleRadius: radius } = drawNumberedCircle(
+      doc,
+      config,
+      step.number,
+      stepY,
+    );
+    if (index === 0) circle1CenterY = circleCenterY;
+    section.add(
+      doc.struct('P', () => {
+        doc
+          .font(config.headings.H5.font)
+          .fontSize(config.headings.H5.size)
+          .text(step.title, textIndent, stepY);
+        doc
+          .font(config.text.font)
+          .fontSize(config.text.size)
+          .text(step.description);
+      }),
+    );
+    if (index < content.steps.length - 1) {
+      doc.moveDown(2);
+      const step1EndY = doc.y;
+      drawVerticalLine(doc, circleX, circle1CenterY + radius, step1EndY);
+      doc.moveDown();
+    }
+  });
+  section.end();
+  wrapper.add(section);
+  doc.moveDown(4);
+};
+
+const createContactSection = (doc, wrapper, config, content) => {
+  const section = doc.struct('Sect', { title: content.title });
+
+  // Add section heading
+  section.add(
+    createHeading(doc, 'H2', config, content.title, {
       x: config.margins.left,
       paragraphGap: 12,
     }),
   );
+  section.add(
+    doc.struct('P', () => {
+      doc.font(config.text.font).fontSize(config.text.size);
 
-  fields.forEach(({ label, value, options = {} }) => {
-    // Skip labels with empty values like suffix which is often
-    if (!value || (typeof value === 'string' && !value.trim())) return;
-    addLabeledField(section, doc, config, label, value, options);
-    if (options.moveDown !== false) doc.moveDown();
-  });
+      // Call Us
+      doc.text(content['call-us'].prefix, { continued: true });
+      addPhone(doc, content['main-phone']);
+      addTTY(doc, content.tty);
+      doc.text(content['call-us'].suffix, {
+        link: null,
+        continued: false,
+        lineGap: 2,
+      });
+      doc.moveDown();
 
+      // Ask VA
+      doc.text(content['ask-va-text'], { lineGap: 2 });
+      doc.moveDown();
+
+      // Ask VA Link
+      addWebLink(doc, content['ask-va-link'].text, content['ask-va-link'].url);
+    }),
+  );
+  section.end();
+  wrapper.add(section);
+  doc.moveDown(2);
+};
+
+const createNeedHelpSection = (doc, wrapper, config, content) => {
+  const section = doc.struct('Sect', { title: content.title });
+
+  // Add section heading
+  section.add(
+    createHeading(doc, 'H3', config, content.title, {
+      x: config.margins.left,
+      paragraphGap: 18,
+    }),
+  );
+  doc.moveDown(2);
+  drawHorizontalLine(doc, config);
+  section.add(
+    doc.struct('P', () => {
+      doc
+        .font(config.text.font)
+        .fontSize(config.text.size)
+        .fillColor('#000000');
+
+      // MyVA411 line
+      doc.text(content['my-v411'].prefix, { continued: true, lineGap: 2 });
+      addPhone(doc, content['my-v411'].phone);
+      addTTY(doc, content['my-v411'].tty);
+      doc.text('.', { link: null });
+      doc.moveDown();
+
+      // Accredited Rep
+      doc.text(content['accredited-rep'].text, { lineGap: 2 });
+      addWebLink(
+        doc,
+        content['accredited-rep'].link.text,
+        content['accredited-rep'].link.url,
+      );
+      doc.moveDown();
+
+      // Overpayments
+      doc.text(content.overpayments.prefix, { continued: true, lineGap: 2 });
+      addPhone(doc, content.overpayments.phone);
+      doc.text(' (or ', { link: null, underline: false, continue: true });
+      addPhone(doc, content.overpayments['alt-phone']);
+      doc.text(content.overpayments.suffix, {
+        link: null,
+        underline: false,
+        continue: false,
+      });
+      doc.moveDown();
+
+      // Copay
+      doc.text(content.copay.prefix, { continued: true, lineGap: 2 });
+      addPhone(doc, content.copay.phone);
+      doc.text(content.copay.suffix, {
+        link: null,
+        underline: false,
+        continue: false,
+      });
+    }),
+  );
   section.end();
   wrapper.add(section);
   doc.moveDown();
 };
-
-// SHOULD VALIDATION RETURN ANYTHING ELSE?
 
 // TODO:
 // handle page breaks, so H3 sections don't break across pages
@@ -91,10 +205,10 @@ const generate = async (data = {}, config = defaultConfig) => {
   validate(data);
   const doc = createAccessibleDoc(
     {
-      author: 'U.S. Department of Veterans Affairs',
-      subject: 'Dispute your VA debt',
-      title: 'Debt Dispute',
-      lang: 'en-US',
+      author: i18nDebtApp.t('pdf.document-meta.author'),
+      subject: i18nDebtApp.t('pdf.document-meta.subject'),
+      title: i18nDebtApp.t('pdf.document-meta.title'),
+      lang: i18nDebtApp.t('pdf.document-meta.lang'),
     },
     config,
   );
@@ -109,8 +223,8 @@ const generate = async (data = {}, config = defaultConfig) => {
   const headerData = {
     headerLeft: '',
     headerRight: '',
-    footerLeft: 'VA.gov',
-    footerRight: 'Page %PAGE_NUMBER% of %TOTAL_PAGES%',
+    footerLeft: i18nDebtApp.t('pdf.footer.left'),
+    footerRight: i18nDebtApp.t('pdf.footer.right'),
     ...data,
   };
 
@@ -120,10 +234,10 @@ const generate = async (data = {}, config = defaultConfig) => {
   // * Title Section *
   // =====================================
   const titleSection = doc.struct('Sect', {
-    title: 'Title',
+    title: i18nDebtApp.t('pdf.page-title'),
   });
   titleSection.add(
-    createHeading(doc, 'H1', config, 'Dispute your VA debt', {
+    createHeading(doc, 'H1', config, i18nDebtApp.t('pdf.page-title'), {
       x: config.margins.left,
       y: config.margins.top,
     }),
@@ -148,13 +262,9 @@ const generate = async (data = {}, config = defaultConfig) => {
     const logoWidth = 220;
     const logoX = config.margins.left;
     wrapper.add(
-      doc.struct(
-        'Figure',
-        { alt: 'VA U.S Department of Veteran Affairs' },
-        () => {
-          doc.image(base64Image, logoX, doc.y, { width: logoWidth });
-        },
-      ),
+      doc.struct('Figure', { alt: i18nDebtApp.t('pdf.logo-alt') }, () => {
+        doc.image(base64Image, logoX, doc.y, { width: logoWidth });
+      }),
     );
     doc.moveDown(0.5);
   }
@@ -177,15 +287,17 @@ const generate = async (data = {}, config = defaultConfig) => {
     }),
   );
 
-  const submissionText =
-    'Your submission is complete. Submissions are processed in the order they are received. Dispute decisions are normally made with 180 days. We will send you a letter with the outcome.';
+  const submmissionTextWidth = 375; // Defined as points, not pixels. (approx. 5.21 inches)
 
   submissionDetailsSection.add(
     doc.struct('P', () => {
       doc
         .font(config.text.font)
         .fontSize(config.text.size)
-        .text(submissionText);
+        .text(i18nDebtApp.t('pdf.submission.text'), {
+          width: submmissionTextWidth,
+          align: 'left',
+        });
     }),
   );
 
@@ -209,10 +321,16 @@ const generate = async (data = {}, config = defaultConfig) => {
   // * Informational header *
   // =====================================
   wrapper.add(
-    createHeading(doc, 'H2', config, 'Information submitted on this dispute', {
-      x: config.margins.left,
-      paragraphGap: 12,
-    }),
+    createHeading(
+      doc,
+      'H2',
+      config,
+      i18nDebtApp.t('pdf.section-headings.information-submitted'),
+      {
+        x: config.margins.left,
+        paragraphGap: 12,
+      },
+    ),
   );
 
   // =====================================
@@ -221,19 +339,35 @@ const generate = async (data = {}, config = defaultConfig) => {
   const { dob, veteranFullName } = veteran;
   const formattedDob = dob ? formatDateLong(dob) : 'Not provided';
 
-  // Build name fields dynamically
-  const nameFields = Object.keys(veteranFullName).map(key => ({
-    label:
-      key === 'suffix'
-        ? 'Suffix'
-        : `${key.charAt(0).toUpperCase() + key.slice(1)} name`,
-    value: veteranFullName[key],
-  }));
+  const nameFields = [
+    {
+      label: i18nDebtApp.t('pdf.labels.first-name'),
+      value: veteranFullName.first,
+    },
+    {
+      label: i18nDebtApp.t('pdf.labels.middle-name'),
+      value: veteranFullName.middle,
+    },
+    {
+      label: i18nDebtApp.t('pdf.labels.last-name'),
+      value: veteranFullName.last,
+    },
+    {
+      label: i18nDebtApp.t('pdf.labels.suffix'),
+      value: veteranFullName.suffix,
+    },
+  ].filter(field => field.value);
 
-  createFieldSection(doc, wrapper, config, "Veteran's personal information", [
-    ...nameFields,
-    { label: 'Date of birth', value: formattedDob },
-  ]);
+  createFieldSection(
+    doc,
+    wrapper,
+    config,
+    i18nDebtApp.t('pdf.section-headings.personal-info'),
+    [
+      ...nameFields,
+      { label: i18nDebtApp.t('pdf.labels.dob'), value: formattedDob },
+    ],
+  );
 
   // =====================================
   // * Veteran identification information *
@@ -244,8 +378,13 @@ const generate = async (data = {}, config = defaultConfig) => {
     doc,
     wrapper,
     config,
-    "Veteran's identification information",
-    [{ label: 'Social Security number', value: `••• •• ${ssnLastFour}` }],
+    i18nDebtApp.t('pdf.section-headings.identification-info'),
+    [
+      {
+        label: i18nDebtApp.t('pdf.labels.ssn'),
+        value: `••• •• ${ssnLastFour}`,
+      },
+    ],
   );
 
   // =====================================
@@ -267,13 +406,22 @@ const generate = async (data = {}, config = defaultConfig) => {
     .filter(Boolean)
     .join('\n');
 
-  createFieldSection(doc, wrapper, config, "Veteran's mailing address", [
-    { label: 'Country', value: countryName },
-    { label: 'Street address', value: streetAddress },
-    { label: 'City', value: city },
-    { label: 'State', value: stateCode },
-    { label: 'Postal code', value: zipCode },
-  ]);
+  createFieldSection(
+    doc,
+    wrapper,
+    config,
+    i18nDebtApp.t('pdf.section-headings.mailing-address'),
+    [
+      { label: i18nDebtApp.t('pdf.labels.country'), value: countryName },
+      {
+        label: i18nDebtApp.t('pdf.labels.street-address'),
+        value: streetAddress,
+      },
+      { label: i18nDebtApp.t('pdf.labels.city'), value: city },
+      { label: i18nDebtApp.t('pdf.labels.state'), value: stateCode },
+      { label: i18nDebtApp.t('pdf.labels.postal-code'), value: zipCode },
+    ],
+  );
 
   // =====================================
   // * Veteran contact information *
@@ -283,10 +431,16 @@ const generate = async (data = {}, config = defaultConfig) => {
   const formattedPhoneNumber = `${countryCode || ''} ${areaCode ||
     ''} ${phoneNumber || ''}${extension ? ` ext. ${extension}` : ''}`.trim();
 
-  createFieldSection(doc, wrapper, config, "Veteran's contact information", [
-    { label: 'Phone number', value: formattedPhoneNumber },
-    { label: 'Email', value: email },
-  ]);
+  createFieldSection(
+    doc,
+    wrapper,
+    config,
+    i18nDebtApp.t('pdf.section-headings.contact-info'),
+    [
+      { label: i18nDebtApp.t('pdf.labels.phone'), value: formattedPhoneNumber },
+      { label: i18nDebtApp.t('pdf.labels.email'), value: email },
+    ],
+  );
 
   // =====================================
   // * Selected debts *
@@ -295,10 +449,68 @@ const generate = async (data = {}, config = defaultConfig) => {
     const { disputeReason, supportStatement, label } = debt;
 
     createFieldSection(doc, wrapper, config, label, [
-      { label: 'Dispute reason', value: disputeReason },
-      { label: 'Dispute statement', value: supportStatement },
+      {
+        label: i18nDebtApp.t('pdf.labels.dispute-reason'),
+        value: disputeReason,
+      },
+      {
+        label: i18nDebtApp.t('pdf.labels.dispute-statement'),
+        value: supportStatement,
+      },
     ]);
   });
+
+  /* Begin Multi-page logic to make sure What to expect (WTE) section isn't split between pages */
+  // Get current Y position and page height
+  const currentY = doc.y;
+  const pageHeight = doc.page.height;
+  const bottomMargin = config.margins.bottom;
+  const availableSpace = pageHeight - currentY - bottomMargin;
+
+  // Estimate WTE section height (rough calculation)
+  const estimatedSectionHeight = 250; // points
+  if (availableSpace < estimatedSectionHeight) {
+    doc.addPage(); // Start new page
+  }
+  /* End Multi-page logic */
+
+  // =====================================
+  // * What to expect, Contact, Need help *
+  // =====================================
+
+  const whatToExpect = {
+    title: i18nDebtApp.t('pdf.section-headings.what-to-expect'),
+    steps: [
+      {
+        number: i18nDebtApp.t(
+          'dispute-submitted-whats-next.first-action.number',
+        ),
+        title: i18nDebtApp.t(
+          'dispute-submitted-whats-next.first-action.header',
+        ),
+        description: i18nDebtApp.t(
+          'dispute-submitted-whats-next.first-action.description',
+        ),
+      },
+      {
+        number: i18nDebtApp.t(
+          'dispute-submitted-whats-next.second-action.number',
+        ),
+        title: i18nDebtApp.t(
+          'dispute-submitted-whats-next.second-action.header',
+        ),
+        description: i18nDebtApp.t(
+          'dispute-submitted-whats-next.second-action.description',
+        ),
+      },
+    ],
+  };
+
+  const contact = i18nDebtApp.t('shared.contact', { returnObjects: true });
+  const needHelp = i18nDebtApp.t('shared.need-help', { returnObjects: true });
+  createWhatToExpectSection(doc, wrapper, config, whatToExpect);
+  createContactSection(doc, wrapper, config, contact);
+  createNeedHelpSection(doc, wrapper, config, needHelp);
 
   // =====================================
   // * Wrap it up *
@@ -309,4 +521,4 @@ const generate = async (data = {}, config = defaultConfig) => {
   return doc;
 };
 
-export { generate, validate };
+export { generate };
