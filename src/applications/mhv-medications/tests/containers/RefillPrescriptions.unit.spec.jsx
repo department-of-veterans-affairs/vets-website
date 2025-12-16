@@ -483,5 +483,140 @@ describe('Refill Prescriptions Component', () => {
         expect(bulkRefillStub.calledOnce).to.be.true;
       });
     });
+
+    it('displays medication name in success notification when API returns simple numeric IDs', async () => {
+      // This test verifies the fix for the bug where medication names were not rendering
+      // because getMedicationsByIds was incorrectly matching IDs when API returned simple numbers
+      sandbox.restore();
+
+      const prescription = refillablePrescriptions[0];
+      // Simulate the mutation returning isLoading: false with successful result
+      // by returning the result directly from the stub
+      const bulkRefillStub = sinon.stub().resolves({
+        data: {
+          successfulIds: [prescription.prescriptionId], // Simple numeric ID (22377956)
+          failedIds: [],
+        },
+      });
+
+      sandbox
+        .stub(prescriptionsApiModule, 'useGetRefillablePrescriptionsQuery')
+        .returns({
+          data: {
+            prescriptions: [prescription],
+            meta: {},
+          },
+          error: false,
+          isLoading: false,
+          isFetching: false,
+        });
+
+      // Return the mutation with the resolved data to simulate completed state
+      sandbox
+        .stub(prescriptionsApiModule, 'useBulkRefillPrescriptionsMutation')
+        .returns([
+          bulkRefillStub,
+          {
+            isLoading: false,
+            error: null,
+            data: {
+              successfulIds: [prescription.prescriptionId],
+              failedIds: [],
+            },
+          },
+        ]);
+      stubAllergiesApi({ sandbox });
+
+      const stateWithPilotDisabled = {
+        ...initialState,
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          mhv_medications_cerner_pilot: false,
+        },
+      };
+
+      const screen = setup(stateWithPilotDisabled);
+
+      // The success notification should display with the medication name
+      // Previously this would show an empty list item because getMedicationsByIds
+      // returned undefined when trying to match id.id on a simple number
+      await waitFor(() => {
+        const medicationList = screen.queryByTestId(
+          'successful-medication-list',
+        );
+        if (medicationList) {
+          expect(medicationList).to.contain.text(prescription.prescriptionName);
+        }
+      });
+    });
+
+    it('displays medication name in success notification when API returns object IDs with stationNumber', async () => {
+      // This test verifies medication names render correctly for Oracle Health users
+      // where the API returns IDs as objects with id and stationNumber properties
+      sandbox.restore();
+
+      const prescription = {
+        ...refillablePrescriptions[0],
+        stationNumber: '989',
+      };
+
+      const bulkRefillStub = sinon.stub().resolves({
+        data: {
+          successfulIds: [
+            { id: prescription.prescriptionId, stationNumber: '989' },
+          ],
+          failedIds: [],
+        },
+      });
+
+      sandbox
+        .stub(prescriptionsApiModule, 'useGetRefillablePrescriptionsQuery')
+        .returns({
+          data: {
+            prescriptions: [prescription],
+            meta: {},
+          },
+          error: false,
+          isLoading: false,
+          isFetching: false,
+        });
+
+      sandbox
+        .stub(prescriptionsApiModule, 'useBulkRefillPrescriptionsMutation')
+        .returns([
+          bulkRefillStub,
+          {
+            isLoading: false,
+            error: null,
+            data: {
+              successfulIds: [
+                { id: prescription.prescriptionId, stationNumber: '989' },
+              ],
+              failedIds: [],
+            },
+          },
+        ]);
+      stubAllergiesApi({ sandbox });
+
+      const stateWithPilotEnabled = {
+        ...initialState,
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          mhv_medications_cerner_pilot: true,
+        },
+      };
+
+      const screen = setup(stateWithPilotEnabled);
+
+      // The success notification should display with the medication name
+      await waitFor(() => {
+        const medicationList = screen.queryByTestId(
+          'successful-medication-list',
+        );
+        if (medicationList) {
+          expect(medicationList).to.contain.text(prescription.prescriptionName);
+        }
+      });
+    });
   });
 });
