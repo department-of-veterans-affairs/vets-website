@@ -22,10 +22,10 @@ const conditionalSampleRate = botRegex.test(navigator.userAgent) ? 0 : 100;
  */
 const shouldInitializeDatadog = () => {
   const env = environment.vspEnvironment();
-  const isLocalOrCI = env === 'localhost' || environment.isCI();
+  const isLocal = env === 'localhost';
   const isBot = botRegex.test(navigator.userAgent);
 
-  return !isLocalOrCI && !isBot;
+  return !isLocal && !isBot;
 };
 
 const initializeRealUserMonitoring = () => {
