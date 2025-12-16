@@ -487,7 +487,7 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
         });
 
         it.skip('scrolls to the first error for the date field', () => {
-          // TODO: need to figrue out how to do this, haivng issue using a spy on scrollToElement
+          // Skipped temporarily until we figure out how to spy on shadow DOM scroll/focus
         });
       });
 
