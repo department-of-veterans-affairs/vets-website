@@ -1,9 +1,9 @@
 import React from 'react';
-import { formatDate, getProviderDetailsTitle } from '../../utils/evidence';
 import {
-  PRIVATE_LOCATION_TREATMENT_DATES_KEY,
-  PRIVATE_TREATMENT_LOCATION_KEY,
-} from '../../constants';
+  getProviderDetailsTitle,
+  getSelectedIssues,
+} from '../../utils/evidence';
+import { PRIVATE_TREATMENT_LOCATION_KEY } from '../../constants';
 import { formatIssueList } from '../../../shared/utils/contestableIssueMessages';
 import { formatDateToReadableString } from '../../../shared/utils/dates';
 
@@ -29,7 +29,7 @@ export const promptContent = {
         <li>Veterans Choice Program provider</li>
         <li>VA Vet Center (this is different from VA-paid community care)</li>
       </ul>
-      <p className="vads-u-margin-bottom--0">
+      <p>
         <strong>Note:</strong> A Disability Benefits Questionnaire (DBQ) is an
         example of a private medical record.
       </p>
@@ -54,34 +54,38 @@ export const summaryContent = {
   },
   alertItemUpdatedText: itemData =>
     `${itemData[PRIVATE_TREATMENT_LOCATION_KEY]} information has been updated.`,
-  cardDescription: item => (
-    <>
-      {item?.[PRIVATE_TREATMENT_LOCATION_KEY] && (
-        <h3 className="vads-u-margin-top--0">
-          {item[PRIVATE_TREATMENT_LOCATION_KEY]}
-        </h3>
-      )}
-      {item?.issuesPrivate?.length === 1 && (
-        <p>
-          <strong>Condition:</strong> {item.issuesPrivate[0]}
-        </p>
-      )}
-      {item?.issuesPrivate?.length > 1 && (
-        <p>
-          <strong>Conditions:</strong> {formatIssueList(item.issuesPrivate)}
-        </p>
-      )}
-      {item?.to &&
-        item?.from && (
+  cardDescription: item => {
+    const selectedIssues = getSelectedIssues(item.issuesPrivate);
+
+    return (
+      <>
+        {item?.[PRIVATE_TREATMENT_LOCATION_KEY] && (
+          <h3 className="vads-u-margin-top--0">
+            {item[PRIVATE_TREATMENT_LOCATION_KEY]}
+          </h3>
+        )}
+        {selectedIssues.length === 1 && (
           <p>
-            <strong>Treatment:</strong>
-            &nbsp;
-            {formatDateToReadableString(new Date(item.from))} to{' '}
-            {formatDateToReadableString(new Date(item.to))}
+            <strong>Condition:</strong> {item.issuesPrivate[0]}
           </p>
         )}
-    </>
-  ),
+        {selectedIssues.length > 1 && (
+          <p>
+            <strong>Conditions:</strong> {formatIssueList(selectedIssues)}
+          </p>
+        )}
+        {item?.to &&
+          item?.from && (
+            <p>
+              <strong>Treatment:</strong>
+              &nbsp;
+              {formatDateToReadableString(new Date(item.from))} to{' '}
+              {formatDateToReadableString(new Date(item.to))}
+            </p>
+          )}
+      </>
+    );
+  },
 };
 
 export const detailsEntryContent = {

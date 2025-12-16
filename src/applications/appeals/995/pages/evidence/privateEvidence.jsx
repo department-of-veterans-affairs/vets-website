@@ -6,17 +6,19 @@ import {
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
+  checkboxGroupSchema,
+  currentOrPastDateDigitsSchema,
   currentOrPastDateDigitsUI,
-  // currentOrPastDateRangeUI,
-  // currentOrPastDateRangeSchema,
   textUI,
   textSchema,
-  currentOrPastDateDigitsSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
+import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
-import { getAddOrEditMode } from '../../utils/evidence';
+import { getAddOrEditMode, getSelectedIssues } from '../../utils/evidence';
 import Authorization from '../../components/4142/Authorization';
-import Issues, { issuesPage } from '../../components/evidence/IssuesNew';
+import { issuesContent } from './common';
+import { getSelected } from '../../../shared/utils/issues';
 import {
   EVIDENCE_URLS,
   PRIVATE_EVIDENCE_KEY,
@@ -38,9 +40,9 @@ import { redesignActive } from '../../utils';
  * @returns bool
  */
 const itemIsComplete = item => {
-  const { address, from, issuesPrivate, to, treatmentLocation } = item;
-  const issuesComplete = issuesPrivate?.length;
+  const { address, from, to, treatmentLocation } = item;
   const { city, country, postalCode, state, street } = address;
+  const issuesComplete = getSelectedIssues(item)?.length > 0;
   const addressIsComplete =
     address && city && country && postalCode && state && street;
   const treatmentDatesComplete = from && to;
@@ -71,8 +73,6 @@ const options = {
       summaryContent.alertItemUpdatedText(itemData),
     cardDescription: item => summaryContent.cardDescription(item),
     summaryDescription: summaryContent.descriptionWithItems,
-    summaryTitleWithoutItems: promptContent.question,
-    summaryDescriptionWithoutItems: promptContent.description,
     summaryTitle: summaryContent.titleWithItems,
   },
 };
@@ -88,10 +88,14 @@ const summaryPage = {
     [PRIVATE_EVIDENCE_PROMPT_KEY]: arrayBuilderYesNoUI(
       options,
       {
+        useFormsPattern: true,
+        formHeading: promptContent.question,
+        formDescription: promptContent.description,
         title: null,
         labels: promptContent.labels,
         descriptions: promptContent.descriptions,
-        labelHeaderLevel: '3',
+        formHeadingLevel: '3',
+        labelHeaderLevel: null,
         hint: null,
         errorMessages: {
           required: promptContent.requiredError,
@@ -134,7 +138,7 @@ const privateAuthorizationPage = {
 };
 
 /** @returns {PageSchema} */
-const detailsPage = {
+const locationPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
       title: ({ formContext }) =>
@@ -166,6 +170,67 @@ const detailsPage = {
       address: addressNoMilitarySchema({
         omit: ['street3'],
       }),
+    },
+  },
+};
+
+// Create base UI with minimal config - labels will be dynamically added
+const baseIssuesCheckboxUI = {
+  'ui:title': issuesContent.label,
+  'ui:webComponentField': VaCheckboxGroupField,
+  'ui:errorMessages': {
+    atLeastOne: issuesContent.requiredError,
+  },
+  'ui:required': () => true,
+  'ui:validations': [validateBooleanGroup],
+};
+
+const issuesPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) =>
+      issuesContent.question('private', formData, getAddOrEditMode()),
+    ),
+    issuesPrivate: {
+      ...baseIssuesCheckboxUI,
+      'ui:options': {
+        updateSchema: (...args) => {
+          // eslint-disable-next-line no-unused-vars
+          const [_itemData, schema, _uiSchema, index, _path, fullData] = args;
+
+          const selectedIssues = getSelected(fullData).map(issue => {
+            if (issue?.attributes) {
+              return issue?.attributes?.ratingIssueSubjectText;
+            }
+            return issue.issue;
+          });
+
+          const properties = {};
+          const issueUiSchemas = {};
+
+          selectedIssues.forEach(issue => {
+            properties[issue] = {
+              type: 'boolean',
+              title: issue,
+            };
+            issueUiSchemas[issue] = {
+              'ui:title': issue,
+            };
+          });
+
+          return {
+            type: 'object',
+            properties,
+            issueUiSchemas,
+          };
+        },
+      },
+    },
+  },
+  schema: {
+    type: 'object',
+    required: ['issuesPrivate'],
+    properties: {
+      issuesPrivate: checkboxGroupSchema(['na']),
     },
   },
 };
@@ -215,9 +280,7 @@ export default arrayBuilderPages(options, pageBuilder => ({
     path: EVIDENCE_URLS.privateSummary,
     uiSchema: summaryPage.uiSchema,
     schema: summaryPage.schema,
-    // ------- REMOVE toggle check when new design toggle is removed
     depends: formData => redesignActive(formData),
-    // ------- END REMOVE
   }),
   authorization: pageBuilder.itemPage({
     title: '',
@@ -230,47 +293,29 @@ export default arrayBuilderPages(options, pageBuilder => ({
         // resolve prop warning that the index is a string rather than a number
         pagePerItemIndex: +props.pagePerItemIndex,
       }),
-    // ------- REMOVE toggle check when new design toggle is removed
     depends: (props, index) => {
       return redesignActive(props) && index === 0;
     },
-    // ------- END REMOVE
   }),
   privateLocation: pageBuilder.itemPage({
     title: '',
     path: EVIDENCE_URLS.privateDetails,
-    uiSchema: detailsPage.uiSchema,
-    schema: detailsPage.schema,
-    // ------- REMOVE toggle check when new design toggle is removed
+    uiSchema: locationPage.uiSchema,
+    schema: locationPage.schema,
     depends: formData => redesignActive(formData),
-    // ------- END REMOVE
   }),
   issuesPrivate: pageBuilder.itemPage({
     title: '',
     path: EVIDENCE_URLS.privateIssues,
     uiSchema: issuesPage.uiSchema,
     schema: issuesPage.schema,
-    // Issues requires a custom page because array builder does not
-    // natively support checkboxes with dynamic labels
-    CustomPage: props =>
-      Issues({
-        ...props,
-        // resolve prop warning that the index is a string rather than a number
-        pagePerItemIndex: +props.pagePerItemIndex,
-        addOrEdit: getAddOrEditMode(),
-        formKey: PRIVATE_EVIDENCE_KEY,
-      }),
-    // ------- REMOVE toggle check when new design toggle is removed
     depends: formData => redesignActive(formData),
-    // ------- END REMOVE
   }),
   treatmentDatePrivate: pageBuilder.itemPage({
     title: 'Treatment date',
     path: EVIDENCE_URLS.privateTreatmentDate,
     uiSchema: treatmentDatePage.uiSchema,
     schema: treatmentDatePage.schema,
-    // ------- REMOVE toggle check when new design toggle is removed
     depends: formData => redesignActive(formData),
-    // ------- END REMOVE
   }),
 }));

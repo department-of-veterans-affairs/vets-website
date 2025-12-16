@@ -1,7 +1,10 @@
 import React from 'react';
 import { format } from 'date-fns';
 import { parseStringOrDate } from 'platform/utilities/date';
-import { getProviderDetailsTitle } from '../../utils/evidence';
+import {
+  getProviderDetailsTitle,
+  getSelectedIssues,
+} from '../../utils/evidence';
 import {
   VA_TREATMENT_LOCATION_KEY,
   VA_TREATMENT_MONTH_YEAR_KEY,
@@ -64,32 +67,36 @@ export const summaryContent = {
   },
   alertItemUpdatedText: itemData =>
     `${itemData[VA_TREATMENT_LOCATION_KEY]} information has been updated.`,
-  cardDescription: item => (
-    <>
-      {item?.[VA_TREATMENT_LOCATION_KEY] && (
-        <h3 className="vads-u-margin-top--0">
-          {item[VA_TREATMENT_LOCATION_KEY]}
-        </h3>
-      )}
-      {item?.issuesVA?.length === 1 && (
-        <p>
-          <strong>Condition:</strong> {item.issuesVA[0]}
-        </p>
-      )}
-      {item?.issuesVA?.length > 1 && (
-        <p>
-          <strong>Conditions:</strong> {formatIssueList(item.issuesVA)}
-        </p>
-      )}
-      {item?.[VA_TREATMENT_MONTH_YEAR_KEY] && (
-        <p>
-          <strong>Treatment start date:</strong>
-          &nbsp;
-          {formatMonthYear(item[VA_TREATMENT_MONTH_YEAR_KEY])}
-        </p>
-      )}
-    </>
-  ),
+  cardDescription: item => {
+    const selectedIssues = getSelectedIssues(item.issuesVA);
+
+    return (
+      <>
+        {item?.[VA_TREATMENT_LOCATION_KEY] && (
+          <h3 className="vads-u-margin-top--0">
+            {item[VA_TREATMENT_LOCATION_KEY]}
+          </h3>
+        )}
+        {selectedIssues?.length === 1 && (
+          <p>
+            <strong>Condition:</strong> {selectedIssues[0]}
+          </p>
+        )}
+        {selectedIssues?.length > 1 && (
+          <p>
+            <strong>Conditions:</strong> {formatIssueList(selectedIssues)}
+          </p>
+        )}
+        {item?.[VA_TREATMENT_MONTH_YEAR_KEY] && (
+          <p>
+            <strong>Treatment start date:</strong>
+            &nbsp;
+            {formatMonthYear(item[VA_TREATMENT_MONTH_YEAR_KEY])}
+          </p>
+        )}
+      </>
+    );
+  },
 };
 
 export const locationContent = {
@@ -107,11 +114,6 @@ export const locationContent = {
   hint: 'You can add the names of more locations later',
   requiredError: 'Enter a treatment location',
   maxLengthError: 'You can enter a maximum of 255 characters',
-};
-
-export const issuesContent = {
-  label: 'Select all the service-connected conditions you were treated for',
-  requiredError: 'Select a condition',
 };
 
 export const datePromptContent = {

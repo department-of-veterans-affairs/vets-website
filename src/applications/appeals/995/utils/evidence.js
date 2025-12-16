@@ -131,3 +131,13 @@ export const getProviderModalDeleteTitle = locationAndName => {
 
   return `Do you want to keep this location?`;
 };
+
+/**
+ * Used to determine which issue checkboxes were selected
+ * in the array builder flow
+ * @param {Object} issues e.g. { Hypertension: true, Tendonitis: undefined }
+ * @returns ['Hypertension']
+ */
+export const getSelectedIssues = issues => {
+  return Object.keys(issues).filter(issue => issues[issue]);
+};
