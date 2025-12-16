@@ -45,7 +45,7 @@ describe('CDP - Copay generic navigation & content', () => {
     cy.findByTestId(`detail-link-${id}`).click();
     cy.findByTestId('detail-page-title').should('exist');
     cy.findByTestId(`updated-date`).contains('November 15, 2019');
-    cy.findByTestId(`past-due-balance-alert`).contains(
+    cy.findByTestId(`copay-past-due-alert`).contains(
       'Your balance may be overdue',
     );
     cy.findByTestId(`how-to-pay`).contains('How to make a payment');

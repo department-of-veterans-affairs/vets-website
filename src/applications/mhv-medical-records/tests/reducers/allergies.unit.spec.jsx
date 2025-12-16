@@ -1,16 +1,16 @@
 import { expect } from 'chai';
 import {
   allergyReducer,
-  extractLocation,
-  extractObservedReported,
+  convertAllergy,
   convertUnifiedAllergy,
 } from '../../reducers/allergies';
 import { EMPTY_FIELD, allergyTypes } from '../../util/constants';
 import { Actions } from '../../util/actionTypes';
 
-describe('extractLocation function', () => {
-  it('should return the name when all properties exist and conditions are met', () => {
+describe('convertAllergy function', () => {
+  it('should return the location name when all properties exist', () => {
     const allergyExample = {
+      id: '123',
       recorder: {
         extension: [
           {
@@ -27,11 +27,13 @@ describe('extractLocation function', () => {
         },
       ],
     };
-    expect(extractLocation(allergyExample)).to.equal('LocationName');
+    const result = convertAllergy(allergyExample);
+    expect(result.location).to.equal('LocationName');
   });
 
-  it('should return EMPTY_FIELD when recorder or extension is undefined', () => {
+  it('should return EMPTY_FIELD for location when recorder or extension is undefined', () => {
     const allergyExample = {
+      id: '123',
       recorder: {
         // extension is missing
       },
@@ -42,11 +44,13 @@ describe('extractLocation function', () => {
         },
       ],
     };
-    expect(extractLocation(allergyExample)).to.equal(EMPTY_FIELD);
+    const result = convertAllergy(allergyExample);
+    expect(result.location).to.equal(EMPTY_FIELD);
   });
 
-  it('should return EMPTY_FIELD when reference is incorrect', () => {
+  it('should return EMPTY_FIELD for location when reference is incorrect', () => {
     const allergyExample = {
+      id: '123',
       recorder: {
         extension: [
           {
@@ -63,11 +67,13 @@ describe('extractLocation function', () => {
         },
       ],
     };
-    expect(extractLocation(allergyExample)).to.equal(EMPTY_FIELD);
+    const result = convertAllergy(allergyExample);
+    expect(result.location).to.equal(EMPTY_FIELD);
   });
 
-  it('should return EMPTY_FIELD when contained item does not have a name', () => {
+  it('should return EMPTY_FIELD for location when contained item does not have a name', () => {
     const allergyExample = {
+      id: '123',
       recorder: {
         extension: [
           {
@@ -84,42 +90,50 @@ describe('extractLocation function', () => {
         },
       ],
     };
-    expect(extractLocation(allergyExample)).to.equal(EMPTY_FIELD);
+    const result = convertAllergy(allergyExample);
+    expect(result.location).to.equal(EMPTY_FIELD);
   });
-});
 
-describe('extractObservedReported function', () => {
   it('should return OBSERVED when valueCode is "o"', () => {
     const allergy = {
+      id: '123',
       extension: [{ url: 'allergyObservedHistoric', valueCode: 'o' }],
     };
-    expect(extractObservedReported(allergy)).to.equal(allergyTypes.OBSERVED);
+    const result = convertAllergy(allergy);
+    expect(result.observedOrReported).to.equal(allergyTypes.OBSERVED);
   });
 
   it('should return REPORTED when valueCode is "h"', () => {
     const allergy = {
+      id: '123',
       extension: [{ url: 'allergyObservedHistoric', valueCode: 'h' }],
     };
-    expect(extractObservedReported(allergy)).to.equal(allergyTypes.REPORTED);
+    const result = convertAllergy(allergy);
+    expect(result.observedOrReported).to.equal(allergyTypes.REPORTED);
   });
 
-  it('should return EMPTY_FIELD when extension array is empty', () => {
-    const allergy = { extension: [] };
-    expect(extractObservedReported(allergy)).to.equal(EMPTY_FIELD);
+  it('should return EMPTY_FIELD for observedOrReported when extension array is empty', () => {
+    const allergy = { id: '123', extension: [] };
+    const result = convertAllergy(allergy);
+    expect(result.observedOrReported).to.equal(EMPTY_FIELD);
   });
 
-  it('should return EMPTY_FIELD when extension does not contain the target url', () => {
+  it('should return EMPTY_FIELD for observedOrReported when extension does not contain the target url', () => {
     const allergy = {
+      id: '123',
       extension: [{ url: 'differentUrl', valueCode: 'o' }],
     };
-    expect(extractObservedReported(allergy)).to.equal(EMPTY_FIELD);
+    const result = convertAllergy(allergy);
+    expect(result.observedOrReported).to.equal(EMPTY_FIELD);
   });
 
-  it('should return EMPTY_FIELD when valueCode is neither "o" nor "h"', () => {
+  it('should return EMPTY_FIELD for observedOrReported when valueCode is neither "o" nor "h"', () => {
     const allergy = {
+      id: '123',
       extension: [{ url: 'allergyObservedHistoric', valueCode: 'x' }],
     };
-    expect(extractObservedReported(allergy)).to.equal(EMPTY_FIELD);
+    const result = convertAllergy(allergy);
+    expect(result.observedOrReported).to.equal(EMPTY_FIELD);
   });
 });
 

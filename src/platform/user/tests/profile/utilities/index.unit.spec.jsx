@@ -62,6 +62,8 @@ function createDefaultData() {
           { facilityId: '983', isCerner: false },
           { facilityId: '984', isCerner: false },
         ],
+        user_at_pretransitioned_oh_facility: false,
+        user_facility_ready_for_info_alert: false,
       },
     },
   };
@@ -73,12 +75,19 @@ describe('Profile utilities', () => {
   describe('mapRawUserDataToState', () => {
     // This url change is to work around the VA Profile Service data mocking
     beforeEach(() => {
-      oldLocation = document.location.href;
-      global.dom.reconfigure({ url: 'https://www.va.gov' });
+      oldLocation = window.location.href;
+      Object.defineProperty(window, 'location', {
+        writable: true,
+        value: { href: 'https://www.va.gov' },
+      });
     });
     afterEach(() => {
-      global.dom.reconfigure({ url: oldLocation });
+      Object.defineProperty(window, 'location', {
+        writable: true,
+        value: { href: oldLocation },
+      });
     });
+
     it('should map profile', () => {
       const data = createDefaultData();
       const mappedData = mapRawUserDataToState({
@@ -181,6 +190,58 @@ describe('Profile utilities', () => {
       });
 
       expect(mappedData.facilities).to.be.undefined;
+    });
+
+    it('should map userAtPretransitionedOhFacility flag as true when set', () => {
+      const data = createDefaultData();
+      data.attributes.va_profile.user_at_pretransitioned_oh_facility = true;
+      const mappedData = mapRawUserDataToState({
+        data,
+        meta: {
+          errors: null,
+        },
+      });
+
+      expect(mappedData.userAtPretransitionedOhFacility).to.equal(true);
+    });
+
+    it('should map userFacilityReadyForInfoAlert flag as true when set', () => {
+      const data = createDefaultData();
+      data.attributes.va_profile.user_facility_ready_for_info_alert = true;
+      const mappedData = mapRawUserDataToState({
+        data,
+        meta: {
+          errors: null,
+        },
+      });
+
+      expect(mappedData.userFacilityReadyForInfoAlert).to.equal(true);
+    });
+
+    it('should handle missing userAtPretransitionedOhFacility flag', () => {
+      const data = createDefaultData();
+      delete data.attributes.va_profile.user_at_pretransitioned_oh_facility;
+      const mappedData = mapRawUserDataToState({
+        data,
+        meta: {
+          errors: null,
+        },
+      });
+
+      expect(mappedData.userAtPretransitionedOhFacility).to.be.undefined;
+    });
+
+    it('should handle missing userFacilityReadyForInfoAlert flag', () => {
+      const data = createDefaultData();
+      delete data.attributes.va_profile.user_facility_ready_for_info_alert;
+      const mappedData = mapRawUserDataToState({
+        data,
+        meta: {
+          errors: null,
+        },
+      });
+
+      expect(mappedData.userFacilityReadyForInfoAlert).to.be.undefined;
     });
 
     it('should handle profile error', () => {
