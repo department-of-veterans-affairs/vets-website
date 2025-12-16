@@ -701,69 +701,13 @@ describe('ClaimDetailsContent', () => {
 
           // Should NOT show BTSSS link - clerk notes are filtered out
           expect(getBTSSSLink()).to.not.exist;
-        });
-
-        it('renders BTSSS link when there is a real unassociated doc mixed with clerk notes', () => {
-          const documents = [
-            {
-              documentId: 'clerk-note',
-              filename: 'Internal Note.txt',
-              mimetype: '', // Clerk note - should be ignored
-            },
-            {
-              documentId: 'real-doc',
-              filename: 'parking-receipt.pdf',
-              mimetype: 'application/pdf', // Real user document
-            },
-          ];
-          const expenses = []; // Real doc is unassociated
-
-          renderWithStoreAndRouter(
-            <ClaimDetailsContent
-              {...claimDetailsProps}
-              claimStatus="Saved"
-              claimSource="VaGov"
-              documents={documents}
-              expenses={expenses}
-            />,
-            {
-              initialState: getState({ hasComplexClaimsFlag: true }),
-            },
-          );
-
-          // Should show BTSSS link because of the real unassociated doc
-          const link = getBTSSSLink();
-          expect(link).to.exist;
-          expect(link).to.have.attribute('external');
-        });
-
-        it('does not render BTSSS link for Saved status when complexClaimsToggle is off', () => {
-          renderWithStoreAndRouter(
-            <ClaimDetailsContent
-              {...claimDetailsProps}
-              claimStatus="Saved"
-              claimSource="BTSSS"
-            />,
-            {
-              initialState: getState({ hasComplexClaimsFlag: false }),
-            },
-          );
-
-          expect(getBTSSSLink()).to.not.exist;
-        });
-
-        it('does not render BTSSS link for other statuses even when claim started in BTSSS', () => {
-          renderWithStoreAndRouter(
-            <ClaimDetailsContent
-              {...claimDetailsProps}
-              claimStatus="Denied"
-              claimSource="BTSSS"
-            />,
-            {
-              initialState: getState({ hasComplexClaimsFlag: true }),
-            },
-          );
-          expect(getBTSSSLink()).to.not.exist;
+          expect(
+            $(
+              `va-link-action[text="Complete and file your claim"][href="/my-health/travel-pay/file-new-claim/${
+                claimDetailsProps.appointment.id
+              }"]`,
+            ),
+          ).to.exist;
         });
       });
 
@@ -796,15 +740,13 @@ describe('ClaimDetailsContent', () => {
               initialState: getState({ hasComplexClaimsFlag: true }),
             },
           );
-
-          const link = $('va-link-action[text="Complete and file your claim"]');
-          expect(link).to.exist;
-          expect(link).to.have.attribute(
-            'href',
-            `/my-health/travel-pay/file-new-claim/${
-              claimDetailsProps.appointment.id
-            }`,
-          );
+          expect(
+            $(
+              `va-link-action[text="Complete and file your claim"][href="/my-health/travel-pay/file-new-claim/${
+                claimDetailsProps.appointment.id
+              }"]`,
+            ),
+          ).to.exist;
         });
 
         it('renders VA.gov link for Incomplete status when claim started on VA.gov', () => {

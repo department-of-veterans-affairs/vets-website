@@ -77,7 +77,6 @@
   "disabilityCompNewConditionsWorkflow": "disability_compensation_new_conditions_workflow",
   "dischargeWizardFeatures": "discharge_wizard_features",
   "disputeDebt": "dispute_debt",
-  "dslogonInterstitialRedirect": "dslogon_interstitial_redirect",
   "dslogonButtonDisabled": "dslogon_button_disabled",
   "emptyStateBenefitLetters": "empty_state_benefit_letters",
   "enrollmentVerification": "enrollment_verification",
@@ -154,6 +153,7 @@
   "mebExclusionPeriodEnabled": "meb_exclusion_period_enabled",
   "mebDpoAddressOptionEnabled": "meb_dpo_address_option_enabled",
   "mebKickerNotificationEnabled": "meb_kicker_notification_enabled",
+  "meb1995Reroute": "meb_1995_re_reroute",
   "mebParentGuardianStep": "meb_parent_guardian_step",
   "mebBankInfoConfirmationField": "meb_bank_info_confirmation_field",
   "merge1995And5490": "merge_1995_and_5490",
@@ -252,7 +252,6 @@
   "show526Wizard": "show526_wizard",
   "showContactChatbot": "show_contact_chatbot",
   "showDashboardNotifications": "show_dashboard_notifications",
-  "showDgiDirectDeposit1990EZ": "show_dgi_direct_deposit_1990EZ",
   "showEduBenefits0994Wizard": "show_edu_benefits_0994_wizard",
   "showEduBenefits1990EWizard": "show_edu_benefits_1990e_wizard",
   "showEduBenefits1990EZWizard": "show_edu_benefits_1990EZ_Wizard",
@@ -300,7 +299,6 @@
   "stemSCOEmail": "stem_sco_email",
   "subform89404192": "subform_8940_4192",
   "supplyReorderingSleepApneaEnabled": "supply_reordering_sleep_apnea_enabled",
-  "toeLightHouseDgiDirectDeposit": "toe_light_house_dgi_direct_deposit",
   "toggleVyeAddressDirectDepositForms": "toggle_vye_address_direct_deposit_forms",
   "toggleVyeAddressDirectDepositFormsInProfile": "toggle_vye_address_direct_deposit_forms_in_profile",
   "toggleVyeApplication": "toggle_vye_application",
@@ -383,5 +381,6 @@
   "vre_eligibility_status_phase_2_updates": "vre_eligibility_status_phase_2_updates",
   "medicalExpenseReportsEnabled": "medical_expense_reports_form_enabled",
   "survivorsBenefitsFormEnabled": "survivors_benefits_form_enabled",
+  "meb1995InstructionPageUpdateV3": "meb_1995_instruction_page_update_v3",
   "sobClaimantService": "sob_claimant_service"
 }
