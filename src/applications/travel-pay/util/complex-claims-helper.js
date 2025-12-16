@@ -28,3 +28,25 @@ export function formatAmount(amount) {
     return '0.00';
   return Number(amount).toFixed(2);
 }
+
+/**
+ * Checks if there are any documents that are not associated with any expenses
+ * @param {Array} documents - Array of document objects with documentId
+ * @param {Array} expenses - Array of expense objects with documentId
+ * @returns {boolean} - True if there are unassociated documents, false otherwise
+ */
+export function hasUnassociatedDocuments(documents = [], expenses = []) {
+  if (!documents || documents.length === 0) return false;
+
+  // Filter out clerk notes (documents without mimetype)
+  const realDocuments = documents.filter(doc => doc.mimetype);
+  if (realDocuments.length === 0) return false;
+
+  if (!expenses || expenses.length === 0) return realDocuments.length > 0;
+
+  const expenseDocIds = new Set(
+    expenses.map(exp => exp.documentId).filter(Boolean),
+  );
+
+  return realDocuments.some(doc => !expenseDocIds.has(doc.documentId));
+}

@@ -571,56 +571,326 @@ describe('ClaimDetailsContent', () => {
       });
     });
 
-    describe('Complete and file claim link', () => {
-      it('renders complete and file link for Saved status when complexClaimsToggle is on', () => {
-        renderWithStoreAndRouter(
-          <ClaimDetailsContent {...claimDetailsProps} claimStatus="Saved" />,
-          {
-            initialState: getState({ hasComplexClaimsFlag: true }),
-          },
-        );
+    describe('Complete and file claim links', () => {
+      describe('BTSSS external link', () => {
+        it('renders BTSSS link for Saved status when claim started in BTSSS', () => {
+          renderWithStoreAndRouter(
+            <ClaimDetailsContent
+              {...claimDetailsProps}
+              claimStatus="Saved"
+              claimSource="BTSSS"
+            />,
+            {
+              initialState: getState({ hasComplexClaimsFlag: true }),
+            },
+          );
 
-        const link = getBTSSSLink();
-        expect(link).to.exist;
-        expect(link).to.have.attribute('external');
+          const link = getBTSSSLink();
+          expect(link).to.exist;
+          expect(link).to.have.attribute('external');
+          expect(link).to.have.attribute(
+            'label',
+            'Complete and file your claim in the Beneficiary Travel Self Service System',
+          );
+        });
+
+        it('renders BTSSS link for Incomplete status when claim started in BTSSS', () => {
+          renderWithStoreAndRouter(
+            <ClaimDetailsContent
+              {...claimDetailsProps}
+              claimStatus="Incomplete"
+              claimSource="BTSSS"
+            />,
+            {
+              initialState: getState({ hasComplexClaimsFlag: true }),
+            },
+          );
+
+          const link = getBTSSSLink();
+          expect(link).to.exist;
+          expect(link).to.have.attribute('external');
+        });
+
+        it('renders BTSSS link when claim has unassociated documents', () => {
+          const documents = [
+            {
+              documentId: 'doc1',
+              filename: 'receipt.pdf',
+              mimetype: 'application/pdf',
+            },
+          ];
+          const expenses = []; // No expenses, so doc is unassociated
+
+          renderWithStoreAndRouter(
+            <ClaimDetailsContent
+              {...claimDetailsProps}
+              claimStatus="Saved"
+              claimSource="VaGov"
+              documents={documents}
+              expenses={expenses}
+            />,
+            {
+              initialState: getState({ hasComplexClaimsFlag: true }),
+            },
+          );
+
+          const link = getBTSSSLink();
+          expect(link).to.exist;
+          expect(link).to.have.attribute('external');
+        });
+
+        it('does not render BTSSS link for VA.gov claim without unassociated docs', () => {
+          const documents = [
+            {
+              documentId: 'doc1',
+              filename: 'receipt.pdf',
+              mimetype: 'application/pdf',
+            },
+          ];
+          const expenses = [
+            {
+              id: 'exp1',
+              documentId: 'doc1',
+              expenseType: 'Parking',
+            },
+          ];
+
+          renderWithStoreAndRouter(
+            <ClaimDetailsContent
+              {...claimDetailsProps}
+              claimStatus="Saved"
+              claimSource="VaGov"
+              documents={documents}
+              expenses={expenses}
+            />,
+            {
+              initialState: getState({ hasComplexClaimsFlag: true }),
+            },
+          );
+
+          expect(getBTSSSLink()).to.not.exist;
+        });
+
+        it('does NOT render BTSSS link when only clerk notes exist (no mimetype)', () => {
+          const documents = [
+            {
+              documentId: 'clerk-note-1',
+              filename: 'Internal Note.txt',
+              mimetype: '', // Clerk note with empty mimetype
+            },
+            {
+              documentId: 'clerk-note-2',
+              filename: 'Another Note.txt',
+              mimetype: '', // Another clerk note
+            },
+          ];
+          const expenses = [];
+
+          renderWithStoreAndRouter(
+            <ClaimDetailsContent
+              {...claimDetailsProps}
+              claimStatus="Saved"
+              claimSource="VaGov"
+              documents={documents}
+              expenses={expenses}
+            />,
+            {
+              initialState: getState({ hasComplexClaimsFlag: true }),
+            },
+          );
+
+          // Should NOT show BTSSS link - clerk notes are filtered out
+          expect(getBTSSSLink()).to.not.exist;
+        });
+
+        it('renders BTSSS link when there is a real unassociated doc mixed with clerk notes', () => {
+          const documents = [
+            {
+              documentId: 'clerk-note',
+              filename: 'Internal Note.txt',
+              mimetype: '', // Clerk note - should be ignored
+            },
+            {
+              documentId: 'real-doc',
+              filename: 'parking-receipt.pdf',
+              mimetype: 'application/pdf', // Real user document
+            },
+          ];
+          const expenses = []; // Real doc is unassociated
+
+          renderWithStoreAndRouter(
+            <ClaimDetailsContent
+              {...claimDetailsProps}
+              claimStatus="Saved"
+              claimSource="VaGov"
+              documents={documents}
+              expenses={expenses}
+            />,
+            {
+              initialState: getState({ hasComplexClaimsFlag: true }),
+            },
+          );
+
+          // Should show BTSSS link because of the real unassociated doc
+          const link = getBTSSSLink();
+          expect(link).to.exist;
+          expect(link).to.have.attribute('external');
+        });
+
+        it('does not render BTSSS link for Saved status when complexClaimsToggle is off', () => {
+          renderWithStoreAndRouter(
+            <ClaimDetailsContent
+              {...claimDetailsProps}
+              claimStatus="Saved"
+              claimSource="BTSSS"
+            />,
+            {
+              initialState: getState({ hasComplexClaimsFlag: false }),
+            },
+          );
+
+          expect(getBTSSSLink()).to.not.exist;
+        });
+
+        it('does not render BTSSS link for other statuses even when claim started in BTSSS', () => {
+          renderWithStoreAndRouter(
+            <ClaimDetailsContent
+              {...claimDetailsProps}
+              claimStatus="Denied"
+              claimSource="BTSSS"
+            />,
+            {
+              initialState: getState({ hasComplexClaimsFlag: true }),
+            },
+          );
+          expect(getBTSSSLink()).to.not.exist;
+        });
       });
 
-      it('renders complete and file link for Incomplete status when complexClaimsToggle is on', () => {
-        renderWithStoreAndRouter(
-          <ClaimDetailsContent
-            {...claimDetailsProps}
-            claimStatus="Incomplete"
-          />,
-          {
-            initialState: getState({ hasComplexClaimsFlag: true }),
-          },
-        );
+      describe('VA.gov internal link', () => {
+        it('renders VA.gov link for Saved status when claim started on VA.gov without unassociated docs', () => {
+          const documents = [
+            {
+              documentId: 'doc1',
+              filename: 'receipt.pdf',
+              mimetype: 'application/pdf',
+            },
+          ];
+          const expenses = [
+            {
+              id: 'exp1',
+              documentId: 'doc1',
+              expenseType: 'Parking',
+            },
+          ];
 
-        const link = getBTSSSLink();
-        expect(link).to.exist;
-        expect(link).to.have.attribute('external');
-      });
+          renderWithStoreAndRouter(
+            <ClaimDetailsContent
+              {...claimDetailsProps}
+              claimStatus="Saved"
+              claimSource="VaGov"
+              documents={documents}
+              expenses={expenses}
+            />,
+            {
+              initialState: getState({ hasComplexClaimsFlag: true }),
+            },
+          );
 
-      it('does not render complete and file link for Saved status when complexClaimsToggle is off', () => {
-        renderWithStoreAndRouter(
-          <ClaimDetailsContent {...claimDetailsProps} claimStatus="Saved" />,
-          {
-            initialState: getState({ hasComplexClaimsFlag: false }),
-          },
-        );
+          const link = $('va-link-action[text="Complete and file your claim"]');
+          expect(link).to.exist;
+          expect(link).to.have.attribute(
+            'href',
+            `/my-health/travel-pay/file-new-claim/${
+              claimDetailsProps.appointment.id
+            }`,
+          );
+        });
 
-        expect(getBTSSSLink()).to.not.exist;
-      });
+        it('renders VA.gov link for Incomplete status when claim started on VA.gov', () => {
+          renderWithStoreAndRouter(
+            <ClaimDetailsContent
+              {...claimDetailsProps}
+              claimStatus="Incomplete"
+              claimSource="VaGov"
+              documents={[]}
+              expenses={[]}
+            />,
+            {
+              initialState: getState({ hasComplexClaimsFlag: true }),
+            },
+          );
 
-      it('does not render complete and file link for other statuses even when complexClaimsToggle is on', () => {
-        renderWithStoreAndRouter(
-          <ClaimDetailsContent {...claimDetailsProps} claimStatus="Denied" />,
-          {
-            initialState: getState({ hasComplexClaimsFlag: true }),
-          },
-        );
+          const link = $('va-link-action[text="Complete and file your claim"]');
+          expect(link).to.exist;
+          expect(link).to.have.attribute(
+            'href',
+            `/my-health/travel-pay/file-new-claim/${
+              claimDetailsProps.appointment.id
+            }`,
+          );
+        });
 
-        expect(getBTSSSLink()).to.not.exist;
+        it('does not render VA.gov link when claim started in BTSSS', () => {
+          renderWithStoreAndRouter(
+            <ClaimDetailsContent
+              {...claimDetailsProps}
+              claimStatus="Saved"
+              claimSource="BTSSS"
+            />,
+            {
+              initialState: getState({ hasComplexClaimsFlag: true }),
+            },
+          );
+
+          const link = $(`va-link-action[text="Complete and file your claim"]`);
+          expect(link).to.not.exist;
+        });
+
+        it('does not render VA.gov link when claim has unassociated documents', () => {
+          const documents = [
+            {
+              documentId: 'doc1',
+              filename: 'receipt.pdf',
+              mimetype: 'application/pdf',
+            },
+          ];
+          const expenses = []; // No expenses, so doc is unassociated
+
+          renderWithStoreAndRouter(
+            <ClaimDetailsContent
+              {...claimDetailsProps}
+              claimStatus="Saved"
+              claimSource="VaGov"
+              documents={documents}
+              expenses={expenses}
+            />,
+            {
+              initialState: getState({ hasComplexClaimsFlag: true }),
+            },
+          );
+
+          const link = $(`va-link-action[text="Complete and file your claim"]`);
+          expect(link).to.not.exist;
+        });
+
+        it('does not render VA.gov link for other statuses', () => {
+          renderWithStoreAndRouter(
+            <ClaimDetailsContent
+              {...claimDetailsProps}
+              claimStatus="Denied"
+              claimSource="VaGov"
+              documents={[]}
+              expenses={[]}
+            />,
+            {
+              initialState: getState({ hasComplexClaimsFlag: true }),
+            },
+          );
+
+          const link = $(`va-link-action[text="Complete and file your claim"]`);
+          expect(link).to.not.exist;
+        });
       });
     });
 
@@ -690,12 +960,60 @@ describe('ClaimDetailsContent', () => {
         expect(screen.getByText(/Created on Monday, May 27, 2024 at/i)).to
           .exist;
       });
+
+      it('renders VA.gov link and no note when claim started on VA.gov without unassociated docs', () => {
+        const documents = [
+          {
+            documentId: 'doc1',
+            filename: 'receipt.pdf',
+            mimetype: 'application/pdf',
+          },
+        ];
+        const expenses = [
+          {
+            id: 'exp1',
+            documentId: 'doc1',
+            expenseType: 'Parking',
+          },
+        ];
+
+        const screen = renderWithStoreAndRouter(
+          <ClaimDetailsContent
+            {...claimDetailsProps}
+            claimStatus="Saved"
+            claimSource="VaGov"
+            documents={documents}
+            expenses={expenses}
+          />,
+          {
+            initialState: getState({ hasComplexClaimsFlag: true }),
+          },
+        );
+
+        // VA.gov link should exist
+        const vaLink = $(`va-link-action[text="Complete and file your claim"]`);
+        expect(vaLink).to.exist;
+
+        // BTSSS link should not exist
+        expect(getBTSSSLink()).to.not.exist;
+
+        // Note should not exist
+        expect(
+          screen.queryByText(
+            /We can't file your travel reimbursement claim here right now/i,
+          ),
+        ).to.not.exist;
+      });
     });
 
-    describe('Saved status note', () => {
-      it('renders note text for Saved status', () => {
+    describe('BTSSS note text', () => {
+      it('renders note text for a claim started in BTSSS', () => {
         const screen = renderWithStoreAndRouter(
-          <ClaimDetailsContent {...claimDetailsProps} claimStatus="Saved" />,
+          <ClaimDetailsContent
+            {...claimDetailsProps}
+            claimStatus="Saved"
+            claimSource="Api"
+          />,
           {
             initialState: getState({ hasComplexClaimsFlag: true }),
           },
@@ -714,11 +1032,59 @@ describe('ClaimDetailsContent', () => {
         ).to.exist;
       });
 
-      it('does not render note text for non-Saved statuses', () => {
+      it('renders note text when claim has unassociated documents', () => {
+        const documents = [
+          {
+            documentId: 'doc1',
+            filename: 'receipt.pdf',
+            mimetype: 'application/pdf',
+          },
+        ];
+        const expenses = []; // No expenses, so doc is unassociated
+
         const screen = renderWithStoreAndRouter(
           <ClaimDetailsContent
             {...claimDetailsProps}
-            claimStatus="Claim submitted"
+            claimStatus="Incomplete"
+            claimSource="VaGov"
+            documents={documents}
+            expenses={expenses}
+          />,
+          {
+            initialState: getState({ hasComplexClaimsFlag: true }),
+          },
+        );
+
+        expect(
+          screen.getByText(
+            /We can't file your travel reimbursement claim here right now/i,
+          ),
+        ).to.exist;
+      });
+
+      it('does not render note text for VA.gov claim without unassociated docs', () => {
+        const documents = [
+          {
+            documentId: 'doc1',
+            filename: 'receipt.pdf',
+            mimetype: 'application/pdf',
+          },
+        ];
+        const expenses = [
+          {
+            id: 'exp1',
+            documentId: 'doc1',
+            expenseType: 'Parking',
+          },
+        ];
+
+        const screen = renderWithStoreAndRouter(
+          <ClaimDetailsContent
+            {...claimDetailsProps}
+            claimStatus="Saved"
+            claimSource="VaGov"
+            documents={documents}
+            expenses={expenses}
           />,
           {
             initialState: getState({ hasComplexClaimsFlag: true }),
@@ -732,17 +1098,35 @@ describe('ClaimDetailsContent', () => {
         ).to.not.exist;
       });
 
-      it('does not render note text for Incomplete status', () => {
+      it('does NOT render note text when only clerk notes exist (no mimetype)', () => {
+        const documents = [
+          {
+            documentId: 'clerk-note-1',
+            filename: 'Internal Note.txt',
+            mimetype: '', // Clerk note with empty mimetype
+          },
+          {
+            documentId: 'clerk-note-2',
+            filename: 'Another Note.txt',
+            mimetype: '', // Another clerk note
+          },
+        ];
+        const expenses = [];
+
         const screen = renderWithStoreAndRouter(
           <ClaimDetailsContent
             {...claimDetailsProps}
-            claimStatus="Incomplete"
+            claimStatus="Approved for payment"
+            claimSource="VaGov"
+            documents={documents}
+            expenses={expenses}
           />,
           {
             initialState: getState({ hasComplexClaimsFlag: true }),
           },
         );
 
+        // Should NOT render note text - clerk notes are filtered out
         expect(
           screen.queryByText(
             /We can't file your travel reimbursement claim here right now/i,
