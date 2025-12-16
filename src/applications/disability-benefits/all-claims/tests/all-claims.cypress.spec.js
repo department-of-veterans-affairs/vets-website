@@ -4,7 +4,6 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 
 import mockUser from './fixtures/mocks/user.json';
 import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
-
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
 import { setup, pageHooks } from './cypress.helpers';
