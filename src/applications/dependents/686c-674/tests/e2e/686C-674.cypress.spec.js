@@ -30,10 +30,6 @@ const testConfig = createTestConfig(
           type: 'feature_toggles',
           features: [
             {
-              name: 'vaDependentsV2',
-              value: true,
-            },
-            {
               name: 'vaDependentsNetWorthAndPension',
               value: false,
             },

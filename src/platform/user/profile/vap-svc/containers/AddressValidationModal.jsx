@@ -42,7 +42,7 @@ class AddressValidationModal extends React.Component {
   onSubmit = event => {
     event.preventDefault();
     const {
-      validationKey,
+      overrideValidationKey,
       addressValidationType,
       selectedAddress,
       selectedAddressId,
@@ -51,7 +51,7 @@ class AddressValidationModal extends React.Component {
 
     const payload = {
       ...selectedAddress,
-      validationKey,
+      overrideValidationKey,
     };
 
     const suggestedAddressSelected = selectedAddressId !== 'userEntered';
@@ -114,24 +114,24 @@ class AddressValidationModal extends React.Component {
   renderPrimaryButton = () => {
     const {
       addressValidationError,
-      validationKey,
+      overrideValidationKey,
       isLoading,
       confirmedSuggestions,
     } = this.props;
 
     let buttonText = 'Update';
 
-    if (confirmedSuggestions.length === 0 && validationKey) {
+    if (confirmedSuggestions.length === 0 && overrideValidationKey) {
       buttonText = 'Use this address';
     }
 
-    if (confirmedSuggestions.length === 1 && !validationKey) {
+    if (confirmedSuggestions.length === 1 && !overrideValidationKey) {
       buttonText = 'Use suggested address';
     }
 
     if (
       addressValidationError ||
-      (!confirmedSuggestions.length && !validationKey)
+      (!confirmedSuggestions.length && !overrideValidationKey)
     ) {
       return (
         <button
@@ -153,7 +153,7 @@ class AddressValidationModal extends React.Component {
 
   renderAddressOption = (address, id = 'userEntered') => {
     const {
-      validationKey,
+      overrideValidationKey,
       addressValidationError,
       selectedAddressId,
       confirmedSuggestions,
@@ -161,13 +161,14 @@ class AddressValidationModal extends React.Component {
 
     const isAddressFromUser = id === 'userEntered';
     const hasConfirmedSuggestions =
-      (confirmedSuggestions.length > 0 && validationKey) ||
+      (confirmedSuggestions.length > 0 && overrideValidationKey) ||
       confirmedSuggestions.length > 1;
-    const showEditLinkErrorState = addressValidationError && validationKey;
+    const showEditLinkErrorState =
+      addressValidationError && overrideValidationKey;
     const showEditLinkNonErrorState = !addressValidationError;
     const showEditLink = showEditLinkErrorState || showEditLinkNonErrorState;
     const isFirstOptionOrEnabled =
-      (isAddressFromUser && validationKey) || !isAddressFromUser;
+      (isAddressFromUser && overrideValidationKey) || !isAddressFromUser;
 
     const { street, cityStateZip, country } = formatAddress(address);
 
@@ -322,7 +323,8 @@ const mapStateToProps = (state, ownProps) => {
     confirmedSuggestions:
       state.vapService.addressValidation.confirmedSuggestions,
     addressValidationType,
-    validationKey: state.vapService.addressValidation.validationKey,
+    overrideValidationKey:
+      state.vapService.addressValidation.overrideValidationKey,
     addressFromUser: state.vapService.addressValidation.addressFromUser,
     selectedAddress: state.vapService.addressValidation.selectedAddress,
     selectedAddressId: state.vapService.addressValidation.selectedAddressId,
@@ -377,7 +379,7 @@ AddressValidationModal.propTypes = {
   transaction: PropTypes.object,
   transactionRequest: PropTypes.object,
   userHasBadAddress: PropTypes.bool,
-  validationKey: PropTypes.number,
+  overrideValidationKey: PropTypes.number,
 };
 
 export default connect(

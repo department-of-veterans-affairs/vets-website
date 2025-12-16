@@ -8,19 +8,8 @@ import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import manifest from '../manifest.json';
 import formConfig from '../config/form';
 import { DOC_TITLE } from '../config/constants';
-import { getShouldUseV2 } from '../../686c-674/utils/redirect';
 
-import { getRootParentUrl } from '../../shared/utils';
-
-function App({
-  location,
-  children,
-  isLoggedIn,
-  isLoading,
-  vaFileNumber,
-  featureToggles,
-  savedForms,
-}) {
+function App({ location, children, isLoggedIn, isLoading, vaFileNumber }) {
   const { TOGGLE_NAMES } = useFeatureToggle();
   useBrowserMonitoring({
     location,
@@ -33,29 +22,6 @@ function App({
   // Handle loading
   if (isLoading) {
     return <va-loading-indicator message="Loading your information..." />;
-  }
-
-  const flipperV2 = featureToggles.vaDependentsV2;
-
-  // TODO: Enable after 100% release
-  // const v1Form = savedForms?.find(
-  //   form => form?.form === VA_FORM_IDS.FORM_21_686C,
-  // );
-
-  // const calendarDays = differenceInCalendarDays(
-  //   new Date(),
-  //   fromUnixTime(v1Form?.metadata?.createdAt),
-  // );
-
-  // const isGreaterThan60Days = calendarDays >= 60;
-
-  // (flipperV2 && hasV1Form && isGreaterThan60Days);
-
-  if (getShouldUseV2(flipperV2, savedForms)) {
-    window.location.href = `${getRootParentUrl(
-      manifest.rootUrl,
-    )}/add-remove-form-21-686c-674/`;
-    return <></>;
   }
 
   const content = (
@@ -93,8 +59,6 @@ const mapStateToProps = state => {
     isLoggedIn: user?.login?.currentlyLoggedIn,
     isLoading: user?.profile?.loading || featureToggles?.loading,
     vaFileNumber,
-    featureToggles,
-    savedForms: user?.profile?.savedForms,
   };
 };
 
