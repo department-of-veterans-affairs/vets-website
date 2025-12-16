@@ -52,6 +52,7 @@ const GROUP_OPTION_TAGS = ['VA-RADIO-OPTION', 'VA-CHECKBOX'];
 const GROUP_SELECTOR = GROUP_COMPONENT_TAGS.map(tag => tag.toLowerCase()).join(
   ', ',
 );
+const FILE_INPUT_TAGS = ['VA-FILE-INPUT', 'VA-FILE-INPUT-MULTIPLE'];
 
 // ============================================================================
 // General helpers
@@ -145,6 +146,9 @@ const isGroupComponent = element =>
  */
 const isGroupOptionComponent = element =>
   isComponentOfType(element, GROUP_OPTION_TAGS);
+
+const isFileInputComponent = element =>
+  isComponentOfType(element, FILE_INPUT_TAGS);
 
 /**
  * Finds the nearest ancestor group component (radio group or checkbox group) for a given element.
@@ -285,6 +289,10 @@ const findFocusTarget = el => {
 
   const focusTarget = shadowRoot.querySelector(INPUT_SELECTOR);
   if (focusTarget) {
+    // Temporary fix: For file input components, remove style attribute to make input visible
+    if (isFileInputComponent(el)) {
+      focusTarget.removeAttribute('style');
+    }
     return focusTarget;
   }
 
@@ -305,12 +313,6 @@ const findFocusTarget = el => {
     return fallbackFocusable;
   }
 
-  // Final fallback: return the host component itself
-  if (!el.hasAttribute('tabindex')) {
-    el.setAttribute('tabindex', '-1');
-    // Mark that we added this so we can remove it later during cleanup
-    el.setAttribute('data-error-focus-tabindex-added', 'true');
-  }
   return el;
 };
 
@@ -551,12 +553,6 @@ const clearHostErrorAnnotations = hostComponent => {
   });
 
   hostComponent.removeAttribute('data-generated-error-label-id');
-
-  // Remove tabindex if it was added programmatically for focus fallback
-  if (hostComponent.hasAttribute('data-error-focus-tabindex-added')) {
-    hostComponent.removeAttribute('tabindex');
-    hostComponent.removeAttribute('data-error-focus-tabindex-added');
-  }
 };
 
 /**
