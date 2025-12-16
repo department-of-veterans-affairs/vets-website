@@ -153,8 +153,7 @@ export const getCopayAlertContent = (copay, type) => {
         bodyText: (
           <>
             <p>
-              We’re sorry. Something went wrong on our end. You won’t be able to
-              access information about your copay balances at this time.
+              We’re sorry. Something went wrong on our end. Check back soon.
             </p>
             <h3 className="vads-u-font-size--h4">What you can do</h3>
             <p>

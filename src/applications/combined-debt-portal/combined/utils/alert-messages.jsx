@@ -94,13 +94,7 @@ const alertMessage = (alertType, appType) => {
         testID: 'all-error-alert',
         header: `We can’t access your overpayment and copay records right now`,
         body: (
-          <>
-            <p>
-              We’re sorry. Information about overpayments and copays you might
-              have is unavailable because something went wrong on our end.
-              Please check back soon.
-            </p>
-          </>
+          <p>We’re sorry. Something went wrong on our end. Check back soon.</p>
         ),
         secondBody: (
           <>
