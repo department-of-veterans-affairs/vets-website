@@ -36,18 +36,21 @@ describe('VistaAndOHContent', () => {
     activeAlert: null,
     ccdError: false,
     CCDRetryTimestamp: null,
-    isLoading: false,
-    testIdSuffix: 'Vista',
+    ccdExtendedFileTypeFlag: true,
     ccdDownloadSuccess: false,
     failedBBDomains: [],
     failedSeiDomains: [],
     getFailedDomainList: () => [],
     generatingCCD: false,
     handleDownloadCCD: () => {},
+    handleDownloadCCDV2: () => {},
     handleDownloadSelfEnteredPdf: () => {},
     lastSuccessfulUpdate: null,
+    selfEnteredPdfLoading: false,
     successfulSeiDownload: false,
     successfulBBDownload: false,
+    vistaFacilityNames: ['VA Western New York health care'],
+    ohFacilityNames: ['VA Central Ohio health care'],
   };
 
   const renderComponent = (props = {}, state = {}) => {
@@ -66,22 +69,10 @@ describe('VistaAndOHContent', () => {
     expect(getByText('Download your VA Blue Button report')).to.exist;
   });
 
-  it('renders the Blue Button section heading when not loading', () => {
+  it('renders the Blue Button section heading', () => {
     const { getByText } = renderComponent();
 
     expect(getByText('Download your VA Blue Button report')).to.exist;
-  });
-
-  it('shows loading spinner when isLoading is true', () => {
-    const { container, queryByText } = renderComponent({ isLoading: true });
-
-    const spinnerContainer = container.querySelector(
-      '#generating-ccd-Vista-indicator',
-    );
-    expect(spinnerContainer).to.exist;
-    expect(spinnerContainer.querySelector('va-loading-indicator')).to.exist;
-
-    expect(queryByText('Download your VA Blue Button report')).to.not.exist;
   });
 
   it('renders last successful update card when lastSuccessfulUpdate is provided', () => {
@@ -149,6 +140,16 @@ describe('VistaAndOHContent', () => {
     );
   });
 
+  it('renders Blue Button instructions text', () => {
+    const { getByText } = renderComponent();
+
+    expect(
+      getByText(
+        /First, select the types of records you want in your report. Then download./,
+      ),
+    ).to.exist;
+  });
+
   it('renders DownloadSuccessAlert when successfulBBDownload is true', () => {
     const { getByTestId, getByText } = renderComponent({
       successfulBBDownload: true,
@@ -196,57 +197,100 @@ describe('VistaAndOHContent', () => {
       .not.exist;
   });
 
-  it('renders self-entered download button', () => {
-    const { getByTestId } = renderComponent();
+  describe('Self-entered health information section', () => {
+    it('renders self-entered section heading and description', () => {
+      const { getByText } = renderComponent();
 
-    expect(getByTestId('downloadSelfEnteredButton')).to.exist;
-  });
-
-  it('calls handleDownloadSelfEnteredPdf when self-entered download button is clicked', () => {
-    const handleDownloadSelfEnteredPdf = sinon.spy();
-    const { getByTestId } = renderComponent({ handleDownloadSelfEnteredPdf });
-
-    fireEvent.click(getByTestId('downloadSelfEnteredButton'));
-    expect(handleDownloadSelfEnteredPdf.calledOnce).to.be.true;
-  });
-
-  it('renders CCD download success alert when generatingCCD is true and no error', () => {
-    const { getByText } = renderComponent({
-      generatingCCD: true,
-      ccdError: false,
-      CCDRetryTimestamp: null,
+      expect(getByText('Download your self-entered health information')).to
+        .exist;
+      expect(
+        getByText(
+          /This report includes all the health information you entered yourself/,
+        ),
+      ).to.exist;
     });
 
-    expect(getByText(/Continuity of Care Document download/)).to.exist;
-  });
+    it('renders self-entered download button when not loading', () => {
+      const { getByTestId } = renderComponent({
+        selfEnteredPdfLoading: false,
+      });
 
-  it('renders CCD download success alert when ccdDownloadSuccess is true and no error', () => {
-    const { getByText } = renderComponent({
-      ccdDownloadSuccess: true,
-      ccdError: false,
-      CCDRetryTimestamp: null,
+      expect(getByTestId('downloadSelfEnteredButton')).to.exist;
     });
 
-    expect(getByText(/Continuity of Care Document download/)).to.exist;
-  });
+    it('shows self-entered loading spinner when selfEnteredPdfLoading is true', () => {
+      const { container, queryByTestId } = renderComponent({
+        selfEnteredPdfLoading: true,
+      });
 
-  it('does not render CCD success alert when ccdError is true', () => {
-    const { queryByText } = renderComponent({
-      generatingCCD: true,
-      ccdError: true,
+      const spinnerContainer = container.querySelector(
+        '#generating-sei-indicator',
+      );
+      expect(spinnerContainer).to.exist;
+      expect(spinnerContainer.querySelector('va-loading-indicator')).to.exist;
+
+      expect(queryByTestId('downloadSelfEnteredButton')).to.not.exist;
     });
 
-    expect(queryByText(/Continuity of Care Document download/)).to.not.exist;
+    it('calls handleDownloadSelfEnteredPdf when self-entered download button is clicked', () => {
+      const handleDownloadSelfEnteredPdf = sinon.spy();
+      const { getByTestId } = renderComponent({ handleDownloadSelfEnteredPdf });
+
+      fireEvent.click(getByTestId('downloadSelfEnteredButton'));
+      expect(handleDownloadSelfEnteredPdf.calledOnce).to.be.true;
+    });
   });
 
-  it('does not render CCD success alert when CCDRetryTimestamp is set', () => {
-    const { queryByText } = renderComponent({
-      generatingCCD: true,
-      ccdError: false,
-      CCDRetryTimestamp: '2025-12-09T10:30:00Z',
+  describe('CCD Download Success Alert', () => {
+    it('renders CCD download success alert when generatingCCD is true and no error', () => {
+      const { getByText } = renderComponent({
+        generatingCCD: true,
+        ccdError: false,
+        CCDRetryTimestamp: null,
+      });
+
+      expect(getByText(/Continuity of Care Document download/)).to.exist;
     });
 
-    expect(queryByText(/Continuity of Care Document download/)).to.not.exist;
+    it('renders CCD download success alert when ccdDownloadSuccess is true and no error', () => {
+      const { getByText } = renderComponent({
+        ccdDownloadSuccess: true,
+        ccdError: false,
+        CCDRetryTimestamp: null,
+      });
+
+      expect(getByText(/Continuity of Care Document download/)).to.exist;
+    });
+
+    it('does not render CCD success alert when ccdError is true', () => {
+      const { queryByText } = renderComponent({
+        generatingCCD: true,
+        ccdError: true,
+      });
+
+      expect(queryByText(/Continuity of Care Document download/)).to.not.exist;
+    });
+
+    it('does not render CCD success alert when CCDRetryTimestamp is set', () => {
+      const { queryByText } = renderComponent({
+        generatingCCD: true,
+        ccdError: false,
+        CCDRetryTimestamp: '2025-12-09T10:30:00Z',
+      });
+
+      expect(queryByText(/Continuity of Care Document download/)).to.not.exist;
+    });
+
+    it('does not render CCD success alert when both generatingCCD and ccdDownloadSuccess are false', () => {
+      const { queryByText } = renderComponent({
+        generatingCCD: false,
+        ccdDownloadSuccess: false,
+        ccdError: false,
+        CCDRetryTimestamp: null,
+      });
+
+      expect(queryByText(/Continuity of Care Document download/)).to.not.exist;
+    });
   });
 
   it('renders Blue Button note at the bottom', () => {
@@ -270,29 +314,6 @@ describe('VistaAndOHContent', () => {
     ).to.exist;
   });
 
-  it('renders self-entered section heading and description', () => {
-    const { getByText } = renderComponent();
-
-    expect(getByText('Download your self-entered health information')).to.exist;
-    expect(
-      getByText(
-        /This report includes all the health information you entered yourself/,
-      ),
-    ).to.exist;
-  });
-
-  it('uses the correct testIdSuffix in loading indicator', () => {
-    const { container } = renderComponent({
-      isLoading: true,
-      testIdSuffix: 'CustomSuffix',
-    });
-
-    const spinnerContainer = container.querySelector(
-      '#generating-ccd-CustomSuffix-indicator',
-    );
-    expect(spinnerContainer).to.exist;
-  });
-
   it('calls getFailedDomainList when successfulBBDownload is true', () => {
     const getFailedDomainList = sinon.spy(() => ['allergies']);
     renderComponent({
@@ -304,21 +325,183 @@ describe('VistaAndOHContent', () => {
     expect(getFailedDomainList.called).to.be.true;
   });
 
-  it('renders CCD DownloadSection component', () => {
-    const { getByTestId } = renderComponent();
+  describe('when ccdExtendedFileTypeFlag is true', () => {
+    it('renders VistA facility CCD download section', () => {
+      const { getByTestId } = renderComponent({
+        ccdExtendedFileTypeFlag: true,
+      });
 
-    expect(getByTestId('generateCcdButtonXmlVista')).to.exist;
-    expect(getByTestId('generateCcdButtonPdfVista')).to.exist;
-    expect(getByTestId('generateCcdButtonHtmlVista')).to.exist;
+      expect(getByTestId('generateCcdButtonXmlVista')).to.exist;
+      expect(getByTestId('generateCcdButtonPdfVista')).to.exist;
+      expect(getByTestId('generateCcdButtonHtmlVista')).to.exist;
+    });
+
+    it('renders OH facility CCD download section', () => {
+      const { getByTestId } = renderComponent({
+        ccdExtendedFileTypeFlag: true,
+      });
+
+      expect(getByTestId('generateCcdButtonXmlOH')).to.exist;
+      expect(getByTestId('generateCcdButtonPdfOH')).to.exist;
+      expect(getByTestId('generateCcdButtonHtmlOH')).to.exist;
+    });
+
+    it('displays VistA facility names', () => {
+      const { getByText } = renderComponent({
+        ccdExtendedFileTypeFlag: true,
+        vistaFacilityNames: ['VA Western New York health care'],
+      });
+
+      expect(
+        getByText(/CCD: medical records from VA Western New York health care/),
+      ).to.exist;
+    });
+
+    it('displays OH facility names', () => {
+      const { getByText } = renderComponent({
+        ccdExtendedFileTypeFlag: true,
+        ohFacilityNames: ['VA Central Ohio health care'],
+      });
+
+      expect(getByText(/CCD: medical records from VA Central Ohio health care/))
+        .to.exist;
+    });
+
+    it('calls handleDownloadCCD with correct format when VistA XML link is clicked', () => {
+      const handleDownloadCCD = sinon.spy();
+      const { getByTestId } = renderComponent({
+        handleDownloadCCD,
+        ccdExtendedFileTypeFlag: true,
+      });
+
+      fireEvent.click(getByTestId('generateCcdButtonXmlVista'));
+      expect(handleDownloadCCD.calledOnce).to.be.true;
+      expect(handleDownloadCCD.firstCall.args[1]).to.equal('xml');
+    });
+
+    it('calls handleDownloadCCD with correct format when VistA PDF link is clicked', () => {
+      const handleDownloadCCD = sinon.spy();
+      const { getByTestId } = renderComponent({
+        handleDownloadCCD,
+        ccdExtendedFileTypeFlag: true,
+      });
+
+      fireEvent.click(getByTestId('generateCcdButtonPdfVista'));
+      expect(handleDownloadCCD.calledOnce).to.be.true;
+      expect(handleDownloadCCD.firstCall.args[1]).to.equal('pdf');
+    });
+
+    it('calls handleDownloadCCD with correct format when VistA HTML link is clicked', () => {
+      const handleDownloadCCD = sinon.spy();
+      const { getByTestId } = renderComponent({
+        handleDownloadCCD,
+        ccdExtendedFileTypeFlag: true,
+      });
+
+      fireEvent.click(getByTestId('generateCcdButtonHtmlVista'));
+      expect(handleDownloadCCD.calledOnce).to.be.true;
+      expect(handleDownloadCCD.firstCall.args[1]).to.equal('html');
+    });
+
+    it('calls handleDownloadCCDV2 with correct format when OH XML link is clicked', () => {
+      const handleDownloadCCDV2 = sinon.spy();
+      const { getByTestId } = renderComponent({
+        handleDownloadCCDV2,
+        ccdExtendedFileTypeFlag: true,
+      });
+
+      fireEvent.click(getByTestId('generateCcdButtonXmlOH'));
+      expect(handleDownloadCCDV2.calledOnce).to.be.true;
+      expect(handleDownloadCCDV2.firstCall.args[1]).to.equal('xml');
+    });
+
+    it('calls handleDownloadCCDV2 with correct format when OH PDF link is clicked', () => {
+      const handleDownloadCCDV2 = sinon.spy();
+      const { getByTestId } = renderComponent({
+        handleDownloadCCDV2,
+        ccdExtendedFileTypeFlag: true,
+      });
+
+      fireEvent.click(getByTestId('generateCcdButtonPdfOH'));
+      expect(handleDownloadCCDV2.calledOnce).to.be.true;
+      expect(handleDownloadCCDV2.firstCall.args[1]).to.equal('pdf');
+    });
+
+    it('calls handleDownloadCCDV2 with correct format when OH HTML link is clicked', () => {
+      const handleDownloadCCDV2 = sinon.spy();
+      const { getByTestId } = renderComponent({
+        handleDownloadCCDV2,
+        ccdExtendedFileTypeFlag: true,
+      });
+
+      fireEvent.click(getByTestId('generateCcdButtonHtmlOH'));
+      expect(handleDownloadCCDV2.calledOnce).to.be.true;
+      expect(handleDownloadCCDV2.firstCall.args[1]).to.equal('html');
+    });
   });
 
-  it('calls handleDownloadCCD with correct format when CCD link is clicked', () => {
-    const handleDownloadCCD = sinon.spy();
-    const { getByTestId } = renderComponent({ handleDownloadCCD });
+  describe('when ccdExtendedFileTypeFlag is false', () => {
+    it('renders only XML download link', () => {
+      const { getByTestId, queryByTestId } = renderComponent({
+        ccdExtendedFileTypeFlag: false,
+      });
 
-    fireEvent.click(getByTestId('generateCcdButtonXmlVista'));
-    expect(handleDownloadCCD.calledOnce).to.be.true;
-    expect(handleDownloadCCD.firstCall.args[1]).to.equal('xml');
+      expect(getByTestId('generateCcdButtonXml')).to.exist;
+      expect(queryByTestId('generateCcdButtonPdfVista')).to.not.exist;
+      expect(queryByTestId('generateCcdButtonHtmlVista')).to.not.exist;
+      expect(queryByTestId('generateCcdButtonXmlOH')).to.not.exist;
+    });
+
+    it('renders XML download link with correct text', () => {
+      const { getByTestId } = renderComponent({
+        ccdExtendedFileTypeFlag: false,
+      });
+
+      expect(getByTestId('generateCcdButtonXml')).to.have.attribute(
+        'text',
+        'Download Continuity of Care Document (XML)',
+      );
+    });
+
+    it('calls handleDownloadCCD with xml format when XML link is clicked', () => {
+      const handleDownloadCCD = sinon.spy();
+      const { getByTestId } = renderComponent({
+        handleDownloadCCD,
+        ccdExtendedFileTypeFlag: false,
+      });
+
+      fireEvent.click(getByTestId('generateCcdButtonXml'));
+      expect(handleDownloadCCD.calledOnce).to.be.true;
+      expect(handleDownloadCCD.firstCall.args[1]).to.equal('xml');
+    });
+
+    it('shows loading spinner when generatingCCD is true', () => {
+      const { container, queryByTestId } = renderComponent({
+        ccdExtendedFileTypeFlag: false,
+        generatingCCD: true,
+      });
+
+      const spinnerContainer = container.querySelector(
+        '#generating-ccd-indicator',
+      );
+      expect(spinnerContainer).to.exist;
+      expect(spinnerContainer.querySelector('va-loading-indicator')).to.exist;
+
+      expect(queryByTestId('generateCcdButtonXml')).to.not.exist;
+    });
+
+    it('does not show loading spinner when generatingCCD is false', () => {
+      const { container, getByTestId } = renderComponent({
+        ccdExtendedFileTypeFlag: false,
+        generatingCCD: false,
+      });
+
+      const spinnerContainer = container.querySelector(
+        '#generating-ccd-indicator',
+      );
+      expect(spinnerContainer).to.not.exist;
+      expect(getByTestId('generateCcdButtonXml')).to.exist;
+    });
   });
 
   it('does not render h1 heading (heading is in parent/intro component)', () => {
