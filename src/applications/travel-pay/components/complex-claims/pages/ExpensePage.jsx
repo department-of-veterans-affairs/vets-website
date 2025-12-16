@@ -40,7 +40,11 @@ const toBase64 = file =>
   new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
+    reader.onload = () => {
+      // Strip the data URL prefix to get just the base64 data
+      const base64Data = reader.result?.split(',')[1] ?? '';
+      resolve(base64Data);
+    };
     reader.onerror = reject;
   });
 
