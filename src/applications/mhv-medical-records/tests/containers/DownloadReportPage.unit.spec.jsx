@@ -36,7 +36,8 @@ const vistaOnlyBaseState = {
   mr: {
     downloads: {
       generatingCCD: false,
-      ccdError: false,
+      ccdDownloadSuccess: false,
+      error: false,
       bbDownloadSuccess: false,
     },
     blueButton: {
@@ -85,7 +86,8 @@ const ohOnlyBaseState = {
   mr: {
     downloads: {
       generatingCCD: false,
-      ccdError: false,
+      ccdDownloadSuccess: false,
+      error: false,
       bbDownloadSuccess: false,
     },
     blueButton: {
@@ -145,7 +147,8 @@ const bothSourcesBaseState = {
   mr: {
     downloads: {
       generatingCCD: false,
-      ccdError: false,
+      ccdDownloadSuccess: false,
+      error: false,
       bbDownloadSuccess: false,
     },
     blueButton: {
@@ -229,51 +232,73 @@ describe('DownloadReportPage - VistA Only User (Default)', () => {
     expect(screen.getByText('Need help?')).to.exist;
   });
 
-  it('generates CCD (XML) on button click', () => {
+  it('renders CCD download buttons (XML, PDF, HTML) in accordion', () => {
+    const ccdAccordion = screen.getByTestId('ccdAccordionItem');
+    fireEvent.click(ccdAccordion);
+
+    expect(screen.getByTestId('generateCcdButtonXml')).to.exist;
+    expect(screen.getByTestId('generateCcdButtonPdf')).to.exist;
+    expect(screen.getByTestId('generateCcdButtonHtml')).to.exist;
+  });
+
+  it('CCD XML button has correct text', () => {
     const ccdAccordion = screen.getByTestId('ccdAccordionItem');
     fireEvent.click(ccdAccordion);
 
     const ccdGenerateButton = screen.getByTestId('generateCcdButtonXml');
-    expect(ccdGenerateButton).to.exist;
     expect(ccdGenerateButton).to.have.attribute(
       'text',
       'Download XML (best for sharing with your provider)',
     );
-
-    fireEvent.click(ccdGenerateButton);
-    expect(screen.container.querySelector('#generating-ccd-Vista-indicator')).to
-      .exist;
   });
 
-  it('generates CCD (PDF) on button click', () => {
+  it('CCD PDF button has correct text', () => {
     const ccdAccordion = screen.getByTestId('ccdAccordionItem');
     fireEvent.click(ccdAccordion);
 
     const ccdGenerateButton = screen.getByTestId('generateCcdButtonPdf');
-    expect(ccdGenerateButton).to.exist;
     expect(ccdGenerateButton).to.have.attribute(
       'text',
       'Download PDF (best for printing)',
     );
-
-    fireEvent.click(ccdGenerateButton);
-    expect(screen.container.querySelector('#generating-ccd-Vista-indicator')).to
-      .exist;
   });
 
-  it('generates CCD (HTML) on button click', () => {
+  it('CCD HTML button has correct text', () => {
     const ccdAccordion = screen.getByTestId('ccdAccordionItem');
     fireEvent.click(ccdAccordion);
 
     const ccdGenerateButton = screen.getByTestId('generateCcdButtonHtml');
-    expect(ccdGenerateButton).to.exist;
     expect(ccdGenerateButton).to.have.attribute(
       'text',
       'Download HTML (best for screen readers, enlargers, and refreshable Braille displays)',
     );
+  });
+});
 
-    fireEvent.click(ccdGenerateButton);
-    expect(screen.container.querySelector('#generating-ccd-Vista-indicator')).to
+describe('DownloadReportPage - VistA Only User with generatingCCD', () => {
+  it('shows loading spinner in accordion when generatingCCD is true', () => {
+    const stateWithGeneratingCCD = {
+      ...vistaOnlyBaseState,
+      mr: {
+        ...vistaOnlyBaseState.mr,
+        downloads: {
+          ...vistaOnlyBaseState.mr.downloads,
+          generatingCCD: true,
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<DownloadReportPage />, {
+      initialState: stateWithGeneratingCCD,
+      reducers: reducer,
+      path: '/download',
+    });
+
+    const ccdAccordion = screen.getByTestId('ccdAccordionItem');
+    fireEvent.click(ccdAccordion);
+
+    // Loading spinner should be inside the accordion - CCDAccordionItemV2 uses 'generating-ccd-indicator'
+    expect(screen.container.querySelector('#generating-ccd-indicator')).to
       .exist;
   });
 });
@@ -337,6 +362,31 @@ describe('DownloadReportPage - Oracle Health Only User', () => {
   });
 });
 
+describe('DownloadReportPage - Oracle Health Only with generatingCCD', () => {
+  it('shows loading spinner when generatingCCD is true', () => {
+    const stateWithGeneratingCCD = {
+      ...ohOnlyBaseState,
+      mr: {
+        ...ohOnlyBaseState.mr,
+        downloads: {
+          ...ohOnlyBaseState.mr.downloads,
+          generatingCCD: true,
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<DownloadReportPage />, {
+      initialState: stateWithGeneratingCCD,
+      reducers: reducer,
+      path: '/download',
+    });
+
+    // Loading spinner should be visible for OH Only
+    expect(screen.container.querySelector('#generating-ccd-OH-indicator')).to
+      .exist;
+  });
+});
+
 describe('DownloadReportPage - Both VistA and Oracle Health User', () => {
   let screen;
 
@@ -371,6 +421,18 @@ describe('DownloadReportPage - Both VistA and Oracle Health User', () => {
     expect(screen.getByText('Download your self-entered health information')).to
       .exist;
     expect(screen.getByTestId('downloadSelfEnteredButton')).to.exist;
+  });
+
+  it('displays VistA facility CCD download section', () => {
+    expect(screen.getByTestId('generateCcdButtonXmlVista')).to.exist;
+    expect(screen.getByTestId('generateCcdButtonPdfVista')).to.exist;
+    expect(screen.getByTestId('generateCcdButtonHtmlVista')).to.exist;
+  });
+
+  it('displays OH facility CCD download section', () => {
+    expect(screen.getByTestId('generateCcdButtonXmlOH')).to.exist;
+    expect(screen.getByTestId('generateCcdButtonPdfOH')).to.exist;
+    expect(screen.getByTestId('generateCcdButtonHtmlOH')).to.exist;
   });
 
   it('shows help section', () => {
@@ -476,8 +538,32 @@ describe('DownloadReportPage - Blue Button Success Alert', () => {
   });
 });
 
+describe('DownloadReportPage - CCD Download Success Alert', () => {
+  it('renders CCD download success alert when ccdDownloadSuccess is true', () => {
+    const stateWithCCDSuccess = {
+      ...vistaOnlyBaseState,
+      mr: {
+        ...vistaOnlyBaseState.mr,
+        downloads: {
+          ...vistaOnlyBaseState.mr.downloads,
+          ccdDownloadSuccess: true,
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<DownloadReportPage />, {
+      initialState: stateWithCCDSuccess,
+      reducers: reducer,
+      path: '/download',
+    });
+
+    expect(screen.getByText('Continuity of Care Document download started')).to
+      .exist;
+  });
+});
+
 describe('DownloadReportPage - Extended File Types Flag', () => {
-  it('does not render PDF and HTML buttons when flag is disabled', () => {
+  it('does not render PDF and HTML buttons when flag is disabled for VistA users', () => {
     const stateWithFlagDisabled = {
       ...vistaOnlyBaseState,
       featureToggles: {
@@ -501,7 +587,7 @@ describe('DownloadReportPage - Extended File Types Flag', () => {
     expect(screen.getByTestId('generateCcdButtonXml')).to.exist;
   });
 
-  it('renders PDF and HTML buttons when flag is enabled', () => {
+  it('renders PDF and HTML buttons when flag is enabled for VistA users', () => {
     const screen = renderWithStoreAndRouter(<DownloadReportPage />, {
       initialState: vistaOnlyBaseState,
       reducers: reducer,
@@ -514,6 +600,48 @@ describe('DownloadReportPage - Extended File Types Flag', () => {
     expect(screen.getByTestId('generateCcdButtonPdf')).to.exist;
     expect(screen.getByTestId('generateCcdButtonHtml')).to.exist;
     expect(screen.getByTestId('generateCcdButtonXml')).to.exist;
+  });
+
+  it('does not render PDF and HTML buttons when flag is disabled for OH Only users', () => {
+    const stateWithFlagDisabled = {
+      ...ohOnlyBaseState,
+      featureToggles: {
+        [FEATURE_FLAG_NAMES.mhvMedicalRecordsCcdExtendedFileTypes]: false,
+        loading: false,
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<DownloadReportPage />, {
+      initialState: stateWithFlagDisabled,
+      reducers: reducer,
+      path: '/download',
+    });
+
+    expect(screen.queryByTestId('generateCcdButtonPdfOH')).to.be.null;
+    expect(screen.queryByTestId('generateCcdButtonHtmlOH')).to.be.null;
+    // XML should still exist
+    expect(screen.getByTestId('generateCcdButtonXmlOH')).to.exist;
+  });
+
+  it('does not render PDF and HTML buttons when flag is disabled for Both sources users', () => {
+    const stateWithFlagDisabled = {
+      ...bothSourcesBaseState,
+      featureToggles: {
+        [FEATURE_FLAG_NAMES.mhvMedicalRecordsCcdExtendedFileTypes]: false,
+        loading: false,
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<DownloadReportPage />, {
+      initialState: stateWithFlagDisabled,
+      reducers: reducer,
+      path: '/download',
+    });
+
+    // Only XML download should exist, no separate VistA/OH sections
+    expect(screen.getByTestId('generateCcdButtonXml')).to.exist;
+    expect(screen.queryByTestId('generateCcdButtonXmlVista')).to.be.null;
+    expect(screen.queryByTestId('generateCcdButtonXmlOH')).to.be.null;
   });
 });
 
