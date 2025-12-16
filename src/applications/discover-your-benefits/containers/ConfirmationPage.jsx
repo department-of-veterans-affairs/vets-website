@@ -400,27 +400,7 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
   return (
     <div>
       <article className="description-article vads-u-padding--0 vads-u-margin--0">
-        <div className="description-padding-btm">
-          {isAllBenefits() ? (
-            <div>
-              <p>
-                Below are all of the benefits that this tool can recommend.
-                Remember to check your eligibility before you apply.
-              </p>
-              <p>
-                These aren’t your personalized benefit recommendations, but you
-                can go back to your recommendations if you’d like.
-              </p>
-              <p className="vads-u-margin-bottom--0">
-                We’re also planning to add more benefits and resources to this
-                tool. Check back soon to find more benefits you may want to
-                apply for.
-              </p>
-            </div>
-          ) : (
-            renderTitleParagraph()
-          )}
-        </div>
+        <div className="description-padding-btm">{renderTitleParagraph()}</div>
 
         <va-additional-info trigger="Benefits for transitioning service members">
           <p className="vads-u-margin--0">
