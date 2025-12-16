@@ -10,7 +10,9 @@ describe('DocumentUpload component', () => {
     currentDocument: null,
     handleDocumentChange: () => {},
     loading: false,
+    uploadError: '',
   };
+
   it('renders component correctly', () => {
     const { container } = render(<DocumentUpload {...defaultProps} />);
 
@@ -41,7 +43,7 @@ describe('DocumentUpload component', () => {
       type: 'application/pdf',
     });
 
-    // Fire the change event as va-file-input would emit
+    // Fire the vaChange event as va-file-input would emit
     const event = new CustomEvent('vaChange', {
       detail: { files: [testFile] },
       bubbles: true,
@@ -51,7 +53,7 @@ describe('DocumentUpload component', () => {
 
     await waitFor(() => {
       expect(handleDocumentChange.calledOnce).to.be.true;
-      // Optionally verify the file passed
+      // Verify the file passed
       const eventArg = handleDocumentChange.firstCall.args[0];
       expect(eventArg.detail.files[0]).to.equal(testFile);
     });
@@ -61,17 +63,36 @@ describe('DocumentUpload component', () => {
     const { container } = render(<DocumentUpload {...defaultProps} />);
 
     const fileInput = container.querySelector('va-file-input');
-
-    const acceptedExtensions = ACCEPTED_FILE_TYPES.map(ext => `${ext}`);
     const acceptAttr = fileInput.getAttribute('accept').split(',');
-    expect(acceptAttr).to.deep.equal(acceptedExtensions);
+
+    const expected = ACCEPTED_FILE_TYPES.map(ext => `${ext}`);
+    expect(acceptAttr).to.deep.equal(expected);
   });
 
-  it('enforces max file size of 5MB', () => {
+  it('enforces max and min file size', () => {
     const { container } = render(<DocumentUpload {...defaultProps} />);
 
     const fileInput = container.querySelector('va-file-input');
     expect(Number(fileInput.getAttribute('max-file-size'))).to.equal(5200000);
     expect(Number(fileInput.getAttribute('min-file-size'))).to.equal(0);
+  });
+
+  it('displays uploadError when provided', () => {
+    const errorMessage = 'File is too large';
+    const { container } = render(
+      <DocumentUpload {...defaultProps} uploadError={errorMessage} />,
+    );
+
+    const fileInput = container.querySelector('va-file-input');
+    expect(fileInput.getAttribute('error')).to.equal(errorMessage);
+  });
+
+  it('does not display error when uploadError is empty', () => {
+    const { container } = render(
+      <DocumentUpload {...defaultProps} uploadError="" />,
+    );
+
+    const fileInput = container.querySelector('va-file-input');
+    expect(fileInput.getAttribute('error')).to.be.null;
   });
 });

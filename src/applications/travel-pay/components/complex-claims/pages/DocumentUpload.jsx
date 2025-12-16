@@ -10,6 +10,9 @@ const DocumentUpload = ({
   loading,
   uploadError,
 }) => {
+  // Only pass a string if there is an error, otherwise undefined
+  const errorMessage = uploadError || undefined;
+
   return (
     <>
       {loading ? (
@@ -20,18 +23,18 @@ const DocumentUpload = ({
         />
       ) : (
         <VaFileInput
-          accept={ACCEPTED_FILE_TYPES.map(type => `${type}`).join(',')}
+          accept={ACCEPTED_FILE_TYPES.join(',')}
           hint={`You can upload a ${ACCEPTED_FILE_TYPES.join(', ').replace(
             /, ([^,]*)$/,
             ', or $1',
           )} file. Your file should be no larger than 5MB.`}
           label="Select a file to upload"
-          maxFileSize={5200000} // Based on platform cals have to use 5200000 to get 5MB
+          maxFileSize={5200000}
           minFileSize={0}
           name="travel-pay-claim-document-upload"
           onVaChange={handleDocumentChange}
           required
-          error={uploadError}
+          error={errorMessage}
           value={currentDocument}
         />
       )}
@@ -50,6 +53,7 @@ DocumentUpload.propTypes = {
   currentDocument: PropTypes.object,
   handleDocumentChange: PropTypes.func,
   loading: PropTypes.bool,
+  showRequiredError: PropTypes.bool,
   uploadError: PropTypes.string,
 };
 

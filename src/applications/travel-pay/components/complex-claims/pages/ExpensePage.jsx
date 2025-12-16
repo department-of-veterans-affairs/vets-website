@@ -257,6 +257,17 @@ const ExpensePage = () => {
 
     const emptyFields = requiredFields.filter(field => !formState[field]);
 
+    const errors = { ...extraFieldErrors }; // clone existing errors
+
+    // Set error if receipt is missing
+    if (!formState.receipt) {
+      errors.receipt = 'Select an approved file type under 5MB ';
+    } else {
+      delete errors.receipt; // clear if file exists
+    }
+
+    setExtraFieldErrors(errors);
+
     const isDateValid = validateReceiptDate(
       formState.purchaseDate,
       DATE_VALIDATION_TYPE.SUBMIT,
@@ -374,9 +385,10 @@ const ExpensePage = () => {
   };
 
   const handleDocumentChange = async e => {
-    setUploadError(''); // Clear any previous errors
+    setUploadError(''); // Clear any previous processing errors
 
     const files = e.detail?.files;
+
     // Delete document
     if (!files || files.length === 0) {
       // If document exists but no files then user deleted the previous document
@@ -408,6 +420,13 @@ const ExpensePage = () => {
             fileData: base64File,
           },
         }));
+
+        // ✅ Clear any receipt error when a file is added using Object.fromEntries
+        setExtraFieldErrors(prevErrors =>
+          Object.fromEntries(
+            Object.entries(prevErrors).filter(([key]) => key !== 'receipt'),
+          ),
+        );
       } catch (err) {
         setUploadError(
           'There was a problem processing your document. Please try again later.',
@@ -470,7 +489,7 @@ const ExpensePage = () => {
         loading={isFetchingDocument}
         currentDocument={expenseDocument}
         handleDocumentChange={handleDocumentChange}
-        uploadError={uploadError}
+        uploadError={extraFieldErrors.receipt || uploadError || undefined}
       />
       {isMeal && (
         <ExpenseMealFields formState={formState} onChange={handleFormChange} />
