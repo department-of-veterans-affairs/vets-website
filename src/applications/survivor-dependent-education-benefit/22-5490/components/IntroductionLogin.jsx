@@ -20,6 +20,7 @@ function IntroductionLogin({
   route,
   showHideLoginModal,
   showMeb5490MaintenanceAlert,
+  meb1995InstructionPageUpdateV3,
   user,
 }) {
   const apiCallsComplete = isLOA3 === false || isPersonalInfoFetchComplete;
@@ -68,7 +69,7 @@ function IntroductionLogin({
         user?.login?.hasCheckedKeepAlive && (
           <>
             <va-alert-sign-in
-              variant="signInOptional"
+              variant={meb1995InstructionPageUpdateV3 ? 'signInRequired' : 'signInOptional'}
               time-limit="60 days"
               heading-level={2}
               visible
@@ -125,6 +126,7 @@ IntroductionLogin.propTypes = {
   isPersonalInfoFetchFailed: PropTypes.bool,
   showHideLoginModal: PropTypes.func,
   showMeb5490MaintenanceAlert: PropTypes.bool,
+  meb1995InstructionPageUpdateV3: PropTypes.bool,
   user: PropTypes.object,
 };
 
@@ -134,6 +136,8 @@ const mapStateToProps = state => ({
   isPersonalInfoFetchFailed: state.data.isPersonalInfoFetchFailed || false,
   showMeb5490MaintenanceAlert:
     state.featureToggles[featureFlagNames.showMeb5490MaintenanceAlert],
+  meb1995InstructionPageUpdateV3:
+    state.featureToggles[featureFlagNames.meb1995InstructionPageUpdateV3],
 });
 
 const mapDispatchToProps = {
