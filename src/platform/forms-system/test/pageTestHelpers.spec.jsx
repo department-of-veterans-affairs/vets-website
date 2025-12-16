@@ -87,7 +87,16 @@ export const testNumberOfErrorsOnSubmit = (
       await new Promise(resolve => setTimeout(resolve, 0));
 
       await waitFor(() => {
-        const errors = queryAllByRole('alert');
+        const alerts = queryAllByRole('alert');
+
+        // Filter out screen reader announcements (sr-only with aria-live="polite")
+        const errors = alerts.filter(
+          alert =>
+            !(
+              alert.classList.contains('sr-only') &&
+              alert.getAttribute('aria-live') === 'polite'
+            ),
+        );
         expect(errors).to.have.lengthOf(expectedNumberOfErrors);
       });
     });

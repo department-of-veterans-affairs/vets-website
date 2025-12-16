@@ -1,6 +1,9 @@
-import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+
 import { URL, envUrl } from '../constants';
 import { convertLocation } from '../utils/mapbox';
 import EducationSearchItem from './search/EducationSearchItem';
@@ -69,7 +72,7 @@ const EducationFacilitySearch = ({ onChange }) => {
 
   const checkInput = input => {
     const searchInput = parseInt(input, 10);
-    if (isNaN(searchInput)) {
+    if (Number.isNaN(searchInput)) {
       return getFacilities(input);
     }
     return getFacilitiesByCode(input);
@@ -109,5 +112,9 @@ function mapStateToProps(state) {
     usersLocation: state.askVA.searchLocationInput,
   };
 }
+
+EducationFacilitySearch.propTypes = {
+  onChange: PropTypes.func,
+};
 
 export default connect(mapStateToProps)(EducationFacilitySearch);

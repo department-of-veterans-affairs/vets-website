@@ -47,7 +47,7 @@ describe('Secondary Upload Sources', () => {
         },
       ];
 
-      const result = uiSchema['ui:confirmationField']({
+      const result = uiSchema.secondaryUploadSources0['ui:confirmationField']({
         formData: testData,
       });
 

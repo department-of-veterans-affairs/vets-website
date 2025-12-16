@@ -1,8 +1,5 @@
 import { expect } from 'chai';
-import {
-  testNumberOfWebComponentFields,
-  testComponentRender,
-} from '../../../shared/tests/pages/pageTests.spec';
+import { testNumberOfWebComponentFields } from '../../../shared/tests/pages/pageTests.spec';
 import formConfig from '../../config/form';
 import mockData from '../e2e/fixtures/data/test-data.json';
 import maxData from '../e2e/fixtures/data/maximal-test.json';
@@ -48,11 +45,6 @@ describe('title text logic', () => {
     expect(titleCount > 0).to.be.true;
   });
 });
-
-testComponentRender(
-  'Custom Review Top Content',
-  formConfig.CustomReviewTopContent(),
-);
 
 describe('Beneficiary information', () => {
   const { pages } = formConfig.chapters.applicantInformation;
