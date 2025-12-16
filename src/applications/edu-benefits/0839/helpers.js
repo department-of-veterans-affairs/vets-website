@@ -161,18 +161,25 @@ export const additionalInstitutionDetailsArrayOptions = {
         ? 'Review your additional locations'
         : 'Review your additional location';
     },
-    summaryDescriptionWithoutItems: (
-      <>
-        <h3 className="vads-u-margin-top--0">
-          You can add more locations to this agreement
-        </h3>
-        <p>
-          If you have any more campuses or additional locations to add to this
-          agreement, you can do so now. You will need a facility code for each
-          location you would like to add.
-        </p>
-      </>
-    ),
+    summaryDescriptionWithoutItems: props => {
+      const isWithdraw =
+        props?.formData?.agreementType === 'withdrawFromYellowRibbonProgram';
+
+      const header = isWithdraw
+        ? 'You can withdraw more locations from this agreement'
+        : 'You can add more locations to this agreement';
+
+      const body = isWithdraw
+        ? 'If you have any more campuses or additional locations to withdraw from this agreement, you can do so now. You will need a facility code for each location you would like to withdraw.'
+        : 'If you have any more campuses or additional locations to add to this agreement, you can do so now. You will need a facility code for each location you would like to add.';
+
+      return (
+        <>
+          <h3 className="vads-u-margin-top--0">{header}</h3>
+          <p>{body}</p>
+        </>
+      );
+    },
   },
 };
 

@@ -19,6 +19,7 @@ import {
   additionalInstitutionDetailsSummary,
   additionalInstitutionDetailsItem,
   additionalInstitutionDetailsItemWithdrawal,
+  additionalInstitutionDetailsSummaryWithdrawal,
   yellowRibbonProgramRequest,
   eligibleIndividualsSupported,
   yellowRibbonProgramRequestSummary,
@@ -146,6 +147,7 @@ const formConfig = {
     additionalInstitutionDetailsChapter: {
       title: 'Additional locations',
       pages: {
+        // ADD FLOW
         ...arrayBuilderPages(
           additionalInstitutionDetailsArrayOptions,
           pageBuilder => ({
@@ -154,18 +156,10 @@ const formConfig = {
               title: 'Additional institution details',
               uiSchema: additionalInstitutionDetailsSummary.uiSchema,
               schema: additionalInstitutionDetailsSummary.schema,
+              depends: formData =>
+                formData?.agreementType !== 'withdrawFromYellowRibbonProgram',
             }),
             additionalInstitutionDetailsItem: pageBuilder.itemPage({
-              path: 'additional-institution-details-withdrawal/:index',
-              title:
-                "Enter the VA facility code for the additional location you'd like to withdraw",
-              showPagePerItem: true,
-              uiSchema: additionalInstitutionDetailsItemWithdrawal.uiSchema,
-              schema: additionalInstitutionDetailsItemWithdrawal.schema,
-              depends: formData =>
-                formData?.agreementType === 'withdrawFromYellowRibbonProgram',
-            }),
-            additionalInstitutionDetailsItemWithdrawal: pageBuilder.itemPage({
               path: 'additional-institution-details/:index',
               title:
                 "Enter the VA facility code for the additional location you'd like to add",
@@ -177,8 +171,37 @@ const formConfig = {
             }),
           }),
         ),
+
+        // WITHDRAW FLOW
+        ...arrayBuilderPages(
+          additionalInstitutionDetailsArrayOptions,
+          pageBuilder => ({
+            additionalInstitutionDetailsSummaryWithdrawal: pageBuilder.summaryPage(
+              {
+                path: 'additional-institution-details-withdrawal',
+                title: 'Additional institution details',
+                uiSchema:
+                  additionalInstitutionDetailsSummaryWithdrawal.uiSchema,
+                schema: additionalInstitutionDetailsSummaryWithdrawal.schema,
+                depends: formData =>
+                  formData?.agreementType === 'withdrawFromYellowRibbonProgram',
+              },
+            ),
+            additionalInstitutionDetailsItemWithdrawal: pageBuilder.itemPage({
+              path: 'additional-institution-details-withdrawal/:index',
+              title:
+                "Enter the VA facility code for the additional location you'd like to withdraw",
+              showPagePerItem: true,
+              uiSchema: additionalInstitutionDetailsItemWithdrawal.uiSchema,
+              schema: additionalInstitutionDetailsItemWithdrawal.schema,
+              depends: formData =>
+                formData?.agreementType === 'withdrawFromYellowRibbonProgram',
+            }),
+          }),
+        ),
       },
     },
+
     yellowRibbonProgramRequestChapter: {
       title: 'Yellow Ribbon Program contributions',
       pages: {

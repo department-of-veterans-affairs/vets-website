@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import { renderToStaticMarkup } from 'react-dom/server';
 import {
   validateInitials,
   formatAddress,
@@ -11,6 +12,7 @@ import {
   getAdditionalContactTitle,
   capitalizeFirstLetter,
   matchYearPattern,
+  additionalInstitutionDetailsArrayOptions,
 } from '../helpers';
 
 describe('0839 Helpers', () => {
@@ -273,6 +275,115 @@ describe('0839 Helpers', () => {
     });
   });
 
+  describe('additionalInstitutionDetailsArrayOptions', () => {
+    it('has expected base configuration', () => {
+      expect(additionalInstitutionDetailsArrayOptions.arrayPath).to.equal(
+        'additionalInstitutionDetails',
+      );
+      expect(additionalInstitutionDetailsArrayOptions.nounSingular).to.equal(
+        'location',
+      );
+      expect(additionalInstitutionDetailsArrayOptions.nounPlural).to.equal(
+        'locations',
+      );
+      expect(additionalInstitutionDetailsArrayOptions.required).to.equal(false);
+      expect(additionalInstitutionDetailsArrayOptions.maxItems).to.equal(10);
+    });
+
+    describe('isItemIncomplete', () => {
+      it('returns true when facilityCode is missing', () => {
+        expect(additionalInstitutionDetailsArrayOptions.isItemIncomplete({})).to
+          .be.true;
+        expect(
+          additionalInstitutionDetailsArrayOptions.isItemIncomplete({
+            facilityCode: '',
+          }),
+        ).to.be.true;
+        expect(additionalInstitutionDetailsArrayOptions.isItemIncomplete(null))
+          .to.be.true;
+      });
+
+      it('returns false when facilityCode is present', () => {
+        expect(
+          additionalInstitutionDetailsArrayOptions.isItemIncomplete({
+            facilityCode: '12345678',
+          }),
+        ).to.be.false;
+      });
+    });
+
+    describe('text.summaryTitle', () => {
+      it('returns plural title when count is > 1', () => {
+        const props = {
+          formData: {
+            additionalInstitutionDetails: [
+              { facilityCode: '12345678' },
+              { facilityCode: '87654321' },
+            ],
+          },
+        };
+
+        expect(
+          additionalInstitutionDetailsArrayOptions.text.summaryTitle(props),
+        ).to.equal('Review your additional locations');
+      });
+    });
+
+    describe('text.summaryDescriptionWithoutItems', () => {
+      it('renders ADD copy when agreementType is not withdraw', () => {
+        const props = {
+          formData: {
+            agreementType: 'addToYellowRibbonProgram',
+          },
+        };
+
+        const node = additionalInstitutionDetailsArrayOptions.text.summaryDescriptionWithoutItems(
+          props,
+        );
+        const html = renderToStaticMarkup(node);
+
+        expect(html).to.include('You can add more locations to this agreement');
+        expect(html).to.include(
+          'If you have any more campuses or additional locations to add to this agreement',
+        );
+        expect(html).to.include(
+          'You will need a facility code for each location you would like to add.',
+        );
+      });
+
+      it('renders WITHDRAW copy when agreementType is withdraw', () => {
+        const props = {
+          formData: {
+            agreementType: 'withdrawFromYellowRibbonProgram',
+          },
+        };
+
+        const node = additionalInstitutionDetailsArrayOptions.text.summaryDescriptionWithoutItems(
+          props,
+        );
+        const html = renderToStaticMarkup(node);
+
+        expect(html).to.include(
+          'You can withdraw more locations from this agreement',
+        );
+        expect(html).to.include(
+          'If you have any more campuses or additional locations to withdraw from this agreement',
+        );
+        expect(html).to.include(
+          'You will need a facility code for each location you would like to withdraw.',
+        );
+      });
+
+      it('defaults to ADD copy when agreementType is missing', () => {
+        const node = additionalInstitutionDetailsArrayOptions.text.summaryDescriptionWithoutItems(
+          { formData: {} },
+        );
+        const html = renderToStaticMarkup(node);
+
+        expect(html).to.include('You can add more locations to this agreement');
+      });
+    });
+  });
   describe('createBannerMessage', () => {
     const mainInstitution = {
       facilityCode: '12345678',

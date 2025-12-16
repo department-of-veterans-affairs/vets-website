@@ -12,6 +12,7 @@ import * as yellowRibbonProgramRequestSummary from './yellowRibbonProgramRequest
 import * as pointsOfContanct from './pointsOfContanct';
 import * as additionalPointsOfContact from './additionalPointsOfContact';
 import * as additionalInstitutionDetailsItemWithdrawal from './additionalInstitutionDetailsItemWithdrawal';
+import * as additionalInstitutionDetailsSummaryWithdrawal from './additionalInstitutionDetailsSummaryWithdrawal';
 
 export {
   authorizedOfficial,
@@ -28,4 +29,5 @@ export {
   pointsOfContanct,
   additionalPointsOfContact,
   additionalInstitutionDetailsItemWithdrawal,
+  additionalInstitutionDetailsSummaryWithdrawal,
 };
