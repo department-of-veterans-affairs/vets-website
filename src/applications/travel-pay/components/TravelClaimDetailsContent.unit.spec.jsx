@@ -285,6 +285,48 @@ describe('TravelClaimDetailsContent', () => {
 
       expect(getAppointmentDataByDateTimeStub.called).to.be.false;
     });
+
+    it('should not dispatch getAppointmentDataByDateTime when complexClaimsEnabled feature flag is false', () => {
+      const initialState = {
+        featureToggles: {
+          /* eslint-disable camelcase */
+          travel_pay_enable_complex_claims: false,
+          /* eslint-enable camelcase */
+        },
+        travelPay: {
+          claimDetails: {
+            data: {
+              '123': {
+                id: '123',
+                claimNumber: 'TC123',
+                claimStatus: 'Claim submitted',
+                appointmentDate: '2025-12-15T10:00:00Z',
+                facilityName: 'Test Facility',
+                createdOn: '2025-12-15T10:00:00Z',
+                modifiedOn: '2025-12-15T10:00:00Z',
+                appointment: {
+                  appointmentDateTime: '2025-12-15T10:00:00Z',
+                },
+              },
+            },
+            error: null,
+          },
+          appointment: {
+            data: null,
+            isLoading: false,
+            error: null,
+          },
+        },
+      };
+
+      renderWithStoreAndRouter(<TravelClaimDetailsContent />, {
+        initialState,
+        path: '/claim/123',
+        reducers: reducer,
+      });
+
+      expect(getAppointmentDataByDateTimeStub.called).to.be.false;
+    });
   });
 
   describe('help text and additional content', () => {
