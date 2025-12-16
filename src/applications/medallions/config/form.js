@@ -32,12 +32,17 @@ import typeOfRequest from '../pages/typeOfRequest';
 import replacementMedallionReason from '../pages/replacementMedallionReason';
 import typeOfMedallion from '../pages/typeOfMedallion';
 import medallionSize from '../pages/medallionSize';
+import EditPhone from '../pages/editPhone';
+import EditEmail from '../pages/editEmail';
+import ApplicantContactInfoLoggedIn from '../pages/applicantContactInfoLoggedIn';
+import applicantContactInfoLoggedInEdit from '../pages/applicantContactInfoLoggedInEdit';
 import {
   ApplicantNameHeader,
   ApplicantNameNote,
   isUserSignedIn,
 } from '../utils/helpers';
 import { servicePeriodsPages } from '../pages/servicePeriodsPages';
+import prefillTransformer from './prefill-transformer';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -68,6 +73,8 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for Memorials benefits.',
   },
+  verifyRequiredPrefill: false,
+  prefillTransformer,
   title: TITLE,
   subTitle: SUBTITLE,
   getHelp: GetFormHelp,
@@ -131,7 +138,55 @@ const formConfig = {
           depends: formData =>
             ['familyMember', 'personalRep', 'other'].includes(
               formData.relationToVetRadio,
-            ),
+            ) && !isUserSignedIn(formData),
+        },
+        applicantContactInfoLoggedInEdit: {
+          path: 'applicant-contact-info-logged-in-edit',
+          title: 'Your contact information',
+          uiSchema: applicantContactInfoLoggedInEdit.uiSchema,
+          schema: applicantContactInfoLoggedInEdit.schema,
+          depends: formData =>
+            formData?.['view:loggedInEditContactInfo'] === true,
+        },
+        applicantContactInfoLoggedIn: {
+          title: 'Your contact information',
+          path: 'applicant-contact-info-logged-in',
+          depends: formData =>
+            ['familyMember', 'personalRep', 'other'].includes(
+              formData.relationToVetRadio,
+            ) && isUserSignedIn(formData),
+          CustomPage: ApplicantContactInfoLoggedIn,
+          CustomPageReview: ApplicantContactInfoLoggedIn,
+          // CustomPageReview: null,
+          uiSchema: {},
+          schema: {
+            type: 'object',
+            properties: {},
+          },
+        },
+        editPhone: {
+          title: 'Edit phone number',
+          path: 'applicant-contact-details-logged-in/edit-phone',
+          depends: () => false, // accessed directly from contact details page
+          CustomPage: EditPhone,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: {
+            type: 'object',
+            properties: {},
+          },
+        },
+        editEmail: {
+          title: 'Edit email address',
+          path: 'applicant-contact-details-logged-in/edit-email',
+          depends: () => false, // accessed directly from contact details page
+          CustomPage: EditEmail,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: {
+            type: 'object',
+            properties: {},
+          },
         },
         applicantContactInfo2: {
           path: 'applicant-contact-info-2',

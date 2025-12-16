@@ -1,3 +1,5 @@
+import React from 'react';
+
 import {
   emailUI,
   phoneUI,
@@ -8,7 +10,17 @@ import {
 export default {
   uiSchema: {
     ...titleUI(
-      'Your contact information',
+      () => (
+        <>
+          <va-alert status="info" slim class="vads-u-margin-bottom--2">
+            <p className="vads-u-margin-y--0 vads-u-font-weight--normal">
+              Any changes you make will also be reflected on your VA.gov
+              profile.
+            </p>
+          </va-alert>
+          <h3>Your contact information</h3>
+        </>
+      ),
       'We’ll contact you at the email address and phone number you provide here.',
     ),
     email: {
