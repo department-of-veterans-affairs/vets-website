@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 
 import { scrollToTop } from 'platform/utilities/scroll';
 import { waitForRenderThenFocus } from 'platform/utilities/ui';
+import { Toggler } from 'platform/utilities/feature-toggles';
 import GetFormHelp from '../components/GetFormHelp';
 
 import manifest from '../manifest.json';
@@ -37,7 +38,7 @@ export default function ConfirmationPage() {
 
   return (
     <>
-      <va-alert ref={alertRef} status="success" class="vads-u-margin-bottom--4">
+      <va-alert ref={alertRef} status="success">
         <h2 className="vads-u-font-size--h3">
           Form submission started on {dateSubmitted}
         </h2>
@@ -51,25 +52,50 @@ export default function ConfirmationPage() {
           text="Check the status of your form on My VA"
         />
       </va-alert>
-      <va-summary-box>
-        <h3 slot="headline">Your submission information</h3>
-        <p>
-          <strong>Your name</strong>
-        </p>
-        <p className="dd-privacy-hidden" data-dd-action-name="Veteran's name">
-          {veteranFirstName} {veteranLastName}
-        </p>
-        <p>
-          <strong>Date submitted</strong>
-        </p>
-        <p data-testid="dateSubmitted">{dateSubmitted}</p>
-        <va-button
-          text="Print this page for your records"
-          onClick={() => {
-            window.print();
-          }}
-        />
-      </va-summary-box>
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.dependentsEnableFormViewerMFE}>
+        <Toggler.Enabled>
+          <section>
+            <h2 className="vads-u-margin-top--3 vads-u-margin-bottom--2">
+              Save a copy of your form
+            </h2>
+            <span>
+              You can open, download, or print a copy of your submitted form
+              now.
+            </span>
+            <div className="vads-u-margin-top--1p5">
+              <va-link-action
+                text="Download or print the information you submitted (opens in a new tab)"
+                type="secondary"
+                class="form-renderer"
+              />
+            </div>
+          </section>
+        </Toggler.Enabled>
+        <Toggler.Disabled>
+          <va-summary-box class="vads-u-margin-top--4">
+            <h3 slot="headline">Your submission information</h3>
+            <p>
+              <strong>Your name</strong>
+            </p>
+            <p
+              className="dd-privacy-hidden"
+              data-dd-action-name="Veteran's name"
+            >
+              {veteranFirstName} {veteranLastName}
+            </p>
+            <p>
+              <strong>Date submitted</strong>
+            </p>
+            <p data-testid="dateSubmitted">{dateSubmitted}</p>
+            <va-button
+              text="Print this page for your records"
+              onClick={() => {
+                window.print();
+              }}
+            />
+          </va-summary-box>
+        </Toggler.Disabled>
+      </Toggler>
       <section>
         <h2>What to expect</h2>
         <va-process-list>
