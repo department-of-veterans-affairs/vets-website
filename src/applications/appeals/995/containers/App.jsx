@@ -81,6 +81,8 @@ export const App = ({
     subTaskBenefitType,
   );
 
+  useEffect(() => {});
+
   useEffect(
     () => {
       if (hasSupportedBenefitType) {
@@ -225,6 +227,8 @@ App.propTypes = {
 
 const mapStateToProps = state => ({
   accountUuid: state?.user?.profile?.accountUuid,
+  hasPrivateEvidence: state?.evidenceTracking?.hasPrivateEvidence,
+  hasVAEvidence: state?.evidenceTracking?.hasVAEvidence,
   inProgressFormId: state?.form?.loadedData?.metadata?.inProgressFormId,
   loggedIn: isLoggedIn(state),
   formData: state.form?.data || {},
@@ -234,6 +238,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
+  setEvidence: setHasEvidence,
   setFormData: setData,
   getContestableIssues: getContestableIssuesAction,
 };

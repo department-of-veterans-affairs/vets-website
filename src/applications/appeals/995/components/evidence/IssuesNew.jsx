@@ -118,8 +118,6 @@ const Issues = props => {
 
     const newData = { ...currentEvidenceData };
 
-    console.log('newData: ', newData);
-
     // Create new issues array based on the user interaction
     if (issueWasAlreadyChecked) {
       newData[name] = newData[name].filter(issue => issue !== checkedIssue);

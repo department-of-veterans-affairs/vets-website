@@ -273,7 +273,7 @@ const formConfig = {
         vaPrompt: {
           title: 'VA medical records prompt',
           path: EVIDENCE_VA_PROMPT_URL,
-          depends: !redesignActive,
+          depends: formData => !redesignActive(formData),
           CustomPage: VaPrompt,
           CustomPageReview: null,
           uiSchema: vaPrompt.uiSchema,
@@ -300,7 +300,7 @@ const formConfig = {
           uiSchema: privatePrompt.uiSchema,
           schema: privatePrompt.schema,
           scrollAndFocusTarget: focusRadioH3,
-          depends: !redesignActive,
+          depends: formData => !redesignActive(formData),
         },
         privateAuthorization: {
           title: 'Non-VA medical record authorization',

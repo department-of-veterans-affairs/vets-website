@@ -29,10 +29,6 @@ import {
   treatmentDateContent,
 } from '../../content/evidence/private';
 import { redesignActive } from '../../utils';
-import {
-  hasTreatmentBefore2005,
-  hasPrivateEvidenceRecords,
-} from '../../utils/form-data-retrieval';
 
 /**
  * This is how we determine whether all of the info for one
@@ -42,13 +38,19 @@ import {
  * @returns bool
  */
 const itemIsComplete = item => {
-  const { address, issuesPrivate, treatmentLocation } = item;
+  const { address, from, issuesPrivate, to, treatmentLocation } = item;
   const issuesComplete = issuesPrivate?.length;
   const { city, country, postalCode, state, street } = address;
   const addressIsComplete =
     address && city && country && postalCode && state && street;
+  const treatmentDatesComplete = from && to;
 
-  return addressIsComplete && issuesComplete && treatmentLocation;
+  return (
+    addressIsComplete &&
+    issuesComplete &&
+    treatmentDatesComplete &&
+    treatmentLocation
+  );
 };
 
 /**
