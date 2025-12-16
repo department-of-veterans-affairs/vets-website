@@ -228,10 +228,10 @@ export const updateFormDataAddress = (
   formData,
   path,
   index = null, // this is included in the path, but added as
-  keyMap = {},
+  newSchemaKeys = {},
 ) => {
   let updatedData = formData;
-  const schemaKeys = { ...schemaCrossXRef, ...keyMap };
+  const schemaKeys = { ...schemaCrossXRef, ...newSchemaKeys };
 
   /*
    * formData and oldFormData are not guaranteed to have the same shape; formData
@@ -298,7 +298,7 @@ export const updateFormDataAddress = (
  * }
  * ```
  * @param {Object} [options]
- * @param {Object} [options.keyMap] - Maps standard keys to custom keys (e.g., {street: 'addressLine1', postalCode: 'zipCode'})
+ * @param {Object} [options.newSchemaKeys] - Maps standard keys to custom keys (e.g., {street: 'addressLine1', postalCode: 'zipCode'})
  * @param {Object} [options.labels]
  * @param {string} [options.labels.militaryCheckbox]
  * @param {string} [options.labels.street]
@@ -312,7 +312,7 @@ export const updateFormDataAddress = (
  * @returns {UISchemaOptions}
  */
 export function addressUI(options = {}) {
-  const { keyMap = {} } = options;
+  const { newSchemaKeys = {} } = options;
   let cityMaxLength = 100;
   let stateMaxLength = 100;
 
@@ -719,14 +719,14 @@ export function addressUI(options = {}) {
       },
     };
   }
-  // If no keyMap, return as-is (backward compatibility)
-  if (Object.keys(keyMap).length === 0) {
+  // If no newSchemaKeys, return as-is (backward compatibility)
+  if (Object.keys(newSchemaKeys).length === 0) {
     return uiSchema;
   }
   // Apply key mapping
   const mappedSchema = {};
   Object.entries(uiSchema).forEach(([standardKey, fieldConfig]) => {
-    const mappedKey = keyMap[standardKey] || standardKey;
+    const mappedKey = newSchemaKeys[standardKey] || standardKey;
     if (!omit(standardKey) && !omit(mappedKey)) {
       mappedSchema[mappedKey] = fieldConfig;
     } else {
@@ -748,11 +748,11 @@ export function addressUI(options = {}) {
  * @param {{
  *  omit: string[]
  * }} [options]
- * @param {Object} [options.keyMap] - Maps standard keys to custom keys (e.g., {street: 'addressLine1', postalCode: 'zipCode'})
+ * @param {Object} [options.newSchemaKeys] - Maps standard keys to custom keys (e.g., {street: 'addressLine1', postalCode: 'zipCode'})
  * @returns {SchemaOptions}
  */
 export const addressSchema = options => {
-  const { keyMap = {}, omit = [] } = options;
+  const { newSchemaKeys = {}, omit = [] } = options;
   let schema = commonDefinitions.profileAddress;
 
   if (options?.omit) {
@@ -764,8 +764,8 @@ export const addressSchema = options => {
     };
   }
 
-  // If no keyMap provided, return standard schema
-  if (Object.keys(keyMap).length === 0) {
+  // If no newSchemaKeys provided, return standard schema
+  if (Object.keys(newSchemaKeys).length === 0) {
     return schema;
   }
 
@@ -774,7 +774,7 @@ export const addressSchema = options => {
 
   Object.entries(schema.properties).forEach(([standardKey, propertyConfig]) => {
     // Skip if field should be omitted
-    const mappedKey = keyMap[standardKey] || standardKey;
+    const mappedKey = newSchemaKeys[standardKey] || standardKey;
     if (omit.includes(standardKey) || omit.includes(mappedKey)) {
       return;
     }
