@@ -71,6 +71,22 @@ describe('Medical Records Download Page - Conditional Rendering', () => {
 
       cy.injectAxeThenAxeCheck();
     });
+
+    it('displays CCD download section for OH facilities', () => {
+      // VistaAndOHContent uses DownloadSection for OH facilities
+      cy.get('[data-testid="generateCcdButtonXmlOH"]').should('exist');
+      cy.get('[data-testid="generateCcdButtonPdfOH"]').should('exist');
+      cy.get('[data-testid="generateCcdButtonHtmlOH"]').should('exist');
+
+      cy.injectAxeThenAxeCheck();
+    });
+
+    it('displays facility names in CCD section headings', () => {
+      // VistaAndOHContent shows facility names using formatFacilityList
+      cy.contains('p', 'CCD: medical records from').should('exist');
+
+      cy.injectAxeThenAxeCheck();
+    });
   });
 
   describe('if (hasOHOnly) - User with only Oracle Health facilities', () => {
@@ -216,6 +232,75 @@ describe('Medical Records Download Page - Feature Flag Conditions', () => {
       cy.injectAxeThenAxeCheck();
     });
   });
+
+  describe('ccdExtendedFileTypeFlag behavior for OH Only users', () => {
+    it('shows extended file types (PDF, HTML) when flag is enabled', () => {
+      site.login(ohOnlyUser, false);
+      site.mockFeatureToggles({
+        isCcdExtendedFileTypesEnabled: true,
+      });
+      DownloadReportsPage.goToReportsPage();
+
+      // OH-only users don't have accordion, buttons are directly visible
+      cy.get('[data-testid="generateCcdButtonXmlOH"]').should('exist');
+      cy.get('[data-testid="generateCcdButtonPdfOH"]').should('exist');
+      cy.get('[data-testid="generateCcdButtonHtmlOH"]').should('exist');
+
+      cy.injectAxeThenAxeCheck();
+    });
+
+    it('hides extended file types when flag is disabled for OH Only users', () => {
+      site.login(ohOnlyUser, false);
+      site.mockFeatureToggles({
+        isCcdExtendedFileTypesEnabled: false,
+      });
+      DownloadReportsPage.goToReportsPage();
+
+      // With flag disabled, should NOT see PDF and HTML buttons
+      cy.get('[data-testid="generateCcdButtonPdfOH"]').should('not.exist');
+      cy.get('[data-testid="generateCcdButtonHtmlOH"]').should('not.exist');
+
+      // But XML should still exist
+      cy.get('[data-testid="generateCcdButtonXmlOH"]').should('exist');
+
+      cy.injectAxeThenAxeCheck();
+    });
+  });
+
+  describe('ccdExtendedFileTypeFlag behavior for Both sources users', () => {
+    it('shows extended file types with facility sections when flag is enabled', () => {
+      site.login(bothSourcesUser, false);
+      site.mockFeatureToggles({
+        isCcdExtendedFileTypesEnabled: true,
+      });
+      DownloadReportsPage.goToReportsPage();
+
+      // Both VistA and OH download sections should be visible
+      cy.get('[data-testid="generateCcdButtonXmlVista"]').should('exist');
+      cy.get('[data-testid="generateCcdButtonPdfVista"]').should('exist');
+      cy.get('[data-testid="generateCcdButtonHtmlVista"]').should('exist');
+      cy.get('[data-testid="generateCcdButtonXmlOH"]').should('exist');
+      cy.get('[data-testid="generateCcdButtonPdfOH"]').should('exist');
+      cy.get('[data-testid="generateCcdButtonHtmlOH"]').should('exist');
+
+      cy.injectAxeThenAxeCheck();
+    });
+
+    it('hides extended file types when flag is disabled for Both sources users', () => {
+      site.login(bothSourcesUser, false);
+      site.mockFeatureToggles({
+        isCcdExtendedFileTypesEnabled: false,
+      });
+      DownloadReportsPage.goToReportsPage();
+
+      // With flag disabled, should only show single XML download (no VistA/OH separation)
+      cy.get('[data-testid="generateCcdButtonXml"]').should('exist');
+      cy.get('[data-testid="generateCcdButtonXmlVista"]').should('not.exist');
+      cy.get('[data-testid="generateCcdButtonXmlOH"]').should('not.exist');
+
+      cy.injectAxeThenAxeCheck();
+    });
+  });
 });
 
 describe('Medical Records Download Page - URL Query Params', () => {
@@ -244,6 +329,71 @@ describe('Medical Records Download Page - URL Query Params', () => {
 
       // Without the query param, accordion should exist but not be auto-expanded
       cy.get('[data-testid="selfEnteredAccordionItem"]').should('exist');
+
+      cy.injectAxeThenAxeCheck();
+    });
+  });
+});
+
+describe('Medical Records Download Page - Self-Entered Health Information', () => {
+  const site = new MedicalRecordsSite();
+
+  describe('Self-entered download for VistA users (accordion pattern)', () => {
+    beforeEach(() => {
+      site.login(vistaOnlyUser, false);
+      site.mockFeatureToggles({
+        isCcdExtendedFileTypesEnabled: true,
+      });
+      DownloadReportsPage.goToReportsPage();
+    });
+
+    it('displays self-entered accordion item', () => {
+      cy.get('[data-testid="selfEnteredAccordionItem"]').should('exist');
+
+      cy.injectAxeThenAxeCheck();
+    });
+
+    it('displays self-entered download button inside accordion', () => {
+      // Click to expand accordion
+      cy.get('[data-testid="selfEnteredAccordionItem"]')
+        .shadow()
+        .find('button[aria-controls="content"]')
+        .click({ force: true });
+
+      cy.get('[data-testid="downloadSelfEnteredButton"]').should('exist');
+
+      cy.injectAxeThenAxeCheck();
+    });
+  });
+
+  describe('Self-entered download for Both sources users', () => {
+    beforeEach(() => {
+      site.login(bothSourcesUser, false);
+      site.mockFeatureToggles({
+        isCcdExtendedFileTypesEnabled: true,
+      });
+      DownloadReportsPage.goToReportsPage();
+    });
+
+    it('displays self-entered section heading', () => {
+      cy.contains('h2', 'Download your self-entered health information').should(
+        'exist',
+      );
+
+      cy.injectAxeThenAxeCheck();
+    });
+
+    it('displays self-entered download button (no accordion)', () => {
+      // Both sources users have self-entered section without accordion
+      cy.get('[data-testid="downloadSelfEnteredButton"]').should('exist');
+
+      cy.injectAxeThenAxeCheck();
+    });
+
+    it('displays self-entered description text', () => {
+      cy.contains(
+        'This report includes all the health information you entered yourself',
+      ).should('exist');
 
       cy.injectAxeThenAxeCheck();
     });
