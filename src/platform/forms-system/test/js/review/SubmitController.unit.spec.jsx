@@ -893,4 +893,341 @@ describe('Schemaform review: SubmitController', () => {
     expect(router.push.calledWith('page-2')).to.be.true;
     tree.unmount();
   });
+
+  describe('getNewDisabilitiesValidationError', () => {
+    it('should return error when view:claimingNew is true and newDisabilities is empty', () => {
+      const form = createForm({
+        data: {
+          privacyAgreementAccepted: true,
+          'view:claimType': {
+            'view:claimingNew': true,
+          },
+          newDisabilities: [],
+        },
+      });
+      const formConfig = createFormConfig();
+      const pageList = createPageList();
+      const user = createUserLogIn();
+      const setPreSubmit = sinon.spy();
+      const setSubmission = sinon.spy();
+      const submitForm = sinon.spy();
+      const setFormErrors = sinon.spy();
+
+      const store = createStore({
+        form,
+      });
+
+      const tree = render(
+        <Provider store={store}>
+          <SubmitController
+            form={form}
+            formConfig={formConfig}
+            pageList={pageList}
+            route={{ formConfig, pageList }}
+            setPreSubmit={setPreSubmit}
+            setSubmission={setSubmission}
+            setFormErrors={setFormErrors}
+            submitForm={submitForm}
+            trackingPrefix={formConfig.trackingPrefix}
+            user={user}
+          />
+        </Provider>,
+      );
+
+      const submitButton = tree.getByText('Submit application');
+      fireEvent.click(submitButton);
+
+      expect(setFormErrors.called).to.be.true;
+      const errorCall = setFormErrors.getCall(0);
+      const customErrors = errorCall.args[0].rawErrors.filter(
+        e => e.property === 'instance.newDisabilities',
+      );
+      expect(customErrors.length).to.equal(1);
+      expect(customErrors[0].name).to.equal('minItems');
+      expect(setSubmission.calledWith('status', 'validationError')).to.be.true;
+      tree.unmount();
+    });
+
+    it('should return error when view:claimingNew is true and newDisabilities is missing', () => {
+      const form = createForm({
+        data: {
+          privacyAgreementAccepted: true,
+          'view:claimType': {
+            'view:claimingNew': true,
+          },
+        },
+      });
+      const formConfig = createFormConfig();
+      const pageList = createPageList();
+      const user = createUserLogIn();
+      const setPreSubmit = sinon.spy();
+      const setSubmission = sinon.spy();
+      const submitForm = sinon.spy();
+      const setFormErrors = sinon.spy();
+
+      const store = createStore({
+        form,
+      });
+
+      const tree = render(
+        <Provider store={store}>
+          <SubmitController
+            form={form}
+            formConfig={formConfig}
+            pageList={pageList}
+            route={{ formConfig, pageList }}
+            setPreSubmit={setPreSubmit}
+            setSubmission={setSubmission}
+            setFormErrors={setFormErrors}
+            submitForm={submitForm}
+            trackingPrefix={formConfig.trackingPrefix}
+            user={user}
+          />
+        </Provider>,
+      );
+
+      const submitButton = tree.getByText('Submit application');
+      fireEvent.click(submitButton);
+
+      expect(setFormErrors.called).to.be.true;
+      const errorCall = setFormErrors.getCall(0);
+      const customErrors = errorCall.args[0].rawErrors.filter(
+        e => e.property === 'instance.newDisabilities',
+      );
+      expect(customErrors.length).to.equal(1);
+      expect(setSubmission.calledWith('status', 'validationError')).to.be.true;
+      tree.unmount();
+    });
+
+    it('should not return error when view:claimingNew is false', () => {
+      const form = createForm({
+        data: {
+          privacyAgreementAccepted: true,
+          'view:claimType': {
+            'view:claimingNew': false,
+          },
+          newDisabilities: [],
+        },
+      });
+      const formConfig = createFormConfig();
+      const pageList = createPageList();
+      const user = createUserLogIn();
+      const setPreSubmit = sinon.spy();
+      const setSubmission = sinon.spy();
+      const submitForm = sinon.spy();
+      const setFormErrors = sinon.spy();
+
+      const store = createStore({
+        form,
+      });
+
+      const tree = render(
+        <Provider store={store}>
+          <SubmitController
+            form={form}
+            formConfig={formConfig}
+            pageList={pageList}
+            route={{ formConfig, pageList }}
+            setPreSubmit={setPreSubmit}
+            setSubmission={setSubmission}
+            setFormErrors={setFormErrors}
+            submitForm={submitForm}
+            trackingPrefix={formConfig.trackingPrefix}
+            user={user}
+          />
+        </Provider>,
+      );
+
+      const submitButton = tree.getByText('Submit application');
+      fireEvent.click(submitButton);
+
+      const errorCall = setFormErrors.getCall(0);
+      if (errorCall) {
+        const customErrors = errorCall.args[0].rawErrors.filter(
+          e => e.property === 'instance.newDisabilities',
+        );
+        expect(customErrors.length).to.equal(0);
+      }
+      tree.unmount();
+    });
+
+    it('should not return error when view:claimingNew is true and newDisabilities has items', () => {
+      const form = createForm({
+        data: {
+          privacyAgreementAccepted: true,
+          'view:claimType': {
+            'view:claimingNew': true,
+          },
+          newDisabilities: [{ condition: 'Test condition' }],
+        },
+      });
+      const formConfig = createFormConfig();
+      const pageList = createPageList();
+      const user = createUserLogIn();
+      const setPreSubmit = sinon.spy();
+      const setSubmission = sinon.spy();
+      const submitForm = sinon.spy();
+      const setFormErrors = sinon.spy();
+
+      const store = createStore({
+        form,
+      });
+
+      const tree = render(
+        <Provider store={store}>
+          <SubmitController
+            form={form}
+            formConfig={formConfig}
+            pageList={pageList}
+            route={{ formConfig, pageList }}
+            setPreSubmit={setPreSubmit}
+            setSubmission={setSubmission}
+            setFormErrors={setFormErrors}
+            submitForm={submitForm}
+            trackingPrefix={formConfig.trackingPrefix}
+            user={user}
+          />
+        </Provider>,
+      );
+
+      const submitButton = tree.getByText('Submit application');
+      fireEvent.click(submitButton);
+
+      const errorCall = setFormErrors.getCall(0);
+      if (errorCall) {
+        const customErrors = errorCall.args[0].rawErrors.filter(
+          e => e.property === 'instance.newDisabilities',
+        );
+        expect(customErrors.length).to.equal(0);
+      }
+      tree.unmount();
+    });
+  });
+
+  describe('checkAndClearStaleErrors', () => {
+    it('should clear errors when returning to review page after fixing them', () => {
+      const form = createForm({
+        data: {
+          privacyAgreementAccepted: true,
+          'view:claimType': {
+            'view:claimingNew': true,
+          },
+          newDisabilities: [],
+        },
+        formErrors: {
+          errors: [
+            {
+              name: 'newDisabilities',
+              message: 'Error',
+              chapterKey: 'disabilities',
+              pageKey: 'claimType',
+            },
+          ],
+          rawErrors: [
+            {
+              property: 'instance.newDisabilities',
+              message: 'does not meet minimum length of 1',
+              name: 'minItems',
+            },
+          ],
+        },
+        submission: {
+          status: 'validationError',
+          hasAttemptedSubmit: true,
+        },
+      });
+      const formConfig = createFormConfig();
+      const pageList = createPageList();
+      const user = createUserLogIn();
+      const router = {
+        location: { pathname: '/review-and-submit' },
+        push: sinon.spy(),
+      };
+      const setPreSubmit = sinon.spy();
+      const setSubmission = sinon.spy();
+      const submitForm = sinon.spy();
+      const setFormErrors = sinon.spy();
+
+      const store = createStore({
+        form,
+        router,
+      });
+
+      const tree = render(
+        <Provider store={store}>
+          <SubmitController
+            form={form}
+            formConfig={formConfig}
+            pageList={pageList}
+            route={{ formConfig, pageList }}
+            router={router}
+            setPreSubmit={setPreSubmit}
+            setSubmission={setSubmission}
+            setFormErrors={setFormErrors}
+            submitForm={submitForm}
+            trackingPrefix={formConfig.trackingPrefix}
+            user={user}
+          />
+        </Provider>,
+      );
+
+      // Simulate fixing the error by updating form data
+      const fixedForm = createForm({
+        data: {
+          privacyAgreementAccepted: true,
+          'view:claimType': {
+            'view:claimingNew': true,
+          },
+          newDisabilities: [{ condition: 'Test condition' }],
+        },
+        formErrors: {
+          errors: [
+            {
+              name: 'newDisabilities',
+              message: 'Error',
+              chapterKey: 'disabilities',
+              pageKey: 'claimType',
+            },
+          ],
+          rawErrors: [
+            {
+              property: 'instance.newDisabilities',
+              message: 'does not meet minimum length of 1',
+              name: 'minItems',
+            },
+          ],
+        },
+        submission: {
+          status: 'validationError',
+          hasAttemptedSubmit: true,
+        },
+      });
+
+      tree.rerender(
+        <Provider store={store}>
+          <SubmitController
+            form={fixedForm}
+            formConfig={formConfig}
+            pageList={pageList}
+            route={{ formConfig, pageList }}
+            router={router}
+            setPreSubmit={setPreSubmit}
+            setSubmission={setSubmission}
+            setFormErrors={setFormErrors}
+            submitForm={submitForm}
+            trackingPrefix={formConfig.trackingPrefix}
+            user={user}
+          />
+        </Provider>,
+      );
+
+      // Errors should be cleared
+      expect(setFormErrors.called).to.be.true;
+      const clearCall = setFormErrors
+        .getCalls()
+        .find(call => call.args[0].errors.length === 0);
+      expect(clearCall).to.exist;
+      tree.unmount();
+    });
+  });
 });

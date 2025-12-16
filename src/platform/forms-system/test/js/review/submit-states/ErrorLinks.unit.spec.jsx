@@ -12,12 +12,29 @@ describe('<ErrorLinks />', () => {
     const props = {
       appType: 'test',
       testId: '1234',
-      errors: [],
+      errors: [
+        {
+          name: 'test',
+          message: 'Test error',
+          chapterKey: 'Test',
+        },
+      ],
     };
     const view = render(<ErrorLinks {...props} />);
     expect(view.getAllByRole('heading', { name: /missing some info/ })).to
       .exist;
     expect(view.getByText(/information before you can submit/)).to.exist;
+  });
+
+  it('does not render when there are no errors and no previous errors', () => {
+    const props = {
+      appType: 'test',
+      testId: '1234',
+      errors: [],
+    };
+    const view = render(<ErrorLinks {...props} />);
+    expect(view.queryByRole('heading', { name: /missing some info/ })).to.be
+      .null;
   });
 
   it('has the expected list of errors', () => {
@@ -67,6 +84,9 @@ describe('<ErrorLinks />', () => {
 
     expect(editSpy.called).to.be.true;
     expect(scrollSpy.called).to.be.true;
+
+    editSpy.restore();
+    scrollSpy.restore();
   });
 
   it('changes the alert message once the errors are cleared', () => {
@@ -91,5 +111,125 @@ describe('<ErrorLinks />', () => {
     view.rerender(<ErrorLinks {...props} errors={[]} />);
     expect(view.getByText(/Thank you for completing/)).to.exist;
     expect(view.getByText(/Try submitting your test again/)).to.exist;
+  });
+
+  it('redirects to claim-type page when clicking newDisabilities error link', () => {
+    const editSpy = sinon.spy(utilities, 'openAndEditChapter');
+    const scrollSpy = sinon.spy(utilities, 'scrollToReviewElement');
+    const router = { push: sinon.spy() };
+    const formConfig = {
+      urlPrefix: '/',
+      chapters: {
+        disabilities: {
+          pages: {
+            claimType: {
+              path: 'claim-type',
+            },
+          },
+        },
+      },
+    };
+
+    const props = {
+      appType: 'test',
+      testId: '1234',
+      router,
+      formConfig,
+      errors: [
+        {
+          name: 'newDisabilities',
+          message: 'Reason for claim',
+          chapterKey: 'disabilities',
+          pageKey: 'claimType',
+        },
+      ],
+    };
+
+    const view = render(<ErrorLinks {...props} />);
+    const link = view.getByRole('link', { name: /Reason for claim/ });
+    userEvent.click(link);
+
+    expect(router.push.calledWith('/claim-type')).to.be.true;
+    expect(editSpy.called).to.be.false;
+    expect(scrollSpy.called).to.be.false;
+
+    editSpy.restore();
+    scrollSpy.restore();
+  });
+
+  it('redirects to claim-type page when clicking condition error link within newDisabilities', () => {
+    const editSpy = sinon.spy(utilities, 'openAndEditChapter');
+    const scrollSpy = sinon.spy(utilities, 'scrollToReviewElement');
+    const router = { push: sinon.spy() };
+    const formConfig = {
+      urlPrefix: '/',
+      chapters: {
+        disabilities: {
+          pages: {
+            claimType: {
+              path: 'claim-type',
+            },
+          },
+        },
+      },
+    };
+
+    const props = {
+      appType: 'test',
+      testId: '1234',
+      router,
+      formConfig,
+      errors: [
+        {
+          name: 'condition',
+          message: 'New conditions',
+          chapterKey: 'disabilities',
+          pageKey: 'claimType',
+        },
+      ],
+    };
+
+    const view = render(<ErrorLinks {...props} />);
+    const link = view.getByRole('link', { name: /New conditions/ });
+    userEvent.click(link);
+
+    expect(router.push.calledWith('/claim-type')).to.be.true;
+    expect(editSpy.called).to.be.false;
+    expect(scrollSpy.called).to.be.false;
+
+    editSpy.restore();
+    scrollSpy.restore();
+  });
+
+  it('uses default behavior for condition errors not on claimType page', () => {
+    const editSpy = sinon.spy(utilities, 'openAndEditChapter');
+    const scrollSpy = sinon.spy(utilities, 'scrollToReviewElement');
+    const router = { push: sinon.spy() };
+
+    const props = {
+      appType: 'test',
+      testId: '1234',
+      router,
+      formConfig: {},
+      errors: [
+        {
+          name: 'condition',
+          message: 'New conditions',
+          chapterKey: 'disabilities',
+          pageKey: 'otherPage',
+        },
+      ],
+    };
+
+    const view = render(<ErrorLinks {...props} />);
+    const link = view.getByRole('link', { name: /New conditions/ });
+    userEvent.click(link);
+
+    expect(router.push.called).to.be.false;
+    expect(editSpy.called).to.be.true;
+    expect(scrollSpy.called).to.be.true;
+
+    editSpy.restore();
+    scrollSpy.restore();
   });
 });
