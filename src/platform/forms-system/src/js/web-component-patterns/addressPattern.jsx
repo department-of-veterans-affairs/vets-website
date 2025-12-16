@@ -24,7 +24,7 @@ const STATE_PROVINCE_PATTERN = "^[a-zA-Z0-9\\s'-]+$";
 const POSTAL_CODE_PATTERNS = {
   CAN:
     '^(?=[^DdFfIiOoQqUu\\d\\s])[A-Za-z]\\d(?=[^DdFfIiOoQqUu\\d\\s])[A-Za-z]\\s{0,1}\\d(?=[^DdFfIiOoQqUu\\d\\s])[A-Za-z]\\d$',
-  MEX: '^[A-Za-z0-9]{5}$',
+  MEX: '^\\d{5}$',
   USA: '^\\d{5}$',
 };
 
@@ -706,17 +706,12 @@ export function addressUI(options = {}) {
 
           addressSchema.type = 'string';
           // country-specific patterns and maxLength
-          if (isMilitary || ['USA', 'MEX'].includes(country)) {
-            addressSchema.pattern =
-              POSTAL_CODE_PATTERNS[isMilitary ? 'USA' : country];
-            addressSchema.maxLength = 5;
-          } else if (country === 'CAN') {
-            addressSchema.pattern = POSTAL_CODE_PATTERNS.CAN;
-            addressSchema.maxLength = 7;
+          if (isMilitary) {
+            addressSchema.pattern = POSTAL_CODE_PATTERNS.USA;
+          } else if (['CAN', 'MEX', 'USA'].includes(country)) {
+            addressSchema.pattern = POSTAL_CODE_PATTERNS[country];
           } else {
-            // Other countries have no pattern validation
             addressSchema.pattern = NONBLANK_PATTERN;
-            delete addressSchema.maxLength;
           }
 
           return {
