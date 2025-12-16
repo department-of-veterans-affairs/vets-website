@@ -1,4 +1,5 @@
 import {
+  FETCH_RATING_INFO_STARTED,
   FETCH_RATING_INFO_SUCCESS,
   FETCH_RATING_INFO_FAILED,
 } from '../actions/ratingInfo';
@@ -19,6 +20,12 @@ const minRating = 30;
  */
 function ratingValue(state = initialState, action) {
   switch (action.type) {
+    case FETCH_RATING_INFO_STARTED:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
     case FETCH_RATING_INFO_SUCCESS:
       if (action.response.userPercentOfDisability >= minRating) {
         return {
