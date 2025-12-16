@@ -40,7 +40,7 @@ describe('Primary Alert Test', () => {
     trackClaimsPage.verifyInProgressClaim(false);
     trackClaimsPage.navigateToFilesTab();
     trackClaimsPage.verifyPrimaryAlert();
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
   });
 });
 
