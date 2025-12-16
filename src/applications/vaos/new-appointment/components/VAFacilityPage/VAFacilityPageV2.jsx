@@ -25,7 +25,10 @@ import {
   hideEligibilityModal,
 } from '../../redux/actions';
 import { getPageTitle } from '../../newAppointmentFlow';
-import { selectFeatureRecentLocationsFilter } from '../../../redux/selectors';
+import {
+  selectFeatureRecentLocationsFilter,
+  selectFeatureRemoveFacilityConfigCheck,
+} from '../../../redux/selectors';
 
 const initialSchema = {
   type: 'object',
@@ -68,6 +71,9 @@ export default function VAFacilityPageV2() {
     typeOfCare,
     fetchRecentLocationStatus,
   } = useSelector(state => getFacilityPageV2Info(state), shallowEqual);
+  const featureRemoveFacilityConfigCheck = useSelector(
+    selectFeatureRemoveFacilityConfigCheck,
+  );
 
   const sortOptions = useMemo(
     () => {
@@ -205,7 +211,7 @@ export default function VAFacilityPageV2() {
     );
   }
 
-  if (noValidVAFacilities) {
+  if (!featureRemoveFacilityConfigCheck && noValidVAFacilities) {
     return (
       <div>
         {pageHeader}

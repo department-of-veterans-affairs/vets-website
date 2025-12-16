@@ -29,7 +29,7 @@ const ReviewDependents = ({
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
-  const hasApiError = useSelector(state => state.dependents?.error || false);
+  const hasApiError = useSelector(state => !!state.dependents?.error || false);
 
   const dependents = data?.dependents?.awarded;
   const isDependentsArray = Array.isArray(dependents);
@@ -44,7 +44,11 @@ const ReviewDependents = ({
       if (showPicklist && (hasApiError || !hasDependents)) {
         // Only allow adding dependents, not removing if dependents array is
         // empty
-        setFormData({ ...data, 'view:addOrRemoveDependents': { add: true } });
+        setFormData({
+          ...data,
+          'view:addOrRemoveDependents': { add: true },
+          'view:dependentsApiError': hasApiError,
+        });
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -83,20 +87,22 @@ const ReviewDependents = ({
           <h4 slot="headline">
             We can’t access your dependent records right now
           </h4>
+          <p>We’re sorry. Something went wrong on our end.</p>
           <p>
-            We’re sorry. Something went wrong on our end. You won’t be able to
-            remove dependents at this time.
+            You can add dependents using this application, but you won’t be able
+            to remove dependents at this time.
           </p>
           <p>
-            Try again later or call us at{' '}
-            <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
-            <va-telephone contact={CONTACTS['711']} />
+            If you need to remove a dependent, please try again later or call us
+            at <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
+            <va-telephone contact={CONTACTS['711']} tty />
             ).
           </p>
         </va-alert>
       )}
 
-      {isDependentsArray &&
+      {!hasDependentError &&
+        isDependentsArray &&
         dependents.length === 0 && (
           <va-alert status="info">
             <div>
@@ -105,34 +111,36 @@ const ReviewDependents = ({
           </va-alert>
         )}
 
-      {hasDependents && (
-        <>
-          <p>
-            Remove a dependent from your VA benefits if these changes occurred:
-          </p>
-          <ul>
-            <li>
-              You got divorced, <strong>or</strong>
-            </li>
-            <li>
-              Your child died, <strong>or</strong>
-            </li>
-            <li>
-              Your child (either a minor or a student) got married,{' '}
-              <strong>or</strong>
-            </li>
-            <li>Your parent died</li>
-          </ul>
-          <p>
-            Not reporting changes could lead to a benefit overpayment. You’d
-            have to repay that money.
-          </p>
+      {!hasDependentError &&
+        hasDependents && (
+          <>
+            <p>
+              Remove a dependent from your VA benefits if these changes
+              occurred:
+            </p>
+            <ul>
+              <li>
+                You got divorced, <strong>or</strong>
+              </li>
+              <li>
+                Your child died, <strong>or</strong>
+              </li>
+              <li>
+                Your child (either a minor or a student) got married,{' '}
+                <strong>or</strong>
+              </li>
+              <li>Your parent died</li>
+            </ul>
+            <p>
+              Not reporting changes could lead to a benefit overpayment. You’d
+              have to repay that money.
+            </p>
 
-          {dependents.map(renderDependentCard)}
+            {dependents.map(renderDependentCard)}
 
-          <h4>Check if someone is missing on your VA benefits</h4>
-        </>
-      )}
+            <h4>Check if someone is missing on your VA benefits</h4>
+          </>
+        )}
 
       <p>Add a dependent to your VA benefits if these changes occurred:</p>
       <ul>

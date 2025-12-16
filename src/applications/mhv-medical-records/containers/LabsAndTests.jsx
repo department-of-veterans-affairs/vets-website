@@ -9,6 +9,8 @@ import {
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 
+import CernerFacilityAlert from 'platform/mhv/components/CernerFacilityAlert/CernerFacilityAlert';
+import { CernerAlertContent } from 'platform/mhv/components/CernerFacilityAlert/constants';
 import { Actions } from '../util/actionTypes';
 import RecordList from '../components/RecordList/RecordList';
 import {
@@ -19,7 +21,6 @@ import {
 import {
   ALERT_TYPE_ERROR,
   DEFAULT_DATE_RANGE,
-  CernerAlertContent,
   accessAlertTypes,
   labTypes,
   pageTitles,
@@ -41,7 +42,6 @@ import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
 import useReloadResetListOnUnmount from '../hooks/useReloadResetListOnUnmount';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
-import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import DateRangeSelector, {
   getDateRangeList,
 } from '../components/shared/DateRangeSelector';
@@ -178,7 +178,7 @@ const LabsAndTests = () => {
         confirm.{' '}
       </p>
 
-      <AcceleratedCernerFacilityAlert {...CernerAlertContent.LABS_AND_TESTS} />
+      <CernerFacilityAlert {...CernerAlertContent.LABS_AND_TESTS} />
 
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
