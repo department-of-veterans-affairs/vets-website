@@ -5,6 +5,7 @@ import {
   useLocation,
 } from 'react-router-dom-v5-compat';
 import { useDispatch, useSelector } from 'react-redux';
+import { scrollToFirstError } from 'platform/utilities/scroll';
 import {
   VaDate,
   VaTextInput,
@@ -163,7 +164,14 @@ const ExpensePage = () => {
   );
 
   // Effect 3: Focus error message when it becomes visible
-  // TODO: Look to see if any new error appears and focus it
+  useEffect(
+    () => {
+      if (!extraFieldErrors) return;
+
+      scrollToFirstError({ focusOnAlertRole: true });
+    },
+    [extraFieldErrors],
+  );
 
   // Track unsaved changes by comparing current state to initial state
   useEffect(

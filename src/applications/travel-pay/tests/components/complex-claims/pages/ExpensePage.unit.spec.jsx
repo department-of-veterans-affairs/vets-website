@@ -415,7 +415,8 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
         });
 
         it('displays validation error when required fields are missing', () => {
-          const { getByText, container } = renderPage(config);
+          const { container } = renderPage(config);
+
           const buttonGroup = container.querySelector(
             '.travel-pay-button-group',
           );
@@ -425,7 +426,19 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
 
           fireEvent.click(continueButton);
 
-          expect(getByText(/please fill out all required fields/i)).to.exist;
+          const purchaseDateInput = container.querySelector(
+            'va-date[name="purchaseDate"]',
+          );
+          const amountInput = container.querySelector(
+            'va-text-input[name="costRequested"]',
+          );
+          const descriptionInput = container.querySelector(
+            'va-textarea[name="description"]',
+          );
+
+          expect(purchaseDateInput.getAttribute('error')).to.exist;
+          expect(amountInput.getAttribute('error')).to.exist;
+          expect(descriptionInput.getAttribute('error')).to.exist;
         });
 
         it('navigates forward when required fields are filled', () => {
