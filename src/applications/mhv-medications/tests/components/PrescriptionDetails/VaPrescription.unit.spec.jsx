@@ -3,6 +3,7 @@ import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/plat
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { waitFor } from '@testing-library/dom';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import VaPrescription from '../../../components/PrescriptionDetails/VaPrescription';
 import rxDetailsResponse from '../../fixtures/prescriptionDetails.json';
 import { dateFormat } from '../../../util/helpers';
@@ -14,18 +15,14 @@ describe('vaPrescription details container', () => {
   const newRx = { ...prescription, phoneNumber: '1234567891' };
   const setup = (
     rx = newRx,
-    ffEnabled = true,
-    { isCernerPilot = false, isV2StatusMapping = false } = {},
+    ffEnabled = true, 
   ) => {
     return renderWithStoreAndRouterV6(<VaPrescription {...rx} />, {
       initialState: {
         featureToggles: {
-          // eslint-disable-next-line camelcase
-          mhv_medications_display_documentation_content: ffEnabled,
-          // eslint-disable-next-line camelcase
-          mhv_medications_cerner_pilot: isCernerPilot,
-          // eslint-disable-next-line camelcase
-          mhv_medications_v2_status_mapping: isV2StatusMapping,
+          [FEATURE_FLAG_NAMES.mhvMedicationsDisplayDocumentationContent]: ffEnabled,
+          [FEATURE_FLAG_NAMES.mhvMedicationsCernerPilot]: false,
+          [FEATURE_FLAG_NAMES.mhvMedicationsV2StatusMapping]: false,
         },
       },
       reducers: {},
@@ -432,12 +429,9 @@ describe('vaPrescription details container', () => {
       return renderWithStoreAndRouterV6(<VaPrescription {...rx} />, {
         initialState: {
           featureToggles: {
-            // eslint-disable-next-line camelcase
-            mhv_medications_display_documentation_content: true,
-            // eslint-disable-next-line camelcase
-            mhv_medications_cerner_pilot: isCernerPilot,
-            // eslint-disable-next-line camelcase
-            mhv_medications_v2_status_mapping: isV2StatusMapping,
+            [FEATURE_FLAG_NAMES.mhvMedicationsDisplayDocumentationContent]: true,
+            [FEATURE_FLAG_NAMES.mhvMedicationsCernerPilot]: isCernerPilot,
+            [FEATURE_FLAG_NAMES.mhvMedicationsV2StatusMapping]: isV2StatusMapping,
           },
         },
         reducers: {},

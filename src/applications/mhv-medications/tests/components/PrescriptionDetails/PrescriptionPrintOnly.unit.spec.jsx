@@ -1,6 +1,7 @@
 import React from 'react';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import rxDetailsResponse from '../../fixtures/prescriptionDetails.json';
 import PrescriptionPrintOnly from '../../../components/PrescriptionDetails/PrescriptionPrintOnly';
 
@@ -22,10 +23,8 @@ describe('Prescription print only container', () => {
 
     const initialState = {
       featureToggles: {
-        // eslint-disable-next-line camelcase
-        mhv_medications_cerner_pilot: params.isCernerPilot,
-        // eslint-disable-next-line camelcase
-        mhv_medications_v2_status_mapping: params.isV2StatusMapping,
+        [FEATURE_FLAG_NAMES.mhvMedicationsCernerPilot]: params.isCernerPilot || false,
+        [FEATURE_FLAG_NAMES.mhvMedicationsV2StatusMapping]: params.isV2StatusMapping || false,
       },
     };
 

@@ -30,10 +30,8 @@ describe('Medications List Card Extra Details', () => {
       ...initialState,
       featureToggles: {
         [FEATURE_FLAG_NAMES.mhvSecureMessagingMedicationsRenewalRequest]: true,
-        // eslint-disable-next-line camelcase
-        mhv_medications_cerner_pilot: isCernerPilot,
-        // eslint-disable-next-line camelcase
-        mhv_medications_v2_status_mapping: isV2StatusMapping,
+        [FEATURE_FLAG_NAMES.mhvMedicationsCernerPilot]: isCernerPilot,
+        [FEATURE_FLAG_NAMES.mhvMedicationsV2StatusMapping]: isV2StatusMapping,
         ...(initialState.featureToggles || {}),
       },
     };

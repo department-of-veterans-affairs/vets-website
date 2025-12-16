@@ -3,6 +3,7 @@ import React from 'react';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import sinon from 'sinon';
 import * as reactRedux from 'react-redux';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import MedicationsListFilter from '../../../components/MedicationsList/MedicationsListFilter';
 import reducer from '../../../reducers';
 import {
@@ -54,10 +55,8 @@ describe('Medications List Filter component', () => {
     const state = {
       ...initialState,
       featureToggles: {
-        // eslint-disable-next-line camelcase
-        mhv_medications_cerner_pilot: isCernerPilot,
-        // eslint-disable-next-line camelcase
-        mhv_medications_v2_status_mapping: isV2StatusMapping,
+        [FEATURE_FLAG_NAMES.mhvMedicationsCernerPilot]: isCernerPilot,
+        [FEATURE_FLAG_NAMES.mhvMedicationsV2StatusMapping]: isV2StatusMapping,
         ...initialState.featureToggles,
       },
     };

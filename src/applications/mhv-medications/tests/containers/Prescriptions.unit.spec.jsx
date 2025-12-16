@@ -3,6 +3,7 @@ import sinon from 'sinon';
 import React from 'react';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { fireEvent, waitFor } from '@testing-library/dom';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import reducer from '../../reducers';
 import * as allergiesApiModule from '../../api/allergiesApi';
 import * as prescriptionsApiModule from '../../api/prescriptionsApi';
@@ -50,10 +51,8 @@ describe('Medications Prescriptions container', () => {
     const fullState = {
       ...state,
       featureToggles: {
-        // eslint-disable-next-line camelcase
-        mhv_medications_cerner_pilot: isCernerPilot,
-        // eslint-disable-next-line camelcase
-        mhv_medications_v2_status_mapping: isV2StatusMapping,
+        [FEATURE_FLAG_NAMES.mhvMedicationsCernerPilot]: isCernerPilot,
+        [FEATURE_FLAG_NAMES.mhvMedicationsV2StatusMapping]: isV2StatusMapping,
         ...state.featureToggles,
       },
     };

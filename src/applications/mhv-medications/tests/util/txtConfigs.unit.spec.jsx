@@ -369,19 +369,44 @@ describe('CernerPilot and V2StatusMapping feature flag tests', () => {
 
   describe('V2 status definitions when BOTH CernerPilot and  V2StatusMapping flags enabled', () => {
     const V2_DEFINITIONS = [
-      { status: 'Active', includes: 'A prescription you can fill at a local VA pharmacy' },
-      { status: 'In progress', includes: 'A new prescription or a prescription' },
-      { status: 'Inactive', includes: 'A prescription that is expired' },
-      { status: 'Transferred', includes: 'A prescription moved to VA' },
+      { 
+        dispStatus: 'Active', 
+        refillStatus: 'active',
+        expectedStatus: 'Active',
+        expectedDefinition: 'A prescription you can fill at a local VA pharmacy',
+      },
+      { 
+        dispStatus: 'Active: Refill in Process', 
+        refillStatus: 'refillinprocess',
+        expectedStatus: 'In progress',
+        expectedDefinition: 'A new prescription or a prescription you\'ve requested a refill or renewal for',
+      },
+      { 
+        dispStatus: 'Expired', 
+        refillStatus: 'expired',
+        expectedStatus: 'Inactive',
+        expectedDefinition: 'A prescription you can no longer fill',
+      },
+      { 
+        dispStatus: 'Transferred', 
+        refillStatus: 'transferred',
+        expectedStatus: 'Transferred',
+        expectedDefinition: 'A prescription moved to VA\'s new electronic health record',
+      },
     ];
 
-    V2_DEFINITIONS.forEach(({ status, includes }) => {
-      it(`includes correct definition for ${status} status`, () => {
-        const dispStatus = status === 'In progress' ? 'Active: Refill in Process' :
-          status === 'Inactive' ? 'Expired' : status;
-        const testPrescriptions = createTestPrescription(dispStatus);
+    V2_DEFINITIONS.forEach(({ dispStatus, refillStatus, expectedStatus, expectedDefinition }) => {
+      it(`maps ${dispStatus} to ${expectedStatus} with V2 definition`, () => {
+        const testPrescriptions = [{
+          prescriptionId: 12345,
+          prescriptionName: 'Test Med',
+          dispStatus,
+          refillStatus,
+          prescriptionSource: 'VA',
+        }];
         const txt = buildPrescriptionsTXT(testPrescriptions, true, true);
-        expect(txt).to.include(includes);
+        expect(txt).to.include(`Status: ${expectedStatus}`);
+        expect(txt).to.include(expectedDefinition);
       });
     });
   });

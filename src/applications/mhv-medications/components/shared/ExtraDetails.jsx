@@ -16,7 +16,7 @@ import SendRxRenewalMessage from './SendRxRenewalMessage';
 import { pageType, dataDogActionNames } from '../../util/dataDogConstants';
 import {
   selectCernerPilotFlag,
-  selectMHVMedicationsV2StatusMappingFlag,
+  selectV2StatusMappingFlag,
 } from '../../util/selectors';
 
 const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
@@ -26,7 +26,7 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
     refillRemaining === 0 && dispStatus === DISPENSE_STATUS.ACTIVE;
 
   const isCernerPilot = useSelector(selectCernerPilotFlag);
-  const isV2StatusMapping = useSelector(selectMHVMedicationsV2StatusMappingFlag);
+  const isV2StatusMapping = useSelector(selectV2StatusMappingFlag);
   const useV2Status = isCernerPilot && isV2StatusMapping;
 
   const renderContent = () => {

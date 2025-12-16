@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import StatusDropdown from '../../../components/shared/StatusDropdown';
 import { dispStatusObj } from '../../../util/constants';
 import reducer from '../../../reducers';
@@ -9,10 +10,8 @@ describe('component that displays Status', () => {
   const renderStatus = (status, isCernerPilot = false, isV2StatusMapping = false) => {
     const initialState = {
       featureToggles: {
-        // eslint-disable-next-line camelcase
-        mhv_medications_cerner_pilot: isCernerPilot,
-        // eslint-disable-next-line camelcase
-        mhv_medications_v2_status_mapping: isV2StatusMapping,
+        [FEATURE_FLAG_NAMES.mhvMedicationsCernerPilot]: isCernerPilot,
+        [FEATURE_FLAG_NAMES.mhvMedicationsV2StatusMapping]: isV2StatusMapping,
       },
     };
 

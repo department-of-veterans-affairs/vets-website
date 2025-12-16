@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { fireEvent } from '@testing-library/dom';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import prescriptionsListItem from '../../fixtures/prescriptionsListItem.json';
 import MedicationsListCard from '../../../components/MedicationsList/MedicationsListCard';
 import reducers from '../../../reducers';
@@ -21,10 +22,8 @@ describe('Medication card component', () => {
   ) => {
     const initialState = {
       featureToggles: {
-        // eslint-disable-next-line camelcase
-        mhv_medications_cerner_pilot: isCernerPilot,
-        // eslint-disable-next-line camelcase
-        mhv_medications_v2_status_mapping: isV2StatusMapping,
+        [FEATURE_FLAG_NAMES.mhvMedicationsCernerPilot]: isCernerPilot,
+        [FEATURE_FLAG_NAMES.mhvMedicationsV2StatusMapping]: isV2StatusMapping,
       },
     };
     return renderWithStoreAndRouterV6(<MedicationsListCard rx={rx} />, {
