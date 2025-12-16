@@ -12,9 +12,11 @@ import mockUser from './fixtures/mocks/loa3-user.json';
 import mockSipPut from './fixtures/mocks/sip-put.json';
 import mockSipGet from './fixtures/mocks/sip-get.json';
 import mockScannedFormUpload from './fixtures/mocks/scanned-form-upload.json';
+// import upload from './fixtures/mocks/upload.json';
+// import maximalTest from './fixtures/data/maximal-test.json';
 import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-submit.json';
 
-const TEST_URL = 'https://dev.va.gov/form-upload/21-0779/introduction';
+const TEST_URL = 'https://dev.va.gov/find-forms/upload/21-0779/introduction';
 const config = formConfig(TEST_URL);
 
 // mock logged in LOA3 user
@@ -56,6 +58,7 @@ const testConfig = createTestConfig(
     dataPrefix: 'data',
     dataDir: path.join(__dirname, 'fixtures', 'data'),
     dataSets: ['veteran'],
+    // dataSets: ['maximal-test'],
 
     pageHooks: {
       introduction: ({ afterHook }) => {
@@ -115,6 +118,7 @@ const testConfig = createTestConfig(
           cy.findAllByText(/^Continue/, { selector: 'button' })
             .last()
             .click();
+          // cy.findByText(/Continue/i, { selector: 'button' }).click();
         });
       },
       'supporting-documents': ({ afterHook }) => {
@@ -155,12 +159,16 @@ const testConfig = createTestConfig(
         'vamcUser',
       );
       cy.intercept('/v0/feature_toggles*', mockFeatureToggles);
-      cy.intercept('PUT', '/v0/in_progress_forms/FORM-UPLOAD-FLOW', mockSipPut);
-      cy.intercept('GET', '/v0/in_progress_forms/FORM-UPLOAD-FLOW', mockSipGet);
+      // cy.intercept('PUT', '/v0/in_progress_forms/FORM-UPLOAD-FLOW', mockSipPut);
+      cy.intercept('PUT', '/v0/in_progress_forms/21-0779-UPLOAD', mockSipPut);
+      // cy.intercept('GET', '/v0/in_progress_forms/FORM-UPLOAD-FLOW', mockSipGet);
+      cy.intercept('GET', '/v0/in_progress_forms/21-0779-UPLOAD', mockSipGet);
       cy.intercept(
         'POST',
         '/simple_forms_api/v1/scanned_form_upload',
         mockScannedFormUpload,
+        // upload,
+        // maximalTest,
       );
       cy.intercept(
         'POST',
@@ -174,7 +182,7 @@ const testConfig = createTestConfig(
     // Remove this setting when the form has a content page in production.
     skip: Cypress.env('CI'),
   },
-  { ...manifest, rootUrl: '/form-upload/21-0779/' },
+  { ...manifest, rootUrl: '/find-forms/upload/21-0779/' },
   config,
 );
 

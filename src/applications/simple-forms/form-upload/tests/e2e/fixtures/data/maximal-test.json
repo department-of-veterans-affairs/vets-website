@@ -18,7 +18,37 @@
       "vaFileNumber": "456454567"
     },
     "uploadedFile": {
-      "confirmationCode": "123456"
-    }
+      "confirmationCode": "123456",
+      "isEncrypted": true,
+      "name": "document.pdf",
+      "size": 102400,
+      "fileType": "application/pdf",
+      "warnings": [],
+      "additionalData": {},
+      "type": "record"
+    },
+    "showSupportingDocuments": true,
+    "supportingDocuments": [
+      {
+        "confirmationCode": "654321",
+        "isEncrypted": false,
+        "name": "supporting_doc1.pdf",
+        "size": 204800,
+        "fileType": "application/pdf",
+        "warnings": [],
+        "additionalData": {},
+        "type": "supporting"
+      },
+      {
+        "confirmationCode": "789012",
+        "isEncrypted": true,
+        "name": "supporting_doc2.jpg",
+        "size": 51200,
+        "fileType": "image/jpeg",
+        "warnings": [],
+        "additionalData": {},
+        "type": "supporting"
+      }
+    ]
   }
 }

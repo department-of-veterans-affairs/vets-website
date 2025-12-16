@@ -194,7 +194,10 @@ const VaFileInputField = props => {
 
     // cypress test / skip the network call and its callbacks
     if (environment.isTest() && !environment.isUnitTest()) {
-      childrenProps.onChange(e.detail.mockFormData);
+      // console.log('DMC: ', e);
+      // childrenProps.onChange(e.detail.mockFormData);
+      // childrenProps.onChange(e.detail?.mockFormData || {});
+      childrenProps.onChange(e.detail.files[0]);
       return;
     }
 
