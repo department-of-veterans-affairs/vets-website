@@ -24,382 +24,14 @@ describe('TravelClaimDetailsContent', () => {
     getAppointmentDataByDateTimeStub.restore();
   });
 
-  describe('appointmentError logic', () => {
-    it('should display error alert when appointmentError is present', () => {
-      const initialState = {
-        travelPay: {
-          claimDetails: {
-            data: {
-              '123': {
-                id: '123',
-                appointment: {
-                  appointmentDateTime: '2025-12-15T10:00:00Z',
-                },
-              },
-            },
-            error: null,
-          },
-          appointment: {
-            data: null,
-            isLoading: false,
-            error: {
-              message: 'Failed to fetch appointment',
-            },
-          },
-        },
-      };
-
-      const screen = renderWithStoreAndRouter(<TravelClaimDetailsContent />, {
-        initialState,
-        path: '/claim/123',
-        reducers: reducer,
-      });
-
-      expect(screen.getByText('Something went wrong on our end')).to.exist;
-      expect(screen.getByText(/status in this tool right now/i)).to.exist;
-      expect(
-        $(
-          'va-link[href="/health-care/get-reimbursed-for-travel-pay/"][text="Find out how to file for travel reimbursement"]',
-        ),
-      ).to.exist;
-    });
-
-    it('should not display ClaimDetailsContent when appointmentError exists', () => {
-      const initialState = {
-        travelPay: {
-          claimDetails: {
-            data: {
-              '123': {
-                id: '123',
-                appointment: {
-                  appointmentDateTime: '2025-12-15T10:00:00Z',
-                },
-              },
-            },
-            error: null,
-          },
-          appointment: {
-            data: { id: 'appt-123' },
-            isLoading: false,
-            error: {
-              message: 'Appointment error',
-            },
-          },
-        },
-      };
-
-      const screen = renderWithStoreAndRouter(<TravelClaimDetailsContent />, {
-        initialState,
-        path: '/claim/123',
-        reducers: reducer,
-      });
-
-      expect(screen.getByText('Something went wrong on our end')).to.exist;
-      expect(
-        $(
-          'va-link[href="/health-care/get-reimbursed-for-travel-pay/"][text="Find out how to file for travel reimbursement"]',
-        ),
-      ).to.exist;
-    });
-
-    it('should render ClaimDetailsContent when no appointmentError', () => {
-      const initialState = {
-        travelPay: {
-          claimDetails: {
-            data: {
-              '123': {
-                id: '123',
-                appointment: {
-                  appointmentDateTime: '2025-12-15T10:00:00Z',
-                },
-              },
-            },
-            error: null,
-          },
-          appointment: {
-            data: { id: 'appt-123' },
-            isLoading: false,
-            error: null,
-          },
-        },
-      };
-
-      const screen = renderWithStoreAndRouter(<TravelClaimDetailsContent />, {
-        initialState,
-        path: '/claim/123',
-        reducers: reducer,
-      });
-
-      expect(screen.getByText(/eligible for reimbursement/i)).to.exist;
-      expect(
-        $(
-          'va-link[href="/resources/how-to-set-up-direct-deposit-for-va-travel-pay-reimbursement/"][text="Learn how to set up direct deposit for travel pay reimbursement"]',
-        ),
-      ).to.exist;
-      expect(screen.queryByText('Something went wrong on our end')).to.not
-        .exist;
-    });
-  });
-
-  describe('missingAppointmentId logic', () => {
-    it('should display error alert when appointmentData exists but has no id', () => {
-      const initialState = {
-        travelPay: {
-          claimDetails: {
-            data: {
-              '123': {
-                id: '123',
-                appointment: {
-                  appointmentDateTime: '2025-12-15T10:00:00Z',
-                },
-              },
-            },
-            error: null,
-          },
-          appointment: {
-            data: {
-              someOtherField: 'value',
-            },
-            isLoading: false,
-            error: null,
-          },
-        },
-      };
-
-      const screen = renderWithStoreAndRouter(<TravelClaimDetailsContent />, {
-        initialState,
-        path: '/claim/123',
-        reducers: reducer,
-      });
-
-      expect(screen.getByText('Something went wrong on our end')).to.exist;
-      expect(screen.getByText(/status in this tool right now/i)).to.exist;
-      expect(
-        $(
-          'va-link[href="/health-care/get-reimbursed-for-travel-pay/"][text="Find out how to file for travel reimbursement"]',
-        ),
-      ).to.exist;
-    });
-
-    it('should display error alert when appointmentData id is null', () => {
-      const initialState = {
-        travelPay: {
-          claimDetails: {
-            data: {
-              '123': {
-                id: '123',
-                appointment: {
-                  appointmentDateTime: '2025-12-15T10:00:00Z',
-                },
-              },
-            },
-            error: null,
-          },
-          appointment: {
-            data: {
-              id: null,
-            },
-            isLoading: false,
-            error: null,
-          },
-        },
-      };
-
-      const screen = renderWithStoreAndRouter(<TravelClaimDetailsContent />, {
-        initialState,
-        path: '/claim/123',
-        reducers: reducer,
-      });
-
-      expect(screen.getByText('Something went wrong on our end')).to.exist;
-    });
-
-    it('should display error alert when appointmentData id is undefined', () => {
-      const initialState = {
-        travelPay: {
-          claimDetails: {
-            data: {
-              '123': {
-                id: '123',
-                appointment: {
-                  appointmentDateTime: '2025-12-15T10:00:00Z',
-                },
-              },
-            },
-            error: null,
-          },
-          appointment: {
-            data: {
-              id: undefined,
-            },
-            isLoading: false,
-            error: null,
-          },
-        },
-      };
-
-      const screen = renderWithStoreAndRouter(<TravelClaimDetailsContent />, {
-        initialState,
-        path: '/claim/123',
-        reducers: reducer,
-      });
-
-      expect(screen.getByText('Something went wrong on our end')).to.exist;
-    });
-
-    it('should display error alert when appointmentData id is empty string', () => {
-      const initialState = {
-        travelPay: {
-          claimDetails: {
-            data: {
-              '123': {
-                id: '123',
-                appointment: {
-                  appointmentDateTime: '2025-12-15T10:00:00Z',
-                },
-              },
-            },
-            error: null,
-          },
-          appointment: {
-            data: {
-              id: '',
-            },
-            isLoading: false,
-            error: null,
-          },
-        },
-      };
-
-      const screen = renderWithStoreAndRouter(<TravelClaimDetailsContent />, {
-        initialState,
-        path: '/claim/123',
-        reducers: reducer,
-      });
-
-      expect(screen.getByText('Something went wrong on our end')).to.exist;
-    });
-
-    it('should render ClaimDetailsContent when appointmentData has valid id', () => {
-      const initialState = {
-        travelPay: {
-          claimDetails: {
-            data: {
-              '123': {
-                id: '123',
-                appointment: {
-                  appointmentDateTime: '2025-12-15T10:00:00Z',
-                },
-              },
-            },
-            error: null,
-          },
-          appointment: {
-            data: {
-              id: 'valid-appointment-id',
-            },
-            isLoading: false,
-            error: null,
-          },
-        },
-      };
-
-      const screen = renderWithStoreAndRouter(<TravelClaimDetailsContent />, {
-        initialState,
-        path: '/claim/123',
-        reducers: reducer,
-      });
-
-      expect(screen.getByText(/eligible for reimbursement/i)).to.exist;
-      expect(
-        $(
-          'va-link[href="/resources/how-to-set-up-direct-deposit-for-va-travel-pay-reimbursement/"][text="Learn how to set up direct deposit for travel pay reimbursement"]',
-        ),
-      ).to.exist;
-      expect(screen.queryByText('Something went wrong on our end')).to.not
-        .exist;
-    });
-
-    it('should not display error when appointmentData is null (before fetching)', () => {
-      const initialState = {
-        travelPay: {
-          claimDetails: {
-            data: {
-              '123': {
-                id: '123',
-                appointment: {
-                  appointmentDateTime: '2025-12-15T10:00:00Z',
-                },
-              },
-            },
-            error: null,
-          },
-          appointment: {
-            data: null,
-            isLoading: false,
-            error: null,
-          },
-        },
-      };
-
-      const screen = renderWithStoreAndRouter(<TravelClaimDetailsContent />, {
-        initialState,
-        path: '/claim/123',
-        reducers: reducer,
-      });
-
-      expect(screen.getByText('Something went wrong on our end')).to.exist;
-    });
-  });
-
-  describe('combined error scenarios', () => {
-    it('should display error when both appointmentError and missingAppointmentId are true', () => {
-      const initialState = {
-        travelPay: {
-          claimDetails: {
-            data: {
-              '123': {
-                id: '123',
-                appointment: {
-                  appointmentDateTime: '2025-12-15T10:00:00Z',
-                },
-              },
-            },
-            error: null,
-          },
-          appointment: {
-            data: {
-              id: null,
-            },
-            isLoading: false,
-            error: {
-              message: 'Some error',
-            },
-          },
-        },
-      };
-
-      const screen = renderWithStoreAndRouter(<TravelClaimDetailsContent />, {
-        initialState,
-        path: '/claim/123',
-        reducers: reducer,
-      });
-
-      expect(screen.getByText('Something went wrong on our end')).to.exist;
-      expect(
-        $(
-          'va-link[href="/health-care/get-reimbursed-for-travel-pay/"][text="Find out how to file for travel reimbursement"]',
-        ),
-      ).to.exist;
-    });
-
-    it('should display error when claimDetails error is present', () => {
+  describe('error handling', () => {
+    it('should display error alert when claim details error exists', () => {
       const initialState = {
         travelPay: {
           claimDetails: {
             data: {},
             error: {
-              message: 'Claim error',
+              message: 'Failed to fetch claim details',
             },
           },
           appointment: {
@@ -417,22 +49,27 @@ describe('TravelClaimDetailsContent', () => {
       });
 
       expect(screen.getByText('Something went wrong on our end')).to.exist;
+      expect(screen.getByText(/status in this tool right now/i)).to.exist;
       expect(
         $(
           'va-link[href="/health-care/get-reimbursed-for-travel-pay/"][text="Find out how to file for travel reimbursement"]',
         ),
       ).to.exist;
     });
-  });
 
-  describe('useEffect for appointment data fetching', () => {
-    it('should dispatch getAppointmentDataByDateTime when appointmentDateTime exists and appointmentData is null', async () => {
+    it('should render ClaimDetailsContent when claim data exists', () => {
       const initialState = {
         travelPay: {
           claimDetails: {
             data: {
               '123': {
                 id: '123',
+                claimNumber: 'TC123',
+                claimStatus: 'Claim submitted',
+                appointmentDate: '2025-12-15T10:00:00Z',
+                facilityName: 'Test Facility',
+                createdOn: '2025-12-15T10:00:00Z',
+                modifiedOn: '2025-12-15T10:00:00Z',
                 appointment: {
                   appointmentDateTime: '2025-12-15T10:00:00Z',
                 },
@@ -441,14 +78,12 @@ describe('TravelClaimDetailsContent', () => {
             error: null,
           },
           appointment: {
-            data: null,
-            isLoading: true,
+            data: { id: 'appt-123' },
+            isLoading: false,
             error: null,
           },
         },
       };
-
-      getAppointmentDataByDateTimeStub.returns({ type: 'GET_APPOINTMENT' });
 
       const screen = renderWithStoreAndRouter(<TravelClaimDetailsContent />, {
         initialState,
@@ -456,9 +91,121 @@ describe('TravelClaimDetailsContent', () => {
         reducers: reducer,
       });
 
-      // When appointmentData is null and not loading, it should show error
-      // This test verifies the error state is shown
-      expect(screen.getByText('Something went wrong on our end')).to.exist;
+      expect(screen.getByText(/eligible for reimbursement/i)).to.exist;
+      expect(
+        $(
+          'va-link[href="/resources/how-to-set-up-direct-deposit-for-va-travel-pay-reimbursement/"][text="Learn how to set up direct deposit for travel pay reimbursement"]',
+        ),
+      ).to.exist;
+      expect(screen.queryByText('Something went wrong on our end')).to.not
+        .exist;
+    });
+  });
+
+  describe('useEffect for fetching claim and appointment data', () => {
+    it('should render without claim data initially and not error', () => {
+      const initialState = {
+        featureToggles: {},
+        travelPay: {
+          claimDetails: {
+            data: {},
+            error: null,
+          },
+          appointment: {
+            data: null,
+            isLoading: false,
+            error: null,
+          },
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<TravelClaimDetailsContent />, {
+        initialState,
+        path: '/claim/:id',
+        initialEntries: ['/claim/123'],
+        reducers: reducer,
+      });
+
+      // Component should render the static content even without claim data
+      expect(screen.getByText(/eligible for reimbursement/i)).to.exist;
+    });
+
+    it('should not dispatch actions when claim data already exists', () => {
+      const initialState = {
+        featureToggles: {},
+        travelPay: {
+          claimDetails: {
+            data: {
+              '123': {
+                id: '123',
+                claimNumber: 'TC123',
+                claimStatus: 'Claim submitted',
+                appointmentDate: '2025-12-15T10:00:00Z',
+                facilityName: 'Test Facility',
+                createdOn: '2025-12-15T10:00:00Z',
+                modifiedOn: '2025-12-15T10:00:00Z',
+              },
+            },
+            error: null,
+          },
+          appointment: {
+            data: null,
+            isLoading: false,
+            error: null,
+          },
+        },
+      };
+
+      renderWithStoreAndRouter(<TravelClaimDetailsContent />, {
+        initialState,
+        path: '/claim/:id',
+        initialEntries: ['/claim/123'],
+        reducers: reducer,
+      });
+
+      expect(getClaimDetailsStub.called).to.be.false;
+    });
+
+    it('should render appointment data when available', () => {
+      const initialState = {
+        featureToggles: {},
+        travelPay: {
+          claimDetails: {
+            data: {
+              '123': {
+                id: '123',
+                claimNumber: 'TC123',
+                claimStatus: 'Claim submitted',
+                appointmentDate: '2025-12-15T10:00:00Z',
+                facilityName: 'Test Facility',
+                createdOn: '2025-12-15T10:00:00Z',
+                modifiedOn: '2025-12-15T10:00:00Z',
+                appointment: {
+                  appointmentDateTime: '2025-12-15T10:00:00Z',
+                },
+              },
+            },
+            error: null,
+          },
+          appointment: {
+            data: {
+              id: '123',
+            },
+            isLoading: false,
+            error: null,
+          },
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<TravelClaimDetailsContent />, {
+        initialState,
+        path: '/claim/:id',
+        initialEntries: ['/claim/123'],
+        reducers: reducer,
+      });
+
+      // Component renders successfully with appointment data
+      expect(screen.getByText(/eligible for reimbursement/i)).to.exist;
     });
 
     it('should not dispatch getAppointmentDataByDateTime when appointmentError exists', () => {
@@ -468,6 +215,12 @@ describe('TravelClaimDetailsContent', () => {
             data: {
               '123': {
                 id: '123',
+                claimNumber: 'TC123',
+                claimStatus: 'Claim submitted',
+                appointmentDate: '2025-12-15T10:00:00Z',
+                facilityName: 'Test Facility',
+                createdOn: '2025-12-15T10:00:00Z',
+                modifiedOn: '2025-12-15T10:00:00Z',
                 appointment: {
                   appointmentDateTime: '2025-12-15T10:00:00Z',
                 },
@@ -501,6 +254,12 @@ describe('TravelClaimDetailsContent', () => {
             data: {
               '123': {
                 id: '123',
+                claimNumber: 'TC123',
+                claimStatus: 'Claim submitted',
+                appointmentDate: '2025-12-15T10:00:00Z',
+                facilityName: 'Test Facility',
+                createdOn: '2025-12-15T10:00:00Z',
+                modifiedOn: '2025-12-15T10:00:00Z',
                 appointment: {
                   appointmentDateTime: '2025-12-15T10:00:00Z',
                 },

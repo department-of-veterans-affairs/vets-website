@@ -670,6 +670,85 @@ describe('ClaimDetailsContent', () => {
         expect($('va-link-action[text="Complete and file your claim"]')).to.not
           .exist;
       });
+
+      it('does not render complete and file link when appointmentId is missing even with Saved status and complexClaimsToggle on', () => {
+        renderWithStoreAndRouter(
+          <ClaimDetailsContent {...claimDetailsProps} claimStatus="Saved" />,
+          {
+            initialState: getState({
+              hasComplexClaimsFlag: true,
+              appointment: {
+                data: null,
+              },
+            }),
+            reducers: reducer,
+          },
+        );
+
+        expect($('va-link-action[text="Complete and file your claim"]')).to.not
+          .exist;
+      });
+
+      it('does not render complete and file link when appointment data exists but id is null', () => {
+        renderWithStoreAndRouter(
+          <ClaimDetailsContent {...claimDetailsProps} claimStatus="Saved" />,
+          {
+            initialState: getState({
+              hasComplexClaimsFlag: true,
+              appointment: {
+                data: {
+                  id: null,
+                },
+              },
+            }),
+            reducers: reducer,
+          },
+        );
+
+        expect($('va-link-action[text="Complete and file your claim"]')).to.not
+          .exist;
+      });
+
+      it('does not render complete and file link when appointment data exists but id is undefined', () => {
+        renderWithStoreAndRouter(
+          <ClaimDetailsContent {...claimDetailsProps} claimStatus="Saved" />,
+          {
+            initialState: getState({
+              hasComplexClaimsFlag: true,
+              appointment: {
+                data: {
+                  id: undefined,
+                },
+              },
+            }),
+            reducers: reducer,
+          },
+        );
+
+        expect($('va-link-action[text="Complete and file your claim"]')).to.not
+          .exist;
+      });
+
+      it('does not render complete and file link when appointment data is an empty object', () => {
+        renderWithStoreAndRouter(
+          <ClaimDetailsContent
+            {...claimDetailsProps}
+            claimStatus="Incomplete"
+          />,
+          {
+            initialState: getState({
+              hasComplexClaimsFlag: true,
+              appointment: {
+                data: {},
+              },
+            }),
+            reducers: reducer,
+          },
+        );
+
+        expect($('va-link-action[text="Complete and file your claim"]')).to.not
+          .exist;
+      });
     });
 
     describe('Claim submission timeline text', () => {
