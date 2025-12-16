@@ -95,6 +95,13 @@ const BenefitCard = ({ benefit, isBenefitRecommended }) => {
           <span>{name}</span>
         </h3>
         <p className="vads-u-margin-y--0">{description}</p>
+        <h4>When to Apply</h4>
+        <p>{benefit.whenToApplyDescription}</p>
+        {benefit.whenToApplyNote !== undefined && (
+          <p>
+            <b>Note</b>: {benefit.whenToApplyNote}
+          </p>
+        )}
         <div className="link-container">
           <div className="vads-u-margin-right--2 vads-u-margin-bottom--1">
             {renderLink(
