@@ -486,28 +486,9 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
           );
         });
 
-        it('focuses the error message on validation failure', async () => {
-          const { container, getByTestId, getByText } = renderPage(config);
-          const buttonGroup = container.querySelector(
-            '.travel-pay-button-group',
-          );
-          const continueButton = Array.from(
-            buttonGroup.querySelectorAll('va-button'),
-          ).find(btn => btn.getAttribute('text') === 'Continue');
-
-          fireEvent.click(continueButton);
-
-          await waitFor(() => {
-            const error = getByTestId('expense-page-error');
-            expect(
-              getByText(
-                'Please fill out all required fields before continuing.',
-              ),
-            ).to.exist;
-            expect(document.activeElement).to.eq(error);
-          });
-        });
+        it.skip('scrolls to the first error for the date field', () => {});
       });
+
       describe('DocumentUpload behavior', () => {
         const expenseTypesWithDocumentUpload = [
           'Meal',

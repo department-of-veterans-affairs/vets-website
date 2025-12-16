@@ -166,8 +166,7 @@ const ExpensePage = () => {
   // Effect 3: Focus error message when it becomes visible
   useEffect(
     () => {
-      if (!extraFieldErrors) return;
-
+      if (Object.keys(extraFieldErrors).length === 0) return;
       scrollToFirstError({ focusOnAlertRole: true });
     },
     [extraFieldErrors],
