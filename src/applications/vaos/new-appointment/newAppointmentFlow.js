@@ -102,7 +102,7 @@ async function vaFacilityNext(state, dispatch) {
   dispatch(updateFacilityEhr(ehr));
 
   if (isCerner) {
-    if (featureOHDirectSchedule && featureOHRequest && typeOfCareEnabled) {
+    if ((featureOHDirectSchedule || featureOHRequest) && typeOfCareEnabled) {
       // Fetch eligibility if we haven't already
       if (!eligibility) {
         const siteId = getSiteIdFromFacilityId(location.id);
