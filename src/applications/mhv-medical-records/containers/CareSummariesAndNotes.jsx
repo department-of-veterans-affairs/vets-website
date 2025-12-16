@@ -7,6 +7,8 @@ import {
   useAcceleratedData,
 } from '@department-of-veterans-affairs/mhv/exports';
 
+import CernerFacilityAlert from 'platform/mhv/components/CernerFacilityAlert/CernerFacilityAlert';
+import { CernerAlertContent } from 'platform/mhv/components/CernerFacilityAlert/constants';
 import RecordList from '../components/RecordList/RecordList';
 import {
   getCareSummariesAndNotesList,
@@ -18,7 +20,6 @@ import useReloadResetListOnUnmount from '../hooks/useReloadResetListOnUnmount';
 import {
   ALERT_TYPE_ERROR,
   DEFAULT_DATE_RANGE,
-  CernerAlertContent,
   accessAlertTypes,
   pageTitles,
   recordType,
@@ -33,7 +34,6 @@ import DateRangeSelector, {
   getDateRangeList,
 } from '../components/shared/DateRangeSelector';
 import AdditionalReportsInfo from '../components/shared/AdditionalReportsInfo';
-import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import TrackedSpinner from '../components/shared/TrackedSpinner';
 import { useTrackAction } from '../hooks/useTrackAction';
@@ -159,9 +159,7 @@ const CareSummariesAndNotes = () => {
         <p>This list doesn’t include care summaries from before 2013.</p>
       )}
 
-      <AcceleratedCernerFacilityAlert
-        {...CernerAlertContent.CARE_SUMMARIES_AND_NOTES}
-      />
+      <CernerFacilityAlert {...CernerAlertContent.CARE_SUMMARIES_AND_NOTES} />
 
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
