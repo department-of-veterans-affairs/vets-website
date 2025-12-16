@@ -1,5 +1,5 @@
 ---
-applyTo: "src/applications/mhv-secure-messaging"
+applyTo: "src/applications/mhv-secure-messaging/**"
 ---
 
 # MHV Secure Messaging Application Instructions
@@ -97,6 +97,11 @@ Update this file when you:
 - **acceptedFileTypes** and **acceptedFileTypesExtended**: Define allowed file types with MIME types
 - **RecipientStatus**: BLOCKED, ALLOWED, NOT_ASSOCIATED - for recipient state management
 - **Errors.Code**: Error codes for specific error handling (BLOCKED_USER: 'SM119', ATTACHMENT_SCAN_FAIL: 'SM172', etc.)
+- **RxRenewalText**: Constants for medication renewal request flow
+  - `LOCKED_CATEGORY_DISPLAY`: Text shown in locked category display ("Medication renewal request")
+- **MessageHintText**: Hint text for form fields
+  - `RX_RENEWAL_SUCCESS`: Hint when prescription loaded successfully
+  - `RX_RENEWAL_ERROR`: Hint when prescription failed to load
 
 ### Helper Functions (`util/helpers.js`)
 - **Date formatting**:
@@ -313,7 +318,84 @@ Update this file when you:
   - Results stored in `search` reducer
   - API: `searchFolderBasic()` or `searchFolderAdvanced()` in `SmApi.js`
 
+### RX Renewal / Medication Integration
+- **Purpose**: Veterans can request medication renewals via Secure Messaging from the Medications app
+- **Entry Point**: URL with query params: `/my-health/secure-messages/new-message?prescriptionId={id}&redirectPath={path}`
+- **Detection Logic**:
+  ```javascript
+  const isRxRenewalDraft = renewalPrescription?.prescriptionId || rxError;
+  ```
+- **State Management**:
+  - Reducer: `prescription` at `state.sm.prescription`
+  - State shape: `{ renewalPrescription, redirectPath, error, isLoading }`
+  - Actions: `getPrescriptionById()`, `clearPrescription()`, `setRedirectPath()`
+  - Action types: `Actions.Prescriptions.*` (GET_PRESCRIPTION_BY_ID, CLEAR_PRESCRIPTION, etc.)
+- **API Client**:
+  - File: `api/RxApi.js` - separate from `SmApi.js` for Medications integration
+  - Endpoint: `GET /my_health/v1/prescriptions/{prescriptionId}`
+  - Returns prescription attributes for message body population
+- **Locked Category Behavior**:
+  - When `isRxRenewalDraft` is true, category dropdown is replaced with `LockedCategoryDisplay` component
+  - Category is locked to "Medications" - users cannot change it
+  - Display text: `RxRenewalText.LOCKED_CATEGORY_DISPLAY` ("Medication renewal request")
+- **Message Body Auto-Population**:
+  - Use `buildRxRenewalMessageBody(prescription)` helper from `util/helpers.js`
+  - Populates: medication name, prescription number, instructions, provider, refills left, expiration date, reason for use, quantity
+- **Constants**:
+  - `RxRenewalText.LOCKED_CATEGORY_DISPLAY`: Display text for locked category
+  - `MessageHintText.RX_RENEWAL_SUCCESS`: Hint text when prescription loads successfully
+  - `MessageHintText.RX_RENEWAL_ERROR`: Hint text when prescription fails to load
+- **Error Handling**:
+  - 404 errors: Prescription not found - show warning, allow manual entry
+  - Non-VA medications: Missing required fields - show warning, allow manual entry
+  - Errors logged to Datadog with `dataDogLogger()` including prescriptionId context
+- **Redirect After Send**:
+  - Store `redirectPath` in prescription state
+  - After successful send, redirect to `redirectPath` (typically back to Medications)
+  - Append `?rxRenewalMessageSuccess=true` query param for success messaging
+
 ## Component Patterns
+
+### React Router + VADS Link Integration
+- **Router-Integrated Link Components**: Use wrappers for internal navigation with React Router
+  - `RouterLink`: Standard link styling for internal navigation
+    - Wraps `VaLink` with React Router integration
+    - Use for standard internal navigation that doesn't need high prominence
+    - Props: `href` (required), `text` (required), `active` (optional, default false), `label`, `reverse`
+    - Example: `<RouterLink href="/inbox" text="View messages" />`
+  - `RouterLinkAction`: Action link styling for primary CTAs
+    - Wraps `VaLinkAction` with React Router integration
+    - Use for primary calls to action, service entry points, and high-visibility links
+    - Props: `href` (required), `text` (required), `label`, `reverse`
+    - Example: `<RouterLinkAction href="/compose" text="Start a new message" />`
+  - **Pattern Details**:
+    - Both use `withRouter` HOC to inject `router` object
+    - Both implement `preventDefault` + `router.push(href)` for client-side navigation
+    - Located in `components/shared/`
+    - See VADS docs: https://design.va.gov/components/link/
+- **Cross-App Links** (Different VA.gov SPAs): Use `VaLink`/`VaLinkAction` directly WITHOUT router wrapper
+  - For links to other VA.gov applications (e.g., `/find-locations`, `/profile`)
+  - These are different Webpack entry points/SPAs that require full browser navigation
+  - `RouterLink`/`RouterLinkAction` won't work because `router.push()` only works within the same SPA
+  - Example: `<VaLinkAction href="/find-locations" text="Find your VA health facility" />`
+  - Example: `<VaLink href="/profile/personal-information" text="Edit signature" />`
+  - **Common cross-app destinations from mhv-secure-messaging:**
+    - `/find-locations` → facility-locator SPA
+    - `/profile/*` → profile SPA
+    - `/my-health/medical-records/*` → mhv-medical-records SPA
+- **External Links** (Non-VA sites): Use `VaLink` directly with `external` prop
+  - For links outside VA.gov entirely (e.g., My VA Health portal at different domain)
+  - Use `active` prop for intermediate prominence
+  - Example: `<VaLink href={getCernerURL('/pages/messaging/inbox')} text="Go to My VA Health" external active />`
+- **When to Use Which Component**:
+  - Same-SPA standard navigation → `RouterLink`
+  - Same-SPA primary CTA → `RouterLinkAction`
+  - Cross-app link (different VA.gov SPA) → `<VaLink />` or `<VaLinkAction />`
+  - External link (non-VA site) → `<VaLink external />`
+- **Anti-patterns**:
+  - ❌ Don't use `<a href>` for internal navigation (breaks client-side routing)
+  - ❌ Don't use `VaLink`/`VaLinkAction` without router wrapper for same-SPA navigation (causes unnecessary full page reload)
+  - ❌ Don't use `RouterLink`/`RouterLinkAction` for cross-app navigation (router.push() only works within same SPA)
 
 ### Web Components
 - **VA Design System Components**:
@@ -518,6 +600,11 @@ Update this file when you:
   - JSON fixtures in `tests/e2e/fixtures/` directory
   - Intercept API calls with fixture data
   - Example: `cy.intercept('GET', Paths.SM_API_BASE, mockData).as('getData')`
+- **Web Component Selectors**:
+  - External links with `VaLink` render as `<va-link>` (NOT `<va-link-action>`)
+  - Internal CTAs with `RouterLinkAction` render as `<va-link-action>`
+  - Use `.find('va-link')` for external links, `.find('va-link-action')` for internal CTAs
+  - Example: `cy.get('[data-testid="alert"]').find('va-link').click()`
 - **Accessibility Testing**:
   - MUST include in all E2E tests
   - Inject axe: `cy.injectAxe()`
@@ -708,6 +795,97 @@ Update this file when you:
   - Props: `alertStyle`, `parentComponent`, `currentRecipient`, `setShowBlockedTriageGroupAlert`, `isOhMessage`
   - Handles different scenarios: no associations, all blocked, multiple blocked, facility blocked
   - Uses `updateTriageGroupRecipientStatus()` helper to determine recipient status
+- **RouterLink**: Wrapper for VaLink with React Router integration for standard internal navigation
+  - **Purpose**: Enables internal navigation without full page reloads using standard link styling
+  - **When to Use**: 
+    - Utility links (profile, settings, help pages)
+    - Navigation links in forms or secondary UI areas
+    - Any internal link that is NOT a primary call-to-action
+  - **When NOT to Use**: 
+    - Primary CTAs in alerts or prominent UI areas (use `RouterLinkAction` instead)
+    - External links (use `VaLink` or `VaLinkAction` with `external` prop)
+  - **Props**:
+    - `href` (required): Destination path for React Router navigation
+    - `text` (required): Link text to display
+    - `label` (optional): Aria-label for screen readers when text needs additional context
+    - `reverse` (optional): If true, renders with white text for dark backgrounds
+    - `active` (optional, default: `false`): If true, renders with bold text + chevron for higher prominence
+    - Supports all standard `data-*` attributes: `data-testid`, `data-dd-action-name`, `data-dd-privacy`
+  - **Usage Examples**:
+    ```jsx
+    // Standard utility link (most common)
+    <RouterLink
+      href="/profile/personal-information#messaging-signature"
+      text="Edit signature for all messages"
+      data-testid="edit-signature-link"
+    />
+    
+    // Link with higher prominence (active styling)
+    <RouterLink
+      href={Paths.COMPOSE}
+      text="Compose message"
+      active
+      data-dd-action-name="Compose from dashboard"
+    />
+    ```
+  - **Implementation Notes**:
+    - Uses `VaLink` with default styling (active={false})
+    - Wraps React Router v3 context access via `withRouter` HOC
+    - Prevents default link behavior and uses `context.router.push()` for client-side navigation
+    - For standard navigation links where CTA prominence is not needed
+- **RouterLinkAction**: Wrapper for VaLink with React Router integration for high-prominence CTAs
+  - **Purpose**: Enables internal navigation with action link styling (bold + chevron) for primary CTAs
+  - **When to Use**: 
+    - Primary call-to-action links in alerts (e.g., "Start a new message", "Go to inbox")
+    - High-prominence navigation in dashboard or key UI areas
+    - Links that drive core user actions
+  - **When NOT to Use**: 
+    - Standard utility links (use `RouterLink` instead)
+    - External links (use `VaLinkAction` with `external` prop)
+  - **IMPORTANT TECHNICAL NOTE**:
+    - This component uses `VaLink` with `active={true}`, NOT `VaLinkAction`
+    - Why? `VaLinkAction` doesn't expose an `onClick` prop needed for React Router integration
+    - `VaLink` with `active={true}` provides the closest visual styling:
+      - Bold text + right arrow (chevron)
+      - Blue color scheme
+    - While not pixel-perfect to `VaLinkAction` (which uses a circular icon), the "active link" styling provides sufficient visual prominence for CTAs
+    - See design.va.gov/components/link/ and design.va.gov/components/link/action for VADS guidance
+  - **Props**:
+    - `href` (required): Destination path for React Router navigation
+    - `text` (required): Link text to display
+    - `label` (optional): Aria-label for screen readers when text needs additional context
+    - `reverse` (optional): If true, renders with white text for dark backgrounds
+    - `active` (optional, default: `true`): Always true for action link styling
+    - Supports all standard `data-*` attributes: `data-testid`, `data-dd-action-name`, `data-dd-privacy`
+  - **Usage Examples**:
+    ```jsx
+    // Primary CTA in alert (default styling)
+    <RouterLinkAction
+      href={Paths.COMPOSE}
+      text="Start a new message"
+      data-dd-action-name="Start message from alert"
+    />
+    
+    // Action link in dashboard
+    <RouterLinkAction
+      href={Paths.INBOX}
+      text="View all messages"
+      data-testid="view-messages-cta"
+    />
+    ```
+  - **Implementation Notes**:
+    - Uses `VaLink` with `active={true}` prop (NOT VaLinkAction due to onClick limitation)
+    - Wraps React Router v3 context access via `withRouter` HOC
+    - Prevents default link behavior and uses `context.router.push()` for client-side navigation
+  - **Decision Tree**: When choosing between RouterLink and RouterLinkAction:
+    ```
+    Is this an internal navigation link?
+    ├─ YES → Is it a primary CTA?
+    │   ├─ YES → Use RouterLinkAction (bold + chevron)
+    │   └─ NO  → Use RouterLink (standard styling)
+    └─ NO → External link
+        └─ Use VaLink or VaLinkAction with external prop
+    ```
 - **RouteLeavingGuard**: General navigation guard for unsaved changes
   - Props: `when`, `navigate`, `shouldBlockNavigation`, `modalVisible`, `modalProps`
 - **SmRouteNavigationGuard**: Secure messaging-specific navigation guard
@@ -769,6 +947,7 @@ state.sm = {
     threadList: [], // List of thread objects
     page: 1,
     sort: {},
+    refetchRequired: false, // Set to true to trigger thread list refresh (see Thread List Refresh Pattern)
   },
   threadDetails: {
     messages: [], // Sent messages in thread
@@ -991,6 +1170,7 @@ state.sm = {
 - ❌ **Never** use `onChange` on web components, use proper custom events
 - ❌ **Never** forget to check 45-day rule before allowing replies
 - ❌ **Never** skip error handling in async actions
+- ❌ **Never** forget to dispatch `setThreadRefetchRequired(true)` after operations that change thread/message state (see Thread List Refresh Pattern below)
 
 ### Performance Considerations
 - ✅ Debounce auto-save operations (already implemented with `useDebounce`)
@@ -1128,7 +1308,52 @@ const validateForm = () => {
 />
 ```
 
+## Thread List Refresh Pattern
+
+### Overview
+When an action modifies thread or message state (read status, send, delete, move), the thread list in `FolderThreadListView` must be refreshed to reflect those changes. This is accomplished via the `refetchRequired` flag pattern.
+
+### How It Works
+1. **Action sets flag**: After successful state change, dispatch `setThreadRefetchRequired(true)`
+2. **Component reacts**: `FolderThreadListView` has a `useEffect` that watches `refetchRequired`
+3. **Refetch triggered**: When `refetchRequired` becomes `true`, component calls `getListOfThreads()`
+4. **Flag reset**: After refetch, `refetchRequired` is set back to `false`
+
+### When to Use
+Dispatch `setThreadRefetchRequired(true)` after any action that changes data visible in the thread list:
+- ✅ `markMessageAsReadInThread` - changes `unreadMessages` flag
+- ✅ `sendMessage` / `sendReply` - adds new message to thread
+- ✅ `deleteMessage` - removes thread from folder
+- ✅ `moveMessageThread` - moves thread between folders
+- ✅ `saveDraft` / `deleteDraft` - affects draft count/status
+
+### Implementation Pattern
+```javascript
+// In action creator (e.g., actions/messages.js)
+import { setThreadRefetchRequired } from './threads';
+
+export const myAction = (param) => async dispatch => {
+  const response = await apiCall(param);
+  if (!response.errors) {
+    dispatch({ type: Actions.MyFeature.SUCCESS, response });
+    dispatch(setThreadRefetchRequired(true)); // CRITICAL: Trigger list refresh
+  }
+};
+```
+
+### Common Bug: Stale Thread List
+**Symptom**: User performs action (e.g., opens message), returns to inbox, but list doesn't reflect change (e.g., message still shows as unread)
+**Cause**: Action creator missing `dispatch(setThreadRefetchRequired(true))`
+**Solution**: Add the dispatch after successful state change
+**Reference**: GitHub issue #125994
+
 ## Troubleshooting Common Issues
+
+### Thread List Not Updating After Action
+- **Symptom**: User performs action, returns to list, changes not reflected
+- **Cause**: Missing `setThreadRefetchRequired(true)` dispatch in action creator
+- **Solution**: Add `dispatch(setThreadRefetchRequired(true))` after successful API call
+- **See**: Thread List Refresh Pattern section above
 
 ### Web Components Not Responding
 - **Symptom**: va-text-input onChange not firing

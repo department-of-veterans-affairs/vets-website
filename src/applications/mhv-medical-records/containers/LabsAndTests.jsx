@@ -7,7 +7,10 @@ import {
   useAcceleratedData,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 
+import CernerFacilityAlert from 'platform/mhv/components/CernerFacilityAlert/CernerFacilityAlert';
+import { CernerAlertContent } from 'platform/mhv/components/CernerFacilityAlert/constants';
 import { Actions } from '../util/actionTypes';
 import RecordList from '../components/RecordList/RecordList';
 import {
@@ -18,7 +21,6 @@ import {
 import {
   ALERT_TYPE_ERROR,
   DEFAULT_DATE_RANGE,
-  CernerAlertContent,
   accessAlertTypes,
   labTypes,
   pageTitles,
@@ -40,7 +42,6 @@ import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
 import useReloadResetListOnUnmount from '../hooks/useReloadResetListOnUnmount';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
-import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import DateRangeSelector, {
   getDateRangeList,
 } from '../components/shared/DateRangeSelector';
@@ -48,6 +49,7 @@ import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import { fetchImageRequestStatus } from '../actions/images';
 import JobCompleteAlert from '../components/shared/JobsCompleteAlert';
 import { useTrackAction } from '../hooks/useTrackAction';
+import TrackedSpinner from '../components/shared/TrackedSpinner';
 import AdditionalReportsInfo from '../components/shared/AdditionalReportsInfo';
 
 const LabsAndTests = () => {
@@ -60,6 +62,12 @@ const LabsAndTests = () => {
     state => state.mr.labsAndTests.labsAndTestsList,
   );
   const { imageStatus: studyJobs } = useSelector(state => state.mr.images);
+  const mergeCvixWithScdf = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicalRecordsMergeCvixIntoScdf
+      ],
+  );
 
   const radRecordsWithImagesReady = labsAndTests?.filter(radRecord => {
     const isRadRecord =
@@ -86,18 +94,23 @@ const LabsAndTests = () => {
     [dispatch],
   );
 
-  const { isAcceleratingLabsAndTests } = useAcceleratedData();
+  const { isLoading, isAcceleratingLabsAndTests } = useAcceleratedData();
 
   const dispatchAction = useMemo(
     () => {
       return isCurrent => {
-        return getLabsAndTestsList(isCurrent, isAcceleratingLabsAndTests, {
-          startDate: dateRange.fromDate,
-          endDate: dateRange.toDate,
-        });
+        return getLabsAndTestsList(
+          isCurrent,
+          isAcceleratingLabsAndTests,
+          {
+            startDate: dateRange.fromDate,
+            endDate: dateRange.toDate,
+          },
+          mergeCvixWithScdf,
+        );
       };
     },
-    [isAcceleratingLabsAndTests, dateRange],
+    [isAcceleratingLabsAndTests, dateRange, mergeCvixWithScdf],
   );
 
   useListRefresh({
@@ -165,7 +178,7 @@ const LabsAndTests = () => {
         confirm.{' '}
       </p>
 
-      <AcceleratedCernerFacilityAlert {...CernerAlertContent.LABS_AND_TESTS} />
+      <CernerFacilityAlert {...CernerAlertContent.LABS_AND_TESTS} />
 
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
@@ -202,68 +215,68 @@ const LabsAndTests = () => {
             <AdditionalReportsInfo domainName="lab and test results" />
           </div>
         )}
-        {isLoadingAcceleratedData && (
-          <>
-            <div className="vads-u-margin-y--8">
-              <va-loading-indicator
-                message="We’re loading your records."
-                setFocus
-                data-testid="loading-indicator"
-              />
-            </div>
-          </>
+        {(isLoadingAcceleratedData || isLoading) && (
+          <div className="vads-u-margin-y--8">
+            <TrackedSpinner
+              id="labs-and-tests-page-spinner"
+              message="We’re loading your records."
+              setFocus
+              data-testid="loading-indicator"
+            />
+          </div>
         )}
-        {!isLoadingAcceleratedData && (
-          <>
-            {labsAndTests?.length ? (
-              <>
-                {radRecordsWithImagesReady?.length > 0 &&
-                  studyJobs?.length > 0 && (
-                    <VaAlert
-                      status="success"
-                      visible
-                      class="vads-u-margin-y--3 no-print"
-                      role="alert"
-                      data-testid="alert-images-ready"
-                    >
-                      <h3
-                        slot="headline"
-                        className="vads-u-font-size--lg no-print"
+        {!isLoadingAcceleratedData &&
+          !isLoading && (
+            <>
+              {labsAndTests?.length ? (
+                <>
+                  {radRecordsWithImagesReady?.length > 0 &&
+                    studyJobs?.length > 0 && (
+                      <VaAlert
+                        status="success"
+                        visible
+                        class="vads-u-margin-y--3 no-print"
+                        role="alert"
+                        data-testid="alert-images-ready"
                       >
-                        Images ready
-                      </h3>
-                      <JobCompleteAlert
-                        records={radRecordsWithImagesReady}
-                        studyJobs={studyJobs}
-                      />
-                    </VaAlert>
-                  )}
+                        <h3
+                          slot="headline"
+                          className="vads-u-font-size--lg no-print"
+                        >
+                          Images ready
+                        </h3>
+                        <JobCompleteAlert
+                          records={radRecordsWithImagesReady}
+                          studyJobs={studyJobs}
+                        />
+                      </VaAlert>
+                    )}
 
-                <RecordList
+                  <RecordList
+                    type={recordType.LABS_AND_TESTS}
+                    records={labsAndTests?.map(data => ({
+                      ...data,
+                      isAccelerating: isAcceleratingLabsAndTests,
+                    }))}
+                    domainOptions={{
+                      isAccelerating: isAcceleratingLabsAndTests,
+                      timeFrame: getTimeFrame(dateRange),
+                      displayTimeFrame: getDisplayTimeFrame(dateRange),
+                    }}
+                  />
+                </>
+              ) : (
+                <NoRecordsMessage
                   type={recordType.LABS_AND_TESTS}
-                  records={labsAndTests?.map(data => ({
-                    ...data,
-                    isAccelerating: isAcceleratingLabsAndTests,
-                  }))}
-                  domainOptions={{
-                    isAccelerating: isAcceleratingLabsAndTests,
-                    timeFrame: getTimeFrame(dateRange),
-                    displayTimeFrame: getDisplayTimeFrame(dateRange),
-                  }}
+                  timeFrame={
+                    isAcceleratingLabsAndTests
+                      ? getDisplayTimeFrame(dateRange)
+                      : ''
+                  }
                 />
-              </>
-            ) : (
-              <NoRecordsMessage
-                type={recordType.LABS_AND_TESTS}
-                timeFrame={
-                  isAcceleratingLabsAndTests
-                    ? getDisplayTimeFrame(dateRange)
-                    : ''
-                }
-              />
-            )}
-          </>
-        )}
+              )}
+            </>
+          )}
       </RecordListSection>
     </div>
   );

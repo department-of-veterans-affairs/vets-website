@@ -6,6 +6,8 @@ import {
   useAcceleratedData,
 } from '@department-of-veterans-affairs/mhv/exports';
 
+import CernerFacilityAlert from 'platform/mhv/components/CernerFacilityAlert/CernerFacilityAlert';
+import { CernerAlertContent } from 'platform/mhv/components/CernerFacilityAlert/constants';
 import RecordList from '../components/RecordList/RecordList';
 import { getConditionsList, reloadRecords } from '../actions/conditions';
 import {
@@ -14,7 +16,6 @@ import {
   ALERT_TYPE_ERROR,
   accessAlertTypes,
   refreshExtractTypes,
-  CernerAlertContent,
   statsdFrontEndActions,
   loadStates,
 } from '../util/constants';
@@ -23,8 +24,8 @@ import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
 import useReloadResetListOnUnmount from '../hooks/useReloadResetListOnUnmount';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
-import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
+import TrackedSpinner from '../components/shared/TrackedSpinner';
 import { useTrackAction } from '../hooks/useTrackAction';
 import { Actions } from '../util/actionTypes';
 
@@ -44,7 +45,7 @@ const HealthConditions = () => {
   );
   useTrackAction(statsdFrontEndActions.HEALTH_CONDITIONS_LIST);
 
-  const { isAcceleratingConditions } = useAcceleratedData();
+  const { isLoading, isAcceleratingConditions } = useAcceleratedData();
   const dispatchAction = useMemo(
     () => {
       return isCurrent => {
@@ -93,9 +94,7 @@ const HealthConditions = () => {
         previous My HealtheVet experience.
       </p>
 
-      <AcceleratedCernerFacilityAlert
-        {...CernerAlertContent.HEALTH_CONDITIONS}
-      />
+      <CernerFacilityAlert {...CernerAlertContent.HEALTH_CONDITIONS} />
 
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
@@ -133,18 +132,17 @@ const HealthConditions = () => {
             condition, ask your provider at your next appointment.
           </p>
         </va-additional-info>
-        {isLoadingAcceleratedData && (
-          <>
-            <div className="vads-u-margin-y--8">
-              <va-loading-indicator
-                message="We’re loading your records."
-                setFocus
-                data-testid="accelerated-loading-indicator"
-              />
-            </div>
-          </>
+        {(isLoadingAcceleratedData || isLoading) && (
+          <div className="vads-u-margin-y--8">
+            <TrackedSpinner
+              id="conditions-page-spinner"
+              message="We’re loading your records."
+              setFocus
+              data-testid="accelerated-loading-indicator"
+            />
+          </div>
         )}
-        {!isLoadingAcceleratedData && conditions?.length ? (
+        {!isLoadingAcceleratedData && !isLoading && conditions?.length ? (
           <RecordList
             records={conditions}
             type={recordType.HEALTH_CONDITIONS}

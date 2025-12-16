@@ -2,6 +2,7 @@ import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 
 import { expect } from 'chai';
 import {
+  collectAttachmentFiles,
   pruneFields,
   pruneFieldsInArray,
   pruneConfiguredArrays,
@@ -51,6 +52,127 @@ describe('submit-helpers.js', () => {
       const recipientName = 'Jane Doe';
       const flattenedName = replacer('recipientName', recipientName);
       expect(flattenedName).to.equal('Jane Doe');
+    });
+  });
+
+  describe('collectAttachmentFiles', () => {
+    it('should flatten the array of attachment files from trusts', () => {
+      const formData = {
+        trusts: [
+          {
+            uploadedDocuments: [{ name: 'file1.pdf' }, { name: 'file2.pdf' }],
+          },
+          {
+            uploadedDocuments: [{ name: 'file3.pdf' }],
+          },
+        ],
+      };
+
+      const attachments = collectAttachmentFiles(formData);
+
+      expect(attachments).to.deep.equal([
+        { name: 'file1.pdf' },
+        { name: 'file2.pdf' },
+        { name: 'file3.pdf' },
+      ]);
+    });
+
+    it('should collect individual attachment files from ownedAssets', () => {
+      const formData = {
+        ownedAssets: [
+          {
+            uploadedDocuments: { name: 'assetFile1.pdf' },
+          },
+          {
+            uploadedDocuments: { name: 'assetFile2.pdf' },
+          },
+        ],
+      };
+
+      const attachments = collectAttachmentFiles(formData);
+      expect(attachments).to.deep.equal([
+        { name: 'assetFile1.pdf' },
+        { name: 'assetFile2.pdf' },
+      ]);
+    });
+
+    context('when there are no uploadedDocuments (not required)', () => {
+      it('should handle ownedAssets with no uploadedDocuments gracefully', () => {
+        const formData = {
+          ownedAssets: [
+            {
+              uploadedDocuments: { name: 'onlyFile.pdf' },
+            },
+            {
+              someOtherField: 'no files here', // no uploadedDocuments field
+            },
+            {
+              uploadedDocuments: [], // This is the behavior we see with the forms system
+            },
+          ],
+        };
+
+        const attachments = collectAttachmentFiles(formData);
+
+        expect(attachments).to.deep.equal([{ name: 'onlyFile.pdf' }]);
+      });
+
+      it('should handle trusts with no uploadedDocuments gracefully', () => {
+        const formData = {
+          trusts: [
+            {
+              uploadedDocuments: [{ name: 'trustFile.pdf' }],
+            },
+            {
+              someOtherField: 'no files here',
+            },
+            {
+              uploadedDocuments: [], // This is the behavior we see with the forms system
+            },
+          ],
+        };
+
+        const attachments = collectAttachmentFiles(formData);
+
+        expect(attachments).to.deep.equal([{ name: 'trustFile.pdf' }]);
+      });
+    });
+
+    it('should return an empty array when no attachments are present', () => {
+      const formData = {
+        trusts: [
+          {
+            uploadedDocuments: [],
+          },
+        ],
+        ownedAssets: [],
+      };
+
+      const attachments = collectAttachmentFiles(formData);
+
+      expect(attachments).to.deep.equal([]);
+    });
+
+    it('should return an array of all attachments from both trusts and ownedAssets', () => {
+      const formData = {
+        trusts: [
+          {
+            uploadedDocuments: [{ name: 'trustFile1.pdf' }],
+          },
+        ],
+        ownedAssets: [
+          {
+            uploadedDocuments: { name: 'assetFile1.pdf' },
+          },
+        ],
+      };
+
+      const attachments = collectAttachmentFiles(formData);
+
+      expect(attachments).to.deep.equal([
+        { name: 'trustFile1.pdf' },
+        { name: 'assetFile1.pdf' },
+      ]);
     });
   });
 

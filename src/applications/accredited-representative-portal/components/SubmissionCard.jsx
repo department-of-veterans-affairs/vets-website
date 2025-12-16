@@ -74,11 +74,17 @@ const SubmissionCard = ({ submission }) => {
           </strong>
         </p>
         <p className="submission__card-status">
-          <span className="submission__card-attribute-text">
-            {'Confirmation: '}
-          </span>
-          {submission.confirmationNumber}
-          <br />
+          {submission.confirmationNumber ? (
+            <>
+              <span className="submission__card-attribute-text">
+                {'Confirmation: '}
+              </span>
+              {submission.confirmationNumber}
+              <br />
+            </>
+          ) : (
+            ''
+          )}
           <span
             className={`submission__card-status--row ${submission.vbmsStatus}`}
           >

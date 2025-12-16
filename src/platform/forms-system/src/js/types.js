@@ -307,6 +307,7 @@
  * @property {string | JSX.Element} [formDescription] Used with `useFormsPattern`. A JSX or string description that it is also a11y (screen reader) friendly. useFormsPattern and uswds must be true.
  * @property {string} [formHeading] Used with `useFormsPattern`. Intended to be used as the form page header. useFormsPattern and uswds must be true.
  * @property {number} [formHeadingLevel] Used with `useFormsPattern`. The header level of the formHeading. useFormsPattern and uswds must be true.
+ * @property {string | number} [formHeadingLevelStyle] Used with `useFormsPattern`. The visual style level of the formHeading (e.g., '2' or 2 to style as h2 while using different semantic level). useFormsPattern and uswds must be true.
  * @property {boolean} [freeInput] for AutoSuggest widget
  * @property {boolean} [generateIndividualItemHeaders] For array field generation that would use the "new item" logic. Items created before it will now have "item" headers attached to them if there are multiple and it is not the final one in the series.
  * @property {boolean} [hideEmptyValueInReview] Field will not be displayed in review page if empty if set to true
@@ -489,6 +490,9 @@
  * @property {ArrayBuilderText} [text] Override any default text used in the array builder pattern
  * @property {boolean} [useLinkInsteadOfYesNo]
  * @property {boolean} [useButtonInsteadOfYesNo]
+ * @property {(({ arrayData, fullData, isReview }) => boolean)} [canAddItem] Control add button/link visibility on summary page
+ * @property {(({ itemData, index, fullData, isReview }) => boolean)} [canEditItem] Control edit link visibility per card
+ * @property {(({ itemData, index, fullData, isReview }) => boolean)} [canDeleteItem] Control delete button visibility per card
  * @property {DuplicateChecks} [duplicateChecks]
  * ```
  * // Example simple:
@@ -592,9 +596,10 @@
 
 /**
  * @typedef {Object} FormOptions
- * @property {boolean} filterInactiveNestedPageData - utilize filter method for removing inactive page data that filters ArrayBuilder page data
- * @property {boolean} useWebComponentForNavigation - utilize VADS button web components for page nav
- * @property {boolean} focusOnAlertRole - apply focus to va-alert on submission error
+ * @property {boolean} [filterInactiveNestedPageData] - utilize filter method for removing inactive page data that filters ArrayBuilder page data
+ * @property {boolean} [useWebComponentForNavigation] - utilize VADS button web components for page nav
+ * @property {boolean} [focusOnAlertRole] - apply focus to va-alert on submission error
+ * @property {boolean} [scaffoldAndFocusFormErrors] - create screen reader-only error messages and move focus to first error on submit
  */
 
 /**
@@ -608,4 +613,73 @@
  *   ['John', 'Doe', '1990-01-01', '123-45-6789'],
  *   ['Jane', 'Smith', '1992-02-02', '987-65-4321']
  * ]
+ */
+
+/**
+ * @typedef {Object} PersonalInformationPageOptions - Options object for profilePersonalInfoPage function
+ * @property {string} key=personalInfoPage - The page key within the form config chapter
+ * @property {string} title=Personal Information - The title of the page
+ * @property {string} path=personal-information - The path of the page
+ * @property {PersonalInformationConfig} personalInfoConfig - Configuration object for the PersonalInformation component
+ * @property {DataAdapter} dataAdapter - Data adapter configuration object for the PersonalInformation component
+ * @property {string|Function} errorMessage - Custom error message or component for missing data
+ * @property {JSX.Element|React.ReactNode} cardHeader - Custom card header component
+ * @property {JSX.Element|React.ReactNode} header - Custom header component
+ * @property {JSX.Element|React.ReactNode} note - Custom note component
+ * @property {JSX.Element|React.ReactNode} footer - Custom footer component
+ * @property {JSX.Element|React.ReactNode} contentBeforeButtons=null - Content to display before the navigation buttons
+ * @property {JSX.Element|React.ReactNode} contentAfterButtons=null - Content to display after the navigation buttons
+ * @property {boolean} hideOnReview=true - Whether to hide the page on the review page
+ * @property {Function} depends - Conditional function to determine if page should be shown
+ * @property {boolean} background=false - Whether to display a background on the page
+ */
+
+/**
+ * Function that returns a personal information page configuration
+ * @typedef {(options?: PersonalInformationPageOptions) => FormConfigPages} PersonalInformationPageConfig
+ */
+
+/**
+ * @typedef {Object} ContactInformationPageOptions - Options object for profileContactInfoPage function
+ * @property {import('../utilities/data/profile').ContactInfoContent} content
+ * @property {String} contactPath=contact-information - Contact info path of
+ *  formConfig page
+ * @property {String} addressSchema=profileAddressSchema - Profile
+ *  address schema object
+ * @property {Object} emailSchema=standardEmailSchema - Email schema object for
+ *  email string
+ * @property {Object} phoneSchema=standardPhoneSchema - Phone schema object with
+ *  country code, area code, phone number & extension values
+ * @property {String} wrapperKey=veteran - wrapper key value set in
+ *  ContactInfoKeys
+ * @property {String} addressKey=mailingAddress - address key value set in
+ *  ContactInfoKeys
+ * @property {String} homePhoneKey=homePhone - home phone key value set in
+ *  ContactInfoKeys
+ * @property {String} mobilePhoneKey=mobilePhone - mobile phone key value set in
+ *  ContactInfoKeys
+ * @property {String} emailKey=email - email key value set in ContactInfoKeys
+ * @property {String[]} contactInfoRequiredKeys - array of key values in
+ *  ContactInfoKeys that are to be required before proceeding
+ * @property {String} contactInfoPageKey=confirmContactInfo - set page key
+ *  within the form config chapter
+ * @property {String[]} included=['mobilePhone', 'homePhone', 'mailingAddress',
+ *  'email'] - array of ContactInfoKeys to show on the contact info page
+ * @property {Function} depends=null - depends callback function; return true to
+ *  make the main confirmation page visible
+ * @property {Object} contactInfoUiSchema={} - custom uiSchema for the contact
+ *  info page
+ * @property {boolean} disableMockContactInfo=false - disable mock contact info
+ *  data for testing
+ * @property {number} contactSectionHeadingLevel=null - heading level for contact
+ *  info sections
+ * @property {number} editContactInfoHeadingLevel=null - heading level for edit
+ *  contact info pages
+ * @property {boolean} prefillPatternEnabled=false - enable prefill pattern for
+ *  contact info
+ */
+
+/**
+ * Function that returns contact information pages configuration
+ * @typedef {(options?: ContactInformationPageOptions) => FormConfigPages} ContactInformationPageConfig
  */
