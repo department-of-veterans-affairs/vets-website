@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import mockUser from '../fixtures/user.json';
 import vamc from '../fixtures/facilities/vamc-ehr.json';
 import sessionStatus from '../fixtures/session-status.json';
@@ -6,17 +5,10 @@ import createAal from '../fixtures/create-aal.json';
 
 class MedicalRecordsSite {
   login = (userFixture = mockUser, useDefaultFeatureToggles = true) => {
-    console.log('---> *** in login ***');
-
     if (useDefaultFeatureToggles) {
-      console.log('---> Using default feature toggles');
       this.mockFeatureToggles();
     }
-    console.log('---> before mockVamcEhr');
-
     this.mockVamcEhr();
-    console.log('---> before mockMaintenanceWindow');
-
     this.mockMaintenanceWindow();
     cy.intercept('POST', '/my_health/v1/medical_records/session', {
       statusCode: 204,
@@ -31,8 +23,6 @@ class MedicalRecordsSite {
       body: createAal,
     }).as('aal');
     cy.intercept('POST', '/v0/datadog_action', {}).as('datadogAction');
-    console.log('---> befoe login');
-
     cy.login(userFixture);
   };
 
@@ -171,7 +161,6 @@ class MedicalRecordsSite {
   };
 
   loadPage = () => {
-    console.log('---> *** in loadPage ***');
     cy.visit('my-health/medical-records');
     cy.wait(['@vamcEhr', '@mockUser', '@featureToggles', '@session']);
   };

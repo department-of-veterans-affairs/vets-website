@@ -18,7 +18,6 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvAcceleratedDeliveryCareNotesEnabled = false,
     mhvAcceleratedDeliveryVitalSignsEnabled = false,
     mhvAcceleratedDeliveryConditionsEnabled = false,
-    // mhvAcceleratedDeliveryVaccinesEnabled = false,
     mhvAcceleratedDeliveryLabsAndTestsEnabled = false,
     mhvMedicationsDisplayNewCernerFacilityAlert = true,
 
@@ -60,10 +59,6 @@ const generateFeatureToggles = (toggles = {}) => {
           name: 'mhv_accelerated_delivery_conditions_enabled',
           value: mhvAcceleratedDeliveryConditionsEnabled,
         },
-        // {
-        //   name: 'mhv_accelerated_delivery_vaccines_enabled',
-        //   value: mhvAcceleratedDeliveryVaccinesEnabled,
-        // },
         {
           name: 'mhv_accelerated_delivery_vital_signs_enabled',
           value: mhvAcceleratedDeliveryVitalSignsEnabled,
