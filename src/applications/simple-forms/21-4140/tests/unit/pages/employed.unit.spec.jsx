@@ -10,9 +10,9 @@ import formConfig from '../../../config/form';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.employmentChapter.pages.unemployed;
+} = formConfig.chapters.employmentChapter.pages.employed;
 
-const pageTitle = 'unemployed';
+const pageTitle = 'employed';
 
 // The page has a checkbox group with 2 individual checkboxes
 const numberOfWebComponentFields = 2;
@@ -34,9 +34,9 @@ testNumberOfErrorsOnSubmitForWebComponents(
   pageTitle,
 );
 
-describe(`Unemployment validations`, () => {
+describe(`employment validations`, () => {
   it('flags missing form data as an error', () => {
-    const validation = uiSchema.unemploymentCertifications['ui:validations'][0];
+    const validation = uiSchema.employmentCertifications['ui:validations'][0];
     const errors = {
       addError: sinon.spy(),
     };
@@ -50,13 +50,13 @@ describe(`Unemployment validations`, () => {
   });
 
   it('flags missing both checkbox agreements as an error', () => {
-    const validation = uiSchema.unemploymentCertifications['ui:validations'][0];
+    const validation = uiSchema.employmentCertifications['ui:validations'][0];
     const errors = {
       addError: sinon.spy(),
     };
     validation(errors, {
-      unemploymentCertification: true,
-      accuracyCertification: false,
+      employmentCertification: true,
+      employmentAccuracyCertification: false,
     });
     expect(errors.addError.calledOnce).to.be.true;
     expect(
