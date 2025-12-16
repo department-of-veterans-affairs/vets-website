@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom-v5-compat';
 import { VaLinkAction } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 
@@ -12,6 +13,9 @@ import { standard5103Item } from '../../constants';
 import { evidenceDictionary } from '../../utils/evidenceDictionary';
 
 export default function FilesNeeded({ claimId, item, previousPage = null }) {
+  // useNavigate for client-side routing (avoids full page reload with VaLinkAction).
+  // This is how 'to=""' worked in the previous version of this component.
+  const navigate = useNavigate();
   // We will not use the truncateDescription() here as these descriptions are custom and specific to what we want
   // the user to see based on the given item type.
   const itemsWithNewDescriptions = [
@@ -69,10 +73,15 @@ export default function FilesNeeded({ claimId, item, previousPage = null }) {
           href={`/track-claims/your-claims/${claimId}/needed-from-you/${
             item.id
           }`}
-          onClick={() => {
+          onClick={e => {
+            // Prevent full page reload, use React Router instead
+            e.preventDefault();
+
             if (previousPage !== null) {
               sessionStorage.setItem('previousPage', previousPage);
             }
+
+            navigate(`/your-claims/${claimId}/needed-from-you/${item.id}`);
           }}
           text="About this request"
           type="secondary"
