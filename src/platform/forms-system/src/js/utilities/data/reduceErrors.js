@@ -263,13 +263,14 @@ export const reduceErrors = (errors, pageList, reviewErrors = {}) =>
           err.__errors?.length &&
           !errorExists(processedErrors, name, errorIndex)
         ) {
-          const { chapterKey = '', pageKey = '' } =
+          const overrideResult =
             reviewErrors._override?.(name || err.stack || err.argument, err) ||
             getPropertyInfo(pageList, name);
-          // `message` is null if we don't want a link to show up.
-          // For example, this happens for the 526 when a new disability is
-          // missing (has error), and the nested required condition (also has
-          // an error) is also missing.
+          const { chapterKey = '', pageKey = '', navigationType = 'edit' } =
+            overrideResult || {};
+          // `message` can be null if a reviewErrors function explicitly returns null
+          // to suppress the error link. This is useful when multiple related errors
+          // exist and only one link should be displayed.
           const message = getErrorMessage(reviewErrors[name], errorIndex);
           if (message !== null) {
             processedErrors.push({
@@ -279,6 +280,7 @@ export const reduceErrors = (errors, pageList, reviewErrors = {}) =>
                 message || err.__errors.map(e => formatErrors(e)).join('. '),
               chapterKey,
               pageKey,
+              navigationType,
             });
           }
         } else if (err.property) {
@@ -310,7 +312,7 @@ export const reduceErrors = (errors, pageList, reviewErrors = {}) =>
            * anyone and show both
           */
           if (!errorExists(processedErrors, propertyName, index)) {
-            const { chapterKey = '', pageKey = '' } =
+            const overrideResult =
               reviewErrors._override?.(property || err?.stack || argument) ||
               getPropertyInfo(
                 // List of all form pages; includes chapterKey, pageKey and
@@ -320,6 +322,8 @@ export const reduceErrors = (errors, pageList, reviewErrors = {}) =>
                 // full path to the error
                 property,
               );
+            const { chapterKey = '', pageKey = '', navigationType = 'edit' } =
+              overrideResult || {};
             processedErrors.push({
               // property name
               name: propertyName,
@@ -335,6 +339,7 @@ export const reduceErrors = (errors, pageList, reviewErrors = {}) =>
               // page within the chapter that contains the error; will be used
               // in future work to highlight the specific page for the user
               pageKey,
+              navigationType,
             });
           }
           return null;

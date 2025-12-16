@@ -132,6 +132,7 @@ import {
 
 import migrations from '../migrations';
 import reviewErrors from '../reviewErrors';
+import { getCustomValidationErrors } from '../utils/customValidationErrors';
 
 import manifest from '../manifest.json';
 import CustomReviewTopContent from '../components/CustomReviewTopContent';
@@ -196,6 +197,7 @@ const formConfig = {
   errorText: ErrorText,
   showReviewErrors: true,
   reviewErrors,
+  customValidationErrors: getCustomValidationErrors,
   onFormLoaded,
   defaultDefinitions: {
     ...fullSchema.definitions,

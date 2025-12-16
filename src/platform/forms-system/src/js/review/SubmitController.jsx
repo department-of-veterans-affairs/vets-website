@@ -66,25 +66,13 @@ class SubmitController extends Component {
     }
   }
 
-  getNewDisabilitiesValidationError = formData => {
-    const customErrors = [];
-    if (formData?.['view:claimType']?.['view:claimingNew']) {
-      const newDisabilities = formData?.newDisabilities;
-      if (
-        !newDisabilities ||
-        !Array.isArray(newDisabilities) ||
-        newDisabilities.length === 0
-      ) {
-        customErrors.push({
-          property: 'instance.newDisabilities',
-          message: 'does not meet minimum length of 1',
-          name: 'minItems',
-          argument: 1,
-          stack: 'instance.newDisabilities does not meet minimum length of 1',
-        });
-      }
+  getCustomValidationErrors = formData => {
+    const { formConfig } = this.props;
+    // Call form-specific custom validation if configured
+    if (formConfig?.customValidationErrors) {
+      return formConfig.customValidationErrors(formData);
     }
-    return customErrors;
+    return [];
   };
 
   checkAndClearStaleErrors = (props = this.props) => {
@@ -94,7 +82,7 @@ class SubmitController extends Component {
     // Only check if there are any errors to clear
     if (formErrors?.errors?.length > 0) {
       // Re-validate to check if errors are still valid
-      const customErrors = this.getNewDisabilitiesValidationError(form.data);
+      const customErrors = this.getCustomValidationErrors(form.data);
       const { isValid } = isValidForm(form, pageList);
       const hasErrors = !isValid || customErrors.length > 0;
 
@@ -163,8 +151,8 @@ class SubmitController extends Component {
       return;
     }
 
-    // Custom validation: Check if view:claimingNew is true and newDisabilities is valid
-    const customErrors = this.getNewDisabilitiesValidationError(form.data);
+    // Custom validation: Call form-specific custom validation if configured
+    const customErrors = this.getCustomValidationErrors(form.data);
 
     // Validation errors in this situation are not visible, so we’d
     // like to know if they’re common

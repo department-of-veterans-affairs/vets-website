@@ -7,6 +7,7 @@ describe('reviewErrors', () => {
   const EXPECTED_CLAIM_TYPE_REDIRECT = {
     chapterKey: 'disabilities',
     pageKey: 'claimType',
+    navigationType: 'redirect',
   };
 
   describe('newDisabilities', () => {

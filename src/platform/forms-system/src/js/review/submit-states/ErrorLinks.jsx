@@ -83,12 +83,11 @@ const ErrorLinks = props => {
               {errors.map(error => {
                 const handleClick = event => {
                   event.preventDefault();
-                  // Redirect for newDisabilities or condition errors that should go to claimType page
-                  // Other errors on the claimType page should use default behavior
+                  // If navigationType is 'redirect', navigate to the page directly
+                  // Otherwise, use default behavior (open in edit mode)
                   if (
-                    (error.name === 'newDisabilities' ||
-                      error.name === 'condition') &&
-                    error.pageKey === 'claimType' &&
+                    error.navigationType === 'redirect' &&
+                    error.pageKey &&
                     router &&
                     formConfig
                   ) {
@@ -100,7 +99,7 @@ const ErrorLinks = props => {
                       return;
                     }
                   }
-                  // Otherwise use default behavior (open in edit mode)
+                  // Default behavior: open in edit mode
                   scrollToReviewElement(error);
                   openAndEditChapter(error);
                 };

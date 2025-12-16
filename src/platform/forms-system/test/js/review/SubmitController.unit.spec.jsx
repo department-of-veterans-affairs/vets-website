@@ -894,18 +894,27 @@ describe('Schemaform review: SubmitController', () => {
     tree.unmount();
   });
 
-  describe('getNewDisabilitiesValidationError', () => {
-    it('should return error when view:claimingNew is true and newDisabilities is empty', () => {
+  describe('customValidationErrors', () => {
+    it('should call customValidationErrors function when configured and include errors in validation', () => {
+      const customValidationErrors = sinon.stub().returns([
+        {
+          property: 'instance.testField',
+          message: 'Test error',
+          name: 'required',
+          argument: 'testField',
+          stack: 'instance requires property "testField"',
+        },
+      ]);
+
       const form = createForm({
         data: {
           privacyAgreementAccepted: true,
-          'view:claimType': {
-            'view:claimingNew': true,
-          },
-          newDisabilities: [],
+          testField: null,
         },
       });
-      const formConfig = createFormConfig();
+      const formConfig = createFormConfig({
+        customValidationErrors,
+      });
       const pageList = createPageList();
       const user = createUserLogIn();
       const setPreSubmit = sinon.spy();
@@ -937,24 +946,23 @@ describe('Schemaform review: SubmitController', () => {
       const submitButton = tree.getByText('Submit application');
       fireEvent.click(submitButton);
 
+      expect(customValidationErrors.calledWith(form.data)).to.be.true;
       expect(setFormErrors.called).to.be.true;
       const errorCall = setFormErrors.getCall(0);
       const customErrors = errorCall.args[0].rawErrors.filter(
-        e => e.property === 'instance.newDisabilities',
+        e => e.property === 'instance.testField',
       );
       expect(customErrors.length).to.equal(1);
-      expect(customErrors[0].name).to.equal('minItems');
+      expect(customErrors[0].name).to.equal('required');
       expect(setSubmission.calledWith('status', 'validationError')).to.be.true;
       tree.unmount();
     });
 
-    it('should return error when view:claimingNew is true and newDisabilities is missing', () => {
+    it('should not call customValidationErrors when not configured', () => {
+      const customValidationErrors = sinon.stub();
       const form = createForm({
         data: {
           privacyAgreementAccepted: true,
-          'view:claimType': {
-            'view:claimingNew': true,
-          },
         },
       });
       const formConfig = createFormConfig();
@@ -989,28 +997,26 @@ describe('Schemaform review: SubmitController', () => {
       const submitButton = tree.getByText('Submit application');
       fireEvent.click(submitButton);
 
-      expect(setFormErrors.called).to.be.true;
-      const errorCall = setFormErrors.getCall(0);
-      const customErrors = errorCall.args[0].rawErrors.filter(
-        e => e.property === 'instance.newDisabilities',
-      );
-      expect(customErrors.length).to.equal(1);
-      expect(setSubmission.calledWith('status', 'validationError')).to.be.true;
+      expect(customValidationErrors.called).to.be.false;
       tree.unmount();
     });
 
-    it('should not return error when view:claimingNew is false', () => {
+    it('should handle customValidationErrors returning empty array', () => {
+      const customValidationErrors = sinon.stub().returns([]);
       const form = createForm({
         data: {
           privacyAgreementAccepted: true,
-          'view:claimType': {
-            'view:claimingNew': false,
-          },
-          newDisabilities: [],
+        },
+        pages: {}, // Empty pages object to ensure no validation errors
+        formId: 'test-form',
+      });
+      const formConfig = createFormConfig({
+        customValidationErrors,
+        preSubmitInfo: {
+          required: false,
         },
       });
-      const formConfig = createFormConfig();
-      const pageList = createPageList();
+      const pageList = [];
       const user = createUserLogIn();
       const setPreSubmit = sinon.spy();
       const setSubmission = sinon.spy();
@@ -1034,6 +1040,7 @@ describe('Schemaform review: SubmitController', () => {
             submitForm={submitForm}
             trackingPrefix={formConfig.trackingPrefix}
             user={user}
+            autoSaveForm={sinon.spy()}
           />
         </Provider>,
       );
@@ -1041,93 +1048,37 @@ describe('Schemaform review: SubmitController', () => {
       const submitButton = tree.getByText('Submit application');
       fireEvent.click(submitButton);
 
-      const errorCall = setFormErrors.getCall(0);
-      if (errorCall) {
-        const customErrors = errorCall.args[0].rawErrors.filter(
-          e => e.property === 'instance.newDisabilities',
-        );
-        expect(customErrors.length).to.equal(0);
-      }
-      tree.unmount();
-    });
-
-    it('should not return error when view:claimingNew is true and newDisabilities has items', () => {
-      const form = createForm({
-        data: {
-          privacyAgreementAccepted: true,
-          'view:claimType': {
-            'view:claimingNew': true,
-          },
-          newDisabilities: [{ condition: 'Test condition' }],
-        },
-      });
-      const formConfig = createFormConfig();
-      const pageList = createPageList();
-      const user = createUserLogIn();
-      const setPreSubmit = sinon.spy();
-      const setSubmission = sinon.spy();
-      const submitForm = sinon.spy();
-      const setFormErrors = sinon.spy();
-
-      const store = createStore({
-        form,
-      });
-
-      const tree = render(
-        <Provider store={store}>
-          <SubmitController
-            form={form}
-            formConfig={formConfig}
-            pageList={pageList}
-            route={{ formConfig, pageList }}
-            setPreSubmit={setPreSubmit}
-            setSubmission={setSubmission}
-            setFormErrors={setFormErrors}
-            submitForm={submitForm}
-            trackingPrefix={formConfig.trackingPrefix}
-            user={user}
-          />
-        </Provider>,
-      );
-
-      const submitButton = tree.getByText('Submit application');
-      fireEvent.click(submitButton);
-
-      const errorCall = setFormErrors.getCall(0);
-      if (errorCall) {
-        const customErrors = errorCall.args[0].rawErrors.filter(
-          e => e.property === 'instance.newDisabilities',
-        );
-        expect(customErrors.length).to.equal(0);
-      }
+      expect(customValidationErrors.called).to.be.true;
+      // Should proceed with submission if no custom errors and form is valid
+      // setFormErrors should not be called if form is valid and has no custom errors
+      expect(setFormErrors.called).to.be.false;
+      expect(submitForm.called).to.be.true;
       tree.unmount();
     });
   });
 
   describe('checkAndClearStaleErrors', () => {
     it('should clear errors when returning to review page after fixing them', () => {
+      const customValidationErrors = sinon.stub().returns([]);
       const form = createForm({
         data: {
           privacyAgreementAccepted: true,
-          'view:claimType': {
-            'view:claimingNew': true,
-          },
-          newDisabilities: [],
+          testField: 'fixed',
         },
         formErrors: {
           errors: [
             {
-              name: 'newDisabilities',
+              name: 'testField',
               message: 'Error',
-              chapterKey: 'disabilities',
-              pageKey: 'claimType',
+              chapterKey: 'test',
+              pageKey: 'testPage',
             },
           ],
           rawErrors: [
             {
-              property: 'instance.newDisabilities',
-              message: 'does not meet minimum length of 1',
-              name: 'minItems',
+              property: 'instance.testField',
+              message: 'is required',
+              name: 'required',
             },
           ],
         },
@@ -1136,7 +1087,9 @@ describe('Schemaform review: SubmitController', () => {
           hasAttemptedSubmit: true,
         },
       });
-      const formConfig = createFormConfig();
+      const formConfig = createFormConfig({
+        customValidationErrors,
+      });
       const pageList = createPageList();
       const user = createUserLogIn();
       const router = {
@@ -1175,25 +1128,22 @@ describe('Schemaform review: SubmitController', () => {
       const fixedForm = createForm({
         data: {
           privacyAgreementAccepted: true,
-          'view:claimType': {
-            'view:claimingNew': true,
-          },
-          newDisabilities: [{ condition: 'Test condition' }],
+          testField: 'fixed',
         },
         formErrors: {
           errors: [
             {
-              name: 'newDisabilities',
+              name: 'testField',
               message: 'Error',
-              chapterKey: 'disabilities',
-              pageKey: 'claimType',
+              chapterKey: 'test',
+              pageKey: 'testPage',
             },
           ],
           rawErrors: [
             {
-              property: 'instance.newDisabilities',
-              message: 'does not meet minimum length of 1',
-              name: 'minItems',
+              property: 'instance.testField',
+              message: 'is required',
+              name: 'required',
             },
           ],
         },

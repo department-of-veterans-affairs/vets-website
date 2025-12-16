@@ -203,6 +203,7 @@ export default {
         return {
           chapterKey: 'disabilities',
           pageKey: 'claimType',
+          navigationType: 'redirect',
         };
       }
       if (error?.endsWith('startDate') || error?.endsWith('endDate')) {
