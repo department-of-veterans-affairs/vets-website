@@ -914,7 +914,7 @@ describe('toBase64 helper function', () => {
     global.FileReader = class {
       readAsDataURL() {
         this.result = mockDataUrl;
-        this.onload();
+        setTimeout(() => this.onload(), 0);
       }
     };
 
@@ -927,7 +927,7 @@ describe('toBase64 helper function', () => {
     global.FileReader = class {
       readAsDataURL() {
         this.result = 'malformed-no-comma';
-        this.onload();
+        setTimeout(() => this.onload(), 0);
       }
     };
 
@@ -940,7 +940,7 @@ describe('toBase64 helper function', () => {
     global.FileReader = class {
       readAsDataURL() {
         this.result = null;
-        this.onload();
+        setTimeout(() => this.onload(), 0);
       }
     };
 
@@ -952,7 +952,7 @@ describe('toBase64 helper function', () => {
   it('should handle FileReader errors', async () => {
     global.FileReader = class {
       readAsDataURL() {
-        this.onerror(new Error('Read failed'));
+        setTimeout(() => this.onerror(new Error('Read failed')), 0);
       }
     };
 
