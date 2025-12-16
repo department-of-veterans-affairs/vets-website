@@ -135,6 +135,9 @@ export const DEFAULT_ARRAY_BUILDER_TEXT = {
   summaryAddButtonText: props => `Add ${props.nounSingular}`,
   summaryAddLinkText: props => `Add ${props.nounSingular}`,
   summaryTitle: props => `Review your ${props.nounPlural}`,
+  summaryTitleWithoutItems: props => null, // No title by default - only arrayBuilderYesNoUI question
+  summaryDescription: props => null, // string or JSX/React
+  summaryDescriptionWithoutItems: props => null, // string or JSX/React
   yesNoBlankReviewQuestion: props =>
     `Do you have any ${props.nounPlural} to add?`,
 
