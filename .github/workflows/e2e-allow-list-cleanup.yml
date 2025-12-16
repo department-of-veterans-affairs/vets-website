@@ -95,6 +95,7 @@ jobs:
     name: Clean up E2E Test Stability Allow List
     runs-on: ubuntu-latest
     permissions:
+      checks: write
       id-token: write
       contents: read
     needs: [fetch-allow-lists]

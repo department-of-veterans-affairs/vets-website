@@ -5,12 +5,11 @@ import { getIntroState } from 'platform/forms/save-in-progress/selectors';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import VerifyAlert from 'platform/user/authorization/components/VerifyAlert';
-import { UNAUTH_SIGN_IN_DEFAULT_MESSAGE } from 'platform/forms-system/src/js/constants';
 import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
 import { getAppData } from '../selectors/selectors';
 import LoadingIndicator from './LoadingIndicator';
 
-function IntroductionLogin({
+export function IntroductionLogin({
   isClaimantCallComplete,
   isPersonalInfoFetchFailed,
   isLoggedIn,
@@ -20,17 +19,14 @@ function IntroductionLogin({
   user,
   showMeb1990EZMaintenanceAlert,
   showMeb1990EZR6MaintenanceMessage,
-  showMebEnhancements09, // Add showMebEnhancements09 as a prop
 }) {
   const apiCallsComplete = isLOA3 === false || isClaimantCallComplete;
   const openLoginModal = () => {
     showHideLoginModal(true, 'cta-form', true);
   };
 
-  // If showMebEnhancements09 is false and the user is not logged in or the API calls have not completed, then show the loading indicator
-  const shouldShowLoadingIndicator =
-    !showMebEnhancements09 &&
-    ((!isLoggedIn && !user?.login?.hasCheckedKeepAlive) || !apiCallsComplete);
+  // showMebEnhancements09 is assumed to be in production (always on), so loading indicator is never shown
+  const shouldShowLoadingIndicator = false;
   const shouldShowMaintenanceAlert = showMeb1990EZMaintenanceAlert;
   let maintenanceMessage;
   if (showMeb1990EZR6MaintenanceMessage) {
@@ -68,14 +64,14 @@ function IntroductionLogin({
         user?.login?.hasCheckedKeepAlive && (
           <>
             <va-alert-sign-in
-              variant="signInOptional"
+              variant="signInRequired"
               time-limit="60 days"
               visible
               heading-level={2}
             >
               <span slot="SignInButton">
                 <va-button
-                  text={UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
+                  text="Sign in or create an account"
                   onClick={openLoginModal}
                 />
               </span>
@@ -95,8 +91,7 @@ function IntroductionLogin({
       {isLoggedIn &&
         isPersonalInfoFetchFailed === false &&
         shouldShowMaintenanceAlert === false &&
-        ((!showMebEnhancements09 && apiCallsComplete && isLOA3) ||
-          (showMebEnhancements09 && isLOA3)) && (
+        isLOA3 && (
           <SaveInProgressIntro
             headingLevel={
               2 // Ensure the error didn't occur. // Ensure the mainenance flag is not on.
@@ -125,20 +120,16 @@ IntroductionLogin.propTypes = {
   showMeb1990EZMaintenanceAlert: PropTypes.bool,
   showMeb1990EZR6MaintenanceAlert: PropTypes.bool,
   showMeb1990EZR6MaintenanceMessage: PropTypes.bool,
-  showMebEnhancements06: PropTypes.bool, // Add showMebEnhancements06 to propTypes
-  showMebEnhancements09: PropTypes.bool, // Added new feature flag to propTypes
   user: PropTypes.object,
 };
 const mapStateToProps = state => ({
   ...getIntroState(state),
   ...getAppData(state),
   isPersonalInfoFetchFailed: state.data.isPersonalInfoFetchFailed || false,
-  showMebEnhancements09:
-    state.featureToggles[featureFlagNames.showMebEnhancements09], // Added new feature flag to mapStateToProps
   showMeb1990EZMaintenanceAlert:
     state.featureToggles[featureFlagNames.showMeb1990EZMaintenanceAlert],
   showMeb1990EZR6MaintenanceMessage:
-    state.featureToggles[featureFlagNames.showMeb1990EZR6MaintenanceMessage],
+    state.featureToggles[featureFlagNames.showMeb1990ER6MaintenanceMessage],
 });
 const mapDispatchToProps = {
   showHideLoginModal: toggleLoginModal,
