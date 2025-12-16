@@ -1,4 +1,4 @@
-import { EXPENSE_TYPES } from '../constants';
+import { EXPENSE_TYPES, STATUSES } from '../constants';
 
 /**
  * Get an expense type object by key
@@ -31,22 +31,28 @@ export function formatAmount(amount) {
 
 /**
  * Checks if there are any documents that are not associated with any expenses
- * @param {Array} documents - Array of document objects with documentId
- * @param {Array} expenses - Array of expense objects with documentId
+ * @param {Array} documents - Array of document objects with expenseId
  * @returns {boolean} - True if there are unassociated documents, false otherwise
  */
-export function hasUnassociatedDocuments(documents = [], expenses = []) {
+export function hasUnassociatedDocuments(documents = []) {
   if (!documents || documents.length === 0) return false;
 
   // Filter out clerk notes (documents without mimetype)
   const realDocuments = documents.filter(doc => doc.mimetype);
   if (realDocuments.length === 0) return false;
 
-  if (!expenses || expenses.length === 0) return realDocuments.length > 0;
+  // Check if any document is missing an expenseId (is unassociated)
+  return !realDocuments.every(doc => doc.expenseId);
+}
 
-  const expenseDocIds = new Set(
-    expenses.map(exp => exp.documentId).filter(Boolean),
+/**
+ * Checks if a claim status is Incomplete or Saved
+ * @param {string} claimStatus - The claim status to check
+ * @returns {boolean} - True if the claim status is Incomplete or Saved, false otherwise
+ */
+export function isClaimIncompleteOrSaved(claimStatus) {
+  return (
+    claimStatus === STATUSES.Incomplete.name ||
+    claimStatus === STATUSES.Saved.name
   );
-
-  return realDocuments.some(doc => !expenseDocIds.has(doc.documentId));
 }

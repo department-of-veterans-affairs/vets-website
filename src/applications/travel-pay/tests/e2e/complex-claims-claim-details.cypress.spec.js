@@ -167,10 +167,11 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
             filename: 'receipt.pdf',
             mimetype: 'application/pdf',
             createdon: '2025-03-12T20:27:14.088Z',
+            // No expenseId, doc is unassociated
           },
         ],
         claimSource: 'VaGov',
-        expenses: [], // No expenses, so document is unassociated
+        expenses: [],
       });
 
       cy.visit(`${rootUrl}/claims/73611905-71bf-46ed-b1ec-e790593b8565`);
@@ -206,10 +207,11 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
             filename: 'parking-receipt.jpg',
             mimetype: 'image/jpeg',
             createdon: '2025-03-12T20:27:14.088Z',
+            // No expenseId, doc is unassociated
           },
         ],
         claimSource: 'VaGov',
-        expenses: [], // No expenses, so document is unassociated
+        expenses: [],
       });
 
       cy.visit(`${rootUrl}/claims/73611905-71bf-46ed-b1ec-e790593b8565`);
@@ -245,6 +247,7 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
             filename: 'parking-receipt.pdf',
             mimetype: 'application/pdf',
             createdon: '2025-03-12T20:27:14.088Z',
+            expenseId: 'expense-123', // Doc is associated with expense
           },
         ],
         claimSource: 'VaGov',
@@ -252,7 +255,6 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
           {
             id: 'expense-123',
             expenseType: 'Parking',
-            documentId: 'doc-associated-789', // Document is associated
             costRequested: 20.0,
           },
         ],
@@ -441,6 +443,7 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
             filename: 'toll-receipt.pdf',
             mimetype: 'application/pdf',
             createdon: '2025-03-12T20:27:14.088Z',
+            expenseId: 'expense-toll', // Doc is associated with expense
           },
         ],
         claimSource: 'VaGov',
@@ -448,7 +451,6 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
           {
             id: 'expense-toll',
             expenseType: 'Toll',
-            documentId: 'doc-associated',
             costRequested: 5.0,
           },
         ],

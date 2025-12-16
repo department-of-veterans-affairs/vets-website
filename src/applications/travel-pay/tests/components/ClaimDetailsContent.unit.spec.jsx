@@ -617,9 +617,10 @@ describe('ClaimDetailsContent', () => {
               documentId: 'doc1',
               filename: 'receipt.pdf',
               mimetype: 'application/pdf',
+              // No expenseId, so doc is unassociated
             },
           ];
-          const expenses = []; // No expenses, so doc is unassociated
+          const expenses = [];
 
           renderWithStoreAndRouter(
             <ClaimDetailsContent
@@ -645,12 +646,12 @@ describe('ClaimDetailsContent', () => {
               documentId: 'doc1',
               filename: 'receipt.pdf',
               mimetype: 'application/pdf',
+              expenseId: 'exp1', // Document is associated with an expense
             },
           ];
           const expenses = [
             {
               id: 'exp1',
-              documentId: 'doc1',
               expenseType: 'Parking',
             },
           ];
@@ -718,12 +719,12 @@ describe('ClaimDetailsContent', () => {
               documentId: 'doc1',
               filename: 'receipt.pdf',
               mimetype: 'application/pdf',
+              expenseId: 'exp1', // Document is associated with expense
             },
           ];
           const expenses = [
             {
               id: 'exp1',
-              documentId: 'doc1',
               expenseType: 'Parking',
             },
           ];
@@ -795,9 +796,10 @@ describe('ClaimDetailsContent', () => {
               documentId: 'doc1',
               filename: 'receipt.pdf',
               mimetype: 'application/pdf',
+              // No expenseId, so doc is unassociated
             },
           ];
-          const expenses = []; // No expenses, so doc is unassociated
+          const expenses = [];
 
           renderWithStoreAndRouter(
             <ClaimDetailsContent
@@ -909,12 +911,12 @@ describe('ClaimDetailsContent', () => {
             documentId: 'doc1',
             filename: 'receipt.pdf',
             mimetype: 'application/pdf',
+            expenseId: 'exp1', // Doc is associated with expense
           },
         ];
         const expenses = [
           {
             id: 'exp1',
-            documentId: 'doc1',
             expenseType: 'Parking',
           },
         ];
@@ -1010,12 +1012,12 @@ describe('ClaimDetailsContent', () => {
             documentId: 'doc1',
             filename: 'receipt.pdf',
             mimetype: 'application/pdf',
+            expenseId: 'exp1',
           },
         ];
         const expenses = [
           {
             id: 'exp1',
-            documentId: 'doc1',
             expenseType: 'Parking',
           },
         ];

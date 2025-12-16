@@ -8,7 +8,10 @@ import useSetPageTitle from '../hooks/useSetPageTitle';
 import { formatDateTime } from '../util/dates';
 import { STATUSES, FORM_100998_LINK, BTSSS_PORTAL_URL } from '../constants';
 import { toPascalCase, currency } from '../util/string-helpers';
-import { hasUnassociatedDocuments } from '../util/complex-claims-helper';
+import {
+  hasUnassociatedDocuments,
+  isClaimIncompleteOrSaved,
+} from '../util/complex-claims-helper';
 import DocumentDownload from './DocumentDownload';
 import DecisionReason from './DecisionReason';
 import OutOfBoundsAppointmentAlert from './alerts/OutOfBoundsAppointmentAlert';
@@ -30,7 +33,6 @@ export default function ClaimDetailsContent({
   decisionLetterReason,
   isOutOfBounds,
   claimSource,
-  expenses,
 }) {
   useSetPageTitle('Travel Reimbursement Claim Details');
   const { id: appointmentId } = appointment;
@@ -57,14 +59,14 @@ export default function ClaimDetailsContent({
 
   // Claim requires BTSSS if: 1) Started in BTSSS OR 2) Has unassociated docs
   const requiresBTSSS =
-    claimSource !== 'VaGov' || hasUnassociatedDocuments(documents, expenses);
+    claimSource !== 'VaGov' || hasUnassociatedDocuments(documents);
 
-  // Show BTSSS redirectlink only for Incomplete/Saved claims that require BTSSS
-  const shouldShowBTSSSLink =
-    complexClaimsToggle &&
-    (claimStatus === STATUSES.Incomplete.name ||
-      claimStatus === STATUSES.Saved.name) &&
-    requiresBTSSS;
+  // Condition for showing any claim action link (BTSSS or VA.gov)
+  const shouldShowClaimAction =
+    complexClaimsToggle && isClaimIncompleteOrSaved(claimStatus);
+
+  // Show BTSSS link only if the claim requires BTSSS
+  const shouldShowBTSSSLink = shouldShowClaimAction && requiresBTSSS;
 
   const getDocLinkList = list =>
     list.map(({ filename, text, documentId }) => (
@@ -175,10 +177,8 @@ export default function ClaimDetailsContent({
           external
         />
       )}
-      {!shouldShowBTSSSLink &&
-        complexClaimsToggle &&
-        (claimStatus === STATUSES.Incomplete.name ||
-          claimStatus === STATUSES.Saved.name) && (
+      {shouldShowClaimAction &&
+        !requiresBTSSS && (
           <va-link-action
             text="Complete and file your claim"
             // Specifically NOT a client-side route to ensure
@@ -332,7 +332,6 @@ ClaimDetailsContent.propTypes = {
   claimSource: PropTypes.string,
   decisionLetterReason: PropTypes.string,
   documents: PropTypes.array,
-  expenses: PropTypes.array,
   isOutOfBounds: PropTypes.bool,
   reimbursementAmount: PropTypes.number,
   totalCostRequested: PropTypes.number,
