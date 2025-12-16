@@ -19,6 +19,9 @@ import applicantRelationToVet from '../pages/applicantRelationToVet';
 import applicantRelationToVetOrg from '../pages/applicantRelationToVetOrg';
 import applicantRelationToVetOrg2 from '../pages/applicantRelationToVetOrg2';
 import applicantContactInfo from '../pages/applicantContactInfo';
+import ApplicantContactInfoLoggedIn from '../pages/applicantContactInfoLoggedIn';
+import EditPhone from '../pages/editPhone';
+import EditEmail from '../pages/editEmail';
 import applicantContactInfo2 from '../pages/applicantContactInfo2';
 import applicantMailingAddress from '../pages/applicantMailingAddress';
 import applicantMailingAddress2 from '../pages/applicantMailingAddress2';
@@ -38,6 +41,7 @@ import {
   isUserSignedIn,
 } from '../utils/helpers';
 import { servicePeriodsPages } from '../pages/servicePeriodsPages';
+import prefillTransformer from './prefill-transformer';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -68,6 +72,8 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for Memorials benefits.',
   },
+  verifyRequiredPrefill: false,
+  prefillTransformer,
   title: TITLE,
   subTitle: SUBTITLE,
   getHelp: GetFormHelp,
@@ -131,7 +137,46 @@ const formConfig = {
           depends: formData =>
             ['familyMember', 'personalRep', 'other'].includes(
               formData.relationToVetRadio,
-            ),
+            ) && !isUserSignedIn(formData),
+        },
+        applicantContactInfoLoggedIn: {
+          title: 'Your contact information',
+          path: 'applicant-contact-info-logged-in',
+          depends: formData =>
+            ['familyMember', 'personalRep', 'other'].includes(
+              formData.relationToVetRadio,
+            ) && isUserSignedIn(formData),
+          CustomPage: ApplicantContactInfoLoggedIn,
+          CustomPageReview: ApplicantContactInfoLoggedIn,
+          uiSchema: {},
+          schema: {
+            type: 'object',
+            properties: {},
+          },
+        },
+        editPhone: {
+          title: 'Edit phone number',
+          path: 'applicant-contact-info-logged-in/edit-phone',
+          depends: () => false, // accessed directly from contact details page
+          CustomPage: EditPhone,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: {
+            type: 'object',
+            properties: {},
+          },
+        },
+        editEmail: {
+          title: 'Edit email address',
+          path: 'applicant-contact-info-logged-in/edit-email',
+          depends: () => false, // accessed directly from contact details page
+          CustomPage: EditEmail,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: {
+            type: 'object',
+            properties: {},
+          },
         },
         applicantContactInfo2: {
           path: 'applicant-contact-info-2',
