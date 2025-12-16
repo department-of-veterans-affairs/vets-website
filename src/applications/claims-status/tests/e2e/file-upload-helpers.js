@@ -50,6 +50,7 @@ export function selectDocumentType(fileIndex, docTypeCode) {
     .find('va-select')
     .should('be.visible')
     .shadow()
+    .find('select')
     .should('not.be.disabled')
     .should('be.visible')
     .wait(300) // Small wait to ensure stability
