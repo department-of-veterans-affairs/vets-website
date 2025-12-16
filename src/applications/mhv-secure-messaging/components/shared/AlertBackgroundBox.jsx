@@ -24,7 +24,7 @@ import React, {
   useMemo,
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
   VaAlert,
@@ -39,6 +39,7 @@ import { formatPathName } from '../../util/helpers';
 import manifest from '../../manifest.json';
 
 const AlertBackgroundBox = props => {
+  const history = useHistory();
   const { setShowAlertBackgroundBox = () => {} } = props;
   const dispatch = useDispatch();
   const alertList = useSelector(state => state.sm.alerts?.alertList);
@@ -238,7 +239,16 @@ const AlertBackgroundBox = props => {
                 {alertContent === Alerts.Message.SEND_MESSAGE_SUCCESS ? (
                   <>
                     Message{' '}
-                    <VaLink href={manifest.rootUrl + Paths.SENT} text="sent" />.
+                    <VaLink
+                      href={manifest.rootUrl + Paths.SENT}
+                      onClick={e => {
+                        e.preventDefault();
+                        history.push(Paths.SENT);
+                      }}
+                      text="sent"
+                      data-dd-action-name="Sent messages link in success alert"
+                    />
+                    .
                   </>
                 ) : (
                   alertContent
