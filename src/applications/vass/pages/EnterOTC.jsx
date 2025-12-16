@@ -75,18 +75,16 @@ const EnterOTC = () => {
   };
 
   const errorMessage = getErrorMessage(error?.code, error?.attemptsRemaining);
+  const pageTitle =
+    error?.code === 'account_locked'
+      ? 'We couldn’t verify your information'
+      : 'Schedule a call to learn about VA benefits and health care';
+
+  const verificationError =
+    error?.code === 'account_locked' ? errorMessage : undefined;
 
   return (
-    <Wrapper
-      pageTitle={
-        error?.code === 'account_locked'
-          ? "We couldn't verify your information"
-          : 'Schedule a call to learn about VA benefits and health care'
-      }
-      verificationError={
-        error?.code === 'account_locked' ? errorMessage : undefined
-      }
-    >
+    <Wrapper pageTitle={pageTitle} verificationError={verificationError}>
       {!error?.code && (
         <va-alert
           status="success"
