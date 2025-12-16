@@ -203,7 +203,7 @@ describe('<ErrorLinks />', () => {
     scrollSpy.restore();
   });
 
-  it('uses default behavior when navigationType is edit or missing', () => {
+  it('uses default behavior when navigationType is edit', () => {
     const editSpy = sinon.spy(utilities, 'openAndEditChapter');
     const scrollSpy = sinon.spy(utilities, 'scrollToReviewElement');
     const router = { push: sinon.spy() };
