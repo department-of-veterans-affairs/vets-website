@@ -77,8 +77,8 @@ const options = {
       summaryContent.alertItemUpdatedText(itemData),
     cardDescription: item => summaryContent.cardDescription(item),
     summaryDescription: summaryContent.descriptionWithItems,
-    summaryTitleWithoutItems: promptContent.question,
-    summaryDescriptionWithoutItems: promptContent.description,
+    // summaryTitleWithoutItems: promptContent.question,
+    // summaryDescriptionWithoutItems: promptContent.description,
     summaryTitle: summaryContent.titleWithItems,
   },
 };
@@ -94,9 +94,12 @@ const summaryPage = {
     [VA_EVIDENCE_PROMPT_KEY]: arrayBuilderYesNoUI(
       options,
       {
+        useFormsPattern: true,
+        formHeading: promptContent.question,
+        formDescription: promptContent.description,
         title: null,
         labels: promptContent.options,
-        labelHeaderLevel: '3',
+        formHeadingLevel: '3',
         hint: null,
         errorMessages: {
           required: promptContent.requiredError,

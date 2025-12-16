@@ -10,6 +10,19 @@ import {
   FETCH_CONTESTABLE_ISSUES_FAILED,
 } from '../../shared/actions';
 
+export const SET_HAS_PRIVATE_EVIDENCE = 'SET_HAS_PRIVATE_EVIDENCE';
+export const SET_HAS_VA_EVIDENCE = 'SET_HAS_VA_EVIDENCE';
+
+export const setHasEvidence = (evidenceType, hasEvidence) => {
+  return dispatch => {
+    return dispatch({
+      type:
+        evidenceType === 'va' ? SET_HAS_VA_EVIDENCE : SET_HAS_PRIVATE_EVIDENCE,
+      payload: hasEvidence,
+    });
+  };
+};
+
 export const getContestableIssues = props => {
   const benefitType = props?.benefitType || DEFAULT_BENEFIT_TYPE;
   return dispatch => {
