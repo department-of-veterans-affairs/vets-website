@@ -51,9 +51,14 @@ export function selectDocumentType(fileIndex, docTypeCode) {
     .should('be.visible')
     .shadow()
     .find('select')
-    .should('not.be.disabled')
-    .should('be.visible')
-    .wait(100) // Small wait to ensure stability
+    .should($select => {
+      // Cypress retries this entire callback until it passes or times out.
+      // This ensures the element is truly stable before proceeding.
+      // eslint-disable-next-line no-unused-expressions
+      expect($select).to.be.visible;
+      // eslint-disable-next-line no-unused-expressions
+      expect($select).not.to.be.disabled;
+    })
     .select(docTypeCode);
 }
 
