@@ -56,9 +56,9 @@ describe('Medical Records download CCD - 24 Hour Retry Timestamp', () => {
       DownloadReportsPage.goToReportsPage();
 
       // Verify access trouble alert is displayed
-      cy.contains("We can't download your Continuity of Care Document right now").should(
-        'exist',
-      );
+      cy.contains(
+        "We can't download your continuity of care document right now",
+      ).should('exist');
 
       cy.injectAxeThenAxeCheck();
     });
@@ -72,9 +72,9 @@ describe('Medical Records download CCD - 24 Hour Retry Timestamp', () => {
       DownloadReportsPage.goToReportsPage();
 
       // Access trouble alert should not be displayed
-      cy.contains("We can't download your Continuity of Care Document right now").should(
-        'not.exist',
-      );
+      cy.contains(
+        "We can't download your continuity of care document right now",
+      ).should('not.exist');
 
       cy.injectAxeThenAxeCheck();
     });
@@ -89,9 +89,9 @@ describe('Medical Records download CCD - 24 Hour Retry Timestamp', () => {
       DownloadReportsPage.goToReportsPage();
 
       // Access trouble alert should not be displayed for expired errors
-      cy.contains("We can't download your Continuity of Care Document right now").should(
-        'not.exist',
-      );
+      cy.contains(
+        "We can't download your continuity of care document right now",
+      ).should('not.exist');
 
       cy.injectAxeThenAxeCheck();
     });
@@ -115,9 +115,9 @@ describe('Medical Records download CCD - 24 Hour Retry Timestamp', () => {
       DownloadReportsPage.goToReportsPage();
 
       // Verify access trouble alert is displayed for OH users
-      cy.contains("We can't download your Continuity of Care Document right now").should(
-        'exist',
-      );
+      cy.contains(
+        "We can't download your continuity of care document right now",
+      ).should('exist');
 
       cy.injectAxeThenAxeCheck();
     });
@@ -156,7 +156,7 @@ describe('Medical Records download CCD - API Error Handling', () => {
 
       cy.intercept('GET', '/my_health/v1/medical_records/ccd/generate', {
         forceNetworkError: true,
-      }).as('ccdGenerateNetworkError');
+      });
 
       cy.get('[data-testid="generateCcdButtonXml"]').click();
 
@@ -178,7 +178,7 @@ describe('Medical Records download CCD - API Error Handling', () => {
       cy.intercept('GET', '/my_health/v2/medical_records/ccd/download.xml', {
         statusCode: 500,
         body: { error: 'Internal Server Error' },
-      }).as('ccdV2Error');
+      });
 
       cy.get('[data-testid="generateCcdButtonXmlOH"]')
         .shadow()
@@ -190,4 +190,3 @@ describe('Medical Records download CCD - API Error Handling', () => {
     });
   });
 });
-
