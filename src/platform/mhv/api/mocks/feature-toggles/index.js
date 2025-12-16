@@ -30,6 +30,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvSecureMessagingLargeAttachments = true,
     mhvSecureMessagingCuratedListFlow = true,
     mhvSecureMessagingRecentRecipients = true,
+    mhvSecureMessagingOhTransitionAlert = false,
   } = toggles;
 
   return {
@@ -143,6 +144,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_secure_messaging_recent_recipients',
           value: mhvSecureMessagingRecentRecipients,
+        },
+        {
+          name: 'mhv_secure_messaging_oh_transition_alert',
+          value: mhvSecureMessagingOhTransitionAlert,
         },
       ],
     },

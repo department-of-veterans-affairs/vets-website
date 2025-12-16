@@ -21,8 +21,8 @@ import { handleHeader, getPageTitle } from '../../util/helpers';
 import ManageFolderButtons from '../ManageFolderButtons';
 import SearchForm from '../Search/SearchForm';
 import ComposeMessageButton from '../MessageActionButtons/ComposeMessageButton';
-import CernerFacilityAlert from './CernerFacilityAlert';
 import BlockedTriageGroupAlert from '../shared/BlockedTriageGroupAlert';
+import DisplayOhTransitionAlert from '../shared/DisplayOhTransitionAlert';
 import CernerTransitioningFacilityAlert from '../Alerts/CernerTransitioningFacilityAlert';
 import InnerNavigation from '../InnerNavigation';
 import useFeatureToggles from '../../hooks/useFeatureToggles';
@@ -128,7 +128,7 @@ const FolderHeader = props => {
         folder.folderId === Folders.INBOX.id &&
         cernerFacilities?.length > 0
       ) {
-        return <CernerFacilityAlert cernerFacilities={cernerFacilities} />;
+        return <DisplayOhTransitionAlert cernerFacilities={cernerFacilities} />;
       }
       return null;
     },

@@ -4,6 +4,16 @@
         "count": 172,
         "entities": [
           {
+            "title": "Chalmers P. Wylie Veterans Outpatient Clinic",
+            "fieldFacilityLocatorApiId": "vha_757",
+            "fieldRegionPage": {
+              "entity": {
+                "title": "VA Columbus health care",
+                "fieldVamcEhrSystem": "cerner"
+              }
+            }
+          },
+          {
             "title": "William S. Middleton Memorial Veterans' Hospital",
             "fieldFacilityLocatorApiId": "vha_607",
             "fieldRegionPage": {

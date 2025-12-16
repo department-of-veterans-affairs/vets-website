@@ -14,6 +14,7 @@ const useFeatureToggles = () => {
     mhvSecureMessagingCuratedListFlow,
     mhvSecureMessagingRecentRecipients,
     mhvSecureMessagingCernerPilotSystemMaintenanceBannerFlag,
+    mhvSecureMessagingOhTransitionAlert,
     mhvMockSessionFlag,
   } = useSelector(
     state => {
@@ -60,6 +61,10 @@ const useFeatureToggles = () => {
             FEATURE_FLAG_NAMES
               .mhvSecureMessagingCernerPilotSystemMaintenanceBanner
           ],
+        mhvSecureMessagingOhTransitionAlert:
+          state.featureToggles[
+            FEATURE_FLAG_NAMES.mhvSecureMessagingOhTransitionAlert
+          ],
         mhvMockSessionFlag: state.featureToggles['mhv-mock-session'],
       };
     },
@@ -81,6 +86,7 @@ const useFeatureToggles = () => {
     mhvSecureMessagingCuratedListFlow,
     mhvSecureMessagingRecentRecipients,
     mhvSecureMessagingCernerPilotSystemMaintenanceBannerFlag,
+    mhvSecureMessagingOhTransitionAlert,
     mhvMockSessionFlag,
   };
 };

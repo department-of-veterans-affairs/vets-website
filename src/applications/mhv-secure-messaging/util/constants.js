@@ -575,3 +575,25 @@ export const teamNotListedReasons = [
   'Your care team is part of a different VA health care system.',
   'You removed the care team from your contact list.',
 ];
+
+/**
+ * Oracle Health (OH) Transition Alert Facility IDs
+ * These are the 6 pre-transitioned OH facilities
+ */
+export const OhTransitionFacilityIds = {
+  // Facilities that should see the new blue info alert (transitioned to integrated experience)
+  BLUE_ALERT: ['757'], // Columbus VA (Chalmers P. Wylie)
+  // All 6 OH facilities (for determining if user should see any OH alert)
+  ALL: ['757', '653', '687', '692', '668', '556'],
+};
+
+/**
+ * Content for the new OH Transition blue alert
+ */
+export const OhTransitionAlertContent = {
+  TRIGGER:
+    'You can now manage your health care for all VA facilities right here',
+  BODY: `We've brought all your VA health care data together so you can manage your care in one place.`,
+  QUESTION: 'Still want to use My VA Health for now?',
+  LINK_TEXT: 'Go to My VA Health',
+};

@@ -386,6 +386,187 @@ describe('Secure Messaging - Oracle Health Messaging Alert', () => {
     });
   });
 
+  // Test OH Transition Blue Alert for VHA_757 (Columbus VA)
+  describe('OH Transition Blue Alert for VHA_757', () => {
+    // Create a user with VHA_757 (Columbus VA) facility
+    const mockUserWithColumbusFacility = {
+      ...mockUser,
+      data: {
+        ...mockUser.data,
+        attributes: {
+          ...mockUser.data.attributes,
+          vaProfile: {
+            ...mockUser.data.attributes.vaProfile,
+            facilities: [
+              ...(mockUser.data.attributes.vaProfile?.facilities || []),
+              { facilityId: '757', isCerner: true },
+            ],
+          },
+        },
+      },
+    };
+
+    it('shows blue OH transition alert when flag is ON and user has VHA_757', () => {
+      const ohTransitionAlertEnabled = {
+        ...mockToggles,
+        data: {
+          ...mockToggles.data,
+          features: [
+            ...mockToggles.data.features,
+            {
+              name: 'mhv_secure_messaging_oh_transition_alert',
+              value: true,
+            },
+            {
+              name: 'mhv_secure_messaging_cerner_pilot',
+              value: false,
+            },
+            {
+              name:
+                'mhv_secure_messaging_cerner_pilot_system_maintenance_banner',
+              value: false,
+            },
+          ],
+        },
+      };
+
+      SecureMessagingSite.login(
+        ohTransitionAlertEnabled,
+        mockVamcEhr,
+        true,
+        mockUserWithColumbusFacility,
+        mockCernerFacilities,
+      );
+
+      PatientInboxPage.loadInboxMessages(
+        mockMessages,
+        mockSingleMessage,
+        mockRecipients,
+      );
+
+      cy.visit(`${Paths.UI_MAIN}${Paths.INBOX}`);
+      cy.wait('@inboxMessages');
+
+      // Blue OH Transition Alert should be visible
+      cy.get('[data-testid="oh-transition-alert"]', { timeout: 10000 })
+        .should('exist')
+        .and('have.attr', 'status', 'info');
+
+      // Yellow Cerner Facility Alert should NOT be visible
+      cy.get('[data-testid="cerner-facilities-alert"]').should('not.exist');
+
+      cy.injectAxe();
+      cy.axeCheck(AXE_CONTEXT);
+    });
+
+    it('shows yellow alert when flag is OFF and user has VHA_757', () => {
+      const ohTransitionAlertDisabled = {
+        ...mockToggles,
+        data: {
+          ...mockToggles.data,
+          features: [
+            ...mockToggles.data.features,
+            {
+              name: 'mhv_secure_messaging_oh_transition_alert',
+              value: false,
+            },
+            {
+              name: 'mhv_secure_messaging_cerner_pilot',
+              value: false,
+            },
+            {
+              name:
+                'mhv_secure_messaging_cerner_pilot_system_maintenance_banner',
+              value: false,
+            },
+          ],
+        },
+      };
+
+      SecureMessagingSite.login(
+        ohTransitionAlertDisabled,
+        mockVamcEhr,
+        true,
+        mockUserWithColumbusFacility,
+        mockCernerFacilities,
+      );
+
+      PatientInboxPage.loadInboxMessages(
+        mockMessages,
+        mockSingleMessage,
+        mockRecipients,
+      );
+
+      cy.visit(`${Paths.UI_MAIN}${Paths.INBOX}`);
+      cy.wait('@inboxMessages');
+
+      // Blue OH Transition Alert should NOT be visible
+      cy.get('[data-testid="oh-transition-alert"]').should('not.exist');
+
+      // Yellow Cerner Facility Alert SHOULD be visible
+      cy.get('[data-testid="cerner-facilities-alert"]', { timeout: 10000 })
+        .should('exist')
+        .and('have.attr', 'status', 'warning');
+
+      cy.injectAxe();
+      cy.axeCheck(AXE_CONTEXT);
+    });
+
+    it('shows yellow alert for non-757 OH facility user even when flag is ON', () => {
+      const ohTransitionAlertEnabled = {
+        ...mockToggles,
+        data: {
+          ...mockToggles.data,
+          features: [
+            ...mockToggles.data.features,
+            {
+              name: 'mhv_secure_messaging_oh_transition_alert',
+              value: true,
+            },
+            {
+              name: 'mhv_secure_messaging_cerner_pilot',
+              value: false,
+            },
+            {
+              name:
+                'mhv_secure_messaging_cerner_pilot_system_maintenance_banner',
+              value: false,
+            },
+          ],
+        },
+      };
+
+      // User with facility 687 (not 757)
+      SecureMessagingSite.login(
+        ohTransitionAlertEnabled,
+        mockVamcEhr,
+        true,
+        mockUserWithCernerFacility, // This user has facility 687
+        mockCernerFacilities,
+      );
+
+      PatientInboxPage.loadInboxMessages(
+        mockMessages,
+        mockSingleMessage,
+        mockRecipients,
+      );
+
+      cy.visit(`${Paths.UI_MAIN}${Paths.INBOX}`);
+      cy.wait('@inboxMessages');
+
+      // Blue OH Transition Alert should NOT be visible (wrong facility)
+      cy.get('[data-testid="oh-transition-alert"]').should('not.exist');
+
+      // Yellow Cerner Facility Alert SHOULD be visible
+      cy.get('[data-testid="cerner-facilities-alert"]', { timeout: 10000 })
+        .should('exist')
+        .and('have.attr', 'status', 'warning');
+
+      cy.injectAxe();
+      cy.axeCheck(AXE_CONTEXT);
+    });
+  });
+
   // Test link functionality
   describe('Alert link functionality', () => {
     it('Oracle Health alert link has correct attributes', () => {
