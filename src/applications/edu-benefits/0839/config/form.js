@@ -18,6 +18,7 @@ import {
   institutionDetailsFacility,
   additionalInstitutionDetailsSummary,
   additionalInstitutionDetailsItem,
+  additionalInstitutionDetailsItemWithdrawal,
   yellowRibbonProgramRequest,
   eligibleIndividualsSupported,
   yellowRibbonProgramRequestSummary,
@@ -155,12 +156,24 @@ const formConfig = {
               schema: additionalInstitutionDetailsSummary.schema,
             }),
             additionalInstitutionDetailsItem: pageBuilder.itemPage({
+              path: 'additional-institution-details-withdrawal/:index',
+              title:
+                "Enter the VA facility code for the additional location you'd like to withdraw",
+              showPagePerItem: true,
+              uiSchema: additionalInstitutionDetailsItemWithdrawal.uiSchema,
+              schema: additionalInstitutionDetailsItemWithdrawal.schema,
+              depends: formData =>
+                formData?.agreementType === 'withdrawFromYellowRibbonProgram',
+            }),
+            additionalInstitutionDetailsItemWithdrawal: pageBuilder.itemPage({
               path: 'additional-institution-details/:index',
               title:
                 "Enter the VA facility code for the additional location you'd like to add",
               showPagePerItem: true,
               uiSchema: additionalInstitutionDetailsItem.uiSchema,
               schema: additionalInstitutionDetailsItem.schema,
+              depends: formData =>
+                formData?.agreementType !== 'withdrawFromYellowRibbonProgram',
             }),
           }),
         ),
