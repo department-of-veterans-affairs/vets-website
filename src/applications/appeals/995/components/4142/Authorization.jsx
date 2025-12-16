@@ -24,8 +24,8 @@ const Authorization = ({
   fullData, // used for array builder
   goBack,
   goForward,
-  onChange = () => {}, // used for array builder
   pagePerItemIndex = null, // used for array builder
+  onChange = () => {}, // used for array builder
   setFormData,
 }) => {
   const [hasError, setHasError] = useState(false);
@@ -102,11 +102,9 @@ const Authorization = ({
     waitForRenderThenFocus('va-alert h3');
   };
 
-  const abCheckboxIsChecked =
-    fullData?.privateEvidence?.[pagePerItemIndex]?.authorization;
-
-  console.log('abCheckboxIsChecked: ', abCheckboxIsChecked);
-  console.log('fullData: ', fullData);
+  const currentEvidenceData =
+    fullData?.privateEvidence?.[pagePerItemIndex] || {};
+  const abCheckboxIsChecked = currentEvidenceData?.authorization;
 
   const handlers = {
     onSubmit: event => {
@@ -130,18 +128,27 @@ const Authorization = ({
       // and fall back to the contents as the default. Remove the
       // setFormData call below
       if (onChange) {
+        const newEvidenceData = {
+          ...currentEvidenceData,
+          authorization: checked,
+        };
+
         // Only pass the authorization field - array builder's onChange
         // will merge it with existing data from previous pages
-        onChange({ authorization: checked });
+        onChange(newEvidenceData);
       } else {
         setFormData({ ...data, privacyAgreementAccepted: checked });
       }
       // ------- END REMOVE
     },
     onGoForward: () => {
+      if (!abCheckboxIsChecked && !data?.privacyAgreementAccepted) {
+        // Show error and move focus ONLY when Continue is clicked without checkbox
+        setHasError(true);
+        focusOnAlert();
+      }
+
       if (abCheckboxIsChecked) {
-        const currentEvidenceData =
-          fullData?.privateEvidence?.[pagePerItemIndex] || {};
         const newData = {
           ...currentEvidenceData,
           authorization: true,
@@ -150,16 +157,12 @@ const Authorization = ({
         onChange(newData);
 
         setHasError(false);
-        goForward(data);
+        goForward({ formData: newData });
       }
 
       if (data?.privacyAgreementAccepted) {
         setHasError(false);
         goForward(data);
-      } else {
-        // Show error and move focus ONLY when Continue is clicked without checkbox
-        setHasError(true);
-        focusOnAlert();
       }
     },
   };
@@ -192,7 +195,7 @@ const Authorization = ({
   );
 
   const checkboxIsChecked = onChange
-    ? fullData?.privateEvidence?.[pagePerItemIndex]?.authorization
+    ? abCheckboxIsChecked
     : data.privacyAgreementAccepted;
 
   return (
