@@ -419,7 +419,7 @@ const formConfig = {
           schema: VIEW_FIELD_SCHEMA,
         },
         ...FinancialInformationPages,
-        veteranAnnualIncome: {
+        veteranAnnualIncomev1: {
           path: 'household-information/veteran-annual-income',
           title: 'Your annual income',
           initialData: {},
@@ -427,7 +427,7 @@ const formConfig = {
           uiSchema: veteranAnnualIncome.uiSchema,
           schema: veteranAnnualIncome.schema,
         },
-        spouseAnnualIncome: {
+        spouseAnnualIncomeV1: {
           path: 'household-information/spouse-annual-income',
           title: 'Spouse\u2019s annual income',
           initialData: {},
@@ -435,7 +435,7 @@ const formConfig = {
           uiSchema: spouseAnnualIncome.uiSchema,
           schema: spouseAnnualIncome.schema,
         },
-        deductibleExpenses: {
+        deductibleExpensesV1: {
           path: 'household-information/deductible-expenses',
           title: 'Deductible expenses',
           initialData: {},
