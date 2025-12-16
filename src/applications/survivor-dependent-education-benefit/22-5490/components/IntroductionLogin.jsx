@@ -133,7 +133,7 @@ const mapStateToProps = state => ({
   ...getAppData(state),
   isPersonalInfoFetchFailed: state.data.isPersonalInfoFetchFailed || false,
   showMeb5490MaintenanceAlert:
-    state.featureToggles[featureFlagNames.showMeb5490MaintenanceAlert]
+    state.featureToggles[featureFlagNames.showMeb5490MaintenanceAlert],
 });
 
 const mapDispatchToProps = {
