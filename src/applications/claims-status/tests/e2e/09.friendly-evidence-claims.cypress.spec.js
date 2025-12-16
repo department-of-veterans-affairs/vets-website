@@ -17,7 +17,7 @@ describe('Friendly evidence request text', () => {
       );
       trackClaimsPage.verifyInProgressClaim(false);
       trackClaimsPage.verifyFirstPartyFriendlyEvidenceRequest();
-      cy.axeCheck();
+      cy.injectAxeThenAxeCheck();
     });
   });
 
@@ -35,7 +35,7 @@ describe('Friendly evidence request text', () => {
       );
       trackClaimsPage.verifyInProgressClaim(false);
       trackClaimsPage.verifyThirdPartyFriendlyEvidenceRequest();
-      cy.axeCheck();
+      cy.injectAxeThenAxeCheck();
     });
   });
 });
