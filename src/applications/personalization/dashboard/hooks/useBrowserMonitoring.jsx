@@ -34,7 +34,7 @@ export const useBrowserMonitoring = () => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
 
   const isMonitoringEnabled = useToggleValue(
-    TOGGLE_NAMES.myVaBrowserMonitoringEnabled,
+    TOGGLE_NAMES.myVaBrowserMonitoring,
   );
 
   useEffect(
