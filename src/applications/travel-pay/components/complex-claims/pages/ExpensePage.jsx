@@ -69,7 +69,7 @@ const ExpensePage = () => {
 
   // Refs
   // const errorRef = useRef(null); // ref for the error message
-  const costRequestedRef = useRef(null);
+  // const costRequestedRef = useRef(null);
   const initialFormStateRef = useRef({});
   const previousHasChangesRef = useRef(false);
   const hasLoadedExpenseRef = useRef(false);
@@ -204,8 +204,12 @@ const ExpensePage = () => {
 
   const handleFormChange = (event, explicitName) => {
     const name = explicitName ?? event.target?.name ?? event.detail?.name; // rarely used, but safe to include
-    const value =
-      event?.value ?? event?.detail?.value ?? event.target?.value ?? '';
+    const value = (
+      event?.value ??
+      event?.detail?.value ??
+      event.target?.value ??
+      ''
+    ).toString();
 
     setFormState(prev => ({
       ...prev,
@@ -253,6 +257,7 @@ const ExpensePage = () => {
     const requiredFields = [...base, ...extra];
 
     const emptyFields = requiredFields.filter(field => !formState[field]);
+
     const isDateValid = validateReceiptDate(
       formState.purchaseDate,
       DATE_VALIDATION_TYPE.SUBMIT,
@@ -261,11 +266,12 @@ const ExpensePage = () => {
     const isDescriptionValid = validateDescription(
       formState.description,
       setExtraFieldErrors,
+      DATE_VALIDATION_TYPE.SUBMIT,
     );
     const isAmountValid = validateRequestedAmount(
       formState.costRequested,
-      costRequestedRef,
       setExtraFieldErrors,
+      DATE_VALIDATION_TYPE.SUBMIT,
     );
 
     // Extra validation for specific fields
@@ -426,6 +432,28 @@ const ExpensePage = () => {
     ? `Enter the date on your receipt, even if it’s the same as your check in or check out dates.`
     : '';
 
+  const handleAmountInput = e => {
+    handleFormChange(e); // update formState
+    const { value } = e.target;
+    validateRequestedAmount(
+      value,
+      setExtraFieldErrors,
+      DATE_VALIDATION_TYPE.CHANGE,
+      setFormState,
+    );
+  };
+
+  const handleAmountBlur = e => {
+    const { value } = e.target;
+
+    validateRequestedAmount(
+      value,
+      setExtraFieldErrors,
+      DATE_VALIDATION_TYPE.BLUR,
+      setFormState,
+    );
+  };
+
   return (
     <>
       <h1>
@@ -492,17 +520,20 @@ const ExpensePage = () => {
         }}
       />
 
-      <div className="vads-u-margin-top--2">
+      <div className="currency-input-wrapper vads-u-margin-top--2">
+        <span className="currency-symbol">$</span>
         <VaTextInput
-          currency
+          className="currency-input-field"
           label="Amount requested"
           name="costRequested"
           value={formState.costRequested || ''}
           required
-          ref={costRequestedRef}
+          // ref={costRequestedRef}
           show-input-error
-          onBlur={validateRequestedAmount}
-          onInput={handleFormChange}
+          inputmode="decimal"
+          pattern="^[0-9]*(\.[0-9]{0,2})?$"
+          onInput={handleAmountInput}
+          onBlur={handleAmountBlur}
           hint="Enter the amount as dollars and cents. For example, 8.42"
           {...extraFieldErrors.costRequested && {
             error: extraFieldErrors.costRequested,
@@ -515,7 +546,14 @@ const ExpensePage = () => {
           name="description"
           value={formState.description || ''}
           required
-          onBlur={validateDescription}
+          hint="5-2,000 characters allowed"
+          onBlur={e =>
+            validateDescription(
+              e.target.value,
+              setExtraFieldErrors,
+              DATE_VALIDATION_TYPE.BLUR,
+            )
+          }
           onInput={handleFormChange}
           {...extraFieldErrors.description && {
             error: extraFieldErrors.description,

@@ -70,6 +70,9 @@ export const parseDateInput = dateInput => {
  * @returns {boolean} - Returns true if the date is valid, false otherwise.
  */
 export const validateReceiptDate = (dateInput, type, setExtraFieldErrors) => {
+  // Always start by clearing any previous error
+  let error = null;
+
   let { month, day, year } = parseDateInput(dateInput);
 
   // Convert to numbers safely
@@ -80,8 +83,6 @@ export const validateReceiptDate = (dateInput, type, setExtraFieldErrors) => {
   const parts = [month, day, year];
   const isAllEmpty = parts.every(p => !p);
   const isComplete = parts.every(p => Number.isInteger(p));
-
-  let error = null;
 
   if (type === DATE_VALIDATION_TYPE.SUBMIT && isAllEmpty) {
     error = 'Enter the date of your receipt';
@@ -108,19 +109,25 @@ export const validateReceiptDate = (dateInput, type, setExtraFieldErrors) => {
  * Validates the description field of an expense.
  *
  * Rules:
+ *  - Must not be empty when type is SUBMIT.
  *  - Must be at least 5 characters long.
  *  - Must be no more than 2,000 characters long.
  *
  * @param {string} description - The value of the description field from the form.
  * @param {function} setExtraFieldErrors - Function to update the error state for the field.
+ * @param {string} type - Validation type: CHANGE, BLUR, SUBMIT
  * @returns {boolean} - Returns true if the description is valid, false otherwise.
  */
-export const validateDescription = (description, setExtraFieldErrors) => {
+export const validateDescription = (description, setExtraFieldErrors, type) => {
   let error = null;
-  if (!description || description.length < 5)
+
+  if (type === DATE_VALIDATION_TYPE.SUBMIT && !description) {
+    error = 'Enter a description';
+  } else if (description?.length > 0 && description.length < 5) {
     error = 'Enter at least 5 characters';
-  else if (description.length > 2000)
+  } else if (description?.length > 2000) {
     error = 'Enter no more than 2,000 characters';
+  }
 
   setExtraFieldErrors(prev => ({ ...prev, description: error }));
   return !error;
@@ -130,26 +137,73 @@ export const validateDescription = (description, setExtraFieldErrors) => {
  * Validates the requested amount field of an expense.
  *
  * Rules:
- *  - Must be greater than 0.
- *  - Built-in VaTextInput errors (like invalid number) take precedence.
+ *  - Must not be empty (SUBMIT only)
+ *  - Must be a number
+ *  - Must have at most 2 decimal places
+ *  - Must be greater than 0
+ *  - On BLUR, auto-formats to 2 decimal places (e.g., 2.5 → 2.50)
  *
- * @param {string|number} costRequested - The value of the costRequested field from the form.
- * @param {object} costRequestedRef - Ref to the VaTextInput component to check for built-in errors.
+ * @param {string|number} amount - The value of the costRequested field from the form.
  * @param {function} setExtraFieldErrors - Function to update the error state for the field.
+ * @param {string} type - Validation type: CHANGE, BLUR, SUBMIT
+ * @param {function} setFormState - (Optional) State setter for the form, used to update the formatted value on BLUR.
+ * @param {string} fieldName - (Optional) Name of the field in formState, defaults to 'costRequested'.
  * @returns {boolean} - Returns true if the requested amount is valid, false otherwise.
  */
 export const validateRequestedAmount = (
   amount,
-  costRequestedRef,
   setExtraFieldErrors,
+  type = DATE_VALIDATION_TYPE.SUBMIT,
+  setFormState,
+  fieldName = 'costRequested',
 ) => {
-  if (costRequestedRef.current?.error) return false;
-
   let error = null;
-  const parsed = parseFloat(amount);
-  if (!Number.isNaN(parsed) && parsed === 0)
-    error = 'Enter an amount greater than 0';
 
-  setExtraFieldErrors(prev => ({ ...prev, costRequested: error }));
+  const strAmount = (amount ?? '').toString().trim();
+
+  if (type === DATE_VALIDATION_TYPE.SUBMIT && strAmount === '') {
+    error = 'Enter an amount';
+  }
+
+  if (strAmount !== '') {
+    const parsed = parseFloat(strAmount);
+
+    // Check if it's a number using regex (allow optional decimal, max 2 decimals)
+    const validNumberPattern = /^\d+(\.\d*)?$/;
+    if (!error && !validNumberPattern.test(strAmount)) {
+      error = 'Please enter a valid number';
+    }
+
+    // Check decimal places (max 2)
+    if (!error && strAmount.includes('.')) {
+      const decimals = strAmount.split('.')[1] || '';
+      if (decimals.length > 2) {
+        error = 'Enter an amount using this format: x.xx';
+      }
+    }
+
+    // Check greater than 0
+    if (!error && parsed <= 0) {
+      error = 'Enter an amount greater than 0';
+    }
+
+    // Auto-format to 2 decimal places on BLUR if valid
+    if (
+      !error &&
+      !Number.isNaN(parsed) &&
+      type === DATE_VALIDATION_TYPE.BLUR &&
+      setFormState
+    ) {
+      const formatted = parsed.toFixed(2);
+      setFormState(prev => ({
+        ...prev,
+        [fieldName]: formatted,
+      }));
+    }
+  }
+
+  // Update error state
+  setExtraFieldErrors(prev => ({ ...prev, [fieldName]: error }));
+
   return !error;
 };
