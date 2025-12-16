@@ -226,6 +226,7 @@ class CCServiceTypeAhead extends Component {
             )}
             <span id="service-typeahead">
               <input
+                role="combobox"
                 {...getInputProps({
                   placeholder: this.props.useProgressiveDisclosure
                     ? undefined
@@ -239,6 +240,8 @@ class CCServiceTypeAhead extends Component {
                 }}
                 id="service-type-ahead-input"
                 aria-describedby="could-not-find-service-prompt error-message"
+                aria-expanded={isOpen ? 'true' : 'false'}
+                aria-controls="downshift-110-menu"
               />
 
               {this.renderSearchForAvailableServicePrompt(inputValue)}
