@@ -3,9 +3,9 @@ import React from 'react';
 import { waitFor } from '@testing-library/react';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { fireEvent } from '@testing-library/dom';
-import sinon from 'sinon';
 import reducer from '../../reducers';
 import DownloadReportPage from '../../containers/DownloadReportPage';
 import { ALERT_TYPE_BB_ERROR } from '../../util/constants';
@@ -442,24 +442,16 @@ describe('DownloadReportPage - Both VistA and Oracle Health User', () => {
 
 describe('DownloadReportPage - SEI PDF Download', () => {
   let screen;
-  let generateSEIPdfStub;
 
   beforeEach(() => {
-    generateSEIPdfStub = sinon
-      .stub(exports, 'generateSEIPdf')
-      .rejects(new Error('SEI PDF generation failed'));
+    // Mock the API to return an error, which will cause generateSEIPdf to fail
+    mockApiRequest({}, false);
 
     screen = renderWithStoreAndRouter(<DownloadReportPage runningUnitTest />, {
       initialState: vistaOnlyBaseState,
       reducers: reducer,
       path: '/download',
     });
-  });
-
-  afterEach(() => {
-    if (generateSEIPdfStub?.restore) {
-      generateSEIPdfStub.restore();
-    }
   });
 
   it('displays SEI download button in accordion', () => {
@@ -668,7 +660,7 @@ describe('DownloadReportPage - Cerner Facility Alert', () => {
     expect(screen.getByTestId('cerner-facilities-alert')).to.exist;
     expect(
       screen.getByText(
-        'To get your medical records reports from this facility, go to My VA Health',
+        /To get your medical records reports from this facility/,
       ),
     ).to.exist;
     expect(screen.getByTestId('single-cerner-facility-text')).to.exist;
@@ -737,7 +729,7 @@ describe('DownloadReportPage - Cerner Facility Alert', () => {
     expect(screen.getByTestId('cerner-facilities-alert')).to.exist;
     expect(
       screen.getByText(
-        'To get your medical records reports from these facilities, go to My VA Health',
+        /To get your medical records reports from these facilities/,
       ),
     ).to.exist;
 
@@ -755,8 +747,39 @@ describe('DownloadReportPage - Cerner Facility Alert', () => {
     });
 
     expect(screen.getByTestId('cerner-facilities-alert')).to.exist;
-    const link = screen.getByRole('link', { name: /Go to My VA Health/i });
+    const link = screen.getByTestId('cerner-facility-action-link');
     expect(link).to.exist;
+  });
+
+  it('displays Info facility alert for transitioned users', () => {
+    const screen = renderWithStoreAndRouter(<DownloadReportPage />, {
+      initialState: {
+        ...ohOnlyBaseState,
+        user: {
+          profile: {
+            userFullName: {
+              first: 'Andrew- Cerner',
+              middle: 'J',
+              last: 'Morkel',
+            },
+            facilities: [
+              {
+                facilityId: '668',
+                isCerner: true,
+              },
+            ],
+            userAtPretransitionedOhFacility: true,
+            userFacilityReadyForInfoAlert: true,
+          },
+        },
+      },
+      reducers: reducer,
+      path: '/download-all',
+    });
+
+    expect(screen).to.exist;
+    expect(screen.getByText('Download your medical records reports')).to.exist;
+    expect(screen.getByTestId('cerner-facilities-info-alert')).to.exist;
   });
 });
 

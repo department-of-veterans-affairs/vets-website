@@ -14,6 +14,8 @@ import {
   selectIsCernerOnlyPatient,
 } from '~/platform/user/cerner-dsot/selectors';
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
+import CernerFacilityAlert from 'platform/mhv/components/CernerFacilityAlert/CernerFacilityAlert';
+import { CernerAlertContent } from 'platform/mhv/components/CernerFacilityAlert/constants';
 import NeedHelpSection from '../components/DownloadRecords/NeedHelpSection';
 import {
   getFailedDomainList,
@@ -26,13 +28,10 @@ import {
   pageTitles,
   refreshExtractTypes,
   statsdFrontEndActions,
-  CernerAlertContent,
 } from '../util/constants';
 import { genAndDownloadCCD, downloadCCDV2 } from '../actions/downloads';
 import { Actions } from '../util/actionTypes';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
-import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
-
 import useAlerts from '../hooks/use-alerts';
 import OHOnlyContent from './ccdContent/OHOnlyContent';
 import VistaOnlyContent from './ccdContent/VistaOnlyContent';
@@ -264,7 +263,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           ohFacilityNames={ohFacilityNames}
           vistaFacilityNames={vistaFacilityNames}
         />
-        <AcceleratedCernerFacilityAlert {...CernerAlertContent.DOWNLOAD} />
+        <CernerFacilityAlert {...CernerAlertContent.DOWNLOAD} />
         <VistaAndOHContent
           vistaFacilityNames={vistaFacilityNames}
           ohFacilityNames={ohFacilityNames}
@@ -295,7 +294,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     return (
       <div>
         <OHOnlyIntroText />
-        <AcceleratedCernerFacilityAlert {...CernerAlertContent.DOWNLOAD} />
+        <CernerFacilityAlert {...CernerAlertContent.DOWNLOAD} />
         <OHOnlyContent
           testIdSuffix="OH"
           ddSuffix="OH"
@@ -319,7 +318,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   return (
     <div>
       <VistaIntroText />
-      <AcceleratedCernerFacilityAlert {...CernerAlertContent.DOWNLOAD} />
+      <CernerFacilityAlert {...CernerAlertContent.DOWNLOAD} />
       <VistaOnlyContent
         ccdExtendedFileTypeFlag={ccdExtendedFileTypeFlag}
         hasBothDataSources={hasBothDataSources}
