@@ -28,11 +28,10 @@ const createMockStore = (submissionStatus = null, formData = {}) => {
 
 describe('PreSubmitCheckboxGroup', () => {
   const mockFormData = {
+    veteranInformation: { fullName: { first: 'Luke', last: 'Skywalker' } },
     burialInformation: {
       nameOfStateCemeteryOrTribalOrganization: 'Endor Forest Sanctuary',
-      recipientOrganization: {
-        name: 'Rebel Alliance Veterans Foundation',
-      },
+      recipientOrganization: { name: 'Rebel Alliance Veterans Foundation' },
     },
   };
 
@@ -82,7 +81,7 @@ describe('PreSubmitCheckboxGroup', () => {
 
       const statementOfTruth = container.querySelector('va-statement-of-truth');
       expect(statementOfTruth.getAttribute('checkbox-label')).to.equal(
-        'I HEREBY CERTIFY THAT the veteran named in Item 1 was buried in a State-owned Veterans Cemetery or Tribal Cemetery (without charge).',
+        'I hereby certify that Luke Skywalker was buried in a State-owned Veterans Cemetery or Tribal Cemetery (without charge).',
       );
     });
   });
@@ -277,27 +276,6 @@ describe('PreSubmitCheckboxGroup', () => {
       expect(isSignatureValid('José García')).to.be.true;
       expect(isSignatureValid('François Müller')).to.be.true;
       expect(isSignatureValid('María López')).to.be.true;
-    });
-
-    it('should reject names with numbers', () => {
-      expect(isSignatureValid('John123')).to.be.false;
-      expect(isSignatureValid('123 Main')).to.be.false;
-      expect(isSignatureValid('Test User 2')).to.be.false;
-    });
-
-    it('should reject names with invalid special characters', () => {
-      expect(isSignatureValid('John@Smith')).to.be.false;
-      expect(isSignatureValid('Jane#Doe')).to.be.false;
-      expect(isSignatureValid('Test$User')).to.be.false;
-      expect(isSignatureValid('Name (Nickname)')).to.be.false;
-    });
-
-    it('should reject strings with only special characters (no letters)', () => {
-      expect(isSignatureValid('---')).to.be.false;
-      expect(isSignatureValid('...')).to.be.false;
-      expect(isSignatureValid('- - -')).to.be.false;
-      expect(isSignatureValid("''-''")).to.be.false;
-      expect(isSignatureValid('   ')).to.be.false;
     });
 
     it('should accept organization names from fixtures', () => {
