@@ -47,7 +47,11 @@ class DownloadReportsPage {
         },
         body: xmlBody,
       }).as('getXml');
-      cy.get('[data-testid="generateCcdButtonXml"]').click();
+      // Use shadow DOM to access the anchor inside the va-link web component
+      cy.get('[data-testid="generateCcdButtonXml"]')
+        .shadow()
+        .find('a')
+        .click({ force: true });
       cy.wait('@ccdGenerateResponse');
       cy.wait('@getXml');
     });
@@ -59,7 +63,11 @@ class DownloadReportsPage {
       '/my_health/v1/medical_records/ccd/generate',
       ccdGenerateResponse,
     ).as('ccdGenerateResponse');
-    cy.get('[data-testid="generateCcdButtonXml"]').click();
+    // Use shadow DOM to access the anchor inside the va-link web component
+    cy.get('[data-testid="generateCcdButtonXml"]')
+      .shadow()
+      .find('a')
+      .click({ force: true });
     cy.wait('@ccdGenerateResponse');
   };
 
