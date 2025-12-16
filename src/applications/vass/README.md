@@ -12,7 +12,11 @@ yarn watch --env entry=vass
 yarn watch --env entry=vass,auth,static-pages,login-page,verify,profile
 
 # Mock API
+Local development of the application requires use of the [mock API](https://github.com/department-of-veterans-affairs/vets-website#running-a-mock-api-for-local-development). Run the following command to provide the mock API VASS specific mock data:
+
+```
 yarn mock-api --responses src/applications/vass/services/mocks/index.js
+```
 
 # Unit tests
 yarn test:unit --app-folder vass
