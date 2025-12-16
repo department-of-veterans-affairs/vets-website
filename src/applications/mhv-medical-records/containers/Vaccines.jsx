@@ -23,8 +23,6 @@ import {
   useAcceleratedData,
 } from '@department-of-veterans-affairs/mhv/exports';
 
-import CernerFacilityAlert from 'platform/mhv/components/CernerFacilityAlert/CernerFacilityAlert';
-import { CernerAlertContent } from 'platform/mhv/components/CernerFacilityAlert/constants';
 import RecordList from '../components/RecordList/RecordList';
 import RecordListNew from '../components/RecordList/RecordListNew';
 import {
@@ -250,7 +248,6 @@ const Vaccines = props => {
           Go to your allergy records
         </Link>
       </div>
-      <CernerFacilityAlert {...CernerAlertContent.VACCINES} />
       {downloadStarted && <DownloadSuccessAlert />}
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}

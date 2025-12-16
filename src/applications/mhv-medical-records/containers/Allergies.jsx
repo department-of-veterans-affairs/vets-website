@@ -16,8 +16,6 @@ import {
   useAcceleratedData,
 } from '@department-of-veterans-affairs/mhv/exports';
 
-import CernerFacilityAlert from 'platform/mhv/components/CernerFacilityAlert/CernerFacilityAlert';
-import { CernerAlertContent } from 'platform/mhv/components/CernerFacilityAlert/constants';
 import RecordList from '../components/RecordList/RecordList';
 import {
   recordType,
@@ -226,8 +224,6 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
           </p>
         </div>
       )}
-
-      <CernerFacilityAlert {...CernerAlertContent.ALLERGIES} />
 
       {downloadStarted && <DownloadSuccessAlert />}
       <RecordListSection

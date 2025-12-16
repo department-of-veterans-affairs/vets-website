@@ -7,8 +7,6 @@ import {
   useAcceleratedData,
 } from '@department-of-veterans-affairs/mhv/exports';
 
-import CernerFacilityAlert from 'platform/mhv/components/CernerFacilityAlert/CernerFacilityAlert';
-import { CernerAlertContent } from 'platform/mhv/components/CernerFacilityAlert/constants';
 import RecordList from '../components/RecordList/RecordList';
 import {
   getCareSummariesAndNotesList,
@@ -158,8 +156,6 @@ const CareSummariesAndNotes = () => {
       {!isAcceleratingCareNotes && (
         <p>This list doesn’t include care summaries from before 2013.</p>
       )}
-
-      <CernerFacilityAlert {...CernerAlertContent.CARE_SUMMARIES_AND_NOTES} />
 
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}

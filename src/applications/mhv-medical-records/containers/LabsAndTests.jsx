@@ -9,8 +9,6 @@ import {
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 
-import CernerFacilityAlert from 'platform/mhv/components/CernerFacilityAlert/CernerFacilityAlert';
-import { CernerAlertContent } from 'platform/mhv/components/CernerFacilityAlert/constants';
 import { Actions } from '../util/actionTypes';
 import RecordList from '../components/RecordList/RecordList';
 import {
@@ -177,8 +175,6 @@ const LabsAndTests = () => {
         <span className="vads-u-font-weight--bold">14 days</span> or longer to
         confirm.{' '}
       </p>
-
-      <CernerFacilityAlert {...CernerAlertContent.LABS_AND_TESTS} />
 
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
