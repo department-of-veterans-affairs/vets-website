@@ -21,18 +21,18 @@ export const servicesOptions = {
 };
 
 export const claimantRelationshipOptions = {
-  SPOUSE: 'Surviving spouse',
-  CUSTODIAN: 'Custodian filing for child under 18',
-  ADULT_CHILD_STILL_IN_SCHOOL:
+  SURVIVING_SPOUSE: 'Surviving spouse',
+  CUSTODIAN_FILING_FOR_CHILD_UNDER_18: 'Custodian filing for child under 18',
+  'CHILD_18-23_IN_SCHOOL':
     'Adult child who is 18-23 years old and still in school',
-  ADULT_CHILD_SERIOUSLY_DISABLED: 'Adult child who is seriously disabled',
+  HELPLESS_ADULT_CHILD: 'Adult child who is seriously disabled',
   OTHER: 'Other',
 };
 
 export const marriageEndOptions = {
-  SPOUSE_DEATH: "Spouse's death",
-  DIVORCE: 'Divorce',
-  OTHER: 'Other',
+  death: "Spouse's death",
+  divorce: 'Divorce',
+  other: 'Other',
 };
 
 export const marriageTypeOptions = {

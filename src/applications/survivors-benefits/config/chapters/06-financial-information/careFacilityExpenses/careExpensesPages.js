@@ -144,10 +144,10 @@ export const options = {
     ),
     getItemName: item => item?.provider || 'Care provider',
     cardDescription: item => {
-      if (!item.careDate) {
+      if (!item?.careDate) {
         return 'Care dates not provided';
       }
-      if (item.careDate?.from && item.careDate?.to) {
+      if (item?.careDate?.from && item?.careDate?.to) {
         return `${transformDate(item.careDate.from)} - ${transformDate(
           item.careDate.to,
         )}`;

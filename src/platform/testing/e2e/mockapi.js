@@ -17,7 +17,7 @@ const apiMocker = require('mocker-api');
 
 const optionDefinitions = [
   { name: 'buildtype', type: String, defaultValue: 'vagovdev' },
-  { name: 'port', type: Number, defaultValue: +(process.env.API_PORT || 3000) },
+  { name: 'port', type: Number, defaultValue: +(process.env.API_PORT || 3002) },
   { name: 'host', type: String, defaultValue: 'localhost' },
   { name: 'responses', type: String, defaultOption: true },
 ];

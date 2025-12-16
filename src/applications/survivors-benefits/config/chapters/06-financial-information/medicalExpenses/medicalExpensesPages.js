@@ -111,10 +111,10 @@ export const options = {
     cardDescription: item => (
       <div>
         <span className="vads-u-display--block">
-          {transformDate(item.paymentDate) || 'Date not provided'}
+          {transformDate(item?.paymentDate) || 'Date not provided'}
         </span>
         <span className="vads-u-display--block">
-          {frequencyLabels[item.frequency] || 'Frequency not provided'}
+          {frequencyLabels[(item?.frequency)] || 'Frequency not provided'}
         </span>
       </div>
     ),

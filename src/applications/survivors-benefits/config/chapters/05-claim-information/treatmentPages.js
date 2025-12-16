@@ -24,7 +24,7 @@ export const options = {
     getItemName: formData =>
       formData.vaMedicalCenterName || 'VA medical center',
     cardDescription: formData =>
-      formData.startDate && formData.endDate
+      formData?.startDate && formData?.endDate
         ? `${transformDate(formData.startDate)} - ${transformDate(
             formData.endDate,
           )}`
