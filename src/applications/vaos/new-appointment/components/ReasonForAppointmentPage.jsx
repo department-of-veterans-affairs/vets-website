@@ -46,7 +46,7 @@ const initialSchema = {
       },
     },
   },
-  request: {
+  cc: {
     type: 'object',
     properties: {
       reasonAdditionalInfo: {
@@ -73,7 +73,7 @@ export default function ReasonForAppointmentPage() {
     data.facilityType === FACILITY_TYPES.COMMUNITY_CARE.id;
 
   const pageInitialSchema = useMemo(
-    () => (isCommunityCare ? initialSchema.request : initialSchema.default),
+    () => (isCommunityCare ? initialSchema.cc : initialSchema.default),
     [isCommunityCare],
   );
 
@@ -94,7 +94,7 @@ export default function ReasonForAppointmentPage() {
           },
         },
       },
-      request: {
+      cc: {
         reasonAdditionalInfo: {
           'ui:widget': TextareaWidget,
           'ui:options': {
@@ -113,29 +113,15 @@ export default function ReasonForAppointmentPage() {
   );
 
   const pageUISchema = useMemo(
-    () => (isCommunityCare ? uiSchema.request : uiSchema.default),
+    () => (isCommunityCare ? uiSchema.cc : uiSchema.default),
     [isCommunityCare, uiSchema],
   );
 
   useEffect(
     () => {
-      // Determine required fields based on flow type:
-      // - Community Care: no required fields
-      // - Default flow/Request flow/Direct flow: reasonAdditionalInfo
-      let requiredFields;
-      if (isCommunityCare) {
-        requiredFields = [];
-      } else {
-        requiredFields = ['reasonAdditionalInfo'];
-      }
-
-      const effectiveReasonSchema = {
-        ...pageInitialSchema,
-        required: requiredFields,
-      };
       document.title = `${pageTitle} | Veterans Affairs`;
       dispatch(
-        openReasonForAppointment(pageKey, pageUISchema, effectiveReasonSchema),
+        openReasonForAppointment(pageKey, pageUISchema, pageInitialSchema),
       );
     },
     [dispatch, isCommunityCare, pageInitialSchema, pageTitle, pageUISchema],
