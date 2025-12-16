@@ -37,7 +37,7 @@ describe('CernerFacilityAlert', () => {
             },
           },
         },
-        CernerAlertContent.LABS_AND_TESTS,
+        CernerAlertContent.MEDICATIONS,
       );
 
       expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;
@@ -59,7 +59,7 @@ describe('CernerFacilityAlert', () => {
     it('renders alert with single facility text', () => {
       const screen = setup(
         stateWithOneFacility,
-        CernerAlertContent.LABS_AND_TESTS,
+        CernerAlertContent.MEDICATIONS,
       );
 
       expect(screen.getByTestId('cerner-facilities-alert')).to.exist;
@@ -70,16 +70,19 @@ describe('CernerFacilityAlert', () => {
 
     it('displays correct domain text in body', () => {
       const screen = setup(stateWithOneFacility, {
-        ...CernerAlertContent.LABS_AND_TESTS,
+        ...CernerAlertContent.MEDICATIONS,
       });
 
       const bodyText = screen.getByTestId('single-cerner-facility-text')
         .textContent;
-      expect(bodyText).to.include('medical records');
+      expect(bodyText).to.include('medications');
     });
 
     it('displays facility name in bold', () => {
-      const screen = setup(stateWithOneFacility, CernerAlertContent.VACCINES);
+      const screen = setup(
+        stateWithOneFacility,
+        CernerAlertContent.MEDICATIONS,
+      );
 
       const facilityElement = screen.getByText('VA Spokane health care');
       expect(facilityElement.tagName).to.equal('STRONG');
@@ -104,7 +107,7 @@ describe('CernerFacilityAlert', () => {
     it('renders alert with list of facilities', () => {
       const screen = setup(
         stateWithMultipleFacilities,
-        CernerAlertContent.VITALS,
+        CernerAlertContent.MEDICATIONS,
       );
 
       expect(screen.getByTestId('cerner-facilities-alert')).to.exist;
@@ -115,7 +118,7 @@ describe('CernerFacilityAlert', () => {
     it('displays all facility names', () => {
       const screen = setup(
         stateWithMultipleFacilities,
-        CernerAlertContent.ALLERGIES,
+        CernerAlertContent.MEDICATIONS,
       );
 
       expect(screen.getByText('VA Spokane health care')).to.exist;
@@ -125,7 +128,7 @@ describe('CernerFacilityAlert', () => {
     it('displays correct plural text for multiple facilities', () => {
       const screen = setup(
         stateWithMultipleFacilities,
-        CernerAlertContent.CARE_SUMMARIES_AND_NOTES,
+        CernerAlertContent.MEDICATIONS,
       );
 
       const headingText = screen.getAllByText(/these facilities/i);
@@ -169,10 +172,7 @@ describe('CernerFacilityAlert', () => {
     });
 
     it('has proper security attributes', () => {
-      const screen = setup(
-        stateWithFacility,
-        CernerAlertContent.LABS_AND_TESTS,
-      );
+      const screen = setup(stateWithFacility, CernerAlertContent.MEDICATIONS);
 
       const link = screen.getByTestId('cerner-facility-action-link');
       expect(link.getAttribute('rel')).to.equal('noopener noreferrer');
@@ -244,7 +244,7 @@ describe('CernerFacilityAlert', () => {
     };
 
     it('has warning status', () => {
-      const screen = setup(stateWithFacility, CernerAlertContent.VITALS);
+      const screen = setup(stateWithFacility, CernerAlertContent.MEDICATIONS);
 
       const alert = screen.getByTestId('cerner-facilities-alert');
       expect(alert.getAttribute('status')).to.equal('warning');
@@ -253,7 +253,7 @@ describe('CernerFacilityAlert', () => {
     // TODO: Need to investigate, not quite right
     it.skip('applies custom className', () => {
       const screen = setup(stateWithFacility, {
-        ...CernerAlertContent.VACCINES,
+        ...CernerAlertContent.MEDICATIONS,
         className: 'custom-test-class',
       });
 
