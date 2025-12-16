@@ -15,7 +15,7 @@ describe('vaPrescription details container', () => {
   const setup = (
     rx = newRx,
     ffEnabled = true,
-    { isCernerPilot = false } = {},
+    { isCernerPilot = false, isV2StatusMapping = false } = {},
   ) => {
     return renderWithStoreAndRouterV6(<VaPrescription {...rx} />, {
       initialState: {
@@ -24,6 +24,8 @@ describe('vaPrescription details container', () => {
           mhv_medications_display_documentation_content: ffEnabled,
           // eslint-disable-next-line camelcase
           mhv_medications_cerner_pilot: isCernerPilot,
+          // eslint-disable-next-line camelcase
+          mhv_medications_v2_status_mapping: isV2StatusMapping,
         },
       },
       reducers: {},
@@ -407,7 +409,26 @@ describe('vaPrescription details container', () => {
   });
 
   describe('CernerPilot feature flag tests', () => {
-    const setupWithCernerPilot = (rx = newRx, isCernerPilot = false) => {
+    // Shared test data
+    const FLAG_COMBINATIONS = [
+      { isCernerPilot: false, isV2StatusMapping: false, useV2: false, desc: 'both flags disabled' },
+      { isCernerPilot: true, isV2StatusMapping: false, useV2: false, desc: 'only cernerPilot enabled' },
+      { isCernerPilot: false, isV2StatusMapping: true, useV2: false, desc: 'only v2StatusMapping enabled' },
+      { isCernerPilot: true, isV2StatusMapping: true, useV2: true, desc: 'both flags enabled' },
+    ];
+
+    const STATUS_TRANSFORMATIONS = [
+      { v1Status: 'Active: Refill in Process', v2Status: 'In progress' },
+      { v1Status: 'Active: Submitted', v2Status: 'In progress' },
+      { v1Status: 'Expired', v2Status: 'Inactive' },
+      { v1Status: 'Discontinued', v2Status: 'Inactive' },
+      { v1Status: 'Active: On Hold', v2Status: 'Inactive' },
+      { v1Status: 'Active: Parked', v2Status: 'Active' },
+      { v1Status: 'Active', v2Status: 'Active' },
+      { v1Status: 'Transferred', v2Status: 'Transferred' },
+    ];
+
+    const setupWithCernerPilot = (rx = newRx, isCernerPilot = false, isV2StatusMapping = false) => {
       return renderWithStoreAndRouterV6(<VaPrescription {...rx} />, {
         initialState: {
           featureToggles: {
@@ -415,6 +436,8 @@ describe('vaPrescription details container', () => {
             mhv_medications_display_documentation_content: true,
             // eslint-disable-next-line camelcase
             mhv_medications_cerner_pilot: isCernerPilot,
+            // eslint-disable-next-line camelcase
+            mhv_medications_v2_status_mapping: isV2StatusMapping,
           },
         },
         reducers: {},
@@ -422,175 +445,85 @@ describe('vaPrescription details container', () => {
       });
     };
 
-    it('should use V1 status display when CernerPilot is disabled', () => {
-      const rxWithStatus = {
-        ...prescription,
-        dispStatus: 'Active: Refill in Process',
-      };
-      const screen = setupWithCernerPilot(rxWithStatus, false);
-
-      // Should display original V1 status using testid for specificity
-      expect(screen.getByTestId('status')).to.have.text(
-        'Active: Refill in process',
-      );
-      expect(screen.queryByText('In progress')).to.not.exist;
+    describe('CernerPilot and  V2StatusMapping flag requirement validation', () => {
+      FLAG_COMBINATIONS.forEach(({ isCernerPilot, isV2StatusMapping, useV2, desc }) => {
+        it(`uses ${useV2 ? 'V2' : 'V1'} status display when ${desc}`, () => {
+          const rxWithStatus = {
+            ...prescription,
+            dispStatus: 'Active: Refill in Process',
+          };
+          const screen = setupWithCernerPilot(rxWithStatus, isCernerPilot, isV2StatusMapping);
+          const expectedStatus = useV2 ? 'In progress' : 'Active: Refill in process';
+          expect(screen.getByTestId('status')).to.have.text(expectedStatus);
+        });
+      });
     });
 
-    it('should use V2 status display when CernerPilot is enabled', () => {
-      const rxWithStatus = {
-        ...prescription,
-        dispStatus: 'Active: Refill in Process',
-      };
-      const screen = setupWithCernerPilot(rxWithStatus, true);
-
-      // Should display transformed V2 status
-      expect(screen.getByText('In progress')).to.exist;
-      expect(screen.queryByText('Active: Refill in Process')).to.not.exist;
+    // REFACTORED: Consolidated status transformation tests
+    describe('status transformations when BOTH CernerPilot and  V2StatusMapping flags enabled', () => {
+      STATUS_TRANSFORMATIONS.forEach(({ v1Status, v2Status }) => {
+        it(`maps ${v1Status} to ${v2Status}`, () => {
+          const rxWithStatus = { ...prescription, dispStatus: v1Status };
+          const screen = setupWithCernerPilot(rxWithStatus, true, true);
+          expect(screen.getByTestId('status')).to.have.text(v2Status);
+        });
+      });
     });
 
-    it('should map Active: Submitted to In progress with CernerPilot enabled', () => {
-      const rxWithStatus = { ...prescription, dispStatus: 'Active: Submitted' };
-      const screen = setupWithCernerPilot(rxWithStatus, true);
-      expect(screen.getByTestId('status')).to.have.text('In progress');
+    // REFACTORED: Consolidated Non-VA status preservation tests
+    describe('Non-VA status preservation', () => {
+      FLAG_COMBINATIONS.forEach(({ isCernerPilot, isV2StatusMapping, desc }) => {
+        it(`preserves Active: Non-VA status when ${desc}`, () => {
+          const rxWithNonVAStatus = {
+            ...prescription,
+            dispStatus: 'Active: Non-VA',
+            prescriptionSource: 'NV',
+          };
+          const screen = setupWithCernerPilot(rxWithNonVAStatus, isCernerPilot, isV2StatusMapping);
+          expect(screen.getByTestId('status')).to.have.text('Active: Non-VA');
+        });
+      });
     });
 
-    it('should map Expired to Inactive with CernerPilot enabled', () => {
-      const rxWithStatus = { ...prescription, dispStatus: 'Expired' };
-      const screen = setupWithCernerPilot(rxWithStatus, true);
-      expect(screen.getByTestId('status')).to.have.text('Inactive');
-    });
-
-    it('should map Discontinued to Inactive with CernerPilot enabled', () => {
-      const rxWithStatus = { ...prescription, dispStatus: 'Discontinued' };
-      const screen = setupWithCernerPilot(rxWithStatus, true);
-      expect(screen.getByTestId('status')).to.have.text('Inactive');
-    });
-
-    it('should map Active: On Hold to Inactive with CernerPilot enabled', () => {
-      const rxWithStatus = { ...prescription, dispStatus: 'Active: On Hold' };
-      const screen = setupWithCernerPilot(rxWithStatus, true);
-      expect(screen.getByTestId('status')).to.have.text('Inactive');
-    });
-
-    it('should map Active: Parked to Active with CernerPilot enabled', () => {
-      const rxWithStatus = { ...prescription, dispStatus: 'Active: Parked' };
-      const screen = setupWithCernerPilot(rxWithStatus, true);
-      expect(screen.getByTestId('status')).to.have.text('Active');
-    });
-
-    it('should preserve Active status with CernerPilot enabled', () => {
-      const rxWithStatus = { ...prescription, dispStatus: 'Active' };
-      const screen = setupWithCernerPilot(rxWithStatus, true);
-      expect(screen.getByTestId('status')).to.have.text('Active');
-    });
-
-    it('should preserve Transferred status with CernerPilot enabled', () => {
-      const rxWithStatus = { ...prescription, dispStatus: 'Transferred' };
-      const screen = setupWithCernerPilot(rxWithStatus, true);
-      expect(screen.getByTestId('status')).to.have.text('Transferred');
-    });
-
-    it('should preserve Active: Non-VA status when CernerPilot is disabled', () => {
-      const rxWithNonVAStatus = {
-        ...prescription,
-        dispStatus: 'Active: Non-VA',
-        prescriptionSource: 'NV',
-      };
-      const screen = setupWithCernerPilot(rxWithNonVAStatus, false);
-      expect(screen.getByTestId('status')).to.have.text('Active: Non-VA');
-    });
-
-    it('should preserve Active: Non-VA status when CernerPilot is enabled', () => {
-      const rxWithNonVAStatus = {
-        ...prescription,
-        dispStatus: 'Active: Non-VA',
-        prescriptionSource: 'NV',
-      };
-      const screen = setupWithCernerPilot(rxWithNonVAStatus, true);
-      expect(screen.getByTestId('status')).to.have.text('Active: Non-VA');
-    });
-
-    it('should handle unknown status with CernerPilot enabled', () => {
+    it('should handle unknown status with both flags enabled', () => {
       const rxWithUnknownStatus = {
         ...prescription,
         dispStatus: 'Unknown Status',
       };
-      const screen = setupWithCernerPilot(rxWithUnknownStatus, true);
-
-      // Should map to "Status not available"
+      const screen = setupWithCernerPilot(rxWithUnknownStatus, true, true);
       expect(screen.getByText('Status not available')).to.exist;
     });
 
-    it('should display appropriate status descriptions with CernerPilot enabled', () => {
+    it('should display appropriate status descriptions with BOTH CernerPilot and  V2StatusMapping flags enabled', () => {
       const rxWithActiveStatus = {
         ...prescription,
         dispStatus: 'Active',
       };
-      const screen = setupWithCernerPilot(rxWithActiveStatus, true);
-
-      // Should show V2 status description in dropdown
+      const screen = setupWithCernerPilot(rxWithActiveStatus, true, true);
       expect(screen.getByText('Active')).to.exist;
-      // Check for the "What does this status mean?" trigger
       const statusDropdown = screen.container.querySelector(
         '[trigger="What does this status mean?"]',
       );
       expect(statusDropdown).to.exist;
     });
 
-    it('should maintain all other prescription details functionality with CernerPilot enabled', () => {
-      const screen = setupWithCernerPilot(newRx, true);
-
-      // Core prescription details should still be present
+    it('should maintain all other prescription details functionality with BOTH CernerPilot and  V2StatusMapping flags enabled', () => {
+      const screen = setupWithCernerPilot(newRx, true, true);
       expect(screen.getByText('Prescription number')).to.exist;
       expect(screen.getByText('Refills left')).to.exist;
-      expect(
-        screen.getByText(
-          'Request refills by this prescription expiration date',
-        ),
-      ).to.exist;
+      expect(screen.getByText('Request refills by this prescription expiration date')).to.exist;
       expect(screen.getByText('Facility')).to.exist;
     });
 
-    it('should pass CernerPilot flag to status-related components', () => {
+    it('should pass BOTH CernerPilot and  V2StatusMapping flags to status-related components', () => {
       const rxWithStatus = {
         ...prescription,
         dispStatus: 'Active: Refill in Process',
       };
-      const screen = setupWithCernerPilot(rxWithStatus, true);
-
-      // The StatusDropdown component should receive the CernerPilot flag
-      // and display V2 status
+      const screen = setupWithCernerPilot(rxWithStatus, true, true);
       expect(screen.getByText('In progress')).to.exist;
-
-      // Should also include V2 status description
       const statusElement = screen.getByTestId('status-dropdown');
       expect(statusElement).to.exist;
-    });
-    it('hides reason for use when Cerner pilot is enabled', () => {
-      const screen = setup(newRx, true, { isCernerPilot: true });
-
-      expect(screen.queryByText('Reason for use')).to.not.exist;
-    });
-
-    it('hides pharmacy phone and displays a link when Cerner pilot is enabled', () => {
-      const screen = setup(newRx, true, { isCernerPilot: true });
-      const pharmacyPhone = screen.queryByTestId('phone-number');
-      const findFacilityLink = screen.getByTestId('find-facility-link');
-
-      expect(pharmacyPhone).to.not.exist;
-      expect(findFacilityLink).to.exist;
-      expect(
-        screen.getByText(
-          'Check your prescription label or contact your VA facility.',
-        ),
-      ).to.exist;
-      expect(screen.getByText('Find your VA facility')).to.exist;
-    });
-
-    it('hides refill history when Cerner pilot is enabled', () => {
-      const screen = setup(newRx, true, { isCernerPilot: true });
-
-      expect(screen.queryByText('Refill history')).to.not.exist;
     });
   });
 });

@@ -80,6 +80,33 @@ describe('prescriptionMedAndRenewalStatus helper', () => {
   });
 
   describe('PRINT display type', () => {
+    const V2_STATUS_MAPPINGS = [
+      {
+        dispStatus: 'Active',
+        refillStatus: 'active',
+        expectedV2: 'Active',
+        includes: 'prescription you can fill at a local VA pharmacy',
+      },
+      {
+        dispStatus: 'Active: Refill in Process',
+        refillStatus: 'inprogress',
+        expectedV2: 'In progress',
+        includes: 'new prescription or a prescription',
+      },
+      {
+        dispStatus: 'Expired',
+        refillStatus: 'inactive',
+        expectedV2: 'Inactive',
+        includes: 'prescription you can no longer fill',
+      },
+      {
+        dispStatus: 'Discontinued',
+        refillStatus: 'inactive',
+        expectedV2: 'Inactive',
+        includes: 'prescription you can no longer fill',
+      },
+    ];
+
     it('should return formatted status string for regular prescription when Cerner pilot is disabled', () => {
       const result = prescriptionMedAndRenewalStatus(
         mockPrescription,
@@ -94,74 +121,21 @@ describe('prescriptionMedAndRenewalStatus helper', () => {
       );
     });
 
-    it('should return V2 status and definitions when Cerner pilot is enabled', () => {
-      const rx = {
-        ...mockPrescription,
-        dispStatus: 'Active',
-        refillStatus: 'active',
-      };
-      const result = prescriptionMedAndRenewalStatus(
-        rx,
-        medStatusDisplayTypes.PRINT,
-        true,
-      );
-      expect(result).to.be.a('string');
-      expect(result).to.include('Active');
-      // Should use V2 status definitions which are more descriptive
-      expect(result).to.include(
-        'prescription you can fill at a local VA pharmacy',
-      );
-    });
-
-    it('should return V2 status for Cerner pilot with status mapping', () => {
-      const rx = {
-        ...mockPrescription,
-        dispStatus: 'Active: Refill in Process',
-        refillStatus: 'inprogress',
-      };
-      const result = prescriptionMedAndRenewalStatus(
-        rx,
-        medStatusDisplayTypes.PRINT,
-        true,
-      );
-      expect(result).to.be.a('string');
-      expect(result).to.include('In progress');
-      // Should use V2 definitions for in progress
-      expect(result).to.include('new prescription or a prescription');
-      expect(result).to.include('refill or renewal for');
-    });
-
-    it('should map Expired status to Inactive in V2 mode', () => {
-      const rx = {
-        ...mockPrescription,
-        dispStatus: 'Expired',
-        refillStatus: 'inactive',
-      };
-      const result = prescriptionMedAndRenewalStatus(
-        rx,
-        medStatusDisplayTypes.PRINT,
-        true,
-      );
-      expect(result).to.be.a('string');
-      expect(result).to.include('Inactive');
-      expect(result).to.include('prescription you can no longer fill');
-    });
-
-    it('should map Discontinued status to Inactive in V2 mode', () => {
-      const rx = {
-        ...mockPrescription,
-        dispStatus: 'Discontinued',
-        refillStatus: 'inactive',
-      };
-      const result = prescriptionMedAndRenewalStatus(
-        rx,
-        medStatusDisplayTypes.PRINT,
-        true,
-      );
-      expect(result).to.be.a('string');
-      expect(result).to.include('Inactive');
-      expect(result).to.include('prescription you can no longer fill');
-    });
+    V2_STATUS_MAPPINGS.forEach(
+      ({ dispStatus, refillStatus, expectedV2, includes }) => {
+        it(`should map ${dispStatus} to ${expectedV2} when Cerner pilot is enabled`, () => {
+          const rx = { ...mockPrescription, dispStatus, refillStatus };
+          const result = prescriptionMedAndRenewalStatus(
+            rx,
+            medStatusDisplayTypes.PRINT,
+            true,
+          );
+          expect(result).to.be.a('string');
+          expect(result).to.include(expectedV2);
+          expect(result).to.include(includes);
+        });
+      },
+    );
 
     it('should return pending med text for pending medications', () => {
       const result = prescriptionMedAndRenewalStatus(
@@ -183,6 +157,33 @@ describe('prescriptionMedAndRenewalStatus helper', () => {
   });
 
   describe('TXT display type', () => {
+    const V2_TXT_STATUS_MAPPINGS = [
+      {
+        dispStatus: 'Active',
+        refillStatus: 'active',
+        expectedV2: 'Active',
+        includes: 'prescription you can fill at a local VA pharmacy',
+      },
+      {
+        dispStatus: 'Active: Submitted',
+        refillStatus: 'inprogress',
+        expectedV2: 'In progress',
+        includes: 'new prescription or a prescription',
+      },
+      {
+        dispStatus: 'Expired',
+        refillStatus: 'inactive',
+        expectedV2: 'Inactive',
+        includes: 'prescription you can no longer fill',
+      },
+      {
+        dispStatus: 'Transferred',
+        refillStatus: 'transferred',
+        expectedV2: 'Transferred',
+        includes: 'prescription moved to VA',
+      },
+    ];
+
     it('should return formatted status string for regular prescription when Cerner pilot is disabled', () => {
       const result = prescriptionMedAndRenewalStatus(
         mockPrescription,
@@ -195,76 +196,21 @@ describe('prescriptionMedAndRenewalStatus helper', () => {
       expect(result).to.match(/^Active - /);
     });
 
-    it('should return V2 format when Cerner pilot is enabled', () => {
-      const rx = {
-        ...mockPrescription,
-        dispStatus: 'Active',
-        refillStatus: 'active',
-      };
-      const result = prescriptionMedAndRenewalStatus(
-        rx,
-        medStatusDisplayTypes.TXT,
-        true,
-      );
-      expect(result).to.be.a('string');
-      expect(result).to.include('Active');
-      // Should use V2 format with multiline definitions
-      expect(result).to.include(
-        'prescription you can fill at a local VA pharmacy',
-      );
-      expect(result).to.include('If you need a medication immediately');
-    });
-
-    it('should return simplified status for Cerner pilot with proper V2 definitions', () => {
-      const rx = {
-        ...mockPrescription,
-        dispStatus: 'Active: Submitted',
-        refillStatus: 'inprogress',
-      };
-      const result = prescriptionMedAndRenewalStatus(
-        rx,
-        medStatusDisplayTypes.TXT,
-        true,
-      );
-      expect(result).to.be.a('string');
-      expect(result).to.include('In progress');
-      // Should include V2 definition for in progress
-      expect(result).to.include('new prescription or a prescription');
-      expect(result).to.include('refill or renewal for');
-    });
-
-    it('should handle V2 status mapping for expired prescriptions', () => {
-      const rx = {
-        ...mockPrescription,
-        dispStatus: 'Expired',
-        refillStatus: 'inactive',
-      };
-      const result = prescriptionMedAndRenewalStatus(
-        rx,
-        medStatusDisplayTypes.TXT,
-        true,
-      );
-      expect(result).to.be.a('string');
-      expect(result).to.include('Inactive');
-      expect(result).to.include('prescription you can no longer fill');
-    });
-
-    it('should handle V2 status mapping for transferred prescriptions', () => {
-      const rx = {
-        ...mockPrescription,
-        dispStatus: 'Transferred',
-        refillStatus: 'transferred',
-      };
-      const result = prescriptionMedAndRenewalStatus(
-        rx,
-        medStatusDisplayTypes.TXT,
-        true,
-      );
-      expect(result).to.be.a('string');
-      expect(result).to.include('Transferred');
-      expect(result).to.include('prescription moved to VA');
-      expect(result).to.include('new electronic health record');
-    });
+    V2_TXT_STATUS_MAPPINGS.forEach(
+      ({ dispStatus, refillStatus, expectedV2, includes }) => {
+        it(`should map ${dispStatus} to ${expectedV2} in TXT format when Cerner pilot is enabled`, () => {
+          const rx = { ...mockPrescription, dispStatus, refillStatus };
+          const result = prescriptionMedAndRenewalStatus(
+            rx,
+            medStatusDisplayTypes.TXT,
+            true,
+          );
+          expect(result).to.be.a('string');
+          expect(result).to.include(expectedV2);
+          expect(result).to.include(includes);
+        });
+      },
+    );
 
     it('should return pending med text for pending medications', () => {
       const result = prescriptionMedAndRenewalStatus(

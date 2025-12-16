@@ -19,12 +19,12 @@ import { convertHtmlForDownload } from '../../util/helpers';
 
 describe('Prescriptions List Config', () => {
   it('should map all prescriptions to a list', () => {
-    const pdfList = buildPrescriptionsPDFList(prescriptions);
+    const pdfList = buildPrescriptionsPDFList(prescriptions, false, false);
     expect(pdfList.length).to.equal(prescriptions.length);
   });
 
   it('should contain a header with prescription name', () => {
-    const pdfList = buildPrescriptionsPDFList(prescriptions);
+    const pdfList = buildPrescriptionsPDFList(prescriptions, false, false);
     expect(pdfList[0].header).to.equal(prescriptions[0].prescriptionName);
   });
 
@@ -34,7 +34,7 @@ describe('Prescriptions List Config', () => {
         prescriptionId: 123456,
       },
     ];
-    const pdfList = buildPrescriptionsPDFList(blankPrescriptions);
+    const pdfList = buildPrescriptionsPDFList(blankPrescriptions, false, false);
 
     expect(pdfList[0].sections[0].items[2].value).to.equal(
       `${FIELD_NONE_NOTED} - ${pdfDefaultStatusDefinition[0].value}`,
@@ -44,7 +44,7 @@ describe('Prescriptions List Config', () => {
   it('should NOT display "Last filled on" or "Prescription number" if rx prescription source is PD and dispStatus is NewOrder', () => {
     prescriptions[0].prescriptionSource = 'PD';
     prescriptions[0].dispStatus = 'NewOrder';
-    const pdfList = buildPrescriptionsPDFList(prescriptions);
+    const pdfList = buildPrescriptionsPDFList(prescriptions, false, false);
 
     const items = pdfList[0].sections[0].items.map(item => item.label);
     expect(items).to.not.include('Last filled on:');
@@ -55,7 +55,7 @@ describe('Prescriptions List Config', () => {
   it('should NOT display "Last filled on" or "Prescription number" if rx prescription source is PD and dispStatus is Renew', () => {
     prescriptions[0].prescriptionSource = 'PD';
     prescriptions[0].dispStatus = 'Renew';
-    const pdfList = buildPrescriptionsPDFList(prescriptions);
+    const pdfList = buildPrescriptionsPDFList(prescriptions, false, false);
 
     const items = pdfList[0].sections[0].items.map(item => item.label);
     expect(items).to.not.include('Last filled on:');
@@ -78,14 +78,14 @@ describe('Allergies List Config', () => {
 
 describe('VA prescription Config', () => {
   it('should create "Most recent prescription" section', () => {
-    const pdfGen = buildVAPrescriptionPDFList(prescriptionDetails);
+    const pdfGen = buildVAPrescriptionPDFList(prescriptionDetails, false, false);
     expect(pdfGen[0].header).to.equal('Most recent prescription');
   });
 
   it('should create "Refill history" section if there is 1 record with dispensedDate NOT undefined', () => {
     const rxDetails = { ...prescriptionDetails.data.attributes };
     rxDetails.dispensedDate = undefined;
-    const pdfGen = buildVAPrescriptionPDFList(rxDetails);
+    const pdfGen = buildVAPrescriptionPDFList(rxDetails, false, false);
     expect(pdfGen[1].header).to.equal('Refill history');
   });
 
@@ -93,7 +93,7 @@ describe('VA prescription Config', () => {
     const rxDetails = { ...prescriptionDetails.data.attributes };
     rxDetails.dispensedDate = undefined;
     rxDetails.rxRfRecords[0].dispensedDate = undefined;
-    const pdfGen = buildVAPrescriptionPDFList(rxDetails);
+    const pdfGen = buildVAPrescriptionPDFList(rxDetails, false, false);
     expect(pdfGen[1]).to.not.exist;
   });
 
@@ -101,14 +101,14 @@ describe('VA prescription Config', () => {
     const rxDetails = { ...prescriptionDetails.data.attributes };
     rxDetails.dispensedDate = undefined;
     rxDetails.rxRfRecords = [];
-    const pdfGen = buildVAPrescriptionPDFList(rxDetails);
+    const pdfGen = buildVAPrescriptionPDFList(rxDetails, false, false);
     expect(pdfGen[1]).to.not.exist;
   });
 
   it('should create "Refill history" section if there are NO records but original fill record is created', () => {
     const rxDetails = { ...prescriptionDetails.data.attributes };
     rxDetails.rxRfRecords = [];
-    const pdfGen = buildVAPrescriptionPDFList(rxDetails);
+    const pdfGen = buildVAPrescriptionPDFList(rxDetails, false, false);
     expect(pdfGen[1].header).to.equal('Refill history');
   });
 
@@ -119,7 +119,7 @@ describe('VA prescription Config', () => {
       { ...rxDetails.rxRfRecords[0] },
       { ...rxDetails.rxRfRecords[0] },
     ];
-    const pdfGen = buildVAPrescriptionPDFList(rxDetails);
+    const pdfGen = buildVAPrescriptionPDFList(rxDetails, false, false);
     expect(pdfGen[1].header).to.equal('Refill history');
   });
 
@@ -127,7 +127,7 @@ describe('VA prescription Config', () => {
     const blankPrescription = {
       providerLastName: 'test',
     };
-    const pdfList = buildVAPrescriptionPDFList(blankPrescription);
+    const pdfList = buildVAPrescriptionPDFList(blankPrescription, false, false);
     const testVal =
       pdfList[0].sections[0].items[pdfList[0].sections[0].items.length - 1]
         .value;
@@ -139,7 +139,7 @@ describe('VA prescription Config', () => {
     rxDetails.dispStatus = 'NewOrder';
     rxDetails.prescriptionSource = 'PD';
 
-    const pdfList = buildVAPrescriptionPDFList(rxDetails);
+    const pdfList = buildVAPrescriptionPDFList(rxDetails, false, false);
     const items = pdfList[0].sections[0].items.map(item => item.label);
     expect(items).to.not.include('Last filled on:');
   });
@@ -149,7 +149,7 @@ describe('VA prescription Config', () => {
     rxDetails.dispStatus = 'Renew';
     rxDetails.prescriptionSource = 'PD';
 
-    const pdfList = buildVAPrescriptionPDFList(rxDetails);
+    const pdfList = buildVAPrescriptionPDFList(rxDetails, false, false);
     const items = pdfList[0].sections[0].items.map(item => item.label);
     expect(items).to.not.include('Last filled on:');
   });
@@ -159,7 +159,7 @@ describe('VA prescription Config', () => {
     rxDetails.dispStatus = 'NewOrder';
     rxDetails.prescriptionSource = 'PD';
 
-    const pdfList = buildVAPrescriptionPDFList(rxDetails);
+    const pdfList = buildVAPrescriptionPDFList(rxDetails, false, false);
     const status = pdfList[0].sections[0].items.find(
       item => item.title === 'Status',
     );
@@ -173,7 +173,7 @@ describe('VA prescription Config', () => {
     rxDetails.dispStatus = 'Renew';
     rxDetails.prescriptionSource = 'PD';
 
-    const pdfList = buildVAPrescriptionPDFList(rxDetails);
+    const pdfList = buildVAPrescriptionPDFList(rxDetails, false, false);
     const status = pdfList[0].sections[0].items.find(
       item => item.title === 'Status',
     );
@@ -213,7 +213,7 @@ describe('Medication Information Config', () => {
   describe('Cerner pilot feature flag', () => {
     describe('VA Prescription config', () => {
       const rxDetails = { ...prescriptionDetails.data.attributes };
-      const pdfGen = buildVAPrescriptionPDFList(rxDetails, true);
+      const pdfGen = buildVAPrescriptionPDFList(rxDetails, true, true);
       const items = pdfGen[0].sections[0].items.map(item => item.title);
 
       it('should NOT show "Reason for Use" field', () => {
@@ -233,7 +233,7 @@ describe('Medication Information Config', () => {
     });
 
     describe('Non-VA Prescription config', () => {
-      const pdfGen = buildNonVAPrescriptionPDFList(nonVAPrescription, true);
+      const pdfGen = buildNonVAPrescriptionPDFList(nonVAPrescription, true, true);
       const items = pdfGen[0].sections[0].items.map(item => item.title);
 
       it('should NOT show "Reason for Use" field', () => {
@@ -244,94 +244,82 @@ describe('Medication Information Config', () => {
 });
 
 describe('CernerPilot feature flag tests', () => {
-  it('should use V1 status definitions when CernerPilot is disabled', () => {
-    const testPrescriptions = [
-      {
-        prescriptionId: 12345,
-        prescriptionName: 'Test Med',
-        dispStatus: 'Active: Refill in Process',
-        refillStatus: 'refillinprocess',
-        prescriptionSource: 'VA',
-      },
-    ];
-    const pdfList = buildPrescriptionsPDFList(testPrescriptions, false);
+  const FLAG_COMBINATIONS = [
+    { cernerPilot: false, v2StatusMapping: false, useV2: false, desc: 'both flags disabled' },
+    { cernerPilot: true, v2StatusMapping: false, useV2: false, desc: 'only cernerPilot enabled' },
+    { cernerPilot: false, v2StatusMapping: true, useV2: false, desc: 'only v2StatusMapping enabled' },
+    { cernerPilot: true, v2StatusMapping: true, useV2: true, desc: 'both flags enabled' },
+  ];
 
-    // Should use original V1 status without transformation
-    const statusItem = pdfList[0].sections[0].items.find(
-      item => item.title === 'Status',
-    );
-    expect(statusItem).to.exist;
-    expect(statusItem.value).to.include('Active: Refill in Process');
-    expect(statusItem.value).to.not.include('In progress');
-  });
+  const V1_TO_V2_STATUS_MAPPINGS = [
+    { v1Status: 'Active: Submitted', v2Expected: 'In progress' },
+    { v1Status: 'Expired', v2Expected: 'Inactive' },
+    { v1Status: 'Discontinued', v2Expected: 'Inactive' },
+    { v1Status: 'Active: On Hold', v2Expected: 'Inactive' },
+    { v1Status: 'Active: Parked', v2Expected: 'Active' },
+    { v1Status: 'Transferred', v2Expected: 'Transferred' },
+  ];
 
-  it('should use V2 status definitions when CernerPilot is enabled', () => {
-    const testPrescriptions = [
-      {
-        prescriptionId: 12345,
-        prescriptionName: 'Test Med',
-        dispStatus: 'Active: Refill in Process',
-        refillStatus: 'refillinprocess',
-        prescriptionSource: 'VA',
-      },
-    ];
-    const pdfList = buildPrescriptionsPDFList(testPrescriptions, true);
+  const createTestPrescription = (dispStatus, prescriptionSource = 'VA') => [{
+    prescriptionId: 12345,
+    prescriptionName: 'Test Med',
+    dispStatus,
+    prescriptionSource,
+  }];
+  describe('dual flag requirement validation', () => {
+    FLAG_COMBINATIONS.forEach(({ cernerPilot, v2StatusMapping, useV2, desc }) => {
+      it(`uses ${useV2 ? 'V2' : 'V1'} status definitions when ${desc}`, () => {
+        const testPrescriptions = createTestPrescription('Active: Refill in Process');
+        testPrescriptions[0].refillStatus = 'refillinprocess';
+        const pdfList = buildPrescriptionsPDFList(testPrescriptions, cernerPilot, v2StatusMapping);
 
-    // Should transform to V2 status and use V2 definitions
-    const statusItem = pdfList[0].sections[0].items.find(
-      item => item.title === 'Status',
-    );
-    expect(statusItem).to.exist;
-    expect(statusItem.value).to.include('In progress');
-    expect(statusItem.value).to.include(
-      'A new prescription or a prescription you’ve requested a refill or renewal for.',
-    );
-    expect(statusItem.value).to.not.include('Active: Refill in Process');
-  });
+        const statusItem = pdfList[0].sections[0].items.find(item => item.title === 'Status');
+        expect(statusItem).to.exist;
 
-  it('should map various V1 statuses to V2 equivalents when CernerPilot is enabled', () => {
-    const testCases = [
-      { v1Status: 'Active: Submitted', v2Expected: 'In progress' },
-      { v1Status: 'Expired', v2Expected: 'Inactive' },
-      { v1Status: 'Discontinued', v2Expected: 'Inactive' },
-      { v1Status: 'Active: On Hold', v2Expected: 'Inactive' },
-      { v1Status: 'Active: Parked', v2Expected: 'Active' },
-      { v1Status: 'Transferred', v2Expected: 'Transferred' },
-    ];
-
-    testCases.forEach(({ v1Status, v2Expected }) => {
-      const testPrescriptions = [
-        {
-          prescriptionId: 12345,
-          prescriptionName: 'Test Med',
-          dispStatus: v1Status,
-          prescriptionSource: 'VA',
-        },
-      ];
-      const pdfList = buildPrescriptionsPDFList(testPrescriptions, true);
-      const statusItem = pdfList[0].sections[0].items.find(
-        item => item.title === 'Status',
-      );
-      expect(statusItem).to.exist;
-      expect(statusItem.value).to.include(
-        v2Expected,
-        `Failed for status: ${v1Status}`,
-      );
+        if (useV2) {
+          expect(statusItem.value).to.include('In progress');
+          expect(statusItem.value).to.not.include('Active: Refill in Process');
+        } else {
+          expect(statusItem.value).to.include('Active: Refill in Process');
+          expect(statusItem.value).to.not.include('In progress');
+        }
+      });
     });
   });
 
-  it('should use V2 status definitions for single prescription PDF when CernerPilot is enabled', () => {
+  describe('V1 to V2 status mappings when both flags enabled', () => {
+    V1_TO_V2_STATUS_MAPPINGS.forEach(({ v1Status, v2Expected }) => {
+      it(`maps ${v1Status} to ${v2Expected}`, () => {
+        const testPrescriptions = createTestPrescription(v1Status);
+        const pdfList = buildPrescriptionsPDFList(testPrescriptions, true, true);
+        const statusItem = pdfList[0].sections[0].items.find(item => item.title === 'Status');
+        expect(statusItem).to.exist;
+        expect(statusItem.value).to.include(v2Expected);
+      });
+    });
+  });
+
+  describe('Non-VA status preservation', () => {
+    FLAG_COMBINATIONS.forEach(({ cernerPilot, v2StatusMapping, desc }) => {
+      it(`preserves Active: Non-VA status when ${desc}`, () => {
+        const testPrescriptions = createTestPrescription('Active: Non-VA', 'NV');
+        const pdfList = buildPrescriptionsPDFList(testPrescriptions, cernerPilot, v2StatusMapping);
+        const statusItem = pdfList[0].sections[0].items.find(item => item.title === 'Status');
+        expect(statusItem).to.exist;
+        expect(statusItem.value).to.include('Active: Non-VA');
+      });
+    });
+  });
+
+  it('uses V2 status definitions for single prescription PDF when BOTH CernerPilot and  V2StatusMapping flags enabled', () => {
     const testPrescription = {
       ...prescriptionDetails.data.attributes,
       dispStatus: 'Active: Refill in Process',
       refillStatus: 'refillinprocess',
     };
-    const pdfList = buildVAPrescriptionPDFList(testPrescription, true);
+    const pdfList = buildVAPrescriptionPDFList(testPrescription, true, true);
 
-    // Should use V2 definitions with more descriptive text
-    const statusItem = pdfList[0].sections[0].items.find(
-      item => item.title === 'Status',
-    );
+    const statusItem = pdfList[0].sections[0].items.find(item => item.title === 'Status');
     expect(statusItem).to.exist;
     expect(statusItem.value).to.include('In progress');
     expect(statusItem.value).to.include(
@@ -339,67 +327,12 @@ describe('CernerPilot feature flag tests', () => {
     );
   });
 
-  it('should use V1 status definitions for single prescription PDF when CernerPilot is disabled', () => {
-    const testPrescription = {
-      ...prescriptionDetails.data.attributes,
-      dispStatus: 'Active: Refill in Process',
-      refillStatus: 'refillinprocess',
-    };
-    const pdfList = buildVAPrescriptionPDFList(testPrescription, false);
+  it('handles edge cases with unknown statuses when BOTH CernerPilot and  V2StatusMapping flags enabled', () => {
+    const testPrescriptions = createTestPrescription('Unknown Status');
+    const pdfList = buildPrescriptionsPDFList(testPrescriptions, true, true);
 
-    // Should use original V1 status
-    const statusItem = pdfList[0].sections[0].items.find(
-      item => item.title === 'Status',
-    );
-    expect(statusItem).to.exist;
-    expect(statusItem.value).to.include('Active: Refill in Process');
-    expect(statusItem.value).to.not.include('In progress');
-  });
-
-  it('should handle edge cases with unknown statuses when CernerPilot is enabled', () => {
-    const testPrescriptions = [
-      {
-        prescriptionId: 12345,
-        prescriptionName: 'Test Med',
-        dispStatus: 'Unknown Status',
-        prescriptionSource: 'VA',
-      },
-    ];
-    const pdfList = buildPrescriptionsPDFList(testPrescriptions, true);
-
-    // Unknown statuses should map to "Status not available"
-    const statusItem = pdfList[0].sections[0].items.find(
-      item => item.title === 'Status',
-    );
+    const statusItem = pdfList[0].sections[0].items.find(item => item.title === 'Status');
     expect(statusItem).to.exist;
     expect(statusItem.value).to.include('Status not available');
-  });
-
-  it('should preserve Active: Non-VA status regardless of CernerPilot flag', () => {
-    const testPrescriptions = [
-      {
-        prescriptionId: 12345,
-        prescriptionName: 'Test Med',
-        dispStatus: 'Active: Non-VA',
-        prescriptionSource: 'NV',
-      },
-    ];
-
-    // Test both CernerPilot enabled and disabled
-    const pdfListV1 = buildPrescriptionsPDFList(testPrescriptions, false);
-    const pdfListV2 = buildPrescriptionsPDFList(testPrescriptions, true);
-
-    const statusItemV1 = pdfListV1[0].sections[0].items.find(
-      item => item.title === 'Status',
-    );
-    const statusItemV2 = pdfListV2[0].sections[0].items.find(
-      item => item.title === 'Status',
-    );
-
-    // Both should show Active: Non-VA
-    expect(statusItemV1).to.exist;
-    expect(statusItemV1.value).to.include('Active: Non-VA');
-    expect(statusItemV2).to.exist;
-    expect(statusItemV2.value).to.include('Active: Non-VA');
   });
 });

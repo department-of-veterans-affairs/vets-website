@@ -14,14 +14,17 @@ describe('Medication card component', () => {
     });
   };
 
-  const setupWithCernerPilot = (
+  const setupWithFlags = (
     rx = prescriptionsListItem,
     isCernerPilot = false,
+    isV2StatusMapping = false,
   ) => {
     const initialState = {
       featureToggles: {
         // eslint-disable-next-line camelcase
         mhv_medications_cerner_pilot: isCernerPilot,
+        // eslint-disable-next-line camelcase
+        mhv_medications_v2_status_mapping: isV2StatusMapping,
       },
     };
     return renderWithStoreAndRouterV6(<MedicationsListCard rx={rx} />, {
@@ -29,6 +32,24 @@ describe('Medication card component', () => {
       reducers,
     });
   };
+
+  // Shared test data
+  const FLAG_COMBINATIONS = [
+    { cernerPilot: false, v2StatusMapping: false, useV2: false, desc: 'both flags disabled' },
+    { cernerPilot: true, v2StatusMapping: false, useV2: false, desc: 'only cernerPilot enabled' },
+    { cernerPilot: false, v2StatusMapping: true, useV2: false, desc: 'only v2StatusMapping enabled' },
+    { cernerPilot: true, v2StatusMapping: true, useV2: true, desc: 'both flags enabled' },
+  ];
+
+  const STATUS_TRANSFORMATIONS = [
+    { input: 'Active: Refill in Process', expectedV2: 'In progress' },
+    { input: 'Active: Submitted', expectedV2: 'In progress' },
+    { input: 'Active: Parked', expectedV2: 'Active' },
+    { input: 'Expired', expectedV2: 'Inactive' },
+    { input: 'Discontinued', expectedV2: 'Inactive' },
+    { input: 'Active: On Hold', expectedV2: 'Inactive' },
+    { input: 'Transferred', expectedV2: 'Transferred' },
+  ];
 
   it('renders without errors, even when no prescription name is given ', () => {
     const screen = setup({
@@ -165,49 +186,17 @@ describe('Medication card component', () => {
     /* eslint-enable prettier/prettier */
   });
 
-  it('shows Active for Active: Parked status when Cerner pilot is enabled', () => {
-    const rxWithActiveStatus = {
-      ...prescriptionsListItem,
-      dispStatus: 'Active: Parked',
-    };
-    const screen = setupWithCernerPilot(rxWithActiveStatus, true);
-    expect(screen.getByText('Active')).to.exist;
+  describe('CernerPilot and  V2StatusMapping flag requirement validation', () => {
+    FLAG_COMBINATIONS.forEach(({ cernerPilot, v2StatusMapping, useV2, desc }) => {
+      it(`${useV2 ? 'V2' : 'V1'} behavior when ${desc}`, () => {
+        const rx = { ...prescriptionsListItem, dispStatus: 'Expired' };
+        const screen = setupWithFlags(rx, cernerPilot, v2StatusMapping);
+        const expectedStatus = useV2 ? 'Inactive' : 'Expired';
+        expect(screen.getByText(expectedStatus)).to.exist;
+      });
+    });
   });
 
-  it('shows In progress for Active: Refill in Process when Cerner pilot is enabled', () => {
-    const rxWithActiveStatus = {
-      ...prescriptionsListItem,
-      dispStatus: 'Active: Refill in Process',
-    };
-    const screen = setupWithCernerPilot(rxWithActiveStatus, true);
-    expect(screen.getByText('In progress')).to.exist;
-  });
-
-  it('shows Transferred for Transferred status when Cerner pilot is enabled', () => {
-    const rxWithActiveStatus = {
-      ...prescriptionsListItem,
-      dispStatus: 'Transferred',
-    };
-    const screen = setupWithCernerPilot(rxWithActiveStatus, true);
-    expect(screen.getByText('Transferred')).to.exist;
-  });
-
-  it('shows Inactive for Discontinued status when Cerner pilot is enabled', () => {
-    const rxWithActiveStatus = {
-      ...prescriptionsListItem,
-      dispStatus: 'Discontinued',
-    };
-    const screen = setupWithCernerPilot(rxWithActiveStatus, true);
-    expect(screen.getByText('Inactive')).to.exist;
-  });
-
-  it('shows original status when Cerner pilot is disabled', () => {
-    const rxWithActiveStatus = {
-      ...prescriptionsListItem,
-      dispStatus: 'Active: Refill in Process',
-    };
-    const screen = setupWithCernerPilot(rxWithActiveStatus, false);
-    expect(screen.getByText('Active: Refill in Process')).to.exist;
   it('renders link text from orderableItem when prescriptionName is null', () => {
     const rx = {
       ...prescriptionsListItem,
@@ -245,5 +234,117 @@ describe('Medication card component', () => {
     const screen = setup();
     const link = screen.getByTestId('medications-history-details-link');
     expect(link.getAttribute('aria-describedby')).to.be.null;
+  });
+  describe('Status display edge cases', () => {
+    const edgeCases = [
+      { dispStatus: null, desc: 'null dispStatus' },
+      { dispStatus: undefined, desc: 'undefined dispStatus' },
+      { dispStatus: '', desc: 'empty string dispStatus' },
+    ];
+
+    edgeCases.forEach(({ dispStatus, desc }) => {
+      FLAG_COMBINATIONS.forEach(({ cernerPilot, v2StatusMapping, desc: flagDesc }) => {
+        it(`handles ${desc} when ${flagDesc}`, () => {
+          const rx = { ...prescriptionsListItem, dispStatus };
+          const screen = setupWithFlags(rx, cernerPilot, v2StatusMapping);
+          expect(screen).to.exist;
+        });
+      });
+    });
+  });
+  describe('Non-VA status preservation', () => {
+    FLAG_COMBINATIONS.forEach(({ cernerPilot, v2StatusMapping, desc }) => {
+      it(`preserves Active: Non-VA status when ${desc}`, () => {
+        const rx = {
+          ...prescriptionsListItem,
+          dispStatus: 'Active: Non-VA',
+          prescriptionSource: 'NV',
+        };
+        const screen = setupWithFlags(rx, cernerPilot, v2StatusMapping);
+        expect(screen.getByText('Active: Non-VA')).to.exist;
+      });
+    });
+  });
+
+  describe('Pending medication status handling', () => {
+    const pendingStatuses = [
+      { dispStatus: 'NewOrder', expectedText: /new prescription from your provider/ },
+      { dispStatus: 'Renew', expectedText: /renewal you requested/ },
+    ];
+
+    pendingStatuses.forEach(({ dispStatus, expectedText }) => {
+      FLAG_COMBINATIONS.forEach(({ cernerPilot, v2StatusMapping, desc }) => {
+        it(`shows pending ${dispStatus} text when ${desc}`, () => {
+          const rx = { ...prescriptionsListItem, prescriptionSource: 'PD', dispStatus };
+          const screen = setupWithFlags(rx, cernerPilot, v2StatusMapping);
+          expect(screen.getByText(expectedText)).to.exist;
+        });
+      });
+    });
+  });
+
+  describe('V2 Shipped status in card', () => {
+    it('displays Shipped status when BOTH CernerPilot and  V2StatusMapping flags enabled', () => {
+      const rx = {
+        ...prescriptionsListItem,
+        dispStatus: 'Shipped',
+        trackingList: [{ completeDateTime: 'Sun, 16 Jun 2024 04:39:11 EDT' }],
+      };
+      const screen = setupWithFlags(rx, true, true);
+      expect(screen.getByText('Shipped')).to.exist;
+    });
+
+    it('shows shipped date information with Shipped status', () => {
+      const rx = {
+        ...prescriptionsListItem,
+        dispStatus: 'Shipped',
+        trackingList: [{ completeDateTime: 'Sun, 16 Jun 2024 04:39:11 EDT' }],
+      };
+      const screen = setupWithFlags(rx, true, true);
+      expect(screen.getByText(/Shipped on June 16, 2024/)).to.exist;
+    });
+  });
+
+  describe('Refill information display with dual flags', () => {
+    it('shows refill remaining correctly with V1 status', () => {
+      const rx = { ...prescriptionsListItem, refillRemaining: 5 };
+      const screen = setupWithFlags(rx, false, false);
+      expect(screen).to.exist;
+    });
+
+    it('shows refill remaining correctly with V2 status', () => {
+      const rx = { ...prescriptionsListItem, refillRemaining: 5 };
+      const screen = setupWithFlags(rx, true, true);
+      expect(screen).to.exist;
+    });
+
+    it('shows no refills left message with V1 Active status', () => {
+      const rx = { ...prescriptionsListItem, dispStatus: 'Active', refillRemaining: 0 };
+      const screen = setupWithFlags(rx, false, false);
+      expect(screen).to.exist;
+    });
+
+    it('shows no refills left message with V2 Active status', () => {
+      const rx = { ...prescriptionsListItem, dispStatus: 'Active', refillRemaining: 0 };
+      const screen = setupWithFlags(rx, true, true);
+      expect(screen).to.exist;
+    });
+  });
+
+  // REFACTORED: Consolidated status transformation tests
+  describe('Status transformation in card view', () => {
+    STATUS_TRANSFORMATIONS.forEach(({ input, expectedV2 }) => {
+      it(`transforms ${input} to ${expectedV2} when both flags enabled`, () => {
+        const rx = { ...prescriptionsListItem, dispStatus: input };
+        const screen = setupWithFlags(rx, true, true);
+        expect(screen.getByText(expectedV2)).to.exist;
+      });
+
+      it(`preserves ${input} when both flags disabled`, () => {
+        const rx = { ...prescriptionsListItem, dispStatus: input };
+        const screen = setupWithFlags(rx, false, false);
+        expect(screen.getByText(input)).to.exist;
+      });
+    });
   });
 });
