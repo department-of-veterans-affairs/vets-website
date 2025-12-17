@@ -126,7 +126,6 @@ describe('VAOS request schedule flow - Primary care', () => {
 
           ReasonForAppointmentPageObject.assertUrl()
             .assertHeading({ name: /What.s the reason for this appointment/i })
-            .selectReasonForAppointment()
             .assertLabel({
               label: /Add any details you.d like to share with your provider/,
             })
@@ -186,7 +185,6 @@ describe('VAOS request schedule flow - Primary care', () => {
 
           ReasonForAppointmentPageObject.assertUrl()
             .assertHeading({ name: /What.s the reason for this appointment/i })
-            .selectReasonForAppointment()
             .assertLabel({
               label: /Add any details you.d like to share with your provider/,
             })
@@ -286,7 +284,6 @@ describe('VAOS request schedule flow - Primary care', () => {
 
           ReasonForAppointmentPageObject.assertUrl()
             .assertHeading({ name: /What.s the reason for this appointment/i })
-            .selectReasonForAppointment()
             .assertLabel({
               label: /Add any details you.d like to share with your provider/,
             })
@@ -345,7 +342,6 @@ describe('VAOS request schedule flow - Primary care', () => {
 
           ReasonForAppointmentPageObject.assertUrl()
             .assertHeading({ name: /What.s the reason for this appointment/i })
-            .selectReasonForAppointment()
             .assertLabel({
               label: /Add any details you.d like to share with your provider/,
             })
@@ -450,7 +446,6 @@ describe('VAOS request schedule flow - Primary care', () => {
 
         ReasonForAppointmentPageObject.assertUrl()
           .assertHeading({ name: /What.s the reason for this appointment/i })
-          .selectReasonForAppointment()
           .assertLabel({
             label: /Add any details you.d like to share with your provider/,
           })

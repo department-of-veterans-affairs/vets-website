@@ -90,7 +90,7 @@ export function CCDetails({ otherDetails, request, level = 2 }) {
   return (
     <Section heading={heading} level={level}>
       <span className="vaos-u-word-break--break-word" data-dd-privacy="mask">
-        Other details: {`${otherDetails || 'Not available'}`}
+        {`${otherDetails || 'Not available'}`}
       </span>
     </Section>
   );
@@ -102,7 +102,6 @@ CCDetails.propTypes = {
 };
 
 export function Details({
-  reason,
   otherDetails,
   request,
   level = 2,
@@ -116,12 +115,8 @@ export function Details({
     : 'Details you shared with your provider';
   return (
     <Section heading={heading} level={level}>
-      <span data-dd-privacy="mask">
-        Reason: {`${reason && reason !== 'none' ? reason : 'Not available'}`}
-      </span>
-      <br />
       <span className="vaos-u-word-break--break-word" data-dd-privacy="mask">
-        Other details: {`${otherDetails || 'Not available'}`}
+        {`${otherDetails || 'Not available'}`}
       </span>
     </Section>
   );

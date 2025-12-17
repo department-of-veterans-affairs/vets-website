@@ -74,10 +74,7 @@ export default function EpsAppointmentDetailCard({
           locationPhone={appointment.provider?.phone}
         />
       </Section>
-      <Details
-        reason={appointment.reason}
-        otherDetails={appointment.comments}
-      />
+      <Details otherDetails={appointment.comments} />
       <Section heading="Prepare for your appointment">
         <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
           Bring your insurance cards. And bring a list of your medications and
