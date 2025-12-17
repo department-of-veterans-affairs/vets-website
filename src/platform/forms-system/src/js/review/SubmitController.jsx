@@ -25,11 +25,6 @@ import {
 } from '../actions';
 
 class SubmitController extends Component {
-  componentDidMount() {
-    // Clear form errors if they're no longer valid when component mounts
-    this.checkAndClearStaleErrors();
-  }
-
   componentDidUpdate(prevProps) {
     const nextStatus = this.props.form.submission.status;
     const previousStatus = prevProps.form.submission.status;
@@ -41,28 +36,6 @@ class SubmitController extends Component {
     ) {
       const newRoute = `${this.props.formConfig.urlPrefix}confirmation`;
       this.props.router.push(newRoute);
-      return;
-    }
-
-    // Check if we're on the review page
-    const isOnReviewPage = this.props.router?.location?.pathname?.includes(
-      'review',
-    );
-
-    // Always check and clear stale errors when on review page if:
-    // 1. Form data changed, OR
-    // 2. We just navigated to the review page, OR
-    // 3. Location pathname changed (user navigated)
-    const formDataChanged =
-      JSON.stringify(prevProps.form.data) !==
-      JSON.stringify(this.props.form.data);
-    const locationChanged =
-      prevProps.router?.location?.pathname !==
-      this.props.router?.location?.pathname;
-    const hasErrors = this.props.form?.formErrors?.errors?.length > 0;
-
-    if (isOnReviewPage && hasErrors && (formDataChanged || locationChanged)) {
-      this.checkAndClearStaleErrors();
     }
   }
 
@@ -73,29 +46,6 @@ class SubmitController extends Component {
       return formConfig.customValidationErrors(formData);
     }
     return [];
-  };
-
-  checkAndClearStaleErrors = (props = this.props) => {
-    const { form, pageList } = props;
-    const { formErrors } = form;
-
-    // Only check if there are any errors to clear
-    if (formErrors?.errors?.length > 0) {
-      // Re-validate to check if errors are still valid
-      const customErrors = this.getCustomValidationErrors(form.data);
-      const { isValid } = isValidForm(form, pageList);
-      const hasErrors = !isValid || customErrors.length > 0;
-
-      // If there are no errors now, clear them
-      // Keep submission status as 'validationError' so ValidationError component
-      // continues to render and can show the "resolved" message
-      if (!hasErrors) {
-        this.props.setFormErrors({
-          rawErrors: [],
-          errors: [],
-        });
-      }
-    }
   };
 
   getPreSubmit = formConfig => ({
