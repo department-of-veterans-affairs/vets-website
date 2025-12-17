@@ -55,7 +55,7 @@ describe('VAOS Component: CCLayout', () => {
         screen.getByText((content, element) => {
           return (
             element.tagName.toLowerCase() === 'span' &&
-            content === 'Other details: Not available'
+            content === 'Not available'
           );
         }),
       );
@@ -130,11 +130,7 @@ describe('VAOS Component: CCLayout', () => {
           name: /Details you shared with your provider/i,
         }),
       );
-      expect(
-        screen.getByText(
-          /Other details: This is a test:Additional information/i,
-        ),
-      );
+      expect(screen.getByText(/This is a test:Additional information/i));
 
       expect(
         screen.getByRole('heading', {
@@ -238,11 +234,7 @@ describe('VAOS Component: CCLayout', () => {
           name: /Details you shared with your provider/i,
         }),
       );
-      expect(
-        screen.getByText(
-          /Other details: This is a test:Additional information/i,
-        ),
-      );
+      expect(screen.getByText(/This is a test:Additional information/i));
 
       expect(
         screen.queryByRole('heading', {
@@ -332,11 +324,7 @@ describe('VAOS Component: CCLayout', () => {
           name: /Details you shared with your provider/i,
         }),
       );
-      expect(
-        screen.getByText(
-          /Other details: This is a test:Additional information/i,
-        ),
-      );
+      expect(screen.getByText(/This is a test:Additional information/i));
 
       expect(
         screen.getByRole('heading', {
@@ -440,11 +428,7 @@ describe('VAOS Component: CCLayout', () => {
           name: /Details you shared with your provider/i,
         }),
       );
-      expect(
-        screen.getByText(
-          /Other details: This is a test:Additional information/i,
-        ),
-      );
+      expect(screen.getByText(/This is a test:Additional information/i));
 
       expect(screen.container.querySelector('va-button[text="Print"]')).to.be
         .ok;

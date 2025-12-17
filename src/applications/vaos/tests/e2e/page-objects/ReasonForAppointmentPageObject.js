@@ -8,10 +8,6 @@ class ReasonForAppointmentPageObject extends PageObject {
     return this;
   }
 
-  selectReasonForAppointment() {
-    return super.selectRadioButton(/Routine or follow-up visit/i);
-  }
-
   assertLabel({ label }) {
     return this.assertShadow({
       element: 'va-textarea',

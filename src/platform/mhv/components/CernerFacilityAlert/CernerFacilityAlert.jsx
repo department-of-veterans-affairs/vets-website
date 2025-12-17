@@ -102,7 +102,7 @@ const CernerFacilityAlert = ({
     return (
       <va-alert-expandable
         // Some usages might need extra top margin if there's an API error message above
-        className={`vads-u-margin-bottom--2p5 ${className} ${
+        class={`vads-u-margin-bottom--2p5 ${className} ${
           apiError ? 'vads-u-margin-top--2' : ''
         }`}
         data-testid="cerner-facilities-info-alert"

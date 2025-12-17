@@ -217,10 +217,15 @@ export const chapters = {
   sponsorInformation: {
     title: sponsorInformationTitle(),
     pages: {
-      sponsorInformation: {
-        ...sponsorInfo(fullSchema1995),
-        depends: isLegacyFlow,
-      },
+      sponsorInformation: (() => {
+        const page = sponsorInfo(fullSchema1995);
+        const originalDepends = page.depends;
+        return {
+          ...page,
+          depends: formData =>
+            isLegacyFlow(formData) && originalDepends(formData),
+        };
+      })(),
     },
   },
   militaryService,

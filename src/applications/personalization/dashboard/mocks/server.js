@@ -35,6 +35,7 @@ const {
   createDisabilityRatingEmpty,
   createDisabilityRatingZero,
 } = require('./disability-rating');
+const vamcEhr = require('../tests/fixtures/vamc-ehr.json');
 
 /* eslint-disable camelcase */
 const responses = {
@@ -248,6 +249,7 @@ const responses = {
         return '';
     }
   },
+  'GET /data/cms/vamc-ehr.json': vamcEhr,
 };
 
 // here we can run anything that needs to happen before the mock server starts up
