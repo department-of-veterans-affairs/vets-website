@@ -15,6 +15,15 @@ import { getRootParentUrl } from '../../shared/utils';
 // Must match the H1
 document.title = TITLE;
 
+/**
+ * Render the Dependents Verification application
+ * @typedef {object} AppProps
+ * @property {object} location - current location object
+ * @property {node} children - child components
+ *
+ * @param {AppProps} props - Component props
+ * @returns {React.Component} - Dependents Verification application
+ */
 export default function App({ location, children }) {
   const isLoggedIn = useSelector(
     state => state?.user?.login?.currentlyLoggedIn,

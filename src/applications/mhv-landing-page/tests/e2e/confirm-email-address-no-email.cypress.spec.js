@@ -18,7 +18,7 @@ describe('MHV Email Confirmation Alert - Add Email', () => {
     LandingPage.clickAddEmail();
 
     cy.url().should('include', '/profile/contact-information');
-    cy.hash().should('equal', '#contact-email-address');
+    cy.hash().should('equal', '#email-address');
 
     cy.injectAxeThenAxeCheck();
   });

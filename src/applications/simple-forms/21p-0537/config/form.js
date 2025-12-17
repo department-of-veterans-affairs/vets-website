@@ -203,7 +203,10 @@ const formConfig = {
     },
   },
   downtime: {
-    dependencies: [externalServices.lighthouseBenefitsIntake],
+    dependencies: [
+      externalServices.lighthouseBenefitsIntake,
+      externalServices.form21p0537,
+    ],
   },
   getHelp,
 };

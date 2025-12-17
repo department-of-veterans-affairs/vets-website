@@ -367,11 +367,20 @@ describe('arrayBuilderText', () => {
       cancelEditDescription: 'cancelEditDescription',
       cancelAddDescription: props => props.nounPlural,
     });
+    const nullableKeys = [
+      'summaryTitleWithoutItems',
+      'summaryDescription',
+      'summaryDescriptionWithoutItems',
+    ];
     Object.keys(DEFAULT_ARRAY_BUILDER_TEXT).forEach(key => {
       if (key === 'getItemName') {
         return;
       }
-      expect(getText(key)).to.be.a('string');
+      if (nullableKeys.includes(key)) {
+        expect(getText(key)).to.be.null;
+      } else {
+        expect(getText(key)).to.be.a('string');
+      }
     });
     expect(getText).to.be.a('function');
   });

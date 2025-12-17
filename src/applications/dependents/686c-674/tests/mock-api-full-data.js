@@ -196,20 +196,33 @@ const userData = () => {
   };
 };
 
+const mockRatingInfo = {
+  data: {
+    id: '',
+    type: 'lighthouse_rating_info',
+    attributes: {
+      userPercentOfDisability: 70,
+      sourceSystem: 'Lighthouse',
+    },
+  },
+};
+
 const responses = {
   'GET /v0/user': userData(),
   'GET /v0/feature_toggles': {
     data: {
       type: 'feature_toggles',
       features: [
-        { name: 'vaDependentsV2', value: true },
-        { name: 'va_dependents_v2', value: true },
         { name: 'vaDependentsV3', value: true },
         { name: 'va_dependents_v3', value: true },
         { name: 'vaDependentsNetWorthAndPension', value: true },
         { name: 'va_dependents_net_worth_and_pension', value: true },
         { name: 'vaDependentsDuplicateModals', value: true },
         { name: 'va_dependents_duplicate_modals', value: true },
+        { name: 'manage_dependents', value: true },
+        { name: 'manageDependents', value: true },
+        { name: 'vaDependentsVerification', value: true },
+        { name: 'va_dependents_verification', value: true },
       ],
     },
   },
@@ -220,6 +233,7 @@ const responses = {
   'GET /v0/profile/valid_va_file_number': mockVaFileNumber,
   'GET /v0/in_progress_forms/686C-674-V2': mockSipGet,
   'PUT /v0/in_progress_forms/686C-674-V2': mockSipPut,
+  'GET /v0/disability_compensation_form/rating_info': mockRatingInfo,
 
   'GET /v0/dependents_applications/show': mockDependents,
 

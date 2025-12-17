@@ -15,6 +15,7 @@ Array builder pattern features an intro page (for required flow), a yes/no quest
     - [Example using action link (or button) instead of yes/no question](#example-using-action-link-or-button-instead-of-yesno-question)
     - [Example content at bottom of page](#example-content-at-bottom-of-page)
     - [Examples checking for duplicate content](#examples-checking-for-duplicate-content)
+  - [Array Builder Options](#array-builder-options)
   - [Web Component Patterns](#web-component-patterns)
     - [Example `arrayBuilderYesNoUI` Text Overrides:](#example-arraybuilderyesnoui-text-overrides)
   - [General Pattern Text Overrides](#general-pattern-text-overrides)
@@ -527,6 +528,27 @@ const options = {
   },
 };
 ```
+
+## Array Builder Options
+
+| Option | Type | Description |
+|--------|------|-------------|
+| `arrayPath` | `string` | The formData key for the array e.g. `"employers"` for `formData.employers` |
+| `nounSingular` | `string` | Used for text in cancel, remove, and modals |
+| `nounPlural` | `string` | Used for text in cancel, remove, and modals |
+| `required` | `boolean \| function` | Determines the flow type. If `true`, starts with intro page and expects at least 1 item |
+| `isItemIncomplete` | `function` | Will display error on the cards if item is incomplete |
+| `maxItems` | `number \| function` | Maximum number of items allowed in the array |
+| `hideMaxItemsAlert` | `boolean` | Will not display the alert when maxItems is reached |
+| `text` | `object` | Override any default text used in the array builder pattern |
+| `reviewPath` | `string` | Defaults to `'review-and-submit'` if not provided |
+| `reviewPanelHeadingLevel` | `string` | The heading level for the summary title on the review page |
+| `useLinkInsteadOfYesNo` | `boolean` | Use a link instead of yes/no question |
+| `useButtonInsteadOfYesNo` | `boolean` | Use a button instead of yes/no question |
+| `canAddItem` | `function` | `({ arrayData, fullData, isReview }) => boolean` - Control add button/link visibility on summary page |
+| `canEditItem` | `function` | `({ itemData, index, fullData, isReview }) => boolean` - Control edit link visibility per card |
+| `canDeleteItem` | `function` | `({ itemData, index, fullData, isReview }) => boolean` - Control delete button visibility per card |
+| `duplicateChecks` | `object` | Configuration for duplicate checking |
 
 ## Web Component Patterns
 | Pattern | Description |

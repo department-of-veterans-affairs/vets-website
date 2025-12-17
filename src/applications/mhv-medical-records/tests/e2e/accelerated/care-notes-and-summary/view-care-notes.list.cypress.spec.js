@@ -32,6 +32,7 @@ describe('Medical Records View Care Summary and Notes', () => {
       CARDS_PER_PAGE,
     );
 
+    CareSummaryAndNotes.checkInfoAlert();
     CareSummaryAndNotes.checkDischargeListItem();
     CareSummaryAndNotes.checkNoteListItem();
   });

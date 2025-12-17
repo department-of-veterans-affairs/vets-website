@@ -13,9 +13,15 @@ export const symbolsValidation = (
   // This ruleset should match RJSF 'email' format.
   // (Don't care about white space in this step, hence \s is OK)
   // ",][#" are some symbols not accepted.
-  const validChars = /^[a-zA-Z0-9~!@$%^&*_=+}{'`?/.\s-]+$/;
-  if (!validChars.test(value)) {
-    errors.addError(messages.symbols);
+  const invalidChars = /[^a-zA-Z0-9~!@$%^&*_=+}{'`?/.\s-]/g;
+  const matches = value.match(invalidChars);
+
+  if (matches) {
+    const uniqueInvalidChars = [...new Set(matches)].join(', ');
+    const staticText =
+      messages?.symbols ||
+      'You entered a character we can’t accept. Try removing';
+    errors.addError(`${staticText} ${uniqueInvalidChars}.`);
   }
 };
 
@@ -67,11 +73,10 @@ const emailUI = options => {
     'ui:validations': [symbolsValidation, emailValidation],
     'ui:required': required,
     'ui:errorMessages': {
-      required: 'Please enter an email address',
+      required:
+        'Enter a valid email address without spaces using this format: email@domain.com',
       format:
         'Enter a valid email address without spaces using this format: email@domain.com',
-      symbols:
-        'You entered a character we can’t accept. Try removing spaces and any special characters like commas or brackets.',
       ...errorMessages,
     },
     'ui:options': {

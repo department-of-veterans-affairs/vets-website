@@ -25,14 +25,15 @@ const AgreementPage = () => {
 
     if (isAgreementChecked) {
       try {
-        // Submit the complex claim
+        // Submit the complex claim via Redux action
+        // Any errors from submission are stored in Redux under:
+        //   - complexClaim.claim.submission.error
         await dispatch(submitComplexClaim(claimId, claimData));
+        // Navigate to the confirmation page after successful submission
         navigate(`/file-new-claim/${apptId}/${claimId}/confirmation`);
       } catch (error) {
-        // Handle error - could show an error message or stay on the page
-        // eslint-disable-next-line no-console
-        console.error('Failed to submit complex claim:', error);
-        // TODO: Add proper error handling UI
+        // Navigate to confimration page on submission failure and show error
+        navigate(`/file-new-claim/${apptId}/${claimId}/confirmation`);
       }
     }
   };

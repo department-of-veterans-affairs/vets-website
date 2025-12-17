@@ -336,13 +336,15 @@ export const hasAwardedDependents = (formData = {}) =>
 
 /**
  * If v3 flow is enabled, show options selection (add or remove question) if
- * there are awarded dependents; if no awarded dependents, only show the add
- * dependents flow
+ * there are awarded dependents and no dependents API error; if no awarded
+ * dependents, only show the add dependents flow
  * @param {object} formData - form data object
  * @returns {boolean} - true if options selection should be shown
  */
 export const showOptionsSelection = formData =>
-  showV3Picklist(formData) ? hasAwardedDependents(formData) : true;
+  showV3Picklist(formData)
+    ? !formData['view:dependentsApiError'] && hasAwardedDependents(formData)
+    : true;
 
 /**
  * If v3 picklist is enabled, check if remove flow is selected and if all the
@@ -377,7 +379,7 @@ export const hasSelectedPicklistItems = formData =>
  * @returns {object} V2 location format
  */
 function buildLocation(item) {
-  if (item.endOutsideUS === true) {
+  if (item.endOutsideUs === true) {
     return {
       outsideUsa: true,
       location: {

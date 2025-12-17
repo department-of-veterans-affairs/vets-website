@@ -514,6 +514,15 @@ describe('showOptionsSelection', () => {
       }),
     ).to.be.false;
   });
+  it('should return false if the feature flag is on and there is an API error', () => {
+    expect(
+      showOptionsSelection({
+        vaDependentsV3: true,
+        dependents: { awarded: [{}] },
+        'view:dependentsApiError': true,
+      }),
+    ).to.be.false;
+  });
 });
 
 describe('hasAwardedDependents', () => {
@@ -737,7 +746,7 @@ describe('transformPicklistToV2', () => {
           isStepchild: 'Y',
           removalReason: 'childDied',
           endDate: '2023-12-01',
-          endOutsideUS: false,
+          endOutsideUs: false,
           endCity: 'Portland',
           endState: 'OR',
         },
@@ -783,7 +792,7 @@ describe('transformPicklistToV2', () => {
           endDate: '2000-02-02',
           endCity: 'test',
           endState: 'AS',
-          endOutsideUS: false,
+          endOutsideUs: false,
         },
       ],
     };
@@ -821,7 +830,7 @@ describe('transformPicklistToV2', () => {
           endType: 'annulmentOrVoid',
           endAnnulmentOrVoidDescription: 'Test description',
           endDate: '2020-01-01',
-          endOutsideUS: true,
+          endOutsideUs: true,
           endCity: 'Paris',
           endProvince: 'Test',
           endCountry: 'FRA',
@@ -854,7 +863,7 @@ describe('transformPicklistToV2', () => {
           selected: true,
           removalReason: 'spouseDied',
           endDate: '2024-01-15',
-          endOutsideUS: true,
+          endOutsideUs: true,
           endCity: 'London',
           endCountry: 'GBR',
         },
@@ -893,7 +902,7 @@ describe('transformPicklistToV2', () => {
           selected: true,
           removalReason: 'parentDied',
           endDate: '2000-02-02',
-          endOutsideUS: false,
+          endOutsideUs: false,
           endCity: 'test',
           endState: 'AK',
         },
@@ -939,7 +948,7 @@ describe('transformPicklistToV2', () => {
           selected: true,
           removalReason: 'childDied',
           endDate: '2023-12-01',
-          endOutsideUS: false,
+          endOutsideUs: false,
           endCity: 'Portland',
           endState: 'OR',
         },
@@ -950,7 +959,7 @@ describe('transformPicklistToV2', () => {
           selected: true,
           removalReason: 'parentDied',
           endDate: '2000-02-02',
-          endOutsideUS: false,
+          endOutsideUs: false,
           endCity: 'test',
           endState: 'AK',
         },
@@ -1088,7 +1097,7 @@ describe('transformPicklistToV2', () => {
           isStepchild: 'Y',
           removalReason: 'childDied',
           endDate: '2024-01-15',
-          endOutsideUS: false,
+          endOutsideUs: false,
           endCity: 'Seattle',
           endState: 'WA',
         },
@@ -1236,7 +1245,7 @@ describe('transformPicklistToV2', () => {
           removalReason: 'marriageEnded',
           endType: 'divorce',
           endDate: '2000-02-02',
-          endOutsideUS: false,
+          endOutsideUs: false,
         },
         {
           fullName: { first: 'SPOUSE2', last: 'DOE' },
@@ -1246,7 +1255,7 @@ describe('transformPicklistToV2', () => {
           removalReason: 'marriageEnded',
           endType: 'divorce',
           endDate: '2020-01-01',
-          endOutsideUS: false,
+          endOutsideUs: false,
         },
       ],
     };

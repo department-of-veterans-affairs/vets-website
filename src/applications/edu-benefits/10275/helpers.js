@@ -123,6 +123,15 @@ export const getTransformIntlPhoneNumber = (phone = {}) => {
   return _contact;
 };
 
+export const isPOEEligible = facilityCode => {
+  const firstDigit = facilityCode.charAt(0);
+  const secondDigit = facilityCode.charAt(1);
+  if (['1', '2', '3'].includes(firstDigit)) {
+    return ['1', '2', '3', '4', '5'].includes(secondDigit);
+  }
+  return false;
+};
+
 export const facilityCodeUIValidation = (errors, fieldData, formData) => {
   const code = (fieldData || '').trim();
 

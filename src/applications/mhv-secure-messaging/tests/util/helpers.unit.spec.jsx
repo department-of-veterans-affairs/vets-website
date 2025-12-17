@@ -979,7 +979,7 @@ describe('MHV Secure Messaging helpers', () => {
       expirationDate: '2024-12-31',
       reason: 'Refill needed',
       quantity: '30 tablets',
-      dispensedDate: '2023-08-04',
+      sortedDispensedDate: '2023-08-04',
       sig: 'Take one tablet by mouth daily',
     };
 
@@ -1139,7 +1139,7 @@ describe('MHV Secure Messaging helpers', () => {
     it('should handle missing dispensed date and show placeholder', () => {
       const rxWithInvalidDate = {
         ...mockRx,
-        dispensedDate: null,
+        sortedDispensedDate: null,
       };
       const result = buildRxRenewalMessageBody(rxWithInvalidDate, false);
 
@@ -1149,7 +1149,7 @@ describe('MHV Secure Messaging helpers', () => {
     it('should handle empty dispensed date and show placeholder', () => {
       const rxWithEmptyDate = {
         ...mockRx,
-        dispensedDate: '',
+        sortedDispensedDate: '',
       };
       const result = buildRxRenewalMessageBody(rxWithEmptyDate, false);
 
