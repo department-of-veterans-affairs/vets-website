@@ -25,7 +25,7 @@ export const Nav = () => {
           data-testid="nav-home-link"
           aria-label="VA Accredited Representative Portal"
           className="nav__link vads-u-display--flex"
-          to="/"
+          href="/representative"
         >
           <img
             data-testid="mobile-logo"
@@ -44,11 +44,11 @@ export const Nav = () => {
           />
         </a>
         <div className="heading-right">
-          <va-button
-            href="/representative/get-help"
-            className="heading-help-link {ConditionalExpression}"
-            variant="secondary"
-            text="Help"
+          <a
+            href="/representative/help"
+            className={`usa-button-secondary heading-help-link ${
+              profile ? 'logged-in' : ''
+            }`}
             data-testid="heading-help-link"
             data-eventname="nav-link-click"
           />
@@ -76,7 +76,7 @@ export const Nav = () => {
               Representation Requests
             </a>
             <a
-              className="nav__btn desktop"
+              className="nav__btn desktop is--active"
               href="/representative/submissions"
               data-testid="desktop-submissions-link"
             >

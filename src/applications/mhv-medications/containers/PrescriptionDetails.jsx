@@ -1,8 +1,15 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom-v5-compat';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import useAcceleratedData from '~/platform/mhv/hooks/useAcceleratedData';
 import {
   updatePageTitle,
   reportGeneratedBy,
@@ -57,6 +64,7 @@ import {
   selectFilterOption,
   selectPageNumber,
 } from '../selectors/selectPreferences';
+import { selectCernerPilotFlag } from '../util/selectors';
 
 const PrescriptionDetails = () => {
   const { prescriptionId } = useParams();
@@ -65,6 +73,8 @@ const PrescriptionDetails = () => {
   const selectedSortOption = useSelector(selectSortOption);
   const selectedFilterOption = useSelector(selectFilterOption);
   const currentPage = useSelector(selectPageNumber);
+  // OH feature flag
+  const isCernerPilot = useSelector(selectCernerPilotFlag);
   // Consolidate query parameters into a single state object to avoid multiple re-renders
   const [queryParams] = useState({
     page: currentPage || 1,
@@ -86,7 +96,21 @@ const PrescriptionDetails = () => {
 
   const userName = useSelector(selectUserFullName);
   const dob = useSelector(selectUserDob);
-  const { data: allergies, error: allergiesError } = useGetAllergiesQuery();
+  const {
+    isAcceleratingAllergies,
+    isCerner,
+    isLoading: isAcceleratedDataLoading,
+  } = useAcceleratedData();
+
+  const { data: allergies, error: allergiesError } = useGetAllergiesQuery(
+    {
+      isAcceleratingAllergies,
+      isCerner,
+    },
+    {
+      skip: isAcceleratedDataLoading, // Wait for Cerner data and toggles to load before calling API
+    },
+  );
 
   const [prescriptionPdfList, setPrescriptionPdfList] = useState([]);
   const [pdfTxtGenerateStatus, setPdfTxtGenerateStatus] = useState({
@@ -96,24 +120,34 @@ const PrescriptionDetails = () => {
 
   const prescriptionHeader =
     prescription?.prescriptionName || prescription?.orderableItem;
-  const refillHistory = getRefillHistory(prescription);
+  const refillHistory = useMemo(() => getRefillHistory(prescription), [
+    prescription,
+  ]);
 
   // Prefetch prescription documentation for faster loading when
   // going to the documentation page
   const prefetchPrescriptionDocumentation = usePrefetch(
     'getPrescriptionDocumentation',
   );
+
+  const hasPrefetched = useRef(false);
+
   useEffect(
     () => {
-      if (!isLoading && hasCmopNdcNumber(refillHistory)) {
+      if (
+        !isLoading &&
+        !hasPrefetched.current &&
+        hasCmopNdcNumber(refillHistory)
+      ) {
         prefetchPrescriptionDocumentation(prescriptionId);
+        hasPrefetched.current = true;
       }
     },
     [
       isLoading,
-      prefetchPrescriptionDocumentation,
       prescriptionId,
       refillHistory,
+      prefetchPrescriptionDocumentation,
     ],
   );
 
@@ -226,12 +260,12 @@ const PrescriptionDetails = () => {
           DATETIME_FORMATS.longMonthDate,
         )}\n\n${
           nonVaPrescription
-            ? buildNonVAPrescriptionTXT(prescription)
-            : buildVAPrescriptionTXT(prescription)
+            ? buildNonVAPrescriptionTXT(prescription, {}, isCernerPilot)
+            : buildVAPrescriptionTXT(prescription, isCernerPilot)
         }${allergiesList ?? ''}`
       );
     },
-    [userName, dob, prescription, nonVaPrescription],
+    [userName, dob, prescription, nonVaPrescription, isCernerPilot],
   );
 
   const handleFileDownload = async format => {
@@ -303,11 +337,11 @@ const PrescriptionDetails = () => {
       if (!prescription) return;
       setPrescriptionPdfList(
         nonVaPrescription
-          ? buildNonVAPrescriptionPDFList(prescription)
-          : buildVAPrescriptionPDFList(prescription),
+          ? buildNonVAPrescriptionPDFList(prescription, isCernerPilot)
+          : buildVAPrescriptionPDFList(prescription, isCernerPilot),
       );
     },
-    [nonVaPrescription, prescription],
+    [nonVaPrescription, prescription, isCernerPilot],
   );
 
   const filledEnteredDate = () => {

@@ -28,12 +28,26 @@ const RecentCareTeams = () => {
   const [error, setError] = useState(null);
   const { recipients, threadDetails } = useSelector(state => state.sm);
   const { acceptInterstitial } = threadDetails;
-  const { recentRecipients, allRecipients } = recipients;
+  const {
+    recentRecipients,
+    allRecipients,
+    noAssociations,
+    error: recipientsError,
+  } = recipients;
   const h1Ref = useRef(null);
   const {
     mhvSecureMessagingRecentRecipients,
     featureTogglesLoading,
   } = useFeatureToggles();
+
+  useEffect(
+    () => {
+      if (recipientsError || noAssociations) {
+        history.push(Paths.INBOX);
+      }
+    },
+    [recipientsError, noAssociations, history],
+  );
 
   useEffect(
     () => {
@@ -53,11 +67,11 @@ const RecentCareTeams = () => {
 
   useEffect(
     () => {
-      if (allRecipients?.length > 0) {
+      if (allRecipients?.length > 0 && recentRecipients === undefined) {
         dispatch(getRecentRecipients(6));
       }
     },
-    [allRecipients, dispatch],
+    [allRecipients, dispatch, recentRecipients],
   );
 
   useEffect(

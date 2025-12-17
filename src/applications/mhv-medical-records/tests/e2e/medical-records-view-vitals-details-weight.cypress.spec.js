@@ -1,8 +1,8 @@
-import moment from 'moment';
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import VitalsListPage from './pages/VitalsListPage';
 import VitalsDetailsPage from './pages/VitalsDetailsPage';
 import defaultVitals from '../fixtures/vitals.json';
+import { dateFormatWithoutTimezone } from '../../util/dateHelpers';
 
 describe('Medical Records Vitals Details Page', () => {
   const site = new MedicalRecordsSite();
@@ -18,9 +18,9 @@ describe('Medical Records Vitals Details Page', () => {
 
     VitalsDetailsPage.verifyVitalReadingByIndex(
       0,
-      moment
-        .parseZone(defaultVitals.entry[9].resource.effectiveDateTime)
-        .format('MMMM D, YYYY, h:mm'),
+      dateFormatWithoutTimezone(
+        defaultVitals.entry[9].resource.effectiveDateTime,
+      ),
       `${defaultVitals.entry[9].resource.valueQuantity.value} pounds`,
       defaultVitals.entry[9].resource.contained[0].name,
       'None recorded',
@@ -28,9 +28,9 @@ describe('Medical Records Vitals Details Page', () => {
 
     VitalsDetailsPage.verifyVitalReadingByIndex(
       1,
-      moment
-        .parseZone(defaultVitals.entry[19].resource.effectiveDateTime)
-        .format('MMMM D, YYYY, h:mm'),
+      dateFormatWithoutTimezone(
+        defaultVitals.entry[19].resource.effectiveDateTime,
+      ),
       `${defaultVitals.entry[19].resource.valueQuantity.value} pounds`,
       defaultVitals.entry[19].resource.contained[0].name,
       'None recorded',
@@ -38,9 +38,9 @@ describe('Medical Records Vitals Details Page', () => {
 
     VitalsDetailsPage.verifyVitalReadingByIndex(
       2,
-      moment
-        .parseZone(defaultVitals.entry[29].resource.effectiveDateTime)
-        .format('MMMM D, YYYY, h:mm'),
+      dateFormatWithoutTimezone(
+        defaultVitals.entry[29].resource.effectiveDateTime,
+      ),
       `${defaultVitals.entry[29].resource.valueQuantity.value} pounds`,
       defaultVitals.entry[29].resource.contained[0].name,
       'None recorded',
@@ -48,9 +48,9 @@ describe('Medical Records Vitals Details Page', () => {
 
     VitalsDetailsPage.verifyVitalReadingByIndex(
       3,
-      moment
-        .parseZone(defaultVitals.entry[39].resource.effectiveDateTime)
-        .format('MMMM D, YYYY, h:mm'),
+      dateFormatWithoutTimezone(
+        defaultVitals.entry[39].resource.effectiveDateTime,
+      ),
       `${defaultVitals.entry[39].resource.valueQuantity.value} pounds`,
       defaultVitals.entry[39].resource.contained[0].name,
       'None recorded',

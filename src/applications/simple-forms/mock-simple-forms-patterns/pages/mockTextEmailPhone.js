@@ -12,7 +12,7 @@ export default {
     ...titleUI('Web component v3 email and phone'),
     wcv3TextEmailNew: emailUI({
       description:
-        'By providing an email address, I agree to receive electronic correspondence from VA regarding my application',
+        'By providing an email address, I agree to receive electronic correspondence from VA regarding my application.',
     }),
     wcv3TextPhoneNew: phoneUI(),
   },

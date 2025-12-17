@@ -14,7 +14,7 @@ const API_VERSION = 'accredited_representative_portal/v0';
 const doNotRedirectUrl = [
   manifest.rootUrl,
   `${manifest.rootUrl}/`,
-  `${manifest.rootUrl}/get-help`,
+  `${manifest.rootUrl}/help`,
   `${manifest.rootUrl}/sign-in`,
   `${manifest.rootUrl}/auth/login/callback`,
 ];
@@ -22,7 +22,7 @@ const doNotRedirectUrl = [
 const redirectToUnauthorizedAndReturn = () => {
   const inAppPath = window.location.pathname.startsWith(manifest.rootUrl);
   if (inAppPath) {
-    window.location.replace(`${manifest.rootUrl}/dashboard?unauthorized=1`);
+    window.location.replace(`${manifest.rootUrl}/dashboard?unauthorized`);
     // Keep loaders pending until navigation completes to avoid UI flash
     return new Promise(() => {});
   }

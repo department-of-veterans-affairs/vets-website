@@ -26,7 +26,6 @@ import {
   getLastUpdatedText,
   getMonthFromSelectedDate,
   getObservationValueWithUnits,
-  getReactions,
   getStatusExtractPhase,
   handleDataDogAction,
   nameFormat,
@@ -39,6 +38,7 @@ import {
   getDisplayTimeFrame,
   calculateDateRange,
   buildInitialDateRange,
+  resolveAcceleratedDateRange,
 } from '../../util/helpers';
 import { refreshPhases, VALID_REFRESH_DURATION } from '../../util/constants';
 
@@ -98,14 +98,6 @@ describe('dateFormatWithoutTimezone', () => {
     const expectedFormat = '2021-05-18';
     const result = dateFormatWithoutTimezone(isoString, customFormat);
     expect(result).to.equal(expectedFormat);
-  });
-});
-
-describe('getReactions', () => {
-  it('returns an empty array if the record passed has no reactions property', () => {
-    const record = {};
-    const reactions = getReactions(record);
-    expect(reactions.length).to.eq(0);
   });
 });
 
@@ -1184,5 +1176,48 @@ describe('errorForUnequalBirthDates (no sinon)', () => {
     expect(() => errorForUnequalBirthDates('anything', deps)).to.throw(
       /Invalid birth date via formatBirthDate/,
     );
+  });
+});
+
+describe('resolveAcceleratedDateRange', () => {
+  it('returns provided dates when both supplied (no fallback)', () => {
+    const result = resolveAcceleratedDateRange('2025-01-01', '2025-02-01');
+    expect(result).to.deep.equal({
+      startDate: '2025-01-01',
+      endDate: '2025-02-01',
+      fallbackApplied: false,
+    });
+  });
+
+  it('falls back when both dates missing', () => {
+    const expected = buildInitialDateRange(); // uses DEFAULT_DATE_RANGE
+    const result = resolveAcceleratedDateRange();
+    expect(result.startDate).to.equal(expected.fromDate);
+    expect(result.endDate).to.equal(expected.toDate);
+    expect(result.fallbackApplied).to.be.true;
+  });
+
+  it('falls back when only startDate provided', () => {
+    const expected = buildInitialDateRange();
+    const result = resolveAcceleratedDateRange('2025-03-10');
+    expect(result.startDate).to.equal(expected.fromDate);
+    expect(result.endDate).to.equal(expected.toDate);
+    expect(result.fallbackApplied).to.be.true;
+  });
+
+  it('falls back when only endDate provided', () => {
+    const expected = buildInitialDateRange();
+    const result = resolveAcceleratedDateRange(undefined, '2025-04-20');
+    expect(result.startDate).to.equal(expected.fromDate);
+    expect(result.endDate).to.equal(expected.toDate);
+    expect(result.fallbackApplied).to.be.true;
+  });
+
+  it('supports overriding defaultRange parameter', () => {
+    const expected6 = buildInitialDateRange('6');
+    const result = resolveAcceleratedDateRange(undefined, undefined, '6');
+    expect(result.startDate).to.equal(expected6.fromDate);
+    expect(result.endDate).to.equal(expected6.toDate);
+    expect(result.fallbackApplied).to.be.true;
   });
 });

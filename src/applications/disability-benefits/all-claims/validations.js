@@ -1,5 +1,6 @@
 import _ from 'platform/utilities/data';
 import some from 'lodash/some';
+import { isValid, isBefore, isAfter, add } from 'date-fns';
 
 import {
   parseDate,
@@ -274,13 +275,16 @@ export const isInFuture = (err, fieldData) => {
  */
 export const isLessThan180DaysInFuture = (errors, fieldData) => {
   const enteredDate = parseDate(fieldData);
-  if (enteredDate && enteredDate.isValid()) {
+  if (enteredDate && isValid(enteredDate)) {
     const today = parseDate(new Date().toISOString().split('T')[0]);
-    const in180Days = today.clone().add(180, 'days');
+    const in180Days = add(today, { days: 180 });
 
-    if (enteredDate.isBefore(today)) {
+    if (isBefore(enteredDate, today)) {
       errors.addError('Enter a future separation date');
-    } else if (enteredDate.isSameOrAfter(in180Days)) {
+    } else if (
+      isAfter(enteredDate, in180Days) ||
+      enteredDate.getTime() === in180Days.getTime()
+    ) {
       errors.addError(
         'Enter a separation date less than 180 days in the future',
       );
@@ -304,10 +308,10 @@ export const title10BeforeRad = (errors, pageData) => {
 
   if (
     rad &&
-    rad.isValid() &&
+    isValid(rad) &&
     activation &&
-    activation.isValid() &&
-    rad.isBefore(activation) &&
+    isValid(activation) &&
+    isBefore(rad, activation) &&
     errors?.reservesNationalGuardService?.title10Activation
       ?.anticipatedSeparationDate?.addError
   ) {
@@ -591,12 +595,12 @@ export const validateAge = (
   const start = parseDate(dateString);
 
   // Bail if either date is missing/invalid
-  if (!dob || !dob.isValid?.() || !start || !start.isValid?.()) {
+  if (!dob || !isValid(dob) || !start || !isValid(start)) {
     return;
   }
 
-  const minStart = dob.clone().add(13, 'years');
-  if (start.isSameOrBefore(minStart)) {
+  const minStart = add(dob, { years: 13 });
+  if (isBefore(start, minStart) || start.getTime() === minStart.getTime()) {
     errors.addError('Your start date must be after your 13th birthday');
   }
 };
@@ -632,14 +636,14 @@ export const validateSeparationDate = (
   const separationDate = parseDate(dateString);
 
   // Check if date is invalid
-  if (!separationDate || !separationDate.isValid()) {
+  if (!separationDate || !isValid(separationDate)) {
     errors.addError(
       `The separation date provided (${dateString}) is not a real date.`,
     );
     return;
   }
 
-  // Get today as a moment object by parsing the current date
+  // Get today as a Date object by parsing the current date
   const today = parseDate(new Date().toISOString().split('T')[0]);
 
   // If a reservist is activated, they are considered to be active duty.
@@ -648,7 +652,7 @@ export const validateSeparationDate = (
   const isReserves = reservesList.some(match => branch.includes(match));
 
   // Check if date is more than 180 days in the future (applies to both BDD and non-BDD)
-  if (separationDate.isAfter(today.clone().add(180, 'days'))) {
+  if (isAfter(separationDate, add(today, { days: 180 }))) {
     if (isBDD) {
       errors.addError(
         'Your separation date must be before 180 days from today',
@@ -661,7 +665,7 @@ export const validateSeparationDate = (
   } else if (
     !isBDD &&
     !isReserves &&
-    separationDate.isAfter(today.clone().add(90, 'days'))
+    isAfter(separationDate, add(today, { days: 90 }))
   ) {
     // For non-BDD active duty claims, separation date must not be more than 90 days in the future
     errors.addError('Your separation date must be in the past');
@@ -703,7 +707,7 @@ export const validateTitle10StartDate = (
     });
   const activationDate = parseDate(dateString);
   const today = parseDate(new Date().toISOString().split('T')[0]);
-  if (activationDate && activationDate.isAfter(today)) {
+  if (activationDate && isAfter(activationDate, today)) {
     errors.addError('Enter an activation date in the past');
   } else if (!startTimes[0] || dateString < startTimes[0]) {
     errors.addError(

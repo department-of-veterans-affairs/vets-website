@@ -5,6 +5,7 @@ import {
 } from '@department-of-veterans-affairs/platform-testing/helpers';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
+import sinon from 'sinon';
 import { expect } from 'chai';
 import { Actions } from '../../util/actionTypes';
 import * as Constants from '../../util/constants';
@@ -14,6 +15,7 @@ import {
   moveMessageThread,
   sendMessage,
   sendReply,
+  markMessageAsReadInThread,
 } from '../../actions/messages';
 import * as threadResponse from '../e2e/fixtures/thread-response-new-api.json';
 import * as messageResponse from '../e2e/fixtures/message-response.json';
@@ -22,6 +24,23 @@ describe('messages actions', () => {
   const middlewares = [thunk];
   const mockStore = (initialState = { featureToggles: {} }) =>
     configureStore(middlewares)(initialState);
+  let loggerSpy;
+
+  beforeEach(() => {
+    // Mock the global DD_LOGS logger
+    loggerSpy = sinon.spy();
+    global.window = {
+      DD_LOGS: {
+        logger: {
+          log: loggerSpy,
+        },
+      },
+    };
+  });
+
+  afterEach(() => {
+    delete global.window;
+  });
   const errorResponse = {
     errors: [
       {
@@ -362,7 +381,7 @@ describe('messages actions', () => {
       });
   });
 
-  it('should NOT dispatch success alert on sendMessage when suppressAlert is true', async () => {
+  it('should NOT dispatch success alert on sendMessage when isRxRenewal is true', async () => {
     const store = mockStore();
     mockApiRequest(messageResponse);
     await store
@@ -376,7 +395,7 @@ describe('messages actions', () => {
           },
           true,
           false,
-          true, // suppressAlert = true
+          true, // isRxRenewal = true
         ),
       )
       .then(() => {
@@ -401,21 +420,96 @@ describe('messages actions', () => {
       });
   });
 
+  it('should log prescription renewal message when isRxRenewal is true', async () => {
+    const store = mockStore();
+    mockApiRequest(messageResponse);
+
+    const messageData = {
+      category: 'MEDICATIONS',
+      body: 'Test body',
+      subject: 'Test subject',
+    };
+    messageData[`${'recipient_id'}`] = '2710520';
+
+    await store.dispatch(
+      sendMessage(
+        JSON.stringify(messageData),
+        false,
+        false,
+        true, // isRxRenewal = true
+      ),
+    );
+
+    expect(loggerSpy.calledOnce).to.be.true;
+    const call = loggerSpy.getCall(0);
+    expect(call.args[0]).to.equal('Prescription Renewal Message Sent');
+    expect(call.args[1]).to.deep.equal({
+      messageId: messageResponse.data.attributes.messageId,
+      recipientId: '2710520',
+      category: 'MEDICATIONS',
+      hasAttachments: false,
+    });
+    expect(call.args[2]).to.equal('info');
+  });
+
+  it('should log error when prescription renewal message fails', async () => {
+    const store = mockStore();
+    loggerSpy.reset(); // Reset from previous test
+    const rxErrorResponse = {
+      errors: [
+        {
+          code: 'SM999',
+          detail: 'Network error',
+          status: '500',
+        },
+      ],
+    };
+    mockApiRequest(rxErrorResponse, false);
+    const messageData = {
+      category: 'MEDICATIONS',
+      body: 'Test body',
+      subject: 'Test subject',
+    };
+    messageData[`${'recipient_id'}`] = '2710520';
+    try {
+      await store.dispatch(
+        sendMessage(
+          JSON.stringify(messageData),
+          false,
+          false,
+          true, // isRxRenewal = true
+        ),
+      );
+    } catch (e) {
+      // Expected to throw
+    }
+
+    expect(loggerSpy.calledOnce).to.be.true;
+    const call = loggerSpy.getCall(0);
+    expect(call.args[0]).to.equal('Prescription Renewal Message Send Failed');
+    expect(call.args[1].recipientId).to.equal('2710520');
+    expect(call.args[1].category).to.equal('MEDICATIONS');
+    expect(call.args[1].hasAttachments).to.equal(false);
+    // errorCode and errorDetail may vary based on error structure
+    expect(call.args[2]).to.equal('error');
+    expect(call.args[3]).to.exist;
+  });
+
   it('should dispatch action on sendReply', async () => {
     const store = mockStore();
     mockApiRequest(messageResponse);
     await store
       .dispatch(
-        sendReply(
-          1234,
-          {
+        sendReply({
+          replyToId: 1234,
+          message: {
             category: 'EDUCATION',
             body: 'Test body',
             subject: 'Test subject',
             recipientId: '2710520',
           },
-          false,
-        ),
+          attachments: false,
+        }),
       )
       .then(() => {
         const actions = store.getActions();
@@ -443,16 +537,16 @@ describe('messages actions', () => {
     mockFetch({ ...errorResponse }, false);
     await store
       .dispatch(
-        sendReply(
-          1234,
-          {
+        sendReply({
+          replyToId: 1234,
+          message: {
             category: 'EDUCATION',
             body: 'Test body',
             subject: 'Test subject',
             recipientId: '2710520',
           },
-          true,
-        ),
+          attachments: true,
+        }),
       )
       .catch(() => {
         const actions = store.getActions();
@@ -480,16 +574,16 @@ describe('messages actions', () => {
     mockFetch({ ...errorBlockedUserResponse }, false);
     await store
       .dispatch(
-        sendReply(
-          1234,
-          {
+        sendReply({
+          replyToId: 1234,
+          message: {
             category: 'EDUCATION',
             body: 'Test body',
             subject: 'Test subject',
             recipientId: '2710520',
           },
-          false,
-        ),
+          attachments: false,
+        }),
       )
       .catch(() => {
         expect(store.getActions()).to.deep.include({
@@ -505,5 +599,33 @@ describe('messages actions', () => {
           },
         });
       });
+  });
+
+  describe('markMessageAsReadInThread', () => {
+    it('should dispatch GET_MESSAGE_IN_THREAD and RE_FETCH_REQUIRED on success', async () => {
+      const store = mockStore();
+      mockApiRequest(messageResponse);
+      await store.dispatch(markMessageAsReadInThread(7179970));
+      const actions = store.getActions();
+      expect(actions).to.deep.include({
+        type: Actions.Thread.GET_MESSAGE_IN_THREAD,
+        response: messageResponse,
+      });
+      expect(actions).to.deep.include({
+        type: Actions.Thread.RE_FETCH_REQUIRED,
+        payload: true,
+      });
+    });
+
+    it('should not dispatch RE_FETCH_REQUIRED on error response', async () => {
+      const store = mockStore();
+      mockApiRequest({ errors: [{ code: '500', detail: 'Error' }] });
+      await store.dispatch(markMessageAsReadInThread(7179970));
+      const actions = store.getActions();
+      expect(actions).to.not.deep.include({
+        type: Actions.Thread.RE_FETCH_REQUIRED,
+        payload: true,
+      });
+    });
   });
 });

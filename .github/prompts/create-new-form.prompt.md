@@ -33,7 +33,7 @@ Before generating the command, gather the following information:
 
 ### Basic Command Structure
 ```bash
-yo @department-of-veterans-affairs/vets-website \
+yarn new:app \
   --force \
   --appName="[APP_NAME]" \
   --folderName="[FOLDER_NAME]" \
@@ -57,7 +57,7 @@ yo @department-of-veterans-affairs/vets-website \
 
 #### Example 1: Burial Benefits Form
 ```bash
-yo @department-of-veterans-affairs/vets-website \
+yarn new:app \
   --force \
   --appName="Burial Allowance Application" \
   --folderName="burial-allowance" \
@@ -79,7 +79,7 @@ yo @department-of-veterans-affairs/vets-website \
 
 #### Example 2: Simple Form with Minimal Configuration
 ```bash
-yo @department-of-veterans-affairs/vets-website \
+yarn new:app \
   --force \
   --appName="Address Change Request" \
   --folderName="address-change" \
@@ -95,7 +95,7 @@ yo @department-of-veterans-affairs/vets-website \
 
 #### Example 3: Complex Multi-Chapter Form
 ```bash
-yo @department-of-veterans-affairs/vets-website \
+yarn new:app \
   --force \
   --appName="Education Benefits Application" \
   --folderName="education-benefits-1990" \

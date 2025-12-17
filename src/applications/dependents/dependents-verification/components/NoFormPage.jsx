@@ -1,5 +1,9 @@
 import React from 'react';
 
+/**
+ * Render a page indicating that the form is not yet available
+ * @returns {React.Component} - No form (form is still under development)
+ */
 export default function NoFormPage() {
   return (
     <>

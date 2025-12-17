@@ -9,10 +9,13 @@ function GetFormHelp() {
       <>
         <p className="vads-u-margin-top--0">
           If you need help with your application or have questions about
-          enrollment or eligibility, submit a request with{' '}
-          <a target="_blank" href="https://ask.va.gov/" rel="noreferrer">
-            Ask VA.
-          </a>
+          enrollment or eligibility,{' '}
+          <va-link
+            href="https://ask.va.gov/"
+            external
+            text="submit a request with Ask VA"
+          />
+          .
         </p>
         <p className="vads-u-margin-bottom--0">
           If you have technical difficulties using this online application, call

@@ -36,7 +36,8 @@ export const recipientsReducer = (state = initialState, action) => {
         associatedTriageGroups,
         associatedBlockedTriageGroups,
       } = action.response.meta;
-      const noAssociations = associatedTriageGroups === 0;
+      const noAssociations =
+        associatedTriageGroups === 0 || action.response?.data?.length === 0;
       const allTriageGroupsBlocked =
         !noAssociations &&
         associatedTriageGroups === associatedBlockedTriageGroups;

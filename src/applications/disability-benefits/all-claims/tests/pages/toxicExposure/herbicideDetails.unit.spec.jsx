@@ -17,7 +17,7 @@ import { pageSubmitTest } from '../../unit.helpers.spec';
 
 /**
  * Unit tests for the herbicide details pages. Verifies each page can render and submit with
- * and without dates. Additionally, verifies the subtitles are built appropriately whether or not
+ * valid dates. Additionally, verifies the subtitles are built appropriately whether or not
  * the location was selected.
  */
 describe('herbicideDetails', () => {
@@ -88,7 +88,7 @@ describe('herbicideDetails', () => {
 
       /*
        * TODO: We currently validate against partial dates on the frontend.
-       * Future consideration: allow Veterans to submit with completely blank dates.
+       * Future consideration: allow Veterans to submit with completely blank or partial dates.
        * @see https://github.com/department-of-veterans-affairs/va.gov-team/issues/112288
        */
       it(`should not submit without dates for ${locationId}`, () => {
@@ -114,7 +114,7 @@ describe('herbicideDetails', () => {
   /*
    * Edge case validations for toxic exposure dates.
    * TODO: We currently validate against partial dates on the frontend.
-   * Future consideration: allow Veterans to submit with completely blank dates.
+   * Future consideration: allow Veterans to submit with completely blank or partial dates.
    * @see https://github.com/department-of-veterans-affairs/va.gov-team/issues/112288
    */
   describe('date validations', () => {

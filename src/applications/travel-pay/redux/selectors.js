@@ -2,14 +2,33 @@ export const selectAppointment = state => state.travelPay.appointment;
 
 export const selectComplexClaim = state => state.travelPay.complexClaim.claim;
 
-export const selectExpense = (state, expenseId) =>
-  state.travelPay.complexClaim.expenses.data[expenseId];
+export const selectExpenseWithDocument = (state, expenseId) => {
+  const expense = state.travelPay.complexClaim.expenses.data.find(
+    exp => exp.id === expenseId,
+  );
+
+  if (!expense) return null;
+
+  const document =
+    expense.documentId &&
+    state.travelPay.complexClaim.claim.data?.documents.find(
+      doc => doc.documentId === expense.documentId,
+    );
+
+  return {
+    ...expense,
+    receipt: document || null,
+  };
+};
 
 export const selectExpenseCreationLoadingState = state =>
   state.travelPay.complexClaim.expenses.creation?.isLoading || false;
 
 export const selectExpenseUpdateLoadingState = state =>
   state.travelPay.complexClaim.expenses.update?.isLoading || false;
+
+export const selectDocumentDeleteLoadingState = state =>
+  state.travelPay.complexClaim.documentDelete?.isLoading || false;
 
 export const selectIsExpenseDeleting = (state, expenseId) => {
   const isDeleteLoading =
@@ -34,3 +53,11 @@ export const selectCreatedComplexClaim = state =>
 
 export const selectComplexClaimSubmissionState = state =>
   state.travelPay.complexClaim.claim.submission;
+
+export const selectComplexClaimFetchLoadingState = state =>
+  state.travelPay.complexClaim.claim.fetch?.isLoading || false;
+
+export const selectHasUnsavedExpenseChanges = state =>
+  state.travelPay.complexClaim.expenses.hasUnsavedChanges || false;
+
+export const selectReviewPageAlert = state => state.travelPay.reviewPageAlert;

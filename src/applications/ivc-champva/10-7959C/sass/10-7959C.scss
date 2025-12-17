@@ -6,6 +6,12 @@
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
 
+.no-bullets {
+  list-style-type: none;
+  padding-left: 0;
+  margin: 0;
+}
+
 .upload-button-label {
   margin-top: 8px;
 }

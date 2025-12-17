@@ -27,7 +27,6 @@ const filesPath = `../files`;
 class AdditionalEvidencePage extends React.Component {
   componentDidMount() {
     this.props.resetUploads();
-    this.scrollToSection();
   }
 
   // eslint-disable-next-line camelcase
@@ -40,9 +39,6 @@ class AdditionalEvidencePage extends React.Component {
   componentDidUpdate(prevProps) {
     if (!this.props.loading && prevProps.loading) {
       setPageFocus();
-    }
-    if (this.props.location.hash !== prevProps.location.hash) {
-      this.scrollToSection();
     }
   }
 
@@ -58,14 +54,9 @@ class AdditionalEvidencePage extends React.Component {
       null,
       files,
       this.props.showDocumentUploadStatus,
+      this.props.timezoneMitigationEnabled,
     );
   }
-
-  scrollToSection = () => {
-    if (this.props.location.hash === '#add-files') {
-      setPageFocus('h3#add-files');
-    }
-  };
 
   goToFilesPage() {
     this.props.getClaim(this.props.claim.id);
@@ -166,6 +157,8 @@ function mapStateToProps(state) {
     filesOptional: getFilesOptional(trackedItems),
     showDocumentUploadStatus:
       state.featureToggles?.cst_show_document_upload_status || false,
+    timezoneMitigationEnabled:
+      state.featureToggles?.cst_timezone_discrepancy_mitigation || false,
   };
 }
 
@@ -194,6 +187,7 @@ AdditionalEvidencePage.propTypes = {
   resetUploads: PropTypes.func,
   showDocumentUploadStatus: PropTypes.bool,
   submitFiles: PropTypes.func,
+  timezoneMitigationEnabled: PropTypes.bool,
   uploadComplete: PropTypes.bool,
   uploadError: PropTypes.bool,
   uploading: PropTypes.bool,

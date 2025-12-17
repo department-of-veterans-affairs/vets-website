@@ -53,7 +53,7 @@ describe('Decision Reviews Onramp', () => {
       checkPageErrorHandling(Q_1_2_CLAIM_DECISION, 0);
       checkPageErrorHandling(Q_1_3_CLAIM_CONTESTED, 1);
       checkPageErrorHandling(Q_2_IS_1_SERVICE_CONNECTED, 1);
-      checkPageErrorHandling(Q_2_0_CLAIM_TYPE, 2, true);
+      checkPageErrorHandling(Q_2_0_CLAIM_TYPE, 3, true);
       checkPageErrorHandling(Q_2_H_2_NEW_EVIDENCE, 0);
       checkPageErrorHandling(Q_2_H_2A_JUDGE_HEARING, 0);
     });

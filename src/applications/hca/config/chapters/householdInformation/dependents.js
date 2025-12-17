@@ -17,6 +17,7 @@ import {
   dependentUISchema,
   summaryPage,
 } from '../../../definitions/dependent';
+
 import content from '../../../locales/en/content.json';
 
 /**

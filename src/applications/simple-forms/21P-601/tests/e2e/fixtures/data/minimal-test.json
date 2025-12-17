@@ -31,11 +31,6 @@
   "claimantEmail": "jennifer.wilson@email.com",
   "relationshipToDeceased": "executor",
   "wantsToWaiveSubstitution": false,
-  "survivors": {
-    "hasSpouse": false,
-    "hasChildren": false,
-    "hasParents": false,
-    "hasNone": true
-  },
+  "survivors": false,
   "claimingReimbursement": false
 }

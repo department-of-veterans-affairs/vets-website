@@ -94,7 +94,7 @@ class PatientReplyPage {
 
   getMessageBodyField = () => {
     return cy
-      .get(Locators.FIELDS.MESSAGE_BODY)
+      .findByTestId(Locators.FIELDS.MESSAGE_BODY)
       .shadow()
       .find(`#input-type-textarea`);
   };

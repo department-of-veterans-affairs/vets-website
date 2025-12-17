@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
-import ConfirmationHousingSituation from '../../../components/ConfirmationFields/ConfirmationHousingSituation';
+import ConfirmationHousingSituation from '../../../components/confirmationFields/ConfirmationHousingSituation';
 
 const formData = {
   homelessOrAtRisk: 'homeless',

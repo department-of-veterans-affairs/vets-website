@@ -1,5 +1,9 @@
 import { transformForSubmit as defaultTransformForSubmit } from 'platform/forms-system/src/js/helpers';
 
+function hasRelativeType(relatives, type) {
+  return relatives?.some(r => r.relationship === type) || false;
+}
+
 function transformForSubmit(formConfig, form) {
   const transformedData = JSON.parse(
     defaultTransformForSubmit(formConfig, form),
@@ -111,6 +115,11 @@ function transformForSubmit(formConfig, form) {
     return '';
   })();
 
+  // Get relationship to deceased, or the string provided if value was "other"
+  const relationshipToDeceased =
+    transformedData.relationshipToDeceasedOther ??
+    transformedData.relationshipToDeceased;
+
   // Build result object following 21P-0537 pattern
   const result = {
     formNumber: formConfig.formId,
@@ -134,7 +143,7 @@ function transformForSubmit(formConfig, form) {
       ssn: splitSSN(transformedData.claimantIdentification?.ssn),
       vaFileNumber: transformedData.claimantIdentification?.vaFileNumber || '',
       dateOfBirth: splitDate(transformedData.claimantDateOfBirth),
-      relationshipToDeceased: transformedData.relationshipToDeceased || '',
+      relationshipToDeceased,
       address: formatAddress(transformedData.claimantAddress),
       phone: splitPhone(transformedData.claimantPhone),
       email: transformedData.claimantEmail || '',
@@ -145,10 +154,10 @@ function transformForSubmit(formConfig, form) {
     inReplyReferTo,
     // Section 2: Surviving Relatives (Questions 13-14)
     survivingRelatives: {
-      hasSpouse: transformedData.survivors.hasSpouse || false,
-      hasChildren: transformedData.survivors.hasChildren || false,
-      hasParents: transformedData.survivors.hasParents || false,
-      hasNone: transformedData.survivors.hasNone || false,
+      hasSpouse: hasRelativeType(transformedData.survivingRelatives, 'spouse'),
+      hasChildren: hasRelativeType(transformedData.survivingRelatives, 'child'),
+      hasParents: hasRelativeType(transformedData.survivingRelatives, 'parent'),
+      hasNone: !transformedData.survivors,
       wantsToWaiveSubstitution:
         transformedData.wantsToWaiveSubstitution || false,
       relatives: (transformedData.survivingRelatives || []).map(relative => ({

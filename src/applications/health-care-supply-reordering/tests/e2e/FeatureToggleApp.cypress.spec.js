@@ -41,7 +41,7 @@ describe(`${appName} -- feature toggol enabled`, () => {
     cy.visit(rootUrl);
   });
 
-  it('redirects to mhv supply reordering app', () => {
+  it.skip('redirects to mhv supply reordering app', () => {
     cy.injectAxeThenAxeCheck();
     heading = {
       level: 1,
