@@ -257,42 +257,28 @@ export const validateApproximateDate = (errors, dateString, options = {}) => {
     }
   }
 
-  // Validate it's not a future date if full date is provided
+  // Validate that the day is valid for the given month and year
   if (isYearValid && isMonthValid && isDayValid) {
-    const fullDate = safeFnsDate(dateString);
+    const yearNum = Number(year);
+    const monthNum = Number(month);
+    const dayNum = Number(day);
+    // JavaScript Date: months are 0-based
+    const constructedDate = new Date(yearNum, monthNum - 1, dayNum);
+    if (
+      constructedDate.getFullYear() !== yearNum ||
+      constructedDate.getMonth() !== monthNum - 1 ||
+      constructedDate.getDate() !== dayNum
+    ) {
+      errors.addError(
+        'Please enter a valid date for the selected month and year',
+      );
+      return;
+    }
+
+    // Validate it's not a future date
     const now = new Date();
-    if (fullDate && isDateAfter(fullDate, now)) {
+    if (isDateAfter(constructedDate, now)) {
       errors.addError('Please enter a date that is not in the future');
     }
-  }
-};
-
-/**
- * Validate that date has all parts (no partial dates)
- * Aligns with Toxic Exposure approach - requires full dates
- * This can be used to replace validateMissingValues in toxic exposure validation
- * @param {Object} errors - Errors object
- * @param {string} startDate - Start date
- * @param {string} endDate - End date
- */
-export const validateFullDatesRequired = (errors, startDate, endDate) => {
-  const checkFullDate = dateStr => {
-    if (!dateStr) return false;
-    const [year, month, day] = dateStr.split('-');
-    return (
-      year && year !== 'XXXX' && month && month !== 'XX' && day && day !== 'XX'
-    );
-  };
-
-  if (!checkFullDate(startDate)) {
-    errors.startDate?.addError(
-      'Enter a service date that includes the month, day, and year',
-    );
-  }
-
-  if (!checkFullDate(endDate)) {
-    errors.endDate?.addError(
-      'Enter a service date that includes the month, day, and year',
-    );
   }
 };

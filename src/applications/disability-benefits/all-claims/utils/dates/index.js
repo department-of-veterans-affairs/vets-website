@@ -57,6 +57,7 @@ export {
   validateDateNotBeforeReference,
   validateSeparationDateWithRules,
   validateTitle10ActivationDate,
+  validateApproximateDate,
 } from './validations';
 
 // Product-specific exports for one-off functionality
