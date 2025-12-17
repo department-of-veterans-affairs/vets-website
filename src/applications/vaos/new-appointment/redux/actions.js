@@ -6,6 +6,7 @@ import { format } from 'date-fns-tz';
 import {
   addDays,
   differenceInDays,
+  endOfDay,
   endOfMonth,
   isAfter,
   isDate,
@@ -94,6 +95,8 @@ export const FORM_UPDATE_FACILITY_TYPE =
   'newAppointment/FORM_UPDATE_FACILITY_TYPE';
 export const FORM_UPDATE_SELECTED_PROVIDER =
   'newAppointment/FORM_UPDATE_SELECTED_PROVIDER';
+export const FORM_UPDATE_FACILITY_EHR =
+  'newAppointment/FORM_UPDATE_FACILITY_EH';
 export const FORM_PAGE_FACILITY_V2_OPEN =
   'newAppointment/FACILITY_PAGE_V2_OPEN';
 export const FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED =
@@ -228,6 +231,13 @@ export function updateSelectedProvider(provider) {
   };
 }
 
+export function updateFacilityEhr(ehr) {
+  return {
+    type: FORM_UPDATE_FACILITY_EHR,
+    ehr,
+  };
+}
+
 export function startDirectScheduleFlow({ isRecordEvent = true } = {}) {
   if (isRecordEvent) {
     recordEvent({
@@ -261,7 +271,7 @@ export function getPatientRelationships() {
     const typeOfCare = getTypeOfCare(newAppointment.data);
     const typeOfCareId = typeOfCare;
     const facilityId = newAppointment.data.vaFacility;
-    const hasAvailabilityBefore = addDays(new Date(), 395);
+    const hasAvailabilityBefore = endOfDay(addDays(new Date(), 395));
 
     dispatch({
       type: FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS,

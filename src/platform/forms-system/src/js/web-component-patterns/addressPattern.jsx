@@ -277,7 +277,7 @@ export const updateFormDataAddress = (
  */
 
 /**
- * uiSchema for address - includes checkbox for military base, and fields for country, street, street2, street3, city, state, postal code. Fields may be omitted.
+ * uiSchema for address - includes checkbox for military base, and fields for country, street, street2, street3, city, state, postal code. Fields may be omitted or mapped to alternative key names.
  *
  * ```js
  * schema: {
@@ -298,6 +298,7 @@ export const updateFormDataAddress = (
  * }
  * ```
  * @param {Object} [options]
+ * @param {Object} [options.newSchemaKeys] - Maps standard keys to custom keys (e.g., {street: 'addressLine1', postalCode: 'zipCode'}) Only street, street2, street3, and postalCode should be mapped, or update replaceSchema and updateSchema functions to account for mapped field names
  * @param {Object} [options.labels]
  * @param {string} [options.labels.militaryCheckbox]
  * @param {string} [options.labels.street]
@@ -311,6 +312,7 @@ export const updateFormDataAddress = (
  * @returns {UISchemaOptions}
  */
 export function addressUI(options = {}) {
+  const { newSchemaKeys = {} } = options;
   let cityMaxLength = 100;
   let stateMaxLength = 100;
 
@@ -717,8 +719,22 @@ export function addressUI(options = {}) {
       },
     };
   }
+  // If no newSchemaKeys, return as-is (backward compatibility)
+  if (Object.keys(newSchemaKeys).length === 0) {
+    return uiSchema;
+  }
+  // Apply key mapping
+  const mappedSchema = {};
+  Object.entries(uiSchema).forEach(([standardKey, fieldConfig]) => {
+    const mappedKey = newSchemaKeys[standardKey] || standardKey;
+    if (omit(standardKey) || omit(mappedKey)) {
+      return; // Skip omitted fields entirely
+    }
 
-  return uiSchema;
+    // Use mapped key name, preserve field configuration
+    mappedSchema[mappedKey] = fieldConfig;
+  });
+  return mappedSchema;
 }
 
 /**
@@ -733,21 +749,44 @@ export function addressUI(options = {}) {
  * @param {{
  *  omit: string[]
  * }} [options]
+ * @param {Object} [options.newSchemaKeys] - Maps standard keys to custom keys (e.g., {street: 'addressLine1', postalCode: 'zipCode'}). Only street, street2, street3, and postalCode should be mapped, or update replaceSchema and updateSchema functions to account for mapped field names.
  * @returns {SchemaOptions}
  */
-export const addressSchema = options => {
+export const addressSchema = (options = {}) => {
+  const { newSchemaKeys = {}, omit = [] } = options;
   let schema = commonDefinitions.profileAddress;
 
-  if (options?.omit) {
-    schema = {
-      ...schema,
-      properties: {
-        ...utilsOmit(options.omit, schema.properties),
-      },
-    };
+  // If no key mapping is needed, use the existing omit logic and return early
+  if (Object.keys(newSchemaKeys).length === 0) {
+    if (omit.length > 0) {
+      schema = {
+        ...schema,
+        properties: {
+          ...utilsOmit(omit, schema.properties),
+        },
+      };
+    }
+    return schema;
   }
 
-  return schema;
+  // Apply key mapping and omit filtering to properties
+  const mappedProperties = {};
+
+  Object.entries(schema.properties).forEach(([standardKey, propertyConfig]) => {
+    // Skip if field should be omitted
+    const mappedKey = newSchemaKeys[standardKey] || standardKey;
+    if (omit.includes(standardKey) || omit.includes(mappedKey)) {
+      return;
+    }
+
+    // Use mapped key name, preserve property configuration
+    mappedProperties[mappedKey] = propertyConfig;
+  });
+
+  return {
+    ...schema,
+    properties: mappedProperties,
+  };
 };
 
 /**

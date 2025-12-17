@@ -98,9 +98,7 @@ class LandingPage {
 
   clickErrorEditEmailLink = () => {
     cy.findByTestId('mhv-alert--confirm-error')
-      .find(
-        'va-link[href="/profile/contact-information#contact-email-address"]',
-      )
+      .find('va-link[href="/profile/contact-information#email-address"]')
       .shadow()
       .find('a')
       .click();
@@ -108,9 +106,7 @@ class LandingPage {
 
   clickEditEmailLink = () => {
     cy.findByTestId('mhv-alert--confirm-contact-email')
-      .find(
-        'va-link[href="/profile/contact-information#contact-email-address"]',
-      )
+      .find('va-link[href="/profile/contact-information#email-address"]')
       .shadow()
       .find('a')
       .click();

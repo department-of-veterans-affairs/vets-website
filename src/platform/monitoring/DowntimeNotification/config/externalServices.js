@@ -12,6 +12,7 @@ export default {
   // CARMA (Caregiver Record Management Application)
   carma: 'carma',
   decisionReviews: 'decision_reviews',
+  dgiClaimants: 'dgi_claimants',
   disabilityCompensationForm: 'disability_compensation_form',
   // Debt Management Services
   dmc: 'dmc',
@@ -28,6 +29,9 @@ export default {
   form107959a: 'form107959a',
   form1010d: 'form1010d',
   form1010dExt: 'form1010dExt',
+  // BIO HEART form controls
+  form21p0537: 'form21p0537',
+  form21p601: 'form21p601',
   // global downtime, for scheduled downtime on apps that don't have specific dependencies documented
   global: 'global',
   // Intake, conversion, and mail handling services (central mail)

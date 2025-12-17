@@ -46,6 +46,7 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
         reimbursementAmount: 0,
         createdOn: '2025-03-12T20:27:14.088Z',
         modifiedOn: '2025-03-12T20:27:14.088Z',
+        appointment: { id: '73611905-71bf-46ed-b1ec-e790593b8565' },
         documents: [],
         isOutOfBounds: true,
       });
@@ -70,6 +71,7 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
         reimbursementAmount: 0,
         createdOn: '2025-03-12T20:27:14.088Z',
         modifiedOn: '2025-03-12T20:27:14.088Z',
+        appointment: { id: '73611905-71bf-46ed-b1ec-e790593b8565' },
         documents: [],
         isOutOfBounds: false,
       });
@@ -94,6 +96,7 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
         reimbursementAmount: 0,
         createdOn: '2025-03-12T20:27:14.088Z',
         modifiedOn: '2025-03-12T20:27:14.088Z',
+        appointment: { id: '73611905-71bf-46ed-b1ec-e790593b8565' },
         documents: [],
       });
 
@@ -121,6 +124,7 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
         reimbursementAmount: 0,
         createdOn: '2025-03-12T20:27:14.088Z',
         modifiedOn: '2025-03-12T20:27:14.088Z',
+        appointment: { id: '73611905-71bf-46ed-b1ec-e790593b8565' },
         documents: [],
       });
 
@@ -148,6 +152,7 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
         reimbursementAmount: 14.52,
         createdOn: '2025-03-12T20:27:14.088Z',
         modifiedOn: '2025-03-12T20:27:14.088Z',
+        appointment: { id: '73611905-71bf-46ed-b1ec-e790593b8565' },
         documents: [],
       });
 
@@ -170,6 +175,7 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
         reimbursementAmount: 0,
         createdOn: '2025-03-12T20:27:14.088Z',
         modifiedOn: '2025-03-12T20:27:14.088Z',
+        appointment: { id: '73611905-71bf-46ed-b1ec-e790593b8565' },
         documents: [],
       });
 
@@ -193,6 +199,7 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
         reimbursementAmount: 0,
         createdOn: '2024-06-16T10:00:00.000Z',
         modifiedOn: '2024-06-17T15:45:00.000Z',
+        appointment: { id: '73611905-71bf-46ed-b1ec-e790593b8565' },
         documents: [],
       });
 
@@ -220,6 +227,7 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
         reimbursementAmount: 0,
         createdOn: '2024-03-02T09:00:00.000Z',
         modifiedOn: '2024-03-02T09:00:00.000Z',
+        appointment: { id: '73611905-71bf-46ed-b1ec-e790593b8565' },
         documents: [],
         isOutOfBounds: true,
       });
@@ -254,6 +262,7 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
         reimbursementAmount: 0,
         createdOn: '2024-05-01T14:00:00.000Z',
         modifiedOn: '2024-05-01T14:00:00.000Z',
+        appointment: { id: '73611905-71bf-46ed-b1ec-e790593b8565' },
         documents: [],
         isOutOfBounds: false,
       });

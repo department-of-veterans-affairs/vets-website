@@ -1,5 +1,5 @@
 {
-  "vaDependentsNetWorthAndPension": false,
+  "vaDependentsNetWorthAndPension": true,
   "view:additionalEvidenceDescription": {},
   "spouseSupportingDocuments": [
     {
@@ -397,7 +397,6 @@
       "birthDate": "1991-01-19"
     }
   ],
-  "statementOfTruthSignature": "Pauline E Foster",
   "statementOfTruthCertified": true,
   "vaDependentsDuplicateModals": true,
   "vaDependentsV3": true

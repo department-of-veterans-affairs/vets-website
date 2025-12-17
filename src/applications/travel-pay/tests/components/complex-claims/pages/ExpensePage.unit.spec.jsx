@@ -60,6 +60,11 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
           delete: { id: '', isLoading: false, error: null },
           data: [],
         },
+        documentDelete: {
+          id: '',
+          isLoading: false,
+          error: null,
+        },
       },
     },
   });
@@ -548,10 +553,19 @@ describe('Travel Pay – ExpensePage (Editing existing expense)', () => {
   const TEST_EXPENSE_ID = 'abc123';
   const TEST_DOCUMENT_ID = 'doc789';
 
+  const defaultExpense = {
+    id: TEST_EXPENSE_ID,
+    expenseType: 'Meal',
+    vendorName: 'Saved Vendor',
+    dateIncurred: '2025-11-17',
+    costRequested: '10.50',
+    documentId: TEST_DOCUMENT_ID,
+  };
+
   //
   // Store containing an existing expense
   //
-  const getEditState = () => ({
+  const getEditState = expenses => ({
     travelPay: {
       claimSubmission: { isSubmitting: false, error: null, data: null },
       complexClaim: {
@@ -575,22 +589,18 @@ describe('Travel Pay – ExpensePage (Editing existing expense)', () => {
           creation: { isLoading: false, error: null },
           update: { id: '', isLoading: false, error: null },
           delete: { id: '', isLoading: false, error: null },
-          data: [
-            {
-              id: TEST_EXPENSE_ID,
-              expenseType: 'Meal',
-              vendorName: 'Saved Vendor',
-              dateIncurred: '2025-11-17',
-              costRequested: '10.50',
-              documentId: TEST_DOCUMENT_ID,
-            },
-          ],
+          data: [...expenses],
+        },
+        documentDelete: {
+          id: '',
+          isLoading: false,
+          error: null,
         },
       },
     },
   });
 
-  const renderEditPage = () =>
+  const renderEditPage = (expenses = [{ ...defaultExpense }]) =>
     renderWithStoreAndRouter(
       <MemoryRouter
         initialEntries={[`/file-new-claim/12345/43555/meal/${TEST_EXPENSE_ID}`]}
@@ -607,7 +617,7 @@ describe('Travel Pay – ExpensePage (Editing existing expense)', () => {
         </Routes>
         <LocationDisplay />
       </MemoryRouter>,
-      { initialState: getEditState(), reducers: reducer },
+      { initialState: getEditState(expenses), reducers: reducer },
     );
 
   let apiStub;
@@ -684,5 +694,202 @@ describe('Travel Pay – ExpensePage (Editing existing expense)', () => {
     await waitFor(() => {
       expect(container.querySelector('va-file-input')).to.exist;
     });
+  });
+
+  it('shows loading state when document is being deleted', () => {
+    const baseState = getEditState([{ ...defaultExpense }]);
+    const stateWithDeletion = {
+      ...baseState,
+      travelPay: {
+        ...baseState.travelPay,
+        complexClaim: {
+          ...baseState.travelPay.complexClaim,
+          documentDelete: {
+            id: TEST_DOCUMENT_ID,
+            isLoading: true,
+            error: null,
+          },
+        },
+      },
+    };
+
+    const { container } = renderWithStoreAndRouter(
+      <MemoryRouter
+        initialEntries={[`/file-new-claim/12345/43555/meal/${TEST_EXPENSE_ID}`]}
+      >
+        <Routes>
+          <Route
+            path="/file-new-claim/:apptId/:claimId/:expenseTypeRoute/:expenseId"
+            element={<ExpensePage />}
+          />
+        </Routes>
+      </MemoryRouter>,
+      { initialState: stateWithDeletion, reducers: reducer },
+    );
+
+    const buttonGroup = container.querySelector('.travel-pay-button-group');
+    const continueButton = Array.from(
+      buttonGroup.querySelectorAll('va-button'),
+    ).find(btn => btn.getAttribute('text') === 'Save and continue');
+
+    expect(continueButton.getAttribute('loading')).to.equal('true');
+  });
+
+  it('shows loading state when expense is being updated', () => {
+    const baseState = getEditState([{ ...defaultExpense }]);
+    const stateWithUpdate = {
+      ...baseState,
+      travelPay: {
+        ...baseState.travelPay,
+        complexClaim: {
+          ...baseState.travelPay.complexClaim,
+          expenses: {
+            ...baseState.travelPay.complexClaim.expenses,
+            update: {
+              id: TEST_EXPENSE_ID,
+              isLoading: true,
+              error: null,
+            },
+          },
+        },
+      },
+    };
+
+    const { container } = renderWithStoreAndRouter(
+      <MemoryRouter
+        initialEntries={[`/file-new-claim/12345/43555/meal/${TEST_EXPENSE_ID}`]}
+      >
+        <Routes>
+          <Route
+            path="/file-new-claim/:apptId/:claimId/:expenseTypeRoute/:expenseId"
+            element={<ExpensePage />}
+          />
+        </Routes>
+      </MemoryRouter>,
+      { initialState: stateWithUpdate, reducers: reducer },
+    );
+
+    const buttonGroup = container.querySelector('.travel-pay-button-group');
+    const continueButton = Array.from(
+      buttonGroup.querySelectorAll('va-button'),
+    ).find(btn => btn.getAttribute('text') === 'Save and continue');
+
+    expect(continueButton.getAttribute('loading')).to.equal('true');
+  });
+
+  it('does not re-fetch document if already loaded (previousDocumentId check)', async () => {
+    renderEditPage();
+
+    await waitFor(() => {
+      expect(apiStub.calledOnce).to.be.true;
+    });
+
+    // apiStub should only be called once, even if component re-renders
+    expect(apiStub.callCount).to.equal(1);
+  });
+
+  it('initializes form fields only once (fieldsInitialized check)', () => {
+    const { container } = renderEditPage();
+
+    const vendorField = container.querySelector(
+      'va-text-input[name="vendorName"]',
+    );
+    expect(vendorField.getAttribute('value')).to.equal('Saved Vendor');
+
+    // Fields should remain initialized even after potential re-renders
+    const costField = container.querySelector(
+      'va-text-input[name="costRequested"]',
+    );
+    expect(costField.getAttribute('value')).to.equal('10.50');
+  });
+
+  it('shows description error for min length', async () => {
+    const { container } = renderEditPage([
+      {
+        ...defaultExpense,
+        description: '123',
+      },
+    ]);
+
+    const inputText = container.querySelector(
+      'va-textarea[name="description"]',
+    );
+
+    // Click continue to trigger validation
+    const buttonGroup = container.querySelector('.travel-pay-button-group');
+    const continueButton = Array.from(
+      buttonGroup.querySelectorAll('va-button'),
+    ).find(btn => btn.getAttribute('text') === 'Save and continue');
+
+    fireEvent.click(continueButton);
+
+    await waitFor(
+      () => {
+        const errorAttr = inputText.getAttribute('error');
+        expect(errorAttr).to.exist;
+        expect(errorAttr).to.equal('Enter at least 5 characters');
+      },
+      { timeout: 3000 },
+    );
+  });
+
+  it('shows description error for max length', async () => {
+    const { container } = renderEditPage([
+      {
+        ...defaultExpense,
+        description: 'a'.repeat(2001),
+      },
+    ]);
+
+    const inputText = container.querySelector(
+      'va-textarea[name="description"]',
+    );
+
+    // Click continue to trigger validation
+    const buttonGroup = container.querySelector('.travel-pay-button-group');
+    const continueButton = Array.from(
+      buttonGroup.querySelectorAll('va-button'),
+    ).find(btn => btn.getAttribute('text') === 'Save and continue');
+
+    fireEvent.click(continueButton);
+
+    await waitFor(
+      () => {
+        const errorAttr = inputText.getAttribute('error');
+        expect(errorAttr).to.exist;
+        expect(errorAttr).to.equal('Enter no more than 2,000 characters');
+      },
+      { timeout: 3000 },
+    );
+  });
+
+  it('shows cost requested amount error when value is 0', async () => {
+    const { container } = renderEditPage([
+      {
+        ...defaultExpense,
+        costRequested: '0',
+      },
+    ]);
+
+    const inputText = container.querySelector(
+      'va-text-input[name="costRequested"]',
+    );
+
+    // Click continue to trigger validation
+    const buttonGroup = container.querySelector('.travel-pay-button-group');
+    const continueButton = Array.from(
+      buttonGroup.querySelectorAll('va-button'),
+    ).find(btn => btn.getAttribute('text') === 'Save and continue');
+
+    fireEvent.click(continueButton);
+
+    await waitFor(
+      () => {
+        const errorAttr = inputText.getAttribute('error');
+        expect(errorAttr).to.exist;
+        expect(errorAttr).to.include('Enter an amount greater than 0');
+      },
+      { timeout: 3000 },
+    );
   });
 });

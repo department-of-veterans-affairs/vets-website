@@ -192,16 +192,14 @@ class MedicationsListPage {
   };
 
   verifyLearnHowToRenewPrescriptionsLinkExists = () => {
-    cy.get('[data-testid="learn-to-renew-precsriptions-link"]').should('exist');
+    cy.get('[data-testid="send-renewal-request-message-link"]').should('exist');
   };
 
   verifyLearnHowToRenewPrescriptionsLink = () => {
-    cy.get('[data-testid="learn-to-renew-precsriptions-link"]');
-    cy.get('[data-testid="learn-to-renew-precsriptions-link"]')
-
+    cy.get('[data-testid="send-renewal-request-message-link"]')
       .shadow()
-      .find(`[href="/resources/how-to-renew-a-va-prescription"]`)
-      .should('be.visible');
+      .find(`a`)
+      .should('contain', 'Send a renewal request message');
   };
 
   clickPrintOrDownloadThisListDropDown = () => {
@@ -395,16 +393,16 @@ class MedicationsListPage {
   verifyInformationBasedOnStatusDiscontinued = () => {
     cy.get('[data-testid="discontinued"]')
       .should('be.visible')
-      .and(
-        'contain',
-        'You can’t refill this prescription. If you need more, send a message to your care team.',
-      );
+      .and('contain', 'If you need more, send a message to your care team.');
   };
 
   verifyInformationBasedOnStatusExpired = () => {
     cy.get('[data-testid="expired"]')
       .should('be.visible')
-      .and('contain', 'This prescription is too old to refill. ');
+      .and(
+        'contain',
+        'This prescription is too old to refill. If you need more, request a renewal.',
+      );
   };
 
   verifyInformationBasedOnStatusTransferred = () => {

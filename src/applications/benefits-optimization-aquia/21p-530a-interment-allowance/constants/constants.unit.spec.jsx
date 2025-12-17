@@ -11,7 +11,7 @@ describe('Constants', () => {
     it('should have correct title', () => {
       expect(TITLE).to.exist;
       expect(TITLE).to.be.a('string');
-      expect(TITLE).to.include('burial allowance');
+      expect(TITLE).to.include('interment allowance');
     });
 
     it('should have correct subtitle', () => {

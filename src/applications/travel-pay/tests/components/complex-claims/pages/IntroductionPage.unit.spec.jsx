@@ -270,6 +270,74 @@ describe('Travel Pay – IntroductionPage', () => {
     expect(getByTestId('introduction-page')).to.exist;
   });
 
+  it('hides the start button when appointment is community care (isCC)', () => {
+    const stateWithCCAppointment = {
+      ...getData(),
+      travelPay: {
+        ...getData().travelPay,
+        appointment: {
+          ...getData().travelPay.appointment,
+          data: {
+            id: '12345',
+            facilityName: 'Test Facility',
+            isCC: true,
+          },
+        },
+      },
+    };
+
+    const { container } = renderWithStoreAndRouter(
+      <MemoryRouter initialEntries={[initialRoute]}>
+        <IntroductionPage />
+      </MemoryRouter>,
+      {
+        initialState: stateWithCCAppointment,
+        reducers: reducer,
+      },
+    );
+
+    // Verify the start button does not exist
+    const startButton = $(
+      'va-link-action[text="Start your travel reimbursement claim"]',
+      container,
+    );
+    expect(startButton).to.not.exist;
+  });
+
+  it('shows the start button when appointment is not community care', () => {
+    const stateWithNonCCAppointment = {
+      ...getData(),
+      travelPay: {
+        ...getData().travelPay,
+        appointment: {
+          ...getData().travelPay.appointment,
+          data: {
+            id: '12345',
+            facilityName: 'Test Facility',
+            isCC: false,
+          },
+        },
+      },
+    };
+
+    const { container } = renderWithStoreAndRouter(
+      <MemoryRouter initialEntries={[initialRoute]}>
+        <IntroductionPage />
+      </MemoryRouter>,
+      {
+        initialState: stateWithNonCCAppointment,
+        reducers: reducer,
+      },
+    );
+
+    // Verify the start button exists
+    const startButton = $(
+      'va-link-action[text="Start your travel reimbursement claim"]',
+      container,
+    );
+    expect(startButton).to.exist;
+  });
+
   it('navigates using appointment claim ID when complexClaim data is null', async () => {
     // Set up state with claim ID on appointment but null complexClaim data
     const stateWithAppointmentClaim = {

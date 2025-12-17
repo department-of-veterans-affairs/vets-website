@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 import { scrollToTop } from 'platform/utilities/scroll';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
@@ -87,8 +88,9 @@ const ReviewDependents = ({
             remove dependents at this time.
           </p>
           <p>
-            Try again later or call us at <va-telephone contact="8008271000" />{' '}
-            (<va-telephone contact="711" />
+            Try again later or call us at{' '}
+            <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
+            <va-telephone contact={CONTACTS['711']} />
             ).
           </p>
         </va-alert>

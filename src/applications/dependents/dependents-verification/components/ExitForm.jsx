@@ -8,6 +8,17 @@ import { deleteInProgressForm } from '../../shared/utils/api';
 
 export const form686Url = getAppUrl('686C-674');
 
+/**
+ * Exit Form Page Component
+ * @typedef {object} ExitFormProps
+ * @property {object} location - location object
+ * @property {function} goBack - function to go back to the previous page
+ * @property {node} contentBeforeButtons - content to render before buttons
+ * @property {node} contentAfterButtons - content to render after buttons
+ *
+ * @param {ExitFormProps} props - Component props
+ * @returns {React.Component} - Exit form page
+ */
 export const ExitForm = ({
   goBack,
   contentBeforeButtons,

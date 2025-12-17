@@ -1023,6 +1023,7 @@ describe('convertUnifiedLabsAndTestRecord', () => {
       observations: undefined,
       orderedBy: undefined,
       sampleTested: undefined,
+      sortDate: undefined,
       bodySite: undefined,
       testCode: undefined,
       type: undefined,
@@ -1053,6 +1054,7 @@ describe('convertUnifiedLabsAndTestRecord', () => {
       observations: undefined,
       orderedBy: undefined,
       sampleTested: undefined,
+      sortDate: 'invalid-date',
       bodySite: undefined,
       testCode: undefined,
       type: undefined,
@@ -1107,6 +1109,68 @@ describe('labsAndTestsReducer - unified labs and tests', () => {
     expect(testRecord.type).to.equal('12345');
     expect(testRecord.comments).to.equal('No issues');
     expect(testRecord.result).to.equal('This is a test');
+  });
+
+  it('merges CVIX radiology into unified list and strips undefined hash', () => {
+    const unifiedLabsResponse = [
+      { id: 'lab-1', attributes: { dateCompleted: '2025-04-22T14:30:00Z' } },
+      { id: 'lab-2', attributes: { dateCompleted: '2025-05-01T09:00:00Z' } },
+      { id: 'lab-3', attributes: { dateCompleted: '2025-03-15T18:45:00Z' } },
+    ];
+
+    const cvixRadiologyResponse = [
+      {
+        id: 42,
+        performedDatePrecise: new Date('2024-12-01T10:00:00Z').getTime(),
+      },
+      {
+        id: 100,
+        performedDatePrecise: new Date('2025-03-22T02:40:00Z').getTime(),
+      },
+      {
+        id: 77,
+        performedDatePrecise: new Date('2025-05-01T00:00:00Z').getTime(),
+      },
+    ];
+
+    const newState = labsAndTestsReducer(
+      {},
+      {
+        type: Actions.LabsAndTests.GET_UNIFIED_LIST,
+        labsAndTestsResponse: unifiedLabsResponse,
+        cvixRadiologyResponse,
+      },
+    );
+
+    // Expect six records: three unified labs + three CVIX radiology
+    expect(newState.labsAndTestsList.length).to.equal(6);
+
+    // Ensure each record has a sortDate
+    newState.labsAndTestsList.forEach(rec => {
+      expect(rec).to.have.property('sortDate');
+      expect(rec.sortDate).to.exist;
+    });
+
+    // Verify list is sorted descending by sortDate
+    const dates = newState.labsAndTestsList.map(r => r.sortDate);
+    for (let i = 0; i < dates.length - 1; i++) {
+      const a = dates[i];
+      const b = dates[i + 1];
+      // If both are truthy, ensure a >= b in lexicographic ISO comparison
+      if (a && b) {
+        expect(a >= b).to.equal(true);
+      }
+    }
+
+    // Validate all CVIX records: id starts with 'r' and does not contain 'undefined'
+    const cvixRecords = newState.labsAndTestsList.filter(
+      r => r.type === labTypes.CVIX_RADIOLOGY,
+    );
+    expect(cvixRecords.length).to.equal(cvixRadiologyResponse.length);
+    cvixRecords.forEach(rec => {
+      expect(rec.id).to.match(/^r/);
+      expect(rec.id.includes('undefined')).to.equal(false);
+    });
   });
 });
 
