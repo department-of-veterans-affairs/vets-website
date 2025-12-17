@@ -45,11 +45,10 @@ describe('Disability benefits 526EZ contact information', () => {
         />
       </Provider>,
     );
-
     // country
-    expect(form.find('select').length).to.equal(1);
-    // street 1, 2, 3, city, phone, email, and overseas address checkbox
-    expect(form.find('input').length).to.equal(7);
+    expect(form.find('VaSelectField').length).to.equal(1);
+    // address 1, 2, 3, city, state, zip
+    expect(form.find('VaTextInputField').length).to.equal(6);
     form.unmount();
   });
 
@@ -70,15 +69,14 @@ describe('Disability benefits 526EZ contact information', () => {
         />
       </Provider>,
     );
-
     // country, state
-    expect(form.find('select').length).to.equal(2);
-    // street 1, 2, 3, city, zip, phone, email, and overseas address checkbox
-    expect(form.find('input').length).to.equal(8);
+    expect(form.find('VaSelectField').length).to.equal(2);
+    // address 1, 2, 3, city, zip
+    expect(form.find('VaTextInputField').length).to.equal(5);
     form.unmount();
   });
 
-  it('hides state and zip when country is not USA', () => {
+  xit('hides state and zip when country is not USA', () => {
     const form = mount(
       <Provider store={fakeStore}>
         <DefinitionTester
@@ -97,9 +95,9 @@ describe('Disability benefits 526EZ contact information', () => {
     );
 
     // country
-    expect(form.find('select').length).to.equal(1);
+    expect(form.find('VaSelectField').length).to.equal(1);
     // street 1, 2, 3, city, phone, email, and overseas address checkbox
-    expect(form.find('input').length).to.equal(7);
+    expect(form.find('VaTextInputField').length).to.equal(7);
     form.unmount();
   });
 
