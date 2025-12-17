@@ -19,11 +19,11 @@ export default {
   uiSchema: {
     ...titleUI(TITLE_TEXT, DESC_TEXT),
     ...descriptionUI(FileUploadDescription),
-    medicarePartDFrontCard: attachmentUI({
+    applicantMedicarePartDCardFront: attachmentUI({
       label: INPUT_LABELS.cardFront,
       attachmentId: ATTACHMENT_IDS.medicareDCardFront,
     }),
-    medicarePartDBackCard: attachmentUI({
+    applicantMedicarePartDCardBack: attachmentUI({
       label: INPUT_LABELS.cardBack,
       attachmentId: ATTACHMENT_IDS.medicareDCardBack,
     }),
@@ -31,8 +31,8 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      medicarePartDFrontCard: singleAttachmentSchema,
-      medicarePartDBackCard: singleAttachmentSchema,
+      applicantMedicarePartDCardFront: singleAttachmentSchema,
+      applicantMedicarePartDCardBack: singleAttachmentSchema,
     },
   },
 };
