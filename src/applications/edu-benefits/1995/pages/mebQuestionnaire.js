@@ -412,6 +412,20 @@ export const fryResultPage = () =>
     ],
   });
 
+export const pgibResultPage = () =>
+  buildResultPage({
+    body:
+      'Based on your answers, use VA Form 22-1990 to switch your existing education benefit at the start of your next enrollment period.',
+    linkHref: `${
+      environment.BASE_URL
+    }/education/apply-for-gi-bill-form-22-1990/introduction`,
+    linkText: 'Apply for education benefits (VA Form 22-1990)',
+    answers: [
+      'You are looking to apply to switch your existing education benefit and get a new Certificate of Eligibility (COE)',
+      'You want to change your current benefit to the Post-9/11 GI Bill (PGIB, Chapter 33)',
+    ],
+  });
+
 ResultDescription.propTypes = {
   answers: PropTypes.arrayOf(PropTypes.string).isRequired,
   body: PropTypes.string.isRequired,
