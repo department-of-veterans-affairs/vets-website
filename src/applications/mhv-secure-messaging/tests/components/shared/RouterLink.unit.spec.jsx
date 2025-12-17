@@ -1,7 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import RouterLink from '../RouterLink';
+import RouterLink from '../../../components/shared/RouterLink';
 import reducer from '../../../reducers';
 
 describe('RouterLink', () => {
@@ -309,6 +310,112 @@ describe('RouterLink', () => {
       const link = screen.getByTestId('test-link-reverse');
 
       expect(link).to.have.attribute('reverse', 'true');
+    });
+  });
+
+  describe('click navigation (history.push)', () => {
+    it('should navigate to correct path on click', () => {
+      const { container, history } = renderWithStoreAndRouter(
+        <RouterLink
+          href="/my-health/secure-messages/inbox"
+          text="Go to inbox"
+          data-testid="click-test-link"
+        />,
+        {
+          initialState,
+          reducers: reducer,
+          path: '/my-health/secure-messages',
+        },
+      );
+
+      const link = container.querySelector('va-link');
+
+      // Simulate click
+      const clickEvent = new MouseEvent('click', {
+        bubbles: true,
+        cancelable: true,
+      });
+      link.dispatchEvent(clickEvent);
+
+      // Verify navigation occurred by checking history location
+      expect(history.location.pathname).to.equal(
+        '/my-health/secure-messages/inbox',
+      );
+    });
+
+    it('should prevent default browser navigation on click', () => {
+      const { container } = renderWithStoreAndRouter(
+        <RouterLink
+          href="/my-health/secure-messages/inbox"
+          text="Go to inbox"
+        />,
+        {
+          initialState,
+          reducers: reducer,
+        },
+      );
+
+      const link = container.querySelector('va-link');
+      const clickEvent = new MouseEvent('click', {
+        bubbles: true,
+        cancelable: true,
+      });
+      const preventDefaultSpy = sinon.spy(clickEvent, 'preventDefault');
+
+      link.dispatchEvent(clickEvent);
+
+      expect(preventDefaultSpy.calledOnce).to.be.true;
+    });
+
+    it('should navigate to paths with query parameters', () => {
+      const { container, history } = renderWithStoreAndRouter(
+        <RouterLink
+          href="/my-health/secure-messages/inbox?folder=custom"
+          text="View folder"
+        />,
+        {
+          initialState,
+          reducers: reducer,
+          path: '/my-health/secure-messages',
+        },
+      );
+
+      const link = container.querySelector('va-link');
+
+      link.dispatchEvent(
+        new MouseEvent('click', { bubbles: true, cancelable: true }),
+      );
+
+      // history.push with query string updates search, not pathname
+      expect(history.location.pathname).to.equal(
+        '/my-health/secure-messages/inbox',
+      );
+      expect(history.location.search).to.equal('?folder=custom');
+    });
+
+    it('should navigate to paths with hash fragments', () => {
+      const { container, history } = renderWithStoreAndRouter(
+        <RouterLink
+          href="/profile/personal-information#messaging-signature"
+          text="Edit signature"
+        />,
+        {
+          initialState,
+          reducers: reducer,
+          path: '/profile',
+        },
+      );
+
+      const link = container.querySelector('va-link');
+
+      link.dispatchEvent(
+        new MouseEvent('click', { bubbles: true, cancelable: true }),
+      );
+
+      expect(history.location.pathname).to.equal(
+        '/profile/personal-information',
+      );
+      expect(history.location.hash).to.equal('#messaging-signature');
     });
   });
 });
