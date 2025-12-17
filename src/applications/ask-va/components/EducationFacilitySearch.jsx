@@ -79,31 +79,25 @@ const EducationFacilitySearch = ({ onChange }) => {
   };
 
   return (
-    <>
-      <div className="facility-locator vads-u-margin-top--2">
-        <SearchControls
-          locateUser={getFacilitiesFromLocation}
-          onSubmit={checkInput}
-          searchTitle="Search for your school"
-          searchHint="You can search by school name, code or location."
+    <div className="facility-locator vads-u-margin-top--2">
+      <SearchControls
+        locateUser={getFacilitiesFromLocation}
+        onSubmit={checkInput}
+        searchTitle="Search for your school"
+        searchHint="You can search by school name, code or location."
+      />
+      {isSearching ? (
+        <va-loading-indicator label="Loading" message="Loading..." set-focus />
+      ) : (
+        <EducationSearchItem
+          facilityData={apiData}
+          pageURL={pageURL}
+          getData={getApiData}
+          onChange={onChange}
+          dataError={fetchDataError}
         />
-        {isSearching ? (
-          <va-loading-indicator
-            label="Loading"
-            message="Loading..."
-            set-focus
-          />
-        ) : (
-          <EducationSearchItem
-            facilityData={apiData}
-            pageURL={pageURL}
-            getData={getApiData}
-            onChange={onChange}
-            dataError={fetchDataError}
-          />
-        )}
-      </div>
-    </>
+      )}
+    </div>
   );
 };
 
