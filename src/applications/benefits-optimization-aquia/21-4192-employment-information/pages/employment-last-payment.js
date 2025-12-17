@@ -5,13 +5,13 @@
  */
 
 import {
-  currentOrPastDateUI,
   currentOrPastDateSchema,
   currencyUI,
   currencySchema,
   radioUI,
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { MemorableDateUI } from '../components/memorable-date-ui';
 
 // Constants for required fields
 const BASIC_REQUIRED_FIELDS = [
@@ -33,7 +33,7 @@ const LUMP_SUM_REQUIRED_FIELDS = [
 export const employmentLastPaymentUiSchema = {
   'ui:title': 'Last payment',
   employmentLastPayment: {
-    dateOfLastPayment: currentOrPastDateUI({
+    dateOfLastPayment: MemorableDateUI({
       title: 'Date of last payment',
       errorMessages: {
         required: 'Date of last payment is required',
@@ -69,7 +69,7 @@ export const employmentLastPaymentUiSchema = {
       required: formData =>
         formData?.employmentLastPayment?.lumpSumPayment === 'yes',
     }),
-    datePaid: currentOrPastDateUI({
+    datePaid: MemorableDateUI({
       title: 'Date of lump sum payment',
       errorMessages: {
         required: 'Date lump sum was paid is required',
