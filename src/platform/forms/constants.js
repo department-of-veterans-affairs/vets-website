@@ -33,7 +33,6 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_21_4192_UPLOAD: '21-4192-UPLOAD',
   FORM_21_509_UPLOAD: '21-509-UPLOAD',
   FORM_21_526EZ: '21-526EZ',
-  FORM_21_686C: '686C-674',
   FORM_21_686C_UPLOAD: '21-686C-UPLOAD',
   FORM_21_686CV2: '686C-674-V2',
   FORM_21_8940_UPLOAD: '21-8940-UPLOAD',
@@ -179,7 +178,6 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_21_22A]: `${tryGetAppUrl('appoint-a-representative')}/`,
     [VA_FORM_IDS.FORM_21_4142]: `${tryGetAppUrl('21-4142-medical-release')}/`,
     [VA_FORM_IDS.FORM_21_526EZ]: `${tryGetAppUrl('526EZ-all-claims')}/`,
-    [VA_FORM_IDS.FORM_21_686C]: `${tryGetAppUrl('686C-674')}/`,
     [VA_FORM_IDS.FORM_21P_0847]: `${tryGetAppUrl(
       '21P-0847-substitute-claimant',
     )}/`,
@@ -608,13 +606,6 @@ export const MY_VA_SIP_FORMS = [
     title: 'disability compensation (21-526EZ)',
     description: 'disability compensation application (21-526EZ)',
     trackingPrefix: 'disability-526EZ-',
-  },
-  {
-    id: VA_FORM_IDS.FORM_21_686C,
-    benefit: 'dependent status',
-    title: 'dependent status (686C-674)',
-    description: 'dependent status application (686C-674)',
-    trackingPrefix: '686-',
   },
   {
     id: VA_FORM_IDS.FORM_21_8940_UPLOAD,
