@@ -10,7 +10,11 @@ import {
 import * as Constants from '../util/constants';
 import { addAlert } from './alerts';
 import { getListWithRetry } from './common';
-import { dispatchDetails, isRadiologyId } from '../util/helpers';
+import {
+  dispatchDetails,
+  isRadiologyId,
+  sendDatadogError,
+} from '../util/helpers';
 import { radiologyRecordHash } from '../util/radiologyUtil';
 
 export const getLabsAndTestsList = (
@@ -81,7 +85,7 @@ export const getLabsAndTestsList = (
     }
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
-    throw error;
+    sendDatadogError(error, 'actions_labsAndTests_getLabsAndTestsList');
   }
 };
 
@@ -118,7 +122,7 @@ export const getLabsAndTestsDetails = (
     );
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
-    throw error;
+    sendDatadogError(error, 'actions_labsAndTests_getLabsAndTestsDetails');
   }
 };
 

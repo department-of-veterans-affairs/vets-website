@@ -200,6 +200,13 @@ describe('Get allergies action with parameter-based logic', () => {
 
       expect(unifiedItemCall).to.exist;
     });
+
+    it('should dispatch an add alert action on error and not throw', async () => {
+      mockApiRequest(allergy, false);
+      const dispatch = sinon.spy();
+      await getAllergyDetails('123', [], false, false)(dispatch);
+      expect(typeof dispatch.firstCall.args[0]).to.equal('function');
+    });
   });
 
   describe('clearAllergyDetails', () => {

@@ -111,7 +111,7 @@ describe('Travel Pay – UnsupportedMileage', () => {
     ).to.exist;
 
     // Check BTSSS link
-    const btsssLink = $('va-link[text="Continue this claim on BTSSS"]');
+    const btsssLink = $('va-link[text="Continue this claim in BTSSS"]');
     expect(btsssLink).to.exist;
     expect(btsssLink).to.have.attribute('href', BTSSS_PORTAL_URL);
     expect(btsssLink).to.have.attribute('external');
@@ -135,7 +135,7 @@ describe('Travel Pay – UnsupportedMileage', () => {
       },
     );
 
-    const btsssLink = $('va-link[text="Continue this claim on BTSSS"]');
+    const btsssLink = $('va-link[text="Continue this claim in BTSSS"]');
     expect(btsssLink).to.have.attribute(
       'href',
       'https://dvagov-btsss.dynamics365portals.us/',

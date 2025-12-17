@@ -19,7 +19,7 @@ export function AppContent({ children, isDataAvailable }) {
 
   if (unregistered) {
     view = (
-      <div className="row">
+      <div>
         <div className="small-12 columns">
           <h4>
             If none of the above situations applies to you, and you think your
@@ -34,7 +34,7 @@ export function AppContent({ children, isDataAvailable }) {
     view = children;
   }
 
-  return <div className="row">{view}</div>;
+  return <div>{view}</div>;
 }
 
 AppContent.propTypes = {
@@ -44,20 +44,31 @@ AppContent.propTypes = {
 
 function Post911GIBStatusApp({ user, children }) {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const toggleValue = useToggleValue(TOGGLE_NAMES.enableLightHouse);
-  const useLighthouse = toggleValue
-    ? backendServices.LIGHTHOUSE
-    : backendServices.EVSS_CLAIMS;
+  const sobDgiClaimantServiceEnabled = useToggleValue(
+    TOGGLE_NAMES.sobClaimantService,
+  );
+
+  // If sobClaimantService is true → require DGI, else LIGHTHOUSE
+  const serviceRequired = sobDgiClaimantServiceEnabled
+    ? backendServices.DGI
+    : backendServices.LIGHTHOUSE;
+
+  const downtimeDependencies = sobDgiClaimantServiceEnabled
+    ? [externalServices.dgiClaimants]
+    : [externalServices.lighthouseBenefitsEducation];
+
   return (
-    <RequiredLoginView verify serviceRequired={useLighthouse} user={user}>
-      <DowntimeNotification
-        appTitle="Post-9/11 GI Bill benefits tracking tool"
-        dependencies={[externalServices.lighthouseBenefitsEducation]}
-      >
-        <AppContent>
-          <Main apiVersion={{ apiVersion: 'v1' }}>{children}</Main>
-        </AppContent>
-      </DowntimeNotification>
+    <RequiredLoginView verify serviceRequired={serviceRequired} user={user}>
+      <div className="row">
+        <DowntimeNotification
+          appTitle="Post-9/11 GI Bill benefits tracking tool"
+          dependencies={downtimeDependencies}
+        >
+          <AppContent>
+            <Main apiVersion={{ apiVersion: 'v1' }}>{children}</Main>
+          </AppContent>
+        </DowntimeNotification>
+      </div>
     </RequiredLoginView>
   );
 }

@@ -15,6 +15,7 @@ import {
   DEBOUNCE_WAIT,
   getFileError,
   simulateUploadMultiple,
+  VaProgressUploadAnnounce,
 } from './vaFileInputFieldHelpers';
 import vaFileInputFieldMapping from './vaFileInputFieldMapping';
 
@@ -380,28 +381,33 @@ const VaFileInputMultipleField = props => {
     .map((error, i) => (error ? null : i))
     .filter(i => i !== null);
   return (
-    <VaFileInputMultiple
-      {...mappedProps}
-      error={mappedProps.error}
-      ref={componentRef}
-      encrypted={encrypted}
-      onVaMultipleChange={handleChange}
-      onVaFileInputError={handleInternalFileInputError}
-      errors={errors}
-      resetVisualState={resetVisualState}
-      percentUploaded={percentsUploaded}
-      passwordErrors={passwordErrors}
-      onVaSelect={handleAdditionalInput}
-      maxFileSize={uiOptions.maxFileSize}
-      minFileSize={uiOptions.minFileSize}
-      slotFieldIndexes={slotFieldIndexes}
-    >
-      {mappedProps.additionalInput && (
-        <div className="additional-input-container">
-          {mappedProps.additionalInput()}
-        </div>
-      )}
-    </VaFileInputMultiple>
+    <>
+      <VaProgressUploadAnnounce
+        uploading={percentsUploaded.some(percent => !!percent)}
+      />
+      <VaFileInputMultiple
+        {...mappedProps}
+        error={mappedProps.error}
+        ref={componentRef}
+        encrypted={encrypted}
+        onVaMultipleChange={handleChange}
+        onVaFileInputError={handleInternalFileInputError}
+        errors={errors}
+        resetVisualState={resetVisualState}
+        percentUploaded={percentsUploaded}
+        passwordErrors={passwordErrors}
+        onVaSelect={handleAdditionalInput}
+        maxFileSize={uiOptions.maxFileSize}
+        minFileSize={uiOptions.minFileSize}
+        slotFieldIndexes={slotFieldIndexes}
+      >
+        {mappedProps.additionalInput && (
+          <div className="additional-input-container">
+            {mappedProps.additionalInput()}
+          </div>
+        )}
+      </VaFileInputMultiple>
+    </>
   );
 };
 

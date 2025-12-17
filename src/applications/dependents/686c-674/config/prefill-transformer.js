@@ -1,6 +1,13 @@
 import { NETWORTH_VALUE } from './constants';
 import { processDependents } from '../utils/processDependents';
 
+/**
+ * Prefill transformer for 686C-674 form
+ * @param {object} pages - list of all pages processed from the form config
+ * @param {object} formData - current form data (after any migrations)
+ * @param {object} metadata - prefill metadata
+ * @returns {object} - transformed pages, formData, and metadata
+ */
 export default function prefillTransformer(pages, formData, metadata) {
   const {
     veteranSsnLastFour = '',

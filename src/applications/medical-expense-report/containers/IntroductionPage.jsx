@@ -15,9 +15,9 @@ const exampleExpenses = [
   { id: 1, name: 'Hospital and office visits' },
   { id: 2, name: 'Nursing homes and home health services' },
   { id: 3, name: 'Medical supplies' },
-  { id: 4, name: 'Prescription and non-prescription drugs' },
-  { id: 5, name: 'Insurance premiums and Medicare deductions' },
-  { id: 6, name: 'Mileage and transportation to a medical facility' },
+  { id: 4, name: 'Prescription and over-the-counter drugs' },
+  { id: 5, name: 'Medical insurance premiums and Medicare deductions' },
+  { id: 6, name: 'Mileage and transportation for medical purposes' },
 ];
 
 const ProcessList = () => {
@@ -46,9 +46,7 @@ const ProcessList = () => {
       </va-process-list-item>
       <va-process-list-item header="Types of expenses you may report">
         <ul className="vads-u-padding-top--1p5">
-          {exampleExpenses.map(item => (
-            <li key={item.id}>{item.name}</li>
-          ))}
+          {exampleExpenses?.map(item => <li key={item.id}>{item.name}</li>)}
         </ul>
         <va-additional-info trigger="Additional documents we may ask for">
           <p>

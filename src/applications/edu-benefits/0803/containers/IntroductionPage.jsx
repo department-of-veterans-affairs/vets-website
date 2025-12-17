@@ -1,96 +1,100 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
+import { connect, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import { useSelector } from 'react-redux';
-import { isLOA3, isLoggedIn } from 'platform/user/selectors';
+import { toggleLoginModal as toggleLoginModalAction } from '~/platform/site-wide/user-nav/actions';
+import { isLoggedIn, selectProfile } from 'platform/user/selectors';
+import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { TITLE, SUBTITLE } from '../constants';
 
-const OMB_RES_BURDEN = 15;
-const OMB_NUMBER = '2900-0695';
-const OMB_EXP_DATE = '01/31/2028';
+import ProcessList from '../components/IntroProcessList';
+import PrivacyAccordion from '../components/PrivacyAccordion';
+import OMBInfo from '../components/OMBInfo';
 
-const ProcessList = () => {
+const customLink = ({ children, ...props }) => {
   return (
-    <va-process-list>
-      <va-process-list-item header="Prepare">
-        <h4>To fill out this application, you’ll need your:</h4>
-        <ul>
-          <li>Social Security number (required)</li>
-        </ul>
-        <p>
-          <strong>What if I need help filling out my application?</strong> An
-          accredited representative, like a Veterans Service Officer (VSO), can
-          help you fill out your claim.{' '}
-          <a href="/disability-benefits/apply/help/index.html">
-            Get help filing your claim
-          </a>
-        </p>
-      </va-process-list-item>
-      <va-process-list-item header="Apply">
-        <p>Complete this benefits form.</p>
-        <p>
-          After submitting the form, you’ll get a confirmation message. You can
-          print this for your records.
-        </p>
-      </va-process-list-item>
-      <va-process-list-item header="VA Review">
-        <p>
-          We process claims within a week. If more than a week has passed since
-          you submitted your application and you haven’t heard back, please
-          don’t apply again. Call us at.
-        </p>
-      </va-process-list-item>
-      <va-process-list-item header="Decision">
-        <p>
-          Once we’ve processed your claim, you’ll get a notice in the mail with
-          our decision.
-        </p>
-      </va-process-list-item>
-    </va-process-list>
+    <va-link-action
+      type="primary-entry"
+      text="Start your Request reimbursement for licensing or certification test fees"
+      {...props}
+    >
+      {children}
+    </va-link-action>
   );
 };
 
 export const IntroductionPage = props => {
   const userLoggedIn = useSelector(state => isLoggedIn(state));
-  const userIdVerified = useSelector(state => isLOA3(state));
-  const { route } = props;
+  const { route, toggleLoginModal } = props;
   const { formConfig, pageList } = route;
-  const showVerifyIdentify = userLoggedIn && !userIdVerified;
 
   useEffect(() => {
     scrollToTop();
     focusElement('h1');
   }, []);
 
+  const showSignInModal = useCallback(
+    () => {
+      toggleLoginModal(true, 'ask-va', true);
+    },
+    [toggleLoginModal],
+  );
+
   return (
     <article className="schemaform-intro">
       <FormTitle title={TITLE} subTitle={SUBTITLE} />
-      <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
-        Follow the steps below to apply for education benefits.
+      <p className="vads-u-font-size--lg vads-u-font-family--serif vads-u-color--base vads-u-font-weight--normal">
+        Use this form to request reimbursement for licensing or certification
+        test fees and use your VA education benefits.
+      </p>
+      <h2 className="vads-u-font-size--h2 vad-u-margin-top--0">
+        Follow the steps to get started:
       </h2>
       <ProcessList />
-      {showVerifyIdentify ? (
-        <div>{/* add verify identity alert if applicable */}</div>
+      <va-additional-info
+        trigger="What happens after you submit your form"
+        class="vads-u-margin-bottom--3"
+      >
+        <p>
+          After you successfully submit your form, we will review your
+          documents. You should hear back within 30 days about your
+          reimbursement.
+        </p>
+      </va-additional-info>
+      {!userLoggedIn ? (
+        <va-alert-sign-in
+          data-testid="sign-in-alert"
+          disable-analytics
+          heading-level={3}
+          no-sign-in-link={null}
+          time-limit={null}
+          variant="signInRequired"
+          visible
+        >
+          <span slot="SignInButton">
+            <VaButton
+              text="Sign in or create an account"
+              onClick={showSignInModal}
+            />
+          </span>
+        </va-alert-sign-in>
       ) : (
         <SaveInProgressIntro
           headingLevel={2}
           prefillEnabled={formConfig.prefillEnabled}
           messages={formConfig.savedFormMessages}
           pageList={pageList}
-          startText="Start the application"
+          customLink={customLink}
           devOnly={{
             forceShowFormControls: true,
           }}
         />
       )}
       <p />
-      <va-omb-info
-        res-burden={OMB_RES_BURDEN}
-        omb-number={OMB_NUMBER}
-        exp-date={OMB_EXP_DATE}
-      />
+      <OMBInfo />
+      <PrivacyAccordion />
     </article>
   );
 };
@@ -106,6 +110,21 @@ IntroductionPage.propTypes = {
   location: PropTypes.shape({
     basename: PropTypes.string,
   }),
+  loggedIn: PropTypes.bool,
+  toggleLoginModal: PropTypes.func,
 };
+function mapStateToProps(state) {
+  return {
+    formData: state.form?.data || {},
+    loggedIn: isLoggedIn(state),
+    profile: selectProfile(state),
+  };
+}
+const mapDispatchToProps = dispatch => ({
+  toggleLoginModal: () => dispatch(toggleLoginModalAction(true)),
+});
 
-export default IntroductionPage;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(IntroductionPage);
