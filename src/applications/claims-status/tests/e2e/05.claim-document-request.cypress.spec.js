@@ -9,11 +9,7 @@ import {
   setupUnknownErrorMock,
   setupDuplicateErrorMock,
 } from './file-upload-helpers';
-import {
-  SUBMIT_TEXT,
-  SUBMIT_FILES_FOR_REVIEW_TEXT,
-  ANCHOR_LINKS,
-} from '../../constants';
+import { SUBMIT_TEXT, ANCHOR_LINKS } from '../../constants';
 
 const setDocumentUploadStatusToggle = enabled => ({
   data: {
@@ -61,11 +57,8 @@ const uploadFileWithDocType = (fileName, fileIndex = 0, docType = 'L034') => {
 };
 
 // Helper function to click submit button
-const clickSubmitFilesButton = featureToggleEnabled => {
-  const buttonText = featureToggleEnabled
-    ? SUBMIT_FILES_FOR_REVIEW_TEXT
-    : SUBMIT_TEXT;
-  cy.get(`.add-files-form va-button[text="${buttonText}"]`)
+const clickSubmitFilesButton = () => {
+  cy.get(`.add-files-form va-button[text="${SUBMIT_TEXT}"]`)
     .shadow()
     .find('button')
     .click();
@@ -165,7 +158,7 @@ describe('Document upload', () => {
         setupPageAndIntercepts(false);
         setupUnknownErrorMock();
         uploadFileWithDocType('test-document.txt');
-        clickSubmitFilesButton(false);
+        clickSubmitFilesButton();
 
         cy.wait('@uploadRequest');
         // Verify new Type 1 unknown error alert is not present
@@ -183,7 +176,7 @@ describe('Document upload', () => {
         setupPageAndIntercepts(false);
         setupDuplicateErrorMock();
         uploadFileWithDocType('test-document.txt');
-        clickSubmitFilesButton(false);
+        clickSubmitFilesButton();
 
         cy.wait('@uploadRequest');
         // Verify duplicate error alert is present
@@ -211,7 +204,7 @@ describe('Document upload', () => {
         setupPageAndIntercepts(true);
         setupUnknownErrorMock();
         uploadFileWithDocType('test-document.txt');
-        clickSubmitFilesButton(true);
+        clickSubmitFilesButton();
 
         cy.wait('@uploadRequest');
         cy.get('#default-page .claims-alert')
@@ -269,7 +262,7 @@ describe('Document upload', () => {
 
         uploadFileWithDocType('test-document-duplicate.txt', 0);
         uploadFileWithDocType('test-document-unknown.txt', 1);
-        clickSubmitFilesButton(true);
+        clickSubmitFilesButton();
 
         cy.wait('@uploadRequests');
         cy.wait('@uploadRequests');
@@ -291,7 +284,7 @@ describe('Document upload', () => {
         setupPageAndIntercepts(true);
         setupDuplicateErrorMock();
         uploadFileWithDocType('test-document.txt');
-        clickSubmitFilesButton(true);
+        clickSubmitFilesButton();
 
         cy.wait('@uploadRequest');
         // Verify duplicate error alert is present
@@ -336,7 +329,7 @@ describe('Document upload', () => {
           }).as('uploadRequest');
           // Upload a file
           uploadFileWithDocType('test-document.txt');
-          clickSubmitFilesButton(true);
+          clickSubmitFilesButton();
           // Wait for upload to complete
           cy.wait('@uploadRequest');
           // Verify the user is redirected to the status tab after successful upload

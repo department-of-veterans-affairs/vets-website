@@ -23,7 +23,6 @@ import {
   pageTitles,
   accessAlertTypes,
   refreshExtractTypes,
-  CernerAlertContent,
   statsdFrontEndActions,
   loadStates,
   MEDS_BY_MAIL_FACILITY_ID,
@@ -43,7 +42,6 @@ import {
 } from '../util/pdfHelpers/allergies';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
-import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import TrackedSpinner from '../components/shared/TrackedSpinner';
 import { useTrackAction } from '../hooks/useTrackAction';
@@ -226,8 +224,6 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
           </p>
         </div>
       )}
-
-      <AcceleratedCernerFacilityAlert {...CernerAlertContent.ALLERGIES} />
 
       {downloadStarted && <DownloadSuccessAlert />}
       <RecordListSection

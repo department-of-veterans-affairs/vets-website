@@ -19,7 +19,7 @@ const formatName = name => {
 };
 
 /**
- * Configuration for the veteran's previous names
+ * Configuration for the Veteran's previous names
  */
 /** @type {ArrayBuilderOptions} */
 const previousNameOptions = {
@@ -39,7 +39,7 @@ const previousNameOptions = {
 const previousNamePage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Name the veteran served under',
+      title: 'Name the Veteran served under',
       nounSingular: previousNameOptions.nounSingular,
     }),
     previousName: {

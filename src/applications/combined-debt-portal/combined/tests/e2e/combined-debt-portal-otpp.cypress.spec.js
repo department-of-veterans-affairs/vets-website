@@ -140,7 +140,7 @@ describe('CDP - One Thing Per Page', () => {
 
         cy.findByTestId('detail-copay-page-title-otpp').should('exist');
         cy.findByTestId('detail-page-title').should('not.exist');
-        cy.findByTestId('otpp-past-due-balance-alert').should('exist');
+        cy.findByTestId('copay-past-due-alert').should('exist');
 
         // lighthouse statement table should not be present
         cy.findByTestId('payment-history-statement-table').should('not.exist');

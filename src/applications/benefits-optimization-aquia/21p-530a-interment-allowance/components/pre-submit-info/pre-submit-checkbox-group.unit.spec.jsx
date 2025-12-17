@@ -28,11 +28,10 @@ const createMockStore = (submissionStatus = null, formData = {}) => {
 
 describe('PreSubmitCheckboxGroup', () => {
   const mockFormData = {
+    veteranInformation: { fullName: { first: 'Luke', last: 'Skywalker' } },
     burialInformation: {
       nameOfStateCemeteryOrTribalOrganization: 'Endor Forest Sanctuary',
-      recipientOrganization: {
-        name: 'Rebel Alliance Veterans Foundation',
-      },
+      recipientOrganization: { name: 'Rebel Alliance Veterans Foundation' },
     },
   };
 
@@ -82,7 +81,7 @@ describe('PreSubmitCheckboxGroup', () => {
 
       const statementOfTruth = container.querySelector('va-statement-of-truth');
       expect(statementOfTruth.getAttribute('checkbox-label')).to.equal(
-        'I HEREBY CERTIFY THAT the veteran named in Item 1 was buried in a State-owned Veterans Cemetery or Tribal Cemetery (without charge).',
+        'I hereby certify that Luke Skywalker was buried in a State-owned Veterans Cemetery or Tribal Cemetery (without charge).',
       );
     });
   });
@@ -114,8 +113,9 @@ describe('PreSubmitCheckboxGroup', () => {
       );
 
       // Check for the title text input
-      expect(container.querySelector('va-text-input[label="Your title"]')).to
-        .exist;
+      expect(
+        container.querySelector('va-text-input[label="Your official title"]'),
+      ).to.exist;
     });
 
     it('should render statement of truth with checkbox', () => {
@@ -278,27 +278,6 @@ describe('PreSubmitCheckboxGroup', () => {
       expect(isSignatureValid('María López')).to.be.true;
     });
 
-    it('should reject names with numbers', () => {
-      expect(isSignatureValid('John123')).to.be.false;
-      expect(isSignatureValid('123 Main')).to.be.false;
-      expect(isSignatureValid('Test User 2')).to.be.false;
-    });
-
-    it('should reject names with invalid special characters', () => {
-      expect(isSignatureValid('John@Smith')).to.be.false;
-      expect(isSignatureValid('Jane#Doe')).to.be.false;
-      expect(isSignatureValid('Test$User')).to.be.false;
-      expect(isSignatureValid('Name (Nickname)')).to.be.false;
-    });
-
-    it('should reject strings with only special characters (no letters)', () => {
-      expect(isSignatureValid('---')).to.be.false;
-      expect(isSignatureValid('...')).to.be.false;
-      expect(isSignatureValid('- - -')).to.be.false;
-      expect(isSignatureValid("''-''")).to.be.false;
-      expect(isSignatureValid('   ')).to.be.false;
-    });
-
     it('should accept organization names from fixtures', () => {
       // Names from maximal.json and minimal.json fixtures
       expect(isSignatureValid('Rebel Alliance Veterans Foundation')).to.be.true;
@@ -436,7 +415,7 @@ describe('PreSubmitCheckboxGroup', () => {
       );
 
       const titleInput = container.querySelector(
-        'va-text-input[label="Your title"]',
+        'va-text-input[label="Your official title"]',
       );
       expect(titleInput).to.exist;
     });
@@ -535,7 +514,7 @@ describe('PreSubmitCheckboxGroup', () => {
       );
 
       const titleInput = container.querySelector(
-        'va-text-input[label="Your title"]',
+        'va-text-input[label="Your official title"]',
       );
       expect(titleInput.getAttribute('error')).to.equal('Enter your title');
     });

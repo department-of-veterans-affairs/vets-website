@@ -541,7 +541,7 @@ export const buildRxRenewalMessageBody = (rx, rxError) => {
     `Reason for use: ${
       rxError ? '' : rx?.reason || 'Reason for use not available'
     }`,
-    `Last filled on: ${getDateValue(rx?.dispensedDate)}`,
+    `Last filled on: ${getDateValue(rx?.sortedDispensedDate)}`,
     `Quantity: ${rxError ? '' : rx?.quantity || 'Quantity not available'}`,
   ].join('\n');
 };

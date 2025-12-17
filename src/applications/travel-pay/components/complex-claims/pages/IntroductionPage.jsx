@@ -56,8 +56,7 @@ const IntroductionPage = () => {
         navigate(`/file-new-claim/${apptId}/${result.claimId}/choose-expense`);
       }
     } catch (error) {
-      // TODO: Add proper error handling
-      // Error will be handled by the Redux error state
+      navigate(`/file-new-claim/${apptId}/create-claim-error`);
     }
   };
 
@@ -130,12 +129,15 @@ const IntroductionPage = () => {
                 />{' '}
                 to file your claim.
               </p>
-              <va-link-action
-                onClick={createClaim}
-                href="#"
-                text="Start your travel reimbursement claim"
-                type="primary"
-              />
+              {appointment &&
+                !appointment.isCC && (
+                  <va-link-action
+                    onClick={createClaim}
+                    href="#"
+                    text="Start your travel reimbursement claim"
+                    type="primary"
+                  />
+                )}
             </va-process-list-item>
           </va-process-list>
         </div>

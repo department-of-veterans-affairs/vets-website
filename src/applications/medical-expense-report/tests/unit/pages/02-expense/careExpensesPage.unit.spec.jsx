@@ -252,7 +252,7 @@ describe('Care Expenses Pages', () => {
   it('should return the correct card description when only from date is provided', () => {
     const item = {
       provider: 'John Doe Provider',
-      careDateRange: {
+      careDate: {
         from: '2004-04-04',
       },
       typeOfCare: 'RESIDENTIAL',
@@ -267,7 +267,7 @@ describe('Care Expenses Pages', () => {
   it('should return the correct card description when from and to date is provided', () => {
     const item = {
       provider: 'John Doe Provider',
-      careDateRange: {
+      careDate: {
         from: '2004-04-04',
         to: '2005-05-05',
       },

@@ -127,6 +127,8 @@ describe('Secure Messaging - Oracle Health Messaging Alert', () => {
             ...(mockUser.data.attributes.vaProfile?.facilities || []),
             { facilityId: '687', isCerner: true },
           ],
+          userAtPretransitionedOhFacility: true,
+          userFacilityReadyForInfoAlert: false,
         },
       },
     },

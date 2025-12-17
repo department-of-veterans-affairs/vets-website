@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Toggler } from '~/platform/utilities/feature-toggles';
 import ClaimCard from '../ClaimCard';
@@ -65,9 +65,15 @@ export default function AppealListItem({ appeal, name }) {
     }
   }
 
-  const evidenceSubmissions = appeal.attributes?.evidenceSubmissions || [];
-  const failedSubmissionsWithinLast30Days = getFailedSubmissionsWithinLast30Days(
-    evidenceSubmissions,
+  // Memoize failed submissions to prevent UploadType2ErrorAlertSlim from receiving
+  // a new array reference on every render, which would break its useEffect tracking
+  const failedSubmissionsWithinLast30Days = useMemo(
+    () => {
+      const evidenceSubmissions = appeal.attributes?.evidenceSubmissions || [];
+
+      return getFailedSubmissionsWithinLast30Days(evidenceSubmissions);
+    },
+    [appeal.attributes?.evidenceSubmissions],
   );
 
   appealTitle = capitalizeWord(appealTitle);
@@ -109,6 +115,7 @@ export default function AppealListItem({ appeal, name }) {
         <Toggler toggleName={Toggler.TOGGLE_NAMES.cstShowDocumentUploadStatus}>
           <Toggler.Enabled>
             <UploadType2ErrorAlertSlim
+              claimId={appeal.id}
               failedSubmissions={failedSubmissionsWithinLast30Days}
             />
           </Toggler.Enabled>
