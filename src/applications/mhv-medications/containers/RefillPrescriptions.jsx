@@ -121,7 +121,29 @@ const RefillPrescriptions = () => {
   } = useAcceleratedData();
 
   // Get refillable list from RTK Query result
-  const fullRefillList = refillableData?.prescriptions || [];
+  // Filter out successfully refilled prescriptions to provide immediate UI feedback
+  const fullRefillList = useMemo(
+    () => {
+      const prescriptions = refillableData?.prescriptions || [];
+      if (!successfulMeds || successfulMeds.length === 0) {
+        return prescriptions;
+      }
+      // Create a Set of composite keys (prescriptionId + stationNumber) for efficient lookup
+      // Station numbers are needed for Oracle Health pilot where prescriptions
+      // are identified by both prescriptionId and stationNumber
+      const successfulKeys = new Set(
+        successfulMeds.map(
+          med => `${med.prescriptionId}-${med.stationNumber || ''}`,
+        ),
+      );
+      return prescriptions.filter(
+        rx =>
+          !successfulKeys.has(`${rx.prescriptionId}-${rx.stationNumber || ''}`),
+      );
+    },
+    [refillableData?.prescriptions, successfulMeds],
+  );
+
   const { data: allergies, error: allergiesError } = useGetAllergiesQuery(
     {
       isAcceleratingAllergies,
