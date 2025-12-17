@@ -33,13 +33,10 @@ const ITFClaimantInfoViewField = props => {
     claimantFullName,
     claimantDateOfBirth,
     benefitType,
+    isVeteran,
   } = formData;
 
-  const isDependentClaim =
-    claimantSsn &&
-    claimantFullName?.first &&
-    claimantFullName?.last &&
-    claimantDateOfBirth;
+  const isDependentClaim = isVeteran === 'no';
 
   const veteranDisplay = {
     'First name': veteranFullName.first ? veteranFullName.first : '',
