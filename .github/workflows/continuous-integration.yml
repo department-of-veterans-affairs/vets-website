@@ -1065,6 +1065,9 @@ jobs:
         env:
           YARN_CACHE_FOLDER: .cache/yarn
 
+      - name: Run postinstall (pre-merge)
+        run: yarn postinstall
+
       - name: Set up Git
         run: |
           git config user.name "GitHub Actions"
@@ -1083,6 +1086,9 @@ jobs:
           --prefer-offline \
           --production=false \
           --ignore-scripts
+
+      - name: Run postinstall (post-merge)
+        run: yarn postinstall
 
       - name: Create test results folder
         run: mkdir -p test-results
