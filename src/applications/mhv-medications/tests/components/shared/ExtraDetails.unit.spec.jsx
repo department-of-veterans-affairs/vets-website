@@ -6,19 +6,46 @@ import reducers from '../../../reducers';
 import prescriptionsListItem from '../../fixtures/prescriptionsListItem.json';
 import ExtraDetails from '../../../components/shared/ExtraDetails';
 import { dateFormat } from '../../../util/helpers';
-import { DATETIME_FORMATS, dispStatusObj, dispStatusObjV2 } from '../../../util/constants';
+import {
+  DATETIME_FORMATS,
+  dispStatusObj,
+  dispStatusObjV2,
+} from '../../../util/constants';
 
 describe('Medications List Card Extra Details', () => {
   const FLAG_COMBINATIONS = [
-    { cernerPilot: false, v2StatusMapping: false, useV2: false, desc: 'both flags disabled' },
-    { cernerPilot: true, v2StatusMapping: false, useV2: false, desc: 'only cernerPilot enabled' },
-    { cernerPilot: false, v2StatusMapping: true, useV2: false, desc: 'only v2StatusMapping enabled' },
-    { cernerPilot: true, v2StatusMapping: true, useV2: true, desc: 'both flags enabled' },
+    {
+      cernerPilot: false,
+      v2StatusMapping: false,
+      useV2: false,
+      desc: 'both flags disabled',
+    },
+    {
+      cernerPilot: true,
+      v2StatusMapping: false,
+      useV2: false,
+      desc: 'only cernerPilot enabled',
+    },
+    {
+      cernerPilot: false,
+      v2StatusMapping: true,
+      useV2: false,
+      desc: 'only v2StatusMapping enabled',
+    },
+    {
+      cernerPilot: true,
+      v2StatusMapping: true,
+      useV2: true,
+      desc: 'both flags enabled',
+    },
   ];
 
   const V1_STATUS_TESTS = [
     { status: dispStatusObj.unknown, testId: 'unknown' },
-    { status: dispStatusObj.refillinprocess, testId: 'rx-refillinprocess-info' },
+    {
+      status: dispStatusObj.refillinprocess,
+      testId: 'rx-refillinprocess-info',
+    },
     { status: dispStatusObj.submitted, testId: 'submitted-refill-request' },
     { status: dispStatusObj.discontinued, testId: 'discontinued' },
     { status: dispStatusObj.activeParked, testId: 'active-parked' },
@@ -30,14 +57,23 @@ describe('Medications List Card Extra Details', () => {
   const V2_STATUS_TESTS = [
     { status: dispStatusObjV2.statusNotAvailable, testId: 'unknown' },
     { status: dispStatusObjV2.inprogress, testId: 'refill-in-process' },
-    { status: dispStatusObjV2.active, testId: 'active-parked', refillRemaining: 3 },
+    {
+      status: dispStatusObjV2.active,
+      testId: 'active-parked',
+      refillRemaining: 3,
+    },
     { status: dispStatusObjV2.inactive, testId: 'inactive' },
     { status: dispStatusObjV2.transferred, testId: 'transferred' },
   ];
 
   const prescription = prescriptionsListItem;
 
-  const setup = (rx = prescription, initialState = {}, isCernerPilot = false, isV2StatusMapping = false) => {
+  const setup = (
+    rx = prescription,
+    initialState = {},
+    isCernerPilot = false,
+    isV2StatusMapping = false,
+  ) => {
     const featureToggleReducer = (state = {}) => state;
     const testReducers = {
       ...reducers,
@@ -82,7 +118,9 @@ describe('Medications List Card Extra Details', () => {
         dispStatus: dispStatusObj.active,
         refillRemaining: 0,
       });
-      expect(await screen.findByTestId('active-no-refill-left')).to.contain.text(
+      expect(
+        await screen.findByTestId('active-no-refill-left'),
+      ).to.contain.text(
         'You have no refills left. If you need more, request a renewal.',
       );
     });
@@ -101,7 +139,11 @@ describe('Medications List Card Extra Details', () => {
 
     it('displays no refills left message when Active with 0 refills', async () => {
       const screen = setup(
-        { ...prescription, dispStatus: dispStatusObjV2.active, refillRemaining: 0 },
+        {
+          ...prescription,
+          dispStatus: dispStatusObjV2.active,
+          refillRemaining: 0,
+        },
         {},
         true,
         true,
@@ -111,27 +153,37 @@ describe('Medications List Card Extra Details', () => {
   });
 
   describe('CernerPilot and V2StatusMapping flag requirement validation', () => {
-    FLAG_COMBINATIONS.forEach(({ cernerPilot, v2StatusMapping, useV2, desc }) => {
-      it(`uses ${useV2 ? 'V2' : 'V1'} status logic when ${desc}`, async () => {
-        // Pass appropriate status based on flag combination
-        // When both flags enabled, API returns V2 status; otherwise V1
-        const statusToTest = useV2 ? dispStatusObjV2.active : dispStatusObj.activeParked;
-        const screen = setup(
-          { ...prescription, dispStatus: statusToTest },
-          {},
-          cernerPilot,
-          v2StatusMapping,
-        );
-        expect(await screen.findByTestId('active-parked')).to.exist;
-      });
-    });
+    FLAG_COMBINATIONS.forEach(
+      ({ cernerPilot, v2StatusMapping, useV2, desc }) => {
+        it(`uses ${
+          useV2 ? 'V2' : 'V1'
+        } status logic when ${desc}`, async () => {
+          // Pass appropriate status based on flag combination
+          // When both flags enabled, API returns V2 status; otherwise V1
+          const statusToTest = useV2
+            ? dispStatusObjV2.active
+            : dispStatusObj.activeParked;
+          const screen = setup(
+            { ...prescription, dispStatus: statusToTest },
+            {},
+            cernerPilot,
+            v2StatusMapping,
+          );
+          expect(await screen.findByTestId('active-parked')).to.exist;
+        });
+      },
+    );
   });
 
   describe('Non-VA status preservation', () => {
     FLAG_COMBINATIONS.forEach(({ cernerPilot, v2StatusMapping, desc }) => {
       it(`preserves Non-VA behavior when ${desc}`, async () => {
         const screen = setup(
-          { ...prescription, dispStatus: 'Active: Non-VA', prescriptionSource: 'NV' },
+          {
+            ...prescription,
+            dispStatus: 'Active: Non-VA',
+            prescriptionSource: 'NV',
+          },
           {},
           cernerPilot,
           v2StatusMapping,

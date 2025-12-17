@@ -37,7 +37,11 @@ describe('Prescription details container', () => {
     sandbox.restore();
   });
 
-  const setup = (state = {}, isCernerPilot = false, isV2StatusMapping = false) => {
+  const setup = (
+    state = {},
+    isCernerPilot = false,
+    isV2StatusMapping = false,
+  ) => {
     const fullState = {
       ...state,
       featureToggles: {
@@ -49,13 +53,19 @@ describe('Prescription details container', () => {
 
     return renderWithStoreAndRouterV6(
       <Routes>
-        <Route path="/prescriptions/:prescriptionId" element={<PrescriptionDetails />} />
+        <Route
+          path="/prescriptions/:prescriptionId"
+          element={<PrescriptionDetails />}
+        />
       </Routes>,
       {
         initialState: fullState,
         reducers: reducer,
         initialEntries: ['/prescriptions/1234567891'],
-        additionalMiddlewares: [allergiesApi.middleware, prescriptionsApi.middleware],
+        additionalMiddlewares: [
+          allergiesApi.middleware,
+          prescriptionsApi.middleware,
+        ],
       },
     );
   };
@@ -286,39 +296,67 @@ describe('Prescription details container', () => {
 
   describe('CernerPilot and V2StatusMapping flag requirement tests for V2 status mapping', () => {
     const FLAG_COMBINATIONS = [
-      { isCernerPilot: false, isV2StatusMapping: false, useV2: false, desc: 'both flags disabled' },
-      { isCernerPilot: true, isV2StatusMapping: false, useV2: false, desc: 'only cernerPilot enabled' },
-      { isCernerPilot: false, isV2StatusMapping: true, useV2: false, desc: 'only v2StatusMapping enabled' },
-      { isCernerPilot: true, isV2StatusMapping: true, useV2: true, desc: 'both flags enabled' },
+      {
+        isCernerPilot: false,
+        isV2StatusMapping: false,
+        useV2: false,
+        desc: 'both flags disabled',
+      },
+      {
+        isCernerPilot: true,
+        isV2StatusMapping: false,
+        useV2: false,
+        desc: 'only cernerPilot enabled',
+      },
+      {
+        isCernerPilot: false,
+        isV2StatusMapping: true,
+        useV2: false,
+        desc: 'only v2StatusMapping enabled',
+      },
+      {
+        isCernerPilot: true,
+        isV2StatusMapping: true,
+        useV2: true,
+        desc: 'both flags enabled',
+      },
     ];
 
-    FLAG_COMBINATIONS.forEach(({ isCernerPilot, isV2StatusMapping, useV2, desc }) => {
-      it(`should use ${useV2 ? 'V2' : 'V1'} status when ${desc}`, async () => {
-        sandbox.restore();
-        stubAllergiesApi({ sandbox });
-        stubPrescriptionsApiCache({ sandbox, data: false });
-        const data = JSON.parse(JSON.stringify(singlePrescription));
-        // API returns V2 status when both flags enabled, V1 status otherwise
-        data.dispStatus = useV2 ? 'In progress' : 'Active: Refill in Process';
-        stubPrescriptionIdApi({ sandbox, data });
+    FLAG_COMBINATIONS.forEach(
+      ({ isCernerPilot, isV2StatusMapping, useV2, desc }) => {
+        it(`should use ${
+          useV2 ? 'V2' : 'V1'
+        } status when ${desc}`, async () => {
+          sandbox.restore();
+          stubAllergiesApi({ sandbox });
+          stubPrescriptionsApiCache({ sandbox, data: false });
+          const data = JSON.parse(JSON.stringify(singlePrescription));
+          // API returns V2 status when both flags enabled, V1 status otherwise
+          data.dispStatus = useV2 ? 'In progress' : 'Active: Refill in Process';
+          stubPrescriptionIdApi({ sandbox, data });
 
-        const screen = setup({
-          user: {
-            profile: {
-              userFullName: { first: 'test', last: 'last', suffix: 'jr' },
-              dob: '2000-01-01',
+          const screen = setup(
+            {
+              user: {
+                profile: {
+                  userFullName: { first: 'test', last: 'last', suffix: 'jr' },
+                  dob: '2000-01-01',
+                },
+              },
             },
-          },
-        }, isCernerPilot, isV2StatusMapping);
+            isCernerPilot,
+            isV2StatusMapping,
+          );
 
-        await waitFor(() => {
-          if (useV2) {
-            expect(screen.getByText('In progress')).to.exist;
-          } else {
-            expect(screen.getByText('Active: Refill in process')).to.exist;
-          }
+          await waitFor(() => {
+            if (useV2) {
+              expect(screen.getByText('In progress')).to.exist;
+            } else {
+              expect(screen.getByText('Active: Refill in process')).to.exist;
+            }
+          });
         });
-      });
-    });
+      },
+    );
   });
 });

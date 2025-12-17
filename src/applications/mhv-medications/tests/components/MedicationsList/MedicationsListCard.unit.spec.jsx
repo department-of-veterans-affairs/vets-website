@@ -9,10 +9,30 @@ import reducers from '../../../reducers';
 
 describe('Medication card component', () => {
   const FLAG_COMBINATIONS = [
-    { cernerPilot: false, v2StatusMapping: false, useV2: false, desc: 'both flags disabled' },
-    { cernerPilot: true, v2StatusMapping: false, useV2: false, desc: 'only cernerPilot enabled' },
-    { cernerPilot: false, v2StatusMapping: true, useV2: false, desc: 'only v2StatusMapping enabled' },
-    { cernerPilot: true, v2StatusMapping: true, useV2: true, desc: 'both flags enabled' },
+    {
+      cernerPilot: false,
+      v2StatusMapping: false,
+      useV2: false,
+      desc: 'both flags disabled',
+    },
+    {
+      cernerPilot: true,
+      v2StatusMapping: false,
+      useV2: false,
+      desc: 'only cernerPilot enabled',
+    },
+    {
+      cernerPilot: false,
+      v2StatusMapping: true,
+      useV2: false,
+      desc: 'only v2StatusMapping enabled',
+    },
+    {
+      cernerPilot: true,
+      v2StatusMapping: true,
+      useV2: true,
+      desc: 'both flags enabled',
+    },
   ];
 
   const V2_STATUSES = [
@@ -41,7 +61,11 @@ describe('Medication card component', () => {
     });
   };
 
-  const setupWithFlags = (rx = prescriptionsListItem, isCernerPilot = false, isV2StatusMapping = false) => {
+  const setupWithFlags = (
+    rx = prescriptionsListItem,
+    isCernerPilot = false,
+    isV2StatusMapping = false,
+  ) => {
     const initialState = {
       featureToggles: {
         [FEATURE_FLAG_NAMES.mhvMedicationsCernerPilot]: isCernerPilot,
@@ -192,16 +216,18 @@ describe('Medication card component', () => {
   });
 
   describe('CernerPilot and  V2StatusMapping flag requirement validation', () => {
-    FLAG_COMBINATIONS.forEach(({ cernerPilot, v2StatusMapping, useV2, desc }) => {
-      it(`${useV2 ? 'V2' : 'V1'} behavior when ${desc}`, () => {
-        // Pass appropriate status based on flag combination
-        // When both flags enabled, API returns V2 status; otherwise V1
-        const dispStatus = useV2 ? 'Inactive' : 'Expired';
-        const rx = { ...prescriptionsListItem, dispStatus };
-        const screen = setupWithFlags(rx, cernerPilot, v2StatusMapping);
-        expect(screen.getByText(dispStatus)).to.exist;
-      });
-    });
+    FLAG_COMBINATIONS.forEach(
+      ({ cernerPilot, v2StatusMapping, useV2, desc }) => {
+        it(`${useV2 ? 'V2' : 'V1'} behavior when ${desc}`, () => {
+          // Pass appropriate status based on flag combination
+          // When both flags enabled, API returns V2 status; otherwise V1
+          const dispStatus = useV2 ? 'Inactive' : 'Expired';
+          const rx = { ...prescriptionsListItem, dispStatus };
+          const screen = setupWithFlags(rx, cernerPilot, v2StatusMapping);
+          expect(screen.getByText(dispStatus)).to.exist;
+        });
+      },
+    );
   });
 
   it('renders link text from orderableItem when prescriptionName is null', () => {
@@ -250,13 +276,15 @@ describe('Medication card component', () => {
     ];
 
     edgeCases.forEach(({ dispStatus, desc }) => {
-      FLAG_COMBINATIONS.forEach(({ cernerPilot, v2StatusMapping, desc: flagDesc }) => {
-        it(`handles ${desc} when ${flagDesc}`, () => {
-          const rx = { ...prescriptionsListItem, dispStatus };
-          const screen = setupWithFlags(rx, cernerPilot, v2StatusMapping);
-          expect(screen).to.exist;
-        });
-      });
+      FLAG_COMBINATIONS.forEach(
+        ({ cernerPilot, v2StatusMapping, desc: flagDesc }) => {
+          it(`handles ${desc} when ${flagDesc}`, () => {
+            const rx = { ...prescriptionsListItem, dispStatus };
+            const screen = setupWithFlags(rx, cernerPilot, v2StatusMapping);
+            expect(screen).to.exist;
+          });
+        },
+      );
     });
   });
   describe('Non-VA status preservation', () => {
@@ -275,14 +303,21 @@ describe('Medication card component', () => {
 
   describe('Pending medication status handling', () => {
     const pendingStatuses = [
-      { dispStatus: 'NewOrder', expectedText: /new prescription from your provider/ },
+      {
+        dispStatus: 'NewOrder',
+        expectedText: /new prescription from your provider/,
+      },
       { dispStatus: 'Renew', expectedText: /renewal you requested/ },
     ];
 
     pendingStatuses.forEach(({ dispStatus, expectedText }) => {
       FLAG_COMBINATIONS.forEach(({ cernerPilot, v2StatusMapping, desc }) => {
         it(`shows pending ${dispStatus} text when ${desc}`, () => {
-          const rx = { ...prescriptionsListItem, prescriptionSource: 'PD', dispStatus };
+          const rx = {
+            ...prescriptionsListItem,
+            prescriptionSource: 'PD',
+            dispStatus,
+          };
           const screen = setupWithFlags(rx, cernerPilot, v2StatusMapping);
           expect(screen.getByText(expectedText)).to.exist;
         });

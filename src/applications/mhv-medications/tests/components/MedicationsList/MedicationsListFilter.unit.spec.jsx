@@ -139,49 +139,91 @@ describe('Medications List Filter component', () => {
 
   // Shared test data
   const FLAG_COMBINATIONS = [
-    { cernerPilot: false, v2StatusMapping: false, useV2: false, desc: 'both flags disabled' },
-    { cernerPilot: true, v2StatusMapping: false, useV2: false, desc: 'only cernerPilot enabled' },
-    { cernerPilot: false, v2StatusMapping: true, useV2: false, desc: 'only v2StatusMapping enabled' },
-    { cernerPilot: true, v2StatusMapping: true, useV2: true, desc: 'both flags enabled' },
+    {
+      cernerPilot: false,
+      v2StatusMapping: false,
+      useV2: false,
+      desc: 'both flags disabled',
+    },
+    {
+      cernerPilot: true,
+      v2StatusMapping: false,
+      useV2: false,
+      desc: 'only cernerPilot enabled',
+    },
+    {
+      cernerPilot: false,
+      v2StatusMapping: true,
+      useV2: false,
+      desc: 'only v2StatusMapping enabled',
+    },
+    {
+      cernerPilot: true,
+      v2StatusMapping: true,
+      useV2: true,
+      desc: 'both flags enabled',
+    },
   ];
 
   describe('filter options based on flag combinations', () => {
-    FLAG_COMBINATIONS.forEach(({ cernerPilot, v2StatusMapping, useV2, desc }) => {
-      describe(`when ${desc}`, () => {
-        it('shows correct filter options', () => {
-          const screen = setup({}, () => {}, filterCountObj, cernerPilot, v2StatusMapping);
-
-          // V2-only options
-          if (useV2) {
-            expect(screen.getByTestId('filter-option-IN_PROGRESS')).to.exist;
-            expect(screen.getByTestId('filter-option-SHIPPED')).to.exist;
-            expect(screen.getByTestId('filter-option-TRANSFERRED')).to.exist;
-            expect(screen.getByTestId('filter-option-INACTIVE')).to.exist;
-            expect(screen.getByTestId('filter-option-STATUS_NOT_AVAILABLE')).to.exist;
-            expect(screen.queryByTestId('filter-option-RECENTLY_REQUESTED')).to.not.exist;
-            expect(screen.queryByTestId('filter-option-NON_ACTIVE')).to.not.exist;
-          } else {
-            expect(screen.getByTestId('filter-option-RECENTLY_REQUESTED')).to.exist;
-            expect(screen.queryByTestId('filter-option-IN_PROGRESS')).to.not.exist;
-            expect(screen.queryByTestId('filter-option-SHIPPED')).to.not.exist;
-          }
-
-          // Common options
-          expect(screen.getByTestId('filter-option-ACTIVE')).to.exist;
-        });
-
-        if (useV2) {
-          it('shows correct V2 filter descriptions', () => {
-            const screen = setup({}, () => {}, filterCountObj, cernerPilot, v2StatusMapping);
-            const inProgressOption = screen.getByTestId('filter-option-IN_PROGRESS');
-            expect(inProgressOption).to.have.attribute(
-              'description',
-              filterOptionsV2[IN_PROGRESS_FILTER_KEY].description,
+    FLAG_COMBINATIONS.forEach(
+      ({ cernerPilot, v2StatusMapping, useV2, desc }) => {
+        describe(`when ${desc}`, () => {
+          it('shows correct filter options', () => {
+            const screen = setup(
+              {},
+              () => {},
+              filterCountObj,
+              cernerPilot,
+              v2StatusMapping,
             );
+
+            // V2-only options
+            if (useV2) {
+              expect(screen.getByTestId('filter-option-IN_PROGRESS')).to.exist;
+              expect(screen.getByTestId('filter-option-SHIPPED')).to.exist;
+              expect(screen.getByTestId('filter-option-TRANSFERRED')).to.exist;
+              expect(screen.getByTestId('filter-option-INACTIVE')).to.exist;
+              expect(screen.getByTestId('filter-option-STATUS_NOT_AVAILABLE'))
+                .to.exist;
+              expect(screen.queryByTestId('filter-option-RECENTLY_REQUESTED'))
+                .to.not.exist;
+              expect(screen.queryByTestId('filter-option-NON_ACTIVE')).to.not
+                .exist;
+            } else {
+              expect(screen.getByTestId('filter-option-RECENTLY_REQUESTED')).to
+                .exist;
+              expect(screen.queryByTestId('filter-option-IN_PROGRESS')).to.not
+                .exist;
+              expect(screen.queryByTestId('filter-option-SHIPPED')).to.not
+                .exist;
+            }
+
+            // Common options
+            expect(screen.getByTestId('filter-option-ACTIVE')).to.exist;
           });
-        }
-      });
-    });
+
+          if (useV2) {
+            it('shows correct V2 filter descriptions', () => {
+              const screen = setup(
+                {},
+                () => {},
+                filterCountObj,
+                cernerPilot,
+                v2StatusMapping,
+              );
+              const inProgressOption = screen.getByTestId(
+                'filter-option-IN_PROGRESS',
+              );
+              expect(inProgressOption).to.have.attribute(
+                'description',
+                filterOptionsV2[IN_PROGRESS_FILTER_KEY].description,
+              );
+            });
+          }
+        });
+      },
+    );
   });
 
   describe('Filter count mapping', () => {
