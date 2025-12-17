@@ -9,7 +9,9 @@ import {
   validateRequestedAmount,
   validateAirTravelFields,
   validateCommonCarrierFields,
+  validateLodgingFields,
 } from '../../util/expense-validation-helpers';
+import { TRIP_TYPES } from '../../constants';
 
 const mockSetExtraFieldErrors = () => {
   const calls = [];
@@ -97,7 +99,7 @@ describe('validateReceiptDate', () => {
 
     expect(isValid).to.be.false;
     expect(setErrors.calls.pop()).to.deep.equal({
-      purchaseDate: 'Enter the date of your receipt',
+      purchaseDate: 'Enter the date on your receipt',
     });
   });
 
@@ -373,7 +375,7 @@ describe('validateAirTravelFields', () => {
   it('passes when dates are valid', () => {
     formState = {
       vendorName: 'Acme Airlines',
-      tripType: 'ROUND_TRIP',
+      tripType: TRIP_TYPES.ROUND_TRIP.value,
       departureDate: '2025-01-05',
       returnDate: '2025-01-10',
       departedFrom: 'JFK',
@@ -383,6 +385,49 @@ describe('validateAirTravelFields', () => {
     const nextErrors = validateAirTravelFields(formState, errors);
 
     expect(nextErrors).to.deep.equal({});
+  });
+
+  it('requires returnDate for ROUND_TRIP', () => {
+    formState.tripType = TRIP_TYPES.ROUND_TRIP.value;
+    formState.departureDate = '2025-01-05';
+    formState.returnDate = '';
+
+    const nextErrors = validateAirTravelFields(formState, errors);
+
+    expect(nextErrors.returnDate).to.equal('Enter a return date');
+  });
+
+  it('errors if returnDate is entered for ONE_WAY trip', () => {
+    formState.tripType = TRIP_TYPES.ONE_WAY.value;
+    formState.returnDate = '2025-01-10';
+    formState.departureDate = '2025-01-05';
+
+    const nextErrors = validateAirTravelFields(formState, errors);
+
+    expect(nextErrors.returnDate).to.equal(
+      'You entered a return date for a one-way trip',
+    );
+    expect(nextErrors.tripType).to.equal(
+      'You entered a return date for a one-way trip',
+    );
+  });
+
+  it('validates departureDate only if returnDate exists', () => {
+    formState.departureDate = '2025-01-05';
+    formState.returnDate = ''; // empty, so no comparison error
+
+    const nextErrors = validateAirTravelFields(formState, errors);
+
+    expect(nextErrors.departureDate).to.be.undefined;
+  });
+
+  it('validates returnDate only if departureDate exists', () => {
+    formState.returnDate = '2025-01-10';
+    formState.departureDate = ''; // empty, so no comparison error
+
+    const nextErrors = validateAirTravelFields(formState, errors);
+
+    expect(nextErrors.returnDate).to.be.undefined;
   });
 });
 
@@ -427,5 +472,76 @@ describe('validateCommonCarrierFields', () => {
 
     expect(nextErrors.carrierType).to.be.undefined;
     expect(nextErrors.reasonNotUsingPOV).to.be.undefined; // untouched
+  });
+});
+
+describe('validateLodgingFields', () => {
+  let formState;
+  let errors;
+
+  beforeEach(() => {
+    formState = {
+      vendor: '',
+      checkInDate: '',
+      checkOutDate: '',
+    };
+    errors = {};
+  });
+
+  it('validates all fields at once and sets errors for empty values', () => {
+    const nextErrors = validateLodgingFields(formState, errors);
+
+    expect(nextErrors).to.deep.equal({
+      vendor: 'Enter the name on your receipt',
+      checkInDate: 'Enter the date you checked in',
+      checkOutDate: 'Enter the date you checked out',
+    });
+  });
+
+  it('validates a single field (vendor) and leaves others untouched', () => {
+    formState.vendor = 'Hotel California';
+    const nextErrors = validateLodgingFields(formState, errors, 'vendor');
+
+    expect(nextErrors.vendor).to.be.undefined;
+    expect(nextErrors.checkInDate).to.be.undefined;
+    expect(nextErrors.checkOutDate).to.be.undefined;
+  });
+
+  it('requires checkInDate if empty', () => {
+    formState.checkOutDate = '2025-01-10';
+    const nextErrors = validateLodgingFields(formState, errors, 'checkInDate');
+
+    expect(nextErrors.checkInDate).to.equal('Enter the date you checked in');
+  });
+
+  it('requires checkOutDate if empty', () => {
+    formState.checkInDate = '2025-01-05';
+    const nextErrors = validateLodgingFields(formState, errors, 'checkOutDate');
+
+    expect(nextErrors.checkOutDate).to.equal('Enter the date you checked out');
+  });
+
+  it('flags error if checkInDate >= checkOutDate', () => {
+    formState.checkInDate = '2025-01-10';
+    formState.checkOutDate = '2025-01-05';
+
+    const nextErrors = validateLodgingFields(formState, errors);
+
+    expect(nextErrors.checkInDate).to.equal(
+      'Check-in date must be earlier than check-out date',
+    );
+    expect(nextErrors.checkOutDate).to.equal(
+      'Check-out date must be later than check-in date',
+    );
+  });
+
+  it('passes when checkInDate < checkOutDate', () => {
+    formState.vendor = 'Hotel California';
+    formState.checkInDate = '2025-01-05';
+    formState.checkOutDate = '2025-01-10';
+
+    const nextErrors = validateLodgingFields(formState, errors);
+
+    expect(nextErrors).to.deep.equal({});
   });
 });

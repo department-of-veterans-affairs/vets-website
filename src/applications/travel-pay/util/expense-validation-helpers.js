@@ -87,7 +87,7 @@ export const validateReceiptDate = (dateInput, type, setExtraFieldErrors) => {
   const isComplete = parts.every(p => Number.isInteger(p));
 
   if (type === DATE_VALIDATION_TYPE.SUBMIT && isAllEmpty) {
-    error = 'Enter the date of your receipt';
+    error = 'Enter the date on your receipt';
   } else if (isComplete) {
     const selectedDate = new Date(year, month - 1, day);
     const today = new Date();
@@ -261,17 +261,34 @@ export const validateAirTravelFields = (formState, errors, fieldName) => {
   // Determine which fields to validate
   const fieldsToValidate = getFieldsToValidate(allFields, fieldName);
 
-  // If one of the date fields is being updated, also validate the other
   if (
     fieldName === 'departureDate' &&
+    formState.returnDate &&
     !fieldsToValidate.includes('returnDate')
   ) {
+    // If departureDate is being updated and returnDate exists, also validate returnDate
     fieldsToValidate.push('returnDate');
   } else if (
     fieldName === 'returnDate' &&
+    formState.departureDate &&
     !fieldsToValidate.includes('departureDate')
   ) {
+    // If returnDate is being updated and departureDate exists, also validate departureDate
     fieldsToValidate.push('departureDate');
+  } else if (
+    fieldName === 'tripType' &&
+    formState.returnDate !== '' &&
+    !fieldsToValidate.includes('returnDate')
+  ) {
+    // If tripType is being updated and returnDate exists, also validate returnDate
+    fieldsToValidate.push('returnDate');
+  } else if (
+    fieldName === 'returnDate' &&
+    formState.tripType === TRIP_TYPES.ONE_WAY.value &&
+    !fieldsToValidate.includes('tripType')
+  ) {
+    // If returnDate is being updated and tripType is ONE_WAY, also validate tripType
+    fieldsToValidate.push('tripType');
   }
 
   // vendorName
@@ -283,7 +300,12 @@ export const validateAirTravelFields = (formState, errors, fieldName) => {
   // tripType
   if (fieldsToValidate.includes('tripType')) {
     if (!formState.tripType) nextErrors.tripType = 'Select a trip type';
-    else delete nextErrors.tripType;
+    else if (
+      formState.tripType === TRIP_TYPES.ONE_WAY.value &&
+      formState.returnDate
+    ) {
+      nextErrors.tripType = 'You entered a return date for a one-way trip';
+    } else delete nextErrors.tripType;
   }
 
   // departureDate
@@ -311,6 +333,11 @@ export const validateAirTravelFields = (formState, errors, fieldName) => {
       formState.returnDate < formState.departureDate
     ) {
       nextErrors.returnDate = 'Return date must be later than departure date';
+    } else if (
+      formState.tripType === TRIP_TYPES.ONE_WAY.value &&
+      formState.returnDate
+    ) {
+      nextErrors.returnDate = 'You entered a return date for a one-way trip';
     } else {
       delete nextErrors.returnDate;
     }
@@ -369,6 +396,84 @@ export const validateCommonCarrierFields = (formState, errors, fieldName) => {
     if (!formState.reasonNotUsingPOV)
       nextErrors.reasonNotUsingPOV = 'Select a reason';
     else delete nextErrors.reasonNotUsingPOV;
+  }
+
+  return nextErrors;
+};
+
+/**
+ * Validates Lodging expense fields for a form.
+ *
+ * Rules:
+ *  - vendor: required
+ *  - checkInDate: required
+ *  - checkOutDate: required
+ *
+ * Supports validating either:
+ *  - All fields at once (fieldName omitted)
+ *  - A single field (determined via getFieldsToValidate)
+ *
+ * @param {Object} formState - The current state of the expense form
+ * @param {Object} errors - The current validation errors object
+ * @param {string} [fieldName] - Optional. Name of the field being updated.
+ * @returns {Object} nextErrors - Updated errors object with validation results
+ */
+export const validateLodgingFields = (formState, errors, fieldName) => {
+  const nextErrors = { ...errors };
+
+  const allFields = ['vendor', 'checkInDate', 'checkOutDate'];
+
+  // Use helper to determine which fields to validate
+  const fieldsToValidate = getFieldsToValidate(allFields, fieldName);
+
+  // If one of the date fields is being updated, also validate the other
+  if (
+    fieldName === 'checkInDate' &&
+    formState.checkOutDate &&
+    !fieldsToValidate.includes('checkOutDate')
+  ) {
+    fieldsToValidate.push('checkOutDate');
+  } else if (
+    fieldName === 'checkOutDate' &&
+    formState.checkInDate &&
+    !fieldsToValidate.includes('checkInDate')
+  ) {
+    fieldsToValidate.push('checkInDate');
+  }
+
+  // vendor
+  if (fieldsToValidate.includes('vendor')) {
+    if (!formState.vendor) nextErrors.vendor = 'Enter the name on your receipt';
+    else delete nextErrors.vendor;
+  }
+
+  // checkInDate
+  if (fieldsToValidate.includes('checkInDate')) {
+    if (!formState.checkInDate)
+      nextErrors.checkInDate = 'Enter the date you checked in';
+    else if (
+      formState.checkOutDate &&
+      formState.checkInDate >= formState.checkOutDate
+    ) {
+      nextErrors.checkInDate =
+        'Check-in date must be earlier than check-out date';
+    } else {
+      delete nextErrors.checkInDate;
+    }
+  }
+
+  // checkOutDate
+  if (fieldsToValidate.includes('checkOutDate')) {
+    if (!formState.checkOutDate)
+      nextErrors.checkOutDate = 'Enter the date you checked out';
+    else if (
+      formState.checkInDate &&
+      formState.checkOutDate &&
+      formState.checkOutDate <= formState.checkInDate
+    ) {
+      nextErrors.checkOutDate =
+        'Check-out date must be later than check-in date';
+    } else delete nextErrors.checkOutDate;
   }
 
   return nextErrors;

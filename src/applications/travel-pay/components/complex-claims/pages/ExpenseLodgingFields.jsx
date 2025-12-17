@@ -8,14 +8,16 @@ import {
 
 const ExpenseLodgingFields = ({ errors = {}, formState, onChange }) => (
   <>
-    <VaTextInput
-      label="Where did you stay?"
-      name="vendor"
-      value={formState.vendor || ''}
-      required
-      onInput={onChange}
-      {...errors.vendor && { error: errors.vendor }}
-    />
+    <div className="vads-u-margin-top--2">
+      <VaTextInput
+        label="Where did you stay?"
+        name="vendor"
+        value={formState.vendor || ''}
+        required
+        onInput={onChange}
+        {...errors.vendor && { error: errors.vendor }}
+      />
+    </div>
     <VaDate
       label="Check in date"
       name="checkInDate"
