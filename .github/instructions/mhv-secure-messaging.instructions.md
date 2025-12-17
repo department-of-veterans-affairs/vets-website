@@ -369,10 +369,24 @@ Update this file when you:
     - Props: `href` (required), `text` (required), `label`, `reverse`
     - Example: `<RouterLinkAction href="/compose" text="Start a new message" />`
   - **Pattern Details**:
-    - Both use `withRouter` HOC to inject `router` object
-    - Both implement `preventDefault` + `router.push(href)` for client-side navigation
+    - Both use `useHistory` hook from `react-router-dom` for navigation
+    - Both implement `preventDefault` + `history.push(href)` for client-side navigation
+    - Includes safety fallback to `window.location.href` if used outside Router context
     - Located in `components/shared/`
     - See VADS docs: https://design.va.gov/components/link/
+  - **Testing Pattern for RouterLink/RouterLinkAction**:
+    - Validate actual navigation by checking `history.location.pathname` after click
+    - Don't just test `preventDefault` - verify redirect actually happens
+    - Example test:
+      ```javascript
+      const { container, history } = renderWithStoreAndRouter(
+        <RouterLink href="/inbox" text="Go to inbox" />,
+        { initialState, reducers: reducer, path: '/messages' }
+      );
+      const link = container.querySelector('va-link');
+      link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+      expect(history.location.pathname).to.equal('/inbox');
+      ```
 - **Cross-App Links** (Different VA.gov SPAs): Use `VaLink`/`VaLinkAction` directly WITHOUT router wrapper
   - For links to other VA.gov applications (e.g., `/find-locations`, `/profile`)
   - These are different Webpack entry points/SPAs that require full browser navigation

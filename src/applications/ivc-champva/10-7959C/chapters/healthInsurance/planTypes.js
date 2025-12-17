@@ -3,20 +3,18 @@ import {
   radioSchema,
   radioUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import content from '../../locales/en/content.json';
 
-const TITLE_TEXT = 'Private or employer-sponsored insurance plan';
-const INPUT_LABEL =
-  'Which type of insurance plan or program is the beneficiary enrolled in?';
-const HINT_TEXT =
-  'This information is on the front of your health insurance card.';
+const TITLE_TEXT = content['health-insurance--plan-type-title'];
+const INPUT_LABEL = content['health-insurance--plan-type-label'];
+const HINT_TEXT = content['health-insurance--plan-type-hint'];
 
 export const SCHEMA_LABELS = {
-  hmo: 'Health Maintenance Organization (HMO) program',
-  ppo: 'Preferred Provider Organization (PPO) plan',
-  medicaid: 'Medicaid or a state assistance program',
-  medigap: 'Medigap policy',
-  other:
-    'Other (specialty, limited coverage, or exclusively CHAMPVA supplemental) insurance',
+  hmo: content['health-insurance--plan-type-option--hmo'],
+  ppo: content['health-insurance--plan-type-option--ppo'],
+  medicaid: content['health-insurance--plan-type-option--medicaid'],
+  medigap: content['health-insurance--plan-type-option--medigap'],
+  other: content['health-insurance--plan-type-option--other'],
 };
 const SCHEMA_ENUM = Object.keys(SCHEMA_LABELS);
 
