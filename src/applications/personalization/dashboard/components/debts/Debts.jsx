@@ -124,7 +124,7 @@ const BenefitPaymentsAndDebt = ({
                   <DashboardWidgetWrapper>
                     <OutstandingDebtsError />
                     <va-link
-                      href="/resources/va-debt-management"
+                      href="/manage-va-debt/summary"
                       text="View all debt information"
                       data-testid="view-all-debt-information-link"
                     />
