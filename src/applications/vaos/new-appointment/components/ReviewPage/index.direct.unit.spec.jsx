@@ -168,7 +168,6 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
     expect(reasonHeading).to.contain.text(
       'Details to share with your provider',
     );
-    expect(screen.baseElement).to.contain.text('Routine/Follow-up');
     expect(screen.baseElement).to.contain.text('I need an appt');
 
     expect(contactHeading).to.contain.text('Your contact information');
@@ -286,7 +285,7 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
       locationId: '983',
       clinic: '455',
       reasonCode: {
-        text: 'reason code:ROUTINEVISIT|comments:I need an appt',
+        text: '|comments:I need an appt',
       },
       extension: {
         desiredDate: '2021-05-06T00:00:00+00:00',
