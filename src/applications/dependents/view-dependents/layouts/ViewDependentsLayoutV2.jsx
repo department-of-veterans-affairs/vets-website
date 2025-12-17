@@ -8,15 +8,19 @@ import { isServerError, isClientError } from '../util';
 import { errorFragment, noDependentsAlertV2 } from './helpers';
 
 /**
- * Builds view dependents page '/dependents/view'
- * @param {Object} props all props
- * @param {Boolean} props.loading loading state
- * @param {Boolean} props.error error status
- * @param {Array} props.onAwardDependents list of active dependents
- * @param {Array} props.notOAwardDependents list of inactive dependents
- * @param {Boolean} props.manageDependentsToggle feature toggle
- * @param {Boolean} props.hasMinimumRating true if disability rating is 30 or higher
- * @returns {components} <ViewDependentsLists>, <ViewDependentsHeader>
+ * @typedef ViewDependentsLayoutProps
+ * @property {Boolean} error error status
+ * @property {Boolean} hasMinimumRating true if disability rating is 30 or higher
+ * @property {Boolean} loading loading state
+ * @property {Boolean} manageDependentsToggle feature toggle
+ * @property {Array} notOnAwardDependents list of inactive dependents
+ * @property {Array} onAwardDependents list of active dependents
+ */
+/**
+ * Renders view dependents page content
+ * List of view dependent Layout
+ * @param {ViewDependentsLayoutProps} props - Component props
+ * @returns {JSX.Element} View dependents page layout
  */
 function ViewDependentsLayout(props) {
   let mainContent;
