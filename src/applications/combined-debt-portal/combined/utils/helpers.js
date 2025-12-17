@@ -6,6 +6,7 @@ import React from 'react';
 import { templates } from '@department-of-veterans-affairs/platform-pdf/exports';
 import * as Sentry from '@sentry/browser';
 import recordEvent from 'platform/monitoring/record-event';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 export const APP_TYPES = Object.freeze({
   DEBT: 'DEBT',
@@ -249,4 +250,28 @@ export const handlePdfGeneration = async (environment, pdfData) => {
       `OneDebtLetter - PDF generation failed: ${err.message}`,
     );
   }
+};
+
+// Debt Management Center phone content
+export const dmcPhoneContent = () => {
+  return (
+    <>
+      <va-telephone contact={CONTACTS.DMC} /> (
+      <va-telephone contact={CONTACTS[711]} tty />
+      ). If you’re outside the U.S., call{' '}
+      <va-telephone contact={CONTACTS.DMC_OVERSEAS} international />. We’re here
+      Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
+    </>
+  );
+};
+
+// Health Resource Center phone content
+export const healthResourceCenterPhoneContent = () => {
+  return (
+    <>
+      <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} /> (
+      <va-telephone contact={CONTACTS[711]} tty />
+      ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+    </>
+  );
 };
