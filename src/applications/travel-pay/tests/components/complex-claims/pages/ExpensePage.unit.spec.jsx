@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { fireEvent, waitFor } from '@testing-library/react';
+import { fireEvent, waitFor, act } from '@testing-library/react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import {
   MemoryRouter,
@@ -508,20 +508,24 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
           expect(fileInput.getAttribute('error')).to.exist;
 
           // Upload a file
-          const testFile = new File(['dummy'], 'receipt.pdf', {
+          const testFile = new File(['dummy content'], 'receipt.pdf', {
             type: 'application/pdf',
           });
 
-          fileInput.dispatchEvent(
-            new CustomEvent('vaChange', {
-              detail: { files: [testFile] },
-              bubbles: true,
-              composed: true,
-            }),
-          );
+          // Dispatch the vaChange event wrapped in act
+          await act(async () => {
+            fileInput.dispatchEvent(
+              new CustomEvent('vaChange', {
+                detail: { files: [testFile] },
+                bubbles: true,
+                composed: true,
+              }),
+            );
+          });
 
+          // Wait for the component to update
           await waitFor(() => {
-            expect(fileInput.getAttribute('error')).to.not.exist;
+            expect(fileInput.getAttribute('error')).to.be.null;
           });
         });
 
@@ -651,14 +655,20 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
 
           it('clears errors when required fields are filled', async () => {
             const { container } = renderPage(config);
+
+            // Fill in all required fields
             fillRequiredFields(container, key);
 
             const continueButton = Array.from(
               container.querySelectorAll('.travel-pay-button-group va-button'),
             ).find(btn => btn.getAttribute('text') === 'Continue');
 
-            fireEvent.click(continueButton);
+            // Trigger validation wrapped in act
+            await act(async () => {
+              fireEvent.click(continueButton);
+            });
 
+            // Wait for all errors to clear
             await waitFor(() => {
               const dateInput = container.querySelector(
                 'va-date[name="purchaseDate"]',
@@ -671,10 +681,10 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
               );
               const fileInput = container.querySelector('va-file-input');
 
-              expect(dateInput.getAttribute('error')).to.not.exist;
-              expect(amountInput.getAttribute('error')).to.not.exist;
-              expect(descriptionInput.getAttribute('error')).to.not.exist;
-              expect(fileInput.getAttribute('error')).to.not.exist;
+              expect(dateInput.error).to.be.undefined;
+              expect(amountInput.error).to.be.undefined;
+              expect(descriptionInput.error).to.be.undefined;
+              expect(fileInput.error).to.be.undefined;
 
               if (key === 'Commoncarrier') {
                 const carrierType = container.querySelector(
@@ -683,8 +693,9 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
                 const reason = container.querySelector(
                   'va-radio[name="reasonNotUsingPOV"]',
                 );
-                expect(carrierType.getAttribute('error')).to.not.exist;
-                expect(reason.getAttribute('error')).to.not.exist;
+
+                expect(carrierType.error).to.be.undefined;
+                expect(reason.error).to.be.undefined;
               }
             });
           });
@@ -729,6 +740,7 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
             'va-text-input[name="arrivedTo"]',
           );
 
+          // Update values
           purchaseDate.value = '2025-10-31';
           purchaseDate.dispatchEvent(
             new CustomEvent('dateChange', {
@@ -780,20 +792,21 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
             }),
           );
 
-          // Click Continue to trigger validation
+          // Click Continue to trigger validation (wrap in act)
           const continueButton = Array.from(
             container.querySelectorAll('.travel-pay-button-group va-button'),
           ).find(btn => btn.getAttribute('text') === 'Continue');
-          fireEvent.click(continueButton);
 
-          // Wait for error to appear
+          await act(async () => {
+            fireEvent.click(continueButton);
+          });
+
+          // Wait for error to appear on return date
           await waitFor(() => {
             const returnDate = container.querySelector(
               'va-date[name="returnDate"]',
             );
-            expect(returnDate.getAttribute('error')).to.equal(
-              'Enter a return date',
-            );
+            expect(returnDate.error).to.equal('Enter a return date'); // use .error property
           });
         });
       });

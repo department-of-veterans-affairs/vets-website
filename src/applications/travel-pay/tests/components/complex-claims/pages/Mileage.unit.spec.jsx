@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { fireEvent } from '@testing-library/react';
+import { fireEvent, act } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom-v5-compat';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
@@ -187,20 +187,26 @@ describe('Complex Claims Mileage - Add', () => {
       expect(departureRadio.innerHTML).to.include('va-radio-option');
     });
 
-    it('handles departure address selection change', () => {
+    it('handles departure address selection change', async () => {
       renderComponent();
 
-      const departureRadio = $('va-radio[name="departureAddress"]');
-      expect(departureRadio).to.exist;
-      expect(departureRadio.value).to.equal(undefined);
-
-      fireEvent(
-        departureRadio,
-        new CustomEvent('vaValueChange', {
-          detail: { value: 'home-address' },
-        }),
+      const departureRadio = document.querySelector(
+        'va-radio[name="departureAddress"]',
       );
+      expect(departureRadio).to.exist;
+      expect(departureRadio.value).to.be.undefined;
 
+      await act(async () => {
+        departureRadio.dispatchEvent(
+          new CustomEvent('vaValueChange', {
+            detail: { value: 'home-address' },
+            bubbles: true,
+            composed: true,
+          }),
+        );
+      });
+
+      // After the event, the web component updates its internal value
       expect(departureRadio.value).to.equal('home-address');
     });
   });
@@ -225,19 +231,24 @@ describe('Complex Claims Mileage - Add', () => {
       expect(tripTypeRadio.innerHTML).to.include('va-radio-option');
     });
 
-    it('handles trip type selection change', () => {
+    it('handles trip type selection change', async () => {
       renderComponent();
 
-      const tripTypeRadio = $('va-radio[name="tripType"]');
-      expect(tripTypeRadio.value).to.equal(undefined);
+      const tripTypeRadio = document.querySelector('va-radio[name="tripType"]');
+      expect(tripTypeRadio).to.exist;
+      expect(tripTypeRadio.value).to.be.undefined;
 
-      fireEvent(
-        tripTypeRadio,
-        new CustomEvent('vaValueChange', {
-          detail: { value: 'round-trip' },
-        }),
-      );
+      await act(async () => {
+        tripTypeRadio.dispatchEvent(
+          new CustomEvent('vaValueChange', {
+            detail: { value: 'round-trip' },
+            bubbles: true,
+            composed: true,
+          }),
+        );
+      });
 
+      // The web component's internal value should now reflect the change
       expect(tripTypeRadio.value).to.equal('round-trip');
     });
   });
