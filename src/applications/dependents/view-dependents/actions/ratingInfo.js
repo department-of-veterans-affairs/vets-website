@@ -1,6 +1,7 @@
 import recordEvent from 'platform/monitoring/record-event';
 import { getData } from '../util';
 
+export const FETCH_RATING_INFO_STARTED = 'FETCH_RATING_INFO_STARTED';
 export const FETCH_RATING_INFO_SUCCESS = 'FETCH_RATING_INFO_SUCCESS';
 export const FETCH_RATING_INFO_FAILED = 'FETCH_RATING_INFO_FAILED';
 
@@ -10,6 +11,7 @@ export const FETCH_RATING_INFO_FAILED = 'FETCH_RATING_INFO_FAILED';
  */
 export function fetchRatingInfo() {
   return async dispatch => {
+    dispatch({ type: FETCH_RATING_INFO_STARTED });
     const response = await getData('/disability_compensation_form/rating_info');
 
     if (response?.errors) {
