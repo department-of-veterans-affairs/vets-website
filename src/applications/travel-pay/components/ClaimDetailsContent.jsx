@@ -65,8 +65,8 @@ export default function ClaimDetailsContent({
   const shouldShowClaimAction =
     complexClaimsToggle && isClaimIncompleteOrSaved(claimStatus);
 
-  // Show BTSSS link only if the claim requires BTSSS
-  const shouldShowBTSSSLink = shouldShowClaimAction && requiresBTSSS;
+  // Show BTSSS note & redirect link if the saved/incomplete claim requires BTSSS
+  const shouldShowBTSSSContent = shouldShowClaimAction && requiresBTSSS;
 
   const getDocLinkList = list =>
     list.map(({ filename, text, documentId }) => (
@@ -140,15 +140,14 @@ export default function ClaimDetailsContent({
                     STATUSES[toPascalCase(claimStatus)].definition
                   : STATUSES[toPascalCase(claimStatus)].definition}
               </p>
-              {complexClaimsToggle &&
-                requiresBTSSS && (
-                  <p className="vads-u-margin-top--2">
-                    <span className="vads-u-font-weight--bold">Note:</span> We
-                    can't file your travel reimbursement claim here right now.
-                    But you can still file your claim in the Beneficiary Travel
-                    Self Service System (BTSSS).
-                  </p>
-                )}
+              {shouldShowBTSSSContent && (
+                <p className="vads-u-margin-top--2">
+                  <span className="vads-u-font-weight--bold">Note:</span> We
+                  can't file your travel reimbursement claim here right now. But
+                  you can still file your claim in the Beneficiary Travel Self
+                  Self Service System (BTSSS).
+                </p>
+              )}
             </>
           ) : (
             <p className="vads-u-margin-top--2">
@@ -169,7 +168,7 @@ export default function ClaimDetailsContent({
             getDocLinkList(documentCategories.clerk)}
         </>
       )}
-      {shouldShowBTSSSLink && (
+      {shouldShowBTSSSContent && (
         <va-link
           text="Complete and file your claim in BTSSS"
           label="Complete and file your claim in the Beneficiary Travel Self Service System"
