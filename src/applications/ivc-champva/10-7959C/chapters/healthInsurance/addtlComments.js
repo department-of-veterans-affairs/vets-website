@@ -2,10 +2,10 @@ import { textareaUI } from 'platform/forms-system/src/js/web-component-patterns'
 import { healthInsurancePageTitleUI } from '../../utils/titles';
 import { validFieldCharsOnly } from '../../../shared/validations';
 import { textareaSchema } from '../../definitions';
+import content from '../../locales/en/content.json';
 
-const TITLE_TEXT = 'health insurance additional comments';
-const INPUT_LABEL =
-  'Do you have any additional comments about the beneficiary’s health insurance?';
+const TITLE_TEXT = content['health-insurance--addtl-comments-title'];
+const INPUT_LABEL = content['health-insurance--addtl-comments-label'];
 
 const VALIDATIONS = [
   (errors, formData) =>
