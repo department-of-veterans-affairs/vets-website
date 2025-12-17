@@ -6,8 +6,19 @@ import { scrollAndFocus } from 'platform/utilities/scroll';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { deleteInProgressForm } from '../../shared/utils/api';
 
-export const form686Url = getAppUrl('686C-674');
+export const form686Url = getAppUrl('686C-674-v2'); // pass the entryName
 
+/**
+ * Exit Form Page Component
+ * @typedef {object} ExitFormProps
+ * @property {object} location - location object
+ * @property {function} goBack - function to go back to the previous page
+ * @property {node} contentBeforeButtons - content to render before buttons
+ * @property {node} contentAfterButtons - content to render after buttons
+ *
+ * @param {ExitFormProps} props - Component props
+ * @returns {React.Component} - Exit form page
+ */
 export const ExitForm = ({
   goBack,
   contentBeforeButtons,

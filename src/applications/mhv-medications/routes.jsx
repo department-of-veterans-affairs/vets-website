@@ -8,7 +8,7 @@ import manifest from './manifest.json';
 import AppProviders from './containers/AppProviders';
 import App from './containers/App';
 import RxBreadcrumbs from './containers/RxBreadcrumbs';
-import { allergiesLoader } from './loaders/allergiesLoader';
+// import { allergiesLoader } from './loaders/allergiesLoader';
 // Disabling loaders temporarily while rolling out Oracle Health Pilot
 // TODO: When the pilot is complete, re-enable loaders
 // import { prescriptionsLoader } from './loaders/prescriptionsLoader';
@@ -81,7 +81,7 @@ const routes = [
   {
     path: 'prescription/:prescriptionId',
     element: <RouteWrapper Component={PrescriptionDetails} />,
-    loader: allergiesLoader,
+    // loader: allergiesLoader,
   },
   {
     path: '*',

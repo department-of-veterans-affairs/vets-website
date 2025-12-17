@@ -11,6 +11,7 @@ export const PROFILE_TOGGLES = {
   profileShowPaperlessDelivery: false,
   profile2Enabled: false,
   profileHealthCareSettingsPage: false,
+  profileSchedulingPreferences: false,
 };
 
 // The values of these constants map to the possible values that come back from
@@ -52,7 +53,7 @@ export const PROFILE_PATHS = Object.freeze({
   SCHEDULING_PREFERENCES:
     '/profile/health-care-settings/scheduling-preferences',
   HEALTH_CARE_CONTACTS: '/profile/contacts',
-  SECURE_MESSAGES_SIGNATURE: '/profile/mhv-signature',
+  MESSAGES_SIGNATURE: '/profile/message-signature',
   DEPENDENTS_AND_CONTACTS: '/profile/dependents-and-contacts',
   CONTACTS: '/profile/contacts',
   ACCREDITED_REPRESENTATIVE: '/profile/accredited-representative',
@@ -78,7 +79,7 @@ export const PROFILE_PATH_NAMES = Object.freeze({
   HEALTH_CARE_SETTINGS: 'Health care settings',
   SCHEDULING_PREFERENCES: 'Scheduling preferences',
   HEALTH_CARE_CONTACTS: 'Health care contacts',
-  SECURE_MESSAGES_SIGNATURE: 'Secure messages signature',
+  MESSAGES_SIGNATURE: 'Messages signature',
   DEPENDENTS_AND_CONTACTS: 'Dependents and contacts',
   CONTACTS: 'Personal health care contacts',
   ACCREDITED_REPRESENTATIVE: 'Accredited representative or VSO',

@@ -9,24 +9,23 @@ export const Balances = ({
   showVHAPaymentHistory = false,
 }) => {
   const single = (
-    <div>
+    <>
       <h2 id="balance-list" className="vads-u-margin-top--2">
         What you owe to your facility
       </h2>
-      <p>{paginationText}</p>
-    </div>
+    </>
   );
   const multiple = (
-    <div>
+    <>
       <h2 id="balance-list" className="vads-u-margin-top--2">
         Your most recent statement balances for the last six months
       </h2>
-      <p>{paginationText}</p>
-    </div>
+      {paginationText && <p>{paginationText}</p>}
+    </>
   );
 
   return (
-    <article className="vads-u-padding--0">
+    <>
       {statements?.length === 1 ? single : multiple}
       {showVHAPaymentHistory ? null : (
         <p>
@@ -54,7 +53,7 @@ export const Balances = ({
           );
         })}
       </ul>
-    </article>
+    </>
   );
 };
 

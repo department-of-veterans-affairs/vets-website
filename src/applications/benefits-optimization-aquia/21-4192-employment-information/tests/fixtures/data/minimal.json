@@ -24,8 +24,7 @@
       }
     },
     "employmentDates": {
-      "beginningDate": "2020-01-15",
-      "currentlyEmployed": true
+      "beginningDate": "2020-01-15"
     },
     "employmentEarningsHours": {
       "typeOfWork": "Intelligence operative and field agent for covert operations supporting resistance activities and strategic planning missions",
@@ -49,7 +48,7 @@
       "grossMonthlyAmount": 2500,
       "startReceivingDate": "2020-02-01",
       "firstPaymentDate": "2020-02-15",
-      "stopReceivingDate": ""
+      "stopReceivingDate": "2024-12-31"
     },
     "remarks": {
       "remarks": "Currently employed veteran with ongoing service to intelligence operations. Has middle name. Demonstrates currently employed scenario where no employment ending date is provided. Receives current ongoing benefits with no stop date. Not in Reserve/Guard status. Tests signature validation disabled with different name."
