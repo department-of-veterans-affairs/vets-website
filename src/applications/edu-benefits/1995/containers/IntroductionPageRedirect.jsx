@@ -1,7 +1,6 @@
 import React, { useEffect, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
@@ -10,9 +9,8 @@ import { getIntroState } from 'platform/forms/exportsFile';
 import { fetchClaimantInfo } from '../actions';
 import { selectMeb1995Reroute } from '../selectors/featureToggles';
 
-export const IntroductionPageRedirect = ({ route }) => {
+export const IntroductionPageRedirect = ({ route, router }) => {
   const dispatch = useDispatch();
-  const history = useHistory();
   const rerouteFlag = useSelector(selectMeb1995Reroute);
   const { user, formId, formData } = useSelector(state => getIntroState(state));
 
@@ -30,9 +28,9 @@ export const IntroductionPageRedirect = ({ route }) => {
       const data = formData || {};
       const startingPath = route.pageList[0]?.path;
       const startPage = getNextPagePath(route.pageList, data, startingPath);
-      history.push(startPage);
+      router.push(startPage);
     },
-    [formData, route.pageList, history],
+    [formData, route.pageList, router],
   );
 
   const renderSaveInProgressIntro = useCallback(
@@ -146,14 +144,8 @@ IntroductionPageRedirect.propTypes = {
     }),
     pageList: PropTypes.array,
   }).isRequired,
-};
-IntroductionPageRedirect.propTypes = {
-  route: PropTypes.shape({
-    formConfig: PropTypes.shape({
-      prefillEnabled: PropTypes.bool,
-      savedFormMessages: PropTypes.shape({}),
-    }),
-    pageList: PropTypes.array,
+  router: PropTypes.shape({
+    push: PropTypes.func.isRequired,
   }).isRequired,
 };
 
