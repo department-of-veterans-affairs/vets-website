@@ -136,7 +136,212 @@ describe('addressPattern mapping functions', () => {
     });
   });
 
-  describe('addressSchema', () => {
+  describe('addressSchema with key mapping', () => {
+    describe('without key mapping (newSchemaKeys empty)', () => {
+      it('should return standard schema when no newSchemaKeys provided', () => {
+        const result = addressSchema();
+
+        expect(result).to.have.property('type', 'object');
+        expect(result).to.have.property('properties');
+        expect(result.properties).to.have.property('street');
+        expect(result.properties).to.have.property('street2');
+        expect(result.properties).to.have.property('street3');
+        expect(result.properties).to.have.property('postalCode');
+        expect(result.properties).to.have.property('city');
+        expect(result.properties).to.have.property('state');
+        expect(result.properties).to.have.property('country');
+        expect(result.properties).to.have.property('isMilitary');
+      });
+      it('should omit specified fields when omit array provided and no newSchemaKeys', () => {
+        const result = addressSchema({ omit: ['street2', 'street3'] });
+
+        // Should have standard fields except omitted ones
+        expect(result.properties).to.have.property('street');
+        expect(result.properties).to.have.property('postalCode');
+        expect(result.properties).to.have.property('city');
+        expect(result.properties).to.have.property('state');
+        expect(result.properties).to.have.property('country');
+        expect(result.properties).to.have.property('isMilitary');
+
+        // Should not have omitted fields
+        expect(result.properties).to.not.have.property('street2');
+        expect(result.properties).to.not.have.property('street3');
+      });
+
+      it('should return all fields when empty omit array provided', () => {
+        const result = addressSchema({ omit: [] });
+
+        expect(result.properties).to.have.property('street');
+        expect(result.properties).to.have.property('street2');
+        expect(result.properties).to.have.property('street3');
+        expect(result.properties).to.have.property('postalCode');
+      });
+    });
+
+    describe('with key mapping (newSchemaKeys provided)', () => {
+      it('should map field keys when newSchemaKeys provided', () => {
+        const newSchemaKeys = {
+          street: 'addressLine1',
+          street2: 'addressLine2',
+          street3: 'addressLine3',
+          postalCode: 'zipCode',
+        };
+
+        const result = addressSchema({ newSchemaKeys });
+
+        // Should have mapped keys
+        expect(result.properties).to.have.property('addressLine1');
+        expect(result.properties).to.have.property('addressLine2');
+        expect(result.properties).to.have.property('addressLine3');
+        expect(result.properties).to.have.property('zipCode');
+
+        // Should not have original keys
+        expect(result.properties).to.not.have.property('street');
+        expect(result.properties).to.not.have.property('street2');
+        expect(result.properties).to.not.have.property('street3');
+        expect(result.properties).to.not.have.property('postalCode');
+
+        // Should still have unmapped keys
+        expect(result.properties).to.have.property('city');
+        expect(result.properties).to.have.property('state');
+        expect(result.properties).to.have.property('country');
+        expect(result.properties).to.have.property('isMilitary');
+      });
+
+      it('should preserve property configurations when mapping keys', () => {
+        const newSchemaKeys = {
+          street: 'addressLine1',
+          postalCode: 'zipCode',
+        };
+
+        const result = addressSchema({ newSchemaKeys });
+
+        // Check that property definitions are preserved
+        expect(result.properties.addressLine1).to.have.property(
+          'type',
+          'string',
+        );
+        expect(result.properties.addressLine1).to.have.property('minLength', 1);
+        expect(result.properties.addressLine1).to.have.property(
+          'maxLength',
+          100,
+        );
+
+        expect(result.properties.zipCode).to.have.property('type', 'string');
+      });
+
+      it('should apply omit filtering with mapped keys', () => {
+        const newSchemaKeys = {
+          street: 'addressLine1',
+          street2: 'addressLine2',
+          street3: 'addressLine3',
+          postalCode: 'zipCode',
+        };
+
+        const result = addressSchema({
+          newSchemaKeys,
+          omit: ['street3', 'isMilitary'],
+        });
+
+        // Should have mapped keys (except omitted ones)
+        expect(result.properties).to.have.property('addressLine1');
+        expect(result.properties).to.have.property('addressLine2');
+        expect(result.properties).to.have.property('zipCode');
+
+        // Should not have omitted fields
+        expect(result.properties).to.not.have.property('addressLine3');
+        expect(result.properties).to.not.have.property('street3');
+        expect(result.properties).to.not.have.property('isMilitary');
+
+        // Should still have other unmapped, non-omitted keys
+        expect(result.properties).to.have.property('city');
+        expect(result.properties).to.have.property('state');
+        expect(result.properties).to.have.property('country');
+      });
+      it('should omit using mapped key names in omit array', () => {
+        const newSchemaKeys = {
+          street: 'addressLine1',
+          postalCode: 'zipCode',
+        };
+
+        const result = addressSchema({
+          newSchemaKeys,
+          omit: ['addressLine1', 'zipCode'], // Using mapped names in omit
+        });
+
+        // Should not have the omitted mapped keys
+        expect(result.properties).to.not.have.property('addressLine1');
+        expect(result.properties).to.not.have.property('street');
+        expect(result.properties).to.not.have.property('zipCode');
+        expect(result.properties).to.not.have.property('postalCode');
+
+        // Should still have unmapped, non-omitted keys
+        expect(result.properties).to.have.property('street2');
+        expect(result.properties).to.have.property('street3');
+        expect(result.properties).to.have.property('city');
+        expect(result.properties).to.have.property('state');
+      });
+
+      it('should handle partial key mapping correctly', () => {
+        const newSchemaKeys = {
+          postalCode: 'zipCode',
+        };
+
+        const result = addressSchema({ newSchemaKeys });
+
+        // Should have mapped key
+        expect(result.properties).to.have.property('zipCode');
+        expect(result.properties).to.not.have.property('postalCode');
+        // Should keep unmapped keys with original names
+        expect(result.properties).to.have.property('street');
+        expect(result.properties).to.have.property('street2');
+        expect(result.properties).to.have.property('street3');
+        expect(result.properties).to.have.property('city');
+        expect(result.properties).to.have.property('state');
+      });
+    });
+
+    describe('edge cases', () => {
+      it('should handle empty newSchemaKeys object', () => {
+        const result = addressSchema({ newSchemaKeys: {} });
+
+        // Should behave like no newSchemaKeys provided
+        expect(result.properties).to.have.property('street');
+        expect(result.properties).to.have.property('postalCode');
+      });
+
+      it('should handle undefined options parameter', () => {
+        const result = addressSchema();
+
+        expect(result).to.have.property('type', 'object');
+        expect(result).to.have.property('properties');
+        expect(result.properties).to.have.property('street');
+      });
+
+      it('should handle options with undefined newSchemaKeys', () => {
+        const result = addressSchema({ newSchemaKeys: undefined });
+
+        expect(result.properties).to.have.property('street');
+        expect(result.properties).to.have.property('postalCode');
+      });
+
+      it('should handle mapping keys that do not exist in original schema', () => {
+        const newSchemaKeys = {
+          street: 'addressLine1',
+          nonExistentField: 'mappedNonExistent',
+        };
+
+        const result = addressSchema({ newSchemaKeys });
+
+        // Should map existing fields
+        expect(result.properties).to.have.property('addressLine1');
+        expect(result.properties).to.not.have.property('street');
+
+        // Should ignore mapping for non-existent fields
+        expect(result.properties).to.not.have.property('mappedNonExistent');
+        expect(result.properties).to.not.have.property('nonExistentField');
+      });
+    });
     it('should return schema with mapped property keys', () => {
       const newSchemaKeys = {
         street: 'addressLine1',
@@ -201,16 +406,6 @@ describe('addressPattern mapping functions', () => {
       expect(result.properties).to.not.have.property('street3');
       expect(result.properties).to.not.have.property('addressLine3');
       expect(result.properties).to.not.have.property('isMilitary');
-    });
-
-    it('should work with empty newSchemaKeys', () => {
-      const result = addressSchema({});
-
-      // Should return standard property names
-      expect(result.properties).to.have.property('street');
-      expect(result.properties).to.have.property('street2');
-      expect(result.properties).to.have.property('street3');
-      expect(result.properties).to.have.property('postalCode');
     });
   });
 
@@ -383,6 +578,45 @@ describe('addressPattern mapping functions', () => {
       // Should work like regular updateFormDataAddress
       expect(result.address.city).to.equal('');
       expect(result.address.state).to.equal('');
+    });
+
+    it('should omit fields when both keyMap and omit are provided', () => {
+      const newSchemaKeys = {
+        street: 'addressLine1',
+        postalCode: 'zipCode',
+      };
+
+      const result = addressUI({
+        newSchemaKeys,
+        omit: ['street2', 'street3'],
+      });
+
+      // Should have mapped keys
+      expect(result).to.have.property('addressLine1');
+      expect(result).to.have.property('zipCode');
+
+      // Should NOT have omitted fields
+      expect(result).to.not.have.property('street2');
+      expect(result).to.not.have.property('street3');
+
+      // Should still have other unmapped, non-omitted fields
+      expect(result).to.have.property('city');
+      expect(result).to.have.property('state');
+    });
+
+    it('should omit using mapped field names in omit array', () => {
+      const newSchemaKeys = {
+        street: 'addressLine1',
+      };
+
+      const result = addressUI({
+        newSchemaKeys,
+        omit: ['addressLine1'], // Omit using the mapped name
+      });
+
+      // Should NOT have the mapped field (omitted by mapped name)
+      expect(result).to.not.have.property('addressLine1');
+      expect(result).to.not.have.property('street');
     });
   });
 
