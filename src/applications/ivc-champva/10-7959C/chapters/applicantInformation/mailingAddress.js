@@ -6,7 +6,6 @@ import {
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { nameWording, privWrapper } from '../../../shared/utilities';
-import { validAddressCharsOnly } from '../../../shared/validations';
 
 const TITLE_TEXT = 'mailing address';
 const DESC_TEXT =
@@ -45,10 +44,6 @@ export default {
       hint: ADDRESS_HINT_TEXT,
       labels: SCHEMA_LABELS,
     }),
-    'ui:validations': [
-      (errors, formData) =>
-        validAddressCharsOnly(errors, null, formData, 'applicantAddress'),
-    ],
   },
   schema: {
     type: 'object',

@@ -51,5 +51,7 @@
   "health-insurance--effective-date-label": "Insurance start date",
   "health-insurance--effective-date-hint": "This information is on the insurance policy declarations page.",
   "health-insurance--termination-date-label": "Insurance termination date",
-  "health-insurance--termination-date-hint": "Only enter this date if the policy is inactive."
+  "health-insurance--termination-date-hint": "Only enter this date if the policy is inactive.",
+  "validation--text-characters--singular": "You entered a character we can\u2019t accept. Try removing this character",
+  "validation--text-characters--plural": "You entered multiple characters we can\u2019t accept. Try removing these characters"
 }

@@ -5,8 +5,7 @@ import {
   textSchema,
   textUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { validFieldCharsOnly } from '../../../shared/validations';
-import { validateDateRange } from '../../utils/validation';
+import { validateChars, validateDateRange } from '../../utils/validation';
 import content from '../../locales/en/content.json';
 
 const TITLE_TEXT = content['health-insurance--provider-title'];
@@ -22,7 +21,6 @@ const HINT_TEXT = {
 };
 
 const VALIDATIONS = [
-  (errors, formData) => validFieldCharsOnly(errors, null, formData, 'provider'),
   (errors, formData) =>
     validateDateRange(errors, formData, {
       startDateKey: 'effectiveDate',
@@ -33,7 +31,7 @@ const VALIDATIONS = [
 export default {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(TITLE_TEXT),
-    provider: textUI(PROVIDER_LABEL),
+    provider: textUI({ title: PROVIDER_LABEL, validations: [validateChars] }),
     effectiveDate: currentOrPastDateUI({
       title: INPUT_LABELS.effectiveDate,
       hint: HINT_TEXT.effectiveDate,
