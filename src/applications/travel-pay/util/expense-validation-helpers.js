@@ -478,3 +478,33 @@ export const validateLodgingFields = (formState, errors, fieldName) => {
 
   return nextErrors;
 };
+
+/**
+ * Validates Meal expense fields for a form.
+ *
+ * Rules:
+ *  - vendorName: required
+ *
+ * Can validate all fields or a single field (via `fieldName`).
+ *
+ * @param {Object} formState - The current state of the expense form
+ * @param {Object} errors - The current validation errors object
+ * @param {string} [fieldName] - Optional. Name of the field being updated.
+ * @returns {Object} nextErrors - Updated errors object with validation results
+ */
+export const validateMealFields = (formState, errors, fieldName) => {
+  const nextErrors = { ...errors };
+
+  // Use helper to determine which fields to validate
+  const fieldsToValidate = getFieldsToValidate(['vendorName'], fieldName);
+
+  if (fieldsToValidate.includes('vendorName')) {
+    nextErrors.vendorName = formState.vendorName
+      ? undefined
+      : 'Enter the name on your receipt';
+
+    if (!nextErrors.vendorName) delete nextErrors.vendorName;
+  }
+
+  return nextErrors;
+};
