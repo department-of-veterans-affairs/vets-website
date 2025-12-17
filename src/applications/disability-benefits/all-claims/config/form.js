@@ -209,7 +209,6 @@ const formConfig = {
     veteranDetails: {
       title: ({ onReviewPage }) =>
         `${onReviewPage ? 'Review ' : ''}Veteran Details`,
-      reviewTitle: 'Review Veteran Details',
       pages: {
         veteranInformation: {
           title: 'Veteran information',

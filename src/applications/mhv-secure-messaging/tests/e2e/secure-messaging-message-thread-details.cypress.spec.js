@@ -52,7 +52,7 @@ describe('SM THREAD SINGLE MESSAGE DETAILED VIEW', () => {
     ]);
 
     it('moves folders with ease', () => {
-      cy.intercept('**/v1/messaging/threads/2666253/move?folder_id=*', {
+      cy.intercept('**/v1/messaging/threads/7176615/move?folder_id=*', {
         statusCode: 200,
       }).as('mockMoveThread');
 

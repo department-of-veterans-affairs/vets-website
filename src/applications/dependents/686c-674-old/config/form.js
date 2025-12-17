@@ -10,7 +10,6 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import CustomPreSubmitInfo from '../components/CustomPreSubmitInfo';
 import GetFormHelp from '../components/GetFormHelp';
 import { customSubmit686 } from '../analytics/helpers';
-import CustomTopContent from '../components/CustomTopContent';
 
 // Chapter imports
 import { formerSpouseInformation } from './chapters/report-divorce';
@@ -71,7 +70,6 @@ const formConfig = {
   trackingPrefix: 'disability-21-686c-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  CustomTopContent,
   preSubmitInfo: CustomPreSubmitInfo,
   formId: VA_FORM_IDS.FORM_21_686C,
   saveInProgress: {

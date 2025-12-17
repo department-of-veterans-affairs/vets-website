@@ -129,7 +129,11 @@ class MedicationsDetailsPage {
     // http://localhost:3001/my-health/medications?page=1  << previous
   };
 
-  clickMedicationsListPageTwoBreadcrumbsOnDetailsPage = () => {
+  clickMedicationsListPageTwoBreadcrumbsOnDetailsPageAndVerifyNavigation = (
+    displayedStartNumber,
+    displayedEndNumber,
+    listLength,
+  ) => {
     cy.get('[data-testid="rx-breadcrumb-link"]')
       .shadow()
       .find('a')
@@ -137,6 +141,12 @@ class MedicationsDetailsPage {
       .click({
         waitForAnimations: true,
       });
+    cy.get('[data-testid="page-total-info"]').should($el => {
+      const text = $el.text().trim();
+      expect(text).to.include(
+        `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength}  medications, alphabetically by status`,
+      );
+    });
     // cy.get('[data-testid="rx-breadcrumb"] > :nth-child(2) > a').should('exist');
     // cy.get('[data-testid="rx-breadcrumb"]').click({
     //   waitForAnimations: true,
@@ -240,9 +250,10 @@ class MedicationsDetailsPage {
   };
 
   verifyDiscontinuedStatusDropDownDefinition = () => {
-    cy.get(
-      '[data-testid="status-dropdown"] > [data-testid="discontinued-status-definition"]',
-    ).should('contain', 'You can’t refill this prescription.');
+    cy.get('[data-testid="discontinued-status-definition"]').should(
+      'contain',
+      'You can’t refill this prescription. We may use this status for either of these reasons:',
+    );
   };
 
   verifyExpiredStatusDropDownDefinition = () => {
@@ -372,7 +383,7 @@ class MedicationsDetailsPage {
   verifyExpiredStatusDescriptionOnDetailsPage = () => {
     cy.get('[data-testid="expired"]').should(
       'contain',
-      'This prescription is too old to refill',
+      'This prescription is too old to refill. If you need more, request a renewal.',
     );
   };
 

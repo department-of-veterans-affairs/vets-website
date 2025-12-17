@@ -7,7 +7,7 @@ import {
 export const identification = {
   uiSchema: {
     ...titleUI({
-      title: "Child's identification information",
+      title: 'Child’s identification information',
     }),
     ssn: {
       ...ssnUI('Child’s Social Security number'),

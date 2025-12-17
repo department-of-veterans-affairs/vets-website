@@ -1,18 +1,10 @@
 import React from 'react';
 import moment from 'moment/moment';
-import IntroductionPage from './containers/IntroductionPage';
-import IntroductionPageUpdate from './containers/IntroductionPageUpdate';
 import { convertToggle } from '../utils/helpers';
 
 export const isProductionOfTestProdEnv = automatedTest => {
   const toggle = convertToggle();
   return toggle || automatedTest || global?.window?.isProd;
-};
-
-export const introductionPage = (automatedTest = false) => {
-  return isProductionOfTestProdEnv(automatedTest)
-    ? IntroductionPage
-    : IntroductionPageUpdate;
 };
 
 export const sponsorInformationTitle = (automatedTest = false) => {
@@ -118,6 +110,10 @@ export const isEighteenOrOlder = (birthday, automatedTest = false) => {
 };
 export const showRudisill1995 = () => {
   return sessionStorage.getItem('isRudisill1995') === 'true';
+};
+
+export const getLastBenefitUsed = () => {
+  return sessionStorage.getItem('meb1995LastBenefitUsed');
 };
 
 export const SeventeenOrOlder = birthday => {
