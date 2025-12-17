@@ -1,14 +1,13 @@
 import React from 'react';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import RouterLinkAction from '../../../components/shared/RouterLinkAction';
 import reducer from '../../../reducers';
 
-describe('RouterLinkAction component', () => {
+describe('RouterLinkAction', () => {
   const initialState = {
-    sm: {
-      alerts: { alertList: [] },
-    },
+    sm: {},
   };
 
   const setup = (customProps = {}) => {
@@ -43,31 +42,16 @@ describe('RouterLinkAction component', () => {
     expect(link.getAttribute('text')).to.equal('Test Link Text');
   });
 
-  it('renders with action link styling by default (VaLinkAction is always styled as action link)', () => {
-    const { container } = setup();
-    const link = container.querySelector('va-link-action');
-    expect(link).to.exist;
-    // VaLinkAction is always styled as an action link
-  });
-
-  it('renders with action link styling when active={false} (VaLinkAction ignores active prop)', () => {
-    const { container } = setup({ active: false });
-    const link = container.querySelector('va-link-action');
-    expect(link).to.exist;
-    // VaLinkAction is always styled as an action link - active prop is ignored
-  });
-
-  it('renders with action link styling when active={true} (VaLinkAction ignores active prop)', () => {
-    const { container } = setup({ active: true });
-    const link = container.querySelector('va-link-action');
-    expect(link).to.exist;
-    // VaLinkAction is always styled as an action link - active prop is ignored
-  });
-
   it('renders with label attribute when provided', () => {
     const { container } = setup({ label: 'Custom aria label' });
     const link = container.querySelector('va-link-action');
     expect(link.getAttribute('label')).to.equal('Custom aria label');
+  });
+
+  it('does not render label attribute when not provided', () => {
+    const { container } = setup();
+    const link = container.querySelector('va-link-action');
+    expect(link).to.not.have.attribute('label');
   });
 
   it('renders with reverse attribute when reverse=true', () => {
@@ -82,39 +66,118 @@ describe('RouterLinkAction component', () => {
     expect(link).to.not.have.attribute('reverse');
   });
 
-  it('passes through additional props', () => {
-    const { container } = setup({ 'data-testid': 'custom-test-id' });
+  it('passes through data attributes', () => {
+    const { container } = setup({
+      'data-testid': 'custom-test-id',
+      'data-dd-action-name': 'Test Action',
+    });
     const link = container.querySelector('va-link-action');
     expect(link.getAttribute('data-testid')).to.equal('custom-test-id');
+    expect(link.getAttribute('data-dd-action-name')).to.equal('Test Action');
   });
 
-  describe('React Router integration', () => {
-    it('renders with correct href for internal navigation', () => {
-      const { container } = setup({
-        href: '/my-health/secure-messages/compose',
-      });
+  describe('click navigation (history.push)', () => {
+    it('should navigate to correct path on click', () => {
+      const { container, history } = renderWithStoreAndRouter(
+        <RouterLinkAction
+          href="/my-health/secure-messages/compose"
+          text="Start a new message"
+          data-testid="click-test-link"
+        />,
+        {
+          initialState,
+          reducers: reducer,
+          path: '/my-health/secure-messages',
+        },
+      );
+
       const link = container.querySelector('va-link-action');
 
-      expect(link).to.exist;
-      expect(link.getAttribute('href')).to.equal(
+      // Simulate click
+      const clickEvent = new MouseEvent('click', {
+        bubbles: true,
+        cancelable: true,
+      });
+      link.dispatchEvent(clickEvent);
+
+      // Verify navigation occurred by checking history location
+      expect(history.location.pathname).to.equal(
         '/my-health/secure-messages/compose',
       );
     });
 
-    it('handles paths with query parameters', () => {
-      const hrefWithQuery = '/my-health/secure-messages/inbox?folder=custom';
-      const { container } = setup({ href: hrefWithQuery });
-      const link = container.querySelector('va-link-action');
+    it('should prevent default browser navigation on click', () => {
+      const { container } = renderWithStoreAndRouter(
+        <RouterLinkAction
+          href="/my-health/secure-messages/inbox"
+          text="Go to inbox"
+        />,
+        {
+          initialState,
+          reducers: reducer,
+        },
+      );
 
-      expect(link.getAttribute('href')).to.equal(hrefWithQuery);
+      const link = container.querySelector('va-link-action');
+      const clickEvent = new MouseEvent('click', {
+        bubbles: true,
+        cancelable: true,
+      });
+      const preventDefaultSpy = sinon.spy(clickEvent, 'preventDefault');
+
+      link.dispatchEvent(clickEvent);
+
+      expect(preventDefaultSpy.calledOnce).to.be.true;
     });
 
-    it('handles paths with hash fragments', () => {
-      const hrefWithHash = '/profile/personal-information#messaging-signature';
-      const { container } = setup({ href: hrefWithHash });
+    it('should navigate to paths with query parameters', () => {
+      const { container, history } = renderWithStoreAndRouter(
+        <RouterLinkAction
+          href="/my-health/secure-messages/inbox?folder=custom"
+          text="View folder"
+        />,
+        {
+          initialState,
+          reducers: reducer,
+          path: '/my-health/secure-messages',
+        },
+      );
+
       const link = container.querySelector('va-link-action');
 
-      expect(link.getAttribute('href')).to.equal(hrefWithHash);
+      link.dispatchEvent(
+        new MouseEvent('click', { bubbles: true, cancelable: true }),
+      );
+
+      expect(history.location.pathname).to.equal(
+        '/my-health/secure-messages/inbox',
+      );
+      expect(history.location.search).to.equal('?folder=custom');
+    });
+
+    it('should navigate to paths with hash fragments', () => {
+      const { container, history } = renderWithStoreAndRouter(
+        <RouterLinkAction
+          href="/profile/personal-information#messaging-signature"
+          text="Edit signature"
+        />,
+        {
+          initialState,
+          reducers: reducer,
+          path: '/profile',
+        },
+      );
+
+      const link = container.querySelector('va-link-action');
+
+      link.dispatchEvent(
+        new MouseEvent('click', { bubbles: true, cancelable: true }),
+      );
+
+      expect(history.location.pathname).to.equal(
+        '/profile/personal-information',
+      );
+      expect(history.location.hash).to.equal('#messaging-signature');
     });
   });
 
@@ -133,13 +196,16 @@ describe('RouterLinkAction component', () => {
     });
   });
 
-  describe('component variants', () => {
-    it('renders with action link styling (VaLinkAction default behavior)', () => {
-      const { container } = setup({ text: 'Primary Action' });
-      const link = container.querySelector('va-link-action');
+  describe('VADS compliance', () => {
+    it('uses action link styling for primary CTAs', () => {
+      const { container } = setup({
+        href: '/my-health/secure-messages/compose',
+        text: 'Start a new message',
+      });
 
-      expect(link).to.have.attribute('text', 'Primary Action');
-      // VaLinkAction is always styled as an action link
+      const link = container.querySelector('va-link-action');
+      expect(link).to.exist;
+      expect(link.tagName).to.equal('VA-LINK-ACTION');
     });
 
     it('renders reverse styling for dark backgrounds', () => {
@@ -148,103 +214,6 @@ describe('RouterLinkAction component', () => {
 
       expect(link).to.have.attribute('reverse');
       expect(link.getAttribute('text')).to.equal('Reverse Action');
-    });
-  });
-
-  describe('router navigation', () => {
-    it('renders link that will navigate via React Router when clicked', () => {
-      const { container } = setup({
-        href: '/my-health/secure-messages/compose',
-        text: 'Start a new message',
-      });
-
-      const link = container.querySelector('va-link-action');
-
-      // Verify link exists and has correct attributes for router navigation
-      expect(link).to.exist;
-      expect(link.getAttribute('href')).to.equal(
-        '/my-health/secure-messages/compose',
-      );
-      expect(link.getAttribute('text')).to.equal('Start a new message');
-      // VaLinkAction is always styled as an action link
-    });
-
-    it('renders with paths containing query parameters', () => {
-      const { container } = setup({
-        href: '/my-health/secure-messages/inbox?folder=custom',
-        text: 'View custom folder',
-      });
-
-      const link = container.querySelector('va-link-action');
-      expect(link.getAttribute('href')).to.equal(
-        '/my-health/secure-messages/inbox?folder=custom',
-      );
-    });
-
-    it('renders with paths containing hash fragments', () => {
-      const { container } = setup({
-        href: '/profile/personal-information#messaging-signature',
-        text: 'Edit signature',
-      });
-
-      const link = container.querySelector('va-link-action');
-      expect(link.getAttribute('href')).to.equal(
-        '/profile/personal-information#messaging-signature',
-      );
-    });
-  });
-
-  describe('VADS compliance', () => {
-    it('renders action link styling for primary CTAs (VaLinkAction default behavior)', () => {
-      const { container } = setup({
-        href: '/my-health/secure-messages/compose',
-        text: 'Start a new message',
-      });
-
-      const link = container.querySelector('va-link-action');
-      expect(link).to.exist;
-      // VaLinkAction is always styled as an action link
-    });
-
-    it('renders action link styling for utility links (VaLinkAction ignores active prop)', () => {
-      const { container } = setup({
-        href: '/profile/personal-information#messaging-signature',
-        text: 'Edit signature for all messages',
-        active: false,
-      });
-
-      const link = container.querySelector('va-link-action');
-      expect(link).to.exist;
-      // VaLinkAction is always styled as an action link - active prop is ignored
-    });
-
-    it('supports action link in alert context', () => {
-      const { container } = setup({
-        href: '/my-health/secure-messages/inbox',
-        text: 'Go to your inbox',
-        'data-dd-action-name': 'Navigate to inbox from alert',
-      });
-
-      const link = container.querySelector('va-link-action');
-      expect(link).to.exist;
-      expect(link.getAttribute('data-dd-action-name')).to.equal(
-        'Navigate to inbox from alert',
-      );
-      // VaLinkAction is always styled as an action link
-    });
-
-    it('supports action link in form context (VaLinkAction ignores active prop)', () => {
-      const { container } = setup({
-        href: '/profile/personal-information',
-        text: 'Edit profile',
-        active: false,
-        'data-testid': 'edit-profile-link',
-      });
-
-      const link = container.querySelector('va-link-action');
-      expect(link).to.exist;
-      expect(link.getAttribute('data-testid')).to.equal('edit-profile-link');
-      // VaLinkAction is always styled as an action link - active prop is ignored
     });
   });
 });

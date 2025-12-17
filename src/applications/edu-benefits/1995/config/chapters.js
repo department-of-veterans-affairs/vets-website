@@ -217,10 +217,15 @@ export const chapters = {
   sponsorInformation: {
     title: sponsorInformationTitle(),
     pages: {
-      sponsorInformation: {
-        ...sponsorInfo(fullSchema1995),
-        depends: isLegacyFlow,
-      },
+      sponsorInformation: (() => {
+        const page = sponsorInfo(fullSchema1995);
+        const originalDepends = page.depends;
+        return {
+          ...page,
+          depends: formData =>
+            isLegacyFlow(formData) && originalDepends(formData),
+        };
+      })(),
     },
   },
   militaryService,
@@ -282,6 +287,7 @@ export const mebChapters = {
         path: 'questionnaire/your-information',
         title: 'Your information',
         depends: formData => isRerouteEnabledOnForm(formData),
+        hideSaveLinkAndStatus: true,
         ...yourInformationPage(),
       },
       mebBenefitSelection: {
@@ -289,6 +295,7 @@ export const mebChapters = {
         depends: formData =>
           isRerouteEnabledOnForm(formData) &&
           formData.mebWhatDoYouWantToDo === 'switch-benefit',
+        hideSaveLinkAndStatus: true,
         ...benefitSwitchPage(),
       },
       sameBenefitResult: {
@@ -298,6 +305,7 @@ export const mebChapters = {
         depends: formData =>
           isRerouteEnabledOnForm(formData) &&
           formData.mebWhatDoYouWantToDo === 'same-benefit',
+        hideSaveLinkAndStatus: true,
         hideNavButtons: true,
         ...sameBenefitResultPage(),
       },
@@ -306,6 +314,7 @@ export const mebChapters = {
         depends: formData =>
           isRerouteEnabledOnForm(formData) &&
           formData.mebWhatDoYouWantToDo === 'foreign-school',
+        hideSaveLinkAndStatus: true,
         hideNavButtons: true,
         ...foreignSchoolResultPage(),
       },
@@ -316,6 +325,7 @@ export const mebChapters = {
           isRerouteEnabledOnForm(formData) &&
           formData.mebWhatDoYouWantToDo === 'switch-benefit' &&
           formData.mebBenefitSelection === 'mgib-ad',
+        hideSaveLinkAndStatus: true,
         hideNavButtons: true,
         ...mgibAdResultPage(),
       },
@@ -326,6 +336,7 @@ export const mebChapters = {
           isRerouteEnabledOnForm(formData) &&
           formData.mebWhatDoYouWantToDo === 'switch-benefit' &&
           formData.mebBenefitSelection === 'mgib-sr',
+        hideSaveLinkAndStatus: true,
         hideNavButtons: true,
         ...mgibSrResultPage(),
       },
@@ -336,6 +347,7 @@ export const mebChapters = {
           isRerouteEnabledOnForm(formData) &&
           formData.mebWhatDoYouWantToDo === 'switch-benefit' &&
           formData.mebBenefitSelection === 'toe',
+        hideSaveLinkAndStatus: true,
         hideNavButtons: true,
         ...toeResultPage(),
       },
@@ -346,6 +358,7 @@ export const mebChapters = {
           isRerouteEnabledOnForm(formData) &&
           formData.mebWhatDoYouWantToDo === 'switch-benefit' &&
           formData.mebBenefitSelection === 'dea',
+        hideSaveLinkAndStatus: true,
         hideNavButtons: true,
         ...deaResultPage(),
       },
@@ -356,6 +369,7 @@ export const mebChapters = {
           isRerouteEnabledOnForm(formData) &&
           formData.mebWhatDoYouWantToDo === 'switch-benefit' &&
           formData.mebBenefitSelection === 'fry',
+        hideSaveLinkAndStatus: true,
         hideNavButtons: true,
         ...fryResultPage(),
       },

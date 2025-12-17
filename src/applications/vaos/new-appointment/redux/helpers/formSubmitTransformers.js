@@ -100,7 +100,7 @@ export function transformFormToVAOSCCRequest(state) {
   };
 }
 
-export function transformFormToVAOSVARequest(state, updateRequestFlow = false) {
+export function transformFormToVAOSVARequest(state, updateLimits = false) {
   const data = getFormData(state);
   const typeOfCare = getTypeOfCare(data);
 
@@ -114,7 +114,7 @@ export function transformFormToVAOSVARequest(state, updateRequestFlow = false) {
       data,
       isCC: false,
       isDS: false,
-      updateRequestFlow,
+      updateLimits,
     }),
     // comment: data.reasonAdditionalInfo,
     requestedPeriods: [
@@ -136,7 +136,7 @@ export function transformFormToVAOSVARequest(state, updateRequestFlow = false) {
   };
 }
 
-export function transformFormToVAOSAppointment(state) {
+export function transformFormToVAOSAppointment(state, updateLimits = false) {
   const data = getFormData(state);
   const { ehr } = state.newAppointment;
 
@@ -166,6 +166,7 @@ export function transformFormToVAOSAppointment(state) {
       data,
       isCC: false,
       isDS: true,
+      updateLimits,
     }),
   };
 }
