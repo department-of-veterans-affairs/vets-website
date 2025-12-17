@@ -113,13 +113,6 @@ const providerMock = {
   1770904021: 'Jones, Tillie',
 };
 
-const purposeText = {
-  ROUTINEVISIT: 'Routine/Follow-up',
-  MEDICALISSUE: 'New medical issue',
-  QUESTIONMEDS: 'Medication concern',
-  OTHER_REASON: 'My reason isn’t listed',
-};
-
 const responses = {
   'GET /facilities_api/v2/ccp/provider': ccProviders,
   'POST /vaos/v2/appointments': (req, res) => {
@@ -145,7 +138,6 @@ const responses = {
     }
     const pending = req.body.status === 'proposed';
     const future = req.body.status === 'booked';
-    let reasonForAppointment;
     let patientComments;
     let type;
     let modality;
@@ -156,10 +148,7 @@ const responses = {
     } else {
       const tokens = req.body.reasonCode?.text?.split('|') || [];
       for (const token of tokens) {
-        if (token.startsWith('reason code:')) {
-          reasonForAppointment =
-            purposeText[token.substring('reason code:'.length)];
-        } else if (token.startsWith('comments:')) {
+        if (token.startsWith('comments:')) {
           patientComments = token.substring('comments:'.length);
         }
       }
@@ -192,7 +181,6 @@ const responses = {
         },
         physicalLocation:
           selectedClinic[0]?.attributes.physicalLocation || null,
-        reasonForAppointment,
         patientComments,
         future,
         pending,
