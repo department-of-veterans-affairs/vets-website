@@ -24,22 +24,18 @@ import React, {
   useMemo,
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import {
-  VaAlert,
-  VaLink,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
 import useInterval from '../../hooks/use-interval';
 import { Alerts, Categories, Errors, Paths } from '../../util/constants';
 import { closeAlert, focusOutAlert } from '../../actions/alerts';
 import { retrieveFolder } from '../../actions/folders';
 import { formatPathName } from '../../util/helpers';
-import manifest from '../../manifest.json';
+import RouterLink from './RouterLink';
 
 const AlertBackgroundBox = props => {
-  const history = useHistory();
   const { setShowAlertBackgroundBox = () => {} } = props;
   const dispatch = useDispatch();
   const alertList = useSelector(state => state.sm.alerts?.alertList);
@@ -242,12 +238,8 @@ const AlertBackgroundBox = props => {
                 <strong>{alertContent}</strong>
                 {alertContent === Alerts.Message.SEND_MESSAGE_SUCCESS && (
                   <p className="vads-u-margin-y--0">
-                    <VaLink
-                      href={manifest.rootUrl + Paths.SENT}
-                      onClick={e => {
-                        e.preventDefault();
-                        history.push(Paths.SENT);
-                      }}
+                    <RouterLink
+                      href={Paths.SENT}
                       text="Review your sent messages"
                       data-dd-action-name="Sent messages link in success alert"
                     />
