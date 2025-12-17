@@ -1,6 +1,6 @@
 import featureFlagNames from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
-import { AXE_CONTEXT, Locators, Data } from '../utils/constants';
+import { AXE_CONTEXT, Locators, Data, Paths } from '../utils/constants';
 import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
 import PatientInboxPage from '../pages/PatientInboxPage';
 import PatientInterstitialPage from '../pages/PatientInterstitialPage';
@@ -22,6 +22,13 @@ describe('SM CURATED LIST MAIN FLOW WITH RECENT RECIPIENTS', () => {
     PatientInboxPage.loadInboxMessages();
   });
 
+  const clickContinueOnInterstitial = href => {
+    PatientInterstitialPage.getStartMessageLink()
+      .should('have.attr', 'href')
+      .and('contain', href);
+    PatientInterstitialPage.getStartMessageLink().click();
+  };
+
   const recentCareTeams = [
     '###ABC_XYZ_TRIAGE_TEAM###',
     'TG-7410',
@@ -37,8 +44,7 @@ describe('SM CURATED LIST MAIN FLOW WITH RECENT RECIPIENTS', () => {
     ).as('recentRecipients');
     PatientInboxPage.clickCreateNewMessage();
     cy.wait('@recentRecipients');
-    PatientInterstitialPage.getStartMessageLink().click();
-    cy.wait('@recentRecipients');
+    clickContinueOnInterstitial(Paths.RECENT_CARE_TEAMS);
     GeneralFunctionsPage.verifyPageHeader(Data.RECENT_RECIPIENTS_HEADER);
     GeneralFunctionsPage.verifyPageTitle(
       'Recently Messaged Care Teams - Start Message | Veterans Affairs',
@@ -78,8 +84,7 @@ describe('SM CURATED LIST MAIN FLOW WITH RECENT RECIPIENTS', () => {
     ).as('recentRecipients');
     PatientInboxPage.clickCreateNewMessage();
     cy.wait('@recentRecipients');
-    PatientInterstitialPage.getStartMessageLink().click();
-    cy.wait('@recentRecipients');
+    clickContinueOnInterstitial(Paths.RECENT_CARE_TEAMS);
     GeneralFunctionsPage.verifyPageHeader(Data.RECENT_RECIPIENTS_HEADER);
 
     cy.findByTestId(Locators.EMERGENCY_USE_EXPANDABLE_DATA_TEST_ID).should(
@@ -112,8 +117,7 @@ describe('SM CURATED LIST MAIN FLOW WITH RECENT RECIPIENTS', () => {
     ).as('recentRecipients');
     PatientInboxPage.clickCreateNewMessage();
     cy.wait('@recentRecipients');
-    PatientInterstitialPage.getStartMessageLink().click();
-    cy.wait('@recentRecipients');
+    clickContinueOnInterstitial(Paths.RECENT_CARE_TEAMS);
     GeneralFunctionsPage.verifyPageHeader(Data.RECENT_RECIPIENTS_HEADER);
 
     cy.findByLabelText(`${recentCareTeams[0]}VA Madison health care`).should(
@@ -145,7 +149,7 @@ describe('SM CURATED LIST MAIN FLOW WITH RECENT RECIPIENTS', () => {
     ).as('recentRecipients');
     PatientInboxPage.clickCreateNewMessage();
     cy.wait('@recentRecipients');
-    PatientInterstitialPage.getStartMessageLink().click();
+    clickContinueOnInterstitial(Paths.RECENT_CARE_TEAMS);
     GeneralFunctionsPage.verifyPageHeader(Data.RECENT_RECIPIENTS_HEADER);
 
     cy.findByLabelText('A different care team').click();
@@ -168,7 +172,7 @@ describe('SM CURATED LIST MAIN FLOW WITH RECENT RECIPIENTS', () => {
     ).as('recentRecipients');
     PatientInboxPage.clickCreateNewMessage();
     cy.wait('@recentRecipients');
-    PatientInterstitialPage.getStartMessageLink().click();
+    clickContinueOnInterstitial(Paths.SELECT_CARE_TEAM);
     GeneralFunctionsPage.verifyPageHeader(`Select care team`);
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
@@ -182,8 +186,7 @@ describe('SM CURATED LIST MAIN FLOW WITH RECENT RECIPIENTS', () => {
     ).as('recentRecipients');
     PatientInboxPage.clickCreateNewMessage();
     cy.wait('@recentRecipients');
-    PatientInterstitialPage.getStartMessageLink().click();
-    cy.wait('@recentRecipients');
+    clickContinueOnInterstitial(Paths.RECENT_CARE_TEAMS);
     GeneralFunctionsPage.verifyPageHeader(Data.RECENT_RECIPIENTS_HEADER);
 
     // Select the first recent care team

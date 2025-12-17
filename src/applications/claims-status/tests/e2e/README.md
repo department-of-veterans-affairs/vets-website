@@ -8,6 +8,7 @@
 
 ```
 tests/
+├── claim-letters/       # Claim letters page tests
 ├── details/             # Detail page tests
 ├── shared/              # Cross-cutting tests (loading states, etc.)
 └── your-claims/         # List page tests
@@ -16,6 +17,7 @@ support/
 ├── fixtures/            # Test data factories by endpoint
 │   ├── appeals.js       # Appeal data for /v0/appeals
 │   ├── benefitsClaims.js # Claim data for /v0/benefits_claims
+│   ├── claimLetters.js  # Claim letter data for /v0/claim_letters
 │   └── stemClaims.js    # STEM claim data for /v0/education_benefits_claims/stem_claim_status
 └── helpers/             # Reusable test utilities
     ├── mocks.js         # API mocking (mockFeatureToggles)
