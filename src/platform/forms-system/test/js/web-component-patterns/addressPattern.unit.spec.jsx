@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import sinon from 'sinon';
 import {
   addressUI,
   addressSchema,
@@ -7,16 +6,6 @@ import {
 } from '../../../src/js/web-component-patterns/addressPattern';
 
 describe('addressPattern mapping functions', () => {
-  let sandbox;
-
-  beforeEach(() => {
-    sandbox = sinon.createSandbox();
-  });
-
-  afterEach(() => {
-    sandbox.restore();
-  });
-
   describe('addressUI', () => {
     it('should return UI schema with mapped field keys', () => {
       const newSchemaKeys = {
