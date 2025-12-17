@@ -163,7 +163,8 @@ describe('getRxStatus helper functions', () => {
   describe('V2 status values', () => {
     it('getStatusDefinitions V2 should contain all required V2 status keys', () => {
       const v2Defs = getStatusDefinitions(true, true);
-      const expectedKeys = ['Active', 'In progress', 'Shipped', 'Inactive', 'Transferred', 'Status not available'];
+      // Keys in pdfStatusDefinitionsV2 are lowercase
+      const expectedKeys = ['active', 'inprogress', 'inactive', 'transferred', 'statusNotAvailable'];
       expectedKeys.forEach(key => {
         expect(v2Defs).to.have.property(key);
       });

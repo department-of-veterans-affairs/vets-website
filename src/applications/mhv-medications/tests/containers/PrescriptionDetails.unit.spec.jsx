@@ -25,6 +25,18 @@ import { DATETIME_FORMATS } from '../../util/constants';
 let sandbox;
 
 describe('Prescription details container', () => {
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+    stubAllergiesApi({ sandbox });
+    stubPrescriptionsApiCache({ sandbox });
+    stubPrescriptionIdApi({ sandbox });
+    stubUsePrefetch({ sandbox });
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
   const setup = (state = {}, isCernerPilot = false, isV2StatusMapping = false) => {
     const fullState = {
       ...state,
@@ -37,34 +49,16 @@ describe('Prescription details container', () => {
 
     return renderWithStoreAndRouterV6(
       <Routes>
-        <Route
-          path="/prescriptions/:prescriptionId"
-          element={<PrescriptionDetails />}
-        />
+        <Route path="/prescriptions/:prescriptionId" element={<PrescriptionDetails />} />
       </Routes>,
       {
         initialState: fullState,
         reducers: reducer,
         initialEntries: ['/prescriptions/1234567891'],
-        additionalMiddlewares: [
-          allergiesApi.middleware,
-          prescriptionsApi.middleware,
-        ],
+        additionalMiddlewares: [allergiesApi.middleware, prescriptionsApi.middleware],
       },
     );
   };
-
-  beforeEach(() => {
-    sandbox = sinon.createSandbox();
-    stubAllergiesApi({ sandbox });
-    stubPrescriptionsApiCache({ sandbox });
-    stubPrescriptionIdApi({ sandbox });
-    stubUsePrefetch({ sandbox });
-  });
-
-  afterEach(() => {
-    sandbox.restore();
-  });
 
   it('renders without errors', async () => {
     const screen = setup({
@@ -304,7 +298,8 @@ describe('Prescription details container', () => {
         stubAllergiesApi({ sandbox });
         stubPrescriptionsApiCache({ sandbox, data: false });
         const data = JSON.parse(JSON.stringify(singlePrescription));
-        data.dispStatus = 'Active: Refill in Process';
+        // API returns V2 status when both flags enabled, V1 status otherwise
+        data.dispStatus = useV2 ? 'In progress' : 'Active: Refill in Process';
         stubPrescriptionIdApi({ sandbox, data });
 
         const screen = setup({
@@ -316,9 +311,12 @@ describe('Prescription details container', () => {
           },
         }, isCernerPilot, isV2StatusMapping);
 
-        const expectedStatus = useV2 ? 'In progress' : 'Active: Refill in Process';
         await waitFor(() => {
-          expect(screen.getByText(expectedStatus)).to.exist;
+          if (useV2) {
+            expect(screen.getByText('In progress')).to.exist;
+          } else {
+            expect(screen.getByText('Active: Refill in process')).to.exist;
+          }
         });
       });
     });

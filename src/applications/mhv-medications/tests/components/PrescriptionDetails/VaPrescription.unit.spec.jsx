@@ -406,7 +406,6 @@ describe('vaPrescription details container', () => {
   });
 
   describe('CernerPilot feature flag tests', () => {
-    // Shared test data
     const FLAG_COMBINATIONS = [
       { isCernerPilot: false, isV2StatusMapping: false, useV2: false, desc: 'both flags disabled' },
       { isCernerPilot: true, isV2StatusMapping: false, useV2: false, desc: 'only cernerPilot enabled' },
@@ -414,15 +413,19 @@ describe('vaPrescription details container', () => {
       { isCernerPilot: true, isV2StatusMapping: true, useV2: true, desc: 'both flags enabled' },
     ];
 
-    const STATUS_TRANSFORMATIONS = [
-      { v1Status: 'Active: Refill in Process', v2Status: 'In progress' },
-      { v1Status: 'Active: Submitted', v2Status: 'In progress' },
-      { v1Status: 'Expired', v2Status: 'Inactive' },
-      { v1Status: 'Discontinued', v2Status: 'Inactive' },
-      { v1Status: 'Active: On Hold', v2Status: 'Inactive' },
-      { v1Status: 'Active: Parked', v2Status: 'Active' },
-      { v1Status: 'Active', v2Status: 'Active' },
-      { v1Status: 'Transferred', v2Status: 'Transferred' },
+    const V2_STATUSES = [
+      { v2Status: 'Active', testLabel: 'Active' },
+      { v2Status: 'In progress', testLabel: 'In progress' },
+      { v2Status: 'Inactive', testLabel: 'Inactive' },
+      { v2Status: 'Transferred', testLabel: 'Transferred' },
+      { v2Status: 'Status not available', testLabel: 'Status not available' },
+    ];
+
+    const V1_STATUSES = [
+      { v1Status: 'Active: Parked', testLabel: 'Active: Parked' },
+      { v1Status: 'Active: Refill in Process', testLabel: 'Active: Refill in process' },
+      { v1Status: 'Expired', testLabel: 'Expired' },
+      { v1Status: 'Discontinued', testLabel: 'Discontinued' },
     ];
 
     const setupWithCernerPilot = (rx = newRx, isCernerPilot = false, isV2StatusMapping = false) => {
@@ -439,13 +442,11 @@ describe('vaPrescription details container', () => {
       });
     };
 
-    describe('CernerPilot and  V2StatusMapping flag requirement validation', () => {
+    describe('CernerPilot and V2StatusMapping flag requirement validation', () => {
       FLAG_COMBINATIONS.forEach(({ isCernerPilot, isV2StatusMapping, useV2, desc }) => {
         it(`uses ${useV2 ? 'V2' : 'V1'} status display when ${desc}`, () => {
-          const rxWithStatus = {
-            ...prescription,
-            dispStatus: 'Active: Refill in Process',
-          };
+          const dispStatus = useV2 ? 'In progress' : 'Active: Refill in Process';
+          const rxWithStatus = { ...prescription, dispStatus };
           const screen = setupWithCernerPilot(rxWithStatus, isCernerPilot, isV2StatusMapping);
           const expectedStatus = useV2 ? 'In progress' : 'Active: Refill in process';
           expect(screen.getByTestId('status')).to.have.text(expectedStatus);
@@ -453,18 +454,42 @@ describe('vaPrescription details container', () => {
       });
     });
 
-    // REFACTORED: Consolidated status transformation tests
-    describe('status transformations when BOTH CernerPilot and  V2StatusMapping flags enabled', () => {
-      STATUS_TRANSFORMATIONS.forEach(({ v1Status, v2Status }) => {
-        it(`maps ${v1Status} to ${v2Status}`, () => {
-          const rxWithStatus = { ...prescription, dispStatus: v1Status };
+    // NOTE: Status mapping from V1 to V2 is handled by vets-api
+    
+    describe('V2 status display when BOTH CernerPilot and V2StatusMapping flags enabled', () => {
+      const V2_STATUSES = [
+        { v2Status: 'Active', testLabel: 'Active' },
+        { v2Status: 'In progress', testLabel: 'In progress' },
+        { v2Status: 'Inactive', testLabel: 'Inactive' },
+        { v2Status: 'Transferred', testLabel: 'Transferred' },
+        { v2Status: 'Status not available', testLabel: 'Status not available' },
+      ];
+
+      V2_STATUSES.forEach(({ v2Status, testLabel }) => {
+        it(`displays ${testLabel} status correctly when returned by API`, () => {
+          const rxWithStatus = { ...prescription, dispStatus: v2Status };
           const screen = setupWithCernerPilot(rxWithStatus, true, true);
           expect(screen.getByTestId('status')).to.have.text(v2Status);
         });
       });
     });
 
-    // REFACTORED: Consolidated Non-VA status preservation tests
+    describe('V1 status display when BOTH flags disabled', () => {
+      const V1_STATUSES = [
+        { v1Status: 'Active: Parked', testLabel: 'Active: Parked' },
+        { v1Status: 'Active: Refill in Process', testLabel: 'Active: Refill in process' },
+        { v1Status: 'Expired', testLabel: 'Expired' },
+        { v1Status: 'Discontinued', testLabel: 'Discontinued' },
+      ];
+
+      V1_STATUSES.forEach(({ v1Status, testLabel }) => {
+        it(`displays ${testLabel} status correctly when returned by API`, () => {
+          const rxWithStatus = { ...prescription, dispStatus: v1Status };
+          const screen = setupWithCernerPilot(rxWithStatus, false, false);
+          expect(screen.getByTestId('status')).to.have.text(testLabel);
+        });
+      });
+    });
     describe('Non-VA status preservation', () => {
       FLAG_COMBINATIONS.forEach(({ isCernerPilot, isV2StatusMapping, desc }) => {
         it(`preserves Active: Non-VA status when ${desc}`, () => {
@@ -510,9 +535,10 @@ describe('vaPrescription details container', () => {
     });
 
     it('should pass BOTH CernerPilot and  V2StatusMapping flags to status-related components', () => {
+      // When both flags enabled, API returns V2 status directly
       const rxWithStatus = {
         ...prescription,
-        dispStatus: 'Active: Refill in Process',
+        dispStatus: 'In progress', // V2 status returned by API
       };
       const screen = setupWithCernerPilot(rxWithStatus, true, true);
       expect(screen.getByText('In progress')).to.exist;

@@ -80,62 +80,91 @@ describe('prescriptionMedAndRenewalStatus helper', () => {
   });
 
   describe('PRINT display type', () => {
-    const V2_STATUS_MAPPINGS = [
+    // V2 statuses are returned by the API when both flags are enabled
+    // The frontend uses refillStatus to look up definitions in pdfStatusDefinitionsV2
+    // NOTE: Use curly apostrophes (') to match the constants file
+    const V2_STATUS_DEFINITIONS = [
       {
         dispStatus: 'Active',
         refillStatus: 'active',
-        expectedV2: 'Active',
         includes: 'prescription you can fill at a local VA pharmacy',
       },
       {
-        dispStatus: 'Active: Refill in Process',
+        dispStatus: 'In progress',
         refillStatus: 'inprogress',
-        expectedV2: 'In progress',
         includes: 'new prescription or a prescription',
       },
       {
-        dispStatus: 'Expired',
+        dispStatus: 'Inactive',
         refillStatus: 'inactive',
-        expectedV2: 'Inactive',
         includes: 'prescription you can no longer fill',
       },
       {
-        dispStatus: 'Discontinued',
-        refillStatus: 'inactive',
-        expectedV2: 'Inactive',
-        includes: 'prescription you can no longer fill',
+        dispStatus: 'Transferred',
+        refillStatus: 'transferred',
+        includes: 'prescription moved to VA',
       },
     ];
 
-    it('should return formatted status string for regular prescription when Cerner pilot is disabled', () => {
+    it('should return formatted status string for regular prescription when BOTH CernerPilot AND V2StatusMapping flags are disabled', () => {
       const result = prescriptionMedAndRenewalStatus(
         mockPrescription,
         medStatusDisplayTypes.PRINT,
         false,
+        false,
       );
       expect(result).to.be.a('string');
       expect(result).to.include('Active');
-      // Should use standard status definitions
+      // Should use V1 status definitions
       expect(result).to.not.include(
         'prescription you can fill at a local VA pharmacy',
       );
     });
 
-    V2_STATUS_MAPPINGS.forEach(
-      ({ dispStatus, refillStatus, expectedV2, includes }) => {
-        it(`should map ${dispStatus} to ${expectedV2} when Cerner pilot is enabled`, () => {
-          const rx = { ...mockPrescription, dispStatus, refillStatus };
-          const result = prescriptionMedAndRenewalStatus(
-            rx,
-            medStatusDisplayTypes.PRINT,
-            true,
-          );
-          expect(result).to.be.a('string');
-          expect(result).to.include(expectedV2);
-          expect(result).to.include(includes);
-        });
-      },
-    );
+    V2_STATUS_DEFINITIONS.forEach(({ dispStatus, refillStatus, includes }) => {
+      it(`should use V2 definition for ${dispStatus} when BOTH CernerPilot AND V2StatusMapping flags are enabled`, () => {
+        // API returns V2 status directly when both flags are enabled
+        // refillStatus is used to look up the definition in pdfStatusDefinitionsV2
+        const rx = { ...mockPrescription, dispStatus, refillStatus };
+        const result = prescriptionMedAndRenewalStatus(
+          rx,
+          medStatusDisplayTypes.PRINT,
+          true,  // isCernerPilot
+          true,  // isV2StatusMapping
+        );
+        expect(result).to.be.a('string');
+        expect(result).to.include(dispStatus);
+        expect(result).to.include(includes);
+      });
+    });
+
+    it('should use V1 definition when only cernerPilot is enabled', () => {
+      const rx = { ...mockPrescription, dispStatus: 'Active' };
+      const result = prescriptionMedAndRenewalStatus(
+        rx,
+        medStatusDisplayTypes.PRINT,
+        true,  // isCernerPilot
+        false, // isV2StatusMapping
+      );
+      expect(result).to.be.a('string');
+      expect(result).to.include('Active');
+      // Should NOT include V2 definition
+      expect(result).to.not.include('prescription you can fill at a local VA pharmacy');
+    });
+
+    it('should use V1 definition when only v2StatusMapping is enabled', () => {
+      const rx = { ...mockPrescription, dispStatus: 'Active' };
+      const result = prescriptionMedAndRenewalStatus(
+        rx,
+        medStatusDisplayTypes.PRINT,
+        false, // isCernerPilot
+        true,  // isV2StatusMapping
+      );
+      expect(result).to.be.a('string');
+      expect(result).to.include('Active');
+      // Should NOT include V2 definition
+      expect(result).to.not.include('prescription you can fill at a local VA pharmacy');
+    });
 
     it('should return pending med text for pending medications', () => {
       const result = prescriptionMedAndRenewalStatus(
@@ -157,37 +186,35 @@ describe('prescriptionMedAndRenewalStatus helper', () => {
   });
 
   describe('TXT display type', () => {
-    const V2_TXT_STATUS_MAPPINGS = [
+    // V2 statuses are returned by the API when both flags are enabled
+    const V2_TXT_STATUS_DEFINITIONS = [
       {
         dispStatus: 'Active',
         refillStatus: 'active',
-        expectedV2: 'Active',
         includes: 'prescription you can fill at a local VA pharmacy',
       },
       {
-        dispStatus: 'Active: Submitted',
+        dispStatus: 'In progress',
         refillStatus: 'inprogress',
-        expectedV2: 'In progress',
         includes: 'new prescription or a prescription',
       },
       {
-        dispStatus: 'Expired',
+        dispStatus: 'Inactive',
         refillStatus: 'inactive',
-        expectedV2: 'Inactive',
         includes: 'prescription you can no longer fill',
       },
       {
         dispStatus: 'Transferred',
         refillStatus: 'transferred',
-        expectedV2: 'Transferred',
         includes: 'prescription moved to VA',
       },
     ];
 
-    it('should return formatted status string for regular prescription when Cerner pilot is disabled', () => {
+    it('should return formatted status string for regular prescription when BOTH CernerPilot AND V2StatusMapping flags are disabled', () => {
       const result = prescriptionMedAndRenewalStatus(
         mockPrescription,
         medStatusDisplayTypes.TXT,
+        false,
         false,
       );
       expect(result).to.be.a('string');
@@ -196,21 +223,21 @@ describe('prescriptionMedAndRenewalStatus helper', () => {
       expect(result).to.match(/^Active - /);
     });
 
-    V2_TXT_STATUS_MAPPINGS.forEach(
-      ({ dispStatus, refillStatus, expectedV2, includes }) => {
-        it(`should map ${dispStatus} to ${expectedV2} in TXT format when Cerner pilot is enabled`, () => {
-          const rx = { ...mockPrescription, dispStatus, refillStatus };
-          const result = prescriptionMedAndRenewalStatus(
-            rx,
-            medStatusDisplayTypes.TXT,
-            true,
-          );
-          expect(result).to.be.a('string');
-          expect(result).to.include(expectedV2);
-          expect(result).to.include(includes);
-        });
-      },
-    );
+    V2_TXT_STATUS_DEFINITIONS.forEach(({ dispStatus, refillStatus, includes }) => {
+      it(`should use V2 definition for ${dispStatus} in TXT format when BOTH flags are enabled`, () => {
+
+        const rx = { ...mockPrescription, dispStatus, refillStatus };
+        const result = prescriptionMedAndRenewalStatus(
+          rx,
+          medStatusDisplayTypes.TXT,
+          true,
+          true,  
+        );
+        expect(result).to.be.a('string');
+        expect(result).to.include(dispStatus);
+        expect(result).to.include(includes);
+      });
+    });
 
     it('should return pending med text for pending medications', () => {
       const result = prescriptionMedAndRenewalStatus(
@@ -230,23 +257,18 @@ describe('prescriptionMedAndRenewalStatus helper', () => {
       expect(result).to.include('This is a renewal you requested');
     });
 
-    it('should handle multiline status definitions for Cerner pilot', () => {
-      const rx = {
-        ...mockPrescription,
-        dispStatus: 'Active',
-        refillStatus: 'active',
-      };
+    it('should handle multiline status definitions when BOTH flags are enabled', () => {
+      const rx = { ...mockPrescription, dispStatus: 'Active', refillStatus: 'active' };
       const result = prescriptionMedAndRenewalStatus(
         rx,
         medStatusDisplayTypes.TXT,
+        true,
         true,
       );
       expect(result).to.be.a('string');
       expect(result).to.include('Active');
       // Should include both parts of the V2 definition
-      expect(result).to.include(
-        'prescription you can fill at a local VA pharmacy',
-      );
+      expect(result).to.include('prescription you can fill at a local VA pharmacy');
       expect(result).to.include('If you need a medication immediately');
     });
   });

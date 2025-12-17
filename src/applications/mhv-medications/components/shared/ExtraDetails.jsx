@@ -34,7 +34,7 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
     if (rxSourceIsNonVA(rx)) {
       return (
         <p className="vads-u-margin-y--0" data-testid="non-VA-prescription">
-          You can't manage this medication in this online tool.
+          You can’t manage this medication in this online tool.
         </p>
       );
     }
@@ -194,7 +194,7 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
       case dispStatusObjV2.nonVA:
         return (
           <p className="vads-u-margin-y--0" data-testid="non-VA-prescription">
-            You can't manage this medication in this online tool.
+            You can’t manage this medication in this online tool.
           </p>
         );
 

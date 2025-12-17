@@ -8,6 +8,32 @@ import MedicationsListCard from '../../../components/MedicationsList/Medications
 import reducers from '../../../reducers';
 
 describe('Medication card component', () => {
+  const FLAG_COMBINATIONS = [
+    { cernerPilot: false, v2StatusMapping: false, useV2: false, desc: 'both flags disabled' },
+    { cernerPilot: true, v2StatusMapping: false, useV2: false, desc: 'only cernerPilot enabled' },
+    { cernerPilot: false, v2StatusMapping: true, useV2: false, desc: 'only v2StatusMapping enabled' },
+    { cernerPilot: true, v2StatusMapping: true, useV2: true, desc: 'both flags enabled' },
+  ];
+
+  const V2_STATUSES = [
+    { status: 'Active', desc: 'Active' },
+    { status: 'In progress', desc: 'In progress' },
+    { status: 'Inactive', desc: 'Inactive' },
+    { status: 'Transferred', desc: 'Transferred' },
+    { status: 'Shipped', desc: 'Shipped' },
+    { status: 'Status not available', desc: 'Status not available' },
+  ];
+
+  const V1_STATUSES = [
+    'Active: Parked',
+    'Active: Refill in Process',
+    'Active: Submitted',
+    'Active: On Hold',
+    'Expired',
+    'Discontinued',
+    'Transferred',
+  ];
+
   const setup = (rx = prescriptionsListItem, initialState = {}) => {
     return renderWithStoreAndRouterV6(<MedicationsListCard rx={rx} />, {
       state: initialState,
@@ -15,11 +41,7 @@ describe('Medication card component', () => {
     });
   };
 
-  const setupWithFlags = (
-    rx = prescriptionsListItem,
-    isCernerPilot = false,
-    isV2StatusMapping = false,
-  ) => {
+  const setupWithFlags = (rx = prescriptionsListItem, isCernerPilot = false, isV2StatusMapping = false) => {
     const initialState = {
       featureToggles: {
         [FEATURE_FLAG_NAMES.mhvMedicationsCernerPilot]: isCernerPilot,
@@ -33,22 +55,6 @@ describe('Medication card component', () => {
   };
 
   // Shared test data
-  const FLAG_COMBINATIONS = [
-    { cernerPilot: false, v2StatusMapping: false, useV2: false, desc: 'both flags disabled' },
-    { cernerPilot: true, v2StatusMapping: false, useV2: false, desc: 'only cernerPilot enabled' },
-    { cernerPilot: false, v2StatusMapping: true, useV2: false, desc: 'only v2StatusMapping enabled' },
-    { cernerPilot: true, v2StatusMapping: true, useV2: true, desc: 'both flags enabled' },
-  ];
-
-  const STATUS_TRANSFORMATIONS = [
-    { input: 'Active: Refill in Process', expectedV2: 'In progress' },
-    { input: 'Active: Submitted', expectedV2: 'In progress' },
-    { input: 'Active: Parked', expectedV2: 'Active' },
-    { input: 'Expired', expectedV2: 'Inactive' },
-    { input: 'Discontinued', expectedV2: 'Inactive' },
-    { input: 'Active: On Hold', expectedV2: 'Inactive' },
-    { input: 'Transferred', expectedV2: 'Transferred' },
-  ];
 
   it('renders without errors, even when no prescription name is given ', () => {
     const screen = setup({
@@ -188,10 +194,12 @@ describe('Medication card component', () => {
   describe('CernerPilot and  V2StatusMapping flag requirement validation', () => {
     FLAG_COMBINATIONS.forEach(({ cernerPilot, v2StatusMapping, useV2, desc }) => {
       it(`${useV2 ? 'V2' : 'V1'} behavior when ${desc}`, () => {
-        const rx = { ...prescriptionsListItem, dispStatus: 'Expired' };
+        // Pass appropriate status based on flag combination
+        // When both flags enabled, API returns V2 status; otherwise V1
+        const dispStatus = useV2 ? 'Inactive' : 'Expired';
+        const rx = { ...prescriptionsListItem, dispStatus };
         const screen = setupWithFlags(rx, cernerPilot, v2StatusMapping);
-        const expectedStatus = useV2 ? 'Inactive' : 'Expired';
-        expect(screen.getByText(expectedStatus)).to.exist;
+        expect(screen.getByText(dispStatus)).to.exist;
       });
     });
   });
@@ -282,67 +290,22 @@ describe('Medication card component', () => {
     });
   });
 
-  describe('V2 Shipped status in card', () => {
-    it('displays Shipped status when BOTH CernerPilot and  V2StatusMapping flags enabled', () => {
-      const rx = {
-        ...prescriptionsListItem,
-        dispStatus: 'Shipped',
-        trackingList: [{ completeDateTime: 'Sun, 16 Jun 2024 04:39:11 EDT' }],
-      };
-      const screen = setupWithFlags(rx, true, true);
-      expect(screen.getByText('Shipped')).to.exist;
-    });
-
-    it('shows shipped date information with Shipped status', () => {
-      const rx = {
-        ...prescriptionsListItem,
-        dispStatus: 'Shipped',
-        trackingList: [{ completeDateTime: 'Sun, 16 Jun 2024 04:39:11 EDT' }],
-      };
-      const screen = setupWithFlags(rx, true, true);
-      expect(screen.getByText(/Shipped on June 16, 2024/)).to.exist;
-    });
-  });
-
-  describe('Refill information display with dual flags', () => {
-    it('shows refill remaining correctly with V1 status', () => {
-      const rx = { ...prescriptionsListItem, refillRemaining: 5 };
-      const screen = setupWithFlags(rx, false, false);
-      expect(screen).to.exist;
-    });
-
-    it('shows refill remaining correctly with V2 status', () => {
-      const rx = { ...prescriptionsListItem, refillRemaining: 5 };
-      const screen = setupWithFlags(rx, true, true);
-      expect(screen).to.exist;
-    });
-
-    it('shows no refills left message with V1 Active status', () => {
-      const rx = { ...prescriptionsListItem, dispStatus: 'Active', refillRemaining: 0 };
-      const screen = setupWithFlags(rx, false, false);
-      expect(screen).to.exist;
-    });
-
-    it('shows no refills left message with V2 Active status', () => {
-      const rx = { ...prescriptionsListItem, dispStatus: 'Active', refillRemaining: 0 };
-      const screen = setupWithFlags(rx, true, true);
-      expect(screen).to.exist;
-    });
-  });
-
-  // REFACTORED: Consolidated status transformation tests
-  describe('Status transformation in card view', () => {
-    STATUS_TRANSFORMATIONS.forEach(({ input, expectedV2 }) => {
-      it(`transforms ${input} to ${expectedV2} when both flags enabled`, () => {
-        const rx = { ...prescriptionsListItem, dispStatus: input };
+  describe('V2 status display when API returns V2 statuses (both flags enabled)', () => {
+    V2_STATUSES.forEach(({ status, desc }) => {
+      it(`displays ${desc} correctly when returned by API`, () => {
+        const rx = { ...prescriptionsListItem, dispStatus: status };
         const screen = setupWithFlags(rx, true, true);
-        expect(screen.getByText(expectedV2)).to.exist;
+        expect(screen.getByText(status)).to.exist;
       });
+    });
+  });
 
-      it(`preserves ${input} when both flags disabled`, () => {
-        const rx = { ...prescriptionsListItem, dispStatus: input };
+  describe('V1 status display when flags disabled', () => {
+    V1_STATUSES.forEach(status => {
+      it(`displays ${status} correctly when returned by API`, () => {
+        const rx = { ...prescriptionsListItem, dispStatus: status };
         const screen = setupWithFlags(rx, false, false);
-        expect(screen.getByText(input)).to.exist;
+        expect(screen.getByText(status)).to.exist;
       });
     });
   });

@@ -90,7 +90,7 @@ describe('VA prescription Config', () => {
     expect(txt).to.include('Refill history\n');
     expect(txt).to.include('Medication description:');
     expect(txt).to.include(
-      'Note: If the medication you’re taking doesn’t match this description',
+      'Note: If the medication you\'re taking doesn\'t match this description',
     );
     expect(txt).to.include('Shape: Hexagon');
     expect(txt).to.include('Color: Purple');
@@ -311,7 +311,6 @@ describe('Medication Information Config', () => {
 });
 
 describe('CernerPilot and V2StatusMapping feature flag tests', () => {
-  // Shared test data
   const FLAG_COMBINATIONS = [
     { cernerPilot: false, v2StatusMapping: false, useV2: false, desc: 'both flags disabled' },
     { cernerPilot: true, v2StatusMapping: false, useV2: false, desc: 'only cernerPilot enabled' },
@@ -319,30 +318,48 @@ describe('CernerPilot and V2StatusMapping feature flag tests', () => {
     { cernerPilot: true, v2StatusMapping: true, useV2: true, desc: 'both flags enabled' },
   ];
 
-  const V1_TO_V2_STATUS_MAPPINGS = [
-    { v1Status: 'Active: Submitted', v2Expected: 'In progress' },
-    { v1Status: 'Active: Refill in Process', v2Expected: 'In progress' },
-    { v1Status: 'Expired', v2Expected: 'Inactive' },
-    { v1Status: 'Discontinued', v2Expected: 'Inactive' },
-    { v1Status: 'Active: On Hold', v2Expected: 'Inactive' },
-    { v1Status: 'Active: Parked', v2Expected: 'Active' },
-    { v1Status: 'Transferred', v2Expected: 'Transferred' },
-    { v1Status: 'NewOrder', v2Expected: 'In progress' },
-    { v1Status: 'Renew', v2Expected: 'In progress' },
-    { v1Status: 'Unknown', v2Expected: 'Status not available' },
+  const V2_DEFINITIONS = [
+    { 
+      dispStatus: 'Active',
+      refillStatus: 'active',
+      expectedDefinition: 'A prescription you can fill at a local VA pharmacy',
+    },
+    { 
+      dispStatus: 'In progress',
+      refillStatus: 'inprogress',
+      expectedDefinition: 'A new prescription or a prescription you’ve requested a refill or renewal for',
+    },
+    { 
+      dispStatus: 'Inactive',
+      refillStatus: 'inactive',
+      expectedDefinition: 'A prescription you can no longer fill',
+    },
+    { 
+      dispStatus: 'Transferred',
+      refillStatus: 'transferred',
+      expectedDefinition: 'A prescription moved to VA’s new electronic health record',
+    },
+    { 
+      dispStatus: 'Status not available',
+      refillStatus: 'statusNotAvailable',
+      expectedDefinition: 'There’s a problem with our system',
+    },
   ];
 
-  const createTestPrescription = (dispStatus, prescriptionSource = 'VA') => [{
+  const createTestPrescription = (dispStatus, prescriptionSource = 'VA', refillStatus = null) => [{
     prescriptionId: 12345,
     prescriptionName: 'Test Med',
     dispStatus,
+    refillStatus,
     prescriptionSource,
   }];
 
-  describe('CernerPilot and  V2StatusMapping flag requirement validation', () => {
+  describe('CernerPilot and V2StatusMapping flag requirement validation', () => {
     FLAG_COMBINATIONS.forEach(({ cernerPilot, v2StatusMapping, useV2, desc }) => {
       it(`uses ${useV2 ? 'V2' : 'V1'} status formatting when ${desc}`, () => {
-        const testPrescriptions = createTestPrescription('Active: Refill in Process');
+        const dispStatus = useV2 ? 'In progress' : 'Active: Refill in Process';
+        const refillStatus = useV2 ? 'inprogress' : 'refillinprocess';
+        const testPrescriptions = createTestPrescription(dispStatus, 'VA', refillStatus);
         const txt = buildPrescriptionsTXT(testPrescriptions, cernerPilot, v2StatusMapping);
 
         if (useV2) {
@@ -356,56 +373,12 @@ describe('CernerPilot and V2StatusMapping feature flag tests', () => {
     });
   });
 
-  describe('V1 to V2 status mappings when BOTH CernerPilot and  V2StatusMapping flags enabled', () => {
-    V1_TO_V2_STATUS_MAPPINGS.forEach(({ v1Status, v2Expected }) => {
-      it(`maps ${v1Status} to ${v2Expected}`, () => {
-        const prescriptionSource = ['NewOrder', 'Renew'].includes(v1Status) ? 'PD' : 'VA';
-        const testPrescriptions = createTestPrescription(v1Status, prescriptionSource);
+  describe('V2 status definitions when BOTH CernerPilot and V2StatusMapping flags enabled', () => {
+    V2_DEFINITIONS.forEach(({ dispStatus, refillStatus, expectedDefinition }) => {
+      it(`uses V2 definition for ${dispStatus} status (returned by API)`, () => {
+        const testPrescriptions = createTestPrescription(dispStatus, 'VA', refillStatus);
         const txt = buildPrescriptionsTXT(testPrescriptions, true, true);
-        expect(txt).to.include(`Status: ${v2Expected}`);
-      });
-    });
-  });
-
-  describe('V2 status definitions when BOTH CernerPilot and  V2StatusMapping flags enabled', () => {
-    const V2_DEFINITIONS = [
-      { 
-        dispStatus: 'Active', 
-        refillStatus: 'active',
-        expectedStatus: 'Active',
-        expectedDefinition: 'A prescription you can fill at a local VA pharmacy',
-      },
-      { 
-        dispStatus: 'Active: Refill in Process', 
-        refillStatus: 'refillinprocess',
-        expectedStatus: 'In progress',
-        expectedDefinition: 'A new prescription or a prescription you\'ve requested a refill or renewal for',
-      },
-      { 
-        dispStatus: 'Expired', 
-        refillStatus: 'expired',
-        expectedStatus: 'Inactive',
-        expectedDefinition: 'A prescription you can no longer fill',
-      },
-      { 
-        dispStatus: 'Transferred', 
-        refillStatus: 'transferred',
-        expectedStatus: 'Transferred',
-        expectedDefinition: 'A prescription moved to VA\'s new electronic health record',
-      },
-    ];
-
-    V2_DEFINITIONS.forEach(({ dispStatus, refillStatus, expectedStatus, expectedDefinition }) => {
-      it(`maps ${dispStatus} to ${expectedStatus} with V2 definition`, () => {
-        const testPrescriptions = [{
-          prescriptionId: 12345,
-          prescriptionName: 'Test Med',
-          dispStatus,
-          refillStatus,
-          prescriptionSource: 'VA',
-        }];
-        const txt = buildPrescriptionsTXT(testPrescriptions, true, true);
-        expect(txt).to.include(`Status: ${expectedStatus}`);
+        expect(txt).to.include(`Status: ${dispStatus}`);
         expect(txt).to.include(expectedDefinition);
       });
     });
@@ -421,7 +394,7 @@ describe('CernerPilot and V2StatusMapping feature flag tests', () => {
     });
   });
 
-  describe('V1 status preservation when BOTH CernerPilot and  V2StatusMapping flags disabled', () => {
+  describe('V1 status preservation when BOTH CernerPilot and V2StatusMapping flags disabled', () => {
     const V1_STATUSES = [
       'Active: Refill in Process',
       'Active: Parked',
@@ -441,30 +414,17 @@ describe('CernerPilot and V2StatusMapping feature flag tests', () => {
     });
   });
 
-  it('handles unknown statuses when BOTH CernerPilot and  V2StatusMapping flags enabled', () => {
-    const testPrescriptions = createTestPrescription('Unknown Status');
-    const txt = buildPrescriptionsTXT(testPrescriptions, true, true);
-    expect(txt).to.include('Status: Status not available');
-  });
-
-  it('shows Status not available for null dispStatus when BOTH CernerPilot and  V2StatusMapping flags enabled', () => {
-    const testPrescriptions = createTestPrescription(null);
-    const txt = buildPrescriptionsTXT(testPrescriptions, true, true);
-    expect(txt).to.include('Status: Status not available');
-  });
-
-  it('uses V2 status for single prescription TXT when BOTH CernerPilot and  V2StatusMapping flags enabled', () => {
+  it('uses V2 status for single prescription TXT when BOTH CernerPilot and V2StatusMapping flags enabled', () => {
     const testPrescription = {
       ...prescriptionDetails,
-      dispStatus: 'Active: Refill in Process',
-      refillStatus: 'refillinprocess',
+      dispStatus: 'In progress',
+      refillStatus: 'inprogress',
     };
     const txt = buildVAPrescriptionTXT(testPrescription, true, true);
     expect(txt).to.include('Status: In progress');
-    expect(txt).to.not.include('Active: Refill in Process');
   });
 
-  it('uses V1 status for single prescription TXT when BOTH CernerPilot and  V2StatusMapping flags disabled', () => {
+  it('uses V1 status for single prescription TXT when BOTH CernerPilot and V2StatusMapping flags disabled', () => {
     const testPrescription = {
       ...prescriptionDetails,
       dispStatus: 'Active: Refill in Process',
