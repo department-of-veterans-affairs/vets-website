@@ -727,11 +727,12 @@ export function addressUI(options = {}) {
   const mappedSchema = {};
   Object.entries(uiSchema).forEach(([standardKey, fieldConfig]) => {
     const mappedKey = newSchemaKeys[standardKey] || standardKey;
-    if (!omit(standardKey) && !omit(mappedKey)) {
-      mappedSchema[mappedKey] = fieldConfig;
-    } else {
-      mappedSchema[standardKey] = fieldConfig;
+    if (omit(standardKey) || omit(mappedKey)) {
+      return; // Skip omitted fields entirely
     }
+
+    // Use mapped key name, preserve field configuration
+    mappedSchema[mappedKey] = fieldConfig;
   });
   return mappedSchema;
 }
@@ -755,17 +756,16 @@ export const addressSchema = (options = {}) => {
   const { newSchemaKeys = {}, omit = [] } = options;
   let schema = commonDefinitions.profileAddress;
 
-  if (options?.omit) {
-    schema = {
-      ...schema,
-      properties: {
-        ...utilsOmit(options.omit, schema.properties),
-      },
-    };
-  }
-
-  // If no newSchemaKeys provided, return standard schema
+  // If no key mapping is needed, use the existing omit logic and return early
   if (Object.keys(newSchemaKeys).length === 0) {
+    if (omit.length > 0) {
+      schema = {
+        ...schema,
+        properties: {
+          ...utilsOmit(omit, schema.properties),
+        },
+      };
+    }
     return schema;
   }
 
