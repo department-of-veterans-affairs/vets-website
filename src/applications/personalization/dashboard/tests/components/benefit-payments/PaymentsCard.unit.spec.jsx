@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { format } from 'date-fns';
+import { format, subDays } from 'date-fns';
 import { within } from '@testing-library/dom';
 import { oneDayAgo } from '@@profile/tests/helpers';
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
@@ -27,7 +27,7 @@ describe('<PaymentsCard />', () => {
     expect(view.getByTestId('payment-card')).to.exist;
 
     const depositHeader = view.getByTestId('deposit-header');
-    expect(within(depositHeader).getByText(/\+.*\$3,261\.10/)).to.exist;
+    expect(within(depositHeader).getByText(/\$3,261\.10/)).to.exist;
     expect(view.getByText(/Compensation & Pension - Recurring/i)).to.exist;
     const depositedOn = `Deposited on ${format(
       payment.payCheckDt,
@@ -35,6 +35,31 @@ describe('<PaymentsCard />', () => {
     )}`;
     expect(view.getByText(depositedOn, { exact: false })).to.exist;
     expect(view.getByTestId('payment-card-view-history-link')).to.exist;
+  });
+
+  it('should render no recent payments a day after 60 days', () => {
+    const view = renderWithStoreAndRouter(
+      <PaymentsCard
+        lastPayment={{ ...payment, payCheckDt: subDays(new Date(), 61) }}
+      />,
+      { initialState: {} },
+    );
+    expect(view.getByRole('heading', { level: 4, name: 'No recent payments' }))
+      .to.exist;
+  });
+
+  it('should render a recent payment at 60 days', () => {
+    const view = renderWithStoreAndRouter(
+      <PaymentsCard
+        lastPayment={{ ...payment, payCheckDt: subDays(new Date(), 60) }}
+      />,
+      { initialState: {} },
+    );
+    expect(
+      view.queryByRole('heading', { level: 4, name: 'No recent payments' }),
+    ).not.to.exist;
+    const depositHeader = view.getByTestId('deposit-header');
+    expect(within(depositHeader).getByText(/\$3,261\.10/)).to.exist;
   });
 
   it('should render the check mailed text', () => {
