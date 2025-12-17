@@ -30,11 +30,9 @@ const renderAlert = (alertType, statements) => {
       </h2>
       {alertInfo.body}
       {alertInfo.secondHeader ? (
-        <>
-          <h3 className="vads-u-font-size--h4">{alertInfo.secondHeader}</h3>
-          {alertInfo.secondBody}
-        </>
+        <h3 className="vads-u-font-size--h4">{alertInfo.secondHeader}</h3>
       ) : null}
+      {alertInfo.secondBody ? alertInfo.secondBody : null}
       {showVAReturnLink ? (
         <va-link
           active
@@ -184,10 +182,6 @@ const DebtLettersSummary = () => {
           education, disability compensation, or pension programs. Find out how
           to resolve overpayments and what to do if you need financial
           assistance.
-        </p>
-        <p>
-          Please note that payments may take up to 4 business days to reflect
-          after processing.
         </p>
         {renderContent()}
       </div>

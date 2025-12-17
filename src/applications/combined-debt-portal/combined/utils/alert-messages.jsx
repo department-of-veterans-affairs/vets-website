@@ -71,7 +71,7 @@ const alertMessage = (alertType, appType) => {
         appType,
         header:
           appType === APP_TYPES.DEBT
-            ? `You don't have any oustanding overpayments`
+            ? `You don't have any outstanding overpayments`
             : `You haven't received a copay bill in the past 6 months`,
         body:
           appType === APP_TYPES.DEBT ? (
