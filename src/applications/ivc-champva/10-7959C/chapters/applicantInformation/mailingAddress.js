@@ -1,11 +1,11 @@
 import {
   addressSchema,
-  addressUI,
   radioSchema,
   radioUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { nameWording, privWrapper } from '../../../shared/utilities';
+import { addressWithValidationUI } from '../../definitions';
 
 const TITLE_TEXT = 'mailing address';
 const DESC_TEXT =
@@ -24,6 +24,7 @@ const SCHEMA_LABELS = {
   no: 'No',
   unknown: 'I’m not sure',
 };
+const SCHEMA_ENUM = Object.keys(SCHEMA_LABELS);
 
 const PAGE_TITLE = ({ formData }) =>
   privWrapper(
@@ -33,7 +34,7 @@ const PAGE_TITLE = ({ formData }) =>
 export default {
   uiSchema: {
     ...titleUI(PAGE_TITLE, DESC_TEXT),
-    applicantAddress: addressUI({
+    applicantAddress: addressWithValidationUI({
       labels: {
         street3: LABEL_STREET3,
         militaryCheckbox: LABEL_MILITARY,
@@ -50,7 +51,7 @@ export default {
     required: ['applicantNewAddress'],
     properties: {
       applicantAddress: addressSchema(),
-      applicantNewAddress: radioSchema(Object.keys(SCHEMA_LABELS)),
+      applicantNewAddress: radioSchema(SCHEMA_ENUM),
     },
   },
 };

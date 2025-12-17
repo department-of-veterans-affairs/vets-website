@@ -14,8 +14,8 @@ const PAGE_TITLE = ({ formData }) => {
 const VALIDATIONS = [
   (errors, data) =>
     validateDateRange(errors, data, {
-      startDateKey: 'applicantMedicarePartDEffectiveDate',
-      endDateKey: 'applicantMedicarePartDTerminationDate',
+      startDateKey: 'medicarePartDEffectiveDate',
+      endDateKey: 'medicarePartDTerminationDate',
     }),
 ];
 
