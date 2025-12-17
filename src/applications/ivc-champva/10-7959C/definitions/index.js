@@ -20,10 +20,9 @@ export const addressWithValidationUI = (options = {}) => {
 
 export const blankSchema = { type: 'object', properties: {} };
 
-export const fullNameMiddleInitialUI = (options = {}) =>
-  merge({}, fullNameUI(options), {
-    middle: { 'ui:title': 'Middle initial' },
-  });
+export const fullNameMiddleInitialUI = merge({}, fullNameUI(), {
+  middle: { 'ui:title': 'Middle initial' },
+});
 export const fullNameMiddleInitialSchema = merge({}, fullNameSchema, {
   properties: { middle: { type: 'string', maxLength: 1 } },
 });

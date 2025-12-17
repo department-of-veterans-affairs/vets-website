@@ -14,7 +14,7 @@ const PAGE_TITLE = ({ formData }) =>
 export default {
   uiSchema: {
     ...titleUI(PAGE_TITLE),
-    applicantName: fullNameMiddleInitialUI(),
+    applicantName: fullNameMiddleInitialUI,
   },
   schema: {
     type: 'object',
