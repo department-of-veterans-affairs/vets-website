@@ -10,11 +10,7 @@ import AddEligibileStudents from '../../components/AddEligibileStudents';
 const createMockStore = (initialState = {}) => {
   return configureStore({
     reducer: {
-      form: (
-        state = initialState.form || {
-          data: {},
-        },
-      ) => state,
+      form: (state = initialState.form || { data: {} }) => state,
     },
     preloadedState: initialState,
   });
@@ -51,17 +47,22 @@ describe('AddEligibileStudents component', () => {
   it('calls addMaxContributions with an empty array when yellowRibbonProgramRequest is undefined', () => {
     addMaxContributionsStub.returns(0);
 
-    const { getByText } = renderWithStore({});
+    const { getByText, queryByText } = renderWithStore({});
 
     expect(addMaxContributionsStub.calledOnce).to.be.true;
     expect(addMaxContributionsStub.firstCall.args[0]).to.deep.equal([]);
-
-    const heading = getByText(
-      /Total number of maximum eligible students reported:/i,
-    );
-    expect(heading.textContent).to.equal(
-      'Total number of maximum eligible students reported: 0',
-    );
+    expect(getByText(/Total number of maximum eligible students reported:/i)).to
+      .exist;
+    expect(
+      getByText(
+        /You reported a maximum of 0 eligible students for participation\./i,
+      ),
+    ).to.exist;
+    expect(
+      queryByText(
+        /You have selected unlimited for the maximum number of eligible students\./i,
+      ),
+    ).to.be.null;
   });
 
   it('shows total from addMaxContributions when there are no unlimited options', () => {
@@ -72,23 +73,32 @@ describe('AddEligibileStudents component', () => {
       { maximumStudentsOption: 'limited', maximumStudents: 5 },
     ];
 
-    const { getByText } = renderWithStore({ yellowRibbonProgramRequest });
+    const { getByText, queryByText } = renderWithStore({
+      yellowRibbonProgramRequest,
+    });
 
     expect(addMaxContributionsStub.calledOnce).to.be.true;
     expect(addMaxContributionsStub.firstCall.args[0]).to.deep.equal(
       yellowRibbonProgramRequest,
     );
 
-    const heading = getByText(
-      /Total number of maximum eligible students reported:/i,
-    );
-    expect(heading.textContent).to.equal(
-      'Total number of maximum eligible students reported: 10',
-    );
-    expect(heading.textContent.includes('or unlimited')).to.be.false;
+    expect(getByText(/Total number of maximum eligible students reported:/i)).to
+      .exist;
+
+    expect(
+      getByText(
+        /You reported a maximum of 10 eligible students for participation\./i,
+      ),
+    ).to.exist;
+
+    expect(
+      queryByText(
+        /You have selected unlimited for the maximum number of eligible students\./i,
+      ),
+    ).to.be.null;
   });
 
-  it('shows "{maxContributions} or unlimited" when some entries are unlimited but not all', () => {
+  it('shows both paragraphs when some entries are unlimited but not all', () => {
     addMaxContributionsStub.returns(15);
 
     const yellowRibbonProgramRequest = [
@@ -98,15 +108,23 @@ describe('AddEligibileStudents component', () => {
 
     const { getByText } = renderWithStore({ yellowRibbonProgramRequest });
 
-    const heading = getByText(
-      /Total number of maximum eligible students reported:/i,
-    );
-    expect(heading.textContent).to.equal(
-      'Total number of maximum eligible students reported: 15 or unlimited',
-    );
+    expect(getByText(/Total number of maximum eligible students reported:/i)).to
+      .exist;
+
+    expect(
+      getByText(
+        /You reported a maximum of 15 eligible students for participation, and/i,
+      ),
+    ).to.exist;
+
+    expect(
+      getByText(
+        /You have selected unlimited for the maximum number of eligible students\./i,
+      ),
+    ).to.exist;
   });
 
-  it('shows "Unlimited" when all entries are unlimited', () => {
+  it('shows only the unlimited paragraph when all entries are unlimited', () => {
     addMaxContributionsStub.returns(20);
 
     const yellowRibbonProgramRequest = [
@@ -114,15 +132,19 @@ describe('AddEligibileStudents component', () => {
       { maximumStudentsOption: 'unlimited' },
     ];
 
-    const { getByText } = renderWithStore({ yellowRibbonProgramRequest });
+    const { getByText, queryByText } = renderWithStore({
+      yellowRibbonProgramRequest,
+    });
 
-    const heading = getByText(
-      /Total number of maximum eligible students reported:/i,
-    );
-    expect(heading.textContent).to.equal(
-      'Total number of maximum eligible students reported: Unlimited',
-    );
-    expect(heading.textContent.includes('or unlimited')).to.be.false;
+    expect(getByText(/Total number of maximum eligible students reported:/i)).to
+      .exist;
+
+    expect(
+      getByText(
+        /You have selected unlimited for the maximum number of eligible students\./i,
+      ),
+    ).to.exist;
+    expect(queryByText(/You reported a maximum of/i)).to.be.null;
   });
 
   it('applies the eligible-students-container CSS class to the outer div', () => {
