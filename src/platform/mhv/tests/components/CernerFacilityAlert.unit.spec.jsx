@@ -325,10 +325,59 @@ describe('CernerFacilityAlert', () => {
       const infoAlert = screen.getByTestId('cerner-facilities-info-alert');
       expect(infoAlert).to.exist;
       expect(infoAlert.getAttribute('status')).to.equal('info');
+      // Trigger should use the provided actionPhrase from props
       expect(infoAlert.getAttribute('trigger')).to.equal(
-        'You can now manage your health care for all VA facilities right here',
+        `You can now ${
+          CernerAlertContent.MEDICATIONS.actionPhrase
+        } for all VA facilities right here`,
       );
       expect(screen.getByTestId('cerner-facility-info-text')).to.exist;
+    });
+
+    it('adds margin class when apiError is true on info alert', () => {
+      const stateWithFacility = {
+        ...initialState,
+        user: {
+          profile: {
+            facilities: [{ facilityId: '668', isCerner: true }],
+            userAtPretransitionedOhFacility: true,
+            userFacilityReadyForInfoAlert: true,
+          },
+        },
+      };
+
+      const screen = setup(stateWithFacility, {
+        ...CernerAlertContent.MEDICATIONS,
+        apiError: true,
+      });
+
+      const infoAlert = screen.getByTestId('cerner-facilities-info-alert');
+      // Web component uses "class" attribute; ensure margin-top class applied
+      expect(infoAlert.getAttribute('class')).to.include(
+        'vads-u-margin-top--2',
+      );
+    });
+
+    it('does not render yellow alert when domain is mhv-landing-page', () => {
+      const stateWithFacility = {
+        ...initialState,
+        user: {
+          profile: {
+            facilities: [{ facilityId: '668', isCerner: true }],
+            userAtPretransitionedOhFacility: true,
+            userFacilityReadyForInfoAlert: false,
+          },
+        },
+      };
+
+      const screen = setup(stateWithFacility, {
+        domain: 'mhv-landing-page',
+        headline: 'manage your medical records',
+        linkPath: '/pages/health_record/comprehensive_record/health_summaries',
+      });
+
+      // Yellow alert should be suppressed on MHV landing page
+      expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;
     });
   });
 });

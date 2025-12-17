@@ -45,6 +45,7 @@ const CernerFacilityAlert = ({
   domain,
   linkPath,
   apiError,
+  actionPhrase = 'manage your health care',
   className = '',
   // Optional callback for when user clicks the link (e.g., for AAL tracking in secure messaging)
   onLinkClick,
@@ -107,7 +108,7 @@ const CernerFacilityAlert = ({
         }`}
         data-testid="cerner-facilities-info-alert"
         status="info"
-        trigger="You can now manage your health care for all VA facilities right here"
+        trigger={`You can now ${actionPhrase} for all VA facilities right here`}
       >
         <div data-testid="cerner-facility-info-text">
           <p>
@@ -123,6 +124,11 @@ const CernerFacilityAlert = ({
         </div>
       </va-alert-expandable>
     );
+  }
+
+  // Do not render the yellow alert on the MHV Landing Page
+  if (domain === 'mhv-landing-page') {
+    return null;
   }
 
   const isMultipleFacilities = cernerFacilitiesNames.length > 1;
@@ -197,15 +203,16 @@ const CernerFacilityAlert = ({
 };
 
 CernerFacilityAlert.propTypes = {
+  domain: PropTypes.string.isRequired,
+  headline: PropTypes.string.isRequired,
+  linkPath: PropTypes.string.isRequired,
+  actionPhrase: PropTypes.string,
   apiError: PropTypes.bool,
   bodyActionMultiple: PropTypes.string,
   bodyActionSingle: PropTypes.string,
   bodyIntro: PropTypes.string,
   className: PropTypes.string,
-  domain: PropTypes.string.isRequired,
   forceHideInfoAlert: PropTypes.bool,
-  headline: PropTypes.string.isRequired,
-  linkPath: PropTypes.string.isRequired,
   onLinkClick: PropTypes.func,
 };
 

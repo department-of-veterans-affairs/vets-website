@@ -1,14 +1,30 @@
 export const CernerAlertContent = {
-  MR_LANDING_PAGE: {
+  APPOINTMENTS: {
+    linkPath: '/pages/scheduling’/upcoming',
+    pageName: 'appointments',
+    headline: 'Manage your appointments at',
+    actionPhrase: 'manage most of your appointments',
+    domain: 'appointments',
+  },
+  MHV_LANDING_PAGE: {
+    linkPath: '/pages/home',
+    pageName: 'mhv-landing-page',
+    headline: 'mhv-landing-page',
+    actionPhrase: 'manage your health care',
+    domain: 'mhv-landing-page',
+  },
+  MEDICAL_RECORDS: {
     linkPath: '/pages/health_record/comprehensive_record/health_summaries',
     pageName: 'medical records',
     headline: 'Manage your medical records at',
+    actionPhrase: 'manage most of your medical records',
     domain: 'medical records',
   },
   MEDICATIONS: {
     linkPath: '/pages/medications/current',
     pageName: 'medications',
     headline: 'To view or manage your medications at',
+    actionPhrase: 'manage your medications',
     domain: 'medications',
   },
   SECURE_MESSAGING: {
@@ -16,6 +32,7 @@ export const CernerAlertContent = {
     pageName: 'secure messages',
     domain: 'secure messages',
     headline: 'To send a secure message to a provider at',
+    actionPhrase: 'manage messages',
     bodyActionSingle: 'To send a secure message to a provider at',
     bodyActionMultiple: 'To view or manage secure messages at these facilities',
     bodyIntro: 'Some of your secure messages may be in a different portal.',
