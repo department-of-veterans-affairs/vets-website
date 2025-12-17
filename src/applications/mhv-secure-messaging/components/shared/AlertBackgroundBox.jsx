@@ -235,7 +235,10 @@ const AlertBackgroundBox = props => {
             onVa-component-did-load={handleAlertFocus}
           >
             <div>
-              <p className="vads-u-margin-y--0" data-testid="alert-text">
+              <p
+                className="vads-u-margin-y--0 vads-u-font-size--serif-lg"
+                data-testid="alert-text"
+              >
                 <strong>{alertContent}</strong>
                 {alertContent === Alerts.Message.SEND_MESSAGE_SUCCESS && (
                   <p className="vads-u-margin-y--0">
