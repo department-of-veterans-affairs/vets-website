@@ -183,33 +183,39 @@ const CareSummariesAndNotes = () => {
           <div className="vads-u-margin-y--8">
             <TrackedSpinner
               id="notes-page-spinner"
-              message="We’re loading your records."
+              message="We're loading your records."
               setFocus
               data-testid="loading-indicator"
             />
           </div>
         )}
         {!isLoadingAcceleratedData &&
-        !isLoading &&
-        careSummariesAndNotes?.length ? (
-          <RecordList
-            records={careSummariesAndNotes}
-            domainOptions={{
-              isAccelerating: isAcceleratingCareNotes,
-              timeFrame: getTimeFrame(dateRange),
-              displayTimeFrame: getDisplayTimeFrame(dateRange),
-            }}
-            type="care summaries and notes"
-            hideRecordsLabel
-          />
-        ) : (
-          <NoRecordsMessage
-            type={recordType.CARE_SUMMARIES_AND_NOTES}
-            timeFrame={
-              isAcceleratingCareNotes ? getDisplayTimeFrame(dateRange) : ''
-            }
-          />
-        )}
+          !isLoading &&
+          careSummariesAndNotes !== undefined && (
+            <>
+              {careSummariesAndNotes?.length ? (
+                <RecordList
+                  records={careSummariesAndNotes}
+                  domainOptions={{
+                    isAccelerating: isAcceleratingCareNotes,
+                    timeFrame: getTimeFrame(dateRange),
+                    displayTimeFrame: getDisplayTimeFrame(dateRange),
+                  }}
+                  type="care summaries and notes"
+                  hideRecordsLabel
+                />
+              ) : (
+                <NoRecordsMessage
+                  type={recordType.CARE_SUMMARIES_AND_NOTES}
+                  timeFrame={
+                    isAcceleratingCareNotes
+                      ? getDisplayTimeFrame(dateRange)
+                      : ''
+                  }
+                />
+              )}
+            </>
+          )}
       </RecordListSection>
     </div>
   );

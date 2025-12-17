@@ -94,6 +94,9 @@ const LabsAndTests = () => {
 
   const { isLoading, isAcceleratingLabsAndTests } = useAcceleratedData();
 
+  const isLoadingAcceleratedData =
+    isAcceleratingLabsAndTests && listState === loadStates.FETCHING;
+
   const dispatchAction = useMemo(
     () => {
       return isCurrent => {
@@ -127,9 +130,6 @@ const LabsAndTests = () => {
     updateListActionType: Actions.LabsAndTests.UPDATE_LIST_STATE,
     reloadRecordsAction: reloadRecords,
   });
-
-  const isLoadingAcceleratedData =
-    isAcceleratingLabsAndTests && listState === loadStates.FETCHING;
 
   useEffect(
     () => {
@@ -215,14 +215,15 @@ const LabsAndTests = () => {
           <div className="vads-u-margin-y--8">
             <TrackedSpinner
               id="labs-and-tests-page-spinner"
-              message="We’re loading your records."
+              message="We're loading your records."
               setFocus
               data-testid="loading-indicator"
             />
           </div>
         )}
         {!isLoadingAcceleratedData &&
-          !isLoading && (
+          !isLoading &&
+          labsAndTests !== undefined && (
             <>
               {labsAndTests?.length ? (
                 <>
