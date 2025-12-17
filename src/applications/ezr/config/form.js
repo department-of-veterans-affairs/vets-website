@@ -419,7 +419,7 @@ const formConfig = {
           schema: VIEW_FIELD_SCHEMA,
         },
         ...FinancialInformationPages,
-        veteranAnnualIncomev1: {
+        veteranAnnualIncomeV1: {
           path: 'household-information/veteran-annual-income',
           title: 'Your annual income',
           initialData: {},
