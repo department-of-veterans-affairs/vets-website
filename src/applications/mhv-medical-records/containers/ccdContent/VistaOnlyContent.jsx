@@ -7,8 +7,6 @@ import {
 } from '@department-of-veterans-affairs/mhv/exports';
 
 import TrackedSpinner from '../../components/shared/TrackedSpinner';
-import CCDAccordionItemVista from '../ccdAccordionItem/CCDAccordionItemVista';
-import CCDAccordionItemOH from '../ccdAccordionItem/ccdAccordionItemOH';
 import CCDAccordionItemV2 from '../ccdAccordionItem/ccdAccordionItemV2';
 import CCDAccordionItemV1 from '../ccdAccordionItem/ccdAccordionItemV1';
 import DownloadSuccessAlert from '../../components/shared/DownloadSuccessAlert';
@@ -33,11 +31,8 @@ const VistaOnlyContent = ({
   failedBBDomains,
   failedSeiDomains,
   getFailedDomainList,
-  hasBothDataSources,
-  hasOHOnly,
   generatingCCD,
   handleDownloadCCD,
-  handleDownloadCCDV2,
   expandSelfEntered,
   selfEnteredAccordionRef,
   selfEnteredPdfLoading,
@@ -141,22 +136,6 @@ const VistaOnlyContent = ({
       <va-accordion bordered>
         {(() => {
           if (ccdExtendedFileTypeFlag) {
-            if (hasBothDataSources) {
-              return (
-                <CCDAccordionItemVista
-                  generatingCCD={generatingCCD}
-                  handleDownloadCCD={handleDownloadCCD}
-                />
-              );
-            }
-            if (hasOHOnly) {
-              return (
-                <CCDAccordionItemOH
-                  generatingCCD={generatingCCD}
-                  handleDownloadCCDV2={handleDownloadCCDV2}
-                />
-              );
-            }
             return (
               <CCDAccordionItemV2
                 generatingCCD={generatingCCD}
@@ -229,10 +208,7 @@ VistaOnlyContent.propTypes = {
   generatingCCD: PropTypes.bool.isRequired,
   getFailedDomainList: PropTypes.func.isRequired,
   handleDownloadCCD: PropTypes.func.isRequired,
-  handleDownloadCCDV2: PropTypes.func.isRequired,
   handleDownloadSelfEnteredPdf: PropTypes.func.isRequired,
-  hasBothDataSources: PropTypes.bool.isRequired,
-  hasOHOnly: PropTypes.bool.isRequired,
   selfEnteredAccordionRef: PropTypes.object.isRequired,
   selfEnteredPdfLoading: PropTypes.bool.isRequired,
   successfulBBDownload: PropTypes.bool.isRequired,

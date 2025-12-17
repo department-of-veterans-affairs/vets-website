@@ -316,14 +316,11 @@ const DownloadReportPage = ({ runningUnitTest }) => {
       <VistaIntroText />
       <VistaOnlyContent
         ccdExtendedFileTypeFlag={ccdExtendedFileTypeFlag}
-        hasBothDataSources={hasBothDataSources}
         failedSeiDomains={failedSeiDomains}
         getFailedDomainList={getFailedDomainList}
-        hasOHOnly={hasOHOnly}
         lastSuccessfulUpdate={lastSuccessfulUpdate}
         generatingCCD={generatingCCD}
         handleDownloadCCD={handleDownloadCCD}
-        handleDownloadCCDV2={handleDownloadCCDV2}
         expandSelfEntered={expandSelfEntered}
         selfEnteredAccordionRef={selfEnteredAccordionRef}
         selfEnteredPdfLoading={selfEnteredPdfLoading}
