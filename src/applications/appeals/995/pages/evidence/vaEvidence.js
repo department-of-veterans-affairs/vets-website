@@ -3,15 +3,12 @@ import {
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
-  checkboxGroupSchema,
   currentOrPastMonthYearDateSchema,
   currentOrPastMonthYearDateUI,
   radioUI,
   textUI,
   textSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
-import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import { getAddOrEditMode, getSelectedIssues } from '../../utils/evidence';
 import {
@@ -21,8 +18,6 @@ import {
   promptContent,
   summaryContent,
 } from '../../content/evidence/va';
-import { issuesContent } from './common';
-import { getSelected } from '../../../shared/utils/issues';
 import {
   EVIDENCE_URLS,
   VA_EVIDENCE_KEY,
@@ -33,6 +28,7 @@ import {
 } from '../../constants';
 import { redesignActive } from '../../utils';
 import { hasTreatmentBefore2005 } from '../../utils/form-data-retrieval';
+import { issuesPage } from './common';
 
 /**
  * This is how we determine whether all of the info for one
@@ -193,67 +189,6 @@ const dateDetailsPage = {
   },
 };
 
-// Create base UI with minimal config - labels will be dynamically added
-const baseIssuesCheckboxUI = {
-  'ui:title': issuesContent.label,
-  'ui:webComponentField': VaCheckboxGroupField,
-  'ui:errorMessages': {
-    atLeastOne: issuesContent.requiredError,
-  },
-  'ui:required': () => true,
-  'ui:validations': [validateBooleanGroup],
-};
-
-const issuesPage = {
-  uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) =>
-      issuesContent.question('va', formData, getAddOrEditMode()),
-    ),
-    issuesVA: {
-      ...baseIssuesCheckboxUI,
-      'ui:options': {
-        updateSchema: (...args) => {
-          // eslint-disable-next-line no-unused-vars
-          const [_itemData, schema, _uiSchema, index, _path, fullData] = args;
-
-          const selectedIssues = getSelected(fullData).map(issue => {
-            if (issue?.attributes) {
-              return issue?.attributes?.ratingIssueSubjectText;
-            }
-            return issue.issue;
-          });
-
-          const properties = {};
-          const issueUiSchemas = {};
-
-          selectedIssues.forEach(issue => {
-            properties[issue] = {
-              type: 'boolean',
-              title: issue,
-            };
-            issueUiSchemas[issue] = {
-              'ui:title': issue,
-            };
-          });
-
-          return {
-            type: 'object',
-            properties,
-            issueUiSchemas,
-          };
-        },
-      },
-    },
-  },
-  schema: {
-    type: 'object',
-    required: ['issuesVA'],
-    properties: {
-      issuesVA: checkboxGroupSchema(['na']),
-    },
-  },
-};
-
 /**
  * This is where the array builder gets page configuration.
  * Some items have blank titles because a title is required for the
@@ -278,8 +213,8 @@ export default arrayBuilderPages(options, pageBuilder => ({
   issuesVA: pageBuilder.itemPage({
     title: '',
     path: EVIDENCE_URLS.vaIssues,
-    uiSchema: issuesPage.uiSchema,
-    schema: issuesPage.schema,
+    uiSchema: issuesPage('va', 'issuesVA').uiSchema,
+    schema: issuesPage('va', 'issuesVA').schema,
     depends: formData => redesignActive(formData),
   }),
   treatmentDatePrompt: pageBuilder.itemPage({

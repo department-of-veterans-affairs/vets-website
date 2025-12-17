@@ -50,6 +50,7 @@ export const EVIDENCE_URLS = {
   privateTreatmentDate:
     'supporting-evidence/:index/private-medical-records-dates',
   privateSummary: 'supporting-evidence/private-medical-records-review',
+  uploadPrompt: 'supporting-evidence/add-supporting-evidence',
 };
 
 // Point to header of the "File by mail, in person, or with the help of a VSO

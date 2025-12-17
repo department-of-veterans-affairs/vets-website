@@ -6,19 +6,14 @@ import {
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
-  checkboxGroupSchema,
   currentOrPastDateDigitsSchema,
   currentOrPastDateDigitsUI,
   textUI,
   textSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
-import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import { getAddOrEditMode, getSelectedIssues } from '../../utils/evidence';
 import Authorization from '../../components/4142/Authorization';
-import { issuesContent } from './common';
-import { getSelected } from '../../../shared/utils/issues';
 import {
   EVIDENCE_URLS,
   PRIVATE_EVIDENCE_KEY,
@@ -31,6 +26,7 @@ import {
   treatmentDateContent,
 } from '../../content/evidence/private';
 import { redesignActive } from '../../utils';
+import { issuesPage } from './common';
 
 /**
  * This is how we determine whether all of the info for one
@@ -40,12 +36,12 @@ import { redesignActive } from '../../utils';
  * @returns bool
  */
 const itemIsComplete = item => {
-  const { address, from, to, treatmentLocation } = item;
+  const { address, treatmentStart, treatmentEnd, treatmentLocation } = item;
   const { city, country, postalCode, state, street } = address;
   const issuesComplete = getSelectedIssues(item)?.length > 0;
   const addressIsComplete =
     address && city && country && postalCode && state && street;
-  const treatmentDatesComplete = from && to;
+  const treatmentDatesComplete = treatmentStart && treatmentEnd;
 
   return (
     addressIsComplete &&
@@ -174,74 +170,13 @@ const locationPage = {
   },
 };
 
-// Create base UI with minimal config - labels will be dynamically added
-const baseIssuesCheckboxUI = {
-  'ui:title': issuesContent.label,
-  'ui:webComponentField': VaCheckboxGroupField,
-  'ui:errorMessages': {
-    atLeastOne: issuesContent.requiredError,
-  },
-  'ui:required': () => true,
-  'ui:validations': [validateBooleanGroup],
-};
-
-const issuesPage = {
-  uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) =>
-      issuesContent.question('private', formData, getAddOrEditMode()),
-    ),
-    issuesPrivate: {
-      ...baseIssuesCheckboxUI,
-      'ui:options': {
-        updateSchema: (...args) => {
-          // eslint-disable-next-line no-unused-vars
-          const [_itemData, schema, _uiSchema, index, _path, fullData] = args;
-
-          const selectedIssues = getSelected(fullData).map(issue => {
-            if (issue?.attributes) {
-              return issue?.attributes?.ratingIssueSubjectText;
-            }
-            return issue.issue;
-          });
-
-          const properties = {};
-          const issueUiSchemas = {};
-
-          selectedIssues.forEach(issue => {
-            properties[issue] = {
-              type: 'boolean',
-              title: issue,
-            };
-            issueUiSchemas[issue] = {
-              'ui:title': issue,
-            };
-          });
-
-          return {
-            type: 'object',
-            properties,
-            issueUiSchemas,
-          };
-        },
-      },
-    },
-  },
-  schema: {
-    type: 'object',
-    required: ['issuesPrivate'],
-    properties: {
-      issuesPrivate: checkboxGroupSchema(['na']),
-    },
-  },
-};
-
 /** @returns {PageSchema} */
 const treatmentDatePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) =>
       treatmentDateContent.question(formData, getAddOrEditMode()),
     ),
-    from: currentOrPastDateDigitsUI({
+    treatmentStart: currentOrPastDateDigitsUI({
       title: treatmentDateContent.firstDateLabel,
       hint: treatmentDateContent.dateHint,
       errorMessages: {
@@ -249,7 +184,7 @@ const treatmentDatePage = {
       },
       removeDateHint: true,
     }),
-    to: currentOrPastDateDigitsUI({
+    treatmentEnd: currentOrPastDateDigitsUI({
       title: treatmentDateContent.lastDateLabel,
       hint: treatmentDateContent.dateHint,
       errorMessages: {
@@ -261,10 +196,10 @@ const treatmentDatePage = {
   schema: {
     type: 'object',
     properties: {
-      from: currentOrPastDateDigitsSchema,
-      to: currentOrPastDateDigitsSchema,
+      treatmentStart: currentOrPastDateDigitsSchema,
+      treatmentEnd: currentOrPastDateDigitsSchema,
     },
-    required: ['to', 'from'],
+    required: ['treatmentEnd', 'treatmentStart'],
   },
 };
 
@@ -293,8 +228,8 @@ export default arrayBuilderPages(options, pageBuilder => ({
         // resolve prop warning that the index is a string rather than a number
         pagePerItemIndex: +props.pagePerItemIndex,
       }),
-    depends: (props, index) => {
-      return redesignActive(props) && index === 0;
+    depends: (formData, index) => {
+      return redesignActive(formData) && index === 0;
     },
   }),
   privateLocation: pageBuilder.itemPage({
@@ -307,8 +242,8 @@ export default arrayBuilderPages(options, pageBuilder => ({
   issuesPrivate: pageBuilder.itemPage({
     title: '',
     path: EVIDENCE_URLS.privateIssues,
-    uiSchema: issuesPage.uiSchema,
-    schema: issuesPage.schema,
+    uiSchema: issuesPage('private', 'issuesPrivate').uiSchema,
+    schema: issuesPage('private', 'issuesPrivate').schema,
     depends: formData => redesignActive(formData),
   }),
   treatmentDatePrivate: pageBuilder.itemPage({

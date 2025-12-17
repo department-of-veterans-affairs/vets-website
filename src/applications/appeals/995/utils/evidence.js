@@ -139,5 +139,9 @@ export const getProviderModalDeleteTitle = locationAndName => {
  * @returns ['Hypertension']
  */
 export const getSelectedIssues = issues => {
+  if (!issues) {
+    return null;
+  }
+
   return Object.keys(issues).filter(issue => issues[issue]);
 };

@@ -55,7 +55,7 @@ export const summaryContent = {
   alertItemUpdatedText: itemData =>
     `${itemData[PRIVATE_TREATMENT_LOCATION_KEY]} information has been updated.`,
   cardDescription: item => {
-    const selectedIssues = getSelectedIssues(item.issuesPrivate);
+    const selectedIssues = getSelectedIssues(item?.issuesPrivate);
 
     return (
       <>
@@ -64,23 +64,24 @@ export const summaryContent = {
             {item[PRIVATE_TREATMENT_LOCATION_KEY]}
           </h3>
         )}
-        {selectedIssues.length === 1 && (
+        {selectedIssues?.length === 1 && (
           <p>
-            <strong>Condition:</strong> {item.issuesPrivate[0]}
+            <strong>Condition:</strong> {selectedIssues[0]}
           </p>
         )}
-        {selectedIssues.length > 1 && (
+        {selectedIssues?.length > 1 && (
           <p>
             <strong>Conditions:</strong> {formatIssueList(selectedIssues)}
           </p>
         )}
-        {item?.to &&
-          item?.from && (
+        {item?.treatmentEnd &&
+          item?.treatmentStart && (
             <p>
               <strong>Treatment:</strong>
               &nbsp;
-              {formatDateToReadableString(new Date(item.from))} to{' '}
-              {formatDateToReadableString(new Date(item.to))}
+              {formatDateToReadableString(
+                new Date(item.treatmentStart),
+              )} to {formatDateToReadableString(new Date(item.treatmentEnd))}
             </p>
           )}
       </>
