@@ -1,7 +1,7 @@
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { fileUploadBlurb } from '../../../shared/components/fileUploads/attachments';
 import { fileUploadUi as fileUploadUI } from '../../../shared/components/fileUploads/upload';
-import { blankSchema } from '../medicareInformation';
+import { blankSchema } from '../../definitions';
 
 // TODO: consolodate into definitions file once all configs are merged
 const fileUploadSchema = {

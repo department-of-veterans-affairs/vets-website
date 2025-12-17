@@ -33,6 +33,13 @@ import { ANCHOR_LINKS } from '../constants';
 const NEED_ITEMS_STATUS = 'NEEDED_FROM_';
 
 class FilesPage extends React.Component {
+  // Instance-level memoization for failed submissions to prevent UploadType2ErrorAlert
+  // from receiving a new array reference on every render, which would break its useEffect tracking
+  // (Class components can't use useMemo hook, so we implement manual memoization)
+  _cachedEvidenceSubmissions = null;
+
+  _cachedFailedSubmissions = null;
+
   componentDidMount() {
     const { claim, location } = this.props;
     // Only set the document title at mount-time if the claim is already available.
@@ -77,6 +84,17 @@ class FilesPage extends React.Component {
     this.props.clearNotification();
   }
 
+  getFailedSubmissionsMemoized(evidenceSubmissions) {
+    if (this._cachedEvidenceSubmissions !== evidenceSubmissions) {
+      this._cachedEvidenceSubmissions = evidenceSubmissions;
+      this._cachedFailedSubmissions = getFailedSubmissionsWithinLast30Days(
+        evidenceSubmissions,
+      );
+    }
+
+    return this._cachedFailedSubmissions;
+  }
+
   getPageContent() {
     const { claim } = this.props;
 
@@ -97,7 +115,7 @@ class FilesPage extends React.Component {
     const documentsTurnedIn = trackedItems.filter(
       item => !item.status.startsWith(NEED_ITEMS_STATUS),
     );
-    const failedSubmissionsWithinLast30Days = getFailedSubmissionsWithinLast30Days(
+    const failedSubmissionsWithinLast30Days = this.getFailedSubmissionsMemoized(
       evidenceSubmissions,
     );
 
@@ -114,6 +132,7 @@ class FilesPage extends React.Component {
           <Toggler.Enabled>
             <UploadType2ErrorAlert
               failedSubmissions={failedSubmissionsWithinLast30Days}
+              isStatusPage={false}
             />
             <AdditionalEvidencePage additionalEvidenceTitle="Upload additional evidence" />
             <div className="vads-u-margin-y--6 vads-u-border--1px vads-u-border-color--gray-light" />

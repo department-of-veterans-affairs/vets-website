@@ -59,68 +59,43 @@ describe('526 side of body shared page', () => {
     expect(view.getByRole('button', { name: /submit/i })).to.exist;
   });
 
-  it('allows submit without a selection (not required)', async () => {
+  it('blocks submit without a selection (required)', async () => {
     const onSubmit = sinon.spy();
-    const { container } = mountPage({}, onSubmit);
-    const view = within(container);
+    const { container, getByRole } = mountPage({}, onSubmit);
 
-    view.getByRole('button', { name: /submit/i }).click();
+    fireEvent.click(getByRole('button', { name: /submit/i }));
 
     await waitFor(() => {
-      expect(onSubmit.calledOnce).to.be.true;
+      const radio = container.querySelector('va-radio');
+      expect(radio).to.have.attribute('error', 'You must provide a response');
     });
+
+    expect(onSubmit.called).to.be.false;
   });
 
-  it('submits when selecting RIGHT via event', async () => {
+  it('submits when RIGHT is selected', async () => {
     const onSubmit = sinon.spy();
-    const { container } = mountPage({}, onSubmit);
-    const view = within(container);
-    const group = container.querySelector('va-radio');
-    fireEvent(
-      group,
-      new CustomEvent('vaChange', {
-        bubbles: true,
-        detail: { value: 'RIGHT' },
-      }),
-    );
+    const { getByRole } = mountPage({ sideOfBody: 'RIGHT' }, onSubmit);
 
-    view.getByRole('button', { name: /submit/i }).click();
+    fireEvent.click(getByRole('button', { name: /submit/i }));
 
     await waitFor(() => expect(onSubmit.calledOnce).to.be.true);
   });
 
-  it('submits when selecting LEFT via event', async () => {
+  it('submits when LEFT is selected', async () => {
     const onSubmit = sinon.spy();
-    const { container } = mountPage({}, onSubmit);
-    const view = within(container);
-    const group = container.querySelector('va-radio');
-    fireEvent(
-      group,
-      new CustomEvent('vaChange', {
-        bubbles: true,
-        detail: { value: 'LEFT' },
-      }),
-    );
+    const { getByRole } = mountPage({ sideOfBody: 'LEFT' }, onSubmit);
 
-    view.getByRole('button', { name: /submit/i }).click();
+    fireEvent.click(getByRole('button', { name: /submit/i }));
 
     await waitFor(() => expect(onSubmit.calledOnce).to.be.true);
   });
 
-  it('submits when selecting BILATERAL via event', async () => {
+  it('submits when BILATERAL is selected', async () => {
     const onSubmit = sinon.spy();
-    const { container } = mountPage({}, onSubmit);
-    const view = within(container);
-    const group = container.querySelector('va-radio');
-    fireEvent(
-      group,
-      new CustomEvent('vaChange', {
-        bubbles: true,
-        detail: { value: 'BILATERAL' },
-      }),
-    );
+    const { getByRole } = mountPage({ sideOfBody: 'BILATERAL' }, onSubmit);
 
-    view.getByRole('button', { name: /submit/i }).click();
+    fireEvent.click(getByRole('button', { name: /submit/i }));
 
     await waitFor(() => expect(onSubmit.calledOnce).to.be.true);
   });

@@ -189,9 +189,21 @@ describe('Travel Pay – ReviewPage', () => {
 
     // SummaryBox description text about deductible
     expect(
-      getByText(
-        'Before we can pay you back for expenses, you must pay a deductible. The current deductible is $3 one-way or $6 round-trip for each appointment, up to $18 total each month.',
-      ),
+      getByText((content, element) => {
+        return (
+          element.tagName.toLowerCase() === 'p' &&
+          element.textContent.includes(
+            'Before we can pay you back for expenses, you must pay a deductible. The current deductible is',
+          ) &&
+          element.textContent.includes('$3') &&
+          element.textContent.includes('one-way or') &&
+          element.textContent.includes('$6') &&
+          element.textContent.includes('round-trip for each appointment') &&
+          element.textContent.includes('You’ll pay no more than') &&
+          element.textContent.includes('$18') &&
+          element.textContent.includes('total each month')
+        );
+      }),
     ).to.exist;
 
     // SummaryBox Va link
