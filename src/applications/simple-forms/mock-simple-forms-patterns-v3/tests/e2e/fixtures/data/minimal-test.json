@@ -85,7 +85,18 @@
           "city": "City",
           "state": "HI",
           "postalCode": "34343"
-        }
+        },
+        "supportingDocuments": [
+          {
+            "name": "xray-1.pdf",
+            "size": 12345,
+            "fileType": "application/pdf",
+            "confirmationCode": "349924",
+            "additionalData": {
+              "documentType": "xray"
+            }
+          }
+        ]
       }
     ]
   }
