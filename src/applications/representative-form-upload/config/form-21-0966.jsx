@@ -144,7 +144,7 @@ const form210966 = (pathname = null) => {
             scrollAndFocusTarget,
             // we want req'd fields prefilled for LOCAL testing/previewing
             // one single initialData prop here will suffice for entire form
-            initialData: getMockData(),
+            initialData: getMockData(true),
           },
         },
       },
