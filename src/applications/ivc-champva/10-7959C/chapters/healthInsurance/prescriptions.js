@@ -3,12 +3,11 @@ import {
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { healthInsurancePageTitleUI } from '../../utils/titles';
+import content from '../../locales/en/content.json';
 
-const TITLE_TEXT = 'prescription coverage';
-const INPUT_LABEL =
-  'Does the beneficiary’s health insurance cover prescriptions?';
-const HINT_TEXT =
-  'You may find this information on the front of the health insurance card. You can also contact the phone number listed on the back of the card.';
+const TITLE_TEXT = content['health-insurance--prescription-title'];
+const INPUT_LABEL = content['health-insurance--prescription-label'];
+const HINT_TEXT = content['health-insurance--prescription-hint'];
 
 export default {
   uiSchema: {

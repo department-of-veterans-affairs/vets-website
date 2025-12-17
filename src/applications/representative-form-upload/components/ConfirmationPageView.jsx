@@ -3,35 +3,18 @@ import { format } from 'date-fns';
 
 import { scrollTo } from 'platform/utilities/scroll';
 import { waitForRenderThenFocus } from 'platform/utilities/ui/focus';
-import PropTypes from 'prop-types';
 
 export const ConfirmationPageView = ({
   submitDate,
-  expirationDate,
-  benefitType,
-  address,
-  name,
+  confirmationNumber,
   childContent = null,
 }) => {
-  const { first, last } = name;
   const alertRef = useRef(null);
 
   const formattedSubmitDate =
     submitDate && typeof submitDate === 'object'
       ? format(submitDate, 'MMMM d, yyyy')
       : null;
-
-  const formattedExpirationDateTime =
-    expirationDate && typeof expirationDate === 'object'
-      ? format(expirationDate, "MMMM d, yyyy 'at' h:mm aaaa 'ET'")
-      : null;
-
-  const formattedAddress =
-    address && address.city && address.state && address.postalCode
-      ? `${address.city}, ${address.state} ${address.postalCode}`
-      : null;
-
-  const itfTypes = { compensation: 'Compensation', pension: 'Pension' };
 
   useEffect(
     () => {
@@ -53,66 +36,47 @@ export const ConfirmationPageView = ({
           width="300"
         />
       </div>
-      {submitDate && (
-        <va-alert status="success" ref={alertRef}>
-          <h2 slot="headline">We recorded the intent to file</h2>
-          {formattedExpirationDateTime ? (
-            <p className="vads-u-margin-y--0">
-              Submit the claim by <strong>{formattedExpirationDateTime}</strong>{' '}
-              to receive payments starting from the effective date.
-            </p>
-          ) : null}
-        </va-alert>
-      )}
-      <p>This information was recorded for the new intent to file.</p>
-      <va-card>
-        <h2 className="vads-u-margin--0 vads-u-font-size--h3">
-          {last}, {first}
-        </h2>
-        {formattedAddress && <div>{formattedAddress}</div>}
-        <p className="vads-u-margin-bottom--0">
-          <b>Benefit:</b> {itfTypes[benefitType]} <br />
-          <b>ITF Date:</b> {formattedSubmitDate} (Expires in 365 days)
+      <va-alert uswds status="success" ref={alertRef}>
+        {submitDate && <h2>You’ve submitted the form</h2>}
+        {formattedSubmitDate ? (
+          <p>
+            You submitted the form and supporting evidence on{' '}
+            <strong>{formattedSubmitDate}</strong>
+          </p>
+        ) : null}
+        <p>
+          Your confirmation number is: <strong>{confirmationNumber}</strong>
         </p>
-      </va-card>
+        <p>
+          <strong>Note:</strong> Print this page or copy the confirmation number
+          for your records.
+        </p>
+      </va-alert>
       <section>
         <h2>What to expect</h2>
         <va-process-list>
-          <va-process-list-item header="We'll confirm the intent to file was recorded">
-            <p>We’ll send you an email with the confirmation.</p>
-          </va-process-list-item>
-          <va-process-list-item header="Submit the claim prior to ITF expiration date">
+          <va-process-list-item header="Now, we'll process your form">
             <p>
-              You should submit the claim as soon as possible. The intent to
-              file for {itfTypes[benefitType]} expires one year from today.
+              The submission is in progress and is being processed through
+              Central Mail before reaching VBMS.
+            </p>
+          </va-process-list-item>
+          <va-process-list-item header="Next, we'll review the files">
+            <p>
+              If we need more information after reviewing the form and
+              supporting evidence, we’ll contact you by email.
             </p>
           </va-process-list-item>
         </va-process-list>
       </section>
       <va-link-action
         href="/representative/submissions"
-        label="Go back to submissions"
+        label="Review submissions history"
         class="vads-u-margin-bottom--4"
-        text="Go back to submissions"
+        text="Review submissions history"
         type="primary"
       />
       {childContent || null}
     </div>
   );
-};
-
-ConfirmationPageView.propTypes = {
-  address: PropTypes.shape({
-    city: PropTypes.string,
-    postalCode: PropTypes.string,
-    state: PropTypes.string,
-  }),
-  benefitType: PropTypes.string,
-  childContent: PropTypes.node,
-  expirationDate: PropTypes.string,
-  name: PropTypes.shape({
-    first: PropTypes.string,
-    last: PropTypes.string,
-  }),
-  submitDate: PropTypes.string,
 };
