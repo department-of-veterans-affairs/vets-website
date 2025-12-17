@@ -444,7 +444,7 @@ const responses = {
       }
       default:
         // For any other ID, return the original mock
-        return res.json(appointment.original);
+        return res.json(appointment.savedClaim);
     }
   },
   // 'GET /vaos/v2/appointments/:id': (req, res) => {
