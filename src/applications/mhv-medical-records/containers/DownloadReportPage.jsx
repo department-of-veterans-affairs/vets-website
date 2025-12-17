@@ -16,8 +16,6 @@ import {
   selectIsCernerOnlyPatient,
 } from '~/platform/user/cerner-dsot/selectors';
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
-import CernerFacilityAlert from 'platform/mhv/components/CernerFacilityAlert/CernerFacilityAlert';
-import { CernerAlertContent } from 'platform/mhv/components/CernerFacilityAlert/constants';
 import NeedHelpSection from '../components/DownloadRecords/NeedHelpSection';
 import {
   getFailedDomainList,
@@ -268,8 +266,6 @@ const DownloadReportPage = ({ runningUnitTest }) => {
         Download your VA medical records as a single report (called your VA Blue
         Button® report). Or find other reports to download.
       </p>
-
-      <CernerFacilityAlert {...CernerAlertContent.DOWNLOAD} />
 
       {lastSuccessfulUpdate && (
         <va-card
