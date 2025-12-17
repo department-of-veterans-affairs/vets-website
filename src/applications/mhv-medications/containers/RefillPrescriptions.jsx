@@ -330,20 +330,26 @@ const RefillPrescriptions = () => {
                         }
                         onVaChange={() => onSelectPrescription(prescription)}
                         uswds
-                        checkbox-description={`Prescription number: ${
-                          prescription.prescriptionNumber
-                        }
-                        ${
-                          prescription.sortedDispensedDate ||
-                          prescription.dispensedDate
-                            ? `Last filled on ${dateFormat(
-                                prescription.sortedDispensedDate ||
-                                  prescription.dispensedDate,
-                                DATETIME_FORMATS.longMonthDate,
-                              )}`
-                            : 'Not filled yet'
-                        }
-                        ${prescription.refillRemaining} refills left`}
+                        checkbox-description={(() => {
+                          let lastFilledText = '';
+                          if (
+                            prescription.sortedDispensedDate ||
+                            prescription.dispensedDate
+                          ) {
+                            lastFilledText = `Last filled on ${dateFormat(
+                              prescription.sortedDispensedDate ||
+                                prescription.dispensedDate,
+                              DATETIME_FORMATS.longMonthDate,
+                            )}`;
+                          } else if (!isOracleHealthPilot) {
+                            lastFilledText = 'Not filled yet';
+                          }
+                          return `Prescription number: ${
+                            prescription.prescriptionNumber
+                          }
+                        ${lastFilledText}
+                        ${prescription.refillRemaining} refills left`;
+                        })()}
                       />
                     </div>
                   ))}

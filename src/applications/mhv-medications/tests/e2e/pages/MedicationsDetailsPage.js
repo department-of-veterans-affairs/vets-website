@@ -565,6 +565,10 @@ class MedicationsDetailsPage {
     cy.get('[data-testid="rx-last-filled-date"]').should('contain', text);
   };
 
+  verifyLastFilledDateNotDisplayedOnDetailsPage = text => {
+    cy.get('[data-testid="rx-last-filled-date"]').should('not.contain', text);
+  };
+
   verifyRefillLinkTextOnDetailsPage = text => {
     cy.get('[data-testid="refill-nav-link"]').should('have.text', text);
   };

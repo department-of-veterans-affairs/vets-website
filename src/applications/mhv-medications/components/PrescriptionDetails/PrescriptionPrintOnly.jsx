@@ -118,17 +118,19 @@ const PrescriptionPrintOnly = props => {
               : 'About your prescription'}
           </DetailsHeaderElement>
           <div className="print-only-rx-details-container">
-            {!pendingMed && !pendingRenewal ? (
-              <p>
-                <strong>Last filled on:</strong>{' '}
-                {rx?.sortedDispensedDate
-                  ? dateFormat(
-                      rx.sortedDispensedDate,
-                      DATETIME_FORMATS.longMonthDate,
-                    )
-                  : 'Not filled yet'}
-              </p>
-            ) : null}
+            {!pendingMed &&
+              !pendingRenewal &&
+              (rx?.sortedDispensedDate || !isCernerPilot) && (
+                <p>
+                  <strong>Last filled on:</strong>{' '}
+                  {rx?.sortedDispensedDate
+                    ? dateFormat(
+                        rx.sortedDispensedDate,
+                        DATETIME_FORMATS.longMonthDate,
+                      )
+                    : 'Not filled yet'}
+                </p>
+              )}
             {!pendingMed &&
               !pendingRenewal && (
                 <>
@@ -326,15 +328,17 @@ const PrescriptionPrintOnly = props => {
                           <h4>
                             {`Prescription number: ${entry.prescriptionNumber}`}
                           </h4>
-                          <p>
-                            <strong>Last filled:</strong>{' '}
-                            {entry.sortedDispensedDate
-                              ? dateFormat(
-                                  entry.sortedDispensedDate,
-                                  DATETIME_FORMATS.longMonthDate,
-                                )
-                              : 'Not filled yet'}
-                          </p>
+                          {(entry.sortedDispensedDate || !isCernerPilot) && (
+                            <p>
+                              <strong>Last filled:</strong>{' '}
+                              {entry.sortedDispensedDate
+                                ? dateFormat(
+                                    entry.sortedDispensedDate,
+                                    DATETIME_FORMATS.longMonthDate,
+                                  )
+                                : 'Not filled yet'}
+                            </p>
+                          )}
                           <p>
                             <strong>Quantity:</strong>{' '}
                             {validateField(entry.quantity)}
