@@ -221,7 +221,7 @@ describe('VAOS Component: TravelReimbursement', () => {
     expect(screen.getByTestId('view-claim-link')).to.exist;
     expect(screen.getByTestId('view-claim-link')).to.have.attribute(
       'href',
-      `/my-health/travel-pay/file-new-claim/${appointment.id}`,
+      `/my-health/travel-pay/claims/1234`,
     );
     expect(screen.getByTestId('view-claim-link')).to.have.attribute(
       'text',
@@ -271,7 +271,7 @@ describe('VAOS Component: TravelReimbursement', () => {
     expect(screen.getByTestId('view-claim-link')).to.exist;
     expect(screen.getByTestId('view-claim-link')).to.have.attribute(
       'href',
-      `/my-health/travel-pay/file-new-claim/${appointment.id}`,
+      `/my-health/travel-pay/claims/1234`,
     );
     expect(screen.getByTestId('view-claim-link')).to.have.attribute(
       'text',

@@ -292,7 +292,7 @@ describe('VAOS Component: AppointmentTasks', () => {
     expect(screen.getByText(/Appointment tasks/i)).to.exist;
     expect(screen.getByTestId('file-claim-link')).to.have.attribute(
       'href',
-      `/my-health/travel-pay/file-new-claim/${appointmentId}`,
+      `/my-health/travel-pay/claims/1234`,
     );
     expect(screen.getByTestId('file-claim-link')).to.have.attribute(
       'text',
@@ -341,7 +341,7 @@ describe('VAOS Component: AppointmentTasks', () => {
     expect(screen.getByText(/Appointment tasks/i)).to.exist;
     expect(screen.getByTestId('file-claim-link')).to.have.attribute(
       'href',
-      `/my-health/travel-pay/file-new-claim/${appointmentId}`,
+      `/my-health/travel-pay/claims/1234`,
     );
     expect(screen.getByTestId('file-claim-link')).to.have.attribute(
       'text',
