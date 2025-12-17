@@ -20,22 +20,9 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
 
   useEffect(
     () => {
-      const url = new URL(window.location.href);
-      const params = url.searchParams;
-
-      const isLoginModalEntry = params.get('next') === 'loginModal';
-
-      if (isLoginModalEntry && !params.has('oauth')) {
-        setOAuth(true);
-        params.set('oauth', 'true');
-        window.history.replaceState({}, '', url.toString());
-      } else if (isLoginModalEntry && params.has('oauth')) {
-        setOAuth(OAuthEnabled && params.get('oauth') === 'true');
-      } else {
-        setOAuth(OAuthEnabled && OAuth === 'true');
-      }
+      setOAuth(OAuthEnabled && OAuth === 'true');
     },
-    [OAuthEnabled],
+    [OAuth, OAuthEnabled],
   );
 
   return (
