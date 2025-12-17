@@ -26,6 +26,27 @@ const getRoutes = (
       requiresLOA3: true,
       requiresMVI: true,
     },
+    {
+      component: Edit,
+      name: PROFILE_PATH_NAMES.SCHEDULING_PREF_CONTACT_METHOD,
+      path: PROFILE_PATHS.SCHEDULING_PREF_CONTACT_METHOD,
+      requiresLOA3: true,
+      requiresMVI: true,
+    },
+    {
+      component: Edit,
+      name: PROFILE_PATH_NAMES.SCHEDULING_PREF_CONTACT_TIME,
+      path: PROFILE_PATHS.SCHEDULING_PREF_CONTACT_TIMES,
+      requiresLOA3: true,
+      requiresMVI: true,
+    },
+    {
+      component: Edit,
+      name: PROFILE_PATH_NAMES.SCHEDULING_PREF_APPOINTMENT_TIME,
+      path: PROFILE_PATHS.SCHEDULING_PREF_APPOINTMENT_TIMES,
+      requiresLOA3: true,
+      requiresMVI: true,
+    },
   ];
 };
 

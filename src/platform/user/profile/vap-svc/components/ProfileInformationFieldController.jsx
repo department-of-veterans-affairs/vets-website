@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 // platform level imports
+import { redirect } from '../../../exportsFile';
 import recordEvent from '../../../../monitoring/record-event';
 import { isVAPatient } from '../../../selectors';
 import { waitForRenderThenFocus } from '../../../../utilities/ui';
@@ -65,6 +66,7 @@ import ProfileInformationView from './ProfileInformationView';
 import ProfileInformationEditView from './ProfileInformationEditView';
 import { updateMessagingSignature } from '../../actions/mhv';
 import ProfileInformationEditViewFc from './ProfileInformationEditViewFc';
+import { SCHEDULING_PREF_PATHS } from '../constants/schedulingPreferencesConstants';
 
 const wrapperClasses = prefixUtilityClasses([
   'display--flex',
@@ -294,7 +296,19 @@ class ProfileInformationFieldController extends React.Component {
     this.captureEvent(event);
     // Check if this field should use subtask editing
     if (isSubtaskSchedulingPreference(this.props.fieldName)) {
-      return;
+      switch (this.props.fieldName) {
+        case VAP_SERVICE.FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD:
+          redirect(SCHEDULING_PREF_PATHS.CONTACT_METHOD);
+          break;
+        case VAP_SERVICE.FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES:
+          redirect(SCHEDULING_PREF_PATHS.CONTACT_TIMES);
+          break;
+        case VAP_SERVICE.FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES:
+          redirect(SCHEDULING_PREF_PATHS.APPOINTMENT_TIMES);
+          break;
+        default:
+          return;
+      }
     }
     // Use inline editing flow
     this.openEditModal();

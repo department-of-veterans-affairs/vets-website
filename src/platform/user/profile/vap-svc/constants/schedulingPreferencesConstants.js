@@ -173,3 +173,12 @@ export const ANALYTICS_FIELD_MAP = {
 export const API_ROUTES = {
   SCHEDULING_PREFERENCES: '/profile/scheduling_preferences',
 };
+
+export const SCHEDULING_PREF_PATHS = {
+  CONTACT_METHOD:
+    '/profile/health-care-settings/scheduling-preferences/contact-method',
+  CONTACT_TIMES:
+    '/profile/health-care-settings/scheduling-preferences/contact-times',
+  APPOINTMENT_TIMES:
+    '/profile/health-care-settings/scheduling-preferences/appointment-times',
+};
