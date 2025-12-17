@@ -3,8 +3,6 @@ import { MissingFieldsException } from '../exceptions/MissingFieldsException';
 export const validate = data => {
   const missingFields = [];
 
-  // SHOULD VALIDATION RETURN ANYTHING ELSE?
-
   // Validate top-level data fields
   const requiredFieldsData = ['selectedDebts', 'submissionDetails', 'veteran'];
   const missingDataFields = requiredFieldsData.filter(field => !data[field]);
