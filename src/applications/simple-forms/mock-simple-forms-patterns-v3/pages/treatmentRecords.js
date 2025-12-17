@@ -141,7 +141,7 @@ const supportingDocuments = {
       additionalInputRequired: true,
       additionalInput: () => {
         return (
-          <VaSelect required label="Document status">
+          <VaSelect required label="Document type">
             <option value="xray">X-ray</option>
             <option value="mri">MRI</option>
             <option value="ct">CT Scan</option>
