@@ -145,7 +145,7 @@ export default function ClaimDetailsContent({
                   <span className="vads-u-font-weight--bold">Note:</span> We
                   can't file your travel reimbursement claim here right now. But
                   you can still file your claim in the Beneficiary Travel Self
-                  Self Service System (BTSSS).
+                  Service System (BTSSS).
                 </p>
               )}
             </>
