@@ -11,7 +11,7 @@ const {
   differenceInMinutes,
 } = require('date-fns');
 const {
-  getMockConfirmedAppointments,
+  // getMockConfirmedAppointments,
   findNextBusinessDay,
 } = require('./utils/confirmedAppointments');
 const { getMockSlots } = require('./utils/slots');
@@ -22,7 +22,7 @@ const facilitiesV2 = require('./v2/facilities.json');
 const schedulingConfigurationsCC = require('./v2/scheduling_configurations_cc.json');
 const schedulingConfigurations = require('./v2/scheduling_configurations.json');
 // Generate dynamic slots with conflicts based on confirmed appointments
-const mockConfirmedAppointments = getMockConfirmedAppointments();
+// const mockConfirmedAppointments = getMockConfirmedAppointments();
 // Find appointments scheduled for the next business day to force conflicts
 const nextBusinessDay = findNextBusinessDay();
 const nextBusinessDayString = nextBusinessDay.toISOString().split('T')[0]; // Get YYYY-MM-DD format
@@ -30,22 +30,25 @@ const nextBusinessDayString = nextBusinessDay.toISOString().split('T')[0]; // Ge
 // To locally test appointment details null state behavior, comment out
 // the inclusion of confirmed.json and uncomment the inclusion of
 // confirmed_null_states.json
-const confirmedV2 = require('./v2/confirmed.json');
+const confirmedV2 = require('./v2/confirmed.keep');
 // const confirmedV2 = require('./v2/confirmed_null_states.json');
 
 // Oracle Health confirmed appointments
-const confirmedOh = require('./v2/confirmed_oh.json');
+// const confirmedOh = require('./v2/confirmed_oh.json');
 
 const confirmedAppointmentsV3 = {
-  data: mockConfirmedAppointments.data.concat(
-    confirmedV2.data,
-    confirmedOh.data,
-  ),
+  data: confirmedV2.data,
 };
+// const confirmedAppointmentsV3 = {
+//   data: mockConfirmedAppointments.data.concat(
+//     confirmedV2.data,
+//     confirmedOh.data,
+//   ),
+// };
 
 const nextBusinessDayAppointments = confirmedAppointmentsV3.data.filter(
   appointment => {
-    const appointmentDate = appointment.attributes.start.split('T')[0];
+    const appointmentDate = appointment.attributes.start?.split('T')[0];
     return appointmentDate === nextBusinessDayString;
   },
 );

@@ -3,17 +3,14 @@ import { formatInTimeZone } from 'date-fns-tz';
 import PropTypes from 'prop-types';
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import AppointmentClinicInfo from '../../../components/AppointmentClinicInfo';
+import AppointmentClinicInfo from '../../../components/AppointmentClinicInfoV2';
 import AppointmentColumn from '../../../components/AppointmentColumn';
 import AppointmentRow from '../../../components/AppointmentRow';
 import {
   selectFeatureListViewClinicInfo,
   selectFeatureUseBrowserTimezone,
 } from '../../../redux/selectors';
-import {
-  selectClinicLocationInfo,
-  selectTimeZoneAbbr,
-} from '../../redux/selectors';
+import { selectTimeZoneAbbr } from '../../redux/selectors';
 
 export default function AppointmentColumnLayout({
   data,
@@ -24,13 +21,13 @@ export default function AppointmentColumnLayout({
   const featureUseBrowserTimezone = useSelector(
     selectFeatureUseBrowserTimezone,
   );
-  // console.log('data', data);
   const {
     appointmentDateAriaText: dateAriaLabel,
     appointmentDetailAriaText: detailAriaLabel,
     appointmentLocality,
     isCanceled,
     isCommunityCare,
+    location: clinicLocationInfo,
     modalityIcon,
     modalityText,
     startDate,
@@ -43,9 +40,11 @@ export default function AppointmentColumnLayout({
   const featureListViewClinicInfo = useSelector(state =>
     selectFeatureListViewClinicInfo(state),
   );
-  const clinicLocationInfo = useSelector(() => selectClinicLocationInfo(data));
   const showClinicLocationInfo = useMemo(
-    () => !!(clinicLocationInfo?.name || clinicLocationInfo?.location),
+    () =>
+      !!(
+        clinicLocationInfo?.name || clinicLocationInfo?.clinicPhysicalLocation
+      ),
     [clinicLocationInfo],
   );
 

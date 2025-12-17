@@ -362,7 +362,7 @@ const ensureConflictsForTesting = (
   // Group appointments by date
   const appointmentsByDate = {};
   existingAppointments.forEach(appointment => {
-    const dateKey = appointment.attributes.start.split('T')[0];
+    const dateKey = appointment.attributes.start?.split('T')[0];
     if (!appointmentsByDate[dateKey]) {
       appointmentsByDate[dateKey] = [];
     }

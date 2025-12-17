@@ -7,11 +7,21 @@ import createRoutesWithStore from './routes';
 import manifest from './manifest.json';
 import reducer from './redux/reducer';
 import { vaosApi } from './redux/api/vaosApi';
+import slice from './services/appointment/apiSlice';
+import facilitySlice from './services/location/apiSlice';
+// import healthCareSlice from './services/healthcare-service/apiSlice';
+import schedulingCofigurationSlice from './services/scheduling-configuration/apiSlice';
 
 startApp({
   url: manifest.rootUrl,
   createRoutesWithStore,
   reducer,
   entryName: manifest.entryName,
-  additionalMiddlewares: [vaosApi.middleware],
+  additionalMiddlewares: [
+    vaosApi.middleware,
+    slice.middleware,
+    facilitySlice.middleware,
+    // healthCareSlice.middleware,
+    schedulingCofigurationSlice.middleware,
+  ],
 });
