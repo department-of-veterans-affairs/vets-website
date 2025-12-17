@@ -6,10 +6,12 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { fetchClaimantInfo } from '../actions';
 import { selectMeb1995Reroute } from '../selectors/featureToggles';
+import { getIntroState } from 'platform/forms/exportsFile';
 
 export const IntroductionPageRedirect = ({ route }) => {
   const dispatch = useDispatch();
   const rerouteFlag = useSelector(selectMeb1995Reroute);
+  const { user } = useSelector(state => getIntroState(state));
 
   useEffect(() => {
     focusElement('.va-nav-breadcrumbs-list');
@@ -19,7 +21,6 @@ export const IntroductionPageRedirect = ({ route }) => {
     buttonOnly => (
       <SaveInProgressIntro
         buttonOnly={buttonOnly}
-        prefillEnabled={route.formConfig.prefillEnabled}
         messages={route.formConfig.savedFormMessages}
         pageList={route.pageList}
         startText="Start your questionnaire"
@@ -27,7 +28,6 @@ export const IntroductionPageRedirect = ({ route }) => {
       />
     ),
     [
-      route.formConfig.prefillEnabled,
       route.formConfig.savedFormMessages,
       route.pageList,
     ],
@@ -67,9 +67,26 @@ export const IntroductionPageRedirect = ({ route }) => {
       </h2>
       <p>Answer a few questions to determine which form you need.</p>
 
-      <div className="vads-u-margin-y--4">
-        {renderSaveInProgressIntro(false)}
-      </div>
+      {user?.login?.currentlyLoggedIn ? (
+        <>
+          <div className="vads-u-margin-y--4">
+            {renderSaveInProgressIntro(true)}
+          </div>
+          <div className="vads-u-margin-y--4">
+            <va-alert status="info" visible uswds>
+              <h3 slot="headline">We’ve prefilled some of your information</h3>
+              <p className="vads-u-margin-y--0">
+                Since you’re signed in, we can prefill part of your questionnaire
+                based on your profile details.
+              </p>
+            </va-alert>
+          </div>
+        </>
+      ) : (
+        <div className="vads-u-margin-y--4">
+          {renderSaveInProgressIntro(false)}
+        </div>
+      )}
 
       <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
         <va-omb-info
