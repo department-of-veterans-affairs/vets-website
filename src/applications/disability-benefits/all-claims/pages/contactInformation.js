@@ -3,12 +3,12 @@ import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 
 import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
-import {
-  mappedAddressUI,
-  mappedAddressSchema,
-  updateMappedFormDataAddress,
-} from '../utils/addressPattern';
 
+import {
+  addressUI,
+  addressSchema,
+  updateFormDataAddress,
+} from 'platform/forms-system/src/js/web-component-patterns/addressPattern';
 import {
   contactInfoDescription,
   contactInfoUpdateHelpDescription,
@@ -20,8 +20,17 @@ const {
   phoneAndEmail,
 } = fullSchema.properties;
 
+/**
+ * Update form data to remove selected military city & state and restore any
+ * previously set city & state when the "I live on a U.S. military base"
+ * checkbox is unchecked. See va.gov-team/issues/42216 for details
+ * @param {object} oldFormData - Form data prior to interaction change
+ * @param {object} formData - Form data after interaction change
+ * @returns {object} - updated Form data with manipulated mailing address if the
+ * military base checkbox state changes
+ */
 export const updateFormData = (oldFormData, formData) => {
-  return updateMappedFormDataAddress(
+  return updateFormDataAddress(
     oldFormData,
     formData,
     ['mailingAddress'],
@@ -47,8 +56,8 @@ export const uiSchema = {
     primaryPhone: phoneUI('Phone number'),
     emailAddress: emailUI(),
   },
-  mailingAddress: mappedAddressUI({
-    keyMap: {
+  mailingAddress: addressUI({
+    newSchemaKeys: {
       street: 'addressLine1',
       street2: 'addressLine2',
       street3: 'addressLine3',
@@ -64,8 +73,8 @@ export const schema = {
   type: 'object',
   properties: {
     phoneAndEmail,
-    mailingAddress: mappedAddressSchema({
-      keyMap: {
+    mailingAddress: addressSchema({
+      newSchemaKeys: {
         street: 'addressLine1',
         street2: 'addressLine2',
         street3: 'addressLine3',
