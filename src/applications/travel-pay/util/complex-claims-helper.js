@@ -42,7 +42,7 @@ export function hasUnassociatedDocuments(documents = []) {
   if (realDocuments.length === 0) return false;
 
   // Check if any document is missing an expenseId (is unassociated)
-  return !realDocuments.every(doc => doc.expenseId);
+  return realDocuments.some(doc => !doc.expenseId);
 }
 
 /**
