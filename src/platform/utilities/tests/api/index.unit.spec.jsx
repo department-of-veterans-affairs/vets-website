@@ -2,9 +2,15 @@
 import path from 'path';
 import fs from 'fs';
 import { expect } from 'chai';
-import { rest } from 'msw';
-import { setupServer } from 'msw/node';
 import sinon from 'sinon';
+import {
+  createGetHandler,
+  createPostHandler,
+  createDeleteHandler,
+  jsonResponse,
+  binaryResponse,
+  setupServer,
+} from 'platform/testing/unit/msw-adapter';
 import { apiRequest, fetchAndUpdateSessionExpiration } from '../../api';
 import environment from '../../environment';
 import * as ssoModule from '../../sso';
@@ -42,8 +48,8 @@ describe('test wrapper', () => {
 
     it('should behave as if in production', async () => {
       server.use(
-        rest.get('*', (req, res, ctx) =>
-          res(ctx.status(200), ctx.json({ status: 'ok' })),
+        createGetHandler('*', () =>
+          jsonResponse({ status: 'ok' }, { status: 200 }),
         ),
       );
       await apiRequest('/status', {}, null, null, mockEnv);
@@ -52,10 +58,10 @@ describe('test wrapper', () => {
 
     it('should redirect to LoginModal if in production and session expired (401)', async () => {
       server.use(
-        rest.get('*', (req, res, ctx) =>
-          res(
-            ctx.status(401),
-            ctx.json({ errors: [{ status: '401', title: 'Unauthorized' }] }),
+        createGetHandler('*', () =>
+          jsonResponse(
+            { errors: [{ status: '401', title: 'Unauthorized' }] },
+            { status: 401 },
           ),
         ),
       );
@@ -93,10 +99,10 @@ describe('test wrapper', () => {
       };
 
       server.use(
-        rest.get('*', (req, res, ctx) =>
-          res(
-            ctx.status(401),
-            ctx.json({ errors: [{ status: '401', title: 'Unauthorized' }] }),
+        createGetHandler('*', () =>
+          jsonResponse(
+            { errors: [{ status: '401', title: 'Unauthorized' }] },
+            { status: 401 },
           ),
         ),
       );
@@ -128,10 +134,10 @@ describe('test wrapper', () => {
 
     it('should not redirect to /session-expired if on /declined page (status: 401)', async () => {
       server.use(
-        rest.get('*', (req, res, ctx) =>
-          res(
-            ctx.status(401),
-            ctx.json({ errors: [{ status: '401', title: 'Unauthorized' }] }),
+        createGetHandler('*', () =>
+          jsonResponse(
+            { errors: [{ status: '401', title: 'Unauthorized' }] },
+            { status: 401 },
           ),
         ),
       );
@@ -157,10 +163,10 @@ describe('test wrapper', () => {
 
     it('should not redirect if shouldRedirectExpiredSession is not set (status: 401)', async () => {
       server.use(
-        rest.get('*', (req, res, ctx) =>
-          res(
-            ctx.status(401),
-            ctx.json({ errors: [{ status: '401', title: 'Unauthorized' }] }),
+        createGetHandler('*', () =>
+          jsonResponse(
+            { errors: [{ status: '401', title: 'Unauthorized' }] },
+            { status: 401 },
           ),
         ),
       );
@@ -183,10 +189,10 @@ describe('test wrapper', () => {
     });
 
     it('should return JSON when appropriate headers are specified on (status: 200)', async () => {
-      const jsonResponse = { status: 'ok' };
+      const expectedJsonResponse = { status: 'ok' };
       server.use(
-        rest.get(/v0\/status/, (req, res, ctx) =>
-          res(ctx.status(200), ctx.json(jsonResponse)),
+        createGetHandler(/v0\/status/, () =>
+          jsonResponse(expectedJsonResponse, { status: 200 }),
         ),
       );
 
@@ -195,14 +201,16 @@ describe('test wrapper', () => {
       });
 
       expect(expected.response.body).to.have.a.lengthOf(
-        JSON.stringify(jsonResponse).length,
+        JSON.stringify(expectedJsonResponse).length,
       );
       expect(response.status).to.eql('ok');
     });
 
     it('should not return JSON on (status: 204)', async () => {
       server.use(
-        rest.get(/v0\/status/, (req, res, ctx) => res(ctx.status(204))),
+        createGetHandler(/v0\/status/, () =>
+          jsonResponse(null, { status: 204 }),
+        ),
       );
 
       const response = await apiRequest('/status', {
@@ -216,10 +224,10 @@ describe('test wrapper', () => {
 
     it('should not return JSON on (status: 404)', async () => {
       server.use(
-        rest.get('*', (req, res, ctx) =>
-          res(
-            ctx.status(404),
-            ctx.json({ errors: [{ status: '404', title: 'Not found' }] }),
+        createGetHandler('*', () =>
+          jsonResponse(
+            { errors: [{ status: '404', title: 'Not found' }] },
+            { status: 404 },
           ),
         ),
       );
@@ -234,10 +242,10 @@ describe('test wrapper', () => {
 
     it('should return JSON on (status: 403)', async () => {
       server.use(
-        rest.get('*', (req, res, ctx) =>
-          res(
-            ctx.status(403),
-            ctx.json({ errors: [{ status: '403', title: 'Forbidden' }] }),
+        createGetHandler('*', () =>
+          jsonResponse(
+            { errors: [{ status: '403', title: 'Forbidden' }] },
+            { status: 403 },
           ),
         ),
       );
@@ -252,9 +260,9 @@ describe('test wrapper', () => {
 
     it('should not impact empty JSON with (status: 202) No Content', async () => {
       server.use(
-        rest.delete(
+        createDeleteHandler(
           `https://dev-api.va.gov/my_health/v1/messaging/messages/1`,
-          (_, res, ctx) => res(ctx.status(202)),
+          () => jsonResponse(null, { status: 202 }),
         ),
       );
 
@@ -285,19 +293,20 @@ describe('test wrapper', () => {
       };
 
       server.use(
-        rest.post(
+        createPostHandler(
           `https://dev-api.va.gov/v0/letters/benefit_summary`,
-          (_, res, ctx) => {
+          () => {
             const pdfFile = fs.readFileSync(
               path.resolve(__dirname, './pdfFixture.pdf'),
             );
 
-            return res(
-              ctx.status(200),
-              ctx.set('Content-Length', pdfFile.byteLength.toString()),
-              ctx.set('Content-Type', 'application/pdf'),
-              ctx.body(pdfFile),
-            );
+            return binaryResponse(pdfFile, {
+              status: 200,
+              headers: {
+                'Content-Length': pdfFile.byteLength.toString(),
+                'Content-Type': 'application/pdf',
+              },
+            });
           },
         ),
       );
@@ -337,8 +346,8 @@ describe('test wrapper', () => {
 
     it('calls checkOrSetSessionExpiration and checkAndUpdateSSOSession if the hasSessionSSO flag is set', async () => {
       server.use(
-        rest.get(environment.API_URL, (req, res, ctx) =>
-          res(ctx.status(200), ctx.json({})),
+        createGetHandler(environment.API_URL, () =>
+          jsonResponse({}, { status: 200 }),
         ),
       );
       localStorage.setItem('hasSessionSSO', 'true');
@@ -349,8 +358,8 @@ describe('test wrapper', () => {
 
     it('does not call checkAndUpdateSSOSession if the hasSessionSSO flag is not set', async () => {
       server.use(
-        rest.get(environment.API_URL, (req, res, ctx) =>
-          res(ctx.status(500), ctx.json({})),
+        createGetHandler(environment.API_URL, () =>
+          jsonResponse({}, { status: 500 }),
         ),
       );
       await fetchAndUpdateSessionExpiration(environment.API_URL, {});
@@ -360,8 +369,8 @@ describe('test wrapper', () => {
 
     it('does not call checkOrSetSessionExpiration and checkAndUpdateSSOSession if the url does not include the API url', async () => {
       server.use(
-        rest.get(environment.BASE_URL, (req, res, ctx) =>
-          res(ctx.status(404), ctx.json({})),
+        createGetHandler(environment.BASE_URL, () =>
+          jsonResponse({}, { status: 404 }),
         ),
       );
       await fetchAndUpdateSessionExpiration(environment.BASE_URL, {});
@@ -378,7 +387,9 @@ describe('test wrapper', () => {
 
     beforeEach(() => {
       // Mock Date.now() instead of using fake timers
-      dateNowStub = sinon.stub(Date, 'now').returns(new Date('2025-01-01T12:00:00Z').getTime());
+      dateNowStub = sinon
+        .stub(Date, 'now')
+        .returns(new Date('2025-01-01T12:00:00Z').getTime());
       infoTokenExistsStub = sinon.stub(oauthModule, 'infoTokenExists');
       getInfoTokenStub = sinon.stub(oauthModule, 'getInfoToken');
       refreshStub = sinon.stub(oauthModule, 'refresh').resolves();
@@ -404,8 +415,8 @@ describe('test wrapper', () => {
       });
 
       server.use(
-        rest.get(/v0\/status/, (req, res, ctx) =>
-          res(ctx.status(200), ctx.json({ status: 'ok' })),
+        createGetHandler(/v0\/status/, () =>
+          jsonResponse({ status: 'ok' }, { status: 200 }),
         ),
       );
 
@@ -434,8 +445,8 @@ describe('test wrapper', () => {
       });
 
       server.use(
-        rest.get(/v0\/status/, (req, res, ctx) =>
-          res(ctx.status(200), ctx.json({ status: 'ok' })),
+        createGetHandler(/v0\/status/, () =>
+          jsonResponse({ status: 'ok' }, { status: 200 }),
         ),
       );
 
@@ -450,8 +461,8 @@ describe('test wrapper', () => {
       infoTokenExistsStub.returns(false);
 
       server.use(
-        rest.get(/v0\/status/, (req, res, ctx) =>
-          res(ctx.status(200), ctx.json({ status: 'ok' })),
+        createGetHandler(/v0\/status/, () =>
+          jsonResponse({ status: 'ok' }, { status: 200 }),
         ),
       );
 
@@ -473,17 +484,17 @@ describe('test wrapper', () => {
 
       let callCount = 0;
       server.use(
-        rest.get(/v0\/status/, (req, res, ctx) => {
+        createGetHandler(/v0\/status/, () => {
           callCount += 1;
           if (callCount === 1) {
             // First call returns 403
-            return res(
-              ctx.status(403),
-              ctx.json({ errors: 'Access token has expired' }),
+            return jsonResponse(
+              { errors: 'Access token has expired' },
+              { status: 403 },
             );
           }
           // Second call (after refresh) returns success
-          return res(ctx.status(200), ctx.json({ status: 'ok' }));
+          return jsonResponse({ status: 'ok' }, { status: 200 });
         }),
       );
 
@@ -512,8 +523,8 @@ describe('test wrapper', () => {
       });
 
       server.use(
-        rest.get(/v0\/status/, (req, res, ctx) =>
-          res(ctx.status(200), ctx.json({ status: 'ok' })),
+        createGetHandler(/v0\/status/, () =>
+          jsonResponse({ status: 'ok' }, { status: 200 }),
         ),
       );
 
@@ -542,8 +553,8 @@ describe('test wrapper', () => {
       sessionStorage.removeItem('serviceName');
 
       server.use(
-        rest.get(/v0\/status/, (req, res, ctx) =>
-          res(ctx.status(200), ctx.json({ status: 'ok' })),
+        createGetHandler(/v0\/status/, () =>
+          jsonResponse({ status: 'ok' }, { status: 200 }),
         ),
       );
 
