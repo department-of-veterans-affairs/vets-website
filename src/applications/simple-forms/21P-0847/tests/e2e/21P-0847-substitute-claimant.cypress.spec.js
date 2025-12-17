@@ -5,6 +5,7 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 
 import featureToggles from '../../../shared/tests/e2e/fixtures/mocks/feature-toggles.json';
 import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-submit.json';
+import user from './fixtures/mocks/user.json';
 import {
   fillDateWebComponentPattern,
   fillFullNameWebComponentPattern,
@@ -27,9 +28,10 @@ const testConfig = createTestConfig(
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          // This form requires sign-in (hideUnauthedStartLink: true)
-          // so we click the sign-in button instead of the unauthenticated link
-          cy.get('a.vads-c-action-link--green').click();
+          // User is logged in, so we can start the form directly
+          cy.findAllByText(/start/i, { selector: 'a' })
+            .first()
+            .click();
         });
       },
       [pagePaths.preparerPersonalInfo]: ({ afterHook }) => {
@@ -160,7 +162,9 @@ const testConfig = createTestConfig(
     },
     setupPerTest: () => {
       cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
+      cy.intercept('GET', '/v0/user', user);
       cy.intercept('POST', formConfig.submitUrl, mockSubmit);
+      cy.login(user);
     },
     skip: false,
   },
