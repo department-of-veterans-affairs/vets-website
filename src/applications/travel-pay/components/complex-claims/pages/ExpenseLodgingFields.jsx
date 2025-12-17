@@ -6,7 +6,7 @@ import {
   VaDate,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-const ExpenseLodgingFields = ({ formState, onChange }) => (
+const ExpenseLodgingFields = ({ errors = {}, formState, onChange }) => (
   <>
     <VaTextInput
       label="Where did you stay?"
@@ -14,6 +14,7 @@ const ExpenseLodgingFields = ({ formState, onChange }) => (
       value={formState.vendor || ''}
       required
       onInput={onChange}
+      {...errors.vendor && { error: errors.vendor }}
     />
     <VaDate
       label="Check in date"
@@ -21,6 +22,7 @@ const ExpenseLodgingFields = ({ formState, onChange }) => (
       value={formState.checkInDate || ''}
       required
       onDateChange={onChange}
+      {...errors.checkInDate && { error: errors.checkInDate }}
     />
     <VaDate
       label="Check out date"
@@ -28,11 +30,13 @@ const ExpenseLodgingFields = ({ formState, onChange }) => (
       value={formState.checkOutDate || ''}
       required
       onDateChange={onChange}
+      {...errors.checkOutDate && { error: errors.checkOutDate }}
     />
   </>
 );
 
 ExpenseLodgingFields.propTypes = {
+  errors: PropTypes.object,
   formState: PropTypes.object,
   onChange: PropTypes.func,
 };
