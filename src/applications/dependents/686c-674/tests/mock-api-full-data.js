@@ -157,7 +157,7 @@ const mockDependents = {
 };
 
 /**
- * @returns mock user data with inProgressForms
+ * @returns {Object} mock user data with inProgressForms
  */
 const userData = () => {
   const twoMonthsAgo = dateFns.getUnixTime(
