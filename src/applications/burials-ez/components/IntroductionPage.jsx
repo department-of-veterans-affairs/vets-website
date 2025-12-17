@@ -88,7 +88,7 @@ const IntroductionPage = ({ route }) => {
           </p>
           <p>
             <va-link
-              href="https://www.va.gov/burials-memorials/veterans-burial-allowance/#what-documents-do-i-need-to-su"
+              href="/burials-memorials/veterans-burial-allowance/#what-documents-do-i-need-to-su"
               text="Find out what supporting documents you may need to submit"
             />
           </p>
