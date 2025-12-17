@@ -9,9 +9,6 @@ import AddEligibileStudents from '../components/AddEligibileStudents';
 const uiSchema = {
   'view:descriptionText': {
     'ui:description': () => <AddEligibileStudents />,
-    'ui:options': {
-      hideOnReview: true,
-    },
   },
   'view:yellowRibbonProgramRequestSummary': arrayBuilderYesNoUI(
     arrayBuilderOptions,

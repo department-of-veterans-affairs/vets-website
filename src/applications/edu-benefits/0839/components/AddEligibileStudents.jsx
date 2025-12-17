@@ -14,13 +14,6 @@ const AddEligibileStudents = () => {
     item => item?.maximumStudentsOption === 'unlimited',
   );
   return (
-    // <div className="eligible-students-container">
-    //   <h4>
-    //     Total number of maximum eligible students reported:{' '}
-    //     {!allUnlimited ? maxContributions : 'Unlimited'}
-    //     {hasUnlimited && !allUnlimited ? ' or unlimited' : ''}
-    //   </h4>
-    // </div>
     <div className="eligible-students-container">
       <h4>Total number of maximum eligible students reported:</h4>
       {!allUnlimited &&
