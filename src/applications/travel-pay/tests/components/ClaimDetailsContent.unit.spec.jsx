@@ -5,6 +5,7 @@ import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 
 import ClaimDetailsContent from '../../components/ClaimDetailsContent';
+import reducer from '../../redux/reducer';
 import { BTSSS_PORTAL_URL } from '../../constants';
 
 describe('ClaimDetailsContent', () => {
@@ -29,6 +30,11 @@ describe('ClaimDetailsContent', () => {
     hasClaimsManagementFlag = true,
     hasClaimsManagementDecisionReasonFlag = true,
     hasComplexClaimsFlag = false,
+    appointment = {
+      data: {
+        id: '20d73591-ff18-4b66-9838-1429ebbf1b6e',
+      },
+    },
   } = {}) => ({
     featureToggles: {
       loading: featureTogglesAreLoading,
@@ -40,14 +46,21 @@ describe('ClaimDetailsContent', () => {
       travel_pay_enable_complex_claims: hasComplexClaimsFlag,
       /* eslint-enable camelcase */
     },
+    travelPay: {
+      appointment,
+    },
   });
 
+  const renderComponent = (component, stateOptions) => {
+    return renderWithStoreAndRouter(component, {
+      initialState: getState(stateOptions),
+      reducers: reducer,
+    });
+  };
+
   it('Successfully renders', () => {
-    const screen = renderWithStoreAndRouter(
+    const screen = renderComponent(
       <ClaimDetailsContent {...claimDetailsProps} />,
-      {
-        initialState: getState(),
-      },
     );
 
     expect(
@@ -63,6 +76,7 @@ describe('ClaimDetailsContent', () => {
   it('sets the page title correctly', () => {
     renderWithStoreAndRouter(<ClaimDetailsContent {...claimDetailsProps} />, {
       initialState: getState(),
+      reducers: reducer,
     });
 
     expect(document.title).to.equal(
@@ -75,6 +89,7 @@ describe('ClaimDetailsContent', () => {
       <ClaimDetailsContent {...claimDetailsProps} claimStatus="Denied" />,
       {
         initialState: getState(),
+        reducers: reducer,
       },
     );
 
@@ -91,6 +106,7 @@ describe('ClaimDetailsContent', () => {
       <ClaimDetailsContent {...claimDetailsProps} />,
       {
         initialState: getState(),
+        reducers: reducer,
       },
     );
 
@@ -106,6 +122,7 @@ describe('ClaimDetailsContent', () => {
       />,
       {
         initialState: getState(),
+        reducers: reducer,
       },
     );
 
@@ -132,6 +149,7 @@ describe('ClaimDetailsContent', () => {
       />,
       {
         initialState: getState({ hasClaimsManagementFlag: false }),
+        reducers: reducer,
       },
     );
 
@@ -161,6 +179,7 @@ describe('ClaimDetailsContent', () => {
         />,
         {
           initialState: getState(),
+          reducers: reducer,
         },
       );
 
@@ -184,6 +203,7 @@ describe('ClaimDetailsContent', () => {
         />,
         {
           initialState: getState(),
+          reducers: reducer,
         },
       );
 
@@ -202,6 +222,7 @@ describe('ClaimDetailsContent', () => {
         />,
         {
           initialState: getState(),
+          reducers: reducer,
         },
       );
 
@@ -224,6 +245,7 @@ describe('ClaimDetailsContent', () => {
         />,
         {
           initialState: getState(),
+          reducers: reducer,
         },
       );
 
@@ -236,6 +258,7 @@ describe('ClaimDetailsContent', () => {
         <ClaimDetailsContent {...claimDetailsProps} documents={[]} />,
         {
           initialState: getState(),
+          reducers: reducer,
         },
       );
 
@@ -258,6 +281,7 @@ describe('ClaimDetailsContent', () => {
         />,
         {
           initialState: getState(),
+          reducers: reducer,
         },
       );
 
@@ -278,6 +302,7 @@ describe('ClaimDetailsContent', () => {
         />,
         {
           initialState: getState(),
+          reducers: reducer,
         },
       );
       expect(screen.getByText('Amount')).to.exist;
@@ -294,6 +319,7 @@ describe('ClaimDetailsContent', () => {
         />,
         {
           initialState: getState(),
+          reducers: reducer,
         },
       );
       expect(screen.getByText('Amount')).to.exist;
@@ -310,6 +336,7 @@ describe('ClaimDetailsContent', () => {
         />,
         {
           initialState: getState(),
+          reducers: reducer,
         },
       );
       expect(screen.queryByText('Amount')).to.not.exist;
@@ -326,6 +353,7 @@ describe('ClaimDetailsContent', () => {
         />,
         {
           initialState: getState(),
+          reducers: reducer,
         },
       );
 
@@ -347,6 +375,7 @@ describe('ClaimDetailsContent', () => {
         />,
         {
           initialState: getState(),
+          reducers: reducer,
         },
       );
 
@@ -368,6 +397,7 @@ describe('ClaimDetailsContent', () => {
         />,
         {
           initialState: getState(),
+          reducers: reducer,
         },
       );
       expect($('va-additional-info[trigger="Why are my amounts different"]')).to
@@ -392,6 +422,7 @@ describe('ClaimDetailsContent', () => {
           initialState: getState({
             hasClaimsManagementDecisionReasonFlag: false,
           }),
+          reducers: reducer,
         },
       );
 
@@ -413,6 +444,7 @@ describe('ClaimDetailsContent', () => {
         />,
         {
           initialState: getState(),
+          reducers: reducer,
         },
       );
 
@@ -437,6 +469,7 @@ describe('ClaimDetailsContent', () => {
         />,
         {
           initialState: getState(),
+          reducers: reducer,
         },
       );
 
@@ -462,6 +495,7 @@ describe('ClaimDetailsContent', () => {
           <ClaimDetailsContent {...claimDetailsProps} isOutOfBounds />,
           {
             initialState: getState({ hasComplexClaimsFlag: true }),
+            reducers: reducer,
           },
         );
 
@@ -477,6 +511,7 @@ describe('ClaimDetailsContent', () => {
           <ClaimDetailsContent {...claimDetailsProps} isOutOfBounds />,
           {
             initialState: getState({ hasComplexClaimsFlag: false }),
+            reducers: reducer,
           },
         );
 
@@ -490,6 +525,7 @@ describe('ClaimDetailsContent', () => {
           <ClaimDetailsContent {...claimDetailsProps} isOutOfBounds={false} />,
           {
             initialState: getState({ hasComplexClaimsFlag: true }),
+            reducers: reducer,
           },
         );
 
@@ -503,6 +539,7 @@ describe('ClaimDetailsContent', () => {
           <ClaimDetailsContent {...claimDetailsProps} />,
           {
             initialState: getState({ hasComplexClaimsFlag: true }),
+            reducers: reducer,
           },
         );
 
@@ -518,6 +555,7 @@ describe('ClaimDetailsContent', () => {
           <ClaimDetailsContent {...claimDetailsProps} claimStatus="Saved" />,
           {
             initialState: getState({ hasComplexClaimsFlag: true }),
+            reducers: reducer,
           },
         );
 
@@ -540,6 +578,7 @@ describe('ClaimDetailsContent', () => {
           <ClaimDetailsContent {...claimDetailsProps} claimStatus="Saved" />,
           {
             initialState: getState({ hasComplexClaimsFlag: false }),
+            reducers: reducer,
           },
         );
 
@@ -563,6 +602,7 @@ describe('ClaimDetailsContent', () => {
           />,
           {
             initialState: getState({ hasComplexClaimsFlag: true }),
+            reducers: reducer,
           },
         );
 
@@ -582,6 +622,7 @@ describe('ClaimDetailsContent', () => {
             />,
             {
               initialState: getState({ hasComplexClaimsFlag: true }),
+              reducers: reducer,
             },
           );
 
@@ -603,6 +644,7 @@ describe('ClaimDetailsContent', () => {
             />,
             {
               initialState: getState({ hasComplexClaimsFlag: true }),
+              reducers: reducer,
             },
           );
 
@@ -632,6 +674,7 @@ describe('ClaimDetailsContent', () => {
             />,
             {
               initialState: getState({ hasComplexClaimsFlag: true }),
+              reducers: reducer,
             },
           );
 
@@ -666,6 +709,7 @@ describe('ClaimDetailsContent', () => {
             />,
             {
               initialState: getState({ hasComplexClaimsFlag: true }),
+              reducers: reducer,
             },
           );
 
@@ -697,6 +741,7 @@ describe('ClaimDetailsContent', () => {
             />,
             {
               initialState: getState({ hasComplexClaimsFlag: true }),
+              reducers: reducer,
             },
           );
 
@@ -739,6 +784,7 @@ describe('ClaimDetailsContent', () => {
             />,
             {
               initialState: getState({ hasComplexClaimsFlag: true }),
+              reducers: reducer,
             },
           );
           expect(
@@ -761,6 +807,7 @@ describe('ClaimDetailsContent', () => {
             />,
             {
               initialState: getState({ hasComplexClaimsFlag: true }),
+              reducers: reducer,
             },
           );
 
@@ -783,6 +830,7 @@ describe('ClaimDetailsContent', () => {
             />,
             {
               initialState: getState({ hasComplexClaimsFlag: true }),
+              reducers: reducer,
             },
           );
 
@@ -811,6 +859,7 @@ describe('ClaimDetailsContent', () => {
             />,
             {
               initialState: getState({ hasComplexClaimsFlag: true }),
+              reducers: reducer,
             },
           );
 
@@ -829,6 +878,7 @@ describe('ClaimDetailsContent', () => {
             />,
             {
               initialState: getState({ hasComplexClaimsFlag: true }),
+              reducers: reducer,
             },
           );
 
@@ -844,6 +894,7 @@ describe('ClaimDetailsContent', () => {
           <ClaimDetailsContent {...claimDetailsProps} />,
           {
             initialState: getState({ hasComplexClaimsFlag: true }),
+            reducers: reducer,
           },
         );
 
@@ -858,6 +909,7 @@ describe('ClaimDetailsContent', () => {
           <ClaimDetailsContent {...claimDetailsProps} />,
           {
             initialState: getState({ hasComplexClaimsFlag: false }),
+            reducers: reducer,
           },
         );
 
@@ -878,6 +930,7 @@ describe('ClaimDetailsContent', () => {
           />,
           {
             initialState: getState({ hasComplexClaimsFlag: true }),
+            reducers: reducer,
           },
         );
 
@@ -931,6 +984,7 @@ describe('ClaimDetailsContent', () => {
           />,
           {
             initialState: getState({ hasComplexClaimsFlag: true }),
+            reducers: reducer,
           },
         );
 
@@ -960,6 +1014,7 @@ describe('ClaimDetailsContent', () => {
           />,
           {
             initialState: getState({ hasComplexClaimsFlag: true }),
+            reducers: reducer,
           },
         );
 
@@ -996,6 +1051,7 @@ describe('ClaimDetailsContent', () => {
           />,
           {
             initialState: getState({ hasComplexClaimsFlag: true }),
+            reducers: reducer,
           },
         );
 
@@ -1032,6 +1088,7 @@ describe('ClaimDetailsContent', () => {
           />,
           {
             initialState: getState({ hasComplexClaimsFlag: true }),
+            reducers: reducer,
           },
         );
 
@@ -1067,6 +1124,7 @@ describe('ClaimDetailsContent', () => {
           />,
           {
             initialState: getState({ hasComplexClaimsFlag: true }),
+            reducers: reducer,
           },
         );
 

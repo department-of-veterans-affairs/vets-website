@@ -20,6 +20,7 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
       ApiInitializer.initializeClaimDetails.happyPath();
       cy.login(user);
       cy.visit(`${rootUrl}/claims/73611905-71bf-46ed-b1ec-e790593b8565`);
+      cy.wait('@details');
       cy.injectAxeThenAxeCheck();
     });
 
@@ -46,7 +47,9 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
         reimbursementAmount: 0,
         createdOn: '2025-03-12T20:27:14.088Z',
         modifiedOn: '2025-03-12T20:27:14.088Z',
-        appointment: { id: '73611905-71bf-46ed-b1ec-e790593b8565' },
+        appointment: {
+          appointmentDateTime: '2024-01-01T16:45:34.465Z',
+        },
         documents: [],
         isOutOfBounds: true,
       });
@@ -71,7 +74,9 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
         reimbursementAmount: 0,
         createdOn: '2025-03-12T20:27:14.088Z',
         modifiedOn: '2025-03-12T20:27:14.088Z',
-        appointment: { id: '73611905-71bf-46ed-b1ec-e790593b8565' },
+        appointment: {
+          appointmentDateTime: '2024-01-01T16:45:34.465Z',
+        },
         documents: [],
         isOutOfBounds: false,
       });
@@ -96,7 +101,9 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
         reimbursementAmount: 0,
         createdOn: '2025-03-12T20:27:14.088Z',
         modifiedOn: '2025-03-12T20:27:14.088Z',
-        appointment: { id: '73611905-71bf-46ed-b1ec-e790593b8565' },
+        appointment: {
+          appointmentDateTime: '2024-01-01T16:45:34.465Z',
+        },
         documents: [],
         claimSource: 'Api',
         expenses: [],
@@ -128,7 +135,9 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
         reimbursementAmount: 0,
         createdOn: '2025-03-12T20:27:14.088Z',
         modifiedOn: '2025-03-12T20:27:14.088Z',
-        appointment: { id: '73611905-71bf-46ed-b1ec-e790593b8565' },
+        appointment: {
+          appointmentDateTime: '2024-01-01T16:45:34.465Z',
+        },
         documents: [],
         claimSource: 'Api',
         expenses: [],
@@ -229,50 +238,6 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
         .should('have.attr', 'external');
     });
 
-    it('does NOT display "Complete and file your claim in BTSSS" link when all docs are associated', () => {
-      cy.intercept('GET', '/travel_pay/v0/claims/*', {
-        claimId: '73611905-71bf-46ed-b1ec-e790593b8565',
-        claimNumber: 'TC0000000000001',
-        claimStatus: 'Saved',
-        appointmentDate: '2024-01-01T16:45:34.465Z',
-        facilityName: 'Cheyenne VA Medical Center',
-        totalCostRequested: 20.0,
-        reimbursementAmount: 0,
-        createdOn: '2025-03-12T20:27:14.088Z',
-        modifiedOn: '2025-03-12T20:27:14.088Z',
-        appointment: { id: '73611905-71bf-46ed-b1ec-e790593b8565' },
-        documents: [
-          {
-            documentId: 'doc-associated-789',
-            filename: 'parking-receipt.pdf',
-            mimetype: 'application/pdf',
-            createdon: '2025-03-12T20:27:14.088Z',
-            expenseId: 'expense-123', // Doc is associated with expense
-          },
-        ],
-        claimSource: 'VaGov',
-        expenses: [
-          {
-            id: 'expense-123',
-            expenseType: 'Parking',
-            costRequested: 20.0,
-          },
-        ],
-      });
-
-      cy.visit(`${rootUrl}/claims/73611905-71bf-46ed-b1ec-e790593b8565`);
-
-      // Should NOT show the BTSSS link - all docs are associated, claim started on VaGov
-      cy.get('va-link[text="Complete and file your claim in BTSSS"]').should(
-        'not.exist',
-      );
-
-      // Should show the VA.gov link instead
-      cy.get('va-link-action[text="Complete and file your claim"]').should(
-        'be.visible',
-      );
-    });
-
     it('does not display "Complete and file your claim in BTSSS" link for other statuses', () => {
       cy.intercept('GET', '/travel_pay/v0/claims/*', {
         claimId: '73611905-71bf-46ed-b1ec-e790593b8565',
@@ -284,7 +249,9 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
         reimbursementAmount: 14.52,
         createdOn: '2025-03-12T20:27:14.088Z',
         modifiedOn: '2025-03-12T20:27:14.088Z',
-        appointment: { id: '73611905-71bf-46ed-b1ec-e790593b8565' },
+        appointment: {
+          appointmentDateTime: '2024-01-01T16:45:34.465Z',
+        },
         documents: [],
         claimSource: 'VaGov',
         expenses: [],
@@ -295,50 +262,6 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
       // Should not show the complete and file link for approved claims
       cy.get('va-link[text="Complete and file your claim in BTSSS"]').should(
         'not.exist',
-      );
-    });
-
-    it('does NOT display BTSSS link when only clerk notes exist (no mimetype)', () => {
-      cy.intercept('GET', '/travel_pay/v0/claims/*', {
-        claimId: '73611905-71bf-46ed-b1ec-e790593b8565',
-        claimNumber: 'TC0000000000001',
-        claimStatus: 'Saved',
-        appointmentDate: '2024-01-01T16:45:34.465Z',
-        facilityName: 'Cheyenne VA Medical Center',
-        totalCostRequested: 20.0,
-        reimbursementAmount: 0,
-        createdOn: '2025-03-12T20:27:14.088Z',
-        modifiedOn: '2025-03-12T20:27:14.088Z',
-        appointment: { id: '73611905-71bf-46ed-b1ec-e790593b8565' },
-        documents: [
-          {
-            documentId: 'clerk-note-internal-1',
-            filename: 'Internal Clerk Note.txt',
-            mimetype: '', // Empty mimetype = clerk note, not user doc
-            createdon: '2025-03-12T20:27:14.088Z',
-          },
-          {
-            documentId: 'clerk-note-internal-2',
-            filename: 'Another Note.txt',
-            mimetype: '', // Another clerk note
-            createdon: '2025-03-12T20:27:14.088Z',
-          },
-        ],
-        claimSource: 'VaGov',
-        expenses: [],
-      }).as('getClaimDetails');
-
-      cy.visit(`${rootUrl}/claims/73611905-71bf-46ed-b1ec-e790593b8565`);
-      cy.wait('@getClaimDetails');
-
-      // Should NOT show BTSSS link - clerk notes should be ignored
-      cy.get('va-link[text="Complete and file your claim in BTSSS"]').should(
-        'not.exist',
-      );
-
-      // Should show VA.gov link instead since claim started on VaGov
-      cy.get('va-link-action[text="Complete and file your claim"]').should(
-        'be.visible',
       );
     });
 
@@ -353,7 +276,9 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
         reimbursementAmount: 0,
         createdOn: '2025-03-12T20:27:14.088Z',
         modifiedOn: '2025-03-12T20:27:14.088Z',
-        appointment: { id: '73611905-71bf-46ed-b1ec-e790593b8565' },
+        appointment: {
+          appointmentDateTime: '2024-01-01T16:45:34.465Z',
+        },
         documents: [],
       });
 
@@ -505,10 +430,125 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
     });
   });
 
+  describe('VA.gov link display (requires appointment API)', () => {
+    // These tests need appointment API mocked but shouldn't use the parent beforeEach
+    // because it causes Redux state to persist between visits
+    beforeEach(() => {
+      cy.login(user);
+    });
+
+    it('does NOT display "Complete and file your claim in BTSSS" link when all docs are associated', () => {
+      cy.intercept('GET', '/travel_pay/v0/claims/*', {
+        claimId: '73611905-71bf-46ed-b1ec-e790593b8565',
+        claimNumber: 'TC0000000000001',
+        claimStatus: 'Saved',
+        appointmentDate: '2024-01-01T16:45:34.465Z',
+        facilityName: 'Cheyenne VA Medical Center',
+        totalCostRequested: 20.0,
+        reimbursementAmount: 0,
+        createdOn: '2025-03-12T20:27:14.088Z',
+        modifiedOn: '2025-03-12T20:27:14.088Z',
+        appointment: {
+          id: '73611905-71bf-46ed-b1ec-e790593b8565',
+          appointmentDateTime: '2024-01-01T16:45:34.465Z',
+        },
+        documents: [
+          {
+            documentId: 'doc-associated-789',
+            filename: 'parking-receipt.pdf',
+            mimetype: 'application/pdf',
+            createdon: '2025-03-12T20:27:14.088Z',
+            expenseId: 'expense-123', // Doc is associated with expense
+          },
+        ],
+        claimSource: 'VaGov',
+        expenses: [
+          {
+            id: 'expense-123',
+            expenseType: 'Parking',
+            costRequested: 20.0,
+          },
+        ],
+      });
+
+      // Initialize appointment API so appointmentId is available
+      ApiInitializer.initializeAppointment.byDateTime(
+        '2024-01-01T16:45:34.465Z',
+      );
+
+      cy.visit(`${rootUrl}/claims/73611905-71bf-46ed-b1ec-e790593b8565`);
+      cy.wait('@appointmentsByDate'); // Wait for appointment API to be called
+
+      // Should NOT show the BTSSS link - all docs are associated, claim started on VaGov
+      cy.get('va-link[text="Complete and file your claim in BTSSS"]').should(
+        'not.exist',
+      );
+
+      // Should show the VA.gov link instead
+      cy.get('va-link-action[text="Complete and file your claim"]').should(
+        'be.visible',
+      );
+    });
+
+    it('does NOT display BTSSS link when only clerk notes exist (no mimetype)', () => {
+      cy.intercept('GET', '/travel_pay/v0/claims/*', {
+        claimId: '73611905-71bf-46ed-b1ec-e790593b8565',
+        claimNumber: 'TC0000000000001',
+        claimStatus: 'Saved',
+        appointmentDate: '2024-01-01T16:45:34.465Z',
+        facilityName: 'Cheyenne VA Medical Center',
+        totalCostRequested: 20.0,
+        reimbursementAmount: 0,
+        createdOn: '2025-03-12T20:27:14.088Z',
+        modifiedOn: '2025-03-12T20:27:14.088Z',
+        appointment: {
+          id: '73611905-71bf-46ed-b1ec-e790593b8565',
+          appointmentDateTime: '2024-01-01T16:45:34.465Z',
+        },
+        documents: [
+          {
+            documentId: 'clerk-note-internal-1',
+            filename: 'Internal Clerk Note.txt',
+            mimetype: '', // Empty mimetype = clerk note, not user doc
+            createdon: '2025-03-12T20:27:14.088Z',
+          },
+          {
+            documentId: 'clerk-note-internal-2',
+            filename: 'Another Note.txt',
+            mimetype: '', // Another clerk note
+            createdon: '2025-03-12T20:27:14.088Z',
+          },
+        ],
+        claimSource: 'VaGov',
+        expenses: [],
+      }).as('getClaimDetails');
+
+      // Initialize appointment API so appointmentId is available
+      ApiInitializer.initializeAppointment.byDateTime(
+        '2024-01-01T16:45:34.465Z',
+      );
+
+      cy.visit(`${rootUrl}/claims/73611905-71bf-46ed-b1ec-e790593b8565`);
+      cy.wait('@getClaimDetails');
+      cy.wait('@appointmentsByDate'); // Wait for appointment API to be called
+
+      // Should NOT show BTSSS link - clerk notes should be ignored
+      cy.get('va-link[text="Complete and file your claim in BTSSS"]').should(
+        'not.exist',
+      );
+
+      // Should show VA.gov link instead since claim started on VaGov
+      cy.get('va-link-action[text="Complete and file your claim"]').should(
+        'be.visible',
+      );
+    });
+  });
+
   describe('Date formatting with complex claims', () => {
     it('formats dates correctly with "Created on" label', () => {
+      ApiInitializer.initializeClaimDetails.happyPath();
       cy.intercept('GET', '/travel_pay/v0/claims/*', {
-        claimId: 'date-test-complex',
+        claimId: 'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
         claimNumber: 'TC0000000000020',
         claimStatus: 'Saved',
         appointmentDate: '2024-06-15T14:30:00.000Z',
@@ -517,12 +557,17 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
         reimbursementAmount: 0,
         createdOn: '2024-06-16T10:00:00.000Z',
         modifiedOn: '2024-06-17T15:45:00.000Z',
-        appointment: { id: '73611905-71bf-46ed-b1ec-e790593b8565' },
+        appointment: {
+          appointmentDateTime: '2024-06-15T14:30:00.000Z',
+        },
         documents: [],
       });
 
       cy.login(user);
-      cy.visit(`${rootUrl}/claims/date-test-complex`);
+      ApiInitializer.initializeAppointment.byDateTime(
+        '2024-06-15T14:30:00.000Z',
+      );
+      cy.visit(`${rootUrl}/claims/a1b2c3d4-e5f6-7890-abcd-ef1234567890`);
 
       // Should show "Created on" with formatted date
       cy.contains('Created on').should('be.visible');
@@ -535,23 +580,30 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
 
   describe('Combined complex claims scenarios', () => {
     it('displays all complex claims features together for Incomplete claim', () => {
+      ApiInitializer.initializeClaimDetails.happyPath();
       cy.intercept('GET', '/travel_pay/v0/claims/*', {
-        claimId: 'complex-full-test',
+        claimId: '12345678-90ab-cdef-1234-567890abcdef',
         claimNumber: 'TC0000000000021',
         claimStatus: 'Incomplete',
-        appointmentDate: '2024-03-01T09:00:00.000Z',
+        appointmentDate: '2024-01-01T16:45:34.465Z',
         facilityName: 'Complex Claims VA Medical Center',
         totalCostRequested: 0,
         reimbursementAmount: 0,
         createdOn: '2024-03-02T09:00:00.000Z',
         modifiedOn: '2024-03-02T09:00:00.000Z',
-        appointment: { id: '73611905-71bf-46ed-b1ec-e790593b8565' },
+        appointment: {
+          appointmentDateTime: '2024-01-01T16:45:34.465Z',
+        },
         documents: [],
         isOutOfBounds: true,
-      });
+      }).as('details');
 
       cy.login(user);
-      cy.visit(`${rootUrl}/claims/complex-full-test`);
+      ApiInitializer.initializeAppointment.byDateTime(
+        '2024-01-01T16:45:34.465Z',
+      );
+      cy.visit(`${rootUrl}/claims/12345678-90ab-cdef-1234-567890abcdef`);
+      cy.wait('@details');
       cy.injectAxeThenAxeCheck();
 
       // Should show out of bounds alert
@@ -570,23 +622,33 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
     });
 
     it('displays complex claims features for Saved claim without out of bounds alert', () => {
+      // Use a recent date (within 30 days) so calculateIsOutOfBounds returns false
+      const recentDate = new Date();
+      recentDate.setDate(recentDate.getDate() - 5); // 5 days ago
+      const recentDateString = recentDate.toISOString();
+
       cy.intercept('GET', '/travel_pay/v0/claims/*', {
-        claimId: 'complex-saved-test',
+        claimId: 'fedcba09-8765-4321-fedc-ba0987654321',
         claimNumber: 'TC0000000000022',
         claimStatus: 'Saved',
-        appointmentDate: '2024-05-01T13:00:00.000Z',
+        appointmentDate: recentDateString,
         facilityName: 'Test VA Medical Center',
         totalCostRequested: 25.0,
         reimbursementAmount: 0,
         createdOn: '2024-05-01T14:00:00.000Z',
         modifiedOn: '2024-05-01T14:00:00.000Z',
-        appointment: { id: '73611905-71bf-46ed-b1ec-e790593b8565' },
+        appointment: {
+          appointmentDateTime: recentDateString,
+        },
         documents: [],
         isOutOfBounds: false,
-      });
+      }).as('details');
+
+      ApiInitializer.initializeAppointment.byDateTime(recentDateString);
 
       cy.login(user);
-      cy.visit(`${rootUrl}/claims/complex-saved-test`);
+      cy.visit(`${rootUrl}/claims/fedcba09-8765-4321-fedc-ba0987654321`);
+      cy.wait('@details');
 
       // Should not show out of bounds alert
       cy.get('va-alert[status="warning"]').should('not.exist');
