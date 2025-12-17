@@ -203,17 +203,17 @@ export default {
       return claimTypeRedirect;
     }
 
+    // Matches array index patterns like 'newDisabilities[0]' or 'newDisabilities[0].condition'
+    if (/newDisabilities\[\d+\](\.condition)?/.test(error)) {
+      return claimTypeRedirect;
+    }
+
     // Matches newDisabilities array errors with minimum length or condition issues
     if (
       error.includes('newDisabilities') &&
       (error.includes('does not meet minimum length') ||
         error.includes('condition'))
     ) {
-      return claimTypeRedirect;
-    }
-
-    // Matches array index patterns like 'newDisabilities[0]' or 'newDisabilities[0].condition'
-    if (/newDisabilities\[\d+\](\.condition)?/.test(error)) {
       return claimTypeRedirect;
     }
 

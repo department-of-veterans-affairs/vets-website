@@ -7,6 +7,8 @@
  * @returns {Array} Array of error objects matching jsonschema validator format
  */
 export const getCustomValidationErrors = formData => {
+  if (!formData) return [];
+
   const customErrors = [];
 
   // Check if user is claiming new conditions but hasn't added any new disabilities
