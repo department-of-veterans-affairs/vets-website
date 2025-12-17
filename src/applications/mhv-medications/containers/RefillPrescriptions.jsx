@@ -228,6 +228,26 @@ const RefillPrescriptions = () => {
   const baseTitle = 'Medications | Veterans Affairs';
   usePrintTitle(baseTitle, userName, dob, updatePageTitle);
 
+  const getCheckboxDescription = prescription => {
+    let lastFilledText = '';
+    if (prescription.sortedDispensedDate || prescription.dispensedDate) {
+      lastFilledText = `Last filled on ${dateFormat(
+        prescription.sortedDispensedDate || prescription.dispensedDate,
+        DATETIME_FORMATS.longMonthDate,
+      )}`;
+    } else if (!isCernerPilot) {
+      lastFilledText = 'Not filled yet';
+    }
+    const descriptionLines = [
+      `Prescription number: ${prescription.prescriptionNumber}`,
+    ];
+    if (lastFilledText) {
+      descriptionLines.push(lastFilledText);
+    }
+    descriptionLines.push(`${prescription.refillRemaining} refills left`);
+    return descriptionLines.join('\n');
+  };
+
   const content = () => {
     if (isLoading || isRefilling) {
       return (
@@ -330,33 +350,9 @@ const RefillPrescriptions = () => {
                         }
                         onVaChange={() => onSelectPrescription(prescription)}
                         uswds
-                        checkbox-description={(() => {
-                          let lastFilledText = '';
-                          if (
-                            prescription.sortedDispensedDate ||
-                            prescription.dispensedDate
-                          ) {
-                            lastFilledText = `Last filled on ${dateFormat(
-                              prescription.sortedDispensedDate ||
-                                prescription.dispensedDate,
-                              DATETIME_FORMATS.longMonthDate,
-                            )}`;
-                          } else if (!isCernerPilot) {
-                            lastFilledText = 'Not filled yet';
-                          }
-                          const descriptionLines = [
-                            `Prescription number: ${
-                              prescription.prescriptionNumber
-                            }`,
-                          ];
-                          if (lastFilledText) {
-                            descriptionLines.push(lastFilledText);
-                          }
-                          descriptionLines.push(
-                            `${prescription.refillRemaining} refills left`,
-                          );
-                          return descriptionLines.join('\n');
-                        })()}
+                        checkbox-description={getCheckboxDescription(
+                          prescription,
+                        )}
                       />
                     </div>
                   ))}
