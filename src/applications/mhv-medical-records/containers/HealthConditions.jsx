@@ -6,8 +6,6 @@ import {
   useAcceleratedData,
 } from '@department-of-veterans-affairs/mhv/exports';
 
-import CernerFacilityAlert from 'platform/mhv/components/CernerFacilityAlert/CernerFacilityAlert';
-import { CernerAlertContent } from 'platform/mhv/components/CernerFacilityAlert/constants';
 import RecordList from '../components/RecordList/RecordList';
 import { getConditionsList, reloadRecords } from '../actions/conditions';
 import {
@@ -93,8 +91,6 @@ const HealthConditions = () => {
         This list includes the same information as your "VA problem list" in the
         previous My HealtheVet experience.
       </p>
-
-      <CernerFacilityAlert {...CernerAlertContent.HEALTH_CONDITIONS} />
 
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
