@@ -186,3 +186,11 @@ export function selectVAProfilePersonalInformation(state, fieldName) {
     ? set(result, notListedTextKey, notListedTextValue)
     : result;
 }
+
+export function selectVAProfileSchedulingPreferences(state, fieldName) {
+  const fieldValue = state?.vaProfile?.schedulingPreferences?.[fieldName];
+
+  if (!fieldValue) return null;
+
+  return set({}, fieldName, fieldValue);
+}

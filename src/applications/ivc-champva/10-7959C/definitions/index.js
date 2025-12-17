@@ -4,6 +4,8 @@ import {
   fullNameUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+export * from './attachments';
+
 export const blankSchema = { type: 'object', properties: {} };
 
 export const fullNameMiddleInitialUI = merge({}, fullNameUI(), {
@@ -12,11 +14,5 @@ export const fullNameMiddleInitialUI = merge({}, fullNameUI(), {
 export const fullNameMiddleInitialSchema = merge({}, fullNameSchema, {
   properties: { middle: { type: 'string', maxLength: 1 } },
 });
-
-export const singleFileUploadSchema = {
-  type: 'array',
-  maxItems: 1,
-  items: { type: 'object', properties: { name: { type: 'string' } } },
-};
 
 export const textareaSchema = { type: 'string', maxLength: 200 };
