@@ -18,6 +18,7 @@ import { allChapters } from './chapters';
 import manifest from '../manifest.json';
 import PreSubmitInfo from '../containers/PreSubmitInfo';
 import IntroductionRouter from '../containers/IntroductionRouter';
+import { isRerouteEnabled } from '../helperFunctions/isRerouteEnabled';
 
 const {
   preferredContactMethod,
@@ -34,6 +35,7 @@ const baseConfig = {
   submit: submitForm,
   trackingPrefix: 'edu-1995-',
   formId: VA_FORM_IDS.FORM_22_1995,
+  disableSave: isRerouteEnabled(),
   saveInProgress: {
     messages: {
       inProgress:
