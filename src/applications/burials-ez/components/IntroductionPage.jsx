@@ -88,7 +88,7 @@ const IntroductionPage = ({ route }) => {
           </p>
           <p>
             <va-link
-              href="/get-help-from-accredited-representative/"
+              href="https://www.va.gov/burials-memorials/veterans-burial-allowance/#what-documents-do-i-need-to-su"
               text="Find out what supporting documents you may need to submit"
             />
           </p>
@@ -98,12 +98,13 @@ const IntroductionPage = ({ route }) => {
             We’ll take you through each step of the process. It should take
             about 30 minutes.
           </p>
-        </va-process-list-item>
-        <va-process-list-item header="What happens after you apply?">
-          <p>
-            We’ll contact you by mail if we need more information. Once we
-            process your application, we’ll mail you a letter with our decision.
-          </p>
+          <va-additional-info trigger="What happens after you apply?">
+            <p>
+              We’ll contact you by mail if we need more information. Once we
+              process your application, we’ll mail you a letter with our
+              decision.
+            </p>
+          </va-additional-info>
         </va-process-list-item>
       </va-process-list>
 
