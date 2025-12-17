@@ -17,10 +17,30 @@ import {
 describe('getRxStatus helper functions', () => {
   // Shared test data
   const FLAG_COMBINATIONS = [
-    { cernerPilot: false, v2StatusMapping: false, useV2: false, desc: 'cernerPilot=false, v2StatusMapping=false' },
-    { cernerPilot: true, v2StatusMapping: false, useV2: false, desc: 'cernerPilot=true, v2StatusMapping=false' },
-    { cernerPilot: false, v2StatusMapping: true, useV2: false, desc: 'cernerPilot=false, v2StatusMapping=true' },
-    { cernerPilot: true, v2StatusMapping: true, useV2: true, desc: 'cernerPilot=true AND v2StatusMapping=true' },
+    {
+      cernerPilot: false,
+      v2StatusMapping: false,
+      useV2: false,
+      desc: 'cernerPilot=false, v2StatusMapping=false',
+    },
+    {
+      cernerPilot: true,
+      v2StatusMapping: false,
+      useV2: false,
+      desc: 'cernerPilot=true, v2StatusMapping=false',
+    },
+    {
+      cernerPilot: false,
+      v2StatusMapping: true,
+      useV2: false,
+      desc: 'cernerPilot=false, v2StatusMapping=true',
+    },
+    {
+      cernerPilot: true,
+      v2StatusMapping: true,
+      useV2: true,
+      desc: 'cernerPilot=true AND v2StatusMapping=true',
+    },
   ];
 
   const mockRx = {
@@ -59,7 +79,10 @@ describe('getRxStatus helper functions', () => {
     describe('V1 to V2 status transformation', () => {
       it('should not transform status when BOTH CernerPilot and  V2StatusMapping flags are disabled', () => {
         // Test that getRxStatus returns original status without transformation
-        const rx = { dispStatus: 'Active: Refill in Process', prescriptionSource: 'VA' };
+        const rx = {
+          dispStatus: 'Active: Refill in Process',
+          prescriptionSource: 'VA',
+        };
         const result = getRxStatus(rx);
         expect(result).to.equal('Active: Refill in Process');
       });
@@ -103,13 +126,17 @@ describe('getRxStatus helper functions', () => {
   });
 
   describe('getStatusDefinitions with flag combinations', () => {
-    FLAG_COMBINATIONS.forEach(({ cernerPilot, v2StatusMapping, useV2, desc }) => {
-      it(`returns ${useV2 ? 'V2' : 'V1'} definitions when ${desc}`, () => {
-        const result = getStatusDefinitions(cernerPilot, v2StatusMapping);
-        const expected = useV2 ? pdfStatusDefinitionsV2 : pdfStatusDefinitions;
-        expect(result).to.deep.equal(expected);
-      });
-    });
+    FLAG_COMBINATIONS.forEach(
+      ({ cernerPilot, v2StatusMapping, useV2, desc }) => {
+        it(`returns ${useV2 ? 'V2' : 'V1'} definitions when ${desc}`, () => {
+          const result = getStatusDefinitions(cernerPilot, v2StatusMapping);
+          const expected = useV2
+            ? pdfStatusDefinitionsV2
+            : pdfStatusDefinitions;
+          expect(result).to.deep.equal(expected);
+        });
+      },
+    );
 
     it('returns consistent definitions for same flag values', () => {
       const result1 = getStatusDefinitions(true, true);
@@ -126,7 +153,9 @@ describe('getRxStatus helper functions', () => {
 
   describe('getPdfStatusDefinitionKey', () => {
     it('should return refillStatus when provided', () => {
-      expect(getPdfStatusDefinitionKey('Active', 'refillable')).to.equal('refillable');
+      expect(getPdfStatusDefinitionKey('Active', 'refillable')).to.equal(
+        'refillable',
+      );
     });
 
     it('should return dispStatus when refillStatus is null', () => {
@@ -139,13 +168,15 @@ describe('getRxStatus helper functions', () => {
   });
 
   describe('getFilterOptions with flag combinations', () => {
-    FLAG_COMBINATIONS.forEach(({ cernerPilot, v2StatusMapping, useV2, desc }) => {
-      it(`returns ${useV2 ? 'V2' : 'V1'} filter options when ${desc}`, () => {
-        const result = getFilterOptions(cernerPilot, v2StatusMapping);
-        const expected = useV2 ? filterOptionsV2 : filterOptions;
-        expect(result).to.deep.equal(expected);
-      });
-    });
+    FLAG_COMBINATIONS.forEach(
+      ({ cernerPilot, v2StatusMapping, useV2, desc }) => {
+        it(`returns ${useV2 ? 'V2' : 'V1'} filter options when ${desc}`, () => {
+          const result = getFilterOptions(cernerPilot, v2StatusMapping);
+          const expected = useV2 ? filterOptionsV2 : filterOptions;
+          expect(result).to.deep.equal(expected);
+        });
+      },
+    );
 
     it('returns consistent options for same flag values', () => {
       const result1 = getFilterOptions(true, true);
@@ -164,7 +195,13 @@ describe('getRxStatus helper functions', () => {
     it('getStatusDefinitions V2 should contain all required V2 status keys', () => {
       const v2Defs = getStatusDefinitions(true, true);
       // Keys in pdfStatusDefinitionsV2 are lowercase
-      const expectedKeys = ['active', 'inprogress', 'inactive', 'transferred', 'statusNotAvailable'];
+      const expectedKeys = [
+        'active',
+        'inprogress',
+        'inactive',
+        'transferred',
+        'statusNotAvailable',
+      ];
       expectedKeys.forEach(key => {
         expect(v2Defs).to.have.property(key);
       });

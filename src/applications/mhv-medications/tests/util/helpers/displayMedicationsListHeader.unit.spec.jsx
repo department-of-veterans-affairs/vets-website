@@ -18,11 +18,26 @@ import {
 describe('displayMedicationsListHeader function', () => {
   // Shared test data
   const V2_FILTER_KEYS = [
-    { key: IN_PROGRESS_FILTER_KEY, label: filterOptionsV2[IN_PROGRESS_FILTER_KEY].label },
-    { key: SHIPPED_FILTER_KEY, label: filterOptionsV2[SHIPPED_FILTER_KEY].label },
-    { key: TRANSFERRED_FILTER_KEY, label: filterOptionsV2[TRANSFERRED_FILTER_KEY].label },
-    { key: INACTIVE_FILTER_KEY, label: filterOptionsV2[INACTIVE_FILTER_KEY].label },
-    { key: STATUS_NOT_AVAILABLE_FILTER_KEY, label: filterOptionsV2[STATUS_NOT_AVAILABLE_FILTER_KEY].label },
+    {
+      key: IN_PROGRESS_FILTER_KEY,
+      label: filterOptionsV2[IN_PROGRESS_FILTER_KEY].label,
+    },
+    {
+      key: SHIPPED_FILTER_KEY,
+      label: filterOptionsV2[SHIPPED_FILTER_KEY].label,
+    },
+    {
+      key: TRANSFERRED_FILTER_KEY,
+      label: filterOptionsV2[TRANSFERRED_FILTER_KEY].label,
+    },
+    {
+      key: INACTIVE_FILTER_KEY,
+      label: filterOptionsV2[INACTIVE_FILTER_KEY].label,
+    },
+    {
+      key: STATUS_NOT_AVAILABLE_FILTER_KEY,
+      label: filterOptionsV2[STATUS_NOT_AVAILABLE_FILTER_KEY].label,
+    },
     { key: ACTIVE_FILTER_KEY, label: filterOptionsV2[ACTIVE_FILTER_KEY].label },
   ];
 
@@ -40,7 +55,9 @@ describe('displayMedicationsListHeader function', () => {
     });
 
     it('returns RECENTLY_REQUESTED medications header', () => {
-      expect(displayMedicationsListHeader(RECENTLY_REQUESTED_FILTER_KEY)).to.equal(
+      expect(
+        displayMedicationsListHeader(RECENTLY_REQUESTED_FILTER_KEY),
+      ).to.equal(
         `${filterOptions[RECENTLY_REQUESTED_FILTER_KEY].label} medications`,
       );
     });
@@ -66,15 +83,15 @@ describe('displayMedicationsListHeader function', () => {
 
   describe('V1 behavior persists when either CernerPilot or  V2StatusMapping is enabled alone', () => {
     it('uses V1 options when cernerPilot=true but v2StatusMapping=false', () => {
-      expect(displayMedicationsListHeader(ACTIVE_FILTER_KEY, true, false)).to.equal(
-        `${filterOptions[ACTIVE_FILTER_KEY].label} medications`,
-      );
+      expect(
+        displayMedicationsListHeader(ACTIVE_FILTER_KEY, true, false),
+      ).to.equal(`${filterOptions[ACTIVE_FILTER_KEY].label} medications`);
     });
 
     it('uses V1 options when cernerPilot=false but v2StatusMapping=true', () => {
-      expect(displayMedicationsListHeader(ACTIVE_FILTER_KEY, false, true)).to.equal(
-        `${filterOptions[ACTIVE_FILTER_KEY].label} medications`,
-      );
+      expect(
+        displayMedicationsListHeader(ACTIVE_FILTER_KEY, false, true),
+      ).to.equal(`${filterOptions[ACTIVE_FILTER_KEY].label} medications`);
     });
   });
 
@@ -91,9 +108,12 @@ describe('displayMedicationsListHeader function', () => {
     });
 
     it('returns ALL_MEDICATIONS label from V2 options', () => {
-      expect(displayMedicationsListHeader(ALL_MEDICATIONS_FILTER_KEY, ...bothFlagsEnabled)).to.equal(
-        filterOptionsV2[ALL_MEDICATIONS_FILTER_KEY].label,
-      );
+      expect(
+        displayMedicationsListHeader(
+          ALL_MEDICATIONS_FILTER_KEY,
+          ...bothFlagsEnabled,
+        ),
+      ).to.equal(filterOptionsV2[ALL_MEDICATIONS_FILTER_KEY].label);
     });
   });
 });

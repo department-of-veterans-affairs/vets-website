@@ -47,7 +47,12 @@ describe('Medications Prescriptions container', () => {
     },
   };
 
-  const setup = (state = initialState, url = '/', isCernerPilot = false, isV2StatusMapping = false) => {
+  const setup = (
+    state = initialState,
+    url = '/',
+    isCernerPilot = false,
+    isV2StatusMapping = false,
+  ) => {
     const fullState = {
       ...state,
       featureToggles: {
@@ -318,15 +323,36 @@ describe('Medications Prescriptions container', () => {
 
   describe('SHIPPED filter functionality', () => {
     const FLAG_COMBINATIONS = [
-      { isCernerPilot: false, isV2StatusMapping: false, desc: 'both flags disabled' },
-      { isCernerPilot: true, isV2StatusMapping: false, desc: 'only cernerPilot enabled' },
-      { isCernerPilot: false, isV2StatusMapping: true, desc: 'only v2StatusMapping enabled' },
-      { isCernerPilot: true, isV2StatusMapping: true, desc: 'both flags enabled' },
+      {
+        isCernerPilot: false,
+        isV2StatusMapping: false,
+        desc: 'both flags disabled',
+      },
+      {
+        isCernerPilot: true,
+        isV2StatusMapping: false,
+        desc: 'only cernerPilot enabled',
+      },
+      {
+        isCernerPilot: false,
+        isV2StatusMapping: true,
+        desc: 'only v2StatusMapping enabled',
+      },
+      {
+        isCernerPilot: true,
+        isV2StatusMapping: true,
+        desc: 'both flags enabled',
+      },
     ];
 
     FLAG_COMBINATIONS.forEach(({ isCernerPilot, isV2StatusMapping, desc }) => {
       it(`should render without error when ${desc}`, async () => {
-        const screen = setup(initialState, '/', isCernerPilot, isV2StatusMapping);
+        const screen = setup(
+          initialState,
+          '/',
+          isCernerPilot,
+          isV2StatusMapping,
+        );
 
         await waitFor(() => {
           expect(screen.queryByTestId('loading-indicator')).not.to.exist;

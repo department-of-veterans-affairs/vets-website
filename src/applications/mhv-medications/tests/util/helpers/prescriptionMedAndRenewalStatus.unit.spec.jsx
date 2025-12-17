@@ -129,8 +129,8 @@ describe('prescriptionMedAndRenewalStatus helper', () => {
         const result = prescriptionMedAndRenewalStatus(
           rx,
           medStatusDisplayTypes.PRINT,
-          true,  // isCernerPilot
-          true,  // isV2StatusMapping
+          true, // isCernerPilot
+          true, // isV2StatusMapping
         );
         expect(result).to.be.a('string');
         expect(result).to.include(dispStatus);
@@ -143,13 +143,15 @@ describe('prescriptionMedAndRenewalStatus helper', () => {
       const result = prescriptionMedAndRenewalStatus(
         rx,
         medStatusDisplayTypes.PRINT,
-        true,  // isCernerPilot
+        true, // isCernerPilot
         false, // isV2StatusMapping
       );
       expect(result).to.be.a('string');
       expect(result).to.include('Active');
       // Should NOT include V2 definition
-      expect(result).to.not.include('prescription you can fill at a local VA pharmacy');
+      expect(result).to.not.include(
+        'prescription you can fill at a local VA pharmacy',
+      );
     });
 
     it('should use V1 definition when only v2StatusMapping is enabled', () => {
@@ -158,12 +160,14 @@ describe('prescriptionMedAndRenewalStatus helper', () => {
         rx,
         medStatusDisplayTypes.PRINT,
         false, // isCernerPilot
-        true,  // isV2StatusMapping
+        true, // isV2StatusMapping
       );
       expect(result).to.be.a('string');
       expect(result).to.include('Active');
       // Should NOT include V2 definition
-      expect(result).to.not.include('prescription you can fill at a local VA pharmacy');
+      expect(result).to.not.include(
+        'prescription you can fill at a local VA pharmacy',
+      );
     });
 
     it('should return pending med text for pending medications', () => {
@@ -223,21 +227,22 @@ describe('prescriptionMedAndRenewalStatus helper', () => {
       expect(result).to.match(/^Active - /);
     });
 
-    V2_TXT_STATUS_DEFINITIONS.forEach(({ dispStatus, refillStatus, includes }) => {
-      it(`should use V2 definition for ${dispStatus} in TXT format when BOTH flags are enabled`, () => {
-
-        const rx = { ...mockPrescription, dispStatus, refillStatus };
-        const result = prescriptionMedAndRenewalStatus(
-          rx,
-          medStatusDisplayTypes.TXT,
-          true,
-          true,  
-        );
-        expect(result).to.be.a('string');
-        expect(result).to.include(dispStatus);
-        expect(result).to.include(includes);
-      });
-    });
+    V2_TXT_STATUS_DEFINITIONS.forEach(
+      ({ dispStatus, refillStatus, includes }) => {
+        it(`should use V2 definition for ${dispStatus} in TXT format when BOTH flags are enabled`, () => {
+          const rx = { ...mockPrescription, dispStatus, refillStatus };
+          const result = prescriptionMedAndRenewalStatus(
+            rx,
+            medStatusDisplayTypes.TXT,
+            true,
+            true,
+          );
+          expect(result).to.be.a('string');
+          expect(result).to.include(dispStatus);
+          expect(result).to.include(includes);
+        });
+      },
+    );
 
     it('should return pending med text for pending medications', () => {
       const result = prescriptionMedAndRenewalStatus(
@@ -258,7 +263,11 @@ describe('prescriptionMedAndRenewalStatus helper', () => {
     });
 
     it('should handle multiline status definitions when BOTH flags are enabled', () => {
-      const rx = { ...mockPrescription, dispStatus: 'Active', refillStatus: 'active' };
+      const rx = {
+        ...mockPrescription,
+        dispStatus: 'Active',
+        refillStatus: 'active',
+      };
       const result = prescriptionMedAndRenewalStatus(
         rx,
         medStatusDisplayTypes.TXT,
@@ -268,7 +277,9 @@ describe('prescriptionMedAndRenewalStatus helper', () => {
       expect(result).to.be.a('string');
       expect(result).to.include('Active');
       // Should include both parts of the V2 definition
-      expect(result).to.include('prescription you can fill at a local VA pharmacy');
+      expect(result).to.include(
+        'prescription you can fill at a local VA pharmacy',
+      );
       expect(result).to.include('If you need a medication immediately');
     });
   });
