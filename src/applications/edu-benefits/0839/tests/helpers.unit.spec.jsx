@@ -325,7 +325,7 @@ describe('0839 Helpers', () => {
 
         expect(
           additionalInstitutionDetailsArrayOptions.text.summaryTitle(props),
-        ).to.equal('Review your additional locations');
+        ).to.equal('Review your additional locations ');
       });
     });
 

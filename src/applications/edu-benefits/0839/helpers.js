@@ -157,9 +157,11 @@ export const additionalInstitutionDetailsArrayOptions = {
     cardDescription: item => getCardDescription(item),
     summaryTitle: props => {
       const count = props?.formData?.additionalInstitutionDetails?.length || 0;
+      const isWithdraw =
+        props?.formData?.agreementType === 'withdrawFromYellowRibbonProgram';
       return count > 1
-        ? 'Review your additional locations'
-        : 'Review your additional location';
+        ? `Review your additional locations ${isWithdraw ? 'to withdraw' : ''}`
+        : `Review your additional location ${isWithdraw ? 'to withdraw' : ''}`;
     },
     summaryDescriptionWithoutItems: props => {
       const isWithdraw =
