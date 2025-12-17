@@ -275,12 +275,10 @@ export const TRIP_TYPES = Object.freeze({
   ROUND_TRIP: {
     value: 'RoundTrip',
     label: 'Round trip',
-    key: 'RoundTrip',
   },
   ONE_WAY: {
     value: 'OneWay',
     label: 'One way',
-    key: 'OneWay',
   },
 });
 

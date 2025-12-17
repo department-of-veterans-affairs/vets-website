@@ -84,7 +84,7 @@ const Mileage = () => {
       if (expenseId || hasMileageExpense) {
         const initialState = {
           departureAddress: 'home-address',
-          tripType: TRIP_TYPES.ROUND_TRIP.key,
+          tripType: TRIP_TYPES.ROUND_TRIP.value,
         };
         setFormState(initialState);
         initialFormStateRef.current = initialState;
@@ -120,7 +120,7 @@ const Mileage = () => {
     // Check if user selected "another-address" or "one-way"
     if (
       formState.departureAddress === 'another-address' ||
-      formState.tripType === TRIP_TYPES.ONE_WAY.key
+      formState.tripType === TRIP_TYPES.ONE_WAY.value
     ) {
       navigate(`/file-new-claim/${apptId}/${claimId}/unsupported`);
       return;
@@ -251,13 +251,13 @@ const Mileage = () => {
       >
         <va-radio-option
           label={TRIP_TYPES.ROUND_TRIP.label}
-          value={TRIP_TYPES.ROUND_TRIP.key}
-          checked={formState.tripType === TRIP_TYPES.ROUND_TRIP.key}
+          value={TRIP_TYPES.ROUND_TRIP.value}
+          checked={formState.tripType === TRIP_TYPES.ROUND_TRIP.value}
         />
         <va-radio-option
           label={TRIP_TYPES.ONE_WAY.label}
-          value={TRIP_TYPES.ONE_WAY.key}
-          checked={formState.tripType === TRIP_TYPES.ONE_WAY.key}
+          value={TRIP_TYPES.ONE_WAY.value}
+          checked={formState.tripType === TRIP_TYPES.ONE_WAY.value}
         />
       </VaRadio>
 

@@ -15,11 +15,7 @@ import {
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import DocumentUpload from './DocumentUpload';
-import {
-  EXPENSE_TYPES,
-  EXPENSE_TYPE_KEYS,
-  TRIP_TYPES,
-} from '../../../constants';
+import { EXPENSE_TYPES, EXPENSE_TYPE_KEYS } from '../../../constants';
 import {
   createExpense,
   updateExpenseDeleteDocument,
@@ -38,6 +34,8 @@ import {
   validateReceiptDate,
   validateDescription,
   validateRequestedAmount,
+  validateAirTravelFields,
+  validateCommonCarrierFields,
 } from '../../../util/expense-validation-helpers';
 
 import TravelPayButtonPair from '../../shared/TravelPayButtonPair';
@@ -196,8 +194,13 @@ const ExpensePage = () => {
 
   const expenseTypeFields = expenseType ? EXPENSE_TYPES[expenseType] : null;
 
+  const isAirTravel = expenseType === EXPENSE_TYPE_KEYS.AIRTRAVEL;
+  const isMeal = expenseType === EXPENSE_TYPE_KEYS.MEAL;
+  const isCommonCarrier = expenseType === EXPENSE_TYPE_KEYS.COMMONCARRIER;
+  const isLodging = expenseType === EXPENSE_TYPE_KEYS.LODGING;
+
   const handleFormChange = (event, explicitName) => {
-    const name = explicitName ?? event.target?.name ?? event.detail?.name; // rarely used, but safe to include
+    const name = explicitName ?? event.target?.name ?? event.detail?.name;
     const value = (
       event?.value ??
       event?.detail?.value ??
@@ -205,16 +208,28 @@ const ExpensePage = () => {
       ''
     ).toString();
 
-    setFormState(prev => ({
-      ...prev,
-      [name]: value,
-    }));
-    // Clear error for this field if there was one
-    setExtraFieldErrors(prevErrors =>
-      Object.fromEntries(
-        Object.entries(prevErrors).filter(([key]) => key !== name),
-      ),
-    );
+    setFormState(prev => {
+      const newFormState = { ...prev, [name]: value };
+
+      // Only validate the field being updated
+      setExtraFieldErrors(prevErrors => {
+        let nextErrors = { ...prevErrors };
+
+        if (isAirTravel) {
+          nextErrors = validateAirTravelFields(newFormState, nextErrors, name);
+        } else if (isCommonCarrier) {
+          nextErrors = validateCommonCarrierFields(
+            newFormState,
+            nextErrors,
+            name,
+          );
+        }
+
+        return nextErrors;
+      });
+
+      return newFormState;
+    });
   };
 
   const handleOpenCancelModal = () => setIsCancelModalVisible(true);
@@ -233,11 +248,6 @@ const ExpensePage = () => {
       // navigate(`/file-new-claim/${apptId}/${claimId}/review`);
     }
   };
-
-  const isAirTravel = expenseType === EXPENSE_TYPE_KEYS.AIRTRAVEL;
-  const isMeal = expenseType === EXPENSE_TYPE_KEYS.MEAL;
-  const isCommonCarrier = expenseType === EXPENSE_TYPE_KEYS.COMMONCARRIER;
-  const isLodging = expenseType === EXPENSE_TYPE_KEYS.LODGING;
 
   // Field names must match those expected by the expenses_controller in vets-api.
   // The controller converts them to forwards them unchanged to the API.
@@ -263,7 +273,7 @@ const ExpensePage = () => {
 
     const emptyFields = requiredFields.filter(field => !formState[field]);
 
-    const errors = { ...extraFieldErrors }; // clone existing errors
+    let errors = { ...extraFieldErrors }; // clone existing errors
 
     // Receipt validation
     if (!formState.receipt) {
@@ -274,61 +284,12 @@ const ExpensePage = () => {
 
     // Commoncarrier-specific validations
     if (isCommonCarrier) {
-      if (!formState.carrierType) {
-        errors.carrierType = 'Select a transportation type';
-      } else {
-        delete errors.carrierType;
-      }
-
-      if (!formState.reasonNotUsingPOV) {
-        errors.reasonNotUsingPOV = 'Select a reason';
-      } else {
-        delete errors.reasonNotUsingPOV;
-      }
+      errors = validateCommonCarrierFields(formState, errors);
     }
 
     // Airtravel-specific validations
     if (isAirTravel) {
-      if (!formState.vendorName) {
-        errors.vendorName = 'Enter the company name';
-      } else {
-        delete errors.vendorName;
-      }
-
-      if (!formState.tripType) {
-        errors.tripType = 'Select a trip type';
-      } else {
-        delete errors.tripType;
-      }
-
-      if (!formState.departureDate) {
-        errors.departureDate = 'Enter a departure date';
-      } else if (formState.departureDate < formState.returnDate) {
-        errors.departureDate = 'Departure date must be later than return date';
-      } else {
-        delete errors.departureDate;
-      }
-
-      if (!formState.departedFrom) {
-        errors.departedFrom = 'Enter the airport name';
-      } else {
-        delete errors.departedFrom;
-      }
-
-      if (!formState.arrivedTo) {
-        errors.arrivedTo = 'Enter the airport name';
-      } else {
-        delete errors.arrivedTo;
-      }
-
-      if (
-        formState.tripType === TRIP_TYPES.ROUND_TRIP.value &&
-        !formState.returnDate
-      ) {
-        errors.returnDate = 'Enter a return date';
-      } else {
-        delete errors.returnDate;
-      }
+      errors = validateAirTravelFields(formState, errors);
     }
 
     setExtraFieldErrors(errors);

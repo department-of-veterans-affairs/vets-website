@@ -31,7 +31,7 @@ const ExpenseAirTravelFields = ({ errors = {}, formState, onChange }) => (
     >
       {Object.values(TRIP_TYPES).map(option => (
         <va-radio-option
-          key={option.key}
+          key={option.value}
           label={option.label}
           value={option.value}
           checked={formState.tripType === option.value}

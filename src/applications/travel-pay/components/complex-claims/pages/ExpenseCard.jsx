@@ -92,7 +92,7 @@ const ExpenseCard = ({ apptId, claimId, expense, address, showEditDelete }) => {
                   },
                   {
                     label: 'Was your trip round trip or one way?',
-                    value: TRIP_TYPES.ROUND_TRIP.label,
+                    value: TRIP_TYPES.ROUND_TRIP.value,
                   },
                 ]}
               />

@@ -707,7 +707,7 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
         it('requires return date when Airtravel tripType is Round Trip', async () => {
           const { container } = renderPage(EXPENSE_TYPES.Airtravel);
 
-          // Fill only the common required fields except returnDate
+          // Fill common required fields except returnDate
           const purchaseDate = container.querySelector(
             'va-date[name="purchaseDate"]',
           );
@@ -716,6 +716,15 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
           );
           const descriptionInput = container.querySelector(
             'va-textarea[name="description"]',
+          );
+          const vendorInput = container.querySelector(
+            'va-text-input[name="vendorName"]',
+          );
+          const departedFrom = container.querySelector(
+            'va-text-input[name="departedFrom"]',
+          );
+          const arrivedTo = container.querySelector(
+            'va-text-input[name="arrivedTo"]',
           );
 
           purchaseDate.value = '2025-10-31';
@@ -728,14 +737,19 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
           );
 
           costRequested.value = '100.00';
-          costRequested.dispatchEvent(
-            new CustomEvent('input', { bubbles: true, composed: true }),
-          );
+          costRequested.dispatchEvent(new Event('input', { bubbles: true }));
 
           descriptionInput.value = 'Flight description';
-          descriptionInput.dispatchEvent(
-            new CustomEvent('input', { bubbles: true, composed: true }),
-          );
+          descriptionInput.dispatchEvent(new Event('input', { bubbles: true }));
+
+          vendorInput.value = 'Airline Vendor';
+          vendorInput.dispatchEvent(new Event('input', { bubbles: true }));
+
+          departedFrom.value = 'SFO';
+          departedFrom.dispatchEvent(new Event('input', { bubbles: true }));
+
+          arrivedTo.value = 'LAX';
+          arrivedTo.dispatchEvent(new Event('input', { bubbles: true }));
 
           // Select Round Trip
           const roundTripOption = container.querySelector(
@@ -764,15 +778,14 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
             }),
           );
 
-          // Click continue
+          // Click Continue to trigger validation
           const continueButton = Array.from(
             container.querySelectorAll('.travel-pay-button-group va-button'),
           ).find(btn => btn.getAttribute('text') === 'Continue');
-
           fireEvent.click(continueButton);
 
+          // Wait for error to appear
           await waitFor(() => {
-            // Return date should show required error
             const returnDate = container.querySelector(
               'va-date[name="returnDate"]',
             );
