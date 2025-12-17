@@ -1,8 +1,9 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useDispatch, useSelector } from 'react-redux';
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
+import { waitForRenderThenFocus, waitTime } from 'platform/utilities/ui';
 import BackLink from '../BackLink';
 import AppointmentCard from '../AppointmentCard';
 import { APPOINTMENT_STATUS, GA_PREFIX } from '../../utils/constants';
@@ -19,7 +20,6 @@ import TravelReimbursementSection from '../TravelReimbursementSection';
 import AppointmentTasksSection from '../AppointmentTasksSection';
 import Section from '../Section';
 import ErrorAlert from '../ErrorAlert';
-import { scrollAndFocus } from '../../utils/scrollAndFocus';
 
 export function When({ children, level = 2 }) {
   return (
@@ -205,18 +205,16 @@ export default function DetailPageLayout({
     selectFeatureTravelPaySubmitMileageExpense(state),
   );
 
-  const headingRef = useRef(null);
-
-  useEffect(
-    () => {
-      if (headingRef.current) {
-        setTimeout(() => {
-          scrollAndFocus();
-        }, 50);
-      }
-    },
-    [headingRef],
-  );
+  useEffect(() => {
+    // Focus on the heading after render -- added function to utilities/ui/focus.js to shorten this interval
+    // but still allows cypress tests to run properly
+    const wait = waitTime(60);
+    waitForRenderThenFocus(
+      '#vaos-appointment-details-page-heading',
+      document,
+      wait,
+    );
+  }, []);
 
   if (!appointment) return null;
 
@@ -229,9 +227,9 @@ export default function DetailPageLayout({
       <BackLink appointment={appointment} />
       <AppointmentCard appointment={appointment}>
         <h1
+          id="vaos-appointment-details-page-heading"
           className="vaos__dynamic-font-size--h2"
-          tabIndex="-1"
-          ref={headingRef}
+          tabIndex={-1}
         >
           <span data-dd-privacy="mask">{heading}</span>
         </h1>

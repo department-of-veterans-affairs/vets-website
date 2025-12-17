@@ -5,6 +5,7 @@ import {
   focusByOrder,
   waitForRenderThenFocus,
   defaultFocusSelector,
+  waitTime,
 } from './focus';
 import {
   getScrollOptions,
@@ -18,6 +19,7 @@ import { ERROR_ELEMENTS, FOCUSABLE_ELEMENTS } from '../constants';
 export {
   focusElement,
   focusByOrder,
+  waitTime,
   waitForRenderThenFocus,
   defaultFocusSelector,
   getScrollOptions,
