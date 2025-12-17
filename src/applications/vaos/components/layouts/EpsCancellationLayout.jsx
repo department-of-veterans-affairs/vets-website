@@ -64,10 +64,7 @@ export default function EpsCancellationLayout({
             locationPhone={appointment.provider.phone}
           />
         </Section>
-        <Details
-          reason={appointment.reason}
-          otherDetails={appointment.comments}
-        />
+        <Details otherDetails={appointment.comments} />
       </va-card>
       {!cancellationConfirmed && (
         <div className="vads-u-display--flex vads-u-margin-top--4 vaos-appts__block-label vads-u-flex-direction--column  vaos-hide-for-print  vaos-form__button-container">

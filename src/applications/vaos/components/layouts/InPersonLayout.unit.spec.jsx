@@ -160,15 +160,7 @@ describe('VAOS Component: InPersonLayout', () => {
         screen.getByText((content, element) => {
           return (
             element.tagName.toLowerCase() === 'span' &&
-            content === 'Reason: Not available'
-          );
-        }),
-      );
-      expect(
-        screen.getByText((content, element) => {
-          return (
-            element.tagName.toLowerCase() === 'span' &&
-            content === 'Other details: Not available'
+            content === 'Not available'
           );
         }),
       );
@@ -283,9 +275,6 @@ describe('VAOS Component: InPersonLayout', () => {
 
         expect(screen.queryByText(/Details you shared with your provider'/i))
           .not.to.exist;
-
-        expect(screen.queryByText(/Reason:/i)).not.to.exist;
-        expect(screen.queryByText(/Other details:/i)).not.to.exist;
       });
 
       it('should not display location heading when physical location is missing', async () => {
@@ -330,7 +319,6 @@ describe('VAOS Component: InPersonLayout', () => {
         .setPatientComments('Additional information:colon')
         .setPhysicalLocation('CHEYENNE')
         .setPractitioner()
-        .setReasonForAppointment('This is a test')
         .setServiceName('Clinic 1');
       const appointment = MockAppointmentResponse.getTransformedResponse(
         response,
@@ -424,8 +412,7 @@ describe('VAOS Component: InPersonLayout', () => {
           name: /Details you shared with your provider/i,
         }),
       );
-      expect(screen.getByText(/Reason: This is a test/i));
-      expect(screen.getByText(/Other details: Additional information:colon/i));
+      expect(screen.getByText(/Additional information:colon/i));
 
       expect(screen.container.querySelector('va-button[text="Print"]'));
       expect(
@@ -448,8 +435,7 @@ describe('VAOS Component: InPersonLayout', () => {
         .setServiceName('Clinic 1')
         .setLocation(new MockFacilityResponse())
         .setPatientComments('Additional information:colon')
-        .setPhysicalLocation('CHEYENNE')
-        .setReasonForAppointment('This is a test');
+        .setPhysicalLocation('CHEYENNE');
       const appointment = MockAppointmentResponse.getTransformedResponse(
         response,
       );
@@ -524,8 +510,7 @@ describe('VAOS Component: InPersonLayout', () => {
           name: /Details you shared with your provider/i,
         }),
       );
-      expect(screen.getByText(/Reason: This is a test/i));
-      expect(screen.getByText(/Other details: Additional information:colon/i));
+      expect(screen.getByText(/Additional information:colon/i));
 
       expect(screen.container.querySelector('va-button[text="Print"]'));
       expect(
@@ -549,8 +534,7 @@ describe('VAOS Component: InPersonLayout', () => {
         .setServiceName('Clinic 1')
         .setLocation(new MockFacilityResponse())
         .setPatientComments('Additional information:colon')
-        .setPhysicalLocation('CHEYENNE')
-        .setReasonForAppointment('This is a test');
+        .setPhysicalLocation('CHEYENNE');
       const appointment = MockAppointmentResponse.getTransformedResponse(
         response,
       );
@@ -609,8 +593,7 @@ describe('VAOS Component: InPersonLayout', () => {
           name: /Details you shared with your provider/i,
         }),
       );
-      expect(screen.getByText(/Reason: This is a test/i));
-      expect(screen.getByText(/Other details: Additional information:colon/i));
+      expect(screen.getByText(/Additional information:colon/i));
 
       expect(screen.container.querySelector('va-button[text="Print"]')).to.be
         .ok;
@@ -634,8 +617,7 @@ describe('VAOS Component: InPersonLayout', () => {
         .setServiceName('Clinic 1')
         .setLocation(new MockFacilityResponse())
         .setPatientComments('Additional information:colon')
-        .setPhysicalLocation('CHEYENNE')
-        .setReasonForAppointment('This is a test');
+        .setPhysicalLocation('CHEYENNE');
       const appointment = MockAppointmentResponse.getTransformedResponse(
         response,
       );
@@ -718,8 +700,7 @@ describe('VAOS Component: InPersonLayout', () => {
           name: /Details you shared with your provider/i,
         }),
       );
-      expect(screen.getByText(/Reason: This is a test/i));
-      expect(screen.getByText(/Other details: Additional information:colon/i));
+      expect(screen.getByText(/Additional information:colon/i));
 
       expect(screen.container.querySelector('va-button[text="Print"]')).to.be
         .ok;
@@ -741,8 +722,7 @@ describe('VAOS Component: InPersonLayout', () => {
         .setServiceName('Clinic 1')
         .setLocation(new MockFacilityResponse())
         .setPatientComments('Additional information:colon')
-        .setPhysicalLocation('CHEYENNE')
-        .setReasonForAppointment('This is a test');
+        .setPhysicalLocation('CHEYENNE');
       const appointment = MockAppointmentResponse.getTransformedResponse(
         response,
       );
@@ -803,8 +783,7 @@ describe('VAOS Component: InPersonLayout', () => {
           name: /Details you shared with your provider/i,
         }),
       );
-      expect(screen.getByText(/Reason: This is a test/i));
-      expect(screen.getByText(/Other details: Additional information:colon/i));
+      expect(screen.getByText(/Additional information:colon/i));
 
       expect(screen.container.querySelector('va-button[text="Print"]')).to.be
         .ok;

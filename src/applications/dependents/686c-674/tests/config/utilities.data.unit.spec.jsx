@@ -514,6 +514,15 @@ describe('showOptionsSelection', () => {
       }),
     ).to.be.false;
   });
+  it('should return false if the feature flag is on and there is an API error', () => {
+    expect(
+      showOptionsSelection({
+        vaDependentsV3: true,
+        dependents: { awarded: [{}] },
+        'view:dependentsApiError': true,
+      }),
+    ).to.be.false;
+  });
 });
 
 describe('hasAwardedDependents', () => {

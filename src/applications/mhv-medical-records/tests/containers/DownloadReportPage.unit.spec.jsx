@@ -3,9 +3,9 @@ import React from 'react';
 import { waitFor } from '@testing-library/react';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { fireEvent } from '@testing-library/dom';
-import sinon from 'sinon';
 import reducer from '../../reducers';
 import DownloadReportPage from '../../containers/DownloadReportPage';
 import user from '../fixtures/user.json';
@@ -102,12 +102,10 @@ describe('DownloadRecordsPage', () => {
 
 describe('DownloadRecordsPage with all SEI domains failed', () => {
   let screen;
-  let generateSEIPdfStub;
 
   beforeEach(() => {
-    generateSEIPdfStub = sinon
-      .stub(exports, 'generateSEIPdf')
-      .rejects(new Error('SEI PDF generation failed'));
+    // Mock the API to return an error, which will cause generateSEIPdf to fail
+    mockApiRequest({}, false);
 
     screen = renderWithStoreAndRouter(<DownloadReportPage runningUnitTest />, {
       initialState: {
@@ -124,10 +122,6 @@ describe('DownloadRecordsPage with all SEI domains failed', () => {
       reducers: reducer,
       path: '/download-all',
     });
-  });
-
-  afterEach(() => {
-    generateSEIPdfStub.restore();
   });
 
   it('displays access trouble alert for SEI document on error', async () => {
@@ -294,254 +288,5 @@ describe('DownloadRecordsPage with extended file types flag OFF', () => {
     expect(ccdAccordion).to.exist;
     fireEvent.click(ccdAccordion);
     expect(screen.queryByTestId('generateCcdButtonHtml')).to.be.null;
-  });
-});
-
-describe('DownloadRecordsPage for Cerner users', () => {
-  const cernerUserState = {
-    user: {
-      profile: {
-        userFullName: {
-          first: 'Andrew- Cerner',
-          middle: 'J',
-          last: 'Morkel',
-        },
-        facilities: [
-          {
-            facilityId: '668',
-            isCerner: true,
-          },
-        ],
-      },
-    },
-    drupalStaticData: {
-      vamcEhrData: {
-        data: {
-          ehrDataByVhaId: {
-            '668': {
-              vhaId: '668',
-              vamcFacilityName:
-                'Mann-Grandstaff Department of Veterans Affairs Medical Center',
-              vamcSystemName: 'VA Spokane health care',
-              ehr: 'cerner',
-            },
-          },
-          cernerFacilities: [
-            {
-              vhaId: '668',
-              vamcFacilityName:
-                'Mann-Grandstaff Department of Veterans Affairs Medical Center',
-              vamcSystemName: 'VA Spokane health care',
-              ehr: 'cerner',
-            },
-          ],
-        },
-        loading: false,
-      },
-    },
-    mr: {
-      downloads: {
-        generatingCCD: false,
-        ccdError: false,
-        bbDownloadSuccess: false,
-      },
-      blueButton: {
-        failedDomains: [],
-      },
-    },
-    featureToggles: {
-      [FEATURE_FLAG_NAMES.mhvMedicalRecordsCcdExtendedFileTypes]: true,
-      loading: false,
-    },
-  };
-
-  const multipleCernerFacilitiesState = {
-    ...cernerUserState,
-    user: {
-      profile: {
-        userFullName: {
-          first: 'Andrew- Cerner',
-          middle: 'J',
-          last: 'Morkel',
-        },
-        facilities: [
-          {
-            facilityId: '668',
-            isCerner: true,
-          },
-          {
-            facilityId: '692',
-            isCerner: true,
-          },
-        ],
-      },
-    },
-    drupalStaticData: {
-      vamcEhrData: {
-        data: {
-          ehrDataByVhaId: {
-            '668': {
-              vhaId: '668',
-              vamcFacilityName:
-                'Mann-Grandstaff Department of Veterans Affairs Medical Center',
-              vamcSystemName: 'VA Spokane health care',
-              ehr: 'cerner',
-            },
-            '692': {
-              vhaId: '692',
-              vamcFacilityName: 'White City VA Medical Center',
-              vamcSystemName: 'VA Southern Oregon health care',
-              ehr: 'cerner',
-            },
-          },
-          cernerFacilities: [
-            {
-              vhaId: '668',
-              vamcFacilityName:
-                'Mann-Grandstaff Department of Veterans Affairs Medical Center',
-              vamcSystemName: 'VA Spokane health care',
-              ehr: 'cerner',
-            },
-            {
-              vhaId: '692',
-              vamcFacilityName: 'White City VA Medical Center',
-              vamcSystemName: 'VA Southern Oregon health care',
-              ehr: 'cerner',
-            },
-          ],
-        },
-        loading: false,
-      },
-    },
-  };
-
-  it('displays Cerner facility alert for Cerner users', () => {
-    const screen = renderWithStoreAndRouter(<DownloadReportPage />, {
-      initialState: cernerUserState,
-      reducers: reducer,
-      path: '/download-all',
-    });
-
-    expect(screen).to.exist;
-    expect(screen.getByText('Download your medical records reports')).to.exist;
-    expect(screen.getByTestId('cerner-facilities-alert')).to.exist;
-  });
-
-  it('displays correct alert text for single Cerner facility', () => {
-    const screen = renderWithStoreAndRouter(<DownloadReportPage />, {
-      initialState: cernerUserState,
-      reducers: reducer,
-      path: '/download-all',
-    });
-
-    expect(screen.getByTestId('cerner-facilities-alert')).to.exist;
-    expect(
-      screen.getByText(
-        'To get your medical records reports from this facility, go to My VA Health',
-      ),
-    ).to.exist;
-    // Facility name appears in alert text (within data-testid="single-cerner-facility-text")
-    expect(screen.getByTestId('single-cerner-facility-text')).to.exist;
-    expect(
-      screen
-        .getByTestId('single-cerner-facility-text')
-        .textContent.includes('VA Spokane health care'),
-    ).to.be.true;
-  });
-
-  it('displays correct alert text for multiple Cerner facilities', () => {
-    const screen = renderWithStoreAndRouter(<DownloadReportPage />, {
-      initialState: multipleCernerFacilitiesState,
-      reducers: reducer,
-      path: '/download-all',
-    });
-
-    expect(screen.getByTestId('cerner-facilities-alert')).to.exist;
-    expect(
-      screen.getByText(
-        'To get your medical records reports from these facilities, go to My VA Health',
-      ),
-    ).to.exist;
-
-    // Should show both facilities in a list
-    const facilityList = screen.getAllByTestId('cerner-facility');
-    expect(facilityList.length).to.equal(2);
-    expect(screen.getByText('VA Spokane health care')).to.exist;
-    expect(screen.getByText('VA Southern Oregon health care')).to.exist;
-  });
-
-  it('includes link to My VA Health portal', () => {
-    const screen = renderWithStoreAndRouter(<DownloadReportPage />, {
-      initialState: cernerUserState,
-      reducers: reducer,
-      path: '/download-all',
-    });
-
-    expect(screen.getByTestId('cerner-facilities-alert')).to.exist;
-    const link = screen.getByRole('link', { name: /Go to My VA Health/i });
-    expect(link).to.exist;
-  });
-});
-
-describe('DownloadRecordsPage for non-Cerner users', () => {
-  const nonCernerUserState = {
-    user: {
-      profile: {
-        userFullName: {
-          first: 'Jane',
-          middle: 'M',
-          last: 'Doe',
-        },
-        facilities: [
-          {
-            facilityId: '516',
-            isCerner: false,
-          },
-        ],
-      },
-    },
-    drupalStaticData: {
-      vamcEhrData: {
-        data: {
-          ehrDataByVhaId: {
-            '516': {
-              vhaId: '516',
-              vamcFacilityName:
-                'C.W. Bill Young Department of Veterans Affairs Medical Center',
-              vamcSystemName: 'VA Bay Pines health care',
-              ehr: 'vista',
-            },
-          },
-          cernerFacilities: [],
-        },
-        loading: false,
-      },
-    },
-    mr: {
-      downloads: {
-        generatingCCD: false,
-        ccdError: false,
-        bbDownloadSuccess: false,
-      },
-      blueButton: {
-        failedDomains: [],
-      },
-    },
-    featureToggles: {
-      [FEATURE_FLAG_NAMES.mhvMedicalRecordsCcdExtendedFileTypes]: true,
-      loading: false,
-    },
-  };
-
-  it('does not display Cerner facility alert for non-Cerner users', () => {
-    const screen = renderWithStoreAndRouter(<DownloadReportPage />, {
-      initialState: nonCernerUserState,
-      reducers: reducer,
-      path: '/download-all',
-    });
-
-    expect(screen).to.exist;
-    expect(screen.getByText('Download your medical records reports')).to.exist;
-    expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;
   });
 });

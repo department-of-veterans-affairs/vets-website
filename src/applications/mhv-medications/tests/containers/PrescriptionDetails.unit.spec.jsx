@@ -92,6 +92,7 @@ describe('Prescription details container', () => {
     stubAllergiesApi({ sandbox });
     stubPrescriptionsApiCache({ sandbox, data: false });
     stubPrescriptionIdApi({ sandbox, isLoading: true });
+    stubUsePrefetch({ sandbox });
     const screen = setup();
     await waitFor(() => {
       expect(screen.getByTestId('loading-indicator')).to.exist;
@@ -107,6 +108,7 @@ describe('Prescription details container', () => {
     stubAllergiesApi({ sandbox, error: true });
     stubPrescriptionsApiCache({ sandbox, data: false });
     stubPrescriptionIdApi({ sandbox });
+    stubUsePrefetch({ sandbox });
     const screen = setup();
     await waitFor(() => {
       fireEvent.click(screen.getByTestId('download-txt-button'));
@@ -123,6 +125,7 @@ describe('Prescription details container', () => {
     stubAllergiesApi({ sandbox, error: true });
     stubPrescriptionsApiCache({ sandbox, data: false });
     stubPrescriptionIdApi({ sandbox });
+    stubUsePrefetch({ sandbox });
     const screen = setup();
     await waitFor(() => {
       fireEvent.click(screen.getByTestId('download-print-button'));
@@ -142,6 +145,7 @@ describe('Prescription details container', () => {
       data: false,
     });
     stubPrescriptionIdApi({ sandbox, data: rxDetailsResponse.data.attributes });
+    stubUsePrefetch({ sandbox });
     const screen = setup();
     const rxName = screen.findByText(
       rxDetailsResponse.data.attributes.prescriptionName,
@@ -179,6 +183,7 @@ describe('Prescription details container', () => {
     data.dispensedDate = null;
     data.sortedDispensedDate = null;
     stubPrescriptionIdApi({ sandbox, data });
+    stubUsePrefetch({ sandbox });
     const screen = setup();
     await waitFor(() => {
       expect(screen.getByTestId('rx-last-filled-date')).to.have.text(
@@ -192,6 +197,7 @@ describe('Prescription details container', () => {
     stubAllergiesApi({ sandbox });
     stubPrescriptionsApiCache({ sandbox, data: false });
     stubPrescriptionIdApi({ sandbox, data: nonVaRxResponse.data.attributes });
+    stubUsePrefetch({ sandbox });
     const screen = setup();
     await waitFor(() => {
       expect(screen.getByTestId('rx-last-filled-date')).to.have.text(
@@ -208,6 +214,7 @@ describe('Prescription details container', () => {
     stubAllergiesApi({ sandbox });
     stubPrescriptionsApiCache({ sandbox, data: false });
     stubPrescriptionIdApi({ sandbox, data: nonVaRxResponse.data.attributes });
+    stubUsePrefetch({ sandbox });
     const screen = setup();
     const rxName = screen.findByText(
       nonVaRxResponse.data.attributes.orderableItem,
@@ -224,6 +231,7 @@ describe('Prescription details container', () => {
     const testPrescriptionName = 'Test Name for Non-VA prescription';
     data.prescriptionName = testPrescriptionName;
     stubPrescriptionIdApi({ sandbox, data });
+    stubUsePrefetch({ sandbox });
 
     const screen = setup();
     await waitFor(() => {
@@ -237,6 +245,7 @@ describe('Prescription details container', () => {
     stubAllergiesApi({ sandbox });
     stubPrescriptionsApiCache({ sandbox, data: false });
     stubPrescriptionIdApi({ sandbox, error: true });
+    stubUsePrefetch({ sandbox });
     const screen = setup();
     await waitFor(() => {
       const errorMessageH2 = screen.getByTestId('no-medications-list');
@@ -254,6 +263,7 @@ describe('Prescription details container', () => {
     const data = JSON.parse(JSON.stringify(singlePrescription));
     data.prescriptionSource = 'PD';
     stubPrescriptionIdApi({ sandbox, data });
+    stubUsePrefetch({ sandbox });
     const screen = setup();
     await waitFor(() => {
       expect(screen.getByTestId('pending-med-alert')).to.exist;
