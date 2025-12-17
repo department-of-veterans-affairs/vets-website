@@ -16,9 +16,11 @@ import VaRadioField from '../web-component-fields/VaRadioField';
 /**
  * PATTERNS
  * NONBLANK_PATTERN - rejects white space only
+ * STATE_PROVINCE_PATTERN - allows alphanumeric, spaces, hyphens, apostrophes for international regions
  * POSTAL_CODE_PATTERNS - Matches US/Mexican/Canadian codes
  */
 const NONBLANK_PATTERN = '^.*\\S.*';
+const STATE_PROVINCE_PATTERN = "^[a-zA-Z0-9\\s'-]+$";
 const POSTAL_CODE_PATTERNS = {
   CAN:
     '^(?=[^DdFfIiOoQqUu\\d\\s])[A-Za-z]\\d(?=[^DdFfIiOoQqUu\\d\\s])[A-Za-z]\\s{0,1}\\d(?=[^DdFfIiOoQqUu\\d\\s])[A-Za-z]\\d$',
@@ -46,6 +48,7 @@ const POSTAL_CODE_PATTERN_ERROR_MESSAGES = {
   OTHER: {
     required:
       'Enter a postal code that meets your country’s requirements. If your country doesn’t require a postal code, enter NA.',
+    pattern: 'Enter a valid postal code',
   },
 };
 
@@ -87,6 +90,7 @@ const STATE_LABEL_DEFAULT = 'State, province, or region';
 const STATE_ERROR_MESSAGES_DEFAULT = {
   required: 'Enter a valid state, province, or region',
   enum: 'Enter a valid state, province, or region',
+  pattern: 'Enter a valid state, province, or region',
 };
 
 const MILITARY_CITIES = [
@@ -660,6 +664,7 @@ export function addressUI(options = {}) {
             type: 'string',
             title: STATE_LABEL_DEFAULT,
             maxLength: stateMaxLength,
+            pattern: STATE_PROVINCE_PATTERN,
           };
         },
       },
@@ -706,8 +711,7 @@ export function addressUI(options = {}) {
           } else if (['CAN', 'MEX', 'USA'].includes(country)) {
             addressSchema.pattern = POSTAL_CODE_PATTERNS[country];
           } else {
-            // no pattern validation for other countries
-            addressSchema.pattern = undefined;
+            addressSchema.pattern = NONBLANK_PATTERN;
           }
 
           return {

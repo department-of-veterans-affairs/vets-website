@@ -4,6 +4,7 @@ import ratingValue from './ratingInfo';
 import { splitPersons } from '../util';
 
 import {
+  FETCH_ALL_DEPENDENTS_STARTED,
   FETCH_ALL_DEPENDENTS_SUCCESS,
   FETCH_ALL_DEPENDENTS_FAILED,
 } from '../actions';
@@ -19,6 +20,12 @@ let allPeople = null;
 
 function allDependents(state = initialState, action) {
   switch (action.type) {
+    case FETCH_ALL_DEPENDENTS_STARTED:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
     case FETCH_ALL_DEPENDENTS_SUCCESS:
       if (action.response.persons && action.response.persons.length > 0) {
         allPeople = splitPersons(action.response.persons);

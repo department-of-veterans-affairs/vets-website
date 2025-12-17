@@ -24,8 +24,8 @@ const uiSchema = {
             Based on your answer, you might not qualify for reimbursement right
             now.
           </strong>{' '}
-          You’ll need to apply for at least one of these VA education benefits
-          and be found eligible in order for your reimbursement to be processed.{' '}
+          You’ll need to apply and be found eligible for the VA education
+          benefit under which you want your reimbursement processed.
         </p>
         <p>
           <va-link
