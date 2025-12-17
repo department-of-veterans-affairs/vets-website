@@ -36,8 +36,9 @@ describe('Medications Details Page - Cerner Pilot Enabled - Not Filled Yet Hidde
     detailsPage.clickMedicationDetailsLink(pendingRxDetails, 1);
     detailsPage.verifyHeaderTextOnDetailsPage('About this prescription');
 
-    // Verify "Not filled yet" text is NOT displayed when Cerner pilot is enabled
-    detailsPage.verifyLastFilledDateNotDisplayedOnDetailsPage('Not filled yet');
+    // Verify "Last filled on" section is NOT displayed when Cerner pilot is enabled
+    // and there is no dispense date
+    detailsPage.verifyLastFilledDateNotDisplayedOnDetailsPage();
 
     cy.injectAxe();
     cy.axeCheck('main');
