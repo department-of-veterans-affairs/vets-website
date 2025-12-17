@@ -166,7 +166,6 @@ const getAbbreviatedMonth = monthText =>
  * @returns {string} - Date in VA.gov format (e.g., "Dec. 10, 2025" or "March 15, 2025")
  */
 export const formatDateToReadableString = date => {
-  console.log('date: ', date);
   if (!date || !isValid(date)) {
     return '';
   }
