@@ -23,6 +23,9 @@ describe('Medical Records View Conditions', () => {
 
     cy.injectAxeThenAxeCheck();
 
+    // OH user, in the "accelerated" feature toggle group should see blue alert
+    cy.get('[data-testid="cerner-facilities-info-alert"]').should('be.visible');
+
     const CARDS_PER_PAGE = 10;
     cy.get(':nth-child(4) > [data-testid="record-list-item"]').should(
       'have.length',

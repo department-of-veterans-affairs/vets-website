@@ -47,7 +47,7 @@ export const employmentLastPaymentUiSchema = {
       },
     }),
     lumpSumPayment: radioUI({
-      title: 'Was a lump sum payment made?',
+      title: 'Was an additional lump sum payment made?',
       hint:
         'A lump sum is a one-off payment for a specific purpose such as a severance package or payout of unused leave.',
       labels: {
@@ -70,7 +70,7 @@ export const employmentLastPaymentUiSchema = {
         formData?.employmentLastPayment?.lumpSumPayment === 'yes',
     }),
     datePaid: currentOrPastDateUI({
-      title: 'When was the lump sum paid?',
+      title: 'Date of lump sum payment',
       errorMessages: {
         required: 'Date lump sum was paid is required',
       },

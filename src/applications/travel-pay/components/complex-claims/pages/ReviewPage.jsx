@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom-v5-compat';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
@@ -11,25 +10,30 @@ import {
   selectComplexClaim,
   selectAllExpenses,
   selectAllDocuments,
+  selectReviewPageAlert,
 } from '../../../redux/selectors';
 import { formatAmount } from '../../../util/complex-claims-helper';
 import { EXPENSE_TYPES } from '../../../constants';
+import { clearReviewPageAlert } from '../../../redux/actions';
 import { ComplexClaimsHelpSection } from '../../HelpText';
 
-const ReviewPage = ({ message }) => {
+const ReviewPage = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { apptId, claimId } = useParams();
 
   const { data: claimDetails = {} } = useSelector(selectComplexClaim);
   const expenses = useSelector(selectAllExpenses) ?? [];
   const documents = useSelector(selectAllDocuments) ?? [];
+  const alertMessage = useSelector(selectReviewPageAlert);
 
   // Get total by expense type and return expenses alphabetically
   const totalByExpenseType = Object.fromEntries(
     Object.entries(
       expenses.reduce((acc, expense) => {
-        const type = expense.expenseType;
-        acc[type] = (acc[type] || 0) + (expense.costRequested || 0);
+        const { expenseType } = expense;
+        acc[expenseType] =
+          (acc[expenseType] || 0) + (expense.costRequested || 0);
         return acc;
       }, {}),
     ).sort(([a], [b]) => a.localeCompare(b)),
@@ -57,16 +61,10 @@ const ReviewPage = ({ message }) => {
     return acc;
   }, {});
 
-  // For now, we will override the message to have a title, body, and type
-  // If message is not provided, use default values
-  const overriddenMessage = message || {
-    title: '',
-    body: 'You successfully added a travel expense',
-    type: 'success',
+  const onAlertClose = () => {
+    dispatch(clearReviewPageAlert());
   };
 
-  const [visible, setVisible] = useState(true);
-  const onClose = () => setVisible(false);
   const addMoreExpenses = () => {
     navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
   };
@@ -76,18 +74,20 @@ const ReviewPage = ({ message }) => {
   };
 
   const numGroupedExpenses = Object.keys(groupedExpenses).length;
-  const isAlertVisible = visible && numGroupedExpenses > 0;
+  const isAlertVisible = !!alertMessage && numGroupedExpenses > 0;
 
   return (
     <div data-testid="review-page">
       <h1>Your unsubmitted expenses</h1>
-      <ReviewPageAlert
-        header={overriddenMessage.title}
-        description={overriddenMessage.body}
-        status={overriddenMessage.type}
-        onCloseEvent={onClose}
-        visible={isAlertVisible}
-      />
+      {isAlertVisible && (
+        <ReviewPageAlert
+          header={alertMessage.title}
+          description={alertMessage.description}
+          status={alertMessage.type}
+          onCloseEvent={onAlertClose}
+          visible={isAlertVisible}
+        />
+      )}
       <div className="vads-u-display--flex vads-u-justify-content--center mobile-lg:vads-u-justify-content--flex-start vads-u-margin-y--3">
         <VaButton
           id="add-expense-button"
@@ -150,8 +150,9 @@ const ReviewPage = ({ message }) => {
               </p>
               <p>
                 Before we can pay you back for expenses, you must pay a
-                deductible. The current deductible is $3 one-way or $6
-                round-trip for each appointment, up to $18 total each month.
+                deductible. The current deductible is <strong>$3</strong>{' '}
+                one-way or <strong>$6</strong> round-trip for each appointment.
+                You’ll pay no more than <strong>$18</strong> total each month.
               </p>
               <va-link
                 href="/resources/reimbursed-va-travel-expenses-and-mileage-rate/#monthlydeductible"
@@ -171,14 +172,6 @@ const ReviewPage = ({ message }) => {
       )}
     </div>
   );
-};
-
-ReviewPage.propTypes = {
-  message: PropTypes.shape({
-    title: PropTypes.string,
-    body: PropTypes.string,
-    type: PropTypes.string,
-  }),
 };
 
 export default ReviewPage;

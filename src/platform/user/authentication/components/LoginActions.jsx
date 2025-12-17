@@ -39,7 +39,7 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
         ))}
 
         <a href="https://www.va.gov/resources/creating-an-account-for-vagov">
-          Learn about creating a Login.gov or ID.me account
+          Learn about creating an ID.me or Login.gov account
         </a>
 
         {dslogonIsDisabled && (

@@ -115,4 +115,193 @@ describe('Acknowledgements Page', () => {
       );
     });
   });
+  describe('validateInitialsMatch', () => {
+    let errors;
+    let validationFn;
+
+    beforeEach(() => {
+      errors = {
+        errorMessages: [],
+        addError(message) {
+          this.errorMessages.push(message);
+        },
+      };
+      // eslint-disable-next-line prefer-destructuring
+      validationFn = page.uiSchema.statement1Initial['ui:validations'][0];
+    });
+
+    it('capitalizes fieldData before validation', () => {
+      const fieldData = 'jd';
+      const formData = {
+        authorizedOfficial: {
+          fullName: {
+            first: 'John',
+            last: 'Doe',
+          },
+        },
+      };
+
+      validationFn(errors, fieldData, formData);
+
+      expect(errors.errorMessages).to.have.lengthOf(0);
+    });
+
+    it('does not add error when fieldData is empty', () => {
+      const fieldData = '';
+      const formData = {
+        authorizedOfficial: {
+          fullName: {
+            first: 'John',
+            last: 'Doe',
+          },
+        },
+      };
+
+      validationFn(errors, fieldData, formData);
+
+      expect(errors.errorMessages).to.have.lengthOf(0);
+    });
+    it('adds error when fieldData contains non-letter characters', () => {
+      const fieldData = 'J1';
+      const formData = {
+        authorizedOfficial: {
+          fullName: {
+            first: 'John',
+            last: 'Doe',
+          },
+        },
+      };
+
+      validationFn(errors, fieldData, formData);
+
+      expect(errors.errorMessages).to.have.lengthOf(1);
+      expect(errors.errorMessages[0]).to.equal(
+        'Please enter your initials using letters only',
+      );
+    });
+
+    it('handles missing firstName gracefully', () => {
+      const fieldData = 'JD';
+      const formData = {
+        authorizedOfficial: {
+          fullName: {
+            last: 'Doe',
+          },
+        },
+      };
+
+      validationFn(errors, fieldData, formData);
+
+      expect(errors.errorMessages).to.have.lengthOf(1);
+      expect(errors.errorMessages[0]).to.contain(
+        'Initials must match your name',
+      );
+    });
+
+    it('handles missing lastName gracefully', () => {
+      const fieldData = 'JD';
+      const formData = {
+        authorizedOfficial: {
+          fullName: {
+            first: 'John',
+          },
+        },
+      };
+
+      validationFn(errors, fieldData, formData);
+
+      expect(errors.errorMessages).to.have.lengthOf(1);
+      expect(errors.errorMessages[0]).to.contain(
+        'Initials must match your name',
+      );
+    });
+    it('handles hyphenated last names correctly', () => {
+      const fieldData = 'JSJ';
+      const formData = {
+        authorizedOfficial: {
+          fullName: {
+            first: 'John',
+            last: 'Smith-Jones',
+          },
+        },
+      };
+
+      validationFn(errors, fieldData, formData);
+
+      expect(errors.errorMessages).to.have.lengthOf(0);
+    });
+
+    it('adds error when third initial does not match hyphenated last name', () => {
+      const fieldData = 'JSA';
+      const formData = {
+        authorizedOfficial: {
+          fullName: {
+            first: 'John',
+            last: 'Smith-Jones',
+          },
+        },
+      };
+
+      validationFn(errors, fieldData, formData);
+
+      expect(errors.errorMessages).to.have.lengthOf(1);
+      expect(errors.errorMessages[0]).to.contain(
+        'Initials must match your name: John Smith-Jones',
+      );
+    });
+
+    it('does not add error when only 2 initials provided for hyphenated last name', () => {
+      const fieldData = 'JS';
+      const formData = {
+        authorizedOfficial: {
+          fullName: {
+            first: 'John',
+            last: 'Smith-Jones',
+          },
+        },
+      };
+
+      validationFn(errors, fieldData, formData);
+
+      expect(errors.errorMessages).to.have.lengthOf(0);
+    });
+
+    it('adds error when first initial does not match', () => {
+      const fieldData = 'AD';
+      const formData = {
+        authorizedOfficial: {
+          fullName: {
+            first: 'John',
+            last: 'Doe',
+          },
+        },
+      };
+
+      validationFn(errors, fieldData, formData);
+
+      expect(errors.errorMessages).to.have.lengthOf(1);
+      expect(errors.errorMessages[0]).to.contain(
+        'Initials must match your name: John Doe',
+      );
+    });
+
+    it('adds error when last initial does not match', () => {
+      const fieldData = 'JA';
+      const formData = {
+        authorizedOfficial: {
+          fullName: {
+            first: 'John',
+            last: 'Doe',
+          },
+        },
+      };
+
+      validationFn(errors, fieldData, formData);
+
+      expect(errors.errorMessages).to.have.lengthOf(1);
+      expect(errors.errorMessages[0]).to.contain(
+        'Initials must match your name: John Doe',
+      );
+    });
+  });
 });

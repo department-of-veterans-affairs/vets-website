@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom-v5-compat';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -6,7 +6,12 @@ import {
   VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
-import { createExpense, updateExpense } from '../../../redux/actions';
+import {
+  createExpense,
+  updateExpense,
+  setUnsavedExpenseChanges,
+  setReviewPageAlert,
+} from '../../../redux/actions';
 import {
   selectExpenseUpdateLoadingState,
   selectExpenseCreationLoadingState,
@@ -40,6 +45,8 @@ const Mileage = () => {
   const [departureAddress, setDepartureAddress] = useState('');
   const [tripType, setTripType] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const initialStateRef = useRef({ departureAddress: '', tripType: '' });
+  const previousHasChangesRef = useRef(false);
 
   const handleDepartureAddressChange = event => {
     setDepartureAddress(event.detail.value);
@@ -48,6 +55,22 @@ const Mileage = () => {
   const handleTripTypeChange = event => {
     setTripType(event.detail.value);
   };
+
+  // Track unsaved changes by comparing current state to initial state
+  useEffect(
+    () => {
+      const currentState = { departureAddress, tripType };
+      const hasChanges =
+        JSON.stringify(currentState) !==
+        JSON.stringify(initialStateRef.current);
+      // Only dispatch if the hasChanges value actually changed
+      if (hasChanges !== previousHasChangesRef.current) {
+        dispatch(setUnsavedExpenseChanges(hasChanges));
+        previousHasChangesRef.current = hasChanges;
+      }
+    },
+    [departureAddress, tripType, dispatch],
+  );
 
   const handleOpenModal = () => {
     setIsModalVisible(true);
@@ -59,6 +82,8 @@ const Mileage = () => {
 
   const handleConfirmCancel = () => {
     handleCloseModal();
+    // Clear unsaved changes when canceling
+    dispatch(setUnsavedExpenseChanges(false));
     if (isEditMode) {
       // TODO: Add logic to determine where the user came from and direct them back to the correct location
       // navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
@@ -79,7 +104,7 @@ const Mileage = () => {
     // Check if user selected "another-address" or "one-way"
     if (
       departureAddress === 'another-address' ||
-      tripType === TRIP_TYPES.ONE_WAY.value
+      tripType === TRIP_TYPES.ONE_WAY.key
     ) {
       navigate(`/file-new-claim/${apptId}/${claimId}/unsupported`);
     } else {
@@ -98,12 +123,37 @@ const Mileage = () => {
             createExpense(claimId, EXPENSE_TYPES.Mileage.apiRoute, expenseData),
           );
         }
+
+        // Reset initial state reference to current state after successful save
+        initialStateRef.current = { departureAddress, tripType };
+        dispatch(setUnsavedExpenseChanges(false));
+
+        // Set success alert in Redux
+        dispatch(
+          setReviewPageAlert({
+            title: '',
+            description: `You successfully ${
+              isEditMode ? 'updated your' : 'added a'
+            } ${EXPENSE_TYPES.Mileage.expensePageText} expense.`,
+            type: 'success',
+          }),
+        );
       } catch (error) {
-        // Handle error
-        // eslint-disable-next-line no-console
-        console.error('Error creating expense:', error);
-        return; // Don't navigate if there's an error
+        // Set error alert
+        const verb = isEditMode ? 'edit' : 'add';
+        dispatch(
+          setReviewPageAlert({
+            title: `We couldn't ${verb} this expense right now`,
+            description: `We're sorry. We can't ${
+              isEditMode ? 'edit' : 'add'
+            } this expense${
+              isEditMode ? '' : ' to your claim'
+            }. Try again later.`,
+            type: 'error',
+          }),
+        );
       }
+      // Navigate to review page for success and error
       navigate(`/file-new-claim/${apptId}/${claimId}/review`);
     }
   };
@@ -124,8 +174,13 @@ const Mileage = () => {
         e => e.expenseType === EXPENSE_TYPE_KEYS.MILEAGE,
       );
       if (expenseId ?? hasMileageExpense) {
-        setDepartureAddress('home-address');
-        setTripType(TRIP_TYPES.ROUND_TRIP.value);
+        const initialState = {
+          departureAddress: 'home-address',
+          tripType: TRIP_TYPES.ROUND_TRIP.key,
+        };
+        setDepartureAddress(initialState.departureAddress);
+        setTripType(initialState.tripType);
+        initialStateRef.current = initialState;
       }
     },
     [claimId, allExpenses, expenseId],
@@ -186,22 +241,22 @@ const Mileage = () => {
         id="trip-type"
         onVaValueChange={handleTripTypeChange}
         value={tripType}
-        label="Was your trip round trip or one way?"
+        label="Was your drive round trip or one way?"
         required
       >
         <va-radio-option
           label={TRIP_TYPES.ROUND_TRIP.label}
-          value={TRIP_TYPES.ROUND_TRIP.value}
+          value={TRIP_TYPES.ROUND_TRIP.key}
           key="trip-round-trip"
           name="trip-type"
-          checked={tripType === TRIP_TYPES.ROUND_TRIP.value}
+          checked={tripType === TRIP_TYPES.ROUND_TRIP.key}
         />
         <va-radio-option
           label={TRIP_TYPES.ONE_WAY.label}
-          value={TRIP_TYPES.ONE_WAY.value}
+          value={TRIP_TYPES.ONE_WAY.key}
           key="trip-one-way"
           name="trip-type"
-          checked={tripType === TRIP_TYPES.ONE_WAY.value}
+          checked={tripType === TRIP_TYPES.ONE_WAY.key}
         />
       </VaRadio>
 
@@ -216,7 +271,7 @@ const Mileage = () => {
       <TravelPayButtonPair
         continueText={expenseId ? 'Save and continue' : 'Continue'}
         backText={expenseId ? 'Cancel' : 'Back'}
-        className={expenseId && 'vads-u-margin-top--2'}
+        className={expenseId ? 'vads-u-margin-top--2' : ''}
         onBack={handleBack}
         onContinue={handleContinue}
         loading={isLoadingExpense}

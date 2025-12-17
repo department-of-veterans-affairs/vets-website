@@ -45,7 +45,7 @@
     "spouseDateOfBirth": "1971-09-11",
     "dateOfMarriage": "1995-02-22",
     "cohabitedLastYear": true,
-    "maritalStatus": "Married",
+    "sameAddress": true,
     "nonPrefill": {
       "previousFinancialInfo": {
         "veteranFinancialInfo": {

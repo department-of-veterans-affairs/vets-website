@@ -3,10 +3,8 @@ import {
   currencyUI,
   currencySchema,
   radioUI,
-  checkboxUI,
   radioSchema,
   numberSchema,
-  checkboxSchema,
   numberUI,
   textUI,
   textSchema,
@@ -127,8 +125,8 @@ export const options = {
   text: {
     getItemName: item => item?.provider || 'Provider',
     cardDescription: item => {
-      const fromDate = transformDate(item?.careDateRange?.from);
-      const toDate = transformDate(item?.careDateRange?.to);
+      const fromDate = transformDate(item?.careDate?.from);
+      const toDate = transformDate(item?.careDate?.to);
       if (fromDate && toDate) {
         return `${fromDate} - ${toDate}`;
       }
@@ -256,14 +254,18 @@ const datePage = {
     careDate: currentOrPastDateRangeUI(
       {
         title: 'Care start date',
+        hint:
+          'Enter 1 or 2 digits for the month and day and 4 digits for the year.',
+        removeDateHint: true,
         monthSelect: false,
       },
       {
         title: 'Care end date',
+        hint: 'Leave blank if care is ongoing.',
+        removeDateHint: true,
         monthSelect: false,
       },
     ),
-    noEndDate: checkboxUI('No end date'),
   },
   schema: {
     type: 'object',
@@ -273,7 +275,6 @@ const datePage = {
         ...currentOrPastDateRangeSchema,
         required: ['from'],
       },
-      noEndDate: checkboxSchema,
     },
     required: ['typeOfCare', 'provider'],
   },

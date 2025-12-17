@@ -5,11 +5,12 @@ import {
   spouseAddressDoesNotMatchVeteransV2,
   spouseDidNotCohabitateWithVeteranV2,
 } from 'applications/ezr/utils/helpers/form-config';
+import { spouseInformationIntroPage } from 'applications/ezr/definitions/spouseInformationIntro';
 import spouseInformationSummaryPage from '../../../definitions/spouseInformationSummary';
 import spousePersonalInformationPage from '../../../definitions/spousePersonalInformation';
 import { spouseAdditionalInformationPage } from '../../../definitions/spouseAdditionalInformation';
 import { spouseFinancialSupportPage } from '../../../definitions/spouseFinancialSupport';
-import { spouseContactInformationPage } from '../../../definitions/spouseContactInformation';
+import { spouseContactInformationPage } from '../spouseContactInformation';
 import content from '../../../locales/en/content.json';
 import SpouseSummaryCardDescription from '../../../components/FormDescriptions/SpouseSummaryCardDescription';
 import SpouseInformationReviewWarning from '../../../components/FormAlerts/SpouseInformationReviewWarning';
@@ -20,7 +21,7 @@ const options = {
   arrayPath: 'spouseInformation',
   nounSingular: 'spouse',
   nounPlural: 'spouse',
-  required: false,
+  required: true,
   maxItems: 1,
   hideMaxItemsAlert: true,
   isItemIncomplete,
@@ -37,9 +38,7 @@ const options = {
         )}
       />
     ),
-    cardDescription: item => {
-      return item && <SpouseSummaryCardDescription item={item} />;
-    },
+    cardDescription: SpouseSummaryCardDescription,
     cancelAddDescription: () =>
       content['household-spouse-add-cancel-modal-text'],
     cancelEditDescription: () =>
@@ -53,6 +52,13 @@ const options = {
     cancelEditTitle: () => content['household-spouse-edit-cancel-modal-title'],
   },
 };
+
+/**
+ * Schemas for spouse information intro page.
+ *
+ * @returns {PageSchema}
+ */
+const spouseInformationIntroPageSchema = spouseInformationIntroPage;
 
 /**
  * Schemas for spouse information summary page.
@@ -94,9 +100,16 @@ const spouseContactInformationPageSchema = spouseContactInformationPage;
 const spouseFinancialSupportPageSchema = spouseFinancialSupportPage;
 
 const spousalInformationPages = arrayBuilderPages(options, pageBuilder => ({
+  spouseInformationIntroPage: pageBuilder.introPage({
+    title: content['household-spouse-intro-title'],
+    path: 'household-information/spouse-information',
+    uiSchema: spouseInformationIntroPageSchema.uiSchema,
+    schema: spouseInformationIntroPageSchema.schema,
+    depends: includeSpousalInformationV2,
+  }),
   spouseInformationSummaryPage: pageBuilder.summaryPage({
     title: content['household-spouse-information-summary-title'],
-    path: 'household-information/spouse-information',
+    path: 'household-information/spouse-information-summary',
     uiSchema: spouseInformationSummaryPageSchema.uiSchema,
     schema: spouseInformationSummaryPageSchema.schema,
     depends: includeSpousalInformationV2,

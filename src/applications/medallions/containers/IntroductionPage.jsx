@@ -163,8 +163,8 @@ export const IntroductionPage = props => {
             </ul>
 
             <p>
-              <strong>Don’t yet have a verified account?</strong> Create a{' '}
-              <strong>Login.gov</strong> or <strong>ID.me</strong> account.
+              <strong>Don’t yet have a verified account?</strong> Create an{' '}
+              <strong>ID.me</strong> or <strong>Login.gov</strong> account.
               We’ll help you verify your identity for your account now.
             </p>
 
