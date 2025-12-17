@@ -11,6 +11,11 @@ concurrency:
   group: ${{ github.ref != 'refs/heads/main' && github.ref || github.sha }}
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
+permissions:
+  contents: read
+  pull-requests: read
+  checks: write
+
 jobs:
   # TEMPORARY: This check will be removed once Shai Hulud 2.0 is no longer a moving target
   # Fails and cancels the workflow if package.json or yarn.lock are modified
