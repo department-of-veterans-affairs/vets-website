@@ -176,14 +176,13 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
             if (key === 'isTimeSensitive') {
               return benefit.isTimeSensitive;
             }
-
             if (benefit.category?.includes(key)) {
               return true;
             }
 
             if (
               key === WHEN_TO_APPLY.BEFORE_SEPARATION ||
-              WHEN_TO_APPLY.AFTER_SEPARATION
+              key === WHEN_TO_APPLY.AFTER_SEPARATION
             ) {
               return benefit.whenToApply?.includes(key);
             }

@@ -1,6 +1,6 @@
 import { URLS } from './urls';
 
-const categories = {
+export const categories = {
   BURIALS: 'Burials and memorials',
   EDUCATION: 'Education',
   EMPLOYMENT: 'Careers and Employment',
