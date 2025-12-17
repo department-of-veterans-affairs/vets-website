@@ -277,7 +277,7 @@ export const updateFormDataAddress = (
  */
 
 /**
- * uiSchema for address - includes checkbox for military base, and fields for country, street, street2, street3, city, state, postal code. Fields may be omitted.
+ * uiSchema for address - includes checkbox for military base, and fields for country, street, street2, street3, city, state, postal code. Fields may be omitted or mapped to alternative key names.
  *
  * ```js
  * schema: {
@@ -298,7 +298,7 @@ export const updateFormDataAddress = (
  * }
  * ```
  * @param {Object} [options]
- * @param {Object} [options.newSchemaKeys] - Maps standard keys to custom keys (e.g., {street: 'addressLine1', postalCode: 'zipCode'})
+ * @param {Object} [options.newSchemaKeys] - Maps standard keys to custom keys (e.g., {street: 'addressLine1', postalCode: 'zipCode'}) Only street, street2, street3, and postalCode should be mapped, or update replaceSchema and updateSchema functions to account for mapped field names
  * @param {Object} [options.labels]
  * @param {string} [options.labels.militaryCheckbox]
  * @param {string} [options.labels.street]
@@ -749,7 +749,7 @@ export function addressUI(options = {}) {
  * @param {{
  *  omit: string[]
  * }} [options]
- * @param {Object} [options.newSchemaKeys] - Maps standard keys to custom keys (e.g., {street: 'addressLine1', postalCode: 'zipCode'})
+ * @param {Object} [options.newSchemaKeys] - Maps standard keys to custom keys (e.g., {street: 'addressLine1', postalCode: 'zipCode'}). Only street, street2, street3, and postalCode should be mapped, or update replaceSchema and updateSchema functions to account for mapped field names.
  * @returns {SchemaOptions}
  */
 export const addressSchema = (options = {}) => {
