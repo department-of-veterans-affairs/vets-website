@@ -46,7 +46,7 @@ const RefillPrescriptions = () => {
     error: refillableError,
   } = useGetRefillablePrescriptionsQuery();
 
-  const isOracleHealthPilot = useSelector(selectCernerPilotFlag);
+  const isCernerPilot = useSelector(selectCernerPilotFlag);
 
   const [
     bulkRefillPrescriptions,
@@ -146,7 +146,7 @@ const RefillPrescriptions = () => {
 
       // Get just the prescription IDs for the bulk refill
       const prescriptionIds = selectedRefillList.map(rx => {
-        if (isOracleHealthPilot) {
+        if (isCernerPilot) {
           return { id: rx.prescriptionId, stationNumber: rx.stationNumber };
         }
         return rx.prescriptionId;
@@ -341,7 +341,7 @@ const RefillPrescriptions = () => {
                                 prescription.dispensedDate,
                               DATETIME_FORMATS.longMonthDate,
                             )}`;
-                          } else if (!isOracleHealthPilot) {
+                          } else if (!isCernerPilot) {
                             lastFilledText = 'Not filled yet';
                           }
                           const descriptionLines = [
