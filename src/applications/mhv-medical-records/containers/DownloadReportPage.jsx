@@ -14,8 +14,6 @@ import {
   selectIsCernerOnlyPatient,
 } from '~/platform/user/cerner-dsot/selectors';
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
-import CernerFacilityAlert from 'platform/mhv/components/CernerFacilityAlert/CernerFacilityAlert';
-import { CernerAlertContent } from 'platform/mhv/components/CernerFacilityAlert/constants';
 import NeedHelpSection from '../components/DownloadRecords/NeedHelpSection';
 import {
   getFailedDomainList,
@@ -263,7 +261,6 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           ohFacilityNames={ohFacilityNames}
           vistaFacilityNames={vistaFacilityNames}
         />
-        <CernerFacilityAlert {...CernerAlertContent.DOWNLOAD} />
         <VistaAndOHContent
           vistaFacilityNames={vistaFacilityNames}
           ohFacilityNames={ohFacilityNames}
@@ -294,7 +291,6 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     return (
       <div>
         <OHOnlyIntroText />
-        <CernerFacilityAlert {...CernerAlertContent.DOWNLOAD} />
         <OHOnlyContent
           testIdSuffix="OH"
           ddSuffix="OH"
@@ -318,7 +314,6 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   return (
     <div>
       <VistaIntroText />
-      <CernerFacilityAlert {...CernerAlertContent.DOWNLOAD} />
       <VistaOnlyContent
         ccdExtendedFileTypeFlag={ccdExtendedFileTypeFlag}
         hasBothDataSources={hasBothDataSources}
