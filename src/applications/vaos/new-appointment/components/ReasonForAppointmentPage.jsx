@@ -7,11 +7,7 @@ import FormButtons from '../../components/FormButtons';
 import InfoAlert from '../../components/InfoAlert';
 import PostFormFieldContent from '../../components/PostFormFieldContent';
 import TextareaWidget from '../../components/TextareaWidget';
-import {
-  FACILITY_TYPES,
-  FLOW_TYPES,
-  PURPOSE_TEXT_V2,
-} from '../../utils/constants';
+import { FACILITY_TYPES, FLOW_TYPES } from '../../utils/constants';
 import { focusFormHeader } from '../../utils/scrollAndFocus';
 import { getPageTitle } from '../newAppointmentFlow';
 import {
@@ -21,9 +17,7 @@ import {
   updateReasonForAppointmentData,
 } from '../redux/actions';
 import { getFlowType, getFormPageInfo } from '../redux/selectors';
-import AppointmentsRadioWidget from './AppointmentsRadioWidget';
 import UrgentCareLinks from './UrgentCareLinks';
-import { useOHRequestScheduling } from '../hooks/useOHRequestScheduling';
 
 function isValidComment(value) {
   // exclude the ^ since the caret is a delimiter for MUMPS (Vista)
@@ -45,19 +39,14 @@ function validComment(errors, input) {
 const initialSchema = {
   default: {
     type: 'object',
-    required: ['reasonForAppointment', 'reasonAdditionalInfo'],
+    required: ['reasonAdditionalInfo'],
     properties: {
-      reasonForAppointment: {
-        type: 'string',
-        enum: PURPOSE_TEXT_V2.map(purpose => purpose.id),
-        enumNames: PURPOSE_TEXT_V2.map(purpose => purpose.label),
-      },
       reasonAdditionalInfo: {
         type: 'string',
       },
     },
   },
-  request: {
+  cc: {
     type: 'object',
     properties: {
       reasonAdditionalInfo: {
@@ -72,8 +61,6 @@ const pageKey = 'reasonForAppointment';
 export default function ReasonForAppointmentPage() {
   const pageTitle = useSelector(state => getPageTitle(state, pageKey));
   const flowType = useSelector(getFlowType);
-  const updateRequestFlow =
-    useOHRequestScheduling() && flowType === FLOW_TYPES.REQUEST;
 
   const dispatch = useDispatch();
   const { schema, data, pageChangeInProgress } = useSelector(
@@ -86,27 +73,13 @@ export default function ReasonForAppointmentPage() {
     data.facilityType === FACILITY_TYPES.COMMUNITY_CARE.id;
 
   const pageInitialSchema = useMemo(
-    () =>
-      isCommunityCare || updateRequestFlow
-        ? initialSchema.request
-        : initialSchema.default,
-    [isCommunityCare, updateRequestFlow],
+    () => (isCommunityCare ? initialSchema.cc : initialSchema.default),
+    [isCommunityCare],
   );
 
   const uiSchema = useMemo(
     () => ({
       default: {
-        reasonForAppointment: {
-          'ui:widget': AppointmentsRadioWidget,
-          'ui:title': pageTitle,
-          'ui:errorMessages': {
-            required: 'Select a reason for your appointment',
-          },
-          'ui:options': {
-            classNames: 'vads-u-margin-top--neg2',
-            hideLabelText: true,
-          },
-        },
         reasonAdditionalInfo: {
           'ui:widget': TextareaWidget,
           'ui:options': {
@@ -121,16 +94,14 @@ export default function ReasonForAppointmentPage() {
           },
         },
       },
-      request: {
+      cc: {
         reasonAdditionalInfo: {
           'ui:widget': TextareaWidget,
           'ui:options': {
             hideLabelText: true,
             rows: 5,
           },
-          'ui:validations': [
-            isCommunityCare ? validateWhiteSpace : validComment,
-          ],
+          'ui:validations': [validateWhiteSpace],
           'ui:errorMessages': {
             required:
               'Provide more information about why you are requesting this appointment',
@@ -138,54 +109,22 @@ export default function ReasonForAppointmentPage() {
         },
       },
     }),
-    [pageTitle, flowType, isCommunityCare],
+    [flowType],
   );
 
   const pageUISchema = useMemo(
-    () =>
-      isCommunityCare || updateRequestFlow
-        ? uiSchema.request
-        : uiSchema.default,
-    [isCommunityCare, updateRequestFlow, uiSchema],
+    () => (isCommunityCare ? uiSchema.cc : uiSchema.default),
+    [isCommunityCare, uiSchema],
   );
 
   useEffect(
     () => {
-      // Determine required fields based on flow type:
-      // - Community Care: no required fields
-      // - Request flow (OH enabled): only reasonAdditionalInfo
-      // - Default/Direct flow: both reasonForAppointment and reasonAdditionalInfo
-      let requiredFields;
-      if (isCommunityCare) {
-        requiredFields = [];
-      } else if (updateRequestFlow) {
-        requiredFields = ['reasonAdditionalInfo'];
-      } else {
-        requiredFields = ['reasonForAppointment', 'reasonAdditionalInfo'];
-      }
-
-      const effectiveReasonSchema = {
-        ...pageInitialSchema,
-        required: requiredFields,
-      };
       document.title = `${pageTitle} | Veterans Affairs`;
       dispatch(
-        openReasonForAppointment(
-          pageKey,
-          pageUISchema,
-          effectiveReasonSchema,
-          updateRequestFlow,
-        ),
+        openReasonForAppointment(pageKey, pageUISchema, pageInitialSchema),
       );
     },
-    [
-      dispatch,
-      isCommunityCare,
-      updateRequestFlow,
-      pageInitialSchema,
-      pageTitle,
-      pageUISchema,
-    ],
+    [dispatch, isCommunityCare, pageInitialSchema, pageTitle, pageUISchema],
   );
 
   useEffect(
@@ -199,15 +138,7 @@ export default function ReasonForAppointmentPage() {
 
   return (
     <div className="vaos-form__radio-field">
-      <h1 className="vaos__dynamic-font-size--h2">
-        {pageTitle}
-        {!isCommunityCare &&
-          !updateRequestFlow && (
-            <span className="schemaform-required-span vads-u-font-family--sans vads-u-font-weight--normal">
-              (*Required)
-            </span>
-          )}
-      </h1>
+      <h1 className="vaos__dynamic-font-size--h2">{pageTitle}</h1>
       {!!schema && (
         <SchemaForm
           name="Reason for appointment"

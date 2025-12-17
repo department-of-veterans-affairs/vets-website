@@ -52,7 +52,7 @@ The form is organized into **6 chapters** with **15 total pages**, using conditi
 
 - **Page 4: Employment Dates** (`employment-dates`)
   - Beginning date of employment
-  - Ending date of employment (or checkbox for "currently employed")
+  - Ending date of employment (optional - leave blank if currently employed)
 
 - **Page 5: Employment Earnings and Hours** (`employment-earnings-hours`)
   - Type of work performed

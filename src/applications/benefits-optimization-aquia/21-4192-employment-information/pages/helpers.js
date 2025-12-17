@@ -47,8 +47,9 @@ export const getEmployerName = formData => {
 
 /**
  * Helper function to determine if veteran is currently employed
+ * Determines employment status based on presence of ending date
  * @param {Object} formData - The form data
- * @returns {boolean} True if currently employed
+ * @returns {boolean} True if currently employed (no ending date present)
  */
 export const isCurrentlyEmployed = formData => {
   // Defensive: Always check if formData is valid before accessing properties
@@ -56,7 +57,9 @@ export const isCurrentlyEmployed = formData => {
     return false;
   }
 
-  return formData.employmentDates?.currentlyEmployed || false;
+  // If there's no ending date, assume currently employed
+  // If there's an ending date, employment has ended
+  return !formData.employmentDates?.endingDate;
 };
 
 /**

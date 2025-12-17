@@ -67,7 +67,7 @@ describe('Compose form component', () => {
   });
   const stubUseFeatureToggles = value => {
     const useFeatureToggles = require('../../../hooks/useFeatureToggles');
-    stub = sinon.stub(useFeatureToggles, 'default').returns(value);
+    stub = sandbox.stub(useFeatureToggles, 'default').returns(value);
     return stub;
   };
 
@@ -87,6 +87,12 @@ describe('Compose form component', () => {
         allTriageGroupsBlocked: noBlockedRecipients.allTriageGroupsBlocked,
       },
       preferences: { signature: {} },
+      prescription: {
+        renewalPrescription: undefined,
+        redirectPath: undefined,
+        error: undefined,
+        isLoading: false,
+      },
     },
     drupalStaticData,
     featureToggles: {},
@@ -117,6 +123,12 @@ describe('Compose form component', () => {
           noBlockedRecipients.associatedBlockedTriageGroupsQty,
         noAssociations: noBlockedRecipients.noAssociations,
         allTriageGroupsBlocked: noBlockedRecipients.allTriageGroupsBlocked,
+      },
+      prescription: {
+        renewalPrescription: undefined,
+        redirectPath: undefined,
+        error: undefined,
+        isLoading: false,
       },
     },
     drupalStaticData,
@@ -200,7 +212,10 @@ describe('Compose form component', () => {
       ...draftState,
       sm: {
         ...draftState.sm,
-        threadDetails: { customDraftMessage },
+        threadDetails: {
+          ...draftState.sm.threadDetails,
+          drafts: [customDraftMessage],
+        },
       },
     };
 
@@ -241,7 +256,7 @@ describe('Compose form component', () => {
       },
     };
 
-    const sendMessageSpy = sinon.spy(messageActions, 'sendMessage');
+    const sendMessageSpy = sandbox.spy(messageActions, 'sendMessage');
     const screen = setup(customState, `/thread/${customDraftMessage.id}`, {
       draft: customDraftMessage,
       recipients: customState.sm.recipients,
@@ -270,7 +285,7 @@ describe('Compose form component', () => {
       },
     };
 
-    const clearDraftInProgressSpy = sinon.spy(
+    const clearDraftInProgressSpy = sandbox.spy(
       threadDetailsActions,
       'clearDraftInProgress',
     );
@@ -361,7 +376,7 @@ describe('Compose form component', () => {
   });
 
   it('renders without errors on Save Draft button click', async () => {
-    const saveDraftSpy = sinon.spy(draftActions, 'saveDraft');
+    const saveDraftSpy = sandbox.spy(draftActions, 'saveDraft');
     const screen = setup(draftState, `/thread/${draftMessage.id}`, {
       draft: draftMessage,
       recipients: draftState.sm.recipients,
@@ -383,7 +398,8 @@ describe('Compose form component', () => {
         triageTeams: { triageTeams },
         categories: { categories },
         threadDetails: {
-          drafts: {},
+          drafts: [],
+          draftInProgress: {},
         },
         preferences: signatureReducers.signatureEnabled,
       },
@@ -528,7 +544,7 @@ describe('Compose form component', () => {
   });
 
   it('renders a loading indicator if categories are not available', async () => {
-    const getCategoriesSpy = sinon.spy(categoriesActions, 'getCategories');
+    const getCategoriesSpy = sandbox.spy(categoriesActions, 'getCategories');
     const customState = {
       ...initialState,
       sm: {
@@ -611,7 +627,7 @@ describe('Compose form component', () => {
       },
     );
 
-    const addEventListenerSpy = sinon.spy(window, 'addEventListener');
+    const addEventListenerSpy = sandbox.spy(window, 'addEventListener');
     expect(addEventListenerSpy.calledWith('beforeunload')).to.be.false;
     fireEvent.input(screen.getByTestId('message-subject-field'), {
       target: { innerHTML: 'test beforeunload event' },
@@ -654,7 +670,7 @@ describe('Compose form component', () => {
       },
     );
 
-    const addEventListenerSpy = sinon.spy(window, 'addEventListener');
+    const addEventListenerSpy = sandbox.spy(window, 'addEventListener');
     expect(addEventListenerSpy.calledWith('beforeunload')).to.be.false;
     fireEvent.input(screen.getByTestId('message-subject-field'), {
       target: { innerHTML: 'test beforeunload event' },
@@ -1669,7 +1685,7 @@ describe('Compose form component', () => {
   });
 
   it('sets isAutoSave to false when sending message', async () => {
-    const sendMessageSpy = sinon.stub(messageActions, 'sendMessage');
+    const sendMessageSpy = sandbox.stub(messageActions, 'sendMessage');
     sendMessageSpy.resolves({});
 
     const customDraftMessage = {
@@ -2119,7 +2135,7 @@ describe('Compose form component', () => {
       // Store original replace method and create spy
       const originalLocation = global.window.location;
       global.window.location = {};
-      global.window.location.replace = sinon.spy();
+      global.window.location.replace = sandbox.spy();
 
       const customDraftMessage = {
         ...draftMessage,
@@ -2248,7 +2264,7 @@ describe('Compose form component', () => {
       // Store original replace method and create spy
       const originalLocation = global.window.location;
       global.window.location = {};
-      global.window.location.replace = sinon.spy();
+      global.window.location.replace = sandbox.spy();
 
       const customDraftMessage = {
         ...draftMessage,
@@ -2287,7 +2303,9 @@ describe('Compose form component', () => {
       await new Promise(resolve => setTimeout(resolve, 1200));
 
       // Verify that sendMessage was called with suppressAlert=true (4th argument)
-      expect(sendMessageStub.called).to.be.true;
+      await waitFor(() => {
+        expect(sendMessageStub.called).to.be.true;
+      });
       const sendMessageCall = sendMessageStub.getCall(0);
       expect(sendMessageCall.args).to.have.lengthOf(4);
       // Args: [sendData, hasAttachments, ohTriageGroup, suppressAlert]
@@ -2360,6 +2378,152 @@ describe('Compose form component', () => {
           navigateToFolderByFolderIdSpy.calledWith(DefaultFolders.INBOX.id),
         ).to.be.true;
       });
+    });
+
+    it('displays locked category when renewalPrescription exists', () => {
+      const customState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          prescription: {
+            renewalPrescription: { prescriptionId: '123' },
+            error: null,
+            isLoading: false,
+          },
+        },
+      };
+
+      const screen = setup(customState, Paths.COMPOSE);
+
+      // Locked category display should be visible
+      const lockedCategory = screen.getByTestId('locked-category-display');
+      expect(lockedCategory).to.exist;
+
+      // Category dropdown should not exist
+      const categoryDropdown = screen.queryByTestId(
+        'compose-message-categories',
+      );
+      expect(categoryDropdown).to.not.exist;
+    });
+
+    it('displays locked category when rxError exists', () => {
+      const customState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          prescription: {
+            renewalPrescription: null,
+            error: 'Prescription not found',
+            isLoading: false,
+          },
+        },
+      };
+
+      const screen = setup(customState, Paths.COMPOSE);
+
+      // Locked category display should be visible
+      const lockedCategory = screen.getByTestId('locked-category-display');
+      expect(lockedCategory).to.exist;
+
+      // Category dropdown should not exist
+      const categoryDropdown = screen.queryByTestId(
+        'compose-message-categories',
+      );
+      expect(categoryDropdown).to.not.exist;
+    });
+
+    it('displays category dropdown when not in renewal flow', () => {
+      const customState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          prescription: {
+            renewalPrescription: null,
+            error: null,
+            isLoading: false,
+          },
+        },
+      };
+
+      const screen = setup(customState, Paths.COMPOSE);
+
+      // Category dropdown should be visible
+      const categoryDropdown = screen.queryByTestId(
+        'compose-message-categories',
+      );
+      expect(categoryDropdown).to.exist;
+
+      // Locked category display should not exist
+      const lockedCategory = screen.queryByTestId('locked-category-display');
+      expect(lockedCategory).to.not.exist;
+    });
+
+    it('locked category persists through validation errors', () => {
+      const customState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          prescription: {
+            renewalPrescription: { prescriptionId: '123' },
+            error: null,
+            isLoading: false,
+          },
+        },
+      };
+
+      const screen = setup(customState, Paths.COMPOSE);
+
+      // Trigger validation by trying to send without required fields
+      const sendButton = screen.getByTestId('send-button');
+      fireEvent.click(sendButton);
+
+      // Locked category should still be visible after validation
+      const lockedCategory = screen.queryByTestId('locked-category-display');
+      expect(lockedCategory).to.exist;
+
+      // Category dropdown should still not exist
+      const categoryDropdown = screen.queryByTestId(
+        'compose-message-categories',
+      );
+      expect(categoryDropdown).to.not.exist;
+    });
+
+    it('shows ViewOnlyDraftSection instead of locked category when triage groups blocked', () => {
+      const blockedRecipients = {
+        ...initialState.sm.recipients,
+        allTriageGroupsBlocked: true,
+      };
+
+      const customState = {
+        ...draftState,
+        sm: {
+          ...draftState.sm,
+          recipients: blockedRecipients,
+          prescription: {
+            renewalPrescription: { prescriptionId: '123' },
+            error: null,
+            isLoading: false,
+          },
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(
+        <ComposeForm
+          draft={customState.sm.threadDetails.drafts[0]}
+          recipients={blockedRecipients}
+        />,
+        {
+          initialState: customState,
+          reducers: reducer,
+          path: `/thread/${customState.sm.threadDetails.drafts[0].id}`,
+        },
+      );
+
+      // ViewOnlyDraftSection should take priority - locked category should NOT show
+      expect(screen.queryByTestId('locked-category-display')).to.not.exist;
+
+      // Category dropdown should also not exist (ViewOnlyDraftSection shown instead)
+      expect(screen.queryByTestId('compose-message-categories')).to.not.exist;
     });
   });
 
