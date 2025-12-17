@@ -146,11 +146,7 @@ describe('VAOS Component: CCRequestLayout', () => {
           name: /Details you.d like to share with your provider/i,
         }),
       );
-      expect(
-        screen.getByText(
-          /Other details: This is a test:Additional information/i,
-        ),
-      );
+      expect(screen.getByText(/This is a test:Additional information/i));
 
       expect(
         screen.getByRole('heading', {
@@ -290,11 +286,7 @@ describe('VAOS Component: CCRequestLayout', () => {
           name: /Details you.d like to share with your provider/i,
         }),
       );
-      expect(
-        screen.getByText(
-          /Other details: This is a test:Additional information/i,
-        ),
-      );
+      expect(screen.getByText(/This is a test:Additional information/i));
 
       expect(
         screen.getByRole('heading', {

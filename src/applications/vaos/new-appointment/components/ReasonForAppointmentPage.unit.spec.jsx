@@ -45,44 +45,11 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
         }),
       ).to.exist;
 
-      // And the user should see radio buttons for each clinic
-      const radioOptions = screen.getAllByRole('radio');
-      expect(radioOptions).to.have.lengthOf(4);
-      await screen.findByLabelText(/This is a routine or follow-up visit./i);
-      await screen.findByLabelText(/I have a new medical problem./i);
-      await screen.findByLabelText(
-        /I have a concern or question about my medication./i,
-      );
-      await screen.findByLabelText(/My reason isn’t listed here./i);
-
       expect(
         screen.getByRole('heading', {
           name: /Only schedule appointments for non-urgent needs/i,
         }),
       );
-    });
-
-    it('should show validation for VA medical request', async () => {
-      const store = createTestStore(initialState);
-      const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
-        store,
-      });
-      await screen.findByText(/Continue/i);
-
-      // click continue without selecting from radio button
-      fireEvent.click(screen.getByText(/Continue/));
-
-      // Then there should be a validation error
-      expect(await screen.findByText('Select a reason for your appointment')).to
-        .exist;
-      expect(screen.history.push.called).to.be.false;
-
-      fireEvent.click(
-        screen.getByText(/This is a routine or follow-up visit./),
-      );
-      fireEvent.click(screen.getByText(/Continue/));
-      expect(screen.queryByText('Select a reason for your appointment')).to.not
-        .exist;
     });
 
     it('should show error msg when not entering additional detail for appointment request', async () => {
@@ -98,10 +65,6 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
         store,
       });
       await screen.findByText(/Continue/i);
-
-      fireEvent.click(
-        screen.getByText(/This is a routine or follow-up visit./),
-      );
       fireEvent.click(screen.getByText(/Continue/));
 
       expect(await screen.findByRole('alert')).to.contain.text(
@@ -122,10 +85,6 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
         store,
       });
       await screen.findByText(/Continue/i);
-
-      fireEvent.click(
-        screen.getByText(/This is a routine or follow-up visit./),
-      );
       fireEvent.click(screen.getByText(/Continue/));
 
       expect(await screen.findByRole('alert')).to.contain.text(

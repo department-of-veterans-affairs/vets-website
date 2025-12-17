@@ -3,23 +3,16 @@ import {
   radioSchema,
   radioUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import content from '../../locales/en/content.json';
 
-const TITLE_TEXT = 'Medigap information';
-const INPUT_LABEL = 'Select the Medigap policy the beneficiary is enrolled in.';
+const TITLE_TEXT = content['health-insurance--medigap-title'];
+const INPUT_LABEL = content['health-insurance--medigap-label'];
+const OPTION_TEXT = content['health-insurance--medigap-option-text'];
 
-const SCHEMA_LABELS = {
-  A: 'Medigap Plan A',
-  B: 'Medigap Plan B',
-  C: 'Medigap Plan C',
-  D: 'Medigap Plan D',
-  F: 'Medigap Plan F',
-  G: 'Medigap Plan G',
-  K: 'Medigap Plan K',
-  L: 'Medigap Plan L',
-  M: 'Medigap Plan M',
-  N: 'Medigap Plan N',
-};
-const SCHEMA_ENUM = Object.keys(SCHEMA_LABELS);
+const SCHEMA_ENUM = ['A', 'B', 'C', 'D', 'F', 'G', 'K', 'L', 'M', 'N'];
+const SCHEMA_LABELS = Object.fromEntries(
+  SCHEMA_ENUM.map(val => [val, `${OPTION_TEXT} ${val}`]),
+);
 
 export default {
   uiSchema: {
