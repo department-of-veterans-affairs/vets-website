@@ -100,7 +100,7 @@
     "submission": {
       "type-header": "Submission type",
       "dmc-title": "Submission details",
-      "vet-title": "Form submitted on",
+      "vet-title": "Form submitted on {{date}}",
       "text": "Your submission is complete. Submissions are processed in the order they are received. Dispute decisions are normally made with 180 days. We will send you a letter with the outcome."
     },
     "section-headings": {

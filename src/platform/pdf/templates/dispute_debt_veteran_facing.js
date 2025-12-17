@@ -10,6 +10,7 @@ import {
   addTTY,
   addWebLink,
   createFieldSection,
+  defaultConfig,
 } from '../utils/helpers/dispute_debt';
 import {
   createAccessibleDoc,
@@ -18,25 +19,6 @@ import {
   generateFooterContent,
   generateInitialHeaderContent,
 } from './utils';
-
-const defaultConfig = {
-  margins: { top: 40, bottom: 40, left: 65, right: 65 },
-  text: {
-    boldFont: 'SourceSansPro-Bold',
-    font: 'SourceSansPro-Regular',
-    monospaceFont: 'RobotoMono-Regular',
-    size: 12,
-    labelColor: '#757575',
-    valueColor: '#000000',
-  },
-  headings: {
-    H1: { font: 'Bitter-Bold', size: 30 },
-    H2: { font: 'Bitter-Bold', size: 24 },
-    H3: { font: 'Bitter-Bold', size: 16 },
-    H4: { font: 'Bitter-Bold', size: 14 },
-    H5: { font: 'Bitter-Bold', size: 12 },
-  },
-};
 
 // =====================================
 // * Section Builders *
@@ -84,7 +66,13 @@ const createWhatToExpectSection = (doc, wrapper, config, content) => {
     if (index < content.steps.length - 1) {
       doc.moveDown(2);
       const step1EndY = doc.y;
-      drawVerticalLine(doc, circleX, circle1CenterY + radius, step1EndY);
+      drawVerticalLine(
+        doc,
+        circleX,
+        circle1CenterY + radius,
+        step1EndY,
+        config,
+      );
       doc.moveDown();
     }
   });
@@ -109,8 +97,8 @@ const createContactSection = (doc, wrapper, config, content) => {
 
       // Call Us
       doc.text(content['call-us'].prefix, { continued: true });
-      addPhone(doc, content['main-phone']);
-      addTTY(doc, content.tty);
+      addPhone(doc, content['main-phone'], config);
+      addTTY(doc, content.tty, config);
       doc.text(content['call-us'].suffix, {
         link: null,
         continued: false,
@@ -123,7 +111,12 @@ const createContactSection = (doc, wrapper, config, content) => {
       doc.moveDown();
 
       // Ask VA Link
-      addWebLink(doc, content['ask-va-link'].text, content['ask-va-link'].url);
+      addWebLink(
+        doc,
+        content['ask-va-link'].text,
+        content['ask-va-link'].url,
+        config,
+      );
     }),
   );
   section.end();
@@ -148,12 +141,12 @@ const createNeedHelpSection = (doc, wrapper, config, content) => {
       doc
         .font(config.text.font)
         .fontSize(config.text.size)
-        .fillColor('#000000');
+        .fillColor(config.text.valueColor);
 
       // MyVA411 line
       doc.text(content['my-v411'].prefix, { continued: true, lineGap: 2 });
-      addPhone(doc, content['my-v411'].phone);
-      addTTY(doc, content['my-v411'].tty);
+      addPhone(doc, content['my-v411'].phone, config);
+      addTTY(doc, content['my-v411'].tty, config);
       doc.text('.', { link: null });
       doc.moveDown();
 
@@ -163,14 +156,15 @@ const createNeedHelpSection = (doc, wrapper, config, content) => {
         doc,
         content['accredited-rep'].link.text,
         content['accredited-rep'].link.url,
+        config,
       );
       doc.moveDown();
 
       // Overpayments
       doc.text(content.overpayments.prefix, { continued: true, lineGap: 2 });
-      addPhone(doc, content.overpayments.phone);
+      addPhone(doc, content.overpayments.phone, config);
       doc.text(' (or ', { link: null, underline: false, continue: true });
-      addPhone(doc, content.overpayments['alt-phone']);
+      addPhone(doc, content.overpayments['alt-phone'], config);
       doc.text(content.overpayments.suffix, {
         link: null,
         underline: false,
@@ -180,7 +174,7 @@ const createNeedHelpSection = (doc, wrapper, config, content) => {
 
       // Copay
       doc.text(content.copay.prefix, { continued: true, lineGap: 2 });
-      addPhone(doc, content.copay.phone);
+      addPhone(doc, content.copay.phone, config);
       doc.text(content.copay.suffix, {
         link: null,
         underline: false,
@@ -203,6 +197,7 @@ const createNeedHelpSection = (doc, wrapper, config, content) => {
 
 const generate = async (data = {}, config = defaultConfig) => {
   validate(data);
+
   const doc = createAccessibleDoc(
     {
       author: i18nDebtApp.t('pdf.document-meta.author'),
@@ -281,10 +276,16 @@ const generate = async (data = {}, config = defaultConfig) => {
 
   const submissionDetailsSection = doc.struct('Sect');
   submissionDetailsSection.add(
-    createHeading(doc, 'H3', config, `Form submitted on ${submissionDate}`, {
-      x: submissionDetailsLeftMargin,
-      y: doc.y,
-    }),
+    createHeading(
+      doc,
+      'H3',
+      config,
+      i18nDebtApp.t('pdf.submission.vet-title', { date: submissionDate }),
+      {
+        x: submissionDetailsLeftMargin,
+        y: doc.y,
+      },
+    ),
   );
 
   const submmissionTextWidth = 375; // Defined as points, not pixels. (approx. 5.21 inches)
@@ -312,7 +313,7 @@ const generate = async (data = {}, config = defaultConfig) => {
     .moveTo(verticalLineLeftMargin, submissionStartY)
     .lineTo(verticalLineLeftMargin, doc.y)
     .lineWidth(6)
-    .strokeColor('#00A91C')
+    .strokeColor(config.graphicColors.greenBar)
     .stroke();
 
   doc.moveDown(2);

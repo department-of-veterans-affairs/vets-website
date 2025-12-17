@@ -9,26 +9,10 @@ import {
   generateInitialHeaderContent,
 } from './utils';
 import { validate } from '../utils/validations/dispute_debt';
-import { createFieldSection } from '../utils/helpers/dispute_debt';
-
-const defaultConfig = {
-  margins: { top: 40, bottom: 40, left: 65, right: 65 },
-  text: {
-    boldFont: 'SourceSansPro-Bold',
-    font: 'SourceSansPro-Regular',
-    monospaceFont: 'RobotoMono-Regular',
-    size: 12,
-    labelColor: '#757575',
-    valueColor: '#000000',
-  },
-  headings: {
-    H1: { font: 'Bitter-Bold', size: 30 },
-    H2: { font: 'Bitter-Bold', size: 24 },
-    H3: { font: 'Bitter-Bold', size: 16 },
-    H4: { font: 'Bitter-Bold', size: 14 },
-    H5: { font: 'Bitter-Bold', size: 12 },
-  },
-};
+import {
+  createFieldSection,
+  defaultConfig,
+} from '../utils/helpers/dispute_debt';
 
 // TODO:
 // handle page breaks, so H3 sections don't break across pages
@@ -237,7 +221,7 @@ const generate = async (data = {}, config = defaultConfig) => {
     .moveTo(verticalLineLeftMargin, submissionStartY)
     .lineTo(verticalLineLeftMargin, doc.y)
     .lineWidth(6)
-    .strokeColor('#00A91C')
+    .strokeColor(config.graphicColors.greenBar)
     .stroke();
 
   doc.moveDown();
