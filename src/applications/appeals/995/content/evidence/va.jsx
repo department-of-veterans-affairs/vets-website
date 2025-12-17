@@ -68,7 +68,7 @@ export const summaryContent = {
   alertItemUpdatedText: itemData =>
     `${itemData[VA_TREATMENT_LOCATION_KEY]} information has been updated.`,
   cardDescription: item => {
-    const selectedIssues = getSelectedIssues(item.issuesVA);
+    const selectedIssues = getSelectedIssues(item?.issuesVA);
 
     return (
       <>
