@@ -2,7 +2,7 @@ import { createHeading } from '../../templates/utils';
 
 /** Creates a labeled field with gray label and black value * */
 export const createLabeledField = (doc, config, label, value, options = {}) => {
-  const { lineGapLabel = 5, lineGapValue = 10 } = options;
+  const { lineGapLabel = 5, lineGapValue = 12 } = options;
 
   return doc.struct('P', () => {
     doc

@@ -329,10 +329,9 @@ const generate = async (data = {}, config = defaultConfig) => {
     stateCode,
   } = mailingAddress;
 
-  // Combine address lines
-  const streetAddress = [addressLine1, addressLine2, addressLine3]
-    .filter(Boolean)
-    .join('\n');
+  const addressLines = [addressLine1, addressLine2, addressLine3].filter(
+    Boolean,
+  );
 
   createFieldSection(
     doc,
@@ -343,8 +342,25 @@ const generate = async (data = {}, config = defaultConfig) => {
       { label: i18nDebtApp.t('pdf.labels.country'), value: countryName },
       {
         label: i18nDebtApp.t('pdf.labels.street-address'),
-        value: streetAddress,
+        value: addressLines[0],
+        options: { lineGapValue: 2 },
       },
+      // Middle lines (if any) get reduced spacing
+      ...addressLines.slice(1, -1).map(line => ({
+        label: '',
+        value: line,
+        options: { lineGapLabel: 0, lineGapValue: 2 },
+      })),
+      // Last line (if different from first) gets normal spacing
+      ...(addressLines.length > 1
+        ? [
+            {
+              label: '',
+              value: addressLines[addressLines.length - 1],
+              options: { lineGapValue: 12 },
+            },
+          ]
+        : []),
       { label: i18nDebtApp.t('pdf.labels.city'), value: city },
       { label: i18nDebtApp.t('pdf.labels.state'), value: stateCode },
       { label: i18nDebtApp.t('pdf.labels.postal-code'), value: zipCode },
