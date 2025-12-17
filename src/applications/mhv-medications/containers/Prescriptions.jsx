@@ -36,7 +36,6 @@ import {
   ALL_MEDICATIONS_FILTER_KEY,
   defaultSelectedSortOption,
   DATETIME_FORMATS,
-  SHIPPED_FILTER_KEY,
 } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
 import BeforeYouDownloadDropdown from '../components/shared/BeforeYouDownloadDropdown';
@@ -149,14 +148,13 @@ const Prescriptions = () => {
   const paginatedPrescriptionsList = useMemo(
     () => {
       if (prescriptionsData?.prescriptions) {
-        let { prescriptions } = prescriptionsData;
-
-        return prescriptions;
+        return prescriptionsData.prescriptions;
       }
       return undefined;
     },
-    [prescriptionsData, selectedFilterOption, isCernerPilot, isV2StatusMapping],
+    [prescriptionsData],
   );
+  
   const filteredList = prescriptionsData?.prescriptions || [];
   const { filterCount } = meta || {};
   const prescriptionId = useSelector(selectPrescriptionId);
