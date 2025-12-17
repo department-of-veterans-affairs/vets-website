@@ -159,6 +159,7 @@ const responses = {
           source: '0.0',
           parsedValue: 0,
         },
+        tripType: 'RoundTrip',
         id: 'a48d48d4-cdc5-4922-8355-c1a9b2742feb',
         documentId: '',
       },

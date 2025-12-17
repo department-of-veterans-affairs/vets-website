@@ -11,8 +11,8 @@ import {
 import { selectIsExpenseDeleting } from '../../../redux/selectors';
 import {
   EXPENSE_TYPES,
-  TRIP_TYPES,
   EXPENSE_TYPE_KEYS,
+  TRIP_TYPES,
 } from '../../../constants';
 import { formatDate } from '../../../util/dates';
 import { currency } from '../../../util/string-helpers';
@@ -23,7 +23,7 @@ const ExpenseCard = ({ apptId, claimId, expense, address, showEditDelete }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const dispatch = useDispatch();
 
-  const { id: expenseId, expenseType, documentId } = expense;
+  const { id: expenseId, expenseType, documentId, tripType } = expense;
   const isDeleting = useSelector(state =>
     selectIsExpenseDeleting(state, expenseId),
   );
@@ -32,6 +32,11 @@ const ExpenseCard = ({ apptId, claimId, expense, address, showEditDelete }) => {
   const header = isMileage
     ? 'Mileage expense'
     : `${formatDate(expense.dateIncurred)}, ${currency(expense.costRequested)}`;
+
+  // Find the label from TRIP_TYPES
+  const tripTypeLabel = Object.values(TRIP_TYPES).find(
+    option => option.value === tripType,
+  )?.label;
 
   const handleDeleteExpenseAndDocument = async () => {
     setShowDeleteModal(false);
@@ -92,7 +97,7 @@ const ExpenseCard = ({ apptId, claimId, expense, address, showEditDelete }) => {
                   },
                   {
                     label: 'Was your drive round trip or one way?',
-                    value: TRIP_TYPES.ROUND_TRIP.value,
+                    value: tripTypeLabel,
                   },
                 ]}
               />
