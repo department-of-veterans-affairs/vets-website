@@ -5,6 +5,10 @@ export const FETCH_ALL_DEPENDENTS_STARTED = 'FETCH_ALL_DEPENDENTS_STARTED';
 export const FETCH_ALL_DEPENDENTS_SUCCESS = 'FETCH_ALL_DEPENDENTS_SUCCESS';
 export const FETCH_ALL_DEPENDENTS_FAILED = 'FETCH_ALL_DEPENDENTS_FAILED';
 
+/**
+ * Fetches data about dependents using the /show endpoint
+ * @returns {Object} response data from /show
+ */
 export function fetchAllDependents() {
   return async dispatch => {
     dispatch({ type: FETCH_ALL_DEPENDENTS_STARTED });

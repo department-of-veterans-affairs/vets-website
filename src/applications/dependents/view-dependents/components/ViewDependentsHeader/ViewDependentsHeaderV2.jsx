@@ -23,6 +23,16 @@ const CALLSTATUS = {
   skip: 'skipped',
 };
 
+/**
+ * @typedef ViewDependentsHeaderProps
+ * @property {Boolean} showAlert true if dependent receives compensation and has dependents
+ * @property {String} updateDiariesStatus status of update diaries call
+ */
+/**
+ * Renders page elements
+ * @param {ViewDependentsHeaderProps} props component props
+ * @returns {JSX.Element} page title, description, and alert if showAlert is true
+ */
 function ViewDependentsHeader(props) {
   const { updateDiariesStatus, showAlert } = props;
 
@@ -35,6 +45,10 @@ function ViewDependentsHeader(props) {
     scrollToTop();
   }, []);
 
+  /**
+   * Handler function for close of the alert
+   * @returns {null} triggers calls to other functions
+   */
   function handleWarningClose() {
     setWarningHidden(true);
     hideDependentsWarning();
