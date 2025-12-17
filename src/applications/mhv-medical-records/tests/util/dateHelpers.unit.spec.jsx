@@ -7,6 +7,7 @@ import {
   currentDateAddHours,
   currentDateAddOneHourMinusOneMinute,
   currentDateAddSecondsForFileDownload,
+  formatDateForDownload,
 } from '../../util/dateHelpers';
 
 describe('dateHelpers', () => {
@@ -166,6 +167,55 @@ describe('dateHelpers', () => {
     it('should end with AM or PM', () => {
       const result = currentDateAddSecondsForFileDownload(0);
       expect(result.endsWith('AM') || result.endsWith('PM')).to.be.true;
+    });
+  });
+
+  describe('formatDateForDownload', () => {
+    it('should return a formatted date string in the expected format', () => {
+      const result = formatDateForDownload(0);
+      // Validate the format: M-d-yyyy_hhmmssa (e.g., 12-17-2025_021530PM or 1-5-2025_091530AM)
+      expect(result).to.match(/^\d{1,2}-\d{1,2}-\d{4}_\d{6}(AM|PM)$/);
+    });
+
+    it('should include the correct format elements', () => {
+      const result = formatDateForDownload(0);
+      // Check it contains dashes and underscore
+      expect(result).to.include('-');
+      expect(result).to.include('_');
+    });
+
+    it('should end with AM or PM', () => {
+      const result = formatDateForDownload(0);
+      expect(result.endsWith('AM') || result.endsWith('PM')).to.be.true;
+    });
+
+    it('should handle adding seconds to the current time', () => {
+      const result = formatDateForDownload(60);
+      // Validate the format still matches expected pattern
+      expect(result).to.match(/^\d{1,2}-\d{1,2}-\d{4}_\d{6}(AM|PM)$/);
+    });
+
+    it('should handle 0 seconds', () => {
+      const result = formatDateForDownload(0);
+      // Should return a valid formatted string
+      expect(result).to.be.a('string');
+      expect(result.length).to.be.at.least(15); // Minimum length: M-d-yyyy_hhmmssAM
+    });
+
+    it('should contain the year in the format', () => {
+      const result = formatDateForDownload(0);
+      const currentYear = new Date().getFullYear().toString();
+      expect(result).to.include(currentYear);
+    });
+
+    it('should have underscore separating date and time', () => {
+      const result = formatDateForDownload(0);
+      const parts = result.split('_');
+      expect(parts).to.have.lengthOf(2);
+      // First part should be the date (M-d-yyyy)
+      expect(parts[0]).to.match(/^\d{1,2}-\d{1,2}-\d{4}$/);
+      // Second part should be the time with AM/PM (hhmmssAM or hhmmssPM)
+      expect(parts[1]).to.match(/^\d{6}(AM|PM)$/);
     });
   });
 });
