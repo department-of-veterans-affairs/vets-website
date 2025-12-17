@@ -11,6 +11,7 @@ const middleware = [thunk];
 const mockStore = configureStore(middleware);
 
 describe('IntroductionPageRedirect', () => {
+  const mockRouter = { push: sinon.spy() };
   const mockRoute = {
     formConfig: {
       formId: '22-1995',
@@ -24,7 +25,8 @@ describe('IntroductionPageRedirect', () => {
     return mockStore({
       featureToggles: {
         loading: false,
-        meb1995ReReroute: rerouteFlag,
+        // eslint-disable-next-line camelcase
+        meb_1995_re_reroute: rerouteFlag,
       },
       form: {
         data: {},
@@ -50,7 +52,7 @@ describe('IntroductionPageRedirect', () => {
 
     const { container } = render(
       <Provider store={store}>
-        <IntroductionPageRedirect route={mockRoute} />
+        <IntroductionPageRedirect route={mockRoute} router={mockRouter} />
       </Provider>,
     );
 
@@ -65,7 +67,7 @@ describe('IntroductionPageRedirect', () => {
 
     const { container } = render(
       <Provider store={store}>
-        <IntroductionPageRedirect route={mockRoute} />
+        <IntroductionPageRedirect route={mockRoute} router={mockRouter} />
       </Provider>,
     );
 
@@ -94,7 +96,7 @@ describe('IntroductionPageRedirect', () => {
 
     const { container } = render(
       <Provider store={store}>
-        <IntroductionPageRedirect route={mockRoute} />
+        <IntroductionPageRedirect route={mockRoute} router={mockRouter} />
       </Provider>,
     );
 
@@ -129,7 +131,7 @@ describe('IntroductionPageRedirect', () => {
 
     const { container } = render(
       <Provider store={store}>
-        <IntroductionPageRedirect route={mockRoute} />
+        <IntroductionPageRedirect route={mockRoute} router={mockRouter} />
       </Provider>,
     );
 
@@ -146,7 +148,7 @@ describe('IntroductionPageRedirect', () => {
 
     const { container } = render(
       <Provider store={store}>
-        <IntroductionPageRedirect route={mockRoute} />
+        <IntroductionPageRedirect route={mockRoute} router={mockRouter} />
       </Provider>,
     );
 
@@ -160,7 +162,7 @@ describe('IntroductionPageRedirect', () => {
   describe('handleStartQuestionnaire', () => {
     it('should call router.push with the correct startPage when initial conditions are met', () => {
       const routerPushSpy = sinon.spy();
-      const mockRouter = { push: routerPushSpy };
+      const testRouter = { push: routerPushSpy };
 
       const routeWithPages = {
         ...mockRoute,
@@ -188,7 +190,7 @@ describe('IntroductionPageRedirect', () => {
         <Provider store={store}>
           <IntroductionPageRedirect
             route={routeWithPages}
-            router={mockRouter}
+            router={testRouter}
           />
         </Provider>,
       );
@@ -202,7 +204,7 @@ describe('IntroductionPageRedirect', () => {
 
     it('should handle scenarios where formData is empty when determining the starting page', () => {
       const routerPushSpy = sinon.spy();
-      const mockRouter = { push: routerPushSpy };
+      const testRouter = { push: routerPushSpy };
 
       const routeWithPages = {
         ...mockRoute,
@@ -212,7 +214,8 @@ describe('IntroductionPageRedirect', () => {
       const store = mockStore({
         featureToggles: {
           loading: false,
-          meb1995ReReroute: true,
+          // eslint-disable-next-line camelcase
+          meb_1995_re_reroute: true,
         },
         form: {
           data: {},
@@ -248,7 +251,7 @@ describe('IntroductionPageRedirect', () => {
         <Provider store={store}>
           <IntroductionPageRedirect
             route={routeWithPages}
-            router={mockRouter}
+            router={testRouter}
           />
         </Provider>,
       );
@@ -262,7 +265,7 @@ describe('IntroductionPageRedirect', () => {
 
     it('should handle scenarios where formData is undefined when determining the starting page', () => {
       const routerPushSpy = sinon.spy();
-      const mockRouter = { push: routerPushSpy };
+      const testRouter = { push: routerPushSpy };
 
       const routeWithPages = {
         ...mockRoute,
@@ -272,7 +275,8 @@ describe('IntroductionPageRedirect', () => {
       const store = mockStore({
         featureToggles: {
           loading: false,
-          meb1995ReReroute: true,
+          // eslint-disable-next-line camelcase
+          meb_1995_re_reroute: true,
         },
         form: {
           data: undefined,
@@ -308,7 +312,7 @@ describe('IntroductionPageRedirect', () => {
         <Provider store={store}>
           <IntroductionPageRedirect
             route={routeWithPages}
-            router={mockRouter}
+            router={testRouter}
           />
         </Provider>,
       );
@@ -325,7 +329,7 @@ describe('IntroductionPageRedirect', () => {
   describe('propTypes validation', () => {
     it('should ensure router prop with push function is provided as per propTypes', () => {
       const routerPushSpy = sinon.spy();
-      const mockRouter = { push: routerPushSpy };
+      const testRouter = { push: routerPushSpy };
 
       const store = createMockStore(true, {
         login: { currentlyLoggedIn: false },
@@ -335,12 +339,12 @@ describe('IntroductionPageRedirect', () => {
       // Should render without errors when router with push is provided
       const { container } = render(
         <Provider store={store}>
-          <IntroductionPageRedirect route={mockRoute} router={mockRouter} />
+          <IntroductionPageRedirect route={mockRoute} router={testRouter} />
         </Provider>,
       );
 
       expect(container.querySelector('.schemaform-intro')).to.exist;
-      expect(mockRouter.push).to.be.a('function');
+      expect(testRouter.push).to.be.a('function');
     });
   });
 });
