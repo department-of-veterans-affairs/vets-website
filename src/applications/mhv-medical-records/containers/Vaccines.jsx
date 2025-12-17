@@ -37,7 +37,6 @@ import {
   pageTitles,
   accessAlertTypes,
   refreshExtractTypes,
-  CernerAlertContent,
   statsdFrontEndActions,
 } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
@@ -58,7 +57,6 @@ import {
 } from '../util/pdfHelpers/vaccines';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
-import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import { useTrackAction } from '../hooks/useTrackAction';
 import { Actions } from '../util/actionTypes';
@@ -250,7 +248,6 @@ const Vaccines = props => {
           Go to your allergy records
         </Link>
       </div>
-      <AcceleratedCernerFacilityAlert {...CernerAlertContent.VACCINES} />
       {downloadStarted && <DownloadSuccessAlert />}
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}

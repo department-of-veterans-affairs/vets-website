@@ -6,7 +6,7 @@ export const maritalStatusesWithDateOfMarriage = ['married', 'separated'];
 const SpouseSummaryCardDescription = () => {
   const { maritalStatus, dateOfMarriage } = useSelector(state => ({
     maritalStatus: state.form.data['view:maritalStatus'].maritalStatus,
-    dateOfMarriage: state.form.data.dateOfMarriage,
+    dateOfMarriage: state.form.data.spouseInformation[0].dateOfMarriage,
   }));
   const allDetails = [maritalStatus];
   if (

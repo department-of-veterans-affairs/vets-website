@@ -1,5 +1,66 @@
-import { addHours, subHours, subMinutes, addSeconds } from 'date-fns';
+import {
+  addHours,
+  subHours,
+  subMinutes,
+  addSeconds,
+  format as dateFnsFormat,
+  parseISO,
+  isValid,
+} from 'date-fns';
 import { formatInTimeZone, format } from 'date-fns-tz';
+
+/**
+ * Format a FHIR dateTime string as a "local datetime" string, by stripping off the time zone
+ * information and formatting what's left. FHIR allows only:
+ *   - YYYY
+ *   - YYYY-MM
+ *   - YYYY-MM-DD
+ *   - YYYY-MM-DDThh:mm:ss(.sss)(Z|±HH:MM)
+ *
+ * See: https://hl7.org/fhir/R4/datatypes.html#dateTime
+ *
+ * @param {String} isoString FHIR dateTime string, e.g. 2017-08-02T09:50:57-04:00, 2000-08-09
+ * @param {String} fmt defaults to 'MMMM d, yyyy, h:mm a', ONLY applied to full dateTime strings
+ * @returns {String} a formatted datetime, e.g. August 2, 2017, 9:50 a.m., or null for bad inputs
+ */
+export function dateFormatWithoutTimezone(
+  isoString,
+  fmt = 'MMMM d, yyyy, h:mm a',
+) {
+  if (!isoString || typeof isoString !== 'string') return null;
+
+  // 1) Year-only: YYYY
+  if (/^\d{4}$/.test(isoString)) {
+    return isoString;
+  }
+
+  // 2) Year+month: YYYY-MM
+  if (/^\d{4}-(0[1-9]|1[0-2])$/.test(isoString)) {
+    const d = parseISO(`${isoString}-01`);
+    if (!isValid(d)) return null;
+    return dateFnsFormat(d, 'MMMM yyyy');
+  }
+
+  // 3) Full date: YYYY-MM-DD
+  if (/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/.test(isoString)) {
+    const d = parseISO(isoString);
+    if (!isValid(d)) return null;
+    return dateFnsFormat(d, 'MMMM d, yyyy');
+  }
+
+  // 4) Date-time (must include seconds + TZ): strip off exactly "Z" or "+HH:MM"
+  const stripped = isoString.replace(/(Z|[+-]\d{2}:\d{2})$/, '');
+
+  // 5) Handle leap-second (":60" -> ":59")
+  const fixedLeap = stripped.replace(/:60(\.\d+)?$/, ':59$1');
+
+  const dt = parseISO(fixedLeap);
+  if (!isValid(dt)) return null;
+
+  return dateFnsFormat(dt, fmt)
+    .replace(/\bAM\b/g, 'a.m.')
+    .replace(/\bPM\b/g, 'p.m.');
+}
 
 /**
  * Current year formatted 'yyyy'.

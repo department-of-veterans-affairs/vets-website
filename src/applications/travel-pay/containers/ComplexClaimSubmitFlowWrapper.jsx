@@ -61,6 +61,8 @@ const ComplexClaimSubmitFlowWrapper = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { apptId, claimId } = useParams();
+  const isErrorRoute = window?.location?.pathname?.endsWith('/get-claim-error');
+  const [shouldRedirect, setShouldRedirect] = useState(false);
   const location = useLocation();
   const [
     isUnsavedChangesModalVisible,
@@ -88,7 +90,6 @@ const ComplexClaimSubmitFlowWrapper = () => {
   const claimError = complexClaim.fetch?.error;
 
   const hasUnsavedChanges = useSelector(selectHasUnsavedExpenseChanges);
-
   const isComplexClaimCreationLoading = useSelector(
     selectComplexClaimCreationLoadingState,
   );
@@ -120,7 +121,10 @@ const ComplexClaimSubmitFlowWrapper = () => {
   useEffect(
     () => {
       if (needsClaimData) {
-        dispatch(getComplexClaimDetails(effectiveClaimId));
+        dispatch(getComplexClaimDetails(effectiveClaimId)).catch(() => {
+          // Redirect user to an error page if the GET claim details call errors
+          setShouldRedirect(true);
+        });
       }
       if (needsApptData) {
         dispatch(getAppointmentData(apptId));
@@ -128,6 +132,12 @@ const ComplexClaimSubmitFlowWrapper = () => {
     },
     [dispatch, needsClaimData, needsApptData, effectiveClaimId, apptId],
   );
+
+  if (shouldRedirect && !isErrorRoute) {
+    return (
+      <Navigate to={`/file-new-claim/${apptId}/get-claim-error`} replace />
+    );
+  }
 
   const handleBackLinkClick = e => {
     if (hasUnsavedChanges) {

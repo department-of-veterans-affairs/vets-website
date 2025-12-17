@@ -79,13 +79,27 @@ export const createDateObject = rawDateString => {
 };
 
 /**
- * Create dynamic error message for additional issues with decision dates that are today or in the future
- * Always uses current date as the cutoff for day of and in the future, formatted using VA.gov style
+ * Create dynamic error message for decision dates that are blocked
+ * Always show "The date must be before [UTC today expressed as calendar date]"
+ * This tells users the earliest acceptable date that will pass validation globally
  * @param {Object} errorMessages - Error messages object containing decisions.pastDate function
- * @returns {string} Formatted error message (e.g., "Enter a date before Dec. 10, 2025." using today's date)
+ * @returns {string} Formatted error message showing UTC today as calendar date
  */
 export const createDecisionDateErrorMsg = errorMessages => {
-  const cutoffDate = formatDateToReadableString(new Date());
+  const now = new Date();
+
+  const utcTodayAsLocalDate = new Date(
+    now.getUTCFullYear(),
+    now.getUTCMonth(),
+    now.getUTCDate(),
+    0,
+    0,
+    0,
+    0,
+  );
+
+  const cutoffDate = formatDateToReadableString(utcTodayAsLocalDate);
+
   return errorMessages.decisions.pastDate(cutoffDate);
 };
 
@@ -105,7 +119,6 @@ export const addDateErrorMessages = (errors, errorMessages, date) => {
   if (date.isTodayOrInFuture) {
     // Lighthouse won't accept same day (as submission) decision date
     // Using UTC-based validation to match backend behavior
-
     const decisionDateErrorMessage = createDecisionDateErrorMsg(errorMessages);
 
     errors.addError(decisionDateErrorMessage);
