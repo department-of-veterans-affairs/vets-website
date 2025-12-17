@@ -1,3 +1,4 @@
+/* eslint-disable cypress/unsafe-to-chain-command */
 import manifest from '../manifest.json';
 
 import formConfig from '../config/form';
@@ -5,9 +6,6 @@ import testData from './fixtures/data/test-data.json';
 import { SUBMIT_URL } from '../config/constants';
 
 describe('22-10216 Edu form', () => {
-  beforeEach(function beforeEachHook() {
-    if (Cypress.env('CI')) this.skip();
-  });
   function getDateDetails(date) {
     const monthNames = [
       'January',
@@ -27,6 +25,7 @@ describe('22-10216 Edu form', () => {
     const monthIndex = date?.getMonth();
     const monthName = monthNames[monthIndex];
     const year = date?.getFullYear();
+
     return {
       day,
       month: monthName,
@@ -36,6 +35,7 @@ describe('22-10216 Edu form', () => {
 
   const date = new Date();
   const details = getDateDetails(date);
+
   it('should be keyboard-only navigable', () => {
     cy.intercept('GET', '/v0/feature_toggles*', {
       data: {
@@ -50,7 +50,7 @@ describe('22-10216 Edu form', () => {
 
     // Tab to and press 'Start your 35% exemption request' to start form
     cy.injectAxeThenAxeCheck();
-    cy.repeatKey('Tab', 4);
+    cy.repeatKey('Tab', 5);
     cy.realPress('Space');
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(100);
