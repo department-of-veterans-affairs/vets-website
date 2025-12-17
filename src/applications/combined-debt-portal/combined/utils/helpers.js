@@ -38,6 +38,9 @@ export const selectLoadingFeatureFlags = state =>
 export const showOneThingPerPage = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.showCDPOneThingPerPage];
 
+export const showVHAPaymentHistory = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.showVHAPaymentHistory];
+
 /**
  * Helper function to consisently format date strings
  *
