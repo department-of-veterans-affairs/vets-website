@@ -430,24 +430,6 @@ describe('vaPrescription details container', () => {
       },
     ];
 
-    const V2_STATUSES = [
-      { v2Status: 'Active', testLabel: 'Active' },
-      { v2Status: 'In progress', testLabel: 'In progress' },
-      { v2Status: 'Inactive', testLabel: 'Inactive' },
-      { v2Status: 'Transferred', testLabel: 'Transferred' },
-      { v2Status: 'Status not available', testLabel: 'Status not available' },
-    ];
-
-    const V1_STATUSES = [
-      { v1Status: 'Active: Parked', testLabel: 'Active: Parked' },
-      {
-        v1Status: 'Active: Refill in Process',
-        testLabel: 'Active: Refill in process',
-      },
-      { v1Status: 'Expired', testLabel: 'Expired' },
-      { v1Status: 'Discontinued', testLabel: 'Discontinued' },
-    ];
-
     const setupWithCernerPilot = (
       rx = newRx,
       isCernerPilot = false,

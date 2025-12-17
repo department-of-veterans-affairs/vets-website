@@ -10,9 +10,6 @@ import {
   ACTIVE_FILTER_KEY,
   ALL_MEDICATIONS_FILTER_KEY,
   IN_PROGRESS_FILTER_KEY,
-  INACTIVE_FILTER_KEY,
-  SHIPPED_FILTER_KEY,
-  TRANSFERRED_FILTER_KEY,
   filterOptions,
   filterOptionsV2,
 } from '../../../util/constants';

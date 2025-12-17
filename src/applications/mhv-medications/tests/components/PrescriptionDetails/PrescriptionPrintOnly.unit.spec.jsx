@@ -10,25 +10,21 @@ describe('Prescription print only container', () => {
     {
       isCernerPilot: false,
       isV2StatusMapping: false,
-      useV2: false,
       desc: 'both flags disabled',
     },
     {
       isCernerPilot: true,
       isV2StatusMapping: false,
-      useV2: false,
       desc: 'only cernerPilot enabled',
     },
     {
       isCernerPilot: false,
       isV2StatusMapping: true,
-      useV2: false,
       desc: 'only v2StatusMapping enabled',
     },
     {
       isCernerPilot: true,
       isV2StatusMapping: true,
-      useV2: true,
       desc: 'both flags enabled',
     },
   ];
@@ -155,74 +151,72 @@ describe('Prescription print only container', () => {
   });
 
   describe('CernerPilot and  V2StatusMapping flag combination behavior', () => {
-    FLAG_COMBINATIONS.forEach(
-      ({ isCernerPilot, isV2StatusMapping, useV2, desc }) => {
-        describe(`when ${desc}`, () => {
-          it('renders VA prescription print view correctly', () => {
+    FLAG_COMBINATIONS.forEach(({ isCernerPilot, isV2StatusMapping, desc }) => {
+      describe(`when ${desc}`, () => {
+        it('renders VA prescription print view correctly', () => {
+          const screen = setup({
+            va: true,
+            isDetailsRx: false,
+            isCernerPilot,
+            isV2StatusMapping,
+          });
+          expect(screen.findByText('Most recent prescription')).to.exist;
+          expect(screen.findByText('Status:')).to.exist;
+        });
+
+        if (isCernerPilot) {
+          it('hides reason for use', () => {
             const screen = setup({
               va: true,
               isDetailsRx: false,
               isCernerPilot,
               isV2StatusMapping,
             });
-            expect(screen.findByText('Most recent prescription')).to.exist;
-            expect(screen.findByText('Status:')).to.exist;
+            expect(screen.queryByText('Reason for use')).to.not.exist;
           });
 
-          if (isCernerPilot) {
-            it('hides reason for use', () => {
-              const screen = setup({
-                va: true,
-                isDetailsRx: false,
-                isCernerPilot,
-                isV2StatusMapping,
-              });
-              expect(screen.queryByText('Reason for use')).to.not.exist;
-            });
-
-            it('hides pharmacy phone and shows facility link', () => {
-              const screen = setup({
-                va: true,
-                isDetailsRx: false,
-                isCernerPilot,
-                isV2StatusMapping,
-              });
-              expect(screen.queryByText('Pharmacy phone number:')).to.not.exist;
-              expect(
-                screen.getByText(
-                  'Check your prescription label or contact your VA facility.',
-                ),
-              ).to.exist;
-            });
-
-            it('hides refill history', () => {
-              const screen = setup({
-                va: true,
-                isDetailsRx: false,
-                isCernerPilot,
-                isV2StatusMapping,
-              });
-              expect(screen.queryByText('Refill history')).to.not.exist;
-            });
-          }
-
-          it('maintains proper heading hierarchy', () => {
+          it('hides pharmacy phone and shows facility link', () => {
             const screen = setup({
-              isDetailsRx: true,
               va: true,
+              isDetailsRx: false,
               isCernerPilot,
               isV2StatusMapping,
             });
-            const nameElement = screen.getByText('ONDANSETRON 8 MG TAB');
-            const detailsHeaderElement = screen.getByText(
-              'Most recent prescription',
-            );
-            expect(nameElement.tagName).to.equal('H2');
-            expect(detailsHeaderElement.tagName).to.equal('H3');
+            expect(screen.queryByText('Pharmacy phone number:')).to.not.exist;
+            expect(
+              screen.getByText(
+                'Check your prescription label or contact your VA facility.',
+              ),
+            ).to.exist;
           });
+
+          it('hides refill history', () => {
+            const screen = setup({
+              va: true,
+              isDetailsRx: false,
+              isCernerPilot,
+              isV2StatusMapping,
+            });
+            expect(screen.queryByText('Refill history')).to.not.exist;
+          });
+        }
+
+        it('maintains proper heading hierarchy', () => {
+          const screen = setup({
+            isDetailsRx: true,
+            va: true,
+            isCernerPilot,
+            isV2StatusMapping,
+          });
+          const nameElement = screen.getByText('ONDANSETRON 8 MG TAB');
+          const detailsHeaderElement = screen.getByText(
+            'Most recent prescription',
+          );
+          expect(nameElement.tagName).to.equal('H2');
+          expect(detailsHeaderElement.tagName).to.equal('H3');
         });
-      },
-    );
+      });
+    });
   });
   it('should render Non-VA rx details', () => {
     const screen = setup({
