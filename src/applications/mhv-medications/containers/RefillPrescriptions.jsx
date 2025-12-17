@@ -345,7 +345,9 @@ const RefillPrescriptions = () => {
                             lastFilledText = 'Not filled yet';
                           }
                           const descriptionLines = [
-                            `Prescription number: ${prescription.prescriptionNumber}`,
+                            `Prescription number: ${
+                              prescription.prescriptionNumber
+                            }`,
                           ];
                           if (lastFilledText) {
                             descriptionLines.push(lastFilledText);
