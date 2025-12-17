@@ -3,7 +3,7 @@ import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 import formConfig from '@bio-aquia/21p-530a-interment-allowance/config/form';
 import manifest from '@bio-aquia/21p-530a-interment-allowance/manifest.json';
-import mockUser from './fixtures/mocks/user.json';
+import { featureToggles, user } from './fixtures/mocks';
 
 // Helper for date component fillings
 export const fillDateWebComponentPattern = (fieldName, value) => {
@@ -58,25 +58,35 @@ const testConfig = createTestConfig(
     // Comment out or remove this line for normal speed
     // slowTestThreshold: 1000,
     setupPerTest: () => {
-      cy.intercept('GET', '/v0/user', mockUser);
+      // Mock user and authentication
+      cy.intercept('GET', '/v0/user', user);
+
+      // Mock feature toggles
+      cy.intercept('GET', '/v0/feature_toggles*', featureToggles);
+
+      // Mock form submission
       cy.intercept('POST', formConfig.submitUrl, { status: 200 });
+
+      // Mock save-in-progress endpoints
       cy.intercept('PUT', '/v0/in_progress_forms/21P-530A', {
         statusCode: 200,
         body: {
           formId: '21P-530A',
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
+          createdAt: '2025-01-15T14:30:00.000Z',
+          updatedAt: '2025-01-15T14:30:00.000Z',
         },
       });
       cy.intercept('GET', '/v0/in_progress_forms/21P-530A', {
         statusCode: 200,
         body: {
           formId: '21P-530A',
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
+          createdAt: '2025-01-15T14:30:00.000Z',
+          updatedAt: '2025-01-15T14:30:00.000Z',
         },
       });
-      cy.login(mockUser);
+
+      // Login
+      cy.login(user);
     },
 
     pageHooks: {

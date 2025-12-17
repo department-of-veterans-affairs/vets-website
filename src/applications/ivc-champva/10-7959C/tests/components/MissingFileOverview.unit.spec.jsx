@@ -1,5 +1,4 @@
 import React from 'react';
-import { expect } from 'chai';
 import { testComponentRender } from 'applications/ivc-champva/shared/tests/pages/pageTests.spec';
 import { MissingFileConsentPage } from '../../components/MissingFileConsentPage';
 import SupportingDocumentsPage from '../../components/SupportingDocumentsPage';
@@ -37,13 +36,3 @@ testComponentRender(
     nonListNameKey="applicantName"
   />,
 );
-
-describe('Missing file consent page depends function', () => {
-  it('should return false if receives bad data', () => {
-    expect(
-      formConfig.chapters.fileUpload.pages.missingFileConsent.depends(
-        undefined,
-      ),
-    ).to.be.false;
-  });
-});

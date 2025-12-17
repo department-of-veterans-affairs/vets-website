@@ -1,21 +1,36 @@
 // @ts-check
+import React from 'react';
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import environment from '~/platform/utilities/environment';
+import { personalInformationPage } from 'platform/forms-system/src/js/components/PersonalInformation';
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
+import * as PreviouslyApplied from '../pages/PreviouslyApplied';
+import * as SelectVABenefit from '../pages/SelectVABenefit';
+import * as VABenefitWarning from '../pages/VABenefitWarning';
+import * as PayeeNumber from '../pages/PayeeNumber';
+import * as MailingAddress from '../pages/MailingAddress';
+import * as PhoneAndEmail from '../pages/PhoneAndEmail';
+
+import submitForm from './submitForm';
+import transform from './transform';
+import prefillTransform from './prefillTransform';
+
+export const SUBMIT_URL = `${
+  environment.API_URL
+}/v0/education_benefits_claims/0803`;
 
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
-  trackingPrefix: 'edu-0803-',
+  submitUrl: SUBMIT_URL,
+  submit: submitForm,
+  trackingPrefix: '0803-edu-benefits-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   dev: {
@@ -33,6 +48,28 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer: prefillTransform,
+  transformForSubmit: transform,
+  preSubmitInfo: {
+    statementOfTruth: {
+      heading: 'Certification statement',
+      body: (
+        <div>
+          <p>
+            I hereby authorize the release of my test information to the
+            Department of Veterans Affairs (VA).
+          </p>
+          <p>
+            <strong>Penalty:</strong> Willfully false statements as to a
+            material fact in a claim for education benefits payable by VA may
+            result in a fine, imprisonment, or both.
+          </p>
+        </div>
+      ),
+      useProfileFullName: true,
+      messageAriaDescribedby: 'I have read and accept the privacy policy.',
+    },
+  },
   savedFormMessages: {
     notFound: 'Please start over to apply for education benefits.',
     noAuth:
@@ -43,14 +80,64 @@ const formConfig = {
   defaultDefinitions: {},
   useCustomScrollAndFocus: true,
   chapters: {
+    benefitsInformationChapter: {
+      title: 'Your education benefits information',
+      pages: {
+        previouslyApplied: {
+          path: 'previously-applied',
+          title: 'Previously Applied',
+          uiSchema: PreviouslyApplied.uiSchema,
+          schema: PreviouslyApplied.schema,
+        },
+        selectVABenefit: {
+          path: 'select-va-benefit-program',
+          title: 'VA Benefit Program',
+          uiSchema: SelectVABenefit.uiSchema,
+          schema: SelectVABenefit.schema,
+          depends: formData => formData?.hasPreviouslyApplied,
+        },
+        vaBenefitWarning: {
+          path: 'va-benefit-warning',
+          title: 'You VA education benefits',
+          uiSchema: VABenefitWarning.uiSchema,
+          schema: VABenefitWarning.schema,
+          depends: formData => !formData?.hasPreviouslyApplied,
+        },
+      },
+    },
     personalInformationChapter: {
       title: 'Your personal information',
       pages: {
-        nameAndDateOfBirth: {
-          path: 'name-and-date-of-birth',
-          title: 'Name and date of birth',
-          uiSchema: nameAndDateOfBirth.uiSchema,
-          schema: nameAndDateOfBirth.schema,
+        ...personalInformationPage({
+          personalInfoConfig: {
+            name: { show: true, required: true },
+            ssn: { show: true, required: true },
+            dateOfBirth: { show: true, required: false },
+          },
+          dataAdapter: {
+            ssnPath: 'ssn',
+          },
+        }),
+        payeeNumber: {
+          path: 'payee-number',
+          title: 'Payee Number',
+          uiSchema: PayeeNumber.uiSchema,
+          schema: PayeeNumber.schema,
+          depends: formData =>
+            formData?.vaBenefitProgram === 'chapter35' &&
+            !!formData.vaFileNumber,
+        },
+        mailingAddress: {
+          path: 'mailing-address',
+          title: 'Mailing Address',
+          uiSchema: MailingAddress.uiSchema,
+          schema: MailingAddress.schema,
+        },
+        phoneAndEmail: {
+          path: 'phone-and-email',
+          title: 'Phone and Email',
+          uiSchema: PhoneAndEmail.uiSchema,
+          schema: PhoneAndEmail.schema,
         },
       },
     },

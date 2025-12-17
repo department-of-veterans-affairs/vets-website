@@ -11,7 +11,9 @@ import {
 
 /**
  * uiSchema for Patient Type page
- * Determines if the patient is a veteran or spouse/parent of a veteran
+ * Determines the patient's relationship to the veteran
+ * patientType is not actually of the .pdf form currently but it
+ * is data that is relevant to the people working the claim - so when automation is introduced we should include it.
  */
 export const claimantQuestionUiSchema = {
   claimantQuestion: {
@@ -19,7 +21,12 @@ export const claimantQuestionUiSchema = {
       title: 'Who is the patient in the nursing home facility?',
       labels: {
         veteran: 'A Veteran',
-        spouseOrParent: 'The spouse or parent of a Veteran',
+        spouse: "A Veteran's spouse",
+        parent: "A Veteran's parent",
+        child: "A Veteran's child",
+      },
+      errorMessages: {
+        required: 'Please select a relationship to the Veteran',
       },
     }),
   },
@@ -37,7 +44,7 @@ export const claimantQuestionSchema = {
       type: 'object',
       required: ['patientType'],
       properties: {
-        patientType: radioSchema(['veteran', 'spouseOrParent']),
+        patientType: radioSchema(['veteran', 'spouse', 'parent', 'child']),
       },
     },
   },

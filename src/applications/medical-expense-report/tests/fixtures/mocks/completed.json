@@ -1,0 +1,19 @@
+{
+    "data": {
+        "id": "80209",
+        "type": "archived_claim",
+        "attributes": {
+            "submittedAt": "2025-12-12T17:33:47.249Z",
+            "regionalOffice": [
+                "Department of Veteran Affairs",
+                "Pension Intake Center",
+                "P.O. Box 5365",
+                "Janesville, Wisconsin 53547-5365"
+            ],
+            "confirmationNumber": "1f6a6e08-f9eb-4a8c-abd4-773026ef5fa2",
+            "guid": "1f6a6e08-f9eb-4a8c-abd4-773026ef5fa2",
+            "form": "21P-8416",
+            "pdfUrl": "/supporting-forms-for-claims/"
+        }
+    }
+}

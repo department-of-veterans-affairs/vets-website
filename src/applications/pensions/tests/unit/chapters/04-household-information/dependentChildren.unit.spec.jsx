@@ -26,8 +26,8 @@ describe('Add dependent children page', () => {
     schema,
     uiSchema,
     [
-      `va-text-input[label="Child’s first name"]`,
-      `va-text-input[label="Child’s last name"]`,
+      `va-text-input[label="Child’s first or given name"]`,
+      `va-text-input[label="Child’s last or family name"]`,
       `va-memorable-date[label="Date of birth"]`,
     ],
     pageTitle,

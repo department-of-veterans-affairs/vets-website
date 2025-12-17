@@ -5,6 +5,7 @@ const delay = require('mocker-api/lib/delay');
 const user = require('./endpoints/user');
 const mhvAcccount = require('./endpoints/mhvAccount');
 const address = require('./endpoints/address');
+const schedulingPreferences = require('./endpoints/schedulingPreferences');
 const emailAddress = require('./endpoints/email-adresses');
 const phoneNumber = require('./endpoints/phone-number');
 const ratingInfo = require('./endpoints/rating-info');
@@ -118,6 +119,7 @@ const responses = {
             profileShowPaperlessDelivery: false,
             profile2Enabled: true,
             profileHealthCareSettingsPage: true,
+            profileSchedulingPreferences: true,
             vetStatusPdfLogging: true,
             veteranStatusCardUseLighthouse: true,
             veteranStatusCardUseLighthouseFrontend: true,
@@ -429,6 +431,57 @@ const responses = {
       return res.status(500).json(genericErrors.error500);
     }
     return delaySingleResponse(() => res.json(maximalSetOfPreferences), 1);
+  },
+  'GET /v0/profile/scheduling_preferences': (req, res) => {
+    const schedulingPreferencesResponse = 'all';
+    delaySingleResponse(() => {
+      switch (schedulingPreferencesResponse) {
+        case 'all':
+          return res.status(200).json(schedulingPreferences.all);
+        case 'none':
+          return res.status(200).json(schedulingPreferences.none);
+        case 'error':
+          return res.status(500).json(genericErrors.error500);
+        default:
+          return res.status(200).json('');
+      }
+    }, 1);
+  },
+  'POST /v0/profile/scheduling_preferences': (req, res) => {
+    return delaySingleResponse(
+      () =>
+        res.status(200).json({
+          data: {
+            id: '',
+            type: 'async_transaction_va_profile_scheduling_transactions',
+            attributes: {
+              transactionId: '94725087-d546-47e1-a247-f57ab0ed599c',
+              transactionStatus: 'RECEIVED',
+              type: 'AsyncTransaction::VAProfile::SchedulingTransaction',
+              metadata: [],
+            },
+          },
+        }),
+      1,
+    );
+  },
+  'DELETE /v0/profile/scheduling_preferences': (req, res) => {
+    return delaySingleResponse(
+      () =>
+        res.status(200).json({
+          data: {
+            id: '',
+            type: 'async_transaction_va_profile_scheduling_transactions',
+            attributes: {
+              transactionId: '94725087-d546-47e1-a247-f57ab0ed599c',
+              transactionStatus: 'RECEIVED',
+              type: 'AsyncTransaction::VAProfile::SchedulingTransaction',
+              metadata: [],
+            },
+          },
+        }),
+      1,
+    );
   },
   'PATCH /v0/profile/communication_preferences/:pref': (req, res) => {
     const {
