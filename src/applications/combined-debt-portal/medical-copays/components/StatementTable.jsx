@@ -74,7 +74,10 @@ const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
         <strong>{charge.pDTransDescOutput.replace(/&nbsp;/g, ' ')}</strong>
       </div>
       {charge.provider && (
-        <div className="vads-u-color--gray-medium vads-u-font-size--sm">
+        <div
+          className="vads-u-color--gray-medium vads-u-font-size--sm"
+          data-testid="provider-info"
+        >
           Provider: {charge.provider}
         </div>
       )}
