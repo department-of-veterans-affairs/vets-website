@@ -5,9 +5,7 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 import reducers from '../../../reducers';
 import prescriptionsListItem from '../../fixtures/prescriptionsListItem.json';
 import ExtraDetails from '../../../components/shared/ExtraDetails';
-import { dateFormat } from '../../../util/helpers';
 import {
-  DATETIME_FORMATS,
   dispStatusObj,
   dispStatusObjV2,
 } from '../../../util/constants';

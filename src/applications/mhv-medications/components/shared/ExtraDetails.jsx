@@ -29,34 +29,6 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
   const isV2StatusMapping = useSelector(selectV2StatusMappingFlag);
   const useV2Status = isCernerPilot && isV2StatusMapping;
 
-  const renderContent = () => {
-    // Handle Non-VA prescriptions first
-    if (rxSourceIsNonVA(rx)) {
-      return (
-        <p className="vads-u-margin-y--0" data-testid="non-VA-prescription">
-          You can’t manage this medication in this online tool.
-        </p>
-      );
-    }
-
-    // Handle OH prescriptions with isRenewable (may have dispStatus or null)
-    if (isRenewable) {
-      return (
-        <div className="no-print">
-          <SendRxRenewalMessage rx={rx} />
-        </div>
-      );
-    }
-
-    // V2 status handling when both flags are enabled
-    if (useV2Status) {
-      return renderV2Content();
-    }
-
-    // V1 (legacy) status handling
-    return renderV1Content();
-  };
-
   const renderV2Content = () => {
     switch (dispStatus) {
       case dispStatusObjV2.statusNotAvailable:
@@ -408,6 +380,34 @@ const ExtraDetails = ({ showRenewalLink = false, ...rx }) => {
       default:
         return null;
     }
+  };
+
+  const renderContent = () => {
+    // Handle Non-VA prescriptions first
+    if (rxSourceIsNonVA(rx)) {
+      return (
+        <p className="vads-u-margin-y--0" data-testid="non-VA-prescription">
+          You can't manage this medication in this online tool.
+        </p>
+      );
+    }
+
+    // Handle OH prescriptions with isRenewable (may have dispStatus or null)
+    if (isRenewable) {
+      return (
+        <div className="no-print">
+          <SendRxRenewalMessage rx={rx} />
+        </div>
+      );
+    }
+
+    // V2 status handling when both flags are enabled
+    if (useV2Status) {
+      return renderV2Content();
+    }
+
+    // V1 (legacy) status handling
+    return renderV1Content();
   };
 
   return (
