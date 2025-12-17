@@ -33,6 +33,7 @@ import replacementMedallionReason from '../pages/replacementMedallionReason';
 import typeOfMedallion from '../pages/typeOfMedallion';
 import medallionSize from '../pages/medallionSize';
 import presidentialMemorialCertificate from '../pages/presidentialMemorialCertificate';
+import quantityOfCertificates from '../pages/quantityOfCertificates';
 import {
   ApplicantNameHeader,
   ApplicantNameNote,
@@ -279,6 +280,12 @@ const formConfig = {
           title: 'Presidential Memorial Certificate',
           uiSchema: presidentialMemorialCertificate.uiSchema,
           schema: presidentialMemorialCertificate.schema,
+        },
+        quantityOfCertificates: {
+          path: 'quantity-of-certificates',
+          title: 'Presidential Memorial Certificate',
+          uiSchema: quantityOfCertificates.uiSchema,
+          schema: quantityOfCertificates.schema,
         },
       },
     },

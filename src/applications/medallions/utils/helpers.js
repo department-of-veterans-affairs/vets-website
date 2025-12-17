@@ -326,6 +326,18 @@ export const requestRecordsLink = () => {
   );
 };
 
+export const learnMoreAboutCertsLink = () => {
+  return (
+    <a
+      href="https://www.va.gov/burials-memorials/memorial-items/presidential-memorial-certificates/"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Learn more about PMCs (opens in a new tab)
+    </a>
+  );
+};
+
 // FileField helper functions
 export const createOpenRemoveModal = (
   setRemoveIndex,
