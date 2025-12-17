@@ -6,7 +6,7 @@ import { TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY } from '@department-of-veterans-affairs
 
 import useSetPageTitle from '../hooks/useSetPageTitle';
 import { formatDateTime } from '../util/dates';
-import { STATUSES, FORM_100998_LINK, BTSSS_PORTAL_URL } from '../constants';
+import { STATUSES, FORM_100998_LINK } from '../constants';
 import { toPascalCase, currency } from '../util/string-helpers';
 import DocumentDownload from './DocumentDownload';
 import DecisionReason from './DecisionReason';
@@ -28,10 +28,7 @@ export default function ClaimDetailsContent({
   documents,
   decisionLetterReason,
   isOutOfBounds,
-  mustContinueWithBTSSS,
 }) {
-  // claimStatus = 'Saved'; // TODO: testing
-
   useSetPageTitle('Travel Reimbursement Claim Details');
   const { id: appointmentId } = appointment;
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
@@ -54,9 +51,6 @@ export default function ClaimDetailsContent({
 
   const showDecisionReason =
     decisionLetterReason && claimsMgmtDecisionReasonToggle;
-
-  // const mustContinueWithBTSSS = true; // TODO: how is this determined?
-  // isOutOfBounds = false;
 
   const getDocLinkList = list =>
     list.map(({ filename, text, documentId }) => (
@@ -148,32 +142,7 @@ export default function ClaimDetailsContent({
             getDocLinkList(documentCategories.clerk)}
         </>
       )}
-      {complexClaimsToggle && mustContinueWithBTSSS ? (
-        <>
-          {isOutOfBounds ? (
-            <p className="vads-u-margin-top--0">
-              <span className="vads-u-font-weight--bold">Note: </span>
-              You didn't file a claim for this appointment within the 30-day
-              limit. You can still review and file your claim in the Beneficiary
-              Travel Self Service System (BTSSS). But claims filed after 30 days
-              are usually denied.
-            </p>
-          ) : (
-            <p className="vads-u-margin-top--0">
-              <span className="vads-u-font-weight--bold">Note: </span>
-              We can't file your travel reimbursement claim here right now. But
-              you can still file your claim in the Beneficiary Travel Self
-              Service System (BTSSS).
-            </p>
-          )}
-          <va-link
-            href={BTSSS_PORTAL_URL}
-            text="Continue and file your claim in BTSSS"
-            external
-          />
-        </>
-      ) : (
-        complexClaimsToggle &&
+      {complexClaimsToggle &&
         (claimStatus === STATUSES.Incomplete.name ||
           claimStatus === STATUSES.Saved.name) && (
           <va-link-action
@@ -188,8 +157,7 @@ export default function ClaimDetailsContent({
               );
             }}
           />
-        )
-      )}
+        )}
       <h2 className="vads-u-font-size--h3">Claim information</h2>
       {claimsMgmtToggle && (
         <>
@@ -332,5 +300,4 @@ ClaimDetailsContent.propTypes = {
   isOutOfBounds: PropTypes.bool,
   reimbursementAmount: PropTypes.number,
   totalCostRequested: PropTypes.number,
-  mustContinueWithBTSSS: PropTypes.bool,
 };
