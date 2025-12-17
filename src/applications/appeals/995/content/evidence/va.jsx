@@ -1,26 +1,15 @@
 import React from 'react';
-import { format } from 'date-fns';
-import { parseStringOrDate } from 'platform/utilities/date';
 import {
   getProviderDetailsTitle,
   getSelectedIssues,
 } from '../../utils/evidence';
 import {
+  VA_TREATMENT_BEFORE_2005_KEY,
   VA_TREATMENT_LOCATION_KEY,
   VA_TREATMENT_MONTH_YEAR_KEY,
 } from '../../constants';
 import { formatIssueList } from '../../../shared/utils/contestableIssueMessages';
-
-/**
- * This is used to format the date on the summary page
- * from '2000-01' to 'January 2000'
- * @param {string} date
- * @returns
- */
-const formatMonthYear = date => {
-  const parsedDate = parseStringOrDate(date);
-  return format(parsedDate, 'MMMM yyyy');
-};
+import { formatMonthYearToReadableString } from '../../../shared/utils/dates';
 
 export const promptContent = {
   question:
@@ -87,11 +76,16 @@ export const summaryContent = {
             <strong>Conditions:</strong> {formatIssueList(selectedIssues)}
           </p>
         )}
+        {item?.[VA_TREATMENT_BEFORE_2005_KEY] === 'N' && (
+          <p>
+            <strong>Treatment start date:</strong> 2005 or later
+          </p>
+        )}
         {item?.[VA_TREATMENT_MONTH_YEAR_KEY] && (
           <p>
             <strong>Treatment start date:</strong>
             &nbsp;
-            {formatMonthYear(item[VA_TREATMENT_MONTH_YEAR_KEY])}
+            {formatMonthYearToReadableString(item[VA_TREATMENT_MONTH_YEAR_KEY])}
           </p>
         )}
       </>

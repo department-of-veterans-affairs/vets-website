@@ -79,11 +79,357 @@ export const LIMITED_CONSENT_TEXTAREA = '[name="root_limitedConsent"]';
 export const clickContinue = () =>
   cy.get('va-button[continue]', { selector: 'button' }).click();
 
+export const clickStartClaim = () =>
+  cy
+    .get('va-link-action[text="Start your claim"]')
+    .eq(0)
+    .click();
+
 const verifyUrl = link => h.verifyCorrectUrl(manifest.rootUrl, link);
 
 export const selectDropdownWithKeyboard = (fieldName, value) => {
   cy.tabToElement(`[name="${fieldName}"]`);
   cy.chooseSelectOptionUsingValue(value);
+};
+
+export const checkVaFacilityBox = () =>
+  cy
+    .get('[name="root_facilityTypes_vamc"]')
+    .eq(0)
+    .click();
+
+export const selectVaPromptResponse = response => {
+  cy.get(
+    `va-radio-option[name="root_hasVaEvidence"][value="${response}"]`,
+  ).click();
+  clickContinue();
+};
+
+export const selectPrivatePromptResponse = response => {
+  cy.get(
+    `va-radio-option[name="root_hasPrivateEvidence"][value="${response}"]`,
+  ).click();
+  clickContinue();
+};
+
+export const addVaLocation = location => {
+  cy.fillVaTextInput('root_treatmentLocation', location);
+  clickContinue();
+};
+
+export const addVaTreatmentAfter2005 = () => {
+  cy.selectRadio('root_treatmentBefore2005', 'N');
+  clickContinue();
+};
+
+export const addVaTreatmentBefore2005 = () => {
+  cy.selectRadio('root_treatmentBefore2005', 'Y');
+  clickContinue();
+};
+
+export const addVaTreatmentDate = (monthIndex, year) => {
+  cy.get('.select-month')
+    .shadow()
+    .find('select')
+    .select(monthIndex, { force: true });
+  cy.realPress('Tab');
+  cy.realType(year);
+  clickContinue();
+};
+
+export const addPrivateLocationData = (
+  name,
+  addressLine1,
+  city,
+  stateCode,
+  zip,
+  addressLine2 = null,
+) => {
+  cy.fillVaTextInput('root_treatmentLocation', name);
+  cy.selectVaSelect('root_address_country', 'USA');
+  cy.fillVaTextInput('root_address_street', addressLine1);
+
+  if (addressLine2) {
+    cy.fillVaTextInput('root_address_street2', addressLine2);
+  }
+
+  cy.fillVaTextInput('root_address_city', city);
+
+  cy.get('.usa-select')
+    .eq(1)
+    .scrollIntoView();
+  cy.selectVaSelect('root_address_state', stateCode);
+  cy.fillVaTextInput('root_address_postalCode', zip);
+
+  clickContinue();
+};
+
+export const fillVaTextInputWithoutName = (selector, value) => {
+  cy.get('va-text-input')
+    .shadow()
+    .find(`input[name="${selector}"]`)
+    .focus()
+    .type(value);
+};
+
+export const addPrivateTreatmentDates = (
+  treatmentStartDate,
+  treatmentEndDate,
+) => {
+  const [startYear, startMonth, startDay] = treatmentStartDate.split('-');
+  const [endYear, endMonth, endDay] = treatmentEndDate.split('-');
+
+  fillVaTextInputWithoutName('root_treatmentStartMonth', startMonth);
+  fillVaTextInputWithoutName('root_treatmentStartDay', startDay);
+  fillVaTextInputWithoutName('root_treatmentStartYear', startYear);
+
+  fillVaTextInputWithoutName('root_treatmentEndMonth', endMonth);
+  fillVaTextInputWithoutName('root_treatmentEndDay', endDay);
+  fillVaTextInputWithoutName('root_treatmentEndYear', endYear);
+  clickContinue();
+};
+
+export const getToEvidenceFlow = () => {
+  // Start
+  cy.selectRadio('benefitType', 'compensation');
+  clickContinue();
+
+  // Intro
+  clickStartClaim();
+
+  // ITF
+  clickContinue();
+
+  // Confirm Personal Info
+  clickContinue();
+
+  // Homelessness
+  cy.selectRadio('root_housingRisk', 'N');
+  clickContinue();
+
+  // Confirm Contact Info
+  clickContinue();
+
+  // Primary Phone
+  cy.get('va-radio-option[name="primary"][value="home"]').click();
+  clickContinue();
+
+  // Contestable Issues
+  cy.get('va-link-action[text="Add a new issue"]')
+    .eq(0)
+    .click();
+  cy.fillVaTextInput('issue-name', 'Hypertension');
+  cy.fillDate('decision-date', '2020-01-01');
+  cy.get('#submit').click();
+
+  cy.get('va-link-action[text="Add a new issue"]')
+    .eq(0)
+    .click();
+  cy.fillVaTextInput('issue-name', `Tendonitis, left ankle`);
+  cy.fillDate('decision-date', '2023-07-14');
+  cy.get('#submit').click();
+
+  cy.get('va-link-action[text="Add a new issue"]')
+    .eq(0)
+    .click();
+  cy.fillVaTextInput('issue-name', `Sleep apnea`);
+  cy.fillDate('decision-date', '2007-06-29');
+  cy.get('#submit').click();
+
+  clickContinue();
+
+  // Issues Review
+  clickContinue();
+
+  // DR Process Review
+  clickContinue();
+
+  // 5103 Review
+  cy.get('[name="5103"]')
+    .eq(0)
+    .click();
+  clickContinue();
+};
+
+export const verifyH3 = (expectedText, index = 0) =>
+  cy
+    .get('form h3')
+    .eq(index)
+    .should('exist')
+    .and('be.visible')
+    .and('have.text', expectedText);
+
+// Forms Pattern Single has a nested h3 structure for the header, it's inside the va-radio
+export const verifyFPSH3 = expectedText =>
+  cy
+    .get('va-radio')
+    .shadow()
+    .find('h3')
+    .should('exist')
+    .and('be.visible')
+    .and('have.text', expectedText);
+
+export const verifyFPSDesc = expectedSnippet =>
+  cy
+    .get('va-radio div[slot="form-description"] p')
+    .eq(0)
+    .should('exist')
+    .and('be.visible')
+    .and('contain.text', expectedSnippet);
+
+export const verifyParagraph = (expectedText, index = 0) =>
+  cy
+    .get('p')
+    .eq(index)
+    .should('exist')
+    .and('be.visible')
+    .and('have.text', expectedText);
+
+export const check4142Auth = () => {
+  cy.get('#privacy-agreement')
+    .shadow()
+    .find('div input')
+    .eq(0)
+    .scrollIntoView()
+    .click();
+  clickContinue();
+};
+
+export const verifyArrayBuilderReviewVACard = (
+  index,
+  location,
+  header,
+  subHeader,
+  conditionsCount,
+  conditions,
+  treatmentDate,
+) => {
+  verifyH3(header, 0);
+
+  cy.get('span h4')
+    .eq(0)
+    .should('exist')
+    .and('be.visible')
+    .and('have.text', subHeader);
+
+  cy.get('va-card')
+    .eq(index)
+    .within(() => {
+      cy.get('h3')
+        .should('exist')
+        .and('be.visible')
+        .and('have.text', location);
+
+      if (conditionsCount > 1) {
+        verifyParagraph(`Conditions: ${conditions}`, 0);
+      } else {
+        verifyParagraph(`Condition: ${conditions}`, 0);
+      }
+
+      if (treatmentDate) {
+        cy.get('p')
+          .eq(1)
+          .should('exist')
+          .and('be.visible')
+          .and('contain.text', 'Treatment start date')
+          .and('contain.text', treatmentDate);
+      } else {
+        cy.get('p')
+          .eq(1)
+          .should('exist')
+          .and('be.visible')
+          .and('contain.text', 'Treatment start date')
+          .and('contain.text', '2005 or later');
+      }
+    });
+
+  cy.get('h4')
+    .eq(0)
+    .should('exist')
+    .and('be.visible')
+    .and(
+      'have.text',
+      'Do you want us to request records from another VA provider?',
+    );
+};
+
+export const verifyArrayBuilderReviewPrivateCard = (
+  index,
+  location,
+  header,
+  subHeader,
+  conditionsCount,
+  conditions,
+  treatmentDateRange,
+) => {
+  verifyH3(header, 0);
+
+  cy.get('span h4')
+    .eq(0)
+    .should('exist')
+    .and('be.visible')
+    .and('have.text', subHeader);
+
+  cy.get('va-card')
+    .eq(index)
+    .within(() => {
+      cy.get('h3')
+        .should('exist')
+        .and('be.visible')
+        .and('have.text', location);
+
+      if (conditionsCount > 1) {
+        verifyParagraph(`Conditions: ${conditions}`, 0);
+      } else {
+        verifyParagraph(`Condition: ${conditions}`, 0);
+      }
+
+      cy.get('p')
+        .eq(1)
+        .should('exist')
+        .and('be.visible')
+        .and('contain.text', 'Treatment')
+        .and('contain.text', treatmentDateRange);
+    });
+
+  cy.get('h4')
+    .eq(0)
+    .should('exist')
+    .and('be.visible')
+    .and(
+      'have.text',
+      'Do you want us to request records from another private provider or VA Vet Center?',
+    );
+};
+
+export const checkError = (parentSelector, expectedErrorMessage) =>
+  cy
+    .get(parentSelector)
+    .shadow()
+    .find('.usa-error-message')
+    .should('be.visible')
+    .and('have.text', expectedErrorMessage);
+
+export const checkErrorHandlingWithClass = (
+  parentSelector,
+  expectedErrorMessage,
+) => {
+  clickContinue();
+
+  checkError(parentSelector, expectedErrorMessage);
+};
+
+export const checkErrorHandlingWithId = (
+  parentSelector,
+  expectedErrorMessage,
+) => {
+  clickContinue();
+
+  cy.get(parentSelector)
+    .shadow()
+    .find('#error-message')
+    .should('be.visible')
+    .and('have.text', `Error ${expectedErrorMessage}`);
 };
 
 export const errorItf = () => ({
@@ -378,7 +724,7 @@ export const pageHooks = {
 
   [EVIDENCE_UPLOAD_URL]: () => {
     cy.get('input[type="file"]').upload(
-      path.join(__dirname, '..', 'fixtures/data/example-upload.pdf'),
+      path.join(__dirname, 'fixtures/data/example-upload.pdf'),
       'testing',
     );
 
