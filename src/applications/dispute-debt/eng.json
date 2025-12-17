@@ -86,7 +86,8 @@
       "title": "Debt Dispute",
       "lang": "en-US"
     },
-    "page-title": "Dispute your VA debt",
+    "dmc-page-title": "Debt dispute from VA.gov",
+    "vet-page-title": "Dispute your VA debt",
     "logo-alt": "VA U.S Department of Veteran Affairs",
     "footer": {
       "left": "VA.gov",

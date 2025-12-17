@@ -71,10 +71,10 @@ const generate = async (data = {}, config = defaultConfig) => {
   // * Title Section *
   // =====================================
   const titleSection = doc.struct('Sect', {
-    title: i18nDebtApp.t('pdf.page-title'),
+    title: i18nDebtApp.t('pdf.dmc-page-title'),
   });
   titleSection.add(
-    createHeading(doc, 'H1', config, i18nDebtApp.t('pdf.page-title'), {
+    createHeading(doc, 'H1', config, i18nDebtApp.t('pdf.dmc-page-title'), {
       x: config.margins.left,
       y: doc.y,
     }),

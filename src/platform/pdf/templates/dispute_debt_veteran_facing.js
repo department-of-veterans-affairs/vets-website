@@ -206,7 +206,7 @@ const generate = async (data = {}, config = defaultConfig) => {
   const doc = createAccessibleDoc(
     {
       author: i18nDebtApp.t('pdf.document-meta.author'),
-      subject: i18nDebtApp.t('pdf.document-meta.subject'),
+      subject: i18nDebtApp.t('pdf.document-meta.vet-subject'),
       title: i18nDebtApp.t('pdf.document-meta.title'),
       lang: i18nDebtApp.t('pdf.document-meta.lang'),
     },
@@ -234,10 +234,10 @@ const generate = async (data = {}, config = defaultConfig) => {
   // * Title Section *
   // =====================================
   const titleSection = doc.struct('Sect', {
-    title: i18nDebtApp.t('pdf.page-title'),
+    title: i18nDebtApp.t('pdf.vet-page-title'),
   });
   titleSection.add(
-    createHeading(doc, 'H1', config, i18nDebtApp.t('pdf.page-title'), {
+    createHeading(doc, 'H1', config, i18nDebtApp.t('pdf.vet-page-title'), {
       x: config.margins.left,
       y: config.margins.top,
     }),
