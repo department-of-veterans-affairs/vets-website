@@ -26,20 +26,16 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
       const isLoginModalEntry = params.get('next') === 'loginModal';
 
       if (isLoginModalEntry && !params.has('oauth')) {
+        setOAuth(true);
         params.set('oauth', 'true');
         window.history.replaceState({}, '', url.toString());
+      } else if (isLoginModalEntry && params.has('oauth')) {
+        setOAuth(OAuthEnabled && params.get('oauth') === 'true');
+      } else {
+        setOAuth(OAuthEnabled && OAuth === 'true');
       }
-
-      setOAuth(OAuthEnabled && params.get('oauth') === 'true');
     },
     [OAuthEnabled],
-  );
-
-  useEffect(
-    () => {
-      setOAuth(OAuthEnabled && OAuth === 'true');
-    },
-    [OAuth, OAuthEnabled],
   );
 
   return (
