@@ -196,14 +196,23 @@ const userData = () => {
   };
 };
 
+const mockRatingInfo = {
+  data: {
+    id: '',
+    type: 'lighthouse_rating_info',
+    attributes: {
+      userPercentOfDisability: 70,
+      sourceSystem: 'Lighthouse',
+    },
+  },
+};
+
 const responses = {
   'GET /v0/user': userData(),
   'GET /v0/feature_toggles': {
     data: {
       type: 'feature_toggles',
       features: [
-        { name: 'vaDependentsV2', value: true },
-        { name: 'va_dependents_v2', value: true },
         { name: 'vaDependentsV3', value: true },
         { name: 'va_dependents_v3', value: true },
         { name: 'vaDependentsNetWorthAndPension', value: true },
@@ -224,14 +233,7 @@ const responses = {
   'GET /v0/profile/valid_va_file_number': mockVaFileNumber,
   'GET /v0/in_progress_forms/686C-674-V2': mockSipGet,
   'PUT /v0/in_progress_forms/686C-674-V2': mockSipPut,
-  'GET /v0/disability_compensation_form/rating_info': {
-    // eslint-disable-next-line camelcase
-    disability_decision_type_name: 'Service Connected',
-    // eslint-disable-next-line camelcase
-    service_connected_combined_degree: 90,
-    // eslint-disable-next-line camelcase
-    user_percent_of_disability: 90,
-  },
+  'GET /v0/disability_compensation_form/rating_info': mockRatingInfo,
 
   'GET /v0/dependents_applications/show': mockDependents,
 

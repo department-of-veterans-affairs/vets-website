@@ -244,7 +244,7 @@ const Mileage = () => {
       <VaRadio
         name="tripType"
         value={formState.tripType}
-        label="Was your trip round trip or one way?"
+        label="Was your drive round trip or one way?"
         required
         error={showTripTypeError ? 'Select a trip type' : null}
         onVaValueChange={handleFormChange}

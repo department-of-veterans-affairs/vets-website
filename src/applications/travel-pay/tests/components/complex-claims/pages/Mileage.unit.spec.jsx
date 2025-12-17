@@ -212,7 +212,7 @@ describe('Complex Claims Mileage - Add', () => {
       const tripTypeRadio = $('va-radio[name="tripType"]');
       expect(tripTypeRadio).to.exist;
       expect(tripTypeRadio.getAttribute('label')).to.equal(
-        'Was your trip round trip or one way?',
+        'Was your drive round trip or one way?',
       );
       expect(tripTypeRadio.hasAttribute('required')).to.be.true;
     });

@@ -1,15 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import { isMinimalHeaderApp } from 'platform/forms-system/src/js/patterns/minimal-header';
-import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
 import {
   CHAMPVA_FAX_NUMBER,
   CHAMPVA_ELIGIBILITY_ADDRESS,
 } from '../../../shared/constants';
 import { APP_URLS } from '../../helpers/appUrls';
 
-const NotEnrolledPage = ({ goBack }) => (
+const NotEnrolledPage = () => (
   <form className="rjsf" noValidate>
     {
       titleUI(
@@ -27,9 +24,9 @@ const NotEnrolledPage = ({ goBack }) => (
         text="Find out what supporting documents you need"
       />
     </p>
-    <h3>
+    <h2 className="mobile-lg:vads-u-font-size--h3 vads-u-font-size--h4">
       <strong>Option 1: Online</strong>
-    </h3>
+    </h2>
     <p>You can apply online now.</p>
     <p>
       <va-link-action
@@ -37,9 +34,9 @@ const NotEnrolledPage = ({ goBack }) => (
         text="Apply for CHAMPVA online"
       />
     </p>
-    <h3>
+    <h2 className="mobile-lg:vads-u-font-size--h3 vads-u-font-size--h4">
       <strong>Option 2: By mail or fax</strong>
-    </h3>
+    </h2>
     <p>
       You’ll need to fill out an application for CHAMPVA Benefits (VA Form
       10-10d).
@@ -63,24 +60,7 @@ const NotEnrolledPage = ({ goBack }) => (
         text="Learn about CHAMPVA benefits"
       />
     </p>
-
-    {!isMinimalHeaderApp() && (
-      <div className="row form-progress-buttons schemaform-buttons vads-u-margin-y--2">
-        <div className="small-6 medium-5 columns">
-          <ProgressButton
-            buttonClass="usa-button-secondary"
-            onButtonClick={goBack}
-            buttonText="Back"
-            beforeText="«"
-          />
-        </div>
-      </div>
-    )}
   </form>
 );
-
-NotEnrolledPage.propTypes = {
-  goBack: PropTypes.func,
-};
 
 export default NotEnrolledPage;

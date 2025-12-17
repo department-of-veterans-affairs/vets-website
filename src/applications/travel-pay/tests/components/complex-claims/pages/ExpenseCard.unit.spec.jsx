@@ -102,7 +102,7 @@ describe('ExpenseCard', () => {
     expect(container.textContent).to.include('Washington, DC 20001');
 
     // Trip type
-    expect(getByText('Was your trip round trip or one way?')).to.exist;
+    expect(getByText('Was your drive round trip or one way?')).to.exist;
     expect(container.textContent).to.include('Round trip');
 
     // Edit button
@@ -244,7 +244,7 @@ describe('ExpenseCard', () => {
     expect(container.textContent).to.include('Washington, DC 20001');
 
     // Trip type
-    expect(getByText('Was your trip round trip or one way?')).to.exist;
+    expect(getByText('Was your drive round trip or one way?')).to.exist;
     expect(container.textContent).to.include('Round trip');
 
     // Edit button does not exist

@@ -24,7 +24,7 @@ const ExpenseAirTravelFields = ({ errors = {}, formState, onChange }) => (
     <VaRadio
       name="tripType"
       value={formState.tripType || ''}
-      label="Type of trip"
+      label="Was your flight round trip or one way?"
       onVaValueChange={e => onChange(e.detail, 'tripType')}
       required
       {...errors.tripType && { error: errors.tripType }}

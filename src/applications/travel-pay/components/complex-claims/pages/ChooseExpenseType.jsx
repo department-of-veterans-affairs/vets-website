@@ -75,8 +75,8 @@ const ChooseExpenseType = () => {
       </h1>
       <p>Select 1 expense. You’ll be able to add other expenses later.</p>
       <p className="vads-u-margin-bottom--0">
-        We’ll need to pre-approve any airfare, lodging, or meals before you
-        request reimbursement.
+        We’ll need to pre-approve any lodging or meals before you request
+        reimbursement.
       </p>
       <VaRadio
         label="Select an expense type"

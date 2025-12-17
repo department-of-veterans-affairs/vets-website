@@ -46,11 +46,11 @@ export const getCardDescription = item => {
         {item.certifyingOfficial?.title || 'Title'}
       </p>
       <p data-testid="card-file-number">{item.fileNumber || 'File number'}</p>
-      {item.enrollmentPeriod?.from && (
+      {item.enrollmentPeriodStart && (
         <p data-testid="card-enrollment-period">
-          {formatReviewDate(item.enrollmentPeriod.from)}
-          {item.enrollmentPeriod?.to &&
-            ` - ${formatReviewDate(item.enrollmentPeriod.to)}`}
+          {formatReviewDate(item.enrollmentPeriodStart)}
+          {item.enrollmentPeriodEnd &&
+            ` - ${formatReviewDate(item.enrollmentPeriodEnd)}`}
         </p>
       )}
     </>

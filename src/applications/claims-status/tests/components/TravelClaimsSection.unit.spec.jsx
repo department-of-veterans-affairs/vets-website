@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import * as recordEventModule from '@department-of-veterans-affairs/platform-monitoring/record-event';
+import * as recordEventModule from 'platform/monitoring/record-event';
 
 import TravelClaimsSection from '../../components/TravelClaimsSection';
 

@@ -37,28 +37,36 @@ export const createRatedDisabilityDescriptions = fullData => {
   }, {});
 };
 
-const isNonEmpty = v =>
-  (typeof v === 'string' && v.trim().length > 0) || (v != null && v !== '');
-
 const isNewConditionOption = ratedDisability =>
   ratedDisability === NEW_CONDITION_OPTION;
 
 export const isNewCondition = (formData = {}, index) => {
-  const list = formData?.[ARRAY_PATH];
-  const hasAnyRated =
-    Array.isArray(formData?.ratedDisabilities) &&
-    formData.ratedDisabilities.length > 0;
+  const list = Array.isArray(formData?.[ARRAY_PATH])
+    ? formData[ARRAY_PATH]
+    : [];
 
-  if (!hasAnyRated) return true;
+  const idx = Number(index);
+  const item = list[idx];
 
-  const item = list[index] || {};
+  if (!item) return true;
+
   const rd = item.ratedDisability;
+  const conditionName =
+    typeof item.condition === 'string' ? item.condition.trim() : '';
 
-  if (isNewConditionOption(rd)) return true;
+  if (rd && rd !== NEW_CONDITION_OPTION) {
+    return false;
+  }
 
-  if (isNonEmpty(rd)) return false;
+  if (rd === NEW_CONDITION_OPTION) {
+    return true;
+  }
 
-  return typeof item.condition === 'string' && item.condition.trim().length > 0;
+  if (conditionName) {
+    return true;
+  }
+
+  return true;
 };
 
 export const isRatedDisability = (formData, index) => {
