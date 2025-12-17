@@ -10,7 +10,6 @@ import {
   fillFullNameWebComponentPattern,
   fillTextAreaWebComponent,
   fillTextWebComponent,
-  introductionPageFlow,
   reviewAndSubmitPageFlow,
   selectRelationshipToVeteranPattern,
 } from '../../../shared/tests/e2e/helpers';
@@ -28,7 +27,9 @@ const testConfig = createTestConfig(
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          introductionPageFlow();
+          // This form requires sign-in (hideUnauthedStartLink: true)
+          // so we click the sign-in button instead of the unauthenticated link
+          cy.get('a.vads-c-action-link--green').click();
         });
       },
       [pagePaths.preparerPersonalInfo]: ({ afterHook }) => {
