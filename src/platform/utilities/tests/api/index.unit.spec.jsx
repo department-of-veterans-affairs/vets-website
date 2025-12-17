@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import path from 'path';
 import fs from 'fs';
 import { expect } from 'chai';
@@ -356,6 +357,146 @@ describe('test wrapper', () => {
       await fetchAndUpdateSessionExpiration(environment.BASE_URL, {});
       expect(checkOrSetSessionExpirationMock.callCount).to.equal(0);
       expect(checkAndUpdateSSOSessionMock.callCount).to.equal(0);
+    });
+  });
+
+  describe('proactive token refresh', () => {
+    let infoTokenExistsStub;
+    let getInfoTokenStub;
+    let refreshStub;
+    let clock;
+
+    beforeEach(() => {
+      clock = sinon.useFakeTimers(new Date('2025-01-01T12:00:00Z').getTime());
+      infoTokenExistsStub = sinon.stub(oauthModule, 'infoTokenExists');
+      getInfoTokenStub = sinon.stub(oauthModule, 'getInfoToken');
+      refreshStub = sinon.stub(oauthModule, 'refresh').resolves();
+      sessionStorage.setItem('serviceName', 'idme');
+    });
+
+    afterEach(() => {
+      clock.restore();
+      infoTokenExistsStub.restore();
+      getInfoTokenStub.restore();
+      refreshStub.restore();
+      sessionStorage.removeItem('serviceName');
+      server.resetHandlers();
+    });
+
+    it('should proactively refresh token when expiring within 30 seconds', async () => {
+      // Token expires in 25 seconds
+      const expirationTime = new Date('2025-01-01T12:00:25Z');
+      infoTokenExistsStub.returns(true);
+      getInfoTokenStub.returns({
+        access_token_expiration: expirationTime,
+        refresh_token_expiration: new Date('2025-01-01T12:30:00Z'),
+      });
+
+      server.use(
+        rest.get(/v0\/status/, (req, res, ctx) =>
+          res(ctx.status(200), ctx.json({ status: 'ok' })),
+        ),
+      );
+
+      await apiRequest('/status', {
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      expect(refreshStub.calledOnce).to.be.true;
+      expect(refreshStub.calledWith({ type: 'idme' })).to.be.true;
+    });
+
+    it('should not refresh token when not close to expiring', async () => {
+      // Token expires in 5 minutes
+      const expirationTime = new Date('2025-01-01T12:05:00Z');
+      infoTokenExistsStub.returns(true);
+      getInfoTokenStub.returns({
+        access_token_expiration: expirationTime,
+        refresh_token_expiration: new Date('2025-01-01T12:30:00Z'),
+      });
+
+      server.use(
+        rest.get(/v0\/status/, (req, res, ctx) =>
+          res(ctx.status(200), ctx.json({ status: 'ok' })),
+        ),
+      );
+
+      await apiRequest('/status', {
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      expect(refreshStub.called).to.be.false;
+    });
+
+    it('should not refresh when info token does not exist', async () => {
+      infoTokenExistsStub.returns(false);
+
+      server.use(
+        rest.get(/v0\/status/, (req, res, ctx) =>
+          res(ctx.status(200), ctx.json({ status: 'ok' })),
+        ),
+      );
+
+      await apiRequest('/status', {
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      expect(refreshStub.called).to.be.false;
+    });
+
+    it('should still handle reactive 403 refresh as fallback', async () => {
+      // Token not close to expiring
+      const expirationTime = new Date('2025-01-01T12:05:00Z');
+      infoTokenExistsStub.returns(true);
+      getInfoTokenStub.returns({
+        access_token_expiration: expirationTime,
+        refresh_token_expiration: new Date('2025-01-01T12:30:00Z'),
+      });
+
+      let callCount = 0;
+      server.use(
+        rest.get(/v0\/status/, (req, res, ctx) => {
+          callCount += 1;
+          if (callCount === 1) {
+            // First call returns 403
+            return res(
+              ctx.status(403),
+              ctx.json({ errors: 'Access token has expired' }),
+            );
+          }
+          // Second call (after refresh) returns success
+          return res(ctx.status(200), ctx.json({ status: 'ok' }));
+        }),
+      );
+
+      const response = await apiRequest('/status', {
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      expect(refreshStub.calledOnce).to.be.true;
+      expect(response.status).to.eql('ok');
+    });
+
+    it('should refresh proactively even if token already expired', async () => {
+      // Token expired 5 seconds ago
+      const expirationTime = new Date('2025-01-01T11:59:55Z');
+      infoTokenExistsStub.returns(true);
+      getInfoTokenStub.returns({
+        access_token_expiration: expirationTime,
+        refresh_token_expiration: new Date('2025-01-01T12:30:00Z'),
+      });
+
+      server.use(
+        rest.get(/v0\/status/, (req, res, ctx) =>
+          res(ctx.status(200), ctx.json({ status: 'ok' })),
+        ),
+      );
+
+      await apiRequest('/status', {
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      expect(refreshStub.calledOnce).to.be.true;
     });
   });
 });
