@@ -129,8 +129,7 @@ export const currentDateAddHours = hours => {
 };
 
 /**
- *
- * Current date minus 1 minute and plus 1 hour formated "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+ * Current date minus 1 minute and plus 1 hour formatted "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
  * @example 2025-11-20T19:14:57.282Z
  * @returns {String}
  */
