@@ -77,8 +77,8 @@ import {
   EVIDENCE_PRIVATE_DETAILS_URL,
   LIMITED_CONSENT_DETAILS_URL,
   LIMITED_CONSENT_PROMPT_URL,
-  EVIDENCE_ADDITIONAL_URL,
   EVIDENCE_UPLOAD_URL,
+  EVIDENCE_URLS,
 } from '../constants';
 import { SUBMIT_URL } from '../constants/apis';
 import prefillTransformer from './prefill-transformer';
@@ -341,7 +341,7 @@ const formConfig = {
         // once we replace the upload input with v3)
         uploadPrompt: {
           title: 'Upload new and relevant evidence',
-          path: EVIDENCE_ADDITIONAL_URL,
+          path: EVIDENCE_URLS.uploadPrompt,
           uiSchema: uploadPrompt.uiSchema,
           schema: uploadPrompt.schema,
           scrollAndFocusTarget: focusRadioH3,
