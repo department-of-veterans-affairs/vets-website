@@ -103,7 +103,7 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
       serviceType: 'primaryCare',
       reasonCode: {
         text:
-          'station id: 983|preferred modality: VIDEO|phone number: 1234567890|email: joeblow@gmail.com|preferred dates:05/25/2020 AM,05/26/2020 PM|reason code:ROUTINEVISIT|comments:I need an appt',
+          'station id: 983|preferred modality: VIDEO|phone number: 1234567890|email: joeblow@gmail.com|preferred dates:05/25/2020 AM,05/26/2020 PM|comments:I need an appt',
       },
       requestedPeriods: [
         {
@@ -152,7 +152,7 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
       serviceType: 'primaryCare',
       reasonCode: {
         text:
-          'station id: 983|preferred modality: VIDEO|phone number: 1234567890|email: joeblow@gmail.com|preferred dates:05/25/2020 AM,05/26/2020 PM|reason code:OTHER_REASON|comments:I need an appt',
+          'station id: 983|preferred modality: VIDEO|phone number: 1234567890|email: joeblow@gmail.com|preferred dates:05/25/2020 AM,05/26/2020 PM|comments:I need an appt',
       },
       requestedPeriods: [
         {
@@ -199,7 +199,6 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
       event: 'vaos-request-submission-successful',
       flow: 'va-request',
       'health-TypeOfCare': 'Primary care',
-      'health-ReasonForAppointment': 'routine-follow-up',
       'vaos-preferred-combination': 'afternoon-evening-morning',
       'vaos-number-of-days-from-preference': '1-1-null',
     });
@@ -256,7 +255,6 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
       event: 'vaos-request-submission-failed',
       flow: 'va-request',
       'health-TypeOfCare': 'Primary care',
-      'health-ReasonForAppointment': 'routine-follow-up',
       'vaos-preferred-combination': 'afternoon-evening-morning',
     });
   });

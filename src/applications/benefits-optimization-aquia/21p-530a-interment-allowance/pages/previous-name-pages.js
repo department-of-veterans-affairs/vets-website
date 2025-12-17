@@ -19,12 +19,11 @@ const formatName = name => {
 };
 
 /**
- * Configuration for the veteran's previous names
+ * Configuration for the Veteran's previous names
  */
 /** @type {ArrayBuilderOptions} */
 const previousNameOptions = {
   arrayPath: 'previousNames',
-  hint: '',
   nounSingular: 'previous name',
   nounPlural: 'previous names',
   required: false,
@@ -40,7 +39,7 @@ const previousNameOptions = {
 const previousNamePage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Name the veteran served under',
+      title: 'Name the Veteran served under',
       nounSingular: previousNameOptions.nounSingular,
     }),
     previousName: {
@@ -74,6 +73,8 @@ const previousNameSummaryPage = {
       previousNameOptions,
       {
         title: 'Did the Veteran serve under another name?',
+        hint:
+          'If you answer yes, you’ll need to add at least one previous name on the next screen.',
         labels: {
           Y: 'Yes',
           N: 'No',

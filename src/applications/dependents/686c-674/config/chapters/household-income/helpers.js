@@ -33,6 +33,14 @@ export const whatAreAssets = (
   </>
 );
 
+/**
+ * @typedef {object} StudentNetworthTitleProps
+ * @property {number|string} netWorthLimit - Net worth limit value
+ * @property {boolean} featureFlag - Feature flag for formatted net worth
+ *
+ * @param {StudentNetworthTitleProps} props - Net worth title props
+ * @returns {string} Net worth title
+ */
 export const netWorthTitle = ({ netWorthLimit, featureFlag } = {}) => {
   if (!featureFlag) {
     return `Did your household have a net worth less than $${NETWORTH_VALUE} in the last tax year?`;

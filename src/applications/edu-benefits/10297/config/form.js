@@ -19,7 +19,7 @@ import {
   applicantFullname,
   mailingAddress,
   phoneAndEmail,
-  identificationInformation,
+  // identificationInformation,
   employmentStatus,
   employmentDetails,
   employmentFocus,
@@ -37,6 +37,7 @@ import dateReleasedFromActiveDuty from '../pages/dateReleasedFromActiveDuty';
 import activeDutyStatus from '../pages/activeDutyStatus';
 import createDirectDepositPage from '../pages/DirectDeposit';
 import prefillTransformer from './prefill-transformer';
+import applicantFullnameReviewPage from '../components/ApplicantFullnameReviewPage';
 
 export const submitFormLogic = (form, formConfig) => {
   if (environment.isDev() || environment.isLocalhost()) {
@@ -102,12 +103,7 @@ const formConfig = {
           title: 'Name and date of birth',
           uiSchema: applicantFullname.uiSchema,
           schema: applicantFullname.schema,
-        },
-        identificationInformation: {
-          path: 'identification-information',
-          title: 'Identification information',
-          uiSchema: identificationInformation.uiSchema,
-          schema: identificationInformation.schema,
+          CustomPageReview: applicantFullnameReviewPage,
         },
         mailingAddress: {
           path: 'mailing-address',

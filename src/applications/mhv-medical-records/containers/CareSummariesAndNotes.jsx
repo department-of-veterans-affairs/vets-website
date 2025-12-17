@@ -18,7 +18,6 @@ import useReloadResetListOnUnmount from '../hooks/useReloadResetListOnUnmount';
 import {
   ALERT_TYPE_ERROR,
   DEFAULT_DATE_RANGE,
-  CernerAlertContent,
   accessAlertTypes,
   pageTitles,
   recordType,
@@ -33,8 +32,8 @@ import DateRangeSelector, {
   getDateRangeList,
 } from '../components/shared/DateRangeSelector';
 import AdditionalReportsInfo from '../components/shared/AdditionalReportsInfo';
-import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
+import TrackedSpinner from '../components/shared/TrackedSpinner';
 import { useTrackAction } from '../hooks/useTrackAction';
 import { Actions } from '../util/actionTypes';
 import {
@@ -67,7 +66,7 @@ const CareSummariesAndNotes = () => {
   const activeAlert = useAlerts(dispatch);
   useTrackAction(statsdFrontEndActions.CARE_SUMMARIES_AND_NOTES_LIST);
 
-  const { isAcceleratingCareNotes } = useAcceleratedData();
+  const { isLoading, isAcceleratingCareNotes } = useAcceleratedData();
 
   const dispatchAction = useMemo(
     () => {
@@ -158,10 +157,6 @@ const CareSummariesAndNotes = () => {
         <p>This list doesn’t include care summaries from before 2013.</p>
       )}
 
-      <AcceleratedCernerFacilityAlert
-        {...CernerAlertContent.CARE_SUMMARIES_AND_NOTES}
-      />
-
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
         accessAlertType={accessAlertTypes.CARE_SUMMARIES_AND_NOTES}
@@ -184,18 +179,19 @@ const CareSummariesAndNotes = () => {
             }}
           />
         )}
-        {isLoadingAcceleratedData && (
-          <>
-            <div className="vads-u-margin-y--8">
-              <va-loading-indicator
-                message="We’re loading your records."
-                setFocus
-                data-testid="loading-indicator"
-              />
-            </div>
-          </>
+        {(isLoadingAcceleratedData || isLoading) && (
+          <div className="vads-u-margin-y--8">
+            <TrackedSpinner
+              id="notes-page-spinner"
+              message="We’re loading your records."
+              setFocus
+              data-testid="loading-indicator"
+            />
+          </div>
         )}
-        {!isLoadingAcceleratedData && careSummariesAndNotes?.length ? (
+        {!isLoadingAcceleratedData &&
+        !isLoading &&
+        careSummariesAndNotes?.length ? (
           <RecordList
             records={careSummariesAndNotes}
             domainOptions={{

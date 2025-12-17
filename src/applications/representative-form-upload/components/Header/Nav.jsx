@@ -78,7 +78,7 @@ export const Nav = () => {
               Representation Requests
             </a>
             <a
-              className="nav__btn desktop"
+              className="nav__btn desktop is--active"
               href="/representative/submissions"
               data-testid="desktop-submissions-link"
             >

@@ -8,7 +8,12 @@ import YellowRibbonProgramTitle from '../components/YellowRibbonProgramTitle';
 import DegreeLevelDescription from '../components/DegreeLevelDescription';
 
 const uiSchema = {
-  'ui:title': () => <YellowRibbonProgramTitle text="Provide your" />,
+  'ui:title': () => (
+    <YellowRibbonProgramTitle
+      eligibilityChapter={false}
+      text="Provide your Yellow Ribbon Program contributions"
+    />
+  ),
   'ui:description': () => (
     <>
       <p>

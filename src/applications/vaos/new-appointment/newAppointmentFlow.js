@@ -4,6 +4,7 @@ import {
   selectFeatureOHDirectSchedule,
   selectFeatureOHRequest,
   selectFeaturePCMHI,
+  selectFeatureRemoveFacilityConfigCheck,
   selectFeatureSubstanceUseDisorder,
   selectRegisteredCernerFacilityIds,
 } from '../redux/selectors';
@@ -37,6 +38,7 @@ import {
   startRequestAppointmentFlow,
   updateFacilityType,
   checkCommunityCareEligibility,
+  updateFacilityEhr,
 } from './redux/actions';
 import { startNewVaccineFlow } from '../appointment-list/redux/actions';
 
@@ -88,12 +90,19 @@ async function vaFacilityNext(state, dispatch) {
   const isCerner = isCernerLocation(location?.id, cernerSiteIds);
   const featureOHDirectSchedule = selectFeatureOHDirectSchedule(state);
   const featureOHRequest = selectFeatureOHRequest(state);
+  const featureRemoveFacilityConfigCheck = selectFeatureRemoveFacilityConfigCheck(
+    state,
+  );
+
   const typeOfCareEnabled = OH_ENABLED_TYPES_OF_CARE.includes(
     getTypeOfCare(state.newAppointment.data)?.idV2,
   );
 
+  const ehr = isCerner ? 'cerner' : 'vista';
+  dispatch(updateFacilityEhr(ehr));
+
   if (isCerner) {
-    if (featureOHDirectSchedule && featureOHRequest && typeOfCareEnabled) {
+    if ((featureOHDirectSchedule || featureOHRequest) && typeOfCareEnabled) {
       // Fetch eligibility if we haven't already
       if (!eligibility) {
         const siteId = getSiteIdFromFacilityId(location.id);
@@ -108,7 +117,10 @@ async function vaFacilityNext(state, dispatch) {
         );
       }
 
-      return 'selectProvider';
+      if (featureRemoveFacilityConfigCheck) {
+        if (eligibility.direct === true || eligibility.request === true)
+          return 'selectProvider';
+      } else return 'selectProvider';
     }
     return 'scheduleCerner';
   }

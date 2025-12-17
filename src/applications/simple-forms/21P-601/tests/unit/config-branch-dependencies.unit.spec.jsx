@@ -5,40 +5,6 @@ describe('21P-601 form configuration branch dependencies', () => {
   describe('survivingRelativesChapter dependencies', () => {
     const { survivingRelativesChapter } = formConfig.chapters;
 
-    describe('chapter level dependencies', () => {
-      it('should show chapter when hasAlreadyFiled is false and hasUnpaidCreditors is false', () => {
-        const formData = {
-          hasAlreadyFiled: false,
-          hasUnpaidCreditors: false,
-        };
-        expect(survivingRelativesChapter.depends(formData)).to.be.true;
-      });
-
-      it('should hide chapter when hasAlreadyFiled is true', () => {
-        const formData = {
-          hasAlreadyFiled: true,
-          hasUnpaidCreditors: false,
-        };
-        expect(survivingRelativesChapter.depends(formData)).to.be.false;
-      });
-
-      it('should hide chapter when hasUnpaidCreditors is true', () => {
-        const formData = {
-          hasAlreadyFiled: false,
-          hasUnpaidCreditors: true,
-        };
-        expect(survivingRelativesChapter.depends(formData)).to.be.false;
-      });
-
-      it('should hide chapter when both hasAlreadyFiled and hasUnpaidCreditors are true', () => {
-        const formData = {
-          hasAlreadyFiled: true,
-          hasUnpaidCreditors: true,
-        };
-        expect(survivingRelativesChapter.depends(formData)).to.be.false;
-      });
-    });
-
     describe('relativesSummary page dependencies', () => {
       const { relativesSummary } = survivingRelativesChapter.pages;
 
@@ -104,32 +70,6 @@ describe('21P-601 form configuration branch dependencies', () => {
 
   describe('expensesAndDebtsChapter dependencies', () => {
     const { expensesAndDebtsChapter } = formConfig.chapters;
-
-    describe('chapter level dependencies', () => {
-      it('should show chapter when hasAlreadyFiled is false and hasUnpaidCreditors is false', () => {
-        const formData = {
-          hasAlreadyFiled: false,
-          hasUnpaidCreditors: false,
-        };
-        expect(expensesAndDebtsChapter.depends(formData)).to.be.true;
-      });
-
-      it('should hide chapter when hasAlreadyFiled is true', () => {
-        const formData = {
-          hasAlreadyFiled: true,
-          hasUnpaidCreditors: false,
-        };
-        expect(expensesAndDebtsChapter.depends(formData)).to.be.false;
-      });
-
-      it('should hide chapter when hasUnpaidCreditors is true', () => {
-        const formData = {
-          hasAlreadyFiled: false,
-          hasUnpaidCreditors: true,
-        };
-        expect(expensesAndDebtsChapter.depends(formData)).to.be.false;
-      });
-    });
 
     describe('otherDebts page dependencies', () => {
       const { otherDebts } = expensesAndDebtsChapter.pages;
@@ -262,72 +202,6 @@ describe('21P-601 form configuration branch dependencies', () => {
           .be.false;
       });
     });
-
-    describe('veteranInformationChapter', () => {
-      const { veteranInformationChapter } = formConfig.chapters;
-
-      it('should show when user is eligible', () => {
-        expect(
-          veteranInformationChapter.depends({
-            hasAlreadyFiled: false,
-            hasUnpaidCreditors: false,
-          }),
-        ).to.be.true;
-      });
-
-      it('should hide when user is ineligible', () => {
-        expect(
-          veteranInformationChapter.depends({
-            hasAlreadyFiled: true,
-            hasUnpaidCreditors: false,
-          }),
-        ).to.be.false;
-      });
-    });
-
-    describe('yourInformationChapter', () => {
-      const { yourInformationChapter } = formConfig.chapters;
-
-      it('should show when user is eligible', () => {
-        expect(
-          yourInformationChapter.depends({
-            hasAlreadyFiled: false,
-            hasUnpaidCreditors: false,
-          }),
-        ).to.be.true;
-      });
-
-      it('should hide when user is ineligible', () => {
-        expect(
-          yourInformationChapter.depends({
-            hasAlreadyFiled: false,
-            hasUnpaidCreditors: true,
-          }),
-        ).to.be.false;
-      });
-    });
-
-    describe('additionalInfoChapter', () => {
-      const { additionalInfoChapter } = formConfig.chapters;
-
-      it('should show when user is eligible', () => {
-        expect(
-          additionalInfoChapter.depends({
-            hasAlreadyFiled: false,
-            hasUnpaidCreditors: false,
-          }),
-        ).to.be.true;
-      });
-
-      it('should hide when user is ineligible', () => {
-        expect(
-          additionalInfoChapter.depends({
-            hasAlreadyFiled: true,
-            hasUnpaidCreditors: true,
-          }),
-        ).to.be.false;
-      });
-    });
   });
 
   describe('edge cases and null checks', () => {
@@ -342,13 +216,6 @@ describe('21P-601 form configuration branch dependencies', () => {
         .to.be.false;
       expect(expensesAndDebtsChapter.pages.otherDebts.depends(formData)).to.be
         .false;
-    });
-
-    it('should handle null formData values', () => {
-      const formData = null;
-      const chapterDependsFn = survivingRelativesChapter.depends;
-      // Chapter level depends should handle null
-      expect(() => chapterDependsFn(formData)).to.not.throw();
     });
   });
 });

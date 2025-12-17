@@ -6,7 +6,7 @@
 import { expect } from 'chai';
 import React from 'react';
 import { render } from '@testing-library/react';
-import GetHelp from './get-help';
+import { GetHelp } from './get-help';
 
 describe('GetHelp Component', () => {
   describe('Component Rendering', () => {

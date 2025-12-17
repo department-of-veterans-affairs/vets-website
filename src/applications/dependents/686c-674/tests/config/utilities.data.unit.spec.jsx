@@ -3,7 +3,6 @@ import sinon from 'sinon';
 
 import {
   customFormReplacer,
-  validateName,
   spouseEvidence,
   childEvidence,
   buildSubmissionData,
@@ -43,16 +42,6 @@ describe('Utilities', () => {
     expect(customFormReplacer('phoneNumber', '123-456-7890 blah')).to.be.eq(
       '1234567890',
     );
-  });
-});
-
-describe('validateName', () => {
-  it('should validate the name', () => {
-    const response1 = validateName(
-      { first: false, last: false },
-      { first: 'Bob', last: 'Last' },
-    );
-    expect(response1).to.be.undefined;
   });
 });
 
@@ -525,6 +514,15 @@ describe('showOptionsSelection', () => {
       }),
     ).to.be.false;
   });
+  it('should return false if the feature flag is on and there is an API error', () => {
+    expect(
+      showOptionsSelection({
+        vaDependentsV3: true,
+        dependents: { awarded: [{}] },
+        'view:dependentsApiError': true,
+      }),
+    ).to.be.false;
+  });
 });
 
 describe('hasAwardedDependents', () => {
@@ -834,6 +832,7 @@ describe('transformPicklistToV2', () => {
           endDate: '2020-01-01',
           endOutsideUs: true,
           endCity: 'Paris',
+          endProvince: 'Test',
           endCountry: 'FRA',
         },
       ],
@@ -848,6 +847,7 @@ describe('transformPicklistToV2', () => {
       outsideUsa: true,
       location: {
         city: 'Paris',
+        state: 'Test',
         country: 'FRA',
       },
     });
@@ -883,6 +883,7 @@ describe('transformPicklistToV2', () => {
         outsideUsa: true,
         location: {
           city: 'London',
+          state: '',
           country: 'GBR',
         },
       },
@@ -1312,6 +1313,12 @@ describe('transformPicklistToV2', () => {
     expect(result[dataOptions]).to.deep.equal(v3Result[dataOptions]);
     expect(result['view:selectable686Options']).to.deep.equal(
       v3Result['view:selectable686Options'],
+    );
+    expect(result['view:addDependentOptions']).to.deep.equal(
+      v3Result['view:addDependentOptions'],
+    );
+    expect(result['view:removeDependentOptions']).to.deep.equal(
+      v3Result['view:removeDependentOptions'],
     );
   });
 });
