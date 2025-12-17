@@ -344,11 +344,16 @@ const RefillPrescriptions = () => {
                           } else if (!isOracleHealthPilot) {
                             lastFilledText = 'Not filled yet';
                           }
-                          return `Prescription number: ${
-                            prescription.prescriptionNumber
+                          const descriptionLines = [
+                            `Prescription number: ${prescription.prescriptionNumber}`,
+                          ];
+                          if (lastFilledText) {
+                            descriptionLines.push(lastFilledText);
                           }
-                        ${lastFilledText}
-                        ${prescription.refillRemaining} refills left`;
+                          descriptionLines.push(
+                            `${prescription.refillRemaining} refills left`,
+                          );
+                          return descriptionLines.join('\n');
                         })()}
                       />
                     </div>
