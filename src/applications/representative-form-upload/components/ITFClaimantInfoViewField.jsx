@@ -44,7 +44,7 @@ const ITFClaimantInfoViewField = props => {
   const veteranDisplay = {
     'First name': veteranFullName.first ? veteranFullName.first : '',
     'Last name': veteranFullName.last ? veteranFullName.last : '',
-    'Social Security Number': veteranSsn ? mask(veteranSsn) : '',
+    'Social Security number': veteranSsn ? mask(veteranSsn) : '',
     'Date of birth': formatDate(veteranDateOfBirth),
     'VA file number': vaFileNumber ? maskVaFileNumber(vaFileNumber) : '',
     'Select the benefit you intend to file a claim for': formatBenefitType(
@@ -56,7 +56,7 @@ const ITFClaimantInfoViewField = props => {
     ? {
         'First name': claimantFullName.first,
         'Last name': claimantFullName.last,
-        'Social Security Number': claimantSsn ? mask(claimantSsn) : '',
+        'Social Security number': claimantSsn ? mask(claimantSsn) : '',
         'Date of birth': formatDate(claimantDateOfBirth),
       }
     : veteranDisplay;
