@@ -3,9 +3,10 @@ import {
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { healthInsurancePageTitleUI } from '../../utils/titles';
+import content from '../../locales/en/content.json';
 
-const TITLE_TEXT = 'Type of insurance for %s';
-const INPUT_LABEL = 'Is this insurance through the beneficiary’s employer?';
+const TITLE_TEXT = content['health-insurance--employer-title'];
+const INPUT_LABEL = content['health-insurance--employer-label'];
 
 export default {
   uiSchema: {

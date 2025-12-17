@@ -66,7 +66,7 @@ export default function CancelPageLayout() {
   );
 
   const heading = getHeading(appointment);
-  const { reasonForAppointment, patientComments } = appointment || {};
+  const { patientComments } = appointment || {};
   const facilityId = locationId;
 
   return (
@@ -182,12 +182,7 @@ export default function CancelPageLayout() {
           />
         </Where>
       )}
-      <Details
-        reason={reasonForAppointment}
-        otherDetails={patientComments}
-        level={3}
-        isCerner={isCerner}
-      />
+      <Details otherDetails={patientComments} level={3} isCerner={isCerner} />
     </>
   );
 }
