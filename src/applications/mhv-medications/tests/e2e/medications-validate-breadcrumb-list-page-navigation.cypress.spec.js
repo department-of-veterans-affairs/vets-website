@@ -34,11 +34,5 @@ describe('Medications Breadcrumb Navigation To List Page', () => {
       20,
       listLength,
     );
-    // site.verifyPaginationPrescriptionsDisplayed(11, 20, listLength);
-    // listPage.verifyNavigationToListPageTwoAfterClickingBreadcrumbMedications(
-    //   11,
-    //   20,
-    //   listLength,
-    // );
   });
 });
