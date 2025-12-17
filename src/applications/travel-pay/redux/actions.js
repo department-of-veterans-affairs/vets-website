@@ -4,6 +4,7 @@ import {
   transformVAOSAppointment,
   calculateIsOutOfBounds,
 } from '../util/appointment-helpers';
+import { stripTZOffset } from '../util/dates';
 import { EXPENSE_TYPE_KEYS } from '../constants';
 
 export const FETCH_TRAVEL_CLAIMS_STARTED = 'FETCH_TRAVEL_CLAIMS_STARTED';
@@ -15,6 +16,12 @@ export const FETCH_CLAIM_DETAILS_FAILURE = 'FETCH_CLAIM_DETAILS_FAILURE';
 export const FETCH_APPOINTMENT_STARTED = 'FETCH_APPOINTMENT_STARTED';
 export const FETCH_APPOINTMENT_SUCCESS = 'FETCH_APPOINTMENT_SUCCESS';
 export const FETCH_APPOINTMENT_FAILURE = 'FETCH_APPOINTMENT_FAILURE';
+export const FETCH_APPOINTMENT_BY_DATE_STARTED =
+  'FETCH_APPOINTMENT_BY_DATE_STARTED';
+export const FETCH_APPOINTMENT_BY_DATE_SUCCESS =
+  'FETCH_APPOINTMENT_BY_DATE_SUCCESS';
+export const FETCH_APPOINTMENT_BY_DATE_FAILURE =
+  'FETCH_APPOINTMENT_BY_DATE_FAILURE';
 export const SUBMIT_CLAIM_STARTED = 'SUBMIT_CLAIM_STARTED';
 export const SUBMIT_CLAIM_SUCCESS = 'SUBMIT_CLAIM_SUCCESS';
 export const SUBMIT_CLAIM_FAILURE = 'SUBMIT_CLAIM_FAILURE';
@@ -42,12 +49,20 @@ export const DELETE_EXPENSE_DELETE_DOCUMENT_SUCCESS =
   'DELETE_EXPENSE_DELETE_DOCUMENT_SUCCESS';
 export const DELETE_EXPENSE_DELETE_DOCUMENT_FAILURE =
   'DELETE_EXPENSE_DELETE_DOCUMENT_FAILURE';
+export const UPDATE_EXPENSE_DELETE_DOCUMENT_STARTED =
+  'UPDATE_EXPENSE_DELETE_DOCUMENT_STARTED';
+export const UPDATE_EXPENSE_DELETE_DOCUMENT_SUCCESS =
+  'UPDATE_EXPENSE_DELETE_DOCUMENT_SUCCESS';
+export const UPDATE_EXPENSE_DELETE_DOCUMENT_FAILURE =
+  'UPDATE_EXPENSE_DELETE_DOCUMENT_FAILURE';
 export const FETCH_COMPLEX_CLAIM_DETAILS_STARTED =
   'FETCH_COMPLEX_CLAIM_DETAILS_STARTED';
 export const FETCH_COMPLEX_CLAIM_DETAILS_SUCCESS =
   'FETCH_COMPLEX_CLAIM_DETAILS_SUCCESS';
 export const FETCH_COMPLEX_CLAIM_DETAILS_FAILURE =
   'FETCH_COMPLEX_CLAIM_DETAILS_FAILURE';
+export const SET_UNSAVED_EXPENSE_CHANGES = 'SET_UNSAVED_EXPENSE_CHANGES';
+export const CLEAR_UNSAVED_EXPENSE_CHANGES = 'CLEAR_UNSAVED_EXPENSE_CHANGES';
 export const SET_REVIEW_PAGE_ALERT = 'SET_REVIEW_PAGE_ALERT';
 export const CLEAR_REVIEW_PAGE_ALERT = 'CLEAR_REVIEW_PAGE_ALERT';
 
@@ -150,7 +165,74 @@ export function getAppointmentData(apptId) {
       );
       dispatch(fetchAppointmentSuccess(appointmentData));
     } catch (error) {
-      dispatch(fetchAppointmentFailure(error));
+      dispatch(fetchAppointmentFailure(error?.toString() ?? ''));
+    }
+  };
+}
+
+// VAOS appointment info by date time
+const fetchAppointmentByDateStart = () => ({
+  type: FETCH_APPOINTMENT_BY_DATE_STARTED,
+});
+const fetchAppointmentByDateSuccess = data => ({
+  type: FETCH_APPOINTMENT_BY_DATE_SUCCESS,
+  payload: data,
+});
+const fetchAppointmentByDateFailure = error => ({
+  type: FETCH_APPOINTMENT_BY_DATE_FAILURE,
+  error,
+});
+
+// This action is intended to take the only appointment date time we
+// get (in local time) from the GET claim details call and use it call
+// GET appointments (takes start/end bounds in UTC) and find the
+// appointment correlated with the claim by `localStartTime` comparison
+export function getAppointmentDataByDateTime(targetDateTime) {
+  return async dispatch => {
+    const strippedTargetDateTime = stripTZOffset(targetDateTime);
+
+    dispatch(fetchAppointmentByDateStart());
+    try {
+      // Create ±12 hour window to cover US states and territories
+      const TWELVE_HOURS_MILLISECONDS = 12 * 60 * 60 * 1000;
+      const targetDate = new Date(stripTZOffset(strippedTargetDateTime));
+      const startDate = new Date(
+        targetDate.getTime() - TWELVE_HOURS_MILLISECONDS,
+      );
+      const endDate = new Date(
+        targetDate.getTime() + TWELVE_HOURS_MILLISECONDS,
+      );
+
+      const apptUrl = `${
+        environment.API_URL
+      }/vaos/v2/appointments?start=${startDate.toISOString()}&end=${endDate.toISOString()}&_include=facilities,travel_pay_claims`;
+      const response = await apiRequest(apptUrl);
+
+      const appointments = response.data || [];
+      if (appointments.length === 0) {
+        throw new Error(
+          'getAppointmentDataByDateTime: No appointments found in date range',
+        );
+      }
+
+      const matchingAppointment = appointments.find(
+        appt =>
+          stripTZOffset(appt.attributes.localStartTime) ===
+          strippedTargetDateTime,
+      );
+
+      if (!matchingAppointment) {
+        throw new Error(
+          'getAppointmentDataByDateTime: No appointment found with matching localStartTime',
+        );
+      }
+
+      const appointmentData = transformVAOSAppointment(
+        matchingAppointment.attributes,
+      );
+      dispatch(fetchAppointmentByDateSuccess(appointmentData));
+    } catch (error) {
+      dispatch(fetchAppointmentByDateFailure(error?.toString() ?? ''));
     }
   };
 }
@@ -286,6 +368,17 @@ export function getComplexClaimDetails(claimId) {
     }
   };
 }
+
+// Set unsaved expense changes flag
+export const setUnsavedExpenseChanges = hasChanges => ({
+  type: SET_UNSAVED_EXPENSE_CHANGES,
+  payload: hasChanges,
+});
+
+// Clear unsaved expense changes flag
+export const clearUnsavedExpenseChanges = () => ({
+  type: CLEAR_UNSAVED_EXPENSE_CHANGES,
+});
 
 // Updating an expense
 const updateExpenseStart = expenseId => ({
@@ -508,6 +601,77 @@ export function deleteDocument(claimId, documentId) {
     } catch (error) {
       dispatch(deleteDocumentFailure(error, documentId));
       throw error;
+    }
+  };
+}
+
+export function updateExpenseDeleteDocument(
+  claimId,
+  documentId,
+  expenseType,
+  expenseId,
+  expenseData,
+) {
+  return async dispatch => {
+    dispatch(updateExpenseStart(expenseId));
+
+    try {
+      if (!expenseType) {
+        throw new Error('Missing expense type');
+      } else if (!expenseId) {
+        throw new Error('Missing expense id');
+      }
+
+      const updateExpenseOptions = {
+        method: 'PATCH',
+        body: JSON.stringify(expenseData),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      };
+
+      const expenseUrl = `${
+        environment.API_URL
+      }/travel_pay/v0/expenses/${expenseType}/${expenseId}`;
+      await apiRequest(expenseUrl, updateExpenseOptions);
+      const result = { ...expenseData, id: expenseId };
+
+      // Dispatch success only after claim details are fetched
+      dispatch(updateExpenseSuccess(result));
+    } catch (error) {
+      dispatch(updateExpenseFailure(error, expenseId));
+      throw error;
+    }
+
+    try {
+      dispatch(deleteDocumentStart(documentId));
+
+      if (!documentId) {
+        throw new Error('Missing document id');
+      }
+
+      const deleteDocumentOptions = {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      };
+
+      const documentUrl = `${
+        environment.API_URL
+      }/travel_pay/v0/claims/${claimId}/documents/${documentId}`;
+      await apiRequest(documentUrl, deleteDocumentOptions);
+      dispatch(deleteDocumentSuccess(documentId));
+    } catch (error) {
+      dispatch(deleteDocumentFailure(error, documentId));
+      throw error;
+    }
+
+    // Fetch the complete complex claim details and load expenses into store
+    try {
+      await dispatch(getComplexClaimDetails(claimId));
+    } catch (fetchError) {
+      // Silently continue if fetching details fails
     }
   };
 }
