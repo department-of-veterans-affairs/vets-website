@@ -28,6 +28,10 @@ const isTokenAboutToExpire = () => {
   if (!infoToken?.access_token_expiration) return false;
 
   const expirationTime = new Date(infoToken.access_token_expiration).getTime();
+
+  // Handle invalid dates
+  if (Number.isNaN(expirationTime)) return false;
+
   const currentTime = Date.now();
   const thirtySeconds = 30 * 1000; // 30 seconds in milliseconds
 
@@ -39,8 +43,12 @@ const retryOn = async (attempt, error, response) => {
 
   // Proactively refresh token if it's about to expire (within 30 seconds)
   if (attempt === 0 && isTokenAboutToExpire()) {
-    await refresh({ type: sessionStorage.getItem('serviceName') });
-    return true;
+    const serviceName = sessionStorage.getItem('serviceName');
+    // Only attempt refresh if we have a service name
+    if (serviceName) {
+      await refresh({ type: serviceName });
+      return true;
+    }
   }
 
   if (response.status === 403) {

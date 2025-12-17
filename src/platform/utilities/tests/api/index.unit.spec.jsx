@@ -498,5 +498,28 @@ describe('test wrapper', () => {
 
       expect(refreshStub.calledOnce).to.be.true;
     });
+
+    it('should not refresh if serviceName is missing', async () => {
+      // Token expires in 25 seconds but no serviceName
+      const expirationTime = new Date('2025-01-01T12:00:25Z');
+      infoTokenExistsStub.returns(true);
+      getInfoTokenStub.returns({
+        access_token_expiration: expirationTime,
+        refresh_token_expiration: new Date('2025-01-01T12:30:00Z'),
+      });
+      sessionStorage.removeItem('serviceName');
+
+      server.use(
+        rest.get(/v0\/status/, (req, res, ctx) =>
+          res(ctx.status(200), ctx.json({ status: 'ok' })),
+        ),
+      );
+
+      await apiRequest('/status', {
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      expect(refreshStub.called).to.be.false;
+    });
   });
 });
