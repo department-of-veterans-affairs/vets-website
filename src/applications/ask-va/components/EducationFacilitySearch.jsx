@@ -101,11 +101,7 @@ const EducationFacilitySearch = ({ onChange }) => {
   );
 };
 
-function mapStateToProps(state) {
-  return {
-    usersLocation: state.askVA.searchLocationInput,
-  };
-}
+function mapStateToProps() {}
 
 EducationFacilitySearch.propTypes = {
   onChange: PropTypes.func,
