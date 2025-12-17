@@ -45,13 +45,10 @@ class CareSummaryAndNotes {
   };
 
   checkInfoAlert = () => {
-    // OH user, in the "accelerated" feature toggle group should see blue alert
-    cy.get('[data-testid="cerner-facilities-info-alert"]').should('be.visible');
-    cy.get('[data-testid="cerner-facilities-info-alert"]').click({
-      waitForAnimations: true,
-    });
-    cy.get('[data-testid="cerner-facility-info-text"]').should('be.visible');
-    cy.get('[data-testid="cerner-info-alert-link"]').should('be.visible');
+    // Alert removed from Care Summaries page — assert it does not render
+    cy.get('body')
+      .find('[data-testid="cerner-facilities-info-alert"]')
+      .should('not.exist');
   };
 
   checkTimeFrameDisplay = ({ fromDate, toDate }) => {
