@@ -7,9 +7,9 @@ set -e  # Exit on error
 
 echo "Running postinstall scripts for trusted packages..."
 
-# Rebuild node-sass native bindings
-echo "→ Rebuilding node-sass..."
-node node_modules/node-sass/scripts/install.js
+# Rebuild sass native bindings for Node 22 compatibility
+echo "→ Rebuilding sass..."
+npm rebuild sass
 
 # Run postinstall scripts for ES5 transpiled packages (required by Bot Framework)
 echo "→ Running postinstall for p-defer-es5..."
