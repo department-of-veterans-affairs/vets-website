@@ -4,41 +4,42 @@
       "id": "vba_349b",
       "type": "facility",
       "attributes": {
-        "uniqueId": "vba_349b",
-        "stationId": "vba_349b",
-        "facilityId": "vba_349b",
-        "name": "Austin VA Clinic",
-        "phone": "555-555-5555",
-        "lat": 30.268072,
-        "long": -97.742805,
-        "classification": "VA Clinic",
-        "value": "vba_349b",
+        "classification": "Satellite Office",
+        "facilityType": "va_benefits_facility",
+        "name": "VA Regional Benefit Satellite Office at Austin VA Clinic",
+        "lat": 30.205656,
+        "long": -97.6903515,
         "operatingStatus": {
           "code": "NORMAL"
         },
+        "phone": {
+          "main": "800-827-1000"
+        },
         "address": {
-          "state": "TX",
-          "zip": "78701",
-          "city": "Austin",
-          "line": ["700 W 7th St"]
+          "physical": {
+            "address1": "7901 Metropolis Drive",
+            "city": "Austin",
+            "state": "TX",
+            "zip": "78744"
+          }
         }
       }
     }
   ],
-    "meta": {
-        "pagination": {
-            "currentPage": 1,
-            "prevPage": null,
-            "nextPage": null,
-            "totalPages": 1,
+  "meta": {
+    "pagination": {
+      "currentPage": 1,
+      "prevPage": null,
+      "nextPage": null,
+      "totalPages": 1,
       "totalEntries": 1
-        }
-    },
-    "links": {
-        "self": "https://staging-api.va.gov/ask_va_api/v0/health_facilities?lat=30.268072&long=-97.742805&page=1&per_page=10&radius=50&type=health",
-        "first": "https://staging-api.va.gov/ask_va_api/v0/health_facilities?lat=30.268072&long=-97.742805&per_page=10&radius=50&type=health",
-        "prev": null,
-        "next": null,
-        "last": "https://staging-api.va.gov/ask_va_api/v0/health_facilities?lat=30.268072&long=-97.742805&page=1&per_page=10&radius=50&type=health"
     }
+  },
+  "links": {
+    "self": "https://staging-api.va.gov/ask_va_api/v0/health_facilities?lat=30.205656&long=-97.6903515&page=1&per_page=10&radius=50&type=health",
+    "first": "https://staging-api.va.gov/ask_va_api/v0/health_facilities?lat=30.205656&long=-97.6903515&per_page=10&radius=50&type=health",
+    "prev": null,
+    "next": null,
+    "last": "https://staging-api.va.gov/ask_va_api/v0/health_facilities?lat=30.205656&long=-97.6903515&page=1&per_page=10&radius=50&type=health"
+  }
 }
