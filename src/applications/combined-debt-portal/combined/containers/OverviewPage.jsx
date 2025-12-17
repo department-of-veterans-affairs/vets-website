@@ -21,6 +21,7 @@ import {
 } from '../utils/balance-helpers';
 import { GenericDisasterAlert } from '../components/DisasterAlert';
 import useHeaderPageTitle from '../hooks/useHeaderPageTitle';
+import { getTestOverrides } from '../utils/test-overrides';
 
 const OverviewPage = () => {
   const title = 'Overpayments and copay bills';
@@ -35,17 +36,26 @@ const OverviewPage = () => {
   );
 
   // Get errors
-  const billError = mcp.error;
-  const debtError = debtLetters.errors?.length > 0;
-  const bothError = billError && debtError;
+  let billError = mcp.error;
+  let debtError = debtLetters.errors?.length > 0;
+
+  // Apply local test overrides from URL when present
+  const overrides = getTestOverrides();
+  if (overrides.mcpError !== undefined) billError = overrides.mcpError;
+  if (overrides.debtError !== undefined) debtError = overrides.debtError;
+
+  // Show an error when debts errored (but not when only bills errored)
+  let debtOnlyError = debtError && !billError;
+  if (overrides.debtOnly !== undefined) debtOnlyError = overrides.debtOnly;
 
   // get totals
   const { debts } = debtLetters;
   const totalDebts = calculateTotalDebts(debts);
   const bills = mcp.statements;
   const totalBills = calculateTotalBills(bills);
-  const bothZero =
+  let bothZero =
     totalDebts === 0 && totalBills === 0 && !billError && !debtError;
+  if (overrides.bothZero !== undefined) bothZero = overrides.bothZero;
 
   // feature toggle stuff for One VA Debt Letter flag
   const {
@@ -91,9 +101,9 @@ const OverviewPage = () => {
           request financial help.
         </p>
         <GenericDisasterAlert />
-        {bothError || bothZero ? (
+        {debtOnlyError || bothZero ? (
           <ComboAlerts
-            alertType={bothError ? ALERT_TYPES.ERROR : ALERT_TYPES.ZERO}
+            alertType={debtOnlyError ? ALERT_TYPES.ERROR : ALERT_TYPES.ZERO}
           />
         ) : (
           <>
