@@ -1,21 +1,39 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import { getNextPagePath } from 'platform/forms-system/src/js/routing';
+import { getIntroState } from 'platform/forms/exportsFile';
 import { fetchClaimantInfo } from '../actions';
 import { selectMeb1995Reroute } from '../selectors/featureToggles';
-import { getIntroState } from 'platform/forms/exportsFile';
 
 export const IntroductionPageRedirect = ({ route }) => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const rerouteFlag = useSelector(selectMeb1995Reroute);
-  const { user } = useSelector(state => getIntroState(state));
+  const { user, formId, formData } = useSelector(state => getIntroState(state));
+
+  const savedForm = useMemo(
+    () => user?.profile?.savedForms?.find(f => f.form === formId),
+    [user?.profile?.savedForms, formId],
+  );
 
   useEffect(() => {
     focusElement('.va-nav-breadcrumbs-list');
   }, []);
+
+  const handleStartQuestionnaire = useCallback(
+    () => {
+      const data = formData || {};
+      const startingPath = route.pageList[0]?.path;
+      const startPage = getNextPagePath(route.pageList, data, startingPath);
+      history.push(startPage);
+    },
+    [formData, route.pageList, history],
+  );
 
   const renderSaveInProgressIntro = useCallback(
     buttonOnly => (
@@ -27,10 +45,7 @@ export const IntroductionPageRedirect = ({ route }) => {
         unauthStartText="Sign in to get started"
       />
     ),
-    [
-      route.formConfig.savedFormMessages,
-      route.pageList,
-    ],
+    [route.formConfig.savedFormMessages, route.pageList],
   );
 
   useEffect(
@@ -69,18 +84,42 @@ export const IntroductionPageRedirect = ({ route }) => {
 
       {user?.login?.currentlyLoggedIn ? (
         <>
-          <div className="vads-u-margin-y--4">
-            {renderSaveInProgressIntro(true)}
-          </div>
-          <div className="vads-u-margin-y--4">
-            <va-alert status="info" visible uswds>
-              <h3 slot="headline">We’ve prefilled some of your information</h3>
-              <p className="vads-u-margin-y--0">
-                Since you’re signed in, we can prefill part of your questionnaire
-                based on your profile details.
-              </p>
-            </va-alert>
-          </div>
+          {!savedForm ? (
+            <>
+              <div className="vads-u-margin-y--4">
+                {renderSaveInProgressIntro(false)}
+              </div>
+              <va-alert status="info" visible uswds>
+                <h3 slot="headline">
+                  We’ve prefilled some of your information
+                </h3>
+                <p className="vads-u-margin-y--0">
+                  Since you’re signed in, we can prefill part of your
+                  questionnaire based on your profile details.
+                </p>
+              </va-alert>
+            </>
+          ) : (
+            <div className="vads-u-margin-y--4">
+              <va-link-action
+                href="#start"
+                onClick={event => {
+                  event.preventDefault();
+                  handleStartQuestionnaire();
+                }}
+                text="Start your questionnaire"
+              />
+              <va-alert status="info" visible uswds>
+                <h3 slot="headline">
+                  We’ve prefilled some of your information
+                </h3>
+                <p className="vads-u-margin-y--0">
+                  Since you’re signed in, we can prefill part of your
+                  questionnaire based on your profile details.
+                </p>
+              </va-alert>
+            </div>
+          )}
         </>
       ) : (
         <div className="vads-u-margin-y--4">
