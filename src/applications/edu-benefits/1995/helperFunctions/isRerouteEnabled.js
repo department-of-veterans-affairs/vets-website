@@ -3,7 +3,7 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 
 export const isRerouteEnabled = state => {
   const flagFromStore = toggleValues(state)?.[
-    FEATURE_FLAG_NAMES.meb1995ReRoute
+    FEATURE_FLAG_NAMES.meb1995Reroute
   ];
   if (typeof flagFromStore === 'boolean') {
     return flagFromStore;
