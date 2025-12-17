@@ -134,7 +134,11 @@ class PersonalInformationPage {
     );
 
     cy.get(Locators.SIGNATURE.REMOVE_BTN).click();
-    cy.get(Locators.SIGNATURE.ALERTS.CONFIRM_REMOVE_BTN).click();
+    cy.get(Locators.SIGNATURE.ALERTS.MODAL)
+      .shadow()
+      .find('va-button')
+      .first()
+      .click();
   };
 }
 

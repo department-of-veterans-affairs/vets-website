@@ -20,13 +20,13 @@ import {
   CustomAlertPage,
   ITFBenefitTypes,
 } from './helpers';
-import ClaimantInfoViewField from '../components/ClaimantInfoViewField';
+import ITFClaimantInfoViewField from '../components/ITFClaimantInfoViewField';
 
 /** @type {PageSchema} */
 export const itfVeteranInformationPage = {
   uiSchema: {
     ...ITFClaimantTitleAndDescription,
-    'ui:objectViewField': ClaimantInfoViewField,
+    'ui:objectViewField': ITFClaimantInfoViewField,
     veteranFullName: firstNameLastNameNoSuffixUI(),
     address: addressUI({
       omit: [

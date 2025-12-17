@@ -108,6 +108,7 @@ export const Locators = {
     'recent-care-teams-continue-button',
   COMPOSE_RECIPIENT_TITLE: 'compose-recipient-title',
   COMPOSE_CATEGORY_DROPDOWN: 'compose-message-categories',
+  LOCKED_CATEGORY_DISPLAY: 'locked-category-display',
   INTERSTITIAL_CONTINUE_BUTTON: 'continue-button',
   FOLDERS: {
     FOLDER_NAME: '[label="Folder name"]',

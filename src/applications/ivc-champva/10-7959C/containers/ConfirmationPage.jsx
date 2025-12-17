@@ -14,7 +14,7 @@ import ConfirmationScreenView from '../components/ConfirmationPage/ConfirmationS
 import ConfirmationPrintView from '../components/ConfirmationPage/ConfirmationPrintView';
 
 const heading = (
-  <va-alert status="success" className="vads-u-margin-bottom--4">
+  <va-alert status="success" class="vads-u-margin-bottom--4">
     <h2>
       You’ve submitted your CHAMPVA Other Health Insurance Certification form
     </h2>
@@ -23,7 +23,7 @@ const heading = (
 
 const requiredWarningHeading = (
   <>
-    <va-alert status="warning" className="vads-u-margin-bottom--4">
+    <va-alert status="warning" class="vads-u-margin-bottom--4">
       <h2>
         You’ve submitted your CHAMPVA Other Health Insurance Certification form
         without required documents

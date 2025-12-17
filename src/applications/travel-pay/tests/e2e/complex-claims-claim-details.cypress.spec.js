@@ -90,7 +90,7 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
       );
     });
 
-    it('displays "Complete and file your claim" link for Incomplete status', () => {
+    it('displays "Complete and file your claim in BTSSS" link for Incomplete status when claim started in BTSSS', () => {
       cy.intercept('GET', '/travel_pay/v0/claims/*', {
         claimId: '73611905-71bf-46ed-b1ec-e790593b8565',
         claimNumber: 'TC0000000000001',
@@ -105,23 +105,26 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
           appointmentDateTime: '2024-01-01T16:45:34.465Z',
         },
         documents: [],
+        claimSource: 'Api',
+        expenses: [],
       });
 
       cy.visit(`${rootUrl}/claims/73611905-71bf-46ed-b1ec-e790593b8565`);
 
       // Should show the complete and file link
-      // Uses appointment ID from ApiInitializer.happyPath() (167322)
-      cy.get('va-link-action[text="Complete and file your claim"]').should(
+      cy.get('va-link[text="Complete and file your claim in BTSSS"]').should(
         'be.visible',
       );
-      cy.get('va-link-action[text="Complete and file your claim"]').should(
-        'have.attr',
-        'href',
-        '/my-health/travel-pay/file-new-claim/167322',
-      );
+      cy.get('va-link[text="Complete and file your claim in BTSSS"]')
+        .should(
+          'have.attr',
+          'href',
+          'https://dvagov-btsss.dynamics365portals.us/',
+        )
+        .should('have.attr', 'external');
     });
 
-    it('displays "Complete and file your claim" link for Saved status', () => {
+    it('displays "Complete and file your claim in BTSSS" link for Saved status when claim started in BTSSS', () => {
       cy.intercept('GET', '/travel_pay/v0/claims/*', {
         claimId: '73611905-71bf-46ed-b1ec-e790593b8565',
         claimNumber: 'TC0000000000001',
@@ -136,23 +139,106 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
           appointmentDateTime: '2024-01-01T16:45:34.465Z',
         },
         documents: [],
+        claimSource: 'Api',
+        expenses: [],
       });
 
       cy.visit(`${rootUrl}/claims/73611905-71bf-46ed-b1ec-e790593b8565`);
 
       // Should show the complete and file link
-      // Uses appointment ID from ApiInitializer.happyPath() (167322)
-      cy.get('va-link-action[text="Complete and file your claim"]').should(
+      cy.get('va-link[text="Complete and file your claim in BTSSS"]').should(
         'be.visible',
       );
-      cy.get('va-link-action[text="Complete and file your claim"]').should(
-        'have.attr',
-        'href',
-        '/my-health/travel-pay/file-new-claim/167322',
-      );
+      cy.get('va-link[text="Complete and file your claim in BTSSS"]')
+        .should(
+          'have.attr',
+          'href',
+          'https://dvagov-btsss.dynamics365portals.us/',
+        )
+        .should('have.attr', 'external');
     });
 
-    it('does not display "Complete and file your claim" link for other statuses', () => {
+    it('displays "Complete and file your claim in BTSSS" link for Saved status when there are unassociated docs', () => {
+      cy.intercept('GET', '/travel_pay/v0/claims/*', {
+        claimId: '73611905-71bf-46ed-b1ec-e790593b8565',
+        claimNumber: 'TC0000000000001',
+        claimStatus: 'Saved',
+        appointmentDate: '2024-01-01T16:45:34.465Z',
+        facilityName: 'Cheyenne VA Medical Center',
+        totalCostRequested: 20.0,
+        reimbursementAmount: 0,
+        createdOn: '2025-03-12T20:27:14.088Z',
+        modifiedOn: '2025-03-12T20:27:14.088Z',
+        appointment: { id: '73611905-71bf-46ed-b1ec-e790593b8565' },
+        documents: [
+          {
+            documentId: 'doc-unassociated-123',
+            filename: 'receipt.pdf',
+            mimetype: 'application/pdf',
+            createdon: '2025-03-12T20:27:14.088Z',
+            // No expenseId, doc is unassociated
+          },
+        ],
+        claimSource: 'VaGov',
+        expenses: [],
+      });
+
+      cy.visit(`${rootUrl}/claims/73611905-71bf-46ed-b1ec-e790593b8565`);
+
+      // Should show the complete and file link even though started on VaGov
+      cy.get('va-link[text="Complete and file your claim in BTSSS"]').should(
+        'be.visible',
+      );
+      cy.get('va-link[text="Complete and file your claim in BTSSS"]')
+        .should(
+          'have.attr',
+          'href',
+          'https://dvagov-btsss.dynamics365portals.us/',
+        )
+        .should('have.attr', 'external');
+    });
+
+    it('displays "Complete and file your claim in BTSSS" link for Incomplete status when there are unassociated docs', () => {
+      cy.intercept('GET', '/travel_pay/v0/claims/*', {
+        claimId: '73611905-71bf-46ed-b1ec-e790593b8565',
+        claimNumber: 'TC0000000000001',
+        claimStatus: 'Incomplete',
+        appointmentDate: '2024-01-01T16:45:34.465Z',
+        facilityName: 'Cheyenne VA Medical Center',
+        totalCostRequested: 0,
+        reimbursementAmount: 0,
+        createdOn: '2025-03-12T20:27:14.088Z',
+        modifiedOn: '2025-03-12T20:27:14.088Z',
+        appointment: { id: '73611905-71bf-46ed-b1ec-e790593b8565' },
+        documents: [
+          {
+            documentId: 'doc-orphan-456',
+            filename: 'parking-receipt.jpg',
+            mimetype: 'image/jpeg',
+            createdon: '2025-03-12T20:27:14.088Z',
+            // No expenseId, doc is unassociated
+          },
+        ],
+        claimSource: 'VaGov',
+        expenses: [],
+      });
+
+      cy.visit(`${rootUrl}/claims/73611905-71bf-46ed-b1ec-e790593b8565`);
+
+      // Should show the complete and file link even though started on VaGov
+      cy.get('va-link[text="Complete and file your claim in BTSSS"]').should(
+        'be.visible',
+      );
+      cy.get('va-link[text="Complete and file your claim in BTSSS"]')
+        .should(
+          'have.attr',
+          'href',
+          'https://dvagov-btsss.dynamics365portals.us/',
+        )
+        .should('have.attr', 'external');
+    });
+
+    it('does not display "Complete and file your claim in BTSSS" link for other statuses', () => {
       cy.intercept('GET', '/travel_pay/v0/claims/*', {
         claimId: '73611905-71bf-46ed-b1ec-e790593b8565',
         claimNumber: 'TC0000000000001',
@@ -167,12 +253,14 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
           appointmentDateTime: '2024-01-01T16:45:34.465Z',
         },
         documents: [],
+        claimSource: 'VaGov',
+        expenses: [],
       });
 
       cy.visit(`${rootUrl}/claims/73611905-71bf-46ed-b1ec-e790593b8565`);
 
       // Should not show the complete and file link for approved claims
-      cy.get('va-link-action[text="Complete and file your claim"]').should(
+      cy.get('va-link[text="Complete and file your claim in BTSSS"]').should(
         'not.exist',
       );
     });
@@ -199,6 +287,260 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
       // Should display alternative definition for Incomplete status when complex claims is enabled
       cy.get('[data-testid="status-definition-text"]').should('be.visible');
       // The alternative definition should be shown (if it exists in constants)
+    });
+
+    it('displays note text when there are unassociated docs (Saved status)', () => {
+      cy.intercept('GET', '/travel_pay/v0/claims/*', {
+        claimId: '73611905-71bf-46ed-b1ec-e790593b8565',
+        claimNumber: 'TC0000000000001',
+        claimStatus: 'Saved',
+        appointmentDate: '2024-01-01T16:45:34.465Z',
+        facilityName: 'Cheyenne VA Medical Center',
+        totalCostRequested: 20.0,
+        reimbursementAmount: 0,
+        createdOn: '2025-03-12T20:27:14.088Z',
+        modifiedOn: '2025-03-12T20:27:14.088Z',
+        appointment: { id: '73611905-71bf-46ed-b1ec-e790593b8565' },
+        documents: [
+          {
+            documentId: 'doc-note-test-123',
+            filename: 'receipt.pdf',
+            mimetype: 'application/pdf',
+            createdon: '2025-03-12T20:27:14.088Z',
+          },
+        ],
+        claimSource: 'VaGov',
+        expenses: [], // Unassociated doc
+      });
+
+      cy.visit(`${rootUrl}/claims/73611905-71bf-46ed-b1ec-e790593b8565`);
+
+      // Should display the note text
+      cy.contains('Note:').should('be.visible');
+      cy.contains(
+        "We can't file your travel reimbursement claim here right now",
+      ).should('be.visible');
+      cy.contains(
+        'you can still file your claim in the Beneficiary Travel Self Service System (BTSSS)',
+      ).should('be.visible');
+    });
+
+    it('displays note text when the claim started in BTSSS', () => {
+      cy.intercept('GET', '/travel_pay/v0/claims/*', {
+        claimId: '73611905-71bf-46ed-b1ec-e790593b8565',
+        claimNumber: 'TC0000000000001',
+        claimStatus: 'Incomplete',
+        appointmentDate: '2024-01-01T16:45:34.465Z',
+        facilityName: 'Cheyenne VA Medical Center',
+        totalCostRequested: 20.0,
+        reimbursementAmount: 14.52,
+        createdOn: '2025-03-12T20:27:14.088Z',
+        modifiedOn: '2025-03-12T20:27:14.088Z',
+        appointment: { id: '73611905-71bf-46ed-b1ec-e790593b8565' },
+        documents: [],
+        claimSource: 'Api',
+        expenses: [],
+      });
+
+      cy.visit(`${rootUrl}/claims/73611905-71bf-46ed-b1ec-e790593b8565`);
+
+      cy.contains('Note:').should('be.visible');
+      cy.contains(
+        "We can't file your travel reimbursement claim here right now",
+      ).should('be.visible');
+    });
+
+    it('does not display note text when all docs are associated', () => {
+      cy.intercept('GET', '/travel_pay/v0/claims/*', {
+        claimId: '73611905-71bf-46ed-b1ec-e790593b8565',
+        claimNumber: 'TC0000000000001',
+        claimStatus: 'Saved',
+        appointmentDate: '2024-01-01T16:45:34.465Z',
+        facilityName: 'Cheyenne VA Medical Center',
+        totalCostRequested: 20.0,
+        reimbursementAmount: 0,
+        createdOn: '2025-03-12T20:27:14.088Z',
+        modifiedOn: '2025-03-12T20:27:14.088Z',
+        appointment: { id: '73611905-71bf-46ed-b1ec-e790593b8565' },
+        documents: [
+          {
+            documentId: 'doc-associated',
+            filename: 'toll-receipt.pdf',
+            mimetype: 'application/pdf',
+            createdon: '2025-03-12T20:27:14.088Z',
+            expenseId: 'expense-toll', // Doc is associated with expense
+          },
+        ],
+        claimSource: 'VaGov',
+        expenses: [
+          {
+            id: 'expense-toll',
+            expenseType: 'Toll',
+            costRequested: 5.0,
+          },
+        ],
+      });
+
+      cy.visit(`${rootUrl}/claims/73611905-71bf-46ed-b1ec-e790593b8565`);
+
+      // Should NOT display the note text
+      cy.contains('Note:').should('not.exist');
+      cy.contains(
+        "We can't file your travel reimbursement claim here right now",
+      ).should('not.exist');
+    });
+
+    it('does NOT display note text when only clerk notes exist (no mimetype)', () => {
+      cy.intercept('GET', '/travel_pay/v0/claims/*', {
+        claimId: '73611905-71bf-46ed-b1ec-e790593b8565',
+        claimNumber: 'TC0000000000001',
+        claimStatus: 'Approved for payment',
+        appointmentDate: '2024-01-01T16:45:34.465Z',
+        facilityName: 'Cheyenne VA Medical Center',
+        totalCostRequested: 20.0,
+        reimbursementAmount: 14.52,
+        createdOn: '2025-03-12T20:27:14.088Z',
+        modifiedOn: '2025-03-12T20:27:14.088Z',
+        appointment: { id: '73611905-71bf-46ed-b1ec-e790593b8565' },
+        documents: [
+          {
+            documentId: 'clerk-note-1',
+            filename: 'Internal Note 1.txt',
+            mimetype: '', // Empty mimetype = clerk note
+            createdon: '2025-03-12T20:27:14.088Z',
+          },
+          {
+            documentId: 'clerk-note-2',
+            filename: 'Internal Note 2.txt',
+            mimetype: '', // Empty mimetype = clerk note
+            createdon: '2025-03-12T20:27:14.088Z',
+          },
+        ],
+        claimSource: 'VaGov',
+        expenses: [],
+      });
+
+      cy.visit(`${rootUrl}/claims/73611905-71bf-46ed-b1ec-e790593b8565`);
+
+      // Should NOT display note text - clerk notes are filtered out
+      cy.contains('Note:').should('not.exist');
+      cy.contains(
+        "We can't file your travel reimbursement claim here right now",
+      ).should('not.exist');
+    });
+  });
+
+  describe('VA.gov link display (requires appointment API)', () => {
+    // These tests need appointment API mocked but shouldn't use the parent beforeEach
+    // because it causes Redux state to persist between visits
+    beforeEach(() => {
+      cy.login(user);
+    });
+
+    it('does NOT display "Complete and file your claim in BTSSS" link when all docs are associated', () => {
+      cy.intercept('GET', '/travel_pay/v0/claims/*', {
+        claimId: '73611905-71bf-46ed-b1ec-e790593b8565',
+        claimNumber: 'TC0000000000001',
+        claimStatus: 'Saved',
+        appointmentDate: '2024-01-01T16:45:34.465Z',
+        facilityName: 'Cheyenne VA Medical Center',
+        totalCostRequested: 20.0,
+        reimbursementAmount: 0,
+        createdOn: '2025-03-12T20:27:14.088Z',
+        modifiedOn: '2025-03-12T20:27:14.088Z',
+        appointment: {
+          id: '73611905-71bf-46ed-b1ec-e790593b8565',
+          appointmentDateTime: '2024-01-01T16:45:34.465Z',
+        },
+        documents: [
+          {
+            documentId: 'doc-associated-789',
+            filename: 'parking-receipt.pdf',
+            mimetype: 'application/pdf',
+            createdon: '2025-03-12T20:27:14.088Z',
+            expenseId: 'expense-123', // Doc is associated with expense
+          },
+        ],
+        claimSource: 'VaGov',
+        expenses: [
+          {
+            id: 'expense-123',
+            expenseType: 'Parking',
+            costRequested: 20.0,
+          },
+        ],
+      });
+
+      // Initialize appointment API so appointmentId is available
+      ApiInitializer.initializeAppointment.byDateTime(
+        '2024-01-01T16:45:34.465Z',
+      );
+
+      cy.visit(`${rootUrl}/claims/73611905-71bf-46ed-b1ec-e790593b8565`);
+      cy.wait('@appointmentsByDate'); // Wait for appointment API to be called
+
+      // Should NOT show the BTSSS link - all docs are associated, claim started on VaGov
+      cy.get('va-link[text="Complete and file your claim in BTSSS"]').should(
+        'not.exist',
+      );
+
+      // Should show the VA.gov link instead
+      cy.get('va-link-action[text="Complete and file your claim"]').should(
+        'be.visible',
+      );
+    });
+
+    it('does NOT display BTSSS link when only clerk notes exist (no mimetype)', () => {
+      cy.intercept('GET', '/travel_pay/v0/claims/*', {
+        claimId: '73611905-71bf-46ed-b1ec-e790593b8565',
+        claimNumber: 'TC0000000000001',
+        claimStatus: 'Saved',
+        appointmentDate: '2024-01-01T16:45:34.465Z',
+        facilityName: 'Cheyenne VA Medical Center',
+        totalCostRequested: 20.0,
+        reimbursementAmount: 0,
+        createdOn: '2025-03-12T20:27:14.088Z',
+        modifiedOn: '2025-03-12T20:27:14.088Z',
+        appointment: {
+          id: '73611905-71bf-46ed-b1ec-e790593b8565',
+          appointmentDateTime: '2024-01-01T16:45:34.465Z',
+        },
+        documents: [
+          {
+            documentId: 'clerk-note-internal-1',
+            filename: 'Internal Clerk Note.txt',
+            mimetype: '', // Empty mimetype = clerk note, not user doc
+            createdon: '2025-03-12T20:27:14.088Z',
+          },
+          {
+            documentId: 'clerk-note-internal-2',
+            filename: 'Another Note.txt',
+            mimetype: '', // Another clerk note
+            createdon: '2025-03-12T20:27:14.088Z',
+          },
+        ],
+        claimSource: 'VaGov',
+        expenses: [],
+      }).as('getClaimDetails');
+
+      // Initialize appointment API so appointmentId is available
+      ApiInitializer.initializeAppointment.byDateTime(
+        '2024-01-01T16:45:34.465Z',
+      );
+
+      cy.visit(`${rootUrl}/claims/73611905-71bf-46ed-b1ec-e790593b8565`);
+      cy.wait('@getClaimDetails');
+      cy.wait('@appointmentsByDate'); // Wait for appointment API to be called
+
+      // Should NOT show BTSSS link - clerk notes should be ignored
+      cy.get('va-link[text="Complete and file your claim in BTSSS"]').should(
+        'not.exist',
+      );
+
+      // Should show VA.gov link instead since claim started on VaGov
+      cy.get('va-link-action[text="Complete and file your claim"]').should(
+        'be.visible',
+      );
     });
   });
 
@@ -271,7 +613,7 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
       cy.contains('Created on').should('be.visible');
 
       // Should show complete and file link
-      cy.get('va-link-action[text="Complete and file your claim"]').should(
+      cy.get('va-link[text="Complete and file your claim in BTSSS"]').should(
         'be.visible',
       );
 
@@ -315,7 +657,7 @@ describe(`${appName} -- Complex Claims Claim Details`, () => {
       cy.contains('Created on').should('be.visible');
 
       // Should show complete and file link
-      cy.get('va-link-action[text="Complete and file your claim"]').should(
+      cy.get('va-link[text="Complete and file your claim in BTSSS"]').should(
         'be.visible',
       );
 
