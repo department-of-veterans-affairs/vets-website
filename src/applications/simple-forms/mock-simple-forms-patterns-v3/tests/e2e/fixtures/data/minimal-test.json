@@ -26,6 +26,23 @@
     },
     "dateOfBirth": "1995-01-09",
     "view:hasEmployers": false,
+    "intHomePhone": {
+      "countryCode": "US",
+      "contact": "(234) 567-8910",
+      "callingCode": "1",
+      "isValid": true,
+      "error": null
+    },
+    "serviceBranch": "NOAA",
+    "uploadedFile": {
+      "name": "my_form.pdf",
+      "size": 12345,
+      "fileType": "application/pdf",
+      "confirmationCode": "7564298",
+      "additionalData": {
+        "documentStatus": "education"
+      }
+    },
     "treatmentRecords": [
       {
         "treatmentDates": {
