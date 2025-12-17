@@ -23,6 +23,11 @@ describe('Medical Records View Conditions', () => {
 
     cy.injectAxeThenAxeCheck();
 
+    // Alert removed from Conditions page — assert it does not render
+    cy.get('body')
+      .find('[data-testid="cerner-facilities-info-alert"]')
+      .should('not.exist');
+
     const CARDS_PER_PAGE = 10;
     cy.get(':nth-child(4) > [data-testid="record-list-item"]').should(
       'have.length',

@@ -42,8 +42,9 @@ function introDescription() {
   );
 }
 /** @type {ArrayBuilderOptions} */
+// arrayPath is veteranMarriages because it's the Veteran's marriages being collected
 const options = {
-  arrayPath: 'previousMarriages',
+  arrayPath: 'veteranMarriages',
   nounSingular: 'previous marriage',
   nounPlural: 'previous marriages',
   required: false,
@@ -51,6 +52,26 @@ const options = {
   isItemIncomplete: item =>
     !item?.previousSpouseFullName || !item?.marriageDate,
   text: {
+    cancelTitle: 'Cancel adding this previous marriage?',
+    cancelAddTitle: 'Cancel adding this previous marriage?',
+    cancelEditTitle: 'Cancel editing this previous marriage?',
+    cancelDescription:
+      'If you cancel, we won’t add this previous marriage to the list of marriages. You’ll return to a page where you can add another previous marriage for the Veteran.',
+    cancelAddDescription:
+      'If you cancel, we won’t add this previous marriage to the list of marriages. You’ll return to a page where you can add another previous marriage for the Veteran.',
+    cancelEditDescription:
+      'If you cancel, you’ll lose any changes you made to this previous marriage and you will be returned to the previous marriage review page.',
+    cancelYes: 'Yes, cancel adding',
+    cancelAddYes: 'Yes, cancel adding',
+    cancelNo: 'No, continue adding',
+    cancelAddNo: 'No, continue adding',
+    cancelEditYes: 'Yes, cancel editing',
+    cancelEditNo: 'No, continue editing',
+    deleteDescription:
+      'This will delete the information from your list of previous marriages. You’ll return to a page where you can add a new previous marriage for the Veteran.',
+    deleteNo: 'No, keep',
+    deleteTitle: 'Delete this previous marriage?',
+    deleteYes: 'Yes, delete',
     alertMaxItems: handleAlertMaxItems,
     getItemName: item => {
       const { first, middle, last, suffix } =
@@ -58,8 +79,7 @@ const options = {
       const name = [first, middle, last, suffix].filter(Boolean).join(' ');
       return name || 'Previous marriage';
     },
-    cardDescription: () => '',
-    summaryTitle: () => "Review the Veteran's previous marriages",
+    summaryTitle: "Review the Veteran's previous marriages",
   },
 };
 
@@ -139,13 +159,13 @@ const marriageDatePlacePage = {
       state: {
         ...selectUI('State', STATE_VALUES, STATE_NAMES),
         'ui:required': (formData, index) => {
-          const item = formData?.previousMarriages?.[index];
+          const item = formData?.veteranMarriages?.[index];
           const currentPageData = formData;
           return !(item?.marriedOutsideUS || currentPageData?.marriedOutsideUS);
         },
         'ui:options': {
           hideIf: (formData, index) => {
-            const item = formData?.previousMarriages?.[index];
+            const item = formData?.veteranMarriages?.[index];
             const currentPageData = formData;
             return item?.marriedOutsideUS || currentPageData?.marriedOutsideUS;
           },
@@ -154,13 +174,13 @@ const marriageDatePlacePage = {
       country: {
         ...selectUI('Country', COUNTRY_VALUES, COUNTRY_NAMES),
         'ui:required': (formData, index) => {
-          const item = formData?.previousMarriages?.[index];
+          const item = formData?.veteranMarriages?.[index];
           const currentPageData = formData;
           return item?.marriedOutsideUS || currentPageData?.marriedOutsideUS;
         },
         'ui:options': {
           hideIf: (formData, index) => {
-            const item = formData?.previousMarriages?.[index];
+            const item = formData?.veteranMarriages?.[index];
             const currentPageData = formData;
             return !(
               item?.marriedOutsideUS || currentPageData?.marriedOutsideUS
@@ -215,7 +235,14 @@ const endedPage = {
       title: 'Tell us how the marriage ended',
       expandUnder: 'marriageEndedBy',
       expandUnderCondition: field => field === 'OTHER',
-      required: formData => formData?.marriageEndedBy === 'OTHER',
+      required: (formData, index) => {
+        const item = formData?.veteranMarriages?.[index];
+        const currentPageData = formData;
+        return (
+          item?.marriageEndedBy === 'OTHER' ||
+          currentPageData?.marriageEndedBy === 'OTHER'
+        );
+      },
       errorMessages: { required: 'Please tell us how the marriage ended' },
     }),
   },
@@ -249,7 +276,7 @@ const marriageEndDateLocationPage = {
       state: {
         ...selectUI('State', STATE_VALUES, STATE_NAMES),
         'ui:required': (formData, index) => {
-          const item = formData?.previousMarriages?.[index];
+          const item = formData?.veteranMarriages?.[index];
           const currentPageData = formData;
           return !(
             item?.marriageEndedOutsideUS ||
@@ -258,7 +285,7 @@ const marriageEndDateLocationPage = {
         },
         'ui:options': {
           hideIf: (formData, index) => {
-            const item = formData?.previousMarriages?.[index];
+            const item = formData?.veteranMarriages?.[index];
             const currentPageData = formData;
             return (
               item?.marriageEndedOutsideUS ||
@@ -270,7 +297,7 @@ const marriageEndDateLocationPage = {
       country: {
         ...selectUI('Country', COUNTRY_VALUES, COUNTRY_NAMES),
         'ui:required': (formData, index) => {
-          const item = formData?.previousMarriages?.[index];
+          const item = formData?.veteranMarriages?.[index];
           const currentPageData = formData;
           return (
             item?.marriageEndedOutsideUS ||
@@ -279,7 +306,7 @@ const marriageEndDateLocationPage = {
         },
         'ui:options': {
           hideIf: (formData, index) => {
-            const item = formData?.previousMarriages?.[index];
+            const item = formData?.veteranMarriages?.[index];
             const currentPageData = formData;
             return !(
               item?.marriageEndedOutsideUS ||
@@ -330,6 +357,9 @@ export const veteranMarriagesPages = arrayBuilderPages(
     veteranMarriagesIntro: pageBuilder.introPage({
       title: 'Veteran’s previous marriages',
       path: 'household/veteran-previous-marriages',
+      depends: formData =>
+        formData.claimantRelationship === 'SPOUSE' &&
+        formData.hadPreviousMarriages === true,
       uiSchema: introPage.uiSchema,
       schema: introPage.schema,
     }),
@@ -337,24 +367,36 @@ export const veteranMarriagesPages = arrayBuilderPages(
       title:
         'Was the Veteran married to someone else before being married to you?',
       path: 'household/veteran-previous-marriages/add',
+      depends: formData =>
+        formData.claimantRelationship === 'SPOUSE' &&
+        formData.hadPreviousMarriages === true,
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
     veteranPreviousSpouseName: pageBuilder.itemPage({
       title: "Veteran's previous spouse's name",
       path: 'household/veteran-previous-marriages/:index/spouse-name',
+      depends: formData =>
+        formData.claimantRelationship === 'SPOUSE' &&
+        formData.hadPreviousMarriages === true,
       uiSchema: namePage.uiSchema,
       schema: namePage.schema,
     }),
     veteranMarriageDatePlace: pageBuilder.itemPage({
       title: 'When and where did they get married?',
       path: 'household/veteran-previous-marriages/:index/marriage-date-place',
+      depends: formData =>
+        formData.claimantRelationship === 'SPOUSE' &&
+        formData.hadPreviousMarriages === true,
       uiSchema: marriageDatePlacePage.uiSchema,
       schema: marriageDatePlacePage.schema,
     }),
     veteranMarriageEnded: pageBuilder.itemPage({
       title: 'How did the marriage end?',
       path: 'household/veteran-previous-marriages/:index/marriage-ended',
+      depends: formData =>
+        formData.claimantRelationship === 'SPOUSE' &&
+        formData.hadPreviousMarriages === true,
       uiSchema: endedPage.uiSchema,
       schema: endedPage.schema,
     }),
@@ -362,6 +404,9 @@ export const veteranMarriagesPages = arrayBuilderPages(
       title: 'When and where did their marriage end?',
       path:
         'household/veteran-previous-marriages/:index/marriage-end-date-location',
+      depends: formData =>
+        formData.claimantRelationship === 'SPOUSE' &&
+        formData.hadPreviousMarriages === true,
       uiSchema: marriageEndDateLocationPage.uiSchema,
       schema: marriageEndDateLocationPage.schema,
     }),
@@ -369,3 +414,5 @@ export const veteranMarriagesPages = arrayBuilderPages(
 );
 
 export default veteranMarriagesPages;
+
+export { options };

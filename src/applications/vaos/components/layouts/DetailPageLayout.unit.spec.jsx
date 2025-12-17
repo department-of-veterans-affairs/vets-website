@@ -44,7 +44,7 @@ describe('VAOS Component: DetailPageLayout', () => {
         },
       );
       expect(screen.baseElement).to.contain.text('Appointment tasks');
-      expect(screen.baseElement).to.contain.text('After visit summary');
+      expect(screen.baseElement).to.contain.text('After-visit summary');
       expect(screen.baseElement).to.contain.text('Travel reimbursement');
       expect(screen.container.querySelector('va-button[text="Print"]')).to.be
         .ok;

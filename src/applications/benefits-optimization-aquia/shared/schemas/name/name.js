@@ -6,7 +6,7 @@
 
 import { z } from 'zod';
 
-import { NAME_PATTERNS, VALIDATION_MESSAGES } from '../regex-patterns';
+import { isValidName, VALIDATION_MESSAGES } from '../../utils/validators';
 
 /**
  * First name validation schema.
@@ -23,13 +23,7 @@ export const firstNameSchema = z
   .trim()
   .min(2, 'First name must be at least 2 characters')
   .max(30, 'First name must be 30 characters or less')
-  .refine(val => {
-    if (!val) return false;
-    // Reject empty, numbers only, special chars only
-    if (/^\d+$/.test(val)) return false;
-    if (/^[!@#$%^&*()]+$/.test(val)) return false;
-    return NAME_PATTERNS.STANDARD.test(val);
-  }, VALIDATION_MESSAGES.NAME_INVALID_FIRST);
+  .refine(val => isValidName(val), VALIDATION_MESSAGES.NAME_INVALID_FIRST);
 
 /**
  * Middle name validation schema.
@@ -45,7 +39,10 @@ export const middleNameSchema = z
   .string()
   .trim()
   .max(30, 'Middle name must be 30 characters or less')
-  .regex(NAME_PATTERNS.OPTIONAL, VALIDATION_MESSAGES.NAME_INVALID_MIDDLE)
+  .refine(val => {
+    if (!val) return true; // Empty is valid for optional field
+    return isValidName(val);
+  }, VALIDATION_MESSAGES.NAME_INVALID_MIDDLE)
   .optional()
   .transform(val => (val === '' ? undefined : val));
 
@@ -64,13 +61,7 @@ export const lastNameSchema = z
   .trim()
   .min(2, 'Last name must be at least 2 characters')
   .max(30, 'Last name must be 30 characters or less')
-  .refine(val => {
-    if (!val) return false;
-    // Reject empty, numbers only, special chars only
-    if (/^\d+$/.test(val)) return false;
-    if (/^[!@#$%^&*()]+$/.test(val)) return false;
-    return NAME_PATTERNS.STANDARD.test(val);
-  }, VALIDATION_MESSAGES.NAME_INVALID_LAST);
+  .refine(val => isValidName(val), VALIDATION_MESSAGES.NAME_INVALID_LAST);
 
 /**
  * Name suffix validation schema.
@@ -91,18 +82,9 @@ export const suffixSchema = z
   .transform(val => (val === '' ? undefined : val))
   .refine(val => {
     if (!val) return true;
-    // Reject empty, numbers only, special chars only
-    if (/^\d+$/.test(val)) return false;
-    if (/^[!@#$%^&*()]+$/.test(val)) return false;
-    return NAME_PATTERNS.SUFFIX.test(val);
-  }, VALIDATION_MESSAGES.NAME_INVALID_SUFFIX || 'Invalid suffix format')
-  .refine(val => {
-    if (!val) return true;
-    // Reject numbers only, special chars only
-    if (/^\d+$/.test(val)) return false;
-    // Reject special chars only
-    return !/^[!@#$%^&*()]+$/.test(val);
-  }, 'Invalid suffix');
+    // Suffix allows letters, spaces, and periods (Jr., Sr., II, III, etc.)
+    return /^[a-zA-Z\s.]*$/.test(val);
+  }, VALIDATION_MESSAGES.NAME_INVALID_SUFFIX || 'Invalid suffix format');
 
 /**
  * Full name composite schema.

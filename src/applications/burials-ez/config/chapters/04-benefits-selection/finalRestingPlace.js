@@ -14,7 +14,7 @@ export default {
     finalRestingPlace: {
       location: radioUI({
         title:
-          'Choose the option that best describes the Veteran’s final resting place',
+          'Which of these best describes the Veteran’s final resting place?',
         labels: restingPlaceLabels,
       }),
       other: textUI({

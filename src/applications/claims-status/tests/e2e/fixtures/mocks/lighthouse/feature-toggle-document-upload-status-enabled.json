@@ -9,6 +9,10 @@
       {
         "name": "cst_show_document_upload_status",
         "value": true
+      },
+      {
+        "name": "cst_timezone_discrepancy_mitigation",
+        "value": true
       }
     ]
   }

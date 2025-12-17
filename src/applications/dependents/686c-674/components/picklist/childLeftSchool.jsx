@@ -3,16 +3,26 @@ import React from 'react';
 import { scrollToFirstError } from 'platform/utilities/ui';
 
 import { getValue, PastDate } from './helpers';
+import { getPastDateError } from './utils';
 import propTypes from './types';
 
 const childLeftSchool = {
   handlers: {
-    // Return "DONE" when we're done with this flow
+    /**
+     * @type {GoForwardParams}
+     * Return "DONE" when we're done with this flow
+     * @returns {string} Next page key
+     */
     goForward: (/* { itemData, index, fullData } */) => 'DONE',
 
+    /**
+     * @type {OnSubmitParams}
+     * @returns {void}
+     */
     onSubmit: ({ /* event, */ itemData, goForward }) => {
       // event.preventDefault(); // executed before this function is called
-      if (!itemData.endDate) {
+      const hasError = getPastDateError(itemData.endDate);
+      if (hasError) {
         setTimeout(() => scrollToFirstError({ focusOnAlertRole: true }));
       } else {
         goForward();
@@ -20,7 +30,10 @@ const childLeftSchool = {
     },
   },
 
-  /** @type {PicklistComponentProps} */
+  /**
+   * @type {PicklistComponentProps}
+   * @returns {React.ReactElement} Page component
+   */
   Component: ({ itemData, firstName, handlers, formSubmitted, isEditing }) => {
     const onChange = event => {
       const { field, value } = getValue(event);

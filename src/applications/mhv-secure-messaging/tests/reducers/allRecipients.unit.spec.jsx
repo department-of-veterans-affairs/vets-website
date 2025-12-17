@@ -138,4 +138,104 @@ describe('allRecipients reducers', () => {
     await store.dispatch(getAllTriageTeamRecipients());
     expect(store.getState().vistaFacilities).to.deep.equal(['123', '456']);
   });
+
+  it('should set noAssociations to true when data array is empty', async () => {
+    const store = mockStore();
+    const emptyMockResponse = {
+      data: [],
+      meta: {
+        associatedTriageGroups: 0,
+        associatedBlockedTriageGroups: 0,
+      },
+    };
+    mockApiRequest(emptyMockResponse);
+    await store.dispatch(getAllTriageTeamRecipients());
+    expect(store.getState().noAssociations).to.equal(true);
+    expect(store.getState().allRecipients).to.deep.equal([]);
+  });
+
+  it('should set noAssociations to true when associatedTriageGroups is 0 even with data', async () => {
+    const store = mockStore();
+    const customMockResponse = {
+      data: [
+        {
+          id: '1',
+          type: 'al_triage_teams',
+          attributes: {
+            triageTeamId: 1,
+            name: 'Team 1',
+            stationNumber: '123',
+            blockedStatus: false,
+            relationshipType: 'PATIENT',
+            preferredTeam: true,
+            ohTriageGroup: false,
+          },
+        },
+      ],
+      meta: {
+        associatedTriageGroups: 0,
+        associatedBlockedTriageGroups: 0,
+      },
+    };
+    mockApiRequest(customMockResponse);
+    await store.dispatch(getAllTriageTeamRecipients());
+    expect(store.getState().noAssociations).to.equal(true);
+  });
+
+  it('should set noAssociations to false when data exists and associatedTriageGroups > 0', async () => {
+    const store = mockStore();
+    const customMockResponse = {
+      data: [
+        {
+          id: '1',
+          type: 'al_triage_teams',
+          attributes: {
+            triageTeamId: 1,
+            name: 'Team 1',
+            stationNumber: '123',
+            blockedStatus: false,
+            relationshipType: 'PATIENT',
+            preferredTeam: true,
+            ohTriageGroup: false,
+          },
+        },
+      ],
+      meta: {
+        associatedTriageGroups: 1,
+        associatedBlockedTriageGroups: 0,
+      },
+    };
+    mockApiRequest(customMockResponse);
+    await store.dispatch(getAllTriageTeamRecipients());
+    expect(store.getState().noAssociations).to.equal(false);
+    expect(store.getState().allRecipients).to.have.lengthOf(1);
+  });
+
+  it('should set noAssociations to true when associatedTriageGroups is 0', async () => {
+    const store = mockStore();
+    const mockResponse = {
+      data: [],
+      meta: {
+        associatedTriageGroups: 0,
+        associatedBlockedTriageGroups: 0,
+      },
+    };
+    mockApiRequest(mockResponse);
+    await store.dispatch(getAllTriageTeamRecipients());
+    expect(store.getState().noAssociations).to.be.true;
+  });
+
+  it('should set noAssociations to true when data length is 0', async () => {
+    const store = mockStore();
+    const mockResponse = {
+      data: [],
+      meta: {
+        associatedTriageGroups: 5,
+        associatedBlockedTriageGroups: 0,
+      },
+    };
+    mockApiRequest(mockResponse);
+    await store.dispatch(getAllTriageTeamRecipients());
+    expect(store.getState().noAssociations).to.be.true;
+  });
 });

@@ -5,7 +5,7 @@ import { mount } from 'enzyme';
 import { SAVED_SEPARATION_DATE } from '../../constants';
 import { UpdateMilitaryHistory } from '../../components/UpdateMilitaryHistory';
 
-import { daysFromToday } from '../utils/dates/dateHelper';
+import { daysFromToday } from '../../utils/dates/formatting';
 
 const inRangeBddDate = daysFromToday(120);
 

@@ -6,6 +6,7 @@ import {
   transformVAOSAppointment,
   isPastAppt,
   getDaysLeft,
+  calculateIsOutOfBounds,
 } from '../../util/appointment-helpers';
 
 const appointment = require('../fixtures/appointment.json');
@@ -98,6 +99,72 @@ describe('getDaysLeft', () => {
     MockDate.set('2024-06-25T14:00:00Z');
     const actual = getDaysLeft('2024-05-05T14:00:00Z');
     expect(actual).to.eq(0);
+  });
+});
+
+describe('calculateIsOutOfBounds', () => {
+  afterEach(() => {
+    MockDate.reset();
+  });
+
+  it('returns false for an appointment within 30 days', () => {
+    MockDate.set('2024-06-25T15:00:00Z');
+    const result = calculateIsOutOfBounds('2024-06-05T14:00:00Z');
+    expect(result).to.be.false;
+  });
+
+  it('returns false for an appointment exactly 30 days ago', () => {
+    MockDate.set('2024-06-25T15:00:00Z');
+    const result = calculateIsOutOfBounds('2024-05-26T15:00:00Z');
+    expect(result).to.be.false;
+  });
+
+  it('returns true for an appointment 31 days ago', () => {
+    MockDate.set('2024-06-25T15:00:00Z');
+    const result = calculateIsOutOfBounds('2024-05-25T14:00:00Z');
+    expect(result).to.be.true;
+  });
+
+  it('returns true for an appointment more than 30 days ago', () => {
+    MockDate.set('2024-06-25T14:00:00Z');
+    const result = calculateIsOutOfBounds('2024-05-05T14:00:00Z');
+    expect(result).to.be.true;
+  });
+
+  it('returns false for a future appointment', () => {
+    MockDate.set('2024-06-25T15:00:00Z');
+    const result = calculateIsOutOfBounds('2024-07-05T14:00:00Z');
+    expect(result).to.be.false;
+  });
+
+  it("returns false for today's appointment", () => {
+    MockDate.set('2024-06-25T15:00:00Z');
+    const result = calculateIsOutOfBounds('2024-06-25T14:00:00Z');
+    expect(result).to.be.false;
+  });
+
+  it('returns false when dateString is null', () => {
+    MockDate.set('2024-06-25T15:00:00Z');
+    const result = calculateIsOutOfBounds(null);
+    expect(result).to.be.false;
+  });
+
+  it('returns false when dateString is undefined', () => {
+    MockDate.set('2024-06-25T15:00:00Z');
+    const result = calculateIsOutOfBounds(undefined);
+    expect(result).to.be.false;
+  });
+
+  it('returns false when dateString is empty string', () => {
+    MockDate.set('2024-06-25T15:00:00Z');
+    const result = calculateIsOutOfBounds('');
+    expect(result).to.be.false;
+  });
+
+  it('returns false for invalid date string', () => {
+    MockDate.set('2024-06-25T15:00:00Z');
+    const result = calculateIsOutOfBounds('invalid-date');
+    expect(result).to.be.false;
   });
 });
 
@@ -203,6 +270,19 @@ describe('transformVAOSAppointment', () => {
     const transformedAppt = transformVAOSAppointment(practionersAppt);
 
     expect(transformedAppt.practitionerName).to.eq('First Middle Last');
+  });
+
+  it('returns undefined practitionerName for empty practitioners array', () => {
+    MockDate.set('2025-01-15T15:00:00Z');
+    const apptWithEmptyPractitioners = {
+      ...appt,
+      practitioners: [],
+    };
+    const transformedAppt = transformVAOSAppointment(
+      apptWithEmptyPractitioners,
+    );
+
+    expect(transformedAppt.practitionerName).to.be.undefined;
   });
 
   it('returns isOutOfBounds:true for appt more than 30 days old', () => {

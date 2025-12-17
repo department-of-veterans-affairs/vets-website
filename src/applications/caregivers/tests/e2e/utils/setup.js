@@ -74,7 +74,8 @@ export const pageHooks = {
         const signatures =
           statementOfTruthActions[testKey] || statementOfTruthActions.default;
         signatures.forEach(role =>
-          cy.fillVaStatementOfTruth(LABELS[role], {
+          cy.fillVaStatementOfTruth({
+            field: LABELS[role],
             fullName: role === 'representative' ? parties[role] : undefined,
             checked: true,
           }),

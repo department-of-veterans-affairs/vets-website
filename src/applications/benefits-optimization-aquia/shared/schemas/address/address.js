@@ -5,15 +5,41 @@
  */
 
 import { z } from 'zod';
+import constants from 'vets-json-schema/dist/constants.json';
+import addressData from 'platform/forms/address/data';
 
 import {
-  MILITARY_POSTAL_PATTERNS,
-  POSTAL_PATTERNS,
+  isValidUSZipCode,
+  isValidCanPostalCode,
+  isValidMexicoPostalCode,
+  MILITARY_ZIP_PATTERNS,
   VALIDATION_MESSAGES,
-} from '../regex-patterns';
+} from '../../utils/validators';
 
-/** @private Alias for backward compatibility with existing code */
-const MILITARY_ZIP_PATTERNS = MILITARY_POSTAL_PATTERNS;
+/**
+ * Valid military cities - from platform
+ * @type {string[]}
+ */
+const MILITARY_CITIES = addressData.militaryCities;
+
+/**
+ * Valid military state codes - from platform
+ * @type {string[]}
+ */
+const MILITARY_STATES = addressData.militaryStates;
+
+/**
+ * US States including territories (excluding military codes) - from platform
+ * Extracted from vets-json-schema constants
+ * @type {string[]}
+ */
+const US_STATES = constants.states.USA.map(state => state.value);
+
+/**
+ * All valid state codes including US states, territories, and military codes
+ * @type {string[]}
+ */
+const ALL_STATES_AND_TERRITORIES = [...US_STATES, ...MILITARY_STATES];
 
 /**
  * Street address schema - validates street addresses
@@ -41,74 +67,10 @@ export const stateCodeSchema = z
   .string()
   .length(2, 'State must be a 2-letter code')
   .toUpperCase()
-  .refine(val => {
-    const ALL_STATES = [
-      'AL',
-      'AK',
-      'AZ',
-      'AR',
-      'CA',
-      'CO',
-      'CT',
-      'DE',
-      'DC',
-      'FL',
-      'GA',
-      'HI',
-      'ID',
-      'IL',
-      'IN',
-      'IA',
-      'KS',
-      'KY',
-      'LA',
-      'ME',
-      'MD',
-      'MA',
-      'MI',
-      'MN',
-      'MS',
-      'MO',
-      'MT',
-      'NE',
-      'NV',
-      'NH',
-      'NJ',
-      'NM',
-      'NY',
-      'NC',
-      'ND',
-      'OH',
-      'OK',
-      'OR',
-      'PA',
-      'RI',
-      'SC',
-      'SD',
-      'TN',
-      'TX',
-      'UT',
-      'VT',
-      'VA',
-      'WA',
-      'WV',
-      'WI',
-      'WY',
-      'AS',
-      'GU',
-      'MP',
-      'PR',
-      'VI',
-      'UM',
-      'FM',
-      'MH',
-      'PW',
-      'AA',
-      'AE',
-      'AP', // Military codes
-    ];
-    return ALL_STATES.includes(val);
-  }, 'Invalid state code');
+  .refine(
+    val => ALL_STATES_AND_TERRITORIES.includes(val),
+    'Invalid state code',
+  );
 
 /**
  * Postal code schema - validates postal codes based on country
@@ -118,12 +80,12 @@ export const postalCodeSchema = z
   .optional()
   .refine(val => {
     if (!val) return true;
-    // Accept US, Canadian, Mexican, and military postal codes
+    // Accept US, Canadian, Mexican, and military postal codes using platform validators
     return (
-      POSTAL_PATTERNS.USA.test(val) ||
-      POSTAL_PATTERNS.CANADA.test(val) ||
-      POSTAL_PATTERNS.MEXICO.test(val) ||
-      Object.values(MILITARY_POSTAL_PATTERNS).some(pattern => pattern.test(val))
+      isValidUSZipCode(val) ||
+      isValidCanPostalCode(val) ||
+      isValidMexicoPostalCode(val) ||
+      Object.values(MILITARY_ZIP_PATTERNS).some(pattern => pattern.test(val))
     );
   }, 'Invalid postal code format');
 
@@ -164,108 +126,26 @@ export const militaryAddressSchema = z.object({
   street2: z.string().optional(),
   city: z.enum(['APO', 'FPO', 'DPO']),
   state: z.enum(['AA', 'AE', 'AP']),
-  postalCode: z.string().regex(/^\d{5}(-\d{4})?$/, 'Invalid ZIP code format'),
+  postalCode: z
+    .string()
+    .refine(val => isValidUSZipCode(val), 'Invalid ZIP code format'),
   country: z.literal('USA').default('USA'),
   isMilitary: z.literal(true).default(true),
 });
 
 /**
- * Valid military city codes
+ * Canadian provinces and territories - from platform
+ * Extracted from vets-json-schema constants
+ * @type {string[]}
  */
-const MILITARY_CITIES = ['APO', 'FPO', 'DPO'];
-
-/**
- * Valid military state codes
- */
-const MILITARY_STATES = ['AA', 'AE', 'AP'];
-
-/**
- * US States including territories (excluding military)
- */
-const US_STATES = [
-  'AL',
-  'AK',
-  'AZ',
-  'AR',
-  'CA',
-  'CO',
-  'CT',
-  'DE',
-  'DC',
-  'FL',
-  'GA',
-  'HI',
-  'ID',
-  'IL',
-  'IN',
-  'IA',
-  'KS',
-  'KY',
-  'LA',
-  'ME',
-  'MD',
-  'MA',
-  'MI',
-  'MN',
-  'MS',
-  'MO',
-  'MT',
-  'NE',
-  'NV',
-  'NH',
-  'NJ',
-  'NM',
-  'NY',
-  'NC',
-  'ND',
-  'OH',
-  'OK',
-  'OR',
-  'PA',
-  'RI',
-  'SC',
-  'SD',
-  'TN',
-  'TX',
-  'UT',
-  'VT',
-  'VA',
-  'WA',
-  'WV',
-  'WI',
-  'WY',
-  'AS',
-  'GU',
-  'MP',
-  'PR',
-  'VI',
-  'UM',
-  'FM',
-  'MH',
-  'PW',
-];
-
-/**
- * Canadian provinces and territories
- */
-const CANADIAN_PROVINCES = [
-  'AB',
-  'BC',
-  'MB',
-  'NB',
-  'NL',
-  'NS',
-  'NT',
-  'NU',
-  'ON',
-  'PE',
-  'QC',
-  'SK',
-  'YT',
-];
+const CANADIAN_PROVINCES = constants.states.CAN.map(state => state.value);
 
 /**
  * Mexican states
+ * TODO: Investigate format mismatch with platform constants
+ * Local uses 2-letter codes ('AG', 'BC'), platform uses full names in kebab-case
+ * ('aguascalientes', 'baja-california-norte'). Need to verify what backend API expects.
+ * @type {string[]}
  */
 const MEXICAN_STATES = [
   'AG',
@@ -405,7 +285,7 @@ export const addressSchema = baseAddressSchema.superRefine((data, ctx) => {
         message: 'ZIP code is required',
         path: ['postalCode'],
       });
-    } else if (!POSTAL_PATTERNS.USA.test(postalCode)) {
+    } else if (!isValidUSZipCode(postalCode)) {
       ctx.addIssue({
         code: 'custom',
         message: 'Enter a valid 5-digit ZIP code (12345) or ZIP+4 (12345-6789)',
@@ -437,7 +317,7 @@ export const addressSchema = baseAddressSchema.superRefine((data, ctx) => {
         message: 'Postal code is required',
         path: ['postalCode'],
       });
-    } else if (!POSTAL_PATTERNS.CANADA.test(postalCode)) {
+    } else if (!isValidCanPostalCode(postalCode)) {
       ctx.addIssue({
         code: 'custom',
         message: VALIDATION_MESSAGES.POSTAL_CANADA,
@@ -469,7 +349,7 @@ export const addressSchema = baseAddressSchema.superRefine((data, ctx) => {
         message: 'Postal code is required',
         path: ['postalCode'],
       });
-    } else if (!POSTAL_PATTERNS.MEXICO.test(postalCode)) {
+    } else if (!isValidMexicoPostalCode(postalCode)) {
       ctx.addIssue({
         code: 'custom',
         message: 'Enter a valid 5-digit postal code',
@@ -563,7 +443,7 @@ export const homeAddressSchema = baseAddressSchema
           message: 'Postal code is required for US addresses',
           path: ['postalCode'],
         });
-      } else if (!POSTAL_PATTERNS.USA.test(postalCode)) {
+      } else if (!isValidUSZipCode(postalCode)) {
         ctx.addIssue({
           code: 'custom',
           message: 'Enter a valid 5-digit ZIP code (or ZIP+4)',
@@ -589,7 +469,7 @@ export const homeAddressSchema = baseAddressSchema
           message: 'Postal code is required for Canadian addresses',
           path: ['postalCode'],
         });
-      } else if (!POSTAL_PATTERNS.CANADA.test(postalCode)) {
+      } else if (!isValidCanPostalCode(postalCode)) {
         ctx.addIssue({
           code: 'custom',
           message: VALIDATION_MESSAGES.POSTAL_CANADA,
@@ -615,7 +495,7 @@ export const homeAddressSchema = baseAddressSchema
           message: 'Postal code is required for Mexican addresses',
           path: ['postalCode'],
         });
-      } else if (!POSTAL_PATTERNS.MEXICO.test(postalCode)) {
+      } else if (!isValidMexicoPostalCode(postalCode)) {
         ctx.addIssue({
           code: 'custom',
           message: 'Enter a valid 5-digit Mexican postal code',

@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import { renderToStaticMarkup } from 'react-dom/server';
 import {
   validateInitials,
   formatAddress,
@@ -9,6 +10,9 @@ import {
   facilityCodeUIValidation,
   showAdditionalPointsOfContact,
   getAdditionalContactTitle,
+  capitalizeFirstLetter,
+  matchYearPattern,
+  additionalInstitutionDetailsArrayOptions,
 } from '../helpers';
 
 describe('0839 Helpers', () => {
@@ -271,6 +275,115 @@ describe('0839 Helpers', () => {
     });
   });
 
+  describe('additionalInstitutionDetailsArrayOptions', () => {
+    it('has expected base configuration', () => {
+      expect(additionalInstitutionDetailsArrayOptions.arrayPath).to.equal(
+        'additionalInstitutionDetails',
+      );
+      expect(additionalInstitutionDetailsArrayOptions.nounSingular).to.equal(
+        'location',
+      );
+      expect(additionalInstitutionDetailsArrayOptions.nounPlural).to.equal(
+        'locations',
+      );
+      expect(additionalInstitutionDetailsArrayOptions.required).to.equal(false);
+      expect(additionalInstitutionDetailsArrayOptions.maxItems).to.equal(10);
+    });
+
+    describe('isItemIncomplete', () => {
+      it('returns true when facilityCode is missing', () => {
+        expect(additionalInstitutionDetailsArrayOptions.isItemIncomplete({})).to
+          .be.true;
+        expect(
+          additionalInstitutionDetailsArrayOptions.isItemIncomplete({
+            facilityCode: '',
+          }),
+        ).to.be.true;
+        expect(additionalInstitutionDetailsArrayOptions.isItemIncomplete(null))
+          .to.be.true;
+      });
+
+      it('returns false when facilityCode is present', () => {
+        expect(
+          additionalInstitutionDetailsArrayOptions.isItemIncomplete({
+            facilityCode: '12345678',
+          }),
+        ).to.be.false;
+      });
+    });
+
+    describe('text.summaryTitle', () => {
+      it('returns plural title when count is > 1', () => {
+        const props = {
+          formData: {
+            additionalInstitutionDetails: [
+              { facilityCode: '12345678' },
+              { facilityCode: '87654321' },
+            ],
+          },
+        };
+
+        expect(
+          additionalInstitutionDetailsArrayOptions.text.summaryTitle(props),
+        ).to.equal('Review your additional locations ');
+      });
+    });
+
+    describe('text.summaryDescriptionWithoutItems', () => {
+      it('renders ADD copy when agreementType is not withdraw', () => {
+        const props = {
+          formData: {
+            agreementType: 'addToYellowRibbonProgram',
+          },
+        };
+
+        const node = additionalInstitutionDetailsArrayOptions.text.summaryDescriptionWithoutItems(
+          props,
+        );
+        const html = renderToStaticMarkup(node);
+
+        expect(html).to.include('You can add more locations to this agreement');
+        expect(html).to.include(
+          'If you have any more campuses or additional locations to add to this agreement',
+        );
+        expect(html).to.include(
+          'You will need a facility code for each location you would like to add.',
+        );
+      });
+
+      it('renders WITHDRAW copy when agreementType is withdraw', () => {
+        const props = {
+          formData: {
+            agreementType: 'withdrawFromYellowRibbonProgram',
+          },
+        };
+
+        const node = additionalInstitutionDetailsArrayOptions.text.summaryDescriptionWithoutItems(
+          props,
+        );
+        const html = renderToStaticMarkup(node);
+
+        expect(html).to.include(
+          'You can withdraw more locations from this agreement',
+        );
+        expect(html).to.include(
+          'If you have any more campuses or additional locations to withdraw from this agreement',
+        );
+        expect(html).to.include(
+          'You will need a facility code for each location you would like to withdraw.',
+        );
+      });
+
+      it('defaults to ADD copy when agreementType is missing', () => {
+        const node = additionalInstitutionDetailsArrayOptions.text.summaryDescriptionWithoutItems(
+          { formData: {} },
+        );
+        const html = renderToStaticMarkup(node);
+
+        expect(html).to.include('You can add more locations to this agreement');
+      });
+    });
+  });
   describe('createBannerMessage', () => {
     const mainInstitution = {
       facilityCode: '12345678',
@@ -1138,6 +1251,79 @@ describe('0839 Helpers', () => {
       expect(getAdditionalContactTitle(financialRepFormData)).to.equal(
         'Add school certifying official',
       );
+    });
+  });
+
+  describe('capitalizeFirstLetter', () => {
+    it('returns empty string when str is null', () => {
+      expect(capitalizeFirstLetter(null)).to.equal('');
+    });
+
+    it('returns empty string when str is undefined', () => {
+      expect(capitalizeFirstLetter(undefined)).to.equal('');
+    });
+
+    it('returns empty string when str is empty string', () => {
+      expect(capitalizeFirstLetter('')).to.equal('');
+    });
+
+    it('capitalizes first letter of lowercase string', () => {
+      expect(capitalizeFirstLetter('president')).to.equal('President');
+      expect(capitalizeFirstLetter('chief administrative officer')).to.equal(
+        'Chief administrative officer',
+      );
+    });
+
+    it('handles already capitalized strings', () => {
+      expect(capitalizeFirstLetter('President')).to.equal('President');
+    });
+
+    it('handles single character strings', () => {
+      expect(capitalizeFirstLetter('a')).to.equal('A');
+      expect(capitalizeFirstLetter('A')).to.equal('A');
+    });
+
+    it('handles all uppercase strings', () => {
+      expect(capitalizeFirstLetter('PRESIDENT')).to.equal('PRESIDENT');
+    });
+  });
+
+  describe('matchYearPattern', () => {
+    it('returns true for valid year pattern with four-digit years', () => {
+      expect(matchYearPattern('2024-2025')).to.be.true;
+      expect(matchYearPattern('2023-2024')).to.be.true;
+      expect(matchYearPattern('1999-2000')).to.be.true;
+    });
+
+    it('returns false when end year is not one year after start year', () => {
+      expect(matchYearPattern('2025-2024')).to.be.false;
+      expect(matchYearPattern('2025-2027')).to.be.false;
+    });
+
+    it('returns false for patterns with wrong number of digits', () => {
+      expect(matchYearPattern('24-25')).to.be.false;
+      expect(matchYearPattern('2024-25')).to.be.false;
+      expect(matchYearPattern('24-2025')).to.be.false;
+      expect(matchYearPattern('202-2025')).to.be.false;
+    });
+
+    it('returns false for patterns with wrong separator', () => {
+      expect(matchYearPattern('2024/2025')).to.be.false;
+      expect(matchYearPattern('2024_2025')).to.be.false;
+      expect(matchYearPattern('2024.2025')).to.be.false;
+    });
+
+    it('returns false for patterns with extra characters', () => {
+      expect(matchYearPattern('2024-2025 ')).to.be.false;
+      expect(matchYearPattern(' 2024-2025')).to.be.false;
+      expect(matchYearPattern('a2024-2025')).to.be.false;
+      expect(matchYearPattern('2024-2025b')).to.be.false;
+    });
+
+    it('returns false for empty or invalid input', () => {
+      expect(matchYearPattern('')).to.be.false;
+      expect(matchYearPattern('invalid')).to.be.false;
+      expect(matchYearPattern('2024')).to.be.false;
     });
   });
 });

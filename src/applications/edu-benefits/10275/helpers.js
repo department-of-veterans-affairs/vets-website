@@ -110,8 +110,26 @@ export const dateSigned = () => {
   return date.toISOString().split('T')[0];
 };
 
-export const transformPhoneNumber = phoneNumber => {
-  return phoneNumber.replaceAll('-', '');
+export const getTransformIntlPhoneNumber = (phone = {}) => {
+  let _contact = '';
+  const { callingCode, contact, countryCode } = phone;
+
+  if (contact) {
+    const _callingCode = callingCode ? `+${callingCode} ` : '';
+    const _countryCode = countryCode ? ` (${countryCode})` : '';
+    _contact = `${_callingCode}${contact}${_countryCode}`;
+  }
+
+  return _contact;
+};
+
+export const isPOEEligible = facilityCode => {
+  const firstDigit = facilityCode.charAt(0);
+  const secondDigit = facilityCode.charAt(1);
+  if (['1', '2', '3'].includes(firstDigit)) {
+    return ['1', '2', '3', '4', '5'].includes(secondDigit);
+  }
+  return false;
 };
 
 export const facilityCodeUIValidation = (errors, fieldData, formData) => {
@@ -139,9 +157,8 @@ export const facilityCodeUIValidation = (errors, fieldData, formData) => {
   if (!currentItem?.isLoading) {
     if (isDuplicate) {
       errors.addError(
-        "You've already added this location. Please enter a different code.",
+        'You have already added this facility code to this form. Enter a new facility code, or cancel adding this additional location.',
       );
-      return;
     }
     if (badFormat || notFound) {
       errors.addError(

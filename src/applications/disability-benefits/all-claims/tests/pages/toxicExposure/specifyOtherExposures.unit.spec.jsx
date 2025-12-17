@@ -82,7 +82,12 @@ describe('Specify Other Exposures', () => {
     );
   });
 
-  it('should submit without dates', () => {
+  /*
+  * TODO: We currently validate against partial dates on the frontend.
+  * Future consideration: allow Veterans to submit with completely blank or partial dates.
+  * @see https://github.com/department-of-veterans-affairs/va.gov-team/issues/120119#issuecomment-3482733324
+  */
+  it('should not submit without dates', () => {
     const dataNoDates = JSON.parse(JSON.stringify(formData));
     dataNoDates.toxicExposure.specifyOtherExposures.startDate = undefined;
     dataNoDates.toxicExposure.specifyOtherExposures.endDate = undefined;
@@ -90,7 +95,7 @@ describe('Specify Other Exposures', () => {
     pageSubmitTest(
       formConfig.chapters.disabilities.pages.specifyOtherExposures,
       dataNoDates,
-      true,
+      false,
     );
   });
 
@@ -102,7 +107,139 @@ describe('Specify Other Exposures', () => {
     );
   });
 
+  /*
+   * Edge case validations for toxic exposure dates.
+   * TODO: We currently validate against partial dates on the frontend.
+   * Future consideration: allow Veterans to submit with completely blank or partial dates.
+   * @see https://github.com/department-of-veterans-affairs/va.gov-team/issues/120119#issuecomment-3482733324
+   */
   describe('date validation', () => {
+    it('should not submit with incomplete start date (missing month)', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.specifyOtherExposures.startDate = '1975-XX-15';
+      data.toxicExposure.specifyOtherExposures.endDate = '1976-06-30';
+
+      pageSubmitTest(
+        formConfig.chapters.disabilities.pages.specifyOtherExposures,
+        data,
+        false,
+      );
+    });
+
+    it('should not submit with incomplete start date (missing day)', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.specifyOtherExposures.startDate = '1975-04-XX';
+      data.toxicExposure.specifyOtherExposures.endDate = '1976-06-30';
+
+      pageSubmitTest(
+        formConfig.chapters.disabilities.pages.specifyOtherExposures,
+        data,
+        false,
+      );
+    });
+
+    it('should not submit with incomplete start date (missing year)', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.specifyOtherExposures.startDate = 'XXXX-04-15';
+      data.toxicExposure.specifyOtherExposures.endDate = '1976-06-30';
+
+      pageSubmitTest(
+        formConfig.chapters.disabilities.pages.specifyOtherExposures,
+        data,
+        false,
+      );
+    });
+
+    it('should not submit with incomplete end date (missing month)', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.specifyOtherExposures.startDate = '1975-04-15';
+      data.toxicExposure.specifyOtherExposures.endDate = '1976-XX-30';
+
+      pageSubmitTest(
+        formConfig.chapters.disabilities.pages.specifyOtherExposures,
+        data,
+        false,
+      );
+    });
+
+    it('should not submit with incomplete end date (missing day)', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.specifyOtherExposures.startDate = '1975-04-15';
+      data.toxicExposure.specifyOtherExposures.endDate = '1976-06-XX';
+
+      pageSubmitTest(
+        formConfig.chapters.disabilities.pages.specifyOtherExposures,
+        data,
+        false,
+      );
+    });
+
+    it('should not submit with incomplete end date (missing year)', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.specifyOtherExposures.startDate = '1975-04-15';
+      data.toxicExposure.specifyOtherExposures.endDate = 'XXXX-06-30';
+
+      pageSubmitTest(
+        formConfig.chapters.disabilities.pages.specifyOtherExposures,
+        data,
+        false,
+      );
+    });
+
+    it('should not submit when end date is before start date', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.specifyOtherExposures.startDate = '1976-04-15';
+      data.toxicExposure.specifyOtherExposures.endDate = '1975-06-30';
+
+      pageSubmitTest(
+        formConfig.chapters.disabilities.pages.specifyOtherExposures,
+        data,
+        false,
+      );
+    });
+
+    it('should not submit with only start date', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.specifyOtherExposures.startDate = '1975-04-15';
+      data.toxicExposure.specifyOtherExposures.endDate = undefined;
+
+      pageSubmitTest(
+        formConfig.chapters.disabilities.pages.specifyOtherExposures,
+        data,
+        false,
+      );
+    });
+
+    it('should not submit with only end date', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.specifyOtherExposures.startDate = undefined;
+      data.toxicExposure.specifyOtherExposures.endDate = '1976-06-30';
+
+      pageSubmitTest(
+        formConfig.chapters.disabilities.pages.specifyOtherExposures,
+        data,
+        false,
+      );
+    });
+
+    it('should submit with current date for startDate', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.specifyOtherExposures.startDate = format(
+        subYears(new Date(), 1),
+        'yyyy-MM-dd',
+      );
+      data.toxicExposure.specifyOtherExposures.endDate = format(
+        new Date(),
+        'yyyy-MM-dd',
+      );
+
+      pageSubmitTest(
+        formConfig.chapters.disabilities.pages.specifyOtherExposures,
+        data,
+        true,
+      );
+    });
+
     it('should accept past date for startDate', () => {
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.specifyOtherExposures.startDate = format(
@@ -268,6 +405,19 @@ describe('Specify Other Exposures', () => {
         formConfig.chapters.disabilities.pages.specifyOtherExposures,
         data,
         true,
+      );
+    });
+
+    it('should not submit with equal start and end dates', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      const sameDate = format(subYears(new Date(), 1), 'yyyy-MM-dd');
+      data.toxicExposure.specifyOtherExposures.startDate = sameDate;
+      data.toxicExposure.specifyOtherExposures.endDate = sameDate;
+
+      pageSubmitTest(
+        formConfig.chapters.disabilities.pages.specifyOtherExposures,
+        data,
+        false,
       );
     });
 

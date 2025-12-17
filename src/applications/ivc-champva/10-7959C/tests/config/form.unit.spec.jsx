@@ -1,9 +1,5 @@
 import { expect } from 'chai';
-
-import {
-  testNumberOfWebComponentFields,
-  testComponentRender,
-} from '../../../shared/tests/pages/pageTests.spec';
+import { testNumberOfWebComponentFields } from '../../../shared/tests/pages/pageTests.spec';
 import formConfig from '../../config/form';
 import mockData from '../e2e/fixtures/data/test-data.json';
 import maxData from '../e2e/fixtures/data/maximal-test.json';
@@ -50,57 +46,54 @@ describe('title text logic', () => {
   });
 });
 
-testComponentRender(
-  'Custom Review Top Content',
-  formConfig.CustomReviewTopContent(),
-);
+describe('Beneficiary information', () => {
+  const { pages } = formConfig.chapters.applicantInformation;
 
-describe('Applicant Name/DOB page title', () => {
   testNumberOfWebComponentFields(
     formConfig,
-    formConfig.chapters.applicantInformation.pages.applicantNameDob.schema,
-    formConfig.chapters.applicantInformation.pages.applicantNameDob.uiSchema,
+    pages.applicantNameDob.schema,
+    pages.applicantNameDob.uiSchema,
     4,
-    'Applicant name/DOB',
+    'Beneficiary name',
+    { ...mockData.data },
+  );
+
+  testNumberOfWebComponentFields(
+    formConfig,
+    pages.applicantIdentity.schema,
+    pages.applicantIdentity.uiSchema,
+    1,
+    'Beneficiary identification information',
+    { ...mockData.data },
+  );
+
+  testNumberOfWebComponentFields(
+    formConfig,
+    pages.applicantAddressInfo.schema,
+    pages.applicantAddressInfo.uiSchema,
+    9,
+    'Beneficiary mailing address',
+    { ...mockData.data },
+  );
+
+  testNumberOfWebComponentFields(
+    formConfig,
+    pages.applicantContactInfo.schema,
+    pages.applicantContactInfo.uiSchema,
+    2,
+    'Beneficiary contact information',
+    { ...mockData.data },
+  );
+
+  testNumberOfWebComponentFields(
+    formConfig,
+    pages.applicantGender.schema,
+    pages.applicantGender.uiSchema,
+    1,
+    'Beneficiary birth sex',
     { ...mockData.data },
   );
 });
-
-testNumberOfWebComponentFields(
-  formConfig,
-  formConfig.chapters.applicantInformation.pages.applicantIdentity.schema,
-  formConfig.chapters.applicantInformation.pages.applicantIdentity.uiSchema,
-  1,
-  'Applicant identification',
-  { ...mockData.data },
-);
-
-testNumberOfWebComponentFields(
-  formConfig,
-  formConfig.chapters.applicantInformation.pages.applicantAddressInfo.schema,
-  formConfig.chapters.applicantInformation.pages.applicantAddressInfo.uiSchema,
-  9,
-  'Applicant address info',
-  { ...mockData.data },
-);
-
-testNumberOfWebComponentFields(
-  formConfig,
-  formConfig.chapters.applicantInformation.pages.applicantContactInfo.schema,
-  formConfig.chapters.applicantInformation.pages.applicantContactInfo.uiSchema,
-  2,
-  'Applicant contact info',
-  { ...mockData.data },
-);
-
-testNumberOfWebComponentFields(
-  formConfig,
-  formConfig.chapters.applicantInformation.pages.applicantGender.schema,
-  formConfig.chapters.applicantInformation.pages.applicantGender.uiSchema,
-  1,
-  'Applicant sex',
-  { ...mockData.data },
-);
 
 testNumberOfWebComponentFields(
   formConfig,

@@ -1,6 +1,6 @@
 {
   "claimantQuestion": {
-    "patientType": "spouseOrParent"
+    "patientType": "child"
   },
   "claimantPersonalInfo": {
     "claimantFullName": {

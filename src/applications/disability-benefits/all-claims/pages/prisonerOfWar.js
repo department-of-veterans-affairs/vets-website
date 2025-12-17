@@ -7,7 +7,7 @@ import { formatDate } from '../utils/dates/formatting';
 import { makeSchemaForNewDisabilities } from '../utils/schemas';
 import { isWithinServicePeriod } from '../validations';
 import { confinementDescription } from '../content/prisonerOfWar';
-import ConfirmationPrisonerOfWar from '../components/ConfirmationPrisonerOfWar';
+import ConfirmationPrisonerOfWar from '../components/confirmationFields/ConfirmationPrisonerOfWar';
 
 const confinementUI = dateRangeUI(
   'From',

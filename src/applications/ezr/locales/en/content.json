@@ -212,6 +212,8 @@
   "household-spouse-income-net-label": "Enter your spouse\u2019s net annual income from a farm, property, or business from %s",
   "household-spouse-income-other-label": "Enter your spouse\u2019s other annual income from %s",
   "household-spouse-information-summary-hint": "If you\u2019re currently married or separated, select Yes. If you\u2019re divorced or widowed or you\u2019ve never been married, select No.",
+  "household-spouse-intro-title": "Your spouse",
+  "household-spouse-intro-description": "In the next few questions, we’ll ask you about your spouse.",
   "household-spouse-marriage-date-label": "Date of marriage",
   "household-spouse-name-prefix": "Spouse\u2019s",
   "household-spouse-phone-label": "Phone number",

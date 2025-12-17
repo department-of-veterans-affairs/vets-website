@@ -15,10 +15,6 @@ export const FinancialHelp = ({ showOneThingPerPage = false }) => (
     <p>You can request these relief options:</p>
     <ul>
       <li>
-        <strong>Repayment plan.</strong> This would allow you to repay the debt
-        in smaller monthly amounts over time.
-      </li>
-      <li>
         <strong>Compromise offer.</strong> This means you offer a lesser
         one-time lump sum amount as full payment of the debt. If we approve your
         request, you’ll have to pay the one-time amount within 30 days.

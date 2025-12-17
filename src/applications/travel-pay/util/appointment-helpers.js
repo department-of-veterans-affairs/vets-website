@@ -45,6 +45,27 @@ export function getDaysLeft(datetimeString) {
   return daysSinceAppt > 30 ? 0 : 30 - daysSinceAppt;
 }
 
+/**
+ * Calculate if an appointment/claim is out of bounds (more than 30 days old)
+ * @param {string} dateString - ISO date string for the appointment date
+ * @returns {boolean} - true if more than 30 days old, false otherwise
+ */
+export function calculateIsOutOfBounds(dateString) {
+  if (!dateString) {
+    return false;
+  }
+
+  try {
+    const daysSinceAppt = differenceInCalendarDays(
+      new Date(),
+      new Date(dateString),
+    );
+    return daysSinceAppt > 30;
+  } catch (error) {
+    return false;
+  }
+}
+
 export function isPastAppt(appointment) {
   const isVideo = appointment.kind && appointment.kind === 'telehealth';
   const threshold = isVideo ? 240 : 60;
@@ -77,7 +98,9 @@ export function transformVAOSAppointment(appt) {
   const daysSinceAppt = isPast
     ? differenceInCalendarDays(new Date(), new Date(appt.localStartTime))
     : null;
-  const isOutOfBounds = daysSinceAppt ? daysSinceAppt > 30 : false;
+  const isOutOfBounds = isPast
+    ? calculateIsOutOfBounds(appt.localStartTime)
+    : false;
 
   // This property will be helpful for complex claims
   // Adding now because we might need to specifically exclude them until then?
@@ -103,7 +126,9 @@ export function transformVAOSAppointment(appt) {
     isCompAndPen, // This might come in handy?
 
     practitionerName:
-      appt.practitioners && typeof appt.practitioners !== 'undefined'
+      appt.practitioners &&
+      typeof appt.practitioners !== 'undefined' &&
+      appt.practitioners.length !== 0
         ? getPractionerName(appt.practitioners)
         : undefined,
   };

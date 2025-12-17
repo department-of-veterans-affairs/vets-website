@@ -355,6 +355,17 @@ describe('Submit Transform', () => {
       expect(result.veteranServicePeriods.periods).to.be.an('array').that.is
         .empty;
     });
+
+    it('should handle undefined periods (optional service history)', () => {
+      const form = createFormData({
+        periods: undefined,
+      });
+
+      const result = JSON.parse(transform({}, form));
+
+      expect(result.veteranServicePeriods.periods).to.be.an('array').that.is
+        .empty;
+    });
   });
 
   describe('Previous Names Transformation', () => {

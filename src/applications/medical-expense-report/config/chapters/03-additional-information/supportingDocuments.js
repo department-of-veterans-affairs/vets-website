@@ -11,7 +11,7 @@ const SupportingDocumentsContent = (
 
     <p>
       If you’re claiming expenses for a residential care facility or in-home
-      care attendant, you’ll need to fill submit these supporting documents:
+      care attendant, you’ll need to submit these supporting documents:
     </p>
 
     <ul>

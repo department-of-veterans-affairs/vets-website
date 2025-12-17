@@ -7,9 +7,11 @@ describe('processCSAT', () => {
   let sandbox;
   let columns;
   let stars;
+  let surveys;
+  let shouldReturnColumns;
 
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
     columns = [{ style: { pointerEvents: 'not-none' } }];
     stars = [
       {
@@ -29,19 +31,28 @@ describe('processCSAT', () => {
       },
     ];
 
-    sandbox.stub(document, 'querySelectorAll').returns([
-      {
-        querySelectorAll: sandbox.stub().callsFake(query => {
-          if (query === '#chatbot-csat-survey-columnset') {
-            return columns;
-          }
-          if (query === 'img') {
-            return stars;
-          }
-          return sandbox.stub();
-        }),
-      },
-    ]);
+    shouldReturnColumns = true;
+
+    const survey = {
+      querySelectorAll: sandbox.stub().callsFake(query => {
+        if (query === '#chatbot-csat-survey-columnset') {
+          return shouldReturnColumns ? columns : [];
+        }
+        if (query === 'img') {
+          return stars;
+        }
+        return [];
+      }),
+    };
+
+    surveys = [survey];
+
+    sandbox.stub(document, 'querySelectorAll').callsFake(selector => {
+      if (selector === '#chatbot-csat-survey') {
+        return surveys;
+      }
+      return [];
+    });
   });
 
   afterEach(() => {
@@ -70,5 +81,25 @@ describe('processCSAT', () => {
     expect(stars[2].src).to.equal('some-url');
     expect(stars[3].src).to.equal('some-url');
     expect(stars[4].src).to.equal('some-url');
+  });
+
+  it('Should return early when surveys are not present', () => {
+    surveys.length = 0;
+
+    expect(() => processCSAT({ value: { response: '3' } })).to.not.throw();
+  });
+
+  it('Should return early when the latest survey cannot be found', () => {
+    surveys.splice(0, surveys.length, undefined);
+
+    expect(() => processCSAT({ value: { response: '3' } })).to.not.throw();
+  });
+
+  it('Should leave pointer events untouched when no column set is returned', () => {
+    shouldReturnColumns = false;
+
+    processCSAT({ value: { response: '3' } });
+
+    expect(columns[0].style.pointerEvents).to.equal('not-none');
   });
 });

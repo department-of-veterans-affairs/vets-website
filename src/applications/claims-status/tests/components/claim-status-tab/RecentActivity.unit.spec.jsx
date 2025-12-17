@@ -1,6 +1,7 @@
 import React from 'react';
 import { within } from '@testing-library/react';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
@@ -8,11 +9,16 @@ import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import RecentActivity from '../../../components/claim-status-tab/RecentActivity';
 import { renderWithRouter } from '../../utils';
 
-const getStore = (cstClaimPhasesEnabled = false) =>
+const getStore = (
+  cstClaimPhasesEnabled = false,
+  cstTimezoneDiscrepancyMitigation = true,
+) =>
   createStore(() => ({
     featureToggles: {
       // eslint-disable-next-line camelcase
       cst_claim_phases: cstClaimPhasesEnabled,
+      // eslint-disable-next-line camelcase
+      cst_timezone_discrepancy_mitigation: cstTimezoneDiscrepancyMitigation,
     },
   }));
 
@@ -1389,4 +1395,136 @@ describe('<RecentActivity>', () => {
       });
     },
   );
+
+  context('Timezone-aware message display', () => {
+    let timezoneStub;
+
+    beforeEach(() => {
+      // Stub CST timezone (-360 = UTC-6) for all tests by default
+      // Individual tests can override by restoring and re-stubbing
+      timezoneStub = sinon
+        .stub(Date.prototype, 'getTimezoneOffset')
+        .returns(-360);
+    });
+
+    afterEach(() => {
+      if (timezoneStub) {
+        timezoneStub.restore();
+        timezoneStub = null;
+      }
+    });
+
+    it('should display timezone message below Recent activity heading', () => {
+      // Enable timezone discrepancy feature toggle
+      const { getByText } = renderWithRouter(
+        <Provider store={getStore(false, true)}>
+          <RecentActivity claim={openClaimStep1} />
+        </Provider>,
+      );
+
+      getByText('Recent activity');
+      expect(getByText(/Files uploaded (after|before).*will show (with|as)/)).to
+        .exist;
+    });
+
+    it('should include time and timezone in message', () => {
+      const { getByText } = renderWithRouter(
+        <Provider store={getStore(false, true)}>
+          <RecentActivity claim={openClaimStep1} />
+        </Provider>,
+      );
+
+      const messageParagraph = getByText(
+        /Files uploaded (after|before).*will show (with|as)/,
+      );
+      expect(messageParagraph.textContent).to.match(
+        /\d{1,2}:\d{2}\s+(a|p)\.m\./,
+      );
+    });
+
+    it('should NOT display message when in UTC timezone (offset = 0)', () => {
+      // Restore beforeEach stub and re-stub with UTC timezone (0)
+      timezoneStub.restore();
+      timezoneStub = sinon.stub(Date.prototype, 'getTimezoneOffset').returns(0);
+
+      const { queryByText } = renderWithRouter(
+        <Provider store={getStore(false, true)}>
+          <RecentActivity claim={openClaimStep1} />
+        </Provider>,
+      );
+
+      // Heading should exist
+      expect(queryByText('Recent activity')).to.exist;
+
+      // Message should NOT exist when timezone offset is 0 (UTC)
+      expect(queryByText(/Files uploaded/)).to.not.exist;
+    });
+
+    it('should NOT display message when feature toggle is disabled', () => {
+      // Disable timezone discrepancy feature toggle
+      const { queryByText } = renderWithRouter(
+        <Provider store={getStore(false, false)}>
+          <RecentActivity claim={openClaimStep1} />
+        </Provider>,
+      );
+
+      // Heading should exist
+      expect(queryByText('Recent activity')).to.exist;
+
+      // Message should NOT exist when toggle is disabled
+      expect(queryByText(/Files uploaded/)).to.not.exist;
+      expect(queryByText(/will show as received/)).to.not.exist;
+    });
+
+    it('should not render message paragraph element when toggle is disabled', () => {
+      const { container } = renderWithRouter(
+        <Provider store={getStore(false, false)}>
+          <RecentActivity claim={openClaimStep1} />
+        </Provider>,
+      );
+
+      const heading = container.querySelector('h3');
+      expect(heading).to.exist;
+      expect(heading.textContent).to.equal('Recent activity');
+
+      // Find all paragraphs in recent-activity-container
+      const activityContainer = container.querySelector(
+        '.recent-activity-container',
+      );
+      const paragraphs = activityContainer.querySelectorAll('p');
+
+      // No paragraph should contain timezone message when toggle disabled
+      paragraphs.forEach(p => {
+        expect(p.textContent).to.not.include('Files uploaded');
+      });
+    });
+
+    it('should conditionally render message based on feature toggle', () => {
+      // Test with toggle ENABLED (should render)
+      const { container, rerender } = renderWithRouter(
+        <Provider store={getStore(false, true)}>
+          <RecentActivity claim={openClaimStep1} />
+        </Provider>,
+      );
+
+      let messageParagraph = container.querySelector(
+        '.vads-u-color--gray-medium',
+      );
+      expect(messageParagraph).to.exist;
+      expect(messageParagraph.textContent).to.include('Files uploaded');
+
+      // Re-render with toggle DISABLED
+      rerender(
+        <Provider store={getStore(false, false)}>
+          <RecentActivity claim={openClaimStep1} />
+        </Provider>,
+      );
+
+      // Message paragraph should not exist when toggle is disabled
+      messageParagraph = container.querySelector('.vads-u-color--gray-medium');
+      expect(messageParagraph?.textContent || '').to.not.include(
+        'Files uploaded',
+      );
+    });
+  });
 });

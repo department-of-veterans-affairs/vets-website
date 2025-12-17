@@ -1,6 +1,7 @@
 import React from 'react';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
+import recordEvent from 'platform/monitoring/record-event';
+import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 function StemAskVAQuestions() {
   const handler = {
@@ -19,12 +20,12 @@ function StemAskVAQuestions() {
         Ask a question
       </h3>
       <p className="vads-u-padding-top--1px">
-        <a
+        <VaLink
+          data-testid="contact-us-online-through-ask-va-link"
           href="https://www.va.gov/contact-us/"
           onClick={handler.recordLinkClick}
-        >
-          Contact us online through Ask VA
-        </a>
+          text="Contact us online through Ask VA"
+        />
       </p>
       <h3 className="vads-u-font-size--h4 vads-u-margin-bottom--0p5">
         Call us
@@ -48,9 +49,12 @@ function StemAskVAQuestions() {
       </p>
       <br />
       <p>
-        <a href="/find-locations" onClick={handler.recordLinkClick}>
-          VA Regional Office Location
-        </a>
+        <VaLink
+          data-testid="va-regional-office-location-link"
+          href="/find-locations"
+          onClick={handler.recordLinkClick}
+          text="VA Regional Office Location"
+        />
       </p>
       <h3 className="vads-u-font-size--h4 vads-u-margin-bottom--0p5">
         Send us mail

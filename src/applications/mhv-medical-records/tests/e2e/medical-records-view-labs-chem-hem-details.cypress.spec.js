@@ -1,8 +1,8 @@
-import moment from 'moment';
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import LabsAndTestsListPage from './pages/LabsAndTestsListPage';
 import ChemHemDetailsPage from './pages/ChemHemDetailsPage';
 import labsAndTests from './fixtures/labs-and-tests/labsAndTests.json';
+import { formatDateMonthDayCommaYear } from '../../util/dateHelpers';
 
 describe('Medical Records View Labs And Tests', () => {
   const site = new MedicalRecordsSite();
@@ -21,8 +21,8 @@ describe('Medical Records View Labs And Tests', () => {
       record.contained[4].code.coding[1].display,
     );
     ChemHemDetailsPage.verifyLabDate(
-      moment(record.contained[0].collection.collectedDateTime).format(
-        'MMMM D, YYYY',
+      formatDateMonthDayCommaYear(
+        record.contained[0].collection.collectedDateTime,
       ),
     );
     ChemHemDetailsPage.verifySampleTested(record.contained[0].type.text);
