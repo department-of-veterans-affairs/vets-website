@@ -154,7 +154,7 @@ const Prescriptions = () => {
     },
     [prescriptionsData],
   );
-  
+
   const filteredList = prescriptionsData?.prescriptions || [];
   const { filterCount } = meta || {};
   const prescriptionId = useSelector(selectPrescriptionId);
