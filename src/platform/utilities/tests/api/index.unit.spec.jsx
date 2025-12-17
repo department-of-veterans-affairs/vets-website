@@ -41,6 +41,11 @@ describe('test wrapper', () => {
     });
 
     it('should behave as if in production', async () => {
+      server.use(
+        rest.get('*', (req, res, ctx) =>
+          res(ctx.status(200), ctx.json({ status: 'ok' })),
+        ),
+      );
       await apiRequest('/status', {}, null, null, mockEnv);
       expect(mockEnv.isProduction.called).to.be.true;
     });
@@ -331,6 +336,11 @@ describe('test wrapper', () => {
     });
 
     it('calls checkOrSetSessionExpiration and checkAndUpdateSSOSession if the hasSessionSSO flag is set', async () => {
+      server.use(
+        rest.get(environment.API_URL, (req, res, ctx) =>
+          res(ctx.status(200), ctx.json({})),
+        ),
+      );
       localStorage.setItem('hasSessionSSO', 'true');
       await fetchAndUpdateSessionExpiration(environment.API_URL, {});
       expect(checkOrSetSessionExpirationMock.callCount).to.equal(1);
@@ -350,7 +360,7 @@ describe('test wrapper', () => {
 
     it('does not call checkOrSetSessionExpiration and checkAndUpdateSSOSession if the url does not include the API url', async () => {
       server.use(
-        rest.get(/v0\/status/, (req, res, ctx) =>
+        rest.get(environment.BASE_URL, (req, res, ctx) =>
           res(ctx.status(404), ctx.json({})),
         ),
       );
@@ -364,10 +374,11 @@ describe('test wrapper', () => {
     let infoTokenExistsStub;
     let getInfoTokenStub;
     let refreshStub;
-    let clock;
+    let dateNowStub;
 
     beforeEach(() => {
-      clock = sinon.useFakeTimers(new Date('2025-01-01T12:00:00Z').getTime());
+      // Mock Date.now() instead of using fake timers
+      dateNowStub = sinon.stub(Date, 'now').returns(new Date('2025-01-01T12:00:00Z').getTime());
       infoTokenExistsStub = sinon.stub(oauthModule, 'infoTokenExists');
       getInfoTokenStub = sinon.stub(oauthModule, 'getInfoToken');
       refreshStub = sinon.stub(oauthModule, 'refresh').resolves();
@@ -375,7 +386,7 @@ describe('test wrapper', () => {
     });
 
     afterEach(() => {
-      clock.restore();
+      dateNowStub.restore();
       infoTokenExistsStub.restore();
       getInfoTokenStub.restore();
       refreshStub.restore();
@@ -398,9 +409,16 @@ describe('test wrapper', () => {
         ),
       );
 
+      // Temporarily unset window.Mocha to allow retryOn to be used
+      const originalMocha = window.Mocha;
+      window.Mocha = false;
+
       await apiRequest('/status', {
         headers: { 'Content-Type': 'application/json' },
       });
+
+      // Restore window.Mocha
+      window.Mocha = originalMocha;
 
       expect(refreshStub.calledOnce).to.be.true;
       expect(refreshStub.calledWith({ type: 'idme' })).to.be.true;
@@ -469,9 +487,16 @@ describe('test wrapper', () => {
         }),
       );
 
+      // Temporarily unset window.Mocha to allow retryOn to be used
+      const originalMocha = window.Mocha;
+      window.Mocha = false;
+
       const response = await apiRequest('/status', {
         headers: { 'Content-Type': 'application/json' },
       });
+
+      // Restore window.Mocha
+      window.Mocha = originalMocha;
 
       expect(refreshStub.calledOnce).to.be.true;
       expect(response.status).to.eql('ok');
@@ -492,9 +517,16 @@ describe('test wrapper', () => {
         ),
       );
 
+      // Temporarily unset window.Mocha to allow retryOn to be used
+      const originalMocha = window.Mocha;
+      window.Mocha = false;
+
       await apiRequest('/status', {
         headers: { 'Content-Type': 'application/json' },
       });
+
+      // Restore window.Mocha
+      window.Mocha = originalMocha;
 
       expect(refreshStub.calledOnce).to.be.true;
     });
