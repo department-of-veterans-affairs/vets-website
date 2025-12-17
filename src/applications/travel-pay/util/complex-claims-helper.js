@@ -1,4 +1,4 @@
-import { EXPENSE_TYPES } from '../constants';
+import { EXPENSE_TYPES, STATUSES } from '../constants';
 
 /**
  * Get an expense type object by key
@@ -27,4 +27,32 @@ export function formatAmount(amount) {
   if (amount === null || amount === undefined || Number.isNaN(amount))
     return '0.00';
   return Number(amount).toFixed(2);
+}
+
+/**
+ * Checks if there are any documents that are not associated with any expenses
+ * @param {Array} documents - Array of document objects with expenseId
+ * @returns {boolean} - True if there are unassociated documents, false otherwise
+ */
+export function hasUnassociatedDocuments(documents = []) {
+  if (!documents || documents.length === 0) return false;
+
+  // Filter out clerk notes (documents without mimetype)
+  const realDocuments = documents.filter(doc => doc.mimetype);
+  if (realDocuments.length === 0) return false;
+
+  // Check if any document is missing an expenseId (is unassociated)
+  return realDocuments.some(doc => !doc.expenseId);
+}
+
+/**
+ * Checks if a claim status is Incomplete or Saved
+ * @param {string} claimStatus - The claim status to check
+ * @returns {boolean} - True if the claim status is Incomplete or Saved, false otherwise
+ */
+export function isClaimIncompleteOrSaved(claimStatus) {
+  return (
+    claimStatus === STATUSES.Incomplete.name ||
+    claimStatus === STATUSES.Saved.name
+  );
 }

@@ -1,8 +1,15 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom-v5-compat';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import useAcceleratedData from '~/platform/mhv/hooks/useAcceleratedData';
 import {
   updatePageTitle,
   reportGeneratedBy,
@@ -89,7 +96,21 @@ const PrescriptionDetails = () => {
 
   const userName = useSelector(selectUserFullName);
   const dob = useSelector(selectUserDob);
-  const { data: allergies, error: allergiesError } = useGetAllergiesQuery();
+  const {
+    isAcceleratingAllergies,
+    isCerner,
+    isLoading: isAcceleratedDataLoading,
+  } = useAcceleratedData();
+
+  const { data: allergies, error: allergiesError } = useGetAllergiesQuery(
+    {
+      isAcceleratingAllergies,
+      isCerner,
+    },
+    {
+      skip: isAcceleratedDataLoading, // Wait for Cerner data and toggles to load before calling API
+    },
+  );
 
   const [prescriptionPdfList, setPrescriptionPdfList] = useState([]);
   const [pdfTxtGenerateStatus, setPdfTxtGenerateStatus] = useState({
@@ -99,24 +120,34 @@ const PrescriptionDetails = () => {
 
   const prescriptionHeader =
     prescription?.prescriptionName || prescription?.orderableItem;
-  const refillHistory = getRefillHistory(prescription);
+  const refillHistory = useMemo(() => getRefillHistory(prescription), [
+    prescription,
+  ]);
 
   // Prefetch prescription documentation for faster loading when
   // going to the documentation page
   const prefetchPrescriptionDocumentation = usePrefetch(
     'getPrescriptionDocumentation',
   );
+
+  const hasPrefetched = useRef(false);
+
   useEffect(
     () => {
-      if (!isLoading && hasCmopNdcNumber(refillHistory)) {
+      if (
+        !isLoading &&
+        !hasPrefetched.current &&
+        hasCmopNdcNumber(refillHistory)
+      ) {
         prefetchPrescriptionDocumentation(prescriptionId);
+        hasPrefetched.current = true;
       }
     },
     [
       isLoading,
-      prefetchPrescriptionDocumentation,
       prescriptionId,
       refillHistory,
+      prefetchPrescriptionDocumentation,
     ],
   );
 
