@@ -35,7 +35,6 @@ import {
   validateDescription,
   validateRequestedAmount,
   validateAirTravelFields,
-  validateCommonCarrierFields,
   validateLodgingFields,
   validateMealFields,
 } from '../../../util/expense-validation-helpers';
@@ -227,12 +226,6 @@ const ExpensePage = () => {
           nextErrors = validateLodgingFields(newFormState, nextErrors, name);
         } else if (isMeal) {
           nextErrors = validateMealFields(newFormState, nextErrors, name);
-        } else if (isCommonCarrier) {
-          nextErrors = validateCommonCarrierFields(
-            newFormState,
-            nextErrors,
-            name,
-          );
         }
 
         return nextErrors;
@@ -290,11 +283,6 @@ const ExpensePage = () => {
       errors.receipt = 'Select an approved file type under 5MB';
     } else {
       delete errors.receipt;
-    }
-
-    // Commoncarrier-specific validations
-    if (isCommonCarrier) {
-      errors = validateCommonCarrierFields(formState, errors);
     }
 
     // Airtravel-specific validations

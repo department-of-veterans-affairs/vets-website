@@ -8,7 +8,6 @@ import {
   validateDescription,
   validateRequestedAmount,
   validateAirTravelFields,
-  validateCommonCarrierFields,
   validateLodgingFields,
   validateMealFields,
 } from '../../util/expense-validation-helpers';
@@ -429,50 +428,6 @@ describe('validateAirTravelFields', () => {
     const nextErrors = validateAirTravelFields(formState, errors);
 
     expect(nextErrors.returnDate).to.be.undefined;
-  });
-});
-
-describe('validateCommonCarrierFields', () => {
-  let formState;
-  let errors;
-
-  beforeEach(() => {
-    formState = {
-      carrierType: '',
-      reasonNotUsingPOV: '',
-    };
-    errors = {};
-  });
-
-  it('sets errors when fields are empty', () => {
-    const nextErrors = validateCommonCarrierFields(formState, errors);
-
-    expect(nextErrors).to.deep.equal({
-      carrierType: 'Select a transportation type',
-      reasonNotUsingPOV: 'Select a reason',
-    });
-  });
-
-  it('clears errors when fields are filled', () => {
-    formState = {
-      carrierType: 'Bus',
-      reasonNotUsingPOV: 'No personal vehicle',
-    };
-    const nextErrors = validateCommonCarrierFields(formState, errors);
-
-    expect(nextErrors).to.deep.equal({});
-  });
-
-  it('validates a single field only', () => {
-    formState.carrierType = 'Train';
-    const nextErrors = validateCommonCarrierFields(
-      formState,
-      errors,
-      'carrierType',
-    );
-
-    expect(nextErrors.carrierType).to.be.undefined;
-    expect(nextErrors.reasonNotUsingPOV).to.be.undefined; // untouched
   });
 });
 

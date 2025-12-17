@@ -360,48 +360,6 @@ export const validateAirTravelFields = (formState, errors, fieldName) => {
 };
 
 /**
- * Validates CommonCarrier expense fields for a form.
- *
- * Rules:
- *  - carrierType: required
- *  - reasonNotUsingPOV: required
- *
- * Supports validating either:
- *  - All fields at once (fieldName omitted)
- *  - A single field (determined via getFieldsToValidate)
- *
- * @param {Object} formState - The current state of the expense form
- * @param {Object} errors - The current validation errors object
- * @param {string} [fieldName] - Optional. Name of the field being updated.
- * @returns {Object} nextErrors - Updated errors object with validation results
- */
-export const validateCommonCarrierFields = (formState, errors, fieldName) => {
-  const nextErrors = { ...errors };
-
-  // Use helper to determine which fields to validate
-  const fieldsToValidate = getFieldsToValidate(
-    ['carrierType', 'reasonNotUsingPOV'],
-    fieldName,
-  );
-
-  // carrierType
-  if (fieldsToValidate.includes('carrierType')) {
-    if (!formState.carrierType)
-      nextErrors.carrierType = 'Select a transportation type';
-    else delete nextErrors.carrierType;
-  }
-
-  // reasonNotUsingPOV
-  if (fieldsToValidate.includes('reasonNotUsingPOV')) {
-    if (!formState.reasonNotUsingPOV)
-      nextErrors.reasonNotUsingPOV = 'Select a reason';
-    else delete nextErrors.reasonNotUsingPOV;
-  }
-
-  return nextErrors;
-};
-
-/**
  * Validates Lodging expense fields for a form.
  *
  * Rules:
