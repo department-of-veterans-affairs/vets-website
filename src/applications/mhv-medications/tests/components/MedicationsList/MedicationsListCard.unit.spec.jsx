@@ -172,7 +172,7 @@ describe('Medication card component', () => {
     );
     expect(getByTestId('rxStatus')).to.have.text('Active: Non-VA');
     expect(getByTestId('non-VA-prescription')).to.have.text(
-      'You can’t manage this medication in this online tool.',
+      "You can't manage this medication in this online tool.",
     );
     /* eslint-enable prettier/prettier */
   });
@@ -191,7 +191,7 @@ describe('Medication card component', () => {
     );
     expect(getByTestId('rxStatus')).to.have.text('Active: Non-VA');
     expect(getByTestId('non-VA-prescription')).to.have.text(
-      'You can’t manage this medication in this online tool.',
+      "You can't manage this medication in this online tool.",
     );
     /* eslint-enable prettier/prettier */
   });
@@ -210,7 +210,7 @@ describe('Medication card component', () => {
     );
     expect(getByTestId('rxStatus')).to.have.text('Active: Non-VA');
     expect(getByTestId('non-VA-prescription')).to.have.text(
-      'You can’t manage this medication in this online tool.',
+      "You can't manage this medication in this online tool.",
     );
     /* eslint-enable prettier/prettier */
   });
