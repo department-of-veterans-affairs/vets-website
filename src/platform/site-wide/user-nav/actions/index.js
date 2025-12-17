@@ -24,10 +24,14 @@ export function toggleLoginModal(
     );
     const authBrokerCookieSelector = determineAuthBroker(
       cernerNonEligibleSisEnabled,
-      loading,
     );
 
-    const oauth = loading ? true : authBrokerCookieSelector !== false;
+    const savedModalOpen =
+      typeof loading === 'undefined' &&
+      typeof cernerNonEligibleSisEnabled === 'undefined' &&
+      nextParam;
+
+    const oauth = savedModalOpen ? true : authBrokerCookieSelector;
 
     const nextQuery = {
       next: nextParam ?? 'loginModal',
