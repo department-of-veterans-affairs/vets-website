@@ -286,6 +286,7 @@ const formConfig = {
           title: 'Presidential Memorial Certificate',
           uiSchema: quantityOfCertificates.uiSchema,
           schema: quantityOfCertificates.schema,
+          depends: formData => formData.pmcYesNo === true,
         },
       },
     },

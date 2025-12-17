@@ -16,15 +16,15 @@ export default {
     ),
     'ui:description': learnMoreAboutCertsLink,
 
-    veteranDemoYesNo: yesNoUI({
+    pmcYesNo: yesNoUI({
       title: 'Do you want a Presidential Memorial Certificate?',
     }),
   },
   schema: {
     type: 'object',
     properties: {
-      veteranDemoYesNo: yesNoSchema,
+      pmcYesNo: yesNoSchema,
     },
-    required: ['veteranDemoYesNo'],
+    required: ['pmcYesNo'],
   },
 };
