@@ -10,15 +10,15 @@ const LABEL_BACK = content['medicare--card-sample-label--back'];
 const CARD_IMAGES = {
   partsAB: {
     src: '/img/ivc-champva/part_a_and_b_front_high_res.png',
-    altText: content['medicare--parts-ab-card-upload-alt-text--front'],
+    altText: content['medicare--parts-ab-card-alt-text--front'],
   },
   partA: {
     src: '/img/ivc-champva/part_a_card_front_high_res.png',
-    altText: content['medicare--part-a-card-upload-alt-text--front'],
+    altText: content['medicare--part-a-card-alt-text--front'],
   },
   partB: {
     src: '/img/ivc-champva/part_b_card_front_high_res.png',
-    altText: content['medicare--part-b-card-upload-alt-text--front'],
+    altText: content['medicare--part-b-card-alt-text--front'],
   },
   allBack: {
     src: '/img/ivc-champva/medicare_back_high_res.png',
