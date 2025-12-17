@@ -40,12 +40,13 @@ const uiSchema = {
   },
   'view:understandsUploadRequirement2': {
     'ui:description': (
-      <va-alert tabindex="0">
-        When you submit this form on QuickSubmit or by mail, you will need to
-        attach a copy of your receipt for any test fees included in the total
-        cost above. Reimbursement of the test fee can’t be paid until this
-        information is received.
-      </va-alert>
+      <div className="vads-u-margin-top--4">
+        <strong>Note:</strong> When you submit this form on QuickSubmit or by
+        mail, you will need to attach a copy of your test results to your
+        submission. If you do not have any test results but have a copy of your
+        license or certification that clearly displays your name, you can attach
+        that.
+      </div>
     ),
   },
 };
