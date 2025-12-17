@@ -8,7 +8,7 @@ import { FormTypes, FormMetaInfoTypes } from '../types';
 import { FORM_MOMENT_PRESENTATION_DATE_FORMAT } from '../constants';
 import FormTitle from './FormTitle';
 import { checkFormValidity } from '../api';
-import { createLogMessage } from '../helpers/sentryLogger';
+import { createLogMessage } from '../helpers/datadogLogger';
 import InvalidFormAlert from './InvalidFormAlert';
 
 // helper for replacing the form title to keep same domain for testing in non production
