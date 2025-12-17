@@ -11,7 +11,9 @@ import {
 import * as api from '@department-of-veterans-affairs/platform-utilities/api';
 import sinon from 'sinon';
 
-import ExpensePage from '../../../../components/complex-claims/pages/ExpensePage';
+import ExpensePage, {
+  toBase64,
+} from '../../../../components/complex-claims/pages/ExpensePage';
 import ChooseExpenseType from '../../../../components/complex-claims/pages/ChooseExpenseType';
 import reducer from '../../../../redux/reducer';
 import {
@@ -578,7 +580,7 @@ describe('Travel Pay – ExpensePage (Editing existing expense)', () => {
               {
                 filename: 'saved.pdf',
                 mimetype: 'application/pdf',
-                fileData: 'data:application/pdf;base64,AA==',
+                fileData: 'AA==',
                 documentId: TEST_DOCUMENT_ID,
                 createdon: '2025-11-17',
               },
@@ -891,5 +893,76 @@ describe('Travel Pay – ExpensePage (Editing existing expense)', () => {
       },
       { timeout: 3000 },
     );
+  });
+});
+
+describe('toBase64 helper function', () => {
+  let originalFileReader;
+
+  beforeEach(() => {
+    originalFileReader = global.FileReader;
+  });
+
+  afterEach(() => {
+    global.FileReader = originalFileReader;
+  });
+
+  it('should strip data URL prefix and return only base64 data', async () => {
+    const mockBase64 = 'iVBORw0KGgoAAAANSUhEUgAAAAUA';
+    const mockDataUrl = `data:image/png;base64,${mockBase64}`;
+
+    global.FileReader = function MockFileReader() {
+      this.readAsDataURL = function readAsDataURL() {
+        this.result = mockDataUrl;
+        setTimeout(() => this.onload(), 0);
+      };
+    };
+
+    const file = new File(['test'], 'test.png', { type: 'image/png' });
+    const result = await toBase64(file);
+    expect(result).to.equal(mockBase64);
+  });
+
+  it('should return empty string if result is malformed', async () => {
+    global.FileReader = function MockFileReader() {
+      this.readAsDataURL = function readAsDataURL() {
+        this.result = 'malformed-no-comma';
+        setTimeout(() => this.onload(), 0);
+      };
+    };
+
+    const file = new File(['test'], 'test.png', { type: 'image/png' });
+    const result = await toBase64(file);
+    expect(result).to.equal('');
+  });
+
+  it('should return empty string if result is null', async () => {
+    global.FileReader = function MockFileReader() {
+      this.readAsDataURL = function readAsDataURL() {
+        this.result = null;
+        setTimeout(() => this.onload(), 0);
+      };
+    };
+
+    const file = new File(['test'], 'test.png', { type: 'image/png' });
+    const result = await toBase64(file);
+    expect(result).to.equal('');
+  });
+
+  it('should handle FileReader errors', async () => {
+    global.FileReader = function MockFileReader() {
+      this.readAsDataURL = function readAsDataURL() {
+        setTimeout(() => this.onerror(new Error('Read failed')), 0);
+      };
+    };
+
+    const file = new File(['test'], 'test.png', { type: 'image/png' });
+
+    try {
+      await toBase64(file);
+      expect.fail('Should have thrown error');
+    } catch (error) {
+      expect(error.message).to.equal('Read failed');
+    }
   });
 });
