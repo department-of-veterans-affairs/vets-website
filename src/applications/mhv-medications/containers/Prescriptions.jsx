@@ -151,18 +151,11 @@ const Prescriptions = () => {
       if (prescriptionsData?.prescriptions) {
         let { prescriptions } = prescriptionsData;
 
-        // Filter for trackable prescriptions when using SHIPPED filter with cernerPilot
-        if (isCernerPilot && selectedFilterOption === SHIPPED_FILTER_KEY) {
-          prescriptions = prescriptions.filter(
-            prescription => prescription.isTrackable === true,
-          );
-        }
-
         return prescriptions;
       }
       return undefined;
     },
-    [prescriptionsData, selectedFilterOption, isCernerPilot],
+    [prescriptionsData, selectedFilterOption, isCernerPilot, isV2StatusMapping],
   );
   const filteredList = prescriptionsData?.prescriptions || [];
   const { filterCount } = meta || {};
