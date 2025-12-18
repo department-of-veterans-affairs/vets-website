@@ -65,19 +65,17 @@ const BenefitCard = ({ benefit, isBenefitRecommended }) => {
           )}
         </>
         {isBenefitRecommended(benefit.id) && (
-          <>
-            <span className="usa-label recommended-label">
-              RECOMMENDED FOR YOU
-            </span>
-            <p
-              className={`category-eyebrow ${
-                !isBenefitRecommended ? 'vads-u-margin-top--neg0p5' : ''
-              }`}
-            >
-              {category}
-            </p>
-          </>
+          <span className="usa-label recommended-label">
+            RECOMMENDED FOR YOU
+          </span>
         )}
+        <p
+          className={`category-eyebrow ${
+            !isBenefitRecommended(benefit.id) ? 'vads-u-margin-top--neg0p5' : ''
+          }`}
+        >
+          {category}
+        </p>
         <h3 aria-label={name} className="vads-u-margin-top--0">
           {name}
         </h3>
@@ -112,7 +110,6 @@ BenefitCard.propTypes = {
     isTimeSensitive: PropTypes.bool,
     learnMoreURL: PropTypes.string,
     name: PropTypes.string,
-    isBenefitRecommended: PropTypes.bool,
     whenToApplyDescription: PropTypes.string,
     whenToApplyNote: PropTypes.string,
   }),

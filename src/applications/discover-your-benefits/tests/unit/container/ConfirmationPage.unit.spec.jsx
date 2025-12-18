@@ -439,84 +439,105 @@ describe('filterBenefits', () => {
   });
 
   it('clears filters when "Clear all filters" is clicked', async () => {
-    // const { mockStore, props } = getData(mockBenefits, form2);
-    // const wrapper = subject({ mockStore, props });
-    // const { container, getAllByRole } = wrapper;
-    // const filterComponent = container.querySelector('va-search-filter');
-    // dispatchFilterApply(filterComponent, [
-    //   {
-    //     label: 'Benefit type',
-    //     category: [{ id: 'Employment', label: 'Careers and employment' }],
-    //   },
-    // ]);
-    // await waitFor(() => {
-    //   const items = getAllByRole('listitem');
-    //   expect(items.length).to.equal(1);
-    //   expect(items[0].textContent).to.include('Careers');
-    // });
-    // filterComponent.dispatchEvent(
-    //   new CustomEvent('vaFilterClearAll', {
-    //     bubbles: true,
-    //   }),
-    // );
-    // await waitFor(() => {
-    //   const items = getAllByRole('listitem');
-    //   expect(items.length).to.equal(mockBenefits.length);
-    // });
+    const { mockStore, props } = getData(mockBenefits, form2);
+    const wrapper = subject({ mockStore, props });
+    const { container, getAllByRole } = wrapper;
+    const filterComponent = container.querySelector('va-search-filter');
+    dispatchFilterApply(filterComponent, [
+      {
+        id: 0,
+        label: 'Show results',
+        category: [
+          { id: 'recommended', label: 'Recommended for you', active: true },
+        ],
+      },
+      {
+        label: 'Benefit type',
+        category: [
+          { id: 'Employment', label: 'Careers and employment', active: true },
+        ],
+      },
+    ]);
+    await waitFor(() => {
+      const items = getAllByRole('listitem');
+      expect(items.length).to.equal(1);
+      expect(items[0].textContent).to.include('Careers');
+    });
+    filterComponent.dispatchEvent(
+      new CustomEvent('vaFilterClearAll', {
+        bubbles: true,
+      }),
+    );
+    await waitFor(() => {
+      const items = getAllByRole('listitem');
+      expect(items.length).to.equal(mockBenefits.length);
+    });
   });
 });
 
 describe('pagination', () => {
-  // it('displays the correct benefits when navigating between pages', async () => {
-  //   const benefits = Array.from({ length: 23 }, (_, i) => ({
-  //     id: String(i + 1),
-  //     name: `Benefit ${i + 1}`,
-  //     category: '',
-  //     isTimeSensitive: false,
-  //   }));
-  //   const sortedBenefits = [...benefits].sort((a, b) =>
-  //     a.name.localeCompare(b.name),
-  //   );
-  //   const { mockStore, props } = getData(benefits, form2);
-  //   const { container, getAllByRole } = subject({
-  //     mockStore,
-  //     props,
-  //   });
-  //   // Page 1 (items 0–9)
-  //   await waitFor(() => {
-  //     const items = getAllByRole('listitem').map(li => li.textContent);
-  //     expect(items).to.have.lengthOf(10);
-  //     expect(items[0]).to.include(sortedBenefits[0].name);
-  //     expect(items[9]).to.include(sortedBenefits[9].name);
-  //   });
-  //   // Click to page 2
-  //   const pagination = container.querySelector('va-pagination');
-  //   pagination.dispatchEvent(
-  //     new CustomEvent('pageSelect', {
-  //       detail: { page: 2 },
-  //       bubbles: true,
-  //     }),
-  //   );
-  //   // Page 2 (items 10–19)
-  //   await waitFor(() => {
-  //     const items = getAllByRole('listitem').map(li => li.textContent);
-  //     expect(items).to.have.lengthOf(10);
-  //     expect(items[0]).to.include(sortedBenefits[10].name);
-  //     expect(items[9]).to.include(sortedBenefits[19].name);
-  //   });
-  //   // Click to page 3
-  //   pagination.dispatchEvent(
-  //     new CustomEvent('pageSelect', {
-  //       detail: { page: 3 },
-  //       bubbles: true,
-  //     }),
-  //   );
-  //   // Page 3 (items 20–22)
-  //   await waitFor(() => {
-  //     const items = getAllByRole('listitem').map(li => li.textContent);
-  //     expect(items).to.have.lengthOf(3);
-  //     expect(items[0]).to.include(sortedBenefits[20].name);
-  //     expect(items[2]).to.include(sortedBenefits[22].name);
-  //   });
-  // });
+  it('displays the correct benefits when navigating between pages', async () => {
+    const benefits = Array.from({ length: 23 }, (_, i) => ({
+      id: String(i + 1),
+      name: `Benefit ${i + 1}`,
+      category: '',
+      isTimeSensitive: false,
+    }));
+    const sortedBenefits = [...benefits].sort((a, b) =>
+      a.name.localeCompare(b.name),
+    );
+    const { mockStore, props } = getData(benefits, form2);
+    const screen = subject({
+      mockStore,
+      props,
+    });
+    const { container } = screen;
+    const { getAllByRole } = screen;
+
+    const sortSelect = screen.getByLabelText(/Sort Benefits/i);
+
+    fireEvent(
+      sortSelect,
+      new CustomEvent('vaSelect', {
+        detail: { value: 'alphabetical' },
+        bubbles: true,
+      }),
+    );
+    // Page 1 (items 0–9)
+    await waitFor(() => {
+      const items = getAllByRole('listitem').map(li => li.textContent);
+      expect(items).to.have.lengthOf(10);
+      expect(items[0]).to.include(sortedBenefits[0].name);
+      expect(items[9]).to.include(sortedBenefits[9].name);
+    });
+    // Click to page 2
+    const pagination = container.querySelector('va-pagination');
+    pagination.dispatchEvent(
+      new CustomEvent('pageSelect', {
+        detail: { page: 2 },
+        bubbles: true,
+      }),
+    );
+    // Page 2 (items 10–19)
+    await waitFor(() => {
+      const items = getAllByRole('listitem').map(li => li.textContent);
+      expect(items).to.have.lengthOf(10);
+      expect(items[0]).to.include(sortedBenefits[10].name);
+      expect(items[9]).to.include(sortedBenefits[19].name);
+    });
+    // Click to page 3
+    pagination.dispatchEvent(
+      new CustomEvent('pageSelect', {
+        detail: { page: 3 },
+        bubbles: true,
+      }),
+    );
+    // Page 3 (items 20–22)
+    await waitFor(() => {
+      const items = getAllByRole('listitem').map(li => li.textContent);
+      expect(items).to.have.lengthOf(3);
+      expect(items[0]).to.include(sortedBenefits[20].name);
+      expect(items[2]).to.include(sortedBenefits[22].name);
+    });
+  });
 });
