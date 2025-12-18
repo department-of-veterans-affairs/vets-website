@@ -93,7 +93,7 @@ const testConfig = createTestConfig(
           );
           cy.get('[id="checkbox-element"]').check({ force: true });
 
-          cy.findByText(/Continue/i, { selector: 'button' }).click();
+          cy.tabToSubmitForm();
         });
       },
     },
