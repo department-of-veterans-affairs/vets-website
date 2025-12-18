@@ -33,7 +33,10 @@ describe('Medications Prescriptions container', () => {
   });
 
   afterEach(() => {
-    sandbox.restore();
+    if (sandbox) {
+      sandbox.restore();
+    }
+    sandbox = null;
   });
 
   const initialState = {
