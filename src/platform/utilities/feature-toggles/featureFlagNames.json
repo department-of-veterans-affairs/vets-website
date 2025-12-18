@@ -245,6 +245,7 @@
   "profile2Enabled": "profile_2_enabled",
   "profileHealthCareSettingsPage": "profile_health_care_settings_page",
   "profileSchedulingPreferences": "profile_scheduling_preferences",
+  "profileHideHealthCareContacts": "profile_hide_health_care_contacts",
   "pwEhrCtaUseSlo": "pw_ehr_cta_use_slo",
   "representativeStatusEnabled": "representative_status_enabled",
   "representativeStatusEnableV2Features": "representative_status_enable_v2_features",
