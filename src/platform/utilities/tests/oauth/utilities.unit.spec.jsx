@@ -703,7 +703,7 @@ describe('OAuth - Utilities', () => {
       expect(global.fetch.firstCall.args[0].includes('/refresh')).to.be.true;
     });
 
-    it('should protect against repeated refresh calls', async () => {
+    it('should protect against repeated refresh calls of the same type', async () => {
       mockFetch();
       setFetchResponse(global.fetch.onFirstCall(), []);
       const refreshPromise1 = oAuthUtils.refresh({ type: 'idme' });
