@@ -89,6 +89,7 @@ export const summaryContent = {
       </>
     );
   },
+  requiredError: 'Select if you want to add another VA provider',
 };
 
 export const locationContent = {

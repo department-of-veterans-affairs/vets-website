@@ -3,6 +3,14 @@ import cypressSetup from '../../../../shared/tests/cypress.setup';
 import * as h from '../995.cypress.helpers';
 import mockData from '../../fixtures/data/pre-api-comprehensive-test.json';
 import { CONTESTABLE_ISSUES_API } from '../../../constants/apis';
+import {
+  dateDetailsContent,
+  datePromptContent,
+  locationContent,
+  promptContent,
+  summaryContent,
+} from '../../../content/evidence/va';
+import { issuesContent } from '../../../pages/evidence/common';
 
 const issues = mockData.data.contestedIssues;
 
@@ -38,23 +46,34 @@ describe('Array Builder evidence flow', () => {
 
       // ---------------------------------------- FIRST ITEM
       // Prompt
-      h.verifyFPSH3(
-        'Do you want us to get your VA medical records or military health records?',
-      );
+      h.verifyFPSH3(promptContent.question);
       h.verifyFPSDesc(
         'We can collect your VA medical records or military health records',
       );
+      h.checkErrorHandlingWithClass(
+        '[name="root_hasVaEvidence"]',
+        promptContent.requiredError,
+      );
+
       h.selectVaPromptResponse('Y');
 
       // Location
       h.verifyH3(
         'What VA or military treatment location should we request records from?',
       );
+      h.checkErrorHandlingWithClass(
+        '[name="root_treatmentLocation"]',
+        locationContent.requiredError,
+      );
       h.addVaLocation('South Texas VA Hospital');
 
       // Contestable Issues
       h.verifyH3(
         'What conditions were you treated for at South Texas VA Hospital?',
+      );
+      h.checkErrorHandlingWithClass(
+        '[name="root_issuesVA"]',
+        issuesContent.requiredError,
       );
       cy.get('[name="root_issuesVA_Headaches"]')
         .eq(0)
@@ -73,10 +92,18 @@ describe('Array Builder evidence flow', () => {
 
       // Treatment Before 2005
       h.verifyH3('Did treatment at South Texas VA Hospital start before 2005?');
+      h.checkErrorHandlingWithClass(
+        '[name="root_treatmentBefore2005"]',
+        datePromptContent.requiredError,
+      );
       h.addVaTreatmentBefore2005();
 
       // Treatment Date
       h.verifyH3('When did treatment at South Texas VA Hospital start?');
+      h.checkErrorHandlingWithId(
+        '[name="root_treatmentMonthYear"]',
+        dateDetailsContent.requiredError,
+      );
       h.addVaTreatmentDate('4', '2002');
 
       // Summary
@@ -91,6 +118,10 @@ describe('Array Builder evidence flow', () => {
       );
 
       // ---------------------------------------- SECOND ITEM
+      h.checkErrorHandlingWithClass(
+        '[name="root_hasVaEvidence"]',
+        summaryContent.requiredError,
+      );
       h.selectVaPromptResponse('Y');
 
       // Location
