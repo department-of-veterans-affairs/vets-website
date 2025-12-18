@@ -34,6 +34,8 @@ import {
   validateReceiptDate,
   validateDescription,
   validateRequestedAmount,
+  validateAirTravelFields,
+  validateCommonCarrierFields,
   validateLodgingFields,
   validateMealFields,
 } from '../../../util/expense-validation-helpers';
@@ -205,12 +207,8 @@ const ExpensePage = () => {
 
   const handleFormChange = (event, explicitName) => {
     const name = explicitName ?? event.target?.name ?? event.detail?.name;
-    const value = (
-      event?.value ??
-      event?.detail?.value ??
-      event.target?.value ??
-      ''
-    ).toString();
+    const value =
+      event?.value ?? event?.detail?.value ?? event.target?.value ?? '';
 
     setFormState(prev => {
       const newFormState = { ...prev, [name]: value };
@@ -219,7 +217,15 @@ const ExpensePage = () => {
       setExtraFieldErrors(prevErrors => {
         let nextErrors = { ...prevErrors };
 
-        if (isLodging) {
+        if (isAirTravel) {
+          nextErrors = validateAirTravelFields(newFormState, nextErrors, name);
+        } else if (isCommonCarrier) {
+          nextErrors = validateCommonCarrierFields(
+            newFormState,
+            nextErrors,
+            name,
+          );
+        } else if (isLodging) {
           nextErrors = validateLodgingFields(newFormState, nextErrors, name);
         } else if (isMeal) {
           nextErrors = validateMealFields(newFormState, nextErrors, name);
@@ -274,6 +280,23 @@ const ExpensePage = () => {
     const emptyFields = requiredFields.filter(field => !formState[field]);
 
     let errors = { ...extraFieldErrors }; // clone existing errors
+
+    // Receipt validation
+    if (!formState.receipt) {
+      errors.receipt = 'Select an approved file type under 5MB';
+    } else {
+      delete errors.receipt;
+    }
+
+    // Commoncarrier-specific validations
+    if (isCommonCarrier) {
+      errors = validateCommonCarrierFields(formState, errors);
+    }
+
+    // Airtravel-specific validations
+    if (isAirTravel) {
+      errors = validateAirTravelFields(formState, errors);
+    }
 
     // Lodging-specific validations
     if (isLodging) {
@@ -495,7 +518,7 @@ const ExpensePage = () => {
         loading={isFetchingDocument}
         currentDocument={expenseDocument}
         handleDocumentChange={handleDocumentChange}
-        uploadError={uploadError}
+        uploadError={extraFieldErrors.receipt || uploadError || undefined}
       />
       {isMeal && (
         <ExpenseMealFields
@@ -515,12 +538,14 @@ const ExpensePage = () => {
         <ExpenseCommonCarrierFields
           formState={formState}
           onChange={handleFormChange}
+          errors={extraFieldErrors}
         />
       )}
       {isAirTravel && (
         <ExpenseAirTravelFields
           formState={formState}
           onChange={handleFormChange}
+          errors={extraFieldErrors}
         />
       )}
       <VaDate

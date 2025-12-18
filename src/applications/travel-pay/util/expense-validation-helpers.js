@@ -1,3 +1,5 @@
+import { TRIP_TYPES } from '../constants';
+
 /**
  * Enum-like constant representing the types of validation for date fields.
  *
@@ -85,7 +87,7 @@ export const validateReceiptDate = (dateInput, type, setExtraFieldErrors) => {
   const isComplete = parts.every(p => Number.isInteger(p));
 
   if (type === DATE_VALIDATION_TYPE.SUBMIT && isAllEmpty) {
-    error = 'Enter the date on your receipt';
+    error = 'Enter the date of your receipt';
   } else if (isComplete) {
     const selectedDate = new Date(year, month - 1, day);
     const today = new Date();
@@ -222,6 +224,181 @@ export const validateRequestedAmount = (
  */
 const getFieldsToValidate = (allFields, fieldName) => {
   return fieldName ? [fieldName] : allFields;
+};
+
+/**
+ * Validates AirTravel expense fields for a form.
+ *
+ * Rules:
+ *  - vendorName: required
+ *  - tripType: required
+ *  - departureDate: required; must be before returnDate if returnDate exists
+ *  - returnDate: required if tripType === 'ROUND_TRIP'; must be after departureDate if both exist
+ *  - departedFrom: required
+ *  - arrivedTo: required
+ *
+ * Supports validating either:
+ *  - All fields at once (fieldName omitted)
+ *  - A single field (pass fieldName)
+ *
+ * @param {Object} formState - The current state of the expense form
+ * @param {Object} errors - The current validation errors object
+ * @param {string} [fieldName] - Optional. Name of the single field to validate
+ * @returns {Object} nextErrors - Updated errors object with validation results
+ */
+export const validateAirTravelFields = (formState, errors, fieldName) => {
+  const nextErrors = { ...errors };
+
+  const allFields = [
+    'vendorName',
+    'tripType',
+    'departureDate',
+    'returnDate',
+    'departedFrom',
+    'arrivedTo',
+  ];
+
+  // Determine which fields to validate
+  const fieldsToValidate = getFieldsToValidate(allFields, fieldName);
+
+  if (
+    fieldName === 'departureDate' &&
+    formState.returnDate &&
+    !fieldsToValidate.includes('returnDate')
+  ) {
+    // If departureDate is being updated and returnDate exists, also validate returnDate
+    fieldsToValidate.push('returnDate');
+  } else if (
+    fieldName === 'returnDate' &&
+    formState.departureDate &&
+    !fieldsToValidate.includes('departureDate')
+  ) {
+    // If returnDate is being updated and departureDate exists, also validate departureDate
+    fieldsToValidate.push('departureDate');
+  } else if (
+    fieldName === 'tripType' &&
+    formState.returnDate !== '' &&
+    !fieldsToValidate.includes('returnDate')
+  ) {
+    // If tripType is being updated and returnDate exists, also validate returnDate
+    fieldsToValidate.push('returnDate');
+  } else if (
+    fieldName === 'returnDate' &&
+    formState.tripType === TRIP_TYPES.ONE_WAY.value &&
+    !fieldsToValidate.includes('tripType')
+  ) {
+    // If returnDate is being updated and tripType is ONE_WAY, also validate tripType
+    fieldsToValidate.push('tripType');
+  }
+
+  // vendorName
+  if (fieldsToValidate.includes('vendorName')) {
+    if (!formState.vendorName) nextErrors.vendorName = 'Enter the company name';
+    else delete nextErrors.vendorName;
+  }
+
+  // tripType
+  if (fieldsToValidate.includes('tripType')) {
+    if (!formState.tripType) nextErrors.tripType = 'Select a trip type';
+    else if (
+      formState.tripType === TRIP_TYPES.ONE_WAY.value &&
+      formState.returnDate
+    ) {
+      nextErrors.tripType = 'You entered a return date for a one-way trip';
+    } else delete nextErrors.tripType;
+  }
+
+  // departureDate
+  if (fieldsToValidate.includes('departureDate')) {
+    if (!formState.departureDate)
+      nextErrors.departureDate = 'Enter a departure date';
+    else if (
+      formState.returnDate &&
+      formState.departureDate > formState.returnDate
+    )
+      nextErrors.departureDate = 'Departure date must be before return date';
+    else delete nextErrors.departureDate;
+  }
+
+  // returnDate
+  if (fieldsToValidate.includes('returnDate')) {
+    if (
+      formState.tripType === TRIP_TYPES.ROUND_TRIP.value &&
+      !formState.returnDate
+    ) {
+      nextErrors.returnDate = 'Enter a return date';
+    } else if (
+      formState.departureDate &&
+      formState.returnDate &&
+      formState.returnDate < formState.departureDate
+    ) {
+      nextErrors.returnDate = 'Return date must be later than departure date';
+    } else if (
+      formState.tripType === TRIP_TYPES.ONE_WAY.value &&
+      formState.returnDate
+    ) {
+      nextErrors.returnDate = 'You entered a return date for a one-way trip';
+    } else {
+      delete nextErrors.returnDate;
+    }
+  }
+
+  // departedFrom
+  if (fieldsToValidate.includes('departedFrom')) {
+    if (!formState.departedFrom)
+      nextErrors.departedFrom = 'Enter the airport name';
+    else delete nextErrors.departedFrom;
+  }
+
+  // arrivedTo
+  if (fieldsToValidate.includes('arrivedTo')) {
+    if (!formState.arrivedTo) nextErrors.arrivedTo = 'Enter the airport name';
+    else delete nextErrors.arrivedTo;
+  }
+
+  return nextErrors;
+};
+
+/**
+ * Validates CommonCarrier expense fields for a form.
+ *
+ * Rules:
+ *  - carrierType: required
+ *  - reasonNotUsingPOV: required
+ *
+ * Supports validating either:
+ *  - All fields at once (fieldName omitted)
+ *  - A single field (determined via getFieldsToValidate)
+ *
+ * @param {Object} formState - The current state of the expense form
+ * @param {Object} errors - The current validation errors object
+ * @param {string} [fieldName] - Optional. Name of the field being updated.
+ * @returns {Object} nextErrors - Updated errors object with validation results
+ */
+export const validateCommonCarrierFields = (formState, errors, fieldName) => {
+  const nextErrors = { ...errors };
+
+  // Use helper to determine which fields to validate
+  const fieldsToValidate = getFieldsToValidate(
+    ['carrierType', 'reasonNotUsingPOV'],
+    fieldName,
+  );
+
+  // carrierType
+  if (fieldsToValidate.includes('carrierType')) {
+    if (!formState.carrierType)
+      nextErrors.carrierType = 'Select a transportation type';
+    else delete nextErrors.carrierType;
+  }
+
+  // reasonNotUsingPOV
+  if (fieldsToValidate.includes('reasonNotUsingPOV')) {
+    if (!formState.reasonNotUsingPOV)
+      nextErrors.reasonNotUsingPOV = 'Select a reason';
+    else delete nextErrors.reasonNotUsingPOV;
+  }
+
+  return nextErrors;
 };
 
 /**

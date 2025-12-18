@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import MockDate from 'mockdate';
+import { TRIP_TYPES } from '../../constants';
 
 import {
   DATE_VALIDATION_TYPE,
@@ -7,6 +8,8 @@ import {
   validateReceiptDate,
   validateDescription,
   validateRequestedAmount,
+  validateAirTravelFields,
+  validateCommonCarrierFields,
   validateLodgingFields,
   validateMealFields,
 } from '../../util/expense-validation-helpers';
@@ -97,7 +100,7 @@ describe('validateReceiptDate', () => {
 
     expect(isValid).to.be.false;
     expect(setErrors.calls.pop()).to.deep.equal({
-      purchaseDate: 'Enter the date on your receipt',
+      purchaseDate: 'Enter the date of your receipt',
     });
   });
 
@@ -318,6 +321,158 @@ describe('validateRequestedAmount', () => {
     expect(setErrors.calls.pop()).to.deep.equal({
       costRequested: null,
     });
+  });
+});
+
+describe('validateAirTravelFields', () => {
+  let formState;
+  let errors;
+
+  beforeEach(() => {
+    formState = {
+      vendorName: '',
+      tripType: '',
+      departureDate: '',
+      returnDate: '',
+      departedFrom: '',
+      arrivedTo: '',
+    };
+    errors = {};
+  });
+
+  it('validates all fields at once and sets errors for empty values', () => {
+    const nextErrors = validateAirTravelFields(formState, errors);
+
+    expect(nextErrors).to.deep.equal({
+      vendorName: 'Enter the company name',
+      tripType: 'Select a trip type',
+      departureDate: 'Enter a departure date',
+      departedFrom: 'Enter the airport name',
+      arrivedTo: 'Enter the airport name',
+    });
+  });
+
+  it('validates a single field and leaves others untouched', () => {
+    formState.vendorName = 'Acme Airlines';
+    const nextErrors = validateAirTravelFields(formState, errors, 'vendorName');
+
+    expect(nextErrors.vendorName).to.be.undefined;
+  });
+
+  it('checks departureDate < returnDate logic', () => {
+    formState.departureDate = '2025-01-10';
+    formState.returnDate = '2025-01-05';
+
+    const nextErrors = validateAirTravelFields(formState, errors);
+
+    expect(nextErrors.departureDate).to.equal(
+      'Departure date must be before return date',
+    );
+    expect(nextErrors.returnDate).to.equal(
+      'Return date must be later than departure date',
+    );
+  });
+
+  it('passes when dates are valid', () => {
+    formState = {
+      vendorName: 'Acme Airlines',
+      tripType: TRIP_TYPES.ROUND_TRIP.value,
+      departureDate: '2025-01-05',
+      returnDate: '2025-01-10',
+      departedFrom: 'JFK',
+      arrivedTo: 'LAX',
+    };
+
+    const nextErrors = validateAirTravelFields(formState, errors);
+
+    expect(nextErrors).to.deep.equal({});
+  });
+
+  it('requires returnDate for ROUND_TRIP', () => {
+    formState.tripType = TRIP_TYPES.ROUND_TRIP.value;
+    formState.departureDate = '2025-01-05';
+    formState.returnDate = '';
+
+    const nextErrors = validateAirTravelFields(formState, errors);
+
+    expect(nextErrors.returnDate).to.equal('Enter a return date');
+  });
+
+  it('errors if returnDate is entered for ONE_WAY trip', () => {
+    formState.tripType = TRIP_TYPES.ONE_WAY.value;
+    formState.returnDate = '2025-01-10';
+    formState.departureDate = '2025-01-05';
+
+    const nextErrors = validateAirTravelFields(formState, errors);
+
+    expect(nextErrors.returnDate).to.equal(
+      'You entered a return date for a one-way trip',
+    );
+    expect(nextErrors.tripType).to.equal(
+      'You entered a return date for a one-way trip',
+    );
+  });
+
+  it('validates departureDate only if returnDate exists', () => {
+    formState.departureDate = '2025-01-05';
+    formState.returnDate = ''; // empty, so no comparison error
+
+    const nextErrors = validateAirTravelFields(formState, errors);
+
+    expect(nextErrors.departureDate).to.be.undefined;
+  });
+
+  it('validates returnDate only if departureDate exists', () => {
+    formState.returnDate = '2025-01-10';
+    formState.departureDate = ''; // empty, so no comparison error
+
+    const nextErrors = validateAirTravelFields(formState, errors);
+
+    expect(nextErrors.returnDate).to.be.undefined;
+  });
+});
+
+describe('validateCommonCarrierFields', () => {
+  let formState;
+  let errors;
+
+  beforeEach(() => {
+    formState = {
+      carrierType: '',
+      reasonNotUsingPOV: '',
+    };
+    errors = {};
+  });
+
+  it('sets errors when fields are empty', () => {
+    const nextErrors = validateCommonCarrierFields(formState, errors);
+
+    expect(nextErrors).to.deep.equal({
+      carrierType: 'Select a transportation type',
+      reasonNotUsingPOV: 'Select a reason',
+    });
+  });
+
+  it('clears errors when fields are filled', () => {
+    formState = {
+      carrierType: 'Bus',
+      reasonNotUsingPOV: 'No personal vehicle',
+    };
+    const nextErrors = validateCommonCarrierFields(formState, errors);
+
+    expect(nextErrors).to.deep.equal({});
+  });
+
+  it('validates a single field only', () => {
+    formState.carrierType = 'Train';
+    const nextErrors = validateCommonCarrierFields(
+      formState,
+      errors,
+      'carrierType',
+    );
+
+    expect(nextErrors.carrierType).to.be.undefined;
+    expect(nextErrors.reasonNotUsingPOV).to.be.undefined; // untouched
   });
 });
 
