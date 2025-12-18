@@ -232,7 +232,10 @@ const SCHEMA_KEYS = {
     return mapped;
   },
 
-  /** @private */
+  /**
+   * @private
+   * @deprecated
+   */
   _validateMapping(mapping) {
     if (!('isMilitary' in mapping)) {
       // eslint-disable-next-line no-param-reassign
