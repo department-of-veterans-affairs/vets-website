@@ -148,7 +148,7 @@ const Vitals = () => {
               }}
             />
           )}
-        {isLoadingAcceleratedData || isLoading ? (
+        {(isLoadingAcceleratedData || isLoading) && (
           <div className="vads-u-margin-y--8">
             <TrackedSpinner
               id="vitals-page-spinner"
@@ -157,23 +157,26 @@ const Vitals = () => {
               data-testid="loading-indicator"
             />
           </div>
-        ) : (
-          <>
-            {cards?.length ? (
-              <RecordList
-                records={cards}
-                type={recordType.VITALS}
-                perPage={PER_PAGE}
-                hidePagination
-                domainOptions={{
-                  isAccelerating: isCerner,
-                }}
-              />
-            ) : (
-              <NoRecordsMessage type={recordType.VITALS} />
-            )}
-          </>
         )}
+        {!isLoadingAcceleratedData &&
+          !isLoading &&
+          cards !== undefined && (
+            <>
+              {cards?.length ? (
+                <RecordList
+                  records={cards}
+                  type={recordType.VITALS}
+                  perPage={PER_PAGE}
+                  hidePagination
+                  domainOptions={{
+                    isAccelerating: isCerner,
+                  }}
+                />
+              ) : (
+                <NoRecordsMessage type={recordType.VITALS} />
+              )}
+            </>
+          )}
       </RecordListSection>
     </div>
   );
