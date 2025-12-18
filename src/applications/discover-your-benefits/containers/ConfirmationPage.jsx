@@ -435,7 +435,7 @@ const ConfirmationPage = ({ formConfig, location, router }) => {
           </div>
           <div id="results-section">
             <h2 className="vads-u-font-size--h2 vads-u-margin-top--0">
-              {isAllBenefits() ? 'All benefits' : 'For you'}
+              Your results
             </h2>
             <VaSelect
               data-testid="sort-select"

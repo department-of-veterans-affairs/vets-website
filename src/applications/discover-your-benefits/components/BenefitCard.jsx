@@ -3,13 +3,7 @@ import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 
 const BenefitCard = ({ benefit, isBenefitRecommended }) => {
-  const {
-    name,
-    category,
-    description,
-    isTimeSensitive,
-    learnMoreURL,
-  } = benefit;
+  const { name, category, description, learnMoreURL } = benefit;
 
   const handleClick = (url, text, label) => {
     return recordEvent({
@@ -55,15 +49,6 @@ const BenefitCard = ({ benefit, isBenefitRecommended }) => {
       data-testid={`benefit-card-${benefit.name}`}
     >
       <va-card>
-        <>
-          {isTimeSensitive && (
-            <div className="blue-heading">
-              <span>
-                <b>Time-sensitive benefit</b>
-              </span>
-            </div>
-          )}
-        </>
         {isBenefitRecommended(benefit.id) && (
           <span className="usa-label recommended-label">
             RECOMMENDED FOR YOU
@@ -80,8 +65,10 @@ const BenefitCard = ({ benefit, isBenefitRecommended }) => {
           {name}
         </h3>
         <p className="vads-u-margin-y--0">{description}</p>
-        <h4>When to Apply</h4>
-        <p>{benefit.whenToApplyDescription}</p>
+        <h4 className="vads-u-margin-bottom--neg1">When to apply</h4>
+        <p className="vads-u-margin-bottom--neg1">
+          {benefit.whenToApplyDescription}
+        </p>
         {benefit.whenToApplyNote !== undefined && (
           <p>
             <b>Note</b>: {benefit.whenToApplyNote}
@@ -107,7 +94,6 @@ BenefitCard.propTypes = {
     id: PropTypes.string,
     category: PropTypes.string,
     description: PropTypes.string,
-    isTimeSensitive: PropTypes.bool,
     learnMoreURL: PropTypes.string,
     name: PropTypes.string,
     whenToApplyDescription: PropTypes.string,
