@@ -5,7 +5,6 @@ import {
   CREATE_COMPLEX_CLAIM_SUCCESS,
   CREATE_EXPENSE_FAILURE,
   CREATE_EXPENSE_STARTED,
-  CREATE_EXPENSE_SUCCESS,
   DELETE_DOCUMENT_FAILURE,
   DELETE_DOCUMENT_STARTED,
   DELETE_DOCUMENT_SUCCESS,
@@ -36,7 +35,6 @@ import {
   SUBMIT_COMPLEX_CLAIM_SUCCESS,
   UPDATE_EXPENSE_FAILURE,
   UPDATE_EXPENSE_STARTED,
-  UPDATE_EXPENSE_SUCCESS,
   SET_REVIEW_PAGE_ALERT,
   CLEAR_REVIEW_PAGE_ALERT,
 } from './actions';
@@ -387,25 +385,6 @@ function travelPayReducer(state = initialState, action) {
           },
         },
       };
-    case UPDATE_EXPENSE_SUCCESS: {
-      return {
-        ...state,
-        complexClaim: {
-          ...state.complexClaim,
-          expenses: {
-            ...state.complexClaim.expenses,
-            update: {
-              id: '',
-              isLoading: false,
-              error: null,
-            },
-            data: mergeExpenses(state.complexClaim.expenses.data, [
-              action.payload,
-            ]),
-          },
-        },
-      };
-    }
     case UPDATE_EXPENSE_FAILURE:
       return {
         ...state,
@@ -484,24 +463,6 @@ function travelPayReducer(state = initialState, action) {
               isLoading: true,
               error: null,
             },
-          },
-        },
-      };
-
-    case CREATE_EXPENSE_SUCCESS:
-      return {
-        ...state,
-        complexClaim: {
-          ...state.complexClaim,
-          expenses: {
-            ...state.complexClaim.expenses,
-            creation: {
-              isLoading: false,
-              error: null,
-            },
-            data: mergeExpenses(state.complexClaim.expenses.data, [
-              action.payload,
-            ]),
           },
         },
       };
