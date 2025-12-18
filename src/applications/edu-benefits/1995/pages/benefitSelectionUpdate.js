@@ -52,16 +52,25 @@ export const uiSchema = {
       required: () => true,
     }),
     'ui:onChange': (value, oldValue, formData, onChange) => {
-      // Clear changeAnotherBenefit page data when rudisillReview changes to Yes
+      // Clear changeAnotherBenefit page data and sponsor information when rudisillReview changes to Yes
       if (
         value === 'Yes' &&
-        (formData.changeAnotherBenefit || formData.benefitAppliedFor)
+        (formData.changeAnotherBenefit ||
+          formData.benefitAppliedFor ||
+          formData.sponsorFullName ||
+          formData.sponsorSocialSecurityNumber ||
+          formData.vaFileNumber ||
+          formData['view:noSSN'])
       ) {
         onChange({
           ...formData,
           rudisillReview: value,
           changeAnotherBenefit: undefined,
           benefitAppliedFor: undefined,
+          sponsorFullName: undefined,
+          sponsorSocialSecurityNumber: undefined,
+          vaFileNumber: undefined,
+          'view:noSSN': undefined,
         });
       }
     },
