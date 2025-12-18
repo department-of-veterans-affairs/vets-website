@@ -204,21 +204,21 @@ const SCHEMA_KEYS = {
       delete mapping[o];
     });
 
-    if (omit.includes('isMilitary')) {
-      delete mapping['view:militaryBaseDescription'];
-    }
-
     Object.assign(mapping, newSchemaKeys);
+    this._validateMapping(mapping);
+
     return mapping;
   },
 
   map(object, mapping = this.STANDARD) {
     if (mapping === this.STANDARD) return object;
 
-    const values = Object.values(mapping);
-    const uniqueValues = new Set(values);
-    if (values.length > uniqueValues.size)
-      throw new Error('Duplicate schema key output');
+    /**
+     * This runs in duplicate just in anticipation of the future API where
+     * `normalizeMapping` is unneeded and removed from the implementation. If
+     * that happens, this function could be inlined.
+     */
+    this._validateMapping(mapping);
 
     const mapped = {};
 
@@ -230,6 +230,19 @@ const SCHEMA_KEYS = {
     });
 
     return mapped;
+  },
+
+  /** @private */
+  _validateMapping(mapping) {
+    if (!('isMilitary' in mapping)) {
+      // eslint-disable-next-line no-param-reassign
+      delete mapping['view:militaryBaseDescription'];
+    }
+
+    const values = Object.values(mapping);
+    const uniqueValues = new Set(values);
+    if (values.length > uniqueValues.size)
+      throw new Error('Duplicate schema key output');
   },
 };
 
