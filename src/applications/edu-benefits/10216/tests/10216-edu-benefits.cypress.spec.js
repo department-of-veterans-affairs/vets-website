@@ -50,7 +50,7 @@ const testConfig = createTestConfig(
             institutionDetails.facilityCode,
           );
           // eslint-disable-next-line cypress/no-unnecessary-waiting
-          cy.wait(200);
+          cy.wait(1000);
           cy.fillVaMemorableDate(
             'root_institutionDetails_termStartDate',
             termStartDate,
@@ -99,6 +99,21 @@ const testConfig = createTestConfig(
     },
 
     setupPerTest: () => {
+      cy.intercept('GET', '/v0/gi/institutions/*', {
+        data: {
+          attributes: {
+            name: 'INSTITUTE OF TESTING',
+            facilityCode: '10002000',
+            type: 'FOR PROFIT',
+            city: 'SAN FRANCISCO',
+            state: 'CA',
+            zip: '13579',
+            country: 'USA',
+            address1: '123 STREET WAY',
+          },
+        },
+      });
+
       cy.intercept('POST', formConfig.submitUrl);
     },
   },
