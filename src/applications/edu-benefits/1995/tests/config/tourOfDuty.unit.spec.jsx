@@ -22,6 +22,84 @@ describe('Edu 1995 tourOfDuty', () => {
     sandbox.restore();
   });
 
+  const testDateRangeValidation = async (schema, uiSchema, definitions) => {
+    // Test: "to" date is not required (only "from" date)
+    const onSubmitWithFrom = sandbox.spy();
+    const formWithFrom = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+        schema={schema}
+        onSubmit={onSubmitWithFrom}
+        data={{
+          'view:newService': true,
+          toursOfDuty: [
+            { serviceBranch: 'Army', dateRange: { from: '2020-01-01' } },
+          ],
+        }}
+        uiSchema={uiSchema}
+        definitions={definitions}
+      />,
+    );
+    submitForm(formWithFrom);
+    await waitFor(() => {
+      expect(
+        findDOMNode(formWithFrom).querySelectorAll('.usa-input-error').length,
+      ).to.equal(0);
+      expect(onSubmitWithFrom.called).to.be.true;
+    });
+
+    // Test: Both dates accepted
+    const onSubmitWithBoth = sandbox.spy();
+    const formWithBoth = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+        schema={schema}
+        onSubmit={onSubmitWithBoth}
+        data={{
+          'view:newService': true,
+          toursOfDuty: [
+            {
+              serviceBranch: 'Navy',
+              dateRange: { from: '2018-01-01', to: '2022-01-01' },
+            },
+          ],
+        }}
+        uiSchema={uiSchema}
+        definitions={definitions}
+      />,
+    );
+    submitForm(formWithBoth);
+    await waitFor(() => {
+      expect(
+        findDOMNode(formWithBoth).querySelectorAll('.usa-input-error').length,
+      ).to.equal(0);
+      expect(onSubmitWithBoth.called).to.be.true;
+    });
+
+    // Test: "from" date is required
+    const onSubmitWithoutFrom = sandbox.spy();
+    const formWithoutFrom = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+        schema={schema}
+        onSubmit={onSubmitWithoutFrom}
+        data={{
+          'view:newService': true,
+          toursOfDuty: [
+            { serviceBranch: 'Marines', dateRange: { to: '2022-01-01' } },
+          ],
+        }}
+        uiSchema={uiSchema}
+        definitions={definitions}
+      />,
+    );
+    submitForm(formWithoutFrom);
+    await waitFor(() => {
+      expect(
+        findDOMNode(formWithoutFrom).querySelectorAll('.usa-input-error')
+          .length,
+      ).to.be.greaterThan(0);
+      expect(onSubmitWithoutFrom.called).to.be.false;
+    });
+  };
+
   describe('toursOfDutyIsActiveDutyTrue', () => {
     const {
       schema,
@@ -38,134 +116,12 @@ describe('Edu 1995 tourOfDuty', () => {
           definitions={definitions}
         />,
       );
-
       expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input')).to
         .not.be.empty;
     });
 
-    it('should not require "to" date in date range validation', async () => {
-      const onSubmit = sandbox.spy();
-      const form = ReactTestUtils.renderIntoDocument(
-        <DefinitionTester
-          schema={schema}
-          onSubmit={onSubmit}
-          data={{
-            'view:newService': true,
-            toursOfDuty: [
-              {
-                serviceBranch: 'Army',
-                dateRange: {
-                  from: '2020-01-01',
-                },
-              },
-            ],
-          }}
-          uiSchema={uiSchema}
-          definitions={definitions}
-        />,
-      );
-      const formDOM = findDOMNode(form);
-      submitForm(form);
-
-      await waitFor(() => {
-        const errors = formDOM.querySelectorAll('.usa-input-error');
-        expect(errors.length).to.equal(0);
-        expect(onSubmit.called).to.be.true;
-      });
-    });
-
-    it('should accept tour of duty with only "from" date', async () => {
-      const onSubmit = sandbox.spy();
-      const form = ReactTestUtils.renderIntoDocument(
-        <DefinitionTester
-          schema={schema}
-          onSubmit={onSubmit}
-          data={{
-            'view:newService': true,
-            toursOfDuty: [
-              {
-                serviceBranch: 'Navy',
-                dateRange: {
-                  from: '2019-05-15',
-                },
-              },
-            ],
-          }}
-          uiSchema={uiSchema}
-          definitions={definitions}
-        />,
-      );
-      const formDOM = findDOMNode(form);
-      submitForm(form);
-
-      await waitFor(() => {
-        const errors = formDOM.querySelectorAll('.usa-input-error');
-        expect(errors.length).to.equal(0);
-        expect(onSubmit.called).to.be.true;
-      });
-    });
-
-    it('should accept tour of duty with both "from" and "to" dates', async () => {
-      const onSubmit = sandbox.spy();
-      const form = ReactTestUtils.renderIntoDocument(
-        <DefinitionTester
-          schema={schema}
-          onSubmit={onSubmit}
-          data={{
-            'view:newService': true,
-            toursOfDuty: [
-              {
-                serviceBranch: 'Air Force',
-                dateRange: {
-                  from: '2018-03-10',
-                  to: '2022-03-10',
-                },
-              },
-            ],
-          }}
-          uiSchema={uiSchema}
-          definitions={definitions}
-        />,
-      );
-      const formDOM = findDOMNode(form);
-      submitForm(form);
-
-      await waitFor(() => {
-        const errors = formDOM.querySelectorAll('.usa-input-error');
-        expect(errors.length).to.equal(0);
-        expect(onSubmit.called).to.be.true;
-      });
-    });
-
-    it('should require "from" date in date range validation', async () => {
-      const onSubmit = sandbox.spy();
-      const form = ReactTestUtils.renderIntoDocument(
-        <DefinitionTester
-          schema={schema}
-          onSubmit={onSubmit}
-          data={{
-            'view:newService': true,
-            toursOfDuty: [
-              {
-                serviceBranch: 'Marines',
-                dateRange: {
-                  to: '2022-01-01',
-                },
-              },
-            ],
-          }}
-          uiSchema={uiSchema}
-          definitions={definitions}
-        />,
-      );
-      const formDOM = findDOMNode(form);
-      submitForm(form);
-
-      await waitFor(() => {
-        const errors = formDOM.querySelectorAll('.usa-input-error');
-        expect(errors.length).to.be.greaterThan(0);
-        expect(onSubmit.called).to.be.false;
-      });
+    it('should validate date range with "to" date optional and "from" date required', async () => {
+      await testDateRangeValidation(schema, uiSchema, definitions);
     });
   });
 
@@ -185,134 +141,12 @@ describe('Edu 1995 tourOfDuty', () => {
           definitions={definitions}
         />,
       );
-
       expect(ReactTestUtils.scryRenderedDOMComponentsWithTag(form, 'input')).to
         .not.be.empty;
     });
 
-    it('should not require "to" date in date range validation', async () => {
-      const onSubmit = sandbox.spy();
-      const form = ReactTestUtils.renderIntoDocument(
-        <DefinitionTester
-          schema={schema}
-          onSubmit={onSubmit}
-          data={{
-            'view:newService': true,
-            toursOfDuty: [
-              {
-                serviceBranch: 'Coast Guard',
-                dateRange: {
-                  from: '2021-06-01',
-                },
-              },
-            ],
-          }}
-          uiSchema={uiSchema}
-          definitions={definitions}
-        />,
-      );
-      const formDOM = findDOMNode(form);
-      submitForm(form);
-
-      await waitFor(() => {
-        const errors = formDOM.querySelectorAll('.usa-input-error');
-        expect(errors.length).to.equal(0);
-        expect(onSubmit.called).to.be.true;
-      });
-    });
-
-    it('should accept tour of duty with only "from" date', async () => {
-      const onSubmit = sandbox.spy();
-      const form = ReactTestUtils.renderIntoDocument(
-        <DefinitionTester
-          schema={schema}
-          onSubmit={onSubmit}
-          data={{
-            'view:newService': true,
-            toursOfDuty: [
-              {
-                serviceBranch: 'Space Force',
-                dateRange: {
-                  from: '2020-12-20',
-                },
-              },
-            ],
-          }}
-          uiSchema={uiSchema}
-          definitions={definitions}
-        />,
-      );
-      const formDOM = findDOMNode(form);
-      submitForm(form);
-
-      await waitFor(() => {
-        const errors = formDOM.querySelectorAll('.usa-input-error');
-        expect(errors.length).to.equal(0);
-        expect(onSubmit.called).to.be.true;
-      });
-    });
-
-    it('should accept tour of duty with both "from" and "to" dates', async () => {
-      const onSubmit = sandbox.spy();
-      const form = ReactTestUtils.renderIntoDocument(
-        <DefinitionTester
-          schema={schema}
-          onSubmit={onSubmit}
-          data={{
-            'view:newService': true,
-            toursOfDuty: [
-              {
-                serviceBranch: 'Army',
-                dateRange: {
-                  from: '2017-01-01',
-                  to: '2021-01-01',
-                },
-              },
-            ],
-          }}
-          uiSchema={uiSchema}
-          definitions={definitions}
-        />,
-      );
-      const formDOM = findDOMNode(form);
-      submitForm(form);
-
-      await waitFor(() => {
-        const errors = formDOM.querySelectorAll('.usa-input-error');
-        expect(errors.length).to.equal(0);
-        expect(onSubmit.called).to.be.true;
-      });
-    });
-
-    it('should require "from" date in date range validation', async () => {
-      const onSubmit = sandbox.spy();
-      const form = ReactTestUtils.renderIntoDocument(
-        <DefinitionTester
-          schema={schema}
-          onSubmit={onSubmit}
-          data={{
-            'view:newService': true,
-            toursOfDuty: [
-              {
-                serviceBranch: 'Navy',
-                dateRange: {
-                  to: '2023-05-15',
-                },
-              },
-            ],
-          }}
-          uiSchema={uiSchema}
-          definitions={definitions}
-        />,
-      );
-      const formDOM = findDOMNode(form);
-      submitForm(form);
-
-      await waitFor(() => {
-        const errors = formDOM.querySelectorAll('.usa-input-error');
-        expect(errors.length).to.be.greaterThan(0);
-        expect(onSubmit.called).to.be.false;
-      });
+    it('should validate date range with "to" date optional and "from" date required', async () => {
+      await testDateRangeValidation(schema, uiSchema, definitions);
     });
   });
 });
