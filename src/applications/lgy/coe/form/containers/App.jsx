@@ -25,10 +25,8 @@ function App({
   canApply,
   showCoe,
   formData,
-  setFormData
+  setFormData,
 }) {
-
-
   const TOGGLE_KEY = 'coeFormRebuildCveteam';
   const {
     TOGGLE_NAMES,
@@ -40,7 +38,10 @@ function App({
 
   useEffect(
     () => {
-      if (!isLoadingFeatureFlags && formData[TOGGLE_KEY] !== newFormDataEnabled) {
+      if (
+        !isLoadingFeatureFlags &&
+        formData[TOGGLE_KEY] !== newFormDataEnabled
+      ) {
         setFormData({
           ...formData,
           [TOGGLE_KEY]: newFormDataEnabled,
