@@ -28,6 +28,8 @@ export default {
           </ul>
         </>
       ),
+      messageAriaDescribedby:
+        "If you've filled out either of these applications, you don't need to fill out this form: Application for DIC, Survivors Pension, and/or Accrued Benefits (VA Form 534EZ), Application for Dependency and Indemnity Compensation by Parent(s) (VA Form 21P-535)",
     }),
   },
   schema: {
