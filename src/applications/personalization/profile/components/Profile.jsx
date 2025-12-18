@@ -168,6 +168,8 @@ class Profile extends Component {
       profile2Enabled: this.props.shouldShowProfile2,
       profileHealthCareSettingsPage: this.props
         .shouldShowHealthCareSettingsPage,
+      profileHideHealthCareContacts: !this.props
+        .shouldHideHealthCareContactsPage,
     });
 
     // feature toggled route
@@ -284,6 +286,7 @@ Profile.propTypes = {
   user: PropTypes.object.isRequired,
   shouldShowAccreditedRepTab: PropTypes.bool,
   shouldShowHealthCareSettingsPage: PropTypes.bool,
+  shouldHideHealthCareContactsPage: PropTypes.bool,
   shouldShowProfile2: PropTypes.bool,
 };
 
@@ -311,6 +314,8 @@ const mapStateToProps = state => {
   const shouldShowProfile2 = profileToggles?.profile2Enabled;
   const shouldShowHealthCareSettingsPage =
     profileToggles?.profileHealthCareSettingsPage;
+  const shouldHideHealthCareContactsPage =
+    profileToggles?.profileHideHealthCareContacts;
   const shouldFetchDirectDeposit =
     isEligibleForDD &&
     isLighthouseAvailable &&
@@ -369,6 +374,7 @@ const mapStateToProps = state => {
     isInMVI,
     isLOA3,
     shouldFetchDirectDeposit,
+    shouldHideHealthCareContactsPage,
     shouldShowAccreditedRepTab,
     shouldShowProfile2,
     shouldShowHealthCareSettingsPage,

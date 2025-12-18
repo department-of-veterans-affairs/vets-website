@@ -118,7 +118,7 @@ const responses = {
             profileUseExperimental: false,
             profileShowPrivacyPolicy: false,
             profileShowPaperlessDelivery: false,
-            profile2Enabled: false,
+            profile2Enabled: true,
             profileHealthCareSettingsPage: true,
             profileSchedulingPreferences: true,
             profileHideHealthCareContacts: true,
