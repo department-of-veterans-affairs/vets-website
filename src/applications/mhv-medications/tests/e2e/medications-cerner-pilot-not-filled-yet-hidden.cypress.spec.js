@@ -3,39 +3,22 @@ import pendingPrescriptions from './fixtures/pending-prescriptions-med-list.json
 import pendingRxDetails from './fixtures/pending-prescriptions-details.json';
 import MedicationsDetailsPage from './pages/MedicationsDetailsPage';
 import MedicationsListPage from './pages/MedicationsListPage';
-import mockToggles from './fixtures/toggles-response.json';
 import allergies from './fixtures/allergies.json';
 import { medicationsUrls } from '../../util/constants';
 
-describe('Medications Details Page - Cerner Pilot Enabled - Not Filled Yet Hidden', () => {
+describe('Medications Details Page - Accelerating Medications - Not Filled Yet Hidden', () => {
   const site = new MedicationsSite();
   const detailsPage = new MedicationsDetailsPage();
   const listPage = new MedicationsListPage();
   const updatedOrderDate = listPage.updatedOrderDates(pendingPrescriptions);
 
-  // Create mock toggles with Cerner pilot enabled
-  const baseFeatures = mockToggles.data.features.filter(
-    f => f.name !== 'mhv_medications_cerner_pilot',
-  );
-  const mockTogglesWithCernerPilot = {
-    data: {
-      type: 'feature_toggles',
-      features: [
-        ...baseFeatures,
-        { name: 'mhv_medications_cerner_pilot', value: true },
-      ],
-    },
-  };
-
   beforeEach(() => {
-    site.login();
-    cy.intercept('GET', '/v0/feature_toggles?*', mockTogglesWithCernerPilot).as(
-      'featureToggles',
-    );
+    // Login with accelerated medications enabled (which includes the Cerner pilot toggle)
+    site.login(true, false, true);
   });
 
-  it('does not display "Not filled yet" text when Cerner pilot is enabled', () => {
-    // When Cerner pilot is enabled, the app uses v2 endpoints
+  it('does not display "Not filled yet" text when accelerating medications', () => {
+    // When accelerating medications, the app uses v2 endpoints
     cy.intercept(
       'GET',
       '/my_health/v2/prescriptions?page=1&per_page=10&sort=alphabetical-status',
@@ -69,7 +52,7 @@ describe('Medications Details Page - Cerner Pilot Enabled - Not Filled Yet Hidde
 
     detailsPage.verifyHeaderTextOnDetailsPage('About this prescription');
 
-    // Verify "Last filled on" section is NOT displayed when Cerner pilot is enabled
+    // Verify "Last filled on" section is NOT displayed when accelerating medications
     // and there is no dispense date
     detailsPage.verifyLastFilledDateNotDisplayedOnDetailsPage();
 
