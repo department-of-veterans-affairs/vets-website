@@ -95,7 +95,7 @@ describe('ExpenseMealFields', () => {
     expect(input.getAttribute('error')).to.equal('Vendor is required');
 
     // Simulate input change
-    simulateVaInputChange(input, 'Updated Vendor');
+    simulateVaInputBlur(input, 'Updated Vendor');
 
     await waitFor(() => {
       expect(onChangeSpy.called).to.be.true;
