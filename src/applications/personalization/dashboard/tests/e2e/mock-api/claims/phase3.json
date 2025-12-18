@@ -18,6 +18,8 @@
       "currentPhaseBack": false,
       "requestedDecision": false,
       "claimType": "Compensation",
+      "claimTypeBase": "compensation claim",
+      "displayTitle": "Claim for compensation",
       "updatedAt": "2022-03-14T18:57:22.614Z",
       "contentionList": ["tinnitus (New)"],
       "vaRepresentative": null,
