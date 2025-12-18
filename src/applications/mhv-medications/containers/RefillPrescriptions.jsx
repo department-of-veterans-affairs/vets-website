@@ -11,6 +11,7 @@ import {
   usePrintTitle,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import useAcceleratedData from '~/platform/mhv/hooks/useAcceleratedData';
 import {
   useGetRefillablePrescriptionsQuery,
   useBulkRefillPrescriptionsMutation,
@@ -45,7 +46,7 @@ const RefillPrescriptions = () => {
     error: refillableError,
   } = useGetRefillablePrescriptionsQuery();
 
-  const isOracleHealthPilot = useSelector(selectCernerPilotFlag);
+  const isCernerPilot = useSelector(selectCernerPilotFlag);
 
   const [
     bulkRefillPrescriptions,
@@ -113,10 +114,23 @@ const RefillPrescriptions = () => {
 
   // Selectors
   const selectedSortOption = useSelector(selectSortOption);
+  const {
+    isAcceleratingAllergies,
+    isCerner,
+    isLoading: isAcceleratedDataLoading,
+  } = useAcceleratedData();
 
   // Get refillable list from RTK Query result
   const fullRefillList = refillableData?.prescriptions || [];
-  const { data: allergies, error: allergiesError } = useGetAllergiesQuery();
+  const { data: allergies, error: allergiesError } = useGetAllergiesQuery(
+    {
+      isAcceleratingAllergies,
+      isCerner,
+    },
+    {
+      skip: isAcceleratedDataLoading, // Wait for Cerner data and toggles to load before calling API
+    },
+  );
   const userName = useSelector(selectUserFullName);
   const dob = useSelector(selectUserDob);
   // Memoized Values
@@ -132,7 +146,7 @@ const RefillPrescriptions = () => {
 
       // Get just the prescription IDs for the bulk refill
       const prescriptionIds = selectedRefillList.map(rx => {
-        if (isOracleHealthPilot) {
+        if (isCernerPilot) {
           return { id: rx.prescriptionId, stationNumber: rx.stationNumber };
         }
         return rx.prescriptionId;
@@ -213,6 +227,26 @@ const RefillPrescriptions = () => {
 
   const baseTitle = 'Medications | Veterans Affairs';
   usePrintTitle(baseTitle, userName, dob, updatePageTitle);
+
+  const getCheckboxDescription = prescription => {
+    let lastFilledText = '';
+    if (prescription.sortedDispensedDate || prescription.dispensedDate) {
+      lastFilledText = `Last filled on ${dateFormat(
+        prescription.sortedDispensedDate || prescription.dispensedDate,
+        DATETIME_FORMATS.longMonthDate,
+      )}`;
+    } else if (!isCernerPilot) {
+      lastFilledText = 'Not filled yet';
+    }
+    const descriptionLines = [
+      `Prescription number: ${prescription.prescriptionNumber}`,
+    ];
+    if (lastFilledText) {
+      descriptionLines.push(lastFilledText);
+    }
+    descriptionLines.push(`${prescription.refillRemaining} refills left`);
+    return descriptionLines.join('\n');
+  };
 
   const content = () => {
     if (isLoading || isRefilling) {
@@ -316,20 +350,9 @@ const RefillPrescriptions = () => {
                         }
                         onVaChange={() => onSelectPrescription(prescription)}
                         uswds
-                        checkbox-description={`Prescription number: ${
-                          prescription.prescriptionNumber
-                        }
-                        ${
-                          prescription.sortedDispensedDate ||
-                          prescription.dispensedDate
-                            ? `Last filled on ${dateFormat(
-                                prescription.sortedDispensedDate ||
-                                  prescription.dispensedDate,
-                                DATETIME_FORMATS.longMonthDate,
-                              )}`
-                            : 'Not filled yet'
-                        }
-                        ${prescription.refillRemaining} refills left`}
+                        checkbox-description={getCheckboxDescription(
+                          prescription,
+                        )}
                       />
                     </div>
                   ))}
