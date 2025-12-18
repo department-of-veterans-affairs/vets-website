@@ -6,7 +6,7 @@ import sinon from 'sinon';
 
 import ConfirmationPage from '../../../containers/ConfirmationPage';
 import formConfig from '../../../config/form';
-import { categories } from '../../../constants/benefits';
+import { categories, BENEFITS_LIST } from '../../../constants/benefits';
 
 const mockBenefits = [
   {
@@ -232,65 +232,6 @@ describe('<ConfirmationPage>', () => {
       });
     });
 
-    it('shows all benefits when no results are found but allBenefits=true is in the query', async () => {
-      // const sortedBenefits = [...BENEFITS_LIST].sort((a, b) =>
-      //   a.name.localeCompare(b.name),
-      // );
-      // const { mockStore, props } = getData([], form2, { allBenefits: 'true' });
-      // const updatedStore = {
-      //   ...mockStore,
-      //   getState: () => ({
-      //     ...mockStore.getState(),
-      //     results: {
-      //       data: null,
-      //       error: null,
-      //       isError: false,
-      //       isLoading: false,
-      //     },
-      //   }),
-      // };
-      // const { container, getAllByRole } = render(
-      //   <Provider store={updatedStore}>
-      //     <ConfirmationPage
-      //       {...props}
-      //       location={{
-      //         ...props.location,
-      //         query: { allBenefits: 'true' },
-      //       }}
-      //     />
-      //   </Provider>,
-      // );
-      // const seenBenefitNames = new Set();
-      // const pageSize = 10;
-      // const totalPages = Math.ceil(BENEFITS_LIST.length / pageSize);
-      // const pagination = container.querySelector('va-pagination');
-      // // Page 1 is already rendered
-      // await waitFor(() => {
-      //   const items = getAllByRole('listitem');
-      //   expect(items.length).to.be.greaterThan(0);
-      //   items.forEach(item => seenBenefitNames.add(item.textContent.trim()));
-      // });
-      // // Dispatch page changes synchronously (skip page 1, it renders initially)
-      // for (let page = 2; page <= totalPages; page++) {
-      //   pagination.dispatchEvent(
-      //     new CustomEvent('pageSelect', {
-      //       detail: { page },
-      //       bubbles: true,
-      //     }),
-      //   );
-      //   // eslint-disable-next-line no-await-in-loop
-      //   await waitFor(() => {
-      //     const items = getAllByRole('listitem');
-      //     expect(items.length).to.be.greaterThan(0);
-      //     items.forEach(item => seenBenefitNames.add(item.textContent.trim()));
-      //   });
-      // }
-      // const allNamesSeen = sortedBenefits.every(b =>
-      //   Array.from(seenBenefitNames).some(name => name.includes(b.name)),
-      // );
-      // expect(allNamesSeen).to.be.true;
-    });
-
     it('renders banner when results not found', () => {
       const { mockStore, props } = getData([], form2);
       const { container } = subject({ mockStore, props });
@@ -354,39 +295,39 @@ describe('sortBenefits', () => {
     expect(benefitNames[9]).to.include('Veterans Pension');
   });
 
-  // it('sorts benefits by type', async () => {
-  //   const { mockStore, props } = getData(mockBenefits);
+  it('sorts benefits by type', async () => {
+    const { mockStore, props } = getData(mockBenefits);
 
-  //   const screen = render(
-  //     <Provider store={mockStore}>
-  //       <ConfirmationPage {...props} />
-  //     </Provider>,
-  //   );
+    const screen = render(
+      <Provider store={mockStore}>
+        <ConfirmationPage {...props} />
+      </Provider>,
+    );
 
-  //   const sortSelect = screen.getByLabelText(/Sort Benefits/i);
+    const sortSelect = screen.getByLabelText(/Sort Benefits/i);
 
-  //   fireEvent(
-  //     sortSelect,
-  //     new CustomEvent('vaSelect', {
-  //       detail: { value: 'category' },
-  //       bubbles: true,
-  //     }),
-  //   );
+    fireEvent(
+      sortSelect,
+      new CustomEvent('vaSelect', {
+        detail: { value: 'category' },
+        bubbles: true,
+      }),
+    );
 
-  //   const listItems = await screen.findAllByRole('listitem');
-  //   const benefitNames = listItems.map(li => li.textContent);
+    const listItems = await screen.findAllByRole('listitem');
+    const benefitNames = listItems.map(li => li.textContent);
 
-  //   expect(benefitNames[0]).to.include('VA national cemetery burial');
-  //   expect(benefitNames[1]).to.include('Disability Compensation');
-  //   expect(benefitNames[2]).to.include('GI Bill benefits');
-  //   expect(benefitNames[3]).to.include('Careers and Employment');
-  //   expect(benefitNames[4]).to.include('Foreign Medical Program');
-  //   expect(benefitNames[5]).to.include('Disability housing grant');
-  //   expect(benefitNames[6]).to.include('Veterans Affairs Life Insurance');
-  //   expect(benefitNames[7]).to.include('Veterans Pension');
-  //   expect(benefitNames[8]).to.include('More Support');
-  //   expect(benefitNames[9]).to.include('Quick Access Benefit');
-  // });
+    expect(benefitNames[0]).to.include('VA national cemetery burial');
+    expect(benefitNames[1]).to.include('Careers and Employment');
+    expect(benefitNames[2]).to.include('Disability Compensation');
+    expect(benefitNames[3]).to.include('GI Bill benefits');
+    expect(benefitNames[4]).to.include('Foreign Medical Program');
+    expect(benefitNames[5]).to.include('Disability housing grant');
+    expect(benefitNames[6]).to.include('Veterans Affairs Life Insurance');
+    expect(benefitNames[7]).to.include('More Support');
+    expect(benefitNames[8]).to.include('Quick Access Benefit');
+    expect(benefitNames[9]).to.include('Veterans Pension');
+  });
 
   it('sorts benefits by time sensitivity', async () => {
     const { mockStore, props } = getData(mockBenefits);
@@ -454,6 +395,47 @@ describe('filterBenefits', () => {
       expect(listItems.length).to.equal(1);
       expect(listItems[0].textContent).to.include('Careers');
     });
+  });
+
+  it('filters benefits by all', async () => {
+    const { mockStore, props } = getData(mockBenefits, form2);
+    const wrapper = subject({ mockStore, props });
+    const { container } = wrapper;
+
+    const filterComponent = container.querySelector('va-search-filter');
+
+    await dispatchFilterApply(filterComponent, [
+      {
+        id: 0,
+        label: 'Show results',
+        category: [{ id: 'all', label: 'All results', active: true }],
+      },
+    ]);
+
+    let listItems = wrapper.getAllByRole('listitem').map(li => li.textContent);
+
+    const pagination = container.querySelector('va-pagination');
+    await pagination.dispatchEvent(
+      new CustomEvent('pageSelect', {
+        detail: { page: 2 },
+        bubbles: true,
+      }),
+    );
+    listItems = listItems.concat(
+      wrapper.getAllByRole('listitem').map(li => li.textContent),
+    );
+
+    await pagination.dispatchEvent(
+      new CustomEvent('pageSelect', {
+        detail: { page: 3 },
+        bubbles: true,
+      }),
+    );
+    listItems = listItems.concat(
+      wrapper.getAllByRole('listitem').map(li => li.textContent),
+    );
+
+    expect(listItems.length).to.equal(BENEFITS_LIST.length);
   });
 
   it('clears filters when "Clear all filters" is clicked', async () => {
