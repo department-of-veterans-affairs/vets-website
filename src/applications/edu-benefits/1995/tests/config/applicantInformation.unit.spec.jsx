@@ -434,9 +434,8 @@ describe('Edu 1995 form validation with updated required fields', () => {
     });
   });
 
-  it('should validate all required fields including veteranFullName and dateOfBirth when isProductionOfTestProdEnv is true', async () => {
-    const automatedTest = true;
-    const result = applicantInformationField(automatedTest);
+  it('should validate all required fields including veteranFullName and dateOfBirth', async () => {
+    const result = applicantInformationField();
 
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -465,8 +464,7 @@ describe('Edu 1995 form validation with updated required fields', () => {
   });
 
   it('should not show SSN error when view:noSSN is checked', async () => {
-    const automatedTest = true;
-    const result = applicantInformationField(automatedTest);
+    const result = applicantInformationField();
 
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

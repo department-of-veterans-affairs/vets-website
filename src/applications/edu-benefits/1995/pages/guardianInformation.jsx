@@ -7,7 +7,7 @@ import {
   schema as addressSchema,
   uiSchema as addressUI,
 } from 'platform/forms/definitions/address';
-import { eighteenOrOver } from '../helpers';
+import { isEighteenOrOlder } from '../helpers';
 
 const defaults = () => ({
   fields: ['minorQuestions'],
@@ -17,7 +17,7 @@ const defaults = () => ({
 });
 
 const isEighteenOrYounger = formData => {
-  return !eighteenOrOver(formData.dateOfBirth);
+  return !isEighteenOrOlder(formData.dateOfBirth);
 };
 
 const guardianDescription = (
