@@ -41,12 +41,45 @@ describe('Array Builder evidence flow', () => {
 
       // ---------------------------------------- FIRST ITEM
       // Prompt
+      h.verifyFPSH3(
+        'Do you want us to get your private (non-VA) provider or VA Vet Center medical records?',
+      );
+      h.verifyFPSDesc(
+        'You have private provider or VA Vet Center medical records if you were treated by a:',
+      );
       h.selectPrivatePromptResponse('Y');
 
       // 4142 Auth
-      cy.get('[name="privacy-agreement"]')
+      h.check4142Auth();
+
+      // Location
+      h.verifyH3(
+        'What location should we request your private provider or VA Vet Center records from?',
+      );
+      h.addPrivateLocationData(
+        'Johns Hopkins Hospital',
+        '123 Main Street',
+        'Baltimore',
+        'MD',
+        '21287',
+      );
+
+      // Contestable Issues
+      h.verifyH3(
+        'What conditions were you treated for at Johns Hopkins Hospital?',
+      );
+      cy.get('[name="root_issuesPrivate_Hypertension"]')
         .eq(0)
-        .scrollIntoView();
+        .click();
+      cy.get('[name="root_issuesPrivate_Tendonitis, left ankle"]')
+        .eq(0)
+        .click();
+
+      h.clickContinue();
+
+      // Treatment Dates
+      h.verifyH3('When were you treated at Johns Hopkins Hospital?');
+      h.addPrivateTreatmentDates('2020-03-01', '2020-07-18');
     });
   });
 });
