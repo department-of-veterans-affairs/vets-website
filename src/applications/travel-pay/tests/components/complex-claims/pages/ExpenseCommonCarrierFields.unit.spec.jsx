@@ -77,9 +77,8 @@ describe('ExpenseCommonCarrierFields', () => {
     expect(selectedOption.hasAttribute('checked')).to.be.true;
   });
 
-  it('marks the correct reasonNotUsingPOV as checked', () => {
+  it('marks correct reasonNotUsingPOV as selected via prop match', () => {
     const firstKey = Object.keys(TRANSPORTATION_REASONS)[0];
-    const firstLabel = TRANSPORTATION_REASONS[firstKey].label;
 
     const { container } = render(
       <ExpenseCommonCarrierFields
@@ -91,12 +90,16 @@ describe('ExpenseCommonCarrierFields', () => {
       />,
     );
 
-    const selectedOption = container.querySelector(
-      `va-radio-option[label="${firstLabel}"]`,
+    const reasonRadios = container.querySelectorAll(
+      'va-radio[name="reasonNotUsingPOV"] va-radio-option',
     );
 
-    expect(selectedOption).to.exist;
-    expect(selectedOption.hasAttribute('checked')).to.be.true;
+    const selected = Array.from(reasonRadios).find(
+      opt => opt.getAttribute('value') === firstKey,
+    );
+
+    expect(selected).to.exist;
+    expect(selected.getAttribute('checked')).to.equal('true');
   });
 
   it('shows error message for carrierType when error exists', () => {
