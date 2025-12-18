@@ -26,16 +26,37 @@ export default {
       }),
       'ui:validations': [
         // Temporary workaround to enforce required file until bug is fixed
+        // Temporary workaround to ensure invalid files are not valid to continue
         // https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/4716
-        (errors, fieldData) => {
-          const file = fieldData[0] || {};
-          if (file?.isEncrypted && !file?.confirmationCode) {
+        (errors, fieldData /* files array or single file */) => {
+          let files = [];
+
+          if (Array.isArray(fieldData)) {
+            files = fieldData;
+          } else if (fieldData) {
+            files = [fieldData];
+          }
+
+          // Required check: no files at all
+          if (files.length === 0) {
+            errors.addError('Upload a supporting document');
             return;
           }
 
-          if (!file || !file.name) {
-            errors.addError('Upload a supporting document');
-          }
+          files.forEach(file => {
+            if (file?.isEncrypted && !file?.confirmationCode) {
+              return;
+            }
+
+            if (!file || !file.name) {
+              errors.addError('Upload a supporting document');
+              return;
+            }
+
+            if (file.errorMessage) {
+              errors.addError(file.errorMessage);
+            }
+          });
         },
       ],
       // Empty items object required for confirmation page
