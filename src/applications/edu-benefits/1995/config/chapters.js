@@ -49,8 +49,9 @@ export const applicantInformationField = (automatedTest = false) => {
           'veteranSocialSecurityNumber',
           'view:noSSN',
           'vaFileNumber',
+          'dateOfBirth',
         ],
-        required: ['veteranFullName'],
+        required: ['veteranFullName', 'dateOfBirth'],
       }),
     };
   }
