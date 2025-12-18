@@ -204,7 +204,6 @@ describe('Prescription details container', () => {
 
   it('does not display "Not filled yet" when accelerating medications and no dispense date', async () => {
     sandbox.restore();
-    sandbox = sinon.createSandbox();
 
     // Mock useAcceleratedData to return isAcceleratingMedications: true
     sandbox.stub(useAcceleratedDataModule, 'default').returns({
