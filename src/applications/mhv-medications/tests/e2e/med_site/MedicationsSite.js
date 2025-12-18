@@ -16,9 +16,10 @@ class MedicationsSite {
   login = (
     isMedicationsUser = true,
     isAcceleratingAllergies = false,
+    isAcceleratingMedications = false,
     user = mockUser,
   ) => {
-    this.mockFeatureToggles(isAcceleratingAllergies);
+    this.mockFeatureToggles(isAcceleratingAllergies, isAcceleratingMedications);
     this.mockVamcEhr();
 
     if (isMedicationsUser) {
@@ -214,11 +215,16 @@ class MedicationsSite {
     });
   };
 
-  mockFeatureToggles = (isAcceleratingAllergies = false) => {
+  mockFeatureToggles = (
+    isAcceleratingAllergies = false,
+    isAcceleratingMedications = false,
+  ) => {
     cy.intercept(
       'GET',
       '/v0/feature_toggles?*',
-      isAcceleratingAllergies ? mockTogglesAccelerated : mockToggles,
+      isAcceleratingAllergies || isAcceleratingMedications
+        ? mockTogglesAccelerated
+        : mockToggles,
     ).as('featureToggles');
   };
 
