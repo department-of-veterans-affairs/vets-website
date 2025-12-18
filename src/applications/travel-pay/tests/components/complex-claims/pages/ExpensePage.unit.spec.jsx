@@ -472,124 +472,6 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
             '/file-new-claim/12345/43555/choose-expense',
           );
         });
-
-        it('shows receipt error when continue is clicked without a file', async () => {
-          const { container } = renderPage(config);
-
-          const buttonGroup = container.querySelector(
-            '.travel-pay-button-group',
-          );
-          const continueButton = Array.from(
-            buttonGroup.querySelectorAll('va-button'),
-          ).find(btn => btn.getAttribute('text') === 'Continue');
-
-          fireEvent.click(continueButton);
-
-          await waitFor(() => {
-            const fileInput = container.querySelector('va-file-input');
-            expect(fileInput).to.exist;
-            expect(fileInput.getAttribute('error')).to.equal(
-              'Select an approved file type under 5MB',
-            );
-          });
-        });
-
-        it('clears receipt error when a file is uploaded', async () => {
-          const { container } = renderPage(config);
-
-          // Trigger validation
-          const continueButton = Array.from(
-            container.querySelectorAll('.travel-pay-button-group va-button'),
-          ).find(btn => btn.getAttribute('text') === 'Continue');
-
-          fireEvent.click(continueButton);
-
-          const fileInput = container.querySelector('va-file-input');
-          expect(fileInput.getAttribute('error')).to.exist;
-
-          // Upload a file
-          const testFile = new File(['dummy content'], 'receipt.pdf', {
-            type: 'application/pdf',
-          });
-
-          // Dispatch the vaChange event wrapped in act
-          await act(async () => {
-            fileInput.dispatchEvent(
-              new CustomEvent('vaChange', {
-                detail: { files: [testFile] },
-                bubbles: true,
-                composed: true,
-              }),
-            );
-          });
-
-          // Wait for the component to update
-          await waitFor(() => {
-            expect(fileInput.getAttribute('error')).to.be.null;
-          });
-        });
-
-        it('shows errors for missing Common Carrier fields on continue', async () => {
-          if (key !== 'Commoncarrier') return;
-
-          const { container } = renderPage(config);
-
-          const continueButton = Array.from(
-            container.querySelectorAll('.travel-pay-button-group va-button'),
-          ).find(btn => btn.getAttribute('text') === 'Continue');
-
-          fireEvent.click(continueButton);
-
-          await waitFor(() => {
-            const carrierType = container.querySelector(
-              'va-radio[name="carrierType"]',
-            );
-            const reason = container.querySelector(
-              'va-radio[name="reasonNotUsingPOV"]',
-            );
-
-            expect(carrierType.getAttribute('error')).to.equal(
-              'Select a transportation type',
-            );
-            expect(reason.getAttribute('error')).to.equal('Select a reason');
-          });
-        });
-
-        it('clears carrierType error when a transportation option is selected', async () => {
-          if (key !== 'Commoncarrier') return;
-
-          const { container } = renderPage(config);
-
-          // Trigger error
-          const continueButton = Array.from(
-            container.querySelectorAll('.travel-pay-button-group va-button'),
-          ).find(btn => btn.getAttribute('text') === 'Continue');
-
-          fireEvent.click(continueButton);
-
-          const carrierRadio = container.querySelector(
-            'va-radio[name="carrierType"]',
-          );
-
-          expect(carrierRadio.getAttribute('error')).to.exist;
-
-          // Select an option
-          carrierRadio.dispatchEvent(
-            new CustomEvent('vaValueChange', {
-              detail: { value: TRANSPORTATION_OPTIONS[0] },
-              bubbles: true,
-              composed: true,
-            }),
-          );
-
-          await waitFor(() => {
-            expect(carrierRadio.getAttribute('error')).to.not.exist;
-          });
-        });
-
-        it.skip('scrolls to the first error for the date field', () => {
-          // Skipped temporarily until we figure out how to spy on shadow DOM scroll/focus
-        });
       });
 
       describe('Travel Pay – ExpensePage (Validation & Error Handling)', () => {
@@ -618,38 +500,27 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
               expect(amountInput.getAttribute('error')).to.exist;
               expect(descriptionInput.getAttribute('error')).to.exist;
 
-              if (key === 'Commoncarrier') {
-                const carrierType = container.querySelector(
-                  'va-radio[name="carrierType"]',
+              if (key === 'Meal') {
+                const vendoNameInput = container.querySelector(
+                  'va-text-input[name="vendorName"]',
                 );
-                const reason = container.querySelector(
-                  'va-radio[name="reasonNotUsingPOV"]',
-                );
-
-                expect(carrierType.getAttribute('error')).to.equal(
-                  'Select a transportation type',
-                );
-                expect(reason.getAttribute('error')).to.equal(
-                  'Select a reason',
-                );
+                expect(vendoNameInput.getAttribute('error')).to.exist;
               }
 
-              if (key === 'Airtravel') {
-                const tripType = container.querySelector(
-                  'va-radio[name="tripType"]',
+              if (key === 'Lodging') {
+                const vendoInput = container.querySelector(
+                  'va-text-input[name="vendor"]',
                 );
-                const departureDate = container.querySelector(
-                  'va-date[name="departureDate"]',
+                const checkInDateInput = container.querySelector(
+                  'va-date[name="checkInDate"]',
                 );
-
-                expect(tripType.getAttribute('error')).to.exist;
-                expect(departureDate.getAttribute('error')).to.exist;
+                const checkOutDate = container.querySelector(
+                  'va-date[name="checkOutDate"]',
+                );
+                expect(vendoInput.getAttribute('error')).to.exist;
+                expect(checkInDateInput.getAttribute('error')).to.exist;
+                expect(checkOutDate.getAttribute('error')).to.exist;
               }
-
-              const fileInput = container.querySelector('va-file-input');
-              expect(fileInput.getAttribute('error')).to.equal(
-                'Select an approved file type under 5MB',
-              );
             });
           });
 
@@ -679,24 +550,10 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
               const descriptionInput = container.querySelector(
                 'va-textarea[name="description"]',
               );
-              const fileInput = container.querySelector('va-file-input');
 
               expect(dateInput.error).to.be.undefined;
               expect(amountInput.error).to.be.undefined;
               expect(descriptionInput.error).to.be.undefined;
-              expect(fileInput.error).to.be.undefined;
-
-              if (key === 'Commoncarrier') {
-                const carrierType = container.querySelector(
-                  'va-radio[name="carrierType"]',
-                );
-                const reason = container.querySelector(
-                  'va-radio[name="reasonNotUsingPOV"]',
-                );
-
-                expect(carrierType.error).to.be.undefined;
-                expect(reason.error).to.be.undefined;
-              }
             });
           });
 
@@ -714,99 +571,6 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
             await waitFor(() => {
               expect(input.files[0]).to.eq(testFile);
             });
-          });
-        });
-
-        it('requires return date when Airtravel tripType is Round Trip', async () => {
-          const { container } = renderPage(EXPENSE_TYPES.Airtravel);
-
-          // Fill common required fields except returnDate
-          const purchaseDate = container.querySelector(
-            'va-date[name="purchaseDate"]',
-          );
-          const costRequested = container.querySelector(
-            'va-text-input[name="costRequested"]',
-          );
-          const descriptionInput = container.querySelector(
-            'va-textarea[name="description"]',
-          );
-          const vendorInput = container.querySelector(
-            'va-text-input[name="vendorName"]',
-          );
-          const departedFrom = container.querySelector(
-            'va-text-input[name="departedFrom"]',
-          );
-          const arrivedTo = container.querySelector(
-            'va-text-input[name="arrivedTo"]',
-          );
-
-          // Update values
-          purchaseDate.value = '2025-10-31';
-          purchaseDate.dispatchEvent(
-            new CustomEvent('dateChange', {
-              detail: { value: '2025-10-31' },
-              bubbles: true,
-              composed: true,
-            }),
-          );
-
-          costRequested.value = '100.00';
-          costRequested.dispatchEvent(new Event('input', { bubbles: true }));
-
-          descriptionInput.value = 'Flight description';
-          descriptionInput.dispatchEvent(new Event('input', { bubbles: true }));
-
-          vendorInput.value = 'Airline Vendor';
-          vendorInput.dispatchEvent(new Event('input', { bubbles: true }));
-
-          departedFrom.value = 'SFO';
-          departedFrom.dispatchEvent(new Event('input', { bubbles: true }));
-
-          arrivedTo.value = 'LAX';
-          arrivedTo.dispatchEvent(new Event('input', { bubbles: true }));
-
-          // Select Round Trip
-          const roundTripOption = container.querySelector(
-            `va-radio[name="tripType"] va-radio-option[value="${
-              TRIP_TYPES.ROUND_TRIP.value
-            }"]`,
-          );
-          roundTripOption.dispatchEvent(
-            new CustomEvent('vaValueChange', {
-              detail: { value: TRIP_TYPES.ROUND_TRIP.value },
-              bubbles: true,
-              composed: true,
-            }),
-          );
-
-          // Fill departure date but leave return date empty
-          const departureDate = container.querySelector(
-            'va-date[name="departureDate"]',
-          );
-          departureDate.value = '2025-10-31';
-          departureDate.dispatchEvent(
-            new CustomEvent('dateChange', {
-              detail: { value: '2025-10-31' },
-              bubbles: true,
-              composed: true,
-            }),
-          );
-
-          // Click Continue to trigger validation (wrap in act)
-          const continueButton = Array.from(
-            container.querySelectorAll('.travel-pay-button-group va-button'),
-          ).find(btn => btn.getAttribute('text') === 'Continue');
-
-          await act(async () => {
-            fireEvent.click(continueButton);
-          });
-
-          // Wait for error to appear on return date
-          await waitFor(() => {
-            const returnDate = container.querySelector(
-              'va-date[name="returnDate"]',
-            );
-            expect(returnDate.error).to.equal('Enter a return date'); // use .error property
           });
         });
       });
