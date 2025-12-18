@@ -1,50 +1,46 @@
 # Environment Guard
 
-**Execute this FIRST before any other agent work. If any check fails → STOP ALL WORK.**
+## Required Checks - ⛔ **CRITICAL** that each succeeds
 
-```mermaid
-flowchart TD
-    Start([🚀 Agent Activated]) --> CheckGH{Test gh CLI}
-    
-    CheckGH -->|"Run: gh auth status"| GHResult{Exit 0?}
-    GHResult -->|Yes| CheckGitHubMCP{Test GitHub MCP}
-    GHResult -->|No| HALT_GH_CLI[🚫 HALT - gh CLI not authenticated]
-    
-    CheckGitHubMCP -->|"Call: mcp_github_get_me"| GitHubResult{Response?}
-    GitHubResult -->|Success| CheckCypress{Test Cypress MCP}
-    GitHubResult -->|Error| HALT_GH_MCP[🚫 HALT - GitHub MCP unavailable]
-    
-    CheckCypress -->|"Call: mcp_cypress-scree_search_screenshots"| CypressResult{Response?}
-    CypressResult -->|Success| AllReady[✅ All checks passed]
-    CypressResult -->|Error| HALT_CY[🚫 HALT - Cypress MCP unavailable]
-    
-    AllReady --> Continue([Continue to agent workflow])
-    HALT_GH_CLI & HALT_GH_MCP & HALT_CY --> STOP([❌ STOP - Do not proceed])
+Execute ALL THREE checks below. Each check has ONE acceptable method.
 
-    style AllReady fill:#c8e6c9,stroke:#2e7d32
-    style Continue fill:#e8f5e9,stroke:#2e7d32
-    style HALT_GH_CLI fill:#b71c1c,stroke:#b71c1c,color:#fff
-    style HALT_GH_MCP fill:#b71c1c,stroke:#b71c1c,color:#fff
-    style HALT_CY fill:#b71c1c,stroke:#b71c1c,color:#fff
-    style STOP fill:#b71c1c,stroke:#b71c1c,color:#fff
+> ⚠️ **IMPORTANT**: You MUST actually execute each check. There are only two valid statuses:
+> - ✅ **PASS** — Tool call succeeded with expected response
+> - ❌ **FAIL** — Tool call failed, errored, skipped, or not attempted
+>
+> **"N/A", "skipped", "not available", or "assumed" are NOT valid statuses — these are all FAIL.**
+
+### 1. GitHub MCP Server — MANDATORY TOOL CALL
 ```
+mcp_github_get_me
+```
+✅ Pass: Returns JSON with `login` field
+❌ Fail: Tool not available, returns error, missing `login` field, **or not attempted**
 
-| Check | Command/Tool | Success |
-|-------|--------------|---------|
-| gh CLI | `gh auth status` | Exit code 0 |
-| GitHub MCP | `mcp_github_get_me` | Returns user login |
-| Cypress MCP | `mcp_cypress-scree_search_screenshots` | Returns results array |
+### 2. Cypress MCP Server — MANDATORY TOOL CALL
+```
+mcp_cypress-scree_search_screenshots with query: "test"
+```
+✅ Pass: Returns object with `results` array
+❌ Fail: Tool not available, returns error, missing `results` array, **or not attempted**
 
----
+### 3. gh CLI — MANDATORY COMMAND
+```bash
+gh auth status
+```
+✅ Pass: Exit code 0
+❌ Fail: Command not found, exit code non-zero, not authenticated, **or not attempted**
 
-## ⛔ STOP — Execute the flow above and display results before proceeding
+## ⛔ CHECKPOINT — Report Results
 
-| Check | Status | Result |
-|-------|--------|--------|
-| gh CLI | ✅/❌ | |
-| GitHub MCP | ✅/❌ | |
-| Cypress MCP | ✅/❌ | |
+**You MUST fill in this table after attempting each check. No blank cells allowed.**
 
-**All pass → continue. Any fail → HALT and inform user.**
+| Check | Status | Tool/Command Used | Result |
+|-------|--------|-------------------|--------|
+| GitHub MCP | ✅/❌ | `mcp_github_get_me` (REQUIRED) | {actual response or error} |
+| Cypress MCP | ✅/❌ | `mcp_cypress-scree_search_screenshots` (REQUIRED) | {actual response or error} |
+| gh CLI | ✅/❌ | `gh auth status` (REQUIRED) | {actual output or error} |
 
+## ⛔ STOP EXECUTION IF ANY CHECK IS ❌
 
+**All three checks must show ✅ to proceed. Any ❌ = HALT and inform user.**
