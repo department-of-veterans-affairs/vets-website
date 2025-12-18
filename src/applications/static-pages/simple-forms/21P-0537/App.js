@@ -93,7 +93,11 @@ const App = ({ formEnabled }) => {
         level="3"
       >
         <p>{CLAIM_STATUS_TEXT}</p>
-        <va-link href={CLAIM_STATUS_LINK_URL} text={CLAIM_STATUS_LINK_TEXT} />
+        <va-link-action
+          href={CLAIM_STATUS_LINK_URL}
+          text={CLAIM_STATUS_LINK_TEXT}
+          type="secondary"
+        />
       </va-accordion-item>
       <va-accordion-item
         header="How to check your payment history"
