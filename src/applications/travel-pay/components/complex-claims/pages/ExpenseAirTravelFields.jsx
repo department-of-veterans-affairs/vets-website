@@ -15,7 +15,7 @@ const ExpenseAirTravelFields = ({ formState, onChange }) => (
       name="vendorName"
       value={formState.vendorName || ''}
       required
-      onInput={onChange}
+      onBlur={onChange}
       hint="Enter the company you purchased the ticket from, even if it isn't an airline."
     />
 
@@ -41,7 +41,8 @@ const ExpenseAirTravelFields = ({ formState, onChange }) => (
       name="departureDate"
       value={formState.departureDate || ''}
       required
-      onDateChange={onChange}
+      onDateChange={onChange} // Needed since we need to remove errors on change
+      onDateBlur={onChange}
       hint="Enter the date on your departure ticket."
     />
     <VaTextInput
@@ -49,20 +50,21 @@ const ExpenseAirTravelFields = ({ formState, onChange }) => (
       name="departedFrom"
       value={formState.departedFrom || ''}
       required
-      onInput={onChange}
+      onBlur={onChange}
     />
     <VaTextInput
       label="Arrival airport"
       name="arrivedTo"
       value={formState.arrivedTo || ''}
       required
-      onInput={onChange}
+      onBlur={onChange}
     />
     <VaDate
       label="Return date"
       name="returnDate"
       value={formState.returnDate || ''}
-      onDateChange={onChange}
+      onDateChange={onChange} // Needed since we need to remove errors on change
+      onDateBlur={onChange}
       hint="Enter the date on your return ticket. For one-way trips, leave this blank."
     />
   </>

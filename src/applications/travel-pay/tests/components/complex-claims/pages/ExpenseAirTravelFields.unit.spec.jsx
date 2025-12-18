@@ -6,7 +6,7 @@ import ExpenseAirTravelFields from '../../../../components/complex-claims/pages/
 import { TRIP_TYPES } from '../../../../constants';
 import {
   simulateVaDateChange,
-  simulateVaInputChange,
+  simulateVaInputBlur,
   testVaRadioSelection,
 } from '../../../../util/testing-input-helpers';
 
@@ -120,15 +120,17 @@ describe('ExpenseAirTravelFields', () => {
     ).to.equal('LAX');
   });
 
-  it('calls onBlur when focusing out of vendor input', async () => {
+  it('calls onBlur when when focusing out of vendor input', async () => {
     const onChangeSpy = sinon.spy();
     const { container } = render(
       <ExpenseAirTravelFields {...defaultProps} onChange={onChangeSpy} />,
     );
+
     const vendorInput = container.querySelector(
       'va-text-input[name="vendorName"]',
     );
-    simulateVaInputChange(vendorInput, 'United Airlines');
+
+    simulateVaInputBlur(vendorInput, 'United Airlines');
 
     await waitFor(() => {
       expect(onChangeSpy.called).to.be.true;
@@ -173,7 +175,7 @@ describe('ExpenseAirTravelFields', () => {
     });
   });
 
-  it('calls onChange when typing into departure airport input', async () => {
+  it('calls onBlur when focusing out of departure airport input', async () => {
     const onChangeSpy = sinon.spy();
     const { container } = render(
       <ExpenseAirTravelFields {...defaultProps} onChange={onChangeSpy} />,
@@ -182,7 +184,7 @@ describe('ExpenseAirTravelFields', () => {
     const departedFrom = container.querySelector(
       'va-text-input[name="departedFrom"]',
     );
-    simulateVaInputChange(departedFrom, 'SFO');
+    simulateVaInputBlur(departedFrom, 'SFO');
 
     await waitFor(() => {
       expect(onChangeSpy.called).to.be.true;
@@ -192,7 +194,7 @@ describe('ExpenseAirTravelFields', () => {
     });
   });
 
-  it('calls onChange when typing into arrival airport input', async () => {
+  it('calls onBlur when when focusing out of arrival airport input', async () => {
     const onChangeSpy = sinon.spy();
     const { container } = render(
       <ExpenseAirTravelFields {...defaultProps} onChange={onChangeSpy} />,
@@ -201,7 +203,7 @@ describe('ExpenseAirTravelFields', () => {
     const arrivedTo = container.querySelector(
       'va-text-input[name="arrivedTo"]',
     );
-    simulateVaInputChange(arrivedTo, 'ORD');
+    simulateVaInputBlur(arrivedTo, 'ORD');
 
     await waitFor(() => {
       expect(onChangeSpy.called).to.be.true;

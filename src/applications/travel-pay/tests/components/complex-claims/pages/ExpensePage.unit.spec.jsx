@@ -127,12 +127,23 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
 
     if (costRequested) {
       costRequested.value = '50.00';
-      costRequested.dispatchEvent(new Event('input', { bubbles: true }));
+      const blurEvent = new Event('blur', { bubbles: true });
+      Object.defineProperty(blurEvent, 'target', {
+        writable: false,
+        value: { value: '50.00', name: 'costRequested' },
+      });
+      costRequested.dispatchEvent(blurEvent);
     }
 
     if (description) {
-      description.value = 'Test description';
-      description.dispatchEvent(new Event('input', { bubbles: true }));
+      description.value = 'Test description for expense';
+
+      const blurEvent = new Event('blur', { bubbles: true });
+      Object.defineProperty(blurEvent, 'target', {
+        writable: false,
+        value: { value: 'Test description for expense', name: 'description' },
+      });
+      description.dispatchEvent(blurEvent);
     }
 
     if (fileInput) {
