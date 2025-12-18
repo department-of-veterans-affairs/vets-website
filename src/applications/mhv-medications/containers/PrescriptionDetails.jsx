@@ -387,22 +387,26 @@ const PrescriptionDetails = () => {
         </>
       );
     }
-    return (
-      <>
-        {prescription?.sortedDispensedDate ? (
-          <span>
-            Last filled on{' '}
-            {dateFormat(
-              prescription.sortedDispensedDate,
-              DATETIME_FORMATS.longMonthDate,
-            )}
-          </span>
-        ) : (
-          <span>Not filled yet</span>
-        )}
-      </>
-    );
+    if (prescription?.sortedDispensedDate) {
+      return (
+        <span>
+          Last filled on{' '}
+          {dateFormat(
+            prescription.sortedDispensedDate,
+            DATETIME_FORMATS.longMonthDate,
+          )}
+        </span>
+      );
+    }
+    if (!isCernerPilot) {
+      return <span>Not filled yet</span>;
+    }
+    return null;
   };
+
+  // Determine if we should show the last filled paragraph
+  const showLastFilledParagraph =
+    nonVaPrescription || prescription?.sortedDispensedDate || !isCernerPilot;
 
   const [isErrorNotificationVisible, setIsErrorNotificationVisible] = useState(
     false,
@@ -509,15 +513,17 @@ const PrescriptionDetails = () => {
               <ApiErrorNotification errorType="access" content="medications" />
             ) : (
               <>
-                <p
-                  id="last-filled"
-                  className={`title-last-filled-on vads-u-font-family--sans vads-u-margin-top--2 medium-screen: vads-u-margin-bottom--2 ${
-                    nonVaPrescription ? 'vads-u-margin-bottom--2' : ''
-                  }`}
-                  data-testid="rx-last-filled-date"
-                >
-                  {filledEnteredDate()}
-                </p>
+                {showLastFilledParagraph && (
+                  <p
+                    id="last-filled"
+                    className={`title-last-filled-on vads-u-font-family--sans vads-u-margin-top--2 medium-screen: vads-u-margin-bottom--2 ${
+                      nonVaPrescription ? 'vads-u-margin-bottom--2' : ''
+                    }`}
+                    data-testid="rx-last-filled-date"
+                  >
+                    {filledEnteredDate()}
+                  </p>
+                )}
                 {prescription.prescriptionSource ===
                   RX_SOURCE.PENDING_DISPENSE && pendingMedAlert()}
                 {isErrorNotificationVisible && (
