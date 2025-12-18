@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { fireEvent, waitFor, act } from '@testing-library/react';
+import { fireEvent, waitFor } from '@testing-library/react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import {
   MemoryRouter,
@@ -29,6 +29,26 @@ import {
 const LocationDisplay = () => {
   const location = useLocation();
   return <div data-testid="location-display">{location.pathname}</div>;
+};
+
+//
+// Helper for mocking FileReader in Node 22+ environments
+//
+const mockFileReader = () => {
+  const originalFileReader = global.FileReader;
+  const mockBase64 = 'iVBORw0KGgoAAAANSUhEUgAAAAUA';
+  const mockDataUrl = `data:application/pdf;base64,${mockBase64}`;
+
+  global.FileReader = function MockFileReader() {
+    this.readAsDataURL = function readAsDataURL() {
+      this.result = mockDataUrl;
+      setTimeout(() => this.onload(), 0);
+    };
+  };
+
+  return () => {
+    global.FileReader = originalFileReader;
+  };
 };
 
 describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
@@ -536,36 +556,72 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
           });
 
           it('clears errors when required fields are filled', async () => {
-            const { container } = renderPage(config);
+            const restoreFileReader = mockFileReader();
 
-            // Fill in all required fields
-            fillRequiredFields(container, key);
+            const { container, getByTestId } = renderPage(config);
 
+            // Trigger validation to show errors first
+            const buttonGroup = container.querySelector(
+              '.travel-pay-button-group',
+            );
             const continueButton = Array.from(
-              container.querySelectorAll('.travel-pay-button-group va-button'),
+              buttonGroup.querySelectorAll('va-button'),
             ).find(btn => btn.getAttribute('text') === 'Continue');
 
-            // Trigger validation wrapped in act
-            await act(async () => {
-              fireEvent.click(continueButton);
-            });
+            fireEvent.click(continueButton);
 
-            // Wait for all errors to clear
+            // Wait for errors to appear
             await waitFor(() => {
               const dateInput = container.querySelector(
                 'va-date[name="purchaseDate"]',
               );
+              expect(dateInput.getAttribute('error')).to.exist;
               const amountInput = container.querySelector(
                 'va-text-input[name="costRequested"]',
               );
+              expect(amountInput.getAttribute('error')).to.exist;
               const descriptionInput = container.querySelector(
                 'va-textarea[name="description"]',
               );
-
-              expect(dateInput.error).to.be.undefined;
-              expect(amountInput.error).to.be.undefined;
-              expect(descriptionInput.error).to.be.undefined;
+              expect(descriptionInput.getAttribute('error')).to.exist;
+              const fileInput = container.querySelector('va-file-input');
+              expect(fileInput.getAttribute('error')).to.exist;
+              if (key === 'Meal') {
+                const vendorName = container.querySelector(
+                  'va-text-input[name="vendorName"]',
+                );
+                expect(vendorName.getAttribute('error')).to.exist;
+              }
+              if (key === 'Lodging') {
+                const vendor = container.querySelector(
+                  'va-text-input[name="vendor"]',
+                );
+                expect(vendor.getAttribute('error')).to.exist;
+                const checkInDate = container.querySelector(
+                  'va-date[name="checkInDate"]',
+                );
+                expect(checkInDate.getAttribute('error')).to.exist;
+                const checkOutDate = container.querySelector(
+                  'va-date[name="checkOutDate"]',
+                );
+                expect(checkOutDate.getAttribute('error')).to.exist;
+              }
             });
+
+            // Fill in all required fields
+            fillRequiredFields(container, key);
+
+            // Click continue again - if validation passes, navigation should occur
+            fireEvent.click(continueButton);
+
+            // Verify navigation happened (proving validation passed/errors cleared)
+            await waitFor(() => {
+              expect(getByTestId('location-display').textContent).to.equal(
+                `/file-new-claim/12345/43555/${config.route}`,
+              );
+            });
+
+            restoreFileReader();
           });
 
           it('updates formState when a document is uploaded', async () => {
