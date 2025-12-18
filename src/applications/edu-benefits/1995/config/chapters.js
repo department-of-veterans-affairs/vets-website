@@ -157,7 +157,6 @@ export const chapters = {
   militaryService,
   schoolSelection: {
     title: 'School/training facility selection',
-    depends: isLegacyFlow,
     pages: {
       newSchool: {
         path: 'school-selection/new-school',

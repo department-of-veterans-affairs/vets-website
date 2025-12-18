@@ -6,6 +6,7 @@ import {
 import React from 'react';
 import { benefitsLabelsUpdate } from '../../utils/labels';
 import { showRudisill1995 } from '../helpers';
+import BenefitReviewField from '../components/BenefitReviewField';
 
 const { benefitUpdate, benefitAppliedFor } = fullSchema.properties;
 
@@ -49,6 +50,7 @@ export const uiSchema = {
   benefitUpdate: {
     'ui:widget': 'radio',
     'ui:title': 'Which benefit have you most recently used?',
+    'ui:reviewField': BenefitReviewField,
     'ui:options': {
       labels: benefitsLabelsUpdate,
     },
@@ -72,6 +74,7 @@ export const uiSchema = {
         benefitAppliedFor: {
           'ui:title': 'Which benefit do you want to change to?',
           'ui:widget': 'radio',
+          'ui:reviewField': BenefitReviewField,
           'ui:required': formData => formData.changeAnotherBenefit === 'Yes',
           'ui:options': {
             labels: benefitsLabelsUpdate,
