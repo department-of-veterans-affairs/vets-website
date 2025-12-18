@@ -8,24 +8,31 @@ const HealthCareSettings = () => {
     <Tier2PageContent pageHeader="Health care settings">
       <ProfileHubItem
         heading={PROFILE_PATH_NAMES.HEALTH_CARE_CONTACTS}
-        content="Review medical emergency contact and next of kin contact information"
+        content="Review information for emergency contacts and next of kin contacts."
         href={PROFILE_PATHS.HEALTH_CARE_CONTACTS}
       />
       <ProfileHubItem
-        heading={PROFILE_PATH_NAMES.SCHEDULING_PREFERENCES}
-        content="Manage your scheduling preferences for health care appointments"
-        href={PROFILE_PATHS.SCHEDULING_PREFERENCES}
-      />
-      <ProfileHubItem
         heading={PROFILE_PATH_NAMES.MESSAGES_SIGNATURE}
-        content="Manage your secure messages signature"
+        content="Manage the signature on your messages."
         href={PROFILE_PATHS.MESSAGES_SIGNATURE}
       />
-      <va-card background>
-        <h3 slot="headline">Looking for your full health care information?</h3>
-        <p>
-          Visit the <va-link href="/my-health/" text="My HealtheVet" /> page for
-          all your health care needs.
+      <ProfileHubItem
+        heading={PROFILE_PATH_NAMES.SCHEDULING_PREFERENCES}
+        content="Manage your scheduling preferences for health care appointments."
+        href={PROFILE_PATHS.SCHEDULING_PREFERENCES}
+      />
+      <va-card
+        background
+        title="Manage your other health care needs on My HealtheVet"
+      >
+        <h3 className="vads-u-margin-top--0">
+          Manage your other health care needs on My HealtheVet
+        </h3>
+        <p className="vads-u-margin-bottom--0">
+          Go to My HealtheVet on VA.gov to manage your appointments,
+          medications, and more.
+          <br />
+          <va-link href="/my-health/" text="Go to My HealtheVet" />
         </p>
       </va-card>
     </Tier2PageContent>
