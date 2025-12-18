@@ -179,11 +179,10 @@ describe('CernerFacilityAlert', () => {
     });
 
     it('does not render yellow alert when domain is mhv-landing-page', () => {
-      const screen = setup(stateWithFacility, {
-        domain: 'mhv-landing-page',
-        headline: 'manage your medical records',
-        linkPath: '/pages/health_record/comprehensive_record/health_summaries',
-      });
+      const screen = setup(
+        stateWithFacility,
+        CernerAlertContent.MHV_LANDING_PAGE,
+      );
 
       // Yellow alert should be suppressed on MHV landing page
       expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;
@@ -366,6 +365,47 @@ describe('CernerFacilityAlert', () => {
       expect(infoAlert.getAttribute('trigger')).to.equal(
         CernerAlertContent.SECURE_MESSAGING.infoAlertHeadline,
       );
+    });
+
+    it('displays composed text with infoAlertText when provided (Medications)', () => {
+      const screen = setup(stateWithFacility, {
+        ...CernerAlertContent.MEDICATIONS,
+      });
+
+      const infoText = screen.getByTestId('cerner-facility-info-text');
+      expect(infoText.textContent).to.include(
+        `We've brought all your VA health care data together so you can manage your care in one place.`,
+      );
+      expect(infoText.textContent).to.include(
+        CernerAlertContent.MEDICATIONS.infoAlertText,
+      );
+    });
+
+    it('displays composed text with infoAlertText when provided (Secure Messaging)', () => {
+      const screen = setup(stateWithFacility, {
+        ...CernerAlertContent.SECURE_MESSAGING,
+      });
+
+      const infoText = screen.getByTestId('cerner-facility-info-text');
+      expect(infoText.textContent).to.include(
+        `We've brought all your VA health care data together so you can manage your care in one place.`,
+      );
+      expect(infoText.textContent).to.include(
+        CernerAlertContent.SECURE_MESSAGING.infoAlertText,
+      );
+    });
+
+    it('displays only base text when infoAlertText is not provided', () => {
+      const screen = setup(stateWithFacility, {
+        ...CernerAlertContent.MHV_LANDING_PAGE,
+        domain: 'test-domain', // Override domain to allow alert to render
+      });
+
+      const infoText = screen.getByTestId('cerner-facility-info-text');
+      const baseText = `We've brought all your VA health care data together so you can manage your care in one place.`;
+      expect(infoText.textContent).to.include(baseText);
+      // Verify no additional text is appended after the base message
+      expect(infoText.textContent).to.include('Still want to use My VA Health');
     });
   });
 });
