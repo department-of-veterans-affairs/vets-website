@@ -1,5 +1,6 @@
 import { fileInputMultipleSchema } from '~/platform/forms-system/src/js/web-component-patterns';
 import { burialUploadUI } from '../../../utils/upload';
+import { validateFileUploads } from '../../../utils/validation';
 import DeathCertificateUploadMessage from '../../../components/DeathCertificateUploadMessage';
 import { generateTitle } from '../../../utils/helpers';
 
@@ -8,7 +9,9 @@ export default {
     'ui:title': generateTitle('Death certificate'),
     'ui:description': DeathCertificateUploadMessage,
     deathCertificate: {
-      ...burialUploadUI('Upload the Veteran’s death certificate', false, {
+      ...burialUploadUI({
+        title: 'Upload the Veteran’s death certificate',
+        required: false,
         fileUploadNetworkErrorMessage:
           'We’re sorry. There was problem with our system and we couldn’t upload your file. You can try again later.',
         fileUploadNetworkErrorAlert: {
@@ -24,34 +27,7 @@ export default {
           hideAlertIfLoggedIn: true,
         },
       }),
-      'ui:validations': [
-        // Temporary workaround to ensure invalid files are not valid to continue
-        // https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/4716
-        (errors, fieldData /* files array or single file */) => {
-          let files = [];
-
-          if (Array.isArray(fieldData)) {
-            files = fieldData;
-          } else if (fieldData) {
-            files = [fieldData];
-          }
-
-          files.forEach(file => {
-            if (file?.isEncrypted && !file?.confirmationCode) {
-              return;
-            }
-
-            if (!file || !file.name) {
-              errors.addError('Upload a supporting document');
-              return;
-            }
-
-            if (file.errorMessage) {
-              errors.addError(file.errorMessage);
-            }
-          });
-        },
-      ],
+      'ui:validations': [validateFileUploads({ required: false })],
       // Empty items object required for confirmation page
       items: {},
     },

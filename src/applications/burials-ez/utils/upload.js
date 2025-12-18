@@ -2,7 +2,11 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import { fileInputMultipleUI } from '~/platform/forms-system/src/js/web-component-patterns';
 import { FILE_UPLOAD_URL, FORM_NUMBER, MAX_FILE_SIZE_BYTES } from './constants';
 
-export const burialUploadUI = (title, required = true, options = {}) => {
+export const burialUploadUI = ({ title, required = true, ...options }) => {
+  if (!title) {
+    throw new Error('burialUploadUI requires a title');
+  }
+
   return {
     ...fileInputMultipleUI({
       title,
