@@ -474,17 +474,6 @@ const ExpensePage = () => {
     ? `Enter the date on your receipt, even if it’s the same as your check in or check out dates.`
     : '';
 
-  const handleAmountInput = e => {
-    handleFormChange(e); // update formState
-    const { value } = e.target;
-    validateRequestedAmount(
-      value,
-      setExtraFieldErrors,
-      DATE_VALIDATION_TYPE.CHANGE,
-      setFormState,
-    );
-  };
-
   const handleAmountBlur = e => {
     const { value } = e.target;
 
@@ -544,6 +533,7 @@ const ExpensePage = () => {
         value={formState.purchaseDate || ''}
         required
         hint={dateHintText}
+        // Needed since we need to remove errors on change
         onDateChange={e => {
           handleFormChange(e);
           validateReceiptDate(
@@ -575,7 +565,7 @@ const ExpensePage = () => {
           show-input-error
           inputmode="decimal"
           pattern="^[0-9]*(\.[0-9]{0,2})?$"
-          onInput={handleAmountInput}
+          onInput={handleFormChange}
           onBlur={handleAmountBlur}
           hint="Enter the amount as dollars and cents. For example, 8.42"
           {...extraFieldErrors.costRequested && {

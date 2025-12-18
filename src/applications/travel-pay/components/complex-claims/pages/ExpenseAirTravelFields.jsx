@@ -16,7 +16,7 @@ const ExpenseAirTravelFields = ({ errors = {}, formState, onChange }) => (
         name="vendorName"
         value={formState.vendorName || ''}
         required
-        onInput={onChange}
+        onBlur={onChange}
         hint="Enter the company you purchased the ticket from, even if it isn't an airline."
         {...errors.vendorName && { error: errors.vendorName }}
       />
@@ -44,7 +44,8 @@ const ExpenseAirTravelFields = ({ errors = {}, formState, onChange }) => (
         name="departureDate"
         value={formState.departureDate || ''}
         required
-        onDateChange={onChange}
+        onDateChange={onChange} // Needed since we need to remove errors on change
+        onDateBlur={onChange}
         hint="Enter the date on your departure ticket."
         {...errors.departureDate && { error: errors.departureDate }}
       />
@@ -55,7 +56,7 @@ const ExpenseAirTravelFields = ({ errors = {}, formState, onChange }) => (
         name="departedFrom"
         value={formState.departedFrom || ''}
         required
-        onInput={onChange}
+        onBlur={onChange}
         {...errors.departedFrom && { error: errors.departedFrom }}
       />
     </div>
@@ -65,7 +66,7 @@ const ExpenseAirTravelFields = ({ errors = {}, formState, onChange }) => (
         name="arrivedTo"
         value={formState.arrivedTo || ''}
         required
-        onInput={onChange}
+        onBlur={onChange}
         {...errors.arrivedTo && { error: errors.arrivedTo }}
       />
     </div>
@@ -74,7 +75,8 @@ const ExpenseAirTravelFields = ({ errors = {}, formState, onChange }) => (
       name="returnDate"
       value={formState.returnDate || ''}
       required={formState.tripType === TRIP_TYPES.ROUND_TRIP.value}
-      onDateChange={onChange}
+      onDateChange={onChange} // Needed since we need to remove errors on change
+      onDateBlur={onChange}
       hint="Enter the date on your return ticket. For one-way trips, leave this blank."
       {...errors.returnDate && { error: errors.returnDate }}
     />
