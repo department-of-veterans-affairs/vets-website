@@ -9,8 +9,8 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvAcceleratedDeliveryAllergiesEnabled = true,
     mhvMedicationsDisplayNewCernerFacilityAlert = true,
     mhvSecureMessagingMedicationsRenewalRequest = false,
-    mhvMedicationsCernerPilot = true,
-    mhvMedicationsV2StatusMapping = true,
+    mhvMedicationsCernerPilot = false,
+    mhvMedicationsV2StatusMapping = false,
   } = toggles;
 
   return {
