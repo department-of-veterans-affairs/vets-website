@@ -5,7 +5,6 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import React from 'react';
 import { benefitsLabelsUpdate } from '../../utils/labels';
-import { showRudisill1995 } from '../helpers';
 import BenefitReviewField from '../components/BenefitReviewField';
 
 const { benefitUpdate, benefitAppliedFor } = fullSchema.properties;
@@ -55,49 +54,37 @@ export const uiSchema = {
       labels: benefitsLabelsUpdate,
     },
   },
-  ...(showRudisill1995()
-    ? {
-        rudisillReview: {
-          ...radioUI({
-            title: 'Do you wish to request a Rudisill review?',
-            required: () => true,
-          }),
-        },
-      }
-    : {
-        changeAnotherBenefit: {
-          ...radioUI({
-            title: 'Do you want to change to another benefit?',
-            description: changeAnotherBenefitDescription,
-          }),
-        },
-        benefitAppliedFor: {
-          'ui:title': 'Which benefit do you want to change to?',
-          'ui:widget': 'radio',
-          'ui:reviewField': BenefitReviewField,
-          'ui:required': formData => formData.changeAnotherBenefit === 'Yes',
-          'ui:options': {
-            labels: benefitsLabelsUpdate,
-            hideIf: formData => formData.changeAnotherBenefit !== 'Yes',
-          },
-        },
-      }),
+  rudisillReview: {
+    ...radioUI({
+      title: 'Do you wish to request a Rudisill review?',
+      required: () => true,
+    }),
+  },
+  changeAnotherBenefit: {
+    ...radioUI({
+      title: 'Do you want to change to another benefit?',
+      description: changeAnotherBenefitDescription,
+    }),
+  },
+  benefitAppliedFor: {
+    'ui:title': 'Which benefit do you want to change to?',
+    'ui:widget': 'radio',
+    'ui:reviewField': BenefitReviewField,
+    'ui:required': formData => formData.changeAnotherBenefit === 'Yes',
+    'ui:options': {
+      labels: benefitsLabelsUpdate,
+      hideIf: formData => formData.changeAnotherBenefit !== 'Yes',
+    },
+  },
 };
 
 export const schema = {
   type: 'object',
-  required: showRudisill1995()
-    ? ['benefitUpdate', 'rudisillReview']
-    : ['benefitUpdate'],
+  required: ['benefitUpdate', 'rudisillReview'],
   properties: {
     benefitUpdate: displayBenefit,
-    ...(!showRudisill1995()
-      ? {
-          changeAnotherBenefit: radioSchema(['Yes', 'No']),
-          benefitAppliedFor: displayNewBenefit,
-        }
-      : {
-          rudisillReview: radioSchema(['Yes', 'No']),
-        }),
+    rudisillReview: radioSchema(['Yes', 'No']),
+    changeAnotherBenefit: radioSchema(['Yes', 'No']),
+    benefitAppliedFor: displayNewBenefit,
   },
 };
