@@ -380,8 +380,11 @@ describe('Refill Prescriptions Component', () => {
 
       await waitFor(() => {
         expect(bulkRefillStub.calledOnce).to.be.true;
-        // Should pass array of simple IDs when not accelerating medications
-        expect(bulkRefillStub.firstCall.args[0]).to.deep.equal([22377956]);
+        // Should pass object with ids array and isAcceleratingMedications flag
+        expect(bulkRefillStub.firstCall.args[0]).to.deep.equal({
+          ids: [22377956],
+          isAcceleratingMedications: false,
+        });
       });
     });
 
@@ -435,10 +438,11 @@ describe('Refill Prescriptions Component', () => {
 
       await waitFor(() => {
         expect(bulkRefillStub.calledOnce).to.be.true;
-        // Should pass array of ID objects with stationNumber when accelerating medications
-        expect(bulkRefillStub.firstCall.args[0]).to.deep.equal([
-          { id: 22377956, stationNumber: '989' },
-        ]);
+        // Should pass object with ids array of ID objects and isAcceleratingMedications flag
+        expect(bulkRefillStub.firstCall.args[0]).to.deep.equal({
+          ids: [{ id: 22377956, stationNumber: '989' }],
+          isAcceleratingMedications: true,
+        });
       });
     });
 
