@@ -74,7 +74,7 @@ describe('ExpenseAirTravelFields', () => {
     expect(returnDate.required).to.be.true;
   });
 
-  it('calls onBlur when when focusing out of vendor input', async () => {
+  it('calls onBlur when focusing out of vendor input', async () => {
     const onChangeSpy = sinon.spy();
     const { container } = render(
       <ExpenseAirTravelFields {...defaultProps} onChange={onChangeSpy} />,
