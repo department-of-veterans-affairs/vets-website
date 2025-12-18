@@ -152,7 +152,7 @@ describe('combined debt portal component helpers', () => {
 
       // Test the card title
       expect(wrapper.find('[data-testid="card-title"]').text()).to.equal(
-        "You don't have any current VA debt",
+        "You don't have any outstanding overpayments",
       );
 
       // Test the content for VA debt
@@ -162,7 +162,7 @@ describe('combined debt portal component helpers', () => {
       expect(
         wrapper.find('[data-testid="balance-card-zero-debt"] p').text(),
       ).to.include(
-        'If you think this is incorrect, call the Debt Management Center (DMC) at',
+        'If you think this is incorrect, call the Debt Management Center at',
       );
       wrapper.unmount();
     });

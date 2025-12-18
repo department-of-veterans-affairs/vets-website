@@ -15,7 +15,7 @@ import {
   fileUploadUi as fileUploadUI,
   singleFileSchema,
 } from '../../shared/components/fileUploads/upload';
-import { validFieldCharsOnly } from '../../shared/validations';
+import { validateChars } from '../utils/validation';
 import { blankSchema } from '../definitions';
 
 const MEDIGAP = {
@@ -74,7 +74,10 @@ export function applicantProviderSchema(isPrimary) {
   return {
     uiSchema: {
       ...titleUI('Health insurance information'),
-      [keyname1]: textUI('Name of insurance provider'),
+      [keyname1]: textUI({
+        title: 'Name of insurance provider',
+        validations: [validateChars],
+      }),
       [keyname2]: currentOrPastDateUI({
         title: 'Insurance start date',
         hint: 'This information is on the insurance policy declaration page.',
@@ -83,10 +86,6 @@ export function applicantProviderSchema(isPrimary) {
         title: 'Insurance termination date',
         hint: 'Only enter this date if the policy is inactive.',
       }),
-      'ui:validations': [
-        (errors, formData) =>
-          validFieldCharsOnly(errors, null, formData, keyname1),
-      ],
     },
     schema: {
       type: 'object',
@@ -285,12 +284,9 @@ export function applicantInsuranceCommentsSchema(isPrimary) {
       [keyname]: textareaUI({
         title:
           'Do you have any additional comments about the beneficiary’s health insurance?',
+        validations: [validateChars],
         charcount: true,
       }),
-      'ui:validations': [
-        (errors, formData) =>
-          validFieldCharsOnly(errors, null, formData, keyname),
-      ],
     },
     schema: {
       type: 'object',
