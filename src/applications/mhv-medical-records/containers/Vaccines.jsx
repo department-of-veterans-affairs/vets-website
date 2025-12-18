@@ -38,6 +38,7 @@ import {
   accessAlertTypes,
   refreshExtractTypes,
   statsdFrontEndActions,
+  loadStates,
 } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
@@ -58,6 +59,7 @@ import {
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
+import TrackedSpinner from '../components/shared/TrackedSpinner';
 import { useTrackAction } from '../hooks/useTrackAction';
 import { Actions } from '../util/actionTypes';
 
@@ -93,7 +95,10 @@ const Vaccines = props => {
   const history = useHistory();
   const paramPage = getParamValue(location.search, 'page');
 
-  const { isAcceleratingVaccines } = useAcceleratedData();
+  const { isLoading, isAcceleratingVaccines } = useAcceleratedData();
+
+  const isLoadingAcceleratedData =
+    isAcceleratingVaccines && listState === loadStates.FETCHING;
 
   const dispatchAction = isCurrent => {
     return getVaccinesList(
@@ -282,39 +287,55 @@ const Vaccines = props => {
           />
         )}
 
-        {vaccines?.length ? (
-          <>
-            {useBackendPagination && vaccines ? (
-              <RecordListNew
-                records={vaccines?.map(vaccine => ({
-                  ...vaccine,
-                  isOracleHealthData: isAcceleratingVaccines,
-                }))}
-                type={recordType.VACCINES}
-                metadata={metadata}
-              />
-            ) : (
-              <RecordList
-                records={vaccines?.map(vaccine => ({
-                  ...vaccine,
-                  isOracleHealthData: isAcceleratingVaccines,
-                }))}
-                type={recordType.VACCINES}
-              />
-            )}
-
-            <DownloadingRecordsInfo description="Vaccines" />
-            <PrintDownload
-              description="Vaccines - List"
-              list
-              downloadPdf={generateVaccinesPdf}
-              downloadTxt={generateVaccinesTxt}
+        {(isLoadingAcceleratedData || isLoading) && (
+          <div className="vads-u-margin-y--8">
+            <TrackedSpinner
+              id="vaccines-page-spinner"
+              message="We’re loading your records."
+              setFocus
+              data-testid="loading-indicator"
             />
-            <div className="vads-u-margin-y--5 vads-u-border-top--1px vads-u-border-color--white" />
-          </>
-        ) : (
-          <NoRecordsMessage type={recordType.VACCINES} />
+          </div>
         )}
+        {!isLoadingAcceleratedData &&
+          !isLoading &&
+          vaccines !== undefined && (
+            <>
+              {vaccines?.length ? (
+                <>
+                  {useBackendPagination && vaccines ? (
+                    <RecordListNew
+                      records={vaccines?.map(vaccine => ({
+                        ...vaccine,
+                        isOracleHealthData: isAcceleratingVaccines,
+                      }))}
+                      type={recordType.VACCINES}
+                      metadata={metadata}
+                    />
+                  ) : (
+                    <RecordList
+                      records={vaccines?.map(vaccine => ({
+                        ...vaccine,
+                        isOracleHealthData: isAcceleratingVaccines,
+                      }))}
+                      type={recordType.VACCINES}
+                    />
+                  )}
+
+                  <DownloadingRecordsInfo description="Vaccines" />
+                  <PrintDownload
+                    description="Vaccines - List"
+                    list
+                    downloadPdf={generateVaccinesPdf}
+                    downloadTxt={generateVaccinesTxt}
+                  />
+                  <div className="vads-u-margin-y--5 vads-u-border-top--1px vads-u-border-color--white" />
+                </>
+              ) : (
+                <NoRecordsMessage type={recordType.VACCINES} />
+              )}
+            </>
+          )}
       </RecordListSection>
     </div>
   );

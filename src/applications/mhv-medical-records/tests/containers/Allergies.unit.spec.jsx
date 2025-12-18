@@ -205,6 +205,34 @@ describe('Allergies list container with no allergies', () => {
   });
 });
 
+describe('Allergies does not flash NoRecordsMessage before data loads', () => {
+  it('does not show NoRecordsMessage when allergiesList is undefined', () => {
+    const initialState = {
+      user,
+      mr: {
+        allergies: {
+          allergiesList: undefined, // Data not yet fetched
+        },
+        alerts: { alertList: [] },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<Allergies runningUnitTest />, {
+      initialState,
+      reducers: reducer,
+      path: '/allergies',
+    });
+
+    // Should NOT show the no records message when data is undefined
+    expect(
+      screen.queryByText(
+        'There are no allergies or reactions in your VA medical records.',
+        { exact: true },
+      ),
+    ).to.not.exist;
+  });
+});
+
 describe('Allergies list container with errors', () => {
   it('displays an error', async () => {
     const initialState = {
