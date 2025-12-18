@@ -206,7 +206,7 @@ export const prescriptionsApi = createApi({
       },
     }),
     refillPrescription: builder.mutation({
-      queryFn: async (id, isAcceleratingMedications = false) => {
+      queryFn: async ({ id, isAcceleratingMedications = false }) => {
         const apiBasePath = getApiBasePath(isAcceleratingMedications);
         const method = getRefillMethod(isAcceleratingMedications);
 
@@ -232,7 +232,7 @@ export const prescriptionsApi = createApi({
       },
     }),
     bulkRefillPrescriptions: builder.mutation({
-      queryFn: async (ids, isAcceleratingMedications = false) => {
+      queryFn: async ({ ids, isAcceleratingMedications = false }) => {
         const apiBasePath = getApiBasePath(isAcceleratingMedications);
         const method = getRefillMethod(isAcceleratingMedications);
 
