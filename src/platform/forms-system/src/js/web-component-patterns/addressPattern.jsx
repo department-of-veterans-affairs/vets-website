@@ -399,6 +399,7 @@ export const updateFormDataAddress = (
  * @param {Array<AddressSchemaKey>} [options.omit] - If not omitting country but omitting street, city, or postalCode
  * you will need to include in your `submitTransformer` the `allowPartialAddress` option
  * @param {boolean | Record<AddressSchemaKey, (formData:any) => boolean>} [options.required]
+ * @param {Record<AddressSchemaKey, string>} [options.newSchemaKeys] - Partial map of schema key remappings to merge with defaults
  * @returns {UISchemaOptions}
  */
 export function addressUI(options = {}) {
