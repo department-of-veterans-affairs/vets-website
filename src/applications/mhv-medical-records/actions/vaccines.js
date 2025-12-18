@@ -7,7 +7,7 @@ import {
 } from '../api/MrApi';
 import * as Constants from '../util/constants';
 import { addAlert } from './alerts';
-import { dispatchDetails } from '../util/helpers';
+import { dispatchDetails, sendDatadogError } from '../util/helpers';
 import { getListWithRetry } from './common';
 
 export const getVaccinesList = (
@@ -36,7 +36,7 @@ export const getVaccinesList = (
     });
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
-    throw error;
+    sendDatadogError(error, 'actions_vaccines_getVaccinesList');
   }
 };
 
@@ -48,7 +48,7 @@ export const checkForVaccineUpdates = () => async dispatch => {
     dispatch({ type: Actions.Vaccines.CHECK_FOR_UPDATE, response });
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
-    throw error;
+    sendDatadogError(error, 'actions_vaccines_checkForVaccineUpdates');
   }
 };
 
@@ -71,7 +71,7 @@ export const getVaccineDetails = (
     );
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
-    throw error;
+    sendDatadogError(error, 'actions_vaccines_getVaccineDetails');
   }
 };
 

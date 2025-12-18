@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
@@ -17,7 +17,6 @@ import { getFormContent, getFormNumber } from '../helpers';
 import { SIGN_IN_URL } from '../constants';
 
 const IntroductionPage = ({ route, router }) => {
-  const [visibleAlert, setVisibleAlert] = useState(true);
   const userLoggedIn = useSelector(state => isLoggedIn(state));
   const formNumber = getFormNumber();
   const { subTitle, pdfDownloadUrl } = getFormContent();
@@ -51,23 +50,6 @@ const IntroductionPage = ({ route, router }) => {
   }, []);
   return (
     <article className="schemaform-intro representative-form">
-      <VaAlert
-        close-btn-aria-label="Close notification"
-        status="info"
-        closeable
-        uswds
-        onCloseEvent={() => setVisibleAlert(false)}
-        visible={visibleAlert}
-        className="form-upload__alert"
-      >
-        <h2 id="track-your-status-on-mobile" slot="headline">
-          We are working to improve this tool
-        </h2>
-        <p className="vads-u-margin-y--0">
-          This is an early version of the Accredited Representative Portal that
-          has limited functionality.
-        </p>
-      </VaAlert>
       <FormTitle title={`Submit VA Form ${formNumber}`} subTitle={subTitle} />
       <h2 className="representative-form__h2">
         Follow these steps to submit the form

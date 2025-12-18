@@ -11,6 +11,10 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import React from 'react';
 
+/**
+ * Required field function for schema fields
+ * @returns {boolean} - always true
+ */
 function required() {
   return true;
 }
@@ -18,7 +22,7 @@ function required() {
 export const stepchild = {
   uiSchema: {
     ...titleUI({
-      title: "Child's biological parents",
+      title: 'Child’s biological parents',
     }),
     isBiologicalChildOfSpouse: yesNoUI({
       title: 'Is this child the biological child of your current spouse?',

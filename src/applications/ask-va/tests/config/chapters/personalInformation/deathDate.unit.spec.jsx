@@ -1,8 +1,8 @@
+import React from 'react';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import React from 'react';
 import { Provider } from 'react-redux';
 
 import formConfig from '../../../../config/form';
@@ -112,9 +112,11 @@ describe('deathDatePage', () => {
   });
 
   describe('review mode', () => {
+    /* eslint-disable react/prop-types */
     const MockChild = ({ formData }) => (
       <div data-testid="mock-child">{formData}</div>
     );
+    /* eslint-enable react/prop-types */
 
     it('should render review field with formatted date', () => {
       const testDate = '2023-12-25';

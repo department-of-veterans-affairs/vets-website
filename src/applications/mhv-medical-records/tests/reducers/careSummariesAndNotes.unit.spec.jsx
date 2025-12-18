@@ -371,12 +371,29 @@ describe('getAttending', () => {
       'DICTATED BY: SMITH, ALICE    ATTENDING:          \nURGENCY: routine';
     expect(getAttending(summary)).to.be.null;
   });
+
+  it('should return null when noteSummary is not a string', () => {
+    expect(getAttending(null)).to.be.null;
+    expect(getAttending(undefined)).to.be.null;
+    expect(getAttending(12345)).to.be.null;
+  });
 });
 
 describe('getDateFromBody', () => {
   it('should return null if there is an invalid date', () => {
     const summary = '  DATE OF ADMISSION:  INVALID-DATE  ';
     expect(getDateFromBody(summary, 'DATE OF ADMISSION')).to.eq(null);
+  });
+
+  it('should return null when label is not found', () => {
+    const summary = '  SOME OTHER LABEL:  2024-01-01  ';
+    expect(getDateFromBody(summary, 'DATE OF ADMISSION')).to.eq(null);
+  });
+
+  it('should return null when inputs are not strings', () => {
+    expect(getDateFromBody(null, 'DATE OF ADMISSION')).to.eq(null);
+    expect(getDateFromBody('DATE OF ADMISSION: 2024-01-01', null)).to.eq(null);
+    expect(getDateFromBody(undefined, undefined)).to.eq(null);
   });
 });
 

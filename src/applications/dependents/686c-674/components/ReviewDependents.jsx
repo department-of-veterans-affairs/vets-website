@@ -1,12 +1,26 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 import { scrollToTop } from 'platform/utilities/scroll';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 
 import { showV3Picklist } from '../config/utilities';
 
+/**
+ * @typedef {object} ReviewDependentsProps
+ * @property {object} data Form data
+ * @property {function} setFormData Function to update form data
+ * @property {function} goBack Function to navigate to the previous page
+ * @property {function} goForward Function to navigate to the next page
+ * @property {React.ReactNode} contentBeforeButtons Content to render before navigation buttons
+ * @property {React.ReactNode} contentAfterButtons Content to render after navigation buttons
+ *
+ * ReviewDependents component
+ * @param {ReviewDependentsProps} props Component props
+ * @returns {React.ReactElement} Review dependents component
+ */
 const ReviewDependents = ({
   data = {},
   setFormData,
@@ -15,7 +29,7 @@ const ReviewDependents = ({
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
-  const hasApiError = useSelector(state => state.dependents?.error || false);
+  const hasApiError = useSelector(state => !!state.dependents?.error || false);
 
   const dependents = data?.dependents?.awarded;
   const isDependentsArray = Array.isArray(dependents);
@@ -30,7 +44,11 @@ const ReviewDependents = ({
       if (showPicklist && (hasApiError || !hasDependents)) {
         // Only allow adding dependents, not removing if dependents array is
         // empty
-        setFormData({ ...data, 'view:addOrRemoveDependents': { add: true } });
+        setFormData({
+          ...data,
+          'view:addOrRemoveDependents': { add: true },
+          'view:dependentsApiError': hasApiError,
+        });
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -44,12 +62,12 @@ const ReviewDependents = ({
 
     return (
       <va-card key={index} class="vads-u-padding--2 vads-u-margin-bottom--2">
-        <h5
+        <h4
           className="vads-u-margin-top--0 dd-privacy-mask"
           data-dd-action-name="dependent name"
         >
           {name}
-        </h5>
+        </h4>
         <span>
           {relationship},{' '}
           <span className="dd-privacy-mask" data-dd-action-name="dependent age">
@@ -71,19 +89,20 @@ const ReviewDependents = ({
           </h4>
           <p>We’re sorry. Something went wrong on our end.</p>
           <p>
-            You can add dependents using this form, but you won’t be able to
-            remove dependents at this time.
+            You can add dependents using this application, but you won’t be able
+            to remove dependents at this time.
           </p>
           <p>
             If you need to remove a dependent, please try again later or call us
-            at <va-telephone contact="8008271000" /> (
-            <va-telephone contact="711" />
+            at <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
+            <va-telephone contact={CONTACTS['711']} tty />
             ).
           </p>
         </va-alert>
       )}
 
-      {isDependentsArray &&
+      {!hasDependentError &&
+        isDependentsArray &&
         dependents.length === 0 && (
           <va-alert status="info">
             <div>
@@ -92,35 +111,38 @@ const ReviewDependents = ({
           </va-alert>
         )}
 
-      {hasDependents && (
-        <>
-          <h4>Check if your current dependents still qualify</h4>
-          <p>Remove dependents if these life changes occurred:</p>
-          <ul>
-            <li>
-              You got divorced or became widowed, <strong>or</strong>
-            </li>
-            <li>
-              Your child died, <strong>or</strong>
-            </li>
-            <li>
-              Your child over age 18 left full-time school, <strong>or</strong>
-            </li>
-            <li>Your child (either a minor or a student) got married</li>
-            <li>Your parent died</li>
-          </ul>
-          <p>
-            Not reporting changes could lead to a benefit overpayment. You’d
-            have to repay that money.
-          </p>
+      {!hasDependentError &&
+        hasDependents && (
+          <>
+            <p>
+              Remove a dependent from your VA benefits if these changes
+              occurred:
+            </p>
+            <ul>
+              <li>
+                You got divorced, <strong>or</strong>
+              </li>
+              <li>
+                Your child died, <strong>or</strong>
+              </li>
+              <li>
+                Your child (either a minor or a student) got married,{' '}
+                <strong>or</strong>
+              </li>
+              <li>Your parent died</li>
+            </ul>
+            <p>
+              Not reporting changes could lead to a benefit overpayment. You’d
+              have to repay that money.
+            </p>
 
-          {dependents.map(renderDependentCard)}
+            {dependents.map(renderDependentCard)}
 
-          <h4>Check if someone is missing on your VA benefits</h4>
-        </>
-      )}
+            <h4>Check if someone is missing on your VA benefits</h4>
+          </>
+        )}
 
-      <p>Add a dependent if these changes occurred:</p>
+      <p>Add a dependent to your VA benefits if these changes occurred:</p>
       <ul>
         <li>
           You got married, <strong>or</strong>
@@ -128,7 +150,9 @@ const ReviewDependents = ({
         <li>
           You gave birth or adopted a child, <strong>or</strong>
         </li>
-        <li>Your child over age 18 is enrolled in school full-time</li>
+        <li>
+          Your unmarried child between ages 18 and 23 is enrolled in school
+        </li>
       </ul>
 
       {contentBeforeButtons}

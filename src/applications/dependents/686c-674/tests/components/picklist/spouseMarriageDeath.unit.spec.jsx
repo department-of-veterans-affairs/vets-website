@@ -44,11 +44,11 @@ describe('spouseDeath', () => {
     const { container } = renderComponent();
 
     expect($('h3', container).textContent).to.equal(
-      'Information about the death of SPOUSY',
+      'Information about SPOUSY’s death',
     );
     expect($$('h4', container).map(el => el.textContent)).to.deep.equal([
-      'When was the death?',
-      'Where did the death happen?',
+      'When did they die?',
+      'Where did they die?',
     ]);
 
     expect($('va-memorable-date', container)).to.exist;
@@ -56,7 +56,7 @@ describe('spouseDeath', () => {
     const checkbox = $('va-checkbox', container);
     expect(checkbox).to.exist;
     expect(checkbox.getAttribute('label')).to.equal(
-      'The death happened outside the United States',
+      'Death occurred outside the United States',
     );
 
     const inUSInputs = $$('va-text-input', container);
@@ -70,7 +70,7 @@ describe('spouseDeath', () => {
 
   it('should render country & province fields when outside US checkbox is checked', () => {
     const { container } = renderComponent({
-      data: { ...defaultData, endOutsideUS: true },
+      data: { ...defaultData, endOutsideUs: true },
     });
 
     expect($('va-checkbox', container).checked).to.be.true;
@@ -85,6 +85,38 @@ describe('spouseDeath', () => {
     const inUSSelects = $$('va-select', container);
     expect(inUSSelects.length).to.eq(1);
     expect(inUSSelects[0].getAttribute('label')).to.eq('Country');
+  });
+
+  it('should show error messages if a future date is entered', async () => {
+    const goForward = sinon.spy();
+    const futureDate = createDoB(0, -1); // 1 month in the future
+    const { container } = renderComponent({
+      formSubmitted: true,
+      goForward,
+      data: {
+        ...defaultData,
+        endDate: futureDate,
+        endCity: 'Test',
+        endState: 'AK',
+      },
+    });
+
+    $('va-memorable-date', container).__events.dateBlur({
+      target: {
+        name: 'endDate',
+        tagName: 'VA-MEMORABLE-DATE',
+        value: futureDate,
+      },
+    });
+
+    await fireEvent.submit($('form', container));
+
+    await waitFor(() => {
+      const errors = $$('[error]', container);
+      expect(errors.length).to.equal(1);
+      expect(errors[0].getAttribute('error')).to.equal('Enter a past date');
+      expect(goForward.notCalled).to.be.true;
+    });
   });
 
   it('should show error messages if submitted without filling in fields (US)', async () => {
@@ -111,13 +143,13 @@ describe('spouseDeath', () => {
   it('should show error messages if submitted without filling in fields (non-US)', async () => {
     const goForward = sinon.spy();
     const { container } = renderComponent({
-      data: { ...defaultData, endOutsideUS: true },
+      data: { ...defaultData, endOutsideUs: true },
       formSubmitted: true,
       goForward,
     });
 
     $('va-checkbox', container).__events.vaChange({
-      target: { name: 'endOutsideUS', tagName: 'VA-CHECKBOX' },
+      target: { name: 'endOutsideUs', tagName: 'VA-CHECKBOX' },
       detail: { checked: true },
     });
 
@@ -177,7 +209,7 @@ describe('spouseDeath', () => {
       const goForward = sinon.spy();
       spouseDeath.handlers.onSubmit({
         itemData: {
-          endOutsideUS: true,
+          endOutsideUs: true,
           endDate: '2000-01-01',
           endCity: 'Test',
           endCountry: 'TTT',

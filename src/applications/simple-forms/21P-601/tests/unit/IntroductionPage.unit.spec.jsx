@@ -122,7 +122,7 @@ describe('21P-601 IntroductionPage', () => {
     );
 
     getByText(
-      /Primarily for executors or administrators of VA beneficiaries’ estates \(VA Form 21P-601\)/i,
+      /Primarily for anyone applying for accrued benefits only, to include executors or administrators of VA beneficiaries’ estates \(VA Form 21P-601\)/i,
     );
   });
 
