@@ -72,16 +72,14 @@ function mergeExpenses(existingExpenses, newExpenses) {
 
 function transposeExpenses(expenses, documents) {
   return expenses.map(expense => {
-    const expenseDocuments = documents.filter(
-      doc => doc.expenseId === expense.id,
-    );
+    // there should only be one document associated with an expense
+    // so grab the first.
+    const expenseDocument = documents.find(doc => doc.expenseId === expense.id);
 
-    if (expenseDocuments.length > 0) {
+    if (expenseDocument) {
       return {
         ...expense,
-        // there should only be one document associated with an expense
-        // so grab the first.
-        documentId: expenseDocuments[0].documentId,
+        documentId: expenseDocument.documentId,
       };
     }
 
@@ -534,7 +532,7 @@ function travelPayReducer(state = initialState, action) {
 
     case FETCH_COMPLEX_CLAIM_DETAILS_SUCCESS: {
       const existingExpenses = state.complexClaim.expenses.data || [];
-      const claimDocuments = state.complexClaim.claim.data.documents || [];
+      const claimDocuments = state.complexClaim.claim?.data?.documents || [];
       const newExpenses = action.payload?.expenses || [];
       const mergedExpenses = mergeExpenses(existingExpenses, newExpenses);
       const transposedExpenses = transposeExpenses(
