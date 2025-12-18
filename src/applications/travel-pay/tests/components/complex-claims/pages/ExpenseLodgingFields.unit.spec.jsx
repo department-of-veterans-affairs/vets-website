@@ -5,7 +5,7 @@ import sinon from 'sinon';
 import ExpenseLodgingFields from '../../../../components/complex-claims/pages/ExpenseLodgingFields';
 import {
   simulateVaDateChange,
-  simulateVaInputChange,
+  simulateVaInputBlur,
 } from '../../../../util/testing-input-helpers';
 
 describe('ExpenseLodgingFields', () => {
@@ -62,14 +62,14 @@ describe('ExpenseLodgingFields', () => {
     expect(checkOut.getAttribute('value')).to.equal('2025-11-15');
   });
 
-  it('calls onChange when typing into vendor input', async () => {
+  it('calls onBlur when focusing out of vendor input', async () => {
     const onChangeSpy = sinon.spy();
     const { container } = render(
       <ExpenseLodgingFields {...defaultProps} onChange={onChangeSpy} />,
     );
 
     const vendorInput = container.querySelector('va-text-input[name="vendor"]');
-    simulateVaInputChange(vendorInput, 'Hotel California');
+    simulateVaInputBlur(vendorInput, 'Hotel California');
 
     await waitFor(() => {
       expect(onChangeSpy.called).to.be.true;
