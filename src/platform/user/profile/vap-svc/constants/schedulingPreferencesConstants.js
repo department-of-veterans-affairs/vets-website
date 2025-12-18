@@ -174,11 +174,28 @@ export const API_ROUTES = {
   SCHEDULING_PREFERENCES: '/profile/scheduling_preferences',
 };
 
+const BASE_PATH = '/profile/health-care-settings/scheduling-preferences';
+
+const SCHEDULING_PREF_BASE_PATHS = {
+  CONTACT_METHOD: `${BASE_PATH}/contact-method`,
+  CONTACT_TIMES: `${BASE_PATH}/contact-times`,
+  APPOINTMENT_TIMES: `${BASE_PATH}/appointment-times`,
+};
+
 export const SCHEDULING_PREF_PATHS = {
-  CONTACT_METHOD:
-    '/profile/health-care-settings/scheduling-preferences/contact-method',
-  CONTACT_TIMES:
-    '/profile/health-care-settings/scheduling-preferences/contact-times',
-  APPOINTMENT_TIMES:
-    '/profile/health-care-settings/scheduling-preferences/appointment-times',
+  CONTACT_METHOD: `${SCHEDULING_PREF_BASE_PATHS.CONTACT_METHOD}?fieldName=${
+    FIELD_NAMES.SCHEDULING_PREF_CONTACT_METHOD
+  }&returnPath=${encodeURIComponent(
+    SCHEDULING_PREF_BASE_PATHS.CONTACT_METHOD,
+  )}`,
+  CONTACT_TIMES: `${SCHEDULING_PREF_BASE_PATHS.CONTACT_TIMES}?fieldName=${
+    FIELD_NAMES.SCHEDULING_PREF_CONTACT_TIMES
+  }&returnPath=${encodeURIComponent(SCHEDULING_PREF_BASE_PATHS.CONTACT_TIMES)}`,
+  APPOINTMENT_TIMES: `${
+    SCHEDULING_PREF_BASE_PATHS.APPOINTMENT_TIMES
+  }?fieldName=${
+    FIELD_NAMES.SCHEDULING_PREF_APPOINTMENT_TIMES
+  }&returnPath=${encodeURIComponent(
+    SCHEDULING_PREF_BASE_PATHS.APPOINTMENT_TIMES,
+  )}`,
 };
