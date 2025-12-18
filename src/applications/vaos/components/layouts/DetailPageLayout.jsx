@@ -203,7 +203,7 @@ export default function DetailPageLayout({
   useEffect(() => {
     // Focus on the heading after render -- added function to utilities/ui/focus.js to shorten this interval
     // but still allows cypress tests to run properly
-    const wait = waitTime(60);
+    const wait = waitTime(50);
     waitForRenderThenFocus(
       '#vaos-appointment-details-page-heading',
       document,
