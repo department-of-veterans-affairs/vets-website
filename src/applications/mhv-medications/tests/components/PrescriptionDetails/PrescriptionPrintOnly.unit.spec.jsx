@@ -235,6 +235,8 @@ describe('Prescription print only container', () => {
         tool.`,
       ),
     ).to.exist;
+  });
+
   it('should hide "Not filled yet" when Cerner pilot is enabled and no dispense date', () => {
     const rx = {
       ...rxDetailsResponse.data.attributes,
