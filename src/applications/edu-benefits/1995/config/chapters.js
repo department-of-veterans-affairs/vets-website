@@ -41,7 +41,7 @@ const isLegacyFlow = formData => !isRerouteEnabledOnForm(formData);
 
 export const applicantInformationField = (automatedTest = false) => {
   if (isProductionOfTestProdEnv(automatedTest)) {
-    return {
+    const applicantInformationPage = {
       ...createApplicantInformationPage(fullSchema1995, {
         isVeteran: true,
         fields: [
@@ -50,10 +50,18 @@ export const applicantInformationField = (automatedTest = false) => {
           'view:noSSN',
           'vaFileNumber',
           'dateOfBirth',
+          'minorHighSchoolQuestions',
+          'applicantGender',
         ],
-        required: ['veteranFullName', 'dateOfBirth'],
+        required: [
+          'veteranFullName',
+          'veteranSocialSecurityNumber',
+          'dateOfBirth',
+        ],
       }),
+      uiSchema: applicantInformationUpdate.uiSchema,
     };
+    return updateApplicantInformationPage(applicantInformationPage);
   }
   const applicantInformationPage = {
     ...createApplicantInformationPage(fullSchema1995, {
