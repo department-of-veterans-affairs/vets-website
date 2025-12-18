@@ -238,7 +238,7 @@ class TrackClaimsPageV2 {
               cy.get('.filename-title').should('exist');
 
               // 3. Each card should have a received date
-              cy.get('.file-received-date').should('exist');
+              cy.get('.document-card-date').should('exist');
             });
           });
         }
@@ -296,7 +296,7 @@ class TrackClaimsPageV2 {
               cy.get('.filename-title').should('exist');
 
               // 3. Each card should have a submitted date
-              cy.get('.file-submitted-date').should('exist');
+              cy.get('.document-card-date').should('exist');
             });
           });
         }

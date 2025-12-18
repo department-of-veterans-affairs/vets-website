@@ -125,8 +125,8 @@ export const options = {
   text: {
     getItemName: item => item?.provider || 'Provider',
     cardDescription: item => {
-      const fromDate = transformDate(item?.careDateRange?.from);
-      const toDate = transformDate(item?.careDateRange?.to);
+      const fromDate = transformDate(item?.careDate?.from);
+      const toDate = transformDate(item?.careDate?.to);
       if (fromDate && toDate) {
         return `${fromDate} - ${toDate}`;
       }

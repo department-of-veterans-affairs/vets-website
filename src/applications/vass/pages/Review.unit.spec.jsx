@@ -9,7 +9,13 @@ import { vassApi } from '../redux/api/vassApi';
 describe('VASS Component: Review', () => {
   it('should render review page correctly', () => {
     const screen = renderWithStoreAndRouter(<Review />, {
-      initialState: {},
+      initialState: {
+        vassForm: {
+          hydrated: true,
+          selectedDate: '2025-01-15T10:00:00.000Z',
+          selectedTopics: [{ topicId: '1', topicName: 'Topic 1' }],
+        },
+      },
       reducers,
       additionalMiddlewares: [vassApi.middleware],
     });

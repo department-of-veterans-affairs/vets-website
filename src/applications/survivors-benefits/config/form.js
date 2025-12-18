@@ -277,7 +277,7 @@ const formConfig = {
           schema: marriageToVeteranLocation.schema,
         },
         marriageToVeteranInfo: {
-          path: 'household/marriage-to-veteran-inf',
+          path: 'household/marriage-to-veteran-info',
           title: 'Marriage to Veteran Details',
           depends: formData => formData.claimantRelationship === 'SPOUSE',
           uiSchema: marriageToVeteranInfo.uiSchema,

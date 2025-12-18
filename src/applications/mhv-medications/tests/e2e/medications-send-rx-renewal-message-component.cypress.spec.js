@@ -102,7 +102,7 @@ describe('Send Rx Renewal Message Component', () => {
           .and('be.visible')
           .and(
             'contain',
-            'Contact your VA provider if you need more of this medication',
+            'This prescription is too old to refill. If you need more, request a renewal.',
           );
       }
     });
@@ -145,8 +145,9 @@ describe('Send Rx Renewal Message Component', () => {
         cy.wrap($discontinued).should('be.visible');
 
         const discontinuedText = $discontinued.text();
-        expect(discontinuedText).to.include('refill this prescription');
-        expect(discontinuedText).to.include('Contact your VA provider');
+        expect(discontinuedText).to.include(
+          'You can’t refill this prescription',
+        );
 
         cy.wrap($discontinued)
           .parents('[data-testid="rx-card-info"]')

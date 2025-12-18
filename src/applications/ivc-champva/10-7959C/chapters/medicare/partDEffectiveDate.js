@@ -8,12 +8,13 @@ import {
 import { nameWording, privWrapper } from '../../../shared/utilities';
 import { validFieldCharsOnly } from '../../../shared/validations';
 import { validateDateRange } from '../../utils/validation';
+import { FEATURE_TOGGLES } from '../../hooks/useDefaultFormData';
 
-const TOGGLE_KEY = 'view:champvaForm107959cRev2025';
+const TOGGLE_KEY = `view:${FEATURE_TOGGLES[0]}`;
 
 const pageTitle = () =>
   titleUI(({ formData }) => {
-    const name = nameWording(formData);
+    const name = nameWording(formData, undefined, undefined, true);
     const suffix = formData[TOGGLE_KEY] ? 'effective date' : 'carrier';
     return privWrapper(`${name} Medicare Part D ${suffix}`);
   });
