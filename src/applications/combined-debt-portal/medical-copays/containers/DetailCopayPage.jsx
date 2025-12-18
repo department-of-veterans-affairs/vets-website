@@ -11,20 +11,21 @@ import StatementCharges from '../components/StatementCharges';
 import HTMLStatementList from '../components/HTMLStatementList';
 import StatementAddresses from '../components/StatementAddresses';
 import NeedHelpCopay from '../components/NeedHelpCopay';
-
 import {
+  showVHAPaymentHistory,
   formatDate,
   verifyCurrentBalance,
   setPageFocus,
 } from '../../combined/utils/helpers';
+
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
 import CopayAlertContainer from '../components/CopayAlertContainer';
 
 const DetailCopayPage = ({ match }) => {
   const [alert, setAlert] = useState('status');
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const showVHAPaymentHistory = useToggleValue(
-    TOGGLE_NAMES.showVHAPaymentHistory,
+  const shouldShowVHAPaymentHistory = showVHAPaymentHistory(
+    useSelector(state => state),
   );
   const showCDPOneThingPerPage = useToggleValue(
     TOGGLE_NAMES.showCDPOneThingPerPage,
@@ -161,7 +162,7 @@ const DetailCopayPage = ({ match }) => {
         </div>
         <div className="vads-u-margin-y--4">
           {/* Show VHA Lighthouse data | or Current CDW Statement */}
-          {showVHAPaymentHistory ? (
+          {shouldShowVHAPaymentHistory ? (
             <StatementTable
               charges={charges}
               formatCurrency={formatCurrency}
