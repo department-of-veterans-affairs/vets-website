@@ -159,19 +159,6 @@ const RecipientsSelect = ({
     [isSignatureRequired],
   );
 
-  useEffect(
-    () => {
-      if (defaultValue) {
-        const recipient =
-          recipientsList.find(r => +r.id === +defaultValue) || {};
-        comboBoxRef.current?.shadowRoot
-          ?.querySelector('input')
-          ?.setAttribute('value', recipient?.name);
-      }
-    },
-    [defaultValue, recipientsList],
-  );
-
   const handleInput = e => {
     setComboBoxInputValue(e.target.shadowRoot.querySelector('input').value);
   };

@@ -106,8 +106,7 @@ export const recipientsReducer = (state = initialState, action) => {
           },
         ]),
       );
-
-      const filteredRecent = (action.response || [])
+      const filteredRecent = Array.from(allowedMap.keys())
         .filter(id => allowedMap.has(id))
         .map(id => ({
           triageTeamId: id,
