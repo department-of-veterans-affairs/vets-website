@@ -1,4 +1,5 @@
 import React from 'react';
+import { Toggler } from 'platform/utilities/feature-toggles';
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '../constants';
 import Tier2PageContent from './Tier2PageContent';
 import { ProfileHubItem } from './hub/ProfileHubItem';
@@ -6,20 +7,24 @@ import { ProfileHubItem } from './hub/ProfileHubItem';
 const HealthCareSettings = () => {
   return (
     <Tier2PageContent pageHeader="Health care settings">
-      <ProfileHubItem
-        heading={PROFILE_PATH_NAMES.HEALTH_CARE_CONTACTS}
-        content="Review medical emergency contact and next of kin contact information"
-        href={PROFILE_PATHS.HEALTH_CARE_CONTACTS}
-      />
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.profileHideHealthCareContacts}>
+        <Toggler.Disabled>
+          <ProfileHubItem
+            heading={PROFILE_PATH_NAMES.HEALTH_CARE_CONTACTS}
+            content="Review medical emergency contact and next of kin contact information"
+            href={PROFILE_PATHS.HEALTH_CARE_CONTACTS}
+          />
+        </Toggler.Disabled>
+      </Toggler>
       <ProfileHubItem
         heading={PROFILE_PATH_NAMES.SCHEDULING_PREFERENCES}
         content="Manage your scheduling preferences for health care appointments"
         href={PROFILE_PATHS.SCHEDULING_PREFERENCES}
       />
       <ProfileHubItem
-        heading={PROFILE_PATH_NAMES.SECURE_MESSAGES_SIGNATURE}
+        heading={PROFILE_PATH_NAMES.MESSAGES_SIGNATURE}
         content="Manage your secure messages signature"
-        href={PROFILE_PATHS.SECURE_MESSAGES_SIGNATURE}
+        href={PROFILE_PATHS.MESSAGES_SIGNATURE}
       />
       <va-card background>
         <h3 slot="headline">Looking for your full health care information?</h3>

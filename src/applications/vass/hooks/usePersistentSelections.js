@@ -1,10 +1,11 @@
 import { useCallback } from 'react';
 /**
+ * @typedef {{ topicId: string, topicName: string }} Topic
  * Default structure for user selections
- * @type {{selectedTopicsIds: Array, selectedSlotTime: null}}
+ * @type {{selectedTopics: Topic[], selectedSlotTime: null}}
  */
 const initialSelections = {
-  selectedTopicsIds: [], // array of topic IDs
+  selectedTopics: [], // array of topics
   selectedSlotTime: null, // ISO string
 };
 
@@ -64,12 +65,13 @@ export const usePersistentSelections = uuid => {
 
   /**
    * Saves the selected topics array to localStorage
-   * @param {Array} topics - Array of selected topic identifiers
+   * @param {Topic[]} selectedTopics - Array of selected topics
+   * @typedef {{ topicId: string, topicName: string }} Topic
    */
   const saveTopicsSelection = useCallback(
-    topics => {
+    selectedTopics => {
       const selections = getSelections(uuid);
-      const newSelections = { ...selections, selectedTopicsIds: topics };
+      const newSelections = { ...selections, selectedTopics };
       localStorage.setItem(
         getSelectionsStorageKey(uuid),
         JSON.stringify(newSelections),

@@ -1,6 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+/**
+ * Edit Page Buttons Component
+ * @typedef {object} EditPageButtonsProps
+ * @property {object} handlers - handlers for button actions
+ * @property {function} handlers.onUpdate - update handler
+ * @property {function} handlers.onCancel - cancel handler
+ * @property {string} pageName - name of the page being edited
+ *
+ * @param {EditPageButtonsProps} props - Component props
+ * @returns {React.Component} - Edit page buttons
+ */
 export default function EditPageButtons(props) {
   return (
     <div className="row form-progress-buttons schemaform-buttons vads-u-margin-y--3 ">

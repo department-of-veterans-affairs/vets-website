@@ -24,7 +24,6 @@ export function resetDataLayer() {
   recordEvent({
     flow: undefined,
     'health-TypeOfCare': undefined,
-    'health-ReasonForAppointment': undefined,
     'health-express-care-reason': undefined,
     'error-key': undefined,
     appointmentType: undefined,

@@ -237,10 +237,10 @@ describe('Compose container', () => {
     expect(alert).to.have.attribute('visible', 'true');
     expect(alert.textContent).to.contain(alertTitle.ALL_TEAMS_BLOCKED);
     expect(alert.textContent).to.contain(alertMessage.ALL_TEAMS_BLOCKED);
-    const findLocationsLink = screen.getByText('Find your VA health facility');
-    expect(findLocationsLink)
-      .to.have.attribute('href')
-      .to.contain('/find-locations');
+    const findLocationsLink = screen.container.querySelector(
+      'va-link-action[href*="/find-locations"]',
+    );
+    expect(findLocationsLink).to.exist;
   });
 
   it('displays no associations alert on deadend compose page', async () => {
@@ -275,10 +275,10 @@ describe('Compose container', () => {
     expect(alert).to.have.attribute('visible', 'true');
     expect(alert.textContent).to.contain(alertTitle.NO_ASSOCIATIONS);
     expect(alert.textContent).to.contain(alertMessage.NO_ASSOCIATIONS);
-    const findLocationsLink = screen.getByText('Find your VA health facility');
-    expect(findLocationsLink)
-      .to.have.attribute('href')
-      .to.contain('/find-locations');
+    const findLocationsLink = screen.container.querySelector(
+      'va-link-action[href*="/find-locations"]',
+    );
+    expect(findLocationsLink).to.exist;
   });
 
   it('displays AlertBackgroundBox component if there are any errors', async () => {

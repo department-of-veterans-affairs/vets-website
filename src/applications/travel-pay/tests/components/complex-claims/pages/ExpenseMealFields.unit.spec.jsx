@@ -3,7 +3,7 @@ import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import ExpenseMealFields from '../../../../components/complex-claims/pages/ExpenseMealFields';
-import { simulateVaInputChange } from '../../../../util/testing-input-helpers';
+import { simulateVaInputBlur } from '../../../../util/testing-input-helpers';
 
 describe('ExpenseMealFields', () => {
   const defaultProps = {
@@ -35,7 +35,7 @@ describe('ExpenseMealFields', () => {
     expect(input.getAttribute('value')).to.equal('Test Vendor');
   });
 
-  it('calls onChange when typing into the input', async () => {
+  it('calls onBlur when focusing out of the vendor field', async () => {
     const onChangeSpy = sinon.spy();
     const { container } = render(
       <ExpenseMealFields {...defaultProps} onChange={onChangeSpy} />,
@@ -44,8 +44,7 @@ describe('ExpenseMealFields', () => {
     const vaInput = container.querySelector('va-text-input[name="vendorName"]');
     expect(vaInput).to.exist;
 
-    // Simulate the input change
-    simulateVaInputChange(vaInput, 'New Vendor');
+    simulateVaInputBlur(vaInput, 'New Vendor');
 
     await waitFor(() => {
       expect(onChangeSpy.called).to.be.true;

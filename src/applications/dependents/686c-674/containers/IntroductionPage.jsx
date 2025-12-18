@@ -76,9 +76,10 @@ const IntroductionPage = props => {
   return getStatus() !== '' && hasSession() ? (
     renderLoadingOrError(getStatus())
   ) : (
-    <div className="schemaform-intro">
+    <div className="schemaform-intro vads-u-margin-bottom--5">
       <IntroductionPageHeader />
       <IntroductionPageFormProcess />
+
       <SaveInProgressIntro
         {...props}
         hideUnauthedStartLink

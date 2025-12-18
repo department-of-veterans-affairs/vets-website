@@ -6,6 +6,7 @@ import {
   facilityCodeUIValidation,
   getCardDescription,
   getItemName,
+  isPOEEligible,
 } from '../helpers';
 
 describe('10275 Helpers', () => {
@@ -161,6 +162,44 @@ describe('10275 Helpers', () => {
           'You have already added this facility code to this form. Enter a new facility code, or cancel adding this additional location.',
         ),
       ).to.be.true;
+    });
+  });
+
+  describe('#isPOEEligible', () => {
+    it('should return true when first digit is 1-3 and second digit is 1-5', () => {
+      expect(isPOEEligible('11123456')).to.equal(true);
+      expect(isPOEEligible('12123456')).to.equal(true);
+      expect(isPOEEligible('13123456')).to.equal(true);
+      expect(isPOEEligible('14123456')).to.equal(true);
+      expect(isPOEEligible('15123456')).to.equal(true);
+      expect(isPOEEligible('21123456')).to.equal(true);
+      expect(isPOEEligible('22123456')).to.equal(true);
+      expect(isPOEEligible('23123456')).to.equal(true);
+      expect(isPOEEligible('24123456')).to.equal(true);
+      expect(isPOEEligible('25123456')).to.equal(true);
+      expect(isPOEEligible('31123456')).to.equal(true);
+      expect(isPOEEligible('32123456')).to.equal(true);
+      expect(isPOEEligible('33123456')).to.equal(true);
+      expect(isPOEEligible('34123456')).to.equal(true);
+      expect(isPOEEligible('35123456')).to.equal(true);
+    });
+
+    it('should return false when first digit is not 1-3', () => {
+      expect(isPOEEligible('41123456')).to.equal(false);
+      expect(isPOEEligible('51123456')).to.equal(false);
+      expect(isPOEEligible('61123456')).to.equal(false);
+      expect(isPOEEligible('71123456')).to.equal(false);
+      expect(isPOEEligible('81123456')).to.equal(false);
+      expect(isPOEEligible('91123456')).to.equal(false);
+    });
+
+    it('should return false when first digit is 1-3 but second digit is not 1-5', () => {
+      expect(isPOEEligible('10123456')).to.equal(false);
+      expect(isPOEEligible('16123456')).to.equal(false);
+      expect(isPOEEligible('20123456')).to.equal(false);
+      expect(isPOEEligible('26123456')).to.equal(false);
+      expect(isPOEEligible('30123456')).to.equal(false);
+      expect(isPOEEligible('36123456')).to.equal(false);
     });
   });
 });

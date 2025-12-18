@@ -10,7 +10,6 @@ describe('VAOS helper: getReasonCode', () => {
     phoneNumber: '5035551234',
     email: 'test@va.gov',
     visitType: 'clinic',
-    reasonForAppointment: 'routine-follow-up',
     reasonAdditionalInfo: 'Test reason for appointment',
     selectedDates: ['2024-01-15T09:00:00.000'],
     vaFacility: '983',
@@ -47,7 +46,6 @@ describe('VAOS helper: getReasonCode', () => {
         isDS: true,
       });
 
-      expect(result.text).to.include('reason code:');
       expect(result.text).to.include('comments:');
     });
 
@@ -78,7 +76,6 @@ describe('VAOS helper: getReasonCode', () => {
       expect(result.text).to.include('phone number: 5035551234');
       expect(result.text).to.include('email: test@va.gov');
       expect(result.text).to.include('preferred dates:');
-      expect(result.text).to.include('reason code:');
       expect(result.text).to.include('comments:');
     });
 
@@ -97,13 +94,13 @@ describe('VAOS helper: getReasonCode', () => {
     });
   });
 
-  describe('VA Request with updateRequestFlow (OH flow)', () => {
-    it('should use shortened field names when updateRequestFlow is true', () => {
+  describe('VA Request with updateLimits (OH flow)', () => {
+    it('should use shortened field names when updateLimits is true', () => {
       const result = getReasonCode({
         data: baseData,
         isCC: false,
         isDS: false,
-        updateRequestFlow: true,
+        updateLimits: true,
       });
 
       // Check for shortened field names
@@ -117,12 +114,12 @@ describe('VAOS helper: getReasonCode', () => {
       expect(result.text).to.not.include('phone number:');
     });
 
-    it('should omit reason code from appointmentInfo when updateRequestFlow is true', () => {
+    it('should omit reason code from appointmentInfo when updateLimits is true', () => {
       const result = getReasonCode({
         data: baseData,
         isCC: false,
         isDS: false,
-        updateRequestFlow: true,
+        updateLimits: true,
       });
 
       // The reason code should NOT be in the appointmentInfo portion
@@ -135,13 +132,13 @@ describe('VAOS helper: getReasonCode', () => {
       expect(hasReasonCodeInInfo).to.be.false;
     });
 
-    it('should truncate comments to NEW_REASON_MAX_CHARS when updateRequestFlow is true', () => {
+    it('should truncate comments to NEW_REASON_MAX_CHARS when updateLimits is true', () => {
       const longText = 'A'.repeat(300);
       const result = getReasonCode({
         data: { ...baseData, reasonAdditionalInfo: longText },
         isCC: false,
         isDS: false,
-        updateRequestFlow: true,
+        updateLimits: true,
       });
 
       expect(result.text).to.include(
@@ -149,13 +146,13 @@ describe('VAOS helper: getReasonCode', () => {
       );
     });
 
-    it('should still truncate to REASON_MAX_CHARS when updateRequestFlow is false', () => {
+    it('should still truncate to REASON_MAX_CHARS when updateLimits is false', () => {
       const longText = 'A'.repeat(300);
       const result = getReasonCode({
         data: { ...baseData, reasonAdditionalInfo: longText },
         isCC: false,
         isDS: false,
-        updateRequestFlow: false,
+        updateLimits: false,
       });
 
       expect(result.text).to.include(
@@ -163,12 +160,12 @@ describe('VAOS helper: getReasonCode', () => {
       );
     });
 
-    it('should use vsGUI2 for visit mode when updateRequestFlow is true', () => {
+    it('should use vsGUI2 for visit mode when updateLimits is true', () => {
       const result = getReasonCode({
         data: { ...baseData, visitType: 'clinic' },
         isCC: false,
         isDS: false,
-        updateRequestFlow: true,
+        updateLimits: true,
       });
 
       // vsGUI2 for clinic should be different from vsGUI
@@ -195,16 +192,6 @@ describe('VAOS helper: getReasonCode', () => {
       });
 
       expect(result.text).to.be.undefined;
-    });
-
-    it('should handle missing reasonForAppointment', () => {
-      const result = getReasonCode({
-        data: { ...baseData, reasonForAppointment: undefined },
-        isCC: false,
-        isDS: true,
-      });
-
-      expect(result.text).to.include('reason code:undefined');
     });
   });
 });
