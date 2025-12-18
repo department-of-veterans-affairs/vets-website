@@ -8,6 +8,16 @@ import * as utilities from '../../../../src/js/utilities/review';
 import { ErrorLinks } from '../../../../src/js/review/submit-states/ErrorLinks';
 
 describe('<ErrorLinks />', () => {
+  let sandbox;
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
   it('renders', () => {
     const props = {
       appType: 'test',
@@ -45,8 +55,8 @@ describe('<ErrorLinks />', () => {
   });
 
   it('opens the chapter and enables editing when a link is clicked', () => {
-    const editSpy = sinon.spy(utilities, 'openAndEditChapter');
-    const scrollSpy = sinon.spy(utilities, 'scrollToReviewElement');
+    const editSpy = sandbox.spy(utilities, 'openAndEditChapter');
+    const scrollSpy = sandbox.spy(utilities, 'scrollToReviewElement');
 
     const props = {
       appType: 'test',
@@ -67,9 +77,6 @@ describe('<ErrorLinks />', () => {
 
     expect(editSpy.called).to.be.true;
     expect(scrollSpy.called).to.be.true;
-
-    editSpy.restore();
-    scrollSpy.restore();
   });
 
   it('changes the alert message once the errors are cleared', () => {
@@ -97,8 +104,8 @@ describe('<ErrorLinks />', () => {
   });
 
   it('redirects to page when error has navigationType redirect', () => {
-    const editSpy = sinon.spy(utilities, 'openAndEditChapter');
-    const scrollSpy = sinon.spy(utilities, 'scrollToReviewElement');
+    const editSpy = sandbox.spy(utilities, 'openAndEditChapter');
+    const scrollSpy = sandbox.spy(utilities, 'scrollToReviewElement');
     const router = { push: sinon.spy() };
     const formConfig = {
       urlPrefix: '/',
@@ -136,14 +143,11 @@ describe('<ErrorLinks />', () => {
     expect(router.push.calledWith('/claim-type')).to.be.true;
     expect(editSpy.called).to.be.false;
     expect(scrollSpy.called).to.be.false;
-
-    editSpy.restore();
-    scrollSpy.restore();
   });
 
   it('uses default behavior when navigationType is edit', () => {
-    const editSpy = sinon.spy(utilities, 'openAndEditChapter');
-    const scrollSpy = sinon.spy(utilities, 'scrollToReviewElement');
+    const editSpy = sandbox.spy(utilities, 'openAndEditChapter');
+    const scrollSpy = sandbox.spy(utilities, 'scrollToReviewElement');
     const router = { push: sinon.spy() };
 
     const props = {
@@ -169,14 +173,11 @@ describe('<ErrorLinks />', () => {
     expect(router.push.called).to.be.false;
     expect(editSpy.called).to.be.true;
     expect(scrollSpy.called).to.be.true;
-
-    editSpy.restore();
-    scrollSpy.restore();
   });
 
   it('uses default behavior when navigationType is missing', () => {
-    const editSpy = sinon.spy(utilities, 'openAndEditChapter');
-    const scrollSpy = sinon.spy(utilities, 'scrollToReviewElement');
+    const editSpy = sandbox.spy(utilities, 'openAndEditChapter');
+    const scrollSpy = sandbox.spy(utilities, 'scrollToReviewElement');
     const router = { push: sinon.spy() };
 
     const props = {
@@ -201,8 +202,5 @@ describe('<ErrorLinks />', () => {
     expect(router.push.called).to.be.false;
     expect(editSpy.called).to.be.true;
     expect(scrollSpy.called).to.be.true;
-
-    editSpy.restore();
-    scrollSpy.restore();
   });
 });
