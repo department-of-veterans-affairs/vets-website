@@ -120,7 +120,9 @@ export default function AuthApp({ location }) {
       );
       if (!termsResponse?.provisioned) {
         handleAuthError(null, '111');
+        return false;
       }
+      return true;
     } catch (err) {
       const message = err?.error;
       if (message === 'Agreement not accepted') {
@@ -132,6 +134,7 @@ export default function AuthApp({ location }) {
       } else {
         handleAuthError(err, '110');
       }
+      return false;
     }
   }
 
@@ -155,15 +158,13 @@ export default function AuthApp({ location }) {
       requestId,
       errorCode,
     );
-    if (isMyVAHealth) {
-      await handleProvisioning();
-    }
+    const provisioned = isMyVAHealth && (await handleProvisioning());
     const { userAttributes, userProfile } = authMetrics;
     authMetrics.run();
     const { needsPortalNotice, needsMyHealth } = checkPortalRequirements({
       isPortalNoticeInterstitialEnabled,
       userAttributes,
-      isMyVAHealth,
+      provisioned,
     });
     if (
       !skipToRedirect &&
