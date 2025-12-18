@@ -6,7 +6,6 @@ import constants from 'vets-json-schema/dist/constants.json';
 
 import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
-import utilsOmit from 'platform/utilities/data/omit';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import VaTextInputField from '../web-component-fields/VaTextInputField';
 import VaSelectField from '../web-component-fields/VaSelectField';
@@ -195,53 +194,41 @@ const SCHEMA_KEYS = {
     postalCode: 'postalCode',
   },
 
-  deprecated: {
-    transform(object, options) {
-      if (!options) return object;
+  normalizeMapping({ newSchemaKeys = {}, omit = [] }) {
+    const mapping = { ...this.STANDARD };
 
-      const transformation = SCHEMA_KEYS.deprecated.compileTransformation(
-        options,
-      );
-      return SCHEMA_KEYS.transform(object, transformation);
-    },
-
-    compileTransformation(options) {
-      const { transformationPartial = {}, omitteds = [] } = options ?? {};
-      const transformation = { ...SCHEMA_KEYS.STANDARD };
-
-      omitteds.forEach(omitted => {
-        if (!omitted) throw new Error('Blank schema key omitted');
-
-        if (omitted in transformationPartial)
-          throw new Error('Ambiguous schema key omitted');
-
-        delete transformation[omitted];
-      });
-
-      Object.assign(transformation, transformationPartial);
-      return transformation;
-    },
-  },
-
-  transform(object, transformation) {
-    if (!transformation) return object;
-
-    const outputs = Object.values(transformation);
-    const outputsUnique = new Set(outputs);
-
-    if (outputs.length > outputsUnique.size)
-      throw new Error('Duplicate schema key output');
-
-    const transformed = {};
-
-    Object.keys(object).forEach(key => {
-      if (!(key in transformation)) return;
-      if (!transformation[key]) throw new Error('Blank schema key output');
-
-      transformed[transformation[key]] = object[key];
+    omit.forEach(o => {
+      if (!o) throw new Error('Blank schema key omitted');
+      if (o in newSchemaKeys) throw new Error('Ambiguous schema key omitted');
+      delete mapping[o];
     });
 
-    return transformed;
+    if (omit.includes('isMilitary')) {
+      delete mapping['view:militaryBaseDescription'];
+    }
+
+    Object.assign(mapping, newSchemaKeys);
+    return mapping;
+  },
+
+  map(object, mapping) {
+    if (!mapping) return object;
+
+    const values = Object.values(mapping);
+    const uniqueValues = new Set(values);
+    if (values.length > uniqueValues.size)
+      throw new Error('Duplicate schema key output');
+
+    const mapped = {};
+
+    Object.keys(object).forEach(key => {
+      if (!(key in mapping)) return;
+      if (!mapping[key]) throw new Error('Blank schema key output');
+
+      mapped[mapping[key]] = object[key];
+    });
+
+    return mapped;
   },
 };
 
@@ -323,9 +310,7 @@ export const updateFormDataAddress = (
   /**
    * If the API is migrated, this would turn in to a noop.
    */
-  const schemaKeys = SCHEMA_KEYS.deprecated.compileTransformation({
-    transformationPartial: newSchemaKeys,
-  });
+  const schemaKeys = SCHEMA_KEYS.normalizeMapping({ newSchemaKeys });
 
   /*
    * formData and oldFormData are not guaranteed to have the same shape; formData
@@ -778,17 +763,13 @@ export function addressUI(options = {}) {
     },
   };
 
-  const omitteds = options.omit ? [...options.omit] : [];
-  if (omitteds.includes('isMilitary'))
-    omitteds.push('view:militaryBaseDescription');
-
-  const uiSchema = SCHEMA_KEYS.deprecated.transform(fields, {
-    transformationPartial: options.newSchemaKeys ?? {},
-    omitteds,
-  });
+  const uiSchema = SCHEMA_KEYS.map(
+    fields,
+    SCHEMA_KEYS.normalizeMapping(options),
+  );
 
   uiSchema['ui:validations'] = [];
-  if (!omitteds.includes('isMilitary')) {
+  if (!options.omit?.includes('isMilitary')) {
     uiSchema['ui:validations'].push(validateMilitaryBaseZipCode);
   }
 
@@ -800,32 +781,33 @@ export function addressUI(options = {}) {
 }
 
 /**
- * Schema for addressUI. Fields may be omitted.
+ * Schema for addressUI. Fields may be omitted or remapped.
  *
  * ```js
  * schema: {
  *   address: addressSchema()
  *   simpleAddress: addressSchema({ omit: ['street2', 'street3'] })
+ *   remappedAddress: addressSchema({ newSchemaKeys: { street: 'address1' } })
  * }
  * ```
- * @param {{
- *  omit: string[]
- * }} [options]
+ * @param {Object} [options]
+ * @param {Array<AddressSchemaKey>} [options.omit]
+ * @param {Record<AddressSchemaKey, string>} [options.newSchemaKeys] - Partial map of schema key remappings to merge with defaults
  * @returns {SchemaOptions}
  */
 export const addressSchema = options => {
-  let schema = commonDefinitions.profileAddress;
+  const schema = commonDefinitions.profileAddress;
+  if (!options) return schema;
 
-  if (options?.omit) {
-    schema = {
-      ...schema,
-      properties: {
-        ...utilsOmit(options.omit, schema.properties),
-      },
-    };
-  }
+  const properties = SCHEMA_KEYS.map(
+    schema.properties,
+    SCHEMA_KEYS.normalizeMapping(options),
+  );
 
-  return schema;
+  return {
+    ...schema,
+    properties,
+  };
 };
 
 /**
