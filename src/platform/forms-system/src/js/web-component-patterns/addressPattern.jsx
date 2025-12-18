@@ -166,16 +166,16 @@ const MEX_STATE_NAMES = constants.states.MEX.map(state => state.label);
  * defaulted.
  *
  * For now, we'll leave the API the same and implement it with
- * `SCHEMA_KEYS.transformDeprecated`. But we make that implementation, in turn,
+ * `SCHEMA_KEYS.deprecated.transform`. But we make that implementation, in turn,
  * call the implementation of the future API in `SCHEMA_KEYS.transform`.
  *
  * By doing this, we prepare the API to be improved whenever there is an
  * appetite to do so. Even if there is never an appetite, and we leave
- * `SCHEMA_KEYS.transformDeprecated` in place, this object is still exactly the
- * encapsulation we want for mapping schema keys that should be reused in the
- * implementations of this module's exports.
+ * `SCHEMA_KEYS.deprecated` in place, this object is still exactly the
+ * encapsulation we want for mapping schema keys. And it should be reused across
+ * the implementations of this module's exports.
  *
- * These two implementation functions now also reject ambiguous and nonsenical
+ * These two transform implementations now also reject ambiguous and nonsensical
  * inputs:
  * - `Blank schema key omitted`
  * - `Ambiguous schema key omitted`
@@ -195,28 +195,32 @@ const SCHEMA_KEYS = {
     postalCode: 'postalCode',
   },
 
-  compileTransformationDeprecated(options) {
-    const { transformationPartial = {}, omitteds = [] } = options ?? {};
-    const transformation = { ...this.STANDARD };
+  deprecated: {
+    transform(object, options) {
+      if (!options) return object;
 
-    omitteds.forEach(omitted => {
-      if (!omitted) throw new Error('Blank schema key omitted');
+      const transformation = SCHEMA_KEYS.deprecated.compileTransformation(
+        options,
+      );
+      return SCHEMA_KEYS.transform(object, transformation);
+    },
 
-      if (omitted in transformationPartial)
-        throw new Error('Ambiguous schema key omitted');
+    compileTransformation(options) {
+      const { transformationPartial = {}, omitteds = [] } = options ?? {};
+      const transformation = { ...SCHEMA_KEYS.STANDARD };
 
-      delete transformation[omitted];
-    });
+      omitteds.forEach(omitted => {
+        if (!omitted) throw new Error('Blank schema key omitted');
 
-    Object.assign(transformation, transformationPartial);
-    return transformation;
-  },
+        if (omitted in transformationPartial)
+          throw new Error('Ambiguous schema key omitted');
 
-  transformDeprecated(object, options) {
-    if (!options) return object;
+        delete transformation[omitted];
+      });
 
-    const transformation = this.compileTransformationDeprecated(options);
-    return this.transform(object, transformation);
+      Object.assign(transformation, transformationPartial);
+      return transformation;
+    },
   },
 
   transform(object, transformation) {
@@ -319,7 +323,7 @@ export const updateFormDataAddress = (
   /**
    * If the API is migrated, this would turn in to a noop.
    */
-  const schemaKeys = SCHEMA_KEYS.compileTransformationDeprecated({
+  const schemaKeys = SCHEMA_KEYS.deprecated.compileTransformation({
     transformationPartial: newSchemaKeys,
   });
 
@@ -778,7 +782,7 @@ export function addressUI(options = {}) {
   if (omitteds.includes(SCHEMA_KEYS.STANDARD.isMilitary))
     omitteds.push(SCHEMA_KEYS.STANDARD['view:militaryBaseDescription']);
 
-  const uiSchema = SCHEMA_KEYS.transformDeprecated(fields, {
+  const uiSchema = SCHEMA_KEYS.deprecated.transform(fields, {
     transformationPartial: options.newSchemaKeys ?? {},
     omitteds,
   });
