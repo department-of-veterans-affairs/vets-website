@@ -445,7 +445,7 @@ export function addressUI(options = {}) {
 
   /** @type {UISchemaOptions} */
   const fields = {
-    [SCHEMA_KEYS.STANDARD.isMilitary]: {
+    isMilitary: {
       'ui:required': requiredFunc('isMilitary', false),
       'ui:title': isMilitaryTitle,
       'ui:webComponentField': VaCheckboxField,
@@ -455,10 +455,10 @@ export function addressUI(options = {}) {
         hideEmptyValueInReview: true,
       },
     },
-    [SCHEMA_KEYS.STANDARD['view:militaryBaseDescription']]: {
+    'view:militaryBaseDescription': {
       'ui:description': MilitaryBaseInfo,
     },
-    [SCHEMA_KEYS.STANDARD.country]: {
+    country: {
       'ui:required': (formData, index, fullData, path) => {
         if (customRequired('country')) {
           return customRequired('country')(formData, index, fullData, path);
@@ -511,7 +511,7 @@ export function addressUI(options = {}) {
         },
       },
     },
-    [SCHEMA_KEYS.STANDARD.street]: {
+    street: {
       'ui:required': requiredFunc('street', true),
       'ui:title': options.labels?.street || 'Street address',
       'ui:autocomplete': 'address-line1',
@@ -531,7 +531,7 @@ export function addressUI(options = {}) {
         },
       },
     },
-    [SCHEMA_KEYS.STANDARD.street2]: {
+    street2: {
       'ui:autocomplete': 'address-line2',
       'ui:required': requiredFunc('street2', false),
       'ui:webComponentField': VaTextInputField,
@@ -556,7 +556,7 @@ export function addressUI(options = {}) {
         },
       },
     },
-    [SCHEMA_KEYS.STANDARD.street3]: {
+    street3: {
       'ui:autocomplete': 'address-line3',
       'ui:required': requiredFunc('street3', false),
       'ui:options': {
@@ -581,7 +581,7 @@ export function addressUI(options = {}) {
       },
       'ui:webComponentField': VaTextInputField,
     },
-    [SCHEMA_KEYS.STANDARD.city]: {
+    city: {
       'ui:required': requiredFunc('city', true),
       'ui:autocomplete': 'address-level2',
       'ui:errorMessages': CITY_ERROR_MESSAGES_DEFAULT,
@@ -626,7 +626,7 @@ export function addressUI(options = {}) {
         },
       },
     },
-    [SCHEMA_KEYS.STANDARD.state]: {
+    state: {
       'ui:autocomplete': 'address-level1',
       'ui:required': (formData, index, fullData, path) => {
         if (customRequired('state')) {
@@ -728,7 +728,7 @@ export function addressUI(options = {}) {
         },
       },
     },
-    [SCHEMA_KEYS.STANDARD.postalCode]: {
+    postalCode: {
       'ui:required': requiredFunc('postalCode', true),
       'ui:title': options.labels?.postalCode ?? 'Postal code',
       'ui:autocomplete': 'postal-code',
@@ -779,8 +779,8 @@ export function addressUI(options = {}) {
   };
 
   const omitteds = options.omit ? [...options.omit] : [];
-  if (omitteds.includes(SCHEMA_KEYS.STANDARD.isMilitary))
-    omitteds.push(SCHEMA_KEYS.STANDARD['view:militaryBaseDescription']);
+  if (omitteds.includes('isMilitary'))
+    omitteds.push('view:militaryBaseDescription');
 
   const uiSchema = SCHEMA_KEYS.deprecated.transform(fields, {
     transformationPartial: options.newSchemaKeys ?? {},
@@ -788,7 +788,7 @@ export function addressUI(options = {}) {
   });
 
   uiSchema['ui:validations'] = [];
-  if (!omitteds.includes(SCHEMA_KEYS.STANDARD.isMilitary)) {
+  if (!omitteds.includes('isMilitary')) {
     uiSchema['ui:validations'].push(validateMilitaryBaseZipCode);
   }
 
