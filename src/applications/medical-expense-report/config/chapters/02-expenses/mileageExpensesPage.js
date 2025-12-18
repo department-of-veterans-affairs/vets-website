@@ -215,6 +215,7 @@ const reimbursementPage = {
       ...currencyUI({
         title: 'How much money was reimbursed?',
         expandUnder: 'travelReimbursed',
+        max: 999999.99,
         expandUnderCondition: field => field === true,
       }),
       'ui:required': (formData, index, fullData) =>
