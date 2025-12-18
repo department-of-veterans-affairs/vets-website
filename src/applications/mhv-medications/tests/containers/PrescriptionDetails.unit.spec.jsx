@@ -7,6 +7,7 @@ import { fireEvent, waitFor } from '@testing-library/dom';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { commonReducer } from 'platform/startup/store';
+import * as useAcceleratedDataModule from '~/platform/mhv/hooks/useAcceleratedData';
 import * as prescriptionsApiModule from '../../api/prescriptionsApi';
 import {
   stubAllergiesApi,
@@ -60,6 +61,15 @@ describe('Prescription details container', () => {
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
+
+    // Mock useAcceleratedData hook by default (not accelerating)
+    sandbox.stub(useAcceleratedDataModule, 'default').returns({
+      isAcceleratingMedications: false,
+      isAcceleratingAllergies: false,
+      isCerner: false,
+      isLoading: false,
+    });
+
     stubAllergiesApi({ sandbox });
     stubPrescriptionsApiCache({ sandbox });
     stubPrescriptionIdApi({ sandbox });
@@ -192,8 +202,18 @@ describe('Prescription details container', () => {
     });
   });
 
-  it('does not display "Not filled yet" when Cerner pilot is enabled and no dispense date', async () => {
+  it('does not display "Not filled yet" when accelerating medications and no dispense date', async () => {
     sandbox.restore();
+    sandbox = sinon.createSandbox();
+
+    // Mock useAcceleratedData to return isAcceleratingMedications: true
+    sandbox.stub(useAcceleratedDataModule, 'default').returns({
+      isAcceleratingMedications: true,
+      isAcceleratingAllergies: false,
+      isCerner: false,
+      isLoading: false,
+    });
+
     stubAllergiesApi({ sandbox });
     stubPrescriptionsApiCache({ sandbox, data: false });
     const data = JSON.parse(JSON.stringify(singlePrescription));
@@ -201,12 +221,7 @@ describe('Prescription details container', () => {
     data.sortedDispensedDate = null;
     stubPrescriptionIdApi({ sandbox, data });
     stubUsePrefetch({ sandbox });
-    const screen = setup({
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        mhv_medications_cerner_pilot: true,
-      },
-    });
+    const screen = setup();
     await waitFor(() => {
       expect(screen.queryByTestId('rx-last-filled-date')).to.not.exist;
     });
