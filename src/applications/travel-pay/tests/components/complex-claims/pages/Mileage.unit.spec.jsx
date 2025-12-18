@@ -7,6 +7,7 @@ import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 import Mileage from '../../../../components/complex-claims/pages/Mileage';
 import reducer from '../../../../redux/reducer';
+import { TRIP_TYPES } from '../../../../constants';
 
 describe('Complex Claims Mileage - Add', () => {
   const TEST_CLAIM_ID = '4f5a9e2b-1c6a-4f1a-9b6c-2a7d3f1e8b9d';
@@ -188,13 +189,12 @@ describe('Complex Claims Mileage - Add', () => {
     });
 
     it('handles departure address selection change', async () => {
-      renderComponent();
+      const { container } = renderComponent();
 
-      const departureRadio = document.querySelector(
+      const departureRadio = container.querySelector(
         'va-radio[name="departureAddress"]',
       );
       expect(departureRadio).to.exist;
-      expect(departureRadio.value).to.be.undefined;
 
       await act(async () => {
         departureRadio.dispatchEvent(
@@ -206,8 +206,13 @@ describe('Complex Claims Mileage - Add', () => {
         );
       });
 
-      // After the event, the web component updates its internal value
-      expect(departureRadio.value).to.equal('home-address');
+      // Instead of departureRadio.value, test what the UI reflects:
+      const checkedOption = container.querySelector(
+        'va-radio-option[value="home-address"]',
+      );
+
+      // Web components store this as an attribute, not a JS property
+      expect(checkedOption.getAttribute('checked')).to.equal('true');
     });
   });
 
@@ -241,7 +246,7 @@ describe('Complex Claims Mileage - Add', () => {
       await act(async () => {
         tripTypeRadio.dispatchEvent(
           new CustomEvent('vaValueChange', {
-            detail: { value: 'round-trip' },
+            detail: { value: TRIP_TYPES.ROUND_TRIP.value },
             bubbles: true,
             composed: true,
           }),
@@ -249,7 +254,7 @@ describe('Complex Claims Mileage - Add', () => {
       });
 
       // The web component's internal value should now reflect the change
-      expect(tripTypeRadio.value).to.equal('round-trip');
+      expect(tripTypeRadio.value).to.equal(TRIP_TYPES.ROUND_TRIP.value);
     });
   });
 
