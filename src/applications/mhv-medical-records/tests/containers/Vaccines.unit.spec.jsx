@@ -139,6 +139,33 @@ describe('Vaccines list container with no vaccines', () => {
   });
 });
 
+describe('Vaccines does not flash NoRecordsMessage before data loads', () => {
+  it('does not show NoRecordsMessage when vaccinesList is undefined', () => {
+    const initialState = {
+      user,
+      mr: {
+        vaccines: {
+          vaccinesList: undefined, // Data not yet fetched
+        },
+        alerts: { alertList: [] },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<Vaccines runningUnitTest />, {
+      initialState,
+      reducers: reducer,
+      path: '/vaccines',
+    });
+
+    // Should NOT show the no records message when data is undefined
+    expect(
+      screen.queryByText('There are no vaccines in your VA medical records.', {
+        exact: true,
+      }),
+    ).to.not.exist;
+  });
+});
+
 describe('Vaccines list container with errors', async () => {
   const initialState = {
     user,
