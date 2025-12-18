@@ -1,122 +1,55 @@
 import { expect } from 'chai';
 import { environment } from '@department-of-veterans-affairs/platform-utilities/exports';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { getApiBasePath, getRefillMethod } from '../../api/prescriptionsApi';
 
 describe('prescriptionsApi', () => {
   describe('getApiBasePath', () => {
-    it('should return v2 path when Cerner pilot flag is enabled', () => {
-      const mockState = {
-        featureToggles: {
-          [FEATURE_FLAG_NAMES.mhvMedicationsCernerPilot]: true,
-          loading: false,
-        },
-      };
-
-      const result = getApiBasePath(mockState);
+    it('should return v2 path when isAcceleratingMedications is true', () => {
+      const result = getApiBasePath(true);
 
       expect(result).to.equal(`${environment.API_URL}/my_health/v2`);
     });
 
-    it('should return v1 path when Cerner pilot flag is disabled', () => {
-      const mockState = {
-        featureToggles: {
-          [FEATURE_FLAG_NAMES.mhvMedicationsCernerPilot]: false,
-          loading: false,
-        },
-      };
-
-      const result = getApiBasePath(mockState);
+    it('should return v1 path when isAcceleratingMedications is false', () => {
+      const result = getApiBasePath(false);
 
       expect(result).to.equal(`${environment.API_URL}/my_health/v1`);
     });
 
-    it('should default to v1 path when feature toggles are loading', () => {
-      const mockState = {
-        featureToggles: {
-          [FEATURE_FLAG_NAMES.mhvMedicationsCernerPilot]: true,
-          loading: true,
-        },
-      };
-
-      const result = getApiBasePath(mockState);
+    it('should default to v1 path when isAcceleratingMedications is missing', () => {
+      const result = getApiBasePath();
 
       expect(result).to.equal(`${environment.API_URL}/my_health/v1`);
     });
 
-    it('should default to v1 path when featureToggles object is missing', () => {
-      const mockState = {};
-
-      const result = getApiBasePath(mockState);
-
-      expect(result).to.equal(`${environment.API_URL}/my_health/v1`);
-    });
-
-    it('should default to v1 path when featureToggles is null', () => {
-      const mockState = {
-        featureToggles: null,
-      };
-
-      const result = getApiBasePath(mockState);
+    it('should default to v1 path when isAcceleratingMedications is null', () => {
+      const result = getApiBasePath(null);
 
       expect(result).to.equal(`${environment.API_URL}/my_health/v1`);
     });
   });
 
   describe('getRefillMethod', () => {
-    it('should return POST when Cerner pilot flag is enabled', () => {
-      const mockState = {
-        featureToggles: {
-          [FEATURE_FLAG_NAMES.mhvMedicationsCernerPilot]: true,
-          loading: false,
-        },
-      };
-
-      const result = getRefillMethod(mockState);
+    it('should return POST when isAcceleratingMedications is true', () => {
+      const result = getRefillMethod(true);
 
       expect(result).to.equal('POST');
     });
 
-    it('should return PATCH when Cerner pilot flag is disabled', () => {
-      const mockState = {
-        featureToggles: {
-          [FEATURE_FLAG_NAMES.mhvMedicationsCernerPilot]: false,
-          loading: false,
-        },
-      };
-
-      const result = getRefillMethod(mockState);
+    it('should return PATCH when isAcceleratingMedications is false', () => {
+      const result = getRefillMethod(false);
 
       expect(result).to.equal('PATCH');
     });
 
-    it('should default to PATCH when feature toggles are loading', () => {
-      const mockState = {
-        featureToggles: {
-          [FEATURE_FLAG_NAMES.mhvMedicationsCernerPilot]: true,
-          loading: true,
-        },
-      };
-
-      const result = getRefillMethod(mockState);
+    it('should default to PATCH when isAcceleratingMedications is missing', () => {
+      const result = getRefillMethod();
 
       expect(result).to.equal('PATCH');
     });
 
-    it('should default to PATCH when featureToggles is missing', () => {
-      const mockState = {};
-
-      const result = getRefillMethod(mockState);
-
-      expect(result).to.equal('PATCH');
-    });
-
-    it('should default to PATCH when featureToggles is null', () => {
-      const mockState = {
-        featureToggles: null,
-      };
-
-      const result = getRefillMethod(mockState);
+    it('should default to PATCH when isAcceleratingMedications is null', () => {
+      const result = getRefillMethod(null);
 
       expect(result).to.equal('PATCH');
     });
