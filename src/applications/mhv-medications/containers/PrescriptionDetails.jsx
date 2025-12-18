@@ -64,7 +64,6 @@ import {
   selectFilterOption,
   selectPageNumber,
 } from '../selectors/selectPreferences';
-import { selectCernerPilotFlag } from '../util/selectors';
 
 const PrescriptionDetails = () => {
   const { prescriptionId } = useParams();
@@ -73,9 +72,15 @@ const PrescriptionDetails = () => {
   const selectedSortOption = useSelector(selectSortOption);
   const selectedFilterOption = useSelector(selectFilterOption);
   const currentPage = useSelector(selectPageNumber);
-  // OH feature flag
-  const isOracleHealthPilot = useSelector(selectCernerPilotFlag);
-  const isCernerPilot = isOracleHealthPilot;
+
+  // OH feature flags
+  const {
+    isAcceleratingMedications,
+    isAcceleratingAllergies,
+    isCerner,
+    isLoading: isAcceleratedDataLoading,
+  } = useAcceleratedData();
+  const isCernerPilot = isAcceleratingMedications;
 
   // Consolidate query parameters into a single state object to avoid multiple re-renders
   const [queryParams] = useState({
@@ -90,7 +95,8 @@ const PrescriptionDetails = () => {
   // Use the custom hook to fetch prescription data
   const { prescription, prescriptionApiError, isLoading } = usePrescriptionData(
     prescriptionId,
-    { ...queryParams, isOracleHealthPilot },
+    { ...queryParams, isAcceleratingMedications },
+    { skip: isAcceleratedDataLoading },
   );
 
   const nonVaPrescription =
@@ -98,11 +104,6 @@ const PrescriptionDetails = () => {
 
   const userName = useSelector(selectUserFullName);
   const dob = useSelector(selectUserDob);
-  const {
-    isAcceleratingAllergies,
-    isCerner,
-    isLoading: isAcceleratedDataLoading,
-  } = useAcceleratedData();
 
   const { data: allergies, error: allergiesError } = useGetAllergiesQuery(
     {
@@ -262,12 +263,16 @@ const PrescriptionDetails = () => {
           DATETIME_FORMATS.longMonthDate,
         )}\n\n${
           nonVaPrescription
-            ? buildNonVAPrescriptionTXT(prescription, {}, isCernerPilot)
-            : buildVAPrescriptionTXT(prescription, isCernerPilot)
+            ? buildNonVAPrescriptionTXT(
+                prescription,
+                {},
+                isAcceleratingMedications,
+              )
+            : buildVAPrescriptionTXT(prescription, isAcceleratingMedications)
         }${allergiesList ?? ''}`
       );
     },
-    [userName, dob, prescription, nonVaPrescription, isCernerPilot],
+    [userName, dob, prescription, nonVaPrescription, isAcceleratingMedications],
   );
 
   const handleFileDownload = async format => {
@@ -339,11 +344,14 @@ const PrescriptionDetails = () => {
       if (!prescription) return;
       setPrescriptionPdfList(
         nonVaPrescription
-          ? buildNonVAPrescriptionPDFList(prescription, isCernerPilot)
-          : buildVAPrescriptionPDFList(prescription, isCernerPilot),
+          ? buildNonVAPrescriptionPDFList(
+              prescription,
+              isAcceleratingMedications,
+            )
+          : buildVAPrescriptionPDFList(prescription, isAcceleratingMedications),
       );
     },
-    [nonVaPrescription, prescription, isCernerPilot],
+    [nonVaPrescription, prescription, isAcceleratingMedications],
   );
 
   const filledEnteredDate = () => {

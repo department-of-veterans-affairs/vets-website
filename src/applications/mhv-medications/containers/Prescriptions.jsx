@@ -75,24 +75,22 @@ import {
   selectSortOption,
   selectFilterOption,
 } from '../selectors/selectPreferences';
-import { selectCernerPilotFlag } from '../util/selectors';
 import { buildPdfData } from '../util/buildPdfData';
 import { generateMedicationsPdfFile } from '../util/generateMedicationsPdfFile';
 import FilterAriaRegion from '../components/MedicationsList/FilterAriaRegion';
 import RxRenewalDeleteDraftSuccessAlert from '../components/shared/RxRenewalDeleteDraftSuccessAlert';
 import { useURLPagination } from '../hooks/useURLPagination';
 import { usePageTitle } from '../hooks/usePageTitle';
-import { selectCernerPilotFlag } from '../util/selectors';
 
 const Prescriptions = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const isCernerPilot = useSelector(selectCernerPilotFlag);
   const ssoe = useSelector(isAuthenticatedWithSSOe);
   const userName = useSelector(selectUserFullName);
   const dob = useSelector(selectUserDob);
   const hasMedsByMailFacility = useSelector(selectHasMedsByMailFacility);
   const {
+    isAcceleratingMedications,
     isAcceleratingAllergies,
     isCerner,
     isLoading: isAcceleratedDataLoading,
@@ -104,10 +102,6 @@ const Prescriptions = () => {
   // Get sort/filter selections from store.
   const selectedSortOption = useSelector(selectSortOption);
   const selectedFilterOption = useSelector(selectFilterOption);
-  const featureTogglesLoading = useSelector(
-    state => state.featureToggles.loading,
-  );
-  const isOracleHealthPilot = useSelector(selectCernerPilotFlag);
 
   const { currentPage, handlePageChange } = useURLPagination();
 
@@ -138,8 +132,8 @@ const Prescriptions = () => {
     isLoading: isPrescriptionsLoading,
     isFetching: isPrescriptionsFetching,
   } = useGetPrescriptionsListQuery(
-    { ...queryParams, isOracleHealthPilot },
-    { skip: featureTogglesLoading },
+    { ...queryParams, isAcceleratingMedications },
+    { skip: isAcceleratedDataLoading },
   );
 
   const isLoading = isPrescriptionsLoading || isPrescriptionsFetching;
@@ -380,12 +374,18 @@ const Prescriptions = () => {
 
       if (format === DOWNLOAD_FORMAT.PDF) {
         generatePDF(
-          buildPrescriptionsPDFList(prescriptionsExportList, isCernerPilot),
+          buildPrescriptionsPDFList(
+            prescriptionsExportList,
+            isAcceleratingMedications,
+          ),
           buildAllergiesPDFList(allergies),
         );
       } else if (format === DOWNLOAD_FORMAT.TXT) {
         generateTXT(
-          buildPrescriptionsTXT(prescriptionsExportList, isCernerPilot),
+          buildPrescriptionsTXT(
+            prescriptionsExportList,
+            isAcceleratingMedications,
+          ),
           buildAllergiesTXT(allergies),
         );
       } else if (format === PRINT_FORMAT.PRINT) {
@@ -404,7 +404,7 @@ const Prescriptions = () => {
       pdfTxtGenerateStatus,
       generatePDF,
       generateTXT,
-      isCernerPilot,
+      isAcceleratingMedications,
     ],
   );
 

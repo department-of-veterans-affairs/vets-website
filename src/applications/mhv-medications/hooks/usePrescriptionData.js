@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import useAcceleratedData from '~/platform/mhv/hooks/useAcceleratedData';
+
 import {
   getPrescriptionsList,
   getPrescriptionById,
@@ -12,9 +13,11 @@ import {
  * @returns {object} - The prescription data, loading state, and error state
  */
 export const usePrescriptionData = (prescriptionId, queryParams) => {
-  const featureTogglesLoading = useSelector(
-    state => state.featureToggles.loading,
-  );
+  const {
+    isAcceleratingMedications,
+    isLoading: isAcceleratedDataLoading,
+  } = useAcceleratedData();
+
   const [
     cachedPrescriptionAvailable,
     setCachedPrescriptionAvailable,
@@ -24,21 +27,24 @@ export const usePrescriptionData = (prescriptionId, queryParams) => {
   const [isLoading, setIsLoading] = useState(true);
 
   // Get cached prescription from list if available
-  const cachedPrescription = getPrescriptionsList.useQueryState(queryParams, {
-    selectFromResult: ({ data: prescriptionsList }) => {
-      return prescriptionsList?.prescriptions?.find(
-        item => String(item.prescriptionId) === String(prescriptionId),
-      );
+  const cachedPrescription = getPrescriptionsList.useQueryState(
+    { ...queryParams, isAcceleratingMedications },
+    {
+      selectFromResult: ({ data: prescriptionsList }) => {
+        return prescriptionsList?.prescriptions?.find(
+          item => String(item.prescriptionId) === String(prescriptionId),
+        );
+      },
     },
-  });
+  );
 
   // Fetch individual prescription when needed
   const { data, error, isLoading: queryLoading } = getPrescriptionById.useQuery(
     {
       id: prescriptionId,
-      isOracleHealthPilot: queryParams.isOracleHealthPilot,
+      isAcceleratingMedications,
     },
-    { skip: cachedPrescriptionAvailable || featureTogglesLoading },
+    { skip: cachedPrescriptionAvailable || isAcceleratedDataLoading },
   );
 
   // Handle prescription data from either source
