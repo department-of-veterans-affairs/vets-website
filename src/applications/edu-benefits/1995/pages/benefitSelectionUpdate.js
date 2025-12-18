@@ -51,21 +51,19 @@ export const uiSchema = {
       title: 'Do you wish to request a Rudisill review?',
       required: () => true,
     }),
-    'ui:options': {
-      updateSchema: (formData, schema, formUiSchema, index, onChange) => {
-        // Clear changeAnotherBenefit page data when rudisillReview is Yes
-        if (
-          formData.rudisillReview === 'Yes' &&
-          (formData.changeAnotherBenefit || formData.benefitAppliedFor)
-        ) {
-          onChange({
-            ...formData,
-            changeAnotherBenefit: undefined,
-            benefitAppliedFor: undefined,
-          });
-        }
-        return schema;
-      },
+    'ui:onChange': (value, oldValue, formData, onChange) => {
+      // Clear changeAnotherBenefit page data when rudisillReview changes to Yes
+      if (
+        value === 'Yes' &&
+        (formData.changeAnotherBenefit || formData.benefitAppliedFor)
+      ) {
+        onChange({
+          ...formData,
+          rudisillReview: value,
+          changeAnotherBenefit: undefined,
+          benefitAppliedFor: undefined,
+        });
+      }
     },
   },
 };
