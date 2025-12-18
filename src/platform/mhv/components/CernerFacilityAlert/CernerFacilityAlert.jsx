@@ -107,7 +107,7 @@ const CernerFacilityAlert = ({
     const infoAlertComposedHeadline =
       infoAlertHeadline ||
       `You can now ${infoAlertActionPhrase} for all VA facilities right here`;
-    const infoAlertComposedText = `We’ve brought all your VA health care data together so you can
+    const infoAlertComposedText = `We've brought all your VA health care data together so you can
             manage your care in one place. ${infoAlertText}`;
     return (
       <va-alert-expandable

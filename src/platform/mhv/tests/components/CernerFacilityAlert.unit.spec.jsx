@@ -237,7 +237,6 @@ describe('CernerFacilityAlert', () => {
       });
 
       const alert = screen.getByTestId('cerner-facilities-alert');
-      // Web component uses "class" attribute; ensure margin-top class applied
       expect(alert.getAttribute('class')).to.include('vads-u-margin-top--2');
     });
   });
@@ -268,7 +267,6 @@ describe('CernerFacilityAlert', () => {
       });
 
       const alert = screen.getByTestId('cerner-facilities-alert');
-      // Web component uses "class" attribute; ensure margin-top class applied
       expect(alert.getAttribute('class')).to.include('custom-test-class');
     });
   });
@@ -352,7 +350,6 @@ describe('CernerFacilityAlert', () => {
       });
 
       const infoAlert = screen.getByTestId('cerner-facilities-info-alert');
-      // Web component uses "class" attribute; ensure margin-top class applied
       expect(infoAlert.getAttribute('class')).to.include(
         'vads-u-margin-top--2',
       );
