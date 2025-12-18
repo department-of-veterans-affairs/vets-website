@@ -177,6 +177,17 @@ describe('CernerFacilityAlert', () => {
       const link = screen.getByTestId('cerner-facility-action-link');
       expect(link.getAttribute('rel')).to.equal('noopener noreferrer');
     });
+
+    it('does not render yellow alert when domain is mhv-landing-page', () => {
+      const screen = setup(stateWithFacility, {
+        domain: 'mhv-landing-page',
+        headline: 'manage your medical records',
+        linkPath: '/pages/health_record/comprehensive_record/health_summaries',
+      });
+
+      // Yellow alert should be suppressed on MHV landing page
+      expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;
+    });
   });
 
   describe('with custom text props', () => {
@@ -219,15 +230,15 @@ describe('CernerFacilityAlert', () => {
       },
     };
 
-    // TODO: how to test custom classnames
-    it.skip('adds extra margin when apiError is true', () => {
+    it('adds extra margin when apiError is true', () => {
       const screen = setup(stateWithFacility, {
         ...CernerAlertContent.MEDICATIONS,
         apiError: true,
       });
 
       const alert = screen.getByTestId('cerner-facilities-alert');
-      expect(alert.classname).to.include('vads-u-margin-top--2');
+      // Web component uses "class" attribute; ensure margin-top class applied
+      expect(alert.getAttribute('class')).to.include('vads-u-margin-top--2');
     });
   });
 
@@ -250,15 +261,15 @@ describe('CernerFacilityAlert', () => {
       expect(alert.getAttribute('status')).to.equal('warning');
     });
 
-    // TODO: Need to investigate, not quite right
-    it.skip('applies custom className', () => {
+    it('applies custom className', () => {
       const screen = setup(stateWithFacility, {
         ...CernerAlertContent.MEDICATIONS,
         className: 'custom-test-class',
       });
 
       const alert = screen.getByTestId('cerner-facilities-alert');
-      expect(alert.className).to.include('custom-test-class');
+      // Web component uses "class" attribute; ensure margin-top class applied
+      expect(alert.getAttribute('class')).to.include('custom-test-class');
     });
   });
 
@@ -305,18 +316,18 @@ describe('CernerFacilityAlert', () => {
   });
 
   describe('info alert behavior', () => {
-    it('renders the info alert when userFacilityReadyForInfoAlert flag is true', () => {
-      const stateWithFacility = {
-        ...initialState,
-        user: {
-          profile: {
-            facilities: [{ facilityId: '668', isCerner: true }],
-            userAtPretransitionedOhFacility: true,
-            userFacilityReadyForInfoAlert: true,
-          },
+    const stateWithFacility = {
+      ...initialState,
+      user: {
+        profile: {
+          facilities: [{ facilityId: '668', isCerner: true }],
+          userAtPretransitionedOhFacility: true,
+          userFacilityReadyForInfoAlert: true,
         },
-      };
+      },
+    };
 
+    it('renders the info alert when userFacilityReadyForInfoAlert flag is true', () => {
       const screen = setup(stateWithFacility, {
         ...CernerAlertContent.MEDICATIONS,
       });
@@ -325,27 +336,16 @@ describe('CernerFacilityAlert', () => {
       const infoAlert = screen.getByTestId('cerner-facilities-info-alert');
       expect(infoAlert).to.exist;
       expect(infoAlert.getAttribute('status')).to.equal('info');
-      // Trigger should use the provided actionPhrase from props
+      // Trigger should use the provided infoAlertActionPhrase from props
       expect(infoAlert.getAttribute('trigger')).to.equal(
         `You can now ${
-          CernerAlertContent.MEDICATIONS.actionPhrase
+          CernerAlertContent.MEDICATIONS.infoAlertActionPhrase
         } for all VA facilities right here`,
       );
       expect(screen.getByTestId('cerner-facility-info-text')).to.exist;
     });
 
     it('adds margin class when apiError is true on info alert', () => {
-      const stateWithFacility = {
-        ...initialState,
-        user: {
-          profile: {
-            facilities: [{ facilityId: '668', isCerner: true }],
-            userAtPretransitionedOhFacility: true,
-            userFacilityReadyForInfoAlert: true,
-          },
-        },
-      };
-
       const screen = setup(stateWithFacility, {
         ...CernerAlertContent.MEDICATIONS,
         apiError: true,
@@ -358,26 +358,17 @@ describe('CernerFacilityAlert', () => {
       );
     });
 
-    it('does not render yellow alert when domain is mhv-landing-page', () => {
-      const stateWithFacility = {
-        ...initialState,
-        user: {
-          profile: {
-            facilities: [{ facilityId: '668', isCerner: true }],
-            userAtPretransitionedOhFacility: true,
-            userFacilityReadyForInfoAlert: false,
-          },
-        },
-      };
-
+    it('uses infoAlertHeadline when provided (Secure Messaging)', () => {
       const screen = setup(stateWithFacility, {
-        domain: 'mhv-landing-page',
-        headline: 'manage your medical records',
-        linkPath: '/pages/health_record/comprehensive_record/health_summaries',
+        ...CernerAlertContent.SECURE_MESSAGING,
       });
 
-      // Yellow alert should be suppressed on MHV landing page
-      expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;
+      const infoAlert = screen.getByTestId('cerner-facilities-info-alert');
+      expect(infoAlert).to.exist;
+      // When infoAlertHeadline is supplied, the trigger should exactly match it
+      expect(infoAlert.getAttribute('trigger')).to.equal(
+        CernerAlertContent.SECURE_MESSAGING.infoAlertHeadline,
+      );
     });
   });
 });
