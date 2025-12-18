@@ -188,10 +188,15 @@ export const chapters = {
   guardianInformation: {
     title: 'Guardian information',
     pages: {
-      guardianInformation: {
-        ...guardianInformation(fullSchema1995, {}),
-        depends: isLegacyFlow,
-      },
+      guardianInformation: (() => {
+        const page = guardianInformation(fullSchema1995, {});
+        const originalDepends = page.depends;
+        return {
+          ...page,
+          depends: formData =>
+            isLegacyFlow(formData) && originalDepends(formData),
+        };
+      })(),
     },
   },
   benefitSelection: {
