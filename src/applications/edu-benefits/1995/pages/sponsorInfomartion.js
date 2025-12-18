@@ -7,7 +7,7 @@ import { sponsorInformationTitle } from '../helpers';
  *
  * @param {Object} schema   The full schema for the form
  */
-const noSSNTitle = () => {
+export const noSSNTitle = () => {
   return "I don't know my sponsor's Social Security number";
 };
 
@@ -19,12 +19,7 @@ const showSponsorInfo = formData => {
 };
 
 const defaults = () => ({
-  fields: [
-    'sponsorFullName',
-    'sponsorSocialSecurityNumber',
-    'view:noSSN',
-    'vaFileNumber',
-  ],
+  fields: ['sponsorFullName', 'sponsorSocialSecurityNumber', 'view:noSSN'],
   required: ['sponsorFullName', 'sponsorSocialSecurityNumber'],
   labels: {},
   isVeteran: true,
@@ -79,25 +74,11 @@ export function sponsorInfo(schema) {
           hideOnReview: true,
         },
       },
-      vaFileNumber: {
-        'ui:required': formData => formData['view:noSSN'],
-        'ui:title': "Sponsor's VA file number",
-        'ui:options': {
-          expandUnder: 'view:noSSN',
-        },
-        'ui:errorMessages': {
-          pattern: 'Your VA file number must be between 7 to 9 digits',
-        },
-      },
     },
 
     schema: {
       type: 'object',
-      definitions: pick(schema.definitions, [
-        'fullName',
-        'ssn',
-        'vaFileNumber',
-      ]),
+      definitions: pick(schema.definitions, ['fullName', 'ssn']),
       required,
       properties: pick(possibleProperties, fields),
     },

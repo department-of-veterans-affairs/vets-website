@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import ReactTestUtils from 'react-dom/test-utils';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import formConfig from '../../config/form';
+import { noSSNTitle } from '../../pages/sponsorInfomartion';
 
 const definitions = formConfig.defaultDefinitions;
 
@@ -26,5 +27,13 @@ describe('Edu 1995 sponsorInformation', () => {
       'input',
     );
     expect(inputs.length).to.equal(5);
+  });
+});
+
+describe('noSSNTitle', () => {
+  it('should always return "I don\'t know my sponsor\'s Social Security number"', () => {
+    expect(noSSNTitle()).to.equal(
+      "I don't know my sponsor's Social Security number",
+    );
   });
 });
