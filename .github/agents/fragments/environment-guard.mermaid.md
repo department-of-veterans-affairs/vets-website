@@ -3,7 +3,7 @@ flowchart TD
     Start[Agent Activated] --> GH[which gh]
     GH -->|not found| FailGH[❌ gh CLI missing → brew install gh\nor https://cli.github.com]
     GH -->|found| MCP[ls ~/.copilot/mcp-servers/github-mcp-server* 2>/dev/null]
-    MCP -->|not found| FailMCP[❌ GitHub MCP server missing → Follow https://docs.github.com/en/copilot/customizing-copilot/using-mcp-servers]
+    MCP -->|not found| FailMCP[❌ GitHub MCP server missing → Go to https://github.com/github/github-mcp-server and click the VS Code "Install Server" button on the readme]
     MCP -->|found| Cypress[test -f .github/mcp-server/cypress-screenshots.js]
     Cypress -->|not found| FailCypress[❌ Cypress MCP server missing → \ncp your/cypress-screenshots.js .github/mcp-server/]
     Cypress -->|found| Ready[✅ All prerequisites ready]
