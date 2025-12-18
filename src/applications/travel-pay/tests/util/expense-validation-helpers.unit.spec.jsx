@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import MockDate from 'mockdate';
+import { TRIP_TYPES } from '../../constants';
 
 import {
   DATE_VALIDATION_TYPE,
@@ -373,7 +374,7 @@ describe('validateAirTravelFields', () => {
   it('passes when dates are valid', () => {
     formState = {
       vendorName: 'Acme Airlines',
-      tripType: 'ROUND_TRIP',
+      tripType: TRIP_TYPES.ROUND_TRIP.value,
       departureDate: '2025-01-05',
       returnDate: '2025-01-10',
       departedFrom: 'JFK',
@@ -383,6 +384,49 @@ describe('validateAirTravelFields', () => {
     const nextErrors = validateAirTravelFields(formState, errors);
 
     expect(nextErrors).to.deep.equal({});
+  });
+
+  it('requires returnDate for ROUND_TRIP', () => {
+    formState.tripType = TRIP_TYPES.ROUND_TRIP.value;
+    formState.departureDate = '2025-01-05';
+    formState.returnDate = '';
+
+    const nextErrors = validateAirTravelFields(formState, errors);
+
+    expect(nextErrors.returnDate).to.equal('Enter a return date');
+  });
+
+  it('errors if returnDate is entered for ONE_WAY trip', () => {
+    formState.tripType = TRIP_TYPES.ONE_WAY.value;
+    formState.returnDate = '2025-01-10';
+    formState.departureDate = '2025-01-05';
+
+    const nextErrors = validateAirTravelFields(formState, errors);
+
+    expect(nextErrors.returnDate).to.equal(
+      'You entered a return date for a one-way trip',
+    );
+    expect(nextErrors.tripType).to.equal(
+      'You entered a return date for a one-way trip',
+    );
+  });
+
+  it('validates departureDate only if returnDate exists', () => {
+    formState.departureDate = '2025-01-05';
+    formState.returnDate = ''; // empty, so no comparison error
+
+    const nextErrors = validateAirTravelFields(formState, errors);
+
+    expect(nextErrors.departureDate).to.be.undefined;
+  });
+
+  it('validates returnDate only if departureDate exists', () => {
+    formState.returnDate = '2025-01-10';
+    formState.departureDate = ''; // empty, so no comparison error
+
+    const nextErrors = validateAirTravelFields(formState, errors);
+
+    expect(nextErrors.returnDate).to.be.undefined;
   });
 });
 

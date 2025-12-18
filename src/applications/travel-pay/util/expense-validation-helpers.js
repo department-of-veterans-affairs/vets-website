@@ -261,17 +261,34 @@ export const validateAirTravelFields = (formState, errors, fieldName) => {
   // Determine which fields to validate
   const fieldsToValidate = getFieldsToValidate(allFields, fieldName);
 
-  // If one of the date fields is being updated, also validate the other
   if (
     fieldName === 'departureDate' &&
+    formState.returnDate &&
     !fieldsToValidate.includes('returnDate')
   ) {
+    // If departureDate is being updated and returnDate exists, also validate returnDate
     fieldsToValidate.push('returnDate');
   } else if (
     fieldName === 'returnDate' &&
+    formState.departureDate &&
     !fieldsToValidate.includes('departureDate')
   ) {
+    // If returnDate is being updated and departureDate exists, also validate departureDate
     fieldsToValidate.push('departureDate');
+  } else if (
+    fieldName === 'tripType' &&
+    formState.returnDate !== '' &&
+    !fieldsToValidate.includes('returnDate')
+  ) {
+    // If tripType is being updated and returnDate exists, also validate returnDate
+    fieldsToValidate.push('returnDate');
+  } else if (
+    fieldName === 'returnDate' &&
+    formState.tripType === TRIP_TYPES.ONE_WAY.value &&
+    !fieldsToValidate.includes('tripType')
+  ) {
+    // If returnDate is being updated and tripType is ONE_WAY, also validate tripType
+    fieldsToValidate.push('tripType');
   }
 
   // vendorName
@@ -283,7 +300,12 @@ export const validateAirTravelFields = (formState, errors, fieldName) => {
   // tripType
   if (fieldsToValidate.includes('tripType')) {
     if (!formState.tripType) nextErrors.tripType = 'Select a trip type';
-    else delete nextErrors.tripType;
+    else if (
+      formState.tripType === TRIP_TYPES.ONE_WAY.value &&
+      formState.returnDate
+    ) {
+      nextErrors.tripType = 'You entered a return date for a one-way trip';
+    } else delete nextErrors.tripType;
   }
 
   // departureDate
@@ -311,6 +333,11 @@ export const validateAirTravelFields = (formState, errors, fieldName) => {
       formState.returnDate < formState.departureDate
     ) {
       nextErrors.returnDate = 'Return date must be later than departure date';
+    } else if (
+      formState.tripType === TRIP_TYPES.ONE_WAY.value &&
+      formState.returnDate
+    ) {
+      nextErrors.returnDate = 'You entered a return date for a one-way trip';
     } else {
       delete nextErrors.returnDate;
     }
