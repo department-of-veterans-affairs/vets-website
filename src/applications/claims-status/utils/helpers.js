@@ -1586,3 +1586,36 @@ export const getUploadErrorMessage = (
     type: 'error',
   };
 };
+
+/**
+ * Gets the display name for an evidence submission
+ * Evidence submissions are documents that have not yet been successfully created in Lighthouse.
+ * @param {Object} evidenceSubmission - Evidence submission object with trackedItemId
+ * @returns {string|null} Tracked item friendly name, display name, 'unknown', or null if no trackedItemId
+ */
+export const getTrackedItemDisplayNameFromEvidenceSubmission = evidenceSubmission => {
+  if (evidenceSubmission.trackedItemId) {
+    return (
+      evidenceSubmission.trackedItemFriendlyName ||
+      evidenceSubmission.trackedItemDisplayName ||
+      'unknown'
+    );
+  }
+
+  return null;
+};
+
+/**
+ * Gets the display name for a supporting document
+ * Supporting documents are documents that have been successfully created in Lighthouse and have an id.
+ * These represent documents that exist in the VA's backend system.
+ * @param {Object} document - Supporting document object with id
+ * @returns {string|null} Friendly name, display name, 'unknown', or null if no id
+ */
+export const getTrackedItemDisplayFromSupportingDocument = document => {
+  if (document.id) {
+    return document.friendlyName || document.displayName || 'unknown';
+  }
+
+  return null;
+};

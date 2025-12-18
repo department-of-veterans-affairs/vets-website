@@ -9,7 +9,7 @@ const ExpenseMealFields = ({ formState, onChange }) => (
     name="vendorName"
     value={formState.vendorName || ''}
     required
-    onInput={onChange}
+    onBlur={onChange}
   />
 );
 

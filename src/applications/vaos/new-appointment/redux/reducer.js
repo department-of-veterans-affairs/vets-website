@@ -16,6 +16,7 @@ import {
   FORM_PAGE_CHANGE_COMPLETED,
   FORM_UPDATE_FACILITY_TYPE,
   FORM_UPDATE_SELECTED_PROVIDER,
+  FORM_UPDATE_FACILITY_EHR,
   FORM_PAGE_FACILITY_V2_OPEN,
   FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED,
   FORM_PAGE_FACILITY_V2_OPEN_FAILED,
@@ -116,6 +117,7 @@ const initialState = {
   isNewAppointmentStarted: false,
   fetchRecentLocationStatus: FETCH_STATUS.notStarted,
   isAppointmentSelectionError: false,
+  ehr: null,
 };
 
 function setupFormData(data, schema, uiSchema) {
@@ -317,6 +319,12 @@ export default function formReducer(state = initialState, action) {
           ...state.data,
           selectedProvider: action.provider.providerId,
         },
+      };
+    }
+    case FORM_UPDATE_FACILITY_EHR: {
+      return {
+        ...state,
+        ehr: action.ehr,
       };
     }
     case FORM_PAGE_FACILITY_V2_OPEN: {
@@ -746,22 +754,15 @@ export default function formReducer(state = initialState, action) {
     }
     case FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED: {
       const formData = state.data;
-      const { updateRequestFlow } = action;
       const isCommunityCare =
         formData.facilityType === FACILITY_TYPES.COMMUNITY_CARE.id;
-      const maxChars =
-        updateRequestFlow && !isCommunityCare
-          ? NEW_REASON_MAX_CHARS
-          : REASON_MAX_CHARS;
+      const maxChars = !isCommunityCare
+        ? NEW_REASON_MAX_CHARS
+        : REASON_MAX_CHARS;
       let additionalInfoTitle = REASON_ADDITIONAL_INFO_TITLES.ccRequest;
 
       if (formData.facilityType !== FACILITY_TYPES.COMMUNITY_CARE.id) {
         additionalInfoTitle = REASON_ADDITIONAL_INFO_TITLES.va;
-        if (updateRequestFlow) {
-          delete formData.reasonForAppointment;
-        }
-      } else {
-        delete formData.reasonForAppointment;
       }
 
       let reasonSchema = set(

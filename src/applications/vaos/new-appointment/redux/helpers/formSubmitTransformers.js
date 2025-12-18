@@ -100,7 +100,7 @@ export function transformFormToVAOSCCRequest(state) {
   };
 }
 
-export function transformFormToVAOSVARequest(state, updateRequestFlow = false) {
+export function transformFormToVAOSVARequest(state, updateLimits = false) {
   const data = getFormData(state);
   const typeOfCare = getTypeOfCare(data);
 
@@ -114,7 +114,7 @@ export function transformFormToVAOSVARequest(state, updateRequestFlow = false) {
       data,
       isCC: false,
       isDS: false,
-      updateRequestFlow,
+      updateLimits,
     }),
     // comment: data.reasonAdditionalInfo,
     requestedPeriods: [
@@ -136,9 +136,17 @@ export function transformFormToVAOSVARequest(state, updateRequestFlow = false) {
   };
 }
 
-export function transformFormToVAOSAppointment(state) {
+export function transformFormToVAOSAppointment(state, updateLimits = false) {
   const data = getFormData(state);
-  const clinic = getChosenClinicInfo(state);
+  const { ehr } = state.newAppointment;
+
+  // Only appointments booked in a VistA system need the clinic id
+  let clinicId = null;
+  if (ehr === 'vista') {
+    const clinic = getChosenClinicInfo(state);
+    clinicId = getClinicId(clinic);
+  }
+
   const slot = getChosenSlot(state);
 
   // slot start and end times are not allowed on a booked va appointment.
@@ -148,7 +156,7 @@ export function transformFormToVAOSAppointment(state) {
   return {
     kind: 'clinic',
     status: 'booked',
-    clinic: getClinicId(clinic),
+    clinic: clinicId,
     slot,
     extension: {
       desiredDate: `${data.preferredDate}T00:00:00+00:00`,
@@ -158,6 +166,7 @@ export function transformFormToVAOSAppointment(state) {
       data,
       isCC: false,
       isDS: true,
+      updateLimits,
     }),
   };
 }

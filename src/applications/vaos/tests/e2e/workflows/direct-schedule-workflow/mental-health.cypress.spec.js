@@ -202,7 +202,6 @@ describe('VAOS direct schedule flow - Mental health', () => {
             .clickNextButton();
 
           ReasonForAppointmentPageObject.assertUrl()
-            .selectReasonForAppointment()
             .typeAdditionalText({ content: 'This is a test' })
             .clickNextButton();
 
@@ -286,7 +285,6 @@ describe('VAOS direct schedule flow - Mental health', () => {
             .clickNextButton();
 
           ReasonForAppointmentPageObject.assertUrl()
-            .selectReasonForAppointment()
             .typeAdditionalText({ content: 'This is a test' })
             .clickNextButton();
 
@@ -377,7 +375,6 @@ describe('VAOS direct schedule flow - Mental health', () => {
             .clickNextButton();
 
           ReasonForAppointmentPageObject.assertUrl()
-            .selectReasonForAppointment()
             .typeAdditionalText({ content: 'This is a test' })
             .clickNextButton();
 
@@ -470,7 +467,6 @@ describe('VAOS direct schedule flow - Mental health', () => {
             .clickNextButton();
 
           ReasonForAppointmentPageObject.assertUrl()
-            .selectReasonForAppointment()
             .typeAdditionalText({ content: 'This is a test' })
             .clickNextButton();
 

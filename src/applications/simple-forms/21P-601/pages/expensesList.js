@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  titleUI,
   textUI,
   textSchema,
   currencyUI,
@@ -35,6 +36,7 @@ const options = {
 
 const yesNoOptions = {
   title: 'Do you have an expense to add?',
+  hint: `You can add up to ${options.maxItems}`,
 };
 
 /**
@@ -44,6 +46,7 @@ const yesNoOptions = {
  */
 const summaryPage = {
   uiSchema: {
+    ...titleUI('Expenses you paid'),
     'view:expenseInfo': {
       'ui:description': (
         <va-alert status="info" uswds>

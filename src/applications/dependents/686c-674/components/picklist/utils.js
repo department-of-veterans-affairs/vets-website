@@ -96,7 +96,7 @@ export const labels = {
  */
 export const location = item =>
   `${item.endCity}, ${
-    item.endOutsideUS
+    item.endOutsideUs
       ? `${item.endProvince ? `${item.endProvince}, ` : ''}${item.endCountry}`
       : `${item.endState}`
   }`;

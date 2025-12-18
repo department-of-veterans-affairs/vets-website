@@ -39,7 +39,6 @@ describe('Travel Pay – ReviewPage', () => {
         expenseType: 'Parking',
         tripType: 'OneWay',
         costRequested: 50.0,
-        documentId: '9c63737a-f29e-f011-b4cc-001dd806c742',
       },
     ],
     documents: [
@@ -48,6 +47,7 @@ describe('Travel Pay – ReviewPage', () => {
         filename: 'test.pdf',
         mimetype: 'application/pdf',
         createdon: '2025-10-01T18:14:37Z',
+        expenseId: 'expense2', // Doc is associated with expense
       },
     ],
   };
@@ -64,6 +64,11 @@ describe('Travel Pay – ReviewPage', () => {
         data: {
           [claimId]: defaultClaim,
         },
+      },
+      reviewPageAlert: {
+        title: 'Test Alert',
+        description: 'This is a test alert',
+        type: 'info',
       },
       complexClaim: {
         claim: {
@@ -184,9 +189,21 @@ describe('Travel Pay – ReviewPage', () => {
 
     // SummaryBox description text about deductible
     expect(
-      getByText(
-        'Before we can pay you back for expenses, you must pay a deductible. The current deductible is $3 one-way or $6 round-trip for each appointment, up to $18 total each month.',
-      ),
+      getByText((content, element) => {
+        return (
+          element.tagName.toLowerCase() === 'p' &&
+          element.textContent.includes(
+            'Before we can pay you back for expenses, you must pay a deductible. The current deductible is',
+          ) &&
+          element.textContent.includes('$3') &&
+          element.textContent.includes('one-way or') &&
+          element.textContent.includes('$6') &&
+          element.textContent.includes('round-trip for each appointment') &&
+          element.textContent.includes('You’ll pay no more than') &&
+          element.textContent.includes('$18') &&
+          element.textContent.includes('total each month')
+        );
+      }),
     ).to.exist;
 
     // SummaryBox Va link
@@ -291,7 +308,7 @@ describe('Travel Pay – ReviewPage', () => {
     expect(expenseCards.length).to.equal(defaultClaim.expenses.length);
   });
 
-  it('renders "No expenses have been added." when there are no expenses', () => {
+  it('renders correctly when there are no expenses', () => {
     // Override the Redux state to have no expenses
     const emptyState = {
       ...getData(),
@@ -307,7 +324,7 @@ describe('Travel Pay – ReviewPage', () => {
       },
     };
 
-    const { getByText } = renderWithStoreAndRouter(
+    const { getByText, container } = renderWithStoreAndRouter(
       <MemoryRouter initialEntries={['/file-new-claim/12345/67890/review']}>
         <ReviewPage />
       </MemoryRouter>,
@@ -318,10 +335,21 @@ describe('Travel Pay – ReviewPage', () => {
     );
 
     // The "no expenses" message should be visible
-    expect(getByText('No expenses have been added.')).to.exist;
+    expect(
+      getByText(
+        `You haven’t added any expenses. Add at least 1 expense to submit your claim.`,
+      ),
+    ).to.exist;
 
     // The "Add more expenses" button should still exist
     expect(document.querySelector('#add-expense-button')).to.exist;
+
+    // Help section
+    expect(getByText('Need help?')).to.exist;
+
+    // No expense accordion items
+    const accordionItems = container.querySelectorAll('va-accordion-item');
+    expect(accordionItems.length).to.equal(0);
   });
 
   it('calls addMoreExpenses when Add More Expenses button is clicked', () => {

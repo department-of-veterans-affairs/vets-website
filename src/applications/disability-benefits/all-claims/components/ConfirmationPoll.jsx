@@ -118,14 +118,53 @@ export class ConfirmationPoll extends React.Component {
   }
 }
 
+const getDisabilityLabel = disability => {
+  if (!disability) return '';
+
+  if (typeof disability === 'string') {
+    return disability.trim();
+  }
+
+  if (typeof disability !== 'object') {
+    return '';
+  }
+
+  const name =
+    typeof disability.name === 'string' ? disability.name.trim() : '';
+  const condition =
+    typeof disability.condition === 'string' ? disability.condition.trim() : '';
+  const rated =
+    typeof disability.ratedDisability === 'string'
+      ? disability.ratedDisability.trim()
+      : '';
+  const side =
+    typeof disability.sideOfBody === 'string'
+      ? disability.sideOfBody.trim()
+      : '';
+
+  if (condition.toLowerCase() === 'rated disability' && rated) {
+    return rated;
+  }
+
+  const isNewDisability = !disability['view:selected'];
+
+  if (isNewDisability && condition) {
+    const sideSuffix = side ? `, ${side.toLowerCase()}` : '';
+    return `${condition}${sideSuffix}`;
+  }
+
+  return name || condition || rated;
+};
+
 export const selectAllDisabilityNames = createSelector(
   state => state.form.data.ratedDisabilities,
   state => state.form.data.newDisabilities,
   (ratedDisabilities = [], newDisabilities = []) =>
     ratedDisabilities
-      .filter(disability => disability['view:selected'])
-      .concat(newDisabilities)
-      .map(disability => disability.name || disability.condition),
+      .filter(d => d && d['view:selected'])
+      .concat(newDisabilities || [])
+      .map(getDisabilityLabel)
+      .filter(name => name),
 );
 
 function mapStateToProps(state) {

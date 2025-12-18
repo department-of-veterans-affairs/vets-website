@@ -10,13 +10,18 @@ import {
 import * as Constants from '../util/constants';
 import { addAlert } from './alerts';
 import { getListWithRetry } from './common';
-import { dispatchDetails } from '../util/helpers';
+import {
+  dispatchDetails,
+  isRadiologyId,
+  sendDatadogError,
+} from '../util/helpers';
 import { radiologyRecordHash } from '../util/radiologyUtil';
 
 export const getLabsAndTestsList = (
   isCurrent = false,
   isAccelerating = false,
   timeFrame = {},
+  mergeCvixWithScdf = false,
 ) => async dispatch => {
   dispatch({
     type: Actions.LabsAndTests.UPDATE_LIST_STATE,
@@ -27,10 +32,15 @@ export const getLabsAndTestsList = (
       return getAcceleratedLabsAndTests(timeFrame);
     };
     if (isAccelerating) {
-      const labsAndTestsResponse = await getListWithRetry(dispatch, getList);
+      const [labsAndTestsResponse, cvixRadiologyResponse] = await Promise.all([
+        getListWithRetry(dispatch, getList),
+        mergeCvixWithScdf ? getImagingStudies() : Promise.resolve(undefined),
+      ]);
+
       dispatch({
         type: Actions.LabsAndTests.GET_UNIFIED_LIST,
         labsAndTestsResponse,
+        cvixRadiologyResponse,
         isCurrent,
       });
     } else {
@@ -75,7 +85,7 @@ export const getLabsAndTestsList = (
     }
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
-    throw error;
+    sendDatadogError(error, 'actions_labsAndTests_getLabsAndTestsList');
   }
 };
 
@@ -85,7 +95,10 @@ export const getLabsAndTestsDetails = (
   isAccelerating,
 ) => async dispatch => {
   try {
-    let getDetailsFunc = isAccelerating
+    /** Should be a temporary var while CVIX calls and SCDF calls coexist */
+    const shouldAccelerate = isAccelerating && !isRadiologyId(labId);
+
+    let getDetailsFunc = shouldAccelerate
       ? async () => {
           // Return a notfound response because the downstream API
           // does not support fetching a single lab or test
@@ -93,22 +106,23 @@ export const getLabsAndTestsDetails = (
         }
       : getLabOrTest;
 
-    if (labId && labId.charAt(0).toLowerCase() === 'r') {
+    if (isRadiologyId(labId)) {
       getDetailsFunc = getMhvRadiologyDetails;
     }
+
     await dispatchDetails(
       labId,
       labList,
       dispatch,
       getDetailsFunc,
       Actions.LabsAndTests.GET_FROM_LIST,
-      isAccelerating
+      shouldAccelerate
         ? Actions.LabsAndTests.GET_UNIFIED_ITEM_FROM_LIST
         : Actions.LabsAndTests.GET,
     );
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
-    throw error;
+    sendDatadogError(error, 'actions_labsAndTests_getLabsAndTestsDetails');
   }
 };
 

@@ -137,7 +137,7 @@ describe('CDP - VHA Copay Alerts', () => {
       cy.findByTestId('summary-page-title').should('exist');
 
       // Check for the "not enrolled in healthcare" alert
-      cy.findByTestId('no-healthcare-alert').should('exist');
+      cy.findByTestId('copay-no-health-care-alert').should('exist');
       cy.injectAxeThenAxeCheck();
     });
   });
