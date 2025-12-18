@@ -53,15 +53,7 @@ export const uiSchema = {
     }),
     'ui:onChange': (value, oldValue, formData, onChange) => {
       // Clear changeAnotherBenefit page data and sponsor information when rudisillReview changes to Yes
-      if (
-        value === 'Yes' &&
-        (formData.changeAnotherBenefit ||
-          formData.benefitAppliedFor ||
-          formData.sponsorFullName ||
-          formData.sponsorSocialSecurityNumber ||
-          formData.vaFileNumber ||
-          formData['view:noSSN'])
-      ) {
+      if (value === 'Yes' && oldValue !== 'Yes') {
         onChange({
           ...formData,
           rudisillReview: value,

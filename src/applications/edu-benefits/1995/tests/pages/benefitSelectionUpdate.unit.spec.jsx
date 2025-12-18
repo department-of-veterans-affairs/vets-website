@@ -93,8 +93,14 @@ describe('benefitSelectionUpdate rudisillReview onChange', () => {
 
     uiSchema.rudisillReview['ui:onChange']('Yes', 'No', formData, onChange);
 
-    // onChange should not be called when there's nothing to clear
-    expect(updatedFormData).to.be.undefined;
+    // onChange is called to ensure fields remain cleared
+    expect(updatedFormData.rudisillReview).to.equal('Yes');
+    expect(updatedFormData.changeAnotherBenefit).to.be.undefined;
+    expect(updatedFormData.benefitAppliedFor).to.be.undefined;
+    expect(updatedFormData.sponsorFullName).to.be.undefined;
+    expect(updatedFormData.sponsorSocialSecurityNumber).to.be.undefined;
+    expect(updatedFormData.vaFileNumber).to.be.undefined;
+    expect(updatedFormData['view:noSSN']).to.be.undefined;
   });
 
   it('should not call onChange when rudisillReview changes from No to No', () => {
