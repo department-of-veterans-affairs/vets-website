@@ -45,9 +45,7 @@ export const promptContent = {
 export const summaryContent = {
   titleWithItems: 'Review the evidence you’re submitting',
   descriptionWithItems: (
-    <p className="vads-u-font-family--serif vads-u-font-weight--bold">
-      VA or military treatment locations we’ll request your records from
-    </p>
+    <h4>VA or military treatment locations we’ll request your records from</h4>
   ),
   question: 'Do you want us to request records from another VA provider?',
   options: {
