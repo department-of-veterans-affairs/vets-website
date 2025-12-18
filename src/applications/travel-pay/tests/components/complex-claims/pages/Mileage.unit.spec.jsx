@@ -237,9 +237,11 @@ describe('Complex Claims Mileage - Add', () => {
     });
 
     it('handles trip type selection change', async () => {
-      renderComponent();
+      const { container } = renderComponent();
 
-      const tripTypeRadio = document.querySelector('va-radio[name="tripType"]');
+      const tripTypeRadio = container.querySelector(
+        'va-radio[name="tripType"]',
+      );
       expect(tripTypeRadio).to.exist;
       expect(tripTypeRadio.value).to.be.undefined;
 
