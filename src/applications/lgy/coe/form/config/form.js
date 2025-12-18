@@ -22,6 +22,7 @@ import { serviceStatus, serviceHistory } from './chapters/service';
 import { loanScreener, loanHistory } from './chapters/loans';
 
 import { fileUpload } from './chapters/documents';
+// import disabilitySeparation from '../pages/disabilitySeparation';
 
 // TODO: When schema is migrated to vets-json-schema, remove common
 // definitions from form schema and get them from common definitions instead
@@ -104,6 +105,12 @@ const formConfig = {
           uiSchema: serviceStatus.uiSchema,
           schema: serviceStatus.schema,
         },
+        // disabilitySeparationPage: {
+        //   path: 'separation',
+        //   title: 'Separation',
+        //   uiSchema: disabilitySeparation.uiSchema,
+        //   schema: disabilitySeparation.schema,
+        // },
         serviceHistory: {
           path: 'service-history',
           title: 'Service history',
