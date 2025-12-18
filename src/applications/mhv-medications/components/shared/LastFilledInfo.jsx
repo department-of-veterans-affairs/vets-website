@@ -1,10 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { dateFormat, rxSourceIsNonVA } from '../../util/helpers';
 import { DATETIME_FORMATS } from '../../util/constants';
+import { selectCernerPilotFlag } from '../../util/selectors';
 
 const LastFilledInfo = rx => {
   const { orderedDate, sortedDispensedDate } = rx;
+  const isCernerPilot = useSelector(selectCernerPilotFlag);
 
   const nonVA = rxSourceIsNonVA(rx);
   const showLastFilledDate = !nonVA && !!sortedDispensedDate;
@@ -32,7 +35,8 @@ const LastFilledInfo = rx => {
         </p>
       )}
       {!nonVA &&
-        !showLastFilledDate && (
+        !showLastFilledDate &&
+        !isCernerPilot && (
           <p data-testid="active-not-filled-rx" data-dd-privacy="mask">
             Not filled yet
           </p>
