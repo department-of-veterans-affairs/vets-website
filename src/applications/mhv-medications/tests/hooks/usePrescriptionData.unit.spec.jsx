@@ -5,6 +5,7 @@ import { waitFor, render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import sinon from 'sinon';
+import * as useAcceleratedDataModule from '~/platform/mhv/hooks/useAcceleratedData';
 import { usePrescriptionData } from '../../hooks/usePrescriptionData';
 import * as prescriptionsApi from '../../api/prescriptionsApi';
 
@@ -50,6 +51,7 @@ describe('usePrescriptionData', () => {
   let useQueryStub;
   let getPrescriptionsListStub;
   let getPrescriptionByIdStub;
+  let useAcceleratedDataStub;
 
   beforeEach(() => {
     // Create a basic mock prescription
@@ -100,6 +102,16 @@ describe('usePrescriptionData', () => {
         useQuery: useQueryStub,
       });
 
+    // Mock useAcceleratedData hook
+    useAcceleratedDataStub = sinon
+      .stub(useAcceleratedDataModule, 'default')
+      .returns({
+        isAcceleratingMedications: false,
+        isAcceleratingAllergies: false,
+        isCerner: false,
+        isLoading: false,
+      });
+
     // Create mock store for provider
     mockStore = configureStore([])({
       featureToggles: {
@@ -120,6 +132,9 @@ describe('usePrescriptionData', () => {
     }
     if (getPrescriptionByIdStub) {
       getPrescriptionByIdStub.restore();
+    }
+    if (useAcceleratedDataStub) {
+      useAcceleratedDataStub.restore();
     }
   });
 
@@ -299,5 +314,85 @@ describe('usePrescriptionData', () => {
       },
       { timeout: 3000 },
     );
+  });
+
+  it('should pass isAcceleratingMedications=false to API calls when not accelerating', async () => {
+    // Render hook with parameters
+    const { result } = renderHook(() => usePrescriptionData('123', {}), {
+      wrapper,
+    });
+
+    // Wait for hook to complete
+    await waitFor(() => {
+      expect(result.current).to.not.be.null;
+    });
+
+    // Verify useQueryState was called with isAcceleratingMedications: false
+    expect(useQueryStateStub.called).to.be.true;
+    const queryStateArgs = useQueryStateStub.firstCall.args[0];
+    expect(queryStateArgs).to.have.property('isAcceleratingMedications', false);
+
+    // Verify useQuery was called with isAcceleratingMedications: false
+    expect(useQueryStub.called).to.be.true;
+    const queryArgs = useQueryStub.firstCall.args[0];
+    expect(queryArgs).to.have.property('isAcceleratingMedications', false);
+  });
+
+  it('should pass isAcceleratingMedications=true to API calls when accelerating', async () => {
+    // Update the stub to return isAcceleratingMedications: true
+    useAcceleratedDataStub.returns({
+      isAcceleratingMedications: true,
+      isAcceleratingAllergies: false,
+      isCerner: false,
+      isLoading: false,
+    });
+
+    // Render hook with parameters
+    const { result } = renderHook(() => usePrescriptionData('123', {}), {
+      wrapper,
+    });
+
+    // Wait for hook to complete
+    await waitFor(() => {
+      expect(result.current).to.not.be.null;
+    });
+
+    // Verify useQueryState was called with isAcceleratingMedications: true
+    expect(useQueryStateStub.called).to.be.true;
+    const queryStateArgs = useQueryStateStub.firstCall.args[0];
+    expect(queryStateArgs).to.have.property('isAcceleratingMedications', true);
+
+    // Verify useQuery was called with isAcceleratingMedications: true
+    expect(useQueryStub.called).to.be.true;
+    const queryArgs = useQueryStub.firstCall.args[0];
+    expect(queryArgs).to.have.property('isAcceleratingMedications', true);
+  });
+
+  it('should skip API call when accelerated data is loading', async () => {
+    // Update the stub to return isLoading: true
+    useAcceleratedDataStub.returns({
+      isAcceleratingMedications: false,
+      isAcceleratingAllergies: false,
+      isCerner: false,
+      isLoading: true,
+    });
+
+    // Set up stub to indicate cache miss
+    useQueryStateStub.returns(undefined);
+
+    // Render hook with parameters
+    const { result } = renderHook(() => usePrescriptionData('123', {}), {
+      wrapper,
+    });
+
+    // Wait for hook to render
+    await waitFor(() => {
+      expect(result.current).to.not.be.null;
+    });
+
+    // Verify that the query is skipped when accelerated data is loading
+    expect(useQueryStub.called).to.be.true;
+    const skipValue = useQueryStub.firstCall.args[1].skip;
+    expect(skipValue).to.be.true;
   });
 });
