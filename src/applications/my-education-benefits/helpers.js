@@ -233,8 +233,6 @@ export function prefillTransformer(pages, formData, metadata, state) {
   }
 
   try {
-    const mebKickerNotificationEnabled =
-      state?.featureToggles?.mebKickerNotificationEnabled;
     const bankInformation = state?.data?.bankInformation || {};
     const claimant = state?.data?.formData?.data?.attributes?.claimant || {};
     const serviceData =
@@ -330,21 +328,32 @@ export function prefillTransformer(pages, formData, metadata, state) {
           chosenAddress?.countryCodeIso3 || chosenAddress?.countryCode,
         ),
       },
-      [formFields.livesOnMilitaryBase]:
-        chosenAddress?.addressType === 'MILITARY_OVERSEAS',
+      [formFields.livesOnMilitaryBase]: (() => {
+        // Check if explicitly marked as military overseas
+        if (chosenAddress?.addressType === 'MILITARY_OVERSEAS') {
+          return true;
+        }
+
+        // Check if address has military postal codes or state codes
+        const city = chosenAddress?.city?.trim()?.toUpperCase();
+        const stateCode = chosenAddress?.stateCode?.trim()?.toUpperCase();
+        const militaryCities = ['APO', 'FPO', 'DPO'];
+        const militaryStates = ['AE', 'AA', 'AP'];
+
+        const hasMilitaryCity = militaryCities.includes(city);
+        const hasMilitaryState = militaryStates.includes(stateCode);
+
+        return hasMilitaryCity || hasMilitaryState;
+      })(),
     };
-    if (mebKickerNotificationEnabled) {
-      const {
-        eligibleForActiveDutyKicker,
-        eligibleForReserveKicker,
-      } = claimant;
-      newData[formFields.activeDutyKicker] = eligibleForActiveDutyKicker
-        ? 'Yes'
-        : undefined;
-      newData[formFields.selectedReserveKicker] = eligibleForReserveKicker
-        ? 'Yes'
-        : undefined;
-    }
+    const { eligibleForActiveDutyKicker, eligibleForReserveKicker } = claimant;
+    newData[formFields.activeDutyKicker] = eligibleForActiveDutyKicker
+      ? 'Yes'
+      : undefined;
+    newData[formFields.selectedReserveKicker] = eligibleForReserveKicker
+      ? 'Yes'
+      : undefined;
+
     if (suffix) {
       const possibleSuffixes =
         state?.form?.pages?.applicantInformation?.schema?.properties?.[

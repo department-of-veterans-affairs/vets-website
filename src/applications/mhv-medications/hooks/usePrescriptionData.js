@@ -23,7 +23,7 @@ export const usePrescriptionData = (prescriptionId, queryParams) => {
   const cachedPrescription = getPrescriptionsList.useQueryState(queryParams, {
     selectFromResult: ({ data: prescriptionsList }) => {
       return prescriptionsList?.prescriptions?.find(
-        item => item.prescriptionId === Number(prescriptionId),
+        item => String(item.prescriptionId) === String(prescriptionId),
       );
     },
   });

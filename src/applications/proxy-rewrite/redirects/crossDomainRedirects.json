@@ -2181,5 +2181,41 @@
   "src": "/rosandiego",
   "dest": "/san-diego-va-regional-benefit-office/",
   "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/cleveland",
+  "dest": "/cleveland-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/rocleveland",
+  "dest": "/cleveland-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/manila",
+  "dest": "/va-regional-benefit-office-at-us-embassy-in-manila/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/romanila",
+  "dest": "/va-regional-benefit-office-at-us-embassy-in-manila/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/buffalo",
+  "dest": "/buffalo-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/robuffalo",
+  "dest": "/buffalo-va-regional-benefit-office/",
+  "catchAll": true
 }
 ]

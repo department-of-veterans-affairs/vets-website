@@ -64,6 +64,7 @@ export const options = {
   arrayPath: 'incomeSources',
   nounSingular: 'Income source',
   nounPlural: 'Income sources',
+  maxItems: 4,
   required: false,
   text: {
     cancelAddTitle: 'Cancel adding this monthly income source?',
@@ -81,6 +82,20 @@ export const options = {
     deleteNo: 'No, keep',
     deleteTitle: 'Delete this monthly income source?',
     deleteYes: 'Yes, delete',
+    alertMaxItems: (
+      <div>
+        <p className="vads-u-margin-top--0">
+          You have added the maximum number of allowed monthly income sources
+          for this application. Additional income sources can be added using VA
+          21P-0969 and uploaded at the end of this application.
+        </p>
+        <va-link
+          href="https://www.va.gov/find-forms/about-form-21p-0969"
+          external
+          text="Get VA Form 21P-0969 to download"
+        />
+      </div>
+    ),
     // headline for each card: use the selected type of income label
     getItemName: item =>
       (item && item.typeOfIncome && typeOfIncomeLabels[item.typeOfIncome]) ||

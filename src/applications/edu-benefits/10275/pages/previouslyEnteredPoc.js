@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import EnteredPoc from '../components/EnteredPoc';
+import { getTransformIntlPhoneNumber } from '../helpers';
 
 const nameFrom = person =>
   [person?.fullName?.first, person?.fullName?.middle, person?.fullName?.last]
@@ -22,11 +23,9 @@ const PreviouslyEnteredPOCWidget = props => {
     const nm = contact && nameFrom(contact);
     if (!nm) return;
     const phone =
-      contact?.usPhone ||
-      contact?.internationalPhone ||
-      contact?.phoneNumber ||
-      contact?.internationalPhoneNumber ||
-      '';
+      typeof contact?.phoneNumber === 'object'
+        ? getTransformIntlPhoneNumber(contact.phoneNumber)
+        : '';
     const title = contact?.title || '';
     options.push({
       key,
@@ -50,11 +49,9 @@ const PreviouslyEnteredPOCWidget = props => {
     authorizedOfficial && nameFrom(authorizedOfficial);
   if (authorizedOfficialName) {
     const phone =
-      authorizedOfficial?.usPhone ||
-      authorizedOfficial?.internationalPhone ||
-      authorizedOfficial?.phoneNumber ||
-      authorizedOfficial?.internationalPhoneNumber ||
-      '';
+      typeof authorizedOfficial?.phoneNumber === 'object'
+        ? getTransformIntlPhoneNumber(authorizedOfficial.phoneNumber)
+        : '';
     const title = authorizedOfficial?.title || '';
     options.push({
       key: 'authorizedOfficial',
@@ -82,11 +79,9 @@ const PreviouslyEnteredPOCWidget = props => {
     const email = loc?.email || '';
     if (!name && !email) return;
     const phone =
-      loc?.usPhone ||
-      loc?.internationalPhone ||
-      loc?.phoneNumber ||
-      loc?.internationalPhoneNumber ||
-      '';
+      typeof loc?.phoneNumber === 'object'
+        ? getTransformIntlPhoneNumber(loc.phoneNumber)
+        : '';
     options.push({
       key: `new-${idx}`,
       label: name,

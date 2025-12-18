@@ -9,6 +9,7 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom-v5-compat';
 import { useSelector, useDispatch } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import useAcceleratedData from '~/platform/mhv/hooks/useAcceleratedData';
 import PropTypes from 'prop-types';
 import {
   usePrintTitle,
@@ -80,14 +81,21 @@ import FilterAriaRegion from '../components/MedicationsList/FilterAriaRegion';
 import RxRenewalDeleteDraftSuccessAlert from '../components/shared/RxRenewalDeleteDraftSuccessAlert';
 import { useURLPagination } from '../hooks/useURLPagination';
 import { usePageTitle } from '../hooks/usePageTitle';
+import { selectCernerPilotFlag } from '../util/selectors';
 
 const Prescriptions = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const isCernerPilot = useSelector(selectCernerPilotFlag);
   const ssoe = useSelector(isAuthenticatedWithSSOe);
   const userName = useSelector(selectUserFullName);
   const dob = useSelector(selectUserDob);
   const hasMedsByMailFacility = useSelector(selectHasMedsByMailFacility);
+  const {
+    isAcceleratingAllergies,
+    isCerner,
+    isLoading: isAcceleratedDataLoading,
+  } = useAcceleratedData();
   const [searchParams] = useSearchParams();
   const rxRenewalMessageSuccess = searchParams.get('rxRenewalMessageSuccess');
   const deleteDraftSuccess = searchParams.get('draftDeleteSuccess');
@@ -155,7 +163,15 @@ const Prescriptions = () => {
     format: undefined,
   });
   const scrollLocation = useRef();
-  const { data: allergies, error: allergiesError } = useGetAllergiesQuery();
+  const { data: allergies, error: allergiesError } = useGetAllergiesQuery(
+    {
+      isAcceleratingAllergies,
+      isCerner,
+    },
+    {
+      skip: isAcceleratedDataLoading, // Wait for Cerner data and toggles to load before calling API
+    },
+  );
 
   const refillAlertList = prescriptionsData?.refillAlertList || [];
 
@@ -200,6 +216,7 @@ const Prescriptions = () => {
         ...prev,
         ...updates,
       }));
+      setPrescriptionsExportList([]);
     }
 
     navigate('/?page=1', { replace: true });
@@ -213,15 +230,18 @@ const Prescriptions = () => {
     scrollLocation?.current?.scrollIntoView();
   };
 
-  useEffect(() => {
-    if (!isLoading) {
-      if (prescriptionId) {
-        goToPrevious();
-      } else {
-        focusElement(document.querySelector('h1'));
+  useEffect(
+    () => {
+      if (!isLoading) {
+        if (prescriptionId) {
+          goToPrevious();
+        } else {
+          focusElement(document.querySelector('h1'));
+        }
       }
-    }
-  }, []);
+    },
+    [isLoading, prescriptionId],
+  );
 
   useEffect(
     () => {
@@ -352,12 +372,12 @@ const Prescriptions = () => {
 
       if (format === DOWNLOAD_FORMAT.PDF) {
         generatePDF(
-          buildPrescriptionsPDFList(prescriptionsExportList),
+          buildPrescriptionsPDFList(prescriptionsExportList, isCernerPilot),
           buildAllergiesPDFList(allergies),
         );
       } else if (format === DOWNLOAD_FORMAT.TXT) {
         generateTXT(
-          buildPrescriptionsTXT(prescriptionsExportList),
+          buildPrescriptionsTXT(prescriptionsExportList, isCernerPilot),
           buildAllergiesTXT(allergies),
         );
       } else if (format === PRINT_FORMAT.PRINT) {
@@ -376,6 +396,7 @@ const Prescriptions = () => {
       pdfTxtGenerateStatus,
       generatePDF,
       generateTXT,
+      isCernerPilot,
     ],
   );
 

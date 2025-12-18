@@ -11,6 +11,7 @@ import {
   sortStatementsByDate,
   ALERT_TYPES,
   APP_TYPES,
+  showVHAPaymentHistory,
 } from '../../combined/utils/helpers';
 import Balances from '../components/Balances';
 import BalanceQuestions from '../components/BalanceQuestions';
@@ -20,7 +21,7 @@ import DisputeCharges from '../components/DisputeCharges';
 import HowToPay from '../components/HowToPay';
 import FinancialHelp from '../components/FinancialHelp';
 import NeedHelpCopay from '../components/NeedHelpCopay';
-import MCPAlerts from '../../combined/components/MCPAlerts';
+import CopayAlertContainer from '../components/CopayAlertContainer';
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
 
 const renderAlert = (alertType, debts) => {
@@ -89,8 +90,8 @@ const OverviewPage = () => {
   // boolean value to represent if toggles are still loading or not
   const togglesLoading = useToggleLoadingValue();
   // value of specific toggle
-  const showVHAPaymentHistory = useToggleValue(
-    TOGGLE_NAMES.showVHAPaymentHistory,
+  const shouldShowVHAPaymentHistory = showVHAPaymentHistory(
+    useSelector(state => state),
   );
   const showOneThingPerPage = useToggleValue(
     TOGGLE_NAMES.showCDPOneThingPerPage,
@@ -115,9 +116,27 @@ const OverviewPage = () => {
   }, []);
 
   const MAX_ROWS = 10;
+  const ITEM_TYPE = 'copays';
 
   function paginate(array, pageSize, pageNumber) {
-    return array.slice((pageNumber - 1) * pageSize, pageNumber * pageSize);
+    return array?.slice((pageNumber - 1) * pageSize, pageNumber * pageSize);
+  }
+
+  function getPaginationText(
+    currentPage,
+    pageSize,
+    totalItems,
+    label = ITEM_TYPE,
+  ) {
+    // Only display pagination text when there are more than MAX_ROWS total items
+    if (totalItems <= MAX_ROWS) {
+      return '';
+    }
+
+    const startItemIndex = (currentPage - 1) * pageSize + 1;
+    const endItemIndex = Math.min(currentPage * pageSize, totalItems);
+
+    return `Showing ${startItemIndex}-${endItemIndex} of ${totalItems} ${label}`;
   }
 
   const [currentData, setCurrentData] = useState(
@@ -159,7 +178,7 @@ const OverviewPage = () => {
   const isNotEnrolledInHealthCare = mcpError?.status === '403';
   const renderContent = () => {
     if (isNotEnrolledInHealthCare) {
-      return <MCPAlerts type="no-health-care" />;
+      return <CopayAlertContainer type="no-health-care" />;
     }
     if (mcpError) {
       return renderAlert(
@@ -171,11 +190,17 @@ const OverviewPage = () => {
       return renderAlert(ALERT_TYPES.ZERO, debts?.length);
     }
 
-    return showOneThingPerPage || showVHAPaymentHistory ? (
+    return showOneThingPerPage || shouldShowVHAPaymentHistory ? (
       <article className="vads-u-padding-x--0 vads-u-padding-bottom--0">
         <Balances
           statements={currentData}
-          showVHAPaymentHistory={showVHAPaymentHistory}
+          showVHAPaymentHistory={shouldShowVHAPaymentHistory}
+          paginationText={getPaginationText(
+            currentPage,
+            MAX_ROWS,
+            statementsByUniqueFacility.length,
+            ITEM_TYPE,
+          )}
         />
         {renderVaPagination()}
         {renderOtherVA(debts?.length, debtError)}
@@ -186,7 +211,13 @@ const OverviewPage = () => {
         <va-on-this-page />
         <Balances
           statements={currentData}
-          showVHAPaymentHistory={showVHAPaymentHistory}
+          showVHAPaymentHistory={shouldShowVHAPaymentHistory}
+          paginationText={getPaginationText(
+            currentPage,
+            MAX_ROWS,
+            statementsByUniqueFacility.length,
+            ITEM_TYPE,
+          )}
         />
         {renderVaPagination()}
         {renderOtherVA(debts?.length, debtError)}

@@ -1,11 +1,13 @@
 import React from 'react';
 import {
+  titleUI,
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 export default {
   uiSchema: {
+    ...titleUI('Creditor information'),
     hasUnpaidCreditors: yesNoUI(
       "Are you seeking reimbursement for expenses you haven't paid yet?",
     ),

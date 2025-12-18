@@ -12,6 +12,7 @@ describe('<FilesWeCouldntReceive>', () => {
   const createMockStore = (
     failedUploadsData = null,
     featureFlagEnabled = true,
+    hasError = false,
   ) => {
     return createStore(
       () => ({
@@ -20,7 +21,7 @@ describe('<FilesWeCouldntReceive>', () => {
             failedUploads: {
               loading: false,
               data: failedUploadsData,
-              error: null,
+              error: hasError ? true : null,
             },
           },
         },
@@ -43,6 +44,7 @@ describe('<FilesWeCouldntReceive>', () => {
     return Array.from({ length: count }, (_, index) => ({
       id: startIndex + index,
       fileName: `document${startIndex + index}.pdf`,
+      trackedItemId: startIndex + index,
       trackedItemDisplayName: '21-4142',
       failedDate: `2025-01-${String(startIndex + index).padStart(
         2,
@@ -70,7 +72,7 @@ describe('<FilesWeCouldntReceive>', () => {
       ).to.exist;
       expect(
         document.querySelector(
-          'va-link[text="Learn about other ways to send your documents."]',
+          'va-link[text="Learn about other ways to send your documents"]',
         ),
       ).to.exist;
       expect(getByRole('heading', { name: 'Files not received' })).to.exist;
@@ -169,6 +171,7 @@ describe('<FilesWeCouldntReceive>', () => {
       {
         id: 1,
         fileName: 'document1.pdf',
+        trackedItemId: 1,
         trackedItemDisplayName: '21-4142',
         failedDate: '2025-01-15T10:35:00.000Z',
         documentType: 'VA Form 21-4142',
@@ -177,6 +180,7 @@ describe('<FilesWeCouldntReceive>', () => {
       {
         id: 2,
         fileName: 'document2.pdf',
+        trackedItemId: 2,
         trackedItemDisplayName: '21-4142',
         failedDate: '2025-01-22T10:35:00.000Z',
         documentType: 'VA Form 21-4142',
@@ -185,6 +189,7 @@ describe('<FilesWeCouldntReceive>', () => {
       {
         id: 3,
         fileName: 'document3.pdf',
+        trackedItemId: 3,
         trackedItemDisplayName: '21-4142',
         failedDate: '2025-01-10T10:35:00.000Z',
         documentType: 'VA Form 21-4142',
@@ -269,6 +274,129 @@ describe('<FilesWeCouldntReceive>', () => {
         }`;
         expect(link).to.have.attribute('label', expectedLabel);
       });
+    });
+
+    it('should render card with document type and request type for tracked items', () => {
+      const mockFailedFileWithTrackedItem = [
+        {
+          id: 1,
+          fileName: 'medical-records.pdf',
+          trackedItemId: 1,
+          trackedItemDisplayName: 'Medical records',
+          failedDate: '2025-01-15T10:35:00.000Z',
+          documentType: 'VA Form 21-4142',
+          claimId: '123',
+        },
+      ];
+      const store = createMockStore(mockFailedFileWithTrackedItem);
+      const { getByText, getByTestId } = renderWithCustomStore(
+        <FilesWeCouldntReceive />,
+        store,
+      );
+
+      const card = getByTestId('failed-file-1');
+      expect(card).to.exist;
+
+      // Check file name is displayed as heading (without "File name:" prefix)
+      expect(getByText('medical-records.pdf')).to.exist;
+
+      // Check document type label
+      expect(getByText('Document type: VA Form 21-4142')).to.exist;
+
+      // Check request type text for tracked item
+      expect(getByText('Submitted in response to request: Medical records')).to
+        .exist;
+
+      // Check date failed
+      expect(getByText('Date failed: January 15, 2025')).to.exist;
+    });
+
+    it('should render card with additional evidence text when no trackedItemId', () => {
+      const mockFailedFileWithoutTrackedItem = [
+        {
+          id: 1,
+          fileName: 'additional-evidence.pdf',
+          trackedItemId: null,
+          trackedItemDisplayName: null,
+          failedDate: '2025-01-20T10:35:00.000Z',
+          documentType: 'Other Correspondence',
+          claimId: '456',
+        },
+      ];
+      const store = createMockStore(mockFailedFileWithoutTrackedItem);
+      const { getByText, getByTestId } = renderWithCustomStore(
+        <FilesWeCouldntReceive />,
+        store,
+      );
+
+      const card = getByTestId('failed-file-1');
+      expect(card).to.exist;
+
+      // Check file name is displayed as heading
+      expect(getByText('additional-evidence.pdf')).to.exist;
+
+      // Check document type label
+      expect(getByText('Document type: Other Correspondence')).to.exist;
+
+      // Check additional evidence text (when no trackedItemId)
+      expect(getByText('You submitted this file as additional evidence.')).to
+        .exist;
+
+      // Check date failed
+      expect(getByText('Date failed: January 20, 2025')).to.exist;
+    });
+  });
+
+  describe('Error State - API Failure', () => {
+    it('should render error alert and hide all normal page content when API fails', () => {
+      // Create store with API error: no data, feature flag enabled, error state
+      const store = createMockStore(null, true, true);
+      const {
+        getByRole,
+        getByText,
+        queryByText,
+        container,
+      } = renderWithCustomStore(<FilesWeCouldntReceive />, store);
+
+      // Verify error heading and alert are displayed
+      expect(
+        getByRole('heading', { level: 1, name: 'We encountered a problem' }),
+      ).to.exist;
+
+      const alert = container.querySelector('va-alert[status="warning"]');
+      expect(alert).to.exist;
+
+      expect(
+        getByRole('heading', {
+          level: 2,
+          name: 'Your files are temporarily unavailable',
+        }),
+      ).to.exist;
+
+      expect(
+        getByText(
+          'We’re sorry. We’re having trouble loading your files right now. Try again in an hour.',
+        ),
+      ).to.exist;
+
+      // Verify normal page content is NOT rendered
+      expect(queryByText('Files we couldn’t receive')).to.not.exist;
+      expect(queryByText('Files not received')).to.not.exist;
+      expect(queryByText('If we couldn’t receive files you submitted online'))
+        .to.not.exist;
+
+      // Verify no data-related components are rendered
+      expect(
+        container.querySelector('[data-testid="other-ways-to-send-documents"]'),
+      ).to.not.exist;
+      expect(container.querySelector('[data-testid="failed-files-list"]')).to
+        .not.exist;
+      expect(container.querySelector('va-loading-indicator')).to.not.exist;
+      expect(container.querySelector('va-pagination')).to.not.exist;
+      expect(container.querySelector('#pagination-info')).to.not.exist;
+      expect(container.querySelector('va-card')).to.not.exist;
+      expect(queryByText('We’ve received all files you submitted online.')).to
+        .not.exist;
     });
   });
 

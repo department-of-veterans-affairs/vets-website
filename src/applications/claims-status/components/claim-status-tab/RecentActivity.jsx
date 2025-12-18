@@ -16,6 +16,7 @@ import {
   getDisplayFriendlyName,
 } from '../../utils/helpers';
 import { evidenceDictionary } from '../../utils/evidenceDictionary';
+import TimezoneDiscrepancyMessage from '../TimezoneDiscrepancyMessage';
 
 export default function RecentActivity({ claim }) {
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
@@ -235,9 +236,8 @@ export default function RecentActivity({ claim }) {
 
   return (
     <div className="recent-activity-container">
-      <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--3">
-        Recent activity
-      </h3>
+      <h3 className="vads-u-margin-top--0">Recent activity</h3>
+      <TimezoneDiscrepancyMessage />
       {pageLength > 0 && (
         <ol className="va-list-horizontal">
           {currentPageItems.map(item => (

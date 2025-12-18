@@ -1,38 +1,36 @@
-import React from 'react';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
+import environment from 'platform/utilities/environment';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import get from 'platform/utilities/data/get';
 import { defaultItemPageScrollAndFocusTarget as scrollAndFocusTarget } from 'platform/forms-system/src/js/patterns/array-builder';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import FormFooter from '../components/FormFooter';
 import transformForSubmit from './submitTransformer';
 import { nameWording, privWrapper } from '../../shared/utilities';
 import FileFieldWrapped from '../components/FileUploadWrapper';
 import { prefillTransformer } from './prefillTransformer';
 import SubmissionError from '../../shared/components/SubmissionError';
 import { migrateCardUploadKeys } from './migrations';
+import { blankSchema } from '../definitions';
 
-import {
-  applicantNameDobSchema,
-  applicantSsnSchema,
-  applicantAddressInfoSchema,
-  applicantContactInfoSchema,
-  applicantGenderSchema,
-  blankSchema,
-} from '../chapters/applicantInformation';
+import applicantBirthSex from '../chapters/applicantInformation/birthSex';
+import applicantContactInformation from '../chapters/applicantInformation/contactInformation';
+import applicantIdentityInformation from '../chapters/applicantInformation/identityInformation';
+import applicantMailingAddress from '../chapters/applicantInformation/mailingAddress';
+import applicantPersonalInformation from '../chapters/applicantInformation/personalInformation';
 
-import {
-  applicantHasMedicareSchema,
-  applicantMedicareClassSchema,
-  applicantMedicarePartACarrierSchema,
-  applicantMedicarePartBCarrierSchema,
-  applicantMedicarePharmacySchema,
-  applicantHasMedicareDSchema,
-  applicantMedicarePartDCarrierSchema,
-  applicantMedicareABUploadSchema,
-  applicantMedicareDUploadSchema,
-} from '../chapters/medicareInformation';
+import medicareReportPlans from '../chapters/medicare/reportPlans';
+import medicarePlanTypes from '../chapters/medicare/planTypes';
+import medicarePharmacyBenefits from '../chapters/medicare/planPharmacyBenefits';
+import medicarePartACarrier from '../chapters/medicare/partACarrier';
+import medicarePartBCarrier from '../chapters/medicare/partBCarrier';
+import medicareCardUpload from '../chapters/medicare/partsABCardUpload';
+import medicarePartDStatus from '../chapters/medicare/partDStatus';
+import medicarePartDCarrier from '../chapters/medicare/partDCarrier';
+import medicarePartDCardUpload from '../chapters/medicare/partDCardUpload';
+
 import {
   applicantHasInsuranceSchema,
   applicantProviderSchema,
@@ -45,21 +43,20 @@ import {
   applicantInsuranceCommentsSchema,
   applicantInsuranceCardSchema,
 } from '../chapters/healthInsuranceInformation';
+import { healthInsuranceRev2025Pages } from '../chapters/healthInsurance';
 
-import {
-  formSignatureSchema,
-  applicationEmailSchema,
-  champvaScreenSchema,
-} from '../chapters/formSignature';
+import benefitStatus from '../chapters/signerInformation/benefitStatus';
+import certifierEmail from '../chapters/signerInformation/certifierEmail';
+import certifierRole from '../chapters/signerInformation/certifierRole';
 import CustomAttestation from '../components/CustomAttestation';
 
-import GetFormHelp from '../../shared/components/GetFormHelp';
 import { hasReq } from '../../shared/components/fileUploads/MissingFileOverview';
 import SupportingDocumentsPage from '../components/SupportingDocumentsPage';
 import { MissingFileConsentPage } from '../components/MissingFileConsentPage';
-import ApplyForBenefits from '../components/ApplyForBenefits';
+import NotEnrolledPage from '../components/FormPages/NotEnrolledPage';
+import { FEATURE_TOGGLES } from '../hooks/useDefaultFormData';
 
-// import mockdata from '../tests/e2e/fixtures/data/test-data.json';
+//  import mockdata from '../tests/e2e/fixtures/data/test-data.json';
 
 // Control whether we show the file overview page by calling `hasReq` to
 // determine if any files have not been uploaded. Defaults to false (hide the page)
@@ -77,6 +74,8 @@ function fnp(formData) {
   return nameWording(formData, undefined, undefined, true);
 }
 
+const REV2025_TOGGLE_KEY = `view:${FEATURE_TOGGLES[0]}`;
+
 /** @type {PageSchema} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -89,7 +88,7 @@ const formConfig = {
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
   showReviewErrors: !environment.isProduction(),
-  footerContent: GetFormHelp,
+  footerContent: FormFooter,
   submissionError: SubmissionError,
   formId: '10-7959C',
   dev: {
@@ -104,10 +103,11 @@ const formConfig = {
     CustomComponent: CustomAttestation,
   },
   customText: {
-    reviewPageTitle: 'Review form',
     appType: 'form',
+    continueAppButtonText: 'Continue your form',
+    reviewPageTitle: 'Review and sign',
+    startNewAppButtonText: 'Start a new form',
   },
-  CustomReviewTopContent: () => <h3>Review and sign</h3>,
   saveInProgress: {
     messages: {
       inProgress:
@@ -129,8 +129,30 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for CHAMPVA other health insurance certification.',
   },
-  title: 'Submit other health insurance VA Form 10-7959c',
+  title: 'Submit other health insurance',
   subTitle: 'CHAMPVA Other Health Insurance Certification (VA Form 10-7959c)',
+  ...minimalHeaderFormConfigOptions({
+    breadcrumbList: [
+      {
+        href: '/family-and-caregiver-benefits/',
+        label: 'VA benefits for family and caregivers',
+      },
+      {
+        href: '/family-and-caregiver-benefits/health-and-disability/',
+        label: 'Health and disability benefits for family and caregivers',
+      },
+      {
+        href: '/family-and-caregiver-benefits/health-and-disability/champva/',
+        label: 'CHAMPVA benefits',
+      },
+      {
+        href: '#content',
+        label: 'Submit other health insurance',
+      },
+    ],
+    homeVeteransAffairs: true,
+    wrapping: true,
+  }),
   defaultDefinitions: {},
   chapters: {
     formSignature: {
@@ -139,21 +161,21 @@ const formConfig = {
         formSignature: {
           // initialData: mockdata.data,
           path: 'form-signature',
-          title: 'Form signature',
-          ...formSignatureSchema,
+          title: 'Your information',
+          ...certifierRole,
           scrollAndFocusTarget,
         },
         ohiScreen: {
           path: 'champva-screen',
-          ...champvaScreenSchema,
-          title: 'CHAMPVA screen',
+          title: 'Beneficiary’s CHAMPVA benefit status',
+          ...benefitStatus,
           scrollAndFocusTarget,
         },
         benefitApp: {
           path: 'benefit-application',
           title: 'Apply for Benefits',
           depends: formData => !get('champvaBenefitStatus', formData),
-          CustomPage: ApplyForBenefits,
+          CustomPage: NotEnrolledPage,
           CustomPageReview: null,
           uiSchema: {
             'ui:options': {
@@ -165,8 +187,8 @@ const formConfig = {
         },
         signerEmail: {
           path: 'signer-email',
-          title: 'Your email address',
-          ...applicationEmailSchema,
+          title: 'Beneficiary’s email address',
+          ...certifierEmail,
           scrollAndFocusTarget,
         },
       },
@@ -176,45 +198,32 @@ const formConfig = {
       pages: {
         applicantNameDob: {
           path: 'applicant-info',
-          title: formData =>
-            `${
-              formData.certifierRole === 'applicant' ? 'Your' : 'Beneficiary’s'
-            } name`,
-          ...applicantNameDobSchema,
+          title: 'Beneficiary’s name',
+          ...applicantPersonalInformation,
           scrollAndFocusTarget,
         },
         applicantIdentity: {
           path: 'applicant-identification-info',
-          title: formData =>
-            privWrapper(`${fnp(formData)} identification information`),
-          ...applicantSsnSchema,
+          title: 'Beneficiary’s identification information',
+          ...applicantIdentityInformation,
           scrollAndFocusTarget,
         },
         applicantAddressInfo: {
           path: 'applicant-mailing-address',
-          title: formData => privWrapper(`${fnp(formData)} mailing address`),
-          ...applicantAddressInfoSchema,
+          title: 'Beneficiary’s mailing address',
+          ...applicantMailingAddress,
           scrollAndFocusTarget,
         },
-
-        //
-        // TODO: add prefill address page if user authenticated
-        //
-
-        // TODO: have conditional logic to check if third party and app
-        // is under age 18 (contact page)
         applicantContactInfo: {
           path: 'applicant-contact-info',
-          title: formData =>
-            privWrapper(`${fnp(formData)} contact information`),
-          ...applicantContactInfoSchema,
+          title: 'Beneficiary’s contact information',
+          ...applicantContactInformation,
           scrollAndFocusTarget,
         },
         applicantGender: {
           path: 'applicant-gender',
-          title: formData =>
-            privWrapper(`${fnp(formData)} sex listed at birth`),
-          ...applicantGenderSchema,
+          title: 'Beneficiary’s sex listed at birth',
+          ...applicantBirthSex,
           scrollAndFocusTarget,
         },
       },
@@ -224,44 +233,41 @@ const formConfig = {
       pages: {
         hasMedicareAB: {
           path: 'medicare-ab-status',
-          title: formData => privWrapper(`${fnp(formData)} Medicare status`),
-          ...applicantHasMedicareSchema,
+          title: 'Report Medicare plans',
+          ...medicareReportPlans,
           scrollAndFocusTarget,
         },
         medicareClass: {
           path: 'medicare-plan',
-          title: formData => privWrapper(`${fnp(formData)} Medicare coverage`),
+          title: 'Medicare plan types',
           depends: formData => get('applicantMedicareStatus', formData),
-          ...applicantMedicareClassSchema,
+          ...medicarePlanTypes,
           scrollAndFocusTarget,
         },
         pharmacyBenefits: {
           path: 'medicare-pharmacy',
-          title: formData =>
-            privWrapper(`${fnp(formData)} Medicare pharmacy benefits`),
+          title: 'Medicare pharmacy benefits',
           depends: formData =>
+            !formData['view:champvaForm107959cRev2025'] &&
             get('applicantMedicareStatus', formData) &&
             ['advantage', 'other'].includes(
               get('applicantMedicareClass', formData),
             ),
-          ...applicantMedicarePharmacySchema,
+          ...medicarePharmacyBenefits,
           scrollAndFocusTarget,
         },
-        // If 'yes' to previous question:
         partACarrier: {
           path: 'medicare-a-carrier',
-          title: formData =>
-            privWrapper(`${fnp(formData)} Medicare Part A carrier`),
+          title: 'Medicare Part A carrier',
           depends: formData => get('applicantMedicareStatus', formData),
-          ...applicantMedicarePartACarrierSchema,
+          ...medicarePartACarrier,
           scrollAndFocusTarget,
         },
         partBCarrier: {
           path: 'medicare-b-carrier',
-          title: formData =>
-            privWrapper(`${fnp(formData)} Medicare Part B carrier`),
+          title: 'Medicare Part B carrier',
           depends: formData => get('applicantMedicareStatus', formData),
-          ...applicantMedicarePartBCarrierSchema,
+          ...medicarePartBCarrier,
           scrollAndFocusTarget,
         },
         medicareABCards: {
@@ -270,25 +276,23 @@ const formConfig = {
           depends: formData => get('applicantMedicareStatus', formData),
           CustomPage: FileFieldWrapped,
           CustomPageReview: null,
-          ...applicantMedicareABUploadSchema,
+          ...medicareCardUpload,
           scrollAndFocusTarget,
         },
         hasMedicareD: {
           path: 'medicare-d-status',
-          title: formData =>
-            privWrapper(`${fnp(formData)} Medicare Part D status`),
+          title: 'Medicare Part D status',
           depends: formData => get('applicantMedicareStatus', formData),
-          ...applicantHasMedicareDSchema,
+          ...medicarePartDStatus,
           scrollAndFocusTarget,
         },
         partDCarrier: {
           path: 'medicare-d-carrier',
-          title: formData =>
-            privWrapper(`${fnp(formData)} Medicare Part D carrier`),
+          title: 'Medicare Part D carrier',
           depends: formData =>
             get('applicantMedicareStatus', formData) &&
             get('applicantMedicareStatusD', formData),
-          ...applicantMedicarePartDCarrierSchema,
+          ...medicarePartDCarrier,
           scrollAndFocusTarget,
         },
         medicareDCards: {
@@ -300,7 +304,7 @@ const formConfig = {
           CustomPage: FileFieldWrapped,
           CustomPageReview: null,
           customPageUsesPagePerItemData: true,
-          ...applicantMedicareDUploadSchema,
+          ...medicarePartDCardUpload,
           scrollAndFocusTarget,
         },
       },
@@ -308,15 +312,19 @@ const formConfig = {
     healthcareInformation: {
       title: 'Health insurance information',
       pages: {
+        ...healthInsuranceRev2025Pages,
         hasPrimaryHealthInsurance: {
           path: 'insurance-status',
+          depends: formData => !formData[REV2025_TOGGLE_KEY],
           title: formData => privWrapper(`${fnp(formData)} health insurance`),
           ...applicantHasInsuranceSchema(true),
           scrollAndFocusTarget,
         },
         primaryType: {
           path: 'insurance-plan',
-          depends: formData => get('applicantHasPrimary', formData),
+          depends: formData =>
+            !formData[REV2025_TOGGLE_KEY] &&
+            get('applicantHasPrimary', formData),
           title: formData =>
             privWrapper(
               `${fnp(formData)} ${
@@ -329,6 +337,7 @@ const formConfig = {
         primaryMedigap: {
           path: 'insurance-medigap',
           depends: formData =>
+            !formData[REV2025_TOGGLE_KEY] &&
             get('applicantHasPrimary', formData) &&
             get('applicantPrimaryInsuranceType', formData) === 'medigap',
           title: formData =>
@@ -342,7 +351,9 @@ const formConfig = {
         },
         primaryProvider: {
           path: 'insurance-info',
-          depends: formData => get('applicantHasPrimary', formData),
+          depends: formData =>
+            !formData[REV2025_TOGGLE_KEY] &&
+            get('applicantHasPrimary', formData),
           title: formData =>
             privWrapper(`${fnp(formData)} health insurance information`),
           ...applicantProviderSchema(true),
@@ -350,7 +361,9 @@ const formConfig = {
         },
         primaryThroughEmployer: {
           path: 'insurance-type',
-          depends: formData => get('applicantHasPrimary', formData),
+          depends: formData =>
+            !formData[REV2025_TOGGLE_KEY] &&
+            get('applicantHasPrimary', formData),
           title: formData =>
             privWrapper(
               `${fnp(formData)} type of insurance for ${
@@ -362,7 +375,9 @@ const formConfig = {
         },
         primaryPrescription: {
           path: 'insurance-prescription',
-          depends: formData => get('applicantHasPrimary', formData),
+          depends: formData =>
+            !formData[REV2025_TOGGLE_KEY] &&
+            get('applicantHasPrimary', formData),
           title: formData =>
             privWrapper(
               `${fnp(formData)} ${
@@ -375,6 +390,7 @@ const formConfig = {
         primaryEob: {
           path: 'insurance-eob',
           depends: formData =>
+            !formData[REV2025_TOGGLE_KEY] &&
             get('applicantHasPrimary', formData) &&
             get('applicantPrimaryHasPrescription', formData),
           title: formData =>
@@ -389,6 +405,7 @@ const formConfig = {
         primaryScheduleOfBenefits: {
           path: 'insurance-sob',
           depends: formData =>
+            !formData[REV2025_TOGGLE_KEY] &&
             get('applicantHasPrimary', formData) &&
             get('applicantPrimaryHasPrescription', formData) &&
             !get('applicantPrimaryEob', formData),
@@ -405,7 +422,9 @@ const formConfig = {
         },
         primaryCard: {
           path: 'insurance-upload',
-          depends: formData => get('applicantHasPrimary', formData),
+          depends: formData =>
+            !formData[REV2025_TOGGLE_KEY] &&
+            get('applicantHasPrimary', formData),
           title: formData =>
             privWrapper(`${fnp(formData)} health insurance card`),
           CustomPage: FileFieldWrapped,
@@ -415,7 +434,9 @@ const formConfig = {
         },
         primaryComments: {
           path: 'insurance-comments',
-          depends: formData => get('applicantHasPrimary', formData),
+          depends: formData =>
+            !formData[REV2025_TOGGLE_KEY] &&
+            get('applicantHasPrimary', formData),
           title: formData =>
             privWrapper(
               `${fnp(formData)} ${
@@ -427,7 +448,9 @@ const formConfig = {
         },
         hasSecondaryHealthInsurance: {
           path: 'secondary-insurance',
-          depends: formData => get('applicantHasPrimary', formData),
+          depends: formData =>
+            !formData[REV2025_TOGGLE_KEY] &&
+            get('applicantHasPrimary', formData),
           title: formData =>
             privWrapper(`${fnp(formData)} additional health insurance`),
           ...applicantHasInsuranceSchema(false),
@@ -436,6 +459,7 @@ const formConfig = {
         secondaryType: {
           path: 'secondary-insurance-plan',
           depends: formData =>
+            !formData[REV2025_TOGGLE_KEY] &&
             get('applicantHasPrimary', formData) &&
             get('applicantHasSecondary', formData),
           title: formData =>
@@ -450,6 +474,7 @@ const formConfig = {
         secondaryMedigap: {
           path: 'secondary-insurance-medigap',
           depends: formData =>
+            !formData[REV2025_TOGGLE_KEY] &&
             get('applicantHasPrimary', formData) &&
             get('applicantHasSecondary', formData) &&
             get('applicantSecondaryInsuranceType', formData) === 'medigap',
@@ -465,6 +490,7 @@ const formConfig = {
         secondaryProvider: {
           path: 'secondary-insurance-info',
           depends: formData =>
+            !formData[REV2025_TOGGLE_KEY] &&
             get('applicantHasPrimary', formData) &&
             get('applicantHasSecondary', formData),
           title: formData =>
@@ -475,6 +501,7 @@ const formConfig = {
         secondaryThroughEmployer: {
           path: 'secondary-insurance-type',
           depends: formData =>
+            !formData[REV2025_TOGGLE_KEY] &&
             get('applicantHasPrimary', formData) &&
             get('applicantHasSecondary', formData),
           title: formData =>
@@ -489,6 +516,7 @@ const formConfig = {
         secondaryPrescription: {
           path: 'secondary-insurance-prescription',
           depends: formData =>
+            !formData[REV2025_TOGGLE_KEY] &&
             get('applicantHasPrimary', formData) &&
             get('applicantHasSecondary', formData),
           title: formData =>
@@ -503,6 +531,7 @@ const formConfig = {
         secondaryEob: {
           path: 'secondary-insurance-eob',
           depends: formData =>
+            !formData[REV2025_TOGGLE_KEY] &&
             get('applicantHasPrimary', formData) &&
             get('applicantHasSecondary', formData) &&
             get('applicantSecondaryHasPrescription', formData),
@@ -518,6 +547,7 @@ const formConfig = {
         secondaryScheduleOfBenefits: {
           path: 'secondary-insurance-sob',
           depends: formData =>
+            !formData[REV2025_TOGGLE_KEY] &&
             get('applicantHasPrimary', formData) &&
             get('applicantHasSecondary', formData) &&
             get('applicantSecondaryHasPrescription', formData) &&
@@ -536,6 +566,7 @@ const formConfig = {
         secondaryCard: {
           path: 'secondary-insurance-card-upload',
           depends: formData =>
+            !formData[REV2025_TOGGLE_KEY] &&
             get('applicantHasPrimary', formData) &&
             get('applicantHasSecondary', formData),
           title: formData =>
@@ -548,6 +579,7 @@ const formConfig = {
         secondaryComments: {
           path: 'secondary-insurance-comments',
           depends: formData =>
+            !formData[REV2025_TOGGLE_KEY] &&
             get('applicantHasPrimary', formData) &&
             get('applicantHasSecondary', formData),
           title: formData =>
@@ -567,7 +599,8 @@ const formConfig = {
         supportingFilesReview: {
           path: 'supporting-files',
           title: 'Upload your supporting files',
-          depends: formData => showFileOverviewPage(formData),
+          depends: formData =>
+            !formData[REV2025_TOGGLE_KEY] && showFileOverviewPage(formData),
           CustomPage: SupportingDocumentsPage,
           CustomPageReview: null,
           uiSchema: {
@@ -581,7 +614,8 @@ const formConfig = {
         missingFileConsent: {
           path: 'consent-mail',
           title: 'Upload your supporting files',
-          depends: formData => showFileOverviewPage(formData),
+          depends: formData =>
+            !formData[REV2025_TOGGLE_KEY] && showFileOverviewPage(formData),
           CustomPage: MissingFileConsentPage,
           CustomPageReview: null,
           uiSchema: {

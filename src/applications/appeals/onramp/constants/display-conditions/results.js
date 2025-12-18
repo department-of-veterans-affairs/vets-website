@@ -1,6 +1,6 @@
 import { RESPONSES } from '../question-data-map';
 
-const { BOARD, HLR, INIT, NO, SC, YES } = RESPONSES;
+const { BOARD, CFI, HLR, INIT, NO, SC, YES } = RESPONSES;
 
 // Refer to the README in this directory for an explanation of display conditions
 export const resultsDCs = Object.freeze({
@@ -79,9 +79,10 @@ export const resultsDCs = Object.freeze({
     Q_1_1_CLAIM_DECISION: YES,
     Q_1_2_CLAIM_DECISION: YES,
     Q_1_3_CLAIM_CONTESTED: NO,
-    Q_2_0_CLAIM_TYPE: [INIT, SC],
+    Q_2_0_CLAIM_TYPE: [INIT, CFI, SC],
     Q_2_IS_1A_LAW_POLICY_CHANGE: NO,
     Q_2_IS_1B_NEW_EVIDENCE: NO,
+    Q_2_IS_1B_2_JUDGE_HEARING: NO,
     NONE_OF: {
       Q_2_IS_4_DISAGREE_DECISION: YES,
     },
@@ -93,9 +94,10 @@ export const resultsDCs = Object.freeze({
     Q_2_IS_1_SERVICE_CONNECTED: YES,
     Q_2_IS_2_CONDITION_WORSENED: YES,
     Q_2_IS_4_DISAGREE_DECISION: YES,
-    Q_2_0_CLAIM_TYPE: [INIT, SC],
+    Q_2_0_CLAIM_TYPE: [INIT, CFI, SC],
     Q_2_IS_1A_LAW_POLICY_CHANGE: NO,
     Q_2_IS_1B_NEW_EVIDENCE: NO,
+    Q_2_IS_1B_2_JUDGE_HEARING: NO,
   },
   RESULTS_2_S_1A: {
     Q_1_1_CLAIM_DECISION: YES,
@@ -103,7 +105,7 @@ export const resultsDCs = Object.freeze({
       Q_1_2B_LAW_POLICY_CHANGE: YES,
       Q_1_2C_NEW_EVIDENCE: YES,
       Q_2_IS_1A_LAW_POLICY_CHANGE: YES,
-      Q_2_IS_1B_NEW_EVIDENCE: YES,
+      Q_2_IS_1B_3_JUDGE_HEARING: NO,
       Q_2_S_1_NEW_EVIDENCE: YES,
     },
     NONE_OF: {
@@ -128,7 +130,7 @@ export const resultsDCs = Object.freeze({
         Q_2_IS_4_DISAGREE_DECISION: YES,
         ONE_OF: {
           Q_2_IS_1A_LAW_POLICY_CHANGE: YES,
-          Q_2_IS_1B_NEW_EVIDENCE: YES,
+          Q_2_IS_1B_3_JUDGE_HEARING: NO,
           Q_2_S_1_NEW_EVIDENCE: YES,
         },
       },
@@ -160,6 +162,8 @@ export const resultsDCs = Object.freeze({
     ONE_OF: {
       Q_2_H_2A_JUDGE_HEARING: YES,
       Q_2_H_2B_JUDGE_HEARING: YES,
+      Q_2_IS_1B_2_JUDGE_HEARING: YES,
+      Q_2_IS_1B_3_JUDGE_HEARING: YES,
     },
     NONE_OF: {
       Q_2_IS_4_DISAGREE_DECISION: YES,
@@ -172,10 +176,12 @@ export const resultsDCs = Object.freeze({
     Q_2_IS_1_SERVICE_CONNECTED: YES,
     Q_2_IS_2_CONDITION_WORSENED: YES,
     Q_2_IS_4_DISAGREE_DECISION: YES,
-    Q_2_0_CLAIM_TYPE: HLR,
+    Q_2_0_CLAIM_TYPE: [HLR, INIT, CFI, SC],
     ONE_OF: {
       Q_2_H_2A_JUDGE_HEARING: YES,
       Q_2_H_2B_JUDGE_HEARING: YES,
+      Q_2_IS_1B_2_JUDGE_HEARING: YES,
+      Q_2_IS_1B_3_JUDGE_HEARING: YES,
     },
   },
   RESULTS_2_H_2B_2: {

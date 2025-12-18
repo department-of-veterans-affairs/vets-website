@@ -5,6 +5,7 @@ import MarkdownRenderer, {
   recordChatbotEvents,
   getRenderToken,
   getDefaultRenderer,
+  stripMarkdown,
 } from '../../utils/markdownRenderer';
 import { setEventSkillValue } from '../../utils/sessionStorage';
 
@@ -233,6 +234,135 @@ describe('markdownRenderer', () => {
           MarkdownRenderer.render(`[hi](tel:${phoneNumberLink})`),
         ).to.include(`aria-label="${expectedLabel}"`);
       });
+    });
+  });
+
+  describe('stripMarkdown', () => {
+    it('should return empty string for null input', () => {
+      expect(stripMarkdown(null)).to.equal('');
+    });
+
+    it('should return empty string for undefined input', () => {
+      expect(stripMarkdown(undefined)).to.equal('');
+    });
+
+    it('should return empty string for empty string input', () => {
+      expect(stripMarkdown('')).to.equal('');
+    });
+
+    it('should return plain text unchanged', () => {
+      const plainText = 'This is plain text without any markdown';
+      expect(stripMarkdown(plainText)).to.equal(plainText);
+    });
+
+    it('should remove bold markdown (**text**)', () => {
+      expect(stripMarkdown('This is **bold** text')).to.equal(
+        'This is bold text',
+      );
+    });
+
+    it('should remove italic markdown (*text*)', () => {
+      expect(stripMarkdown('This is *italic* text')).to.equal(
+        'This is italic text',
+      );
+    });
+
+    it('should extract link text from markdown links', () => {
+      expect(
+        stripMarkdown('Check out [this link](https://example.com) for more'),
+      ).to.equal('Check out this link for more');
+    });
+
+    it('should remove headers (# ## ###)', () => {
+      expect(stripMarkdown('# Header 1\n\nContent here')).to.include(
+        'Header 1',
+      );
+      expect(stripMarkdown('# Header 1\n\nContent here')).to.include(
+        'Content here',
+      );
+      expect(stripMarkdown('# Header 1\n\nContent here')).to.not.include('#');
+    });
+
+    it('should remove bullet points', () => {
+      expect(stripMarkdown('- Item 1\n- Item 2\n- Item 3')).to.include(
+        'Item 1',
+      );
+      expect(stripMarkdown('- Item 1\n- Item 2\n- Item 3')).to.include(
+        'Item 2',
+      );
+      expect(stripMarkdown('- Item 1\n- Item 2\n- Item 3')).to.not.include('-');
+    });
+
+    it('should remove numbered list markers', () => {
+      expect(stripMarkdown('1. First item\n2. Second item')).to.include(
+        'First item',
+      );
+      expect(stripMarkdown('1. First item\n2. Second item')).to.include(
+        'Second item',
+      );
+      expect(stripMarkdown('1. First item\n2. Second item')).to.not.include(
+        '1.',
+      );
+    });
+
+    it('should handle complex markdown with multiple elements', () => {
+      const markdown =
+        '**Related Information**\n\n- [Link 1](https://example.com/1)\n- [Link 2](https://example.com/2)';
+      const result = stripMarkdown(markdown);
+
+      expect(result).to.include('Related Information');
+      expect(result).to.include('Link 1');
+      expect(result).to.include('Link 2');
+      expect(result).to.not.include('**');
+      expect(result).to.not.include('[Link 1](https://example.com/1)');
+      expect(result).to.not.include('-');
+    });
+
+    it('should clean up extra whitespace', () => {
+      const markdown = 'Text   with    multiple    spaces';
+      const result = stripMarkdown(markdown);
+      expect(result).to.equal('Text with multiple spaces');
+    });
+
+    it('should handle markdown with inline code', () => {
+      expect(stripMarkdown('Use `code` in text')).to.include('code');
+      expect(stripMarkdown('Use `code` in text')).to.not.include('`');
+    });
+
+    it('should handle multiple links in text', () => {
+      const markdown = 'Visit [site1](url1) and [site2](url2) for more info';
+      const result = stripMarkdown(markdown);
+
+      expect(result).to.include('site1');
+      expect(result).to.include('site2');
+      expect(result).to.not.include('[site1](url1)');
+      expect(result).to.not.include('[site2](url2)');
+    });
+
+    it('should handle markdown with mixed formatting', () => {
+      const markdown =
+        '**Bold text** with *italic* and [a link](url) and `code`';
+      const result = stripMarkdown(markdown);
+
+      expect(result).to.include('Bold text');
+      expect(result).to.include('italic');
+      expect(result).to.include('a link');
+      expect(result).to.include('code');
+      expect(result).to.not.include('**');
+      expect(result).to.not.include('*');
+      expect(result).to.not.include('[a link](url)');
+      expect(result).to.not.include('`');
+    });
+
+    it('should preserve text content while removing formatting', () => {
+      const markdown =
+        '**Important**: Please read [this guide](url) carefully.';
+      const result = stripMarkdown(markdown);
+
+      expect(result).to.include('Important');
+      expect(result).to.include('Please read');
+      expect(result).to.include('this guide');
+      expect(result).to.include('carefully');
     });
   });
 });

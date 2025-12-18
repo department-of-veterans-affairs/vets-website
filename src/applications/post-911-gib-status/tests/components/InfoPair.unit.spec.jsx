@@ -38,4 +38,14 @@ describe('<InfoPair>', () => {
     const tree = SkinDeep.shallowRender(<InfoPair {...props} />);
     expect(tree.subTree('span')).to.be.false;
   });
+
+  it('should render if value is 0 when displayIfZero is true', () => {
+    const props = {
+      label: 'Item',
+      value: 0,
+      displayIfZero: true,
+    };
+    const tree = SkinDeep.shallowRender(<InfoPair {...props} />);
+    expect(tree.subTree('span')).to.not.be.false;
+  });
 });

@@ -14,6 +14,7 @@ import PrivacyPolicy from '../containers/PrivacyPolicy';
 
 import {
   allProprietaryProfitConflictsArrayOptions,
+  ProprietaryProfitAdditionalInfo,
   proprietaryProfitConflictsArrayOptions,
 } from '../helpers';
 
@@ -159,6 +160,11 @@ const formConfig = {
     },
     allProprietaryProfitChapter: {
       title: 'All proprietary schools',
+      reviewDescription: () => (
+        <div className="vads-u-margin-bottom--4">
+          <ProprietaryProfitAdditionalInfo />
+        </div>
+      ),
       pages: {
         ...arrayBuilderPages(
           allProprietaryProfitConflictsArrayOptions,

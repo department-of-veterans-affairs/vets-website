@@ -15,7 +15,7 @@ describe('Mailing Address Page', () => {
       <DefinitionTester schema={schema} uiSchema={uiSchema} data={{}} />,
     );
     const formDOM = getFormDOM(form);
-    expect(form.getByRole('heading')).to.have.text('Your mailing address');
+    expect(form.getByRole('heading')).to.have.text('Mailing address');
 
     const vaTextInputs = $$('va-text-input', formDOM);
     const vaSelects = $$('va-select', formDOM);

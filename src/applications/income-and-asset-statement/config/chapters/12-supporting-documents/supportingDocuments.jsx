@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+import { showUpdatedContent } from '../../../helpers';
 
 const Documents = ({ formData }) => {
   const hasFarm = formData?.ownedAssets?.some(
@@ -107,6 +108,7 @@ Documents.propTypes = {
 export default {
   title: 'Supporting documents',
   path: 'additional-information/supporting-documents',
+  depends: () => !showUpdatedContent(),
   uiSchema: {
     ...titleUI('Supporting documents'),
     'ui:description': Documents,

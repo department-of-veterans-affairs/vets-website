@@ -40,7 +40,7 @@ const MyEligibilityAndBenefits = () => {
 
   if (!showEligibilityPage) {
     return (
-      <div className="row">
+      <div>
         <div className="usa-width-two-thirds vads-u-margin-top--0p5 vads-u-margin-x--1 medium-screen:vads-u-margin-x--0">
           <h1>Your VR&E eligibility and benefits</h1>
           <p className="vads-u-color--gray-medium">
@@ -53,7 +53,7 @@ const MyEligibilityAndBenefits = () => {
 
   if (loading) {
     return (
-      <div className="row">
+      <div>
         <div className="usa-width-two-thirds vads-u-margin-bottom--4 vads-u-margin-top--0p5 vads-u-margin-x--1 medium-screen:vads-u-margin-x--0 ">
           <h1>Your VR&E eligibility and benefits</h1>
           <va-loading-indicator
@@ -66,7 +66,7 @@ const MyEligibilityAndBenefits = () => {
   }
   if (error) {
     return (
-      <div className="row">
+      <div>
         <div className="usa-width-two-thirds vads-u-margin-bottom--4 vads-u-margin-top--0p5 vads-u-margin-x--1 medium-screen:vads-u-margin-x--0 ">
           <h1>Your VR&E eligibility and benefits</h1>
           <va-alert status="error" visible class="vads-u-margin-y--4">
@@ -115,7 +115,7 @@ const MyEligibilityAndBenefits = () => {
   const isIneligible = recommendation === 'ineligible';
 
   return (
-    <div className="row ">
+    <div>
       <div className="usa-width-two-thirds vads-u-margin-bottom--4 vads-u-margin-top--0p5 vads-u-margin-x--1 medium-screen:vads-u-margin-x--0 ">
         <h1>Your VR&E eligibility and benefits</h1>
 

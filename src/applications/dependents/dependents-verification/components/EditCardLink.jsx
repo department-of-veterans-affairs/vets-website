@@ -4,6 +4,17 @@ import { VaLink } from '@department-of-veterans-affairs/component-library/dist/r
 
 import { contactInfoXref } from '../util/contact-info';
 
+/**
+ * Edit card link component
+ * @typedef {object} EditCardLinkProps
+ * @property {string} value - current value
+ * @property {string} name - contact information field name
+ * @property {string} type - contact information type
+ * @property {function} onClick - click handler
+ *
+ * @param {EditCardLinkProps} props - Component props
+ * @returns {React.Component} - Edit card link component
+ */
 const EditCardLink = ({ value, name, type, onClick }) => {
   const { label, path } = contactInfoXref[name] || {};
   return (

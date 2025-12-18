@@ -461,7 +461,7 @@ const formConfig = {
               Transportation allowance
             </span>
           ),
-          path: 'benefits/transportation-allowance',
+          path: 'benefits/transportation-reimbursement',
           depends: form => get('view:claimedBenefits.transportation', form),
           uiSchema: transportationExpenses.uiSchema,
           schema: transportationExpenses.schema,

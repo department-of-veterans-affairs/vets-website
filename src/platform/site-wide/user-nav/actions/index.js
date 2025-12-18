@@ -17,10 +17,7 @@ export function toggleLoginModal(
   forceVerification = false,
 ) {
   return async (dispatch, getState) => {
-    const {
-      signInServiceEnabled,
-      cernerNonEligibleSisEnabled,
-    } = getState()?.featureToggles;
+    const { loading, cernerNonEligibleSisEnabled } = getState()?.featureToggles;
 
     const nextParam = new URLSearchParams(window?.location?.search)?.get(
       'next',
@@ -29,11 +26,17 @@ export function toggleLoginModal(
       cernerNonEligibleSisEnabled,
     );
 
+    const savedModalOpen =
+      typeof loading === 'undefined' &&
+      typeof cernerNonEligibleSisEnabled === 'undefined' &&
+      nextParam;
+
+    const oauth = savedModalOpen ? true : authBrokerCookieSelector;
+
     const nextQuery = {
       next: nextParam ?? 'loginModal',
-      ...(signInServiceEnabled && { oauth: true }),
+      oauth,
       ...(forceVerification && { verification: 'required' }),
-      ...(authBrokerCookieSelector && { oauth: true }),
     };
 
     const url = isOpen

@@ -24,7 +24,8 @@ describe('Retirement Pay', () => {
       />,
     );
 
-    expect(form.find('input[type="radio"]').length).to.equal(2);
+    expect(form.find('VaRadio').length).to.equal(1);
+    expect(form.find('va-radio-option').length).to.equal(2);
     form.unmount();
   });
 

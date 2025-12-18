@@ -64,11 +64,16 @@ describe('Herbicide Other Locations', () => {
     );
   });
 
-  it('should submit without dates', () => {
+  /*
+  * TODO: We currently validate against partial dates on the frontend.
+  * Future consideration: allow Veterans to submit with completely blank or partial dates.
+  * @see https://github.com/department-of-veterans-affairs/va.gov-team/issues/120119#issuecomment-3482733324
+  */
+  it('should not submit without dates', () => {
     pageSubmitTest(
       formConfig.chapters.disabilities.pages.herbicideOtherLocations,
       formData,
-      true,
+      false,
     );
   });
 
@@ -84,7 +89,137 @@ describe('Herbicide Other Locations', () => {
     );
   });
 
+  /*
+   * Edge case validations for toxic exposure dates.
+   * TODO: We currently validate against partial dates on the frontend.
+   * Future consideration: allow Veterans to submit with completely blank or partial dates.
+   * @see https://github.com/department-of-veterans-affairs/va.gov-team/issues/120119#issuecomment-3482733324
+   */
   describe('date validation', () => {
+    it('should not submit with incomplete start date (missing month)', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.otherHerbicideLocations.startDate = '1975-XX-15';
+      data.toxicExposure.otherHerbicideLocations.endDate = '1976-06-30';
+
+      pageSubmitTest(
+        formConfig.chapters.disabilities.pages.herbicideOtherLocations,
+        data,
+        false,
+      );
+    });
+
+    it('should not submit with incomplete start date (missing day)', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.otherHerbicideLocations.startDate = '1975-04-XX';
+      data.toxicExposure.otherHerbicideLocations.endDate = '1976-06-30';
+
+      pageSubmitTest(
+        formConfig.chapters.disabilities.pages.herbicideOtherLocations,
+        data,
+        false,
+      );
+    });
+
+    it('should not submit with incomplete start date (missing year)', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.otherHerbicideLocations.startDate = 'XXXX-04-15';
+      data.toxicExposure.otherHerbicideLocations.endDate = '1976-06-30';
+
+      pageSubmitTest(
+        formConfig.chapters.disabilities.pages.herbicideOtherLocations,
+        data,
+        false,
+      );
+    });
+
+    it('should not submit with incomplete end date (missing month)', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.otherHerbicideLocations.startDate = '1975-04-15';
+      data.toxicExposure.otherHerbicideLocations.endDate = '1976-XX-30';
+
+      pageSubmitTest(
+        formConfig.chapters.disabilities.pages.herbicideOtherLocations,
+        data,
+        false,
+      );
+    });
+
+    it('should not submit with incomplete end date (missing day)', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.otherHerbicideLocations.startDate = '1975-04-15';
+      data.toxicExposure.otherHerbicideLocations.endDate = '1976-06-XX';
+
+      pageSubmitTest(
+        formConfig.chapters.disabilities.pages.herbicideOtherLocations,
+        data,
+        false,
+      );
+    });
+
+    it('should not submit with incomplete end date (missing year)', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.otherHerbicideLocations.startDate = '1975-04-15';
+      data.toxicExposure.otherHerbicideLocations.endDate = 'XXXX-06-30';
+
+      pageSubmitTest(
+        formConfig.chapters.disabilities.pages.herbicideOtherLocations,
+        data,
+        false,
+      );
+    });
+
+    it('should not submit when end date is before start date', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.otherHerbicideLocations.startDate = '1976-04-15';
+      data.toxicExposure.otherHerbicideLocations.endDate = '1975-06-30';
+
+      pageSubmitTest(
+        formConfig.chapters.disabilities.pages.herbicideOtherLocations,
+        data,
+        false,
+      );
+    });
+
+    it('should not submit with only start date', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.otherHerbicideLocations.startDate = '1975-04-15';
+
+      pageSubmitTest(
+        formConfig.chapters.disabilities.pages.herbicideOtherLocations,
+        data,
+        false,
+      );
+    });
+
+    it('should not submit with only end date', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.otherHerbicideLocations.endDate = '1976-06-30';
+
+      pageSubmitTest(
+        formConfig.chapters.disabilities.pages.herbicideOtherLocations,
+        data,
+        false,
+      );
+    });
+
+    it('should submit with current date for startDate', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      data.toxicExposure.otherHerbicideLocations.startDate = format(
+        subYears(new Date(), 1),
+        'yyyy-MM-dd',
+      );
+      data.toxicExposure.otherHerbicideLocations.endDate = format(
+        new Date(),
+        'yyyy-MM-dd',
+      );
+
+      pageSubmitTest(
+        formConfig.chapters.disabilities.pages.herbicideOtherLocations,
+        data,
+        true,
+      );
+    });
+
     it('should accept past date for startDate', () => {
       const data = JSON.parse(JSON.stringify(formData));
       data.toxicExposure.otherHerbicideLocations.startDate = format(
@@ -250,6 +385,19 @@ describe('Herbicide Other Locations', () => {
         formConfig.chapters.disabilities.pages.herbicideOtherLocations,
         data,
         true,
+      );
+    });
+
+    it('should not submit with equal start and end dates', () => {
+      const data = JSON.parse(JSON.stringify(formData));
+      const sameDate = format(subYears(new Date(), 1), 'yyyy-MM-dd');
+      data.toxicExposure.otherHerbicideLocations.startDate = sameDate;
+      data.toxicExposure.otherHerbicideLocations.endDate = sameDate;
+
+      pageSubmitTest(
+        formConfig.chapters.disabilities.pages.herbicideOtherLocations,
+        data,
+        false,
       );
     });
 

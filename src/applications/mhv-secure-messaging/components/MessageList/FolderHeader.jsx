@@ -11,6 +11,8 @@ import {
   DowntimeNotification,
   externalServices,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
+import CernerFacilityAlert from 'platform/mhv/components/CernerFacilityAlert/CernerFacilityAlert';
+import { CernerAlertContent } from 'platform/mhv/components/CernerFacilityAlert/constants';
 import {
   BlockedTriageAlertStyles,
   DefaultFolders as Folders,
@@ -18,13 +20,15 @@ import {
   downtimeNotificationParams,
 } from '../../util/constants';
 import { handleHeader, getPageTitle } from '../../util/helpers';
+import { submitLaunchMyVaHealthAal } from '../../api/SmApi';
 import ManageFolderButtons from '../ManageFolderButtons';
 import SearchForm from '../Search/SearchForm';
 import ComposeMessageButton from '../MessageActionButtons/ComposeMessageButton';
-import CernerFacilityAlert from './CernerFacilityAlert';
 import BlockedTriageGroupAlert from '../shared/BlockedTriageGroupAlert';
 import CernerTransitioningFacilityAlert from '../Alerts/CernerTransitioningFacilityAlert';
 import InnerNavigation from '../InnerNavigation';
+import useFeatureToggles from '../../hooks/useFeatureToggles';
+import OracleHealthMessagingIssuesAlert from '../shared/OracleHealthMessagingIssuesAlert';
 
 const FolderHeader = props => {
   const { folder, searchProps, threadCount } = props;
@@ -35,9 +39,17 @@ const FolderHeader = props => {
 
   const drupalCernerFacilities = useSelector(selectCernerFacilities);
 
-  const { noAssociations, allTriageGroupsBlocked } = useSelector(
-    state => state.sm.recipients,
-  );
+  const {
+    noAssociations,
+    allTriageGroupsBlocked,
+    error: recipientsError,
+  } = useSelector(state => state.sm.recipients);
+
+  const {
+    cernerPilotSmFeatureFlag,
+    mhvSecureMessagingCernerPilotSystemMaintenanceBannerFlag,
+    isAalEnabled,
+  } = useFeatureToggles();
 
   const cernerFacilities = useMemo(
     () => {
@@ -97,6 +109,55 @@ const FolderHeader = props => {
 
   const { folderName, ddTitle, ddPrivacy } = handleHeader(folder);
 
+  const handleMyVaHealthLinkClick = useCallback(
+    () => {
+      if (isAalEnabled) {
+        submitLaunchMyVaHealthAal();
+      }
+    },
+    [isAalEnabled],
+  );
+
+  const RecipientListErrorAlert = () => {
+    return (
+      <va-alert status="warning" data-testid="recipients-error-alert">
+        <h2 slot="headline">We can’t load your care team list right now</h2>
+        <p>
+          We’re sorry. Something went wrong on our end. Please refresh this page
+          or try again later.
+        </p>
+      </va-alert>
+    );
+  };
+  const OracleHealthMessagingAlert = useCallback(
+    () => {
+      if (
+        cernerPilotSmFeatureFlag &&
+        mhvSecureMessagingCernerPilotSystemMaintenanceBannerFlag
+      )
+        return <OracleHealthMessagingIssuesAlert />;
+      if (
+        folder.folderId === Folders.INBOX.id &&
+        cernerFacilities?.length > 0
+      ) {
+        return (
+          <CernerFacilityAlert
+            {...CernerAlertContent.SECURE_MESSAGING}
+            className="vads-u-margin-bottom--3 vads-u-margin-top--2"
+            onLinkClick={handleMyVaHealthLinkClick}
+          />
+        );
+      }
+      return null;
+    },
+    [
+      cernerPilotSmFeatureFlag,
+      mhvSecureMessagingCernerPilotSystemMaintenanceBannerFlag,
+      folder.folderId,
+      cernerFacilities,
+    ],
+  );
+
   return (
     <>
       <h1
@@ -119,11 +180,7 @@ const FolderHeader = props => {
       {folder.folderId === Folders.INBOX.id && (
         <CernerTransitioningFacilityAlert />
       )}
-
-      {folder.folderId === Folders.INBOX.id &&
-        cernerFacilities?.length > 0 && (
-          <CernerFacilityAlert cernerFacilities={cernerFacilities} />
-        )}
+      <OracleHealthMessagingAlert />
 
       <>
         {folder.folderId === Folders.INBOX.id &&
@@ -139,8 +196,9 @@ const FolderHeader = props => {
           )}
 
         <>{handleFolderDescription()}</>
+        {recipientsError && <RecipientListErrorAlert />}
         {showInnerNav &&
-          (!noAssociations && !allTriageGroupsBlocked) && (
+          (!noAssociations && !allTriageGroupsBlocked && !recipientsError) && (
             <ComposeMessageButton />
           )}
 

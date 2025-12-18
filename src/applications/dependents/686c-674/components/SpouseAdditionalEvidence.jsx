@@ -2,6 +2,10 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { spouseEvidence } from '../config/utilities';
 
+/**
+ * Renders spouse additional evidence content
+ * @returns {React.ReactElement} Spouse additional evidence content
+ */
 export const SpouseAdditionalEvidence = () => {
   const formData = useSelector(state => {
     return state?.form?.data || {};

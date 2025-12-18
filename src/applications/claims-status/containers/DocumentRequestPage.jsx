@@ -36,7 +36,7 @@ class DocumentRequestPage extends React.Component {
     if (!this.props.loading) {
       setUpPage(true, 'h1');
     } else {
-      scrollToTop();
+      scrollToTop({ behavior: 'instant' });
     }
   }
 
@@ -71,6 +71,7 @@ class DocumentRequestPage extends React.Component {
     const {
       message,
       type1UnknownErrors,
+      timezoneMitigationEnabled,
       showDocumentUploadStatus,
     } = this.props;
     return (
@@ -85,6 +86,7 @@ class DocumentRequestPage extends React.Component {
               this.props.trackedItem,
               files,
               showDocumentUploadStatus,
+              timezoneMitigationEnabled,
             )
           }
           progress={this.props.progress}
@@ -208,6 +210,8 @@ function mapStateToProps(state, ownProps) {
     uploadComplete: uploads.uploadComplete,
     uploadError: uploads.uploadError,
     uploading: uploads.uploading,
+    timezoneMitigationEnabled:
+      state.featureToggles?.cst_timezone_discrepancy_mitigation || false,
   };
 }
 
@@ -239,6 +243,7 @@ DocumentRequestPage.propTypes = {
   resetUploads: PropTypes.func,
   showDocumentUploadStatus: PropTypes.bool,
   submitFiles: PropTypes.func,
+  timezoneMitigationEnabled: PropTypes.bool,
   trackedItem: PropTypes.object,
   type1UnknownErrors: PropTypes.array,
   uploadComplete: PropTypes.bool,

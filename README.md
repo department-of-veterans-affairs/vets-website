@@ -2,22 +2,25 @@
 
 ## Table of Contents
 
-- [What is this?](#what-is-this)
-- [Common commands](#common-commands)
-- [Building `vets-website`](#building-vets-website)
-  - [Building applications](#building-applications)
-  - [Building static content](#building-static-content)
-  - [Building both together](#building-both-together)
-- [Working in GitHub Codespaces](#working-in-github-codespaces)
-- [Running tests](#running-tests)
-  - [Unit tests](#unit-tests)
-  - [End-to-end (E2E) / Browser tests](#end-to-end-e2e--browser-tests)
-- [Changing Virtual Agent backend URL](#changing-virtual-agent-backend-url)
-- [Running a mock API for local development](#running-a-mock-api-for-local-development)
-- [More commands](#more-commands)
-- [Supported Browsers](#supported-browsers)
-- [API Keys](#api-keys)
-- [Additional Resources](#additional-resources)
+- [VA.gov ](#vagov-)
+  - [Table of Contents](#table-of-contents)
+  - [What is this?](#what-is-this)
+  - [Common commands](#common-commands)
+  - [Building `vets-website`](#building-vets-website)
+    - [Building applications](#building-applications)
+    - [Building static content](#building-static-content)
+    - [Building both together](#building-both-together)
+  - [Working in GitHub Codespaces](#working-in-github-codespaces)
+  - [Running tests](#running-tests)
+    - [Unit tests](#unit-tests)
+    - [End-to-end (E2E) / Browser tests](#end-to-end-e2e--browser-tests)
+    - [Debugging Node 22 CI failures](#debugging-node-22-ci-failures)
+  - [Running a mock API for local development](#running-a-mock-api-for-local-development)
+  - [More commands](#more-commands)
+  - [Supported Browsers](#supported-browsers)
+  - [API Keys](#api-keys)
+  - [Additional Resources](#additional-resources)
+  - [Not a member of the repository and want to be added?](#not-a-member-of-the-repository-and-want-to-be-added)
 
 ## What is this?
 
@@ -29,12 +32,12 @@ There are several repositories that contain the code and content used to build V
 
 Once you have the site set up locally, these are some common commands you might find useful:
 
-| I want to...               | Then you should...                                       |
-| :------------------------- | :------------------------------------------------------- |
-| fetch all dependencies     | `yarn install`; run this any time `package.json` changes |
-| build applications         | `yarn build`                                             |
-| run the webpack dev server | `yarn watch`                                             |
-| build in codespaces        | `yarn build:codespaces`. Build with codespace options    |
+| I want to...               | Then you should...                                            |
+| :------------------------- | :------------------------------------------------------------ |
+| fetch all dependencies     | `yarn install-safe`; run this any time `package.json` changes |
+| build applications         | `yarn build`                                                  |
+| run the webpack dev server | `yarn watch`                                                  |
+| build in codespaces        | `yarn build:codespaces`. Build with codespace options         |
 
 ## Building `vets-website`
 
@@ -218,6 +221,48 @@ Examples:
 Afterward, check `/mochawesome-report` contents.
 
 **For other options with `yarn cy:run`,** [the same options for `cypress run` are applicable](https://docs.cypress.io/guides/guides/command-line.html#Commands).
+
+### Debugging Node 22 CI failures
+
+If your PR passes tests locally but fails the Node 22 compatibility check in CI, you can reproduce the issue locally:
+
+```sh
+# Switch to Node 22
+nvm use 22
+# OR install if you don't have it
+nvm install 22 && nvm use 22
+
+# Create a temporary branch from the Node 22 test branch
+git checkout -b temp-test-node22 origin/node-22-bug-bash-testing
+
+# Merge your feature branch into it (this replicates what CI does)
+git merge your-feature-branch
+
+# Install dependencies
+yarn install-safe
+
+# Run the failing test
+yarn test:unit path/to/failing/test.unit.spec.jsx
+
+# Make fixes to the test file(s) until tests pass
+
+# Switch back to your feature branch
+git checkout your-feature-branch
+
+# Switch back to Node 14 for normal development
+nvm use 14
+
+# Apply the fixes (cherry-pick the commit or manually copy changes)
+git cherry-pick <commit-hash-of-fix>
+
+# Push your feature branch with the fixes
+git push origin your-feature-branch
+
+# Clean up temporary branch (optional)
+git branch -D temp-test-node22
+```
+
+**Note:** The Node 22 branch uses happy-dom instead of jsdom, which can cause different behavior in tests, particularly with sessionStorage, web components, and async operations.
 
 ## Running a mock API for local development
 

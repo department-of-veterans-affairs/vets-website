@@ -28,10 +28,8 @@ const DisputeDebtLink = () => {
       <h3>Overpayment debts</h3>
       <p>
         You’ll need to submit a written statement explaining why you think the
-        debt is incorrect. The time limit to dispute a debt is{' '}
-        <strong>1 year</strong> from the date you received your first debt
-        letter. If you dispute the debt within <strong>30 days</strong>, you can
-        avoid collection actions.
+        debt is incorrect. If you dispute the debt within{' '}
+        <strong>30 days</strong>, you can avoid collection actions.
       </p>
       {disputeDebtEnabled ? (
         <>

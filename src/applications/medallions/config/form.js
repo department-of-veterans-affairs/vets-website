@@ -3,11 +3,12 @@ import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { personalInformationPage } from 'platform/forms-system/src/js/components/PersonalInformation';
 import get from 'platform/utilities/data/get';
-import { TITLE, SUBTITLE } from '../constants';
+import { TITLE, SUBTITLE } from '../constants.js';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../containers/GetFormHelp';
+import prefillTransformer from './prefill-transformer';
 
 import veteranName from '../pages/veteranName';
 import veteranInfo1 from '../pages/veteranInfo1';
@@ -15,7 +16,6 @@ import veteranInfo2 from '../pages/veteranInfo2';
 import applicantName from '../pages/applicantName';
 import veteranDemographics1 from '../pages/veteranDemographics1';
 import veteranDemographics2 from '../pages/veteranDemographics2';
-import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
 import applicantRelationToVet from '../pages/applicantRelationToVet';
 import applicantRelationToVetOrg from '../pages/applicantRelationToVetOrg';
 import applicantRelationToVetOrg2 from '../pages/applicantRelationToVetOrg2';
@@ -23,17 +23,25 @@ import applicantContactInfo from '../pages/applicantContactInfo';
 import applicantContactInfo2 from '../pages/applicantContactInfo2';
 import applicantMailingAddress from '../pages/applicantMailingAddress';
 import applicantMailingAddress2 from '../pages/applicantMailingAddress2';
+import burialLocation from '../pages/burialLocation';
+import headstoneOrMarker from '../pages/headstoneOrMarker';
+import cemeteryName from '../pages/cemeteryName';
+import cemeteryContactInfo from '../pages/cemeteryContactInfo';
+import applicantMailingAddressEdit from '../pages/applicantMailingAddressEdit';
+import ApplicantMailingAddressLoggedIn from '../pages/applicantMailingAddressLoggedIn';
+import ApplicantSuggestedAddressLoggedIn from '../pages/applicantSuggestedAddressLoggedIn';
 import supportingDocuments from '../pages/supportingDocuments';
 import supportingDocumentsUpload from '../pages/supportingDocumentsUpload';
 import typeOfRequest from '../pages/typeOfRequest';
 import replacementMedallionReason from '../pages/replacementMedallionReason';
-import typeOfMedallion from '../pages/typeOfMedallion.jsx';
+import typeOfMedallion from '../pages/typeOfMedallion';
 import medallionSize from '../pages/medallionSize';
 import {
   ApplicantNameHeader,
   ApplicantNameNote,
   isUserSignedIn,
 } from '../utils/helpers';
+import { servicePeriodsPages } from '../pages/servicePeriodsPages';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -51,14 +59,17 @@ const formConfig = {
   },
   formId: VA_FORM_IDS.FORM_1330M,
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your Memorials benefits application (1330M) is in progress.',
-    //   expired: 'Your saved Memorials benefits application (1330M) has expired. If you want to apply for Memorials benefits, please start a new application.',
-    //   saved: 'Your Memorials benefits application has been saved.',
-    // },
+    messages: {
+      inProgress: 'Your Memorials benefits application (1330M) is in progress.',
+      expired:
+        'Your saved Memorials benefits application (1330M) has expired. If you want to apply for Memorials benefits, please start a new application.',
+      saved: 'Your Memorials benefits application has been saved.',
+    },
   },
   version: 0,
   prefillEnabled: true,
+  verifyRequiredPrefill: false,
+  prefillTransformer,
   savedFormMessages: {
     notFound: 'Please start over to apply for Memorials benefits.',
     noAuth:
@@ -86,6 +97,8 @@ const formConfig = {
           header: <ApplicantNameHeader />,
           note: <ApplicantNameNote />,
           depends: formData => isUserSignedIn(formData),
+          hideOnReview: false,
+          background: true,
         }),
         applicantName: {
           path: 'applicant-name',
@@ -145,11 +158,45 @@ const formConfig = {
           depends: formData =>
             ['familyMember', 'personalRep', 'other'].includes(
               formData.relationToVetRadio,
-            ),
+            ) && !isUserSignedIn(formData),
+        },
+        applicantMailingAddressLoggedIn: {
+          title: 'Your mailing address',
+          path: 'applicant-mailing-address-logged-in',
+          depends: formData =>
+            ['familyMember', 'personalRep', 'other'].includes(
+              formData.relationToVetRadio,
+            ) && isUserSignedIn(formData),
+          CustomPage: ApplicantMailingAddressLoggedIn,
+          CustomPageReview: ApplicantMailingAddressLoggedIn,
+          uiSchema: {},
+          schema: {
+            type: 'object',
+            properties: {},
+          },
+        },
+        editMailingAddress: {
+          title: 'Edit your mailing address',
+          path: 'applicant-mailing-address-logged-in/edit-address',
+          depends: formData => formData?.['view:loggedInEditAddress'] === true,
+          uiSchema: applicantMailingAddressEdit.uiSchema,
+          schema: applicantMailingAddressEdit.schema,
+        },
+        applicantSuggestedAddressLoggedIn: {
+          title: 'Validate Address',
+          path: 'applicant-suggested-address-logged-in',
+          depends: formData => formData?.['view:loggedInEditAddress'] === true,
+          CustomPage: ApplicantSuggestedAddressLoggedIn,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: {
+            type: 'object',
+            properties: {},
+          },
         },
         applicantMailingAddress2: {
           path: 'applicant-mailing-address-2',
-          title: 'Your organization’s mailing address ',
+          title: 'Your organization’s mailing address',
           uiSchema: applicantMailingAddress2.uiSchema,
           schema: applicantMailingAddress2.schema,
           depends: formData =>
@@ -195,25 +242,44 @@ const formConfig = {
         },
       },
     },
-    veteranServicePeriods: {
+    servicePeriods: {
       title: 'Veteran service periods',
-      pages: {
-        phoneAndEmailAddress: {
-          path: 'phone-and-email-address',
-          title: 'Phone and email address',
-          uiSchema: phoneAndEmailAddress.uiSchema,
-          schema: phoneAndEmailAddress.schema,
-        },
-      },
+      pages: servicePeriodsPages,
     },
     burialInformation: {
       title: 'Burial information',
       pages: {
-        phoneAndEmailAddress: {
-          path: 'phone-and-email-address-2',
-          title: 'Phone and email address',
-          uiSchema: phoneAndEmailAddress.uiSchema,
-          schema: phoneAndEmailAddress.schema,
+        burialLocation: {
+          path: 'burial-location',
+          title: 'Burial location',
+          uiSchema: burialLocation.uiSchema,
+          schema: burialLocation.schema,
+        },
+        headstoneOrMarker: {
+          path: 'headstone-or-marker',
+          title: 'Headstone or marker',
+          uiSchema: headstoneOrMarker.uiSchema,
+          schema: headstoneOrMarker.schema,
+        },
+        cemeteryName: {
+          path: 'cemetery-name',
+          title: 'Cemetery name',
+          uiSchema: cemeteryName.uiSchema,
+          schema: cemeteryName.schema,
+          depends: formData =>
+            !['repOfCemetery', 'repOfFuneralHome'].includes(
+              formData.relationToVetRadio,
+            ),
+        },
+        cemeteryContactInfo: {
+          path: 'cemetery-contact-info',
+          title: 'Cemetery contact information',
+          uiSchema: cemeteryContactInfo.uiSchema,
+          schema: cemeteryContactInfo.schema,
+          depends: formData =>
+            !['repOfCemetery', 'repOfFuneralHome'].includes(
+              formData.relationToVetRadio,
+            ),
         },
       },
     },

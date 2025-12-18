@@ -6,7 +6,7 @@
 
 import { z } from 'zod';
 
-import { VALIDATION_MESSAGES } from '../regex-patterns';
+import { VALIDATION_MESSAGES } from '../../utils/validators';
 
 /**
  * @typedef {Object} ContactInfo

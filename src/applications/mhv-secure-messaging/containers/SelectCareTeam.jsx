@@ -36,6 +36,7 @@ const SelectCareTeam = () => {
     allTriageGroupsBlocked,
     allowedRecipients,
     vistaFacilities,
+    error: recipientsError,
   } = useSelector(state => state.sm.recipients);
   const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
   const { draftInProgress, acceptInterstitial } = useSelector(
@@ -57,6 +58,15 @@ const SelectCareTeam = () => {
   const MAX_RADIO_OPTIONS = 6;
 
   const h1Ref = useRef(null);
+
+  useEffect(
+    () => {
+      if (recipientsError || noAssociations) {
+        history.push(Paths.INBOX);
+      }
+    },
+    [recipientsError, noAssociations, history],
+  );
 
   useEffect(
     () => {
@@ -92,6 +102,9 @@ const SelectCareTeam = () => {
           setCareTeamError('');
           dispatch(
             updateDraftInProgress({
+              careSystemVhaId: recipient.stationNumber,
+              careSystemName:
+                ehrDataByVhaId[recipient.stationNumber]?.vamcSystemName,
               recipientId: recipient.id,
               recipientName: recipient.suggestedNameDisplay || recipient.name,
               ohTriageGroup: recipient.ohTriageGroup,
@@ -134,6 +147,7 @@ const SelectCareTeam = () => {
       draftInProgress?.body,
       draftInProgress?.subject,
       draftInProgress?.category,
+      draftInProgress?.careSystemVhaId,
     ],
   );
 
@@ -376,6 +390,7 @@ const SelectCareTeam = () => {
                 name="va-health-care-system"
                 tile
                 value={facility}
+                checked={draftInProgress?.careSystemVhaId === facility}
                 radioOptionSelected={draftInProgress?.careSystemVhaId || ''}
               />
             </>

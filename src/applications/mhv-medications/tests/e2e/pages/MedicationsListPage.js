@@ -1,6 +1,7 @@
 import { addSeconds, format } from 'date-fns';
 import prescriptions from '../fixtures/listOfPrescriptions.json';
 import allergies from '../fixtures/allergies.json';
+import acceleratedAllergies from '../fixtures/accelerated-allergies.json';
 import allergiesList from '../fixtures/allergies-list.json';
 import tooltip from '../fixtures/tooltip-for-filtering-list-page.json';
 import { Paths } from '../utils/constants';
@@ -32,6 +33,11 @@ class MedicationsListPage {
       '/my_health/v1/medical_records/allergies',
       allergies,
     ).as('allergies');
+    cy.intercept(
+      'GET',
+      '/my_health/v2/medical_records/allergies',
+      acceleratedAllergies,
+    ).as('acceleratedAllergies');
     cy.intercept('GET', Paths.MED_LIST, prescriptions).as('medicationsList');
     cy.intercept(
       'GET',
@@ -192,16 +198,14 @@ class MedicationsListPage {
   };
 
   verifyLearnHowToRenewPrescriptionsLinkExists = () => {
-    cy.get('[data-testid="learn-to-renew-precsriptions-link"]').should('exist');
+    cy.get('[data-testid="send-renewal-request-message-link"]').should('exist');
   };
 
   verifyLearnHowToRenewPrescriptionsLink = () => {
-    cy.get('[data-testid="learn-to-renew-precsriptions-link"]');
-    cy.get('[data-testid="learn-to-renew-precsriptions-link"]')
-
+    cy.get('[data-testid="send-renewal-request-message-link"]')
       .shadow()
-      .find(`[href="/resources/how-to-renew-a-va-prescription"]`)
-      .should('be.visible');
+      .find(`a`)
+      .should('contain', 'Send a renewal request message');
   };
 
   clickPrintOrDownloadThisListDropDown = () => {
@@ -379,7 +383,7 @@ class MedicationsListPage {
 
   verifyInformationBasedOnStatusActiveParked = () => {
     cy.get(
-      '[data-testid="medication-list"] > :nth-child(11) > [data-testid="rx-card-info"] > [data-testid="rxStatus"]',
+      '[data-testid="medication-list"] > :nth-child(11) [data-testid="rxStatus"]',
     )
       // cy.get(':nth-child(5) > .rx-card-detials > [data-testid="rxStatus"]')
       .should('be.visible')
@@ -395,16 +399,16 @@ class MedicationsListPage {
   verifyInformationBasedOnStatusDiscontinued = () => {
     cy.get('[data-testid="discontinued"]')
       .should('be.visible')
-      .and(
-        'contain',
-        'You can’t refill this prescription. If you need more, send a message to your care team.',
-      );
+      .and('contain', 'If you need more, send a message to your care team.');
   };
 
   verifyInformationBasedOnStatusExpired = () => {
     cy.get('[data-testid="expired"]')
       .should('be.visible')
-      .and('contain', 'This prescription is too old to refill. ');
+      .and(
+        'contain',
+        'This prescription is too old to refill. If you need more, request a renewal.',
+      );
   };
 
   verifyInformationBasedOnStatusTransferred = () => {
@@ -419,7 +423,7 @@ class MedicationsListPage {
 
   verifyInformationBasedOnStatusUnknown = unknownPrescription => {
     cy.get(
-      `[data-testid="medication-list"] > :nth-child(7) > [data-testid="rx-card-info"] > #status-description-${unknownPrescription} > [data-testid="unknown"] > :nth-child(2) > :nth-child(1)`,
+      `[data-testid="medication-list"] > :nth-child(7) #status-description-${unknownPrescription} > [data-testid="unknown"] > :nth-child(2) > :nth-child(1)`,
     )
       .should('be.visible')
       .and('contain', 'We’re sorry. There’s a problem with our system.');
@@ -440,7 +444,7 @@ class MedicationsListPage {
 
   verifyNonVAPrescriptionNameOnListPage = () => {
     cy.get(
-      '[data-testid="medication-list"] > :nth-child(5) > [data-testid="rx-card-info"] > [data-testid="medications-history-details-link"]',
+      '[data-testid="medication-list"] > :nth-child(5) [data-testid="medications-history-details-link"]',
     ).should('contain', `${nonVARx.data.attributes.prescriptionName}`);
   };
 
@@ -453,11 +457,11 @@ class MedicationsListPage {
       prescription,
     );
     cy.get(
-      '[data-testid="medication-list"] > :nth-child(1) > [data-testid="rx-card-info"] > [data-testid="fill-refill"] > [data-testid="refill-request-button"]',
+      '[data-testid="medication-list"] > :nth-child(1) [data-testid="refill-request-button"]',
     ).should('be.enabled');
 
     cy.get(
-      '[data-testid="medication-list"] > :nth-child(1) > [data-testid="rx-card-info"] > [data-testid="fill-refill"] > [data-testid="refill-request-button"]',
+      '[data-testid="medication-list"] > :nth-child(1) [data-testid="refill-request-button"]',
     )
       .first()
       .click({ waitForAnimations: true });
@@ -473,10 +477,10 @@ class MedicationsListPage {
 
   clickRefillButtonForVerifyingError = () => {
     cy.get(
-      '[data-testid="medication-list"] > :nth-child(1) > [data-testid="rx-card-info"] > [data-testid="fill-refill"] > [data-testid="refill-request-button"]',
+      '[data-testid="medication-list"] > :nth-child(1) [data-testid="refill-request-button"]',
     );
     cy.get(
-      '[data-testid="medication-list"] > :nth-child(1) > [data-testid="rx-card-info"] > [data-testid="fill-refill"] > [data-testid="refill-request-button"]',
+      '[data-testid="medication-list"] > :nth-child(1) [data-testid="refill-request-button"]',
     )
       .first()
       .click({ waitForAnimations: true });
@@ -703,7 +707,7 @@ class MedicationsListPage {
 
   verifyLastFilledDateforPrescriptionOnListPage = () => {
     cy.get(
-      '[data-testid="medication-list"] > :nth-child(2) > [data-testid="rx-card-info"] > [data-testid="rx-last-filled-date"]',
+      '[data-testid="medication-list"] > :nth-child(2) [data-testid="rx-last-filled-date"]',
     ).should(
       'contain',
       `${prescriptionFillDate.data.attributes.sortedDispensedDate}`,
@@ -712,7 +716,7 @@ class MedicationsListPage {
 
   verifyDiscontinuedMedicationNameIsVisibleOnListPage = () => {
     cy.get(
-      '[data-testid="medication-list"] > :nth-child(6) > [data-testid="rx-card-info"] > [data-testid="medications-history-details-link"]',
+      '[data-testid="medication-list"] > :nth-child(6) [data-testid="medications-history-details-link"]',
     ).should('be.visible');
   };
 
@@ -889,7 +893,7 @@ class MedicationsListPage {
 
   verifyNameOfFirstRxOnMedicationsList = rxName => {
     cy.get(
-      '.landing-page-content > [data-testid="medication-list"] > :nth-child(1) > [data-testid="rx-card-info"] > [data-testid="medications-history-details-link"]',
+      '.landing-page-content > [data-testid="medication-list"] > :nth-child(1) [data-testid="medications-history-details-link"]',
     ).should('contain', rxName);
   };
 
@@ -972,7 +976,7 @@ class MedicationsListPage {
     cardNumber,
   ) => {
     cy.get(
-      `.landing-page-content > [data-testid="medication-list"] > :nth-child(${cardNumber}) > [data-testid="rx-card-info"]`,
+      `.landing-page-content > [data-testid="medication-list"] > :nth-child(${cardNumber})`,
     )
       .first()
       .should('not.contain', prescriptionNumber);
@@ -1134,6 +1138,42 @@ class MedicationsListPage {
 
   verifySortScreenReaderActionText = text => {
     cy.findByTestId('sort-action-sr-text').should('have.text', text);
+  };
+
+  // OH Integration tests
+
+  visitMedicationsListForUserWithAcceleratedAllergies = (
+    waitForMeds = false,
+  ) => {
+    // cy.intercept('GET', '/my-health/medications', prescriptions);
+    cy.intercept('GET', `${Paths.DELAY_ALERT}`, prescriptions).as(
+      'delayAlertRxList',
+    );
+    cy.intercept(
+      'GET',
+      '/my_health/v2/medical_records/allergies',
+      acceleratedAllergies,
+    ).as('acceleratedAllergies');
+    cy.intercept('GET', Paths.MED_LIST, prescriptions).as('medicationsList');
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
+      prescriptions,
+    );
+    cy.visit(medicationsUrls.MEDICATIONS_URL);
+    if (waitForMeds) {
+      cy.wait('@medicationsList');
+    }
+  };
+
+  verifyAllergiesListNetworkResponseWithAcceleratedAllergies = () => {
+    cy.get('@acceleratedAllergies')
+      .its('response')
+      .then(res => {
+        expect(res.body.data[0].attributes).to.include({
+          name: 'TRAZODONE',
+        });
+      });
   };
 
   // SendRxRenewalMessage component test helpers

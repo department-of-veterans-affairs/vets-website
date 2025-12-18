@@ -5,6 +5,19 @@ import { getAppUrl } from 'platform/utilities/registry-helpers';
 
 import ViewDependentsList from '../components/ViewDependentsList/ViewDependentsListV2';
 
+/**
+ * @typedef ViewDependentsListsProps
+ * @property {Boolean} loading loading state
+ * @property {Boolean} manageDependentsToggle feature toggle
+ * @property {Array} notOnAwardDependents list of inactive dependents
+ * @property {Array} onAwardDependents list of active dependents
+ */
+/**
+ * Renders view dependents list components
+ * List of view dependent lists
+ * @param {ViewDependentsListsProps} props - Component props
+ * @returns {JSX.Element} Dependents lists
+ */
 function ViewDependentsLists(props) {
   const onAwardSubhead = (
     <>
@@ -137,7 +150,6 @@ function ViewDependentsLists(props) {
 }
 
 ViewDependentsLists.propTypes = {
-  dependencyVerificationToggle: PropTypes.bool,
   loading: PropTypes.bool,
   manageDependentsToggle: PropTypes.bool,
   notOnAwardDependents: PropTypes.array,

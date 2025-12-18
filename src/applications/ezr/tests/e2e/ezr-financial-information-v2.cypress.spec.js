@@ -18,8 +18,12 @@ import {
 
 // Add the feature toggle for the providers and dependents prefill
 featureToggles.data.features.push({
-  name: 'ezrProvidersAndDependentsPrefillEnabled',
+  name: 'ezrFormPrefillWithProvidersAndDependents',
   value: true,
+});
+featureToggles.data.features.push({
+  name: 'ezrSpouseConfirmationFlowEnabled',
+  value: false,
 });
 
 const { data } = maxTestData;
@@ -41,7 +45,7 @@ function advanceToFinancialIntroductionPage(hasSpouse) {
   goToNextPage('/household-information/dependents');
   cy.selectRadio('root_view:reportDependents', 'N');
   cy.injectAxeThenAxeCheck();
-  goToNextPage('/household-information/financial-information-introduction');
+  goToNextPage('/household-information/financial-information-overview');
   cy.injectAxeThenAxeCheck();
   goToNextPage('/household-information/financial-information');
   cy.injectAxeThenAxeCheck();

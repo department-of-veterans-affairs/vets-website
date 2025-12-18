@@ -10,12 +10,12 @@ import ConnectedApplications from './components/connected-apps/ConnectedApps';
 import NotificationSettings from './components/notification-settings/NotificationSettings';
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from './constants';
 import PersonalHealthCareContacts from './components/personal-health-care-contacts';
-import BlankPageTemplate from './components/BlankPageTemplate';
 import FinancialInformation from './components/FinancialInformation';
 import HealthCareSettings from './components/HealthCareSettings';
 import LettersAndDocuments from './components/LettersAndDocuments';
 import AccountSecurityPage from './components/AccountSecurity';
 import SchedulingPreferences from './components/health-care-settings/SchedulingPreferences';
+import MessagesSignature from './components/health-care-settings/MessagesSignature';
 
 // the routesForNav array is used in the routes file to build the routes
 // the edit and hub routes are not present in the routesForNav array because
@@ -42,6 +42,7 @@ const routesForNav = [
     path: PROFILE_PATHS.CONTACTS,
     requiresLOA3: true,
     requiresMVI: true,
+    featureFlag: 'profileHideHealthCareContacts',
   },
   {
     component: MilitaryInformation,
@@ -142,27 +143,28 @@ const routesForProfile2Nav = [
     featureFlag: 'profileHealthCareSettingsPage',
   },
   {
-    component: SchedulingPreferences,
-    name: PROFILE_PATH_NAMES.SCHEDULING_PREFERENCES,
-    path: PROFILE_PATHS.SCHEDULING_PREFERENCES,
-    requiresLOA3: true,
-    requiresMVI: true,
-    subnavParent: PROFILE_PATH_NAMES.HEALTH_CARE_SETTINGS,
-    featureFlag: 'profileHealthCareSettingsPage',
-  },
-  {
     component: PersonalHealthCareContacts,
     name: PROFILE_PATH_NAMES.HEALTH_CARE_CONTACTS,
     path: PROFILE_PATHS.HEALTH_CARE_CONTACTS,
     requiresLOA3: true,
     requiresMVI: true,
     subnavParent: PROFILE_PATH_NAMES.HEALTH_CARE_SETTINGS,
+    featureFlag: 'profileHealthCareSettingsPage|profileHideHealthCareContacts',
+    // This field allows for toggling based on two feature flags by using string.includes()
+  },
+  {
+    component: MessagesSignature,
+    name: PROFILE_PATH_NAMES.MESSAGES_SIGNATURE,
+    path: PROFILE_PATHS.MESSAGES_SIGNATURE,
+    requiresLOA3: true,
+    requiresMVI: true,
+    subnavParent: PROFILE_PATH_NAMES.HEALTH_CARE_SETTINGS,
     featureFlag: 'profileHealthCareSettingsPage',
   },
   {
-    component: BlankPageTemplate, // TODO implement before Profile 2.0 launch
-    name: PROFILE_PATH_NAMES.SECURE_MESSAGES_SIGNATURE,
-    path: PROFILE_PATHS.SECURE_MESSAGES_SIGNATURE,
+    component: SchedulingPreferences,
+    name: PROFILE_PATH_NAMES.SCHEDULING_PREFERENCES,
+    path: PROFILE_PATHS.SCHEDULING_PREFERENCES,
     requiresLOA3: true,
     requiresMVI: true,
     subnavParent: PROFILE_PATH_NAMES.HEALTH_CARE_SETTINGS,
@@ -232,22 +234,42 @@ const routesForProfile2Nav = [
 ];
 
 export const getRoutesForNav = (
-  { profile2Enabled = false, profileHealthCareSettingsPage = false } = {
+  {
+    profile2Enabled = false,
+    profileHealthCareSettingsPage = false,
+    profileHideHealthCareContacts = false,
+  } = {
     profile2Enabled: false,
     profileHealthCareSettingsPage: false,
+    profileHideHealthCareContacts: false,
   },
 ) => {
   if (profile2Enabled) {
     return routesForProfile2Nav.filter(route => {
       // filter out routes based on feature flags
-      if (route.featureFlag === 'profileHealthCareSettingsPage') {
+      if (
+        route.featureFlag?.includes('profileHideHealthCareContacts') &&
+        route.featureFlag?.includes('profileHealthCareSettingsPage')
+      ) {
+        if (profileHideHealthCareContacts) {
+          return false;
+        }
+        return profileHealthCareSettingsPage;
+      }
+      if (route.featureFlag?.includes('profileHealthCareSettingsPage')) {
         return profileHealthCareSettingsPage;
       }
       return true;
     });
   }
 
-  return routesForNav;
+  return routesForNav.filter(route => {
+    // filter out routes based on feature flags
+    if (route.featureFlag === 'profileHideHealthCareContacts') {
+      return !profileHideHealthCareContacts;
+    }
+    return true;
+  });
 };
 
 export const routeHasParent = (route, routes) => {

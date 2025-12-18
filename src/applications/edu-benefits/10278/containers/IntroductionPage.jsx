@@ -4,60 +4,17 @@ import { focusElement, scrollToTop } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { useSelector } from 'react-redux';
-import { isLOA3, isLoggedIn } from 'platform/user/selectors';
+import { isLoggedIn } from 'platform/user/selectors';
 import { TITLE, SUBTITLE } from '../constants';
 
-const OMB_RES_BURDEN = 5;
-const OMB_NUMBER = '2900-0914';
-const OMB_EXP_DATE = '09/30/2025';
-
-const ProcessList = () => {
-  return (
-    <va-process-list>
-      <va-process-list-item header="Prepare">
-        <h4>To fill out this application, you’ll need your:</h4>
-        <ul>
-          <li>Social Security number (required)</li>
-        </ul>
-        <p>
-          <strong>What if I need help filling out my application?</strong> An
-          accredited representative, like a Veterans Service Officer (VSO), can
-          help you fill out your claim.{' '}
-          <a href="/disability-benefits/apply/help/index.html">
-            Get help filing your claim
-          </a>
-        </p>
-      </va-process-list-item>
-      <va-process-list-item header="Apply">
-        <p>Complete this benefits form.</p>
-        <p>
-          After submitting the form, you’ll get a confirmation message. You can
-          print this for your records.
-        </p>
-      </va-process-list-item>
-      <va-process-list-item header="VA Review">
-        <p>
-          We process claims within a week. If more than a week has passed since
-          you submitted your application and you haven’t heard back, please
-          don’t apply again. Call us at.
-        </p>
-      </va-process-list-item>
-      <va-process-list-item header="Decision">
-        <p>
-          Once we’ve processed your claim, you’ll get a notice in the mail with
-          our decision.
-        </p>
-      </va-process-list-item>
-    </va-process-list>
-  );
-};
+// Components
+import OmbInfo from '../components/OmbInfo';
+import TechnologyProgramAccordion from '../components/TechnologyProgramAccordion';
 
 export const IntroductionPage = props => {
   const userLoggedIn = useSelector(state => isLoggedIn(state));
-  const userIdVerified = useSelector(state => isLOA3(state));
   const { route } = props;
   const { formConfig, pageList } = route;
-  const showVerifyIdentify = userLoggedIn && !userIdVerified;
 
   useEffect(() => {
     scrollToTop();
@@ -67,30 +24,53 @@ export const IntroductionPage = props => {
   return (
     <article className="schemaform-intro">
       <FormTitle title={TITLE} subTitle={SUBTITLE} />
-      <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
-        Follow the steps below to apply for benefits.
+
+      <p className="vads-u-font-size--lg vads-u-font-family--serif vads-u-color--base vads-u-font-weight--normal">
+        Use this form if you want to give VA permission to release your personal
+        information regarding your current or future education benefits to a
+        third party.
+      </p>
+
+      <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--2 mobile-lg:vads-u-margin-y--4">
+        What to know before you fill out this form
       </h2>
-      <ProcessList />
-      {showVerifyIdentify ? (
-        <div>{/* add verify identity alert if applicable */}</div>
-      ) : (
-        <SaveInProgressIntro
-          headingLevel={2}
-          prefillEnabled={formConfig.prefillEnabled}
-          messages={formConfig.savedFormMessages}
-          pageList={pageList}
-          startText="Start the application"
-          devOnly={{
-            forceShowFormControls: true,
-          }}
-        />
-      )}
-      <p />
-      <va-omb-info
-        res-burden={OMB_RES_BURDEN}
-        omb-number={OMB_NUMBER}
-        exp-date={OMB_EXP_DATE}
+      <ul data-testid="what-to-know-list">
+        <li>
+          If you want to keep some information from your records private, you
+          can use this form to authorize us to release only specific
+          information.
+        </li>
+        <li>
+          This form doesn’t give the third-party individual or organization
+          permission to manage or change the information in your VA record. They
+          can only access the information.
+        </li>
+        <li>
+          You can change your mind and tell us to stop releasing your
+          information at any time. We can’t take back any information we may
+          have already released based on your authorization.
+        </li>
+      </ul>
+
+      <SaveInProgressIntro
+        hideUnauthedStartLink={!userLoggedIn}
+        headingLevel={2}
+        prefillEnabled={formConfig.prefillEnabled}
+        messages={formConfig.savedFormMessages}
+        formConfig={route.formConfig}
+        pageList={pageList}
+        startText="Start your Authorization to disclose personal information"
+        unauthStartText="Sign in or create an account"
       />
+      <p />
+
+      <div
+        className={userLoggedIn ? 'vads-u-margin-top--4' : ''}
+        data-testid="omb-info"
+      >
+        <OmbInfo />
+      </div>
+      <TechnologyProgramAccordion />
     </article>
   );
 };
