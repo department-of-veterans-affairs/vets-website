@@ -19,10 +19,10 @@ mcp_github_get_me
 
 ### 2. Cypress MCP Server — MANDATORY TOOL CALL
 ```
-mcp_cypress-scree_search_screenshots with query: "test"
+mcp_cypress-scree_list_test_screenshots
 ```
-✅ Pass: Returns object with `results` array
-❌ Fail: Tool not available, returns error, missing `results` array, **or not attempted**
+✅ Pass: Returns object with `screenshots` array (or `total` field)
+❌ Fail: Tool not available, returns error, missing expected fields, **or not attempted**
 
 ### 3. gh CLI — MANDATORY COMMAND
 ```bash
@@ -38,7 +38,7 @@ gh auth status
 | Check | Status | Tool/Command Used | Result |
 |-------|--------|-------------------|--------|
 | GitHub MCP | ✅/❌ | `mcp_github_get_me` (REQUIRED) | {actual response or error} |
-| Cypress MCP | ✅/❌ | `mcp_cypress-scree_search_screenshots` (REQUIRED) | {actual response or error} |
+| Cypress MCP | ✅/❌ | `mcp_cypress-scree_list_test_screenshots` (REQUIRED) | {actual response or error} |
 | gh CLI | ✅/❌ | `gh auth status` (REQUIRED) | {actual output or error} |
 
 ## ⛔ STOP EXECUTION IF ANY CHECK IS ❌
