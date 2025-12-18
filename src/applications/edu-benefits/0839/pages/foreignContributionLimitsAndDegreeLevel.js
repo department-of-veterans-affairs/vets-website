@@ -10,7 +10,12 @@ import YellowRibbonProgramTitle from '../components/YellowRibbonProgramTitle';
 import { CURRENCY_ENUM, CURRENCY_LABELS } from '../constants';
 
 const uiSchema = {
-  'ui:title': () => <YellowRibbonProgramTitle text="Provide your" />,
+  'ui:title': () => (
+    <YellowRibbonProgramTitle
+      eligibilityChapter={false}
+      text="Provide your Yellow Ribbon Program contributions"
+    />
+  ),
   'ui:description': () => (
     <>
       <p>

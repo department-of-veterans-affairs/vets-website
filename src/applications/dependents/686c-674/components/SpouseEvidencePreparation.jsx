@@ -2,6 +2,10 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { MARRIAGE_TYPES } from '../config/constants';
 
+/**
+ * Spouse evidence preparation content
+ * @returns {React.ReactElement} Spouse evidence prep content
+ */
 export const SpouseEvidencePreparation = () => {
   const formData = useSelector(state => {
     return state?.form?.data || {};

@@ -77,11 +77,11 @@ describe('Verify drafts - No association with particular Triage Group', () => {
       .should('include.text', Alerts.NO_ASSOCIATION.PARAGRAPH);
 
     cy.get(Locators.ALERTS.BLOCKED_GROUP)
-      .find('a')
-      .should('include.text', Alerts.NO_ASSOCIATION.LINK);
+      .find('va-link-action')
+      .should('have.attr', 'text', Alerts.NO_ASSOCIATION.LINK);
 
     cy.get(Locators.ALERTS.BLOCKED_GROUP)
-      .find('a')
+      .find('va-link-action')
       .should('have.attr', 'href', Paths.FIND_LOCATIONS);
 
     cy.get(Locators.BUTTONS.SEND).should('not.exist');
@@ -137,11 +137,11 @@ describe('Verify drafts - No association with particular Triage Group', () => {
       .should('include.text', Alerts.NO_ASSOCIATION.PARAGRAPH);
 
     cy.get(Locators.ALERTS.BLOCKED_GROUP)
-      .find('a')
-      .should('include.text', Alerts.NO_ASSOCIATION.LINK);
+      .find('va-link-action')
+      .should('have.attr', 'text', Alerts.NO_ASSOCIATION.LINK);
 
     cy.get(Locators.ALERTS.BLOCKED_GROUP)
-      .find('a')
+      .find('va-link-action')
       .should('have.attr', 'href', Paths.FIND_LOCATIONS);
 
     cy.get(Locators.BUTTONS.SEND).should('not.exist');
@@ -217,11 +217,11 @@ describe('Verify drafts - No association with particular Triage Group', () => {
       .should('include.text', Alerts.NO_ASSOCIATION.PARAGRAPH);
 
     cy.get(Locators.ALERTS.BLOCKED_GROUP)
-      .find('a')
-      .should('include.text', Alerts.NO_ASSOCIATION.LINK);
+      .find('va-link-action')
+      .should('have.attr', 'text', Alerts.NO_ASSOCIATION.LINK);
 
     cy.get(Locators.ALERTS.BLOCKED_GROUP)
-      .find('a')
+      .find('va-link-action')
       .should('have.attr', 'href', Paths.FIND_LOCATIONS);
 
     cy.get(Locators.ALERTS.REPT_SELECT).should(

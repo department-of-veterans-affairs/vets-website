@@ -11,6 +11,7 @@ import {
   isYearOnly,
   isYearMonth,
 } from '../utils/dates';
+import { DATE_TEMPLATE } from '../utils/dates/formatting';
 
 import {
   isValidYear,
@@ -36,7 +37,7 @@ import {
 import { getDisabilityLabels } from '../content/disabilityLabels';
 import { capitalizeEachWord } from '../utils';
 
-const formatDate = date => format(date, 'yyyy-MM-dd');
+const formatDate = date => format(date, DATE_TEMPLATE);
 const daysFromToday = days => formatDate(add(new Date(), { days }));
 
 describe('526 All Claims validations', () => {
@@ -985,7 +986,7 @@ describe('526 All Claims validations', () => {
     it('adds an error when entered date is in the past', () => {
       const addError = sinon.spy();
       const errors = { addError };
-      const yesterday = format(subDays(new Date(), 1), 'yyyy-MM-dd');
+      const yesterday = format(subDays(new Date(), 1), DATE_TEMPLATE);
 
       isInFuture(errors, yesterday);
       expect(addError.calledOnce).to.be.true;
@@ -995,7 +996,7 @@ describe('526 All Claims validations', () => {
     it('adds an error when entered date is today', () => {
       const addError = sinon.spy();
       const errors = { addError };
-      const today = format(new Date(), 'yyyy-MM-dd');
+      const today = format(new Date(), DATE_TEMPLATE);
 
       isInFuture(errors, today);
 
@@ -1007,7 +1008,7 @@ describe('526 All Claims validations', () => {
       const addError = sinon.spy();
       const errors = { addError };
       // Use 2 days in the future to avoid time-of-day issues
-      const tomorrow = format(addDays(new Date(), 2), 'yyyy-MM-dd');
+      const tomorrow = format(addDays(new Date(), 2), DATE_TEMPLATE);
 
       isInFuture(errors, tomorrow);
       expect(addError.callCount).to.equal(0);
@@ -1381,7 +1382,7 @@ describe('526 All Claims validations', () => {
   });
 
   describe('requireSeparationLocation', () => {
-    const getDays = days => format(addDays(new Date(), days), 'yyyy-MM-dd');
+    const getDays = days => format(addDays(new Date(), days), DATE_TEMPLATE);
     const getFormData = (activeDate, reserveDate) => ({
       serviceInformation: {
         servicePeriods: [{ dateRange: { to: activeDate } }],
@@ -1634,7 +1635,7 @@ describe('526 All Claims validations', () => {
         ];
 
         const result = findEarliestServiceDate(servicePeriods);
-        expect(result.format('YYYY-MM-DD')).to.equal('2000-01-14');
+        expect(result.format(DATE_TEMPLATE)).to.equal('2000-01-14');
       });
 
       it('should return the single service date when only one period exists', () => {
@@ -1643,7 +1644,7 @@ describe('526 All Claims validations', () => {
         ];
 
         const result = findEarliestServiceDate(servicePeriods);
-        expect(result.format('YYYY-MM-DD')).to.equal('2005-06-15');
+        expect(result.format(DATE_TEMPLATE)).to.equal('2005-06-15');
       });
 
       it('should filter out service periods with empty serviceBranch', () => {
@@ -1653,7 +1654,7 @@ describe('526 All Claims validations', () => {
         ];
 
         const result = findEarliestServiceDate(servicePeriods);
-        expect(result.format('YYYY-MM-DD')).to.equal('2000-01-14');
+        expect(result.format(DATE_TEMPLATE)).to.equal('2000-01-14');
       });
 
       it('should filter out service periods with missing serviceBranch', () => {
@@ -1663,7 +1664,7 @@ describe('526 All Claims validations', () => {
         ];
 
         const result = findEarliestServiceDate(servicePeriods);
-        expect(result.format('YYYY-MM-DD')).to.equal('2000-01-14');
+        expect(result.format(DATE_TEMPLATE)).to.equal('2000-01-14');
       });
 
       it('should filter out service periods with null serviceBranch', () => {
@@ -1673,7 +1674,7 @@ describe('526 All Claims validations', () => {
         ];
 
         const result = findEarliestServiceDate(servicePeriods);
-        expect(result.format('YYYY-MM-DD')).to.equal('2000-01-14');
+        expect(result.format(DATE_TEMPLATE)).to.equal('2000-01-14');
       });
 
       it('should filter out service periods with undefined dateRange', () => {
@@ -1683,7 +1684,7 @@ describe('526 All Claims validations', () => {
         ];
 
         const result = findEarliestServiceDate(servicePeriods);
-        expect(result.format('YYYY-MM-DD')).to.equal('2003-03-12');
+        expect(result.format(DATE_TEMPLATE)).to.equal('2003-03-12');
       });
     });
   });

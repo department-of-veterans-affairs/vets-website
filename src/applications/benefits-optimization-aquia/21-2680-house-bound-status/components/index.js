@@ -4,4 +4,3 @@
  */
 
 export { GetHelp } from './get-help';
-export { DownloadFormPDF } from './confirmation-page';

@@ -82,7 +82,7 @@ describe('Mileage Expense Pages', () => {
     });
     expect($(vaTravelerOtherSelector, formDOM)).to.exist;
     vaTraveler.__events.vaValueChange({
-      detail: { value: 'DEPENDENT' },
+      detail: { value: 'CHILD' },
     });
     expect($(vaTravelerOtherSelector, formDOM)).to.exist;
     vaTraveler.__events.vaValueChange({
@@ -190,10 +190,10 @@ describe('Mileage Expense Pages', () => {
   });
   it('should check if the item is incomplete', () => {
     const completeItem = {
-      traveler: 'DEPENDENT',
-      travelerName: 'John Doe',
+      traveler: 'CHILD',
+      fullNameTraveler: 'John Doe',
       travelLocation: 'OTHER',
-      travelLocationOther: 'Some other place',
+      otherTravelLocation: 'Some other place',
       travelDate: '2004-04-04',
       travelMilesTraveled: 100,
       travelReimbursed: true,
@@ -201,23 +201,23 @@ describe('Mileage Expense Pages', () => {
     };
     const completeItem2 = {
       traveler: 'OTHER',
-      travelerName: 'John Doe',
+      fullNameTraveler: 'John Doe',
       travelLocation: 'OTHER',
-      travelLocationOther: 'Some other place',
+      otherTravelLocation: 'Some other place',
       travelDate: '2004-04-04',
       travelMilesTraveled: 100,
       travelReimbursed: false,
     };
     const incompleteNoTravelLocation = {
-      traveler: 'DEPENDENT',
-      travelerName: 'John Doe',
+      traveler: 'CHILD',
+      fullNameTraveler: 'John Doe',
       travelLocation: 'OTHER',
       travelDate: '2004-04-04',
       travelMilesTraveled: 100,
       travelReimbursed: true,
     };
-    const incompleteNoTravelerName = {
-      traveler: 'DEPENDENT',
+    const incompleteNofullNameTraveler = {
+      traveler: 'CHILD',
       travelLocation: 'PHARMACY',
       travelDate: '2004-04-04',
       travelMilesTraveled: 100,
@@ -226,6 +226,6 @@ describe('Mileage Expense Pages', () => {
     expect(options.isItemIncomplete(completeItem)).to.be.false;
     expect(options.isItemIncomplete(completeItem2)).to.be.false;
     expect(options.isItemIncomplete(incompleteNoTravelLocation)).to.be.true;
-    expect(options.isItemIncomplete(incompleteNoTravelerName)).to.be.true;
+    expect(options.isItemIncomplete(incompleteNofullNameTraveler)).to.be.true;
   });
 });

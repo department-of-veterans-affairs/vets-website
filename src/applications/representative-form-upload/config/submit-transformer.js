@@ -12,7 +12,7 @@ function sharedTransformForSubmit(formConfig, form, options) {
   return JSON.stringify({ ...transformedData, formNumber: formConfig.formId });
 }
 
-const transformForSubmit = (formConfig, form) => {
+export function transformForSubmit(formConfig, form) {
   const transformedData = JSON.parse(
     sharedTransformForSubmit(formConfig, form),
   );
@@ -46,6 +46,37 @@ const transformForSubmit = (formConfig, form) => {
       vaFileNumber,
     },
   });
-};
+}
 
-export default transformForSubmit;
+export function itfTransformForSubmit(formConfig, form) {
+  const transformedData = JSON.parse(
+    sharedTransformForSubmit(formConfig, form),
+  );
+
+  const { formNumber } = getFormContent();
+  const {
+    veteranSsn = {},
+    address = {},
+    veteranFullName = {},
+    veteranDateOfBirth = {},
+    claimantFullName = {},
+    claimantDateOfBirth,
+    claimantSsn,
+    vaFileNumber,
+    benefitType,
+    isVeteran,
+  } = transformedData;
+
+  return JSON.stringify({
+    veteranSsn,
+    postalCode: address.postalCode,
+    veteranFullName,
+    veteranDateOfBirth,
+    formNumber,
+    claimantFullName,
+    claimantDateOfBirth,
+    claimantSsn,
+    vaFileNumber,
+    benefitType: isVeteran === 'no' ? 'survivor' : benefitType,
+  });
+}

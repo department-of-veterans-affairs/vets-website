@@ -229,7 +229,9 @@ describe('Complex Claims - <ExpensesAccordion />', () => {
   it('renders headers for each expense group inside accordion item', () => {
     renderAccordion({ expenses, documents });
 
-    const headers = document.querySelectorAll('h2.vads-u-font-size--h3');
+    const headers = document.querySelectorAll(
+      'h3[data-testid="expense-type-header"]',
+    );
     const headerTexts = Array.from(headers).map(h => h.textContent);
 
     expect(headerTexts).to.include.members(['Mileage', 'Parking']);

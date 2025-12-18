@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 
@@ -32,15 +32,20 @@ describe('Identification information page', () => {
     );
     expect(inputs.length).to.equal(2);
   });
-  it('shows a validation error when neither number is supplied', () => {
+
+  it('shows a validation error when neither number is supplied', async () => {
     const { getByRole, container } = renderPage();
 
     fireEvent.click(getByRole('button', { name: /submit|continue/i }));
 
-    const errNode = container.querySelector('[error]');
-    expect(errNode).to.exist;
+    const errNode = await waitFor(() => {
+      const element = container.querySelector('[error]');
+      expect(element).to.exist;
+      return element;
+    });
+
     expect(errNode.getAttribute('error')).to.contain(
-      'Please enter a Social Security number',
+      'Enter a valid 9-digit Social Security number (dashes allowed)',
     );
   });
 

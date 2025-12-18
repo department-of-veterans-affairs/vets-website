@@ -62,7 +62,7 @@ import ClaimsAndAppeals from './claims-and-appeals/ClaimsAndAppeals';
 import HealthCare from './health-care/HealthCare';
 import CTALink from './CTALink';
 import BenefitPaymentsLegacy from './benefit-payments/BenefitPaymentsLegacy';
-import Debts from './debts/Debts';
+import DebtsLegacy from './debts/DebtsLegacy';
 import { getAllPayments } from '../actions/payments';
 import Notifications from './notifications/Notifications';
 import { canAccess } from '../../common/selectors';
@@ -143,7 +143,13 @@ const DashboardHeader = ({
           });
         }}
       />
-      {showConfirmEmail && <MhvAlertConfirmEmail />}
+      {showConfirmEmail && (
+        <div className="vads-l-row">
+          <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+            <MhvAlertConfirmEmail />
+          </div>
+        </div>
+      )}
       {isLOA3 && <ContactInfoNeeded />}
       {showNotifications && !hideNotificationsSection && <Notifications />}
     </div>
@@ -519,7 +525,7 @@ const Dashboard = ({
                 >
                   <Toggler.Disabled>
                     <HealthCare isVAPatient={isVAPatient} />
-                    <Debts />
+                    <DebtsLegacy />
                     <BenefitPaymentsLegacy
                       payments={payments}
                       showNotifications={showNotifications}
@@ -744,28 +750,42 @@ const mapStateToProps = state => {
 };
 
 Dashboard.propTypes = {
+  getAppeals: PropTypes.func.isRequired,
+  getClaims: PropTypes.func.isRequired,
+  getESREnrollmentStatus: PropTypes.func.isRequired,
+  getFormStatuses: PropTypes.func.isRequired,
+  hasAPIError: PropTypes.bool.isRequired,
+  shouldLoadAppeals: PropTypes.bool.isRequired,
+  shouldLoadClaims: PropTypes.bool.isRequired,
   canAccessMilitaryHistory: PropTypes.bool,
   canAccessPaymentHistory: PropTypes.bool,
   canAccessRatingInfo: PropTypes.bool,
+  dataLoadingDisabled: PropTypes.bool,
+  fetchConfirmedFutureAppointments: PropTypes.func,
   fetchFullName: PropTypes.func,
   fetchMilitaryInformation: PropTypes.func,
   fetchTotalDisabilityRating: PropTypes.func,
+  fetchUnreadMessages: PropTypes.func,
+  getCopays: PropTypes.func,
+  getDebts: PropTypes.func,
   getPayments: PropTypes.func,
   isLOA1: PropTypes.bool,
   isLOA3: PropTypes.bool,
   isVAPatient: PropTypes.bool,
   payments: PropTypes.arrayOf(
     PropTypes.shape({
+      accountNumber: PropTypes.string.isRequired,
+      bankName: PropTypes.string.isRequired,
       payCheckAmount: PropTypes.string.isRequired,
       payCheckDt: PropTypes.string.isRequired,
       payCheckId: PropTypes.string.isRequired,
       payCheckReturnFiche: PropTypes.string.isRequired,
       payCheckType: PropTypes.string.isRequired,
       paymentMethod: PropTypes.string.isRequired,
-      bankName: PropTypes.string.isRequired,
-      accountNumber: PropTypes.string.isRequired,
     }),
   ),
+  shouldFetchUnreadMessages: PropTypes.bool,
+  shouldGetESRStatus: PropTypes.bool,
   showClaimsAndAppeals: PropTypes.bool,
   showConfirmEmail: PropTypes.bool,
   showHealthCare: PropTypes.bool,
@@ -775,19 +795,10 @@ Dashboard.propTypes = {
   showNotInMPIError: PropTypes.bool,
   showNotifications: PropTypes.bool,
   showValidateIdentityAlert: PropTypes.bool,
+  submittedError: PropTypes.bool,
   totalDisabilityRating: PropTypes.number,
   totalDisabilityRatingError: PropTypes.bool,
   user: PropTypes.object,
-  getAppeals: PropTypes.func.isRequired,
-  getClaims: PropTypes.func.isRequired,
-  getFormStatuses: PropTypes.func.isRequired,
-  getESREnrollmentStatus: PropTypes.func.isRequired,
-  hasAPIError: PropTypes.bool.isRequired,
-  shouldLoadAppeals: PropTypes.bool.isRequired,
-  shouldLoadClaims: PropTypes.bool.isRequired,
-  dataLoadingDisabled: PropTypes.bool,
-  shouldGetESRStatus: PropTypes.bool,
-  submittedError: PropTypes.bool,
 };
 
 const mapDispatchToProps = {

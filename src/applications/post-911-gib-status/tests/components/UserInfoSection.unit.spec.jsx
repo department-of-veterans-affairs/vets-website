@@ -2,36 +2,24 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import _ from 'lodash';
-
-import UserInfoSection from '../../components/UserInfoSection';
+import { UserInfoSection } from '../../components/UserInfoSection';
 
 const props = {
   enrollmentData: {
     veteranIsEligible: true,
-    activeDuty: false,
-    firstName: 'Joe',
-    lastName: 'West',
-    dateOfBirth: '1995-11-12T06:00:00.000+0000',
-    vaFileNumber: '12345678',
-    regionalProcessingOffice: 'Central Office Washington, DC',
-    eligibilityDate: '2016-12-01T05:00:00.000+0000',
-    delimitingDate: '2017-12-07T05:00:00.000+0000',
+    activeDuty: true,
+    firstName: 'Jane',
+    lastName: 'Smith',
+    dateOfBirth: '1988-03-01',
+    vaFileNumber: '374374377',
+    regionalProcessingOffice: 'Muskogee, OK',
+    eligibilityDate: '2005-04-01',
+    delimitingDate: null,
+    percentageBenefit: 100,
     originalEntitlement: { months: 36, days: 0 },
-    usedEntitlement: { months: 3, days: 0 },
-    remainingEntitlement: { months: 33, days: 0 },
-    enrollments: [
-      {
-        beginDate: '2012-11-01T04:00:00.000+0000',
-        endDate: '2012-12-01T05:00:00.000+0000',
-        facilityCode: '11902614',
-        facilityName: 'PURDUE UNIVERSITY',
-        fullTimeHours: 12,
-        onlineHours: 6,
-        onCampusHours: 6,
-        trainingType: 'UnderGrad',
-        yellowRibbonAmount: 0,
-      },
-    ],
+    usedEntitlement: { months: 22, days: 3 },
+    remainingEntitlement: { months: 0, days: 0 },
+    entitlementTransferredOut: { months: 14, days: 0 },
   },
 };
 const currentHeadingSelector = '#current-as-of';
@@ -44,7 +32,7 @@ describe('<UserInfoSection>', () => {
   });
 
   describe('showCurrentAsOfAlert is falsey', () => {
-    it('should omit the "current as of" date', () => {
+    it('should omit the "current as of" date when explicitly false', () => {
       const currentAsOfProps = _.merge({}, props, {
         showCurrentAsOfAlert: false,
       });
@@ -54,34 +42,29 @@ describe('<UserInfoSection>', () => {
       expect(tree.subTree(currentHeadingSelector)).to.be.false;
     });
 
-    it('should omit the "current as of" date', () => {
+    it('should omit the "current as of" date when prop is undefined', () => {
       const tree = SkinDeep.shallowRender(<UserInfoSection {...props} />);
       expect(tree.subTree(currentHeadingSelector)).to.be.false;
     });
   });
   describe('UserInfoSection default props', () => {
     it('should default enrollmentData to an empty object when not provided', () => {
-      // Render the component without an enrollmentData prop.
       const tree = SkinDeep.shallowRender(
         <UserInfoSection showCurrentAsOfAlert={false} />,
       );
 
-      // Since enrollmentData is undefined, the default {} will be used.
-      // Therefore, firstName and lastName are undefined and the full name will be "undefined undefined".
       const nameInfoPair = tree
         .everySubTree('InfoPair')
         .find(pair => pair.props.label === 'Name');
       expect(nameInfoPair).to.exist;
-      expect(nameInfoPair.props.value).to.equal('undefined undefined');
+      expect(nameInfoPair.props.value).to.equal('unavailable unavailable');
 
-      // The Date of birth should default to "Unavailable"
       const dobInfoPair = tree
         .everySubTree('InfoPair')
         .find(pair => pair.props.label === 'Date of birth');
       expect(dobInfoPair).to.exist;
       expect(dobInfoPair.props.value).to.equal('Unavailable');
 
-      // The Regional Processing Office value will be undefined
       const rpoInfoPair = tree
         .everySubTree('InfoPair')
         .find(pair => pair.props.label === 'Regional Processing Office');
@@ -130,40 +113,57 @@ describe('<UserInfoSection>', () => {
   });
 
   describe('percentageBenefit is not provided', () => {
-    // TODO: handle corrupt data department-of-veterans-affairs/vets.gov-team#3782
     it('should display "unavailable"', () => {
-      const tree = SkinDeep.shallowRender(<UserInfoSection {...props} />);
+      const noPercentageProps = {
+        ...props,
+        enrollmentData: {
+          ...props.enrollmentData,
+          percentageBenefit: null,
+        },
+      };
+
+      const tree = SkinDeep.shallowRender(
+        <UserInfoSection {...noPercentageProps} />,
+      );
       const benefitLevel = tree.subTree('#benefit-level');
       expect(benefitLevel).to.not.be.false;
       expect(benefitLevel.text()).to.contain('unavailable');
     });
   });
 
-  describe('should display delimitingDate', () => {
-    it('should display the delimiting date', () => {
+  describe('should display benefit end date explanation', () => {
+    it('should display active duty explanation when veteran is on active duty', () => {
       const tree = SkinDeep.shallowRender(<UserInfoSection {...props} />);
       const benefitEndDate = tree.subTree('.benefit-end-date');
       expect(benefitEndDate).to.not.be.false;
-      expect(benefitEndDate.text()).to.contain('You have until');
+      expect(benefitEndDate.text()).to.contain('Since you’re on active duty');
     });
 
-    it('should not display the delimiting date if active duty', () => {
-      const newProps = {
+    it('should display the delimiting date when there is remaining entitlement and not active duty', () => {
+      const remainingProps = {
         enrollmentData: {
           veteranIsEligible: true,
-          dateOfBirth: '1995-11-12T06:00:00.000+0000',
-          activeDuty: true,
-          originalEntitlement: {},
-          usedEntitlement: {},
-          remainingEntitlement: {},
-          enrollments: [],
+          activeDuty: false,
+          firstName: 'Jane',
+          lastName: 'Smith',
+          dateOfBirth: '1988-03-01',
+          vaFileNumber: '374374377',
+          regionalProcessingOffice: 'Muskogee, OK',
+          eligibilityDate: '2005-04-01',
+          delimitingDate: '2017-12-07T05:00:00.000+0000',
+          percentageBenefit: 100,
+          originalEntitlement: { months: 36, days: 0 },
+          usedEntitlement: { months: 10, days: 0 },
+          remainingEntitlement: { months: 12, days: 0 },
         },
       };
 
-      const tree = SkinDeep.shallowRender(<UserInfoSection {...newProps} />);
+      const tree = SkinDeep.shallowRender(
+        <UserInfoSection {...remainingProps} />,
+      );
       const benefitEndDate = tree.subTree('.benefit-end-date');
       expect(benefitEndDate).to.not.be.false;
-      expect(benefitEndDate.text()).to.contain('Since you’re on active duty');
+      expect(benefitEndDate.text()).to.contain('You have until');
     });
   });
   describe('date of birth InfoPair', () => {
@@ -173,11 +173,10 @@ describe('<UserInfoSection>', () => {
         .everySubTree('InfoPair')
         .find(pair => pair.props.label === 'Date of birth');
       expect(dobInfoPair).to.exist;
-      expect(dobInfoPair.props.value).to.equal('November 12, 1995');
+      expect(dobInfoPair.props.value).to.equal('March 1, 1988');
     });
 
     it('should display "Unavailable" if dateOfBirth is missing', () => {
-      // Create a copy of props but remove dateOfBirth
       const noDobProps = _.merge({}, props, {
         enrollmentData: {
           dateOfBirth: null,
@@ -189,6 +188,22 @@ describe('<UserInfoSection>', () => {
         .find(pair => pair.props.label === 'Date of birth');
       expect(dobInfoPair).to.exist;
       expect(dobInfoPair.props.value).to.equal('Unavailable');
+    });
+  });
+  describe('entitlement info', () => {
+    it('should display months transferred to dependents when entitlementTransferredOut is present', () => {
+      const tree = SkinDeep.shallowRender(
+        <UserInfoSection {...props} showTransferredOutMonths />,
+      );
+
+      const transferredPair = tree
+        .everySubTree('InfoPair')
+        .find(
+          pair => pair.props.label === 'Months transferred to your dependents',
+        );
+
+      expect(transferredPair).to.exist;
+      expect(transferredPair.props.value).to.equal('14 months, 0 days');
     });
   });
 });
