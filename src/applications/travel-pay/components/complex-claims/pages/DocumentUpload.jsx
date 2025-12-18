@@ -53,7 +53,6 @@ DocumentUpload.propTypes = {
   currentDocument: PropTypes.object,
   handleDocumentChange: PropTypes.func,
   loading: PropTypes.bool,
-  showRequiredError: PropTypes.bool,
   uploadError: PropTypes.string,
 };
 

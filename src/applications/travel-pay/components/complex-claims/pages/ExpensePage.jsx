@@ -205,12 +205,8 @@ const ExpensePage = () => {
 
   const handleFormChange = (event, explicitName) => {
     const name = explicitName ?? event.target?.name ?? event.detail?.name;
-    const value = (
-      event?.value ??
-      event?.detail?.value ??
-      event.target?.value ??
-      ''
-    ).toString();
+    const value =
+      event?.value ?? event?.detail?.value ?? event.target?.value ?? '';
 
     setFormState(prev => {
       const newFormState = { ...prev, [name]: value };
