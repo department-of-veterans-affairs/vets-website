@@ -26,16 +26,55 @@ describe('ExpenseAirTravelFields', () => {
   it('renders all inputs with empty values', () => {
     const { container } = render(<ExpenseAirTravelFields {...defaultProps} />);
 
+    const vendorInput = container.querySelector(
+      'va-text-input[name="vendorName"]',
+    );
+    expect(vendorInput).to.exist;
+    expect(vendorInput.getAttribute('label')).to.equal(
+      'Where did you purchase your ticket?',
+    );
+    expect(vendorInput.getAttribute('value')).to.equal('');
+    expect(vendorInput.getAttribute('hint')).to.equal(
+      `Enter the company you purchased the ticket from, even if it isn't an airline.`,
+    );
+
+    const tripRadio = container.querySelector('va-radio[name="tripType"]');
+    expect(tripRadio).to.exist;
+    expect(tripRadio.getAttribute('value')).to.equal('');
+
+    const departureDate = container.querySelector(
+      'va-date[name="departureDate"]',
+    );
+    expect(departureDate).to.exist;
+    expect(departureDate.getAttribute('value')).to.equal('');
+    expect(departureDate.getAttribute('hint')).to.equal(
+      `Enter the date on your departure ticket.`,
+    );
+
+    const departedFrom = container.querySelector(
+      'va-text-input[name="departedFrom"]',
+    );
+    expect(departedFrom).to.exist;
+    expect(departedFrom.getAttribute('value')).to.equal('');
+
     const returnDate = container.querySelector('va-date[name="returnDate"]');
     expect(returnDate).to.exist;
-    // Check that required is false initially because tripType is empty
-    expect(returnDate.required).to.be.false;
+    expect(returnDate.getAttribute('value')).to.equal('');
+    expect(returnDate.getAttribute('hint')).to.equal(
+      `Enter the date on your return ticket. For one-way trips, leave this blank.`,
+    );
+
+    const arrivedTo = container.querySelector(
+      'va-text-input[name="arrivedTo"]',
+    );
+    expect(arrivedTo).to.exist;
+    expect(arrivedTo.getAttribute('value')).to.equal('');
   });
 
   it('renders pre-filled values', () => {
     const preFilled = {
       vendorName: 'Delta',
-      tripType: TRIP_TYPES.ONE_WAY.value,
+      tripType: TRIP_TYPES.ONE_WAY.label,
       departureDate: '2025-11-10',
       departedFrom: 'JFK',
       returnDate: '2025-11-11',
@@ -51,27 +90,34 @@ describe('ExpenseAirTravelFields', () => {
 
     expect(
       container
+        .querySelector('va-text-input[name="vendorName"]')
+        .getAttribute('value'),
+    ).to.equal('Delta');
+    expect(
+      container
         .querySelector('va-radio[name="tripType"]')
         .getAttribute('value'),
-    ).to.equal(TRIP_TYPES.ONE_WAY.value);
-
-    const returnDate = container.querySelector('va-date[name="returnDate"]');
-    expect(returnDate.required).to.be.false; // ONE_WAY, so returnDate not required
-  });
-
-  it('makes returnDate required when tripType is ROUND_TRIP', () => {
-    const roundTripProps = {
-      ...defaultProps,
-      formState: {
-        ...defaultProps.formState,
-        tripType: TRIP_TYPES.ROUND_TRIP.value,
-      },
-    };
-    const { container } = render(
-      <ExpenseAirTravelFields {...roundTripProps} />,
-    );
-    const returnDate = container.querySelector('va-date[name="returnDate"]');
-    expect(returnDate.required).to.be.true;
+    ).to.equal(TRIP_TYPES.ONE_WAY.label);
+    expect(
+      container
+        .querySelector('va-date[name="departureDate"]')
+        .getAttribute('value'),
+    ).to.equal('2025-11-10');
+    expect(
+      container
+        .querySelector('va-text-input[name="departedFrom"]')
+        .getAttribute('value'),
+    ).to.equal('JFK');
+    expect(
+      container
+        .querySelector('va-date[name="returnDate"]')
+        .getAttribute('value'),
+    ).to.equal('2025-11-11');
+    expect(
+      container
+        .querySelector('va-text-input[name="arrivedTo"]')
+        .getAttribute('value'),
+    ).to.equal('LAX');
   });
 
   it('calls onChange when typing into vendor input', async () => {
@@ -111,7 +157,7 @@ describe('ExpenseAirTravelFields', () => {
     });
   });
 
-  it('calls onChange when changing return date', async () => {
+  it('calls onChange when changing arrival date', async () => {
     const onChangeSpy = sinon.spy();
     const { container } = render(
       <ExpenseAirTravelFields {...defaultProps} onChange={onChangeSpy} />,
@@ -132,6 +178,7 @@ describe('ExpenseAirTravelFields', () => {
     const { container } = render(
       <ExpenseAirTravelFields {...defaultProps} onChange={onChangeSpy} />,
     );
+
     const departedFrom = container.querySelector(
       'va-text-input[name="departedFrom"]',
     );
@@ -139,9 +186,8 @@ describe('ExpenseAirTravelFields', () => {
 
     await waitFor(() => {
       expect(onChangeSpy.called).to.be.true;
-      const value =
-        onChangeSpy.firstCall.args[0]?.detail?.value ||
-        onChangeSpy.firstCall.args[0]?.target?.value;
+      const eventArg = onChangeSpy.firstCall.args[0];
+      const value = eventArg?.detail?.value || eventArg?.target?.value;
       expect(value).to.equal('SFO');
     });
   });
@@ -151,6 +197,7 @@ describe('ExpenseAirTravelFields', () => {
     const { container } = render(
       <ExpenseAirTravelFields {...defaultProps} onChange={onChangeSpy} />,
     );
+
     const arrivedTo = container.querySelector(
       'va-text-input[name="arrivedTo"]',
     );
@@ -158,9 +205,8 @@ describe('ExpenseAirTravelFields', () => {
 
     await waitFor(() => {
       expect(onChangeSpy.called).to.be.true;
-      const value =
-        onChangeSpy.firstCall.args[0]?.detail?.value ||
-        onChangeSpy.firstCall.args[0]?.target?.value;
+      const eventArg = onChangeSpy.firstCall.args[0];
+      const value = eventArg?.detail?.value || eventArg?.target?.value;
       expect(value).to.equal('ORD');
     });
   });
@@ -169,7 +215,7 @@ describe('ExpenseAirTravelFields', () => {
     testVaRadioSelection({
       Component: ExpenseAirTravelFields,
       radioName: 'tripType',
-      selectValue: TRIP_TYPES.ROUND_TRIP.value,
+      selectValue: TRIP_TYPES.ROUND_TRIP.label,
       formStateKey: 'tripType',
     });
   });

@@ -34,7 +34,6 @@ import {
   validateReceiptDate,
   validateDescription,
   validateRequestedAmount,
-  validateAirTravelFields,
   validateLodgingFields,
   validateMealFields,
 } from '../../../util/expense-validation-helpers';
@@ -220,9 +219,7 @@ const ExpensePage = () => {
       setExtraFieldErrors(prevErrors => {
         let nextErrors = { ...prevErrors };
 
-        if (isAirTravel) {
-          nextErrors = validateAirTravelFields(newFormState, nextErrors, name);
-        } else if (isLodging) {
+        if (isLodging) {
           nextErrors = validateLodgingFields(newFormState, nextErrors, name);
         } else if (isMeal) {
           nextErrors = validateMealFields(newFormState, nextErrors, name);
@@ -277,18 +274,6 @@ const ExpensePage = () => {
     const emptyFields = requiredFields.filter(field => !formState[field]);
 
     let errors = { ...extraFieldErrors }; // clone existing errors
-
-    // Receipt validation
-    if (!formState.receipt) {
-      errors.receipt = 'Select an approved file type under 5MB';
-    } else {
-      delete errors.receipt;
-    }
-
-    // Airtravel-specific validations
-    if (isAirTravel) {
-      errors = validateAirTravelFields(formState, errors);
-    }
 
     // Lodging-specific validations
     if (isLodging) {
@@ -521,7 +506,7 @@ const ExpensePage = () => {
         loading={isFetchingDocument}
         currentDocument={expenseDocument}
         handleDocumentChange={handleDocumentChange}
-        uploadError={extraFieldErrors.receipt || uploadError || undefined}
+        uploadError={uploadError}
       />
       {isMeal && (
         <ExpenseMealFields
@@ -547,7 +532,6 @@ const ExpensePage = () => {
         <ExpenseAirTravelFields
           formState={formState}
           onChange={handleFormChange}
-          errors={extraFieldErrors}
         />
       )}
       <VaDate
