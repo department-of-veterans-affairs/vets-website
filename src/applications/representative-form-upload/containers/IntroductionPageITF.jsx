@@ -12,7 +12,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import { getFormNumber } from '../helpers';
 import { ITF_PATH } from '../constants';
 
-const IntroductionPage = ({ route, router }) => {
+const IntroductionPageITF = ({ route, router }) => {
   const userLoggedIn = useSelector(state => isLoggedIn(state));
   const formNumber = getFormNumber();
 
@@ -21,7 +21,7 @@ const IntroductionPage = ({ route, router }) => {
       const startForm = () => {
         sessionStorage.setItem('formIncompleteARP', 'true');
         recordEvent({ event: `${formNumber}-start-form` });
-        return router.push(`${ITF_PATH}/is-veteran`);
+        return router.push(`${ITF_PATH}/claimant-background`);
       };
       return (
         <VaLinkAction
@@ -34,7 +34,7 @@ const IntroductionPage = ({ route, router }) => {
         />
       );
     },
-    [route.pageList, router],
+    [route.pageList, router, formNumber],
   );
   useEffect(() => {
     focusElement('h1');
@@ -65,13 +65,16 @@ const IntroductionPage = ({ route, router }) => {
   );
 };
 
-IntroductionPage.propTypes = {
+IntroductionPageITF.propTypes = {
   route: PropTypes.shape({
     formConfig: PropTypes.shape({
       prefillEnabled: PropTypes.bool.isRequired,
     }).isRequired,
     pageList: PropTypes.arrayOf(PropTypes.object).isRequired,
   }).isRequired,
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }),
 };
 
-export default IntroductionPage;
+export default IntroductionPageITF;

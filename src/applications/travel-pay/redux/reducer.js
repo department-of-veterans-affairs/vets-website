@@ -1,16 +1,23 @@
 import {
+  CLEAR_UNSAVED_EXPENSE_CHANGES,
   CREATE_COMPLEX_CLAIM_FAILURE,
   CREATE_COMPLEX_CLAIM_STARTED,
   CREATE_COMPLEX_CLAIM_SUCCESS,
   CREATE_EXPENSE_FAILURE,
   CREATE_EXPENSE_STARTED,
   CREATE_EXPENSE_SUCCESS,
+  DELETE_DOCUMENT_FAILURE,
+  DELETE_DOCUMENT_STARTED,
+  DELETE_DOCUMENT_SUCCESS,
   DELETE_EXPENSE_FAILURE,
   DELETE_EXPENSE_STARTED,
   DELETE_EXPENSE_SUCCESS,
   FETCH_APPOINTMENT_FAILURE,
   FETCH_APPOINTMENT_STARTED,
   FETCH_APPOINTMENT_SUCCESS,
+  FETCH_APPOINTMENT_BY_DATE_FAILURE,
+  FETCH_APPOINTMENT_BY_DATE_STARTED,
+  FETCH_APPOINTMENT_BY_DATE_SUCCESS,
   FETCH_CLAIM_DETAILS_FAILURE,
   FETCH_CLAIM_DETAILS_STARTED,
   FETCH_CLAIM_DETAILS_SUCCESS,
@@ -20,6 +27,7 @@ import {
   FETCH_TRAVEL_CLAIMS_FAILURE,
   FETCH_TRAVEL_CLAIMS_STARTED,
   FETCH_TRAVEL_CLAIMS_SUCCESS,
+  SET_UNSAVED_EXPENSE_CHANGES,
   SUBMIT_CLAIM_FAILURE,
   SUBMIT_CLAIM_STARTED,
   SUBMIT_CLAIM_SUCCESS,
@@ -63,6 +71,23 @@ function mergeExpenses(existingExpenses, newExpenses) {
 
   // Convert back to array
   return Object.values(mergedExpensesMap);
+}
+
+function transposeExpenses(expenses, documents) {
+  return expenses.map(expense => {
+    // there should only be one document associated with an expense
+    // so grab the first.
+    const expenseDocument = documents.find(doc => doc.expenseId === expense.id);
+
+    if (expenseDocument) {
+      return {
+        ...expense,
+        documentId: expenseDocument.documentId,
+      };
+    }
+
+    return expense;
+  });
 }
 
 const initialState = {
@@ -120,6 +145,12 @@ const initialState = {
         error: null,
       },
       data: [],
+      hasUnsavedChanges: false,
+    },
+    documentDelete: {
+      id: '',
+      isLoading: false,
+      error: null,
     },
   },
 };
@@ -197,6 +228,7 @@ function travelPayReducer(state = initialState, action) {
       };
 
     case FETCH_APPOINTMENT_STARTED:
+    case FETCH_APPOINTMENT_BY_DATE_STARTED:
       return {
         ...state,
         appointment: {
@@ -205,6 +237,7 @@ function travelPayReducer(state = initialState, action) {
         },
       };
     case FETCH_APPOINTMENT_SUCCESS:
+    case FETCH_APPOINTMENT_BY_DATE_SUCCESS:
       return {
         ...state,
         appointment: {
@@ -214,6 +247,7 @@ function travelPayReducer(state = initialState, action) {
         },
       };
     case FETCH_APPOINTMENT_FAILURE:
+    case FETCH_APPOINTMENT_BY_DATE_FAILURE:
       return {
         ...state,
         appointment: {
@@ -504,8 +538,13 @@ function travelPayReducer(state = initialState, action) {
 
     case FETCH_COMPLEX_CLAIM_DETAILS_SUCCESS: {
       const existingExpenses = state.complexClaim.expenses.data || [];
+      const claimDocuments = state.complexClaim.claim?.data?.documents || [];
       const newExpenses = action.payload?.expenses || [];
       const mergedExpenses = mergeExpenses(existingExpenses, newExpenses);
+      const transposedExpenses = transposeExpenses(
+        mergedExpenses,
+        claimDocuments,
+      );
 
       return {
         ...state,
@@ -521,7 +560,7 @@ function travelPayReducer(state = initialState, action) {
           },
           expenses: {
             ...state.complexClaim.expenses,
-            data: mergedExpenses,
+            data: transposedExpenses,
           },
         },
       };
@@ -538,6 +577,69 @@ function travelPayReducer(state = initialState, action) {
               isLoading: false,
               error: action.error,
             },
+          },
+        },
+      };
+
+    case DELETE_DOCUMENT_STARTED:
+      return {
+        ...state,
+        complexClaim: {
+          ...state.complexClaim,
+          documentDelete: {
+            id: action.documentId,
+            isLoading: true,
+            error: null,
+          },
+        },
+      };
+
+    case DELETE_DOCUMENT_SUCCESS:
+      return {
+        ...state,
+        complexClaim: {
+          ...state.complexClaim,
+          documentDelete: {
+            id: '',
+            isLoading: false,
+            error: null,
+          },
+        },
+      };
+
+    case DELETE_DOCUMENT_FAILURE:
+      return {
+        ...state,
+        complexClaim: {
+          ...state.complexClaim,
+          documentDelete: {
+            id: action.documentId,
+            isLoading: false,
+            error: action.error,
+          },
+        },
+      };
+
+    case SET_UNSAVED_EXPENSE_CHANGES:
+      return {
+        ...state,
+        complexClaim: {
+          ...state.complexClaim,
+          expenses: {
+            ...state.complexClaim.expenses,
+            hasUnsavedChanges: action.payload,
+          },
+        },
+      };
+
+    case CLEAR_UNSAVED_EXPENSE_CHANGES:
+      return {
+        ...state,
+        complexClaim: {
+          ...state.complexClaim,
+          expenses: {
+            ...state.complexClaim.expenses,
+            hasUnsavedChanges: false,
           },
         },
       };

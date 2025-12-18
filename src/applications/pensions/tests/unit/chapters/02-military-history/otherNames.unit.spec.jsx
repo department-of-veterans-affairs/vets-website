@@ -31,7 +31,10 @@ describe('pensions list of other service names', () => {
     formConfig,
     schema,
     uiSchema,
-    [`va-text-input[label="First name"]`, `va-text-input[label="Last name"]`],
+    [
+      `va-text-input[label="First or given name"]`,
+      `va-text-input[label="Last or family name"]`,
+    ],
     pageTitle,
   );
 

@@ -117,7 +117,7 @@ export default [
       <>
         <p>
           Groups of people who use VA.gov and other VA online tools and services
-          include those who sign in with an account (such as Login.gov or ID.me)
+          include those who sign in with an account (such as ID.me or Login.gov)
           and those who don’t sign in. These groups include Veterans, VA
           patients, beneficiaries, Veteran advocates, caregivers, personal legal
           representatives, and the general public.

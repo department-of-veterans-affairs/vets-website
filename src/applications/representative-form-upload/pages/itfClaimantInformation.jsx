@@ -19,7 +19,7 @@ import {
   ITFVeteranTitleAndDescription,
   ITFVetBenefits,
 } from './helpers';
-import ClaimantInfoViewField from '../components/ClaimantInfoViewField';
+import ITFClaimantInfoViewField from '../components/ITFClaimantInfoViewField';
 
 const claimantSubPageUI = {
   claimantFullName: firstNameLastNameNoSuffixUI(),
@@ -92,7 +92,7 @@ const veteranSubPageSchema = {
 export const itfClaimantInformationPage = {
   uiSchema: {
     ...ITFClaimantTitleAndDescription,
-    'ui:objectViewField': ClaimantInfoViewField,
+    'ui:objectViewField': ITFClaimantInfoViewField,
     ...claimantSubPageUI,
     ...ITFVeteranTitleAndDescription,
     ...veteranSubPageUI,
