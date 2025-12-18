@@ -38,12 +38,24 @@ describe('Array Builder evidence flow', () => {
 
       // ---------------------------------------- FIRST ITEM
       // Prompt
+      h.verifyFPSH3(
+        'Do you want us to get your VA medical records or military health records?',
+      );
+      h.verifyFPSDesc(
+        'We can collect your VA medical records or military health records',
+      );
       h.selectVaPromptResponse('Y');
 
       // Location
+      h.verifyH3(
+        'What VA or military treatment location should we request records from?',
+      );
       h.addVaLocation('South Texas VA Hospital');
 
       // Contestable Issues
+      h.verifyH3(
+        'What conditions were you treated for at South Texas VA Hospital?',
+      );
       cy.get('[name="root_issuesVA_Headaches"]')
         .eq(0)
         .click();
@@ -59,13 +71,20 @@ describe('Array Builder evidence flow', () => {
 
       h.clickContinue();
 
-      // Treatment Before 2005 / Treatment Date
-      h.addVaTreatmentBefore2005('4', '2002');
+      // Treatment Before 2005
+      h.verifyH3('Did treatment at South Texas VA Hospital start before 2005?');
+      h.addVaTreatmentBefore2005();
+
+      // Treatment Date
+      h.verifyH3('When did treatment at South Texas VA Hospital start?');
+      h.addVaTreatmentDate('4', '2002');
 
       // Summary
       h.verifyArrayBuilderReviewVACard(
         0,
         'South Texas VA Hospital',
+        `Review the evidence you’re submitting`,
+        `VA or military treatment locations we’ll request your records from`,
         3,
         'Headaches; Hypertension; Tendonitis, left ankle; and Sleep apnea',
         'April 2002',
@@ -73,15 +92,17 @@ describe('Array Builder evidence flow', () => {
 
       // ---------------------------------------- SECOND ITEM
       h.selectVaPromptResponse('Y');
-      cy.get('form h3').should(
-        'have.text',
-        'What second VA or military treatment location should we request records from?',
-      );
 
       // Location
+      h.verifyH3(
+        'What second VA or military treatment location should we request records from?',
+      );
       h.addVaLocation('Midwest Alabama VA Clinic');
 
       // Contestable Issues
+      h.verifyH3(
+        'What conditions were you treated for at Midwest Alabama VA Clinic?',
+      );
       cy.get('[name="root_issuesVA_Hypertension"]')
         .eq(0)
         .click();
@@ -92,26 +113,33 @@ describe('Array Builder evidence flow', () => {
       h.clickContinue();
 
       // Treatment After 2005
+      h.verifyH3(
+        'Did treatment at Midwest Alabama VA Clinic start before 2005?',
+      );
       h.addVaTreatmentAfter2005();
 
       h.verifyArrayBuilderReviewVACard(
         1,
         'Midwest Alabama VA Clinic',
+        `Review the evidence you’re submitting`,
+        `VA or military treatment locations we’ll request your records from`,
         2,
         'Hypertension; and Tendonitis, left ankle',
       );
 
       // ---------------------------------------- THIRD ITEM
       h.selectVaPromptResponse('Y');
-      cy.get('form h3').should(
-        'have.text',
-        'What third VA or military treatment location should we request records from?',
-      );
 
       // Location
+      h.verifyH3(
+        'What third VA or military treatment location should we request records from?',
+      );
       h.addVaLocation('Northern California VA Urgent Care');
 
       // Contestable Issues
+      h.verifyH3(
+        'What conditions were you treated for at Northern California VA Urgent Care?',
+      );
       cy.get('[name="root_issuesVA_Headaches"]')
         .eq(0)
         .click();
@@ -121,13 +149,24 @@ describe('Array Builder evidence flow', () => {
 
       h.clickContinue();
 
-      // Treatment Before 2005 / Treatment Date
-      h.addVaTreatmentBefore2005('11', '1998');
+      // Treatment Before 2005
+      h.verifyH3(
+        'Did treatment at Northern California VA Urgent Care start before 2005?',
+      );
+      h.addVaTreatmentBefore2005();
+
+      // Treatment Date
+      h.verifyH3(
+        'When did treatment at Northern California VA Urgent Care start?',
+      );
+      h.addVaTreatmentDate('11', '1998');
 
       // Summary
       h.verifyArrayBuilderReviewVACard(
         2,
         'Northern California VA Urgent Care',
+        `Review the evidence you’re submitting`,
+        `VA or military treatment locations we’ll request your records from`,
         2,
         'Headaches and Sleep apnea',
         'Nov. 1998',
@@ -135,15 +174,17 @@ describe('Array Builder evidence flow', () => {
 
       // ---------------------------------------- FOURTH ITEM
       h.selectVaPromptResponse('Y');
-      cy.get('form h3').should(
-        'have.text',
-        'What fourth VA or military treatment location should we request records from?',
-      );
 
       // Location
+      h.verifyH3(
+        'What fourth VA or military treatment location should we request records from?',
+      );
       h.addVaLocation('Central Mississippi VA Medical Complex');
 
       // Contestable Issues
+      h.verifyH3(
+        'What conditions were you treated for at Central Mississippi VA Medical Complex?',
+      );
       cy.get('[name="root_issuesVA_Hypertension"]')
         .eq(0)
         .click();
@@ -153,13 +194,24 @@ describe('Array Builder evidence flow', () => {
 
       h.clickContinue();
 
-      // Treatment Before 2005 / Treatment Date
-      h.addVaTreatmentBefore2005('9', '2012');
+      // Treatment Before 2005
+      h.verifyH3(
+        'Did treatment at Central Mississippi VA Medical Complex start before 2005?',
+      );
+      h.addVaTreatmentBefore2005();
+
+      // Treatment Date
+      h.verifyH3(
+        'When did treatment at Central Mississippi VA Medical Complex start?',
+      );
+      h.addVaTreatmentDate('9', '2012');
 
       // Summary
       h.verifyArrayBuilderReviewVACard(
         3,
         'Central Mississippi VA Medical Complex',
+        `Review the evidence you’re submitting`,
+        `VA or military treatment locations we’ll request your records from`,
         2,
         'Hypertension; and Tendonitis, left ankle',
         'Sept. 2012',

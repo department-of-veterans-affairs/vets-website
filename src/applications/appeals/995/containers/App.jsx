@@ -61,20 +61,20 @@ export const App = ({
   ]);
 
   // Initialize combined feature flag and new-flow-only behavior
-  useEffect(
-    () => {
-      const hasSavedForm =
-        savedForms?.length &&
-        savedForms?.filter(form => form.form === '20-0995')?.length;
+  // useEffect(
+  //   () => {
+  //     const hasSavedForm =
+  //       savedForms?.length &&
+  //       savedForms?.filter(form => form.form === '20-0995')?.length;
 
-      setFormData({
-        ...formData,
-        showArrayBuilder: scRedesign && !hasSavedForm,
-      });
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [scRedesign, setFormData],
-  );
+  //     setFormData({
+  //       ...formData,
+  //       showArrayBuilder: scRedesign && !hasSavedForm,
+  //     });
+  //   },
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  //   [scRedesign, setFormData],
+  // );
   // ------- END REMOVE
 
   const { pathname } = location || {};
