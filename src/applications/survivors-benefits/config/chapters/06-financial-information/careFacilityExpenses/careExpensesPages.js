@@ -144,15 +144,15 @@ export const options = {
     ),
     getItemName: item => item?.provider || 'Care provider',
     cardDescription: item => {
-      if (!item?.careDate) {
+      if (!item?.careDateRange) {
         return 'Care dates not provided';
       }
-      if (item?.careDate?.from && item?.careDate?.to) {
-        return `${transformDate(item.careDate.from)} - ${transformDate(
-          item.careDate.to,
+      if (item?.careDateRange?.from && item?.careDateRange?.to) {
+        return `${transformDate(item.careDateRange.from)} - ${transformDate(
+          item.careDateRange.to,
         )}`;
       }
-      return transformDate(item.careDate.from);
+      return transformDate(item.careDateRange.from);
     },
     summaryTitle: 'Review your care expenses',
     yesNoBlankReviewQuestion: 'Do you have another care expense to add?',

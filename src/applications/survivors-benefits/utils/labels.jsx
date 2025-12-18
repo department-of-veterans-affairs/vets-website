@@ -5,8 +5,8 @@ import constants from 'vets-json-schema/dist/constants.json';
 
 export const dicOptions = {
   DIC: 'DIC',
-  DIC_1151: 'DIC under U.S.C. 1151',
-  DIC_REEVALUATION: 'DIC re-evaluation based on the PACT Act',
+  '1151DIC': 'DIC under U.S.C. 1151',
+  pactActDIC: 'DIC re-evaluation based on the PACT Act',
 };
 
 export const servicesOptions = {

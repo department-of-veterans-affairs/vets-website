@@ -1,7 +1,7 @@
 export function transformCareExpenses(formData) {
   const parsedFormData = JSON.parse(formData);
   const transformedValue = parsedFormData;
-  if (parsedFormData?.careExpenses.length) {
+  if (parsedFormData?.careExpenses?.length) {
     transformedValue.careExpenses = parsedFormData.careExpenses.map(expense => {
       const transformedExpense = { ...expense };
       if (expense?.hoursPerWeek) {

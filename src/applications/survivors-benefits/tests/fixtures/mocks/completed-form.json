@@ -191,5 +191,49 @@
       "paymentAmount": 150,
       "paymentFrequency": "MONTHLY"
     }
+  ],
+  "benefit": "1151DIC",
+  "treatments": [
+    {
+      "startDate": "2020-01-01",
+      "endDate": "2021-01-01",
+      "vaMedicalCenterName": "Atlanta VA Medical Center",
+      "city": "Decatur",
+      "state": "GA"
+    }
+  ],
+  "veteransChildren": [
+    {
+      "childFullName": {
+        "first": "ChildFirst",
+        "last": "ChildLast"
+      },
+      "childDateOfBirth": "2010-10-10",
+      "childSocialSecurityNumber": "123451234",
+      "birthPlace": {
+        "city": "Some City",
+        "state": "OH",
+        "country": "USA"
+      },
+      "bornOutsideUS": false,
+      "relationship": "ADOPTED",
+      "inSchool": true,
+      "seriouslyDisabled": false,
+      "hasBeenMarried": true,
+      "currentlyMarried": false,
+      "livesWith": false,
+      "mailingAddress": {
+        "country": "USA",
+        "street": "123 Child St",
+        "city": "Child City",
+        "state": "AL",
+        "postalCode": "12313"
+      },
+      "custodianFullName": {
+        "first": "CustodianFirst",
+        "last": "CustodianLast"
+      },
+      "childSupport": 5000
+    }
   ]
 }

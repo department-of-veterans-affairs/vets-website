@@ -6,6 +6,8 @@ import {
   switchToInternationalPhone,
   updateBankValues,
   transformCareExpenses,
+  combineTreatmentFacility,
+  updateChildOfVeteran,
 } from '../utils/transformers';
 
 export const transform = (formConfig, form) => {
@@ -15,6 +17,8 @@ export const transform = (formConfig, form) => {
   transformedData = switchToInternationalPhone(transformedData);
   transformedData = updateBankValues(transformedData);
   transformedData = transformCareExpenses(transformedData);
+  transformedData = combineTreatmentFacility(transformedData);
+  transformedData = updateChildOfVeteran(transformedData);
   return JSON.stringify({
     survivorsBenefitsClaim: {
       form: transformedData,
