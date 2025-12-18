@@ -2,26 +2,20 @@ import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
 import createApplicantInformationPage from '~/platform/forms/pages/applicantInformation';
 import get from '~/platform/utilities/data/get';
 import createContactInformationPage from '../../pages/contactInformation';
-import createOldSchoolPage from '../../pages/oldSchool';
-import createDirectDepositChangePage from '../../pages/directDepositChange';
 import createDirectDepositChangePageUpdate from '../../pages/directDepositChangeUpdate';
 
 import {
   applicantInformationUpdate,
-  benefitSelection,
-  benefitSelectionUpdate,
   dependents,
-  militaryHistory,
-  newSchool,
   newSchoolUpdate,
   servicePeriods,
-  servicePeriodsUpdate,
   tourOfDuty,
   sponsorInfo,
   changeAnotherBenefitPage,
 } from '../pages';
+import * as benefitSelectionUpdate from '../pages/benefitSelectionUpdate';
 
-import { isProductionOfTestProdEnv, sponsorInformationTitle } from '../helpers';
+import { sponsorInformationTitle } from '../helpers';
 import guardianInformation from '../pages/guardianInformation';
 import { updateApplicantInformationPage } from '../../utils/helpers';
 import {
@@ -39,30 +33,7 @@ import {
 const isRerouteEnabledOnForm = formData => formData?.isMeb1995Reroute === true;
 const isLegacyFlow = formData => !isRerouteEnabledOnForm(formData);
 
-export const applicantInformationField = (automatedTest = false) => {
-  if (isProductionOfTestProdEnv(automatedTest)) {
-    const applicantInformationPage = {
-      ...createApplicantInformationPage(fullSchema1995, {
-        isVeteran: true,
-        fields: [
-          'veteranFullName',
-          'veteranSocialSecurityNumber',
-          'view:noSSN',
-          'vaFileNumber',
-          'dateOfBirth',
-          'minorHighSchoolQuestions',
-          'applicantGender',
-        ],
-        required: [
-          'veteranFullName',
-          'veteranSocialSecurityNumber',
-          'dateOfBirth',
-        ],
-      }),
-      uiSchema: applicantInformationUpdate.uiSchema,
-    };
-    return updateApplicantInformationPage(applicantInformationPage);
-  }
+export const applicantInformationField = () => {
   const applicantInformationPage = {
     ...createApplicantInformationPage(fullSchema1995, {
       isVeteran: true,
@@ -86,68 +57,18 @@ export const applicantInformationField = (automatedTest = false) => {
   return updateApplicantInformationPage(applicantInformationPage);
 };
 
-export const benefitSelectionUiSchema = (automatedTest = false) => {
-  return isProductionOfTestProdEnv(automatedTest)
-    ? benefitSelectionUpdate.uiSchema
-    : benefitSelection.uiSchema;
+export const directDepositField = () => {
+  return createDirectDepositChangePageUpdate(fullSchema1995);
 };
 
-export const benefitSelectionSchema = (automatedTest = false) => {
-  return isProductionOfTestProdEnv(automatedTest)
-    ? benefitSelectionUpdate.schema
-    : benefitSelection.schema;
-};
-
-export const servicePeriodsUiSchema = (automatedTest = false) => {
-  return isProductionOfTestProdEnv(automatedTest)
-    ? servicePeriods.uiSchema
-    : servicePeriodsUpdate.uiSchema;
-};
-
-export const servicePeriodsSchema = (automatedTest = false) => {
-  return isProductionOfTestProdEnv(automatedTest)
-    ? servicePeriods.schema
-    : servicePeriodsUpdate.schema;
-};
-
-export const newSchoolTitle = (automatedTest = false) => {
-  return isProductionOfTestProdEnv(automatedTest)
-    ? 'School, university, program, or training facility you want to attend'
-    : 'School or training facility you want to attend';
-};
-
-export const newSchoolUiSchema = (automatedTest = false) => {
-  return isProductionOfTestProdEnv(automatedTest)
-    ? newSchool.uiSchema
-    : newSchoolUpdate.uiSchema;
-};
-
-export const newSchoolSchema = (automatedTest = false) => {
-  return isProductionOfTestProdEnv(automatedTest)
-    ? newSchool.schema
-    : newSchoolUpdate.schema;
-};
-
-export const directDepositField = (automatedTest = false) => {
-  return isProductionOfTestProdEnv(automatedTest)
-    ? createDirectDepositChangePage(fullSchema1995)
-    : createDirectDepositChangePageUpdate(fullSchema1995);
-};
-
-export const serviceHistoryTitle = (automatedTest = false) => {
-  if (isProductionOfTestProdEnv(automatedTest)) {
-    return 'Service history';
-  }
-  return 'Applicant service history';
-};
 const militaryService = {
-  title: serviceHistoryTitle(),
+  title: 'Applicant service history',
   pages: {
     servicePeriods: {
       path: 'military/service',
       title: 'Service periods',
-      uiSchema: servicePeriodsUiSchema(),
-      schema: servicePeriodsSchema(),
+      uiSchema: servicePeriods.uiSchema,
+      schema: servicePeriods.schema,
       depends: isLegacyFlow,
     },
     toursOfDutyIsActiveDutyTrue: {
@@ -175,15 +96,6 @@ const militaryService = {
   },
 };
 
-if (isProductionOfTestProdEnv()) {
-  militaryService.pages.militaryHistory = {
-    title: 'Military history',
-    path: 'military/history',
-    depends: isLegacyFlow,
-    uiSchema: militaryHistory.uiSchema,
-    schema: militaryHistory.schema,
-  };
-}
 export const chapters = {
   applicantInformation: {
     title: 'Applicant information',
@@ -214,8 +126,8 @@ export const chapters = {
       benefitSelection: {
         title: 'Education benefit selection',
         path: 'benefits/eligibility',
-        uiSchema: benefitSelectionUiSchema(),
-        schema: benefitSelectionSchema(),
+        uiSchema: benefitSelectionUpdate.uiSchema,
+        schema: benefitSelectionUpdate.schema,
         depends: isLegacyFlow,
       },
       changeAnotherBenefit: {
@@ -244,19 +156,17 @@ export const chapters = {
   },
   militaryService,
   schoolSelection: {
-    title: isProductionOfTestProdEnv()
-      ? 'School selection'
-      : 'School/training facility selection',
+    title: 'School/training facility selection',
     depends: isLegacyFlow,
     pages: {
       newSchool: {
         path: 'school-selection/new-school',
-        title: newSchoolTitle(),
+        title: 'School or training facility you want to attend',
         initialData: {
           newSchoolAddress: {},
         },
-        uiSchema: newSchoolUiSchema(),
-        schema: newSchoolSchema(),
+        uiSchema: newSchoolUpdate.uiSchema,
+        schema: newSchoolUpdate.schema,
         depends: isLegacyFlow,
       },
     },
@@ -272,9 +182,7 @@ export const chapters = {
         title: 'Dependents',
         path: 'personal-information/dependents',
         depends: form =>
-          isLegacyFlow(form) &&
-          isProductionOfTestProdEnv() &&
-          form['view:hasServiceBefore1978'] === true,
+          isLegacyFlow(form) && form['view:hasServiceBefore1978'] === true,
         uiSchema: dependents.uiSchema,
         schema: dependents.schema,
       },
@@ -285,12 +193,6 @@ export const chapters = {
     },
   },
 };
-if (isProductionOfTestProdEnv()) {
-  chapters.schoolSelection.pages.oldSchool = {
-    ...createOldSchoolPage(fullSchema1995),
-    depends: isLegacyFlow,
-  };
-}
 
 export const mebChapters = {
   questionnaire: {

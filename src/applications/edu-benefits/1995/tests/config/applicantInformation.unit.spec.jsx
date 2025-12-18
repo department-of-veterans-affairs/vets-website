@@ -12,11 +12,7 @@ import {
 import formConfig from '../../config/form';
 import {
   applicantInformationField,
-  benefitSelectionSchema,
-  benefitSelectionUiSchema,
   directDepositField,
-  newSchoolSchema,
-  newSchoolUiSchema,
 } from '../../config/chapters';
 import { updateApplicantInformationPage } from '../../../utils/helpers';
 
@@ -329,43 +325,19 @@ describe('Edu 1995 applicantInformation', () => {
   });
 });
 
-describe('Edu 1995 Fields for production', () => {
-  it('should pass applicantInformation for production env', () => {
-    const automatedTest = true;
-    const applicantInformation = applicantInformationField(automatedTest);
+describe('Edu 1995 applicantInformationField function', () => {
+  it('should return applicantInformation', () => {
+    const applicantInformation = applicantInformationField();
     expect(applicantInformation).not.to.be.null;
   });
-  it('should pass benefitSelection UiSchema for production env', () => {
-    const automatedTest = true;
-    const benefitSelection = benefitSelectionUiSchema(automatedTest);
-    expect(benefitSelection).not.to.be.null;
-  });
-  it('should pass benefitSelection Schema for production env', () => {
-    const automatedTest = true;
-    const benefitSelection = benefitSelectionSchema(automatedTest);
-    expect(benefitSelection).not.to.be.null;
-  });
-  it('should pass newSchool UiSchema for production env', () => {
-    const automatedTest = true;
-    const newSchool = newSchoolUiSchema(automatedTest);
-    expect(newSchool).not.to.be.null;
-  });
-  it('should pass newSchool Schema for production env', () => {
-    const automatedTest = true;
-    const newSchool = newSchoolSchema(automatedTest);
-    expect(newSchool).not.to.be.null;
-  });
-  it('should pass directDepositField for production env', () => {
-    const automatedTest = true;
-    const directDeposit = directDepositField(automatedTest);
+
+  it('should pass directDepositField', () => {
+    const directDeposit = directDepositField();
     expect(directDeposit).not.to.be.null;
   });
-});
 
-describe('Edu 1995 applicantInformationField function', () => {
-  it('should include minorHighSchoolQuestions and applicantGender fields when isProductionOfTestProdEnv is true', () => {
-    const automatedTest = true;
-    const result = applicantInformationField(automatedTest);
+  it('should include minorHighSchoolQuestions and applicantGender fields', () => {
+    const result = applicantInformationField();
 
     expect(result).to.have.property('schema');
     expect(result.schema).to.have.property('properties');
@@ -375,18 +347,16 @@ describe('Edu 1995 applicantInformationField function', () => {
     expect(result.schema.properties).to.have.property('applicantGender');
   });
 
-  it('should set veteranSocialSecurityNumber as a required field when isProductionOfTestProdEnv is true', () => {
-    const automatedTest = true;
-    const result = applicantInformationField(automatedTest);
+  it('should set veteranSocialSecurityNumber as a required field', () => {
+    const result = applicantInformationField();
 
     expect(result).to.have.property('schema');
     expect(result.schema).to.have.property('required');
     expect(result.schema.required).to.include('veteranSocialSecurityNumber');
   });
 
-  it('should apply the uiSchema from applicantInformationUpdate when isProductionOfTestProdEnv is true', () => {
-    const automatedTest = true;
-    const result = applicantInformationField(automatedTest);
+  it('should apply the uiSchema from applicantInformationUpdate', () => {
+    const result = applicantInformationField();
 
     expect(result).to.have.property('uiSchema');
     expect(result.uiSchema).to.have.property('veteranFullName');
@@ -435,9 +405,8 @@ describe('Edu 1995 updateApplicantInformationPage function', () => {
 });
 
 describe('Edu 1995 form validation with updated required fields', () => {
-  it('should enforce veteranSocialSecurityNumber as required when isProductionOfTestProdEnv is true', async () => {
-    const automatedTest = true;
-    const result = applicantInformationField(automatedTest);
+  it('should enforce veteranSocialSecurityNumber as required', async () => {
+    const result = applicantInformationField();
 
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

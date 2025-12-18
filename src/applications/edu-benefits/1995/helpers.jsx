@@ -1,18 +1,12 @@
 import React from 'react';
 import moment from 'moment/moment';
 
-export const isProductionOfTestProdEnv = () => {
-  return true;
-};
-
 export const sponsorInformationTitle = () => {
   return 'DEA, Chapter 35 sponsor information';
 };
 
 export const directDepositMethod = formData => {
-  return isProductionOfTestProdEnv()
-    ? formData.bankAccountChange
-    : formData.bankAccountChangeUpdate;
+  return formData.bankAccountChangeUpdate;
 };
 
 export const buildSubmitEventData = formData => {
@@ -57,14 +51,6 @@ export const buildSubmitEventData = formData => {
   };
 };
 
-export const eighteenOrOver = birthday => {
-  return (
-    birthday === undefined ||
-    birthday.length !== 10 ||
-    moment().diff(moment(birthday, 'YYYY-MM-DD'), 'years') > 17
-  );
-};
-
 export const eighteenOrOverUpdate = birthday => {
   return (
     birthday === undefined ||
@@ -87,8 +73,6 @@ export const ageWarning = (
     </div>
     <div className="vads-u-flex--5">
       <p className="vads-u-font-size--base">
-        {isProductionOfTestProdEnv() &&
-          'Applicants under the age of 18 can’t legally make a benefits election.'}
         Based on your date of birth, please have a parent, guardian, or
         custodian review the information on this application, provide their
         contact information in the Guardian Section of this form, and click the
@@ -99,9 +83,7 @@ export const ageWarning = (
 );
 
 export const isEighteenOrOlder = birthday => {
-  return isProductionOfTestProdEnv()
-    ? eighteenOrOver(birthday)
-    : eighteenOrOverUpdate(birthday);
+  return eighteenOrOverUpdate(birthday);
 };
 export const showRudisill1995 = () => {
   return sessionStorage.getItem('isRudisill1995') === 'true';

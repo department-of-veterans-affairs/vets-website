@@ -1,28 +1,9 @@
 import { expect } from 'chai';
 import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
-import { benefitSelectionUiSchema } from '../../config/chapters';
 
 // Import the functions directly from their source files
 import guardianInformation from '../../pages/guardianInformation';
 import { sponsorInfo } from '../../pages/sponsorInfomartion';
-
-describe('benefitSelectionUiSchema', () => {
-  it('should return the correct schema in production/test production environment', () => {
-    const result = benefitSelectionUiSchema(true);
-
-    expect(result).to.not.be.null;
-    expect(result).to.be.an('object');
-    expect(result).to.have.property('benefitUpdate');
-  });
-
-  it('should return the correct schema when not in production/test production environment', () => {
-    const result = benefitSelectionUiSchema(false);
-
-    expect(result).to.not.be.null;
-    expect(result).to.be.an('object');
-    expect(result).to.have.property('benefitUpdate');
-  });
-});
 
 describe('isEighteenOrYounger', () => {
   it('should correctly identify individuals under 18 in production environment', () => {
