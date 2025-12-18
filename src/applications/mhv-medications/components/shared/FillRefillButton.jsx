@@ -2,11 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { pharmacyPhoneNumber } from '@department-of-veterans-affairs/mhv/exports';
+import useAcceleratedData from '~/platform/mhv/hooks/useAcceleratedData';
 import { useRefillPrescriptionMutation } from '../../api/prescriptionsApi';
 import CallPharmacyPhone from './CallPharmacyPhone';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
 
 const FillRefillButton = rx => {
+  const { isAcceleratingMedications } = useAcceleratedData();
   const [refillPrescription, { isLoading }] = useRefillPrescriptionMutation();
 
   const { dispensedDate, error, prescriptionId, success, isRefillable } = rx;
@@ -69,7 +71,10 @@ const FillRefillButton = rx => {
           data-testid="refill-request-button"
           hidden={success || isLoading}
           onClick={() => {
-            refillPrescription(prescriptionId);
+            refillPrescription({
+              id: prescriptionId,
+              isAcceleratingMedications,
+            });
           }}
           text={`Request ${hasBeenDispensed ? 'a refill' : 'the first fill'}`}
         />

@@ -154,7 +154,10 @@ const RefillPrescriptions = () => {
       });
 
       try {
-        await bulkRefillPrescriptions(prescriptionIds).unwrap();
+        await bulkRefillPrescriptions({
+          ids: prescriptionIds,
+          isAcceleratingMedications,
+        }).unwrap();
         setRefillStatus(REFILL_STATUS.FINISHED);
         setSelectedRefillList([]);
       } catch (error) {
