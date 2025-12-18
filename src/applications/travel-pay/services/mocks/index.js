@@ -258,6 +258,7 @@ const responses = {
     details.documents = [
       {
         documentId: '4f6f751b-87ff-ef11-9341-001dd809b68c',
+        expenseId: 'e82h82h8-ghg9-8e66-c799-g5ed16186jif',
         filename: 'Parking.docx',
         mimetype:
           'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
@@ -265,36 +266,42 @@ const responses = {
       },
       {
         documentId: 'a5137021-87ff-ef11-9341-001dd809b68c',
+        expenseId: 'f93i93i9-hih0-9f77-d800-h6fe27297kjg',
         filename: 'Toll.pdf',
         mimetype: 'application/pdf',
         createdon: '2025-03-12T21:15:33Z',
       },
       {
         documentId: '4f6f751b-87ff-ef11-9341-001dd854jutt',
+        expenseId: 'g04j04j0-iji1-0g88-e911-i7gf38308lkh',
         filename: 'CommonCarrier.jpg',
         mimetype: 'image/jpeg',
         createdon: '2025-03-24T14:02:52.893Z',
       },
       {
         documentId: '0ab14628-6531-4a6c-b836-97a92fb35a9e',
+        expenseId: 'h15k15k1-jkj2-1h99-f022-j8hg49419mli',
         filename: 'Airtravel.jpg',
         mimetype: 'image/jpeg',
         createdon: '2025-03-24T14:04:00.893Z',
       },
       {
         documentId: '887ead10-d849-428c-b83b-50a054fd968b',
+        expenseId: 'b59e59e5-ded6-5b33-9466-d2ba83853gfc',
         filename: 'lodging.txt',
         mimetype: '',
         createdon: '2025-03-24T14:06:52.893Z',
       },
       {
         documentId: '887ead10-d849-428c-b83b-50a05434rtfe',
+        expenseId: 'c60f60f6-efe7-6c44-a577-e3cb94964hgd',
         filename: 'meal.txt',
         mimetype: '',
         createdon: '2025-03-24T14:06:52.893Z',
       },
       {
         documentId: '887ead10-d849-428c-b83b-50a053re44wr',
+        expenseId: 'd71g71g7-fgf8-7d55-b688-f4dc05075ihe',
         filename: 'other.txt',
         mimetype: '',
         createdon: '2025-03-24T14:06:52.893Z',
