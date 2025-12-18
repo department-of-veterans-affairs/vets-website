@@ -95,7 +95,8 @@ const WhatWeConsiderAsset = () => (
         <p>
           This means that the child isn’t in the custody of a surviving spouse.
           You must report income and assets for yourself, your custodian, and
-          your custodian’s spouse.
+          your custodian’s spouse. If your custodian is an agency or facility,
+          you do not need to report their income.
         </p>
       </div>
     </va-accordion-item>
