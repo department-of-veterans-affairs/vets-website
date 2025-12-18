@@ -13,7 +13,7 @@ const ExpenseLodgingFields = ({ formState, onChange }) => (
       name="vendor"
       value={formState.vendor || ''}
       required
-      onInput={onChange}
+      onBlur={onChange}
     />
     <VaDate
       label="Check in date"
@@ -21,6 +21,7 @@ const ExpenseLodgingFields = ({ formState, onChange }) => (
       value={formState.checkInDate || ''}
       required
       onDateChange={onChange}
+      onDateBlur={onChange}
     />
     <VaDate
       label="Check out date"
@@ -28,6 +29,7 @@ const ExpenseLodgingFields = ({ formState, onChange }) => (
       value={formState.checkOutDate || ''}
       required
       onDateChange={onChange}
+      onDateBlur={onChange}
     />
   </>
 );

@@ -3,6 +3,7 @@ import React from 'react';
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import environment from '~/platform/utilities/environment';
+import { personalInformationPage } from 'platform/forms-system/src/js/components/PersonalInformation';
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -11,6 +12,14 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import * as PreviouslyApplied from '../pages/PreviouslyApplied';
 import * as SelectVABenefit from '../pages/SelectVABenefit';
 import * as VABenefitWarning from '../pages/VABenefitWarning';
+import * as PayeeNumber from '../pages/PayeeNumber';
+import * as MailingAddress from '../pages/MailingAddress';
+import * as PhoneAndEmail from '../pages/PhoneAndEmail';
+import * as TestNameAndDate from '../pages/TestNameAndDate';
+import * as OrganizationInfo from '../pages/OrganizationInfo';
+import * as TestCost from '../pages/TestCost';
+import * as Remarks from '../pages/Remarks';
+import * as SubmissionInstructions from '../pages/SubmissionInstructions';
 
 import submitForm from './submitForm';
 import transform from './transform';
@@ -98,6 +107,88 @@ const formConfig = {
           uiSchema: VABenefitWarning.uiSchema,
           schema: VABenefitWarning.schema,
           depends: formData => !formData?.hasPreviouslyApplied,
+        },
+      },
+    },
+    personalInformationChapter: {
+      title: 'Your personal information',
+      pages: {
+        ...personalInformationPage({
+          personalInfoConfig: {
+            name: { show: true, required: true },
+            ssn: { show: true, required: true },
+            dateOfBirth: { show: true, required: false },
+          },
+          dataAdapter: {
+            ssnPath: 'ssn',
+          },
+        }),
+        payeeNumber: {
+          path: 'payee-number',
+          title: 'Payee Number',
+          uiSchema: PayeeNumber.uiSchema,
+          schema: PayeeNumber.schema,
+          depends: formData =>
+            formData?.vaBenefitProgram === 'chapter35' &&
+            !!formData.vaFileNumber,
+        },
+        mailingAddress: {
+          path: 'mailing-address',
+          title: 'Mailing Address',
+          uiSchema: MailingAddress.uiSchema,
+          schema: MailingAddress.schema,
+        },
+        phoneAndEmail: {
+          path: 'phone-and-email',
+          title: 'Phone and Email',
+          uiSchema: PhoneAndEmail.uiSchema,
+          schema: PhoneAndEmail.schema,
+        },
+      },
+    },
+    testInformationChapter: {
+      title: 'Test information',
+      pages: {
+        testNameAndDate: {
+          path: 'test-name-and-date',
+          title: 'Test name and date',
+          uiSchema: TestNameAndDate.uiSchema,
+          schema: TestNameAndDate.schema,
+        },
+        organizationInfo: {
+          path: 'organization-info',
+          title: 'Organization information',
+          uiSchema: OrganizationInfo.uiSchema,
+          schema: OrganizationInfo.schema,
+        },
+        testCost: {
+          path: 'test-cost',
+          title: 'Test cost',
+          uiSchema: TestCost.uiSchema,
+          schema: TestCost.schema,
+        },
+      },
+    },
+    remarksChapter: {
+      title: 'Remarks',
+      pages: {
+        remarksPage: {
+          path: 'remarks',
+          title: 'Remarks',
+          uiSchema: Remarks.uiSchema,
+          schema: Remarks.schema,
+        },
+      },
+    },
+    submissionInstructionsChapter: {
+      title: 'Submission instructions',
+      hideOnReviewPage: true,
+      pages: {
+        submissionInstructions: {
+          path: 'submission-instructions',
+          title: 'Submission instructions',
+          uiSchema: SubmissionInstructions.uiSchema,
+          schema: SubmissionInstructions.schema,
         },
       },
     },

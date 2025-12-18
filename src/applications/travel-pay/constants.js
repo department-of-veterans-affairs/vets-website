@@ -15,7 +15,7 @@ export const STATUSES = {
     description:
       'You submitted a claim without required expense information. You must provide the required information for BTSSS to process the claim.',
     definition:
-      'You haven’t submitted this claim yet. Make sure to add all required information and submit within 30 days of your appointment.',
+      'You haven’t filed this claim yet. Make sure to add all required information and file within 30 days of your appointment.',
     reasons: null,
   },
   Saved: {
@@ -274,14 +274,12 @@ export const TRANSPORTATION_REASONS = Object.freeze({
 
 export const TRIP_TYPES = Object.freeze({
   ROUND_TRIP: {
-    value: 'round-trip',
+    value: 'RoundTrip',
     label: 'Round trip',
-    key: 'RoundTrip',
   },
   ONE_WAY: {
-    value: 'one-way',
+    value: 'OneWay',
     label: 'One way',
-    key: 'OneWay',
   },
 });
 
