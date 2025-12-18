@@ -103,6 +103,9 @@ const summaryPage = {
         labels: summaryContent.options,
         labelHeaderLevel: '4',
         hint: null,
+        errorMessages: {
+          required: summaryContent.requiredError,
+        },
       },
     ),
   },
