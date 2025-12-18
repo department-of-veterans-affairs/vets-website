@@ -23,3 +23,8 @@ services:
       - ../vagov-content:/vagov-content
       - ../content-build:/content-build
       - /etc/ssl/cacerts:/etc/ssl/cacerts
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'         # Limit to 50% of a single CPU
+          # memory: 512M        # Maximum memory limit
