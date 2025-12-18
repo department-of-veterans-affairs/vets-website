@@ -1,6 +1,6 @@
 import { pick } from 'lodash';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-import { isProductionOfTestProdEnv, sponsorInformationTitle } from '../helpers';
+import { sponsorInformationTitle } from '../helpers';
 
 /**
  * Returns a Sponsor page based on the options passed.
@@ -8,9 +8,6 @@ import { isProductionOfTestProdEnv, sponsorInformationTitle } from '../helpers';
  * @param {Object} schema   The full schema for the form
  */
 const noSSNTitle = () => {
-  if (isProductionOfTestProdEnv()) {
-    return 'I don’t have a Social Security number';
-  }
   return "I don't know my sponsor's Social Security number";
 };
 

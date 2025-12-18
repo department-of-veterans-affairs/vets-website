@@ -6,9 +6,6 @@ export const isProductionOfTestProdEnv = () => {
 };
 
 export const sponsorInformationTitle = () => {
-  if (isProductionOfTestProdEnv()) {
-    return 'Sponsor information';
-  }
   return 'DEA, Chapter 35 sponsor information';
 };
 
