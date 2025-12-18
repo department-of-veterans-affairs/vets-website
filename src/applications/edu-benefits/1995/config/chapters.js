@@ -8,7 +8,7 @@ import {
   applicantInformationUpdate,
   dependents,
   newSchoolUpdate,
-  servicePeriods,
+  servicePeriodsUpdate,
   tourOfDuty,
   sponsorInfo,
   changeAnotherBenefitPage,
@@ -67,8 +67,8 @@ const militaryService = {
     servicePeriods: {
       path: 'military/service',
       title: 'Service periods',
-      uiSchema: servicePeriods.uiSchema,
-      schema: servicePeriods.schema,
+      uiSchema: servicePeriodsUpdate.uiSchema,
+      schema: servicePeriodsUpdate.schema,
       depends: isLegacyFlow,
     },
     toursOfDutyIsActiveDutyTrue: {
