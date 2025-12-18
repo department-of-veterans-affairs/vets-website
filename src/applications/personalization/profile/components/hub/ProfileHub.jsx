@@ -35,12 +35,26 @@ const ProfileHub = () => {
       />
       <Toggler toggleName={Toggler.TOGGLE_NAMES.profileHealthCareSettingsPage}>
         <Toggler.Enabled>
-          <ProfileHubItem
-            heading={PROFILE_PATH_NAMES.HEALTH_CARE_SETTINGS}
-            content="Settings for your VA health care experience, such as emergency contacts and scheduling preferences"
-            href={PROFILE_PATHS.HEALTH_CARE_SETTINGS}
-            reactLink
-          />
+          <Toggler
+            toggleName={Toggler.TOGGLE_NAMES.profileHideHealthCareContacts}
+          >
+            <Toggler.Enabled>
+              <ProfileHubItem
+                heading={PROFILE_PATH_NAMES.HEALTH_CARE_SETTINGS}
+                content="Settings for your VA health care experience, such as scheduling preferences"
+                href={PROFILE_PATHS.HEALTH_CARE_SETTINGS}
+                reactLink
+              />
+            </Toggler.Enabled>
+            <Toggler.Disabled>
+              <ProfileHubItem
+                heading={PROFILE_PATH_NAMES.HEALTH_CARE_SETTINGS}
+                content="Settings for your VA health care experience, such as emergency contacts and scheduling preferences"
+                href={PROFILE_PATHS.HEALTH_CARE_SETTINGS}
+                reactLink
+              />
+            </Toggler.Disabled>
+          </Toggler>
         </Toggler.Enabled>
       </Toggler>
       <ProfileHubItem
