@@ -31,7 +31,6 @@ class MedicalRecordsSite {
     isAcceleratingAllergies = false,
     isAcceleratingVitals = false,
     isAcceleratingLabsAndTests = false,
-    isAcceleratingVaccines = false,
     isAcceleratingCareNotes = false,
     isAcceleratingConditions = false,
     isCcdExtendedFileTypesEnabled = false,
@@ -59,10 +58,6 @@ class MedicalRecordsSite {
           {
             name: 'mhv_accelerated_delivery_labs_and_tests_enabled',
             value: isAcceleratingLabsAndTests,
-          },
-          {
-            name: 'mhv_accelerated_delivery_vaccines_enabled',
-            value: isAcceleratingVaccines,
           },
           {
             name: 'mhv_accelerated_delivery_conditions_enabled',
