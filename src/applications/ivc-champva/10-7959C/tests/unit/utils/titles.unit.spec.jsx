@@ -1,7 +1,11 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import { healthInsurancePageTitleUI } from '../../../utils/titles';
+import {
+  healthInsurancePageTitleUI,
+  titleWithNameUI,
+  titleWithRoleUI,
+} from '../../../utils/titles';
 
 describe('10-7959c `healthInsurancePageTitleUI` util', () => {
   const DEFAULT_DATA = { provider: 'Cigna' };
@@ -17,41 +21,127 @@ describe('10-7959c `healthInsurancePageTitleUI` util', () => {
     expect(res).to.have.property('ui:title');
   });
 
-  it('should prepend provider name by default', () => {
-    const uiSchema = healthInsurancePageTitleUI('prescription coverage');
+  it('should replace %s placeholder with provider name', () => {
+    const uiSchema = healthInsurancePageTitleUI('%s prescription coverage');
     const result = subject(uiSchema);
     expect(result).to.equal('Cigna prescription coverage');
   });
 
-  it('should return title only when provider is not present', () => {
-    const uiSchema = healthInsurancePageTitleUI('prescription coverage');
+  it('should return empty string when provider is not present', () => {
+    const uiSchema = healthInsurancePageTitleUI('%s prescription coverage');
     const result = subject(uiSchema, {});
-    expect(result).to.equal('prescription coverage');
+    expect(result).to.equal('');
   });
 
-  it('should replace %s placeholder with provider name', () => {
-    const uiSchema = healthInsurancePageTitleUI('Type of insurance for %s');
+  it('should use custom placeholder token', () => {
+    const uiSchema = healthInsurancePageTitleUI('Upload [%p] card', null, {
+      placeholder: '%p',
+    });
     const result = subject(uiSchema);
-    expect(result).to.equal('Type of insurance for Cigna');
+    expect(result).to.equal('Upload [Cigna] card');
+  });
+});
+
+describe('10-7959c `titleWithRoleUI` util', () => {
+  const subject = (uiSchema, formData) => {
+    const TitleComponent = uiSchema['ui:title'];
+    const { container } = render(<div>{TitleComponent({ formData })}</div>);
+    return container.textContent;
+  };
+
+  it('should return `Your` when certifier role is `applicant`', () => {
+    const uiSchema = titleWithRoleUI('%s mailing address');
+    const result = subject(uiSchema, { certifierRole: 'applicant' });
+    expect(result).to.equal('Your mailing address');
   });
 
-  it('should append provider name when position is suffix', () => {
-    const uiSchema = healthInsurancePageTitleUI(
-      'Upload health insurance card',
-      null,
-      { position: 'suffix' },
-    );
-    const result = subject(uiSchema);
-    expect(result).to.equal('Upload health insurance card Cigna');
+  it('should return `Beneficiary’s` when certifier role is not applicant', () => {
+    const uiSchema = titleWithRoleUI('%s mailing address');
+    const result = subject(uiSchema, { certifierRole: 'other' });
+    expect(result).to.equal('Beneficiary’s mailing address');
   });
 
-  it('should prepend provider name when position is prefix', () => {
-    const uiSchema = healthInsurancePageTitleUI(
-      'health insurance information',
-      null,
-      { position: 'prefix' },
-    );
-    const result = subject(uiSchema);
-    expect(result).to.equal('Cigna health insurance information');
+  it('should handle capitalization option', () => {
+    const uiSchema = titleWithRoleUI('%s contact info', null, {
+      capitalize: false,
+      self: 'your',
+      other: 'their',
+    });
+    const result = subject(uiSchema, { certifierRole: 'applicant' });
+    expect(result).to.equal('your contact info');
+  });
+
+  it('should return empty string when title is empty', () => {
+    const uiSchema = titleWithRoleUI('');
+    const result = subject(uiSchema, { certifierRole: 'applicant' });
+    expect(result).to.equal('');
+  });
+});
+
+describe('10-7959c `titleWithNameUI` util', () => {
+  const subject = (uiSchema, formData) => {
+    const TitleComponent = uiSchema['ui:title'];
+    const { container } = render(<div>{TitleComponent({ formData })}</div>);
+    return container.textContent;
+  };
+
+  it('should return `Your` when certifier role is `applicant`', () => {
+    const uiSchema = titleWithNameUI('%s identification information');
+    const result = subject(uiSchema, { certifierRole: 'applicant' });
+    expect(result).to.equal('Your identification information');
+  });
+
+  it('should return first name with possessive when certifier role is not `applicant`', () => {
+    const uiSchema = titleWithNameUI('%s identification information');
+    const formData = {
+      certifierRole: 'other',
+      applicantName: { first: 'John', last: 'Smith' },
+    };
+    const result = subject(uiSchema, formData);
+    expect(result).to.equal('John’s identification information');
+  });
+
+  it('should return full name when `firstNameOnly` option is `false`', () => {
+    const uiSchema = titleWithNameUI('%s contact info', null, {
+      firstNameOnly: false,
+    });
+    const formData = {
+      certifierRole: 'other',
+      applicantName: {
+        first: 'John',
+        middle: 'Michael',
+        last: 'Smith',
+      },
+    };
+    const result = subject(uiSchema, formData);
+    expect(result).to.equal('John Michael Smith’s contact info');
+  });
+
+  it('should return name without possessive when `possessive` option is false', () => {
+    const uiSchema = titleWithNameUI('Contact information for %s', null, {
+      possessive: false,
+    });
+    const formData = {
+      certifierRole: 'other',
+      applicantName: { first: 'John' },
+    };
+    const result = subject(uiSchema, formData);
+    expect(result).to.equal('Contact information for John');
+  });
+
+  it('should fallback to `Beneficiary` when name is not available', () => {
+    const uiSchema = titleWithNameUI('%s information');
+    const formData = {
+      certifierRole: 'other',
+      applicantName: {},
+    };
+    const result = subject(uiSchema, formData);
+    expect(result).to.equal('Beneficiary’s information');
+  });
+
+  it('should return empty title when title is empty', () => {
+    const uiSchema = titleWithNameUI('');
+    const result = subject(uiSchema, { certifierRole: 'applicant' });
+    expect(result).to.equal('');
   });
 });
