@@ -7,7 +7,7 @@ import maximalJson from './fixtures/data/maximal-test.json';
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
 
-import { daysAgoYyyyMmDd } from '../helpers';
+import { daysAgoYyyyMmDd } from '../../utils/helpers';
 
 const mockManifest = {
   appName: manifest.appName,

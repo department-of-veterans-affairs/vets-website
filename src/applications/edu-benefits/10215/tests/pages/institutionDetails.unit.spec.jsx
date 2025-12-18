@@ -6,7 +6,7 @@ import { render, waitFor } from '@testing-library/react';
 
 import { DefinitionTester } from '~/platform/testing/unit/schemaform-utils';
 import formConfig from '../../config/form';
-import { daysAgoYyyyMmDd, futureDateYyyyMmDd } from '../../helpers';
+import { daysAgoYyyyMmDd, futureDateYyyyMmDd } from '../../../utils/helpers';
 
 const definitions = formConfig.defaultDefinitions;
 

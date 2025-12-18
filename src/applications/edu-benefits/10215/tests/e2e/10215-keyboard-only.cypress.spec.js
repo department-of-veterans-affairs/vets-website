@@ -4,7 +4,7 @@ import manifest from '../../manifest.json';
 import formConfig from '../../config/form';
 import testData from '../fixtures/data/test-data.json';
 import { SUBMIT_URL } from '../../config/constants';
-import { daysAgoYyyyMmDd } from '../../helpers';
+import { daysAgoYyyyMmDd } from '../../../utils/helpers';
 
 describe('22-10215 Edu Benefits Form', () => {
   it('should be keyboard-only navigable', () => {

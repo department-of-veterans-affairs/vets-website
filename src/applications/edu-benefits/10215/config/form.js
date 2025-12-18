@@ -9,7 +9,9 @@ import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import manifest from '../manifest.json';
 import submitForm from './submitForm';
 import transform from './transform';
-import { daysAgoYyyyMmDd, getFTECalcs } from '../helpers';
+
+import { getFTECalcs } from '../helpers';
+import { daysAgoYyyyMmDd } from '../../utils/helpers';
 
 // Components
 import GetFormHelp from '../components/GetFormHelp';
