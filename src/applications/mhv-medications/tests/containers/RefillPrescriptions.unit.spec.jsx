@@ -213,6 +213,34 @@ describe('Refill Prescriptions Component', () => {
       );
   });
 
+  it('does not show "Not filled yet" when Cerner pilot is enabled', async () => {
+    sandbox.restore();
+    // Create a prescription with no dispense date
+    const rxWithNoDispenseDate = {
+      ...refillablePrescriptions[0],
+      dispensedDate: null,
+      sortedDispensedDate: null,
+    };
+    initMockApis({
+      sinonSandbox: sandbox,
+      prescriptions: [rxWithNoDispenseDate],
+    });
+    const screen = setup({
+      ...initialState,
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        mhv_medications_cerner_pilot: true,
+      },
+    });
+    const lastFilledEl = await screen.findByTestId(
+      'refill-prescription-checkbox-0',
+    );
+    expect(lastFilledEl).to.exist;
+    expect(lastFilledEl)
+      .to.have.property('checkbox-description')
+      .that.does.not.include('Not filled yet');
+  });
+
   it('Checks the checkbox for first prescription', async () => {
     const screen = setup();
     const checkbox = await screen.findByTestId(

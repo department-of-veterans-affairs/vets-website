@@ -11,6 +11,7 @@ import {
   sortStatementsByDate,
   ALERT_TYPES,
   APP_TYPES,
+  showVHAPaymentHistory,
 } from '../../combined/utils/helpers';
 import Balances from '../components/Balances';
 import BalanceQuestions from '../components/BalanceQuestions';
@@ -89,8 +90,8 @@ const OverviewPage = () => {
   // boolean value to represent if toggles are still loading or not
   const togglesLoading = useToggleLoadingValue();
   // value of specific toggle
-  const showVHAPaymentHistory = useToggleValue(
-    TOGGLE_NAMES.showVHAPaymentHistory,
+  const shouldShowVHAPaymentHistory = showVHAPaymentHistory(
+    useSelector(state => state),
   );
   const showOneThingPerPage = useToggleValue(
     TOGGLE_NAMES.showCDPOneThingPerPage,
@@ -189,11 +190,11 @@ const OverviewPage = () => {
       return renderAlert(ALERT_TYPES.ZERO, debts?.length);
     }
 
-    return showOneThingPerPage || showVHAPaymentHistory ? (
+    return showOneThingPerPage || shouldShowVHAPaymentHistory ? (
       <article className="vads-u-padding-x--0 vads-u-padding-bottom--0">
         <Balances
           statements={currentData}
-          showVHAPaymentHistory={showVHAPaymentHistory}
+          showVHAPaymentHistory={shouldShowVHAPaymentHistory}
           paginationText={getPaginationText(
             currentPage,
             MAX_ROWS,
@@ -210,7 +211,7 @@ const OverviewPage = () => {
         <va-on-this-page />
         <Balances
           statements={currentData}
-          showVHAPaymentHistory={showVHAPaymentHistory}
+          showVHAPaymentHistory={shouldShowVHAPaymentHistory}
           paginationText={getPaginationText(
             currentPage,
             MAX_ROWS,

@@ -192,6 +192,26 @@ describe('Prescription details container', () => {
     });
   });
 
+  it('does not display "Not filled yet" when Cerner pilot is enabled and no dispense date', async () => {
+    sandbox.restore();
+    stubAllergiesApi({ sandbox });
+    stubPrescriptionsApiCache({ sandbox, data: false });
+    const data = JSON.parse(JSON.stringify(singlePrescription));
+    data.dispensedDate = null;
+    data.sortedDispensedDate = null;
+    stubPrescriptionIdApi({ sandbox, data });
+    stubUsePrefetch({ sandbox });
+    const screen = setup({
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        mhv_medications_cerner_pilot: true,
+      },
+    });
+    await waitFor(() => {
+      expect(screen.queryByTestId('rx-last-filled-date')).to.not.exist;
+    });
+  });
+
   it('displays "Documented on" instead of "filled by" date, when med is non VA', async () => {
     sandbox.restore();
     stubAllergiesApi({ sandbox });
