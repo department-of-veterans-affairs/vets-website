@@ -16,7 +16,8 @@ services:
     image: vets-website:${IMAGE_TAG:-latest}
     ports:
       - 3001:3002
-    restart: unless-stopped
+    # restart: unless-stopped
+    restart: no
     volumes:
       - .:/application
       - ../vagov-content:/vagov-content
