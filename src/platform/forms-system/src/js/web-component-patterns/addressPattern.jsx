@@ -149,18 +149,6 @@ const CAN_STATE_NAMES = constants.states.CAN.map(state => state.label);
 const MEX_STATE_VALUES = constants.states.MEX.map(state => state.value);
 const MEX_STATE_NAMES = constants.states.MEX.map(state => state.label);
 
-const schemaCrossXRef = {
-  isMilitary: 'isMilitary',
-  'view:militaryBaseDescription': 'view:militaryBaseDescription',
-  country: 'country',
-  street: 'street',
-  street2: 'street2',
-  street3: 'street3',
-  city: 'city',
-  state: 'state',
-  postalCode: 'postalCode',
-};
-
 /**
  * `SCHEMA_KEYS` encapsulates the implementation for customizing this address
  * component's schema property names according to the caller's specification.
@@ -173,8 +161,9 @@ const schemaCrossXRef = {
  * names.
  *
  * This awkwardness could be resolved by simply having the caller explicitly
- * provide a full key map, where keys are omitted by virtue of being omitted,
- * and standard key names must be explicitly provided rather than defaulted.
+ * provide a full key map, where keys are omitted by virtue not being included
+ * in the map, and standard key names must be explicitly provided rather than
+ * defaulted.
  *
  * For now, we'll leave the API the same and implement it with
  * `SCHEMA_KEYS.transformDeprecated`. But we make that implementation, in turn,
@@ -206,10 +195,8 @@ const SCHEMA_KEYS = {
     postalCode: 'postalCode',
   },
 
-  transformDeprecated(object, options) {
-    if (!options) return object;
-
-    const { transformationPartial = {}, omitteds = [] } = options;
+  compileTransformationDeprecated(options) {
+    const { transformationPartial = {}, omitteds = [] } = options ?? {};
     const transformation = { ...this.STANDARD };
 
     omitteds.forEach(omitted => {
@@ -222,6 +209,13 @@ const SCHEMA_KEYS = {
     });
 
     Object.assign(transformation, transformationPartial);
+    return transformation;
+  },
+
+  transformDeprecated(object, options) {
+    if (!options) return object;
+
+    const transformation = this.compileTransformationDeprecated(options);
     return this.transform(object, transformation);
   },
 
@@ -321,7 +315,13 @@ export const updateFormDataAddress = (
   newSchemaKeys = {},
 ) => {
   let updatedData = formData;
-  const schemaKeys = { ...schemaCrossXRef, ...newSchemaKeys };
+
+  /**
+   * If the API is migrated, this would turn in to a noop.
+   */
+  const schemaKeys = SCHEMA_KEYS.compileTransformationDeprecated({
+    transformationPartial: newSchemaKeys,
+  });
 
   /*
    * formData and oldFormData are not guaranteed to have the same shape; formData
