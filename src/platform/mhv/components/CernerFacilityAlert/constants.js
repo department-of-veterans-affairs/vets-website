@@ -8,7 +8,9 @@ export const CernerAlertContent = {
     infoAlertText: 'You can manage most of your appointments here.',
   },
   MHV_LANDING_PAGE: {
+    // linkPath and infoAlertActionPhrase are used by the blue info alert
     linkPath: '/pages/home',
+    // pageName and headline are unused because the yellow alert is suppressed when domain is 'mhv-landing-page'
     pageName: 'mhv-landing-page',
     headline: 'mhv-landing-page',
     domain: 'mhv-landing-page',
