@@ -108,6 +108,10 @@ export const chapters = {
   },
   guardianInformation: {
     title: 'Guardian information',
+    depends: formData => {
+      const page = guardianInformation(fullSchema1995, {});
+      return isLegacyFlow(formData) && page.depends(formData);
+    },
     pages: {
       guardianInformation: (() => {
         const page = guardianInformation(fullSchema1995, {});
@@ -142,6 +146,10 @@ export const chapters = {
   },
   sponsorInformation: {
     title: sponsorInformationTitle(),
+    depends: formData => {
+      const page = sponsorInfo(fullSchema1995);
+      return isLegacyFlow(formData) && page.depends(formData);
+    },
     pages: {
       sponsorInformation: (() => {
         const page = sponsorInfo(fullSchema1995);
