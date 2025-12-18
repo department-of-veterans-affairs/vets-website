@@ -1,5 +1,6 @@
 import React from 'react';
 import { format } from 'date-fns';
+import { createNewConditionName } from '../pages/disabilityConditions/shared/utils';
 
 export const ConditionsIntroDescription = () => (
   <p>
@@ -45,7 +46,13 @@ export const createCauseFollowUpDescriptions = (item, fullData = {}) => {
       if (!target) return '';
 
       const newNames = (fullData?.newDisabilities ?? [])
-        .map(it => norm(it?.condition ?? it?.newCondition ?? it?.name))
+        .map(it =>
+          norm(
+            it?.condition
+              ? createNewConditionName(it, true)
+              : it?.newCondition ?? it?.name,
+          ),
+        )
         .filter(Boolean);
 
       const ratedNames = (fullData?.ratedDisabilities ?? [])

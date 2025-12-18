@@ -55,7 +55,7 @@ export default function UpcomingAppointmentsDetailsPage() {
   useEffect(
     () => {
       dispatch(fetchConfirmedAppointmentDetails(id, appointmentTypePrefix));
-      scrollAndFocus(undefined, 50);
+      scrollAndFocus();
       return () => {
         dispatch(closeCancelAppointment());
       };
@@ -96,7 +96,7 @@ export default function UpcomingAppointmentsDetailsPage() {
           appointment.timezone,
           DATE_FORMATS.friendlyWeekdayDate,
         )} | Veterans Affairs`;
-        scrollAndFocus(undefined, 50);
+        scrollAndFocus();
       }
     },
     [appointment, isCommunityCare, isCanceled, isInPerson, isPast, isVideo],
@@ -108,7 +108,7 @@ export default function UpcomingAppointmentsDetailsPage() {
         appointmentDetailsStatus === FETCH_STATUS.failed ||
         (appointmentDetailsStatus === FETCH_STATUS.succeeded && !appointment)
       ) {
-        scrollAndFocus(undefined, 50);
+        scrollAndFocus();
       }
     },
     [appointmentDetailsStatus, appointment],

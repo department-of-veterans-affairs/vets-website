@@ -1,66 +1,43 @@
 import {
-  titleUI,
-  textUI,
-  textSchema,
-  currentOrPastDateUI,
   currentOrPastDateSchema,
+  currentOrPastDateUI,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { nameWording, privWrapper } from '../../../shared/utilities';
-import { validFieldCharsOnly } from '../../../shared/validations';
 import { validateDateRange } from '../../utils/validation';
 
-const TOGGLE_KEY = 'view:champvaForm107959cRev2025';
+const PAGE_TITLE = ({ formData }) => {
+  const name = nameWording(formData, undefined, undefined, true);
+  return privWrapper(`${name} Medicare Part D effective date`);
+};
 
-const pageTitle = () =>
-  titleUI(({ formData }) => {
-    const name = nameWording(formData, undefined, undefined, true);
-    const suffix = formData[TOGGLE_KEY] ? 'effective date' : 'carrier';
-    return privWrapper(`${name} Medicare Part D ${suffix}`);
-  });
+const VALIDATIONS = [
+  (errors, data) =>
+    validateDateRange(errors, data, {
+      startDateKey: 'medicarePartDEffectiveDate',
+      endDateKey: 'medicarePartDTerminationDate',
+    }),
+];
 
 export default {
   uiSchema: {
-    ...pageTitle(),
-    applicantMedicarePartDCarrier: {
-      ...textUI({
-        title: 'Name of insurance carrier',
-        hint: 'Your insurance carrier is your insurance company.',
-        hideIf: formData => formData[TOGGLE_KEY],
-        required: () => true,
-      }),
-    },
-    applicantMedicarePartDEffectiveDate: currentOrPastDateUI({
+    ...titleUI(PAGE_TITLE),
+    medicarePartDEffectiveDate: currentOrPastDateUI({
       title: 'Medicare Part D effective date',
       hint: 'This information is at the top of the card.',
     }),
-    applicantMedicarePartDTerminationDate: currentOrPastDateUI({
+    medicarePartDTerminationDate: currentOrPastDateUI({
       title: 'Medicare Part D termination date',
       hint: 'Only enter this date if the plan is inactive.',
-      hideIf: formData => !formData[TOGGLE_KEY],
     }),
-    'ui:validations': [
-      (errors, formData) =>
-        !formData[TOGGLE_KEY] &&
-        validFieldCharsOnly(
-          errors,
-          null,
-          formData,
-          'applicantMedicarePartDCarrier',
-        ),
-      (errors, data) =>
-        validateDateRange(errors, data, {
-          startDateKey: 'applicantMedicarePartDEffectiveDate',
-          endDateKey: 'applicantMedicarePartDTerminationDate',
-        }),
-    ],
+    'ui:validations': VALIDATIONS,
   },
   schema: {
     type: 'object',
-    required: ['applicantMedicarePartDEffectiveDate'],
+    required: ['medicarePartDEffectiveDate'],
     properties: {
-      applicantMedicarePartDCarrier: textSchema,
-      applicantMedicarePartDEffectiveDate: currentOrPastDateSchema,
-      applicantMedicarePartDTerminationDate: currentOrPastDateSchema,
+      medicarePartDEffectiveDate: currentOrPastDateSchema,
+      medicarePartDTerminationDate: currentOrPastDateSchema,
     },
   },
 };

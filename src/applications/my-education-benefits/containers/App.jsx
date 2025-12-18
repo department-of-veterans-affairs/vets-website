@@ -45,6 +45,7 @@ export const App = ({
   duplicateEmail,
   duplicatePhone,
   meb160630Automation,
+  meb1995Reroute,
 }) => {
   const [fetchedContactInfo, setFetchedContactInfo] = useState(false);
   const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
@@ -349,6 +350,13 @@ export const App = ({
         });
       }
 
+      if (meb1995Reroute !== formData?.meb1995Reroute) {
+        setFormData({
+          ...formData,
+          meb1995Reroute,
+        });
+      }
+
       if (showMebEnhancements09 !== formData.showMebEnhancements09) {
         setFormData({
           ...formData,
@@ -376,6 +384,7 @@ export const App = ({
       duplicateEmail,
       duplicatePhone,
       meb160630Automation,
+      meb1995Reroute,
       mebDpoAddressOptionEnabled,
       mebKickerNotificationEnabled,
     ],
@@ -467,6 +476,7 @@ App.propTypes = {
   isLoggedIn: PropTypes.bool,
   location: PropTypes.object,
   meb160630Automation: PropTypes.bool,
+  meb1995Reroute: PropTypes.bool,
   mebDpoAddressOptionEnabled: PropTypes.bool,
   mebKickerNotificationEnabled: PropTypes.bool,
   mobilePhone: PropTypes.string,
