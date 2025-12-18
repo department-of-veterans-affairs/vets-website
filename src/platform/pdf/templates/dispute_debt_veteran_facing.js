@@ -1,6 +1,17 @@
 import { format } from 'date-fns';
 import { formatDateLong } from 'platform/utilities/date';
-import { MissingFieldsException } from '../utils/exceptions/MissingFieldsException';
+import i18nDebtApp from 'applications/dispute-debt/i18n';
+import { validate } from '../utils/validations/dispute_debt';
+import {
+  drawNumberedCircle,
+  drawVerticalLine,
+  drawHorizontalLine,
+  addPhone,
+  addTTY,
+  addWebLink,
+  createFieldSection,
+  defaultConfig,
+} from '../utils/helpers/dispute_debt';
 import {
   createAccessibleDoc,
   createHeading,
@@ -9,135 +20,171 @@ import {
   generateInitialHeaderContent,
 } from './utils';
 
-const defaultConfig = {
-  margins: { top: 40, bottom: 40, left: 30, right: 30 },
-  text: {
-    boldFont: 'SourceSansPro-Bold',
-    font: 'SourceSansPro-Regular',
-    monospaceFont: 'RobotoMono-Regular',
-    size: 12,
-  },
-  headings: {
-    H1: {
-      font: 'Bitter-Bold',
-      size: 30,
-    },
-    H2: {
-      font: 'Bitter-Bold',
-      size: 24,
-    },
-    H3: {
-      font: 'Bitter-Bold',
-      size: 16,
-    },
-    H4: {
-      font: 'Bitter-Bold',
-      size: 14,
-    },
-    H5: {
-      font: 'Bitter-Bold',
-      size: 12,
-    },
-  },
+// =====================================
+// * Section Builders *
+// =====================================
+const createWhatToExpectSection = (doc, wrapper, config, content) => {
+  const section = doc.struct('Sect', { title: content.title });
+
+  // Define circle constants
+  const circleIndent = 15;
+  const circleRadius = 10;
+  const circleX = config.margins.left + circleRadius + circleIndent;
+  const textIndent = circleX + 20;
+
+  // Add section heading
+  section.add(
+    createHeading(doc, 'H2', config, content.title, {
+      x: config.margins.left,
+    }),
+  );
+  doc.moveDown(3);
+  let circle1CenterY;
+
+  // Draw steps with circles and vertical lines
+  content.steps.forEach((step, index) => {
+    const stepY = doc.y;
+    const { circleCenterY, circleRadius: radius } = drawNumberedCircle(
+      doc,
+      config,
+      step.number,
+      stepY,
+    );
+    if (index === 0) circle1CenterY = circleCenterY;
+    section.add(
+      doc.struct('P', () => {
+        doc
+          .font(config.headings.H5.font)
+          .fontSize(config.headings.H5.size)
+          .text(step.title, textIndent, stepY);
+        doc
+          .font(config.text.font)
+          .fontSize(config.text.size)
+          .text(step.description);
+      }),
+    );
+    if (index < content.steps.length - 1) {
+      doc.moveDown(2);
+      const step1EndY = doc.y;
+      drawVerticalLine(
+        doc,
+        circleX,
+        circle1CenterY + radius,
+        step1EndY,
+        config,
+      );
+      doc.moveDown();
+    }
+  });
+  section.end();
+  wrapper.add(section);
+  doc.moveDown(4);
 };
 
-const validate = data => {
-  const missingFields = [];
+const createContactSection = (doc, wrapper, config, content) => {
+  const section = doc.struct('Sect', { title: content.title });
 
-  // Validate top-level data fields
-  const requiredFieldsData = ['selectedDebts', 'submissionDetails', 'veteran'];
-  const missingDataFields = requiredFieldsData.filter(field => !data[field]);
-  missingFields.push(...missingDataFields.map(field => `data.${field}`));
-
-  // Early return if critical fields are missing
-  if (missingDataFields.length > 0) {
-    throw new MissingFieldsException(missingFields);
-  }
-
-  const { selectedDebts, submissionDetails, veteran } = data;
-
-  // Validate submissionDetails
-  const requiredFieldsSubmissionDetails = ['submissionDateTime'];
-  const missingSubmissionFields = requiredFieldsSubmissionDetails.filter(
-    field => !submissionDetails[field],
+  // Add section heading
+  section.add(
+    createHeading(doc, 'H2', config, content.title, {
+      x: config.margins.left,
+      paragraphGap: 12,
+    }),
   );
-  missingFields.push(
-    ...missingSubmissionFields.map(field => `submissionDetails.${field}`),
-  );
+  section.add(
+    doc.struct('P', () => {
+      doc.font(config.text.font).fontSize(config.text.size);
 
-  // Validate veteran fields
-  const requiredFieldsVeteran = [
-    'dob',
-    'veteranFullName',
-    'ssnLastFour',
-    'mailingAddress',
-    'email',
-    'mobilePhone',
-  ];
-  const missingVeteranFields = requiredFieldsVeteran.filter(
-    field => !veteran[field],
-  );
-  missingFields.push(...missingVeteranFields.map(field => `veteran.${field}`));
+      // Call Us
+      doc.text(content['call-us'].prefix, { continued: true });
+      addPhone(doc, content['main-phone'], config);
+      addTTY(doc, content.tty, config);
+      doc.text(content['call-us'].suffix, {
+        link: null,
+        continued: false,
+        lineGap: 2,
+      });
+      doc.moveDown();
 
-  // Only validate nested objects if parent objects exist
-  if (veteran.mailingAddress) {
-    const requiredFieldsMailingAddress = [
-      'addressLine1',
-      'city',
-      'countryName',
-      'zipCode',
-      'stateCode',
-    ];
-    const missingAddressFields = requiredFieldsMailingAddress.filter(
-      field => !veteran.mailingAddress[field],
-    );
-    missingFields.push(
-      ...missingAddressFields.map(field => `veteran.mailingAddress.${field}`),
-    );
-  }
+      // Ask VA
+      doc.text(content['ask-va-text'], { lineGap: 2 });
+      doc.moveDown();
 
-  if (veteran.mobilePhone) {
-    const requiredFieldsMobilePhone = [
-      'phoneNumber',
-      'countryCode',
-      'areaCode',
-    ];
-    const missingPhoneFields = requiredFieldsMobilePhone.filter(
-      field => !veteran.mobilePhone[field],
-    );
-    missingFields.push(
-      ...missingPhoneFields.map(field => `veteran.mobilePhone.${field}`),
-    );
-  }
-
-  if (veteran.veteranFullName) {
-    const requiredFieldsVeteranFullName = ['first', 'last'];
-    const missingNameFields = requiredFieldsVeteranFullName.filter(
-      field => !veteran.veteranFullName[field],
-    );
-    missingFields.push(
-      ...missingNameFields.map(field => `veteran.veteranFullName.${field}`),
-    );
-  }
-
-  // Validate selectedDebts
-  if (!Array.isArray(selectedDebts) || selectedDebts.length === 0) {
-    missingFields.push('selectedDebts (must be a non-empty array)');
-  } else {
-    selectedDebts.forEach((debt, index) => {
-      const requiredFieldsDebt = ['label', 'disputeReason', 'supportStatement'];
-      const missingDebtFields = requiredFieldsDebt.filter(
-        field => !debt[field],
+      // Ask VA Link
+      addWebLink(
+        doc,
+        content['ask-va-link'].text,
+        content['ask-va-link'].url,
+        config,
       );
-      missingFields.push(
-        ...missingDebtFields.map(field => `selectedDebts[${index}].${field}`),
-      );
-    });
-  }
+    }),
+  );
+  section.end();
+  wrapper.add(section);
+  doc.moveDown(2);
+};
 
-  if (missingFields.length > 0) {
-    throw new MissingFieldsException(missingFields);
-  }
+const createNeedHelpSection = (doc, wrapper, config, content) => {
+  const section = doc.struct('Sect', { title: content.title });
+
+  // Add section heading
+  section.add(
+    createHeading(doc, 'H3', config, content.title, {
+      x: config.margins.left,
+      paragraphGap: 18,
+    }),
+  );
+  doc.moveDown(2);
+  drawHorizontalLine(doc, config);
+  section.add(
+    doc.struct('P', () => {
+      doc
+        .font(config.text.font)
+        .fontSize(config.text.size)
+        .fillColor(config.text.valueColor);
+
+      // MyVA411 line
+      doc.text(content['my-v411'].prefix, { continued: true, lineGap: 2 });
+      addPhone(doc, content['my-v411'].phone, config);
+      addTTY(doc, content['my-v411'].tty, config);
+      doc.text('.', { link: null });
+      doc.moveDown();
+
+      // Accredited Rep
+      doc.text(content['accredited-rep'].text, { lineGap: 2 });
+      addWebLink(
+        doc,
+        content['accredited-rep'].link.text,
+        content['accredited-rep'].link.url,
+        config,
+      );
+      doc.moveDown();
+
+      // Overpayments
+      doc.text(content.overpayments.prefix, { continued: true, lineGap: 2 });
+      addPhone(doc, content.overpayments.phone, config);
+      doc.text(' (or ', { link: null, underline: false, continue: true });
+      addPhone(doc, content.overpayments['alt-phone'], config);
+      doc.text(content.overpayments.suffix, {
+        link: null,
+        underline: false,
+        continue: false,
+      });
+      doc.moveDown();
+
+      // Copay
+      doc.text(content.copay.prefix, { continued: true, lineGap: 2 });
+      addPhone(doc, content.copay.phone, config);
+      doc.text(content.copay.suffix, {
+        link: null,
+        underline: false,
+        continue: false,
+      });
+    }),
+  );
+  section.end();
+  wrapper.add(section);
+  doc.moveDown();
 };
 
 // TODO:
@@ -150,12 +197,13 @@ const validate = data => {
 
 const generate = async (data = {}, config = defaultConfig) => {
   validate(data);
+
   const doc = createAccessibleDoc(
     {
-      author: 'U.S. Department of Veterans Affairs',
-      subject: 'Debt dispute from VA.gov',
-      title: 'Debt Dispute',
-      lang: 'en-US',
+      author: i18nDebtApp.t('pdf.document-meta.author'),
+      subject: i18nDebtApp.t('pdf.document-meta.vet-subject'),
+      title: i18nDebtApp.t('pdf.document-meta.title'),
+      lang: i18nDebtApp.t('pdf.document-meta.lang'),
     },
     config,
   );
@@ -170,8 +218,8 @@ const generate = async (data = {}, config = defaultConfig) => {
   const headerData = {
     headerLeft: '',
     headerRight: '',
-    footerLeft: 'VA.gov',
-    footerRight: 'Page %PAGE_NUMBER% of %TOTAL_PAGES%',
+    footerLeft: i18nDebtApp.t('pdf.footer.left'),
+    footerRight: i18nDebtApp.t('pdf.footer.right'),
     ...data,
   };
 
@@ -181,81 +229,18 @@ const generate = async (data = {}, config = defaultConfig) => {
   // * Title Section *
   // =====================================
   const titleSection = doc.struct('Sect', {
-    title: 'Title',
+    title: i18nDebtApp.t('pdf.vet-page-title'),
   });
   titleSection.add(
-    createHeading(doc, 'H1', config, 'Debt dispute from VA.gov', {
+    createHeading(doc, 'H1', config, i18nDebtApp.t('pdf.vet-page-title'), {
       x: config.margins.left,
-      y: doc.y,
+      y: config.margins.top,
     }),
   );
-
-  doc.moveDown(3);
-
-  const useCompAndPenTitle = selectedDebts?.some(
-    debt => debt.deductionCode === '30',
-  );
-
-  const dmcRoutingTitle = useCompAndPenTitle
-    ? 'DMC Routing: C&P Dispute'
-    : 'DMC Routing: Education Dispute';
-  titleSection.add(
-    createHeading(doc, 'H2', config, dmcRoutingTitle, {
-      x: config.margins.left,
-      y: doc.y,
-      paragraphGap: 12,
-    }),
-  );
-
-  doc.moveDown(3);
 
   titleSection.end();
   wrapper.add(titleSection);
-
-  // =====================================
-  // * Submission Type Section *
-  // =====================================
-  const submissionTypeSection = doc.struct('Sect', {
-    title: 'Submission Type',
-  });
-  const submissionTypeTitle = 'Submission type:';
-  submissionTypeSection.add(
-    createHeading(doc, 'H3', config, submissionTypeTitle, {
-      x: config.margins.left,
-      y: doc.y,
-      paragraphGap: 6,
-    }),
-  );
-
-  doc.moveDown(2);
-
-  // bulletIndent prop is just for nested lists
-  // regular indent for text will shit the bullet points over
-  const listOptions = {
-    baseline: 'hanging',
-    listType: 'bullet',
-    bulletRadius: 2,
-    indent: 10,
-    textIndent: 15,
-  };
-
-  submissionTypeSection.add(
-    doc.struct('List', { title: 'Submission type' }, () => {
-      doc
-        .fontSize(config.text.size)
-        .font(config.text.font)
-        .list(
-          selectedDebts?.map(
-            debt => `${debt?.deductionCode || ''} - ${debt?.label || ''}`,
-          ),
-          listOptions,
-        );
-    }),
-  );
-
-  submissionTypeSection.end();
-  wrapper.add(submissionTypeSection);
-  doc.moveDown();
+  doc.moveDown(0.5);
 
   // =====================================
   // * VA Logo Fetch logo as base64 *
@@ -269,18 +254,14 @@ const generate = async (data = {}, config = defaultConfig) => {
     ).toString('base64')}`;
 
     // right align logo
-    const logoWidth = 150;
+    const logoWidth = 220;
     const logoX = config.margins.left;
     wrapper.add(
-      doc.struct(
-        'Figure',
-        { alt: 'VA U.S Department of Veteran Affairs' },
-        () => {
-          doc.image(base64Image, logoX, doc.y, { width: logoWidth });
-        },
-      ),
+      doc.struct('Figure', { alt: i18nDebtApp.t('pdf.logo-alt') }, () => {
+        doc.image(base64Image, logoX, doc.y, { width: logoWidth });
+      }),
     );
-    doc.moveDown();
+    doc.moveDown(0.5);
   }
 
   // =====================================
@@ -288,323 +269,265 @@ const generate = async (data = {}, config = defaultConfig) => {
   // =====================================
   const { submissionDateTime } = submissionDetails;
   const submissionDate = format(submissionDateTime, 'MMMM d, yyyy');
-  const submissionTimeET = format(submissionDateTime, "h:mm a 'ET'");
 
-  const submissionDetailsSection = doc.struct('Sect', {
-    title: 'Submission Type',
-  });
+  const submissionStartY = doc.y;
+  // Start at the config left margin, increase number to adjust indent as needed
+  const submissionDetailsLeftMargin = config.margins.left + 20;
+
+  const submissionDetailsSection = doc.struct('Sect');
   submissionDetailsSection.add(
-    createHeading(doc, 'H3', config, 'Submission Details', {
-      x: config.margins.left,
-      y: doc.y,
-      // paragraphGap: 12,
-    }),
+    createHeading(
+      doc,
+      'H3',
+      config,
+      i18nDebtApp.t('pdf.submission.vet-title', { date: submissionDate }),
+      {
+        x: submissionDetailsLeftMargin,
+        y: doc.y,
+      },
+    ),
   );
+
+  const submmissionTextWidth = 375; // Defined as points, not pixels. (approx. 5.21 inches)
 
   submissionDetailsSection.add(
     doc.struct('P', () => {
       doc
         .font(config.text.font)
         .fontSize(config.text.size)
-        .text('Date: ', { continued: true });
-      doc.text(submissionDate || '');
-    }),
-  );
-
-  submissionDetailsSection.add(
-    doc.struct('P', () => {
-      doc
-        .font(config.text.font)
-        .fontSize(config.text.size)
-        .text('Time: ', { continued: true });
-      doc.text(submissionTimeET || '');
+        .text(i18nDebtApp.t('pdf.submission.text'), {
+          width: submmissionTextWidth,
+          align: 'left',
+        });
     }),
   );
 
   submissionDetailsSection.end();
   wrapper.add(submissionDetailsSection);
-  doc.moveDown();
+
+  // Start at the config left margin, increase number to adjust indent as needed
+  const verticalLineLeftMargin = config.margins.left + 5;
+
+  // Green vertical line
+  doc
+    .moveTo(verticalLineLeftMargin, submissionStartY)
+    .lineTo(verticalLineLeftMargin, doc.y)
+    .lineWidth(6)
+    .strokeColor(config.graphicColors.greenBar)
+    .stroke();
+
+  doc.moveDown(2);
 
   // =====================================
   // * Informational header *
   // =====================================
   wrapper.add(
-    createHeading(doc, 'H2', config, 'Information submitted on this dispute', {
-      x: config.margins.left,
-      paragraphGap: 12,
-    }),
+    createHeading(
+      doc,
+      'H2',
+      config,
+      i18nDebtApp.t('pdf.section-headings.information-submitted'),
+      {
+        x: config.margins.left,
+        paragraphGap: 12,
+      },
+    ),
   );
 
   // =====================================
   // * Veteran Personal Information *
   // =====================================
   const { dob, veteranFullName } = veteran;
-
-  const veteranPersonalInformation = doc.struct('Sect', {
-    title: "Veteran's personal information",
-  });
-  veteranPersonalInformation.add(
-    createHeading(doc, 'H3', config, "Veteran's personal information", {
-      x: config.margins.left,
-      paragraphGap: 12,
-    }),
-  );
-
-  // loop through all portions of the veteran name
-  Object.keys(veteranFullName).forEach(key => {
-    const nameLabel =
-      key === 'suffix'
-        ? 'Suffix'
-        : `${key.charAt(0).toUpperCase() + key.slice(1)} name`;
-
-    veteranPersonalInformation.add(
-      doc.struct('P', () => {
-        doc
-          .font(config.text.boldFont)
-          .fontSize(config.text.size)
-          .text(nameLabel);
-        doc.font(config.text.font).text(veteranFullName[key] || '', {
-          lineGap: 8,
-        });
-      }),
-    );
-    doc.moveDown();
-  });
-
-  // veteran dob
   const formattedDob = dob ? formatDateLong(dob) : 'Not provided';
 
-  veteranPersonalInformation.add(
-    doc.struct('P', () => {
-      doc
-        .font(config.text.boldFont)
-        .fontSize(config.text.size)
-        .text('Date of birth');
-      doc.font(config.text.font).text(formattedDob, {
-        lineGap: 8,
-      });
-    }),
-  );
+  const nameFields = [
+    {
+      label: i18nDebtApp.t('pdf.labels.first-name'),
+      value: veteranFullName.first,
+    },
+    {
+      label: i18nDebtApp.t('pdf.labels.middle-name'),
+      value: veteranFullName.middle,
+    },
+    {
+      label: i18nDebtApp.t('pdf.labels.last-name'),
+      value: veteranFullName.last,
+    },
+    {
+      label: i18nDebtApp.t('pdf.labels.suffix'),
+      value: veteranFullName.suffix,
+    },
+  ].filter(field => field.value);
 
-  veteranPersonalInformation.end();
-  wrapper.add(veteranPersonalInformation);
-  doc.moveDown();
+  createFieldSection(
+    doc,
+    wrapper,
+    config,
+    i18nDebtApp.t('pdf.section-headings.personal-info'),
+    [
+      ...nameFields,
+      { label: i18nDebtApp.t('pdf.labels.dob'), value: formattedDob },
+    ],
+  );
 
   // =====================================
   // * Veteran identification information *
   // =====================================
   const { ssnLastFour } = veteran;
 
-  const veteranIdentificationInformation = doc.struct('Sect', {
-    title: "Veteran's identification information",
-  });
-  veteranIdentificationInformation.add(
-    createHeading(doc, 'H3', config, "Veteran's identification information", {
-      x: config.margins.left,
-      paragraphGap: 12,
-    }),
+  createFieldSection(
+    doc,
+    wrapper,
+    config,
+    i18nDebtApp.t('pdf.section-headings.identification-info'),
+    [
+      {
+        label: i18nDebtApp.t('pdf.labels.ssn'),
+        value: `••• •• ${ssnLastFour}`,
+      },
+    ],
   );
-
-  veteranIdentificationInformation.add(
-    doc.struct('P', () => {
-      doc
-        .font(config.text.boldFont)
-        .fontSize(config.text.size)
-        .text('Social Security number');
-      doc.font(config.text.font).text(ssnLastFour || '');
-    }),
-  );
-
-  veteranIdentificationInformation.end();
-  wrapper.add(veteranIdentificationInformation);
-  doc.moveDown();
 
   // =====================================
   // * Veteran mailing address *
   // =====================================
+  const { mailingAddress } = veteran;
   const {
-    mailingAddress: {
-      addressLine1,
-      addressLine2,
-      addressLine3,
-      city,
-      countryName,
-      zipCode,
-      stateCode,
-    },
-  } = veteran;
-  const veteranMailingAddress = doc.struct('Sect', {
-    title: "Veteran's mailing address",
-  });
-  veteranMailingAddress.add(
-    createHeading(doc, 'H3', config, "Veteran's mailing address", {
-      paragraphGap: 12,
-    }),
+    addressLine1,
+    addressLine2,
+    addressLine3,
+    city,
+    countryName,
+    zipCode,
+    stateCode,
+  } = mailingAddress;
+
+  const addressLines = [addressLine1, addressLine2, addressLine3].filter(
+    Boolean,
   );
 
-  veteranMailingAddress.add(
-    doc.struct('P', () => {
-      doc
-        .font(config.text.boldFont)
-        .fontSize(config.text.size)
-        .text('Country', config.margins.left, doc.y);
-      doc.font(config.text.font).text(countryName || '', {
-        lineGap: 8,
-      });
-    }),
+  createFieldSection(
+    doc,
+    wrapper,
+    config,
+    i18nDebtApp.t('pdf.section-headings.mailing-address'),
+    [
+      { label: i18nDebtApp.t('pdf.labels.country'), value: countryName },
+      {
+        label: i18nDebtApp.t('pdf.labels.street-address'),
+        value: addressLines[0],
+        options: { lineGapValue: 2 },
+      },
+      // Middle lines (if any) get reduced spacing
+      ...addressLines.slice(1, -1).map(line => ({
+        label: '',
+        value: line,
+        options: { lineGapLabel: 0, lineGapValue: 2 },
+      })),
+      // Last line (if different from first) gets normal spacing
+      ...(addressLines.length > 1
+        ? [
+            {
+              label: '',
+              value: addressLines[addressLines.length - 1],
+              options: { lineGapValue: 12 },
+            },
+          ]
+        : []),
+      { label: i18nDebtApp.t('pdf.labels.city'), value: city },
+      { label: i18nDebtApp.t('pdf.labels.state'), value: stateCode },
+      { label: i18nDebtApp.t('pdf.labels.postal-code'), value: zipCode },
+    ],
   );
-
-  veteranMailingAddress.add(
-    doc.struct('P', () => {
-      doc
-        .font(config.text.boldFont)
-        .fontSize(config.text.size)
-        .text('Street address', config.margins.left, doc.y);
-      doc.font(config.text.font).text(addressLine1 || '', {
-        lineGap: 8,
-      });
-      if (addressLine2)
-        doc.text(addressLine2 || '', {
-          lineGap: 8,
-        });
-      if (addressLine3)
-        doc.text(addressLine3 || '', {
-          lineGap: 8,
-        });
-    }),
-  );
-
-  veteranMailingAddress.add(
-    doc.struct('P', () => {
-      doc
-        .font(config.text.boldFont)
-        .fontSize(config.text.size)
-        .text('City');
-      doc.font(config.text.font).text(city, {
-        lineGap: 8,
-      });
-    }),
-  );
-
-  veteranMailingAddress.add(
-    doc.struct('P', () => {
-      doc
-        .font(config.text.boldFont)
-        .fontSize(config.text.size)
-        .text('State', config.margins.left, doc.y);
-      doc.font(config.text.font).text(stateCode || '', {
-        lineGap: 8,
-      });
-    }),
-  );
-
-  veteranMailingAddress.add(
-    doc.struct('P', () => {
-      doc
-        .font(config.text.boldFont)
-        .fontSize(config.text.size)
-        .text('Postal code');
-      doc.font(config.text.font).text(zipCode || '', {
-        lineGap: 8,
-      });
-    }),
-  );
-
-  veteranMailingAddress.end();
-  wrapper.add(veteranMailingAddress);
-  doc.moveDown();
 
   // =====================================
   // * Veteran contact information *
   // =====================================
-  const {
-    email,
-    mobilePhone: { phoneNumber, countryCode, areaCode, extension },
-  } = veteran;
+  const { email, mobilePhone } = veteran;
+  const { phoneNumber, countryCode, areaCode, extension } = mobilePhone;
   const formattedPhoneNumber = `${countryCode || ''} ${areaCode ||
-    ''} ${phoneNumber || ''}${extension ? ` ext. ${extension}` : ''}`;
+    ''} ${phoneNumber || ''}${extension ? ` ext. ${extension}` : ''}`.trim();
 
-  const veteranContactInformation = doc.struct('Sect', {
-    title: "Veteran's contact information",
-  });
-  veteranContactInformation.add(
-    createHeading(doc, 'H3', config, "Veteran's contact information", {
-      paragraphGap: 12,
-    }),
+  createFieldSection(
+    doc,
+    wrapper,
+    config,
+    i18nDebtApp.t('pdf.section-headings.contact-info'),
+    [
+      { label: i18nDebtApp.t('pdf.labels.phone'), value: formattedPhoneNumber },
+      { label: i18nDebtApp.t('pdf.labels.email'), value: email },
+    ],
   );
-
-  veteranContactInformation.add(
-    doc.struct('P', () => {
-      doc
-        .font(config.text.boldFont)
-        .fontSize(config.text.size)
-        .text('Phone number');
-      doc.font(config.text.font).text(formattedPhoneNumber, {
-        lineGap: 8,
-      });
-    }),
-  );
-
-  veteranContactInformation.add(
-    doc.struct('P', () => {
-      doc
-        .font(config.text.boldFont)
-        .fontSize(config.text.size)
-        .text('Email');
-      doc.font(config.text.font).text(email || '', {
-        lineGap: 8,
-      });
-    }),
-  );
-
-  veteranContactInformation.end();
-  wrapper.add(veteranContactInformation);
-  doc.moveDown();
 
   // =====================================
   // * Selected debts *
   // =====================================
   selectedDebts.forEach(debt => {
-    const { disputeReason, supportStatement } = debt;
-    const selectedDebtsSection = doc.struct('Sect', {
-      title: debt?.label || '',
-    });
-    selectedDebtsSection.add(
-      createHeading(doc, 'H3', config, debt.label, {
-        paragraphGap: 12,
-      }),
-    );
+    const { disputeReason, supportStatement, label } = debt;
 
-    selectedDebtsSection.add(
-      doc.struct('P', () => {
-        doc
-          .font(config.text.boldFont)
-          .fontSize(config.text.size)
-          .text('Dispute reason');
-        doc.font(config.text.font).text(disputeReason || '', {
-          lineGap: 8,
-        });
-      }),
-    );
-
-    doc.moveDown();
-
-    selectedDebtsSection.add(
-      doc.struct('P', () => {
-        doc
-          .font(config.text.boldFont)
-          .fontSize(config.text.size)
-          .text('Dispute statement');
-        doc.font(config.text.font).text(supportStatement || '', {
-          lineGap: 8,
-        });
-      }),
-    );
-
-    selectedDebtsSection.end();
-    wrapper.add(selectedDebtsSection);
-    doc.moveDown();
+    createFieldSection(doc, wrapper, config, label, [
+      {
+        label: i18nDebtApp.t('pdf.labels.dispute-reason'),
+        value: disputeReason,
+      },
+      {
+        label: i18nDebtApp.t('pdf.labels.dispute-statement'),
+        value: supportStatement,
+      },
+    ]);
   });
+
+  /* Begin Multi-page logic to make sure What to expect (WTE) section isn't split between pages */
+  // Get current Y position and page height
+  const currentY = doc.y;
+  const pageHeight = doc.page.height;
+  const bottomMargin = config.margins.bottom;
+  const availableSpace = pageHeight - currentY - bottomMargin;
+
+  // Estimate WTE section height (rough calculation)
+  const estimatedSectionHeight = 250; // points
+  if (availableSpace < estimatedSectionHeight) {
+    doc.addPage(); // Start new page
+  }
+  /* End Multi-page logic */
+
+  // =====================================
+  // * What to expect, Contact, Need help *
+  // =====================================
+
+  const whatToExpect = {
+    title: i18nDebtApp.t('pdf.section-headings.what-to-expect'),
+    steps: [
+      {
+        number: i18nDebtApp.t(
+          'dispute-submitted-whats-next.first-action.number',
+        ),
+        title: i18nDebtApp.t(
+          'dispute-submitted-whats-next.first-action.header',
+        ),
+        description: i18nDebtApp.t(
+          'dispute-submitted-whats-next.first-action.description',
+        ),
+      },
+      {
+        number: i18nDebtApp.t(
+          'dispute-submitted-whats-next.second-action.number',
+        ),
+        title: i18nDebtApp.t(
+          'dispute-submitted-whats-next.second-action.header',
+        ),
+        description: i18nDebtApp.t(
+          'dispute-submitted-whats-next.second-action.description',
+        ),
+      },
+    ],
+  };
+
+  const contact = i18nDebtApp.t('shared.contact', { returnObjects: true });
+  const needHelp = i18nDebtApp.t('shared.need-help', { returnObjects: true });
+  createWhatToExpectSection(doc, wrapper, config, whatToExpect);
+  createContactSection(doc, wrapper, config, contact);
+  createNeedHelpSection(doc, wrapper, config, needHelp);
 
   // =====================================
   // * Wrap it up *
@@ -615,4 +538,4 @@ const generate = async (data = {}, config = defaultConfig) => {
   return doc;
 };
 
-export { generate, validate };
+export { generate };
