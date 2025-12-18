@@ -162,6 +162,93 @@ const schemaCrossXRef = {
 };
 
 /**
+ * `SCHEMA_KEYS` encapsulates the implementation for customizing this address
+ * component's schema property names according to the caller's specification.
+ * This is useful when a form wants the functionality of the address component
+ * but its schema has different property names.
+ *
+ * This component's API functions, like `addressUI`, are awkward in that they
+ * ask the caller to provide keys to omit (as `omit`), a custom key map (as
+ * `newSchemaKeys`), and furthermore it defaults the remaining standard key
+ * names.
+ *
+ * This awkwardness could be resolved by simply having the caller explicitly
+ * provide a full key map, where keys are omitted by virtue of being omitted,
+ * and standard key names must be explicitly provided rather than defaulted.
+ *
+ * For now, we'll leave the API the same and implement it with
+ * `SCHEMA_KEYS.transformDeprecated`. But we make that implementation, in turn,
+ * call the implementation of the future API in `SCHEMA_KEYS.transform`.
+ *
+ * By doing this, we prepare the API to be improved whenever there is an
+ * appetite to do so. Even if there is never an appetite, and we leave
+ * `SCHEMA_KEYS.transformDeprecated` in place, this object is still exactly the
+ * encapsulation we want for mapping schema keys that should be reused in the
+ * implementations of this module's exports.
+ *
+ * These two implementation functions now also reject ambiguous and nonsenical
+ * inputs:
+ * - `Blank schema key omitted`
+ * - `Ambiguous schema key omitted`
+ * - `Duplicate schema key output`
+ * - `Blank schema key output`
+ */
+// eslint-disable-next-line no-unused-vars
+const SCHEMA_KEYS = {
+  STANDARD: {
+    isMilitary: 'isMilitary',
+    'view:militaryBaseDescription': 'view:militaryBaseDescription',
+    country: 'country',
+    street: 'street',
+    street2: 'street2',
+    street3: 'street3',
+    city: 'city',
+    state: 'state',
+    postalCode: 'postalCode',
+  },
+
+  transformDeprecated(object, options) {
+    if (!options) return object;
+
+    const { transformationPartial = {}, omitteds = [] } = options;
+    const transformation = { ...this.STANDARD };
+
+    omitteds.forEach(omitted => {
+      if (!omitted) throw new Error('Blank schema key omitted');
+
+      if (omitted in transformationPartial)
+        throw new Error('Ambiguous schema key omitted');
+
+      delete transformation[omitted];
+    });
+
+    Object.assign(transformation, transformationPartial);
+    return this.transform(object, transformation);
+  },
+
+  transform(object, transformation) {
+    if (!transformation) return object;
+
+    const outputs = Object.values(transformation);
+    const outputsUnique = new Set(outputs);
+
+    if (outputs.length > outputsUnique.size)
+      throw new Error('Duplicate schema key output');
+
+    const transformed = {};
+
+    Object.keys(object).forEach(key => {
+      if (!(key in transformation)) return;
+      if (!transformation[key]) throw new Error('Blank schema key output');
+
+      transformed[transformation[key]] = object[key];
+    });
+
+    return transformed;
+  },
+};
+
+/**
  * CONSTANTS:
  * 2. USA - references USA value and label
  * 3. MilitaryBaseInfo - React component. Wrapped in AdditionalInfo component and used as description
