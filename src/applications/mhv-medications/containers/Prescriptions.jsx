@@ -9,6 +9,7 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom-v5-compat';
 import { useSelector, useDispatch } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import useAcceleratedData from '~/platform/mhv/hooks/useAcceleratedData';
 import PropTypes from 'prop-types';
 import {
   usePrintTitle,
@@ -90,6 +91,11 @@ const Prescriptions = () => {
   const userName = useSelector(selectUserFullName);
   const dob = useSelector(selectUserDob);
   const hasMedsByMailFacility = useSelector(selectHasMedsByMailFacility);
+  const {
+    isAcceleratingAllergies,
+    isCerner,
+    isLoading: isAcceleratedDataLoading,
+  } = useAcceleratedData();
   const [searchParams] = useSearchParams();
   const rxRenewalMessageSuccess = searchParams.get('rxRenewalMessageSuccess');
   const deleteDraftSuccess = searchParams.get('draftDeleteSuccess');
@@ -157,7 +163,15 @@ const Prescriptions = () => {
     format: undefined,
   });
   const scrollLocation = useRef();
-  const { data: allergies, error: allergiesError } = useGetAllergiesQuery();
+  const { data: allergies, error: allergiesError } = useGetAllergiesQuery(
+    {
+      isAcceleratingAllergies,
+      isCerner,
+    },
+    {
+      skip: isAcceleratedDataLoading, // Wait for Cerner data and toggles to load before calling API
+    },
+  );
 
   const refillAlertList = prescriptionsData?.refillAlertList || [];
 
