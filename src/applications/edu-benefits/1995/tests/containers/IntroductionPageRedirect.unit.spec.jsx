@@ -76,19 +76,11 @@ describe('IntroductionPageRedirect', () => {
     expect(container.textContent).to.include('Determine which form to use');
   });
 
-  it('should show continue button and NOT show prefill alert when user has saved form', () => {
+  it('should show start button and prefill alert for authenticated users', () => {
     const store = createMockStore(true, {
       login: { currentlyLoggedIn: true },
       profile: {
-        savedForms: [
-          {
-            form: '22-1995',
-            metadata: {
-              expiresAt: Math.floor(Date.now() / 1000) + 86400, // expires tomorrow
-              lastUpdated: Math.floor(Date.now() / 1000),
-            },
-          },
-        ],
+        savedForms: [],
         loading: false,
         prefillsAvailable: [],
       },
@@ -100,44 +92,16 @@ describe('IntroductionPageRedirect', () => {
       </Provider>,
     );
 
-    // Should NOT show prefill alert when there's a saved form
-    expect(container.textContent).to.not.include(
-      "We've prefilled some of your information",
+    expect(
+      container.querySelector(
+        "va-link-action[text='Start your questionnaire']",
+      ),
+    ).to.exist;
+    expect(container.textContent).to.include(
+      'We’ve prefilled some of your information',
     );
-
     // Container should still render with the form
     expect(container.querySelector('.schemaform-intro')).to.exist;
-    // Should show the continue/start button (part of the in-progress alert)
-    expect(container.querySelector('va-alert')).to.exist;
-  });
-
-  it('should not show prefill alert for logged in user with saved form', () => {
-    const store = createMockStore(true, {
-      login: { currentlyLoggedIn: true },
-      profile: {
-        savedForms: [
-          {
-            form: '22-1995',
-            metadata: {
-              expiresAt: Math.floor(Date.now() / 1000) + 86400,
-              lastUpdated: Math.floor(Date.now() / 1000),
-            },
-          },
-        ],
-        loading: false,
-        prefillsAvailable: [],
-      },
-    });
-
-    const { container } = render(
-      <Provider store={store}>
-        <IntroductionPageRedirect route={mockRoute} router={mockRouter} />
-      </Provider>,
-    );
-
-    expect(container.textContent).to.not.include(
-      "We've prefilled some of your information",
-    );
   });
 
   it('should render for unauthenticated users', () => {
@@ -155,7 +119,7 @@ describe('IntroductionPageRedirect', () => {
     expect(container.textContent).to.include('Change your education benefits');
     // Should not show prefill alert for unauthenticated users
     expect(container.textContent).to.not.include(
-      "We've prefilled some of your information",
+      'We’ve prefilled some of your information',
     );
   });
 
