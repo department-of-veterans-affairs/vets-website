@@ -37,13 +37,12 @@ describe('ratingValue reducer', () => {
     const previousState = {
       loading: true,
       error: null,
-      serviceConnectedCombinedDegree: null,
+      userPercentOfDisability: null,
     };
 
     const newState = ratingValue(previousState, {
       type: FETCH_RATING_INFO_SUCCESS,
-      // eslint-disable-next-line camelcase
-      response: { service_connected_combined_degree: 50 },
+      response: { userPercentOfDisability: 50 },
     });
 
     expect(newState.loading).to.be.false;
@@ -54,13 +53,12 @@ describe('ratingValue reducer', () => {
     const previousState = {
       loading: true,
       error: null,
-      serviceConnectedCombinedDegree: null,
+      userPercentOfDisability: null,
     };
 
     const newState = ratingValue(previousState, {
       type: FETCH_RATING_INFO_SUCCESS,
-      // eslint-disable-next-line camelcase
-      response: { service_connected_combined_degree: 20 },
+      response: { userPercentOfDisability: 20 },
     });
 
     expect(newState.loading).to.be.false;
@@ -71,7 +69,7 @@ describe('ratingValue reducer', () => {
     const previousState = {
       loading: true,
       error: null,
-      serviceConnectedCombinedDegree: null,
+      userPercentOfDisability: null,
     };
 
     const mockError = {
