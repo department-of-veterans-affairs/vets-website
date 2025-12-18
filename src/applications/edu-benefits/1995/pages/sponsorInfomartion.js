@@ -14,11 +14,10 @@ const noSSNTitle = () => {
   return "I don't know my sponsor's Social Security number";
 };
 
-const showSponsorInfo = (formData, automatedTest = false) => {
+const showSponsorInfo = formData => {
   return (
-    !isProductionOfTestProdEnv(automatedTest) &&
-    (formData.benefitUpdate === 'chapter35' ||
-      formData.benefitAppliedFor === 'chapter35')
+    formData.benefitUpdate === 'chapter35' ||
+    formData.benefitAppliedFor === 'chapter35'
   );
 };
 

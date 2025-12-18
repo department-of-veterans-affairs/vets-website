@@ -88,14 +88,14 @@ export const applicantInformationField = (automatedTest = false) => {
 
 export const benefitSelectionUiSchema = (automatedTest = false) => {
   return isProductionOfTestProdEnv(automatedTest)
-    ? benefitSelection.uiSchema
-    : benefitSelectionUpdate.uiSchema;
+    ? benefitSelectionUpdate.uiSchema
+    : benefitSelection.uiSchema;
 };
 
 export const benefitSelectionSchema = (automatedTest = false) => {
   return isProductionOfTestProdEnv(automatedTest)
-    ? benefitSelection.schema
-    : benefitSelectionUpdate.schema;
+    ? benefitSelectionUpdate.schema
+    : benefitSelection.schema;
 };
 
 export const servicePeriodsUiSchema = (automatedTest = false) => {
