@@ -14,7 +14,7 @@ const ExpenseLodgingFields = ({ errors = {}, formState, onChange }) => (
         name="vendor"
         value={formState.vendor || ''}
         required
-        onInput={onChange}
+        onBlur={onChange}
         {...errors.vendor && { error: errors.vendor }}
       />
     </div>
@@ -24,6 +24,7 @@ const ExpenseLodgingFields = ({ errors = {}, formState, onChange }) => (
       value={formState.checkInDate || ''}
       required
       onDateChange={onChange}
+      onDateBlur={onChange}
       {...errors.checkInDate && { error: errors.checkInDate }}
     />
     <VaDate
@@ -32,6 +33,7 @@ const ExpenseLodgingFields = ({ errors = {}, formState, onChange }) => (
       value={formState.checkOutDate || ''}
       required
       onDateChange={onChange}
+      onDateBlur={onChange}
       {...errors.checkOutDate && { error: errors.checkOutDate }}
     />
   </>

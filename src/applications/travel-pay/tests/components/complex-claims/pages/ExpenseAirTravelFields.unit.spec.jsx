@@ -120,7 +120,7 @@ describe('ExpenseAirTravelFields', () => {
     ).to.equal('LAX');
   });
 
-  it('calls onChange when typing into vendor input', async () => {
+  it('calls onBlur when focusing out of vendor input', async () => {
     const onChangeSpy = sinon.spy();
     const { container } = render(
       <ExpenseAirTravelFields {...defaultProps} onChange={onChangeSpy} />,
