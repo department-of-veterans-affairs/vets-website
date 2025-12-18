@@ -181,7 +181,10 @@ const destinationPage = {
       required: (formData, index, fullData) =>
         requiredIfMileageLocationOther(formData, index, fullData),
     }),
-    travelMilesTraveled: numberUI('How many miles were traveled?'),
+    travelMilesTraveled: numberUI({
+      title: 'How many miles were traveled?',
+      max: 9999,
+    }),
     travelDate: currentOrPastDateUI({
       title: 'What was the date of travel?',
       monthSelect: false,
