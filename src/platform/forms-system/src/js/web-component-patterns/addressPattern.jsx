@@ -150,39 +150,28 @@ const MEX_STATE_NAMES = constants.states.MEX.map(state => state.label);
 
 /**
  * `SCHEMA_KEYS` encapsulates the implementation for customizing this address
- * component's schema property names according to the caller's specification.
- * This is useful when a form wants the functionality of the address component
- * but its schema has different property names.
- *
- * This component's API functions, like `addressUI`, are awkward in that they
- * ask the caller to provide keys to omit (as `omit`), a custom key map (as
- * `newSchemaKeys`), and furthermore it defaults the remaining standard key
+ * component's schema property names for callers. This is useful when a form
+ * wants address component functionality, but its schema has different property
  * names.
  *
- * This awkwardness could be resolved by simply having the caller explicitly
- * provide a full key map, where keys are omitted by virtue not being included
- * in the map, and standard key names must be explicitly provided rather than
- * defaulted.
+ * By asking the caller to pass both `omit` and `newSchemaKeys`, and then
+ * failing to validate them, this component's public API accepts invalid
+ * state. This would be resolved simply if the caller passed its full key map
+ * explicitly.
  *
- * For now, we'll leave the API the same and implement it with
- * `SCHEMA_KEYS.deprecated.transform`. But we make that implementation, in turn,
- * call the implementation of the future API in `SCHEMA_KEYS.transform`.
+ * For now, `normalizeMapping` bridges the current API to the ideal one. Once
+ * the API improves, it becomes unnecessary. Either way, `SCHEMA_KEYS` as a
+ * whole remains the right encapsulation for key mapping across this module's
+ * exports.
  *
- * By doing this, we prepare the API to be improved whenever there is an
- * appetite to do so. Even if there is never an appetite, and we leave
- * `SCHEMA_KEYS.deprecated` in place, this object is still exactly the
- * encapsulation we want for mapping schema keys. And it should be reused across
- * the implementations of this module's exports.
- *
- * These two transform implementations now also reject ambiguous and nonsensical
- * inputs:
- * - `Blank schema key omitted`
- * - `Ambiguous schema key omitted`
- * - `Duplicate schema key output`
- * - `Blank schema key output`
+ * Also, this logic now rejects these ambiguous and nonsensical inputs:
+ * - `'Blank schema key omitted'`
+ * - `'Ambiguous schema key omitted'`
+ * - `'Duplicate schema key output'`
+ * - `'Blank schema key output'`
  */
 const SCHEMA_KEYS = {
-  STANDARD: {
+  STANDARD: Object.freeze({
     isMilitary: 'isMilitary',
     'view:militaryBaseDescription': 'view:militaryBaseDescription',
     country: 'country',
@@ -192,9 +181,21 @@ const SCHEMA_KEYS = {
     city: 'city',
     state: 'state',
     postalCode: 'postalCode',
-  },
+  }),
 
+  /**
+   * @deprecated Exists to support the current, awkward API (`omit` +
+   * `newSchemaKeys`). Once the API accepts a full key map explicitly, callers
+   * pass it straight to `map` and this becomes unnecessary.
+   */
   normalizeMapping({ newSchemaKeys = {}, omit = [] }) {
+    const emptyMapping = Object.keys(newSchemaKeys).length === 0;
+    const emptyOmit = omit.length === 0;
+
+    if (emptyMapping && emptyOmit) {
+      return this.STANDARD;
+    }
+
     const mapping = { ...this.STANDARD };
 
     omit.forEach(o => {
@@ -211,8 +212,8 @@ const SCHEMA_KEYS = {
     return mapping;
   },
 
-  map(object, mapping) {
-    if (!mapping) return object;
+  map(object, mapping = this.STANDARD) {
+    if (mapping === this.STANDARD) return object;
 
     const values = Object.values(mapping);
     const uniqueValues = new Set(values);
@@ -307,9 +308,6 @@ export const updateFormDataAddress = (
 ) => {
   let updatedData = formData;
 
-  /**
-   * If the API is migrated, this would turn in to a noop.
-   */
   const schemaKeys = SCHEMA_KEYS.normalizeMapping({ newSchemaKeys });
 
   /*
