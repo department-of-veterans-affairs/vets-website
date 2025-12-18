@@ -10,11 +10,14 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import environment from 'platform/utilities/environment';
 import { isLoggedIn, selectProfile } from 'platform/user/selectors';
+import { getFormData } from 'platform/forms-system/src/js/state/selectors';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { generateCoe } from '../../shared/actions';
 import formConfig from '../config/form';
 import { isLoadingFeatures, showCoeFeature } from '../../shared/utils/helpers';
 import { WIP } from '../../shared/components/WIP';
+
+const EMPTY_FORM_DATA = {}; // Stable reference prevents unnecessary re-renders that break tests
 
 function App({
   children,
@@ -98,7 +101,7 @@ const mapStateToProps = state => ({
   isLoading: isLoadingFeatures(state),
   canApply: isLoggedIn(state) && selectProfile(state).claims?.coe,
   showCoe: showCoeFeature(state),
-  formData: state.form?.data || {},
+  formData: getFormData(state) || EMPTY_FORM_DATA,
 });
 
 App.propTypes = {
