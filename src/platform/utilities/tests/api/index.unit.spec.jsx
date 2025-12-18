@@ -23,9 +23,10 @@ describe('test wrapper', () => {
   before(() => {
     server.listen();
     server.events.on('request:end', async req => {
-      expected = { ...expected, request: req };
+      expected = { ...expected, ...req };
     });
     server.events.on('response:mocked', async res => {
+      // In MSW 2.x, res has { status, statusText, headers, body } directly
       expected = { ...expected, response: res };
     });
   });
@@ -68,13 +69,7 @@ describe('test wrapper', () => {
 
       sessionStorage.setItem('shouldRedirectExpiredSession', 'true');
 
-      Object.defineProperty(window, 'location', {
-        value: {
-          pathname: '/some-other-page',
-          assign: sinon.stub(),
-        },
-        writable: true,
-      });
+      window.location.href = 'http://localhost/some-other-page';
 
       try {
         await apiRequest(
@@ -86,6 +81,7 @@ describe('test wrapper', () => {
         );
       } catch (error) {
         expect(mockEnv.isProduction.called).to.be.true;
+        // After window.location = string, window.location becomes a string in happy-dom
         expect(window.location).to.eql(
           '/?next=loginModal&status=session_expired',
         );
