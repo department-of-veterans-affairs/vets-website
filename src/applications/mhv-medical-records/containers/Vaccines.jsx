@@ -291,7 +291,7 @@ const Vaccines = props => {
           <div className="vads-u-margin-y--8">
             <TrackedSpinner
               id="vaccines-page-spinner"
-              message="We're loading your records."
+              message="We’re loading your records."
               setFocus
               data-testid="loading-indicator"
             />

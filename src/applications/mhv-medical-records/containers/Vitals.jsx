@@ -152,7 +152,7 @@ const Vitals = () => {
           <div className="vads-u-margin-y--8">
             <TrackedSpinner
               id="vitals-page-spinner"
-              message="We're loading your vitals."
+              message="We’re loading your vitals."
               setFocus
               data-testid="loading-indicator"
             />

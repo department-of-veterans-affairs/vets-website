@@ -253,7 +253,7 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
           <div className="vads-u-margin-y--8">
             <TrackedSpinner
               id="allergies-page-spinner"
-              message="We're loading your records."
+              message="We’re loading your records."
               setFocus
               data-testid="loading-indicator"
             />

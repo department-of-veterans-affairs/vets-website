@@ -183,7 +183,7 @@ const CareSummariesAndNotes = () => {
           <div className="vads-u-margin-y--8">
             <TrackedSpinner
               id="notes-page-spinner"
-              message="We're loading your records."
+              message="We’re loading your records."
               setFocus
               data-testid="loading-indicator"
             />

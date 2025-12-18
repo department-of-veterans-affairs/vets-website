@@ -215,7 +215,7 @@ const LabsAndTests = () => {
           <div className="vads-u-margin-y--8">
             <TrackedSpinner
               id="labs-and-tests-page-spinner"
-              message="We're loading your records."
+              message="We’re loading your records."
               setFocus
               data-testid="loading-indicator"
             />
