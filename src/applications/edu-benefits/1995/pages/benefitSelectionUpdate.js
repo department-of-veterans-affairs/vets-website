@@ -3,7 +3,6 @@ import {
   radioSchema,
   radioUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import React from 'react';
 import { benefitsLabelsUpdate } from '../../utils/labels';
 import BenefitReviewField from '../components/BenefitReviewField';
 
@@ -38,13 +37,6 @@ displayBenefit.enum.splice(1, 1, 'fryScholarship');
 displayNewBenefit.enum.splice(0, 1, 'chapter33');
 displayNewBenefit.enum.splice(1, 1, 'fryScholarship');
 
-const changeAnotherBenefitDescription = (
-  <p className="vads-u-color--gray-medium">
-    Note: if you select yes, this change will be applied with your next
-    enrollment certification if you are eligible for the benefit selected.
-  </p>
-);
-
 export const uiSchema = {
   benefitUpdate: {
     'ui:widget': 'radio',
@@ -60,22 +52,6 @@ export const uiSchema = {
       required: () => true,
     }),
   },
-  changeAnotherBenefit: {
-    ...radioUI({
-      title: 'Do you want to change to another benefit?',
-      description: changeAnotherBenefitDescription,
-    }),
-  },
-  benefitAppliedFor: {
-    'ui:title': 'Which benefit do you want to change to?',
-    'ui:widget': 'radio',
-    'ui:reviewField': BenefitReviewField,
-    'ui:required': formData => formData.changeAnotherBenefit === 'Yes',
-    'ui:options': {
-      labels: benefitsLabelsUpdate,
-      hideIf: formData => formData.changeAnotherBenefit !== 'Yes',
-    },
-  },
 };
 
 export const schema = {
@@ -84,7 +60,5 @@ export const schema = {
   properties: {
     benefitUpdate: displayBenefit,
     rudisillReview: radioSchema(['Yes', 'No']),
-    changeAnotherBenefit: radioSchema(['Yes', 'No']),
-    benefitAppliedFor: displayNewBenefit,
   },
 };

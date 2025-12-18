@@ -135,7 +135,7 @@ export const chapters = {
         depends: isLegacyFlow,
       },
       changeAnotherBenefit: {
-        title: 'Education benefit selection',
+        title: 'Change to another benefit',
         path: 'benefits/education-benefit',
         uiSchema: changeAnotherBenefitPage.uiSchema,
         schema: changeAnotherBenefitPage.schema,
