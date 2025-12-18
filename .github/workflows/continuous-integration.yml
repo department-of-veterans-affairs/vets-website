@@ -1163,6 +1163,7 @@ jobs:
     permissions:
       id-token: write
       contents: read
+      checks: write
     if: ${{ always() && github.ref != 'refs/heads/main' && needs.tests-prep.outputs.cypress-tests-to-stress-test != '[]' && (needs.stress-test-cypress-tests.result == 'success' || needs.stress-test-cypress-tests.result == 'failure') }}
     continue-on-error: true
     env:
@@ -1676,7 +1677,7 @@ jobs:
         # | Cypress Tests Summary |
         # -------------------------
       - name: Publish Cypress test results
-        if: ${{ always() && needs.tests-prep.outputs.cypress-tests-to-stress-test == 'true'}}
+        if: ${{ always() && needs.tests-prep.outputs.cypress-tests-to-stress-test == 'true' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
         uses: ./.github/workflows/checks-action
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -1783,7 +1784,7 @@ jobs:
         # | Cypress Tests Summary |
         # -------------------------
       - name: Publish E2E Test Stability Review Results
-        if: ${{ always() }}
+        if: ${{ always() && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
         uses: ./.github/workflows/checks-action
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
