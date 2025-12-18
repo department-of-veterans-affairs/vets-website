@@ -5,7 +5,6 @@ import {
   formatDateMonthDayCommaYearHoursMinutes,
   currentDateMinusMinutes,
   currentDateAddHours,
-  currentDateAddOneHourMinusOneMinute,
   currentDateAddSecondsForFileDownload,
   formatDateForDownload,
 } from '../../util/dateHelpers';
@@ -128,24 +127,6 @@ describe('dateHelpers', () => {
       const diffMs = Math.abs(now.getTime() - resultDate.getTime());
       // Should be within 1 second of current time
       expect(diffMs).to.be.lessThan(1000);
-    });
-  });
-
-  describe('currentDateAddOneHourMinusOneMinute', () => {
-    it('should return a valid UTC ISO formatted string', () => {
-      const result = currentDateAddOneHourMinusOneMinute();
-      // Validate the format: YYYY-MM-DDTHH:mm:ss.sssZ
-      expect(result).to.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/);
-    });
-
-    it('should return a date approximately 59 minutes in the future', () => {
-      const result = currentDateAddOneHourMinusOneMinute();
-      const resultDate = new Date(result);
-      const now = new Date();
-      // Result should be approximately 59 minutes in the future (1 hour - 1 minute)
-      const diffMs = resultDate.getTime() - now.getTime();
-      const diffMinutes = diffMs / (1000 * 60);
-      expect(diffMinutes).to.be.closeTo(59, 0.1);
     });
   });
 
