@@ -85,36 +85,17 @@ describe('ezr <ConfirmationScreenView>', () => {
       });
     });
 
-    context('when the ezrDownloadPdfEnabled feature toggle is enabled', () => {
-      it('should render download pdf button', () => {
-        /*
-        We need to have all of the necessary data to supply to the submitTransformer
-        as well as the data that is used to render the component
-        */
-        const { selectors } = subject(undefined, {
-          'view:isDownloadPdfEnabled': true,
-          veteranDateOfBirth: '1990-01-01',
-          gender: 'M',
-        });
-        const { downloadLink } = selectors();
-        expect(downloadLink).to.exist;
+    it('should render download pdf button', () => {
+      /*
+      We need to have all of the necessary data to supply to the submitTransformer
+      as well as the data that is used to render the component
+      */
+      const { selectors } = subject(undefined, {
+        veteranDateOfBirth: '1990-01-01',
+        gender: 'M',
       });
-    });
-
-    context('when the ezrDownloadPdfEnabled feature toggle is disabled', () => {
-      it('should not render download pdf button', () => {
-        /*
-        We need to have all of the necessary data to supply to the submitTransformer
-        as well as the data that is used to render the component
-        */
-        const { selectors } = subject(undefined, {
-          'view:isDownloadPdfEnabled': false,
-          veteranDateOfBirth: '1990-01-01',
-          gender: 'M',
-        });
-        const { downloadLink } = selectors();
-        expect(downloadLink).to.not.exist;
-      });
+      const { downloadLink } = selectors();
+      expect(downloadLink).to.exist;
     });
   });
 

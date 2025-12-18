@@ -68,24 +68,10 @@ describe('ezr <SubmissionErrorAlert>', () => {
       expect(headerTitle).to.contain.text(content['alert-submission-title']);
     });
 
-    context('when the ezrDownloadPdfEnabled feature toggle is enabled', () => {
-      it('should render download pdf button', () => {
-        const { selectors } = subject({
-          'view:isDownloadPdfEnabled': true,
-        });
-        const { downloadLink } = selectors();
-        expect(downloadLink).to.exist;
-      });
-    });
-
-    context('when the ezrDownloadPdfEnabled feature toggle is disabled', () => {
-      it('should not render download pdf button', () => {
-        const { selectors } = subject({
-          'view:isDownloadPdfEnabled': false,
-        });
-        const { downloadLink } = selectors();
-        expect(downloadLink).to.not.exist;
-      });
+    it('should render download pdf button', () => {
+      const { selectors } = subject();
+      const { downloadLink } = selectors();
+      expect(downloadLink).to.exist;
     });
   });
 });
