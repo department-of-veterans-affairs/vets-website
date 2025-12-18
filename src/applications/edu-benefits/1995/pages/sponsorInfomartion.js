@@ -19,7 +19,12 @@ const showSponsorInfo = formData => {
 };
 
 const defaults = () => ({
-  fields: ['sponsorFullName', 'sponsorSocialSecurityNumber', 'view:noSSN'],
+  fields: [
+    'sponsorFullName',
+    'sponsorSocialSecurityNumber',
+    'view:noSSN',
+    'vaFileNumber',
+  ],
   required: ['sponsorFullName', 'sponsorSocialSecurityNumber'],
   labels: {},
   isVeteran: true,
@@ -74,11 +79,25 @@ export function sponsorInfo(schema) {
           hideOnReview: true,
         },
       },
+      vaFileNumber: {
+        'ui:required': formData => formData['view:noSSN'],
+        'ui:title': "Sponsor's VA file number",
+        'ui:options': {
+          expandUnder: 'view:noSSN',
+        },
+        'ui:errorMessages': {
+          pattern: 'Your VA file number must be between 7 to 9 digits',
+        },
+      },
     },
 
     schema: {
       type: 'object',
-      definitions: pick(schema.definitions, ['fullName', 'ssn']),
+      definitions: pick(schema.definitions, [
+        'fullName',
+        'ssn',
+        'vaFileNumber',
+      ]),
       required,
       properties: pick(possibleProperties, fields),
     },
