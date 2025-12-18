@@ -110,7 +110,7 @@ export const titleWithRoleUI = (
  * @param {string} [options.roleKey='certifierRole'] - Form data key containing the role
  * @param {string} [options.self='Your'] - Text to use when user is applicant
  * @param {string} [options.other='Beneficiary'] - Fallback text when name is unavailable
- * @returns {Object} UI schema object for titleUI with title and classNames properties
+ * @returns {Object} UI schema object for titleUI
  *
  * @example
  * // When certifierRole === 'applicant': "Your identification information"
@@ -160,5 +160,6 @@ export const titleWithNameUI = (
       return replaceStrValues(title, formattedTarget, placeholder);
     },
     description,
-    classNames: 'dd-privacy-hidden',
+    classNames:
+      'vads-u-color--black vads-u-margin-top--0 mobile-lg:vads-u-font-size--h2 vads-u-font-size--h3 dd-privacy-hidden',
   });
