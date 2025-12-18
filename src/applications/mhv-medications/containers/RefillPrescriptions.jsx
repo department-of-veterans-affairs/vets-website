@@ -35,23 +35,23 @@ import ProcessList from '../components/shared/ProcessList';
 import { refillProcessStepGuide } from '../util/processListData';
 import { useGetAllergiesQuery } from '../api/allergiesApi';
 import { selectUserDob, selectUserFullName } from '../selectors/selectUser';
-import { selectCernerPilotFlag } from '../util/selectors';
-
 import { selectSortOption } from '../selectors/selectPreferences';
 
 const RefillPrescriptions = () => {
-  const featureTogglesLoading = useSelector(
-    state => state.featureToggles.loading,
-  );
-  const isOracleHealthPilot = useSelector(selectCernerPilotFlag);
+  const {
+    isAcceleratingMedications,
+    isAcceleratingAllergies,
+    isCerner,
+    isLoading: isAcceleratedDataLoading,
+  } = useAcceleratedData();
 
   const {
     data: refillableData,
     isLoading,
     error: refillableError,
   } = useGetRefillablePrescriptionsQuery(
-    { isOracleHealthPilot },
-    { skip: featureTogglesLoading },
+    { isAcceleratingMedications },
+    { skip: isAcceleratedDataLoading },
   );
 
   const [
@@ -120,11 +120,6 @@ const RefillPrescriptions = () => {
 
   // Selectors
   const selectedSortOption = useSelector(selectSortOption);
-  const {
-    isAcceleratingAllergies,
-    isCerner,
-    isLoading: isAcceleratedDataLoading,
-  } = useAcceleratedData();
 
   // Get refillable list from RTK Query result
   const fullRefillList = refillableData?.prescriptions || [];
@@ -152,7 +147,7 @@ const RefillPrescriptions = () => {
 
       // Get just the prescription IDs for the bulk refill
       const prescriptionIds = selectedRefillList.map(rx => {
-        if (isOracleHealthPilot) {
+        if (isAcceleratingMedications) {
           return { id: rx.prescriptionId, stationNumber: rx.stationNumber };
         }
         return rx.prescriptionId;

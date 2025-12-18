@@ -13,45 +13,31 @@ import {
   INCLUDE_IMAGE_ENDPOINT,
   rxListSortingOptions,
 } from '../util/constants';
-import { selectCernerPilotFlag } from '../util/selectors';
 
 const documentationApiBasePath = `${environment.API_URL}/my_health/v1`;
 
-export const getApiBasePath = state => {
-  // Handle loading state - default to v1
-  if (!state?.featureToggles || state.featureToggles.loading) {
-    return `${environment.API_URL}/my_health/v1`;
-  }
-
-  const isCernerPilot = selectCernerPilotFlag(state);
-  return `${environment.API_URL}/my_health/${isCernerPilot ? 'v2' : 'v1'}`;
+export const getApiBasePath = (isAcceleratingMedications = false) => {
+  return `${environment.API_URL}/my_health/${
+    isAcceleratingMedications ? 'v2' : 'v1'
+  }`;
 };
 
-export const getRefillMethod = state => {
-  // Handle loading state - default to PATCH
-  if (!state?.featureToggles || state.featureToggles.loading) {
-    return 'PATCH';
-  }
-
-  const isCernerPilot = selectCernerPilotFlag(state);
-  return isCernerPilot ? 'POST' : 'PATCH';
+export const getRefillMethod = (isAcceleratingMedications = false) => {
+  return isAcceleratingMedications ? 'POST' : 'PATCH';
 };
 
 // Create the prescriptions API slice
 export const prescriptionsApi = createApi({
   reducerPath: 'prescriptionsApi',
-  baseQuery: async ({ path, options = {} }, api) => {
+  baseQuery: async ({ path, options = {} }) => {
     const defaultOptions = {
       headers: {
         'Content-Type': 'application/json',
       },
     };
 
-    const state = api.getState();
-    const apiBasePath = getApiBasePath(state);
-
     try {
-      const result = await apiRequest(`${apiBasePath}${path}`, {
+      const result = await apiRequest(`${path}`, {
         ...defaultOptions,
         ...options,
       });
@@ -74,11 +60,19 @@ export const prescriptionsApi = createApi({
   tagTypes: ['Prescription'],
   endpoints: builder => ({
     getPrescriptionsExportList: builder.query({
-      query: ({ filterOption = '', sortEndpoint, includeImage = false }) => ({
-        path: `/prescriptions?${filterOption}${sortEndpoint}${
-          includeImage ? INCLUDE_IMAGE_ENDPOINT : ''
-        }`,
-      }),
+      query: ({
+        filterOption = '',
+        sortEndpoint,
+        includeImage = false,
+        isAcceleratingMedications = false,
+      }) => {
+        const apiBasePath = getApiBasePath(isAcceleratingMedications);
+        return {
+          path: `${apiBasePath}/prescriptions?${filterOption}${sortEndpoint}${
+            includeImage ? INCLUDE_IMAGE_ENDPOINT : ''
+          }`,
+        };
+      },
       providesTags: ['Prescription'],
       transformResponse: response => {
         if (response?.data && Array.isArray(response.data)) {
@@ -101,8 +95,7 @@ export const prescriptionsApi = createApi({
             .API_ENDPOINT,
           filterOption = '',
           includeImage = false,
-          // eslint-disable-next-line no-unused-vars
-          isOracleHealthPilot,
+          isAcceleratingMedications = false,
         } = params;
 
         let queryParams = `page=${page}&per_page=${perPage}`;
@@ -110,8 +103,9 @@ export const prescriptionsApi = createApi({
         if (sortEndpoint) queryParams += sortEndpoint;
         if (includeImage) queryParams += '&include_image=true';
 
+        const apiBasePath = getApiBasePath(isAcceleratingMedications);
         return {
-          path: `/prescriptions?${queryParams}`,
+          path: `${apiBasePath}/prescriptions?${queryParams}`,
         };
       },
       providesTags: ['Prescription'],
@@ -138,10 +132,11 @@ export const prescriptionsApi = createApi({
       },
     }),
     getPrescriptionById: builder.query({
-      query: id => {
+      query: ({ id, isAcceleratingMedications = false }) => {
         const prescriptionId = typeof id === 'object' ? id.id : id;
+        const apiBasePath = getApiBasePath(isAcceleratingMedications);
         return {
-          path: `/prescriptions/${prescriptionId}`,
+          path: `${apiBasePath}/prescriptions/${prescriptionId}`,
         };
       },
       providesTags: ['Prescription'],
@@ -157,10 +152,12 @@ export const prescriptionsApi = createApi({
       },
     }),
     getRefillablePrescriptions: builder.query({
-      // eslint-disable-next-line no-unused-vars
-      query: ({ isOracleHealthPilot } = {}) => ({
-        path: `/prescriptions/list_refillable_prescriptions`,
-      }),
+      query: ({ isAcceleratingMedications = false }) => {
+        const apiBasePath = getApiBasePath(isAcceleratingMedications);
+        return {
+          path: `${apiBasePath}/prescriptions/list_refillable_prescriptions`,
+        };
+      },
       providesTags: ['Prescription'],
       transformResponse: response => {
         if (response?.data && Array.isArray(response.data)) {
@@ -209,10 +206,9 @@ export const prescriptionsApi = createApi({
       },
     }),
     refillPrescription: builder.mutation({
-      queryFn: async (id, { getState }) => {
-        const state = getState();
-        const apiBasePath = getApiBasePath(state);
-        const method = getRefillMethod(state);
+      queryFn: async (id, isAcceleratingMedications = false) => {
+        const apiBasePath = getApiBasePath(isAcceleratingMedications);
+        const method = getRefillMethod(isAcceleratingMedications);
 
         try {
           const result = await apiRequest(
@@ -236,13 +232,11 @@ export const prescriptionsApi = createApi({
       },
     }),
     bulkRefillPrescriptions: builder.mutation({
-      queryFn: async (ids, { getState }) => {
-        const state = getState();
-        const apiBasePath = getApiBasePath(state);
-        const method = getRefillMethod(state);
-        const isOracleHealthPilot = selectCernerPilotFlag(state);
+      queryFn: async (ids, isAcceleratingMedications = false) => {
+        const apiBasePath = getApiBasePath(isAcceleratingMedications);
+        const method = getRefillMethod(isAcceleratingMedications);
 
-        if (isOracleHealthPilot) {
+        if (isAcceleratingMedications) {
           try {
             const result = await apiRequest(
               `${apiBasePath}/prescriptions/refill`,
