@@ -52,6 +52,7 @@ const GROUP_OPTION_TAGS = ['VA-RADIO-OPTION', 'VA-CHECKBOX'];
 const GROUP_SELECTOR = GROUP_COMPONENT_TAGS.map(tag => tag.toLowerCase()).join(
   ', ',
 );
+const FILE_INPUT_TAGS = ['VA-FILE-INPUT', 'VA-FILE-INPUT-MULTIPLE'];
 
 // ============================================================================
 // General helpers
@@ -70,6 +71,8 @@ const isSupportedVaElement = element => {
     'va-checkbox-group',
     'va-checkbox',
     'va-combo-box',
+    'va-file-input',
+    'va-file-input-multiple',
     'va-radio',
     'va-radio-option',
     'va-select',
@@ -143,6 +146,9 @@ const isGroupComponent = element =>
  */
 const isGroupOptionComponent = element =>
   isComponentOfType(element, GROUP_OPTION_TAGS);
+
+const isFileInputComponent = element =>
+  isComponentOfType(element, FILE_INPUT_TAGS);
 
 /**
  * Finds the nearest ancestor group component (radio group or checkbox group) for a given element.
@@ -283,6 +289,10 @@ const findFocusTarget = el => {
 
   const focusTarget = shadowRoot.querySelector(INPUT_SELECTOR);
   if (focusTarget) {
+    // Temporary fix: For file input components, remove style attribute to make input visible
+    if (isFileInputComponent(el)) {
+      focusTarget.removeAttribute('style');
+    }
     return focusTarget;
   }
 
