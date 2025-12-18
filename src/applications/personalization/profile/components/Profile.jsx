@@ -168,7 +168,7 @@ class Profile extends Component {
       profile2Enabled: this.props.shouldShowProfile2,
       profileHealthCareSettingsPage: this.props
         .shouldShowHealthCareSettingsPage,
-      profileHideHealthCareContacts: !this.props
+      profileHideHealthCareContacts: this.props
         .shouldHideHealthCareContactsPage,
     });
 
@@ -284,9 +284,9 @@ Profile.propTypes = {
   showLoader: PropTypes.bool.isRequired,
   togglesLoaded: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired,
+  shouldHideHealthCareContactsPage: PropTypes.bool,
   shouldShowAccreditedRepTab: PropTypes.bool,
   shouldShowHealthCareSettingsPage: PropTypes.bool,
-  shouldHideHealthCareContactsPage: PropTypes.bool,
   shouldShowProfile2: PropTypes.bool,
 };
 

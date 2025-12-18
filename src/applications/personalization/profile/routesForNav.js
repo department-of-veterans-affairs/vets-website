@@ -237,11 +237,11 @@ export const getRoutesForNav = (
   {
     profile2Enabled = false,
     profileHealthCareSettingsPage = false,
-    profileHideHealthCareContacts = true,
+    profileHideHealthCareContacts = false,
   } = {
     profile2Enabled: false,
     profileHealthCareSettingsPage: false,
-    profileHideHealthCareContacts: true,
+    profileHideHealthCareContacts: false,
   },
 ) => {
   if (profile2Enabled) {
