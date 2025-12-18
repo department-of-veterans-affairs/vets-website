@@ -288,7 +288,7 @@ const costPage = {
       return provider ? `Cost of care for ${provider}` : 'Cost of care';
     }),
     monthlyAmount: currencyUI({
-      title: 'What’s the total monthly cost of this care?',
+      title: 'What’s the monthly cost of this care?',
       max: 999999.99,
     }),
     hourlyRate: {
