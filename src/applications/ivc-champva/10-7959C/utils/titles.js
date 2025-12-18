@@ -35,7 +35,7 @@ export const healthInsurancePageTitleUI = (
   arrayBuilderItemSubsequentPageTitleUI(
     ({ formData }) => {
       const provider = formData?.provider;
-      return replaceStrValues(title, provider, placeholder);
+      return provider ? replaceStrValues(title, provider, placeholder) : title;
     },
     description,
     lowercase,

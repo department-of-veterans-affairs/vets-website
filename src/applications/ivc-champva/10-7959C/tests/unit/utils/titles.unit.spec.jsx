@@ -27,10 +27,10 @@ describe('10-7959c `healthInsurancePageTitleUI` util', () => {
     expect(result).to.equal('Cigna prescription coverage');
   });
 
-  it('should return empty string when provider is not present', () => {
+  it('should return title text when provider is not present', () => {
     const uiSchema = healthInsurancePageTitleUI('%s prescription coverage');
     const result = subject(uiSchema, {});
-    expect(result).to.equal('');
+    expect(result).to.equal('%s prescription coverage');
   });
 
   it('should use custom placeholder token', () => {
