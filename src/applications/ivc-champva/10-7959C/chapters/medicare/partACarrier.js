@@ -6,7 +6,7 @@ import {
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { nameWording, privWrapper } from '../../../shared/utilities';
-import { validFieldCharsOnly } from '../../../shared/validations';
+import { validateChars } from '../../utils/validation';
 
 const PAGE_TITLE = ({ formData }) => {
   const name = nameWording(formData, undefined, undefined, true);
@@ -20,21 +20,13 @@ export default {
       title: 'Name of insurance carrier',
       hint:
         'The insurance carrier may be listed as “Medicare Health Insurance” on the insurance card.',
+      validations: [validateChars],
     }),
     applicantMedicarePartAEffectiveDate: currentOrPastDateUI({
       title: 'Medicare Part A effective date',
       hint:
         'You may find the effective date on the front of the Medicare card near “Coverage starts” or “Effective date.”',
     }),
-    'ui:validations': [
-      (errors, formData) =>
-        validFieldCharsOnly(
-          errors,
-          null,
-          formData,
-          'applicantMedicarePartACarrier',
-        ),
-    ],
   },
   schema: {
     type: 'object',

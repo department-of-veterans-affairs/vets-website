@@ -190,6 +190,39 @@ describe('Labs and tests list container with no data', () => {
   });
 });
 
+describe('LabsAndTests does not flash NoRecordsMessage before data loads', () => {
+  it('does not show NoRecordsMessage when labsAndTestsList is undefined', () => {
+    const initialState = {
+      user,
+      mr: {
+        labsAndTests: {
+          labsAndTestsList: undefined, // Data not yet fetched
+          dateRange: {
+            option: '3',
+            fromDate: '2025-08-13',
+            toDate: '2025-11-13',
+          },
+        },
+        alerts: { alertList: [] },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<LabsAndTests />, {
+      initialState,
+      reducers: reducer,
+      path: '/labs-and-tests',
+    });
+
+    // Should NOT show the no records message when data is undefined
+    expect(
+      screen.queryByText(
+        'There are no lab and test results in your VA medical records.',
+        { exact: false },
+      ),
+    ).to.not.exist;
+  });
+});
+
 describe('Labs and tests list container with errors', () => {
   it('displays an error', async () => {
     const initialState = {
