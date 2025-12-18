@@ -173,7 +173,6 @@ describe('VAOS request schedule flow - Audiology', () => {
           .clickNextButton();
 
         ReasonForAppointmentPageObject.assertUrl()
-          .selectReasonForAppointment()
           .typeAdditionalText({ content: 'This is a test' })
           .clickNextButton();
 

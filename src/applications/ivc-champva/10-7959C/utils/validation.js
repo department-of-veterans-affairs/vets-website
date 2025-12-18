@@ -1,10 +1,11 @@
 import { isBefore, isValid } from 'date-fns';
 import { convertToDateField } from 'platform/forms-system/src/js/validation';
 import { isValidDateRange } from 'platform/forms/validations';
+import content from '../locales/en/content.json';
 
 /**
  * Generic validator for date ranges with effective/termination or effective/expiration date patterns
- * @param {Object} errors - object holding the error message content
+ * @param {Object} errors - The rjsf/vets-forms error object
  * @param {Object} data - field data from the form inputs
  * @param {Object} options - configuration options
  * @param {string} options.startDateKey - key name for the effective/start date field
@@ -116,4 +117,30 @@ export const validateHealthInsurancePlan = (item = {}) => {
   return (
     !hasValidUpload(insuranceCardFront) || !hasValidUpload(insuranceCardBack)
   );
+};
+
+/**
+ * Validates a text field for disallowed characters and adds an error message
+ * when any invalid characters are found.
+ *
+ * @param {Object} errors - The rjsf/vets-forms error object
+ * @param {string} fieldData - The input string to validate
+ */
+export const validateChars = (errors, fieldData) => {
+  const invalidCharsPattern = /[~!@#$%^&*+=[\]{}()<>;:"`\\/_|]/g;
+  const matches = fieldData.match(invalidCharsPattern);
+
+  if (!matches) return;
+
+  const uniqueChars = [...new Set(matches)];
+  const isPlural = uniqueChars.length > 1;
+  const charsList = uniqueChars.join(' ');
+
+  const msgPlural = content['validation--text-characters--plural'];
+  const msgSingular = content['validation--text-characters--singular'];
+  const message = isPlural
+    ? `${msgPlural}: ${charsList}`
+    : `${msgSingular}: ${charsList}`;
+
+  errors.addError(message);
 };

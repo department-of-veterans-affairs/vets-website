@@ -20,7 +20,7 @@ describe('Income and assets page', () => {
     const vaRadioOptions = $$('va-radio-option', formDOM);
     const vaAccordions = $$('va-accordion', formDOM);
     const vaAssetsThresholdRadio = $(
-      'va-radio[label*="Do you and your dependents have over $75,000 in assets?"]',
+      'va-radio[label*="Do you and your dependents have over $25,000 in assets?"]',
       formDOM,
     );
 
