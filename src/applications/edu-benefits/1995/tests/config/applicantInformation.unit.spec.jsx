@@ -18,6 +18,7 @@ import {
   newSchoolSchema,
   newSchoolUiSchema,
 } from '../../config/chapters';
+import { updateApplicantInformationPage } from '../../../utils/helpers';
 
 const definitions = formConfig.defaultDefinitions;
 
@@ -358,5 +359,173 @@ describe('Edu 1995 Fields for production', () => {
     const automatedTest = true;
     const directDeposit = directDepositField(automatedTest);
     expect(directDeposit).not.to.be.null;
+  });
+});
+
+describe('Edu 1995 applicantInformationField function', () => {
+  it('should include minorHighSchoolQuestions and applicantGender fields when isProductionOfTestProdEnv is true', () => {
+    const automatedTest = true;
+    const result = applicantInformationField(automatedTest);
+
+    expect(result).to.have.property('schema');
+    expect(result.schema).to.have.property('properties');
+    expect(result.schema.properties).to.have.property(
+      'minorHighSchoolQuestions',
+    );
+    expect(result.schema.properties).to.have.property('applicantGender');
+  });
+
+  it('should set veteranSocialSecurityNumber as a required field when isProductionOfTestProdEnv is true', () => {
+    const automatedTest = true;
+    const result = applicantInformationField(automatedTest);
+
+    expect(result).to.have.property('schema');
+    expect(result.schema).to.have.property('required');
+    expect(result.schema.required).to.include('veteranSocialSecurityNumber');
+  });
+
+  it('should apply the uiSchema from applicantInformationUpdate when isProductionOfTestProdEnv is true', () => {
+    const automatedTest = true;
+    const result = applicantInformationField(automatedTest);
+
+    expect(result).to.have.property('uiSchema');
+    expect(result.uiSchema).to.have.property('veteranFullName');
+    expect(result.uiSchema).to.have.property('veteranSocialSecurityNumber');
+    expect(result.uiSchema).to.have.property('dateOfBirth');
+    expect(result.uiSchema).to.have.property('minorHighSchoolQuestions');
+    expect(result.uiSchema).to.have.property('applicantGender');
+
+    // Verify specific uiSchema properties from applicantInformationUpdate
+    expect(result.uiSchema.veteranFullName).to.have.property('first');
+    expect(result.uiSchema.veteranFullName.first).to.have.property(
+      'ui:title',
+      'Your first name',
+    );
+  });
+});
+
+describe('Edu 1995 updateApplicantInformationPage function', () => {
+  it('should correctly process the applicant information page object', () => {
+    const mockPage = {
+      schema: {
+        type: 'object',
+        properties: {
+          veteranFullName: { type: 'object' },
+          veteranSocialSecurityNumber: { type: 'string' },
+        },
+      },
+      uiSchema: {
+        veteranFullName: { 'ui:title': 'Name' },
+      },
+    };
+
+    const result = updateApplicantInformationPage(mockPage);
+
+    // Verify the function returns a page object with schema and uiSchema
+    expect(result).to.have.property('schema');
+    expect(result).to.have.property('uiSchema');
+    expect(result.schema).to.have.property('properties');
+
+    // The original properties should still be present
+    expect(result.schema.properties).to.have.property('veteranFullName');
+    expect(result.schema.properties).to.have.property(
+      'veteranSocialSecurityNumber',
+    );
+  });
+});
+
+describe('Edu 1995 form validation with updated required fields', () => {
+  it('should enforce veteranSocialSecurityNumber as required when isProductionOfTestProdEnv is true', async () => {
+    const automatedTest = true;
+    const result = applicantInformationField(automatedTest);
+
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+        schema={result.schema}
+        data={{}}
+        definitions={definitions}
+        uiSchema={result.uiSchema}
+      />,
+    );
+
+    submitForm(form);
+
+    await waitFor(() => {
+      const errors = ReactTestUtils.scryRenderedDOMComponentsWithClass(
+        form,
+        'usa-input-error-message',
+      );
+
+      // Verify SSN error is shown
+      expect(
+        errors.find(input =>
+          input.id.includes('root_veteranSocialSecurityNumber'),
+        ),
+      ).to.be.ok;
+    });
+  });
+
+  it('should validate all required fields including veteranFullName and dateOfBirth when isProductionOfTestProdEnv is true', async () => {
+    const automatedTest = true;
+    const result = applicantInformationField(automatedTest);
+
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+        schema={result.schema}
+        data={{}}
+        definitions={definitions}
+        uiSchema={result.uiSchema}
+      />,
+    );
+
+    submitForm(form);
+
+    await waitFor(() => {
+      const errors = ReactTestUtils.scryRenderedDOMComponentsWithClass(
+        form,
+        'usa-input-error-message',
+      );
+
+      // Should have multiple validation errors for all required fields
+      expect(errors.length).to.be.greaterThan(0);
+
+      // Check for specific required field errors
+      const errorIds = errors.map(e => e.id).join(',');
+      expect(errorIds).to.include('veteranSocialSecurityNumber');
+    });
+  });
+
+  it('should not show SSN error when view:noSSN is checked', async () => {
+    const automatedTest = true;
+    const result = applicantInformationField(automatedTest);
+
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+        schema={result.schema}
+        data={{ 'view:noSSN': true }}
+        definitions={definitions}
+        uiSchema={result.uiSchema}
+      />,
+    );
+
+    submitForm(form);
+
+    await waitFor(() => {
+      const errors = ReactTestUtils.scryRenderedDOMComponentsWithClass(
+        form,
+        'usa-input-error-message',
+      );
+
+      // SSN should not be required when view:noSSN is checked
+      expect(
+        errors.find(input =>
+          input.id.includes('root_veteranSocialSecurityNumber'),
+        ),
+      ).not.to.be.ok;
+
+      // But VA file number should be required
+      expect(errors.find(input => input.id.includes('root_vaFileNumber'))).to.be
+        .ok;
+    });
   });
 });

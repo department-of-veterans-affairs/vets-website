@@ -1,21 +1,19 @@
 import React from 'react';
 import moment from 'moment/moment';
-import { convertToggle } from '../utils/helpers';
 
-export const isProductionOfTestProdEnv = automatedTest => {
-  const toggle = convertToggle();
-  return toggle || automatedTest || global?.window?.isProd;
+export const isProductionOfTestProdEnv = () => {
+  return true;
 };
 
-export const sponsorInformationTitle = (automatedTest = false) => {
-  if (isProductionOfTestProdEnv(automatedTest)) {
+export const sponsorInformationTitle = () => {
+  if (isProductionOfTestProdEnv()) {
     return 'Sponsor information';
   }
   return 'DEA, Chapter 35 sponsor information';
 };
 
-export const directDepositMethod = (formData, automatedTest = false) => {
-  return isProductionOfTestProdEnv(automatedTest)
+export const directDepositMethod = formData => {
+  return isProductionOfTestProdEnv()
     ? formData.bankAccountChange
     : formData.bankAccountChangeUpdate;
 };
@@ -103,8 +101,8 @@ export const ageWarning = (
   </div>
 );
 
-export const isEighteenOrOlder = (birthday, automatedTest = false) => {
-  return isProductionOfTestProdEnv(automatedTest)
+export const isEighteenOrOlder = birthday => {
+  return isProductionOfTestProdEnv()
     ? eighteenOrOver(birthday)
     : eighteenOrOverUpdate(birthday);
 };
