@@ -405,20 +405,14 @@ export function addressUI(options = {}) {
   let cityMaxLength = 100;
   let stateMaxLength = 100;
 
-  const omit = key => options.omit?.includes(key);
   let customRequired = key => options.required?.[key];
   if (options.required === false) {
     customRequired = () => () => false;
   }
 
-  /** @type {UISchemaOptions} */
-  const uiSchema = {
-    'ui:validations': [],
-    'ui:options': {
-      classNames:
-        'vads-web-component-pattern vads-web-component-pattern-address',
-    },
-  };
+  const isMilitaryTitle =
+    options.labels?.militaryCheckbox ??
+    'I live on a U.S. military base outside of the United States.';
 
   function validateMilitaryBaseZipCode(errors, addr) {
     if (!(addr.isMilitary && addr.state)) return;
@@ -429,9 +423,7 @@ export function addressUI(options = {}) {
       const isAP = addr.state === 'AP' && /^96[2-6]\d*/.test(addr.postalCode);
       if (!(isAA || isAE || isAP)) {
         errors.postalCode.addError(
-          `This postal code is within the United States. If your mailing address is in the United States, uncheck the checkbox "${
-            uiSchema.isMilitary['ui:title']
-          }". If your mailing address is an APO/FPO/DPO address, enter the postal code for the military base.`,
+          `This postal code is within the United States. If your mailing address is in the United States, uncheck the checkbox "${isMilitaryTitle}". If your mailing address is an APO/FPO/DPO address, enter the postal code for the military base.`,
         );
       }
     }
@@ -447,31 +439,27 @@ export function addressUI(options = {}) {
     };
   }
 
-  if (!omit('isMilitary')) {
-    uiSchema.isMilitary = {
+  /** @type {UISchemaOptions} */
+  const uiSchema = {
+    'ui:validations': [],
+    'ui:options': {
+      classNames:
+        'vads-web-component-pattern vads-web-component-pattern-address',
+    },
+    isMilitary: {
       'ui:required': requiredFunc('isMilitary', false),
-      'ui:title':
-        options.labels?.militaryCheckbox ??
-        'I live on a U.S. military base outside of the United States.',
+      'ui:title': isMilitaryTitle,
       'ui:webComponentField': VaCheckboxField,
       'ui:options': {
         classNames:
           'vads-web-component-pattern-field vads-web-component-pattern-address',
         hideEmptyValueInReview: true,
       },
-    };
-
-    uiSchema['ui:validations'].push(validateMilitaryBaseZipCode);
-  }
-
-  if (!omit('isMilitary') && !omit('view:militaryBaseDescription')) {
-    uiSchema['view:militaryBaseDescription'] = {
+    },
+    'view:militaryBaseDescription': {
       'ui:description': MilitaryBaseInfo,
-    };
-  }
-
-  if (!omit('country')) {
-    uiSchema.country = {
+    },
+    country: {
       'ui:required': (formData, index, fullData, path) => {
         if (customRequired('country')) {
           return customRequired('country')(formData, index, fullData, path);
@@ -523,11 +511,8 @@ export function addressUI(options = {}) {
           };
         },
       },
-    };
-  }
-
-  if (!omit('street')) {
-    uiSchema.street = {
+    },
+    street: {
       'ui:required': requiredFunc('street', true),
       'ui:title': options.labels?.street || 'Street address',
       'ui:autocomplete': 'address-line1',
@@ -546,11 +531,8 @@ export function addressUI(options = {}) {
           };
         },
       },
-    };
-  }
-
-  if (!omit('street2')) {
-    uiSchema.street2 = {
+    },
+    street2: {
       'ui:autocomplete': 'address-line2',
       'ui:required': requiredFunc('street2', false),
       'ui:webComponentField': VaTextInputField,
@@ -574,11 +556,8 @@ export function addressUI(options = {}) {
           };
         },
       },
-    };
-  }
-
-  if (!omit('street3')) {
-    uiSchema.street3 = {
+    },
+    street3: {
       'ui:autocomplete': 'address-line3',
       'ui:required': requiredFunc('street3', false),
       'ui:options': {
@@ -602,11 +581,8 @@ export function addressUI(options = {}) {
         },
       },
       'ui:webComponentField': VaTextInputField,
-    };
-  }
-
-  if (!omit('city')) {
-    uiSchema.city = {
+    },
+    city: {
       'ui:required': requiredFunc('city', true),
       'ui:autocomplete': 'address-level2',
       'ui:errorMessages': CITY_ERROR_MESSAGES_DEFAULT,
@@ -650,11 +626,8 @@ export function addressUI(options = {}) {
           };
         },
       },
-    };
-  }
-
-  if (!omit('state')) {
-    uiSchema.state = {
+    },
+    state: {
       'ui:autocomplete': 'address-level1',
       'ui:required': (formData, index, fullData, path) => {
         if (customRequired('state')) {
@@ -755,11 +728,8 @@ export function addressUI(options = {}) {
           };
         },
       },
-    };
-  }
-
-  if (!omit('postalCode')) {
-    uiSchema.postalCode = {
+    },
+    postalCode: {
       'ui:required': requiredFunc('postalCode', true),
       'ui:title': options.labels?.postalCode ?? 'Postal code',
       'ui:autocomplete': 'postal-code',
@@ -806,8 +776,15 @@ export function addressUI(options = {}) {
           };
         },
       },
-    };
-  }
+    },
+  };
+
+  options.omit?.forEach(key => delete uiSchema[key]);
+
+  if (options.omit?.includes('isMilitary'))
+    delete uiSchema['view:militaryBaseDescription'];
+  if (!options.omit?.includes('isMilitary'))
+    uiSchema['ui:validations'].push(validateMilitaryBaseZipCode);
 
   return uiSchema;
 }
