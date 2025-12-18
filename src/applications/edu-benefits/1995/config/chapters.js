@@ -133,6 +133,21 @@ export const chapters = {
         uiSchema: benefitSelectionUpdate.uiSchema,
         schema: benefitSelectionUpdate.schema,
         depends: isLegacyFlow,
+        updateFormData: (oldFormData, newFormData) => {
+          // Clear sponsor and benefit fields when rudisillReview changes to Yes
+          if (newFormData.rudisillReview === 'Yes') {
+            return {
+              ...newFormData,
+              changeAnotherBenefit: undefined,
+              benefitAppliedFor: undefined,
+              sponsorFullName: undefined,
+              sponsorSocialSecurityNumber: undefined,
+              vaFileNumber: undefined,
+              'view:noSSN': undefined,
+            };
+          }
+          return newFormData;
+        },
       },
       changeAnotherBenefit: {
         title: 'Change to another benefit',
