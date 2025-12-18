@@ -107,8 +107,9 @@ const CernerFacilityAlert = ({
     const infoAlertComposedHeadline =
       infoAlertHeadline ||
       `You can now ${infoAlertActionPhrase} for all VA facilities right here`;
-    const infoAlertComposedText = `We've brought all your VA health care data together so you can
-            manage your care in one place. ${infoAlertText}`;
+    const infoAlertComposedText = `We've brought all your VA health care data together so you can manage your care in one place.${
+      infoAlertText ? ` ${infoAlertText}` : ''
+    }`;
     return (
       <va-alert-expandable
         // Some usages might need extra top margin if there's an API error message above
