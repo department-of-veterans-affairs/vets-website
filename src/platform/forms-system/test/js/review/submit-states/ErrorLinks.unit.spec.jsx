@@ -67,6 +67,9 @@ describe('<ErrorLinks />', () => {
 
     expect(editSpy.called).to.be.true;
     expect(scrollSpy.called).to.be.true;
+
+    editSpy.restore();
+    scrollSpy.restore();
   });
 
   it('changes the alert message once the errors are cleared', () => {
