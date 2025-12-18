@@ -219,7 +219,7 @@ const FormsAndApplications = ({
         }
       });
 
-      return { inProgressCardList, completedCardList };
+      return cards;
     },
     [allForms],
   );
