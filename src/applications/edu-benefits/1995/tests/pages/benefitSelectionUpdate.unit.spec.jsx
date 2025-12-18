@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import { uiSchema } from '../../pages/benefitSelectionUpdate';
+import { chapters } from '../../config/chapters';
 
 describe('benefitSelectionUpdate rudisillReview onChange', () => {
   it('should clear changeAnotherBenefit when rudisillReview changes to Yes and changeAnotherBenefit has a value', () => {
@@ -245,5 +246,98 @@ describe('benefitSelectionUpdate rudisillReview onChange', () => {
     expect(updatedFormData.vaFileNumber).to.be.undefined;
     expect(updatedFormData['view:noSSN']).to.be.undefined;
     expect(updatedFormData.benefitUpdate).to.equal('chapter35');
+  });
+});
+
+describe('benefitSelection chapter updateFormData', () => {
+  const { updateFormData } = chapters.benefitSelection.pages.benefitSelection;
+
+  it('should correctly clear benefit and sponsor fields when rudisillReview is Yes', () => {
+    const oldFormData = {
+      benefitUpdate: 'chapter35',
+      rudisillReview: 'No',
+    };
+
+    const newFormData = {
+      benefitUpdate: 'chapter35',
+      rudisillReview: 'Yes',
+      changeAnotherBenefit: 'chapter30',
+      benefitAppliedFor: 'chapter35',
+      sponsorFullName: {
+        first: 'John',
+        last: 'Doe',
+      },
+      sponsorSocialSecurityNumber: '123456789',
+      vaFileNumber: '87654321',
+      'view:noSSN': false,
+    };
+
+    const result = updateFormData(oldFormData, newFormData);
+
+    expect(result.rudisillReview).to.equal('Yes');
+    expect(result.benefitUpdate).to.equal('chapter35');
+    expect(result.changeAnotherBenefit).to.be.undefined;
+    expect(result.benefitAppliedFor).to.be.undefined;
+    expect(result.sponsorFullName).to.be.undefined;
+    expect(result.sponsorSocialSecurityNumber).to.be.undefined;
+    expect(result.vaFileNumber).to.be.undefined;
+    expect(result['view:noSSN']).to.be.undefined;
+  });
+
+  it('should not clear fields when rudisillReview is not Yes', () => {
+    const oldFormData = {
+      benefitUpdate: 'chapter35',
+      rudisillReview: 'Yes',
+    };
+
+    const newFormData = {
+      benefitUpdate: 'chapter35',
+      rudisillReview: 'No',
+      changeAnotherBenefit: 'chapter30',
+      benefitAppliedFor: 'chapter35',
+      sponsorFullName: {
+        first: 'Jane',
+        last: 'Smith',
+      },
+      sponsorSocialSecurityNumber: '987654321',
+      vaFileNumber: '12345678',
+      'view:noSSN': true,
+    };
+
+    const result = updateFormData(oldFormData, newFormData);
+
+    expect(result.rudisillReview).to.equal('No');
+    expect(result.changeAnotherBenefit).to.equal('chapter30');
+    expect(result.benefitAppliedFor).to.equal('chapter35');
+    expect(result.sponsorFullName).to.deep.equal({
+      first: 'Jane',
+      last: 'Smith',
+    });
+    expect(result.sponsorSocialSecurityNumber).to.equal('987654321');
+    expect(result.vaFileNumber).to.equal('12345678');
+    expect(result['view:noSSN']).to.equal(true);
+  });
+
+  it('should correctly return newFormData when rudisillReview is not Yes', () => {
+    const oldFormData = {
+      benefitUpdate: 'chapter33',
+      rudisillReview: 'Yes',
+      someOtherField: 'oldValue',
+    };
+
+    const newFormData = {
+      benefitUpdate: 'chapter33',
+      rudisillReview: 'No',
+      changeAnotherBenefit: 'chapter30',
+      someOtherField: 'newValue',
+      additionalField: 'additionalValue',
+    };
+
+    const result = updateFormData(oldFormData, newFormData);
+
+    // Should return the exact newFormData object with all its properties
+    expect(result).to.deep.equal(newFormData);
+    expect(result.someOtherField).to.equal('newValue');
+    expect(result.additionalField).to.equal('additionalValue');
   });
 });
