@@ -541,7 +541,6 @@ const ExpensePage = () => {
         <ExpenseCommonCarrierFields
           formState={formState}
           onChange={handleFormChange}
-          errors={extraFieldErrors}
         />
       )}
       {isAirTravel && (
