@@ -78,7 +78,7 @@ const EnterOTC = () => {
   const pageTitle =
     error?.code === 'account_locked'
       ? 'We couldn’t verify your information'
-      : 'Schedule a call to learn about VA benefits and health care';
+      : 'Schedule an appointment with VA Solid Start';
 
   const verificationError =
     error?.code === 'account_locked' ? errorMessage : undefined;

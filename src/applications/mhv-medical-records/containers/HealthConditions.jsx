@@ -138,14 +138,20 @@ const HealthConditions = () => {
             />
           </div>
         )}
-        {!isLoadingAcceleratedData && !isLoading && conditions?.length ? (
-          <RecordList
-            records={conditions}
-            type={recordType.HEALTH_CONDITIONS}
-          />
-        ) : (
-          <NoRecordsMessage type={recordType.HEALTH_CONDITIONS} />
-        )}
+        {!isLoadingAcceleratedData &&
+          !isLoading &&
+          conditions !== undefined && (
+            <>
+              {conditions?.length ? (
+                <RecordList
+                  records={conditions}
+                  type={recordType.HEALTH_CONDITIONS}
+                />
+              ) : (
+                <NoRecordsMessage type={recordType.HEALTH_CONDITIONS} />
+              )}
+            </>
+          )}
       </RecordListSection>
     </>
   );
