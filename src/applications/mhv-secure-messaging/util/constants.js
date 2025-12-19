@@ -21,6 +21,7 @@ export const Paths = {
   SELECT_CARE_TEAM: 'select-care-team/',
   START_MESSAGE: 'start-message/',
   CARE_TEAM_HELP: '/new-message/care-team-help/',
+  ROOT_URL: '/my-health/secure-messages',
 };
 
 export const DefaultFolders = {

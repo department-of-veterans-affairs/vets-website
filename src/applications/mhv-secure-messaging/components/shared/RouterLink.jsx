@@ -43,7 +43,10 @@ const RouterLink = ({
 
   // Construct full URL for href attribute (accessibility/hover)
   // but still navigate to relative path for client-side routing
-  const fullUrl = manifest.rootUrl + href;
+  // Only prepend rootUrl if href doesn't already include it
+  const fullUrl = href.startsWith(manifest.rootUrl)
+    ? href
+    : manifest.rootUrl + href;
 
   const linkProps = {
     href: fullUrl,
