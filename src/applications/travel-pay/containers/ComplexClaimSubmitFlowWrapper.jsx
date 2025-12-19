@@ -18,6 +18,7 @@ import {
   selectComplexClaimCreationLoadingState,
   selectComplexClaimFetchLoadingState,
   selectHasUnsavedExpenseChanges,
+  selectExpenseFetchLoadingState,
 } from '../redux/selectors';
 import {
   getAppointmentData,
@@ -101,6 +102,8 @@ const ComplexClaimSubmitFlowWrapper = () => {
     selectComplexClaimFetchLoadingState,
   );
 
+  const isFetchingExpense = useSelector(selectExpenseFetchLoadingState);
+
   const entryPoint = sessionStorage.getItem(
     TRAVEL_PAY_FILE_NEW_CLAIM_ENTRY.SESSION_KEY,
   );
@@ -119,7 +122,8 @@ const ComplexClaimSubmitFlowWrapper = () => {
     needsApptData ||
     isApptLoading ||
     isComplexClaimCreationLoading ||
-    isComplexClaimFetchLoading;
+    isComplexClaimFetchLoading ||
+    isFetchingExpense;
 
   useEffect(
     () => {
