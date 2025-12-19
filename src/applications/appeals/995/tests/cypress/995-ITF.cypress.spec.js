@@ -1,12 +1,12 @@
 import { setStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
 
-import { BASE_URL } from '../constants';
-import { CONTESTABLE_ISSUES_API, ITF_API } from '../constants/apis';
+import { BASE_URL } from '../../constants';
+import { CONTESTABLE_ISSUES_API, ITF_API } from '../../constants/apis';
 
-import mockV2Data from './fixtures/data/pre-api-comprehensive-test.json';
+import mockV2Data from '../fixtures/data/pre-api-comprehensive-test.json';
 import { errorItf, postItf } from './995.cypress.helpers';
-import * as h from '../../shared/tests/cypress.helpers';
-import cypressSetup from '../../shared/tests/cypress.setup';
+import * as h from '../../../shared/tests/cypress.helpers';
+import cypressSetup from '../../../shared/tests/cypress.setup';
 
 describe('995 ITF page', () => {
   Cypress.config({ requestTimeout: 10000 });
