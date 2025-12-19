@@ -348,7 +348,9 @@ export const mgibAdResultPage = () =>
     resultHeader: getSwitchFormHeader('mgib-ad'),
     body:
       'Based on your answers, use VA Form 22-1990 switch your existing education benefit at the start of your next enrollment period.',
-    linkHref: `${environment.BASE_URL}/education/apply-for-gi-bill-form-22-1990/introduction`,
+    linkHref: `${
+      environment.BASE_URL
+    }/education/apply-for-gi-bill-form-22-1990/introduction`,
     linkText: 'Apply for education benefits (VA Form 22-1990)',
     answers: [
       'You are looking to apply to switch your existing education benefit and get a new Certificate of Eligibility (COE)',
