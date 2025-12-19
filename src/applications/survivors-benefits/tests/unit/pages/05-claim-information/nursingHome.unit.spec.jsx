@@ -49,10 +49,13 @@ describe('Nursing Home Page', () => {
     expect(vaRadioOptions[3].getAttribute('label')).to.equal('No');
 
     const assistanceRadio = $(
-      'va-radio[name="root_needRegularAssistance"]',
+      'va-radio[name="root_claimingMonthlySpecialPension"]',
       formDOM,
     );
-    const nursingHomeRadio = $('va-radio[name="root_inNursingHome"]', formDOM);
+    const nursingHomeRadio = $(
+      'va-radio[name="root_claimantLivesInANursingHome"]',
+      formDOM,
+    );
 
     expect(vaAlerts.length).to.equal(0);
     assistanceRadio.__events.vaValueChange({

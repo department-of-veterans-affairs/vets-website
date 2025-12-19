@@ -92,19 +92,19 @@ describe('Medical Expenses Pages', () => {
     const { isItemIncomplete } = options;
     const completeItem = {
       recipient: 'VETERANS_CHILD',
-      recipientName: 'John Doe',
+      recipientOther: 'John Doe',
       purpose: 'Dr. Smith',
       paymentDate: '2020-01-01',
-      amount: 100,
-      frequency: 'monthly',
+      paymentAmount: 100,
+      paymentFrequency: 'monthly',
     };
     const incompleteItem = {
       recipient: 'VETERANS_CHILD',
       // missing recipientName
       purpose: 'Dr. Smith',
       paymentDate: '2020-01-01',
-      amount: 100,
-      frequency: 'monthly',
+      paymentAmount: 100,
+      paymentFrequency: 'monthly',
     };
 
     expect(isItemIncomplete(completeItem)).to.be.false;
@@ -123,7 +123,7 @@ describe('Medical Expenses Pages', () => {
     const { text } = options;
     const itemWithData = {
       paymentDate: '2020-01-15',
-      frequency: 'MONTHLY',
+      paymentFrequency: 'MONTHLY',
     };
     const itemWithoutData = {};
 

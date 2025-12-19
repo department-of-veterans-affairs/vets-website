@@ -11,7 +11,7 @@ import {
   options,
 } from '../../../../config/chapters/05-claim-information/treatmentPages';
 
-const arrayPath = 'vaMedicalCenters';
+const arrayPath = 'treatments';
 
 describe('Treatment Pages', () => {
   it('renders the treatment page intro', async () => {
@@ -56,7 +56,7 @@ describe('Treatment Pages', () => {
         schema={dicNameLocationPage.schema}
         uiSchema={dicNameLocationPage.uiSchema}
         pagePerItemIndex={0}
-        data={{ vaMedicalCenters: [formData] }}
+        data={{ treatments: [formData] }}
       />,
     );
     expect(form.getByText(dicNameLocationPage.title)).to.exist;
@@ -70,7 +70,7 @@ describe('Treatment Pages', () => {
         schema={dicTreatmentDates.schema}
         uiSchema={dicTreatmentDates.uiSchema}
         pagePerItemIndex={0}
-        data={{ vaMedicalCenters: [formData] }}
+        data={{ treatments: [formData] }}
       />,
     );
     const formDOM = getFormDOM(form);
@@ -91,7 +91,7 @@ describe('Treatment Pages', () => {
         schema={dicTreatmentDates.schema}
         uiSchema={dicTreatmentDates.uiSchema}
         pagePerItemIndex={0}
-        data={{ vaMedicalCenters: [formData] }}
+        data={{ treatments: [formData] }}
       />,
     );
     const formDOM = getFormDOM(form);
@@ -133,17 +133,17 @@ describe('Treatment Pages', () => {
       dicTreatmentDates,
     } = treatmentPages;
 
-    // Test data with dependencyIndemnityComp set to true
+    // Test data with dic set to true
     const formDataTrue = {
       claims: {
-        dependencyIndemnityComp: true,
+        DIC: true,
       },
     };
 
-    // Test data with dependencyIndemnityComp set to false
+    // Test data with dic set to false
     const formDataFalse = {
       claims: {
-        dependencyIndemnityComp: false,
+        DIC: false,
       },
     };
 

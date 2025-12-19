@@ -14,7 +14,7 @@ function checkIsItemIncomplete(item) {
 
 /** @type {ArrayBuilderOptions} */
 export const options = {
-  arrayPath: 'otherServiceNames',
+  arrayPath: 'veteranPreviousNames',
   nounSingular: 'name',
   nounPlural: 'names',
   required: false,

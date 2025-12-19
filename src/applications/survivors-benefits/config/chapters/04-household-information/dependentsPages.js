@@ -1,6 +1,8 @@
 import React from 'react';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
+  currencyUI,
+  currencySchema,
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoUI,
@@ -8,7 +10,6 @@ import {
   fullNameUI,
   fullNameSchema,
   textUI,
-  textSchema,
   yesNoUI,
   yesNoSchema,
   radioUI,
@@ -41,12 +42,12 @@ import { VaForm214138Alert } from '../../../components/FormAlerts';
  */
 /** @type {ArrayBuilderOptions} */
 export const options = {
-  arrayPath: 'dependents',
+  arrayPath: 'veteransChildren',
   nounSingular: 'dependent child',
   nounPlural: 'dependent children',
   required: false,
   maxItems: 3,
-  isItemIncomplete: item => !item?.dependentFullName || !item?.dateOfBirth,
+  isItemIncomplete: item => !item?.childFullName || !item?.childDateOfBirth,
   text: {
     cancelAddTitle: 'Cancel adding this dependent child?',
     cancelEditTitle: 'Cancel editing this dependent child?',
@@ -78,12 +79,8 @@ export const options = {
       </div>
     ),
     getItemName: item => {
-      if (
-        item &&
-        item.dependentFullName?.first &&
-        item.dependentFullName?.last
-      ) {
-        return `${item.dependentFullName.first} ${item.dependentFullName.last}`;
+      if (item && item.childFullName?.first && item.childFullName?.last) {
+        return `${item.childFullName.first} ${item.childFullName.last}`;
       }
       return 'Dependent';
     },
@@ -146,18 +143,18 @@ const namePage = {
     ...arrayBuilderItemSubsequentPageTitleUI(
       "Dependent's name and information",
     ),
-    dependentFullName: fullNameUI(),
-    dependentSocialSecurityNumber: {
+    childFullName: fullNameUI(),
+    childSocialSecurityNumber: {
       ...ssnUI(),
       'ui:required': (formData, index) => {
-        const item = formData?.dependents?.[index];
+        const item = formData?.veteransChildren?.[index];
         const currentPageData = formData;
         return !(item?.noSsn || currentPageData?.noSsn);
       },
 
       'ui:options': {
         hideIf: (formData, index) => {
-          const item = formData?.dependents?.[index];
+          const item = formData?.veteransChildren?.[index];
           const currentPageData = formData;
           return item?.noSsn || currentPageData?.noSsn;
         },
@@ -170,11 +167,11 @@ const namePage = {
   schema: {
     type: 'object',
     properties: {
-      dependentFullName: fullNameSchema,
-      dependentSocialSecurityNumber: ssnSchema,
+      childFullName: fullNameSchema,
+      childSocialSecurityNumber: ssnSchema,
       noSsn: checkboxSchema,
     },
-    required: ['dependentFullName'],
+    required: ['childFullName'],
   },
 };
 
@@ -184,7 +181,7 @@ const dobPlacePage = {
     ...arrayBuilderItemSubsequentPageTitleUI(
       "Dependent's date and place of birth",
     ),
-    dateOfBirth: currentOrPastDateUI({
+    childDateOfBirth: currentOrPastDateUI({
       title: 'Date of birth',
       monthSelect: false,
       'ui:description':
@@ -204,13 +201,13 @@ const dobPlacePage = {
       state: {
         ...selectUI('State', STATE_VALUES, STATE_NAMES),
         'ui:required': (formData, index) => {
-          const item = formData?.dependents?.[index];
+          const item = formData?.veteransChildren?.[index];
           const currentPageData = formData;
           return !(item?.bornOutsideUS || currentPageData?.bornOutsideUS);
         },
         'ui:options': {
           hideIf: (formData, index) => {
-            const item = formData?.dependents?.[index];
+            const item = formData?.veteransChildren?.[index];
             const currentPageData = formData;
             return item?.bornOutsideUS || currentPageData?.bornOutsideUS;
           },
@@ -222,13 +219,13 @@ const dobPlacePage = {
       country: {
         ...selectUI('Country', COUNTRY_VALUES, COUNTRY_NAMES),
         'ui:required': (formData, index) => {
-          const item = formData?.dependents?.[index];
+          const item = formData?.veteransChildren?.[index];
           const currentPageData = formData;
           return item?.bornOutsideUS || currentPageData?.bornOutsideUS;
         },
         'ui:options': {
           hideIf: (formData, index) => {
-            const item = formData?.dependents?.[index];
+            const item = formData?.veteransChildren?.[index];
             const currentPageData = formData;
             return !(item?.bornOutsideUS || currentPageData?.bornOutsideUS);
           },
@@ -245,9 +242,9 @@ const dobPlacePage = {
   },
   schema: {
     type: 'object',
-    required: ['birthPlace', 'dateOfBirth'],
+    required: ['birthPlace', 'childDateOfBirth'],
     properties: {
-      dateOfBirth: currentOrPastDateSchema,
+      childDateOfBirth: currentOrPastDateSchema,
       bornOutsideUS: checkboxSchema,
       birthPlace: {
         type: 'object',
@@ -330,7 +327,7 @@ const dependentInfoPage = {
 const householdPage = {
   uiSchema: {
     ...titleUI("Dependent's household"),
-    livesWithYou: yesNoUI({
+    livesWith: yesNoUI({
       title: 'Does the child live with you?',
       'ui:required': true,
     }),
@@ -338,8 +335,8 @@ const householdPage = {
       'ui:description': VaForm214138Alert,
       'ui:options': {
         hideIf: (formData, index) => {
-          const item = formData?.dependents?.[index];
-          const value = item?.livesWithYou ?? formData?.livesWithYou;
+          const item = formData?.veteransChildren?.[index];
+          const value = item?.livesWith ?? formData?.livesWith;
           return value !== false;
         },
         displayEmptyObjectOnReview: true,
@@ -348,9 +345,9 @@ const householdPage = {
   },
   schema: {
     type: 'object',
-    required: ['livesWithYou'],
+    required: ['livesWith'],
     properties: {
-      livesWithYou: yesNoSchema,
+      livesWith: yesNoSchema,
       vaForm214138Alert: {
         type: 'object',
         properties: {},
@@ -398,16 +395,16 @@ const custodianPage = {
 const childSupportPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Child support payment'),
-    monthlySupport: textUI(
+    childSupport: currencyUI(
       "How much did the Veteran contribute per month to their child's support?",
     ),
   },
   schema: {
     type: 'object',
     properties: {
-      monthlySupport: textSchema,
+      childSupport: currencySchema,
     },
-    required: ['monthlySupport'],
+    required: ['childSupport'],
   },
 };
 
@@ -461,7 +458,7 @@ export const dependentsPages = arrayBuilderPages(options, pageBuilder => ({
     uiSchema: mailingAddressPage.uiSchema,
     schema: mailingAddressPage.schema,
     depends: (formData, index) =>
-      formData?.dependents?.[index]?.livesWithYou === false,
+      formData?.veteransChildren?.[index]?.livesWith === false,
   }),
   dependentCustodian: pageBuilder.itemPage({
     title: "Dependent's custodian",
@@ -469,7 +466,7 @@ export const dependentsPages = arrayBuilderPages(options, pageBuilder => ({
     uiSchema: custodianPage.uiSchema,
     schema: custodianPage.schema,
     depends: (formData, index) =>
-      formData?.dependents?.[index]?.livesWithYou === false,
+      formData?.veteransChildren?.[index]?.livesWith === false,
   }),
   dependentChildSupport: pageBuilder.itemPage({
     title: 'Child support payment',
@@ -477,7 +474,7 @@ export const dependentsPages = arrayBuilderPages(options, pageBuilder => ({
     uiSchema: childSupportPage.uiSchema,
     schema: childSupportPage.schema,
     depends: (formData, index) =>
-      formData?.dependents?.[index]?.livesWithYou === false,
+      formData?.veteransChildren?.[index]?.livesWith === false,
   }),
 }));
 

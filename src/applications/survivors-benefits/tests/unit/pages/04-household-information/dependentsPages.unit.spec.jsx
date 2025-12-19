@@ -31,11 +31,11 @@ describe('Dependents Pages', () => {
 
     const form = render(
       <DefinitionTester
-        arrayPath="dependents"
+        arrayPath="veteransChildren"
         schema={page.schema}
         uiSchema={page.uiSchema}
         pagePerItemIndex={0}
-        data={{ dependents: [{ noSsn: true }] }}
+        data={{ veteransChildren: [{ noSsn: true }] }}
       />,
     );
     const formDOM = getFormDOM(form);
@@ -95,16 +95,16 @@ describe('Dependents Pages', () => {
 
     const form = render(
       <DefinitionTester
-        arrayPath="dependents"
+        arrayPath="veteransChildren"
         schema={page.schema}
         uiSchema={page.uiSchema}
         pagePerItemIndex={0}
-        data={{ dependents: [{ noSsn: false }] }}
+        data={{ veteransChildren: [{ noSsn: false }] }}
       />,
     );
     const formDOM = getFormDOM(form);
     const ssnEl = $(
-      'va-text-input[name*="dependentSocialSecurityNumber"]',
+      'va-text-input[name*="childSocialSecurityNumber"]',
       formDOM,
     );
     expect(ssnEl).to.exist;
@@ -113,16 +113,16 @@ describe('Dependents Pages', () => {
     // unset noSsn should also show and require SSN
     const formUnset = render(
       <DefinitionTester
-        arrayPath="dependents"
+        arrayPath="veteransChildren"
         schema={page.schema}
         uiSchema={page.uiSchema}
         pagePerItemIndex={0}
-        data={{ dependents: [{}] }}
+        data={{ veteransChildren: [{}] }}
       />,
     );
     const formDOMUnset = getFormDOM(formUnset);
     const ssnElUnset = $(
-      'va-text-input[name*="dependentSocialSecurityNumber"]',
+      'va-text-input[name*="childSocialSecurityNumber"]',
       formDOMUnset,
     );
     expect(ssnElUnset).to.exist;
@@ -135,11 +135,11 @@ describe('Dependents Pages', () => {
     // bornOutsideUS => city shown and required, country shown and required
     const form = render(
       <DefinitionTester
-        arrayPath="dependents"
+        arrayPath="veteransChildren"
         schema={page.schema}
         uiSchema={page.uiSchema}
         pagePerItemIndex={0}
-        data={{ dependents: [{ bornOutsideUS: true }] }}
+        data={{ veteransChildren: [{ bornOutsideUS: true }] }}
       />,
     );
     const formDOM = getFormDOM(form);
@@ -159,11 +159,11 @@ describe('Dependents Pages', () => {
     // bornInsideUS => state shown and required, country hidden and not required
     const form = render(
       <DefinitionTester
-        arrayPath="dependents"
+        arrayPath="veteransChildren"
         schema={page.schema}
         uiSchema={page.uiSchema}
         pagePerItemIndex={0}
-        data={{ dependents: [{}] }}
+        data={{ veteransChildren: [{}] }}
       />,
     );
     const formDOMNone = getFormDOM(form);
@@ -192,11 +192,11 @@ describe('Dependents Pages', () => {
     const { dependentInfo: page } = dependentsPages;
     const form = render(
       <DefinitionTester
-        arrayPath="dependents"
+        arrayPath="veteransChildren"
         schema={page.schema}
         uiSchema={page.uiSchema}
         pagePerItemIndex={0}
-        data={{ dependents: [{}] }}
+        data={{ veteransChildren: [{}] }}
       />,
     );
 
@@ -209,15 +209,15 @@ describe('Dependents Pages', () => {
 
   it('should check if the item is incomplete', () => {
     const completeItem = {
-      dependentFullName: { first: 'John', last: 'Doe' },
-      dateOfBirth: '1990-01-01',
+      childFullName: { first: 'John', last: 'Doe' },
+      childDateOfBirth: '1990-01-01',
     };
     const incompleteItem1 = {
-      dependentFullName: null,
-      dateOfBirth: '1990-01-01',
+      childFullName: null,
+      childDateOfBirth: '1990-01-01',
     };
     const incompleteItem2 = {
-      dependentFullName: { first: 'John', last: 'Doe' },
+      childFullName: { first: 'John', last: 'Doe' },
     };
 
     expect(options.isItemIncomplete(completeItem)).to.be.false;
@@ -228,7 +228,7 @@ describe('Dependents Pages', () => {
   it('should show the correct getItemName output', () => {
     const { text } = options;
     const itemWithName = {
-      dependentFullName: { first: 'Jane', middle: 'A.', last: 'Smith' },
+      childFullName: { first: 'Jane', middle: 'A.', last: 'Smith' },
     };
     const itemWithoutName = {};
 
@@ -236,32 +236,32 @@ describe('Dependents Pages', () => {
     expect(text.getItemName(itemWithoutName)).to.equal('Dependent');
   });
 
-  it('VaForm214138Alert only displays when livesWithYou is explicitly false', () => {
+  it('VaForm214138Alert only displays when livesWith is explicitly false', () => {
     const householdItemUi = findItemUi(dependentHousehold);
     expect(householdItemUi, 'dependentHousehold item UI not found').to.exist;
     const alertOptions = householdItemUi.vaForm214138Alert['ui:options'];
 
     // explicit false at item => alert visible (hideIf returns false)
-    const itemFalse = { dependents: [{ livesWithYou: false }] };
+    const itemFalse = { veteransChildren: [{ livesWith: false }] };
     expect(alertOptions.hideIf(itemFalse, 0)).to.be.false;
 
     // explicit true => hidden
-    const itemTrue = { dependents: [{ livesWithYou: true }] };
+    const itemTrue = { veteransChildren: [{ livesWith: true }] };
     expect(alertOptions.hideIf(itemTrue, 0)).to.be.true;
 
     // undefined => hidden
-    const none = { dependents: [{}] };
+    const none = { veteransChildren: [{}] };
     expect(alertOptions.hideIf(none, 0)).to.be.true;
 
-    // Render the household page with livesWithYou false so the alert is visible
+    // Render the household page with livesWith false so the alert is visible
     const { dependentHousehold: page } = dependentsPages;
     const form = render(
       <DefinitionTester
-        arrayPath="dependents"
+        arrayPath="veteransChildren"
         schema={page.schema}
         uiSchema={page.uiSchema}
         pagePerItemIndex={0}
-        data={{ dependents: [{ livesWithYou: false }] }}
+        data={{ veteransChildren: [{ livesWith: false }] }}
       />,
     );
     const formDOM = getFormDOM(form);
@@ -269,36 +269,36 @@ describe('Dependents Pages', () => {
     expect(alertEl).to.exist;
   });
 
-  it('dependentMailingAddress depends shows only when livesWithYou is false', () => {
+  it('dependentMailingAddress depends shows only when livesWith is false', () => {
     const { dependentMailingAddress } = dependentsPages;
 
-    const itemFalse = { dependents: [{ livesWithYou: false }] };
-    const itemTrue = { dependents: [{ livesWithYou: true }] };
-    const none = { dependents: [{}] };
+    const itemFalse = { veteransChildren: [{ livesWith: false }] };
+    const itemTrue = { veteransChildren: [{ livesWith: true }] };
+    const none = { veteransChildren: [{}] };
 
     expect(dependentMailingAddress.depends(itemFalse, 0)).to.be.true;
     expect(dependentMailingAddress.depends(itemTrue, 0)).to.be.false;
     expect(dependentMailingAddress.depends(none, 0)).to.be.false;
   });
 
-  it('dependentCustodian depends shows only when livesWithYou is false', () => {
+  it('dependentCustodian depends shows only when livesWith is false', () => {
     const { dependentCustodian } = dependentsPages;
 
-    const itemFalse = { dependents: [{ livesWithYou: false }] };
-    const itemTrue = { dependents: [{ livesWithYou: true }] };
-    const none = { dependents: [{}] };
+    const itemFalse = { veteransChildren: [{ livesWith: false }] };
+    const itemTrue = { veteransChildren: [{ livesWith: true }] };
+    const none = { veteransChildren: [{}] };
 
     expect(dependentCustodian.depends(itemFalse, 0)).to.be.true;
     expect(dependentCustodian.depends(itemTrue, 0)).to.be.false;
     expect(dependentCustodian.depends(none, 0)).to.be.false;
   });
 
-  it('dependentChildSupport depends shows only when livesWithYou is false', () => {
+  it('dependentChildSupport depends shows only when livesWith is false', () => {
     const { dependentChildSupport } = dependentsPages;
 
-    const itemFalse = { dependents: [{ livesWithYou: false }] };
-    const itemTrue = { dependents: [{ livesWithYou: true }] };
-    const none = { dependents: [{}] };
+    const itemFalse = { veteransChildren: [{ livesWith: false }] };
+    const itemTrue = { veteransChildren: [{ livesWith: true }] };
+    const none = { veteransChildren: [{}] };
 
     expect(dependentChildSupport.depends(itemFalse, 0)).to.be.true;
     expect(dependentChildSupport.depends(itemTrue, 0)).to.be.false;

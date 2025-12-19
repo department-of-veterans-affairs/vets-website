@@ -23,14 +23,14 @@ const MarketableInfo = () => (
 
 const uiSchema = {
   ...titleUI('Marketable land'),
-  additionalLandMarketable: yesNoUI({
+  landMarketable: yesNoUI({
     title: 'Is the additional land marketable?',
     'ui:required': true,
   }),
   incomeAssetStatementFormAlert: {
     'ui:description': IncomeAssetStatementFormAlert,
     'ui:options': {
-      hideIf: formData => !isYes(formData?.additionalLandMarketable),
+      hideIf: formData => !isYes(formData?.landMarketable),
       displayEmptyObjectOnReview: true,
     },
   },
@@ -44,9 +44,9 @@ const uiSchema = {
 
 const schema = {
   type: 'object',
-  required: ['additionalLandMarketable'],
+  required: ['landMarketable'],
   properties: {
-    additionalLandMarketable: yesNoSchema,
+    landMarketable: yesNoSchema,
     incomeAssetStatementFormAlert: {
       type: 'object',
       properties: {},

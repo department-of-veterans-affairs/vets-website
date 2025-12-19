@@ -107,10 +107,10 @@ export const options = {
   required: false,
   maxItems: 3,
   isItemIncomplete: item =>
-    !item?.typeOfCare ||
+    !item?.careType ||
     !item?.recipient ||
     !item?.provider ||
-    !item?.careDate?.from ||
+    !item?.careDateRange?.from ||
     !item?.paymentAmount,
   text: {
     cancelAddTitle: 'Cancel adding this care expense?',
@@ -144,15 +144,15 @@ export const options = {
     ),
     getItemName: item => item?.provider || 'Care provider',
     cardDescription: item => {
-      if (!item.careDate) {
+      if (!item?.careDateRange) {
         return 'Care dates not provided';
       }
-      if (item.careDate?.from && item.careDate?.to) {
-        return `${transformDate(item.careDate.from)} - ${transformDate(
-          item.careDate.to,
+      if (item?.careDateRange?.from && item?.careDateRange?.to) {
+        return `${transformDate(item.careDateRange.from)} - ${transformDate(
+          item.careDateRange.to,
         )}`;
       }
-      return transformDate(item.careDate.from);
+      return transformDate(item.careDateRange.from);
     },
     summaryTitle: 'Review your care expenses',
     yesNoBlankReviewQuestion: 'Do you have another care expense to add?',
@@ -194,7 +194,7 @@ const summaryPage = {
 const typeOfCarePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Type of care'),
-    typeOfCare: radioUI({
+    careType: radioUI({
       title: 'Select the type of care.',
       labels: careTypeLabels,
     }),
@@ -202,9 +202,9 @@ const typeOfCarePage = {
   schema: {
     type: 'object',
     properties: {
-      typeOfCare: radioSchema(Object.keys(careTypeLabels)),
+      careType: radioSchema(Object.keys(careTypeLabels)),
     },
-    required: ['typeOfCare'],
+    required: ['careType'],
   },
 };
 
@@ -243,7 +243,7 @@ const recipientPage = {
 const datePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Dates of care'),
-    careDate: currentOrPastDateRangeUI(
+    careDateRange: currentOrPastDateRangeUI(
       {
         title: 'Care start date',
         monthSelect: false,
@@ -253,16 +253,16 @@ const datePage = {
         monthSelect: false,
       },
     ),
-    noEndDate: checkboxUI('No end date'),
+    noCareEndDate: checkboxUI('No end date'),
   },
   schema: {
     type: 'object',
     properties: {
-      careDate: {
+      careDateRange: {
         ...currentOrPastDateRangeSchema,
         required: ['from'],
       },
-      noEndDate: checkboxSchema,
+      noCareEndDate: checkboxSchema,
     },
   },
 };
@@ -270,51 +270,51 @@ const datePage = {
 const costPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Cost of care'),
-    frequency: radioUI({
+    paymentFrequency: radioUI({
       title: 'How often are the payments?',
       labels: careFrequencyLabels,
     }),
     paymentAmount: currencyUI('How much is each payment?'),
-    hourlyRate: {
+    ratePerHour: {
       ...currencyUI({
         title: 'What is the provider’s rate per hour?',
         hideIf: (formData, index, fullData) => {
           const careExpenses = formData?.careExpenses ?? fullData?.careExpenses;
           const careExpense = careExpenses?.[index];
-          return careExpense?.typeOfCare !== 'IN_HOME_CARE_ATTENDANT';
+          return careExpense?.careType !== 'IN_HOME_CARE_ATTENDANT';
         },
       }),
       'ui:required': (formData, index, fullData) => {
         const careExpenses = formData?.careExpenses ?? fullData?.careExpenses;
         const careExpense = careExpenses?.[index];
-        return careExpense?.typeOfCare === 'IN_HOME_CARE_ATTENDANT';
+        return careExpense?.careType === 'IN_HOME_CARE_ATTENDANT';
       },
     },
-    weeklyHours: {
+    hoursPerWeek: {
       ...numberUI({
         title: 'How many hours per week does the care provider work?',
         hideIf: (formData, index, fullData) => {
           const careExpenses = formData?.careExpenses ?? fullData?.careExpenses;
           const careExpense = careExpenses?.[index];
-          return careExpense?.typeOfCare !== 'IN_HOME_CARE_ATTENDANT';
+          return careExpense?.careType !== 'IN_HOME_CARE_ATTENDANT';
         },
       }),
       'ui:required': (formData, index, fullData) => {
         const careExpenses = formData?.careExpenses ?? fullData?.careExpenses;
         const careExpense = careExpenses?.[index];
-        return careExpense?.typeOfCare === 'IN_HOME_CARE_ATTENDANT';
+        return careExpense?.careType === 'IN_HOME_CARE_ATTENDANT';
       },
     },
   },
   schema: {
     type: 'object',
     properties: {
-      frequency: radioSchema(Object.keys(careFrequencyLabels)),
+      paymentFrequency: radioSchema(Object.keys(careFrequencyLabels)),
       paymentAmount: currencySchema,
-      hourlyRate: currencySchema,
-      weeklyHours: numberSchema,
+      ratePerHour: currencySchema,
+      hoursPerWeek: numberSchema,
     },
-    required: ['paymentAmount', 'frequency'],
+    required: ['paymentAmount', 'paymentFrequency'],
   },
 };
 
