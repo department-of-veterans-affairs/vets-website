@@ -20,7 +20,7 @@ runs:
   using: composite
   steps:
     - name: Configure AWS credentials
-      uses: ./../configure-aws-credentials
+      uses: ./.github/workflows/configure-aws-credentials
       with:
         aws_region: ${{ inputs.aws_region }}
         role: ${{ inputs.role }}

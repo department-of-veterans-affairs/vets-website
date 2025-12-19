@@ -8,6 +8,7 @@ import {
   validateAgentOrangeExposureDates,
   validateExposureDates,
   validatePolicyNumberGroupCode,
+  validateMarriageDate,
 } from '../../../utils/validation';
 
 describe('ezr validation utils', () => {
@@ -31,6 +32,32 @@ describe('ezr validation utils', () => {
         };
         validateDependentDate(errors, '2010-01-01', {
           dateOfBirth: '2011-01-01',
+        });
+        expect(errors.addError.called).to.be.true;
+      });
+    });
+  });
+
+  context('when `validateMarriageDate` executes', () => {
+    context('when form data is valid', () => {
+      it('should not set error message', () => {
+        const errors = {
+          addError: sinon.spy(),
+        };
+        validateMarriageDate(errors, '2010-01-01', {
+          spouseDateOfBirth: '2009-12-31',
+        });
+        expect(errors.addError.called).to.be.false;
+      });
+    });
+
+    context('when birth date is after marriage date', () => {
+      it('should set error message', () => {
+        const errors = {
+          addError: sinon.spy(),
+        };
+        validateMarriageDate(errors, '2010-01-01', {
+          spouseDateOfBirth: '2011-01-01',
         });
         expect(errors.addError.called).to.be.true;
       });

@@ -24,8 +24,11 @@ import {
   getComplexClaimDetails,
   clearUnsavedExpenseChanges,
 } from '../redux/actions';
-import { STATUSES } from '../constants';
 import UnsavedChangesModal from '../components/UnsavedChangesModal';
+import {
+  hasUnassociatedDocuments,
+  isClaimIncompleteOrSaved,
+} from '../util/complex-claims-helper';
 
 const getBackRoute = ({
   isIntroductionPage,
@@ -188,15 +191,19 @@ const ComplexClaimSubmitFlowWrapper = () => {
     return null;
   }
 
-  // If there's a claim from the appointment and it's submitted,
-  // redirect to claim details page
+  // Redirect to claim details if:
+  // 1) If there's a claim from the appointment and it's not in progress
+  // 2) If claim source isn't VA.gov
+  // 3) There are unassociated expense documents
   if (claimFromAppointment) {
     const { claimStatus, id: claimIdFromAppt } = claimFromAppointment;
-    const isUnsubmittedStatus =
-      claimStatus === STATUSES.Incomplete.name ||
-      claimStatus === STATUSES.Saved.name;
 
-    if (!isUnsubmittedStatus && claimIdFromAppt) {
+    if (
+      (!isClaimIncompleteOrSaved(claimStatus) ||
+        claimData?.claimSource !== 'VaGov' ||
+        hasUnassociatedDocuments(claimData?.documents)) &&
+      claimIdFromAppt
+    ) {
       return <Navigate to={`/claims/${claimIdFromAppt}`} replace />;
     }
   }

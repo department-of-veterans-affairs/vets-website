@@ -287,12 +287,16 @@ const costPage = {
       const provider = formData?.provider ?? '';
       return provider ? `Cost of care for ${provider}` : 'Cost of care';
     }),
-    monthlyAmount: currencyUI('What’s the monthly cost of this care?'),
+    monthlyAmount: currencyUI({
+      title: 'What’s the monthly cost of this care?',
+      max: 999999.99,
+    }),
     hourlyRate: {
       ...currencyUI({
         title: 'What is the care provider’s hourly rate?',
         hideIf: (formData, index, fullData) =>
           hideIfInHomeCare(formData, index, fullData),
+        max: 999,
       }),
       'ui:required': (formData, index, fullData) =>
         requiredIfInHomeCare(formData, index, fullData),
@@ -302,6 +306,7 @@ const costPage = {
         title: 'How many hours per week does the care provider work?',
         hideIf: (formData, index, fullData) =>
           hideIfInHomeCare(formData, index, fullData),
+        max: 999,
       }),
       'ui:required': (formData, index, fullData) =>
         requiredIfInHomeCare(formData, index, fullData),

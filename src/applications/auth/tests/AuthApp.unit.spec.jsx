@@ -441,6 +441,14 @@ describe('AuthApp', () => {
           { status: 200 },
         );
       }),
+      createPutHandler(
+        'https://dev-api.va.gov/v0/terms_of_use_agreements/update_provisioning',
+        () => {
+          return jsonResponse({
+            provisioned: true,
+          });
+        },
+      ),
     );
 
     render(
@@ -501,6 +509,14 @@ describe('AuthApp', () => {
           { status: 200 },
         );
       }),
+      createPutHandler(
+        'https://dev-api.va.gov/v0/terms_of_use_agreements/update_provisioning',
+        () => {
+          return jsonResponse({
+            provisioned: true,
+          });
+        },
+      ),
     );
 
     render(

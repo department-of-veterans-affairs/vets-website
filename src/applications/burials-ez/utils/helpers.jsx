@@ -110,6 +110,19 @@ export const pageAndReviewTitle = title => ({
 // July 1, 2025 to immediately
 const endDate = endOfDay(new Date('2026-09-30')).getTime();
 
+export const showDeathCertificateRequiredPage = form => {
+  const isClaimingBurialAllowance =
+    form['view:claimedBenefits']?.burialAllowance;
+  const serviceRequested = form.burialAllowanceRequested?.service === true;
+  const locationIsVaMedicalCenter =
+    form.locationOfDeath?.location === 'vaMedicalCenter';
+  return !(
+    isClaimingBurialAllowance &&
+    serviceRequested &&
+    locationIsVaMedicalCenter
+  );
+};
+
 export const showHomeHospiceCarePage = form => {
   const dayOfDeath = get('deathDate', form);
   if (!dayOfDeath) {
