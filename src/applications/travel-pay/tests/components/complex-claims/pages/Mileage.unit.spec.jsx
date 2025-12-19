@@ -163,11 +163,15 @@ describe('Complex Claims Mileage - Add', () => {
 
       fireEvent(
         departureRadio,
-        new CustomEvent('vaValueChange', { detail: { value: 'home-address' } }),
+        new CustomEvent('vaValueChange', {
+          detail: { name: 'departureAddress', value: 'home-address' },
+        }),
       );
       fireEvent(
         tripTypeRadio,
-        new CustomEvent('vaValueChange', { detail: { value: 'RoundTrip' } }),
+        new CustomEvent('vaValueChange', {
+          detail: { name: 'tripType', value: 'RoundTrip' },
+        }),
       );
 
       // Assert options are now checked
@@ -491,11 +495,15 @@ describe('Complex Claims Mileage - Edit', () => {
 
       fireEvent(
         departureRadio,
-        new CustomEvent('vaValueChange', { detail: { value: 'home-address' } }),
+        new CustomEvent('vaValueChange', {
+          detail: { name: 'departureAddress', value: 'home-address' },
+        }),
       );
       fireEvent(
         tripTypeRadio,
-        new CustomEvent('vaValueChange', { detail: { value: 'RoundTrip' } }),
+        new CustomEvent('vaValueChange', {
+          detail: { name: 'tripType', value: 'RoundTrip' },
+        }),
       );
 
       // Assert options are now checked
