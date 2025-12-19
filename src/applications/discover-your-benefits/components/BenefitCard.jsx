@@ -64,7 +64,9 @@ const BenefitCard = ({ benefit, isBenefitRecommended }) => {
         <h3 aria-label={name} className="vads-u-margin-top--0">
           {name}
         </h3>
-        <p className="vads-u-margin-y--0">{description}</p>
+        <p className="vads-u-margin-y--0 vads-u-margin-bottom--neg0p5">
+          {description}
+        </p>
         <h4 className="vads-u-margin-bottom--neg1">When to apply</h4>
         <p className="vads-u-margin-bottom--neg1">
           {benefit.whenToApplyDescription}
