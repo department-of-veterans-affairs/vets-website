@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom-v5-compat';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
+import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import ReviewPageAlert from './ReviewPageAlert';
 import ExpensesAccordion from './ExpensesAccordion';
 import {
@@ -26,6 +27,10 @@ const ReviewPage = () => {
   const expenses = useSelector(selectAllExpenses) ?? [];
   const documents = useSelector(selectAllDocuments) ?? [];
   const alertMessage = useSelector(selectReviewPageAlert);
+
+  const title = 'Your unsubmitted expenses';
+
+  useSetPageTitle(title);
 
   // Get total by expense type and return expenses alphabetically
   const totalByExpenseType = Object.fromEntries(
@@ -78,7 +83,7 @@ const ReviewPage = () => {
 
   return (
     <div data-testid="review-page">
-      <h1>Your unsubmitted expenses</h1>
+      <h1>{title}</h1>
       {isAlertVisible && (
         <ReviewPageAlert
           header={alertMessage.title}
