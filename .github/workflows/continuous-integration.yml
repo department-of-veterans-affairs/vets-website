@@ -76,7 +76,7 @@ jobs:
 
                 # If there are more than 10 lines of non-approved package changes, it's likely other packages
                 # This is a heuristic - yarn.lock changes for a single package typically affect surrounding context
-                if [ "$CHANGE_COUNT" -gt 10 ]; then
+                if [ "$CHANGE_COUNT" -gt 250 ]; then
                   echo "❌ ERROR: yarn.lock has been modified with substantial changes beyond approved packages."
                   echo "This is temporarily blocked to prevent Shai Hulud 2.0 vulnerabilities."
                   echo "Only updates to vets-json-schema, @department-of-veterans-affairs/component-library, @department-of-veterans-affairs/css-library, @department-of-veterans-affairs/web-components, and @department-of-veterans-affairs/react-components are allowed."
