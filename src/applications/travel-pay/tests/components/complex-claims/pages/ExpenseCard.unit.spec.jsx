@@ -234,7 +234,6 @@ describe('ExpenseCard', () => {
       false,
     );
 
-    // Header
     expect(getByText('Mileage expense')).to.exist;
 
     // Address
