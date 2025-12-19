@@ -147,6 +147,11 @@ const initialState = {
         isLoading: false,
         error: null,
       },
+      fetch: {
+        id: '',
+        isLoading: false,
+        error: null,
+      },
       data: [],
       hasUnsavedChanges: false,
     },
@@ -376,7 +381,6 @@ function travelPayReducer(state = initialState, action) {
         },
       };
     case UPDATE_EXPENSE_STARTED:
-    case FETCH_EXPENSE_STARTED:
       return {
         ...state,
         complexClaim: {
@@ -384,6 +388,22 @@ function travelPayReducer(state = initialState, action) {
           expenses: {
             ...state.complexClaim.expenses,
             update: {
+              id: action.expenseId,
+              isLoading: true,
+              error: null,
+            },
+          },
+        },
+      };
+
+    case FETCH_EXPENSE_STARTED:
+      return {
+        ...state,
+        complexClaim: {
+          ...state.complexClaim,
+          expenses: {
+            ...state.complexClaim.expenses,
+            fetch: {
               id: action.expenseId,
               isLoading: true,
               error: null,
@@ -430,7 +450,7 @@ function travelPayReducer(state = initialState, action) {
           ...state.complexClaim,
           expenses: {
             ...state.complexClaim.expenses,
-            update: {
+            fetch: {
               id: '',
               isLoading: false,
               error: null,
@@ -442,7 +462,6 @@ function travelPayReducer(state = initialState, action) {
     }
 
     case UPDATE_EXPENSE_FAILURE:
-    case FETCH_EXPENSE_FAILURE:
       return {
         ...state,
         complexClaim: {
@@ -450,6 +469,22 @@ function travelPayReducer(state = initialState, action) {
           expenses: {
             ...state.complexClaim.expenses,
             update: {
+              id: action.expenseId,
+              isLoading: false,
+              error: action.error,
+            },
+          },
+        },
+      };
+
+    case FETCH_EXPENSE_FAILURE:
+      return {
+        ...state,
+        complexClaim: {
+          ...state.complexClaim,
+          expenses: {
+            ...state.complexClaim.expenses,
+            fetch: {
               id: action.expenseId,
               isLoading: false,
               error: action.error,
