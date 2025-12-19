@@ -16,12 +16,7 @@ import HubLinks from './HubLinks';
 import NewsletterSignup from './NewsletterSignup';
 import HelpdeskInfo from './HelpdeskInfo';
 import Alerts from '../containers/Alerts';
-import {
-  isCerner,
-  isLOA3,
-  isVAPatient,
-  personalizationEnabled,
-} from '../selectors';
+import { isLOA3, isVAPatient, personalizationEnabled } from '../selectors';
 import manifest from '../manifest.json';
 
 const LandingPage = ({ data = {} }) => {
@@ -30,7 +25,9 @@ const LandingPage = ({ data = {} }) => {
   const vaPatient = useSelector(isVAPatient);
   const userRegistered = userVerified && vaPatient;
   const showWelcomeMessage = useSelector(personalizationEnabled);
-  const userHasCernerFacility = useSelector(isCerner);
+  const { userFacilityReadyForInfoAlert } = useSelector(
+    state => state.user.profile,
+  );
 
   return (
     <>
@@ -54,7 +51,7 @@ const LandingPage = ({ data = {} }) => {
           />
           <HeaderLayout
             showWelcomeMessage={showWelcomeMessage}
-            isCerner={userHasCernerFacility}
+            showCernerInfoAlert={userFacilityReadyForInfoAlert}
           />
           <Alerts />
           {userRegistered && <CardLayout data={cards} />}
