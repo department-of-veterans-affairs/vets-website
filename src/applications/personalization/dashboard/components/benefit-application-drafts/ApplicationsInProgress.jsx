@@ -111,7 +111,7 @@ const ApplicationsInProgress = ({
             {allForms.map(form => {
               const formId = form.form;
               const formStatus = form.status;
-              const formTitle = `application for ${
+              const formTitle = `${
                 MY_VA_SIP_FORMS.find(e => e.id === formId).benefit
               }`;
               const presentableFormId = presentableFormIDs[formId];

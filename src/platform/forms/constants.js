@@ -285,7 +285,7 @@ export const MY_VA_SIP_FORMS = [
   },
   {
     id: VA_FORM_IDS.FORM_20_10206,
-    benefit: 'personal records request',
+    benefit: 'Request personal records',
     title: 'personal records request (20-10206)',
     description: 'personal records request application (20-10206)',
     trackingPrefix: 'pa-10206-',

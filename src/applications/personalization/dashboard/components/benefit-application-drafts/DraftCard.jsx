@@ -39,7 +39,7 @@ const Draft = ({
           <span className="sr-only">Alert: </span>
           <div>
             <p className="vads-u-margin-top--0">
-              Application expires on: {expirationDate}
+              Request expires on: {expirationDate}
             </p>
             <p>Last saved on: {lastSavedDate}</p>
           </div>
@@ -47,7 +47,7 @@ const Draft = ({
       </div>
       <va-link
         active
-        text="Continue your application"
+        text="Continue your request"
         href={continueUrl}
         onClick={recordDashboardClick(formId, 'continue-button')}
       />
