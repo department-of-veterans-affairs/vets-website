@@ -50,7 +50,7 @@ export default function ProcessList({ pdfUrl, trackingPrefix }) {
             Visit{' '}
             <va-link
               external
-              text="QuickSubmit on AccessVA (opens in a new tab)"
+              text="QuickSubmit on AccessVA"
               href="https://www.my.va.gov/EducationFileUploads/s/"
             />{' '}
             and upload your saved VA Form 22-0803 as well as your receipt and

@@ -6,6 +6,7 @@ export default function transform(formConfig, form) {
   const data = _.cloneDeep(form.data);
 
   delete data.statementOfTruthCertified;
+  delete data.AGREED;
 
   // phone numbers are from 'international phone' input, and
   // so come as an object, but we only want to send a string

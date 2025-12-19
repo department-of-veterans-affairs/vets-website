@@ -1,5 +1,4 @@
 // @ts-check
-import React from 'react';
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import environment from '~/platform/utilities/environment';
@@ -8,6 +7,7 @@ import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import PresubmitInfo from '../components/PresubmitInfo';
 
 import * as PreviouslyApplied from '../pages/PreviouslyApplied';
 import * as SelectVABenefit from '../pages/SelectVABenefit';
@@ -56,19 +56,10 @@ const formConfig = {
   prefillTransformer: prefillTransform,
   transformForSubmit: transform,
   preSubmitInfo: {
+    CustomComponent: PresubmitInfo,
+    required: true,
     statementOfTruth: {
-      heading: 'Certification statement',
-      body: (
-        <div>
-          <p>
-            <strong>Penalty:</strong> Willfully false statements as to a
-            material fact in a claim for education benefits payable by VA may
-            result in a fine, imprisonment, or both.
-          </p>
-        </div>
-      ),
       useProfileFullName: true,
-      messageAriaDescribedby: 'I have read and accept the privacy policy.',
     },
   },
   savedFormMessages: {
