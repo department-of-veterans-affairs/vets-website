@@ -279,7 +279,7 @@ const EmploymentCheckPage = ({
           value="no"
         />
       </VaRadio>
-      <NavButtons goBack={goBack} goForward={handleContinue} submitToContinue/>
+      <NavButtons goBack={goBack} goForward={handleContinue} submitToContinue />
     </div>
   );
 };
