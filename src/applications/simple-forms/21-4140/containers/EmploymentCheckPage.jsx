@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 import { scrollTo } from 'platform/utilities/scroll';
 import {
-  VaAlert,
   VaRadio,
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -249,7 +248,7 @@ const EmploymentCheckPage = ({
   return (
     <div className="schemaform-intro">
       <h1 className="vads-u-margin-bottom--2" id="main-content">
-        Were you employed or self-employed at any time in the past 12 months? 
+        Were you employed or self-employed at any time in the past 12 months?
       </h1>
       <p className="vads-u-margin-bottom--3" style={{ fontSize: '16px' }}>
         You’ll need to add at least 1 employer. You can add up to 4.
@@ -280,8 +279,7 @@ const EmploymentCheckPage = ({
           value="no"
         />
       </VaRadio>
-    
-      <NavButtons goBack={goBack} goForward={handleContinue} submitToContinue />
+      <NavButtons goBack={goBack} goForward={handleContinue} submitToContinue/>
     </div>
   );
 };
