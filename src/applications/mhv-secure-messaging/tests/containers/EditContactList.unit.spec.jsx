@@ -352,6 +352,39 @@ describe('Edit Contact List container', async () => {
     screen.unmount();
   });
 
+  it('displays loading indicator when save is in progress', async () => {
+    const screen = setup();
+
+    const checkbox = await screen.findByTestId(
+      'contact-list-select-team-1013155',
+    );
+
+    checkVaCheckbox(checkbox, false);
+
+    expect(checkbox).to.have.attribute('checked', 'false');
+
+    // Initially, loading indicator should not be present
+    expect(screen.queryByTestId('contact-list-saving-indicator')).to.be.null;
+
+    const saveButton = screen.getByTestId('contact-list-save');
+    mockApiRequest(200, true);
+    fireEvent.click(saveButton);
+
+    // Loading indicator should appear during save
+    await waitFor(() => {
+      const loadingIndicator = screen.getByTestId(
+        'contact-list-saving-indicator',
+      );
+      expect(loadingIndicator).to.exist;
+      expect(loadingIndicator).to.have.attribute(
+        'message',
+        'Saving your contact list...',
+      );
+    });
+
+    screen.unmount();
+  });
+
   it('displays error state on first checkbox when "save" is clicked if zero teams are checked', async () => {
     const screen = setup(initialState);
 
