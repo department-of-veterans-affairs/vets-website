@@ -41,10 +41,13 @@ const Mileage = () => {
         : selectExpenseCreationLoadingState(state),
   );
 
-  const initialFormStateRef = useRef({ departureAddress: '', tripType: '' });
+  const initialFormStateRef = useRef({
+    departureAddress: '',
+    tripType: '',
+  });
   const previousHasChangesRef = useRef(false);
 
-  const [formState, setFormState] = useState({});
+  const [formState, setFormState] = useState({ description: 'Mileage' });
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [showTripTypeError, setShowTripTypeError] = useState(false);
   const [showDepartureAddressError, setShowDepartureAddresError] = useState(
@@ -85,6 +88,7 @@ const Mileage = () => {
         const initialState = {
           departureAddress: 'home-address',
           tripType: TRIP_TYPES.ROUND_TRIP.value,
+          description: 'Mileage',
         };
         setFormState(initialState);
         initialFormStateRef.current = initialState;
