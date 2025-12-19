@@ -221,11 +221,11 @@ const SchemaKeys = {
 
     const mapped = {};
 
-    Object.keys(object).forEach(key => {
+    Object.entries(object).forEach(([key, value]) => {
       if (!(key in validated)) return;
       if (!validated[key]) throw new Error('Blank schema key output');
 
-      mapped[validated[key]] = object[key];
+      mapped[validated[key]] = value;
     });
 
     return mapped;
