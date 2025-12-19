@@ -93,24 +93,27 @@ export const ConfirmationPage = props => {
             benefit under which you want your reimbursement processed.
           </p>
           <p>
-            <a href="https://www.va.gov/education/apply-for-gi-bill-form-22-1990/introduction">
-              Application for VA Education Benefits Form 22-1990 (opens in a new
-              tab)
-            </a>
+            <va-link
+              external
+              href="https://www.va.gov/education/apply-for-gi-bill-form-22-1990/introduction"
+              text="Application for VA Education Benefits Form 22-1990"
+            />
             , <strong>or</strong>
           </p>
           <p>
-            <a href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/apply-for-dea-fry-form-22-5490/introduction">
-              Apply for VA education benefits as a dependent using Form 22-5490
-              (opens in a new tab)
-            </a>
+            <va-link
+              external
+              href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/apply-for-dea-fry-form-22-5490/introduction"
+              text="Apply for VA education benefits as a dependent using Form 22-5490"
+            />
             , <strong>or</strong>
           </p>
           <p>
-            <a href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/transferred-gi-bill-benefits/apply-form-22-1990e/introduction">
-              Apply to use transferred education benefits using Form 22-1990e
-              (opens in a new tab)
-            </a>
+            <va-link
+              external
+              href="https://www.va.gov/family-and-caregiver-benefits/education-and-careers/transferred-gi-bill-benefits/apply-form-22-1990e/introduction"
+              text="Apply to use transferred education benefits using Form 22-1990e"
+            />
           </p>
         </va-alert>
         <p>
