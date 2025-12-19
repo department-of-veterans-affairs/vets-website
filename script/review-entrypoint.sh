@@ -9,6 +9,9 @@ npm run build -- --buildtype=localhost --api='${API_URL}' --host='${WEB_HOST}' -
 # Build content-build and serve site
 cd ../content-build
 cp .env.example .env && yarn install --production=false
+# Build necessary node modules since ignore-scripts is set globally.
+pushd node_modules/node-libcurl/ && npm run install && popd
+pushd node_modules/node-sass/ && npm run install && popd
 npm run fetch-drupal-cache
 
 sleep 100000
