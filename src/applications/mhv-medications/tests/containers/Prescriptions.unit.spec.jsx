@@ -60,14 +60,30 @@ describe('Medications Prescriptions container', () => {
   });
 
   it('should display loading message when loading prescriptions', async () => {
-    const screen = setup();
-    waitFor(() => {
-      expect(screen.getByTestId('loading-indicator')).to.exist;
-      expect(screen.getByText('Loading your medications...')).to.exist;
+    // Restore the existing stubs from beforeEach
+    sandbox.restore();
+
+    // Create fresh stubs with loading state
+    stubAllergiesApi({ sandbox, isLoading: false });
+    stubPrescriptionsListApi({
+      sandbox,
+      data: {},
+      isLoading: true,
+      isFetching: true,
     });
+
+    const screen = setup();
+
+    // Check for loading indicator and its message attribute
+    const loadingIndicator = screen.getByTestId('loading-indicator');
+    expect(loadingIndicator).to.exist;
+    expect(loadingIndicator).to.have.attribute(
+      'message',
+      'Loading your medications...',
+    );
   });
 
-  it('displays intro text ', async () => {
+  it('displays intro text', async () => {
     const screen = setup();
     await screen.getByTestId('Title-Notes');
   });
@@ -165,7 +181,7 @@ describe('Medications Prescriptions container', () => {
       fireEvent.click(pdfButton);
     });
     expect(screen);
-    waitFor(() => {
+    await waitFor(() => {
       expect(screen.getByText('We can’t download your records right now')).to
         .exist;
     });
@@ -182,7 +198,7 @@ describe('Medications Prescriptions container', () => {
       fireEvent.click(pdfButton);
     });
     expect(screen);
-    waitFor(() => {
+    await waitFor(() => {
       expect(screen.getByText('We can’t print your records right now')).to
         .exist;
     });
@@ -198,7 +214,7 @@ describe('Medications Prescriptions container', () => {
       fireEvent.click(pdfButton);
     });
     expect(screen);
-    waitFor(() => {
+    await waitFor(() => {
       expect(screen.getByText('We can’t download your records right now')).to
         .exist;
     });

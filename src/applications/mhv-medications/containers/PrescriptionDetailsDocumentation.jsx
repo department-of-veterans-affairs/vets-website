@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState, useRef } from 'react';
-import { useParams } from 'react-router-dom-v5-compat';
+import { useParams, useLocation } from 'react-router-dom-v5-compat';
 import { useSelector } from 'react-redux';
 import {
   updatePageTitle,
@@ -36,6 +36,9 @@ import {
 
 const PrescriptionDetailsDocumentation = () => {
   const { prescriptionId } = useParams();
+  const { search } = useLocation();
+  const query = new URLSearchParams(search);
+  const stationNumber = query.get('station_number');
   const contentRef = useRef();
 
   const { dob, userName } = useSelector(state => ({
@@ -70,7 +73,7 @@ const PrescriptionDetailsDocumentation = () => {
     prescription,
     prescriptionApiError,
     isLoading: isLoadingRx,
-  } = usePrescriptionData(prescriptionId, queryParams);
+  } = usePrescriptionData(prescriptionId, queryParams, stationNumber);
   const pharmacyPhone = prescription ? pharmacyPhoneNumber(prescription) : null;
 
   const buildMedicationInformationTxt = useCallback(
@@ -170,8 +173,8 @@ const PrescriptionDetailsDocumentation = () => {
         contentRef.current
       ) {
         contentRef.current.innerHTML = htmlContent || '';
+        focusElement(document.querySelector('h1'));
       }
-      focusElement(document.querySelector('h1'));
     },
     [isLoadingDoc, isLoadingRx, hasDocApiError, htmlContent],
   );
