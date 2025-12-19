@@ -1,9 +1,9 @@
 import { resetStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
-import manifest from '../manifest.json';
-import { BASE_URL, BENEFIT_OFFICES_URL } from '../constants';
-import * as h from '../../shared/tests/cypress.helpers';
-import cypressSetup from '../../shared/tests/cypress.setup';
-import { title995 } from '../content/title';
+import manifest from '../../manifest.json';
+import { BASE_URL, BENEFIT_OFFICES_URL } from '../../constants';
+import * as h from '../../../shared/tests/cypress.helpers';
+import cypressSetup from '../../../shared/tests/cypress.setup';
+import { title995 } from '../../content/title';
 
 const verifyUrl = link => h.verifyCorrectUrl(manifest.rootUrl, link);
 
