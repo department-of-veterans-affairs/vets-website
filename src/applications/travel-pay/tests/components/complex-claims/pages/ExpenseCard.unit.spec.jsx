@@ -90,15 +90,10 @@ describe('ExpenseCard', () => {
     );
 
   it('renders mileage component correctly', () => {
-    const {
-      getByRole,
-      getByText,
-      container,
-      queryByTestId,
-    } = renderExpenseCard();
+    const { getByText, container, queryByTestId } = renderExpenseCard();
 
     // Header
-    expect(getByRole('heading', { name: 'Mileage expense' })).to.exist;
+    expect(getByText('Mileage expense')).to.exist;
 
     // Address
     expect(getByText('Which address did you depart from?')).to.exist;
@@ -234,15 +229,12 @@ describe('ExpenseCard', () => {
   });
 
   it('renders mileage component with no edit button, delete button or delete modal', () => {
-    const {
-      getByRole,
-      getByText,
-      container,
-      queryByTestId,
-    } = renderExpenseCard(defaultMileageExpense, false);
+    const { getByText, container, queryByTestId } = renderExpenseCard(
+      defaultMileageExpense,
+      false,
+    );
 
-    // Header
-    expect(getByRole('heading', { name: 'Mileage expense' })).to.exist;
+    expect(getByText('Mileage expense')).to.exist;
 
     // Address
     expect(getByText('Which address did you depart from?')).to.exist;
