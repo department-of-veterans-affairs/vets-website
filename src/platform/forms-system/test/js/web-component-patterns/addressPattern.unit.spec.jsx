@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import {
   addressUI,
   addressSchema,
+  applyKeyMapping,
   updateFormDataAddress,
 } from '../../../src/js/web-component-patterns/addressPattern';
 
@@ -648,6 +649,149 @@ describe('addressPattern mapping functions', () => {
       expect(uiSchema.city['ui:options'].replaceSchema).to.be.a('function');
       expect(uiSchema.state['ui:options'].replaceSchema).to.be.a('function');
       expect(uiSchema.zipCode['ui:options'].replaceSchema).to.be.a('function');
+    });
+  });
+
+  describe('applyKeyMapping utility', () => {
+    it('should map field keys correctly', () => {
+      const originalSchema = {
+        street: { type: 'string', title: 'Street' },
+        postalCode: { type: 'string', title: 'Postal code' },
+        city: { type: 'string', title: 'City' },
+      };
+
+      const newSchemaKeys = {
+        street: 'addressLine1',
+        postalCode: 'zipCode',
+      };
+
+      const result = applyKeyMapping(originalSchema, newSchemaKeys);
+
+      // Should have mapped keys
+      expect(result).to.have.property('addressLine1');
+      expect(result).to.have.property('zipCode');
+      expect(result).to.have.property('city'); // Unmapped field preserved
+
+      // Should not have original mapped keys
+      expect(result).to.not.have.property('street');
+      expect(result).to.not.have.property('postalCode');
+
+      // Should preserve field configurations
+      expect(result.addressLine1).to.deep.equal({
+        type: 'string',
+        title: 'Street',
+      });
+      expect(result.zipCode).to.deep.equal({
+        type: 'string',
+        title: 'Postal code',
+      });
+    });
+
+    it('should handle omit with standard field names', () => {
+      const originalSchema = {
+        street: { type: 'string' },
+        street2: { type: 'string' },
+        street3: { type: 'string' },
+        postalCode: { type: 'string' },
+      };
+
+      const newSchemaKeys = {
+        street: 'addressLine1',
+        postalCode: 'zipCode',
+      };
+
+      const result = applyKeyMapping(originalSchema, newSchemaKeys, [
+        'street2',
+        'street3',
+      ]);
+
+      // Should have mapped keys
+      expect(result).to.have.property('addressLine1');
+      expect(result).to.have.property('zipCode');
+
+      // Should not have omitted fields
+      expect(result).to.not.have.property('street2');
+      expect(result).to.not.have.property('street3');
+    });
+
+    it('should handle omit with mapped field names', () => {
+      const originalSchema = {
+        street: { type: 'string' },
+        street2: { type: 'string' },
+        postalCode: { type: 'string' },
+      };
+
+      const newSchemaKeys = {
+        street: 'addressLine1',
+        postalCode: 'zipCode',
+      };
+      const result = applyKeyMapping(originalSchema, newSchemaKeys, [
+        'addressLine1',
+        'zipCode',
+      ]);
+
+      // Should omit by mapped names
+      expect(result).to.not.have.property('addressLine1');
+      expect(result).to.not.have.property('street');
+      expect(result).to.not.have.property('zipCode');
+      expect(result).to.not.have.property('postalCode');
+
+      // Should keep non-omitted, non-mapped field
+      expect(result).to.have.property('street2');
+    });
+
+    it('should handle edge case where standard and mapped field names match in omit', () => {
+      const originalSchema = {
+        street: { type: 'string' },
+        addressLine1: { type: 'string' }, // Already exists with mapped name
+        postalCode: { type: 'string' },
+      };
+
+      const newSchemaKeys = {
+        street: 'addressLine1', // This would conflict with existing field
+      };
+
+      const result = applyKeyMapping(originalSchema, newSchemaKeys, [
+        'addressLine1',
+      ]);
+      // Should omit both the original field that maps to 'addressLine1'
+      // and any existing 'addressLine1' field
+      expect(result).to.not.have.property('street');
+      expect(result).to.not.have.property('addressLine1');
+
+      // Should keep non-conflicting field
+      expect(result).to.have.property('postalCode');
+    });
+
+    it('should return original schema when no mapping provided', () => {
+      const originalSchema = {
+        street: { type: 'string' },
+        postalCode: { type: 'string' },
+      };
+
+      const result = applyKeyMapping(originalSchema, {});
+
+      expect(result).to.deep.equal(originalSchema);
+    });
+    it('should return original schema when newSchemaKeys is empty', () => {
+      const originalSchema = {
+        street: { type: 'string' },
+        postalCode: { type: 'string' },
+      };
+
+      const result = applyKeyMapping(originalSchema, {}, []);
+
+      expect(result).to.deep.equal(originalSchema);
+    });
+
+    it('should handle undefined parameters gracefully', () => {
+      const originalSchema = {
+        street: { type: 'string' },
+      };
+
+      const result = applyKeyMapping(originalSchema);
+
+      expect(result).to.deep.equal(originalSchema);
     });
   });
 });

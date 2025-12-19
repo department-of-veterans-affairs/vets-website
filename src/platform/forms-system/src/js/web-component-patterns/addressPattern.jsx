@@ -243,7 +243,7 @@ function getFieldValue(fieldName, addressData, newSchemaKeys = {}) {
  * );
  * // Returns: { addressLine1: {}, zipCode: {} }
  */
-function applyKeyMapping(schema, newSchemaKeys = {}, omit = []) {
+export function applyKeyMapping(schema, newSchemaKeys = {}, omit = []) {
   if (Object.keys(newSchemaKeys).length === 0) {
     return schema;
   }
