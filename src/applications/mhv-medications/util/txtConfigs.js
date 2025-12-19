@@ -269,7 +269,7 @@ export const buildVAPrescriptionTXT = (
           i,
         );
         const description = hasValidDesc
-          ? `${newLine()}Note: If the medication you're taking doesn't match this description, call ${createVAPharmacyText(
+          ? `${newLine()}Note: If the medication you’re taking doesn’t match this description, call ${createVAPharmacyText(
               phone,
             )}
 * Shape: ${shape[0].toUpperCase()}${shape.slice(1).toLowerCase()}

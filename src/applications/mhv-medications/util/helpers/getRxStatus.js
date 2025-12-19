@@ -25,9 +25,12 @@ export const getRxStatus = rx => {
  * @returns {Object} Status definitions object
  */
 export const getStatusDefinitions = (isCernerPilot, isV2StatusMapping) => {
-  return isCernerPilot && isV2StatusMapping
-    ? pdfStatusDefinitionsV2
-    : pdfStatusDefinitions;
+  // Returns V2 definitions ONLY when BOTH flags are true
+  if (isCernerPilot && isV2StatusMapping) {
+    return pdfStatusDefinitionsV2;
+  }
+  // Returns V1 definitions in all other cases
+  return pdfStatusDefinitions;
 };
 
 /**

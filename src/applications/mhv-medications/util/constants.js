@@ -252,7 +252,7 @@ export const pdfStatusDefinitionsV2 = {
       value: `A prescription you can fill at a local VA pharmacy. If this prescription is refillable, you may request a refill.`,
     },
     {
-      value: `If you need a medication immediately, call your VA pharmacy's automated refill line. You can find the pharmacy phone number on your prescription label or in your medications details page.`,
+      value: `If you need a medication immediately, call your VA pharmacy’s automated refill line. You can find the pharmacy phone number on your prescription label or in your medications details page.`,
     },
   ],
   inprogress: [
@@ -260,7 +260,7 @@ export const pdfStatusDefinitionsV2 = {
       value: `A new prescription or a prescription you’ve requested a refill or renewal for.`,
     },
     {
-      value: `If you need your medication sooner, call your VA pharmacy's automated refill line. You can find the pharmacy phone number on your prescription label or in your medications details page.`,
+      value: `If you need your medication sooner, call your VA pharmacy’s automated refill line. You can find the pharmacy phone number on your prescription label or in your medications details page.`,
     },
   ],
   inactive: [

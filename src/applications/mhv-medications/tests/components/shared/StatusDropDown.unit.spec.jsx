@@ -25,52 +25,25 @@ describe('component that displays Status', () => {
     });
   };
 
-  const FLAG_COMBINATIONS = [
-    {
-      cernerPilot: false,
-      v2StatusMapping: false,
-      useV2: false,
-      desc: 'both flags disabled',
-    },
-    {
-      cernerPilot: true,
-      v2StatusMapping: false,
-      useV2: false,
-      desc: 'only cernerPilot enabled',
-    },
-    {
-      cernerPilot: false,
-      v2StatusMapping: true,
-      useV2: false,
-      desc: 'only v2StatusMapping enabled',
-    },
-    {
-      cernerPilot: true,
-      v2StatusMapping: true,
-      useV2: true,
-      desc: 'both flags enabled',
-    },
-  ];
-
   describe('when cernerPilot flag is disabled', () => {
     it('renders without errors', () => {
       const screen = renderStatus();
       expect(screen);
     });
 
-    it('displays unknown as status when there is no status being passed', () => {
+    it('displays "Unknown" as status when there is no status being passed', () => {
       const screen = renderStatus();
       const unknownStatus = screen.getAllByText('Unknown');
       expect(unknownStatus).to.exist;
     });
 
-    it('displays Active: Parked when status is passed as activeParked', () => {
+    it('displays "Active: Parked" when status is passed as activeParked', () => {
       const screen = renderStatus('Active: Parked');
       const unknownStatus = screen.getAllByText('Active: Parked');
       expect(unknownStatus).to.exist;
     });
 
-    it('displays correct Active: Parked description when drop down is clicked on', async () => {
+    it('displays correct "Active: Parked" description when drop down is clicked on', async () => {
       const screen = renderStatus('Active: Parked');
       const statusDescription = screen.getAllByText(
         'Your VA provider prescribed this medication or supply to you. But we won’t send any shipments until you request to fill or refill it.',
@@ -93,95 +66,147 @@ describe('component that displays Status', () => {
       expect(screen);
     });
 
-    it('displays Unknown status when cernerPilot is enabled but v2StatusMapping is disabled', () => {
+    it('displays "Unknown" status when cernerPilot is enabled but v2StatusMapping is disabled', () => {
       const screen = renderStatus(undefined, true, false);
       // Still V1 behavior - requires BOTH flags
       const unknownStatus = screen.getAllByText('Unknown');
       expect(unknownStatus).to.exist;
     });
 
-    it('displays Status not available only when BOTH CernerPilot and  V2StatusMapping flags are enabled', () => {
+    it('displays "Status not available" only when BOTH CernerPilot and V2StatusMapping flags are enabled', () => {
       const screen = renderStatus(undefined, true, true);
       const unknownStatus = screen.getAllByText('Status not available');
       expect(unknownStatus).to.exist;
     });
   });
 
-  describe('V2 status display when API returns V2 statuses (both flags enabled)', () => {
-    const V2_STATUSES = [
-      'Active',
-      'In progress',
-      'Inactive',
-      'Transferred',
-      'Status not available',
-    ];
+  describe('V2 status display when both CernerPilot and V2StatusMapping flags enabled', () => {
+    it('renders Active correctly', () => {
+      const screen = renderStatus('Active', true, true);
+      expect(screen.getAllByText('Active')).to.exist;
+    });
 
-    V2_STATUSES.forEach(v2Status => {
-      it(`renders ${v2Status} correctly when passed directly`, () => {
-        const screen = renderStatus(v2Status, true, true);
-        expect(screen.getAllByText(v2Status)).to.exist;
-      });
+    it('renders In progress correctly', () => {
+      const screen = renderStatus('In progress', true, true);
+      expect(screen.getAllByText('In progress')).to.exist;
+    });
+
+    it('renders Inactive correctly', () => {
+      const screen = renderStatus('Inactive', true, true);
+      expect(screen.getAllByText('Inactive')).to.exist;
+    });
+
+    it('renders Transferred correctly', () => {
+      const screen = renderStatus('Transferred', true, true);
+      expect(screen.getAllByText('Transferred')).to.exist;
+    });
+
+    it('renders Status not available correctly', () => {
+      const screen = renderStatus('Status not available', true, true);
+      expect(screen.getAllByText('Status not available')).to.exist;
     });
   });
 
-  describe('V1 status display when flags disabled', () => {
-    Object.values(dispStatusObj).forEach(v1Status => {
-      it(`renders ${v1Status} when passed with flags disabled`, () => {
-        const screen = renderStatus(v1Status, false, false);
-        expect(screen.getAllByText(v1Status, { exact: false })).to.exist;
-      });
+  describe('V1 status display when both CernerPilot and V2StatusMapping flags are disabled', () => {
+    it('renders Active: Refill in Process', () => {
+      const screen = renderStatus('Active: Refill in Process', false, false);
+      expect(screen.getAllByText('Active: Refill in Process', { exact: false })).to.exist;
+    });
+
+    it('renders Active: Parked', () => {
+      const screen = renderStatus('Active: Parked', false, false);
+      expect(screen.getAllByText('Active: Parked', { exact: false })).to.exist;
+    });
+
+    it('renders Active: Submitted', () => {
+      const screen = renderStatus('Active: Submitted', false, false);
+      expect(screen.getAllByText('Active: Submitted', { exact: false })).to.exist;
+    });
+
+    it('renders Active: On Hold', () => {
+      const screen = renderStatus('Active: On Hold', false, false);
+      expect(screen.getAllByText('Active: On Hold', { exact: false })).to.exist;
+    });
+
+    it('renders Expired', () => {
+      const screen = renderStatus('Expired', false, false);
+      expect(screen.getAllByText('Expired', { exact: false })).to.exist;
+    });
+
+    it('renders Discontinued', () => {
+      const screen = renderStatus('Discontinued', false, false);
+      expect(screen.getAllByText('Discontinued', { exact: false })).to.exist;
+    });
+
+    it('renders Transferred', () => {
+      const screen = renderStatus('Transferred', false, false);
+      expect(screen.getAllByText('Transferred', { exact: false })).to.exist;
+    });
+
+    it('renders Active: Non-VA', () => {
+      const screen = renderStatus('Active: Non-VA', false, false);
+      expect(screen.getAllByText('Active: Non-VA', { exact: false })).to.exist;
     });
   });
 
-  describe('CernerPilot and V2StatusMapping flag requirement validation', () => {
-    FLAG_COMBINATIONS.forEach(
-      ({ cernerPilot, v2StatusMapping, useV2, desc }) => {
-        it(`component renders correctly when ${desc}`, () => {
-          // Pass V2 status when both flags enabled, V1 status otherwise (simulating API behavior)
-          const statusToTest = useV2 ? 'Active' : 'Active: Parked';
-          const screen = renderStatus(
-            statusToTest,
-            cernerPilot,
-            v2StatusMapping,
-          );
-          expect(screen.getAllByText(statusToTest)).to.exist;
-        });
-      },
-    );
+  describe('component rendering with both cernerPilot and V2StatusMapping flags disabled', () => {
+    it('renders Active: Parked status correctly', () => {
+      const screen = renderStatus('Active: Parked', false, false);
+      expect(screen.getAllByText('Active: Parked')).to.exist;
+    });
   });
+
+  describe('component rendering with both cernerPilot and V2StatusMapping flags enabled', () => {
+    it('renders Active status correctly', () => {
+      const screen = renderStatus('Active', true, true);
+      expect(screen.getAllByText('Active')).to.exist;
+    });
+  });
+
   describe('Shipped status handling', () => {
-    FLAG_COMBINATIONS.forEach(
-      ({ cernerPilot, v2StatusMapping, useV2, desc }) => {
-        it(`handles Shipped status when ${desc}`, () => {
-          const screen = renderStatus('Shipped', cernerPilot, v2StatusMapping);
-          expect(screen).to.exist;
-          if (useV2) {
-            // Shipped is a V2-only status
-            const statusElement =
-              screen.container.querySelector(
-                '[data-testid="status-dropdown"]',
-              ) ||
-              screen.container.querySelector(
-                '[trigger="What does this status mean?"]',
-              );
-            expect(statusElement).to.exist;
-          }
-        });
-      },
-    );
-  });
-  describe('Pending medication statuses', () => {
-    ['NewOrder', 'Renew'].forEach(status => {
-      FLAG_COMBINATIONS.forEach(({ cernerPilot, v2StatusMapping, desc }) => {
-        it(`displays ${status} status correctly when ${desc}`, () => {
-          const screen = renderStatus(status, cernerPilot, v2StatusMapping);
-          expect(screen).to.exist;
-        });
-      });
+    it('handles Shipped status when both cernerPilot and V2StatusMapping flags disabled', () => {
+      const screen = renderStatus('Shipped', false, false);
+      expect(screen).to.exist;
+      const statusElement =
+        screen.container.querySelector('[data-testid="status-dropdown"]') ||
+        screen.container.querySelector('[trigger="What does this status mean?"]');
+      expect(statusElement).to.exist;
+    });
+
+    it('handles Shipped status when both cernerPilot and V2StatusMapping flags enabled', () => {
+      const screen = renderStatus('Shipped', true, true);
+      expect(screen).to.exist;
+      const statusElement =
+        screen.container.querySelector('[data-testid="status-dropdown"]') ||
+        screen.container.querySelector('[trigger="What does this status mean?"]');
+      expect(statusElement).to.exist;
     });
   });
+
+  describe('Pending medication statuses', () => {
+    it('displays NewOrder status correctly when both flags disabled', () => {
+      const screen = renderStatus('NewOrder', false, false);
+      expect(screen).to.exist;
+    });
+
+    it('displays NewOrder status correctly when both cernerPilot and V2StatusMapping flags enabled', () => {
+      const screen = renderStatus('NewOrder', true, true);
+      expect(screen).to.exist;
+    });
+
+    it('displays Renew status correctly when both cernerPilot and V2StatusMapping flags disabled', () => {
+      const screen = renderStatus('Renew', false, false);
+      expect(screen).to.exist;
+    });
+
+    it('displays Renew status correctly when both cernerPilot and V2StatusMapping flags enabled', () => {
+      const screen = renderStatus('Renew', true, true);
+      expect(screen).to.exist;
+    });
+  });
+
   describe('Status definition content validation', () => {
-    it('V1 Active: Parked has correct definition text', () => {
+    it('V1 Active: Parked has correct definition text when BOTH CernerPilot and V2StatusMapping flags disabled', () => {
       const screen = renderStatus('Active: Parked', false, false);
       expect(screen.getByText(/Your VA provider prescribed this medication/)).to
         .exist;

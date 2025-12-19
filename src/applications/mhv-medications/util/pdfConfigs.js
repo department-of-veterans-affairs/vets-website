@@ -90,7 +90,7 @@ export const buildNonVAPrescriptionPDFList = (
             },
             {
               value:
-                "A VA provider added this medication record in your VA medical records. But this isn't a prescription you filled through a VA pharmacy. This could be sample medications, over-the-counter medications, supplements or herbal remedies. You can't request refills or manage this medication through this online tool. If you aren't taking this medication, ask your provider to remove it at your next appointment.",
+                "A VA provider added this medication record in your VA medical records. But this isn’t a prescription you filled through a VA pharmacy. This could be sample medications, over-the-counter medications, supplements or herbal remedies. You can't request refills or manage this medication through this online tool. If you aren’t taking this medication, ask your provider to remove it at your next appointment.",
             },
             {
               title: 'When you started taking this medication',

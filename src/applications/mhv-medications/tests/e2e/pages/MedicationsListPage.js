@@ -393,7 +393,7 @@ class MedicationsListPage {
   verifyInformationBasedOnStatusActiveOnHold = () => {
     cy.get('[data-testid="active-onHold"]')
       .should('be.visible')
-      .and('contain', "You can't refill this prescription online right now.");
+      .and('contain', 'You can’t refill this prescription online right now.');
   };
 
   verifyInformationBasedOnStatusDiscontinued = () => {
@@ -426,7 +426,7 @@ class MedicationsListPage {
       `[data-testid="medication-list"] > :nth-child(7) #status-description-${unknownPrescription} > [data-testid="unknown"] > :nth-child(2) > :nth-child(1)`,
     )
       .should('be.visible')
-      .and('contain', "We're sorry. There's a problem with our system.");
+      .and('contain', 'We’re sorry. There’s a problem with our system.');
   };
 
   verifyNumberOfRefillsLeftNotDisplayedOnMedicationCard = () => {
