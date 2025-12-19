@@ -35,7 +35,6 @@ import supportingDocumentsUpload from '../pages/supportingDocumentsUpload';
 import typeOfRequest from '../pages/typeOfRequest';
 import replacementMedallionReason from '../pages/replacementMedallionReason';
 import typeOfMedallion from '../pages/typeOfMedallion';
-import medallionSize from '../pages/medallionSize';
 import presidentialMemorialCertificate from '../pages/presidentialMemorialCertificate';
 import quantityOfCertificates from '../pages/quantityOfCertificates';
 import medallionSizeBronze from '../pages/medallionSizeBronze';
