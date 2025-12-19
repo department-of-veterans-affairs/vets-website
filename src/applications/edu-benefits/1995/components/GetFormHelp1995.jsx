@@ -27,5 +27,4 @@ function GetFormHelp1995() {
   );
 }
 
-export default GetFormHelp1995
-
+export default GetFormHelp1995;
