@@ -68,7 +68,7 @@ const BenefitCard = ({ benefit, isBenefitRecommended }) => {
           {description}
         </p>
         <h4 className="vads-u-margin-bottom--neg1">When to apply</h4>
-        <p className="vads-u-margin-bottom--neg1">
+        <p className="vads-u-margin-bottom--neg0p5">
           {benefit.whenToApplyDescription}
         </p>
         {benefit.whenToApplyNote !== undefined && (
