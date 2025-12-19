@@ -1,4 +1,5 @@
 import React from 'react';
+import { Toggler } from 'platform/utilities/feature-toggles';
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '../constants';
 import Tier2PageContent from './Tier2PageContent';
 import { ProfileHubItem } from './hub/ProfileHubItem';
@@ -6,11 +7,15 @@ import { ProfileHubItem } from './hub/ProfileHubItem';
 const HealthCareSettings = () => {
   return (
     <Tier2PageContent pageHeader="Health care settings">
-      <ProfileHubItem
-        heading={PROFILE_PATH_NAMES.HEALTH_CARE_CONTACTS}
-        content="Review information for emergency contacts and next of kin contacts."
-        href={PROFILE_PATHS.HEALTH_CARE_CONTACTS}
-      />
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.profileHideHealthCareContacts}>
+        <Toggler.Disabled>
+          <ProfileHubItem
+            heading={PROFILE_PATH_NAMES.HEALTH_CARE_CONTACTS}
+            content="Review information for emergency contacts and next of kin contacts."
+            href={PROFILE_PATHS.HEALTH_CARE_CONTACTS}
+          />
+        </Toggler.Disabled>
+      </Toggler>
       <ProfileHubItem
         heading={PROFILE_PATH_NAMES.MESSAGES_SIGNATURE}
         content="Manage the signature on your messages."
