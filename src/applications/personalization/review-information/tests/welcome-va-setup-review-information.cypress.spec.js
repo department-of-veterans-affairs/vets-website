@@ -144,7 +144,7 @@ describe('Welcome to My VA Review Contact Information form', () => {
     it('should redirect to sign in', () => {
       cy.location().should(loc => {
         expect(loc.search).to.eq(
-          '?next=%2Fmy-va%2Fwelcome-va-setup%2Fcontact-information',
+          '?next=%2Fmy-va%2Fwelcome-va-setup%2Fcontact-information&oauth=true',
         );
       });
     });
