@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
 import { setSubmission } from 'platform/forms-system/src/js/actions';
+import { scrollAndFocus } from 'platform/utilities/scroll';
 import environment from '~/platform/utilities/environment';
 import RegionalAccordion from '../components/RegionalAccordion';
 import ConfirmationProcessList from '../components/ConfirmationProcessList';
@@ -66,6 +67,14 @@ export const ConfirmationPage = props => {
     [submission],
   );
 
+  useEffect(() => {
+    // make sure we scroll to and focus on the
+    // alert notifying the user that additional
+    // steps are required
+    const firsth2 = document.querySelector('va-alert > h2');
+    scrollAndFocus(firsth2);
+  }, []);
+
   return (
     <ConfirmationView
       formConfig={props.route?.formConfig}
@@ -118,7 +127,6 @@ export const ConfirmationPage = props => {
         </va-alert>
         <p>
           <va-button
-            className="custom-classname"
             secondary
             text="Print this page"
             data-testid="print-page"

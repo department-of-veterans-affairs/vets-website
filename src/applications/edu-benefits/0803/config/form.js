@@ -9,6 +9,8 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import PresubmitInfo from '../components/PresubmitInfo';
 
+import { CustomReviewTopContent } from '../helpers';
+
 import * as PreviouslyApplied from '../pages/PreviouslyApplied';
 import * as SelectVABenefit from '../pages/SelectVABenefit';
 import * as VABenefitWarning from '../pages/VABenefitWarning';
@@ -62,6 +64,7 @@ const formConfig = {
       useProfileFullName: true,
     },
   },
+  CustomReviewTopContent,
   savedFormMessages: {
     notFound: 'Please start over to apply for education benefits.',
     noAuth:

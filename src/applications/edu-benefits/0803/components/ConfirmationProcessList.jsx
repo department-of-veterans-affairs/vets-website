@@ -8,9 +8,9 @@ export default function ProcessList({ pdfUrl, trackingPrefix }) {
       <va-process-list-item>
         <div
           itemProp="itemListElement"
-          className="confirmation-save-pdf-download-section screen-only custom-classname"
+          className="confirmation-save-pdf-download-section screen-only"
         >
-          <h2>Download and save your form</h2>
+          <h2 className="vads-u-margin-top--0">Download and save your form</h2>
           <p>
             Make sure that your completed form is saved as a PDF on your device.{' '}
             <span className="vads-u-display--inline-block">
@@ -44,7 +44,10 @@ export default function ProcessList({ pdfUrl, trackingPrefix }) {
           <p>Gather those documents now.</p>
         </div>
       </va-process-list-item>
-      <va-process-list-item header="Upload your form and attachments to QuickSubmit or mail them to your Regional Processing Office">
+      <va-process-list-item
+        header="Upload your form and attachments to QuickSubmit or mail them to your Regional Processing Office"
+        class="vads-u-padding-bottom--0"
+      >
         <div itemProp="itemListElement">
           <p>
             Visit{' '}
