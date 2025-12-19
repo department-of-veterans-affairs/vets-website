@@ -18,7 +18,8 @@ const App = ({ formEnabled }) => {
           className="vads-c-action-link--blue"
           href="/disability/eligibility/special-claims/unemployability/submit-employment-information-form-21-4192"
         >
-          Submit employment information online
+          Submit employment information in connection with claim for Individual
+          Unemployability
         </a>
       </>
     );

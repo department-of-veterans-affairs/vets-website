@@ -13,13 +13,17 @@ const App = ({ formEnabled }) => {
   if (formEnabled) {
     return (
       <>
-        <p>You can submit this form online or by mail.</p>
+        <h3>Online</h3>
+        <p>
+          You can apply for Aid and Attendance benefits or Housebound allowance
+          online now. A medical examiner must fill out the examination
+          information section.
+        </p>
         <a
           className="vads-c-action-link--blue"
           href="/pension/aid-attendance-housebound/apply-form-21-2680"
         >
-          Submit an examination for housebound status or permanent need for
-          regular aid and attendance online
+          Apply for Aid and Attendance benefits or Housebound allowance
         </a>
       </>
     );
