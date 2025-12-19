@@ -110,51 +110,44 @@ describe('component that displays Status', () => {
   describe('V1 status display when both CernerPilot and V2StatusMapping flags are disabled', () => {
     it('renders Active: Refill in Process', () => {
       const screen = renderStatus('Active: Refill in Process', false, false);
-      expect(
-        screen.getAllByText('Active: Refill in Process', { exact: false }),
-      ).to.exist;
+      expect(screen.getAllByText('Active: Refill in Process', { exact: false })).to.exist;
     });
 
-      it('renders Active: Parked', () => {
-        const screen = renderStatus('Active: Parked', false, false);
-        expect(screen.getAllByText('Active: Parked', { exact: false })).to
-          .exist;
-      });
+    it('renders Active: Parked', () => {
+      const screen = renderStatus('Active: Parked', false, false);
+      expect(screen.getAllByText('Active: Parked', { exact: false })).to.exist;
+    });
 
-      it('renders Active: Submitted', () => {
-        const screen = renderStatus('Active: Submitted', false, false);
-        expect(screen.getAllByText('Active: Submitted', { exact: false })).to
-          .exist;
-      });
+    it('renders Active: Submitted', () => {
+      const screen = renderStatus('Active: Submitted', false, false);
+      expect(screen.getAllByText('Active: Submitted', { exact: false })).to.exist;
+    });
 
-      it('renders Active: On Hold', () => {
-        const screen = renderStatus('Active: On Hold', false, false);
-        expect(screen.getAllByText('Active: On Hold', { exact: false })).to
-          .exist;
-      });
+    it('renders Active: On Hold', () => {
+      const screen = renderStatus('Active: On Hold', false, false);
+      expect(screen.getAllByText('Active: On Hold', { exact: false })).to.exist;
+    });
 
-      it('renders Expired', () => {
-        const screen = renderStatus('Expired', false, false);
-        expect(screen.getAllByText('Expired', { exact: false })).to.exist;
-      });
+    it('renders Expired', () => {
+      const screen = renderStatus('Expired', false, false);
+      expect(screen.getAllByText('Expired', { exact: false })).to.exist;
+    });
 
-      it('renders Discontinued', () => {
-        const screen = renderStatus('Discontinued', false, false);
-        expect(screen.getAllByText('Discontinued', { exact: false })).to.exist;
-      });
+    it('renders Discontinued', () => {
+      const screen = renderStatus('Discontinued', false, false);
+      expect(screen.getAllByText('Discontinued', { exact: false })).to.exist;
+    });
 
-      it('renders Transferred', () => {
-        const screen = renderStatus('Transferred', false, false);
-        expect(screen.getAllByText('Transferred', { exact: false })).to.exist;
-      });
+    it('renders Transferred', () => {
+      const screen = renderStatus('Transferred', false, false);
+      expect(screen.getAllByText('Transferred', { exact: false })).to.exist;
+    });
 
-      it('renders Active: Non-VA', () => {
-        const screen = renderStatus('Active: Non-VA', false, false);
-        expect(screen.getAllByText('Active: Non-VA', { exact: false })).to
-          .exist;
-      });
-    },
-  );
+    it('renders Active: Non-VA', () => {
+      const screen = renderStatus('Active: Non-VA', false, false);
+      expect(screen.getAllByText('Active: Non-VA', { exact: false })).to.exist;
+    });
+  });
 
   describe('component rendering with both cernerPilot and V2StatusMapping flags disabled', () => {
     it('renders Active: Parked status correctly', () => {
@@ -176,7 +169,7 @@ describe('component that displays Status', () => {
       expect(screen).to.exist;
       const statusElement =
         screen.container.querySelector('[data-testid="status-dropdown"]') ||
-        screen.container.querySelector('[trigger="What does this status mean?"]');
+        screen.container.querySelector('[trigger="What does this status mean?"]',);
       expect(statusElement).to.exist;
     });
 
@@ -185,7 +178,7 @@ describe('component that displays Status', () => {
       expect(screen).to.exist;
       const statusElement =
         screen.container.querySelector('[data-testid="status-dropdown"]') ||
-        screen.container.querySelector('[trigger="What does this status mean?"]');
+        screen.container.querySelector('[trigger="What does this status mean?"]',);
       expect(statusElement).to.exist;
     });
   });

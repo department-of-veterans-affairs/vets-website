@@ -27,26 +27,6 @@ describe('prescriptionMedAndRenewalStatus helper', () => {
     dispStatus: DISPENSE_STATUS.RENEW,
   };
 
-  // API returns these V2 status values when both CernerPilot AND V2StatusMapping flags are enabled
-  // dispStatus: What the API returns in the status field
-  // refillStatus: Lowercase key used to look up definitions in pdfStatusDefinitionsV2
-  const V2_API_STATUSES = [
-    { dispStatus: 'Active', refillStatus: 'active' },
-    { dispStatus: 'In progress', refillStatus: 'inprogress' },
-    { dispStatus: 'Inactive', refillStatus: 'inactive' },
-    { dispStatus: 'Transferred', refillStatus: 'transferred' },
-    { dispStatus: 'Status not available', refillStatus: 'statusNotAvailable' },
-  ];
-
-  // Expected definition text fragments for each V2 status
-  const V2_DEFINITION_EXPECTATIONS = {
-    active: 'prescription you can fill at a local VA pharmacy',
-    inprogress: 'new prescription or a prescription',
-    inactive: 'prescription you can no longer fill',
-    transferred: 'prescription moved to VA',
-    statusNotAvailable: 'There’s a problem with our system',
-  };
-
   describe('when prescription is null or undefined', () => {
     it('should return null for null prescription', () => {
       const result = prescriptionMedAndRenewalStatus(

@@ -123,7 +123,11 @@ describe('VA prescription Config', () => {
     const rxDetails = { ...prescriptionDetails.data.attributes };
     rxDetails.dispensedDate = undefined;
     rxDetails.rxRfRecords[0].dispensedDate = undefined;
-    const pdfGen = buildVAPrescriptionPDFList(rxDetails, cernerPilotFlag, v2StatusMappingFlag);
+    const pdfGen = buildVAPrescriptionPDFList(
+      rxDetails,
+      cernerPilotFlag,
+      v2StatusMappingFlag,
+    );
     expect(pdfGen[1]).to.not.exist;
   });
 
@@ -131,14 +135,22 @@ describe('VA prescription Config', () => {
     const rxDetails = { ...prescriptionDetails.data.attributes };
     rxDetails.dispensedDate = undefined;
     rxDetails.rxRfRecords = [];
-    const pdfGen = buildVAPrescriptionPDFList(rxDetails, cernerPilotFlag, v2StatusMappingFlag);
+    const pdfGen = buildVAPrescriptionPDFList(
+      rxDetails,
+      cernerPilotFlag,
+      v2StatusMappingFlag,
+    );
     expect(pdfGen[1]).to.not.exist;
   });
 
   it('should create "Refill history" section if there are NO records but original fill record is created', () => {
     const rxDetails = { ...prescriptionDetails.data.attributes };
     rxDetails.rxRfRecords = [];
-    const pdfGen = buildVAPrescriptionPDFList(rxDetails, cernerPilotFlag, v2StatusMappingFlag);
+    const pdfGen = buildVAPrescriptionPDFList(
+      rxDetails,
+      cernerPilotFlag,
+      v2StatusMappingFlag,
+    );
     expect(pdfGen[1].header).to.equal('Refill history');
   });
 
@@ -149,7 +161,11 @@ describe('VA prescription Config', () => {
       { ...rxDetails.rxRfRecords[0] },
       { ...rxDetails.rxRfRecords[0] },
     ];
-    const pdfGen = buildVAPrescriptionPDFList(rxDetails, cernerPilotFlag, v2StatusMappingFlag);
+    const pdfGen = buildVAPrescriptionPDFList(
+      rxDetails,
+      cernerPilotFlag,
+      v2StatusMappingFlag,
+    );
     expect(pdfGen[1].header).to.equal('Refill history');
   });
 
@@ -157,7 +173,11 @@ describe('VA prescription Config', () => {
     const blankPrescription = {
       providerLastName: 'test',
     };
-    const pdfList = buildVAPrescriptionPDFList(blankPrescription, cernerPilotFlag, v2StatusMappingFlag);
+    const pdfList = buildVAPrescriptionPDFList(
+      blankPrescription,
+      cernerPilotFlag,
+      v2StatusMappingFlag,
+    );
     const testVal =
       pdfList[0].sections[0].items[pdfList[0].sections[0].items.length - 1]
         .value;
@@ -169,7 +189,11 @@ describe('VA prescription Config', () => {
     rxDetails.dispStatus = 'NewOrder';
     rxDetails.prescriptionSource = 'PD';
 
-    const pdfList = buildVAPrescriptionPDFList(rxDetails, cernerPilotFlag, v2StatusMappingFlag);
+    const pdfList = buildVAPrescriptionPDFList(
+      rxDetails,
+      cernerPilotFlag,
+      v2StatusMappingFlag,
+    );
     const items = pdfList[0].sections[0].items.map(item => item.label);
     expect(items).to.not.include('Last filled on:');
   });
@@ -179,7 +203,11 @@ describe('VA prescription Config', () => {
     rxDetails.dispStatus = 'Renew';
     rxDetails.prescriptionSource = 'PD';
 
-    const pdfList = buildVAPrescriptionPDFList(rxDetails, cernerPilotFlag, v2StatusMappingFlag);
+    const pdfList = buildVAPrescriptionPDFList(
+      rxDetails,
+      cernerPilotFlag,
+      v2StatusMappingFlag,
+    );
     const items = pdfList[0].sections[0].items.map(item => item.label);
     expect(items).to.not.include('Last filled on:');
   });
@@ -189,7 +217,11 @@ describe('VA prescription Config', () => {
     rxDetails.dispStatus = 'NewOrder';
     rxDetails.prescriptionSource = 'PD';
 
-    const pdfList = buildVAPrescriptionPDFList(rxDetails, cernerPilotFlag, v2StatusMappingFlag);
+    const pdfList = buildVAPrescriptionPDFList(
+      rxDetails,
+      cernerPilotFlag,
+      v2StatusMappingFlag,
+    );
     const status = pdfList[0].sections[0].items.find(
       item => item.title === 'Status',
     );
@@ -203,7 +235,11 @@ describe('VA prescription Config', () => {
     rxDetails.dispStatus = 'Renew';
     rxDetails.prescriptionSource = 'PD';
 
-    const pdfList = buildVAPrescriptionPDFList(rxDetails, cernerPilotFlag, v2StatusMappingFlag);
+    const pdfList = buildVAPrescriptionPDFList(
+      rxDetails,
+      cernerPilotFlag,
+      v2StatusMappingFlag,
+    );
     const status = pdfList[0].sections[0].items.find(
       item => item.title === 'Status',
     );
@@ -246,7 +282,11 @@ describe('Medication Information Config', () => {
 
     describe('VA Prescription config', () => {
       const rxDetails = { ...prescriptionDetails.data.attributes };
-      const pdfGen = buildVAPrescriptionPDFList(rxDetails, cernerPilotFlag, v2StatusMappingFlag);
+      const pdfGen = buildVAPrescriptionPDFList(
+        rxDetails,
+        cernerPilotFlag,
+        v2StatusMappingFlag,
+      );
       const items = pdfGen[0].sections[0].items.map(item => item.title);
 
       it('should NOT show "Reason for Use" field', () => {
