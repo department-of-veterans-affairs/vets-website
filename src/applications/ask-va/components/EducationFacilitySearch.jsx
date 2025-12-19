@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
@@ -13,7 +12,7 @@ const facilities = {
   data: [],
 };
 
-const EducationFacilitySearch = ({ onChange }) => {
+export default function EducationFacilitySearch({ onChange }) {
   const [apiData, setApiData] = useState(facilities);
   const [isSearching, setIsSearching] = useState(false);
   const [pageURL, setPageURL] = useState('');
@@ -99,12 +98,8 @@ const EducationFacilitySearch = ({ onChange }) => {
       )}
     </div>
   );
-};
-
-function mapStateToProps() {}
+}
 
 EducationFacilitySearch.propTypes = {
   onChange: PropTypes.func,
 };
-
-export default connect(mapStateToProps)(EducationFacilitySearch);

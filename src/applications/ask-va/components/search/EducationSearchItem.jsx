@@ -132,15 +132,17 @@ EducationSearchItem.propTypes = {
     errorMessage: PropTypes.string,
   }),
   facilityData: PropTypes.shape({
-    data: PropTypes.arrayOf({
-      id: PropTypes.string,
-      attributes: PropTypes.shape({
-        facilityCode: PropTypes.string,
-        name: PropTypes.string,
-        physicalState: PropTypes.string,
-        physicalZip: PropTypes.string,
+    data: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string,
+        attributes: PropTypes.shape({
+          facilityCode: PropTypes.string,
+          name: PropTypes.string,
+          physicalState: PropTypes.string,
+          physicalZip: PropTypes.string,
+        }),
       }),
-    }),
+    ),
     meta: PropTypes.shape({ count: PropTypes.number }),
     links: PropTypes.shape({ self: PropTypes.string }),
   }),
