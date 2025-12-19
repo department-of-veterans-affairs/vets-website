@@ -59,4 +59,8 @@ describe('IntroductionPage', () => {
     );
     expect(container).to.exist;
   });
+
+  it('should have hideUnauthedStartLink set to true', () => {
+    expect(formConfig.hideUnauthedStartLink).to.equal(true);
+  });
 });

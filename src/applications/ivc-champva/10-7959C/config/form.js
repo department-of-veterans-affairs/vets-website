@@ -28,7 +28,7 @@ import medicarePartACarrier from '../chapters/medicare/partACarrier';
 import medicarePartBCarrier from '../chapters/medicare/partBCarrier';
 import medicareCardUpload from '../chapters/medicare/partsABCardUpload';
 import medicarePartDStatus from '../chapters/medicare/partDStatus';
-import medicarePartDEffectiveDate from '../chapters/medicare/partDEffectiveDate';
+import medicarePartDCarrier from '../chapters/medicare/partDCarrier';
 import medicarePartDCardUpload from '../chapters/medicare/partDCardUpload';
 
 import {
@@ -56,7 +56,7 @@ import { MissingFileConsentPage } from '../components/MissingFileConsentPage';
 import NotEnrolledPage from '../components/FormPages/NotEnrolledPage';
 import { FEATURE_TOGGLES } from '../hooks/useDefaultFormData';
 
-// import mockdata from '../tests/e2e/fixtures/data/test-data.json';
+//  import mockdata from '../tests/e2e/fixtures/data/test-data.json';
 
 // Control whether we show the file overview page by calling `hasReq` to
 // determine if any files have not been uploaded. Defaults to false (hide the page)
@@ -288,11 +288,11 @@ const formConfig = {
         },
         partDCarrier: {
           path: 'medicare-d-carrier',
-          title: 'Medicare Part D effective date',
+          title: 'Medicare Part D carrier',
           depends: formData =>
             get('applicantMedicareStatus', formData) &&
             get('applicantMedicareStatusD', formData),
-          ...medicarePartDEffectiveDate,
+          ...medicarePartDCarrier,
           scrollAndFocusTarget,
         },
         medicareDCards: {
