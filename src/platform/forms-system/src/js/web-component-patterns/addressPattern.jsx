@@ -220,12 +220,33 @@ function getFieldValue(fieldName, addressData, newSchemaKeys = {}) {
   return addressData?.[mappedKey];
 }
 
-// This is a currently unused helper function to get mapped field values from address form data
-// function getAddressFieldValue(fieldName, formData, path, newSchemaKeys = {}) {
-//   const addressPath = getAddressPath(path);
-//   const addressFormData = get(addressPath, formData) ?? {};
-//   return getFieldValue(fieldName, addressFormData, newSchemaKeys);
-// }
+const MAPPABLE_FIELDS = ['street', 'street2', 'street3', 'postalCode'];
+const UNSAFE_FIELDS = ['country', 'city', 'state', 'isMilitary'];
+
+/**
+ * Validates mappable fields and provides warnings for unsafe mappings
+ */
+function validateMappableFields(newSchemaKeys = {}) {
+  const attemptedMappings = Object.keys(newSchemaKeys);
+  const unsafeMappings = attemptedMappings.filter(field =>
+    UNSAFE_FIELDS.includes(field),
+  );
+
+  if (unsafeMappings.length > 0) {
+    // eslint-disable-next-line no-console
+    console.warn(
+      `WARNING: Mapping fields [${unsafeMappings.join(
+        ', ',
+      )}] may cause runtime errors. ` +
+        `These fields have dynamic schema functions that expect original field names. ` +
+        `Safe fields to map: [${MAPPABLE_FIELDS.join(', ')}]. ` +
+        `See JSDoc for addressUI for details on required code changes.`,
+    );
+  }
+
+  // Allow but warn - for development flexibility
+  return true;
+}
 
 /**
  * Applies field key mapping to a schema object
@@ -247,6 +268,8 @@ export function applyKeyMapping(schema, newSchemaKeys = {}, omit = []) {
   if (Object.keys(newSchemaKeys).length === 0) {
     return schema;
   }
+  // Validate that only safe fields are being mapped
+  validateMappableFields(newSchemaKeys);
 
   const mappedSchema = {};
   Object.entries(schema).forEach(([standardKey, fieldConfig]) => {
@@ -272,6 +295,7 @@ export function applyKeyMapping(schema, newSchemaKeys = {}, omit = []) {
  * @param {number} index - index, if form data array of addresses; also included
  *  in the path, but added here to make it easier to distinguish between
  *  addresses not in an array with addresses inside an array
+ * @param {array} newSchemaKeys - Mapping of standard keys to custom keys
  * @returns {object} - updated Form data with manipulated mailing address if the
  * military base checkbox state changes
  */
@@ -353,7 +377,24 @@ export const updateFormDataAddress = (
  * }
  * ```
  * @param {Object} [options]
- * @param {Object} [options.newSchemaKeys] - Maps `street` and `postalCode` keys to custom keys (e.g., {street: 'addressLine1', postalCode: 'zipCode'}) Only street, street2, street3, and postalCode should be mapped, or update replaceSchema and updateSchema functions to account for mapped field names
+ * @param {Object} [options.newSchemaKeys] - Maps standard keys to custom keys (e.g., {street: 'addressLine1', postalCode: 'zipCode'})
+ *
+ * **IMPORTANT**: Only street, street2, street3, and postalCode should be mapped without code modifications.
+ *
+ * Other fields (country, city, state, isMilitary) have dynamic schema functions (updateSchema/replaceSchema)
+ * that access form data using hardcoded field names. Mapping these fields will cause runtime errors because:
+ * - Country field's updateSchema accesses `addressFormData.isMilitary`
+ * - City field's replaceSchema accesses `addressFormData.isMilitary`
+ * - State field's replaceSchema accesses `data.country` and `data.isMilitary`
+ * - Military validation function accesses `addr.isMilitary` and `addr.state`
+ *
+ * To map other fields, you must:
+ * 1. Update all dynamic schema functions to use getFieldValue() helper
+ * 2. Pass newSchemaKeys to validation functions
+ * 3. Update error message references to use mapped field names
+ *
+ * See validateMilitaryBaseZipCode for an example of mapping-aware code.
+ *
  * @param {Object} [options.labels]
  * @param {string} [options.labels.militaryCheckbox]
  * @param {string} [options.labels.street]
