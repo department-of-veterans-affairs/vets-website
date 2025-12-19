@@ -3,7 +3,6 @@ import { environment } from '@department-of-veterans-affairs/platform-utilities/
 import { focusElement } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import GetFormHelp from '../components/GetFormHelp';
 
 const SaveInformationPage = props => {
   const { goBack, goForward, NavButtons = FormNavButtons } = props;
@@ -60,12 +59,6 @@ const SaveInformationPage = props => {
             </div>
           </div>
         </div>
-      </div>
-      <div className="row vads-u-padding-left--2">
-        <h2 className="vads-u-margin-bottom--0 vads-u-padding-bottom--0p5 vads-u-font-size--h3 vads-u-border-bottom--2px vads-u-border-color--primary">
-          Need help?
-        </h2>
-        <GetFormHelp />
       </div>
     </>
   );
