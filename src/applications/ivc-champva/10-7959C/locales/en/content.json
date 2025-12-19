@@ -76,5 +76,7 @@
   "medicare--part-d-card-title": "Upload Medicare card for Hospital and Medical insurance",
   "medicare--part-d-card-description": "You\u2019ll need to submit a copy of the front and back of the beneficiary\u2019s Medicare Part D card.",
   "medicare--part-d-card-label--front": "Upload front of Part D Medicare card",
-  "medicare--part-d-card-label--back": "Upload back of Part D Medicare card"
+  "medicare--part-d-card-label--back": "Upload back of Part D Medicare card",
+  "validation--text-characters--singular": "You entered a character we can\u2019t accept. Try removing this character",
+  "validation--text-characters--plural": "You entered multiple characters we can\u2019t accept. Try removing these characters"
 }
