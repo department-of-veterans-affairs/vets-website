@@ -1,7 +1,7 @@
 import MedicationsSite from './med_site/MedicationsSite';
 import rxList from './fixtures/listOfPrescriptions.json';
 import MedicationsListPage from './pages/MedicationsListPage';
-import { Data, Paths } from './utils/constants';
+import { Paths } from './utils/constants';
 import renewRx from './fixtures/filter-prescriptions.json';
 
 describe('Medications List Page Renewal Filter Option', () => {
@@ -25,11 +25,11 @@ describe('Medications List Page Renewal Filter Option', () => {
       Paths.INTERCEPT.RENEW_FILTER_LIST,
       renewRx,
     );
-    listPage.verifyFocusOnPaginationTextInformationOnListPage(
-      Data.PAGINATION_RENEW,
-    );
     listPage.verifyFilterAriaRegionText(
       'Filter applied: Renewal needed before refill.',
+    );
+    listPage.verifyFilterAriaRegionText(
+      'Showing 1 - 10 of 29  renewal needed before refill medications, alphabetically by status',
     );
   });
 });

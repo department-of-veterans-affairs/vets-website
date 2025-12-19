@@ -1,7 +1,7 @@
 import MedicationsSite from './med_site/MedicationsSite';
 import rxList from './fixtures/listOfPrescriptions.json';
 import MedicationsListPage from './pages/MedicationsListPage';
-import { Data, Paths } from './utils/constants';
+import { Paths } from './utils/constants';
 import requestedRx from './fixtures/filter-prescriptions.json';
 
 describe('Medications List Page Recently Requested Filter Option', () => {
@@ -23,9 +23,9 @@ describe('Medications List Page Recently Requested Filter Option', () => {
       Paths.INTERCEPT.RECENTLY_REQUESTED_FILTER_LIST,
       requestedRx,
     );
-    listPage.verifyFocusOnPaginationTextInformationOnListPage(
-      Data.PAGINATION_RECENTLY_REQUESTED,
-    );
     listPage.verifyFilterAriaRegionText('Filter applied: Recently requested.');
+    listPage.verifyFilterAriaRegionText(
+      'Showing 1 - 10 of 29  recently requested medications, alphabetically by status',
+    );
   });
 });

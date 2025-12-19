@@ -1,7 +1,7 @@
 import MedicationsSite from './med_site/MedicationsSite';
 import rxList from './fixtures/listOfPrescriptions.json';
 import MedicationsListPage from './pages/MedicationsListPage';
-import { Data, Paths } from './utils/constants';
+import { Paths } from './utils/constants';
 
 import nonActiveRx from './fixtures/filter-non-active-prescriptions.json';
 
@@ -24,9 +24,9 @@ describe('Medications List Page Non-Active Filter Option', () => {
       Paths.INTERCEPT.NON_ACTIVE_FILTER_LIST,
       nonActiveRx,
     );
-    listPage.verifyFocusOnPaginationTextInformationOnListPage(
-      Data.PAGINATION_NON_ACTIVE,
-    );
     listPage.verifyFilterAriaRegionText('Filter applied: Non-active.');
+    listPage.verifyFilterAriaRegionText(
+      'Showing 1 - 10 of 15  non-active medications, alphabetically by status',
+    );
   });
 });
