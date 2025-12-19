@@ -19,12 +19,13 @@ const PharmacyClaimsDescription = (
         Name, address, and phone number of the pharmacy, <strong>and</strong>
       </li>
       <li>
-        Name, dosage, strength, quantity, and cost of the medication—including
-        the amount of your copay, <strong>and</strong>
+        Name, dosage, strength, quantity, and cost of the
+        medication&mdash;including the amount of your copay,{' '}
+        <strong>and</strong>
       </li>
       <li>
-        11-digit National Drug Code (NDC) for each medication—including the
-        amount of your copay, <strong>and</strong>
+        11-digit National Drug Code (NDC) for each medication,{' '}
+        <strong>and</strong>
       </li>
       <li>
         Date the pharmacy filled the prescription, <strong>and</strong>
