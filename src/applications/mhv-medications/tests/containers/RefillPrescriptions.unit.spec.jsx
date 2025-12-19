@@ -3,6 +3,10 @@ import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/plat
 import sinon from 'sinon';
 import { expect } from 'chai';
 import { waitFor } from '@testing-library/react';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+import { commonReducer } from 'platform/startup/store';
+import * as useAcceleratedDataModule from '~/platform/mhv/hooks/useAcceleratedData';
 import * as allergiesApiModule from '../../api/allergiesApi';
 import * as prescriptionsApiModule from '../../api/prescriptionsApi';
 import { stubAllergiesApi } from '../testing-utils';
@@ -18,8 +22,16 @@ const initMockApis = ({
   sinonSandbox,
   prescriptions = refillablePrescriptions,
   isLoading = false,
+  isAcceleratingMedications = false,
 }) => {
   stubAllergiesApi({ sandbox });
+
+  sinonSandbox.stub(useAcceleratedDataModule, 'default').returns({
+    isAcceleratingMedications,
+    isAcceleratingAllergies: false,
+    isCerner: false,
+    isLoading: false,
+  });
 
   sinonSandbox
     .stub(prescriptionsApiModule, 'useGetRefillablePrescriptionsQuery')
@@ -62,7 +74,9 @@ describe('Refill Prescriptions Component', () => {
         ],
       },
     },
-    featureToggles: {},
+    featureToggles: {
+      loading: false,
+    },
     user: {
       login: {
         currentlyLoggedIn: true,
@@ -71,14 +85,22 @@ describe('Refill Prescriptions Component', () => {
   };
 
   const setup = (state = initialState) => {
-    return renderWithStoreAndRouterV6(<RefillPrescriptions />, {
-      initialState: state,
-      reducers: reducer,
-      initialEntries: ['/refill'],
-      additionalMiddlewares: [
+    const testStore = createStore(
+      combineReducers({
+        ...commonReducer,
+        ...reducer,
+      }),
+      state,
+      applyMiddleware(
+        thunk,
         allergiesApiModule.allergiesApi.middleware,
         prescriptionsApiModule.prescriptionsApi.middleware,
-      ],
+      ),
+    );
+
+    return renderWithStoreAndRouterV6(<RefillPrescriptions />, {
+      store: testStore,
+      initialEntries: ['/refill'],
     });
   };
 
@@ -191,25 +213,25 @@ describe('Refill Prescriptions Component', () => {
       );
   });
 
-  it('does not show "Not filled yet" when Cerner pilot is enabled', async () => {
+  it('does not show "Not filled yet" when accelerating medications', async () => {
     sandbox.restore();
+    sandbox = sinon.createSandbox();
+
     // Create a prescription with no dispense date
     const rxWithNoDispenseDate = {
       ...refillablePrescriptions[0],
       dispensedDate: null,
       sortedDispensedDate: null,
     };
+
+    // Initialize mocks with accelerating medications enabled
     initMockApis({
       sinonSandbox: sandbox,
       prescriptions: [rxWithNoDispenseDate],
+      isAcceleratingMedications: true,
     });
-    const screen = setup({
-      ...initialState,
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        mhv_medications_cerner_pilot: true,
-      },
-    });
+
+    const screen = setup(initialState);
     const lastFilledEl = await screen.findByTestId(
       'refill-prescription-checkbox-0',
     );
@@ -314,12 +336,23 @@ describe('Refill Prescriptions Component', () => {
     expect(screen.getByTestId('no-refills-message')).to.exist;
   });
 
-  describe('Oracle Health Pilot Flag Tests', () => {
-    it('calls bulkRefillPrescriptions with simple IDs when pilot flag is disabled', async () => {
+  describe('Accelerated Data Tests', () => {
+    it('calls bulkRefillPrescriptions with simple IDs when not accelerating medications', async () => {
       sandbox.restore();
+      sandbox = sinon.createSandbox();
+
       const bulkRefillStub = sinon.stub().resolves({
         data: { successfulIds: [22377956], failedIds: [] },
       });
+
+      // Mock useAcceleratedData to return isAcceleratingMedications: false
+      sandbox.stub(useAcceleratedDataModule, 'default').returns({
+        isAcceleratingMedications: false,
+        isAcceleratingAllergies: false,
+        isCerner: false,
+        isLoading: false,
+      });
+
       sandbox
         .stub(prescriptionsApiModule, 'useGetRefillablePrescriptionsQuery')
         .returns({
@@ -336,15 +369,7 @@ describe('Refill Prescriptions Component', () => {
         .returns([bulkRefillStub, { isLoading: false, error: null }]);
       stubAllergiesApi({ sandbox });
 
-      const stateWithPilotDisabled = {
-        ...initialState,
-        featureToggles: {
-          // eslint-disable-next-line camelcase
-          mhv_medications_cerner_pilot: false,
-        },
-      };
-
-      const screen = setup(stateWithPilotDisabled);
+      const screen = setup(initialState);
       const checkbox = await screen.findByTestId(
         'refill-prescription-checkbox-0',
       );
@@ -355,13 +380,18 @@ describe('Refill Prescriptions Component', () => {
 
       await waitFor(() => {
         expect(bulkRefillStub.calledOnce).to.be.true;
-        // Should pass array of simple IDs when pilot flag is disabled
-        expect(bulkRefillStub.firstCall.args[0]).to.deep.equal([22377956]);
+        // Should pass object with ids array and isAcceleratingMedications flag
+        expect(bulkRefillStub.firstCall.args[0]).to.deep.equal({
+          ids: [22377956],
+          isAcceleratingMedications: false,
+        });
       });
     });
 
-    it('calls bulkRefillPrescriptions with ID objects when pilot flag is enabled', async () => {
+    it('calls bulkRefillPrescriptions with ID objects when accelerating medications', async () => {
       sandbox.restore();
+      sandbox = sinon.createSandbox();
+
       const bulkRefillStub = sinon.stub().resolves({
         data: {
           successfulIds: [{ id: 22377956, stationNumber: '989' }],
@@ -372,6 +402,15 @@ describe('Refill Prescriptions Component', () => {
         ...refillablePrescriptions[0],
         stationNumber: '989',
       };
+
+      // Mock useAcceleratedData to return isAcceleratingMedications: true
+      sandbox.stub(useAcceleratedDataModule, 'default').returns({
+        isAcceleratingMedications: true,
+        isAcceleratingAllergies: false,
+        isCerner: false,
+        isLoading: false,
+      });
+
       sandbox
         .stub(prescriptionsApiModule, 'useGetRefillablePrescriptionsQuery')
         .returns({
@@ -388,15 +427,7 @@ describe('Refill Prescriptions Component', () => {
         .returns([bulkRefillStub, { isLoading: false, error: null }]);
       stubAllergiesApi({ sandbox });
 
-      const stateWithPilotEnabled = {
-        ...initialState,
-        featureToggles: {
-          // eslint-disable-next-line camelcase
-          mhv_medications_cerner_pilot: true,
-        },
-      };
-
-      const screen = setup(stateWithPilotEnabled);
+      const screen = setup(initialState);
       const checkbox = await screen.findByTestId(
         'refill-prescription-checkbox-0',
       );
@@ -407,15 +438,18 @@ describe('Refill Prescriptions Component', () => {
 
       await waitFor(() => {
         expect(bulkRefillStub.calledOnce).to.be.true;
-        // Should pass array of ID objects with stationNumber when pilot flag is enabled
-        expect(bulkRefillStub.firstCall.args[0]).to.deep.equal([
-          { id: 22377956, stationNumber: '989' },
-        ]);
+        // Should pass object with ids array of ID objects and isAcceleratingMedications flag
+        expect(bulkRefillStub.firstCall.args[0]).to.deep.equal({
+          ids: [{ id: 22377956, stationNumber: '989' }],
+          isAcceleratingMedications: true,
+        });
       });
     });
 
-    it('matches medications by ID and stationNumber when pilot flag is enabled', async () => {
+    it('matches medications by ID and stationNumber when accelerating medications', async () => {
       sandbox.restore();
+      sandbox = sinon.createSandbox();
+
       const bulkRefillStub = sinon.stub().resolves({
         data: {
           successfulIds: [{ id: 22377956, stationNumber: '989' }],
@@ -426,6 +460,15 @@ describe('Refill Prescriptions Component', () => {
         ...refillablePrescriptions[0],
         stationNumber: '989',
       };
+
+      // Mock useAcceleratedData to return isAcceleratingMedications: true
+      sandbox.stub(useAcceleratedDataModule, 'default').returns({
+        isAcceleratingMedications: true,
+        isAcceleratingAllergies: false,
+        isCerner: false,
+        isLoading: false,
+      });
+
       sandbox
         .stub(prescriptionsApiModule, 'useGetRefillablePrescriptionsQuery')
         .returns({
@@ -442,15 +485,7 @@ describe('Refill Prescriptions Component', () => {
         .returns([bulkRefillStub, { isLoading: false, error: null }]);
       stubAllergiesApi({ sandbox });
 
-      const stateWithPilotEnabled = {
-        ...initialState,
-        featureToggles: {
-          // eslint-disable-next-line camelcase
-          mhv_medications_cerner_pilot: true,
-        },
-      };
-
-      const screen = setup(stateWithPilotEnabled);
+      const screen = setup(initialState);
       const checkbox = await screen.findByTestId(
         'refill-prescription-checkbox-0',
       );
@@ -465,14 +500,25 @@ describe('Refill Prescriptions Component', () => {
       });
     });
 
-    it('matches medications by ID only when pilot flag is disabled', async () => {
+    it('matches medications by ID only when not accelerating medications', async () => {
       sandbox.restore();
+      sandbox = sinon.createSandbox();
+
       const bulkRefillStub = sinon.stub().resolves({
         data: {
           successfulIds: [22377956],
           failedIds: [],
         },
       });
+
+      // Mock useAcceleratedData to return isAcceleratingMedications: false
+      sandbox.stub(useAcceleratedDataModule, 'default').returns({
+        isAcceleratingMedications: false,
+        isAcceleratingAllergies: false,
+        isCerner: false,
+        isLoading: false,
+      });
+
       sandbox
         .stub(prescriptionsApiModule, 'useGetRefillablePrescriptionsQuery')
         .returns({
@@ -489,15 +535,7 @@ describe('Refill Prescriptions Component', () => {
         .returns([bulkRefillStub, { isLoading: false, error: null }]);
       stubAllergiesApi({ sandbox });
 
-      const stateWithPilotDisabled = {
-        ...initialState,
-        featureToggles: {
-          // eslint-disable-next-line camelcase
-          mhv_medications_cerner_pilot: false,
-        },
-      };
-
-      const screen = setup(stateWithPilotDisabled);
+      const screen = setup(initialState);
       const checkbox = await screen.findByTestId(
         'refill-prescription-checkbox-0',
       );

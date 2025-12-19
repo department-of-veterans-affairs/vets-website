@@ -81,17 +81,16 @@ import FilterAriaRegion from '../components/MedicationsList/FilterAriaRegion';
 import RxRenewalDeleteDraftSuccessAlert from '../components/shared/RxRenewalDeleteDraftSuccessAlert';
 import { useURLPagination } from '../hooks/useURLPagination';
 import { usePageTitle } from '../hooks/usePageTitle';
-import { selectCernerPilotFlag } from '../util/selectors';
 
 const Prescriptions = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const isCernerPilot = useSelector(selectCernerPilotFlag);
   const ssoe = useSelector(isAuthenticatedWithSSOe);
   const userName = useSelector(selectUserFullName);
   const dob = useSelector(selectUserDob);
   const hasMedsByMailFacility = useSelector(selectHasMedsByMailFacility);
   const {
+    isAcceleratingMedications,
     isAcceleratingAllergies,
     isCerner,
     isLoading: isAcceleratedDataLoading,
@@ -132,7 +131,10 @@ const Prescriptions = () => {
     error: prescriptionsApiError,
     isLoading: isPrescriptionsLoading,
     isFetching: isPrescriptionsFetching,
-  } = useGetPrescriptionsListQuery(queryParams);
+  } = useGetPrescriptionsListQuery(
+    { ...queryParams, isAcceleratingMedications },
+    { skip: isAcceleratedDataLoading },
+  );
 
   const isLoading = isPrescriptionsLoading || isPrescriptionsFetching;
 
@@ -372,12 +374,18 @@ const Prescriptions = () => {
 
       if (format === DOWNLOAD_FORMAT.PDF) {
         generatePDF(
-          buildPrescriptionsPDFList(prescriptionsExportList, isCernerPilot),
+          buildPrescriptionsPDFList(
+            prescriptionsExportList,
+            isAcceleratingMedications,
+          ),
           buildAllergiesPDFList(allergies),
         );
       } else if (format === DOWNLOAD_FORMAT.TXT) {
         generateTXT(
-          buildPrescriptionsTXT(prescriptionsExportList, isCernerPilot),
+          buildPrescriptionsTXT(
+            prescriptionsExportList,
+            isAcceleratingMedications,
+          ),
           buildAllergiesTXT(allergies),
         );
       } else if (format === PRINT_FORMAT.PRINT) {
@@ -396,7 +404,7 @@ const Prescriptions = () => {
       pdfTxtGenerateStatus,
       generatePDF,
       generateTXT,
-      isCernerPilot,
+      isAcceleratingMedications,
     ],
   );
 

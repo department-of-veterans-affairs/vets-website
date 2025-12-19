@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import useAcceleratedData from '~/platform/mhv/hooks/useAcceleratedData';
+
 import {
   getPrescriptionsList,
   getPrescriptionById,
@@ -11,6 +13,11 @@ import {
  * @returns {object} - The prescription data, loading state, and error state
  */
 export const usePrescriptionData = (prescriptionId, queryParams) => {
+  const {
+    isAcceleratingMedications,
+    isLoading: isAcceleratedDataLoading,
+  } = useAcceleratedData();
+
   const [
     cachedPrescriptionAvailable,
     setCachedPrescriptionAvailable,
@@ -20,18 +27,24 @@ export const usePrescriptionData = (prescriptionId, queryParams) => {
   const [isLoading, setIsLoading] = useState(true);
 
   // Get cached prescription from list if available
-  const cachedPrescription = getPrescriptionsList.useQueryState(queryParams, {
-    selectFromResult: ({ data: prescriptionsList }) => {
-      return prescriptionsList?.prescriptions?.find(
-        item => String(item.prescriptionId) === String(prescriptionId),
-      );
+  const cachedPrescription = getPrescriptionsList.useQueryState(
+    { ...queryParams, isAcceleratingMedications },
+    {
+      selectFromResult: ({ data: prescriptionsList }) => {
+        return prescriptionsList?.prescriptions?.find(
+          item => String(item.prescriptionId) === String(prescriptionId),
+        );
+      },
     },
-  });
+  );
 
   // Fetch individual prescription when needed
   const { data, error, isLoading: queryLoading } = getPrescriptionById.useQuery(
-    prescriptionId,
-    { skip: cachedPrescriptionAvailable },
+    {
+      id: prescriptionId,
+      isAcceleratingMedications,
+    },
+    { skip: cachedPrescriptionAvailable || isAcceleratedDataLoading },
   );
 
   // Handle prescription data from either source

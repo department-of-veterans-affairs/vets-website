@@ -35,18 +35,25 @@ import ProcessList from '../components/shared/ProcessList';
 import { refillProcessStepGuide } from '../util/processListData';
 import { useGetAllergiesQuery } from '../api/allergiesApi';
 import { selectUserDob, selectUserFullName } from '../selectors/selectUser';
-import { selectCernerPilotFlag } from '../util/selectors';
-
 import { selectSortOption } from '../selectors/selectPreferences';
 
 const RefillPrescriptions = () => {
   const {
+    isAcceleratingMedications,
+    isAcceleratingAllergies,
+    isCerner,
+    isLoading: isAcceleratedDataLoading,
+  } = useAcceleratedData();
+  const isCernerPilot = isAcceleratingMedications;
+
+  const {
     data: refillableData,
     isLoading,
     error: refillableError,
-  } = useGetRefillablePrescriptionsQuery();
-
-  const isCernerPilot = useSelector(selectCernerPilotFlag);
+  } = useGetRefillablePrescriptionsQuery(
+    { isAcceleratingMedications },
+    { skip: isAcceleratedDataLoading },
+  );
 
   const [
     bulkRefillPrescriptions,
@@ -114,11 +121,6 @@ const RefillPrescriptions = () => {
 
   // Selectors
   const selectedSortOption = useSelector(selectSortOption);
-  const {
-    isAcceleratingAllergies,
-    isCerner,
-    isLoading: isAcceleratedDataLoading,
-  } = useAcceleratedData();
 
   // Get refillable list from RTK Query result
   // Filter out successfully refilled prescriptions to provide immediate UI feedback
@@ -168,14 +170,17 @@ const RefillPrescriptions = () => {
 
       // Get just the prescription IDs for the bulk refill
       const prescriptionIds = selectedRefillList.map(rx => {
-        if (isCernerPilot) {
+        if (isAcceleratingMedications) {
           return { id: rx.prescriptionId, stationNumber: rx.stationNumber };
         }
         return rx.prescriptionId;
       });
 
       try {
-        await bulkRefillPrescriptions(prescriptionIds).unwrap();
+        await bulkRefillPrescriptions({
+          ids: prescriptionIds,
+          isAcceleratingMedications,
+        }).unwrap();
         setRefillStatus(REFILL_STATUS.FINISHED);
         setSelectedRefillList([]);
       } catch (error) {
