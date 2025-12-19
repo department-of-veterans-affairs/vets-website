@@ -203,7 +203,7 @@ describe('SM CONTACT LIST', () => {
     cy.findByTestId('contact-list-save').click();
 
     // Loading indicator should appear during save
-    cy.get('[data-testid="contact-list-saving-indicator"]')
+    cy.findByTestId('contact-list-saving-indicator')
       .should('exist')
       .and('have.attr', 'message', 'Saving your contact list...');
 
