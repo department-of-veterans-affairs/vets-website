@@ -36,6 +36,8 @@ import {
   validateRequestedAmount,
   validateAirTravelFields,
   validateCommonCarrierFields,
+  validateLodgingFields,
+  validateMealFields,
 } from '../../../util/expense-validation-helpers';
 
 import TravelPayButtonPair from '../../shared/TravelPayButtonPair';
@@ -223,6 +225,10 @@ const ExpensePage = () => {
             nextErrors,
             name,
           );
+        } else if (isLodging) {
+          nextErrors = validateLodgingFields(newFormState, nextErrors, name);
+        } else if (isMeal) {
+          nextErrors = validateMealFields(newFormState, nextErrors, name);
         }
 
         return nextErrors;
@@ -290,6 +296,16 @@ const ExpensePage = () => {
     // Airtravel-specific validations
     if (isAirTravel) {
       errors = validateAirTravelFields(formState, errors);
+    }
+
+    // Lodging-specific validations
+    if (isLodging) {
+      errors = validateLodgingFields(formState, errors);
+    }
+
+    // Meal-specific validations
+    if (isMeal) {
+      errors = validateMealFields(formState, errors);
     }
 
     setExtraFieldErrors(errors);
@@ -505,12 +521,17 @@ const ExpensePage = () => {
         uploadError={extraFieldErrors.receipt || uploadError || undefined}
       />
       {isMeal && (
-        <ExpenseMealFields formState={formState} onChange={handleFormChange} />
+        <ExpenseMealFields
+          formState={formState}
+          onChange={handleFormChange}
+          errors={extraFieldErrors}
+        />
       )}
       {isLodging && (
         <ExpenseLodgingFields
           formState={formState}
           onChange={handleFormChange}
+          errors={extraFieldErrors}
         />
       )}
       {isCommonCarrier && (
