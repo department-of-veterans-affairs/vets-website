@@ -94,6 +94,9 @@ const LabsAndTests = () => {
 
   const { isLoading, isAcceleratingLabsAndTests } = useAcceleratedData();
 
+  const isLoadingAcceleratedData =
+    isAcceleratingLabsAndTests && listState === loadStates.FETCHING;
+
   const dispatchAction = useMemo(
     () => {
       return isCurrent => {
@@ -127,9 +130,6 @@ const LabsAndTests = () => {
     updateListActionType: Actions.LabsAndTests.UPDATE_LIST_STATE,
     reloadRecordsAction: reloadRecords,
   });
-
-  const isLoadingAcceleratedData =
-    isAcceleratingLabsAndTests && listState === loadStates.FETCHING;
 
   useEffect(
     () => {
@@ -222,7 +222,8 @@ const LabsAndTests = () => {
           </div>
         )}
         {!isLoadingAcceleratedData &&
-          !isLoading && (
+          !isLoading &&
+          labsAndTests !== undefined && (
             <>
               {labsAndTests?.length ? (
                 <>

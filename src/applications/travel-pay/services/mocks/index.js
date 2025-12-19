@@ -160,6 +160,7 @@ const responses = {
           source: '0.0',
           parsedValue: 0,
         },
+        tripType: 'RoundTrip',
         id: 'a48d48d4-cdc5-4922-8355-c1a9b2742feb',
         documentId: '',
       },
@@ -262,42 +263,49 @@ const responses = {
         mimetype:
           'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
         createdon: '2025-03-12T21:15:27Z',
+        expenseId: 'e82h82h8-ghg9-8e66-c799-g5ed16186jif',
       },
       {
         documentId: 'a5137021-87ff-ef11-9341-001dd809b68c',
         filename: 'Toll.pdf',
         mimetype: 'application/pdf',
         createdon: '2025-03-12T21:15:33Z',
+        expenseId: 'f93i93i9-hih0-9f77-d800-h6fe27297kjg',
       },
       {
         documentId: '4f6f751b-87ff-ef11-9341-001dd854jutt',
         filename: 'CommonCarrier.jpg',
         mimetype: 'image/jpeg',
         createdon: '2025-03-24T14:02:52.893Z',
+        expenseId: 'g04j04j0-iji1-0g88-e911-i7gf38308lkh',
       },
       {
         documentId: '0ab14628-6531-4a6c-b836-97a92fb35a9e',
         filename: 'Airtravel.jpg',
         mimetype: 'image/jpeg',
         createdon: '2025-03-24T14:04:00.893Z',
+        expenseId: 'h15k15k1-jkj2-1h99-f022-j8hg49419mli',
       },
       {
         documentId: '887ead10-d849-428c-b83b-50a054fd968b',
         filename: 'lodging.txt',
         mimetype: '',
         createdon: '2025-03-24T14:06:52.893Z',
+        expenseId: 'b59e59e5-ded6-5b33-9466-d2ba83853gfc',
       },
       {
         documentId: '887ead10-d849-428c-b83b-50a05434rtfe',
         filename: 'meal.txt',
         mimetype: '',
         createdon: '2025-03-24T14:06:52.893Z',
+        expenseId: 'c60f60f6-efe7-6c44-a577-e3cb94964hgd',
       },
       {
         documentId: '887ead10-d849-428c-b83b-50a053re44wr',
         filename: 'other.txt',
         mimetype: '',
         createdon: '2025-03-24T14:06:52.893Z',
+        expenseId: 'd71g71g7-fgf8-7d55-b688-f4dc05075ihe',
       },
     ];
     return res.json(details);
@@ -445,7 +453,7 @@ const responses = {
       }
       default:
         // For any other ID, return the original mock
-        return res.json(appointment.original);
+        return res.json(appointment.savedClaim);
     }
   },
   // 'GET /vaos/v2/appointments/:id': (req, res) => {
