@@ -30,9 +30,9 @@ const HealthCareSettings = () => {
         background
         title="Manage your other health care needs on My HealtheVet"
       >
-        <h3 className="vads-u-margin-top--0">
+        <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
           Manage your other health care needs on My HealtheVet
-        </h3>
+        </h2>
         <p className="vads-u-margin-bottom--0">
           Go to My HealtheVet on VA.gov to manage your appointments,
           medications, and more.
