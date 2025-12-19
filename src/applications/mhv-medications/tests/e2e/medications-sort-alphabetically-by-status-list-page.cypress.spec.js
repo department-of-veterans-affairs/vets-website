@@ -10,16 +10,16 @@ describe('Medications List Page Sort Alphabetically By Status', () => {
     const sortedData = listPage.sortPrescriptionsByNameAndLastFillDate(rxList);
     site.login();
     listPage.visitMedicationsListPageURL(rxList);
+    listPage.selectSortDropDownOption('Alphabetically by name');
     cy.intercept(
       'GET',
       '/my_health/v1/prescriptions?page=1&per_page=10&sort=alphabetical-rx-name',
       sortedData,
     ).as('sortedPrescriptions');
-    listPage.visitMedicationsListPageURL(sortedData);
+    listPage.visitMedicationsListPageURL(sortedData); // revisit the page so the name option is selected
 
-    // Alphabetically by status is the default value, so select a different option then switch back
-    listPage.selectSortDropDownOption('Alphabetically by name');
     listPage.selectSortDropDownOption('Alphabetically by status');
+    listPage.verifyFilterAriaRegionText('Sorting: Alphabetically by status.');
 
     listPage.validateMedicationsListSorted(sortedData);
     listPage.verifyPaginationDisplayedforSortAlphabeticallyByStatus(
@@ -27,8 +27,8 @@ describe('Medications List Page Sort Alphabetically By Status', () => {
       10,
       listLength,
     );
-    listPage.verifySortScreenReaderActionText(
-      'Sorting: Alphabetically by status',
+    listPage.verifyFilterAriaRegionText(
+      'Showing 1 - 10 of 29 medications, alphabetically by status',
     );
     cy.injectAxe();
     cy.axeCheck('main');

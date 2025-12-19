@@ -14,6 +14,7 @@ export {
 } from './filterRecentlyRequestedForAlerts';
 export { fromToNumbs } from './fromToNumbs';
 export { generateMedicationsPDF } from './generateMedicationsPDF';
+export { generateFilterAndSortText } from './generateFilterAndSortText';
 export { generateTextFile } from './generateTextFile';
 export { generateTimestampForFilename } from './generateTimestampForFilename';
 export { getErrorTypeFromFormat } from './getErrorTypeFromFormat';

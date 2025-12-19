@@ -16,7 +16,7 @@ import {
   selectV2StatusMappingFlag,
 } from '../../util/selectors';
 import PrescriptionPrintOnly from '../PrescriptionDetails/PrescriptionPrintOnly';
-import { fromToNumbs } from '../../util/helpers';
+import { fromToNumbs, generateFilterAndSortText } from '../../util/helpers';
 import { dataDogActionNames } from '../../util/dataDogConstants';
 import { selectPrescriptionId } from '../../selectors/selectPrescription';
 import { selectFilterOption } from '../../selectors/selectPreferences';
@@ -84,16 +84,6 @@ const MedicationsList = props => {
     );
   };
 
-  // used to create aria-label for filter and sort info (for Firefox)
-  const filterAndSortAriaLabel = () => {
-    const allMedsSelected = selectedFilterOption === ALL_MEDICATIONS_FILTER_KEY;
-    const filterText =
-      !isFullList && !allMedsSelected
-        ? `${selectedFilterDisplay} medications`
-        : 'medications';
-    return `${filterText}, ${sortOptionLowercase}`;
-  };
-
   return (
     <>
       <p
@@ -102,7 +92,11 @@ const MedicationsList = props => {
         id="showingRx"
         aria-label={`Showing ${displayNums[0]} - ${
           displayNums[1]
-        } of ${totalMedications} ${filterAndSortAriaLabel()}`}
+        } of ${totalMedications} ${generateFilterAndSortText(
+          selectedFilterOption,
+          selectedSortOption,
+          isFullList,
+        )}`}
       >
         <span className="no-print">
           {`Showing ${displayNums[0]} - ${

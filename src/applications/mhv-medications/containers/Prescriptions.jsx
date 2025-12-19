@@ -6,7 +6,7 @@ import React, {
   useState,
 } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom-v5-compat';
-import { useSelector, useDispatch } from 'react-redux';
+import { batch, useSelector, useDispatch } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import useAcceleratedData from '~/platform/mhv/hooks/useAcceleratedData';
@@ -23,6 +23,8 @@ import {
   dateFormat,
   displayHeaderPrefaceText,
   displayMedicationsListHeader,
+  fromToNumbs,
+  generateFilterAndSortText,
   generateTextFile,
   generateTimestampForFilename,
   getErrorTypeFromFormat,
@@ -81,7 +83,7 @@ import {
 } from '../util/selectors';
 import { buildPdfData } from '../util/buildPdfData';
 import { generateMedicationsPdfFile } from '../util/generateMedicationsPdfFile';
-import FilterAriaRegion from '../components/MedicationsList/FilterAriaRegion';
+import MedicationsListResultsAriaRegion from '../components/MedicationsList/MedicationsListResultsAriaRegion';
 import RxRenewalDeleteDraftSuccessAlert from '../components/shared/RxRenewalDeleteDraftSuccessAlert';
 import { useURLPagination } from '../hooks/useURLPagination';
 import { usePageTitle } from '../hooks/usePageTitle';
@@ -165,12 +167,14 @@ const Prescriptions = () => {
     false,
   );
   const isAlertVisible = useMemo(() => false, []);
-  const [isFirstLoad, setIsFirstLoad] = useState(true);
+  const isFirstLoadRef = useRef(true);
+  const isFirstLoad = isFirstLoadRef.current;
   const [loadingMessage, setLoadingMessage] = useState('');
   const [pdfTxtGenerateStatus, setPdfTxtGenerateStatus] = useState({
     status: PDF_TXT_GENERATE_STATUS.NotStarted,
     format: undefined,
   });
+  const [listResultsText, setListResultsText] = useState('');
   const scrollLocation = useRef();
   const { data: allergies, error: allergiesError } = useGetAllergiesQuery(
     {
@@ -194,39 +198,51 @@ const Prescriptions = () => {
       `${isFiltering ? 'Filtering' : 'Sorting'} your medications...`,
     );
 
-    if (isFiltering) {
-      updates.filterOption = currentFilterOptions[newFilterOption]?.url || '';
-      updates.page = 1;
+    /**
+     * batch needs to be used here to prevent re-renders and out of sync state.
+     *
+     * Without using batch, the selected filter/sort options can get out of sync with
+     * the queryParams used to fetch the prescriptions list
+     *
+     * Look into removing this when we use React 18+ which has automatic batching
+     */
+    batch(() => {
+      if (isFiltering) {
+        updates.filterOption = currentFilterOptions[newFilterOption]?.url || '';
+        updates.page = 1;
 
-      if (newFilterOption === selectedFilterOption) {
-        document.getElementById('showingRx').scrollIntoView({
-          behavior: 'smooth',
-          block: 'start',
-          inline: 'nearest',
+        if (newFilterOption === selectedFilterOption) {
+          document.getElementById('showingRx').scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+            inline: 'nearest',
+          });
+        }
+
+        dispatch(setFilterOption(newFilterOption));
+        dispatch(setPageNumber(1));
+      }
+
+      if (newSortOption && newSortOption !== selectedSortOption) {
+        updates.sortEndpoint = rxListSortingOptions[newSortOption].API_ENDPOINT;
+        updates.page = 1;
+
+        dispatch(setSortOption(newSortOption));
+        setPdfTxtGenerateStatus({
+          ...pdfTxtGenerateStatus,
+          status: PDF_TXT_GENERATE_STATUS.NotStarted,
         });
       }
 
-      dispatch(setFilterOption(newFilterOption));
-      dispatch(setPageNumber(1));
-    }
-
-    if (newSortOption && newSortOption !== selectedSortOption) {
-      updates.sortEndpoint = rxListSortingOptions[newSortOption].API_ENDPOINT;
-      dispatch(setSortOption(newSortOption));
-      setPdfTxtGenerateStatus({
-        ...pdfTxtGenerateStatus,
-        status: PDF_TXT_GENERATE_STATUS.NotStarted,
-      });
-    }
-
-    // Only update if we have changes
-    if (Object.keys(updates).length > 0) {
-      setQueryParams(prev => ({
-        ...prev,
-        ...updates,
-      }));
-      setPrescriptionsExportList([]);
-    }
+      // Only update if we have changes
+      if (Object.keys(updates).length > 0) {
+        setQueryParams(prev => ({
+          ...prev,
+          ...updates,
+        }));
+        setPrescriptionsExportList([]);
+      }
+    });
 
     navigate('/?page=1', { replace: true });
   };
@@ -244,12 +260,12 @@ const Prescriptions = () => {
       if (!isLoading) {
         if (prescriptionId) {
           goToPrevious();
-        } else {
+        } else if (isFirstLoad) {
           focusElement(document.querySelector('h1'));
         }
       }
     },
-    [isLoading, prescriptionId],
+    [isLoading, isFirstLoad, prescriptionId],
   );
 
   useEffect(
@@ -271,26 +287,46 @@ const Prescriptions = () => {
       if (!isFirstLoad && !isLoading) {
         const showingRx = document.getElementById('showingRx');
         if (showingRx) {
-          focusElement(showingRx);
-          showingRx.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start',
-            inline: 'nearest',
-          });
+          const displayNums = fromToNumbs(
+            pagination.currentPage,
+            pagination.totalEntries,
+            filteredList?.length,
+            queryParams?.perPage || 10,
+          );
+
+          const message = `Showing ${displayNums[0]} - ${displayNums[1]} of ${
+            pagination.totalEntries
+          } ${generateFilterAndSortText(
+            selectedFilterOption,
+            selectedSortOption,
+          )}`;
+
+          setListResultsText(message);
+
+          // Type check needed for non-JSDOM environments (tests)
+          if (typeof showingRx?.scrollIntoView === 'function') {
+            showingRx.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start',
+              inline: 'nearest',
+            });
+          }
         }
         return;
       }
 
       if (isLoading === false && isFirstLoad) {
-        setIsFirstLoad(false);
+        isFirstLoadRef.current = false;
       }
     },
     [
       isLoading,
+      pagination,
+      selectedFilterOption,
+      selectedSortOption,
+      queryParams,
       filteredList,
-      // TODO: This breaks the code because it causes the "Showing X - Y of Z medications" to be focused on initial page load.
-      // Need to refactor these hooks to better handle the initial loading state to add this.
-      // isFirstLoad
+      isFirstLoad,
     ],
   );
 
@@ -679,14 +715,15 @@ const Prescriptions = () => {
             />
             <InProductionEducationFiltering />
           </>
+          <MedicationsListResultsAriaRegion
+            filterOption={selectedFilterOption}
+            resultsText={listResultsText}
+            sortOption={selectedSortOption}
+          />
+          <MedicationsListSort sortRxList={updateFilterAndSort} />
           {isLoading && renderLoadingIndicator()}
           {hasMedications && (
             <>
-              <FilterAriaRegion filterOption={selectedFilterOption} />
-              <MedicationsListSort
-                sortRxList={updateFilterAndSort}
-                shouldShowSelect={!isLoading}
-              />
               <div className="rx-page-total-info vads-u-border-color--gray-lighter" />
               {!isLoading && renderMedicationsList()}
               <BeforeYouDownloadDropdown page={pageType.LIST} />

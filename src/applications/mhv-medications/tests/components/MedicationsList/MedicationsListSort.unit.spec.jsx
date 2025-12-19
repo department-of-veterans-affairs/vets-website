@@ -27,16 +27,9 @@ describe('Medications List Sort component', () => {
     },
   };
 
-  const setup = (
-    shouldShowSelect = true,
-    sortRxList = () => {},
-    state = initialState,
-  ) => {
+  const setup = (sortRxList = () => {}, state = initialState) => {
     return renderWithStoreAndRouterV6(
-      <MedicationsListSort
-        shouldShowSelect={shouldShowSelect}
-        sortRxList={sortRxList}
-      />,
+      <MedicationsListSort sortRxList={sortRxList} />,
       {
         initialState: state,
         reducers: reducer,
@@ -48,14 +41,6 @@ describe('Medications List Sort component', () => {
     const screen = setup();
     expect(screen);
     expect(screen.getByTestId('sort-dropdown')).to.exist;
-    expect(screen.getByTestId('sort-action-sr-text')).to.exist;
-  });
-
-  it('renders without a select element if shouldShowSelect is false', () => {
-    const screen = setup(false);
-    expect(screen);
-    expect(screen.queryByTestId('sort-dropdown')).not.to.exist;
-    expect(screen.getByTestId('sort-action-sr-text')).to.exist;
   });
 
   it('has the same number of list options as preset constant rxSortingListOptions', () => {
@@ -75,14 +60,14 @@ describe('Medications List Sort component', () => {
         },
       },
     };
-    const screen = setup(true, () => {}, customState);
+    const screen = setup(() => {}, customState);
     const dropdown = screen.getByTestId('sort-dropdown');
     expect(dropdown.getAttribute('value')).to.equal('lastFilledFirst');
   });
 
   it('calls sortRxList when a sort option is selected', async () => {
     const sortRxListSpy = sandbox.spy();
-    const screen = setup(true, sortRxListSpy);
+    const screen = setup(sortRxListSpy);
     const dropdown = screen.getByTestId('sort-dropdown');
 
     dropdown.__events.vaSelect({
@@ -92,22 +77,6 @@ describe('Medications List Sort component', () => {
     await waitFor(() => {
       expect(sortRxListSpy.calledOnce).to.be.true;
       expect(sortRxListSpy.calledWith(null, 'lastFilledFirst')).to.be.true;
-    });
-  });
-
-  it('updates screen reader text when sort option changes', async () => {
-    const screen = setup();
-    const dropdown = screen.getByTestId('sort-dropdown');
-    const srText = screen.getByTestId('sort-action-sr-text');
-
-    dropdown.__events.vaSelect({
-      detail: { value: 'lastFilledFirst' },
-    });
-
-    await waitFor(() => {
-      expect(srText.textContent).to.equal(
-        `Sorting: ${rxListSortingOptions.lastFilledFirst.LABEL}`,
-      );
     });
   });
 

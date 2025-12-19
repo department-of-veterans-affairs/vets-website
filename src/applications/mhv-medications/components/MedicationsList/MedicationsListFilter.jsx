@@ -10,7 +10,6 @@ import {
   VaAccordion,
   VaAccordionItem,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { ALL_MEDICATIONS_FILTER_KEY } from '../../util/constants';
 import { getFilterOptions } from '../../util/helpers/getRxStatus';
 import {
@@ -91,25 +90,22 @@ const MedicationsListFilter = ({ updateFilter, filterCount }) => {
   };
 
   const handleFilterSubmit = () => {
+    /* eslint-disable camelcase */
     recordEvent({
       event: 'form_radio_button_submit',
       action: 'click',
-      // eslint-disable-next-line camelcase
       form_field_type: 'radio button',
-      // eslint-disable-next-line camelcase
       form_field_label: 'Select a filter',
-      // eslint-disable-next-line camelcase
       form_field_option_label: selectedFilterOption,
     });
+    /* eslint-enable camelcase */
 
     updateFilter(selectedFilterOption);
-    waitForRenderThenFocus('#showingRx', document, 500);
   };
 
   const handleFilterReset = () => {
     updateFilter(ALL_MEDICATIONS_FILTER_KEY);
     setSelectedFilterOption(ALL_MEDICATIONS_FILTER_KEY);
-    waitForRenderThenFocus('#showingRx', document, 500);
   };
 
   const handleAccordionItemToggle = ({ target }) => {

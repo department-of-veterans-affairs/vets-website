@@ -1,7 +1,7 @@
 import MedicationsSite from './med_site/MedicationsSite';
 import rxList from './fixtures/listOfPrescriptions.json';
 import MedicationsListPage from './pages/MedicationsListPage';
-import { Data, Paths } from './utils/constants';
+import { Paths } from './utils/constants';
 import filterRx from './fixtures/filter-prescriptions.json';
 
 describe('Medications List Page Filter Accordion Reset Button', () => {
@@ -19,16 +19,10 @@ describe('Medications List Page Filter Accordion Reset Button', () => {
     listPage.clickFilterRadioButtonOptionOnListPage('Active');
 
     listPage.clickFilterButtonOnAccordion(Paths.ACTIVE_FILTER, filterRx);
-    listPage.verifyFocusOnPaginationTextInformationOnListPage(
-      Data.PAGINATION_ACTIVE_TEXT,
-    );
     listPage.clickResetFilterButtonOnFilterAccordionDropDown();
-    listPage.verifyAllMedicationsRadioButtonIsChecked();
-    listPage.verifyFocusOnPaginationTextInformationOnListPage(
-      Data.PAGINATION_ALL_MEDICATIONS,
-    );
     listPage.verifyFilterAriaRegionText(
-      'Filters cleared. Showing all medications.',
+      'Filters cleared. Showing 1 - 10 of 29 medications, alphabetically by status',
     );
+    listPage.verifyAllMedicationsRadioButtonIsChecked();
   });
 });
