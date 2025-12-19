@@ -121,7 +121,8 @@ describe('component that displays Status', () => {
 
     it('renders Active: Submitted', () => {
       const screen = renderStatus('Active: Submitted', false, false);
-      expect(screen.getAllByText('Active: Submitted', { exact: false })).to.exist;
+      expect(screen.getAllByText('Active: Submitted', { exact: false })).to
+        .exist;
     });
 
     it('renders Active: On Hold', () => {
