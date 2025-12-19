@@ -91,14 +91,13 @@ const getSwitchFormHeader = val => {
     case 'mgib-ad':
     case 'mgib-sr':
     case 'chapter33':
+    case 'pgib':
       return 'Application for VA Education Benefits (VA Form 22-1990)';
     case 'dea':
     case 'fry':
       return "Dependent's Application for VA Education Benefits (VA Form 22-5490)";
     case 'toe':
       return 'Application for VA Education Benefits (VA Form 22-1990e)';
-    case 'pgib':
-      return 'Application for VA Education Benefits (VA Form 22-1990)';
     default:
       return null;
   }
