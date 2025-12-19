@@ -226,8 +226,9 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
     document.title = `Military Information | Veterans Affairs`;
   }, []);
 
-  const profile2Enabled = useFeatureToggle(TOGGLE_NAMES.profile2Enabled);
-  const headlineText = profile2Enabled
+  const { useToggleValue } = useFeatureToggle();
+  const isProfile2Enabled = useToggleValue(TOGGLE_NAMES.profile2Enabled);
+  const headlineText = isProfile2Enabled
     ? 'Service history information'
     : 'Military Information';
 
