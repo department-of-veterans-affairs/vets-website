@@ -210,6 +210,54 @@ const getAddressPath = path => {
   return path.slice(0, -1);
 };
 
+// This is a helper function for getting a field value from address data, taking into account any mapped schema keys
+function getFieldValue(fieldName, addressData, newSchemaKeys = {}) {
+  const mappedKey = newSchemaKeys[fieldName] || fieldName;
+  return addressData?.[mappedKey];
+}
+
+// This is a currently unused helper function to get mapped field values from address form data
+// function getAddressFieldValue(fieldName, formData, path, newSchemaKeys = {}) {
+//   const addressPath = getAddressPath(path);
+//   const addressFormData = get(addressPath, formData) ?? {};
+//   return getFieldValue(fieldName, addressFormData, newSchemaKeys);
+// }
+
+/**
+ * Applies field key mapping to a schema object
+ * @param {Object} schema - The original schema object
+ * @param {Object} newSchemaKeys - Mapping of standard keys to custom keys
+ * @param {Array} omit - Fields to omit from the final schema
+ * @returns {Object} - Mapped schema object with transformed keys and omitted fields
+ *
+ * @example
+ * const originalSchema = { street: {}, postalCode: {} };
+ * const mapped = applyKeyMapping(
+ *   originalSchema,
+ *   { street: 'addressLine1', postalCode: 'zipCode' },
+ *   ['street2']
+ * );
+ * // Returns: { addressLine1: {}, zipCode: {} }
+ */
+function applyKeyMapping(schema, newSchemaKeys = {}, omit = []) {
+  if (Object.keys(newSchemaKeys).length === 0) {
+    return schema;
+  }
+
+  const mappedSchema = {};
+  Object.entries(schema).forEach(([standardKey, fieldConfig]) => {
+    const mappedKey = newSchemaKeys[standardKey] || standardKey;
+
+    if (omit.includes(standardKey) || omit.includes(mappedKey)) {
+      return; // Skip omitted fields
+    }
+
+    mappedSchema[mappedKey] = fieldConfig;
+  });
+
+  return mappedSchema;
+}
+
 /**
  * Update form data to remove selected military city & state and restore any
  * previously set city & state when the "I live on a U.S. military base"
@@ -283,6 +331,9 @@ export const updateFormDataAddress = (
  * schema: {
  *   address: addressUI()
  *   simpleAddress: addressUI({ omit: ['street2', 'street3'] })
+ *   mappedAddress: addressUI({
+ *     newSchemaKeys: { street: 'addressLine1', postalCode: 'zipCode' }
+ *   })
  *   futureAddress: addressUI({
  *     labels: {
  *      militaryCheckbox: 'I will live on a United States military base outside of the U.S.'
@@ -298,7 +349,7 @@ export const updateFormDataAddress = (
  * }
  * ```
  * @param {Object} [options]
- * @param {Object} [options.newSchemaKeys] - Maps standard keys to custom keys (e.g., {street: 'addressLine1', postalCode: 'zipCode'}) Only street, street2, street3, and postalCode should be mapped, or update replaceSchema and updateSchema functions to account for mapped field names
+ * @param {Object} [options.newSchemaKeys] - Maps `street` and `postalCode` keys to custom keys (e.g., {street: 'addressLine1', postalCode: 'zipCode'}) Only street, street2, street3, and postalCode should be mapped, or update replaceSchema and updateSchema functions to account for mapped field names
  * @param {Object} [options.labels]
  * @param {string} [options.labels.militaryCheckbox]
  * @param {string} [options.labels.street]
@@ -312,13 +363,13 @@ export const updateFormDataAddress = (
  * @returns {UISchemaOptions}
  */
 export function addressUI(options = {}) {
-  const { newSchemaKeys = {} } = options;
+  const { newSchemaKeys = {} } = options || {};
   let cityMaxLength = 100;
   let stateMaxLength = 100;
 
-  const omit = key => options.omit?.includes(key);
-  let customRequired = key => options.required?.[key];
-  if (options.required === false) {
+  const omit = key => options?.omit?.includes(key);
+  let customRequired = key => options?.required?.[key];
+  if (options?.required === false) {
     customRequired = () => () => false;
   }
 
@@ -331,15 +382,18 @@ export function addressUI(options = {}) {
     },
   };
 
-  function validateMilitaryBaseZipCode(errors, addr) {
+  function validateMilitaryBaseZipCode(errors, addr, mappedKeys = {}) {
     if (!(addr.isMilitary && addr.state)) return;
 
     if (addr.isMilitary && MILITARY_STATE_VALUES.includes(addr.state)) {
-      const isAA = addr.state === 'AA' && /^340\d*/.test(addr.postalCode);
-      const isAE = addr.state === 'AE' && /^09[0-9]\d*/.test(addr.postalCode);
-      const isAP = addr.state === 'AP' && /^96[2-6]\d*/.test(addr.postalCode);
+      const postalCode = getFieldValue('postalCode', addr, mappedKeys);
+      const postalCodeKey = mappedKeys.postalCode || 'postalCode';
+
+      const isAA = addr.state === 'AA' && /^340\d*/.test(postalCode);
+      const isAE = addr.state === 'AE' && /^09[0-9]\d*/.test(postalCode);
+      const isAP = addr.state === 'AP' && /^96[2-6]\d*/.test(postalCode);
       if (!(isAA || isAE || isAP)) {
-        errors.postalCode.addError(
+        errors[postalCodeKey].addError(
           `This postal code is within the United States. If your mailing address is in the United States, uncheck the checkbox "${
             uiSchema.isMilitary['ui:title']
           }". If your mailing address is an APO/FPO/DPO address, enter the postal code for the military base.`,
@@ -372,7 +426,9 @@ export function addressUI(options = {}) {
       },
     };
 
-    uiSchema['ui:validations'].push(validateMilitaryBaseZipCode);
+    uiSchema['ui:validations'].push((errors, addr) =>
+      validateMilitaryBaseZipCode(errors, addr, newSchemaKeys),
+    );
   }
 
   if (!omit('isMilitary') && !omit('view:militaryBaseDescription')) {
@@ -451,6 +507,9 @@ export function addressUI(options = {}) {
         classNames:
           'vads-web-component-pattern-field vads-web-component-pattern-address',
         replaceSchema: (_, schema) => {
+          // Example if you ever need to access mapped fields:
+          // replaceSchema: (formData, schema, _uiSchema, index, path) => {
+          //  const streetValue = getAddressFieldValue('street', formData, path, newSchemaKeys);
           return {
             ...schema,
             pattern: NONBLANK_PATTERN,
@@ -683,6 +742,11 @@ export function addressUI(options = {}) {
           const data = get(addressPath, formData) ?? {};
           const { country } = data;
           const { isMilitary } = data;
+          // Note: This function is safe with mapped keys because it only accesses
+          // 'country' and 'isMilitary' which are not mappable fields
+          // Example if you ever need to access mapped fields:
+          // const postalCode = getAddressFieldValue('postalCode', formData, path, newSchemaKeys);
+
           const addressSchema = _schema;
           const addressUiSchema = _uiSchema;
 
@@ -719,37 +783,24 @@ export function addressUI(options = {}) {
       },
     };
   }
-  // If no newSchemaKeys, return as-is (backward compatibility)
-  if (Object.keys(newSchemaKeys).length === 0) {
-    return uiSchema;
-  }
-  // Apply key mapping
-  const mappedSchema = {};
-  Object.entries(uiSchema).forEach(([standardKey, fieldConfig]) => {
-    const mappedKey = newSchemaKeys[standardKey] || standardKey;
-    if (omit(standardKey) || omit(mappedKey)) {
-      return; // Skip omitted fields entirely
-    }
-
-    // Use mapped key name, preserve field configuration
-    mappedSchema[mappedKey] = fieldConfig;
-  });
-  return mappedSchema;
+  return applyKeyMapping(uiSchema, newSchemaKeys, options?.omit || []);
 }
 
 /**
- * Schema for addressUI. Fields may be omitted.
+ * Schema for addressUI. Fields may be omitted or mapped to alternative key names.
  *
  * ```js
  * schema: {
  *   address: addressSchema()
  *   simpleAddress: addressSchema({ omit: ['street2', 'street3'] })
+ *   mappedAddress: addressSchema({
+ *     newSchemaKeys: { street: 'addressLine1', postalCode: 'zipCode' }
+ *   })
  * }
  * ```
- * @param {{
- *  omit: string[]
- * }} [options]
- * @param {Object} [options.newSchemaKeys] - Maps standard keys to custom keys (e.g., {street: 'addressLine1', postalCode: 'zipCode'}). Only street, street2, street3, and postalCode should be mapped, or update replaceSchema and updateSchema functions to account for mapped field names.
+ * @param {Object} [options]
+ * @param {Array<string>} [options.omit] - Field names to omit from schema
+ * @param {Object} [options.newSchemaKeys] - Maps standard keys to custom keys (e.g., {street: 'addressLine1', postalCode: 'zipCode'}). Uses applyKeyMapping utility internally.
  * @returns {SchemaOptions}
  */
 export const addressSchema = (options = {}) => {
@@ -769,23 +820,10 @@ export const addressSchema = (options = {}) => {
     return schema;
   }
 
-  // Apply key mapping and omit filtering to properties
-  const mappedProperties = {};
-
-  Object.entries(schema.properties).forEach(([standardKey, propertyConfig]) => {
-    // Skip if field should be omitted
-    const mappedKey = newSchemaKeys[standardKey] || standardKey;
-    if (omit.includes(standardKey) || omit.includes(mappedKey)) {
-      return;
-    }
-
-    // Use mapped key name, preserve property configuration
-    mappedProperties[mappedKey] = propertyConfig;
-  });
-
+  // Apply mapping to properties
   return {
     ...schema,
-    properties: mappedProperties,
+    properties: applyKeyMapping(schema.properties, newSchemaKeys, omit),
   };
 };
 
