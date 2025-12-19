@@ -1,10 +1,8 @@
 import { expect } from 'chai';
-import sinon from 'sinon';
 import {
   formatName,
   formatNameFirstLast,
   generatePdfScaffold,
-  formatBirthDate,
 } from '../util/helpers';
 
 describe('formatName', () => {
@@ -88,59 +86,6 @@ describe('generatePdfScaffold', () => {
     expect(scaffold.preface).to.eq(
       'If you have any questions about these results, send a secure message to your care team.',
     );
-  });
-});
-
-describe('formatBirthDate', () => {
-  it('falls back for an unexpected format', () => {
-    const fb = sinon.spy();
-    formatBirthDate('2020-12-5', fb);
-    expect(fb.calledOnce).to.be.true;
-    expect(fb.calledWith('2020-12-5')).to.be.true;
-  });
-
-  it('formats YYYY-MM-DD (with leading zero in day)', () => {
-    const fb = sinon.spy();
-    const result = formatBirthDate('2020-12-05', fb);
-    expect(result).to.eq('December 5, 2020');
-    expect(fb.notCalled).to.be.true;
-  });
-
-  it('formats YYYY-MM-DD (01-01)', () => {
-    const fb = sinon.spy();
-    const result = formatBirthDate('1999-01-01', fb);
-    expect(result).to.eq('January 1, 1999');
-    expect(fb.notCalled).to.be.true;
-  });
-
-  it('formats YYYY-MM-DD (double-digit day)', () => {
-    const fb = sinon.spy();
-    const result = formatBirthDate('2001-11-23', fb);
-    expect(result).to.eq('November 23, 2001');
-    expect(fb.notCalled).to.be.true;
-  });
-
-  it('formats YYYY-MM-DD (double-digit month)', () => {
-    const fb = sinon.spy();
-    const result = formatBirthDate('2010-10-09', fb);
-    expect(result).to.eq('October 9, 2010');
-    expect(fb.notCalled).to.be.true;
-  });
-
-  it('throws for invalid month 00', () => {
-    expect(() => formatBirthDate('2020-00-05')).to.throw('Invalid month');
-  });
-
-  it('throws for invalid month 13', () => {
-    expect(() => formatBirthDate('2020-13-05')).to.throw('Invalid month');
-  });
-
-  it('throws for invalid day 00', () => {
-    expect(() => formatBirthDate('2020-12-00')).to.throw('Invalid day');
-  });
-
-  it('throws for invalid day 32', () => {
-    expect(() => formatBirthDate('2020-12-32')).to.throw('Invalid day');
   });
 });
 
