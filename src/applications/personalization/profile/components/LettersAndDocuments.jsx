@@ -7,7 +7,7 @@ const LettersAndDocuments = () => {
   return (
     <Tier2PageContent pageHeader="Letters and documents">
       <ProfileHubItem
-        heading="VA letters and documents"
+        heading="VA benefit letters and documents"
         content="Access and download your VA Benefit Summary Letter (sometimes called a VA award letter) and other benefit letters and documents."
         href="/records/download-va-letters/letters"
       />

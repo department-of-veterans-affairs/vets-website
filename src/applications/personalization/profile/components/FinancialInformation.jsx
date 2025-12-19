@@ -18,7 +18,7 @@ const FinancialInformation = () => {
         href="/va-payment-history/payments"
       />
       <ProfileHubItem
-        heading="Overpayment and copay bills"
+        heading="Overpayments and copay bills"
         content="Review benefit overpayments and health care copay bills."
         href="/manage-va-debt/summary"
       />
