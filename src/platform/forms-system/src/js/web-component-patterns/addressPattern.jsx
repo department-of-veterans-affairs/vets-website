@@ -191,30 +191,6 @@ const SchemaKeys = {
     postalCode: 'postalCode',
   }),
 
-  /**
-   * @deprecated Once callers provide their full key map directly, this wrapper
-   * becomes unnecessary and will be removed.
-   */
-  normalizeMapping({ newSchemaKeys = {}, omit = [] }) {
-    const emptyMapping = Object.keys(newSchemaKeys).length === 0;
-    const emptyOmit = omit.length === 0;
-
-    if (emptyMapping && emptyOmit) {
-      return this.STANDARD;
-    }
-
-    const mapping = { ...this.STANDARD };
-
-    omit.forEach(o => {
-      if (!o) throw new Error('Blank schema key omitted');
-      if (o in newSchemaKeys) throw new Error('Ambiguous schema key omitted');
-      delete mapping[o];
-    });
-
-    Object.assign(mapping, newSchemaKeys);
-    return mapping;
-  },
-
   map(object, mapping = this.STANDARD) {
     if (mapping === this.STANDARD) return object;
     const validated = this.validateMapping(mapping);
@@ -243,6 +219,30 @@ const SchemaKeys = {
       throw new Error('Duplicate schema key output');
 
     return validated;
+  },
+
+  /**
+   * @deprecated Once callers provide their full key mapping directly, this
+   * wrapper becomes unnecessary and will be removed.
+   */
+  normalizeMapping({ newSchemaKeys = {}, omit = [] }) {
+    const emptyMapping = Object.keys(newSchemaKeys).length === 0;
+    const emptyOmit = omit.length === 0;
+
+    if (emptyMapping && emptyOmit) {
+      return this.STANDARD;
+    }
+
+    const mapping = { ...this.STANDARD };
+
+    omit.forEach(o => {
+      if (!o) throw new Error('Blank schema key omitted');
+      if (o in newSchemaKeys) throw new Error('Ambiguous schema key omitted');
+      delete mapping[o];
+    });
+
+    Object.assign(mapping, newSchemaKeys);
+    return mapping;
   },
 };
 
