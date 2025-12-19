@@ -65,24 +65,25 @@ export class ConnectedApps extends Component {
     });
   };
 
-  ConnectedAppsAdditionalInfo = () => {
-    return (
-      <va-additional-info
-        disable-border
-        trigger="What other third-party apps can I connect to my profile?"
-        uswds
-      >
-        To find out what other third-party apps are available to connect to your
-        profile,{' '}
+  ConnectedAppsAdditionalInfo = () => (
+    <va-additional-info
+      trigger="What other third-party apps can I connect to my profile?"
+      uswds
+    >
+      <p>
+        The app directory lists all third-party apps that you can connect to
+        your profile.
+      </p>
+      <p>
         <a
           href="/resources/find-apps-you-can-use"
           onClick={this.connectedAppsEvent}
         >
           go to the app directory
         </a>
-      </va-additional-info>
-    );
-  };
+      </p>
+    </va-additional-info>
+  );
 
   render() {
     const { apps, loading, errors } = this.props;
