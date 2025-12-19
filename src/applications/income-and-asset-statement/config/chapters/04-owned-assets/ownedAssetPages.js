@@ -607,6 +607,10 @@ const ownedAssetDocumentUpload = {
           if (!fieldData || !fieldData.name) {
             errors.addError('Upload a supporting document');
           }
+
+          if (fieldData.errorMessage) {
+            errors.addError(fieldData.errorMessage);
+          }
         },
       ],
     },
