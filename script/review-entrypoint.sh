@@ -14,6 +14,6 @@ pushd node_modules/node-libcurl/ && npm run install && popd
 pushd node_modules/node-sass/ && npm run install && popd
 npm run fetch-drupal-cache
 
-sleep 100000
 npm run build -- --buildtype=localhost --api='${API_URL}' --host='${WEB_HOST}' --port='${WEB_PORT}' --apps-directory-name=application
 npm run heroku-serve -- build/localhost -p 3002
+sleep 100000
