@@ -17,6 +17,40 @@
       "type": "string",
       "format": "date-time"
     },
+    "environment_check": {
+      "type": "object",
+      "description": "Results of environment guard checks. If all passed, subsequent agents can skip re-checking.",
+      "properties": {
+        "passed": {
+          "type": "boolean",
+          "description": "True if all checks passed"
+        },
+        "checked_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the checks were performed"
+        },
+        "github_mcp": {
+          "type": "object",
+          "properties": {
+            "status": { "type": "string", "enum": ["pass", "fail"] },
+            "login": { "type": ["string", "null"] }
+          }
+        },
+        "cypress_mcp": {
+          "type": "object",
+          "properties": {
+            "status": { "type": "string", "enum": ["pass", "fail"] }
+          }
+        },
+        "gh_cli": {
+          "type": "object",
+          "properties": {
+            "status": { "type": "string", "enum": ["pass", "fail"] }
+          }
+        }
+      }
+    },
     "status": {
       "type": "string",
       "enum": ["planning", "implementing", "testing", "reviewing", "documenting", "pr_ready", "complete", "blocked"],

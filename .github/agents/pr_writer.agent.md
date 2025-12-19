@@ -61,6 +61,11 @@ git diff origin/main --stat
 ### Create PR
 Use GitHub MCP tools to create the PR with completed template.
 
+⚠️ **IMPORTANT**: Always create PRs as **draft** using `draft: true` parameter. This allows:
+- CI checks to run before requesting review
+- Final manual verification before marking ready
+- Preventing accidental early merges
+
 ### Shutdown
 1. Create PR via GitHub MCP
 2. Update `session.json`: `progress.pr_writer` = "complete", `status` = "complete"
@@ -76,6 +81,7 @@ Use GitHub MCP tools to create the PR with completed template.
 2. **Artifacts first** — Use session artifacts to populate PR
 3. **Screenshots matter** — Always prompt for UI changes
 4. **Complete the loop** — Update session.json with PR URL
+5. **Always draft** — Create PRs with `draft: true` to allow CI verification before review
 
 ---
 
