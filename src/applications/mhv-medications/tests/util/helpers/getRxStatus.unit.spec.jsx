@@ -216,9 +216,7 @@ describe('getRxStatus helper functions', () => {
     });
 
     it('should return dispStatus when refillStatus is undefined', () => {
-      expect(getPdfStatusDefinitionKey('Active', undefined)).to.equal(
-        'Active',
-      );
+      expect(getPdfStatusDefinitionKey('Active', undefined)).to.equal('Active');
     });
   });
 

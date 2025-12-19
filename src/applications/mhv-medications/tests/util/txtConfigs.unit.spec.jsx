@@ -577,7 +577,7 @@ describe('CernerPilot and V2StatusMapping Feature flag tests for status formatti
 
       expect(txt).to.include('Status: In progress');
       expect(txt).to.include(
-        'A new prescription or a prescription you\'ve requested a refill or renewal for',
+        'A new prescription or a prescription you’ve requested a refill or renewal for',
       );
     });
 
@@ -597,7 +597,7 @@ describe('CernerPilot and V2StatusMapping Feature flag tests for status formatti
       expect(txt).to.include(
         'A prescription moved to VA’s new electronic health record',
       );
-      });
+    });
 
     it('includes V2 definition for Status not available', () => {
       const testPrescriptions = createTestPrescription(

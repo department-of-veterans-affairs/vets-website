@@ -115,7 +115,11 @@ describe('VA prescription Config', () => {
   it('should create "Refill history" section if there is 1 record with dispensedDate NOT undefined', () => {
     const rxDetails = { ...prescriptionDetails.data.attributes };
     rxDetails.dispensedDate = undefined;
-    const pdfGen = buildVAPrescriptionPDFList(rxDetails, cernerPilotFlag, v2StatusMappingFlag);
+    const pdfGen = buildVAPrescriptionPDFList(
+      rxDetails,
+      cernerPilotFlag,
+      v2StatusMappingFlag,
+    );
     expect(pdfGen[1].header).to.equal('Refill history');
   });
 

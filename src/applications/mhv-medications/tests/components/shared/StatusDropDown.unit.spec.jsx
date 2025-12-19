@@ -169,7 +169,9 @@ describe('component that displays Status', () => {
       expect(screen).to.exist;
       const statusElement =
         screen.container.querySelector('[data-testid="status-dropdown"]') ||
-        screen.container.querySelector('[trigger="What does this status mean?"]',);
+        screen.container.querySelector(
+          '[trigger="What does this status mean?"]',
+        );
       expect(statusElement).to.exist;
     });
 
@@ -178,7 +180,9 @@ describe('component that displays Status', () => {
       expect(screen).to.exist;
       const statusElement =
         screen.container.querySelector('[data-testid="status-dropdown"]') ||
-        screen.container.querySelector('[trigger="What does this status mean?"]',);
+        screen.container.querySelector(
+          '[trigger="What does this status mean?"]',
+        );
       expect(statusElement).to.exist;
     });
   });
