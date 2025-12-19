@@ -209,6 +209,160 @@ describe('Schemaform review: SubmitController', () => {
     tree.unmount();
   });
 
+  it('should not submit when required AGREED flag is undefined', () => {
+    const form = createForm({ data: {} });
+    const formConfig = createFormConfig({
+      preSubmitInfo: {
+        required: true,
+        field: 'AGREED',
+        label: 'I agree to the terms and conditions.',
+        error: 'You must accept the agreement before submitting.',
+      },
+    });
+    const user = createUserLogIn();
+    const router = { push: sinon.spy() };
+    const setPreSubmit = sinon.spy();
+    const setSubmission = sinon.spy();
+    const submitForm = sinon.spy();
+    const setFormErrors = sinon.spy();
+
+    const store = createStore({ form });
+
+    const tree = render(
+      <Provider store={store}>
+        <SubmitController
+          form={form}
+          formConfig={formConfig}
+          pageList={[]}
+          router={router}
+          setPreSubmit={setPreSubmit}
+          setSubmission={setSubmission}
+          setFormErrors={setFormErrors}
+          submitForm={submitForm}
+          trackingPrefix={formConfig.trackingPrefix}
+          user={user}
+        />
+      </Provider>,
+    );
+
+    const submitButton = tree.getByText('Submit application');
+    fireEvent.click(submitButton);
+
+    expect(submitForm.called).to.be.false;
+    expect(setFormErrors.called).to.be.false;
+    expect(setSubmission.calledWith('hasAttemptedSubmit')).to.be.true;
+    tree.unmount();
+  });
+
+  it('should not submit when preSubmit AGREED flag is false', () => {
+    const form = createForm({ data: { AGREED: false } });
+    const formConfig = createFormConfig({
+      preSubmitInfo: {
+        required: true,
+        field: 'AGREED',
+        label: 'I agree to the terms and conditions.',
+        error: 'You must accept the agreement before submitting.',
+      },
+    });
+    const user = createUserLogIn();
+    const router = { push: sinon.spy() };
+    const setPreSubmit = sinon.spy();
+    const setSubmission = sinon.spy();
+    const submitForm = sinon.spy();
+    const setFormErrors = sinon.spy();
+
+    const store = createStore({ form });
+
+    const tree = render(
+      <Provider store={store}>
+        <SubmitController
+          form={form}
+          formConfig={formConfig}
+          pageList={[]}
+          router={router}
+          setPreSubmit={setPreSubmit}
+          setSubmission={setSubmission}
+          setFormErrors={setFormErrors}
+          submitForm={submitForm}
+          trackingPrefix={formConfig.trackingPrefix}
+          user={user}
+        />
+      </Provider>,
+    );
+
+    const submitButton = tree.getByText('Submit application');
+    fireEvent.click(submitButton);
+
+    expect(submitForm.called).to.be.false;
+    expect(setFormErrors.called).to.be.false;
+    expect(setSubmission.calledWith('hasAttemptedSubmit')).to.be.true;
+    tree.unmount();
+  });
+
+  it('should submit when preSubmit AGREED flag is true', () => {
+    const form = createForm({
+      data: { AGREED: true },
+      pages: {
+        page1: {
+          schema: { type: 'object', properties: {} },
+          uiSchema: {},
+        },
+      },
+    });
+    const pageList = [{ path: '/', pageKey: 'page1', schema: {} }];
+    const formConfig = createFormConfig({
+      preSubmitInfo: {
+        required: true,
+        field: 'AGREED',
+        label: 'I agree to the terms and conditions.',
+        error: 'You must accept the agreement before submitting.',
+      },
+      chapters: {
+        chapter1: {
+          pages: {
+            page1: {
+              schema: { type: 'object', properties: {} },
+            },
+          },
+        },
+      },
+    });
+    const user = createUserLogIn();
+    const router = { push: sinon.spy() };
+    const setPreSubmit = sinon.spy();
+    const setSubmission = sinon.spy();
+    const submitForm = sinon.spy();
+    const autoSaveForm = sinon.spy();
+    const setFormErrors = sinon.spy();
+
+    const store = createStore({ form });
+
+    const tree = render(
+      <Provider store={store}>
+        <SubmitController
+          autoSaveForm={autoSaveForm}
+          form={form}
+          formConfig={formConfig}
+          pageList={pageList}
+          router={router}
+          setPreSubmit={setPreSubmit}
+          setSubmission={setSubmission}
+          setFormErrors={setFormErrors}
+          submitForm={submitForm}
+          trackingPrefix={formConfig.trackingPrefix}
+          user={user}
+        />
+      </Provider>,
+    );
+
+    const submitButton = tree.getByText('Submit application');
+    fireEvent.click(submitButton);
+
+    expect(submitForm.called).to.be.true;
+    expect(setFormErrors.called).to.be.false;
+    tree.unmount();
+  });
+
   it('should not submit when invalid data is entered', () => {
     // Form with missing required field
     const page = {
