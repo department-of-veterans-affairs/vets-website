@@ -211,53 +211,40 @@ const AlertBackgroundBox = props => {
   );
 
   return (
-    <>
-      {activeAlert &&
-        activeAlert.header !== Alerts.Headers.HIDE_ALERT && (
-          <VaAlert
-            uswds
-            ref={alertRef}
-            background-only
-            closeable={props.closeable}
-            className="vads-u-margin-bottom--1 va-alert"
-            close-btn-aria-label="Close notification"
-            disable-analytics="false"
-            full-width="false"
-            show-icon={handleShowIcon()}
-            status={activeAlert.alertType}
-            onCloseEvent={
-              closeAlertBox // success, error, warning, info, continue
-            }
-            onVa-component-did-load={handleAlertFocus}
-          >
-            <div>
-              <p
-                className="vads-u-margin-y--0 vads-u-font-size--serif-lg"
-                data-testid="alert-text"
-              >
-                <strong>{alertContent}</strong>
-                {alertContent === Alerts.Message.SEND_MESSAGE_SUCCESS && (
-                  <p className="vads-u-margin-y--0">
-                    <RouterLink
-                      href={Paths.SENT}
-                      text="Review your sent messages"
-                      data-dd-action-name="Sent messages link in success alert"
-                    />
-                  </p>
-                )}
-
-                <SrOnlyTag
-                  className="sr-only"
-                  aria-live="polite"
-                  aria-atomic="true"
-                >
-                  {alertAriaLabel}
-                </SrOnlyTag>
-              </p>
-            </div>
-          </VaAlert>
+    activeAlert &&
+    activeAlert.header !== Alerts.Headers.HIDE_ALERT && (
+      <VaAlert
+        uswds
+        ref={alertRef}
+        background-only
+        closeable={props.closeable}
+        className="vads-u-margin-bottom--1 va-alert"
+        close-btn-aria-label="Close notification"
+        disable-analytics="false"
+        full-width="false"
+        show-icon={handleShowIcon()}
+        status={activeAlert.alertType}
+        onCloseEvent={
+          closeAlertBox // success, error, warning, info, continue
+        }
+        onVa-component-did-load={handleAlertFocus}
+      >
+        <h2 slot="headline" data-testid="alert-text">
+          {alertContent}
+        </h2>
+        {alertContent === Alerts.Message.SEND_MESSAGE_SUCCESS && (
+          <RouterLink
+            href={Paths.SENT}
+            text="Review your sent messages"
+            data-dd-action-name="Sent messages link in success alert"
+          />
         )}
-    </>
+
+        <SrOnlyTag className="sr-only" aria-live="polite" aria-atomic="true">
+          {alertAriaLabel}
+        </SrOnlyTag>
+      </VaAlert>
+    )
   );
 };
 
