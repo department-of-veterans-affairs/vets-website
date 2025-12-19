@@ -22,12 +22,20 @@ describe('Prescriptions List Config', () => {
   const v2StatusMappingFlag = false;
 
   it('should map all prescriptions to a list', () => {
-    const pdfList = buildPrescriptionsPDFList(prescriptions, cernerPilotFlag, v2StatusMappingFlag);
+    const pdfList = buildPrescriptionsPDFList(
+      prescriptions,
+      cernerPilotFlag,
+      v2StatusMappingFlag,
+    );
     expect(pdfList.length).to.equal(prescriptions.length);
   });
 
   it('should contain a header with prescription name', () => {
-    const pdfList = buildPrescriptionsPDFList(prescriptions, cernerPilotFlag, v2StatusMappingFlag);
+    const pdfList = buildPrescriptionsPDFList(
+      prescriptions,
+      cernerPilotFlag,
+      v2StatusMappingFlag,
+    );
     expect(pdfList[0].header).to.equal(prescriptions[0].prescriptionName);
   });
 
@@ -37,7 +45,11 @@ describe('Prescriptions List Config', () => {
         prescriptionId: 123456,
       },
     ];
-    const pdfList = buildPrescriptionsPDFList(blankPrescriptions, cernerPilotFlag, v2StatusMappingFlag);
+    const pdfList = buildPrescriptionsPDFList(
+      blankPrescriptions,
+      cernerPilotFlag,
+      v2StatusMappingFlag,
+    );
 
     expect(pdfList[0].sections[0].items[2].value).to.equal(
       `${FIELD_NONE_NOTED} - ${pdfDefaultStatusDefinition[0].value}`,
@@ -47,7 +59,11 @@ describe('Prescriptions List Config', () => {
   it('should NOT display "Last filled on" or "Prescription number" if rx prescription source is PD and dispStatus is NewOrder', () => {
     prescriptions[0].prescriptionSource = 'PD';
     prescriptions[0].dispStatus = 'NewOrder';
-    const pdfList = buildPrescriptionsPDFList(prescriptions, cernerPilotFlag, v2StatusMappingFlag);
+    const pdfList = buildPrescriptionsPDFList(
+      prescriptions,
+      cernerPilotFlag,
+      v2StatusMappingFlag,
+    );
 
     const items = pdfList[0].sections[0].items.map(item => item.label);
     expect(items).to.not.include('Last filled on:');
@@ -58,7 +74,11 @@ describe('Prescriptions List Config', () => {
   it('should NOT display "Last filled on" or "Prescription number" if rx prescription source is PD and dispStatus is Renew', () => {
     prescriptions[0].prescriptionSource = 'PD';
     prescriptions[0].dispStatus = 'Renew';
-    const pdfList = buildPrescriptionsPDFList(prescriptions, cernerPilotFlag, v2StatusMappingFlag);
+    const pdfList = buildPrescriptionsPDFList(
+      prescriptions,
+      cernerPilotFlag,
+      v2StatusMappingFlag,
+    );
 
     const items = pdfList[0].sections[0].items.map(item => item.label);
     expect(items).to.not.include('Last filled on:');
@@ -345,7 +365,11 @@ describe('Feature flag tests for status formatting', () => {
         'VA',
         'refillinprocess',
       );
-      const pdfList = buildPrescriptionsPDFList(testPrescriptions, cernerPilotFlag, v2StatusMappingFlag);
+      const pdfList = buildPrescriptionsPDFList(
+        testPrescriptions,
+        cernerPilotFlag,
+        v2StatusMappingFlag,
+      );
 
       const statusItem = pdfList[0].sections[0].items.find(
         item => item.title === 'Status',
@@ -357,7 +381,11 @@ describe('Feature flag tests for status formatting', () => {
 
     it('preserves Active: Non-VA status', () => {
       const testPrescriptions = createTestPrescription('Active: Non-VA', 'NV');
-      const pdfList = buildPrescriptionsPDFList(testPrescriptions, cernerPilotFlag, v2StatusMappingFlag);
+      const pdfList = buildPrescriptionsPDFList(
+        testPrescriptions,
+        cernerPilotFlag,
+        v2StatusMappingFlag,
+      );
 
       const statusItem = pdfList[0].sections[0].items.find(
         item => item.title === 'Status',
@@ -417,7 +445,11 @@ describe('Feature flag tests for status formatting', () => {
         'VA',
         'inprogress',
       );
-      const pdfList = buildPrescriptionsPDFList(testPrescriptions, cernerPilotFlag, v2StatusMappingFlag);
+      const pdfList = buildPrescriptionsPDFList(
+        testPrescriptions,
+        cernerPilotFlag,
+        v2StatusMappingFlag,
+      );
 
       const statusItem = pdfList[0].sections[0].items.find(
         item => item.title === 'Status',
@@ -436,7 +468,11 @@ describe('Feature flag tests for status formatting', () => {
         'VA',
         'active',
       );
-      const pdfList = buildPrescriptionsPDFList(testPrescriptions, cernerPilotFlag, v2StatusMappingFlag);
+      const pdfList = buildPrescriptionsPDFList(
+        testPrescriptions,
+        cernerPilotFlag,
+        v2StatusMappingFlag,
+      );
 
       const statusItem = pdfList[0].sections[0].items.find(
         item => item.title === 'Status',
@@ -454,7 +490,11 @@ describe('Feature flag tests for status formatting', () => {
         'VA',
         'inprogress',
       );
-      const pdfList = buildPrescriptionsPDFList(testPrescriptions, cernerPilotFlag, v2StatusMappingFlag);
+      const pdfList = buildPrescriptionsPDFList(
+        testPrescriptions,
+        cernerPilotFlag,
+        v2StatusMappingFlag,
+      );
 
       const statusItem = pdfList[0].sections[0].items.find(
         item => item.title === 'Status',
@@ -472,7 +512,11 @@ describe('Feature flag tests for status formatting', () => {
         'VA',
         'inactive',
       );
-      const pdfList = buildPrescriptionsPDFList(testPrescriptions, cernerPilotFlag, v2StatusMappingFlag);
+      const pdfList = buildPrescriptionsPDFList(
+        testPrescriptions,
+        cernerPilotFlag,
+        v2StatusMappingFlag,
+      );
 
       const statusItem = pdfList[0].sections[0].items.find(
         item => item.title === 'Status',
@@ -490,7 +534,11 @@ describe('Feature flag tests for status formatting', () => {
         'VA',
         'transferred',
       );
-      const pdfList = buildPrescriptionsPDFList(testPrescriptions, cernerPilotFlag, v2StatusMappingFlag);
+      const pdfList = buildPrescriptionsPDFList(
+        testPrescriptions,
+        cernerPilotFlag,
+        v2StatusMappingFlag,
+      );
 
       const statusItem = pdfList[0].sections[0].items.find(
         item => item.title === 'Status',
@@ -508,7 +556,11 @@ describe('Feature flag tests for status formatting', () => {
         'VA',
         'statusNotAvailable',
       );
-      const pdfList = buildPrescriptionsPDFList(testPrescriptions, cernerPilotFlag, v2StatusMappingFlag);
+      const pdfList = buildPrescriptionsPDFList(
+        testPrescriptions,
+        cernerPilotFlag,
+        v2StatusMappingFlag,
+      );
 
       const statusItem = pdfList[0].sections[0].items.find(
         item => item.title === 'Status',
@@ -520,7 +572,11 @@ describe('Feature flag tests for status formatting', () => {
 
     it('preserves Active: Non-VA status', () => {
       const testPrescriptions = createTestPrescription('Active: Non-VA', 'NV');
-      const pdfList = buildPrescriptionsPDFList(testPrescriptions, cernerPilotFlag, v2StatusMappingFlag);
+      const pdfList = buildPrescriptionsPDFList(
+        testPrescriptions,
+        cernerPilotFlag,
+        v2StatusMappingFlag,
+      );
 
       const statusItem = pdfList[0].sections[0].items.find(
         item => item.title === 'Status',
@@ -535,7 +591,11 @@ describe('Feature flag tests for status formatting', () => {
         dispStatus: 'In progress',
         refillStatus: 'inprogress',
       };
-      const pdfList = buildVAPrescriptionPDFList(testPrescription, cernerPilotFlag, v2StatusMappingFlag);
+      const pdfList = buildVAPrescriptionPDFList(
+        testPrescription,
+        cernerPilotFlag,
+        v2StatusMappingFlag,
+      );
 
       const statusItem = pdfList[0].sections[0].items.find(
         item => item.title === 'Status',
@@ -553,7 +613,11 @@ describe('Feature flag tests for status formatting', () => {
         dispStatus: 'Status not available',
         refillStatus: 'statusNotAvailable',
       };
-      const pdfList = buildVAPrescriptionPDFList(testPrescription, cernerPilotFlag, v2StatusMappingFlag);
+      const pdfList = buildVAPrescriptionPDFList(
+        testPrescription,
+        cernerPilotFlag,
+        v2StatusMappingFlag,
+      );
 
       const statusItem = pdfList[0].sections[0].items.find(
         item => item.title === 'Status',

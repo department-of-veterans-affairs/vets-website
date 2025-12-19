@@ -99,12 +99,18 @@ describe('getRxStatus helper functions', () => {
       const v2StatusMappingFlag = false;
 
       it('returns V1 status definitions', () => {
-        const result = getStatusDefinitions(cernerPilotFlag, v2StatusMappingFlag);
+        const result = getStatusDefinitions(
+          cernerPilotFlag,
+          v2StatusMappingFlag,
+        );
         expect(result).to.deep.equal(pdfStatusDefinitions);
       });
 
-      it('includes V1-specific keys like refillinprocess, activeParked, submitted', () => {
-        const result = getStatusDefinitions(cernerPilotFlag, v2StatusMappingFlag);
+      it('includes V1-specific keys', () => {
+        const result = getStatusDefinitions(
+          cernerPilotFlag,
+          v2StatusMappingFlag,
+        );
         expect(result).to.have.property('active');
         expect(result).to.have.property('refillinprocess');
         expect(result).to.have.property('activeParked');
@@ -119,12 +125,18 @@ describe('getRxStatus helper functions', () => {
       const v2StatusMappingFlag = false;
 
       it('returns V1 status definitions', () => {
-        const result = getStatusDefinitions(cernerPilotFlag, v2StatusMappingFlag);
+        const result = getStatusDefinitions(
+          cernerPilotFlag,
+          v2StatusMappingFlag,
+        );
         expect(result).to.deep.equal(pdfStatusDefinitions);
       });
 
       it('includes V1-specific keys', () => {
-        const result = getStatusDefinitions(cernerPilotFlag, v2StatusMappingFlag);
+        const result = getStatusDefinitions(
+          cernerPilotFlag,
+          v2StatusMappingFlag,
+        );
         expect(result).to.have.property('refillinprocess');
         expect(result).to.have.property('expired');
         expect(result).to.have.property('discontinued');
@@ -136,12 +148,18 @@ describe('getRxStatus helper functions', () => {
       const v2StatusMappingFlag = true;
 
       it('returns V1 status definitions', () => {
-        const result = getStatusDefinitions(cernerPilotFlag, v2StatusMappingFlag);
+        const result = getStatusDefinitions(
+          cernerPilotFlag,
+          v2StatusMappingFlag,
+        );
         expect(result).to.deep.equal(pdfStatusDefinitions);
       });
 
       it('includes V1-specific keys', () => {
-        const result = getStatusDefinitions(cernerPilotFlag, v2StatusMappingFlag);
+        const result = getStatusDefinitions(
+          cernerPilotFlag,
+          v2StatusMappingFlag,
+        );
         expect(result).to.have.property('refillinprocess');
         expect(result).to.have.property('discontinued');
         expect(result).to.have.property('hold');
@@ -153,12 +171,18 @@ describe('getRxStatus helper functions', () => {
       const v2StatusMappingFlag = true;
 
       it('returns V2 status definitions', () => {
-        const result = getStatusDefinitions(cernerPilotFlag, v2StatusMappingFlag);
+        const result = getStatusDefinitions(
+          cernerPilotFlag,
+          v2StatusMappingFlag,
+        );
         expect(result).to.deep.equal(pdfStatusDefinitionsV2);
       });
 
       it('includes V2-specific keys with lowercase format', () => {
-        const result = getStatusDefinitions(cernerPilotFlag, v2StatusMappingFlag);
+        const result = getStatusDefinitions(
+          cernerPilotFlag,
+          v2StatusMappingFlag,
+        );
         expect(result).to.have.property('active');
         expect(result).to.have.property('inprogress');
         expect(result).to.have.property('inactive');
@@ -167,7 +191,10 @@ describe('getRxStatus helper functions', () => {
       });
 
       it('does not include V1-specific keys', () => {
-        const result = getStatusDefinitions(cernerPilotFlag, v2StatusMappingFlag);
+        const result = getStatusDefinitions(
+          cernerPilotFlag,
+          v2StatusMappingFlag,
+        );
         expect(result).to.not.have.property('refillinprocess');
         expect(result).to.not.have.property('activeParked');
         expect(result).to.not.have.property('expired');
@@ -189,7 +216,9 @@ describe('getRxStatus helper functions', () => {
     });
 
     it('should return dispStatus when refillStatus is undefined', () => {
-      expect(getPdfStatusDefinitionKey('Active', undefined)).to.equal('Active');
+      expect(getPdfStatusDefinitionKey('Active', undefined)).to.equal(
+        'Active',
+      );
     });
   });
 
