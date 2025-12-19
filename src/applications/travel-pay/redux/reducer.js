@@ -5,7 +5,6 @@ import {
   CREATE_COMPLEX_CLAIM_SUCCESS,
   CREATE_EXPENSE_FAILURE,
   CREATE_EXPENSE_STARTED,
-  CREATE_EXPENSE_SUCCESS,
   DELETE_DOCUMENT_FAILURE,
   DELETE_DOCUMENT_STARTED,
   DELETE_DOCUMENT_SUCCESS,
@@ -36,7 +35,6 @@ import {
   SUBMIT_COMPLEX_CLAIM_SUCCESS,
   UPDATE_EXPENSE_FAILURE,
   UPDATE_EXPENSE_STARTED,
-  UPDATE_EXPENSE_SUCCESS,
   SET_REVIEW_PAGE_ALERT,
   CLEAR_REVIEW_PAGE_ALERT,
 } from './actions';
@@ -71,6 +69,23 @@ function mergeExpenses(existingExpenses, newExpenses) {
 
   // Convert back to array
   return Object.values(mergedExpensesMap);
+}
+
+function transposeExpenses(expenses, documents) {
+  return expenses.map(expense => {
+    // there should only be one document associated with an expense
+    // so grab the first.
+    const expenseDocument = documents.find(doc => doc.expenseId === expense.id);
+
+    if (expenseDocument) {
+      return {
+        ...expense,
+        documentId: expenseDocument.documentId,
+      };
+    }
+
+    return expense;
+  });
 }
 
 const initialState = {
@@ -370,25 +385,6 @@ function travelPayReducer(state = initialState, action) {
           },
         },
       };
-    case UPDATE_EXPENSE_SUCCESS: {
-      return {
-        ...state,
-        complexClaim: {
-          ...state.complexClaim,
-          expenses: {
-            ...state.complexClaim.expenses,
-            update: {
-              id: '',
-              isLoading: false,
-              error: null,
-            },
-            data: mergeExpenses(state.complexClaim.expenses.data, [
-              action.payload,
-            ]),
-          },
-        },
-      };
-    }
     case UPDATE_EXPENSE_FAILURE:
       return {
         ...state,
@@ -471,24 +467,6 @@ function travelPayReducer(state = initialState, action) {
         },
       };
 
-    case CREATE_EXPENSE_SUCCESS:
-      return {
-        ...state,
-        complexClaim: {
-          ...state.complexClaim,
-          expenses: {
-            ...state.complexClaim.expenses,
-            creation: {
-              isLoading: false,
-              error: null,
-            },
-            data: mergeExpenses(state.complexClaim.expenses.data, [
-              action.payload,
-            ]),
-          },
-        },
-      };
-
     case CREATE_EXPENSE_FAILURE:
       return {
         ...state,
@@ -521,8 +499,13 @@ function travelPayReducer(state = initialState, action) {
 
     case FETCH_COMPLEX_CLAIM_DETAILS_SUCCESS: {
       const existingExpenses = state.complexClaim.expenses.data || [];
+      const claimDocuments = action.payload?.documents || [];
       const newExpenses = action.payload?.expenses || [];
       const mergedExpenses = mergeExpenses(existingExpenses, newExpenses);
+      const transposedExpenses = transposeExpenses(
+        mergedExpenses,
+        claimDocuments,
+      );
 
       return {
         ...state,
@@ -538,7 +521,7 @@ function travelPayReducer(state = initialState, action) {
           },
           expenses: {
             ...state.complexClaim.expenses,
-            data: mergedExpenses,
+            data: transposedExpenses,
           },
         },
       };

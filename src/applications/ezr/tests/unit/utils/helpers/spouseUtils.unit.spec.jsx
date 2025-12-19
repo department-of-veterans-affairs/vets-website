@@ -63,6 +63,15 @@ describe('spouseUtils', () => {
                 provideSupportLastYear: undefined,
               }),
             },
+            {
+              desc: 'valid suffix value present',
+              item: makeItem({
+                spouseFullName: {
+                  ...VALID.spouseFullName,
+                  suffix: 'Jr.',
+                },
+              }),
+            },
           ].forEach(({ desc, item }) => {
             it(`should return false when ${desc}`, () => {
               expect(isItemIncomplete(item)).to.be.false;
@@ -120,6 +129,30 @@ describe('spouseUtils', () => {
                   ...VALID.spouseFullName,
                   last: undefined,
                 },
+              }),
+            },
+          ].forEach(({ desc, item }) => {
+            it(`should return true when ${desc}`, () => {
+              expect(isItemIncomplete(item)).to.be.true;
+            });
+          });
+        });
+
+        context('Required fields present but not valid', () => {
+          [
+            {
+              desc: 'spouseDateOfBirth is before 1900',
+              item: makeItem({ spouseDateOfBirth: '1899-01-01' }),
+            },
+            {
+              desc: 'dateOfMarriage is before 1900',
+              item: makeItem({ dateOfMarriage: '1899-01-01' }),
+            },
+            {
+              desc: 'dateOfMarriage is before spouseDateOfBirth',
+              item: makeItem({
+                spouseDateOfBirth: '2010-06-15',
+                dateOfMarriage: '1980-01-01',
               }),
             },
           ].forEach(({ desc, item }) => {

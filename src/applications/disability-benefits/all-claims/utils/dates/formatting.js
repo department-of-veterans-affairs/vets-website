@@ -28,6 +28,10 @@ export const DATE_FORMAT_LONG = 'MMMM d, yyyy';
 export const PARTIAL_DATE_FORMAT = 'yyyy-MM';
 // Public template for full ISO-like date strings used across the all-claims app
 export const DATE_TEMPLATE = 'yyyy-MM-dd';
+export const DATE_FULL_MONTH_YEAR_FORMAT = 'MMMM yyyy';
+export const DATE_SHORT_MONTH_YEAR_FORMAT = 'MMM yyyy'; // e.g., "Jan 2021"
+export const DATE_SHORT_MONTH_DAY_YEAR_FORMAT = 'MMM d, yyyy'; // e.g., "Jan 1, 2021"
+
 // Map common Moment.js tokens to date-fns tokens for compatibility in tests/components
 const normalizeFormatTokens = fmt => {
   if (!fmt || typeof fmt !== 'string') return DATE_FORMAT;
@@ -192,30 +196,6 @@ export const isValidYear = (err, fieldData) => {
   if (!platformIsValidYear(fieldData)) {
     err.addError('Please enter a valid year');
   }
-};
-
-/**
- * Validate partial date (year or year-month)
- * Enhanced version of platform utility to handle our specific formats
- * @param {string} dateString - Partial date string
- * @returns {boolean} True if valid
- */
-export const isValidPartialDate = dateString => {
-  if (!dateString) return false;
-
-  // Check if it's just a year
-  if (/^\d{4}$/.test(dateString)) {
-    const year = parseInt(dateString, 10);
-    return (
-      !Number.isNaN(year) && year >= MIN_VALID_YEAR && year <= MAX_VALID_YEAR
-    );
-  }
-
-  // Check if it's year-month
-  const date = parse(dateString, PARTIAL_DATE_FORMAT, new Date());
-  if (!isValid(date)) return false;
-  const year = getYear(date);
-  return year >= MIN_VALID_YEAR && year <= MAX_VALID_YEAR;
 };
 
 /**

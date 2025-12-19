@@ -97,7 +97,7 @@ export const options = {
           )}
         </ul>
       ),
-    reviewAddButtonText: 'Add another waived income',
+    reviewAddButtonText: props => `Add ${props.nounSingular}`,
     alertItemUpdated: 'Your waived income information has been updated',
     alertItemDeleted: 'Your waived income information has been deleted',
     cancelAddTitle: 'Cancel adding this waived income',
