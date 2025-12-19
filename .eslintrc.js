@@ -19,6 +19,7 @@ module.exports = {
   extends: [
     'plugin:@department-of-veterans-affairs/recommended',
     'plugin:you-dont-need-momentjs/recommended',
+    'plugin:prettier/recommended',
   ],
   globals: {
     __BUILDTYPE__: true,
