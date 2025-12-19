@@ -247,25 +247,6 @@ describe('owned asset list and loop pages', () => {
       });
     });
 
-    describe('reviewAddButtonText function', () => {
-      it('should show updated content', () => {
-        sandbox.stub(helpers, 'showUpdatedContent').returns(true);
-        expect(
-          options.text.reviewAddButtonText({
-            nounSingular: 'custom asset',
-          }),
-        ).to.eql('Add more property or business assets');
-      });
-      it('should show normal content', () => {
-        sandbox.stub(helpers, 'showUpdatedContent').returns(false);
-        expect(
-          options.text.reviewAddButtonText({
-            nounSingular: 'custom assets',
-          }),
-        ).to.eql('Add another custom assets');
-      });
-    });
-
     describe('cardDescription function', () => {
       /* eslint-disable no-unused-vars */
       const {

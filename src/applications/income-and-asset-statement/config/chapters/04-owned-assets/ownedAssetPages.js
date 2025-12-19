@@ -151,12 +151,7 @@ export const options = {
         )
       );
     },
-    reviewAddButtonText: props => {
-      if (showUpdatedContent()) {
-        return 'Add more property or business assets';
-      }
-      return `Add another ${props.nounSingular}`;
-    },
+    reviewAddButtonText: 'Add property or business assets',
     alertItemUpdated: 'Your owned asset information has been updated',
     alertItemDeleted: 'Your owned asset information has been deleted',
     cancelAddTitle: 'Cancel adding this owned asset',
