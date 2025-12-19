@@ -650,29 +650,6 @@ describe('addressPattern mapping functions', () => {
       expect(result).to.have.property('street2');
     });
 
-    it('should handle edge case where standard and mapped field names match in omit', () => {
-      const originalSchema = {
-        street: { type: 'string' },
-        addressLine1: { type: 'string' }, // Already exists with mapped name
-        postalCode: { type: 'string' },
-      };
-
-      const newSchemaKeys = {
-        street: 'addressLine1', // This would conflict with existing field
-      };
-
-      const result = applyKeyMapping(originalSchema, newSchemaKeys, [
-        'addressLine1',
-      ]);
-      // Should omit both the original field that maps to 'addressLine1'
-      // and any existing 'addressLine1' field
-      expect(result).to.not.have.property('street');
-      expect(result).to.not.have.property('addressLine1');
-
-      // Should keep non-conflicting field
-      expect(result).to.have.property('postalCode');
-    });
-
     it('should return original schema when no mapping provided', () => {
       const originalSchema = {
         street: { type: 'string' },
@@ -702,6 +679,186 @@ describe('addressPattern mapping functions', () => {
       const result = applyKeyMapping(originalSchema);
 
       expect(result).to.deep.equal(originalSchema);
+    });
+
+    it('should handle omit list with both source and target names', () => {
+      const originalSchema = {
+        street: { type: 'string' },
+        street2: { type: 'string' },
+        postalCode: { type: 'string' },
+      };
+
+      const newSchemaKeys = {
+        street: 'addressLine1',
+        postalCode: 'zipCode',
+      };
+
+      const result = applyKeyMapping(originalSchema, newSchemaKeys, [
+        'street', // Omit by source name
+        'zipCode', // Omit by target name
+        'street2', // Omit unmapped field
+      ]);
+
+      // All should be omitted
+      expect(result).to.not.have.property('street');
+      expect(result).to.not.have.property('addressLine1');
+      expect(result).to.not.have.property('street2');
+      expect(result).to.not.have.property('postalCode');
+      expect(result).to.not.have.property('zipCode');
+
+      // Result should be empty object
+      expect(Object.keys(result)).to.have.length(0);
+    });
+  });
+  describe('key collision detection', () => {
+    it('should throw error when mapping to existing field name', () => {
+      const originalSchema = {
+        street: { type: 'string', title: 'Street' },
+        addressLine1: { type: 'string', title: 'Address Line 1' },
+        postalCode: { type: 'string', title: 'Postal Code' },
+      };
+
+      const newSchemaKeys = {
+        street: 'addressLine1', // Collision: addressLine1 already exists
+      };
+
+      expect(() => applyKeyMapping(originalSchema, newSchemaKeys)).to.throw(
+        /Field mapping would cause key collisions.*'street' -> 'addressLine1'/,
+      );
+    });
+
+    it('should throw error for multiple key collisions', () => {
+      const originalSchema = {
+        street: { type: 'string' },
+        street2: { type: 'string' },
+        addressLine1: { type: 'string' },
+        zipCode: { type: 'string' },
+        postalCode: { type: 'string' },
+      };
+
+      const newSchemaKeys = {
+        street: 'addressLine1', // Collision
+        postalCode: 'zipCode', // Collision
+      };
+
+      expect(() => applyKeyMapping(originalSchema, newSchemaKeys)).to.throw(
+        /Field mapping would cause key collisions.*'street' -> 'addressLine1'.*'postalCode' -> 'zipCode'/,
+      );
+    });
+    it('should allow mapping field to itself (no collision)', () => {
+      const originalSchema = {
+        street: { type: 'string' },
+        postalCode: { type: 'string' },
+      };
+
+      const newSchemaKeys = {
+        street: 'street', // Same name, should be fine
+      };
+
+      expect(() =>
+        applyKeyMapping(originalSchema, newSchemaKeys),
+      ).to.not.throw();
+    });
+
+    it('should detect collision with case sensitivity', () => {
+      const originalSchema = {
+        street: { type: 'string' },
+        Street: { type: 'string' }, // Different case
+      };
+
+      const newSchemaKeys = {
+        street: 'Street', // Collision due to case
+      };
+
+      expect(() => applyKeyMapping(originalSchema, newSchemaKeys)).to.throw(
+        /Field mapping would cause key collisions.*'street' -> 'Street'/,
+      );
+    });
+    it('should work when target field does not exist in original schema', () => {
+      const originalSchema = {
+        street: { type: 'string' },
+        postalCode: { type: 'string' },
+      };
+
+      const newSchemaKeys = {
+        street: 'addressLine1', // addressLine1 doesn't exist in original
+        postalCode: 'zipCode', // zipCode doesn't exist in original
+      };
+      const result = applyKeyMapping(originalSchema, newSchemaKeys);
+
+      expect(result).to.have.property('addressLine1');
+      expect(result).to.have.property('zipCode');
+      expect(result).to.not.have.property('street');
+      expect(result).to.not.have.property('postalCode');
+    });
+
+    it('should detect collision even when target field would be omitted', () => {
+      const originalSchema = {
+        street: { type: 'string' },
+        addressLine1: { type: 'string' },
+      };
+
+      const newSchemaKeys = {
+        street: 'addressLine1',
+      };
+
+      // Even though addressLine1 would be omitted, the collision should be detected first
+      expect(() =>
+        applyKeyMapping(originalSchema, newSchemaKeys, ['addressLine1']),
+      ).to.throw(/Field mapping would cause key collisions/);
+    });
+
+    it('should handle complex collision scenarios with multiple mappings', () => {
+      const originalSchema = {
+        fieldA: { type: 'string' },
+        fieldB: { type: 'string' },
+        fieldC: { type: 'string' },
+        targetX: { type: 'string' },
+        targetY: { type: 'string' },
+      };
+
+      const newSchemaKeys = {
+        fieldA: 'targetX', // Collision
+        fieldB: 'targetY', // Collision
+        fieldC: 'newField', // No collision
+      };
+
+      expect(() => applyKeyMapping(originalSchema, newSchemaKeys)).to.throw(
+        /Field mapping would cause key collisions.*'fieldA' -> 'targetX'.*'fieldB' -> 'targetY'/,
+      );
+    });
+  });
+  describe('integration with collision detection', () => {
+    it('should prevent addressUI from creating schemas with collisions', () => {
+      const newSchemaKeys = {
+        street: 'country', // This would collide with existing country field
+      };
+
+      expect(() => addressUI({ newSchemaKeys })).to.throw(
+        /Field mapping would cause key collisions.*'street' -> 'country'/,
+      );
+    });
+
+    it('should prevent addressSchema from creating schemas with collisions', () => {
+      const newSchemaKeys = {
+        postalCode: 'city', // This would collide with existing city field
+      };
+
+      expect(() => addressSchema({ newSchemaKeys })).to.throw(
+        /Field mapping would cause key collisions.*'postalCode' -> 'city'/,
+      );
+    });
+
+    it('should allow safe mappings that do not cause collisions', () => {
+      const newSchemaKeys = {
+        street: 'addressLine1',
+        street2: 'addressLine2',
+        postalCode: 'zipCode',
+      };
+
+      // These should work fine as they don't collide with existing fields
+      expect(() => addressUI({ newSchemaKeys })).to.not.throw();
+      expect(() => addressSchema({ newSchemaKeys })).to.not.throw();
     });
   });
 });

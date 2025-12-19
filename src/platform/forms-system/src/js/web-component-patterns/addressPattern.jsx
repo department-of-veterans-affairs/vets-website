@@ -249,11 +249,41 @@ function validateMappableFields(newSchemaKeys = {}) {
 }
 
 /**
+ * Detects key collisions that would occur due to mapping
+ */
+function detectKeyCollisions(schema, newSchemaKeys = {}) {
+  // Detect key collisions before processing
+  const originalKeys = Object.keys(schema);
+  const mappingEntries = Object.entries(newSchemaKeys);
+  const collisions = [];
+
+  mappingEntries.forEach(([sourceKey, targetKey]) => {
+    // Check if target key already exists in original schema and is different from source
+    if (originalKeys.includes(targetKey) && sourceKey !== targetKey) {
+      collisions.push(
+        `'${sourceKey}' -> '${targetKey}' (conflicts with existing '${targetKey}')`,
+      );
+    }
+  });
+
+  if (collisions.length > 0) {
+    throw new Error(
+      `WARNING: Field mapping would cause key collisions: ${collisions.join(
+        ', ',
+      )}. Cannot map to field names that already exist in the schema.`,
+    );
+  }
+}
+
+/**
  * Applies field key mapping to a schema object
  * @param {Object} schema - The original schema object
  * @param {Object} newSchemaKeys - Mapping of standard keys to custom keys
  * @param {Array} omit - Fields to omit from the final schema
  * @returns {Object} - Mapped schema object with transformed keys and omitted fields
+ *
+ * @throws {Error} If key mapping would cause field collisions (e.g., mapping 'street' to 'addressLine1'
+ * when 'addressLine1' already exists in the original schema)
  *
  * @example
  * const originalSchema = { street: {}, postalCode: {} };
@@ -266,10 +296,15 @@ function validateMappableFields(newSchemaKeys = {}) {
  */
 export function applyKeyMapping(schema, newSchemaKeys = {}, omit = []) {
   if (Object.keys(newSchemaKeys).length === 0) {
-    return schema;
+    // When no key mappings are provided, still honor the omit list
+    if (!omit || omit.length === 0) {
+      return schema;
+    }
+    return utilsOmit(schema, omit);
   }
   // Validate that only safe fields are being mapped
   validateMappableFields(newSchemaKeys);
+  detectKeyCollisions(schema, newSchemaKeys);
 
   const mappedSchema = {};
   Object.entries(schema).forEach(([standardKey, fieldConfig]) => {
@@ -295,7 +330,7 @@ export function applyKeyMapping(schema, newSchemaKeys = {}, omit = []) {
  * @param {number} index - index, if form data array of addresses; also included
  *  in the path, but added here to make it easier to distinguish between
  *  addresses not in an array with addresses inside an array
- * @param {array} newSchemaKeys - Mapping of standard keys to custom keys
+ * @param {object} newSchemaKeys - Mapping of standard keys to custom keys
  * @returns {object} - updated Form data with manipulated mailing address if the
  * military base checkbox state changes
  */
