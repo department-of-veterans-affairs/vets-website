@@ -1,23 +1,24 @@
 import userWithAppeals from '../../fixtures/mocks/user-with-appeals.json';
 import { createAppeal } from '../../support/fixtures/appeals';
-import { mockFeatureToggles } from '../../support/helpers/mocks';
+import { createEvidenceSubmission } from '../../support/fixtures/benefitsClaims';
+import {
+  mockAppealsEndpoint,
+  mockClaimsEndpoint,
+  mockFeatureToggles,
+  mockStemEndpoint,
+} from '../../support/helpers/mocks';
 
 describe('Appeal cards', () => {
   const setupAppealCardsTest = (appeals = []) => {
-    cy.intercept('GET', '/v0/appeals', { data: appeals });
+    mockAppealsEndpoint(appeals);
     cy.visit('/track-claims');
     cy.injectAxe();
   };
 
   beforeEach(() => {
     mockFeatureToggles();
-
-    cy.intercept('GET', '/v0/benefits_claims', {
-      data: [],
-    });
-    cy.intercept('GET', '/v0/education_benefits_claims/stem_claim_status', {
-      data: {},
-    });
+    mockClaimsEndpoint();
+    mockStemEndpoint();
 
     cy.login(userWithAppeals);
   });
@@ -278,6 +279,37 @@ describe('Appeal cards', () => {
       cy.findByText('Issues on appeal:').should('not.exist');
       cy.findByText(/Status:/);
       cy.findByText('Last updated: January 15, 2025');
+
+      cy.axeCheck();
+    });
+  });
+
+  describe('Upload error alerts', () => {
+    beforeEach(() => {
+      mockFeatureToggles({ showDocumentUploadStatus: true });
+      mockClaimsEndpoint();
+      mockStemEndpoint();
+
+      cy.login(userWithAppeals);
+    });
+
+    it('should display upload error alert for supplemental claim with failed submissions', () => {
+      setupAppealCardsTest([
+        createAppeal({
+          type: 'supplementalClaim',
+          eventType: 'sc_request',
+          evidenceSubmissions: [
+            createEvidenceSubmission({
+              uploadStatus: 'FAILED',
+              acknowledgementDate: '2050-01-01T00:00:00.000Z',
+            }),
+          ],
+        }),
+      ]);
+
+      cy.get('va-alert').findByText(
+        'We need you to resubmit files for this claim.',
+      );
 
       cy.axeCheck();
     });

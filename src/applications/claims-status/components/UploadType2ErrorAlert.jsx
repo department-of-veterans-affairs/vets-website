@@ -1,12 +1,24 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   VaAlert,
   VaLinkAction,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { getTrackedItemDisplayNameFromEvidenceSubmission } from '../utils/helpers';
+import { recordType2FailureEventStatusPage } from '../utils/analytics';
 
-function UploadType2ErrorAlert({ failedSubmissions }) {
+function UploadType2ErrorAlert({ failedSubmissions, isStatusPage }) {
+  // Record Type 2 failure event every time component mounts with failed submissions
+  // Only fires on status page
+  useEffect(
+    () => {
+      if (failedSubmissions && failedSubmissions.length > 0 && isStatusPage) {
+        recordType2FailureEventStatusPage();
+      }
+    },
+    [failedSubmissions, isStatusPage],
+  );
+
   // Don't render anything if there are no failed submissions
   if (!failedSubmissions || failedSubmissions.length === 0) {
     return null;
@@ -97,6 +109,7 @@ function UploadType2ErrorAlert({ failedSubmissions }) {
 
 UploadType2ErrorAlert.propTypes = {
   failedSubmissions: PropTypes.array,
+  isStatusPage: PropTypes.bool,
 };
 
 export default UploadType2ErrorAlert;

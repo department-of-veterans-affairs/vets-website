@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import recordEvent from 'platform/monitoring/record-event';
 import { Toggler } from '~/platform/utilities/feature-toggles';
 import {
   buildDateFormatter,
@@ -14,6 +14,13 @@ const formatDate = buildDateFormatter();
 export default function StemClaimListItem({ claim }) {
   const { automatedDenial, deniedAt, submittedAt, evidenceSubmissions = [] } =
     claim.attributes || {};
+
+  // Memoize failed submissions to prevent UploadType2ErrorAlertSlim from receiving
+  // a new array reference on every render, which would break its useEffect tracking
+  const failedSubmissionsWithinLast30Days = useMemo(
+    () => getFailedSubmissionsWithinLast30Days(evidenceSubmissions),
+    [evidenceSubmissions],
+  );
 
   if (!automatedDenial) {
     return null;
@@ -40,10 +47,6 @@ export default function StemClaimListItem({ claim }) {
   const ariaLabel = `Details for claim submitted on ${formattedReceiptDate}`;
   const href = `/your-stem-claims/${claim.id}/status`;
 
-  const failedSubmissionsWithinLast30Days = getFailedSubmissionsWithinLast30Days(
-    evidenceSubmissions,
-  );
-
   return (
     <ClaimCard
       title="Edith Nourse Rogers STEM Scholarship application"
@@ -56,6 +59,7 @@ export default function StemClaimListItem({ claim }) {
       <Toggler toggleName={Toggler.TOGGLE_NAMES.cstShowDocumentUploadStatus}>
         <Toggler.Enabled>
           <UploadType2ErrorAlertSlim
+            claimId={claim.id}
             failedSubmissions={failedSubmissionsWithinLast30Days}
           />
         </Toggler.Enabled>

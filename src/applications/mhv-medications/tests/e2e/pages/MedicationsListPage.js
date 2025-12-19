@@ -1,6 +1,7 @@
 import { addSeconds, format } from 'date-fns';
 import prescriptions from '../fixtures/listOfPrescriptions.json';
 import allergies from '../fixtures/allergies.json';
+import acceleratedAllergies from '../fixtures/accelerated-allergies.json';
 import allergiesList from '../fixtures/allergies-list.json';
 import tooltip from '../fixtures/tooltip-for-filtering-list-page.json';
 import { Paths } from '../utils/constants';
@@ -32,6 +33,11 @@ class MedicationsListPage {
       '/my_health/v1/medical_records/allergies',
       allergies,
     ).as('allergies');
+    cy.intercept(
+      'GET',
+      '/my_health/v2/medical_records/allergies',
+      acceleratedAllergies,
+    ).as('acceleratedAllergies');
     cy.intercept('GET', Paths.MED_LIST, prescriptions).as('medicationsList');
     cy.intercept(
       'GET',
@@ -1132,6 +1138,42 @@ class MedicationsListPage {
 
   verifySortScreenReaderActionText = text => {
     cy.findByTestId('sort-action-sr-text').should('have.text', text);
+  };
+
+  // OH Integration tests
+
+  visitMedicationsListForUserWithAcceleratedAllergies = (
+    waitForMeds = false,
+  ) => {
+    // cy.intercept('GET', '/my-health/medications', prescriptions);
+    cy.intercept('GET', `${Paths.DELAY_ALERT}`, prescriptions).as(
+      'delayAlertRxList',
+    );
+    cy.intercept(
+      'GET',
+      '/my_health/v2/medical_records/allergies',
+      acceleratedAllergies,
+    ).as('acceleratedAllergies');
+    cy.intercept('GET', Paths.MED_LIST, prescriptions).as('medicationsList');
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
+      prescriptions,
+    );
+    cy.visit(medicationsUrls.MEDICATIONS_URL);
+    if (waitForMeds) {
+      cy.wait('@medicationsList');
+    }
+  };
+
+  verifyAllergiesListNetworkResponseWithAcceleratedAllergies = () => {
+    cy.get('@acceleratedAllergies')
+      .its('response')
+      .then(res => {
+        expect(res.body.data[0].attributes).to.include({
+          name: 'TRAZODONE',
+        });
+      });
   };
 
   // SendRxRenewalMessage component test helpers
