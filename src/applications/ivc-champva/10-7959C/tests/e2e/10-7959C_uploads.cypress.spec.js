@@ -18,16 +18,16 @@ import environment from 'platform/utilities/environment';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 
-import formConfig from '../config/form';
-import manifest from '../manifest.json';
+import formConfig from '../../config/form';
+import manifest from '../../manifest.json';
 
 import {
   selectRadioWebComponent,
   getAllPages,
   verifyAllDataWasSubmitted,
-} from '../../shared/tests/helpers';
+} from '../../../shared/tests/helpers';
 
-import mockFeatureToggles from './e2e/fixtures/mocks/featureToggles.json';
+import mockFeatureToggles from './fixtures/mocks/featureToggles.json';
 
 // For intercepting file uploads:
 const UPLOAD_URL = `${
