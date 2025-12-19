@@ -129,20 +129,9 @@ const ReviewPage = () => {
                 {Object.entries(totalByExpenseType)
                   .filter(([_, total]) => total > 0) // only show if total > 0
                   .map(([type, total]) => {
-                    const labelMap = {
-                      Mileage: EXPENSE_TYPES.Mileage.title,
-                      Parking: EXPENSE_TYPES.Parking.title,
-                      Toll: EXPENSE_TYPES.Toll.title,
-                      Commoncarrier: EXPENSE_TYPES.Commoncarrier.title,
-                      Airtravel: EXPENSE_TYPES.Airtravel.title,
-                      Lodging: EXPENSE_TYPES.Lodging.title,
-                      Meal: EXPENSE_TYPES.Meal.title,
-                      Other: EXPENSE_TYPES.Other.title,
-                    };
-
                     return (
                       <li key={type}>
-                        <strong>{labelMap[type] || type}</strong> $
+                        <strong>{EXPENSE_TYPES[type]?.title ?? type}</strong> $
                         {formatAmount(total)}
                       </li>
                     );
