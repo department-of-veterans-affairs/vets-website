@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import transform from '../../config/transform';
+import { todaysDate } from '../../helpers';
 
 describe('transform function', () => {
   it('should transform form data correctly', () => {
@@ -13,7 +14,6 @@ describe('transform function', () => {
         testCost: '56',
         organizationName: 'Acme Co.',
         organizationAddress: {
-          country: 'USA',
           street: '123 Fake St',
           city: 'Tulsa',
           state: 'OK',
@@ -78,7 +78,7 @@ describe('transform function', () => {
       vaBenefitProgram: 'chapter35',
       hasPreviouslyApplied: true,
       statementOfTruthSignature: 'Jackie Doe',
-      dateSigned: '2025-01-01',
+      dateSigned: todaysDate(),
     });
   });
 });
