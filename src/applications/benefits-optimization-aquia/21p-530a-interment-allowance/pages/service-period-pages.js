@@ -111,7 +111,6 @@ const serviceLocationsAndRankPage = {
   },
   schema: {
     type: 'object',
-    required: ['placeEnteredService', 'placeLeftService', 'rankAtSeparation'],
     properties: {
       placeEnteredService: textSchema,
       placeLeftService: textSchema,
