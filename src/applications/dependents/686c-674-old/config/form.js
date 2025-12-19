@@ -2,7 +2,6 @@ import fullSchema from 'vets-json-schema/dist/686C-674-schema.json';
 import environment from 'platform/utilities/environment';
 import FormFooter from 'platform/forms/components/FormFooter';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
-import { VA_FORM_IDS } from 'platform/forms/constants';
 import { TASK_KEYS, MARRIAGE_TYPES } from './constants';
 import { isChapterFieldRequired } from './helpers';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -71,7 +70,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   preSubmitInfo: CustomPreSubmitInfo,
-  formId: VA_FORM_IDS.FORM_21_686C,
+  formId: '686C-674', // Form is deprecated; removing ID from platform first
   saveInProgress: {
     messages: {
       inProgress: 'Your dependent status application (21-686c) is in progress.',

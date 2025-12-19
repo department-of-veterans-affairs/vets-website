@@ -40,7 +40,7 @@ export default function CancelPageLayoutRequest() {
     shallowEqual,
   );
 
-  const { reasonForAppointment, patientComments } = appointment || {};
+  const { patientComments } = appointment || {};
   const { providerName } = preferredProvider || {};
 
   return (
@@ -140,12 +140,7 @@ export default function CancelPageLayoutRequest() {
             )}
             {!facilityPhone && <>Not available</>}
           </Section>
-          <Details
-            reason={reasonForAppointment}
-            otherDetails={patientComments}
-            request
-            level={3}
-          />
+          <Details otherDetails={patientComments} request level={3} />
         </>
       )}
       <Section heading="Your contact details" level={3}>

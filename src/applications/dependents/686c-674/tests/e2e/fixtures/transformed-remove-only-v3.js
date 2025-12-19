@@ -166,7 +166,7 @@ export default {
       },
     ],
   },
-  netWorthLimit: 159240,
+  netWorthLimit: 163699,
   daysTillExpires: 365,
   statementOfTruthSignature: 'John Doe',
   statementOfTruthCertified: true,
