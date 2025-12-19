@@ -21,7 +21,7 @@ const ALL_PAGES = getAllPages(formConfig);
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
-    dataDir: path.join(__dirname, 'e2e', 'fixtures', 'data'),
+    dataDir: path.join(__dirname, 'fixtures', 'data'),
 
     // Rename and modify the test data as needed.
     /*
