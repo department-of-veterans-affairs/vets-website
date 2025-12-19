@@ -150,7 +150,7 @@ const ExpenseCard = ({ apptId, claimId, expense, address, showEditDelete }) => {
       {showEditDelete && (
         <DeleteExpenseModal
           expenseCardTitle={header}
-          expenseType={expenseType}
+          expenseType={EXPENSE_TYPES[expenseType]?.name || expenseType}
           visible={showDeleteModal}
           onCloseEvent={() => setShowDeleteModal(false)}
           onPrimaryButtonClick={handleDeleteExpenseAndDocument}
