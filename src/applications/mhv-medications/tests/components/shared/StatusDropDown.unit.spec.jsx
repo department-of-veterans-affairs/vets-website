@@ -110,16 +110,13 @@ describe('component that displays Status', () => {
   describe('V1 status display when both CernerPilot and V2StatusMapping flags are disabled', () => {
     it('renders Active: Refill in Process', () => {
       const screen = renderStatus('Active: Refill in Process', false, false);
-      expect(
-        screen.getAllByText('Active: Refill in Process', { exact: false }),
-      ).to.exist;
+      expect(screen.getAllByText('Active: Refill in Process', { exact: false }))
+        .to.exist;
     });
 
     it('renders Active: Parked', () => {
       const screen = renderStatus('Active: Parked', false, false);
-      expect(
-        screen.getAllByText('Active: Parked', { exact: false }),
-      ).to.exist;
+      expect(screen.getAllByText('Active: Parked', { exact: false })).to.exist;
     });
 
     it('renders Active: Submitted', () => {
