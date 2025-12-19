@@ -45,12 +45,14 @@ const Draft = ({
           </div>
         </div>
       </div>
-      <va-link
-        active
-        text="Continue your request"
-        href={continueUrl}
-        onClick={recordDashboardClick(formId, 'continue-button')}
-      />
+      <p>
+        <va-link
+          active
+          text="Continue your request"
+          href={continueUrl}
+          onClick={recordDashboardClick(formId, 'continue-button')}
+        />
+      </p>
     </>
   );
 
