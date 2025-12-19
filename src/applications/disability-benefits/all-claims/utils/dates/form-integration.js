@@ -43,6 +43,12 @@ export const dateFieldToISO = (dateField, options = {}) => {
   if (isMonthMissing || isDayMissing || isYearMissing) {
     // Only create XX placeholders for fields that explicitly allow partial dates
     if (allowPartial) {
+      // Reject invalid pattern: year+day only (month missing but day and year present)
+      // This pattern is unnatural and not supported
+      if (isMonthMissing && !isDayMissing && !isYearMissing) {
+        return null;
+      }
+
       const monthFinal = isMonthMissing ? 'XX' : monthStr;
       const dayFinal = isDayMissing ? 'XX' : dayStr;
       const yearFinal = isYearMissing ? 'XXXX' : yearStr;
@@ -269,17 +275,52 @@ export const validateFormDateRange = (fromField, toField, options = {}) => {
     return { isValid: false, error: `End date: ${toResult.error}` };
   }
 
-  // Check range validity if both dates are complete
+  // Check range validity at the granularity available
   const fromISO = dateFieldToISO(fromField, options);
   const toISO = dateFieldToISO(toField, options);
 
-  if (fromISO && toISO && !fromISO.includes('XX') && !toISO.includes('XX')) {
-    const fromDate = moment(fromISO);
-    const toDate = moment(toISO);
+  if (fromISO && toISO) {
+    // For complete dates, do full validation
+    if (!fromISO.includes('XX') && !toISO.includes('XX')) {
+      const fromDate = moment(fromISO);
+      const toDate = moment(toISO);
 
-    if (fromDate.isAfter(toDate)) {
-      result.isValid = false;
-      result.error = 'End date must be after start date';
+      if (fromDate.isAfter(toDate)) {
+        result.isValid = false;
+        result.error = 'End date must be after start date';
+      }
+    } else {
+      // For partial dates, validate at the granularity we have
+      // Extract year, month, day from ISO strings
+      const [fromYear, fromMonth, fromDay] = fromISO.split('-');
+      const [toYear, toMonth, toDay] = toISO.split('-');
+
+      // Compare years if both are known
+      if (fromYear !== 'XXXX' && toYear !== 'XXXX') {
+        if (parseInt(fromYear, 10) > parseInt(toYear, 10)) {
+          result.isValid = false;
+          result.error = 'End date must be after start date';
+          return result;
+        }
+        // If years are equal, compare months if both are known
+        if (fromYear === toYear && fromMonth !== 'XX' && toMonth !== 'XX') {
+          if (parseInt(fromMonth, 10) > parseInt(toMonth, 10)) {
+            result.isValid = false;
+            result.error = 'End date must be after start date';
+            return result;
+          }
+          // If years and months are equal, compare days if both are known
+          if (
+            fromMonth === toMonth &&
+            fromDay !== 'XX' &&
+            toDay !== 'XX' &&
+            parseInt(fromDay, 10) > parseInt(toDay, 10)
+          ) {
+            result.isValid = false;
+            result.error = 'End date must be after start date';
+          }
+        }
+      }
     }
   }
 

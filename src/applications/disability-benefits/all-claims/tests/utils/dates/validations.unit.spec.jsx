@@ -248,7 +248,7 @@ describe('Disability benefits 526EZ -- Date validation utilities', () => {
         validateApproximateDate(errors, 'XXXX-06-XX');
         expect(errors.addError.called).to.be.true;
         expect(errors.addError.firstCall.args[0]).to.include(
-          'Enter a year only',
+          'a month and year',
         );
       });
 
@@ -257,7 +257,7 @@ describe('Disability benefits 526EZ -- Date validation utilities', () => {
         validateApproximateDate(errors, 'XXXX-XX-15');
         expect(errors.addError.called).to.be.true;
         expect(errors.addError.firstCall.args[0]).to.include(
-          'Enter a year only',
+          'a month and year',
         );
       });
 
@@ -266,7 +266,7 @@ describe('Disability benefits 526EZ -- Date validation utilities', () => {
         validateApproximateDate(errors, 'XXXX-06-15');
         expect(errors.addError.called).to.be.true;
         expect(errors.addError.firstCall.args[0]).to.include(
-          'Enter a year only',
+          'a month and year',
         );
       });
     });
@@ -298,6 +298,8 @@ describe('Disability benefits 526EZ -- Date validation utilities', () => {
     });
 
     describe('year validation', () => {
+      // Year range validation applies to individual date fields,
+      // whether standalone dates or dates within a range (start/end dates)
       it('should reject year below minimum (default 1900)', () => {
         const errors = { addError: sinon.spy() };
         validateApproximateDate(errors, '1899-XX-XX');
@@ -338,6 +340,9 @@ describe('Disability benefits 526EZ -- Date validation utilities', () => {
         const errors = { addError: sinon.spy() };
         validateApproximateDate(errors, 'abcd-XX-XX');
         expect(errors.addError.called).to.be.true;
+        expect(errors.addError.firstCall.args[0]).to.include(
+          'Please enter a year between',
+        );
       });
     });
 
@@ -468,8 +473,10 @@ describe('Disability benefits 526EZ -- Date validation utilities', () => {
 
       it('should not check future date for partial dates', () => {
         const errors = { addError: sinon.spy() };
-        const futureYear = new Date().getFullYear();
-        validateApproximateDate(errors, `${futureYear}-XX-XX`);
+        // Partial dates skip future date validation, but year must still be within min/max range
+        // So we use current year (which passes year range validation)
+        const currentYear = new Date().getFullYear();
+        validateApproximateDate(errors, `${currentYear}-XX-XX`);
         expect(errors.addError.called).to.be.false;
       });
     });
