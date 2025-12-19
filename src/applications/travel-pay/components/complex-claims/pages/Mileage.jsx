@@ -6,6 +6,7 @@ import {
   VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
+import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import {
   createExpense,
   updateExpense,
@@ -34,6 +35,10 @@ const Mileage = () => {
 
   const allExpenses = useSelector(selectAllExpenses);
   const address = useSelector(selectVAPResidentialAddress);
+
+  const title = 'Mileage';
+
+  useSetPageTitle(title);
   const isLoadingExpense = useSelector(
     state =>
       isEditMode
@@ -192,7 +197,7 @@ const Mileage = () => {
 
   return (
     <>
-      <h1>Mileage</h1>
+      <h1>{title}</h1>
       <va-additional-info
         class="vads-u-margin-y--3"
         trigger="How we calculate mileage"
