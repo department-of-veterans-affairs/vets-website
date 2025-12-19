@@ -268,7 +268,7 @@ function detectKeyCollisions(schema, newSchemaKeys = {}) {
 
   if (collisions.length > 0) {
     throw new Error(
-      `WARNING: Field mapping would cause key collisions: ${collisions.join(
+      `ERROR: Field mapping would cause key collisions: ${collisions.join(
         ', ',
       )}. Cannot map to field names that already exist in the schema.`,
     );
