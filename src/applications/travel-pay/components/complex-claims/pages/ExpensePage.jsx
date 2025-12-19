@@ -14,6 +14,7 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import DocumentUpload from './DocumentUpload';
 import { EXPENSE_TYPES, EXPENSE_TYPE_KEYS } from '../../../constants';
 import {
@@ -484,6 +485,14 @@ const ExpensePage = () => {
       setFormState,
     );
   };
+
+  const pageTitle = expenseTypeFields?.expensePageText
+    ? `${expenseTypeFields.expensePageText
+        .charAt(0)
+        .toUpperCase()}${expenseTypeFields.expensePageText.slice(1)} expense`
+    : 'Unknown expense';
+
+  useSetPageTitle(pageTitle);
 
   return (
     <>
