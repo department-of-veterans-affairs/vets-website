@@ -166,6 +166,7 @@ const StepOne = ({ formResponses }) => {
 
   const { num: formNumber, link: formLink } = determineFormData(formResponses);
   let formTitle = `Form ${formNumber}`;
+  const formFileName = formLink.split('/').pop();
 
   if ([293, 149].includes(formNumber)) {
     formTitle = `DOD Form ${formNumber}`;
@@ -182,9 +183,10 @@ const StepOne = ({ formResponses }) => {
         : nonDd2014Tips}
       <va-link
         download
-        disable-analytics
+        className="vads-u-margin-bottom--1"
         filetype="PDF"
-        filename={`${formNumber}.pdf`}
+        pages={3}
+        filename={formFileName}
         text={`Download ${formTitle} (opens in a new tab)`}
         href={formLink}
         onClick={e => {
