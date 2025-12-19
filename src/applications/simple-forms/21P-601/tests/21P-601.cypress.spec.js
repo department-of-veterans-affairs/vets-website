@@ -134,6 +134,20 @@ const testConfig = createTestConfig(
         });
       },
 
+      'beneficiary-date-of-death': ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            fillDateWebComponentPattern(
+              'beneficiaryDateOfDeath',
+              data.beneficiaryDateOfDeath,
+            );
+            cy.axeCheck();
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
+
       'your-name-and-date-of-birth': ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
