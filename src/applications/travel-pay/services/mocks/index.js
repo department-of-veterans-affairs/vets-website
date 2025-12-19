@@ -658,7 +658,7 @@ const responses = {
     return res.status(404).json({ errors: [{ detail: 'Expense not found' }] });
   },
 
-  'GET /travel_pay/v0/expenses/common_carrier/:expenseId': (req, res) => {
+  'GET /travel_pay/v0/expenses/commoncarrier/:expenseId': (req, res) => {
     const { expenseId } = req.params;
     if (expenseId === 'g04j04j0-iji1-0g88-e911-i7gf38308lkh') {
       return res.json({
@@ -669,9 +669,8 @@ const responses = {
         description: 'Taxi to appointment',
         costRequested: 45.0,
         costSubmitted: 45.0,
-        vendorName: 'Yellow Cab',
         carrierType: 'Taxi',
-        carrierReason: 'NoCar',
+        reasonNotUsingPOV: 'NoCar',
       });
     }
     return res.status(404).json({ errors: [{ detail: 'Expense not found' }] });
@@ -688,12 +687,12 @@ const responses = {
         description: 'Flight to medical appointment',
         costRequested: 350.0,
         costSubmitted: 350.0,
+        tripType: 'RoundTrip',
         vendorName: 'United Airlines',
-        originAirport: 'SFO',
-        destinationAirport: 'LAX',
-        flightNumber: 'UA123',
+        departedFrom: 'San Francisco, CA',
         departureDate: '2025-09-15T06:00:00Z',
-        arrivalDate: '2025-09-15T08:00:00Z',
+        arrivedTo: 'Los Angeles, CA',
+        returnDate: '2025-09-15T08:00:00Z',
       });
     }
     return res.status(404).json({ errors: [{ detail: 'Expense not found' }] });
@@ -710,10 +709,9 @@ const responses = {
         description: 'Hotel stay',
         costRequested: 125.0,
         costSubmitted: 125.0,
-        vendorName: 'Holiday Inn',
-        checkInDate: '2025-09-15T15:00:00Z',
-        checkOutDate: '2025-09-16T11:00:00Z',
-        numberOfNights: 1,
+        vendor: 'Holiday Inn',
+        checkInDate: '2025-09-15',
+        checkOutDate: '2025-09-16',
       });
     }
     return res.status(404).json({ errors: [{ detail: 'Expense not found' }] });
@@ -730,7 +728,7 @@ const responses = {
         description: 'Breakfast and lunch',
         costRequested: 35.0,
         costSubmitted: 35.0,
-        mealType: 'All',
+        vendorName: 'Restaurant Name',
       });
     }
     return res.status(404).json({ errors: [{ detail: 'Expense not found' }] });
