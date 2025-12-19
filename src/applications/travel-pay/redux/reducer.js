@@ -499,7 +499,7 @@ function travelPayReducer(state = initialState, action) {
 
     case FETCH_COMPLEX_CLAIM_DETAILS_SUCCESS: {
       const existingExpenses = state.complexClaim.expenses.data || [];
-      const claimDocuments = state.complexClaim.claim?.data?.documents || [];
+      const claimDocuments = action.payload?.documents || [];
       const newExpenses = action.payload?.expenses || [];
       const mergedExpenses = mergeExpenses(existingExpenses, newExpenses);
       const transposedExpenses = transposeExpenses(

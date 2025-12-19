@@ -7,6 +7,7 @@ import { useNavigate, useLocation } from 'react-router-dom-v5-compat';
 import { BTSSS_PORTAL_URL } from '../../../constants';
 import { createComplexClaim } from '../../../redux/actions';
 import ComplexClaimRedirect from './ComplexClaimRedirect';
+import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import {
   selectAppointment,
   selectComplexClaim,
@@ -21,6 +22,10 @@ const IntroductionPage = () => {
 
   const { data: appointment } = useSelector(selectAppointment);
   const complexClaim = useSelector(selectComplexClaim);
+
+  const title = 'File a travel reimbursement claim';
+
+  useSetPageTitle(title);
 
   const apptId = appointment?.id;
 
@@ -64,7 +69,7 @@ const IntroductionPage = () => {
     <>
       {shouldShowRedirect && <ComplexClaimRedirect />}
       <div data-testid="introduction-page">
-        <h1>File a travel reimbursement claim</h1>
+        <h1>{title}</h1>
         <div className="vads-u-margin-left--2">
           <va-process-list>
             <va-process-list-item
