@@ -6,6 +6,7 @@ import {
   VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
+import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import {
   createExpense,
   updateExpense,
@@ -34,6 +35,10 @@ const Mileage = () => {
 
   const allExpenses = useSelector(selectAllExpenses);
   const address = useSelector(selectVAPResidentialAddress);
+
+  const title = 'Mileage';
+
+  useSetPageTitle(title);
   const isLoadingExpense = useSelector(
     state =>
       isEditMode
@@ -41,10 +46,13 @@ const Mileage = () => {
         : selectExpenseCreationLoadingState(state),
   );
 
-  const initialFormStateRef = useRef({ departureAddress: '', tripType: '' });
+  const initialFormStateRef = useRef({
+    departureAddress: '',
+    tripType: '',
+  });
   const previousHasChangesRef = useRef(false);
 
-  const [formState, setFormState] = useState({});
+  const [formState, setFormState] = useState({ description: 'Mileage' });
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [showTripTypeError, setShowTripTypeError] = useState(false);
   const [showDepartureAddressError, setShowDepartureAddresError] = useState(
@@ -85,6 +93,7 @@ const Mileage = () => {
         const initialState = {
           departureAddress: 'home-address',
           tripType: TRIP_TYPES.ROUND_TRIP.value,
+          description: 'Mileage',
         };
         setFormState(initialState);
         initialFormStateRef.current = initialState;
@@ -192,7 +201,7 @@ const Mileage = () => {
 
   return (
     <>
-      <h1>Mileage</h1>
+      <h1>{title}</h1>
       <va-additional-info
         class="vads-u-margin-y--3"
         trigger="How we calculate mileage"
