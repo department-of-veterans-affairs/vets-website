@@ -16,7 +16,12 @@ import HubLinks from './HubLinks';
 import NewsletterSignup from './NewsletterSignup';
 import HelpdeskInfo from './HelpdeskInfo';
 import Alerts from '../containers/Alerts';
-import { isLOA3, isVAPatient, personalizationEnabled } from '../selectors';
+import {
+  isLOA3,
+  isVAPatient,
+  personalizationEnabled,
+  selectProfile,
+} from '../selectors';
 import manifest from '../manifest.json';
 
 const LandingPage = ({ data = {} }) => {
@@ -25,9 +30,8 @@ const LandingPage = ({ data = {} }) => {
   const vaPatient = useSelector(isVAPatient);
   const userRegistered = userVerified && vaPatient;
   const showWelcomeMessage = useSelector(personalizationEnabled);
-  const { userFacilityReadyForInfoAlert } = useSelector(
-    state => state.user.profile,
-  );
+  const profile = useSelector(selectProfile);
+  const { userFacilityReadyForInfoAlert = false } = profile;
 
   return (
     <>
