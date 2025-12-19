@@ -142,42 +142,51 @@ describe('Complex Claims Mileage - Add', () => {
     ).to.exist;
   });
 
-  it('passes description= "Mileage" to createExpense on continue', async () => {
-    const stub = sinon
-      .stub(actions, 'createExpense')
-      .returns(() => Promise.resolve());
+  context('Form submission', () => {
+    let stub;
 
-    const { container } = renderComponent();
+    beforeEach(() => {
+      stub = sinon
+        .stub(actions, 'createExpense')
+        .returns(() => Promise.resolve());
+    });
 
-    // Select required radio options first
-    const departureRadio = $('va-radio[name="departureAddress"]');
-    const tripTypeRadio = $('va-radio[name="tripType"]');
+    afterEach(() => {
+      stub.restore();
+    });
+    it('passes description= "Mileage" to createExpense on continue', async () => {
+      const { container } = renderComponent();
 
-    fireEvent(
-      departureRadio,
-      new CustomEvent('vaValueChange', { detail: { value: 'home-address' } }),
-    );
-    fireEvent(
-      tripTypeRadio,
-      new CustomEvent('vaValueChange', { detail: { value: 'RoundTrip' } }),
-    );
+      // Select required radio options first
+      const departureRadio = $('va-radio[name="departureAddress"]');
+      const tripTypeRadio = $('va-radio[name="tripType"]');
 
-    // Assert options are now checked
-    expect($('va-radio-option[value="home-address"]').hasAttribute('checked'))
-      .to.be.true;
-    expect($('va-radio-option[value="RoundTrip"]').hasAttribute('checked')).to
-      .be.true;
+      fireEvent(
+        departureRadio,
+        new CustomEvent('vaValueChange', { detail: { value: 'home-address' } }),
+      );
+      fireEvent(
+        tripTypeRadio,
+        new CustomEvent('vaValueChange', { detail: { value: 'RoundTrip' } }),
+      );
 
-    // Click Continue
-    const continueBtn = container.querySelector(
-      '.travel-pay-button-group va-button[continue]',
-    );
-    fireEvent.click(continueBtn);
+      // Assert options are now checked
+      expect($('va-radio-option[value="home-address"]').hasAttribute('checked'))
+        .to.be.true;
+      expect($('va-radio-option[value="RoundTrip"]').hasAttribute('checked')).to
+        .be.true;
 
-    // Assert createExpense received correct description
-    expect(stub.firstCall.args[2].description).to.equal('Mileage');
+      // Click Continue
+      const continueBtn = container.querySelector(
+        '.travel-pay-button-group va-button[continue]',
+      );
+      fireEvent.click(continueBtn);
 
-    stub.restore();
+      // Assert createExpense received correct description
+      expect(stub.firstCall.args[2].description).to.equal('Mileage');
+
+      stub.restore();
+    });
   });
 
   describe('Form validation', () => {
@@ -460,42 +469,50 @@ describe('Complex Claims Mileage - Edit', () => {
     expect($('va-modal')).to.exist;
   });
 
-  it('passes description= "Mileage" to updateExpense on continue', async () => {
-    const stub = sinon
-      .stub(actions, 'updateExpense')
-      .returns(() => Promise.resolve());
+  context('Form submission', () => {
+    let stub;
 
-    const { container } = renderEditPage(); // use your edit render function
+    beforeEach(() => {
+      stub = sinon
+        .stub(actions, 'updateExpense')
+        .returns(() => Promise.resolve());
+    });
 
-    // Select required radio options first
-    const departureRadio = $('va-radio[name="departureAddress"]');
-    const tripTypeRadio = $('va-radio[name="tripType"]');
+    afterEach(() => {
+      stub.restore();
+    });
 
-    fireEvent(
-      departureRadio,
-      new CustomEvent('vaValueChange', { detail: { value: 'home-address' } }),
-    );
-    fireEvent(
-      tripTypeRadio,
-      new CustomEvent('vaValueChange', { detail: { value: 'RoundTrip' } }),
-    );
+    it('passes description= "Mileage" to updateExpense on continue', async () => {
+      const { container } = renderEditPage(); // use your edit render function
 
-    // Assert options are now checked
-    expect($('va-radio-option[value="home-address"]').hasAttribute('checked'))
-      .to.be.true;
-    expect($('va-radio-option[value="RoundTrip"]').hasAttribute('checked')).to
-      .be.true;
+      // Select required radio options first
+      const departureRadio = $('va-radio[name="departureAddress"]');
+      const tripTypeRadio = $('va-radio[name="tripType"]');
 
-    // Click Continue
-    const continueBtn = container.querySelector(
-      '.travel-pay-button-group va-button[continue]',
-    );
-    fireEvent.click(continueBtn);
+      fireEvent(
+        departureRadio,
+        new CustomEvent('vaValueChange', { detail: { value: 'home-address' } }),
+      );
+      fireEvent(
+        tripTypeRadio,
+        new CustomEvent('vaValueChange', { detail: { value: 'RoundTrip' } }),
+      );
 
-    // Assert updateExpense received correct description
-    expect(stub.firstCall.args[3].description).to.equal('Mileage');
+      // Assert options are now checked
+      expect($('va-radio-option[value="home-address"]').hasAttribute('checked'))
+        .to.be.true;
+      expect($('va-radio-option[value="RoundTrip"]').hasAttribute('checked')).to
+        .be.true;
 
-    stub.restore();
+      // Click Continue
+      const continueBtn = container.querySelector(
+        '.travel-pay-button-group va-button[continue]',
+      );
+      fireEvent.click(continueBtn);
+
+      // Assert updateExpense received correct description
+      expect(stub.firstCall.args[3].description).to.equal('Mileage');
+    });
   });
 
   it('does NOT render "Cancel adding this expense" button', () => {
