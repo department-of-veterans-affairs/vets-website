@@ -7,15 +7,6 @@ import {
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-const ssnOrVaFileNumberNoHintUISchema = ssnOrVaFileNumberNoHintUI();
-ssnOrVaFileNumberNoHintUISchema.ssn = {
-  ...ssnOrVaFileNumberNoHintUISchema.ssn,
-  'ui:errorMessages': {
-    ...ssnOrVaFileNumberNoHintUISchema.ssn['ui:errorMessages'],
-    required: 'Please enter your Social Security number or VA file number',
-  },
-};
-
 /** @type {PageSchema} */
 export default {
   uiSchema: {
@@ -24,7 +15,7 @@ export default {
       description:
         'You must enter either a Social Security number or VA file number',
     }),
-    idNumber: ssnOrVaFileNumberNoHintUISchema,
+    idNumber: ssnOrVaFileNumberNoHintUI(),
     serviceNumber: serviceNumberUI(),
   },
   schema: {

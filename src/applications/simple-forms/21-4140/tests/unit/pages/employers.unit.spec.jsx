@@ -4,34 +4,13 @@ import { options } from '../../../pages/employers';
 
 describe(`employers options`, () => {
   it('has item with all fields', () => {
-    const item = {
+    const item = { employerName: '', employmentDates: { from: '' } };
+    expect(options.isItemIncomplete(item)).to.be.true;
+    const item2 = {
       employerName: 'placeholder',
-      employerAddress: {
-        street: '123 Main St',
-        city: 'Town',
-        country: 'USA',
-        postalCode: '12345',
-      },
-      employmentDates: { from: '12-19-1905', to: '12-20-1905' },
-      typeOfWork: 'Cashier',
-      hoursPerWeek: 40,
-      lostTimeFromIllness: 24,
-      highestGrossIncomePerMonth: 1000,
+      employmentDates: { from: '12-19-1905' },
     };
-    expect(options.isItemIncomplete(item)).to.be.false;
-    const item1 = {
-      employerAddress: {
-        street: '123 Main St',
-        city: 'Town',
-        country: 'USA',
-        postalCode: '12345',
-      },
-
-      hoursPerWeek: 40,
-      lostTimeFromIllness: 0,
-      highestGrossIncomePerMonth: 1000,
-    };
-    expect(options.isItemIncomplete(item1)).to.be.true;
+    expect(options.isItemIncomplete(item2)).to.be.false;
   });
 
   it('retrieves right name from getItenName helper', () => {
