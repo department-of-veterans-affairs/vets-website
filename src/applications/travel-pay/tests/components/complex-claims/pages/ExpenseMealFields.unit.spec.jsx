@@ -20,6 +20,7 @@ describe('ExpenseMealFields', () => {
       'Where did you purchase the meal?',
     );
     expect(input.getAttribute('value')).to.equal('');
+    expect(input.getAttribute('error')).to.be.null;
   });
 
   it('renders the vendorName input with a pre-filled value', () => {
@@ -33,6 +34,32 @@ describe('ExpenseMealFields', () => {
     const input = container.querySelector('va-text-input[name="vendorName"]');
     expect(input).to.exist;
     expect(input.getAttribute('value')).to.equal('Test Vendor');
+  });
+
+  it('renders the vendorName input with an error message', () => {
+    const { container } = render(
+      <ExpenseMealFields
+        {...defaultProps}
+        errors={{ vendorName: 'Vendor is required' }}
+      />,
+    );
+
+    const input = container.querySelector('va-text-input[name="vendorName"]');
+    expect(input).to.exist;
+    expect(input.getAttribute('error')).to.equal('Vendor is required');
+  });
+
+  it('renders the vendorName input with an error message', () => {
+    const { container } = render(
+      <ExpenseMealFields
+        {...defaultProps}
+        errors={{ vendorName: 'Vendor is required' }}
+      />,
+    );
+
+    const input = container.querySelector('va-text-input[name="vendorName"]');
+    expect(input).to.exist;
+    expect(input.getAttribute('error')).to.equal('Vendor is required');
   });
 
   it('calls onBlur when focusing out of the vendor field', async () => {
@@ -51,6 +78,41 @@ describe('ExpenseMealFields', () => {
       const eventArg = onChangeSpy.firstCall.args[0];
       const value = eventArg?.detail?.value || eventArg?.target?.value;
       expect(value).to.equal('New Vendor');
+    });
+  });
+
+  it('clears the error when input changes', async () => {
+    const onChangeSpy = sinon.spy();
+    const { container, rerender } = render(
+      <ExpenseMealFields
+        {...defaultProps}
+        errors={{ vendorName: 'Vendor is required' }}
+        onChange={onChangeSpy}
+      />,
+    );
+
+    const input = container.querySelector('va-text-input[name="vendorName"]');
+    expect(input.getAttribute('error')).to.equal('Vendor is required');
+
+    // Simulate input change
+    simulateVaInputBlur(input, 'Updated Vendor');
+
+    await waitFor(() => {
+      expect(onChangeSpy.called).to.be.true;
+      // Re-render with cleared error
+      rerender(
+        <ExpenseMealFields
+          {...defaultProps}
+          errors={{}}
+          formState={{ vendorName: 'Updated Vendor' }}
+          onChange={onChangeSpy}
+        />,
+      );
+      const updatedInput = container.querySelector(
+        'va-text-input[name="vendorName"]',
+      );
+      expect(updatedInput.getAttribute('error')).to.be.null;
+      expect(updatedInput.getAttribute('value')).to.equal('Updated Vendor');
     });
   });
 });

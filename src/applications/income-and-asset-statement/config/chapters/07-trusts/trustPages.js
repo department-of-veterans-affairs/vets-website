@@ -597,6 +597,10 @@ const supportingDocumentUpload = {
             if (!file || !file.name) {
               errors.addError('Upload a supporting document');
             }
+
+            if (file.errorMessage) {
+              errors.addError(file.errorMessage);
+            }
           });
         },
       ],
