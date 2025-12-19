@@ -196,67 +196,72 @@ class CCServiceTypeAhead extends Component {
           getInputProps,
           getItemProps,
           getLabelProps,
+          getMenuProps,
           isOpen,
           inputValue,
           highlightedIndex,
-        }) => (
-          <div
-            id="service-error"
-            className={classNames('vads-u-margin--0', {
-              'usa-input-error': showError,
-            })}
-          >
-            <label {...getLabelProps()} htmlFor="service-type-ahead-input">
-              Service type{' '}
-              <span className="form-required-span">(*Required)</span>
-            </label>
-            {this.props.useProgressiveDisclosure && (
-              <p className="service-hint-text">
-                Start typing to search for a service, like Chiropractor or
-                Optometrist.
-              </p>
-            )}
-            {showError && (
-              <span className="usa-input-error-message" role="alert">
-                <span id="error-message">
-                  <span className="sr-only">Error</span>
-                  Start typing and select a service type
+        }) => {
+          const { id } = getMenuProps();
+          return (
+            <div
+              id="service-error"
+              className={classNames('vads-u-margin--0', {
+                'usa-input-error': showError,
+              })}
+            >
+              <label {...getLabelProps()} htmlFor="service-type-ahead-input">
+                Service type{' '}
+                <span className="form-required-span">(*Required)</span>
+              </label>
+              {this.props.useProgressiveDisclosure && (
+                <p className="service-hint-text">
+                  Start typing to search for a service, like Chiropractor or
+                  Optometrist.
+                </p>
+              )}
+              {showError && (
+                <span className="usa-input-error-message" role="alert">
+                  <span id="error-message">
+                    <span className="sr-only">Error</span>
+                    Start typing and select a service type
+                  </span>
                 </span>
+              )}
+              <span id="service-typeahead">
+                <input
+                  role="combobox"
+                  {...getInputProps({
+                    placeholder: this.props.useProgressiveDisclosure
+                      ? undefined
+                      : 'like Chiropractor or Optometrist',
+
+                    onFocus: () => this.setState({ isFocused: true }),
+                    disabled: currentQuery?.fetchSvcsInProgress,
+                  })}
+                  onBlur={() => {
+                    this.setState({ isFocused: false });
+                  }}
+                  id="service-type-ahead-input"
+                  aria-describedby="could-not-find-service-prompt error-message"
+                  aria-expanded={isOpen ? 'true' : 'false'}
+                  aria-controls={id}
+                />
+
+                {this.renderSearchForAvailableServicePrompt(inputValue)}
+                {isOpen &&
+                  inputValue &&
+                  inputValue.length >= MIN_SEARCH_CHARS &&
+                  this.renderServiceTypeDropdownOptions(
+                    getItemProps,
+                    highlightedIndex,
+                    inputValue,
+                    id,
+                  )}
+                {this.renderTryAnotherServicePrompt(inputValue)}
               </span>
-            )}
-            <span id="service-typeahead">
-              <input
-                role="combobox"
-                {...getInputProps({
-                  placeholder: this.props.useProgressiveDisclosure
-                    ? undefined
-                    : 'like Chiropractor or Optometrist',
-
-                  onFocus: () => this.setState({ isFocused: true }),
-                  disabled: currentQuery?.fetchSvcsInProgress,
-                })}
-                onBlur={() => {
-                  this.setState({ isFocused: false });
-                }}
-                id="service-type-ahead-input"
-                aria-describedby="could-not-find-service-prompt error-message"
-                aria-expanded={isOpen ? 'true' : 'false'}
-                aria-controls="downshift-110-menu"
-              />
-
-              {this.renderSearchForAvailableServicePrompt(inputValue)}
-              {isOpen &&
-                inputValue &&
-                inputValue.length >= MIN_SEARCH_CHARS &&
-                this.renderServiceTypeDropdownOptions(
-                  getItemProps,
-                  highlightedIndex,
-                  inputValue,
-                )}
-              {this.renderTryAnotherServicePrompt(inputValue)}
-            </span>
-          </div>
-        )}
+            </div>
+          );
+        }}
       </Downshift>
     );
   }
