@@ -547,6 +547,12 @@ function travelPayReducer(state = initialState, action) {
         ...state,
         complexClaim: {
           ...state.complexClaim,
+          claim: {
+            ...state.complexClaim.claim,
+          },
+          expenses: {
+            ...state.complexClaim.expenses,
+          },
           documentDelete: {
             id: action.documentId,
             isLoading: true,
@@ -560,6 +566,12 @@ function travelPayReducer(state = initialState, action) {
         ...state,
         complexClaim: {
           ...state.complexClaim,
+          claim: {
+            ...state.complexClaim.claim,
+          },
+          expenses: {
+            ...state.complexClaim.expenses,
+          },
           documentDelete: {
             id: '',
             isLoading: false,
@@ -573,6 +585,12 @@ function travelPayReducer(state = initialState, action) {
         ...state,
         complexClaim: {
           ...state.complexClaim,
+          claim: {
+            ...state.complexClaim.claim,
+          },
+          expenses: {
+            ...state.complexClaim.expenses,
+          },
           documentDelete: {
             id: action.documentId,
             isLoading: false,
