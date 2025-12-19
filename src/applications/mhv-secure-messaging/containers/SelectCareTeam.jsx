@@ -321,6 +321,15 @@ const SelectCareTeam = () => {
     [draftInProgress],
   );
 
+  const getDestinationLabel = useCallback(
+    () => {
+      return draftInProgress.messageId
+        ? 'Continue to draft'
+        : 'Continue to start message';
+    },
+    [draftInProgress],
+  );
+
   const handlers = {
     onContinue: event => {
       event?.preventDefault();
@@ -484,12 +493,12 @@ const SelectCareTeam = () => {
           {mhvSecureMessagingCuratedListFlow ? (
             <va-link-action
               href={getDestinationPath(true)}
-              text="Continue"
+              text={getDestinationLabel()}
               data-testid="continue-button"
               data-dd-action-name="Continue button on Select care team page"
               onClick={e => handlers.onContinue(e)}
               class="vads-u-margin-top--4 vads-u-margin-bottom--3 vads-u-with--100"
-              type="secondary"
+              type="primary"
             />
           ) : (
             <VaButton

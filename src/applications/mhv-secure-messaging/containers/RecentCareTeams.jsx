@@ -224,11 +224,11 @@ const RecentCareTeams = () => {
       {mhvSecureMessagingCuratedListFlow ? (
         <va-link-action
           href={getDestinationPath(true)}
-          text="Continue"
+          text="Continue to start message"
           data-testid="recent-care-teams-continue-button"
           onClick={handleContinue}
           class="vads-u-margin-top--4 vads-u-margin-bottom--3 vads-u-with--100"
-          type="secondary"
+          type="primary"
         />
       ) : (
         <va-button
