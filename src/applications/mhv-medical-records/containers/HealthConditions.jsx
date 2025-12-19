@@ -6,8 +6,6 @@ import {
   useAcceleratedData,
 } from '@department-of-veterans-affairs/mhv/exports';
 
-import CernerFacilityAlert from 'platform/mhv/components/CernerFacilityAlert/CernerFacilityAlert';
-import { CernerAlertContent } from 'platform/mhv/components/CernerFacilityAlert/constants';
 import RecordList from '../components/RecordList/RecordList';
 import { getConditionsList, reloadRecords } from '../actions/conditions';
 import {
@@ -94,8 +92,6 @@ const HealthConditions = () => {
         previous My HealtheVet experience.
       </p>
 
-      <CernerFacilityAlert {...CernerAlertContent.HEALTH_CONDITIONS} />
-
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
         accessAlertType={accessAlertTypes.HEALTH_CONDITIONS}
@@ -142,14 +138,20 @@ const HealthConditions = () => {
             />
           </div>
         )}
-        {!isLoadingAcceleratedData && !isLoading && conditions?.length ? (
-          <RecordList
-            records={conditions}
-            type={recordType.HEALTH_CONDITIONS}
-          />
-        ) : (
-          <NoRecordsMessage type={recordType.HEALTH_CONDITIONS} />
-        )}
+        {!isLoadingAcceleratedData &&
+          !isLoading &&
+          conditions !== undefined && (
+            <>
+              {conditions?.length ? (
+                <RecordList
+                  records={conditions}
+                  type={recordType.HEALTH_CONDITIONS}
+                />
+              ) : (
+                <NoRecordsMessage type={recordType.HEALTH_CONDITIONS} />
+              )}
+            </>
+          )}
       </RecordListSection>
     </>
   );

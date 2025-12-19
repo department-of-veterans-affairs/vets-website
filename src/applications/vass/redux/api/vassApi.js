@@ -53,7 +53,7 @@ export const vassApi = createApi({
           // captureError(error, false, 'post referral appointment');
           // TODO: do something with error
           return {
-            error: { status: error.status || 500, message: error?.message },
+            error: error.errors[0],
           };
         }
       },

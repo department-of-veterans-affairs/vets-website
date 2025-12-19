@@ -829,7 +829,10 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
     it('does NOT redirect when claim status is "Incomplete"', () => {
       const initialState = getData({
         complexClaimsEnabled: true,
-        claimData: { claimId: 'claim-incomplete' },
+        claimData: {
+          claimId: 'claim-incomplete',
+          claimSource: 'VaGov',
+        },
         travelPayClaim: {
           metadata: { status: 200, success: true },
           claim: {
@@ -863,7 +866,10 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
     it('does NOT redirect when claim status is "Saved"', () => {
       const initialState = getData({
         complexClaimsEnabled: true,
-        claimData: { claimId: 'claim-saved' },
+        claimData: {
+          claimId: 'claim-saved',
+          claimSource: 'VaGov',
+        },
         travelPayClaim: {
           metadata: { status: 200, success: true },
           claim: {
@@ -900,6 +906,297 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
         travelPayClaim: {
           metadata: { status: 200, success: true },
           claim: null,
+        },
+      });
+
+      const { getByText } = renderWithStoreAndRouter(
+        <MemoryRouter initialEntries={['/file-new-claim/12345']}>
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId"
+              element={<ComplexClaimSubmitFlowWrapper />}
+            >
+              <Route index element={<IntroPage />} />
+            </Route>
+            <Route path="/claims/:id" element={<ClaimDetailsPage />} />
+          </Routes>
+        </MemoryRouter>,
+        {
+          initialState,
+          reducers: reducer,
+        },
+      );
+
+      expect(getByText('Intro')).to.exist;
+    });
+
+    it('redirects to claim details when claim source is not VaGov', () => {
+      const initialState = getData({
+        complexClaimsEnabled: true,
+        claimData: {
+          claimId: 'claim-789',
+          claimSource: 'BTSSS',
+        },
+        travelPayClaim: {
+          metadata: { status: 200, success: true },
+          claim: {
+            id: 'claim-789',
+            claimStatus: 'Incomplete',
+          },
+        },
+      });
+
+      const { getByText } = renderWithStoreAndRouter(
+        <MemoryRouter initialEntries={['/file-new-claim/12345']}>
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId"
+              element={<ComplexClaimSubmitFlowWrapper />}
+            >
+              <Route index element={<IntroPage />} />
+            </Route>
+            <Route path="/claims/:id" element={<ClaimDetailsPage />} />
+          </Routes>
+        </MemoryRouter>,
+        {
+          initialState,
+          reducers: reducer,
+        },
+      );
+
+      expect(getByText('Claim Details')).to.exist;
+    });
+
+    it('does NOT redirect when claim source is VaGov and status is Incomplete', () => {
+      const initialState = getData({
+        complexClaimsEnabled: true,
+        claimData: {
+          claimId: 'claim-vagov',
+          claimSource: 'VaGov',
+        },
+        travelPayClaim: {
+          metadata: { status: 200, success: true },
+          claim: {
+            id: 'claim-vagov',
+            claimStatus: 'Incomplete',
+          },
+        },
+      });
+
+      const { getByText } = renderWithStoreAndRouter(
+        <MemoryRouter initialEntries={['/file-new-claim/12345']}>
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId"
+              element={<ComplexClaimSubmitFlowWrapper />}
+            >
+              <Route index element={<IntroPage />} />
+            </Route>
+            <Route path="/claims/:id" element={<ClaimDetailsPage />} />
+          </Routes>
+        </MemoryRouter>,
+        {
+          initialState,
+          reducers: reducer,
+        },
+      );
+
+      expect(getByText('Intro')).to.exist;
+    });
+
+    it('redirects to claim details when there are unassociated documents', () => {
+      const initialState = getData({
+        complexClaimsEnabled: true,
+        claimData: {
+          claimId: 'claim-unassociated-docs',
+          claimSource: 'VaGov',
+          documents: [
+            {
+              id: 'doc1',
+              filename: 'receipt.pdf',
+              mimetype: 'application/pdf',
+              expenseId: null, // Unassociated document
+            },
+          ],
+        },
+        travelPayClaim: {
+          metadata: { status: 200, success: true },
+          claim: {
+            id: 'claim-unassociated-docs',
+            claimStatus: 'Incomplete',
+          },
+        },
+      });
+
+      const { getByText } = renderWithStoreAndRouter(
+        <MemoryRouter initialEntries={['/file-new-claim/12345']}>
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId"
+              element={<ComplexClaimSubmitFlowWrapper />}
+            >
+              <Route index element={<IntroPage />} />
+            </Route>
+            <Route path="/claims/:id" element={<ClaimDetailsPage />} />
+          </Routes>
+        </MemoryRouter>,
+        {
+          initialState,
+          reducers: reducer,
+        },
+      );
+
+      expect(getByText('Claim Details')).to.exist;
+    });
+
+    it('does NOT redirect when all documents are associated', () => {
+      const initialState = getData({
+        complexClaimsEnabled: true,
+        claimData: {
+          claimId: 'claim-associated-docs',
+          claimSource: 'VaGov',
+          documents: [
+            {
+              id: 'doc1',
+              filename: 'receipt.pdf',
+              mimetype: 'application/pdf',
+              expenseId: 'expense-1', // Associated document
+            },
+          ],
+        },
+        travelPayClaim: {
+          metadata: { status: 200, success: true },
+          claim: {
+            id: 'claim-associated-docs',
+            claimStatus: 'Incomplete',
+          },
+        },
+      });
+
+      const { getByText } = renderWithStoreAndRouter(
+        <MemoryRouter initialEntries={['/file-new-claim/12345']}>
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId"
+              element={<ComplexClaimSubmitFlowWrapper />}
+            >
+              <Route index element={<IntroPage />} />
+            </Route>
+            <Route path="/claims/:id" element={<ClaimDetailsPage />} />
+          </Routes>
+        </MemoryRouter>,
+        {
+          initialState,
+          reducers: reducer,
+        },
+      );
+
+      expect(getByText('Intro')).to.exist;
+    });
+
+    it('redirects when multiple redirect conditions are met', () => {
+      const initialState = getData({
+        complexClaimsEnabled: true,
+        claimData: {
+          claimId: 'claim-multiple',
+          claimSource: 'BTSSS',
+          documents: [
+            {
+              id: 'doc1',
+              filename: 'receipt.pdf',
+              mimetype: 'application/pdf',
+              expenseId: null,
+            },
+          ],
+        },
+        travelPayClaim: {
+          metadata: { status: 200, success: true },
+          claim: {
+            id: 'claim-multiple',
+            claimStatus: 'Claim submitted',
+          },
+        },
+      });
+
+      const { getByText } = renderWithStoreAndRouter(
+        <MemoryRouter initialEntries={['/file-new-claim/12345']}>
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId"
+              element={<ComplexClaimSubmitFlowWrapper />}
+            >
+              <Route index element={<IntroPage />} />
+            </Route>
+            <Route path="/claims/:id" element={<ClaimDetailsPage />} />
+          </Routes>
+        </MemoryRouter>,
+        {
+          initialState,
+          reducers: reducer,
+        },
+      );
+
+      expect(getByText('Claim Details')).to.exist;
+    });
+
+    it('does NOT redirect when documents array is empty', () => {
+      const initialState = getData({
+        complexClaimsEnabled: true,
+        claimData: {
+          claimId: 'claim-no-docs',
+          claimSource: 'VaGov',
+          documents: [],
+        },
+        travelPayClaim: {
+          metadata: { status: 200, success: true },
+          claim: {
+            id: 'claim-no-docs',
+            claimStatus: 'Saved',
+          },
+        },
+      });
+
+      const { getByText } = renderWithStoreAndRouter(
+        <MemoryRouter initialEntries={['/file-new-claim/12345']}>
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId"
+              element={<ComplexClaimSubmitFlowWrapper />}
+            >
+              <Route index element={<IntroPage />} />
+            </Route>
+            <Route path="/claims/:id" element={<ClaimDetailsPage />} />
+          </Routes>
+        </MemoryRouter>,
+        {
+          initialState,
+          reducers: reducer,
+        },
+      );
+
+      expect(getByText('Intro')).to.exist;
+    });
+
+    it('does NOT redirect when documents only contain clerk notes without mimetype', () => {
+      const initialState = getData({
+        complexClaimsEnabled: true,
+        claimData: {
+          claimId: 'claim-clerk-notes',
+          claimSource: 'VaGov',
+          documents: [
+            {
+              id: 'note1',
+              filename: 'clerk-note.txt',
+              // No mimetype = clerk note
+            },
+          ],
+        },
+        travelPayClaim: {
+          metadata: { status: 200, success: true },
+          claim: {
+            id: 'claim-clerk-notes',
+            claimStatus: 'Incomplete',
+          },
         },
       });
 

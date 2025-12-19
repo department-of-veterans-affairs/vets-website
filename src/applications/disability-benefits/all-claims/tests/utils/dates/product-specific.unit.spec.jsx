@@ -204,7 +204,7 @@ describe('Disability benefits 526EZ -- Product-specific date utilities', () => {
         };
         expect(
           productSpecificDates.toxicExposure.formatExposurePeriod(exposure),
-        ).to.equal('Jan. 2020 - Present');
+        ).to.equal('Jan 2020 - Present');
       });
 
       it('should format completed exposure period', () => {
@@ -214,7 +214,7 @@ describe('Disability benefits 526EZ -- Product-specific date utilities', () => {
         };
         expect(
           productSpecificDates.toxicExposure.formatExposurePeriod(exposure),
-        ).to.equal('Jan. 2020 - Dec. 2021');
+        ).to.equal('Jan 2020 - Dec 2021');
       });
 
       it('should format start date only', () => {
@@ -223,7 +223,7 @@ describe('Disability benefits 526EZ -- Product-specific date utilities', () => {
         };
         expect(
           productSpecificDates.toxicExposure.formatExposurePeriod(exposure),
-        ).to.equal('Since Jan. 2020');
+        ).to.equal('Since Jan 2020');
       });
 
       it('should handle missing data', () => {
@@ -407,7 +407,7 @@ describe('Disability benefits 526EZ -- Product-specific date utilities', () => {
           productSpecificDates.hospitalization.formatHospitalizationPeriod(
             hospitalization,
           ),
-        ).to.equal('Admitted Jan. 15, 2023 (ongoing)');
+        ).to.equal('Admitted Jan 15, 2023 (ongoing)');
       });
 
       it('should format completed hospitalization with duration', () => {
@@ -419,7 +419,7 @@ describe('Disability benefits 526EZ -- Product-specific date utilities', () => {
           productSpecificDates.hospitalization.formatHospitalizationPeriod(
             hospitalization,
           ),
-        ).to.equal('Jan. 1, 2023 - Jan. 10, 2023 (10 days)');
+        ).to.equal('Jan 1, 2023 - Jan 10, 2023 (10 days)');
       });
 
       it('should handle single day hospitalization', () => {
@@ -431,7 +431,7 @@ describe('Disability benefits 526EZ -- Product-specific date utilities', () => {
           productSpecificDates.hospitalization.formatHospitalizationPeriod(
             hospitalization,
           ),
-        ).to.equal('Jan. 1, 2023 - Jan. 1, 2023 (1 days)');
+        ).to.equal('Jan 1, 2023 - Jan 1, 2023 (1 days)');
       });
 
       it('should handle missing data', () => {
@@ -539,7 +539,7 @@ describe('Disability benefits 526EZ -- Product-specific date utilities', () => {
         };
         expect(
           productSpecificDates.evidence.formatTreatmentPeriod(treatment),
-        ).to.equal('Jan. 2020 - Dec. 2020');
+        ).to.equal('Jan 2020 - Dec 2020');
       });
 
       it('should format same month treatment', () => {
