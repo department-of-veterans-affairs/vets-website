@@ -437,6 +437,10 @@ selectCernerPilotFlag(state)         // mhvMedicationsCernerPilot
   4. Local components
   5. Utilities and constants
   6. Styles
+- **Text Content**:
+  - **CRITICAL**: Always use right single quotes (') instead of straight single quotes (') for apostrophes in user-facing text
+  - Correct: `'You can’t manage this medication in this online tool.'`
+  - Incorrect: `'You can't manage this medication in this online tool.'`
 
 ## Common Pitfalls & Anti-patterns
 
