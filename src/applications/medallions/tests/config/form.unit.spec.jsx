@@ -87,8 +87,14 @@ describe('medallions formConfig depends logic (relationToVetRadio)', () => {
         formConfig.chapters.applicantInformation.pages.applicantNameView
           .depends,
       scenarios: [
-        { formData: { isLoggedIn: true }, expected: true },
-        { formData: { isLoggedIn: false }, expected: false },
+        {
+          formData: { 'view:loginState': { isLoggedIn: true } },
+          expected: true,
+        },
+        {
+          formData: { 'view:loginState': { isLoggedIn: false } },
+          expected: false,
+        },
         { formData: {}, expected: undefined },
       ],
     },
@@ -98,8 +104,14 @@ describe('medallions formConfig depends logic (relationToVetRadio)', () => {
       depends:
         formConfig.chapters.applicantInformation.pages.applicantName.depends,
       scenarios: [
-        { formData: { isLoggedIn: false }, expected: true },
-        { formData: { isLoggedIn: true }, expected: false },
+        {
+          formData: { 'view:loginState': { isLoggedIn: false } },
+          expected: true,
+        },
+        {
+          formData: { 'view:loginState': { isLoggedIn: true } },
+          expected: false,
+        },
         { formData: {}, expected: true },
       ],
     },
