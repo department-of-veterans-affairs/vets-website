@@ -11,11 +11,11 @@ import formConfig from '../../../../config/form';
 
 const defaultStore = createCommonStore();
 
-describe('Death Certificate', () => {
+describe('Death Certificate Required', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.additionalInformation.pages.transportationReceipts;
+  } = formConfig.chapters.additionalInformation.pages.deathCertificateRequired;
 
   it('should render', () => {
     const form = render(
@@ -34,7 +34,7 @@ describe('Death Certificate', () => {
     expect(fileInput).to.exist;
 
     expect(fileInput.getAttribute('label')).to.equal(
-      'Upload an itemized receipt',
+      'Upload the Veteran’s death certificate',
     );
 
     expect(fileInput.getAttribute('required')).to.equal('true');

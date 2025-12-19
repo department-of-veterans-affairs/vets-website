@@ -11,7 +11,6 @@ export default {
     deathCertificate: {
       ...burialUploadUI({
         title: 'Upload the Veteran’s death certificate',
-        required: false,
         fileUploadNetworkErrorMessage:
           'We’re sorry. There was problem with our system and we couldn’t upload your file. You can try again later.',
         fileUploadNetworkErrorAlert: {
@@ -27,7 +26,7 @@ export default {
           hideAlertIfLoggedIn: true,
         },
       }),
-      'ui:validations': [validateFileUploads({ required: false })],
+      'ui:validations': [validateFileUploads()],
       // Empty items object required for confirmation page
       items: {},
     },

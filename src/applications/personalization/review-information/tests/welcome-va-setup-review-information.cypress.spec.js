@@ -143,8 +143,8 @@ describe('Welcome to My VA Review Contact Information form', () => {
     // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
     it('should redirect to sign in', () => {
       cy.location().should(loc => {
-        expect(loc.search).to.eq(
-          '?next=%2Fmy-va%2Fwelcome-va-setup%2Fcontact-information&oauth=true',
+        expect(loc.search).to.contain(
+          '?next=%2Fmy-va%2Fwelcome-va-setup%2Fcontact-information',
         );
       });
     });

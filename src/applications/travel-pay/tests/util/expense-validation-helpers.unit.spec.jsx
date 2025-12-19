@@ -10,6 +10,8 @@ import {
   validateRequestedAmount,
   validateAirTravelFields,
   validateCommonCarrierFields,
+  validateLodgingFields,
+  validateMealFields,
 } from '../../util/expense-validation-helpers';
 
 const mockSetExtraFieldErrors = () => {
@@ -471,5 +473,118 @@ describe('validateCommonCarrierFields', () => {
 
     expect(nextErrors.carrierType).to.be.undefined;
     expect(nextErrors.reasonNotUsingPOV).to.be.undefined; // untouched
+  });
+});
+
+describe('validateLodgingFields', () => {
+  let formState;
+  let errors;
+
+  beforeEach(() => {
+    formState = {
+      vendor: '',
+      checkInDate: '',
+      checkOutDate: '',
+    };
+    errors = {};
+  });
+
+  it('validates all fields at once and sets errors for empty values', () => {
+    const nextErrors = validateLodgingFields(formState, errors);
+
+    expect(nextErrors).to.deep.equal({
+      vendor: 'Enter the name on your receipt',
+      checkInDate: 'Enter the date you checked in',
+      checkOutDate: 'Enter the date you checked out',
+    });
+  });
+
+  it('validates a single field (vendor) and leaves others untouched', () => {
+    formState.vendor = 'Hotel California';
+    const nextErrors = validateLodgingFields(formState, errors, 'vendor');
+
+    expect(nextErrors.vendor).to.be.undefined;
+    expect(nextErrors.checkInDate).to.be.undefined;
+    expect(nextErrors.checkOutDate).to.be.undefined;
+  });
+
+  it('requires checkInDate if empty', () => {
+    formState.checkOutDate = '2025-01-10';
+    const nextErrors = validateLodgingFields(formState, errors, 'checkInDate');
+
+    expect(nextErrors.checkInDate).to.equal('Enter the date you checked in');
+  });
+
+  it('requires checkOutDate if empty', () => {
+    formState.checkInDate = '2025-01-05';
+    const nextErrors = validateLodgingFields(formState, errors, 'checkOutDate');
+
+    expect(nextErrors.checkOutDate).to.equal('Enter the date you checked out');
+  });
+
+  it('flags error if checkInDate >= checkOutDate', () => {
+    formState.checkInDate = '2025-01-10';
+    formState.checkOutDate = '2025-01-05';
+
+    const nextErrors = validateLodgingFields(formState, errors);
+
+    expect(nextErrors.checkInDate).to.equal(
+      'Check-in date must be earlier than check-out date',
+    );
+    expect(nextErrors.checkOutDate).to.equal(
+      'Check-out date must be later than check-in date',
+    );
+  });
+
+  it('passes when checkInDate < checkOutDate', () => {
+    formState.vendor = 'Hotel California';
+    formState.checkInDate = '2025-01-05';
+    formState.checkOutDate = '2025-01-10';
+
+    const nextErrors = validateLodgingFields(formState, errors);
+
+    expect(nextErrors).to.deep.equal({});
+  });
+});
+
+describe('validateMealFields', () => {
+  let formState;
+  let errors;
+
+  beforeEach(() => {
+    formState = { vendorName: '' };
+    errors = {};
+  });
+
+  it('validates all fields at once and sets error for empty vendorName', () => {
+    const nextErrors = validateMealFields(formState, errors);
+
+    expect(nextErrors).to.deep.equal({
+      vendorName: 'Enter the name on your receipt',
+    });
+  });
+
+  it('clears vendorName error if valid', () => {
+    formState.vendorName = 'Test Vendor';
+    errors.vendorName = 'Previous error';
+
+    const nextErrors = validateMealFields(formState, errors);
+
+    expect(nextErrors).to.deep.equal({});
+  });
+
+  it('validates only the specified field (vendorName) when fieldName is provided', () => {
+    const nextErrors = validateMealFields(formState, errors, 'vendorName');
+
+    expect(nextErrors.vendorName).to.equal('Enter the name on your receipt');
+  });
+
+  it('preserves other unrelated errors', () => {
+    formState.vendorName = 'Test Vendor';
+    errors.otherField = 'Some other error';
+
+    const nextErrors = validateMealFields(formState, errors);
+
+    expect(nextErrors).to.deep.equal({ otherField: 'Some other error' });
   });
 });
