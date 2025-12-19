@@ -17,6 +17,7 @@ import ExpensePage, {
 import ChooseExpenseType from '../../../../components/complex-claims/pages/ChooseExpenseType';
 import reducer from '../../../../redux/reducer';
 import {
+  EXPENSE_TYPE_KEYS,
   EXPENSE_TYPES,
   TRANSPORTATION_OPTIONS,
   TRANSPORTATION_REASONS,
@@ -229,7 +230,7 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
         }
         break;
       }
-      case 'Commoncarrier': {
+      case 'CommonCarrier': {
         const carrierTypeOption = root.querySelector(
           `va-radio[name="carrierType"] va-radio-option`,
         );
@@ -254,7 +255,7 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
           );
         break;
       }
-      case 'Airtravel': {
+      case 'AirTravel': {
         const vendorName = root.querySelector(
           'va-text-input[name="vendorName"]',
         );
@@ -339,7 +340,7 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
   //
   Object.entries(EXPENSE_TYPES)
     .filter(([key]) =>
-      ['Meal', 'Lodging', 'Commoncarrier', 'Airtravel'].includes(key),
+      ['Meal', 'Lodging', 'CommonCarrier', 'AirTravel'].includes(key),
     )
     .forEach(([key, config]) => {
       describe(`${key} expense`, () => {
@@ -357,7 +358,7 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
         it('renders correct description', () => {
           const { getByText } = renderPage(config);
 
-          if (key === 'Airtravel') {
+          if (key === 'AirTravel') {
             expect(
               getByText(
                 `Upload a receipt or proof of the expense here. If youre adding a round-trip flight, you only need to add 1 expense. If you have receipts for 2 one-way flights, you’ll need to add 2 separate expenses.`,
@@ -773,7 +774,7 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
             });
 
             it('clears carrierType error when a transportation option is selected', async () => {
-              if (key !== 'Commoncarrier') return;
+              if (key !== 'CommonCarrier') return;
 
               const { container } = renderPage(config);
 
@@ -803,6 +804,33 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
 
               await waitFor(() => {
                 expect(carrierRadio.getAttribute('error')).to.not.exist;
+              });
+            });
+
+            it('validates AirTravel required fields', async () => {
+              if (key !== 'AirTravel') return;
+
+              const { container } = renderPage(config);
+
+              // Trigger error
+              const continueButton = Array.from(
+                container.querySelectorAll(
+                  '.travel-pay-button-group va-button',
+                ),
+              ).find(btn => btn.getAttribute('text') === 'Continue');
+
+              fireEvent.click(continueButton);
+
+              await waitFor(() => {
+                const tripType = container.querySelector(
+                  'va-radio[name="tripType"]',
+                );
+                const departureDate = container.querySelector(
+                  'va-date[name="departureDate"]',
+                );
+
+                expect(tripType.getAttribute('error')).to.exist;
+                expect(departureDate.getAttribute('error')).to.exist;
               });
             });
           });
@@ -835,7 +863,7 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
                   expect(amountInput.getAttribute('error')).to.exist;
                   expect(descriptionInput.getAttribute('error')).to.exist;
 
-                  if (key === 'Commoncarrier') {
+                  if (key === 'CommonCarrier') {
                     const carrierType = container.querySelector(
                       'va-radio[name="carrierType"]',
                     );
@@ -1049,14 +1077,57 @@ describe('Travel Pay – ExpensePage (Dynamic w/ EXPENSE_TYPES)', () => {
             });
           });
         });
+
+        it('requires return date when Airtravel tripType is Round Trip', async () => {
+          if (key !== 'AirTravel') return;
+
+          const restoreFileReader = mockFileReader();
+          const { container } = renderPage(
+            EXPENSE_TYPES[EXPENSE_TYPE_KEYS.AIRTRAVEL],
+          );
+
+          const tripTypeRadio = container.querySelector(
+            'va-radio[name="tripType"]',
+          );
+
+          // Select an option
+          tripTypeRadio.dispatchEvent(
+            new CustomEvent('vaValueChange', {
+              detail: { value: TRIP_TYPES.ROUND_TRIP.value },
+              bubbles: true,
+              composed: true,
+            }),
+          );
+
+          // Intentionally do NOT fill returnDate - leave it empty
+
+          // Click Continue to trigger validation
+          const continueButton = Array.from(
+            container.querySelectorAll('.travel-pay-button-group va-button'),
+          ).find(btn => btn.getAttribute('text') === 'Continue');
+
+          fireEvent.click(continueButton);
+
+          // Wait for error to appear on return date
+          await waitFor(() => {
+            const returnDate = container.querySelector(
+              'va-date[name="returnDate"]',
+            );
+            expect(returnDate.getAttribute('error')).to.equal(
+              'Enter a return date',
+            );
+          });
+
+          restoreFileReader();
+        });
       });
 
       describe('DocumentUpload behavior', () => {
         const expenseTypesWithDocumentUpload = [
           'Meal',
           'Lodging',
-          'Airtravel',
-          'Commoncarrier',
+          'AirTravel',
+          'CommonCarrier',
           'Parking',
           'Toll',
           'Lodging',

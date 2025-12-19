@@ -191,7 +191,7 @@ const responses = {
         documentId: 'a5137021-87ff-ef11-9341-001dd809b68c',
       },
       {
-        expenseType: 'Commoncarrier',
+        expenseType: 'CommonCarrier',
         name: 'Common Carrier Expense',
         dateIncurred: '2025-09-16T08:30:00Z',
         description: 'Taxi to appointment',
@@ -204,7 +204,7 @@ const responses = {
         documentId: '4f6f751b-87ff-ef11-9341-001dd854jutt',
       },
       {
-        expenseType: 'Airtravel',
+        expenseType: 'AirTravel',
         name: 'Air Travel Expense',
         dateIncurred: '2025-09-16T08:30:00Z',
         description: 'Flight to medical appointment',
