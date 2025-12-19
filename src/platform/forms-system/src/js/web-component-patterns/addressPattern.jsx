@@ -149,28 +149,36 @@ const MEX_STATE_VALUES = constants.states.MEX.map(state => state.value);
 const MEX_STATE_NAMES = constants.states.MEX.map(state => state.label);
 
 /**
- * `SCHEMA_KEYS` encapsulates the implementation for customizing this address
+ * `SchemaKeys` encapsulates the implementation for customizing this address
  * component's schema property names for callers. This is useful when a form
  * wants address component functionality, but its schema has different property
  * names.
  *
  * By asking the caller to pass both `omit` and `newSchemaKeys`, and then
- * failing to validate them, this component's public API accepts invalid
- * state. This would be resolved simply if the caller passed its full key map
+ * failing to validate them, this component's public API accepts invalid state.
+ * This would be resolved simply if the caller passed its full key mapping
  * explicitly.
  *
- * For now, `normalizeMapping` bridges the current API to the ideal one. Once
- * the API improves, it becomes unnecessary. Either way, `SCHEMA_KEYS` as a
- * whole remains the right encapsulation for key mapping across this module's
- * exports.
+ * For now, `normalizeMapping` bridges the current API to the ideal one. If the
+ * public API improves, it becomes unnecessary. But either way, `SchemaKeys`
+ * as a whole remains the right encapsulation for key mapping across the
+ * implementations of this module's exports.
  *
- * Also, this logic now rejects these ambiguous and nonsensical inputs:
+ * Validation rejects these ambiguous and nonsensical inputs:
  * - `'Blank schema key omitted'`
  * - `'Ambiguous schema key omitted'`
  * - `'Duplicate schema key output'`
  * - `'Blank schema key output'`
+ *
+ * Current API:
+ *   SchemaKeys.validateMapping(SchemaKeys.normalizeMapping({ omit, newSchemaKeys }))
+ *   SchemaKeys.map(obj, SchemaKeys.normalizeMapping({ omit, newSchemaKeys }))
+ *
+ * Future API:
+ *   SchemaKeys.validateMapping(mapping)
+ *   SchemaKeys.map(obj, mapping)
  */
-const SCHEMA_KEYS = {
+const SchemaKeys = {
   STANDARD: Object.freeze({
     isMilitary: 'isMilitary',
     'view:militaryBaseDescription': 'view:militaryBaseDescription',
@@ -184,9 +192,8 @@ const SCHEMA_KEYS = {
   }),
 
   /**
-   * @deprecated Exists to support the current, awkward API (`omit` +
-   * `newSchemaKeys`). Once the API accepts a full key map explicitly, callers
-   * pass it straight to `map` and this becomes unnecessary.
+   * @deprecated Once callers provide their full key map directly, this wrapper
+   * becomes unnecessary and will be removed.
    */
   normalizeMapping({ newSchemaKeys = {}, omit = [] }) {
     const emptyMapping = Object.keys(newSchemaKeys).length === 0;
@@ -205,47 +212,37 @@ const SCHEMA_KEYS = {
     });
 
     Object.assign(mapping, newSchemaKeys);
-    this._validateMapping(mapping);
-
     return mapping;
   },
 
   map(object, mapping = this.STANDARD) {
     if (mapping === this.STANDARD) return object;
-
-    /**
-     * This runs in duplicate just in anticipation of the future API where
-     * `normalizeMapping` is unneeded and removed from the implementation. If
-     * that happens, this function could be inlined.
-     */
-    this._validateMapping(mapping);
+    const validated = this.validateMapping(mapping);
 
     const mapped = {};
 
     Object.keys(object).forEach(key => {
-      if (!(key in mapping)) return;
-      if (!mapping[key]) throw new Error('Blank schema key output');
+      if (!(key in validated)) return;
+      if (!validated[key]) throw new Error('Blank schema key output');
 
-      mapped[mapping[key]] = object[key];
+      mapped[validated[key]] = object[key];
     });
 
     return mapped;
   },
 
-  /**
-   * @private
-   * @deprecated
-   */
-  _validateMapping(mapping) {
-    if (!('isMilitary' in mapping)) {
-      // eslint-disable-next-line no-param-reassign
-      delete mapping['view:militaryBaseDescription'];
+  validateMapping(mapping) {
+    const validated = { ...mapping };
+    if (!('isMilitary' in validated)) {
+      delete validated['view:militaryBaseDescription'];
     }
 
-    const values = Object.values(mapping);
+    const values = Object.values(validated);
     const uniqueValues = new Set(values);
     if (values.length > uniqueValues.size)
       throw new Error('Duplicate schema key output');
+
+    return validated;
   },
 };
 
@@ -324,7 +321,9 @@ export const updateFormDataAddress = (
 ) => {
   let updatedData = formData;
 
-  const schemaKeys = SCHEMA_KEYS.normalizeMapping({ newSchemaKeys });
+  const schemaKeys = SchemaKeys.validateMapping(
+    SchemaKeys.normalizeMapping({ newSchemaKeys }),
+  );
 
   /*
    * formData and oldFormData are not guaranteed to have the same shape; formData
@@ -777,10 +776,7 @@ export function addressUI(options = {}) {
     },
   };
 
-  const uiSchema = SCHEMA_KEYS.map(
-    fields,
-    SCHEMA_KEYS.normalizeMapping(options),
-  );
+  const uiSchema = SchemaKeys.map(fields, SchemaKeys.normalizeMapping(options));
 
   uiSchema['ui:validations'] = [];
   if (!options.omit?.includes('isMilitary')) {
@@ -813,9 +809,9 @@ export const addressSchema = options => {
   const schema = commonDefinitions.profileAddress;
   if (!options) return schema;
 
-  const properties = SCHEMA_KEYS.map(
+  const properties = SchemaKeys.map(
     schema.properties,
-    SCHEMA_KEYS.normalizeMapping(options),
+    SchemaKeys.normalizeMapping(options),
   );
 
   return {
