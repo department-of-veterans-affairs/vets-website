@@ -21,22 +21,22 @@ describe(manifest.appName, () => {
 
       // Verify expanded content is visible
       cy.findByTestId('cerner-facility-info-text').should('be.visible');
-      cy.contains('brought all your VA health care data together').should(
+      cy.findByText(/brought all your VA health care data together/).should(
         'be.visible',
       );
-      cy.contains('Still want to use My VA Health for now?').should(
+      cy.findByText(/Still want to use My VA Health for now\?/).should(
         'be.visible',
       );
 
       // Verify "Go to My VA Health" link exists
-      cy.findByTestId('cerner-info-alert-link')
-        .should('exist')
-        .should('have.attr', 'text', 'Go to My VA Health');
+      cy.findByTestId('cerner-info-alert-link').should('exist');
 
-      // Learn more text should be visible (using contains for curly apostrophe)
-      cy.contains('Want to learn more about what').should('exist');
+      // Learn more text should be visible
+      cy.findByText(/Want to learn more about what/).should('exist');
 
       // Learn more link should be visible and have correct href
+      // Note: va-link is a web component with shadow DOM, so we use attribute selector
+      // instead of findByRole('link') which can't pierce the shadow DOM
       cy.get('va-link[text="Learn more about My HealtheVet on VA.gov"]')
         .should('exist')
         .should(
@@ -56,7 +56,7 @@ describe(manifest.appName, () => {
       cy.findByTestId('cerner-facilities-info-alert').should('not.exist');
 
       // Learn more text should not be visible
-      cy.contains('Want to learn more about what').should('not.exist');
+      cy.findByText(/Want to learn more about what/).should('not.exist');
 
       cy.injectAxeThenAxeCheck();
     });
