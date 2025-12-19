@@ -5,6 +5,9 @@ import {
   CREATE_COMPLEX_CLAIM_SUCCESS,
   CREATE_EXPENSE_FAILURE,
   CREATE_EXPENSE_STARTED,
+  FETCH_EXPENSE_FAILURE,
+  FETCH_EXPENSE_STARTED,
+  FETCH_EXPENSE_SUCCESS,
   DELETE_DOCUMENT_FAILURE,
   DELETE_DOCUMENT_STARTED,
   DELETE_DOCUMENT_SUCCESS,
@@ -35,6 +38,8 @@ import {
   SUBMIT_COMPLEX_CLAIM_SUCCESS,
   UPDATE_EXPENSE_FAILURE,
   UPDATE_EXPENSE_STARTED,
+  UPDATE_EXPENSE_SUCCESS,
+  CREATE_EXPENSE_SUCCESS,
   SET_REVIEW_PAGE_ALERT,
   CLEAR_REVIEW_PAGE_ALERT,
 } from './actions';
@@ -371,6 +376,7 @@ function travelPayReducer(state = initialState, action) {
         },
       };
     case UPDATE_EXPENSE_STARTED:
+    case FETCH_EXPENSE_STARTED:
       return {
         ...state,
         complexClaim: {
@@ -385,7 +391,58 @@ function travelPayReducer(state = initialState, action) {
           },
         },
       };
+
+    case UPDATE_EXPENSE_SUCCESS:
+      return {
+        ...state,
+        complexClaim: {
+          ...state.complexClaim,
+          expenses: {
+            ...state.complexClaim.expenses,
+            update: {
+              id: '',
+              isLoading: false,
+              error: null,
+            },
+          },
+        },
+      };
+
+    case FETCH_EXPENSE_SUCCESS: {
+      const existingExpenses = state.complexClaim.expenses.data || [];
+      const fetchedExpense = action.payload;
+
+      // Merge the fetched expense into existing expenses
+      const updatedExpenses = existingExpenses.some(
+        expense => String(expense.id) === String(fetchedExpense.id),
+      )
+        ? existingExpenses.map(
+            expense =>
+              String(expense.id) === String(fetchedExpense.id)
+                ? { ...expense, ...fetchedExpense }
+                : expense,
+          )
+        : [...existingExpenses, fetchedExpense];
+
+      return {
+        ...state,
+        complexClaim: {
+          ...state.complexClaim,
+          expenses: {
+            ...state.complexClaim.expenses,
+            update: {
+              id: '',
+              isLoading: false,
+              error: null,
+            },
+            data: updatedExpenses,
+          },
+        },
+      };
+    }
+
     case UPDATE_EXPENSE_FAILURE:
+    case FETCH_EXPENSE_FAILURE:
       return {
         ...state,
         complexClaim: {
@@ -400,6 +457,7 @@ function travelPayReducer(state = initialState, action) {
           },
         },
       };
+
     case DELETE_EXPENSE_STARTED: {
       return {
         ...state,
@@ -461,6 +519,21 @@ function travelPayReducer(state = initialState, action) {
             ...state.complexClaim.expenses,
             creation: {
               isLoading: true,
+              error: null,
+            },
+          },
+        },
+      };
+
+    case CREATE_EXPENSE_SUCCESS:
+      return {
+        ...state,
+        complexClaim: {
+          ...state.complexClaim,
+          expenses: {
+            ...state.complexClaim.expenses,
+            creation: {
+              isLoading: false,
               error: null,
             },
           },
