@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
@@ -13,7 +12,7 @@ const facilities = {
   data: [],
 };
 
-const EducationFacilitySearch = ({ onChange }) => {
+export default function EducationFacilitySearch({ onChange }) {
   const [apiData, setApiData] = useState(facilities);
   const [isSearching, setIsSearching] = useState(false);
   const [pageURL, setPageURL] = useState('');
@@ -79,42 +78,28 @@ const EducationFacilitySearch = ({ onChange }) => {
   };
 
   return (
-    <>
-      <div className="facility-locator vads-u-margin-top--2">
-        <SearchControls
-          locateUser={getFacilitiesFromLocation}
-          onSubmit={checkInput}
-          searchTitle="Search for your school"
-          searchHint="You can search by school name, code or location."
+    <div className="facility-locator vads-u-margin-top--2">
+      <SearchControls
+        locateUser={getFacilitiesFromLocation}
+        onSubmit={checkInput}
+        searchTitle="Search for your school"
+        searchHint="You can search by school name, code or location."
+      />
+      {isSearching ? (
+        <va-loading-indicator label="Loading" message="Loading..." set-focus />
+      ) : (
+        <EducationSearchItem
+          facilityData={apiData}
+          pageURL={pageURL}
+          getData={getApiData}
+          onChange={onChange}
+          dataError={fetchDataError}
         />
-        {isSearching ? (
-          <va-loading-indicator
-            label="Loading"
-            message="Loading..."
-            set-focus
-          />
-        ) : (
-          <EducationSearchItem
-            facilityData={apiData}
-            pageURL={pageURL}
-            getData={getApiData}
-            onChange={onChange}
-            dataError={fetchDataError}
-          />
-        )}
-      </div>
-    </>
+      )}
+    </div>
   );
-};
-
-function mapStateToProps(state) {
-  return {
-    usersLocation: state.askVA.searchLocationInput,
-  };
 }
 
 EducationFacilitySearch.propTypes = {
   onChange: PropTypes.func,
 };
-
-export default connect(mapStateToProps)(EducationFacilitySearch);
