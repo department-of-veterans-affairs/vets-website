@@ -429,21 +429,6 @@ function travelPayReducer(state = initialState, action) {
       };
 
     case FETCH_EXPENSE_SUCCESS: {
-      const existingExpenses = state.complexClaim.expenses.data || [];
-      const fetchedExpense = action.payload;
-
-      // Merge the fetched expense into existing expenses
-      const updatedExpenses = existingExpenses.some(
-        expense => String(expense.id) === String(fetchedExpense.id),
-      )
-        ? existingExpenses.map(
-            expense =>
-              String(expense.id) === String(fetchedExpense.id)
-                ? { ...expense, ...fetchedExpense }
-                : expense,
-          )
-        : [...existingExpenses, fetchedExpense];
-
       return {
         ...state,
         complexClaim: {
@@ -451,11 +436,10 @@ function travelPayReducer(state = initialState, action) {
           expenses: {
             ...state.complexClaim.expenses,
             fetch: {
-              id: '',
+              id: action.expenseId,
               isLoading: false,
               error: null,
             },
-            data: updatedExpenses,
           },
         },
       };

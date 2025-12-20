@@ -538,45 +538,19 @@ export function createExpense(claimId, expenseType, expenseData) {
 }
 
 // Fetching a single expense
-const fetchExpenseStart = expenseId => ({
+export const fetchExpenseStart = expenseId => ({
   type: FETCH_EXPENSE_STARTED,
   expenseId,
 });
-const fetchExpenseSuccess = (expenseId, data) => ({
+export const fetchExpenseSuccess = expenseId => ({
   type: FETCH_EXPENSE_SUCCESS,
   expenseId,
-  payload: data,
 });
-const fetchExpenseFailure = (error, expenseId) => ({
+export const fetchExpenseFailure = (error, expenseId) => ({
   type: FETCH_EXPENSE_FAILURE,
   error,
   expenseId,
 });
-
-export function getExpense(expenseType, expenseId) {
-  return async dispatch => {
-    dispatch(fetchExpenseStart(expenseId));
-
-    try {
-      if (!expenseType) {
-        throw new Error('Missing expense type');
-      } else if (!expenseId) {
-        throw new Error('Missing expense id');
-      }
-
-      const expenseUrl = `${
-        environment.API_URL
-      }/travel_pay/v0/expenses/${expenseType}/${expenseId}`;
-      const response = await apiRequest(expenseUrl);
-
-      dispatch(fetchExpenseSuccess(expenseId, response));
-      return response;
-    } catch (error) {
-      dispatch(fetchExpenseFailure(error, expenseId));
-      throw error;
-    }
-  };
-}
 
 // Deleting an document
 const deleteDocumentStart = documentId => ({
