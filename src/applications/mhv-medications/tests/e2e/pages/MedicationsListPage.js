@@ -423,10 +423,10 @@ class MedicationsListPage {
 
   verifyInformationBasedOnStatusUnknown = unknownPrescription => {
     cy.get(
-      `[data-testid="medication-list"] > :nth-child(7) #status-description-${unknownPrescription} > [data-testid="unknown"] > :nth-child(2) > :nth-child(1)`,
+      `#status-description-${unknownPrescription} [data-testid="unknown"]`,
     )
       .should('be.visible')
-      .and('contain', 'We’re sorry. There’s a problem with our system.');
+      .and('contain', "We're sorry. There's a problem with our system.");
   };
 
   verifyNumberOfRefillsLeftNotDisplayedOnMedicationCard = () => {
