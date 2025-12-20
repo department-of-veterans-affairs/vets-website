@@ -61,6 +61,29 @@ const createApplications = (updatedDaysAgo = 1) => {
   };
 };
 
+const createApplicationsEmpty = () => {
+  return {
+    data: [],
+  };
+};
+
+const createApplicationsFailure = () => {
+  return {
+    errors: [
+      {
+        title: 'Bad Request',
+        detail: 'Received a bad request response from the upstream server',
+        code: 'EVSS400',
+        source: 'EVSS::DisabilityCompensationForm::Service',
+        status: '400',
+        meta: {},
+      },
+    ],
+  };
+};
+
 module.exports = {
   createApplications,
+  createApplicationsEmpty,
+  createApplicationsFailure,
 };
