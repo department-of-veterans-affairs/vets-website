@@ -225,4 +225,120 @@ describe('Alert Backround Box component', () => {
       ).to.exist;
     });
   });
+
+  describe('Message sent success alert with link', () => {
+    it('should render RouterLink when alert content is "Message sent"', async () => {
+      const activeAlertObj = {
+        datestamp: '2022-10-07T19:25:32.832Z',
+        isActive: true,
+        alertType: 'success',
+        header: '',
+        content: Alerts.Message.SEND_MESSAGE_SUCCESS,
+      };
+      const customState = {
+        sm: {
+          alerts: {
+            alertVisible: true,
+            alertList: [activeAlertObj],
+          },
+        },
+      };
+      const setup = initialState =>
+        renderWithStoreAndRouter(<AlertBackgroundBox closeable />, {
+          initialState,
+          reducers: reducer,
+          path: Paths.INBOX,
+        });
+
+      const screen = setup(customState);
+
+      await waitFor(() => {
+        // Verify the alert content is displayed
+        expect(screen.getByText(Alerts.Message.SEND_MESSAGE_SUCCESS)).to.exist;
+
+        // Verify the RouterLink is rendered with correct attributes
+        const sentLink = screen.container.querySelector(
+          `va-link[href="${Paths.ROOT_URL + Paths.SENT}"]`,
+        );
+        expect(sentLink).to.exist;
+        expect(sentLink.getAttribute('text')).to.equal(
+          'Review your sent messages',
+        );
+        expect(sentLink.getAttribute('data-dd-action-name')).to.equal(
+          'Sent messages link in success alert',
+        );
+      });
+    });
+
+    it('should NOT render RouterLink for other success alerts', async () => {
+      const activeAlertObj = {
+        datestamp: '2022-10-07T19:25:32.832Z',
+        isActive: true,
+        alertType: 'success',
+        header: 'Success',
+        content: 'Message conversation was successfully moved.',
+      };
+      const customState = {
+        sm: {
+          alerts: {
+            alertVisible: true,
+            alertList: [activeAlertObj],
+          },
+        },
+      };
+      const setup = initialState =>
+        renderWithStoreAndRouter(<AlertBackgroundBox closeable />, {
+          initialState,
+          reducers: reducer,
+          path: Paths.INBOX,
+        });
+
+      const screen = setup(customState);
+
+      await waitFor(() => {
+        // Verify the alert content is displayed
+        expect(screen.getByText(activeAlertObj.content)).to.exist;
+
+        // Verify NO link to sent folder is rendered
+        const sentLink = screen.container.querySelector(
+          `va-link[href="${Paths.ROOT_URL + Paths.SENT}"]`,
+        );
+        expect(sentLink).to.not.exist;
+      });
+    });
+
+    it('should render link with correct href for accessibility', async () => {
+      const activeAlertObj = {
+        datestamp: '2022-10-07T19:25:32.832Z',
+        isActive: true,
+        alertType: 'success',
+        header: '',
+        content: Alerts.Message.SEND_MESSAGE_SUCCESS,
+      };
+      const customState = {
+        sm: {
+          alerts: {
+            alertVisible: true,
+            alertList: [activeAlertObj],
+          },
+        },
+      };
+      const setup = initialState =>
+        renderWithStoreAndRouter(<AlertBackgroundBox closeable />, {
+          initialState,
+          reducers: reducer,
+          path: Paths.INBOX,
+        });
+
+      const screen = setup(customState);
+
+      await waitFor(() => {
+        const sentLink = screen.container.querySelector('va-link');
+        // Verify full URL is in href for screen readers and hover states
+        expect(sentLink.getAttribute('href')).to.equal(
+          Paths.ROOT_URL + Paths.SENT,
+        );
+      });
+    });
+  });
 });
