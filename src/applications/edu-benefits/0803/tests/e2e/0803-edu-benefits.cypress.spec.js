@@ -20,48 +20,12 @@ const testConfig = createTestConfig(
           cy.get('va-link-action[href="#start"]').click();
         });
       },
-      'previously-applied': ({ afterHook }) => {
-        afterHook(() => {
-          cy.selectVaRadioOption('root_hasPreviouslyApplied', 'Y');
-          cy.tabToSubmitForm();
-        });
-      },
-      'select-va-benefit-program': ({ afterHook }) => {
-        afterHook(() => {
-          cy.selectVaRadioOption('root_vaBenefitProgram', 'chapter33');
-          cy.tabToSubmitForm();
-        });
-      },
-      'mailing-address': ({ afterHook }) => {
-        afterHook(() => {
-          cy.selectVaSelect('root_mailingAddress_country', 'USA');
-          cy.fillVaTextInput('root_mailingAddress_street', 'The Street');
-          cy.fillVaTextInput('root_mailingAddress_city', 'City');
-          cy.selectVaSelect('root_mailingAddress_state', 'AL');
-          cy.fillVaTextInput('root_mailingAddress_postalCode', '12345');
-          cy.tabToSubmitForm();
-        });
-      },
       'test-name-and-date': ({ afterHook }) => {
         afterHook(() => {
+          // Automated data-filling doesn't seem to work for memorable date inputs
+          // that _don't_ use a month select. So we do this step manually.
           cy.fillVaTextInput('root_testName', 'Philosophy');
           cy.fillVaMemorableDate('root_testDate', '2020-01-01', false);
-          cy.tabToSubmitForm();
-        });
-      },
-      'organization-info': ({ afterHook }) => {
-        afterHook(() => {
-          cy.fillVaTextInput('root_organizationName', 'Acme Inc.');
-          cy.fillVaTextInput('root_organizationAddress_street', 'The Street');
-          cy.fillVaTextInput('root_organizationAddress_city', 'City');
-          cy.selectVaSelect('root_organizationAddress_state', 'AL');
-          cy.fillVaTextInput('root_organizationAddress_postalCode', '12345');
-          cy.tabToSubmitForm();
-        });
-      },
-      'test-cost': ({ afterHook }) => {
-        afterHook(() => {
-          cy.fillVaTextInput('root_testCost', '123.00');
           cy.tabToSubmitForm();
         });
       },
