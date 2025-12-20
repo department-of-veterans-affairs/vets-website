@@ -6,6 +6,7 @@ import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
 import relationshipToVeteran from '../pages/relationshipToVeteran';
 import serviceBranch from '../pages/serviceBranch';
 import uploadFile from '../pages/upload';
+import supportingDocuments from '../pages/supportingDocuments';
 import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
@@ -115,6 +116,17 @@ const formConfig = {
           title: 'Upload file',
           uiSchema: uploadFile.uiSchema,
           schema: uploadFile.schema,
+        },
+      },
+    },
+    supportingDocuments: {
+      title: 'Additional information',
+      pages: {
+        supportingDocuments: {
+          path: 'supporting-documents',
+          title: 'Supporting documents',
+          uiSchema: supportingDocuments.uiSchema,
+          schema: supportingDocuments.schema,
         },
       },
     },
