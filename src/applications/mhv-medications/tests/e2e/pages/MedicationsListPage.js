@@ -422,11 +422,9 @@ class MedicationsListPage {
   };
 
   verifyInformationBasedOnStatusUnknown = unknownPrescription => {
-    cy.get(
-      `#status-description-${unknownPrescription} [data-testid="unknown"]`,
-    )
+    cy.get(`#status-description-${unknownPrescription} [data-testid="unknown"]`)
       .should('be.visible')
-      .and('contain', "We're sorry. There's a problem with our system.");
+      .and('contain', 'We’re sorry. There’s a problem with our system.');
   };
 
   verifyNumberOfRefillsLeftNotDisplayedOnMedicationCard = () => {
