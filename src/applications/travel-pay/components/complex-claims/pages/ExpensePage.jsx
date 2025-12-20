@@ -23,6 +23,9 @@ import {
   updateExpense,
   setUnsavedExpenseChanges,
   setReviewPageAlert,
+  fetchExpenseSuccess,
+  fetchExpenseFailure,
+  fetchExpenseStart,
 } from '../../../redux/actions';
 import {
   selectExpenseUpdateLoadingState,
@@ -70,7 +73,7 @@ const ExpensePage = () => {
 
   // Redux hooks
   const dispatch = useDispatch();
-  const expense = useSelector(
+  const expenseWithDocument = useSelector(
     state => (isEditMode ? selectExpenseWithDocument(state, expenseId) : null),
   );
   const isUpdatingExpense = useSelector(selectExpenseUpdateLoadingState);
@@ -96,98 +99,8 @@ const ExpensePage = () => {
   const isLoadingExpense = isEditMode
     ? isUpdatingExpense || isDeletingDocument
     : isCreatingExpense;
-  const filename = expense?.receipt?.filename;
 
-  // Effects
-  // Effect 1: Hydrate form fields once when initialFormState is ready
-  useEffect(
-    () => {
-      if (expenseId && expense && !hasLoadedExpenseRef.current) {
-        const initialState = {
-          ...expense,
-          purchaseDate: expense.dateIncurred || '',
-        };
-        setFormState(initialState);
-        initialFormStateRef.current = initialState;
-        hasLoadedExpenseRef.current = true;
-      }
-    },
-    [expenseId, expense],
-  );
-
-  // Effect 2: Load document once when documentId is available
-  useEffect(
-    () => {
-      if (!isEditMode || !expense?.documentId || !filename) return undefined;
-      if (previousDocumentId === expense.documentId) return undefined; // Already loaded
-
-      let isMounted = true;
-
-      const loadDocument = async () => {
-        setIsDocumentLoading(true);
-
-        try {
-          const documentUrl = `${
-            environment.API_URL
-          }/travel_pay/v0/claims/${claimId}/documents/${expense.documentId}`;
-          const response = await apiRequest(documentUrl);
-          const contentType = response.headers.get('Content-Type');
-          const contentLength = response.headers.get('Content-Length');
-          const arrayBuffer = await response.arrayBuffer();
-          const blob = new Blob([arrayBuffer], { type: contentType });
-          const base64File = await toBase64(blob);
-
-          const receipt = {
-            contentType,
-            length: contentLength,
-            fileName: filename,
-            fileData: base64File,
-          };
-
-          // Only update state if component is still mounted
-          if (isMounted) {
-            setFormState(prev => ({ ...prev, receipt }));
-            setPreviousFormState(prev => ({ ...prev, receipt }));
-            setExpenseDocument(
-              new File([blob], filename, { type: contentType }),
-            );
-            setPreviousDocumentId(expense.documentId); // Mark as loaded only on success
-          }
-        } catch (err) {
-          // Failed to fetch document
-        } finally {
-          // Always reset loading state, even if unmounted
-          // This prevents the loading spinner from getting stuck
-          setIsDocumentLoading(false);
-        }
-      };
-
-      loadDocument();
-
-      // Cleanup function to prevent state updates after unmount
-      return () => {
-        isMounted = false;
-      };
-    },
-    [isEditMode, expense?.documentId, claimId, filename, previousDocumentId],
-  );
-
-  // Track unsaved changes by comparing current state to initial state
-  useEffect(
-    () => {
-      const hasChanges =
-        JSON.stringify(formState) !==
-        JSON.stringify(initialFormStateRef.current);
-      // Only dispatch if the hasChanges value actually changed
-      if (hasChanges !== previousHasChangesRef.current) {
-        dispatch(setUnsavedExpenseChanges(hasChanges));
-        previousHasChangesRef.current = hasChanges;
-      }
-    },
-    [formState, dispatch],
-  );
-
-  // Derived values for expense type
+  // Derive expense type from URL before effects (needed in useEffect dependencies)
   const expenseTypeMatcher = new RegExp(
     `.*(${Object.values(EXPENSE_TYPE_KEYS)
       .map(key => EXPENSE_TYPES[key].route)
@@ -205,6 +118,133 @@ const ExpensePage = () => {
   const isMeal = expenseType === EXPENSE_TYPE_KEYS.MEAL;
   const isCommonCarrier = expenseType === EXPENSE_TYPE_KEYS.COMMONCARRIER;
   const isLodging = expenseType === EXPENSE_TYPE_KEYS.LODGING;
+
+  // Effects
+  // Effect 1: Reset loaded flag when expenseId changes
+  useEffect(
+    () => {
+      hasLoadedExpenseRef.current = false;
+    },
+    [expenseId],
+  );
+
+  // Effect 2: In edit mode, fetch expense data from API and load document if present
+  // This fetches the full expense with type-specific fields and then loads the document receipt
+  useEffect(
+    () => {
+      if (!isEditMode || !expenseId || hasLoadedExpenseRef.current) {
+        return undefined;
+      }
+
+      let isMounted = true;
+
+      const loadExpenseAndDocument = async () => {
+        try {
+          // Step 1: Fetch the expense data
+          dispatch(fetchExpenseStart(expenseId));
+          const expenseConfig = EXPENSE_TYPES[expenseType];
+          const expenseUrl = `${environment.API_URL}/travel_pay/v0/expenses/${
+            expenseConfig.apiRoute
+          }/${expenseId}`;
+          const expenseResponse = await apiRequest(expenseUrl);
+          dispatch(fetchExpenseSuccess(expenseId));
+          const fetchedExpense = expenseResponse.data || expenseResponse;
+
+          if (!isMounted) return;
+
+          // Step 2: Hydrate form with expense data
+          const initialState = {
+            ...fetchedExpense,
+            purchaseDate: fetchedExpense.dateIncurred || '',
+          };
+          setFormState(initialState);
+          setPreviousFormState(initialState);
+          initialFormStateRef.current = initialState;
+
+          // Step 3: Load document if it exists (use Redux state for document metadata)
+          const documentId = expenseWithDocument?.documentId;
+          const filename = expenseWithDocument?.receipt?.filename;
+
+          if (documentId && filename) {
+            setIsDocumentLoading(true);
+            const documentUrl = `${
+              environment.API_URL
+            }/travel_pay/v0/claims/${claimId}/documents/${documentId}`;
+            const documentResponse = await apiRequest(documentUrl);
+            const contentType = documentResponse.headers.get('Content-Type');
+            const contentLength = documentResponse.headers.get(
+              'Content-Length',
+            );
+            const arrayBuffer = await documentResponse.arrayBuffer();
+            const blob = new Blob([arrayBuffer], { type: contentType });
+            const base64File = await toBase64(blob);
+
+            const receipt = {
+              contentType,
+              length: contentLength,
+              fileName: filename,
+              fileData: base64File,
+            };
+
+            if (isMounted) {
+              setFormState(prev => ({ ...prev, receipt }));
+              setPreviousFormState(prev => ({ ...prev, receipt }));
+              setExpenseDocument(
+                new File([blob], filename, {
+                  type: contentType,
+                }),
+              );
+              setPreviousDocumentId(documentId);
+            }
+          }
+
+          if (isMounted) {
+            hasLoadedExpenseRef.current = true;
+            dispatch(fetchExpenseSuccess(expenseId));
+          }
+        } catch (err) {
+          // Failed to fetch expense or document
+          dispatch(fetchExpenseFailure(err?.toString() ?? '', expenseId));
+        } finally {
+          if (isMounted) {
+            setIsDocumentLoading(false);
+          }
+        }
+      };
+
+      loadExpenseAndDocument();
+
+      // Cleanup function to prevent state updates after unmount
+      return () => {
+        isMounted = false;
+      };
+    },
+    [
+      isEditMode,
+      expenseId,
+      expenseType,
+      claimId,
+      expenseWithDocument?.documentId,
+      expenseWithDocument?.receipt?.filename,
+      previousDocumentId,
+      dispatch,
+    ],
+  );
+
+  // Effect 3: Track unsaved changes by comparing current state to initial state
+  useEffect(
+    () => {
+      const hasChanges =
+        JSON.stringify(formState) !==
+        JSON.stringify(initialFormStateRef.current);
+      // Only dispatch if the hasChanges value actually changed
+      if (hasChanges !== previousHasChangesRef.current) {
+        dispatch(setUnsavedExpenseChanges(hasChanges));
+        previousHasChangesRef.current = hasChanges;
+      }
+    },
+    [formState, dispatch],
+  );
 
   const handleFormChange = (event, explicitName) => {
     const name = explicitName ?? event.target?.name ?? event.detail?.name;
