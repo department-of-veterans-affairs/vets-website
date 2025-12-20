@@ -2,7 +2,6 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import environment from '~/platform/utilities/environment';
-import { personalInformationPage } from 'platform/forms-system/src/js/components/PersonalInformation';
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -14,6 +13,7 @@ import { CustomReviewTopContent } from '../helpers';
 import * as PreviouslyApplied from '../pages/PreviouslyApplied';
 import * as SelectVABenefit from '../pages/SelectVABenefit';
 import * as VABenefitWarning from '../pages/VABenefitWarning';
+import * as PersonalInformation from '../pages/PersonalInformation';
 import * as PayeeNumber from '../pages/PayeeNumber';
 import * as MailingAddress from '../pages/MailingAddress';
 import * as PhoneAndEmail from '../pages/PhoneAndEmail';
@@ -103,16 +103,14 @@ const formConfig = {
     personalInformationChapter: {
       title: 'Your personal information',
       pages: {
-        ...personalInformationPage({
-          personalInfoConfig: {
-            name: { show: true, required: true },
-            ssn: { show: true, required: true },
-            dateOfBirth: { show: true, required: false },
-          },
-          dataAdapter: {
-            ssnPath: 'ssn',
-          },
-        }),
+        personalInformation: {
+          path: 'personal-information',
+          title: 'Personal Information',
+          uiSchema: PersonalInformation.uiSchema,
+          schema: PersonalInformation.schema,
+          CustomPage: PersonalInformation.CustomPage,
+          CustomPageReview: null,
+        },
         payeeNumber: {
           path: 'payee-number',
           title: 'Payee Number',
