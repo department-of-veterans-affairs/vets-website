@@ -1,12 +1,12 @@
 import path from 'path';
 import { add, formatISO } from 'date-fns';
 import { setStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
-import manifest from '../manifest.json';
-import formConfig from '../config/form';
-import mockInProgress from './fixtures/mocks/in-progress-forms.json';
-import mockPrefill from './fixtures/mocks/prefill.json';
-import mockSubmit from './fixtures/mocks/application-submit.json';
-import mockUpload from './fixtures/mocks/mockUpload.json';
+import manifest from '../../manifest.json';
+import formConfig from '../../config/form';
+import mockInProgress from '../fixtures/mocks/in-progress-forms.json';
+import mockPrefill from '../fixtures/mocks/prefill.json';
+import mockSubmit from '../fixtures/mocks/application-submit.json';
+import mockUpload from '../fixtures/mocks/mockUpload.json';
 import {
   EVIDENCE_UPLOAD_URL,
   EVIDENCE_VA_DETAILS_URL,
@@ -16,16 +16,16 @@ import {
   HAS_PRIVATE_EVIDENCE,
   HAS_VA_EVIDENCE,
   PRIMARY_PHONE,
-} from '../constants';
+} from '../../constants';
 import {
   CONTESTABLE_ISSUES_API,
   EVIDENCE_UPLOAD_API,
   ITF_API,
   SUBMIT_URL,
-} from '../constants/apis';
-import cypressSetup from '../../shared/tests/cypress.setup';
-import * as h from '../../shared/tests/cypress.helpers';
-import { CONTESTABLE_ISSUES_PATH, SELECTED } from '../../shared/constants';
+} from '../../constants/apis';
+import cypressSetup from '../../../shared/tests/cypress.setup';
+import * as h from '../../../shared/tests/cypress.helpers';
+import { CONTESTABLE_ISSUES_PATH, SELECTED } from '../../../shared/constants';
 
 const { chapters } = formConfig;
 
@@ -378,7 +378,7 @@ export const pageHooks = {
 
   [EVIDENCE_UPLOAD_URL]: () => {
     cy.get('input[type="file"]').upload(
-      path.join(__dirname, 'fixtures/data/example-upload.pdf'),
+      path.join(__dirname, '..', 'fixtures/data/example-upload.pdf'),
       'testing',
     );
 

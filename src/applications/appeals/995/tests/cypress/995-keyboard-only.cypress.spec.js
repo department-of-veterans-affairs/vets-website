@@ -1,8 +1,8 @@
-import manifest from '../manifest.json';
-import formConfig from '../config/form';
-import mockPrefill from './fixtures/mocks/prefill.json';
-import mockInProgress from './fixtures/mocks/in-progress-forms.json';
-import mockSubmit from './fixtures/mocks/application-submit.json';
+import manifest from '../../manifest.json';
+import formConfig from '../../config/form';
+import mockPrefill from '../fixtures/mocks/prefill.json';
+import mockInProgress from '../fixtures/mocks/in-progress-forms.json';
+import mockSubmit from '../fixtures/mocks/application-submit.json';
 import {
   ADD_ISSUE_URL,
   CONTACT_INFO_URL,
@@ -13,17 +13,17 @@ import {
   EVIDENCE_VA_PROMPT_URL,
   LIMITED_CONSENT_DETAILS_URL,
   LIMITED_CONSENT_PROMPT_URL,
-} from '../constants';
-import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
-import { CONTESTABLE_ISSUES_API, ITF_API } from '../constants/apis';
+} from '../../constants';
+import { CONTESTABLE_ISSUES_PATH } from '../../../shared/constants';
+import { CONTESTABLE_ISSUES_API, ITF_API } from '../../constants/apis';
 import * as h from './995.cypress.helpers';
-import * as helpers from '../../shared/tests/cypress.helpers';
-import mockData from './fixtures/data/pre-api-comprehensive-test.json';
+import * as helpers from '../../../shared/tests/cypress.helpers';
+import mockData from '../fixtures/data/pre-api-comprehensive-test.json';
 import {
   fixDecisionDates,
   tabToContinue,
-} from '../../shared/tests/cypress.helpers';
-import cypressSetup from '../../shared/tests/cypress.setup';
+} from '../../../shared/tests/cypress.helpers';
+import cypressSetup from '../../../shared/tests/cypress.setup';
 
 const verifyUrl = link => helpers.verifyCorrectUrl(manifest.rootUrl, link);
 
