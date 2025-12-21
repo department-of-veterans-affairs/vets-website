@@ -1,5 +1,4 @@
 // @ts-check
-import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
@@ -15,6 +14,14 @@ import identificationInformation from '../pages/identificationInformation';
 import address from '../pages/address';
 import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
 import { employersPages } from '../pages/employers';
+import EmploymentCheckPage from '../containers/EmploymentCheckPage';
+import EmploymentCheckReview from '../containers/EmploymentCheckReview';
+import {
+  shouldShowEmploymentSection,
+  shouldShowUnemploymentSection,
+} from '../utils/employment';
+
+import employed from '../pages/employed';
 import unemployed from '../pages/unemployed';
 import evidence from '../pages/evidence';
 
@@ -41,21 +48,6 @@ const formConfig = {
     collapsibleNavLinks: true,
     disableWindowUnloadInCI: true,
   },
-  ...minimalHeaderFormConfigOptions({
-    breadcrumbList: [
-      { href: '/', label: 'VA.gov home' },
-      {
-        href: '/disability',
-        label: 'Disability benefits',
-      },
-      {
-        href:
-          '/disability/eligibility/special-claims/unemployability/employment-questionnaire-form-21-4140',
-        label: 'Submit Employment Questionnaire',
-      },
-    ],
-    wrapping: true,
-  }),
   formId: VA_FORM_IDS.FORM_21_4140,
   saveInProgress: {
     // messages: {
@@ -85,9 +77,14 @@ const formConfig = {
           uiSchema: nameAndDateOfBirth.uiSchema,
           schema: nameAndDateOfBirth.schema,
         },
+      },
+    },
+    identificationInformationChapter: {
+      title: 'Your identification information',
+      pages: {
         identificationInformation: {
           path: 'identification-information',
-          title: 'Your identification information',
+          title: 'Your identification information Numbers',
           uiSchema: identificationInformation.uiSchema,
           schema: identificationInformation.schema,
         },
@@ -115,22 +112,56 @@ const formConfig = {
         },
       },
     },
-    employmentHistoryChapter: {
-      title: 'Your employment history',
-      pages: employersPages,
-    },
-    unemployedChapter: {
-      title: 'Unemployed',
+    employmentChapter: {
+      title: 'Employment information',
       pages: {
+        employmentCheck: {
+          path: 'employment-check',
+          title: 'Employment in the past 12 months',
+          CustomPage: EmploymentCheckPage,
+          CustomPageReview: EmploymentCheckReview,
+          uiSchema: {},
+          schema: {
+            type: 'object',
+            properties: {},
+          },
+        },
+        ...Object.fromEntries(
+          Object.entries(employersPages).map(([key, page]) => [
+            key,
+            {
+              ...page,
+              depends: formData => {
+                if (!shouldShowEmploymentSection(formData)) {
+                  return false;
+                }
+                if (typeof page.depends === 'function') {
+                  return page.depends(formData);
+                }
+                return true;
+              },
+            },
+          ]),
+        ),
+
+        employed: {
+          path: 'employed',
+          title: 'Employed',
+          uiSchema: employed.uiSchema,
+          schema: employed.schema,
+          depends: shouldShowEmploymentSection,
+        },
+
         unemployed: {
           path: 'unemployed',
           title: 'Unemployed',
           uiSchema: unemployed.uiSchema,
           schema: unemployed.schema,
-          depends: formData => !formData?.employers?.length,
+          depends: shouldShowUnemploymentSection,
         },
       },
     },
+
     evidenceChapter: {
       title: 'Evidence',
       pages: {
