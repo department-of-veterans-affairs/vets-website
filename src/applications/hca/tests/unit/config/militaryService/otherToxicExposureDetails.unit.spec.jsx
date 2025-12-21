@@ -1,8 +1,10 @@
+// @ts-check
 import formConfig from '../../../../config/form';
 import {
   testNumberOfErrorsOnSubmit,
   testNumberOfFormFields,
 } from '../../../helpers.spec';
+import { runSchemaRegressionTests } from '../../../helpers/schemaRegressionHelpers';
 
 describe('hca Other Toxic Exposure Details config', () => {
   const {
@@ -30,4 +32,28 @@ describe('hca Other Toxic Exposure Details config', () => {
     expectedNumberOfErrors,
     pageTitle,
   );
+
+  // Schema regression tests to ensure backward compatibility during migration
+  runSchemaRegressionTests({
+    actualSchema: schema,
+    actualUiSchema: uiSchema,
+    expectedSchema: {
+      type: 'object',
+      properties: {
+        otherToxicExposure: {
+          type: 'string',
+        },
+      },
+    },
+    expectedUiSchema: {
+      'ui:title': {},
+      'ui:description': {},
+      otherToxicExposure: {
+        'ui:title': {},
+        'ui:errorMessages': {},
+      },
+    },
+    expectedRequired: [],
+    pageName: pageTitle,
+  });
 });

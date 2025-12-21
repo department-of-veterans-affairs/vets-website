@@ -1,8 +1,10 @@
+// @ts-check
 import formConfig from '../../../../config/form';
 import {
   testNumberOfErrorsOnSubmit,
   testNumberOfFormFields,
 } from '../../../helpers.spec';
+import { runSchemaRegressionTests } from '../../../helpers/schemaRegressionHelpers';
 
 describe('hca SpouseAnnualIncome config', () => {
   const {
@@ -30,4 +32,74 @@ describe('hca SpouseAnnualIncome config', () => {
     expectedNumberOfErrors,
     pageTitle,
   );
+
+  // Schema regression tests to ensure backward compatibility during migration
+  runSchemaRegressionTests({
+    actualSchema: schema,
+    actualUiSchema: uiSchema,
+    expectedSchema: {
+      type: 'object',
+      properties: {
+        'view:spouseGrossIncome': {
+          type: 'object',
+          properties: {
+            spouseGrossIncome: {
+              type: 'number',
+            },
+          },
+        },
+        'view:spouseNetIncome': {
+          type: 'object',
+          properties: {
+            spouseNetIncome: {
+              type: 'number',
+            },
+          },
+        },
+        'view:spouseOtherIncome': {
+          type: 'object',
+          properties: {
+            spouseOtherIncome: {
+              type: 'number',
+            },
+          },
+        },
+      },
+    },
+    expectedUiSchema: {
+      'ui:title': {},
+      'view:spouseGrossIncome': {
+        'ui:title': {},
+        'ui:description': {},
+        spouseGrossIncome: {
+          'ui:title': {},
+          'ui:options': {},
+          'ui:validations': {},
+          'ui:errorMessages': {},
+        },
+      },
+      'view:spouseNetIncome': {
+        'ui:title': {},
+        'ui:description': {},
+        spouseNetIncome: {
+          'ui:title': {},
+          'ui:options': {},
+          'ui:validations': {},
+          'ui:errorMessages': {},
+        },
+      },
+      'view:spouseOtherIncome': {
+        'ui:title': {},
+        'ui:description': {},
+        spouseOtherIncome: {
+          'ui:title': {},
+          'ui:options': {},
+          'ui:validations': {},
+          'ui:errorMessages': {},
+        },
+      },
+    },
+    expectedRequired: [],
+    pageName: pageTitle,
+  });
 });

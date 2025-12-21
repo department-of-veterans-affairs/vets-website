@@ -1,8 +1,10 @@
+// @ts-check
 import formConfig from '../../../../config/form';
 import {
   testNumberOfErrorsOnSubmit,
   testNumberOfFormFields,
 } from '../../../helpers.spec';
+import { runSchemaRegressionTests } from '../../../helpers/schemaRegressionHelpers';
 
 describe('hca VeteranDemographicInformation config', () => {
   const {
@@ -30,4 +32,71 @@ describe('hca VeteranDemographicInformation config', () => {
     expectedNumberOfErrors,
     pageTitle,
   );
+
+  // Schema regression tests to ensure backward compatibility during migration
+  runSchemaRegressionTests({
+    actualSchema: schema,
+    actualUiSchema: uiSchema,
+    expectedSchema: {
+      type: 'object',
+      properties: {
+        'view:demographicCategories': {
+          type: 'object',
+          properties: {
+            isAmericanIndianOrAlaskanNative: {
+              type: 'boolean',
+            },
+            isAsian: {
+              type: 'boolean',
+            },
+            isBlackOrAfricanAmerican: {
+              type: 'boolean',
+            },
+            isSpanishHispanicLatino: {
+              type: 'boolean',
+            },
+            isNativeHawaiianOrOtherPacificIslander: {
+              type: 'boolean',
+            },
+            isWhite: {
+              type: 'boolean',
+            },
+            hasDemographicNoAnswer: {
+              type: 'boolean',
+            },
+          },
+        },
+      },
+    },
+    expectedUiSchema: {
+      'ui:title': {},
+      'view:demographicCategories': {
+        'ui:title': {},
+        'ui:field': {},
+        isAmericanIndianOrAlaskanNative: {
+          'ui:title': {},
+        },
+        isSpanishHispanicLatino: {
+          'ui:title': {},
+        },
+        isAsian: {
+          'ui:title': {},
+        },
+        isBlackOrAfricanAmerican: {
+          'ui:title': {},
+        },
+        isNativeHawaiianOrOtherPacificIslander: {
+          'ui:title': {},
+        },
+        isWhite: {
+          'ui:title': {},
+        },
+        hasDemographicNoAnswer: {
+          'ui:title': {},
+        },
+      },
+    },
+    expectedRequired: [],
+    pageName: pageTitle,
+  });
 });

@@ -1,8 +1,10 @@
+// @ts-check
 import formConfig from '../../../../config/form';
 import {
   testNumberOfErrorsOnSubmit,
   testNumberOfFormFields,
 } from '../../../helpers.spec';
+import { runSchemaRegressionTests } from '../../../helpers/schemaRegressionHelpers';
 
 describe('hca GeneralInsurance config', () => {
   const {
@@ -30,4 +32,58 @@ describe('hca GeneralInsurance config', () => {
     expectedNumberOfErrors,
     pageTitle,
   );
+
+  // Schema regression tests to ensure backward compatibility during migration
+  runSchemaRegressionTests({
+    actualSchema: schema,
+    actualUiSchema: uiSchema,
+    expectedSchema: {
+      type: 'object',
+      properties: {
+        isCoveredByHealthInsurance: {
+          type: 'boolean',
+        },
+        providers: {
+          type: 'array',
+        },
+      },
+    },
+    expectedUiSchema: {
+      isCoveredByHealthInsurance: {
+        'ui:title': {},
+        'ui:reviewField': {},
+      },
+      providers: {
+        'ui:options': {},
+        'ui:errorMessages': {},
+        items: {
+          'ui:options': {},
+          'ui:validations': {},
+          'ui:order': {},
+          insuranceName: {
+            'ui:title': {},
+            'ui:errorMessages': {},
+          },
+          insurancePolicyHolderName: {
+            'ui:title': {},
+            'ui:errorMessages': {},
+          },
+          insurancePolicyNumber: {
+            'ui:title': {},
+            'ui:description': {},
+            'ui:reviewField': {},
+            'ui:errorMessages': {},
+          },
+          insuranceGroupCode: {
+            'ui:title': {},
+            'ui:description': {},
+            'ui:reviewField': {},
+            'ui:errorMessages': {},
+          },
+        },
+      },
+    },
+    expectedRequired: ['isCoveredByHealthInsurance'],
+    pageName: pageTitle,
+  });
 });
