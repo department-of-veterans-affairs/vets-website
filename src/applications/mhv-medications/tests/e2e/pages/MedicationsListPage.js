@@ -875,11 +875,13 @@ class MedicationsListPage {
     cy.get('[data-testid="alert-message"]').should('not.exist');
   };
 
-  clickResetFilterButtonOnFilterAccordionDropDown = () => {
+  clickResetFilterButtonOnFilterAccordionDropDown = rxList => {
+    cy.intercept('GET', Paths.MED_LIST, rxList).as('resetMedicationsList');
     cy.get('[data-testid="filter-reset-button"]').should('exist');
     cy.get('[data-testid="filter-reset-button"]').click({
       waitForAnimations: true,
     });
+    return cy.wait('@resetMedicationsList');
   };
 
   clickBackToTopButtonOnListPage = () => {
