@@ -27,29 +27,20 @@ const DownloadModal = ({
           If you want to fill out a paper copy, open the PDF in your browser and
           print it from there.
         </p>{' '}
-        <a
+        <va-link
+          external
           data-e2e-id="adobe-link"
           href="https://get.adobe.com/reader/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Get Acrobat Reader for free from Adobe
-        </a>
-        <a
+          text="Get Acrobat Reader for free from Adobe"
+        />
+        <va-link
+          download
+          filetype="PDF"
+          className="vads-u-margin-top--2"
           data-e2e-id="modal-download-link"
           href={formUrl}
-          className="vads-u-margin-top--2"
-          download
-        >
-          <va-icon
-            className="vads-u-margin-right--1"
-            icon="file_download"
-            size="3"
-          />
-          <span className="vads-u-text-decoration--underline">
-            Download VA Form {formName} (PDF)
-          </span>
-        </a>
+          text={`Download VA Form ${formName}`}
+        />
       </div>
     </VaModal>
   );
