@@ -16,6 +16,7 @@ const CustomPersonalInfo = props => {
   return (
     <PersonalInformation
       {...props}
+      data={props.formData}
       config={{
         name: { show: true },
         ssn: { show: true, required: false },

@@ -23,16 +23,16 @@ const store = mockStore({
         last: 'Doe',
       },
       dob: '1990-01-01',
-      ssn: '123456789',
     },
   },
   form: {
-    data: {},
+    data: {
+      veteranSsnLastFour: '6789',
+    },
   },
 });
 
 const props = {
-  data: {},
   goBack: () => {},
   goForward: () => {},
   NavButtons: () => null,
@@ -48,14 +48,14 @@ describe('<CustomPersonalInfo>', () => {
     expect($$('va-telephone', container).length).to.equal(2);
   });
 
-  it('should display the user name', () => {
+  it('should display the user info', () => {
     const { container } = render(
       <Provider store={store}>
         <CustomPersonalInfo {...props} />
       </Provider>,
     );
-    // console.log(container.innerHTML);
     expect(container.textContent).to.include('John A Doe');
     expect(container.textContent).to.include('January 1, 1990');
+    expect(container.textContent).to.include('6 7 8 9');
   });
 });
