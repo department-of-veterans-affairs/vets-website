@@ -65,10 +65,7 @@ describe('SM back navigation', () => {
       Alerts.Message.SEND_MESSAGE_SUCCESS,
     );
 
-    // Verify link exists and has correct text, then click it
-    cy.findByTestId('review-sent-messages-link')
-      .should('be.visible')
-      .click();
+    // Click the link to navigate to Sent folder
     cy.findByRole('link', { name: 'Review your sent messages' }).click();
 
     // Verify navigation to Sent folder

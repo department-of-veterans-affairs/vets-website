@@ -340,5 +340,44 @@ describe('Alert Backround Box component', () => {
         );
       });
     });
+    it('should navigate to sent folder when link is clicked', async () => {
+      const activeAlertObj = {
+        datestamp: '2022-10-07T19:25:32.832Z',
+        isActive: true,
+        alertType: 'success',
+        header: '',
+        content: Alerts.Message.SEND_MESSAGE_SUCCESS,
+      };
+      const customState = {
+        sm: {
+          alerts: {
+            alertVisible: true,
+            alertList: [activeAlertObj],
+          },
+        },
+      };
+
+      const { container, history } = renderWithStoreAndRouter(
+        <AlertBackgroundBox closeable />,
+        {
+          initialState: customState,
+          reducers: reducer,
+          path: Paths.INBOX,
+        },
+      );
+
+      await waitFor(() => {
+        const sentLink = container.querySelector('va-link');
+        expect(sentLink).to.exist;
+
+        // Click the link
+        sentLink.dispatchEvent(
+          new MouseEvent('click', { bubbles: true, cancelable: true }),
+        );
+
+        // Verify navigation occurred by checking history
+        expect(history.location.pathname).to.equal(Paths.SENT);
+      });
+    });
   });
 });
