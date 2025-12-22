@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { migrateCardUploadKeys } from '../../config/migrations';
+import { migrateCardUploadKeys } from '../../../config/migrations';
 
 const EXAMPLE_SIP_METADATA = {
   version: 0,
