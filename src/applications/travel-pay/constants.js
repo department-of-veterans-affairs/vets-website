@@ -260,13 +260,11 @@ export const TRANSPORTATION_OPTIONS = Object.freeze([
   'Other',
 ]);
 
-// These spaced-string-keys are in the necessary format to send to the API.
-// There may be a way to avoid string keys
 export const TRANSPORTATION_REASONS = Object.freeze({
-  'Privately Owned Vehicle Not Available': {
+  PrivatelyOwnedVehicleNotAvailable: {
     label: "I don't own a private vehicle or it wasn't available",
   },
-  'Medically Indicated': {
+  MedicallyIndicated: {
     label: 'Medical reasons',
   },
   Other: {
