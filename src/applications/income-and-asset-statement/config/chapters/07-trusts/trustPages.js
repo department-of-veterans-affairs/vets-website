@@ -134,7 +134,7 @@ export const options = {
           )}
         </ul>
       ),
-    reviewAddButtonText: 'Add another trust',
+    reviewAddButtonText: props => `Add ${props.nounSingular}`,
     alertItemUpdated: 'Your trust information has been updated',
     alertItemDeleted: 'Your trust information has been deleted',
     cancelAddTitle: 'Cancel adding this trust',
