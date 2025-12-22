@@ -69,10 +69,9 @@ const mergeOpts = (opts = {}) => ({ ...DEFAULT_OPTS, ...opts });
  */
 const nameLabel = (formData, opts) => {
   const nameObj = formData?.[opts.nameKey] || {};
-  const baseName = opts.firstNameOnly
-    ? nameObj.first || opts.other
-    : formatFullName(nameObj) || opts.other;
-  return opts.possessive ? makePossessive(baseName) : baseName;
+  const baseName = opts.firstNameOnly ? nameObj.first : formatFullName(nameObj);
+  const nameToUse = baseName || opts.other;
+  return opts.possessive ? makePossessive(nameToUse) : nameToUse;
 };
 
 /**
