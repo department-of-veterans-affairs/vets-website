@@ -1,13 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import FormTitle from '~/platform/forms-system/src/js/components/FormTitle';
+import { getFormContent } from '../helpers';
 
 const ITFClaimantStatusWrapper = ({ children }) => {
+  const { subTitle, formNumber } = getFormContent();
   return (
     <section className="itf-status">
-      <h1>Submit VA Form 21-0966</h1>
-      <p className="va-introtext">
-        Intent to File a Claim for Compensation and/or Pension, or Survivors
-        Pension and/or DIC
-      </p>
+      <FormTitle title={`Submit VA Form ${formNumber}`} subTitle={subTitle} />
       <va-segmented-progress-bar
         current={2}
         heading-text="Claimant information"
@@ -17,5 +17,7 @@ const ITFClaimantStatusWrapper = ({ children }) => {
     </section>
   );
 };
-
+ITFClaimantStatusWrapper.propTypes = {
+  children: PropTypes.node.isRequired,
+};
 export default ITFClaimantStatusWrapper;
