@@ -85,7 +85,7 @@ const serviceDatesPage = {
       ({ formData }) =>
         formData?.serviceBranch
           ? DEFAULT_BRANCH_LABELS[formData.serviceBranch]?.label ||
-            formData.serviceBranch
+            capitalize(formData.serviceBranch)
           : 'Service Dates',
       undefined,
       false,
