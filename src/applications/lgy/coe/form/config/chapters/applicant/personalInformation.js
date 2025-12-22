@@ -6,7 +6,7 @@ export default {
   title: 'Your information',
   path: 'your-information',
   depends: formData => {
-    return formData.coeFormRebuildCveteam;
+    return formData['view:coeFormRebuildCveteam'];
   },
   CustomPage: CustomPersonalInfo,
   CustomPageReview: CustomPersonalInfoReview,

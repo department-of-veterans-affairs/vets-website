@@ -45,7 +45,7 @@ function App({
       ) {
         setFormData({
           ...formData,
-          [TOGGLE_KEY]: newFormDataEnabled,
+          [`view:${TOGGLE_KEY}`]: newFormDataEnabled,
         });
       }
     },
