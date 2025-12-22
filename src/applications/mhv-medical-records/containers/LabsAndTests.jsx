@@ -9,8 +9,6 @@ import {
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 
-import CernerFacilityAlert from 'platform/mhv/components/CernerFacilityAlert/CernerFacilityAlert';
-import { CernerAlertContent } from 'platform/mhv/components/CernerFacilityAlert/constants';
 import { Actions } from '../util/actionTypes';
 import RecordList from '../components/RecordList/RecordList';
 import {
@@ -96,6 +94,9 @@ const LabsAndTests = () => {
 
   const { isLoading, isAcceleratingLabsAndTests } = useAcceleratedData();
 
+  const isLoadingAcceleratedData =
+    isAcceleratingLabsAndTests && listState === loadStates.FETCHING;
+
   const dispatchAction = useMemo(
     () => {
       return isCurrent => {
@@ -129,9 +130,6 @@ const LabsAndTests = () => {
     updateListActionType: Actions.LabsAndTests.UPDATE_LIST_STATE,
     reloadRecordsAction: reloadRecords,
   });
-
-  const isLoadingAcceleratedData =
-    isAcceleratingLabsAndTests && listState === loadStates.FETCHING;
 
   useEffect(
     () => {
@@ -177,8 +175,6 @@ const LabsAndTests = () => {
         <span className="vads-u-font-weight--bold">14 days</span> or longer to
         confirm.{' '}
       </p>
-
-      <CernerFacilityAlert {...CernerAlertContent.LABS_AND_TESTS} />
 
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
@@ -226,7 +222,8 @@ const LabsAndTests = () => {
           </div>
         )}
         {!isLoadingAcceleratedData &&
-          !isLoading && (
+          !isLoading &&
+          labsAndTests !== undefined && (
             <>
               {labsAndTests?.length ? (
                 <>

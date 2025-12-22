@@ -54,10 +54,10 @@ export default function LoginButton({
 }
 
 LoginButton.propTypes = {
-  csp: PropTypes.string,
-  onClick: PropTypes.func,
-  useOAuth: PropTypes.bool,
-  ariaDescribedBy: PropTypes.string,
   actionLocation: PropTypes.string,
+  ariaDescribedBy: PropTypes.string,
+  csp: PropTypes.string,
   queryParams: PropTypes.object,
+  useOAuth: PropTypes.bool,
+  onClick: PropTypes.func,
 };
