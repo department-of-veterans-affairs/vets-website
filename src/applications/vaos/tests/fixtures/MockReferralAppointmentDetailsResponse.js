@@ -27,6 +27,7 @@ class MockReferralAppointmentDetailsResponse {
     appointmentId = 'EEKoGzEf',
     organizationName = 'Meridian Health',
     status = 'booked',
+    cancelationReason = null,
   } = {}) {
     // TODO update success response
     const baseAttributes = {
@@ -40,6 +41,10 @@ class MockReferralAppointmentDetailsResponse {
       referralId: '123abc',
       past: false,
     };
+
+    if (status === 'cancelled' && cancelationReason) {
+      baseAttributes.cancelationReason = cancelationReason;
+    }
 
     // Only include modality and provider when status is 'booked'
     const bookedAttributes =
@@ -137,6 +142,7 @@ class MockReferralAppointmentDetailsResponse {
       notFound,
       serverError,
       status = 'booked',
+      cancelationReason = null,
     } = this.options;
 
     // Return 404 error if notFound is true
@@ -163,6 +169,7 @@ class MockReferralAppointmentDetailsResponse {
       providerName,
       organizationName,
       status,
+      cancelationReason,
     });
   }
 }
