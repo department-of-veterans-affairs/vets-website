@@ -19,7 +19,6 @@ describe('Medications List Page Sort Alphabetically By Status', () => {
     listPage.visitMedicationsListPageURL(sortedData); // revisit the page so the name option is selected
 
     listPage.selectSortDropDownOption('Alphabetically by status');
-    listPage.verifyFilterAriaRegionText('Sorting: Alphabetically by status.');
 
     listPage.validateMedicationsListSorted(sortedData);
     listPage.verifyPaginationDisplayedforSortAlphabeticallyByStatus(

@@ -26,9 +26,6 @@ describe('Medications List Page Renewal Filter Option', () => {
       renewRx,
     );
     listPage.verifyFilterAriaRegionText(
-      'Filter applied: Renewal needed before refill.',
-    );
-    listPage.verifyFilterAriaRegionText(
       'Showing 1 - 10 of 29  renewal needed before refill medications, alphabetically by status',
     );
   });

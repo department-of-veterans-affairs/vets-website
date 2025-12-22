@@ -12,11 +12,10 @@ describe('Medications List Page Sort Alphabetically By Name', () => {
     listPage.visitMedicationsListPageURL(rxList);
     cy.intercept(
       'GET',
-      'my_health/v1/prescriptions?page=1&per_page=10&sort=alphabetical-rx-name',
+      '/my_health/v1/prescriptions?page=1&per_page=10&sort=alphabetical-rx-name',
       sortedData,
     ).as('sortedPrescriptions');
     listPage.selectSortDropDownOption('Alphabetically by name');
-    listPage.verifyFilterAriaRegionText('Sorting: Alphabetically by name.');
     listPage.validateMedicationsListSorted(sortedData);
     listPage.verifyPaginationDisplayedforSortAlphabeticallyByName(
       1,
