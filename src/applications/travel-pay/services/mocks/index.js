@@ -670,7 +670,7 @@ const responses = {
         costRequested: 45.0,
         costSubmitted: 45.0,
         carrierType: 'Taxi',
-        reasonNotUsingPOV: 'NoCar',
+        reasonNotUsingPOV: 'PrivatelyOwnedVehicleNotAvailable',
       });
     }
     return res.status(404).json({ errors: [{ detail: 'Expense not found' }] });
