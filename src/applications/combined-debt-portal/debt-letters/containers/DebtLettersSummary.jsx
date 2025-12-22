@@ -12,6 +12,7 @@ import DebtCardsList from '../components/DebtCardsList';
 // TODO: OtherVA Update
 import OtherVADebts from '../../combined/components/OtherVADebts';
 import alertMessage from '../../combined/utils/alert-messages';
+import { getTestOverrides } from '../../combined/utils/test-overrides';
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
 import ZeroDebtsCopaysSection from '../../combined/components/ZeroDebtsCopaysSection';
 import NeedHelp from '../components/NeedHelp';
@@ -79,14 +80,23 @@ const DebtLettersSummary = () => {
   const {
     debts,
     debtLinks,
-    isError: debtError,
+    isError: debtErrorRaw,
     isPending: isDebtPending,
     isPendingVBMS,
     isProfileUpdating,
   } = debtLetters;
-  const { statements: mcpStatements, error: mcpError } = mcp;
+  const { statements: mcpStatements, error: mcpErrorRaw } = mcp;
+
+  // Apply local test overrides from URL when present
+  const overrides = getTestOverrides();
+  const debtError =
+    overrides.debtError !== undefined ? overrides.debtError : debtErrorRaw;
+  const mcpError =
+    overrides.mcpError !== undefined ? overrides.mcpError : mcpErrorRaw;
   const allDebtsEmpty =
-    !debtError && debts.length === 0 && debtLinks.length === 0;
+    overrides.allZero !== undefined
+      ? overrides.allZero
+      : !debtError && debts.length === 0 && debtLinks.length === 0;
   const title = 'Overpayment balances';
   useHeaderPageTitle(title);
 
