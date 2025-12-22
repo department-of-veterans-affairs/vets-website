@@ -87,6 +87,8 @@ const serviceDatesPage = {
           ? DEFAULT_BRANCH_LABELS[formData.serviceBranch]?.label ||
             formData.serviceBranch
           : 'Service Dates',
+      undefined,
+      false,
     ),
     dateEnteredService: currentOrPastDateUI('Service start date'),
     dateLeftService: currentOrPastDateUI('Service end date'),
