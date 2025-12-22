@@ -132,7 +132,6 @@ export const getEvidence = formData => {
   }
 
   const locations = getVAEvidence(formData);
-  console.log('locations: ', locations);
 
   if (locations.length) {
     evidenceSubmission.evidenceType.push('retrieval');

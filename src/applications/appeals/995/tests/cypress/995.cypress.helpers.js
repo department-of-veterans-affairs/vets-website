@@ -76,9 +76,6 @@ export const PRIVACY_AGREEMENT_CHECKBOX = 'input[name="privacy-agreement"]';
 export const LIMITED_CONSENT_RADIOS = '[name="root_view:hasPrivateLimitation"]';
 export const LIMITED_CONSENT_TEXTAREA = '[name="root_limitedConsent"]';
 
-export const clickContinue = () =>
-  cy.get('va-button[continue]', { selector: 'button' }).click();
-
 export const clickStartClaim = () =>
   cy
     .get('va-link-action[text="Start your claim"]')
@@ -87,81 +84,20 @@ export const clickStartClaim = () =>
 
 const verifyUrl = link => h.verifyCorrectUrl(manifest.rootUrl, link);
 
-export const selectDropdownWithKeyboard = (fieldName, value) => {
-  cy.tabToElement(`[name="${fieldName}"]`);
-  cy.chooseSelectOptionUsingValue(value);
-};
-
 export const checkVaFacilityBox = () =>
   cy
     .get('[name="root_facilityTypes_vamc"]')
     .eq(0)
     .click();
 
-export const selectVaPromptResponse = response => {
-  cy.get(
-    `va-radio-option[name="root_hasVaEvidence"][value="${response}"]`,
-  ).click();
-  clickContinue();
-};
+// ------------ COMMON HELPERS ------------ //
 
-export const selectPrivatePromptResponse = response => {
-  cy.get(
-    `va-radio-option[name="root_hasPrivateEvidence"][value="${response}"]`,
-  ).click();
-  clickContinue();
-};
+export const clickContinue = () =>
+  cy.get('va-button[continue]', { selector: 'button' }).click();
 
-export const addVaLocation = location => {
-  cy.fillVaTextInput('root_treatmentLocation', location);
-  clickContinue();
-};
-
-export const addVaTreatmentAfter2005 = () => {
-  cy.selectRadio('root_treatmentBefore2005', 'N');
-  clickContinue();
-};
-
-export const addVaTreatmentBefore2005 = () => {
-  cy.selectRadio('root_treatmentBefore2005', 'Y');
-  clickContinue();
-};
-
-export const addVaTreatmentDate = (monthIndex, year) => {
-  cy.get('.select-month')
-    .shadow()
-    .find('select')
-    .select(monthIndex, { force: true });
-  cy.realPress('Tab');
-  cy.realType(year);
-  clickContinue();
-};
-
-export const addPrivateLocationData = (
-  name,
-  addressLine1,
-  city,
-  stateCode,
-  zip,
-  addressLine2 = null,
-) => {
-  cy.fillVaTextInput('root_treatmentLocation', name);
-  cy.selectVaSelect('root_address_country', 'USA');
-  cy.fillVaTextInput('root_address_street', addressLine1);
-
-  if (addressLine2) {
-    cy.fillVaTextInput('root_address_street2', addressLine2);
-  }
-
-  cy.fillVaTextInput('root_address_city', city);
-
-  cy.get('.usa-select')
-    .eq(1)
-    .scrollIntoView();
-  cy.selectVaSelect('root_address_state', stateCode);
-  cy.fillVaTextInput('root_address_postalCode', zip);
-
-  clickContinue();
+export const selectDropdownWithKeyboard = (fieldName, value) => {
+  cy.tabToElement(`[name="${fieldName}"]`);
+  cy.chooseSelectOptionUsingValue(value);
 };
 
 export const fillVaTextInputWithoutName = (selector, value) => {
@@ -170,23 +106,6 @@ export const fillVaTextInputWithoutName = (selector, value) => {
     .find(`input[name="${selector}"]`)
     .focus()
     .type(value);
-};
-
-export const addPrivateTreatmentDates = (
-  treatmentStartDate,
-  treatmentEndDate,
-) => {
-  const [startYear, startMonth, startDay] = treatmentStartDate.split('-');
-  const [endYear, endMonth, endDay] = treatmentEndDate.split('-');
-
-  fillVaTextInputWithoutName('root_treatmentStartMonth', startMonth);
-  fillVaTextInputWithoutName('root_treatmentStartDay', startDay);
-  fillVaTextInputWithoutName('root_treatmentStartYear', startYear);
-
-  fillVaTextInputWithoutName('root_treatmentEndMonth', endMonth);
-  fillVaTextInputWithoutName('root_treatmentEndDay', endDay);
-  fillVaTextInputWithoutName('root_treatmentEndYear', endYear);
-  clickContinue();
 };
 
 export const getToEvidenceFlow = () => {
@@ -284,123 +203,6 @@ export const verifyParagraph = (expectedText, index = 0) =>
     .should('exist')
     .and('be.visible')
     .and('have.text', expectedText);
-
-export const check4142Auth = () => {
-  cy.get('#privacy-agreement')
-    .shadow()
-    .find('div input')
-    .eq(0)
-    .scrollIntoView()
-    .click();
-  clickContinue();
-};
-
-export const verifyArrayBuilderReviewVACard = (
-  index,
-  location,
-  header,
-  subHeader,
-  conditionsCount,
-  conditions,
-  treatmentDate,
-) => {
-  verifyH3(header, 0);
-
-  cy.get('span h4')
-    .eq(0)
-    .should('exist')
-    .and('be.visible')
-    .and('have.text', subHeader);
-
-  cy.get('va-card')
-    .eq(index)
-    .within(() => {
-      cy.get('h3')
-        .should('exist')
-        .and('be.visible')
-        .and('have.text', location);
-
-      if (conditionsCount > 1) {
-        verifyParagraph(`Conditions: ${conditions}`, 0);
-      } else {
-        verifyParagraph(`Condition: ${conditions}`, 0);
-      }
-
-      if (treatmentDate) {
-        cy.get('p')
-          .eq(1)
-          .should('exist')
-          .and('be.visible')
-          .and('contain.text', 'Treatment start date')
-          .and('contain.text', treatmentDate);
-      } else {
-        cy.get('p')
-          .eq(1)
-          .should('exist')
-          .and('be.visible')
-          .and('contain.text', 'Treatment start date')
-          .and('contain.text', '2005 or later');
-      }
-    });
-
-  cy.get('h4')
-    .eq(0)
-    .should('exist')
-    .and('be.visible')
-    .and(
-      'have.text',
-      'Do you want us to request records from another VA provider?',
-    );
-};
-
-export const verifyArrayBuilderReviewPrivateCard = (
-  index,
-  location,
-  header,
-  subHeader,
-  conditionsCount,
-  conditions,
-  treatmentDateRange,
-) => {
-  verifyH3(header, 0);
-
-  cy.get('span h4')
-    .eq(0)
-    .should('exist')
-    .and('be.visible')
-    .and('have.text', subHeader);
-
-  cy.get('va-card')
-    .eq(index)
-    .within(() => {
-      cy.get('h3')
-        .should('exist')
-        .and('be.visible')
-        .and('have.text', location);
-
-      if (conditionsCount > 1) {
-        verifyParagraph(`Conditions: ${conditions}`, 0);
-      } else {
-        verifyParagraph(`Condition: ${conditions}`, 0);
-      }
-
-      cy.get('p')
-        .eq(1)
-        .should('exist')
-        .and('be.visible')
-        .and('contain.text', 'Treatment')
-        .and('contain.text', treatmentDateRange);
-    });
-
-  cy.get('h4')
-    .eq(0)
-    .should('exist')
-    .and('be.visible')
-    .and(
-      'have.text',
-      'Do you want us to request records from another private provider or VA Vet Center?',
-    );
-};
 
 export const checkError = (parentSelector, expectedErrorMessage) =>
   cy
@@ -734,4 +536,228 @@ export const pageHooks = {
       .find('select')
       .select('Buddy/Lay Statement', { force: true });
   },
+};
+
+export const clickArrayBuilderCardEditLink = locationName => {
+  cy.get(`va-link[label="Edit ${locationName}"]`).click();
+};
+
+export const clickArrayBuilderDeleteCardButton = locationName => {
+  cy.get(`va-button-icon[label="Delete ${locationName}"]`).click({
+    force: true,
+  });
+};
+
+export const clickArrayBuilderDeleteModalYesButton = () => {
+  cy.get('.usa-button-group__item')
+    .eq(0)
+    .click({ force: true });
+};
+
+export const confirmCheckboxesChecked = (evidenceType, issues) => {
+  issues.forEach(issue => {
+    cy.get(`[name="root_issues${evidenceType}_${issue}"]`).should('be.checked');
+  });
+};
+
+export const checkValueOfInput = (selector, value) => {
+  cy.get(selector).should('have.value', value);
+};
+
+export const checkAlertText = (name, text) => {
+  cy.get(`va-alert[name="${name}"]`).should('have.text', text);
+};
+
+// ------------ VA EVIDENCE HELPERS ------------ //
+
+export const selectVaPromptResponse = response => {
+  cy.get(
+    `va-radio-option[name="root_hasVaEvidence"][value="${response}"]`,
+  ).click();
+  clickContinue();
+};
+
+export const addVaLocation = location => {
+  cy.fillVaTextInput('root_treatmentLocation', location);
+  clickContinue();
+};
+
+export const addVaTreatmentAfter2005 = () => {
+  cy.selectRadio('root_treatmentBefore2005', 'N');
+  clickContinue();
+};
+
+export const addVaTreatmentBefore2005 = () => {
+  cy.selectRadio('root_treatmentBefore2005', 'Y');
+  clickContinue();
+};
+
+export const addVaTreatmentDate = (monthIndex, year) => {
+  cy.get('.select-month')
+    .shadow()
+    .find('select')
+    .select(monthIndex, { force: true });
+  cy.realPress('Tab');
+  cy.realType(year);
+  clickContinue();
+};
+
+export const verifyArrayBuilderReviewVACard = (
+  index,
+  location,
+  conditionsCount,
+  conditions,
+  treatmentDate,
+) => {
+  cy.get('va-card')
+    .eq(index)
+    .within(() => {
+      cy.get('h4')
+        .should('exist')
+        .and('be.visible')
+        .and('have.text', location);
+
+      if (conditionsCount > 1) {
+        verifyParagraph(`Conditions: ${conditions}`, 0);
+      } else {
+        verifyParagraph(`Condition: ${conditions}`, 0);
+      }
+
+      if (treatmentDate) {
+        cy.get('p')
+          .eq(1)
+          .should('exist')
+          .and('be.visible')
+          .and('contain.text', 'Treatment start date')
+          .and('contain.text', treatmentDate);
+      } else {
+        cy.get('p')
+          .eq(1)
+          .should('exist')
+          .and('be.visible')
+          .and('contain.text', 'Treatment start date')
+          .and('contain.text', '2005 or later');
+      }
+    });
+
+  cy.get('h4')
+    .eq(0)
+    .should('exist')
+    .and('be.visible')
+    .and(
+      'have.text',
+      'Do you want us to request records from another VA provider?',
+    );
+};
+
+// ------------ PRIVATE EVIDENCE HELPERS ------------ //
+
+export const selectPrivatePromptResponse = response => {
+  cy.get(
+    `va-radio-option[name="root_hasPrivateEvidence"][value="${response}"]`,
+  ).click();
+  clickContinue();
+};
+
+export const addPrivateLocationData = (
+  name,
+  addressLine1,
+  city,
+  stateCode,
+  zip,
+  addressLine2 = null,
+) => {
+  cy.fillVaTextInput('root_treatmentLocation', name);
+  cy.selectVaSelect('root_address_country', 'USA');
+  cy.fillVaTextInput('root_address_street', addressLine1);
+
+  if (addressLine2) {
+    cy.fillVaTextInput('root_address_street2', addressLine2);
+  }
+
+  cy.fillVaTextInput('root_address_city', city);
+
+  cy.get('.usa-select')
+    .eq(1)
+    .scrollIntoView();
+  cy.selectVaSelect('root_address_state', stateCode);
+  cy.fillVaTextInput('root_address_postalCode', zip);
+
+  clickContinue();
+};
+
+export const addPrivateTreatmentDates = (
+  treatmentStartDate,
+  treatmentEndDate,
+) => {
+  const [startYear, startMonth, startDay] = treatmentStartDate.split('-');
+  const [endYear, endMonth, endDay] = treatmentEndDate.split('-');
+
+  fillVaTextInputWithoutName('root_treatmentStartMonth', startMonth);
+  fillVaTextInputWithoutName('root_treatmentStartDay', startDay);
+  fillVaTextInputWithoutName('root_treatmentStartYear', startYear);
+
+  fillVaTextInputWithoutName('root_treatmentEndMonth', endMonth);
+  fillVaTextInputWithoutName('root_treatmentEndDay', endDay);
+  fillVaTextInputWithoutName('root_treatmentEndYear', endYear);
+  clickContinue();
+};
+
+export const check4142Auth = () => {
+  cy.get('#privacy-agreement')
+    .shadow()
+    .find('div input')
+    .eq(0)
+    .scrollIntoView()
+    .click();
+  clickContinue();
+};
+
+export const verifyArrayBuilderReviewPrivateCard = (
+  index,
+  location,
+  header,
+  subHeader,
+  conditionsCount,
+  conditions,
+  treatmentDateRange,
+) => {
+  verifyH3(header, 0);
+
+  cy.get('span h4')
+    .eq(0)
+    .should('exist')
+    .and('be.visible')
+    .and('have.text', subHeader);
+
+  cy.get('va-card')
+    .eq(index)
+    .within(() => {
+      cy.get('h4')
+        .should('exist')
+        .and('be.visible')
+        .and('have.text', location);
+
+      if (conditionsCount > 1) {
+        verifyParagraph(`Conditions: ${conditions}`, 0);
+      } else {
+        verifyParagraph(`Condition: ${conditions}`, 0);
+      }
+
+      cy.get('p')
+        .eq(1)
+        .should('exist')
+        .and('be.visible')
+        .and('contain.text', 'Treatment')
+        .and('contain.text', treatmentDateRange);
+    });
+
+  cy.get('h4')
+    .eq(0)
+    .should('exist')
+    .and('be.visible')
+    .and(
+      'have.text',
+      'Do you want us to request records from another private provider or VA Vet Center?',
+    );
 };
