@@ -36,9 +36,9 @@ import {
 } from '../../../redux/selectors';
 import {
   DATE_VALIDATION_TYPE,
+  validateRequestedAmount,
   validateReceiptDate,
   validateDescription,
-  validateRequestedAmount,
   validateAirTravelFields,
   validateCommonCarrierFields,
   validateLodgingFields,
@@ -105,12 +105,12 @@ const ExpensePage = () => {
     : isCreatingExpense;
 
   // Derive expense type from URL before effects (needed in useEffect dependencies)
-  const expenseTypeMatcher = new RegExp(
-    `.*(${Object.values(EXPENSE_TYPE_KEYS)
-      .map(key => EXPENSE_TYPES[key].route)
-      .join('|')}).*`,
-  );
-  const expenseTypeRoute = location.pathname.match(expenseTypeMatcher)[1];
+  const concattedExpenseTypes = Object.values(EXPENSE_TYPE_KEYS)
+    .map(key => EXPENSE_TYPES[key].route)
+    .join('|');
+  const expenseTypeMatch = new RegExp(`.*(${concattedExpenseTypes}).*`);
+
+  const expenseTypeRoute = location.pathname.match(expenseTypeMatch)[1];
 
   const expenseType = Object.values(EXPENSE_TYPE_KEYS).find(
     key => EXPENSE_TYPES[key].route === expenseTypeRoute,
