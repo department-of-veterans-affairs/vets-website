@@ -77,11 +77,11 @@ const getContent = (type, numberToWord, addOrEdit) => {
     va: {
       add: `What${numberToWord} VA or military treatment location should we request records from?`,
       // ------- ADJUST when design toggle is removed - we won't need the "Edit" text at the beginning anymore
-      edit: `Edit the${numberToWord} VA or military treatment location we should request records from`,
+      edit: `the${numberToWord} VA or military treatment location we should request records from`,
     },
     nonVa: {
       add: `What${numberToWord} location should we request your private provider or VA Vet Center records from?`,
-      edit: `Edit the${numberToWord} provider where you received treatment`,
+      edit: `the${numberToWord} location we should request your private provider or VA Vet Center records from`,
     },
   };
 

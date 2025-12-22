@@ -19,15 +19,14 @@ import { PrivacyActStatementContent } from './PrivacyActStatementContent';
 import LimitedConsent from './LimitedConsent';
 
 const Authorization = ({
+  addOrEditMode,
   contentAfterButtons,
   contentBeforeButtons,
-  data = {},
   fullData,
   goBack,
   goForward,
   pagePerItemIndex = null,
   onChange = () => {},
-  setFormData,
 }) => {
   const [checkboxError, setCheckboxError] = useState(false);
   const [radioError, setRadioError] = useState(false);
@@ -531,7 +530,7 @@ const Authorization = ({
           />
         </div>
         <LimitedConsent
-          addOrEditMode="add"
+          addOrEditMode={addOrEditMode}
           currentEvidenceData={currentEvidenceData}
           onChange={onChange}
           radioError={radioError}
@@ -562,14 +561,13 @@ const Authorization = ({
 };
 
 Authorization.propTypes = {
+  addOrEditMode: PropTypes.string,
   contentAfterButtons: PropTypes.element,
   contentBeforeButtons: PropTypes.element,
-  data: PropTypes.object,
   fullData: PropTypes.object,
   goBack: PropTypes.func,
   goForward: PropTypes.func,
   pagePerItemIndex: PropTypes.number,
-  setFormData: PropTypes.func,
   onChange: PropTypes.func,
 };
 

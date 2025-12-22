@@ -116,8 +116,8 @@ export const treatmentDateContent = {
     }
 
     return location
-      ? `Edit when you were treated at ${location}`
-      : `Edit when you were treated`;
+      ? `when you were treated at ${location}`
+      : `when you were treated`;
   },
   firstDateLabel: 'First date of treatment',
   dateHint:

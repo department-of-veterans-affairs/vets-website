@@ -70,6 +70,7 @@ const options = {
     alertItemUpdated: ({ itemData }) =>
       summaryContent.alertItemUpdatedText(itemData),
     cardDescription: item => summaryContent.cardDescription(item),
+    getItemName: item => item?.treatmentLocation,
     summaryDescription: summaryContent.descriptionWithItems,
     summaryTitle: summaryContent.titleWithItems,
   },
@@ -157,6 +158,18 @@ const datePromptPage = {
         required: datePromptContent.requiredError,
       },
     }),
+    'ui:options': {
+      updateSchema: (formData, schema, _uiSchema, index) => {
+        const itemData = formData?.vaEvidence?.[index] || formData;
+
+        // Clean up treatmentMonthYear data when answer is 'N'
+        if (itemData[VA_TREATMENT_BEFORE_2005_KEY] === 'N') {
+          delete itemData[VA_TREATMENT_MONTH_YEAR_KEY];
+        }
+
+        return schema;
+      },
+    },
   },
   schema: {
     type: 'object',
