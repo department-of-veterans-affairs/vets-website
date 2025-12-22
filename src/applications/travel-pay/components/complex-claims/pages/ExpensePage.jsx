@@ -14,6 +14,7 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import DocumentUpload from './DocumentUpload';
 import { EXPENSE_TYPES, EXPENSE_TYPE_KEYS } from '../../../constants';
 import {
@@ -36,6 +37,8 @@ import {
   validateRequestedAmount,
   validateAirTravelFields,
   validateCommonCarrierFields,
+  validateLodgingFields,
+  validateMealFields,
 } from '../../../util/expense-validation-helpers';
 
 import TravelPayButtonPair from '../../shared/TravelPayButtonPair';
@@ -223,6 +226,10 @@ const ExpensePage = () => {
             nextErrors,
             name,
           );
+        } else if (isLodging) {
+          nextErrors = validateLodgingFields(newFormState, nextErrors, name);
+        } else if (isMeal) {
+          nextErrors = validateMealFields(newFormState, nextErrors, name);
         }
 
         return nextErrors;
@@ -290,6 +297,16 @@ const ExpensePage = () => {
     // Airtravel-specific validations
     if (isAirTravel) {
       errors = validateAirTravelFields(formState, errors);
+    }
+
+    // Lodging-specific validations
+    if (isLodging) {
+      errors = validateLodgingFields(formState, errors);
+    }
+
+    // Meal-specific validations
+    if (isMeal) {
+      errors = validateMealFields(formState, errors);
     }
 
     setExtraFieldErrors(errors);
@@ -485,6 +502,14 @@ const ExpensePage = () => {
     );
   };
 
+  const pageTitle = expenseTypeFields?.expensePageText
+    ? `${expenseTypeFields.expensePageText
+        .charAt(0)
+        .toUpperCase()}${expenseTypeFields.expensePageText.slice(1)} expense`
+    : 'Unknown expense';
+
+  useSetPageTitle(pageTitle);
+
   return (
     <>
       <h1>
@@ -505,12 +530,17 @@ const ExpensePage = () => {
         uploadError={extraFieldErrors.receipt || uploadError || undefined}
       />
       {isMeal && (
-        <ExpenseMealFields formState={formState} onChange={handleFormChange} />
+        <ExpenseMealFields
+          formState={formState}
+          onChange={handleFormChange}
+          errors={extraFieldErrors}
+        />
       )}
       {isLodging && (
         <ExpenseLodgingFields
           formState={formState}
           onChange={handleFormChange}
+          errors={extraFieldErrors}
         />
       )}
       {isCommonCarrier && (
