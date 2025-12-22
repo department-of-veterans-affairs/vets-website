@@ -103,7 +103,7 @@ export const options = {
           </li>
         </ul>
       ),
-    reviewAddButtonText: 'Add another discontinued income',
+    reviewAddButtonText: props => `Add ${props.nounSingular}`,
     alertItemUpdated: 'Your discontinued income information has been updated',
     alertItemDeleted: 'Your discontinued income information has been deleted',
     cancelAddTitle: 'Cancel adding this discontinued income',

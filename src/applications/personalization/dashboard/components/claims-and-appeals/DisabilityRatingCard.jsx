@@ -29,7 +29,7 @@ const DisabilityRatingCard = ({
         <>
           <Heading />
           <va-card>
-            <h4 className="vads-u-margin-y--0 vads-u-padding-bottom--1">
+            <h4 className="vads-u-margin-y--0 vads-u-padding-bottom--1 dd-privacy-mask">
               Your combined disability rating is {totalDisabilityRating}%
             </h4>
             <p className="vads-u-margin-y--0 vads-u-margin-top--0p5 vads-u-padding-y--1">

@@ -94,7 +94,7 @@ export const options = {
           </li>
         </ul>
       ),
-    reviewAddButtonText: 'Add another royalty',
+    reviewAddButtonText: props => `Add ${props.nounSingular}`,
     alertItemUpdated: 'Your royalty information has been updated',
     alertItemDeleted: 'Your royalty information has been deleted',
     cancelAddTitle: 'Cancel adding this royalty',
