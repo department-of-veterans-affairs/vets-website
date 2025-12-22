@@ -10,6 +10,7 @@ import {
   mockDraftReferralAppointmentApi,
   mockAppointmentDetailsApi,
   mockSubmitAppointmentApi,
+  takeScreenshot,
 } from './referrals-cypress-helpers';
 import MockUser from '../../../fixtures/MockUser';
 import MockAppointmentResponse from '../../../fixtures/MockAppointmentResponse';
@@ -80,6 +81,7 @@ describe('VAOS Referral API Error Handling', () => {
 
         // Verify error message is displayed
         referralsAndRequests.assertApiError();
+        takeScreenshot(`referrals-list-api-error-${errorType}`);
       });
     });
   });
@@ -119,6 +121,7 @@ describe('VAOS Referral API Error Handling', () => {
 
         // Verify error message is displayed
         scheduleReferral.assertApiError();
+        takeScreenshot(`referral-detail-api-error-${errorType}`);
       });
     });
   });
@@ -178,6 +181,7 @@ describe('VAOS Referral API Error Handling', () => {
 
         // Verify error message is displayed
         chooseDateAndTime.assertApiError();
+        takeScreenshot(`referral-selecting-slot-times-api-error-${errorType}`);
       });
     });
   });
@@ -262,6 +266,9 @@ describe('VAOS Referral API Error Handling', () => {
         // Wait for submit appointment API call
         cy.wait('@v2:post:submitAppointment');
         cy.injectAxeThenAxeCheck();
+        takeScreenshot(
+          `referral-submitting-appointment-api-error-${errorType}`,
+        );
 
         // Verify error message is displayed
         reviewAndConfirm.assertApiErrorAlert();
@@ -368,6 +375,9 @@ describe('VAOS Referral API Error Handling', () => {
 
         // Verify error message is displayed
         completeReferral.assertApiError();
+        takeScreenshot(
+          `referral-appointment-after-submit-api-error-${errorType}`,
+        );
       });
     });
 
@@ -438,6 +448,7 @@ describe('VAOS Referral API Error Handling', () => {
       // Verify error message is displayed
       completeReferral.assertNotBookedError();
       cy.injectAxeThenAxeCheck();
+      takeScreenshot(`referral-appointment-after-submit-timeout-error`);
     });
   });
 });
