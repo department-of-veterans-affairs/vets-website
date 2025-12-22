@@ -22,14 +22,6 @@ describe('Medications List Page Filter Accordion Reset Button', () => {
     listPage.visitMedicationsListPageURL(filterRx);
     listPage.clickfilterAccordionDropdownOnListPage();
     listPage.clickResetFilterButtonOnFilterAccordionDropDown(rxList);
-    cy.findByTestId('filter-aria-live-region').should(
-      'contain.text',
-      'Filters cleared.',
-    );
-    cy.findByTestId('filter-aria-live-region').should(
-      'contain.text',
-      'Showing 1 - 10 of 29 medications, alphabetically by status',
-    );
     listPage.verifyFilterAriaRegionText(
       'Filters cleared. Showing 1 - 10 of 29 medications, alphabetically by status',
     );
