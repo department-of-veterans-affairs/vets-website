@@ -2,7 +2,7 @@ import {
   arrayBuilderItemSubsequentPageTitleUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { replaceStrValues } from '../helpers/formatting';
+import { replaceStrValues } from './helpers/formatting';
 import content from '../locales/en/content.json';
 
 /**

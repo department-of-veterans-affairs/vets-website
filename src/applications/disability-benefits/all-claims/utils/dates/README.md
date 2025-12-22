@@ -59,11 +59,12 @@ import {
 
 - `isValidFullDate(dateString)` - Validate YYYY-MM-DD format
 - `isValidYear(err, fieldData)` - Validate year value (uses platform utility)
-- `isValidPartialDate(dateString)` - Validate partial dates
 - `validateAge(err, fieldData, formData)` - Validate age requirements (13th birthday)
 - `validateSeparationDate(err, fieldData, formData)` - Validate separation dates
 - `validateServicePeriod(errors, fieldData)` - Validate service periods
 - `isLessThan180DaysInFuture(errors, fieldData)` - Validate date is less than 180 days in future
+
+**Note:** `isValidPartialDate()` has been removed. Partial date validation is now handled by `validateApproximateDate()` in validations.js for specific pages that support approximate dates (e.g., conditionDate, vaMedicalRecords treatment dates).
 
 ### Advanced Validation Functions
 
@@ -104,14 +105,33 @@ import {
 
 ### Form Integration
 
-- `dateFieldToISO(dateField)` - Convert form field to ISO date
+- `dateFieldToISO(dateField, options)` - Convert form field to ISO date
+  - `options.allowPartial` - Set to `true` to allow partial dates (XX placeholders). **Default: false**
+  - Only use `allowPartial: true` for designated fields that support approximate dates (conditionDate, vaMedicalRecords, separationPayDate)
+  - **Toxic Exposure fields must NOT use allowPartial** - they require complete YYYY-MM-DD dates
 - `isoToDateField(isoDate)` - Convert ISO date to form field
 - `formatReviewDate(dateString, monthYear)` - Format for review display
 - `validateFormDateField(dateField, options)` - Validate form date field
-- `createDateRange(fromField, toField)` - Create date range from form fields
+  - Supports `allowPartial` option - pass through to enable partial date validation
+- `createDateRange(fromField, toField, options)` - Create date range from form fields
+  - Supports `allowPartial` option - pass through to enable partial date handling
 - `validateFormDateRange(fromField, toField, options)` - Validate form date range
+  - Supports `allowPartial` option - pass through to enable partial date validation
 - `getCurrentFormDate()` - Get current date as form field object
 - `adjustFormDate(dateField, amount, unit)` - Add/subtract time from form date
+
+#### Partial Date Handling
+
+**By default, all form integration functions require complete dates (YYYY-MM-DD)**. This prevents the creation of invalid XX placeholder dates that cause backend submission failures.
+
+**To enable partial dates** for specific fields that explicitly support approximate dates:
+```javascript
+// For fields that support approximate dates (conditionDate, vaMedicalRecords treatment dates)
+const isoDate = dateFieldToISO(dateField, { allowPartial: true });
+
+// For Toxic Exposure dates - DO NOT use allowPartial
+const isoDate = dateFieldToISO(dateField); // Returns null if incomplete
+```
 
 ### Product-Specific Operations
 
@@ -152,7 +172,6 @@ const isValid = moment(date).isValid();
 ```
 
 After:
-
 ```javascript
 import { formatDate, parseDate } from '.../utils/dates';
 
