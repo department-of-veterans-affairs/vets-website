@@ -17,9 +17,11 @@ describe('Medications List Page Filter Accordion Reset Button', () => {
     listPage.verifyFilterHeaderTextHasFocusafterExpanded();
     listPage.verifyFilterButtonWhenAccordionExpanded();
     listPage.clickFilterRadioButtonOptionOnListPage('Active');
-
     listPage.clickFilterButtonOnAccordion(Paths.ACTIVE_FILTER, filterRx);
-    listPage.clickResetFilterButtonOnFilterAccordionDropDown();
+
+    listPage.visitMedicationsListPageURL(filterRx);
+    listPage.clickfilterAccordionDropdownOnListPage();
+    listPage.clickResetFilterButtonOnFilterAccordionDropDown(rxList);
     cy.findByTestId('filter-aria-live-region').should(
       'contain.text',
       'Filters cleared.',
