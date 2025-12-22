@@ -36,9 +36,15 @@ describe('<ServiceUnavailableAlert>', () => {
         ),
       ).to.be.visible;
 
+      // Verify "Note:" is bold
+      const strongElement = container.querySelector('strong');
+      expect(strongElement).to.exist;
+      expect(strongElement.textContent).to.equal('Note:');
+
+      // Verify the rest of the note text
       expect(
         within(container).getByText(
-          /Note: You are still able to review appeals information/i,
+          /You are still able to review appeals information/i,
         ),
       ).to.be.visible;
     });
@@ -56,9 +62,15 @@ describe('<ServiceUnavailableAlert>', () => {
         ),
       ).to.be.visible;
 
+      // Verify "Note:" is bold
+      const strongElement = container.querySelector('strong');
+      expect(strongElement).to.exist;
+      expect(strongElement.textContent).to.equal('Note:');
+
+      // Verify the rest of the note text
       expect(
         within(container).getByText(
-          /Note: You are still able to review claims information/i,
+          /You are still able to review claims information/i,
         ),
       ).to.be.visible;
     });

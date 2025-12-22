@@ -12,8 +12,6 @@ const CONTENT = {
   heading: names => `${names} status is unavailable`,
   body: names =>
     `VA.gov is having trouble loading ${names} information at this time. Check back again in an hour.`,
-  note: availableNames =>
-    `Note: You are still able to review ${availableNames} information.`,
 };
 
 function formatServiceNames(services, property) {
@@ -46,7 +44,13 @@ function ServiceUnavailableAlert({ services, headerLevel = 3 }) {
       <HeadingTag slot="headline">{CONTENT.heading(headingNames)}</HeadingTag>
       <p className="vads-u-margin-y--0">
         {CONTENT.body(bodyNames)}
-        {availableNames && ` ${CONTENT.note(availableNames)}`}
+        {availableNames && (
+          <>
+            {' '}
+            <strong>Note:</strong> You are still able to review {availableNames}{' '}
+            information.
+          </>
+        )}
       </p>
     </va-alert>
   );

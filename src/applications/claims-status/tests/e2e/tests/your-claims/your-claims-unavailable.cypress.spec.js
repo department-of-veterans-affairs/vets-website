@@ -46,8 +46,10 @@ describe('Your claims unavailable,', () => {
       level: 3,
     });
     cy.findByText(
-      'VA.gov is having trouble loading claims information at this time. Check back again in an hour. Note: You are still able to review appeals information.',
+      /VA\.gov is having trouble loading claims information at this time\. Check back again in an hour\./,
     );
+    cy.get('va-alert strong').should('have.text', 'Note:');
+    cy.findByText(/You are still able to review appeals information\./);
 
     cy.axeCheck();
   });
@@ -64,8 +66,10 @@ describe('Your claims unavailable,', () => {
       level: 3,
     });
     cy.findByText(
-      'VA.gov is having trouble loading appeals information at this time. Check back again in an hour. Note: You are still able to review claims information.',
+      /VA\.gov is having trouble loading appeals information at this time\. Check back again in an hour\./,
     );
+    cy.get('va-alert strong').should('have.text', 'Note:');
+    cy.findByText(/You are still able to review claims information\./);
 
     cy.axeCheck();
   });

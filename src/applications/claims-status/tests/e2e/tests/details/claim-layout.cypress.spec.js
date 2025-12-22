@@ -55,8 +55,10 @@ describe('Claim layout', () => {
       level: 2,
     });
     cy.findByText(
-      'VA.gov is having trouble loading claims information at this time. Check back again in an hour. Note: You are still able to review appeals information.',
+      /VA\.gov is having trouble loading claims information at this time\. Check back again in an hour\./,
     );
+    cy.get('va-alert strong').should('have.text', 'Note:');
+    cy.findByText(/You are still able to review appeals information\./);
 
     cy.axeCheck();
   });
