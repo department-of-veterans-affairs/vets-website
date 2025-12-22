@@ -175,7 +175,7 @@ const schema = {
     },
     specificContributionAmount: {
       type: 'string',
-      pattern: '^\\d*(\\.\\d{1,2})?$',
+      pattern: '^\\d+(\\.\\d{1,2})?$',
     },
   },
   required: [
