@@ -228,6 +228,7 @@ export default arrayBuilderPages(options, pageBuilder => ({
     CustomPage: props =>
       Authorization({
         ...props,
+        addOrEditMode: getAddOrEditMode(),
         // resolve prop warning that the index is a string rather than a number
         pagePerItemIndex: +props.pagePerItemIndex,
       }),
