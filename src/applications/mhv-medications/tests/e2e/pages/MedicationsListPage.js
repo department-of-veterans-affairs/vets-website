@@ -815,11 +815,12 @@ class MedicationsListPage {
   };
 
   clickFilterButtonOnAccordion = (url, filterRx) => {
-    cy.intercept('GET', `${url}`, filterRx);
+    cy.intercept('GET', `${url}`, filterRx).as('filterMedicationsList');
     cy.get('[data-testid="filter-button"]')
       .shadow()
       .find('[type="button"]')
       .click({ waitForAnimations: true });
+    return cy.wait('@filterMedicationsList');
   };
 
   verifyNameOfFirstRxOnMedicationsList = rxName => {
