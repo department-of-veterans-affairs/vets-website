@@ -50,6 +50,8 @@ const initialState = {
   services: [],
   session: {},
   mhvTransitionEligible: false,
+  userAtPretransitionedOhFacility: false,
+  userFacilityReadyForInfoAlert: false,
   errors: false,
 };
 

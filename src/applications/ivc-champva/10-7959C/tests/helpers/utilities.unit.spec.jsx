@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { testComponentRender } from 'applications/ivc-champva/shared/tests/pages/pageTests.spec';
-import { isRequiredFile, nameWordingExt } from '../../helpers/utilities';
+import { isRequiredFile } from '../../helpers/utilities';
 import { requiredFiles } from '../../config/constants';
 import {
   concatStreets,
@@ -54,14 +54,6 @@ describe('nameWording', () => {
         false, // capitalize
       ),
     ).to.equal('John William Ferrell');
-  });
-});
-
-describe('nameWordingExt', () => {
-  it("should set `beingVerb` to 'you’re' if certifierRole is 'applicant'", () => {
-    expect(nameWordingExt({ certifierRole: 'applicant' }).beingVerb).to.equal(
-      'you’re',
-    );
   });
 });
 

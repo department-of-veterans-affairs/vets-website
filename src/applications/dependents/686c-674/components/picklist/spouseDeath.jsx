@@ -34,8 +34,8 @@ const spouseDeath = {
       if (
         hasError ||
         !itemData.endCity ||
-        (!itemData.endOutsideUS && !itemData.endState) ||
-        (itemData.endOutsideUS && !itemData.endCountry)
+        (!itemData.endOutsideUs && !itemData.endState) ||
+        (itemData.endOutsideUs && !itemData.endCountry)
       ) {
         scrollToError();
       } else {
@@ -75,25 +75,25 @@ const spouseDeath = {
 
         <h4>Where did they die?</h4>
         <VaCheckbox
-          name="endOutsideUS"
+          name="endOutsideUs"
           label="Death occurred outside the United States"
-          checked={itemData.endOutsideUS || false}
+          checked={itemData.endOutsideUs || false}
           onVaChange={onChange}
         />
         <VaTextInput
           class="vads-u-margin-top--4"
           name="endCity"
-          label={`City${itemData.endOutsideUS ? '' : ' or county'}`}
+          label={`City${itemData.endOutsideUs ? '' : ' or county'}`}
           error={
             formSubmitted && !itemData.endCity
-              ? `Enter a city${itemData.endOutsideUS ? '' : ' or county'}`
+              ? `Enter a city${itemData.endOutsideUs ? '' : ' or county'}`
               : null
           }
           value={itemData.endCity || ''}
           onVaInput={onChange}
           required
         />
-        {itemData.endOutsideUS ? (
+        {itemData.endOutsideUs ? (
           <>
             <VaTextInput
               class="vads-u-margin-top--4"

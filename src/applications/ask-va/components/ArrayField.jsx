@@ -1,16 +1,15 @@
-import get from '@department-of-veterans-affairs/platform-forms-system/get';
-import set from '@department-of-veterans-affairs/platform-forms-system/set';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {
   getDefaultFormState,
   toIdSchema,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
-import PropTypes from 'prop-types';
-import React from 'react';
-
-import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
-import { focusElement } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import findDuplicateIndexes from '@department-of-veterans-affairs/platform-forms-system/findDuplicateIndexes';
+import get from '@department-of-veterans-affairs/platform-forms-system/get';
+import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
+import set from '@department-of-veterans-affairs/platform-forms-system/set';
+import { focusElement } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import { Element, scrollTo } from 'platform/utilities/scroll';
 
@@ -78,6 +77,100 @@ class ArrayField extends React.Component {
     }
   }
 
+  /*
+   * Clicking Add Another in the header of the array field section
+   */
+  handleAdd() {
+    const newState = {
+      items: this.state.items.concat(
+        getDefaultFormState(
+          this.getItemSchema(this.state.items.length),
+          undefined,
+          this.props.schema.definitions,
+        ) || {},
+      ),
+      editing: this.state.editing.concat(true),
+    };
+    this.setState(newState, () => {
+      this.scrollToRow(
+        `${this.props.path[this.props.path.length - 1]}_${this.state.items
+          .length - 1}`,
+      );
+    });
+  }
+
+  /*
+   * Clicking edit on the item in review mode
+   */
+  handleEdit(index, status = true) {
+    this.setState(set(['editing', index], status, this.state), () => {
+      const id = `${this.props.path[this.props.path.length - 1]}_${index}`;
+      this.scrollToRow(id);
+      focusElement(`#table_${id}`);
+    });
+  }
+
+  /**
+   * Clicking Remove when editing an item
+   * @param {number} indexToRemove - Index in array
+   * @param {string} fieldName - Name of ArrayField used by the wrapper;
+   *   determined from path
+   */
+  handleRemove(indexToRemove, fieldName) {
+    const { path, formData } = this.props;
+    const newState = {
+      ...this.state,
+      items: this.state.items.filter((val, index) => index !== indexToRemove),
+      editing: this.state.editing.filter(
+        (val, index) => index !== indexToRemove,
+      ),
+    };
+    this.setState(newState, () => {
+      this.props.setData(set(path, this.state.items, formData));
+      // Move focus back to the add button
+      this.scrollToAndFocus(`add-another-${fieldName}`);
+    });
+  }
+
+  /**
+   * Clicking Update in edit mode.
+   *
+   * This is only called if the form is valid
+   * and data is already saved through handleSetData, so we just need to change
+   * the edting state
+   *
+   * @param {number} indexToRemove - Index in array
+   * @param {string} fieldName - Name of ArrayField used by the wrapper;
+   *   determined from path
+   */
+  handleSave(index, fieldName) {
+    const { uiSchema, arrayData } = this.props;
+    // Prevent card from closing (stay in edit mode) if the `duplicateKey`
+    // option is set and the field is a duplicate
+    const key = uiSchema?.['ui:options']?.duplicateKey;
+    const duplicates = key ? findDuplicateIndexes(arrayData, key) : [];
+    const editing = arrayData.map((__, indx) => duplicates.includes(indx));
+
+    this.setState({ editing }, () => {
+      // Return focus to button that toggled edit mode
+      this.scrollToAndFocus(`${fieldName}-${index}`, '.edit-btn');
+    });
+  }
+
+  /*
+   * Called on any form data change.
+   *
+   * When data is changed, since we’re only editing one array item at a time,
+   * we need to update the full page’s form data and call the Redux setData action
+   */
+  handleSetData(index, data) {
+    const { path, formData } = this.props;
+    const newArray = set(index, data, this.state.items);
+    this.setState({ items: newArray }, () => {
+      this.props.setData(set(path, newArray, formData));
+    });
+  }
+
   getItemSchema(index) {
     const { schema } = this.props;
     if (schema.items.length > index) {
@@ -93,6 +186,7 @@ class ArrayField extends React.Component {
    *   to
    * @param {string} focusElementSelector - element to focus within element
    */
+  /* eslint-disable class-methods-use-this */
   scrollToAndFocus(scrollElementName, focusElementSelector = '') {
     if (scrollElementName) {
       setTimeout(() => {
@@ -123,100 +217,7 @@ class ArrayField extends React.Component {
       );
     }, scrollToTimeout);
   }
-
-  /*
-   * Clicking edit on the item in review mode
-   */
-  handleEdit(index, status = true) {
-    this.setState(set(['editing', index], status, this.state), () => {
-      const id = `${this.props.path[this.props.path.length - 1]}_${index}`;
-      this.scrollToRow(id);
-      focusElement(`#table_${id}`);
-    });
-  }
-
-  /*
-   * Clicking Add Another in the header of the array field section
-   */
-  handleAdd() {
-    const newState = {
-      items: this.state.items.concat(
-        getDefaultFormState(
-          this.getItemSchema(this.state.items.length),
-          undefined,
-          this.props.schema.definitions,
-        ) || {},
-      ),
-      editing: this.state.editing.concat(true),
-    };
-    this.setState(newState, () => {
-      this.scrollToRow(
-        `${this.props.path[this.props.path.length - 1]}_${this.state.items
-          .length - 1}`,
-      );
-    });
-  }
-
-  /**
-   * Clicking Remove when editing an item
-   * @param {number} indexToRemove - Index in array
-   * @param {string} fieldName - Name of ArrayField used by the wrapper;
-   *   determined from path
-   */
-  handleRemove(indexToRemove, fieldName) {
-    const { path, formData } = this.props;
-    const newState = {
-      ...this.state,
-      items: this.state.items.filter((val, index) => index !== indexToRemove),
-      editing: this.state.editing.filter(
-        (val, index) => index !== indexToRemove,
-      ),
-    };
-    this.setState(newState, () => {
-      this.props.setData(set(path, this.state.items, formData));
-      // Move focus back to the add button
-      this.scrollToAndFocus(`add-another-${fieldName}`);
-    });
-  }
-
-  /*
-   * Called on any form data change.
-   *
-   * When data is changed, since we’re only editing one array item at a time,
-   * we need to update the full page’s form data and call the Redux setData action
-   */
-  handleSetData(index, data) {
-    const { path, formData } = this.props;
-    const newArray = set(index, data, this.state.items);
-    this.setState({ items: newArray }, () => {
-      this.props.setData(set(path, newArray, formData));
-    });
-  }
-
-  /**
-   * Clicking Update in edit mode.
-   *
-   * This is only called if the form is valid
-   * and data is already saved through handleSetData, so we just need to change
-   * the edting state
-   *
-   * @param {number} indexToRemove - Index in array
-   * @param {string} fieldName - Name of ArrayField used by the wrapper;
-   *   determined from path
-   */
-  handleSave(index, fieldName) {
-    const { uiSchema, arrayData } = this.props;
-    // Prevent card from closing (stay in edit mode) if the `duplicateKey`
-    // option is set and the field is a duplicate
-    const key = uiSchema?.['ui:options']?.duplicateKey;
-    const duplicates = key ? findDuplicateIndexes(arrayData, key) : [];
-    const editing = arrayData.map((__, indx) => duplicates.includes(indx));
-
-    this.setState({ editing }, () => {
-      // Return focus to button that toggled edit mode
-      this.scrollToAndFocus(`${fieldName}-${index}`, '.edit-btn');
-    });
-  }
+  /* eslint-enable class-methods-use-this */
 
   isLocked() {
     return this.props.uiSchema['ui:field'] === 'BasicArrayField';
@@ -418,7 +419,10 @@ ArrayField.propTypes = {
   trackingPrefix: PropTypes.string.isRequired,
   appStateData: PropTypes.object,
   arrayData: PropTypes.array,
+  formContext: PropTypes.object,
   formData: PropTypes.object,
   pageTitle: PropTypes.string,
+  setData: PropTypes.func,
   uiSchema: PropTypes.object,
+  onBlur: PropTypes.func,
 };

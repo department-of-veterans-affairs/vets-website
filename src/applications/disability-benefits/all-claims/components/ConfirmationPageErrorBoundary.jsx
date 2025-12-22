@@ -13,13 +13,9 @@ class ConfirmationPageErrorBoundary extends React.Component {
     return { hasError: true };
   }
 
-  componentDidCatch(error, info) {
+  componentDidCatch() {
     // eslint-disable-next-line no-console
-    console.error(
-      'Error caught in ConfirmationView ChapterSectionCollection',
-      error,
-      info,
-    );
+    console.error('Error in Confirmation Page Error Boundary');
   }
 
   render() {

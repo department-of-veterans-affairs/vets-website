@@ -7,7 +7,7 @@ export default function NeedHelp() {
         <div slot="content">
           <p>
             If you need help in completing this form, call VA TOLL-FREE at
-            1-888-GI-BILL-1 (<va-telephone contact="8884424551" />
+            1-888-GI-BILL-1 (<va-telephone contact="8884424551" international />
             ). If you have hearing loss, call <va-telephone contact="711" tty />
             .
           </p>

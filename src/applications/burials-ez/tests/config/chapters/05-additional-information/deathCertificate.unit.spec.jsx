@@ -7,7 +7,6 @@ import {
   DefinitionTester,
   getFormDOM,
 } from 'platform/testing/unit/schemaform-utils';
-import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../../../config/form';
 
 const defaultStore = createCommonStore();
@@ -31,7 +30,13 @@ describe('Death Certificate', () => {
     );
     const formDOM = getFormDOM(form);
 
-    expect($$('label.upload-button-label', formDOM).length).to.equal(1);
-    expect($$('input', formDOM).length).to.equal(1);
+    const fileInput = formDOM.querySelector('va-file-input-multiple');
+    expect(fileInput).to.exist;
+
+    expect(fileInput.getAttribute('label')).to.equal(
+      'Upload the Veteran’s death certificate',
+    );
+
+    expect(fileInput.getAttribute('required')).to.equal('false');
   });
 });
