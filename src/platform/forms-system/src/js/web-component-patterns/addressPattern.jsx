@@ -220,8 +220,14 @@ function getFieldValue(fieldName, addressData, keys = {}) {
   return addressData?.[mappedKey];
 }
 
-const MAPPABLE_FIELDS = ['street', 'street2', 'street3', 'postalCode'];
-const UNSAFE_FIELDS = ['country', 'city', 'state', 'isMilitary'];
+const MAPPABLE_FIELDS = [
+  'street',
+  'street2',
+  'street3',
+  'postalCode',
+  'isMilitary',
+];
+const UNSAFE_FIELDS = ['country', 'city', 'state'];
 
 /**
  * Validates mappable fields and provides warnings for unsafe mappings
@@ -416,12 +422,10 @@ export const updateFormDataAddress = (
  *
  * **IMPORTANT**: Only street, street2, street3, and postalCode should be mapped without code modifications.
  *
- * Other fields (country, city, state, isMilitary) have dynamic schema functions (updateSchema/replaceSchema)
+ * Other fields (country, city, state) have dynamic schema functions (updateSchema/replaceSchema)
  * that access form data using hardcoded field names. Mapping these fields will cause runtime errors because:
- * - Country field's updateSchema accesses `addressFormData.isMilitary`
- * - City field's replaceSchema accesses `addressFormData.isMilitary`
- * - State field's replaceSchema accesses `data.country` and `data.isMilitary`
- * - Military validation function accesses `addr.isMilitary` and `addr.state`
+ * - State field's replaceSchema accesses `data.country`
+ * - Military validation function accesses `addr.state`
  *
  * To map other fields, you must:
  * 1. Update all dynamic schema functions to use getFieldValue() helper
@@ -463,9 +467,11 @@ export function addressUI(options = {}) {
   };
 
   function validateMilitaryBaseZipCode(errors, addr, mappedKeys = {}) {
-    if (!(addr.isMilitary && addr.state)) return;
+    const militaryKey = mappedKeys.isMilitary || 'isMilitary';
 
-    if (addr.isMilitary && MILITARY_STATE_VALUES.includes(addr.state)) {
+    if (!(addr[militaryKey] && addr.state)) return;
+
+    if (addr[militaryKey] && MILITARY_STATE_VALUES.includes(addr.state)) {
       const postalCode = getFieldValue('postalCode', addr, mappedKeys);
       const postalCodeKey = mappedKeys.postalCode || 'postalCode';
 
@@ -525,8 +531,9 @@ export function addressUI(options = {}) {
         }
         const addressPath = getAddressPath(path);
         if (addressPath) {
-          const { isMilitary } = get(addressPath, formData) ?? {};
-          return !isMilitary;
+          const addressData = get(addressPath, formData) ?? {};
+          const militaryKey = keys.isMilitary || 'isMilitary';
+          return !addressData[militaryKey];
         }
         return true;
       },
@@ -549,8 +556,10 @@ export function addressUI(options = {}) {
           const addressFormData = get(addressPath, formData) ?? {};
           /* Set isMilitary to either `true` or `undefined` (not `false`) so that
           `hideEmptyValueInReview` works as expected. See docs: https://depo-platform-documentation.scrollhelp.site/developer-docs/va-forms-library-about-schema-and-uischema#VAFormsLibrary-AboutschemaanduiSchema-ui:options */
-          addressFormData.isMilitary = addressFormData.isMilitary || undefined;
-          const { isMilitary } = addressFormData;
+          const militaryKey = keys.isMilitary || 'isMilitary';
+          addressFormData[militaryKey] =
+            addressFormData[militaryKey] || undefined;
+          const isMilitary = addressFormData[militaryKey];
           // 'inert' is the preferred solution for now
           // instead of disabled via DST guidance
           if (isMilitary) {
@@ -611,7 +620,8 @@ export function addressUI(options = {}) {
         updateSchema: (formData, schema, _uiSchema, index, path) => {
           const addressPath = getAddressPath(path);
           const addressFormData = get(addressPath, formData) ?? {};
-          const { isMilitary } = addressFormData;
+          const militaryKey = keys.isMilitary || 'isMilitary';
+          const isMilitary = addressFormData[militaryKey];
 
           const titleIfMilitary =
             options.labels?.street2Military || 'Apartment or unit number';
@@ -638,7 +648,8 @@ export function addressUI(options = {}) {
         updateSchema: (formData, schema, _uiSchema, _index, path) => {
           const addressPath = getAddressPath(path);
           const addressFormData = get(addressPath, formData) ?? {};
-          const { isMilitary } = addressFormData;
+          const militaryKey = keys.isMilitary || 'isMilitary';
+          const isMilitary = addressFormData[militaryKey];
 
           const titleIfMilitary =
             options.labels?.street3Military || 'Additional address information';
@@ -678,7 +689,8 @@ export function addressUI(options = {}) {
           const addressPath = getAddressPath(path); // path is ['address', 'currentField']
           const ui = _uiSchema;
           const addressFormData = get(addressPath, formData) ?? {};
-          const { isMilitary } = addressFormData;
+          const militaryKey = keys.isMilitary || 'isMilitary';
+          const isMilitary = addressFormData[militaryKey];
           if (isMilitary) {
             ui['ui:webComponentField'] = VaRadioField;
             ui['ui:errorMessages'] = CITY_ERROR_MESSAGES_MILITARY;
@@ -713,7 +725,9 @@ export function addressUI(options = {}) {
 
         const addressPath = getAddressPath(path);
         if (addressPath) {
-          const { country, isMilitary } = get(addressPath, formData) ?? {};
+          const { country } = get(addressPath, formData) ?? {};
+          const militaryKey = keys.isMilitary || 'isMilitary';
+          const isMilitary = get(addressPath, formData)?.[militaryKey];
           return (
             isMilitary || (country && ['USA', 'CAN', 'MEX'].includes(country))
           );
@@ -752,7 +766,8 @@ export function addressUI(options = {}) {
           const addressPath = getAddressPath(path); // path is ['address', 'currentField']
           const data = get(addressPath, formData) ?? {};
           const { country } = data;
-          const { isMilitary } = data;
+          const militaryKey = keys.isMilitary || 'isMilitary';
+          const isMilitary = data[militaryKey];
           const ui = _uiSchema;
 
           if (isMilitary) {
@@ -822,11 +837,8 @@ export function addressUI(options = {}) {
           const addressPath = getAddressPath(path); // path is ['address', 'currentField']
           const data = get(addressPath, formData) ?? {};
           const { country } = data;
-          const { isMilitary } = data;
-          // Note: This function is safe with mapped keys because it only accesses
-          // 'country' and 'isMilitary' which are not mappable fields
-          // Example if you ever need to access mapped fields:
-          // const postalCode = getAddressFieldValue('postalCode', formData, path, keys);
+          const militaryKey = keys.isMilitary || 'isMilitary';
+          const isMilitary = data[militaryKey];
 
           const addressSchema = _schema;
           const addressUiSchema = _uiSchema;
@@ -886,7 +898,7 @@ export function addressUI(options = {}) {
 export const addressSchema = (options = {}) => {
   const { keys = {}, omit = [] } = options;
   let schema = commonDefinitions.profileAddress;
-
+  let { properties } = schema;
   // If no key mapping is needed, use the existing omit logic and return early
   if (Object.keys(keys).length === 0) {
     if (omit.length > 0) {
@@ -901,9 +913,11 @@ export const addressSchema = (options = {}) => {
   }
 
   // Apply mapping to properties
+  properties = applyKeyMapping(properties, keys, omit);
+
   return {
     ...schema,
-    properties: applyKeyMapping(schema.properties, keys, omit),
+    properties,
   };
 };
 
