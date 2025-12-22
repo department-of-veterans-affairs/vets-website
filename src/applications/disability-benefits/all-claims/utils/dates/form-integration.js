@@ -297,7 +297,7 @@ export const validateFormDateRange = (fromField, toField, options = {}) => {
       const fromDate = parseISO(fromISO);
       const toDate = parseISO(toISO);
 
-      if (fromDate.isAfter(toDate)) {
+      if (isAfter(fromDate, toDate)) {
         result.isValid = false;
         result.error = 'End date must be after start date';
       }
