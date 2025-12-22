@@ -11,7 +11,10 @@ import DocumentCard from './DocumentCard';
 import ClaimsBreadcrumbs from './ClaimsBreadcrumbs';
 import { usePagination } from '../hooks/usePagination';
 import { fetchFailedUploads } from '../actions';
-import { getTrackedItemDisplayNameFromEvidenceSubmission } from '../utils/helpers';
+import {
+  getTrackedItemDisplayNameFromEvidenceSubmission,
+  setDocumentTitle,
+} from '../utils/helpers';
 import { setPageFocus } from '../utils/page';
 import { ITEMS_PER_PAGE } from '../constants';
 import NeedHelp from './NeedHelp';
@@ -51,6 +54,10 @@ const FilesWeCouldntReceive = () => {
     onPageSelect(page);
     setPageFocus('#pagination-info');
   };
+
+  useEffect(() => {
+    setDocumentTitle("Files we couldn't receive");
+  }, []);
 
   useEffect(
     () => {

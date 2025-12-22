@@ -45,8 +45,16 @@ const routes = (
           element={<DocumentRedirectPage />}
         />
         <Route
+          path="needed-from-you"
+          element={<Navigate to="../.." replace />}
+        />
+        <Route
           path="needed-from-you/:trackedItemId"
           element={<DocumentRequestPage />}
+        />
+        <Route
+          path="needed-from-others"
+          element={<Navigate to="../.." replace />}
         />
         <Route
           path="needed-from-others/:trackedItemId"
