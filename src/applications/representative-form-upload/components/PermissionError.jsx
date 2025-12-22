@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react';
+import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import ITFClaimantStatusWrapper from './ITFClaimantStatusWrapper';
@@ -40,5 +41,9 @@ const PermissionError = ({ location, route, router }) => {
     </ITFClaimantStatusWrapper>
   );
 };
-
+PermissionError.propTypes = {
+  location: PropTypes.object,
+  route: PropTypes.object,
+  router: PropTypes.object,
+};
 export default PermissionError;
