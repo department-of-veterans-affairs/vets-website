@@ -6,7 +6,7 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
-import { daysFromToday } from '../utils/dates/dateHelper';
+import { daysFromToday } from '../../utils/dates/formatting';
 import {
   PAGE_TITLES,
   START_TEXT,

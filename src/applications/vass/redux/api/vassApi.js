@@ -53,6 +53,71 @@ export const vassApi = createApi({
           // captureError(error, false, 'post referral appointment');
           // TODO: do something with error
           return {
+            error: error.errors[0],
+          };
+        }
+      },
+    }),
+    postAppointment: builder.mutation({
+      async queryFn({ topics, dtStartUtc, dtEndUtc }) {
+        try {
+          return await api('/vass/v0/appointment', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              // TODO: confirm token storage location, maybe redux?
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+            body: JSON.stringify({
+              topics,
+              dtStartUtc,
+              dtEndUtc,
+            }),
+          });
+        } catch (error) {
+          // captureError(error, false, 'post appointment');
+          // TODO: do something with error
+          return {
+            error: { status: error.status || 500, message: error?.message },
+          };
+        }
+      },
+    }),
+    getAppointment: builder.query({
+      async queryFn({ appointmentId }) {
+        try {
+          return await api(`/vass/v0/appointment/${appointmentId}`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              // TODO: confirm token storage location, maybe redux?
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+          });
+        } catch (error) {
+          // captureError(error, false, 'get appointment');
+          // TODO: do something with error
+          return {
+            error: { status: error.status || 500, message: error?.message },
+          };
+        }
+      },
+    }),
+    getTopics: builder.query({
+      async queryFn() {
+        try {
+          return await api('/vass/v0/topics', {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              // TODO: confirm token storage location, maybe redux?
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+          });
+        } catch (error) {
+          // captureError(error, false, 'get topics');
+          // TODO: do something with error
+          return {
             error: { status: error.status || 500, message: error?.message },
           };
         }
@@ -64,4 +129,7 @@ export const vassApi = createApi({
 export const {
   usePostAuthenticationMutation,
   usePostOTCVerificationMutation,
+  usePostAppointmentMutation,
+  useGetAppointmentQuery,
+  useGetTopicsQuery,
 } = vassApi;

@@ -88,11 +88,19 @@ describe('Edit Contact List container', async () => {
     expect(facilityGroups.length).to.equal(1);
 
     await waitFor(() => {
-      expect(
-        screen.getByText(
-          'Select and save the care teams you want to send messages to. You must select at least one care team.',
-        ),
-      ).to.exist;
+      const instructionParagraph = screen.getByText((_, el) => {
+        const normalizedText = el.textContent.replace(/\s+/g, ' ').trim();
+        return (
+          el.tagName === 'P' &&
+          normalizedText.includes(
+            'Select and save the care teams you want to send messages to. You must select at least 1 care team.',
+          ) &&
+          normalizedText.includes(
+            'Note: You can only edit care teams from some facilities.',
+          )
+        );
+      });
+      expect(instructionParagraph).to.exist;
 
       const selectAllTeams = screen.getAllByTestId(/select-all-/);
       expect(selectAllTeams[0]).to.have.attribute(
@@ -111,11 +119,20 @@ describe('Edit Contact List container', async () => {
     expect(facilityGroups.length).to.equal(2);
 
     await waitFor(() => {
-      expect(
-        screen.getByText(
-          'Select and save the care teams you want to send messages to. You must select at least one care team from one of your facilities.',
-        ),
-      ).to.exist;
+      const instructionParagraph = screen.getByText((_, el) => {
+        const normalizedText = el.textContent.replace(/\s+/g, ' ').trim();
+        return (
+          el.tagName === 'P' &&
+          normalizedText.includes(
+            'Select and save the care teams you want to send messages to. You must select at least 1 care team from 1 of your facilities.',
+          ) &&
+          normalizedText.includes(
+            'Note: You can only edit care teams from some facilities.',
+          )
+        );
+      });
+      expect(instructionParagraph).to.exist;
+
       const selectAllTeams = screen.getAllByTestId(/select-all-/);
       expect(selectAllTeams[0]).to.have.attribute(
         'label',

@@ -68,7 +68,7 @@ describe('validateAddress', () => {
           zipCode: '98103',
           zipCodeSuffix: '5252',
           type: 'DOMESTIC',
-          addressPou: 'RESIDENCE/CHOICE',
+          addressPou: 'RESIDENCE',
           id: 123,
         },
         {
@@ -89,7 +89,7 @@ describe('validateAddress', () => {
           zipCode: '98117',
           zipCodeSuffix: '5026',
           type: 'DOMESTIC',
-          addressPou: 'RESIDENCE/CHOICE',
+          addressPou: 'RESIDENCE',
           id: 123,
         },
         {
@@ -111,7 +111,7 @@ describe('validateAddress', () => {
           zipCode: '98115',
           zipCodeSuffix: '6463',
           type: 'DOMESTIC',
-          addressPou: 'RESIDENCE/CHOICE',
+          addressPou: 'RESIDENCE',
           id: 123,
         },
       ]);

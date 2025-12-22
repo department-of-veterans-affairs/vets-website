@@ -33,37 +33,6 @@ export const VIDEO_TYPES = {
   storeForward: 'STORE_FORWARD',
 };
 
-export const PURPOSE_TEXT_V2 = [
-  {
-    id: 'routine-follow-up',
-    short: 'Routine/Follow-up',
-    commentShort: 'ROUTINEVISIT',
-    label: 'This is a routine or follow-up visit.',
-    serviceName: 'Routine Follow-up',
-  },
-  {
-    id: 'new-issue',
-    short: 'New medical issue',
-    commentShort: 'MEDICALISSUE',
-    label: 'I have a new medical problem.',
-    serviceName: 'New Problem',
-  },
-  {
-    id: 'medication-concern',
-    short: 'Medication concern',
-    commentShort: 'QUESTIONMEDS',
-    label: 'I have a concern or question about my medication.',
-    serviceName: 'Medication Concern',
-  },
-  {
-    id: 'other',
-    short: 'My reason isn’t listed',
-    commentShort: 'OTHER_REASON',
-    label: 'My reason isn’t listed here.',
-    serviceName: 'Other',
-  },
-];
-
 export const COMP_AND_PEN = 'COMPENSATION & PENSION';
 
 /**
@@ -506,9 +475,21 @@ export const OH_TRANSITION_SITES = {
   },
 };
 
-// Currently we are only allowing OH direct scheduling and requests for Food and Nutrition
-// appointments
-export const OH_ENABLED_TYPES_OF_CARE = ['foodAndNutrition'];
+// Types of care that are allowed in the OH direct scheduling flow and request flow
+export const OH_ENABLED_TYPES_OF_CARE = [
+  'amputation',
+  'audiology',
+  'audiology-hearing aid support',
+  'audiology-routine exam',
+  'clinicalPharmacyPrimaryCare',
+  'cpap',
+  'foodAndNutrition',
+  'homeSleepTesting',
+  'moveProgram',
+  'ophthalmology',
+  'optometry',
+  'socialWork',
+];
 
 export const TRAVEL_CLAIM_MESSAGES = {
   noClaim: 'No claims found.',

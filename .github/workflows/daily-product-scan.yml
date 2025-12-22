@@ -80,5 +80,4 @@ jobs:
         with:
           payload: '{"attachments": [{"color": "#03D3FC","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "<!here> AUTOMATIC UPDATE! The product-directory.json file has been updated. The updates have been merged to the main product directory."}}]}]}'
           channel_id: C026PD47Z19
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          role: ${{ vars.AWS_ASSUME_ROLE }}

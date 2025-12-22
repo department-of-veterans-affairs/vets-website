@@ -1,6 +1,7 @@
 import VeteranInformation from '../../../components/VeteranInformationComponent';
 import VeteranInformationReviewPage from '../../../components/VeteranInformationReviewPage';
 
+/** @returns {PageSchema} */
 export const veteranInformation = {
   schema: {
     type: 'object',
