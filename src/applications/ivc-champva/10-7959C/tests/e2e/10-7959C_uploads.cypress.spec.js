@@ -18,21 +18,26 @@ import environment from 'platform/utilities/environment';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 
-import formConfig from '../config/form';
-import manifest from '../manifest.json';
+import formConfig from '../../config/form';
+import manifest from '../../manifest.json';
 
 import {
   selectRadioWebComponent,
   getAllPages,
   verifyAllDataWasSubmitted,
-} from '../../shared/tests/helpers';
+} from '../../../shared/tests/helpers';
 
-import mockFeatureToggles from './e2e/fixtures/mocks/featureToggles.json';
+import mockFeatureToggles from './fixtures/mocks/featureToggles.json';
 
 // For intercepting file uploads:
 const UPLOAD_URL = `${
   environment.API_URL
 }/ivc_champva/v1/forms/submit_supporting_documents`;
+
+const SAMPLE_FILE_PATH = path.join(
+  __dirname,
+  'fixtures/data/example_upload.png',
+);
 
 // Put all page objects into an object where pagename maps to page data
 // E.g., {page1: {path: '/blah'}}
@@ -41,7 +46,7 @@ const ALL_PAGES = getAllPages(formConfig);
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
-    dataDir: path.join(__dirname, 'e2e', 'fixtures', 'data'),
+    dataDir: path.join(__dirname, 'fixtures', 'data'),
 
     dataSets: ['single-upload.json'],
 
@@ -92,18 +97,12 @@ const testConfig = createTestConfig(
             // Upload the two files:
             cy.get('input[type="file"]')
               .first()
-              .upload(
-                path.join(__dirname, 'e2e/fixtures/data/example_upload.png'),
-                'testing',
-              )
+              .upload(SAMPLE_FILE_PATH, 'testing')
               .get('.schemaform-file-uploading')
               .should('not.exist');
             cy.get('input[type="file"]')
               .last()
-              .upload(
-                path.join(__dirname, 'e2e/fixtures/data/example_upload.png'),
-                'testing',
-              )
+              .upload(SAMPLE_FILE_PATH, 'testing')
               .get('.schemaform-file-uploading')
               .should('not.exist');
           } else {
