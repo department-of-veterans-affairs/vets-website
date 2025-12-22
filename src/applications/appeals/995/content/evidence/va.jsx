@@ -53,17 +53,13 @@ export const summaryContent = {
     N: 'No',
   },
   alertItemUpdatedText: itemData =>
-    `${itemData[VA_TREATMENT_LOCATION_KEY]} information has been updated.`,
+    `${itemData?.[VA_TREATMENT_LOCATION_KEY]} information has been updated.`,
   cardDescription: item => {
     const selectedIssues = getSelectedIssues(item?.issuesVA);
+    console.log('item: ', item);
 
     return (
       <>
-        {item?.[VA_TREATMENT_LOCATION_KEY] && (
-          <h3 className="vads-u-margin-top--0">
-            {item[VA_TREATMENT_LOCATION_KEY]}
-          </h3>
-        )}
         {selectedIssues?.length === 1 && (
           <p>
             <strong>Condition:</strong> {selectedIssues[0]}
