@@ -1,9 +1,20 @@
 import { mockFeatureToggles } from '../../support/helpers/mocks';
 import { setupClaimTest } from '../../support/helpers/setup';
 import { verifyTitleBreadcrumbsHeading } from '../../support/helpers/assertions';
-import { createBenefitsClaim } from '../../support/fixtures/benefitsClaims';
+import {
+  createBenefitsClaim,
+  createTrackedItem,
+  createSupportingDocument,
+} from '../../support/fixtures/benefitsClaims';
 
 const FILES_PATH = 'files';
+
+const withinFilesReceivedCard = callback => {
+  cy.findByRole('heading', { name: 'Files received', level: 3 })
+    .parent()
+    .findByRole('listitem')
+    .within(callback);
+};
 
 describe('Claim files', () => {
   describe('Files page', () => {
@@ -165,6 +176,96 @@ describe('Claim files', () => {
           'To confirm we’ve received a document you submitted by mail or in person, call us at 800-827-1000 (TTY: 711). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.',
         );
 
+        cy.axeCheck();
+      });
+
+      it('displays "On File" badge for NO_LONGER_REQUIRED status with closedDate', () => {
+        setupClaimTest({
+          claim: createBenefitsClaim({
+            trackedItems: [
+              createTrackedItem({
+                status: 'NO_LONGER_REQUIRED',
+                closedDate: '2025-01-10',
+              }),
+            ],
+          }),
+          path: FILES_PATH,
+        });
+
+        withinFilesReceivedCard(() => {
+          cy.findByText('On File');
+          cy.findByText('File name unknown');
+        });
+        cy.axeCheck();
+      });
+
+      it('displays "Reviewed by VA" badge for INITIAL_REVIEW_COMPLETE status', () => {
+        setupClaimTest({
+          claim: createBenefitsClaim({
+            trackedItems: [
+              createTrackedItem({ status: 'INITIAL_REVIEW_COMPLETE' }),
+            ],
+          }),
+          path: FILES_PATH,
+        });
+
+        withinFilesReceivedCard(() => {
+          cy.findByText('Reviewed by VA');
+        });
+        cy.axeCheck();
+      });
+
+      it('displays "Pending review" badge for SUBMITTED_AWAITING_REVIEW status', () => {
+        setupClaimTest({
+          claim: createBenefitsClaim({
+            trackedItems: [
+              createTrackedItem({ status: 'SUBMITTED_AWAITING_REVIEW' }),
+            ],
+          }),
+          path: FILES_PATH,
+        });
+
+        withinFilesReceivedCard(() => {
+          cy.findByText('Pending review');
+        });
+        cy.axeCheck();
+      });
+
+      it('displays "File name unknown" when tracked item has no documents', () => {
+        setupClaimTest({
+          claim: createBenefitsClaim({
+            trackedItems: [createTrackedItem({ status: 'ACCEPTED' })],
+          }),
+          path: FILES_PATH,
+        });
+
+        withinFilesReceivedCard(() => {
+          cy.findByText('File name unknown');
+          cy.findByText('Reviewed by VA');
+        });
+        cy.axeCheck();
+      });
+
+      it('displays supporting documents with "On File" badge', () => {
+        setupClaimTest({
+          claim: createBenefitsClaim({
+            trackedItems: [],
+            supportingDocuments: [
+              createSupportingDocument({
+                originalFileName: 'additional-evidence.pdf',
+                documentTypeLabel: 'Correspondence',
+                date: '2025-01-15',
+              }),
+            ],
+          }),
+          path: FILES_PATH,
+        });
+
+        withinFilesReceivedCard(() => {
+          cy.findByText('On File');
+          cy.findByText('additional-evidence.pdf');
+          cy.findByText('You submitted this file as additional evidence.');
+        });
         cy.axeCheck();
       });
     });

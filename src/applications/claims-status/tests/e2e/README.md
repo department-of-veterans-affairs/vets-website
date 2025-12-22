@@ -197,20 +197,21 @@ open coverage/index.html
 | [First PR](https://github.com/department-of-veterans-affairs/vets-website/pull/40123) | 76.58   | 64.54    | 83.61   | 76.62   |
 | [Second PR](https://github.com/department-of-veterans-affairs/vets-website/pull/40467) | 78.94   | 69.34    | 85.33   | 78.88   |
 | [Third PR](https://github.com/department-of-veterans-affairs/vets-website/pull/40825) | 80.13   | 70.10    | 86.22   | 80.09   |
+| [Fourth PR](https://github.com/department-of-veterans-affairs/vets-website/pull/40909) | 81.68   | 73.36    | 87.54   | 81.64   |
 
 
 ### Next Priority
 
 | Priority | File                       | Branch % | Uncovered Lines                     |
 | -------- | -------------------------- | -------- | ----------------------------------- |
-| 1        | appeals-v2-helpers.jsx     | 22.74    | 1646-1965,1984-1986,2022,2056,2069  |
-| 2        | FilesReceived.jsx          | 57.77    | 23-29,54,95-100                     |
-| 3        | AppealsV2StatusPage.jsx    | 52.94    | 64-72,86-87                         |
-| 4        | Decision.jsx               | 53.84    | 12,15,43,57                         |
-| 5        | Standard5103NoticePage.jsx | 0        | 20-86                               |
-| 6        | StemClaimStatusPage.jsx    | 0        | 15-88                               |
-| 7        | StemDeniedDetails.jsx      | 0        | 15-221                              |
-| 8        | helpers.js                 | 68.53    | 1493-1495,1500,1522,1531,1562,1620  |
+| 1        | appeals-v2-helpers.jsx     | 27.96    | 1646-1965,1984-1986,2022,2056,2069  |
+| 2        | Decision.jsx               | 53.84    | 12,15,43,57                         |
+| 3        | AppealsV2StatusPage.jsx    | 64.70    | 64-72,86-87                         |
+| 4        | helpers.js                 | 68.53    | 1493-1495,1500,1522,1531,1562,1620  |
+| 5        | FilesReceived.jsx          | 82.22    | 29,54,100                           |
+| 6        | Standard5103NoticePage.jsx | 0        | 20-86                               |
+| 7        | StemClaimStatusPage.jsx    | 0        | 15-88                               |
+| 8        | StemDeniedDetails.jsx      | 0        | 15-221                              |
 
 ## Reference
 
