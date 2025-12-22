@@ -40,8 +40,7 @@ const formConfig = {
         label: 'Reimbursements',
       },
       {
-        href:
-          '/school-administrators/commit-principles-of-excellence-form-22-10272',
+        href: '/forms/22-10272/request-prep-course-reimbursement-online',
         label: 'Test reimbursement 22 10272',
       },
     ],
