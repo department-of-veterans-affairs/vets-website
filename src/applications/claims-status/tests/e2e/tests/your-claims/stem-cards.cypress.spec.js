@@ -30,13 +30,9 @@ describe('STEM claim cards', () => {
 
     cy.findByText('Status: Denied');
     cy.findByText('Last updated on: January 15, 2025');
-    cy.findByRole('link', {
-      name: 'Details for claim submitted on January 1, 2025',
-    }).should(
-      'have.attr',
-      'href',
-      '/track-claims/your-stem-claims/1234/status',
-    );
+    cy.get(
+      'va-link[aria-label="Details for claim submitted on January 1, 2025"]',
+    ).should('have.attr', 'href', '/track-claims/your-stem-claims/1234/status');
 
     cy.axeCheck();
   });
