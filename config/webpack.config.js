@@ -187,9 +187,9 @@ function generateHtmlFiles(buildPath, scaffoldAssets) {
     let styleTags = [];
 
     originalTags.forEach(tag => {
-      if (tag.attributes.src?.match(/style/)) {
+      if (tag.attributes.src?.includes('style.entry.js')) {
         // Exclude style.entry.js, which gets included with the style chunk.
-      } else if (tag.attributes.src?.match(/polyfills/)) {
+      } else if (tag.attributes.src?.includes('polyfills.entry.js')) {
         // Force polyfills.entry.js to be first since vendor.entry.js gets
         // put first even with chunksSortMode: 'manual'. Also set nomodule
         // so IE polyfills don't load in newer browsers
@@ -221,16 +221,9 @@ function generateHtmlFiles(buildPath, scaffoldAssets) {
     template = {},
     widgetType,
     widgetTemplate,
-    useLocalStylesAndComponents,
+    _useLocalStylesAndComponents, // renamed to avoid unused-var lint error
   }) =>
     new HtmlPlugin({
-      chunks: [
-        'polyfills',
-        useLocalStylesAndComponents ? null : 'web-components',
-        'vendor',
-        'style',
-        entryName,
-      ],
       filename: path.join(buildPath, rootUrl, 'index.html'),
       inject: false,
       scriptLoading: 'defer',
@@ -453,8 +446,10 @@ module.exports = async (env = {}) => {
     optimization: {
       // 'chunkIds' and 'moduleIds' are set to 'named' for preserving
       // consistency between full and single app builds
-      chunkIds: 'named',
-      moduleIds: 'named',
+      // Use deterministic ids for longer-lived caching between builds.
+      chunkIds: isOptimizedBuild ? 'deterministic' : 'named',
+      moduleIds: isOptimizedBuild ? 'deterministic' : 'named',
+      runtimeChunk: 'single',
       minimizer: [
         new TerserPlugin({
           terserOptions: {
@@ -468,6 +463,8 @@ module.exports = async (env = {}) => {
         }),
       ],
       splitChunks: {
+        chunks: 'initial',
+        minSize: 20000, // 20 KB, consolidate tiny chunks
         cacheGroups: {
           // this needs to be "vendors" to overwrite a default group
           vendors: {
@@ -475,6 +472,26 @@ module.exports = async (env = {}) => {
             test: 'vendor',
             name: 'vendor',
             enforce: true,
+          },
+          // Collect async-only shared modules appearing in 2+ chunks.
+          asyncCommons: {
+            name: 'async~common',
+            chunks: 'async',
+            minChunks: 2,
+            priority: -20,
+          },
+          momentLocales: {
+            test: /[\\/]moment[\\/]locale[\\/]/,
+            name: 'moment-locales',
+            chunks: 'async',
+            priority: -15,
+            enforce: true,
+          },
+          chartsPdf: {
+            test: /[\\/](pdfkit|apexcharts|chart\.js)[\\/]/,
+            name: 'charts-pdf',
+            chunks: 'async',
+            priority: -16,
           },
         },
       },
@@ -510,7 +527,7 @@ module.exports = async (env = {}) => {
 
       new StylelintPlugin({
         configFile: '.stylelintrc.json',
-        exclude: ['node_modules', 'build', 'coverage', '.cache'],
+        exclude: ['node_modules', 'build', 'coverage', '.cache', 'cypress'],
         fix: true,
       }),
 
