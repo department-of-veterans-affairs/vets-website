@@ -256,6 +256,7 @@ export const EXPENSE_TYPES = Object.freeze({
 export const TRANSPORTATION_OPTIONS = Object.freeze([
   'Bus',
   'Subway',
+  'Taxi',
   'Train',
   'Other',
 ]);

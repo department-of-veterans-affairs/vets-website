@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { signatureValidator } from '../../components/CustomAttestation';
+import { signatureValidator } from '../../../components/CustomAttestation';
 
 describe('signatureValidator', () => {
   it('should return an error when applicantName does not match signatureName', () => {

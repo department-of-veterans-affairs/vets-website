@@ -159,6 +159,14 @@ class PatientComposePage {
       .find(`#input-type-textarea`);
   };
 
+  typeMessageBody = (text = '') => {
+    return this.getMessageBodyField()
+      .should('be.visible')
+      .should('not.be.disabled')
+      .clear()
+      .type(text);
+  };
+
   validateMessageBodyField = expectedText => {
     // Wait for the field to exist before validating
     cy.findByTestId(Locators.FIELDS.MESSAGE_BODY).should('exist');

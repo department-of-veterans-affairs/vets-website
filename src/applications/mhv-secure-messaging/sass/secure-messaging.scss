@@ -6,6 +6,10 @@
 @import "src/platform/mhv/secondary-nav/sass/mhv-sec-nav";
 @forward "usa-button-group";
 
+.secure-messaging-container {
+  font-size: 1rem;
+}
+
 .bottom-container {
   background-color: var(--vads-color-white);
 }

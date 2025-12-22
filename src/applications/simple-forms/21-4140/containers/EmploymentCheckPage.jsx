@@ -6,12 +6,11 @@ import {
   VaRadio,
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { waitForRenderThenFocus } from 'platform/utilities/ui';
 import {
   employmentCheckFields,
   employedByVAFields,
 } from '../definitions/constants';
-
-import { waitForRenderThenFocus } from 'platform/utilities/ui';
 
 const EMPLOYERS_PATH = 'employers';
 const SECTION_TWO_KEYS = [
@@ -231,7 +230,7 @@ const EmploymentCheckPage = ({
 
     // Defer until after focus settles so we can detect moves within the radio group
     setTimeout(() => {
-      const activeElement = document.activeElement;
+      const { activeElement } = document;
       if (
         activeElement === currentTarget ||
         currentTarget.contains(activeElement)

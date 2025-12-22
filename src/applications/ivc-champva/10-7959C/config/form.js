@@ -92,8 +92,9 @@ const formConfig = {
   submissionError: SubmissionError,
   formId: '10-7959C',
   dev: {
-    showNavLinks: false,
     collapsibleNavLinks: true,
+    disableWindowUnloadInCI: true,
+    showNavLinks: false,
   },
   downtime: {
     dependencies: [externalServices.pega, externalServices.form107959c],

@@ -51,10 +51,10 @@ const form210966 = (pathname = null) => {
         depends: () => false,
       },
       {
-        path: 'permission-error',
-        pageKey: 'permission-error',
+        path: 'intent-to-file-no-representation',
+        pageKey: 'intent-to-file-no-representation',
         component: PermissionError,
-        depends: () => false,
+        depends: formData => formData,
       },
       {
         path: 'existing-itf',

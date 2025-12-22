@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { fireEvent, render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon-v20';
-import ConfirmationPage from '../../containers/ConfirmationPage';
+import ConfirmationPage from '../../../containers/ConfirmationPage';
 
 const MOCK_FORM_DATA = {
   applicantName: { first: 'Jack', middle: 'W', last: 'Smith' },

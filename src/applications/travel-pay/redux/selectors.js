@@ -27,6 +27,9 @@ export const selectExpenseCreationLoadingState = state =>
 export const selectExpenseUpdateLoadingState = state =>
   state.travelPay.complexClaim.expenses.update?.isLoading || false;
 
+export const selectExpenseFetchLoadingState = state =>
+  state.travelPay.complexClaim.expenses.fetch?.isLoading || false;
+
 export const selectDocumentDeleteLoadingState = state =>
   state.travelPay.complexClaim.documentDelete?.isLoading || false;
 

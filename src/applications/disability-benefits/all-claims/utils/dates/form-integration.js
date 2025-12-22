@@ -1,14 +1,21 @@
-/**
- * TODO: tech-debt(you-dont-need-momentjs): Waiting for Node upgrade to support Temporal API
- * @see https://github.com/department-of-veterans-affairs/va.gov-team/issues/110024
- */
-/* eslint-disable you-dont-need-momentjs/no-import-moment */
-/* eslint-disable you-dont-need-momentjs/no-moment-constructor */
-/* eslint-disable you-dont-need-momentjs/start-of */
-import moment from 'moment';
+import {
+  parse,
+  parseISO,
+  format,
+  isValid,
+  startOfDay,
+  isAfter,
+  addDays,
+  addMonths,
+  addYears,
+  addWeeks,
+  addHours,
+  addMinutes,
+  addSeconds,
+} from 'date-fns';
 
-// Local moment.js format constant (form-integration still uses moment)
-const MOMENT_DATE_FORMAT = 'LL'; // e.g., "January 1, 2021" - moment.js format
+// Local display format equivalent to moment's 'LL' (e.g., "January 1, 2021")
+const DATE_DISPLAY_FORMAT = 'MMMM d, yyyy';
 
 /**
  * Form integration utilities for date handling
@@ -62,12 +69,15 @@ export const dateFieldToISO = (dateField, options = {}) => {
   }
 
   // Validate and format complete date
-  const date = moment(
-    `${yearStr}-${monthStr.padStart(2, '0')}-${dayStr.padStart(2, '0')}`,
-    'YYYY-MM-DD',
-    true,
-  );
-  return date.isValid() ? date.format('YYYY-MM-DD') : null;
+  const iso = `${yearStr}-${monthStr.padStart(2, '0')}-${dayStr.padStart(
+    2,
+    '0',
+  )}`;
+  const parsed = parse(iso, 'yyyy-MM-dd', new Date());
+  // Ensure parsed date is valid and matches the input (strict parsing)
+  return isValid(parsed) && format(parsed, 'yyyy-MM-dd') === iso
+    ? format(parsed, 'yyyy-MM-dd')
+    : null;
 };
 
 /**
@@ -109,8 +119,8 @@ export const formatReviewDate = (dateString, monthYear = false) => {
     const [year, month] = parts;
 
     if (year !== 'XXXX' && month !== 'XX') {
-      const date = moment(`${year}-${month}-01`);
-      return date.isValid() ? date.format('MMMM YYYY') : dateString;
+      const parsed = parse(`${year}-${month}-01`, 'yyyy-MM-dd', new Date());
+      return isValid(parsed) ? format(parsed, 'MMMM yyyy') : dateString;
     }
 
     if (year !== 'XXXX') {
@@ -120,10 +130,12 @@ export const formatReviewDate = (dateString, monthYear = false) => {
     return dateString;
   }
 
-  const date = moment(dateString);
-  if (!date.isValid()) return dateString;
+  const parsed = parseISO(dateString);
+  if (!isValid(parsed)) return dateString;
 
-  return monthYear ? date.format('MMMM YYYY') : date.format(MOMENT_DATE_FORMAT);
+  return monthYear
+    ? format(parsed, 'MMMM yyyy')
+    : format(parsed, DATE_DISPLAY_FORMAT);
 };
 
 /**
@@ -174,18 +186,18 @@ const validateISOFormat = isoDate => {
 const validateCompleteDateConstraints = (isoDate, futureOnly, pastOnly) => {
   if (isoDate.includes('XX')) return { isValid: true, error: null };
 
-  const date = moment(isoDate, 'YYYY-MM-DD', true);
-  if (!date.isValid()) {
+  const parsed = parse(isoDate, 'yyyy-MM-dd', new Date());
+  if (!isValid(parsed)) {
     return { isValid: false, error: 'Please provide a valid date' };
   }
 
-  const today = moment().startOf('day');
+  const today = startOfDay(new Date());
 
-  if (futureOnly && date.isSameOrBefore(today)) {
+  if (futureOnly && !isAfter(parsed, today)) {
     return { isValid: false, error: 'Date must be in the future' };
   }
 
-  if (pastOnly && date.isAfter(today)) {
+  if (pastOnly && isAfter(parsed, today)) {
     return { isValid: false, error: 'Date must be in the past' };
   }
 
@@ -282,10 +294,10 @@ export const validateFormDateRange = (fromField, toField, options = {}) => {
   if (fromISO && toISO) {
     // For complete dates, do full validation
     if (!fromISO.includes('XX') && !toISO.includes('XX')) {
-      const fromDate = moment(fromISO);
-      const toDate = moment(toISO);
+      const fromDate = parseISO(fromISO);
+      const toDate = parseISO(toISO);
 
-      if (fromDate.isAfter(toDate)) {
+      if (isAfter(fromDate, toDate)) {
         result.isValid = false;
         result.error = 'End date must be after start date';
       }
@@ -332,11 +344,11 @@ export const validateFormDateRange = (fromField, toField, options = {}) => {
  * @returns {Object} Current date as form field
  */
 export const getCurrentFormDate = () => {
-  const today = moment();
+  const today = new Date();
   return {
-    month: today.format('M'),
-    day: today.format('D'),
-    year: today.format('YYYY'),
+    month: format(today, 'M'),
+    day: format(today, 'd'),
+    year: format(today, 'yyyy'),
   };
 };
 
@@ -372,15 +384,41 @@ export const adjustFormDate = (dateField, amount, unit) => {
     return dateField;
   }
 
-  const date = moment(isoDate);
-  if (!date.isValid()) {
+  const date = parseISO(isoDate);
+  if (!isValid(date)) {
     return dateField;
   }
 
-  const adjusted = date.add(amount, unit);
+  let adjusted;
+  switch (unit) {
+    case 'days':
+      adjusted = addDays(date, amount);
+      break;
+    case 'months':
+      adjusted = addMonths(date, amount);
+      break;
+    case 'years':
+      adjusted = addYears(date, amount);
+      break;
+    case 'weeks':
+      adjusted = addWeeks(date, amount);
+      break;
+    case 'hours':
+      adjusted = addHours(date, amount);
+      break;
+    case 'minutes':
+      adjusted = addMinutes(date, amount);
+      break;
+    case 'seconds':
+      adjusted = addSeconds(date, amount);
+      break;
+    default:
+      return dateField;
+  }
+
   return {
-    month: adjusted.format('M'),
-    day: adjusted.format('D'),
-    year: adjusted.format('YYYY'),
+    month: format(adjusted, 'M'),
+    day: format(adjusted, 'd'),
+    year: format(adjusted, 'yyyy'),
   };
 };
