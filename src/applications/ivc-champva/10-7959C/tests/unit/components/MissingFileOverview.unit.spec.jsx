@@ -1,9 +1,9 @@
 import React from 'react';
 import { testComponentRender } from 'applications/ivc-champva/shared/tests/pages/pageTests.spec';
-import { MissingFileConsentPage } from '../../components/MissingFileConsentPage';
-import SupportingDocumentsPage from '../../components/SupportingDocumentsPage';
-import formConfig from '../../config/form';
-import mockData from '../e2e/fixtures/data/test-data.json';
+import { MissingFileConsentPage } from '../../../components/MissingFileConsentPage';
+import SupportingDocumentsPage from '../../../components/SupportingDocumentsPage';
+import formConfig from '../../../config/form';
+import mockData from '../../e2e/fixtures/data/test-data.json';
 
 testComponentRender(
   'SupportingDocumentsPage',
