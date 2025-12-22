@@ -136,7 +136,7 @@ export const uiSchema = {
     emailAddress: emailUI(),
   },
   mailingAddress: addressUI({
-    newSchemaKeys: {
+    keys: {
       street: 'addressLine1',
       street2: 'addressLine2',
       street3: 'addressLine3',
@@ -153,7 +153,7 @@ export const schema = {
   properties: {
     phoneAndEmail,
     mailingAddress: addressSchema({
-      newSchemaKeys: {
+      keys: {
         street: 'addressLine1',
         street2: 'addressLine2',
         street3: 'addressLine3',
