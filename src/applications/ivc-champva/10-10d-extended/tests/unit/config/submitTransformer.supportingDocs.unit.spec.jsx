@@ -44,7 +44,7 @@ const baseData = (applicants, medicare) => ({
   data: { applicants, medicare },
 });
 
-describe('10-10d extened Submit Transformer - Medicare document filtering', () => {
+describe('10-10d extended Submit Transformer - Medicare document filtering', () => {
   const cases = [
     {
       title: 'only includes Part A cards when plan type is "a"',
