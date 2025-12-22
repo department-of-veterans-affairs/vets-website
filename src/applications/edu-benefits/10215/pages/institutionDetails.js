@@ -11,9 +11,9 @@ import { titleUI } from '~/platform/forms-system/src/js/web-component-patterns/t
 import {
   isTermEndBeforeTermStartDate,
   isWithinThirtyDaysLogic,
-  getTodayDateYyyyMmDd,
   isCurrentOrPastDate,
 } from '../helpers';
+import { getTodayDateYyyyMmDd } from '../../utils/helpers';
 import InstitutionName from '../components/InstitutionName';
 
 export const validateTermStartDate = (

@@ -17,6 +17,7 @@ export function convertToggle() {
   const toggleValues = params.get('toggle');
   return toggleValues?.toLowerCase() === 'false';
 }
+
 export function showSchoolAddress(educationType) {
   return (
     educationType === 'college' ||
@@ -251,3 +252,49 @@ export function capitalizeFirstLetter(string) {
     .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
     .join(' ');
 }
+
+/**
+ * Formats the given *day* to be in the format *YYYY-MM-DD*
+ * @param {Date} day Date object for the current day
+ * @returns {String} Formatted date
+ */
+export const formatDateYyyyMmDd = day => {
+  const yyyy = day.getFullYear();
+  let mm = day.getMonth() + 1; // Month is zero-based
+  let dd = day.getDate();
+
+  if (dd < 10) dd = `0${dd}`;
+  if (mm < 10) mm = `0${mm}`;
+  return `${yyyy}-${mm}-${dd}`;
+};
+
+/**
+ * Creates a formatted date in the format *YYYY-MM-DD* which is *numberOfDays* ago
+ * @param {Number} numberOfDays The number of days before the current date
+ * @returns {String} Formatted date
+ */
+export const daysAgoYyyyMmDd = numberOfDays => {
+  const day = new Date();
+  day.setDate(day.getDate() - numberOfDays);
+  return formatDateYyyyMmDd(day);
+};
+
+/**
+ * Creates a formatted date in the format *YYYY-MM-DD* which is *numberOfDays* ahead
+ * @param {Number} numberOfDays The number of days after the current date
+ * @returns {String} Formatted date
+ */
+export const futureDateYyyyMmDd = numberOfDays => {
+  const day = new Date();
+  day.setDate(day.getDate() + numberOfDays);
+  return formatDateYyyyMmDd(day);
+};
+
+/**
+ * Gets today's date as a formatted string in the format *YYYY-MM-DD*
+ * @returns {String} Formatted date
+ */
+export const getTodayDateYyyyMmDd = () => {
+  const today = new Date();
+  return formatDateYyyyMmDd(today);
+};

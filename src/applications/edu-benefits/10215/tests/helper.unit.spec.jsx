@@ -89,6 +89,7 @@ describe('getFTECalcs', () => {
       supportedFTEPercent: null,
     });
   });
+
   it('should render the pdf download link', () => {
     const downloadLink = 'Download Link';
     const goBack = () => {};

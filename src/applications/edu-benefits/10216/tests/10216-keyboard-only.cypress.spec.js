@@ -1,3 +1,4 @@
+/* eslint-disable cypress/unsafe-to-chain-command */
 import manifest from '../manifest.json';
 
 import formConfig from '../config/form';
@@ -5,10 +6,7 @@ import testData from './fixtures/data/test-data.json';
 import { SUBMIT_URL } from '../config/constants';
 
 describe('22-10216 Edu form', () => {
-  beforeEach(function beforeEachHook() {
-    if (Cypress.env('CI')) this.skip();
-  });
-  function getDateDetails(date) {
+  const getDateDetails = date => {
     const monthNames = [
       'January',
       'February',
@@ -27,19 +25,36 @@ describe('22-10216 Edu form', () => {
     const monthIndex = date?.getMonth();
     const monthName = monthNames[monthIndex];
     const year = date?.getFullYear();
+
     return {
       day,
       month: monthName,
       year,
     };
-  }
+  };
 
   const date = new Date();
   const details = getDateDetails(date);
+
   it('should be keyboard-only navigable', () => {
     cy.intercept('GET', '/v0/feature_toggles*', {
       data: {
         features: [],
+      },
+    });
+
+    cy.intercept('GET', '/v0/gi/institutions/*', {
+      data: {
+        attributes: {
+          name: 'INSTITUTE OF TESTING',
+          facilityCode: '10002000',
+          type: 'FOR PROFIT',
+          city: 'SAN FRANCISCO',
+          state: 'CA',
+          zip: '13579',
+          country: 'USA',
+          address1: '123 STREET WAY',
+        },
       },
     });
 
@@ -50,7 +65,7 @@ describe('22-10216 Edu form', () => {
 
     // Tab to and press 'Start your 35% exemption request' to start form
     cy.injectAxeThenAxeCheck();
-    cy.repeatKey('Tab', 4);
+    cy.repeatKey('Tab', 5);
     cy.realPress('Space');
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(100);
@@ -74,13 +89,8 @@ describe('22-10216 Edu form', () => {
     cy.typeInFocused('Director');
     cy.tabToContinueForm();
 
-    // cy.typeInFocused(
-    //   'DEPARTMENT OF VETERANS AFFAIRS-OFFICE OF INFORMATION AND TECHNOLOGY',
-    // );
     cy.tabToElement('input[name="root_institutionDetails_facilityCode"]');
     cy.typeInFocused('10B35423');
-    // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(200);
     cy.tabToElement(
       'select[name="root_institutionDetails_termStartDateMonth"]',
     );
