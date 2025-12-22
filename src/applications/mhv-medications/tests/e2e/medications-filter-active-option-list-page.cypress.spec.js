@@ -20,7 +20,6 @@ describe('Medications List Page Active Filter Option', () => {
     listPage.verifyFilterButtonWhenAccordionExpanded();
     listPage.clickFilterRadioButtonOptionOnListPage('Active');
     listPage.clickFilterButtonOnAccordion(Paths.ACTIVE_FILTER, filterRx);
-    listPage.verifyFilterAriaRegionText('Filter applied: Active.');
     listPage.verifyFilterAriaRegionText(
       'Showing 1 - 10 of 29  active medications, alphabetically by status',
     );

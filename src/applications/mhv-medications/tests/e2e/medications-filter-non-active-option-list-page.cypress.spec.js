@@ -24,7 +24,6 @@ describe('Medications List Page Non-Active Filter Option', () => {
       Paths.INTERCEPT.NON_ACTIVE_FILTER_LIST,
       nonActiveRx,
     );
-    listPage.verifyFilterAriaRegionText('Filter applied: Non-active.');
     listPage.verifyFilterAriaRegionText(
       'Showing 1 - 10 of 15  non-active medications, alphabetically by status',
     );

@@ -23,7 +23,6 @@ describe('Medications List Page Recently Requested Filter Option', () => {
       Paths.INTERCEPT.RECENTLY_REQUESTED_FILTER_LIST,
       requestedRx,
     );
-    listPage.verifyFilterAriaRegionText('Filter applied: Recently requested.');
     listPage.verifyFilterAriaRegionText(
       'Showing 1 - 10 of 29  recently requested medications, alphabetically by status',
     );

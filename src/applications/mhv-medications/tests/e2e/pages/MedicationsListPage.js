@@ -815,12 +815,7 @@ class MedicationsListPage {
   };
 
   clickFilterButtonOnAccordion = (url, filterRx) => {
-    cy.intercept('GET', `${url}`, req => {
-      req.reply(res => {
-        res.delay = 1000;
-        res.send(filterRx);
-      });
-    });
+    cy.intercept('GET', `${url}`, filterRx);
     cy.get('[data-testid="filter-button"]')
       .shadow()
       .find('[type="button"]')
